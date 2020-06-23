@@ -1,0 +1,27 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: blade-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+      config:
+        server-addr: localhost:8848
+        file-extension: yaml
+    discovery:
+      reactive:
+        enabled: false
+    ## 开启基于注册中心的路由表，如果需要小写serviceId, 则配置spring.cloud.gateway.locator.lowerCaseServiceId:true
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+    loadbalancer:
+      retry:
+        enabled: true
+
+
+

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.lgyun</groupId>
+        <artifactId>diyi-cr</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>diyi-service-api</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <name>${project.artifactId}</name>
+    <packaging>pom</packaging>
+    <description>地衣众包 微服务API集合</description>
+
+    <modules>
+        <module>diyi-desk-api</module>
+        <module>diyi-dict-api</module>
+        <module>diyi-system-api</module>
+        <module>diyi-user-api</module>
+        <module>diyi-demo-api</module>
+    </modules>
+
+    <dependencies>
+        <!-- diyi-cr -->
+        <dependency>
+            <groupId>com.lgyun</groupId>
+            <artifactId>diyi-common</artifactId>
+            <version>${diyi.project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lgyun</groupId>
+            <artifactId>diyi-mybatis</artifactId>
+            <version>${diyi.project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                    <finalName>${project.name}</finalName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

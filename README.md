@@ -6,32 +6,41 @@
 #### 软件架构
 软件架构说明
 
+# DIYI-CR 微服务开发平台
+* 采用前后端分离的模式，前端开源框架：[Saber](https://gitee.com/smallc/Saber) (基于 Vue、Element-UI)。
+* 后端采用SpringCloud全家桶，并同时对其基础组件做了高度的封装。
+* 集成Sentinel从流量控制、熔断降级、系统负载等多个维度保护服务的稳定性。
+* 注册中心、配置中心选型Nacos，为工程瘦身的同时加强各模块之间的联动。
+* 使用Traefik进行反向代理，监听后台变化自动化应用新的配置文件。
+* 极简封装了多租户底层，用更少的代码换来拓展性更强的SaaS多租户系统。
+* 借鉴OAuth2，实现了多终端认证系统，可控制子系统的token权限互相隔离。
+* 借鉴Security，封装了Secure模块，采用JWT做Token认证，可拓展集成Redis等细颗粒度控制方案。
+* 稳定生产了一年，经历了从Camden -> Greenwich的技术架构，也经历了从fat jar -> docker -> k8s + jenkins的部署架构
+* 项目分包明确，规范微服务的开发模式，使包与包之间的分工清晰。
 
-#### 安装教程
+## 架构图
+<img src="https://gitee.com/smallc/SpringBlade/raw/master/pic/springblade-framework.png"/>
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 码云特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5.  码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+## 工程结构
+``` 
+diyi-cr
+├── diyi-auth -- 授权服务提供
+├── diyi-common -- 常用工具封装包
+├── diyi-gateway -- Spring Cloud 网关
+├── diyi-ops -- 运维中心
+├    ├── diyi-admin -- spring-cloud后台管理
+├    ├── diyi-develop -- 代码生成
+├    ├── diyi-resource -- 资源管理
+├    ├── diyi-seata-order -- seata分布式事务demo
+├    ├── diyi-seata-storage -- seata分布式事务demo
+├── diyi-service -- 业务模块
+├    ├── diyi-desk -- 工作台模块 
+├    ├── diyi-log -- 日志模块 
+├    ├── diyi-system -- 系统模块 
+├    └── diyi-user -- 用户模块 
+├── diyi-service-api -- 业务模块api封装
+├    ├── diyi-desk-api -- 工作台api 
+├    ├── diyi-dict-api -- 字典api 
+├    ├── diyi-system-api -- 系统api 
+└──  └── diyi-user-api -- 用户api 
+```
