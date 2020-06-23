@@ -19,7 +19,7 @@
 软件架构说明
 
 ## 架构图
-[架构图](https://images.gitee.com/uploads/images/2020/0623/231204_92a859d4_1949382.jpeg "WechatIMG72.jpeg")
+<img src="https://images.gitee.com/uploads/images/2020/0623/231204_92a859d4_1949382.jpeg" />
 
 ## 工程结构
 ``` 
