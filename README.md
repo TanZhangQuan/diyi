@@ -3,9 +3,6 @@
 #### 介绍
 零工云公司旗下地衣众包项目！
 
-#### 软件架构
-软件架构说明
-
 # DIYI-CR 微服务开发平台
 * 采用前后端分离的模式，前端开源框架：[Saber](https://gitee.com/smallc/Saber) (基于 Vue、Element-UI)。
 * 后端采用SpringCloud全家桶，并同时对其基础组件做了高度的封装。
@@ -18,8 +15,11 @@
 * 稳定生产了一年，经历了从Camden -> Greenwich的技术架构，也经历了从fat jar -> docker -> k8s + jenkins的部署架构
 * 项目分包明确，规范微服务的开发模式，使包与包之间的分工清晰。
 
+#### 软件架构
+软件架构说明
+
 ## 架构图
-<img src="https://gitee.com/smallc/SpringBlade/raw/master/pic/springblade-framework.png"/>
+[架构图](https://images.gitee.com/uploads/images/2020/0623/231204_92a859d4_1949382.jpeg "WechatIMG72.jpeg")
 
 ## 工程结构
 ``` 
