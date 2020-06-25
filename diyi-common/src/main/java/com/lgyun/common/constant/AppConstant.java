@@ -47,6 +47,10 @@ public interface AppConstant {
      */
     String APPLICATION_USER_NAME = APPLICATION_NAME_PREFIX + "user";
     /**
+     * 订单模块名称
+     */
+    String APPLICATION_ORDER_NAME = APPLICATION_NAME_PREFIX + "order";
+    /**
      * 日志模块名称
      */
     String APPLICATION_LOG_NAME = APPLICATION_NAME_PREFIX + "log";

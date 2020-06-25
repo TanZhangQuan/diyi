@@ -1,6 +1,6 @@
 #服务器端口
 server:
-  port: 8102
+  port: 8107
 
 #数据源配置
 spring:
@@ -8,5 +8,3 @@ spring:
     url: ${blade.datasource.dev.url}
     username: ${blade.datasource.dev.username}
     password: ${blade.datasource.dev.password}
-
-
