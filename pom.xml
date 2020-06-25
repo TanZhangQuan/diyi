@@ -36,6 +36,7 @@
         <module>diyi-mybatis</module>
         <module>diyi-service</module>
         <module>diyi-service-api</module>
+        <module>code-generator</module>
     </modules>
 
     <dependencyManagement>
