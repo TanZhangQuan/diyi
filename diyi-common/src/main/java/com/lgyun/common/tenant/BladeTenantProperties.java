@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "blade.tenant")
+@ConfigurationProperties(prefix = "diyi.tenant")
 public class BladeTenantProperties {
 
 	/**

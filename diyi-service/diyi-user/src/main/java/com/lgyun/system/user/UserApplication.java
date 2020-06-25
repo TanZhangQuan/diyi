@@ -8,12 +8,11 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
- * 用户启动器
+ * 用户项目启动器
  *
  * @author liangfeihu
  * @since 2020/6/6 22:03
  */
-//@SpringCloudApplication
 @SpringBootApplication(scanBasePackages = AppConstant.BASE_PACKAGES)
 @EnableDiscoveryClient
 @EnableCircuitBreaker

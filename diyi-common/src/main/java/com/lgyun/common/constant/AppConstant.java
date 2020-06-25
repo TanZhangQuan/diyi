@@ -11,17 +11,17 @@ public interface AppConstant {
     /**
      * 应用版本
      */
-    String APPLICATION_VERSION = "2.7.0";
+    String APPLICATION_VERSION = "0.0.1-SNAPSHOT";
 
     /**
      * 基础包
      */
-    String BASE_PACKAGES = "org.springblade";
+    String BASE_PACKAGES = "com.lgyun";
 
     /**
      * 应用名前缀
      */
-    String APPLICATION_NAME_PREFIX = "blade-";
+    String APPLICATION_NAME_PREFIX = "diyi-";
     /**
      * 网关模块名称
      */

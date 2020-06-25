@@ -12,6 +12,6 @@ public interface CacheNames {
 	String DICT_VALUE = "dict:value";
 	String DICT_LIST = "dict:list";
 
-	String CAPTCHA_KEY = "blade:auth::captcha:";
+	String CAPTCHA_KEY = "diyi:auth::captcha:";
 
 }
