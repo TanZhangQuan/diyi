@@ -35,6 +35,7 @@ public class GenUtils {
         templates.add("template/Service.java.vm");
         templates.add("template/ServiceImpl.java.vm");
         templates.add("template/Controller.java.vm");
+        templates.add("template/Wrapper.java.vm");
         return templates;
     }
 
@@ -203,6 +204,10 @@ public class GenUtils {
 
         if (template.contains("Dao.xml.vm")) {
             return packagePath + "mapper" + File.separator + className + "Mapper.xml";
+        }
+
+        if (template.contains("Wrapper.java.vm")) {
+            return packagePath + "wrapper" + File.separator + className + "Wrapper.java";
         }
 
         return null;
