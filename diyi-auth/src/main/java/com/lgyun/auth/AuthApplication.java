@@ -2,7 +2,9 @@ package com.lgyun.auth;
 
 import com.lgyun.common.BladeApplication;
 import com.lgyun.common.constant.AppConstant;
-import org.springframework.cloud.client.SpringCloudApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
@@ -11,12 +13,14 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @author liangfeihu
  * @since 2020/6/6 00:15
  */
-@SpringCloudApplication
+@SpringBootApplication
+@EnableDiscoveryClient
+@EnableCircuitBreaker
 @EnableFeignClients(AppConstant.BASE_PACKAGES)
 public class AuthApplication {
 
-	public static void main(String[] args) {
-		BladeApplication.run(AppConstant.APPLICATION_AUTH_NAME, AuthApplication.class, args);
-	}
+    public static void main(String[] args) {
+        BladeApplication.run(AppConstant.APPLICATION_AUTH_NAME, AuthApplication.class, args);
+    }
 
 }

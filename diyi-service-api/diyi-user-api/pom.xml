@@ -10,9 +10,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>diyi-user-api</artifactId>
+    <version>${diyi.project.version}</version>
 
     <name>${project.artifactId}</name>
-    <version>${diyi.project.version}</version>
     <packaging>jar</packaging>
 
 

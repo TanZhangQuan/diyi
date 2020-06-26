@@ -22,6 +22,7 @@
         <module>diyi-system-api</module>
         <module>diyi-user-api</module>
         <module>diyi-demo-api</module>
+        <module>diyi-order-api</module>
     </modules>
 
     <dependencies>

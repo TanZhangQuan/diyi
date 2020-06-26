@@ -1,0 +1,28 @@
+package ${package}.${moduleName}.wrapper;
+
+import lombok.AllArgsConstructor;
+import org.springblade.core.mp.support.BaseEntityWrapper;
+import org.springblade.core.tool.utils.BeanUtil;
+import ${package}.${moduleName}.entity.${className}Entity;
+import ${package}.${moduleName}.vo.${className}VO;
+
+/**
+ * ${comments}包装类,返回视图层所需的字段
+ *
+ * @author ${author}
+ * @since ${datetime}
+ */
+public class ${className}Wrapper extends BaseEntityWrapper<${className}Entity, ${className}VO>  {
+
+    public static ${className}Wrapper build() {
+        return new ${className}Wrapper();
+    }
+
+	@Override
+	public ${className}VO entityVO(${className}Entity ${classname}) {
+			${className}VO ${classname}VO = BeanUtil.copy(${classname}, ${className}VO.class);
+
+		return ${classname}VO;
+	}
+
+}

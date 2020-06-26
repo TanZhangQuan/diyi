@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
  * @since 2020/6/6 22:46
  */
 @Configuration
-@MapperScan("org.springblade.**.mapper.**")
+@MapperScan("com.lgyun.**.mapper.**")
 public class MybatisPlusConfiguration {
 
     @Bean

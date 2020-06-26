@@ -1,0 +1,100 @@
+package ${package}.${moduleName}.controller;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import io.swagger.annotations.ApiParam;
+import lombok.AllArgsConstructor;
+import javax.validation.Valid;
+
+import org.springblade.core.mp.support.Condition;
+import org.springblade.core.mp.support.Query;
+import org.springblade.core.tool.api.R;
+import org.springblade.core.tool.utils.Func;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestParam;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import ${package}.${moduleName}.vo.${className}VO;
+import ${package}.${moduleName}.wrapper.${className}Wrapper;
+import ${package}.${moduleName}.entity.${className}Entity;
+import ${package}.${moduleName}.service.${className}Service;
+import java.util.List;
+
+/**
+ * ${comments} 控制器
+ *
+ * @author ${author}
+ * @since ${datetime}
+ */
+@RestController
+@RequestMapping("/${moduleName}/${pathName}")
+@Api(value = "${comments}", tags = "${comments}接口")
+public class ${className}Controller {
+	@Autowired
+	private I${className}Service ${classname}Service;
+
+
+	/**
+	* 详情
+	*/
+	@GetMapping("/detail")
+    @ApiOperationSupport(order = 1)
+	@ApiOperation(value = "详情", notes = "传入${classname}")
+	public R<${className}VO> detail(${className}Entity ${classname}) {
+		${className}Entity detail = ${classname}Service.getOne(Condition.getQueryWrapper(${classname}));
+		return R.data(${className}Wrapper.build().entityVO(detail));
+	}
+
+	/**
+	* 分页 ${comments}
+	*/
+	@GetMapping("/list")
+    @ApiOperationSupport(order = 2)
+	@ApiOperation(value = "分页", notes = "传入${classname}")
+	public R<IPage<${className}VO>> list(${className}Entity ${classname}, Query query) {
+		IPage<${className}Entity> pages = ${classname}Service.page(Condition.getPage(query), Condition.getQueryWrapper(${classname}));
+		return R.data(${classname}Wrapper.build().pageVO(pages));
+	}
+
+	/**
+	* 新增 ${comments}
+	*/
+	@PostMapping("/save")
+    @ApiOperationSupport(order = 4)
+	@ApiOperation(value = "新增", notes = "传入${classname}")
+	public R save(@Valid @RequestBody ${classname}Entity ${classname}) {
+		return R.status($${classname}Service.save(${classname}));
+	}
+
+	/**
+	* 修改 ${comments}
+	*/
+	@PostMapping("/update")
+    @ApiOperationSupport(order = 5)
+	@ApiOperation(value = "修改", notes = "传入${classname}")
+	public R update(@Valid @RequestBody ${className}Entity ${classname}) {
+		return R.status(${classname}Service.updateById(${classname}));
+	}
+
+	/**
+	* 新增或修改 ${comments}
+	*/
+	@PostMapping("/submit")
+    @ApiOperationSupport(order = 6)
+	@ApiOperation(value = "新增或修改", notes = "传入${className}")
+	public R submit(@Valid @RequestBody ${className}Entity ${classname}) {
+		return R.status(${classname}Service.saveOrUpdate(${classname}));
+	}
+
+
+	/**
+	* 删除 ${comments}
+	*/
+	@PostMapping("/remove")
+    @ApiOperationSupport(order = 7)
+	@ApiOperation(value = "删除", notes = "传入ids")
+	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
+		return R.status(${classname}Service.removeByIds(Func.toLongList(ids));
+	}
+
+}
