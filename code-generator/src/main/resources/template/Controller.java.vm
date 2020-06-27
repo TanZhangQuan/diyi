@@ -38,7 +38,6 @@ public class ${className}Controller {
 	* 详情
 	*/
 	@GetMapping("/detail")
-    @ApiOperationSupport(order = 1)
 	@ApiOperation(value = "详情", notes = "传入${classname}")
 	public R<${className}VO> detail(${className}Entity ${classname}) {
 		${className}Entity detail = ${classname}Service.getOne(Condition.getQueryWrapper(${classname}));
@@ -49,7 +48,6 @@ public class ${className}Controller {
 	* 分页 ${comments}
 	*/
 	@GetMapping("/list")
-    @ApiOperationSupport(order = 2)
 	@ApiOperation(value = "分页", notes = "传入${classname}")
 	public R<IPage<${className}VO>> list(${className}Entity ${classname}, Query query) {
 		IPage<${className}Entity> pages = ${classname}Service.page(Condition.getPage(query), Condition.getQueryWrapper(${classname}));
@@ -60,7 +58,6 @@ public class ${className}Controller {
 	* 新增 ${comments}
 	*/
 	@PostMapping("/save")
-    @ApiOperationSupport(order = 4)
 	@ApiOperation(value = "新增", notes = "传入${classname}")
 	public R save(@Valid @RequestBody ${classname}Entity ${classname}) {
 		return R.status($${classname}Service.save(${classname}));
@@ -70,7 +67,6 @@ public class ${className}Controller {
 	* 修改 ${comments}
 	*/
 	@PostMapping("/update")
-    @ApiOperationSupport(order = 5)
 	@ApiOperation(value = "修改", notes = "传入${classname}")
 	public R update(@Valid @RequestBody ${className}Entity ${classname}) {
 		return R.status(${classname}Service.updateById(${classname}));
@@ -80,7 +76,6 @@ public class ${className}Controller {
 	* 新增或修改 ${comments}
 	*/
 	@PostMapping("/submit")
-    @ApiOperationSupport(order = 6)
 	@ApiOperation(value = "新增或修改", notes = "传入${className}")
 	public R submit(@Valid @RequestBody ${className}Entity ${classname}) {
 		return R.status(${classname}Service.saveOrUpdate(${classname}));
@@ -91,10 +86,9 @@ public class ${className}Controller {
 	* 删除 ${comments}
 	*/
 	@PostMapping("/remove")
-    @ApiOperationSupport(order = 7)
 	@ApiOperation(value = "删除", notes = "传入ids")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
-		return R.status(${classname}Service.removeByIds(Func.toLongList(ids));
+		return R.status(${classname}Service.removeByIds(Func.toLongList(ids)));
 	}
 
 }

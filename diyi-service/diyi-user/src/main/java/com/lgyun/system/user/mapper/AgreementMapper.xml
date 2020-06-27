@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lgyun.system.user.mapper.AgreementMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.lgyun.system.user.entity.AgreementEntity" id="agreementMap">
+                    <result property="agreementId" column="agreement_id"/>
+                    <result property="signType" column="sign_type"/>
+                    <result property="signDate" column="sign_date"/>
+                    <result property="signState" column="sign_state"/>
+                    <result property="agreementType" column="agreement_type"/>
+                    <result property="agreementNo" column="agreement_no"/>
+                    <result property="runCompanyId" column="run_company_id"/>
+                    <result property="platformId" column="platform_id"/>
+                    <result property="makerId" column="maker_id"/>
+                    <result property="uploadPerson" column="upload_person"/>
+                    <result property="uploadDatetime" column="upload_datetime"/>
+                    <result property="startDatetime" column="start_datetime"/>
+                    <result property="paperAgreementUrl" column="paper_agreement_url"/>
+                    <result property="thirdOnlineAgreementUrl" column="third_online_agreement_url"/>
+                    <result property="platformOnlineAgreementUrl" column="platform_online_agreement_url"/>
+                    <result property="poaplatformSignatureUrl" column="poaplatform_signature_url"/>
+                    <result property="poamakerSignatureUrl" column="poamaker_signature_url"/>
+                    <result property="poacompanySignatureUrl" column="poacompany_signature_url"/>
+                    <result property="poaplatformSignDatetime" column="poaplatform_sign_datetime"/>
+                    <result property="poamakerSignDatetime" column="poamaker_sign_datetime"/>
+                    <result property="poacompanySignDatetime" column="poacompany_sign_datetime"/>
+                    <result property="poawithSignatureUrl" column="poawith_signature_url"/>
+                    <result property="paaState" column="paa_state"/>
+                    <result property="poaState" column="poa_state"/>
+                    <result property="toaState" column="toa_state"/>
+                    <result property="platformSignState" column="platform_sign_state"/>
+                    <result property="makerSignState" column="maker_sign_state"/>
+                    <result property="companySignState" column="company_sign_state"/>
+                    <result property="createUser" column="create_user"/>
+                    <result property="createTime" column="create_time"/>
+                    <result property="updateUser" column="update_user"/>
+                    <result property="updateTime" column="update_time"/>
+                    <result property="status" column="status"/>
+                    <result property="isDeleted" column="is_deleted"/>
+            </resultMap>
+
+</mapper>

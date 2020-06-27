@@ -425,7 +425,7 @@ CREATE TABLE `diyi_maker_voice` (
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_order`;
 CREATE TABLE `diyi_order` (
-  `order_id` bigint(50) NOT NULL COMMENT 'ID',
+  `order_id` bigint(50) NOT NULL COMMENT '订单ID',
   `enterprise_id` bigint(50) NOT NULL COMMENT '企业ID',
   `run_company_id` bigint(50) NOT NULL COMMENT '运营公司ID',
   `order_title` varchar(50) NOT NULL COMMENT '订单主题',
@@ -739,7 +739,7 @@ CREATE TABLE `diyi_worksheet` (
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_worksheet_attention`;
 CREATE TABLE `diyi_worksheet_attention` (
-  `worksheet_attention_id` bigint(50) NOT NULL COMMENT 'ID',
+  `worksheet_attention_id` bigint(50) NOT NULL COMMENT '工单关注ID',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
   `enterprise_id` bigint(50) NOT NULL COMMENT '企业ID',
   `worksheet_attention_no` bigint(50) NOT NULL COMMENT '工单关注编号',
