@@ -25,11 +25,14 @@ public class ${className}Entity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     #foreach ($column in $columns)
+
     /**
      * $column.comments
      */
     #if($column.columnName == $pk.columnName)
-    @TableId(type = IdType.AUTO)
+    @ApiModelProperty(value = "主键")
+    @TableId(type = IdType.ASSIGN_ID)
+    @JsonSerialize(using = ToStringSerializer.class)
     #end
     private $column.attrType $column.attrname;
     #end
