@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.IndividualBusinessAnnualFeeEntity;
 import com.lgyun.system.user.service.IIndividualBusinessAnnualFeeService;
 import com.lgyun.system.user.vo.IndividualBusinessAnnualFeeVO;
@@ -41,7 +42,7 @@ public class IndividualBusinessAnnualFeeController {
 	}
 
 	/**
-	* 分页 
+	* 分页
 	*/
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "传入individualBusinessAnnualFee")
@@ -51,7 +52,7 @@ public class IndividualBusinessAnnualFeeController {
 	}
 
 	/**
-	* 新增 
+	* 新增
 	*/
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入individualBusinessAnnualFee")
@@ -60,7 +61,7 @@ public class IndividualBusinessAnnualFeeController {
 	}
 
 	/**
-	* 修改 
+	* 修改
 	*/
 	@PostMapping("/update")
 	@ApiOperation(value = "修改", notes = "传入individualBusinessAnnualFee")
@@ -69,7 +70,7 @@ public class IndividualBusinessAnnualFeeController {
 	}
 
 	/**
-	* 新增或修改 
+	* 新增或修改
 	*/
 	@PostMapping("/submit")
 	@ApiOperation(value = "新增或修改", notes = "传入IndividualBusinessAnnualFee")
@@ -79,12 +80,12 @@ public class IndividualBusinessAnnualFeeController {
 
 
 	/**
-	* 删除 
+	* 删除
 	*/
 	@PostMapping("/remove")
 	@ApiOperation(value = "删除", notes = "传入ids")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
-		return R.status(individualBusinessAnnualFeeService.removeByIds(Func.toLongList(ids));
+		return R.status(individualBusinessAnnualFeeService.removeByIds(Func.toLongList(ids)));
 	}
 
 }

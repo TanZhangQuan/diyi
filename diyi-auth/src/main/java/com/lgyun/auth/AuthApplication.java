@@ -15,7 +15,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @author liangfeihu
  * @since 2020/6/6 00:15
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = AppConstant.BASE_PACKAGES)
 @EnableDiscoveryClient
 @EnableCircuitBreaker
 @EnableFeignClients(AppConstant.BASE_PACKAGES)

@@ -31,12 +31,15 @@ public class R<T> implements Serializable {
 
     @ApiModelProperty(value = "状态码", required = true)
     private int code;
+
     @ApiModelProperty(value = "是否成功", required = true)
     private boolean success;
-    @ApiModelProperty(value = "承载数据")
-    private T data;
+
     @ApiModelProperty(value = "返回消息", required = true)
     private String msg;
+
+    @ApiModelProperty(value = "承载数据")
+    private T data;
 
     private R(IResultCode resultCode) {
         this(resultCode, null, resultCode.getMessage());

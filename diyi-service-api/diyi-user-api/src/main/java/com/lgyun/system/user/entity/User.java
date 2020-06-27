@@ -13,7 +13,7 @@ import com.lgyun.core.mp.base.TenantEntity;
 import java.util.Date;
 
 /**
- * 实体类
+ * User 实体类
  *
  * @author liangfeihu
  * @since 2020/6/6 00:58
@@ -32,7 +32,6 @@ public class User extends TenantEntity {
 	@TableId(value = "id", type = IdType.ASSIGN_ID)
 	@JsonSerialize(using = ToStringSerializer.class)
 	private Long id;
-
 
 	/**
 	 * 编号
