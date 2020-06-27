@@ -157,16 +157,16 @@ public class AgreementEntity extends BaseEntity {
     /**
      * 平台签署状态：签署中，已签署，无需签署（没参与）
      */
-    private PlatformSignState platformSignState;
+    private SignState platformSignState;
 
     /**
      * 创客签署状态：签署中，已签署，无需签署（没参与）
      */
-    private MakerSignState makerSignState;
+    private SignState makerSignState;
 
     /**
      * 发包方签署状态：签署中，已签署，无需签署（没参与）
      */
-    private CompanySignState companySignState;
+    private SignState companySignState;
 
 }

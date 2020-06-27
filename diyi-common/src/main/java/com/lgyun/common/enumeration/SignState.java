@@ -7,8 +7,9 @@ import lombok.Getter;
  */
 @Getter
 public enum SignState {
+    unSign("unSign", "无需签署"),
     signing("signing", "签署中"),
-    signed("signed", "签署完成");
+    signed("signed", "已签署");
 
     private String value;
     private String desc;
