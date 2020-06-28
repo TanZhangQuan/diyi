@@ -1,9 +1,10 @@
-package com.lgyun.common.client;
+package com.lgyun.auth.client;
 
-import lombok.AllArgsConstructor;
 import com.lgyun.common.constant.SecureConstant;
+import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
 
 /**
  * 获取客户端详情
@@ -11,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * @author liangfeihu
  * @since 2020/6/5 19:07
  */
+@Service
 @AllArgsConstructor
 public class ClientDetailsServiceImpl implements IClientDetailsService {
 

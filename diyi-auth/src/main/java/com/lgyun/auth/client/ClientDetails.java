@@ -1,4 +1,4 @@
-package com.lgyun.common.client;
+package com.lgyun.auth.client;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

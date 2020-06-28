@@ -37,6 +37,7 @@ import java.util.concurrent.TimeUnit;
 public class AuthController {
 
     private RedisUtil redisUtil;
+    private TokenUtil tokenUtil;
 
     @PostMapping("token")
     @ApiOperation(value = "获取认证token", notes = "传入租户ID:tenantId,账号:account,密码:password")
@@ -64,7 +65,7 @@ public class AuthController {
             return R.fail(TokenUtil.USER_NOT_FOUND);
         }
 
-        return R.data(TokenUtil.createAuthInfo(userInfo));
+        return R.data(tokenUtil.createAuthInfo(userInfo));
     }
 
     @GetMapping("/captcha")

@@ -1,4 +1,4 @@
-package com.lgyun.common.client;
+package com.lgyun.auth.client;
 
 /**
  * 多终端注册接口
