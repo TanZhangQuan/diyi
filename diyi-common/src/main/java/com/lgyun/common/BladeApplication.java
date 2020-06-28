@@ -3,6 +3,7 @@ package com.lgyun.common;
 import com.lgyun.common.constant.AppConstant;
 import com.lgyun.common.constant.NacosConstant;
 import com.lgyun.common.launch.LauncherService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.*;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
  * @author liangfeihu
  * @since 2020/6/3 18:56
  */
+@Slf4j
 public class BladeApplication {
 
 	/**
