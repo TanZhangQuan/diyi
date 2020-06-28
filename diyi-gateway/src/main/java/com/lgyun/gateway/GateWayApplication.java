@@ -2,8 +2,7 @@ package com.lgyun.gateway;
 
 import com.lgyun.common.BladeApplication;
 import com.lgyun.common.constant.AppConstant;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 
@@ -13,15 +12,15 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
  * @author liangfeihu
  * @since 2020/6/2 23:07
  */
+@Slf4j
 @EnableHystrix
 @SpringCloudApplication
 public class GateWayApplication {
-    private static Logger logger = LoggerFactory.getLogger(GateWayApplication.class);
 
     public static void main(String[] args) {
-        logger.info("网关项目服务启动开始");
+        log.info("网关项目服务启动开始");
         BladeApplication.run(AppConstant.APPLICATION_GATEWAY_NAME, GateWayApplication.class, args);
-        logger.info("网关项目服务启动结束");
+        log.info("网关项目服务启动结束");
     }
 
 }
