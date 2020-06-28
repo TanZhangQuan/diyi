@@ -1,5 +1,6 @@
 package com.lgyun.system.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.lgyun.system.entity.Menu;
 import com.lgyun.system.service.IMenuService;
 import io.swagger.annotations.*;
@@ -14,6 +15,7 @@ import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.system.vo.MenuVO;
 import com.lgyun.system.wrapper.MenuWrapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -22,10 +24,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 控制器
+ * Menu 控制器
  *
  * @author Chill
  */
+@Slf4j
 @RestController
 @AllArgsConstructor
 @RequestMapping("/menu")
@@ -88,6 +91,7 @@ public class MenuController extends BladeController {
 	@GetMapping("/routes")
 	@ApiOperation(value = "前端菜单数据", notes = "前端菜单数据")
 	public R<List<MenuVO>> routes(BladeUser user) {
+		log.info("[routes]user info = {}", JSONObject.toJSONString(user));
 		List<MenuVO> list = menuService.routes(user.getRoleId());
 		return R.data(list);
 	}

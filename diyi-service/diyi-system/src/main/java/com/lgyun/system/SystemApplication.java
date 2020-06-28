@@ -5,8 +5,10 @@ import com.lgyun.common.constant.AppConstant;
 import com.lgyun.common.tenant.BladeTenantId;
 import com.lgyun.common.tenant.TenantId;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.cloud.client.SpringCloudApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 
@@ -17,7 +19,9 @@ import org.springframework.context.annotation.Bean;
  * @since 2020/6/6 23:08
  */
 @Slf4j
-@SpringCloudApplication
+@SpringBootApplication(scanBasePackages = AppConstant.BASE_PACKAGES)
+@EnableDiscoveryClient
+@EnableCircuitBreaker
 @EnableFeignClients(AppConstant.BASE_PACKAGES)
 public class SystemApplication {
 
