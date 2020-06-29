@@ -25,7 +25,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/user/position")
-@Api(value = "", tags = "接口")
+@Api(value = "外包岗位的基本信息相关接口", tags = "外包岗位的基本信息相关接口")
 public class PositionController {
 	@Autowired
 	private IPositionService positionService;

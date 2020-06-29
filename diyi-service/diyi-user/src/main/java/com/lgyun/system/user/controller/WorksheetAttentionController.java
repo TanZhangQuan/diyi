@@ -25,7 +25,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/user/worksheetattention")
-@Api(value = "", tags = "接口")
+@Api(value = "工单信息相关接口", tags = "工单信息相关接口")
 public class WorksheetAttentionController {
 	@Autowired
 	private IWorksheetAttentionService worksheetAttentionService;

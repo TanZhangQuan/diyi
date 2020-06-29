@@ -25,7 +25,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/user/setup")
-@Api(value = "", tags = "接口")
+@Api(value = "特殊配置相关接口", tags = "特殊配置相关接口")
 public class SetupController {
 	@Autowired
 	private ISetupService setupService;

@@ -25,7 +25,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/user/delivermaterial")
-@Api(value = "", tags = "接口")
+@Api(value = "创客交付材料信息信息相关接口", tags = "创客交付材料信息信息相关接口")
 public class DeliverMaterialController {
 	@Autowired
 	private IDeliverMaterialService deliverMaterialService;

@@ -25,7 +25,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/user/individualbusinessannualfee")
-@Api(value = "", tags = "接口")
+@Api(value = "个体工商户年费信息相关接口", tags = "个体工商户年费信息相关接口")
 public class IndividualBusinessAnnualFeeController {
 	@Autowired
 	private IIndividualBusinessAnnualFeeService individualBusinessAnnualFeeService;

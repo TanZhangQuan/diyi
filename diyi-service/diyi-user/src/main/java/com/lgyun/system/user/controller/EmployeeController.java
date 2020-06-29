@@ -25,7 +25,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/user/employee")
-@Api(value = "", tags = "接口")
+@Api(value = "平台工作人员的基本信息相关接口", tags = "平台工作人员的基本信息相关接口")
 public class EmployeeController {
 	@Autowired
 	private IEmployeeService employeeService;

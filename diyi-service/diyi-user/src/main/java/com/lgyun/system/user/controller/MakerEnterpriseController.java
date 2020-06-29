@@ -25,7 +25,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/user/makerenterprise")
-@Api(value = "", tags = "接口")
+@Api(value = "创客和外包企业的关联关系相关接口", tags = "创客和外包企业的关联关系相关接口")
 public class MakerEnterpriseController {
 	@Autowired
 	private IMakerEnterpriseService makerEnterpriseService;
