@@ -24,7 +24,7 @@ import javax.validation.Valid;
  * @since 2020-06-26 17:21:06
  */
 @RestController
-@RequestMapping("/user/runcompany")
+@RequestMapping("/runcompany")
 @Api(value = "平台运营公司（平台方）信息相关接口", tags = "平台运营公司（平台方）信息相关接口")
 public class RunCompanyController {
 	@Autowired

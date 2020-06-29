@@ -24,7 +24,7 @@ import javax.validation.Valid;
  * @since 2020-06-26 17:21:05
  */
 @RestController
-@RequestMapping("/user/enterprise")
+@RequestMapping("/enterprise")
 @Api(value = "外包企业（发包方）的基本信息相关接口", tags = "外包企业（发包方）的基本信息相关接口")
 public class EnterpriseController {
 	@Autowired

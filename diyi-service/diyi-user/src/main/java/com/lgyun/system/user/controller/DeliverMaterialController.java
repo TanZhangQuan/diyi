@@ -24,7 +24,7 @@ import javax.validation.Valid;
  * @since 2020-06-26 17:21:05
  */
 @RestController
-@RequestMapping("/user/delivermaterial")
+@RequestMapping("/delivermaterial")
 @Api(value = "创客交付材料信息信息相关接口", tags = "创客交付材料信息信息相关接口")
 public class DeliverMaterialController {
 	@Autowired

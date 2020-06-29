@@ -24,7 +24,7 @@ import javax.validation.Valid;
  * @since 2020-06-26 17:21:06
  */
 @RestController
-@RequestMapping("/user/individualbusiness")
+@RequestMapping("/individualbusiness")
 @Api(value = "个体工商户信息相关接口", tags = "个体工商户信息相关接口")
 public class IndividualBusinessController {
 	@Autowired

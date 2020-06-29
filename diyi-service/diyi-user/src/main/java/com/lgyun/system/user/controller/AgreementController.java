@@ -24,7 +24,7 @@ import javax.validation.Valid;
  * @since 2020-06-26 17:21:06
  */
 @RestController
-@RequestMapping("/user/agreement")
+@RequestMapping("/agreement")
 @Api(value = "平台合同的信息相关接口", tags = "平台合同的信息相关接口")
 public class AgreementController {
 	@Autowired

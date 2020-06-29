@@ -24,7 +24,7 @@ import javax.validation.Valid;
  * @since 2020-06-26 17:21:05
  */
 @RestController
-@RequestMapping("/user/setup")
+@RequestMapping("/setup")
 @Api(value = "特殊配置相关接口", tags = "特殊配置相关接口")
 public class SetupController {
 	@Autowired

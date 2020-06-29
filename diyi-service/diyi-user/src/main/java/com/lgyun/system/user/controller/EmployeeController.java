@@ -24,7 +24,7 @@ import javax.validation.Valid;
  * @since 2020-06-26 17:21:05
  */
 @RestController
-@RequestMapping("/user/employee")
+@RequestMapping("/employee")
 @Api(value = "平台工作人员的基本信息相关接口", tags = "平台工作人员的基本信息相关接口")
 public class EmployeeController {
 	@Autowired
