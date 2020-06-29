@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 /**
- *  控制器
  *
- * @author liangfeihu
+ *
+ * @author tzq
  * @since 2020-06-26 17:21:06
  */
 @RestController
 @RequestMapping("/user/agreement")
-@Api(value = "", tags = "接口")
+@Api(value = "平台合同的信息相关接口", tags = "平台合同的信息相关接口")
 public class AgreementController {
 	@Autowired
 	private IAgreementService agreementService;
