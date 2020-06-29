@@ -21,4 +21,16 @@ public interface RealnameVerifyConstant {
     //身份证实名认证请求url
     String idCardOCRUrl = host + "/v2/identity/auth/api/ocr/idcard";
 
+    //人脸识别认证、银行卡认证以及手机认证请求url
+    String faceBankCardMobileOCROCRUrl = host + "/v2/identity/auth/web/indivAuthUrl";
+
+    //人脸识别认证、银行卡认证以及手机认证回调url
+    String faceOCRNotifyUrl = "https://www.baidu.com/";
+
+    //人脸识别认证、银行卡认证以及手机认证回调url
+    String bankCardOCRNotifyUrl = "https://www.baidu.com/";
+
+    //人脸识别认证、银行卡认证以及手机认证回调url
+    String mobileOCRNotifyUrl = "https://www.baidu.com/";
+
 }

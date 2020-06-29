@@ -17,8 +17,7 @@ public class RealnameVerifyHttpUtil {
      * @return HttpGet返回值
      */
     public static String sendGet(String url) {
-        String res = "";
-        res = HttpUtil.sendHttp(HttpRequestMethedEnum.HttpGet, url, null, null, 1);
+        String res = HttpUtil.sendHttp(HttpRequestMethedEnum.HttpGet, url, null, null, 1);
         return res;
     }
 
@@ -35,8 +34,7 @@ public class RealnameVerifyHttpUtil {
         header.put("X-Tsign-Open-App-Id", RealnameVerifyConstant.appId);
         header.put("X-Tsign-Open-Token", token);
         header.put("Content-Type", "application/json");
-        String res = "";
-        res = HttpUtil.sendHttp(HttpRequestMethedEnum.HttpPost, url, header, params, 1);
+        String res = HttpUtil.sendHttp(HttpRequestMethedEnum.HttpPost, url, header, params, 1);
         return res;
     }
 
@@ -52,8 +50,7 @@ public class RealnameVerifyHttpUtil {
         header.put("X-Tsign-Open-App-Id", RealnameVerifyConstant.appId);
         header.put("X-Tsign-Open-Token", token);
         header.put("Content-Type", "application/json");
-        String res = "";
-        res = HttpUtil.sendHttp(HttpRequestMethedEnum.HttpGet, url, header, null, 1);
+        String res = HttpUtil.sendHttp(HttpRequestMethedEnum.HttpGet, url, header, null, 1);
         return res;
     }
 
@@ -70,8 +67,7 @@ public class RealnameVerifyHttpUtil {
         header.put("X-Tsign-Open-App-Id", RealnameVerifyConstant.appId);
         header.put("X-Tsign-Open-Token", token);
         header.put("Content-Type", "application/json");
-        String res = "";
-        res = HttpUtil.sendHttp(HttpRequestMethedEnum.HttpPut, url, header, params, 1);
+        String res = HttpUtil.sendHttp(HttpRequestMethedEnum.HttpPut, url, header, params, 1);
         return res;
     }
 }
