@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 import com.lgyun.system.user.entity.User;
 
 /**
- * 视图实体类
+ * User 视图实体类
  *
  * @author liangfeihu
  * @since 2020/6/6 00:28

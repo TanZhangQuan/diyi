@@ -42,7 +42,7 @@ public class IndividualBusinessAnnualFeeController {
 	}
 
 	/**
-	* 分页 
+	* 分页
 	*/
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "传入individualBusinessAnnualFee")
@@ -52,7 +52,7 @@ public class IndividualBusinessAnnualFeeController {
 	}
 
 	/**
-	* 新增 
+	* 新增
 	*/
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入individualBusinessAnnualFee")
@@ -61,7 +61,7 @@ public class IndividualBusinessAnnualFeeController {
 	}
 
 	/**
-	* 修改 
+	* 修改
 	*/
 	@PostMapping("/update")
 	@ApiOperation(value = "修改", notes = "传入individualBusinessAnnualFee")
@@ -70,7 +70,7 @@ public class IndividualBusinessAnnualFeeController {
 	}
 
 	/**
-	* 新增或修改 
+	* 新增或修改
 	*/
 	@PostMapping("/submit")
 	@ApiOperation(value = "新增或修改", notes = "传入IndividualBusinessAnnualFee")
@@ -80,7 +80,7 @@ public class IndividualBusinessAnnualFeeController {
 
 
 	/**
-	* 删除 
+	* 删除
 	*/
 	@PostMapping("/remove")
 	@ApiOperation(value = "删除", notes = "传入ids")

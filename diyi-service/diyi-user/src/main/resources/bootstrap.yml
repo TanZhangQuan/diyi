@@ -1,0 +1,15 @@
+#服务器端口
+server:
+  port: 8102
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: diyi-user
+
+logging:
+  level:
+    com.alibaba.nacos: error
+
+
