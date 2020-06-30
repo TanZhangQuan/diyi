@@ -12,7 +12,11 @@ import com.lgyun.system.user.wrapper.SetupWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,11 +29,13 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/setup")
+@Validated
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Api(value = "特殊配置相关接口", tags = "特殊配置相关接口")
 public class SetupController {
-	@Autowired
-	private ISetupService setupService;
+	private Logger logger = LoggerFactory.getLogger(SetupController.class);
 
+	private final ISetupService setupService;
 
 	/**
 	* 详情

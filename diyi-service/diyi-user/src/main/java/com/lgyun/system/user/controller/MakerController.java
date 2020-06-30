@@ -12,7 +12,11 @@ import com.lgyun.system.user.wrapper.MakerWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,12 +29,13 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/maker")
+@Validated
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Api(value = "创客（分包方）的基本信息相关接口", tags = "创客（分包方）的基本信息相关接口")
 public class MakerController {
-	@Autowired
-	private IMakerService makerService;
+	private Logger logger = LoggerFactory.getLogger(MakerController.class);
 
-
+	private final IMakerService makerService;
 
 	/**
 	* 详情

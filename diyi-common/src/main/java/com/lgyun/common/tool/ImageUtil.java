@@ -19,10 +19,6 @@ import java.net.URL;
  * @author liangfeihu
  */
 public final class ImageUtil {
-
-	/**
-	 * Logger for this class
-	 */
 	private static Logger LOGGER = LoggerFactory.getLogger(ImageUtil.class);
 
 	/**

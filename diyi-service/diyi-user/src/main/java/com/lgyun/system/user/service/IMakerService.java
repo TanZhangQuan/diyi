@@ -11,5 +11,21 @@ import com.lgyun.system.user.entity.MakerEntity;
  */
 public interface IMakerService extends IService<MakerEntity> {
 
+    /**
+     * 根据微信openid获取创客
+     *
+     * @param openid
+     * @return
+     */
+    MakerEntity findByOpenid(String openid);
+
+    /**
+     * 根据微信手机号码获取创客
+     *
+     * @param phoneNumber
+     * @return
+     */
+    MakerEntity findByPhoneNumber(String phoneNumber);
+
 }
 

@@ -3,6 +3,7 @@ package com.lgyun.auth.utils;
 import lombok.AllArgsConstructor;
 import com.lgyun.common.tool.CollectionUtil;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import java.util.concurrent.TimeUnit;
  * @author liangfeihu
  * @since 2020/6/6 01:07
  */
+@Component
 @AllArgsConstructor
 public class RedisUtil {
 
