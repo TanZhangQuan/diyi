@@ -1,0 +1,15 @@
+#服务器端口
+server:
+  port: 8105
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: diyi-desk
+
+logging:
+  level:
+    com.alibaba.nacos: error
+
+

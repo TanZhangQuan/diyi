@@ -17,5 +17,4 @@ import lombok.EqualsAndHashCode;
 public class AgreementVO extends AgreementEntity {
     private static final long serialVersionUID = 1L;
 
-
 }

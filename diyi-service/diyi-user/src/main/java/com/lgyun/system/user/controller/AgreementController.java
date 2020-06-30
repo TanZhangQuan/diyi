@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 /**
+ * Agreement 控制器
  *
- *
- * @author tzq
+ * @author liangfeihu
  * @since 2020-06-26 17:21:06
  */
 @RestController

@@ -21,6 +21,7 @@
     <modules>
         <module>diyi-system</module>
         <module>diyi-user</module>
+        <module>diyi-desk</module>
         <module>diyi-order</module>
     </modules>
 
