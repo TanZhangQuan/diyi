@@ -62,6 +62,18 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
     }
 
     @Override
+    public UserInfo userInfoByPhone(String phone) {
+        UserInfo userInfo = new UserInfo();
+        User user = baseMapper.getUserByPhone(phone);
+        userInfo.setUser(user);
+        if (Func.isNotEmpty(user)) {
+            List<String> roleAlias = baseMapper.getRoleAlias(Func.toStrArray(user.getRoleId()));
+            userInfo.setRoles(roleAlias);
+        }
+        return userInfo;
+    }
+
+    @Override
     public UserInfo userInfo(String tenantId, String account, String password) {
         UserInfo userInfo = new UserInfo();
         User user = baseMapper.getUser(tenantId, account, password);
