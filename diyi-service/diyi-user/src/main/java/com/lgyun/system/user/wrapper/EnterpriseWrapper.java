@@ -17,11 +17,10 @@ public class EnterpriseWrapper extends BaseEntityWrapper<EnterpriseEntity, Enter
         return new EnterpriseWrapper();
     }
 
-	@Override
-	public EnterpriseVO entityVO(EnterpriseEntity enterprise) {
-			EnterpriseVO enterpriseVO = BeanUtil.copy(enterprise, EnterpriseVO.class);
-
-		return enterpriseVO;
-	}
+    @Override
+    public EnterpriseVO entityVO(EnterpriseEntity enterprise) {
+        EnterpriseVO enterpriseVO = BeanUtil.copy(enterprise, EnterpriseVO.class);
+        return enterpriseVO;
+    }
 
 }

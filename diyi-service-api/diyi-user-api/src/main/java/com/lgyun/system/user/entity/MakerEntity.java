@@ -13,7 +13,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -40,6 +39,16 @@ public class MakerEntity extends BaseEntity {
      * 微信关联ID
      */
     private String wechatId;
+
+    /**
+     * 微信open_id
+     */
+    private String openid;
+
+    /**
+     * 微信session_key
+     */
+    private String sessionKey;
 
     /**
      * 微信昵称

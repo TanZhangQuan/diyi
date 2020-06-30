@@ -17,11 +17,10 @@ public class EmployeeWrapper extends BaseEntityWrapper<EmployeeEntity, EmployeeV
         return new EmployeeWrapper();
     }
 
-	@Override
-	public EmployeeVO entityVO(EmployeeEntity employee) {
-			EmployeeVO employeeVO = BeanUtil.copy(employee, EmployeeVO.class);
-
-		return employeeVO;
-	}
+    @Override
+    public EmployeeVO entityVO(EmployeeEntity employee) {
+        EmployeeVO employeeVO = BeanUtil.copy(employee, EmployeeVO.class);
+        return employeeVO;
+    }
 
 }

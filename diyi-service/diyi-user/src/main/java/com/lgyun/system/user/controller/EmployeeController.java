@@ -12,7 +12,11 @@ import com.lgyun.system.user.wrapper.EmployeeWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,12 +28,14 @@ import javax.validation.Valid;
  * @since 2020-06-26 17:21:05
  */
 @RestController
-@RequestMapping("/user/employee")
-@Api(value = "", tags = "接口")
+@RequestMapping("/employee")
+@Validated
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@Api(value = "平台工作人员的基本信息相关接口", tags = "平台工作人员的基本信息相关接口")
 public class EmployeeController {
-	@Autowired
-	private IEmployeeService employeeService;
+	private Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 
+	private final IEmployeeService employeeService;
 
 	/**
 	* 详情

@@ -32,6 +32,11 @@
             <artifactId>diyi-system-api</artifactId>
             <version>${diyi.project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.lgyun</groupId>
+            <artifactId>diyi-auth</artifactId>
+            <version>${diyi.project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.alibaba</groupId>

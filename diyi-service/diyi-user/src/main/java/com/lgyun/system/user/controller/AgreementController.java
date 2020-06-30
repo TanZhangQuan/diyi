@@ -12,7 +12,11 @@ import com.lgyun.system.user.wrapper.AgreementWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,11 +28,14 @@ import javax.validation.Valid;
  * @since 2020-06-26 17:21:06
  */
 @RestController
-@RequestMapping("/user/agreement")
-@Api(value = "Agreement", tags = "接口")
+@RequestMapping("/agreement")
+@Validated
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@Api(value = "平台合同的信息相关接口", tags = "平台合同的信息相关接口")
 public class AgreementController {
-	@Autowired
-	private IAgreementService agreementService;
+	private Logger logger = LoggerFactory.getLogger(AgreementController.class);
+
+	private final IAgreementService agreementService;
 
 	/**
 	* 详情
@@ -41,7 +48,7 @@ public class AgreementController {
 	}
 
 	/**
-	* 分页
+	* 分页 
 	*/
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "传入agreement")
@@ -51,7 +58,7 @@ public class AgreementController {
 	}
 
 	/**
-	* 新增
+	* 新增 
 	*/
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入agreement")
@@ -60,7 +67,7 @@ public class AgreementController {
 	}
 
 	/**
-	* 修改
+	* 修改 
 	*/
 	@PostMapping("/update")
 	@ApiOperation(value = "修改", notes = "传入agreement")
@@ -69,7 +76,7 @@ public class AgreementController {
 	}
 
 	/**
-	* 新增或修改
+	* 新增或修改 
 	*/
 	@PostMapping("/submit")
 	@ApiOperation(value = "新增或修改", notes = "传入Agreement")
@@ -79,7 +86,7 @@ public class AgreementController {
 
 
 	/**
-	* 删除
+	* 删除 
 	*/
 	@PostMapping("/remove")
 	@ApiOperation(value = "删除", notes = "传入ids")
