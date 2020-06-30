@@ -11,16 +11,16 @@ import com.lgyun.system.user.vo.AgreementVO;
  * @author liangfeihu
  * @since 2020-06-26 17:21:06
  */
-public class AgreementWrapper extends BaseEntityWrapper<AgreementEntity, AgreementVO>  {
+public class AgreementWrapper extends BaseEntityWrapper<AgreementEntity, AgreementVO> {
 
     public static AgreementWrapper build() {
         return new AgreementWrapper();
     }
 
-	@Override
-	public AgreementVO entityVO(AgreementEntity agreement) {
-			AgreementVO agreementVO = BeanUtil.copy(agreement, AgreementVO.class);
-		return agreementVO;
-	}
+    @Override
+    public AgreementVO entityVO(AgreementEntity agreement) {
+        AgreementVO agreementVO = BeanUtil.copy(agreement, AgreementVO.class);
+        return agreementVO;
+    }
 
 }
