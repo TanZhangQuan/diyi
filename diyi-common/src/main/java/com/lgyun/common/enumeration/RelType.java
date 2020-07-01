@@ -7,9 +7,9 @@ import lombok.Getter;
  */
 @Getter
 public enum RelType {
-    makerRel("makerRel", "创客主动关联"),
-    enterpriseRel("enterpriseRel", "企业主动关联"),
-    platformRel("platformRel", "平台关联");
+    MAKERREL("MAKERREL", "创客主动关联"),
+    ENTERPRISEREL("ENTERPRISEREL", "企业主动关联"),
+    PLATFORMREL("PLATFORMREL", "平台关联");
 
     private String value;
     private String desc;

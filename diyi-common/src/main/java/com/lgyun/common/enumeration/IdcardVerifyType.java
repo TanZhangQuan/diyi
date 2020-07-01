@@ -7,8 +7,8 @@ import lombok.Getter;
  */
 @Getter
 public enum IdcardVerifyType {
-    systemVerify("systemVerify", "系统验证"),
-    manualVerify("manualVerify", "手工验证");
+    SYSTEMVERIFY("SYSTEMVERIFY", "系统验证"),
+    MANUALVERIFY("MANUALVERIFY", "手工验证");
 
     private String value;
     private String desc;

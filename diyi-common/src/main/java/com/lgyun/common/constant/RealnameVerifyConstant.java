@@ -3,34 +3,31 @@ package com.lgyun.common.constant;
 public interface RealnameVerifyConstant {
 
     //实名认证应用id
-    String appId = "4438763774";
+    String APPID = "7438808738";
 
     //实名认证密钥
-    String secret = "172779a80fd8629ef07e7edf71839fb7";
+    String APPKEY = "7b0622dd4177498906f539960ba00afd";
 
     //实名认证grantType
-    String grantType = "client_credentials";
+    String GRANTTYPE = "client_credentials";
 
     //实名认证请求域名
-    String host = "https://smlopenapi.esign.cn";
-//    String host = "https://openapi.esign.cn";
-
-    //获得Token请求url
-    String getTokenUrl = host + "/v1/oauth2/access_token?appId=" + appId + "&secret=" + secret + "&grantType=" + grantType;
+    String HOST = "https://smlopenapi.esign.cn";
+//    String HOST = "https://openapi.esign.cn";
 
     //身份证实名认证请求url
-    String idCardOCRUrl = host + "/v2/identity/auth/api/ocr/idcard";
+    String IDCARDOCRURL = "/v2/identity/auth/api/ocr/idcard";
 
     //人脸识别认证、银行卡认证以及手机认证请求url
-    String faceBankCardMobileOCROCRUrl = host + "/v2/identity/auth/web/indivAuthUrl";
+    String FACEBANKCARDMOBILEOCROCRURL = "/v2/identity/auth/web/indivAuthUrl";
 
-    //人脸识别认证、银行卡认证以及手机认证回调url
-    String faceOCRNotifyUrl = "https://www.baidu.com/";
+    //人脸识别认证回调url
+    String FACEOCRNOTIFYURL = "http://246953jp33.qicp.vip/maker/face_ocr_notify";
 
-    //人脸识别认证、银行卡认证以及手机认证回调url
-    String bankCardOCRNotifyUrl = "https://www.baidu.com/";
+    //银行卡认证回调url
+    String BANKCARDOCRNOTIFYURL = "https://www.baidu.com/";
 
-    //人脸识别认证、银行卡认证以及手机认证回调url
-    String mobileOCRNotifyUrl = "https://www.baidu.com/";
+    //手机认证回调url
+    String MOBILEOCRNOTIFYURL = "https://www.baidu.com/";
 
 }

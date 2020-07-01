@@ -7,9 +7,9 @@ import lombok.Getter;
  */
 @Getter
 public enum SignType {
-    paperAgreement("paperAgreement", "纸质协议"),
-    platformAgreement("platformAgreement", "平台协议"),
-    thirdAgreement("thirdAgreement", "第三方协议");
+    PAPERAGREEMENT("PAPERAGREEMENT", "纸质协议"),
+    PLATFORMAGREEMENT("PLATFORMAGREEMENT", "平台协议"),
+    THIRDAGREEMENT("THIRDAGREEMENT", "第三方协议");
 
     private String value;
     private String desc;

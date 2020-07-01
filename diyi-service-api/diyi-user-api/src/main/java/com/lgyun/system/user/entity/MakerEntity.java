@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.lgyun.common.enumeration.IdcardVerifyStatus;
+import com.lgyun.common.enumeration.VerifyStatus;
 import com.lgyun.common.enumeration.IdcardVerifyType;
 import com.lgyun.common.enumeration.VideoAudit;
 import com.lgyun.core.mp.base.BaseEntity;
@@ -151,19 +151,50 @@ public class MakerEntity extends BaseEntity {
     private String idcardHand;
 
     /**
-     * 身份验证状态：未验证，验证通过，验证未通过
+     * 验证图片
      */
-    private IdcardVerifyStatus idcardVerifyStatus;
+    private String picVerify;
 
     /**
-     * 验证日期时间
+     * 身份证验证状态：未验证，验证通过，验证未通过
+     */
+    private VerifyStatus idcardVerifyStatus;
+
+    /**
+     * 身份证验证日期时间
      */
     private Date idcardVerifyDate;
 
     /**
-     * 验证图片
+     * 刷脸验证状态：未验证，验证通过，验证未通过
      */
-    private String picVerify;
+    private VerifyStatus faceVerifyStatus;
+
+    /**
+     * 刷脸验证日期时间
+     */
+    private Date faceVerifyDate;
+
+    /**
+     * 银行卡验证状态：未验证，验证通过，验证未通过
+     */
+    private VerifyStatus bankCardVerifyStatus;
+
+    /**
+     * 银行卡验证日期时间
+     */
+    private Date bankCardVerifyDate;
+
+    /**
+     * 手机号码验证状态：未验证，验证通过，验证未通过
+     */
+    private VerifyStatus phoneNumberVerifyStatus;
+
+    /**
+     * 手机号码验证日期时间
+     */
+    private Date phoneNumberVerifyDate;
+
 
     /**
      * 身份证验证类型：系统验证，手工验证

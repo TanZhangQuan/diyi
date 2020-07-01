@@ -7,8 +7,8 @@ import lombok.Getter;
  */
 @Getter
 public enum WorksheetState {
-    normal("normal", "正常"),
-    invalid("invalid", "已作废");
+    NORMAL("NORMAL", "正常"),
+    INVALID("INVALID", "已作废");
 
     private String value;
     private String desc;
