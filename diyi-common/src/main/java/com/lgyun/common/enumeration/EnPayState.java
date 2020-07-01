@@ -7,8 +7,8 @@ import lombok.Getter;
  */
 @Getter
 public enum EnPayState {
-    toPay("toPay", "待支付"),
-    payed("payed", "已支付"),
+    TOPAY("TOPAY", "待支付"),
+    PAYED("PAYED", "已支付"),
     confirmPay("confirmPay", "已确认收款");
 
     private String value;

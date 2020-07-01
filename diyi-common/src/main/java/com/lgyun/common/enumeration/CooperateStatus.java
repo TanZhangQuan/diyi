@@ -7,8 +7,8 @@ import lombok.Getter;
  */
 @Getter
 public enum CooperateStatus {
-    cooperating("cooperating", "合作中"),
-    cooperateStop("cooperateStop", "停止合作");
+    COOPERATING("COOPERATING", "合作中"),
+    COOPERATESTOP("COOPERATESTOP", "停止合作");
 
     private String value;
     private String desc;

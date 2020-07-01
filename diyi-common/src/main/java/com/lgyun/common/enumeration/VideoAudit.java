@@ -7,9 +7,9 @@ import lombok.Getter;
  */
 @Getter
 public enum VideoAudit {
-    toAudit("toAudit", "未审核"),
-    auditPass("auditPass", "审核通过"),
-    auditFail("auditFail", "审核未通过");
+    TOAUDIT("TOAUDIT", "未审核"),
+    AUDITPASS("AUDITPASS", "审核通过"),
+    AUDITFAIL("AUDITFAIL", "审核未通过");
 
     private String value;
     private String desc;

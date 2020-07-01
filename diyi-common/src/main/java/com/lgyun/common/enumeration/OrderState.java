@@ -7,10 +7,10 @@ import lombok.Getter;
  */
 @Getter
 public enum OrderState {
-    grabOrdering("grabOrdering", "抢单中"),
-    orderClosed("orderClosed", "已关单"),
-    paying("paying", "支付中"),
-    payed("payed", "已支付");
+    GRABORDERING("GRABORDERING", "抢单中"),
+    ORDERCLOSED("ORDERCLOSED", "已关单"),
+    PAYING("PAYING", "支付中"),
+    PAYED("PAYED", "已支付");
 
     private String value;
     private String desc;

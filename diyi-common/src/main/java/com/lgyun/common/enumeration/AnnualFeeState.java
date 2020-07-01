@@ -7,8 +7,8 @@ import lombok.Getter;
  */
 @Getter
 public enum AnnualFeeState {
-    toPayCost("toPayCost", "待缴费"),
-    YetPayCost("YetPayCost", "已缴费");
+    TOPAYCOST("TOPAYCOST", "待缴费"),
+    YETPAYCOST("YETPAYCOST", "已缴费");
 
     private String value;
     private String desc;

@@ -38,7 +38,6 @@ public class CommonController {
             logger.error("图片上传异常", e);
         }
         return R.fail("上传失败");
-
     }
 
     @GetMapping("/wechat_authorization")
@@ -52,7 +51,6 @@ public class CommonController {
             logger.error("微信授权异常", e);
         }
         return R.fail("微信授权失败");
-
     }
 
     @PostMapping("/maker_login")
@@ -66,7 +64,6 @@ public class CommonController {
             logger.error("创客登陆异常", e);
         }
         return R.fail("创客登陆失败");
-
     }
 
 }

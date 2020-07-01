@@ -7,9 +7,9 @@ import lombok.Getter;
  */
 @Getter
 public enum Gender {
-    unknow("unknow", "未知"),
-    male("male", "男"),
-    female("female", "女");
+    UNKNOW("UNKNOW", "未知"),
+    MALE("MALE", "男"),
+    FEMALE("FEMALE", "女");
 
     private String value;
     private String desc;
