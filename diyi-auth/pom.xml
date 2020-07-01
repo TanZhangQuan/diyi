@@ -23,6 +23,16 @@
             <groupId>com.lgyun</groupId>
             <artifactId>diyi-common</artifactId>
             <version>${diyi.project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
         <dependency>
             <groupId>com.lgyun</groupId>
@@ -117,7 +127,7 @@
                                 <!--suppress UnresolvedMavenProperty -->
                                 <copy overwrite="true"
                                       tofile="${session.executionRootDirectory}/target/${artifactId}.jar"
-                                      file="${project.build.directory}/${artifactId}.jar" />
+                                      file="${project.build.directory}/${artifactId}.jar"/>
                             </tasks>
                         </configuration>
                     </execution>

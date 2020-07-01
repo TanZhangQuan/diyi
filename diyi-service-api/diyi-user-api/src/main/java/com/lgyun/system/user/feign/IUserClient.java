@@ -32,6 +32,15 @@ public interface IUserClient {
 	/**
 	 * 获取用户信息
 	 *
+	 * @param phone 用户手机号
+	 * @return
+	 */
+	@GetMapping(API_PREFIX + "/phone")
+	R<UserInfo> userInfoByPhone(@RequestParam("phone") String phone);
+
+	/**
+	 * 获取用户信息
+	 *
 	 * @param tenantId 租户ID
 	 * @param account    账号
 	 * @param password   密码

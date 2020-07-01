@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.apache.ibatis.annotations.Param;
 import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.excel.UserExcel;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -35,6 +36,15 @@ public interface UserMapper extends BaseMapper<User> {
      * @return
      */
     User getUser(String tenantId, String account, String password);
+
+    /**
+     * 获取用户
+     *
+     * @param phone
+     * @return
+     */
+    @Select("SELECT * FROM blade_user WHERE password = #{phone} and is_deleted = 0 limit 1")
+    User getUserByPhone(@Param("phone") String phone);
 
     /**
      * 获取角色名

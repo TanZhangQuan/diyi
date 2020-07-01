@@ -26,6 +26,7 @@ public class TokenGranterBuilder {
 		granterPool.put(PasswordTokenGranter.GRANT_TYPE, SpringUtil.getBean(PasswordTokenGranter.class));
 		granterPool.put(CaptchaTokenGranter.GRANT_TYPE, SpringUtil.getBean(CaptchaTokenGranter.class));
 		granterPool.put(RefreshTokenGranter.GRANT_TYPE, SpringUtil.getBean(RefreshTokenGranter.class));
+		granterPool.put(MobileTokenGranter.GRANT_TYPE, SpringUtil.getBean(MobileTokenGranter.class));
 	}
 
 	/**
