@@ -6,12 +6,12 @@ import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
+import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
+import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.MakerEnterpriseVO;
 import com.lgyun.system.user.wrapper.MakerEnterpriseWrapper;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +30,9 @@ public class MakerEnterpriseController {
 	@Autowired
 	private IMakerEnterpriseService makerEnterpriseService;
 
+	@Autowired
+	private IEnterpriseService iEnterpriseService;
+
 
 	/**
 	* 详情
@@ -42,7 +45,7 @@ public class MakerEnterpriseController {
 	}
 
 	/**
-	* 分页 
+	* 分页
 	*/
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "传入makerEnterprise")
@@ -52,7 +55,7 @@ public class MakerEnterpriseController {
 	}
 
 	/**
-	* 新增 
+	* 新增
 	*/
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入makerEnterprise")
@@ -61,7 +64,7 @@ public class MakerEnterpriseController {
 	}
 
 	/**
-	* 修改 
+	* 修改
 	*/
 	@PostMapping("/update")
 	@ApiOperation(value = "修改", notes = "传入makerEnterprise")
@@ -70,7 +73,7 @@ public class MakerEnterpriseController {
 	}
 
 	/**
-	* 新增或修改 
+	* 新增或修改
 	*/
 	@PostMapping("/submit")
 	@ApiOperation(value = "新增或修改", notes = "传入MakerEnterprise")
@@ -80,12 +83,55 @@ public class MakerEnterpriseController {
 
 
 	/**
-	* 删除 
+	* 删除
 	*/
 	@PostMapping("/remove")
 	@ApiOperation(value = "删除", notes = "传入ids")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
 		return R.status(makerEnterpriseService.removeByIds(Func.toLongList(ids)));
+	}
+
+
+	/**
+	 * 查询关联商户和关注商户
+	 *
+	 * @return
+	 */
+	@GetMapping("/selectMakerEnterprisePage")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "makerId", value = "创客id", paramType = "query", dataType = "long"),
+			@ApiImplicitParam(name = "relationshipType", value = "类型", paramType = "query", dataType = "int")
+	})
+	@ApiOperation(value = "查询关联商户和关注商户", notes = "查询关联商户和关注商户")
+	public R<IPage<MakerEnterpriseRelationVO>> selectMakerEnterprisePage(Long makerId,Integer relationshipType, Query query) {
+		IPage<MakerEnterpriseRelationVO> pages = makerEnterpriseService.selectMakerEnterprisePage(Condition.getPage(query), makerId,relationshipType);
+		return R.data(pages);
+	}
+
+	/**
+	 * 通过商户名字查询
+	 */
+	@GetMapping("/getEnterpriseName")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "enterpriseName", value = "商户名字", paramType = "query", dataType = "string")
+	})
+	@ApiOperation(value = "通过商户名字查询", notes = "通过商户名字查询")
+	public R<MakerEnterpriseRelationVO> getEnterpriseName(String enterpriseName) {
+		return iEnterpriseService.getEnterpriseName(enterpriseName);
+	}
+
+	/**
+	 * 通过商户名字查询
+	 */
+	@GetMapping("/addOrCancelfollow")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "enterpriseId", value = "商户id", paramType = "query", dataType = "long"),
+			@ApiImplicitParam(name = "markId", value = "创客id", paramType = "query", dataType = "long"),
+			@ApiImplicitParam(name = "relationshipType", value = "1取消，2添加", paramType = "query", dataType = "int")
+	})
+	@ApiOperation(value = "通过商户名字查询", notes = "通过商户名字查询")
+	public R addOrCancelfollow(Long enterpriseId,Long markId,Integer relationshipType) {
+		return makerEnterpriseService.addOrCancelfollow(enterpriseId,markId,relationshipType);
 	}
 
 }

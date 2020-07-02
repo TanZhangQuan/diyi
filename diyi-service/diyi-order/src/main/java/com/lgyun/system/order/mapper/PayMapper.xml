@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lgyun.system.order.mapper.PayMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.lgyun.system.order.entity.PayEntity" id="payMap">
+                    <result property="payId" column="pay_id"/>
+                    <result property="orderId" column="order_id"/>
+                    <result property="makerId" column="maker_id"/>
+                    <result property="makerType" column="maker_type"/>
+                    <result property="individualBusinessName" column="individual_business_name"/>
+                    <result property="makerNeincome" column="maker_neIncome"/>
+                    <result property="makerTaxAndFee" column="maker_tax_and_fee"/>
+                    <result property="companyManageFee" column="company_manage_fee"/>
+                    <result property="auditFee" column="audit_fee"/>
+                    <result property="payFee" column="pay_fee"/>
+                    <result property="payState" column="pay_state"/>
+                    <result property="companyApplyDateTime" column="company_apply_date_time"/>
+                    <result property="companyPayOkDateTime" column="company_pay_ok_date_time"/>
+                    <result property="platformPayOkDateTime" column="platform_pay_ok_date_time"/>
+                    <result property="makerConfirmDateTime" column="maker_confirm_date_time"/>
+                    <result property="makerTaxState" column="maker_tax_state"/>
+                    <result property="makerVoiceState" column="maker_voice_state"/>
+                    <result property="payMemo" column="pay_memo"/>
+                    <result property="makerVoiceCategory" column="maker_voice_category"/>
+                    <result property="createUser" column="create_user"/>
+                    <result property="createTime" column="create_time"/>
+                    <result property="updateUser" column="update_user"/>
+                    <result property="updateTime" column="update_time"/>
+                    <result property="status" column="status"/>
+                    <result property="isDeleted" column="is_deleted"/>
+            </resultMap>
+
+    <select id="queryRobOrderCount" resultType="int">
+        select COUNT(*) from diyi_pay where is_deleted = 0 and order_id = #{orderId}
+    </select>
+
+</mapper>

@@ -1,6 +1,7 @@
 package com.lgyun.system.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lgyun.common.api.R;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 
 /**
@@ -11,5 +12,9 @@ import com.lgyun.system.user.entity.EnterpriseEntity;
  */
 public interface IEnterpriseService extends IService<EnterpriseEntity> {
 
+    /**
+     * 通过商户名字查询
+     */
+    R getEnterpriseName(String enterpriseName);
 }
 

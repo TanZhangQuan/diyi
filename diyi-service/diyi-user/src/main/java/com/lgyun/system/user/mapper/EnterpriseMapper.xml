@@ -10,6 +10,10 @@
                     <result property="enUserPwd" column="en_user_pwd"/>
                     <result property="inviteNo" column="invite_no"/>
                     <result property="enterpriseName" column="enterprise_name"/>
+                    <result property="legalPerson" column="legal_person"/>
+                    <result property="legalPersonCard" column="legal_person_card"/>
+                    <result property="socialCreditNo" column="social_credit_no"/>
+                    <result property="bizLicenceUrl" column="biz_licence_url"/>
                     <result property="enterpriseUrl" column="enterprise_url"/>
                     <result property="workingAddress" column="working_address"/>
                     <result property="workingRelName" column="working_rel_name"/>
@@ -49,4 +53,23 @@
                     <result property="isDeleted" column="is_deleted"/>
             </resultMap>
 
+    <resultMap type="com.lgyun.system.user.vo.MakerEnterpriseRelationVO" id="makerEnterpriseRelationMap">
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="shopUserName" column="shop_user_name"/>
+        <result property="legalPerson" column="legal_person"/>
+        <result property="legalPersonCard" column="legal_person_card"/>
+        <result property="contact1Position" column="contact1_position"/>
+        <result property="contact1Phone" column="contact1_phone"/>
+        <result property="socialCreditNo" column="social_credit_no"/>
+        <result property="bizLicenceUrl" column="biz_licence_url"/>
+        <result property="enterpriseId" column="enterprise_id"/>
+    </resultMap>
+
+
+    <select id="getEnterpriseName" resultMap="makerEnterpriseRelationMap">
+        SELECT e.enterprise_name, e.shop_user_name, e.legal_person, e.legal_person_card, e.contact1_position, e.contact1_phone, e.social_credit_no, e.biz_licence_url, e.enterprise_id FROM diyi_enterprise e
+        WHERE
+        1=1 and e.enterprise_name LIKE CONCAT(CONCAT('%', #{enterpriseName}, '%')
+         e.enterprise_name = #{}
+    </select>
 </mapper>

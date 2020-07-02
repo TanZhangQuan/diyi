@@ -58,9 +58,29 @@ public class EnterpriseEntity extends BaseEntity {
     private String enterpriseName;
 
     /**
+     * 法人名称
+     */
+    private String legalPerson;
+
+    /**
+     * 法人身份证
+     */
+    private String legalPersonCard;
+
+    /**
      * 企业网址
      */
     private String enterpriseUrl;
+
+    /**
+     * 统一社会信用代码
+     */
+    private String socialCreditNo;
+
+    /**
+     * 营业执照图片地址
+     */
+    private String bizLicenceUrl;
 
     /**
      * 办公地址(快递地址）
