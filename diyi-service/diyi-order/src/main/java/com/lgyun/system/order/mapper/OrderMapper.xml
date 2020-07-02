@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lgyun.system.order.mapper.OrderMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.lgyun.system.order.entity.OrderEntity" id="orderMap">
+                    <result property="orderId" column="order_id"/>
+                    <result property="enterpriseId" column="enterprise_id"/>
+                    <result property="runCompanyId" column="run_company_id"/>
+                    <result property="orderTitle" column="order_title"/>
+                    <result property="orderNo" column="order_no"/>
+                    <result property="worksheetNum" column="worksheet_num"/>
+                    <result property="orderPattern" column="order_pattern"/>
+                    <result property="businessPattern" column="business_pattern"/>
+                    <result property="payType" column="pay_type"/>
+                    <result property="totalTaxRate" column="total_tax_rate"/>
+                    <result property="orderState" column="order_state"/>
+                    <result property="orderMemo" column="order_memo"/>
+                    <result property="manangeMemo" column="manange_memo"/>
+                    <result property="massAgreementNo" column="mass_agreement_no"/>
+                    <result property="orderAgreementNo" column="order_agreement_no"/>
+                    <result property="platformVoiceCategory" column="platform_voice_category"/>
+                    <result property="makerVoiceCategory" column="maker_voice_category"/>
+                    <result property="createUser" column="create_user"/>
+                    <result property="createTime" column="create_time"/>
+                    <result property="updateUser" column="update_user"/>
+                    <result property="updateTime" column="update_time"/>
+                    <result property="status" column="status"/>
+                    <result property="isDeleted" column="is_deleted"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.OrderVO" id="orderVoMap">
+        <result property="orderId" column="order_id"/>
+        <result property="enterpriseId" column="enterprise_id"/>
+        <result property="runCompanyId" column="run_company_id"/>
+        <result property="orderTitle" column="order_title"/>
+        <result property="orderNo" column="order_no"/>
+        <result property="worksheetNum" column="worksheet_num"/>
+        <result property="orderPattern" column="order_pattern"/>
+        <result property="businessPattern" column="business_pattern"/>
+        <result property="payType" column="pay_type"/>
+        <result property="totalTaxRate" column="total_tax_rate"/>
+        <result property="orderState" column="order_state"/>
+        <result property="orderMemo" column="order_memo"/>
+        <result property="manangeMemo" column="manange_memo"/>
+        <result property="massAgreementNo" column="mass_agreement_no"/>
+        <result property="orderAgreementNo" column="order_agreement_no"/>
+        <result property="platformVoiceCategory" column="platform_voice_category"/>
+        <result property="makerVoiceCategory" column="maker_voice_category"/>
+        <result property="getOrderDate" column="get_order_date"/>
+        <result property="worksheetState" column="worksheet_state"/>
+        <result property="worksheetNo" column="worksheet_no"/>
+    </resultMap>
+    <sql id="Field">
+		r.order_id,r.enterprise_id,r.run_company_id,r.order_title,r.order_no,r.worksheet_num,r.order_pattern,r.business_pattern,r.pay_type,r.total_tax_rate,r.order_state,r.order_memo,r.manange_memo,r.mass_agreement_no,r.order_agreement_no,r.platform_voice_category,r.maker_voice_category,w.get_order_date,w.worksheet_state,w.worksheet_no
+	</sql>
+    <select id="selectOrderPage" resultMap="orderVoMap">
+        select
+            <include refid="Field"></include>
+        from diyi_order r INNER JOIN diyi_worksheet w on r.order_id = w.order_id
+        where
+            r.is_deleted = 0
+        <if test="orderState !=null and orderState != ''">
+            and orderState =#{orderState}
+        </if>
+    </select>
+</mapper>

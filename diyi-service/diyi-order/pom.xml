@@ -27,6 +27,11 @@
             <artifactId>diyi-user-api</artifactId>
             <version>${diyi.project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.lgyun</groupId>
+            <artifactId>diyi-user</artifactId>
+            <version>${diyi.project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

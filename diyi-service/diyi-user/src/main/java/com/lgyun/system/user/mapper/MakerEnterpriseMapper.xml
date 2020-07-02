@@ -5,23 +5,48 @@
 
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.user.entity.MakerEnterpriseEntity" id="makerEnterpriseMap">
-        <result property="makerEnterpriseId" column="maker_enterprise_id"/>
-        <result property="enterpriseId" column="enterprise_id"/>
-        <result property="makerId" column="maker_id"/>
-        <result property="positionId" column="position_id"/>
-        <result property="relDate" column="rel_date"/>
-        <result property="relType" column="rel_type"/>
-        <result property="relMemo" column="rel_memo"/>
-        <result property="cooperateStatus" column="cooperate_status"/>
-        <result property="firstCooperation" column="first_cooperation"/>
-        <result property="cooperationStartTime" column="cooperation_start_time"/>
-        <result property="cooperationEndTime" column="cooperation_end_time"/>
-        <result property="createUser" column="create_user"/>
-        <result property="createTime" column="create_time"/>
-        <result property="updateUser" column="update_user"/>
-        <result property="updateTime" column="update_time"/>
-        <result property="status" column="status"/>
-        <result property="isDeleted" column="is_deleted"/>
+                    <result property="makerEnterpriseId" column="maker_enterprise_id"/>
+                    <result property="enterpriseId" column="enterprise_id"/>
+                    <result property="makerId" column="maker_id"/>
+                    <result property="positionId" column="position_id"/>
+                    <result property="relDate" column="rel_date"/>
+                    <result property="relType" column="rel_type"/>
+                    <result property="relMemo" column="rel_memo"/>
+                    <result property="relationshipType" column="relationship_type"/>
+                    <result property="cooperateStatus" column="cooperate_status"/>
+                    <result property="firstCooperation" column="first_cooperation"/>
+                    <result property="cooperationStartTime" column="cooperation_start_time"/>
+                    <result property="cooperationEndTime" column="cooperation_end_time"/>
+                    <result property="createUser" column="create_user"/>
+                    <result property="createTime" column="create_time"/>
+                    <result property="updateUser" column="update_user"/>
+                    <result property="updateTime" column="update_time"/>
+                    <result property="status" column="status"/>
+                    <result property="isDeleted" column="is_deleted"/>
     </resultMap>
 
+
+    <resultMap type="com.lgyun.system.user.vo.MakerEnterpriseRelationVO" id="makerEnterpriseRelationMap">
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="shopUserName" column="shop_user_name"/>
+        <result property="legalPerson" column="legal_person"/>
+        <result property="legalPersonCard" column="legal_person_card"/>
+        <result property="contact1Position" column="contact1_position"/>
+        <result property="contact1Phone" column="contact1_phone"/>
+        <result property="socialCreditNo" column="social_credit_no"/>
+        <result property="bizLicenceUrl" column="biz_licence_url"/>
+        <result property="enterpriseId" column="enterprise_id"/>
+    </resultMap>
+
+    <select id="getMakerId" resultMap="makerEnterpriseMap">
+        select *from diyi_maker_enterprise where maker_id = #{makerId} and relationship_type = 0
+    </select>
+
+    <select id="selectMakerEnterprisePage" resultMap="makerEnterpriseRelationMap">
+        SELECT e.enterprise_name, e.shop_user_name, e.legal_person, e.legal_person_card, e.contact1_position, e.contact1_phone, e.social_credit_no, e.biz_licence_url, e.enterprise_id FROM diyi_maker_enterprise me INNER JOIN diyi_enterprise e ON me.enterprise_id = e.enterprise_id WHERE me.maker_id = #{makerId} AND me.relationship_type = #{relationshipType}
+    </select>
+
+    <select id="selectCancelfollow" resultMap="makerEnterpriseMap">
+        select * from diyi_maker_enterprise where maker_id = #{makerId} and relationship_type = 1 and enterprise_id = #{enterpriseId}
+    </select>
 </mapper>

@@ -50,6 +50,8 @@ public class MakerEnterpriseEntity extends BaseEntity {
      */
     private Long positionId;
 
+    private Integer relationshipType;
+
     /**
      * 关联日期
      */

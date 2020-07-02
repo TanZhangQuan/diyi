@@ -153,6 +153,10 @@ CREATE TABLE `diyi_enterprise` (
   `en_user_pwd` varchar(50) NOT NULL COMMENT '密码',
   `invite_no` varchar(50) NOT NULL COMMENT '创客加入邀请码',
   `enterprise_name` varchar(50) NOT NULL COMMENT '客户名称',
+  `legal_person` varchar(50) NOT NULL COMMENT '法人代表名称',
+  `legal_person_card` varchar(50) NOT NULL COMMENT '法人身份证',
+  `social_credit_no` varchar(100) NOT NULL COMMENT '统一社会信用代码',
+  `biz_licence_url` varchar(200) NOT NULL COMMENT '营业执照图片地址',
   `enterprise_url` varchar(100) NOT NULL COMMENT '企业网址',
   `working_address` varchar(100) NOT NULL COMMENT '办公地址(快递地址）',
   `working_rel_name` varchar(50) NOT NULL COMMENT '收发票/税票快递【到付】联系人姓名',
@@ -335,12 +339,13 @@ CREATE TABLE `diyi_maker_enterprise` (
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
   `position_id` bigint(50) NOT NULL COMMENT '外包岗位ID',
   `rel_date` datetime NOT NULL COMMENT '关联日期',
-  `rel_type` varchar(50) NOT NULL COMMENT '关联类型：创客主动关联，企业主动关联，平台关联',
+  `rel_type` varchar(50) DEFAULT NULL COMMENT '关联类型：创客主动关联，企业主动关联，平台关联',
+   `relationship_type` int(1) DEFAULT '0' COMMENT '0，关联，1是关注',
   `rel_memo` varchar(500) NOT NULL DEFAULT '' COMMENT '关联备注',
   `cooperate_status` varchar(50) NOT NULL COMMENT '合作状态：合作中，停止合作；首次关联时默认为合作中',
   `first_cooperation` bit(1) NOT NULL COMMENT '创客第一次合作',
   `cooperation_start_time` datetime NOT NULL COMMENT '合作开始日期',
-  `cooperation_end_time` datetime NOT NULL COMMENT '合作终止日期',
+  `cooperation_end_time` datetime DEFAULT NULL COMMENT '合作终止日期',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
@@ -743,7 +748,7 @@ CREATE TABLE `diyi_worksheet` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_worksheet_attention                                                                                          
+-- Table structure for diyi_worksheet_attention
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_worksheet_attention`;
 CREATE TABLE `diyi_worksheet_attention` (
@@ -764,3 +769,24 @@ CREATE TABLE `diyi_worksheet_attention` (
 -- ----------------------------
 -- Records of diyi_worksheet_attention
 -- ----------------------------
+--
+ALTER TABLE `diyi_maker`
+ADD COLUMN `makerType`  varchar(50) NOT NULL COMMENT '创客类别：自然人，个体户' AFTER `is_deleted`
+
+
+--工作成果表
+CREATE TABLE `diyi_work_achievement` (
+  `work_achievement_id` bigint(50) NOT NULL COMMENT '工作成果Id',
+  `work_explain` varchar(200) NOT NULL COMMENT '工作成果说明',
+  `work_url` varchar(2000) NOT NULL COMMENT '工作结果url',
+  `check_money_num` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '验收金额',
+  `work_achievement_state` varchar(50) NOT NULL DEFAULT 'beAccepted' COMMENT '工作成果状态 1：待验收，2验收通过，3验收不通过',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  `worksheet_id` bigint(50) NOT NULL COMMENT '工单id',
+  PRIMARY KEY (`work_achievement_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
