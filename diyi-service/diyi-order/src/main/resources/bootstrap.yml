@@ -1,0 +1,15 @@
+#服务器端口
+server:
+  port: 8107
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: diyi-order
+
+logging:
+  level:
+    com.alibaba.nacos: error
+
+
