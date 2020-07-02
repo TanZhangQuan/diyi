@@ -20,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Agreement 控制器
@@ -38,17 +39,7 @@ public class AgreementController {
 	private final IAgreementService agreementService;
 
 	/**
-	* 详情
-	*/
-	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "传入agreement")
-	public R<AgreementVO> detail(AgreementEntity agreement) {
-		AgreementEntity detail = agreementService.getOne(Condition.getQueryWrapper(agreement));
-		return R.data(AgreementWrapper.build().entityVO(detail));
-	}
-
-	/**
-	* 分页 
+	* 分页
 	*/
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "传入agreement")
@@ -58,7 +49,7 @@ public class AgreementController {
 	}
 
 	/**
-	* 新增 
+	* 新增
 	*/
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入agreement")
@@ -67,7 +58,7 @@ public class AgreementController {
 	}
 
 	/**
-	* 修改 
+	* 修改
 	*/
 	@PostMapping("/update")
 	@ApiOperation(value = "修改", notes = "传入agreement")
@@ -76,7 +67,7 @@ public class AgreementController {
 	}
 
 	/**
-	* 新增或修改 
+	* 新增或修改
 	*/
 	@PostMapping("/submit")
 	@ApiOperation(value = "新增或修改", notes = "传入Agreement")
@@ -86,12 +77,42 @@ public class AgreementController {
 
 
 	/**
-	* 删除 
+	* 删除
 	*/
 	@PostMapping("/remove")
 	@ApiOperation(value = "删除", notes = "传入ids")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
 		return R.status(agreementService.removeByIds(Func.toLongList(ids)));
+	}
+
+	/**
+	 * 根据创客找合同
+	 */
+	@GetMapping("/makerIdFind")
+	@ApiOperation(value = "根据创客找合同", notes = "根据创客找合同")
+	public R<List<AgreementEntity>> makerIdFind(Long makerId) {
+		List<AgreementEntity> agreementEntities = agreementService.makerIdFind(makerId);
+		return R.data(agreementEntities);
+	}
+
+	/**
+	 * 根据创客和商户找合同
+	 */
+	@GetMapping("/makerIdCompanyFind")
+	@ApiOperation(value = "根据创客和商户找合同", notes = "根据创客和商户找合同")
+	public R<List<AgreementEntity>> makerIdCompanyFind(Long makerId,Long employeeId) {
+		List<AgreementEntity> agreementEntities = agreementService.makerIdCompanyFind(makerId,employeeId);
+		return R.data(agreementEntities);
+	}
+
+	/**
+	 * 详情
+	 */
+	@GetMapping("/detail")
+	@ApiOperation(value = "详情", notes = "传入agreement")
+	public R<AgreementVO> detail(Long agreementId) {
+		AgreementEntity detail = agreementService.getById(agreementId);
+		return R.data(AgreementWrapper.build().entityVO(detail));
 	}
 
 }
