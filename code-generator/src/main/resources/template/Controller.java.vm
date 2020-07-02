@@ -6,11 +6,10 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import javax.validation.Valid;
-
-import org.springblade.core.mp.support.Condition;
-import org.springblade.core.mp.support.Query;
-import org.springblade.core.tool.api.R;
-import org.springblade.core.tool.utils.Func;
+import com.lgyun.core.mp.support.Condition;
+import com.lgyun.core.mp.support.Query;
+import com.lgyun.common.api.R;
+import com.lgyun.common.tool.Func;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -28,11 +27,13 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/${moduleName}/${pathName}")
-@Api(value = "${comments}", tags = "${comments}接口")
+@Validated
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@Api(value = "${comments}相关接口", tags = "${comments}相关接口")
 public class ${className}Controller {
-	@Autowired
-	private I${className}Service ${classname}Service;
+	private Logger logger = LoggerFactory.getLogger(${className}Controller.class);
 
+	private final I${className}Service ${classname}Service;
 
 	/**
 	* 详情
@@ -51,7 +52,7 @@ public class ${className}Controller {
 	@ApiOperation(value = "分页", notes = "传入${classname}")
 	public R<IPage<${className}VO>> list(${className}Entity ${classname}, Query query) {
 		IPage<${className}Entity> pages = ${classname}Service.page(Condition.getPage(query), Condition.getQueryWrapper(${classname}));
-		return R.data(${classname}Wrapper.build().pageVO(pages));
+		return R.data(${className}Wrapper.build().pageVO(pages));
 	}
 
 	/**
@@ -59,8 +60,8 @@ public class ${className}Controller {
 	*/
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入${classname}")
-	public R save(@Valid @RequestBody ${classname}Entity ${classname}) {
-		return R.status($${classname}Service.save(${classname}));
+	public R save(@Valid @RequestBody ${className}Entity ${classname}) {
+		return R.status(${classname}Service.save(${classname}));
 	}
 
 	/**
@@ -80,7 +81,6 @@ public class ${className}Controller {
 	public R submit(@Valid @RequestBody ${className}Entity ${classname}) {
 		return R.status(${classname}Service.saveOrUpdate(${classname}));
 	}
-
 
 	/**
 	* 删除 ${comments}

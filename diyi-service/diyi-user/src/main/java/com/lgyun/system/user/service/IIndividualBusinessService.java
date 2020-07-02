@@ -7,7 +7,7 @@ import com.lgyun.system.user.entity.IndividualBusinessEntity;
  *  Service 接口
  *
  * @author liangfeihu
- * @since 2020-06-26 17:21:06
+ * @since 2020-07-02 17:44:02
  */
 public interface IIndividualBusinessService extends IService<IndividualBusinessEntity> {
 

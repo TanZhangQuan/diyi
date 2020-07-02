@@ -3,6 +3,9 @@ package ${package}.${moduleName}.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,9 +24,8 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @TableName("${tableName}")
-public class ${className}Entity implements Serializable {
+public class ${className}Entity extends BaseEntity {
     private static final long serialVersionUID = 1L;
-
     #foreach ($column in $columns)
 
     /**
