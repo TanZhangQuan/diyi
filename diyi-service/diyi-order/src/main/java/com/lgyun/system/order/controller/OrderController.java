@@ -13,11 +13,16 @@ import com.lgyun.system.order.service.IOrderService;
 import com.lgyun.system.order.vo.OrderVO;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.wrapper.OrderWrapper;
+import com.lgyun.system.user.controller.AgreementController;
 import io.swagger.annotations.*;
 
 import javax.validation.Valid;
 
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestParam;
 import springfox.documentation.annotations.ApiIgnore;
@@ -25,17 +30,20 @@ import springfox.documentation.annotations.ApiIgnore;
 import java.util.Map;
 
 /**
- *  控制器
+ *  订单
  *
  * @author jun
  * @since 2020-06-26 16:57:54
  */
 @RestController
-@RequestMapping("/order/order")
-@Api(value = "", tags = "接口")
+@RequestMapping("/order")
+@Validated
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@Api(value = "订单", tags = "订单")
 public class OrderController {
-	@Autowired
-	private IOrderService orderService;
+	private Logger logger = LoggerFactory.getLogger(OrderController.class);
+
+	private final IOrderService orderService;
 
 
 	/**
@@ -121,6 +129,7 @@ public class OrderController {
 	@PostMapping("/save")
 	@ApiOperation(value = "发布工单", notes = "传入order")
 	public R save(@Valid @RequestBody OrderDTO orderDTO) {
+		logger.info("发布工单");
 		OrderEntity orderEntity = BeanUtil.copy(orderDTO, OrderEntity.class);
 		return R.status(orderService.save(orderEntity));
 	}

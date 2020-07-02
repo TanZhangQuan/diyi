@@ -14,7 +14,11 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import javax.validation.Valid;
 
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -25,11 +29,13 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @since 2020-06-29 14:46:14
  */
 @RestController
-@RequestMapping("/order/workachievement")
-@Api(value = "", tags = "接口")
+@RequestMapping("/workAchievement")
+@Validated
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@Api(value = "工作成果", tags = "工作成果")
 public class WorkAchievementController {
-	@Autowired
-	private IWorkAchievementService workAchievementService;
+	private Logger logger = LoggerFactory.getLogger(WorkAchievementController.class);
+	private final IWorkAchievementService workAchievementService;
 
 
 	/**
