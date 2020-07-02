@@ -12,7 +12,7 @@
                     <result property="getOrderDate" column="get_order_date"/>
                     <result property="getOrderDesc" column="get_order_desc"/>
                     <result property="worksheetState" column="worksheet_state"/>
-                    <result property="destroyDatetime" column="destroy_datetime"/>
+                    <result property="destroyDateTime" column="destroy_date_time"/>
                     <result property="destroyPerson" column="destroy_person"/>
                     <result property="createUser" column="create_user"/>
                     <result property="createTime" column="create_time"/>

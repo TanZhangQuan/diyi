@@ -81,12 +81,12 @@ public class AgreementEntity extends BaseEntity {
     /**
      * 上传日期
      */
-    private Date uploadDatetime;
+    private Date uploadDateTime;
 
     /**
      * 在线协议发起时间
      */
-    private Date startDatetime;
+    private Date startDateTime;
 
     /**
      * 纸质协议URL
@@ -121,17 +121,17 @@ public class AgreementEntity extends BaseEntity {
     /**
      * 平台在线协议平台方操作日期
      */
-    private Date poaplatformSignDatetime;
+    private Date poaplatformSignDateTime;
 
     /**
      * 平台在线协议分包方操作日期
      */
-    private Date poamakerSignDatetime;
+    private Date poamakerSignDateTime;
 
     /**
      * 平台在线协议发包方操作日期
      */
-    private Date poacompanySignDatetime;
+    private Date poacompanySignDateTime;
 
     /**
      * 平台在线协议文本集合签字

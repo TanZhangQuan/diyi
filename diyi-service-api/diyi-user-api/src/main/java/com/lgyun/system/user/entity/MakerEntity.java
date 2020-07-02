@@ -146,9 +146,14 @@ public class MakerEntity extends BaseEntity {
     private String idcarCopy;
 
     /**
-     * 手持证件照
+     * 手持证件正面照
      */
     private String idcardHand;
+
+    /**
+     * 手持证件反面照
+     */
+    private String idcardBackHand;
 
     /**
      * 验证图片

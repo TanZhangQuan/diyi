@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @date 2020.06.27
  */
 @Data
-public class MakerLoginDto implements Serializable {
+public class MakerWechatLoginDto implements Serializable {
 
     //微信授权乱码
     @NotBlank(message = "请输入微信授权乱码")

@@ -5,12 +5,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.lgyun.auth.utils.RedisUtil;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.WechatConstant;
-import com.lgyun.common.file.BladeFile;
-import com.lgyun.common.file.BladeFileUtil;
 import com.lgyun.common.tool.AesCbcUtil;
 import com.lgyun.common.tool.HttpUtil;
 import com.lgyun.common.tool.StringUtil;
-import com.lgyun.system.user.dto.MakerLoginDto;
+import com.lgyun.system.user.dto.MakerWechatLoginDto;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.ICommonService;
 import com.lgyun.system.user.service.IMakerService;
@@ -22,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -98,10 +95,10 @@ public class CommonServiceImpl implements ICommonService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R makerLogin(MakerLoginDto makerLoginDto) throws Exception {
+    public R makerWechatLogin(MakerWechatLoginDto makerWechatLoginDto) throws Exception {
 
         //判断是否微信已授权
-        String random = makerLoginDto.getRandom();
+        String random = makerWechatLoginDto.getRandom();
         Map<Object, Object> map = redisUtil.hmget(random);
         if (CollectionUtils.isEmpty(map)) {
             return R.fail("微信未授权或已过期");
@@ -109,8 +106,8 @@ public class CommonServiceImpl implements ICommonService {
 
         //解密数据
         String sessionKey = String.valueOf(map.get("session_key"));
-        String iv = makerLoginDto.getIv();
-        String encryptedData = makerLoginDto.getEncryptedData();
+        String iv = makerWechatLoginDto.getIv();
+        String encryptedData = makerWechatLoginDto.getEncryptedData();
         // 参数含义：第一个，加密数据串（String）；第二个，session_key需要通过微信小程序的code获得（String）；
         // 第三个，数据加密时所使用的偏移量，解密时需要使用（String）；第四个，编码
         String result = AesCbcUtil.decrypt(encryptedData, sessionKey, iv, "UTF-8");
@@ -145,14 +142,6 @@ public class CommonServiceImpl implements ICommonService {
             return R.fail("解密失败");
         }
 
-    }
-
-    @Override
-    public R imageUpload(MultipartFile file) {
-
-        BladeFile bladeFile = BladeFileUtil.getFile(file);
-        bladeFile.transfer();
-        return R.data(bladeFile.getUploadVirtualPath());
     }
 
 }

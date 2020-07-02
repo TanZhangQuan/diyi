@@ -15,17 +15,17 @@
         <result property="platformId" column="platform_id"/>
         <result property="makerId" column="maker_id"/>
         <result property="uploadPerson" column="upload_person"/>
-        <result property="uploadDatetime" column="upload_datetime"/>
-        <result property="startDatetime" column="start_datetime"/>
+        <result property="uploadDateTime" column="upload_date_time"/>
+        <result property="startDateTime" column="start_date_time"/>
         <result property="paperAgreementUrl" column="paper_agreement_url"/>
         <result property="thirdOnlineAgreementUrl" column="third_online_agreement_url"/>
         <result property="platformOnlineAgreementUrl" column="platform_online_agreement_url"/>
         <result property="poaplatformSignatureUrl" column="poaplatform_signature_url"/>
         <result property="poamakerSignatureUrl" column="poamaker_signature_url"/>
         <result property="poacompanySignatureUrl" column="poacompany_signature_url"/>
-        <result property="poaplatformSignDatetime" column="poaplatform_sign_datetime"/>
-        <result property="poamakerSignDatetime" column="poamaker_sign_datetime"/>
-        <result property="poacompanySignDatetime" column="poacompany_sign_datetime"/>
+        <result property="poaplatformSignDateTime" column="poaplatform_sign_date_time"/>
+        <result property="poamakerSignDateTime" column="poamaker_sign_date_time"/>
+        <result property="poacompanySignDateTime" column="poacompany_sign_date_time"/>
         <result property="poawithSignatureUrl" column="poawith_signature_url"/>
         <result property="paaState" column="paa_state"/>
         <result property="poaState" column="poa_state"/>
