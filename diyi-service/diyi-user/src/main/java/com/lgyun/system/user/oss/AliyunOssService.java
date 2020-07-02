@@ -1,7 +1,6 @@
 package com.lgyun.system.user.oss;
 
 import com.aliyun.oss.OSSClient;
-import com.lgyun.common.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -29,7 +28,6 @@ public class AliyunOssService {
 
     public AliyunOssService(CloudStorageConfig config) {
         this.config = config;
-
         //初始化
         init();
     }
@@ -39,27 +37,21 @@ public class AliyunOssService {
                 config.getAccessKeySecret());
     }
 
-    public String upload(byte[] data, String path) {
-        return upload(new ByteArrayInputStream(data), path);
-    }
-
-    public String upload(InputStream inputStream, String path) {
-        try {
-            client.putObject(config.getBucketName(), path, inputStream);
-        } catch (Exception e) {
-            log.error("upload file fail：", e);
-            throw new ServiceException("上传文件失败，请检查配置信息");
-        }
-
-        return config.getDomain() + "/" + path;
-    }
-
     public String uploadSuffix(byte[] data, String suffix) {
         return upload(data, getPath(config.getPrefix(), suffix));
     }
 
     public String uploadSuffix(InputStream inputStream, String suffix) {
         return upload(inputStream, getPath(config.getPrefix(), suffix));
+    }
+
+    public String upload(byte[] data, String path) {
+        return upload(new ByteArrayInputStream(data), path);
+    }
+
+    public String upload(InputStream inputStream, String path) {
+        client.putObject(config.getBucketName(), path, inputStream);
+        return config.getDomain() + "/" + path;
     }
 
     /**

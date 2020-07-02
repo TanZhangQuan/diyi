@@ -12,6 +12,7 @@ import com.lgyun.common.tool.RealnameVerifyUtil;
 import com.lgyun.system.user.dto.IdcardOcrSaveDto;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.mapper.MakerMapper;
+import com.lgyun.system.user.oss.AliyunOssService;
 import com.lgyun.system.user.service.IMakerService;
 import com.lgyun.system.user.vo.IdcardOcrVO;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.misc.BASE64Decoder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -33,6 +35,8 @@ import java.util.Date;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> implements IMakerService {
     private Logger logger = LoggerFactory.getLogger(MakerServiceImpl.class);
+
+    private final AliyunOssService ossService;
 
     @Override
     public MakerEntity findByOpenid(String openid) {
@@ -111,77 +115,228 @@ public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> impl
             return R.fail("已刷脸实名认证");
         }
 
-        return RealnameVerifyUtil.faceOCR(makerEntity.getMakerId(), "谭章权", "445381199501095717");
+        return RealnameVerifyUtil.faceOCR(makerEntity.getMakerId(), makerEntity.getName(), makerEntity.getIdcardNo());
     }
 
     @Override
-    public R faceOcrNotify(HttpServletRequest request) throws Exception {
+    public R faceOcrNotify(HttpServletRequest request) {
 
-        logger.info("进入刷脸实名认证异步通知");
-        //获取body的数据进行验签
-        String rbody = RealnameVerifyUtil.getRequestBody(request, "UTF-8");
-        boolean res = RealnameVerifyUtil.checkPass(request, rbody, RealnameVerifyConstant.APPKEY);
-        if (!res) {
-            return R.fail("验签失败");
+        try {
+            //获取body的数据进行验签
+            String rbody = RealnameVerifyUtil.getRequestBody(request, "UTF-8");
+            boolean res = RealnameVerifyUtil.checkPass(request, rbody, RealnameVerifyConstant.APPKEY);
+            if (!res) {
+                return R.fail("验签失败");
+            }
+
+            // 业务逻辑处理 ****************************
+            //回调参数转json
+            JSONObject jsonObject = JSONObject.parseObject(rbody);
+            logger.info("刷脸实名认证异步通知回调参数", jsonObject);
+            boolean boolSuccess = jsonObject.getBooleanValue("success");
+            if (!boolSuccess) {
+                return R.fail("刷脸实名认证失败");
+            }
+
+            Long makerId = jsonObject.getLong("contextId");
+            MakerEntity makerEntity = getById(makerId);
+            if (makerEntity == null) {
+                logger.info("创客不存在");
+                return R.fail("刷脸实名认证回调处理失败");
+            }
+
+            //查看创客是否已经刷脸实名认证
+            if (VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus())) {
+                return R.success("已刷脸实名认证");
+            }
+
+            //查询认证信息
+            JSONObject detail = RealnameVerifyUtil.detail(jsonObject.getString("flowId"));
+            if (detail == null) {
+                return R.fail("查询认证信息失败");
+            }
+
+            //获取个人信息
+            JSONObject indivInfo = detail.getJSONObject("indivInfo");
+            //人脸截图base64请求地址
+            String facePhotoUrl = indivInfo.getString("facePhotoUrl");
+            //获取人脸截图base64
+            String facePhotoBase64 = HttpUtil.get(facePhotoUrl);
+            //上传人脸截图base64到阿里云存储
+            byte[] bytes = new BASE64Decoder().decodeBuffer(facePhotoBase64.trim());
+            String url = ossService.uploadSuffix(bytes, ".jpg");
+
+            makerEntity.setPicVerify(url);
+            makerEntity.setFaceVerifyStatus(VerifyStatus.VERIFYPASS);
+            makerEntity.setFaceVerifyDate(new Date());
+            saveOrUpdate(makerEntity);
+
+            return R.success("刷脸实名认证成功");
+
+        } catch (Exception e) {
+            logger.error("刷脸实名认证异步回调处理异常", e);
         }
 
-        // 业务逻辑处理 ****************************
-        //回调参数转json
-        JSONObject jsonObject = JSONObject.parseObject(rbody);
-        boolean boolSuccess = jsonObject.getBooleanValue("success");
-        if (!boolSuccess) {
-            return R.fail("刷脸认证失败");
-        }
-
-        Long makerId = jsonObject.getLong("contextId");
-        MakerEntity makerEntity = getById(makerId);
-        if (makerEntity == null) {
-            logger.info("创客不存在");
-            return R.fail("刷脸认证回调处理失败");
-        }
-
-        //查看创客是否已经身份证实名认证
-        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
-            logger.info("数据有误，创客未进行身份证实名认证");
-            return R.fail("刷脸认证回调处理失败");
-        }
-
-        //查看创客是否已经刷脸实名认证
-        if (VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus())) {
-            return R.success("已刷脸实名认证");
-        }
-
-        //查询认证信息
-        JSONObject detail = RealnameVerifyUtil.detail(jsonObject.getString("flowId"));
-        if (detail == null){
-            return R.fail("查询认证信息失败");
-        }
-
-        //获取人脸截图
-        JSONObject indivInfo = detail.getJSONObject("indivInfo");
-        //base64链接
-        String facePhotoUrl = indivInfo.getString("facePhotoUrl");
-        //获取base64
-        String facePhotoBase64 = HttpUtil.get(facePhotoUrl);
-        //TODO
-        //base图片上传
-        
-
-
-
-
-        makerEntity.setPicVerify(facePhotoUrl);
-        makerEntity.setFaceVerifyStatus(VerifyStatus.VERIFYPASS);
-        makerEntity.setFaceVerifyDate(new Date());
-        saveOrUpdate(makerEntity);
-
-        return R.success("刷脸认证成功");
+        return R.fail("刷脸实名认证回调处理失败");
     }
 
     @Override
     public R detail(String flowId) throws Exception {
         JSONObject jsonObject = RealnameVerifyUtil.detail(flowId);
         return R.data(jsonObject);
+    }
+
+    @Override
+    public R bankCardOcr(String bankCardNo) throws Exception {
+
+        //TODO
+        MakerEntity makerEntity = getById(1);
+        //查看创客是否已经身份证实名认证
+        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
+            return R.fail("请先进行身份证实名认证");
+        }
+
+        //查看创客是否已经刷脸实名认证
+        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus()))) {
+            return R.fail("请先进行刷脸实名认证");
+        }
+
+        //查看创客是否已经手机号实名认证
+        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getPhoneNumberVerifyStatus()))) {
+            return R.fail("请先进行手机号实名认证");
+        }
+
+        //查看创客是否已经刷脸实名认证
+        if (VerifyStatus.VERIFYPASS.equals(makerEntity.getBankCardVerifyStatus())) {
+            return R.fail("银行卡已实名认证");
+        }
+
+        return RealnameVerifyUtil.bankCardOCR(makerEntity.getMakerId(), makerEntity.getName(), makerEntity.getIdcardNo(), bankCardNo, makerEntity.getPhoneNumber());
+    }
+
+    @Override
+    public R bankCardOcrNotify(HttpServletRequest request) {
+
+        try {
+            //获取body的数据进行验签
+            String rbody = RealnameVerifyUtil.getRequestBody(request, "UTF-8");
+            boolean res = RealnameVerifyUtil.checkPass(request, rbody, RealnameVerifyConstant.APPKEY);
+            if (!res) {
+                return R.fail("验签失败");
+            }
+
+            // 业务逻辑处理 ****************************
+            //回调参数转json
+            JSONObject jsonObject = JSONObject.parseObject(rbody);
+            logger.info("银行卡实名认证异步通知回调参数", jsonObject);
+            boolean boolSuccess = jsonObject.getBooleanValue("success");
+            if (!boolSuccess) {
+                return R.fail("银行卡实名认证失败");
+            }
+
+            Long makerId = jsonObject.getLong("contextId");
+            MakerEntity makerEntity = getById(makerId);
+            if (makerEntity == null) {
+                logger.info("创客不存在");
+                return R.fail("银行卡实名认证回调处理失败");
+            }
+
+            //查看创客银行卡是否已实名认证
+            if (VerifyStatus.VERIFYPASS.equals(makerEntity.getBankCardVerifyStatus())) {
+                return R.success("银行卡已实名认证");
+            }
+
+            //查询认证信息
+            JSONObject detail = RealnameVerifyUtil.detail(jsonObject.getString("flowId"));
+            if (detail == null) {
+                return R.fail("查询认证信息失败");
+            }
+
+            //获取个人信息
+            JSONObject indivInfo = detail.getJSONObject("indivInfo");
+            //获取银行卡号
+            String bankCardNo = indivInfo.getString("bankCardNo");
+
+            makerEntity.setBankCardNo(bankCardNo);
+            makerEntity.setBankCardVerifyStatus(VerifyStatus.VERIFYPASS);
+            makerEntity.setBankCardVerifyDate(new Date());
+            saveOrUpdate(makerEntity);
+
+            return R.success("银行卡实名认证成功");
+
+        } catch (Exception e) {
+            logger.error("银行卡实名认证异步回调处理异常", e);
+        }
+
+        return R.fail("银行卡实名认证回调处理失败");
+    }
+
+    @Override
+    public R mobileOcr() throws Exception {
+
+        //TODO
+        MakerEntity makerEntity = getById(1);
+        //查看创客是否已经身份证实名认证
+        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
+            return R.fail("请先进行身份证实名认证");
+        }
+
+        //查看创客是否已经刷脸实名认证
+        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus()))) {
+            return R.fail("请先进行刷脸实名认证");
+        }
+
+        //查看创客是否已经手机号实名认证
+        if (VerifyStatus.VERIFYPASS.equals(makerEntity.getPhoneNumberVerifyStatus())) {
+            return R.fail("手机号已实名认证");
+        }
+
+        return RealnameVerifyUtil.mobileOCR(makerEntity.getMakerId(), makerEntity.getName(), makerEntity.getIdcardNo(), makerEntity.getPhoneNumber());
+    }
+
+    @Override
+    public R mobileOcrNotify(HttpServletRequest request) {
+
+        try {
+            //获取body的数据进行验签
+            String rbody = RealnameVerifyUtil.getRequestBody(request, "UTF-8");
+            boolean res = RealnameVerifyUtil.checkPass(request, rbody, RealnameVerifyConstant.APPKEY);
+            if (!res) {
+                return R.fail("验签失败");
+            }
+
+            // 业务逻辑处理 ****************************
+            //回调参数转json
+            JSONObject jsonObject = JSONObject.parseObject(rbody);
+            logger.info("手机号实名认证异步通知回调参数", jsonObject);
+            boolean boolSuccess = jsonObject.getBooleanValue("success");
+            if (!boolSuccess) {
+                return R.fail("手机号实名认证失败");
+            }
+
+            Long makerId = jsonObject.getLong("contextId");
+            MakerEntity makerEntity = getById(makerId);
+            if (makerEntity == null) {
+                logger.info("创客不存在");
+                return R.fail("手机号实名认证回调处理失败");
+            }
+
+            //查看创客手机号是否已经实名认证
+            if (VerifyStatus.VERIFYPASS.equals(makerEntity.getPhoneNumberVerifyStatus())) {
+                return R.success("手机号已实名认证");
+            }
+
+            makerEntity.setPhoneNumberVerifyStatus(VerifyStatus.VERIFYPASS);
+            makerEntity.setPhoneNumberVerifyDate(new Date());
+            saveOrUpdate(makerEntity);
+
+            return R.success("手机号实名认证成功");
+
+        } catch (Exception e) {
+            logger.error("手机号实名认证异步回调处理异常", e);
+        }
+
+        return R.fail("手机号实名认证回调处理失败");
     }
 
 }

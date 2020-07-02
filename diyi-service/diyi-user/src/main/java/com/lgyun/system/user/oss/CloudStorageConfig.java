@@ -3,6 +3,7 @@ package com.lgyun.system.user.oss;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
  * 云存储配置信息
@@ -11,6 +12,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @since 2018/8/2 16:48.
  */
 @Data
+@Component
 @NoArgsConstructor
 @ConfigurationProperties("aliyun.oss")
 public class CloudStorageConfig {

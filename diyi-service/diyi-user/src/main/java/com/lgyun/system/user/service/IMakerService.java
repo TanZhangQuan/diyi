@@ -66,5 +66,34 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      */
     R detail(String flowId) throws Exception;
+
+    /**
+     * 银行卡实名认证
+     *
+     * @return
+     */
+    R bankCardOcr(String bankCardNo) throws Exception;
+
+    /**
+     * 银行卡实名认证异步回调
+     *
+     * @return
+     */
+    R bankCardOcrNotify(HttpServletRequest request) throws Exception;
+
+    /**
+     * 银行卡实名认证
+     *
+     * @return
+     */
+    R mobileOcr() throws Exception;
+
+    /**
+     * 银行卡实名认证异步回调
+     *
+     * @return
+     */
+    R mobileOcrNotify(HttpServletRequest request) throws Exception;
+
 }
 

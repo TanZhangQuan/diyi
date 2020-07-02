@@ -2,6 +2,7 @@ package com.lgyun.system.user.controller;
 
 import com.lgyun.common.api.R;
 import com.lgyun.system.user.dto.MakerLoginDto;
+import com.lgyun.system.user.oss.AliyunOssService;
 import com.lgyun.system.user.service.ICommonService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,18 +27,28 @@ public class CommonController {
     private Logger logger = LoggerFactory.getLogger(CommonController.class);
 
     private final ICommonService iCommonService;
+    private final AliyunOssService ossService;
 
-    @PostMapping("/image_upload")
-    @ApiOperation(value = "图片上传", notes = "图片上传")
-    public R imageUpload(@ApiParam(value = "图片") @NotNull(message = "请选择上传图片") @RequestParam(required = false) MultipartFile file) {
+    @PostMapping("/oss_image_upload")
+    @ApiOperation(value = "上传文件", notes = "上传文件")
+    public R ossImageUpload(@ApiParam(value = "图片") @NotNull(message = "请选择上传图片") @RequestParam(required = false) MultipartFile file) {
 
-        logger.info("图片上传");
         try {
-            return iCommonService.imageUpload(file);
+            if (file.isEmpty()) {
+                return R.fail("上传文件不能为空");
+            }
+            // 获取上传文件的后缀
+            String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+            // 上传文件中
+            String url = ossService.uploadSuffix(file.getBytes(), suffix);
+            //保存图片url信息
+            return R.data(url);
+
         } catch (Exception e) {
-            logger.error("图片上传异常", e);
+            logger.error("上传文件异常", e);
         }
-        return R.fail("上传失败");
+
+        return R.fail("上传文件失败");
     }
 
     @GetMapping("/wechat_authorization")
