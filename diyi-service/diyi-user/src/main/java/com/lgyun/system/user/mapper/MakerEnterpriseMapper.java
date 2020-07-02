@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 /**
- *  Mapper
+ * Mapper
  *
  * @author liangfeihu
  * @since 2020-06-26 17:21:05

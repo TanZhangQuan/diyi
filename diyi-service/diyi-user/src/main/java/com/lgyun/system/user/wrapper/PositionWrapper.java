@@ -17,11 +17,10 @@ public class PositionWrapper extends BaseEntityWrapper<PositionEntity, PositionV
         return new PositionWrapper();
     }
 
-	@Override
-	public PositionVO entityVO(PositionEntity position) {
-			PositionVO positionVO = BeanUtil.copy(position, PositionVO.class);
-
-		return positionVO;
-	}
+    @Override
+    public PositionVO entityVO(PositionEntity position) {
+        PositionVO positionVO = BeanUtil.copy(position, PositionVO.class);
+        return positionVO;
+    }
 
 }

@@ -70,6 +70,6 @@
         SELECT e.enterprise_name, e.shop_user_name, e.legal_person, e.legal_person_card, e.contact1_position, e.contact1_phone, e.social_credit_no, e.biz_licence_url, e.enterprise_id FROM diyi_enterprise e
         WHERE
         1=1 and e.enterprise_name LIKE CONCAT(CONCAT('%', #{enterpriseName}, '%')
-         e.enterprise_name = #{}
+         e.enterprise_name = #{enterpriseName}
     </select>
 </mapper>

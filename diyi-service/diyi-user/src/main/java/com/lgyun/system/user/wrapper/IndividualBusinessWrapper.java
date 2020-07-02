@@ -17,11 +17,10 @@ public class IndividualBusinessWrapper extends BaseEntityWrapper<IndividualBusin
         return new IndividualBusinessWrapper();
     }
 
-	@Override
-	public IndividualBusinessVO entityVO(IndividualBusinessEntity individualBusiness) {
-			IndividualBusinessVO individualBusinessVO = BeanUtil.copy(individualBusiness, IndividualBusinessVO.class);
-
-		return individualBusinessVO;
-	}
+    @Override
+    public IndividualBusinessVO entityVO(IndividualBusinessEntity individualBusiness) {
+        IndividualBusinessVO individualBusinessVO = BeanUtil.copy(individualBusiness, IndividualBusinessVO.class);
+        return individualBusinessVO;
+    }
 
 }

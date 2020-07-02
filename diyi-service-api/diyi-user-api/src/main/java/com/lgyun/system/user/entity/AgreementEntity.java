@@ -11,7 +11,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -147,12 +146,12 @@ public class AgreementEntity extends BaseEntity {
     /**
      * 平台在线协议状态：签署中，已签署完毕
      */
-    private PoaState poaState;
+    private AgreementState poaState;
 
     /**
      * 三方在线协议状态：签署中，已签署完毕
      */
-    private ToaState toaState;
+    private AgreementState toaState;
 
     /**
      * 平台签署状态：签署中，已签署，无需签署（没参与）

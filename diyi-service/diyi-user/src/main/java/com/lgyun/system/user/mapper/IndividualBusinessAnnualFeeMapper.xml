@@ -5,21 +5,21 @@
 
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.user.entity.IndividualBusinessAnnualFeeEntity" id="individualBusinessAnnualFeeMap">
-                    <result property="individualBusinessAnnualFeeId" column="individual_business_annual_fee_id"/>
-                    <result property="individualBusinessId" column="individual_business_id"/>
-                    <result property="makerId" column="maker_id"/>
-                    <result property="annualFeeDateTime" column="annual_fee_date_time"/>
-                    <result property="annualFeeAmount" column="annual_fee_amount"/>
-                    <result property="annualFeeStart" column="annual_fee_start"/>
-                    <result property="annualFeeEnd" column="annual_fee_end"/>
-                    <result property="annualFeeState" column="annual_fee_state"/>
-                    <result property="yearSerial" column="year_serial"/>
-                    <result property="createUser" column="create_user"/>
-                    <result property="createTime" column="create_time"/>
-                    <result property="updateUser" column="update_user"/>
-                    <result property="updateTime" column="update_time"/>
-                    <result property="status" column="status"/>
-                    <result property="isDeleted" column="is_deleted"/>
-            </resultMap>
+        <result property="individualBusinessAnnualFeeId" column="individual_business_annual_fee_id"/>
+        <result property="individualBusinessId" column="individual_business_id"/>
+        <result property="makerId" column="maker_id"/>
+        <result property="annualFeeDateTime" column="annual_fee_date_time"/>
+        <result property="annualFeeAmount" column="annual_fee_amount"/>
+        <result property="annualFeeStart" column="annual_fee_start"/>
+        <result property="annualFeeEnd" column="annual_fee_end"/>
+        <result property="annualFeeState" column="annual_fee_state"/>
+        <result property="yearSerial" column="year_serial"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="status" column="status"/>
+        <result property="isDeleted" column="is_deleted"/>
+    </resultMap>
 
 </mapper>

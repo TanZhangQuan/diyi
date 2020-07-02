@@ -12,7 +12,11 @@ import com.lgyun.system.user.wrapper.IndividualBusinessAnnualFeeWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,12 +28,14 @@ import javax.validation.Valid;
  * @since 2020-06-26 17:21:06
  */
 @RestController
-@RequestMapping("/user/individualbusinessannualfee")
-@Api(value = "", tags = "接口")
+@RequestMapping("/individualbusinessannualfee")
+@Validated
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@Api(value = "个体工商户年费信息相关接口", tags = "个体工商户年费信息相关接口")
 public class IndividualBusinessAnnualFeeController {
-	@Autowired
-	private IIndividualBusinessAnnualFeeService individualBusinessAnnualFeeService;
+	private Logger logger = LoggerFactory.getLogger(IndividualBusinessAnnualFeeController.class);
 
+	private final IIndividualBusinessAnnualFeeService individualBusinessAnnualFeeService;
 
 	/**
 	* 详情

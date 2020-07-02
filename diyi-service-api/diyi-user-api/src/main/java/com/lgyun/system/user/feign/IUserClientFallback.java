@@ -23,4 +23,15 @@ public class IUserClientFallback implements IUserClient {
         return R.fail("未获取到账号信息");
     }
 
+    /**
+     * 获取用户信息
+     *
+     * @param phone 用户手机号
+     * @return
+     */
+    @Override
+    public R<UserInfo> userInfoByPhone(String phone) {
+        return R.fail("未获取到账号信息");
+    }
+
 }

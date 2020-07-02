@@ -7,8 +7,8 @@ import lombok.Getter;
  */
 @Getter
 public enum PaysheetUploadSource {
-    platform("platform", "平台"),
-    enterprise("enterprise", "外包企业");
+    PLATFORM("PLATFORM", "平台"),
+    ENTERPRISE("ENTERPRISE", "外包企业");
 
     private String value;
     private String desc;

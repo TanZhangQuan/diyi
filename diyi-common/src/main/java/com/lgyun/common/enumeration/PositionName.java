@@ -7,11 +7,11 @@ import lombok.Getter;
  */
 @Getter
 public enum PositionName {
-    marketing("marketing", "营销人员"),
-    service("service", "客服人员"),
-    operation("operation", "运营人员"),
-    management("management", "管理人员"),
-    others("others", "其他");
+    MARKETING("MARKETING", "营销人员"),
+    SERVICE("SERVICE", "客服人员"),
+    OPERATION("OPERATION", "运营人员"),
+    MANAGEMENT("MANAGEMENT", "管理人员"),
+    OTHERS("OTHERS", "其他");
 
     private String value;
     private String desc;

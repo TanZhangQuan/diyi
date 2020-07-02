@@ -45,6 +45,14 @@ public interface IUserService extends BaseService<User> {
     /**
      * 用户信息
      *
+     * @param phone
+     * @return
+     */
+    UserInfo userInfoByPhone(String phone);
+
+    /**
+     * 用户信息
+     *
      * @param tenantId
      * @param account
      * @param password

@@ -5,6 +5,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
+import com.lgyun.system.user.dto.IdcardOcrSaveDto;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.IMakerService;
 import com.lgyun.system.user.vo.MakerVO;
@@ -12,10 +13,16 @@ import com.lgyun.system.user.wrapper.MakerWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  *  控制器
@@ -24,12 +31,14 @@ import javax.validation.Valid;
  * @since 2020-06-26 17:21:06
  */
 @RestController
-@RequestMapping("/user/maker")
-@Api(value = "", tags = "接口")
+@RequestMapping("/maker")
+@Validated
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@Api(value = "创客（分包方）的基本信息相关接口", tags = "创客（分包方）的基本信息相关接口")
 public class MakerController {
-	@Autowired
-	private IMakerService makerService;
+	private Logger logger = LoggerFactory.getLogger(MakerController.class);
 
+	private final IMakerService makerService;
 
 	/**
 	* 详情
@@ -86,6 +95,71 @@ public class MakerController {
 	@ApiOperation(value = "删除", notes = "传入ids")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
 		return R.status(makerService.removeByIds(Func.toLongList(ids)));
+	}
+
+	@PostMapping("/idcard_ocr")
+	@ApiOperation(value = "身份证实名认证", notes = "身份证实名认证")
+	public R idcardOcr(@ApiParam(value = "正面照片") @NotNull(message = "请选择正面照片") @RequestParam(required = false) String idcardPic) {
+
+		logger.info("身份证实名认证");
+		try {
+			return makerService.idcardOcr(idcardPic);
+		} catch (Exception e) {
+			logger.error("身份证实名认证异常", e);
+		}
+		return R.fail("身份证实名认证失败");
+	}
+
+	@PostMapping("/idcard_ocr_save")
+	@ApiOperation(value = "身份证实名认证信息保存", notes = "身份证实名认证信息保存")
+	public R idcardOcrSave(@Valid @RequestBody IdcardOcrSaveDto idcardOcrSaveDto) {
+
+		logger.info("身份证实名认证");
+		try {
+			return makerService.idcardOcrSave(idcardOcrSaveDto);
+		} catch (Exception e) {
+			logger.error("身份证实名认证异常", e);
+		}
+		return R.fail("身份证实名认证失败");
+	}
+
+	@PostMapping("/face_ocr")
+	@ApiOperation(value = "刷脸实名认证", notes = "刷脸实名认证")
+	public R faceOcr() {
+
+		logger.info("刷脸实名认证");
+		try {
+			return makerService.faceOcr();
+		} catch (Exception e) {
+			logger.error("刷脸实名认证异常", e);
+		}
+		return R.fail("刷脸实名认证失败");
+	}
+
+	@PostMapping("/face_ocr_notify")
+	@ApiOperation(value = "刷脸实名认证异步回调", notes = "刷脸实名认证异步回调")
+	public R faceOcrNotify(HttpServletRequest request) {
+
+		logger.info("刷脸实名认证异步回调");
+		try {
+			return makerService.faceOcrNotify(request);
+		} catch (Exception e) {
+			logger.error("刷脸实名认证异步回调异常", e);
+		}
+		return R.fail("刷脸实名认证异步回调失败");
+	}
+
+	@PostMapping("/detail")
+	@ApiOperation(value = "查询认证详情", notes = "查询认证详情")
+	public R detail(String flowId) {
+
+		logger.info("查询认证详情");
+		try {
+			return makerService.detail(flowId);
+		} catch (Exception e) {
+			logger.error("查询认证详情异常", e);
+		}
+		return R.fail("查询认证详情失败");
 	}
 
 }

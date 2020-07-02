@@ -12,7 +12,14 @@ import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.MakerEnterpriseVO;
 import com.lgyun.system.user.wrapper.MakerEnterpriseWrapper;
 import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,15 +31,15 @@ import javax.validation.Valid;
  * @since 2020-06-26 17:21:05
  */
 @RestController
-@RequestMapping("/user/makerenterprise")
-@Api(value = "", tags = "接口")
+@RequestMapping("/makerenterprise")
+@Validated
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@Api(value = "创客和外包企业的关联关系相关接口", tags = "创客和外包企业的关联关系相关接口")
 public class MakerEnterpriseController {
-	@Autowired
-	private IMakerEnterpriseService makerEnterpriseService;
+	private Logger logger = LoggerFactory.getLogger(MakerEnterpriseController.class);
 
-	@Autowired
-	private IEnterpriseService iEnterpriseService;
-
+	private final IMakerEnterpriseService makerEnterpriseService;
+	private final IEnterpriseService iEnterpriseService;
 
 	/**
 	* 详情

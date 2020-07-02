@@ -7,8 +7,8 @@ import lombok.Getter;
  */
 @Getter
 public enum PaaState {
-    unUpload("unUpload", "未上传"),
-    uploaded("uploaded", "已上传");
+    UNUPLOAD("UNUPLOAD", "未上传"),
+    UPLOADED("UPLOADED", "已上传");
 
     private String value;
     private String desc;

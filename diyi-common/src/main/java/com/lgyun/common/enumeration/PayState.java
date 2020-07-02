@@ -7,11 +7,11 @@ import lombok.Getter;
  */
 @Getter
 public enum PayState {
-    toPay("toPay", "待支付"),
-    entApplyPay("entApplyPay", "企业已申请支付"),
-    entPayed("entPayed", "企业已支付"),
-    plaPayed("plaPayed", "平台已支付"),
-    confirmPay("confirmPay", "已确认收款");
+    TOPAY("TOPAY", "待支付"),
+    ENTAPPLYPAY("ENTAPPLYPAY", "企业已申请支付"),
+    ENTPAYED("ENTPAYED", "企业已支付"),
+    PLAPAYED("PLAPAYED", "平台已支付"),
+    CONFIRMPAY("CONFIRMPAY", "已确认收款");
 
     private String value;
     private String desc;

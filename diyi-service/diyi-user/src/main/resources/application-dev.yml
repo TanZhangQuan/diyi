@@ -7,4 +7,12 @@ spring:
     username: root
     password: 123456
 
-
+# 阿里云OSS云存储配置
+aliyun:
+  oss:
+    domain: http://cashbus-ddh.oss-cn-beijing.aliyuncs.com
+    endPoint: http://oss-cn-beijing.aliyuncs.com
+    bucketName: cashbus-ddh
+    accessKeyId: LTAIZ7QfWA70sj6P
+    accessKeySecret: GKET6qGz6RXHFM2qd2xwL9c1QbxhRT
+    prefix: upload

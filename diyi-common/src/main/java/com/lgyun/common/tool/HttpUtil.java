@@ -4,8 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.lgyun.common.enumeration.HttpRequestMethedEnum;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpEntityEnclosingRequest;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLContextBuilder;
@@ -17,6 +21,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,12 +30,13 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
-import java.io.IOException;
+import java.io.*;
+import java.net.*;
 import java.security.GeneralSecurityException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.Date;
-import java.util.Map;
+import java.text.MessageFormat;
+import java.util.*;
 
 public class HttpUtil {
     /**
@@ -60,6 +66,125 @@ public class HttpUtil {
         // 在提交请求之前 测试连接是否可用
         configBuilder.setStaleConnectionCheckEnabled(true);
         requestConfig = configBuilder.build();
+    }
+
+    private static final String DEFAULT_CHARSET = "UTF-8";
+
+    private static final int CONNECT_TIME_OUT = 5000; //链接超时时间5秒
+
+    private static final RequestConfig REQUEST_CONFIG = RequestConfig.custom().setConnectTimeout(CONNECT_TIME_OUT).build();
+
+    /**
+     * @param url    请求地址
+     * @param params 参数
+     * @return 请求失败返回null
+     * @description 功能描述: get 请求
+     */
+    public static String get(String url, Map<String, String> params) throws IOException {
+
+        CloseableHttpClient httpClient = null;
+        if (params != null && !params.isEmpty()) {
+            StringBuffer param = new StringBuffer();
+            boolean flag = true; // 是否开始
+            for (Map.Entry<String, String> entry : params.entrySet()) {
+                if (flag) {
+                    param.append("?");
+                    flag = false;
+                } else {
+                    param.append("&");
+                }
+                param.append(entry.getKey()).append("=");
+                param.append(URLEncoder.encode(entry.getValue(), DEFAULT_CHARSET));
+            }
+            url += param.toString();
+        }
+
+        String body;
+        CloseableHttpResponse response = null;
+        try {
+            httpClient = HttpClients.custom().setDefaultRequestConfig(REQUEST_CONFIG).build();
+            HttpGet httpGet = new HttpGet(url);
+            response = httpClient.execute(httpGet);
+            body = EntityUtils.toString(response.getEntity(), DEFAULT_CHARSET);
+        } finally {
+            if (response != null) {
+                response.close();
+            }
+            if (httpClient != null) {
+                httpClient.close();
+            }
+        }
+        return body;
+    }
+
+    /**
+     * @param url 请求地址
+     * @return 请求失败返回null
+     * @description 功能描述: get 请求
+     */
+    public static String get(String url) throws IOException {
+        return get(url, null);
+    }
+
+    /**
+     * @param url    请求地址
+     * @param params 参数
+     * @return 请求失败返回null
+     * @description 功能描述: post 请求
+     */
+    public static String post(String url, Map<String, String> params) throws IOException {
+        CloseableHttpClient httpClient = null;
+        HttpPost httpPost = new HttpPost(url);
+        List<NameValuePair> nameValuePairs = new ArrayList<>();
+        if (params != null && !params.isEmpty()) {
+            for (Map.Entry<String, String> entry : params.entrySet()) {
+                nameValuePairs.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
+            }
+        }
+
+        String body;
+        CloseableHttpResponse response = null;
+        try {
+            httpClient = HttpClients.custom().setDefaultRequestConfig(REQUEST_CONFIG).build();
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, DEFAULT_CHARSET));
+            response = httpClient.execute(httpPost);
+            body = EntityUtils.toString(response.getEntity(), DEFAULT_CHARSET);
+        } finally {
+            if (response != null) {
+                response.close();
+            }
+            if (httpClient != null) {
+                httpClient.close();
+            }
+        }
+        return body;
+    }
+
+    /**
+     * @param url 请求地址
+     * @param s   参数xml
+     * @return 请求失败返回null
+     * @description 功能描述: post 请求
+     */
+    public static String post(String url, String s) throws IOException {
+        CloseableHttpClient httpClient = null;
+        HttpPost httpPost = new HttpPost(url);
+        String body;
+        CloseableHttpResponse response = null;
+        try {
+            httpClient = HttpClients.custom().setDefaultRequestConfig(REQUEST_CONFIG).build();
+            httpPost.setEntity(new StringEntity(s, DEFAULT_CHARSET));
+            response = httpClient.execute(httpPost);
+            body = EntityUtils.toString(response.getEntity(), DEFAULT_CHARSET);
+        } finally {
+            if (response != null) {
+                response.close();
+            }
+            if (httpClient != null) {
+                httpClient.close();
+            }
+        }
+        return body;
     }
 
     /**
@@ -327,6 +452,225 @@ public class HttpUtil {
             e.printStackTrace();
         }
         return sslsf;
+    }
+
+    /***
+     * 向指定URL发送GET方法的请求
+     *
+     * @return
+     * @throws Exception
+     */
+    public static String sendGet(String apiUrl, HashMap<String, Object> param, LinkedHashMap<String, String> headers) throws Exception {
+        // 获得响应内容
+        String http_RespContent;
+        HttpURLConnection httpURLConnection = null;
+        int http_StatusCode;
+        String http_RespMessage;
+        try {
+            // 实际请求完整Url
+            StringBuffer fullUrl = new StringBuffer();
+            if (null != param) {
+                if (0 != param.size()) {
+                    StringBuffer params = new StringBuffer();
+                    for (Map.Entry<String, Object> entry : param.entrySet()) {
+                        params.append(entry.getKey());
+                        params.append("=");
+                        params.append(entry.getValue().toString());
+                        params.append("&");
+                    }
+                    if (params.length() > 0) {
+                        params.deleteCharAt(params.lastIndexOf("&"));
+                    }
+                    fullUrl.append(apiUrl).append((params.length() > 0) ? "?" + params.toString() : "");
+                } else {
+                    fullUrl.append(apiUrl);
+                }
+            } else {
+                fullUrl.append(apiUrl);
+            }
+
+            logger.info(">>>> 实际请求Url: " + fullUrl.toString());
+
+            // 建立连接
+            URL url = new URL(fullUrl.toString());
+            httpURLConnection = (HttpURLConnection) url.openConnection();
+            // 需要输出
+            httpURLConnection.setDoOutput(true);
+            // 需要输入
+            httpURLConnection.setDoInput(true);
+            // 不允许缓存
+            httpURLConnection.setUseCaches(false);
+            // HTTP请求方式
+            httpURLConnection.setRequestMethod("GET");
+            // 设置Headers
+            if (null != headers) {
+                for (String key : headers.keySet()) {
+                    httpURLConnection.setRequestProperty(key, headers.get(key));
+                }
+            }
+            // 连接会话
+            httpURLConnection.connect();
+            // 获得响应状态(HTTP状态码)
+            http_StatusCode = httpURLConnection.getResponseCode();
+            // 获得响应消息(HTTP状态码描述)
+            http_RespMessage = httpURLConnection.getResponseMessage();
+            // 获得响应内容
+            if (HttpURLConnection.HTTP_OK == http_StatusCode) {
+                // 返回响应结果
+                http_RespContent = getResponseContent(httpURLConnection);
+            } else {
+                // 返回非200状态时响应结果
+                http_RespContent = getErrorResponseContent(httpURLConnection);
+                String msg =
+                        MessageFormat.format("请求失败: Http状态码 = {0} , {1}", http_StatusCode, http_RespMessage);
+                logger.info(msg);
+            }
+        } catch (UnknownHostException e) {
+            String message = MessageFormat.format("网络请求时发生异常: {0}", e.getMessage());
+            Exception ex = new Exception(message);
+            ex.initCause(e);
+            throw ex;
+        } catch (MalformedURLException e) {
+            String message = MessageFormat.format("格式错误的URL: {0}", e.getMessage());
+            Exception ex = new Exception(message);
+            ex.initCause(e);
+            throw ex;
+        } catch (IOException e) {
+            String message = MessageFormat.format("网络请求时发生异常: {0}", e.getMessage());
+            Exception ex = new Exception(message);
+            ex.initCause(e);
+            throw ex;
+        } catch (Exception e) {
+            String message = MessageFormat.format("网络请求时发生异常: {0}", e.getMessage());
+            Exception ex = new Exception(message);
+            ex.initCause(e);
+            throw ex;
+        } finally {
+            if (null != httpURLConnection) {
+                httpURLConnection.disconnect();
+            }
+        }
+        return http_RespContent;
+    }
+
+    /***
+     * 向指定URL发送POST方法的请求
+     *
+     * @param apiUrl
+     * @param data
+     * @param encoding
+     * @return
+     * @throws Exception
+     */
+    public static String sendPOST(String apiUrl, String data, LinkedHashMap<String, String> headers, String encoding) throws Exception {
+        // 获得响应内容
+        String http_RespContent;
+        HttpURLConnection httpURLConnection = null;
+        int http_StatusCode;
+        String http_RespMessage;
+        try {
+            // 建立连接
+            URL url = new URL(apiUrl);
+            httpURLConnection = (HttpURLConnection) url.openConnection();
+            // 需要输出
+            httpURLConnection.setDoOutput(true);
+            // 需要输入
+            httpURLConnection.setDoInput(true);
+            // 不允许缓存
+            httpURLConnection.setUseCaches(false);
+            // HTTP请求方式
+            httpURLConnection.setRequestMethod("POST");
+            // 设置Headers
+            if (null != headers) {
+                for (String key : headers.keySet()) {
+                    httpURLConnection.setRequestProperty(key, headers.get(key));
+                }
+            }
+            // 连接会话
+            httpURLConnection.connect();
+            // 建立输入流，向指向的URL传入参数
+            DataOutputStream dos = new DataOutputStream(httpURLConnection.getOutputStream());
+            // 设置请求参数
+            dos.write(data.getBytes(encoding));
+            dos.flush();
+            dos.close();
+            // 获得响应状态(HTTP状态码)
+            http_StatusCode = httpURLConnection.getResponseCode();
+            // 获得响应消息(HTTP状态码描述)
+            http_RespMessage = httpURLConnection.getResponseMessage();
+            // 获得响应内容
+            if (HttpURLConnection.HTTP_OK == http_StatusCode) {
+                // 返回响应结果
+                http_RespContent = getResponseContent(httpURLConnection);
+            } else {
+                // 返回非200状态时响应结果
+                http_RespContent = getErrorResponseContent(httpURLConnection);
+                String msg =
+                        MessageFormat.format("请求失败: Http状态码 = {0} , {1}", http_StatusCode, http_RespMessage);
+                logger.info(msg);
+            }
+        } finally {
+            if (null != httpURLConnection) {
+                httpURLConnection.disconnect();
+            }
+        }
+        return http_RespContent;
+    }
+
+    /***
+     * 读取HttpResponse响应内容
+     *
+     * @param httpURLConnection
+     * @return
+     * @throws UnsupportedEncodingException
+     * @throws IOException
+     */
+    private static String getResponseContent(HttpURLConnection httpURLConnection)
+            throws UnsupportedEncodingException, IOException {
+        StringBuffer contentBuffer = null;
+        BufferedReader responseReader = null;
+        try {
+            contentBuffer = new StringBuffer();
+            String readLine = null;
+            responseReader =
+                    new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), "UTF-8"));
+            while ((readLine = responseReader.readLine()) != null) {
+                contentBuffer.append(readLine);
+            }
+        } finally {
+            if (null != responseReader) {
+                responseReader.close();
+            }
+        }
+        return contentBuffer.toString();
+    }
+
+    /***
+     * 读取HttpResponse响应内容
+     *
+     * @param httpURLConnection
+     * @return
+     * @throws UnsupportedEncodingException
+     * @throws IOException
+     */
+    private static String getErrorResponseContent(HttpURLConnection httpURLConnection)
+            throws UnsupportedEncodingException, IOException {
+        StringBuffer contentBuffer = null;
+        BufferedReader responseReader = null;
+        try {
+            contentBuffer = new StringBuffer();
+            String readLine = null;
+            responseReader =
+                    new BufferedReader(new InputStreamReader(httpURLConnection.getErrorStream(), "UTF-8"));
+            while ((readLine = responseReader.readLine()) != null) {
+                contentBuffer.append(readLine);
+            }
+        } finally {
+            if (null != responseReader) {
+                responseReader.close();
+            }
+        }
+        return contentBuffer.toString();
     }
 
 }

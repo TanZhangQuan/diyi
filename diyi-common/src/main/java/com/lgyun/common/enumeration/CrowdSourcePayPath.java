@@ -7,11 +7,11 @@ import lombok.Getter;
  */
 @Getter
 public enum CrowdSourcePayPath {
-    tongLianPay("tongLianPay", "通联支付代发"),
-    zhaoShangPay("zhaoShangPay", "招商银行代发"),
-    sysIntPay("sysIntPay", "系统集成代发"),
-    plaColPay("plaColPay", "平台代收代付"),
-    plaPrePay("plaPrePay", "平台预存支付");
+    TONGLIANPAY("TONGLIANPAY", "通联支付代发"),
+    ZHAOSHANGPAY("ZHAOSHANGPAY", "招商银行代发"),
+    SYSINTPAY("SYSINTPAY", "系统集成代发"),
+    PLACOLPAY("PLACOLPAY", "平台代收代付"),
+    PLAPREPAY("PLAPREPAY", "平台预存支付");
 
     private String value;
     private String desc;

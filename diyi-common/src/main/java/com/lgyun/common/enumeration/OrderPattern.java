@@ -7,8 +7,8 @@ import lombok.Getter;
  */
 @Getter
 public enum OrderPattern {
-    openGrabOrder("openGrabOrder", "公开抢单"),
-    unOpenGrabOrder("unOpenGrabOrder", "不公开抢单");
+    OPENGRABORDER("OPENGRABORDER", "公开抢单"),
+    UNOPENGRABORDER("UNOPENGRABORDER", "不公开抢单");
 
     private String value;
     private String desc;

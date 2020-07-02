@@ -7,10 +7,10 @@ import lombok.Getter;
  */
 @Getter
 public enum OrderBusinessPattern {
-    selfGenSubSou("natCroSouCom", "个体户-总包+分包"),
-    selfCroSou("natGenSubSouSpe", "个体户-众包"),
-    natGenSubSou("selCroSouSpe", "自然人-总包+分包"),
-    natCroSou("selGenSubSouSpe", "自然人-众包");
+    SELFGENSUBSOU("NATCROSOUCOM", "个体户-总包+分包"),
+    SELFCROSOU("NATGENSUBSOUSPE", "个体户-众包"),
+    NATGENSUBSOU("SELCROSOUSPE", "自然人-总包+分包"),
+    NATCROSOU("SELGENSUBSOUSPE", "自然人-众包");
 
     private String value;
     private String desc;

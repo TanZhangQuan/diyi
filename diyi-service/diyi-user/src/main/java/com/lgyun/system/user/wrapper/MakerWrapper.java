@@ -17,11 +17,10 @@ public class MakerWrapper extends BaseEntityWrapper<MakerEntity, MakerVO> {
         return new MakerWrapper();
     }
 
-	@Override
-	public MakerVO entityVO(MakerEntity maker) {
-			MakerVO makerVO = BeanUtil.copy(maker, MakerVO.class);
-
-		return makerVO;
-	}
+    @Override
+    public MakerVO entityVO(MakerEntity maker) {
+        MakerVO makerVO = BeanUtil.copy(maker, MakerVO.class);
+        return makerVO;
+    }
 
 }

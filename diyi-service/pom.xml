@@ -21,14 +21,26 @@
     <modules>
         <module>diyi-system</module>
         <module>diyi-user</module>
+        <module>diyi-desk</module>
         <module>diyi-order</module>
     </modules>
 
     <dependencies>
+        <!-- diyi-cr common -->
         <dependency>
             <groupId>com.lgyun</groupId>
             <artifactId>diyi-common</artifactId>
             <version>${diyi.project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
         <!--Feign-->
         <dependency>
