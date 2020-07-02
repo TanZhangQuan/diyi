@@ -1283,59 +1283,6 @@ CREATE TABLE `diyi_paysheet` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_enterprise_pay
--- ----------------------------
-DROP TABLE IF EXISTS `diyi_enterprise_pay`;
-CREATE TABLE `diyi_enterprise_pay` (
-  `enterprise_pay_id` bigint(50) NOT NULL COMMENT '外包企业支付给平台的信息ID',
-  `order_id` bigint(50) NOT NULL COMMENT '订单ID',
-  `enterprise_id` bigint(50) NOT NULL COMMENT '企业ID',
-  `pay_to_platform_amount` decimal(12,2) NOT NULL COMMENT '企业支付给平台金额,根据支付方式计算出企业支付给平台金额',
-  `pay_to_platform_man_fee` decimal(12,2) NOT NULL COMMENT '企业支付管理服务费,根据支付方式计算出企业支付给管理服务费',
-  `pay_to_platform_maker_tax` decimal(12,2) NOT NULL COMMENT '众包企业代付创客税费,根据支付方式计算出',
-  `pay_to_maker_net_fee` decimal(12,2) NOT NULL COMMENT '众包企业直接支付给创客服务费,根据支付方式计算出',
-  `pay_memo` varchar(500) NOT NULL DEFAULT '' COMMENT '支付说明',
-  `en_pay_state` varchar(50) NOT NULL COMMENT '支付给平台状态：待支付，已支付，已确认收款',
-  `pay_confirm_date_time` datetime DEFAULT NULL COMMENT '支付确认日期时间',
-  `confirm_date_time` datetime DEFAULT NULL COMMENT '确认回款日期时间',
-  `employee_id` bigint(50) NOT NULL COMMENT '确认到款人员ID',
-  `company_invoice_state` varchar(50) NOT NULL COMMENT '平台给企业开票状态：未开，已开',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `status` tinyint (1) NOT NULL COMMENT '状态[1:正常]',
-  `is_deleted` tinyint (1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
-  PRIMARY KEY (`enterprise_pay_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of diyi_enterprise_pay
--- ----------------------------
-
--- ----------------------------
--- Table structure for diyi_enterprise_pay_receipt
--- ----------------------------
-DROP TABLE IF EXISTS `diyi_enterprise_pay_receipt`;
-CREATE TABLE `diyi_enterprise_pay_receipt` (
-  `enterprise_pay_receipt_id` bigint(50) NOT NULL COMMENT '外包企业支付给平台的信息ID',
-  `enterprise_pay_id` bigint(50) NOT NULL COMMENT '支付ID',
-  `enterprise_pay_receipt_url` varchar(100) NOT NULL COMMENT '支付回单图片URL地址',
-  `upload_date_time` datetime NOT NULL COMMENT '上传日期时间',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `status` tinyint (1) NOT NULL COMMENT '状态[1:正常]',
-  `is_deleted` tinyint (1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
-  PRIMARY KEY (`enterprise_pay_receipt_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of diyi_enterprise_pay_receipt
--- ----------------------------
-
--- ----------------------------
 -- Table structure for diyi_pay_receipt
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_pay_receipt`;
@@ -1512,13 +1459,21 @@ CREATE TABLE `diyi_worksheet_attention` (
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`worksheet_attention_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- ----------------------------
+-- Records of diyi_worksheet_attention
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for diyi_work_achievement
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_work_achievement`;
 --工作成果表
 CREATE TABLE `diyi_work_achievement` (
   `work_achievement_id` bigint(50) NOT NULL COMMENT '工作成果Id',
-  `work_explain` varchar(200) NOT NULL COMMENT '工作成果说明',
-  `work_url` varchar(2000) NOT NULL COMMENT '工作结果url',
-  `check_money_num` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '验收金额',
-  `work_achievement_state` varchar(50) NOT NULL DEFAULT 'beAccepted' COMMENT '工作成果状态 1：待验收，2验收通过，3验收不通过',
+  `work_explain` varchar(500) NOT NULL COMMENT '工作成果说明',
+  `work_url` varchar(100) NOT NULL COMMENT '工作结果url',
+  `check_money_num` decimal(12,2) NOT NULL COMMENT '验收金额',
+  `work_achievement_state` varchar(50) NOT NULL COMMENT '工作成果状态 1：待验收，2验收通过，3验收不通过',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
@@ -1528,3 +1483,7 @@ CREATE TABLE `diyi_work_achievement` (
   `worksheet_id` bigint(50) NOT NULL COMMENT '工单id',
   PRIMARY KEY (`work_achievement_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of diyi_work_achievement
+-- ----------------------------
