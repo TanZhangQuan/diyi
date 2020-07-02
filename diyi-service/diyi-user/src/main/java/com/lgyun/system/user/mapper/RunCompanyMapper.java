@@ -4,6 +4,8 @@ import com.lgyun.system.user.entity.RunCompanyEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * Mapper
  *
@@ -12,6 +14,9 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface RunCompanyMapper extends BaseMapper<RunCompanyEntity> {
-
+    /**
+     *根据名字查询
+     */
+    List<RunCompanyEntity> findCompanyName(String companyName);
 }
 

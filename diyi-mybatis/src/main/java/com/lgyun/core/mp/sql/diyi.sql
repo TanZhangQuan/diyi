@@ -1487,3 +1487,60 @@ CREATE TABLE `diyi_work_achievement` (
 -- ----------------------------
 -- Records of diyi_work_achievement
 -- ----------------------------
+CREATE TABLE `diyi_address` (
+  `address_id` bigint(50) NOT NULL COMMENT '地址id',
+   `company_id` bigint(50) NOT NULL COMMENT '运营公司ID',
+  `address_name` varchar(50) NOT NULL COMMENT '收件人',
+  `address_phone` varchar(50) NOT NULL COMMENT '手机号码',
+  `province` varchar(500) NOT NULL COMMENT '省',
+  `city` varchar(500) NOT NULL COMMENT '市',
+  `area` varchar(20) NOT NULL COMMENT '区',
+  `detailed_address` varchar(20) NOT NULL COMMENT '详细地址',
+  `is_default` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否默认[0:默认,1:不默认]',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  PRIMARY KEY (`address_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `diyi_invoice_people` (
+  `invoice_people_id` bigint(50) NOT NULL COMMENT '开票人',
+   `maker_id` bigint(50) NOT NULL COMMENT '创客id',
+  `id_card_no` varchar(50) NOT NULL COMMENT '身份证号码',
+  `id_card_name` varchar(50) NOT NULL COMMENT '身份证姓名',
+  `id_card_pic` varchar(500) NOT NULL COMMENT '身份证正面图',
+  `id_card_pic_back` varchar(500) NOT NULL COMMENT '身份证反面图',
+  `phone_number` varchar(20) NOT NULL COMMENT '手机号码',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  PRIMARY KEY (`invoice_people_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `diyi_self_help_invoice` (
+  `self_help_invoice_id` bigint(50) NOT NULL COMMENT '唯一性控制',
+  `company_id` bigint(50) NOT NULL COMMENT '运营公司ID',
+  `pay_id` bigint(50) NOT NULL COMMENT '创客支付ID',
+  `invoice_people_id` bigint(50) NOT NULL COMMENT '开票人',
+  `address_id` bigint(50) NOT NULL COMMENT '收件地址Id',
+  `invoice_type` varchar(100) NOT NULL COMMENT '开票类目',
+  `charge_money_num` decimal(12,2) NOT NULL COMMENT '价税合计额',
+  `flow_contract_url` varchar(500) NOT NULL COMMENT '流水合同URL',
+  `business_contract_url` varchar(500) NOT NULL COMMENT '业务合同URL',
+  `account_balance_url` varchar(500) DEFAULT NULL COMMENT '账户余额url',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  PRIMARY KEY (`self_help_invoice_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

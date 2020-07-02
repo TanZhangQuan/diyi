@@ -3,6 +3,8 @@ package com.lgyun.system.user.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lgyun.system.user.entity.RunCompanyEntity;
 
+import java.util.List;
+
 /**
  *  Service 接口
  *
@@ -11,5 +13,9 @@ import com.lgyun.system.user.entity.RunCompanyEntity;
  */
 public interface IRunCompanyService extends IService<RunCompanyEntity> {
 
+    /**
+     *根据名字查询
+     */
+    List<RunCompanyEntity> findCompanyName(String companyName);
 }
 

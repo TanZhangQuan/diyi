@@ -88,9 +88,9 @@ public class WorkAchievementServiceImpl extends ServiceImpl<WorkAchievementMappe
         makerEnterpriseEntity.setMakerId(makerEntity.getMakerId());
         makerEnterpriseEntity.setPositionId(positionId);
         makerEnterpriseEntity.setRelDate(new Date());
-        makerEnterpriseEntity.setRelType(RelType.makerRel);
+        makerEnterpriseEntity.setRelType(RelType.MAKERREL);
         makerEnterpriseEntity.setRelMemo("创客主动关联");
-        makerEnterpriseEntity.setCooperateStatus(CooperateStatus.cooperating);
+        makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATING);
         makerEnterpriseEntity.setFirstCooperation(bool);
         makerEnterpriseEntity.setCooperationStartTime(new Date());
         iMakerEnterpriseService.save(makerEnterpriseEntity);
