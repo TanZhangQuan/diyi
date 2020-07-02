@@ -84,7 +84,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         worksheetEntity.setWorksheetNo(UUID.randomUUID().toString());
         worksheetEntity.setGetOrderDate(new Date());
         worksheetEntity.setGetOrderDesc("创客抢单");
-        worksheetEntity.setWorksheetState(WorksheetState.normal.getValue());
+        worksheetEntity.setWorksheetState(WorksheetState.NORMAL.getValue());
         iWorksheetService.save(worksheetEntity);
         return R.success("恭喜，抢单成功");
     }

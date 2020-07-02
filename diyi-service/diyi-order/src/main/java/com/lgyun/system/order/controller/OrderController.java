@@ -10,6 +10,8 @@ import com.lgyun.system.entity.Tenant;
 import com.lgyun.system.order.dto.OrderDTO;
 import com.lgyun.system.order.entity.OrderEntity;
 import com.lgyun.system.order.service.IOrderService;
+import com.lgyun.system.order.service.IWorkAchievementService;
+import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.order.vo.OrderVO;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.wrapper.OrderWrapper;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestParam;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -45,54 +48,15 @@ public class OrderController {
 
 	private final IOrderService orderService;
 
-
+	private final IWorkAchievementService workAchievementService;
 	/**
-	* 详情
-	*/
-	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "传入order")
-	public R<OrderVO> detail(OrderEntity order) {
-		OrderEntity detail = orderService.getOne(Condition.getQueryWrapper(order));
-		return R.data(OrderWrapper.build().entityVO(detail));
-	}
-
-	/**
-	* 修改
-	*/
-	@PostMapping("/update")
-	@ApiOperation(value = "修改", notes = "传入order")
-	public R update(@Valid @RequestBody OrderEntity order) {
-		return R.status(orderService.updateById(order));
-	}
-
-	/**
-	* 新增或修改
-	*/
-	@PostMapping("/submit")
-	@ApiOperation(value = "新增或修改", notes = "传入Order")
-	public R submit(@Valid @RequestBody OrderEntity order) {
-		return R.status(orderService.saveOrUpdate(order));
-	}
-
-
-	/**
-	* 删除
-	*/
-	@PostMapping("/remove")
-	@ApiOperation(value = "删除", notes = "传入ids")
-	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
-		return R.status(orderService.removeByIds(Func.toLongList(ids)));
-	}
-
-
-	/**
-	 * 分页
+	 * 工单列表
 	 */
 	@GetMapping("/list")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "orderState", value = "订单状态", paramType = "query", dataType = "string")
 	})
-	@ApiOperation(value = "工单列表", notes = "传入订单状态")
+	@ApiOperation(value = "工单列表", notes = "工单列表")
 	public R<IPage<OrderVO>> list(@ApiIgnore @RequestParam Map<String, Object> order, Query query) {
 		QueryWrapper<OrderEntity> queryWrapper = Condition.getQueryWrapper(order, OrderEntity.class);
 		IPage<OrderEntity> pages = orderService.page(Condition.getPage(query),queryWrapper);
@@ -108,21 +72,6 @@ public class OrderController {
 					  @ApiParam(value = "创客id", required = true) @RequestParam Long makerId) {
 		return orderService.robOrder(orderId,makerId);
 	}
-
-
-//	/**
-//	 * 自定义分页
-//	 */
-//	@GetMapping("/page")
-//	@ApiImplicitParams({
-//			@ApiImplicitParam(name = "orderState", value = "订单状态", paramType = "query", dataType = "string")
-//	})
-//	@ApiOperation(value = "工单列表", notes = "传入订单状态")
-//	public R<IPage<OrderVO>> page(@RequestParam(required = false,defaultValue = "") String orderState, Query query) {
-//		IPage<OrderVO> pages = orderService.selectOrderPage(Condition.getPage(query), orderState);
-//		return R.data(pages);
-//	}
-
 	/**
 	 * 发布工单
 	 */
@@ -135,4 +84,12 @@ public class OrderController {
 	}
 
 
+	/**
+	 * 验收工作成果
+	 */
+	@PostMapping("/accepted")
+	@ApiOperation(value = "验收工作成果", notes = "验收工作成果")
+	public R accepted(BigDecimal checkMoneyNum,Long workAchievementId,Long positionId) {
+		return workAchievementService.accepted(checkMoneyNum, workAchievementId, positionId);
+	}
 }
