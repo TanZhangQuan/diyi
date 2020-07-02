@@ -8,9 +8,6 @@ public interface RealnameVerifyConstant {
     //实名认证密钥
     String APPKEY = "7b0622dd4177498906f539960ba00afd";
 
-    //实名认证grantType
-    String GRANTTYPE = "client_credentials";
-
     //实名认证请求域名
     String HOST = "https://smlopenapi.esign.cn";
 //    String HOST = "https://openapi.esign.cn";
@@ -25,9 +22,9 @@ public interface RealnameVerifyConstant {
     String FACEOCRNOTIFYURL = "http://246953jp33.qicp.vip/maker/face_ocr_notify";
 
     //银行卡认证回调url
-    String BANKCARDOCRNOTIFYURL = "https://www.baidu.com/";
+    String BANKCARDOCRNOTIFYURL = "http://246953jp33.qicp.vip/maker/bank_card_ocr_notify";
 
     //手机认证回调url
-    String MOBILEOCRNOTIFYURL = "https://www.baidu.com/";
+    String MOBILEOCRNOTIFYURL = "http://246953jp33.qicp.vip/maker/mobile_ocr_notify";
 
 }

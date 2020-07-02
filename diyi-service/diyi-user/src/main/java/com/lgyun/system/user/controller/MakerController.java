@@ -162,4 +162,56 @@ public class MakerController {
 		return R.fail("查询认证详情失败");
 	}
 
+	@PostMapping("/bank_card_ocr")
+	@ApiOperation(value = "银行卡实名认证", notes = "银行卡实名认证")
+	public R bankCardOcr(@ApiParam(value = "银行卡号") @NotNull(message = "请输入银行卡号") @RequestParam(required = false) String bankCardNo) {
+
+		logger.info("银行卡实名认证");
+		try {
+			return makerService.bankCardOcr(bankCardNo);
+		} catch (Exception e) {
+			logger.error("银行卡实名认证异常", e);
+		}
+		return R.fail("银行卡实名认证失败");
+	}
+
+	@PostMapping("/bank_card_ocr_notify")
+	@ApiOperation(value = "银行卡实名认证异步回调", notes = "银行卡实名认证异步回调")
+	public R bankCardOcrNotify(HttpServletRequest request) {
+
+		logger.info("银行卡实名认证异步回调");
+		try {
+			return makerService.bankCardOcrNotify(request);
+		} catch (Exception e) {
+			logger.error("银行卡实名认证异步回调异常", e);
+		}
+		return R.fail("银行卡实名认证异步回调失败");
+	}
+
+	@PostMapping("/mobile_ocr")
+	@ApiOperation(value = "手机号实名认证", notes = "手机号实名认证")
+	public R mobileOcr() {
+
+		logger.info("手机号实名认证");
+		try {
+			return makerService.mobileOcr();
+		} catch (Exception e) {
+			logger.error("手机号实名认证异常", e);
+		}
+		return R.fail("手机号实名认证失败");
+	}
+
+	@PostMapping("/mobile_ocr_notify")
+	@ApiOperation(value = "手机号实名认证异步回调", notes = "手机号实名认证异步回调")
+	public R mobileOcrNotify(HttpServletRequest request) {
+
+		logger.info("手机号实名认证异步回调");
+		try {
+			return makerService.mobileOcrNotify(request);
+		} catch (Exception e) {
+			logger.error("手机号实名认证异步回调异常", e);
+		}
+		return R.fail("手机号实名认证异步回调失败");
+	}
+
 }
