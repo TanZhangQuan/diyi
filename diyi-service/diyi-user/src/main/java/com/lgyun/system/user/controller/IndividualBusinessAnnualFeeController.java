@@ -25,13 +25,13 @@ import javax.validation.Valid;
  *  控制器
  *
  * @author liangfeihu
- * @since 2020-06-26 17:21:06
+ * @since 2020-07-02 17:44:02
  */
 @RestController
-@RequestMapping("/individualbusinessannualfee")
+@RequestMapping("/individual_business_annual_fee")
 @Validated
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@Api(value = "个体工商户年费信息相关接口", tags = "个体工商户年费信息相关接口")
+@Api(value = "个体户年费相关接口", tags = "个体户年费相关接口")
 public class IndividualBusinessAnnualFeeController {
 	private Logger logger = LoggerFactory.getLogger(IndividualBusinessAnnualFeeController.class);
 
@@ -48,7 +48,7 @@ public class IndividualBusinessAnnualFeeController {
 	}
 
 	/**
-	* 分页
+	* 分页 
 	*/
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "传入individualBusinessAnnualFee")
@@ -58,7 +58,7 @@ public class IndividualBusinessAnnualFeeController {
 	}
 
 	/**
-	* 新增
+	* 新增 
 	*/
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入individualBusinessAnnualFee")
@@ -67,7 +67,7 @@ public class IndividualBusinessAnnualFeeController {
 	}
 
 	/**
-	* 修改
+	* 修改 
 	*/
 	@PostMapping("/update")
 	@ApiOperation(value = "修改", notes = "传入individualBusinessAnnualFee")
@@ -76,17 +76,16 @@ public class IndividualBusinessAnnualFeeController {
 	}
 
 	/**
-	* 新增或修改
+	* 新增或修改 
 	*/
 	@PostMapping("/submit")
 	@ApiOperation(value = "新增或修改", notes = "传入IndividualBusinessAnnualFee")
 	public R submit(@Valid @RequestBody IndividualBusinessAnnualFeeEntity individualBusinessAnnualFee) {
 		return R.status(individualBusinessAnnualFeeService.saveOrUpdate(individualBusinessAnnualFee));
 	}
-
-
+	
 	/**
-	* 删除
+	* 删除 
 	*/
 	@PostMapping("/remove")
 	@ApiOperation(value = "删除", notes = "传入ids")

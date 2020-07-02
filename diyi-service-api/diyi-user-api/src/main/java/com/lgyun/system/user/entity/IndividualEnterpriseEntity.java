@@ -21,17 +21,17 @@ import java.util.Date;
  */
 @Data
 @NoArgsConstructor
-@TableName("diyi_individual_business")
-public class IndividualBusinessEntity implements Serializable {
+@TableName("diyi_individual_enterprise")
+public class IndividualEnterpriseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 个体户ID
+     * 个独ID
      */
     @ApiModelProperty(value = "主键")
     @TableId(type = IdType.ASSIGN_ID)
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long individualBusinessId;
+    private Long individualEnterpriseId;
 
     /**
      * 创客ID
@@ -39,7 +39,7 @@ public class IndividualBusinessEntity implements Serializable {
     private Long makerId;
 
     /**
-     * 个人企业类别：个体户，小规模纳税人个独，一般纳税人个独
+     * 个独类别：小规模纳税人个独，一般纳税人个独
      */
     private String bizType;
 
@@ -147,6 +147,21 @@ public class IndividualBusinessEntity implements Serializable {
      * 服务费率
      */
     private BigDecimal serviceRat;
+
+    /**
+     * 投资人手持身份证正面
+     */
+    private String investorHandIdcardPic;
+
+    /**
+     * 投资人手持身份证反面
+     */
+    private String investorHandIdcardPicBack;
+
+    /**
+     * 手持承诺书照片
+     */
+    private String investorHandCommitment;
 
     /**
      * 创建人

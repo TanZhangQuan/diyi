@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import ${package}.${moduleName}.mapper.${className}Mapper;
 import ${package}.${moduleName}.entity.${className}Entity;
-import ${package}.${moduleName}.service.${className}Service;
+import ${package}.${moduleName}.service.I${className}Service;
 
 /**
  * ${comments} Service 实现
@@ -13,7 +13,7 @@ import ${package}.${moduleName}.service.${className}Service;
  * @author ${author}
  * @since ${datetime}
  */
-@Service("${classname}Service")
+@Service
 public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${className}Entity> implements I${className}Service {
 
 }

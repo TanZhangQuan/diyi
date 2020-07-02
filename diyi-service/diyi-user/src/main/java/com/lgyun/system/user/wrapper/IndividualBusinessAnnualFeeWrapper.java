@@ -9,7 +9,7 @@ import com.lgyun.system.user.vo.IndividualBusinessAnnualFeeVO;
  * 包装类,返回视图层所需的字段
  *
  * @author liangfeihu
- * @since 2020-06-26 17:21:06
+ * @since 2020-07-02 17:44:02
  */
 public class IndividualBusinessAnnualFeeWrapper extends BaseEntityWrapper<IndividualBusinessAnnualFeeEntity, IndividualBusinessAnnualFeeVO> {
 
@@ -17,10 +17,11 @@ public class IndividualBusinessAnnualFeeWrapper extends BaseEntityWrapper<Indivi
         return new IndividualBusinessAnnualFeeWrapper();
     }
 
-    @Override
-    public IndividualBusinessAnnualFeeVO entityVO(IndividualBusinessAnnualFeeEntity individualBusinessAnnualFee) {
-        IndividualBusinessAnnualFeeVO individualBusinessAnnualFeeVO = BeanUtil.copy(individualBusinessAnnualFee, IndividualBusinessAnnualFeeVO.class);
-        return individualBusinessAnnualFeeVO;
-    }
+	@Override
+	public IndividualBusinessAnnualFeeVO entityVO(IndividualBusinessAnnualFeeEntity individualBusinessAnnualFee) {
+			IndividualBusinessAnnualFeeVO individualBusinessAnnualFeeVO = BeanUtil.copy(individualBusinessAnnualFee, IndividualBusinessAnnualFeeVO.class);
+
+		return individualBusinessAnnualFeeVO;
+	}
 
 }

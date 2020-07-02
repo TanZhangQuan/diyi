@@ -21,22 +21,22 @@ import java.util.Date;
  */
 @Data
 @NoArgsConstructor
-@TableName("diyi_individual_business_annual_fee")
-public class IndividualBusinessAnnualFeeEntity implements Serializable {
+@TableName("diyi_individual_enterprise_annual_fee")
+public class IndividualEnterpriseAnnualFeeEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 个体工商户年费信息ID
+     * 个独年费信息ID
      */
     @ApiModelProperty(value = "主键")
     @TableId(type = IdType.ASSIGN_ID)
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long individualBusinessAnnualFeeId;
+    private Long individualEnterpriseAnnualFeeId;
 
     /**
-     * 个体户ID
+     * 个独ID
      */
-    private Long individualBusinessId;
+    private Long individualEnterpriseId;
 
     /**
      * 创客ID

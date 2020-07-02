@@ -25,17 +25,17 @@ import javax.validation.Valid;
  *  控制器
  *
  * @author liangfeihu
- * @since 2020-06-26 17:21:06
+ * @since 2020-07-02 17:44:02
  */
 @RestController
-@RequestMapping("/individualbusiness")
+@RequestMapping("/individual_business")
 @Validated
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@Api(value = "个体工商户信息相关接口", tags = "个体工商户信息相关接口")
+@Api(value = "个体户相关接口", tags = "个体户相关接口")
 public class IndividualBusinessController {
 	private Logger logger = LoggerFactory.getLogger(IndividualBusinessController.class);
 
-	private final IIndividualBusinessService individualBusinessService;
+	private IIndividualBusinessService individualBusinessService;
 
 	/**
 	* 详情
@@ -83,7 +83,6 @@ public class IndividualBusinessController {
 	public R submit(@Valid @RequestBody IndividualBusinessEntity individualBusiness) {
 		return R.status(individualBusinessService.saveOrUpdate(individualBusiness));
 	}
-
 
 	/**
 	* 删除 

@@ -9,7 +9,7 @@ import com.lgyun.system.user.vo.IndividualBusinessVO;
  * 包装类,返回视图层所需的字段
  *
  * @author liangfeihu
- * @since 2020-06-26 17:21:06
+ * @since 2020-07-02 17:44:02
  */
 public class IndividualBusinessWrapper extends BaseEntityWrapper<IndividualBusinessEntity, IndividualBusinessVO> {
 
@@ -17,10 +17,11 @@ public class IndividualBusinessWrapper extends BaseEntityWrapper<IndividualBusin
         return new IndividualBusinessWrapper();
     }
 
-    @Override
-    public IndividualBusinessVO entityVO(IndividualBusinessEntity individualBusiness) {
-        IndividualBusinessVO individualBusinessVO = BeanUtil.copy(individualBusiness, IndividualBusinessVO.class);
-        return individualBusinessVO;
-    }
+	@Override
+	public IndividualBusinessVO entityVO(IndividualBusinessEntity individualBusiness) {
+			IndividualBusinessVO individualBusinessVO = BeanUtil.copy(individualBusiness, IndividualBusinessVO.class);
+
+		return individualBusinessVO;
+	}
 
 }

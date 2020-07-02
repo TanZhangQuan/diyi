@@ -1,8 +1,7 @@
 package ${package}.${moduleName}.wrapper;
 
-import lombok.AllArgsConstructor;
-import org.springblade.core.mp.support.BaseEntityWrapper;
-import org.springblade.core.tool.utils.BeanUtil;
+import com.lgyun.core.mp.support.BaseEntityWrapper;
+import com.lgyun.common.tool.BeanUtil;
 import ${package}.${moduleName}.entity.${className}Entity;
 import ${package}.${moduleName}.vo.${className}VO;
 
