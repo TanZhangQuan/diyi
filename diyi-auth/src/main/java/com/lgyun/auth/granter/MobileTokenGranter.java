@@ -4,21 +4,16 @@ import com.lgyun.auth.enums.BladeUserEnum;
 import com.lgyun.auth.utils.RedisUtil;
 import com.lgyun.auth.utils.TokenUtil;
 import com.lgyun.common.api.R;
-import com.lgyun.common.cache.CacheNames;
 import com.lgyun.common.exception.ServiceException;
-import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.common.tool.Func;
 import com.lgyun.common.tool.StringUtil;
-import com.lgyun.common.tool.WebUtil;
 import com.lgyun.system.user.entity.UserInfo;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -98,7 +93,7 @@ public class MobileTokenGranter implements ITokenGranter {
         String code = RandomStringUtils.randomNumeric(4);
         // TODO 接入短信第三方信息
         log.info("短信发送请求消息中心 -> 手机号:{} -> 验证码：{}", mobile, code);
-        redisUtil.set(buildKey(mobile), code, 3L, TimeUnit.MINUTES);
+        redisUtil.set(buildKey(mobile), code, 5L, TimeUnit.MINUTES);
         return R.success("true");
     }
 

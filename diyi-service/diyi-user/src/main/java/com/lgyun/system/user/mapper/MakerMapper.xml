@@ -29,6 +29,7 @@
         <result property="selfPic" column="self_pic"/>
         <result property="idcarCopy" column="idcar_copy"/>
         <result property="idcardHand" column="idcard_hand"/>
+        <result property="idcardBackHand" column="idcard_back_hand"/>
         <result property="idcardVerifyStatus" column="idcard_verify_status"/>
         <result property="idcardVerifyDate" column="idcard_verify_date"/>
         <result property="picVerify" column="pic_verify"/>

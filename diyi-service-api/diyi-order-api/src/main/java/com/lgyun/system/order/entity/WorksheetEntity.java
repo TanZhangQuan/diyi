@@ -10,7 +10,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -71,7 +70,7 @@ public class WorksheetEntity extends BaseEntity {
     /**
      * 作废日期
      */
-        private Date destroyDatetime;
+        private Date destroyDateTime;
 
     /**
      * 作废人员

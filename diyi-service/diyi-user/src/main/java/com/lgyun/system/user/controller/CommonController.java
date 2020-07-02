@@ -1,7 +1,7 @@
 package com.lgyun.system.user.controller;
 
 import com.lgyun.common.api.R;
-import com.lgyun.system.user.dto.MakerLoginDto;
+import com.lgyun.system.user.dto.MakerWechatLoginDto;
 import com.lgyun.system.user.oss.AliyunOssService;
 import com.lgyun.system.user.service.ICommonService;
 import io.swagger.annotations.Api;
@@ -64,13 +64,13 @@ public class CommonController {
         return R.fail("微信授权失败");
     }
 
-    @PostMapping("/maker_login")
-    @ApiOperation(value = "创客登陆", notes = "创客登陆")
-    public R makerLogin(@Valid @RequestBody MakerLoginDto makerLoginDto) {
+    @PostMapping("/maker_wechat_login")
+    @ApiOperation(value = "创客微信登陆", notes = "创客微信登陆")
+    public R makerWechatLogin(@Valid @RequestBody MakerWechatLoginDto makerWechatLoginDto) {
 
-        logger.info("创客登陆");
+        logger.info("创客微信登陆");
         try {
-            return iCommonService.makerLogin(makerLoginDto);
+            return iCommonService.makerWechatLogin(makerWechatLoginDto);
         } catch (Exception e) {
             logger.error("创客登陆异常", e);
         }
