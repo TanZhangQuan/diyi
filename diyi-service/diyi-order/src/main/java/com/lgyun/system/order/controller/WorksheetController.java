@@ -14,7 +14,11 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import javax.validation.Valid;
 
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -25,11 +29,13 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @since 2020-06-29 10:39:06
  */
 @RestController
-@RequestMapping("/order/worksheet")
-@Api(value = "", tags = "接口")
+@RequestMapping("/worksheet")
+@Validated
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@Api(value = "工单", tags = "工单")
 public class WorksheetController {
-	@Autowired
-	private IWorksheetService worksheetService;
+	private Logger logger = LoggerFactory.getLogger(WorksheetController.class);
+	private final IWorksheetService worksheetService;
 
 
 	/**
