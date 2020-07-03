@@ -14,4 +14,5 @@ import lombok.Data;
 @ApiModel(value = "PayVO对象", description = "PayVO对象")
 public class PayVO extends PayEntity {
 	private static final long serialVersionUID = 1L;
+
 }
