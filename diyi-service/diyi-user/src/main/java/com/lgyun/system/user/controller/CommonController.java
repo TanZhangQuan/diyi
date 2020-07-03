@@ -33,6 +33,7 @@ public class CommonController {
     @ApiOperation(value = "上传文件", notes = "上传文件")
     public R ossImageUpload(@ApiParam(value = "图片") @NotNull(message = "请选择上传图片") @RequestParam(required = false) MultipartFile file) {
 
+        logger.info("上传文件");
         try {
             if (file.isEmpty()) {
                 return R.fail("上传文件不能为空");

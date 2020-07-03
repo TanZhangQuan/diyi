@@ -7,7 +7,7 @@
     <resultMap type="com.lgyun.system.user.entity.IndividualEnterpriseEntity" id="individualEnterpriseMap">
                     <result property="individualEnterpriseId" column="individual_enterprise_id"/>
                     <result property="makerId" column="maker_id"/>
-                    <result property="bizType" column="biz_type"/>
+                    <result property="indEntTaxType" column="ind_ent_tax_type"/>
                     <result property="ibname" column="ibname"/>
                     <result property="ibtaxNo" column="ibtax_no"/>
                     <result property="buildDateTime" column="build_date_time"/>
@@ -29,8 +29,6 @@
                     <result property="contactName" column="contact_name"/>
                     <result property="contactPhone" column="contact_phone"/>
                     <result property="serviceRat" column="service_rat"/>
-                    <result property="investorHandIdcardPic" column="investor_hand_idcard_pic"/>
-                    <result property="investorHandIdcardPicBack" column="investor_hand_idcard_pic_back"/>
                     <result property="investorHandCommitment" column="investor_hand_commitment"/>
                     <result property="createUser" column="create_user"/>
                     <result property="createTime" column="create_time"/>

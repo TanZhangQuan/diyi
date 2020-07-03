@@ -1,6 +1,6 @@
 package com.lgyun.system.user.dto;
 
-import com.lgyun.common.enumeration.IndBusTaxType;
+import com.lgyun.common.enumeration.IndEntTaxType;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -15,11 +15,11 @@ import java.math.BigDecimal;
  * @date 2020.06.27
  */
 @Data
-public class IndividualBusinessAddDto implements Serializable {
+public class IndividualEnterpriseAddDto implements Serializable {
 
-    //个体户税种：小规模
+    //个体户税种：小规模，一般纳税人
     @NotNull(message = "请选择税种")
-    private IndBusTaxType indBusTaxType;
+    private IndEntTaxType indEntTaxType;
 
     //注册资金
     @NotNull(message = "请输入注册资金")
@@ -44,5 +44,9 @@ public class IndividualBusinessAddDto implements Serializable {
     //联系人手机号
     @NotBlank(message = "请输入联系人手机号")
     private String contactPhone;
+
+    //手持承诺书照片
+    @NotBlank(message = "请上传手持承诺书照片")
+    private String investorHandCommitment;
 
 }

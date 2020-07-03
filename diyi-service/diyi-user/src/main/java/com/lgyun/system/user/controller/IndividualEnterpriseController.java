@@ -5,6 +5,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
+import com.lgyun.system.user.dto.IndividualEnterpriseAddDto;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.service.IIndividualEnterpriseService;
 import com.lgyun.system.user.vo.IndividualEnterpriseVO;
@@ -39,8 +40,16 @@ public class IndividualEnterpriseController {
 
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "新增")
-	public R save(@Valid @RequestBody IndividualEnterpriseEntity individualEnterprise) {
-		return R.status(individualEnterpriseService.save(individualEnterprise));
+	public R save(@Valid @RequestBody IndividualEnterpriseAddDto individualEnterpriseAddDto) {
+
+		logger.info("新增个体户");
+		try {
+			return individualEnterpriseService.save(individualEnterpriseAddDto);
+		} catch (Exception e) {
+			logger.error("新增个体户异常", e);
+		}
+		return R.fail("新增个体户失败");
+
 	}
 
 	@PostMapping("/update")

@@ -30,4 +30,12 @@ public class IdcardOcrSaveDto implements Serializable {
     @NotBlank(message = "请输入身份证号码")
     private String idNo;
 
+    //手持证件正面照
+    @NotBlank(message = "请上传手持证件正面照")
+    private String idcardHand;
+
+    //手持证件反面照
+    @NotBlank(message = "请上传手持证件反面照")
+    private String idcardBackHand;
+
 }

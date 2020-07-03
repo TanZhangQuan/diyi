@@ -7,7 +7,7 @@
     <resultMap type="com.lgyun.system.user.entity.IndividualBusinessEntity" id="individualBusinessMap">
                     <result property="individualBusinessId" column="individual_business_id"/>
                     <result property="makerId" column="maker_id"/>
-                    <result property="bizType" column="biz_type"/>
+                    <result property="indBusTaxType" column="ind_bus_tax_type"/>
                     <result property="ibname" column="ibname"/>
                     <result property="ibtaxNo" column="ibtax_no"/>
                     <result property="buildDateTime" column="build_date_time"/>

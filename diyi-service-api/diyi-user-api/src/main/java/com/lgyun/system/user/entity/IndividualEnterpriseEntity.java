@@ -5,11 +5,13 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.Ibstate;
+import com.lgyun.common.enumeration.IndEntTaxType;
+import com.lgyun.core.mp.base.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -22,7 +24,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @TableName("diyi_individual_enterprise")
-public class IndividualEnterpriseEntity implements Serializable {
+public class IndividualEnterpriseEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -39,9 +41,9 @@ public class IndividualEnterpriseEntity implements Serializable {
     private Long makerId;
 
     /**
-     * 个独类别：小规模纳税人个独，一般纳税人个独
+     * 个独税种：小规模，一般纳税人
      */
-    private String bizType;
+    private IndEntTaxType indEntTaxType;
 
     /**
      * 个体户名称
@@ -111,7 +113,7 @@ public class IndividualEnterpriseEntity implements Serializable {
     /**
      * 个体户状态：注册中，税务登记中，运营中，已注销
      */
-    private String ibstate;
+    private Ibstate ibstate;
 
     /**
      * 提交日期
@@ -149,48 +151,8 @@ public class IndividualEnterpriseEntity implements Serializable {
     private BigDecimal serviceRat;
 
     /**
-     * 投资人手持身份证正面
-     */
-    private String investorHandIdcardPic;
-
-    /**
-     * 投资人手持身份证反面
-     */
-    private String investorHandIdcardPicBack;
-
-    /**
      * 手持承诺书照片
      */
     private String investorHandCommitment;
-
-    /**
-     * 创建人
-     */
-    private Long createUser;
-
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 更新人
-     */
-    private Long updateUser;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-
-    /**
-     * 状态[1:正常]
-     */
-    private Integer status;
-
-    /**
-     * 状态[0:未删除,1:删除]
-     */
-    private Integer isDeleted;
 
 }

@@ -41,6 +41,11 @@ public class MakerEntity extends BaseEntity {
     private String wechatId;
 
     /**
+     * 微信昵称
+     */
+    private String wechatNickname;
+
+    /**
      * 微信open_id
      */
     private String openid;
@@ -49,11 +54,6 @@ public class MakerEntity extends BaseEntity {
      * 微信session_key
      */
     private String sessionKey;
-
-    /**
-     * 微信昵称
-     */
-    private String wechatNickname;
 
     /**
      * 微信关联日期
@@ -156,7 +156,7 @@ public class MakerEntity extends BaseEntity {
     private String idcardBackHand;
 
     /**
-     * 验证图片
+     * 刷脸截图
      */
     private String picVerify;
 

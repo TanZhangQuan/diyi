@@ -95,5 +95,19 @@ public interface IMakerService extends IService<MakerEntity> {
      */
     R mobileOcrNotify(HttpServletRequest request) throws Exception;
 
+    /**
+     * 查询当前创客身份证实名认证的照片
+     *
+     * @return
+     */
+    R queryIdcardOcr();
+
+    /**
+     * 检查当前创客身份证和人脸是否已实名认证
+     *
+     * @return
+     */
+    R checkIdcardFaceVerify();
+
 }
 

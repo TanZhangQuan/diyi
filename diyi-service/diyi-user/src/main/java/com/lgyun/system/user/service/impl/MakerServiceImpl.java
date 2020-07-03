@@ -18,6 +18,7 @@ import com.lgyun.system.user.vo.IdcardOcrVO;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sun.misc.BASE64Decoder;
@@ -52,7 +53,7 @@ public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> impl
     public R idcardOcr(String idcardPic) throws Exception {
 
         //TODO
-        MakerEntity makerEntity = getById(1);
+        MakerEntity makerEntity = getById(1278969988057903106L);
         //查看创客是否已经身份证实名认证
         if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus())) {
             return R.fail("身份证已实名认证");
@@ -71,31 +72,29 @@ public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> impl
         String name = jsonObject.getString("name");
         String idNo = jsonObject.getString("idNo");
 
-        IdcardOcrVO idcardOcrVO = new IdcardOcrVO();
-        idcardOcrVO.setName(name);
-        idcardOcrVO.setIdNo(idNo);
+        JSONObject result = new JSONObject();
+        result.put("name", name);
+        result.put("idNo", idNo);
 
-        return R.data(idcardOcrVO);
+        return R.data(result);
     }
 
     @Override
     public R idcardOcrSave(IdcardOcrSaveDto idcardOcrSaveDto) {
 
         //TODO
-        MakerEntity makerEntity = getById(1);
+        MakerEntity makerEntity = getById(1278969988057903106L);
         //查看创客是否已经身份证实名认证
         if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus())) {
             return R.fail("身份证已实名认证");
         }
 
-        makerEntity.setIdcardPic(idcardOcrSaveDto.getIdcardPic());
-        makerEntity.setIdcardPicBack(idcardOcrSaveDto.getIdcardPicBack());
-        makerEntity.setName(idcardOcrSaveDto.getName());
-        makerEntity.setIdcardNo(idcardOcrSaveDto.getIdNo());
+        BeanUtils.copyProperties(idcardOcrSaveDto, makerEntity);
         makerEntity.setIdcardVerifyStatus(VerifyStatus.VERIFYPASS);
-        makerEntity.setIdcardVerifyDate(new Date());
         makerEntity.setIdcardVerifyType(IdcardVerifyType.SYSTEMVERIFY);
-        saveOrUpdate(makerEntity);
+        makerEntity.setIdcardVerifyDate(new Date());
+
+        save(makerEntity);
 
         return R.success("身份证实名认证信息保存成功");
     }
@@ -104,7 +103,7 @@ public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> impl
     public R faceOcr() throws Exception {
 
         //TODO
-        MakerEntity makerEntity = getById(1);
+        MakerEntity makerEntity = getById(1278969988057903106L);
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
             return R.fail("请先进行身份证实名认证");
@@ -190,7 +189,7 @@ public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> impl
     public R bankCardOcr(String bankCardNo) throws Exception {
 
         //TODO
-        MakerEntity makerEntity = getById(1);
+        MakerEntity makerEntity = getById(1278969988057903106L);
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
             return R.fail("请先进行身份证实名认证");
@@ -275,7 +274,7 @@ public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> impl
     public R mobileOcr() throws Exception {
 
         //TODO
-        MakerEntity makerEntity = getById(1);
+        MakerEntity makerEntity = getById(1278969988057903106L);
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
             return R.fail("请先进行身份证实名认证");
@@ -337,6 +336,46 @@ public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> impl
         }
 
         return R.fail("手机号实名认证回调处理失败");
+    }
+
+    @Override
+    public R queryIdcardOcr() {
+
+        //TODO
+        MakerEntity makerEntity = getById(1278969988057903106L);
+        //查看创客是否已经身份证实名认证
+        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
+            return R.fail("未进行身份证实名认证");
+        }
+
+        IdcardOcrVO idcardOcrVO = new IdcardOcrVO();
+        idcardOcrVO.setIdcardPic(makerEntity.getIdcardPic());
+        idcardOcrVO.setIdcardPicBack(makerEntity.getIdcardPicBack());
+        idcardOcrVO.setName(makerEntity.getName());
+        idcardOcrVO.setIdNo(makerEntity.getIdcardNo());
+        idcardOcrVO.setIdcardHand(makerEntity.getIdcardHand());
+        idcardOcrVO.setIdcardBackHand(makerEntity.getIdcardBackHand());
+
+        return R.data(idcardOcrVO);
+
+    }
+
+    @Override
+    public R checkIdcardFaceVerify() {
+
+        //TODO
+        MakerEntity makerEntity = getById(1278969988057903106L);
+        //查看创客是否已经身份证实名认证
+        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
+            return R.fail("请先进行身份证实名认证");
+        }
+
+        //查看创客是否已经刷脸实名认证
+        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus()))) {
+            return R.fail("请先进行刷脸实名认证");
+        }
+
+        return R.success("身份证和人脸已实名认证");
     }
 
 }

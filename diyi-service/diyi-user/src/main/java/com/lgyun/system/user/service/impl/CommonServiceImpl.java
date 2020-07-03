@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.lgyun.auth.utils.RedisUtil;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.WechatConstant;
+import com.lgyun.common.enumeration.VerifyStatus;
+import com.lgyun.common.enumeration.VideoAudit;
 import com.lgyun.common.tool.AesCbcUtil;
 import com.lgyun.common.tool.HttpUtil;
 import com.lgyun.common.tool.StringUtil;
@@ -22,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -124,6 +127,7 @@ public class CommonServiceImpl implements ICommonService {
                 //更新微信信息
                 makerEntity.setOpenid(openid);
                 makerEntity.setSessionKey(sessionKey);
+                makerEntity.setUpdateTime(new Date());
                 iMakerService.updateById(makerEntity);
             } else {
                 //新建创客
@@ -131,6 +135,17 @@ public class CommonServiceImpl implements ICommonService {
                 makerEntity.setOpenid(openid);
                 makerEntity.setSessionKey(sessionKey);
                 makerEntity.setPhoneNumber(purePhoneNumber);
+                makerEntity.setRelDate(new Date());
+                makerEntity.setIdcardVerifyStatus(VerifyStatus.TOVERIFY);
+                makerEntity.setFaceVerifyStatus(VerifyStatus.TOVERIFY);
+                makerEntity.setPhoneNumberVerifyStatus(VerifyStatus.TOVERIFY);
+                makerEntity.setBankCardVerifyStatus(VerifyStatus.TOVERIFY);
+                makerEntity.setVideoAudit(VideoAudit.TOAUDIT);
+                makerEntity.setCreateTime(new Date());
+                makerEntity.setUpdateTime(new Date());
+                makerEntity.setIsDeleted(0);
+                makerEntity.setStatus(1);
+
                 iMakerService.save(makerEntity);
             }
 

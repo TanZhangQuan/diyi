@@ -189,4 +189,30 @@ public class MakerController {
 		return R.fail("手机号实名认证异步回调失败");
 	}
 
+	@PostMapping("/query_idcard_ocr")
+	@ApiOperation(value = "查询当前创客身份证实名认证的照片", notes = "查询当前创客身份证实名认证的照片")
+	public R queryIdcardOcr() {
+
+		logger.info("查询当前创客身份证实名认证的照片");
+		try {
+			return makerService.queryIdcardOcr();
+		} catch (Exception e) {
+			logger.error("查询当前创客身份证实名认证的照片异常", e);
+		}
+		return R.fail("查询当前创客身份证实名认证的照片失败");
+	}
+
+	@PostMapping("/check_idcard_face_verify")
+	@ApiOperation(value = "检查当前创客身份证和人脸是否已实名认证", notes = "检查当前创客身份证和人脸是否已实名认证")
+	public R checkIdcardFaceVerify() {
+
+		logger.info("检查当前创客身份证和人脸是否已实名认证");
+		try {
+			return makerService.checkIdcardFaceVerify();
+		} catch (Exception e) {
+			logger.error("检查当前创客身份证和人脸是否已实名认证异常", e);
+		}
+		return R.fail("检查身份证和人脸是否已实名认证失败");
+	}
+
 }

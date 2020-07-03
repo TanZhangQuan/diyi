@@ -5,6 +5,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
+import com.lgyun.system.user.dto.IndividualBusinessAddDto;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.service.IIndividualBusinessService;
 import com.lgyun.system.user.vo.IndividualBusinessVO;
@@ -39,8 +40,16 @@ public class IndividualBusinessController {
 
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "新增")
-	public R save(@Valid @RequestBody IndividualBusinessEntity individualBusiness) {
-		return R.status(individualBusinessService.save(individualBusiness));
+	public R save(@Valid @RequestBody IndividualBusinessAddDto individualBusinessAddDto) {
+
+		logger.info("新增个体户");
+		try {
+			return individualBusinessService.save(individualBusinessAddDto);
+		} catch (Exception e) {
+			logger.error("新增个体户异常", e);
+		}
+		return R.fail("新增个体户失败");
+
 	}
 
 	@PostMapping("/update")

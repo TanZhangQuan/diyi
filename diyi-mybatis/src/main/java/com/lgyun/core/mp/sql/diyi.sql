@@ -869,8 +869,8 @@ DROP TABLE IF EXISTS `diyi_individual_business`;
 CREATE TABLE `diyi_individual_business` (
   `individual_business_id` bigint(50) NOT NULL COMMENT '个体户ID',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
-  `biz_type` varchar(50) NOT NULL COMMENT '个人企业类别：个体户，小规模纳税人个独，一般纳税人个独',
-  `ibname` varchar(50) NOT NULL COMMENT '个体户名称',
+  `ind_bus_tax_type` varchar(50) NOT NULL COMMENT '个体户税种：小规模',
+  `ibname` varchar(50) NOT NULL DEFAULT '' COMMENT '个体户名称',
   `ibtax_no` varchar(50) NOT NULL DEFAULT '' COMMENT '统一社会信用代码',
   `build_date_time` datetime DEFAULT NULL COMMENT '营业执照的注册日期',
   `biz_park` varchar(100) NOT NULL DEFAULT '' COMMENT '园区',
@@ -897,9 +897,7 @@ CREATE TABLE `diyi_individual_business` (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
-  PRIMARY KEY (`individual_business_id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`ibname`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`ibtax_no`)
+  PRIMARY KEY (`individual_business_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
@@ -941,8 +939,8 @@ DROP TABLE IF EXISTS `diyi_individual_enterprise`;
 CREATE TABLE `diyi_individual_enterprise` (
   `individual_enterprise_id` bigint(50) NOT NULL COMMENT '个独ID',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
-  `biz_type` varchar(50) NOT NULL COMMENT '个独类别：小规模纳税人个独，一般纳税人个独',
-  `ibname` varchar(50) NOT NULL COMMENT '个体户名称',
+  `ind_ent_tax_type` varchar(50) NOT NULL COMMENT '个独税种：小规模，一般纳税人',
+  `ibname` varchar(50) NOT NULL DEFAULT '' COMMENT '个体户名称',
   `ibtax_no` varchar(50) NOT NULL DEFAULT '' COMMENT '统一社会信用代码',
   `build_date_time` datetime DEFAULT NULL COMMENT '营业执照的注册日期',
   `biz_park` varchar(100) NOT NULL DEFAULT '' COMMENT '园区',
@@ -963,8 +961,6 @@ CREATE TABLE `diyi_individual_enterprise` (
   `contact_name` varchar(50) NOT NULL COMMENT '联系人姓名',
   `contact_phone` varchar(50) NOT NULL COMMENT '联系人手机号',
   `service_rat` decimal(3,2) DEFAULT NULL COMMENT '服务费率',
-  `investor_hand_idcard_pic` varchar(100) NOT NULL COMMENT '投资人手持身份证正面',
-  `investor_hand_idcard_pic_back` varchar(100) NOT NULL COMMENT '投资人手持身份证反面',
   `investor_hand_commitment` varchar(100) NOT NULL COMMENT '手持承诺书照片',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
@@ -972,9 +968,7 @@ CREATE TABLE `diyi_individual_enterprise` (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
-  PRIMARY KEY (`individual_enterprise_id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`ibname`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`ibtax_no`)
+  PRIMARY KEY (`individual_enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------

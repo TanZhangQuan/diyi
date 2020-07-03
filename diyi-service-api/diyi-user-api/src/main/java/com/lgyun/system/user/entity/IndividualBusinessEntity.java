@@ -5,11 +5,13 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.Ibstate;
+import com.lgyun.common.enumeration.IndBusTaxType;
+import com.lgyun.core.mp.base.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -22,7 +24,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @TableName("diyi_individual_business")
-public class IndividualBusinessEntity implements Serializable {
+public class IndividualBusinessEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -39,9 +41,9 @@ public class IndividualBusinessEntity implements Serializable {
     private Long makerId;
 
     /**
-     * 个人企业类别：个体户，小规模纳税人个独，一般纳税人个独
+     * 个体户税种：小规模，一般纳税人
      */
-    private String bizType;
+    private IndBusTaxType indBusTaxType;
 
     /**
      * 个体户名称
@@ -111,7 +113,7 @@ public class IndividualBusinessEntity implements Serializable {
     /**
      * 个体户状态：注册中，税务登记中，运营中，已注销
      */
-    private String ibstate;
+    private Ibstate ibstate;
 
     /**
      * 提交日期
@@ -147,35 +149,5 @@ public class IndividualBusinessEntity implements Serializable {
      * 服务费率
      */
     private BigDecimal serviceRat;
-
-    /**
-     * 创建人
-     */
-    private Long createUser;
-
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 更新人
-     */
-    private Long updateUser;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-
-    /**
-     * 状态[1:正常]
-     */
-    private Integer status;
-
-    /**
-     * 状态[0:未删除,1:删除]
-     */
-    private Integer isDeleted;
 
 }
