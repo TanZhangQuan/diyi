@@ -7,7 +7,6 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.AgreementEntity;
 import com.lgyun.system.user.service.IAgreementService;
-import com.lgyun.system.user.vo.AgreementVO;
 import com.lgyun.system.user.wrapper.AgreementWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -52,14 +51,14 @@ public class AgreementController {
 
 	@GetMapping("/detail")
 	@ApiOperation(value = "详情", notes = "详情")
-	public R<AgreementVO> detail(Long agreementId) {
+	public R detail(Long agreementId) {
 		AgreementEntity detail = agreementService.getById(agreementId);
 		return R.data(AgreementWrapper.build().entityVO(detail));
 	}
 
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "分页")
-	public R<IPage<AgreementVO>> list(AgreementEntity agreement, Query query) {
+	public R list(AgreementEntity agreement, Query query) {
 		IPage<AgreementEntity> pages = agreementService.page(Condition.getPage(query), Condition.getQueryWrapper(agreement));
 		return R.data(AgreementWrapper.build().pageVO(pages));
 	}
@@ -72,14 +71,14 @@ public class AgreementController {
 
 	@GetMapping("/makerIdFind")
 	@ApiOperation(value = "根据创客找合同", notes = "根据创客找合同")
-	public R<List<AgreementEntity>> makerIdFind(Long makerId) {
+	public R makerIdFind(Long makerId) {
 		List<AgreementEntity> agreementEntities = agreementService.makerIdFind(makerId);
 		return R.data(agreementEntities);
 	}
 
 	@GetMapping("/makerIdCompanyFind")
 	@ApiOperation(value = "根据创客和商户找合同", notes = "根据创客和商户找合同")
-	public R<List<AgreementEntity>> makerIdCompanyFind(Long makerId,Long employeeId) {
+	public R makerIdCompanyFind(Long makerId,Long employeeId) {
 		List<AgreementEntity> agreementEntities = agreementService.makerIdCompanyFind(makerId,employeeId);
 		return R.data(agreementEntities);
 	}
