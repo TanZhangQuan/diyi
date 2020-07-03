@@ -38,33 +38,33 @@ public class PositionController {
 	private final IPositionService positionService;
 
 	@PostMapping("/save")
-	@ApiOperation(value = "新增", notes = "传入position")
+	@ApiOperation(value = "新增", notes = "新增")
 	public R save(@Valid @RequestBody PositionEntity position) {
 		return R.status(positionService.save(position));
 	}
 
 	@PostMapping("/update")
-	@ApiOperation(value = "修改", notes = "传入position")
+	@ApiOperation(value = "修改", notes = "修改")
 	public R update(@Valid @RequestBody PositionEntity position) {
 		return R.status(positionService.updateById(position));
 	}
 
 	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "传入position")
+	@ApiOperation(value = "详情", notes = "详情")
 	public R<PositionVO> detail(PositionEntity position) {
 		PositionEntity detail = positionService.getOne(Condition.getQueryWrapper(position));
 		return R.data(PositionWrapper.build().entityVO(detail));
 	}
 
 	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "传入position")
+	@ApiOperation(value = "分页", notes = "分页")
 	public R<IPage<PositionVO>> list(PositionEntity position, Query query) {
 		IPage<PositionEntity> pages = positionService.page(Condition.getPage(query), Condition.getQueryWrapper(position));
 		return R.data(PositionWrapper.build().pageVO(pages));
 	}
 
 	@PostMapping("/remove")
-	@ApiOperation(value = "删除", notes = "传入ids")
+	@ApiOperation(value = "删除", notes = "删除")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
 		return R.status(positionService.removeByIds(Func.toLongList(ids)));
 	}

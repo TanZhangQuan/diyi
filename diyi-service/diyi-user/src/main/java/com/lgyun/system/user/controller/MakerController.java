@@ -41,33 +41,33 @@ public class MakerController {
 	private final IMakerService makerService;
 
 	@PostMapping("/save")
-	@ApiOperation(value = "新增", notes = "传入maker")
+	@ApiOperation(value = "新增", notes = "新增")
 	public R save(@Valid @RequestBody MakerEntity maker) {
 		return R.status(makerService.save(maker));
 	}
 
 	@PostMapping("/update")
-	@ApiOperation(value = "修改", notes = "传入maker")
+	@ApiOperation(value = "修改", notes = "修改")
 	public R update(@Valid @RequestBody MakerEntity maker) {
 		return R.status(makerService.updateById(maker));
 	}
 
 	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "传入maker")
+	@ApiOperation(value = "详情", notes = "详情")
 	public R<MakerVO> detail(MakerEntity maker) {
 		MakerEntity detail = makerService.getOne(Condition.getQueryWrapper(maker));
 		return R.data(MakerWrapper.build().entityVO(detail));
 	}
 
 	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "传入maker")
+	@ApiOperation(value = "分页", notes = "分页")
 	public R<IPage<MakerVO>> list(MakerEntity maker, Query query) {
 		IPage<MakerEntity> pages = makerService.page(Condition.getPage(query), Condition.getQueryWrapper(maker));
 		return R.data(MakerWrapper.build().pageVO(pages));
 	}
 
 	@PostMapping("/remove")
-	@ApiOperation(value = "删除", notes = "传入ids")
+	@ApiOperation(value = "删除", notes = "删除")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
 		return R.status(makerService.removeByIds(Func.toLongList(ids)));
 	}

@@ -38,33 +38,33 @@ public class SetupController {
 	private final ISetupService setupService;
 
 	@PostMapping("/save")
-	@ApiOperation(value = "新增", notes = "传入setup")
+	@ApiOperation(value = "新增", notes = "新增")
 	public R save(@Valid @RequestBody SetupEntity setup) {
 		return R.status(setupService.save(setup));
 	}
 
 	@PostMapping("/update")
-	@ApiOperation(value = "修改", notes = "传入setup")
+	@ApiOperation(value = "修改", notes = "修改")
 	public R update(@Valid @RequestBody SetupEntity setup) {
 		return R.status(setupService.updateById(setup));
 	}
 
 	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "传入setup")
+	@ApiOperation(value = "详情", notes = "详情")
 	public R<SetupVO> detail(SetupEntity setup) {
 		SetupEntity detail = setupService.getOne(Condition.getQueryWrapper(setup));
 		return R.data(SetupWrapper.build().entityVO(detail));
 	}
 
 	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "传入setup")
+	@ApiOperation(value = "分页", notes = "分页")
 	public R<IPage<SetupVO>> list(SetupEntity setup, Query query) {
 		IPage<SetupEntity> pages = setupService.page(Condition.getPage(query), Condition.getQueryWrapper(setup));
 		return R.data(SetupWrapper.build().pageVO(pages));
 	}
 
 	@PostMapping("/remove")
-	@ApiOperation(value = "删除", notes = "传入ids")
+	@ApiOperation(value = "删除", notes = "删除")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
 		return R.status(setupService.removeByIds(Func.toLongList(ids)));
 	}

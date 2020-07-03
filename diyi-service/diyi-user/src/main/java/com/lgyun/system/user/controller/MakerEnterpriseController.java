@@ -39,33 +39,33 @@ public class MakerEnterpriseController {
 	private final IEnterpriseService iEnterpriseService;
 
 	@PostMapping("/save")
-	@ApiOperation(value = "新增", notes = "传入makerEnterprise")
+	@ApiOperation(value = "新增", notes = "新增")
 	public R save(@Valid @RequestBody MakerEnterpriseEntity makerEnterprise) {
 		return R.status(makerEnterpriseService.save(makerEnterprise));
 	}
 
 	@PostMapping("/update")
-	@ApiOperation(value = "修改", notes = "传入makerEnterprise")
+	@ApiOperation(value = "修改", notes = "修改")
 	public R update(@Valid @RequestBody MakerEnterpriseEntity makerEnterprise) {
 		return R.status(makerEnterpriseService.updateById(makerEnterprise));
 	}
 
 	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "传入makerEnterprise")
+	@ApiOperation(value = "详情", notes = "详情")
 	public R<MakerEnterpriseVO> detail(MakerEnterpriseEntity makerEnterprise) {
 		MakerEnterpriseEntity detail = makerEnterpriseService.getOne(Condition.getQueryWrapper(makerEnterprise));
 		return R.data(MakerEnterpriseWrapper.build().entityVO(detail));
 	}
 
 	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "传入makerEnterprise")
+	@ApiOperation(value = "分页", notes = "分页")
 	public R<IPage<MakerEnterpriseVO>> list(MakerEnterpriseEntity makerEnterprise, Query query) {
 		IPage<MakerEnterpriseEntity> pages = makerEnterpriseService.page(Condition.getPage(query), Condition.getQueryWrapper(makerEnterprise));
 		return R.data(MakerEnterpriseWrapper.build().pageVO(pages));
 	}
 
 	@PostMapping("/remove")
-	@ApiOperation(value = "删除", notes = "传入ids")
+	@ApiOperation(value = "删除", notes = "删除")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
 		return R.status(makerEnterpriseService.removeByIds(Func.toLongList(ids)));
 	}

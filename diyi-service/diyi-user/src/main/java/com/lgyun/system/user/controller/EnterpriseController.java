@@ -38,33 +38,33 @@ public class EnterpriseController {
 	private final IEnterpriseService enterpriseService;
 
 	@PostMapping("/save")
-	@ApiOperation(value = "新增", notes = "传入enterprise")
+	@ApiOperation(value = "新增", notes = "新增")
 	public R save(@Valid @RequestBody EnterpriseEntity enterprise) {
 		return R.status(enterpriseService.save(enterprise));
 	}
 
 	@PostMapping("/update")
-	@ApiOperation(value = "修改", notes = "传入enterprise")
+	@ApiOperation(value = "修改", notes = "修改")
 	public R update(@Valid @RequestBody EnterpriseEntity enterprise) {
 		return R.status(enterpriseService.updateById(enterprise));
 	}
 
 	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "传入enterprise")
+	@ApiOperation(value = "详情", notes = "详情")
 	public R<EnterpriseVO> detail(EnterpriseEntity enterprise) {
 		EnterpriseEntity detail = enterpriseService.getOne(Condition.getQueryWrapper(enterprise));
 		return R.data(EnterpriseWrapper.build().entityVO(detail));
 	}
 
 	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "传入enterprise")
+	@ApiOperation(value = "分页", notes = "分页")
 	public R<IPage<EnterpriseVO>> list(EnterpriseEntity enterprise, Query query) {
 		IPage<EnterpriseEntity> pages = enterpriseService.page(Condition.getPage(query), Condition.getQueryWrapper(enterprise));
 		return R.data(EnterpriseWrapper.build().pageVO(pages));
 	}
 
 	@PostMapping("/remove")
-	@ApiOperation(value = "删除", notes = "传入ids")
+	@ApiOperation(value = "删除", notes = "删除")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
 		return R.status(enterpriseService.removeByIds(Func.toLongList(ids)));
 	}

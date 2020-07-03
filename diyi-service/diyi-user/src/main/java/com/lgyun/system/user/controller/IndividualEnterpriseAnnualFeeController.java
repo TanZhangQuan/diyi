@@ -38,33 +38,33 @@ public class IndividualEnterpriseAnnualFeeController {
 	private final IIndividualEnterpriseAnnualFeeService individualEnterpriseAnnualFeeService;
 
 	@PostMapping("/save")
-	@ApiOperation(value = "新增", notes = "传入individualEnterpriseAnnualFee")
+	@ApiOperation(value = "新增", notes = "新增")
 	public R save(@Valid @RequestBody IndividualEnterpriseAnnualFeeEntity individualEnterpriseAnnualFee) {
 		return R.status(individualEnterpriseAnnualFeeService.save(individualEnterpriseAnnualFee));
 	}
 
 	@PostMapping("/update")
-	@ApiOperation(value = "修改", notes = "传入individualEnterpriseAnnualFee")
+	@ApiOperation(value = "修改", notes = "修改")
 	public R update(@Valid @RequestBody IndividualEnterpriseAnnualFeeEntity individualEnterpriseAnnualFee) {
 		return R.status(individualEnterpriseAnnualFeeService.updateById(individualEnterpriseAnnualFee));
 	}
 
 	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "传入individualEnterpriseAnnualFee")
+	@ApiOperation(value = "详情", notes = "详情")
 	public R<IndividualEnterpriseAnnualFeeVO> detail(IndividualEnterpriseAnnualFeeEntity individualEnterpriseAnnualFee) {
 		IndividualEnterpriseAnnualFeeEntity detail = individualEnterpriseAnnualFeeService.getOne(Condition.getQueryWrapper(individualEnterpriseAnnualFee));
 		return R.data(IndividualEnterpriseAnnualFeeWrapper.build().entityVO(detail));
 	}
 
 	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "传入individualEnterpriseAnnualFee")
+	@ApiOperation(value = "分页", notes = "分页")
 	public R<IPage<IndividualEnterpriseAnnualFeeVO>> list(IndividualEnterpriseAnnualFeeEntity individualEnterpriseAnnualFee, Query query) {
 		IPage<IndividualEnterpriseAnnualFeeEntity> pages = individualEnterpriseAnnualFeeService.page(Condition.getPage(query), Condition.getQueryWrapper(individualEnterpriseAnnualFee));
 		return R.data(IndividualEnterpriseAnnualFeeWrapper.build().pageVO(pages));
 	}
 
 	@PostMapping("/remove")
-	@ApiOperation(value = "删除", notes = "传入ids")
+	@ApiOperation(value = "删除", notes = "删除")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
 		return R.status(individualEnterpriseAnnualFeeService.removeByIds(Func.toLongList(ids)));
 	}

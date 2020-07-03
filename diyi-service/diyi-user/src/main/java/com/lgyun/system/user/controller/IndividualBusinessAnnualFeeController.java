@@ -38,33 +38,33 @@ public class IndividualBusinessAnnualFeeController {
 	private final IIndividualBusinessAnnualFeeService individualBusinessAnnualFeeService;
 
 	@PostMapping("/save")
-	@ApiOperation(value = "新增", notes = "传入individualBusinessAnnualFee")
+	@ApiOperation(value = "新增", notes = "新增")
 	public R save(@Valid @RequestBody IndividualBusinessAnnualFeeEntity individualBusinessAnnualFee) {
 		return R.status(individualBusinessAnnualFeeService.save(individualBusinessAnnualFee));
 	}
 
 	@PostMapping("/update")
-	@ApiOperation(value = "修改", notes = "传入individualBusinessAnnualFee")
+	@ApiOperation(value = "修改", notes = "修改")
 	public R update(@Valid @RequestBody IndividualBusinessAnnualFeeEntity individualBusinessAnnualFee) {
 		return R.status(individualBusinessAnnualFeeService.updateById(individualBusinessAnnualFee));
 	}
 
 	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "传入individualBusinessAnnualFee")
+	@ApiOperation(value = "详情", notes = "详情")
 	public R<IndividualBusinessAnnualFeeVO> detail(IndividualBusinessAnnualFeeEntity individualBusinessAnnualFee) {
 		IndividualBusinessAnnualFeeEntity detail = individualBusinessAnnualFeeService.getOne(Condition.getQueryWrapper(individualBusinessAnnualFee));
 		return R.data(IndividualBusinessAnnualFeeWrapper.build().entityVO(detail));
 	}
 
 	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "传入individualBusinessAnnualFee")
+	@ApiOperation(value = "分页", notes = "分页")
 	public R<IPage<IndividualBusinessAnnualFeeVO>> list(IndividualBusinessAnnualFeeEntity individualBusinessAnnualFee, Query query) {
 		IPage<IndividualBusinessAnnualFeeEntity> pages = individualBusinessAnnualFeeService.page(Condition.getPage(query), Condition.getQueryWrapper(individualBusinessAnnualFee));
 		return R.data(IndividualBusinessAnnualFeeWrapper.build().pageVO(pages));
 	}
 
 	@PostMapping("/remove")
-	@ApiOperation(value = "删除", notes = "传入ids")
+	@ApiOperation(value = "删除", notes = "删除")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
 		return R.status(individualBusinessAnnualFeeService.removeByIds(Func.toLongList(ids)));
 	}

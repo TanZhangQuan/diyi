@@ -38,33 +38,33 @@ public class IndividualBusinessController {
 	private final IIndividualBusinessService individualBusinessService;
 
 	@PostMapping("/save")
-	@ApiOperation(value = "新增个体户", notes = "新增个体户")
+	@ApiOperation(value = "新增", notes = "新增")
 	public R save(@Valid @RequestBody IndividualBusinessEntity individualBusiness) {
 		return R.status(individualBusinessService.save(individualBusiness));
 	}
 
 	@PostMapping("/update")
-	@ApiOperation(value = "修改", notes = "传入individualBusiness")
+	@ApiOperation(value = "修改", notes = "修改")
 	public R update(@Valid @RequestBody IndividualBusinessEntity individualBusiness) {
 		return R.status(individualBusinessService.updateById(individualBusiness));
 	}
 
 	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "传入individualBusiness")
+	@ApiOperation(value = "详情", notes = "详情")
 	public R<IndividualBusinessVO> detail(IndividualBusinessEntity individualBusiness) {
 		IndividualBusinessEntity detail = individualBusinessService.getOne(Condition.getQueryWrapper(individualBusiness));
 		return R.data(IndividualBusinessWrapper.build().entityVO(detail));
 	}
 
 	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "传入individualBusiness")
+	@ApiOperation(value = "分页", notes = "分页")
 	public R<IPage<IndividualBusinessVO>> list(IndividualBusinessEntity individualBusiness, Query query) {
 		IPage<IndividualBusinessEntity> pages = individualBusinessService.page(Condition.getPage(query), Condition.getQueryWrapper(individualBusiness));
 		return R.data(IndividualBusinessWrapper.build().pageVO(pages));
 	}
 
 	@PostMapping("/remove")
-	@ApiOperation(value = "删除", notes = "传入ids")
+	@ApiOperation(value = "删除", notes = "删除")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
 		return R.status(individualBusinessService.removeByIds(Func.toLongList(ids)));
 	}

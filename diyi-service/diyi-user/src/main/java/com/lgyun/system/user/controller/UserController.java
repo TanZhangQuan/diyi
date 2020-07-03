@@ -52,7 +52,7 @@ public class UserController {
 
     private IUserService userService;
 
-    @ApiOperation(value = "查看详情", notes = "传入id")
+    @ApiOperation(value = "详情", notes = "详情")
     @GetMapping("/detail")
     public R<UserVO> detail(User user) {
         User detail = userService.getOne(Condition.getQueryWrapper(user));
@@ -71,7 +71,7 @@ public class UserController {
             @ApiImplicitParam(name = "account", value = "账号名", paramType = "query", dataType = "string"),
             @ApiImplicitParam(name = "realName", value = "姓名", paramType = "query", dataType = "string")
     })
-    @ApiOperation(value = "列表", notes = "传入account和realName")
+    @ApiOperation(value = "列表", notes = "分页")
     public R<IPage<UserVO>> list(@ApiIgnore @RequestParam Map<String, Object> user, Query query, BladeUser bladeUser) {
         QueryWrapper<User> queryWrapper = Condition.getQueryWrapper(user, User.class);
         IPage<User> pages = userService.page(Condition.getPage(query), (!bladeUser.getTenantId().equals(BladeConstant.ADMIN_TENANT_ID)) ? queryWrapper.lambda().eq(User::getTenantId, bladeUser.getTenantId()) : queryWrapper);
@@ -85,13 +85,13 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    @ApiOperation(value = "修改", notes = "传入User")
+    @ApiOperation(value = "修改", notes = "修改")
     public R update(@Valid @RequestBody User user) {
         return R.status(userService.updateById(user));
     }
 
     @PostMapping("/remove")
-    @ApiOperation(value = "删除", notes = "传入地基和")
+    @ApiOperation(value = "删除", notes = "删除")
     public R remove(@RequestParam String ids) {
         return R.status(userService.deleteLogic(Func.toLongList(ids)));
     }

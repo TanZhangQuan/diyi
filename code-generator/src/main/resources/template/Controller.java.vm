@@ -36,33 +36,33 @@ public class ${className}Controller {
 	private final I${className}Service ${classname}Service;
 
 	@PostMapping("/save")
-	@ApiOperation(value = "新增", notes = "传入${classname}")
+	@ApiOperation(value = "新增", notes = "新增")
 	public R save(@Valid @RequestBody ${className}Entity ${classname}) {
 		return R.status(${classname}Service.save(${classname}));
 	}
 
 	@PostMapping("/update")
-	@ApiOperation(value = "修改", notes = "传入${classname}")
+	@ApiOperation(value = "修改", notes = "修改")
 	public R update(@Valid @RequestBody ${className}Entity ${classname}) {
 		return R.status(${classname}Service.updateById(${classname}));
 	}
 
 	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "传入${classname}")
+	@ApiOperation(value = "详情", notes = "详情")
 	public R<${className}VO> detail(${className}Entity ${classname}) {
 		${className}Entity detail = ${classname}Service.getOne(Condition.getQueryWrapper(${classname}));
 		return R.data(${className}Wrapper.build().entityVO(detail));
 	}
 
 	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "传入${classname}")
+	@ApiOperation(value = "分页", notes = "分页")
 	public R<IPage<${className}VO>> list(${className}Entity ${classname}, Query query) {
 		IPage<${className}Entity> pages = ${classname}Service.page(Condition.getPage(query), Condition.getQueryWrapper(${classname}));
 		return R.data(${className}Wrapper.build().pageVO(pages));
 	}
 
 	@PostMapping("/remove")
-	@ApiOperation(value = "删除", notes = "传入ids")
+	@ApiOperation(value = "删除", notes = "删除")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
 		return R.status(${classname}Service.removeByIds(Func.toLongList(ids)));
 	}

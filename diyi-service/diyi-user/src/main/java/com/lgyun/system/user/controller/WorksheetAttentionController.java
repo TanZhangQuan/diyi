@@ -38,33 +38,33 @@ public class WorksheetAttentionController {
 	private final IWorksheetAttentionService worksheetAttentionService;
 
 	@PostMapping("/save")
-	@ApiOperation(value = "新增", notes = "传入worksheetAttention")
+	@ApiOperation(value = "新增", notes = "新增")
 	public R save(@Valid @RequestBody WorksheetAttentionEntity worksheetAttention) {
 		return R.status(worksheetAttentionService.save(worksheetAttention));
 	}
 
 	@PostMapping("/update")
-	@ApiOperation(value = "修改", notes = "传入worksheetAttention")
+	@ApiOperation(value = "修改", notes = "修改")
 	public R update(@Valid @RequestBody WorksheetAttentionEntity worksheetAttention) {
 		return R.status(worksheetAttentionService.updateById(worksheetAttention));
 	}
 
 	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "传入worksheetAttention")
+	@ApiOperation(value = "详情", notes = "详情")
 	public R<WorksheetAttentionVO> detail(WorksheetAttentionEntity worksheetAttention) {
 		WorksheetAttentionEntity detail = worksheetAttentionService.getOne(Condition.getQueryWrapper(worksheetAttention));
 		return R.data(WorksheetAttentionWrapper.build().entityVO(detail));
 	}
 
 	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "传入worksheetAttention")
+	@ApiOperation(value = "分页", notes = "分页")
 	public R<IPage<WorksheetAttentionVO>> list(WorksheetAttentionEntity worksheetAttention, Query query) {
 		IPage<WorksheetAttentionEntity> pages = worksheetAttentionService.page(Condition.getPage(query), Condition.getQueryWrapper(worksheetAttention));
 		return R.data(WorksheetAttentionWrapper.build().pageVO(pages));
 	}
 
 	@PostMapping("/remove")
-	@ApiOperation(value = "删除", notes = "传入ids")
+	@ApiOperation(value = "删除", notes = "删除")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
 		return R.status(worksheetAttentionService.removeByIds(Func.toLongList(ids)));
 	}

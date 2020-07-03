@@ -38,33 +38,33 @@ public class EmployeeController {
 	private final IEmployeeService employeeService;
 
 	@PostMapping("/save")
-	@ApiOperation(value = "新增", notes = "传入employee")
+	@ApiOperation(value = "新增", notes = "新增")
 	public R save(@Valid @RequestBody EmployeeEntity employee) {
 		return R.status(employeeService.save(employee));
 	}
 
 	@PostMapping("/update")
-	@ApiOperation(value = "修改", notes = "传入employee")
+	@ApiOperation(value = "修改", notes = "修改")
 	public R update(@Valid @RequestBody EmployeeEntity employee) {
 		return R.status(employeeService.updateById(employee));
 	}
 
 	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "传入employee")
+	@ApiOperation(value = "详情", notes = "详情")
 	public R<EmployeeVO> detail(EmployeeEntity employee) {
 		EmployeeEntity detail = employeeService.getOne(Condition.getQueryWrapper(employee));
 		return R.data(EmployeeWrapper.build().entityVO(detail));
 	}
 
 	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "传入employee")
+	@ApiOperation(value = "分页", notes = "分页")
 	public R<IPage<EmployeeVO>> list(EmployeeEntity employee, Query query) {
 		IPage<EmployeeEntity> pages = employeeService.page(Condition.getPage(query), Condition.getQueryWrapper(employee));
 		return R.data(EmployeeWrapper.build().pageVO(pages));
 	}
 
 	@PostMapping("/remove")
-	@ApiOperation(value = "删除", notes = "传入ids")
+	@ApiOperation(value = "删除", notes = "删除")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
 		return R.status(employeeService.removeByIds(Func.toLongList(ids)));
 	}
