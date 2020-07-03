@@ -37,20 +37,6 @@ public class IndividualEnterpriseAnnualFeeController {
 
 	private final IIndividualEnterpriseAnnualFeeService individualEnterpriseAnnualFeeService;
 
-	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "传入individualEnterpriseAnnualFee")
-	public R<IndividualEnterpriseAnnualFeeVO> detail(IndividualEnterpriseAnnualFeeEntity individualEnterpriseAnnualFee) {
-		IndividualEnterpriseAnnualFeeEntity detail = individualEnterpriseAnnualFeeService.getOne(Condition.getQueryWrapper(individualEnterpriseAnnualFee));
-		return R.data(IndividualEnterpriseAnnualFeeWrapper.build().entityVO(detail));
-	}
-
-	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "传入individualEnterpriseAnnualFee")
-	public R<IPage<IndividualEnterpriseAnnualFeeVO>> list(IndividualEnterpriseAnnualFeeEntity individualEnterpriseAnnualFee, Query query) {
-		IPage<IndividualEnterpriseAnnualFeeEntity> pages = individualEnterpriseAnnualFeeService.page(Condition.getPage(query), Condition.getQueryWrapper(individualEnterpriseAnnualFee));
-		return R.data(IndividualEnterpriseAnnualFeeWrapper.build().pageVO(pages));
-	}
-
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入individualEnterpriseAnnualFee")
 	public R save(@Valid @RequestBody IndividualEnterpriseAnnualFeeEntity individualEnterpriseAnnualFee) {
@@ -63,10 +49,18 @@ public class IndividualEnterpriseAnnualFeeController {
 		return R.status(individualEnterpriseAnnualFeeService.updateById(individualEnterpriseAnnualFee));
 	}
 
-	@PostMapping("/submit")
-	@ApiOperation(value = "新增或修改", notes = "传入IndividualEnterpriseAnnualFee")
-	public R submit(@Valid @RequestBody IndividualEnterpriseAnnualFeeEntity individualEnterpriseAnnualFee) {
-		return R.status(individualEnterpriseAnnualFeeService.saveOrUpdate(individualEnterpriseAnnualFee));
+	@GetMapping("/detail")
+	@ApiOperation(value = "详情", notes = "传入individualEnterpriseAnnualFee")
+	public R<IndividualEnterpriseAnnualFeeVO> detail(IndividualEnterpriseAnnualFeeEntity individualEnterpriseAnnualFee) {
+		IndividualEnterpriseAnnualFeeEntity detail = individualEnterpriseAnnualFeeService.getOne(Condition.getQueryWrapper(individualEnterpriseAnnualFee));
+		return R.data(IndividualEnterpriseAnnualFeeWrapper.build().entityVO(detail));
+	}
+
+	@GetMapping("/list")
+	@ApiOperation(value = "分页", notes = "传入individualEnterpriseAnnualFee")
+	public R<IPage<IndividualEnterpriseAnnualFeeVO>> list(IndividualEnterpriseAnnualFeeEntity individualEnterpriseAnnualFee, Query query) {
+		IPage<IndividualEnterpriseAnnualFeeEntity> pages = individualEnterpriseAnnualFeeService.page(Condition.getPage(query), Condition.getQueryWrapper(individualEnterpriseAnnualFee));
+		return R.data(IndividualEnterpriseAnnualFeeWrapper.build().pageVO(pages));
 	}
 
 	@PostMapping("/remove")

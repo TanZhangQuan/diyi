@@ -37,20 +37,6 @@ public class WorksheetAttentionController {
 
 	private final IWorksheetAttentionService worksheetAttentionService;
 
-	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "传入worksheetAttention")
-	public R<WorksheetAttentionVO> detail(WorksheetAttentionEntity worksheetAttention) {
-		WorksheetAttentionEntity detail = worksheetAttentionService.getOne(Condition.getQueryWrapper(worksheetAttention));
-		return R.data(WorksheetAttentionWrapper.build().entityVO(detail));
-	}
-
-	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "传入worksheetAttention")
-	public R<IPage<WorksheetAttentionVO>> list(WorksheetAttentionEntity worksheetAttention, Query query) {
-		IPage<WorksheetAttentionEntity> pages = worksheetAttentionService.page(Condition.getPage(query), Condition.getQueryWrapper(worksheetAttention));
-		return R.data(WorksheetAttentionWrapper.build().pageVO(pages));
-	}
-
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入worksheetAttention")
 	public R save(@Valid @RequestBody WorksheetAttentionEntity worksheetAttention) {
@@ -63,10 +49,18 @@ public class WorksheetAttentionController {
 		return R.status(worksheetAttentionService.updateById(worksheetAttention));
 	}
 
-	@PostMapping("/submit")
-	@ApiOperation(value = "新增或修改", notes = "传入WorksheetAttention")
-	public R submit(@Valid @RequestBody WorksheetAttentionEntity worksheetAttention) {
-		return R.status(worksheetAttentionService.saveOrUpdate(worksheetAttention));
+	@GetMapping("/detail")
+	@ApiOperation(value = "详情", notes = "传入worksheetAttention")
+	public R<WorksheetAttentionVO> detail(WorksheetAttentionEntity worksheetAttention) {
+		WorksheetAttentionEntity detail = worksheetAttentionService.getOne(Condition.getQueryWrapper(worksheetAttention));
+		return R.data(WorksheetAttentionWrapper.build().entityVO(detail));
+	}
+
+	@GetMapping("/list")
+	@ApiOperation(value = "分页", notes = "传入worksheetAttention")
+	public R<IPage<WorksheetAttentionVO>> list(WorksheetAttentionEntity worksheetAttention, Query query) {
+		IPage<WorksheetAttentionEntity> pages = worksheetAttentionService.page(Condition.getPage(query), Condition.getQueryWrapper(worksheetAttention));
+		return R.data(WorksheetAttentionWrapper.build().pageVO(pages));
 	}
 
 	@PostMapping("/remove")

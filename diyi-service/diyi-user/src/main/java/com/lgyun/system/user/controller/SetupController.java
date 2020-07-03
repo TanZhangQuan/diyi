@@ -37,20 +37,6 @@ public class SetupController {
 
 	private final ISetupService setupService;
 
-	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "传入setup")
-	public R<SetupVO> detail(SetupEntity setup) {
-		SetupEntity detail = setupService.getOne(Condition.getQueryWrapper(setup));
-		return R.data(SetupWrapper.build().entityVO(detail));
-	}
-
-	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "传入setup")
-	public R<IPage<SetupVO>> list(SetupEntity setup, Query query) {
-		IPage<SetupEntity> pages = setupService.page(Condition.getPage(query), Condition.getQueryWrapper(setup));
-		return R.data(SetupWrapper.build().pageVO(pages));
-	}
-
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入setup")
 	public R save(@Valid @RequestBody SetupEntity setup) {
@@ -63,10 +49,18 @@ public class SetupController {
 		return R.status(setupService.updateById(setup));
 	}
 
-	@PostMapping("/submit")
-	@ApiOperation(value = "新增或修改", notes = "传入Setup")
-	public R submit(@Valid @RequestBody SetupEntity setup) {
-		return R.status(setupService.saveOrUpdate(setup));
+	@GetMapping("/detail")
+	@ApiOperation(value = "详情", notes = "传入setup")
+	public R<SetupVO> detail(SetupEntity setup) {
+		SetupEntity detail = setupService.getOne(Condition.getQueryWrapper(setup));
+		return R.data(SetupWrapper.build().entityVO(detail));
+	}
+
+	@GetMapping("/list")
+	@ApiOperation(value = "分页", notes = "传入setup")
+	public R<IPage<SetupVO>> list(SetupEntity setup, Query query) {
+		IPage<SetupEntity> pages = setupService.page(Condition.getPage(query), Condition.getQueryWrapper(setup));
+		return R.data(SetupWrapper.build().pageVO(pages));
 	}
 
 	@PostMapping("/remove")

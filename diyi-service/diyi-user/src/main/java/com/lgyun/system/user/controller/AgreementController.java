@@ -38,13 +38,6 @@ public class AgreementController {
 
 	private final IAgreementService agreementService;
 
-	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "传入agreement")
-	public R<IPage<AgreementVO>> list(AgreementEntity agreement, Query query) {
-		IPage<AgreementEntity> pages = agreementService.page(Condition.getPage(query), Condition.getQueryWrapper(agreement));
-		return R.data(AgreementWrapper.build().pageVO(pages));
-	}
-
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入agreement")
 	public R save(@Valid @RequestBody AgreementEntity agreement) {
@@ -57,10 +50,18 @@ public class AgreementController {
 		return R.status(agreementService.updateById(agreement));
 	}
 
-	@PostMapping("/submit")
-	@ApiOperation(value = "新增或修改", notes = "传入Agreement")
-	public R submit(@Valid @RequestBody AgreementEntity agreement) {
-		return R.status(agreementService.saveOrUpdate(agreement));
+	@GetMapping("/detail")
+	@ApiOperation(value = "详情", notes = "传入agreement")
+	public R<AgreementVO> detail(Long agreementId) {
+		AgreementEntity detail = agreementService.getById(agreementId);
+		return R.data(AgreementWrapper.build().entityVO(detail));
+	}
+
+	@GetMapping("/list")
+	@ApiOperation(value = "分页", notes = "传入agreement")
+	public R<IPage<AgreementVO>> list(AgreementEntity agreement, Query query) {
+		IPage<AgreementEntity> pages = agreementService.page(Condition.getPage(query), Condition.getQueryWrapper(agreement));
+		return R.data(AgreementWrapper.build().pageVO(pages));
 	}
 
 	@PostMapping("/remove")
@@ -81,13 +82,6 @@ public class AgreementController {
 	public R<List<AgreementEntity>> makerIdCompanyFind(Long makerId,Long employeeId) {
 		List<AgreementEntity> agreementEntities = agreementService.makerIdCompanyFind(makerId,employeeId);
 		return R.data(agreementEntities);
-	}
-
-	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "传入agreement")
-	public R<AgreementVO> detail(Long agreementId) {
-		AgreementEntity detail = agreementService.getById(agreementId);
-		return R.data(AgreementWrapper.build().entityVO(detail));
 	}
 
 }

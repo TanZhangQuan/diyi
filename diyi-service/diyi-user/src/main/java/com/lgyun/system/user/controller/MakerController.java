@@ -40,20 +40,6 @@ public class MakerController {
 
 	private final IMakerService makerService;
 
-	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "传入maker")
-	public R<MakerVO> detail(MakerEntity maker) {
-		MakerEntity detail = makerService.getOne(Condition.getQueryWrapper(maker));
-		return R.data(MakerWrapper.build().entityVO(detail));
-	}
-
-	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "传入maker")
-	public R<IPage<MakerVO>> list(MakerEntity maker, Query query) {
-		IPage<MakerEntity> pages = makerService.page(Condition.getPage(query), Condition.getQueryWrapper(maker));
-		return R.data(MakerWrapper.build().pageVO(pages));
-	}
-
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入maker")
 	public R save(@Valid @RequestBody MakerEntity maker) {
@@ -66,10 +52,18 @@ public class MakerController {
 		return R.status(makerService.updateById(maker));
 	}
 
-	@PostMapping("/submit")
-	@ApiOperation(value = "新增或修改", notes = "传入Maker")
-	public R submit(@Valid @RequestBody MakerEntity maker) {
-		return R.status(makerService.saveOrUpdate(maker));
+	@GetMapping("/detail")
+	@ApiOperation(value = "详情", notes = "传入maker")
+	public R<MakerVO> detail(MakerEntity maker) {
+		MakerEntity detail = makerService.getOne(Condition.getQueryWrapper(maker));
+		return R.data(MakerWrapper.build().entityVO(detail));
+	}
+
+	@GetMapping("/list")
+	@ApiOperation(value = "分页", notes = "传入maker")
+	public R<IPage<MakerVO>> list(MakerEntity maker, Query query) {
+		IPage<MakerEntity> pages = makerService.page(Condition.getPage(query), Condition.getQueryWrapper(maker));
+		return R.data(MakerWrapper.build().pageVO(pages));
 	}
 
 	@PostMapping("/remove")

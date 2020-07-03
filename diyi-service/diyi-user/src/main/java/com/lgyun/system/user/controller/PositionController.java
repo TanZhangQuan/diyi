@@ -37,20 +37,6 @@ public class PositionController {
 
 	private final IPositionService positionService;
 
-	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "传入position")
-	public R<PositionVO> detail(PositionEntity position) {
-		PositionEntity detail = positionService.getOne(Condition.getQueryWrapper(position));
-		return R.data(PositionWrapper.build().entityVO(detail));
-	}
-
-	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "传入position")
-	public R<IPage<PositionVO>> list(PositionEntity position, Query query) {
-		IPage<PositionEntity> pages = positionService.page(Condition.getPage(query), Condition.getQueryWrapper(position));
-		return R.data(PositionWrapper.build().pageVO(pages));
-	}
-
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入position")
 	public R save(@Valid @RequestBody PositionEntity position) {
@@ -63,10 +49,18 @@ public class PositionController {
 		return R.status(positionService.updateById(position));
 	}
 
-	@PostMapping("/submit")
-	@ApiOperation(value = "新增或修改", notes = "传入Position")
-	public R submit(@Valid @RequestBody PositionEntity position) {
-		return R.status(positionService.saveOrUpdate(position));
+	@GetMapping("/detail")
+	@ApiOperation(value = "详情", notes = "传入position")
+	public R<PositionVO> detail(PositionEntity position) {
+		PositionEntity detail = positionService.getOne(Condition.getQueryWrapper(position));
+		return R.data(PositionWrapper.build().entityVO(detail));
+	}
+
+	@GetMapping("/list")
+	@ApiOperation(value = "分页", notes = "传入position")
+	public R<IPage<PositionVO>> list(PositionEntity position, Query query) {
+		IPage<PositionEntity> pages = positionService.page(Condition.getPage(query), Condition.getQueryWrapper(position));
+		return R.data(PositionWrapper.build().pageVO(pages));
 	}
 
 	@PostMapping("/remove")

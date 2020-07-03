@@ -37,20 +37,6 @@ public class DeliverMaterialController {
 
 	private final IDeliverMaterialService deliverMaterialService;
 
-	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "传入deliverMaterial")
-	public R<DeliverMaterialVO> detail(DeliverMaterialEntity deliverMaterial) {
-		DeliverMaterialEntity detail = deliverMaterialService.getOne(Condition.getQueryWrapper(deliverMaterial));
-		return R.data(DeliverMaterialWrapper.build().entityVO(detail));
-	}
-
-	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "传入deliverMaterial")
-	public R<IPage<DeliverMaterialVO>> list(DeliverMaterialEntity deliverMaterial, Query query) {
-		IPage<DeliverMaterialEntity> pages = deliverMaterialService.page(Condition.getPage(query), Condition.getQueryWrapper(deliverMaterial));
-		return R.data(DeliverMaterialWrapper.build().pageVO(pages));
-	}
-
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入deliverMaterial")
 	public R save(@Valid @RequestBody DeliverMaterialEntity deliverMaterial) {
@@ -63,10 +49,18 @@ public class DeliverMaterialController {
 		return R.status(deliverMaterialService.updateById(deliverMaterial));
 	}
 
-	@PostMapping("/submit")
-	@ApiOperation(value = "新增或修改", notes = "传入DeliverMaterial")
-	public R submit(@Valid @RequestBody DeliverMaterialEntity deliverMaterial) {
-		return R.status(deliverMaterialService.saveOrUpdate(deliverMaterial));
+	@GetMapping("/detail")
+	@ApiOperation(value = "详情", notes = "传入deliverMaterial")
+	public R<DeliverMaterialVO> detail(DeliverMaterialEntity deliverMaterial) {
+		DeliverMaterialEntity detail = deliverMaterialService.getOne(Condition.getQueryWrapper(deliverMaterial));
+		return R.data(DeliverMaterialWrapper.build().entityVO(detail));
+	}
+
+	@GetMapping("/list")
+	@ApiOperation(value = "分页", notes = "传入deliverMaterial")
+	public R<IPage<DeliverMaterialVO>> list(DeliverMaterialEntity deliverMaterial, Query query) {
+		IPage<DeliverMaterialEntity> pages = deliverMaterialService.page(Condition.getPage(query), Condition.getQueryWrapper(deliverMaterial));
+		return R.data(DeliverMaterialWrapper.build().pageVO(pages));
 	}
 
 	@PostMapping("/remove")

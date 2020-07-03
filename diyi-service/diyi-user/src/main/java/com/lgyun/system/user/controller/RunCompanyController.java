@@ -37,20 +37,6 @@ public class RunCompanyController {
 
 	private final IRunCompanyService runCompanyService;
 
-	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "传入runCompany")
-	public R<RunCompanyVO> detail(RunCompanyEntity runCompany) {
-		RunCompanyEntity detail = runCompanyService.getOne(Condition.getQueryWrapper(runCompany));
-		return R.data(RunCompanyWrapper.build().entityVO(detail));
-	}
-
-	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "传入runCompany")
-	public R<IPage<RunCompanyVO>> list(RunCompanyEntity runCompany, Query query) {
-		IPage<RunCompanyEntity> pages = runCompanyService.page(Condition.getPage(query), Condition.getQueryWrapper(runCompany));
-		return R.data(RunCompanyWrapper.build().pageVO(pages));
-	}
-
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入runCompany")
 	public R save(@Valid @RequestBody RunCompanyEntity runCompany) {
@@ -63,10 +49,18 @@ public class RunCompanyController {
 		return R.status(runCompanyService.updateById(runCompany));
 	}
 
-	@PostMapping("/submit")
-	@ApiOperation(value = "新增或修改", notes = "传入RunCompany")
-	public R submit(@Valid @RequestBody RunCompanyEntity runCompany) {
-		return R.status(runCompanyService.saveOrUpdate(runCompany));
+	@GetMapping("/detail")
+	@ApiOperation(value = "详情", notes = "传入runCompany")
+	public R<RunCompanyVO> detail(RunCompanyEntity runCompany) {
+		RunCompanyEntity detail = runCompanyService.getOne(Condition.getQueryWrapper(runCompany));
+		return R.data(RunCompanyWrapper.build().entityVO(detail));
+	}
+
+	@GetMapping("/list")
+	@ApiOperation(value = "分页", notes = "传入runCompany")
+	public R<IPage<RunCompanyVO>> list(RunCompanyEntity runCompany, Query query) {
+		IPage<RunCompanyEntity> pages = runCompanyService.page(Condition.getPage(query), Condition.getQueryWrapper(runCompany));
+		return R.data(RunCompanyWrapper.build().pageVO(pages));
 	}
 
 	@PostMapping("/remove")

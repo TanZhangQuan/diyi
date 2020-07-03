@@ -35,7 +35,19 @@ import javax.validation.Valid;
 public class IndividualBusinessController {
 	private Logger logger = LoggerFactory.getLogger(IndividualBusinessController.class);
 
-	private IIndividualBusinessService individualBusinessService;
+	private final IIndividualBusinessService individualBusinessService;
+
+	@PostMapping("/save")
+	@ApiOperation(value = "新增个体户", notes = "新增个体户")
+	public R save(@Valid @RequestBody IndividualBusinessEntity individualBusiness) {
+		return R.status(individualBusinessService.save(individualBusiness));
+	}
+
+	@PostMapping("/update")
+	@ApiOperation(value = "修改", notes = "传入individualBusiness")
+	public R update(@Valid @RequestBody IndividualBusinessEntity individualBusiness) {
+		return R.status(individualBusinessService.updateById(individualBusiness));
+	}
 
 	@GetMapping("/detail")
 	@ApiOperation(value = "详情", notes = "传入individualBusiness")
@@ -49,24 +61,6 @@ public class IndividualBusinessController {
 	public R<IPage<IndividualBusinessVO>> list(IndividualBusinessEntity individualBusiness, Query query) {
 		IPage<IndividualBusinessEntity> pages = individualBusinessService.page(Condition.getPage(query), Condition.getQueryWrapper(individualBusiness));
 		return R.data(IndividualBusinessWrapper.build().pageVO(pages));
-	}
-
-	@PostMapping("/save")
-	@ApiOperation(value = "新增", notes = "传入individualBusiness")
-	public R save(@Valid @RequestBody IndividualBusinessEntity individualBusiness) {
-		return R.status(individualBusinessService.save(individualBusiness));
-	}
-
-	@PostMapping("/update")
-	@ApiOperation(value = "修改", notes = "传入individualBusiness")
-	public R update(@Valid @RequestBody IndividualBusinessEntity individualBusiness) {
-		return R.status(individualBusinessService.updateById(individualBusiness));
-	}
-
-	@PostMapping("/submit")
-	@ApiOperation(value = "新增或修改", notes = "传入IndividualBusiness")
-	public R submit(@Valid @RequestBody IndividualBusinessEntity individualBusiness) {
-		return R.status(individualBusinessService.saveOrUpdate(individualBusiness));
 	}
 
 	@PostMapping("/remove")

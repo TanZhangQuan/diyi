@@ -12,9 +12,6 @@ import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.MakerEnterpriseVO;
 import com.lgyun.system.user.wrapper.MakerEnterpriseWrapper;
 import io.swagger.annotations.*;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +38,18 @@ public class MakerEnterpriseController {
 	private final IMakerEnterpriseService makerEnterpriseService;
 	private final IEnterpriseService iEnterpriseService;
 
+	@PostMapping("/save")
+	@ApiOperation(value = "新增", notes = "传入makerEnterprise")
+	public R save(@Valid @RequestBody MakerEnterpriseEntity makerEnterprise) {
+		return R.status(makerEnterpriseService.save(makerEnterprise));
+	}
+
+	@PostMapping("/update")
+	@ApiOperation(value = "修改", notes = "传入makerEnterprise")
+	public R update(@Valid @RequestBody MakerEnterpriseEntity makerEnterprise) {
+		return R.status(makerEnterpriseService.updateById(makerEnterprise));
+	}
+
 	@GetMapping("/detail")
 	@ApiOperation(value = "详情", notes = "传入makerEnterprise")
 	public R<MakerEnterpriseVO> detail(MakerEnterpriseEntity makerEnterprise) {
@@ -55,24 +64,6 @@ public class MakerEnterpriseController {
 		return R.data(MakerEnterpriseWrapper.build().pageVO(pages));
 	}
 
-	@PostMapping("/save")
-	@ApiOperation(value = "新增", notes = "传入makerEnterprise")
-	public R save(@Valid @RequestBody MakerEnterpriseEntity makerEnterprise) {
-		return R.status(makerEnterpriseService.save(makerEnterprise));
-	}
-
-	@PostMapping("/update")
-	@ApiOperation(value = "修改", notes = "传入makerEnterprise")
-	public R update(@Valid @RequestBody MakerEnterpriseEntity makerEnterprise) {
-		return R.status(makerEnterpriseService.updateById(makerEnterprise));
-	}
-
-	@PostMapping("/submit")
-	@ApiOperation(value = "新增或修改", notes = "传入MakerEnterprise")
-	public R submit(@Valid @RequestBody MakerEnterpriseEntity makerEnterprise) {
-		return R.status(makerEnterpriseService.saveOrUpdate(makerEnterprise));
-	}
-
 	@PostMapping("/remove")
 	@ApiOperation(value = "删除", notes = "传入ids")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
@@ -85,7 +76,7 @@ public class MakerEnterpriseController {
 			@ApiImplicitParam(name = "relationshipType", value = "类型", paramType = "query", dataType = "int")
 	})
 	@ApiOperation(value = "查询关联商户和关注商户", notes = "查询关联商户和关注商户")
-	public R<IPage<MakerEnterpriseRelationVO>> selectMakerEnterprisePage(Long makerId,Integer relationshipType, Query query) {
+	public R<IPage<MakerEnterpriseRelationVO>> selectMakerEnterprisePage(Long makerId, Integer relationshipType, Query query) {
 		IPage<MakerEnterpriseRelationVO> pages = makerEnterpriseService.selectMakerEnterprisePage(Condition.getPage(query), makerId,relationshipType);
 		return R.data(pages);
 	}

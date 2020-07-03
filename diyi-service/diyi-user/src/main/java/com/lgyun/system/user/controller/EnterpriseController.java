@@ -37,20 +37,6 @@ public class EnterpriseController {
 
 	private final IEnterpriseService enterpriseService;
 
-	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "传入enterprise")
-	public R<EnterpriseVO> detail(EnterpriseEntity enterprise) {
-		EnterpriseEntity detail = enterpriseService.getOne(Condition.getQueryWrapper(enterprise));
-		return R.data(EnterpriseWrapper.build().entityVO(detail));
-	}
-
-	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "传入enterprise")
-	public R<IPage<EnterpriseVO>> list(EnterpriseEntity enterprise, Query query) {
-		IPage<EnterpriseEntity> pages = enterpriseService.page(Condition.getPage(query), Condition.getQueryWrapper(enterprise));
-		return R.data(EnterpriseWrapper.build().pageVO(pages));
-	}
-
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入enterprise")
 	public R save(@Valid @RequestBody EnterpriseEntity enterprise) {
@@ -63,10 +49,18 @@ public class EnterpriseController {
 		return R.status(enterpriseService.updateById(enterprise));
 	}
 
-	@PostMapping("/submit")
-	@ApiOperation(value = "新增或修改", notes = "传入Enterprise")
-	public R submit(@Valid @RequestBody EnterpriseEntity enterprise) {
-		return R.status(enterpriseService.saveOrUpdate(enterprise));
+	@GetMapping("/detail")
+	@ApiOperation(value = "详情", notes = "传入enterprise")
+	public R<EnterpriseVO> detail(EnterpriseEntity enterprise) {
+		EnterpriseEntity detail = enterpriseService.getOne(Condition.getQueryWrapper(enterprise));
+		return R.data(EnterpriseWrapper.build().entityVO(detail));
+	}
+
+	@GetMapping("/list")
+	@ApiOperation(value = "分页", notes = "传入enterprise")
+	public R<IPage<EnterpriseVO>> list(EnterpriseEntity enterprise, Query query) {
+		IPage<EnterpriseEntity> pages = enterpriseService.page(Condition.getPage(query), Condition.getQueryWrapper(enterprise));
+		return R.data(EnterpriseWrapper.build().pageVO(pages));
 	}
 
 	@PostMapping("/remove")

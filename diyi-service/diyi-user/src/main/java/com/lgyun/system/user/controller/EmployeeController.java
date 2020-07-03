@@ -37,20 +37,6 @@ public class EmployeeController {
 
 	private final IEmployeeService employeeService;
 
-	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "传入employee")
-	public R<EmployeeVO> detail(EmployeeEntity employee) {
-		EmployeeEntity detail = employeeService.getOne(Condition.getQueryWrapper(employee));
-		return R.data(EmployeeWrapper.build().entityVO(detail));
-	}
-
-	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "传入employee")
-	public R<IPage<EmployeeVO>> list(EmployeeEntity employee, Query query) {
-		IPage<EmployeeEntity> pages = employeeService.page(Condition.getPage(query), Condition.getQueryWrapper(employee));
-		return R.data(EmployeeWrapper.build().pageVO(pages));
-	}
-
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入employee")
 	public R save(@Valid @RequestBody EmployeeEntity employee) {
@@ -63,10 +49,18 @@ public class EmployeeController {
 		return R.status(employeeService.updateById(employee));
 	}
 
-	@PostMapping("/submit")
-	@ApiOperation(value = "新增或修改", notes = "传入Employee")
-	public R submit(@Valid @RequestBody EmployeeEntity employee) {
-		return R.status(employeeService.saveOrUpdate(employee));
+	@GetMapping("/detail")
+	@ApiOperation(value = "详情", notes = "传入employee")
+	public R<EmployeeVO> detail(EmployeeEntity employee) {
+		EmployeeEntity detail = employeeService.getOne(Condition.getQueryWrapper(employee));
+		return R.data(EmployeeWrapper.build().entityVO(detail));
+	}
+
+	@GetMapping("/list")
+	@ApiOperation(value = "分页", notes = "传入employee")
+	public R<IPage<EmployeeVO>> list(EmployeeEntity employee, Query query) {
+		IPage<EmployeeEntity> pages = employeeService.page(Condition.getPage(query), Condition.getQueryWrapper(employee));
+		return R.data(EmployeeWrapper.build().pageVO(pages));
 	}
 
 	@PostMapping("/remove")

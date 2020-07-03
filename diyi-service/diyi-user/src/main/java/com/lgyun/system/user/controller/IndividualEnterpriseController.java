@@ -37,20 +37,6 @@ public class IndividualEnterpriseController {
 
 	private final IIndividualEnterpriseService individualEnterpriseService;
 
-	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "传入individualEnterprise")
-	public R<IndividualEnterpriseVO> detail(IndividualEnterpriseEntity individualEnterprise) {
-		IndividualEnterpriseEntity detail = individualEnterpriseService.getOne(Condition.getQueryWrapper(individualEnterprise));
-		return R.data(IndividualEnterpriseWrapper.build().entityVO(detail));
-	}
-
-	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "传入individualEnterprise")
-	public R<IPage<IndividualEnterpriseVO>> list(IndividualEnterpriseEntity individualEnterprise, Query query) {
-		IPage<IndividualEnterpriseEntity> pages = individualEnterpriseService.page(Condition.getPage(query), Condition.getQueryWrapper(individualEnterprise));
-		return R.data(IndividualEnterpriseWrapper.build().pageVO(pages));
-	}
-
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入individualEnterprise")
 	public R save(@Valid @RequestBody IndividualEnterpriseEntity individualEnterprise) {
@@ -63,10 +49,18 @@ public class IndividualEnterpriseController {
 		return R.status(individualEnterpriseService.updateById(individualEnterprise));
 	}
 
-	@PostMapping("/submit")
-	@ApiOperation(value = "新增或修改", notes = "传入IndividualEnterprise")
-	public R submit(@Valid @RequestBody IndividualEnterpriseEntity individualEnterprise) {
-		return R.status(individualEnterpriseService.saveOrUpdate(individualEnterprise));
+	@GetMapping("/detail")
+	@ApiOperation(value = "详情", notes = "传入individualEnterprise")
+	public R<IndividualEnterpriseVO> detail(IndividualEnterpriseEntity individualEnterprise) {
+		IndividualEnterpriseEntity detail = individualEnterpriseService.getOne(Condition.getQueryWrapper(individualEnterprise));
+		return R.data(IndividualEnterpriseWrapper.build().entityVO(detail));
+	}
+
+	@GetMapping("/list")
+	@ApiOperation(value = "分页", notes = "传入individualEnterprise")
+	public R<IPage<IndividualEnterpriseVO>> list(IndividualEnterpriseEntity individualEnterprise, Query query) {
+		IPage<IndividualEnterpriseEntity> pages = individualEnterpriseService.page(Condition.getPage(query), Condition.getQueryWrapper(individualEnterprise));
+		return R.data(IndividualEnterpriseWrapper.build().pageVO(pages));
 	}
 
 	@PostMapping("/remove")
