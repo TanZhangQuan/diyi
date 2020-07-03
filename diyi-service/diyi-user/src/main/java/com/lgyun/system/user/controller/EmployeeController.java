@@ -37,9 +37,6 @@ public class EmployeeController {
 
 	private final IEmployeeService employeeService;
 
-	/**
-	* 详情
-	*/
 	@GetMapping("/detail")
 	@ApiOperation(value = "详情", notes = "传入employee")
 	public R<EmployeeVO> detail(EmployeeEntity employee) {
@@ -47,9 +44,6 @@ public class EmployeeController {
 		return R.data(EmployeeWrapper.build().entityVO(detail));
 	}
 
-	/**
-	* 分页 
-	*/
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "传入employee")
 	public R<IPage<EmployeeVO>> list(EmployeeEntity employee, Query query) {
@@ -57,37 +51,24 @@ public class EmployeeController {
 		return R.data(EmployeeWrapper.build().pageVO(pages));
 	}
 
-	/**
-	* 新增 
-	*/
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入employee")
 	public R save(@Valid @RequestBody EmployeeEntity employee) {
 		return R.status(employeeService.save(employee));
 	}
 
-	/**
-	* 修改 
-	*/
 	@PostMapping("/update")
 	@ApiOperation(value = "修改", notes = "传入employee")
 	public R update(@Valid @RequestBody EmployeeEntity employee) {
 		return R.status(employeeService.updateById(employee));
 	}
 
-	/**
-	* 新增或修改 
-	*/
 	@PostMapping("/submit")
 	@ApiOperation(value = "新增或修改", notes = "传入Employee")
 	public R submit(@Valid @RequestBody EmployeeEntity employee) {
 		return R.status(employeeService.saveOrUpdate(employee));
 	}
 
-
-	/**
-	* 删除 
-	*/
 	@PostMapping("/remove")
 	@ApiOperation(value = "删除", notes = "传入ids")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {

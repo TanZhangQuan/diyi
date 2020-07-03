@@ -37,9 +37,6 @@ public class IndividualBusinessAnnualFeeController {
 
 	private final IIndividualBusinessAnnualFeeService individualBusinessAnnualFeeService;
 
-	/**
-	* 详情
-	*/
 	@GetMapping("/detail")
 	@ApiOperation(value = "详情", notes = "传入individualBusinessAnnualFee")
 	public R<IndividualBusinessAnnualFeeVO> detail(IndividualBusinessAnnualFeeEntity individualBusinessAnnualFee) {
@@ -47,9 +44,6 @@ public class IndividualBusinessAnnualFeeController {
 		return R.data(IndividualBusinessAnnualFeeWrapper.build().entityVO(detail));
 	}
 
-	/**
-	* 分页 
-	*/
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "传入individualBusinessAnnualFee")
 	public R<IPage<IndividualBusinessAnnualFeeVO>> list(IndividualBusinessAnnualFeeEntity individualBusinessAnnualFee, Query query) {
@@ -57,36 +51,24 @@ public class IndividualBusinessAnnualFeeController {
 		return R.data(IndividualBusinessAnnualFeeWrapper.build().pageVO(pages));
 	}
 
-	/**
-	* 新增 
-	*/
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入individualBusinessAnnualFee")
 	public R save(@Valid @RequestBody IndividualBusinessAnnualFeeEntity individualBusinessAnnualFee) {
 		return R.status(individualBusinessAnnualFeeService.save(individualBusinessAnnualFee));
 	}
 
-	/**
-	* 修改 
-	*/
 	@PostMapping("/update")
 	@ApiOperation(value = "修改", notes = "传入individualBusinessAnnualFee")
 	public R update(@Valid @RequestBody IndividualBusinessAnnualFeeEntity individualBusinessAnnualFee) {
 		return R.status(individualBusinessAnnualFeeService.updateById(individualBusinessAnnualFee));
 	}
 
-	/**
-	* 新增或修改 
-	*/
 	@PostMapping("/submit")
 	@ApiOperation(value = "新增或修改", notes = "传入IndividualBusinessAnnualFee")
 	public R submit(@Valid @RequestBody IndividualBusinessAnnualFeeEntity individualBusinessAnnualFee) {
 		return R.status(individualBusinessAnnualFeeService.saveOrUpdate(individualBusinessAnnualFee));
 	}
-	
-	/**
-	* 删除 
-	*/
+
 	@PostMapping("/remove")
 	@ApiOperation(value = "删除", notes = "传入ids")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {

@@ -40,9 +40,6 @@ public class MakerController {
 
 	private final IMakerService makerService;
 
-	/**
-	* 详情
-	*/
 	@GetMapping("/detail")
 	@ApiOperation(value = "详情", notes = "传入maker")
 	public R<MakerVO> detail(MakerEntity maker) {
@@ -50,9 +47,6 @@ public class MakerController {
 		return R.data(MakerWrapper.build().entityVO(detail));
 	}
 
-	/**
-	* 分页 
-	*/
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "传入maker")
 	public R<IPage<MakerVO>> list(MakerEntity maker, Query query) {
@@ -60,37 +54,24 @@ public class MakerController {
 		return R.data(MakerWrapper.build().pageVO(pages));
 	}
 
-	/**
-	* 新增 
-	*/
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入maker")
 	public R save(@Valid @RequestBody MakerEntity maker) {
 		return R.status(makerService.save(maker));
 	}
 
-	/**
-	* 修改 
-	*/
 	@PostMapping("/update")
 	@ApiOperation(value = "修改", notes = "传入maker")
 	public R update(@Valid @RequestBody MakerEntity maker) {
 		return R.status(makerService.updateById(maker));
 	}
 
-	/**
-	* 新增或修改 
-	*/
 	@PostMapping("/submit")
 	@ApiOperation(value = "新增或修改", notes = "传入Maker")
 	public R submit(@Valid @RequestBody MakerEntity maker) {
 		return R.status(makerService.saveOrUpdate(maker));
 	}
 
-
-	/**
-	* 删除 
-	*/
 	@PostMapping("/remove")
 	@ApiOperation(value = "删除", notes = "传入ids")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {

@@ -38,9 +38,6 @@ public class AgreementController {
 
 	private final IAgreementService agreementService;
 
-	/**
-	* 分页
-	*/
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "传入agreement")
 	public R<IPage<AgreementVO>> list(AgreementEntity agreement, Query query) {
@@ -48,46 +45,30 @@ public class AgreementController {
 		return R.data(AgreementWrapper.build().pageVO(pages));
 	}
 
-	/**
-	* 新增
-	*/
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入agreement")
 	public R save(@Valid @RequestBody AgreementEntity agreement) {
 		return R.status(agreementService.save(agreement));
 	}
 
-	/**
-	* 修改
-	*/
 	@PostMapping("/update")
 	@ApiOperation(value = "修改", notes = "传入agreement")
 	public R update(@Valid @RequestBody AgreementEntity agreement) {
 		return R.status(agreementService.updateById(agreement));
 	}
 
-	/**
-	* 新增或修改
-	*/
 	@PostMapping("/submit")
 	@ApiOperation(value = "新增或修改", notes = "传入Agreement")
 	public R submit(@Valid @RequestBody AgreementEntity agreement) {
 		return R.status(agreementService.saveOrUpdate(agreement));
 	}
 
-
-	/**
-	* 删除
-	*/
 	@PostMapping("/remove")
 	@ApiOperation(value = "删除", notes = "传入ids")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
 		return R.status(agreementService.removeByIds(Func.toLongList(ids)));
 	}
 
-	/**
-	 * 根据创客找合同
-	 */
 	@GetMapping("/makerIdFind")
 	@ApiOperation(value = "根据创客找合同", notes = "根据创客找合同")
 	public R<List<AgreementEntity>> makerIdFind(Long makerId) {
@@ -95,9 +76,6 @@ public class AgreementController {
 		return R.data(agreementEntities);
 	}
 
-	/**
-	 * 根据创客和商户找合同
-	 */
 	@GetMapping("/makerIdCompanyFind")
 	@ApiOperation(value = "根据创客和商户找合同", notes = "根据创客和商户找合同")
 	public R<List<AgreementEntity>> makerIdCompanyFind(Long makerId,Long employeeId) {
@@ -105,9 +83,6 @@ public class AgreementController {
 		return R.data(agreementEntities);
 	}
 
-	/**
-	 * 详情
-	 */
 	@GetMapping("/detail")
 	@ApiOperation(value = "详情", notes = "传入agreement")
 	public R<AgreementVO> detail(Long agreementId) {

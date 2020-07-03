@@ -20,7 +20,7 @@ import ${package}.${moduleName}.service.${className}Service;
 import java.util.List;
 
 /**
- * ${comments} 控制器
+ * ${comments}控制器
  *
  * @author ${author}
  * @since ${datetime}
@@ -35,9 +35,6 @@ public class ${className}Controller {
 
 	private final I${className}Service ${classname}Service;
 
-	/**
-	* 详情
-	*/
 	@GetMapping("/detail")
 	@ApiOperation(value = "详情", notes = "传入${classname}")
 	public R<${className}VO> detail(${className}Entity ${classname}) {
@@ -45,9 +42,6 @@ public class ${className}Controller {
 		return R.data(${className}Wrapper.build().entityVO(detail));
 	}
 
-	/**
-	* 分页 ${comments}
-	*/
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "传入${classname}")
 	public R<IPage<${className}VO>> list(${className}Entity ${classname}, Query query) {
@@ -55,36 +49,24 @@ public class ${className}Controller {
 		return R.data(${className}Wrapper.build().pageVO(pages));
 	}
 
-	/**
-	* 新增 ${comments}
-	*/
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入${classname}")
 	public R save(@Valid @RequestBody ${className}Entity ${classname}) {
 		return R.status(${classname}Service.save(${classname}));
 	}
 
-	/**
-	* 修改 ${comments}
-	*/
 	@PostMapping("/update")
 	@ApiOperation(value = "修改", notes = "传入${classname}")
 	public R update(@Valid @RequestBody ${className}Entity ${classname}) {
 		return R.status(${classname}Service.updateById(${classname}));
 	}
 
-	/**
-	* 新增或修改 ${comments}
-	*/
 	@PostMapping("/submit")
 	@ApiOperation(value = "新增或修改", notes = "传入${className}")
 	public R submit(@Valid @RequestBody ${className}Entity ${classname}) {
 		return R.status(${classname}Service.saveOrUpdate(${classname}));
 	}
 
-	/**
-	* 删除 ${comments}
-	*/
 	@PostMapping("/remove")
 	@ApiOperation(value = "删除", notes = "传入ids")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {

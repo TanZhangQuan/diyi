@@ -37,9 +37,6 @@ public class DeliverMaterialController {
 
 	private final IDeliverMaterialService deliverMaterialService;
 
-	/**
-	* 详情
-	*/
 	@GetMapping("/detail")
 	@ApiOperation(value = "详情", notes = "传入deliverMaterial")
 	public R<DeliverMaterialVO> detail(DeliverMaterialEntity deliverMaterial) {
@@ -47,9 +44,6 @@ public class DeliverMaterialController {
 		return R.data(DeliverMaterialWrapper.build().entityVO(detail));
 	}
 
-	/**
-	* 分页 
-	*/
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "传入deliverMaterial")
 	public R<IPage<DeliverMaterialVO>> list(DeliverMaterialEntity deliverMaterial, Query query) {
@@ -57,37 +51,24 @@ public class DeliverMaterialController {
 		return R.data(DeliverMaterialWrapper.build().pageVO(pages));
 	}
 
-	/**
-	* 新增 
-	*/
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入deliverMaterial")
 	public R save(@Valid @RequestBody DeliverMaterialEntity deliverMaterial) {
 		return R.status(deliverMaterialService.save(deliverMaterial));
 	}
 
-	/**
-	* 修改 
-	*/
 	@PostMapping("/update")
 	@ApiOperation(value = "修改", notes = "传入deliverMaterial")
 	public R update(@Valid @RequestBody DeliverMaterialEntity deliverMaterial) {
 		return R.status(deliverMaterialService.updateById(deliverMaterial));
 	}
 
-	/**
-	* 新增或修改 
-	*/
 	@PostMapping("/submit")
 	@ApiOperation(value = "新增或修改", notes = "传入DeliverMaterial")
 	public R submit(@Valid @RequestBody DeliverMaterialEntity deliverMaterial) {
 		return R.status(deliverMaterialService.saveOrUpdate(deliverMaterial));
 	}
 
-
-	/**
-	* 删除 
-	*/
 	@PostMapping("/remove")
 	@ApiOperation(value = "删除", notes = "传入ids")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {

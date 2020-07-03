@@ -37,9 +37,6 @@ public class IndividualEnterpriseAnnualFeeController {
 
 	private final IIndividualEnterpriseAnnualFeeService individualEnterpriseAnnualFeeService;
 
-	/**
-	* 详情
-	*/
 	@GetMapping("/detail")
 	@ApiOperation(value = "详情", notes = "传入individualEnterpriseAnnualFee")
 	public R<IndividualEnterpriseAnnualFeeVO> detail(IndividualEnterpriseAnnualFeeEntity individualEnterpriseAnnualFee) {
@@ -47,9 +44,6 @@ public class IndividualEnterpriseAnnualFeeController {
 		return R.data(IndividualEnterpriseAnnualFeeWrapper.build().entityVO(detail));
 	}
 
-	/**
-	* 分页 
-	*/
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "传入individualEnterpriseAnnualFee")
 	public R<IPage<IndividualEnterpriseAnnualFeeVO>> list(IndividualEnterpriseAnnualFeeEntity individualEnterpriseAnnualFee, Query query) {
@@ -57,36 +51,24 @@ public class IndividualEnterpriseAnnualFeeController {
 		return R.data(IndividualEnterpriseAnnualFeeWrapper.build().pageVO(pages));
 	}
 
-	/**
-	* 新增 
-	*/
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入individualEnterpriseAnnualFee")
 	public R save(@Valid @RequestBody IndividualEnterpriseAnnualFeeEntity individualEnterpriseAnnualFee) {
 		return R.status(individualEnterpriseAnnualFeeService.save(individualEnterpriseAnnualFee));
 	}
 
-	/**
-	* 修改 
-	*/
 	@PostMapping("/update")
 	@ApiOperation(value = "修改", notes = "传入individualEnterpriseAnnualFee")
 	public R update(@Valid @RequestBody IndividualEnterpriseAnnualFeeEntity individualEnterpriseAnnualFee) {
 		return R.status(individualEnterpriseAnnualFeeService.updateById(individualEnterpriseAnnualFee));
 	}
 
-	/**
-	* 新增或修改 
-	*/
 	@PostMapping("/submit")
 	@ApiOperation(value = "新增或修改", notes = "传入IndividualEnterpriseAnnualFee")
 	public R submit(@Valid @RequestBody IndividualEnterpriseAnnualFeeEntity individualEnterpriseAnnualFee) {
 		return R.status(individualEnterpriseAnnualFeeService.saveOrUpdate(individualEnterpriseAnnualFee));
 	}
 
-	/**
-	* 删除 
-	*/
 	@PostMapping("/remove")
 	@ApiOperation(value = "删除", notes = "传入ids")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {

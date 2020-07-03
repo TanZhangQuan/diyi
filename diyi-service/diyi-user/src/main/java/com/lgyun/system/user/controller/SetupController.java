@@ -37,9 +37,6 @@ public class SetupController {
 
 	private final ISetupService setupService;
 
-	/**
-	* 详情
-	*/
 	@GetMapping("/detail")
 	@ApiOperation(value = "详情", notes = "传入setup")
 	public R<SetupVO> detail(SetupEntity setup) {
@@ -47,9 +44,6 @@ public class SetupController {
 		return R.data(SetupWrapper.build().entityVO(detail));
 	}
 
-	/**
-	* 分页 
-	*/
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "传入setup")
 	public R<IPage<SetupVO>> list(SetupEntity setup, Query query) {
@@ -57,37 +51,24 @@ public class SetupController {
 		return R.data(SetupWrapper.build().pageVO(pages));
 	}
 
-	/**
-	* 新增 
-	*/
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入setup")
 	public R save(@Valid @RequestBody SetupEntity setup) {
 		return R.status(setupService.save(setup));
 	}
 
-	/**
-	* 修改 
-	*/
 	@PostMapping("/update")
 	@ApiOperation(value = "修改", notes = "传入setup")
 	public R update(@Valid @RequestBody SetupEntity setup) {
 		return R.status(setupService.updateById(setup));
 	}
 
-	/**
-	* 新增或修改 
-	*/
 	@PostMapping("/submit")
 	@ApiOperation(value = "新增或修改", notes = "传入Setup")
 	public R submit(@Valid @RequestBody SetupEntity setup) {
 		return R.status(setupService.saveOrUpdate(setup));
 	}
 
-
-	/**
-	* 删除 
-	*/
 	@PostMapping("/remove")
 	@ApiOperation(value = "删除", notes = "传入ids")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {

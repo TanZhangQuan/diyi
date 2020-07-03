@@ -37,9 +37,6 @@ public class EnterpriseController {
 
 	private final IEnterpriseService enterpriseService;
 
-	/**
-	* 详情
-	*/
 	@GetMapping("/detail")
 	@ApiOperation(value = "详情", notes = "传入enterprise")
 	public R<EnterpriseVO> detail(EnterpriseEntity enterprise) {
@@ -47,9 +44,6 @@ public class EnterpriseController {
 		return R.data(EnterpriseWrapper.build().entityVO(detail));
 	}
 
-	/**
-	* 分页 
-	*/
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "传入enterprise")
 	public R<IPage<EnterpriseVO>> list(EnterpriseEntity enterprise, Query query) {
@@ -57,37 +51,24 @@ public class EnterpriseController {
 		return R.data(EnterpriseWrapper.build().pageVO(pages));
 	}
 
-	/**
-	* 新增 
-	*/
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入enterprise")
 	public R save(@Valid @RequestBody EnterpriseEntity enterprise) {
 		return R.status(enterpriseService.save(enterprise));
 	}
 
-	/**
-	* 修改 
-	*/
 	@PostMapping("/update")
 	@ApiOperation(value = "修改", notes = "传入enterprise")
 	public R update(@Valid @RequestBody EnterpriseEntity enterprise) {
 		return R.status(enterpriseService.updateById(enterprise));
 	}
 
-	/**
-	* 新增或修改 
-	*/
 	@PostMapping("/submit")
 	@ApiOperation(value = "新增或修改", notes = "传入Enterprise")
 	public R submit(@Valid @RequestBody EnterpriseEntity enterprise) {
 		return R.status(enterpriseService.saveOrUpdate(enterprise));
 	}
 
-
-	/**
-	* 删除 
-	*/
 	@PostMapping("/remove")
 	@ApiOperation(value = "删除", notes = "传入ids")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {

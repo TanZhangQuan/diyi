@@ -52,9 +52,6 @@ public class UserController {
 
     private IUserService userService;
 
-    /**
-     * 查询单条
-     */
     @ApiOperation(value = "查看详情", notes = "传入id")
     @GetMapping("/detail")
     public R<UserVO> detail(User user) {
@@ -62,9 +59,6 @@ public class UserController {
         return R.data(UserWrapper.build().entityVO(detail));
     }
 
-    /**
-     * 查询单条
-     */
     @ApiOperation(value = "查看详情", notes = "传入id")
     @GetMapping("/info")
     public R<UserVO> info(BladeUser user) {
@@ -72,9 +66,6 @@ public class UserController {
         return R.data(UserWrapper.build().entityVO(detail));
     }
 
-    /**
-     * 用户列表
-     */
     @GetMapping("/list")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "account", value = "账号名", paramType = "query", dataType = "string"),
@@ -87,41 +78,24 @@ public class UserController {
         return R.data(UserWrapper.build().pageVO(pages));
     }
 
-    /**
-     * 新增或修改
-     */
     @PostMapping("/submit")
     @ApiOperation(value = "新增或修改", notes = "传入User")
     public R submit(@Valid @RequestBody User user) {
         return R.status(userService.submit(user));
     }
 
-    /**
-     * 修改
-     */
     @PostMapping("/update")
     @ApiOperation(value = "修改", notes = "传入User")
     public R update(@Valid @RequestBody User user) {
         return R.status(userService.updateById(user));
     }
 
-    /**
-     * 删除
-     */
     @PostMapping("/remove")
     @ApiOperation(value = "删除", notes = "传入地基和")
     public R remove(@RequestParam String ids) {
         return R.status(userService.deleteLogic(Func.toLongList(ids)));
     }
 
-
-    /**
-     * 设置菜单权限
-     *
-     * @param userIds
-     * @param roleIds
-     * @return
-     */
     @PostMapping("/grant")
     @ApiOperation(value = "权限设置", notes = "传入roleId集合以及menuId集合")
     public R grant(@ApiParam(value = "userId集合", required = true) @RequestParam String userIds,
@@ -137,14 +111,6 @@ public class UserController {
         return R.status(temp);
     }
 
-    /**
-     * 修改密码
-     *
-     * @param oldPassword
-     * @param newPassword
-     * @param newPassword1
-     * @return
-     */
     @PostMapping("/update-password")
     @ApiOperation(value = "修改密码", notes = "传入密码")
     public R updatePassword(BladeUser user, @ApiParam(value = "旧密码", required = true) @RequestParam String oldPassword,
@@ -154,12 +120,6 @@ public class UserController {
         return R.status(temp);
     }
 
-    /**
-     * 用户列表
-     *
-     * @param user
-     * @return
-     */
     @GetMapping("/user-list")
     @ApiOperation(value = "用户列表", notes = "传入user")
     public R<List<User>> userList(User user) {
@@ -167,10 +127,6 @@ public class UserController {
         return R.data(list);
     }
 
-
-    /**
-     * 导入用户
-     */
     @PostMapping("import-user")
     @ApiOperation(value = "导入用户", notes = "传入excel")
     public R importUser(MultipartFile file, Integer isCovered) {
@@ -193,9 +149,6 @@ public class UserController {
         return R.success("操作成功");
     }
 
-    /**
-     * 导出用户
-     */
     @SneakyThrows
     @GetMapping("export-user")
     @ApiOperation(value = "导出用户", notes = "传入user")
@@ -213,9 +166,6 @@ public class UserController {
         EasyExcel.write(response.getOutputStream(), UserExcel.class).sheet("用户数据表").doWrite(list);
     }
 
-    /**
-     * 导出模板
-     */
     @SneakyThrows
     @GetMapping("export-template")
     @ApiOperation(value = "导出模板")

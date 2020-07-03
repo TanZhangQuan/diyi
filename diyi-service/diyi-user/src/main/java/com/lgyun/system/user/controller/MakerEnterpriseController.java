@@ -41,9 +41,6 @@ public class MakerEnterpriseController {
 	private final IMakerEnterpriseService makerEnterpriseService;
 	private final IEnterpriseService iEnterpriseService;
 
-	/**
-	* 详情
-	*/
 	@GetMapping("/detail")
 	@ApiOperation(value = "详情", notes = "传入makerEnterprise")
 	public R<MakerEnterpriseVO> detail(MakerEnterpriseEntity makerEnterprise) {
@@ -51,9 +48,6 @@ public class MakerEnterpriseController {
 		return R.data(MakerEnterpriseWrapper.build().entityVO(detail));
 	}
 
-	/**
-	* 分页
-	*/
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "传入makerEnterprise")
 	public R<IPage<MakerEnterpriseVO>> list(MakerEnterpriseEntity makerEnterprise, Query query) {
@@ -61,49 +55,30 @@ public class MakerEnterpriseController {
 		return R.data(MakerEnterpriseWrapper.build().pageVO(pages));
 	}
 
-	/**
-	* 新增
-	*/
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入makerEnterprise")
 	public R save(@Valid @RequestBody MakerEnterpriseEntity makerEnterprise) {
 		return R.status(makerEnterpriseService.save(makerEnterprise));
 	}
 
-	/**
-	* 修改
-	*/
 	@PostMapping("/update")
 	@ApiOperation(value = "修改", notes = "传入makerEnterprise")
 	public R update(@Valid @RequestBody MakerEnterpriseEntity makerEnterprise) {
 		return R.status(makerEnterpriseService.updateById(makerEnterprise));
 	}
 
-	/**
-	* 新增或修改
-	*/
 	@PostMapping("/submit")
 	@ApiOperation(value = "新增或修改", notes = "传入MakerEnterprise")
 	public R submit(@Valid @RequestBody MakerEnterpriseEntity makerEnterprise) {
 		return R.status(makerEnterpriseService.saveOrUpdate(makerEnterprise));
 	}
 
-
-	/**
-	* 删除
-	*/
 	@PostMapping("/remove")
 	@ApiOperation(value = "删除", notes = "传入ids")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
 		return R.status(makerEnterpriseService.removeByIds(Func.toLongList(ids)));
 	}
 
-
-	/**
-	 * 查询关联商户和关注商户
-	 *
-	 * @return
-	 */
 	@GetMapping("/selectMakerEnterprisePage")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "makerId", value = "创客id", paramType = "query", dataType = "long"),
@@ -115,9 +90,6 @@ public class MakerEnterpriseController {
 		return R.data(pages);
 	}
 
-	/**
-	 * 通过商户名字查询
-	 */
 	@GetMapping("/getEnterpriseName")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "enterpriseName", value = "商户名字", paramType = "query", dataType = "string")
@@ -127,9 +99,6 @@ public class MakerEnterpriseController {
 		return iEnterpriseService.getEnterpriseName(enterpriseName);
 	}
 
-	/**
-	 * 通过商户名字查询
-	 */
 	@GetMapping("/addOrCancelfollow")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "enterpriseId", value = "商户id", paramType = "query", dataType = "long"),

@@ -37,9 +37,6 @@ public class PositionController {
 
 	private final IPositionService positionService;
 
-	/**
-	* 详情
-	*/
 	@GetMapping("/detail")
 	@ApiOperation(value = "详情", notes = "传入position")
 	public R<PositionVO> detail(PositionEntity position) {
@@ -47,9 +44,6 @@ public class PositionController {
 		return R.data(PositionWrapper.build().entityVO(detail));
 	}
 
-	/**
-	* 分页 
-	*/
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "传入position")
 	public R<IPage<PositionVO>> list(PositionEntity position, Query query) {
@@ -57,37 +51,24 @@ public class PositionController {
 		return R.data(PositionWrapper.build().pageVO(pages));
 	}
 
-	/**
-	* 新增 
-	*/
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入position")
 	public R save(@Valid @RequestBody PositionEntity position) {
 		return R.status(positionService.save(position));
 	}
 
-	/**
-	* 修改 
-	*/
 	@PostMapping("/update")
 	@ApiOperation(value = "修改", notes = "传入position")
 	public R update(@Valid @RequestBody PositionEntity position) {
 		return R.status(positionService.updateById(position));
 	}
 
-	/**
-	* 新增或修改 
-	*/
 	@PostMapping("/submit")
 	@ApiOperation(value = "新增或修改", notes = "传入Position")
 	public R submit(@Valid @RequestBody PositionEntity position) {
 		return R.status(positionService.saveOrUpdate(position));
 	}
 
-
-	/**
-	* 删除 
-	*/
 	@PostMapping("/remove")
 	@ApiOperation(value = "删除", notes = "传入ids")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {

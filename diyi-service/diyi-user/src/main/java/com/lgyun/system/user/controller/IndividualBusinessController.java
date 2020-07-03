@@ -37,9 +37,6 @@ public class IndividualBusinessController {
 
 	private IIndividualBusinessService individualBusinessService;
 
-	/**
-	* 详情
-	*/
 	@GetMapping("/detail")
 	@ApiOperation(value = "详情", notes = "传入individualBusiness")
 	public R<IndividualBusinessVO> detail(IndividualBusinessEntity individualBusiness) {
@@ -47,9 +44,6 @@ public class IndividualBusinessController {
 		return R.data(IndividualBusinessWrapper.build().entityVO(detail));
 	}
 
-	/**
-	* 分页 
-	*/
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "传入individualBusiness")
 	public R<IPage<IndividualBusinessVO>> list(IndividualBusinessEntity individualBusiness, Query query) {
@@ -57,36 +51,24 @@ public class IndividualBusinessController {
 		return R.data(IndividualBusinessWrapper.build().pageVO(pages));
 	}
 
-	/**
-	* 新增 
-	*/
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入individualBusiness")
 	public R save(@Valid @RequestBody IndividualBusinessEntity individualBusiness) {
 		return R.status(individualBusinessService.save(individualBusiness));
 	}
 
-	/**
-	* 修改 
-	*/
 	@PostMapping("/update")
 	@ApiOperation(value = "修改", notes = "传入individualBusiness")
 	public R update(@Valid @RequestBody IndividualBusinessEntity individualBusiness) {
 		return R.status(individualBusinessService.updateById(individualBusiness));
 	}
 
-	/**
-	* 新增或修改 
-	*/
 	@PostMapping("/submit")
 	@ApiOperation(value = "新增或修改", notes = "传入IndividualBusiness")
 	public R submit(@Valid @RequestBody IndividualBusinessEntity individualBusiness) {
 		return R.status(individualBusinessService.saveOrUpdate(individualBusiness));
 	}
 
-	/**
-	* 删除 
-	*/
 	@PostMapping("/remove")
 	@ApiOperation(value = "删除", notes = "传入ids")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {

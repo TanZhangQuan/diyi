@@ -37,9 +37,6 @@ public class RunCompanyController {
 
 	private final IRunCompanyService runCompanyService;
 
-	/**
-	* 详情
-	*/
 	@GetMapping("/detail")
 	@ApiOperation(value = "详情", notes = "传入runCompany")
 	public R<RunCompanyVO> detail(RunCompanyEntity runCompany) {
@@ -47,9 +44,6 @@ public class RunCompanyController {
 		return R.data(RunCompanyWrapper.build().entityVO(detail));
 	}
 
-	/**
-	* 分页 
-	*/
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "传入runCompany")
 	public R<IPage<RunCompanyVO>> list(RunCompanyEntity runCompany, Query query) {
@@ -57,37 +51,24 @@ public class RunCompanyController {
 		return R.data(RunCompanyWrapper.build().pageVO(pages));
 	}
 
-	/**
-	* 新增 
-	*/
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "传入runCompany")
 	public R save(@Valid @RequestBody RunCompanyEntity runCompany) {
 		return R.status(runCompanyService.save(runCompany));
 	}
 
-	/**
-	* 修改 
-	*/
 	@PostMapping("/update")
 	@ApiOperation(value = "修改", notes = "传入runCompany")
 	public R update(@Valid @RequestBody RunCompanyEntity runCompany) {
 		return R.status(runCompanyService.updateById(runCompany));
 	}
 
-	/**
-	* 新增或修改 
-	*/
 	@PostMapping("/submit")
 	@ApiOperation(value = "新增或修改", notes = "传入RunCompany")
 	public R submit(@Valid @RequestBody RunCompanyEntity runCompany) {
 		return R.status(runCompanyService.saveOrUpdate(runCompany));
 	}
 
-
-	/**
-	* 删除 
-	*/
 	@PostMapping("/remove")
 	@ApiOperation(value = "删除", notes = "传入ids")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
