@@ -11,17 +11,16 @@ import ${package}.${moduleName}.vo.${className}VO;
  * @author ${author}
  * @since ${datetime}
  */
-public class ${className}Wrapper extends BaseEntityWrapper<${className}Entity, ${className}VO>  {
+public class ${className}Wrapper extends BaseEntityWrapper<${className}Entity, ${className}VO> {
 
     public static ${className}Wrapper build() {
         return new ${className}Wrapper();
     }
 
-	@Override
-	public ${className}VO entityVO(${className}Entity ${classname}) {
-			${className}VO ${classname}VO = BeanUtil.copy(${classname}, ${className}VO.class);
-
-		return ${classname}VO;
-	}
+    @Override
+    public ${className}VO entityVO(${className}Entity ${classname}) {
+        ${className}VO ${classname}VO = BeanUtil.copy(${classname}, ${className}VO.class);
+        return ${classname}VO;
+    }
 
 }

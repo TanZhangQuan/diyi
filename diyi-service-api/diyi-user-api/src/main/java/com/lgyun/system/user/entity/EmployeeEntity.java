@@ -12,9 +12,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-import java.util.Date;
-
 /**
  * Entity
  *
@@ -58,6 +55,7 @@ public class EmployeeEntity extends BaseEntity {
     /**
      * 上级主管
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long upLevelId;
 
     /**

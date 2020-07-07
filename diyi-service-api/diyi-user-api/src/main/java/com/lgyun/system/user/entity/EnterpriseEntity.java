@@ -198,11 +198,13 @@ public class EnterpriseEntity extends BaseEntity {
     /**
      * 营销人员
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long salerId;
 
     /**
      * 运营人员
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long runnerId;
 
     /**
@@ -223,6 +225,7 @@ public class EnterpriseEntity extends BaseEntity {
     /**
      * 商铺ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long shopId;
 
     /**

@@ -2,6 +2,7 @@ package com.lgyun.system.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lgyun.common.api.R;
+import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.dto.IdcardOcrSaveDto;
 import com.lgyun.system.user.entity.MakerEntity;
 
@@ -37,21 +38,21 @@ public interface IMakerService extends IService<MakerEntity> {
      * @param idcardPic
      * @return
      */
-    R idcardOcr(String idcardPic) throws Exception;
+    R idcardOcr(String idcardPic, BladeUser bladeUser) throws Exception;
 
     /**
      * 身份证实名认证信息保存
      *
      * @return
      */
-    R idcardOcrSave(IdcardOcrSaveDto idcardOcrSaveDto);
+    R idcardOcrSave(IdcardOcrSaveDto idcardOcrSaveDto, BladeUser bladeUser);
 
     /**
      * 刷脸实名认证
      *
      * @return
      */
-    R faceOcr() throws Exception;
+    R faceOcr(BladeUser bladeUser) throws Exception;
 
     /**
      * 刷脸实名认证异步回调
@@ -72,7 +73,7 @@ public interface IMakerService extends IService<MakerEntity> {
      *
      * @return
      */
-    R bankCardOcr(String bankCardNo) throws Exception;
+    R bankCardOcr(String bankCardNo, BladeUser bladeUser) throws Exception;
 
     /**
      * 银行卡实名认证异步回调
@@ -86,7 +87,7 @@ public interface IMakerService extends IService<MakerEntity> {
      *
      * @return
      */
-    R mobileOcr() throws Exception;
+    R mobileOcr(BladeUser bladeUser) throws Exception;
 
     /**
      * 银行卡实名认证异步回调
@@ -100,14 +101,27 @@ public interface IMakerService extends IService<MakerEntity> {
      *
      * @return
      */
-    R queryIdcardOcr();
+    R queryIdcardOcr(BladeUser bladeUser);
 
     /**
      * 检查当前创客身份证和人脸是否已实名认证
      *
      * @return
      */
-    R checkIdcardFaceVerify();
+    R checkIdcardFaceVerify(BladeUser bladeUser);
+
+    /**
+     * 获取运营者名称
+     */
+    String getName(Long id);
+
+    /**
+     * 根据userId获取创客
+     *
+     * @param userId
+     * @return
+     */
+    MakerEntity findByUserId(Long userId);
 
 }
 

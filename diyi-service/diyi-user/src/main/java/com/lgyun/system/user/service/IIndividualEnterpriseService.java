@@ -2,6 +2,7 @@ package com.lgyun.system.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lgyun.common.api.R;
+import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.dto.IndividualEnterpriseAddDto;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 
@@ -14,7 +15,7 @@ import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 public interface IIndividualEnterpriseService extends IService<IndividualEnterpriseEntity> {
 
     //新增个独
-    R save(IndividualEnterpriseAddDto individualEnterpriseAddDto);
+    R save(IndividualEnterpriseAddDto individualEnterpriseAddDto, BladeUser bladeUser);
 
 }
 

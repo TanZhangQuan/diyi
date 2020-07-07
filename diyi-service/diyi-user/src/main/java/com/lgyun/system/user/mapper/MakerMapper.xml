@@ -6,6 +6,7 @@
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.user.entity.MakerEntity" id="makerMap">
         <result property="makerId" column="maker_id"/>
+        <result property="userId" column="user_id"/>
         <result property="wechatId" column="wechat_id"/>
         <result property="openid" column="openid"/>
         <result property="sessionKey" column="session_key"/>
@@ -68,6 +69,21 @@
         FROM diyi_maker
         WHERE phone_number = #{param1}
           and is_deleted = 0
+        LIMIT 1
+    </select>
+
+    <select id="findByUserId" resultMap="makerMap">
+        SELECT *
+        FROM diyi_maker
+        WHERE user_id = #{param1}
+          and is_deleted = 0
+        LIMIT 1
+    </select>
+
+    <select id="getName" resultType="string">
+        SELECT name
+        FROM diyi_maker
+        WHERE maker_id = #{param1}
         LIMIT 1
     </select>
 

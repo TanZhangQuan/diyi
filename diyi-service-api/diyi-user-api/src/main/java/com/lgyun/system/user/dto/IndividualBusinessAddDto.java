@@ -16,6 +16,7 @@ import java.math.BigDecimal;
  */
 @Data
 public class IndividualBusinessAddDto implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     //个体户税种：小规模
     @NotNull(message = "请选择税种")

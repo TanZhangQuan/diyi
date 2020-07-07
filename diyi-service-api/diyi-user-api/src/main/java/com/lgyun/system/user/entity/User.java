@@ -5,10 +5,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.core.mp.base.TenantEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.lgyun.core.mp.base.TenantEntity;
 
 import java.util.Date;
 
@@ -85,6 +85,5 @@ public class User extends TenantEntity {
 	 * 部门id
 	 */
 	private String postId;
-
 
 }

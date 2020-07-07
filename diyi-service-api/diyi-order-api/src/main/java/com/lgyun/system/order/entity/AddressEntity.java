@@ -10,10 +10,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
 /**
- *  Entity
+ * Entity
  *
  * @author jun
  * @since 2020-07-02 16:21:19
@@ -24,50 +22,50 @@ import java.io.Serializable;
 public class AddressEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-
     /**
      * 地址id
      */
-        @ApiModelProperty(value = "主键")
+    @ApiModelProperty(value = "主键")
     @TableId(type = IdType.ASSIGN_ID)
     @JsonSerialize(using = ToStringSerializer.class)
-        private Long addressId;
+    private Long addressId;
 
     @ApiModelProperty(value = "购买方id")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long companyId;
+
     /**
      * 收件人
      */
-        private String addressName;
+    private String addressName;
 
     /**
      * 手机号码
      */
-        private String addressPhone;
+    private String addressPhone;
 
     /**
      * 省
      */
-        private String province;
+    private String province;
 
     /**
      * 市
      */
-        private String city;
+    private String city;
 
     /**
      * 区
      */
-        private String area;
+    private String area;
 
     /**
      * 详细地址
      */
-        private String detailedAddress;
+    private String detailedAddress;
 
     /**
      * 是否默认[0:默认,1:不默认]
      */
-        private Integer isDefault;
-    }
+    private Integer isDefault;
+}

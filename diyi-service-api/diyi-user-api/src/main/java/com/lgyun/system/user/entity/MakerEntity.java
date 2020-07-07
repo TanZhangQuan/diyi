@@ -36,6 +36,12 @@ public class MakerEntity extends BaseEntity {
     private Long makerId;
 
     /**
+     * 管理者ID
+     */
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long userId;
+
+    /**
      * 微信关联ID
      */
     private String wechatId;
@@ -239,6 +245,7 @@ public class MakerEntity extends BaseEntity {
     /**
      * 商铺ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long shopId;
 
     /**
@@ -269,6 +276,7 @@ public class MakerEntity extends BaseEntity {
     /**
      * 审核人员
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long videoAuditPersonId;
 
 }

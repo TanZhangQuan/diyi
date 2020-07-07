@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.VerifyStatus;
+import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.dto.IndividualEnterpriseAddDto;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
@@ -30,10 +31,10 @@ public class IndividualEnterpriseServiceImpl extends ServiceImpl<IndividualEnter
     private final IMakerService iMakerService;
 
     @Override
-    public R save(IndividualEnterpriseAddDto individualEnterpriseAddDto) {
+    public R save(IndividualEnterpriseAddDto individualEnterpriseAddDto, BladeUser bladeUser) {
 
-        //TODO
-        MakerEntity makerEntity = iMakerService.getById(1278969988057903106L);
+        //获取当前创客
+        MakerEntity makerEntity = iMakerService.findByUserId(bladeUser.getUserId());
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
             return R.fail("请先进行身份证实名认证");

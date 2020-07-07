@@ -2,7 +2,8 @@ package ${package}.${moduleName}.service.impl;
 
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import ${package}.${moduleName}.mapper.${className}Mapper;
 import ${package}.${moduleName}.entity.${className}Entity;
 import ${package}.${moduleName}.service.I${className}Service;

@@ -61,16 +61,19 @@ public class AgreementEntity extends BaseEntity {
     /**
      * 发包方ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long runCompanyId;
 
     /**
      * 平台方ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long platformId;
 
     /**
      * 分包方/承包方ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long makerId;
 
     /**

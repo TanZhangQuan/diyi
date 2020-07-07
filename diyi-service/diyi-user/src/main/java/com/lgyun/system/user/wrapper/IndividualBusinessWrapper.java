@@ -1,8 +1,10 @@
 package com.lgyun.system.user.wrapper;
 
 import com.lgyun.common.tool.BeanUtil;
+import com.lgyun.common.tool.SpringUtil;
 import com.lgyun.core.mp.support.BaseEntityWrapper;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
+import com.lgyun.system.user.service.IMakerService;
 import com.lgyun.system.user.vo.IndividualBusinessVO;
 
 /**
@@ -13,14 +15,22 @@ import com.lgyun.system.user.vo.IndividualBusinessVO;
  */
 public class IndividualBusinessWrapper extends BaseEntityWrapper<IndividualBusinessEntity, IndividualBusinessVO> {
 
-    public static IndividualBusinessWrapper build() {
+	private static IMakerService makerService;
+
+	static {
+		makerService = SpringUtil.getBean(IMakerService.class);
+	}
+
+
+	public static IndividualBusinessWrapper build() {
         return new IndividualBusinessWrapper();
     }
 
 	@Override
 	public IndividualBusinessVO entityVO(IndividualBusinessEntity individualBusiness) {
-			IndividualBusinessVO individualBusinessVO = BeanUtil.copy(individualBusiness, IndividualBusinessVO.class);
-
+    	IndividualBusinessVO individualBusinessVO = BeanUtil.copy(individualBusiness, IndividualBusinessVO.class);
+		String bizName = makerService.getName(individualBusiness.getMakerId());
+		individualBusinessVO.setBizName(bizName);
 		return individualBusinessVO;
 	}
 

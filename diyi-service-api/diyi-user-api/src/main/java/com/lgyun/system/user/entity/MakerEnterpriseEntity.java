@@ -12,7 +12,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -38,16 +37,19 @@ public class MakerEnterpriseEntity extends BaseEntity {
     /**
      * 企业ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
 
     /**
      * 创客ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long makerId;
 
     /**
      * 外包岗位ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long positionId;
 
     private Integer relationshipType;

@@ -2,6 +2,7 @@ package com.lgyun.system.user.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
@@ -74,11 +75,11 @@ public class MakerController {
 
 	@PostMapping("/idcard_ocr")
 	@ApiOperation(value = "身份证实名认证", notes = "身份证实名认证")
-	public R idcardOcr(@ApiParam(value = "正面照片") @NotNull(message = "请选择正面照片") @RequestParam(required = false) String idcardPic) {
+	public R idcardOcr(@ApiParam(value = "正面照片") @NotNull(message = "请选择正面照片") @RequestParam(required = false) String idcardPic, BladeUser bladeUser) {
 
 		logger.info("身份证实名认证");
 		try {
-			return makerService.idcardOcr(idcardPic);
+			return makerService.idcardOcr(idcardPic, bladeUser);
 		} catch (Exception e) {
 			logger.error("身份证实名认证异常", e);
 		}
@@ -87,11 +88,11 @@ public class MakerController {
 
 	@PostMapping("/idcard_ocr_save")
 	@ApiOperation(value = "身份证实名认证信息保存", notes = "身份证实名认证信息保存")
-	public R idcardOcrSave(@Valid @RequestBody IdcardOcrSaveDto idcardOcrSaveDto) {
+	public R idcardOcrSave(@Valid @RequestBody IdcardOcrSaveDto idcardOcrSaveDto, BladeUser bladeUser) {
 
 		logger.info("身份证实名认证");
 		try {
-			return makerService.idcardOcrSave(idcardOcrSaveDto);
+			return makerService.idcardOcrSave(idcardOcrSaveDto, bladeUser);
 		} catch (Exception e) {
 			logger.error("身份证实名认证异常", e);
 		}
@@ -100,11 +101,11 @@ public class MakerController {
 
 	@PostMapping("/face_ocr")
 	@ApiOperation(value = "刷脸实名认证", notes = "刷脸实名认证")
-	public R faceOcr() {
+	public R faceOcr(BladeUser bladeUser) {
 
 		logger.info("刷脸实名认证");
 		try {
-			return makerService.faceOcr();
+			return makerService.faceOcr(bladeUser);
 		} catch (Exception e) {
 			logger.error("刷脸实名认证异常", e);
 		}
@@ -139,11 +140,11 @@ public class MakerController {
 
 	@PostMapping("/bank_card_ocr")
 	@ApiOperation(value = "银行卡实名认证", notes = "银行卡实名认证")
-	public R bankCardOcr(@ApiParam(value = "银行卡号") @NotNull(message = "请输入银行卡号") @RequestParam(required = false) String bankCardNo) {
+	public R bankCardOcr(@ApiParam(value = "银行卡号") @NotNull(message = "请输入银行卡号") @RequestParam(required = false) String bankCardNo, BladeUser bladeUser) {
 
 		logger.info("银行卡实名认证");
 		try {
-			return makerService.bankCardOcr(bankCardNo);
+			return makerService.bankCardOcr(bankCardNo, bladeUser);
 		} catch (Exception e) {
 			logger.error("银行卡实名认证异常", e);
 		}
@@ -165,11 +166,11 @@ public class MakerController {
 
 	@PostMapping("/mobile_ocr")
 	@ApiOperation(value = "手机号实名认证", notes = "手机号实名认证")
-	public R mobileOcr() {
+	public R mobileOcr(BladeUser bladeUser) {
 
 		logger.info("手机号实名认证");
 		try {
-			return makerService.mobileOcr();
+			return makerService.mobileOcr(bladeUser);
 		} catch (Exception e) {
 			logger.error("手机号实名认证异常", e);
 		}
@@ -191,11 +192,11 @@ public class MakerController {
 
 	@PostMapping("/query_idcard_ocr")
 	@ApiOperation(value = "查询当前创客身份证实名认证的照片", notes = "查询当前创客身份证实名认证的照片")
-	public R queryIdcardOcr() {
+	public R queryIdcardOcr(BladeUser bladeUser) {
 
 		logger.info("查询当前创客身份证实名认证的照片");
 		try {
-			return makerService.queryIdcardOcr();
+			return makerService.queryIdcardOcr(bladeUser);
 		} catch (Exception e) {
 			logger.error("查询当前创客身份证实名认证的照片异常", e);
 		}
@@ -204,11 +205,11 @@ public class MakerController {
 
 	@PostMapping("/check_idcard_face_verify")
 	@ApiOperation(value = "检查当前创客身份证和人脸是否已实名认证", notes = "检查当前创客身份证和人脸是否已实名认证")
-	public R checkIdcardFaceVerify() {
+	public R checkIdcardFaceVerify(BladeUser bladeUser) {
 
 		logger.info("检查当前创客身份证和人脸是否已实名认证");
 		try {
-			return makerService.checkIdcardFaceVerify();
+			return makerService.checkIdcardFaceVerify(bladeUser);
 		} catch (Exception e) {
 			logger.error("检查当前创客身份证和人脸是否已实名认证异常", e);
 		}

@@ -29,5 +29,21 @@ public interface MakerMapper extends BaseMapper<MakerEntity> {
      */
     MakerEntity findByPhoneNumber(String phoneNumber);
 
+    /**
+     * 获取名称
+     *
+     * @param id
+     * @return
+     */
+    String getName(Long id);
+
+    /**
+     * 根据userId获取创客
+     *
+     * @param userId
+     * @return
+     */
+    MakerEntity findByUserId(Long userId);
+
 }
 

@@ -10,9 +10,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-import java.util.Date;
-
 /**
  * Entity
  *
@@ -36,16 +33,19 @@ public class WorksheetAttentionEntity extends BaseEntity {
     /**
      * 创客ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long makerId;
 
     /**
      * 企业ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
 
     /**
      * 工单关注编号
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long worksheetAttentionNo;
 
 }

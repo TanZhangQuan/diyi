@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit;
  */
 @RestController
 @AllArgsConstructor
-@Api(value = "用户授权认证", tags = "授权接口")
+@Api(value = "用户授权认证", tags = "用户授权认证")
 public class AuthController {
 
     private RedisUtil redisUtil;
@@ -45,17 +45,23 @@ public class AuthController {
                              @ApiParam(value = "刷新令牌") @RequestParam(required = false) String refreshToken,
                              @ApiParam(value = "租户ID", required = true) @RequestParam(defaultValue = "000000", required = false) String tenantId,
                              @ApiParam(value = "账号") @RequestParam(required = false) String account,
-                             @ApiParam(value = "密码") @RequestParam(required = false) String password) {
+                             @ApiParam(value = "密码") @RequestParam(required = false) String password,
+                             @ApiParam(value = "微信授权码") @RequestParam(required = false) String wechatCode,
+                             @ApiParam(value = "加密算法的初始向量") @RequestParam(required = false) String iv,
+                             @ApiParam(value = "加密数据") @RequestParam(required = false) String encryptedData) {
 
         String userType = Func.toStr(WebUtil.getRequest().getHeader(TokenUtil.USER_TYPE_HEADER_KEY), TokenUtil.DEFAULT_USER_TYPE);
 
         TokenParameter tokenParameter = new TokenParameter();
         tokenParameter.getArgs()
+                .set("grantType", grantType)
+                .set("refreshToken", refreshToken)
                 .set("tenantId", tenantId)
                 .set("account", account)
                 .set("password", password)
-                .set("grantType", grantType)
-                .set("refreshToken", refreshToken)
+                .set("wechatCode", wechatCode)
+                .set("iv", iv)
+                .set("encryptedData", encryptedData)
                 .set("userType", userType);
 
         ITokenGranter granter = TokenGranterBuilder.getGranter(grantType);

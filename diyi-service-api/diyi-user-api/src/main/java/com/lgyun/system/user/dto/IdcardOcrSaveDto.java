@@ -13,6 +13,7 @@ import java.io.Serializable;
  */
 @Data
 public class IdcardOcrSaveDto implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     //身份证正面图
     @NotBlank(message = "请上传身份证正面图")

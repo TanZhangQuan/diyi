@@ -37,11 +37,13 @@ public class IndividualEnterpriseAnnualFeeEntity extends BaseEntity {
     /**
      * 个独ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long individualEnterpriseId;
 
     /**
      * 创客ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long makerId;
 
     /**

@@ -13,6 +13,7 @@ import java.io.Serializable;
  */
 @Data
 public class MakerWechatLoginDto implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     //微信授权乱码
     @NotBlank(message = "请输入微信授权乱码")

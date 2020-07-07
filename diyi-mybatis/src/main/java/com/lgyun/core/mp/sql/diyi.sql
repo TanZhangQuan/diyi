@@ -612,7 +612,8 @@ CREATE TABLE `blade_user` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `status` int(2) DEFAULT NULL COMMENT '状态',
   `is_deleted` int(2) DEFAULT '0' COMMENT '是否已删除',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`phone`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
 
 -- ----------------------------
@@ -1009,6 +1010,7 @@ CREATE TABLE `diyi_individual_enterprise_annual_fee` (
 DROP TABLE IF EXISTS `diyi_maker`;
 CREATE TABLE `diyi_maker` (
   `maker_id` bigint(50) NOT NULL COMMENT '创客（分包方）的基本信息ID',
+  `user_id` bigint(50) DEFAULT NULL COMMENT '管理者ID',
   `wechat_id` varchar(50) NOT NULL DEFAULT '' COMMENT '微信关联ID',
   `openid` varchar(50) NOT NULL DEFAULT '' COMMENT '微信open_id',
   `session_key` varchar(50) NOT NULL DEFAULT '' COMMENT '微信session_key',
@@ -1062,7 +1064,8 @@ CREATE TABLE `diyi_maker` (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
-  PRIMARY KEY (`maker_id`)
+  PRIMARY KEY (`maker_id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`phone_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------

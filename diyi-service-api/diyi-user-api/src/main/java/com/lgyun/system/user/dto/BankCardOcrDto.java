@@ -13,6 +13,7 @@ import java.io.Serializable;
  */
 @Data
 public class BankCardOcrDto implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     //个人银行卡号
     @NotBlank(message = "请输入银行卡号")

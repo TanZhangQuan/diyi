@@ -1,9 +1,7 @@
 package com.lgyun.system.user.service;
 
 import com.lgyun.common.api.R;
-import com.lgyun.system.user.dto.MakerWechatLoginDto;
-
-import java.io.IOException;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *  Service 接口
@@ -13,11 +11,8 @@ import java.io.IOException;
  */
 public interface ICommonService {
 
-    //微信授权
-    R wechatAuthorization(String code) throws IOException;
-
-    //创客登陆
-    R makerWechatLogin(MakerWechatLoginDto makerWechatLoginDto) throws Exception;
+    //上传文件
+    R ossImageUpload(MultipartFile file) throws Exception;
 
 }
 

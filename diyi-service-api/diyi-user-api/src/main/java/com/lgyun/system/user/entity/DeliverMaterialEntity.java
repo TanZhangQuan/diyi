@@ -10,7 +10,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -36,6 +35,7 @@ public class DeliverMaterialEntity extends BaseEntity {
     /**
      * 确认函ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long paysheetId;
 
     /**

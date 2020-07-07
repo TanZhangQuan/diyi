@@ -6,6 +6,8 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.constant.RealnameVerifyConstant;
 import com.lgyun.common.enumeration.IdcardVerifyType;
 import com.lgyun.common.enumeration.VerifyStatus;
+import com.lgyun.common.secure.BladeUser;
+import com.lgyun.common.tool.Func;
 import com.lgyun.common.tool.HttpUtil;
 import com.lgyun.common.tool.ImageUtil;
 import com.lgyun.common.tool.RealnameVerifyUtil;
@@ -50,10 +52,10 @@ public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> impl
     }
 
     @Override
-    public R idcardOcr(String idcardPic) throws Exception {
+    public R idcardOcr(String idcardPic, BladeUser bladeUser) throws Exception {
 
-        //TODO
-        MakerEntity makerEntity = getById(1278969988057903106L);
+        //获取当前创客
+        MakerEntity makerEntity = findByUserId(bladeUser.getUserId());
         //查看创客是否已经身份证实名认证
         if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus())) {
             return R.fail("身份证已实名认证");
@@ -80,10 +82,10 @@ public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> impl
     }
 
     @Override
-    public R idcardOcrSave(IdcardOcrSaveDto idcardOcrSaveDto) {
+    public R idcardOcrSave(IdcardOcrSaveDto idcardOcrSaveDto, BladeUser bladeUser) {
 
-        //TODO
-        MakerEntity makerEntity = getById(1278969988057903106L);
+        //获取当前创客
+        MakerEntity makerEntity = findByUserId(bladeUser.getUserId());
         //查看创客是否已经身份证实名认证
         if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus())) {
             return R.fail("身份证已实名认证");
@@ -100,10 +102,10 @@ public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> impl
     }
 
     @Override
-    public R faceOcr() throws Exception {
+    public R faceOcr(BladeUser bladeUser) throws Exception {
 
-        //TODO
-        MakerEntity makerEntity = getById(1278969988057903106L);
+        //获取当前创客
+        MakerEntity makerEntity = findByUserId(bladeUser.getUserId());
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
             return R.fail("请先进行身份证实名认证");
@@ -186,10 +188,10 @@ public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> impl
     }
 
     @Override
-    public R bankCardOcr(String bankCardNo) throws Exception {
+    public R bankCardOcr(String bankCardNo, BladeUser bladeUser) throws Exception {
 
-        //TODO
-        MakerEntity makerEntity = getById(1278969988057903106L);
+        //获取当前创客
+        MakerEntity makerEntity = findByUserId(bladeUser.getUserId());
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
             return R.fail("请先进行身份证实名认证");
@@ -271,10 +273,10 @@ public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> impl
     }
 
     @Override
-    public R mobileOcr() throws Exception {
+    public R mobileOcr(BladeUser bladeUser) throws Exception {
 
-        //TODO
-        MakerEntity makerEntity = getById(1278969988057903106L);
+        //获取当前创客
+        MakerEntity makerEntity = findByUserId(bladeUser.getUserId());
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
             return R.fail("请先进行身份证实名认证");
@@ -339,10 +341,10 @@ public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> impl
     }
 
     @Override
-    public R queryIdcardOcr() {
+    public R queryIdcardOcr(BladeUser bladeUser) {
 
-        //TODO
-        MakerEntity makerEntity = getById(1278969988057903106L);
+        //获取当前创客
+        MakerEntity makerEntity = findByUserId(bladeUser.getUserId());
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
             return R.fail("未进行身份证实名认证");
@@ -361,10 +363,10 @@ public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> impl
     }
 
     @Override
-    public R checkIdcardFaceVerify() {
+    public R checkIdcardFaceVerify(BladeUser bladeUser) {
 
-        //TODO
-        MakerEntity makerEntity = getById(1278969988057903106L);
+        //获取当前创客
+        MakerEntity makerEntity = findByUserId(bladeUser.getUserId());
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
             return R.fail("请先进行身份证实名认证");
@@ -376,6 +378,16 @@ public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> impl
         }
 
         return R.success("身份证和人脸已实名认证");
+    }
+
+    @Override
+    public String getName(Long id) {
+        return baseMapper.getName(Func.toLong(id));
+    }
+
+    @Override
+    public MakerEntity findByUserId(Long userId) {
+        return baseMapper.findByUserId(userId);
     }
 
 }
