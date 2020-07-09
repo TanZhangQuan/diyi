@@ -20,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  *  控制器
@@ -38,36 +39,16 @@ public class MakerEnterpriseController {
 	private final IMakerEnterpriseService makerEnterpriseService;
 	private final IEnterpriseService iEnterpriseService;
 
-	@PostMapping("/save")
-	@ApiOperation(value = "新增", notes = "新增")
-	public R save(@Valid @RequestBody MakerEnterpriseEntity makerEnterprise) {
-		return R.status(makerEnterpriseService.save(makerEnterprise));
-	}
-
-	@PostMapping("/update")
-	@ApiOperation(value = "修改", notes = "修改")
-	public R update(@Valid @RequestBody MakerEnterpriseEntity makerEnterprise) {
-		return R.status(makerEnterpriseService.updateById(makerEnterprise));
-	}
 
 	@GetMapping("/detail")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "enterpriseId", value = "商户id", paramType = "query", dataType = "long"),
+			@ApiImplicitParam(name = "difference", value = "类型,1关联，2关注", paramType = "query", dataType = "int")
+	})
 	@ApiOperation(value = "详情", notes = "详情")
-	public R<MakerEnterpriseVO> detail(MakerEnterpriseEntity makerEnterprise) {
-		MakerEnterpriseEntity detail = makerEnterpriseService.getOne(Condition.getQueryWrapper(makerEnterprise));
-		return R.data(MakerEnterpriseWrapper.build().entityVO(detail));
-	}
-
-	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "分页")
-	public R<IPage<MakerEnterpriseVO>> list(MakerEnterpriseEntity makerEnterprise, Query query) {
-		IPage<MakerEnterpriseEntity> pages = makerEnterpriseService.page(Condition.getPage(query), Condition.getQueryWrapper(makerEnterprise));
-		return R.data(MakerEnterpriseWrapper.build().pageVO(pages));
-	}
-
-	@PostMapping("/remove")
-	@ApiOperation(value = "删除", notes = "删除")
-	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
-		return R.status(makerEnterpriseService.removeByIds(Func.toLongList(ids)));
+	public R<MakerEnterpriseRelationVO> detail(Long enterpriseId,int difference) {
+		MakerEnterpriseRelationVO enterpriseId1 = iEnterpriseService.getEnterpriseId(enterpriseId, difference);
+		return R.data(enterpriseId1);
 	}
 
 	@GetMapping("/selectMakerEnterprisePage")
@@ -86,19 +67,20 @@ public class MakerEnterpriseController {
 			@ApiImplicitParam(name = "enterpriseName", value = "商户名字", paramType = "query", dataType = "string")
 	})
 	@ApiOperation(value = "通过商户名字查询", notes = "通过商户名字查询")
-	public R<MakerEnterpriseRelationVO> getEnterpriseName(String enterpriseName) {
-		return iEnterpriseService.getEnterpriseName(enterpriseName);
+	public R<List<MakerEnterpriseRelationVO>> getEnterpriseName(String enterpriseName) {
+		List<MakerEnterpriseRelationVO> makerEnterpriseRelationVOs = iEnterpriseService.getEnterpriseName(enterpriseName);
+		return R.data(makerEnterpriseRelationVOs,"查询成功");
 	}
 
-	@GetMapping("/addOrCancelfollow")
+	@PostMapping("/addOrCancelfollow")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "enterpriseId", value = "商户id", paramType = "query", dataType = "long"),
-			@ApiImplicitParam(name = "markId", value = "创客id", paramType = "query", dataType = "long"),
-			@ApiImplicitParam(name = "relationshipType", value = "1取消，2添加", paramType = "query", dataType = "int")
+			@ApiImplicitParam(name = "makerId", value = "创客id", paramType = "query", dataType = "long"),
+			@ApiImplicitParam(name = "attribute", value = "1取消，2添加", paramType = "query", dataType = "int")
 	})
-	@ApiOperation(value = "通过商户名字查询", notes = "通过商户名字查询")
-	public R addOrCancelfollow(Long enterpriseId,Long markId,Integer relationshipType) {
-		return makerEnterpriseService.addOrCancelfollow(enterpriseId,markId,relationshipType);
+	@ApiOperation(value = "添加关注或取消关注", notes = "添加关注或取消关注")
+	public R addOrCancelfollow(Long enterpriseId,Long makerId,Integer attribute) {
+		return makerEnterpriseService.addOrCancelfollow(enterpriseId,makerId,attribute);
 	}
 
 }

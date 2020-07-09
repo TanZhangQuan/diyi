@@ -1,8 +1,7 @@
 package com.lgyun.system.order.wrapper;
 
-
-import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.support.BaseEntityWrapper;
+import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
 import com.lgyun.system.order.vo.SelfHelpInvoiceVO;
 
@@ -10,9 +9,9 @@ import com.lgyun.system.order.vo.SelfHelpInvoiceVO;
  * 包装类,返回视图层所需的字段
  *
  * @author jun
- * @since 2020-07-02 16:21:19
+ * @since 2020-07-08 14:32:47
  */
-public class SelfHelpInvoiceWrapper extends BaseEntityWrapper<SelfHelpInvoiceEntity, SelfHelpInvoiceVO> {
+public class SelfHelpInvoiceWrapper extends BaseEntityWrapper<SelfHelpInvoiceEntity, SelfHelpInvoiceVO>  {
 
     public static SelfHelpInvoiceWrapper build() {
         return new SelfHelpInvoiceWrapper();
@@ -20,7 +19,8 @@ public class SelfHelpInvoiceWrapper extends BaseEntityWrapper<SelfHelpInvoiceEnt
 
 	@Override
 	public SelfHelpInvoiceVO entityVO(SelfHelpInvoiceEntity selfHelpInvoice) {
-		SelfHelpInvoiceVO selfHelpInvoiceVO = BeanUtil.copy(selfHelpInvoice, SelfHelpInvoiceVO.class);
+			SelfHelpInvoiceVO selfHelpInvoiceVO = BeanUtil.copy(selfHelpInvoice, SelfHelpInvoiceVO.class);
+
 		return selfHelpInvoiceVO;
 	}
 

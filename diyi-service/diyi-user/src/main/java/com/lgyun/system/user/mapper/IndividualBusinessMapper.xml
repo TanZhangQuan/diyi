@@ -37,4 +37,8 @@
                     <result property="isDeleted" column="is_deleted"/>
             </resultMap>
 
+    <select id="findMakerId" resultMap="individualBusinessMap">
+        select *from diyi_individual_business where maker_id=#{makerId} and is_deleted = 0
+    </select>
+
 </mapper>

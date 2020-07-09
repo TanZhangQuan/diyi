@@ -6,6 +6,8 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.dto.IndividualBusinessAddDto;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 
+import java.util.List;
+
 /**
  *  Service 接口
  *
@@ -16,6 +18,9 @@ public interface IIndividualBusinessService extends IService<IndividualBusinessE
 
     //新增个体户
     R save(IndividualBusinessAddDto individualBusinessAddDto, BladeUser bladeUser);
+
+    //通过创客id查询个体户
+    IndividualBusinessEntity findMakerId(Long makerId);
 
 }
 

@@ -3,6 +3,16 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${blade.datasource.dev.url}
-    username: ${blade.datasource.dev.username}
-    password: ${blade.datasource.dev.password}
+    url: jdbc:mysql://localhost:3306/diyi?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&tinyInt1isBit=false&allowMultiQueries=true&serverTimezone=GMT%2B8
+    username: jun
+    password: 123456
+
+# 阿里云OSS云存储配置
+aliyun:
+  oss:
+    domain: http://cashbus-ddh.oss-cn-beijing.aliyuncs.com
+    endPoint: http://oss-cn-beijing.aliyuncs.com
+    bucketName: cashbus-ddh
+    accessKeyId: LTAIZ7QfWA70sj6P
+    accessKeySecret: GKET6qGz6RXHFM2qd2xwL9c1QbxhRT
+    prefix: upload

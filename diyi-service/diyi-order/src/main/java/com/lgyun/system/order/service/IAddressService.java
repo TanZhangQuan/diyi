@@ -1,22 +1,27 @@
 package com.lgyun.system.order.service;
 
-
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lgyun.common.api.R;
+import com.lgyun.system.order.dto.AddressDto;
 import com.lgyun.system.order.entity.AddressEntity;
-
-import java.util.List;
 
 /**
  *  Service 接口
  *
  * @author jun
- * @since 2020-07-02 16:21:19
+ * @since 2020-07-08 14:32:47
  */
 public interface IAddressService extends IService<AddressEntity> {
+    /**
+     * 新增地址
+     */
+    R saveAddress(AddressDto addressDto, Long makerId);
+
 
     /**
-     * 通过购买方id查询收件地址
+     * 通过创客Id去查询
      */
-    List<AddressEntity> findAddressCompanyId(Long companyId);
+    R<IPage<AddressEntity>> findAddressMakerId(IPage<AddressEntity> page, Long makerId);
 }
 

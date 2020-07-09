@@ -37,48 +37,16 @@ public class AgreementController {
 
 	private final IAgreementService agreementService;
 
-	@PostMapping("/save")
-	@ApiOperation(value = "新增", notes = "新增")
-	public R save(@Valid @RequestBody AgreementEntity agreement) {
-		return R.status(agreementService.save(agreement));
-	}
-
-	@PostMapping("/update")
-	@ApiOperation(value = "修改", notes = "修改")
-	public R update(@Valid @RequestBody AgreementEntity agreement) {
-		return R.status(agreementService.updateById(agreement));
-	}
-
-	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "详情")
-	public R detail(Long agreementId) {
-		AgreementEntity detail = agreementService.getById(agreementId);
-		return R.data(AgreementWrapper.build().entityVO(detail));
-	}
-
-	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "分页")
-	public R list(AgreementEntity agreement, Query query) {
-		IPage<AgreementEntity> pages = agreementService.page(Condition.getPage(query), Condition.getQueryWrapper(agreement));
-		return R.data(AgreementWrapper.build().pageVO(pages));
-	}
-
-	@PostMapping("/remove")
-	@ApiOperation(value = "删除", notes = "删除")
-	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
-		return R.status(agreementService.removeByIds(Func.toLongList(ids)));
-	}
-
 	@GetMapping("/makerIdFind")
 	@ApiOperation(value = "根据创客找合同", notes = "根据创客找合同")
-	public R makerIdFind(Long makerId) {
+	public R<List<AgreementEntity>> makerIdFind(Long makerId) {
 		List<AgreementEntity> agreementEntities = agreementService.makerIdFind(makerId);
 		return R.data(agreementEntities);
 	}
 
 	@GetMapping("/makerIdCompanyFind")
 	@ApiOperation(value = "根据创客和商户找合同", notes = "根据创客和商户找合同")
-	public R makerIdCompanyFind(Long makerId,Long employeeId) {
+	public R<List<AgreementEntity>> makerIdCompanyFind(Long makerId,Long employeeId) {
 		List<AgreementEntity> agreementEntities = agreementService.makerIdCompanyFind(makerId,employeeId);
 		return R.data(agreementEntities);
 	}

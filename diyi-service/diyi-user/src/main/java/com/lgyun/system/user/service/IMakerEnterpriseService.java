@@ -35,7 +35,8 @@ public interface IMakerEnterpriseService extends IService<MakerEnterpriseEntity>
     /**
      * 添加和取消关注 relationshipType = 1,取消 2添加
      */
-    R addOrCancelfollow(Long enterpriseId,Long markId,Integer relationshipType);
+    R addOrCancelfollow(Long enterpriseId,Long makerId,Integer attribute);
+
 
 }
 

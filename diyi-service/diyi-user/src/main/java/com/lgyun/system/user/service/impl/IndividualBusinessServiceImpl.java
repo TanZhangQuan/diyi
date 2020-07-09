@@ -59,4 +59,9 @@ public class IndividualBusinessServiceImpl extends ServiceImpl<IndividualBusines
         return R.success("个体户新增成功");
     }
 
+    @Override
+    public IndividualBusinessEntity findMakerId(Long makerId) {
+        return null;
+    }
+
 }

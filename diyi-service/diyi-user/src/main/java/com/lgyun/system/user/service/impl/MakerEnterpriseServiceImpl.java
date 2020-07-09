@@ -3,6 +3,8 @@ package com.lgyun.system.user.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.CooperateStatus;
+import com.lgyun.common.enumeration.RelType;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.mapper.MakerEnterpriseMapper;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
@@ -39,26 +41,34 @@ public class MakerEnterpriseServiceImpl extends ServiceImpl<MakerEnterpriseMappe
     }
 
     @Override
-    public R addOrCancelfollow(Long enterpriseId, Long markId,Integer relationshipType) {
-        MakerEnterpriseEntity makerEnterpriseEntity = baseMapper.selectCancelfollow(enterpriseId, markId);
-        if(relationshipType == 1 || null == makerEnterpriseEntity){
-            return R.fail("取消失败");
+    public R addOrCancelfollow(Long enterpriseId, Long makerId,Integer attribute) {
+        MakerEnterpriseEntity makerEnterpriseEntity = baseMapper.selectCancelfollow(enterpriseId, makerId);
+        if(attribute == 1 && null == makerEnterpriseEntity){
+            return R.fail("取消成功1");
         }
         if(null == makerEnterpriseEntity){
             makerEnterpriseEntity = new MakerEnterpriseEntity();
-            makerEnterpriseEntity.setMakerId(markId);
+            makerEnterpriseEntity.setMakerId(makerId);
             makerEnterpriseEntity.setEnterpriseId(enterpriseId);
             makerEnterpriseEntity.setRelationshipType(1);
             makerEnterpriseEntity.setRelDate(new Date());
+            makerEnterpriseEntity.setRelType(RelType.MAKERREL);
+            makerEnterpriseEntity.setCooperationStartTime(new Date());
             makerEnterpriseEntity.setRelMemo("关注");
+            makerEnterpriseEntity.setCreateTime(new Date());
+            makerEnterpriseEntity.setCreateUser(0L);
+            makerEnterpriseEntity.setStatus(1);
         }
-        if(relationshipType == 1){
-            makerEnterpriseEntity.setRelationshipType(0);
+        if(attribute == 1){
+            makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATESTOP);
+
         }
-        if(relationshipType == 2){
-            makerEnterpriseEntity.setRelationshipType(1);
+        if(attribute == 2){
+            makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATING);
         }
-        save(makerEnterpriseEntity);
+        boolean b = saveOrUpdate(makerEnterpriseEntity);
+        System.out.println(b);
+
         return R.success("成功");
     }
 }

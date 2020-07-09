@@ -1,6 +1,9 @@
 package com.lgyun.system.user.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lgyun.common.api.R;
+import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.RunCompanyEntity;
 
 import java.util.List;
@@ -14,8 +17,13 @@ import java.util.List;
 public interface IRunCompanyService extends IService<RunCompanyEntity> {
 
     /**
-     *根据名字查询
+     *根据创客Id
      */
-    List<RunCompanyEntity> findCompanyName(String companyName);
+    R<IPage<RunCompanyEntity>> findMakerId(IPage<RunCompanyEntity> page, Long makerId);
+
+    /**
+     * 新增
+     */
+    R runCompanySave(RunCompanyDto runCompanyDto,Long makerId);
 }
 

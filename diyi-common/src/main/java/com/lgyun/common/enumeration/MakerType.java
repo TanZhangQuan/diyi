@@ -8,6 +8,7 @@ import lombok.Getter;
 @Getter
 public enum MakerType {
     NATURALPERSON("NATURALPERSON", "自然人"),
+    ALONE("ALONE", "个独"),
     INDIVIDUALBUSINESS("INDIVIDUALBUSINESS", "个体户");
 
     private String value;

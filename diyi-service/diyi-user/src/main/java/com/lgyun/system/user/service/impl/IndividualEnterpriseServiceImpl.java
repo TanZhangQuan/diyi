@@ -59,4 +59,13 @@ public class IndividualEnterpriseServiceImpl extends ServiceImpl<IndividualEnter
         return R.success("个独新增成功");
     }
 
+    /**
+     * 通过创客id查询
+     */
+    @Override
+    public IndividualEnterpriseEntity findMakerId(Long makerId){
+        IndividualEnterpriseEntity individualEnterpriseEntity = baseMapper.findMakerId(makerId);
+        return individualEnterpriseEntity;
+    }
+
 }

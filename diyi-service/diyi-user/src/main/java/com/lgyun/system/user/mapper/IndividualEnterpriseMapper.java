@@ -13,5 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface IndividualEnterpriseMapper extends BaseMapper<IndividualEnterpriseEntity> {
 
+    IndividualEnterpriseEntity findMakerId(Long makerId);
 }
 

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.MakerEnterpriseVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -29,12 +30,12 @@ public interface MakerEnterpriseMapper extends BaseMapper<MakerEnterpriseEntity>
      * @param page
      * @return
      */
-    List<MakerEnterpriseVO> selectMakerEnterprisePage(IPage page, Long makerId,Integer relationshipType);
+    List<MakerEnterpriseRelationVO> selectMakerEnterprisePage(IPage page, Long makerId, Integer relationshipType);
 
 
     /**
      * 通过
      */
-    MakerEnterpriseEntity selectCancelfollow(Long enterpriseId, Long markId);
+    MakerEnterpriseEntity selectCancelfollow(Long enterpriseId, Long makerId);
 }
 

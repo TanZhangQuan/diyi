@@ -5,10 +5,9 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 /**
- * 视图实体类
- *
- * @author jun
- * @since 2020/6/6 19:18
+ * @author jun.
+ * @date 2020/7/2.
+ * @time 16:30.
  */
 @Data
 @ApiModel(value = "WorksheetVO对象", description = "WorksheetVO对象")

@@ -17,5 +17,6 @@ public interface IIndividualEnterpriseService extends IService<IndividualEnterpr
     //新增个独
     R save(IndividualEnterpriseAddDto individualEnterpriseAddDto, BladeUser bladeUser);
 
+    IndividualEnterpriseEntity findMakerId(Long makerId);
 }
 

@@ -3,20 +3,25 @@ package com.lgyun.system.order.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.MakerType;
+import com.lgyun.common.enumeration.WorkSheetMode;
+import com.lgyun.common.enumeration.WorkSheetType;
+import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.core.mp.base.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  *  Entity
  *
  * @author jun
- * @since 2020-06-29 10:39:06
+ * @since 2020-07-07 14:40:21
  */
 @Data
 @NoArgsConstructor
@@ -24,28 +29,18 @@ import java.util.Date;
 public class WorksheetEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-
     /**
-     * 平台运营工单信息ID
+     * 工单ID
      */
     @ApiModelProperty(value = "主键")
-    @TableId(value = "worksheet_id", type = IdType.ASSIGN_ID)
+    @TableId(type = IdType.ASSIGN_ID)
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long worksheetId;
+        private Long worksheetId;
 
     /**
-     * 订单ID
+     * 企业ID
      */
-    @ApiModelProperty(value = "订单ID")
-    @JsonSerialize(using = ToStringSerializer.class)
-        private Long orderId;
-
-    /**
-     * 创客ID
-     */
-    @ApiModelProperty(value = "创客ID")
-    @JsonSerialize(using = ToStringSerializer.class)
-        private Long makerId;
+        private Long enterpriseId;
 
     /**
      * 工单编号
@@ -53,27 +48,88 @@ public class WorksheetEntity extends BaseEntity {
         private String worksheetNo;
 
     /**
-     * 抢单日期
+     * 工单名称
      */
-        private Date getOrderDate;
+        private String worksheetName;
 
     /**
-     * 抢单说明
+     * 上线人数
      */
-        private String getOrderDesc;
+        private Integer uppersonNum;
 
     /**
-     * 工单状态：正常，已作废
+     * 工作天数
      */
-        private String worksheetState;
+        private Integer workDays;
 
     /**
-     * 作废日期
+     * 费用
      */
-        private Date destroyDateTime;
+        private BigDecimal worksheetFee;
+
+    /**
+     * 类型，总包+分包，众包/众采
+     */
+        private WorkSheetType worksheetType;
+
+    /**
+     * 模式，派单、抢单、混合（默认：混合型）
+     */
+        private WorkSheetMode worksheetMode;
+
+    /**
+     * 发布时间
+     */
+        private Date publishDate;
+
+    /**
+     * 创客身份，自然人，个体户，个独。如果是个体户/个独，则抢单或派单时需要指定相关个体户/个独，如果只有一个则不用指定。
+     */
+        private MakerType makerType;
+
+    /**
+     * 工单状态：
+a) 发布中，发布代抢单或代派单的工单
+b) 已关单，已经抢单或者派单完毕（人数不做控制依据）
+c) 验收中，有个人创客提交了工单等待验收或部分验收完毕
+d) 已完毕，所有个人创客都验收完毕了
+e) 已作废，验收中工单都可以作废，已完毕的不能作废
+     */
+        private WorksheetState worksheetState;
+
+    /**
+     * 作废时间
+     */
+        private Date destroyDatetime;
 
     /**
      * 作废人员
      */
         private String destroyPerson;
+
+    /**
+     * 作废说明
+     */
+        private String destroyDesc;
+
+    /**
+     * 关单时间
+     */
+        private Date closeWorksheetDate;
+
+    /**
+     * 1，手动关单；2，自动关单
+     */
+        private String closeDesc;
+
+    /**
+     * 关单人员
+     */
+    private String closePerson;
+
+    /**
+     * 完毕日期
+     */
+        private Date finishDate;
+
     }
