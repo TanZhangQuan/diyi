@@ -1,8 +1,8 @@
-package com.lgyun.system.user.config;
+package com.lgyun.system.order.config;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import org.mybatis.spring.annotation.MapperScan;
 import com.lgyun.core.mp.plugins.SqlLogInterceptor;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @MapperScan("com.lgyun.**.mapper.**")
-public class MybatisPlusConfiguration {
+public class OrderBatisPlusConfigurations {
 
     @Bean
     @ConditionalOnMissingBean(PaginationInterceptor.class)

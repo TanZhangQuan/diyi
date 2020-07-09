@@ -4,7 +4,7 @@
 <mapper namespace="com.lgyun.system.order.mapper.PaysheetMapper">
 
     <!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.lgyun.system.user.entity.PaysheetEntity" id="paysheetMap">
+    <resultMap type="com.lgyun.system.order.entity.PaysheetEntity" id="paysheetMap">
                     <result property="paysheetId" column="paysheet_id"/>
                     <result property="payId" column="pay_id"/>
                     <result property="orderId" column="order_id"/>

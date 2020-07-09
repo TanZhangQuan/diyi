@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @MapperScan("com.lgyun.**.mapper.**")
-public class MybatisPlusConfiguration {
+public class SystemBatisPlusConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(PaginationInterceptor.class)
