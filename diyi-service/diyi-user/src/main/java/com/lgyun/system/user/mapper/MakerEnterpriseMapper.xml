@@ -39,7 +39,7 @@
     </resultMap>
 
     <select id="getMakerId" resultMap="makerEnterpriseMap">
-        select *from diyi_maker_enterprise where maker_id = #{makerId} and relationship_type = 0
+        select *from diyi_maker_enterprise where maker_id = #{makerId} and relationship_type = 0 and is_deleted = 0
     </select>
 
     <select id="selectMakerEnterprisePage" resultMap="makerEnterpriseRelationMap">
@@ -47,6 +47,6 @@
     </select>
 
     <select id="selectCancelfollow" resultMap="makerEnterpriseMap">
-        select * from diyi_maker_enterprise where maker_id = #{makerId} and relationship_type = 1 and enterprise_id = #{enterpriseId}
+        select * from diyi_maker_enterprise where maker_id = #{makerId} and enterprise_id = #{enterpriseId} and relationship_type = 1 and is_deleted = 0
     </select>
 </mapper>

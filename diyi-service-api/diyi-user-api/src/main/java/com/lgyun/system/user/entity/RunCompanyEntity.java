@@ -34,6 +34,11 @@ public class RunCompanyEntity extends BaseEntity {
     private Long runCompanyId;
 
     /**
+     * 创客Id
+     */
+    private Long makerId;
+
+    /**
      * 公司名称
      */
     private String companyName;

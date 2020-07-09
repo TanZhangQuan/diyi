@@ -3,6 +3,9 @@ package com.lgyun.system.user.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lgyun.common.api.R;
 import com.lgyun.system.user.entity.EnterpriseEntity;
+import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
+
+import java.util.List;
 
 /**
  *  Service 接口
@@ -15,6 +18,12 @@ public interface IEnterpriseService extends IService<EnterpriseEntity> {
     /**
      * 通过商户名字查询
      */
-    R getEnterpriseName(String enterpriseName);
+    List<MakerEnterpriseRelationVO> getEnterpriseName(String enterpriseName);
+
+    /**
+     * 通过商户id查询
+     */
+    MakerEnterpriseRelationVO getEnterpriseId(Long enterpriseId,Integer difference);
+
 }
 

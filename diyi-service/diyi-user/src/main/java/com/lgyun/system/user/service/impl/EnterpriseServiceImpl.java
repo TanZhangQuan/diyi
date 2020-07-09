@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  *  Service 实现
  *
@@ -24,8 +26,27 @@ public class EnterpriseServiceImpl extends ServiceImpl<EnterpriseMapper, Enterpr
     private Logger logger = LoggerFactory.getLogger(EnterpriseServiceImpl.class);
 
     @Override
-    public R getEnterpriseName(String enterpriseName) {
-        MakerEnterpriseRelationVO makerEnterpriseRelationVO = baseMapper.getEnterpriseName(enterpriseName);
-        return R.data(makerEnterpriseRelationVO,"查询成功");
+    public List<MakerEnterpriseRelationVO> getEnterpriseName(String enterpriseName) {
+        List<MakerEnterpriseRelationVO> makerEnterpriseRelationVOs = baseMapper.getEnterpriseName(enterpriseName);
+        return makerEnterpriseRelationVOs;
+    }
+
+    @Override
+    public MakerEnterpriseRelationVO getEnterpriseId(Long enterpriseId,Integer difference) {
+        MakerEnterpriseRelationVO makerEnterpriseRelationVO = baseMapper.getEnterpriseId(enterpriseId);
+        if(difference == 1){
+            return makerEnterpriseRelationVO;
+        }else{
+            makerEnterpriseRelationVO.setContact1Phone("138********");
+            makerEnterpriseRelationVO.setBizLicenceUrl("*");
+            makerEnterpriseRelationVO.setLegalPerson("***");
+            makerEnterpriseRelationVO.setLegalPersonCard("*********");
+            makerEnterpriseRelationVO.setSocialCreditNo("*******");
+            makerEnterpriseRelationVO.setContact1Position("********");
+            makerEnterpriseRelationVO.setShopUserName("*****");
+            return makerEnterpriseRelationVO;
+        }
+
+
     }
 }

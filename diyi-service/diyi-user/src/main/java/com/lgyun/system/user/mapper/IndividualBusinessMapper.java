@@ -13,5 +13,10 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface IndividualBusinessMapper extends BaseMapper<IndividualBusinessEntity> {
 
+    /**
+     * 通过创客id查询
+     */
+    //通过创客id查询个体户
+    IndividualBusinessEntity findMakerId(Long makerId);
 }
 

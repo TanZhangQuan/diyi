@@ -1,6 +1,5 @@
 package com.lgyun.system.order.wrapper;
 
-
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.support.BaseEntityWrapper;
 import com.lgyun.system.order.entity.WorksheetEntity;
@@ -10,7 +9,7 @@ import com.lgyun.system.order.vo.WorksheetVO;
  * 包装类,返回视图层所需的字段
  *
  * @author jun
- * @since 2020-06-29 10:39:06
+ * @since 2020-07-07 14:40:21
  */
 public class WorksheetWrapper extends BaseEntityWrapper<WorksheetEntity, WorksheetVO> {
 
