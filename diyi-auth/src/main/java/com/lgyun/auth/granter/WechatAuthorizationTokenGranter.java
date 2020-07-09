@@ -6,8 +6,10 @@ import com.lgyun.auth.enums.BladeUserEnum;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.WechatConstant;
 import com.lgyun.common.exception.ServiceException;
-import com.lgyun.common.tool.*;
-import com.lgyun.system.user.entity.MakerEntity;
+import com.lgyun.common.tool.AesCbcUtil;
+import com.lgyun.common.tool.Func;
+import com.lgyun.common.tool.HttpUtil;
+import com.lgyun.common.tool.StringUtil;
 import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.entity.UserInfo;
 import com.lgyun.system.user.feign.IUserClient;
@@ -24,10 +26,10 @@ import java.util.Map;
 @Slf4j
 @Component
 @AllArgsConstructor
-public class WechatTokenGranter implements ITokenGranter {
-    private static Logger logger = LoggerFactory.getLogger(WechatTokenGranter.class);
+public class WechatAuthorizationTokenGranter implements ITokenGranter {
+    private static Logger logger = LoggerFactory.getLogger(WechatAuthorizationTokenGranter.class);
 
-    public static final String GRANT_TYPE = "wechat";
+    public static final String GRANT_TYPE = "wechat_authorization";
 
     private IUserClient userClient;
 
@@ -53,11 +55,12 @@ public class WechatTokenGranter implements ITokenGranter {
             Object errcode = jsonObject.get("errcode");
             String errmsg = String.valueOf(jsonObject.get("errmsg"));
             if (errcode != null) {
+                logger.error(errmsg);
                 throw new ServiceException(errmsg);
             }
 
-            String openid = "o5gdA5WWuozOQJ1kULFMCP0HCfbQ";
-            String sessionKey = "PM5AgYQsitVqRPcOSTUa4g==";
+            String openid = String.valueOf(jsonObject.get("openid"));
+            String sessionKey = jsonObject.getString("session_key");
             if (StringUtils.isBlank(openid)) {
                 logger.error("微信授权失败, 返回参数缺失openid");
                 throw new ServiceException("微信授权失败");
@@ -68,33 +71,25 @@ public class WechatTokenGranter implements ITokenGranter {
                 throw new ServiceException("微信授权失败");
             }
 
-            //查看是否存在openid的创客，存在就不需要验证手机号，直接登录
-            MakerEntity makerEntity = userClient.makerFindByOpenid(openid);
-            User user;
-            if (makerEntity == null) {
-                // 获取加密算法的初始向量
-                String iv = tokenParameter.getArgs().getStr("iv");
-                // 获取加密数据
-                String encryptedData = tokenParameter.getArgs().getStr("encryptedData");
-                // 参数含义：第一个，加密数据串（String）；第二个，session_key需要通过微信小程序的code获得（String）；
-                // 第三个，数据加密时所使用的偏移量，解密时需要使用（String）；第四个，编码
-                String AesResult = AesCbcUtil.decrypt(encryptedData, sessionKey, iv, "UTF-8");
+            // 获取加密算法的初始向量
+            String iv = tokenParameter.getArgs().getStr("iv");
+            // 获取加密数据
+            String encryptedData = tokenParameter.getArgs().getStr("encryptedData");
+            // 参数含义：第一个，加密数据串（String）；第二个，session_key需要通过微信小程序的code获得（String）；
+            // 第三个，数据加密时所使用的偏移量，解密时需要使用（String）；第四个，编码
+            String AesResult = AesCbcUtil.decrypt(encryptedData, sessionKey, iv, "UTF-8");
 
-                if (StringUtil.isNotBlank(AesResult)) {
-                    // 将解密后的JSON格式字符串转化为对象
-                    jsonObject = JSONObject.parseObject(AesResult);
-                    // 获取手机号
-                    String purePhoneNumber = String.valueOf(jsonObject.get("purePhoneNumber"));
-                    // 根据手机号码查询创客，存在就更新微信信息，不存在就新建创客
-                    user = userClient.makerSaveOrUpdate(openid, sessionKey, purePhoneNumber);
-
-                } else {
-                    throw new ServiceException("解密失败");
-                }
-
-            }else{
-                user = userClient.userFindById(makerEntity.getUserId());
+            if (StringUtil.isBlank(AesResult)) {
+                throw new ServiceException("解密失败");
             }
+
+            // 将解密后的JSON格式字符串转化为对象
+            jsonObject = JSONObject.parseObject(AesResult);
+            // 获取手机号
+            String purePhoneNumber = String.valueOf(jsonObject.get("purePhoneNumber"));
+            // 微信授权登陆
+            String tenantId = tokenParameter.getArgs().getStr("tenantId");
+            User user = userClient.wechatAuthorization(openid, sessionKey, purePhoneNumber, tenantId);
 
             UserInfo userInfo = null;
             if (!(Func.isNull(user))) {

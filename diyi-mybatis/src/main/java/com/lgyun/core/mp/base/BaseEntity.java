@@ -34,7 +34,7 @@ public class BaseEntity implements Serializable {
 	@DateTimeFormat(pattern = DateUtil.PATTERN_DATETIME)
 	@JsonFormat(pattern = DateUtil.PATTERN_DATETIME)
 	@ApiModelProperty(value = "创建时间")
-	private Date createTime;
+	private Date createTime = new Date();
 
 	/**
 	 * 更新人

@@ -2,7 +2,6 @@ package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.system.entity.Tenant;
 import com.lgyun.system.user.entity.MakerEntity;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -18,12 +17,12 @@ import java.util.List;
 public interface MakerMapper extends BaseMapper<MakerEntity> {
 
     /**
-     * 根据微信openid获取创客
+     * 根据微信手机号码获取创客
      *
-     * @param openid
+     * @param phoneNumber
      * @return
      */
-    MakerEntity findByOpenid(String openid);
+    MakerEntity findByPhoneNumber(String phoneNumber);
 
     /**
      * 根据微信手机号码获取创客
@@ -31,7 +30,7 @@ public interface MakerMapper extends BaseMapper<MakerEntity> {
      * @param phoneNumber
      * @return
      */
-    MakerEntity findByPhoneNumber(String phoneNumber);
+    MakerEntity findByPhoneNumberAndLoginPwd(String phoneNumber, String loginPwd);
 
     /**
      * 获取名称

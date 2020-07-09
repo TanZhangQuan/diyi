@@ -56,18 +56,18 @@
         <result property="isDeleted" column="is_deleted"/>
     </resultMap>
 
-    <select id="findByOpenid" resultMap="makerMap">
-        SELECT *
-        FROM diyi_maker
-        WHERE openid = #{param1}
-          and is_deleted = 0
-        LIMIT 1
-    </select>
-
     <select id="findByPhoneNumber" resultMap="makerMap">
         SELECT *
         FROM diyi_maker
         WHERE phone_number = #{param1}
+          and is_deleted = 0
+        LIMIT 1
+    </select>
+
+    <select id="findByPhoneNumberAndLoginPwd" resultMap="makerMap">
+        SELECT *
+        FROM diyi_maker
+        WHERE phone_number = #{param1} and login_pwd = #{param2}
           and is_deleted = 0
         LIMIT 1
     </select>

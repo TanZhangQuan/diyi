@@ -43,13 +43,13 @@ public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> impl
     private final AliyunOssService ossService;
 
     @Override
-    public MakerEntity findByOpenid(String openid) {
-        return baseMapper.findByOpenid(openid);
+    public MakerEntity findByPhoneNumber(String phoneNumber) {
+        return baseMapper.findByPhoneNumber(phoneNumber);
     }
 
     @Override
-    public MakerEntity findByPhoneNumber(String phoneNumber) {
-        return baseMapper.findByPhoneNumber(phoneNumber);
+    public MakerEntity findByPhoneNumberAndLoginPwd(String phoneNumber, String loginPwd) {
+        return baseMapper.findByPhoneNumberAndLoginPwd(phoneNumber, loginPwd);
     }
 
     @Override

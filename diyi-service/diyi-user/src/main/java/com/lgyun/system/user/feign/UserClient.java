@@ -50,18 +50,19 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public MakerEntity makerFindByPhoneNumber(String phoneNumber) {
-        return iMakerService.findByPhoneNumber(phoneNumber);
+    @GetMapping(API_PREFIX + "/user-info")
+    public R<UserInfo> userInfo(String tenantId, String account, String password) {
+        return R.data(service.userInfo(tenantId, account, password));
     }
 
     @Override
-    public MakerEntity makerFindByOpenid(String openid) {
-        return iMakerService.findByOpenid(openid);
+    public User userFindById(Long id) {
+        return service.getById(id);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public User makerSaveOrUpdate(String openid, String sessionKey, String purePhoneNumber) {
+    public User wechatAuthorization(String openid, String sessionKey, String purePhoneNumber, String tenantId) {
 
         //根据手机号码查询创客，存在就更新微信信息，不存在就新建创客
         User user;
@@ -72,13 +73,11 @@ public class UserClient implements IUserClient {
             makerEntity.setSessionKey(sessionKey);
             makerEntity.setUpdateTime(new Date());
             iMakerService.updateById(makerEntity);
-
             user = service.getById(makerEntity.getUserId());
         } else {
-
             //新建管理员
             user = new User();
-            user.setTenantId("000000");
+            user.setTenantId(tenantId);
             user.setAccount(purePhoneNumber);
             user.setPassword(DigestUtil.encrypt(CommonConstant.DEFAULT_PASSWORD));
             user.setName("用户");
@@ -102,6 +101,7 @@ public class UserClient implements IUserClient {
             makerEntity.setUserId(user.getId());
             makerEntity.setSessionKey(sessionKey);
             makerEntity.setPhoneNumber(purePhoneNumber);
+            makerEntity.setLoginPwd(DigestUtil.encrypt(CommonConstant.DEFAULT_PASSWORD));
             makerEntity.setRelDate(new Date());
             makerEntity.setIdcardVerifyStatus(VerifyStatus.TOVERIFY);
             makerEntity.setFaceVerifyStatus(VerifyStatus.TOVERIFY);
@@ -120,14 +120,21 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    @GetMapping(API_PREFIX + "/user-info")
-    public R<UserInfo> userInfo(String tenantId, String account, String password) {
-        return R.data(service.userInfo(tenantId, account, password));
-    }
+    public User wechatPassword(String account, String password, String openid, String sessionKey) {
 
-    @Override
-    public User userFindById(Long id) {
-        return service.getById(id);
+        //根据手机号码查询创客，存在就更新微信信息，不存在就新建创客
+        User user = null;
+        MakerEntity makerEntity = iMakerService.findByPhoneNumberAndLoginPwd(account, password);
+        if (makerEntity != null) {
+            //更新微信信息
+            makerEntity.setOpenid(openid);
+            makerEntity.setSessionKey(sessionKey);
+            makerEntity.setUpdateTime(new Date());
+            iMakerService.updateById(makerEntity);
+            user = service.getById(makerEntity.getUserId());
+        }
+
+        return user;
     }
 
 }

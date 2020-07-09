@@ -18,20 +18,20 @@ import javax.servlet.http.HttpServletRequest;
 public interface IMakerService extends IService<MakerEntity> {
 
     /**
-     * 根据微信openid获取创客
-     *
-     * @param openid
-     * @return
-     */
-    MakerEntity findByOpenid(String openid);
-
-    /**
      * 根据微信手机号码获取创客
      *
      * @param phoneNumber
      * @return
      */
     MakerEntity findByPhoneNumber(String phoneNumber);
+
+    /**
+     * 根据手机号码密码获取创客
+     *
+     * @param phoneNumber
+     * @return
+     */
+    MakerEntity findByPhoneNumberAndLoginPwd(String phoneNumber, String loginPwd);
 
     /**
      * 身份证实名认证

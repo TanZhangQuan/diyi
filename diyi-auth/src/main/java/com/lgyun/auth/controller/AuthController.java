@@ -46,6 +46,7 @@ public class AuthController {
                              @ApiParam(value = "租户ID", required = true) @RequestParam(defaultValue = "000000", required = false) String tenantId,
                              @ApiParam(value = "账号") @RequestParam(required = false) String account,
                              @ApiParam(value = "密码") @RequestParam(required = false) String password,
+                             @ApiParam(value = "短信验证码") @RequestParam(required = false) String smsCode,
                              @ApiParam(value = "微信授权码") @RequestParam(required = false) String wechatCode,
                              @ApiParam(value = "加密算法的初始向量") @RequestParam(required = false) String iv,
                              @ApiParam(value = "加密数据") @RequestParam(required = false) String encryptedData) {
@@ -59,6 +60,7 @@ public class AuthController {
                 .set("tenantId", tenantId)
                 .set("account", account)
                 .set("password", password)
+                .set("smsCode", smsCode)
                 .set("wechatCode", wechatCode)
                 .set("iv", iv)
                 .set("encryptedData", encryptedData)
