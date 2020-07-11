@@ -9,10 +9,9 @@ import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.mapper.MakerEnterpriseMapper;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -25,9 +24,9 @@ import java.util.List;
  * @since 2020-06-26 17:21:05
  */
 @Service
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@AllArgsConstructor
 public class MakerEnterpriseServiceImpl extends ServiceImpl<MakerEnterpriseMapper, MakerEnterpriseEntity> implements IMakerEnterpriseService {
-    private Logger logger = LoggerFactory.getLogger(MakerEnterpriseServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(MakerEnterpriseServiceImpl.class);
 
 
     @Override

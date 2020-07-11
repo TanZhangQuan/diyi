@@ -12,10 +12,9 @@ import com.lgyun.system.user.wrapper.EnterpriseWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,12 +29,12 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/enterprise")
 @Validated
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@AllArgsConstructor
 @Api(value = "外包企业（发包方）的基本信息相关接口", tags = "外包企业（发包方）的基本信息相关接口")
 public class EnterpriseController {
-	private Logger logger = LoggerFactory.getLogger(EnterpriseController.class);
+	private static Logger logger = LoggerFactory.getLogger(EnterpriseController.class);
 
-	private final IEnterpriseService enterpriseService;
+	private IEnterpriseService enterpriseService;
 
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "新增")

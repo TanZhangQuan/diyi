@@ -30,9 +30,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class TenantServiceImpl extends BaseServiceImpl<TenantMapper, Tenant> implements ITenantService {
 
-	private final TenantId tenantId;
-	private final RoleMapper roleMapper;
-	private final DeptMapper deptMapper;
+	private TenantId tenantId;
+	private RoleMapper roleMapper;
+	private DeptMapper deptMapper;
 
 	@Override
 	public IPage<Tenant> selectTenantPage(IPage<Tenant> page, Tenant tenant) {

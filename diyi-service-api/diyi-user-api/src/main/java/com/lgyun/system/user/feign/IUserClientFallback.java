@@ -1,6 +1,9 @@
 package com.lgyun.system.user.feign;
 
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.GrantType;
+import com.lgyun.common.enumeration.UserType;
+import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.entity.UserInfo;
 import org.springframework.stereotype.Component;
@@ -15,18 +18,18 @@ import org.springframework.stereotype.Component;
 public class IUserClientFallback implements IUserClient {
 
     @Override
-    public R<UserInfo> userInfo(Long userId) {
-        return R.fail("未获取到账号信息");
+    public UserInfo userInfo(Long userId) {
+        return null;
     }
 
     @Override
-    public R<UserInfo> userInfo(String tenantId, String account, String password) {
-        return R.fail("未获取到账号信息");
+    public UserInfo userInfo(String account, String password, UserType userType) {
+        return null;
     }
 
     @Override
-    public R<UserInfo> userInfoByPhone(String phone) {
-        return R.fail("未获取到账号信息");
+    public UserInfo userInfoByPhone(String phone, UserType userType) {
+        return null;
     }
 
     @Override
@@ -35,13 +38,18 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public User wechatAuthorization(String openid, String sessionKey, String purePhoneNumber, String tenantId) {
+    public MakerEntity makerFindByPhoneNumberAndLoginPwd(String phoneNumber, String loginPwd) {
         return null;
     }
 
     @Override
-    public User wechatPassword(String account, String password, String openid, String sessionKey) {
+    public MakerEntity makerFindByPhone(String phone) {
         return null;
+    }
+
+    @Override
+    public R makerSaveOrUpdate(String openid, String sessionKey, String phoneNumber, String loginPwd, GrantType grantType) {
+        return R.fail("未获取到账号信息");
     }
 
 }

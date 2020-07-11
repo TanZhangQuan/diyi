@@ -2,6 +2,7 @@ package com.lgyun.system.user.service;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lgyun.common.enumeration.UserType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.entity.UserInfo;
@@ -48,17 +49,16 @@ public interface IUserService extends BaseService<User> {
      * @param phone
      * @return
      */
-    UserInfo userInfoByPhone(String phone);
+    UserInfo userInfoByPhone(String phone, UserType userType);
 
     /**
      * 用户信息
      *
-     * @param tenantId
      * @param account
      * @param password
      * @return
      */
-    UserInfo userInfo(String tenantId, String account, String password);
+    UserInfo userInfo(String account, String password, UserType userType);
 
     /**
      * 给用户设置角色

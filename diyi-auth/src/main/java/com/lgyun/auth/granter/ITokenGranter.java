@@ -1,6 +1,6 @@
 package com.lgyun.auth.granter;
 
-import com.lgyun.system.user.entity.UserInfo;
+import com.lgyun.common.api.R;
 
 /**
  * 授权认证统一接口.
@@ -16,6 +16,6 @@ public interface ITokenGranter {
      * @param tokenParameter 授权参数
      * @return UserInfo
      */
-    UserInfo grant(TokenParameter tokenParameter);
+    R grant(TokenParameter tokenParameter) throws Exception;
 
 }

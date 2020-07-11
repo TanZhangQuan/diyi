@@ -11,9 +11,8 @@ import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.mapper.IndividualEnterpriseMapper;
 import com.lgyun.system.user.service.IIndividualEnterpriseService;
 import com.lgyun.system.user.service.IMakerService;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -25,10 +24,10 @@ import java.util.Date;
  * @since 2020-07-02 17:44:02
  */
 @Service
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@AllArgsConstructor
 public class IndividualEnterpriseServiceImpl extends ServiceImpl<IndividualEnterpriseMapper, IndividualEnterpriseEntity> implements IIndividualEnterpriseService {
 
-    private final IMakerService iMakerService;
+    private IMakerService iMakerService;
 
     @Override
     public R save(IndividualEnterpriseAddDto individualEnterpriseAddDto, BladeUser bladeUser) {

@@ -1,6 +1,8 @@
 package com.lgyun.system.order.controller;
 
-import com.lgyun.common.enumeration.WorksheetState;
+import com.lgyun.common.api.R;
+import com.lgyun.core.mp.support.Condition;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.ReleaseWorksheetDTO;
 import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.order.service.IWorksheetService;
@@ -9,18 +11,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-
-import javax.validation.Valid;
-import com.lgyun.core.mp.support.Condition;
-import com.lgyun.core.mp.support.Query;
-import com.lgyun.common.api.R;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.mybatis.logging.Logger;
 import org.mybatis.logging.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 
 /**
@@ -32,16 +29,16 @@ import java.math.BigDecimal;
 @RestController
 @RequestMapping("/order/worksheet")
 @Validated
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@AllArgsConstructor
 @Api(value = "工单相关接口", tags = "工单相关接口")
 public class WorksheetController {
-	private Logger logger = LoggerFactory.getLogger(WorksheetController.class);
+	private static Logger logger = LoggerFactory.getLogger(WorksheetController.class);
 
-	private final IWorksheetService worksheetService;
+	private IWorksheetService worksheetService;
 
-	private final IMakerService makerService;
+	private IMakerService makerService;
 
-	private final IWorksheetMakerService worksheetMakerService;
+	private IWorksheetMakerService worksheetMakerService;
 
 	/**
 	 * 发布工单

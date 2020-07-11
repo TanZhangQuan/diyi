@@ -2,24 +2,24 @@ package com.lgyun.system.user.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
-import com.lgyun.system.user.vo.MakerEnterpriseVO;
-import com.lgyun.system.user.wrapper.MakerEnterpriseWrapper;
-import io.swagger.annotations.*;
-import lombok.RequiredArgsConstructor;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -31,14 +31,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/makerenterprise")
 @Validated
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@AllArgsConstructor
 @Api(value = "创客和外包企业的关联关系相关接口", tags = "创客和外包企业的关联关系相关接口")
 public class MakerEnterpriseController {
-	private Logger logger = LoggerFactory.getLogger(MakerEnterpriseController.class);
+	private static Logger logger = LoggerFactory.getLogger(MakerEnterpriseController.class);
 
-	private final IMakerEnterpriseService makerEnterpriseService;
-	private final IEnterpriseService iEnterpriseService;
-
+	private IMakerEnterpriseService makerEnterpriseService;
+	private IEnterpriseService iEnterpriseService;
 
 	@GetMapping("/detail")
 	@ApiImplicitParams({

@@ -3,10 +3,10 @@ package com.lgyun.system.user.mapper;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import org.apache.ibatis.annotations.Param;
+import com.lgyun.common.enumeration.UserType;
 import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.excel.UserExcel;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -30,12 +30,11 @@ public interface UserMapper extends BaseMapper<User> {
     /**
      * 获取用户
      *
-     * @param tenantId
      * @param account
      * @param password
      * @return
      */
-    User getUser(String tenantId, String account, String password);
+    User getUser(String account, String password, UserType userType);
 
     /**
      * 获取用户
@@ -43,8 +42,7 @@ public interface UserMapper extends BaseMapper<User> {
      * @param phone
      * @return
      */
-    @Select("SELECT * FROM blade_user WHERE password = #{phone} and is_deleted = 0 limit 1")
-    User getUserByPhone(@Param("phone") String phone);
+    User getUserByPhone(String phone, UserType userType);
 
     /**
      * 获取角色名

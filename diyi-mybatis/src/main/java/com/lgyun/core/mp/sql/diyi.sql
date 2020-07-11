@@ -20,7 +20,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_client`;
 CREATE TABLE `blade_client` (
-  `id` bigint(64) NOT NULL COMMENT '主键',
+  `id` bigint(50) NOT NULL COMMENT '主键',
   `client_id` varchar(48) NOT NULL COMMENT '客户端id',
   `client_secret` varchar(256) NOT NULL COMMENT '客户端密钥',
   `resource_ids` varchar(256) DEFAULT NULL COMMENT '资源集合',
@@ -32,9 +32,9 @@ CREATE TABLE `blade_client` (
   `refresh_token_validity` int(11) NOT NULL COMMENT '刷新令牌过期秒数',
   `additional_information` varchar(4096) DEFAULT NULL COMMENT '附加说明',
   `autoapprove` varchar(256) DEFAULT NULL COMMENT '自动授权',
-  `create_user` bigint(64) DEFAULT NULL COMMENT '创建人',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_user` bigint(64) DEFAULT NULL COMMENT '修改人',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `status` int(2) NOT NULL COMMENT '状态',
   `is_deleted` int(2) NOT NULL COMMENT '是否已删除',
@@ -52,12 +52,12 @@ INSERT INTO `blade_client` VALUES ('1123598811738675202', 'saber', 'saber_secret
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_code`;
 CREATE TABLE `blade_code` (
-  `id` bigint(64) NOT NULL COMMENT '主键',
-  `datasource_id` bigint(64) DEFAULT NULL COMMENT '数据源主键',
-  `service_name` varchar(64) DEFAULT NULL COMMENT '服务名称',
-  `code_name` varchar(64) DEFAULT NULL COMMENT '模块名称',
-  `table_name` varchar(64) DEFAULT NULL COMMENT '表名',
-  `table_prefix` varchar(64) DEFAULT NULL COMMENT '表前缀',
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `datasource_id` bigint(50) DEFAULT NULL COMMENT '数据源主键',
+  `service_name` varchar(50) DEFAULT NULL COMMENT '服务名称',
+  `code_name` varchar(50) DEFAULT NULL COMMENT '模块名称',
+  `table_name` varchar(50) DEFAULT NULL COMMENT '表名',
+  `table_prefix` varchar(50) DEFAULT NULL COMMENT '表前缀',
   `pk_name` varchar(32) DEFAULT NULL COMMENT '主键名',
   `package_name` varchar(500) DEFAULT NULL COMMENT '后端包名',
   `base_mode` int(2) DEFAULT NULL COMMENT '基础业务模式',
@@ -78,16 +78,16 @@ INSERT INTO `blade_code` VALUES ('1123598812738675201', '1123598812738675201', '
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_datasource`;
 CREATE TABLE `blade_datasource` (
-  `id` bigint(64) NOT NULL COMMENT '主键',
+  `id` bigint(50) NOT NULL COMMENT '主键',
   `name` varchar(100) DEFAULT NULL COMMENT '名称',
   `driver_class` varchar(100) DEFAULT NULL COMMENT '驱动类',
   `url` varchar(500) DEFAULT NULL COMMENT '连接地址',
   `username` varchar(50) DEFAULT NULL COMMENT '用户名',
   `password` varchar(50) DEFAULT NULL COMMENT '密码',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `create_user` bigint(64) DEFAULT NULL COMMENT '创建人',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_user` bigint(64) DEFAULT NULL COMMENT '修改人',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `status` int(2) DEFAULT NULL COMMENT '状态',
   `is_deleted` int(2) DEFAULT NULL COMMENT '是否已删除',
@@ -106,11 +106,11 @@ INSERT INTO `blade_datasource` VALUES ('1123598812738675203', 'oracle', 'oracle.
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_dept`;
 CREATE TABLE `blade_dept` (
-  `id` bigint(64) NOT NULL COMMENT '主键',
+  `id` bigint(50) NOT NULL COMMENT '主键',
   `tenant_id` varchar(12) DEFAULT '000000' COMMENT '租户ID',
-  `parent_id` bigint(64) DEFAULT '0' COMMENT '父主键',
-  `dept_name` varchar(45) DEFAULT NULL COMMENT '部门名',
-  `full_name` varchar(45) DEFAULT NULL COMMENT '部门全称',
+  `parent_id` bigint(50) DEFAULT '0' COMMENT '父主键',
+  `dept_name` varchar(50) DEFAULT NULL COMMENT '部门名',
+  `full_name` varchar(50) DEFAULT NULL COMMENT '部门全称',
   `sort` int(11) DEFAULT NULL COMMENT '排序',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   `is_deleted` int(2) DEFAULT '0' COMMENT '是否已删除',
@@ -129,8 +129,8 @@ INSERT INTO `blade_dept` VALUES ('1123598813738675203', '000000', '1123598813738
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_dict`;
 CREATE TABLE `blade_dict` (
-  `id` bigint(64) NOT NULL COMMENT '主键',
-  `parent_id` bigint(64) DEFAULT '0' COMMENT '父主键',
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `parent_id` bigint(50) DEFAULT '0' COMMENT '父主键',
   `code` varchar(255) DEFAULT NULL COMMENT '字典码',
   `dict_key` int(2) DEFAULT NULL COMMENT '字典值',
   `dict_value` varchar(255) DEFAULT NULL COMMENT '字典名称',
@@ -174,7 +174,7 @@ INSERT INTO `blade_dict` VALUES ('1123598814738777224', '1123598814738777220', '
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_log_api`;
 CREATE TABLE `blade_log_api` (
-  `id` bigint(64) NOT NULL COMMENT '编号',
+  `id` bigint(50) NOT NULL COMMENT '编号',
   `tenant_id` varchar(12) DEFAULT '000000' COMMENT '租户ID',
   `service_id` varchar(32) DEFAULT NULL COMMENT '服务ID',
   `server_host` varchar(255) DEFAULT NULL COMMENT '服务器名',
@@ -189,8 +189,8 @@ CREATE TABLE `blade_log_api` (
   `method_class` varchar(255) DEFAULT NULL COMMENT '方法类',
   `method_name` varchar(255) DEFAULT NULL COMMENT '方法名',
   `params` text COMMENT '操作提交的数据',
-  `time` varchar(64) DEFAULT NULL COMMENT '执行时间',
-  `create_by` varchar(64) DEFAULT NULL COMMENT '创建者',
+  `time` varchar(50) DEFAULT NULL COMMENT '执行时间',
+  `create_by` varchar(50) DEFAULT NULL COMMENT '创建者',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='接口日志表';
@@ -204,7 +204,7 @@ CREATE TABLE `blade_log_api` (
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_log_error`;
 CREATE TABLE `blade_log_error` (
-  `id` bigint(64) NOT NULL COMMENT '编号',
+  `id` bigint(50) NOT NULL COMMENT '编号',
   `tenant_id` varchar(12) DEFAULT '000000' COMMENT '租户ID',
   `service_id` varchar(32) DEFAULT NULL COMMENT '服务ID',
   `server_host` varchar(255) DEFAULT NULL COMMENT '服务器名',
@@ -222,8 +222,8 @@ CREATE TABLE `blade_log_error` (
   `file_name` varchar(1000) DEFAULT NULL COMMENT '文件名',
   `method_name` varchar(255) DEFAULT NULL COMMENT '方法名',
   `params` text COMMENT '操作提交的数据',
-  `time` varchar(64) DEFAULT NULL COMMENT '执行时间',
-  `create_by` varchar(64) DEFAULT NULL COMMENT '创建者',
+  `time` varchar(50) DEFAULT NULL COMMENT '执行时间',
+  `create_by` varchar(50) DEFAULT NULL COMMENT '创建者',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='错误日志表';
@@ -237,7 +237,7 @@ CREATE TABLE `blade_log_error` (
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_log_usual`;
 CREATE TABLE `blade_log_usual` (
-  `id` bigint(64) NOT NULL COMMENT '编号',
+  `id` bigint(50) NOT NULL COMMENT '编号',
   `tenant_id` varchar(12) DEFAULT '000000' COMMENT '租户ID',
   `service_id` varchar(32) DEFAULT NULL COMMENT '服务ID',
   `server_host` varchar(255) DEFAULT NULL COMMENT '服务器名',
@@ -254,7 +254,7 @@ CREATE TABLE `blade_log_usual` (
   `user_agent` varchar(1000) DEFAULT NULL COMMENT '用户代理',
   `params` text COMMENT '操作提交的数据',
   `time` datetime DEFAULT NULL COMMENT '执行时间',
-  `create_by` varchar(64) DEFAULT NULL COMMENT '创建者',
+  `create_by` varchar(50) DEFAULT NULL COMMENT '创建者',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='通用日志表';
@@ -268,8 +268,8 @@ CREATE TABLE `blade_log_usual` (
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_menu`;
 CREATE TABLE `blade_menu` (
-  `id` bigint(64) NOT NULL COMMENT '主键',
-  `parent_id` bigint(64) DEFAULT '0' COMMENT '父级菜单',
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `parent_id` bigint(50) DEFAULT '0' COMMENT '父级菜单',
   `code` varchar(255) DEFAULT NULL COMMENT '菜单编号',
   `name` varchar(255) DEFAULT NULL COMMENT '菜单名称',
   `alias` varchar(255) DEFAULT NULL COMMENT '菜单别名',
@@ -368,15 +368,15 @@ INSERT INTO `blade_menu` VALUES ('1164733389668962255', '1164733389668962251', '
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_notice`;
 CREATE TABLE `blade_notice` (
-  `id` bigint(64) NOT NULL COMMENT '主键',
+  `id` bigint(50) NOT NULL COMMENT '主键',
   `tenant_id` varchar(12) DEFAULT '000000' COMMENT '租户ID',
   `title` varchar(255) DEFAULT NULL COMMENT '标题',
   `category` int(11) DEFAULT NULL COMMENT '类型',
   `release_time` datetime DEFAULT NULL COMMENT '发布时间',
   `content` varchar(255) DEFAULT NULL COMMENT '内容',
-  `create_user` bigint(64) DEFAULT NULL COMMENT '创建人',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_user` bigint(64) DEFAULT NULL COMMENT '修改人',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `status` int(2) DEFAULT NULL COMMENT '状态',
   `is_deleted` int(2) DEFAULT NULL COMMENT '是否已删除',
@@ -395,14 +395,14 @@ INSERT INTO `blade_notice` VALUES ('1123598818738675225', '000000', '测试公�
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_param`;
 CREATE TABLE `blade_param` (
-  `id` bigint(64) NOT NULL COMMENT '主键',
+  `id` bigint(50) NOT NULL COMMENT '主键',
   `param_name` varchar(255) DEFAULT NULL COMMENT '参数名',
   `param_key` varchar(255) DEFAULT NULL COMMENT '参数键',
   `param_value` varchar(255) DEFAULT NULL COMMENT '参数值',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `create_user` bigint(64) DEFAULT NULL COMMENT '创建人',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_user` bigint(64) DEFAULT NULL COMMENT '修改人',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `status` int(2) DEFAULT NULL COMMENT '状态',
   `is_deleted` int(2) DEFAULT '0' COMMENT '是否已删除',
@@ -420,17 +420,17 @@ INSERT INTO `blade_param` VALUES ('1123598819738675202', '账号初始密码', '
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_post`;
 CREATE TABLE `blade_post` (
-  `id` bigint(64) NOT NULL COMMENT '主键',
+  `id` bigint(50) NOT NULL COMMENT '主键',
   `tenant_id` varchar(12) DEFAULT '000000' COMMENT '租户ID',
   `category` int(11) DEFAULT NULL COMMENT '岗位类型',
   `post_code` varchar(12) DEFAULT NULL COMMENT '岗位编号',
-  `post_name` varchar(64) DEFAULT NULL COMMENT '岗位名称',
+  `post_name` varchar(50) DEFAULT NULL COMMENT '岗位名称',
   `sort` int(2) DEFAULT NULL COMMENT '岗位排序',
   `remark` varchar(255) DEFAULT NULL COMMENT '岗位描述',
-  `create_user` bigint(64) DEFAULT NULL COMMENT '创建人',
-  `create_dept` bigint(64) DEFAULT NULL COMMENT '创建部门',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_dept` bigint(50) DEFAULT NULL COMMENT '创建部门',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_user` bigint(64) DEFAULT NULL COMMENT '修改人',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `status` int(2) DEFAULT NULL COMMENT '状态',
   `is_deleted` int(2) DEFAULT NULL COMMENT '是否已删除',
@@ -454,9 +454,9 @@ INSERT INTO `blade_post` VALUES ('1123598817738675208', '000000', '3', 'staff', 
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_role`;
 CREATE TABLE `blade_role` (
-  `id` bigint(64) NOT NULL COMMENT '主键',
+  `id` bigint(50) NOT NULL COMMENT '主键',
   `tenant_id` varchar(12) DEFAULT '000000' COMMENT '租户ID',
-  `parent_id` bigint(64) DEFAULT '0' COMMENT '父主键',
+  `parent_id` bigint(50) DEFAULT '0' COMMENT '父主键',
   `role_name` varchar(255) DEFAULT NULL COMMENT '角色名',
   `sort` int(11) DEFAULT NULL COMMENT '排序',
   `role_alias` varchar(255) DEFAULT NULL COMMENT '角色别名',
@@ -475,9 +475,9 @@ INSERT INTO `blade_role` VALUES ('1123598816738675202', '000000', '0', '用户',
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_role_menu`;
 CREATE TABLE `blade_role_menu` (
-  `id` bigint(64) NOT NULL COMMENT '主键',
-  `menu_id` bigint(64) DEFAULT NULL COMMENT '菜单id',
-  `role_id` bigint(64) DEFAULT NULL COMMENT '角色id',
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `menu_id` bigint(50) DEFAULT NULL COMMENT '菜单id',
+  `role_id` bigint(50) DEFAULT NULL COMMENT '角色id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色菜单表';
 
@@ -566,15 +566,15 @@ INSERT INTO `blade_role_menu` VALUES ('1161272893875225006', '116473338966896225
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_tenant`;
 CREATE TABLE `blade_tenant` (
-  `id` bigint(64) NOT NULL COMMENT '主键',
+  `id` bigint(50) NOT NULL COMMENT '主键',
   `tenant_id` varchar(12) NOT NULL COMMENT '租户ID',
   `tenant_name` varchar(50) NOT NULL COMMENT '租户名称',
   `linkman` varchar(20) DEFAULT NULL COMMENT '联系人',
   `contact_number` varchar(20) DEFAULT NULL COMMENT '联系电话',
   `address` varchar(255) DEFAULT NULL COMMENT '联系地址',
-  `create_user` bigint(64) DEFAULT NULL COMMENT '创建人',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_user` bigint(64) DEFAULT NULL COMMENT '修改人',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `status` int(2) DEFAULT NULL COMMENT '状态',
   `is_deleted` int(2) DEFAULT '0' COMMENT '是否已删除',
@@ -591,35 +591,37 @@ INSERT INTO `blade_tenant` VALUES ('1123598820738675201', '000000', '管理组',
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_user`;
 CREATE TABLE `blade_user` (
-  `id` bigint(64) NOT NULL COMMENT '主键',
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `user_type` varchar(50) NOT NULL COMMENT '用户类型',
   `tenant_id` varchar(12) DEFAULT '000000' COMMENT '租户ID',
   `code` varchar(12) DEFAULT NULL COMMENT '用户编号',
-  `account` varchar(45) DEFAULT NULL COMMENT '账号',
-  `password` varchar(45) DEFAULT NULL COMMENT '密码',
+  `account` varchar(50) DEFAULT NULL COMMENT '账号',
+  `password` varchar(50) DEFAULT NULL COMMENT '密码',
   `name` varchar(20) DEFAULT NULL COMMENT '昵称',
   `real_name` varchar(10) DEFAULT NULL COMMENT '真名',
   `avatar` varchar(2000) DEFAULT NULL COMMENT '头像',
-  `email` varchar(45) DEFAULT NULL COMMENT '邮箱',
-  `phone` varchar(45) DEFAULT NULL COMMENT '手机',
+  `email` varchar(50) DEFAULT NULL COMMENT '邮箱',
+  `phone` varchar(50) DEFAULT NULL COMMENT '手机',
   `birthday` datetime DEFAULT NULL COMMENT '生日',
   `sex` smallint(6) DEFAULT NULL COMMENT '性别',
-  `role_id` varchar(1000) DEFAULT NULL COMMENT '角色id',
-  `dept_id` varchar(1000) DEFAULT NULL COMMENT '部门id',
-  `post_id` varchar(1000) DEFAULT NULL COMMENT '岗位id',
-  `create_user` bigint(64) DEFAULT NULL COMMENT '创建人',
+  `role_id` varchar(50) DEFAULT NULL COMMENT '角色id',
+  `dept_id` varchar(50) DEFAULT NULL COMMENT '部门id',
+  `post_id` varchar(50) DEFAULT NULL COMMENT '岗位id',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_user` bigint(64) DEFAULT NULL COMMENT '修改人',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `status` int(2) DEFAULT NULL COMMENT '状态',
   `is_deleted` int(2) DEFAULT '0' COMMENT '是否已删除',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`phone`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`user_type`, `phone`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`user_type`, `account`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of blade_user
 -- ----------------------------
-INSERT INTO `blade_user` VALUES ('1123598821738675201', '000000', null, 'admin', '90b9aa7e25f80cf4f64e990b78a9fc5ebd6cecad', '管理员', '管理员', '', 'admin@bladex.vip', '22233322', '2018-08-08 00:00:00', '1', '1123598816738675201', '1123598813738675201', '1123598817738675201', '1123598821738675201', '2018-08-08 00:00:00', '1123598821738675201', '2018-08-08 00:00:00', '1', '0');
+INSERT INTO `blade_user` VALUES ('1123598821738675201', 'ADMIN', '000000', null, 'admin', '90b9aa7e25f80cf4f64e990b78a9fc5ebd6cecad', '管理员', '管理员', '', 'admin@bladex.vip', '22233322', '2018-08-08 00:00:00', '1', '1123598816738675201', '1123598813738675201', '1123598817738675201', '1123598821738675201', '2018-08-08 00:00:00', '1123598821738675201', '2018-08-08 00:00:00', '1', '0');
 
 -- ----------------------------
 -- Table structure for diyi_address
@@ -1052,7 +1054,7 @@ CREATE TABLE `diyi_maker` (
   `due_date` datetime DEFAULT NULL COMMENT '到期日期',
   `phone_number` varchar(50) NOT NULL COMMENT '手机号码',
   `phone_number2` varchar(50) NOT NULL DEFAULT '' COMMENT '手机号码2',
-  `login_pwd` varchar(100) NOT NULL DEFAULT '' COMMENT '登录密码',
+  `login_pwd` varchar(100) NOT NULL COMMENT '登录密码',
   `bank_card_no` varchar(50) NOT NULL DEFAULT '' COMMENT '银行卡号',
   `bank_name` varchar(100) NOT NULL DEFAULT '' COMMENT '开户银行',
   `sub_bank_name` varchar(100) NOT NULL DEFAULT '' COMMENT '开户支行',
@@ -1548,7 +1550,7 @@ CREATE TABLE `diyi_self_help_invoice_fee` (
   `identify_fee` decimal(12,2) DEFAULT NULL COMMENT '身份验证费',
   `pay_desc` varchar(500) NOT NULL COMMENT '支付说明',
   `pay_certificate` varchar(500) NOT NULL COMMENT '支付回单',
-  `pay_type` varchar(100) NOT NULL COMMENT '支付方式 1，微信；2，支付宝，3，银行转账；4，现金',
+  `pay_type` varchar(50) NOT NULL COMMENT '支付方式 1，微信；2，支付宝，3，银行转账；4，现金',
   `hand_pay_account_id` bigint(50) NOT NULL COMMENT '自助开票收款账号ID',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',

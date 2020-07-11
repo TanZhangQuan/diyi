@@ -1,13 +1,15 @@
 package com.lgyun.auth.granter;
 
-import io.jsonwebtoken.Claims;
-import lombok.AllArgsConstructor;
+import com.lgyun.auth.utils.TokenUtil;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.TokenConstant;
+import com.lgyun.common.secure.AuthInfo;
 import com.lgyun.common.tool.Func;
 import com.lgyun.common.tool.SecureUtil;
 import com.lgyun.system.user.entity.UserInfo;
 import com.lgyun.system.user.feign.IUserClient;
+import io.jsonwebtoken.Claims;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -22,23 +24,30 @@ import java.util.Objects;
 @AllArgsConstructor
 public class RefreshTokenGranter implements ITokenGranter {
 
-	public static final String GRANT_TYPE = "refresh_token";
+	public static final String GRANT_TYPE = "REFRESHTOKEN";
 
 	private IUserClient userClient;
+	private TokenUtil tokenUtil;
 
 	@Override
-	public UserInfo grant(TokenParameter tokenParameter) {
-		String grantType = tokenParameter.getArgs().getStr("grantType");
+	public R grant(TokenParameter tokenParameter) {
 		String refreshToken = tokenParameter.getArgs().getStr("refreshToken");
 		UserInfo userInfo = null;
-		if (Func.isNoneBlank(grantType, refreshToken) && grantType.equals(TokenConstant.REFRESH_TOKEN)) {
+		if (Func.isNoneBlank(refreshToken)) {
 			Claims claims = SecureUtil.parseJWT(refreshToken);
 			String tokenType = Func.toStr(Objects.requireNonNull(claims).get(TokenConstant.TOKEN_TYPE));
 			if (tokenType.equals(TokenConstant.REFRESH_TOKEN)) {
-				R<UserInfo> result = userClient.userInfo(Func.toLong(claims.get(TokenConstant.USER_ID)));
-				userInfo = result.isSuccess() ? result.getData() : null;
+				userInfo = userClient.userInfo(Func.toLong(claims.get(TokenConstant.USER_ID)));
 			}
 		}
-		return userInfo;
+
+		if (userInfo == null) {
+			return R.fail("刷新令牌失败");
+		}
+
+		//创建认证token
+		AuthInfo authInfo = tokenUtil.createAuthInfo(userInfo);
+
+		return R.data(authInfo);
 	}
 }

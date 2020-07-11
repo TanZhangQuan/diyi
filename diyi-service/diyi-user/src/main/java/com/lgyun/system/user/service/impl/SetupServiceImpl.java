@@ -4,10 +4,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lgyun.system.user.entity.SetupEntity;
 import com.lgyun.system.user.mapper.SetupMapper;
 import com.lgyun.system.user.service.ISetupService;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,8 +16,8 @@ import org.springframework.stereotype.Service;
  * @since 2020-06-26 17:21:05
  */
 @Service
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@AllArgsConstructor
 public class SetupServiceImpl extends ServiceImpl<SetupMapper, SetupEntity> implements ISetupService {
-    private Logger logger = LoggerFactory.getLogger(SetupServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(SetupServiceImpl.class);
 
 }

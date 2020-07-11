@@ -1,31 +1,23 @@
 package com.lgyun.system.order.controller;
 
+import com.lgyun.common.api.R;
+import com.lgyun.core.mp.support.Condition;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.AddressDto;
 import com.lgyun.system.order.dto.SelfHelpInvoicePersonDto;
 import com.lgyun.system.order.service.IAddressService;
 import com.lgyun.system.order.service.ISelfHelpInvoicePersonService;
-import com.lgyun.system.order.service.ISelfHelpInvoiceService;
 import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.service.IRunCompanyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import javax.validation.Valid;
-import com.lgyun.core.mp.support.Condition;
-import com.lgyun.core.mp.support.Query;
-import com.lgyun.common.api.R;
-import com.lgyun.common.tool.Func;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.mybatis.logging.Logger;
 import org.mybatis.logging.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RequestParam;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.system.order.vo.SelfHelpInvoiceVO;
-import com.lgyun.system.order.wrapper.SelfHelpInvoiceWrapper;
-import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
+
+import javax.validation.Valid;
 
 /**
  * 控制器
@@ -36,18 +28,16 @@ import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
 @RestController
 @RequestMapping("/order/selfhelpinvoice")
 @Validated
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@AllArgsConstructor
 @Api(value = "自助开票相关接口", tags = "自助开票相关接口")
 public class SelfHelpInvoiceController {
-	private Logger logger = LoggerFactory.getLogger(SelfHelpInvoiceController.class);
+	private static Logger logger = LoggerFactory.getLogger(SelfHelpInvoiceController.class);
 
-	private final ISelfHelpInvoiceService selfHelpInvoiceService;
+	private IRunCompanyService runCompanyService;
 
-	private final IRunCompanyService runCompanyService;
+	private ISelfHelpInvoicePersonService selfHelpInvoicePersonService;
 
-	private final ISelfHelpInvoicePersonService selfHelpInvoicePersonService;
-
-	private final IAddressService addressService;
+	private IAddressService addressService;
 
 	/**
 	 * 新建购买方

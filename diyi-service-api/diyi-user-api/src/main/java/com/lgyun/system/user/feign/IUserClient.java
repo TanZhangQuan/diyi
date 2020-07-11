@@ -2,10 +2,14 @@ package com.lgyun.system.user.feign;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
+import com.lgyun.common.enumeration.GrantType;
+import com.lgyun.common.enumeration.UserType;
+import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.entity.UserInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -28,7 +32,7 @@ public interface IUserClient {
      * @return
      */
     @GetMapping(API_PREFIX + "/user-info-by-id")
-    R<UserInfo> userInfo(@RequestParam("userId") Long userId);
+    UserInfo userInfo(@RequestParam("userId") Long userId);
 
     /**
      * 获取用户信息
@@ -37,18 +41,17 @@ public interface IUserClient {
      * @return
      */
     @GetMapping(API_PREFIX + "/phone")
-    R<UserInfo> userInfoByPhone(@RequestParam("phone") String phone);
+    UserInfo userInfoByPhone(@RequestParam("phone") String phone, @RequestParam("userType") UserType userType);
 
     /**
      * 获取用户信息
      *
-     * @param tenantId 租户ID
      * @param account  账号
      * @param password 密码
      * @return
      */
     @GetMapping(API_PREFIX + "/user-info")
-    R<UserInfo> userInfo(@RequestParam("tenantId") String tenantId, @RequestParam("account") String account, @RequestParam("password") String password);
+    UserInfo userInfo(@RequestParam("account") String account, @RequestParam("password") String password, @RequestParam("userType") UserType userType);
 
     /**
      * 获取用户信息
@@ -56,8 +59,25 @@ public interface IUserClient {
      * @param id 用户id
      * @return
      */
-    @GetMapping(API_PREFIX + "/user_find_by_id")
+    @GetMapping(API_PREFIX + "/user-find-by-id")
     User userFindById(@RequestParam("id") Long id);
+
+    /**
+     * 获取创客信息
+     *
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/maker-find-by-phone-pwd")
+    MakerEntity makerFindByPhoneNumberAndLoginPwd(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("loginPwd") String loginPwd);
+
+    /**
+     * 获取创客信息
+     *
+     * @param phone 创客phone
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/maker-find-by-phone")
+    MakerEntity makerFindByPhone(@RequestParam("phone") String phone);
 
     /**
      * 微信授权登陆
@@ -65,16 +85,7 @@ public interface IUserClient {
      * @param
      * @return
      */
-    @GetMapping(API_PREFIX + "/wechat-authorization")
-    User wechatAuthorization(@RequestParam("openid") String openid, @RequestParam("sessionKey") String sessionKey, @RequestParam("purePhoneNumber") String purePhoneNumber, @RequestParam("tenantId") String tenantId);
-
-    /**
-     * 小程序账号密码登陆
-     *
-     * @param
-     * @return
-     */
-    @GetMapping(API_PREFIX + "/wechat-password")
-    User wechatPassword(@RequestParam("account") String account, @RequestParam("password") String password, @RequestParam("openid") String openid, @RequestParam("sessionKey") String sessionKey);
+    @PostMapping(API_PREFIX + "/wechat-authorization")
+    R makerSaveOrUpdate(@RequestParam("openid") String openid, @RequestParam("sessionKey") String sessionKey, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
 
 }

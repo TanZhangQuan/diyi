@@ -6,18 +6,18 @@ package com.lgyun.common.constant;
  * @author liangfeihu
  * @since 2020/6/5 18:48
  */
-public class RoleConstant {
+public interface RoleConstant {
 
-    public static final String ADMIN = "administrator";
+    String ADMIN = "administrator";
 
-    public static final String HAS_ROLE_ADMIN = "hasRole('" + ADMIN + "')";
+    String HAS_ROLE_ADMIN = "hasRole('" + ADMIN + "')";
 
-    public static final String USER = "user";
+    String USER = "user";
 
-    public static final String HAS_ROLE_USER = "hasRole('" + USER + "')";
+    String HAS_ROLE_USER = "hasRole('" + USER + "')";
 
-    public static final String TEST = "test";
+    String TEST = "test";
 
-    public static final String HAS_ROLE_TEST = "hasRole('" + TEST + "')";
+    String HAS_ROLE_TEST = "hasRole('" + TEST + "')";
 
 }

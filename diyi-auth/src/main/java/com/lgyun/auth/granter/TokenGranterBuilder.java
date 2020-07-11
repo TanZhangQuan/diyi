@@ -1,5 +1,6 @@
 package com.lgyun.auth.granter;
 
+import com.lgyun.common.enumeration.GrantType;
 import lombok.AllArgsConstructor;
 import com.lgyun.common.exception.SecureException;
 import com.lgyun.common.tool.Func;
@@ -24,12 +25,10 @@ public class TokenGranterBuilder {
 
 	static {
 		granterPool.put(PasswordTokenGranter.GRANT_TYPE, SpringUtil.getBean(PasswordTokenGranter.class));
-		granterPool.put(CaptchaTokenGranter.GRANT_TYPE, SpringUtil.getBean(CaptchaTokenGranter.class));
 		granterPool.put(RefreshTokenGranter.GRANT_TYPE, SpringUtil.getBean(RefreshTokenGranter.class));
 		granterPool.put(MobileTokenGranter.GRANT_TYPE, SpringUtil.getBean(MobileTokenGranter.class));
-		granterPool.put(WechatAuthorizationTokenGranter.GRANT_TYPE, SpringUtil.getBean(WechatAuthorizationTokenGranter.class));
-		granterPool.put(WechatPasswordTokenGranter.GRANT_TYPE, SpringUtil.getBean(WechatPasswordTokenGranter.class));
-		granterPool.put(WechatSmsCodeTokenGranter.GRANT_TYPE, SpringUtil.getBean(WechatSmsCodeTokenGranter.class));
+		granterPool.put(WechatTokenGranter.GRANT_TYPE, SpringUtil.getBean(WechatTokenGranter.class));
+		granterPool.put(RegisterGranter.GRANT_TYPE, SpringUtil.getBean(RegisterGranter.class));
 	}
 
 	/**
@@ -38,8 +37,8 @@ public class TokenGranterBuilder {
 	 * @param grantType 授权类型
 	 * @return ITokenGranter
 	 */
-	public static ITokenGranter getGranter(String grantType) {
-		ITokenGranter tokenGranter = granterPool.get(Func.toStr(grantType, PasswordTokenGranter.GRANT_TYPE));
+	public static ITokenGranter getGranter(GrantType grantType) {
+		ITokenGranter tokenGranter = granterPool.get(Func.toStr(grantType.getValue(), PasswordTokenGranter.GRANT_TYPE));
 		if (tokenGranter == null) {
 			throw new SecureException("no grantType was found");
 		} else {

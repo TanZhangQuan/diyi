@@ -1,11 +1,13 @@
 package com.lgyun.common.enumeration;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
  * 协议类型
  */
 @Getter
+@AllArgsConstructor
 public enum AgreementType {
     INTCROSOUCOOAGR("INTCROSOUCOOAGR", "互联网众包项目合作协议"),
     CROSOUTHICOOAGR("CROSOUTHICOOAGR", "众包-三方合作协议"),
@@ -19,12 +21,7 @@ public enum AgreementType {
     LETAUTINDTAXMAT("LETAUTINDTAXMAT", "单独税务事项委托授权书"),
     POWATTSEPPAY("POWATTSEPPAY", "单独支付事项委托授权书");
 
-    private String value;
-    private String desc;
-
-    AgreementType(String value, String desc) {
-        this.value = value;
-        this.desc = desc;
-    }
+    private final String value;
+    private final String desc;
 
 }

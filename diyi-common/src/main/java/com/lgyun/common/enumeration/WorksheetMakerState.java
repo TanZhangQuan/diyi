@@ -1,5 +1,6 @@
 package com.lgyun.common.enumeration;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
@@ -9,18 +10,14 @@ import lombok.Getter;
  * @time 10:27.
  */
 @Getter
+@AllArgsConstructor
 public enum WorksheetMakerState {
     SUBMITTED("SUBMITTED", "待提交"),
     VERIFIED("VERIFIED", "待验证"),
     VALIDATION("VALIDATION", "验证通过"),
     FAILED("FAILED", "验证失败");
 
+    private final String value;
+    private final String desc;
 
-    private String value;
-    private String desc;
-
-    WorksheetMakerState(String value, String desc) {
-        this.value = value;
-        this.desc = desc;
-    }
 }

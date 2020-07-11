@@ -1,17 +1,15 @@
 package com.lgyun.system.order.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lgyun.common.api.R;
 import com.lgyun.system.order.dto.SelfHelpInvoicePersonDto;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-
-import com.lgyun.system.order.mapper.SelfHelpInvoicePersonMapper;
 import com.lgyun.system.order.entity.SelfHelpInvoicePersonEntity;
+import com.lgyun.system.order.mapper.SelfHelpInvoicePersonMapper;
 import com.lgyun.system.order.service.ISelfHelpInvoicePersonService;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
@@ -22,7 +20,7 @@ import java.util.Date;
  * @since 2020-07-08 14:32:47
  */
 @Service
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@AllArgsConstructor
 public class SelfHelpInvoicePersonServiceImpl extends ServiceImpl<SelfHelpInvoicePersonMapper, SelfHelpInvoicePersonEntity> implements ISelfHelpInvoicePersonService {
 
     @Override

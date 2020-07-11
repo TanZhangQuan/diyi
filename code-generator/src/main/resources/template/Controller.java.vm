@@ -32,12 +32,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/${moduleName}/${pathName}")
 @Validated
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@AllArgsConstructor
 @Api(value = "${comments}相关接口", tags = "${comments}相关接口")
 public class ${className}Controller {
-	private Logger logger = LoggerFactory.getLogger(${className}Controller.class);
+	private static Logger logger = LoggerFactory.getLogger(${className}Controller.class);
 
-	private final I${className}Service ${classname}Service;
+	private I${className}Service ${classname}Service;
 
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "新增")

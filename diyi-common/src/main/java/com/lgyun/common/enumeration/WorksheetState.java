@@ -1,5 +1,6 @@
 package com.lgyun.common.enumeration;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 
@@ -12,6 +13,7 @@ import lombok.Getter;
  e) 已作废，验收中工单都可以作废，已完毕的不能作废
  */
 @Getter
+@AllArgsConstructor
 public enum WorksheetState {
     PUBLISHING("PUBLISHING", "发布中"),
     CLOSED("CLOSED", "已关单"),
@@ -19,12 +21,7 @@ public enum WorksheetState {
     FINISHED("FINISHED", "已完毕"),
     INVALID("INVALID", "已作废");
 
-    private String value;
-    private String desc;
-
-    WorksheetState(String value, String desc) {
-        this.value = value;
-        this.desc = desc;
-    }
+    private final String value;
+    private final String desc;
 
 }

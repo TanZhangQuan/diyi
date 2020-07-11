@@ -12,8 +12,8 @@ public interface WechatConstant {
     // 微信请求地址
     String WECHAT_SESSIONHOST = "https://api.weixin.qq.com/sns/jscode2session";
     // 微信AppID
-    String WECHAT_APPID = "wxd814490dcaa88917";
+    String WECHAT_APPID = "wx45ff44adf7134f16";
     // 微信secret
-    String WECHAT_SECRET = "fc1b298677ebfa371273e9de1398c60c";
+    String WECHAT_SECRET = "58ea0cc2d5706f8ce8762622303922de";
 
 }

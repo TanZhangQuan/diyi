@@ -1,7 +1,6 @@
-package com.lgyun.auth.utils;
+package com.lgyun.common.tool;
 
 import lombok.AllArgsConstructor;
-import com.lgyun.common.tool.CollectionUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 

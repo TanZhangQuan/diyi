@@ -1,21 +1,18 @@
 package com.lgyun.common.enumeration;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
  * 创建类型
  */
 @Getter
+@AllArgsConstructor
 public enum EnCreateType {
     PLATFORMCREATE("PLATFORMCREATE", "平台创建"),
     SELFREGISTER("SELFREGISTER", "自注册");
 
-    private String value;
-    private String desc;
-
-    EnCreateType(String value, String desc) {
-        this.value = value;
-        this.desc = desc;
-    }
+    private final String value;
+    private final String desc;
 
 }

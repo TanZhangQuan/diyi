@@ -18,11 +18,10 @@ import com.lgyun.system.user.mapper.MakerMapper;
 import com.lgyun.system.user.oss.AliyunOssService;
 import com.lgyun.system.user.service.IMakerService;
 import com.lgyun.system.user.vo.IdcardOcrVO;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sun.misc.BASE64Decoder;
 
@@ -36,11 +35,11 @@ import java.util.Date;
  * @since 2020-06-26 17:21:06
  */
 @Service
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@AllArgsConstructor
 public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> implements IMakerService {
-    private Logger logger = LoggerFactory.getLogger(MakerServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(MakerServiceImpl.class);
 
-    private final AliyunOssService ossService;
+    private AliyunOssService ossService;
 
     @Override
     public MakerEntity findByPhoneNumber(String phoneNumber) {

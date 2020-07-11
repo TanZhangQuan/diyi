@@ -4,8 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lgyun.system.user.entity.IndividualBusinessAnnualFeeEntity;
 import com.lgyun.system.user.mapper.IndividualBusinessAnnualFeeMapper;
 import com.lgyun.system.user.service.IIndividualBusinessAnnualFeeService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Service;
  * @since 2020-07-02 17:44:02
  */
 @Service
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@AllArgsConstructor
 public class IndividualBusinessAnnualFeeServiceImpl extends ServiceImpl<IndividualBusinessAnnualFeeMapper, IndividualBusinessAnnualFeeEntity> implements IIndividualBusinessAnnualFeeService {
 
 }

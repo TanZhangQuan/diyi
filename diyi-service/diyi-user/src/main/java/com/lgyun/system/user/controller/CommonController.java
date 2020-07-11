@@ -5,10 +5,9 @@ import com.lgyun.system.user.service.ICommonService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,12 +20,12 @@ import javax.validation.constraints.NotNull;
 @RestController
 @RequestMapping("/common")
 @Validated
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@AllArgsConstructor
 @Api(value = "公用接口", tags = "公用接口")
 public class CommonController {
-    private Logger logger = LoggerFactory.getLogger(CommonController.class);
+    private static Logger logger = LoggerFactory.getLogger(CommonController.class);
 
-    private final ICommonService iCommonService;
+    private ICommonService iCommonService;
 
     @PostMapping("/oss_image_upload")
     @ApiOperation(value = "上传文件", notes = "上传文件")

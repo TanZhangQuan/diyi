@@ -1,5 +1,6 @@
 package com.lgyun.common.enumeration;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
@@ -9,17 +10,13 @@ import lombok.Getter;
  * @time 15:11.
  */
 @Getter
+@AllArgsConstructor
 public enum WorkSheetMode {
     DISPATCH("DISPATCH", "派单"),
     GRABBING("GRABBING", "抢单"),
     BLEND("BLEND", "混合");
 
+    private final String value;
+    private final String desc;
 
-    private String value;
-    private String desc;
-
-    WorkSheetMode(String value, String desc) {
-        this.value = value;
-        this.desc = desc;
-    }
 }

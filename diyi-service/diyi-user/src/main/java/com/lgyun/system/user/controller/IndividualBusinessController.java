@@ -14,10 +14,9 @@ import com.lgyun.system.user.wrapper.IndividualBusinessWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,12 +31,12 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/individual_business")
 @Validated
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@AllArgsConstructor
 @Api(value = "个体户相关接口", tags = "个体户相关接口")
 public class IndividualBusinessController {
-	private Logger logger = LoggerFactory.getLogger(IndividualBusinessController.class);
+	private static Logger logger = LoggerFactory.getLogger(IndividualBusinessController.class);
 
-	private final IIndividualBusinessService individualBusinessService;
+	private IIndividualBusinessService individualBusinessService;
 
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "新增")

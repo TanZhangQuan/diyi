@@ -3,20 +3,16 @@ package com.lgyun.system.user.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.RunCompanyEntity;
 import com.lgyun.system.user.mapper.RunCompanyMapper;
 import com.lgyun.system.user.service.IRunCompanyService;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.BeanFactoryUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  *  Service 实现
@@ -25,9 +21,9 @@ import java.util.List;
  * @since 2020-06-26 17:21:06
  */
 @Service
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@AllArgsConstructor
 public class RunCompanyServiceImpl extends ServiceImpl<RunCompanyMapper, RunCompanyEntity> implements IRunCompanyService {
-    private Logger logger = LoggerFactory.getLogger(RunCompanyServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(RunCompanyServiceImpl.class);
 
     /**
      * 根据创客Id

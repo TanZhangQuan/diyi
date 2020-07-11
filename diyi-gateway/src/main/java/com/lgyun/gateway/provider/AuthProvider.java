@@ -20,8 +20,6 @@ public class AuthProvider {
 
     static {
         defaultSkipUrl.add("/example");
-        defaultSkipUrl.add("/token/**");
-        defaultSkipUrl.add("/captcha/**");
         defaultSkipUrl.add("/actuator/health/**");
         defaultSkipUrl.add("/v2/api-docs/**");
         defaultSkipUrl.add("/v2/api-docs-ext/**");

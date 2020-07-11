@@ -3,10 +3,9 @@ package com.lgyun.system.user.service.impl;
 import com.lgyun.common.api.R;
 import com.lgyun.system.user.oss.AliyunOssService;
 import com.lgyun.system.user.service.ICommonService;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,11 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
  * @since 2020-06-26 17:21:06
  */
 @Service
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@AllArgsConstructor
 public class CommonServiceImpl implements ICommonService {
-    private Logger logger = LoggerFactory.getLogger(CommonServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(CommonServiceImpl.class);
 
-    private final AliyunOssService ossService;
+    private AliyunOssService ossService;
 
     @Override
     public R ossImageUpload(MultipartFile file) throws Exception {

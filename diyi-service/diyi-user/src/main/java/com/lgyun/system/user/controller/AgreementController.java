@@ -1,24 +1,18 @@
 package com.lgyun.system.user.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.tool.Func;
-import com.lgyun.core.mp.support.Condition;
-import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.AgreementEntity;
 import com.lgyun.system.user.service.IAgreementService;
-import com.lgyun.system.user.wrapper.AgreementWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -30,12 +24,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/agreement")
 @Validated
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@AllArgsConstructor
 @Api(value = "平台合同的信息相关接口", tags = "平台合同的信息相关接口")
 public class AgreementController {
-	private Logger logger = LoggerFactory.getLogger(AgreementController.class);
+	private static Logger logger = LoggerFactory.getLogger(AgreementController.class);
 
-	private final IAgreementService agreementService;
+	private IAgreementService agreementService;
 
 	@GetMapping("/makerIdFind")
 	@ApiOperation(value = "根据创客找合同", notes = "根据创客找合同")

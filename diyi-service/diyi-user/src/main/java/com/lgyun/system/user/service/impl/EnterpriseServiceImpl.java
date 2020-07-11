@@ -1,15 +1,13 @@
 package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.lgyun.common.api.R;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.mapper.EnterpriseMapper;
 import com.lgyun.system.user.service.IEnterpriseService;
-import lombok.RequiredArgsConstructor;
+import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,9 +19,9 @@ import java.util.List;
  * @since 2020-06-26 17:21:05
  */
 @Service
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@AllArgsConstructor
 public class EnterpriseServiceImpl extends ServiceImpl<EnterpriseMapper, EnterpriseEntity> implements IEnterpriseService {
-    private Logger logger = LoggerFactory.getLogger(EnterpriseServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(EnterpriseServiceImpl.class);
 
     @Override
     public List<MakerEnterpriseRelationVO> getEnterpriseName(String enterpriseName) {

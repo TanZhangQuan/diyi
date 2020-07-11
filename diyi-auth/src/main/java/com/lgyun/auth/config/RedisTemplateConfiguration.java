@@ -1,7 +1,7 @@
 package com.lgyun.auth.config;
 
 import com.alibaba.fastjson.JSONObject;
-import com.lgyun.auth.utils.RedisUtil;
+import com.lgyun.common.tool.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;

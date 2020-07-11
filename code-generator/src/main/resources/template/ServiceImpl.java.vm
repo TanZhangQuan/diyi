@@ -1,5 +1,6 @@
 package ${package}.${moduleName}.service.impl;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,8 @@ import ${package}.${moduleName}.service.I${className}Service;
  * @since ${datetime}
  */
 @Service
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@AllArgsConstructor
 public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${className}Entity> implements I${className}Service {
+    private static Logger logger = LoggerFactory.getLogger(${className}Controller.class);
 
 }

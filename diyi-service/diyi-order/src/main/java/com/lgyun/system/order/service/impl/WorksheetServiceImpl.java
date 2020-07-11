@@ -6,8 +6,11 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.StringUtil;
 import com.lgyun.system.order.dto.ReleaseWorksheetDTO;
+import com.lgyun.system.order.entity.WorksheetEntity;
 import com.lgyun.system.order.entity.WorksheetMakerEntity;
+import com.lgyun.system.order.mapper.WorksheetMapper;
 import com.lgyun.system.order.service.IWorksheetMakerService;
+import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.order.vo.WorksheetXiaoVo;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
@@ -15,13 +18,8 @@ import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.IIndividualBusinessService;
 import com.lgyun.system.user.service.IIndividualEnterpriseService;
 import com.lgyun.system.user.service.IMakerService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import com.lgyun.system.order.mapper.WorksheetMapper;
-import com.lgyun.system.order.entity.WorksheetEntity;
-import com.lgyun.system.order.service.IWorksheetService;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
@@ -34,13 +32,13 @@ import java.util.UUID;
  * @since 2020-07-07 14:40:21
  */
 @Service
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@AllArgsConstructor
 public class WorksheetServiceImpl extends ServiceImpl<WorksheetMapper, WorksheetEntity> implements IWorksheetService {
 
-    private final IWorksheetMakerService worksheetMakerService;
-    private final IMakerService makerService;
-    private final IIndividualBusinessService individualBusinessService;
-    private final IIndividualEnterpriseService individualEnterpriseService;
+    private IWorksheetMakerService worksheetMakerService;
+    private IMakerService makerService;
+    private IIndividualBusinessService individualBusinessService;
+    private IIndividualEnterpriseService individualEnterpriseService;
 
     @Override
     @Transactional

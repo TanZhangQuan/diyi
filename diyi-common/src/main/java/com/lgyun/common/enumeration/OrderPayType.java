@@ -1,11 +1,13 @@
 package com.lgyun.common.enumeration;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
  * 订单支付方式
  */
 @Getter
+@AllArgsConstructor
 public enum OrderPayType {
     GENSUBSOUSTAPAY("GENSUBSOUSTAPAY", "总包+分包标准支付"),
     GENSUBSOUSELFPAY("GENSUBSOUSELFPAY", "总包+分包自助支付"),
@@ -14,12 +16,7 @@ public enum OrderPayType {
     GENSUBSOUTONGLIANPAY("GENSUBSOUTONLIAPAY", "总包+分包通联支付"),
     COLSOUTONGLIANPAY("COLSOUTONLIAPAY", "众包通联支付");
 
-    private String value;
-    private String desc;
-
-    OrderPayType(String value, String desc) {
-        this.value = value;
-        this.desc = desc;
-    }
+    private final String value;
+    private final String desc;
 
 }

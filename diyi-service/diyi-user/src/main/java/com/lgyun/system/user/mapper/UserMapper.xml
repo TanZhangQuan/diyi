@@ -5,6 +5,7 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="userResultMap" type="com.lgyun.system.user.entity.User">
         <result column="id" property="id"/>
+        <result column="user_type" property="userType"/>
         <result column="tenant_id" property="tenantId"/>
         <result column="create_user" property="createUser"/>
         <result column="create_time" property="createTime"/>
@@ -52,12 +53,20 @@
         where is_deleted = 0
     </select>
 
+    <select id="getUserByPhone" resultMap="userResultMap">
+        SELECT *
+        FROM blade_user
+        WHERE phone = #{param1} and user_type = #{param2}
+        and is_deleted = 0
+        limit 1
+    </select>
+
     <select id="getUser" resultMap="userResultMap">
         SELECT *
         FROM blade_user
-        WHERE tenant_id = #{param1}
-          and account = #{param2}
-          and password = #{param3}
+        WHERE account = #{param1}
+          and password = #{param2}
+          and user_type = #{param3}
           and is_deleted = 0
     </select>
 

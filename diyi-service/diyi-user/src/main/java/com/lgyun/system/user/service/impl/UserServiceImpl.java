@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.exceptions.ApiException;
+import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.tool.*;
 import lombok.AllArgsConstructor;
 import com.lgyun.common.constant.CommonConstant;
@@ -51,8 +52,11 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
 
     @Override
     public UserInfo userInfo(Long userId) {
-        UserInfo userInfo = new UserInfo();
         User user = baseMapper.selectById(userId);
+        if (user == null) {
+            return null;
+        }
+        UserInfo userInfo = new UserInfo();
         userInfo.setUser(user);
         if (Func.isNotEmpty(user)) {
             List<String> roleAlias = baseMapper.getRoleAlias(Func.toStrArray(user.getRoleId()));
@@ -62,9 +66,12 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
     }
 
     @Override
-    public UserInfo userInfoByPhone(String phone) {
+    public UserInfo userInfoByPhone(String phone, UserType userType) {
+        User user = baseMapper.getUserByPhone(phone, userType);
+        if (user == null) {
+            return null;
+        }
         UserInfo userInfo = new UserInfo();
-        User user = baseMapper.getUserByPhone(phone);
         userInfo.setUser(user);
         if (Func.isNotEmpty(user)) {
             List<String> roleAlias = baseMapper.getRoleAlias(Func.toStrArray(user.getRoleId()));
@@ -74,9 +81,12 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
     }
 
     @Override
-    public UserInfo userInfo(String tenantId, String account, String password) {
+    public UserInfo userInfo(String account, String password, UserType userType) {
+        User user = baseMapper.getUser(account, password, userType);
+        if (user == null) {
+            return null;
+        }
         UserInfo userInfo = new UserInfo();
-        User user = baseMapper.getUser(tenantId, account, password);
         userInfo.setUser(user);
         if (Func.isNotEmpty(user)) {
             List<String> roleAlias = baseMapper.getRoleAlias(Func.toStrArray(user.getRoleId()));

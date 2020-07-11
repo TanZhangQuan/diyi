@@ -8,8 +8,7 @@ import com.lgyun.system.order.mapper.WorksheetMakerMapper;
 import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.service.IEnterpriseService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -22,10 +21,11 @@ import java.util.Date;
  * @since 2020-07-07 14:40:21
  */
 @Service
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@AllArgsConstructor
 public class WorksheetMakerServiceImpl extends ServiceImpl<WorksheetMakerMapper, WorksheetMakerEntity> implements IWorksheetMakerService {
 
-    private final IEnterpriseService enterpriseService;
+    private IEnterpriseService enterpriseService;
+
     @Override
     public int getWorksheetCount(Long worksheetId) {
         return baseMapper.getWorksheetCount(worksheetId);
