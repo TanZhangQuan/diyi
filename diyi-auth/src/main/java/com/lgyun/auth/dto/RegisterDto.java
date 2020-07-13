@@ -33,7 +33,4 @@ public class RegisterDto implements Serializable {
     @NotBlank(message = "请输入短信验证码")
     private String smsCode;
 
-    //微信授权码
-    private String wechatCode;
-
 }
