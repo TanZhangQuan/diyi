@@ -6,8 +6,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,13 +16,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
 
+@Slf4j
 @RestController
 @RequestMapping("/common")
 @Validated
 @AllArgsConstructor
 @Api(value = "公用接口", tags = "公用接口")
 public class CommonController {
-    private static Logger logger = LoggerFactory.getLogger(CommonController.class);
 
     private ICommonService iCommonService;
 
@@ -31,11 +30,11 @@ public class CommonController {
     @ApiOperation(value = "上传文件", notes = "上传文件")
     public R ossImageUpload(@ApiParam(value = "图片") @NotNull(message = "请选择上传图片") @RequestParam(required = false) MultipartFile file) {
 
-        logger.info("上传文件");
+        log.info("上传文件");
         try {
             return iCommonService.ossImageUpload(file);
         } catch (Exception e) {
-            logger.error("上传文件异常", e);
+            log.error("上传文件异常", e);
         }
 
         return R.fail("上传文件失败");

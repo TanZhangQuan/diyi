@@ -15,8 +15,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,13 +29,13 @@ import javax.validation.constraints.NotNull;
  * @author liangfeihu
  * @since 2020-06-26 17:21:06
  */
+@Slf4j
 @RestController
 @RequestMapping("/maker")
 @Validated
 @AllArgsConstructor
 @Api(value = "创客（分包方）的基本信息相关接口", tags = "创客（分包方）的基本信息相关接口")
 public class MakerController {
-	private static Logger logger = LoggerFactory.getLogger(MakerController.class);
 
 	private IMakerService makerService;
 
@@ -76,11 +75,11 @@ public class MakerController {
 	@ApiOperation(value = "身份证实名认证", notes = "身份证实名认证")
 	public R idcardOcr(@ApiParam(value = "正面照片") @NotNull(message = "请选择正面照片") @RequestParam(required = false) String idcardPic, BladeUser bladeUser) {
 
-		logger.info("身份证实名认证");
+		log.info("身份证实名认证");
 		try {
 			return makerService.idcardOcr(idcardPic, bladeUser);
 		} catch (Exception e) {
-			logger.error("身份证实名认证异常", e);
+			log.error("身份证实名认证异常", e);
 		}
 		return R.fail("身份证实名认证失败");
 	}
@@ -89,11 +88,11 @@ public class MakerController {
 	@ApiOperation(value = "身份证实名认证信息保存", notes = "身份证实名认证信息保存")
 	public R idcardOcrSave(@Valid @RequestBody IdcardOcrSaveDto idcardOcrSaveDto, BladeUser bladeUser) {
 
-		logger.info("身份证实名认证");
+		log.info("身份证实名认证");
 		try {
 			return makerService.idcardOcrSave(idcardOcrSaveDto, bladeUser);
 		} catch (Exception e) {
-			logger.error("身份证实名认证异常", e);
+			log.error("身份证实名认证异常", e);
 		}
 		return R.fail("身份证实名认证失败");
 	}
@@ -102,11 +101,11 @@ public class MakerController {
 	@ApiOperation(value = "刷脸实名认证", notes = "刷脸实名认证")
 	public R faceOcr(BladeUser bladeUser) {
 
-		logger.info("刷脸实名认证");
+		log.info("刷脸实名认证");
 		try {
 			return makerService.faceOcr(bladeUser);
 		} catch (Exception e) {
-			logger.error("刷脸实名认证异常", e);
+			log.error("刷脸实名认证异常", e);
 		}
 		return R.fail("刷脸实名认证失败");
 	}
@@ -115,11 +114,11 @@ public class MakerController {
 	@ApiOperation(value = "刷脸实名认证异步回调", notes = "刷脸实名认证异步回调")
 	public R faceOcrNotify(HttpServletRequest request) {
 
-		logger.info("刷脸实名认证异步回调");
+		log.info("刷脸实名认证异步回调");
 		try {
 			return makerService.faceOcrNotify(request);
 		} catch (Exception e) {
-			logger.error("刷脸实名认证异步回调异常", e);
+			log.error("刷脸实名认证异步回调异常", e);
 		}
 		return R.fail("刷脸实名认证异步回调失败");
 	}
@@ -128,11 +127,11 @@ public class MakerController {
 	@ApiOperation(value = "查询认证详情", notes = "查询认证详情")
 	public R detail(String flowId) {
 
-		logger.info("查询认证详情");
+		log.info("查询认证详情");
 		try {
 			return makerService.detail(flowId);
 		} catch (Exception e) {
-			logger.error("查询认证详情异常", e);
+			log.error("查询认证详情异常", e);
 		}
 		return R.fail("查询认证详情失败");
 	}
@@ -141,11 +140,11 @@ public class MakerController {
 	@ApiOperation(value = "银行卡实名认证", notes = "银行卡实名认证")
 	public R bankCardOcr(@ApiParam(value = "银行卡号") @NotNull(message = "请输入银行卡号") @RequestParam(required = false) String bankCardNo, BladeUser bladeUser) {
 
-		logger.info("银行卡实名认证");
+		log.info("银行卡实名认证");
 		try {
 			return makerService.bankCardOcr(bankCardNo, bladeUser);
 		} catch (Exception e) {
-			logger.error("银行卡实名认证异常", e);
+			log.error("银行卡实名认证异常", e);
 		}
 		return R.fail("银行卡实名认证失败");
 	}
@@ -154,11 +153,11 @@ public class MakerController {
 	@ApiOperation(value = "银行卡实名认证异步回调", notes = "银行卡实名认证异步回调")
 	public R bankCardOcrNotify(HttpServletRequest request) {
 
-		logger.info("银行卡实名认证异步回调");
+		log.info("银行卡实名认证异步回调");
 		try {
 			return makerService.bankCardOcrNotify(request);
 		} catch (Exception e) {
-			logger.error("银行卡实名认证异步回调异常", e);
+			log.error("银行卡实名认证异步回调异常", e);
 		}
 		return R.fail("银行卡实名认证异步回调失败");
 	}
@@ -167,11 +166,11 @@ public class MakerController {
 	@ApiOperation(value = "手机号实名认证", notes = "手机号实名认证")
 	public R mobileOcr(BladeUser bladeUser) {
 
-		logger.info("手机号实名认证");
+		log.info("手机号实名认证");
 		try {
 			return makerService.mobileOcr(bladeUser);
 		} catch (Exception e) {
-			logger.error("手机号实名认证异常", e);
+			log.error("手机号实名认证异常", e);
 		}
 		return R.fail("手机号实名认证失败");
 	}
@@ -180,11 +179,11 @@ public class MakerController {
 	@ApiOperation(value = "手机号实名认证异步回调", notes = "手机号实名认证异步回调")
 	public R mobileOcrNotify(HttpServletRequest request) {
 
-		logger.info("手机号实名认证异步回调");
+		log.info("手机号实名认证异步回调");
 		try {
 			return makerService.mobileOcrNotify(request);
 		} catch (Exception e) {
-			logger.error("手机号实名认证异步回调异常", e);
+			log.error("手机号实名认证异步回调异常", e);
 		}
 		return R.fail("手机号实名认证异步回调失败");
 	}
@@ -193,11 +192,11 @@ public class MakerController {
 	@ApiOperation(value = "查询当前创客身份证实名认证的照片", notes = "查询当前创客身份证实名认证的照片")
 	public R queryIdcardOcr(BladeUser bladeUser) {
 
-		logger.info("查询当前创客身份证实名认证的照片");
+		log.info("查询当前创客身份证实名认证的照片");
 		try {
 			return makerService.queryIdcardOcr(bladeUser);
 		} catch (Exception e) {
-			logger.error("查询当前创客身份证实名认证的照片异常", e);
+			log.error("查询当前创客身份证实名认证的照片异常", e);
 		}
 		return R.fail("查询当前创客身份证实名认证的照片失败");
 	}
@@ -206,11 +205,11 @@ public class MakerController {
 	@ApiOperation(value = "检查当前创客身份证和人脸是否已实名认证", notes = "检查当前创客身份证和人脸是否已实名认证")
 	public R checkIdcardFaceVerify(BladeUser bladeUser) {
 
-		logger.info("检查当前创客身份证和人脸是否已实名认证");
+		log.info("检查当前创客身份证和人脸是否已实名认证");
 		try {
 			return makerService.checkIdcardFaceVerify(bladeUser);
 		} catch (Exception e) {
-			logger.error("检查当前创客身份证和人脸是否已实名认证异常", e);
+			log.error("检查当前创客身份证和人脸是否已实名认证异常", e);
 		}
 		return R.fail("检查身份证和人脸是否已实名认证失败");
 	}

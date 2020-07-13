@@ -12,8 +12,7 @@ import com.lgyun.system.user.service.IRunCompanyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.mybatis.logging.Logger;
-import org.mybatis.logging.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,13 +24,13 @@ import javax.validation.Valid;
  * @author jun
  * @since 2020-07-08 14:32:47
  */
+@Slf4j
 @RestController
 @RequestMapping("/order/selfhelpinvoice")
 @Validated
 @AllArgsConstructor
 @Api(value = "自助开票相关接口", tags = "自助开票相关接口")
 public class SelfHelpInvoiceController {
-	private static Logger logger = LoggerFactory.getLogger(SelfHelpInvoiceController.class);
 
 	private IRunCompanyService runCompanyService;
 

@@ -12,8 +12,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.mybatis.logging.Logger;
-import org.mybatis.logging.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,13 +25,13 @@ import java.math.BigDecimal;
  * @author jun
  * @since 2020-07-07 14:40:21
  */
+@Slf4j
 @RestController
 @RequestMapping("/order/worksheet")
 @Validated
 @AllArgsConstructor
 @Api(value = "工单相关接口", tags = "工单相关接口")
 public class WorksheetController {
-	private static Logger logger = LoggerFactory.getLogger(WorksheetController.class);
 
 	private IWorksheetService worksheetService;
 

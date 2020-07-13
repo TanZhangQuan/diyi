@@ -2,8 +2,7 @@ package com.lgyun.common.tool;
 
 import com.lgyun.common.support.IMultiOutputStream;
 import com.lgyun.common.support.ImagePosition;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
@@ -20,8 +19,8 @@ import java.net.URL;
  *
  * @author liangfeihu
  */
+@Slf4j
 public final class ImageUtil {
-	private static Logger LOGGER = LoggerFactory.getLogger(ImageUtil.class);
 
 	/**
 	 * 默认输出图片类型
@@ -56,7 +55,7 @@ public final class ImageUtil {
 		try {
 			return ImageIO.read(new File(srcImageFile));
 		} catch (IOException e) {
-			LOGGER.error("Error readImage", e);
+			log.error("Error readImage", e);
 		}
 		return null;
 	}
@@ -71,7 +70,7 @@ public final class ImageUtil {
 		try {
 			return ImageIO.read(srcImageFile);
 		} catch (IOException e) {
-			LOGGER.error("Error readImage", e);
+			log.error("Error readImage", e);
 		}
 		return null;
 	}
@@ -86,7 +85,7 @@ public final class ImageUtil {
 		try {
 			return ImageIO.read(srcInputStream);
 		} catch (IOException e) {
-			LOGGER.error("Error readImage", e);
+			log.error("Error readImage", e);
 		}
 		return null;
 	}
@@ -101,7 +100,7 @@ public final class ImageUtil {
 		try {
 			return ImageIO.read(url);
 		} catch (IOException e) {
-			LOGGER.error("Error readImage", e);
+			log.error("Error readImage", e);
 		}
 		return null;
 	}
@@ -142,7 +141,7 @@ public final class ImageUtil {
 
 			output.close();
 		} catch (IOException e) {
-			LOGGER.error("Error in zoom image", e);
+			log.error("Error in zoom image", e);
 		}
 	}
 
@@ -190,7 +189,7 @@ public final class ImageUtil {
 			// 关闭流
 			output.close();
 		} catch (IOException e) {
-			LOGGER.error("Error in zoom image", e);
+			log.error("Error in zoom image", e);
 		}
 	}
 
@@ -226,7 +225,7 @@ public final class ImageUtil {
 				output.close();
 			}
 		} catch (Exception e) {
-			LOGGER.error("Error in cut image", e);
+			log.error("Error in cut image", e);
 		}
 	}
 
@@ -273,7 +272,7 @@ public final class ImageUtil {
 				}
 			}
 		} catch (Exception e) {
-			LOGGER.error("Error in slice image", e);
+			log.error("Error in slice image", e);
 		}
 	}
 
@@ -320,7 +319,7 @@ public final class ImageUtil {
 				}
 			}
 		} catch (Exception e) {
-			LOGGER.error("Error in slice image", e);
+			log.error("Error in slice image", e);
 		}
 	}
 
@@ -338,7 +337,7 @@ public final class ImageUtil {
 			// 关闭流
 			output.close();
 		} catch (Exception e) {
-			LOGGER.error("Error in convert image", e);
+			log.error("Error in convert image", e);
 		}
 	}
 
@@ -359,7 +358,7 @@ public final class ImageUtil {
 			// 关闭流
 			output.close();
 		} catch (IOException e) {
-			LOGGER.error("Error in gray image", e);
+			log.error("Error in gray image", e);
 		}
 	}
 
@@ -398,7 +397,7 @@ public final class ImageUtil {
 			// 关闭流
 			output.close();
 		} catch (Exception e) {
-			LOGGER.error("Error in textStamp image", e);
+			log.error("Error in textStamp image", e);
 		}
 	}
 
@@ -436,7 +435,7 @@ public final class ImageUtil {
 			// 关闭流
 			output.close();
 		} catch (Exception e) {
-			LOGGER.error("Error imageStamp", e);
+			log.error("Error imageStamp", e);
 		}
 	}
 

@@ -3,6 +3,7 @@ package com.lgyun.auth.granter;
 import com.lgyun.auth.utils.TokenUtil;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.TokenConstant;
+import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.AuthInfo;
 import com.lgyun.common.tool.Func;
 import com.lgyun.common.tool.SecureUtil;
@@ -31,13 +32,15 @@ public class RefreshTokenGranter implements ITokenGranter {
 
 	@Override
 	public R grant(TokenParameter tokenParameter) {
+		//获取用户类型
+		UserType userType = (UserType) tokenParameter.getArgs().get("userType");
 		String refreshToken = tokenParameter.getArgs().getStr("refreshToken");
 		UserInfo userInfo = null;
 		if (Func.isNoneBlank(refreshToken)) {
 			Claims claims = SecureUtil.parseJWT(refreshToken);
 			String tokenType = Func.toStr(Objects.requireNonNull(claims).get(TokenConstant.TOKEN_TYPE));
 			if (tokenType.equals(TokenConstant.REFRESH_TOKEN)) {
-				userInfo = userClient.userInfo(Func.toLong(claims.get(TokenConstant.USER_ID)));
+				userInfo = userClient.userInfo(Func.toLong(claims.get(TokenConstant.USER_ID)), userType);
 			}
 		}
 

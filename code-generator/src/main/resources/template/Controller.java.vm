@@ -29,13 +29,13 @@ import java.util.List;
  * @author ${author}
  * @since ${datetime}
  */
+@Slf4j
 @RestController
 @RequestMapping("/${moduleName}/${pathName}")
 @Validated
 @AllArgsConstructor
 @Api(value = "${comments}相关接口", tags = "${comments}相关接口")
 public class ${className}Controller {
-	private static Logger logger = LoggerFactory.getLogger(${className}Controller.class);
 
 	private I${className}Service ${classname}Service;
 

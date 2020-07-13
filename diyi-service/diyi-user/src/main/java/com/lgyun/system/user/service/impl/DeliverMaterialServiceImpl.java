@@ -5,8 +5,7 @@ import com.lgyun.system.user.entity.DeliverMaterialEntity;
 import com.lgyun.system.user.mapper.DeliverMaterialMapper;
 import com.lgyun.system.user.service.IDeliverMaterialService;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,9 +14,9 @@ import org.springframework.stereotype.Service;
  * @author liangfeihu
  * @since 2020-06-26 17:21:05
  */
+@Slf4j
 @Service
 @AllArgsConstructor
 public class DeliverMaterialServiceImpl extends ServiceImpl<DeliverMaterialMapper, DeliverMaterialEntity> implements IDeliverMaterialService {
-    private static Logger logger = LoggerFactory.getLogger(DeliverMaterialServiceImpl.class);
 
 }

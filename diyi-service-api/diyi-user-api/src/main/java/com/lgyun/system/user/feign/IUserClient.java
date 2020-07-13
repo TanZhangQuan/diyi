@@ -32,7 +32,7 @@ public interface IUserClient {
      * @return
      */
     @GetMapping(API_PREFIX + "/user-info-by-id")
-    UserInfo userInfo(@RequestParam("userId") Long userId);
+    UserInfo userInfo(@RequestParam("userId") Long userId, @RequestParam("userType") UserType userType);
 
     /**
      * 获取用户信息

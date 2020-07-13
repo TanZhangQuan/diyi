@@ -10,8 +10,7 @@ import com.lgyun.common.tool.RedisUtil;
 import com.lgyun.common.tool.StringUtil;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,10 +19,10 @@ import org.springframework.stereotype.Component;
  * @author liangfeihu
  * @since 2020/6/6 01:02
  */
+@Slf4j
 @Component
 @AllArgsConstructor
 public class RegisterGranter implements ITokenGranter {
-    private static Logger logger = LoggerFactory.getLogger(RegisterGranter.class);
 
     public static final String GRANT_TYPE = "REGISTER";
 

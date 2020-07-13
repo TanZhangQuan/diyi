@@ -15,8 +15,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,13 +27,13 @@ import javax.validation.Valid;
  * @author liangfeihu
  * @since 2020-07-02 17:44:02
  */
+@Slf4j
 @RestController
 @RequestMapping("/individual_business")
 @Validated
 @AllArgsConstructor
 @Api(value = "个体户相关接口", tags = "个体户相关接口")
 public class IndividualBusinessController {
-	private static Logger logger = LoggerFactory.getLogger(IndividualBusinessController.class);
 
 	private IIndividualBusinessService individualBusinessService;
 
@@ -42,11 +41,11 @@ public class IndividualBusinessController {
 	@ApiOperation(value = "新增", notes = "新增")
 	public R save(@Valid @RequestBody IndividualBusinessAddDto individualBusinessAddDto, BladeUser bladeUser) {
 
-		logger.info("新增个体户");
+		log.info("新增个体户");
 		try {
 			return individualBusinessService.save(individualBusinessAddDto, bladeUser);
 		} catch (Exception e) {
-			logger.error("新增个体户异常", e);
+			log.error("新增个体户异常", e);
 		}
 		return R.fail("新增个体户失败");
 

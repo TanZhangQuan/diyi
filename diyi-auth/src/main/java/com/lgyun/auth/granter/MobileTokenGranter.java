@@ -1,16 +1,14 @@
 package com.lgyun.auth.granter;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.lgyun.auth.utils.TokenUtil;
+import com.lgyun.auth.utils.WechatUtil;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.SmsConstant;
-import com.lgyun.common.constant.WechatConstant;
 import com.lgyun.common.enumeration.CodeType;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.AuthInfo;
-import com.lgyun.common.tool.HttpUtil;
 import com.lgyun.common.tool.RedisUtil;
 import com.lgyun.common.tool.SmsUtil;
 import com.lgyun.common.tool.StringUtil;
@@ -18,14 +16,8 @@ import com.lgyun.system.user.entity.UserInfo;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author liangfeihu
@@ -35,7 +27,6 @@ import java.util.Map;
 @Component
 @AllArgsConstructor
 public class MobileTokenGranter implements ITokenGranter {
-    private static Logger logger = LoggerFactory.getLogger(MobileTokenGranter.class);
 
     public static final String GRANT_TYPE = "MOBILE";
 
@@ -43,6 +34,7 @@ public class MobileTokenGranter implements ITokenGranter {
     private TokenUtil tokenUtil;
     private RedisUtil redisUtil;
     private SmsUtil smsUtil;
+    private WechatUtil wechatUtil;
 
     /**
      * 获取用户信息
@@ -69,42 +61,16 @@ public class MobileTokenGranter implements ITokenGranter {
 
         switch (userType) {
             case MAKER:
-                // 获取微信授权码
+                // 微信授权码
                 String wechatCode = tokenParameter.getArgs().getStr("wechatCode");
-                if (StringUtil.isBlank(wechatCode)) {
-                    return R.fail("请输入微信授权码");
+                //微信授权
+                R<JSONObject> result = wechatUtil.authorization(wechatCode);
+                if (!(result.isSuccess())){
+                    return result;
                 }
-
-                Map<String, String> requestUrlParam = new HashMap<>();
-                requestUrlParam.put("grant_type", "authorization_code");    //默认参数
-                requestUrlParam.put("appid", WechatConstant.WECHAT_APPID);    //开发者设置中的appId
-                requestUrlParam.put("secret", WechatConstant.WECHAT_SECRET);    //开发者设置中的appSecret
-                requestUrlParam.put("js_code", wechatCode);    //小程序调用wx.login返回的code
-
-                JSONObject jsonObject = JSON.parseObject(HttpUtil.post(WechatConstant.WECHAT_SESSIONHOST, requestUrlParam));
-                if (jsonObject == null) {
-                    logger.error("微信授权失败, 获取数据失败");
-                    return R.fail("登陆失败");
-                }
-
-                Object errcode = jsonObject.get("errcode");
-                String errmsg = jsonObject.getString("errmsg");
-                if (errcode != null) {
-                    logger.error(errmsg);
-                    return R.fail("登陆失败");
-                }
-
-                String openid = "987654321";
-                String sessionKey = "987654321";
-                if (StringUtils.isBlank(openid)) {
-                    logger.error("微信授权失败, 返回参数缺失openid");
-                    return R.fail("登陆失败");
-                }
-
-                if (StringUtils.isBlank(sessionKey)) {
-                    logger.error("微信授权失败, 返回参数缺失session_key");
-                    return R.fail("登陆失败");
-                }
+                JSONObject jsonObject = result.getData();
+                String openid = jsonObject.getString("openid");
+                String sessionKey = jsonObject.getString("sessionKey");
                 // 创客处理
                 R res = userClient.makerSaveOrUpdate(openid, sessionKey, mobile, "", GrantType.MOBILE);
                 if (!(res.isSuccess())) {
@@ -130,7 +96,6 @@ public class MobileTokenGranter implements ITokenGranter {
 
         //创建认证token
         AuthInfo authInfo = tokenUtil.createAuthInfo(userInfo);
-
         //删除缓存短信验证码
         redisUtil.del(userType.getValue() + SmsConstant.AVAILABLE_TIME + mobile);
 

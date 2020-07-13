@@ -21,21 +21,21 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `blade_client`;
 CREATE TABLE `blade_client` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `client_id` varchar(48) NOT NULL COMMENT '客户端id',
-  `client_secret` varchar(256) NOT NULL COMMENT '客户端密钥',
-  `resource_ids` varchar(256) DEFAULT NULL COMMENT '资源集合',
-  `scope` varchar(256) NOT NULL COMMENT '授权范围',
-  `authorized_grant_types` varchar(256) NOT NULL COMMENT '授权类型',
-  `web_server_redirect_uri` varchar(256) DEFAULT NULL COMMENT '回调地址',
-  `authorities` varchar(256) DEFAULT NULL COMMENT '权限',
-  `access_token_validity` int(11) NOT NULL COMMENT '令牌过期秒数',
-  `refresh_token_validity` int(11) NOT NULL COMMENT '刷新令牌过期秒数',
-  `additional_information` varchar(4096) DEFAULT NULL COMMENT '附加说明',
-  `autoapprove` varchar(256) DEFAULT NULL COMMENT '自动授权',
+  `client_id` varchar(50) NOT NULL COMMENT '客户端id',
+  `client_secret` varchar(50) NOT NULL COMMENT '客户端密钥',
+  `resource_ids` varchar(100) NOT NULL DEFAULT '' COMMENT '资源集合',
+  `scope` varchar(50) NOT NULL COMMENT '授权范围',
+  `authorized_grant_types` varchar(100) NOT NULL COMMENT '授权类型',
+  `web_server_redirect_uri` varchar(100) NOT NULL DEFAULT '' COMMENT '回调地址',
+  `authorities` varchar(100) NOT NULL DEFAULT '' COMMENT '权限',
+  `access_token_validity` int(10) NOT NULL COMMENT '令牌过期秒数',
+  `refresh_token_validity` int(10) NOT NULL COMMENT '刷新令牌过期秒数',
+  `additional_information` varchar(500) NOT NULL DEFAULT '' COMMENT '附加说明',
+  `autoapprove` varchar(100) NOT NULL DEFAULT '' COMMENT '自动授权',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
-  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `update_time` datetime NOT NULL COMMENT '修改时间',
   `status` int(2) NOT NULL COMMENT '状态',
   `is_deleted` int(2) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`) USING BTREE
@@ -44,8 +44,9 @@ CREATE TABLE `blade_client` (
 -- ----------------------------
 -- Records of blade_client
 -- ----------------------------
-INSERT INTO `blade_client` VALUES ('1123598811738675201', 'sword', 'sword_secret', null, 'all', 'refresh_token,password,authorization_code', 'http://localhost:8888', null, '3600', '604800', null, null, '1', '2019-03-24 10:40:55', '1', '2019-03-24 10:40:59', '1', '0');
-INSERT INTO `blade_client` VALUES ('1123598811738675202', 'saber', 'saber_secret', null, 'all', 'refresh_token,password,authorization_code', 'http://localhost:8080', null, '3600', '604800', null, null, '1', '2019-03-24 10:42:29', '1', '2019-03-24 10:42:32', '1', '0');
+INSERT INTO `blade_client` VALUES ('1123598811738675201', 'sword', 'sword_secret', '', 'all', 'refresh_token,password,authorization_code', 'http://localhost:8888', '', '3600', '604800', '', '', '1', '2019-03-24 10:40:55', '1', '2019-03-24 10:40:59', '1', '0');
+INSERT INTO `blade_client` VALUES ('1123598811738675202', 'saber', 'saber_secret', '', 'all', 'refresh_token,password,authorization_code', 'http://localhost:8080', '', '3600', '604800', '', '', '1', '2019-03-24 10:42:29', '1', '2019-03-24 10:42:32', '1', '0');
+INSERT INTO `blade_client` VALUES ('1123598811738675203', 'app', 'app_secret', '', '', '', '', '', '3600', '604800', '', '', '1', '2019-03-24 10:42:29', '1', '2019-03-24 10:42:32', '1', '0');
 
 -- ----------------------------
 -- Table structure for blade_code

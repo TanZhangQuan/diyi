@@ -1,4 +1,4 @@
-package com.lgyun.auth.config;
+package com.lgyun.common.config;
 
 import org.springframework.cache.interceptor.SimpleKey;
 import org.springframework.core.convert.ConversionService;

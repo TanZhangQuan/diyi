@@ -13,8 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,13 +25,13 @@ import javax.validation.Valid;
  * @author liangfeihu
  * @since 2020-07-02 17:44:02
  */
+@Slf4j
 @RestController
 @RequestMapping("/individual_enterprise_annual_fee")
 @Validated
 @AllArgsConstructor
 @Api(value = "个独年费相关接口", tags = "个独年费相关接口")
 public class IndividualEnterpriseAnnualFeeController {
-	private static Logger logger = LoggerFactory.getLogger(IndividualEnterpriseAnnualFeeController.class);
 
 	private IIndividualEnterpriseAnnualFeeService individualEnterpriseAnnualFeeService;
 

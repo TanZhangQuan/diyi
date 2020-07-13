@@ -6,8 +6,7 @@ import com.lgyun.system.user.mapper.EnterpriseMapper;
 import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,10 +17,10 @@ import java.util.List;
  * @author liangfeihu
  * @since 2020-06-26 17:21:05
  */
+@Slf4j
 @Service
 @AllArgsConstructor
 public class EnterpriseServiceImpl extends ServiceImpl<EnterpriseMapper, EnterpriseEntity> implements IEnterpriseService {
-    private static Logger logger = LoggerFactory.getLogger(EnterpriseServiceImpl.class);
 
     @Override
     public List<MakerEnterpriseRelationVO> getEnterpriseName(String enterpriseName) {

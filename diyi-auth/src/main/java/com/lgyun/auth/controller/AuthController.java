@@ -8,6 +8,7 @@ import com.lgyun.auth.granter.TokenParameter;
 import com.lgyun.common.api.R;
 import com.lgyun.common.cache.CacheNames;
 import com.lgyun.common.enumeration.GrantType;
+import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.support.Kv;
 import com.lgyun.common.tool.RedisUtil;
 import com.wf.captcha.SpecCaptcha;
@@ -15,8 +16,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,12 +30,12 @@ import java.util.concurrent.TimeUnit;
  * @author liangfeihu
  * @since 2020/6/6 01:04
  */
+@Slf4j
 @RestController
 @AllArgsConstructor
 @RequestMapping("/auth")
 @Api(value = "用户授权认证", tags = "用户授权认证")
 public class AuthController {
-    private static Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     private RedisUtil redisUtil;
     private MobileTokenGranter mobileTokenGranter;
@@ -44,7 +44,7 @@ public class AuthController {
     @ApiOperation(value = "微信授权登陆", notes = "微信授权登陆")
     public R wechatlogin(@Valid @RequestBody WechatLoginDto wechatLoginDto) {
 
-        logger.info("微信授权登陆");
+        log.info("微信授权登陆");
         try {
             TokenParameter tokenParameter = new TokenParameter();
             tokenParameter.getArgs()
@@ -57,7 +57,7 @@ public class AuthController {
             return granter.grant(tokenParameter);
 
         } catch (Exception e) {
-            logger.error("微信授权登陆异常", e);
+            log.error("微信授权登陆异常", e);
         }
 
         return R.fail("登陆失败");
@@ -67,7 +67,7 @@ public class AuthController {
     @ApiOperation(value = "手机验证码登陆", notes = "手机验证码登陆")
     public R mobileLogin(@Valid @RequestBody MobileLoginDto mobileLoginDto) {
 
-        logger.info("手机验证码登陆");
+        log.info("手机验证码登陆");
         try {
             TokenParameter tokenParameter = new TokenParameter();
             tokenParameter.getArgs()
@@ -80,7 +80,7 @@ public class AuthController {
             return granter.grant(tokenParameter);
 
         } catch (Exception e) {
-            logger.error("手机验证码登陆异常", e);
+            log.error("手机验证码登陆异常", e);
         }
 
         return R.fail("登陆失败");
@@ -90,7 +90,7 @@ public class AuthController {
     @ApiOperation(value = "账号密码登陆", notes = "账号密码登陆")
     public R passwordLogin(@Valid @RequestBody PasswordLoginDto passwordLoginDto) {
 
-        logger.info("账号密码登陆");
+        log.info("账号密码登陆");
         try {
             TokenParameter tokenParameter = new TokenParameter();
             tokenParameter.getArgs()
@@ -103,7 +103,7 @@ public class AuthController {
             return granter.grant(tokenParameter);
 
         } catch (Exception e) {
-            logger.error("账号密码登陆异常", e);
+            log.error("账号密码登陆异常", e);
         }
 
         return R.fail("登陆失败");
@@ -111,20 +111,20 @@ public class AuthController {
 
     @PostMapping("/refresh-token")
     @ApiOperation(value = "刷新令牌", notes = "刷新令牌")
-    public R refreshToken(@ApiParam(value = "令牌") @NotBlank(message = "请输入令牌") @RequestParam(required = false) String refreshToken) {
+    public R refreshToken(@ApiParam(value = "令牌") @NotBlank(message = "请输入令牌") @RequestParam(required = false) String refreshToken, @ApiParam(value = "用户类型") @NotBlank(message = "请选择用户类型") @RequestParam(required = false) UserType userType) {
 
-        logger.info("刷新token");
+        log.info("刷新token");
         try {
             TokenParameter tokenParameter = new TokenParameter();
             tokenParameter.getArgs()
-                    .set("refresh_token", "refresh_token")
+                    .set("userType", userType)
                     .set("refreshToken", refreshToken);
 
             ITokenGranter granter = TokenGranterBuilder.getGranter(GrantType.REFRESHTOKEN);
             return granter.grant(tokenParameter);
 
         } catch (Exception e) {
-            logger.error("刷新令牌异常", e);
+            log.error("刷新令牌异常", e);
         }
 
         return R.fail("刷新令牌失败");
@@ -134,7 +134,7 @@ public class AuthController {
     @ApiOperation(value = "注册", notes = "注册")
     public R register(@Valid @RequestBody RegisterDto registerDto) {
 
-        logger.info("注册");
+        log.info("注册");
         try {
             TokenParameter tokenParameter = new TokenParameter();
             tokenParameter.getArgs()
@@ -147,7 +147,7 @@ public class AuthController {
             return granter.grant(tokenParameter);
 
         } catch (Exception e) {
-            logger.error("注册异常", e);
+            log.error("注册异常", e);
         }
 
         return R.fail("注册失败");

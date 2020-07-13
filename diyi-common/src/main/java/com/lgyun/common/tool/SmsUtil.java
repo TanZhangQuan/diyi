@@ -4,17 +4,16 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.constant.SmsConstant;
 import com.lgyun.common.enumeration.UserType;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Component
 @AllArgsConstructor
 public class SmsUtil {
-    private static Logger logger = LoggerFactory.getLogger(SmsUtil.class);
 
     private RedisUtil redisUtil;
     private YunTongXunSmsUtil yunTongXunSmsUtil;
@@ -41,7 +40,7 @@ public class SmsUtil {
         for (int i = 0; i < 6; i++) {
             randomCode += random.nextInt(10);
         }
-        logger.info("手机号：" + mobile + "，验证码：" + randomCode);
+        log.info("手机号：" + mobile + "，验证码：" + randomCode);
 
         if ("yuntongxun".equals(SmsConstant.SMS_PLATFORM)) {
             String[] datas = new String[]{randomCode, String.valueOf(SmsConstant.SMS_AVAILABLE_TIME_MINUTES)};
