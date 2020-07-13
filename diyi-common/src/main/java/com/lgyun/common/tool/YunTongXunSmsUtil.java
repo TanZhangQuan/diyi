@@ -6,8 +6,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.constant.SmsConstant;
 import com.lgyun.common.enumeration.UserType;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -19,10 +18,10 @@ import java.util.Set;
  * @Author tzq
  * @Date 2020.03.30
  */
+@Slf4j
 @Component
 @AllArgsConstructor
 public class YunTongXunSmsUtil {
-    private static Logger logger = LoggerFactory.getLogger(YunTongXunSmsUtil.class);
 
     private RedisUtil redisUtil;
 
@@ -33,7 +32,7 @@ public class YunTongXunSmsUtil {
      */
     public R send(String[] datas, String mobile, UserType userType) {
 
-        logger.info("========云通讯短信发送=========", mobile);
+        log.info("========云通讯短信发送=========", mobile);
         String cacheKey = userType.getValue() + SmsConstant.MAX_SEND_TIME + mobile;
         int maxNum = 0;
         if (redisUtil.get(cacheKey) != null) {
@@ -41,7 +40,7 @@ public class YunTongXunSmsUtil {
 
             //单日短信最大发送次数限制
             if (maxNum >= SmsConstant.SMS_MAX_SEND_NUMBER) {
-                logger.info(mobile, "===============单日短信达到最大发送次数=============", maxNum);
+                log.info(mobile, "===============单日短信达到最大发送次数=============", maxNum);
                 return R.fail("单日短信达到最大发送次数");
             }
 
@@ -60,7 +59,7 @@ public class YunTongXunSmsUtil {
             Set<String> keySet = data.keySet();
             for (String key : keySet) {
                 Object object = data.get(key);
-                logger.info(key + " = " + object);
+                log.info(key + " = " + object);
             }
 
             //记录短信发送次数
@@ -73,7 +72,7 @@ public class YunTongXunSmsUtil {
             return R.success("验证码发送成功");
         } else {
             //异常返回输出错误码和错误信息
-            logger.error("错误码=" + result.get("statusCode") + " 错误信息= " + result.get("statusMsg"));
+            log.error("错误码=" + result.get("statusCode") + " 错误信息= " + result.get("statusMsg"));
         }
 
         return R.fail("验证码发送失败");

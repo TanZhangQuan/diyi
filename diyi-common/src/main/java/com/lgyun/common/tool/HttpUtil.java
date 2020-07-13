@@ -2,6 +2,7 @@ package com.lgyun.common.tool;
 
 import com.alibaba.fastjson.JSON;
 import com.lgyun.common.enumeration.HttpRequestMethedEnum;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpEntityEnclosingRequest;
 import org.apache.http.NameValuePair;
@@ -23,8 +24,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLException;
@@ -38,12 +37,12 @@ import java.security.cert.X509Certificate;
 import java.text.MessageFormat;
 import java.util.*;
 
+@Slf4j
 public class HttpUtil {
     /**
      * @author chenxi
      */
     //日志记录器
-    private static Logger logger = LoggerFactory.getLogger(HttpUtil.class);
     private static PoolingHttpClientConnectionManager connMgr;
     private static RequestConfig requestConfig;
     private static final int MAX_TIMEOUT = 15000;
@@ -198,8 +197,8 @@ public class HttpUtil {
      * @return 响应文本
      */
     public static String sendHttp(HttpRequestMethedEnum requestMethod, String url, Map<String, String> header, String params, int isHttps) {
-        logger.info("开始发送：=============");
-        logger.info("请求头: ================");
+        log.info("开始发送：=============");
+        log.info("请求头: ================");
         long beginTime = new Date().getTime();
         //1、创建一个HttpClient对象;
         CloseableHttpClient httpClient;
@@ -214,13 +213,13 @@ public class HttpUtil {
         //2、创建一个Http请求对象并设置请求的URL，比如GET请求就创建一个HttpGet对象，POST请求就创建一个HttpPost对象;
         HttpRequestBase request = requestMethod.createRequest(url);
         request.setConfig(requestConfig);
-        logger.info("发送Http请求方法：" + request.getMethod());
+        log.info("发送Http请求方法：" + request.getMethod());
         //3、如果需要可以设置请求对象的请求头参数，也可以往请求对象中添加请求参数;
 
         if (header != null) {
             for (Map.Entry<String, String> entry : header.entrySet()) {
                 //打印一下，以便postman:
-                logger.info(entry.getKey() + "      :    " + entry.getValue());
+                log.info(entry.getKey() + "      :    " + entry.getValue());
                 request.setHeader(entry.getKey(), entry.getValue());
             }
         }
@@ -234,13 +233,13 @@ public class HttpUtil {
             httpResponse = httpClient.execute(request);
             //5、获取请求响应对象和响应Entity;
             HttpEntity httpEntity = httpResponse.getEntity();
-            logger.info("发送地址：" + request.getURI());
-            logger.info("发送内容：" + params);
-            logger.info("响应状态：" + httpResponse.getStatusLine());
+            log.info("发送地址：" + request.getURI());
+            log.info("发送内容：" + params);
+            log.info("响应状态：" + httpResponse.getStatusLine());
             //6、从响应对象中获取响应状态，从响应Entity中获取响应内容;
             if (httpEntity != null) {
                 responseContent = EntityUtils.toString(httpEntity, "UTF-8");
-                logger.info("响应内容：" + responseContent);
+                log.info("响应内容：" + responseContent);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -259,7 +258,7 @@ public class HttpUtil {
             }
         }
         long endTime = new Date().getTime();
-        logger.info("该接口响应时间:   " + (endTime - beginTime));
+        log.info("该接口响应时间:   " + (endTime - beginTime));
         return responseContent;
     }
 
@@ -275,8 +274,8 @@ public class HttpUtil {
      * @return 响应文本
      */
     public static String sendHttp2(HttpRequestMethedEnum requestMethod, String url, Map<String, String> header, Map<String, Object> params, int isHttps) {
-        logger.info("开始发送：=============");
-        logger.info("请求头: ================");
+        log.info("开始发送：=============");
+        log.info("请求头: ================");
         long beginTime = new Date().getTime();
         //1、创建一个HttpClient对象;
         CloseableHttpClient httpClient = null;
@@ -290,12 +289,12 @@ public class HttpUtil {
         //2、创建一个Http请求对象并设置请求的URL，比如GET请求就创建一个HttpGet对象，POST请求就创建一个HttpPost对象;
         HttpRequestBase request = requestMethod.createRequest(url);
         request.setConfig(requestConfig);
-        logger.info("发送Http请求方法：" + request.getMethod());
+        log.info("发送Http请求方法：" + request.getMethod());
         //3、如果需要可以设置请求对象的请求头参数，也可以往请求对象中添加请求参数;
         if (header != null) {
             for (Map.Entry<String, String> entry : header.entrySet()) {
                 //打印一下，以便postman:
-                logger.info(entry.getKey() + "      :    " + entry.getValue());
+                log.info(entry.getKey() + "      :    " + entry.getValue());
                 request.setHeader(entry.getKey(), entry.getValue());
             }
         }
@@ -306,17 +305,17 @@ public class HttpUtil {
                         new StringEntity(JSON.toJSONString(params),
                                 ContentType.create("application/json", "UTF-8")));
             }
-            logger.info("发送地址：" + request.getURI());
-            logger.info("发送内容：" + JSON.toJSONString(params));
+            log.info("发送地址：" + request.getURI());
+            log.info("发送内容：" + JSON.toJSONString(params));
             //4、调用HttpClient对象的execute方法执行请求;
             httpResponse = httpClient.execute(request);
-            logger.info("响应状态：" + httpResponse.getStatusLine());
+            log.info("响应状态：" + httpResponse.getStatusLine());
             //5、获取请求响应对象和响应Entity;
             HttpEntity httpEntity = httpResponse.getEntity();
             //6、从响应对象中获取响应状态，从响应Entity中获取响应内容;
             if (httpEntity != null) {
                 responseContent = EntityUtils.toString(httpEntity, "UTF-8");
-                logger.info("响应内容：" + responseContent);
+                log.info("响应内容：" + responseContent);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -335,7 +334,7 @@ public class HttpUtil {
             }
         }
         long endTime = new Date().getTime();
-        logger.info("该接口响应时间:   " + (endTime - beginTime));
+        log.info("该接口响应时间:   " + (endTime - beginTime));
         return responseContent;
     }
     //发送httpput,实现文件流的上传
@@ -348,8 +347,8 @@ public class HttpUtil {
      * @return
      */
     public static String sendHttpput(String url, byte[] filebytes, Map<String, String> header, int isHttps) {
-        logger.info("开始发送：=============");
-        logger.info("发送地址: " + url);
+        log.info("开始发送：=============");
+        log.info("发送地址: " + url);
         //计时开始
         long beginTime = new Date().getTime();
         //固定是httpput方式
@@ -367,12 +366,12 @@ public class HttpUtil {
         //2、创建一个Http请求对象并设置请求的URL，比如GET请求就创建一个HttpGet对象，POST请求就创建一个HttpPost对象;
         HttpRequestBase request = requestMethod.createRequest(url);
         request.setConfig(requestConfig);
-        logger.info("发送Http请求方法：" + request.getMethod());
+        log.info("发送Http请求方法：" + request.getMethod());
         //3、如果需要可以设置请求对象的请求头参数，也可以往请求对象中添加请求参数;
 
         if (header != null) {
             for (Map.Entry<String, String> entry : header.entrySet()) {
-                logger.info(entry.getKey() + "      :    " + entry.getValue());
+                log.info(entry.getKey() + "      :    " + entry.getValue());
                 request.setHeader(entry.getKey(), entry.getValue());
             }
         }
@@ -384,15 +383,15 @@ public class HttpUtil {
 //			request.removeHeader(request.getFirstHeader("Content-Length"));
             //4、调用HttpClient对象的execute方法执行请求;
             httpResponse = httpClient.execute(request);
-            logger.info("响应内容:====================");
-//			logger.info(httpResponse);
+            log.info("响应内容:====================");
+//			log.info(httpResponse);
             //5、获取请求响应对象和响应Entity;
             HttpEntity httpEntity = httpResponse.getEntity();
-            logger.info("响应状态：" + httpResponse.getStatusLine());
+            log.info("响应状态：" + httpResponse.getStatusLine());
             //6、从响应对象中获取响应状态，从响应Entity中获取响应内容;
             if (httpEntity != null) {
                 responseContent = EntityUtils.toString(httpEntity, "UTF-8");
-                logger.info("响应内容：" + responseContent);
+                log.info("响应内容：" + responseContent);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -411,7 +410,7 @@ public class HttpUtil {
             }
         }
         long endTime = new Date().getTime();
-        logger.info("该接口响应时间:   " + (endTime - beginTime));
+        log.info("该接口响应时间:   " + (endTime - beginTime));
         return responseContent;
     }
 
@@ -489,7 +488,7 @@ public class HttpUtil {
                 fullUrl.append(apiUrl);
             }
 
-            logger.info(">>>> 实际请求Url: " + fullUrl.toString());
+            log.info(">>>> 实际请求Url: " + fullUrl.toString());
 
             // 建立连接
             URL url = new URL(fullUrl.toString());
@@ -523,7 +522,7 @@ public class HttpUtil {
                 http_RespContent = getErrorResponseContent(httpURLConnection);
                 String msg =
                         MessageFormat.format("请求失败: Http状态码 = {0} , {1}", http_StatusCode, http_RespMessage);
-                logger.info(msg);
+                log.info(msg);
             }
         } catch (UnknownHostException e) {
             String message = MessageFormat.format("网络请求时发生异常: {0}", e.getMessage());
@@ -607,7 +606,7 @@ public class HttpUtil {
                 http_RespContent = getErrorResponseContent(httpURLConnection);
                 String msg =
                         MessageFormat.format("请求失败: Http状态码 = {0} , {1}", http_StatusCode, http_RespMessage);
-                logger.info(msg);
+                log.info(msg);
             }
         } finally {
             if (null != httpURLConnection) {

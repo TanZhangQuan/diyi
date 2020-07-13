@@ -19,8 +19,7 @@ import com.lgyun.system.user.oss.AliyunOssService;
 import com.lgyun.system.user.service.IMakerService;
 import com.lgyun.system.user.vo.IdcardOcrVO;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import sun.misc.BASE64Decoder;
@@ -34,10 +33,10 @@ import java.util.Date;
  * @author liangfeihu
  * @since 2020-06-26 17:21:06
  */
+@Slf4j
 @Service
 @AllArgsConstructor
 public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> implements IMakerService {
-    private static Logger logger = LoggerFactory.getLogger(MakerServiceImpl.class);
 
     private AliyunOssService ossService;
 
@@ -133,7 +132,7 @@ public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> impl
             // 业务逻辑处理 ****************************
             //回调参数转json
             JSONObject jsonObject = JSONObject.parseObject(rbody);
-            logger.info("刷脸实名认证异步通知回调参数", jsonObject);
+            log.info("刷脸实名认证异步通知回调参数", jsonObject);
             boolean boolSuccess = jsonObject.getBooleanValue("success");
             if (!boolSuccess) {
                 return R.fail("刷脸实名认证失败");
@@ -142,7 +141,7 @@ public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> impl
             Long makerId = jsonObject.getLong("contextId");
             MakerEntity makerEntity = getById(makerId);
             if (makerEntity == null) {
-                logger.info("创客不存在");
+                log.info("创客不存在");
                 return R.fail("刷脸实名认证回调处理失败");
             }
 
@@ -175,7 +174,7 @@ public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> impl
             return R.success("刷脸实名认证成功");
 
         } catch (Exception e) {
-            logger.error("刷脸实名认证异步回调处理异常", e);
+            log.error("刷脸实名认证异步回调处理异常", e);
         }
 
         return R.fail("刷脸实名认证回调处理失败");
@@ -229,7 +228,7 @@ public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> impl
             // 业务逻辑处理 ****************************
             //回调参数转json
             JSONObject jsonObject = JSONObject.parseObject(rbody);
-            logger.info("银行卡实名认证异步通知回调参数", jsonObject);
+            log.info("银行卡实名认证异步通知回调参数", jsonObject);
             boolean boolSuccess = jsonObject.getBooleanValue("success");
             if (!boolSuccess) {
                 return R.fail("银行卡实名认证失败");
@@ -238,7 +237,7 @@ public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> impl
             Long makerId = jsonObject.getLong("contextId");
             MakerEntity makerEntity = getById(makerId);
             if (makerEntity == null) {
-                logger.info("创客不存在");
+                log.info("创客不存在");
                 return R.fail("银行卡实名认证回调处理失败");
             }
 
@@ -266,7 +265,7 @@ public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> impl
             return R.success("银行卡实名认证成功");
 
         } catch (Exception e) {
-            logger.error("银行卡实名认证异步回调处理异常", e);
+            log.error("银行卡实名认证异步回调处理异常", e);
         }
 
         return R.fail("银行卡实名认证回调处理失败");
@@ -309,7 +308,7 @@ public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> impl
             // 业务逻辑处理 ****************************
             //回调参数转json
             JSONObject jsonObject = JSONObject.parseObject(rbody);
-            logger.info("手机号实名认证异步通知回调参数", jsonObject);
+            log.info("手机号实名认证异步通知回调参数", jsonObject);
             boolean boolSuccess = jsonObject.getBooleanValue("success");
             if (!boolSuccess) {
                 return R.fail("手机号实名认证失败");
@@ -318,7 +317,7 @@ public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> impl
             Long makerId = jsonObject.getLong("contextId");
             MakerEntity makerEntity = getById(makerId);
             if (makerEntity == null) {
-                logger.info("创客不存在");
+                log.info("创客不存在");
                 return R.fail("手机号实名认证回调处理失败");
             }
 
@@ -334,7 +333,7 @@ public class MakerServiceImpl extends ServiceImpl<MakerMapper, MakerEntity> impl
             return R.success("手机号实名认证成功");
 
         } catch (Exception e) {
-            logger.error("手机号实名认证异步回调处理异常", e);
+            log.error("手机号实名认证异步回调处理异常", e);
         }
 
         return R.fail("手机号实名认证回调处理失败");

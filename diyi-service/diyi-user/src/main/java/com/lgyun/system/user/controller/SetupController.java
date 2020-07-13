@@ -13,8 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,13 +25,13 @@ import javax.validation.Valid;
  * @author liangfeihu
  * @since 2020-06-26 17:21:05
  */
+@Slf4j
 @RestController
 @RequestMapping("/setup")
 @Validated
 @AllArgsConstructor
 @Api(value = "特殊配置相关接口", tags = "特殊配置相关接口")
 public class SetupController {
-	private static Logger logger = LoggerFactory.getLogger(SetupController.class);
 
 	private ISetupService setupService;
 

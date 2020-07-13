@@ -13,8 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,13 +25,13 @@ import javax.validation.Valid;
  * @author liangfeihu
  * @since 2020-06-26 17:21:06
  */
+@Slf4j
 @RestController
 @RequestMapping("/runcompany")
 @Validated
 @AllArgsConstructor
 @Api(value = "平台运营公司（平台方）信息相关接口", tags = "平台运营公司（平台方）信息相关接口")
 public class RunCompanyController {
-	private static Logger logger = LoggerFactory.getLogger(RunCompanyController.class);
 
 	private IRunCompanyService runCompanyService;
 

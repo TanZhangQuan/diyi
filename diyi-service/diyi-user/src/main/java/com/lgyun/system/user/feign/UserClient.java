@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 
-import static com.lgyun.common.tool.StringUtil.randomUUID;
-
 /**
  * 用户服务Feign实现类
  *
@@ -36,8 +34,8 @@ public class UserClient implements IUserClient {
 
     @Override
     @GetMapping(API_PREFIX + "/user-info-by-id")
-    public UserInfo userInfo(Long userId) {
-        return service.userInfo(userId);
+    public UserInfo userInfo(Long userId, UserType userType) {
+        return service.userInfo(userId, userType);
     }
 
     /**
@@ -79,16 +77,13 @@ public class UserClient implements IUserClient {
         User user = new User();
         user.setUserType(UserType.MAKER);
         user.setAccount(purePhoneNumber);
-        user.setPassword(DigestUtil.encrypt(randomUUID()));
+        user.setPassword(DigestUtil.encrypt(CommonConstant.DEFAULT_PASSWORD));
         user.setName("用户");
         user.setRealName("用户");
         user.setEmail("user@bladex.vip");
         user.setPhone(purePhoneNumber);
         user.setBirthday(new Date());
         user.setSex(1);
-        user.setRoleId("1123598816738675202");
-        user.setDeptId("1123598813738675201");
-        user.setPostId("1123598817738675208");
         user.setCreateTime(new Date());
         user.setUpdateTime(new Date());
         user.setIsDeleted(0);
@@ -174,7 +169,7 @@ public class UserClient implements IUserClient {
                 break;
 
             default:
-                return null;
+                return R.fail("登陆方式有误");
         }
 
         return R.success("操作成功");

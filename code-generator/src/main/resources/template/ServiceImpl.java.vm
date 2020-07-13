@@ -15,9 +15,9 @@ import ${package}.${moduleName}.service.I${className}Service;
  * @author ${author}
  * @since ${datetime}
  */
+@Slf4j
 @Service
 @AllArgsConstructor
 public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${className}Entity> implements I${className}Service {
-    private static Logger logger = LoggerFactory.getLogger(${className}Controller.class);
 
 }

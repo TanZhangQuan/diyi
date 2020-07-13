@@ -35,10 +35,15 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
 
     @Override
     public boolean submit(User user) {
-        if (Func.isNotEmpty(user.getPassword())) {
+
+        if (UserType.MAKER.equals(user.getUserType())) {
+            throw new ApiException("用户类型不允许手动添加修改");
+        }
+
+        if (Func.isNoneBlank(user.getPassword())) {
             user.setPassword(DigestUtil.encrypt(user.getPassword()));
         }
-        Integer cnt = baseMapper.selectCount(Wrappers.<User>query().lambda().eq(User::getTenantId, user.getTenantId()).eq(User::getAccount, user.getAccount()));
+        Integer cnt = baseMapper.selectCount(Wrappers.<User>query().lambda().eq(User::getTenantId, user.getTenantId()).eq(User::getUserType, user.getUserType()).eq(User::getAccount, user.getAccount()));
         if (cnt > 0) {
             throw new ApiException("当前用户已存在!");
         }
@@ -51,17 +56,19 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
     }
 
     @Override
-    public UserInfo userInfo(Long userId) {
+    public UserInfo userInfo(Long userId, UserType userType) {
         User user = baseMapper.selectById(userId);
         if (user == null) {
             return null;
         }
         UserInfo userInfo = new UserInfo();
         userInfo.setUser(user);
-        if (Func.isNotEmpty(user)) {
+        //获取角色别名
+        if (!(UserType.MAKER.equals(userType))){
             List<String> roleAlias = baseMapper.getRoleAlias(Func.toStrArray(user.getRoleId()));
             userInfo.setRoles(roleAlias);
         }
+
         return userInfo;
     }
 
@@ -73,10 +80,12 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
         }
         UserInfo userInfo = new UserInfo();
         userInfo.setUser(user);
-        if (Func.isNotEmpty(user)) {
+        //获取角色别名
+        if (!(UserType.MAKER.equals(userType))){
             List<String> roleAlias = baseMapper.getRoleAlias(Func.toStrArray(user.getRoleId()));
             userInfo.setRoles(roleAlias);
         }
+
         return userInfo;
     }
 
@@ -88,7 +97,8 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
         }
         UserInfo userInfo = new UserInfo();
         userInfo.setUser(user);
-        if (Func.isNotEmpty(user)) {
+        //获取角色别名
+        if (!(UserType.MAKER.equals(userType))){
             List<String> roleAlias = baseMapper.getRoleAlias(Func.toStrArray(user.getRoleId()));
             userInfo.setRoles(roleAlias);
         }

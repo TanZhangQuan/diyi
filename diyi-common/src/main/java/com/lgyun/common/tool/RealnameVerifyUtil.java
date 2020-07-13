@@ -8,9 +8,8 @@ import com.lgyun.common.dto.ConfigParams;
 import com.lgyun.common.dto.ContextInfo;
 import com.lgyun.common.dto.IndivInfo;
 import com.lgyun.common.enumeration.HttpMethod;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -25,8 +24,8 @@ import java.util.*;
  * @author tzq
  * @since 2020/6/27 18:00
  */
+@Slf4j
 public class RealnameVerifyUtil {
-    private static Logger logger = LoggerFactory.getLogger(RealnameVerifyUtil.class);
 
     /***
      *
@@ -280,7 +279,7 @@ public class RealnameVerifyUtil {
                 break;
 
             default:
-                logger.info("请求方法不存在");
+                log.info("请求方法不存在");
                 return null;
         }
 
@@ -292,12 +291,12 @@ public class RealnameVerifyUtil {
         int code = resultJson.getInteger("code");
         if (code != 0) {
             String msg = resultJson.getString("message");
-            logger.error("实名认证失败：" + msg);
+            log.error("实名认证失败：" + msg);
             return null;
         }
 
         JSONObject data = resultJson.getJSONObject("data");
-        logger.info("请求返回信息： " + resultJson.toString());
+        log.info("请求返回信息： " + resultJson.toString());
 
         return data;
     }
@@ -313,13 +312,13 @@ public class RealnameVerifyUtil {
         //4、按照规则进行加密
         String signdata = timestamp + requestQuery + rbody;
         String mySignature = getSignature(signdata, appSecret, "HmacSHA256", "UTF-8");
-        logger.info("加密出来的签名值：----------->>>>>>" + mySignature);
-        logger.info("header里面的签名值：---------->>>>>>" + signture);
+        log.info("加密出来的签名值：----------->>>>>>" + mySignature);
+        log.info("header里面的签名值：---------->>>>>>" + signture);
         if (mySignature.equals(signture)) {
-            logger.info("校验通过");
+            log.info("校验通过");
             return true;
         } else {
-            logger.info("校验失败");
+            log.info("校验失败");
             return false;
         }
 
@@ -372,7 +371,7 @@ public class RealnameVerifyUtil {
             String value = request.getParameter(key);
             requestQuery += value == null ? "" : value;
         }
-        logger.info("获取的query请求字符串是：------》》》" + requestQuery);
+        log.info("获取的query请求字符串是：------》》》" + requestQuery);
         return requestQuery;
     }
 

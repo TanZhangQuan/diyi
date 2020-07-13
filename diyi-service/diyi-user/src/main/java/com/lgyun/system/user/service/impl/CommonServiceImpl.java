@@ -4,8 +4,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.system.user.oss.AliyunOssService;
 import com.lgyun.system.user.service.ICommonService;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,10 +14,10 @@ import org.springframework.web.multipart.MultipartFile;
  * @author liangfeihu
  * @since 2020-06-26 17:21:06
  */
+@Slf4j
 @Service
 @AllArgsConstructor
 public class CommonServiceImpl implements ICommonService {
-    private static Logger logger = LoggerFactory.getLogger(CommonServiceImpl.class);
 
     private AliyunOssService ossService;
 

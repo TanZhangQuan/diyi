@@ -6,8 +6,7 @@ import com.lgyun.system.user.service.IAgreementService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,13 +20,13 @@ import java.util.List;
  * @author liangfeihu
  * @since 2020-06-26 17:21:06
  */
+@Slf4j
 @RestController
 @RequestMapping("/agreement")
 @Validated
 @AllArgsConstructor
 @Api(value = "平台合同的信息相关接口", tags = "平台合同的信息相关接口")
 public class AgreementController {
-	private static Logger logger = LoggerFactory.getLogger(AgreementController.class);
 
 	private IAgreementService agreementService;
 

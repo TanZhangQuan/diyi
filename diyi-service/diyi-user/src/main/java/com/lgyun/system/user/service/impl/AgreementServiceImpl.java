@@ -5,8 +5,7 @@ import com.lgyun.system.user.entity.AgreementEntity;
 import com.lgyun.system.user.mapper.AgreementMapper;
 import com.lgyun.system.user.service.IAgreementService;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,10 +16,10 @@ import java.util.List;
  * @author liangfeihu
  * @since 2020-06-26 17:21:06
  */
+@Slf4j
 @Service
 @AllArgsConstructor
 public class AgreementServiceImpl extends ServiceImpl<AgreementMapper, AgreementEntity> implements IAgreementService {
-    private static Logger logger = LoggerFactory.getLogger(AgreementServiceImpl.class);
 
     @Override
     public List<AgreementEntity> makerIdFind(Long makerId) {

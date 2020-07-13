@@ -1,9 +1,9 @@
-package com.lgyun.auth.config;
+package com.lgyun.common.config;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lgyun.common.tool.RedisUtil;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -38,9 +38,9 @@ import java.time.Duration;
 @EnableCaching
 @Configuration
 @AutoConfigureBefore(RedisAutoConfiguration.class)
+@AllArgsConstructor
 public class RedisTemplateConfiguration {
 
-    @Autowired
     private RedisProperties redisProperties;
 
     /**

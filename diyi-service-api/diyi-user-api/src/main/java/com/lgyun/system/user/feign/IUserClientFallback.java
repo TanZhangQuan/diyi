@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 public class IUserClientFallback implements IUserClient {
 
     @Override
-    public UserInfo userInfo(Long userId) {
+    public UserInfo userInfo(Long userId, UserType userType) {
         return null;
     }
 
