@@ -1,8 +1,8 @@
 package com.lgyun.system.order.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.lgyun.common.api.R;
+import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.dto.AddressDto;
 import com.lgyun.system.order.entity.AddressEntity;
 
@@ -12,7 +12,7 @@ import com.lgyun.system.order.entity.AddressEntity;
  * @author jun
  * @since 2020-07-08 14:32:47
  */
-public interface IAddressService extends IService<AddressEntity> {
+public interface IAddressService extends BaseService<AddressEntity> {
     /**
      * 新增地址
      */

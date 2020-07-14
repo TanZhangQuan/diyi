@@ -43,6 +43,7 @@ public class RunCompanyServiceImpl extends ServiceImpl<RunCompanyMapper, RunComp
         runCompanyEntity.setPhoneNo(runCompanyDto.getPhoneNo());
         runCompanyEntity.setEmployeeName(runCompanyDto.getEmployeeName());
         runCompanyEntity.setBankName(runCompanyDto.getBankName());
+        runCompanyEntity.setContacterName(runCompanyDto.getContacterName());
         runCompanyEntity.setBankAccount(runCompanyDto.getBankAccount());
         runCompanyEntity.setCreateTime(new Date());
         runCompanyEntity.setUpdateTime(new Date());

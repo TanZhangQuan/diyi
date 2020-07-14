@@ -3,7 +3,7 @@ package com.lgyun.system.order.controller;
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.ReleaseWorksheetDTO;
+import com.lgyun.system.order.dto.ReleaseWorksheetDto;
 import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.user.service.IMakerService;
@@ -44,7 +44,7 @@ public class WorksheetController {
 	 */
 	@PostMapping("/releaseWorksheet")
 	@ApiOperation(value = "发布工单", notes = "发布工单")
-	public R releaseWorksheet(@Valid @RequestBody ReleaseWorksheetDTO releaseWorksheetDTO) {
+	public R releaseWorksheet(@Valid @RequestBody ReleaseWorksheetDto releaseWorksheetDTO) {
 		return worksheetService.releaseWorksheet(releaseWorksheetDTO);
 	}
 

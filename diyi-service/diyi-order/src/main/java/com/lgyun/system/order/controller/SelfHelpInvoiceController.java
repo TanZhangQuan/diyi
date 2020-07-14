@@ -3,20 +3,23 @@ package com.lgyun.system.order.controller;
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
+import com.lgyun.system.entity.Dict;
+import com.lgyun.system.feign.IDictClient;
 import com.lgyun.system.order.dto.AddressDto;
+import com.lgyun.system.order.dto.ConfirmPaymentDto;
+import com.lgyun.system.order.dto.SelfHelpInvoiceDto;
 import com.lgyun.system.order.dto.SelfHelpInvoicePersonDto;
-import com.lgyun.system.order.service.IAddressService;
-import com.lgyun.system.order.service.ISelfHelpInvoicePersonService;
+import com.lgyun.system.order.service.*;
 import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.service.IRunCompanyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import javax.validation.Valid;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 /**
  * 控制器
@@ -36,7 +39,15 @@ public class SelfHelpInvoiceController {
 
 	private ISelfHelpInvoicePersonService selfHelpInvoicePersonService;
 
+	private ISelfHelpInvoiceService selfHelpInvoiceService;
+
 	private IAddressService addressService;
+
+	private IDictClient iDictClient;
+
+	private ISelfHelpInvoiceAccountService selfHelpInvoiceAccountService;
+
+	private ISelfHelpInvoiceFeeService selfHelpInvoiceFeeService;
 
 	/**
 	 * 新建购买方
@@ -98,11 +109,51 @@ public class SelfHelpInvoiceController {
 	@GetMapping("/getInvoiceType")
 	@ApiOperation(value = "开票类目", notes = "开票类目")
 	public R getInvoiceType() {
-		return R.data("");
+		return iDictClient.getList("tax_category");
+	}
+
+	/**
+	 *开票类目-详情
+	 */
+	@GetMapping("/getInvoiceTypeDetails")
+	@ApiOperation(value = "开票类目-详情", notes = "开票类目-详情")
+	public R getInvoiceTypeDetails(Long parentId) {
+		return iDictClient.getParentList(parentId);
 	}
 
 	/**
 	 * 创客提交自助开票
 	 */
+	@PostMapping("/submitSelfHelpInvoice")
+	@ApiOperation(value = "创客提交自助开票", notes = "创客提交自助开票")
+	public R submitSelfHelpInvoice(@Valid @RequestBody SelfHelpInvoiceDto selfHelpInvoiceDto) {
+		return selfHelpInvoiceService.submitSelfHelpInvoice(selfHelpInvoiceDto);
+	}
 
+	/**
+	 * 查询开票详情
+	 */
+	@GetMapping("/getSelfHelpInvoiceDetails")
+	@ApiOperation(value = "查询开票详情", notes = "查询开票详情")
+	public R getSelfHelpInvoiceDetails(Long selfHelpInvoiceId) {
+		return selfHelpInvoiceService.getSelfHelpInvoiceDetails(selfHelpInvoiceId);
+	}
+
+	/**
+	 * 立即支付
+	 */
+	@GetMapping("/immediatePayment")
+	@ApiOperation(value = "立即支付", notes = "立即支付")
+	public R immediatePayment() {
+		return R.data(selfHelpInvoiceAccountService.immediatePayment());
+	}
+
+	/**
+	 * 确认支付
+	 */
+	@GetMapping("/confirmPayment")
+	@ApiOperation(value = "确认支付", notes = "确认支付")
+	public R confirmPayment(@Valid @RequestBody ConfirmPaymentDto confirmPaymentDto) {
+		return R.data(selfHelpInvoiceFeeService.confirmPayment(confirmPaymentDto));
+	}
 }

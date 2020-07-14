@@ -11,6 +11,9 @@ import com.lgyun.common.tool.StringUtil;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.entity.UserInfo;
+import com.lgyun.system.user.entity.*;
+import com.lgyun.system.user.service.IIndividualBusinessService;
+import com.lgyun.system.user.service.IIndividualEnterpriseService;
 import com.lgyun.system.user.service.IMakerService;
 import com.lgyun.system.user.service.IUserService;
 import lombok.AllArgsConstructor;
@@ -31,6 +34,8 @@ public class UserClient implements IUserClient {
 
     private IUserService service;
     private IMakerService iMakerService;
+    private IIndividualEnterpriseService iIndividualEnterpriseService;
+    private IIndividualBusinessService iIndividualBusinessService;
 
     @Override
     @GetMapping(API_PREFIX + "/user-info-by-id")
@@ -173,6 +178,16 @@ public class UserClient implements IUserClient {
         }
 
         return R.success("操作成功");
+    }
+
+    @Override
+    public IndividualEnterpriseEntity individualEnterpriseFindByMakerId(Long makerId) {
+        return iIndividualEnterpriseService.findMakerId(makerId);
+    }
+
+    @Override
+    public IndividualBusinessEntity individualBusinessByMakerId(Long makerId) {
+        return iIndividualBusinessService.findMakerId(makerId);
     }
 
 }

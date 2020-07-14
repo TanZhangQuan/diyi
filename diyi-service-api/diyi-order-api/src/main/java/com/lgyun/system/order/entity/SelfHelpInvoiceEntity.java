@@ -3,6 +3,7 @@ package com.lgyun.system.order.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.core.mp.base.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -29,128 +30,104 @@ public class SelfHelpInvoiceEntity extends BaseEntity {
     /**
      * 唯一性控制
      */
-        @ApiModelProperty(value = "主键")
+    @ApiModelProperty(value = "主键")
     @TableId(type = IdType.ASSIGN_ID)
     @JsonSerialize(using = ToStringSerializer.class)
-        private Long selfHelpInvoiceId;
+    private Long selfHelpInvoiceId;
 
     /**
      * 运营公司ID
      */
-        private Long companyId;
+    private Long companyId;
 
     /**
      * 创客支付ID
      */
-        private Long payId;
+    private Long payId;
 
     /**
      * 申请创客ID
      */
-        private Long applyMakerId;
+    private Long applyMakerId;
 
     /**
      * 申请商户ID
      */
-        private Long applyEnterpriseId;
+    private Long applyEnterpriseId;
 
     /**
      * 申请渠道ID
      */
-        private Long applyChannelId;
+    private Long applyChannelId;
 
     /**
      * 申请合伙人ID
      */
-        private Long applyPartnerId;
+    private Long applyPartnerId;
 
     /**
      * 平台用户ID
      */
-        private Long applyManagementId;
+    private Long applyManagementId;
 
     /**
      * 原自助开票ID
      */
-        private Long originalSelfHelpId;
+    private Long originalSelfHelpId;
 
     /**
      * 开票人身份类别 1，自然人；2，个体户；3，个独
      */
-        private String invoicePeopleType;
+    private String invoicePeopleType;
 
     /**
      * 开票清单文件
      */
-        private String listFile;
+    private String listFile;
 
     /**
      * 总价税合计额
      */
-        private BigDecimal chargeMoneyNum;
+    private BigDecimal chargeMoneyNum;
 
     /**
      * 服务税费率
      */
-        private BigDecimal serviceRate;
+    private BigDecimal serviceRate;
 
     /**
      * 总服务税费
      */
-        private BigDecimal serviceAndTaxMoney;
+    private BigDecimal serviceAndTaxMoney;
 
     /**
      * 总服务费
      */
-        private BigDecimal serviceFee;
+    private BigDecimal serviceFee;
 
     /**
      * 总税
      */
-        private BigDecimal serviceTax;
+    private BigDecimal serviceTax;
 
     /**
      * 总开票手续费
      */
-        private BigDecimal serviceInvoiceFee;
+    private BigDecimal serviceInvoiceFee;
 
     /**
      * 总身份验证费
      */
-        private BigDecimal idendityConfirmFee;
+    private BigDecimal idendityConfirmFee;
 
     /**
      * 收件地址Id
      */
-        private Long addressId;
+    private Long addressId;
 
     /**
-     * 创建人
+     * 1.未审核，2审核通过，3不通过
      */
-        private Long createUser;
+    private InvoiceState invoiceState;
 
-    /**
-     * 创建时间
-     */
-        private Date createTime;
-
-    /**
-     * 更新人
-     */
-        private Long updateUser;
-
-    /**
-     * 更新时间
-     */
-        private Date updateTime;
-
-    /**
-     * 状态[1:正常]
-     */
-        private Integer status;
-
-    /**
-     * 状态[0:未删除,1:删除]
-     */
-        private Integer isDeleted;
-    }
+}

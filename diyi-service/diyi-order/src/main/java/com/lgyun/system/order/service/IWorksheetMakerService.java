@@ -2,6 +2,7 @@ package com.lgyun.system.order.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lgyun.common.api.R;
+import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.entity.WorksheetMakerEntity;
 
 import java.math.BigDecimal;
@@ -12,7 +13,7 @@ import java.math.BigDecimal;
  * @author jun
  * @since 2020-07-07 14:40:21
  */
-public interface IWorksheetMakerService extends IService<WorksheetMakerEntity> {
+public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity> {
 
     /**
      * 根据工单id查询抢单条数

@@ -34,4 +34,9 @@ public class DictClient implements IDictClient {
 		return R.data(service.getList(code));
 	}
 
+	@Override
+	public R<List<Dict>> getParentList(Long parentId) {
+		return R.data(service.getParentList(parentId));
+	}
+
 }

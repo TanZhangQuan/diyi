@@ -45,4 +45,8 @@ public class RunCompanyDto implements Serializable {
      * 银行账户
      */
     private String bankAccount;
+    /**
+     * 联系人
+     */
+    private String contacterName;
 }
