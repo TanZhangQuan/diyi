@@ -62,4 +62,9 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements ID
 		return saveOrUpdate(dict);
 	}
 
+	@Override
+	public List<Dict> getParentList(Long parentId) {
+		return baseMapper.getParentList(parentId);
+	}
+
 }

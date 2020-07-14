@@ -1,11 +1,11 @@
 package com.lgyun.system.order.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.StringUtil;
-import com.lgyun.system.order.dto.ReleaseWorksheetDTO;
+import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.system.order.dto.ReleaseWorksheetDto;
 import com.lgyun.system.order.entity.WorksheetEntity;
 import com.lgyun.system.order.entity.WorksheetMakerEntity;
 import com.lgyun.system.order.mapper.WorksheetMapper;
@@ -33,7 +33,7 @@ import java.util.UUID;
  */
 @Service
 @AllArgsConstructor
-public class WorksheetServiceImpl extends ServiceImpl<WorksheetMapper, WorksheetEntity> implements IWorksheetService {
+public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, WorksheetEntity> implements IWorksheetService {
 
     private IWorksheetMakerService worksheetMakerService;
     private IMakerService makerService;
@@ -42,7 +42,7 @@ public class WorksheetServiceImpl extends ServiceImpl<WorksheetMapper, Worksheet
 
     @Override
     @Transactional
-    public R releaseWorksheet(ReleaseWorksheetDTO releaseWorksheetDTO) {
+    public R releaseWorksheet(ReleaseWorksheetDto releaseWorksheetDTO) {
         WorksheetEntity worksheetEntity = new WorksheetEntity();
         if(StringUtil.isBlank(releaseWorksheetDTO.getWorksheetName())){
             return R.fail("工单名称不能为空");
@@ -70,12 +70,6 @@ public class WorksheetServiceImpl extends ServiceImpl<WorksheetMapper, Worksheet
         worksheetEntity.setPublishDate(new Date());
         worksheetEntity.setMakerType(releaseWorksheetDTO.getMakerType());
         worksheetEntity.setWorksheetState(WorksheetState.PUBLISHING);
-        worksheetEntity.setUpdateUser(0L);
-        worksheetEntity.setCreateTime(new Date());
-        worksheetEntity.setStatus(1);
-        worksheetEntity.setIsDeleted(0);
-        worksheetEntity.setUpdateTime(new Date());
-        worksheetEntity.setCreateUser(releaseWorksheetDTO.getEnterpriseId());
         save(worksheetEntity);
 
         if(WorkSheetMode.BLEND.equals(releaseWorksheetDTO.getWorksheetMode()) || WorkSheetMode.DISPATCH.equals(releaseWorksheetDTO.getWorksheetMode())){
@@ -89,12 +83,6 @@ public class WorksheetServiceImpl extends ServiceImpl<WorksheetMapper, Worksheet
                 worksheetMakerEntity.setGetOrderDate(new Date());
                 worksheetMakerEntity.setArrangePerson("xitong");
                 worksheetMakerEntity.setArrangeDate(new Date());
-                worksheetMakerEntity.setUpdateUser(0L);
-                worksheetMakerEntity.setCreateTime(new Date());
-                worksheetMakerEntity.setStatus(1);
-                worksheetMakerEntity.setIsDeleted(0);
-                worksheetMakerEntity.setUpdateTime(new Date());
-                worksheetMakerEntity.setCreateUser(worksheetEntity.getEnterpriseId());
                 worksheetMakerEntity.setWorksheetMakerState(WorksheetMakerState.SUBMITTED);
                 worksheetMakerService.save(worksheetMakerEntity);
             }
@@ -157,12 +145,6 @@ public class WorksheetServiceImpl extends ServiceImpl<WorksheetMapper, Worksheet
         worksheetMakerEntity.setMakerName(makerEntity.getName());
         worksheetMakerEntity.setArrangePerson("qiangdan");
         worksheetMakerEntity.setArrangeDate(new Date());
-        worksheetMakerEntity.setUpdateUser(0L);
-        worksheetMakerEntity.setCreateTime(new Date());
-        worksheetMakerEntity.setStatus(1);
-        worksheetMakerEntity.setIsDeleted(0);
-        worksheetMakerEntity.setUpdateTime(new Date());
-        worksheetMakerEntity.setCreateUser(worksheetEntity.getEnterpriseId());
         worksheetMakerEntity.setWorksheetMakerState(WorksheetMakerState.SUBMITTED);
         worksheetMakerService.save(worksheetMakerEntity);
         return R.success("抢单成功");

@@ -5,13 +5,13 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.core.mp.base.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * Entity
@@ -124,32 +124,8 @@ public class SelfHelpInvoiceEntity extends BaseEntity {
     private Long addressId;
 
     /**
-     * 创建人
+     * 1.未审核，2审核通过，3不通过
      */
-    private Long createUser;
+    private InvoiceState invoiceState;
 
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 更新人
-     */
-    private Long updateUser;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-
-    /**
-     * 状态[1:正常]
-     */
-    private Integer status;
-
-    /**
-     * 状态[0:未删除,1:删除]
-     */
-    private Integer isDeleted;
 }

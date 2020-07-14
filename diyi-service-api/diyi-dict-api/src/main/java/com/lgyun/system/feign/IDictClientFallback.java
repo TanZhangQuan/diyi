@@ -23,4 +23,9 @@ public class IDictClientFallback implements IDictClient {
 	public R<List<Dict>> getList(String code) {
 		return R.fail("获取数据失败");
 	}
+
+	@Override
+	public R<List<Dict>> getParentList(Long parentId) {
+		return R.fail("获取数据失败");
+	}
 }

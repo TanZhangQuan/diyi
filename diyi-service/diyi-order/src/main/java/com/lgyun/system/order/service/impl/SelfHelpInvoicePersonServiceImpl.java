@@ -1,8 +1,8 @@
 package com.lgyun.system.order.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lgyun.common.api.R;
+import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.dto.SelfHelpInvoicePersonDto;
 import com.lgyun.system.order.entity.SelfHelpInvoicePersonEntity;
 import com.lgyun.system.order.mapper.SelfHelpInvoicePersonMapper;
@@ -10,8 +10,6 @@ import com.lgyun.system.order.service.ISelfHelpInvoicePersonService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
 
 /**
  *  Service 实现
@@ -21,7 +19,7 @@ import java.util.Date;
  */
 @Service
 @AllArgsConstructor
-public class SelfHelpInvoicePersonServiceImpl extends ServiceImpl<SelfHelpInvoicePersonMapper, SelfHelpInvoicePersonEntity> implements ISelfHelpInvoicePersonService {
+public class SelfHelpInvoicePersonServiceImpl extends BaseServiceImpl<SelfHelpInvoicePersonMapper, SelfHelpInvoicePersonEntity> implements ISelfHelpInvoicePersonService {
 
     @Override
     public R<IPage<SelfHelpInvoicePersonEntity>> findPersonMakerId(IPage<SelfHelpInvoicePersonEntity> page, Long makerId) {
@@ -33,12 +31,6 @@ public class SelfHelpInvoicePersonServiceImpl extends ServiceImpl<SelfHelpInvoic
         SelfHelpInvoicePersonEntity personEntity = new SelfHelpInvoicePersonEntity();
         BeanUtils.copyProperties(selfHelpInvoicePersonDto, personEntity);
         personEntity.setMakerId(makerId);
-        personEntity.setCreateTime(new Date());
-        personEntity.setCreateUser(makerId);
-        personEntity.setUpdateTime(new Date());
-        personEntity.setUpdateUser(makerId);
-        personEntity.setIsDeleted(0);
-        personEntity.setStatus(1);
         save(personEntity);
         return R.success("成功");
     }

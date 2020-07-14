@@ -12,8 +12,10 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum PaymentType {
-    ONLINE("ONLINE", "在线支付"),
-    OFFLINE("OFFLINE", "线下支付");
+    WECHATPAYMENT("WECHATPAYMENT", "微信支付"),
+    ALIPAYPAYMENT("ALIPAYPAYMENT", "支付宝支付"),
+    BANKCARDPAYMENT("BANKCARDPAYMENT", "银行卡支付"),
+    CASHPAYMENT("CASHPAYMENT", "现金支付");
 
     private final String value;
     private final String desc;

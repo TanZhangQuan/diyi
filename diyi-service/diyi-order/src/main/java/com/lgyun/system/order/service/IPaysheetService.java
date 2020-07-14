@@ -1,7 +1,7 @@
 package com.lgyun.system.order.service;
 
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.entity.PaysheetEntity;
 
 /**
@@ -10,7 +10,7 @@ import com.lgyun.system.order.entity.PaysheetEntity;
  * @author liangfeihu
  * @since 2020-07-06 14:14:06
  */
-public interface IPaysheetService extends IService<PaysheetEntity> {
+public interface IPaysheetService extends BaseService<PaysheetEntity> {
 
 }
 

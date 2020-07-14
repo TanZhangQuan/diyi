@@ -47,4 +47,12 @@ public interface DictMapper extends BaseMapper<Dict> {
 	 */
 	List<DictVO> tree();
 
+	/**
+	 * 获取字典表
+	 *
+	 * @param parentId
+	 * @return
+	 */
+	List<Dict> getParentList(Long parentId);
+
 }

@@ -42,4 +42,14 @@ public interface IDictClient {
     @GetMapping(API_PREFIX + "/getList")
     R<List<Dict>> getList(@RequestParam("code") String code);
 
+
+    /**
+     * 获取字典表
+     *
+     * @param parentId
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/getParentList")
+    R<List<Dict>> getParentList(@RequestParam("parentId") Long parentId);
+
 }

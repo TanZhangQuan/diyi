@@ -1,7 +1,9 @@
 package com.lgyun.system.order.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.lgyun.common.api.R;
+import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.entity.SelfHelpInvoiceAccountEntity;
+import com.lgyun.system.order.vo.SelfHelpInvoiceAccountVO;
 
 /**
  *  Service 接口
@@ -9,7 +11,10 @@ import com.lgyun.system.order.entity.SelfHelpInvoiceAccountEntity;
  * @author jun
  * @since 2020-07-08 14:32:47
  */
-public interface ISelfHelpInvoiceAccountService extends IService<SelfHelpInvoiceAccountEntity> {
-
+public interface ISelfHelpInvoiceAccountService extends BaseService<SelfHelpInvoiceAccountEntity> {
+    /**
+     * 立即支付
+     */
+    SelfHelpInvoiceAccountVO immediatePayment();
 }
 

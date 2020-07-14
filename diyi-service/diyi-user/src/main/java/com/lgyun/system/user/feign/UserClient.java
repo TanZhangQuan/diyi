@@ -8,6 +8,9 @@ import com.lgyun.common.tool.StringUtil;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.entity.UserInfo;
+import com.lgyun.system.user.entity.*;
+import com.lgyun.system.user.service.IIndividualBusinessService;
+import com.lgyun.system.user.service.IIndividualEnterpriseService;
 import com.lgyun.system.user.service.IMakerService;
 import com.lgyun.system.user.service.IUserService;
 import lombok.AllArgsConstructor;
@@ -28,6 +31,8 @@ public class UserClient implements IUserClient {
 
     private IUserService service;
     private IMakerService iMakerService;
+    private IIndividualEnterpriseService iIndividualEnterpriseService;
+    private IIndividualBusinessService iIndividualBusinessService;
 
     @Override
     @GetMapping(API_PREFIX + "/user-info-by-id")
@@ -81,10 +86,6 @@ public class UserClient implements IUserClient {
         user.setPhone(purePhoneNumber);
         user.setBirthday(new Date());
         user.setSex(1);
-        user.setCreateTime(new Date());
-        user.setUpdateTime(new Date());
-        user.setIsDeleted(0);
-        user.setStatus(1);
         service.save(user);
 
         //新建创客
@@ -105,10 +106,6 @@ public class UserClient implements IUserClient {
         makerEntity.setPhoneNumberVerifyStatus(VerifyStatus.TOVERIFY);
         makerEntity.setBankCardVerifyStatus(VerifyStatus.TOVERIFY);
         makerEntity.setVideoAudit(VideoAudit.TOAUDIT);
-        makerEntity.setCreateTime(new Date());
-        makerEntity.setUpdateTime(new Date());
-        makerEntity.setIsDeleted(0);
-        makerEntity.setStatus(1);
         iMakerService.save(makerEntity);
     }
 
@@ -116,7 +113,6 @@ public class UserClient implements IUserClient {
         //更新微信信息
         makerEntity.setOpenid(openid);
         makerEntity.setSessionKey(sessionKey);
-        makerEntity.setUpdateTime(new Date());
         iMakerService.updateById(makerEntity);
     }
 
@@ -171,6 +167,16 @@ public class UserClient implements IUserClient {
         }
 
         return R.success("操作成功");
+    }
+
+    @Override
+    public IndividualEnterpriseEntity individualEnterpriseFindByMakerId(Long makerId) {
+        return iIndividualEnterpriseService.findMakerId(makerId);
+    }
+
+    @Override
+    public IndividualBusinessEntity individualBusinessByMakerId(Long makerId) {
+        return iIndividualBusinessService.findMakerId(makerId);
     }
 
 }

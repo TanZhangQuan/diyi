@@ -3,16 +3,14 @@ package com.lgyun.system.order.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.lgyun.core.mp.base.BaseEntity;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.core.mp.base.BaseEntity;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.io.Serializable;
-import java.util.Date;
 
 /**
  *  Entity
@@ -99,33 +97,20 @@ public class SelfHelpInvoiceDetailEntity extends BaseEntity {
      */
         private BigDecimal idendityConfirmFee;
 
-    /**
-     * 创建人
-     */
-        private Long createUser;
 
-    /**
-     * 创建时间
-     */
-        private Date createTime;
-
-    /**
-     * 更新人
-     */
-        private Long updateUser;
-
-    /**
-     * 更新时间
-     */
-        private Date updateTime;
-
-    /**
-     * 状态[1:正常]
-     */
-        private Integer status;
-
-    /**
-     * 状态[0:未删除,1:删除]
-     */
-        private Integer isDeleted;
+    public SelfHelpInvoiceDetailEntity(Long selfHelpInvoiceId, String invoicePeopleName, Long makerId, Long noneMakerInvoicePersonId, String bizName, String socialCreditNo, String invoiceType, BigDecimal chargeMoneyNum, String flowContractUrl, String businessContractUrl, String accountBalanceUrl, BigDecimal serviceInvoiceFee, BigDecimal idendityConfirmFee) {
+        this.selfHelpInvoiceId = selfHelpInvoiceId;
+        this.invoicePeopleName = invoicePeopleName;
+        this.makerId = makerId;
+        this.noneMakerInvoicePersonId = noneMakerInvoicePersonId;
+        this.bizName = bizName;
+        this.socialCreditNo = socialCreditNo;
+        this.invoiceType = invoiceType;
+        this.chargeMoneyNum = chargeMoneyNum;
+        this.flowContractUrl = flowContractUrl;
+        this.businessContractUrl = businessContractUrl;
+        this.accountBalanceUrl = accountBalanceUrl;
+        this.serviceInvoiceFee = serviceInvoiceFee;
+        this.idendityConfirmFee = idendityConfirmFee;
     }
+}

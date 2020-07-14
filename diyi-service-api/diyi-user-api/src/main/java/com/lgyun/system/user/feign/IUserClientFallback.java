@@ -3,9 +3,7 @@ package com.lgyun.system.user.feign;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
-import com.lgyun.system.user.entity.MakerEntity;
-import com.lgyun.system.user.entity.User;
-import com.lgyun.system.user.entity.UserInfo;
+import com.lgyun.system.user.entity.*;
 import org.springframework.stereotype.Component;
 
 /**
@@ -50,6 +48,16 @@ public class IUserClientFallback implements IUserClient {
     @Override
     public R makerSaveOrUpdate(String openid, String sessionKey, String phoneNumber, String loginPwd, GrantType grantType) {
         return R.fail("未获取到账号信息");
+    }
+
+    @Override
+    public IndividualEnterpriseEntity individualEnterpriseFindByMakerId(Long makerId) {
+        return null;
+    }
+
+    @Override
+    public IndividualBusinessEntity individualBusinessByMakerId(Long makerId) {
+        return null;
     }
 
 }

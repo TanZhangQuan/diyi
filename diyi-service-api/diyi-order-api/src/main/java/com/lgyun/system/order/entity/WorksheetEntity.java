@@ -132,4 +132,15 @@ e) 已作废，验收中工单都可以作废，已完毕的不能作废
      */
         private Date finishDate;
 
+    /**
+     * 说明
+     */
+    private String worksheetMemo;
+
+
+    /**
+     * 图文说明
+     */
+    private String worksheetDescFiles;
+
     }

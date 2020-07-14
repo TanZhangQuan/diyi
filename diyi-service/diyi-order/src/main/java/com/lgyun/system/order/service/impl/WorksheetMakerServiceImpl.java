@@ -1,8 +1,8 @@
 package com.lgyun.system.order.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.WorksheetMakerState;
+import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.WorksheetMakerEntity;
 import com.lgyun.system.order.mapper.WorksheetMakerMapper;
 import com.lgyun.system.order.service.IWorksheetMakerService;
@@ -22,7 +22,7 @@ import java.util.Date;
  */
 @Service
 @AllArgsConstructor
-public class WorksheetMakerServiceImpl extends ServiceImpl<WorksheetMakerMapper, WorksheetMakerEntity> implements IWorksheetMakerService {
+public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMapper, WorksheetMakerEntity> implements IWorksheetMakerService {
 
     private IEnterpriseService enterpriseService;
 

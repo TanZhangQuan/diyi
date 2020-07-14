@@ -1,6 +1,7 @@
 package com.lgyun.system.order.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.entity.SelfHelpInvoiceDetailEntity;
 
 /**
@@ -9,7 +10,7 @@ import com.lgyun.system.order.entity.SelfHelpInvoiceDetailEntity;
  * @author jun
  * @since 2020-07-08 14:32:47
  */
-public interface ISelfHelpInvoiceDetailService extends IService<SelfHelpInvoiceDetailEntity> {
+public interface ISelfHelpInvoiceDetailService extends BaseService<SelfHelpInvoiceDetailEntity> {
 
 }
 

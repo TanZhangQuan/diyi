@@ -1,6 +1,8 @@
 package com.lgyun.system.order.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lgyun.common.api.R;
+import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.system.order.dto.ConfirmPaymentDto;
 import com.lgyun.system.order.entity.SelfHelpInvoiceFeeEntity;
 import com.lgyun.system.order.mapper.SelfHelpInvoiceFeeMapper;
 import com.lgyun.system.order.service.ISelfHelpInvoiceFeeService;
@@ -15,6 +17,21 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @AllArgsConstructor
-public class SelfHelpInvoiceFeeServiceImpl extends ServiceImpl<SelfHelpInvoiceFeeMapper, SelfHelpInvoiceFeeEntity> implements ISelfHelpInvoiceFeeService {
+public class SelfHelpInvoiceFeeServiceImpl extends BaseServiceImpl<SelfHelpInvoiceFeeMapper, SelfHelpInvoiceFeeEntity> implements ISelfHelpInvoiceFeeService {
 
+    @Override
+    public R confirmPayment(ConfirmPaymentDto confirmPaymentDto) {
+        if(null == confirmPaymentDto.getHandPayId()){
+            R.fail("参数错误");
+        }
+        SelfHelpInvoiceFeeEntity selfHelpInvoiceFeeEntity = getById(confirmPaymentDto.getHandPayId());
+        if(null == selfHelpInvoiceFeeEntity){
+            R.fail("没有此订单");
+        }
+        selfHelpInvoiceFeeEntity.setPayDesc(confirmPaymentDto.getPayDesc());
+        selfHelpInvoiceFeeEntity.setPayCertificate(confirmPaymentDto.getPayCertificate());
+        selfHelpInvoiceFeeEntity.setPayType(confirmPaymentDto.getPaymentType().getValue());
+        saveOrUpdate(selfHelpInvoiceFeeEntity);
+        return R.success("确认支付成功");
+    }
 }

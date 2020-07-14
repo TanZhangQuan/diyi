@@ -54,4 +54,13 @@ public interface IDictService extends IService<Dict> {
 	 */
 	boolean submit(Dict dict);
 
+
+	/**
+	 * 获取字典表
+	 *
+	 * @param parentId
+	 * @return
+	 */
+	List<Dict> getParentList(Long parentId);
+
 }

@@ -1,6 +1,6 @@
 package com.lgyun.system.order.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.PaysheetEntity;
 import com.lgyun.system.order.mapper.PaysheetMapper;
 import com.lgyun.system.order.service.IPaysheetService;
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @AllArgsConstructor
-public class PaysheetServiceImpl extends ServiceImpl<PaysheetMapper, PaysheetEntity> implements IPaysheetService {
+public class PaysheetServiceImpl extends BaseServiceImpl<PaysheetMapper, PaysheetEntity> implements IPaysheetService {
 
 }
