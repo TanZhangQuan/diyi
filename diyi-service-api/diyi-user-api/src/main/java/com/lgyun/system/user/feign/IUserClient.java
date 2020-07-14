@@ -1,7 +1,9 @@
 package com.lgyun.system.user.feign;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
+import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
@@ -101,4 +103,22 @@ public interface IUserClient {
 	 */
 	@GetMapping(API_PREFIX + "/individualBusiness/find_by_maker_id")
 	IndividualBusinessEntity individualBusinessByMakerId(@RequestParam("makerId") Long makerId);
+
+    /**
+     *根据创客Id
+     */
+    @GetMapping(API_PREFIX + "/runCompany/find_by_maker_id")
+    R<IPage<RunCompanyEntity>> findRunCompanyMakerId(IPage<RunCompanyEntity> page, Long makerId);
+
+
+    /**
+     * 新增平台运营公司（平台方）信息ID
+     */
+    R runCompanySave(RunCompanyDto runCompanyDto, Long makerId);
+
+    /**
+     * 根据姓名分页
+     * @return
+     */
+    R<IPage<MakerEntity>> findMakerNamePage(IPage<MakerEntity> page, String name);
 }

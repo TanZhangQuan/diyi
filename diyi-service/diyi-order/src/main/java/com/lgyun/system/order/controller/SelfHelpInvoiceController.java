@@ -1,6 +1,8 @@
 package com.lgyun.system.order.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.lgyun.common.api.R;
+import com.lgyun.common.tool.RealnameVerifyUtil;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.feign.IDictClient;
@@ -10,6 +12,7 @@ import com.lgyun.system.order.dto.SelfHelpInvoiceDto;
 import com.lgyun.system.order.dto.SelfHelpInvoicePersonDto;
 import com.lgyun.system.order.service.*;
 import com.lgyun.system.user.dto.RunCompanyDto;
+import com.lgyun.system.user.feign.IUserClient;
 import com.lgyun.system.user.service.IRunCompanyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,8 +37,6 @@ import javax.validation.Valid;
 @Api(value = "自助开票相关接口", tags = "自助开票相关接口")
 public class SelfHelpInvoiceController {
 
-	private IRunCompanyService runCompanyService;
-
 	private ISelfHelpInvoicePersonService selfHelpInvoicePersonService;
 
 	private ISelfHelpInvoiceService selfHelpInvoiceService;
@@ -43,6 +44,8 @@ public class SelfHelpInvoiceController {
 	private IAddressService addressService;
 
 	private IDictClient iDictClient;
+
+	private IUserClient iUserClient;
 
 	private ISelfHelpInvoiceAccountService selfHelpInvoiceAccountService;
 
@@ -54,7 +57,7 @@ public class SelfHelpInvoiceController {
 	@PostMapping("/runCompanySave")
 	@ApiOperation(value = "新建购买方", notes = "新建购买方")
 	public R runCompanySave(@Valid @RequestBody RunCompanyDto runCompanyDto,Long makerId) {
-		return runCompanyService.runCompanySave(runCompanyDto,makerId);
+		return iUserClient.runCompanySave(runCompanyDto,makerId);
 	}
 
 	/**
@@ -63,7 +66,7 @@ public class SelfHelpInvoiceController {
 	@GetMapping("/findMakerId")
 	@ApiOperation(value = "查询购买方", notes = "查询购买方")
 	public R findMakerId(Query query,Long makerId) {
-		return runCompanyService.findMakerId(Condition.getPage(query),makerId);
+		return iUserClient.findRunCompanyMakerId(Condition.getPage(query),makerId);
 	}
 
 	/**
@@ -154,5 +157,20 @@ public class SelfHelpInvoiceController {
 	@ApiOperation(value = "确认支付", notes = "确认支付")
 	public R confirmPayment(@Valid @RequestBody ConfirmPaymentDto confirmPaymentDto) {
 		return R.data(selfHelpInvoiceFeeService.confirmPayment(confirmPaymentDto));
+	}
+
+	/**
+	 * 识别身份证
+	 */
+	@GetMapping("/identificationCard")
+	@ApiOperation(value = "识别身份证", notes = "识别身份证")
+	public R identificationCard(String infoImg){
+		JSONObject jsonObject = null;
+		try{
+			jsonObject = RealnameVerifyUtil.idCardOCR(infoImg);
+		}catch (Exception e){
+			return R.fail("识别失败");
+		}
+		return R.data(jsonObject);
 	}
 }
