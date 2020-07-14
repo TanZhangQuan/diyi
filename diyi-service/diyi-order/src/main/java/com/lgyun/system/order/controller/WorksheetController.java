@@ -6,6 +6,7 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.ReleaseWorksheetDto;
 import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.order.service.IWorksheetService;
+import com.lgyun.system.user.feign.IUserClient;
 import com.lgyun.system.user.service.IMakerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -35,7 +36,7 @@ public class WorksheetController {
 
 	private IWorksheetService worksheetService;
 
-	private IMakerService makerService;
+	private IUserClient iUserClient;
 
 	private IWorksheetMakerService worksheetMakerService;
 
@@ -54,7 +55,7 @@ public class WorksheetController {
 	@GetMapping("/findNamePage")
 	@ApiOperation(value = "通过创客名字查询创客", notes = "通过创客名字查询创客")
 	public R findNamePage(String name, Query query) {
-		return makerService.findNamePage(Condition.getPage(query),name);
+		return iUserClient.findMakerNamePage(Condition.getPage(query),name);
 	}
 
 	/**
