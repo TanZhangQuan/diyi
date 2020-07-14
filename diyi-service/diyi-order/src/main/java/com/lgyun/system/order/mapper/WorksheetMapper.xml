@@ -24,6 +24,8 @@
                     <result property="closeDesc" column="close_desc"/>
                     <result property="closePerson" column="close_person"/>
                     <result property="finishDate" column="finish_date"/>
+                    <result property="worksheetMemo" column="worksheet_memo"/>
+                    <result property="worksheetDescFiles" column="worksheet_desc_files"/>
                     <result property="createUser" column="create_user"/>
                     <result property="createTime" column="create_time"/>
                     <result property="updateUser" column="update_user"/>

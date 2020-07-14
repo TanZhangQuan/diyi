@@ -6,10 +6,10 @@
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.order.entity.SelfHelpInvoiceAccountEntity" id="selfHelpInvoiceAccountMap">
                     <result property="handPayAccountId" column="hand_pay_account_id"/>
-                    <result property="accountname" column="AccountName"/>
-                    <result property="accountno" column="AccountNo"/>
-                    <result property="accountbank" column="AccountBank"/>
-                    <result property="basicaccountbank" column="BasicAccountBank"/>
+                    <result property="accountName" column="account_name"/>
+                    <result property="accountNo" column="account_no"/>
+                    <result property="accountBank" column="account_bank"/>
+                    <result property="basicAccountBank" column="basic_account_bank"/>
                     <result property="isDefault" column="is_default"/>
                     <result property="createUser" column="create_user"/>
                     <result property="createTime" column="create_time"/>
@@ -17,6 +17,19 @@
                     <result property="updateTime" column="update_time"/>
                     <result property="status" column="status"/>
                     <result property="isDeleted" column="is_deleted"/>
-            </resultMap>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.SelfHelpInvoiceAccountVO" id="selfHelpInvoiceAccountVoMap">
+        <result property="handPayAccountId" column="hand_pay_account_id"/>
+        <result property="accountName" column="account_name"/>
+        <result property="accountNo" column="account_no"/>
+        <result property="accountBank" column="account_bank"/>
+        <result property="basicAccountBank" column="basic_account_bank"/>
+        <result property="isDefault" column="is_default"/>
+    </resultMap>
+
+    <select id="immediatePayment" resultMap="selfHelpInvoiceAccountVoMap">
+        select hand_pay_account_id,account_name,account_no,account_bank,basic_account_bank,is_default from diyi_self_help_invoice_account where is_default = 0 and is_default = 0 and status = 1
+    </select>
 
 </mapper>

@@ -1,6 +1,6 @@
 package com.lgyun.system.order.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.SelfHelpInvoiceExpressEntity;
 import com.lgyun.system.order.mapper.SelfHelpInvoiceExpressMapper;
 import com.lgyun.system.order.service.ISelfHelpInvoiceExpressService;
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @AllArgsConstructor
-public class SelfHelpInvoiceExpressServiceImpl extends ServiceImpl<SelfHelpInvoiceExpressMapper, SelfHelpInvoiceExpressEntity> implements ISelfHelpInvoiceExpressService {
+public class SelfHelpInvoiceExpressServiceImpl extends BaseServiceImpl<SelfHelpInvoiceExpressMapper, SelfHelpInvoiceExpressEntity> implements ISelfHelpInvoiceExpressService {
 
 }

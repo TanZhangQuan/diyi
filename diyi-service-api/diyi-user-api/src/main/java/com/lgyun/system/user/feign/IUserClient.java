@@ -2,6 +2,7 @@ package com.lgyun.system.user.feign;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
+import com.lgyun.system.user.entity.*;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.system.user.entity.MakerEntity;
@@ -88,4 +89,16 @@ public interface IUserClient {
     @PostMapping(API_PREFIX + "/wechat-authorization")
     R makerSaveOrUpdate(@RequestParam("openid") String openid, @RequestParam("sessionKey") String sessionKey, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
 
+
+	/**
+	 * 获取个独信息
+	 */
+	@GetMapping(API_PREFIX + "/individualEnterprise/find_by_maker_id")
+	IndividualEnterpriseEntity individualEnterpriseFindByMakerId(@RequestParam("makerId") Long makerId);
+
+	/**
+	 * 获取个体信息
+	 */
+	@GetMapping(API_PREFIX + "/individualBusiness/find_by_maker_id")
+	IndividualBusinessEntity individualBusinessByMakerId(@RequestParam("makerId") Long makerId);
 }

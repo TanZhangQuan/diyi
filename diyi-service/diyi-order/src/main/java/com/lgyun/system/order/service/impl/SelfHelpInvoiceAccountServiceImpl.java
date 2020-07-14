@@ -1,9 +1,10 @@
 package com.lgyun.system.order.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.SelfHelpInvoiceAccountEntity;
 import com.lgyun.system.order.mapper.SelfHelpInvoiceAccountMapper;
 import com.lgyun.system.order.service.ISelfHelpInvoiceAccountService;
+import com.lgyun.system.order.vo.SelfHelpInvoiceAccountVO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @AllArgsConstructor
-public class SelfHelpInvoiceAccountServiceImpl extends ServiceImpl<SelfHelpInvoiceAccountMapper, SelfHelpInvoiceAccountEntity> implements ISelfHelpInvoiceAccountService {
+public class SelfHelpInvoiceAccountServiceImpl extends BaseServiceImpl<SelfHelpInvoiceAccountMapper, SelfHelpInvoiceAccountEntity> implements ISelfHelpInvoiceAccountService {
 
+    @Override
+    public SelfHelpInvoiceAccountVO immediatePayment() {
+        return baseMapper.immediatePayment();
+    }
 }

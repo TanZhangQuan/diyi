@@ -2,9 +2,9 @@ package com.lgyun.system.order.service;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.lgyun.common.api.R;
-import com.lgyun.system.order.dto.ReleaseWorksheetDTO;
+import com.lgyun.core.mp.base.BaseService;
+import com.lgyun.system.order.dto.ReleaseWorksheetDto;
 import com.lgyun.system.order.entity.WorksheetEntity;
 import com.lgyun.system.order.vo.WorksheetXiaoVo;
 
@@ -14,12 +14,12 @@ import com.lgyun.system.order.vo.WorksheetXiaoVo;
  * @author jun
  * @since 2020-07-07 14:40:21
  */
-public interface IWorksheetService extends IService<WorksheetEntity> {
+public interface IWorksheetService extends BaseService<WorksheetEntity> {
 
     /**
      * 发布工单
      */
-    R releaseWorksheet(ReleaseWorksheetDTO releaseWorksheetDTO);
+    R releaseWorksheet(ReleaseWorksheetDto releaseWorksheetDTO);
 
 
     /**

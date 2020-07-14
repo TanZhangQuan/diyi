@@ -36,55 +36,25 @@ public class SelfHelpInvoiceAccountEntity extends BaseEntity {
     /**
      * 账户名称
      */
-        private String accountname;
+        private String accountName;
 
     /**
      * 银行账号
      */
-        private String accountno;
+        private String accountNo;
 
     /**
      * 开户银行
      */
-        private String accountbank;
+        private String accountBank;
 
     /**
      * 基本存款账号
      */
-        private String basicaccountbank;
+        private String basicAccountBank;
 
     /**
      * 是否默认[0:默认,1:不默认]
      */
         private Integer isDefault;
-
-    /**
-     * 创建人
-     */
-        private Long createUser;
-
-    /**
-     * 创建时间
-     */
-        private Date createTime;
-
-    /**
-     * 更新人
-     */
-        private Long updateUser;
-
-    /**
-     * 更新时间
-     */
-        private Date updateTime;
-
-    /**
-     * 状态[1:正常]
-     */
-        private Integer status;
-
-    /**
-     * 状态[0:未删除,1:删除]
-     */
-        private Integer isDeleted;
     }
