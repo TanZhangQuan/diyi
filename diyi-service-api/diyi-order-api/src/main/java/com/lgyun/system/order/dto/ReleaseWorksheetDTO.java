@@ -3,13 +3,10 @@ package com.lgyun.system.order.dto;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.WorkSheetMode;
 import com.lgyun.common.enumeration.WorkSheetType;
-import com.lgyun.common.enumeration.WorksheetState;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * 发布工单
@@ -65,12 +62,5 @@ public class ReleaseWorksheetDTO implements Serializable {
      * 创客ids
      */
     private String MakerIds;
-
-
-
-
-
-
-
 
 }

@@ -1,6 +1,6 @@
 package com.lgyun.system.user.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.PositionEntity;
 import com.lgyun.system.user.mapper.PositionMapper;
 import com.lgyun.system.user.service.IPositionService;
@@ -17,6 +17,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class PositionServiceImpl extends ServiceImpl<PositionMapper, PositionEntity> implements IPositionService {
+public class PositionServiceImpl extends BaseServiceImpl<PositionMapper, PositionEntity> implements IPositionService {
 
 }

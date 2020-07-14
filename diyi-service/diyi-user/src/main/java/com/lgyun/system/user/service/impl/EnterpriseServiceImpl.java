@@ -1,6 +1,6 @@
 package com.lgyun.system.user.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.mapper.EnterpriseMapper;
 import com.lgyun.system.user.service.IEnterpriseService;
@@ -20,7 +20,7 @@ import java.util.List;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class EnterpriseServiceImpl extends ServiceImpl<EnterpriseMapper, EnterpriseEntity> implements IEnterpriseService {
+public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, EnterpriseEntity> implements IEnterpriseService {
 
     @Override
     public List<MakerEnterpriseRelationVO> getEnterpriseName(String enterpriseName) {

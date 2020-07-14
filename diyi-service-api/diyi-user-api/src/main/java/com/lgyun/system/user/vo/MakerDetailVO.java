@@ -1,49 +1,32 @@
-package com.lgyun.system.user.entity;
+package com.lgyun.system.user.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.IdcardVerifyType;
-import com.lgyun.common.enumeration.MakerState;
 import com.lgyun.common.enumeration.VerifyStatus;
 import com.lgyun.common.enumeration.VideoAudit;
 import com.lgyun.common.tool.DateUtil;
-import com.lgyun.core.mp.base.BaseEntity;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Entity
+ * app创客详情VO
  *
  * @author liangfeihu
- * @since 2020-06-26 17:21:06
+ * @since 2020/6/6 00:28
  */
 @Data
-@NoArgsConstructor
-@TableName("diyi_maker")
-public class MakerEntity extends BaseEntity {
+public class MakerDetailVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
      * 创客（分包方）的基本信息ID
      */
-    @ApiModelProperty(value = "主键")
-    @TableId(type = IdType.ASSIGN_ID)
     @JsonSerialize(using = ToStringSerializer.class)
     private Long makerId;
-
-    /**
-     * 管理者ID
-     */
-    @JsonIgnore
-    private Long userId;
 
     /**
      * 微信关联ID
@@ -56,31 +39,20 @@ public class MakerEntity extends BaseEntity {
     private String wechatNickname;
 
     /**
-     * 微信open_id
-     */
-    @JsonIgnore
-    private String openid;
-
-    /**
-     * 微信session_key
-     */
-    @JsonIgnore
-    private String sessionKey;
-
-    /**
      * 微信关联日期
      */
     private Date relDate;
 
     /**
+     * 创建时间
+     */
+    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
+    private Date createTime;
+
+    /**
      * 姓名
      */
     private String name;
-
-    /**
-     * 账户状态
-     */
-    private MakerState makerState;
 
     /**
      * 政治面貌
@@ -121,12 +93,6 @@ public class MakerEntity extends BaseEntity {
      * 手机号码2
      */
     private String phoneNumber2;
-
-    /**
-     * 登录密码
-     */
-    @JsonIgnore
-    private String loginPwd;
 
     /**
      * 银行卡号
@@ -172,11 +138,6 @@ public class MakerEntity extends BaseEntity {
      * 手持证件反面照
      */
     private String idcardBackHand;
-
-    /**
-     * 刷脸截图
-     */
-    private String picVerify;
 
     /**
      * 身份证验证状态：未验证，验证通过，验证未通过

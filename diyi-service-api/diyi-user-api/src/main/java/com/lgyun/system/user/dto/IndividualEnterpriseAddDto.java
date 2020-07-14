@@ -2,9 +2,11 @@ package com.lgyun.system.user.dto;
 
 import com.lgyun.common.enumeration.IndEntTaxType;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -44,6 +46,8 @@ public class IndividualEnterpriseAddDto implements Serializable {
 
     //联系人手机号
     @NotBlank(message = "请输入联系人手机号")
+    @Length(min = 11, max = 11, message = "请输入11位手机号")
+    @Pattern(regexp = "[0-9]*", message = "请输入有效的手机号码")
     private String contactPhone;
 
     //手持承诺书照片

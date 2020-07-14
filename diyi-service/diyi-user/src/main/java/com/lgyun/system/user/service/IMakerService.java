@@ -124,7 +124,6 @@ public interface IMakerService extends IService<MakerEntity> {
      */
     MakerEntity findByUserId(Long userId);
 
-
     /**
      * 根据姓名分页
      * @return

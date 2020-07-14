@@ -27,7 +27,7 @@ import javax.validation.Valid;
  */
 @Slf4j
 @RestController
-@RequestMapping("/individual_enterprise_annual_fee")
+@RequestMapping("/individual-enterprise-annual-fee")
 @Validated
 @AllArgsConstructor
 @Api(value = "个独年费相关接口", tags = "个独年费相关接口")

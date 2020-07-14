@@ -1,21 +1,24 @@
 package com.lgyun.system.user.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.VerifyStatus;
 import com.lgyun.common.secure.BladeUser;
+import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.dto.IndividualEnterpriseAddDto;
+import com.lgyun.system.user.dto.IndividualEnterpriseListByMakerDto;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.mapper.IndividualEnterpriseMapper;
 import com.lgyun.system.user.service.IIndividualEnterpriseService;
 import com.lgyun.system.user.service.IMakerService;
+import com.lgyun.system.user.util.MakerCurrentUtil;
+import com.lgyun.system.user.vo.IndividualEnterpriseDetailVO;
+import com.lgyun.system.user.vo.IndividualEnterpriseListByMakerVO;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
 
 /**
  *  Service 实现
@@ -25,15 +28,15 @@ import java.util.Date;
  */
 @Service
 @AllArgsConstructor
-public class IndividualEnterpriseServiceImpl extends ServiceImpl<IndividualEnterpriseMapper, IndividualEnterpriseEntity> implements IIndividualEnterpriseService {
+public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualEnterpriseMapper, IndividualEnterpriseEntity> implements IIndividualEnterpriseService {
 
-    private IMakerService iMakerService;
+    private IMakerService makerService;
 
     @Override
     public R save(IndividualEnterpriseAddDto individualEnterpriseAddDto, BladeUser bladeUser) {
 
         //获取当前创客
-        MakerEntity makerEntity = iMakerService.findByUserId(bladeUser.getUserId());
+        MakerEntity makerEntity = MakerCurrentUtil.current(bladeUser);
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
             return R.fail("请先进行身份证实名认证");
@@ -48,11 +51,6 @@ public class IndividualEnterpriseServiceImpl extends ServiceImpl<IndividualEnter
         BeanUtils.copyProperties(individualEnterpriseAddDto, individualEnterpriseEntity);
         individualEnterpriseEntity.setIbstate(Ibstate.REGISTERING);
         individualEnterpriseEntity.setMakerId(makerEntity.getMakerId());
-        individualEnterpriseEntity.setCreateTime(new Date());
-        individualEnterpriseEntity.setUpdateTime(new Date());
-        individualEnterpriseEntity.setIsDeleted(0);
-        individualEnterpriseEntity.setStatus(1);
-
         save(individualEnterpriseEntity);
 
         return R.success("个独新增成功");
@@ -65,6 +63,19 @@ public class IndividualEnterpriseServiceImpl extends ServiceImpl<IndividualEnter
     public IndividualEnterpriseEntity findMakerId(Long makerId){
         IndividualEnterpriseEntity individualEnterpriseEntity = baseMapper.findMakerId(makerId);
         return individualEnterpriseEntity;
+    }
+
+    @Override
+    public R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker(IPage<IndividualEnterpriseListByMakerVO> page, IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto) {
+        return R.data(page.setRecords(baseMapper.listByMaker(page, individualEnterpriseListByMakerDto)));
+    }
+
+    @Override
+    public R<IndividualEnterpriseDetailVO> findById(Long individualEnterpriseId) {
+        IndividualEnterpriseDetailVO individualEnterpriseDetailVO = baseMapper.findById(individualEnterpriseId);
+        String bizName = makerService.getName(individualEnterpriseDetailVO.getMakerId());
+        individualEnterpriseDetailVO.setBizName(bizName);
+        return R.data(individualEnterpriseDetailVO);
     }
 
 }

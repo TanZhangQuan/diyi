@@ -1,6 +1,6 @@
 package com.lgyun.system.user.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.DeliverMaterialEntity;
 import com.lgyun.system.user.mapper.DeliverMaterialMapper;
 import com.lgyun.system.user.service.IDeliverMaterialService;
@@ -17,6 +17,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class DeliverMaterialServiceImpl extends ServiceImpl<DeliverMaterialMapper, DeliverMaterialEntity> implements IDeliverMaterialService {
+public class DeliverMaterialServiceImpl extends BaseServiceImpl<DeliverMaterialMapper, DeliverMaterialEntity> implements IDeliverMaterialService {
 
 }

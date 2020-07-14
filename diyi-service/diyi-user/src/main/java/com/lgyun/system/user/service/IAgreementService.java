@@ -1,7 +1,6 @@
 package com.lgyun.system.user.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.lgyun.common.api.R;
+import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.AgreementEntity;
 
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
  * @author liangfeihu
  * @since 2020-06-26 17:21:06
  */
-public interface IAgreementService extends IService<AgreementEntity> {
+public interface IAgreementService extends BaseService<AgreementEntity> {
     /**
      * 根据创客找合同
      */

@@ -3,9 +3,11 @@ package com.lgyun.system.user.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.AnnualFeeState;
+import com.lgyun.common.tool.DateUtil;
 import com.lgyun.core.mp.base.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -49,6 +51,7 @@ public class IndividualEnterpriseAnnualFeeEntity extends BaseEntity {
     /**
      * 年费缴纳日期
      */
+    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
     private Date annualFeeDateTime;
 
     /**
@@ -59,11 +62,13 @@ public class IndividualEnterpriseAnnualFeeEntity extends BaseEntity {
     /**
      * 年费起始日期
      */
+    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
     private Date annualFeeStart;
 
     /**
      * 年费终止日期
      */
+    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
     private Date annualFeeEnd;
 
     /**

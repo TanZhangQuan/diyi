@@ -1,6 +1,6 @@
 package com.lgyun.system.user.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.SetupEntity;
 import com.lgyun.system.user.mapper.SetupMapper;
 import com.lgyun.system.user.service.ISetupService;
@@ -17,6 +17,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class SetupServiceImpl extends ServiceImpl<SetupMapper, SetupEntity> implements ISetupService {
+public class SetupServiceImpl extends BaseServiceImpl<SetupMapper, SetupEntity> implements ISetupService {
 
 }

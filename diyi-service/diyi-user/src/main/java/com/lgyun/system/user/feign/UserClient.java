@@ -2,10 +2,7 @@ package com.lgyun.system.user.feign;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.CommonConstant;
-import com.lgyun.common.enumeration.GrantType;
-import com.lgyun.common.enumeration.UserType;
-import com.lgyun.common.enumeration.VerifyStatus;
-import com.lgyun.common.enumeration.VideoAudit;
+import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.common.tool.StringUtil;
 import com.lgyun.system.user.entity.MakerEntity;
@@ -102,6 +99,7 @@ public class UserClient implements IUserClient {
             makerEntity.setLoginPwd(DigestUtil.encrypt(CommonConstant.DEFAULT_PASSWORD));
         }
         makerEntity.setRelDate(new Date());
+        makerEntity.setMakerState(MakerState.NORMAL);
         makerEntity.setIdcardVerifyStatus(VerifyStatus.TOVERIFY);
         makerEntity.setFaceVerifyStatus(VerifyStatus.TOVERIFY);
         makerEntity.setPhoneNumberVerifyStatus(VerifyStatus.TOVERIFY);

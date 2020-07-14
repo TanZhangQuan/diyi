@@ -129,21 +129,6 @@ public class WorksheetServiceImpl extends ServiceImpl<WorksheetMapper, Worksheet
         return R.fail("失败");
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * 抢单
-     */
     public synchronized R orderGrabbing(WorksheetEntity worksheetEntity,MakerEntity makerEntity){
         int worksheetCount = worksheetMakerService.getWorksheetCount(worksheetEntity.getWorksheetId());
         if(worksheetCount == worksheetEntity.getUppersonNum()){

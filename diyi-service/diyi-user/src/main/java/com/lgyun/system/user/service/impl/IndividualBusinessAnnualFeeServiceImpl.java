@@ -1,6 +1,6 @@
 package com.lgyun.system.user.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.IndividualBusinessAnnualFeeEntity;
 import com.lgyun.system.user.mapper.IndividualBusinessAnnualFeeMapper;
 import com.lgyun.system.user.service.IIndividualBusinessAnnualFeeService;
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @AllArgsConstructor
-public class IndividualBusinessAnnualFeeServiceImpl extends ServiceImpl<IndividualBusinessAnnualFeeMapper, IndividualBusinessAnnualFeeEntity> implements IIndividualBusinessAnnualFeeService {
+public class IndividualBusinessAnnualFeeServiceImpl extends BaseServiceImpl<IndividualBusinessAnnualFeeMapper, IndividualBusinessAnnualFeeEntity> implements IIndividualBusinessAnnualFeeService {
 
 }

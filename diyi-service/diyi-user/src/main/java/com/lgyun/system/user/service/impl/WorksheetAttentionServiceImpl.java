@@ -1,6 +1,6 @@
 package com.lgyun.system.user.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.WorksheetAttentionEntity;
 import com.lgyun.system.user.mapper.WorksheetAttentionMapper;
 import com.lgyun.system.user.service.IWorksheetAttentionService;
@@ -17,6 +17,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class WorksheetAttentionServiceImpl extends ServiceImpl<WorksheetAttentionMapper, WorksheetAttentionEntity> implements IWorksheetAttentionService {
+public class WorksheetAttentionServiceImpl extends BaseServiceImpl<WorksheetAttentionMapper, WorksheetAttentionEntity> implements IWorksheetAttentionService {
 
 }

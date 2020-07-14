@@ -1,6 +1,6 @@
 package com.lgyun.system.user.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.EmployeeEntity;
 import com.lgyun.system.user.mapper.EmployeeMapper;
 import com.lgyun.system.user.service.IEmployeeService;
@@ -17,6 +17,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, EmployeeEntity> implements IEmployeeService {
+public class EmployeeServiceImpl extends BaseServiceImpl<EmployeeMapper, EmployeeEntity> implements IEmployeeService {
 
 }

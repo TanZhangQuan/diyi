@@ -1,6 +1,6 @@
 package com.lgyun.system.user.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.DeliverMaterialEntity;
 
 /**
@@ -9,7 +9,7 @@ import com.lgyun.system.user.entity.DeliverMaterialEntity;
  * @author liangfeihu
  * @since 2020-06-26 17:21:05
  */
-public interface IDeliverMaterialService extends IService<DeliverMaterialEntity> {
+public interface IDeliverMaterialService extends BaseService<DeliverMaterialEntity> {
 
 }
 

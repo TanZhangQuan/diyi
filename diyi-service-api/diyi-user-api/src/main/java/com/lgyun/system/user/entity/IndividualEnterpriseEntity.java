@@ -3,10 +3,12 @@ package com.lgyun.system.user.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.IndEntTaxType;
+import com.lgyun.common.tool.DateUtil;
 import com.lgyun.core.mp.base.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -59,6 +61,7 @@ public class IndividualEnterpriseEntity extends BaseEntity {
     /**
      * 营业执照的注册日期
      */
+    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
     private Date buildDateTime;
 
     /**
@@ -119,21 +122,25 @@ public class IndividualEnterpriseEntity extends BaseEntity {
     /**
      * 提交日期
      */
+    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
     private Date submitDateTime;
 
     /**
      * 注册日期
      */
+    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
     private Date registeredDate;
 
     /**
      * 税务登记日期
      */
+    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
     private Date taxRegisterDateTime;
 
     /**
      * 注销日期
      */
+    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
     private Date logoutDateTime;
 
     /**

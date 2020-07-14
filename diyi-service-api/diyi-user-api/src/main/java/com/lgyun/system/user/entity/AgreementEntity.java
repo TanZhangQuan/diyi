@@ -3,9 +3,11 @@ package com.lgyun.system.user.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.*;
+import com.lgyun.common.tool.DateUtil;
 import com.lgyun.core.mp.base.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -41,6 +43,7 @@ public class AgreementEntity extends BaseEntity {
     /**
      * 签署日期
      */
+    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
     private Date signDate;
 
     /**
@@ -84,11 +87,13 @@ public class AgreementEntity extends BaseEntity {
     /**
      * 上传日期
      */
+    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
     private Date uploadDateTime;
 
     /**
      * 在线协议发起时间
      */
+    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
     private Date startDateTime;
 
     /**
@@ -124,16 +129,19 @@ public class AgreementEntity extends BaseEntity {
     /**
      * 平台在线协议平台方操作日期
      */
+    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
     private Date poaplatformSignDateTime;
 
     /**
      * 平台在线协议分包方操作日期
      */
+    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
     private Date poamakerSignDateTime;
 
     /**
      * 平台在线协议发包方操作日期
      */
+    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
     private Date poacompanySignDateTime;
 
     /**

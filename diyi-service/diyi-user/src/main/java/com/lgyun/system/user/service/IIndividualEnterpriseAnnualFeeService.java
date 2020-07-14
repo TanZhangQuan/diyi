@@ -1,6 +1,6 @@
 package com.lgyun.system.user.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.IndividualEnterpriseAnnualFeeEntity;
 
 /**
@@ -9,7 +9,7 @@ import com.lgyun.system.user.entity.IndividualEnterpriseAnnualFeeEntity;
  * @author liangfeihu
  * @since 2020-07-02 17:44:02
  */
-public interface IIndividualEnterpriseAnnualFeeService extends IService<IndividualEnterpriseAnnualFeeEntity> {
+public interface IIndividualEnterpriseAnnualFeeService extends BaseService<IndividualEnterpriseAnnualFeeEntity> {
 
 }
 

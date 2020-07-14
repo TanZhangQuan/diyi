@@ -1,10 +1,10 @@
 package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.enumeration.RelType;
+import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.mapper.MakerEnterpriseMapper;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
@@ -25,7 +25,7 @@ import java.util.List;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class MakerEnterpriseServiceImpl extends ServiceImpl<MakerEnterpriseMapper, MakerEnterpriseEntity> implements IMakerEnterpriseService {
+public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseMapper, MakerEnterpriseEntity> implements IMakerEnterpriseService {
 
     @Override
     public List<MakerEnterpriseEntity> getMakerId(Long makerId) {
@@ -52,9 +52,6 @@ public class MakerEnterpriseServiceImpl extends ServiceImpl<MakerEnterpriseMappe
             makerEnterpriseEntity.setRelType(RelType.MAKERREL);
             makerEnterpriseEntity.setCooperationStartTime(new Date());
             makerEnterpriseEntity.setRelMemo("关注");
-            makerEnterpriseEntity.setCreateTime(new Date());
-            makerEnterpriseEntity.setCreateUser(0L);
-            makerEnterpriseEntity.setStatus(1);
         }
         if(attribute == 1){
             makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATESTOP);

@@ -1,6 +1,6 @@
 package ${package}.${moduleName}.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.lgyun.core.mp.base.BaseService;
 import ${package}.${moduleName}.entity.${className}Entity;
 
 /**
@@ -9,7 +9,7 @@ import ${package}.${moduleName}.entity.${className}Entity;
  * @author ${author}
  * @since ${datetime}
  */
-public interface I${className}Service extends IService<${className}Entity> {
+public interface I${className}Service extends BaseService<${className}Entity> {
 
 }
 

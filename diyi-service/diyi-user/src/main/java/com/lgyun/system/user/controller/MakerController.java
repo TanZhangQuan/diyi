@@ -9,6 +9,7 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IdcardOcrSaveDto;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.IMakerService;
+import com.lgyun.system.user.util.MakerCurrentUtil;
 import com.lgyun.system.user.vo.MakerVO;
 import com.lgyun.system.user.wrapper.MakerWrapper;
 import io.swagger.annotations.Api;
@@ -39,34 +40,36 @@ public class MakerController {
 
 	private IMakerService makerService;
 
-	@PostMapping("/save")
-	@ApiOperation(value = "新增", notes = "新增")
+//	@PostMapping("/save")
+//	@ApiOperation(value = "新增", notes = "新增")
 	public R save(@Valid @RequestBody MakerEntity maker) {
 		return R.status(makerService.save(maker));
 	}
 
-	@PostMapping("/update")
-	@ApiOperation(value = "修改", notes = "修改")
+//	@PostMapping("/update")
+//	@ApiOperation(value = "修改", notes = "修改")
 	public R update(@Valid @RequestBody MakerEntity maker) {
 		return R.status(makerService.updateById(maker));
 	}
 
-	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "详情")
-	public R<MakerVO> detail(MakerEntity maker) {
+//	@GetMapping("/detail")
+//	@ApiOperation(value = "详情", notes = "详情")
+	public R<MakerVO> detail(@ApiParam(value = "创客编号") @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId) {
+		MakerEntity maker = new MakerEntity();
+		maker.setMakerId(makerId);
 		MakerEntity detail = makerService.getOne(Condition.getQueryWrapper(maker));
 		return R.data(MakerWrapper.build().entityVO(detail));
 	}
 
-	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "分页")
+//	@GetMapping("/list")
+//	@ApiOperation(value = "分页", notes = "分页")
 	public R<IPage<MakerVO>> list(MakerEntity maker, Query query) {
 		IPage<MakerEntity> pages = makerService.page(Condition.getPage(query), Condition.getQueryWrapper(maker));
 		return R.data(MakerWrapper.build().pageVO(pages));
 	}
 
-	@PostMapping("/remove")
-	@ApiOperation(value = "删除", notes = "删除")
+//	@PostMapping("/remove")
+//	@ApiOperation(value = "删除", notes = "删除")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
 		return R.status(makerService.removeByIds(Func.toLongList(ids)));
 	}
@@ -212,6 +215,14 @@ public class MakerController {
 			log.error("检查当前创客身份证和人脸是否已实名认证异常", e);
 		}
 		return R.fail("检查身份证和人脸是否已实名认证失败");
+	}
+
+	@GetMapping("/current-detail")
+	@ApiOperation(value = "当前创客详情", notes = "当前创客详情")
+	public R<MakerVO> currentDetail(BladeUser bladeUser) {
+		//获取当前创客
+		MakerEntity maker = MakerCurrentUtil.current(bladeUser);
+		return R.data(MakerWrapper.build().entityVO(maker));
 	}
 
 }

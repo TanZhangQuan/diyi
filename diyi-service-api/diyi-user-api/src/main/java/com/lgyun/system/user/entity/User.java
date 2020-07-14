@@ -3,9 +3,11 @@ package com.lgyun.system.user.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.UserType;
+import com.lgyun.common.tool.DateUtil;
 import com.lgyun.core.mp.base.TenantEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -81,6 +83,7 @@ public class User extends TenantEntity {
 	/**
 	 * 生日
 	 */
+	@JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
 	private Date birthday;
 
 	/**

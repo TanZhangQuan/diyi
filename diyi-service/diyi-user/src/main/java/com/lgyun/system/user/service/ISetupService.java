@@ -1,6 +1,6 @@
 package com.lgyun.system.user.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.SetupEntity;
 
 /**
@@ -9,7 +9,7 @@ import com.lgyun.system.user.entity.SetupEntity;
  * @author liangfeihu
  * @since 2020-06-26 17:21:05
  */
-public interface ISetupService extends IService<SetupEntity> {
+public interface ISetupService extends BaseService<SetupEntity> {
 
 }
 

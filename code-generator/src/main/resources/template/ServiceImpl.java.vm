@@ -2,8 +2,8 @@ package ${package}.${moduleName}.service.impl;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
+import com.lgyun.core.mp.base.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import ${package}.${moduleName}.mapper.${className}Mapper;
 import ${package}.${moduleName}.entity.${className}Entity;
@@ -18,6 +18,6 @@ import ${package}.${moduleName}.service.I${className}Service;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${className}Entity> implements I${className}Service {
+public class ${className}ServiceImpl extends BaseServiceImpl<${className}Mapper, ${className}Entity> implements I${className}Service {
 
 }

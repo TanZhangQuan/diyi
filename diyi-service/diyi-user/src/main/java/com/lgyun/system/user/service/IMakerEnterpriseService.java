@@ -1,11 +1,10 @@
 package com.lgyun.system.user.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.lgyun.common.api.R;
+import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
-import com.lgyun.system.user.vo.MakerEnterpriseVO;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ import java.util.List;
  * @author liangfeihu
  * @since 2020-06-26 17:21:05
  */
-public interface IMakerEnterpriseService extends IService<MakerEnterpriseEntity> {
+public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEntity> {
 
     /**
      * 通过创客id查询
