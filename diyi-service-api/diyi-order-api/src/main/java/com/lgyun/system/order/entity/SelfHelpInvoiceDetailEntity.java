@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
 /**
- *  Entity
+ * Entity
  *
  * @author jun
  * @since 2020-07-08 14:32:47
@@ -27,90 +27,74 @@ public class SelfHelpInvoiceDetailEntity extends BaseEntity {
     /**
      * 唯一性控制
      */
-        @ApiModelProperty(value = "主键")
+    @ApiModelProperty(value = "主键")
     @TableId(type = IdType.ASSIGN_ID)
     @JsonSerialize(using = ToStringSerializer.class)
-        private Long selfHelpInvoiceDetailId;
+    private Long selfHelpInvoiceDetailId;
 
     /**
      * 自助开票Id
      */
-        private Long selfHelpInvoiceId;
+    private Long selfHelpInvoiceId;
 
     /**
      * 开票人姓名
      */
-        private String invoicePeopleName;
+    private String invoicePeopleName;
 
     /**
      * 创客ID
      */
-        private Long makerId;
+    private Long makerId;
 
     /**
      * 非创客开票人ID
      */
-        private Long noneMakerInvoicePersonId;
+    private Long noneMakerInvoicePersonId;
 
     /**
      * 个体户或个独名称
      */
-        private String bizName;
+    private String bizName;
 
     /**
      * 统一社会信用代码
      */
-        private String socialCreditNo;
+    private String socialCreditNo;
 
     /**
      * 开票类目
      */
-        private String invoiceType;
+    private String invoiceType;
 
     /**
      * 价税合计额
      */
-        private BigDecimal chargeMoneyNum;
+    private BigDecimal chargeMoneyNum;
 
     /**
      * 流水回单URL
      */
-        private String flowContractUrl;
+    private String flowContractUrl;
 
     /**
      * 业务合同URL
      */
-        private String businessContractUrl;
+    private String businessContractUrl;
 
     /**
      * 账户余额url
      */
-        private String accountBalanceUrl;
+    private String accountBalanceUrl;
 
     /**
      * 开票手续费
      */
-        private BigDecimal serviceInvoiceFee;
+    private BigDecimal serviceInvoiceFee;
 
     /**
      * 身份验证费
      */
-        private BigDecimal idendityConfirmFee;
+    private BigDecimal idendityConfirmFee;
 
-
-    public SelfHelpInvoiceDetailEntity(Long selfHelpInvoiceId, String invoicePeopleName, Long makerId, Long noneMakerInvoicePersonId, String bizName, String socialCreditNo, String invoiceType, BigDecimal chargeMoneyNum, String flowContractUrl, String businessContractUrl, String accountBalanceUrl, BigDecimal serviceInvoiceFee, BigDecimal idendityConfirmFee) {
-        this.selfHelpInvoiceId = selfHelpInvoiceId;
-        this.invoicePeopleName = invoicePeopleName;
-        this.makerId = makerId;
-        this.noneMakerInvoicePersonId = noneMakerInvoicePersonId;
-        this.bizName = bizName;
-        this.socialCreditNo = socialCreditNo;
-        this.invoiceType = invoiceType;
-        this.chargeMoneyNum = chargeMoneyNum;
-        this.flowContractUrl = flowContractUrl;
-        this.businessContractUrl = businessContractUrl;
-        this.accountBalanceUrl = accountBalanceUrl;
-        this.serviceInvoiceFee = serviceInvoiceFee;
-        this.idendityConfirmFee = idendityConfirmFee;
-    }
 }

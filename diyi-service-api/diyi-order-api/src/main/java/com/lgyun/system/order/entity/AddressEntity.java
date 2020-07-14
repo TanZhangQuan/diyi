@@ -3,15 +3,12 @@ package com.lgyun.system.order.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.lgyun.core.mp.base.BaseEntity;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.core.mp.base.BaseEntity;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Entity
@@ -32,7 +29,6 @@ public class AddressEntity extends BaseEntity {
     @TableId(type = IdType.ASSIGN_ID)
     @JsonSerialize(using = ToStringSerializer.class)
     private Long addressId;
-
 
     /**
      * 创客ID

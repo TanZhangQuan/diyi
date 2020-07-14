@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- *  Entity
+ * Entity
  *
  * @author jun
  * @since 2020-07-08 14:32:47
@@ -25,33 +25,34 @@ public class SelfHelpInvoiceAccountEntity extends BaseEntity {
     /**
      * 唯一性控制
      */
-        @ApiModelProperty(value = "主键")
+    @ApiModelProperty(value = "主键")
     @TableId(type = IdType.ASSIGN_ID)
     @JsonSerialize(using = ToStringSerializer.class)
-        private Long handPayAccountId;
+    private Long handPayAccountId;
 
     /**
      * 账户名称
      */
-        private String accountName;
+    private String accountName;
 
     /**
      * 银行账号
      */
-        private String accountNo;
+    private String accountNo;
 
     /**
      * 开户银行
      */
-        private String accountBank;
+    private String accountBank;
 
     /**
      * 基本存款账号
      */
-        private String basicAccountBank;
+    private String basicAccountBank;
 
     /**
      * 是否默认[0:默认,1:不默认]
      */
-        private Integer isDefault;
-    }
+    private Integer isDefault;
+
+}

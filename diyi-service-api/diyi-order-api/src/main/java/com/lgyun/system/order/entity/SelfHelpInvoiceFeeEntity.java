@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- *  Entity
+ * Entity
  *
  * @author jun
  * @since 2020-07-08 14:32:47
@@ -28,70 +28,69 @@ public class SelfHelpInvoiceFeeEntity extends BaseEntity {
     /**
      * 唯一性控制
      */
-        @ApiModelProperty(value = "主键")
+    @ApiModelProperty(value = "主键")
     @TableId(type = IdType.ASSIGN_ID)
     @JsonSerialize(using = ToStringSerializer.class)
-        private Long handPayId;
+    private Long handPayId;
 
     /**
      * 自助开票Id
      */
-        private Long selfHelpInvoiceId;
+    private Long selfHelpInvoiceId;
 
     /**
      * 提交日期
      */
-        private Date putinDate;
+    private Date putinDate;
 
     /**
      * 核价日期
      */
-        private Date givePriceDate;
+    private Date givePriceDate;
 
     /**
      * 总税费
      */
-        private BigDecimal totalTaxFee;
+    private BigDecimal totalTaxFee;
 
     /**
      * 基础税费
      */
-        private BigDecimal basicTaxFee;
+    private BigDecimal basicTaxFee;
 
     /**
      * 基础税费率
      */
-        private BigDecimal basicTaxFeeRate;
+    private BigDecimal basicTaxFeeRate;
 
     /**
      * 开票手续费
      */
-        private BigDecimal invoiceFee;
+    private BigDecimal invoiceFee;
 
     /**
      * 身份验证费
      */
-        private BigDecimal identifyFee;
+    private BigDecimal identifyFee;
 
     /**
      * 支付说明
      */
-        private String payDesc;
+    private String payDesc;
 
     /**
      * 支付回单
      */
-        private String payCertificate;
+    private String payCertificate;
 
     /**
      * 支付方式 1，微信；2，支付宝，3，银行转账；4，现金
      */
-        private String payType;
+    private String payType;
 
     /**
      * 自助开票收款账号ID
      */
-        private Long handPayAccountId;
+    private Long handPayAccountId;
 
-
-    }
+}
