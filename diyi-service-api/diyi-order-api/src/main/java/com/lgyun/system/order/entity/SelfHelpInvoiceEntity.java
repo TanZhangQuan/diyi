@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.InvoiceState;
+import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.core.mp.base.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -74,9 +75,14 @@ public class SelfHelpInvoiceEntity extends BaseEntity {
     private Long originalSelfHelpId;
 
     /**
+     * 个体户或个独ID
+     */
+    private Long businessEnterpriseId;
+
+    /**
      * 开票人身份类别 1，自然人；2，个体户；3，个独
      */
-    private String invoicePeopleType;
+    private MakerType invoicePeopleType;
 
     /**
      * 开票清单文件
