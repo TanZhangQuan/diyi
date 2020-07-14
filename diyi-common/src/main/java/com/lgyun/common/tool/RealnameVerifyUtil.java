@@ -86,9 +86,12 @@ public class RealnameVerifyUtil {
      */
     public static JSONObject idCardOCR(String infoImg) throws Exception {
 
+        //转化base64
+        String idcardPicBase64 = ImageUtil.ImageToBase64ByOnline(infoImg);
+
         //构建请求Body体
         JSONObject reqBodyObj = new JSONObject();
-        reqBodyObj.put("infoImg", infoImg);
+        reqBodyObj.put("infoImg", idcardPicBase64);
 
         //发送POST请求
         JSONObject resultJson = realnameVerifyOCR(RealnameVerifyConstant.IDCARDOCRURL, reqBodyObj, HttpMethod.POST);

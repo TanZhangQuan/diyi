@@ -9,7 +9,6 @@ import com.lgyun.common.enumeration.VerifyStatus;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.Func;
 import com.lgyun.common.tool.HttpUtil;
-import com.lgyun.common.tool.ImageUtil;
 import com.lgyun.common.tool.RealnameVerifyUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.dto.IdcardOcrSaveDto;
@@ -61,11 +60,8 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return R.fail("身份证已实名认证");
         }
 
-        //转化base64
-        String idcardPicBase64 = ImageUtil.ImageToBase64ByOnline(idcardPic);
-
         //身份证实名认证
-        JSONObject jsonObject = RealnameVerifyUtil.idCardOCR(idcardPicBase64);
+        JSONObject jsonObject = RealnameVerifyUtil.idCardOCR(idcardPic);
         if (jsonObject == null) {
             return R.fail("身份证实名认证失败");
         }
