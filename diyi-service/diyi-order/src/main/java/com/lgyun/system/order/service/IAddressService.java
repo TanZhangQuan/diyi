@@ -23,5 +23,7 @@ public interface IAddressService extends BaseService<AddressEntity> {
      * 通过创客Id去查询
      */
     R<IPage<AddressEntity>> findAddressMakerId(IPage<AddressEntity> page, Long makerId);
+
+
 }
 

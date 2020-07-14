@@ -1,8 +1,10 @@
 package com.lgyun.system.user.feign;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
+import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.*;
 import org.springframework.stereotype.Component;
 
@@ -57,6 +59,21 @@ public class IUserClientFallback implements IUserClient {
 
     @Override
     public IndividualBusinessEntity individualBusinessByMakerId(Long makerId) {
+        return null;
+    }
+
+    @Override
+    public R<IPage<RunCompanyEntity>> findRunCompanyMakerId(IPage<RunCompanyEntity> page, Long makerId) {
+        return null;
+    }
+
+    @Override
+    public R runCompanySave(RunCompanyDto runCompanyDto, Long makerId) {
+        return null;
+    }
+
+    @Override
+    public R<IPage<MakerEntity>> findMakerNamePage(IPage<MakerEntity> page, String name) {
         return null;
     }
 

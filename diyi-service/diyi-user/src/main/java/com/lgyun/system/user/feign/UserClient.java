@@ -1,18 +1,17 @@
 package com.lgyun.system.user.feign;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.CommonConstant;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.common.tool.StringUtil;
+import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.entity.UserInfo;
 import com.lgyun.system.user.entity.*;
-import com.lgyun.system.user.service.IIndividualBusinessService;
-import com.lgyun.system.user.service.IIndividualEnterpriseService;
-import com.lgyun.system.user.service.IMakerService;
-import com.lgyun.system.user.service.IUserService;
+import com.lgyun.system.user.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +32,7 @@ public class UserClient implements IUserClient {
     private IMakerService iMakerService;
     private IIndividualEnterpriseService iIndividualEnterpriseService;
     private IIndividualBusinessService iIndividualBusinessService;
+    private IRunCompanyService iRunCompanyService;
 
     @Override
     @GetMapping(API_PREFIX + "/user-info-by-id")
@@ -177,6 +177,21 @@ public class UserClient implements IUserClient {
     @Override
     public IndividualBusinessEntity individualBusinessByMakerId(Long makerId) {
         return iIndividualBusinessService.findMakerId(makerId);
+    }
+
+    @Override
+    public R<IPage<RunCompanyEntity>> findRunCompanyMakerId(IPage<RunCompanyEntity> page, Long makerId) {
+        return iRunCompanyService.findMakerId(page,makerId);
+    }
+
+    @Override
+    public R runCompanySave(RunCompanyDto runCompanyDto, Long makerId) {
+        return iRunCompanyService.runCompanySave(runCompanyDto,makerId);
+    }
+
+    @Override
+    public R<IPage<MakerEntity>> findMakerNamePage(IPage<MakerEntity> page, String name) {
+        return iMakerService.findNamePage(page,name);
     }
 
 }
