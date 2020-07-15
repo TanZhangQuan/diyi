@@ -116,7 +116,7 @@ public interface IUserClient {
      *根据创客Id
      */
     @GetMapping(API_PREFIX + "/runCompany/find_by_maker_id")
-    R<IPage<RunCompanyEntity>> findRunCompanyMakerId(@RequestBody Query query,@RequestParam Long makerId);
+    R findRunCompanyMakerId(@RequestBody Query query,@RequestParam Long makerId);
 
 
     /**
@@ -130,16 +130,16 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/findMakerNamePage")
-    R<IPage<MakerEntity>> findMakerNamePage(@RequestBody Query query, @RequestParam String name);
+    R findMakerNamePage(@RequestBody Query query, @RequestParam String name);
 
 
     //查询当前创客的所有个独
     @PostMapping(API_PREFIX + "/individualEnterprise/listByMaker")
-    R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker(@Valid @RequestBody IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto);
+    R listByMaker(@Valid @RequestBody IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto);
 
     //查询当前创客的所有个体户
     @PostMapping(API_PREFIX + "/individualBusiness/listByMaker")
-    R<IPage<IndividualBusinessListByMakerVO>> listByMaker(@Valid @RequestBody IndividualBusinessListByMakerDto individualBusinessListByMakerDto);
+    R listByMaker(@Valid @RequestBody IndividualBusinessListByMakerDto individualBusinessListByMakerDto);
 
     /**
      *根据Id获取个独信息

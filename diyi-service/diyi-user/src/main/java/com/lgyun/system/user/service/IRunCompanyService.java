@@ -17,7 +17,7 @@ public interface IRunCompanyService extends BaseService<RunCompanyEntity> {
     /**
      *根据创客Id
      */
-    R<IPage<RunCompanyEntity>> findMakerId(IPage<RunCompanyEntity> page, Long makerId);
+    R findMakerId(IPage<RunCompanyEntity> page, Long makerId);
 
     /**
      * 新增

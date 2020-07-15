@@ -128,7 +128,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * 根据姓名分页
      * @return
      */
-    R<IPage<MakerEntity>> findNamePage(IPage<MakerEntity> page, String name);
+    R findNamePage(IPage<MakerEntity> page, String name);
 
 }
 

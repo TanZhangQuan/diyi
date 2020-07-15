@@ -70,7 +70,7 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public R<IPage<RunCompanyEntity>> findRunCompanyMakerId(Query query, Long makerId) {
+    public R findRunCompanyMakerId(Query query, Long makerId) {
         return null;
     }
 
@@ -81,17 +81,17 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public R<IPage<MakerEntity>> findMakerNamePage(Query query, String name) {
+    public R findMakerNamePage(Query query, String name) {
         return null;
     }
 
     @Override
-    public R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker( @Valid IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto) {
+    public R listByMaker( @Valid IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto) {
         return null;
     }
 
     @Override
-    public R<IPage<IndividualBusinessListByMakerVO>> listByMaker( @Valid IndividualBusinessListByMakerDto individualBusinessListByMakerDto) {
+    public R listByMaker( @Valid IndividualBusinessListByMakerDto individualBusinessListByMakerDto) {
         return null;
     }
 

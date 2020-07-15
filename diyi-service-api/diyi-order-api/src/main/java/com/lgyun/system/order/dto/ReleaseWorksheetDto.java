@@ -23,7 +23,6 @@ public class ReleaseWorksheetDto implements Serializable {
     /**
      * 企业ID
      */
-    @NotBlank(message = "请输入企业ID")
     private Long enterpriseId;
 
     /**
@@ -53,19 +52,16 @@ public class ReleaseWorksheetDto implements Serializable {
     /**
      * 类型，总包+分包，众包/众采
      */
-    @NotBlank(message = "请输入工单类型")
     private WorkSheetType worksheetType;
 
     /**
      * 模式，派单、抢单、混合（默认：混合型）
      */
-    @NotBlank(message = "请输入工单模式")
     private WorkSheetMode worksheetMode;
 
     /**
      * 创客身份，自然人，个体户，个独。如果是个体户/个独，则抢单或派单时需要指定相关个体户/个独，如果只有一个则不用指定。
      */
-    @NotBlank(message = "请输入工单创客身份")
     private MakerType makerType;
 
     /**
