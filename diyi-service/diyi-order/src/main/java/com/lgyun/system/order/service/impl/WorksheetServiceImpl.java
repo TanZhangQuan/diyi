@@ -99,12 +99,12 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     }
 
     @Override
-    public R<IPage<WorksheetXiaoVo>> findXiaoPage(IPage<WorksheetXiaoVo> page,Integer worksheetState) {
+    public R<IPage<WorksheetXiaoVo>> findXiaoPage(IPage<WorksheetXiaoVo> page,Integer worksheetState,Long makerId) {
         if(worksheetState == 1){
             return R.data(page.setRecords(baseMapper.findXiaoPage(page,WorksheetState.PUBLISHING.getValue())));
         }
         if(worksheetState == 2){
-            return R.data(page.setRecords(baseMapper.findXiaoPage2(page,WorksheetMakerState.SUBMITTED.getValue())));
+            return R.data(page.setRecords(baseMapper.findXiaoPage2(page,WorksheetMakerState.SUBMITTED.getValue(),makerId)));
         }
         if(worksheetState == 3){
             return R.data(page.setRecords(baseMapper.findXiaoPage3(page)));
@@ -120,7 +120,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
                 worksheetEntity.setCloseDesc("2");
                 worksheetEntity.setCloseWorksheetDate(new Date());
                 worksheetEntity.setClosePerson("系统");
-                save(worksheetEntity);
+                saveOrUpdate(worksheetEntity);
             }
             return R.fail("工单已抢完");
         }

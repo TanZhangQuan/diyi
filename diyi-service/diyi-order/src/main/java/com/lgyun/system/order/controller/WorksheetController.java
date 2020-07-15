@@ -1,13 +1,16 @@
 package com.lgyun.system.order.controller;
 
 import com.lgyun.common.api.R;
+import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.ReleaseWorksheetDto;
 import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.order.service.IWorksheetService;
+import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import com.lgyun.system.user.service.IMakerService;
+import com.lgyun.system.user.util.MakerCurrentUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -55,7 +58,7 @@ public class WorksheetController {
 	@GetMapping("/findNamePage")
 	@ApiOperation(value = "通过创客名字查询创客", notes = "通过创客名字查询创客")
 	public R findNamePage(String name, Query query) {
-		return iUserClient.findMakerNamePage(Condition.getPage(query),name);
+		return iUserClient.findMakerNamePage(query,name);
 	}
 
 	/**
@@ -75,11 +78,14 @@ public class WorksheetController {
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "worksheetState", value = "工单状态：1代表待抢单，2已接单，3已交付", paramType = "query", dataType = "string"),
 	})
-	public R findXiaoPage(Query query, Integer worksheetState) {
+	public R findXiaoPage(Query query, Integer worksheetState, BladeUser bladeUser) {
+		//MakerEntity makerEntity = MakerCurrentUtil.current(bladeUser);
+		MakerEntity makerEntity = new MakerEntity();
+		makerEntity.setMakerId(1278969988057903106L);
 		if(worksheetState != 1 && worksheetState != 2 && worksheetState != 3){
 			return R.fail("参数错误");
 		}
-		return worksheetService.findXiaoPage(Condition.getPage(query),worksheetState);
+		return worksheetService.findXiaoPage(Condition.getPage(query),worksheetState,makerEntity.getMakerId());
 	}
 
 	/**

@@ -7,6 +7,7 @@ import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.support.Condition;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IndividualBusinessListByMakerDto;
 import com.lgyun.system.user.dto.IndividualEnterpriseListByMakerDto;
 import com.lgyun.system.user.dto.RunCompanyDto;
@@ -19,6 +20,7 @@ import com.lgyun.system.user.vo.IndividualBusinessListByMakerVO;
 import com.lgyun.system.user.vo.IndividualEnterpriseListByMakerVO;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
@@ -185,28 +187,28 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R<IPage<RunCompanyEntity>> findRunCompanyMakerId(IPage<RunCompanyEntity> page, Long makerId) {
-        return iRunCompanyService.findMakerId(page,makerId);
+    public R<IPage<RunCompanyEntity>> findRunCompanyMakerId(@RequestBody Query query, Long makerId) {
+        return iRunCompanyService.findMakerId(Condition.getPage(query),makerId);
     }
 
     @Override
-    public R runCompanySave(RunCompanyDto runCompanyDto, Long makerId) {
-        return iRunCompanyService.runCompanySave(runCompanyDto,makerId);
+    public R runCompanySave(RunCompanyDto runCompanyDto) {
+        return iRunCompanyService.runCompanySave(runCompanyDto);
     }
 
     @Override
-    public R<IPage<MakerEntity>> findMakerNamePage(IPage<MakerEntity> page, String name) {
-        return iMakerService.findNamePage(page,name);
+    public R<IPage<MakerEntity>> findMakerNamePage(Query query, String name) {
+        return iMakerService.findNamePage(Condition.getPage(query),name);
     }
 
     @Override
-    public R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker(IPage<IndividualEnterpriseListByMakerVO> page, IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto) {
-        return iIndividualEnterpriseService.listByMaker(page, individualEnterpriseListByMakerDto);
+    public R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker(IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto) {
+        return iIndividualEnterpriseService.listByMaker(Condition.getPage(individualEnterpriseListByMakerDto), individualEnterpriseListByMakerDto);
     }
 
     @Override
-    public R<IPage<IndividualBusinessListByMakerVO>> listByMaker(IPage<IndividualBusinessListByMakerVO> page, IndividualBusinessListByMakerDto individualBusinessListByMakerDto) {
-        return iIndividualBusinessService.listByMaker(page, individualBusinessListByMakerDto);
+    public R<IPage<IndividualBusinessListByMakerVO>> listByMaker(IndividualBusinessListByMakerDto individualBusinessListByMakerDto) {
+        return iIndividualBusinessService.listByMaker(Condition.getPage(individualBusinessListByMakerDto), individualBusinessListByMakerDto);
     }
 
     @Override

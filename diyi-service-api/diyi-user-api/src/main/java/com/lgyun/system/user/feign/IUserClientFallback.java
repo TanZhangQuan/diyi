@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IndividualBusinessListByMakerDto;
 import com.lgyun.system.user.dto.IndividualEnterpriseListByMakerDto;
 import com.lgyun.system.user.dto.RunCompanyDto;
@@ -11,6 +12,8 @@ import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.vo.IndividualBusinessListByMakerVO;
 import com.lgyun.system.user.vo.IndividualEnterpriseListByMakerVO;
 import org.springframework.stereotype.Component;
+
+import javax.validation.Valid;
 
 /**
  * Feign失败配置
@@ -67,29 +70,31 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public R<IPage<RunCompanyEntity>> findRunCompanyMakerId(IPage<RunCompanyEntity> page, Long makerId) {
+    public R<IPage<RunCompanyEntity>> findRunCompanyMakerId(Query query, Long makerId) {
+        return null;
+    }
+
+
+    @Override
+    public R runCompanySave(RunCompanyDto runCompanyDto) {
         return null;
     }
 
     @Override
-    public R runCompanySave(RunCompanyDto runCompanyDto, Long makerId) {
+    public R<IPage<MakerEntity>> findMakerNamePage(Query query, String name) {
         return null;
     }
 
     @Override
-    public R<IPage<MakerEntity>> findMakerNamePage(IPage<MakerEntity> page, String name) {
+    public R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker( @Valid IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto) {
         return null;
     }
 
     @Override
-    public R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker(IPage<IndividualEnterpriseListByMakerVO> page, IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto) {
+    public R<IPage<IndividualBusinessListByMakerVO>> listByMaker( @Valid IndividualBusinessListByMakerDto individualBusinessListByMakerDto) {
         return null;
     }
 
-    @Override
-    public R<IPage<IndividualBusinessListByMakerVO>> listByMaker(IPage<IndividualBusinessListByMakerVO> page, IndividualBusinessListByMakerDto individualBusinessListByMakerDto) {
-        return null;
-    }
 
     @Override
     public IndividualEnterpriseEntity individualEnterpriseFindById(Long individualEnterpriseId) {

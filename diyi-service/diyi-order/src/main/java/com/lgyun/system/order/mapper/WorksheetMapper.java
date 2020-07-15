@@ -26,7 +26,7 @@ public interface WorksheetMapper extends BaseMapper<WorksheetEntity> {
     /**
      * 小程序查询工单
      */
-    List<WorksheetXiaoVo> findXiaoPage2(IPage page, String worksheetMakerState);
+    List<WorksheetXiaoVo> findXiaoPage2(IPage page, String worksheetMakerState, Long makerId);
 
     /**
      * 小程序查询工单
