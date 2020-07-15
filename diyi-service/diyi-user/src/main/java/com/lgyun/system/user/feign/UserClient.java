@@ -6,7 +6,6 @@ import com.lgyun.common.constant.CommonConstant;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.common.tool.StringUtil;
-import com.lgyun.core.mp.support.Condition;
 import com.lgyun.system.user.dto.IndividualBusinessListByMakerDto;
 import com.lgyun.system.user.dto.IndividualEnterpriseListByMakerDto;
 import com.lgyun.system.user.dto.RunCompanyDto;
@@ -105,7 +104,7 @@ public class UserClient implements IUserClient {
             makerEntity.setLoginPwd(DigestUtil.encrypt(CommonConstant.DEFAULT_PASSWORD));
         }
         makerEntity.setRelDate(new Date());
-        makerEntity.setMakerState(MakerState.NORMAL);
+        makerEntity.setMakerState(AccountState.NORMAL);
         makerEntity.setIdcardVerifyStatus(VerifyStatus.TOVERIFY);
         makerEntity.setFaceVerifyStatus(VerifyStatus.TOVERIFY);
         makerEntity.setPhoneNumberVerifyStatus(VerifyStatus.TOVERIFY);

@@ -8,7 +8,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum MakerState {
+public enum AccountState {
     NORMAL("NORMAL", "正常状态"),
     FREEZE("FREEZE", "冻结状态"),
     ILLEGAL("ILLEGAL", "非法状态");

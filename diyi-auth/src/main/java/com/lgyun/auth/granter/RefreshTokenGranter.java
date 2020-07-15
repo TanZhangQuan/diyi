@@ -11,6 +11,7 @@ import com.lgyun.system.user.entity.UserInfo;
 import com.lgyun.system.user.feign.IUserClient;
 import io.jsonwebtoken.Claims;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -21,6 +22,7 @@ import java.util.Objects;
  * @author liangfeihu
  * @since 2020/6/6 01:01
  */
+@Slf4j
 @Component
 @AllArgsConstructor
 public class RefreshTokenGranter implements ITokenGranter {

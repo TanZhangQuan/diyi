@@ -1,6 +1,6 @@
 package com.lgyun.system.user.util;
 
-import com.lgyun.common.enumeration.MakerState;
+import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.exception.ServiceException;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.entity.MakerEntity;
@@ -30,7 +30,7 @@ public class MakerCurrentUtil {
             throw new ServiceException("创客未注册");
         }
 
-        if (!(MakerState.NORMAL.equals(makerEntity.getMakerState()))) {
+        if (!(AccountState.NORMAL.equals(makerEntity.getMakerState()))) {
             throw new ServiceException("创客账户状态非正常，请联系客服");
         }
 

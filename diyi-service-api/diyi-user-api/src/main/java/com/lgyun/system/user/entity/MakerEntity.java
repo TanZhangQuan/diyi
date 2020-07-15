@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.IdcardVerifyType;
-import com.lgyun.common.enumeration.MakerState;
 import com.lgyun.common.enumeration.VerifyStatus;
 import com.lgyun.common.enumeration.VideoAudit;
 import com.lgyun.common.tool.DateUtil;
@@ -80,7 +80,7 @@ public class MakerEntity extends BaseEntity {
     /**
      * 账户状态
      */
-    private MakerState makerState;
+    private AccountState makerState;
 
     /**
      * 政治面貌

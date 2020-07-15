@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.CrowdSourcePayPath;
 import com.lgyun.common.enumeration.EnBusinessPattern;
 import com.lgyun.common.enumeration.EnCreateType;
@@ -44,6 +45,11 @@ public class EnterpriseEntity extends BaseEntity {
      * 密码
      */
     private String enUserPwd;
+
+    /**
+     * 商户账户状态
+     */
+    private AccountState enterpriseState;
 
     /**
      * 创客加入邀请码
