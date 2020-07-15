@@ -27,7 +27,7 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
     IndividualEnterpriseEntity findMakerId(Long makerId);
 
     //查询当前创客的所有个独
-    R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker(IPage<IndividualEnterpriseListByMakerVO> page, IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto);
+    R listByMaker(IPage<IndividualEnterpriseListByMakerVO> page, IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto);
 
     //根据ID查询个独详情
     R<IndividualEnterpriseDetailVO> findById(Long individualEnterpriseId);
