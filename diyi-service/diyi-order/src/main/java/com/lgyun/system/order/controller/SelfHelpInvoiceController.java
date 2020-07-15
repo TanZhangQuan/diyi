@@ -60,8 +60,8 @@ public class SelfHelpInvoiceController {
      */
     @PostMapping("/runCompanySave")
     @ApiOperation(value = "新建购买方", notes = "新建购买方")
-    public R runCompanySave(@Valid @RequestBody RunCompanyDto runCompanyDto, Long makerId) {
-        return iUserClient.runCompanySave(runCompanyDto, makerId);
+    public R runCompanySave(@Valid @RequestBody RunCompanyDto runCompanyDto) {
+        return iUserClient.runCompanySave(runCompanyDto);
     }
 
     /**
@@ -70,7 +70,7 @@ public class SelfHelpInvoiceController {
     @GetMapping("/findMakerId")
     @ApiOperation(value = "查询购买方", notes = "查询购买方")
     public R findMakerId(Query query, Long makerId) {
-        return iUserClient.findRunCompanyMakerId(Condition.getPage(query), makerId);
+        return iUserClient.findRunCompanyMakerId(query, makerId);
     }
 
     /**
@@ -94,7 +94,11 @@ public class SelfHelpInvoiceController {
 			case INDIVIDUALBUSINESS:
 				IndividualBusinessListByMakerDto individualBusinessListByMakerDto = new IndividualBusinessListByMakerDto();
 				individualBusinessListByMakerDto.setMakerId(makerId);
-				return iUserClient.listByMaker(Condition.getPage(query), individualBusinessListByMakerDto);
+                individualBusinessListByMakerDto.setCurrent(query.getCurrent());
+                individualBusinessListByMakerDto.setSize(query.getSize());
+                individualBusinessListByMakerDto.setAscs(query.getAscs());
+                individualBusinessListByMakerDto.setDescs(query.getDescs());
+				return iUserClient.listByMaker(individualBusinessListByMakerDto);
 
 			case NATURALPERSON:
 				return selfHelpInvoicePersonService.findPersonMakerId(Condition.getPage(query), makerId, makerType);
@@ -102,7 +106,11 @@ public class SelfHelpInvoiceController {
 			case INDIVIDUALENTERPRISE:
 				IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto = new IndividualEnterpriseListByMakerDto();
 				individualEnterpriseListByMakerDto.setMakerId(makerId);
-				return iUserClient.listByMaker(Condition.getPage(query), individualEnterpriseListByMakerDto);
+                individualEnterpriseListByMakerDto.setCurrent(query.getCurrent());
+                individualEnterpriseListByMakerDto.setSize(query.getSize());
+                individualEnterpriseListByMakerDto.setAscs(query.getAscs());
+                individualEnterpriseListByMakerDto.setDescs(query.getDescs());
+				return iUserClient.listByMaker(individualEnterpriseListByMakerDto);
 
 			default:
 				return R.fail("创客类型有误");

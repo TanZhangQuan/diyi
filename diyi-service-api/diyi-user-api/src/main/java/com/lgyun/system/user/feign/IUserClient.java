@@ -3,6 +3,7 @@ package com.lgyun.system.user.feign;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IndividualBusinessListByMakerDto;
 import com.lgyun.system.user.dto.IndividualEnterpriseListByMakerDto;
 import com.lgyun.system.user.dto.RunCompanyDto;
@@ -115,30 +116,30 @@ public interface IUserClient {
      *根据创客Id
      */
     @GetMapping(API_PREFIX + "/runCompany/find_by_maker_id")
-    R<IPage<RunCompanyEntity>> findRunCompanyMakerId(@RequestParam IPage<RunCompanyEntity> page,@RequestParam Long makerId);
+    R<IPage<RunCompanyEntity>> findRunCompanyMakerId(@RequestBody Query query,@RequestParam Long makerId);
 
 
     /**
      * 新增平台运营公司（平台方）信息ID
      */
     @PostMapping(API_PREFIX + "/runCompanySave")
-    R runCompanySave(@Valid @RequestBody RunCompanyDto runCompanyDto, @RequestParam Long makerId);
+    R runCompanySave(@Valid @RequestBody RunCompanyDto runCompanyDto);
 
     /**
      * 根据姓名分页
      * @return
      */
-    @GetMapping(API_PREFIX + "/findMakerNamePage")
-    R<IPage<MakerEntity>> findMakerNamePage(@RequestParam IPage<MakerEntity> page, @RequestParam String name);
+    @PostMapping(API_PREFIX + "/findMakerNamePage")
+    R<IPage<MakerEntity>> findMakerNamePage(@RequestBody Query query, @RequestParam String name);
 
 
     //查询当前创客的所有个独
-    @GetMapping(API_PREFIX + "/individualEnterprise/listByMaker")
-    R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker(@RequestParam IPage<IndividualEnterpriseListByMakerVO> page,@Valid @RequestBody IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto);
+    @PostMapping(API_PREFIX + "/individualEnterprise/listByMaker")
+    R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker(@Valid @RequestBody IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto);
 
     //查询当前创客的所有个体户
-    @GetMapping(API_PREFIX + "/individualBusiness/listByMaker")
-    R<IPage<IndividualBusinessListByMakerVO>> listByMaker(@RequestParam IPage<IndividualBusinessListByMakerVO> page,@Valid @RequestBody IndividualBusinessListByMakerDto individualBusinessListByMakerDto);
+    @PostMapping(API_PREFIX + "/individualBusiness/listByMaker")
+    R<IPage<IndividualBusinessListByMakerVO>> listByMaker(@Valid @RequestBody IndividualBusinessListByMakerDto individualBusinessListByMakerDto);
 
     /**
      *根据Id获取个独信息
