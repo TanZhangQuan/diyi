@@ -38,7 +38,6 @@ public class RoleController extends BladeController {
 	 * 详情
 	 */
 	@GetMapping("/detail")
-
 	@ApiOperation(value = "详情", notes = "传入role")
 	public R<RoleVO> detail(Role role) {
 		Role detail = roleService.getOne(Condition.getQueryWrapper(role));
