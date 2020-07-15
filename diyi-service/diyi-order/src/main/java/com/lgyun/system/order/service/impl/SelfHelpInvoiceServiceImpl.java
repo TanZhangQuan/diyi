@@ -44,7 +44,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         save(selfHelpInvoiceEntity);
         String bizName = "";
         String socialCreditNo = "";
-        if(selfHelpInvoiceDto.getInvoicePeopleType().equals(MakerType.ALONE)){
+        if(selfHelpInvoiceDto.getInvoicePeopleType().equals(MakerType.INDIVIDUALENTERPRISE)){
             IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.individualEnterpriseFindById(selfHelpInvoiceDto.getBusinessEnterpriseId());
             bizName = individualEnterpriseEntity.getIbname();
             socialCreditNo = individualEnterpriseEntity.getIbtaxNo();
