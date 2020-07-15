@@ -69,7 +69,7 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public R<IPage<RunCompanyEntity>> findRunCompanyMakerId(Integer current, Integer size, Long makerId) {
+    public R findRunCompanyMakerId(Integer current, Integer size, Long makerId) {
         return R.fail("未获取到账号信息");
     }
 
@@ -80,17 +80,17 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public R<IPage<MakerEntity>> findMakerNamePage(Integer current, Integer size, String name) {
+    public R findMakerNamePage(Integer current, Integer size, String name) {
         return R.fail("未获取到账号信息");
     }
 
     @Override
-    public R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker(@Valid IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto) {
+    public R listByMaker(@Valid IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto) {
         return R.fail("未获取到账号信息");
     }
 
     @Override
-    public R<IPage<IndividualBusinessListByMakerVO>> listByMaker(@Valid IndividualBusinessListByMakerDto individualBusinessListByMakerDto) {
+    public R listByMaker(@Valid IndividualBusinessListByMakerDto individualBusinessListByMakerDto) {
         return R.fail("未获取到账号信息");
     }
 

@@ -1,8 +1,10 @@
 package com.lgyun.system.user.feign;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
+import com.lgyun.common.enumeration.GrantType;
+import com.lgyun.common.enumeration.UserType;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.system.user.dto.IndividualBusinessListByMakerDto;
@@ -111,7 +113,7 @@ public interface IUserClient {
      * 根据创客Id
      */
     @GetMapping(API_PREFIX + "/runCompany/find_by_maker_id")
-    R<IPage<RunCompanyEntity>> findRunCompanyMakerId(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId);
+    R findRunCompanyMakerId(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId);
 
     /**
      * 新增平台运营公司（平台方）信息ID
@@ -125,15 +127,15 @@ public interface IUserClient {
      * @return
      */
     @GetMapping(API_PREFIX + "/findMakerNamePage")
-    R<IPage<MakerEntity>> findMakerNamePage(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("name") String name);
+    R findMakerNamePage(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("name") String name);
 
     //查询当前创客的所有个独
     @PostMapping(API_PREFIX + "/individualEnterprise/listByMaker")
-    R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker(@Valid @RequestBody IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto);
+    R listByMaker(@Valid @RequestBody IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto);
 
     //查询当前创客的所有个体户
     @PostMapping(API_PREFIX + "/individualBusiness/listByMaker")
-    R<IPage<IndividualBusinessListByMakerVO>> listByMaker(@Valid @RequestBody IndividualBusinessListByMakerDto individualBusinessListByMakerDto);
+    R listByMaker(@Valid @RequestBody IndividualBusinessListByMakerDto individualBusinessListByMakerDto);
 
     /**
      * 根据Id获取个独信息

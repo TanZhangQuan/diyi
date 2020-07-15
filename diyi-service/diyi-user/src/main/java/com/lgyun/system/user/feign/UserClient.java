@@ -183,7 +183,7 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R<IPage<RunCompanyEntity>> findRunCompanyMakerId(Integer current, Integer size, Long makerId) {
+    public R findRunCompanyMakerId(Integer current, Integer size, Long makerId) {
         Query query = new Query();
         query.setCurrent(current);
         query.setSize(size);
@@ -196,7 +196,7 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R<IPage<MakerEntity>> findMakerNamePage(Integer current, Integer size, String name) {
+    public R findMakerNamePage(Integer current, Integer size, String name) {
         Query query = new Query();
         query.setCurrent(current);
         query.setSize(size);
@@ -204,12 +204,12 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker(IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto) {
+    public R listByMaker(IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto) {
         return iIndividualEnterpriseService.listByMaker(Condition.getPage(individualEnterpriseListByMakerDto), individualEnterpriseListByMakerDto);
     }
 
     @Override
-    public R<IPage<IndividualBusinessListByMakerVO>> listByMaker(IndividualBusinessListByMakerDto individualBusinessListByMakerDto) {
+    public R listByMaker(IndividualBusinessListByMakerDto individualBusinessListByMakerDto) {
         return iIndividualBusinessService.listByMaker(Condition.getPage(individualBusinessListByMakerDto), individualBusinessListByMakerDto);
     }
 
