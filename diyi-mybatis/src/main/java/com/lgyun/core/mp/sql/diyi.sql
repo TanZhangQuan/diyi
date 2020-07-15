@@ -1040,7 +1040,7 @@ CREATE TABLE `diyi_individual_enterprise_annual_fee` (
 DROP TABLE IF EXISTS `diyi_maker`;
 CREATE TABLE `diyi_maker` (
   `maker_id` bigint(50) NOT NULL COMMENT '创客（分包方）的基本信息ID',
-  `user_id` bigint(50) DEFAULT NULL COMMENT '管理者ID',
+  `user_id` bigint(50) NOT NULL COMMENT '管理者ID',
   `wechat_id` varchar(50) NOT NULL DEFAULT '' COMMENT '微信关联ID',
   `openid` varchar(50) NOT NULL DEFAULT '' COMMENT '微信open_id',
   `session_key` varchar(50) NOT NULL DEFAULT '' COMMENT '微信session_key',
