@@ -3,9 +3,12 @@ package com.lgyun.system.user.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
+import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.VerifyStatus;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.system.order.feign.IOrderClient;
+import com.lgyun.system.order.vo.SelfHelpInvoiceYearMonthMoneyVO;
 import com.lgyun.system.user.dto.IndividualBusinessAddDto;
 import com.lgyun.system.user.dto.IndividualBusinessListByMakerDto;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
@@ -21,7 +24,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 /**
- *  Service 实现
+ * Service 实现
  *
  * @author liangfeihu
  * @since 2020-07-02 17:44:02
@@ -31,6 +34,7 @@ import org.springframework.stereotype.Service;
 public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBusinessMapper, IndividualBusinessEntity> implements IIndividualBusinessService {
 
     private IMakerService makerService;
+    private IOrderClient orderClient;
 
     @Override
     public R save(IndividualBusinessAddDto individualBusinessAddDto, BladeUser bladeUser) {
@@ -72,6 +76,11 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
         String bizName = makerService.getName(individualBusinessDetailVO.getMakerId());
         individualBusinessDetailVO.setBizName(bizName);
         return R.data(individualBusinessDetailVO);
+    }
+
+    @Override
+    public R<SelfHelpInvoiceYearMonthMoneyVO> yearMonthMoney(Long individualBusinessId, MakerType makerType) {
+        return orderClient.yearMonthMoney(individualBusinessId, makerType);
     }
 
 }

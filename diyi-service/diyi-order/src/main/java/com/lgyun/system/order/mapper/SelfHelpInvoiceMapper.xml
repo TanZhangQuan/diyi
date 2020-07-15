@@ -64,7 +64,19 @@
         <result property="basicTaxFee" column="basic_tax_fee"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.order.vo.SelfHelpInvoiceYearMonthMoneyVO" id="InvoiceYearMonthMoneyVO">
+        <result property="monthMoney" column="month_money"/>
+        <result property="yearMoney" column="year_money"/>
+    </resultMap>
+
     <select id="getSelfHelpInvoiceDetails" resultMap="selfHelpInvoiceDetailsVO">
         SELECT zs.self_help_invoice_id, rc.run_company_id, a.address_id, sp.invoice_people_id, sd.self_help_invoice_detail_id, hf.hand_pay_id, rc.company_name, rc.tax_no, rc.employee_name, rc.phone_no, rc.bank_name, rc.bank_account, sd.charge_money_num, sd.invoice_type, sd.flow_contract_url, sd.business_contract_url, a.address_name, a.address_phone, a.area, a.city, a.province, a.detailed_address, sp.id_card_name, sp.id_card_no, sp.phone_number, hf.give_price_date, hf.total_tax_fee, hf.basic_tax_fee, hf.basic_tax_fee_rate, hf.invoice_fee, hf.identify_fee FROM diyi_self_help_invoice zs INNER JOIN diyi_run_company rc ON rc.run_company_id = zs.company_id INNER JOIN diyi_self_help_invoice_detail sd ON sd.self_help_invoice_id = zs.self_help_invoice_id INNER JOIN diyi_address a ON a.address_id = zs.address_id INNER JOIN diyi_self_help_invoice_person sp ON sp.invoice_people_id = sd.none_maker_invoice_person_id INNER JOIN diyi_self_help_invoice_fee hf ON zs.self_help_invoice_id = hf.self_help_invoice_id where  zs.self_help_invoice_id =#{selfHelpInvoiceId}
     </select>
+
+    <select id="yearMonthMoney" resultMap="InvoiceYearMonthMoneyVO">
+        SELECT (SELECT SUM(charge_money_num) FROM diyi_self_help_invoice t1 WHERE t1.self_help_invoice_id = t3.self_help_invoice_id AND MONTH(create_time) = MONTH(NOW())) AS month_money,
+        (SELECT SUM(charge_money_num) FROM diyi_self_help_invoice t2 WHERE t2.self_help_invoice_id = t3.self_help_invoice_id AND YEAR(create_time) = YEAR(NOW())) AS year_money
+        FROM diyi_self_help_invoice t3 WHERE t3.business_enterprise_id = #{individualBusinessId} AND t3.invoice_people_type = #{makerType}
+    </select>
+
 </mapper>

@@ -14,6 +14,7 @@ import com.lgyun.system.order.service.ISelfHelpInvoiceService;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.feign.IUserClient;
+import com.lgyun.system.order.vo.SelfHelpInvoiceYearMonthMoneyVO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,7 +41,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         save(selfHelpInvoiceEntity);
         String bizName = "";
         String socialCreditNo = "";
-        if(selfHelpInvoiceDto.getInvoicePeopleType().equals(MakerType.ALONE)){
+        if(selfHelpInvoiceDto.getInvoicePeopleType().equals(MakerType.INDIVIDUALENTERPRISE)){
             IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.individualEnterpriseFindByMakerId(selfHelpInvoiceDto.getApplyMakerId());
             bizName = individualEnterpriseEntity.getIbname();
             socialCreditNo = individualEnterpriseEntity.getIbtaxNo();
@@ -68,4 +69,11 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         }
         return R.data(baseMapper.getSelfHelpInvoiceDetails(selfHelpInvoiceId));
     }
+
+    @Override
+    public R<SelfHelpInvoiceYearMonthMoneyVO> yearMonthMoney(Long individualBusinessId, MakerType makerType) {
+        SelfHelpInvoiceYearMonthMoneyVO selfHelpInvoiceYearMonthMoneyVO = baseMapper.yearMonthMoney(individualBusinessId, makerType);
+        return R.data(selfHelpInvoiceYearMonthMoneyVO);
+    }
+
 }

@@ -3,6 +3,7 @@ package com.lgyun.system.order.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
+import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.dto.ReleaseWorksheetDto;
@@ -59,16 +60,10 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         if(null == releaseWorksheetDTO.getWorksheetMode()){
             return R.fail("工单模式不能为空");
         }
-        worksheetEntity.setEnterpriseId(releaseWorksheetDTO.getEnterpriseId());
+
+        BeanUtil.copy(releaseWorksheetDTO, worksheetEntity);
         worksheetEntity.setWorksheetNo(UUID.randomUUID().toString());
-        worksheetEntity.setWorksheetName(releaseWorksheetDTO.getWorksheetName());
-        worksheetEntity.setUppersonNum(releaseWorksheetDTO.getUppersonNum());
-        worksheetEntity.setWorkDays(releaseWorksheetDTO.getWorkDays());
-        worksheetEntity.setWorksheetFee(releaseWorksheetDTO.getWorksheetFee());
-        worksheetEntity.setWorksheetType(releaseWorksheetDTO.getWorksheetType());
-        worksheetEntity.setWorksheetMode(releaseWorksheetDTO.getWorksheetMode());
         worksheetEntity.setPublishDate(new Date());
-        worksheetEntity.setMakerType(releaseWorksheetDTO.getMakerType());
         worksheetEntity.setWorksheetState(WorksheetState.PUBLISHING);
         save(worksheetEntity);
 
@@ -134,7 +129,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             return R.fail("创客身份不符-个体");
         }
         IndividualEnterpriseEntity individualEnterpriseEntity = individualEnterpriseService.findMakerId(makerEntity.getMakerId());
-        if(null == individualEnterpriseEntity && worksheetEntity.getMakerType().equals(MakerType.ALONE)){
+        if(null == individualEnterpriseEntity && worksheetEntity.getMakerType().equals(MakerType.INDIVIDUALENTERPRISE)){
             return R.fail("创客身份不符-个独");
         }
         WorksheetMakerEntity worksheetMakerEntity = new WorksheetMakerEntity();

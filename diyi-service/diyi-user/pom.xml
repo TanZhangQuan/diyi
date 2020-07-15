@@ -34,6 +34,13 @@
         </dependency>
         <dependency>
             <groupId>com.lgyun</groupId>
+            <artifactId>diyi-order-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lgyun</groupId>
             <artifactId>diyi-auth</artifactId>
             <version>${diyi.project.version}</version>
         </dependency>
