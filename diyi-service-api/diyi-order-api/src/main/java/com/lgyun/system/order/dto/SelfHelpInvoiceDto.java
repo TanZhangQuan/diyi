@@ -57,4 +57,8 @@ public class SelfHelpInvoiceDto implements Serializable {
 
     //总身份验证费
     private BigDecimal idendityConfirmFee;
+
+    private Long businessEnterpriseId;
+
+
 }

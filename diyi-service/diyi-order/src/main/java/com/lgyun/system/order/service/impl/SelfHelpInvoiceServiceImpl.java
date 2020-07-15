@@ -35,21 +35,26 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     @Override
     @Transactional
     public R submitSelfHelpInvoice(SelfHelpInvoiceDto selfHelpInvoiceDto) {
+        if(!selfHelpInvoiceDto.getInvoicePeopleType().equals(MakerType.NATURALPERSON) && null == selfHelpInvoiceDto.getBusinessEnterpriseId()){
+            R.fail("参数错误");
+        }
         SelfHelpInvoiceEntity selfHelpInvoiceEntity = new SelfHelpInvoiceEntity();
         BeanUtil.copy(selfHelpInvoiceDto, selfHelpInvoiceEntity);
         selfHelpInvoiceEntity.setInvoiceState(InvoiceState.NOTREVIEWED);
         save(selfHelpInvoiceEntity);
         String bizName = "";
         String socialCreditNo = "";
-        if(selfHelpInvoiceDto.getInvoicePeopleType().equals(MakerType.INDIVIDUALENTERPRISE)){
-            IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.individualEnterpriseFindByMakerId(selfHelpInvoiceDto.getApplyMakerId());
+        if(selfHelpInvoiceDto.getInvoicePeopleType().equals(MakerType.ALONE)){
+            IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.individualEnterpriseFindById(selfHelpInvoiceDto.getBusinessEnterpriseId());
             bizName = individualEnterpriseEntity.getIbname();
             socialCreditNo = individualEnterpriseEntity.getIbtaxNo();
+            selfHelpInvoiceEntity.setBusinessEnterpriseId(individualEnterpriseEntity.getIndividualEnterpriseId());
         }
         if(selfHelpInvoiceDto.getInvoicePeopleType().equals(MakerType.INDIVIDUALBUSINESS)){
-            IndividualBusinessEntity individualBusinessEntity = iUserClient.individualBusinessByMakerId(selfHelpInvoiceDto.getApplyMakerId());
+            IndividualBusinessEntity individualBusinessEntity = iUserClient.individualBusinessById(selfHelpInvoiceDto.getBusinessEnterpriseId());
             bizName = individualBusinessEntity.getIbname();
             socialCreditNo = individualBusinessEntity.getIbtaxNo();
+            selfHelpInvoiceEntity.setBusinessEnterpriseId(individualBusinessEntity.getIndividualBusinessId());
         }
 
         SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = new SelfHelpInvoiceDetailEntity();
