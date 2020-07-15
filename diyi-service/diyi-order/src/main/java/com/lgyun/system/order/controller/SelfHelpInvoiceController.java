@@ -70,7 +70,9 @@ public class SelfHelpInvoiceController {
     @GetMapping("/findMakerId")
     @ApiOperation(value = "查询购买方", notes = "查询购买方")
     public R findMakerId(Query query, Long makerId) {
-        return iUserClient.findRunCompanyMakerId(query, makerId);
+        Integer current = query.getCurrent() == null ? 1 :query.getCurrent();
+        Integer size = query.getSize() == null ? 10 :query.getSize();
+        return iUserClient.findRunCompanyMakerId(current, size, makerId);
     }
 
     /**

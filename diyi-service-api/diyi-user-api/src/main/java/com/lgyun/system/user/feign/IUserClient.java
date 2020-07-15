@@ -3,16 +3,12 @@ package com.lgyun.system.user.feign;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
-import com.lgyun.core.mp.support.Query;
+import com.lgyun.common.enumeration.GrantType;
+import com.lgyun.common.enumeration.UserType;
 import com.lgyun.system.user.dto.IndividualBusinessListByMakerDto;
 import com.lgyun.system.user.dto.IndividualEnterpriseListByMakerDto;
 import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.*;
-import com.lgyun.common.enumeration.GrantType;
-import com.lgyun.common.enumeration.UserType;
-import com.lgyun.system.user.entity.MakerEntity;
-import com.lgyun.system.user.entity.User;
-import com.lgyun.system.user.entity.UserInfo;
 import com.lgyun.system.user.vo.IndividualBusinessListByMakerVO;
 import com.lgyun.system.user.vo.IndividualEnterpriseListByMakerVO;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -99,25 +95,23 @@ public interface IUserClient {
     @PostMapping(API_PREFIX + "/wechat-authorization")
     R makerSaveOrUpdate(@RequestParam("openid") String openid, @RequestParam("sessionKey") String sessionKey, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
 
-
-	/**
-	 * 获取个独信息
-	 */
-	@GetMapping(API_PREFIX + "/individualEnterprise/find_by_maker_id")
-	IndividualEnterpriseEntity individualEnterpriseFindByMakerId(@RequestParam("makerId") Long makerId);
-
-	/**
-	 * 获取个体信息
-	 */
-	@GetMapping(API_PREFIX + "/individualBusiness/find_by_maker_id")
-	IndividualBusinessEntity individualBusinessByMakerId(@RequestParam("makerId") Long makerId);
+    /**
+     * 获取个独信息
+     */
+    @GetMapping(API_PREFIX + "/individualEnterprise/find_by_maker_id")
+    IndividualEnterpriseEntity individualEnterpriseFindByMakerId(@RequestParam("makerId") Long makerId);
 
     /**
-     *根据创客Id
+     * 获取个体信息
+     */
+    @GetMapping(API_PREFIX + "/individualBusiness/find_by_maker_id")
+    IndividualBusinessEntity individualBusinessByMakerId(@RequestParam("makerId") Long makerId);
+
+    /**
+     * 根据创客Id
      */
     @GetMapping(API_PREFIX + "/runCompany/find_by_maker_id")
-    R<IPage<RunCompanyEntity>> findRunCompanyMakerId(@RequestBody Query query,@RequestParam Long makerId);
-
+    R<IPage<RunCompanyEntity>> findRunCompanyMakerId(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId);
 
     /**
      * 新增平台运营公司（平台方）信息ID
@@ -127,11 +121,11 @@ public interface IUserClient {
 
     /**
      * 根据姓名分页
+     *
      * @return
      */
-    @PostMapping(API_PREFIX + "/findMakerNamePage")
-    R<IPage<MakerEntity>> findMakerNamePage(@RequestBody Query query, @RequestParam String name);
-
+    @GetMapping(API_PREFIX + "/findMakerNamePage")
+    R<IPage<MakerEntity>> findMakerNamePage(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("name") String name);
 
     //查询当前创客的所有个独
     @PostMapping(API_PREFIX + "/individualEnterprise/listByMaker")
@@ -142,7 +136,7 @@ public interface IUserClient {
     R<IPage<IndividualBusinessListByMakerVO>> listByMaker(@Valid @RequestBody IndividualBusinessListByMakerDto individualBusinessListByMakerDto);
 
     /**
-     *根据Id获取个独信息
+     * 根据Id获取个独信息
      */
     @GetMapping(API_PREFIX + "/individualEnterprise/find_by_id")
     IndividualEnterpriseEntity individualEnterpriseFindById(@RequestParam("individualEnterpriseId") Long individualEnterpriseId);

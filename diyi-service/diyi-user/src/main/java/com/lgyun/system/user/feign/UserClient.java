@@ -11,16 +11,12 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IndividualBusinessListByMakerDto;
 import com.lgyun.system.user.dto.IndividualEnterpriseListByMakerDto;
 import com.lgyun.system.user.dto.RunCompanyDto;
-import com.lgyun.system.user.entity.MakerEntity;
-import com.lgyun.system.user.entity.User;
-import com.lgyun.system.user.entity.UserInfo;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.IndividualBusinessListByMakerVO;
 import com.lgyun.system.user.vo.IndividualEnterpriseListByMakerVO;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
@@ -187,7 +183,10 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R<IPage<RunCompanyEntity>> findRunCompanyMakerId(@RequestBody Query query, Long makerId) {
+    public R<IPage<RunCompanyEntity>> findRunCompanyMakerId(Integer current, Integer size, Long makerId) {
+        Query query = new Query();
+        query.setCurrent(current);
+        query.setSize(size);
         return iRunCompanyService.findMakerId(Condition.getPage(query),makerId);
     }
 
@@ -197,7 +196,10 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R<IPage<MakerEntity>> findMakerNamePage(Query query, String name) {
+    public R<IPage<MakerEntity>> findMakerNamePage(Integer current, Integer size, String name) {
+        Query query = new Query();
+        query.setCurrent(current);
+        query.setSize(size);
         return iMakerService.findNamePage(Condition.getPage(query),name);
     }
 

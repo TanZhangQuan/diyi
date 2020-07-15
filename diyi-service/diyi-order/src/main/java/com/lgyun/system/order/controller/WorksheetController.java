@@ -9,8 +9,6 @@ import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
-import com.lgyun.system.user.service.IMakerService;
-import com.lgyun.system.user.util.MakerCurrentUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -37,73 +35,75 @@ import java.math.BigDecimal;
 @Api(value = "工单相关接口", tags = "工单相关接口")
 public class WorksheetController {
 
-	private IWorksheetService worksheetService;
+    private IWorksheetService worksheetService;
 
-	private IUserClient iUserClient;
+    private IUserClient iUserClient;
 
-	private IWorksheetMakerService worksheetMakerService;
+    private IWorksheetMakerService worksheetMakerService;
 
-	/**
-	 * 发布工单
-	 */
-	@PostMapping("/releaseWorksheet")
-	@ApiOperation(value = "发布工单", notes = "发布工单")
-	public R releaseWorksheet(@Valid @RequestBody ReleaseWorksheetDto releaseWorksheetDTO) {
-		return worksheetService.releaseWorksheet(releaseWorksheetDTO);
-	}
+    /**
+     * 发布工单
+     */
+    @PostMapping("/releaseWorksheet")
+    @ApiOperation(value = "发布工单", notes = "发布工单")
+    public R releaseWorksheet(@Valid @RequestBody ReleaseWorksheetDto releaseWorksheetDTO) {
+        return worksheetService.releaseWorksheet(releaseWorksheetDTO);
+    }
 
-	/**
-	 * 通过创客名字查询创客
-	 */
-	@GetMapping("/findNamePage")
-	@ApiOperation(value = "通过创客名字查询创客", notes = "通过创客名字查询创客")
-	public R findNamePage(String name, Query query) {
-		return iUserClient.findMakerNamePage(query,name);
-	}
+    /**
+     * 通过创客名字查询创客
+     */
+    @PostMapping("/findNamePage")
+    @ApiOperation(value = "通过创客名字查询创客", notes = "通过创客名字查询创客")
+    public R findNamePage(String name, Query query) {
+        Integer current = query.getCurrent() == null ? 1 : query.getCurrent();
+        Integer size = query.getSize() == null ? 10 : query.getSize();
+        return iUserClient.findMakerNamePage(current, size, name);
+    }
 
-	/**
-	 * 抢单
-	 */
-	@PostMapping("/orderGrabbing")
-	@ApiOperation(value = "抢单", notes = "抢单")
-	public R orderGrabbing(Long worksheetId,Long makerId) {
-		return worksheetService.orderGrabbing(worksheetId,makerId);
-	}
+    /**
+     * 抢单
+     */
+    @PostMapping("/orderGrabbing")
+    @ApiOperation(value = "抢单", notes = "抢单")
+    public R orderGrabbing(Long worksheetId, Long makerId) {
+        return worksheetService.orderGrabbing(worksheetId, makerId);
+    }
 
-	/**
-	 * 小程查询工单
-	 */
-	@GetMapping("/findXiaoPage")
-	@ApiOperation(value = "小程查询工单", notes = "小程查询工单")
-	@ApiImplicitParams({
-			@ApiImplicitParam(name = "worksheetState", value = "工单状态：1代表待抢单，2已接单，3已交付", paramType = "query", dataType = "string"),
-	})
-	public R findXiaoPage(Query query, Integer worksheetState, BladeUser bladeUser) {
-		//MakerEntity makerEntity = MakerCurrentUtil.current(bladeUser);
-		MakerEntity makerEntity = new MakerEntity();
-		makerEntity.setMakerId(1278969988057903106L);
-		if(worksheetState != 1 && worksheetState != 2 && worksheetState != 3){
-			return R.fail("参数错误");
-		}
-		return worksheetService.findXiaoPage(Condition.getPage(query),worksheetState,makerEntity.getMakerId());
-	}
+    /**
+     * 小程查询工单
+     */
+    @GetMapping("/findXiaoPage")
+    @ApiOperation(value = "小程查询工单", notes = "小程查询工单")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "worksheetState", value = "工单状态：1代表待抢单，2已接单，3已交付", paramType = "query", dataType = "string"),
+    })
+    public R findXiaoPage(Query query, Integer worksheetState, BladeUser bladeUser) {
+        //MakerEntity makerEntity = MakerCurrentUtil.current(bladeUser);
+        MakerEntity makerEntity = new MakerEntity();
+        makerEntity.setMakerId(1278969988057903106L);
+        if (worksheetState != 1 && worksheetState != 2 && worksheetState != 3) {
+            return R.fail("参数错误");
+        }
+        return worksheetService.findXiaoPage(Condition.getPage(query), worksheetState, makerEntity.getMakerId());
+    }
 
-	/**
-	 * 提交工作成果
-	 */
-	@PostMapping("/submitachievement")
-	@ApiOperation(value = "提交工作成果", notes = "提交工作成果")
-	public R submitachievement(Long worksheetMakerId,String achievementDesc,String achievementFiles) {
-		return worksheetMakerService.submitAchievement(worksheetMakerId,achievementDesc,achievementFiles);
-	}
+    /**
+     * 提交工作成果
+     */
+    @PostMapping("/submitachievement")
+    @ApiOperation(value = "提交工作成果", notes = "提交工作成果")
+    public R submitachievement(Long worksheetMakerId, String achievementDesc, String achievementFiles) {
+        return worksheetMakerService.submitAchievement(worksheetMakerId, achievementDesc, achievementFiles);
+    }
 
-	/**
-	 * 验收工作成果
-	 */
-	@PostMapping("/checkAchievement")
-	@ApiOperation(value = "验收工作成果", notes = "验收工作成果")
-	public R checkAchievement(Long worksheetMakerId, BigDecimal checkMoney, Long enterpriseId,Boolean bool) {
-		return worksheetMakerService.checkAchievement(worksheetMakerId,checkMoney,enterpriseId,bool);
-	}
+    /**
+     * 验收工作成果
+     */
+    @PostMapping("/checkAchievement")
+    @ApiOperation(value = "验收工作成果", notes = "验收工作成果")
+    public R checkAchievement(Long worksheetMakerId, BigDecimal checkMoney, Long enterpriseId, Boolean bool) {
+        return worksheetMakerService.checkAchievement(worksheetMakerId, checkMoney, enterpriseId, bool);
+    }
 
 }

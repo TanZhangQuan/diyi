@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
-import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IndividualBusinessListByMakerDto;
 import com.lgyun.system.user.dto.IndividualEnterpriseListByMakerDto;
 import com.lgyun.system.user.dto.RunCompanyDto;
@@ -70,31 +69,30 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public R<IPage<RunCompanyEntity>> findRunCompanyMakerId(Query query, Long makerId) {
-        return null;
+    public R<IPage<RunCompanyEntity>> findRunCompanyMakerId(Integer current, Integer size, Long makerId) {
+        return R.fail("未获取到账号信息");
     }
 
 
     @Override
     public R runCompanySave(RunCompanyDto runCompanyDto) {
-        return null;
+        return R.fail("未获取到账号信息");
     }
 
     @Override
-    public R<IPage<MakerEntity>> findMakerNamePage(Query query, String name) {
-        return null;
+    public R<IPage<MakerEntity>> findMakerNamePage(Integer current, Integer size, String name) {
+        return R.fail("未获取到账号信息");
     }
 
     @Override
-    public R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker( @Valid IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto) {
-        return null;
+    public R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker(@Valid IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto) {
+        return R.fail("未获取到账号信息");
     }
 
     @Override
-    public R<IPage<IndividualBusinessListByMakerVO>> listByMaker( @Valid IndividualBusinessListByMakerDto individualBusinessListByMakerDto) {
-        return null;
+    public R<IPage<IndividualBusinessListByMakerVO>> listByMaker(@Valid IndividualBusinessListByMakerDto individualBusinessListByMakerDto) {
+        return R.fail("未获取到账号信息");
     }
-
 
     @Override
     public IndividualEnterpriseEntity individualEnterpriseFindById(Long individualEnterpriseId) {

@@ -13,6 +13,7 @@
         <result property="wechatNickname" column="wechat_nickname"/>
         <result property="relDate" column="rel_date"/>
         <result property="name" column="name"/>
+        <result property="makerState" column="maker_state"/>
         <result property="politicState" column="politic_state"/>
         <result property="nationality" column="nationality"/>
         <result property="levelofedu" column="levelofedu"/>
@@ -92,7 +93,7 @@
         FROM diyi_maker
         WHERE 1=1
         <if test="name != null and name !=''">
-           and name like concat('%', #{name}, '%')
+            and name like concat('%', #{name}, '%')
         </if>
     </select>
 
