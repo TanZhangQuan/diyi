@@ -6,12 +6,17 @@ import com.lgyun.common.constant.CommonConstant;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.common.tool.StringUtil;
+import com.lgyun.core.mp.support.Condition;
+import com.lgyun.system.user.dto.IndividualBusinessListByMakerDto;
+import com.lgyun.system.user.dto.IndividualEnterpriseListByMakerDto;
 import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.entity.UserInfo;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.service.*;
+import com.lgyun.system.user.vo.IndividualBusinessListByMakerVO;
+import com.lgyun.system.user.vo.IndividualEnterpriseListByMakerVO;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -192,6 +197,26 @@ public class UserClient implements IUserClient {
     @Override
     public R<IPage<MakerEntity>> findMakerNamePage(IPage<MakerEntity> page, String name) {
         return iMakerService.findNamePage(page,name);
+    }
+
+    @Override
+    public R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker(IPage<IndividualEnterpriseListByMakerVO> page, IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto) {
+        return iIndividualEnterpriseService.listByMaker(page, individualEnterpriseListByMakerDto);
+    }
+
+    @Override
+    public R<IPage<IndividualBusinessListByMakerVO>> listByMaker(IPage<IndividualBusinessListByMakerVO> page, IndividualBusinessListByMakerDto individualBusinessListByMakerDto) {
+        return iIndividualBusinessService.listByMaker(page, individualBusinessListByMakerDto);
+    }
+
+    @Override
+    public IndividualEnterpriseEntity individualEnterpriseFindById(Long individualEnterpriseId) {
+        return iIndividualEnterpriseService.getById(individualEnterpriseId);
+    }
+
+    @Override
+    public IndividualBusinessEntity individualBusinessById(Long individualBusinessId) {
+        return iIndividualBusinessService.getById(individualBusinessId);
     }
 
 }

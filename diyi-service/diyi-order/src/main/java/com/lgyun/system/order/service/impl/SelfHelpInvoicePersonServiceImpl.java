@@ -2,6 +2,7 @@ package com.lgyun.system.order.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.dto.SelfHelpInvoicePersonDto;
 import com.lgyun.system.order.entity.SelfHelpInvoicePersonEntity;
@@ -22,7 +23,7 @@ import org.springframework.stereotype.Service;
 public class SelfHelpInvoicePersonServiceImpl extends BaseServiceImpl<SelfHelpInvoicePersonMapper, SelfHelpInvoicePersonEntity> implements ISelfHelpInvoicePersonService {
 
     @Override
-    public R<IPage<SelfHelpInvoicePersonEntity>> findPersonMakerId(IPage<SelfHelpInvoicePersonEntity> page, Long makerId) {
+    public R<IPage<SelfHelpInvoicePersonEntity>> findPersonMakerId(IPage<SelfHelpInvoicePersonEntity> page, Long makerId, MakerType makerType) {
         return R.data(page.setRecords(baseMapper.findPersonMakerId(page, makerId)));
     }
 
