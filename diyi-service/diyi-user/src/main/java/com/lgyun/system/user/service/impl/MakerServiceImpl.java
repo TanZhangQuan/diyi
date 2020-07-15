@@ -7,6 +7,7 @@ import com.lgyun.common.constant.RealnameVerifyConstant;
 import com.lgyun.common.enumeration.IdcardVerifyType;
 import com.lgyun.common.enumeration.VerifyStatus;
 import com.lgyun.common.secure.BladeUser;
+import com.lgyun.common.tool.Base64Util;
 import com.lgyun.common.tool.Func;
 import com.lgyun.common.tool.HttpUtil;
 import com.lgyun.common.tool.RealnameVerifyUtil;
@@ -22,7 +23,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import sun.misc.BASE64Decoder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -159,7 +159,8 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             //获取人脸截图base64
             String facePhotoBase64 = HttpUtil.get(facePhotoUrl);
             //上传人脸截图base64到阿里云存储
-            byte[] bytes = new BASE64Decoder().decodeBuffer(facePhotoBase64.trim());
+            // todo
+            byte[] bytes = Base64Util.decodeFromString(facePhotoBase64.trim());
             String url = ossService.uploadSuffix(bytes, ".jpg");
 
             makerEntity.setPicVerify(url);
@@ -386,7 +387,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R<IPage<MakerEntity>> findNamePage(IPage<MakerEntity> page,String name) {
+    public R<IPage<MakerEntity>> findNamePage(IPage<MakerEntity> page, String name) {
         return R.data(page.setRecords(baseMapper.selectTenantPage(page, name)));
     }
 

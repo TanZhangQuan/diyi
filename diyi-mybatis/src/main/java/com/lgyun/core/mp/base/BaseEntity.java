@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import com.lgyun.common.tool.DateUtil;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -21,6 +20,8 @@ import java.util.Date;
 @Data
 public class BaseEntity implements Serializable {
 
+    public static final String PATTERN_DATETIME = "yyyy-MM-dd HH:mm:ss";
+
     /**
      * 创建人
      */
@@ -31,8 +32,8 @@ public class BaseEntity implements Serializable {
     /**
      * 创建时间
      */
-    @DateTimeFormat(pattern = DateUtil.PATTERN_DATETIME)
-    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
+    @DateTimeFormat(pattern = PATTERN_DATETIME)
+    @JsonFormat(pattern = PATTERN_DATETIME, timezone = "GMT+8")
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
 
@@ -46,8 +47,8 @@ public class BaseEntity implements Serializable {
     /**
      * 更新时间
      */
-    @DateTimeFormat(pattern = DateUtil.PATTERN_DATETIME)
-	@JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
+    @DateTimeFormat(pattern = PATTERN_DATETIME)
+	@JsonFormat(pattern = PATTERN_DATETIME, timezone = "GMT+8")
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
 
