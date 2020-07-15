@@ -76,8 +76,8 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
-    public R<SelfHelpInvoiceYearMonthMoneyVO> yearMonthMoney(Long individualBusinessId, MakerType makerType) {
-        SelfHelpInvoiceYearMonthMoneyVO selfHelpInvoiceYearMonthMoneyVO = baseMapper.yearMonthMoney(individualBusinessId, makerType);
+    public R<SelfHelpInvoiceYearMonthMoneyVO> yearMonthMoney(Long businessEnterpriseId, MakerType makerType) {
+        SelfHelpInvoiceYearMonthMoneyVO selfHelpInvoiceYearMonthMoneyVO = baseMapper.yearMonthMoney(businessEnterpriseId, makerType);
         return R.data(selfHelpInvoiceYearMonthMoneyVO);
     }
 

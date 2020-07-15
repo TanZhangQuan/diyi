@@ -3,9 +3,12 @@ package com.lgyun.system.user.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
+import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.VerifyStatus;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.system.order.feign.IOrderClient;
+import com.lgyun.system.order.vo.SelfHelpInvoiceYearMonthMoneyVO;
 import com.lgyun.system.user.dto.IndividualEnterpriseAddDto;
 import com.lgyun.system.user.dto.IndividualEnterpriseListByMakerDto;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
@@ -31,6 +34,7 @@ import org.springframework.stereotype.Service;
 public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualEnterpriseMapper, IndividualEnterpriseEntity> implements IIndividualEnterpriseService {
 
     private IMakerService makerService;
+    private IOrderClient orderClient;
 
     @Override
     public R save(IndividualEnterpriseAddDto individualEnterpriseAddDto, BladeUser bladeUser) {
@@ -76,6 +80,11 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
         String bizName = makerService.getName(individualEnterpriseDetailVO.getMakerId());
         individualEnterpriseDetailVO.setBizName(bizName);
         return R.data(individualEnterpriseDetailVO);
+    }
+
+    @Override
+    public R<SelfHelpInvoiceYearMonthMoneyVO> yearMonthMoney(Long individualEnterpriseId, MakerType makerType) {
+        return orderClient.yearMonthMoney(individualEnterpriseId, makerType);
     }
 
 }

@@ -38,13 +38,13 @@
         <result property="isDeleted" column="is_deleted"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.IndividualEnterpriseListByMakerVO" id="IndividualEnterpriseListByMakerVO">
+    <resultMap type="com.lgyun.system.user.vo.IndividualEnterpriseListByMakerVO" id="individualEnterpriseListByMakerVO">
         <result property="individualEnterpriseId" column="individual_enterprise_id"/>
         <result property="ibname" column="ibname"/>
         <result property="candidatedNames" column="candidated_names"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.IndividualEnterpriseDetailVO" id="IndividualEnterpriseDetailVO">
+    <resultMap type="com.lgyun.system.user.vo.IndividualEnterpriseDetailVO" id="individualEnterpriseDetailVO">
         <result property="individualEnterpriseId" column="individual_enterprise_id"/>
         <result property="ibname" column="ibname"/>
         <result property="candidatedNames" column="candidated_names"/>
@@ -62,7 +62,7 @@
         select * from diyi_individual_enterprise where maker_id=#{makerId} and is_deleted = 0
     </select>
 
-    <select id="listByMaker" resultMap="IndividualEnterpriseListByMakerVO">
+    <select id="listByMaker" resultMap="individualEnterpriseListByMakerVO">
         select individual_enterprise_id, ibname, candidated_names from diyi_individual_enterprise
         where maker_id = #{individualEnterpriseListByMakerDto.makerId} and is_deleted = 0
         <if test="individualEnterpriseListByMakerDto.ibstate != null">
@@ -70,7 +70,7 @@
         </if>
     </select>
 
-    <select id="findById" resultMap="IndividualEnterpriseDetailVO">
+    <select id="findById" resultMap="individualEnterpriseDetailVO">
         select individual_enterprise_id, ibname, candidated_names, ibtax_no, biz_park, main_industry, biz_scope, ind_ent_tax_type, maker_id,
         business_licence_url, business_licence_copy_url from diyi_individual_enterprise
         where individual_enterprise_id = #{individualBusinessId} and is_deleted = 0 limit 1

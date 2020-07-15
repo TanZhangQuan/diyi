@@ -20,8 +20,8 @@ public class OrderClient implements IOrderClient {
     private ISelfHelpInvoiceService iSelfHelpInvoiceService;
 
     @Override
-    public R<SelfHelpInvoiceYearMonthMoneyVO> yearMonthMoney(Long individualBusinessId, MakerType makerType) {
-        return iSelfHelpInvoiceService.yearMonthMoney(individualBusinessId, makerType);
+    public R<SelfHelpInvoiceYearMonthMoneyVO> yearMonthMoney(Long businessEnterpriseId, MakerType makerType) {
+        return iSelfHelpInvoiceService.yearMonthMoney(businessEnterpriseId, makerType);
     }
 
 }

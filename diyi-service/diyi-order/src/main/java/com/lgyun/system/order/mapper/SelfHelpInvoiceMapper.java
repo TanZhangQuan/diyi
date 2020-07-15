@@ -20,7 +20,7 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
      */
     SelfHelpInvoiceDetailsVO getSelfHelpInvoiceDetails(Long selfHelpInvoiceId);
 
-    SelfHelpInvoiceYearMonthMoneyVO yearMonthMoney(Long individualBusinessId, MakerType makerType);
+    SelfHelpInvoiceYearMonthMoneyVO yearMonthMoney(Long businessEnterpriseId, MakerType makerType);
 
 }
 

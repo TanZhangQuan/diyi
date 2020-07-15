@@ -2,10 +2,12 @@ package com.lgyun.system.user.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
+import com.lgyun.system.order.vo.SelfHelpInvoiceYearMonthMoneyVO;
 import com.lgyun.system.user.dto.IndividualEnterpriseAddDto;
 import com.lgyun.system.user.dto.IndividualEnterpriseListByMakerDto;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
@@ -109,6 +111,19 @@ public class IndividualEnterpriseController {
 			return individualEnterpriseService.findById(individualEnterpriseId);
 		} catch (Exception e) {
 			log.error("查询个独详情异常", e);
+		}
+		return R.fail("查询失败");
+	}
+
+	@GetMapping("/year-month-money")
+	@ApiOperation(value = "查询个体户月度开票金额和年度开票金额", notes = "查询个体户月度开票金额和年度开票金额")
+	public R<SelfHelpInvoiceYearMonthMoneyVO> yearMonthMoney(@ApiParam(value = "个体户编号") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualEnterpriseId) {
+
+		log.info("查询个体户月度开票金额和年度开票金额");
+		try {
+			return individualEnterpriseService.yearMonthMoney(individualEnterpriseId, MakerType.INDIVIDUALBUSINESS);
+		} catch (Exception e) {
+			log.error("查询个体户月度开票金额和年度开票金额异常", e);
 		}
 		return R.fail("查询失败");
 	}
