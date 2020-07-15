@@ -785,107 +785,11 @@ CREATE TABLE `diyi_employee` (
 DROP TABLE IF EXISTS `diyi_enterprise`;
 CREATE TABLE `diyi_enterprise` (
   `enterprise_id` bigint(50) NOT NULL COMMENT '外包企业（发包方）的基本信息ID',
-  `enterprise_user_name` varchar(50) NOT NULL COMMENT '用户名',
-  `enterprise_pwd` varchar(100) NOT NULL COMMENT '密码',
-  `enterprise_state` varchar(50) NOT NULL COMMENT '商户账户状态',
+  `en_user_name` varchar(50) NOT NULL COMMENT '用户名',
+  `en_user_pwd` varchar(50) NOT NULL COMMENT '密码',
   `invite_no` varchar(50) NOT NULL COMMENT '创客加入邀请码',
   `enterprise_name` varchar(50) NOT NULL COMMENT '客户名称',
-  `legal_person_name` varchar(50) NOT NULL COMMENT '法人代表名称',
-  `legal_person_idcard` varchar(50) NOT NULL COMMENT '法人身份证',
-  `social_credit_no` varchar(100) NOT NULL COMMENT '统一社会信用代码',
-  `biz_licence_url` varchar(200) NOT NULL COMMENT '营业执照图片地址',
-  `enterprise_url` varchar(100) NOT NULL COMMENT '企业网址',
-  `working_address` varchar(100) NOT NULL COMMENT '办公地址(快递地址）',
-  `working_rel_name` varchar(50) NOT NULL COMMENT '收发票/税票快递【到付】联系人姓名',
-  `working_rel_phone` varchar(50) NOT NULL COMMENT '收发票/税票快递【到付】联系人手机号',
-  `invoice_enterprise_name` varchar(50) NOT NULL COMMENT '开票资料-公司名称',
-  `invoice_tax_no` varchar(50) NOT NULL COMMENT '开票资料-税号',
-  `invoice_address` varchar(100) NOT NULL COMMENT '开票资料-地址',
-  `invoice_tel_no` varchar(50) NOT NULL COMMENT '开票资料-电话',
-  `invoice_bank_name` varchar(50) NOT NULL COMMENT '开票资料-开户银行',
-  `invoice_account_name` varchar(50) NOT NULL COMMENT '开票资料-账户名',
-  `invoice_account` varchar(50) NOT NULL COMMENT '开票资料-账号',
-  `enterprise_business_pattern` varchar(50) NOT NULL COMMENT '业务外包模式：自然人众包（3%普票），自然人总包+分包（6%专票），个体户众包（3%专票），个体户总包+分包（6%专票），个体户众包（3%普票）',
-  `crowd_source_pay_path` varchar(50) NOT NULL COMMENT '众包支付通路：通联支付代发，招商银行代发，系统集成代发，平台代收代付，平台预存支付',
-  `service_price` decimal(5,2) NOT NULL COMMENT '综合税费率',
-  `contact1_name` varchar(50) NOT NULL COMMENT '联系人1姓名（一般为老板/财务负责人）',
-  `contact1_position` varchar(50) NOT NULL COMMENT '联系人1职位',
-  `contact1_phone` varchar(50) NOT NULL COMMENT '联系人1电话手机（必填）',
-  `contact1_mail` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人1邮箱',
-  `contact2_name` varchar(50) NOT NULL COMMENT '联系人2姓名',
-  `contact2_position` varchar(50) NOT NULL COMMENT '联系人2职位',
-  `contact2_phone` varchar(50) NOT NULL COMMENT '联系人2电话手机（必填）',
-  `contact2_mail` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人2邮箱',
-  `spec_demmand` varchar(500) NOT NULL DEFAULT '' COMMENT '特殊需求',
-  `enterprise_create_type` varchar(50) NOT NULL COMMENT '创建类型：平台创建，自注册',
-  `saler_id` bigint(50) NOT NULL COMMENT '营销人员',
-  `runner_id` bigint(50) NOT NULL COMMENT '运营人员',
-  `industry_type` varchar(50) NOT NULL COMMENT '行业分类',
-  `main_business_desc` varchar(500) NOT NULL DEFAULT '' COMMENT '主营业务描述',
-  `qyshop_address` varchar(100) NOT NULL COMMENT '企翼网商铺地址',
-  `shop_id` bigint(50) NOT NULL COMMENT '商铺ID',
-  `shop_user_name` varchar(50) NOT NULL COMMENT '商铺用户名',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
-  PRIMARY KEY (`enterprise_id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`enterprise_user_name`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`invite_no`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`enterprise_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of diyi_enterprise
--- ----------------------------
-
--- ----------------------------
--- Table structure for diyi_enterprise_pay
--- ----------------------------
-DROP TABLE IF EXISTS `diyi_enterprise_pay`;
-CREATE TABLE `diyi_enterprise_pay` (
-  `enterprise_pay_id` bigint(50) NOT NULL COMMENT '外包企业支付给平台的信息ID',
-  `enterprise_id` bigint(50) NOT NULL COMMENT '商户ID',
-  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
-  `charge_list_url` varchar(100) NOT NULL COMMENT '支付清单URL',
-  `worksheet_id` bigint(50) DEFAULT NULL COMMENT '工单ID',
-  `pay_to_platform_amount` decimal(12,2) NOT NULL COMMENT '支付总额=外包费总额+总身份验证费+总开票手续费',
-  `sourcing_mount` decimal(12,2) NOT NULL COMMENT '外包费总额',
-  `service_rate` decimal(12,2) NOT NULL COMMENT '服务税费率',
-  `total_tax_and_fee` decimal(12,2) NOT NULL COMMENT '总税费',
-  `identify_fee` decimal(12,2) NOT NULL COMMENT '总身份验证费',
-  `service_fee` decimal(12,2) NOT NULL COMMENT '总支付手续费',
-  `maker_num` int(10) DEFAULT 0 COMMENT '创客数',
-  `pay_memo` varchar(500) NOT NULL DEFAULT '' COMMENT '支付说明',
-  `enterprise_pay_state` varchar(50) NOT NULL COMMENT '支付给平台状态：待支付，已支付，已确认收款',
-  `pay_confirm_date_time` datetime DEFAULT NULL COMMENT '支付确认日期时间',
-  `confirm_date_time` datetime DEFAULT NULL COMMENT '确认回款日期时间',
-  `employee_id` bigint(50) DEFAULT NULL COMMENT '确认到款人员ID',
-  `company_invoice_state` varchar(50) NOT NULL COMMENT '平台给企业开票状态：未开，已开',
-  `invoice_print_date` datetime DEFAULT NULL COMMENT '开票日期',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
-  PRIMARY KEY (`enterprise_pay_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of diyi_enterprise_pay
--- ----------------------------
-
-DROP TABLE IF EXISTS `diyi_service_provider`;
-CREATE TABLE `diyi_service_provider` (
-  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
-  `service_provider_user_name` varchar(50) NOT NULL COMMENT '用户名',
-  `service_provider_pwd` varchar(100) NOT NULL COMMENT '密码',
-  `service_provider_state` varchar(50) NOT NULL COMMENT '服务商账户状态',
-  `legal_person_name` varchar(50) NOT NULL COMMENT '法人',
-  `legal_person_idcard` varchar(50) NOT NULL COMMENT '法人身份证',
+  `legal_person` varchar(50) NOT NULL COMMENT '法人代表名称',
   `legal_person_card` varchar(50) NOT NULL COMMENT '法人身份证',
   `social_credit_no` varchar(100) NOT NULL COMMENT '统一社会信用代码',
   `biz_licence_url` varchar(200) NOT NULL COMMENT '营业执照图片地址',
@@ -926,10 +830,46 @@ CREATE TABLE `diyi_service_provider` (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
-  PRIMARY KEY (`enterprise_pay_id`),
+  PRIMARY KEY (`enterprise_id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`en_user_name`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`service_provider_name`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`invite_no`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`enterprise_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of diyi_enterprise
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for diyi_enterprise_pay
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_enterprise_pay`;
+CREATE TABLE `diyi_enterprise_pay` (
+  `enterprise_pay_id` bigint(50) NOT NULL COMMENT '外包企业支付给平台的信息ID',
+  `order_id` bigint(50) NOT NULL COMMENT '订单ID',
+  `enterprise_id` bigint(50) NOT NULL COMMENT '企业ID',
+  `pay_to_platform_amount` decimal(12,2) NOT NULL COMMENT '企业支付给平台金额,根据支付方式计算出企业支付给平台金额',
+  `pay_to_platform_man_fee` decimal(12,2) NOT NULL COMMENT '企业支付管理服务费,根据支付方式计算出企业支付给管理服务费',
+  `pay_to_platform_maker_tax` decimal(12,2) NOT NULL COMMENT '众包企业代付创客税费,根据支付方式计算出',
+  `pay_to_maker_net_fee` decimal(12,2) NOT NULL COMMENT '众包企业直接支付给创客服务费,根据支付方式计算出',
+  `pay_memo` varchar(500) NOT NULL DEFAULT '' COMMENT '支付说明',
+  `en_pay_state` varchar(50) NOT NULL COMMENT '支付给平台状态：待支付，已支付，已确认收款',
+  `pay_confirm_date_time` datetime DEFAULT NULL COMMENT '支付确认日期时间',
+  `confirm_date_time` datetime DEFAULT NULL COMMENT '确认回款日期时间',
+  `employee_id` bigint(50) NOT NULL COMMENT '确认到款人员ID',
+  `company_invoice_state` varchar(50) NOT NULL COMMENT '平台给企业开票状态：未开，已开',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  PRIMARY KEY (`enterprise_pay_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of diyi_enterprise_pay
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for diyi_enterprise_pay_receipt
@@ -1100,7 +1040,7 @@ CREATE TABLE `diyi_individual_enterprise_annual_fee` (
 DROP TABLE IF EXISTS `diyi_maker`;
 CREATE TABLE `diyi_maker` (
   `maker_id` bigint(50) NOT NULL COMMENT '创客（分包方）的基本信息ID',
-  `user_id` bigint(50) NOT NULL COMMENT '管理者ID',
+  `user_id` bigint(50) DEFAULT NULL COMMENT '管理者ID',
   `wechat_id` varchar(50) NOT NULL DEFAULT '' COMMENT '微信关联ID',
   `openid` varchar(50) NOT NULL DEFAULT '' COMMENT '微信open_id',
   `session_key` varchar(50) NOT NULL DEFAULT '' COMMENT '微信session_key',

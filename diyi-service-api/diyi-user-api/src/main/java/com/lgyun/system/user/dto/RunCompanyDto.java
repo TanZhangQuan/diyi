@@ -49,4 +49,6 @@ public class RunCompanyDto implements Serializable {
      * 联系人
      */
     private String contacterName;
+
+    private Long makerId;
 }

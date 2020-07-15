@@ -35,10 +35,10 @@ public class RunCompanyServiceImpl extends BaseServiceImpl<RunCompanyMapper, Run
     }
 
     @Override
-    public R runCompanySave(RunCompanyDto runCompanyDto,Long makerId) {
+    public R runCompanySave(RunCompanyDto runCompanyDto) {
         RunCompanyEntity runCompanyEntity = new RunCompanyEntity();
         BeanUtils.copyProperties(runCompanyDto, runCompanyEntity);
-        runCompanyEntity.setMakerId(makerId);
+        runCompanyEntity.setMakerId(runCompanyDto.getMakerId());
         save(runCompanyEntity);
         return R.success("成功");
     }

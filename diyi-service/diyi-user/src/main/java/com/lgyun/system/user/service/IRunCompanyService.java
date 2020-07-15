@@ -22,6 +22,6 @@ public interface IRunCompanyService extends BaseService<RunCompanyEntity> {
     /**
      * 新增
      */
-    R runCompanySave(RunCompanyDto runCompanyDto,Long makerId);
+    R runCompanySave(RunCompanyDto runCompanyDto);
 }
 

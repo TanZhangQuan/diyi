@@ -3,8 +3,6 @@ package com.lgyun.common.ctrl;
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.SecureUtil;
-import com.lgyun.common.file.BladeFile;
-import com.lgyun.common.file.BladeFileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -111,77 +109,5 @@ public class BladeController {
 	public R status(boolean flag) {
 		return R.status(flag);
 	}
-
-
-	/**============================     FILE    =================================================  */
-
-	/**
-	 * 获取BladeFile封装类
-	 *
-	 * @param file 文件
-	 * @return BladeFile
-	 */
-	public BladeFile getFile(MultipartFile file) {
-		return BladeFileUtil.getFile(file);
-	}
-
-	/**
-	 * 获取BladeFile封装类
-	 *
-	 * @param file 文件
-	 * @param dir  目录
-	 * @return BladeFile
-	 */
-	public BladeFile getFile(MultipartFile file, String dir) {
-		return BladeFileUtil.getFile(file, dir);
-	}
-
-	/**
-	 * 获取BladeFile封装类
-	 *
-	 * @param file        文件
-	 * @param dir         目录
-	 * @param path        路径
-	 * @param virtualPath 虚拟路径
-	 * @return BladeFile
-	 */
-	public BladeFile getFile(MultipartFile file, String dir, String path, String virtualPath) {
-		return BladeFileUtil.getFile(file, dir, path, virtualPath);
-	}
-
-	/**
-	 * 获取BladeFile封装类
-	 *
-	 * @param files 文件集合
-	 * @return BladeFile
-	 */
-	public List<BladeFile> getFiles(List<MultipartFile> files) {
-		return BladeFileUtil.getFiles(files);
-	}
-
-	/**
-	 * 获取BladeFile封装类
-	 *
-	 * @param files 文件集合
-	 * @param dir   目录
-	 * @return BladeFile
-	 */
-	public List<BladeFile> getFiles(List<MultipartFile> files, String dir) {
-		return BladeFileUtil.getFiles(files, dir);
-	}
-
-	/**
-	 * 获取BladeFile封装类
-	 *
-	 * @param files       文件集合
-	 * @param dir         目录
-	 * @param path        目录
-	 * @param virtualPath 虚拟路径
-	 * @return BladeFile
-	 */
-	public List<BladeFile> getFiles(List<MultipartFile> files, String dir, String path, String virtualPath) {
-		return BladeFileUtil.getFiles(files, dir, path, virtualPath);
-	}
-
 
 }
