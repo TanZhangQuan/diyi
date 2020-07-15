@@ -2,6 +2,7 @@ package com.lgyun.system.order.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.tool.RealnameVerifyUtil;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
@@ -11,9 +12,12 @@ import com.lgyun.system.order.dto.ConfirmPaymentDto;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDto;
 import com.lgyun.system.order.dto.SelfHelpInvoicePersonDto;
 import com.lgyun.system.order.service.*;
+import com.lgyun.system.user.dto.IndividualBusinessListByMakerDto;
+import com.lgyun.system.user.dto.IndividualEnterpriseListByMakerDto;
 import com.lgyun.system.user.dto.RunCompanyDto;
+import com.lgyun.system.user.entity.IndividualBusinessEntity;
+import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.feign.IUserClient;
-import com.lgyun.system.user.service.IRunCompanyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -56,7 +60,7 @@ public class SelfHelpInvoiceController {
 	 */
 	@PostMapping("/runCompanySave")
 	@ApiOperation(value = "新建购买方", notes = "新建购买方")
-	public R runCompanySave(@Valid @RequestBody RunCompanyDto runCompanyDto,Long makerId) {
+	public R runCompanySave(@Valid @RequestBody RunCompanyDto runCompanyDto, Long makerId) {
 		return iUserClient.runCompanySave(runCompanyDto,makerId);
 	}
 
@@ -83,8 +87,18 @@ public class SelfHelpInvoiceController {
 	 */
 	@GetMapping("/findPersonMakerId")
 	@ApiOperation(value = "查询非创客开票人", notes = "查询非创客开票人")
-	public R findPersonMakerId(Query query,Long makerId) {
-		return selfHelpInvoicePersonService.findPersonMakerId(Condition.getPage(query),makerId);
+	public R findPersonMakerId(Query query,Long makerId,MakerType makerType) {
+		if(MakerType.NATURALPERSON.equals(makerType)){
+			return selfHelpInvoicePersonService.findPersonMakerId(Condition.getPage(query),makerId,makerType);
+		}else if(MakerType.ALONE.equals(makerType)){
+			IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto =new IndividualEnterpriseListByMakerDto();
+			individualEnterpriseListByMakerDto.setMakerId(makerId);
+			return iUserClient.listByMaker(Condition.getPage(query), individualEnterpriseListByMakerDto);
+		}else{
+			IndividualBusinessListByMakerDto individualBusinessListByMakerDto =new IndividualBusinessListByMakerDto();
+			individualBusinessListByMakerDto.setMakerId(makerId);
+			return iUserClient.listByMaker(Condition.getPage(query), individualBusinessListByMakerDto);
+		}
 	}
 
 	/**
@@ -172,5 +186,26 @@ public class SelfHelpInvoiceController {
 			return R.fail("识别失败");
 		}
 		return R.data(jsonObject);
+	}
+
+	/**
+	 * 判断创客资质
+	 */
+	@GetMapping("/judgeMakerAatural")
+	@ApiOperation(value = "识别身份证", notes = "识别身份证")
+	public R judgeMakerAatural(Long makerId, MakerType makerType){
+		if(makerType.equals(MakerType.ALONE)){
+			IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.individualEnterpriseFindByMakerId(makerId);
+			if(null == individualEnterpriseEntity){
+				return R.fail("对不起，您还不符合个独开票的资质");
+			}
+		}
+		if(makerType.equals(MakerType.INDIVIDUALBUSINESS)){
+			IndividualBusinessEntity individualBusinessEntity = iUserClient.individualBusinessByMakerId(makerId);
+			if(null == individualBusinessEntity){
+				return R.fail("对不起，您还不符合个独开票的资质");
+			}
+		}
+		return R.success("成功");
 	}
 }

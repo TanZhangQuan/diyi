@@ -4,8 +4,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
+import com.lgyun.system.user.dto.IndividualBusinessListByMakerDto;
+import com.lgyun.system.user.dto.IndividualEnterpriseListByMakerDto;
 import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.*;
+import com.lgyun.system.user.vo.IndividualBusinessListByMakerVO;
+import com.lgyun.system.user.vo.IndividualEnterpriseListByMakerVO;
 import org.springframework.stereotype.Component;
 
 /**
@@ -74,6 +78,26 @@ public class IUserClientFallback implements IUserClient {
 
     @Override
     public R<IPage<MakerEntity>> findMakerNamePage(IPage<MakerEntity> page, String name) {
+        return null;
+    }
+
+    @Override
+    public R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker(IPage<IndividualEnterpriseListByMakerVO> page, IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto) {
+        return null;
+    }
+
+    @Override
+    public R<IPage<IndividualBusinessListByMakerVO>> listByMaker(IPage<IndividualBusinessListByMakerVO> page, IndividualBusinessListByMakerDto individualBusinessListByMakerDto) {
+        return null;
+    }
+
+    @Override
+    public IndividualEnterpriseEntity individualEnterpriseFindById(Long individualEnterpriseId) {
+        return null;
+    }
+
+    @Override
+    public IndividualBusinessEntity individualBusinessById(Long individualBusinessId) {
         return null;
     }
 
