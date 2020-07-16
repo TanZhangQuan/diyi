@@ -23,6 +23,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  *  Service 实现
  *
@@ -65,8 +67,8 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
      * 通过创客id查询
      */
     @Override
-    public IndividualEnterpriseEntity findMakerId(Long makerId){
-        IndividualEnterpriseEntity individualEnterpriseEntity = baseMapper.findMakerId(makerId);
+    public List<IndividualEnterpriseEntity> findMakerId(Long makerId){
+        List<IndividualEnterpriseEntity> individualEnterpriseEntity = baseMapper.findMakerId(makerId);
         return individualEnterpriseEntity;
     }
 

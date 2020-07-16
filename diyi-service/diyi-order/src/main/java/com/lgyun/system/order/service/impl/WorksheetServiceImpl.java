@@ -16,14 +16,13 @@ import com.lgyun.system.order.vo.WorksheetXiaoVo;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
-import com.lgyun.system.user.service.IIndividualBusinessService;
-import com.lgyun.system.user.service.IIndividualEnterpriseService;
-import com.lgyun.system.user.service.IMakerService;
+import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -37,9 +36,7 @@ import java.util.UUID;
 public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, WorksheetEntity> implements IWorksheetService {
 
     private IWorksheetMakerService worksheetMakerService;
-    private IMakerService makerService;
-    private IIndividualBusinessService individualBusinessService;
-    private IIndividualEnterpriseService individualEnterpriseService;
+    private IUserClient iUserClient;
 
     @Override
     @Transactional
@@ -91,11 +88,12 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             return R.fail("参数错误");
         }
         WorksheetEntity worksheetEntity = getById(worksheetId);
-        MakerEntity makerEntity = makerService.getById(makerId);
+        MakerEntity makerEntity = iUserClient.makerFindById(makerId);
         if(!worksheetEntity.getWorksheetState().equals(WorksheetState.PUBLISHING)){
             return R.fail("暂停抢单");
         }
-        return orderGrabbing(worksheetEntity,makerEntity);
+        int worksheetCount = worksheetMakerService.getWorksheetCount(worksheetEntity.getWorksheetId());
+        return orderGrabbing(worksheetEntity,makerEntity,worksheetCount);
     }
 
     @Override
@@ -112,8 +110,8 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         return R.fail("失败");
     }
 
-    public synchronized R orderGrabbing(WorksheetEntity worksheetEntity,MakerEntity makerEntity){
-        int worksheetCount = worksheetMakerService.getWorksheetCount(worksheetEntity.getWorksheetId());
+    public synchronized R orderGrabbing(WorksheetEntity worksheetEntity,MakerEntity makerEntity,int worksheetCount){
+
         if(worksheetCount == worksheetEntity.getUppersonNum()){
             if(worksheetEntity.getWorksheetState().equals(WorksheetState.PUBLISHING)){
                 worksheetEntity.setWorksheetState(WorksheetState.CLOSED);
@@ -124,12 +122,12 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             }
             return R.fail("工单已抢完");
         }
-        IndividualBusinessEntity makerId = individualBusinessService.findMakerId(makerEntity.getMakerId());
-        if(null == makerId && worksheetEntity.getMakerType().equals(MakerType.INDIVIDUALBUSINESS)){
+        List<IndividualBusinessEntity> individualBusinessEntities = iUserClient.individualBusinessByMakerId(makerEntity.getMakerId());
+        if((null == individualBusinessEntities || individualBusinessEntities.size() <= 0) && worksheetEntity.getMakerType().equals(MakerType.INDIVIDUALBUSINESS)){
             return R.fail("创客身份不符-个体");
         }
-        IndividualEnterpriseEntity individualEnterpriseEntity = individualEnterpriseService.findMakerId(makerEntity.getMakerId());
-        if(null == individualEnterpriseEntity && worksheetEntity.getMakerType().equals(MakerType.INDIVIDUALENTERPRISE)){
+        List<IndividualEnterpriseEntity> individualEnterpriseEntities = iUserClient.individualEnterpriseFindByMakerId(makerEntity.getMakerId());
+        if((null == individualEnterpriseEntities || individualEnterpriseEntities.size() <= 0) && worksheetEntity.getMakerType().equals(MakerType.INDIVIDUALENTERPRISE)){
             return R.fail("创客身份不符-个独");
         }
         WorksheetMakerEntity worksheetMakerEntity = new WorksheetMakerEntity();

@@ -27,6 +27,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -211,15 +212,15 @@ public class SelfHelpInvoiceController {
     public R judgeMakerAatural(Long makerId, MakerType makerType) {
 
         if (MakerType.INDIVIDUALENTERPRISE.equals(makerType)) {
-            IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.individualEnterpriseFindByMakerId(makerId);
-            if (null == individualEnterpriseEntity) {
+            List<IndividualEnterpriseEntity> individualEnterpriseEntities = iUserClient.individualEnterpriseFindByMakerId(makerId);
+            if (null == individualEnterpriseEntities || individualEnterpriseEntities.size() <= 0) {
                 return R.fail("对不起，您还不符合个独开票的资质");
             }
         }
 
         if (MakerType.INDIVIDUALBUSINESS.equals(makerType)) {
-            IndividualBusinessEntity individualBusinessEntity = iUserClient.individualBusinessByMakerId(makerId);
-            if (null == individualBusinessEntity) {
+            List<IndividualBusinessEntity> individualBusinessEntities = iUserClient.individualBusinessByMakerId(makerId);
+            if (null == individualBusinessEntities || individualBusinessEntities.size() <= 0) {
                 return R.fail("对不起，您还不符合个独开票的资质");
             }
         }

@@ -12,6 +12,8 @@ import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.vo.IndividualBusinessDetailVO;
 import com.lgyun.system.user.vo.IndividualBusinessListByMakerVO;
 
+import java.util.List;
+
 /**
  *  Service 接口
  *
@@ -24,7 +26,7 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
     R save(IndividualBusinessAddDto individualBusinessAddDto, BladeUser bladeUser);
 
     //通过创客id查询个体户
-    IndividualBusinessEntity findMakerId(Long makerId);
+    List<IndividualBusinessEntity> findMakerId(Long makerId);
 
     //查询当前创客的所有个体户
     R<IPage<IndividualBusinessListByMakerVO>> listByMaker(IPage<IndividualBusinessListByMakerVO> page, IndividualBusinessListByMakerDto individualBusinessListByMakerDto);
