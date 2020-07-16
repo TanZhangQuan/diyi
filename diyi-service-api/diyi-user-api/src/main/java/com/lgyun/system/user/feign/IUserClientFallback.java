@@ -103,4 +103,9 @@ public class IUserClientFallback implements IUserClient {
         return null;
     }
 
+    @Override
+    public MakerEntity makerFindByUserId(Long userId) {
+        return null;
+    }
+
 }

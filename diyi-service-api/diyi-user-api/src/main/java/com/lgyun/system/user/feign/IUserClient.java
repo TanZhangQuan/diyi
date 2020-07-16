@@ -156,4 +156,13 @@ public interface IUserClient {
     @GetMapping(API_PREFIX + "/maker-find-by-id")
     MakerEntity makerFindById(@RequestParam("makerId") Long makerId);
 
+    /**
+     * 根据user_id获取创客信息
+     *
+     * @param userId
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/maker-find-by-user_id")
+    MakerEntity makerFindByUserId(@RequestParam("userId") Long userId);
+
 }

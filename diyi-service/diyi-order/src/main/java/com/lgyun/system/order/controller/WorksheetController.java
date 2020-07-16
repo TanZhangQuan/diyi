@@ -36,7 +36,7 @@ import java.math.BigDecimal;
 public class WorksheetController {
 
     private IWorksheetService worksheetService;
-
+    private MakerCurrentUtil makerCurrentUtil;
     private IWorksheetMakerService worksheetMakerService;
 
     /**
@@ -66,9 +66,7 @@ public class WorksheetController {
             @ApiImplicitParam(name = "worksheetState", value = "工单状态：1代表待抢单，2已接单，3已交付", paramType = "query", dataType = "string"),
     })
     public R findXiaoPage(Query query, Integer worksheetState, BladeUser bladeUser) {
-        //MakerEntity makerEntity = MakerCurrentUtil.current(bladeUser);
-        MakerEntity makerEntity = new MakerEntity();
-        makerEntity.setMakerId(1278969988057903106L);
+        MakerEntity makerEntity = makerCurrentUtil.current(bladeUser);
         if (worksheetState != 1 && worksheetState != 2 && worksheetState != 3) {
             return R.fail("参数错误");
         }

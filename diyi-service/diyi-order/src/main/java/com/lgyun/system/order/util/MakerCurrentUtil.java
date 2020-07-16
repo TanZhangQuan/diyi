@@ -5,8 +5,8 @@ import com.lgyun.common.exception.ServiceException;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,16 +17,21 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
+@AllArgsConstructor
 public class MakerCurrentUtil {
-    @Autowired
-    private static IUserClient iUserClient;
+
+    private IUserClient iUserClient;
 
     /**
      * 获取当前创客
      */
-    public static MakerEntity current(BladeUser bladeUser) {
-        //获取当前创客
-        MakerEntity makerEntity = iUserClient.makerFindById(bladeUser.getUserId());
+    public MakerEntity current(BladeUser bladeUser) {
+
+        if (bladeUser == null || bladeUser.getUserId() == null){
+            throw new ServiceException("创客未登录");
+        }
+
+        MakerEntity makerEntity = iUserClient.makerFindByUserId(bladeUser.getUserId());
         if (makerEntity == null) {
             throw new ServiceException("创客未注册");
         }

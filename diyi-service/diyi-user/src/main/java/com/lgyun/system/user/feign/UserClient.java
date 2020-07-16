@@ -230,4 +230,9 @@ public class UserClient implements IUserClient {
         return iMakerService.getById(makerId);
     }
 
+    @Override
+    public MakerEntity makerFindByUserId(Long userId) {
+        return iMakerService.findByUserId(userId);
+    }
+
 }

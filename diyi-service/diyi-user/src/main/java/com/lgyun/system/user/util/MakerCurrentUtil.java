@@ -26,7 +26,11 @@ public class MakerCurrentUtil {
      * 获取当前创客
      */
     public MakerEntity current(BladeUser bladeUser) {
-        //获取当前创客
+
+        if (bladeUser == null || bladeUser.getUserId() == null){
+            throw new ServiceException("创客未登录");
+        }
+
         MakerEntity makerEntity = iMakerService.findByUserId(bladeUser.getUserId());
         if (makerEntity == null) {
             throw new ServiceException("创客未注册");
