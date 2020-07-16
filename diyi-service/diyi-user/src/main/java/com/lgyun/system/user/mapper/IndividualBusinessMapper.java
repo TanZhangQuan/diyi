@@ -20,7 +20,7 @@ import java.util.List;
 public interface IndividualBusinessMapper extends BaseMapper<IndividualBusinessEntity> {
 
     //通过创客id查询个体户
-    IndividualBusinessEntity findMakerId(Long makerId);
+    List<IndividualBusinessEntity> findMakerId(Long makerId);
 
     List<IndividualBusinessListByMakerVO> listByMaker(IPage<IndividualBusinessListByMakerVO> page, IndividualBusinessListByMakerDto individualBusinessListByMakerDto);
 
