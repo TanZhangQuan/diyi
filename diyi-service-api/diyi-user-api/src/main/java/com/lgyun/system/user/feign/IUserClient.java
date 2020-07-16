@@ -4,6 +4,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
+import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.dto.IndividualBusinessListByMakerDto;
 import com.lgyun.system.user.dto.IndividualEnterpriseListByMakerDto;
 import com.lgyun.system.user.dto.RunCompanyDto;
@@ -159,10 +160,10 @@ public interface IUserClient {
     /**
      * 根据user_id获取创客信息
      *
-     * @param userId
+     * @param bladeUser
      * @return
      */
-    @GetMapping(API_PREFIX + "/maker-find-by-user_id")
-    MakerEntity makerFindByUserId(@RequestParam("userId") Long userId);
+    @PostMapping(API_PREFIX + "/current-maker")
+    MakerEntity currentMaker(@RequestBody BladeUser bladeUser);
 
 }

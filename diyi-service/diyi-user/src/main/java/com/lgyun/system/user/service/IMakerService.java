@@ -123,5 +123,13 @@ public interface IMakerService extends IService<MakerEntity> {
      */
     MakerEntity findByUserId(Long userId);
 
+    /**
+     * 获取当前创客
+     *
+     * @param bladeUser
+     * @return
+     */
+    MakerEntity current(BladeUser bladeUser);
+
 }
 

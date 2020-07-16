@@ -9,7 +9,6 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IdcardOcrSaveDto;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.IMakerService;
-import com.lgyun.system.user.util.MakerCurrentUtil;
 import com.lgyun.system.user.vo.MakerVO;
 import com.lgyun.system.user.wrapper.MakerWrapper;
 import io.swagger.annotations.Api;
@@ -39,7 +38,7 @@ import javax.validation.constraints.NotNull;
 public class MakerController {
 
 	private IMakerService makerService;
-	private MakerCurrentUtil makerCurrentUtil;
+	private IMakerService iMakerService;
 
 //	@PostMapping("/save")
 //	@ApiOperation(value = "新增", notes = "新增")
@@ -222,7 +221,7 @@ public class MakerController {
 	@ApiOperation(value = "当前创客详情", notes = "当前创客详情")
 	public R<MakerVO> currentDetail(BladeUser bladeUser) {
 		//获取当前创客
-		MakerEntity maker = makerCurrentUtil.current(bladeUser);
+		MakerEntity maker = iMakerService.current(bladeUser);
 		return R.data(MakerWrapper.build().entityVO(maker));
 	}
 

@@ -15,7 +15,7 @@ import com.lgyun.system.user.dto.IndividualBusinessListDto;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.IIndividualBusinessService;
-import com.lgyun.system.user.util.MakerCurrentUtil;
+import com.lgyun.system.user.service.IMakerService;
 import com.lgyun.system.user.vo.IndividualBusinessDetailVO;
 import com.lgyun.system.user.vo.IndividualBusinessListByMakerVO;
 import com.lgyun.system.user.vo.IndividualBusinessVO;
@@ -46,7 +46,7 @@ import javax.validation.constraints.NotNull;
 public class IndividualBusinessController {
 
     private IIndividualBusinessService individualBusinessService;
-    private MakerCurrentUtil makerCurrentUtil;
+    private IMakerService iMakerService;
 
     @PostMapping("/save")
     @ApiOperation(value = "新增", notes = "新增")
@@ -119,7 +119,7 @@ public class IndividualBusinessController {
 
         log.info("查询当前创客的所有个体户");
         try {
-            MakerEntity makerEntity = makerCurrentUtil.current(bladeUser);
+            MakerEntity makerEntity = iMakerService.current(bladeUser);
             individualBusinessListByMakerDto.setMakerId(makerEntity.getMakerId());
             return individualBusinessService.listByMaker(Condition.getPage(query.setDescs("create_time")), individualBusinessListByMakerDto);
         } catch (Exception e) {

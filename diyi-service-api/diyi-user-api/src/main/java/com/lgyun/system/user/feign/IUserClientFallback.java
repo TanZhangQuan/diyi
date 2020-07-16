@@ -3,6 +3,7 @@ package com.lgyun.system.user.feign;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
+import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.dto.IndividualBusinessListByMakerDto;
 import com.lgyun.system.user.dto.IndividualEnterpriseListByMakerDto;
 import com.lgyun.system.user.dto.RunCompanyDto;
@@ -104,7 +105,7 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public MakerEntity makerFindByUserId(Long userId) {
+    public MakerEntity currentMaker(BladeUser bladeUser) {
         return null;
     }
 

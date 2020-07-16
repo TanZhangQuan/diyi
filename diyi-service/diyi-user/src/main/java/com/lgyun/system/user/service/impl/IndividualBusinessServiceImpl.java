@@ -16,7 +16,6 @@ import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.mapper.IndividualBusinessMapper;
 import com.lgyun.system.user.service.IIndividualBusinessService;
 import com.lgyun.system.user.service.IMakerService;
-import com.lgyun.system.user.util.MakerCurrentUtil;
 import com.lgyun.system.user.vo.IndividualBusinessDetailVO;
 import com.lgyun.system.user.vo.IndividualBusinessListByMakerVO;
 import lombok.AllArgsConstructor;
@@ -37,13 +36,13 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
 
     private IMakerService makerService;
     private IOrderClient orderClient;
-    private MakerCurrentUtil makerCurrentUtil;
+    private IMakerService iMakerService;
 
     @Override
     public R save(IndividualBusinessAddDto individualBusinessAddDto, BladeUser bladeUser) {
 
         //获取当前创客
-        MakerEntity makerEntity = makerCurrentUtil.current(bladeUser);
+        MakerEntity makerEntity = iMakerService.current(bladeUser);
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
             return R.fail("请先进行身份证实名认证");

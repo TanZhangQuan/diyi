@@ -3,8 +3,10 @@ package com.lgyun.system.user.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.RealnameVerifyConstant;
+import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.IdcardVerifyType;
 import com.lgyun.common.enumeration.VerifyStatus;
+import com.lgyun.common.exception.ServiceException;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.Base64Util;
 import com.lgyun.common.tool.Func;
@@ -16,7 +18,6 @@ import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.mapper.MakerMapper;
 import com.lgyun.system.user.oss.AliyunOssService;
 import com.lgyun.system.user.service.IMakerService;
-import com.lgyun.system.user.util.MakerCurrentUtil;
 import com.lgyun.system.user.vo.IdcardOcrVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +39,6 @@ import java.util.Date;
 public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> implements IMakerService {
 
     private AliyunOssService ossService;
-    private MakerCurrentUtil makerCurrentUtil;
 
     @Override
     public MakerEntity findByPhoneNumber(String phoneNumber) {
@@ -54,7 +54,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     public R idcardOcr(String idcardPic, BladeUser bladeUser) throws Exception {
 
         //获取当前创客
-        MakerEntity makerEntity = makerCurrentUtil.current(bladeUser);
+        MakerEntity makerEntity = current(bladeUser);
         //查看创客是否已经身份证实名认证
         if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus())) {
             return R.fail("身份证已实名认证");
@@ -81,7 +81,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     public R idcardOcrSave(IdcardOcrSaveDto idcardOcrSaveDto, BladeUser bladeUser) {
 
         //获取当前创客
-        MakerEntity makerEntity = makerCurrentUtil.current(bladeUser);
+        MakerEntity makerEntity = current(bladeUser);
         //查看创客是否已经身份证实名认证
         if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus())) {
             return R.fail("身份证已实名认证");
@@ -100,7 +100,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     public R faceOcr(BladeUser bladeUser) throws Exception {
 
         //获取当前创客
-        MakerEntity makerEntity = makerCurrentUtil.current(bladeUser);
+        MakerEntity makerEntity = current(bladeUser);
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
             return R.fail("请先进行身份证实名认证");
@@ -187,7 +187,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     public R bankCardOcr(String bankCardNo, BladeUser bladeUser) throws Exception {
 
         //获取当前创客
-        MakerEntity makerEntity = makerCurrentUtil.current(bladeUser);
+        MakerEntity makerEntity = current(bladeUser);
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
             return R.fail("请先进行身份证实名认证");
@@ -272,7 +272,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     public R mobileOcr(BladeUser bladeUser) throws Exception {
 
         //获取当前创客
-        MakerEntity makerEntity = makerCurrentUtil.current(bladeUser);
+        MakerEntity makerEntity = current(bladeUser);
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
             return R.fail("请先进行身份证实名认证");
@@ -340,7 +340,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     public R queryIdcardOcr(BladeUser bladeUser) {
 
         //获取当前创客
-        MakerEntity makerEntity = makerCurrentUtil.current(bladeUser);
+        MakerEntity makerEntity = current(bladeUser);
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
             return R.fail("未进行身份证实名认证");
@@ -362,7 +362,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     public R checkIdcardFaceVerify(BladeUser bladeUser) {
 
         //获取当前创客
-        MakerEntity makerEntity = makerCurrentUtil.current(bladeUser);
+        MakerEntity makerEntity = current(bladeUser);
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
             return R.fail("请先进行身份证实名认证");
@@ -384,6 +384,25 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     @Override
     public MakerEntity findByUserId(Long userId) {
         return baseMapper.findByUserId(userId);
+    }
+
+    @Override
+    public MakerEntity current(BladeUser bladeUser) {
+
+        if (bladeUser == null || bladeUser.getUserId() == null) {
+            throw new ServiceException("创客未登陆");
+        }
+
+        MakerEntity makerEntity = findByUserId(bladeUser.getUserId());
+        if (makerEntity == null) {
+            throw new ServiceException("创客未注册");
+        }
+
+        if (!(AccountState.NORMAL.equals(makerEntity.getMakerState()))) {
+            throw new ServiceException("创客账户状态非正常，请联系客服");
+        }
+
+        return makerEntity;
     }
 
 }

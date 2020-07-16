@@ -3,6 +3,7 @@ package com.lgyun.system.user.feign;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.CommonConstant;
 import com.lgyun.common.enumeration.*;
+import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.support.Condition;
@@ -231,8 +232,8 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public MakerEntity makerFindByUserId(Long userId) {
-        return iMakerService.findByUserId(userId);
+    public MakerEntity currentMaker(BladeUser bladeUser) {
+        return iMakerService.current(bladeUser);
     }
 
 }
