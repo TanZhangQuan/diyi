@@ -7,7 +7,7 @@ import com.lgyun.system.order.entity.WorksheetMakerEntity;
 import com.lgyun.system.order.mapper.WorksheetMakerMapper;
 import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.user.entity.EnterpriseEntity;
-import com.lgyun.system.user.service.IEnterpriseService;
+import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMapper, WorksheetMakerEntity> implements IWorksheetMakerService {
 
-    private IEnterpriseService enterpriseService;
+    private IUserClient iUserClient;
 
     @Override
     public int getWorksheetCount(Long worksheetId) {
@@ -51,7 +51,7 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
         if(null == worksheetMakerEntity || null == checkMoney){
             return R.fail("验收失败");
         }
-        EnterpriseEntity byId = enterpriseService.getById(enterpriseId);
+        EnterpriseEntity byId = iUserClient.getEnterpriseById(enterpriseId);
         worksheetMakerEntity.setCheckDate(new Date());
         worksheetMakerEntity.setCheckMoney(checkMoney);
         worksheetMakerEntity.setCheckPerson(byId.getEnterpriseName());

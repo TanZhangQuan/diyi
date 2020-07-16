@@ -12,6 +12,8 @@ import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.vo.IndividualEnterpriseDetailVO;
 import com.lgyun.system.user.vo.IndividualEnterpriseListByMakerVO;
 
+import java.util.List;
+
 /**
  * Service 接口
  *
@@ -24,7 +26,7 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
     R save(IndividualEnterpriseAddDto individualEnterpriseAddDto, BladeUser bladeUser);
 
     //通过创客id查询个独
-    IndividualEnterpriseEntity findMakerId(Long makerId);
+    List<IndividualEnterpriseEntity> findMakerId(Long makerId);
 
     //查询当前创客的所有个独
     R listByMaker(IPage<IndividualEnterpriseListByMakerVO> page, IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto);

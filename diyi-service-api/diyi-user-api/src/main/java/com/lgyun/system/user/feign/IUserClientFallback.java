@@ -8,7 +8,7 @@ import com.lgyun.system.user.dto.IndividualEnterpriseListByMakerDto;
 import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.*;
 import org.springframework.stereotype.Component;
-
+import java.util.List;
 /**
  * Feign失败配置
  *
@@ -54,12 +54,12 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public IndividualEnterpriseEntity individualEnterpriseFindByMakerId(Long makerId) {
+    public List<IndividualEnterpriseEntity> individualEnterpriseFindByMakerId(Long makerId) {
         return null;
     }
 
     @Override
-    public IndividualBusinessEntity individualBusinessByMakerId(Long makerId) {
+    public List<IndividualBusinessEntity> individualBusinessByMakerId(Long makerId) {
         return null;
     }
 
@@ -90,6 +90,16 @@ public class IUserClientFallback implements IUserClient {
 
     @Override
     public IndividualBusinessEntity individualBusinessById(Long individualBusinessId) {
+        return null;
+    }
+
+    @Override
+    public EnterpriseEntity getEnterpriseById(Long enterpriseId) {
+        return null;
+    }
+
+    @Override
+    public MakerEntity makerFindById(Long makerId) {
         return null;
     }
 

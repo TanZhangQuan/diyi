@@ -19,7 +19,7 @@ import java.util.List;
 @Mapper
 public interface IndividualEnterpriseMapper extends BaseMapper<IndividualEnterpriseEntity> {
 
-    IndividualEnterpriseEntity findMakerId(Long makerId);
+    List<IndividualEnterpriseEntity> findMakerId(Long makerId);
 
     List<IndividualEnterpriseListByMakerVO> listByMaker(IPage<IndividualEnterpriseListByMakerVO> page, IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto);
 

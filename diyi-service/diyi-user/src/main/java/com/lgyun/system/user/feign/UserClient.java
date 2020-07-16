@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 用户服务Feign实现类
@@ -33,6 +34,7 @@ public class UserClient implements IUserClient {
     private IIndividualEnterpriseService iIndividualEnterpriseService;
     private IIndividualBusinessService iIndividualBusinessService;
     private IRunCompanyService iRunCompanyService;
+    private IEnterpriseService iEnterpriseService;
 
     @Override
     @GetMapping(API_PREFIX + "/user-info-by-id")
@@ -170,12 +172,12 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public IndividualEnterpriseEntity individualEnterpriseFindByMakerId(Long makerId) {
+    public List<IndividualEnterpriseEntity> individualEnterpriseFindByMakerId(Long makerId) {
         return iIndividualEnterpriseService.findMakerId(makerId);
     }
 
     @Override
-    public IndividualBusinessEntity individualBusinessByMakerId(Long makerId) {
+    public List<IndividualBusinessEntity> individualBusinessByMakerId(Long makerId) {
         return iIndividualBusinessService.findMakerId(makerId);
     }
 
@@ -216,6 +218,16 @@ public class UserClient implements IUserClient {
     @Override
     public IndividualBusinessEntity individualBusinessById(Long individualBusinessId) {
         return iIndividualBusinessService.getById(individualBusinessId);
+    }
+
+    @Override
+    public EnterpriseEntity getEnterpriseById(Long enterpriseId) {
+        return iEnterpriseService.getById(enterpriseId);
+    }
+
+    @Override
+    public MakerEntity makerFindById(Long makerId) {
+        return iMakerService.getById(makerId);
     }
 
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * User Feign接口类
@@ -96,13 +97,13 @@ public interface IUserClient {
      * 获取个独信息
      */
     @GetMapping(API_PREFIX + "/individualEnterprise/find_by_maker_id")
-    IndividualEnterpriseEntity individualEnterpriseFindByMakerId(@RequestParam("makerId") Long makerId);
+    List<IndividualEnterpriseEntity> individualEnterpriseFindByMakerId(@RequestParam("makerId") Long makerId);
 
     /**
      * 获取个体信息
      */
     @GetMapping(API_PREFIX + "/individualBusiness/find_by_maker_id")
-    IndividualBusinessEntity individualBusinessByMakerId(@RequestParam("makerId") Long makerId);
+    List<IndividualBusinessEntity> individualBusinessByMakerId(@RequestParam("makerId") Long makerId);
 
     /**
      * 根据创客Id
@@ -139,5 +140,20 @@ public interface IUserClient {
      */
     @GetMapping(API_PREFIX + "/individualBusiness/find_by_id")
     IndividualBusinessEntity individualBusinessById(@RequestParam("individualBusinessId") Long individualBusinessId);
+
+    /**
+     * 商户id查询商户
+     */
+    @GetMapping(API_PREFIX + "/enterprise/get_by_id")
+    EnterpriseEntity getEnterpriseById(@RequestParam("enterpriseId") Long enterpriseId);
+
+    /**
+     * 根据创客id获取创客信息
+     *
+     * @param makerId 创客phone
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/maker-find-by-id")
+    MakerEntity makerFindById(@RequestParam("makerId") Long makerId);
 
 }
