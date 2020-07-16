@@ -26,7 +26,7 @@ public class MobileLoginDto implements Serializable {
     //手机号
     @NotBlank(message = "请输入手机号")
     @Length(min = 11, max = 11, message = "请输入11位手机号")
-    @Pattern(regexp = "[0-9]*", message = "请输入有效的手机号码")
+    @Pattern(regexp = "[0-9]*", message = "请输入有效的手机号")
     private String mobile;
 
     //短信验证码
