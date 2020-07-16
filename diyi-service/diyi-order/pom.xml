@@ -29,6 +29,11 @@
         </dependency>
         <dependency>
             <groupId>com.lgyun</groupId>
+            <artifactId>diyi-system-api</artifactId>
+            <version>${diyi.project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lgyun</groupId>
             <artifactId>diyi-dict-api</artifactId>
             <version>${diyi.project.version}</version>
         </dependency>
@@ -40,13 +45,18 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <skip>true</skip>
-                    <finalName>${project.name}</finalName>
+                    <executable>true</executable>
+                    <includeSystemScope>true</includeSystemScope>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
-
-
 
 </project>
