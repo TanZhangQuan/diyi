@@ -73,8 +73,10 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
     @Override
     public R<IndividualBusinessDetailVO> findById(Long individualBusinessId) {
         IndividualBusinessDetailVO individualBusinessDetailVO = baseMapper.findById(individualBusinessId);
-        String bizName = makerService.getName(individualBusinessDetailVO.getMakerId());
-        individualBusinessDetailVO.setBizName(bizName);
+        if (individualBusinessDetailVO != null){
+            String bizName = makerService.getName(individualBusinessDetailVO.getMakerId());
+            individualBusinessDetailVO.setBizName(bizName);
+        }
         return R.data(individualBusinessDetailVO);
     }
 

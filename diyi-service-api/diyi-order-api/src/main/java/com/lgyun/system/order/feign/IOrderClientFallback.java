@@ -16,7 +16,7 @@ public class IOrderClientFallback implements IOrderClient {
 
     @Override
     public R<SelfHelpInvoiceYearMonthMoneyVO> yearMonthMoney(Long individualBusinessId, MakerType makerType) {
-        return R.fail("未获取到账号信息");
+        return R.fail("访问请求失败，未获取到账号信息");
     }
 
 }

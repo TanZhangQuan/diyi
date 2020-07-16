@@ -1,7 +1,6 @@
 package com.lgyun.system.user.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.RealnameVerifyConstant;
 import com.lgyun.common.enumeration.IdcardVerifyType;
@@ -384,11 +383,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     @Override
     public MakerEntity findByUserId(Long userId) {
         return baseMapper.findByUserId(userId);
-    }
-
-    @Override
-    public R<IPage<MakerEntity>> findNamePage(IPage<MakerEntity> page, String name) {
-        return R.data(page.setRecords(baseMapper.selectTenantPage(page, name)));
     }
 
 }

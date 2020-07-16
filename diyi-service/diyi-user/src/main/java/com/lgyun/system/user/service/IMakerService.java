@@ -1,6 +1,5 @@
 package com.lgyun.system.user.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
@@ -123,12 +122,6 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      */
     MakerEntity findByUserId(Long userId);
-
-    /**
-     * 根据姓名分页
-     * @return
-     */
-    R findNamePage(IPage<MakerEntity> page, String name);
 
 }
 

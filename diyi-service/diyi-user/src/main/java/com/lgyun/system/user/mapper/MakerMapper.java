@@ -1,11 +1,8 @@
 package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.user.entity.MakerEntity;
 import org.apache.ibatis.annotations.Mapper;
-
-import java.util.List;
 
 /**
  * Mapper
@@ -47,14 +44,6 @@ public interface MakerMapper extends BaseMapper<MakerEntity> {
      * @return
      */
     MakerEntity findByUserId(Long userId);
-
-    /**
-     * 通过名字查询
-     * @param page
-     * @param name
-     * @return
-     */
-    List<MakerEntity> selectTenantPage(IPage page, String name);
 
 }
 

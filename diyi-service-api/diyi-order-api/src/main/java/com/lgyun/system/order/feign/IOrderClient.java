@@ -27,6 +27,6 @@ public interface IOrderClient {
      * @return
      */
     @GetMapping(API_PREFIX + "/self-help-invoice/year-month-money")
-    R<SelfHelpInvoiceYearMonthMoneyVO> yearMonthMoney(@RequestParam("individualBusinessId") Long individualBusinessId, @RequestParam("makerType") MakerType makerType);
+    R<SelfHelpInvoiceYearMonthMoneyVO> yearMonthMoney(@RequestParam("businessEnterpriseId") Long businessEnterpriseId, @RequestParam("makerType") MakerType makerType);
 
 }

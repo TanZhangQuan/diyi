@@ -1,6 +1,5 @@
 package com.lgyun.system.user.feign;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
@@ -8,11 +7,7 @@ import com.lgyun.system.user.dto.IndividualBusinessListByMakerDto;
 import com.lgyun.system.user.dto.IndividualEnterpriseListByMakerDto;
 import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.*;
-import com.lgyun.system.user.vo.IndividualBusinessListByMakerVO;
-import com.lgyun.system.user.vo.IndividualEnterpriseListByMakerVO;
 import org.springframework.stereotype.Component;
-
-import javax.validation.Valid;
 
 /**
  * Feign失败配置
@@ -55,7 +50,7 @@ public class IUserClientFallback implements IUserClient {
 
     @Override
     public R makerSaveOrUpdate(String openid, String sessionKey, String phoneNumber, String loginPwd, GrantType grantType) {
-        return R.fail("未获取到账号信息");
+        return R.fail("访问请求失败，未获取到账号信息");
     }
 
     @Override
@@ -73,25 +68,19 @@ public class IUserClientFallback implements IUserClient {
         return R.fail("未获取到账号信息");
     }
 
-
     @Override
     public R runCompanySave(RunCompanyDto runCompanyDto) {
-        return R.fail("未获取到账号信息");
+        return R.fail("访问请求失败，未获取到账号信息");
     }
 
     @Override
-    public R findMakerNamePage(Integer current, Integer size, String name) {
-        return R.fail("未获取到账号信息");
+    public R listByMaker(Integer current, Integer size, IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto) {
+        return R.fail("访问请求失败，未获取到账号信息");
     }
 
     @Override
-    public R listByMaker(@Valid IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto) {
-        return R.fail("未获取到账号信息");
-    }
-
-    @Override
-    public R listByMaker(@Valid IndividualBusinessListByMakerDto individualBusinessListByMakerDto) {
-        return R.fail("未获取到账号信息");
+    public R listByMaker(Integer current, Integer size, IndividualBusinessListByMakerDto individualBusinessListByMakerDto) {
+        return R.fail("访问请求失败，未获取到账号信息");
     }
 
     @Override

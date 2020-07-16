@@ -30,10 +30,16 @@
         <result property="idcardPicBack" column="idcard_pic_back"/>
         <result property="selfPic" column="self_pic"/>
         <result property="idcarCopy" column="idcar_copy"/>
-        <result property="idcardHand" column="idcard_hand"/>
         <result property="idcardBackHand" column="idcard_back_hand"/>
+        <result property="idcardHand" column="idcard_hand"/>
         <result property="idcardVerifyStatus" column="idcard_verify_status"/>
         <result property="idcardVerifyDate" column="idcard_verify_date"/>
+        <result property="faceVerifyStatus" column="face_verify_status"/>
+        <result property="faceVerifyDate" column="face_verify_date"/>
+        <result property="bankCardVerifyStatus" column="bank_card_verify_status"/>
+        <result property="bankCardVerifyDate" column="bank_card_verify_date"/>
+        <result property="phoneNumberVerifyStatus" column="phone_number_verify_status"/>
+        <result property="phoneNumberVerifyDate" column="phone_number_verify_date"/>
         <result property="picVerify" column="pic_verify"/>
         <result property="idcardVerifyType" column="idcard_verify_type"/>
         <result property="manualVerifyName" column="manual_verify_name"/>
@@ -87,15 +93,5 @@
         WHERE maker_id = #{param1}
         LIMIT 1
     </select>
-
-    <select id="selectTenantPage" resultMap="makerMap">
-        SELECT *
-        FROM diyi_maker
-        WHERE 1=1
-        <if test="name != null and name !=''">
-            and name like concat('%', #{name}, '%')
-        </if>
-    </select>
-
 
 </mapper>

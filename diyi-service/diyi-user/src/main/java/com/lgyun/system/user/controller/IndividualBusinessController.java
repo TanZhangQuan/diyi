@@ -120,7 +120,7 @@ public class IndividualBusinessController {
         try {
             MakerEntity makerEntity = MakerCurrentUtil.current(bladeUser);
             individualBusinessListByMakerDto.setMakerId(makerEntity.getMakerId());
-            return individualBusinessService.listByMaker(Condition.getPage(query), individualBusinessListByMakerDto);
+            return individualBusinessService.listByMaker(Condition.getPage(query.setDescs("create_time")), individualBusinessListByMakerDto);
         } catch (Exception e) {
             log.error("查询当前创客的所有个体户异常", e);
         }

@@ -1,11 +1,8 @@
 package com.lgyun.system.user.dto;
 
 import com.lgyun.common.enumeration.Ibstate;
-import com.lgyun.core.mp.support.Query;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import java.io.Serializable;
 
 /**
  * @author tzq
@@ -14,7 +11,7 @@ import java.io.Serializable;
  * @date 2020.06.27
  */
 @Data
-public class IndividualEnterpriseListByMakerDto extends Query {
+public class IndividualEnterpriseListByMakerDto {
     private static final long serialVersionUID = 1L;
 
     //创客ID

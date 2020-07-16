@@ -4,15 +4,10 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
-import com.lgyun.core.mp.support.Query;
-import com.lgyun.common.enumeration.GrantType;
-import com.lgyun.common.enumeration.UserType;
 import com.lgyun.system.user.dto.IndividualBusinessListByMakerDto;
 import com.lgyun.system.user.dto.IndividualEnterpriseListByMakerDto;
 import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.*;
-import com.lgyun.system.user.vo.IndividualBusinessListByMakerVO;
-import com.lgyun.system.user.vo.IndividualEnterpriseListByMakerVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -122,20 +117,16 @@ public interface IUserClient {
     R runCompanySave(@Valid @RequestBody RunCompanyDto runCompanyDto);
 
     /**
-     * 根据姓名分页
-     *
-     * @return
+     * 查询当前创客的所有个独
      */
-    @GetMapping(API_PREFIX + "/findMakerNamePage")
-    R findMakerNamePage(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("name") String name);
-
-    //查询当前创客的所有个独
     @PostMapping(API_PREFIX + "/individualEnterprise/listByMaker")
-    R listByMaker(@Valid @RequestBody IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto);
+    R listByMaker(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @Valid @RequestBody IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto);
 
-    //查询当前创客的所有个体户
+    /**
+     * 查询当前创客的所有个体户
+     */
     @PostMapping(API_PREFIX + "/individualBusiness/listByMaker")
-    R listByMaker(@Valid @RequestBody IndividualBusinessListByMakerDto individualBusinessListByMakerDto);
+    R listByMaker(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @Valid @RequestBody IndividualBusinessListByMakerDto individualBusinessListByMakerDto);
 
     /**
      * 根据Id获取个独信息

@@ -20,12 +20,14 @@ import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  * 控制器
@@ -69,9 +71,9 @@ public class SelfHelpInvoiceController {
      */
     @GetMapping("/findMakerId")
     @ApiOperation(value = "查询购买方", notes = "查询购买方")
-    public R findMakerId(Query query, Long makerId) {
-        Integer current = query.getCurrent() == null ? 1 :query.getCurrent();
-        Integer size = query.getSize() == null ? 10 :query.getSize();
+    public R findMakerId(Query query, @ApiParam(value = "创客编号") @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId) {
+        Integer current = query == null || query.getCurrent() == null ? 1 : query.getCurrent();
+        Integer size = query == null || query.getSize() == null ? 10 : query.getSize();
         return iUserClient.findRunCompanyMakerId(current, size, makerId);
     }
 
@@ -91,16 +93,14 @@ public class SelfHelpInvoiceController {
     @ApiOperation(value = "查询非创客开票人", notes = "查询非创客开票人")
     public R findPersonMakerId(Query query, Long makerId, MakerType makerType) {
 
+        Integer current = query == null || query.getCurrent() == null ? 1 : query.getCurrent();
+        Integer size = query == null || query.getSize() == null ? 10 : query.getSize();
         switch (makerType) {
 
 			case INDIVIDUALBUSINESS:
 				IndividualBusinessListByMakerDto individualBusinessListByMakerDto = new IndividualBusinessListByMakerDto();
 				individualBusinessListByMakerDto.setMakerId(makerId);
-                individualBusinessListByMakerDto.setCurrent(query.getCurrent());
-                individualBusinessListByMakerDto.setSize(query.getSize());
-                individualBusinessListByMakerDto.setAscs(query.getAscs());
-                individualBusinessListByMakerDto.setDescs(query.getDescs());
-				return iUserClient.listByMaker(individualBusinessListByMakerDto);
+				return iUserClient.listByMaker(current, size, individualBusinessListByMakerDto);
 
 			case NATURALPERSON:
 				return selfHelpInvoicePersonService.findPersonMakerId(Condition.getPage(query), makerId, makerType);
@@ -108,11 +108,7 @@ public class SelfHelpInvoiceController {
 			case INDIVIDUALENTERPRISE:
 				IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto = new IndividualEnterpriseListByMakerDto();
 				individualEnterpriseListByMakerDto.setMakerId(makerId);
-                individualEnterpriseListByMakerDto.setCurrent(query.getCurrent());
-                individualEnterpriseListByMakerDto.setSize(query.getSize());
-                individualEnterpriseListByMakerDto.setAscs(query.getAscs());
-                individualEnterpriseListByMakerDto.setDescs(query.getDescs());
-				return iUserClient.listByMaker(individualEnterpriseListByMakerDto);
+				return iUserClient.listByMaker(current, size, individualEnterpriseListByMakerDto);
 
 			default:
 				return R.fail("创客类型有误");

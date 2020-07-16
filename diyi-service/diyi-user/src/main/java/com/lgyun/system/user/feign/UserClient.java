@@ -1,6 +1,5 @@
 package com.lgyun.system.user.feign;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.CommonConstant;
 import com.lgyun.common.enumeration.*;
@@ -13,8 +12,6 @@ import com.lgyun.system.user.dto.IndividualEnterpriseListByMakerDto;
 import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.service.*;
-import com.lgyun.system.user.vo.IndividualBusinessListByMakerVO;
-import com.lgyun.system.user.vo.IndividualEnterpriseListByMakerVO;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -187,7 +184,7 @@ public class UserClient implements IUserClient {
         Query query = new Query();
         query.setCurrent(current);
         query.setSize(size);
-        return iRunCompanyService.findMakerId(Condition.getPage(query),makerId);
+        return iRunCompanyService.findMakerId(Condition.getPage(query.setDescs("create_time")),makerId);
     }
 
     @Override
@@ -196,21 +193,19 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R findMakerNamePage(Integer current, Integer size, String name) {
+    public R listByMaker(Integer current, Integer size, IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto) {
         Query query = new Query();
         query.setCurrent(current);
         query.setSize(size);
-        return iMakerService.findNamePage(Condition.getPage(query),name);
+        return iIndividualEnterpriseService.listByMaker(Condition.getPage(query.setDescs("create_time")), individualEnterpriseListByMakerDto);
     }
 
     @Override
-    public R listByMaker(IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto) {
-        return iIndividualEnterpriseService.listByMaker(Condition.getPage(individualEnterpriseListByMakerDto), individualEnterpriseListByMakerDto);
-    }
-
-    @Override
-    public R listByMaker(IndividualBusinessListByMakerDto individualBusinessListByMakerDto) {
-        return iIndividualBusinessService.listByMaker(Condition.getPage(individualBusinessListByMakerDto), individualBusinessListByMakerDto);
+    public R listByMaker(Integer current, Integer size, IndividualBusinessListByMakerDto individualBusinessListByMakerDto) {
+        Query query = new Query();
+        query.setCurrent(current);
+        query.setSize(size);
+        return iIndividualBusinessService.listByMaker(Condition.getPage(query.setDescs("create_time")), individualBusinessListByMakerDto);
     }
 
     @Override
