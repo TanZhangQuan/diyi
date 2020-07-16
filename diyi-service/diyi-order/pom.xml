@@ -24,7 +24,12 @@
         </dependency>
         <dependency>
             <groupId>com.lgyun</groupId>
-            <artifactId>diyi-user</artifactId>
+            <artifactId>diyi-user-api</artifactId>
+            <version>${diyi.project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lgyun</groupId>
+            <artifactId>diyi-dict-api</artifactId>
             <version>${diyi.project.version}</version>
         </dependency>
     </dependencies>
