@@ -5,8 +5,9 @@ import com.lgyun.common.exception.ServiceException;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.IMakerService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * 获取当前创客相关工具
@@ -15,15 +16,16 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @since 2020/6/6 00:21
  */
 @Slf4j
+@Component
+@AllArgsConstructor
 public class MakerCurrentUtil {
 
-    @Autowired
-    private static IMakerService iMakerService;
+    private IMakerService iMakerService;
 
     /**
      * 获取当前创客
      */
-    public static MakerEntity current(BladeUser bladeUser) {
+    public MakerEntity current(BladeUser bladeUser) {
         //获取当前创客
         MakerEntity makerEntity = iMakerService.findByUserId(bladeUser.getUserId());
         if (makerEntity == null) {

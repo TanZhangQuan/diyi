@@ -46,6 +46,7 @@ import javax.validation.constraints.NotNull;
 public class IndividualBusinessController {
 
     private IIndividualBusinessService individualBusinessService;
+    private MakerCurrentUtil makerCurrentUtil;
 
     @PostMapping("/save")
     @ApiOperation(value = "新增", notes = "新增")
@@ -118,7 +119,7 @@ public class IndividualBusinessController {
 
         log.info("查询当前创客的所有个体户");
         try {
-            MakerEntity makerEntity = MakerCurrentUtil.current(bladeUser);
+            MakerEntity makerEntity = makerCurrentUtil.current(bladeUser);
             individualBusinessListByMakerDto.setMakerId(makerEntity.getMakerId());
             return individualBusinessService.listByMaker(Condition.getPage(query.setDescs("create_time")), individualBusinessListByMakerDto);
         } catch (Exception e) {

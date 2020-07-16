@@ -35,12 +35,13 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
 
     private IMakerService makerService;
     private IOrderClient orderClient;
+    private MakerCurrentUtil makerCurrentUtil;
 
     @Override
     public R save(IndividualBusinessAddDto individualBusinessAddDto, BladeUser bladeUser) {
 
         //获取当前创客
-        MakerEntity makerEntity = MakerCurrentUtil.current(bladeUser);
+        MakerEntity makerEntity = makerCurrentUtil.current(bladeUser);
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
             return R.fail("请先进行身份证实名认证");

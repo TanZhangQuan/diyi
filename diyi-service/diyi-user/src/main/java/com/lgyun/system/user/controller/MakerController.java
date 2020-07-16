@@ -39,6 +39,7 @@ import javax.validation.constraints.NotNull;
 public class MakerController {
 
 	private IMakerService makerService;
+	private MakerCurrentUtil makerCurrentUtil;
 
 //	@PostMapping("/save")
 //	@ApiOperation(value = "新增", notes = "新增")
@@ -221,7 +222,7 @@ public class MakerController {
 	@ApiOperation(value = "当前创客详情", notes = "当前创客详情")
 	public R<MakerVO> currentDetail(BladeUser bladeUser) {
 		//获取当前创客
-		MakerEntity maker = MakerCurrentUtil.current(bladeUser);
+		MakerEntity maker = makerCurrentUtil.current(bladeUser);
 		return R.data(MakerWrapper.build().entityVO(maker));
 	}
 

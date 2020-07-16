@@ -44,6 +44,7 @@ import javax.validation.constraints.NotNull;
 public class IndividualEnterpriseController {
 
 	private IIndividualEnterpriseService individualEnterpriseService;
+	private MakerCurrentUtil makerCurrentUtil;
 
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "新增")
@@ -93,7 +94,7 @@ public class IndividualEnterpriseController {
 
 		log.info("查询当前创客的所有个独");
 		try {
-			MakerEntity makerEntity = MakerCurrentUtil.current(bladeUser);
+			MakerEntity makerEntity = makerCurrentUtil.current(bladeUser);
 			individualEnterpriseListByMakerDto.setMakerId(makerEntity.getMakerId());
 			return individualEnterpriseService.listByMaker(Condition.getPage(query.setDescs("create_time")), individualEnterpriseListByMakerDto);
 		} catch (Exception e) {
