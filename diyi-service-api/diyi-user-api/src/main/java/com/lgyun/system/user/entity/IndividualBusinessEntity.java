@@ -1,7 +1,5 @@
 package com.lgyun.system.user.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -10,7 +8,6 @@ import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.IndBusTaxType;
 import com.lgyun.common.tool.DateUtil;
 import com.lgyun.core.mp.base.BaseEntity;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -28,14 +25,6 @@ import java.util.Date;
 @TableName("diyi_individual_business")
 public class IndividualBusinessEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 个体户ID
-     */
-    @ApiModelProperty(value = "主键")
-    @TableId(type = IdType.ASSIGN_ID)
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long individualBusinessId;
 
     /**
      * 创客ID

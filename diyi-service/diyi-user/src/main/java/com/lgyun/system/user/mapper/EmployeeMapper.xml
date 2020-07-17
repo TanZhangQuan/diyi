@@ -5,7 +5,7 @@
 
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.user.entity.EmployeeEntity" id="employeeMap">
-        <result property="employeeId" column="employee_id"/>
+        <result property="id" column="id"/>
         <result property="employeeName" column="employee_name"/>
         <result property="gender" column="gender"/>
         <result property="positionName" column="position_name"/>

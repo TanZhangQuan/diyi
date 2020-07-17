@@ -5,7 +5,7 @@
 
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.user.entity.WorksheetAttentionEntity" id="worksheetAttentionMap">
-        <result property="worksheetAttentionId" column="worksheet_attention_id"/>
+        <result property="id" column="id"/>
         <result property="makerId" column="maker_id"/>
         <result property="enterpriseId" column="enterprise_id"/>
         <result property="worksheetAttentionNo" column="worksheet_attention_no"/>

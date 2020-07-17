@@ -20,7 +20,7 @@ public class IndividualEnterpriseListByMakerVO implements Serializable {
      * 个体户ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long individualEnterpriseId;
+    private Long id;
 
     /**
      * 个体户名称

@@ -5,7 +5,7 @@
 
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.user.entity.SetupEntity" id="setupMap">
-        <result property="setupId" column="setup_id"/>
+        <result property="id" column="id"/>
         <result property="allowFirstEdit" column="allow_first_edit"/>
         <result property="allowAllEdit" column="allow_all_edit"/>
         <result property="createUser" column="create_user"/>

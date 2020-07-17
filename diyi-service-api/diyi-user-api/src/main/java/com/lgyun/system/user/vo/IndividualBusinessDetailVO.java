@@ -21,7 +21,7 @@ public class IndividualBusinessDetailVO implements Serializable {
      * 个体户ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long individualBusinessId;
+    private Long id;
 
     /**
      * 个体户名称

@@ -5,7 +5,7 @@
 
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.user.entity.PositionEntity" id="positionMap">
-        <result property="positionId" column="position_id"/>
+        <result property="id" column="id"/>
         <result property="positionName" column="position_name"/>
         <result property="positionDesc" column="position_desc"/>
         <result property="createUser" column="create_user"/>

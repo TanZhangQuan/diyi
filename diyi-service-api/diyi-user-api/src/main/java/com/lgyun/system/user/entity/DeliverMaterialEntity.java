@@ -1,14 +1,11 @@
 package com.lgyun.system.user.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.tool.DateUtil;
 import com.lgyun.core.mp.base.BaseEntity;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,14 +22,6 @@ import java.util.Date;
 @TableName("diyi_deliver_material")
 public class DeliverMaterialEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 创客交付材料信息信息ID
-     */
-    @ApiModelProperty(value = "主键")
-    @TableId(type = IdType.ASSIGN_ID)
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long deliverMaterialId;
 
     /**
      * 确认函ID

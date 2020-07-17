@@ -1,7 +1,7 @@
 package com.lgyun.system.order.service.impl;
 
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.InvoiceState;
+import com.lgyun.common.enumeration.InvoiceAuditState;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
@@ -16,6 +16,7 @@ import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import com.lgyun.system.order.vo.SelfHelpInvoiceYearMonthMoneyVO;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author jun
  * @since 2020-07-08 14:32:47
  */
+@Slf4j
 @Service
 @AllArgsConstructor
 public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceMapper, SelfHelpInvoiceEntity> implements ISelfHelpInvoiceService {
@@ -40,7 +42,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         }
         SelfHelpInvoiceEntity selfHelpInvoiceEntity = new SelfHelpInvoiceEntity();
         BeanUtil.copy(selfHelpInvoiceDto, selfHelpInvoiceEntity);
-        selfHelpInvoiceEntity.setInvoiceState(InvoiceState.NOTREVIEWED);
+        selfHelpInvoiceEntity.setInvoiceAuditState(InvoiceAuditState.NOTREVIEWED);
         save(selfHelpInvoiceEntity);
         String bizName = "";
         String socialCreditNo = "";
@@ -69,7 +71,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     @Override
     public R getSelfHelpInvoiceDetails(Long selfHelpInvoiceId) {
         SelfHelpInvoiceEntity selfHelpInvoiceEntity = getById(selfHelpInvoiceId);
-        if(!selfHelpInvoiceEntity.getInvoiceState().equals(InvoiceState.APPROVED)){
+        if(!selfHelpInvoiceEntity.getInvoiceAuditState().equals(InvoiceAuditState.APPROVED)){
             R.fail("自助开票在审核中，请耐心等候");
         }
         return R.data(baseMapper.getSelfHelpInvoiceDetails(selfHelpInvoiceId));

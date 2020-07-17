@@ -5,7 +5,7 @@
 
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.user.entity.DeliverMaterialEntity" id="deliverMaterialMap">
-        <result property="deliverMaterialId" column="deliver_material_id"/>
+        <result property="id" column="id"/>
         <result property="paysheetId" column="paysheet_id"/>
         <result property="materialTitle" column="material_title"/>
         <result property="materialMemo" column="material_memo"/>

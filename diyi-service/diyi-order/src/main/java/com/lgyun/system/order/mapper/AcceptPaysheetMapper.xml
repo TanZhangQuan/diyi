@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lgyun.system.user.mapper.AcceptPaysheetMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.lgyun.system.user.entity.AcceptPaysheetEntity" id="acceptPaysheetMap">
+        <result property="id" column="id"/>
+        <result property="enterprisePayId" column="enterprise_pay_id"/>
+        <result property="acceptPaysheetType" column="accept_paysheet_type"/>
+        <result property="makerId" column="maker_id"/>
+        <result property="uploadDateSource" column="upload_date_source"/>
+        <result property="uploadDatePerson" column="upload_date_person"/>
+        <result property="acceptPaysheetUrl" column="accept_paysheet_url"/>
+        <result property="confirmDate" column="confirm_date"/>
+        <result property="confirmPerson" column="confirm_person"/>
+        <result property="confirmDesc" column="confirm_desc"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="status" column="status"/>
+        <result property="isDeleted" column="is_deleted"/>
+    </resultMap>
+
+</mapper>

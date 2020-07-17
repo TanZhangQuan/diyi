@@ -5,21 +5,23 @@
 
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.order.entity.SelfHelpInvoicePersonEntity" id="selfHelpInvoicePersonMap">
-                    <result property="invoicePeopleId" column="invoice_people_id"/>
-                    <result property="makerId" column="maker_id"/>
-                    <result property="idCardNo" column="id_card_no"/>
-                    <result property="idCardName" column="id_card_name"/>
-                    <result property="idCardPic" column="id_card_pic"/>
-                    <result property="idCardPicBack" column="id_card_pic_back"/>
-                    <result property="phoneNumber" column="phone_number"/>
-                    <result property="createUser" column="create_user"/>
-                    <result property="createTime" column="create_time"/>
-                    <result property="updateUser" column="update_user"/>
-                    <result property="updateTime" column="update_time"/>
-                    <result property="status" column="status"/>
-                    <result property="isDeleted" column="is_deleted"/>
+        <result property="id" column="id"/>
+        <result property="makerId" column="maker_id"/>
+        <result property="idCardNo" column="id_card_no"/>
+        <result property="idCardName" column="id_card_name"/>
+        <result property="idCardPic" column="id_card_pic"/>
+        <result property="idCardPicBack" column="id_card_pic_back"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="status" column="status"/>
+        <result property="isDeleted" column="is_deleted"/>
     </resultMap>
+
     <select id="findPersonMakerId" resultMap="selfHelpInvoicePersonMap">
-        select *from diyi_self_help_invoice_person where is_deleted = 0 and maker_id = #{makerId}
+        select * from diyi_self_help_invoice_person where is_deleted = 0 and maker_id = #{makerId}
     </select>
+
 </mapper>

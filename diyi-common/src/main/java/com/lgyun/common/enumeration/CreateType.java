@@ -8,7 +8,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum EnCreateType {
+public enum CreateType {
     PLATFORMCREATE("PLATFORMCREATE", "平台创建"),
     SELFREGISTER("SELFREGISTER", "自注册");
 

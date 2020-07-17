@@ -1,23 +1,18 @@
 package com.lgyun.common.enumeration;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @author jun.
- * @date 2020/7/13.
- * @time 15:07.
+ * 平台给企业开票状态
  */
 @Getter
+@AllArgsConstructor
 public enum InvoiceState {
-    NOTREVIEWED("NOTREVIEWED", "未审核"),
-    NOAPPROVED("NOAPPROVED", "审核不通过"),
-    APPROVED("APPROVED", "审核通过");
+    UNOPEN("UNOPEN", "未开"),
+    OPENED("OPENED", "已开");
 
-    private String value;
-    private String desc;
+    private final String value;
+    private final String desc;
 
-    InvoiceState(String value, String desc) {
-        this.value = value;
-        this.desc = desc;
-    }
 }

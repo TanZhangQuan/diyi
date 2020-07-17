@@ -1,5 +1,7 @@
 package com.lgyun.system.order.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.WorkSheetMode;
 import com.lgyun.common.enumeration.WorkSheetType;
 import lombok.Data;
@@ -15,19 +17,24 @@ import java.util.Date;
  */
 @Data
 public class WorksheetXiaoVo implements Serializable {
+
     /**
      * 工单创客ID
      */
-    private String worksheetMakerId;
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long worksheetMakerId;
+
     /**
      * 工单ID
      */
-    private String worksheetId;
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long worksheetId;
 
     /**
      * 企业ID
      */
-    private String enterpriseId;
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long enterpriseId;
 
     /**
      * 企业姓名

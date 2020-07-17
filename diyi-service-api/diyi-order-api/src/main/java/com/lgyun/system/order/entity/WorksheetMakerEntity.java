@@ -1,14 +1,9 @@
 package com.lgyun.system.order.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.GetType;
 import com.lgyun.common.enumeration.WorksheetMakerState;
 import com.lgyun.core.mp.base.BaseEntity;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -26,14 +21,6 @@ import java.util.Date;
 @TableName("diyi_worksheet_maker")
 public class WorksheetMakerEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 工单创客ID
-     */
-    @ApiModelProperty(value = "主键")
-    @TableId(type = IdType.ASSIGN_ID)
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long worksheetMakerId;
 
     /**
      * 创客ID

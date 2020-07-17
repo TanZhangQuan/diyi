@@ -7,6 +7,7 @@ import com.lgyun.system.order.entity.SelfHelpInvoiceFeeEntity;
 import com.lgyun.system.order.mapper.SelfHelpInvoiceFeeMapper;
 import com.lgyun.system.order.service.ISelfHelpInvoiceFeeService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
  * @author jun
  * @since 2020-07-08 14:32:47
  */
+@Slf4j
 @Service
 @AllArgsConstructor
 public class SelfHelpInvoiceFeeServiceImpl extends BaseServiceImpl<SelfHelpInvoiceFeeMapper, SelfHelpInvoiceFeeEntity> implements ISelfHelpInvoiceFeeService {

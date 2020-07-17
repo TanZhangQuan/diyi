@@ -3,6 +3,7 @@ package ${package}.${moduleName}.service.impl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import ${package}.${moduleName}.mapper.${className}Mapper;

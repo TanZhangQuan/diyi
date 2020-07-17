@@ -1,5 +1,7 @@
 package com.lgyun.core.mp.base;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -21,6 +23,14 @@ import java.util.Date;
 public class BaseEntity implements Serializable {
 
     public static final String PATTERN_DATETIME = "yyyy-MM-dd HH:mm:ss";
+
+    /**
+     * 主键id
+     */
+    @ApiModelProperty(value = "主键")
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long id;
 
     /**
      * 创建人

@@ -159,7 +159,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             //获取人脸截图base64
             String facePhotoBase64 = HttpUtil.get(facePhotoUrl);
             //上传人脸截图base64到阿里云存储
-            // todo
             byte[] bytes = Base64Util.decodeFromString(facePhotoBase64.trim());
             String url = ossService.uploadSuffix(bytes, ".jpg");
 

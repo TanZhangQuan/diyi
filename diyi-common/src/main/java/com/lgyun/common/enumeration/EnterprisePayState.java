@@ -4,13 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 平台给企业开票状态
+ * 企业支付给平台状态
  */
 @Getter
 @AllArgsConstructor
-public enum TaxInvoiceState {
-    UNOPEN("UNOPEN", "未开"),
-    OPENED("OPENED", "已开");
+public enum EnterprisePayState {
+    TOPAY("TOPAY", "待支付"),
+    PAYED("PAYED", "已支付"),
+    confirmPay("confirmPay", "已确认收款");
 
     private final String value;
     private final String desc;

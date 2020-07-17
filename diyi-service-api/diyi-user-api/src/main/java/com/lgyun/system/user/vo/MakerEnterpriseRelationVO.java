@@ -19,5 +19,5 @@ public class MakerEnterpriseRelationVO {
     private String contact1Phone;
     private String socialCreditNo;
     private String bizLicenceUrl;
-    private Long enterpriseId;
+    private Long id;
 }

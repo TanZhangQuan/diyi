@@ -9,6 +9,7 @@ import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -20,6 +21,7 @@ import java.util.Date;
  * @author jun
  * @since 2020-07-07 14:40:21
  */
+@Slf4j
 @Service
 @AllArgsConstructor
 public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMapper, WorksheetMakerEntity> implements IWorksheetMakerService {

@@ -5,55 +5,56 @@
 
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.user.entity.EnterpriseEntity" id="enterpriseMap">
-                    <result property="enterpriseId" column="enterprise_id"/>
-                    <result property="enUserName" column="en_user_name"/>
-                    <result property="enUserPwd" column="en_user_pwd"/>
-                    <result property="inviteNo" column="invite_no"/>
-                    <result property="enterpriseName" column="enterprise_name"/>
-                    <result property="legalPerson" column="legal_person"/>
-                    <result property="legalPersonCard" column="legal_person_card"/>
-                    <result property="socialCreditNo" column="social_credit_no"/>
-                    <result property="bizLicenceUrl" column="biz_licence_url"/>
-                    <result property="enterpriseUrl" column="enterprise_url"/>
-                    <result property="workingAddress" column="working_address"/>
-                    <result property="workingRelName" column="working_rel_name"/>
-                    <result property="workingRelPhone" column="working_rel_phone"/>
-                    <result property="invoiceEnName" column="invoice_en_name"/>
-                    <result property="invoiceTaxNo" column="invoice_tax_no"/>
-                    <result property="invoiceAddress" column="invoice_address"/>
-                    <result property="invoiceTelNo" column="invoice_tel_no"/>
-                    <result property="invoiceBankName" column="invoice_bank_name"/>
-                    <result property="invoiceAccountName" column="invoice_account_name"/>
-                    <result property="invoiceAccount" column="invoice_account"/>
-                    <result property="enBusinessPattern" column="en_business_pattern"/>
-                    <result property="crowdSourcePayPath" column="crowd_source_pay_path"/>
-                    <result property="servicePrice" column="service_price"/>
-                    <result property="contact1Name" column="contact1_name"/>
-                    <result property="contact1Position" column="contact1_position"/>
-                    <result property="contact1Phone" column="contact1_phone"/>
-                    <result property="contact1Mail" column="contact1_mail"/>
-                    <result property="contact2Name" column="contact2_name"/>
-                    <result property="contact2Position" column="contact2_position"/>
-                    <result property="contact2Phone" column="contact2_phone"/>
-                    <result property="contact2Mail" column="contact2_mail"/>
-                    <result property="specDemmand" column="spec_demmand"/>
-                    <result property="enCreateType" column="en_create_type"/>
-                    <result property="salerId" column="saler_id"/>
-                    <result property="runnerId" column="runner_id"/>
-                    <result property="industryType" column="industry_type"/>
-                    <result property="mainBusinessDesc" column="main_business_desc"/>
-                    <result property="qyshopAddress" column="qyshop_address"/>
-                    <result property="shopId" column="shop_id"/>
-                    <result property="shopUserName" column="shop_user_name"/>
-                    <result property="createUser" column="create_user"/>
-                    <result property="createTime" column="create_time"/>
-                    <result property="updateUser" column="update_user"/>
-                    <result property="updateTime" column="update_time"/>
-                    <result property="status" column="status"/>
-                    <result property="isDeleted" column="is_deleted"/>
-            </resultMap>
+        <result property="id" column="id"/>
+        <result property="enUserName" column="en_user_name"/>
+        <result property="enUserPwd" column="en_user_pwd"/>
+        <result property="inviteNo" column="invite_no"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="legalPerson" column="legal_person"/>
+        <result property="legalPersonCard" column="legal_person_card"/>
+        <result property="socialCreditNo" column="social_credit_no"/>
+        <result property="bizLicenceUrl" column="biz_licence_url"/>
+        <result property="enterpriseUrl" column="enterprise_url"/>
+        <result property="workingAddress" column="working_address"/>
+        <result property="workingRelName" column="working_rel_name"/>
+        <result property="workingRelPhone" column="working_rel_phone"/>
+        <result property="invoiceEnName" column="invoice_en_name"/>
+        <result property="invoiceTaxNo" column="invoice_tax_no"/>
+        <result property="invoiceAddress" column="invoice_address"/>
+        <result property="invoiceTelNo" column="invoice_tel_no"/>
+        <result property="invoiceBankName" column="invoice_bank_name"/>
+        <result property="invoiceAccountName" column="invoice_account_name"/>
+        <result property="invoiceAccount" column="invoice_account"/>
+        <result property="enterpriseBusinessPattern" column="en_business_pattern"/>
+        <result property="crowdSourcePayPath" column="crowd_source_pay_path"/>
+        <result property="servicePrice" column="service_price"/>
+        <result property="contact1Name" column="contact1_name"/>
+        <result property="contact1Position" column="contact1_position"/>
+        <result property="contact1Phone" column="contact1_phone"/>
+        <result property="contact1Mail" column="contact1_mail"/>
+        <result property="contact2Name" column="contact2_name"/>
+        <result property="contact2Position" column="contact2_position"/>
+        <result property="contact2Phone" column="contact2_phone"/>
+        <result property="contact2Mail" column="contact2_mail"/>
+        <result property="specDemmand" column="spec_demmand"/>
+        <result property="enterpriseCreateType" column="en_create_type"/>
+        <result property="salerId" column="saler_id"/>
+        <result property="runnerId" column="runner_id"/>
+        <result property="industryType" column="industry_type"/>
+        <result property="mainBusinessDesc" column="main_business_desc"/>
+        <result property="qyshopAddress" column="qyshop_address"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="shopUserName" column="shop_user_name"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="status" column="status"/>
+        <result property="isDeleted" column="is_deleted"/>
+    </resultMap>
 
     <resultMap type="com.lgyun.system.user.vo.MakerEnterpriseRelationVO" id="makerEnterpriseRelationMap">
+        <result property="id" column="id"/>
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="shopUserName" column="shop_user_name"/>
         <result property="legalPerson" column="legal_person"/>
@@ -62,18 +63,21 @@
         <result property="contact1Phone" column="contact1_phone"/>
         <result property="socialCreditNo" column="social_credit_no"/>
         <result property="bizLicenceUrl" column="biz_licence_url"/>
-        <result property="enterpriseId" column="enterprise_id"/>
     </resultMap>
 
 
     <select id="getEnterpriseName" resultMap="makerEnterpriseRelationMap">
-        SELECT e.enterprise_name, e.shop_user_name, e.legal_person, e.legal_person_card, e.contact1_position, e.contact1_phone, e.social_credit_no, e.biz_licence_url, e.enterprise_id FROM diyi_enterprise e
-        WHERE
-        1=1 and (e.enterprise_name LIKE CONCAT(CONCAT('%', #{enterpriseName}, '%')))
+        SELECT e.enterprise_name, e.shop_user_name, e.legal_person, e.legal_person_card, e.contact1_position,
+        e.contact1_phone, e.social_credit_no, e.biz_licence_url, e.id FROM diyi_enterprise e
+        WHERE 1=1
+        <if test="enterpriseName != null and enterpriseName.trim() != ''">
+            and (e.enterprise_name LIKE CONCAT(CONCAT('%', #{enterpriseName}, '%')))
+        </if>
     </select>
 
     <select id="getEnterpriseId" resultMap="makerEnterpriseRelationMap">
-        SELECT e.enterprise_name, e.shop_user_name, e.legal_person, e.legal_person_card, e.contact1_position, e.contact1_phone, e.social_credit_no, e.biz_licence_url, e.enterprise_id FROM diyi_enterprise e
-        WHERE e.enterprise_id = #{enterpriseId}
+        SELECT e.enterprise_name, e.shop_user_name, e.legal_person, e.legal_person_card, e.contact1_position, e.contact1_phone, e.social_credit_no, e.biz_licence_url, e.id FROM diyi_enterprise e
+        WHERE e.id = #{enterpriseId}
     </select>
+
 </mapper>

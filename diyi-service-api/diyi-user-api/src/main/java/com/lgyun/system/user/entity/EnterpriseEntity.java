@@ -1,16 +1,13 @@
 package com.lgyun.system.user.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.AccountState;
+import com.lgyun.common.enumeration.CreateType;
 import com.lgyun.common.enumeration.CrowdSourcePayPath;
-import com.lgyun.common.enumeration.EnBusinessPattern;
-import com.lgyun.common.enumeration.EnCreateType;
+import com.lgyun.common.enumeration.EnterpriseBusinessPattern;
 import com.lgyun.core.mp.base.BaseEntity;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -27,14 +24,6 @@ import java.math.BigDecimal;
 @TableName("diyi_enterprise")
 public class EnterpriseEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 外包企业（发包方）的基本信息ID
-     */
-    @ApiModelProperty(value = "主键")
-    @TableId(type = IdType.ASSIGN_ID)
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long enterpriseId;
 
     /**
      * 用户名
@@ -139,7 +128,7 @@ public class EnterpriseEntity extends BaseEntity {
     /**
      * 业务外包模式：自然人众包（3%普票），自然人总包+分包（6%专票），个体户众包（3%专票），个体户总包+分包（6%专票），个体户众包（3%普票）
      */
-    private EnBusinessPattern enBusinessPattern;
+    private EnterpriseBusinessPattern enterpriseBusinessPattern;
 
     /**
      * 众包支付通路：通联支付代发，招商银行代发，系统集成代发，平台代收代付，平台预存支付
@@ -199,7 +188,7 @@ public class EnterpriseEntity extends BaseEntity {
     /**
      * 创建类型：平台创建，自注册
      */
-    private EnCreateType enCreateType;
+    private CreateType enterpriseCreateType;
 
     /**
      * 营销人员

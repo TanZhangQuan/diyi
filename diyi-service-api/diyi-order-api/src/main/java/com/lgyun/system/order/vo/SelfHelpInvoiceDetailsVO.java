@@ -15,7 +15,7 @@ import java.util.Date;
 @Data
 @ApiModel(value = "SelfHelpInvoiceDetailsVO对象", description = "SelfHelpInvoiceDetailsVO对象")
 public class SelfHelpInvoiceDetailsVO implements Serializable {
-    private Long selfHelpInvoiceId;
+    private Long id;
     private Long runCompanyId;
     private Long addressId;
     private Long invoicePeopleId;

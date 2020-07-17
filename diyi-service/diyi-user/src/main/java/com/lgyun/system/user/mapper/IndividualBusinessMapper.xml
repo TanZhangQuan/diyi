@@ -5,7 +5,7 @@
 
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.user.entity.IndividualBusinessEntity" id="individualBusinessMap">
-        <result property="individualBusinessId" column="individual_business_id"/>
+        <result property="id" column="id"/>
         <result property="makerId" column="maker_id"/>
         <result property="indBusTaxType" column="ind_bus_tax_type"/>
         <result property="ibname" column="ibname"/>
@@ -38,13 +38,13 @@
     </resultMap>
 
     <resultMap type="com.lgyun.system.user.vo.IndividualBusinessListByMakerVO" id="individualBusinessListByMakerVO">
-        <result property="individualBusinessId" column="individual_business_id"/>
+        <result property="id" column="id"/>
         <result property="ibname" column="ibname"/>
         <result property="candidatedNames" column="candidated_names"/>
     </resultMap>
 
     <resultMap type="com.lgyun.system.user.vo.IndividualBusinessDetailVO" id="individualBusinessDetailVO">
-        <result property="individualBusinessId" column="individual_business_id"/>
+        <result property="id" column="id"/>
         <result property="ibname" column="ibname"/>
         <result property="candidatedNames" column="candidated_names"/>
         <result property="ibtaxNo" column="ibtax_no"/>
@@ -62,7 +62,7 @@
     </select>
 
     <select id="listByMaker" resultMap="individualBusinessListByMakerVO">
-        select individual_business_id, ibname, candidated_names from diyi_individual_business
+        select id, ibname, candidated_names from diyi_individual_business
         where maker_id = #{individualBusinessListByMakerDto.makerId} and is_deleted = 0
         <if test="individualBusinessListByMakerDto.ibstate != null">
             and ibstate = #{individualBusinessListByMakerDto.ibstate}
@@ -70,9 +70,9 @@
     </select>
 
     <select id="findById" resultMap="individualBusinessDetailVO">
-        select individual_business_id, ibname, candidated_names, ibtax_no, biz_park, main_industry, biz_scope, ind_bus_tax_type, maker_id,
+        select id, ibname, candidated_names, ibtax_no, biz_park, main_industry, biz_scope, ind_bus_tax_type, maker_id,
         business_licence_url, business_licence_copy_url from diyi_individual_business
-        where individual_business_id = #{individualBusinessId} and is_deleted = 0 limit 1
+        where id = #{individualBusinessId} and is_deleted = 0 limit 1
     </select>
 
 </mapper>

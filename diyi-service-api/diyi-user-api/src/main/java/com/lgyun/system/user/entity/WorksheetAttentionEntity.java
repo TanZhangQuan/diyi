@@ -1,12 +1,9 @@
 package com.lgyun.system.user.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.core.mp.base.BaseEntity;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,14 +18,6 @@ import lombok.NoArgsConstructor;
 @TableName("diyi_worksheet_attention")
 public class WorksheetAttentionEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
-
-    /**
-     * ID
-     */
-    @ApiModelProperty(value = "主键")
-    @TableId(type = IdType.ASSIGN_ID)
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long worksheetAttentionId;
 
     /**
      * 创客ID
