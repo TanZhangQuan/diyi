@@ -111,7 +111,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return R.fail("已刷脸实名认证");
         }
 
-        return RealnameVerifyUtil.faceOCR(makerEntity.getMakerId(), makerEntity.getName(), makerEntity.getIdcardNo());
+        return RealnameVerifyUtil.faceOCR(makerEntity.getId(), makerEntity.getName(), makerEntity.getIdcardNo());
     }
 
     @Override
@@ -207,7 +207,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return R.fail("银行卡已实名认证");
         }
 
-        return RealnameVerifyUtil.bankCardOCR(makerEntity.getMakerId(), makerEntity.getName(), makerEntity.getIdcardNo(), bankCardNo, makerEntity.getPhoneNumber());
+        return RealnameVerifyUtil.bankCardOCR(makerEntity.getId(), makerEntity.getName(), makerEntity.getIdcardNo(), bankCardNo, makerEntity.getPhoneNumber());
     }
 
     @Override
@@ -287,7 +287,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return R.fail("手机号已实名认证");
         }
 
-        return RealnameVerifyUtil.mobileOCR(makerEntity.getMakerId(), makerEntity.getName(), makerEntity.getIdcardNo(), makerEntity.getPhoneNumber());
+        return RealnameVerifyUtil.mobileOCR(makerEntity.getId(), makerEntity.getName(), makerEntity.getIdcardNo(), makerEntity.getPhoneNumber());
     }
 
     @Override

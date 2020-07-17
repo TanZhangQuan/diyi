@@ -70,7 +70,7 @@ public class IndividualEnterpriseController {
 //	@ApiOperation(value = "详情", notes = "详情")
 	public R<IndividualEnterpriseVO> detail(@ApiParam(value = "个独编号") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
 		IndividualEnterpriseEntity individualEnterprise = new IndividualEnterpriseEntity();
-		individualEnterprise.setIndividualEnterpriseId(individualEnterpriseId);
+		individualEnterprise.setId(individualEnterpriseId);
 		IndividualEnterpriseEntity detail = individualEnterpriseService.getOne(Condition.getQueryWrapper(individualEnterprise));
 		return R.data(IndividualEnterpriseWrapper.build().entityVO(detail));
 	}
@@ -95,7 +95,7 @@ public class IndividualEnterpriseController {
 		log.info("查询当前创客的所有个独");
 		try {
 			MakerEntity makerEntity = iMakerService.current(bladeUser);
-			individualEnterpriseListByMakerDto.setMakerId(makerEntity.getMakerId());
+			individualEnterpriseListByMakerDto.setMakerId(makerEntity.getId());
 			return individualEnterpriseService.listByMaker(Condition.getPage(query.setDescs("create_time")), individualEnterpriseListByMakerDto);
 		} catch (Exception e) {
 			log.error("查询当前创客的所有个独异常", e);

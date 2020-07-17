@@ -56,7 +56,7 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
         IndividualEnterpriseEntity individualEnterpriseEntity = new IndividualEnterpriseEntity();
         BeanUtils.copyProperties(individualEnterpriseAddDto, individualEnterpriseEntity);
         individualEnterpriseEntity.setIbstate(Ibstate.REGISTERING);
-        individualEnterpriseEntity.setMakerId(makerEntity.getMakerId());
+        individualEnterpriseEntity.setMakerId(makerEntity.getId());
         save(individualEnterpriseEntity);
 
         return R.success("个独新增成功");

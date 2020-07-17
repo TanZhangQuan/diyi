@@ -72,7 +72,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             for (int i = 0; i < split.length; i++){
                 WorksheetMakerEntity worksheetMakerEntity = new WorksheetMakerEntity();
                 worksheetMakerEntity.setMakerId(Long.parseLong(split[0]));
-                worksheetMakerEntity.setWorksheetId(worksheetEntity.getWorksheetId());
+                worksheetMakerEntity.setWorksheetId(worksheetEntity.getId());
                 worksheetMakerEntity.setGetType(GetType.GETDISPATCH);
                 worksheetMakerEntity.setGetOrderDate(new Date());
                 worksheetMakerEntity.setArrangePerson("xitong");
@@ -94,7 +94,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         if(!worksheetEntity.getWorksheetState().equals(WorksheetState.PUBLISHING)){
             return R.fail("暂停抢单");
         }
-        int worksheetCount = worksheetMakerService.getWorksheetCount(worksheetEntity.getWorksheetId());
+        int worksheetCount = worksheetMakerService.getWorksheetCount(worksheetEntity.getId());
         return orderGrabbing(worksheetEntity,makerEntity,worksheetCount);
     }
 
@@ -124,17 +124,17 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             }
             return R.fail("工单已抢完");
         }
-        List<IndividualBusinessEntity> individualBusinessEntities = iUserClient.individualBusinessByMakerId(makerEntity.getMakerId());
+        List<IndividualBusinessEntity> individualBusinessEntities = iUserClient.individualBusinessByMakerId(makerEntity.getId());
         if((null == individualBusinessEntities || individualBusinessEntities.size() <= 0) && worksheetEntity.getMakerType().equals(MakerType.INDIVIDUALBUSINESS)){
             return R.fail("创客身份不符-个体");
         }
-        List<IndividualEnterpriseEntity> individualEnterpriseEntities = iUserClient.individualEnterpriseFindByMakerId(makerEntity.getMakerId());
+        List<IndividualEnterpriseEntity> individualEnterpriseEntities = iUserClient.individualEnterpriseFindByMakerId(makerEntity.getId());
         if((null == individualEnterpriseEntities || individualEnterpriseEntities.size() <= 0) && worksheetEntity.getMakerType().equals(MakerType.INDIVIDUALENTERPRISE)){
             return R.fail("创客身份不符-个独");
         }
         WorksheetMakerEntity worksheetMakerEntity = new WorksheetMakerEntity();
-        worksheetMakerEntity.setMakerId(makerEntity.getMakerId());
-        worksheetMakerEntity.setWorksheetId(worksheetEntity.getWorksheetId());
+        worksheetMakerEntity.setMakerId(makerEntity.getId());
+        worksheetMakerEntity.setWorksheetId(worksheetEntity.getId());
         worksheetMakerEntity.setGetType(GetType.GETGRABBING);
         worksheetMakerEntity.setGetOrderDate(new Date());
         worksheetMakerEntity.setMakerName(makerEntity.getName());

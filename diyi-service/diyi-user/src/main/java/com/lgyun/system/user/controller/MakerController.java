@@ -56,7 +56,7 @@ public class MakerController {
 //	@ApiOperation(value = "详情", notes = "详情")
 	public R<MakerVO> detail(@ApiParam(value = "创客编号") @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId) {
 		MakerEntity maker = new MakerEntity();
-		maker.setMakerId(makerId);
+		maker.setId(makerId);
 		MakerEntity detail = makerService.getOne(Condition.getQueryWrapper(maker));
 		return R.data(MakerWrapper.build().entityVO(detail));
 	}

@@ -75,7 +75,7 @@ public class IndividualBusinessController {
         log.info("查询个体户详情");
         try {
             IndividualBusinessEntity individualBusiness = new IndividualBusinessEntity();
-            individualBusiness.setIndividualBusinessId(individualBusinessId);
+            individualBusiness.setId(individualBusinessId);
             IndividualBusinessEntity detail = individualBusinessService.getOne(Condition.getQueryWrapper(individualBusiness));
             return R.data(IndividualBusinessWrapper.build().entityVO(detail));
         } catch (Exception e) {
@@ -120,7 +120,7 @@ public class IndividualBusinessController {
         log.info("查询当前创客的所有个体户");
         try {
             MakerEntity makerEntity = iMakerService.current(bladeUser);
-            individualBusinessListByMakerDto.setMakerId(makerEntity.getMakerId());
+            individualBusinessListByMakerDto.setMakerId(makerEntity.getId());
             return individualBusinessService.listByMaker(Condition.getPage(query.setDescs("create_time")), individualBusinessListByMakerDto);
         } catch (Exception e) {
             log.error("查询当前创客的所有个体户异常", e);

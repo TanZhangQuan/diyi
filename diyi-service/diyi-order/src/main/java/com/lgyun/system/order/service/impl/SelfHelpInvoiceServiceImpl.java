@@ -50,18 +50,18 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.individualEnterpriseFindById(selfHelpInvoiceDto.getBusinessEnterpriseId());
             bizName = individualEnterpriseEntity.getIbname();
             socialCreditNo = individualEnterpriseEntity.getIbtaxNo();
-            selfHelpInvoiceEntity.setBusinessEnterpriseId(individualEnterpriseEntity.getIndividualEnterpriseId());
+            selfHelpInvoiceEntity.setBusinessEnterpriseId(individualEnterpriseEntity.getId());
         }
         if(selfHelpInvoiceDto.getInvoicePeopleType().equals(MakerType.INDIVIDUALBUSINESS)){
             IndividualBusinessEntity individualBusinessEntity = iUserClient.individualBusinessById(selfHelpInvoiceDto.getBusinessEnterpriseId());
             bizName = individualBusinessEntity.getIbname();
             socialCreditNo = individualBusinessEntity.getIbtaxNo();
-            selfHelpInvoiceEntity.setBusinessEnterpriseId(individualBusinessEntity.getIndividualBusinessId());
+            selfHelpInvoiceEntity.setBusinessEnterpriseId(individualBusinessEntity.getId());
         }
 
         SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = new SelfHelpInvoiceDetailEntity();
         BeanUtil.copy(selfHelpInvoiceDto, selfHelpInvoiceDetailEntity);
-        selfHelpInvoiceDetailEntity.setSelfHelpInvoiceId(selfHelpInvoiceEntity.getSelfHelpInvoiceId());
+        selfHelpInvoiceDetailEntity.setSelfHelpInvoiceId(selfHelpInvoiceEntity.getId());
         selfHelpInvoiceDetailEntity.setBizName(bizName);
         selfHelpInvoiceDetailEntity.setSocialCreditNo(socialCreditNo);
         selfHelpInvoiceDetailService.save(selfHelpInvoiceDetailEntity);

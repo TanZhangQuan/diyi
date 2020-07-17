@@ -70,7 +70,7 @@ public class WorksheetController {
         if (worksheetState != 1 && worksheetState != 2 && worksheetState != 3) {
             return R.fail("参数错误");
         }
-        return worksheetService.findXiaoPage(Condition.getPage(query), worksheetState, makerEntity.getMakerId());
+        return worksheetService.findXiaoPage(Condition.getPage(query), worksheetState, makerEntity.getId());
     }
 
     /**
