@@ -1,10 +1,13 @@
 package com.lgyun.system.order.controller;
 
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.ReleaseWorksheetDto;
+import com.lgyun.system.order.entity.WorksheetEntity;
+import com.lgyun.system.order.entity.WorksheetMakerEntity;
 import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.user.entity.MakerEntity;
@@ -36,7 +39,6 @@ import java.math.BigDecimal;
 public class WorksheetController {
 
     private IWorksheetService worksheetService;
-    private IUserClient iUserClient;
     private IWorksheetMakerService worksheetMakerService;
 
     /**
@@ -45,7 +47,13 @@ public class WorksheetController {
     @PostMapping("/releaseWorksheet")
     @ApiOperation(value = "发布工单", notes = "发布工单")
     public R releaseWorksheet(@Valid @RequestBody ReleaseWorksheetDto releaseWorksheetDTO) {
-        return worksheetService.releaseWorksheet(releaseWorksheetDTO);
+        log.info("发布工单");
+        try{
+            return worksheetService.releaseWorksheet(releaseWorksheetDTO);
+        }catch (Exception e){
+            e.printStackTrace();
+            return R.fail("发布订单失败");
+        }
     }
 
     /**
@@ -66,8 +74,10 @@ public class WorksheetController {
             @ApiImplicitParam(name = "worksheetState", value = "工单状态：1代表待抢单，2已接单，3已交付", paramType = "query", dataType = "string"),
     })
     public R findXiaoPage(Query query, Integer worksheetState, BladeUser bladeUser) {
-        MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
-        if (worksheetState != 1 && worksheetState != 2 && worksheetState != 3) {
+        //MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
+        MakerEntity makerEntity = new MakerEntity();
+        makerEntity.setId(1278969988057903106L);
+        if (null == worksheetState || (worksheetState != 1 && worksheetState != 2 && worksheetState != 3)) {
             return R.fail("参数错误");
         }
         return worksheetService.findXiaoPage(Condition.getPage(query), worksheetState, makerEntity.getId());
@@ -79,7 +89,19 @@ public class WorksheetController {
     @PostMapping("/submitachievement")
     @ApiOperation(value = "提交工作成果", notes = "提交工作成果")
     public R submitachievement(Long worksheetMakerId, String achievementDesc, String achievementFiles) {
-        return worksheetMakerService.submitAchievement(worksheetMakerId, achievementDesc, achievementFiles);
+        log.info("提交工作成果");
+        try{
+            WorksheetMakerEntity worksheetMakerEntity = worksheetMakerService.getById(worksheetMakerId);
+            WorksheetEntity worksheetEntity = worksheetService.getById(worksheetMakerEntity.getWorksheetId());
+            if(!(worksheetEntity.getWorksheetState().equals(WorksheetState.CLOSED) || worksheetEntity.getWorksheetState().equals(WorksheetState.CHECKACCEPT))){
+                return R.fail("工单暂时不能提交工作成果，稍后再试");
+            }
+            return worksheetMakerService.submitAchievement(worksheetMakerEntity, achievementDesc, achievementFiles);
+        }catch (Exception e){
+            e.printStackTrace();
+            return  R.fail("提交工作成果失败");
+        }
+
     }
 
     /**

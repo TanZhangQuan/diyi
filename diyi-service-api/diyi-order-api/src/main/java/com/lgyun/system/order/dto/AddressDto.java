@@ -17,7 +17,7 @@ public class AddressDto implements Serializable {
     /**
      * 收件人
      */
-    @NotBlank(message = "请输入身份证号码")
+    @NotBlank(message = "请输入收件人")
     private String addressName;
 
     /**

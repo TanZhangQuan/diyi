@@ -61,8 +61,12 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
 
         SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = new SelfHelpInvoiceDetailEntity();
         BeanUtil.copy(selfHelpInvoiceDto, selfHelpInvoiceDetailEntity);
+        selfHelpInvoiceDetailEntity.setMakerId(selfHelpInvoiceDto.getApplyMakerId());
+        selfHelpInvoiceDetailEntity.setNoneMakerInvoicePersonId(selfHelpInvoiceDto.getSelfHelpInvoicePersonId());
+        selfHelpInvoiceDetailEntity.setSelfHelpInvoiceId(selfHelpInvoiceEntity.getId());
         selfHelpInvoiceDetailEntity.setSelfHelpInvoiceId(selfHelpInvoiceEntity.getId());
         selfHelpInvoiceDetailEntity.setBizName(bizName);
+        selfHelpInvoiceDetailEntity.setAccountBalanceUrl(selfHelpInvoiceDto.getAccountBalanceUrl());
         selfHelpInvoiceDetailEntity.setSocialCreditNo(socialCreditNo);
         selfHelpInvoiceDetailService.save(selfHelpInvoiceDetailEntity);
         return R.success("申请成功");
@@ -72,7 +76,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     public R getSelfHelpInvoiceDetails(Long selfHelpInvoiceId) {
         SelfHelpInvoiceEntity selfHelpInvoiceEntity = getById(selfHelpInvoiceId);
         if(!selfHelpInvoiceEntity.getInvoiceAuditState().equals(InvoiceAuditState.APPROVED)){
-            R.fail("自助开票在审核中，请耐心等候");
+            return R.fail("自助开票在审核中，请耐心等候");
         }
         return R.data(baseMapper.getSelfHelpInvoiceDetails(selfHelpInvoiceId));
     }

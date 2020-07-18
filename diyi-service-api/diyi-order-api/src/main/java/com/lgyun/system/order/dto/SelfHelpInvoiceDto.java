@@ -60,5 +60,7 @@ public class SelfHelpInvoiceDto implements Serializable {
 
     private Long businessEnterpriseId;
 
+    private String accountBalanceUrl;
+
 
 }

@@ -21,7 +21,7 @@
     </resultMap>
 
     <select id="findPersonMakerId" resultMap="selfHelpInvoicePersonMap">
-        select * from diyi_self_help_invoice_person where is_deleted = 0 and maker_id = #{makerId}
+        select *from diyi_self_help_invoice_person where is_deleted = 0 and maker_id = #{param2}
     </select>
 
 </mapper>

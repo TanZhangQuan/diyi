@@ -2,6 +2,7 @@ package com.lgyun.system.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lgyun.common.api.R;
 import com.lgyun.system.entity.Dict;
 import com.lgyun.system.vo.DictVO;
 
@@ -62,5 +63,12 @@ public interface IDictService extends IService<Dict> {
 	 * @return
 	 */
 	List<Dict> getParentList(Long parentId);
+
+	/**
+	 * 获取字典表
+	 * @param code
+	 * @return
+	 */
+	Dict getDict(String code);
 
 }

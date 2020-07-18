@@ -9,6 +9,7 @@ import com.lgyun.system.order.service.ISelfHelpInvoiceFeeService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *  Service 实现
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 public class SelfHelpInvoiceFeeServiceImpl extends BaseServiceImpl<SelfHelpInvoiceFeeMapper, SelfHelpInvoiceFeeEntity> implements ISelfHelpInvoiceFeeService {
 
     @Override
+    @Transactional
     public R confirmPayment(ConfirmPaymentDto confirmPaymentDto) {
         if(null == confirmPaymentDto.getHandPayId()){
             R.fail("参数错误");

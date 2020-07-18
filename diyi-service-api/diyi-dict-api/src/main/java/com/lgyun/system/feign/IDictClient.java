@@ -2,9 +2,12 @@ package com.lgyun.system.feign;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
+import com.lgyun.system.dto.DictDTO;
 import com.lgyun.system.entity.Dict;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -52,4 +55,15 @@ public interface IDictClient {
     @GetMapping(API_PREFIX + "/getParentList")
     R<List<Dict>> getParentList(@RequestParam("parentId") Long parentId);
 
+    /**
+     * 保存字典
+     */
+    @PostMapping(API_PREFIX + "/save_dict")
+    R saveDict(@RequestBody DictDTO dictDTO);
+
+    /**
+     * 获取字典
+     */
+    @GetMapping(API_PREFIX + "/getDict")
+    Dict getDict(@RequestParam("code") String code);
 }

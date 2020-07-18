@@ -23,6 +23,6 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
     /**
      * 通过商户id查询
      */
-    MakerEnterpriseRelationVO getEnterpriseId(Long enterpriseId);
+    MakerEnterpriseRelationVO getEnterpriseId(Long enterpriseId,Integer difference);
 }
 

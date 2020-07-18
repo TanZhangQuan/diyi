@@ -4,6 +4,7 @@ import com.lgyun.common.enumeration.PaymentType;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -19,7 +20,7 @@ public class ConfirmPaymentDto implements Serializable {
     /**
      * 自助开票收费
      */
-    @NotBlank(message = "请输入自助开票收费ID")
+    @NotNull(message = "请输入自助开票收费ID")
     private Long handPayId;
 
     /**
