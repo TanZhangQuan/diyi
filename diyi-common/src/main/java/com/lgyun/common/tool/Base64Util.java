@@ -1,7 +1,5 @@
 package com.lgyun.common.tool;
 
-import sun.misc.BASE64Encoder;
-
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -131,8 +129,7 @@ public class Base64Util extends org.springframework.util.Base64Utils {
         // 关闭流
         is.close();
         // 对字节数组Base64编码
-        BASE64Encoder encoder = new BASE64Encoder();
-        return encoder.encode(data.toByteArray());
+        return Base64Util.encodeToString(data.toByteArray());
     }
 
 }

@@ -9,5 +9,13 @@ spring:
 logging:
   level:
     com.alibaba.nacos: error
+    com.lgyun.system.user.feign: debug
+  file:
+    name: diyi-auth.log
 
-
+feign:
+  client:
+    config:
+      # feign全局日志级别
+      default:
+        loggerLevel: full
