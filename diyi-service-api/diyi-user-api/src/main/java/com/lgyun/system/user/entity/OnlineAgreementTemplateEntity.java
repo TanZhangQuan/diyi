@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- *  Entity
+ * Entity
  *
  * @author jun
  * @since 2020-07-18 14:37:08
@@ -27,53 +27,53 @@ public class OnlineAgreementTemplateEntity extends BaseEntity {
     /**
      * 唯一性控制
      */
-        @ApiModelProperty(value = "主键")
+    @ApiModelProperty(value = "主键")
     @TableId(type = IdType.ASSIGN_ID)
     @JsonSerialize(using = ToStringSerializer.class)
-        private Long id;
+    private Long id;
 
     /**
      * 协议类别 1,创客加盟协议；2，商户加盟协议；3，服务商加盟协议；4，渠道商加盟协议；5、合伙人加盟协议；6、园区合作协议；7、税局合作协议；8、工商合作协议；9、创客授权书；10、商户-创客补充协议；11、服务商-商户补充协议；12、创客单独税务事项委托授权书；13、创客单独支付事项委托授权书；14、其他协议
      */
-        private Integer templateType;
+    private Integer templateType;
 
     /**
      * 模板状态 1,应用中；2，已过期。同一个模板上传新模板后，原来的模板即为已过期
      */
-        private Integer templateState;
+    private Integer templateState;
 
     /**
      * 签署状态 1，开启中；2，已关闭
      */
-        private Integer signState;
+    private Integer signState;
 
     /**
      * 协议模板
      */
-        private String agreementTemplate;
+    private String agreementTemplate;
 
     /**
      * 上传人员
      */
-        private String uploadPerson;
+    private String uploadPerson;
 
     /**
      * 上传日期
      */
-        private Date uploadDate;
+    private Date uploadDate;
 
     /**
      * 变更状态人员
      */
-        private String changeStatePerson;
+    private String changeStatePerson;
 
     /**
      * 变更日期
      */
-        private Date shangeStateDate;
+    private Date shangeStateDate;
 
     /**
      * 商户全部创客 1,商户-创客，全部正常创客都需要签署,0 不是
      */
-        private Integer allMakers;
-    }
+    private Integer allMakers;
+}
