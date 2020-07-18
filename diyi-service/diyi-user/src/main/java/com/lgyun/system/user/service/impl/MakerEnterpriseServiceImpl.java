@@ -51,6 +51,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
             makerEnterpriseEntity.setRelDate(new Date());
             makerEnterpriseEntity.setRelType(RelType.MAKERREL);
             makerEnterpriseEntity.setCooperationStartTime(new Date());
+            makerEnterpriseEntity.setFirstCooperation(true);
             makerEnterpriseEntity.setRelMemo("关注");
         }
         if (attribute == 1) {

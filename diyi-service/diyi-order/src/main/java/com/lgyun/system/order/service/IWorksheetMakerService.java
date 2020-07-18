@@ -25,12 +25,18 @@ public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity
     /**
      * 提交工作成果
      */
-    R submitAchievement(Long worksheetMakerId,String achievementDesc,String achievementFiles);
+    R submitAchievement(WorksheetMakerEntity worksheetMakerEntity,String achievementDesc,String achievementFiles);
+
 
     /**
      * 验收工作成果
      */
     R checkAchievement(Long worksheetMakerId, BigDecimal checkMoney,Long enterpriseId,Boolean bool);
+
+    /**
+     * 查询创客有没有抢单
+     */
+    Boolean isMakerId(Long makerId,Long worksheetId);
 
     /**
      * 验收工作成果

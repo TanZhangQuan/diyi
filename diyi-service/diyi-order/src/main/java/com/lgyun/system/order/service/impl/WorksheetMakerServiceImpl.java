@@ -4,15 +4,19 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.common.enumeration.WorksheetMakerState;
+import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.system.order.entity.WorksheetEntity;
 import com.lgyun.system.order.entity.WorksheetMakerEntity;
 import com.lgyun.system.order.mapper.WorksheetMakerMapper;
 import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.order.vo.IncomeYearMonthVO;
+import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -37,8 +41,7 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
     }
 
     @Override
-    public R submitAchievement(Long worksheetMakerId, String achievementDesc, String achievementFiles) {
-        WorksheetMakerEntity worksheetMakerEntity = getById(worksheetMakerId);
+    public R submitAchievement(WorksheetMakerEntity worksheetMakerEntity, String achievementDesc, String achievementFiles) {
         if(null == worksheetMakerEntity || null == achievementFiles || "" == achievementFiles){
             return R.fail("提交失败");
         }
@@ -53,7 +56,7 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
     @Override
     public R checkAchievement(Long worksheetMakerId, BigDecimal checkMoney, Long enterpriseId,Boolean bool) {
         WorksheetMakerEntity worksheetMakerEntity = getById(worksheetMakerId);
-        if(null == worksheetMakerEntity || null == checkMoney){
+        if(null == worksheetMakerEntity || null == checkMoney ||!worksheetMakerEntity.getWorksheetMakerState().equals(WorksheetMakerState.VERIFIED)){
             return R.fail("验收失败");
         }
         EnterpriseEntity byId = iUserClient.getEnterpriseById(enterpriseId);
@@ -72,5 +75,15 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
     @Override
     public R<IncomeYearMonthVO> queryMoneyByYearMonth(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year, Long month) {
         return R.data(baseMapper.queryMoneyByYearMonth(worksheetType, makerType, makerId, year, month));
+    }
+
+    @Override
+    public Boolean isMakerId(Long makerId, Long worksheetId) {
+        Boolean bool =true;
+        int count = baseMapper.isMakerId(makerId, worksheetId);
+        if(count > 0){
+            bool = false;
+        }
+        return bool;
     }
 }

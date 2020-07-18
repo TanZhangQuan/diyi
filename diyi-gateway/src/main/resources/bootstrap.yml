@@ -23,4 +23,6 @@ spring:
         enabled: true
 
 
-
+logging:
+  file:
+    name: diyi-gateway.log

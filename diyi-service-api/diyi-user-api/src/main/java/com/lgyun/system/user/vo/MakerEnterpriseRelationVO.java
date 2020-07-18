@@ -31,5 +31,5 @@ public class MakerEnterpriseRelationVO {
     private String bizLicenceUrl;
 
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
+    private Long enterpriseId;
 }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -41,12 +42,19 @@ public class MakerEnterpriseController {
 	@GetMapping("/detail")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "enterpriseId", value = "商户id", paramType = "query", dataType = "long"),
-			@ApiImplicitParam(name = "difference", value = "类型,1关联，2关注", paramType = "query", dataType = "int")
+			@ApiImplicitParam(name = "difference", value = "类型,0关联，1关注", paramType = "query", dataType = "int")
 	})
 	@ApiOperation(value = "详情", notes = "详情")
 	public R<MakerEnterpriseRelationVO> detail(Long enterpriseId,int difference) {
-		MakerEnterpriseRelationVO enterpriseId1 = iEnterpriseService.getEnterpriseId(enterpriseId, difference);
-		return R.data(enterpriseId1);
+		log.info("商户的详情");
+		try {
+			MakerEnterpriseRelationVO enterpriseId1 = iEnterpriseService.getEnterpriseId(enterpriseId, difference);
+			return R.data(enterpriseId1);
+		} catch (Exception e){
+			e.printStackTrace();
+			return R.fail("商户的详情失败");
+		}
+
 	}
 
 	@GetMapping("/selectMakerEnterprisePage")
@@ -56,8 +64,14 @@ public class MakerEnterpriseController {
 	})
 	@ApiOperation(value = "查询关联商户和关注商户", notes = "查询关联商户和关注商户")
 	public R<IPage<MakerEnterpriseRelationVO>> selectMakerEnterprisePage(Long makerId, Integer relationshipType, Query query) {
-		IPage<MakerEnterpriseRelationVO> pages = makerEnterpriseService.selectMakerEnterprisePage(Condition.getPage(query), makerId,relationshipType);
-		return R.data(pages);
+		log.info("查询关联商户和关注商户");
+		try {
+			IPage<MakerEnterpriseRelationVO> pages = makerEnterpriseService.selectMakerEnterprisePage(Condition.getPage(query), makerId,relationshipType);
+			return R.data(pages);
+		} catch (Exception e){
+			e.printStackTrace();
+			return R.fail("查询关联商户和关注商户失败");
+		}
 	}
 
 	@GetMapping("/getEnterpriseName")
@@ -66,8 +80,14 @@ public class MakerEnterpriseController {
 	})
 	@ApiOperation(value = "通过商户名字查询", notes = "通过商户名字查询")
 	public R<List<MakerEnterpriseRelationVO>> getEnterpriseName(String enterpriseName) {
-		List<MakerEnterpriseRelationVO> makerEnterpriseRelationVOs = iEnterpriseService.getEnterpriseName(enterpriseName);
-		return R.data(makerEnterpriseRelationVOs,"查询成功");
+		log.info("通过商户名字查询商户");
+		try {
+			List<MakerEnterpriseRelationVO> makerEnterpriseRelationVOs = iEnterpriseService.getEnterpriseName(enterpriseName);
+			return R.data(makerEnterpriseRelationVOs,"查询成功");
+		} catch (Exception e){
+			e.printStackTrace();
+			return R.fail("通过商户名字查询商户失败");
+		}
 	}
 
 	@PostMapping("/addOrCancelfollow")
@@ -78,7 +98,14 @@ public class MakerEnterpriseController {
 	})
 	@ApiOperation(value = "添加关注或取消关注", notes = "添加关注或取消关注")
 	public R addOrCancelfollow(Long enterpriseId,Long makerId,Integer attribute) {
-		return makerEnterpriseService.addOrCancelfollow(enterpriseId,makerId,attribute);
+		log.info("添加关注或取消关注");
+		try {
+			return makerEnterpriseService.addOrCancelfollow(enterpriseId,makerId,attribute);
+		} catch (Exception e){
+			e.printStackTrace();
+			return R.fail("添加关注或取消关注失败");
+		}
+
 	}
 
 }

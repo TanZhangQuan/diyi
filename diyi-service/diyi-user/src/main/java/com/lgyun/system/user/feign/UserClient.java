@@ -12,6 +12,7 @@ import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.service.*;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +25,7 @@ import java.util.List;
  * @author liangfeihu
  * @since 2020/6/6 22:11
  */
+@Slf4j
 @RestController
 @AllArgsConstructor
 public class UserClient implements IUserClient {
@@ -119,7 +121,7 @@ public class UserClient implements IUserClient {
 
     @Override
     public R makerSaveOrUpdate(String openid, String sessionKey, String phoneNumber, String loginPwd, GrantType grantType) {
-
+        log.info("[makerSaveOrUpdate] phone={}", phoneNumber);
         //根据手机号码查询创客，存在就更新微信信息，不存在就新建创客
         MakerEntity makerEntity;
         switch (grantType) {

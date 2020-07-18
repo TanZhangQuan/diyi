@@ -1,6 +1,7 @@
 package com.lgyun.system.feign;
 
 import com.lgyun.common.api.R;
+import com.lgyun.system.dto.DictDTO;
 import com.lgyun.system.entity.Dict;
 import org.springframework.stereotype.Component;
 
@@ -28,4 +29,15 @@ public class IDictClientFallback implements IDictClient {
 	public R<List<Dict>> getParentList(Long parentId) {
 		return R.fail("获取数据失败");
 	}
+
+	@Override
+	public R saveDict(DictDTO dictDTO) {
+		return R.fail("保存数据失败");
+	}
+
+	@Override
+	public Dict getDict(String code) {
+		return null;
+	}
+
 }

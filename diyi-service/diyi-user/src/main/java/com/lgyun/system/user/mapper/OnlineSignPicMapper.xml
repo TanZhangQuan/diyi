@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lgyun.system.user.mapper.OnlineSignPicMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.lgyun.system.user.entity.OnlineSignPicEntity" id="onlineSignPicMap">
+                    <result property="id" column="id"/>
+                    <result property="objectType" column="object_type"/>
+                    <result property="objectId" column="object_id"/>
+                    <result property="workerSex" column="worker_sex"/>
+                    <result property="signPic" column="sign_pic"/>
+                    <result property="signDatetime" column="sign_datetime"/>
+            </resultMap>
+
+</mapper>
