@@ -1,22 +1,22 @@
 package com.lgyun.system.user.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.lgyun.common.enumeration.*;
-import com.lgyun.common.tool.DateUtil;
-import com.lgyun.core.mp.base.BaseEntity;
 import lombok.Data;
+import com.lgyun.core.mp.base.BaseEntity;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 /**
- * Entity
+ *  Entity
  *
- * @author liangfeihu
- * @since 2020-06-26 17:21:06
+ * @author jun
+ * @since 2020-07-18 14:37:08
  */
 @Data
 @NoArgsConstructor
@@ -25,25 +25,27 @@ public class AgreementEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 签署类型：纸质协议，平台在线协议，三方在线协议-法大大
+     * 唯一性控制
      */
-    private SignType signType;
+    @ApiModelProperty(value = "主键")
+    @TableId(type = IdType.ASSIGN_ID)
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long id;
+
+    /**
+     * 协议类别 1,创客加盟协议；2，商户加盟协议；3，服务商加盟协议；4，渠道商加盟协议；5、合伙人加盟协议；6、园区合作协议；7、税局合作协议；8、工商合作协议；9、创客授权书；10、商户-创客补充协议；11、服务商-商户补充协议；12、创客单独税务事项委托授权书；13、创客单独支付事项委托授权书；14、其他协议
+     */
+    private Integer agreementType;
+
+    /**
+     * 支付状态：待支付，企业已申请支付，企业已支付，平台已支付，已确认收款
+     */
+    private String signType;
 
     /**
      * 签署日期
      */
-    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
     private Date signDate;
-
-    /**
-     * 签署状态：签署中，已完毕
-     */
-    private SignState signState;
-
-    /**
-     * 协议类型：互联网众包项目合作协议，众包-三方合作协议，众包-三方服务订单，总包-双方合作协议，总包-双方服务订单，分包-三方合作协议，分包-三方服务订单，分包-双方合作协议，分包-双方服务订单，单独税务事项委托授权书，单独支付事项委托授权书
-     */
-    private AgreementType agreementType;
 
     /**
      * 协议编号
@@ -51,39 +53,49 @@ public class AgreementEntity extends BaseEntity {
     private String agreementNo;
 
     /**
-     * 发包方ID
+     * 顺序号
      */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long runCompanyId;
+    private String sequenceNo;
 
     /**
-     * 平台方ID
+     * 创客ID
      */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long platformId;
-
-    /**
-     * 分包方/承包方ID
-     */
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long makerId;
 
     /**
-     * 上传人员
+     * 商户ID
      */
-    private String uploadPerson;
+    private Long enterpriseId;
 
     /**
-     * 上传日期
+     * 服务商ID
      */
-    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
-    private Date uploadDateTime;
+    private Long serviceProviderId;
 
     /**
-     * 在线协议发起时间
+     * 相关局ID
      */
-    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
-    private Date startDateTime;
+    private Long relBureauId;
+
+    /**
+     * 渠道商ID
+     */
+    private Long agentId;
+
+    /**
+     * 合伙人ID
+     */
+    private Long partnerId;
+
+    /**
+     * 平台在线协议模板ID
+     */
+    private Long onlineAggrementId;
+
+    /**
+     * 在线协议URL
+     */
+    private String onlineAggrementUrl;
 
     /**
      * 纸质协议URL
@@ -96,76 +108,37 @@ public class AgreementEntity extends BaseEntity {
     private String thirdOnlineAgreementUrl;
 
     /**
-     * 平台在线协议文本
+     * 纸质协议上传状态
      */
-    private String platformOnlineAgreementUrl;
+    private Integer paperAgreementUpload;
 
     /**
-     * 平台在线协议平台方签字
+     * 甲方签署人员
      */
-    private String poaplatformSignatureUrl;
+    private String firstSideSignPerson;
 
     /**
-     * 平台在线协议分包方签字
+     * 乙方签署人员
      */
-    private String poamakerSignatureUrl;
+    private String secondSideSignPerson;
 
     /**
-     * 平台在线协议发包方签字
+     * 丙方签署人员
      */
-    private String poacompanySignatureUrl;
+    private String thirdSideSignPerson;
 
     /**
-     * 平台在线协议平台方操作日期
+     * 丁方签署人员
      */
-    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
-    private Date poaplatformSignDateTime;
+    private String fourthSideSignPerson;
 
     /**
-     * 平台在线协议分包方操作日期
+     * 上传日期
      */
-    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
-    private Date poamakerSignDateTime;
+    private Date uploadDatetime;
 
     /**
-     * 平台在线协议发包方操作日期
+     * 上传人员
      */
-    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
-    private Date poacompanySignDateTime;
-
-    /**
-     * 平台在线协议文本集合签字
-     */
-    private String poawithSignatureUrl;
-
-    /**
-     * 纸质协议上传状态：未上传, 已上传
-     */
-    private PaaState paaState;
-
-    /**
-     * 平台在线协议状态：签署中，已签署完毕
-     */
-    private AgreementState poaState;
-
-    /**
-     * 三方在线协议状态：签署中，已签署完毕
-     */
-    private AgreementState toaState;
-
-    /**
-     * 平台签署状态：签署中，已签署，无需签署（没参与）
-     */
-    private SignState platformSignState;
-
-    /**
-     * 创客签署状态：签署中，已签署，无需签署（没参与）
-     */
-    private SignState makerSignState;
-
-    /**
-     * 发包方签署状态：签署中，已签署，无需签署（没参与）
-     */
-    private SignState companySignState;
-
+    private String uploadPerson;
 }

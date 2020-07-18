@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lgyun.system.user.mapper.OnlineAgreementNeedSignMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.lgyun.system.user.entity.OnlineAgreementNeedSignEntity" id="onlineAgreementNeedSignMap">
+                    <result property="id" column="id"/>
+                    <result property="onlineAggrementId" column="online_aggrement_id"/>
+                    <result property="objectType" column="object_type"/>
+                    <result property="signPower" column="sign_power"/>
+                    <result property="objectId" column="object_id"/>
+                    <result property="signState" column="sign_state"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.user.vo.OnlineAgreementNeedSignVO" id="onlineAgreementNeedSignVOMap">
+        <result property="onlineAgreementNeedSignId" column="online_agreement_need_sign_id"/>
+        <result property="onlineAggrementId" column="online_aggrement_id"/>
+        <result property="templateType" column="template_type"/>
+        <result property="agreementTemplate" column="agreementTemplate"/>
+    </resultMap>
+
+    <select id="getOnlineAgreementNeedSign" resultMap="onlineAgreementNeedSignVOMap">
+        SELECT dn.id as online_agreement_need_sign_id,dt.id as online_aggrement_id,dt.template_type,dt.agreement_template  FROM diyi_online_agreement_need_sign dn INNER JOIN diyi_online_agreement_template dt on dn.online_aggrement_id = dt.id where dt.template_state = 1 and dn.sign_state = 0 and dn.object_type = 1 and dn.object_id =#{makerid}
+    </select>
+
+</mapper>
