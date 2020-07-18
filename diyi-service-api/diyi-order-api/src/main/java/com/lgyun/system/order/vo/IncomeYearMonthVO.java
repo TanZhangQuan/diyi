@@ -3,8 +3,8 @@ package com.lgyun.system.order.vo;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * @author tzq.
@@ -12,11 +12,11 @@ import java.util.Date;
  * @time 20:04.
  */
 @Data
-@ApiModel(value = "IncomeByYearMonthVO对象", description = "IncomeByYearMonthVO对象")
-public class IncomeYearMonthVO {
+@ApiModel(value = "IncomeYearMonthVO对象", description = "IncomeYearMonthVO对象")
+public class IncomeYearMonthVO implements Serializable {
 
-    //发布时间
-    private Date publishDate;
+    //输入记录数
+    private Integer num;
 
     //总收入
     private BigDecimal income;
