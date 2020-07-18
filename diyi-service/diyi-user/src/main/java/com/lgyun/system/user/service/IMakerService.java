@@ -38,21 +38,21 @@ public interface IMakerService extends IService<MakerEntity> {
      * @param idcardPic
      * @return
      */
-    R idcardOcr(String idcardPic, BladeUser bladeUser) throws Exception;
+    R idcardOcr(String idcardPic, MakerEntity makerEntity) throws Exception;
 
     /**
      * 身份证实名认证信息保存
      *
      * @return
      */
-    R idcardOcrSave(IdcardOcrSaveDto idcardOcrSaveDto, BladeUser bladeUser);
+    R idcardOcrSave(IdcardOcrSaveDto idcardOcrSaveDto, MakerEntity makerEntity);
 
     /**
      * 刷脸实名认证
      *
      * @return
      */
-    R faceOcr(BladeUser bladeUser) throws Exception;
+    R faceOcr(MakerEntity makerEntity) throws Exception;
 
     /**
      * 刷脸实名认证异步回调
@@ -62,18 +62,11 @@ public interface IMakerService extends IService<MakerEntity> {
     R faceOcrNotify(HttpServletRequest request) throws Exception;
 
     /**
-     * 查询认证详情
-     *
-     * @return
-     */
-    R detail(String flowId) throws Exception;
-
-    /**
      * 银行卡实名认证
      *
      * @return
      */
-    R bankCardOcr(String bankCardNo, BladeUser bladeUser) throws Exception;
+    R bankCardOcr(String bankCardNo, MakerEntity makerEntity) throws Exception;
 
     /**
      * 银行卡实名认证异步回调
@@ -87,7 +80,7 @@ public interface IMakerService extends IService<MakerEntity> {
      *
      * @return
      */
-    R mobileOcr(BladeUser bladeUser) throws Exception;
+    R mobileOcr(MakerEntity makerEntity) throws Exception;
 
     /**
      * 银行卡实名认证异步回调
@@ -101,14 +94,14 @@ public interface IMakerService extends IService<MakerEntity> {
      *
      * @return
      */
-    R queryIdcardOcr(BladeUser bladeUser);
+    R queryIdcardOcr(MakerEntity makerEntity);
 
     /**
      * 检查当前创客身份证和人脸是否已实名认证
      *
      * @return
      */
-    R checkIdcardFaceVerify(BladeUser bladeUser);
+    R checkIdcardFaceVerify(MakerEntity makerEntity);
 
     /**
      * 获取运营者名称

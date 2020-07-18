@@ -1,6 +1,6 @@
-package com.lgyun.system.user.vo;
+package com.lgyun.system.order.vo;
 
-import com.lgyun.system.user.entity.WorksheetAttentionEntity;
+import com.lgyun.system.order.entity.WorksheetAttentionEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

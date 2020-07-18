@@ -80,7 +80,9 @@ public class MakerController {
 
 		log.info("身份证实名认证");
 		try {
-			return makerService.idcardOcr(idcardPic, bladeUser);
+			//获取当前创客
+			MakerEntity makerEntity = iMakerService.current(bladeUser);
+			return makerService.idcardOcr(idcardPic, makerEntity);
 		} catch (Exception e) {
 			log.error("身份证实名认证异常", e);
 		}
@@ -93,7 +95,9 @@ public class MakerController {
 
 		log.info("身份证实名认证");
 		try {
-			return makerService.idcardOcrSave(idcardOcrSaveDto, bladeUser);
+			//获取当前创客
+			MakerEntity makerEntity = iMakerService.current(bladeUser);
+			return makerService.idcardOcrSave(idcardOcrSaveDto, makerEntity);
 		} catch (Exception e) {
 			log.error("身份证实名认证异常", e);
 		}
@@ -106,7 +110,9 @@ public class MakerController {
 
 		log.info("刷脸实名认证");
 		try {
-			return makerService.faceOcr(bladeUser);
+			//获取当前创客
+			MakerEntity makerEntity = iMakerService.current(bladeUser);
+			return makerService.faceOcr(makerEntity);
 		} catch (Exception e) {
 			log.error("刷脸实名认证异常", e);
 		}
@@ -126,26 +132,15 @@ public class MakerController {
 		return R.fail("刷脸实名认证异步回调失败");
 	}
 
-	@PostMapping("/detail")
-	@ApiOperation(value = "查询认证详情", notes = "查询认证详情")
-	public R detail(String flowId) {
-
-		log.info("查询认证详情");
-		try {
-			return makerService.detail(flowId);
-		} catch (Exception e) {
-			log.error("查询认证详情异常", e);
-		}
-		return R.fail("查询认证详情失败");
-	}
-
 	@PostMapping("/bank_card_ocr")
 	@ApiOperation(value = "银行卡实名认证", notes = "银行卡实名认证")
 	public R bankCardOcr(@ApiParam(value = "银行卡号") @NotNull(message = "请输入银行卡号") @RequestParam(required = false) String bankCardNo, BladeUser bladeUser) {
 
 		log.info("银行卡实名认证");
 		try {
-			return makerService.bankCardOcr(bankCardNo, bladeUser);
+			//获取当前创客
+			MakerEntity makerEntity = iMakerService.current(bladeUser);
+			return makerService.bankCardOcr(bankCardNo, makerEntity);
 		} catch (Exception e) {
 			log.error("银行卡实名认证异常", e);
 		}
@@ -171,7 +166,9 @@ public class MakerController {
 
 		log.info("手机号实名认证");
 		try {
-			return makerService.mobileOcr(bladeUser);
+			//获取当前创客
+			MakerEntity makerEntity = iMakerService.current(bladeUser);
+			return makerService.mobileOcr(makerEntity);
 		} catch (Exception e) {
 			log.error("手机号实名认证异常", e);
 		}
@@ -197,7 +194,9 @@ public class MakerController {
 
 		log.info("查询当前创客身份证实名认证的照片");
 		try {
-			return makerService.queryIdcardOcr(bladeUser);
+			//获取当前创客
+			MakerEntity makerEntity = iMakerService.current(bladeUser);
+			return makerService.queryIdcardOcr(makerEntity);
 		} catch (Exception e) {
 			log.error("查询当前创客身份证实名认证的照片异常", e);
 		}
@@ -210,7 +209,9 @@ public class MakerController {
 
 		log.info("检查当前创客身份证和人脸是否已实名认证");
 		try {
-			return makerService.checkIdcardFaceVerify(bladeUser);
+			//获取当前创客
+			MakerEntity makerEntity = iMakerService.current(bladeUser);
+			return makerService.checkIdcardFaceVerify(makerEntity);
 		} catch (Exception e) {
 			log.error("检查当前创客身份证和人脸是否已实名认证异常", e);
 		}

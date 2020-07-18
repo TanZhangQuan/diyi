@@ -29,7 +29,7 @@
     </resultMap>
 
     <select id="immediatePayment" resultMap="selfHelpInvoiceAccountVoMap">
-        select id,account_name,account_no,account_bank,basic_account_bank,is_default from diyi_self_help_invoice_account where is_default = 0 and is_default = 0 and status = 1
+        select id,account_name,account_no,account_bank,basic_account_bank,is_default from diyi_self_help_invoice_account where is_default = 0 and status = 1 AND is_deleted = 0
     </select>
 
 </mapper>

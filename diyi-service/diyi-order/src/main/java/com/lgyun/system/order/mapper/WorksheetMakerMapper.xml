@@ -28,8 +28,50 @@
         <result property="isDeleted" column="is_deleted"/>
     </resultMap>
 
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.lgyun.system.order.entity.WorksheetMakerEntity" id="worksheetMakerMap">
+        <result property="id" column="id"/>
+        <result property="makerId" column="maker_id"/>
+        <result property="worksheetId" column="worksheet_id"/>
+        <result property="makerName" column="maker_name"/>
+        <result property="getType" column="get_type"/>
+        <result property="getOrderDate" column="get_order_date"/>
+        <result property="worksheetMakerState" column="worksheet_maker_state"/>
+        <result property="achievementDesc" column="achievement_desc"/>
+        <result property="achievementFiles" column="achievement_files"/>
+        <result property="achievementDate" column="achievement_date"/>
+        <result property="checkMoney" column="check_money"/>
+        <result property="checkPerson" column="check_person"/>
+        <result property="checkDate" column="check_date"/>
+        <result property="arrangePerson" column="arrange_person"/>
+        <result property="arrangeDate" column="arrange_date"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="status" column="status"/>
+        <result property="isDeleted" column="is_deleted"/>
+    </resultMap>
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.lgyun.system.order.vo.IncomeYearMonthVO" id="incomeYearMonthVO">
+        <result property="id" column="id"/>
+        <result property="makerId" column="maker_id"/>
+    </resultMap>
+
     <select id="getWorksheetCount" resultType="int">
         select count(*) as counts from diyi_worksheet_maker where worksheet_id=#{worksheetId} and is_deleted = 0
+    </select>
+
+    <select id="queryMoneyByYearMonth" resultType="incomeYearMonthVO">
+       SELECT COUNT(t2.id) AS num, IFNULL(SUM(t2.check_money), 0) AS income
+       FROM diyi_worksheet t1 INNER JOIN diyi_worksheet_maker t2 ON t1.id = t2.worksheet_id
+       WHERE t1.worksheet_type = #{param1} AND t1.maker_type = #{param2} AND t2.maker_id = #{param3} AND t2.worksheet_maker_state = 'VALIDATION'
+       AND YEAR(t2.check_date) = #{param4}
+       <if test="#{param5} != null">
+       AND MONTH(t2.check_date) = #{param5}
+       </if>
+
     </select>
 
 </mapper>

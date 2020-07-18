@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- *  Service 实现
+ * Service 实现
  *
  * @author liangfeihu
  * @since 2020-06-26 17:21:05
@@ -33,17 +33,17 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
-    public IPage<MakerEnterpriseRelationVO> selectMakerEnterprisePage(IPage page, Long makerId, Integer relationshipType) {
-        return  page.setRecords(baseMapper.selectMakerEnterprisePage(page, makerId,relationshipType));
+    public IPage<MakerEnterpriseRelationVO> selectMakerEnterprisePage(IPage<MakerEnterpriseRelationVO> page, Long makerId, Integer relationshipType) {
+        return page.setRecords(baseMapper.selectMakerEnterprisePage(makerId, relationshipType, page));
     }
 
     @Override
-    public R addOrCancelfollow(Long enterpriseId, Long makerId,Integer attribute) {
+    public R addOrCancelfollow(Long enterpriseId, Long makerId, Integer attribute) {
         MakerEnterpriseEntity makerEnterpriseEntity = baseMapper.selectCancelfollow(enterpriseId, makerId);
-        if(attribute == 1 && null == makerEnterpriseEntity){
+        if (attribute == 1 && null == makerEnterpriseEntity) {
             return R.fail("取消成功1");
         }
-        if(null == makerEnterpriseEntity){
+        if (null == makerEnterpriseEntity) {
             makerEnterpriseEntity = new MakerEnterpriseEntity();
             makerEnterpriseEntity.setMakerId(makerId);
             makerEnterpriseEntity.setEnterpriseId(enterpriseId);
@@ -53,11 +53,11 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
             makerEnterpriseEntity.setCooperationStartTime(new Date());
             makerEnterpriseEntity.setRelMemo("关注");
         }
-        if(attribute == 1){
+        if (attribute == 1) {
             makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATESTOP);
 
         }
-        if(attribute == 2){
+        if (attribute == 2) {
             makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATING);
         }
         boolean b = saveOrUpdate(makerEnterpriseEntity);

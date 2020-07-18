@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.lgyun.system.user.mapper.DeliverMaterialMapper">
+<mapper namespace="com.lgyun.system.order.mapper.DeliverMaterialMapper">
 
     <!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.lgyun.system.user.entity.DeliverMaterialEntity" id="deliverMaterialMap">
+    <resultMap type="com.lgyun.system.order.entity.DeliverMaterialEntity" id="deliverMaterialMap">
         <result property="id" column="id"/>
         <result property="paysheetId" column="paysheet_id"/>
         <result property="materialTitle" column="material_title"/>

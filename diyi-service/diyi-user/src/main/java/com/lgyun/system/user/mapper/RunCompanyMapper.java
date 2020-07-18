@@ -18,6 +18,6 @@ public interface RunCompanyMapper extends BaseMapper<RunCompanyEntity> {
     /**
      *根据名字查询
      */
-    List<RunCompanyEntity> findCompanyName(IPage page,Long makerId);
+    List<RunCompanyEntity> findCompanyName(Long makerId, IPage<RunCompanyEntity> page);
 }
 

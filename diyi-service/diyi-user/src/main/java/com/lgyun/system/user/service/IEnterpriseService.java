@@ -1,7 +1,10 @@
 package com.lgyun.system.user.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.EnterpriseEntity;
+import com.lgyun.system.user.vo.EnterprisesByWorksheetListVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 
 import java.util.List;
@@ -23,6 +26,12 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * 通过商户id查询
      */
     MakerEnterpriseRelationVO getEnterpriseId(Long enterpriseId,Integer difference);
+
+
+    /**
+     * 查询创客所有交付支付验收单的商户
+     */
+    R<IPage<EnterprisesByWorksheetListVO>> getEnterprisesByWorksheet(IPage<EnterprisesByWorksheetListVO> page, Long makerId);
 
 }
 

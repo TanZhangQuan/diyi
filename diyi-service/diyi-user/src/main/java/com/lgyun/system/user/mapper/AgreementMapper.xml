@@ -42,11 +42,11 @@
     </resultMap>
 
     <select id="makerIdFind" resultMap="agreementMap">
-        select * from diyi_agreement where is_deleted = 0 and maker_id = #{makerId}
+        select * from diyi_agreement where is_deleted = 0 and maker_id = #{param1}
     </select>
 
     <select id="makerIdCompanyFind" resultMap="agreementMap">
-        select * from diyi_agreement where is_deleted = 0 and maker_id = #{makerId} and run_company_id=#{employeeId}
+        select * from diyi_agreement where is_deleted = 0 and maker_id = #{param1} and run_company_id=#{param2}
     </select>
 
 </mapper>

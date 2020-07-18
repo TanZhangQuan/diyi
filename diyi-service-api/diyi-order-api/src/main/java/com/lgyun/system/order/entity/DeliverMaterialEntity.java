@@ -1,12 +1,13 @@
-package com.lgyun.system.user.entity;
+package com.lgyun.system.order.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.lgyun.common.tool.DateUtil;
-import com.lgyun.core.mp.base.BaseEntity;
 import lombok.Data;
+import com.lgyun.core.mp.base.BaseEntity;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
@@ -15,7 +16,7 @@ import java.util.Date;
  * Entity
  *
  * @author liangfeihu
- * @since 2020-06-26 17:21:05
+ * @since 2020-07-17 20:01:13
  */
 @Data
 @NoArgsConstructor
@@ -24,9 +25,16 @@ public class DeliverMaterialEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 主键
+     */
+    @ApiModelProperty(value = "主键")
+    @TableId(type = IdType.ASSIGN_ID)
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long id;
+
+    /**
      * 确认函ID
      */
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long paysheetId;
 
     /**
@@ -52,7 +60,6 @@ public class DeliverMaterialEntity extends BaseEntity {
     /**
      * 上传日期
      */
-    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
     private Date uploadDateTime;
 
     /**

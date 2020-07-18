@@ -1,6 +1,6 @@
-package com.lgyun.system.user.mapper;
+package com.lgyun.system.order.mapper;
 
-import com.lgyun.system.user.entity.WorksheetAttentionEntity;
+import com.lgyun.system.order.entity.WorksheetAttentionEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 

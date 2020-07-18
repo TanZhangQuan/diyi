@@ -1,9 +1,14 @@
 package com.lgyun.system.user.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.WorksheetMakerState;
+import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.mapper.EnterpriseMapper;
 import com.lgyun.system.user.service.IEnterpriseService;
+import com.lgyun.system.user.vo.EnterprisesByWorksheetListVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +48,10 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             makerEnterpriseRelationVO.setShopUserName("*****");
             return makerEnterpriseRelationVO;
         }
+    }
 
-
+    @Override
+    public R<IPage<EnterprisesByWorksheetListVO>> getEnterprisesByWorksheet(IPage<EnterprisesByWorksheetListVO> page, Long makerId) {
+        return R.data(page.setRecords(baseMapper.getEnterprisesByWorksheet(WorksheetState.FINISHED, WorksheetMakerState.VALIDATION, makerId, page)));
     }
 }

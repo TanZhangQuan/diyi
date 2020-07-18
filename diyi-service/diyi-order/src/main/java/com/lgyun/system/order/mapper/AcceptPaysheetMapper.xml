@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.lgyun.system.user.mapper.AcceptPaysheetMapper">
+<mapper namespace="com.lgyun.system.order.mapper.AcceptPaysheetMapper">
 
     <!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.lgyun.system.user.entity.AcceptPaysheetEntity" id="acceptPaysheetMap">
+    <resultMap type="com.lgyun.system.order.entity.AcceptPaysheetEntity" id="acceptPaysheetMap">
         <result property="id" column="id"/>
         <result property="enterprisePayId" column="enterprise_pay_id"/>
         <result property="acceptPaysheetType" column="accept_paysheet_type"/>
@@ -22,5 +22,45 @@
         <result property="status" column="status"/>
         <result property="isDeleted" column="is_deleted"/>
     </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.AcceptPaysheetByEnterpriseListVO" id="acceptPaysheetByEnterpriseListVO">
+        <result property="id" column="id"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="payToPlatformAmount" column="pay_to_platform_amount"/>
+        <result property="publishDate" column="publish_date"/>
+        <result property="closeWorksheetDate" column="close_worksheet_date"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.AcceptPaysheetWorksheetVO" id="acceptPaysheetWorksheetVO">
+        <result property="acceptPaysheetType" column="accept_paysheet_type"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="payToPlatformAmount" column="pay_to_platform_amount"/>
+        <result property="publishDate" column="publish_date"/>
+        <result property="closeWorksheetDate" column="close_worksheet_date"/>
+        <result property="acceptPaysheetUrl" column="accept_paysheet_url"/>
+        <result property="worksheetName" column="worksheet_name"/>
+        <result property="worksheetType" column="worksheet_type"/>
+        <result property="worksheetMode" column="worksheet_mode"/>
+        <result property="worksheetNo" column="worksheet_no"/>
+        <result property="checkMoney" column="check_money"/>
+        <result property="achievementDesc" column="achievement_desc"/>
+        <result property="achievementFiles" column="achievement_files"/>
+    </resultMap>
+
+    <select id="getAcceptPaysheetsByEnterprise" resultMap="acceptPaysheetByEnterpriseListVO">
+        SELECT t1.id, t3.enterprise_name, t2.pay_to_platform_amount, t4.publish_date, t4.close_worksheet_date
+        FROM diyi_accept_paysheet t1 INNER JOIN diyi_enterprise_pay t2 ON t1.enterprise_pay_id = t2.id
+        INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id LEFT JOIN diyi_worksheet t4 ON t2.worksheet_id = t4.id
+        WHERE t3.id = #{param1} AND ((t1.accept_paysheet_type = 'MANY') OR (t1.accept_paysheet_type = 'SINGLE' AND t1.maker_id = #{param2}))
+    </select>
+
+    <select id="getAcceptPaysheetsByEnterprise" resultMap="acceptPaysheetWorksheetVO">
+        SELECT t1.accept_paysheet_type, t3.enterprise_name, t2.pay_to_platform_amount, t4.publish_date, t4.close_worksheet_date,
+        IF ( t1.accept_paysheet_type = 'SINGLE' AND t1.maker_id = #{param1}, t1.accept_paysheet_url, NULL ) AS accept_paysheet_url,
+        t4.worksheet_name, t4.worksheet_type, t4.worksheet_mode, t4.worksheet_no, t5.check_money, t5.achievement_desc,
+        t5.achievement_files FROM diyi_accept_paysheet t1 INNER JOIN diyi_enterprise_pay t2 ON t1.enterprise_pay_id = t2.id
+        INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id LEFT JOIN diyi_worksheet t4 ON t2.worksheet_id = t4.id
+        LEFT JOIN diyi_worksheet_maker t5 ON t4.id = t5.worksheet_id WHERE t1.id = #{param2}
+    </select>
 
 </mapper>

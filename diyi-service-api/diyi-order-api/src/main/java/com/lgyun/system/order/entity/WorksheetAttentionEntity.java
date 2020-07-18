@@ -1,4 +1,4 @@
-package com.lgyun.system.user.entity;
+package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;

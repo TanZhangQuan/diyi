@@ -71,13 +71,21 @@
     </resultMap>
 
     <select id="getSelfHelpInvoiceDetails" resultMap="selfHelpInvoiceDetailsVO">
-        SELECT zs.id, rc.id as run_company_id, a.id as address_id, sp.id as invoice_people_id, sd.id as self_help_invoice_detail_id, hf.id as hand_pay_id, rc.company_name, rc.tax_no, rc.employee_name, rc.phone_no, rc.bank_name, rc.bank_account, sd.charge_money_num, sd.invoice_type, sd.flow_contract_url, sd.business_contract_url, a.address_name, a.address_phone, a.area, a.city, a.province, a.detailed_address, sp.id_card_name, sp.id_card_no, sp.phone_number, hf.give_price_date, hf.total_tax_fee, hf.basic_tax_fee, hf.basic_tax_fee_rate, hf.invoice_fee, hf.identify_fee FROM diyi_self_help_invoice zs INNER JOIN diyi_run_company rc ON rc.run_company_id = zs.company_id INNER JOIN diyi_self_help_invoice_detail sd ON sd.self_help_invoice_id = zs.id INNER JOIN diyi_address a ON a.id = zs.address_id INNER JOIN diyi_self_help_invoice_person sp ON sp.invoice_people_id = sd.none_maker_invoice_person_id INNER JOIN diyi_self_help_invoice_fee hf ON zs.id = hf.self_help_invoice_id where  zs.id =#{selfHelpInvoiceId}
+        SELECT zs.id, rc.id as run_company_id, a.id as address_id, sp.id as invoice_people_id, sd.id as self_help_invoice_detail_id,
+        hf.id as hand_pay_id, rc.company_name, rc.tax_no, rc.employee_name, rc.phone_no, rc.bank_name, rc.bank_account, sd.charge_money_num,
+        sd.invoice_type, sd.flow_contract_url, sd.business_contract_url, a.address_name, a.address_phone, a.area, a.city, a.province,
+        a.detailed_address, sp.id_card_name, sp.id_card_no, sp.phone_number, hf.give_price_date, hf.total_tax_fee, hf.basic_tax_fee,
+        hf.basic_tax_fee_rate, hf.invoice_fee, hf.identify_fee FROM diyi_self_help_invoice zs INNER JOIN diyi_run_company rc
+        ON rc.run_company_id = zs.company_id INNER JOIN diyi_self_help_invoice_detail sd ON sd.self_help_invoice_id = zs.id
+        INNER JOIN diyi_address a ON a.id = zs.address_id INNER JOIN diyi_self_help_invoice_person sp ON sp.invoice_people_id = sd.none_maker_invoice_person_id
+        INNER JOIN diyi_self_help_invoice_fee hf ON zs.id = hf.self_help_invoice_id where  zs.id =#{selfHelpInvoiceId}
     </select>
 
     <select id="yearMonthMoney" resultMap="selfHelpInvoiceYearMonthMoneyVO">
-        SELECT (SELECT SUM(charge_money_num) FROM diyi_self_help_invoice t1 WHERE t1.id = t3.id AND MONTH(create_time) = MONTH(NOW())) AS month_money,
-        (SELECT SUM(charge_money_num) FROM diyi_self_help_invoice t2 WHERE t2.id = t3.id AND YEAR(create_time) = YEAR(NOW())) AS year_money
-        FROM diyi_self_help_invoice t3 WHERE t3.business_enterprise_id = #{businessEnterpriseId} AND t3.invoice_people_type = #{makerType}
+        SELECT (SELECT IFNULL(SUM(charge_money_num), 0) FROM diyi_self_help_invoice WHERE business_enterprise_id = #{param1}
+        AND invoice_people_type = #{param2} AND MONTH(create_time) = MONTH(NOW())) AS month_money,
+        (SELECT IFNULL(SUM(charge_money_num), 0) FROM diyi_self_help_invoice WHERE business_enterprise_id = #{param1}
+        AND invoice_people_type = #{param2} AND YEAR(create_time) = YEAR(NOW())) AS year_money
     </select>
 
 </mapper>

@@ -51,10 +51,8 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R idcardOcr(String idcardPic, BladeUser bladeUser) throws Exception {
+    public R idcardOcr(String idcardPic, MakerEntity makerEntity) throws Exception {
 
-        //获取当前创客
-        MakerEntity makerEntity = current(bladeUser);
         //查看创客是否已经身份证实名认证
         if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus())) {
             return R.fail("身份证已实名认证");
@@ -78,10 +76,8 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R idcardOcrSave(IdcardOcrSaveDto idcardOcrSaveDto, BladeUser bladeUser) {
+    public R idcardOcrSave(IdcardOcrSaveDto idcardOcrSaveDto, MakerEntity makerEntity) {
 
-        //获取当前创客
-        MakerEntity makerEntity = current(bladeUser);
         //查看创客是否已经身份证实名认证
         if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus())) {
             return R.fail("身份证已实名认证");
@@ -91,16 +87,14 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         makerEntity.setIdcardVerifyStatus(VerifyStatus.VERIFYPASS);
         makerEntity.setIdcardVerifyType(IdcardVerifyType.SYSTEMVERIFY);
         makerEntity.setIdcardVerifyDate(new Date());
-        save(makerEntity);
+        updateById(makerEntity);
 
         return R.success("身份证实名认证信息保存成功");
     }
 
     @Override
-    public R faceOcr(BladeUser bladeUser) throws Exception {
+    public R faceOcr(MakerEntity makerEntity) throws Exception {
 
-        //获取当前创客
-        MakerEntity makerEntity = current(bladeUser);
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
             return R.fail("请先进行身份证实名认证");
@@ -111,7 +105,16 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return R.fail("已刷脸实名认证");
         }
 
-        return RealnameVerifyUtil.faceOCR(makerEntity.getId(), makerEntity.getName(), makerEntity.getIdcardNo());
+        R result = RealnameVerifyUtil.faceOCR(makerEntity.getId(), makerEntity.getName(), makerEntity.getIdcardNo());
+        log.info("人脸识别请求返回参数", result);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        //TODO
+        //通过短信发送人脸识别URL
+
+        return R.success("人脸识别请求已通过短信发送，请及时进行操作");
     }
 
     @Override
@@ -165,7 +168,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             makerEntity.setPicVerify(url);
             makerEntity.setFaceVerifyStatus(VerifyStatus.VERIFYPASS);
             makerEntity.setFaceVerifyDate(new Date());
-            saveOrUpdate(makerEntity);
+            updateById(makerEntity);
 
             return R.success("刷脸实名认证成功");
 
@@ -177,16 +180,8 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R detail(String flowId) throws Exception {
-        JSONObject jsonObject = RealnameVerifyUtil.detail(flowId);
-        return R.data(jsonObject);
-    }
+    public R bankCardOcr(String bankCardNo, MakerEntity makerEntity) throws Exception {
 
-    @Override
-    public R bankCardOcr(String bankCardNo, BladeUser bladeUser) throws Exception {
-
-        //获取当前创客
-        MakerEntity makerEntity = current(bladeUser);
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
             return R.fail("请先进行身份证实名认证");
@@ -256,7 +251,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             makerEntity.setBankCardNo(bankCardNo);
             makerEntity.setBankCardVerifyStatus(VerifyStatus.VERIFYPASS);
             makerEntity.setBankCardVerifyDate(new Date());
-            saveOrUpdate(makerEntity);
+            updateById(makerEntity);
 
             return R.success("银行卡实名认证成功");
 
@@ -268,10 +263,8 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R mobileOcr(BladeUser bladeUser) throws Exception {
+    public R mobileOcr(MakerEntity makerEntity) throws Exception {
 
-        //获取当前创客
-        MakerEntity makerEntity = current(bladeUser);
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
             return R.fail("请先进行身份证实名认证");
@@ -324,7 +317,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
             makerEntity.setPhoneNumberVerifyStatus(VerifyStatus.VERIFYPASS);
             makerEntity.setPhoneNumberVerifyDate(new Date());
-            saveOrUpdate(makerEntity);
+            updateById(makerEntity);
 
             return R.success("手机号实名认证成功");
 
@@ -336,10 +329,8 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R queryIdcardOcr(BladeUser bladeUser) {
+    public R queryIdcardOcr(MakerEntity makerEntity) {
 
-        //获取当前创客
-        MakerEntity makerEntity = current(bladeUser);
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
             return R.fail("未进行身份证实名认证");
@@ -358,10 +349,8 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R checkIdcardFaceVerify(BladeUser bladeUser) {
+    public R checkIdcardFaceVerify(MakerEntity makerEntity) {
 
-        //获取当前创客
-        MakerEntity makerEntity = current(bladeUser);
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
             return R.fail("请先进行身份证实名认证");

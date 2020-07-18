@@ -1,7 +1,7 @@
-package com.lgyun.system.user.service;
+package com.lgyun.system.order.service;
 
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.entity.WorksheetAttentionEntity;
+import com.lgyun.system.order.entity.WorksheetAttentionEntity;
 
 /**
  *  Service 接口

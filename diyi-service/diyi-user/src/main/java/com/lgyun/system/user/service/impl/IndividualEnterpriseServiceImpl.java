@@ -5,12 +5,10 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.VerifyStatus;
-import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.feign.IOrderClient;
 import com.lgyun.system.order.vo.SelfHelpInvoiceYearMonthMoneyVO;
 import com.lgyun.system.user.dto.IndividualEnterpriseAddDto;
-import com.lgyun.system.user.dto.IndividualEnterpriseListByMakerDto;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.mapper.IndividualEnterpriseMapper;
@@ -36,13 +34,10 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
 
     private IMakerService makerService;
     private IOrderClient orderClient;
-    private IMakerService iMakerService;
 
     @Override
-    public R save(IndividualEnterpriseAddDto individualEnterpriseAddDto, BladeUser bladeUser) {
+    public R save(IndividualEnterpriseAddDto individualEnterpriseAddDto, MakerEntity makerEntity) {
 
-        //获取当前创客
-        MakerEntity makerEntity = iMakerService.current(bladeUser);
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
             return R.fail("请先进行身份证实名认证");
@@ -72,8 +67,8 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
     }
 
     @Override
-    public R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker(IPage<IndividualEnterpriseListByMakerVO> page, IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto) {
-        return R.data(page.setRecords(baseMapper.listByMaker(page, individualEnterpriseListByMakerDto)));
+    public R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker(IPage<IndividualEnterpriseListByMakerVO> page, Long makerId, Ibstate ibstate) {
+        return R.data(page.setRecords(baseMapper.listByMaker(makerId, ibstate, page)));
     }
 
     @Override

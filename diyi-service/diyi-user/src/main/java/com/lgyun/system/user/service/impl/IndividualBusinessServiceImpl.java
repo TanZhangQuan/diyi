@@ -5,12 +5,10 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.VerifyStatus;
-import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.feign.IOrderClient;
 import com.lgyun.system.order.vo.SelfHelpInvoiceYearMonthMoneyVO;
 import com.lgyun.system.user.dto.IndividualBusinessAddDto;
-import com.lgyun.system.user.dto.IndividualBusinessListByMakerDto;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.mapper.IndividualBusinessMapper;
@@ -36,13 +34,10 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
 
     private IMakerService makerService;
     private IOrderClient orderClient;
-    private IMakerService iMakerService;
 
     @Override
-    public R save(IndividualBusinessAddDto individualBusinessAddDto, BladeUser bladeUser) {
+    public R save(IndividualBusinessAddDto individualBusinessAddDto, MakerEntity makerEntity) {
 
-        //获取当前创客
-        MakerEntity makerEntity = iMakerService.current(bladeUser);
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
             return R.fail("请先进行身份证实名认证");
@@ -68,14 +63,14 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
     }
 
     @Override
-    public R<IPage<IndividualBusinessListByMakerVO>> listByMaker(IPage<IndividualBusinessListByMakerVO> page, IndividualBusinessListByMakerDto individualBusinessListByMakerDto) {
-        return R.data(page.setRecords(baseMapper.listByMaker(page, individualBusinessListByMakerDto)));
+    public R<IPage<IndividualBusinessListByMakerVO>> listByMaker(IPage<IndividualBusinessListByMakerVO> page, Long makerId, Ibstate ibstate) {
+        return R.data(page.setRecords(baseMapper.listByMaker(makerId, ibstate, page)));
     }
 
     @Override
     public R<IndividualBusinessDetailVO> findById(Long individualBusinessId) {
         IndividualBusinessDetailVO individualBusinessDetailVO = baseMapper.findById(individualBusinessId);
-        if (individualBusinessDetailVO != null){
+        if (individualBusinessDetailVO != null) {
             String bizName = makerService.getName(individualBusinessDetailVO.getMakerId());
             individualBusinessDetailVO.setBizName(bizName);
         }

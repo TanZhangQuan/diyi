@@ -46,7 +46,7 @@ public class EnterpriseEntity extends BaseEntity {
     private String inviteNo;
 
     /**
-     * 客户名称
+     * 商户名称
      */
     private String enterpriseName;
 

@@ -58,21 +58,21 @@
     </resultMap>
 
     <select id="findMakerId" resultMap="individualBusinessMap">
-        select * from diyi_individual_business where maker_id=#{makerId} and is_deleted = 0
+        select * from diyi_individual_business where maker_id=#{param1} and is_deleted = 0
     </select>
 
     <select id="listByMaker" resultMap="individualBusinessListByMakerVO">
         select id, ibname, candidated_names from diyi_individual_business
-        where maker_id = #{individualBusinessListByMakerDto.makerId} and is_deleted = 0
-        <if test="individualBusinessListByMakerDto.ibstate != null">
-            and ibstate = #{individualBusinessListByMakerDto.ibstate}
+        where maker_id = #{param1} and is_deleted = 0
+        <if test="#{param2} != null">
+            and ibstate = #{param2}
         </if>
     </select>
 
     <select id="findById" resultMap="individualBusinessDetailVO">
         select id, ibname, candidated_names, ibtax_no, biz_park, main_industry, biz_scope, ind_bus_tax_type, maker_id,
         business_licence_url, business_licence_copy_url from diyi_individual_business
-        where id = #{individualBusinessId} and is_deleted = 0 limit 1
+        where id = #{param1} and is_deleted = 0 limit 1
     </select>
 
 </mapper>

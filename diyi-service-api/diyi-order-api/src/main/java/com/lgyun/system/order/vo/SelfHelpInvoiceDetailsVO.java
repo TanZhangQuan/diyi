@@ -1,5 +1,7 @@
 package com.lgyun.system.order.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -15,35 +17,72 @@ import java.util.Date;
 @Data
 @ApiModel(value = "SelfHelpInvoiceDetailsVO对象", description = "SelfHelpInvoiceDetailsVO对象")
 public class SelfHelpInvoiceDetailsVO implements Serializable {
+
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
+
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long runCompanyId;
+
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long addressId;
+
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long invoicePeopleId;
+
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long selfHelpInvoiceDetailId;
+
+    @JsonSerialize(using = ToStringSerializer.class)
     private  Long handPayId;
+
     private String companyName;
+
     private String taxNo;
+
     private String employeeName;
+
     private String phoneNo;
+
     private String bankName;
+
     private  String bankAccount;
+
     private BigDecimal chargeMoneyNum;
+
     private  String invoiceType;
+
     private  String flowContractUrl;
+
     private  String businessContractUrl;
+
     private  String addressName;
+
     private  String addressPhone;
+
     private  String area;
+
     private  String city;
+
     private  String province;
+
     private  String detailedAddress;
+
     private  String idCardName;
+
     private  String idCardNo;
+
     private  String phoneNumber;
+
     private Date givePriceDate;
+
     private BigDecimal totalTaxFee;
+
     private BigDecimal basicTaxFee;
+
     private BigDecimal basicTaxFeeRate;
+
     private BigDecimal invoiceFee;
+
     private BigDecimal identifyFee;
 }

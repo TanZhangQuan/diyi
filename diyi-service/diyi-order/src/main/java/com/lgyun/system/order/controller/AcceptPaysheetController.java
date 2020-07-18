@@ -2,13 +2,18 @@ package com.lgyun.system.order.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.entity.AcceptPaysheetEntity;
 import com.lgyun.system.order.service.IAcceptPaysheetService;
+import com.lgyun.system.order.vo.AcceptPaysheetByEnterpriseListVO;
 import com.lgyun.system.order.vo.AcceptPaysheetVO;
+import com.lgyun.system.order.vo.AcceptPaysheetWorksheetVO;
 import com.lgyun.system.order.wrapper.AcceptPaysheetWrapper;
+import com.lgyun.system.user.entity.MakerEntity;
+import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -18,6 +23,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  * 控制器
@@ -34,6 +40,7 @@ import javax.validation.Valid;
 public class AcceptPaysheetController {
 
 	private IAcceptPaysheetService acceptPaysheetService;
+	private IUserClient iUserClient;
 
 	@PostMapping("/save")
 	@ApiOperation(value = "新增", notes = "新增")
@@ -65,6 +72,20 @@ public class AcceptPaysheetController {
 	@ApiOperation(value = "删除", notes = "删除")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
 		return R.status(acceptPaysheetService.removeByIds(Func.toLongList(ids)));
+	}
+
+	@GetMapping("/get-accept-paysheets-by-enterprise")
+	@ApiOperation(value = "查询创客对应某商户的所有交付支付验收单", notes = "查询创客对应某商户的所有交付支付验收单")
+	public R<IPage<AcceptPaysheetByEnterpriseListVO>> getAcceptPaysheetsByEnterprise(@ApiParam(value = "商户ID") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
+		MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
+		return acceptPaysheetService.getAcceptPaysheetsByEnterprise(Condition.getPage(query.setDescs("create_time")), enterpriseId, makerEntity.getId());
+	}
+
+	@GetMapping("/get-accept-paysheet-worksheet")
+	@ApiOperation(value = "查询创客对应某商户的所有交付支付验收单", notes = "查询创客对应某商户的所有交付支付验收单")
+	public R<AcceptPaysheetWorksheetVO> getAcceptPaysheetWorksheet(@ApiParam(value = "交付支付验收单ID") @NotNull(message = "请输入交付支付验收单编号") @RequestParam(required = false) Long acceptPaysheetId, BladeUser bladeUser) {
+		MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
+		return acceptPaysheetService.getAcceptPaysheetWorksheet(makerEntity.getId(), acceptPaysheetId);
 	}
 
 }

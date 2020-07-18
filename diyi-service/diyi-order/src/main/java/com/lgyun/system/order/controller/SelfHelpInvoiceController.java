@@ -12,8 +12,6 @@ import com.lgyun.system.order.dto.ConfirmPaymentDto;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDto;
 import com.lgyun.system.order.dto.SelfHelpInvoicePersonDto;
 import com.lgyun.system.order.service.*;
-import com.lgyun.system.user.dto.IndividualBusinessListByMakerDto;
-import com.lgyun.system.user.dto.IndividualEnterpriseListByMakerDto;
 import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
@@ -27,8 +25,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * 控制器
@@ -99,17 +97,13 @@ public class SelfHelpInvoiceController {
         switch (makerType) {
 
 			case INDIVIDUALBUSINESS:
-				IndividualBusinessListByMakerDto individualBusinessListByMakerDto = new IndividualBusinessListByMakerDto();
-				individualBusinessListByMakerDto.setMakerId(makerId);
-				return iUserClient.listByMaker(current, size, individualBusinessListByMakerDto);
+				return iUserClient.individualBusinessListByMaker(current, size, makerId, null);
 
 			case NATURALPERSON:
 				return selfHelpInvoicePersonService.findPersonMakerId(Condition.getPage(query), makerId, makerType);
 
 			case INDIVIDUALENTERPRISE:
-				IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto = new IndividualEnterpriseListByMakerDto();
-				individualEnterpriseListByMakerDto.setMakerId(makerId);
-				return iUserClient.listByMaker(current, size, individualEnterpriseListByMakerDto);
+				return iUserClient.individualEnterpriseListByMaker(current, size, makerId, null);
 
 			default:
 				return R.fail("创客类型有误");

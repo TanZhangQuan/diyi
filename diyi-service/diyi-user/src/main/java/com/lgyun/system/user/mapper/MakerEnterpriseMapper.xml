@@ -39,15 +39,15 @@
     </resultMap>
 
     <select id="getMakerId" resultMap="makerEnterpriseMap">
-        select *from diyi_maker_enterprise where maker_id = #{makerId} and relationship_type = 0 and is_deleted = 0
+        select *from diyi_maker_enterprise where maker_id = #{param1} and relationship_type = 0 and is_deleted = 0
     </select>
 
     <select id="selectMakerEnterprisePage" resultMap="makerEnterpriseRelationMap">
-        SELECT e.enterprise_name, e.shop_user_name, e.legal_person, e.legal_person_card, e.contact1_position, e.contact1_phone, e.social_credit_no, e.biz_licence_url, e.id as enterprise_id FROM diyi_maker_enterprise me INNER JOIN diyi_enterprise e ON me.enterprise_id = e.id WHERE me.maker_id = #{makerId} AND me.relationship_type = #{relationshipType}
+        SELECT e.enterprise_name, e.shop_user_name, e.legal_person, e.legal_person_card, e.contact1_position, e.contact1_phone, e.social_credit_no, e.biz_licence_url, e.id as enterprise_id FROM diyi_maker_enterprise me INNER JOIN diyi_enterprise e ON me.enterprise_id = e.id WHERE me.maker_id = #{param1} AND me.relationship_type = #{param2}
     </select>
 
     <select id="selectCancelfollow" resultMap="makerEnterpriseMap">
-        select * from diyi_maker_enterprise where maker_id = #{makerId} and enterprise_id = #{enterpriseId} and relationship_type = 1 and is_deleted = 0
+        select * from diyi_maker_enterprise where maker_id = #{param1} and enterprise_id = #{param2} and relationship_type = 1 and is_deleted = 0
     </select>
 
 </mapper>

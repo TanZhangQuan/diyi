@@ -2,6 +2,7 @@ package com.lgyun.system.user.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.Func;
@@ -9,7 +10,6 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.vo.SelfHelpInvoiceYearMonthMoneyVO;
 import com.lgyun.system.user.dto.IndividualEnterpriseAddDto;
-import com.lgyun.system.user.dto.IndividualEnterpriseListByMakerDto;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.IIndividualEnterpriseService;
@@ -18,9 +18,7 @@ import com.lgyun.system.user.vo.IndividualEnterpriseDetailVO;
 import com.lgyun.system.user.vo.IndividualEnterpriseListByMakerVO;
 import com.lgyun.system.user.vo.IndividualEnterpriseVO;
 import com.lgyun.system.user.wrapper.IndividualEnterpriseWrapper;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -52,7 +50,9 @@ public class IndividualEnterpriseController {
 
 		log.info("新增个独");
 		try {
-			return individualEnterpriseService.save(individualEnterpriseAddDto, bladeUser);
+			//获取当前创客
+			MakerEntity makerEntity = iMakerService.current(bladeUser);
+			return individualEnterpriseService.save(individualEnterpriseAddDto, makerEntity);
 		} catch (Exception e) {
 			log.error("新增个独异常", e);
 		}
@@ -90,13 +90,15 @@ public class IndividualEnterpriseController {
 
 	@GetMapping("/list-by-maker")
 	@ApiOperation(value = "查询当前创客的所有个独", notes = "查询当前创客的所有个独")
-	public R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker(IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto, Query query, BladeUser bladeUser) {
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "ibstate", value = "工商个体户状态", paramType = "query", dataType = "string"),
+	})
+	public R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker(Ibstate ibstate, Query query, BladeUser bladeUser) {
 
 		log.info("查询当前创客的所有个独");
 		try {
 			MakerEntity makerEntity = iMakerService.current(bladeUser);
-			individualEnterpriseListByMakerDto.setMakerId(makerEntity.getId());
-			return individualEnterpriseService.listByMaker(Condition.getPage(query.setDescs("create_time")), individualEnterpriseListByMakerDto);
+			return individualEnterpriseService.listByMaker(Condition.getPage(query.setDescs("create_time")), makerEntity.getId(), ibstate);
 		} catch (Exception e) {
 			log.error("查询当前创客的所有个独异常", e);
 		}

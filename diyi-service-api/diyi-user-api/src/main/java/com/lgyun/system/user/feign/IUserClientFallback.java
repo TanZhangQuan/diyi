@@ -2,13 +2,13 @@ package com.lgyun.system.user.feign;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.GrantType;
+import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.system.user.dto.IndividualBusinessListByMakerDto;
-import com.lgyun.system.user.dto.IndividualEnterpriseListByMakerDto;
 import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.*;
 import org.springframework.stereotype.Component;
+
 import java.util.List;
 /**
  * Feign失败配置
@@ -75,12 +75,12 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public R listByMaker(Integer current, Integer size, IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto) {
+    public R individualEnterpriseListByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate) {
         return R.fail("访问请求失败，未获取到账号信息");
     }
 
     @Override
-    public R listByMaker(Integer current, Integer size, IndividualBusinessListByMakerDto individualBusinessListByMakerDto) {
+    public R individualBusinessListByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate) {
         return R.fail("访问请求失败，未获取到账号信息");
     }
 

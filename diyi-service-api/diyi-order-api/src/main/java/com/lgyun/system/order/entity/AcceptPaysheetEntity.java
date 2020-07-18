@@ -3,6 +3,7 @@ package com.lgyun.system.order.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.AcceptPaysheetType;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,7 +31,7 @@ public class AcceptPaysheetEntity extends BaseEntity {
     /**
      * 交付支付验收单类型：清单式，单人单张
      */
-    private String acceptPaysheetType;
+    private AcceptPaysheetType acceptPaysheetType;
 
     /**
      * 创客ID

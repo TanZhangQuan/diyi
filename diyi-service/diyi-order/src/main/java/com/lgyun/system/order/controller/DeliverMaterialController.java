@@ -1,14 +1,14 @@
-package com.lgyun.system.user.controller;
+package com.lgyun.system.order.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.entity.DeliverMaterialEntity;
-import com.lgyun.system.user.service.IDeliverMaterialService;
-import com.lgyun.system.user.vo.DeliverMaterialVO;
-import com.lgyun.system.user.wrapper.DeliverMaterialWrapper;
+import com.lgyun.system.order.entity.DeliverMaterialEntity;
+import com.lgyun.system.order.service.IDeliverMaterialService;
+import com.lgyun.system.order.vo.DeliverMaterialVO;
+import com.lgyun.system.order.wrapper.DeliverMaterialWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -20,17 +20,17 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 /**
- *  控制器
+ * 控制器
  *
  * @author liangfeihu
- * @since 2020-06-26 17:21:05
+ * @since 2020-07-17 20:01:13
  */
 @Slf4j
 @RestController
-@RequestMapping("/delivermaterial")
+@RequestMapping("/user/delivermaterial")
 @Validated
 @AllArgsConstructor
-@Api(value = "创客交付材料信息信息相关接口", tags = "创客交付材料信息信息相关接口")
+@Api(value = "相关接口", tags = "相关接口")
 public class DeliverMaterialController {
 
 	private IDeliverMaterialService deliverMaterialService;
@@ -57,7 +57,7 @@ public class DeliverMaterialController {
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "分页")
 	public R<IPage<DeliverMaterialVO>> list(DeliverMaterialEntity deliverMaterial, Query query) {
-		IPage<DeliverMaterialEntity> pages = deliverMaterialService.page(Condition.getPage(query), Condition.getQueryWrapper(deliverMaterial));
+		IPage<DeliverMaterialEntity> pages = deliverMaterialService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(deliverMaterial));
 		return R.data(DeliverMaterialWrapper.build().pageVO(pages));
 	}
 

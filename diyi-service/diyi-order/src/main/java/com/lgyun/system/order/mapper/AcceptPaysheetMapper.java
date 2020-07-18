@@ -1,8 +1,13 @@
 package com.lgyun.system.order.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.order.entity.AcceptPaysheetEntity;
+import com.lgyun.system.order.vo.AcceptPaysheetByEnterpriseListVO;
+import com.lgyun.system.order.vo.AcceptPaysheetWorksheetVO;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  *  Mapper
@@ -12,6 +17,10 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface AcceptPaysheetMapper extends BaseMapper<AcceptPaysheetEntity> {
+
+    List<AcceptPaysheetByEnterpriseListVO> getAcceptPaysheetsByEnterprise(Long enterpriseId ,Long makerId, IPage<AcceptPaysheetByEnterpriseListVO> page);
+
+    AcceptPaysheetWorksheetVO getAcceptPaysheetWorksheet(Long makerId, Long acceptPaysheetId);
 
 }
 

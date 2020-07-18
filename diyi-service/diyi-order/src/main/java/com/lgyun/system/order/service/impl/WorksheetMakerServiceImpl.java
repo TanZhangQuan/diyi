@@ -1,11 +1,14 @@
 package com.lgyun.system.order.service.impl;
 
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.MakerType;
+import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.common.enumeration.WorksheetMakerState;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.WorksheetMakerEntity;
 import com.lgyun.system.order.mapper.WorksheetMakerMapper;
 import com.lgyun.system.order.service.IWorksheetMakerService;
+import com.lgyun.system.order.vo.IncomeYearMonthVO;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
@@ -64,5 +67,10 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
         }
         saveOrUpdate(worksheetMakerEntity);
         return R.success("验收成功");
+    }
+
+    @Override
+    public R<IncomeYearMonthVO> queryMoneyByYearMonth(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year, Long month) {
+        return R.data(baseMapper.queryMoneyByYearMonth(worksheetType, makerType, makerId, year, month));
     }
 }

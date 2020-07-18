@@ -29,7 +29,7 @@ public class IdcardOcrSaveDto implements Serializable {
 
     //身份证号码
     @NotBlank(message = "请输入身份证号码")
-    private String idNo;
+    private String idcardNo;
 
     //手持证件正面照
     @NotBlank(message = "请上传手持证件正面照")

@@ -65,19 +65,28 @@
         <result property="bizLicenceUrl" column="biz_licence_url"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.user.vo.EnterprisesByWorksheetListVO" id="acceptPaysheetEnterpriseVO">
+        <result property="id" column="id"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+    </resultMap>
 
     <select id="getEnterpriseName" resultMap="makerEnterpriseRelationMap">
         SELECT e.enterprise_name, e.shop_user_name, e.legal_person, e.legal_person_card, e.contact1_position,
         e.contact1_phone, e.social_credit_no, e.biz_licence_url, e.id FROM diyi_enterprise e
         WHERE 1=1
         <if test="enterpriseName != null and enterpriseName.trim() != ''">
-            and (e.enterprise_name LIKE CONCAT(CONCAT('%', #{enterpriseName}, '%')))
+            and (e.enterprise_name LIKE CONCAT(CONCAT('%', #{param1}, '%')))
         </if>
     </select>
 
     <select id="getEnterpriseId" resultMap="makerEnterpriseRelationMap">
         SELECT e.enterprise_name, e.shop_user_name, e.legal_person, e.legal_person_card, e.contact1_position, e.contact1_phone, e.social_credit_no, e.biz_licence_url, e.id FROM diyi_enterprise e
-        WHERE e.id = #{enterpriseId}
+        WHERE e.id = #{param1}
+    </select>
+
+    <select id="getEnterprisesByWorksheet" resultMap="acceptPaysheetEnterpriseVO">
+        SELECT t1.id, t1.enterprise_name FROM diyi_enterprise t1 INNER JOIN diyi_worksheet t2 ON t1.id = t2.enterprise_id INNER JOIN diyi_worksheet_maker t3 ON t2.id = t3.worksheet_id
+        WHERE t2.worksheet_state = #{param1} AND t3.worksheet_maker_state = #{param2} AND t3.maker_id = #{param3}
     </select>
 
 </mapper>

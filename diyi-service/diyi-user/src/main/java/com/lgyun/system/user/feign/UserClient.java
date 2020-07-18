@@ -8,8 +8,6 @@ import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.IndividualBusinessListByMakerDto;
-import com.lgyun.system.user.dto.IndividualEnterpriseListByMakerDto;
 import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.service.*;
@@ -196,19 +194,19 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R listByMaker(Integer current, Integer size, IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto) {
+    public R individualEnterpriseListByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate) {
         Query query = new Query();
         query.setCurrent(current);
         query.setSize(size);
-        return iIndividualEnterpriseService.listByMaker(Condition.getPage(query.setDescs("create_time")), individualEnterpriseListByMakerDto);
+        return iIndividualEnterpriseService.listByMaker(Condition.getPage(query.setDescs("create_time")), makerId, ibstate);
     }
 
     @Override
-    public R listByMaker(Integer current, Integer size, IndividualBusinessListByMakerDto individualBusinessListByMakerDto) {
+    public R individualBusinessListByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate) {
         Query query = new Query();
         query.setCurrent(current);
         query.setSize(size);
-        return iIndividualBusinessService.listByMaker(Condition.getPage(query.setDescs("create_time")), individualBusinessListByMakerDto);
+        return iIndividualBusinessService.listByMaker(Condition.getPage(query.setDescs("create_time")), makerId, ibstate);
     }
 
     @Override

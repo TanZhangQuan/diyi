@@ -1,9 +1,9 @@
-package com.lgyun.system.user.wrapper;
+package com.lgyun.system.order.wrapper;
 
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.support.BaseEntityWrapper;
-import com.lgyun.system.user.entity.WorksheetAttentionEntity;
-import com.lgyun.system.user.vo.WorksheetAttentionVO;
+import com.lgyun.system.order.entity.WorksheetAttentionEntity;
+import com.lgyun.system.order.vo.WorksheetAttentionVO;
 
 /**
  * 包装类,返回视图层所需的字段

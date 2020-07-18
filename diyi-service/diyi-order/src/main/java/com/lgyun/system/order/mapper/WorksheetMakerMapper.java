@@ -1,8 +1,10 @@
 package com.lgyun.system.order.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.MakerType;
+import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.system.order.entity.WorksheetMakerEntity;
+import com.lgyun.system.order.vo.IncomeYearMonthVO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -14,10 +16,8 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface WorksheetMakerMapper extends BaseMapper<WorksheetMakerEntity> {
 
-    /**
-     * 根据工单id查询抢单条数
-     */
     int getWorksheetCount(Long worksheetId);
 
+    IncomeYearMonthVO queryMoneyByYearMonth(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year, Long month);
 }
 

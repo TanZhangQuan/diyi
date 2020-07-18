@@ -3,10 +3,9 @@ package com.lgyun.system.user.feign;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
 import com.lgyun.common.enumeration.GrantType;
+import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.system.user.dto.IndividualBusinessListByMakerDto;
-import com.lgyun.system.user.dto.IndividualEnterpriseListByMakerDto;
 import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.*;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -122,13 +121,13 @@ public interface IUserClient {
      * 查询当前创客的所有个独
      */
     @PostMapping(API_PREFIX + "/individualEnterprise/listByMaker")
-    R listByMaker(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @Valid @RequestBody IndividualEnterpriseListByMakerDto individualEnterpriseListByMakerDto);
+    R individualEnterpriseListByMaker(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId, @RequestParam("ibstate") Ibstate ibstate);
 
     /**
      * 查询当前创客的所有个体户
      */
     @PostMapping(API_PREFIX + "/individualBusiness/listByMaker")
-    R listByMaker(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @Valid @RequestBody IndividualBusinessListByMakerDto individualBusinessListByMakerDto);
+    R individualBusinessListByMaker(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId, @RequestParam("ibstate") Ibstate ibstate);
 
     /**
      * 根据Id获取个独信息

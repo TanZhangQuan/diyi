@@ -1,15 +1,15 @@
-package com.lgyun.system.user.wrapper;
+package com.lgyun.system.order.wrapper;
 
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.support.BaseEntityWrapper;
-import com.lgyun.system.user.entity.DeliverMaterialEntity;
-import com.lgyun.system.user.vo.DeliverMaterialVO;
+import com.lgyun.system.order.entity.DeliverMaterialEntity;
+import com.lgyun.system.order.vo.DeliverMaterialVO;
 
 /**
  * 包装类,返回视图层所需的字段
  *
  * @author liangfeihu
- * @since 2020-06-26 17:21:05
+ * @since 2020-07-17 20:01:13
  */
 public class DeliverMaterialWrapper extends BaseEntityWrapper<DeliverMaterialEntity, DeliverMaterialVO> {
 
