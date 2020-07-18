@@ -6,39 +6,28 @@
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.user.entity.AgreementEntity" id="agreementMap">
         <result property="id" column="id"/>
+        <result property="agreementType" column="agreement_type"/>
         <result property="signType" column="sign_type"/>
         <result property="signDate" column="sign_date"/>
-        <result property="signState" column="sign_state"/>
-        <result property="agreementType" column="agreement_type"/>
         <result property="agreementNo" column="agreement_no"/>
-        <result property="runCompanyId" column="run_company_id"/>
-        <result property="platformId" column="platform_id"/>
+        <result property="sequenceNo" column="sequence_no"/>
         <result property="makerId" column="maker_id"/>
-        <result property="uploadPerson" column="upload_person"/>
-        <result property="uploadDateTime" column="upload_date_time"/>
-        <result property="startDateTime" column="start_date_time"/>
+        <result property="enterpriseId" column="enterprise_id"/>
+        <result property="serviceProviderId" column="service_provider_id"/>
+        <result property="relBureauId" column="rel_bureau_id"/>
+        <result property="agentId" column="agent_id"/>
+        <result property="partnerId" column="partner_id"/>
+        <result property="onlineAggrementId" column="online_aggrement_id"/>
+        <result property="onlineAggrementUrl" column="online_aggrement_url"/>
         <result property="paperAgreementUrl" column="paper_agreement_url"/>
         <result property="thirdOnlineAgreementUrl" column="third_online_agreement_url"/>
-        <result property="platformOnlineAgreementUrl" column="platform_online_agreement_url"/>
-        <result property="poaplatformSignatureUrl" column="poaplatform_signature_url"/>
-        <result property="poamakerSignatureUrl" column="poamaker_signature_url"/>
-        <result property="poacompanySignatureUrl" column="poacompany_signature_url"/>
-        <result property="poaplatformSignDateTime" column="poaplatform_sign_date_time"/>
-        <result property="poamakerSignDateTime" column="poamaker_sign_date_time"/>
-        <result property="poacompanySignDateTime" column="poacompany_sign_date_time"/>
-        <result property="poawithSignatureUrl" column="poawith_signature_url"/>
-        <result property="paaState" column="paa_state"/>
-        <result property="poaState" column="poa_state"/>
-        <result property="toaState" column="toa_state"/>
-        <result property="platformSignState" column="platform_sign_state"/>
-        <result property="makerSignState" column="maker_sign_state"/>
-        <result property="companySignState" column="company_sign_state"/>
-        <result property="createUser" column="create_user"/>
-        <result property="createTime" column="create_time"/>
-        <result property="updateUser" column="update_user"/>
-        <result property="updateTime" column="update_time"/>
-        <result property="status" column="status"/>
-        <result property="isDeleted" column="is_deleted"/>
+        <result property="paperAgreementUpload" column="paper_agreement_upload"/>
+        <result property="firstSideSignPerson" column="first_side_sign_person"/>
+        <result property="secondSideSignPerson" column="second_side_sign_person"/>
+        <result property="thirdSideSignPerson" column="third_side_sign_person"/>
+        <result property="fourthSideSignPerson" column="fourth_side_sign_person"/>
+        <result property="uploadDatetime" column="upload_datetime"/>
+        <result property="uploadPerson" column="upload_person"/>
     </resultMap>
 
     <select id="makerIdFind" resultMap="agreementMap">

@@ -1,11 +1,11 @@
 package com.lgyun.system.user.mapper;
 
-import com.lgyun.system.user.entity.AgreementEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.lgyun.system.user.vo.AgreementVO;
+import com.lgyun.system.user.entity.AgreementEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+
 
 /**
  * Mapper
