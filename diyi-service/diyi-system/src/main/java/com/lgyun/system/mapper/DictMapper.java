@@ -55,4 +55,6 @@ public interface DictMapper extends BaseMapper<Dict> {
 	 */
 	List<Dict> getParentList(Long parentId);
 
+	Dict getDict(String code);
+
 }

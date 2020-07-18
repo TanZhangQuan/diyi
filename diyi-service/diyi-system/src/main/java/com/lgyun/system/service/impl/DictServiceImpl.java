@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.exceptions.ApiException;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lgyun.common.api.R;
 import com.lgyun.common.node.ForestNodeMerger;
 import com.lgyun.common.tool.Func;
 import com.lgyun.common.tool.StringPool;
@@ -65,6 +66,11 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements ID
 	@Override
 	public List<Dict> getParentList(Long parentId) {
 		return baseMapper.getParentList(parentId);
+	}
+
+	@Override
+	public Dict getDict(String code) {
+		return baseMapper.getDict(code);
 	}
 
 }

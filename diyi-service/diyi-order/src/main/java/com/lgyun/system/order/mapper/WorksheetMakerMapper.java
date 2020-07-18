@@ -19,5 +19,10 @@ public interface WorksheetMakerMapper extends BaseMapper<WorksheetMakerEntity> {
      */
     int getWorksheetCount(Long worksheetId);
 
+    /**
+     * 查询创客有没有抢单
+     */
+    int isMakerId(Long makerId,Long worksheetId);
+
 }
 

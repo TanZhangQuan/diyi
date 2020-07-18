@@ -32,4 +32,8 @@
         select count(*) as counts from diyi_worksheet_maker where worksheet_id=#{worksheetId} and is_deleted = 0
     </select>
 
+
+    <select id="isMakerId" resultType="int">
+        select count(*) as counts from diyi_worksheet_maker where worksheet_id=#{worksheetId} and maker_id = #{makerId} and is_deleted = 0
+    </select>
 </mapper>

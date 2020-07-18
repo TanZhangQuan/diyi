@@ -24,14 +24,17 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
 
     @Override
     public List<MakerEnterpriseRelationVO> getEnterpriseName(String enterpriseName) {
-        List<MakerEnterpriseRelationVO> makerEnterpriseRelationVOs = baseMapper.getEnterpriseName(enterpriseName);
+        List<MakerEnterpriseRelationVO> makerEnterpriseRelationVOs = baseMapper.getEnterpriseName("%"+enterpriseName+"%");
         return makerEnterpriseRelationVOs;
     }
 
     @Override
     public MakerEnterpriseRelationVO getEnterpriseId(Long enterpriseId,Integer difference) {
-        MakerEnterpriseRelationVO makerEnterpriseRelationVO = baseMapper.getEnterpriseId(enterpriseId);
-        if(difference == 1){
+        MakerEnterpriseRelationVO makerEnterpriseRelationVO = baseMapper.getEnterpriseId(enterpriseId,difference);
+        if(null == makerEnterpriseRelationVO){
+            return null;
+        }
+        if(difference == 0){
             return makerEnterpriseRelationVO;
         }else{
             makerEnterpriseRelationVO.setContact1Phone("138********");

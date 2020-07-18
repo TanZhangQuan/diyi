@@ -54,7 +54,7 @@
     </resultMap>
 
     <resultMap type="com.lgyun.system.user.vo.MakerEnterpriseRelationVO" id="makerEnterpriseRelationMap">
-        <result property="id" column="id"/>
+        <result property="enterpriseId" column="id"/>
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="shopUserName" column="shop_user_name"/>
         <result property="legalPerson" column="legal_person"/>
@@ -71,13 +71,12 @@
         e.contact1_phone, e.social_credit_no, e.biz_licence_url, e.id FROM diyi_enterprise e
         WHERE 1=1
         <if test="enterpriseName != null and enterpriseName.trim() != ''">
-            and (e.enterprise_name LIKE CONCAT(CONCAT('%', #{enterpriseName}, '%')))
+            and e.enterprise_name LIKE #{enterpriseName}
         </if>
     </select>
 
     <select id="getEnterpriseId" resultMap="makerEnterpriseRelationMap">
-        SELECT e.enterprise_name, e.shop_user_name, e.legal_person, e.legal_person_card, e.contact1_position, e.contact1_phone, e.social_credit_no, e.biz_licence_url, e.id FROM diyi_enterprise e
-        WHERE e.id = #{enterpriseId}
+        SELECT e.enterprise_name, e.shop_user_name, e.legal_person, e.legal_person_card, e.contact1_position, e.contact1_phone, e.social_credit_no, e.biz_licence_url, e.id FROM diyi_enterprise e INNER JOIN diyi_maker_enterprise me ON me.enterprise_id = e.id WHERE e.id = #{param1} and me.relationship_type = #{param2}
     </select>
 
 </mapper>
