@@ -48,6 +48,6 @@
     </select>
 
     <select id="isMakerId" resultType="int">
-        select count(*) as counts from diyi_worksheet_maker where worksheet_id=#{worksheetId} and maker_id = #{makerId} and is_deleted = 0
+        select count(*) as counts from diyi_worksheet_maker where worksheet_id=#{param1} and maker_id = #{param2} and is_deleted = 0
     </select>
 </mapper>

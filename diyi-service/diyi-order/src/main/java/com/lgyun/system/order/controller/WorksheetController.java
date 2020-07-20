@@ -61,8 +61,17 @@ public class WorksheetController {
      */
     @PostMapping("/orderGrabbing")
     @ApiOperation(value = "抢单", notes = "抢单")
-    public R orderGrabbing(Long worksheetId, Long makerId) {
-        return worksheetService.orderGrabbing(worksheetId, makerId);
+    public R orderGrabbing(Long worksheetId, BladeUser bladeUser) {
+        log.info("抢单");
+        try{
+            //MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
+            MakerEntity makerEntity = new MakerEntity();
+            makerEntity.setId(1278969988057903106L);
+            return worksheetService.orderGrabbing(worksheetId, makerEntity.getId());
+        }catch (Exception e){
+            e.printStackTrace();
+            return R.fail("抢单失败");
+        }
     }
 
     /**
@@ -110,6 +119,13 @@ public class WorksheetController {
     @PostMapping("/checkAchievement")
     @ApiOperation(value = "验收工作成果", notes = "验收工作成果")
     public R checkAchievement(Long worksheetMakerId, BigDecimal checkMoney, Long enterpriseId, Boolean bool) {
+        log.info("验收工作成果");
+        try {
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return R.fail("验收工作成果失败");
+        }
         return worksheetMakerService.checkAchievement(worksheetMakerId, checkMoney, enterpriseId, bool);
     }
 
