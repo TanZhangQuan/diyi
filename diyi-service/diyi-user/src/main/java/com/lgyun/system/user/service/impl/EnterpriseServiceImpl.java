@@ -2,8 +2,6 @@ package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.WorksheetMakerState;
-import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.mapper.EnterpriseMapper;
@@ -55,6 +53,6 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
 
     @Override
     public R<IPage<EnterprisesByWorksheetListVO>> getEnterprisesByWorksheet(IPage<EnterprisesByWorksheetListVO> page, Long makerId) {
-        return R.data(page.setRecords(baseMapper.getEnterprisesByWorksheet(WorksheetState.FINISHED, WorksheetMakerState.VALIDATION, makerId, page)));
+        return R.data(page.setRecords(baseMapper.getEnterprisesByWorksheet(makerId, page)));
     }
 }

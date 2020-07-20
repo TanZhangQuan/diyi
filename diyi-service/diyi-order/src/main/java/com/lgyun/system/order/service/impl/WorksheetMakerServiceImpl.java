@@ -4,19 +4,17 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.common.enumeration.WorksheetMakerState;
-import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.order.entity.WorksheetEntity;
 import com.lgyun.system.order.entity.WorksheetMakerEntity;
 import com.lgyun.system.order.mapper.WorksheetMakerMapper;
 import com.lgyun.system.order.service.IWorksheetMakerService;
-import com.lgyun.system.order.vo.IncomeYearMonthVO;
-import com.lgyun.system.order.service.IWorksheetService;
+import com.lgyun.system.order.vo.AllIncomeYearMonthVO;
+import com.lgyun.system.order.vo.IncomeMonthVO;
+import com.lgyun.system.order.vo.IncomeYearVO;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -73,8 +71,18 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
     }
 
     @Override
-    public R<IncomeYearMonthVO> queryMoneyByYearMonth(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year, Long month) {
-        return R.data(baseMapper.queryMoneyByYearMonth(worksheetType, makerType, makerId, year, month));
+    public R<AllIncomeYearMonthVO> queryAllMoneyByYearMonth(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year, Long month) {
+        return R.data(baseMapper.queryAllMoneyByYearMonth(worksheetType, makerType, makerId, year, month));
+    }
+
+    @Override
+    public R<IncomeYearVO> queryMoneyByYear(WorkSheetType worksheetType, MakerType makerType, Long makerId) {
+        return R.data(baseMapper.queryMoneyByYear(worksheetType, makerType, makerId));
+    }
+
+    @Override
+    public R<IncomeMonthVO> queryMoneyByMonth(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year) {
+        return R.data(baseMapper.queryMoneyByMonth(worksheetType, makerType, makerId, year));
     }
 
     @Override

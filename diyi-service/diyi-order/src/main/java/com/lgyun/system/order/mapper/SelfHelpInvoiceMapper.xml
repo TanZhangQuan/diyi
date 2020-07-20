@@ -78,13 +78,14 @@
         hf.basic_tax_fee_rate, hf.invoice_fee, hf.identify_fee FROM diyi_self_help_invoice zs INNER JOIN diyi_run_company rc
         ON rc.run_company_id = zs.company_id INNER JOIN diyi_self_help_invoice_detail sd ON sd.self_help_invoice_id = zs.id
         INNER JOIN diyi_address a ON a.id = zs.address_id INNER JOIN diyi_self_help_invoice_person sp ON sp.invoice_people_id = sd.none_maker_invoice_person_id
-        INNER JOIN diyi_self_help_invoice_fee hf ON zs.id = hf.self_help_invoice_id where  zs.id =#{selfHelpInvoiceId}
+        INNER JOIN diyi_self_help_invoice_fee hf ON zs.id = hf.self_help_invoice_id where zs.is_deleted = 0 AND rc.is_deleted = 0 AND sd.is_deleted = 0
+        AND a.is_deleted = 0 AND sp.is_deleted = 0 AND hf.is_deleted = 0 AND zs.id =#{selfHelpInvoiceId}
     </select>
 
     <select id="yearMonthMoney" resultMap="selfHelpInvoiceYearMonthMoneyVO">
         SELECT IFNULL(SUM(IF(MONTH(create_time) = MONTH(NOW()), charge_money_num, 0)), 0) AS month_money,
         IFNULL(SUM(IF(YEAR(create_time) = YEAR(NOW()), charge_money_num, 0)), 0) AS year_money
-        FROM diyi_self_help_invoice WHERE invoice_audit_state = 'APPROVED'
+        FROM diyi_self_help_invoice WHERE is_deleted = 0 AND invoice_audit_state = 'APPROVED'
         AND invoice_people_type = #{param1} AND business_enterprise_id = #{param2}
     </select>
 

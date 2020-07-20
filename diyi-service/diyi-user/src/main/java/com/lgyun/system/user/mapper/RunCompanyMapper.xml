@@ -26,7 +26,7 @@
     </resultMap>
 
     <select id="findCompanyName" resultMap="runCompanyMap">
-        select *from diyi_run_company where is_deleted = 0 and maker_id =#{param2}
+        select * from diyi_run_company where is_deleted = 0 and maker_id =#{param2}
     </select>
 
 </mapper>

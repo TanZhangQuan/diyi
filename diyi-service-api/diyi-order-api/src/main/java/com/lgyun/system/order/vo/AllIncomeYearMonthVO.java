@@ -13,7 +13,7 @@ import java.math.BigDecimal;
  */
 @Data
 @ApiModel(value = "IncomeYearMonthVO对象", description = "IncomeYearMonthVO对象")
-public class IncomeYearMonthVO implements Serializable {
+public class AllIncomeYearMonthVO implements Serializable {
 
     //输入记录数
     private Integer num;

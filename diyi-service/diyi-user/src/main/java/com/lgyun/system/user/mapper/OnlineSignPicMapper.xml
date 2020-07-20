@@ -5,12 +5,12 @@
 
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.user.entity.OnlineSignPicEntity" id="onlineSignPicMap">
-                    <result property="id" column="id"/>
-                    <result property="objectType" column="object_type"/>
-                    <result property="objectId" column="object_id"/>
-                    <result property="workerSex" column="worker_sex"/>
-                    <result property="signPic" column="sign_pic"/>
-                    <result property="signDatetime" column="sign_datetime"/>
-            </resultMap>
+        <result property="id" column="id"/>
+        <result property="objectType" column="object_type"/>
+        <result property="objectId" column="object_id"/>
+        <result property="workerSex" column="worker_sex"/>
+        <result property="signPic" column="sign_pic"/>
+        <result property="signDatetime" column="sign_datetime"/>
+    </resultMap>
 
 </mapper>

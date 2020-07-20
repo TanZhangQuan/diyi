@@ -43,7 +43,9 @@
     </select>
 
     <select id="selectMakerEnterprisePage" resultMap="makerEnterpriseRelationMap">
-        SELECT e.enterprise_name, e.shop_user_name, e.legal_person, e.legal_person_card, e.contact1_position, e.contact1_phone, e.social_credit_no, e.biz_licence_url, e.id as enterprise_id FROM diyi_maker_enterprise me INNER JOIN diyi_enterprise e ON me.enterprise_id = e.id WHERE me.maker_id = #{param2} AND me.relationship_type = #{param3}
+        SELECT e.enterprise_name, e.shop_user_name, e.legal_person, e.legal_person_card, e.contact1_position, e.contact1_phone, e.social_credit_no,
+         e.biz_licence_url, e.id as enterprise_id FROM diyi_maker_enterprise me INNER JOIN diyi_enterprise e ON me.enterprise_id = e.id
+         WHERE me.is_deleted = 0 and e.is_deleted = 0 and me.maker_id = #{param2} AND me.relationship_type = #{param3}
     </select>
 
     <select id="selectCancelfollow" resultMap="makerEnterpriseMap">

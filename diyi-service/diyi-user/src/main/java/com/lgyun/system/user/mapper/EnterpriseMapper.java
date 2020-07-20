@@ -2,8 +2,6 @@ package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.common.enumeration.WorksheetMakerState;
-import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.vo.EnterprisesByWorksheetListVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
@@ -33,7 +31,7 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
     /**
      * 查询创客所有交付支付验收单的商户
      */
-    List<EnterprisesByWorksheetListVO> getEnterprisesByWorksheet(WorksheetState worksheetState, WorksheetMakerState worksheetMakerState, Long makerId, IPage<EnterprisesByWorksheetListVO> page);
+    List<EnterprisesByWorksheetListVO> getEnterprisesByWorksheet(Long makerId, IPage<EnterprisesByWorksheetListVO> page);
 
 }
 

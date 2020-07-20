@@ -71,24 +71,24 @@
     </resultMap>
 
     <select id="getEnterpriseName" resultMap="makerEnterpriseRelationMap">
-        SELECT e.enterprise_name, e.shop_user_name, e.legal_person, e.legal_person_card, e.contact1_position,
-        e.contact1_phone, e.social_credit_no, e.biz_licence_url, e.id FROM diyi_enterprise e
-        WHERE 1=1
+        SELECT enterprise_name, shop_user_name, legal_person, legal_person_card, contact1_position,
+        contact1_phone, social_credit_no, biz_licence_url, id FROM diyi_enterprise
+        WHERE is_deleted = 0
         <if test="enterpriseName != null and enterpriseName.trim() != ''">
-            and e.enterprise_name LIKE #{enterpriseName}
-            and (e.enterprise_name LIKE CONCAT(CONCAT('%', #{param1}, '%')))
+            and enterprise_name LIKE #{enterpriseName}
+            and (enterprise_name LIKE CONCAT(CONCAT('%', #{param1}, '%')))
         </if>
     </select>
 
     <select id="getEnterpriseId" resultMap="makerEnterpriseRelationMap">
-        SELECT e.enterprise_name, e.shop_user_name, e.legal_person, e.legal_person_card, e.contact1_position, e.contact1_phone, e.social_credit_no, e.biz_licence_url, e.id FROM diyi_enterprise e
-        WHERE e.id = #{param1}
+        SELECT enterprise_name, shop_user_name, legal_person, legal_person_card, contact1_position, contact1_phone, social_credit_no, biz_licence_url, id
+        FROM diyi_enterprise WHERE is_deleted = 0 AND id = #{param1}
     </select>
 
     <select id="getEnterprisesByWorksheet" resultMap="acceptPaysheetEnterpriseVO">
-        SELECT t1.id, t1.enterprise_name FROM diyi_enterprise t1 INNER JOIN diyi_worksheet t2 ON t1.id = t2.enterprise_id INNER JOIN diyi_worksheet_maker t3 ON t2.id = t3.worksheet_id
-        WHERE t2.worksheet_state = #{param1} AND t3.worksheet_maker_state = #{param2} AND t3.maker_id = #{param3}
-        SELECT e.enterprise_name, e.shop_user_name, e.legal_person, e.legal_person_card, e.contact1_position, e.contact1_phone, e.social_credit_no, e.biz_licence_url, e.id FROM diyi_enterprise e INNER JOIN diyi_maker_enterprise me ON me.enterprise_id = e.id WHERE e.id = #{param1} and me.relationship_type = #{param2}
+        SELECT t1.id, t1.enterprise_name FROM diyi_enterprise t1 INNER JOIN diyi_worksheet t2 ON t1.id = t2.enterprise_id
+        INNER JOIN diyi_worksheet_maker t3 ON t2.id = t3.worksheet_id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0
+        AND t2.worksheet_state = 'FINISHED' AND t3.worksheet_maker_state = 'VALIDATION' AND t3.maker_id = #{param1}
     </select>
 
 </mapper>

@@ -5,7 +5,9 @@ import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.entity.WorksheetMakerEntity;
-import com.lgyun.system.order.vo.IncomeYearMonthVO;
+import com.lgyun.system.order.vo.AllIncomeYearMonthVO;
+import com.lgyun.system.order.vo.IncomeMonthVO;
+import com.lgyun.system.order.vo.IncomeYearVO;
 
 import java.math.BigDecimal;
 
@@ -39,8 +41,19 @@ public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity
     Boolean isMakerId(Long makerId,Long worksheetId);
 
     /**
-     * 验收工作成果
+     * 根据工单类型，创客类型，年份或月份查询总收入
      */
-    R<IncomeYearMonthVO> queryMoneyByYearMonth(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year, Long month);
+    R<AllIncomeYearMonthVO> queryAllMoneyByYearMonth(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year, Long month);
+
+    /**
+     * 根据工单类型，创客类型，年份查询每月收入
+     */
+    R<IncomeYearVO> queryMoneyByYear(WorkSheetType worksheetType, MakerType makerType, Long makerId);
+
+    /**
+     * 根据工单类型，创客类型，年份查询每月收入
+     */
+    R<IncomeMonthVO> queryMoneyByMonth(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year);
+
 }
 

@@ -21,7 +21,9 @@
     </resultMap>
 
     <select id="getOnlineAgreementNeedSign" resultMap="onlineAgreementNeedSignVOMap">
-        SELECT dn.id as online_agreement_need_sign_id,dt.id as online_aggrement_id,dt.template_type,dt.agreement_template  FROM diyi_online_agreement_need_sign dn INNER JOIN diyi_online_agreement_template dt on dn.online_aggrement_id = dt.id where dt.template_state = 1 and dn.sign_state = 0 and dn.object_type = 1 and dn.object_id =#{makerid}
+        SELECT dn.id as online_agreement_need_sign_id,dt.id as online_aggrement_id,dt.template_type,dt.agreement_template
+        FROM diyi_online_agreement_need_sign dn INNER JOIN diyi_online_agreement_template dt on dn.online_aggrement_id = dt.id
+        where dn.is_deleted = 0 and dt.is_deleted = 0 and dt.template_state = 1 and dn.sign_state = 0 and dn.object_type = 1 and dn.object_id =#{makerid}
     </select>
 
 </mapper>
