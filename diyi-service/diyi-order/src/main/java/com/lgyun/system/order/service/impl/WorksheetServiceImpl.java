@@ -129,6 +129,11 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         return R.fail("失败");
     }
 
+    @Override
+    public R getWorksheetDetails(Long worksheetMakerId) {
+        return R.data(baseMapper.getWorksheetDetails(worksheetMakerId));
+    }
+
     public synchronized R orderGrabbing(WorksheetEntity worksheetEntity,MakerEntity makerEntity,int worksheetCount){
 
         if(worksheetCount == worksheetEntity.getUppersonNum()){

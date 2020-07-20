@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lgyun.system.order.mapper.PayEnterpriseMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.lgyun.system.order.entity.PayEnterpriseEntity" id="payEnterpriseMap">
+                    <result property="id" column="id"/>
+                    <result property="enterpriseId" column="enterprise_id"/>
+                    <result property="serviceProviderId" column="service_provider_id"/>
+                    <result property="chargeListUrl" column="charge_list_url"/>
+                    <result property="worksheetId" column="worksheet_id"/>
+                    <result property="payToPlatformAmount" column="pay_to_platform_amount"/>
+                    <result property="sourcingAmount" column="sourcing_amount"/>
+                    <result property="serviceRate" column="service_rate"/>
+                    <result property="totalTaxAndFee" column="total_tax_and_fee"/>
+                    <result property="makerNum" column="maker_num"/>
+                    <result property="identifyFee" column="identify_fee"/>
+                    <result property="serviceFee" column="service_fee"/>
+                    <result property="payMemo" column="pay_memo"/>
+                    <result property="payState" column="pay_state"/>
+                    <result property="payConfirmDatetime" column="pay_confirm_datetime"/>
+                    <result property="confirmDatetime" column="confirm_datetime"/>
+                    <result property="employeeId" column="employee_id"/>
+                    <result property="companyInvoiceState" column="company_invoice_state"/>
+                    <result property="invoicePrintDate" column="invoice_print_date"/>
+                    <result property="invoiceDemondDesc" column="invoice_demond_desc"/>
+            </resultMap>
+
+</mapper>

@@ -67,9 +67,7 @@ public class SelfHelpInvoiceController {
     public R runCompanySave(@Valid @RequestBody RunCompanyDto runCompanyDto,BladeUser bladeUser) {
         log.info("新建购买方");
         try{
-            //MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
-            MakerEntity makerEntity = new MakerEntity();
-            makerEntity.setId(1278969988057903106L);
+            MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
             runCompanyDto.setMakerId(makerEntity.getId());
             return iUserClient.runCompanySave(runCompanyDto);
         }catch (Exception e){
@@ -86,9 +84,7 @@ public class SelfHelpInvoiceController {
     public R findMakerId(Query query,BladeUser bladeUser) {
         log.info("通过创客id查询购买方");
         try{
-            //MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
-            MakerEntity makerEntity = new MakerEntity();
-            makerEntity.setId(1278969988057903106L);
+            MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
             Integer current = query == null || query.getCurrent() == null ? 1 : query.getCurrent();
             Integer size = query == null || query.getSize() == null ? 10 : query.getSize();
             return iUserClient.findRunCompanyMakerId(current, size, makerEntity.getId());
@@ -106,9 +102,7 @@ public class SelfHelpInvoiceController {
     public R saveSelfHelpInvoicePerson(@Valid @RequestBody SelfHelpInvoicePersonDto selfHelpInvoicePersonDto, BladeUser bladeUser) {
         log.info("新建非创客开票人");
         try{
-            //MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
-            MakerEntity makerEntity = new MakerEntity();
-            makerEntity.setId(1278969988057903106L);
+            MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
             return selfHelpInvoicePersonService.saveSelfHelpInvoicePerson(selfHelpInvoicePersonDto, makerEntity.getId());
         }catch (Exception e){
             e.printStackTrace();
@@ -155,13 +149,55 @@ public class SelfHelpInvoiceController {
     public R saveAddress(@Valid @RequestBody AddressDto addressDto, BladeUser bladeUser) {
         log.info("新建收货地址");
         try{
-            //MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
-            MakerEntity makerEntity = new MakerEntity();
-            makerEntity.setId(1278969988057903106L);
+            MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
             return addressService.saveAddress(addressDto, makerEntity.getId());
         }catch (Exception e){
             e.printStackTrace();
             return R.fail("新建收货地址失败");
+        }
+    }
+    /**
+     * 地址详情接口
+     */
+    @GetMapping("/getAddressById")
+    @ApiOperation(value = "地址详情接口", notes = "地址详情接口")
+    public R getAddressById(Long addressId){
+        log.info("地址详情接口");
+        try{
+            return addressService.getAddressById(addressId);
+        }catch (Exception e){
+            e.printStackTrace();
+            return R.fail("地址详情接口失败");
+        }
+    }
+
+    /**
+     * 地址编辑接口
+     */
+    @PostMapping("/updateAddress")
+    @ApiOperation(value = "地址编辑接口", notes = "地址编辑接口")
+    public R updateAddress(@Valid @RequestBody AddressDto addressDto){
+        log.info("地址编辑接口");
+        try{
+            return addressService.updateAddress(addressDto);
+        }catch (Exception e){
+            e.printStackTrace();
+            return R.fail("地址编辑接口失败");
+        }
+    }
+
+    /**
+     * 地址删除接口
+     */
+    @PostMapping("/deleteAddress")
+    @ApiOperation(value = "地址删除接口", notes = "地址删除接口")
+    public R deleteAddress(Long addressId){
+        log.info("地址编辑接口");
+        try{
+            return addressService.deleteAddress(addressId);
+        }catch (Exception e){
+            e.printStackTrace();
+            return R.fail("地址删除接口失败");
         }
     }
 
@@ -173,9 +209,7 @@ public class SelfHelpInvoiceController {
     public R findAddressMakerId(Query query, BladeUser bladeUser) {
         log.info("查询收货地址");
         try{
-            //MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
-            MakerEntity makerEntity = new MakerEntity();
-            makerEntity.setId(1278969988057903106L);
+            MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
             return addressService.findAddressMakerId(Condition.getPage(query), makerEntity.getId());
         }catch (Exception e){
             e.printStackTrace();
@@ -257,9 +291,11 @@ public class SelfHelpInvoiceController {
      */
     @PostMapping("/submitSelfHelpInvoice")
     @ApiOperation(value = "创客提交自助开票", notes = "创客提交自助开票")
-    public R submitSelfHelpInvoice(@Valid @RequestBody SelfHelpInvoiceDto selfHelpInvoiceDto) {
+    public R submitSelfHelpInvoice(@Valid @RequestBody SelfHelpInvoiceDto selfHelpInvoiceDto,BladeUser bladeUser) {
         log.info("创客提交自助开票");
         try{
+            MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
+            selfHelpInvoiceDto.setApplyMakerId(makerEntity.getId());
             return selfHelpInvoiceService.submitSelfHelpInvoice(selfHelpInvoiceDto);
         }catch (Exception e){
             e.printStackTrace();
@@ -337,9 +373,7 @@ public class SelfHelpInvoiceController {
 
         log.info("判断创客资质");
         try{
-            //MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
-            MakerEntity makerEntity = new MakerEntity();
-            makerEntity.setId(1278969988057903106L);
+            MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
             if (MakerType.INDIVIDUALENTERPRISE.equals(makerType)) {
                 List<IndividualEnterpriseEntity> individualEnterpriseEntities = iUserClient.individualEnterpriseFindByMakerId(makerEntity.getId());
                 if (null == individualEnterpriseEntities || individualEnterpriseEntities.size() <= 0) {
@@ -350,7 +384,7 @@ public class SelfHelpInvoiceController {
             if (MakerType.INDIVIDUALBUSINESS.equals(makerType)) {
                 List<IndividualBusinessEntity> individualBusinessEntities = iUserClient.individualBusinessByMakerId(makerEntity.getId());
                 if (null == individualBusinessEntities || individualBusinessEntities.size() <= 0) {
-                    return R.fail("对不起，您还不符合个独开票的资质");
+                    return R.fail("对不起，您还不符合个体开票的资质");
                 }
             }
             return R.success("成功");

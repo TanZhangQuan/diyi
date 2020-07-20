@@ -22,7 +22,7 @@ public interface WorksheetMakerMapper extends BaseMapper<WorksheetMakerEntity> {
 
     AllIncomeYearMonthVO queryAllMoneyByYearMonth(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year, Long month);
 
-    int isMakerId(Long makerId,Long worksheetId);
+    WorksheetMakerEntity isMakerId(Long makerId,Long worksheetId);
 
     IncomeYearVO queryMoneyByYear(WorkSheetType worksheetType, MakerType makerType, Long makerId);
 

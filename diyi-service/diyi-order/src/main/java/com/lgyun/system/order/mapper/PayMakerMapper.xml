@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lgyun.system.order.mapper.PayMakerMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.lgyun.system.order.entity.PayMakerEntity" id="payMakerMap">
+                    <result property="id" column="id"/>
+                    <result property="makerId" column="maker_id"/>
+                    <result property="makerType" column="maker_type"/>
+                    <result property="individualBusinessName" column="Individual_business_name"/>
+                    <result property="totalFee" column="total_fee"/>
+                    <result property="makerNeIncome" column="maker_ne_income"/>
+                    <result property="serviceRate" column="service_rate"/>
+                    <result property="makerTaxAndFee" column="maker_tax_and_fee"/>
+                    <result property="makerNetIncome" column="maker_net_income"/>
+                    <result property="auditFee" column="audit_fee"/>
+                    <result property="payFee" column="pay_fee"/>
+                    <result property="payState" column="pay_state"/>
+                    <result property="companyApplyDatetime" column="company_apply_datetime"/>
+                    <result property="companyPayOkDatetime" column="company_pay_ok_datetime"/>
+                    <result property="platformPayOkDatetime" column="platform_pay_ok_datetime"/>
+                    <result property="makerConfirmDatetime" column="maker_confirm_datetime"/>
+                    <result property="makerTaxState" column="maker_tax_state"/>
+                    <result property="makerInvoiceState" column="maker_invoice_state"/>
+                    <result property="invoiceType" column="invoice_type"/>
+                    <result property="payMemo" column="pay_memo"/>
+                    <result property="makerInvoiceCategory" column="maker_invoice_category"/>
+            </resultMap>
+
+</mapper>

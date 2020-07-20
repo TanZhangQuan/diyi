@@ -11,7 +11,8 @@
         <result property="worksheetName" column="worksheet_name"/>
         <result property="uppersonNum" column="upPerson_num"/>
         <result property="workDays" column="work_days"/>
-        <result property="worksheetFee" column="worksheet_fee"/>
+        <result property="worksheetFeeLow" column="worksheet_fee_low"/>
+        <result property="worksheetFeeHigh" column="worksheet_fee_high"/>
         <result property="worksheetType" column="worksheet_type"/>
         <result property="worksheetMode" column="worksheet_mode"/>
         <result property="publishDate" column="publish_date"/>
@@ -35,7 +36,6 @@
     </resultMap>
 
     <resultMap id="worksheetXiaoMap" type="com.lgyun.system.order.vo.WorksheetXiaoVo">
-        <result property="id" column="id"/>
         <result property="worksheetId" column="worksheet_id"/>
         <result property="enterpriseId" column="enterprise_id"/>
         <result property="enterpriseName" column="enterprise_name"/>
@@ -45,12 +45,13 @@
         <result property="upPersonNum" column="upPerson_num"/>
         <result property="worksheetNo" column="worksheet_no"/>
         <result property="workDays" column="work_days"/>
-        <result property="worksheetFee" column="worksheet_fee"/>
+        <result property="worksheetFeeLow" column="worksheet_fee_low"/>
+        <result property="worksheetFeeHigh" column="worksheet_fee_high"/>
         <result property="publishDate" column="publish_date"/>
     </resultMap>
 
     <resultMap id="worksheetXiao1Map" type="com.lgyun.system.order.vo.WorksheetXiaoVo">
-        <result property="id" column="id"/>
+        <result property="worksheetMakerId" column="id"/>
         <result property="worksheetMakerState" column="worksheet_maker_state"/>
         <result property="enterpriseId" column="enterprise_id"/>
         <result property="enterpriseName" column="enterprise_name"/>
@@ -60,21 +61,43 @@
         <result property="upPersonNum" column="upPerson_num"/>
         <result property="worksheetNo" column="worksheet_no"/>
         <result property="workDays" column="work_days"/>
-        <result property="worksheetFee" column="worksheet_fee"/>
+        <result property="worksheetFeeLow" column="worksheet_fee_low"/>
+        <result property="worksheetFeeHigh" column="worksheet_fee_high"/>
         <result property="publishDate" column="publish_date"/>
     </resultMap>
 
-    <select id="findXiaoPage" resultMap="worksheetXiaoMap">
-        SELECT ws.id, ws.enterprise_id, e.enterprise_name, ws.worksheet_mode, ws.worksheet_name, ws.worksheet_type, ws.upPerson_num, ws.worksheet_no, ws.work_days, ws.worksheet_fee, ws.publish_date FROM diyi_worksheet ws INNER JOIN diyi_enterprise e ON e.id = ws.enterprise_id WHERE ws.is_deleted = 0 AND e.is_deleted = 0 AND ws.worksheet_state = #{param2}
+    <resultMap id="worksheetDetailsMap" type="com.lgyun.system.order.vo.WorksheetXiaoVo">
+        <result property="worksheetMakerId" column="id"/>
+        <result property="worksheetMakerState" column="worksheet_maker_state"/>
+        <result property="enterpriseId" column="enterprise_id"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="worksheetName" column="worksheet_name"/>
+        <result property="worksheetMode" column="worksheet_mode"/>
+        <result property="worksheetType" column="worksheet_type"/>
+        <result property="upPersonNum" column="upPerson_num"/>
+        <result property="worksheetNo" column="worksheet_no"/>
+        <result property="workDays" column="work_days"/>
+        <result property="worksheetFeeLow" column="worksheet_fee_low"/>
+        <result property="worksheetFeeHigh" column="worksheet_fee_high"/>
+        <result property="checkMoney" column="check_money"/>
+        <result property="achievementDesc" column="achievement_desc"/>
+        <result property="achievementFiles" column="achievement_files"/>
+    </resultMap>
 
+    <select id="findXiaoPage" resultMap="worksheetXiaoMap">
+        SELECT ws.id as worksheet_id, ws.enterprise_id, e.enterprise_name, ws.worksheet_mode, ws.worksheet_name, ws.worksheet_type, ws.upPerson_num, ws.worksheet_no, ws.work_days, ws.worksheet_fee_low,ws.worksheet_fee_high, ws.publish_date FROM diyi_worksheet ws INNER JOIN diyi_enterprise e ON e.id = ws.enterprise_id WHERE ws.is_deleted = 0 AND e.is_deleted = 0 AND ws.worksheet_state = 'PUBLISHING' and ws.worksheet_mode != 'DISPATCH'
     </select>
 
     <select id="findXiaoPage2" resultMap="worksheetXiaoMap">
-        SELECT wm.id as worksheet_maker_id, wm.worksheet_maker_state, ws.id, ws.enterprise_id, e.enterprise_name, ws.worksheet_name, ws.worksheet_type, ws.upPerson_num, ws.worksheet_no, ws.work_days, ws.worksheet_fee, ws.publish_date FROM diyi_worksheet ws INNER JOIN diyi_enterprise e ON e.id = ws.enterprise_id LEFT JOIN diyi_worksheet_maker wm ON wm.worksheet_id = ws.id AND wm.is_deleted = 0 WHERE ws.is_deleted = 0 AND e.is_deleted = 0 AND wm.worksheet_maker_state = #{param1} and maker_id =#{param2}
+        SELECT wm.id as worksheet_maker_id, wm.worksheet_maker_state, ws.id as worksheet_id, ws.enterprise_id, e.enterprise_name, ws.worksheet_name, ws.worksheet_type, ws.upPerson_num, ws.worksheet_no, ws.work_days, ws.worksheet_fee_low,ws.worksheet_fee_high, ws.publish_date FROM diyi_worksheet ws INNER JOIN diyi_enterprise e ON e.id = ws.enterprise_id INNER JOIN diyi_worksheet_maker wm ON wm.worksheet_id = ws.id WHERE ws.is_deleted = 0 AND e.is_deleted = 0 AND wm.is_deleted = 0 AND wm.worksheet_maker_state = 'SUBMITTED' and maker_id =#{param2}
     </select>
 
     <select id="findXiaoPage3" resultMap="worksheetXiao1Map">
-        SELECT wm.id as worksheet_maker_id, wm.worksheet_maker_state,ws.worksheet_mode, ws.id, ws.enterprise_id, e.enterprise_name, ws.worksheet_name, ws.worksheet_type, ws.upPerson_num, ws.worksheet_no, ws.work_days, ws.worksheet_fee, ws.publish_date FROM diyi_worksheet ws INNER JOIN diyi_enterprise e ON e.enterprise_id = ws.enterprise_id LEFT JOIN diyi_worksheet_maker wm ON wm.worksheet_id = ws.worksheet_id AND wm.is_deleted = 0 WHERE ws.is_deleted = 0 AND e.is_deleted = 0 AND wm.worksheet_maker_state IN ( 'VERIFIED', 'VALIDATION', 'FAILED') and maker_id =#{param2}
+        SELECT wm.id as worksheet_maker_id, wm.worksheet_maker_state,ws.worksheet_mode, ws.id, ws.enterprise_id, e.enterprise_name, ws.worksheet_name, ws.worksheet_type, ws.upPerson_num, ws.worksheet_no, ws.work_days, ws.worksheet_fee_low,ws.worksheet_fee_high, ws.publish_date FROM diyi_worksheet ws INNER JOIN diyi_enterprise e ON e.id = ws.enterprise_id INNER JOIN diyi_worksheet_maker wm ON wm.worksheet_id = ws.id WHERE ws.is_deleted = 0 AND e.is_deleted = 0 AND wm.is_deleted = 0 AND wm.worksheet_maker_state IN ( 'VERIFIED', 'VALIDATION', 'FAILED') and maker_id =#{param2}
+    </select>
+
+    <select id="getWorksheetDetails" resultMap="worksheetDetailsMap">
+        SELECT wm.id AS worksheet_maker_id, wm.worksheet_maker_state, ws.worksheet_mode, ws.id, ws.enterprise_id, e.enterprise_name, ws.worksheet_name, ws.worksheet_type, ws.upPerson_num, ws.worksheet_no, ws.work_days, ws.worksheet_fee_low, ws.worksheet_fee_high, ws.publish_date, wm.check_money, wm.achievement_desc, wm.achievement_files FROM diyi_worksheet ws INNER JOIN diyi_enterprise e ON e.id = ws.enterprise_id INNER JOIN diyi_worksheet_maker wm ON wm.worksheet_id = ws.id WHERE ws.is_deleted = 0 AND e.is_deleted = 0 AND wm.is_deleted = 0 AND wm.worksheet_maker_state IN ( 'VERIFIED', 'VALIDATION', 'FAILED' ) AND wm.id = #{param1}
     </select>
 
 </mapper>

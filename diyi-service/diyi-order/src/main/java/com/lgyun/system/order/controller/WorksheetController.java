@@ -40,6 +40,7 @@ public class WorksheetController {
 
     private IWorksheetService worksheetService;
     private IWorksheetMakerService worksheetMakerService;
+    private IUserClient iUserClient;
 
     /**
      * 发布工单
@@ -61,8 +62,15 @@ public class WorksheetController {
      */
     @PostMapping("/orderGrabbing")
     @ApiOperation(value = "抢单", notes = "抢单")
-    public R orderGrabbing(Long worksheetId, Long makerId) {
-        return worksheetService.orderGrabbing(worksheetId, makerId);
+    public R orderGrabbing(Long worksheetId, BladeUser bladeUser) {
+        log.info("抢单");
+        try{
+            MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
+            return worksheetService.orderGrabbing(worksheetId, makerEntity.getId());
+        }catch (Exception e){
+            e.printStackTrace();
+            return R.fail("抢单失败");
+        }
     }
 
     /**
@@ -74,9 +82,7 @@ public class WorksheetController {
             @ApiImplicitParam(name = "worksheetState", value = "工单状态：1代表待抢单，2已接单，3已交付", paramType = "query", dataType = "string"),
     })
     public R findXiaoPage(Query query, Integer worksheetState, BladeUser bladeUser) {
-        //MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
-        MakerEntity makerEntity = new MakerEntity();
-        makerEntity.setId(1278969988057903106L);
+        MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
         if (null == worksheetState || (worksheetState != 1 && worksheetState != 2 && worksheetState != 3)) {
             return R.fail("参数错误");
         }
@@ -110,7 +116,27 @@ public class WorksheetController {
     @PostMapping("/checkAchievement")
     @ApiOperation(value = "验收工作成果", notes = "验收工作成果")
     public R checkAchievement(Long worksheetMakerId, BigDecimal checkMoney, Long enterpriseId, Boolean bool) {
-        return worksheetMakerService.checkAchievement(worksheetMakerId, checkMoney, enterpriseId, bool);
+        log.info("验收工作成果");
+        try {
+            return worksheetMakerService.checkAchievement(worksheetMakerId, checkMoney, enterpriseId, bool);
+        }catch (Exception e){
+            e.printStackTrace();
+            return R.fail("验收工作成果失败");
+        }
     }
 
+    /**
+     * 查询工单详情
+     */
+    @GetMapping("/getWorksheetDetails")
+    @ApiOperation(value = "查询工单详情", notes = "查询工单详情")
+    public R getWorksheetDetails(Long worksheetMakerId) {
+        log.info("查询工单详情");
+        try {
+            return worksheetService.getWorksheetDetails(worksheetMakerId);
+        }catch (Exception e){
+            e.printStackTrace();
+            return R.fail("查询工单详情失败");
+        }
+    }
 }
