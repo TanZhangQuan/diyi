@@ -47,7 +47,7 @@
        </if>
     </select>
 
-    <select id="isMakerId" resultType="int">
-        select count(*) as counts from diyi_worksheet_maker where worksheet_id=#{param1} and maker_id = #{param2} and is_deleted = 0
+    <select id="isMakerId" resultMap="worksheetMakerMap">
+        select * from diyi_worksheet_maker where maker_id = #{param1} and worksheet_id=#{param2}  and is_deleted = 0
     </select>
 </mapper>

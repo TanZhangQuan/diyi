@@ -24,6 +24,19 @@ public interface IAddressService extends BaseService<AddressEntity> {
      */
     R<IPage<AddressEntity>> findAddressMakerId(IPage<AddressEntity> page, Long makerId);
 
+    /**
+     * 地址详情接口
+     */
+    R getAddressById(Long addressId);
 
+    /**
+     * 地址编辑接口
+     */
+    R updateAddress(AddressDto addressDto);
+
+    /**
+     * 地址删除接口
+     */
+    R deleteAddress(Long addressId);
 }
 

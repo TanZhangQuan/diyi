@@ -32,5 +32,10 @@ public interface WorksheetMapper extends BaseMapper<WorksheetEntity> {
      * 小程序查询工单
      */
     List<WorksheetXiaoVo> findXiaoPage3(IPage page, Long makerId);
+
+    /**
+     * 查询详情
+     */
+    WorksheetXiaoVo getWorksheetDetails(Long worksheetMakerId);
 }
 

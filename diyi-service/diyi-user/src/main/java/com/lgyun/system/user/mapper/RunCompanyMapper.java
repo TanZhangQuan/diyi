@@ -19,5 +19,21 @@ public interface RunCompanyMapper extends BaseMapper<RunCompanyEntity> {
      *根据名字查询
      */
     List<RunCompanyEntity> findCompanyName(Long makerId, IPage<RunCompanyEntity> page);
+
+    /**
+     * 根据名字查询是否有重复
+     */
+    RunCompanyEntity repeatCompanyName(String companyName,Long makerId);
+
+    /**
+     * 根据纳税号码查询是否有重复
+     */
+    RunCompanyEntity repeatTaxNo(String taxNo,Long makerId);
+
+
+    /**
+     * 根据银行卡查询是否有重复
+     */
+    RunCompanyEntity repeatBankAccount(String bankAccount,Long makerId);
 }
 
