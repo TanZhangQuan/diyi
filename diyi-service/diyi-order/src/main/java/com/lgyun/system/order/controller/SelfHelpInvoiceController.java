@@ -350,7 +350,7 @@ public class SelfHelpInvoiceController {
             if (MakerType.INDIVIDUALBUSINESS.equals(makerType)) {
                 List<IndividualBusinessEntity> individualBusinessEntities = iUserClient.individualBusinessByMakerId(makerEntity.getId());
                 if (null == individualBusinessEntities || individualBusinessEntities.size() <= 0) {
-                    return R.fail("对不起，您还不符合个独开票的资质");
+                    return R.fail("对不起，您还不符合个体开票的资质");
                 }
             }
             return R.success("成功");
