@@ -80,8 +80,8 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
     @Override
     public Boolean isMakerId(Long makerId, Long worksheetId) {
         Boolean bool =true;
-        int count = baseMapper.isMakerId(makerId, worksheetId);
-        if(count > 0){
+        WorksheetMakerEntity worksheetMakerEntity = baseMapper.isMakerId(makerId, worksheetId);
+        if(null != worksheetMakerEntity){
             bool = false;
         }
         return bool;

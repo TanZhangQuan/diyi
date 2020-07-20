@@ -31,5 +31,10 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      * 小程序查询工单
      */
     R<IPage<WorksheetXiaoVo>> findXiaoPage(IPage<WorksheetXiaoVo> page, Integer worksheetState,Long makerId);
+
+    /**
+     * 查询详情
+     */
+    R getWorksheetDetails(Long worksheetMakerId);
 }
 

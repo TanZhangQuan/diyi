@@ -85,4 +85,19 @@ public class WorksheetXiaoVo implements Serializable {
      * 工单创客的状态：1待提交，2待验证，3验证通过，4验证失败
      */
     private String worksheetMakerState;
+
+    /**
+     * 验收金额
+     */
+    private BigDecimal checkMoney;
+
+    /**
+     *工作成果说明
+     */
+    private String achievementDesc;
+
+    /**
+     * 工作成果附件
+     */
+    private String achievementFiles;
 }

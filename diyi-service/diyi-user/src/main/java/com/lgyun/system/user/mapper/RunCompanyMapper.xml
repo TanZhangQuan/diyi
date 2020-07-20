@@ -26,7 +26,17 @@
     </resultMap>
 
     <select id="findCompanyName" resultMap="runCompanyMap">
-        select *from diyi_run_company where is_deleted = 0 and maker_id =#{param2}
+        select *from diyi_run_company where is_deleted = 0 and maker_id =#{param1}
     </select>
 
+    <select id="repeatCompanyName" resultMap="runCompanyMap">
+        select *from diyi_run_company where is_deleted = 0 and company_name=#{param1} and maker_id =#{param2}
+    </select>
+
+    <select id="repeatTaxNo" resultMap="runCompanyMap">
+        select *from diyi_run_company where is_deleted = 0 and tax_no=#{param1} and maker_id =#{param2}
+    </select>
+    <select id="repeatBankAccount" resultMap="runCompanyMap">
+        select *from diyi_run_company where is_deleted = 0 and bank_account=#{param1} and maker_id =#{param2}
+    </select>
 </mapper>

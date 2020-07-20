@@ -22,7 +22,7 @@ public interface WorksheetMakerMapper extends BaseMapper<WorksheetMakerEntity> {
     /**
      * 查询创客有没有抢单
      */
-    int isMakerId(Long makerId,Long worksheetId);
+    WorksheetMakerEntity isMakerId(Long makerId,Long worksheetId);
 
 }
 

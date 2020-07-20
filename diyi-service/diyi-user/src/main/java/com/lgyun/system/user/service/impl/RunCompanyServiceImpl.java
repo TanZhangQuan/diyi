@@ -35,6 +35,18 @@ public class RunCompanyServiceImpl extends BaseServiceImpl<RunCompanyMapper, Run
 
     @Override
     public R runCompanySave(RunCompanyDto runCompanyDto) {
+        RunCompanyEntity runCompanyEntity1 = baseMapper.repeatCompanyName(runCompanyDto.getCompanyName(), runCompanyDto.getMakerId());
+        if(null != runCompanyEntity1){
+            return R.fail("名字不能重复");
+        }
+        RunCompanyEntity runCompanyEntity2 = baseMapper.repeatTaxNo(runCompanyDto.getTaxNo(), runCompanyDto.getMakerId());
+        if(null != runCompanyEntity2){
+            return R.fail("纳税号码不能重复");
+        }
+        RunCompanyEntity runCompanyEntity3 = baseMapper.repeatBankAccount(runCompanyDto.getBankAccount(), runCompanyDto.getMakerId());
+        if(null != runCompanyEntity3){
+            return R.fail("银行卡号码不能重复");
+        }
         RunCompanyEntity runCompanyEntity = new RunCompanyEntity();
         BeanUtils.copyProperties(runCompanyDto, runCompanyEntity);
         runCompanyEntity.setMakerId(runCompanyDto.getMakerId());

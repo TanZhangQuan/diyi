@@ -36,4 +36,23 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
     public R<IPage<AddressEntity>> findAddressMakerId(IPage<AddressEntity> page, Long makerId) {
         return R.data(page.setRecords(baseMapper.findAddressMakerId(page, makerId)));
     }
+
+    @Override
+    public R getAddressById(Long addressId) {
+        return R.data(getById(addressId));
+    }
+
+    @Override
+    public R updateAddress(AddressDto addressDto) {
+        AddressEntity addressEntity = getById(addressDto.getAddressId());
+        BeanUtils.copyProperties(addressDto, addressEntity);
+        saveOrUpdate(addressEntity);
+        return R.success("修改成功");
+    }
+
+    @Override
+    public R deleteAddress(Long addressId) {
+        removeById(addressId);
+        return R.success("删除成功");
+    }
 }
