@@ -39,7 +39,7 @@
     </resultMap>
 
     <select id="getMakerId" resultMap="makerEnterpriseMap">
-        select *from diyi_maker_enterprise where maker_id = #{param1} and relationship_type = 0 and is_deleted = 0
+        select * from diyi_maker_enterprise where maker_id = #{param1} and relationship_type = 0 and is_deleted = 0
     </select>
 
     <select id="selectMakerEnterprisePage" resultMap="makerEnterpriseRelationMap">

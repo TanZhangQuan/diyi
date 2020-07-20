@@ -5,21 +5,21 @@
 
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.order.entity.MakerTotalInvoiceEntity" id="makerTotalInvoiceMap">
-                    <result property="id" column="id"/>
-                    <result property="payListId" column="pay_list_id"/>
-                    <result property="invoiceTypeNo" column="invoice_type_no"/>
-                    <result property="invoiceSerialNo" column="invoice_serial_no"/>
-                    <result property="invoiceDatetime" column="invoice_datetime"/>
-                    <result property="invoiceCategory" column="invoice_category"/>
-                    <result property="totalAmount" column="total_amount"/>
-                    <result property="salesAmount" column="sales_amount"/>
-                    <result property="taxAmount" column="tax_amount"/>
-                    <result property="invoicePerson" column="invoice_person"/>
-                    <result property="saleCompany" column="sale_company"/>
-                    <result property="companyInvoiceUrl" column="company_invoice_url"/>
-                    <result property="companyVoiceUploadDatetime" column="company_voice_upload_datetime"/>
-                    <result property="makerTaxUrl" column="maker_tax_url"/>
-                    <result property="makerTaxListUrl" column="maker_tax_list_url"/>
-            </resultMap>
+        <result property="id" column="id"/>
+        <result property="payListId" column="pay_list_id"/>
+        <result property="invoiceTypeNo" column="invoice_type_no"/>
+        <result property="invoiceSerialNo" column="invoice_serial_no"/>
+        <result property="invoiceDatetime" column="invoice_datetime"/>
+        <result property="invoiceCategory" column="invoice_category"/>
+        <result property="totalAmount" column="total_amount"/>
+        <result property="salesAmount" column="sales_amount"/>
+        <result property="taxAmount" column="tax_amount"/>
+        <result property="invoicePerson" column="invoice_person"/>
+        <result property="saleCompany" column="sale_company"/>
+        <result property="companyInvoiceUrl" column="company_invoice_url"/>
+        <result property="companyVoiceUploadDatetime" column="company_voice_upload_datetime"/>
+        <result property="makerTaxUrl" column="maker_tax_url"/>
+        <result property="makerTaxListUrl" column="maker_tax_list_url"/>
+    </resultMap>
 
 </mapper>

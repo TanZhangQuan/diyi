@@ -5,10 +5,10 @@
 
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.order.entity.PayEnterpriseReceiptEntity" id="payEnterpriseReceiptMap">
-                    <result property="id" column="id"/>
-                    <result property="enPayId" column="en_pay_id"/>
-                    <result property="enterprisePayReceiptUrl" column="enterprise_pay_receipt_url"/>
-                    <result property="uploadDatetime" column="upload_datetime"/>
-            </resultMap>
+        <result property="id" column="id"/>
+        <result property="enPayId" column="en_pay_id"/>
+        <result property="enterprisePayReceiptUrl" column="enterprise_pay_receipt_url"/>
+        <result property="uploadDatetime" column="upload_datetime"/>
+    </resultMap>
 
 </mapper>
