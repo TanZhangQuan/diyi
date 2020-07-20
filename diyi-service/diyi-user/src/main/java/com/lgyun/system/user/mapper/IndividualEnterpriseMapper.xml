@@ -54,6 +54,7 @@
         <result property="bizScope" column="biz_scope"/>
         <result property="indEntTaxType" column="ind_ent_tax_type"/>
         <result property="makerId" column="maker_id"/>
+        <result property="registeredMoney" column="registered_money"/>
         <result property="businessLicenceUrl" column="business_licence_url"/>
         <result property="businessLicenceCopyUrl" column="business_licence_copy_url"/>
     </resultMap>
@@ -71,7 +72,7 @@
     </select>
 
     <select id="findById" resultMap="individualEnterpriseDetailVO">
-        select id, ibname, candidated_names, ibtax_no, biz_park, main_industry, biz_scope, ind_ent_tax_type, maker_id,
+        select id, ibname, candidated_names, ibtax_no, biz_park, main_industry, biz_scope, ind_ent_tax_type, maker_id, registered_money,
         business_licence_url, business_licence_copy_url from diyi_individual_enterprise
         where id = #{param1} and is_deleted = 0 limit 1
     </select>

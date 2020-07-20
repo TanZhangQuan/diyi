@@ -82,10 +82,10 @@
     </select>
 
     <select id="yearMonthMoney" resultMap="selfHelpInvoiceYearMonthMoneyVO">
-        SELECT (SELECT IFNULL(SUM(charge_money_num), 0) FROM diyi_self_help_invoice WHERE business_enterprise_id = #{param1}
-        AND invoice_people_type = #{param2} AND MONTH(create_time) = MONTH(NOW())) AS month_money,
-        (SELECT IFNULL(SUM(charge_money_num), 0) FROM diyi_self_help_invoice WHERE business_enterprise_id = #{param1}
-        AND invoice_people_type = #{param2} AND YEAR(create_time) = YEAR(NOW())) AS year_money
+        SELECT IFNULL(SUM(IF(MONTH(create_time) = MONTH(NOW()), charge_money_num, 0)), 0) AS month_money,
+        IFNULL(SUM(IF(YEAR(create_time) = YEAR(NOW()), charge_money_num, 0)), 0) AS year_money
+        FROM diyi_self_help_invoice WHERE invoice_audit_state = 'APPROVED'
+        AND invoice_people_type = #{param1} AND business_enterprise_id = #{param2}
     </select>
 
 </mapper>

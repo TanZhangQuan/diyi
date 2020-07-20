@@ -6,6 +6,7 @@ import com.lgyun.common.enumeration.IndBusTaxType;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * 视图实体类
@@ -65,6 +66,16 @@ public class IndividualBusinessDetailVO implements Serializable {
     private Long makerId;
 
     /**
+     * 经营者
+     */
+    private String bizName;
+
+    /**
+     * 注册资金
+     */
+    private BigDecimal registeredMoney;
+
+    /**
      * 营业执照正本
      */
     private String businessLicenceUrl;
@@ -73,10 +84,5 @@ public class IndividualBusinessDetailVO implements Serializable {
      * 营业执照副本
      */
     private String businessLicenceCopyUrl;
-
-    /**
-     * 经营者
-     */
-    private String bizName;
 
 }
