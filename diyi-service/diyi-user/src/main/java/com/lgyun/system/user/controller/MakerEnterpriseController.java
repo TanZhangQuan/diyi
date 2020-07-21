@@ -51,9 +51,8 @@ public class MakerEnterpriseController {
 	public R<MakerEnterpriseRelationVO> detail(Long enterpriseId,BladeUser bladeUser) {
 		log.info("商户的详情");
 		try {
-			//MakerEntity makerEntity = iMakerService.current(bladeUser);
-			//return iEnterpriseService.getEnterpriseId(enterpriseId,makerEntity.getId());
-			return iEnterpriseService.getEnterpriseId(enterpriseId,1278969988057903106L);
+			MakerEntity makerEntity = iMakerService.current(bladeUser);
+			return iEnterpriseService.getEnterpriseId(enterpriseId,makerEntity.getId());
 		} catch (Exception e){
 			e.printStackTrace();
 			return R.fail("商户的详情失败");
@@ -69,9 +68,8 @@ public class MakerEnterpriseController {
 	public R<IPage<MakerEnterpriseRelationVO>> selectMakerEnterprisePage(BladeUser bladeUser, Integer relationshipType, Query query) {
 		log.info("查询关联商户和关注商户");
 		try {
-			//MakerEntity makerEntity = iMakerService.current(bladeUser);
-			//IPage<MakerEnterpriseRelationVO> pages = makerEnterpriseService.selectMakerEnterprisePage(Condition.getPage(query), makerEntity.getId(),relationshipType);
-			IPage<MakerEnterpriseRelationVO> pages = makerEnterpriseService.selectMakerEnterprisePage(Condition.getPage(query), 1278969988057903106L,relationshipType);
+			MakerEntity makerEntity = iMakerService.current(bladeUser);
+			IPage<MakerEnterpriseRelationVO> pages = makerEnterpriseService.selectMakerEnterprisePage(Condition.getPage(query), makerEntity.getId(),relationshipType);
 			return R.data(pages);
 		} catch (Exception e){
 			e.printStackTrace();
@@ -104,9 +102,8 @@ public class MakerEnterpriseController {
 	public R addOrCancelfollow(Long enterpriseId,BladeUser bladeUser,Integer attribute) {
 		log.info("添加关注或取消关注");
 		try {
-			//MakerEntity makerEntity = iMakerService.current(bladeUser);1278969988057903106L
-			//return makerEnterpriseService.addOrCancelfollow(enterpriseId,makerEntity.getId(),attribute);
-			return makerEnterpriseService.addOrCancelfollow(enterpriseId,1278969988057903106L,attribute);
+			MakerEntity makerEntity = iMakerService.current(bladeUser);
+			return makerEnterpriseService.addOrCancelfollow(enterpriseId,makerEntity.getId(),attribute);
 		} catch (Exception e){
 			e.printStackTrace();
 			return R.fail("添加关注或取消关注失败");
