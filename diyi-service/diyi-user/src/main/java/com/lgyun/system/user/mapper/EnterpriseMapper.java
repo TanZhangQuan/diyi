@@ -25,13 +25,13 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
     /**
      * 通过商户id查询
      */
-    MakerEnterpriseRelationVO getEnterpriseId(Long enterpriseId,Integer difference);
     MakerEnterpriseRelationVO getEnterpriseId(Long enterpriseId);
 
     /**
      * 查询创客所有交付支付验收单的商户
      */
     List<EnterprisesByWorksheetListVO> getEnterprisesByWorksheet(Long makerId, IPage<EnterprisesByWorksheetListVO> page);
+
 
 }
 

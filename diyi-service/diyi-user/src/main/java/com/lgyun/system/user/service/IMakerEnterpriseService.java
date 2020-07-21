@@ -36,6 +36,11 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
      */
     R addOrCancelfollow(Long enterpriseId, Long makerId, Integer attribute);
 
+    /**
+     * 通过商户id和创客id查询
+     */
+    MakerEnterpriseEntity getEnterpriseIdAndMakerId(Long enterpriseId,Long makerId,Integer difference);
+
 
 }
 

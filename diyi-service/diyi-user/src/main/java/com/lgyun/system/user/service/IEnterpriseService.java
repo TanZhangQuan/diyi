@@ -25,7 +25,7 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
     /**
      * 通过商户id查询
      */
-    MakerEnterpriseRelationVO getEnterpriseId(Long enterpriseId,Integer difference);
+    R getEnterpriseId(Long enterpriseId,Long makerId);
 
 
     /**
