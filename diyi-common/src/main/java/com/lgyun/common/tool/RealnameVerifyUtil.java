@@ -125,7 +125,7 @@ public class RealnameVerifyUtil {
         contextInfo.setContextId(String.valueOf(contextId));
         contextInfo.setNotifyUrl(RealnameVerifyConstant.FACEOCRNOTIFYURL);
 
-        //业务方交互上下文信息
+        //个人基本信息
         IndivInfo indivInfo = new IndivInfo();
         indivInfo.setName(name);
         indivInfo.setCertNo(certNo);
@@ -154,7 +154,7 @@ public class RealnameVerifyUtil {
         contextInfo.setContextId(String.valueOf(contextId));
         contextInfo.setNotifyUrl(RealnameVerifyConstant.BANKCARDOCRNOTIFYURL);
 
-        //业务方交互上下文信息
+        //个人基本信息
         IndivInfo indivInfo = new IndivInfo();
         indivInfo.setName(name);
         indivInfo.setCertNo(certNo);
@@ -184,7 +184,7 @@ public class RealnameVerifyUtil {
         contextInfo.setContextId(String.valueOf(contextId));
         contextInfo.setNotifyUrl(RealnameVerifyConstant.MOBILEOCRNOTIFYURL);
 
-        //业务方交互上下文信息
+        //个人基本信息
         IndivInfo indivInfo = new IndivInfo();
         indivInfo.setName(name);
         indivInfo.setCertNo(certNo);

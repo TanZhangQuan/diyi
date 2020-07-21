@@ -1,6 +1,5 @@
 package com.lgyun.system.user.service.impl;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.EnterpriseEntity;
@@ -8,7 +7,6 @@ import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.mapper.EnterpriseMapper;
 import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
-import com.lgyun.system.user.vo.EnterprisesByWorksheetListVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +39,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         MakerEnterpriseEntity enterpriseIdAndMakerIdZhu = makerEnterpriseService.getEnterpriseIdAndMakerId(enterpriseId, makerId, 1);
         MakerEnterpriseRelationVO makerEnterpriseRelationVO = baseMapper.getEnterpriseId(enterpriseId);
         if(null == enterpriseIdAndMakerIdLian && null != enterpriseIdAndMakerIdZhu){
+            //TODO
             makerEnterpriseRelationVO.setContact1Phone("138********");
             makerEnterpriseRelationVO.setBizLicenceUrl("*");
             makerEnterpriseRelationVO.setLegalPerson("***");
@@ -62,8 +61,4 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         }
     }
 
-    @Override
-    public R<IPage<EnterprisesByWorksheetListVO>> getEnterprisesByWorksheet(IPage<EnterprisesByWorksheetListVO> page, Long makerId) {
-        return R.data(page.setRecords(baseMapper.getEnterprisesByWorksheet(makerId, page)));
-    }
 }
