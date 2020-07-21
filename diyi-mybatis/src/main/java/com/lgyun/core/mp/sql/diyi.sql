@@ -1132,6 +1132,8 @@ CREATE TABLE `diyi_maker` (
   `wechat_nickname` varchar(50) NOT NULL DEFAULT '' COMMENT '微信昵称',
   `rel_date` datetime DEFAULT NULL COMMENT '微信关联日期',
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '姓名',
+  `certification_state` varchar(50) NOT NULL COMMENT '认证状态',
+  `sign_state` varchar(50) NOT NULL COMMENT '签署状态',
   `maker_state` varchar(50) NOT NULL COMMENT '账户状态',
   `politic_state` varchar(50) NOT NULL DEFAULT '' COMMENT '政治面貌',
   `nationality` varchar(50) NOT NULL DEFAULT '' COMMENT '民族',

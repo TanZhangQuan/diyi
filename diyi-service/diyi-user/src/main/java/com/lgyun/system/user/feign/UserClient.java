@@ -103,6 +103,8 @@ public class UserClient implements IUserClient {
             makerEntity.setLoginPwd(DigestUtil.encrypt(CommonConstant.DEFAULT_PASSWORD));
         }
         makerEntity.setRelDate(new Date());
+        makerEntity.setCertificationState(CertificationState.UNCERTIFIED);
+        makerEntity.setSignState(SignState.UNSIGN);
         makerEntity.setMakerState(AccountState.NORMAL);
         makerEntity.setIdcardVerifyStatus(VerifyStatus.TOVERIFY);
         makerEntity.setFaceVerifyStatus(VerifyStatus.TOVERIFY);

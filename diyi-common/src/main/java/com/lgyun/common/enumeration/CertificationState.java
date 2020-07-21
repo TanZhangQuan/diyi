@@ -4,14 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 签署状态
+ * 认证状态
  */
 @Getter
 @AllArgsConstructor
-public enum SignState {
-    UNSIGN("UNSIGN", "未签署"),
-    SIGNING("SIGNING", "签署中"),
-    SIGNED("SIGNED", "已签署");
+public enum CertificationState {
+    UNCERTIFIED("UNCERTIFIED", "未认证"),
+    CERTIFIED("CERTIFIED", "已认证");
 
     private final String value;
     private final String desc;

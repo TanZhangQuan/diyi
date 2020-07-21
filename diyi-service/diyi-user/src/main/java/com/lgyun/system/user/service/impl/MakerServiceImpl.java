@@ -3,9 +3,7 @@ package com.lgyun.system.user.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.RealnameVerifyConstant;
-import com.lgyun.common.enumeration.AccountState;
-import com.lgyun.common.enumeration.IdcardVerifyType;
-import com.lgyun.common.enumeration.VerifyStatus;
+import com.lgyun.common.enumeration.*;
 import com.lgyun.common.exception.ServiceException;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.*;
@@ -85,6 +83,15 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         makerEntity.setIdcardVerifyStatus(VerifyStatus.VERIFYPASS);
         makerEntity.setIdcardVerifyType(IdcardVerifyType.SYSTEMVERIFY);
         makerEntity.setIdcardVerifyDate(new Date());
+
+        //判断是否已认证
+        if (CertificationState.UNCERTIFIED.equals(makerEntity)) {
+            if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()) && VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus())
+            && SignState.SIGNED.equals(makerEntity.getSignState())) {
+                makerEntity.setCertificationState(CertificationState.CERTIFIED);
+            }
+        }
+
         updateById(makerEntity);
 
         return R.success("身份证实名认证信息保存成功");
@@ -171,6 +178,15 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             makerEntity.setPicVerify(url);
             makerEntity.setFaceVerifyStatus(VerifyStatus.VERIFYPASS);
             makerEntity.setFaceVerifyDate(new Date());
+
+            //判断是否已认证
+            if (CertificationState.UNCERTIFIED.equals(makerEntity)) {
+                if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()) && VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus())
+                        && SignState.SIGNED.equals(makerEntity.getSignState())) {
+                    makerEntity.setCertificationState(CertificationState.CERTIFIED);
+                }
+            }
+
             updateById(makerEntity);
 
             return R.success("身份实名认证成功");

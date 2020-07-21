@@ -13,6 +13,8 @@
         <result property="wechatNickname" column="wechat_nickname"/>
         <result property="relDate" column="rel_date"/>
         <result property="name" column="name"/>
+        <result property="certificationState" column="certification_state"/>
+        <result property="signState" column="sign_state"/>
         <result property="makerState" column="maker_state"/>
         <result property="politicState" column="politic_state"/>
         <result property="nationality" column="nationality"/>
