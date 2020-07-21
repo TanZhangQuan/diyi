@@ -112,7 +112,7 @@ public class RealnameVerifyUtil {
     }
 
     /**
-     * 刷脸实名认证
+     * 身份实名认证
      */
     public static R faceOCR(Long contextId, String name, String certNo) throws Exception {
 
@@ -135,7 +135,7 @@ public class RealnameVerifyUtil {
         ConfigParams configParams = new ConfigParams();
         configParams.setIndivUneditableInfo(indivUneditableInfo);
 
-        //刷脸实名认证请求
+        //身份实名认证请求
         return faceBankCardMobileOCR("PSN_FACEAUTH_BYURL", availableAuthTypes, contextInfo, indivInfo, configParams);
 
     }
@@ -166,7 +166,7 @@ public class RealnameVerifyUtil {
         ConfigParams configParams = new ConfigParams();
         configParams.setIndivUneditableInfo(indivUneditableInfo);
 
-        //刷脸实名认证请求
+        //银行卡实名认证请求
         return faceBankCardMobileOCR("PSN_BANK4_AUTHCODE", availableAuthTypes, contextInfo, indivInfo, configParams);
     }
 
@@ -195,7 +195,7 @@ public class RealnameVerifyUtil {
         ConfigParams configParams = new ConfigParams();
         configParams.setIndivUneditableInfo(indivUneditableInfo);
 
-        //刷脸实名认证请求
+        //手机号实名认证请求
         return faceBankCardMobileOCR("PSN_TELECOM_AUTHCODE", availableAuthTypes, contextInfo, indivInfo, configParams);
     }
 

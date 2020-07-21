@@ -48,14 +48,14 @@ public interface IMakerService extends IService<MakerEntity> {
     R idcardOcrSave(IdcardOcrSaveDto idcardOcrSaveDto, MakerEntity makerEntity);
 
     /**
-     * 刷脸实名认证
+     * 身份实名认证
      *
      * @return
      */
     R faceOcr(MakerEntity makerEntity) throws Exception;
 
     /**
-     * 刷脸实名认证异步回调
+     * 身份实名认证异步回调
      *
      * @return
      */
@@ -97,7 +97,7 @@ public interface IMakerService extends IService<MakerEntity> {
     R queryIdcardOcr(MakerEntity makerEntity);
 
     /**
-     * 检查当前创客身份证和人脸是否已实名认证
+     * 检查当前创客身份证和身份是否已实名认证
      *
      * @return
      */

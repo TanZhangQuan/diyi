@@ -43,9 +43,9 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
             return R.fail("请先进行身份证实名认证");
         }
 
-        //查看创客是否已经刷脸实名认证
+        //查看创客是否已经身份实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus()))) {
-            return R.fail("请先进行刷脸实名认证");
+            return R.fail("请先进行身份实名认证");
         }
 
         IndividualEnterpriseEntity individualEnterpriseEntity = new IndividualEnterpriseEntity();

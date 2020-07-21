@@ -93,43 +93,43 @@ public class MakerController {
 	@ApiOperation(value = "身份证实名认证信息保存", notes = "身份证实名认证信息保存")
 	public R idcardOcrSave(@Valid @RequestBody IdcardOcrSaveDto idcardOcrSaveDto, BladeUser bladeUser) {
 
-		log.info("身份证实名认证");
+		log.info("身份证实名认证信息保存");
 		try {
 			//获取当前创客
 			MakerEntity makerEntity = iMakerService.current(bladeUser);
 			return makerService.idcardOcrSave(idcardOcrSaveDto, makerEntity);
 		} catch (Exception e) {
-			log.error("身份证实名认证异常", e);
+			log.error("身份证实名认证信息保存异常", e);
 		}
-		return R.fail("身份证实名认证失败");
+		return R.fail("身份证实名认证信息保存失败");
 	}
 
 	@PostMapping("/face_ocr")
-	@ApiOperation(value = "刷脸实名认证", notes = "刷脸实名认证")
+	@ApiOperation(value = "身份实名认证", notes = "身份实名认证")
 	public R faceOcr(BladeUser bladeUser) {
 
-		log.info("刷脸实名认证");
+		log.info("身份实名认证");
 		try {
 			//获取当前创客
 			MakerEntity makerEntity = iMakerService.current(bladeUser);
 			return makerService.faceOcr(makerEntity);
 		} catch (Exception e) {
-			log.error("刷脸实名认证异常", e);
+			log.error("身份实名认证异常", e);
 		}
-		return R.fail("刷脸实名认证失败");
+		return R.fail("身份实名认证失败");
 	}
 
 	@PostMapping("/face_ocr_notify")
-	@ApiOperation(value = "刷脸实名认证异步回调", notes = "刷脸实名认证异步回调")
+	@ApiOperation(value = "身份实名认证异步回调", notes = "身份实名认证异步回调")
 	public R faceOcrNotify(HttpServletRequest request) {
 
-		log.info("刷脸实名认证异步回调");
+		log.info("身份实名认证异步回调");
 		try {
 			return makerService.faceOcrNotify(request);
 		} catch (Exception e) {
-			log.error("刷脸实名认证异步回调异常", e);
+			log.error("身份实名认证异步回调异常", e);
 		}
-		return R.fail("刷脸实名认证异步回调失败");
+		return R.fail("身份实名认证异步回调失败");
 	}
 
 	@PostMapping("/bank_card_ocr")
@@ -204,18 +204,18 @@ public class MakerController {
 	}
 
 	@PostMapping("/check_idcard_face_verify")
-	@ApiOperation(value = "检查当前创客身份证和人脸是否已实名认证", notes = "检查当前创客身份证和人脸是否已实名认证")
+	@ApiOperation(value = "检查当前创客身份证和身份是否已实名认证", notes = "检查当前创客身份证和身份是否已实名认证")
 	public R checkIdcardFaceVerify(BladeUser bladeUser) {
 
-		log.info("检查当前创客身份证和人脸是否已实名认证");
+		log.info("检查当前创客身份证和身份是否已实名认证");
 		try {
 			//获取当前创客
 			MakerEntity makerEntity = iMakerService.current(bladeUser);
 			return makerService.checkIdcardFaceVerify(makerEntity);
 		} catch (Exception e) {
-			log.error("检查当前创客身份证和人脸是否已实名认证异常", e);
+			log.error("检查当前创客身份证和身份是否已实名认证异常", e);
 		}
-		return R.fail("检查身份证和人脸是否已实名认证失败");
+		return R.fail("检查身份证和身份是否已实名认证失败");
 	}
 
 	@GetMapping("/current-detail")

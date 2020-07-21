@@ -163,7 +163,7 @@ public class MakerEntity extends BaseEntity {
     private String idcardBackHand;
 
     /**
-     * 刷脸截图
+     * 人脸截图
      */
     private String picVerify;
 
@@ -178,12 +178,12 @@ public class MakerEntity extends BaseEntity {
     private Date idcardVerifyDate;
 
     /**
-     * 刷脸验证状态：未验证，验证通过，验证未通过
+     * 人脸验证状态：未验证，验证通过，验证未通过
      */
     private VerifyStatus faceVerifyStatus;
 
     /**
-     * 刷脸验证日期时间
+     * 人脸验证日期时间
      */
     private Date faceVerifyDate;
 
