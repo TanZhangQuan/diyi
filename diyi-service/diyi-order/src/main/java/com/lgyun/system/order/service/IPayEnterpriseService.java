@@ -6,8 +6,8 @@ import com.lgyun.system.order.entity.PayEnterpriseEntity;
 /**
  *  Service 接口
  *
- * @author jun
- * @since 2020-07-18 20:49:13
+ * @author liangfeihu
+ * @since 2020-07-17 20:01:13
  */
 public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> {
 

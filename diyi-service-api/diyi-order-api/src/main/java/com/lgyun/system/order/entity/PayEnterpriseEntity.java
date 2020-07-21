@@ -3,128 +3,126 @@ package com.lgyun.system.order.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import lombok.Data;
+import com.lgyun.common.enumeration.EnterprisePayState;
+import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.core.mp.base.BaseEntity;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- *  Entity
+ * Entity
  *
- * @author jun
- * @since 2020-07-18 20:49:13
+ * @author liangfeihu
+ * @since 2020-07-17 20:01:13
  */
 @Data
 @NoArgsConstructor
 @TableName("diyi_pay_enterprise")
 public class PayEnterpriseEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
-    
+
     /**
-     * 唯一性控制
+     * 主键
      */
-        @ApiModelProperty(value = "主键")
+    @ApiModelProperty(value = "主键")
     @TableId(type = IdType.ASSIGN_ID)
     @JsonSerialize(using = ToStringSerializer.class)
-        private Long id;
-    
+    private Long id;
+
     /**
      * 商户ID
      */
-        private Long enterpriseId;
-    
+    private Long enterpriseId;
+
     /**
      * 服务商ID
      */
-        private Long serviceProviderId;
-    
+    private Long serviceProviderId;
+
     /**
      * 支付清单URL
      */
-        private String chargeListUrl;
-    
+    private String chargeListUrl;
+
     /**
-     * 工单ID 可能关联，可选
+     * 工单ID
      */
-        private Long worksheetId;
-    
+    private Long worksheetId;
+
     /**
-     * 支付总额，外包费总额+总身份验证费+总开票手续费
+     * 支付总额=外包费总额+总身份验证费+总开票手续费
      */
-        private BigDecimal payToPlatformAmount;
-    
+    private BigDecimal payToPlatformAmount;
+
     /**
      * 外包费总额
      */
-        private BigDecimal sourcingAmount;
-    
+    private BigDecimal sourcingAmount;
+
     /**
      * 服务税费率
      */
-        private BigDecimal serviceRate;
-    
+    private BigDecimal serviceRate;
+
     /**
-     * 总税率：外包费总额*服务税费率
+     * 总税费=外包费总额*服务税费率
      */
-        private BigDecimal totalTaxAndFee;
-    
+    private BigDecimal totalTaxFee;
+
     /**
      * 创客数
      */
-        private Integer makerNum;
-    
+    private Integer makerNum;
+
     /**
      * 总身份验证费
      */
-        private BigDecimal identifyFee;
-    
+    private BigDecimal identifyFee;
+
     /**
      * 总支付手续费
      */
-        private BigDecimal serviceFee;
-    
+    private BigDecimal serviceFee;
+
     /**
      * 支付说明
      */
-        private String payMemo;
-    
+    private String payMemo;
+
     /**
-     * 1：待支付；2：已支付；3：已确认收款
+     * 支付给平台状态：待支付，已支付，已确认收款
      */
-        private Integer payState;
-    
+    private EnterprisePayState enterprisePayState;
+
     /**
      * 支付确认日期时间
      */
-        private Date payConfirmDatetime;
-    
+    private Date payConfirmDateTime;
+
     /**
      * 确认回款日期时间
      */
-        private Date confirmDatetime;
-    
+    private Date confirmDateTime;
+
     /**
      * 确认到款人员ID
      */
-        private Long employeeId;
-    
+    private Long employeeId;
+
     /**
-     * 开票状态:1:已开；0：未开
+     * 开票状态：未开，已开
      */
-        private Integer companyInvoiceState;
-    
+    private InvoiceState companyInvoiceState;
+
     /**
      * 开票日期
      */
-        private Date invoicePrintDate;
-    
-    /**
-     * 开票要求说明
-     */
-        private String invoiceDemondDesc;
-    }
+    private Date invoicePrintDate;
+
+}

@@ -12,10 +12,10 @@ import java.math.BigDecimal;
  * @time 20:04.
  */
 @Data
-@ApiModel(value = "IncomeYearMonthVO对象", description = "IncomeYearMonthVO对象")
+@ApiModel(value = "AllIncomeYearMonthVO对象", description = "AllIncomeYearMonthVO对象")
 public class AllIncomeYearMonthVO implements Serializable {
 
-    //输入记录数
+    //记录数
     private Integer num;
 
     //总收入

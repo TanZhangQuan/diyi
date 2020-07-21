@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -33,7 +32,7 @@ import java.util.List;
 @RequestMapping("/makerenterprise")
 @Validated
 @AllArgsConstructor
-@Api(value = "创客和外包企业的关联关系相关接口", tags = "创客和外包企业的关联关系相关接口")
+@Api(value = "创客和外包企业的关联相关接口", tags = "创客和外包企业的关联相关接口")
 public class MakerEnterpriseController {
 
 	private IMakerEnterpriseService makerEnterpriseService;

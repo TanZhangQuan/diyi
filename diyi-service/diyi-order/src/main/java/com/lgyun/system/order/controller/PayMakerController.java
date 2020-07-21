@@ -1,28 +1,23 @@
 package com.lgyun.system.order.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lgyun.common.api.R;
+import com.lgyun.common.tool.Func;
+import com.lgyun.core.mp.support.Condition;
+import com.lgyun.core.mp.support.Query;
+import com.lgyun.system.order.entity.PayMakerEntity;
 import com.lgyun.system.order.service.IPayMakerService;
 import com.lgyun.system.order.vo.PayMakerVO;
+import com.lgyun.system.order.wrapper.PayMakerWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import javax.validation.Valid;
-import com.lgyun.core.mp.support.Condition;
-import com.lgyun.core.mp.support.Query;
-import com.lgyun.common.api.R;
-import com.lgyun.common.tool.Func;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.system.order.wrapper.PayMakerWrapper;
-import com.lgyun.system.order.entity.PayMakerEntity;
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * 控制器
@@ -35,7 +30,7 @@ import java.util.List;
 @RequestMapping("/order/paymaker")
 @Validated
 @AllArgsConstructor
-@Api(value = "相关接口", tags = "相关接口")
+@Api(value = "创客支付明细相关接口", tags = "创客支付明细相关接口")
 public class PayMakerController {
 
 	private IPayMakerService payMakerService;

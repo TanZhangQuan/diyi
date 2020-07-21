@@ -1,9 +1,7 @@
 package com.lgyun.system.user.vo;
 
-import com.lgyun.system.user.entity.OnlineAgreementNeedSignEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
@@ -18,7 +16,10 @@ public class OnlineAgreementNeedSignVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long onlineAgreementNeedSignId;
+
     private Long onlineAggrementId;
+
     private String templateType;
+
     private String agreementTemplate;
 }

@@ -920,10 +920,10 @@ CREATE TABLE `diyi_enterprise` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_enterprise_pay
+-- Table structure for diyi_pay_enterprise
 -- ----------------------------
-DROP TABLE IF EXISTS `diyi_enterprise_pay`;
-CREATE TABLE `diyi_enterprise_pay` (
+DROP TABLE IF EXISTS `diyi_pay_enterprise`;
+CREATE TABLE `diyi_pay_enterprise` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `enterprise_id` bigint(50) NOT NULL COMMENT '商户ID',
   `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
@@ -953,14 +953,14 @@ CREATE TABLE `diyi_enterprise_pay` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
--- Records of diyi_enterprise_pay
+-- Records of diyi_pay_enterprise
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_enterprise_pay_receipt
+-- Table structure for diyi_pay_enterprise_receipt
 -- ----------------------------
-DROP TABLE IF EXISTS `diyi_enterprise_pay_receipt`;
-CREATE TABLE `diyi_enterprise_pay_receipt` (
+DROP TABLE IF EXISTS `diyi_pay_enterprise_receipt`;
+CREATE TABLE `diyi_pay_enterprise_receipt` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `enterprise_pay_id` bigint(50) NOT NULL COMMENT '支付ID',
   `enterprise_pay_receipt_url` varchar(100) NOT NULL COMMENT '支付回单图片URL地址',
@@ -975,7 +975,7 @@ CREATE TABLE `diyi_enterprise_pay_receipt` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
--- Records of diyi_enterprise_pay_receipt
+-- Records of diyi_pay_enterprise_receipt
 -- ----------------------------
 
 -- ----------------------------
@@ -1922,52 +1922,6 @@ CREATE TABLE `diyi_pay_maker` (
   `invoice_type` int(1) NOT NULL COMMENT '发票类别:1,汇总代开；2，门征单开',
   `pay_memo` varchar(1000) NOT NULL COMMENT '支付说明',
   `maker_invoice_category` varchar(1000) NOT NULL COMMENT '创客发票类目:默认取订单中的默认信息，可更改，根据具体业务开，如*现代服务*市场推广费		',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-CREATE TABLE `diyi_pay_enterprise` (
-  `id` bigint(50) NOT NULL COMMENT '唯一性控制',
-  `enterprise_id` bigint(50) NOT NULL COMMENT '商户ID',
-  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
-  `charge_list_url` varchar(100) NOT NULL COMMENT '支付清单URL',
-  `worksheet_id` bigint(50) NOT NULL COMMENT '工单ID 可能关联，可选',
-  `pay_to_platform_amount` decimal(12,2) DEFAULT NULL COMMENT '支付总额，外包费总额+总身份验证费+总开票手续费',
-  `sourcing_amount` decimal(12,2) DEFAULT NULL COMMENT '外包费总额',
-  `service_rate` decimal(12,2) DEFAULT NULL COMMENT '服务税费率',
-  `total_tax_and_fee` decimal(12,2) DEFAULT NULL COMMENT '总税率：外包费总额*服务税费率',
-  `maker_num` int(11) NOT NULL COMMENT '创客数',
-  `identify_fee` decimal(12,2) DEFAULT NULL COMMENT '总身份验证费',
-  `service_fee` decimal(12,2) DEFAULT NULL COMMENT '总支付手续费',
-  `pay_memo` varchar(1000) NOT NULL COMMENT '支付说明',
-  `pay_state` int(1) NOT NULL COMMENT '1：待支付；2：已支付；3：已确认收款',
-  `pay_confirm_datetime` datetime NOT NULL COMMENT '支付确认日期时间',
-  `confirm_datetime` datetime NOT NULL COMMENT '确认回款日期时间',
-  `employee_id` bigint(50) NOT NULL COMMENT '确认到款人员ID',
-  `company_invoice_state` int(1) NOT NULL COMMENT '开票状态:1:已开；0：未开',
-  `invoice_print_date` datetime NOT NULL COMMENT '开票日期',
-  `invoice_demond_desc` varchar(1000) NOT NULL COMMENT '开票要求说明',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-CREATE TABLE `diyi_pay_enterprise_receipt` (
-  `id` bigint(50) NOT NULL COMMENT '唯一性控制',
-  `en_pay_id` bigint(50) NOT NULL COMMENT '支付ID',
-  `enterprise_pay_receipt_url` varchar(1000) NOT NULL COMMENT '支付回单',
-  `upload_datetime` datetime NOT NULL COMMENT '上传日期时间',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',

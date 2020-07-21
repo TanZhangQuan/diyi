@@ -1,13 +1,15 @@
 package com.lgyun.system.order.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.system.order.entity.WorksheetMakerEntity;
-import com.lgyun.system.order.vo.AllIncomeYearMonthVO;
-import com.lgyun.system.order.vo.IncomeMonthVO;
-import com.lgyun.system.order.vo.IncomeYearVO;
+import com.lgyun.system.order.vo.*;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  *  Mapper
@@ -27,6 +29,12 @@ public interface WorksheetMakerMapper extends BaseMapper<WorksheetMakerEntity> {
     IncomeYearVO queryMoneyByYear(WorkSheetType worksheetType, MakerType makerType, Long makerId);
 
     IncomeMonthVO queryMoneyByMonth(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year);
+
+    List<AllIncomeYearMonthEnterpriseVO> queryAllMoneyByYearMonthEnterprise(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year, Long month, IPage<AllIncomeYearMonthEnterpriseVO> page);
+
+    List<IncomeDetailYearMonthVO> queryMoneyDetailByYearMonth(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year, Long month, Long enterpriseId, IPage<IncomeDetailYearMonthVO> page);
+
+    BigDecimal queryAllMoneyDetailByYearMonth(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year, Long month, Long enterpriseId);
 
 }
 

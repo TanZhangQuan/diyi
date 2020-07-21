@@ -13,37 +13,38 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- *  Entity
+ * Entity
  *
- * @author jun
- * @since 2020-07-18 20:49:13
+ * @author liangfeihu
+ * @since 2020-07-17 20:01:13
  */
 @Data
 @NoArgsConstructor
 @TableName("diyi_pay_enterprise_receipt")
 public class PayEnterpriseReceiptEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
-    
+
     /**
-     * 唯一性控制
+     * 主键
      */
-        @ApiModelProperty(value = "主键")
+    @ApiModelProperty(value = "主键")
     @TableId(type = IdType.ASSIGN_ID)
     @JsonSerialize(using = ToStringSerializer.class)
-        private Long id;
-    
+    private Long id;
+
     /**
      * 支付ID
      */
-        private Long enPayId;
-    
+    private Long enterprisePayId;
+
     /**
-     * 支付回单
+     * 支付回单图片URL地址
      */
-        private String enterprisePayReceiptUrl;
-    
+    private String enterprisePayReceiptUrl;
+
     /**
      * 上传日期时间
      */
-        private Date uploadDatetime;
-    }
+    private Date uploadDateTime;
+
+}

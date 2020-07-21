@@ -6,10 +6,11 @@ import lombok.Data;
 
 /**
  * @author jun.
- * @date 2020/7/18.
- * @time 20:55.
+ * @date 2020/7/8.
+ * @time 14:36.
  */
 @Data
-@ApiModel(value = "MakerTotalInvoiceVO对象", description = "MakerTotalInvoiceVO对象")
+@ApiModel(value = "EnterprisePayVO对象", description = "EnterprisePayVO对象")
 public class PayEnterpriseVO extends PayEnterpriseEntity {
+    private static final long serialVersionUID = 1L;
 }

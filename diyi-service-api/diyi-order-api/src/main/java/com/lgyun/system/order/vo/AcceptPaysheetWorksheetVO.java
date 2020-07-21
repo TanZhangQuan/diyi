@@ -1,5 +1,6 @@
 package com.lgyun.system.order.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -25,9 +26,11 @@ public class AcceptPaysheetWorksheetVO {
     private BigDecimal payToPlatformAmount;
 
     //发布时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date publishDate;
 
     //关单时间
+    @JsonFormat(pattern = "MM-dd", timezone = "GMT+8")
     private Date closeWorksheetDate;
 
     //验收单URL

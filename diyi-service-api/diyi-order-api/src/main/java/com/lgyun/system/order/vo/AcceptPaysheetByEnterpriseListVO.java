@@ -1,5 +1,6 @@
 package com.lgyun.system.order.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
@@ -28,9 +29,11 @@ public class AcceptPaysheetByEnterpriseListVO {
     private BigDecimal payToPlatformAmount;
 
     //发布时间
+    @JsonFormat(pattern = "MM-dd", timezone = "GMT+8")
     private Date publishDate;
 
     //关单时间
+    @JsonFormat(pattern = "MM-dd", timezone = "GMT+8")
     private Date closeWorksheetDate;
 
 }

@@ -1,6 +1,10 @@
 package com.lgyun.system.user.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lgyun.common.api.R;
+import com.lgyun.common.tool.Func;
+import com.lgyun.core.mp.support.Condition;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.OnlineSignPicEntity;
 import com.lgyun.system.user.service.IOnlineSignPicService;
 import com.lgyun.system.user.vo.OnlineSignPicVO;
@@ -10,19 +14,10 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import javax.validation.Valid;
-import com.lgyun.core.mp.support.Condition;
-import com.lgyun.core.mp.support.Query;
-import com.lgyun.common.api.R;
-import com.lgyun.common.tool.Func;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * 控制器
@@ -35,7 +30,7 @@ import java.util.List;
 @RequestMapping("/order/onlinesignpic")
 @Validated
 @AllArgsConstructor
-@Api(value = "相关接口", tags = "相关接口")
+@Api(value = "在线签字图片相关接口", tags = "在线签字图片相关接口")
 public class OnlineSignPicController {
 
 	private IOnlineSignPicService onlineSignPicService;

@@ -1,13 +1,12 @@
 package com.lgyun.system.order.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.entity.WorksheetMakerEntity;
-import com.lgyun.system.order.vo.AllIncomeYearMonthVO;
-import com.lgyun.system.order.vo.IncomeMonthVO;
-import com.lgyun.system.order.vo.IncomeYearVO;
+import com.lgyun.system.order.vo.*;
 
 import java.math.BigDecimal;
 
@@ -54,6 +53,21 @@ public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity
      * 根据工单类型，创客类型，年份查询每月收入
      */
     R<IncomeMonthVO> queryMoneyByMonth(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year);
+
+    /**
+     * 根据工单类型，创客类型，年份或月份查询创客对应商户的收入
+     */
+    R<IPage<AllIncomeYearMonthEnterpriseVO>> queryAllMoneyByYearMonthEnterprise(IPage<AllIncomeYearMonthEnterpriseVO> page, WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year, Long month);
+
+    /**
+     * 根据工单类型，创客类型，年份，月份查询收入明细
+     */
+    R<IPage<IncomeDetailYearMonthVO>> queryMoneyDetailByYearMonth(IPage<IncomeDetailYearMonthVO> page, WorkSheetType worksheetType, MakerType makerType, Long id, Long year, Long month, Long enterpriseId);
+
+    /**
+     * 根据工单类型，创客类型，月份，商户编号（可选）查询总收入
+     */
+    R<BigDecimal> queryAllMoneyDetailByYearMonth(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year, Long month, Long enterpriseId);
 
 }
 

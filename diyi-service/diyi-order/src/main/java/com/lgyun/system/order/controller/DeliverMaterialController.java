@@ -27,10 +27,10 @@ import javax.validation.Valid;
  */
 @Slf4j
 @RestController
-@RequestMapping("/user/delivermaterial")
+@RequestMapping("/user/deliver-material")
 @Validated
 @AllArgsConstructor
-@Api(value = "相关接口", tags = "相关接口")
+@Api(value = "验收单交付材料相关接口", tags = "验收单交付材料相关接口")
 public class DeliverMaterialController {
 
 	private IDeliverMaterialService deliverMaterialService;

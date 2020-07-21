@@ -36,7 +36,7 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/user/acceptpaysheet")
 @Validated
 @AllArgsConstructor
-@Api(value = "相关接口", tags = "相关接口")
+@Api(value = "交付支付验收单相关接口", tags = "交付支付验收单相关接口")
 public class AcceptPaysheetController {
 
 	private IAcceptPaysheetService acceptPaysheetService;
