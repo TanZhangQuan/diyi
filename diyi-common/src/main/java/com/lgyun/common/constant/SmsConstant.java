@@ -12,19 +12,19 @@ public interface SmsConstant {
     // 短信平台(云通讯:yuntongxun)
     String SMS_PLATFORM = "yuntongxun";
     // 短信发送时间间隔前缀
-    String SEND_INTERVAL = "_send_interval_";
-    // 短信验证码有效期前缀
-    String AVAILABLE_TIME = "_available_time_";
-    // 短信验证码时间段内最大发送次数前缀
-    String MAX_SEND_TIME = "_max_send_time_";
-    // 短信验证码有效期
+    String SEND_INTERVAL = "send_interval_";
+    // 短信有效期前缀
+    String AVAILABLE_TIME = "available_time_";
+    // 短信时间段内最大发送次数前缀
+    String MAX_SEND_TIME = "max_send_time_";
+    // 短信有效期
     Integer SMS_AVAILABLE_TIME_MINUTES = 5;
     // 短信发送时间间隔
     Integer SMS_SEND_INTERVAL_MINUTES = 1;
     // 时间段内短信最大发送次数, 单位秒
-    Long SMS_MAX_SEND_TIME = 1800L;
+    Long SMS_MAX_SEND_TIME = 86400L;
     // 时间段内短信最大发送次数
-    Integer SMS_MAX_SEND_NUMBER = 30;
+    Integer SMS_MAX_SEND_NUMBER = 50;
 
     //云通讯短信配置
     // 请求URl
@@ -38,5 +38,8 @@ public interface SmsConstant {
     // 账号APPID
     String YUNTONGXUN_SMS_APPID = "8a216da870e2267e01711fe50cea228a";
     // 云通讯短信模板ID
-    String TEMPLATE_ID = "595738";
+    String TEMPLATE_CODE_ID = "595738";
+    // 云通讯短信模板ID
+    String TEMPLATE_LINK_ID = "595738";
+
 }

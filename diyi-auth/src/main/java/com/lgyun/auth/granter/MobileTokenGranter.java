@@ -53,7 +53,7 @@ public class MobileTokenGranter implements ITokenGranter {
         //获取用户填写的短信验证码
         String smsCode = tokenParameter.getArgs().getStr("smsCode");
         //获取缓存短信验证码
-        String redisCode = (String) redisUtil.get(userType.getValue() + SmsConstant.AVAILABLE_TIME + mobile);
+        String redisCode = (String) redisUtil.get(SmsConstant.AVAILABLE_TIME + mobile);
         //判断验证码
         if (!StringUtil.equalsIgnoreCase(redisCode, smsCode)) {
             return R.fail(TokenUtil.SMS_CAPTCHA_NOT_CORRECT);
@@ -97,7 +97,7 @@ public class MobileTokenGranter implements ITokenGranter {
         //创建认证token
         AuthInfo authInfo = tokenUtil.createAuthInfo(userInfo);
         //删除缓存短信验证码
-        redisUtil.del(userType.getValue() + SmsConstant.AVAILABLE_TIME + mobile);
+        redisUtil.del(SmsConstant.AVAILABLE_TIME + mobile);
 
         return R.data(authInfo);
     }
@@ -159,7 +159,7 @@ public class MobileTokenGranter implements ITokenGranter {
             return R.fail("验证码类型有误");
         }
 
-        return smsUtil.sendCode(mobile, userType);
+        return smsUtil.sendCode(mobile);
     }
 
 }

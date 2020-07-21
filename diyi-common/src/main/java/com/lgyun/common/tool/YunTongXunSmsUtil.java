@@ -4,7 +4,7 @@ import com.cloopen.rest.sdk.BodyType;
 import com.cloopen.rest.sdk.CCPRestSmsSDK;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.SmsConstant;
-import com.lgyun.common.enumeration.UserType;
+import com.lgyun.common.enumeration.MessageType;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -30,10 +30,10 @@ public class YunTongXunSmsUtil {
      *
      * @param mobile 手机号
      */
-    public R send(String[] datas, String mobile, UserType userType) {
+    public R send(String[] datas, String mobile, MessageType messageType) {
 
         log.info("========云通讯短信发送=========", mobile);
-        String cacheKey = userType.getValue() + SmsConstant.MAX_SEND_TIME + mobile;
+        String cacheKey = SmsConstant.MAX_SEND_TIME + mobile;
         int maxNum = 0;
         if (redisUtil.get(cacheKey) != null) {
             maxNum = (Integer) redisUtil.get(cacheKey);
@@ -52,7 +52,21 @@ public class YunTongXunSmsUtil {
         sdk.setAppId(SmsConstant.YUNTONGXUN_SMS_APPID);
         sdk.setBodyType(BodyType.Type_JSON);
 
-        HashMap<String, Object> result = sdk.sendTemplateSMS(mobile, SmsConstant.TEMPLATE_ID, datas);
+        String template_id;
+        switch (messageType){
+            case CODE:
+                template_id = SmsConstant.TEMPLATE_CODE_ID;
+                break;
+
+            case LINK:
+                template_id = SmsConstant.TEMPLATE_LINK_ID;
+                break;
+
+            default:
+                return R.fail("短信类型不存在");
+        }
+
+        HashMap<String, Object> result = sdk.sendTemplateSMS(mobile, template_id, datas);
         if ("000000".equals(result.get("statusCode"))) {
             //正常返回输出data包体信息（map）
             HashMap<String, Object> data = (HashMap<String, Object>) result.get("data");
@@ -77,4 +91,5 @@ public class YunTongXunSmsUtil {
 
         return R.fail("验证码发送失败");
     }
+
 }

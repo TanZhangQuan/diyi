@@ -8,10 +8,7 @@ import com.lgyun.common.enumeration.IdcardVerifyType;
 import com.lgyun.common.enumeration.VerifyStatus;
 import com.lgyun.common.exception.ServiceException;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.common.tool.Base64Util;
-import com.lgyun.common.tool.Func;
-import com.lgyun.common.tool.HttpUtil;
-import com.lgyun.common.tool.RealnameVerifyUtil;
+import com.lgyun.common.tool.*;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.dto.IdcardOcrSaveDto;
 import com.lgyun.system.user.entity.MakerEntity;
@@ -39,6 +36,7 @@ import java.util.Date;
 public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> implements IMakerService {
 
     private AliyunOssService ossService;
+    private SmsUtil smsUtil;
 
     @Override
     public MakerEntity findByPhoneNumber(String phoneNumber) {
@@ -111,8 +109,13 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return result;
         }
 
-        //TODO
         //通过短信发送人脸识别URL
+        JSONObject jsonObject = (JSONObject) result.getData();
+        String shortLink = jsonObject.getString("shortLink");
+        R smsResult = smsUtil.sendLink(makerEntity.getPhoneNumber(), shortLink);
+        if (!(smsResult.isSuccess())) {
+            return result;
+        }
 
         return R.success("人脸识别请求已通过短信发送，请及时进行操作");
     }
