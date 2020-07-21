@@ -65,12 +65,15 @@ public class AgreementController {
 
 	}
 
+	/**
+	 * 确认签字
+	 */
 	@PostMapping("/saveOnlineAgreementNeedSign")
-	@ApiOperation(value = "保存创客的签名", notes = "保存创客的签名")
-	public R saveOnlineAgreementNeedSign(Long makerId,String signPic){
+	@ApiOperation(value = "确认签字", notes = "确认签字")
+	public R saveOnlineAgreementNeedSign(Long makerId,String signPic,Long onlineAgreementTemplateId){
 		log.info("保存创客的签名");
 		try {
-			return onlineSignPicService.saveOnlineSignPic(makerId,1,signPic);
+			return onlineSignPicService.saveOnlineSignPic(makerId,1,signPic,onlineAgreementTemplateId);
 		}catch (Exception e){
 			e.printStackTrace();
 			return R.fail("保存创客的签名失败");

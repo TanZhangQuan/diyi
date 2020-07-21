@@ -66,4 +66,9 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
 
         return R.success("成功");
     }
+
+    @Override
+    public MakerEnterpriseEntity getEnterpriseIdAndMakerId(Long enterpriseId, Long makerId, Integer difference) {
+        return baseMapper.getEnterpriseIdAndMakerId(enterpriseId,makerId,difference);
+    }
 }

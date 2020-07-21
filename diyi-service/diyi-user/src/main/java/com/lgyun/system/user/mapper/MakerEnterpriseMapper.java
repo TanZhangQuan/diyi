@@ -30,5 +30,10 @@ public interface MakerEnterpriseMapper extends BaseMapper<MakerEnterpriseEntity>
      * 通过
      */
     MakerEnterpriseEntity selectCancelfollow(Long enterpriseId, Long makerId);
+
+    /**
+     * 通过商户id和创客id查询
+     */
+    MakerEnterpriseEntity getEnterpriseIdAndMakerId(Long enterpriseId,Long makerId,Integer difference);
 }
 

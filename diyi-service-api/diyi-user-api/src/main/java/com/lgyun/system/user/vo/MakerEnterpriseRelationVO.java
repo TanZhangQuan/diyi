@@ -14,22 +14,38 @@ import lombok.Data;
 @ApiModel(value = "MakerEnterpriseRelationVO对象", description = "MakerEnterpriseRelationVO对象")
 public class MakerEnterpriseRelationVO {
 
+    //客户名称
     private String enterpriseName;
-
+    //商户名字
     private String shopUserName;
 
+    //法人名字
     private String legalPerson;
 
+    //法人身份证
     private String legalPersonCard;
 
+    //联系人职位
     private String contact1Position;
 
+    //联系人电话
     private String contact1Phone;
 
+    //营业执照编号
     private String socialCreditNo;
 
+    //营业执照的url
     private String bizLicenceUrl;
 
+    //企业id
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
+
+    //0：关联，1关注，2：不关联不关注
+    private Integer relationshipType;
+
+    private Long shopId;//商户id
+
+    private String contact1Name;//联系人1姓名
+
 }
