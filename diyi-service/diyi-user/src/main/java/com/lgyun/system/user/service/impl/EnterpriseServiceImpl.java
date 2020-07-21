@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.EnterpriseEntity;
+import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.mapper.EnterpriseMapper;
 import com.lgyun.system.user.service.IEnterpriseService;
+import com.lgyun.system.user.service.IMakerEnterpriseService;
 import com.lgyun.system.user.vo.EnterprisesByWorksheetListVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import lombok.AllArgsConstructor;
@@ -25,21 +27,20 @@ import java.util.List;
 @AllArgsConstructor
 public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, EnterpriseEntity> implements IEnterpriseService {
 
+    private IMakerEnterpriseService makerEnterpriseService;
+
     @Override
     public List<MakerEnterpriseRelationVO> getEnterpriseName(String enterpriseName) {
-        List<MakerEnterpriseRelationVO> makerEnterpriseRelationVOs = baseMapper.getEnterpriseName("%"+enterpriseName+"%");
+        List<MakerEnterpriseRelationVO> makerEnterpriseRelationVOs = baseMapper.getEnterpriseName(enterpriseName);
         return makerEnterpriseRelationVOs;
     }
 
     @Override
-    public MakerEnterpriseRelationVO getEnterpriseId(Long enterpriseId,Integer difference) {
-        MakerEnterpriseRelationVO makerEnterpriseRelationVO = baseMapper.getEnterpriseId(enterpriseId,difference);
-        if(null == makerEnterpriseRelationVO){
-            return null;
-        }
-        if(difference == 0){
-            return makerEnterpriseRelationVO;
-        }else{
+    public R getEnterpriseId(Long enterpriseId,Long makerId) {
+        MakerEnterpriseEntity enterpriseIdAndMakerIdLian = makerEnterpriseService.getEnterpriseIdAndMakerId(enterpriseId, makerId, 0);
+        MakerEnterpriseEntity enterpriseIdAndMakerIdZhu = makerEnterpriseService.getEnterpriseIdAndMakerId(enterpriseId, makerId, 1);
+        MakerEnterpriseRelationVO makerEnterpriseRelationVO = baseMapper.getEnterpriseId(enterpriseId);
+        if(null == enterpriseIdAndMakerIdLian && null != enterpriseIdAndMakerIdZhu){
             makerEnterpriseRelationVO.setContact1Phone("138********");
             makerEnterpriseRelationVO.setBizLicenceUrl("*");
             makerEnterpriseRelationVO.setLegalPerson("***");
@@ -47,7 +48,17 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             makerEnterpriseRelationVO.setSocialCreditNo("*******");
             makerEnterpriseRelationVO.setContact1Position("********");
             makerEnterpriseRelationVO.setShopUserName("*****");
-            return makerEnterpriseRelationVO;
+            makerEnterpriseRelationVO.setRelationshipType(1);
+            return R.data(makerEnterpriseRelationVO);
+        } else if(null != enterpriseIdAndMakerIdLian && null == enterpriseIdAndMakerIdZhu){
+           makerEnterpriseRelationVO.setRelationshipType(0);
+           return R.data(makerEnterpriseRelationVO);
+       } else if(null == enterpriseIdAndMakerIdLian && null == enterpriseIdAndMakerIdZhu){
+           makerEnterpriseRelationVO.setRelationshipType(2);
+           return R.data(makerEnterpriseRelationVO);
+       }else {
+            makerEnterpriseRelationVO.setRelationshipType(0);
+            return R.data(makerEnterpriseRelationVO);
         }
     }
 

@@ -94,7 +94,7 @@ public class WorksheetMakerController {
     /**
      * 根据工单类型，创客类型查询年收入
      */
-    @GetMapping("/query-money-by-year-month")
+    @GetMapping("/query-money-by-year-month1")
     @ApiOperation(value = "根据工单类型，创客类型，年份或月份查询收入", notes = "根据工单类型，创客类型，年份或月份查询收入")
     public R<IncomeYearVO> queryMoneyByYear(@ApiParam(value = "工单类型") @NotNull(message = "请选择工单类型") @RequestParam(required = false) WorkSheetType worksheetType,
                                             @ApiParam(value = "工单创客类型") @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType,

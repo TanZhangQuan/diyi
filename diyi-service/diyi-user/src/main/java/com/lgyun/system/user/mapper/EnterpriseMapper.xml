@@ -63,6 +63,7 @@
         <result property="contact1Phone" column="contact1_phone"/>
         <result property="socialCreditNo" column="social_credit_no"/>
         <result property="bizLicenceUrl" column="biz_licence_url"/>
+        <result property="relationshipType" column="relationship_type"/>
     </resultMap>
 
     <resultMap type="com.lgyun.system.user.vo.EnterprisesByWorksheetListVO" id="acceptPaysheetEnterpriseVO">
@@ -73,15 +74,11 @@
     <select id="getEnterpriseName" resultMap="makerEnterpriseRelationMap">
         SELECT enterprise_name, shop_user_name, legal_person, legal_person_card, contact1_position,
         contact1_phone, social_credit_no, biz_licence_url, id FROM diyi_enterprise
-        WHERE is_deleted = 0
-        <if test="enterpriseName != null and enterpriseName.trim() != ''">
-            and enterprise_name LIKE #{enterpriseName}
-            and (enterprise_name LIKE CONCAT(CONCAT('%', #{param1}, '%')))
-        </if>
+        WHERE is_deleted = 0  and enterprise_name = #{enterpriseName}
     </select>
 
     <select id="getEnterpriseId" resultMap="makerEnterpriseRelationMap">
-        SELECT enterprise_name, shop_user_name, legal_person, legal_person_card, contact1_position, contact1_phone, social_credit_no, biz_licence_url, id
+        SELECT enterprise_name, shop_user_name, legal_person, legal_person_card, contact1_position, contact1_phone, social_credit_no, biz_licence_url, id,contact1_name,shop_id
         FROM diyi_enterprise WHERE is_deleted = 0 AND id = #{param1}
     </select>
 

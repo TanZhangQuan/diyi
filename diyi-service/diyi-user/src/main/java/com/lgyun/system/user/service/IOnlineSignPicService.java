@@ -15,7 +15,7 @@ public interface IOnlineSignPicService extends BaseService<OnlineSignPicEntity> 
     /**
      * 保存签名图片
      */
-    R saveOnlineSignPic(Long ObjectID,Integer ObjectType,String signPic);
+    R saveOnlineSignPic(Long ObjectID,Integer ObjectType,String signPic,Long onlineAgreementTemplateId);
 
 }
 

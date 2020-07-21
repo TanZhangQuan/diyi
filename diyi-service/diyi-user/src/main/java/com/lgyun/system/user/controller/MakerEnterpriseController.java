@@ -2,10 +2,13 @@ package com.lgyun.system.user.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
+import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
+import com.lgyun.system.user.service.IMakerService;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -38,18 +41,19 @@ public class MakerEnterpriseController {
 
 	private IMakerEnterpriseService makerEnterpriseService;
 	private IEnterpriseService iEnterpriseService;
+	private IMakerService iMakerService;
 
 	@GetMapping("/detail")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "enterpriseId", value = "商户id", paramType = "query", dataType = "long"),
-			@ApiImplicitParam(name = "difference", value = "类型,0关联，1关注", paramType = "query", dataType = "int")
 	})
 	@ApiOperation(value = "详情", notes = "详情")
-	public R<MakerEnterpriseRelationVO> detail(Long enterpriseId,int difference) {
+	public R<MakerEnterpriseRelationVO> detail(Long enterpriseId,BladeUser bladeUser) {
 		log.info("商户的详情");
 		try {
-			MakerEnterpriseRelationVO enterpriseId1 = iEnterpriseService.getEnterpriseId(enterpriseId, difference);
-			return R.data(enterpriseId1);
+			//MakerEntity makerEntity = iMakerService.current(bladeUser);
+			//return iEnterpriseService.getEnterpriseId(enterpriseId,makerEntity.getId());
+			return iEnterpriseService.getEnterpriseId(enterpriseId,1278969988057903106L);
 		} catch (Exception e){
 			e.printStackTrace();
 			return R.fail("商户的详情失败");
@@ -59,14 +63,15 @@ public class MakerEnterpriseController {
 
 	@GetMapping("/selectMakerEnterprisePage")
 	@ApiImplicitParams({
-			@ApiImplicitParam(name = "makerId", value = "创客id", paramType = "query", dataType = "long"),
 			@ApiImplicitParam(name = "relationshipType", value = "类型", paramType = "query", dataType = "int")
 	})
 	@ApiOperation(value = "查询关联商户和关注商户", notes = "查询关联商户和关注商户")
-	public R<IPage<MakerEnterpriseRelationVO>> selectMakerEnterprisePage(Long makerId, Integer relationshipType, Query query) {
+	public R<IPage<MakerEnterpriseRelationVO>> selectMakerEnterprisePage(BladeUser bladeUser, Integer relationshipType, Query query) {
 		log.info("查询关联商户和关注商户");
 		try {
-			IPage<MakerEnterpriseRelationVO> pages = makerEnterpriseService.selectMakerEnterprisePage(Condition.getPage(query), makerId,relationshipType);
+			//MakerEntity makerEntity = iMakerService.current(bladeUser);
+			//IPage<MakerEnterpriseRelationVO> pages = makerEnterpriseService.selectMakerEnterprisePage(Condition.getPage(query), makerEntity.getId(),relationshipType);
+			IPage<MakerEnterpriseRelationVO> pages = makerEnterpriseService.selectMakerEnterprisePage(Condition.getPage(query), 1278969988057903106L,relationshipType);
 			return R.data(pages);
 		} catch (Exception e){
 			e.printStackTrace();
@@ -93,14 +98,15 @@ public class MakerEnterpriseController {
 	@PostMapping("/addOrCancelfollow")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "enterpriseId", value = "商户id", paramType = "query", dataType = "long"),
-			@ApiImplicitParam(name = "makerId", value = "创客id", paramType = "query", dataType = "long"),
 			@ApiImplicitParam(name = "attribute", value = "1取消，2添加", paramType = "query", dataType = "int")
 	})
 	@ApiOperation(value = "添加关注或取消关注", notes = "添加关注或取消关注")
-	public R addOrCancelfollow(Long enterpriseId,Long makerId,Integer attribute) {
+	public R addOrCancelfollow(Long enterpriseId,BladeUser bladeUser,Integer attribute) {
 		log.info("添加关注或取消关注");
 		try {
-			return makerEnterpriseService.addOrCancelfollow(enterpriseId,makerId,attribute);
+			//MakerEntity makerEntity = iMakerService.current(bladeUser);1278969988057903106L
+			//return makerEnterpriseService.addOrCancelfollow(enterpriseId,makerEntity.getId(),attribute);
+			return makerEnterpriseService.addOrCancelfollow(enterpriseId,1278969988057903106L,attribute);
 		} catch (Exception e){
 			e.printStackTrace();
 			return R.fail("添加关注或取消关注失败");
