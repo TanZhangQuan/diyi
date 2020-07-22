@@ -37,7 +37,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
             map.put("onlineAgreementTemplateId",onlineAgreementTemplateId);
             map.put("onlineAgreementNeedSignId",onlineAgreementNeedSignId);
             map.put("agreementTemplate",byId.getAgreementTemplate());
-            map.put("signState", SignState.NOTSIGNED);
+            map.put("signState", SignState.UNSIGN);
             return R.data(map);
         }
         map.put("onlineAgreementTemplateId","");

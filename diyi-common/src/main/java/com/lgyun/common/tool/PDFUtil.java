@@ -5,9 +5,7 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
-import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -25,12 +23,12 @@ public class PDFUtil {
     /**
      * 添加图片
      */
-    public Map addPdf(String pdfUrl, Integer pageSize, String signPic) throws Exception{
+    public Map addPdf(String pdfUrl, Integer pageSize, String signPic) throws Exception {
         InputStream input = getImgFromUrl(pdfUrl);
         // 生成的文件路径
         String UUIDStr = UUID.randomUUID().toString();
 
-        File htmlFile = File.createTempFile(UUIDStr,".pdf");
+        File htmlFile = File.createTempFile(UUIDStr, ".pdf");
         // 读取模板文件
         PdfReader reader = new PdfReader(input);
         FileOutputStream fileOutputStream = new FileOutputStream(htmlFile);
@@ -52,15 +50,15 @@ public class PDFUtil {
         reader.close();
         FileInputStream fileInputStream = new FileInputStream(htmlFile);
         Map map = new HashMap();
-        map.put("htmlFile",htmlFile);
-        map.put("fileInputStream",fileInputStream);
+        map.put("htmlFile", htmlFile);
+        map.put("fileInputStream", fileInputStream);
         return map;
     }
 
     public InputStream getImgFromUrl(String url) throws IOException {
         URL myUrl = new URL(url);
         HttpURLConnection con = (HttpURLConnection) myUrl.openConnection();
-        con.setConnectTimeout(5*1000);
+        con.setConnectTimeout(5 * 1000);
         InputStream is = con.getInputStream();
         return is;
     }

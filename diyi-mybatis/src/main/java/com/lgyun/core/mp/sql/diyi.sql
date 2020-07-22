@@ -46,7 +46,7 @@ CREATE TABLE `blade_client` (
 -- ----------------------------
 INSERT INTO `blade_client` VALUES ('1123598811738675201', 'sword', 'sword_secret', '', 'all', 'refresh_token,password,authorization_code', 'http://localhost:8888', '', '3600', '604800', '', '', '1', '2019-03-24 10:40:55', '1', '2019-03-24 10:40:59', '1', '0');
 INSERT INTO `blade_client` VALUES ('1123598811738675202', 'saber', 'saber_secret', '', 'all', 'refresh_token,password,authorization_code', 'http://localhost:8080', '', '3600', '604800', '', '', '1', '2019-03-24 10:42:29', '1', '2019-03-24 10:42:32', '1', '0');
-INSERT INTO `blade_client` VALUES ('1123598811738675203', 'app', 'app_secret', '', '', '', '', '', '3600', '604800', '', '', '1', '2019-03-24 10:42:29', '1', '2019-03-24 10:42:32', '1', '0');
+INSERT INTO `blade_client` VALUES ('1123598811738675203', 'app', 'app_secret', '', 'all', 'refresh_token,password,authorization_code', 'http://localhost:8000', '', '604800', '604800', '', '', '1', '2019-03-24 10:42:29', '1', '2019-03-24 10:42:32', '1', '0');
 
 -- ----------------------------
 -- Table structure for blade_code
