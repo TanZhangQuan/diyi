@@ -4,17 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 签署状态
+ * 1，开启中；2，已关闭
+ * @author .
+ * @date 2020/7/22.
+ * @time 14:18.
  */
 @Getter
 @AllArgsConstructor
-public enum SignState {
-    UNSIGN("UNSIGN", "未签署"),
-    SIGNING("SIGNING", "签署中"),
-    SIGNED("SIGNED", "已签署");
+public enum TemplateSignState {
+    OPEN("OPEN", "开启"),
+    CLOSE("CLOSE", "关闭");
 
     private final String value;
     private final String desc;
-
 }
-

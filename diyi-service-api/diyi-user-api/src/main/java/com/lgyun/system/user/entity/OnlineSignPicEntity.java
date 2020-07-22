@@ -3,6 +3,7 @@ package com.lgyun.system.user.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.lgyun.common.enumeration.ObjectType;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -35,7 +36,7 @@ public class OnlineSignPicEntity extends BaseEntity {
     /**
      * 对象身份1、创客本人2、商户人员3、服务商人员4、相关局人员5、渠道商人员6、合伙人本人
      */
-    private Integer objectType;
+    private ObjectType objectType;
 
     /**
      * 对象身份ID

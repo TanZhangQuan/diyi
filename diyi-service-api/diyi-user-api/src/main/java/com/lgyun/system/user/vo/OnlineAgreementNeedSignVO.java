@@ -16,10 +16,11 @@ public class OnlineAgreementNeedSignVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long onlineAgreementNeedSignId;
-
-    private Long onlineAggrementId;
-
+    private Long onlineAgreementTemplateId;
     private String templateType;
 
     private String agreementTemplate;
+    private Integer isContract;
+    private Integer signState;
+    private String onlineAggrementUrl;
 }

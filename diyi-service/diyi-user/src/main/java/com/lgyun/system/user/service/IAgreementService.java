@@ -1,5 +1,6 @@
 package com.lgyun.system.user.service;
 
+import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.AgreementEntity;
 
@@ -15,11 +16,11 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
     /**
      * 根据创客找合同
      */
-    List<AgreementEntity> makerIdFind(Long makerId);
+    R makerIdFind(Long makerId, Long onlineAgreementTemplateId,Long onlineAgreementNeedSignId);
 
     /**
      * 根据创客和商户找合同
      */
-    List<AgreementEntity> makerIdCompanyFind(Long makerId,Long employeeId);
+    List<AgreementEntity> makerIdCompanyFind(Long employeeId);
 }
 

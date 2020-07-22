@@ -24,8 +24,8 @@ import java.util.List;
 public class OnlineAgreementNeedSignServiceImpl extends BaseServiceImpl<OnlineAgreementNeedSignMapper, OnlineAgreementNeedSignEntity> implements IOnlineAgreementNeedSignService {
 
     @Override
-    public R<List<OnlineAgreementNeedSignVO>> getOnlineAgreementNeedSign(Long makerId) {
-        List<OnlineAgreementNeedSignVO> onlineAgreementNeedSign = baseMapper.getOnlineAgreementNeedSign(makerId);
+    public R<List<OnlineAgreementNeedSignVO>> getOnlineAgreementNeedSign(Long makerId,Integer isContract) {
+        List<OnlineAgreementNeedSignVO> onlineAgreementNeedSign = baseMapper.getOnlineAgreementNeedSign(makerId,isContract);
         return R.data(onlineAgreementNeedSign);
     }
 }
