@@ -13,5 +13,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface OnlineSignPicMapper extends BaseMapper<OnlineSignPicEntity> {
 
+    /**
+     * 通创客id查询
+     */
+    OnlineSignPicEntity getMakerId(Long makerId);
 }
 

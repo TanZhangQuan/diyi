@@ -3,6 +3,8 @@ package com.lgyun.system.user.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.lgyun.common.enumeration.SignState;
+import com.lgyun.common.enumeration.SignType;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -38,9 +40,13 @@ public class AgreementEntity extends BaseEntity {
     private Integer agreementType;
 
     /**
-     * 支付状态：待支付，企业已申请支付，企业已支付，平台已支付，已确认收款
+     * 1、纸质协议2、平台在线协议3、三方在线协议
      */
-    private String signType;
+    private SignType signType;
+    /**
+     *0签署中 1已完毕
+     */
+    private SignState signState;
 
     /**
      * 签署日期
@@ -90,7 +96,7 @@ public class AgreementEntity extends BaseEntity {
     /**
      * 平台在线协议模板ID
      */
-    private Long onlineAggrementId;
+    private Long onlineAgreementTemplateId;
 
     /**
      * 在线协议URL

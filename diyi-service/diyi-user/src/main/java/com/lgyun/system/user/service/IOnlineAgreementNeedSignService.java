@@ -18,6 +18,7 @@ public interface IOnlineAgreementNeedSignService extends BaseService<OnlineAgree
     /**
      * 查询创客需要签署的授权协议
      */
-   R<List<OnlineAgreementNeedSignVO>> getOnlineAgreementNeedSign(Long makerId);
+   R<List<OnlineAgreementNeedSignVO>> getOnlineAgreementNeedSign(Long makerId,Integer isContract);
+
 }
 

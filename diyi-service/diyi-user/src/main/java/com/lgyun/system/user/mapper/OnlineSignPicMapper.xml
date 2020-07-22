@@ -12,5 +12,7 @@
         <result property="signPic" column="sign_pic"/>
         <result property="signDatetime" column="sign_datetime"/>
     </resultMap>
-
+    <select id="getMakerId" resultMap="onlineSignPicMap">
+        select * from diyi_online_sign_pic where object_id = #{param1} and is_deleted= 0 and object_type = 1
+    </select>
 </mapper>

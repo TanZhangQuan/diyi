@@ -6,7 +6,7 @@
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.user.entity.OnlineAgreementNeedSignEntity" id="onlineAgreementNeedSignMap">
                     <result property="id" column="id"/>
-                    <result property="onlineAggrementId" column="online_aggrement_id"/>
+                    <result property="onlineAgreementTemplateId" column="online_agreement_template_id"/>
                     <result property="objectType" column="object_type"/>
                     <result property="signPower" column="sign_power"/>
                     <result property="objectId" column="object_id"/>
@@ -15,15 +15,18 @@
 
     <resultMap type="com.lgyun.system.user.vo.OnlineAgreementNeedSignVO" id="onlineAgreementNeedSignVOMap">
         <result property="onlineAgreementNeedSignId" column="online_agreement_need_sign_id"/>
-        <result property="onlineAggrementId" column="online_aggrement_id"/>
+        <result property="onlineAgreementTemplateId" column="online_agreement_template_id"/>
         <result property="templateType" column="template_type"/>
-        <result property="agreementTemplate" column="agreementTemplate"/>
+        <result property="agreementTemplate" column="agreement_template"/>
+        <result property="isContract" column="is_contract"/>
+        <result property="signState" column="sign_state"/>
+        <result property="onlineAggrementUrl" column="online_aggrement_url"/>
     </resultMap>
 
     <select id="getOnlineAgreementNeedSign" resultMap="onlineAgreementNeedSignVOMap">
-        SELECT dn.id as online_agreement_need_sign_id,dt.id as online_aggrement_id,dt.template_type,dt.agreement_template
-        FROM diyi_online_agreement_need_sign dn INNER JOIN diyi_online_agreement_template dt on dn.online_aggrement_id = dt.id
-        where dn.is_deleted = 0 and dt.is_deleted = 0 and dt.template_state = 1 and dn.sign_state = 0 and dn.object_type = 1 and dn.object_id =#{makerid}
+        SELECT dn.id AS online_agreement_need_sign_id, dt.id AS online_agreement_template_id, dt.template_type, dt.agreement_template, dt.is_contract, dn.sign_state, dt.template_state, a.online_aggrement_url FROM diyi_online_agreement_need_sign dn INNER JOIN diyi_online_agreement_template dt ON dn.online_agreement_template_id = dt.id LEFT JOIN diyi_agreement a ON a.online_agreement_template_id = dt.id WHERE dn.is_deleted = 0 AND dt.is_deleted = 0 AND dt.template_state = 1 AND dn.object_type = 1 and dn.object_id =#{param1} and dt.is_contract = #{param2}
     </select>
+
+
 
 </mapper>

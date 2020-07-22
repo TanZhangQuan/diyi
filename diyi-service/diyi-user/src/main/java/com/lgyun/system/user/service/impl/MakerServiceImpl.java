@@ -412,4 +412,15 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         return makerEntity;
     }
 
+    @Override
+    public R uploadMakerVideo(MakerEntity makerEntity, String applyShortVideo) {
+        if(StringUtil.isBlank(applyShortVideo)){
+            R.fail("视频连接不能为空");
+        }
+        makerEntity.setApplyShortVideo(applyShortVideo);
+        makerEntity.setVideoAudit(VideoAudit.TOAUDIT);
+        saveOrUpdate(makerEntity);
+        return R.success("成功");
+    }
+
 }

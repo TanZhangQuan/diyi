@@ -3,6 +3,9 @@ package com.lgyun.system.user.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.lgyun.common.enumeration.SignState;
+import com.lgyun.common.enumeration.TemplateSignState;
+import com.lgyun.common.enumeration.TemplateState;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -40,12 +43,12 @@ public class OnlineAgreementTemplateEntity extends BaseEntity {
     /**
      * 模板状态 1,应用中；2，已过期。同一个模板上传新模板后，原来的模板即为已过期
      */
-    private Integer templateState;
+    private TemplateState templateState;
 
     /**
-     * 签署状态 1，开启中；2，已关闭
+     * 1，开启中；2，已关闭
      */
-    private Integer signState;
+    private TemplateSignState templateSignState;
 
     /**
      * 协议模板
@@ -76,4 +79,14 @@ public class OnlineAgreementTemplateEntity extends BaseEntity {
      * 商户全部创客 1,商户-创客，全部正常创客都需要签署,0 不是
      */
     private Integer allMakers;
+
+    /**
+     * 模板的页数
+     */
+    private Integer templateCount;
+
+    /**
+     * 0.合同1.授权
+     */
+    private Integer isContract;
 }

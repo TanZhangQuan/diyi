@@ -8,6 +8,7 @@
         <result property="id" column="id"/>
         <result property="agreementType" column="agreement_type"/>
         <result property="signType" column="sign_type"/>
+        <result property="signState" column="sign_state"/>
         <result property="signDate" column="sign_date"/>
         <result property="agreementNo" column="agreement_no"/>
         <result property="sequenceNo" column="sequence_no"/>
@@ -17,7 +18,7 @@
         <result property="relBureauId" column="rel_bureau_id"/>
         <result property="agentId" column="agent_id"/>
         <result property="partnerId" column="partner_id"/>
-        <result property="onlineAggrementId" column="online_aggrement_id"/>
+        <result property="onlineAgreementTemplateId" column="online_agreement_template_id"/>
         <result property="onlineAggrementUrl" column="online_aggrement_url"/>
         <result property="paperAgreementUrl" column="paper_agreement_url"/>
         <result property="thirdOnlineAgreementUrl" column="third_online_agreement_url"/>
@@ -31,11 +32,11 @@
     </resultMap>
 
     <select id="makerIdFind" resultMap="agreementMap">
-        select * from diyi_agreement where is_deleted = 0 and maker_id = #{param1}
+        select * from diyi_agreement where is_deleted = 0 and maker_id = #{param1} and online_agreement_template_id =#{param2}
     </select>
 
     <select id="makerIdCompanyFind" resultMap="agreementMap">
-        select * from diyi_agreement where is_deleted = 0 and maker_id = #{param1} and run_company_id=#{param2}
+        select * from diyi_agreement where is_deleted = 0  and enterprise_id=#{param1}
     </select>
 
 </mapper>
