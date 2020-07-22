@@ -1,5 +1,7 @@
 package com.lgyun.system.user.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -15,8 +17,10 @@ import java.io.Serializable;
 public class OnlineAgreementNeedSignVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long onlineAgreementNeedSignId;
 
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long onlineAggrementId;
 
     private String templateType;

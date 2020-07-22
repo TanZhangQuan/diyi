@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.WorkSheetMode;
 import com.lgyun.common.enumeration.WorkSheetType;
+import com.lgyun.common.enumeration.WorksheetMakerState;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -86,7 +87,7 @@ public class WorksheetXiaoVo implements Serializable {
     /**
      * 工单创客的状态：1待提交，2待验证，3验证通过，4验证失败
      */
-    private String worksheetMakerState;
+    private WorksheetMakerState worksheetMakerState;
 
     /**
      * 验收金额

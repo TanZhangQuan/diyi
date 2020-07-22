@@ -16,6 +16,7 @@ public class MakerEnterpriseRelationVO {
 
     //客户名称
     private String enterpriseName;
+
     //商户名字
     private String shopUserName;
 
@@ -45,6 +46,7 @@ public class MakerEnterpriseRelationVO {
     private Integer relationshipType;
 
     //商户id
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long shopId;
 
     //联系人1姓名

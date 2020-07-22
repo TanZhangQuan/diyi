@@ -1,5 +1,7 @@
 package com.lgyun.system.order.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -22,6 +24,7 @@ public class AllIncomeYearMonthEnterpriseVO implements Serializable {
     private String makerType;
 
     //商户ID
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
 
     //商户名称
