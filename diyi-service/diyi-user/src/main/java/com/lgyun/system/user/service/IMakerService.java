@@ -135,5 +135,11 @@ public interface IMakerService extends IService<MakerEntity> {
      */
     MakerEntity current(BladeUser bladeUser);
 
+
+    /**
+     *
+     */
+    R uploadMakerVideo(MakerEntity makerEntity ,String applyShortVideo);
+
 }
 

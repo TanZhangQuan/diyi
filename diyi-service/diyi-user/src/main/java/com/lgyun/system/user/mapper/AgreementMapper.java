@@ -18,12 +18,12 @@ public interface AgreementMapper extends BaseMapper<AgreementEntity> {
     /**
      * 根据创客找合同
      */
-    List<AgreementEntity> makerIdFind(Long makerId);
+    AgreementEntity makerIdFind(Long makerId,Long onlineAgreementTemplateId);
 
 
     /**
      * 根据创客和商户找合同
      */
-    List<AgreementEntity> makerIdCompanyFind(Long makerId,Long employeeId);
+    List<AgreementEntity> makerIdCompanyFind(Long employeeId);
 }
 

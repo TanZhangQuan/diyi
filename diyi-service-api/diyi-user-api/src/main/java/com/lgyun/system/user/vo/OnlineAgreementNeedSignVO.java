@@ -21,9 +21,15 @@ public class OnlineAgreementNeedSignVO implements Serializable {
     private Long onlineAgreementNeedSignId;
 
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long onlineAggrementId;
+    private Long onlineAgreementTemplateId;
 
     private String templateType;
 
     private String agreementTemplate;
+
+    private Integer isContract;
+
+    private Integer signState;
+
+    private String onlineAggrementUrl;
 }
