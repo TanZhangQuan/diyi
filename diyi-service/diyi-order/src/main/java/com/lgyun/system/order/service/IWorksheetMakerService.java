@@ -40,12 +40,12 @@ public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity
     Boolean isMakerId(Long makerId,Long worksheetId);
 
     /**
-     * 根据工单类型，创客类型，年份或月份查询总收入
+     * 根据工单类型，创客类型，年份，月份（可选）查询工单笔数和总收入金额
      */
     R<AllIncomeYearMonthVO> queryAllMoneyByYearMonth(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year, Long month);
 
     /**
-     * 根据工单类型，创客类型，年份查询每月收入
+     * 根据工单类型，创客类型查询每年收入
      */
     R<IncomeYearVO> queryMoneyByYear(WorkSheetType worksheetType, MakerType makerType, Long makerId);
 
@@ -55,17 +55,17 @@ public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity
     R<IncomeMonthVO> queryMoneyByMonth(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year);
 
     /**
-     * 根据工单类型，创客类型，年份或月份查询创客对应商户的收入
+     * 根据工单类型，创客类型，年份，月份（可选）查询创客对应商户的总收入金额
      */
     R<IPage<AllIncomeYearMonthEnterpriseVO>> queryAllMoneyByYearMonthEnterprise(IPage<AllIncomeYearMonthEnterpriseVO> page, WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year, Long month);
 
     /**
-     * 根据工单类型，创客类型，年份，月份查询收入明细
+     * 根据工单类型，创客类型，年份，月份，商户编号（可选）查询收入明细
      */
     R<IPage<IncomeDetailYearMonthVO>> queryMoneyDetailByYearMonth(IPage<IncomeDetailYearMonthVO> page, WorkSheetType worksheetType, MakerType makerType, Long id, Long year, Long month, Long enterpriseId);
 
     /**
-     * 根据工单类型，创客类型，月份，商户编号（可选）查询总收入
+     * 根据工单类型，创客类型，年份，月份，商户编号（可选）查询明细总收入
      */
     R<BigDecimal> queryAllMoneyDetailByYearMonth(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year, Long month, Long enterpriseId);
 

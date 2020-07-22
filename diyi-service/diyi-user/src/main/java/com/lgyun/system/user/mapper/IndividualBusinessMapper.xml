@@ -65,7 +65,7 @@
     <select id="listByMaker" resultMap="individualBusinessListByMakerVO">
         select id, ibname, candidated_names from diyi_individual_business
         where is_deleted = 0 AND maker_id = #{param1}
-        <if test="#{param2} != null">
+        <if test="param2 != null">
             and ibstate = #{param2}
         </if>
     </select>

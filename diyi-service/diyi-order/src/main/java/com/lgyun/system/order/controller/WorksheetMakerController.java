@@ -76,10 +76,10 @@ public class WorksheetMakerController {
     }
 
     /**
-     * 根据工单类型，创客类型，年份或月份查询总收入
+     * 根据工单类型，创客类型，年份，月份（可选）查询工单笔数和总收入金额
      */
     @GetMapping("/query-all-money-by-year-month")
-    @ApiOperation(value = "根据工单类型，创客类型，年份或月份查询收入", notes = "根据工单类型，创客类型，年份或月份查询收入")
+    @ApiOperation(value = "根据工单类型，创客类型，年份，月份（可选）查询工单笔数和总收入金额", notes = "根据工单类型，创客类型，年份，月份（可选）查询工单笔数和总收入金额")
     public R<AllIncomeYearMonthVO> queryAllMoneyByYearMonth(@ApiParam(value = "工单类型") @NotNull(message = "请选择工单类型") @RequestParam(required = false) WorkSheetType worksheetType,
                                                             @ApiParam(value = "工单创客类型") @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType,
                                                             @ApiParam(value = "年份") @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
@@ -89,7 +89,7 @@ public class WorksheetMakerController {
             MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
             return worksheetMakerService.queryAllMoneyByYearMonth(worksheetType, makerType, makerEntity.getId(), year, month);
         }catch (Exception e){
-            log.error("根据工单类型，创客类型，年份或月份查询收入异常", e);
+            log.error("根据工单类型，创客类型，年份，月份（可选）查询工单笔数和总收入金额异常", e);
         }
         return R.fail("查询失败");
     }
@@ -98,7 +98,7 @@ public class WorksheetMakerController {
      * 根据工单类型，创客类型查询每年收入
      */
     @GetMapping("/query-money-by-year")
-    @ApiOperation(value = "根据工单类型，创客类型查询年收入", notes = "根据工单类型，创客类型查询年收入")
+    @ApiOperation(value = "根据工单类型，创客类型查询每年收入", notes = "根据工单类型，创客类型查询每年收入")
     public R<IncomeYearVO> queryMoneyByYear(@ApiParam(value = "工单类型") @NotNull(message = "请选择工单类型") @RequestParam(required = false) WorkSheetType worksheetType,
                                             @ApiParam(value = "工单创客类型") @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType,
                                             BladeUser bladeUser) {
@@ -106,7 +106,7 @@ public class WorksheetMakerController {
             MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
             return worksheetMakerService.queryMoneyByYear(worksheetType, makerType, makerEntity.getId());
         }catch (Exception e){
-            log.error("根据工单类型，创客类型查询年收入异常", e);
+            log.error("根据工单类型，创客类型查询每年收入异常", e);
         }
         return R.fail("查询失败");
     }
@@ -130,10 +130,10 @@ public class WorksheetMakerController {
     }
 
     /**
-     * 根据工单类型，创客类型，年份或月份查询创客对应商户的收入
+     * 根据工单类型，创客类型，年份，月份（可选）查询创客对应商户的总收入金额
      */
     @GetMapping("/query-all-money-by-year-month-enterprise")
-    @ApiOperation(value = "根据工单类型，创客类型，年份或月份查询创客对应商户的收入", notes = "根据工单类型，创客类型，年份或月份查询创客对应商户的收入")
+    @ApiOperation(value = "根据工单类型，创客类型，年份，月份（可选）查询创客对应商户的总收入金额", notes = "根据工单类型，创客类型，年份，月份（可选）查询创客对应商户的总收入金额")
     public R<IPage<AllIncomeYearMonthEnterpriseVO>> queryAllMoneyByYearMonthEnterprise(@ApiParam(value = "工单类型") @NotNull(message = "请选择工单类型") @RequestParam(required = false) WorkSheetType worksheetType,
                                                                                 @ApiParam(value = "工单创客类型") @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType,
                                                                                 @ApiParam(value = "年份") @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
@@ -143,16 +143,16 @@ public class WorksheetMakerController {
             MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
             return worksheetMakerService.queryAllMoneyByYearMonthEnterprise(Condition.getPage(query), worksheetType, makerType, makerEntity.getId(), year, month);
         }catch (Exception e){
-            log.error("根据工单类型，创客类型，年份或月份查询创客对应商户的收入异常", e);
+            log.error("根据工单类型，创客类型，年份，月份（可选）查询创客对应商户的总收入金额异常", e);
         }
         return R.fail("查询失败");
     }
 
     /**
-     * 根据工单类型，创客类型，年份，月份，商户编号（可选）查询总收入
+     * 根据工单类型，创客类型，年份，月份，商户编号（可选）查询明细总收入
      */
     @GetMapping("/query-all-money-detail-by-year-month")
-    @ApiOperation(value = "根据工单类型，创客类型，年份，月份查询收入明细", notes = "根据工单类型，创客类型，年份，月份查询收入明细")
+    @ApiOperation(value = "根据工单类型，创客类型，年份，月份，商户编号（可选）查询明细总收入", notes = "根据工单类型，创客类型，年份，月份，商户编号（可选）查询明细总收入")
     public R<BigDecimal> queryAllMoneyDetailByYearMonth(@ApiParam(value = "工单类型") @NotNull(message = "请选择工单类型") @RequestParam(required = false) WorkSheetType worksheetType,
                                                         @ApiParam(value = "工单创客类型") @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType,
                                                         @ApiParam(value = "年份") @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
@@ -163,7 +163,7 @@ public class WorksheetMakerController {
             MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
             return worksheetMakerService.queryAllMoneyDetailByYearMonth(worksheetType, makerType, makerEntity.getId(), year, month, enterpriseId);
         }catch (Exception e){
-            log.error("根据工单类型，创客类型，年份，月份查询收入明细异常", e);
+            log.error("根据工单类型，创客类型，年份，月份，商户编号（可选）查询明细总收入异常", e);
         }
         return R.fail("查询失败");
     }
@@ -172,7 +172,7 @@ public class WorksheetMakerController {
      * 根据工单类型，创客类型，年份，月份，商户编号（可选）查询收入明细
      */
     @GetMapping("/query-money-detail-by-year-month")
-    @ApiOperation(value = "根据工单类型，创客类型，年份，月份查询收入明细", notes = "根据工单类型，创客类型，年份，月份查询收入明细")
+    @ApiOperation(value = "根据工单类型，创客类型，年份，月份，商户编号（可选）查询收入明细", notes = "根据工单类型，创客类型，年份，月份，商户编号（可选）查询收入明细")
     public R<IPage<IncomeDetailYearMonthVO>> queryMoneyDetailByYearMonth(@ApiParam(value = "工单类型") @NotNull(message = "请选择工单类型") @RequestParam(required = false) WorkSheetType worksheetType,
                                                             @ApiParam(value = "工单创客类型") @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType,
                                                             @ApiParam(value = "年份") @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
@@ -183,7 +183,7 @@ public class WorksheetMakerController {
             MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
             return worksheetMakerService.queryMoneyDetailByYearMonth(Condition.getPage(query.setDescs("create_time")), worksheetType, makerType, makerEntity.getId(), year, month, enterpriseId);
         }catch (Exception e){
-            log.error("根据工单类型，创客类型，年份，月份查询收入明细异常", e);
+            log.error("根据工单类型，创客类型，年份，月份，商户编号（可选）查询收入明细异常", e);
         }
         return R.fail("查询失败");
     }

@@ -1843,7 +1843,8 @@ CREATE TABLE `diyi_worksheet_maker` (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`maker_id`, `worksheet_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------

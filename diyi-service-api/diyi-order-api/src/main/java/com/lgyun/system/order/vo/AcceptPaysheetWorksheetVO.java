@@ -26,7 +26,7 @@ public class AcceptPaysheetWorksheetVO {
     private BigDecimal payToPlatformAmount;
 
     //发布时间
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern = "MM-dd", timezone = "GMT+8")
     private Date publishDate;
 
     //关单时间
@@ -44,6 +44,10 @@ public class AcceptPaysheetWorksheetVO {
 
     //模式，派单、抢单、混合（默认：混合型）
     private String worksheetMode;
+
+    //发布时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date publishDate2;
 
     //工单编号
     private String worksheetNo;

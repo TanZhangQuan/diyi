@@ -41,6 +41,7 @@
         <result property="worksheetName" column="worksheet_name"/>
         <result property="worksheetType" column="worksheet_type"/>
         <result property="worksheetMode" column="worksheet_mode"/>
+        <result property="publishDate2" column="publish_date2"/>
         <result property="worksheetNo" column="worksheet_no"/>
         <result property="checkMoney" column="check_money"/>
         <result property="achievementDesc" column="achievement_desc"/>
@@ -63,7 +64,7 @@
     <select id="getAcceptPaysheetWorksheet" resultMap="acceptPaysheetWorksheetVO">
         SELECT t1.accept_paysheet_type, t3.enterprise_name, t2.pay_to_platform_amount, t4.publish_date, t4.close_worksheet_date,
         IF ( t1.accept_paysheet_type = 'SINGLE' AND t1.maker_id = #{param1}, t1.accept_paysheet_url, NULL ) AS accept_paysheet_url,
-        t4.worksheet_name, t4.worksheet_type, t4.worksheet_mode, t4.worksheet_no, t5.check_money, t5.achievement_desc,
+        t4.worksheet_name, t4.worksheet_type, t4.worksheet_mode, t4.publish_date AS publish_date2, t4.worksheet_no, t5.check_money, t5.achievement_desc,
         t5.achievement_files FROM diyi_accept_paysheet t1 INNER JOIN diyi_pay_enterprise t2 ON t1.enterprise_pay_id = t2.id
         INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id LEFT JOIN diyi_worksheet t4 ON t2.worksheet_id = t4.id AND t4.is_deleted = 0
         LEFT JOIN diyi_worksheet_maker t5 ON t4.id = t5.worksheet_id AND t5.is_deleted = 0 WHERE t1.is_deleted = 0 AND t2.is_deleted = 0

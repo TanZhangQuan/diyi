@@ -90,7 +90,7 @@ public class AcceptPaysheetController {
 	}
 
 	@GetMapping("/get-accept-paysheet-worksheet")
-	@ApiOperation(value = "查询创客对应某商户的所有交付支付验收单", notes = "查询创客对应某商户的所有交付支付验收单")
+	@ApiOperation(value = "根据ID查询交付支付验收单", notes = "根据ID查询交付支付验收单")
 	public R<AcceptPaysheetWorksheetVO> getAcceptPaysheetWorksheet(@ApiParam(value = "交付支付验收单ID") @NotNull(message = "请输入交付支付验收单编号") @RequestParam(required = false) Long acceptPaysheetId, BladeUser bladeUser) {
 		MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
 		return acceptPaysheetService.getAcceptPaysheetWorksheet(makerEntity.getId(), acceptPaysheetId);
