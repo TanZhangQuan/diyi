@@ -9,6 +9,8 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IdcardOcrSaveDto;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.IMakerService;
+import com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO;
+import com.lgyun.system.user.vo.MakerInfoVO;
 import com.lgyun.system.user.vo.MakerVO;
 import com.lgyun.system.user.wrapper.MakerWrapper;
 import io.swagger.annotations.Api;
@@ -38,7 +40,6 @@ import javax.validation.constraints.NotNull;
 public class MakerController {
 
 	private IMakerService makerService;
-	private IMakerService iMakerService;
 
 //	@PostMapping("/save")
 //	@ApiOperation(value = "新增", notes = "新增")
@@ -81,7 +82,7 @@ public class MakerController {
 		log.info("身份证实名认证");
 		try {
 			//获取当前创客
-			MakerEntity makerEntity = iMakerService.current(bladeUser);
+			MakerEntity makerEntity = makerService.current(bladeUser);
 			return makerService.idcardOcr(idcardPic, makerEntity);
 		} catch (Exception e) {
 			log.error("身份证实名认证异常", e);
@@ -96,7 +97,7 @@ public class MakerController {
 		log.info("身份证实名认证信息保存");
 		try {
 			//获取当前创客
-			MakerEntity makerEntity = iMakerService.current(bladeUser);
+			MakerEntity makerEntity = makerService.current(bladeUser);
 			return makerService.idcardOcrSave(idcardOcrSaveDto, makerEntity);
 		} catch (Exception e) {
 			log.error("身份证实名认证信息保存异常", e);
@@ -111,7 +112,7 @@ public class MakerController {
 		log.info("身份实名认证");
 		try {
 			//获取当前创客
-			MakerEntity makerEntity = iMakerService.current(bladeUser);
+			MakerEntity makerEntity = makerService.current(bladeUser);
 			return makerService.faceOcr(makerEntity);
 		} catch (Exception e) {
 			log.error("身份实名认证异常", e);
@@ -139,7 +140,7 @@ public class MakerController {
 		log.info("银行卡实名认证");
 		try {
 			//获取当前创客
-			MakerEntity makerEntity = iMakerService.current(bladeUser);
+			MakerEntity makerEntity = makerService.current(bladeUser);
 			return makerService.bankCardOcr(bankCardNo, makerEntity);
 		} catch (Exception e) {
 			log.error("银行卡实名认证异常", e);
@@ -167,7 +168,7 @@ public class MakerController {
 		log.info("手机号实名认证");
 		try {
 			//获取当前创客
-			MakerEntity makerEntity = iMakerService.current(bladeUser);
+			MakerEntity makerEntity = makerService.current(bladeUser);
 			return makerService.mobileOcr(makerEntity);
 		} catch (Exception e) {
 			log.error("手机号实名认证异常", e);
@@ -195,7 +196,7 @@ public class MakerController {
 		log.info("查询当前创客身份证实名认证的照片");
 		try {
 			//获取当前创客
-			MakerEntity makerEntity = iMakerService.current(bladeUser);
+			MakerEntity makerEntity = makerService.current(bladeUser);
 			return makerService.queryIdcardOcr(makerEntity);
 		} catch (Exception e) {
 			log.error("查询当前创客身份证实名认证的照片异常", e);
@@ -203,26 +204,41 @@ public class MakerController {
 		return R.fail("查询当前创客身份证实名认证的照片失败");
 	}
 
-	@PostMapping("/check_idcard_face_verify")
-	@ApiOperation(value = "检查当前创客身份证和身份是否已实名认证", notes = "检查当前创客身份证和身份是否已实名认证")
-	public R checkIdcardFaceVerify(BladeUser bladeUser) {
+	@GetMapping("/get-info")
+	@ApiOperation(value = "获取当前创客基本信息", notes = "获取当前创客基本信息")
+	public R<MakerInfoVO> getInfo(BladeUser bladeUser) {
 
-		log.info("检查当前创客身份证和身份是否已实名认证");
+		log.info("获取当前创客基本信息");
 		try {
 			//获取当前创客
-			MakerEntity makerEntity = iMakerService.current(bladeUser);
-			return makerService.checkIdcardFaceVerify(makerEntity);
+			MakerEntity maker = makerService.current(bladeUser);
+			return makerService.getInfo(maker.getId());
 		} catch (Exception e) {
-			log.error("检查当前创客身份证和身份是否已实名认证异常", e);
+			log.error("获取当前创客基本信息异常", e);
 		}
-		return R.fail("检查身份证和身份是否已实名认证失败");
+		return R.fail("查询失败");
+	}
+
+	@GetMapping("/get-enterprise-num-income")
+	@ApiOperation(value = "查询当前创客关联商户数和收入情况", notes = "查询当前创客关联商户数和收入情况")
+	public R<MakerEnterpriseNumIncomeVO> getEnterpriseNumIncome(BladeUser bladeUser) {
+
+		log.info("查询当前创客关联商户数和收入情况");
+		try {
+			//获取当前创客
+			MakerEntity maker = makerService.current(bladeUser);
+			return makerService.getEnterpriseNumIncome(maker.getId());
+		} catch (Exception e) {
+			log.error("查询当前创客关联商户数和收入情况异常", e);
+		}
+		return R.fail("查询失败");
 	}
 
 	@GetMapping("/current-detail")
 	@ApiOperation(value = "当前创客详情", notes = "当前创客详情")
 	public R<MakerVO> currentDetail(BladeUser bladeUser) {
 		//获取当前创客
-		MakerEntity maker = iMakerService.current(bladeUser);
+		MakerEntity maker = makerService.current(bladeUser);
 		return R.data(MakerWrapper.build().entityVO(maker));
 	}
 

@@ -26,7 +26,7 @@ public class MakerEnterpriseEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 企业ID
+     * 商户ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
@@ -43,6 +43,9 @@ public class MakerEnterpriseEntity extends BaseEntity {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long positionId;
 
+    /**
+     * 0：关联，1关注，2：不关联不关注
+     */
     private Integer relationshipType;
 
     /**

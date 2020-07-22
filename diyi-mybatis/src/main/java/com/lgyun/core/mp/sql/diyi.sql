@@ -1125,13 +1125,12 @@ CREATE TABLE `diyi_individual_enterprise_annual_fee` (
 DROP TABLE IF EXISTS `diyi_maker`;
 CREATE TABLE `diyi_maker` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `user_id` bigint(50) DEFAULT NULL COMMENT '管理者ID',
-  `wechat_id` varchar(50) NOT NULL DEFAULT '' COMMENT '微信关联ID',
+  `user_id` bigint(50) NOT NULL COMMENT '管理者ID',
   `openid` varchar(50) NOT NULL DEFAULT '' COMMENT '微信open_id',
   `session_key` varchar(50) NOT NULL DEFAULT '' COMMENT '微信session_key',
-  `wechat_nickname` varchar(50) NOT NULL DEFAULT '' COMMENT '微信昵称',
   `rel_date` datetime DEFAULT NULL COMMENT '微信关联日期',
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '姓名',
+  `avatar` varchar(100) NOT NULL DEFAULT '' COMMENT '头像',
   `certification_state` varchar(50) NOT NULL COMMENT '认证状态',
   `sign_state` varchar(50) NOT NULL COMMENT '签署状态',
   `maker_state` varchar(50) NOT NULL COMMENT '账户状态',
@@ -1183,7 +1182,8 @@ CREATE TABLE `diyi_maker` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`phone_number`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`user_id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`phone_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
@@ -1213,7 +1213,8 @@ CREATE TABLE `diyi_maker_enterprise` (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`enterprise_id`, `maker_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------

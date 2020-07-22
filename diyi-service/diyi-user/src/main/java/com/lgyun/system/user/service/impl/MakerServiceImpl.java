@@ -14,6 +14,8 @@ import com.lgyun.system.user.mapper.MakerMapper;
 import com.lgyun.system.user.oss.AliyunOssService;
 import com.lgyun.system.user.service.IMakerService;
 import com.lgyun.system.user.vo.IdcardOcrVO;
+import com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO;
+import com.lgyun.system.user.vo.MakerInfoVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -368,22 +370,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R checkIdcardFaceVerify(MakerEntity makerEntity) {
-
-        //查看创客是否已经身份证实名认证
-        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
-            return R.fail("请先进行身份证实名认证");
-        }
-
-        //查看创客是否已经身份实名认证
-        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus()))) {
-            return R.fail("请先进行身份实名认证");
-        }
-
-        return R.success("身份证和身份已实名认证");
-    }
-
-    @Override
     public String getName(Long id) {
         return baseMapper.getName(Func.toLong(id));
     }
@@ -391,6 +377,16 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     @Override
     public MakerEntity findByUserId(Long userId) {
         return baseMapper.findByUserId(userId);
+    }
+
+    @Override
+    public R<MakerInfoVO> getInfo(Long makerId) {
+        return R.data(baseMapper.getInfo(makerId));
+    }
+
+    @Override
+    public R<MakerEnterpriseNumIncomeVO> getEnterpriseNumIncome(Long makerId) {
+        return R.data(baseMapper.getEnterpriseNumIncome(makerId, makerId));
     }
 
     @Override

@@ -5,6 +5,8 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.dto.IdcardOcrSaveDto;
 import com.lgyun.system.user.entity.MakerEntity;
+import com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO;
+import com.lgyun.system.user.vo.MakerInfoVO;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -97,13 +99,6 @@ public interface IMakerService extends IService<MakerEntity> {
     R queryIdcardOcr(MakerEntity makerEntity);
 
     /**
-     * 检查当前创客身份证和身份是否已实名认证
-     *
-     * @return
-     */
-    R checkIdcardFaceVerify(MakerEntity makerEntity);
-
-    /**
      * 获取运营者名称
      */
     String getName(Long id);
@@ -115,6 +110,22 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      */
     MakerEntity findByUserId(Long userId);
+
+    /**
+     * 获取创客基本信息
+     *
+     * @param
+     * @return
+     */
+    R<MakerInfoVO> getInfo(Long makerId);
+
+    /**
+     * 获取当前创客关联商户数和收入情况
+     *
+     * @param
+     * @return
+     */
+    R<MakerEnterpriseNumIncomeVO> getEnterpriseNumIncome(Long makerId);
 
     /**
      * 获取当前创客

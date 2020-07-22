@@ -44,8 +44,10 @@ public class MakerEnterpriseRelationVO {
     //0：关联，1关注，2：不关联不关注
     private Integer relationshipType;
 
-    private Long shopId;//商户id
+    //商户id
+    private Long shopId;
 
-    private String contact1Name;//联系人1姓名
+    //联系人1姓名
+    private String contact1Name;
 
 }

@@ -32,16 +32,6 @@ public class MakerEntity extends BaseEntity {
     private Long userId;
 
     /**
-     * 微信关联ID
-     */
-    private String wechatId;
-
-    /**
-     * 微信昵称
-     */
-    private String wechatNickname;
-
-    /**
      * 微信open_id
      */
     @JsonIgnore
@@ -62,6 +52,11 @@ public class MakerEntity extends BaseEntity {
      * 姓名
      */
     private String name;
+
+    /**
+     * 头像
+     */
+    private String avatar;
 
     /**
      * 认证状态

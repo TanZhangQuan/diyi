@@ -7,12 +7,11 @@
     <resultMap type="com.lgyun.system.user.entity.MakerEntity" id="makerMap">
         <result property="id" column="id"/>
         <result property="userId" column="user_id"/>
-        <result property="wechatId" column="wechat_id"/>
         <result property="openid" column="openid"/>
         <result property="sessionKey" column="session_key"/>
-        <result property="wechatNickname" column="wechat_nickname"/>
         <result property="relDate" column="rel_date"/>
         <result property="name" column="name"/>
+        <result property="avatar" column="avatar"/>
         <result property="certificationState" column="certification_state"/>
         <result property="signState" column="sign_state"/>
         <result property="makerState" column="maker_state"/>
@@ -65,6 +64,20 @@
         <result property="isDeleted" column="is_deleted"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.user.vo.MakerInfoVO" id="makerInfoVO">
+        <result property="avatar" column="avatar"/>
+        <result property="name" column="name"/>
+        <result property="certificationState" column="certification_state"/>
+        <result property="selfDesc" column="self_desc"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO" id="makerEnterpriseNumIncomeVO">
+        <result property="enterpriseNum" column="enterprise_num"/>
+        <result property="monthIncome" column="month_income"/>
+        <result property="yearIncome" column="year_income"/>
+        <result property="allIncome" column="all_income"/>
+    </resultMap>
+
     <select id="findByPhoneNumber" resultMap="makerMap">
         SELECT *
         FROM diyi_maker
@@ -95,6 +108,22 @@
         WHERE id = #{param1}
           and is_deleted = 0
         LIMIT 1
+    </select>
+
+    <select id="getInfo" resultMap="makerInfoVO">
+        SELECT avatar, name, certification_state, self_desc
+        FROM diyi_maker
+        WHERE id = #{param1}
+          and is_deleted = 0
+        LIMIT 1
+    </select>
+
+    <select id="getEnterpriseNumIncome" resultMap="makerEnterpriseNumIncomeVO">
+        SELECT * FROM (SELECT COUNT(t1.id) AS enterprise_num FROM diyi_maker_enterprise t1 INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id
+        WHERE t1.maker_id = #{param1} AND t1.relationship_type = 0 AND t1.cooperate_status = 'COOPERATING') t1,
+        (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), t2.check_date) <![CDATA[ < ]]> 30, t2.check_money, 0)), 0) AS month_income, IFNULL(SUM(IF(DATEDIFF(NOW(), t2.check_date) <![CDATA[ < ]]> 365, t2.check_money, 0)), 0) AS year_income,
+        IFNULL(SUM(t2.check_money), 0) AS all_income FROM diyi_worksheet t1 INNER JOIN diyi_worksheet_maker t2 ON t1.id = t2.worksheet_id
+        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t2.worksheet_maker_state = 'VALIDATION' AND t2.maker_id = #{param2}) t2
     </select>
 
 </mapper>
