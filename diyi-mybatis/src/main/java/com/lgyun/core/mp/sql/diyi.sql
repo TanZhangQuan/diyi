@@ -1260,14 +1260,10 @@ CREATE TABLE `diyi_maker_tax_record` (
 -- ----------------------------
 -- Table structure for diyi_maker_voice
 -- ----------------------------
-DROP TABLE IF EXISTS `diyi_maker_voice`;
-CREATE TABLE `diyi_maker_voice` (
+DROP TABLE IF EXISTS `diyi_maker_invoice`;
+CREATE TABLE `diyi_maker_invoice` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `pay_id` bigint(50) NOT NULL COMMENT '创客支付ID',
-  `order_id` bigint(50) NOT NULL COMMENT '订单ID',
-  `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
-  `maker_type` varchar(50) NOT NULL COMMENT '创客类别：自然人，个体户',
-  `individual_business_name` varchar(50) NOT NULL DEFAULT '' COMMENT '个体户名称',
+  `pay_maker_id` bigint(50) NOT NULL COMMENT '创客支付ID',
   `voice_type_no` varchar(50) NOT NULL COMMENT '发票代码',
   `voice_serial_no` varchar(50) NOT NULL COMMENT '发票号码',
   `maker_voice_get_date_time` datetime NOT NULL COMMENT '发票开具日期',
@@ -1910,6 +1906,7 @@ CREATE TABLE `diyi_maker_total_invoice` (
 
 CREATE TABLE `diyi_pay_maker` (
   `id` bigint(50) NOT NULL COMMENT '唯一性控制',
+  `pay_list_id` bigint(50) NOT NULL COMMENT '支付清单ID',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
   `maker_type` varchar(50) NOT NULL COMMENT '创客身份，自然人，个体户，个独。',
   `Individual_business_name` varchar(100) NOT NULL COMMENT '个体户/个独名称',
