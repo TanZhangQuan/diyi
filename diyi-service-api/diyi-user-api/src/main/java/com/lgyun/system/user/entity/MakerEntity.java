@@ -66,11 +66,13 @@ public class MakerEntity extends BaseEntity {
     /**
      * 合同签署状态
      */
+    @JsonIgnore
     private SignState signState;
 
     /**
      * 账户状态
      */
+    @JsonIgnore
     private AccountState makerState;
 
     /**
