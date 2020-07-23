@@ -32,14 +32,14 @@ public interface SmsConstant {
     // 请求端口
     String YUNTONGXUN_SMS_PORT = "8883";
     // 账号ACCOUNT SID
-    String YUNTONGXUN_SMS_ACCOUNTSID = "8a216da870e2267e01711fe50c8d2283";
+    String YUNTONGXUN_SMS_ACCOUNTSID = "8a216da873709709017370edddec0049";
     // 账号令牌AUTH TOKEN
-    String YUNTONGXUN_SMS_ACCOUNTTOKEN = "a6b013e995fa4edb93bf68aee2f99087";
+    String YUNTONGXUN_SMS_ACCOUNTTOKEN = "049116ccab4146ee88d101a1fa9e2a39";
     // 账号APPID
-    String YUNTONGXUN_SMS_APPID = "8a216da870e2267e01711fe50cea228a";
-    // 云通讯短信模板ID
-    String TEMPLATE_CODE_ID = "595738";
-    // 云通讯短信模板ID
-    String TEMPLATE_LINK_ID = "595738";
+    String YUNTONGXUN_SMS_APPID = "8a216da873709709017370eddee60051";
+    // 云通讯验证码短信模板ID
+    String TEMPLATE_CODE_ID = "622059";
+    // 云通讯链接短信模板ID
+    String TEMPLATE_LINK_ID = "622111";
 
 }

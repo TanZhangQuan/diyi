@@ -24,7 +24,7 @@ public class SmsUtil {
      * @param
      * @return
      */
-    public R sendCode(String mobile) {
+    public R<String> sendCode(String mobile) {
 
         String sendKey = SmsConstant.SEND_INTERVAL + mobile;
         String availableKey = SmsConstant.AVAILABLE_TIME + mobile;
@@ -44,7 +44,11 @@ public class SmsUtil {
 
         if ("yuntongxun".equals(SmsConstant.SMS_PLATFORM)) {
             String[] datas = new String[]{randomCode, String.valueOf(SmsConstant.SMS_AVAILABLE_TIME_MINUTES)};
-            R response = yunTongXunSmsUtil.send(datas, mobile, MessageType.CODE);
+            R<String> response = yunTongXunSmsUtil.send(datas, mobile, MessageType.CODE);
+            if (!(response.isSuccess())){
+                return response;
+            }
+
             redisUtil.set(availableKey, randomCode, SmsConstant.SMS_AVAILABLE_TIME_MINUTES, TimeUnit.MINUTES);
             redisUtil.set(sendKey, true, SmsConstant.SMS_SEND_INTERVAL_MINUTES, TimeUnit.MINUTES);
             return response;
@@ -61,7 +65,7 @@ public class SmsUtil {
      * @param
      * @return
      */
-    public R sendLink(String mobile, String link) {
+    public R<String> sendLink(String mobile, String link) {
 
         String sendKey = SmsConstant.SEND_INTERVAL + mobile;
 
@@ -72,7 +76,11 @@ public class SmsUtil {
 
         if ("yuntongxun".equals(SmsConstant.SMS_PLATFORM)) {
             String[] datas = new String[]{link};
-            R response = yunTongXunSmsUtil.send(datas, mobile, MessageType.LINK);
+            R<String> response = yunTongXunSmsUtil.send(datas, mobile, MessageType.LINK);
+            if (!(response.isSuccess())){
+                return response;
+            }
+
             redisUtil.set(sendKey, true, SmsConstant.SMS_SEND_INTERVAL_MINUTES, TimeUnit.MINUTES);
             return response;
 

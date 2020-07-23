@@ -126,7 +126,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return result;
         }
 
-        return R.success("人脸识别请求已通过短信发送，请及时进行操作");
+        return R.success("身份识别请求已通过短信发送，请及时进行操作");
     }
 
     @Override

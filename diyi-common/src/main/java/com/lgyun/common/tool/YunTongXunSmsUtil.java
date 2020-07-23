@@ -30,7 +30,7 @@ public class YunTongXunSmsUtil {
      *
      * @param mobile 手机号
      */
-    public R send(String[] datas, String mobile, MessageType messageType) {
+    public R<String> send(String[] datas, String mobile, MessageType messageType) {
 
         log.info("========云通讯短信发送=========", mobile);
         String cacheKey = SmsConstant.MAX_SEND_TIME + mobile;

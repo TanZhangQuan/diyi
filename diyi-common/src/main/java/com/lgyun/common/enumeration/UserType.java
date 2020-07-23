@@ -10,6 +10,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum UserType {
     MAKER("MAKER", "创客"),
+    ENTERPRISE("ENTERPRISE", "商户"),
     ADMIN("ADMIN", "管理员");
 
     private final String value;

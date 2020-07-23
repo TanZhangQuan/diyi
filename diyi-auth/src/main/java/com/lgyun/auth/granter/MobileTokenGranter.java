@@ -113,7 +113,7 @@ public class MobileTokenGranter implements ITokenGranter {
      * @param mobile 手机号
      * @return true、false
      */
-    public R sendSmsCode(String mobile, CodeType codeType, UserType userType) {
+    public R<String> sendSmsCode(String mobile, CodeType codeType, UserType userType) {
 
         if (CodeType.LOGIN.equals(codeType) || CodeType.UPDATEPASSWORD.equals(codeType)) {
 
