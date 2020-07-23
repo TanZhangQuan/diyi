@@ -11,6 +11,8 @@ import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -104,21 +106,24 @@ public class AgreementController {
         }
     }
 
-    /**
-     * 查询创客需要签署的授权协议和合同
-     */
-    @GetMapping("/getOnlineAgreementNeedSign")
-    @ApiOperation(value = "查询创客需要签署的授权协议和合同", notes = "查询创客需要签署的授权协议和合同")
-    public R getOnlineAgreementNeedSign(BladeUser bladeUser, @RequestParam(name = "0.合同，1授权") Integer isContract) {
-        log.info("查询创客需要签署的授权协议和合同");
-        try {
-            MakerEntity makerEntity = iMakerService.current(bladeUser);
-            return onlineAgreementNeedSignService.getOnlineAgreementNeedSign(makerEntity.getId(), isContract);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return R.fail("查询创客需要签署的授权协议和合同失败");
-        }
-    }
+	/**
+	 * 查询创客需要签署的授权协议和合同
+	 */
+	@GetMapping("/getOnlineAgreementNeedSign")
+	@ApiOperation(value = "查询创客需要签署的授权协议和合同", notes = "查询创客需要签署的授权协议和合同")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "isContract", value = "0合同1授权", paramType = "query", dataType = "int"),
+	})
+	public R getOnlineAgreementNeedSign(BladeUser bladeUser,@RequestParam Integer isContract){
+		log.info("查询创客需要签署的授权协议和合同");
+		try {
+			MakerEntity makerEntity = iMakerService.current(bladeUser);
+			return onlineAgreementNeedSignService.getOnlineAgreementNeedSign(makerEntity.getId(),isContract);
+		}catch (Exception e){
+			e.printStackTrace();
+			return R.fail("查询创客需要签署的授权协议和合同失败");
+		}
+	}
 
 
     /**

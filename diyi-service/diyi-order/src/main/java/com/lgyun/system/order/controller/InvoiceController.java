@@ -74,11 +74,11 @@ public class InvoiceController {
      */
     @GetMapping("/getEnterpriseMakerIdDetail")
     @ApiOperation(value = "根据创客id,商户id和创客支付id查询票的详情", notes = "根据创客id,商户id和创客支付id查询票的详情")
-    public R getEnterpriseMakerIdDetail(Query query,BladeUser bladeUser,Long enterpriseId,Long payMakerId) {
+    public R getEnterpriseMakerIdDetail(BladeUser bladeUser,Long enterpriseId,Long payMakerId) {
         log.info("根据创客id,商户id和创客支付id查询票的详情");
         try{
             MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
-            return payEnterpriseService.getEnterpriseMakerIdDetail(makerEntity.getId(),enterpriseId,payMakerId ,Condition.getPage(query));
+            return payEnterpriseService.getEnterpriseMakerIdDetail(makerEntity.getId(),enterpriseId,payMakerId);
         }catch (Exception e){
             e.printStackTrace();
             return R.fail("根据创客id,商户id和创客支付id查询票的详情失败");

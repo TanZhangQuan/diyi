@@ -31,6 +31,6 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     /**
      * 根据创客id查询所有商户
      */
-    List<InvoiceEnterpriseVO> getEnterpriseMakerIdDetail(Long makerId,Long enterpriseId,Long payMakerId,IPage page);
+    InvoiceEnterpriseVO getEnterpriseMakerIdDetail(Long makerId,Long enterpriseId,Long payMakerId);
 }
 

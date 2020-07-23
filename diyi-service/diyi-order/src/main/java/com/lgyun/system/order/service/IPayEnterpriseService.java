@@ -28,6 +28,6 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     /**
      *  根据创客id,商户id和创客支付id查询票的详情
      */
-    R<IPage<InvoiceEnterpriseVO>> getEnterpriseMakerIdDetail(Long makerId,Long enterpriseId,Long payMakerId,IPage<InvoiceEnterpriseVO> page);
+    R getEnterpriseMakerIdDetail(Long makerId,Long enterpriseId,Long payMakerId);
 }
 
