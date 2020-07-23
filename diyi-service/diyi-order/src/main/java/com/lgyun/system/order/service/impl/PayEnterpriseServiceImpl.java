@@ -36,7 +36,11 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R getEnterpriseMakerIdDetail(Long makerId, Long enterpriseId,Long payMakerId, IPage<InvoiceEnterpriseVO> page) {
-        return R.data(page.setRecords(baseMapper.getEnterpriseMakerIdDetail(makerId,enterpriseId,payMakerId,page)));
+    public R getEnterpriseMakerIdDetail(Long makerId, Long enterpriseId,Long payMakerId) {
+        InvoiceEnterpriseVO enterpriseMakerIdDetail = baseMapper.getEnterpriseMakerIdDetail(makerId, enterpriseId, payMakerId);
+        if(null != enterpriseMakerIdDetail.getMakerNum() && enterpriseMakerIdDetail.getMakerNum() > 1){
+            return R.fail("抱歉，由于此发票人数过多，你没有权限观看");
+        }
+        return R.data(enterpriseMakerIdDetail);
     }
 }

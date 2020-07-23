@@ -87,4 +87,9 @@ public class InvoiceEnterpriseVO  implements Serializable {
      * 验收金额
      */
     private String checkMoney;
+
+    /**
+     * 创客数
+     */
+    private Integer makerNum;
 }
