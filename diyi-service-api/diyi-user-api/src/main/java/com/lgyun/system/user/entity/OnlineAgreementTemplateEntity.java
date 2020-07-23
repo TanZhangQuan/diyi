@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 import com.lgyun.core.mp.base.BaseEntity;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
@@ -22,6 +23,7 @@ import java.util.Date;
  * @since 2020-07-18 14:37:08
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @TableName("diyi_online_agreement_template")
 public class OnlineAgreementTemplateEntity extends BaseEntity {

@@ -8,6 +8,7 @@ import com.lgyun.common.enumeration.AnnualFeeState;
 import com.lgyun.common.tool.DateUtil;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
@@ -20,6 +21,7 @@ import java.util.Date;
  * @since 2020-07-02 17:44:02
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @TableName("diyi_individual_enterprise_annual_fee")
 public class IndividualEnterpriseAnnualFeeEntity extends BaseEntity {

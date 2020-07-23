@@ -1,11 +1,14 @@
 package com.lgyun.system.user.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.EnterprisePositionName;
 import com.lgyun.common.enumeration.Gender;
-import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.core.mp.base.BaseEntity;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -13,30 +16,43 @@ import lombok.NoArgsConstructor;
 /**
  * Entity
  *
- * @author liangfeihu
- * @since 2020-06-26 17:21:05
+ * @author tzq
+ * @since 2020-07-23 17:50:16
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@TableName("diyi_employee")
-public class EmployeeEntity extends BaseEntity {
+@TableName("diyi_enterprise_worker")
+public class EnterpriseWorkerEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 主键
+     */
+    @ApiModelProperty(value = "主键")
+    @TableId(type = IdType.ASSIGN_ID)
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long id;
+
+    /**
+     * 商户ID
+     */
+    private Long enterpriseId;
 
     /**
      * 姓名
      */
-    private String employeeName;
+    private String workerName;
 
     /**
-     * 性别：男，女
+     * 性别
      */
-    private Gender gender;
+    private Gender workerSex;
 
     /**
-     * 岗位性质：营销人员，客服人员，运营人员，管理人员，其他
+     * 岗位性质
      */
-    private PositionName positionName;
+    private EnterprisePositionName positionName;
 
     /**
      * 手机号码
@@ -46,11 +62,10 @@ public class EmployeeEntity extends BaseEntity {
     /**
      * 上级主管
      */
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long upLevelId;
 
     /**
-     * 用户名: 手机号码和用户名皆可
+     * 用户名
      */
     private String employeeUserName;
 
@@ -60,7 +75,7 @@ public class EmployeeEntity extends BaseEntity {
     private String employeePwd;
 
     /**
-     * 是否管理员
+     * 管理员特性
      */
     private Boolean adminPower;
 

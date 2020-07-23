@@ -3,6 +3,7 @@ package com.lgyun.system.order.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
  * @since 2020-07-08 14:32:47
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @TableName("diyi_self_help_invoice_express")
 public class SelfHelpInvoiceExpressEntity extends BaseEntity {

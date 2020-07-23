@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 import com.lgyun.core.mp.base.BaseEntity;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
@@ -20,6 +21,7 @@ import java.util.Date;
  * @since 2020-07-18 20:49:13
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @TableName("diyi_maker_tax_record")
 public class MakerTaxRecordEntity extends BaseEntity {

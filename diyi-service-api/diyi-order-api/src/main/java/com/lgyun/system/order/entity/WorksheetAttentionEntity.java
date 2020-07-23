@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
  * @since 2020-06-26 17:21:06
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @TableName("diyi_worksheet_attention")
 public class WorksheetAttentionEntity extends BaseEntity {

@@ -3,6 +3,7 @@ package com.lgyun.system.order.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
  * @since 2020-07-02 16:21:19
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @TableName("diyi_address")
 public class AddressEntity extends BaseEntity {

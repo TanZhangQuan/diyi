@@ -10,6 +10,7 @@ import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.core.mp.base.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
@@ -22,6 +23,7 @@ import java.util.Date;
  * @since 2020-07-17 20:01:13
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @TableName("diyi_pay_enterprise")
 public class PayEnterpriseEntity extends BaseEntity {

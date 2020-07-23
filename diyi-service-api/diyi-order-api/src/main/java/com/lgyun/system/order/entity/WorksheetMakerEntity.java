@@ -5,6 +5,7 @@ import com.lgyun.common.enumeration.GetType;
 import com.lgyun.common.enumeration.WorksheetMakerState;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
@@ -17,6 +18,7 @@ import java.util.Date;
  * @since 2020-07-07 14:40:21
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @TableName("diyi_worksheet_maker")
 public class WorksheetMakerEntity extends BaseEntity {

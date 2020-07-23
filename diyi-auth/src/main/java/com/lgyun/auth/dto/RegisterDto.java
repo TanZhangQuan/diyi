@@ -31,6 +31,7 @@ public class RegisterDto implements Serializable {
 
     //密码
     @NotBlank(message = "请输入密码")
+    @Length(min = 6, max = 18, message = "请输入长度为6-18位的密码")
     private String password;
 
     //短信验证码

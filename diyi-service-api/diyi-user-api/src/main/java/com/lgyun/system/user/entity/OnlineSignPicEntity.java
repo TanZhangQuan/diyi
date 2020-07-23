@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 import com.lgyun.core.mp.base.BaseEntity;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
@@ -20,6 +21,7 @@ import java.util.Date;
  * @since 2020-07-18 15:59:14
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @TableName("diyi_online_sign_pic")
 public class OnlineSignPicEntity extends BaseEntity {

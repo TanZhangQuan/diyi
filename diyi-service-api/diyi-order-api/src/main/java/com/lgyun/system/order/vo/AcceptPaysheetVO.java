@@ -3,6 +3,7 @@ package com.lgyun.system.order.vo;
 import com.lgyun.system.order.entity.AcceptPaysheetEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 视图实体类
@@ -11,6 +12,7 @@ import lombok.Data;
  * @time 14:49.
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "AcceptPaysheetVO对象", description = "AcceptPaysheetVO对象")
 public class AcceptPaysheetVO extends AcceptPaysheetEntity {
     private static final long serialVersionUID = 1L;

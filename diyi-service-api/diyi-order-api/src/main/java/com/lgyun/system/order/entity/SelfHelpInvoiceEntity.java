@@ -5,6 +5,7 @@ import com.lgyun.common.enumeration.InvoiceAuditState;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
  * @since 2020-07-08 14:32:47
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @TableName("diyi_self_help_invoice")
 public class SelfHelpInvoiceEntity extends BaseEntity {

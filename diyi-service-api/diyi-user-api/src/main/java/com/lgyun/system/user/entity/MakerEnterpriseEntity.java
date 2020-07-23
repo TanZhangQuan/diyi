@@ -9,6 +9,7 @@ import com.lgyun.common.enumeration.RelType;
 import com.lgyun.common.tool.DateUtil;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
@@ -20,6 +21,7 @@ import java.util.Date;
  * @since 2020-06-26 17:21:05
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @TableName("diyi_maker_enterprise")
 public class MakerEnterpriseEntity extends BaseEntity {

@@ -9,6 +9,7 @@ import com.lgyun.common.enumeration.CrowdSourcePayPath;
 import com.lgyun.common.enumeration.EnterpriseBusinessPattern;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
@@ -20,6 +21,7 @@ import java.math.BigDecimal;
  * @since 2020-06-26 17:21:05
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @TableName("diyi_enterprise")
 public class EnterpriseEntity extends BaseEntity {

@@ -10,13 +10,13 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2020-07-17 14:19:15
+Date: 2020-07-23 17:42:33
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for blade_client
+-- Table structure for `blade_client`
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_client`;
 CREATE TABLE `blade_client` (
@@ -49,7 +49,7 @@ INSERT INTO `blade_client` VALUES ('1123598811738675202', 'saber', 'saber_secret
 INSERT INTO `blade_client` VALUES ('1123598811738675203', 'app', 'app_secret', '', 'all', 'refresh_token,password,authorization_code', 'http://localhost:8000', '', '604800', '604800', '', '', '1', '2019-03-24 10:42:29', '1', '2019-03-24 10:42:32', '1', '0');
 
 -- ----------------------------
--- Table structure for blade_code
+-- Table structure for `blade_code`
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_code`;
 CREATE TABLE `blade_code` (
@@ -75,7 +75,7 @@ CREATE TABLE `blade_code` (
 INSERT INTO `blade_code` VALUES ('1123598812738675201', '1123598812738675201', 'blade-demo', '通知公告', 'blade_notice', 'blade_', 'id', 'org.springblade.desktop', '1', '1', 'D:\\Develop\\WorkSpace\\Git\\SpringBlade\\blade-ops\\blade-develop', 'D:\\Develop\\WorkSpace\\Git\\Sword', '0');
 
 -- ----------------------------
--- Table structure for blade_datasource
+-- Table structure for `blade_datasource`
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_datasource`;
 CREATE TABLE `blade_datasource` (
@@ -103,7 +103,7 @@ INSERT INTO `blade_datasource` VALUES ('1123598812738675202', 'postgresql', 'org
 INSERT INTO `blade_datasource` VALUES ('1123598812738675203', 'oracle', 'oracle.jdbc.OracleDriver', 'jdbc:oracle:thin:@127.0.0.1:49161:orcl', 'BLADE', 'blade', 'oracle', '1', '2019-08-14 11:44:03', '1', '2019-08-14 11:44:03', '1', '0');
 
 -- ----------------------------
--- Table structure for blade_dept
+-- Table structure for `blade_dept`
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_dept`;
 CREATE TABLE `blade_dept` (
@@ -126,7 +126,7 @@ INSERT INTO `blade_dept` VALUES ('1123598813738675202', '000000', '1123598813738
 INSERT INTO `blade_dept` VALUES ('1123598813738675203', '000000', '1123598813738675201', '苏州刀锋', '苏州刀锋科技有限公司', '1', null, '0');
 
 -- ----------------------------
--- Table structure for blade_dict
+-- Table structure for `blade_dict`
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_dict`;
 CREATE TABLE `blade_dict` (
@@ -171,7 +171,7 @@ INSERT INTO `blade_dict` VALUES ('1123598814738777223', '1123598814738777220', '
 INSERT INTO `blade_dict` VALUES ('1123598814738777224', '1123598814738777220', 'post_category', '4', '其他', '4', null, '0');
 
 -- ----------------------------
--- Table structure for blade_log_api
+-- Table structure for `blade_log_api`
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_log_api`;
 CREATE TABLE `blade_log_api` (
@@ -201,7 +201,7 @@ CREATE TABLE `blade_log_api` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for blade_log_error
+-- Table structure for `blade_log_error`
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_log_error`;
 CREATE TABLE `blade_log_error` (
@@ -234,7 +234,7 @@ CREATE TABLE `blade_log_error` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for blade_log_usual
+-- Table structure for `blade_log_usual`
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_log_usual`;
 CREATE TABLE `blade_log_usual` (
@@ -265,7 +265,7 @@ CREATE TABLE `blade_log_usual` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for blade_menu
+-- Table structure for `blade_menu`
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_menu`;
 CREATE TABLE `blade_menu` (
@@ -365,7 +365,7 @@ INSERT INTO `blade_menu` VALUES ('1164733389668962254', '1164733389668962251', '
 INSERT INTO `blade_menu` VALUES ('1164733389668962255', '1164733389668962251', 'post_view', '查看', 'view', '/system/post/view', 'file-text', '4', '2', '2', '1', null, '0');
 
 -- ----------------------------
--- Table structure for blade_notice
+-- Table structure for `blade_notice`
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_notice`;
 CREATE TABLE `blade_notice` (
@@ -392,7 +392,7 @@ INSERT INTO `blade_notice` VALUES ('1123598818738675224', '000000', '测试公�
 INSERT INTO `blade_notice` VALUES ('1123598818738675225', '000000', '测试公告3', '6', '2018-12-29 00:00:00', '11111', '1123598821738675201', '2018-12-28 11:03:44', '1123598821738675201', '2018-12-28 11:10:28', '1', '0');
 
 -- ----------------------------
--- Table structure for blade_param
+-- Table structure for `blade_param`
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_param`;
 CREATE TABLE `blade_param` (
@@ -417,7 +417,7 @@ INSERT INTO `blade_param` VALUES ('1123598819738675201', '是否开启注册功�
 INSERT INTO `blade_param` VALUES ('1123598819738675202', '账号初始密码', 'account.initPassword', '123456', '初始密码', '1123598821738675201', '2018-12-28 12:19:01', '1123598821738675201', '2018-12-28 12:19:01', '1', '0');
 
 -- ----------------------------
--- Table structure for blade_post
+-- Table structure for `blade_post`
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_post`;
 CREATE TABLE `blade_post` (
@@ -451,7 +451,7 @@ INSERT INTO `blade_post` VALUES ('1123598817738675207', '000000', '2', 'hrm', '�
 INSERT INTO `blade_post` VALUES ('1123598817738675208', '000000', '3', 'staff', '普通员工', '8', '普通员工', '1123598821738675201', '1123598813738675201', '2020-04-01 00:00:00', '1123598821738675201', '2020-04-01 00:00:00', '1', '0');
 
 -- ----------------------------
--- Table structure for blade_role
+-- Table structure for `blade_role`
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_role`;
 CREATE TABLE `blade_role` (
@@ -472,7 +472,7 @@ INSERT INTO `blade_role` VALUES ('1123598816738675201', '000000', '0', '超级�
 INSERT INTO `blade_role` VALUES ('1123598816738675202', '000000', '0', '用户', '2', 'user', '0');
 
 -- ----------------------------
--- Table structure for blade_role_menu
+-- Table structure for `blade_role_menu`
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_role_menu`;
 CREATE TABLE `blade_role_menu` (
@@ -563,7 +563,7 @@ INSERT INTO `blade_role_menu` VALUES ('1161272893875225005', '116473338966896225
 INSERT INTO `blade_role_menu` VALUES ('1161272893875225006', '1164733389668962256', '1123598816738675201');
 
 -- ----------------------------
--- Table structure for blade_tenant
+-- Table structure for `blade_tenant`
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_tenant`;
 CREATE TABLE `blade_tenant` (
@@ -588,7 +588,7 @@ CREATE TABLE `blade_tenant` (
 INSERT INTO `blade_tenant` VALUES ('1123598820738675201', '000000', '管理组', 'admin', '666666', '管理组', '1123598821738675201', '2019-01-01 00:00:39', '1123598821738675201', '2019-01-01 00:00:39', '1', '0');
 
 -- ----------------------------
--- Table structure for blade_user
+-- Table structure for `blade_user`
 -- ----------------------------
 DROP TABLE IF EXISTS `blade_user`;
 CREATE TABLE `blade_user` (
@@ -625,7 +625,7 @@ CREATE TABLE `blade_user` (
 INSERT INTO `blade_user` VALUES ('1123598821738675201', 'ADMIN', '000000', null, 'admin', '90b9aa7e25f80cf4f64e990b78a9fc5ebd6cecad', '管理员', '管理员', '', 'admin@bladex.vip', '22233322', '2018-08-08 00:00:00', '1', '1123598816738675201', '1123598813738675201', '1123598817738675201', '1123598821738675201', '2018-08-08 00:00:00', '1123598821738675201', '2018-08-08 00:00:00', '1', '0');
 
 -- ----------------------------
--- Table structure for diyi_accept_paysheet
+-- Table structure for `diyi_accept_paysheet`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_accept_paysheet`;
 CREATE TABLE `diyi_accept_paysheet` (
@@ -653,7 +653,7 @@ CREATE TABLE `diyi_accept_paysheet` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_address
+-- Table structure for `diyi_address`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_address`;
 CREATE TABLE `diyi_address` (
@@ -680,7 +680,7 @@ CREATE TABLE `diyi_address` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_agreement
+-- Table structure for `diyi_agreement`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_agreement`;
 CREATE TABLE `diyi_agreement` (
@@ -717,73 +717,16 @@ CREATE TABLE `diyi_agreement` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `diyi_online_agreement_need_sign` (
-  `id` bigint(50) NOT NULL COMMENT '唯一性控制',
-  `online_agreement_template_id` bigint(50) NOT NULL COMMENT '平台在线协议模板ID',
-  `object_type` int(1) NOT NULL COMMENT '对象身份1、创客本人2、商户人员3、服务商人员4、相关局人员5、渠道商人员6、合伙人本人',
-  `sign_state` varchar(50) NOT NULL DEFAULT '0' COMMENT '0未签约，1已签约',
-  `sign_power` varchar(50) NOT NULL COMMENT '签字对象性质 甲方；2，乙方；3，丙方；4，丁方',
-  `object_id` bigint(50) NOT NULL COMMENT '对象ID 1、创客ID2、商户ID，具体签署时可能是某个用户3、服务商ID，具体签署时可能是某个用户4、相关局ID，具体签署时可能是某个用户5、渠道商ID，具体签署时可能是某个用户6、合伙人ID',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE `diyi_online_agreement_template` (
-  `id` bigint(50) NOT NULL COMMENT '唯一性控制',
-  `template_type` int(11) NOT NULL COMMENT '协议类别 1,创客加盟协议；2，商户加盟协议；3，服务商加盟协议；4，渠道商加盟协议；5、合伙人加盟协议；6、园区合作协议；7、税局合作协议；8、工商合作协议；9、创客授权书；10、商户-创客补充协议；11、服务商-商户补充协议；12、创客单独税务事项委托授权书；13、创客单独支付事项委托授权书；14、其他协议',
-  `template_state` varchar(50) NOT NULL COMMENT '模板状态 1,应用中；2，已过期。同一个模板上传新模板后，原来的模板即为已过期',
-  `template_sign_state` varchar(255) NOT NULL COMMENT '1，开启中；2，已关闭',
-  `agreement_template` varchar(100) NOT NULL COMMENT '协议模板',
-  `upload_person` varchar(100) NOT NULL COMMENT '上传人员',
-  `upload_date` datetime NOT NULL COMMENT '上传日期',
-  `change_state_person` varchar(100) NOT NULL COMMENT '变更状态人员',
-  `shange_state_date` datetime NOT NULL COMMENT '变更日期',
-  `all_makers` int(11) NOT NULL COMMENT '商户全部创客 1,商户-创客，全部正常创客都需要签署,0 不是',
-  `is_contract` int(11) NOT NULL DEFAULT '0' COMMENT '0.合同1.授权',
-  `template_count` int(11) NOT NULL COMMENT '模板的页数',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-CREATE TABLE `diyi_online_sign_pic` (
-  `id` bigint(50) NOT NULL COMMENT '唯一性控制',
-  `object_type` varchar(50) NOT NULL COMMENT '对象身份1、创客本人2、商户人员3、服务商人员4、相关局人员5、渠道商人员6、合伙人本人',
-  `object_id` bigint(50) NOT NULL COMMENT '对象身份ID',
-  `worker_sex` bigint(50) NOT NULL COMMENT '相关人员ID 创客/合伙人，就取创客/合伙人ID，其余取相关工作人员ID',
-  `sign_pic` varchar(100) NOT NULL COMMENT '签字笔迹URL',
-  `sign_datetime` datetime NOT NULL COMMENT '签署日期',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-
 -- ----------------------------
 -- Records of diyi_agreement
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_charge_detail
+-- Table structure for `diyi_charge_detail`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_charge_detail`;
 CREATE TABLE `diyi_charge_detail` (
- `id` bigint(50) NOT NULL COMMENT '主键',
+  `id` bigint(50) NOT NULL COMMENT '主键',
   `enterprise_id` bigint(50) NOT NULL COMMENT '企业ID',
   `run_company_id` bigint(50) NOT NULL COMMENT '运营公司ID',
   `charge_money_num` decimal(12,2) NOT NULL COMMENT '充值金额',
@@ -807,7 +750,7 @@ CREATE TABLE `diyi_charge_detail` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_deliver_material
+-- Table structure for `diyi_deliver_material`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_deliver_material`;
 CREATE TABLE `diyi_deliver_material` (
@@ -833,7 +776,7 @@ CREATE TABLE `diyi_deliver_material` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_employee
+-- Table structure for `diyi_employee`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_employee`;
 CREATE TABLE `diyi_employee` (
@@ -861,7 +804,7 @@ CREATE TABLE `diyi_employee` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_enterprise
+-- Table structure for `diyi_enterprise`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_enterprise`;
 CREATE TABLE `diyi_enterprise` (
@@ -924,66 +867,37 @@ CREATE TABLE `diyi_enterprise` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_pay_enterprise
+-- Table structure for `diyi_enterprise_worker`
 -- ----------------------------
-DROP TABLE IF EXISTS `diyi_pay_enterprise`;
-CREATE TABLE `diyi_pay_enterprise` (
+DROP TABLE IF EXISTS `diyi_enterprise_worker`;
+CREATE TABLE `diyi_enterprise_worker` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `enterprise_id` bigint(50) NOT NULL COMMENT '商户ID',
-  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
-  `charge_list_url` varchar(100) NOT NULL COMMENT '支付清单URL',
-  `worksheet_id` bigint(50) DEFAULT NULL COMMENT '工单ID',
-  `pay_to_platform_amount` decimal(12,2) NOT NULL COMMENT '支付总额=外包费总额+总身份验证费+总开票手续费',
-  `sourcing_amount` decimal(12,2) NOT NULL COMMENT '外包费总额',
-  `service_rate` decimal(12,2) NOT NULL COMMENT '服务税费率',
-  `total_tax_fee` decimal(12,2) NOT NULL COMMENT '总税费=外包费总额*服务税费率',
-  `maker_num` int(10) NOT NULL COMMENT '创客数',
-  `identify_fee` decimal(12,2) NOT NULL COMMENT '总身份验证费',
-  `service_fee` decimal(12,2) NOT NULL COMMENT '总支付手续费',
-  `pay_memo` varchar(500) NOT NULL DEFAULT '' COMMENT '支付说明',
-  `enterprise_pay_state` varchar(50) NOT NULL COMMENT '支付给平台状态：待支付，已支付，已确认收款',
-  `pay_confirm_date_time` datetime DEFAULT NULL COMMENT '支付确认日期时间',
-  `confirm_date_time` datetime DEFAULT NULL COMMENT '确认回款日期时间',
-  `employee_id` bigint(50) NOT NULL COMMENT '确认到款人员ID',
-  `company_invoice_state` varchar(50) NOT NULL COMMENT '开票状态：未开，已开',
-  `invoice_print_date` datetime DEFAULT NULL COMMENT '开票日期',
+  `worker_name` varchar(50) NOT NULL COMMENT '姓名',
+  `worker_sex` varchar(50) NOT NULL COMMENT '性别',
+  `position_name` varchar(50) NOT NULL COMMENT '岗位性质',
+  `phone_number` varchar(50) NOT NULL COMMENT '手机号码',
+  `up_level_id` bigint(50) NOT NULL COMMENT '上级主管',
+  `employee_user_name` varchar(50) NOT NULL COMMENT '用户名',
+  `employee_pwd` varchar(100) NOT NULL COMMENT '密码',
+  `admin_power` bit(1) NOT NULL COMMENT '管理员特性',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`phone_number`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`employee_user_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
--- Records of diyi_pay_enterprise
+-- Records of diyi_enterprise_worker
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_pay_enterprise_receipt
--- ----------------------------
-DROP TABLE IF EXISTS `diyi_pay_enterprise_receipt`;
-CREATE TABLE `diyi_pay_enterprise_receipt` (
-  `id` bigint(50) NOT NULL COMMENT '主键',
-  `enterprise_pay_id` bigint(50) NOT NULL COMMENT '支付ID',
-  `enterprise_pay_receipt_url` varchar(100) NOT NULL COMMENT '支付回单图片URL地址',
-  `upload_date_time` datetime NOT NULL COMMENT '上传日期时间',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of diyi_pay_enterprise_receipt
--- ----------------------------
-
--- ----------------------------
--- Table structure for diyi_individual_business
+-- Table structure for `diyi_individual_business`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_individual_business`;
 CREATE TABLE `diyi_individual_business` (
@@ -1025,7 +939,7 @@ CREATE TABLE `diyi_individual_business` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_individual_business_annual_fee
+-- Table structure for `diyi_individual_business_annual_fee`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_individual_business_annual_fee`;
 CREATE TABLE `diyi_individual_business_annual_fee` (
@@ -1053,7 +967,7 @@ CREATE TABLE `diyi_individual_business_annual_fee` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_individual_enterprise
+-- Table structure for `diyi_individual_enterprise`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_individual_enterprise`;
 CREATE TABLE `diyi_individual_enterprise` (
@@ -1096,7 +1010,7 @@ CREATE TABLE `diyi_individual_enterprise` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_individual_enterprise_annual_fee
+-- Table structure for `diyi_individual_enterprise_annual_fee`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_individual_enterprise_annual_fee`;
 CREATE TABLE `diyi_individual_enterprise_annual_fee` (
@@ -1124,7 +1038,7 @@ CREATE TABLE `diyi_individual_enterprise_annual_fee` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_maker
+-- Table structure for `diyi_maker`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_maker`;
 CREATE TABLE `diyi_maker` (
@@ -1195,7 +1109,7 @@ CREATE TABLE `diyi_maker` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_maker_enterprise
+-- Table structure for `diyi_maker_enterprise`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_maker_enterprise`;
 CREATE TABLE `diyi_maker_enterprise` (
@@ -1218,7 +1132,7 @@ CREATE TABLE `diyi_maker_enterprise` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`enterprise_id`, `maker_id`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`enterprise_id`,`maker_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
@@ -1226,7 +1140,41 @@ CREATE TABLE `diyi_maker_enterprise` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_maker_tax_record
+-- Table structure for `diyi_maker_invoice`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_maker_invoice`;
+CREATE TABLE `diyi_maker_invoice` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `pay_maker_id` bigint(50) NOT NULL COMMENT '创客支付ID',
+  `voice_type_no` varchar(50) NOT NULL COMMENT '发票代码',
+  `voice_serial_no` varchar(50) NOT NULL COMMENT '发票号码',
+  `maker_voice_get_date_time` datetime NOT NULL COMMENT '发票开具日期',
+  `voice_category` varchar(50) NOT NULL COMMENT '货物或应税劳务、服务名称',
+  `total_amount` decimal(12,2) NOT NULL COMMENT '价税合计',
+  `sales_amount` decimal(12,2) NOT NULL COMMENT '金额合计',
+  `tax_amount` decimal(12,2) NOT NULL COMMENT '税额合计',
+  `voice_person` varchar(50) NOT NULL DEFAULT '' COMMENT '开票人',
+  `sale_company` varchar(50) NOT NULL DEFAULT '' COMMENT '销售方名称',
+  `help_make_organation_name` varchar(50) NOT NULL COMMENT '代开机关名称',
+  `help_make_company` varchar(50) NOT NULL COMMENT '代开企业名称',
+  `help_make_tax_no` varchar(50) NOT NULL COMMENT '代开企业税号',
+  `maker_voice_url` varchar(100) NOT NULL COMMENT '发票URL',
+  `maker_voice_upload_date_time` datetime NOT NULL COMMENT '发票上传日期',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of diyi_maker_invoice
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `diyi_maker_tax_record`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_maker_tax_record`;
 CREATE TABLE `diyi_maker_tax_record` (
@@ -1258,26 +1206,25 @@ CREATE TABLE `diyi_maker_tax_record` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_maker_voice
+-- Table structure for `diyi_maker_total_invoice`
 -- ----------------------------
-DROP TABLE IF EXISTS `diyi_maker_invoice`;
-CREATE TABLE `diyi_maker_invoice` (
-  `id` bigint(50) NOT NULL COMMENT '主键',
-  `pay_maker_id` bigint(50) NOT NULL COMMENT '创客支付ID',
-  `voice_type_no` varchar(50) NOT NULL COMMENT '发票代码',
-  `voice_serial_no` varchar(50) NOT NULL COMMENT '发票号码',
-  `maker_voice_get_date_time` datetime NOT NULL COMMENT '发票开具日期',
-  `voice_category` varchar(50) NOT NULL COMMENT '货物或应税劳务、服务名称',
-  `total_amount` decimal(12,2) NOT NULL COMMENT '价税合计',
-  `sales_amount` decimal(12,2) NOT NULL COMMENT '金额合计',
-  `tax_amount` decimal(12,2) NOT NULL COMMENT '税额合计',
-  `voice_person` varchar(50) NOT NULL DEFAULT '' COMMENT '开票人',
-  `sale_company` varchar(50) NOT NULL DEFAULT '' COMMENT '销售方名称',
-  `help_make_organation_name` varchar(50) NOT NULL COMMENT '代开机关名称',
-  `help_make_company` varchar(50) NOT NULL COMMENT '代开企业名称',
-  `help_make_tax_no` varchar(50) NOT NULL COMMENT '代开企业税号',
-  `maker_voice_url` varchar(100) NOT NULL COMMENT '发票URL',
-  `maker_voice_upload_date_time` datetime NOT NULL COMMENT '发票上传日期',
+DROP TABLE IF EXISTS `diyi_maker_total_invoice`;
+CREATE TABLE `diyi_maker_total_invoice` (
+  `id` bigint(50) NOT NULL,
+  `pay_list_id` bigint(50) NOT NULL COMMENT '支付清单ID',
+  `invoice_type_no` varchar(100) NOT NULL COMMENT '发票代码',
+  `invoice_serial_no` varchar(100) NOT NULL COMMENT '发票号码',
+  `invoice_datetime` datetime NOT NULL COMMENT '开票日期',
+  `invoice_category` varchar(100) NOT NULL COMMENT '货物或应税劳务、服务名称',
+  `total_amount` decimal(5,2) NOT NULL,
+  `sales_amount` decimal(5,2) NOT NULL COMMENT '金额合计',
+  `tax_amount` decimal(5,2) NOT NULL COMMENT '税额合计',
+  `invoice_person` varchar(5) NOT NULL COMMENT '开票人',
+  `sale_company` varchar(100) NOT NULL COMMENT '销售方名称',
+  `company_invoice_url` varchar(300) NOT NULL COMMENT '总包发票URL',
+  `company_voice_upload_datetime` datetime NOT NULL COMMENT '发票上传日期',
+  `maker_tax_url` varchar(300) NOT NULL COMMENT '总完税证明URL',
+  `maker_tax_list_url` varchar(3000) NOT NULL COMMENT '清单式完税凭证URL',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
@@ -1288,11 +1235,89 @@ CREATE TABLE `diyi_maker_invoice` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
--- Records of diyi_maker_voice
+-- Records of diyi_maker_total_invoice
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_order
+-- Table structure for `diyi_online_agreement_need_sign`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_online_agreement_need_sign`;
+CREATE TABLE `diyi_online_agreement_need_sign` (
+  `id` bigint(50) NOT NULL COMMENT '唯一性控制',
+  `online_agreement_template_id` bigint(50) NOT NULL COMMENT '平台在线协议模板ID',
+  `object_type` int(1) NOT NULL COMMENT '对象身份1、创客本人2、商户人员3、服务商人员4、相关局人员5、渠道商人员6、合伙人本人',
+  `sign_state` varchar(50) NOT NULL DEFAULT '0' COMMENT '0未签约，1已签约',
+  `sign_power` varchar(50) NOT NULL COMMENT '签字对象性质 甲方；2，乙方；3，丙方；4，丁方',
+  `object_id` bigint(50) NOT NULL COMMENT '对象ID 1、创客ID2、商户ID，具体签署时可能是某个用户3、服务商ID，具体签署时可能是某个用户4、相关局ID，具体签署时可能是某个用户5、渠道商ID，具体签署时可能是某个用户6、合伙人ID',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of diyi_online_agreement_need_sign
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `diyi_online_agreement_template`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_online_agreement_template`;
+CREATE TABLE `diyi_online_agreement_template` (
+  `id` bigint(50) NOT NULL COMMENT '唯一性控制',
+  `template_type` int(11) NOT NULL COMMENT '协议类别 1,创客加盟协议；2，商户加盟协议；3，服务商加盟协议；4，渠道商加盟协议；5、合伙人加盟协议；6、园区合作协议；7、税局合作协议；8、工商合作协议；9、创客授权书；10、商户-创客补充协议；11、服务商-商户补充协议；12、创客单独税务事项委托授权书；13、创客单独支付事项委托授权书；14、其他协议',
+  `template_state` varchar(50) NOT NULL COMMENT '模板状态 1,应用中；2，已过期。同一个模板上传新模板后，原来的模板即为已过期',
+  `template_sign_state` varchar(255) NOT NULL COMMENT '1，开启中；2，已关闭',
+  `agreement_template` varchar(100) NOT NULL COMMENT '协议模板',
+  `upload_person` varchar(100) NOT NULL COMMENT '上传人员',
+  `upload_date` datetime NOT NULL COMMENT '上传日期',
+  `change_state_person` varchar(100) NOT NULL COMMENT '变更状态人员',
+  `shange_state_date` datetime NOT NULL COMMENT '变更日期',
+  `all_makers` int(11) NOT NULL COMMENT '商户全部创客 1,商户-创客，全部正常创客都需要签署,0 不是',
+  `is_contract` int(11) NOT NULL DEFAULT '0' COMMENT '0.合同1.授权',
+  `template_count` int(11) NOT NULL COMMENT '模板的页数',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of diyi_online_agreement_template
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `diyi_online_sign_pic`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_online_sign_pic`;
+CREATE TABLE `diyi_online_sign_pic` (
+  `id` bigint(50) NOT NULL COMMENT '唯一性控制',
+  `object_type` varchar(50) NOT NULL COMMENT '对象身份1、创客本人2、商户人员3、服务商人员4、相关局人员5、渠道商人员6、合伙人本人',
+  `object_id` bigint(50) NOT NULL COMMENT '对象身份ID',
+  `worker_sex` bigint(50) NOT NULL COMMENT '相关人员ID 创客/合伙人，就取创客/合伙人ID，其余取相关工作人员ID',
+  `sign_pic` varchar(100) NOT NULL COMMENT '签字笔迹URL',
+  `sign_datetime` datetime NOT NULL COMMENT '签署日期',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of diyi_online_sign_pic
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `diyi_order`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_order`;
 CREATE TABLE `diyi_order` (
@@ -1328,7 +1353,7 @@ CREATE TABLE `diyi_order` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_pay
+-- Table structure for `diyi_pay`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_pay`;
 CREATE TABLE `diyi_pay` (
@@ -1365,7 +1390,7 @@ CREATE TABLE `diyi_pay` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_paysheet
+-- Table structure for `diyi_paysheet`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_paysheet`;
 CREATE TABLE `diyi_paysheet` (
@@ -1395,7 +1420,106 @@ CREATE TABLE `diyi_paysheet` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_pay_receipt
+-- Table structure for `diyi_pay_enterprise`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_pay_enterprise`;
+CREATE TABLE `diyi_pay_enterprise` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `enterprise_id` bigint(50) NOT NULL COMMENT '商户ID',
+  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
+  `charge_list_url` varchar(100) NOT NULL COMMENT '支付清单URL',
+  `worksheet_id` bigint(50) DEFAULT NULL COMMENT '工单ID',
+  `pay_to_platform_amount` decimal(12,2) NOT NULL COMMENT '支付总额=外包费总额+总身份验证费+总开票手续费',
+  `sourcing_amount` decimal(12,2) NOT NULL COMMENT '外包费总额',
+  `service_rate` decimal(12,2) NOT NULL COMMENT '服务税费率',
+  `total_tax_fee` decimal(12,2) NOT NULL COMMENT '总税费=外包费总额*服务税费率',
+  `maker_num` int(10) NOT NULL COMMENT '创客数',
+  `identify_fee` decimal(12,2) NOT NULL COMMENT '总身份验证费',
+  `service_fee` decimal(12,2) NOT NULL COMMENT '总支付手续费',
+  `pay_memo` varchar(500) NOT NULL DEFAULT '' COMMENT '支付说明',
+  `enterprise_pay_state` varchar(50) NOT NULL COMMENT '支付给平台状态：待支付，已支付，已确认收款',
+  `pay_confirm_date_time` datetime DEFAULT NULL COMMENT '支付确认日期时间',
+  `confirm_date_time` datetime DEFAULT NULL COMMENT '确认回款日期时间',
+  `employee_id` bigint(50) NOT NULL COMMENT '确认到款人员ID',
+  `company_invoice_state` varchar(50) NOT NULL COMMENT '开票状态：未开，已开',
+  `invoice_print_date` datetime DEFAULT NULL COMMENT '开票日期',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of diyi_pay_enterprise
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `diyi_pay_enterprise_receipt`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_pay_enterprise_receipt`;
+CREATE TABLE `diyi_pay_enterprise_receipt` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `enterprise_pay_id` bigint(50) NOT NULL COMMENT '支付ID',
+  `enterprise_pay_receipt_url` varchar(100) NOT NULL COMMENT '支付回单图片URL地址',
+  `upload_date_time` datetime NOT NULL COMMENT '上传日期时间',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of diyi_pay_enterprise_receipt
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `diyi_pay_maker`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_pay_maker`;
+CREATE TABLE `diyi_pay_maker` (
+  `id` bigint(50) NOT NULL COMMENT '唯一性控制',
+  `pay_list_id` bigint(50) NOT NULL COMMENT '支付清单ID',
+  `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
+  `maker_type` varchar(50) NOT NULL COMMENT '创客身份，自然人，个体户，个独。',
+  `Individual_business_name` varchar(100) NOT NULL COMMENT '个体户/个独名称',
+  `total_fee` decimal(12,2) DEFAULT NULL COMMENT '总费用 外包费总额+身份验证费+支付手续费	',
+  `maker_ne_income` decimal(12,2) DEFAULT NULL COMMENT '外包费总额',
+  `service_rate` decimal(12,2) DEFAULT NULL COMMENT '服务税费率',
+  `maker_tax_and_fee` decimal(12,2) DEFAULT NULL COMMENT '创客税费:外包费总额*服务税费率',
+  `maker_net_income` decimal(12,2) DEFAULT NULL COMMENT '创客到手:外包费总额-创客税费',
+  `audit_fee` decimal(12,2) DEFAULT NULL COMMENT '身份验证费',
+  `pay_fee` decimal(12,2) DEFAULT NULL COMMENT '支付手续费',
+  `pay_state` int(1) NOT NULL COMMENT '1：待支付；2:企业已申请支付；3：企业已支付；4：平台已支付；5：已确认收款',
+  `company_apply_datetime` datetime NOT NULL COMMENT '企业申请支付日期时间',
+  `company_pay_ok_datetime` datetime NOT NULL COMMENT '企业支付确认日期时间',
+  `platform_pay_ok_datetime` datetime NOT NULL COMMENT '平台支付确认日期时间',
+  `maker_confirm_datetime` datetime NOT NULL COMMENT '取交付支付确认函的确认到款日期时间',
+  `maker_tax_state` int(1) NOT NULL COMMENT '完税证明开票状态:1:已开；0：未开',
+  `maker_invoice_state` int(1) NOT NULL COMMENT '发票开票状态:1:已开；0：未开',
+  `invoice_type` int(1) NOT NULL COMMENT '发票类别:1,汇总代开；2，门征单开',
+  `pay_memo` varchar(1000) NOT NULL COMMENT '支付说明',
+  `maker_invoice_category` varchar(1000) NOT NULL COMMENT '创客发票类目:默认取订单中的默认信息，可更改，根据具体业务开，如*现代服务*市场推广费		',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of diyi_pay_maker
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `diyi_pay_receipt`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_pay_receipt`;
 CREATE TABLE `diyi_pay_receipt` (
@@ -1417,7 +1541,7 @@ CREATE TABLE `diyi_pay_receipt` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_platform_voice
+-- Table structure for `diyi_platform_voice`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_platform_voice`;
 CREATE TABLE `diyi_platform_voice` (
@@ -1450,7 +1574,7 @@ CREATE TABLE `diyi_platform_voice` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_position
+-- Table structure for `diyi_position`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_position`;
 CREATE TABLE `diyi_position` (
@@ -1472,7 +1596,7 @@ CREATE TABLE `diyi_position` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_run_company
+-- Table structure for `diyi_run_company`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_run_company`;
 CREATE TABLE `diyi_run_company` (
@@ -1505,7 +1629,7 @@ CREATE TABLE `diyi_run_company` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_self_help_invoice
+-- Table structure for `diyi_self_help_invoice`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_self_help_invoice`;
 CREATE TABLE `diyi_self_help_invoice` (
@@ -1521,13 +1645,13 @@ CREATE TABLE `diyi_self_help_invoice` (
   `business_enterprise_id` bigint(50) DEFAULT NULL COMMENT '个体户或个独ID',
   `invoice_people_type` varchar(50) NOT NULL COMMENT '开票人身份类别 1，自然人；2，个体户；3，个独',
   `list_file` varchar(500) NOT NULL COMMENT '开票清单文件',
-  `charge_money_num` decimal(12,2) DEFAULT 0 COMMENT '总价税合计额',
-  `service_rate` decimal(12,2) DEFAULT 0 COMMENT '服务税费率',
-  `service_and_tax_money` decimal(12,2) DEFAULT 0 COMMENT '总服务税费',
-  `service_fee` decimal(12,2) DEFAULT 0 COMMENT '总服务费',
-  `service_tax` decimal(12,2) DEFAULT 0 COMMENT '总税',
-  `service_invoice_fee` decimal(12,2) DEFAULT 0 COMMENT '总开票手续费',
-  `idendity_confirm_fee` decimal(12,2) DEFAULT 0 COMMENT '总身份验证费',
+  `charge_money_num` decimal(12,2) DEFAULT '0.00' COMMENT '总价税合计额',
+  `service_rate` decimal(12,2) DEFAULT '0.00' COMMENT '服务税费率',
+  `service_and_tax_money` decimal(12,2) DEFAULT '0.00' COMMENT '总服务税费',
+  `service_fee` decimal(12,2) DEFAULT '0.00' COMMENT '总服务费',
+  `service_tax` decimal(12,2) DEFAULT '0.00' COMMENT '总税',
+  `service_invoice_fee` decimal(12,2) DEFAULT '0.00' COMMENT '总开票手续费',
+  `idendity_confirm_fee` decimal(12,2) DEFAULT '0.00' COMMENT '总身份验证费',
   `address_id` bigint(50) NOT NULL COMMENT '收件地址Id',
   `invoice_audit_state` varchar(50) NOT NULL COMMENT '发票审核：未审核，审核通过，不通过',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
@@ -1544,7 +1668,7 @@ CREATE TABLE `diyi_self_help_invoice` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_self_help_invoice_account
+-- Table structure for `diyi_self_help_invoice_account`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_self_help_invoice_account`;
 CREATE TABLE `diyi_self_help_invoice_account` (
@@ -1568,7 +1692,7 @@ CREATE TABLE `diyi_self_help_invoice_account` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_self_help_invoice_detail
+-- Table structure for `diyi_self_help_invoice_detail`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_self_help_invoice_detail`;
 CREATE TABLE `diyi_self_help_invoice_detail` (
@@ -1580,12 +1704,12 @@ CREATE TABLE `diyi_self_help_invoice_detail` (
   `biz_name` varchar(100) NOT NULL COMMENT '个体户或个独名称',
   `social_credit_no` varchar(100) NOT NULL COMMENT '统一社会信用代码',
   `invoice_type` varchar(100) NOT NULL COMMENT '开票类目',
-  `charge_money_num` decimal(12,2) DEFAULT 0 COMMENT '价税合计额',
+  `charge_money_num` decimal(12,2) DEFAULT '0.00' COMMENT '价税合计额',
   `flow_contract_url` varchar(500) NOT NULL COMMENT '流水回单URL',
   `business_contract_url` varchar(100) NOT NULL COMMENT '业务合同URL',
   `account_balance_url` varchar(100) NOT NULL COMMENT '账户余额url',
-  `service_invoice_fee` decimal(12,2) DEFAULT 0 COMMENT '开票手续费',
-  `idendity_confirm_fee` decimal(12,2) DEFAULT 0 COMMENT '身份验证费',
+  `service_invoice_fee` decimal(12,2) DEFAULT '0.00' COMMENT '开票手续费',
+  `idendity_confirm_fee` decimal(12,2) DEFAULT '0.00' COMMENT '身份验证费',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
@@ -1600,7 +1724,7 @@ CREATE TABLE `diyi_self_help_invoice_detail` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_self_help_invoice_express
+-- Table structure for `diyi_self_help_invoice_express`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_self_help_invoice_express`;
 CREATE TABLE `diyi_self_help_invoice_express` (
@@ -1623,7 +1747,7 @@ CREATE TABLE `diyi_self_help_invoice_express` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_self_help_invoice_fee
+-- Table structure for `diyi_self_help_invoice_fee`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_self_help_invoice_fee`;
 CREATE TABLE `diyi_self_help_invoice_fee` (
@@ -1631,11 +1755,11 @@ CREATE TABLE `diyi_self_help_invoice_fee` (
   `self_help_invoice_id` bigint(50) NOT NULL COMMENT '自助开票Id',
   `putin_date` datetime NOT NULL COMMENT '提交日期',
   `give_price_date` datetime NOT NULL COMMENT '核价日期',
-  `total_tax_fee` decimal(12,2) DEFAULT 0 COMMENT '总税费',
-  `basic_tax_fee` decimal(12,2) DEFAULT 0 COMMENT '基础税费',
-  `basic_tax_fee_rate` decimal(12,2) DEFAULT 0 COMMENT '基础税费率',
-  `invoice_fee` decimal(12,2) DEFAULT 0 COMMENT '开票手续费',
-  `identify_fee` decimal(12,2) DEFAULT 0 COMMENT '身份验证费',
+  `total_tax_fee` decimal(12,2) DEFAULT '0.00' COMMENT '总税费',
+  `basic_tax_fee` decimal(12,2) DEFAULT '0.00' COMMENT '基础税费',
+  `basic_tax_fee_rate` decimal(12,2) DEFAULT '0.00' COMMENT '基础税费率',
+  `invoice_fee` decimal(12,2) DEFAULT '0.00' COMMENT '开票手续费',
+  `identify_fee` decimal(12,2) DEFAULT '0.00' COMMENT '身份验证费',
   `pay_desc` varchar(500) NOT NULL COMMENT '支付说明',
   `pay_certificate` varchar(500) NOT NULL COMMENT '支付回单',
   `pay_type` varchar(50) NOT NULL COMMENT '支付方式 1，微信；2，支付宝，3，银行转账；4，现金',
@@ -1654,7 +1778,7 @@ CREATE TABLE `diyi_self_help_invoice_fee` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_self_help_invoice_person
+-- Table structure for `diyi_self_help_invoice_person`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_self_help_invoice_person`;
 CREATE TABLE `diyi_self_help_invoice_person` (
@@ -1679,7 +1803,7 @@ CREATE TABLE `diyi_self_help_invoice_person` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_service_provider
+-- Table structure for `diyi_service_provider`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_service_provider`;
 CREATE TABLE `diyi_service_provider` (
@@ -1736,7 +1860,7 @@ CREATE TABLE `diyi_service_provider` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_setup
+-- Table structure for `diyi_setup`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_setup`;
 CREATE TABLE `diyi_setup` (
@@ -1757,7 +1881,7 @@ CREATE TABLE `diyi_setup` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_worksheet
+-- Table structure for `diyi_worksheet`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_worksheet`;
 CREATE TABLE `diyi_worksheet` (
@@ -1767,7 +1891,7 @@ CREATE TABLE `diyi_worksheet` (
   `worksheet_name` varchar(50) NOT NULL COMMENT '工单名称',
   `upPerson_num` int(10) DEFAULT NULL COMMENT '上线人数',
   `work_days` int(10) DEFAULT NULL COMMENT '工作天数',
-  `worksheet_fee` decimal(12,2) DEFAULT 0 COMMENT '费用',
+  `worksheet_fee` decimal(12,2) DEFAULT '0.00' COMMENT '费用',
   `worksheet_type` varchar(50) NOT NULL COMMENT '类型，总包+分包，众包/众采',
   `worksheet_mode` varchar(50) NOT NULL COMMENT '模式，派单、抢单、混合（默认：混合型）',
   `publish_date` datetime NOT NULL COMMENT '发布时间',
@@ -1796,7 +1920,7 @@ CREATE TABLE `diyi_worksheet` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_worksheet_attention
+-- Table structure for `diyi_worksheet_attention`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_worksheet_attention`;
 CREATE TABLE `diyi_worksheet_attention` (
@@ -1819,7 +1943,7 @@ CREATE TABLE `diyi_worksheet_attention` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_worksheet_maker
+-- Table structure for `diyi_worksheet_maker`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_worksheet_maker`;
 CREATE TABLE `diyi_worksheet_maker` (
@@ -1833,7 +1957,7 @@ CREATE TABLE `diyi_worksheet_maker` (
   `achievement_desc` varchar(1000) DEFAULT NULL COMMENT '工作成果说明',
   `achievement_files` varchar(1000) DEFAULT NULL COMMENT '工作成果附件',
   `achievement_date` datetime DEFAULT NULL COMMENT '提交工作成果日期',
-  `check_money` decimal(12,2) DEFAULT 0 COMMENT '验收金额',
+  `check_money` decimal(12,2) DEFAULT '0.00' COMMENT '验收金额',
   `check_person` varchar(500) DEFAULT NULL COMMENT '验收人员',
   `check_date` datetime DEFAULT NULL COMMENT '验收时间',
   `arrange_person` varchar(50) DEFAULT NULL COMMENT '派单人员',
@@ -1845,7 +1969,7 @@ CREATE TABLE `diyi_worksheet_maker` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`maker_id`, `worksheet_id`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`maker_id`,`worksheet_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
@@ -1853,7 +1977,7 @@ CREATE TABLE `diyi_worksheet_maker` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for diyi_work_achievement
+-- Table structure for `diyi_work_achievement`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_work_achievement`;
 CREATE TABLE `diyi_work_achievement` (
@@ -1878,60 +2002,3 @@ CREATE TABLE `diyi_work_achievement` (
 -- ----------------------------
 -- Records of diyi_work_achievement
 -- ----------------------------
-CREATE TABLE `diyi_maker_total_invoice` (
-  `id` bigint(50) NOT NULL,
-  `pay_list_id` bigint(50) NOT NULL COMMENT '支付清单ID',
-  `invoice_type_no` varchar(100) NOT NULL COMMENT '发票代码',
-  `invoice_serial_no` varchar(100) NOT NULL COMMENT '发票号码',
-  `invoice_datetime` datetime NOT NULL COMMENT '开票日期',
-  `invoice_category` varchar(100) NOT NULL COMMENT '货物或应税劳务、服务名称',
-  `total_amount` decimal(5,2) NOT NULL,
-  `sales_amount` decimal(5,2) NOT NULL COMMENT '金额合计',
-  `tax_amount` decimal(5,2) NOT NULL COMMENT '税额合计',
-  `invoice_person` varchar(5) NOT NULL COMMENT '开票人',
-  `sale_company` varchar(100) NOT NULL COMMENT '销售方名称',
-  `company_invoice_url` varchar(300) NOT NULL COMMENT '总包发票URL',
-  `company_voice_upload_datetime` datetime NOT NULL COMMENT '发票上传日期',
-  `maker_tax_url` varchar(300) NOT NULL COMMENT '总完税证明URL',
-  `maker_tax_list_url` varchar(3000) NOT NULL COMMENT '清单式完税凭证URL',
-`create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-CREATE TABLE `diyi_pay_maker` (
-  `id` bigint(50) NOT NULL COMMENT '唯一性控制',
-  `pay_list_id` bigint(50) NOT NULL COMMENT '支付清单ID',
-  `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
-  `maker_type` varchar(50) NOT NULL COMMENT '创客身份，自然人，个体户，个独。',
-  `Individual_business_name` varchar(100) NOT NULL COMMENT '个体户/个独名称',
-  `total_fee` decimal(12,2) DEFAULT NULL COMMENT '总费用 外包费总额+身份验证费+支付手续费	',
-  `maker_ne_income` decimal(12,2) DEFAULT NULL COMMENT '外包费总额',
-  `service_rate` decimal(12,2) DEFAULT NULL COMMENT '服务税费率',
-  `maker_tax_and_fee` decimal(12,2) DEFAULT NULL COMMENT '创客税费:外包费总额*服务税费率',
-  `maker_net_income` decimal(12,2) DEFAULT NULL COMMENT '创客到手:外包费总额-创客税费',
-  `audit_fee` decimal(12,2) DEFAULT NULL COMMENT '身份验证费',
-  `pay_fee` decimal(12,2) DEFAULT NULL COMMENT '支付手续费',
-  `pay_state` int(1) NOT NULL COMMENT '1：待支付；2:企业已申请支付；3：企业已支付；4：平台已支付；5：已确认收款',
-  `company_apply_datetime` datetime NOT NULL COMMENT '企业申请支付日期时间',
-  `company_pay_ok_datetime` datetime NOT NULL COMMENT '企业支付确认日期时间',
-  `platform_pay_ok_datetime` datetime NOT NULL COMMENT '平台支付确认日期时间',
-  `maker_confirm_datetime` datetime NOT NULL COMMENT '取交付支付确认函的确认到款日期时间',
-  `maker_tax_state` int(1) NOT NULL COMMENT '完税证明开票状态:1:已开；0：未开',
-  `maker_invoice_state` int(1) NOT NULL COMMENT '发票开票状态:1:已开；0：未开',
-  `invoice_type` int(1) NOT NULL COMMENT '发票类别:1,汇总代开；2，门征单开',
-  `pay_memo` varchar(1000) NOT NULL COMMENT '支付说明',
-  `maker_invoice_category` varchar(1000) NOT NULL COMMENT '创客发票类目:默认取订单中的默认信息，可更改，根据具体业务开，如*现代服务*市场推广费		',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
