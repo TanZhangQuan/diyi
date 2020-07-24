@@ -72,17 +72,34 @@ public interface IUserClient {
      *
      * @return
      */
-    @GetMapping(API_PREFIX + "/maker-find-by-phone-pwd")
+    @GetMapping(API_PREFIX + "/maker-find-by-phone-number-login-pwd")
     MakerEntity makerFindByPhoneNumberAndLoginPwd(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("loginPwd") String loginPwd);
 
     /**
      * 获取创客信息
      *
-     * @param phone 创客phone
+     * @param phoneNumber 创客phoneNumber
      * @return
      */
-    @GetMapping(API_PREFIX + "/maker-find-by-phone")
-    MakerEntity makerFindByPhone(@RequestParam("phone") String phone);
+    @GetMapping(API_PREFIX + "/maker-find-by-phone-number")
+    MakerEntity makerFindByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
+
+    /**
+     * 获取商户员工信息
+     *
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/enterprise-worker-find-by-employee-user-name-employee-pwd")
+    EnterpriseWorkerEntity enterpriseWorkerFindByEmployeeUserNameEmployeePwd(@RequestParam("employeeUserName") String employeeUserName, @RequestParam("employeePwd") String employeePwd);
+
+    /**
+     * 获取商户员工信息
+     *
+     * @param
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/enterprise-worker-find-by-phone-number")
+    EnterpriseWorkerEntity enterpriseWorkerFindByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
 
     /**
      * 微信授权登陆

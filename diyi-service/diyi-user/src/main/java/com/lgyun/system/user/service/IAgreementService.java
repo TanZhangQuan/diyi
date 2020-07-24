@@ -7,7 +7,7 @@ import com.lgyun.system.user.entity.AgreementEntity;
 import java.util.List;
 
 /**
- *  Service 接口
+ * Service 接口
  *
  * @author liangfeihu
  * @since 2020-06-26 17:21:06
@@ -16,11 +16,11 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
     /**
      * 根据创客找合同
      */
-    R makerIdFind(Long makerId, Long onlineAgreementTemplateId,Long onlineAgreementNeedSignId);
+    R makerIdFind(Long makerId, Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId);
 
     /**
-     * 根据创客和商户找合同
+     * 根据商户找合同
      */
-    List<AgreementEntity> makerIdCompanyFind(Long employeeId);
+    List<AgreementEntity> findByEnterpriseId(Long enterpriseId);
 }
 

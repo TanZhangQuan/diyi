@@ -59,10 +59,6 @@
         <result property="businessLicenceCopyUrl" column="business_licence_copy_url"/>
     </resultMap>
 
-    <select id="findMakerId" resultMap="individualEnterpriseMap">
-        select * from diyi_individual_enterprise where is_deleted = 0 and maker_id=#{param1}
-    </select>
-
     <select id="listByMaker" resultMap="individualEnterpriseListByMakerVO">
         select id, ibname, candidated_names from diyi_individual_enterprise
         where is_deleted = 0 and maker_id = #{param1}

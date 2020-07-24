@@ -40,22 +40,10 @@
         <result property="enterpriseId" column="enterprise_id"/>
     </resultMap>
 
-    <select id="getMakerId" resultMap="makerEnterpriseMap">
-        select * from diyi_maker_enterprise where maker_id = #{param1} and relationship_type = 0 and is_deleted = 0
-    </select>
-
     <select id="selectMakerEnterprisePage" resultMap="makerEnterpriseRelationMap">
         SELECT e.enterprise_name, e.shop_user_name, e.legal_person, e.legal_person_card, e.contact1_position, e.contact1_phone, e.social_credit_no,
          e.biz_licence_url, e.id as enterprise_id FROM diyi_maker_enterprise me INNER JOIN diyi_enterprise e ON me.enterprise_id = e.id
          WHERE me.is_deleted = 0 and e.is_deleted = 0 and me.maker_id = #{param1} AND me.relationship_type = #{param2} and me.cooperate_status = 'COOPERATING'
-    </select>
-
-    <select id="selectCancelfollow" resultMap="makerEnterpriseMap">
-        select * from diyi_maker_enterprise where enterprise_id = #{param1} and maker_id = #{param2} and relationship_type = 1 and is_deleted = 0
-    </select>
-
-    <select id="getEnterpriseIdAndMakerId" resultMap="makerEnterpriseMap">
-        select * from diyi_maker_enterprise where enterprise_id = #{param1} and maker_id = #{param2} and relationship_type = #{param3} and is_deleted = 0 and cooperate_status = 'COOPERATING'
     </select>
 
 </mapper>

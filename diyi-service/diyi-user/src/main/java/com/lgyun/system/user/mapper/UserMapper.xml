@@ -47,29 +47,6 @@
                dept_id
     </sql>
 
-    <select id="selectUserPage" resultMap="userResultMap">
-        select *
-        from blade_user
-        where is_deleted = 0
-    </select>
-
-    <select id="getUserByPhone" resultMap="userResultMap">
-        SELECT *
-        FROM blade_user
-        WHERE phone = #{param1} and user_type = #{param2}
-        and is_deleted = 0
-        limit 1
-    </select>
-
-    <select id="getUser" resultMap="userResultMap">
-        SELECT *
-        FROM blade_user
-        WHERE account = #{param1}
-          and password = #{param2}
-          and user_type = #{param3}
-          and is_deleted = 0
-    </select>
-
     <select id="getRoleName" resultType="java.lang.String">
         SELECT
         role_name

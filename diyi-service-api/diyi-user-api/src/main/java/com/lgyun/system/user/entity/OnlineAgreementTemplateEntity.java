@@ -3,14 +3,14 @@ package com.lgyun.system.user.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.lgyun.common.enumeration.SignState;
-import com.lgyun.common.enumeration.TemplateSignState;
-import com.lgyun.common.enumeration.TemplateState;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import lombok.Data;
+import com.lgyun.common.enumeration.TemplateSignState;
+import com.lgyun.common.enumeration.TemplateState;
 import com.lgyun.core.mp.base.BaseEntity;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
@@ -25,6 +25,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@AllArgsConstructor
 @TableName("diyi_online_agreement_template")
 public class OnlineAgreementTemplateEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;

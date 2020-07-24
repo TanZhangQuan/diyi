@@ -1,5 +1,6 @@
 package com.lgyun.system.user.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
@@ -62,8 +63,9 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
      */
     @Override
     public List<IndividualEnterpriseEntity> findMakerId(Long makerId){
-        List<IndividualEnterpriseEntity> individualEnterpriseEntity = baseMapper.findMakerId(makerId);
-        return individualEnterpriseEntity;
+        QueryWrapper<IndividualEnterpriseEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(IndividualEnterpriseEntity::getMakerId, makerId);
+        return baseMapper.selectList(queryWrapper);
     }
 
     @Override

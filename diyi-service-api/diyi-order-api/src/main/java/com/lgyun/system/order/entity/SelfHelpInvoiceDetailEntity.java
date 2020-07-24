@@ -2,6 +2,7 @@ package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.core.mp.base.BaseEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ import java.math.BigDecimal;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@AllArgsConstructor
 @TableName("diyi_self_help_invoice_detail")
 public class SelfHelpInvoiceDetailEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;

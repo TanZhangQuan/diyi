@@ -1,14 +1,16 @@
 package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.exceptions.ApiException;
-import com.lgyun.common.enumeration.UserType;
-import com.lgyun.common.tool.*;
-import lombok.AllArgsConstructor;
 import com.lgyun.common.constant.CommonConstant;
+import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.exception.ServiceException;
+import com.lgyun.common.tool.BeanUtil;
+import com.lgyun.common.tool.DigestUtil;
+import com.lgyun.common.tool.Func;
+import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.feign.ISysClient;
 import com.lgyun.system.user.entity.User;
@@ -16,6 +18,7 @@ import com.lgyun.system.user.entity.UserInfo;
 import com.lgyun.system.user.excel.UserExcel;
 import com.lgyun.system.user.mapper.UserMapper;
 import com.lgyun.system.user.service.IUserService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,11 +54,6 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
     }
 
     @Override
-    public IPage<User> selectUserPage(IPage<User> page, User user) {
-        return page.setRecords(baseMapper.selectUserPage(page, user));
-    }
-
-    @Override
     public UserInfo userInfo(Long userId, UserType userType) {
         User user = baseMapper.selectById(userId);
         if (user == null) {
@@ -64,7 +62,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
         UserInfo userInfo = new UserInfo();
         userInfo.setUser(user);
         //获取角色别名
-        if (!(UserType.MAKER.equals(userType))){
+        if (!(UserType.MAKER.equals(userType))) {
             List<String> roleAlias = baseMapper.getRoleAlias(Func.toStrArray(user.getRoleId()));
             userInfo.setRoles(roleAlias);
         }
@@ -74,14 +72,19 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
 
     @Override
     public UserInfo userInfoByPhone(String phone, UserType userType) {
-        User user = baseMapper.getUserByPhone(phone, userType);
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(User::getPhone, phone)
+                .eq(User::getUserType, userType);
+
+        User user = baseMapper.selectOne(queryWrapper);
         if (user == null) {
             return null;
         }
+
         UserInfo userInfo = new UserInfo();
         userInfo.setUser(user);
         //获取角色别名
-        if (!(UserType.MAKER.equals(userType))){
+        if (!(UserType.MAKER.equals(userType))) {
             List<String> roleAlias = baseMapper.getRoleAlias(Func.toStrArray(user.getRoleId()));
             userInfo.setRoles(roleAlias);
         }
@@ -91,17 +94,24 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
 
     @Override
     public UserInfo userInfo(String account, String password, UserType userType) {
-        User user = baseMapper.getUser(account, password, userType);
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(User::getAccount, account)
+                .eq(User::getPassword, password)
+                .eq(User::getUserType, userType);
+
+        User user = baseMapper.selectOne(queryWrapper);
         if (user == null) {
             return null;
         }
+
         UserInfo userInfo = new UserInfo();
         userInfo.setUser(user);
         //获取角色别名
-        if (!(UserType.MAKER.equals(userType))){
+        if (!(UserType.MAKER.equals(userType))) {
             List<String> roleAlias = baseMapper.getRoleAlias(Func.toStrArray(user.getRoleId()));
             userInfo.setRoles(roleAlias);
         }
+
         return userInfo;
     }
 

@@ -7,6 +7,7 @@ import com.lgyun.common.enumeration.ObjectType;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.EqualsAndHashCode;
@@ -23,6 +24,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@AllArgsConstructor
 @TableName("diyi_online_sign_pic")
 public class OnlineSignPicEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;

@@ -1,5 +1,6 @@
 package com.lgyun.system.user.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CooperateStatus;
@@ -29,7 +30,10 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
 
     @Override
     public List<MakerEnterpriseEntity> getMakerId(Long makerId) {
-        return baseMapper.getMakerId(makerId);
+        QueryWrapper<MakerEnterpriseEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(MakerEnterpriseEntity::getMakerId, makerId)
+                .eq(MakerEnterpriseEntity::getRelationshipType, 0);
+        return baseMapper.selectList(queryWrapper);
     }
 
     @Override
@@ -39,7 +43,12 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
 
     @Override
     public R addOrCancelfollow(Long enterpriseId, Long makerId, Integer attribute) {
-        MakerEnterpriseEntity makerEnterpriseEntity = baseMapper.selectCancelfollow(enterpriseId, makerId);
+        QueryWrapper<MakerEnterpriseEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(MakerEnterpriseEntity::getMakerId, makerId)
+                .eq(MakerEnterpriseEntity::getEnterpriseId, enterpriseId)
+                .eq(MakerEnterpriseEntity::getRelationshipType, 1);
+        MakerEnterpriseEntity makerEnterpriseEntity = baseMapper.selectOne(queryWrapper);
+
         if (attribute == 1 && null == makerEnterpriseEntity) {
             return R.fail("取消成功1");
         }
@@ -68,7 +77,12 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
-    public MakerEnterpriseEntity getEnterpriseIdAndMakerId(Long enterpriseId, Long makerId, Integer difference) {
-        return baseMapper.getEnterpriseIdAndMakerId(enterpriseId,makerId,difference);
+    public MakerEnterpriseEntity getEnterpriseIdAndMakerId(Long enterpriseId, Long makerId, Integer relationshipType) {
+        QueryWrapper<MakerEnterpriseEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(MakerEnterpriseEntity::getMakerId, makerId)
+                .eq(MakerEnterpriseEntity::getEnterpriseId, enterpriseId)
+                .eq(MakerEnterpriseEntity::getRelationshipType, relationshipType)
+                .eq(MakerEnterpriseEntity::getCooperateStatus, CooperateStatus.COOPERATING);
+        return baseMapper.selectOne(queryWrapper);
     }
 }

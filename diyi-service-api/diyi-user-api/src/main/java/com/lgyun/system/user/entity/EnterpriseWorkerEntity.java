@@ -9,6 +9,7 @@ import com.lgyun.common.enumeration.EnterprisePositionName;
 import com.lgyun.common.enumeration.Gender;
 import com.lgyun.core.mp.base.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@AllArgsConstructor
 @TableName("diyi_enterprise_worker")
 public class EnterpriseWorkerEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
@@ -78,5 +80,10 @@ public class EnterpriseWorkerEntity extends BaseEntity {
      * 管理员特性
      */
     private Boolean adminPower;
+
+    /**
+     * 超级管理员
+     */
+    private Boolean superAdmin;
 
 }

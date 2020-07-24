@@ -1,5 +1,6 @@
 package com.lgyun.system.user.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.enumeration.SignState;
@@ -22,7 +23,7 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- *  Service 实现
+ * Service 实现
  *
  * @author jun
  * @since 2020-07-18 15:59:14
@@ -33,30 +34,30 @@ import java.util.UUID;
 public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMapper, OnlineSignPicEntity> implements IOnlineSignPicService {
 
     private IOnlineAgreementTemplateService onlineAgreementTemplateService;
-
     private IOnlineAgreementNeedSignService onlineAgreementNeedSignService;
-
     private AliyunOssService ossService;
-
     private IMakerService makerService;
-
     private IAgreementService agreementService;
 
     @Override
     @Transactional
-    public R saveOnlineSignPic(Long ObjectID, ObjectType objectType, String signPic, Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId) {
-        OnlineSignPicEntity onlineSignPicEntity = baseMapper.getMakerId(ObjectID);
-        if(null == onlineSignPicEntity){
+    public R saveOnlineSignPic(Long ObjectId, ObjectType objectType, String signPic, Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId) {
+        QueryWrapper<OnlineSignPicEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(OnlineSignPicEntity::getObjectId, ObjectId)
+                .eq(OnlineSignPicEntity::getObjectType, ObjectType.MAKERPEOPLE);
+        OnlineSignPicEntity onlineSignPicEntity = baseMapper.selectOne(queryWrapper);
+
+        if (null == onlineSignPicEntity) {
             onlineSignPicEntity = new OnlineSignPicEntity();
             onlineSignPicEntity.setObjectType(objectType);
-            onlineSignPicEntity.setObjectId(ObjectID);
+            onlineSignPicEntity.setObjectId(ObjectId);
             onlineSignPicEntity.setSignPic(signPic);
             onlineSignPicEntity.setSignDatetime(new Date());
-            onlineSignPicEntity.setWorkerSex(ObjectID);
+            onlineSignPicEntity.setWorkerSex(ObjectId);
             save(onlineSignPicEntity);
         }
         OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = onlineAgreementTemplateService.getById(onlineAgreementTemplateId);
-        if(null == onlineAgreementTemplateEntity){
+        if (null == onlineAgreementTemplateEntity) {
             R.fail("协议模板id有误");
         }
         PDFUtil pdfUtil = new PDFUtil();
@@ -71,15 +72,15 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
             onlineAgreementNeedSignEntity.setSignState(SignState.SIGNING);
             onlineAgreementNeedSignService.saveOrUpdate(onlineAgreementNeedSignEntity);
             //稍后添加
-            MakerEntity makerEntity = makerService.getById(ObjectID);
-            AgreementEntity agreementEntity =new AgreementEntity();
+            MakerEntity makerEntity = makerService.getById(ObjectId);
+            AgreementEntity agreementEntity = new AgreementEntity();
             agreementEntity.setAgreementType(onlineAgreementTemplateEntity.getTemplateType());
             agreementEntity.setSignDate(new Date());
             agreementEntity.setSignType(SignType.PLATFORMAGREEMENT);
             agreementEntity.setSignState(SignState.SIGNING);
             agreementEntity.setAgreementNo(UUID.randomUUID().toString());
             agreementEntity.setSequenceNo(UUID.randomUUID().toString());
-            agreementEntity.setMakerId(ObjectID);
+            agreementEntity.setMakerId(ObjectId);
             agreementEntity.setOnlineAgreementTemplateId(onlineAgreementTemplateId);
             agreementEntity.setOnlineAggrementUrl(pdf);
             agreementEntity.setFirstSideSignPerson("地衣众包平台");
@@ -87,7 +88,7 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
             agreementEntity.setUploadDatetime(new Date());
             agreementEntity.setUploadPerson(makerEntity.getName());
             agreementService.save(agreementEntity);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return R.fail("签名失败");
         }

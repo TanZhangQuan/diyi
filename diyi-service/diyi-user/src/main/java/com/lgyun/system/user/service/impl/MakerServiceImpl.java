@@ -1,6 +1,7 @@
 package com.lgyun.system.user.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.RealnameVerifyConstant;
 import com.lgyun.common.enumeration.*;
@@ -40,12 +41,17 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
     @Override
     public MakerEntity findByPhoneNumber(String phoneNumber) {
-        return baseMapper.findByPhoneNumber(phoneNumber);
+        QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(MakerEntity::getPhoneNumber, phoneNumber);
+        return baseMapper.selectOne(queryWrapper);
     }
 
     @Override
     public MakerEntity findByPhoneNumberAndLoginPwd(String phoneNumber, String loginPwd) {
-        return baseMapper.findByPhoneNumberAndLoginPwd(phoneNumber, loginPwd);
+        QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(MakerEntity::getPhoneNumber, phoneNumber)
+                .eq(MakerEntity::getLoginPwd, loginPwd);
+        return baseMapper.selectOne(queryWrapper);
     }
 
     @Override
@@ -89,7 +95,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         //判断是否已认证
         if (CertificationState.UNCERTIFIED.equals(makerEntity)) {
             if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()) && VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus())
-            && SignState.SIGNED.equals(makerEntity.getSignState())) {
+                    && SignState.SIGNED.equals(makerEntity.getSignState())) {
                 makerEntity.setCertificationState(CertificationState.CERTIFIED);
             }
         }
@@ -376,7 +382,9 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
     @Override
     public MakerEntity findByUserId(Long userId) {
-        return baseMapper.findByUserId(userId);
+        QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(MakerEntity::getUserId, userId);
+        return baseMapper.selectOne(queryWrapper);
     }
 
     @Override
@@ -410,7 +418,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
     @Override
     public R uploadMakerVideo(MakerEntity makerEntity, String applyShortVideo) {
-        if(StringUtil.isBlank(applyShortVideo)){
+        if (StringUtil.isBlank(applyShortVideo)) {
             R.fail("视频连接不能为空");
         }
         makerEntity.setApplyShortVideo(applyShortVideo);

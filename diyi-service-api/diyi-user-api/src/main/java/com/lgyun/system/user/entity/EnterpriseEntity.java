@@ -8,6 +8,7 @@ import com.lgyun.common.enumeration.CreateType;
 import com.lgyun.common.enumeration.CrowdSourcePayPath;
 import com.lgyun.common.enumeration.EnterpriseBusinessPattern;
 import com.lgyun.core.mp.base.BaseEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,7 @@ import java.math.BigDecimal;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@AllArgsConstructor
 @TableName("diyi_enterprise")
 public class EnterpriseEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;

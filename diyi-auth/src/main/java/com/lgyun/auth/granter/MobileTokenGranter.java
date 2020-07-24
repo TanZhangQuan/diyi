@@ -126,7 +126,7 @@ public class MobileTokenGranter implements ITokenGranter {
                     break;
 
                 case MAKER:
-                    if (userClient.makerFindByPhone(mobile) == null) {
+                    if (userClient.makerFindByPhoneNumber(mobile) == null) {
                         return R.fail("手机号未注册");
                     }
                     break;
@@ -146,7 +146,7 @@ public class MobileTokenGranter implements ITokenGranter {
                     break;
 
                 case MAKER:
-                    if (userClient.makerFindByPhone(mobile) != null) {
+                    if (userClient.makerFindByPhoneNumber(mobile) != null) {
                         return R.fail("手机号已注册");
                     }
                     break;

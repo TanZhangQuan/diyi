@@ -78,30 +78,6 @@
         <result property="allIncome" column="all_income"/>
     </resultMap>
 
-    <select id="findByPhoneNumber" resultMap="makerMap">
-        SELECT *
-        FROM diyi_maker
-        WHERE phone_number = #{param1}
-          and is_deleted = 0
-        LIMIT 1
-    </select>
-
-    <select id="findByPhoneNumberAndLoginPwd" resultMap="makerMap">
-        SELECT *
-        FROM diyi_maker
-        WHERE phone_number = #{param1} and login_pwd = #{param2}
-          and is_deleted = 0
-        LIMIT 1
-    </select>
-
-    <select id="findByUserId" resultMap="makerMap">
-        SELECT *
-        FROM diyi_maker
-        WHERE user_id = #{param1}
-          and is_deleted = 0
-        LIMIT 1
-    </select>
-
     <select id="getName" resultType="string">
         SELECT name
         FROM diyi_maker

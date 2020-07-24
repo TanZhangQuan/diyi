@@ -45,7 +45,17 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public MakerEntity makerFindByPhone(String phone) {
+    public MakerEntity makerFindByPhoneNumber(String phoneNumber) {
+        return null;
+    }
+
+    @Override
+    public EnterpriseWorkerEntity enterpriseWorkerFindByEmployeeUserNameEmployeePwd(String employeeUserName, String employeePwd) {
+        return null;
+    }
+
+    @Override
+    public EnterpriseWorkerEntity enterpriseWorkerFindByPhoneNumber(String phoneNumber) {
         return null;
     }
 

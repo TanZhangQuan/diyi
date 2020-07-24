@@ -1,7 +1,6 @@
 package com.lgyun.system.user.service;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.User;
@@ -25,15 +24,6 @@ public interface IUserService extends BaseService<User> {
      * @return
      */
     boolean submit(User user);
-
-    /**
-     * 自定义分页
-     *
-     * @param page
-     * @param user
-     * @return
-     */
-    IPage<User> selectUserPage(IPage<User> page, User user);
 
     /**
      * 用户信息

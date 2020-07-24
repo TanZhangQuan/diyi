@@ -2,8 +2,6 @@ package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.common.enumeration.UserType;
 import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.excel.UserExcel;
 import org.apache.ibatis.annotations.Param;
@@ -17,32 +15,6 @@ import java.util.List;
  * @since 2020/6/6 22:10
  */
 public interface UserMapper extends BaseMapper<User> {
-
-    /**
-     * 自定义分页
-     *
-     * @param page
-     * @param user
-     * @return
-     */
-    List<User> selectUserPage(IPage page, User user);
-
-    /**
-     * 获取用户
-     *
-     * @param account
-     * @param password
-     * @return
-     */
-    User getUser(String account, String password, UserType userType);
-
-    /**
-     * 获取用户
-     *
-     * @param phone
-     * @return
-     */
-    User getUserByPhone(String phone, UserType userType);
 
     /**
      * 获取角色名

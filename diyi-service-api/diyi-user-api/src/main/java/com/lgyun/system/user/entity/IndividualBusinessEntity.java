@@ -8,6 +8,7 @@ import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.IndBusTaxType;
 import com.lgyun.common.tool.DateUtil;
 import com.lgyun.core.mp.base.BaseEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@AllArgsConstructor
 @TableName("diyi_individual_business")
 public class IndividualBusinessEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;

@@ -11,5 +11,21 @@ import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
  */
 public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEntity> {
 
+    /**
+     * 根据手机号码获取商户员工
+     *
+     * @param phoneNumber
+     * @return
+     */
+    EnterpriseWorkerEntity findByPhoneNumber(String phoneNumber);
+
+    /**
+     * 根据用户名密码获取商户员工
+     *
+     * @param
+     * @return
+     */
+    EnterpriseWorkerEntity findByEmployeeUserNameAndEmployeePwd(String employeeUserName, String employeePwd);
+
 }
 

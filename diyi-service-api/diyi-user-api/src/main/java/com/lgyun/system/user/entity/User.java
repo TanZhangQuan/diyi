@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.tool.DateUtil;
 import com.lgyun.core.mp.base.TenantEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -17,8 +19,10 @@ import java.util.Date;
  * @since 2020/6/6 00:58
  */
 @Data
-@TableName("blade_user")
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
+@TableName("blade_user")
 public class User extends TenantEntity {
 	private static final long serialVersionUID = 1L;
 

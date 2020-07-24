@@ -9,6 +9,7 @@ import com.lgyun.common.enumeration.EnterprisePayState;
 import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.core.mp.base.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@AllArgsConstructor
 @TableName("diyi_pay_enterprise")
 public class PayEnterpriseEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;

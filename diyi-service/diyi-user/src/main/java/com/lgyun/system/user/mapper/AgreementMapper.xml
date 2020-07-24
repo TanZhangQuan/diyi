@@ -31,12 +31,4 @@
         <result property="uploadPerson" column="upload_person"/>
     </resultMap>
 
-    <select id="makerIdFind" resultMap="agreementMap">
-        select * from diyi_agreement where is_deleted = 0 and maker_id = #{param1} and online_agreement_template_id =#{param2}
-    </select>
-
-    <select id="makerIdCompanyFind" resultMap="agreementMap">
-        select * from diyi_agreement where is_deleted = 0  and enterprise_id=#{param1}
-    </select>
-
 </mapper>

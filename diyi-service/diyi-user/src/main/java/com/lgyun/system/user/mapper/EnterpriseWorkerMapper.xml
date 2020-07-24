@@ -15,6 +15,7 @@
         <result property="employeeUserName" column="employee_user_name"/>
         <result property="employeePwd" column="employee_pwd"/>
         <result property="adminPower" column="admin_power"/>
+        <result property="superAdmin" column="super_admin"/>
         <result property="createUser" column="create_user"/>
         <result property="createTime" column="create_time"/>
         <result property="updateUser" column="update_user"/>

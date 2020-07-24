@@ -73,8 +73,18 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public MakerEntity makerFindByPhone(String phone) {
-        return iMakerService.findByPhoneNumber(phone);
+    public MakerEntity makerFindByPhoneNumber(String phoneNumber) {
+        return iMakerService.findByPhoneNumber(phoneNumber);
+    }
+
+    @Override
+    public EnterpriseWorkerEntity enterpriseWorkerFindByEmployeeUserNameEmployeePwd(String employeeUserName, String employeePwd) {
+        return null;
+    }
+
+    @Override
+    public EnterpriseWorkerEntity enterpriseWorkerFindByPhoneNumber(String phoneNumber) {
+        return null;
     }
 
     public void makerSave(String openid, String sessionKey, String purePhoneNumber, String loginPwd) {
@@ -186,10 +196,7 @@ public class UserClient implements IUserClient {
 
     @Override
     public R findRunCompanyMakerId(Integer current, Integer size, Long makerId) {
-        Query query = new Query();
-        query.setCurrent(current);
-        query.setSize(size);
-        return iRunCompanyService.findMakerId(Condition.getPage(query.setDescs("create_time")),makerId);
+        return iRunCompanyService.findMakerId(current, size, makerId);
     }
 
     @Override

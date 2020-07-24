@@ -881,6 +881,7 @@ CREATE TABLE `diyi_enterprise_worker` (
   `employee_user_name` varchar(50) NOT NULL COMMENT '用户名',
   `employee_pwd` varchar(100) NOT NULL COMMENT '密码',
   `admin_power` bit(1) NOT NULL COMMENT '管理员特性',
+  `super_admin` bit(1) NOT NULL COMMENT '是否超级管理员',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',

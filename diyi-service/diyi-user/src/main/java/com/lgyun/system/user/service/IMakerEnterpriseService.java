@@ -39,7 +39,7 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
     /**
      * 通过商户id和创客id查询
      */
-    MakerEnterpriseEntity getEnterpriseIdAndMakerId(Long enterpriseId,Long makerId,Integer difference);
+    MakerEnterpriseEntity getEnterpriseIdAndMakerId(Long enterpriseId,Long makerId,Integer relationshipType);
 
 
 }
