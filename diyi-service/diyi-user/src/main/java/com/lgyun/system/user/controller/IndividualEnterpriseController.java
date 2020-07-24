@@ -8,15 +8,11 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.vo.SelfHelpInvoiceYearMonthMoneyVO;
 import com.lgyun.system.user.dto.IndividualEnterpriseAddDto;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.IIndividualEnterpriseService;
 import com.lgyun.system.user.service.IMakerService;
-import com.lgyun.system.user.vo.IndividualEnterpriseDetailVO;
-import com.lgyun.system.user.vo.IndividualEnterpriseListByMakerVO;
-import com.lgyun.system.user.vo.IndividualEnterpriseVO;
 import com.lgyun.system.user.wrapper.IndividualEnterpriseWrapper;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
@@ -68,7 +64,7 @@ public class IndividualEnterpriseController {
 
 //	@GetMapping("/detail")
 //	@ApiOperation(value = "详情", notes = "详情")
-	public R<IndividualEnterpriseVO> detail(@ApiParam(value = "个独编号") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
+	public R detail(@ApiParam(value = "个独编号") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
 		IndividualEnterpriseEntity individualEnterprise = new IndividualEnterpriseEntity();
 		individualEnterprise.setId(individualEnterpriseId);
 		IndividualEnterpriseEntity detail = individualEnterpriseService.getOne(Condition.getQueryWrapper(individualEnterprise));
@@ -77,7 +73,7 @@ public class IndividualEnterpriseController {
 
 //	@GetMapping("/list")
 //	@ApiOperation(value = "分页", notes = "分页")
-	public R<IPage<IndividualEnterpriseVO>> list(IndividualEnterpriseEntity individualEnterprise, Query query) {
+	public R list(IndividualEnterpriseEntity individualEnterprise, Query query) {
 		IPage<IndividualEnterpriseEntity> pages = individualEnterpriseService.page(Condition.getPage(query), Condition.getQueryWrapper(individualEnterprise));
 		return R.data(IndividualEnterpriseWrapper.build().pageVO(pages));
 	}
@@ -93,7 +89,7 @@ public class IndividualEnterpriseController {
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "ibstate", value = "工商个体户状态", paramType = "query", dataType = "string"),
 	})
-	public R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker(Ibstate ibstate, Query query, BladeUser bladeUser) {
+	public R listByMaker(Ibstate ibstate, Query query, BladeUser bladeUser) {
 
 		log.info("查询当前创客的所有个独");
 		try {
@@ -107,7 +103,7 @@ public class IndividualEnterpriseController {
 
 	@GetMapping("/find-by-id")
 	@ApiOperation(value = "查询个独详情", notes = "查询个独详情")
-	public R<IndividualEnterpriseDetailVO> findById(@ApiParam(value = "个独编号") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
+	public R findById(@ApiParam(value = "个独编号") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
 
 		log.info("查询个独详情");
 		try {
@@ -120,7 +116,7 @@ public class IndividualEnterpriseController {
 
 	@GetMapping("/year-month-money")
 	@ApiOperation(value = "查询个体户月度开票金额和年度开票金额", notes = "查询个体户月度开票金额和年度开票金额")
-	public R<SelfHelpInvoiceYearMonthMoneyVO> yearMonthMoney(@ApiParam(value = "个体户编号") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualEnterpriseId) {
+	public R yearMonthMoney(@ApiParam(value = "个体户编号") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualEnterpriseId) {
 
 		log.info("查询个体户月度开票金额和年度开票金额");
 		try {

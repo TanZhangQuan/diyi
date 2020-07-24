@@ -7,7 +7,6 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.entity.MakerTaxRecordEntity;
 import com.lgyun.system.order.service.IMakerTaxRecordService;
-import com.lgyun.system.order.vo.MakerTaxRecordVO;
 import com.lgyun.system.order.wrapper.MakerTaxRecordWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,14 +48,14 @@ public class MakerTaxRecordController {
 
     @GetMapping("/detail")
     @ApiOperation(value = "详情", notes = "详情")
-    public R<MakerTaxRecordVO> detail(MakerTaxRecordEntity makerTaxRecord) {
+    public R detail(MakerTaxRecordEntity makerTaxRecord) {
         MakerTaxRecordEntity detail = makerTaxRecordService.getOne(Condition.getQueryWrapper(makerTaxRecord));
         return R.data(MakerTaxRecordWrapper.build().entityVO(detail));
     }
 
     @GetMapping("/list")
     @ApiOperation(value = "分页", notes = "分页")
-    public R<IPage<MakerTaxRecordVO>> list(MakerTaxRecordEntity makerTaxRecord, Query query) {
+    public R list(MakerTaxRecordEntity makerTaxRecord, Query query) {
         IPage<MakerTaxRecordEntity> pages = makerTaxRecordService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(makerTaxRecord));
         return R.data(MakerTaxRecordWrapper.build().pageVO(pages));
     }

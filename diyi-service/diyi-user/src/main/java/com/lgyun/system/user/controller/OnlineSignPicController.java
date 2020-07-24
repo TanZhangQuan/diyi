@@ -7,7 +7,6 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.OnlineSignPicEntity;
 import com.lgyun.system.user.service.IOnlineSignPicService;
-import com.lgyun.system.user.vo.OnlineSignPicVO;
 import com.lgyun.system.user.wrapper.OnlineSignPicWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,14 +48,14 @@ public class OnlineSignPicController {
 
 	@GetMapping("/detail")
 	@ApiOperation(value = "详情", notes = "详情")
-	public R<OnlineSignPicVO> detail(OnlineSignPicEntity onlineSignPic) {
+	public R detail(OnlineSignPicEntity onlineSignPic) {
 		OnlineSignPicEntity detail = onlineSignPicService.getOne(Condition.getQueryWrapper(onlineSignPic));
 		return R.data(OnlineSignPicWrapper.build().entityVO(detail));
 	}
 
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "分页")
-	public R<IPage<OnlineSignPicVO>> list(OnlineSignPicEntity onlineSignPic, Query query) {
+	public R list(OnlineSignPicEntity onlineSignPic, Query query) {
 		IPage<OnlineSignPicEntity> pages = onlineSignPicService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(onlineSignPic));
 		return R.data(OnlineSignPicWrapper.build().pageVO(pages));
 	}

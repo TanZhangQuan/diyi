@@ -7,7 +7,6 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.IndividualBusinessAnnualFeeEntity;
 import com.lgyun.system.user.service.IIndividualBusinessAnnualFeeService;
-import com.lgyun.system.user.vo.IndividualBusinessAnnualFeeVO;
 import com.lgyun.system.user.wrapper.IndividualBusinessAnnualFeeWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,14 +48,14 @@ public class IndividualBusinessAnnualFeeController {
 
 	@GetMapping("/detail")
 	@ApiOperation(value = "详情", notes = "详情")
-	public R<IndividualBusinessAnnualFeeVO> detail(IndividualBusinessAnnualFeeEntity individualBusinessAnnualFee) {
+	public R detail(IndividualBusinessAnnualFeeEntity individualBusinessAnnualFee) {
 		IndividualBusinessAnnualFeeEntity detail = individualBusinessAnnualFeeService.getOne(Condition.getQueryWrapper(individualBusinessAnnualFee));
 		return R.data(IndividualBusinessAnnualFeeWrapper.build().entityVO(detail));
 	}
 
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "分页")
-	public R<IPage<IndividualBusinessAnnualFeeVO>> list(IndividualBusinessAnnualFeeEntity individualBusinessAnnualFee, Query query) {
+	public R list(IndividualBusinessAnnualFeeEntity individualBusinessAnnualFee, Query query) {
 		IPage<IndividualBusinessAnnualFeeEntity> pages = individualBusinessAnnualFeeService.page(Condition.getPage(query), Condition.getQueryWrapper(individualBusinessAnnualFee));
 		return R.data(IndividualBusinessAnnualFeeWrapper.build().pageVO(pages));
 	}

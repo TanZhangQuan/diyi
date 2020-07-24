@@ -7,7 +7,6 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.entity.MakerTotalInvoiceEntity;
 import com.lgyun.system.order.service.IMakerTotalInvoiceService;
-import com.lgyun.system.order.vo.MakerTotalInvoiceVO;
 import com.lgyun.system.order.wrapper.MakerTotalInvoiceWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,14 +48,14 @@ public class MakerTotalInvoiceController {
 
     @GetMapping("/detail")
     @ApiOperation(value = "详情", notes = "详情")
-    public R<MakerTotalInvoiceVO> detail(MakerTotalInvoiceEntity makerTotalInvoice) {
+    public R detail(MakerTotalInvoiceEntity makerTotalInvoice) {
         MakerTotalInvoiceEntity detail = makerTotalInvoiceService.getOne(Condition.getQueryWrapper(makerTotalInvoice));
         return R.data(MakerTotalInvoiceWrapper.build().entityVO(detail));
     }
 
     @GetMapping("/list")
     @ApiOperation(value = "分页", notes = "分页")
-    public R<IPage<MakerTotalInvoiceVO>> list(MakerTotalInvoiceEntity makerTotalInvoice, Query query) {
+    public R list(MakerTotalInvoiceEntity makerTotalInvoice, Query query) {
         IPage<MakerTotalInvoiceEntity> pages = makerTotalInvoiceService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(makerTotalInvoice));
         return R.data(MakerTotalInvoiceWrapper.build().pageVO(pages));
     }

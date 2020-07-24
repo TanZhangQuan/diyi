@@ -4,15 +4,6 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.system.user.service.IUserService;
-import com.lgyun.system.user.wrapper.UserWrapper;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
-import org.apache.commons.codec.Charsets;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.secure.BladeUser;
@@ -23,7 +14,15 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.excel.UserExcel;
 import com.lgyun.system.user.excel.UserImportListener;
-import com.lgyun.system.user.vo.UserVO;
+import com.lgyun.system.user.service.IUserService;
+import com.lgyun.system.user.wrapper.UserWrapper;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
+import org.apache.commons.codec.Charsets;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,14 +53,14 @@ public class UserController {
 
     @ApiOperation(value = "详情", notes = "详情")
     @GetMapping("/detail")
-    public R<UserVO> detail(User user) {
+    public R detail(User user) {
         User detail = userService.getOne(Condition.getQueryWrapper(user));
         return R.data(UserWrapper.build().entityVO(detail));
     }
 
     @ApiOperation(value = "查看详情", notes = "传入id")
     @GetMapping("/info")
-    public R<UserVO> info(BladeUser user) {
+    public R info(BladeUser user) {
         User detail = userService.getById(user.getUserId());
         return R.data(UserWrapper.build().entityVO(detail));
     }
@@ -72,7 +71,7 @@ public class UserController {
             @ApiImplicitParam(name = "realName", value = "姓名", paramType = "query", dataType = "string")
     })
     @ApiOperation(value = "列表", notes = "分页")
-    public R<IPage<UserVO>> list(@ApiIgnore @RequestParam Map<String, Object> user, Query query, BladeUser bladeUser) {
+    public R list(@ApiIgnore @RequestParam Map<String, Object> user, Query query, BladeUser bladeUser) {
         QueryWrapper<User> queryWrapper = Condition.getQueryWrapper(user, User.class);
         IPage<User> pages = userService.page(Condition.getPage(query), (!bladeUser.getTenantId().equals(BladeConstant.ADMIN_TENANT_ID)) ? queryWrapper.lambda().eq(User::getTenantId, bladeUser.getTenantId()) : queryWrapper);
         return R.data(UserWrapper.build().pageVO(pages));
@@ -122,7 +121,7 @@ public class UserController {
 
     @GetMapping("/user-list")
     @ApiOperation(value = "用户列表", notes = "传入user")
-    public R<List<User>> userList(User user) {
+    public R userList(User user) {
         List<User> list = userService.list(Condition.getQueryWrapper(user));
         return R.data(list);
     }

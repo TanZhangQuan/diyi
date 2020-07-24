@@ -9,16 +9,12 @@ import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.vo.SelfHelpInvoiceYearMonthMoneyVO;
 import com.lgyun.system.user.dto.IndividualBusinessAddDto;
 import com.lgyun.system.user.dto.IndividualBusinessListDto;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.IIndividualBusinessService;
 import com.lgyun.system.user.service.IMakerService;
-import com.lgyun.system.user.vo.IndividualBusinessDetailVO;
-import com.lgyun.system.user.vo.IndividualBusinessListByMakerVO;
-import com.lgyun.system.user.vo.IndividualBusinessVO;
 import com.lgyun.system.user.wrapper.IndividualBusinessWrapper;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
@@ -70,7 +66,7 @@ public class IndividualBusinessController {
 
 //    @GetMapping("/detail")
 //    @ApiOperation(value = "查询个体户详情", notes = "查询个体户详情")
-    public R<IndividualBusinessVO> detail(@ApiParam(value = "个体户编号") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
+    public R detail(@ApiParam(value = "个体户编号") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
 
         log.info("查询个体户详情");
         try {
@@ -86,7 +82,7 @@ public class IndividualBusinessController {
 
 //    @GetMapping("/list")
 //    @ApiOperation(value = "查询所有个体户", notes = "查询所有个体户")
-    public R<IPage<IndividualBusinessVO>> list(IndividualBusinessListDto individualBusinessListDto, Query query) {
+    public R list(IndividualBusinessListDto individualBusinessListDto, Query query) {
 
         log.info("查询所有个体户");
         try {
@@ -118,7 +114,7 @@ public class IndividualBusinessController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "ibstate", value = "工商个体户状态", paramType = "query", dataType = "string"),
     })
-    public R<IPage<IndividualBusinessListByMakerVO>> listByMaker(Ibstate ibstate, Query query, BladeUser bladeUser) {
+    public R listByMaker(Ibstate ibstate, Query query, BladeUser bladeUser) {
 
         log.info("查询当前创客的所有个体户");
         try {
@@ -132,7 +128,7 @@ public class IndividualBusinessController {
 
     @GetMapping("/find-by-id")
     @ApiOperation(value = "查询个体户详情", notes = "查询个体户详情")
-    public R<IndividualBusinessDetailVO> findById(@ApiParam(value = "个体户编号") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
+    public R findById(@ApiParam(value = "个体户编号") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
 
         log.info("查询个体户详情");
         try {
@@ -145,7 +141,7 @@ public class IndividualBusinessController {
 
     @GetMapping("/year-month-money")
     @ApiOperation(value = "查询个体户月度开票金额和年度开票金额", notes = "查询个体户月度开票金额和年度开票金额")
-    public R<SelfHelpInvoiceYearMonthMoneyVO> yearMonthMoney(@ApiParam(value = "个体户编号") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
+    public R yearMonthMoney(@ApiParam(value = "个体户编号") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
 
         log.info("查询个体户月度开票金额和年度开票金额");
         try {

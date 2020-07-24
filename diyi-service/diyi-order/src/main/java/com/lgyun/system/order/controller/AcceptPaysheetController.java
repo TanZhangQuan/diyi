@@ -8,13 +8,9 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.entity.AcceptPaysheetEntity;
 import com.lgyun.system.order.service.IAcceptPaysheetService;
-import com.lgyun.system.order.vo.AcceptPaysheetByEnterpriseListVO;
-import com.lgyun.system.order.vo.AcceptPaysheetVO;
-import com.lgyun.system.order.vo.AcceptPaysheetWorksheetVO;
 import com.lgyun.system.order.wrapper.AcceptPaysheetWrapper;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
-import com.lgyun.system.user.vo.EnterprisesByWorksheetListVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -57,14 +53,14 @@ public class AcceptPaysheetController {
 
     //	@GetMapping("/detail")
 //	@ApiOperation(value = "详情", notes = "详情")
-    public R<AcceptPaysheetVO> detail(AcceptPaysheetEntity acceptPaysheet) {
+    public R detail(AcceptPaysheetEntity acceptPaysheet) {
         AcceptPaysheetEntity detail = acceptPaysheetService.getOne(Condition.getQueryWrapper(acceptPaysheet));
         return R.data(AcceptPaysheetWrapper.build().entityVO(detail));
     }
 
     //	@GetMapping("/list")
 //	@ApiOperation(value = "分页", notes = "分页")
-    public R<IPage<AcceptPaysheetVO>> list(AcceptPaysheetEntity acceptPaysheet, Query query) {
+    public R list(AcceptPaysheetEntity acceptPaysheet, Query query) {
         IPage<AcceptPaysheetEntity> pages = acceptPaysheetService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(acceptPaysheet));
         return R.data(AcceptPaysheetWrapper.build().pageVO(pages));
     }
@@ -77,21 +73,21 @@ public class AcceptPaysheetController {
 
     @GetMapping("/get-enterprises-by-worksheet")
     @ApiOperation(value = "查询创客所有交付支付验收单的商户", notes = "查询创客所有交付支付验收单的商户")
-    public R<IPage<EnterprisesByWorksheetListVO>> getEnterprisesByWorksheet(Query query, BladeUser bladeUser) {
+    public R getEnterprisesByWorksheet(Query query, BladeUser bladeUser) {
         MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
         return acceptPaysheetService.getEnterprisesByWorksheet(Condition.getPage(query.setDescs("create_time")), makerEntity.getId());
     }
 
     @GetMapping("/get-accept-paysheets-by-enterprise")
     @ApiOperation(value = "查询创客对应某商户的所有交付支付验收单", notes = "查询创客对应某商户的所有交付支付验收单")
-    public R<IPage<AcceptPaysheetByEnterpriseListVO>> getAcceptPaysheetsByEnterprise(@ApiParam(value = "商户ID") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
+    public R getAcceptPaysheetsByEnterprise(@ApiParam(value = "商户ID") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
         MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
         return acceptPaysheetService.getAcceptPaysheetsByEnterprise(Condition.getPage(query.setDescs("create_time")), enterpriseId, makerEntity.getId());
     }
 
     @GetMapping("/get-accept-paysheet-worksheet")
     @ApiOperation(value = "根据ID查询交付支付验收单", notes = "根据ID查询交付支付验收单")
-    public R<AcceptPaysheetWorksheetVO> getAcceptPaysheetWorksheet(@ApiParam(value = "交付支付验收单ID") @NotNull(message = "请输入交付支付验收单编号") @RequestParam(required = false) Long acceptPaysheetId, BladeUser bladeUser) {
+    public R getAcceptPaysheetWorksheet(@ApiParam(value = "交付支付验收单ID") @NotNull(message = "请输入交付支付验收单编号") @RequestParam(required = false) Long acceptPaysheetId, BladeUser bladeUser) {
         MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
         return acceptPaysheetService.getAcceptPaysheetWorksheet(makerEntity.getId(), acceptPaysheetId);
     }

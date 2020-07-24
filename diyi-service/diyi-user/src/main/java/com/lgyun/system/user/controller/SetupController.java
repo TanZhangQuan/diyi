@@ -7,7 +7,6 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.SetupEntity;
 import com.lgyun.system.user.service.ISetupService;
-import com.lgyun.system.user.vo.SetupVO;
 import com.lgyun.system.user.wrapper.SetupWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,14 +48,14 @@ public class SetupController {
 
 	@GetMapping("/detail")
 	@ApiOperation(value = "详情", notes = "详情")
-	public R<SetupVO> detail(SetupEntity setup) {
+	public R detail(SetupEntity setup) {
 		SetupEntity detail = setupService.getOne(Condition.getQueryWrapper(setup));
 		return R.data(SetupWrapper.build().entityVO(detail));
 	}
 
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "分页")
-	public R<IPage<SetupVO>> list(SetupEntity setup, Query query) {
+	public R list(SetupEntity setup, Query query) {
 		IPage<SetupEntity> pages = setupService.page(Condition.getPage(query), Condition.getQueryWrapper(setup));
 		return R.data(SetupWrapper.build().pageVO(pages));
 	}

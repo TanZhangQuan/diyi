@@ -7,7 +7,6 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.entity.DeliverMaterialEntity;
 import com.lgyun.system.order.service.IDeliverMaterialService;
-import com.lgyun.system.order.vo.DeliverMaterialVO;
 import com.lgyun.system.order.wrapper.DeliverMaterialWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,14 +48,14 @@ public class DeliverMaterialController {
 
     @GetMapping("/detail")
     @ApiOperation(value = "详情", notes = "详情")
-    public R<DeliverMaterialVO> detail(DeliverMaterialEntity deliverMaterial) {
+    public R detail(DeliverMaterialEntity deliverMaterial) {
         DeliverMaterialEntity detail = deliverMaterialService.getOne(Condition.getQueryWrapper(deliverMaterial));
         return R.data(DeliverMaterialWrapper.build().entityVO(detail));
     }
 
     @GetMapping("/list")
     @ApiOperation(value = "分页", notes = "分页")
-    public R<IPage<DeliverMaterialVO>> list(DeliverMaterialEntity deliverMaterial, Query query) {
+    public R list(DeliverMaterialEntity deliverMaterial, Query query) {
         IPage<DeliverMaterialEntity> pages = deliverMaterialService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(deliverMaterial));
         return R.data(DeliverMaterialWrapper.build().pageVO(pages));
     }

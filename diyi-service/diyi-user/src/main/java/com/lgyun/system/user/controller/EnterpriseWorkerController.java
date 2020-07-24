@@ -7,7 +7,6 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
-import com.lgyun.system.user.vo.EnterpriseWorkerVO;
 import com.lgyun.system.user.wrapper.EnterpriseWorkerWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,14 +48,14 @@ public class EnterpriseWorkerController {
 
     @GetMapping("/detail")
     @ApiOperation(value = "详情", notes = "详情")
-    public R<EnterpriseWorkerVO> detail(EnterpriseWorkerEntity enterpriseWorker) {
+    public R detail(EnterpriseWorkerEntity enterpriseWorker) {
         EnterpriseWorkerEntity detail = enterpriseWorkerService.getOne(Condition.getQueryWrapper(enterpriseWorker));
         return R.data(EnterpriseWorkerWrapper.build().entityVO(detail));
     }
 
     @GetMapping("/list")
     @ApiOperation(value = "分页", notes = "分页")
-    public R<IPage<EnterpriseWorkerVO>> list(EnterpriseWorkerEntity enterpriseWorker, Query query) {
+    public R list(EnterpriseWorkerEntity enterpriseWorker, Query query) {
         IPage<EnterpriseWorkerEntity> pages = enterpriseWorkerService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(enterpriseWorker));
         return R.data(EnterpriseWorkerWrapper.build().pageVO(pages));
     }

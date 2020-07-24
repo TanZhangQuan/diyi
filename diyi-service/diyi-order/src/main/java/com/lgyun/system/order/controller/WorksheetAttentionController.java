@@ -7,7 +7,6 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.entity.WorksheetAttentionEntity;
 import com.lgyun.system.order.service.IWorksheetAttentionService;
-import com.lgyun.system.order.vo.WorksheetAttentionVO;
 import com.lgyun.system.order.wrapper.WorksheetAttentionWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,14 +48,14 @@ public class WorksheetAttentionController {
 
     @GetMapping("/detail")
     @ApiOperation(value = "详情", notes = "详情")
-    public R<WorksheetAttentionVO> detail(WorksheetAttentionEntity worksheetAttention) {
+    public R detail(WorksheetAttentionEntity worksheetAttention) {
         WorksheetAttentionEntity detail = worksheetAttentionService.getOne(Condition.getQueryWrapper(worksheetAttention));
         return R.data(WorksheetAttentionWrapper.build().entityVO(detail));
     }
 
     @GetMapping("/list")
     @ApiOperation(value = "分页", notes = "分页")
-    public R<IPage<WorksheetAttentionVO>> list(WorksheetAttentionEntity worksheetAttention, Query query) {
+    public R list(WorksheetAttentionEntity worksheetAttention, Query query) {
         IPage<WorksheetAttentionEntity> pages = worksheetAttentionService.page(Condition.getPage(query), Condition.getQueryWrapper(worksheetAttention));
         return R.data(WorksheetAttentionWrapper.build().pageVO(pages));
     }

@@ -49,14 +49,14 @@ public class ${className}Controller {
 
 	@GetMapping("/detail")
 	@ApiOperation(value = "详情", notes = "详情")
-	public R<${className}VO> detail(${className}Entity ${classname}) {
+	public R detail(${className}Entity ${classname}) {
 		${className}Entity detail = ${classname}Service.getOne(Condition.getQueryWrapper(${classname}));
 		return R.data(${className}Wrapper.build().entityVO(detail));
 	}
 
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "分页")
-	public R<IPage<${className}VO>> list(${className}Entity ${classname}, Query query) {
+	public R list(${className}Entity ${classname}, Query query) {
 		IPage<${className}Entity> pages = ${classname}Service.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(${classname}));
 		return R.data(${className}Wrapper.build().pageVO(pages));
 	}

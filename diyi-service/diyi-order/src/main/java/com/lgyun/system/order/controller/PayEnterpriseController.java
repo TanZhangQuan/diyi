@@ -7,7 +7,6 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.service.IPayEnterpriseService;
-import com.lgyun.system.order.vo.PayEnterpriseVO;
 import com.lgyun.system.order.wrapper.PayEnterpriseWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,14 +48,14 @@ public class PayEnterpriseController {
 
     @GetMapping("/detail")
     @ApiOperation(value = "详情", notes = "详情")
-    public R<PayEnterpriseVO> detail(PayEnterpriseEntity enterprisePay) {
+    public R detail(PayEnterpriseEntity enterprisePay) {
         PayEnterpriseEntity detail = enterprisePayService.getOne(Condition.getQueryWrapper(enterprisePay));
         return R.data(PayEnterpriseWrapper.build().entityVO(detail));
     }
 
     @GetMapping("/list")
     @ApiOperation(value = "分页", notes = "分页")
-    public R<IPage<PayEnterpriseVO>> list(PayEnterpriseEntity enterprisePay, Query query) {
+    public R list(PayEnterpriseEntity enterprisePay, Query query) {
         IPage<PayEnterpriseEntity> pages = enterprisePayService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(enterprisePay));
         return R.data(PayEnterpriseWrapper.build().pageVO(pages));
     }

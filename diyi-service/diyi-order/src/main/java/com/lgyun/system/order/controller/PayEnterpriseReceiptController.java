@@ -7,7 +7,6 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.entity.PayEnterpriseReceiptEntity;
 import com.lgyun.system.order.service.IPayEnterpriseReceiptService;
-import com.lgyun.system.order.vo.PayEnterpriseReceiptVO;
 import com.lgyun.system.order.wrapper.PayEnterpriseReceiptWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,14 +48,14 @@ public class PayEnterpriseReceiptController {
 
     @GetMapping("/detail")
     @ApiOperation(value = "详情", notes = "详情")
-    public R<PayEnterpriseReceiptVO> detail(PayEnterpriseReceiptEntity enterprisePayReceipt) {
+    public R detail(PayEnterpriseReceiptEntity enterprisePayReceipt) {
         PayEnterpriseReceiptEntity detail = enterprisePayReceiptService.getOne(Condition.getQueryWrapper(enterprisePayReceipt));
         return R.data(PayEnterpriseReceiptWrapper.build().entityVO(detail));
     }
 
     @GetMapping("/list")
     @ApiOperation(value = "分页", notes = "分页")
-    public R<IPage<PayEnterpriseReceiptVO>> list(PayEnterpriseReceiptEntity enterprisePayReceipt, Query query) {
+    public R list(PayEnterpriseReceiptEntity enterprisePayReceipt, Query query) {
         IPage<PayEnterpriseReceiptEntity> pages = enterprisePayReceiptService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(enterprisePayReceipt));
         return R.data(PayEnterpriseReceiptWrapper.build().pageVO(pages));
     }

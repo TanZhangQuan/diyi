@@ -45,7 +45,7 @@ public class MakerEnterpriseController {
 			@ApiImplicitParam(name = "enterpriseId", value = "商户id", paramType = "query", dataType = "long"),
 	})
 	@ApiOperation(value = "详情", notes = "详情")
-	public R<MakerEnterpriseRelationVO> detail(Long enterpriseId,BladeUser bladeUser) {
+	public R detail(Long enterpriseId,BladeUser bladeUser) {
 		log.info("商户的详情");
 		try {
 			MakerEntity makerEntity = iMakerService.current(bladeUser);
@@ -62,7 +62,7 @@ public class MakerEnterpriseController {
 			@ApiImplicitParam(name = "relationshipType", value = "类型", paramType = "query", dataType = "int")
 	})
 	@ApiOperation(value = "查询关联商户和关注商户", notes = "查询关联商户和关注商户")
-	public R<IPage<MakerEnterpriseRelationVO>> selectMakerEnterprisePage(BladeUser bladeUser, Integer relationshipType, Query query) {
+	public R selectMakerEnterprisePage(BladeUser bladeUser, Integer relationshipType, Query query) {
 		log.info("查询关联商户和关注商户");
 		try {
 			MakerEntity makerEntity = iMakerService.current(bladeUser);
@@ -79,7 +79,7 @@ public class MakerEnterpriseController {
 			@ApiImplicitParam(name = "enterpriseName", value = "商户名字", paramType = "query", dataType = "string")
 	})
 	@ApiOperation(value = "通过商户名字查询", notes = "通过商户名字查询")
-	public R<MakerEnterpriseRelationVO> getEnterpriseName(String enterpriseName) {
+	public R getEnterpriseName(String enterpriseName) {
 		log.info("通过商户名字查询商户");
 		try {
 			MakerEnterpriseRelationVO makerEnterpriseRelationVO = iEnterpriseService.getEnterpriseName(enterpriseName);

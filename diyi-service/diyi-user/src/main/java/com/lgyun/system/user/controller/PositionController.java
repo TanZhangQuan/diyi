@@ -7,7 +7,6 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.PositionEntity;
 import com.lgyun.system.user.service.IPositionService;
-import com.lgyun.system.user.vo.PositionVO;
 import com.lgyun.system.user.wrapper.PositionWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,14 +48,14 @@ public class PositionController {
 
 	@GetMapping("/detail")
 	@ApiOperation(value = "详情", notes = "详情")
-	public R<PositionVO> detail(PositionEntity position) {
+	public R detail(PositionEntity position) {
 		PositionEntity detail = positionService.getOne(Condition.getQueryWrapper(position));
 		return R.data(PositionWrapper.build().entityVO(detail));
 	}
 
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "分页")
-	public R<IPage<PositionVO>> list(PositionEntity position, Query query) {
+	public R list(PositionEntity position, Query query) {
 		IPage<PositionEntity> pages = positionService.page(Condition.getPage(query), Condition.getQueryWrapper(position));
 		return R.data(PositionWrapper.build().pageVO(pages));
 	}

@@ -1,27 +1,22 @@
 package com.lgyun.system.user.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lgyun.common.api.R;
+import com.lgyun.common.tool.Func;
+import com.lgyun.core.mp.support.Condition;
+import com.lgyun.core.mp.support.Query;
+import com.lgyun.system.user.entity.OnlineAgreementNeedSignEntity;
 import com.lgyun.system.user.service.IOnlineAgreementNeedSignService;
-import com.lgyun.system.user.vo.OnlineAgreementNeedSignVO;
+import com.lgyun.system.user.wrapper.OnlineAgreementNeedSignWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import javax.validation.Valid;
-import com.lgyun.core.mp.support.Condition;
-import com.lgyun.core.mp.support.Query;
-import com.lgyun.common.api.R;
-import com.lgyun.common.tool.Func;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.system.user.wrapper.OnlineAgreementNeedSignWrapper;
-import com.lgyun.system.user.entity.OnlineAgreementNeedSignEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * 控制器
@@ -53,14 +48,14 @@ public class OnlineAgreementNeedSignController {
 
 	@GetMapping("/detail")
 	@ApiOperation(value = "详情", notes = "详情")
-	public R<OnlineAgreementNeedSignVO> detail(OnlineAgreementNeedSignEntity onlineAgreementNeedSign) {
+	public R detail(OnlineAgreementNeedSignEntity onlineAgreementNeedSign) {
 		OnlineAgreementNeedSignEntity detail = onlineAgreementNeedSignService.getOne(Condition.getQueryWrapper(onlineAgreementNeedSign));
 		return R.data(OnlineAgreementNeedSignWrapper.build().entityVO(detail));
 	}
 
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "分页")
-	public R<IPage<OnlineAgreementNeedSignVO>> list(OnlineAgreementNeedSignEntity onlineAgreementNeedSign, Query query) {
+	public R list(OnlineAgreementNeedSignEntity onlineAgreementNeedSign, Query query) {
 		IPage<OnlineAgreementNeedSignEntity> pages = onlineAgreementNeedSignService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(onlineAgreementNeedSign));
 		return R.data(OnlineAgreementNeedSignWrapper.build().pageVO(pages));
 	}

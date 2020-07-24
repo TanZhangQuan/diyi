@@ -56,7 +56,7 @@ public class AgreementController {
 
     @GetMapping("/makerIdCompanyFind")
     @ApiOperation(value = "根据商户查询合同", notes = "根据商户查询合同")
-    public R<List<AgreementEntity>> makerIdCompanyFind(Long employeeId) {
+    public R makerIdCompanyFind(Long employeeId) {
         log.info("根据商户查询合同");
         try {
             List<AgreementEntity> agreementEntities = agreementService.findByEnterpriseId(employeeId);
@@ -114,7 +114,7 @@ public class AgreementController {
 
     @GetMapping("/selectMakerEnterprisePage")
     @ApiOperation(value = "查询合作商户", notes = "查询合作商户")
-    public R<IPage<MakerEnterpriseRelationVO>> selectMakerEnterprisePage(BladeUser bladeUser, Query query) {
+    public R selectMakerEnterprisePage(BladeUser bladeUser, Query query) {
         log.info("查询合作商户");
         try {
             MakerEntity makerEntity = iMakerService.current(bladeUser);
