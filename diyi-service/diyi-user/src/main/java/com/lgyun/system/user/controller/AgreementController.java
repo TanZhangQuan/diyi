@@ -111,7 +111,7 @@ public class AgreementController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "isContract", value = "0合同1授权", paramType = "query", dataType = "int"),
     })
-    public R getOnlineAgreementNeedSign(BladeUser bladeUser, @RequestParam Integer isContract) {
+    public R getOnlineAgreementNeedSign(BladeUser bladeUser, Integer isContract) {
         log.info("查询创客需要签署的授权协议和合同");
         try {
             MakerEntity makerEntity = iMakerService.current(bladeUser);

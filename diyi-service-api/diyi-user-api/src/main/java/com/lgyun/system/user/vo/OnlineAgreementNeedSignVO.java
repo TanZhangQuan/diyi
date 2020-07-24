@@ -2,6 +2,7 @@ package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.SignState;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -29,7 +30,7 @@ public class OnlineAgreementNeedSignVO implements Serializable {
 
     private Integer isContract;
 
-    private Integer signState;
+    private SignState signState;
 
     private String onlineAggrementUrl;
 }
