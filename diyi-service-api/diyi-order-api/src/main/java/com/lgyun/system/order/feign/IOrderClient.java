@@ -24,6 +24,8 @@ public interface IOrderClient {
     /**
      * 获取开票月度年度金额
      *
+     * @param businessEnterpriseId
+     * @param makerType
      * @return
      */
     @GetMapping(API_PREFIX + "/self-help-invoice/year-month-money")

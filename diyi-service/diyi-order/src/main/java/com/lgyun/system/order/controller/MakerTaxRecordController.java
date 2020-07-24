@@ -33,38 +33,38 @@ import javax.validation.Valid;
 @Api(value = "创客单张完税证明信息相关接口", tags = "创客单张完税证明信息相关接口")
 public class MakerTaxRecordController {
 
-	private IMakerTaxRecordService makerTaxRecordService;
+    private IMakerTaxRecordService makerTaxRecordService;
 
-	@PostMapping("/save")
-	@ApiOperation(value = "新增", notes = "新增")
-	public R save(@Valid @RequestBody MakerTaxRecordEntity makerTaxRecord) {
-		return R.status(makerTaxRecordService.save(makerTaxRecord));
-	}
+    @PostMapping("/save")
+    @ApiOperation(value = "新增", notes = "新增")
+    public R save(@Valid @RequestBody MakerTaxRecordEntity makerTaxRecord) {
+        return R.status(makerTaxRecordService.save(makerTaxRecord));
+    }
 
-	@PostMapping("/update")
-	@ApiOperation(value = "修改", notes = "修改")
-	public R update(@Valid @RequestBody MakerTaxRecordEntity makerTaxRecord) {
-		return R.status(makerTaxRecordService.updateById(makerTaxRecord));
-	}
+    @PostMapping("/update")
+    @ApiOperation(value = "修改", notes = "修改")
+    public R update(@Valid @RequestBody MakerTaxRecordEntity makerTaxRecord) {
+        return R.status(makerTaxRecordService.updateById(makerTaxRecord));
+    }
 
-	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "详情")
-	public R<MakerTaxRecordVO> detail(MakerTaxRecordEntity makerTaxRecord) {
-		MakerTaxRecordEntity detail = makerTaxRecordService.getOne(Condition.getQueryWrapper(makerTaxRecord));
-		return R.data(MakerTaxRecordWrapper.build().entityVO(detail));
-	}
+    @GetMapping("/detail")
+    @ApiOperation(value = "详情", notes = "详情")
+    public R<MakerTaxRecordVO> detail(MakerTaxRecordEntity makerTaxRecord) {
+        MakerTaxRecordEntity detail = makerTaxRecordService.getOne(Condition.getQueryWrapper(makerTaxRecord));
+        return R.data(MakerTaxRecordWrapper.build().entityVO(detail));
+    }
 
-	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "分页")
-	public R<IPage<MakerTaxRecordVO>> list(MakerTaxRecordEntity makerTaxRecord, Query query) {
-		IPage<MakerTaxRecordEntity> pages = makerTaxRecordService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(makerTaxRecord));
-		return R.data(MakerTaxRecordWrapper.build().pageVO(pages));
-	}
+    @GetMapping("/list")
+    @ApiOperation(value = "分页", notes = "分页")
+    public R<IPage<MakerTaxRecordVO>> list(MakerTaxRecordEntity makerTaxRecord, Query query) {
+        IPage<MakerTaxRecordEntity> pages = makerTaxRecordService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(makerTaxRecord));
+        return R.data(MakerTaxRecordWrapper.build().pageVO(pages));
+    }
 
-	@PostMapping("/remove")
-	@ApiOperation(value = "删除", notes = "删除")
-	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
-		return R.status(makerTaxRecordService.removeByIds(Func.toLongList(ids)));
-	}
+    @PostMapping("/remove")
+    @ApiOperation(value = "删除", notes = "删除")
+    public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
+        return R.status(makerTaxRecordService.removeByIds(Func.toLongList(ids)));
+    }
 
 }

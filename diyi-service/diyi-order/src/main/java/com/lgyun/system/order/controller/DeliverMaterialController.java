@@ -33,38 +33,38 @@ import javax.validation.Valid;
 @Api(value = "验收单交付材料相关接口", tags = "验收单交付材料相关接口")
 public class DeliverMaterialController {
 
-	private IDeliverMaterialService deliverMaterialService;
+    private IDeliverMaterialService deliverMaterialService;
 
-	@PostMapping("/save")
-	@ApiOperation(value = "新增", notes = "新增")
-	public R save(@Valid @RequestBody DeliverMaterialEntity deliverMaterial) {
-		return R.status(deliverMaterialService.save(deliverMaterial));
-	}
+    @PostMapping("/save")
+    @ApiOperation(value = "新增", notes = "新增")
+    public R save(@Valid @RequestBody DeliverMaterialEntity deliverMaterial) {
+        return R.status(deliverMaterialService.save(deliverMaterial));
+    }
 
-	@PostMapping("/update")
-	@ApiOperation(value = "修改", notes = "修改")
-	public R update(@Valid @RequestBody DeliverMaterialEntity deliverMaterial) {
-		return R.status(deliverMaterialService.updateById(deliverMaterial));
-	}
+    @PostMapping("/update")
+    @ApiOperation(value = "修改", notes = "修改")
+    public R update(@Valid @RequestBody DeliverMaterialEntity deliverMaterial) {
+        return R.status(deliverMaterialService.updateById(deliverMaterial));
+    }
 
-	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "详情")
-	public R<DeliverMaterialVO> detail(DeliverMaterialEntity deliverMaterial) {
-		DeliverMaterialEntity detail = deliverMaterialService.getOne(Condition.getQueryWrapper(deliverMaterial));
-		return R.data(DeliverMaterialWrapper.build().entityVO(detail));
-	}
+    @GetMapping("/detail")
+    @ApiOperation(value = "详情", notes = "详情")
+    public R<DeliverMaterialVO> detail(DeliverMaterialEntity deliverMaterial) {
+        DeliverMaterialEntity detail = deliverMaterialService.getOne(Condition.getQueryWrapper(deliverMaterial));
+        return R.data(DeliverMaterialWrapper.build().entityVO(detail));
+    }
 
-	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "分页")
-	public R<IPage<DeliverMaterialVO>> list(DeliverMaterialEntity deliverMaterial, Query query) {
-		IPage<DeliverMaterialEntity> pages = deliverMaterialService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(deliverMaterial));
-		return R.data(DeliverMaterialWrapper.build().pageVO(pages));
-	}
+    @GetMapping("/list")
+    @ApiOperation(value = "分页", notes = "分页")
+    public R<IPage<DeliverMaterialVO>> list(DeliverMaterialEntity deliverMaterial, Query query) {
+        IPage<DeliverMaterialEntity> pages = deliverMaterialService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(deliverMaterial));
+        return R.data(DeliverMaterialWrapper.build().pageVO(pages));
+    }
 
-	@PostMapping("/remove")
-	@ApiOperation(value = "删除", notes = "删除")
-	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
-		return R.status(deliverMaterialService.removeByIds(Func.toLongList(ids)));
-	}
+    @PostMapping("/remove")
+    @ApiOperation(value = "删除", notes = "删除")
+    public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
+        return R.status(deliverMaterialService.removeByIds(Func.toLongList(ids)));
+    }
 
 }

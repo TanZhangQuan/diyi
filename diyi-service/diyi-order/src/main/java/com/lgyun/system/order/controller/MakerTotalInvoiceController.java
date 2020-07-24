@@ -33,38 +33,38 @@ import javax.validation.Valid;
 @Api(value = "创客汇总代开发票相关接口", tags = "创客汇总代开发票相关接口")
 public class MakerTotalInvoiceController {
 
-	private IMakerTotalInvoiceService makerTotalInvoiceService;
+    private IMakerTotalInvoiceService makerTotalInvoiceService;
 
-	@PostMapping("/save")
-	@ApiOperation(value = "新增", notes = "新增")
-	public R save(@Valid @RequestBody MakerTotalInvoiceEntity makerTotalInvoice) {
-		return R.status(makerTotalInvoiceService.save(makerTotalInvoice));
-	}
+    @PostMapping("/save")
+    @ApiOperation(value = "新增", notes = "新增")
+    public R save(@Valid @RequestBody MakerTotalInvoiceEntity makerTotalInvoice) {
+        return R.status(makerTotalInvoiceService.save(makerTotalInvoice));
+    }
 
-	@PostMapping("/update")
-	@ApiOperation(value = "修改", notes = "修改")
-	public R update(@Valid @RequestBody MakerTotalInvoiceEntity makerTotalInvoice) {
-		return R.status(makerTotalInvoiceService.updateById(makerTotalInvoice));
-	}
+    @PostMapping("/update")
+    @ApiOperation(value = "修改", notes = "修改")
+    public R update(@Valid @RequestBody MakerTotalInvoiceEntity makerTotalInvoice) {
+        return R.status(makerTotalInvoiceService.updateById(makerTotalInvoice));
+    }
 
-	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "详情")
-	public R<MakerTotalInvoiceVO> detail(MakerTotalInvoiceEntity makerTotalInvoice) {
-		MakerTotalInvoiceEntity detail = makerTotalInvoiceService.getOne(Condition.getQueryWrapper(makerTotalInvoice));
-		return R.data(MakerTotalInvoiceWrapper.build().entityVO(detail));
-	}
+    @GetMapping("/detail")
+    @ApiOperation(value = "详情", notes = "详情")
+    public R<MakerTotalInvoiceVO> detail(MakerTotalInvoiceEntity makerTotalInvoice) {
+        MakerTotalInvoiceEntity detail = makerTotalInvoiceService.getOne(Condition.getQueryWrapper(makerTotalInvoice));
+        return R.data(MakerTotalInvoiceWrapper.build().entityVO(detail));
+    }
 
-	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "分页")
-	public R<IPage<MakerTotalInvoiceVO>> list(MakerTotalInvoiceEntity makerTotalInvoice, Query query) {
-		IPage<MakerTotalInvoiceEntity> pages = makerTotalInvoiceService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(makerTotalInvoice));
-		return R.data(MakerTotalInvoiceWrapper.build().pageVO(pages));
-	}
+    @GetMapping("/list")
+    @ApiOperation(value = "分页", notes = "分页")
+    public R<IPage<MakerTotalInvoiceVO>> list(MakerTotalInvoiceEntity makerTotalInvoice, Query query) {
+        IPage<MakerTotalInvoiceEntity> pages = makerTotalInvoiceService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(makerTotalInvoice));
+        return R.data(MakerTotalInvoiceWrapper.build().pageVO(pages));
+    }
 
-	@PostMapping("/remove")
-	@ApiOperation(value = "删除", notes = "删除")
-	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
-		return R.status(makerTotalInvoiceService.removeByIds(Func.toLongList(ids)));
-	}
+    @PostMapping("/remove")
+    @ApiOperation(value = "删除", notes = "删除")
+    public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
+        return R.status(makerTotalInvoiceService.removeByIds(Func.toLongList(ids)));
+    }
 
 }

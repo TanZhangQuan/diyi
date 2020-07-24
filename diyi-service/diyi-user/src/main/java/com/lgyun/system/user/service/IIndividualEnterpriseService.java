@@ -22,19 +22,48 @@ import java.util.List;
  */
 public interface IIndividualEnterpriseService extends BaseService<IndividualEnterpriseEntity> {
 
-    //新增个独
+    /**
+     * 新增个独
+     *
+     * @param individualEnterpriseAddDto
+     * @param makerEntity
+     * @return
+     */
     R save(IndividualEnterpriseAddDto individualEnterpriseAddDto, MakerEntity makerEntity);
 
-    //通过创客id查询个独
+    /**
+     * 通过创客id查询个独
+     *
+     * @param makerId
+     * @return
+     */
     List<IndividualEnterpriseEntity> findMakerId(Long makerId);
 
-    //查询当前创客的所有个独
+    /**
+     * 查询当前创客的所有个独
+     *
+     * @param page
+     * @param makerId
+     * @param ibstate
+     * @return
+     */
     R listByMaker(IPage<IndividualEnterpriseListByMakerVO> page, Long makerId, Ibstate ibstate);
 
-    //根据ID查询个独详情
+    /**
+     * 根据ID查询个独详情
+     *
+     * @param individualEnterpriseId
+     * @return
+     */
     R<IndividualEnterpriseDetailVO> findById(Long individualEnterpriseId);
 
-    //查询个独月度开票金额和年度开票金额
+    /**
+     * 查询个独月度开票金额和年度开票金额
+     *
+     * @param individualEnterpriseId
+     * @param makerType
+     * @return
+     */
     R<SelfHelpInvoiceYearMonthMoneyVO> yearMonthMoney(Long individualEnterpriseId, MakerType makerType);
 
 }

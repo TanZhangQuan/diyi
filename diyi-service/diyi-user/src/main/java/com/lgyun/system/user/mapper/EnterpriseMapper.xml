@@ -63,13 +63,12 @@
         <result property="contact1Phone" column="contact1_phone"/>
         <result property="socialCreditNo" column="social_credit_no"/>
         <result property="bizLicenceUrl" column="biz_licence_url"/>
-        <result property="relationshipType" column="relationship_type"/>
     </resultMap>
 
     <select id="getEnterpriseName" resultMap="makerEnterpriseRelationMap">
         SELECT enterprise_name, shop_user_name, legal_person, legal_person_card, contact1_position,
         contact1_phone, social_credit_no, biz_licence_url, id FROM diyi_enterprise
-        WHERE is_deleted = 0  and enterprise_name = #{enterpriseName}
+        WHERE is_deleted = 0  and enterprise_name = #{enterpriseName} LIMIT 1
     </select>
 
     <select id="getEnterpriseId" resultMap="makerEnterpriseRelationMap">

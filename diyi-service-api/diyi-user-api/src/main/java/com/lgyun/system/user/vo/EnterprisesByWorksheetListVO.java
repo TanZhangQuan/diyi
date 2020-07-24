@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @author tzq.
  * @date 2020/6/29.
@@ -12,7 +14,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value = "EnterprisesByWorksheetListVO对象", description = "EnterprisesByWorksheetListVO对象")
-public class EnterprisesByWorksheetListVO {
+public class EnterprisesByWorksheetListVO implements Serializable {
 
     //商户ID
     @JsonSerialize(using = ToStringSerializer.class)

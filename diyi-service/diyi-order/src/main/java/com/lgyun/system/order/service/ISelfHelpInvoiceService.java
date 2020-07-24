@@ -17,16 +17,26 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
 
     /**
      * 提交自助接口
+     *
+     * @param selfHelpInvoiceDto
+     * @return
      */
     R submitSelfHelpInvoice(SelfHelpInvoiceDto selfHelpInvoiceDto);
 
     /**
      * 查询开票详情
+     *
+     * @param selfHelpInvoiceId
+     * @return
      */
     R getSelfHelpInvoiceDetails(Long selfHelpInvoiceId);
 
     /**
      * 查询个体户月度开票金额和年度开票金额
+     *
+     * @param individualBusinessId
+     * @param makerType
+     * @return
      */
     R<SelfHelpInvoiceYearMonthMoneyVO> yearMonthMoney(Long individualBusinessId, MakerType makerType);
 

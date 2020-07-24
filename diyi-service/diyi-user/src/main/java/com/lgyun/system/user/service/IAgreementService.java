@@ -13,13 +13,22 @@ import java.util.List;
  * @since 2020-06-26 17:21:06
  */
 public interface IAgreementService extends BaseService<AgreementEntity> {
+
     /**
      * 根据创客找合同
+     *
+     * @param makerId
+     * @param onlineAgreementTemplateId
+     * @param onlineAgreementNeedSignId
+     * @return
      */
     R makerIdFind(Long makerId, Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId);
 
     /**
      * 根据商户找合同
+     *
+     * @param enterpriseId
+     * @return
      */
     List<AgreementEntity> findByEnterpriseId(Long enterpriseId);
 }

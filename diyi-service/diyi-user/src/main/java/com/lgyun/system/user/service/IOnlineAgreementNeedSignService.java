@@ -15,8 +15,13 @@ import java.util.List;
  * @since 2020-07-18 14:37:08
  */
 public interface IOnlineAgreementNeedSignService extends BaseService<OnlineAgreementNeedSignEntity> {
+
     /**
      * 查询创客需要签署的授权协议
+     *
+     * @param makerId
+     * @param isContract
+     * @return
      */
    R<List<OnlineAgreementNeedSignVO>> getOnlineAgreementNeedSign(Long makerId,Integer isContract);
 

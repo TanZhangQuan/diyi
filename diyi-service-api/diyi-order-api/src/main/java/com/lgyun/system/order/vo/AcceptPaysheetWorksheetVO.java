@@ -7,6 +7,7 @@ import com.lgyun.common.enumeration.WorkSheetType;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -17,7 +18,7 @@ import java.util.Date;
  */
 @Data
 @ApiModel(value = "AcceptPaysheetWorksheetVO对象", description = "AcceptPaysheetWorksheetVO对象")
-public class AcceptPaysheetWorksheetVO {
+public class AcceptPaysheetWorksheetVO implements Serializable {
 
     //交付支付验收单类型：清单式，单人单张
     private AcceptPaysheetType acceptPaysheetType;

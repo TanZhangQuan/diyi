@@ -67,9 +67,6 @@ public class AgreementController {
         return R.fail("查询失败");
     }
 
-    /**
-     * 查看商户合同
-     */
     @GetMapping("/getEmployeeAgreement")
     @ApiOperation(value = "查看商户合同", notes = "查看商户合同")
     public R getEmployeeIdAgreement(Long agreementId) {
@@ -86,10 +83,6 @@ public class AgreementController {
         return R.fail("查询失败");
     }
 
-
-    /**
-     * 确认签字
-     */
     @PostMapping("/saveOnlineAgreementNeedSign")
     @ApiOperation(value = "确认签字", notes = "确认签字")
     public R saveOnlineAgreementNeedSign(BladeUser bladeUser, String signPic, Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId) {
@@ -103,9 +96,6 @@ public class AgreementController {
         return R.fail("保存签名失败");
     }
 
-    /**
-     * 查询创客需要签署的授权协议和合同
-     */
     @GetMapping("/getOnlineAgreementNeedSign")
     @ApiOperation(value = "查询创客需要签署的授权协议和合同", notes = "查询创客需要签署的授权协议和合同")
     @ApiImplicitParams({
@@ -122,10 +112,6 @@ public class AgreementController {
         return R.fail("查询失败");
     }
 
-
-    /**
-     * 合作商户
-     */
     @GetMapping("/selectMakerEnterprisePage")
     @ApiOperation(value = "查询合作商户", notes = "查询合作商户")
     public R<IPage<MakerEnterpriseRelationVO>> selectMakerEnterprisePage(BladeUser bladeUser, Query query) {
@@ -140,9 +126,6 @@ public class AgreementController {
         return R.fail("查询失败");
     }
 
-    /**
-     * 上传创客视频
-     */
     @PostMapping("/uploadMakerVideo")
     @ApiOperation(value = "上传创客视频", notes = "上传创客视频")
     public R uploadMakerVideo(BladeUser bladeUser, String applyShortVideo) {

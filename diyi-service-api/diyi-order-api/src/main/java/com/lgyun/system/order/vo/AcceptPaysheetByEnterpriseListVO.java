@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -16,7 +17,7 @@ import java.util.Date;
  */
 @Data
 @ApiModel(value = "AcceptPaysheetEnterpriseVO对象", description = "AcceptPaysheetEnterpriseVO对象")
-public class AcceptPaysheetByEnterpriseListVO {
+public class AcceptPaysheetByEnterpriseListVO implements Serializable {
 
     //交付支付验收单ID
     @JsonSerialize(using = ToStringSerializer.class)

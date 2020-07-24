@@ -14,13 +14,23 @@ import com.lgyun.system.order.entity.SelfHelpInvoicePersonEntity;
  * @since 2020-07-08 14:32:47
  */
 public interface ISelfHelpInvoicePersonService extends BaseService<SelfHelpInvoicePersonEntity> {
+
     /**
      * 根据创客Idc查询自助开票非创客开票人
+     *
+     * @param page
+     * @param makerId
+     * @param makerType
+     * @return
      */
     R findPersonMakerId(IPage<SelfHelpInvoicePersonEntity> page, Long makerId, MakerType makerType);
 
     /**
      * 新建开票人
+     *
+     * @param selfHelpInvoicePersonDto
+     * @param makerId
+     * @return
      */
     R saveSelfHelpInvoicePerson(SelfHelpInvoicePersonDto selfHelpInvoicePersonDto, Long makerId);
 }

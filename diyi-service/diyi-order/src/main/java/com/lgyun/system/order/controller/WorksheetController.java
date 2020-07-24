@@ -42,40 +42,31 @@ public class WorksheetController {
     private IWorksheetMakerService worksheetMakerService;
     private IUserClient iUserClient;
 
-    /**
-     * 发布工单
-     */
     @PostMapping("/releaseWorksheet")
     @ApiOperation(value = "发布工单", notes = "发布工单")
     public R releaseWorksheet(@Valid @RequestBody ReleaseWorksheetDto releaseWorksheetDTO) {
         log.info("发布工单");
-        try{
+        try {
             return worksheetService.releaseWorksheet(releaseWorksheetDTO);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return R.fail("发布订单失败");
         }
     }
 
-    /**
-     * 抢单
-     */
     @PostMapping("/orderGrabbing")
     @ApiOperation(value = "抢单", notes = "抢单")
     public R orderGrabbing(Long worksheetId, BladeUser bladeUser) {
         log.info("抢单");
-        try{
+        try {
             MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
             return worksheetService.orderGrabbing(worksheetId, makerEntity.getId());
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return R.fail("抢单失败");
         }
     }
 
-    /**
-     * 小程查询工单
-     */
     @GetMapping("/findXiaoPage")
     @ApiOperation(value = "小程查询工单", notes = "小程查询工单")
     @ApiImplicitParams({
@@ -89,52 +80,43 @@ public class WorksheetController {
         return worksheetService.findXiaoPage(Condition.getPage(query), worksheetState, makerEntity.getId());
     }
 
-    /**
-     * 提交工作成果
-     */
     @PostMapping("/submitachievement")
     @ApiOperation(value = "提交工作成果", notes = "提交工作成果")
     public R submitachievement(Long worksheetMakerId, String achievementDesc, String achievementFiles) {
         log.info("提交工作成果");
-        try{
+        try {
             WorksheetMakerEntity worksheetMakerEntity = worksheetMakerService.getById(worksheetMakerId);
             WorksheetEntity worksheetEntity = worksheetService.getById(worksheetMakerEntity.getWorksheetId());
-            if(!(worksheetEntity.getWorksheetState().equals(WorksheetState.CLOSED) || worksheetEntity.getWorksheetState().equals(WorksheetState.CHECKACCEPT))){
+            if (!(worksheetEntity.getWorksheetState().equals(WorksheetState.CLOSED) || worksheetEntity.getWorksheetState().equals(WorksheetState.CHECKACCEPT))) {
                 return R.fail("工单暂时不能提交工作成果，稍后再试");
             }
             return worksheetMakerService.submitAchievement(worksheetMakerEntity, achievementDesc, achievementFiles);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            return  R.fail("提交工作成果失败");
+            return R.fail("提交工作成果失败");
         }
 
     }
 
-    /**
-     * 验收工作成果
-     */
     @PostMapping("/checkAchievement")
     @ApiOperation(value = "验收工作成果", notes = "验收工作成果")
     public R checkAchievement(Long worksheetMakerId, BigDecimal checkMoney, Long enterpriseId, Boolean bool) {
         log.info("验收工作成果");
         try {
             return worksheetMakerService.checkAchievement(worksheetMakerId, checkMoney, enterpriseId, bool);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return R.fail("验收工作成果失败");
         }
     }
 
-    /**
-     * 查询工单详情
-     */
     @GetMapping("/getWorksheetDetails")
     @ApiOperation(value = "查询工单详情", notes = "查询工单详情")
     public R getWorksheetDetails(Long worksheetMakerId) {
         log.info("查询工单详情");
         try {
             return worksheetService.getWorksheetDetails(worksheetMakerId);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return R.fail("查询工单详情失败");
         }

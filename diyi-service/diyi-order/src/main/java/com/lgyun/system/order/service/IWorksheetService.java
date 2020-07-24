@@ -18,22 +18,37 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
 
     /**
      * 发布工单
+     *
+     * @param releaseWorksheetDTO
+     * @return
      */
     R releaseWorksheet(ReleaseWorksheetDto releaseWorksheetDTO);
 
 
     /**
      * 抢单
+     *
+     * @param worksheetId
+     * @param makerId
+     * @return
      */
     R orderGrabbing(Long worksheetId,Long makerId);
 
     /**
      * 小程序查询工单
+     *
+     * @param page
+     * @param worksheetState
+     * @param makerId
+     * @return
      */
     R<IPage<WorksheetXiaoVo>> findXiaoPage(IPage<WorksheetXiaoVo> page, Integer worksheetState,Long makerId);
 
     /**
      * 查询详情
+     *
+     * @param worksheetMakerId
+     * @return
      */
     R getWorksheetDetails(Long worksheetMakerId);
 }

@@ -33,38 +33,38 @@ import javax.validation.Valid;
 @Api(value = "创客支付明细相关接口", tags = "创客支付明细相关接口")
 public class PayMakerController {
 
-	private IPayMakerService payMakerService;
+    private IPayMakerService payMakerService;
 
-	@PostMapping("/save")
-	@ApiOperation(value = "新增", notes = "新增")
-	public R save(@Valid @RequestBody PayMakerEntity payMaker) {
-		return R.status(payMakerService.save(payMaker));
-	}
+    @PostMapping("/save")
+    @ApiOperation(value = "新增", notes = "新增")
+    public R save(@Valid @RequestBody PayMakerEntity payMaker) {
+        return R.status(payMakerService.save(payMaker));
+    }
 
-	@PostMapping("/update")
-	@ApiOperation(value = "修改", notes = "修改")
-	public R update(@Valid @RequestBody PayMakerEntity payMaker) {
-		return R.status(payMakerService.updateById(payMaker));
-	}
+    @PostMapping("/update")
+    @ApiOperation(value = "修改", notes = "修改")
+    public R update(@Valid @RequestBody PayMakerEntity payMaker) {
+        return R.status(payMakerService.updateById(payMaker));
+    }
 
-	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "详情")
-	public R<PayMakerVO> detail(PayMakerEntity payMaker) {
-		PayMakerEntity detail = payMakerService.getOne(Condition.getQueryWrapper(payMaker));
-		return R.data(PayMakerWrapper.build().entityVO(detail));
-	}
+    @GetMapping("/detail")
+    @ApiOperation(value = "详情", notes = "详情")
+    public R<PayMakerVO> detail(PayMakerEntity payMaker) {
+        PayMakerEntity detail = payMakerService.getOne(Condition.getQueryWrapper(payMaker));
+        return R.data(PayMakerWrapper.build().entityVO(detail));
+    }
 
-	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "分页")
-	public R<IPage<PayMakerVO>> list(PayMakerEntity payMaker, Query query) {
-		IPage<PayMakerEntity> pages = payMakerService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(payMaker));
-		return R.data(PayMakerWrapper.build().pageVO(pages));
-	}
+    @GetMapping("/list")
+    @ApiOperation(value = "分页", notes = "分页")
+    public R<IPage<PayMakerVO>> list(PayMakerEntity payMaker, Query query) {
+        IPage<PayMakerEntity> pages = payMakerService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(payMaker));
+        return R.data(PayMakerWrapper.build().pageVO(pages));
+    }
 
-	@PostMapping("/remove")
-	@ApiOperation(value = "删除", notes = "删除")
-	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
-		return R.status(payMakerService.removeByIds(Func.toLongList(ids)));
-	}
+    @PostMapping("/remove")
+    @ApiOperation(value = "删除", notes = "删除")
+    public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
+        return R.status(payMakerService.removeByIds(Func.toLongList(ids)));
+    }
 
 }

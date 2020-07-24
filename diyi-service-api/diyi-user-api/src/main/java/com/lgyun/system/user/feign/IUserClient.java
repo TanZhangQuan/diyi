@@ -33,7 +33,8 @@ public interface IUserClient {
     /**
      * 获取用户信息
      *
-     * @param userId 用户id
+     * @param userId
+     * @param userType
      * @return
      */
     @GetMapping(API_PREFIX + "/user-info-by-id")
@@ -42,7 +43,8 @@ public interface IUserClient {
     /**
      * 获取用户信息
      *
-     * @param phone 用户手机号
+     * @param phone
+     * @param userType
      * @return
      */
     @GetMapping(API_PREFIX + "/phone")
@@ -51,8 +53,9 @@ public interface IUserClient {
     /**
      * 获取用户信息
      *
-     * @param account  账号
-     * @param password 密码
+     * @param account
+     * @param password
+     * @param userType
      * @return
      */
     @GetMapping(API_PREFIX + "/user-info")
@@ -61,7 +64,7 @@ public interface IUserClient {
     /**
      * 获取用户信息
      *
-     * @param id 用户id
+     * @param id
      * @return
      */
     @GetMapping(API_PREFIX + "/user-find-by-id")
@@ -70,6 +73,8 @@ public interface IUserClient {
     /**
      * 获取创客信息
      *
+     * @param phoneNumber
+     * @param loginPwd
      * @return
      */
     @GetMapping(API_PREFIX + "/maker-find-by-phone-number-login-pwd")
@@ -78,7 +83,7 @@ public interface IUserClient {
     /**
      * 获取创客信息
      *
-     * @param phoneNumber 创客phoneNumber
+     * @param phoneNumber
      * @return
      */
     @GetMapping(API_PREFIX + "/maker-find-by-phone-number")
@@ -87,6 +92,8 @@ public interface IUserClient {
     /**
      * 获取商户员工信息
      *
+     * @param employeeUserName
+     * @param employeePwd
      * @return
      */
     @GetMapping(API_PREFIX + "/enterprise-worker-find-by-employee-user-name-employee-pwd")
@@ -95,7 +102,7 @@ public interface IUserClient {
     /**
      * 获取商户员工信息
      *
-     * @param
+     * @param phoneNumber
      * @return
      */
     @GetMapping(API_PREFIX + "/enterprise-worker-find-by-phone-number")
@@ -104,7 +111,11 @@ public interface IUserClient {
     /**
      * 微信授权登陆
      *
-     * @param
+     * @param openid
+     * @param sessionKey
+     * @param phoneNumber
+     * @param loginPwd
+     * @param grantType
      * @return
      */
     @PostMapping(API_PREFIX + "/wechat-authorization")
@@ -112,54 +123,89 @@ public interface IUserClient {
 
     /**
      * 获取个独信息
+     *
+     * @param makerId
+     * @return
      */
     @GetMapping(API_PREFIX + "/individualEnterprise/find_by_maker_id")
     List<IndividualEnterpriseEntity> individualEnterpriseFindByMakerId(@RequestParam("makerId") Long makerId);
 
     /**
      * 获取个体信息
+     *
+     * @param makerId
+     * @return
      */
     @GetMapping(API_PREFIX + "/individualBusiness/find_by_maker_id")
     List<IndividualBusinessEntity> individualBusinessByMakerId(@RequestParam("makerId") Long makerId);
 
     /**
      * 根据创客Id
+     *
+     * @param current
+     * @param size
+     * @param makerId
+     * @return
      */
     @GetMapping(API_PREFIX + "/runCompany/find_by_maker_id")
     R findRunCompanyMakerId(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId);
 
     /**
      * 新增平台运营公司（平台方）信息ID
+     *
+     * @param runCompanyDto
+     * @return
      */
     @PostMapping(API_PREFIX + "/runCompanySave")
     R runCompanySave(@Valid @RequestBody RunCompanyDto runCompanyDto);
 
     /**
      * 查询当前创客的所有个独
+     *
+     * @param current
+     * @param size
+     * @param makerId
+     * @param ibstate
+     * @return
      */
     @PostMapping(API_PREFIX + "/individualEnterprise/listByMaker")
     R individualEnterpriseListByMaker(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId, @RequestParam("ibstate") Ibstate ibstate);
 
     /**
      * 查询当前创客的所有个体户
+     *
+     * @param current
+     * @param size
+     * @param makerId
+     * @param ibstate
+     * @return
      */
     @PostMapping(API_PREFIX + "/individualBusiness/listByMaker")
     R individualBusinessListByMaker(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId, @RequestParam("ibstate") Ibstate ibstate);
 
     /**
      * 根据Id获取个独信息
+     *
+     * @param individualEnterpriseId
+     * @return
      */
     @GetMapping(API_PREFIX + "/individualEnterprise/find_by_id")
     IndividualEnterpriseEntity individualEnterpriseFindById(@RequestParam("individualEnterpriseId") Long individualEnterpriseId);
 
     /**
      * 根据Id获取个体信息
+     *
+     * @param individualBusinessId
+     * @return
      */
     @GetMapping(API_PREFIX + "/individualBusiness/find_by_id")
     IndividualBusinessEntity individualBusinessById(@RequestParam("individualBusinessId") Long individualBusinessId);
 
     /**
      * 商户id查询商户
+     *
+     * @param enterpriseId
+     * @return
      */
     @GetMapping(API_PREFIX + "/enterprise/get_by_id")
     EnterpriseEntity getEnterpriseById(@RequestParam("enterpriseId") Long enterpriseId);
@@ -167,7 +213,7 @@ public interface IUserClient {
     /**
      * 根据创客id获取创客信息
      *
-     * @param makerId 创客phone
+     * @param makerId
      * @return
      */
     @GetMapping(API_PREFIX + "/maker-find-by-id")

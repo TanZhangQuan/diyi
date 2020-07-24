@@ -12,10 +12,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 /**
- *  Service 实现
+ * Service 实现
  *
  * @author liangfeihu
  * @since 2020-06-26 17:21:05
@@ -28,17 +26,17 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     private IMakerEnterpriseService makerEnterpriseService;
 
     @Override
-    public List<MakerEnterpriseRelationVO> getEnterpriseName(String enterpriseName) {
-        List<MakerEnterpriseRelationVO> makerEnterpriseRelationVOs = baseMapper.getEnterpriseName(enterpriseName);
+    public MakerEnterpriseRelationVO getEnterpriseName(String enterpriseName) {
+        MakerEnterpriseRelationVO makerEnterpriseRelationVOs = baseMapper.getEnterpriseName(enterpriseName);
         return makerEnterpriseRelationVOs;
     }
 
     @Override
-    public R getEnterpriseId(Long enterpriseId,Long makerId) {
+    public R getEnterpriseId(Long enterpriseId, Long makerId) {
         MakerEnterpriseEntity enterpriseIdAndMakerIdLian = makerEnterpriseService.getEnterpriseIdAndMakerId(enterpriseId, makerId, 0);
         MakerEnterpriseEntity enterpriseIdAndMakerIdZhu = makerEnterpriseService.getEnterpriseIdAndMakerId(enterpriseId, makerId, 1);
         MakerEnterpriseRelationVO makerEnterpriseRelationVO = baseMapper.getEnterpriseId(enterpriseId);
-        if(null == enterpriseIdAndMakerIdLian && null != enterpriseIdAndMakerIdZhu){
+        if (null == enterpriseIdAndMakerIdLian && null != enterpriseIdAndMakerIdZhu) {
             //TODO
             makerEnterpriseRelationVO.setContact1Phone("138********");
             makerEnterpriseRelationVO.setBizLicenceUrl("*");
@@ -49,13 +47,13 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             makerEnterpriseRelationVO.setShopUserName("*****");
             makerEnterpriseRelationVO.setRelationshipType(1);
             return R.data(makerEnterpriseRelationVO);
-        } else if(null != enterpriseIdAndMakerIdLian && null == enterpriseIdAndMakerIdZhu){
-           makerEnterpriseRelationVO.setRelationshipType(0);
-           return R.data(makerEnterpriseRelationVO);
-       } else if(null == enterpriseIdAndMakerIdLian && null == enterpriseIdAndMakerIdZhu){
-           makerEnterpriseRelationVO.setRelationshipType(2);
-           return R.data(makerEnterpriseRelationVO);
-       }else {
+        } else if (null != enterpriseIdAndMakerIdLian && null == enterpriseIdAndMakerIdZhu) {
+            makerEnterpriseRelationVO.setRelationshipType(0);
+            return R.data(makerEnterpriseRelationVO);
+        } else if (null == enterpriseIdAndMakerIdLian && null == enterpriseIdAndMakerIdZhu) {
+            makerEnterpriseRelationVO.setRelationshipType(2);
+            return R.data(makerEnterpriseRelationVO);
+        } else {
             makerEnterpriseRelationVO.setRelationshipType(0);
             return R.data(makerEnterpriseRelationVO);
         }

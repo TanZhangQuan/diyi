@@ -15,12 +15,20 @@ import com.lgyun.system.user.entity.RunCompanyEntity;
 public interface IRunCompanyService extends BaseService<RunCompanyEntity> {
 
     /**
-     *根据创客Id
+     * 根据创客Id
+     *
+     * @param current
+     * @param size
+     * @param makerId
+     * @return
      */
     R<IPage<RunCompanyEntity>> findMakerId(Integer current, Integer size, Long makerId);
 
     /**
-     * 新增
+     * 新建购买方
+     *
+     * @param runCompanyDto
+     * @return
      */
     R runCompanySave(RunCompanyDto runCompanyDto);
 }

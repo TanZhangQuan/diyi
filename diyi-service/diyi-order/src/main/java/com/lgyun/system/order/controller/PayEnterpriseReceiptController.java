@@ -33,38 +33,38 @@ import javax.validation.Valid;
 @Api(value = "商户支付回单相关接口", tags = "商户支付回单相关接口")
 public class PayEnterpriseReceiptController {
 
-	private IPayEnterpriseReceiptService enterprisePayReceiptService;
+    private IPayEnterpriseReceiptService enterprisePayReceiptService;
 
-	@PostMapping("/save")
-	@ApiOperation(value = "新增", notes = "新增")
-	public R save(@Valid @RequestBody PayEnterpriseReceiptEntity enterprisePayReceipt) {
-		return R.status(enterprisePayReceiptService.save(enterprisePayReceipt));
-	}
+    @PostMapping("/save")
+    @ApiOperation(value = "新增", notes = "新增")
+    public R save(@Valid @RequestBody PayEnterpriseReceiptEntity enterprisePayReceipt) {
+        return R.status(enterprisePayReceiptService.save(enterprisePayReceipt));
+    }
 
-	@PostMapping("/update")
-	@ApiOperation(value = "修改", notes = "修改")
-	public R update(@Valid @RequestBody PayEnterpriseReceiptEntity enterprisePayReceipt) {
-		return R.status(enterprisePayReceiptService.updateById(enterprisePayReceipt));
-	}
+    @PostMapping("/update")
+    @ApiOperation(value = "修改", notes = "修改")
+    public R update(@Valid @RequestBody PayEnterpriseReceiptEntity enterprisePayReceipt) {
+        return R.status(enterprisePayReceiptService.updateById(enterprisePayReceipt));
+    }
 
-	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "详情")
-	public R<PayEnterpriseReceiptVO> detail(PayEnterpriseReceiptEntity enterprisePayReceipt) {
-		PayEnterpriseReceiptEntity detail = enterprisePayReceiptService.getOne(Condition.getQueryWrapper(enterprisePayReceipt));
-		return R.data(PayEnterpriseReceiptWrapper.build().entityVO(detail));
-	}
+    @GetMapping("/detail")
+    @ApiOperation(value = "详情", notes = "详情")
+    public R<PayEnterpriseReceiptVO> detail(PayEnterpriseReceiptEntity enterprisePayReceipt) {
+        PayEnterpriseReceiptEntity detail = enterprisePayReceiptService.getOne(Condition.getQueryWrapper(enterprisePayReceipt));
+        return R.data(PayEnterpriseReceiptWrapper.build().entityVO(detail));
+    }
 
-	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "分页")
-	public R<IPage<PayEnterpriseReceiptVO>> list(PayEnterpriseReceiptEntity enterprisePayReceipt, Query query) {
-		IPage<PayEnterpriseReceiptEntity> pages = enterprisePayReceiptService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(enterprisePayReceipt));
-		return R.data(PayEnterpriseReceiptWrapper.build().pageVO(pages));
-	}
+    @GetMapping("/list")
+    @ApiOperation(value = "分页", notes = "分页")
+    public R<IPage<PayEnterpriseReceiptVO>> list(PayEnterpriseReceiptEntity enterprisePayReceipt, Query query) {
+        IPage<PayEnterpriseReceiptEntity> pages = enterprisePayReceiptService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(enterprisePayReceipt));
+        return R.data(PayEnterpriseReceiptWrapper.build().pageVO(pages));
+    }
 
-	@PostMapping("/remove")
-	@ApiOperation(value = "删除", notes = "删除")
-	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
-		return R.status(enterprisePayReceiptService.removeByIds(Func.toLongList(ids)));
-	}
+    @PostMapping("/remove")
+    @ApiOperation(value = "删除", notes = "删除")
+    public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
+        return R.status(enterprisePayReceiptService.removeByIds(Func.toLongList(ids)));
+    }
 
 }

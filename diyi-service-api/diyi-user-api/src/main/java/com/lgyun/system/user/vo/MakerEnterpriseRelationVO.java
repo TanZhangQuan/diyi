@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @author jun.
  * @date 2020/6/29.
@@ -12,7 +14,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value = "MakerEnterpriseRelationVO对象", description = "MakerEnterpriseRelationVO对象")
-public class MakerEnterpriseRelationVO {
+public class MakerEnterpriseRelationVO implements Serializable {
 
     //客户名称
     private String enterpriseName;

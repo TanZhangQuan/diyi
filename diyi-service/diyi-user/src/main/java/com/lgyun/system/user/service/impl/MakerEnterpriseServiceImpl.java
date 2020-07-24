@@ -15,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * Service 实现
@@ -27,14 +26,6 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseMapper, MakerEnterpriseEntity> implements IMakerEnterpriseService {
-
-    @Override
-    public List<MakerEnterpriseEntity> getMakerId(Long makerId) {
-        QueryWrapper<MakerEnterpriseEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(MakerEnterpriseEntity::getMakerId, makerId)
-                .eq(MakerEnterpriseEntity::getRelationshipType, 0);
-        return baseMapper.selectList(queryWrapper);
-    }
 
     @Override
     public IPage<MakerEnterpriseRelationVO> selectMakerEnterprisePage(IPage<MakerEnterpriseRelationVO> page, Long makerId, Integer relationshipType) {

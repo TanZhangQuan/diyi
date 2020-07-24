@@ -5,8 +5,6 @@ import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 
-import java.util.List;
-
 /**
  *  Service 接口
  *
@@ -17,11 +15,18 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
 
     /**
      * 通过商户名字查询
+     *
+     * @param enterpriseName
+     * @return
      */
-    List<MakerEnterpriseRelationVO> getEnterpriseName(String enterpriseName);
+    MakerEnterpriseRelationVO getEnterpriseName(String enterpriseName);
 
     /**
      * 通过商户id查询
+     *
+     * @param enterpriseId
+     * @param makerId
+     * @return
      */
     R getEnterpriseId(Long enterpriseId,Long makerId);
 

@@ -29,6 +29,7 @@ public interface IUserService extends BaseService<User> {
      * 用户信息
      *
      * @param userId
+     * @param userType
      * @return
      */
     UserInfo userInfo(Long userId, UserType userType);
@@ -37,6 +38,7 @@ public interface IUserService extends BaseService<User> {
      * 用户信息
      *
      * @param phone
+     * @param userType
      * @return
      */
     UserInfo userInfoByPhone(String phone, UserType userType);
@@ -46,6 +48,7 @@ public interface IUserService extends BaseService<User> {
      *
      * @param account
      * @param password
+     * @param userType
      * @return
      */
     UserInfo userInfo(String account, String password, UserType userType);
@@ -98,7 +101,6 @@ public interface IUserService extends BaseService<User> {
      * 导入用户数据
      *
      * @param data
-     * @return
      */
     void importUser(List<UserExcel> data);
 

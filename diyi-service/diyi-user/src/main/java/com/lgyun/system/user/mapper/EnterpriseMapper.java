@@ -5,8 +5,6 @@ import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.List;
-
 /**
  * Mapper
  *
@@ -18,7 +16,7 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
     /**
      * 通过商户名字查询
      */
-    List<MakerEnterpriseRelationVO> getEnterpriseName(String enterpriseName);
+    MakerEnterpriseRelationVO getEnterpriseName(String enterpriseName);
 
     /**
      * 通过商户id查询

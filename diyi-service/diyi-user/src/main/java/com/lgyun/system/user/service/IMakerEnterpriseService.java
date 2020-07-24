@@ -6,8 +6,6 @@ import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 
-import java.util.List;
-
 /**
  * Service 接口
  *
@@ -17,29 +15,34 @@ import java.util.List;
 public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEntity> {
 
     /**
-     * 通过创客id查询
-     */
-    List<MakerEnterpriseEntity> getMakerId(Long makerId);
-
-
-    /**
      * 查询关联商户和关注商户
      *
      * @param page
+     * @param makerId
+     * @param relationshipType
      * @return
      */
     IPage<MakerEnterpriseRelationVO> selectMakerEnterprisePage(IPage<MakerEnterpriseRelationVO> page, Long makerId, Integer relationshipType);
 
-
     /**
      * 添加和取消关注 relationshipType = 1,取消 2添加
+     *
+     * @param enterpriseId
+     * @param makerId
+     * @param attribute
+     * @return
      */
     R addOrCancelfollow(Long enterpriseId, Long makerId, Integer attribute);
 
     /**
      * 通过商户id和创客id查询
+     *
+     * @param enterpriseId
+     * @param makerId
+     * @param relationshipType
+     * @return
      */
-    MakerEnterpriseEntity getEnterpriseIdAndMakerId(Long enterpriseId,Long makerId,Integer relationshipType);
+    MakerEnterpriseEntity getEnterpriseIdAndMakerId(Long enterpriseId, Long makerId, Integer relationshipType);
 
 
 }

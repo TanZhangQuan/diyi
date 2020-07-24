@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 /**
  *  控制器
  *
@@ -81,11 +79,11 @@ public class MakerEnterpriseController {
 			@ApiImplicitParam(name = "enterpriseName", value = "商户名字", paramType = "query", dataType = "string")
 	})
 	@ApiOperation(value = "通过商户名字查询", notes = "通过商户名字查询")
-	public R<List<MakerEnterpriseRelationVO>> getEnterpriseName(String enterpriseName) {
+	public R<MakerEnterpriseRelationVO> getEnterpriseName(String enterpriseName) {
 		log.info("通过商户名字查询商户");
 		try {
-			List<MakerEnterpriseRelationVO> makerEnterpriseRelationVOs = iEnterpriseService.getEnterpriseName(enterpriseName);
-			return R.data(makerEnterpriseRelationVOs,"查询成功");
+			MakerEnterpriseRelationVO makerEnterpriseRelationVO = iEnterpriseService.getEnterpriseName(enterpriseName);
+			return R.data(makerEnterpriseRelationVO,"查询成功");
 		} catch (Exception e){
 			e.printStackTrace();
 			return R.fail("通过商户名字查询商户失败");
