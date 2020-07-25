@@ -11,8 +11,8 @@
         <result property="positionId" column="position_id"/>
         <result property="relDate" column="rel_date"/>
         <result property="relType" column="rel_type"/>
-        <result property="relMemo" column="rel_memo"/>
         <result property="relationshipType" column="relationship_type"/>
+        <result property="relMemo" column="rel_memo"/>
         <result property="cooperateStatus" column="cooperate_status"/>
         <result property="firstCooperation" column="first_cooperation"/>
         <result property="cooperationStartTime" column="cooperation_start_time"/>

@@ -1,5 +1,6 @@
 package com.lgyun.system.user.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.EnterpriseEntity;
@@ -8,6 +9,7 @@ import com.lgyun.system.user.mapper.EnterpriseMapper;
 import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
+import com.lgyun.system.user.wrapper.EnterpriseWrapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,15 +29,29 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
 
     @Override
     public MakerEnterpriseRelationVO getEnterpriseName(String enterpriseName) {
-        MakerEnterpriseRelationVO makerEnterpriseRelationVOs = baseMapper.getEnterpriseName(enterpriseName);
-        return makerEnterpriseRelationVOs;
+        QueryWrapper<EnterpriseEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(EnterpriseEntity::getEnterpriseName, enterpriseName);
+
+        EnterpriseEntity enterpriseEntity = baseMapper.selectOne(queryWrapper);
+
+        return EnterpriseWrapper.build().makerEnterpriseRelationVO(enterpriseEntity);
     }
 
     @Override
     public R<MakerEnterpriseRelationVO> getEnterpriseId(Long enterpriseId, Long makerId) {
         MakerEnterpriseEntity enterpriseIdAndMakerIdLian = makerEnterpriseService.getEnterpriseIdAndMakerId(enterpriseId, makerId, 0);
         MakerEnterpriseEntity enterpriseIdAndMakerIdZhu = makerEnterpriseService.getEnterpriseIdAndMakerId(enterpriseId, makerId, 1);
-        MakerEnterpriseRelationVO makerEnterpriseRelationVO = baseMapper.getEnterpriseId(enterpriseId);
+
+        QueryWrapper<EnterpriseEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(EnterpriseEntity::getId, enterpriseId);
+
+        EnterpriseEntity enterpriseEntity = baseMapper.selectOne(queryWrapper);
+
+        MakerEnterpriseRelationVO makerEnterpriseRelationVO = EnterpriseWrapper.build().makerEnterpriseRelationVO(enterpriseEntity);
+        if (makerEnterpriseRelationVO == null) {
+            return R.fail("商户不存在");
+        }
+
         if (null == enterpriseIdAndMakerIdLian && null != enterpriseIdAndMakerIdZhu) {
             //TODO
             makerEnterpriseRelationVO.setContact1Phone("138********");

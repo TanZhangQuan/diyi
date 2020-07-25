@@ -27,6 +27,11 @@ public class IndividualBusinessWrapper extends BaseEntityWrapper<IndividualBusin
 
 	@Override
 	public IndividualBusinessVO entityVO(IndividualBusinessEntity individualBusiness) {
+
+		if (individualBusiness == null){
+			return null;
+		}
+
     	IndividualBusinessVO individualBusinessVO = BeanUtil.copy(individualBusiness, IndividualBusinessVO.class);
 		String bizName = makerService.getName(individualBusiness.getMakerId());
 		individualBusinessVO.setBizName(bizName);

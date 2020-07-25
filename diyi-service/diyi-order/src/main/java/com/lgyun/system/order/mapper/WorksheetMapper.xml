@@ -11,8 +11,7 @@
         <result property="worksheetName" column="worksheet_name"/>
         <result property="uppersonNum" column="upPerson_num"/>
         <result property="workDays" column="work_days"/>
-        <result property="worksheetFeeLow" column="worksheet_fee_low"/>
-        <result property="worksheetFeeHigh" column="worksheet_fee_high"/>
+        <result property="worksheetFee" column="worksheet_fee"/>
         <result property="worksheetType" column="worksheet_type"/>
         <result property="worksheetMode" column="worksheet_mode"/>
         <result property="publishDate" column="publish_date"/>

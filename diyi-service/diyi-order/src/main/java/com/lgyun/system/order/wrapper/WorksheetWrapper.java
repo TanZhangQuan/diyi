@@ -19,6 +19,11 @@ public class WorksheetWrapper extends BaseEntityWrapper<WorksheetEntity, Workshe
 
 	@Override
 	public WorksheetVO entityVO(WorksheetEntity worksheet) {
+
+		if (worksheet == null){
+			return null;
+		}
+
 		return BeanUtil.copy(worksheet, WorksheetVO.class);
 	}
 

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lgyun.system.user.mapper.ServiceProviderMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.lgyun.system.user.entity.ServiceProviderEntity" id="serviceProviderMap">
+                <result property="id" column="id"/>
+                <result property="serviceProviderUserName" column="service_provider_user_name"/>
+                <result property="serviceProviderPwd" column="service_provider_pwd"/>
+                <result property="serviceProviderState" column="service_provider_state"/>
+                <result property="serviceProviderName" column="service_provider_name"/>
+                <result property="legalPerson" column="legal_person"/>
+                <result property="legalPersonCard" column="legal_person_card"/>
+                <result property="socialCreditNo" column="social_credit_no"/>
+                <result property="bizLicenceUrl" column="biz_licence_url"/>
+                <result property="bizLicenceCopyUrl" column="biz_licence_copy_url"/>
+                <result property="serviceProviderUrl" column="service_provider_url"/>
+                <result property="workingAddress" column="working_address"/>
+                <result property="workingRelName" column="working_rel_name"/>
+                <result property="workingRelPhone" column="working_rel_phone"/>
+                <result property="invoiceEnterpriseName" column="invoice_enterprise_name"/>
+                <result property="invoiceTaxNo" column="invoice_tax_no"/>
+                <result property="invoiceAddress" column="invoice_address"/>
+                <result property="invoiceTelNo" column="invoice_tel_no"/>
+                <result property="invoiceBankName" column="invoice_bank_name"/>
+                <result property="invoiceAccountName" column="invoice_account_name"/>
+                <result property="invoiceAccount" column="invoice_account"/>
+                <result property="BusinessPattern" column="business_pattern"/>
+                <result property="crowdSourcePayPath" column="crowd_source_pay_path"/>
+                <result property="servicePrice" column="service_price"/>
+                <result property="contact1Name" column="contact1_name"/>
+                <result property="contact1Position" column="contact1_position"/>
+                <result property="contact1Phone" column="contact1_phone"/>
+                <result property="contact1Mail" column="contact1_mail"/>
+                <result property="contact2Name" column="contact2_name"/>
+                <result property="contact2Position" column="contact2_position"/>
+                <result property="contact2Phone" column="contact2_phone"/>
+                <result property="contact2Mail" column="contact2_mail"/>
+                <result property="specDemmand" column="spec_demmand"/>
+                <result property="createType" column="create_type"/>
+                <result property="salerId" column="saler_id"/>
+                <result property="runnerId" column="runner_id"/>
+                <result property="industryType" column="industry_type"/>
+                <result property="createUser" column="create_user"/>
+                <result property="createTime" column="create_time"/>
+                <result property="updateUser" column="update_user"/>
+                <result property="updateTime" column="update_time"/>
+                <result property="status" column="status"/>
+                <result property="isDeleted" column="is_deleted"/>
+            </resultMap>
+
+</mapper>

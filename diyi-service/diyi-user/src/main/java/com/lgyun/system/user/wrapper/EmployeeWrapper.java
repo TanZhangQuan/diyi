@@ -19,6 +19,11 @@ public class EmployeeWrapper extends BaseEntityWrapper<EmployeeEntity, EmployeeV
 
     @Override
     public EmployeeVO entityVO(EmployeeEntity employee) {
+
+        if (employee == null){
+            return null;
+        }
+
         return BeanUtil.copy(employee, EmployeeVO.class);
     }
 

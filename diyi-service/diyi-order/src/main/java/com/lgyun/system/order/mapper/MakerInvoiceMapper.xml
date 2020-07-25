@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lgyun.system.order.mapper.MakerInvoiceMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.lgyun.system.order.entity.MakerInvoiceEntity" id="makerInvoiceMap">
+                <result property="id" column="id"/>
+                <result property="payMakerId" column="pay_maker_id"/>
+                <result property="voiceTypeNo" column="voice_type_no"/>
+                <result property="voiceSerialNo" column="voice_serial_no"/>
+                <result property="makerVoiceGetDateTime" column="maker_voice_get_date_time"/>
+                <result property="voiceCategory" column="voice_category"/>
+                <result property="totalAmount" column="total_amount"/>
+                <result property="salesAmount" column="sales_amount"/>
+                <result property="taxAmount" column="tax_amount"/>
+                <result property="voicePerson" column="voice_person"/>
+                <result property="saleCompany" column="sale_company"/>
+                <result property="helpMakeOrganationName" column="help_make_organation_name"/>
+                <result property="helpMakeCompany" column="help_make_company"/>
+                <result property="helpMakeTaxNo" column="help_make_tax_no"/>
+                <result property="makerVoiceUrl" column="maker_voice_url"/>
+                <result property="makerVoiceUploadDateTime" column="maker_voice_upload_date_time"/>
+                <result property="createUser" column="create_user"/>
+                <result property="createTime" column="create_time"/>
+                <result property="updateUser" column="update_user"/>
+                <result property="updateTime" column="update_time"/>
+                <result property="status" column="status"/>
+                <result property="isDeleted" column="is_deleted"/>
+            </resultMap>
+
+</mapper>

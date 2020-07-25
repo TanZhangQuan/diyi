@@ -19,6 +19,11 @@ public class OnlineSignPicWrapper extends BaseEntityWrapper<OnlineSignPicEntity,
 
     @Override
     public OnlineSignPicVO entityVO(OnlineSignPicEntity onlineSignPic) {
+
+        if (onlineSignPic == null){
+            return null;
+        }
+
         return BeanUtil.copy(onlineSignPic, OnlineSignPicVO.class);
     }
 

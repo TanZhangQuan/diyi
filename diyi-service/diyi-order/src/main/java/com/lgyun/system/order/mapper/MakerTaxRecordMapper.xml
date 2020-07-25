@@ -19,6 +19,12 @@
         <result property="makerTaxUrl" column="maker_tax_url"/>
         <result property="makerTaxGetDatetime" column="maker_tax_get_datetime"/>
         <result property="makerTaxUploadDatetime" column="maker_tax_upload_datetime"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="status" column="status"/>
+        <result property="isDeleted" column="is_deleted"/>
     </resultMap>
 
 </mapper>

@@ -8,12 +8,6 @@
         #foreach($column in $columns)
         <result property="${column.attrname}" column="${column.columnName}"/>
         #end
-        <result column="create_user" property="createUser"/>
-        <result column="create_time" property="createTime"/>
-        <result column="update_user" property="updateUser"/>
-        <result column="update_time" property="updateTime"/>
-        <result column="status" property="status"/>
-        <result column="is_deleted" property="isDeleted"/>
     </resultMap>
 
 </mapper>

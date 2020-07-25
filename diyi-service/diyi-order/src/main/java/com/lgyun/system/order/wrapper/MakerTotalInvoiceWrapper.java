@@ -19,6 +19,11 @@ public class MakerTotalInvoiceWrapper extends BaseEntityWrapper<MakerTotalInvoic
 
     @Override
     public MakerTotalInvoiceVO entityVO(MakerTotalInvoiceEntity makerTotalInvoice) {
+
+        if (makerTotalInvoice == null){
+            return null;
+        }
+
         return BeanUtil.copy(makerTotalInvoice, MakerTotalInvoiceVO.class);
     }
 

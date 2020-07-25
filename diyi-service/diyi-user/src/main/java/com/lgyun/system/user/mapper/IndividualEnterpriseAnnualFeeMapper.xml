@@ -4,8 +4,7 @@
 <mapper namespace="com.lgyun.system.user.mapper.IndividualEnterpriseAnnualFeeMapper">
 
     <!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.lgyun.system.user.entity.IndividualEnterpriseAnnualFeeEntity"
-               id="individualEnterpriseAnnualFeeMap">
+    <resultMap type="com.lgyun.system.user.entity.IndividualEnterpriseAnnualFeeEntity" id="individualEnterpriseAnnualFeeMap">
         <result property="id" column="id"/>
         <result property="individualEnterpriseId" column="individual_enterprise_id"/>
         <result property="makerId" column="maker_id"/>

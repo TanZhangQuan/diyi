@@ -19,6 +19,11 @@ public class IndividualEnterpriseAnnualFeeWrapper extends BaseEntityWrapper<Indi
 
 	@Override
 	public IndividualEnterpriseAnnualFeeVO entityVO(IndividualEnterpriseAnnualFeeEntity individualEnterpriseAnnualFee) {
+
+		if (individualEnterpriseAnnualFee == null){
+			return null;
+		}
+
 		return BeanUtil.copy(individualEnterpriseAnnualFee, IndividualEnterpriseAnnualFeeVO.class);
 	}
 

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.CreateType;
 import com.lgyun.common.enumeration.CrowdSourcePayPath;
-import com.lgyun.common.enumeration.EnterpriseBusinessPattern;
+import com.lgyun.common.enumeration.BusinessPattern;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,12 +32,12 @@ public class EnterpriseEntity extends BaseEntity {
     /**
      * 用户名
      */
-    private String enUserName;
+    private String enterpriseUserName;
 
     /**
      * 密码
      */
-    private String enUserPwd;
+    private String enterprisePwd;
 
     /**
      * 商户账户状态
@@ -97,7 +97,7 @@ public class EnterpriseEntity extends BaseEntity {
     /**
      * 开票资料-公司名称
      */
-    private String invoiceEnName;
+    private String invoiceEnterpriseName;
 
     /**
      * 开票资料-税号
@@ -132,7 +132,7 @@ public class EnterpriseEntity extends BaseEntity {
     /**
      * 业务外包模式：自然人众包（3%普票），自然人总包+分包（6%专票），个体户众包（3%专票），个体户总包+分包（6%专票），个体户众包（3%普票）
      */
-    private EnterpriseBusinessPattern enterpriseBusinessPattern;
+    private BusinessPattern businessPattern;
 
     /**
      * 众包支付通路：通联支付代发，招商银行代发，系统集成代发，平台代收代付，平台预存支付
@@ -192,7 +192,7 @@ public class EnterpriseEntity extends BaseEntity {
     /**
      * 创建类型：平台创建，自注册
      */
-    private CreateType enterpriseCreateType;
+    private CreateType createType;
 
     /**
      * 营销人员

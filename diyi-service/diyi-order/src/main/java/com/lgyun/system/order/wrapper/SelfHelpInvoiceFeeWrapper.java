@@ -19,6 +19,11 @@ public class SelfHelpInvoiceFeeWrapper extends BaseEntityWrapper<SelfHelpInvoice
 
 	@Override
 	public SelfHelpInvoiceFeeVO entityVO(SelfHelpInvoiceFeeEntity selfHelpInvoiceFee) {
+
+		if (selfHelpInvoiceFee == null){
+			return null;
+		}
+
 		return BeanUtil.copy(selfHelpInvoiceFee, SelfHelpInvoiceFeeVO.class);
 	}
 

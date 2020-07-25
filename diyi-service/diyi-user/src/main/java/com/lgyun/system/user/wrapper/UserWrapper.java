@@ -34,6 +34,11 @@ public class UserWrapper extends BaseEntityWrapper<User, UserVO> {
 
 	@Override
 	public UserVO entityVO(User user) {
+
+		if (user == null){
+			return null;
+		}
+
 		UserVO userVO = BeanUtil.copy(user, UserVO.class);
 		List<String> roleName = userService.getRoleName(user.getRoleId());
 		List<String> deptName = userService.getDeptName(user.getDeptId());

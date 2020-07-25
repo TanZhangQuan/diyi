@@ -19,6 +19,11 @@ public class IndividualEnterpriseWrapper extends BaseEntityWrapper<IndividualEnt
 
 	@Override
 	public IndividualEnterpriseVO entityVO(IndividualEnterpriseEntity individualEnterprise) {
+
+		if (individualEnterprise == null){
+			return null;
+		}
+
 		return BeanUtil.copy(individualEnterprise, IndividualEnterpriseVO.class);
 	}
 

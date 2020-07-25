@@ -13,10 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
-    /**
-     * 通过商户名字查询
-     */
-    MakerEnterpriseRelationVO getEnterpriseName(String enterpriseName);
 
     /**
      * 通过商户id查询

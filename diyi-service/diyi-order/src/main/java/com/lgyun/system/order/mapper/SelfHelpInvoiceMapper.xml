@@ -25,7 +25,7 @@
         <result property="serviceInvoiceFee" column="service_invoice_fee"/>
         <result property="idendityConfirmFee" column="idendity_confirm_fee"/>
         <result property="addressId" column="address_id"/>
-        <result property="invoiceAuditState" column="invoice_audi_state"/>
+        <result property="invoiceAuditState" column="invoice_audit_state"/>
         <result property="createUser" column="create_user"/>
         <result property="createTime" column="create_time"/>
         <result property="updateUser" column="update_user"/>

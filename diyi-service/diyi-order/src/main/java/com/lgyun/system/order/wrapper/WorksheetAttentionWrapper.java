@@ -19,6 +19,11 @@ public class WorksheetAttentionWrapper extends BaseEntityWrapper<WorksheetAttent
 
     @Override
     public WorksheetAttentionVO entityVO(WorksheetAttentionEntity worksheetAttention) {
+
+        if (worksheetAttention == null){
+            return null;
+        }
+
         return BeanUtil.copy(worksheetAttention, WorksheetAttentionVO.class);
     }
 

@@ -31,6 +31,7 @@
         <result property="status" column="status"/>
         <result property="isDeleted" column="is_deleted"/>
     </resultMap>
+
     <resultMap type="com.lgyun.system.order.vo.InvoiceEnterpriseVO" id="InvoiceEnterpriseVOMap">
         <result property="enterpriseId" column="enterprise_id"/>
         <result property="payListId" column="pay_list_id"/>
@@ -49,6 +50,7 @@
         <result property="checkMoney" column="check_money"/>
         <result property="makerNum" column="maker_num"/>
     </resultMap>
+    
     <select id="getEnterpriseAll" resultMap="InvoiceEnterpriseVOMap">
         SELECT e.id AS enterprise_id, pe.id AS pay_list_id, pm.id AS pay_maker_id, e.enterprise_name AS enterprise_name FROM diyi_enterprise e INNER JOIN diyi_pay_enterprise pe ON e.id = pe.enterprise_id INNER JOIN diyi_pay_maker pm ON pm.pay_list_id = pe.id WHERE pm.maker_id = #{param1} GROUP BY e.id
     </select>

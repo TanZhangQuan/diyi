@@ -19,6 +19,11 @@ public class PayEnterpriseWrapper extends BaseEntityWrapper<PayEnterpriseEntity,
 
     @Override
     public PayEnterpriseVO entityVO(PayEnterpriseEntity enterprisePay) {
+
+        if (enterprisePay == null){
+            return null;
+        }
+
         return BeanUtil.copy(enterprisePay, PayEnterpriseVO.class);
     }
 

@@ -19,6 +19,11 @@ public class MakerTaxRecordWrapper extends BaseEntityWrapper<MakerTaxRecordEntit
 
     @Override
     public MakerTaxRecordVO entityVO(MakerTaxRecordEntity makerTaxRecord) {
+
+        if (makerTaxRecord == null){
+            return null;
+        }
+
         return BeanUtil.copy(makerTaxRecord, MakerTaxRecordVO.class);
     }
 

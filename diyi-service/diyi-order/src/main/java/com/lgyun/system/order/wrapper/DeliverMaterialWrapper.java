@@ -19,6 +19,11 @@ public class DeliverMaterialWrapper extends BaseEntityWrapper<DeliverMaterialEnt
 
     @Override
     public DeliverMaterialVO entityVO(DeliverMaterialEntity deliverMaterial) {
+
+        if (deliverMaterial == null){
+            return null;
+        }
+
         return BeanUtil.copy(deliverMaterial, DeliverMaterialVO.class);
     }
 
