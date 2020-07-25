@@ -84,7 +84,10 @@
     </resultMap>
 
     <select id="findXiaoPage" resultMap="worksheetXiaoMap">
-        SELECT ws.id AS worksheet_id, ws.enterprise_id, e.enterprise_name, ws.worksheet_mode, ws.worksheet_name, ws.worksheet_type, ws.upPerson_num, ws.worksheet_no, ws.work_days, ws.worksheet_fee_low, ws.worksheet_fee_high, ws.publish_date FROM diyi_worksheet ws INNER JOIN diyi_enterprise e ON e.id = ws.enterprise_id WHERE ws.is_deleted = 0 AND e.is_deleted = 0 AND ws.id NOT IN ( SELECT wm.worksheet_id FROM diyi_worksheet_maker wm WHERE wm.is_deleted = 0 AND wm.maker_id = #{param2} ) AND ws.worksheet_state = 'PUBLISHING' AND ws.worksheet_mode != 'DISPATCH'
+        SELECT ws.id AS worksheet_id, ws.enterprise_id, e.enterprise_name, ws.worksheet_mode, ws.worksheet_name, ws.worksheet_type, ws.upPerson_num,
+        ws.worksheet_no, ws.work_days, ws.worksheet_fee_low, ws.worksheet_fee_high, ws.publish_date FROM diyi_worksheet ws INNER JOIN diyi_enterprise e
+        ON e.id = ws.enterprise_id WHERE ws.is_deleted = 0 AND e.is_deleted = 0 AND ws.id NOT IN ( SELECT wm.worksheet_id FROM diyi_worksheet_maker wm
+        WHERE wm.is_deleted = 0 AND wm.maker_id = #{param2} ) AND ws.worksheet_state = 'PUBLISHING' AND ws.worksheet_mode != 'DISPATCH'
     </select>
 
     <select id="findXiaoPage2" resultMap="worksheetXiaoMap">
@@ -95,7 +98,11 @@
     </select>
 
     <select id="findXiaoPage3" resultMap="worksheetXiao1Map">
-        SELECT wm.id AS worksheet_maker_id, wm.worksheet_maker_state, ws.worksheet_mode, ws.id AS worksheet_id, ws.enterprise_id, e.enterprise_name, ws.worksheet_name, ws.worksheet_type, ws.upPerson_num, ws.worksheet_no, ws.work_days, ws.worksheet_fee_low, ws.worksheet_fee_high, ws.publish_date FROM diyi_worksheet ws INNER JOIN diyi_enterprise e ON e.id = ws.enterprise_id INNER JOIN diyi_worksheet_maker wm ON wm.worksheet_id = ws.id WHERE ws.is_deleted = 0 AND e.is_deleted = 0 AND wm.is_deleted = 0 AND wm.worksheet_maker_state IN ( 'VERIFIED', 'VALIDATION', 'FAILED' ) AND maker_id = #{param2}
+        SELECT wm.id AS worksheet_maker_id, wm.worksheet_maker_state, ws.worksheet_mode, ws.id AS worksheet_id, ws.enterprise_id, e.enterprise_name,
+        ws.worksheet_name, ws.worksheet_type, ws.upPerson_num, ws.worksheet_no, ws.work_days, ws.worksheet_fee_low, ws.worksheet_fee_high, ws.publish_date
+        FROM diyi_worksheet ws INNER JOIN diyi_enterprise e ON e.id = ws.enterprise_id INNER JOIN diyi_worksheet_maker wm ON wm.worksheet_id = ws.id
+        WHERE ws.is_deleted = 0 AND e.is_deleted = 0 AND wm.is_deleted = 0 AND wm.worksheet_maker_state IN ( 'VERIFIED', 'VALIDATION', 'FAILED' )
+        AND maker_id = #{param2}
     </select>
 
     <select id="getWorksheetDetails" resultMap="worksheetDetailsMap">

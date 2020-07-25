@@ -2,10 +2,12 @@ package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.VerifyStatus;
+import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.feign.IOrderClient;
 import com.lgyun.system.order.vo.SelfHelpInvoiceYearMonthMoneyVO;
@@ -17,11 +19,13 @@ import com.lgyun.system.user.service.IIndividualBusinessService;
 import com.lgyun.system.user.service.IMakerService;
 import com.lgyun.system.user.vo.IndividualBusinessDetailVO;
 import com.lgyun.system.user.vo.IndividualBusinessListByMakerVO;
+import com.lgyun.system.user.wrapper.IndividualBusinessWrapper;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Service 实现
@@ -66,17 +70,37 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
     }
 
     @Override
-    public R<IPage<IndividualBusinessListByMakerVO>> listByMaker(IPage<IndividualBusinessListByMakerVO> page, Long makerId, Ibstate ibstate) {
-        return R.data(page.setRecords(baseMapper.listByMaker(makerId, ibstate, page)));
+    public R<IPage<IndividualBusinessListByMakerVO>> listByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate) {
+
+        QueryWrapper<IndividualBusinessEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(IndividualBusinessEntity::getMakerId, makerId)
+                .eq(ibstate != null, IndividualBusinessEntity::getIbstate, ibstate)
+                .orderByDesc(IndividualBusinessEntity::getCreateTime);
+
+        IPage<IndividualBusinessEntity> pages = this.page(new Page<>(current, size), queryWrapper);
+
+        List<IndividualBusinessListByMakerVO> records = pages.getRecords().stream().map(individualBusinessEntity -> BeanUtil.copy(individualBusinessEntity, IndividualBusinessListByMakerVO.class)).collect(Collectors.toList());
+
+        IPage<IndividualBusinessListByMakerVO> pageVo = new Page<>(pages.getCurrent(), pages.getSize(), pages.getTotal());
+        pageVo.setRecords(records);
+
+        return R.data(pageVo);
     }
 
     @Override
     public R<IndividualBusinessDetailVO> findById(Long individualBusinessId) {
-        IndividualBusinessDetailVO individualBusinessDetailVO = baseMapper.findById(individualBusinessId);
-        if (individualBusinessDetailVO != null) {
-            String bizName = makerService.getName(individualBusinessDetailVO.getMakerId());
-            individualBusinessDetailVO.setBizName(bizName);
+
+        QueryWrapper<IndividualBusinessEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(IndividualBusinessEntity::getId, individualBusinessId);
+
+        IndividualBusinessEntity individualBusinessEntity = baseMapper.selectOne(queryWrapper);
+        if (individualBusinessEntity == null) {
+            return R.fail("个体户不存在");
         }
+
+        IndividualBusinessDetailVO individualBusinessDetailVO = IndividualBusinessWrapper.build().individualBusinessDetailVO(individualBusinessEntity);
+        String bizName = makerService.getName(individualBusinessDetailVO.getMakerId());
+        individualBusinessDetailVO.setBizName(bizName);
         return R.data(individualBusinessDetailVO);
     }
 

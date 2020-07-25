@@ -17,6 +17,7 @@ import com.lgyun.system.user.service.IMakerService;
 import com.lgyun.system.user.vo.IdcardOcrVO;
 import com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO;
 import com.lgyun.system.user.vo.MakerInfoVO;
+import com.lgyun.system.user.wrapper.MakerWrapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -376,8 +377,16 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public String getName(Long id) {
-        return baseMapper.getName(Func.toLong(id));
+    public String getName(Long makerId) {
+
+        QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(MakerEntity::getId, makerId);
+        MakerEntity makerEntity = baseMapper.selectOne(queryWrapper);
+        if (makerEntity == null){
+            return null;
+        }
+
+        return makerEntity.getName();
     }
 
     @Override
@@ -389,7 +398,14 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
     @Override
     public R<MakerInfoVO> getInfo(Long makerId) {
-        return R.data(baseMapper.getInfo(makerId));
+
+        QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(MakerEntity::getId, makerId);
+
+        MakerEntity makerEntity = baseMapper.selectOne(queryWrapper);
+
+        MakerInfoVO makerInfoVO = MakerWrapper.build().makerInfoVO(makerEntity);
+        return R.data(makerInfoVO);
     }
 
     @Override

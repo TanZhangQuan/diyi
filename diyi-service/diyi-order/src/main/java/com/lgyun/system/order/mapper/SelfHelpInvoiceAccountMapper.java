@@ -1,8 +1,7 @@
 package com.lgyun.system.order.mapper;
 
-import com.lgyun.system.order.entity.SelfHelpInvoiceAccountEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.lgyun.system.order.vo.SelfHelpInvoiceAccountVO;
+import com.lgyun.system.order.entity.SelfHelpInvoiceAccountEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -14,11 +13,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface SelfHelpInvoiceAccountMapper extends BaseMapper<SelfHelpInvoiceAccountEntity> {
 
-    /**
-     * 立即支付
-     *
-     * @return
-     */
-    SelfHelpInvoiceAccountVO immediatePayment();
 }
 

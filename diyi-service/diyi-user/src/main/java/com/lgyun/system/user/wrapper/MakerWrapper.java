@@ -3,6 +3,7 @@ package com.lgyun.system.user.wrapper;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.support.BaseEntityWrapper;
 import com.lgyun.system.user.entity.MakerEntity;
+import com.lgyun.system.user.vo.MakerInfoVO;
 import com.lgyun.system.user.vo.MakerVO;
 
 /**
@@ -25,6 +26,15 @@ public class MakerWrapper extends BaseEntityWrapper<MakerEntity, MakerVO> {
         }
 
         return BeanUtil.copy(maker, MakerVO.class);
+    }
+
+    public MakerInfoVO makerInfoVO(MakerEntity makerEntity) {
+
+        if (makerEntity == null){
+            return null;
+        }
+
+        return BeanUtil.copy(makerEntity, MakerInfoVO.class);
     }
 
 }

@@ -42,12 +42,13 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
     /**
      * 查询当前创客的所有个独
      *
-     * @param page
+     * @param current
+     * @param size
      * @param makerId
      * @param ibstate
      * @return
      */
-    R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker(IPage<IndividualEnterpriseListByMakerVO> page, Long makerId, Ibstate ibstate);
+    R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate);
 
     /**
      * 根据ID查询个独详情

@@ -19,18 +19,4 @@
         <result property="isDeleted" column="is_deleted"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.order.vo.SelfHelpInvoiceAccountVO" id="selfHelpInvoiceAccountVoMap">
-        <result property="id" column="id"/>
-        <result property="accountName" column="account_name"/>
-        <result property="accountNo" column="account_no"/>
-        <result property="accountBank" column="account_bank"/>
-        <result property="basicAccountBank" column="basic_account_bank"/>
-        <result property="isDefault" column="is_default"/>
-    </resultMap>
-
-    <select id="immediatePayment" resultMap="selfHelpInvoiceAccountVoMap">
-        select id,account_name,account_no,account_bank,basic_account_bank,is_default from diyi_self_help_invoice_account
-        where is_default = 0 and status = 1 AND is_deleted = 0
-    </select>
-
 </mapper>

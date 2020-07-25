@@ -122,10 +122,10 @@ public interface IMakerService extends IService<MakerEntity> {
     /**
      * 获取运营者名称
      *
-     * @param id
+     * @param makerId
      * @return
      */
-    String getName(Long id);
+    String getName(Long makerId);
 
     /**
      * 根据userId获取创客

@@ -42,12 +42,13 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
     /**
      * 查询当前创客的所有个体户
      *
-     * @param page
+     * @param current
+     * @param size
      * @param makerId
      * @param ibstate
      * @return
      */
-    R<IPage<IndividualBusinessListByMakerVO>> listByMaker(IPage<IndividualBusinessListByMakerVO> page, Long makerId, Ibstate ibstate);
+    R<IPage<IndividualBusinessListByMakerVO>> listByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate);
 
     /**
      * 根据ID查询个体户详情

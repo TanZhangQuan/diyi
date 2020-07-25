@@ -37,39 +37,4 @@
         <result property="isDeleted" column="is_deleted"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.IndividualBusinessListByMakerVO" id="individualBusinessListByMakerVO">
-        <result property="id" column="id"/>
-        <result property="ibname" column="ibname"/>
-        <result property="candidatedNames" column="candidated_names"/>
-    </resultMap>
-
-    <resultMap type="com.lgyun.system.user.vo.IndividualBusinessDetailVO" id="individualBusinessDetailVO">
-        <result property="id" column="id"/>
-        <result property="ibname" column="ibname"/>
-        <result property="candidatedNames" column="candidated_names"/>
-        <result property="ibtaxNo" column="ibtax_no"/>
-        <result property="bizPark" column="biz_park"/>
-        <result property="mainIndustry" column="main_industry"/>
-        <result property="bizScope" column="biz_scope"/>
-        <result property="indBusTaxType" column="ind_bus_tax_type"/>
-        <result property="makerId" column="maker_id"/>
-        <result property="registeredMoney" column="registered_money"/>
-        <result property="businessLicenceUrl" column="business_licence_url"/>
-        <result property="businessLicenceCopyUrl" column="business_licence_copy_url"/>
-    </resultMap>
-
-    <select id="listByMaker" resultMap="individualBusinessListByMakerVO">
-        select id, ibname, candidated_names from diyi_individual_business
-        where is_deleted = 0 AND maker_id = #{param1}
-        <if test="param2 != null">
-            and ibstate = #{param2}
-        </if>
-    </select>
-
-    <select id="findById" resultMap="individualBusinessDetailVO">
-        select id, ibname, candidated_names, ibtax_no, biz_park, main_industry, biz_scope, ind_bus_tax_type, maker_id, registered_money,
-        business_licence_url, business_licence_copy_url from diyi_individual_business
-        where is_deleted = 0 AND id = #{param1} limit 1
-    </select>
-
 </mapper>

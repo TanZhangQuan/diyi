@@ -1,14 +1,8 @@
 package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
-import com.lgyun.system.user.vo.IndividualBusinessDetailVO;
-import com.lgyun.system.user.vo.IndividualBusinessListByMakerVO;
 import org.apache.ibatis.annotations.Mapper;
-
-import java.util.List;
 
 /**
  * Mapper
@@ -19,8 +13,5 @@ import java.util.List;
 @Mapper
 public interface IndividualBusinessMapper extends BaseMapper<IndividualBusinessEntity> {
 
-    List<IndividualBusinessListByMakerVO> listByMaker(Long makerId, Ibstate ibstate, IPage<IndividualBusinessListByMakerVO> page);
-
-    IndividualBusinessDetailVO findById(Long individualBusinessId);
 }
 

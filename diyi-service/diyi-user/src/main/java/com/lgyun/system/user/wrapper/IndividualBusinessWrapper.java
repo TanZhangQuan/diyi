@@ -5,6 +5,7 @@ import com.lgyun.common.tool.SpringUtil;
 import com.lgyun.core.mp.support.BaseEntityWrapper;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.service.IMakerService;
+import com.lgyun.system.user.vo.IndividualBusinessDetailVO;
 import com.lgyun.system.user.vo.IndividualBusinessVO;
 
 /**
@@ -36,6 +37,15 @@ public class IndividualBusinessWrapper extends BaseEntityWrapper<IndividualBusin
 		String bizName = makerService.getName(individualBusiness.getMakerId());
 		individualBusinessVO.setBizName(bizName);
 		return individualBusinessVO;
+	}
+
+	public IndividualBusinessDetailVO individualBusinessDetailVO(IndividualBusinessEntity individualBusiness) {
+
+		if (individualBusiness == null){
+			return null;
+		}
+
+		return BeanUtil.copy(individualBusiness, IndividualBusinessDetailVO.class);
 	}
 
 }

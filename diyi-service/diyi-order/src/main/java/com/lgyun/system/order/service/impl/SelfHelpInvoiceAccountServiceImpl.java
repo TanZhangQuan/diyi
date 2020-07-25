@@ -1,16 +1,18 @@
 package com.lgyun.system.order.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.SelfHelpInvoiceAccountEntity;
 import com.lgyun.system.order.mapper.SelfHelpInvoiceAccountMapper;
 import com.lgyun.system.order.service.ISelfHelpInvoiceAccountService;
 import com.lgyun.system.order.vo.SelfHelpInvoiceAccountVO;
+import com.lgyun.system.order.wrapper.SelfHelpInvoiceAccountWrapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
- *  Service 实现
+ * Service 实现
  *
  * @author jun
  * @since 2020-07-08 14:32:47
@@ -22,6 +24,13 @@ public class SelfHelpInvoiceAccountServiceImpl extends BaseServiceImpl<SelfHelpI
 
     @Override
     public SelfHelpInvoiceAccountVO immediatePayment() {
-        return baseMapper.immediatePayment();
+
+        QueryWrapper<SelfHelpInvoiceAccountEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(SelfHelpInvoiceAccountEntity::getIsDefault, 0)
+                .eq(SelfHelpInvoiceAccountEntity::getStatus, 1);
+
+        SelfHelpInvoiceAccountEntity selfHelpInvoiceAccountEntity = baseMapper.selectOne(queryWrapper);
+
+        return SelfHelpInvoiceAccountWrapper.build().selfHelpInvoiceAccountVO(selfHelpInvoiceAccountEntity);
     }
 }

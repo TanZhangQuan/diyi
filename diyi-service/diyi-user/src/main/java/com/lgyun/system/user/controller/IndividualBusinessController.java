@@ -119,7 +119,7 @@ public class IndividualBusinessController {
         log.info("查询当前创客的所有个体户");
         try {
             MakerEntity makerEntity = iMakerService.current(bladeUser);
-            return individualBusinessService.listByMaker(Condition.getPage(query.setDescs("create_time")), makerEntity.getId(), ibstate);
+            return individualBusinessService.listByMaker(query.getCurrent(), query.getSize(), makerEntity.getId(), ibstate);
         } catch (Exception e) {
             log.error("查询当前创客的所有个体户异常", e);
         }

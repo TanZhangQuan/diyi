@@ -7,8 +7,6 @@ import com.lgyun.common.enumeration.*;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.common.tool.StringUtil;
-import com.lgyun.core.mp.support.Condition;
-import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.service.*;
@@ -208,18 +206,12 @@ public class UserClient implements IUserClient {
 
     @Override
     public R<IPage<IndividualEnterpriseListByMakerVO>> individualEnterpriseListByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate) {
-        Query query = new Query();
-        query.setCurrent(current);
-        query.setSize(size);
-        return iIndividualEnterpriseService.listByMaker(Condition.getPage(query.setDescs("create_time")), makerId, ibstate);
+        return iIndividualEnterpriseService.listByMaker(current, size, makerId, ibstate);
     }
 
     @Override
     public R<IPage<IndividualBusinessListByMakerVO>> individualBusinessListByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate) {
-        Query query = new Query();
-        query.setCurrent(current);
-        query.setSize(size);
-        return iIndividualBusinessService.listByMaker(Condition.getPage(query.setDescs("create_time")), makerId, ibstate);
+        return iIndividualBusinessService.listByMaker(current, size, makerId, ibstate);
     }
 
     @Override

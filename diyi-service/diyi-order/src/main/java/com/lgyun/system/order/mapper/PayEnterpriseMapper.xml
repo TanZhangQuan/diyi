@@ -52,15 +52,26 @@
     </resultMap>
     
     <select id="getEnterpriseAll" resultMap="InvoiceEnterpriseVOMap">
-        SELECT e.id AS enterprise_id, pe.id AS pay_list_id, pm.id AS pay_maker_id, e.enterprise_name AS enterprise_name FROM diyi_enterprise e INNER JOIN diyi_pay_enterprise pe ON e.id = pe.enterprise_id INNER JOIN diyi_pay_maker pm ON pm.pay_list_id = pe.id WHERE pm.maker_id = #{param1} GROUP BY e.id
+        SELECT e.id AS enterprise_id, pe.id AS pay_list_id, pm.id AS pay_maker_id, e.enterprise_name AS enterprise_name FROM diyi_enterprise e
+        INNER JOIN diyi_pay_enterprise pe ON e.id = pe.enterprise_id INNER JOIN diyi_pay_maker pm ON pm.pay_list_id = pe.id
+        WHERE pm.maker_id = #{param1} GROUP BY e.id
     </select>
 
     <select id="getEnterpriseMakerIdAll" resultMap="InvoiceEnterpriseVOMap">
-        SELECT e.id AS enterprise_id,pe.maker_num, pe.id AS pay_list_id, pm.id AS pay_maker_id, e.enterprise_name AS enterprise_name, s.service_provider_name AS service_provider_name, w.worksheet_type, pe.pay_to_platform_amount FROM diyi_enterprise e INNER JOIN diyi_pay_enterprise pe ON e.id = pe.enterprise_id INNER JOIN diyi_pay_maker pm ON pm.pay_list_id = pe.id INNER JOIN diyi_service_provider s ON pe.service_provider_id = s.id LEFT JOIN diyi_worksheet w ON w.id = pe.worksheet_id WHERE pm.maker_id = #{param1} and e.id= #{param2}
+        SELECT e.id AS enterprise_id,pe.maker_num, pe.id AS pay_list_id, pm.id AS pay_maker_id, e.enterprise_name AS enterprise_name,
+        s.service_provider_name AS service_provider_name, w.worksheet_type, pe.pay_to_platform_amount FROM diyi_enterprise e INNER JOIN diyi_pay_enterprise pe
+        ON e.id = pe.enterprise_id INNER JOIN diyi_pay_maker pm ON pm.pay_list_id = pe.id INNER JOIN diyi_service_provider s ON pe.service_provider_id = s.id
+        LEFT JOIN diyi_worksheet w ON w.id = pe.worksheet_id WHERE pm.maker_id = #{param1} and e.id= #{param2}
     </select>
 
 
     <select id="getEnterpriseMakerIdDetail" resultMap="InvoiceEnterpriseVOMap">
-        SELECT e.id AS enterprise_id, pe.id AS pay_list_id, pm.id AS pay_maker_id, e.enterprise_name AS enterprise_name, s.service_provider_name AS service_provider_name, w.worksheet_type, pe.pay_to_platform_amount, mi.maker_voice_url, mtr.maker_tax_url, w.worksheet_name, w.worksheet_mode, w.publish_date, w.worksheet_no, wm.achievement_desc, wm.achievement_files, wm.check_money FROM diyi_enterprise e INNER JOIN diyi_pay_enterprise pe ON e.id = pe.enterprise_id INNER JOIN diyi_service_provider s ON pe.service_provider_id = s.id INNER JOIN diyi_pay_maker pm ON pm.pay_list_id = pe.id LEFT JOIN diyi_worksheet w ON w.id = pe.worksheet_id INNER JOIN diyi_maker_invoice mi ON mi.pay_maker_id = pm.id INNER JOIN diyi_maker_tax_record mtr ON mtr.pay_maker_id = pm.id LEFT JOIN diyi_worksheet_maker wm ON pe.worksheet_id = wm.worksheet_id WHERE pm.maker_id = #{param1} and e.id= #{param2} and pm.id=#{param3}
+        SELECT e.id AS enterprise_id, pe.id AS pay_list_id, pm.id AS pay_maker_id, e.enterprise_name AS enterprise_name,
+        s.service_provider_name AS service_provider_name, w.worksheet_type, pe.pay_to_platform_amount, mi.maker_voice_url, mtr.maker_tax_url, w.worksheet_name,
+        w.worksheet_mode, w.publish_date, w.worksheet_no, wm.achievement_desc, wm.achievement_files, wm.check_money FROM diyi_enterprise e
+        INNER JOIN diyi_pay_enterprise pe ON e.id = pe.enterprise_id INNER JOIN diyi_service_provider s ON pe.service_provider_id = s.id
+        INNER JOIN diyi_pay_maker pm ON pm.pay_list_id = pe.id LEFT JOIN diyi_worksheet w ON w.id = pe.worksheet_id INNER JOIN diyi_maker_invoice mi
+        ON mi.pay_maker_id = pm.id INNER JOIN diyi_maker_tax_record mtr ON mtr.pay_maker_id = pm.id LEFT JOIN diyi_worksheet_maker wm
+        ON pe.worksheet_id = wm.worksheet_id WHERE pm.maker_id = #{param1} and e.id= #{param2} and pm.id=#{param3}
     </select>
 </mapper>

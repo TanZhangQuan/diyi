@@ -1,7 +1,7 @@
 package com.lgyun.system.order.wrapper;
 
-import com.lgyun.core.mp.support.BaseEntityWrapper;
 import com.lgyun.common.tool.BeanUtil;
+import com.lgyun.core.mp.support.BaseEntityWrapper;
 import com.lgyun.system.order.entity.SelfHelpInvoiceAccountEntity;
 import com.lgyun.system.order.vo.SelfHelpInvoiceAccountVO;
 
@@ -25,6 +25,15 @@ public class SelfHelpInvoiceAccountWrapper extends BaseEntityWrapper<SelfHelpInv
 		}
 
 		return BeanUtil.copy(selfHelpInvoiceAccount, SelfHelpInvoiceAccountVO.class);
+	}
+
+	public SelfHelpInvoiceAccountVO selfHelpInvoiceAccountVO(SelfHelpInvoiceAccountEntity selfHelpInvoiceAccountEntity) {
+
+		if (selfHelpInvoiceAccountEntity == null){
+			return null;
+		}
+
+		return BeanUtil.copy(selfHelpInvoiceAccountEntity, SelfHelpInvoiceAccountVO.class);
 	}
 
 }

@@ -94,7 +94,7 @@ public class IndividualEnterpriseController {
 		log.info("查询当前创客的所有个独");
 		try {
 			MakerEntity makerEntity = iMakerService.current(bladeUser);
-			return individualEnterpriseService.listByMaker(Condition.getPage(query.setDescs("create_time")), makerEntity.getId(), ibstate);
+			return individualEnterpriseService.listByMaker(query.getCurrent(), query.getSize(), makerEntity.getId(), ibstate);
 		} catch (Exception e) {
 			log.error("查询当前创客的所有个独异常", e);
 		}
