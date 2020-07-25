@@ -55,7 +55,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R idcardOcr(String idcardPic, MakerEntity makerEntity) throws Exception {
+    public R<JSONObject> idcardOcr(String idcardPic, MakerEntity makerEntity) throws Exception {
 
         //查看创客是否已经身份证实名认证
         if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus())) {
@@ -80,7 +80,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R idcardOcrSave(IdcardOcrSaveDto idcardOcrSaveDto, MakerEntity makerEntity) {
+    public R<String> idcardOcrSave(IdcardOcrSaveDto idcardOcrSaveDto, MakerEntity makerEntity) {
 
         //查看创客是否已经身份证实名认证
         if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus())) {
@@ -106,7 +106,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R faceOcr(MakerEntity makerEntity) throws Exception {
+    public R<String> faceOcr(MakerEntity makerEntity) throws Exception {
 
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
@@ -136,7 +136,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R faceOcrNotify(HttpServletRequest request) {
+    public R<String> faceOcrNotify(HttpServletRequest request) {
 
         try {
             //获取body的数据进行验签
@@ -207,7 +207,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R bankCardOcr(String bankCardNo, MakerEntity makerEntity) throws Exception {
+    public R<JSONObject> bankCardOcr(String bankCardNo, MakerEntity makerEntity) throws Exception {
 
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
@@ -233,7 +233,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R bankCardOcrNotify(HttpServletRequest request) {
+    public R<String> bankCardOcrNotify(HttpServletRequest request) {
 
         try {
             //获取body的数据进行验签
@@ -290,7 +290,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R mobileOcr(MakerEntity makerEntity) throws Exception {
+    public R<JSONObject> mobileOcr(MakerEntity makerEntity) throws Exception {
 
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
@@ -311,7 +311,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R mobileOcrNotify(HttpServletRequest request) {
+    public R<String> mobileOcrNotify(HttpServletRequest request) {
 
         try {
             //获取body的数据进行验签
@@ -356,7 +356,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R queryIdcardOcr(MakerEntity makerEntity) {
+    public R<IdcardOcrVO> queryIdcardOcr(MakerEntity makerEntity) {
 
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
@@ -417,7 +417,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R uploadMakerVideo(MakerEntity makerEntity, String applyShortVideo) {
+    public R<String> uploadMakerVideo(MakerEntity makerEntity, String applyShortVideo) {
         if (StringUtil.isBlank(applyShortVideo)) {
             R.fail("视频连接不能为空");
         }

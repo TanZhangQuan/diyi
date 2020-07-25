@@ -42,7 +42,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
 
     @Override
     @Transactional
-    public R releaseWorksheet(ReleaseWorksheetDto releaseWorksheetDTO) {
+    public R<String> releaseWorksheet(ReleaseWorksheetDto releaseWorksheetDTO) {
         WorksheetEntity worksheetEntity = new WorksheetEntity();
         if(StringUtil.isBlank(releaseWorksheetDTO.getWorksheetName())){
             return R.fail("工单名称不能为空");
@@ -89,7 +89,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
 
     @Override
     @Transactional
-    public R orderGrabbing(Long worksheetId, Long makerId) {
+    public R<String> orderGrabbing(Long worksheetId, Long makerId) {
         if(null == worksheetId || null == makerId){
             return R.fail("参数错误");
         }
@@ -130,11 +130,11 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     }
 
     @Override
-    public R getWorksheetDetails(Long worksheetMakerId) {
+    public R<WorksheetXiaoVo> getWorksheetDetails(Long worksheetMakerId) {
         return R.data(baseMapper.getWorksheetDetails(worksheetMakerId));
     }
 
-    public synchronized R orderGrabbing(WorksheetEntity worksheetEntity,MakerEntity makerEntity,int worksheetCount){
+    public synchronized R<String> orderGrabbing(WorksheetEntity worksheetEntity,MakerEntity makerEntity,int worksheetCount){
 
         if(worksheetCount == worksheetEntity.getUppersonNum()){
             if(worksheetEntity.getWorksheetState().equals(WorksheetState.PUBLISHING)){

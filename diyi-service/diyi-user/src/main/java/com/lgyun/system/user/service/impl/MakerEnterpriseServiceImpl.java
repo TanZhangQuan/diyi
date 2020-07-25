@@ -33,7 +33,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
-    public R addOrCancelfollow(Long enterpriseId, Long makerId, Integer attribute) {
+    public R<String> addOrCancelfollow(Long enterpriseId, Long makerId, Integer attribute) {
         QueryWrapper<MakerEnterpriseEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(MakerEnterpriseEntity::getMakerId, makerId)
                 .eq(MakerEnterpriseEntity::getEnterpriseId, enterpriseId)

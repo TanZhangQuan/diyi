@@ -37,7 +37,7 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
     private IOrderClient orderClient;
 
     @Override
-    public R save(IndividualEnterpriseAddDto individualEnterpriseAddDto, MakerEntity makerEntity) {
+    public R<String> save(IndividualEnterpriseAddDto individualEnterpriseAddDto, MakerEntity makerEntity) {
 
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {

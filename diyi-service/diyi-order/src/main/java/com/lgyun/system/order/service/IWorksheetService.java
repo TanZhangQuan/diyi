@@ -22,7 +22,7 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      * @param releaseWorksheetDTO
      * @return
      */
-    R releaseWorksheet(ReleaseWorksheetDto releaseWorksheetDTO);
+    R<String> releaseWorksheet(ReleaseWorksheetDto releaseWorksheetDTO);
 
 
     /**
@@ -32,7 +32,7 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      * @param makerId
      * @return
      */
-    R orderGrabbing(Long worksheetId,Long makerId);
+    R<String> orderGrabbing(Long worksheetId,Long makerId);
 
     /**
      * 小程序查询工单
@@ -50,6 +50,6 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      * @param worksheetMakerId
      * @return
      */
-    R getWorksheetDetails(Long worksheetMakerId);
+    R<WorksheetXiaoVo> getWorksheetDetails(Long worksheetMakerId);
 }
 

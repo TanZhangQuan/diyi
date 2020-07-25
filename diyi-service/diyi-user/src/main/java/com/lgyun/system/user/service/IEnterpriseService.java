@@ -28,7 +28,7 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * @param makerId
      * @return
      */
-    R getEnterpriseId(Long enterpriseId,Long makerId);
+    R<MakerEnterpriseRelationVO> getEnterpriseId(Long enterpriseId,Long makerId);
 
 }
 

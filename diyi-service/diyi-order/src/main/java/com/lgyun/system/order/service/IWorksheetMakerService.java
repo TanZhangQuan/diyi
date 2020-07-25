@@ -34,7 +34,7 @@ public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity
      * @param achievementFiles
      * @return
      */
-    R submitAchievement(WorksheetMakerEntity worksheetMakerEntity,String achievementDesc,String achievementFiles);
+    R<String> submitAchievement(WorksheetMakerEntity worksheetMakerEntity,String achievementDesc,String achievementFiles);
 
 
     /**
@@ -46,7 +46,7 @@ public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity
      * @param bool
      * @return
      */
-    R checkAchievement(Long worksheetMakerId, BigDecimal checkMoney,Long enterpriseId,Boolean bool);
+    R<String> checkAchievement(Long worksheetMakerId, BigDecimal checkMoney,Long enterpriseId,Boolean bool);
 
     /**
      * 查询创客有没有抢单

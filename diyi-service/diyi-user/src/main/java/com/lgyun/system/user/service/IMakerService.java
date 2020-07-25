@@ -1,10 +1,12 @@
 package com.lgyun.system.user.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.dto.IdcardOcrSaveDto;
 import com.lgyun.system.user.entity.MakerEntity;
+import com.lgyun.system.user.vo.IdcardOcrVO;
 import com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO;
 import com.lgyun.system.user.vo.MakerInfoVO;
 
@@ -43,7 +45,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      * @throws Exception
      */
-    R idcardOcr(String idcardPic, MakerEntity makerEntity) throws Exception;
+    R<JSONObject> idcardOcr(String idcardPic, MakerEntity makerEntity) throws Exception;
 
     /**
      * 身份证实名认证信息保存
@@ -52,7 +54,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * @param makerEntity
      * @return
      */
-    R idcardOcrSave(IdcardOcrSaveDto idcardOcrSaveDto, MakerEntity makerEntity);
+    R<String> idcardOcrSave(IdcardOcrSaveDto idcardOcrSaveDto, MakerEntity makerEntity);
 
     /**
      * 身份实名认证
@@ -61,7 +63,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      * @throws Exception
      */
-    R faceOcr(MakerEntity makerEntity) throws Exception;
+    R<String> faceOcr(MakerEntity makerEntity) throws Exception;
 
     /**
      * 身份实名认证异步回调
@@ -70,7 +72,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      * @throws Exception
      */
-    R faceOcrNotify(HttpServletRequest request) throws Exception;
+    R<String> faceOcrNotify(HttpServletRequest request) throws Exception;
 
     /**
      * 银行卡实名认证
@@ -80,7 +82,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      * @throws Exception
      */
-    R bankCardOcr(String bankCardNo, MakerEntity makerEntity) throws Exception;
+    R<JSONObject> bankCardOcr(String bankCardNo, MakerEntity makerEntity) throws Exception;
 
     /**
      * 银行卡实名认证异步回调
@@ -89,7 +91,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      * @throws Exception
      */
-    R bankCardOcrNotify(HttpServletRequest request) throws Exception;
+    R<String> bankCardOcrNotify(HttpServletRequest request) throws Exception;
 
     /**
      * 银行卡实名认证
@@ -98,7 +100,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      * @throws Exception
      */
-    R mobileOcr(MakerEntity makerEntity) throws Exception;
+    R<JSONObject> mobileOcr(MakerEntity makerEntity) throws Exception;
 
     /**
      * 银行卡实名认证异步回调
@@ -107,7 +109,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      * @throws Exception
      */
-    R mobileOcrNotify(HttpServletRequest request) throws Exception;
+    R<String> mobileOcrNotify(HttpServletRequest request) throws Exception;
 
     /**
      * 查询当前创客身份证实名认证的照片
@@ -115,7 +117,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * @param makerEntity
      * @return
      */
-    R queryIdcardOcr(MakerEntity makerEntity);
+    R<IdcardOcrVO> queryIdcardOcr(MakerEntity makerEntity);
 
     /**
      * 获取运营者名称
@@ -165,7 +167,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * @param applyShortVideo
      * @return
      */
-    R uploadMakerVideo(MakerEntity makerEntity, String applyShortVideo);
+    R<String> uploadMakerVideo(MakerEntity makerEntity, String applyShortVideo);
 
 }
 

@@ -23,6 +23,6 @@ public interface IOnlineSignPicService extends BaseService<OnlineSignPicEntity> 
      * @param onlineAgreementNeedSignId
      * @return
      */
-    R saveOnlineSignPic(Long ObjectId, ObjectType objectType, String signPic, Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId);
+    R<String> saveOnlineSignPic(Long ObjectId, ObjectType objectType, String signPic, Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId);
 }
 

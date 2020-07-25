@@ -22,7 +22,7 @@ public class CommonServiceImpl implements ICommonService {
     private AliyunOssService ossService;
 
     @Override
-    public R ossImageUpload(MultipartFile file) throws Exception {
+    public R<String> ossImageUpload(MultipartFile file) throws Exception {
 
         if (file.isEmpty()) {
             return R.fail("上传文件不能为空");

@@ -5,6 +5,7 @@ import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDto;
 import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
+import com.lgyun.system.order.vo.SelfHelpInvoiceDetailsVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceYearMonthMoneyVO;
 
 /**
@@ -21,7 +22,7 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      * @param selfHelpInvoiceDto
      * @return
      */
-    R submitSelfHelpInvoice(SelfHelpInvoiceDto selfHelpInvoiceDto);
+    R<String> submitSelfHelpInvoice(SelfHelpInvoiceDto selfHelpInvoiceDto);
 
     /**
      * 查询开票详情
@@ -29,7 +30,7 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      * @param selfHelpInvoiceId
      * @return
      */
-    R getSelfHelpInvoiceDetails(Long selfHelpInvoiceId);
+    R<SelfHelpInvoiceDetailsVO> getSelfHelpInvoiceDetails(Long selfHelpInvoiceId);
 
     /**
      * 查询个体户月度开票金额和年度开票金额

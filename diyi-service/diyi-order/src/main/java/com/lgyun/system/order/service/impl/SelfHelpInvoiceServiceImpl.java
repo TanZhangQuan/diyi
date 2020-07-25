@@ -11,6 +11,7 @@ import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
 import com.lgyun.system.order.mapper.SelfHelpInvoiceMapper;
 import com.lgyun.system.order.service.ISelfHelpInvoiceDetailService;
 import com.lgyun.system.order.service.ISelfHelpInvoiceService;
+import com.lgyun.system.order.vo.SelfHelpInvoiceDetailsVO;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.feign.IUserClient;
@@ -36,7 +37,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
 
     @Override
     @Transactional
-    public R submitSelfHelpInvoice(SelfHelpInvoiceDto selfHelpInvoiceDto) {
+    public R<String> submitSelfHelpInvoice(SelfHelpInvoiceDto selfHelpInvoiceDto) {
         if(!selfHelpInvoiceDto.getInvoicePeopleType().equals(MakerType.NATURALPERSON) && null == selfHelpInvoiceDto.getBusinessEnterpriseId()){
             R.fail("参数错误");
         }
@@ -73,7 +74,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
-    public R getSelfHelpInvoiceDetails(Long selfHelpInvoiceId) {
+    public R<SelfHelpInvoiceDetailsVO> getSelfHelpInvoiceDetails(Long selfHelpInvoiceId) {
         SelfHelpInvoiceEntity selfHelpInvoiceEntity = getById(selfHelpInvoiceId);
         if(!selfHelpInvoiceEntity.getInvoiceAuditState().equals(InvoiceAuditState.APPROVED)){
             return R.fail("自助开票在审核中，请耐心等候");

@@ -29,7 +29,7 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
      * @param makerEntity
      * @return
      */
-    R save(IndividualBusinessAddDto individualBusinessAddDto, MakerEntity makerEntity);
+    R<String> save(IndividualBusinessAddDto individualBusinessAddDto, MakerEntity makerEntity);
 
     /**
      * 通过创客id查询个体户

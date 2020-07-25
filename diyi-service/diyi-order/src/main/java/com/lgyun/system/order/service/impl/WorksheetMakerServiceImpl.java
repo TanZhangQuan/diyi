@@ -38,7 +38,7 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
     }
 
     @Override
-    public R submitAchievement(WorksheetMakerEntity worksheetMakerEntity, String achievementDesc, String achievementFiles) {
+    public R<String> submitAchievement(WorksheetMakerEntity worksheetMakerEntity, String achievementDesc, String achievementFiles) {
         if(null == worksheetMakerEntity || null == achievementFiles || "" == achievementFiles){
             return R.fail("提交失败");
         }
@@ -51,7 +51,7 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
     }
 
     @Override
-    public R checkAchievement(Long worksheetMakerId, BigDecimal checkMoney, Long enterpriseId,Boolean bool) {
+    public R<String> checkAchievement(Long worksheetMakerId, BigDecimal checkMoney, Long enterpriseId,Boolean bool) {
         WorksheetMakerEntity worksheetMakerEntity = getById(worksheetMakerId);
         if(null == worksheetMakerEntity || null == checkMoney ||!worksheetMakerEntity.getWorksheetMakerState().equals(WorksheetMakerState.VERIFIED)){
             return R.fail("验收失败");

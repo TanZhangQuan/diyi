@@ -114,7 +114,7 @@ public class RealnameVerifyUtil {
     /**
      * 身份实名认证
      */
-    public static R faceOCR(Long contextId, String name, String certNo) throws Exception {
+    public static R<JSONObject> faceOCR(Long contextId, String name, String certNo) throws Exception {
 
         //指定页面显示认证方式
         List<String> availableAuthTypes = new ArrayList<>();
@@ -143,7 +143,7 @@ public class RealnameVerifyUtil {
     /**
      * 银行卡实名认证
      */
-    public static R bankCardOCR(Long contextId, String name, String certNo, String bankCardNo, String mobileNo) throws Exception {
+    public static R<JSONObject> bankCardOCR(Long contextId, String name, String certNo, String bankCardNo, String mobileNo) throws Exception {
 
         //指定页面显示认证方式
         List<String> availableAuthTypes = new ArrayList<>();
@@ -173,7 +173,7 @@ public class RealnameVerifyUtil {
     /**
      * 手机号实名认证
      */
-    public static R mobileOCR(Long contextId, String name, String certNo, String mobileNo) throws Exception {
+    public static R<JSONObject> mobileOCR(Long contextId, String name, String certNo, String mobileNo) throws Exception {
 
         //指定页面显示认证方式
         List<String> availableAuthTypes = new ArrayList<>();
@@ -202,7 +202,7 @@ public class RealnameVerifyUtil {
     /**
      * 人脸识别认证、银行卡认证以及手机认证
      */
-    public static R faceBankCardMobileOCR(String authType, List<String> availableAuthTypes, ContextInfo contextInfo, IndivInfo indivInfo, ConfigParams configParams) throws Exception {
+    public static R<JSONObject> faceBankCardMobileOCR(String authType, List<String> availableAuthTypes, ContextInfo contextInfo, IndivInfo indivInfo, ConfigParams configParams) throws Exception {
 
         //构建请求Body体
         JSONObject reqBodyObj = new JSONObject();

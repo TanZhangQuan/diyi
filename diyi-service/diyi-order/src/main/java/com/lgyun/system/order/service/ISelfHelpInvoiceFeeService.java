@@ -19,6 +19,6 @@ public interface ISelfHelpInvoiceFeeService extends BaseService<SelfHelpInvoiceF
      * @param confirmPaymentDto
      * @return
      */
-    R confirmPayment(ConfirmPaymentDto confirmPaymentDto);
+    R<String> confirmPayment(ConfirmPaymentDto confirmPaymentDto);
 }
 

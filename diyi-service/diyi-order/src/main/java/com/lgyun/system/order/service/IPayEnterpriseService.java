@@ -42,6 +42,6 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @param payMakerId
      * @return
      */
-    R getEnterpriseMakerIdDetail(Long makerId,Long enterpriseId,Long payMakerId);
+    R<InvoiceEnterpriseVO> getEnterpriseMakerIdDetail(Long makerId,Long enterpriseId,Long payMakerId);
 }
 

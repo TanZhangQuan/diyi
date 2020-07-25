@@ -30,6 +30,6 @@ public interface IRunCompanyService extends BaseService<RunCompanyEntity> {
      * @param runCompanyDto
      * @return
      */
-    R runCompanySave(RunCompanyDto runCompanyDto);
+    R<String> runCompanySave(RunCompanyDto runCompanyDto);
 }
 

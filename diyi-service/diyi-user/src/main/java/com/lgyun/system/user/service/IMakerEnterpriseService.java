@@ -32,7 +32,7 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
      * @param attribute
      * @return
      */
-    R addOrCancelfollow(Long enterpriseId, Long makerId, Integer attribute);
+    R<String> addOrCancelfollow(Long enterpriseId, Long makerId, Integer attribute);
 
     /**
      * 通过商户id和创客id查询

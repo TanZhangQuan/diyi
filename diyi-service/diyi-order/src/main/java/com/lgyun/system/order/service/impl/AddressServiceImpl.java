@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEntity> implements IAddressService {
 
     @Override
-    public R saveAddress(AddressDto addressDto, Long makerId) {
+    public R<String> saveAddress(AddressDto addressDto, Long makerId) {
         AddressEntity addressEntity = new AddressEntity();
         BeanUtils.copyProperties(addressDto, addressEntity);
         addressEntity.setMakerId(makerId);
@@ -34,16 +34,18 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
 
     @Override
     public R<IPage<AddressEntity>> findAddressMakerId(IPage<AddressEntity> page, Long makerId) {
+
+
         return R.data(page.setRecords(baseMapper.findAddressMakerId(page, makerId)));
     }
 
     @Override
-    public R getAddressById(Long addressId) {
+    public R<AddressEntity> getAddressById(Long addressId) {
         return R.data(getById(addressId));
     }
 
     @Override
-    public R updateAddress(AddressDto addressDto) {
+    public R<String> updateAddress(AddressDto addressDto) {
         AddressEntity addressEntity = getById(addressDto.getAddressId());
         BeanUtils.copyProperties(addressDto, addressEntity);
         saveOrUpdate(addressEntity);
@@ -51,7 +53,7 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
     }
 
     @Override
-    public R deleteAddress(Long addressId) {
+    public R<String> deleteAddress(Long addressId) {
         removeById(addressId);
         return R.success("删除成功");
     }

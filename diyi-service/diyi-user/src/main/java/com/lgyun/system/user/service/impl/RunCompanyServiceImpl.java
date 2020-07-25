@@ -42,7 +42,7 @@ public class RunCompanyServiceImpl extends BaseServiceImpl<RunCompanyMapper, Run
     }
 
     @Override
-    public R runCompanySave(RunCompanyDto runCompanyDto) {
+    public R<String> runCompanySave(RunCompanyDto runCompanyDto) {
         QueryWrapper<RunCompanyEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(RunCompanyEntity::getCompanyName, runCompanyDto.getCompanyName())
                 .eq(RunCompanyEntity::getMakerId, runCompanyDto.getMakerId());

@@ -21,7 +21,7 @@ public interface IAddressService extends BaseService<AddressEntity> {
      * @param makerId
      * @return
      */
-    R saveAddress(AddressDto addressDto, Long makerId);
+    R<String> saveAddress(AddressDto addressDto, Long makerId);
 
 
     /**
@@ -39,7 +39,7 @@ public interface IAddressService extends BaseService<AddressEntity> {
      * @param addressId
      * @return
      */
-    R getAddressById(Long addressId);
+    R<AddressEntity> getAddressById(Long addressId);
 
     /**
      * 地址编辑接口
@@ -47,7 +47,7 @@ public interface IAddressService extends BaseService<AddressEntity> {
      * @param addressDto
      * @return
      */
-    R updateAddress(AddressDto addressDto);
+    R<String> updateAddress(AddressDto addressDto);
 
     /**
      * 地址删除接口
@@ -55,6 +55,6 @@ public interface IAddressService extends BaseService<AddressEntity> {
      * @param addressId
      * @return
      */
-    R deleteAddress(Long addressId);
+    R<String> deleteAddress(Long addressId);
 }
 

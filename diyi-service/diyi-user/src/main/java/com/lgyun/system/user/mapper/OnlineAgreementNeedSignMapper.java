@@ -18,6 +18,5 @@ public interface OnlineAgreementNeedSignMapper extends BaseMapper<OnlineAgreemen
 
     List<OnlineAgreementNeedSignVO> getOnlineAgreementNeedSign(Long makerId,Integer isContract);
 
-
 }
 

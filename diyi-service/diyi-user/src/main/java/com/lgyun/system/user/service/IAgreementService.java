@@ -5,6 +5,7 @@ import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.AgreementEntity;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Service 接口
@@ -22,7 +23,7 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
      * @param onlineAgreementNeedSignId
      * @return
      */
-    R makerIdFind(Long makerId, Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId);
+    R<Map> makerIdFind(Long makerId, Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId);
 
     /**
      * 根据商户找合同

@@ -41,7 +41,7 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
 
     @Override
     @Transactional
-    public R saveOnlineSignPic(Long ObjectId, ObjectType objectType, String signPic, Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId) {
+    public R<String> saveOnlineSignPic(Long ObjectId, ObjectType objectType, String signPic, Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId) {
         QueryWrapper<OnlineSignPicEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(OnlineSignPicEntity::getObjectId, ObjectId)
                 .eq(OnlineSignPicEntity::getObjectType, ObjectType.MAKERPEOPLE);

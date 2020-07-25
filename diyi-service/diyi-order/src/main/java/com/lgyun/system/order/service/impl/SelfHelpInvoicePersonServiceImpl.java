@@ -30,7 +30,7 @@ public class SelfHelpInvoicePersonServiceImpl extends BaseServiceImpl<SelfHelpIn
     }
 
     @Override
-    public R saveSelfHelpInvoicePerson(SelfHelpInvoicePersonDto selfHelpInvoicePersonDto, Long makerId) {
+    public R<String> saveSelfHelpInvoicePerson(SelfHelpInvoicePersonDto selfHelpInvoicePersonDto, Long makerId) {
         SelfHelpInvoicePersonEntity personEntity = new SelfHelpInvoicePersonEntity();
         BeanUtils.copyProperties(selfHelpInvoicePersonDto, personEntity);
         personEntity.setMakerId(makerId);

@@ -23,7 +23,7 @@ public interface ISelfHelpInvoicePersonService extends BaseService<SelfHelpInvoi
      * @param makerType
      * @return
      */
-    R findPersonMakerId(IPage<SelfHelpInvoicePersonEntity> page, Long makerId, MakerType makerType);
+    R<IPage<SelfHelpInvoicePersonEntity>> findPersonMakerId(IPage<SelfHelpInvoicePersonEntity> page, Long makerId, MakerType makerType);
 
     /**
      * 新建开票人
@@ -32,6 +32,6 @@ public interface ISelfHelpInvoicePersonService extends BaseService<SelfHelpInvoi
      * @param makerId
      * @return
      */
-    R saveSelfHelpInvoicePerson(SelfHelpInvoicePersonDto selfHelpInvoicePersonDto, Long makerId);
+    R<String> saveSelfHelpInvoicePerson(SelfHelpInvoicePersonDto selfHelpInvoicePersonDto, Long makerId);
 }
 

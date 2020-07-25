@@ -31,7 +31,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     private IOnlineAgreementTemplateService iOnlineAgreementTemplateService;
 
     @Override
-    public R makerIdFind(Long makerId, Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId) {
+    public R<Map> makerIdFind(Long makerId, Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId) {
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(AgreementEntity::getEnterpriseId, makerId)
                 .eq(AgreementEntity::getOnlineAgreementTemplateId, onlineAgreementTemplateId);

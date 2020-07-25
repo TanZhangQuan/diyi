@@ -18,6 +18,6 @@ public interface ICommonService {
      * @return
      * @throws Exception
      */
-    R ossImageUpload(MultipartFile file) throws Exception;
+    R<String> ossImageUpload(MultipartFile file) throws Exception;
 
 }

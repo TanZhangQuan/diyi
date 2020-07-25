@@ -29,7 +29,7 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
      * @param makerEntity
      * @return
      */
-    R save(IndividualEnterpriseAddDto individualEnterpriseAddDto, MakerEntity makerEntity);
+    R<String> save(IndividualEnterpriseAddDto individualEnterpriseAddDto, MakerEntity makerEntity);
 
     /**
      * 通过创客id查询个独
@@ -47,7 +47,7 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
      * @param ibstate
      * @return
      */
-    R listByMaker(IPage<IndividualEnterpriseListByMakerVO> page, Long makerId, Ibstate ibstate);
+    R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker(IPage<IndividualEnterpriseListByMakerVO> page, Long makerId, Ibstate ibstate);
 
     /**
      * 根据ID查询个独详情

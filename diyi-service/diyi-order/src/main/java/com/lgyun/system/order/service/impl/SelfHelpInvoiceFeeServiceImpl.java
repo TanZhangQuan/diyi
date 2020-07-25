@@ -24,7 +24,7 @@ public class SelfHelpInvoiceFeeServiceImpl extends BaseServiceImpl<SelfHelpInvoi
 
     @Override
     @Transactional
-    public R confirmPayment(ConfirmPaymentDto confirmPaymentDto) {
+    public R<String> confirmPayment(ConfirmPaymentDto confirmPaymentDto) {
         if(null == confirmPaymentDto.getHandPayId()){
             R.fail("参数错误");
         }
