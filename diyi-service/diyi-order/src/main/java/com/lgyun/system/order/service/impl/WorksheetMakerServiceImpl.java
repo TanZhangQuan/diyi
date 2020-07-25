@@ -1,5 +1,6 @@
 package com.lgyun.system.order.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.MakerType;
@@ -20,7 +21,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- *  Service 实现
+ * Service 实现
  *
  * @author jun
  * @since 2020-07-07 14:40:21
@@ -39,7 +40,7 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
 
     @Override
     public R<String> submitAchievement(WorksheetMakerEntity worksheetMakerEntity, String achievementDesc, String achievementFiles) {
-        if(null == worksheetMakerEntity || null == achievementFiles || "" == achievementFiles){
+        if (null == worksheetMakerEntity || null == achievementFiles || "" == achievementFiles) {
             return R.fail("提交失败");
         }
         worksheetMakerEntity.setAchievementDesc(achievementDesc);
@@ -51,18 +52,18 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
     }
 
     @Override
-    public R<String> checkAchievement(Long worksheetMakerId, BigDecimal checkMoney, Long enterpriseId,Boolean bool) {
+    public R<String> checkAchievement(Long worksheetMakerId, BigDecimal checkMoney, Long enterpriseId, Boolean bool) {
         WorksheetMakerEntity worksheetMakerEntity = getById(worksheetMakerId);
-        if(null == worksheetMakerEntity || null == checkMoney ||!worksheetMakerEntity.getWorksheetMakerState().equals(WorksheetMakerState.VERIFIED)){
+        if (null == worksheetMakerEntity || null == checkMoney || !worksheetMakerEntity.getWorksheetMakerState().equals(WorksheetMakerState.VERIFIED)) {
             return R.fail("验收失败");
         }
         EnterpriseEntity byId = iUserClient.getEnterpriseById(enterpriseId);
         worksheetMakerEntity.setCheckDate(new Date());
         worksheetMakerEntity.setCheckMoney(checkMoney);
         worksheetMakerEntity.setCheckPerson(byId.getEnterpriseName());
-        if(bool){
+        if (bool) {
             worksheetMakerEntity.setWorksheetMakerState(WorksheetMakerState.VALIDATION);
-        }else{
+        } else {
             worksheetMakerEntity.setWorksheetMakerState(WorksheetMakerState.FAILED);
         }
         saveOrUpdate(worksheetMakerEntity);
@@ -101,9 +102,14 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
 
     @Override
     public Boolean isMakerId(Long makerId, Long worksheetId) {
-        Boolean bool =true;
-        WorksheetMakerEntity worksheetMakerEntity = baseMapper.isMakerId(makerId, worksheetId);
-        if(null != worksheetMakerEntity){
+
+        boolean bool = true;
+        QueryWrapper<WorksheetMakerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(WorksheetMakerEntity::getMakerId, makerId)
+                .eq(WorksheetMakerEntity::getWorksheetId, worksheetId);
+
+        WorksheetMakerEntity worksheetMakerEntity = baseMapper.selectOne(queryWrapper);
+        if (null != worksheetMakerEntity) {
             bool = false;
         }
         return bool;

@@ -5,7 +5,6 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.RealnameVerifyUtil;
-import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.dto.DictDTO;
 import com.lgyun.system.entity.Dict;
@@ -74,9 +73,7 @@ public class SelfHelpInvoiceController {
         log.info("通过创客id查询购买方");
         try {
             MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
-            Integer current = query == null || query.getCurrent() == null ? 1 : query.getCurrent();
-            Integer size = query == null || query.getSize() == null ? 10 : query.getSize();
-            return iUserClient.findRunCompanyMakerId(current, size, makerEntity.getId());
+            return iUserClient.findRunCompanyMakerId(query.getCurrent(), query.getSize(), makerEntity.getId());
         } catch (Exception e) {
             e.printStackTrace();
             return R.fail("通过创客id查询购买方失败");
@@ -102,18 +99,16 @@ public class SelfHelpInvoiceController {
         log.info("根据创客Idc查询自助开票非创客开票人");
         try {
             MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
-            Integer current = query == null || query.getCurrent() == null ? 1 : query.getCurrent();
-            Integer size = query == null || query.getSize() == null ? 10 : query.getSize();
             switch (makerType) {
 
                 case INDIVIDUALBUSINESS:
-                    return iUserClient.individualBusinessListByMaker(current, size, makerEntity.getId(), null);
+                    return iUserClient.individualBusinessListByMaker(query.getCurrent(), query.getSize(), makerEntity.getId(), null);
 
                 case NATURALPERSON:
-                    return selfHelpInvoicePersonService.findPersonMakerId(Condition.getPage(query), makerEntity.getId(), makerType);
+                    return selfHelpInvoicePersonService.findPersonMakerId(query.getCurrent(), query.getSize(), makerEntity.getId(), makerType);
 
                 case INDIVIDUALENTERPRISE:
-                    return iUserClient.individualEnterpriseListByMaker(current, size, makerEntity.getId(), null);
+                    return iUserClient.individualEnterpriseListByMaker(query.getCurrent(), query.getSize(), makerEntity.getId(), null);
 
                 default:
                     return R.fail("创客类型有误");
@@ -179,7 +174,7 @@ public class SelfHelpInvoiceController {
         log.info("查询收货地址");
         try {
             MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
-            return addressService.findAddressMakerId(Condition.getPage(query), makerEntity.getId());
+            return addressService.findAddressMakerId(query.getCurrent(), query.getCurrent(), makerEntity.getId());
         } catch (Exception e) {
             e.printStackTrace();
             return R.fail("查询收货地址失败");

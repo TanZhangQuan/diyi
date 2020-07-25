@@ -1,6 +1,8 @@
 package com.lgyun.system.order.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
@@ -25,8 +27,12 @@ import org.springframework.stereotype.Service;
 public class SelfHelpInvoicePersonServiceImpl extends BaseServiceImpl<SelfHelpInvoicePersonMapper, SelfHelpInvoicePersonEntity> implements ISelfHelpInvoicePersonService {
 
     @Override
-    public R<IPage<SelfHelpInvoicePersonEntity>> findPersonMakerId(IPage<SelfHelpInvoicePersonEntity> page, Long makerId, MakerType makerType) {
-        return R.data(page.setRecords(baseMapper.findPersonMakerId(page, makerId)));
+    public R<IPage<SelfHelpInvoicePersonEntity>> findPersonMakerId(Integer current, Integer size, Long makerId, MakerType makerType) {
+        QueryWrapper<SelfHelpInvoicePersonEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(SelfHelpInvoicePersonEntity::getMakerId, makerId);
+
+        IPage<SelfHelpInvoicePersonEntity> page = this.page(new Page<>(current, size), queryWrapper);
+        return R.data(page);
     }
 
     @Override

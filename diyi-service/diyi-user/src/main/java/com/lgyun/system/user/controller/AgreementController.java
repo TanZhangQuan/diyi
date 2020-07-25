@@ -72,11 +72,12 @@ public class AgreementController {
     public R getEmployeeIdAgreement(Long agreementId) {
         log.info("查看商户合同");
         try {
-            AgreementEntity agreementEntities = agreementService.getById(agreementId);
-            if (null == agreementEntities) {
-                R.data("");
+            AgreementEntity agreementEntity = agreementService.getById(agreementId);
+            if (null == agreementEntity) {
+                R.fail("合同不存在");
             }
-            return R.data(agreementEntities.getOnlineAggrementUrl());
+
+            return R.data(agreementEntity.getOnlineAggrementUrl());
         } catch (Exception e) {
             log.error("查看商户合同异常", e);
         }

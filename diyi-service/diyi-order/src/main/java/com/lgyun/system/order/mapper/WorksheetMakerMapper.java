@@ -41,15 +41,6 @@ public interface WorksheetMakerMapper extends BaseMapper<WorksheetMakerEntity> {
     AllIncomeYearMonthVO queryAllMoneyByYearMonth(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year, Long month);
 
     /**
-     * 查询创客有没有抢单
-     *
-     * @param makerId
-     * @param worksheetId
-     * @return
-     */
-    WorksheetMakerEntity isMakerId(Long makerId, Long worksheetId);
-
-    /**
      * 根据工单类型，创客类型查询每年收入
      *
      * @param worksheetType

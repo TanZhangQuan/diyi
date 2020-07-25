@@ -132,8 +132,4 @@
         </if>
     </select>
 
-    <select id="isMakerId" resultMap="worksheetMakerMap">
-        select * from diyi_worksheet_maker where maker_id = #{param1} and worksheet_id=#{param2}  and is_deleted = 0
-    </select>
-
 </mapper>

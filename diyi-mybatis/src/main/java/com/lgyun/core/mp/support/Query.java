@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * 分页工具
  *
@@ -14,19 +16,19 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ApiModel(description = "查询条件")
-public class Query {
+public class Query implements Serializable {
 
     /**
      * 当前页
      */
     @ApiModelProperty(value = "当前页")
-    private Integer current;
+    private Integer current = 1;
 
     /**
      * 每页的数量
      */
     @ApiModelProperty(value = "每页的数量")
-    private Integer size;
+    private Integer size = 10;
 
     /**
      * 排序的字段名

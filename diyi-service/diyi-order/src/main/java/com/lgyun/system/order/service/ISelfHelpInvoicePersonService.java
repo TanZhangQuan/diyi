@@ -18,12 +18,13 @@ public interface ISelfHelpInvoicePersonService extends BaseService<SelfHelpInvoi
     /**
      * 根据创客Idc查询自助开票非创客开票人
      *
-     * @param page
+     * @param current
+     * @param size
      * @param makerId
      * @param makerType
      * @return
      */
-    R<IPage<SelfHelpInvoicePersonEntity>> findPersonMakerId(IPage<SelfHelpInvoicePersonEntity> page, Long makerId, MakerType makerType);
+    R<IPage<SelfHelpInvoicePersonEntity>> findPersonMakerId(Integer current, Integer size, Long makerId, MakerType makerType);
 
     /**
      * 新建开票人

@@ -18,7 +18,12 @@ import java.util.List;
 public interface MakerEnterpriseMapper extends BaseMapper<MakerEnterpriseEntity> {
 
     /**
-     * 自定义分页
+     * 查询合作商户
+     *
+     * @param makerId
+     * @param relationshipType
+     * @param page
+     * @return
      */
     List<MakerEnterpriseRelationVO> selectMakerEnterprisePage(Long makerId, Integer relationshipType, IPage<MakerEnterpriseRelationVO> page);
 

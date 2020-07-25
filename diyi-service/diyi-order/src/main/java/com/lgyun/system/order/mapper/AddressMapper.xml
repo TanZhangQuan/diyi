@@ -22,7 +22,4 @@
         <result property="isDeleted" column="is_deleted"/>
     </resultMap>
 
-    <select id="findAddressMakerId" resultMap="addressMap">
-        select *from diyi_address where is_deleted = 0 and maker_id = #{param2}
-    </select>
 </mapper>

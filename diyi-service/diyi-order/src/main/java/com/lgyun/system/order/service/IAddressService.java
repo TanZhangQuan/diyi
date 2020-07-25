@@ -25,13 +25,14 @@ public interface IAddressService extends BaseService<AddressEntity> {
 
 
     /**
-     * 通过创客Id去查询
+     * 查询收货地址
      *
-     * @param page
+     * @param current
+     * @param size
      * @param makerId
      * @return
      */
-    R<IPage<AddressEntity>> findAddressMakerId(IPage<AddressEntity> page, Long makerId);
+    R<IPage<AddressEntity>> findAddressMakerId(Integer current, Integer size, Long makerId);
 
     /**
      * 地址详情接口
