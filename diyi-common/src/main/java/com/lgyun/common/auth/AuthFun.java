@@ -1,9 +1,9 @@
 package com.lgyun.common.auth;
 
-import com.lgyun.common.tool.SecureUtil;
 import com.lgyun.common.constant.RoleConstant;
 import com.lgyun.common.tool.CollectionUtil;
 import com.lgyun.common.tool.Func;
+import com.lgyun.common.tool.SecureUtil;
 import com.lgyun.common.tool.StringUtil;
 
 /**

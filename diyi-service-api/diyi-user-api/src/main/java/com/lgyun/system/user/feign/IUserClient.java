@@ -1,5 +1,6 @@
 package com.lgyun.system.user.feign;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
 import com.lgyun.common.enumeration.GrantType;
@@ -8,6 +9,8 @@ import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.*;
+import com.lgyun.system.user.vo.IndividualBusinessListByMakerVO;
+import com.lgyun.system.user.vo.IndividualEnterpriseListByMakerVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -119,7 +122,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/wechat-authorization")
-    R makerSaveOrUpdate(@RequestParam("openid") String openid, @RequestParam("sessionKey") String sessionKey, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
+    R<String> makerSaveOrUpdate(@RequestParam("openid") String openid, @RequestParam("sessionKey") String sessionKey, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 获取个独信息
@@ -148,7 +151,7 @@ public interface IUserClient {
      * @return
      */
     @GetMapping(API_PREFIX + "/runCompany/find_by_maker_id")
-    R findRunCompanyMakerId(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId);
+    R<IPage<RunCompanyEntity>> findRunCompanyMakerId(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId);
 
     /**
      * 新增平台运营公司（平台方）信息ID
@@ -157,7 +160,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/runCompanySave")
-    R runCompanySave(@Valid @RequestBody RunCompanyDto runCompanyDto);
+    R<String> runCompanySave(@Valid @RequestBody RunCompanyDto runCompanyDto);
 
     /**
      * 查询当前创客的所有个独
@@ -169,7 +172,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/individualEnterprise/listByMaker")
-    R individualEnterpriseListByMaker(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId, @RequestParam("ibstate") Ibstate ibstate);
+    R<IPage<IndividualEnterpriseListByMakerVO>> individualEnterpriseListByMaker(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId, @RequestParam("ibstate") Ibstate ibstate);
 
     /**
      * 查询当前创客的所有个体户
@@ -181,7 +184,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/individualBusiness/listByMaker")
-    R individualBusinessListByMaker(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId, @RequestParam("ibstate") Ibstate ibstate);
+    R<IPage<IndividualBusinessListByMakerVO>> individualBusinessListByMaker(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId, @RequestParam("ibstate") Ibstate ibstate);
 
     /**
      * 根据Id获取个独信息

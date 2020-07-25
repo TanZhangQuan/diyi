@@ -32,26 +32,26 @@ public class XmlMapUtil {
      * @throws Exception
      */
     public static Map<String, String> xmlToMap(String strXML) throws Exception {
-        Map<String, String> data = new HashMap<String, String>();
-        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder documentBuilder= documentBuilderFactory.newDocumentBuilder();
+
+        Map<String, String> data = new HashMap<>();
         InputStream stream = new ByteArrayInputStream(strXML.getBytes("UTF-8"));
-        org.w3c.dom.Document doc = documentBuilder.parse(stream);
-        doc.getDocumentElement().normalize();
-        NodeList nodeList = doc.getDocumentElement().getChildNodes();
-        for (int idx=0; idx<nodeList.getLength(); ++idx) {
-            Node node = nodeList.item(idx);
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                org.w3c.dom.Element element = (org.w3c.dom.Element) node;
-                data.put(element.getNodeName(), element.getTextContent());
-            }
-        }
         try {
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            org.w3c.dom.Document doc = documentBuilder.parse(stream);
+            doc.getDocumentElement().normalize();
+            NodeList nodeList = doc.getDocumentElement().getChildNodes();
+            for (int idx = 0; idx < nodeList.getLength(); ++idx) {
+                Node node = nodeList.item(idx);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    org.w3c.dom.Element element = (org.w3c.dom.Element) node;
+                    data.put(element.getNodeName(), element.getTextContent());
+                }
+            }
+        } finally {
             stream.close();
         }
-        catch (Exception ex) {
 
-        }
         return data;
     }
 
@@ -64,11 +64,11 @@ public class XmlMapUtil {
      */
     public static String mapToXml(Map<String, String> data) throws Exception {
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder documentBuilder= documentBuilderFactory.newDocumentBuilder();
+        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
         org.w3c.dom.Document document = documentBuilder.newDocument();
         org.w3c.dom.Element root = document.createElement("xml");
         document.appendChild(root);
-        for (String key: data.keySet()) {
+        for (String key : data.keySet()) {
             String value = data.get(key);
             if (value == null) {
                 value = "";
@@ -89,8 +89,7 @@ public class XmlMapUtil {
         String output = writer.getBuffer().toString();
         try {
             writer.close();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
         }
         return output;
     }

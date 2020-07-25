@@ -1,5 +1,6 @@
 package com.lgyun.common.tool;
 
+import com.lgyun.common.enumeration.RandomType;
 import com.lgyun.common.support.StrFormatter;
 import com.lgyun.common.support.StrSpliter;
 import org.springframework.util.Assert;

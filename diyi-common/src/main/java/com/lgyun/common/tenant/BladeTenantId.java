@@ -1,6 +1,6 @@
 package com.lgyun.common.tenant;
 
-import com.lgyun.common.tool.RandomType;
+import com.lgyun.common.enumeration.RandomType;
 import com.lgyun.common.tool.StringUtil;
 
 /**

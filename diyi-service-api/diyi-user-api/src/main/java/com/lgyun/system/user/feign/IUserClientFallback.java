@@ -1,5 +1,6 @@
 package com.lgyun.system.user.feign;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.Ibstate;
@@ -7,6 +8,8 @@ import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.*;
+import com.lgyun.system.user.vo.IndividualBusinessListByMakerVO;
+import com.lgyun.system.user.vo.IndividualEnterpriseListByMakerVO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -60,8 +63,8 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public R makerSaveOrUpdate(String openid, String sessionKey, String phoneNumber, String loginPwd, GrantType grantType) {
-        return R.fail("访问请求失败，未获取到账号信息");
+    public R<String> makerSaveOrUpdate(String openid, String sessionKey, String phoneNumber, String loginPwd, GrantType grantType) {
+        return R.fail("网络繁忙，请稍后尝试");
     }
 
     @Override
@@ -75,23 +78,23 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public R findRunCompanyMakerId(Integer current, Integer size, Long makerId) {
-        return R.fail("未获取到账号信息");
+    public R<IPage<RunCompanyEntity>> findRunCompanyMakerId(Integer current, Integer size, Long makerId) {
+        return R.fail("网络繁忙，请稍后尝试");
     }
 
     @Override
-    public R runCompanySave(RunCompanyDto runCompanyDto) {
-        return R.fail("访问请求失败，未获取到账号信息");
+    public R<String> runCompanySave(RunCompanyDto runCompanyDto) {
+        return R.fail("网络繁忙，请稍后尝试");
     }
 
     @Override
-    public R individualEnterpriseListByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate) {
-        return R.fail("访问请求失败，未获取到账号信息");
+    public R<IPage<IndividualEnterpriseListByMakerVO>> individualEnterpriseListByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate) {
+        return R.fail("网络繁忙，请稍后尝试");
     }
 
     @Override
-    public R individualBusinessListByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate) {
-        return R.fail("访问请求失败，未获取到账号信息");
+    public R<IPage<IndividualBusinessListByMakerVO>> individualBusinessListByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate) {
+        return R.fail("网络繁忙，请稍后尝试");
     }
 
     @Override
