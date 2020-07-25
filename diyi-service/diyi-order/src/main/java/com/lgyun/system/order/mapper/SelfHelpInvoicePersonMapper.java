@@ -15,8 +15,13 @@ import java.util.List;
  */
 @Mapper
 public interface SelfHelpInvoicePersonMapper extends BaseMapper<SelfHelpInvoicePersonEntity> {
+
     /**
      * 根据创客Idc查询自助开票非创客开票人
+     *
+     * @param page
+     * @param makerId
+     * @return
      */
     List<SelfHelpInvoicePersonEntity> findPersonMakerId(IPage page, Long makerId);
 }

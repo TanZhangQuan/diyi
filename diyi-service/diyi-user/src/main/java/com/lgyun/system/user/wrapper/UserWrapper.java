@@ -21,7 +21,6 @@ import java.util.List;
 public class UserWrapper extends BaseEntityWrapper<User, UserVO> {
 
 	private static IUserService userService;
-
 	private static IDictClient dictClient;
 
 	static {

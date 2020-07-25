@@ -21,7 +21,6 @@ public class IndividualBusinessWrapper extends BaseEntityWrapper<IndividualBusin
 		makerService = SpringUtil.getBean(IMakerService.class);
 	}
 
-
 	public static IndividualBusinessWrapper build() {
         return new IndividualBusinessWrapper();
     }

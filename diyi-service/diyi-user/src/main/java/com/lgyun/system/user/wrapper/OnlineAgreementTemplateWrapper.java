@@ -19,8 +19,7 @@ public class OnlineAgreementTemplateWrapper extends BaseEntityWrapper<OnlineAgre
 
     @Override
     public OnlineAgreementTemplateVO entityVO(OnlineAgreementTemplateEntity onlineAgreementTemplate) {
-        OnlineAgreementTemplateVO onlineAgreementTemplateVO = BeanUtil.copy(onlineAgreementTemplate, OnlineAgreementTemplateVO.class);
-        return onlineAgreementTemplateVO;
+        return BeanUtil.copy(onlineAgreementTemplate, OnlineAgreementTemplateVO.class);
     }
 
 }

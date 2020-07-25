@@ -19,9 +19,7 @@ public class AddressWrapper extends BaseEntityWrapper<AddressEntity, AddressVO> 
 
 	@Override
 	public AddressVO entityVO(AddressEntity address) {
-			AddressVO addressVO = BeanUtil.copy(address, AddressVO.class);
-
-		return addressVO;
+		return BeanUtil.copy(address, AddressVO.class);
 	}
 
 }

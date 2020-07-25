@@ -6,13 +6,19 @@ import com.lgyun.system.order.vo.SelfHelpInvoiceAccountVO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- *  Mapper
+ * Mapper
  *
  * @author jun
  * @since 2020-07-08 14:32:47
  */
 @Mapper
 public interface SelfHelpInvoiceAccountMapper extends BaseMapper<SelfHelpInvoiceAccountEntity> {
-   SelfHelpInvoiceAccountVO immediatePayment();
+
+    /**
+     * 立即支付
+     *
+     * @return
+     */
+    SelfHelpInvoiceAccountVO immediatePayment();
 }
 

@@ -19,8 +19,7 @@ public class OnlineAgreementNeedSignWrapper extends BaseEntityWrapper<OnlineAgre
 
     @Override
     public OnlineAgreementNeedSignVO entityVO(OnlineAgreementNeedSignEntity onlineAgreementNeedSign) {
-        OnlineAgreementNeedSignVO onlineAgreementNeedSignVO = BeanUtil.copy(onlineAgreementNeedSign, OnlineAgreementNeedSignVO.class);
-        return onlineAgreementNeedSignVO;
+        return BeanUtil.copy(onlineAgreementNeedSign, OnlineAgreementNeedSignVO.class);
     }
 
 }

@@ -19,8 +19,7 @@ public class SetupWrapper extends BaseEntityWrapper<SetupEntity, SetupVO> {
 
     @Override
     public SetupVO entityVO(SetupEntity setup) {
-        SetupVO setupVO = BeanUtil.copy(setup, SetupVO.class);
-        return setupVO;
+        return BeanUtil.copy(setup, SetupVO.class);
     }
 
 }

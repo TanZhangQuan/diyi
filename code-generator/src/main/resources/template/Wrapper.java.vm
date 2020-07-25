@@ -19,8 +19,7 @@ public class ${className}Wrapper extends BaseEntityWrapper<${className}Entity, $
 
     @Override
     public ${className}VO entityVO(${className}Entity ${classname}) {
-        ${className}VO ${classname}VO = BeanUtil.copy(${classname}, ${className}VO.class);
-        return ${classname}VO;
+        return BeanUtil.copy(${classname}, ${className}VO.class);
     }
 
 }

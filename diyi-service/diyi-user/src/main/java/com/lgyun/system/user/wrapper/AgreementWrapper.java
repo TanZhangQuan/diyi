@@ -19,8 +19,7 @@ public class AgreementWrapper extends BaseEntityWrapper<AgreementEntity, Agreeme
 
     @Override
     public AgreementVO entityVO(AgreementEntity agreement) {
-        AgreementVO agreementVO = BeanUtil.copy(agreement, AgreementVO.class);
-        return agreementVO;
+        return BeanUtil.copy(agreement, AgreementVO.class);
     }
 
 }

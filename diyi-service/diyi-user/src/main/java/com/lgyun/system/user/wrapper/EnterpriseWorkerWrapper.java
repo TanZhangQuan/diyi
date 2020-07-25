@@ -19,8 +19,7 @@ public class EnterpriseWorkerWrapper extends BaseEntityWrapper<EnterpriseWorkerE
 
     @Override
     public EnterpriseWorkerVO entityVO(EnterpriseWorkerEntity enterpriseWorker) {
-        EnterpriseWorkerVO enterpriseWorkerVO = BeanUtil.copy(enterpriseWorker, EnterpriseWorkerVO.class);
-        return enterpriseWorkerVO;
+        return BeanUtil.copy(enterpriseWorker, EnterpriseWorkerVO.class);
     }
 
 }

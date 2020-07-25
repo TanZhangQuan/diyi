@@ -19,8 +19,7 @@ public class AcceptPaysheetWrapper extends BaseEntityWrapper<AcceptPaysheetEntit
 
     @Override
     public AcceptPaysheetVO entityVO(AcceptPaysheetEntity acceptPaysheet) {
-        AcceptPaysheetVO acceptPaysheetVO = BeanUtil.copy(acceptPaysheet, AcceptPaysheetVO.class);
-        return acceptPaysheetVO;
+        return BeanUtil.copy(acceptPaysheet, AcceptPaysheetVO.class);
     }
 
 }

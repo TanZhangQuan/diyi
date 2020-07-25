@@ -11,6 +11,7 @@ import com.lgyun.system.order.vo.SelfHelpInvoiceAccountVO;
  * @since 2020-07-08 14:32:47
  */
 public interface ISelfHelpInvoiceAccountService extends BaseService<SelfHelpInvoiceAccountEntity> {
+
     /**
      * 立即支付
      *

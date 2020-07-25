@@ -19,8 +19,7 @@ public class RunCompanyWrapper extends BaseEntityWrapper<RunCompanyEntity, RunCo
 
     @Override
     public RunCompanyVO entityVO(RunCompanyEntity runCompany) {
-        RunCompanyVO runCompanyVO = BeanUtil.copy(runCompany, RunCompanyVO.class);
-        return runCompanyVO;
+        return BeanUtil.copy(runCompany, RunCompanyVO.class);
     }
 
 }

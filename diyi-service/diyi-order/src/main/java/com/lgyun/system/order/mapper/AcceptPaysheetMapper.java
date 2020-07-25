@@ -19,10 +19,32 @@ import java.util.List;
 @Mapper
 public interface AcceptPaysheetMapper extends BaseMapper<AcceptPaysheetEntity> {
 
+    /**
+     * 查询创客对应某商户的所有交付支付验收单
+     *
+     * @param enterpriseId
+     * @param makerId
+     * @param page
+     * @return
+     */
     List<AcceptPaysheetByEnterpriseListVO> getAcceptPaysheetsByEnterprise(Long enterpriseId ,Long makerId, IPage<AcceptPaysheetByEnterpriseListVO> page);
 
+    /**
+     * 根据ID查询交付支付验收单
+     *
+     * @param makerId
+     * @param acceptPaysheetId
+     * @return
+     */
     AcceptPaysheetWorksheetVO getAcceptPaysheetWorksheet(Long makerId, Long acceptPaysheetId);
 
+    /**
+     * 查询创客所有交付支付验收单的商户
+     *
+     * @param makerId
+     * @param page
+     * @return
+     */
     List<EnterprisesByWorksheetListVO> getEnterprisesByWorksheet(Long makerId, IPage<EnterprisesByWorksheetListVO> page);
 
 }

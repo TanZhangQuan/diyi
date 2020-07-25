@@ -19,8 +19,7 @@ public class MakerEnterpriseWrapper extends BaseEntityWrapper<MakerEnterpriseEnt
 
     @Override
     public MakerEnterpriseVO entityVO(MakerEnterpriseEntity makerEnterprise) {
-        MakerEnterpriseVO makerEnterpriseVO = BeanUtil.copy(makerEnterprise, MakerEnterpriseVO.class);
-        return makerEnterpriseVO;
+        return BeanUtil.copy(makerEnterprise, MakerEnterpriseVO.class);
     }
 
 }

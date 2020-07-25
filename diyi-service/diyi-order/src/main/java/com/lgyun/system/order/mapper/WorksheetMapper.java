@@ -18,21 +18,36 @@ import java.util.List;
 public interface WorksheetMapper extends BaseMapper<WorksheetEntity> {
     /**
      * 小程序查询工单
+     *
+     * @param page
+     * @param makerId
+     * @return
      */
     List<WorksheetXiaoVo> findXiaoPage(IPage page,Long makerId);
 
     /**
      * 小程序查询工单
+     *
+     * @param page
+     * @param makerId
+     * @return
      */
     List<WorksheetXiaoVo> findXiaoPage2(IPage page, Long makerId);
 
     /**
      * 小程序查询工单
+     *
+     * @param page
+     * @param makerId
+     * @return
      */
     List<WorksheetXiaoVo> findXiaoPage3(IPage page, Long makerId);
 
     /**
      * 查询详情
+     *
+     * @param worksheetMakerId
+     * @return
      */
     WorksheetXiaoVo getWorksheetDetails(Long worksheetMakerId);
 }

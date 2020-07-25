@@ -19,8 +19,7 @@ public class PayMakerWrapper extends BaseEntityWrapper<PayMakerEntity, PayMakerV
 
     @Override
     public PayMakerVO entityVO(PayMakerEntity payMaker) {
-        PayMakerVO payMakerVO = BeanUtil.copy(payMaker, PayMakerVO.class);
-        return payMakerVO;
+        return BeanUtil.copy(payMaker, PayMakerVO.class);
     }
 
 }

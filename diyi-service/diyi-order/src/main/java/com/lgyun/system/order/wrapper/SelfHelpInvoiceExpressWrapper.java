@@ -19,9 +19,7 @@ public class SelfHelpInvoiceExpressWrapper extends BaseEntityWrapper<SelfHelpInv
 
 	@Override
 	public SelfHelpInvoiceExpressVO entityVO(SelfHelpInvoiceExpressEntity selfHelpInvoiceExpress) {
-			SelfHelpInvoiceExpressVO selfHelpInvoiceExpressVO = BeanUtil.copy(selfHelpInvoiceExpress, SelfHelpInvoiceExpressVO.class);
-
-		return selfHelpInvoiceExpressVO;
+		return BeanUtil.copy(selfHelpInvoiceExpress, SelfHelpInvoiceExpressVO.class);
 	}
 
 }

@@ -19,9 +19,7 @@ public class WorksheetMakerWrapper extends BaseEntityWrapper<WorksheetMakerEntit
 
 	@Override
 	public WorksheetMakerVO entityVO(WorksheetMakerEntity worksheetMaker) {
-			WorksheetMakerVO worksheetMakerVO = BeanUtil.copy(worksheetMaker, WorksheetMakerVO.class);
-
-		return worksheetMakerVO;
+		return BeanUtil.copy(worksheetMaker, WorksheetMakerVO.class);
 	}
 
 }

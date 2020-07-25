@@ -19,8 +19,7 @@ public class PositionWrapper extends BaseEntityWrapper<PositionEntity, PositionV
 
     @Override
     public PositionVO entityVO(PositionEntity position) {
-        PositionVO positionVO = BeanUtil.copy(position, PositionVO.class);
-        return positionVO;
+        return BeanUtil.copy(position, PositionVO.class);
     }
 
 }
