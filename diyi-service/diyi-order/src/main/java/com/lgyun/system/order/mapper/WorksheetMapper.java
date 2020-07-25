@@ -23,7 +23,7 @@ public interface WorksheetMapper extends BaseMapper<WorksheetEntity> {
      * @param makerId
      * @return
      */
-    List<WorksheetXiaoVo> findXiaoPage(IPage page,Long makerId);
+    List<WorksheetXiaoVo> findXiaoPage(IPage<WorksheetXiaoVo> page,Long makerId);
 
     /**
      * 小程序查询工单
@@ -32,7 +32,7 @@ public interface WorksheetMapper extends BaseMapper<WorksheetEntity> {
      * @param makerId
      * @return
      */
-    List<WorksheetXiaoVo> findXiaoPage2(IPage page, Long makerId);
+    List<WorksheetXiaoVo> findXiaoPage2(IPage<WorksheetXiaoVo> page, Long makerId);
 
     /**
      * 小程序查询工单
@@ -41,7 +41,7 @@ public interface WorksheetMapper extends BaseMapper<WorksheetEntity> {
      * @param makerId
      * @return
      */
-    List<WorksheetXiaoVo> findXiaoPage3(IPage page, Long makerId);
+    List<WorksheetXiaoVo> findXiaoPage3(IPage<WorksheetXiaoVo> page, Long makerId);
 
     /**
      * 查询详情
