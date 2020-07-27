@@ -9,6 +9,7 @@ import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.vo.IdcardOcrVO;
 import com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO;
 import com.lgyun.system.user.vo.MakerInfoVO;
+import com.lgyun.system.user.vo.MakerRealNameAuthenticationStateVO;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -169,5 +170,12 @@ public interface IMakerService extends IService<MakerEntity> {
      */
     R<String> uploadMakerVideo(MakerEntity makerEntity, String applyShortVideo);
 
+    /**
+     * 获取当前创客所有实名认证状态
+     *
+     * @param makerId
+     * @return
+     */
+    R<MakerRealNameAuthenticationStateVO> getRealNameAuthenticationState(Long makerId);
 }
 

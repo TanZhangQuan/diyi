@@ -27,13 +27,4 @@ public class SelfHelpInvoiceAccountWrapper extends BaseEntityWrapper<SelfHelpInv
 		return BeanUtil.copy(selfHelpInvoiceAccount, SelfHelpInvoiceAccountVO.class);
 	}
 
-	public SelfHelpInvoiceAccountVO selfHelpInvoiceAccountVO(SelfHelpInvoiceAccountEntity selfHelpInvoiceAccountEntity) {
-
-		if (selfHelpInvoiceAccountEntity == null){
-			return null;
-		}
-
-		return BeanUtil.copy(selfHelpInvoiceAccountEntity, SelfHelpInvoiceAccountVO.class);
-	}
-
 }

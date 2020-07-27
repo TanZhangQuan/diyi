@@ -3,7 +3,6 @@ package com.lgyun.system.user.wrapper;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.support.BaseEntityWrapper;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
-import com.lgyun.system.user.vo.IndividualEnterpriseDetailVO;
 import com.lgyun.system.user.vo.IndividualEnterpriseVO;
 
 /**
@@ -26,15 +25,6 @@ public class IndividualEnterpriseWrapper extends BaseEntityWrapper<IndividualEnt
 		}
 
 		return BeanUtil.copy(individualEnterprise, IndividualEnterpriseVO.class);
-	}
-
-	public IndividualEnterpriseDetailVO individualEnterpriseDetailVO(IndividualEnterpriseEntity individualEnterpriseEntity) {
-
-		if (individualEnterpriseEntity == null){
-			return null;
-		}
-
-		return BeanUtil.copy(individualEnterpriseEntity, IndividualEnterpriseDetailVO.class);
 	}
 
 }
