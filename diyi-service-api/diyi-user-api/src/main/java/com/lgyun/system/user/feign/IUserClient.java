@@ -1,6 +1,7 @@
 package com.lgyun.system.user.feign;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.google.gson.internal.$Gson$Preconditions;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
 import com.lgyun.common.enumeration.GrantType;
@@ -9,8 +10,7 @@ import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.*;
-import com.lgyun.system.user.vo.IndividualBusinessListByMakerVO;
-import com.lgyun.system.user.vo.IndividualEnterpriseListByMakerVO;
+import com.lgyun.system.user.vo.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -230,5 +230,11 @@ public interface IUserClient {
      */
     @PostMapping(API_PREFIX + "/current-maker")
     MakerEntity currentMaker(@RequestBody BladeUser bladeUser);
+
+    /**
+     * 根据创客姓名分页查询
+     */
+    @PostMapping(API_PREFIX + "/maker/getMakerName")
+    R getMakerName(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam(name = "makerName",required = false) String makerName);
 
 }

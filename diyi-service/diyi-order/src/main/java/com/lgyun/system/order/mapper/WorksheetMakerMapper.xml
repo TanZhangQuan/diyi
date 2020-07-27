@@ -68,6 +68,27 @@
         <result property="checkDate" column="check_date"/>
     </resultMap>
 
+
+    <resultMap id="WorksheetMakerDetailsVOMap" type="com.lgyun.system.order.vo.WorksheetMakerDetailsVO">
+        <result property="worksheetMakerId" column="id"/>
+        <result property="name" column="name"/>
+        <result property="idcardNo" column="idcard_no"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="bankCardNo" column="bankCard_no"/>
+        <result property="idcardVerifyStatus" column="idcard_verify_status"/>
+        <result property="faceVerifyStatus" column="face_verify_status"/>
+        <result property="bankCardVerifyStatus" column="bank_card_verify_status"/>
+        <result property="phoneNumberVerifyStatus" column="phone_number_verify_status"/>
+        <result property="videoAudit" column="video_audit"/>
+        <result property="empowerSignState" column="empower_sign_state"/>
+        <result property="joinSignState" column="join_sign_state"/>
+        <result property="worksheetMakerState" column="worksheet_maker_state"/>
+        <result property="achievementDesc" column="achievement_desc"/>
+        <result property="achievementFiles" column="achievement_files"/>
+        <result property="achievementDate" column="achievement_date"/>
+        <result property="checkMoney" column="check_money"/>
+    </resultMap>
+
     <select id="getWorksheetCount" resultType="int">
         select count(*) as counts from diyi_worksheet_maker where worksheet_id=#{worksheetId} and is_deleted = 0
     </select>
@@ -131,5 +152,10 @@
             AND t1.enterprise_id = #{param6}
         </if>
     </select>
+
+    <select id="getWorksheetMakerDetails" resultMap="WorksheetMakerDetailsVOMap">
+        SELECT wm.id,m.name,m.idcard_no,m.phone_number,m.bank_card_no,m.idcard_verify_status,m.face_verify_status,m.bank_card_verify_status,m.phone_number_verify_status,m.video_audit,m.empower_sign_state,m.join_sign_state, wm.worksheet_maker_state, wm.achievement_desc, wm.achievement_files, wm.achievement_date, wm.check_money from diyi_worksheet_maker wm INNER JOIN diyi_maker m on m.id = wm.maker_id where m.is_deleted = 0 and wm.is_deleted =0 and wm.worksheet_id =#{param1}
+    </select>
+
 
 </mapper>

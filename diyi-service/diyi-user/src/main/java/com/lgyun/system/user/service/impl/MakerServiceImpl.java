@@ -2,6 +2,8 @@ package com.lgyun.system.user.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.RealnameVerifyConstant;
 import com.lgyun.common.enumeration.*;
@@ -14,10 +16,8 @@ import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.mapper.MakerMapper;
 import com.lgyun.system.user.oss.AliyunOssService;
 import com.lgyun.system.user.service.IMakerService;
-import com.lgyun.system.user.vo.IdcardOcrVO;
-import com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO;
-import com.lgyun.system.user.vo.MakerInfoVO;
-import com.lgyun.system.user.vo.MakerRealNameAuthenticationStateVO;
+import com.lgyun.system.user.vo.*;
+import com.lgyun.system.user.wrapper.MakerWrapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -25,6 +25,8 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Service 实现
@@ -96,7 +98,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         //判断是否已认证
         if (CertificationState.UNCERTIFIED.equals(makerEntity)) {
             if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()) && VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus())
-                    && SignState.SIGNED.equals(makerEntity.getSignState())) {
+                    && SignState.SIGNED.equals(makerEntity.getJoinSignState())&& SignState.SIGNED.equals(makerEntity.getEmpowerSignState())) {
                 makerEntity.setCertificationState(CertificationState.CERTIFIED);
             }
         }
@@ -191,7 +193,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             //判断是否已认证
             if (CertificationState.UNCERTIFIED.equals(makerEntity)) {
                 if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()) && VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus())
-                        && SignState.SIGNED.equals(makerEntity.getSignState())) {
+                        && SignState.SIGNED.equals(makerEntity.getJoinSignState())&& SignState.SIGNED.equals(makerEntity.getEmpowerSignState())) {
                     makerEntity.setCertificationState(CertificationState.CERTIFIED);
                 }
             }
@@ -444,6 +446,21 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         makerEntity.setVideoAudit(VideoAudit.TOAUDIT);
         saveOrUpdate(makerEntity);
         return R.success("成功");
+    }
+
+    @Override
+    public R getMakerName(Integer current, Integer size, String makerName) {
+        QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().like(makerName != null, MakerEntity::getName, makerName);
+
+        IPage<MakerEntity> pages = this.page(new Page<>(current, size), queryWrapper);
+
+        List<MakerDetailVO> records = pages.getRecords().stream().map(MakerEntity -> BeanUtil.copy(MakerEntity, MakerDetailVO.class)).collect(Collectors.toList());
+
+        IPage<MakerDetailVO> pageVo = new Page<>(pages.getCurrent(), pages.getSize(), pages.getTotal());
+        pageVo.setRecords(records);
+
+        return R.data(pageVo);
     }
 
     @Override

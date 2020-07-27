@@ -68,10 +68,16 @@ public class MakerEntity extends BaseEntity {
     private CertificationState certificationState;
 
     /**
-     * 合同签署状态
+     * 授权合同签署状态
      */
     @JsonIgnore
-    private SignState signState;
+    private SignState empowerSignState;
+
+    /**
+     * 加盟合同签署状态
+     */
+    @JsonIgnore
+    private SignState joinSignState;
 
     /**
      * 账户状态

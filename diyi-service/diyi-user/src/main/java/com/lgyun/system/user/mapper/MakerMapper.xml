@@ -13,7 +13,8 @@
         <result property="name" column="name"/>
         <result property="avatar" column="avatar"/>
         <result property="certificationState" column="certification_state"/>
-        <result property="signState" column="sign_state"/>
+        <result property="empowerSignState" column="empower_sign_state"/>
+        <result property="joinSignState" column="join_sign_state"/>
         <result property="makerState" column="maker_state"/>
         <result property="politicState" column="politic_state"/>
         <result property="nationality" column="nationality"/>
