@@ -19,7 +19,6 @@ import com.lgyun.system.user.service.IIndividualBusinessService;
 import com.lgyun.system.user.service.IMakerService;
 import com.lgyun.system.user.vo.IndividualBusinessDetailVO;
 import com.lgyun.system.user.vo.IndividualBusinessListByMakerVO;
-import com.lgyun.system.user.wrapper.IndividualBusinessWrapper;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -98,7 +97,7 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
             return R.fail("个体户不存在");
         }
 
-        IndividualBusinessDetailVO individualBusinessDetailVO = IndividualBusinessWrapper.build().individualBusinessDetailVO(individualBusinessEntity);
+        IndividualBusinessDetailVO individualBusinessDetailVO = BeanUtil.copy(individualBusinessEntity, IndividualBusinessDetailVO.class);
         String bizName = makerService.getName(individualBusinessDetailVO.getMakerId());
         individualBusinessDetailVO.setBizName(bizName);
         return R.data(individualBusinessDetailVO);

@@ -202,6 +202,21 @@ public class MakerController {
 		return R.fail("查询当前创客身份证实名认证的照片失败");
 	}
 
+	@GetMapping("/get-real-name-authentication-state")
+	@ApiOperation(value = "获取当前创客所有实名认证状态", notes = "获取当前创客所有实名认证状态")
+	public R getRealNameAuthenticationState(BladeUser bladeUser) {
+
+		log.info("获取当前创客所有实名认证状态");
+		try {
+			//获取当前创客
+			MakerEntity maker = makerService.current(bladeUser);
+			return makerService.getRealNameAuthenticationState(maker.getId());
+		} catch (Exception e) {
+			log.error("获取当前创客所有实名认证状态异常", e);
+		}
+		return R.fail("查询失败");
+	}
+
 	@GetMapping("/get-info")
 	@ApiOperation(value = "获取当前创客基本信息", notes = "获取当前创客基本信息")
 	public R getInfo(BladeUser bladeUser) {

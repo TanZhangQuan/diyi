@@ -17,7 +17,7 @@ import com.lgyun.system.user.service.IMakerService;
 import com.lgyun.system.user.vo.IdcardOcrVO;
 import com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO;
 import com.lgyun.system.user.vo.MakerInfoVO;
-import com.lgyun.system.user.wrapper.MakerWrapper;
+import com.lgyun.system.user.vo.MakerRealNameAuthenticationStateVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -382,7 +382,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(MakerEntity::getId, makerId);
         MakerEntity makerEntity = baseMapper.selectOne(queryWrapper);
-        if (makerEntity == null){
+        if (makerEntity == null) {
             return null;
         }
 
@@ -403,8 +403,11 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         queryWrapper.lambda().eq(MakerEntity::getId, makerId);
 
         MakerEntity makerEntity = baseMapper.selectOne(queryWrapper);
+        if (makerEntity == null) {
+            return R.fail("创客不存在");
+        }
 
-        MakerInfoVO makerInfoVO = MakerWrapper.build().makerInfoVO(makerEntity);
+        MakerInfoVO makerInfoVO = BeanUtil.copy(makerEntity, MakerInfoVO.class);
         return R.data(makerInfoVO);
     }
 
@@ -441,6 +444,21 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         makerEntity.setVideoAudit(VideoAudit.TOAUDIT);
         saveOrUpdate(makerEntity);
         return R.success("成功");
+    }
+
+    @Override
+    public R<MakerRealNameAuthenticationStateVO> getRealNameAuthenticationState(Long makerId) {
+
+        QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(MakerEntity::getId, makerId);
+
+        MakerEntity makerEntity = baseMapper.selectOne(queryWrapper);
+        if (makerEntity == null) {
+            return R.fail("创客不存在");
+        }
+
+        MakerRealNameAuthenticationStateVO makerRealNameAuthenticationStateVO = BeanUtil.copy(makerEntity, MakerRealNameAuthenticationStateVO.class);
+        return R.data(makerRealNameAuthenticationStateVO);
     }
 
 }
