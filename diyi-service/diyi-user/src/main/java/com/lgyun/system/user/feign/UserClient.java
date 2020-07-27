@@ -37,6 +37,7 @@ public class UserClient implements IUserClient {
     private IIndividualBusinessService iIndividualBusinessService;
     private IRunCompanyService iRunCompanyService;
     private IEnterpriseService iEnterpriseService;
+    private IEnterpriseWorkerService iEnterpriseWorkerService;
 
     @Override
     @GetMapping(API_PREFIX + "/user-info-by-id")
@@ -63,28 +64,13 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public User userFindById(Long id) {
-        return service.getById(id);
-    }
-
-    @Override
-    public MakerEntity makerFindByPhoneNumberAndLoginPwd(String phoneNumber, String loginPwd) {
-        return iMakerService.findByPhoneNumberAndLoginPwd(phoneNumber, loginPwd);
-    }
-
-    @Override
     public MakerEntity makerFindByPhoneNumber(String phoneNumber) {
         return iMakerService.findByPhoneNumber(phoneNumber);
     }
 
     @Override
-    public EnterpriseWorkerEntity enterpriseWorkerFindByEmployeeUserNameEmployeePwd(String employeeUserName, String employeePwd) {
-        return null;
-    }
-
-    @Override
     public EnterpriseWorkerEntity enterpriseWorkerFindByPhoneNumber(String phoneNumber) {
-        return null;
+        return iEnterpriseWorkerService.findByPhoneNumber(phoneNumber);
     }
 
     public void makerSave(String openid, String sessionKey, String purePhoneNumber, String loginPwd) {
@@ -132,8 +118,8 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R<String> makerSaveOrUpdate(String openid, String sessionKey, String phoneNumber, String loginPwd, GrantType grantType) {
-        log.info("[makerSaveOrUpdate] phone={}", phoneNumber);
+    public R<String> makerDeal(String openid, String sessionKey, String phoneNumber, String loginPwd, GrantType grantType) {
+        log.info("[makerDeal] phone={}", phoneNumber);
         //根据手机号码查询创客，存在就更新微信信息，不存在就新建创客
         MakerEntity makerEntity;
         switch (grantType) {
@@ -148,7 +134,7 @@ public class UserClient implements IUserClient {
                 break;
 
             case PASSWORD:
-                //根据手机号密码获取创客
+                //根据账号密码获取创客
                 makerEntity = iMakerService.findByPhoneNumberAndLoginPwd(phoneNumber, loginPwd);
                 if (makerEntity != null) {
                     makerUpdate(makerEntity, openid, sessionKey);
@@ -174,6 +160,35 @@ public class UserClient implements IUserClient {
                     return R.fail("手机号已注册");
                 } else {
                     makerSave(openid, sessionKey, phoneNumber, loginPwd);
+                }
+                break;
+
+            default:
+                return R.fail("登陆方式有误");
+        }
+
+        return R.success("操作成功");
+    }
+
+    @Override
+    public R<String> enterpriseWorkerDeal(String phoneNumber, String loginPwd, GrantType grantType) {
+        log.info("[enterpriseWorkerDeal] phone={}", phoneNumber);
+        EnterpriseWorkerEntity enterpriseWorkerEntity;
+        switch (grantType) {
+
+            case PASSWORD:
+                //根据账号密码获取商户
+                enterpriseWorkerEntity = iEnterpriseWorkerService.findByEmployeeUserNameAndEmployeePwd(phoneNumber, loginPwd);
+                if (enterpriseWorkerEntity == null) {
+                    return R.fail("账号或密码错误");
+                }
+                break;
+
+            case MOBILE:
+                //根据手机号获取商户
+                enterpriseWorkerEntity = iEnterpriseWorkerService.findByPhoneNumber(phoneNumber);
+                if (enterpriseWorkerEntity == null) {
+                    return R.fail("用户未注册");
                 }
                 break;
 

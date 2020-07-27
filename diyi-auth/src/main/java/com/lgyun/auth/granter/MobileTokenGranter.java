@@ -46,8 +46,6 @@ public class MobileTokenGranter implements ITokenGranter {
     @Transactional(rollbackFor = Exception.class)
     public R grant(TokenParameter tokenParameter) throws Exception {
 
-        //获取用户类型
-        UserType userType = (UserType) tokenParameter.getArgs().get("userType");
         //获取手机号
         String mobile = tokenParameter.getArgs().getStr("mobile");
         //获取用户填写的短信验证码
@@ -59,20 +57,31 @@ public class MobileTokenGranter implements ITokenGranter {
             return R.fail(TokenUtil.SMS_CAPTCHA_NOT_CORRECT);
         }
 
+        //获取用户类型
+        UserType userType = (UserType) tokenParameter.getArgs().get("userType");
+        R<String> res;
         switch (userType) {
             case MAKER:
                 // 微信授权码
                 String wechatCode = tokenParameter.getArgs().getStr("wechatCode");
-                //微信授权
+                // 微信授权
                 R<JSONObject> result = wechatUtil.authorization(wechatCode);
-                if (!(result.isSuccess())){
+                if (!(result.isSuccess())) {
                     return result;
                 }
                 JSONObject jsonObject = result.getData();
                 String openid = jsonObject.getString("openid");
                 String sessionKey = jsonObject.getString("sessionKey");
                 // 创客处理
-                R res = userClient.makerSaveOrUpdate(openid, sessionKey, mobile, "", GrantType.MOBILE);
+                res = userClient.makerDeal(openid, sessionKey, mobile, "", GrantType.MOBILE);
+                if (!(res.isSuccess())) {
+                    return res;
+                }
+                break;
+
+            case ENTERPRISE:
+                // 商户处理
+                res = userClient.enterpriseWorkerDeal(mobile, "", GrantType.MOBILE);
                 if (!(res.isSuccess())) {
                     return res;
                 }
@@ -87,11 +96,7 @@ public class MobileTokenGranter implements ITokenGranter {
 
         UserInfo userInfo = userClient.userInfoByPhone(mobile, userType);
         if (userInfo == null) {
-            if (UserType.ADMIN.equals(userType)) {
-                return R.fail("管理员不存在");
-            } else {
-                return R.fail("登陆失败");
-            }
+            return R.fail("手机号未注册");
         }
 
         //创建认证token
@@ -125,6 +130,12 @@ public class MobileTokenGranter implements ITokenGranter {
                     }
                     break;
 
+                case ENTERPRISE:
+                    if (userClient.enterpriseWorkerFindByPhoneNumber(mobile) == null) {
+                        return R.fail("手机号未注册");
+                    }
+                    break;
+
                 case MAKER:
                     if (userClient.makerFindByPhoneNumber(mobile) == null) {
                         return R.fail("手机号未注册");
@@ -141,6 +152,12 @@ public class MobileTokenGranter implements ITokenGranter {
 
                 case ADMIN:
                     if (userClient.userInfoByPhone(mobile, userType) != null) {
+                        return R.fail("手机号已注册");
+                    }
+                    break;
+
+                case ENTERPRISE:
+                    if (userClient.enterpriseWorkerFindByPhoneNumber(mobile) != null) {
                         return R.fail("手机号已注册");
                     }
                     break;

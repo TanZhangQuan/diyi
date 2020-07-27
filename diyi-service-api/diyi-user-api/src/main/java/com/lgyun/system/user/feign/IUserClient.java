@@ -65,25 +65,6 @@ public interface IUserClient {
     UserInfo userInfo(@RequestParam("account") String account, @RequestParam("password") String password, @RequestParam("userType") UserType userType);
 
     /**
-     * 获取用户信息
-     *
-     * @param id
-     * @return
-     */
-    @GetMapping(API_PREFIX + "/user-find-by-id")
-    User userFindById(@RequestParam("id") Long id);
-
-    /**
-     * 获取创客信息
-     *
-     * @param phoneNumber
-     * @param loginPwd
-     * @return
-     */
-    @GetMapping(API_PREFIX + "/maker-find-by-phone-number-login-pwd")
-    MakerEntity makerFindByPhoneNumberAndLoginPwd(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("loginPwd") String loginPwd);
-
-    /**
      * 获取创客信息
      *
      * @param phoneNumber
@@ -95,16 +76,6 @@ public interface IUserClient {
     /**
      * 获取商户员工信息
      *
-     * @param employeeUserName
-     * @param employeePwd
-     * @return
-     */
-    @GetMapping(API_PREFIX + "/enterprise-worker-find-by-employee-user-name-employee-pwd")
-    EnterpriseWorkerEntity enterpriseWorkerFindByEmployeeUserNameEmployeePwd(@RequestParam("employeeUserName") String employeeUserName, @RequestParam("employeePwd") String employeePwd);
-
-    /**
-     * 获取商户员工信息
-     *
      * @param phoneNumber
      * @return
      */
@@ -112,7 +83,7 @@ public interface IUserClient {
     EnterpriseWorkerEntity enterpriseWorkerFindByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
 
     /**
-     * 微信授权登陆
+     * 创客处理
      *
      * @param openid
      * @param sessionKey
@@ -121,8 +92,19 @@ public interface IUserClient {
      * @param grantType
      * @return
      */
-    @PostMapping(API_PREFIX + "/wechat-authorization")
-    R<String> makerSaveOrUpdate(@RequestParam("openid") String openid, @RequestParam("sessionKey") String sessionKey, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
+    @PostMapping(API_PREFIX + "/maker-deal")
+    R<String> makerDeal(@RequestParam("openid") String openid, @RequestParam("sessionKey") String sessionKey, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
+
+    /**
+     * 商户处理
+     *
+     * @param phoneNumber
+     * @param loginPwd
+     * @param grantType
+     * @return
+     */
+    @PostMapping(API_PREFIX + "/enterprise-worker-deal")
+    R<String> enterpriseWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 获取个独信息

@@ -13,6 +13,7 @@ import com.lgyun.system.user.vo.IndividualEnterpriseListByMakerVO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
 /**
  * Feign失败配置
  *
@@ -38,22 +39,7 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public User userFindById(Long id) {
-        return null;
-    }
-
-    @Override
-    public MakerEntity makerFindByPhoneNumberAndLoginPwd(String phoneNumber, String loginPwd) {
-        return null;
-    }
-
-    @Override
     public MakerEntity makerFindByPhoneNumber(String phoneNumber) {
-        return null;
-    }
-
-    @Override
-    public EnterpriseWorkerEntity enterpriseWorkerFindByEmployeeUserNameEmployeePwd(String employeeUserName, String employeePwd) {
         return null;
     }
 
@@ -63,7 +49,12 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public R<String> makerSaveOrUpdate(String openid, String sessionKey, String phoneNumber, String loginPwd, GrantType grantType) {
+    public R<String> makerDeal(String openid, String sessionKey, String phoneNumber, String loginPwd, GrantType grantType) {
+        return R.fail("网络繁忙，请稍后尝试");
+    }
+
+    @Override
+    public R<String> enterpriseWorkerDeal(String phoneNumber, String loginPwd, GrantType grantType) {
         return R.fail("网络繁忙，请稍后尝试");
     }
 
