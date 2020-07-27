@@ -1,14 +1,18 @@
 package com.lgyun.system.user.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.dto.IdcardOcrSaveDto;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.vo.IdcardOcrVO;
+import com.lgyun.system.user.vo.MakerDetailVO;
 import com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO;
 import com.lgyun.system.user.vo.MakerInfoVO;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import com.lgyun.system.user.vo.MakerRealNameAuthenticationStateVO;
 
 import javax.servlet.http.HttpServletRequest;
@@ -169,6 +173,11 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      */
     R<String> uploadMakerVideo(MakerEntity makerEntity, String applyShortVideo);
+
+    /**
+     * 根据创客姓名分页查询
+     */
+    R getMakerName(Integer current,Integer size,String makerName);
 
     /**
      * 获取当前创客所有实名认证状态

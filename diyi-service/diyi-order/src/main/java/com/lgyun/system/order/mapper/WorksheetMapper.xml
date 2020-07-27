@@ -113,4 +113,21 @@
          AND wm.id = #{param1}
     </select>
 
+    <select id="getEnterpriseWorksheet" resultMap="worksheetXiaoMap">
+        SELECT ws.id AS worksheet_id, ws.enterprise_id, e.enterprise_name, ws.worksheet_mode, ws.worksheet_name, ws.worksheet_type, ws.upPerson_num, ws.worksheet_no, ws.work_days, ws.worksheet_fee_low,
+         ws.worksheet_fee_high, ws.publish_date FROM diyi_worksheet ws INNER JOIN diyi_enterprise e ON e.id = ws.enterprise_id
+         WHERE ws.is_deleted = 0 AND e.is_deleted = 0 AND e.id = #{param1} AND ws.worksheet_state = #{param2} and e.is_deleted = 0 and ws.is_deleted = 0
+         <if test="param3 != null and param3 != ''">
+             and ws.worksheet_no like concat('%', #{param3}, '%')
+         </if>
+         <if test="param4 != null and param4 != ''">
+             and ws.worksheet_name like concat('%', #{param4}, '%')
+         </if>
+        <if test="param5 != null and param5 != ''">
+            and ws.publish_date &gt; #{param5}
+        </if>
+        <if test="param6 != null and param6 != ''">
+            and ws.publish_date  &lt; #{param6}
+        </if>
+    </select>
 </mapper>

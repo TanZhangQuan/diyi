@@ -64,9 +64,14 @@ public class WorksheetXiaoVo implements Serializable {
     private Integer workDays;
 
     /**
-     * 费用
+     * 最低费用
      */
-    private BigDecimal worksheetFee;
+    private BigDecimal worksheetFeeLow;
+
+    /**
+     * 最高费用
+     */
+    private BigDecimal worksheetFeeHigh;
 
     /**
      * 类型，总包+分包，众包/众采

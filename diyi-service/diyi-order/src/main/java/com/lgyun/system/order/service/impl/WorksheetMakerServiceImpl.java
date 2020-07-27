@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Service 实现
@@ -98,6 +99,21 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
     @Override
     public R<BigDecimal> queryAllMoneyDetailByYearMonth(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year, Long month, Long enterpriseId) {
         return R.data(baseMapper.queryAllMoneyDetailByYearMonth(worksheetType, makerType, makerId, year, month, enterpriseId));
+    }
+
+    @Override
+    public IPage<WorksheetMakerDetailsVO> getWorksheetMakerDetails(Long worksheetId, IPage<WorksheetMakerDetailsVO> page) {
+        return page.setRecords(baseMapper.getWorksheetMakerDetails(worksheetId,page));
+    }
+
+    @Override
+    public WorksheetMakerEntity getmakerIdAndWorksheetId(Long makerId, Long worksheetId) {
+        QueryWrapper<WorksheetMakerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(WorksheetMakerEntity::getMakerId, makerId)
+                .eq(WorksheetMakerEntity::getWorksheetId, worksheetId);
+
+        WorksheetMakerEntity worksheetMakerEntity = baseMapper.selectOne(queryWrapper);
+        return worksheetMakerEntity;
     }
 
     @Override

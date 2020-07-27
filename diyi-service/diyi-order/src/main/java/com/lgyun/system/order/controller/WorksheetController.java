@@ -12,16 +12,14 @@ import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 /**
@@ -54,9 +52,102 @@ public class WorksheetController {
         }
     }
 
+    @GetMapping("getMakerName")
+    @ApiOperation(value = "通过创客名字查询", notes = "通过创客名字查询")
+    public R getMakerName(Query query,@RequestParam(required = false) String makerName){
+        log.info("通过创客名字查询");
+        try {
+            return iUserClient.getMakerName(query.getCurrent(), query.getSize(),makerName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.fail("通过创客名字查询失败");
+        }
+    }
+
+    @GetMapping("getEnterpriseWorksheet")
+    @ApiOperation(value = "根据工单状态和商户id查询", notes = "根据工单状态和商户id查询")
+    public R getEnterpriseWorksheet(Query query, Long enterpriseId,
+                                    @NotNull(message = "请输入工单的状态") @RequestParam(required = false) WorksheetState worksheetState,
+                                    @RequestParam(required = false) String worksheetNo,
+                                    @RequestParam(required = false) String worksheetName,
+                                    @RequestParam(required = false) String startTime,
+                                    @RequestParam(required = false) String endTime){
+        log.info("根据工单状态和商户id查询");
+        try {
+            return worksheetService.getEnterpriseWorksheet(Condition.getPage(query),enterpriseId,worksheetState,worksheetNo,worksheetName,startTime,endTime);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.fail("根据工单状态和商户id查询失败");
+        }
+    }
+
+    @PostMapping("deleteWorksheet")
+    @ApiOperation(value = "删除", notes = "删除")
+    public R deleteWorksheet(@NotNull(message = "请输入工单的id") @RequestParam(required = false) Long worksheetId){
+        log.info("删除");
+        try {
+             worksheetService.removeById(worksheetId);
+            return R.success("删除成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.fail("删除失败");
+        }
+    }
+
+    @GetMapping("getWorksheetWebDetails")
+    @ApiOperation(value = "查看", notes = "查看")
+    public R getWorksheetWebDetails(Query query,@NotNull(message = "请输入工单的id") @RequestParam(required = false) Long worksheetId){
+        log.info("查看");
+        try {
+            return worksheetService.getWorksheetWebDetails(Condition.getPage(query),worksheetId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.fail("查看失败");
+        }
+    }
+
+    @PostMapping("/kickOut")
+    @ApiOperation(value = "工单踢出创客", notes = "工单踢出创客")
+    public R kickOut(@NotNull(message = "请输入工单的id") @RequestParam(required = false) Long worksheetId,
+                     @NotNull(message = "请输入创客id") @RequestParam(required = false)   Long makerId) {
+        log.info("工单踢出创客");
+        try {
+            return worksheetService.kickOut(worksheetId, makerId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.fail("工单踢出创客失败");
+        }
+    }
+
+    @PostMapping("/checkAccept")
+    @ApiOperation(value = "验收工单", notes = "验收工单")
+    public R checkAccept(@NotNull(message = "请输入工单创客的id") @RequestParam(required = false) Long worksheetMakerId,
+                     @NotNull(message = "请输入创客id") @RequestParam(required = false) BigDecimal checkMoney) {
+        log.info("验收工单");
+        try {
+            return worksheetService.checkAccept(worksheetMakerId, checkMoney);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.fail("验收工单失败");
+        }
+    }
+
+    @PostMapping("/closeOrOpen")
+    @ApiOperation(value = "开单或关单", notes = "开单或关单")
+    public R closeOrOpen(@NotNull(message = "请输入工单的id") @RequestParam(required = false)Long worksheetId,
+                         @ApiParam(value = "1代表关闭，2开启") @NotNull(message = "请输入1代表关闭，2开启") @RequestParam(required = false) Integer variable) {
+        log.info("开单或关单");
+        try {
+            return worksheetService.closeOrOpen(worksheetId, variable);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.fail("开单或关单失败");
+        }
+    }
+
     @PostMapping("/orderGrabbing")
     @ApiOperation(value = "抢单", notes = "抢单")
-    public R orderGrabbing(Long worksheetId, BladeUser bladeUser) {
+    public R orderGrabbing(@NotNull(message = "请输入工单的id") @RequestParam(required = false)Long worksheetId, BladeUser bladeUser) {
         log.info("抢单");
         try {
             MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
@@ -72,7 +163,7 @@ public class WorksheetController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "worksheetState", value = "工单状态：1代表待抢单，2已接单，3已交付", paramType = "query", dataType = "string"),
     })
-    public R findXiaoPage(Query query, Integer worksheetState, BladeUser bladeUser) {
+    public R findXiaoPage(Query query,@NotNull(message = "请输入工单的状态") @RequestParam(required = false) Integer worksheetState, BladeUser bladeUser) {
         MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
         if (null == worksheetState || (worksheetState != 1 && worksheetState != 2 && worksheetState != 3)) {
             return R.fail("参数错误");
@@ -82,7 +173,9 @@ public class WorksheetController {
 
     @PostMapping("/submitachievement")
     @ApiOperation(value = "提交工作成果", notes = "提交工作成果")
-    public R submitachievement(Long worksheetMakerId, String achievementDesc, String achievementFiles) {
+    public R submitachievement(@NotNull(message = "请输入工单的状态") @RequestParam(required = false) Long worksheetMakerId,
+                               @NotNull(message = "请输入工单说明") @RequestParam(required = false) String achievementDesc,
+                               @NotNull(message = "请输入工单url") @RequestParam(required = false)String achievementFiles) {
         log.info("提交工作成果");
         try {
             WorksheetMakerEntity worksheetMakerEntity = worksheetMakerService.getById(worksheetMakerId);
@@ -100,7 +193,10 @@ public class WorksheetController {
 
     @PostMapping("/checkAchievement")
     @ApiOperation(value = "验收工作成果", notes = "验收工作成果")
-    public R checkAchievement(Long worksheetMakerId, BigDecimal checkMoney, Long enterpriseId, Boolean bool) {
+    public R checkAchievement(@NotNull(message = "请输入id") @RequestParam(required = false) Long worksheetMakerId,
+                              @NotNull(message = "请输入验证金额") @RequestParam(required = false) BigDecimal checkMoney,
+                              @NotNull(message = "请输入商户id") @RequestParam(required = false) Long enterpriseId,
+                              @NotNull(message = "请输入验收的结果") @RequestParam(required = false) Boolean bool) {
         log.info("验收工作成果");
         try {
             return worksheetMakerService.checkAchievement(worksheetMakerId, checkMoney, enterpriseId, bool);
@@ -112,7 +208,7 @@ public class WorksheetController {
 
     @GetMapping("/getWorksheetDetails")
     @ApiOperation(value = "查询工单详情", notes = "查询工单详情")
-    public R getWorksheetDetails(Long worksheetMakerId) {
+    public R getWorksheetDetails(@NotNull(message = "请输入id") @RequestParam(required = false) Long worksheetMakerId) {
         log.info("查询工单详情");
         try {
             return worksheetService.getWorksheetDetails(worksheetMakerId);
