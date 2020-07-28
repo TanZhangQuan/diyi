@@ -66,7 +66,12 @@
         AND (SELECT COUNT(id) FROM diyi_agreement WHERE maker_id = t2.id AND sign_state = 'SIGNED' AND relationship_type = 9) > 0, TRUE, FALSE) AS boolSign,
         IF((SELECT COUNT(id) FROM diyi_individual_business WHERE maker_id = t2.id AND ibstate = 'OPERATING') > 0, TRUE, FALSE) AS boolIndividualBusiness,
         IF((SELECT COUNT(id) FROM diyi_individual_enterprise WHERE maker_id = t2.id AND ibstate = 'OPERATING') > 0, TRUE, FALSE) AS boolIndividualEnterprise
-        FROM diyi_maker_enterprise t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id WHERE t1.enterprise_id = ?
+        FROM diyi_maker_enterprise t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id WHERE t1.enterprise_id = #{param1} AND t1.relationship_type = #{param2}
+        <if test="param3 != null and param3.trim() != ''">
+            AND (t2.id like concat('%', #{param3}, '%')
+            OR t2.name like concat('%', #{param3}, '%')
+            OR t2.phone_number like concat('%', #{param3}, '%'))
+        </if>
     </select>
 
 </mapper>

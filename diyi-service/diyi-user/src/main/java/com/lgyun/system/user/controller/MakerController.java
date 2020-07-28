@@ -313,19 +313,4 @@ public class MakerController {
         return R.success("操作成功");
     }
 
-    @GetMapping("/get-rel-enterprise-maker")
-    @ApiOperation(value = "获取关注当前商户的所有创客", notes = "获取关注当前商户的所有创客")
-    public R getRelEnterpriseMaker(Query query, BladeUser bladeUser) {
-
-        log.info("获取关注当前商户的所有创客");
-        try {
-            //获取当前商户
-            EnterpriseEntity enterpriseEntity = enterpriseService.current(bladeUser);
-            return makerService.getRelEnterpriseMaker(Condition.getPage(query.setDescs("create_time")), enterpriseEntity.getId());
-        } catch (Exception e) {
-            log.error("获取关注当前商户的所有创客异常", e);
-        }
-        return R.fail("查询失败");
-    }
-
 }

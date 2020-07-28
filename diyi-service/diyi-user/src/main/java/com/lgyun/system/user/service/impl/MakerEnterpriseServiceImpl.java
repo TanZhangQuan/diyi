@@ -14,8 +14,10 @@ import com.lgyun.system.user.vo.RelEnterpriseMakerVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Service 实现
@@ -36,6 +38,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
                 makerEnterpriseEntity.setRelationshipType(0);
                 makerEnterpriseEntity.setFirstCooperation(false);
                 makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATING);
+                save(makerEnterpriseEntity);
             } else {
                 return;
             }
@@ -113,8 +116,67 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
-    public R<IPage<RelEnterpriseMakerVO>> getRelEnterpriseMaker(IPage<RelEnterpriseMakerVO> page, Long enterpriseId) {
-        return R.data(page.setRecords(baseMapper.getRelEnterpriseMaker(enterpriseId, page)));
+    public R<IPage<RelEnterpriseMakerVO>> getRelEnterpriseMaker(IPage<RelEnterpriseMakerVO> page, Long enterpriseId, Integer relationshipType, String keyword) {
+        return R.data(page.setRecords(baseMapper.getRelEnterpriseMaker(enterpriseId, relationshipType, keyword,  page)));
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public R<String> relMakers(Set<Long> makerIds, Long enterpriseId) {
+
+        makerIds.forEach(makerId -> {
+            try {
+                //关联创客
+                makerEnterpriseEntitySave(enterpriseId, makerId);
+            } catch (Exception e) {
+                log.error("关联创客异常", e);
+            }
+        });
+
+        return R.success("关联成功");
+    }
+
+    @Override
+    public R<String> cancelMakersRel(Set<Long> makerIds, Long enterpriseId) {
+
+        makerIds.forEach(makerId -> {
+            try {
+                //取消创客关注
+                MakerEnterpriseEntity makerEnterpriseEntity = getEnterpriseIdAndMakerId(enterpriseId, makerId);
+                if (makerEnterpriseEntity != null) {
+                    if (makerEnterpriseEntity.getRelationshipType() == 1) {
+                        makerEnterpriseEntity.setRelationshipType(2);
+                        save(makerEnterpriseEntity);
+                    }
+                }
+            } catch (Exception e) {
+                log.error("取消创客关注异常", e);
+            }
+        });
+
+        return R.success("取消关注成功");
+    }
+
+    @Override
+    public R<String> cancelRelMakers(Set<Long> makerIds, Long enterpriseId) {
+
+        makerIds.forEach(makerId -> {
+            try {
+                //取消创客关联
+                MakerEnterpriseEntity makerEnterpriseEntity = getEnterpriseIdAndMakerId(enterpriseId, makerId);
+                if (makerEnterpriseEntity != null) {
+                    if (makerEnterpriseEntity.getRelationshipType() == 0 && CooperateStatus.COOPERATING.equals(makerEnterpriseEntity.getCooperateStatus())) {
+                        makerEnterpriseEntity.setRelationshipType(2);
+                        makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATESTOP);
+                        save(makerEnterpriseEntity);
+                    }
+                }
+            } catch (Exception e) {
+                log.error("取消创客关联异常", e);
+            }
+        });
+
+        return R.success("取消关联成功");
     }
 
 }

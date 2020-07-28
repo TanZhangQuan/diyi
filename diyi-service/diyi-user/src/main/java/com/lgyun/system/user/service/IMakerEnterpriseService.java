@@ -7,6 +7,8 @@ import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.RelEnterpriseMakerVO;
 
+import java.util.Set;
+
 /**
  * Service 接口
  *
@@ -64,13 +66,41 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
     MakerEnterpriseEntity getEnterpriseIdAndMakerIdAndRelationshipType(Long enterpriseId, Long makerId, Integer relationshipType);
 
     /**
-     * 获取关注当前商户的所有创客
+     * 根据商户ID，关系，关键字获取当前商户的所有创客
      *
      * @param page
      * @param enterpriseId
+     * @param relationshipType
+     * @param keyword
      * @return
      */
-    R<IPage<RelEnterpriseMakerVO>> getRelEnterpriseMaker(IPage<RelEnterpriseMakerVO> page, Long enterpriseId);
+    R<IPage<RelEnterpriseMakerVO>> getRelEnterpriseMaker(IPage<RelEnterpriseMakerVO> page, Long enterpriseId, Integer relationshipType, String keyword);
 
+    /**
+     * 批量关联创客
+     *
+     * @param makerIds
+     * @param enterpriseId
+     * @return
+     */
+    R<String> relMakers(Set<Long> makerIds, Long enterpriseId);
+
+    /**
+     * 批量取消创客关注
+     *
+     * @param makerIds
+     * @param enterpriseId
+     * @return
+     */
+    R<String> cancelMakersRel(Set<Long> makerIds, Long enterpriseId);
+
+    /**
+     * 批量取消创客关联
+     *
+     * @param makerIds
+     * @param enterpriseId
+     * @return
+     */
+    R<String> cancelRelMakers(Set<Long> makerIds, Long enterpriseId);
 }
 

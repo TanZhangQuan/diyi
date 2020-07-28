@@ -1,7 +1,6 @@
 package com.lgyun.system.user.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
@@ -10,7 +9,10 @@ import com.lgyun.system.user.dto.MakerAddDto;
 import com.lgyun.system.user.dto.UpdatePasswordDto;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.excel.MakerExcel;
-import com.lgyun.system.user.vo.*;
+import com.lgyun.system.user.vo.IdcardOcrVO;
+import com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO;
+import com.lgyun.system.user.vo.MakerInfoVO;
+import com.lgyun.system.user.vo.MakerRealNameAuthenticationStateVO;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -258,13 +260,5 @@ public interface IMakerService extends IService<MakerEntity> {
      */
     MakerEntity findByIdcardNo(String idcardNo);
 
-    /**
-     * 获取关注当前商户的所有创客
-     *
-     * @param page
-     * @param enterpriseId
-     * @return
-     */
-    R<IPage<RelEnterpriseMakerVO>> getRelEnterpriseMaker(IPage<RelEnterpriseMakerVO> page, Long enterpriseId);
 }
 

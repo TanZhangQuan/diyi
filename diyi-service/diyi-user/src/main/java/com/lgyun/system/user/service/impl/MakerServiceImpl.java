@@ -2,7 +2,6 @@ package com.lgyun.system.user.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.RealnameVerifyConstant;
 import com.lgyun.common.constant.SmsConstant;
@@ -22,7 +21,10 @@ import com.lgyun.system.user.oss.AliyunOssService;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
 import com.lgyun.system.user.service.IMakerService;
 import com.lgyun.system.user.service.IUserService;
-import com.lgyun.system.user.vo.*;
+import com.lgyun.system.user.vo.IdcardOcrVO;
+import com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO;
+import com.lgyun.system.user.vo.MakerInfoVO;
+import com.lgyun.system.user.vo.MakerRealNameAuthenticationStateVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -578,7 +580,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
                 makerSave(makerExcel.getPhoneNumber(), makerExcel.getName(), makerExcel.getIdcardNo(), makerExcel.getBankCardNo(),
                         makerExcel.getBankName(), makerExcel.getBankCardNo(), makerExcel.getEnterpriseId());
             } catch (Exception e) {
-                log.error(String.valueOf(e));
+                log.error("新建创客异常", e);
             }
 
         });
@@ -628,11 +630,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         queryWrapper.lambda().eq(MakerEntity::getIdcardNo, idcardNo);
 
         return baseMapper.selectOne(queryWrapper);
-    }
-
-    @Override
-    public R<IPage<RelEnterpriseMakerVO>> getRelEnterpriseMaker(IPage<RelEnterpriseMakerVO> page, Long enterpriseId) {
-        return makerEnterpriseService.getRelEnterpriseMaker(page, enterpriseId);
     }
 
 }
