@@ -5,6 +5,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
+import com.lgyun.system.user.vo.RelEnterpriseMakerVO;
 
 /**
  * Service 接口
@@ -13,6 +14,15 @@ import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
  * @since 2020-06-26 17:21:05
  */
 public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEntity> {
+
+    /**
+     * 添加创客商户关联
+     *
+     * @param enterpriseId
+     * @param makerId
+     * @return
+     */
+    void makerEnterpriseEntitySave(Long enterpriseId, Long makerId);
 
     /**
      * 查询关联商户和关注商户
@@ -39,11 +49,28 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
      *
      * @param enterpriseId
      * @param makerId
+     * @return
+     */
+    MakerEnterpriseEntity getEnterpriseIdAndMakerId(Long enterpriseId, Long makerId);
+
+    /**
+     * 通过商户id，创客id，关系查询
+     *
+     * @param enterpriseId
+     * @param makerId
      * @param relationshipType
      * @return
      */
-    MakerEnterpriseEntity getEnterpriseIdAndMakerId(Long enterpriseId, Long makerId, Integer relationshipType);
+    MakerEnterpriseEntity getEnterpriseIdAndMakerIdAndRelationshipType(Long enterpriseId, Long makerId, Integer relationshipType);
 
+    /**
+     * 获取关注当前商户的所有创客
+     *
+     * @param page
+     * @param enterpriseId
+     * @return
+     */
+    R<IPage<RelEnterpriseMakerVO>> getRelEnterpriseMaker(IPage<RelEnterpriseMakerVO> page, Long enterpriseId);
 
 }
 

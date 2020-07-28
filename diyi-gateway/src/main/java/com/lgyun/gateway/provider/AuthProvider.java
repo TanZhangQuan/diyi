@@ -32,6 +32,7 @@ public class AuthProvider {
         defaultSkipUrl.add("/error/**");
         defaultSkipUrl.add("/assets/**");
         defaultSkipUrl.add("/maker/face_ocr_notify");
+        defaultSkipUrl.add("/maker/update-password");
     }
 
     /**

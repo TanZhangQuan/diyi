@@ -2,11 +2,10 @@ package com.lgyun.system.user.feign;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.constant.CommonConstant;
-import com.lgyun.common.enumeration.*;
+import com.lgyun.common.enumeration.GrantType;
+import com.lgyun.common.enumeration.Ibstate;
+import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.common.tool.DigestUtil;
-import com.lgyun.common.tool.StringUtil;
 import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.service.*;
@@ -17,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -73,50 +71,6 @@ public class UserClient implements IUserClient {
         return iEnterpriseWorkerService.findByPhoneNumber(phoneNumber);
     }
 
-    public void makerSave(String openid, String sessionKey, String purePhoneNumber, String loginPwd) {
-        //新建管理员
-        User user = new User();
-        user.setUserType(UserType.MAKER);
-        user.setAccount(purePhoneNumber);
-        user.setPassword(DigestUtil.encrypt(CommonConstant.DEFAULT_PASSWORD));
-        user.setName("用户");
-        user.setRealName("用户");
-        user.setEmail("user@bladex.vip");
-        user.setPhone(purePhoneNumber);
-        user.setBirthday(new Date());
-        user.setSex(1);
-        service.save(user);
-
-        //新建创客
-        MakerEntity makerEntity = new MakerEntity();
-        makerEntity.setOpenid(openid);
-        makerEntity.setUserId(user.getId());
-        makerEntity.setSessionKey(sessionKey);
-        makerEntity.setPhoneNumber(purePhoneNumber);
-        if (StringUtil.isNotBlank(loginPwd)) {
-            makerEntity.setLoginPwd(loginPwd);
-        } else {
-            makerEntity.setLoginPwd(DigestUtil.encrypt(CommonConstant.DEFAULT_PASSWORD));
-        }
-        makerEntity.setRelDate(new Date());
-        makerEntity.setCertificationState(CertificationState.UNCERTIFIED);
-        makerEntity.setSignState(SignState.UNSIGN);
-        makerEntity.setMakerState(AccountState.NORMAL);
-        makerEntity.setIdcardVerifyStatus(VerifyStatus.TOVERIFY);
-        makerEntity.setFaceVerifyStatus(VerifyStatus.TOVERIFY);
-        makerEntity.setPhoneNumberVerifyStatus(VerifyStatus.TOVERIFY);
-        makerEntity.setBankCardVerifyStatus(VerifyStatus.TOVERIFY);
-        makerEntity.setVideoAudit(VideoAudit.TOAUDIT);
-        iMakerService.save(makerEntity);
-    }
-
-    public void makerUpdate(MakerEntity makerEntity, String openid, String sessionKey) {
-        //更新微信信息
-        makerEntity.setOpenid(openid);
-        makerEntity.setSessionKey(sessionKey);
-        iMakerService.updateById(makerEntity);
-    }
-
     @Override
     public R<String> makerDeal(String openid, String sessionKey, String phoneNumber, String loginPwd, GrantType grantType) {
         log.info("[makerDeal] phone={}", phoneNumber);
@@ -127,9 +81,9 @@ public class UserClient implements IUserClient {
                 //根据手机号获取创客
                 makerEntity = iMakerService.findByPhoneNumber(phoneNumber);
                 if (makerEntity != null) {
-                    makerUpdate(makerEntity, openid, sessionKey);
+                    iMakerService.makerUpdate(makerEntity, openid, sessionKey);
                 } else {
-                    makerSave(openid, sessionKey, phoneNumber, "");
+                    iMakerService.makerSave(openid, sessionKey, phoneNumber, loginPwd);
                 }
                 break;
 
@@ -137,7 +91,7 @@ public class UserClient implements IUserClient {
                 //根据账号密码获取创客
                 makerEntity = iMakerService.findByPhoneNumberAndLoginPwd(phoneNumber, loginPwd);
                 if (makerEntity != null) {
-                    makerUpdate(makerEntity, openid, sessionKey);
+                    iMakerService.makerUpdate(makerEntity, openid, sessionKey);
                 } else {
                     return R.fail("账号或密码错误");
                 }
@@ -147,7 +101,7 @@ public class UserClient implements IUserClient {
                 //根据手机号获取创客
                 makerEntity = iMakerService.findByPhoneNumber(phoneNumber);
                 if (makerEntity != null) {
-                    makerUpdate(makerEntity, openid, sessionKey);
+                    iMakerService.makerUpdate(makerEntity, openid, sessionKey);
                 } else {
                     return R.fail("用户未注册");
                 }
@@ -159,7 +113,7 @@ public class UserClient implements IUserClient {
                 if (makerEntity != null) {
                     return R.fail("手机号已注册");
                 } else {
-                    makerSave(openid, sessionKey, phoneNumber, loginPwd);
+                    iMakerService.makerSave(openid, sessionKey, phoneNumber, loginPwd);
                 }
                 break;
 

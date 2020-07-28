@@ -809,6 +809,7 @@ CREATE TABLE `diyi_employee` (
 DROP TABLE IF EXISTS `diyi_enterprise`;
 CREATE TABLE `diyi_enterprise` (
   `id` bigint(50) NOT NULL COMMENT '主键',
+  `user_id` bigint(50) NOT NULL COMMENT '管理者ID',
   `enterprise_user_name` varchar(50) NOT NULL COMMENT '用户名',
   `enterprise_pwd` varchar(100) NOT NULL COMMENT '密码',
   `enterprise_state` varchar(50) NOT NULL COMMENT '商户账户状态',
@@ -859,7 +860,8 @@ CREATE TABLE `diyi_enterprise` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`enterprise_user_name`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`invite_no`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`enterprise_name`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`enterprise_name`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k4` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
@@ -1117,7 +1119,7 @@ CREATE TABLE `diyi_maker_enterprise` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `enterprise_id` bigint(50) NOT NULL COMMENT '企业ID',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
-  `position_id` bigint(50) NOT NULL COMMENT '外包岗位ID',
+  `position_id` bigint(50) DEFAULT NULL COMMENT '外包岗位ID',
   `rel_date` datetime NOT NULL COMMENT '关联日期',
   `rel_type` varchar(50) DEFAULT NULL COMMENT '关联类型：创客主动关联，企业主动关联，平台关联',
   `relationship_type` int(1) DEFAULT '0' COMMENT '0，关联，1是关注',
@@ -1256,7 +1258,8 @@ CREATE TABLE `diyi_online_agreement_need_sign` (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`online_agreement_template_id`,`sign_power`,`object_type`,`object_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
@@ -1286,7 +1289,8 @@ CREATE TABLE `diyi_online_agreement_template` (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`template_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------

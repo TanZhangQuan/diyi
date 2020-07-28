@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- *  Entity
+ * Entity
  *
  * @author jun
  * @since 2020-07-18 14:37:08
@@ -47,8 +47,9 @@ public class AgreementEntity extends BaseEntity {
      * 1、纸质协议2、平台在线协议3、三方在线协议
      */
     private SignType signType;
+
     /**
-     *0签署中 1已完毕
+     * 0签署中 1已完毕
      */
     private SignState signState;
 
