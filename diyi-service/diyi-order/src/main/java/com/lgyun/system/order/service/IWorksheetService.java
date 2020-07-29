@@ -3,11 +3,15 @@ package com.lgyun.system.order.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.dto.ReleaseWorksheetDto;
 import com.lgyun.system.order.entity.WorksheetEntity;
 import com.lgyun.system.order.vo.EnterpriseWorksheetDetailVo;
+import com.lgyun.system.order.vo.WorksheetMakerDetailsVO;
 import com.lgyun.system.order.vo.WorksheetXiaoVo;
+
+import java.math.BigDecimal;
 
 /**
  *  Service 接口
@@ -33,7 +37,7 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      * @param makerId
      * @return
      */
-    R<String> orderGrabbing(Long worksheetId,Long makerId);
+    R orderGrabbing(Long worksheetId,Long makerId);
 
     /**
      * 小程序查询工单
@@ -52,6 +56,33 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      * @return
      */
     R<WorksheetXiaoVo> getWorksheetDetails(Long worksheetMakerId);
+
+
+    /**
+     *根据工单状态和商户id查询
+     */
+    R getEnterpriseWorksheet(IPage<WorksheetXiaoVo> page, Long enterpriseId, WorksheetState worksheetState,String worksheetNo,String worksheetName,String startTime,String endTime);
+
+
+    /**
+     * 后台查询订单详情
+     */
+    R getWorksheetWebDetails(IPage<WorksheetMakerDetailsVO> page, Long worksheetId);
+
+    /**
+     * 开启或关闭
+     */
+    R closeOrOpen(Long worksheetId,Integer variable);
+
+    /**
+     * 踢出创客
+     */
+    R kickOut(Long worksheetId,Long makerId);
+
+    /**
+     * 验收
+     */
+    R checkAccept(Long worksheetMakerId, BigDecimal checkMoney);
 
     /**
      * 根据创客查询工单详情

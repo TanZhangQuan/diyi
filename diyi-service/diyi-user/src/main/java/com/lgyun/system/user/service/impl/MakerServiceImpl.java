@@ -2,6 +2,8 @@ package com.lgyun.system.user.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.RealnameVerifyConstant;
 import com.lgyun.common.constant.SmsConstant;
@@ -32,6 +34,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Service 实现
@@ -541,6 +544,21 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         makerEntity.setVideoAudit(VideoAudit.TOAUDIT);
         saveOrUpdate(makerEntity);
         return R.success("成功");
+    }
+
+    @Override
+    public R getMakerName(Integer current, Integer size, String makerName) {
+        QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().like(makerName != null, MakerEntity::getName, makerName);
+
+        IPage<MakerEntity> pages = this.page(new Page<>(current, size), queryWrapper);
+
+        List<MakerDetailVO> records = pages.getRecords().stream().map(MakerEntity -> BeanUtil.copy(MakerEntity, MakerDetailVO.class)).collect(Collectors.toList());
+
+        IPage<MakerDetailVO> pageVo = new Page<>(pages.getCurrent(), pages.getSize(), pages.getTotal());
+        pageVo.setRecords(records);
+
+        return R.data(pageVo);
     }
 
     @Override

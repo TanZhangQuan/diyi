@@ -218,6 +218,11 @@ public interface IMakerService extends IService<MakerEntity> {
     R<String> uploadMakerVideo(MakerEntity makerEntity, String applyShortVideo);
 
     /**
+     * 根据创客姓名分页查询
+     */
+    R getMakerName(Integer current,Integer size,String makerName);
+
+    /**
      * 获取当前创客所有实名认证状态
      *
      * @param makerId

@@ -1050,17 +1050,18 @@ CREATE TABLE `diyi_maker` (
   `openid` varchar(50) NOT NULL DEFAULT '' COMMENT '微信open_id',
   `session_key` varchar(50) NOT NULL DEFAULT '' COMMENT '微信session_key',
   `rel_date` datetime DEFAULT NULL COMMENT '微信关联日期',
+  `due_date` datetime DEFAULT NULL COMMENT '到期日期',
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '姓名',
   `avatar` varchar(100) NOT NULL DEFAULT '' COMMENT '头像',
   `certification_state` varchar(50) NOT NULL COMMENT '认证状态',
-  `sign_state` varchar(50) NOT NULL COMMENT '签署状态',
+  `empower_sign_state` varchar(50) NOT NULL COMMENT '授权协议状态',
+  `join_sign_state` varchar(100) DEFAULT NULL COMMENT '加盟协议状态',
   `maker_state` varchar(50) NOT NULL COMMENT '账户状态',
   `politic_state` varchar(50) NOT NULL DEFAULT '' COMMENT '政治面貌',
   `nationality` varchar(50) NOT NULL DEFAULT '' COMMENT '民族',
   `levelofedu` varchar(50) NOT NULL DEFAULT '' COMMENT '文化程度',
   `email_address` varchar(100) NOT NULL DEFAULT '' COMMENT '电子邮箱',
   `idcard_no` varchar(100) NOT NULL DEFAULT '' COMMENT '身份证号码',
-  `due_date` datetime DEFAULT NULL COMMENT '到期日期',
   `phone_number` varchar(50) NOT NULL COMMENT '手机号码',
   `phone_number2` varchar(50) NOT NULL DEFAULT '' COMMENT '手机号码2',
   `login_pwd` varchar(100) NOT NULL COMMENT '登录密码',
@@ -1894,9 +1895,10 @@ CREATE TABLE `diyi_worksheet` (
   `enterprise_id` bigint(50) NOT NULL COMMENT '企业ID',
   `worksheet_no` varchar(50) NOT NULL COMMENT '工单编号',
   `worksheet_name` varchar(50) NOT NULL COMMENT '工单名称',
-  `upPerson_num` int(10) DEFAULT NULL COMMENT '上线人数',
+  `upPerson_num` int(10) DEFAULT '0' COMMENT '上线人数',
   `work_days` int(10) DEFAULT NULL COMMENT '工作天数',
-  `worksheet_fee` decimal(12,2) DEFAULT '0.00' COMMENT '费用',
+  `worksheet_fee_low` decimal(12,2) DEFAULT '0.00' COMMENT '最低费用',
+  `worksheet_fee_high` decimal(12,2) DEFAULT '0.00' COMMENT '最高费用',
   `worksheet_type` varchar(50) NOT NULL COMMENT '类型，总包+分包，众包/众采',
   `worksheet_mode` varchar(50) NOT NULL COMMENT '模式，派单、抢单、混合（默认：混合型）',
   `publish_date` datetime NOT NULL COMMENT '发布时间',
@@ -1919,6 +1921,7 @@ CREATE TABLE `diyi_worksheet` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 -- ----------------------------
 -- Records of diyi_worksheet

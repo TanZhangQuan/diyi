@@ -10,6 +10,7 @@ import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.vo.IndividualBusinessListByMakerVO;
 import com.lgyun.system.user.vo.IndividualEnterpriseListByMakerVO;
+import com.lgyun.system.user.vo.MakerDetailVO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -110,6 +111,11 @@ public class IUserClientFallback implements IUserClient {
 
     @Override
     public MakerEntity currentMaker(BladeUser bladeUser) {
+        return null;
+    }
+
+    @Override
+    public R getMakerName(Integer current, Integer size, String makerName) {
         return null;
     }
 

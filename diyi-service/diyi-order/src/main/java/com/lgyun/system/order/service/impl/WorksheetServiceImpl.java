@@ -13,6 +13,7 @@ import com.lgyun.system.order.mapper.WorksheetMapper;
 import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.order.vo.EnterpriseWorksheetDetailVo;
+import com.lgyun.system.order.vo.WorksheetMakerDetailsVO;
 import com.lgyun.system.order.vo.WorksheetXiaoVo;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
@@ -23,9 +24,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * Service 实现
@@ -135,6 +135,75 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         return R.data(baseMapper.getWorksheetDetails(worksheetMakerId));
     }
 
+    @Override
+    public R getEnterpriseWorksheet(IPage<WorksheetXiaoVo> page, Long enterpriseId,WorksheetState worksheetState,String worksheetNo,String worksheetName,String startTime,String endTime) {
+        return R.data(baseMapper.getEnterpriseWorksheet(enterpriseId,worksheetState, worksheetNo, worksheetName, startTime, endTime,page));
+    }
+
+    @Override
+    public R getWorksheetWebDetails(IPage<WorksheetMakerDetailsVO> page, Long worksheetId) {
+        WorksheetEntity worksheetEntity = getById(worksheetId);
+        WorksheetXiaoVo worksheetXiaoVo = BeanUtil.copy(worksheetEntity, WorksheetXiaoVo.class);
+        Map map = new HashMap();
+        map.put("worksheetXiaoVo",worksheetXiaoVo);
+        IPage<WorksheetMakerDetailsVO> worksheetMakerDetails = worksheetMakerService.getWorksheetMakerDetails(worksheetId, page);
+        List<WorksheetMakerDetailsVO> records = worksheetMakerDetails.getRecords();
+        for (WorksheetMakerDetailsVO worksheetMakerDetailsVO : records) {
+            if(SignState.SIGNED.equals(worksheetMakerDetailsVO.getJoinSignState()) && SignState.SIGNED.equals(worksheetMakerDetailsVO.getEmpowerSignState())){
+                worksheetMakerDetailsVO.setProtocolAuthentication(CertificationState.CERTIFIED);
+            }
+            if(VerifyStatus.VERIFYPASS.equals(worksheetMakerDetailsVO.getBankCardVerifyStatus()) &&
+                    VerifyStatus.VERIFYPASS.equals(worksheetMakerDetailsVO.getFaceVerifyStatus()) &&
+                    VerifyStatus.VERIFYPASS.equals(worksheetMakerDetailsVO.getIdcardVerifyStatus()) &&
+                    VerifyStatus.VERIFYPASS.equals(worksheetMakerDetailsVO.getPhoneNumberVerifyStatus())){
+                worksheetMakerDetailsVO.setRealNameAuthentication(CertificationState.CERTIFIED);
+            }
+        }
+        return R.data(worksheetMakerDetails);
+    }
+
+    @Override
+    public R closeOrOpen(Long worksheetId, Integer variable) {
+        WorksheetEntity worksheetEntity = getById(worksheetId);
+        if(variable != 1 && variable != 2){
+            R.fail("参数有误");
+        }
+        if(1 == variable){
+            worksheetEntity.setWorksheetState(WorksheetState.CLOSED);
+            return R.success("关闭成功");
+        }else{
+            worksheetEntity.setWorksheetState(WorksheetState.PUBLISHING);
+            return R.success("开启成功");
+        }
+    }
+
+    @Override
+    public R kickOut(Long worksheetId, Long makerId) {
+        WorksheetMakerEntity worksheetMakerEntity = worksheetMakerService.getmakerIdAndWorksheetId(worksheetId, makerId);
+        if(null == worksheetMakerEntity){
+            R.fail("创客没有抢单记录");
+        }
+        removeById(worksheetMakerEntity.getId());
+        return R.success("移除成功");
+    }
+
+    @Override
+    public R checkAccept(Long worksheetMakerId, BigDecimal checkMoney) {
+        WorksheetMakerEntity worksheetMakerEntity = worksheetMakerService.getById(worksheetMakerId);
+        WorksheetEntity worksheetEntity = getById(worksheetMakerEntity.getWorksheetId());
+        if(!worksheetEntity.getWorksheetState().equals(WorksheetState.CLOSED)){
+            R.fail("工单还没有关单");
+        }
+        worksheetMakerEntity.setCheckMoney(checkMoney);
+        worksheetMakerEntity.setCheckDate(new Date());
+        worksheetMakerEntity.setCheckPerson("商户");
+        worksheetMakerService.saveOrUpdate(worksheetMakerEntity);
+        return R.success("验收成功");
+    }
+
+    public synchronized R<String> orderGrabbing(WorksheetEntity worksheetEntity,MakerEntity makerEntity,int worksheetCount){
+        if(0 != worksheetEntity.getUppersonNum() && worksheetCount == worksheetEntity.getUppersonNum()){
+            if(worksheetEntity.getWorksheetState().equals(WorksheetState.PUBLISHING)){
     @Override
     public R<IPage<EnterpriseWorksheetDetailVo>> getWorksheetDetailsByMaker(IPage<EnterpriseWorksheetDetailVo> page, Long enterpriseId, Long makerId) {
         return R.data(page.setRecords(baseMapper.getWorksheetDetailsByMaker(enterpriseId, makerId,  page)));
