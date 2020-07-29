@@ -12,12 +12,9 @@ import com.lgyun.system.user.entity.OnlineAgreementTemplateEntity;
 public interface IOnlineAgreementTemplateService extends BaseService<OnlineAgreementTemplateEntity> {
 
     /**
-     * 根据模板类型查询模板
-     *
-     * @param templateType
-     * @return
+     * 通过协议类别查询
      */
-    OnlineAgreementTemplateEntity findByTemplateType(Integer templateType);
+    OnlineAgreementTemplateEntity findTemplateType(Integer templateType);
 
 }
 

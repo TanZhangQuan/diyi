@@ -84,13 +84,6 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
             makerEnterpriseEntity.setFirstCooperation(true);
             makerEnterpriseEntity.setRelMemo("关注");
         }
-        if (attribute == 1) {
-            makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATESTOP);
-
-        }
-        if (attribute == 2) {
-            makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATING);
-        }
         boolean b = saveOrUpdate(makerEnterpriseEntity);
         System.out.println(b);
 
