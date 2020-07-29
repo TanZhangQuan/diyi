@@ -11,7 +11,6 @@ import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.IndividualBusinessListByMakerVO;
 import com.lgyun.system.user.vo.IndividualEnterpriseListByMakerVO;
-import com.lgyun.system.user.vo.MakerDetailVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

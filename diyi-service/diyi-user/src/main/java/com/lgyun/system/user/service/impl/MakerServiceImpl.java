@@ -101,7 +101,8 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             makerEntity.setSubBankName(subBankName);
             makerEntity.setRelDate(new Date());
             makerEntity.setCertificationState(CertificationState.UNCERTIFIED);
-            makerEntity.setSignState(SignState.UNSIGN);
+            makerEntity.setJoinSignState(SignState.UNSIGN);
+            makerEntity.setEmpowerSignState(SignState.UNSIGN);
             makerEntity.setMakerState(AccountState.NORMAL);
             makerEntity.setIdcardVerifyStatus(VerifyStatus.TOVERIFY);
             makerEntity.setFaceVerifyStatus(VerifyStatus.TOVERIFY);
@@ -375,7 +376,8 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             makerEntity.setBankCardVerifyDate(new Date());
 
             //判断是否已认证
-            if (CertificationState.UNCERTIFIED.equals(makerEntity.getCertificationState()) && SignState.SIGNED.equals(makerEntity.getSignState())) {
+            if (CertificationState.UNCERTIFIED.equals(makerEntity.getCertificationState()) && SignState.SIGNED.equals(makerEntity.getJoinSignState())
+                    && SignState.SIGNED.equals(makerEntity.getEmpowerSignState())) {
                 makerEntity.setCertificationState(CertificationState.CERTIFIED);
             }
 

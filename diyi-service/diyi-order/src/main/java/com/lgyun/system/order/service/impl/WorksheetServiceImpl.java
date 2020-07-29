@@ -201,9 +201,6 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         return R.success("验收成功");
     }
 
-    public synchronized R<String> orderGrabbing(WorksheetEntity worksheetEntity,MakerEntity makerEntity,int worksheetCount){
-        if(0 != worksheetEntity.getUppersonNum() && worksheetCount == worksheetEntity.getUppersonNum()){
-            if(worksheetEntity.getWorksheetState().equals(WorksheetState.PUBLISHING)){
     @Override
     public R<IPage<EnterpriseWorksheetDetailVo>> getWorksheetDetailsByMaker(IPage<EnterpriseWorksheetDetailVo> page, Long enterpriseId, Long makerId) {
         return R.data(page.setRecords(baseMapper.getWorksheetDetailsByMaker(enterpriseId, makerId,  page)));
