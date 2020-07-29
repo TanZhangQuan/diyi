@@ -36,5 +36,38 @@
         <result property="status" column="status"/>
         <result property="isDeleted" column="is_deleted"/>
     </resultMap>
-
+    <resultMap type="com.lgyun.system.user.vo.AgreementWebVO" id="agreementWebVOMap">
+        <result property="enterpriseProviderId" column="enterprise_provider_id"/>
+        <result property="enterpriseId" column="enterprise_id"/>
+        <result property="serviceProviderId" column="service_provider_id"/>
+        <result property="agreementId" column="agreement_id"/>
+        <result property="agreementNo" column="agreement_no"/>
+        <result property="serviceProviderName" column="service_provider_name"/>
+        <result property="firstSideSignPerson" column="first_side_sign_person"/>
+        <result property="onlineAggrementUrl" column="online_aggrement_url"/>
+        <result property="signState" column="sign_state"/>
+        <result property="signDate" column="sign_date"/>
+    </resultMap>
+    <select id="selectServiceAgreement" resultMap="agreementWebVOMap">
+        SELECT ep.id AS enterprise_provider_id, ep.enterprise_id, ep.service_provider_id, a.id AS agreement_id, a.agreement_no, sp.service_provider_name, a.first_side_sign_person, a.online_aggrement_url, a.sign_state, a.sign_date FROM diyi_enterprise_provider ep INNER JOIN diyi_service_provider sp ON sp.id = ep.service_provider_id INNER JOIN diyi_agreement a ON sp.id = a.service_provider_id WHERE
+         sp.is_deleted = 0 AND a.is_deleted = 0 AND ep.is_deleted = 0  and ep.enterprise_id =#{param1}
+        <if test="param2 != null and param2 != ''">
+            and sp.service_provider_name like concat('%', #{param2}, '%')
+        </if>
+        <if test="param3 != null and param3 != ''">
+            and a.agreement_no like concat('%', #{param3}, '%')
+        </if>
+        and a.sign_type=#{param4} AND a.agreement_type =#{param5}
+    </select>
+    <select id="selectServiceSupplementaryAgreement" resultMap="agreementWebVOMap">
+        SELECT ep.id AS enterprise_provider_id, ep.enterprise_id, ep.service_provider_id, a.id AS agreement_id, a.agreement_no, sp.service_provider_name, a.first_side_sign_person, a.online_aggrement_url, a.sign_state, a.sign_date FROM diyi_enterprise_provider ep INNER JOIN diyi_service_provider sp ON sp.id = ep.service_provider_id INNER JOIN diyi_agreement a ON sp.id = a.service_provider_id WHERE
+        sp.is_deleted = 0 AND a.is_deleted = 0 AND ep.is_deleted = 0  and ep.enterprise_id =#{param1}
+        <if test="param2 != null and param2 != ''">
+            and sp.service_provider_name like concat('%', #{param2}, '%')
+        </if>
+        <if test="param3 != null and param3 != ''">
+            and a.agreement_no like concat('%', #{param3}, '%')
+        </if>
+        and a.sign_type in ('PLATFORMAGREEMENT','PAPERAGREEMENT') AND a.agreement_type =#{param4}
+    </select>
 </mapper>

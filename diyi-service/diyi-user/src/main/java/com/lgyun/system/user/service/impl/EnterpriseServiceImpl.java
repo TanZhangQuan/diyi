@@ -60,17 +60,14 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     public MakerEnterpriseRelationVO getEnterpriseName(String enterpriseName) {
         QueryWrapper<EnterpriseEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(EnterpriseEntity::getEnterpriseName, enterpriseName);
-
         EnterpriseEntity enterpriseEntity = baseMapper.selectOne(queryWrapper);
-
         return EnterpriseWrapper.build().makerEnterpriseRelationVO(enterpriseEntity);
     }
 
     @Override
     public R<MakerEnterpriseRelationVO> getEnterpriseId(Long enterpriseId, Long makerId) {
-        MakerEnterpriseEntity enterpriseIdAndMakerIdLian = makerEnterpriseService.getEnterpriseIdAndMakerIdAndRelationshipType(enterpriseId, makerId, 0);
-        MakerEnterpriseEntity enterpriseIdAndMakerIdZhu = makerEnterpriseService.getEnterpriseIdAndMakerIdAndRelationshipType(enterpriseId, makerId, 1);
-
+        MakerEnterpriseEntity enterpriseIdAndMakerIdLian = makerEnterpriseService.getEnterpriseIdAndMakerId(enterpriseId, makerId, 0);
+        MakerEnterpriseEntity enterpriseIdAndMakerIdZhu = makerEnterpriseService.getEnterpriseIdAndMakerId(enterpriseId, makerId, 1);
         QueryWrapper<EnterpriseEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(EnterpriseEntity::getId, enterpriseId);
 

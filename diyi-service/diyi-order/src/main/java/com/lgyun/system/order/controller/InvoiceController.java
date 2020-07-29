@@ -42,9 +42,9 @@ public class InvoiceController {
             MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
             return payEnterpriseService.getEnterpriseAll(makerEntity.getId(), Condition.getPage(query));
         } catch (Exception e) {
-            e.printStackTrace();
-            return R.fail("根据创客id查询所有商户失败");
+            log.error("根据创客id查询所有商户失败",e);
         }
+        return R.fail("根据创客id查询所有商户失败");
     }
 
     @GetMapping("/getEnterpriseMakerIdAll")
@@ -55,9 +55,9 @@ public class InvoiceController {
             MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
             return payEnterpriseService.getEnterpriseMakerIdAll(makerEntity.getId(), enterpriseId, Condition.getPage(query));
         } catch (Exception e) {
-            e.printStackTrace();
-            return R.fail("根据创客id和商户id查询创客在商户下所开的票失败");
+            log.error("根据创客id和商户id查询创客在商户下所开的票失败",e);
         }
+        return R.fail("根据创客id和商户id查询创客在商户下所开的票失败");
     }
 
     @GetMapping("/getEnterpriseMakerIdDetail")
@@ -68,8 +68,8 @@ public class InvoiceController {
             MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
             return payEnterpriseService.getEnterpriseMakerIdDetail(makerEntity.getId(), enterpriseId, payMakerId);
         } catch (Exception e) {
-            e.printStackTrace();
-            return R.fail("根据创客id,商户id和创客支付id查询票的详情失败");
+            log.error("根据创客id,商户id和创客支付id查询票的详情失败",e);
         }
+        return R.fail("根据创客id,商户id和创客支付id查询票的详情失败");
     }
 }

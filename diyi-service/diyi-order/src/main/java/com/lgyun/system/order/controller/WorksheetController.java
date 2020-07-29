@@ -48,9 +48,9 @@ public class WorksheetController {
         try {
             return worksheetService.releaseWorksheet(releaseWorksheetDTO);
         } catch (Exception e) {
-            e.printStackTrace();
-            return R.fail("发布订单失败");
+            log.error("发布订单失败", e);
         }
+        return R.fail("发布订单失败");
     }
 
     @GetMapping("getMakerName")
@@ -60,9 +60,9 @@ public class WorksheetController {
         try {
             return iUserClient.getMakerName(query.getCurrent(), query.getSize(),makerName);
         } catch (Exception e) {
-            e.printStackTrace();
-            return R.fail("通过创客名字查询失败");
+            log.error("通过创客名字查询失败", e);
         }
+        return R.fail("通过创客名字查询失败");
     }
 
     @GetMapping("getEnterpriseWorksheet")
@@ -77,9 +77,9 @@ public class WorksheetController {
         try {
             return worksheetService.getEnterpriseWorksheet(Condition.getPage(query),enterpriseId,worksheetState,worksheetNo,worksheetName,startTime,endTime);
         } catch (Exception e) {
-            e.printStackTrace();
-            return R.fail("根据工单状态和商户id查询失败");
+            log.error("根据工单状态和商户id查询失败", e);
         }
+        return R.fail("根据工单状态和商户id查询失败");
     }
 
     @PostMapping("deleteWorksheet")
@@ -90,9 +90,9 @@ public class WorksheetController {
              worksheetService.removeById(worksheetId);
             return R.success("删除成功");
         } catch (Exception e) {
-            e.printStackTrace();
-            return R.fail("删除失败");
+            log.error("删除失败", e);
         }
+        return R.fail("删除失败");
     }
 
     @GetMapping("getWorksheetWebDetails")
@@ -102,9 +102,9 @@ public class WorksheetController {
         try {
             return worksheetService.getWorksheetWebDetails(Condition.getPage(query),worksheetId);
         } catch (Exception e) {
-            e.printStackTrace();
-            return R.fail("查看失败");
+            log.error("查看失败", e);
         }
+        return R.fail("查看失败");
     }
 
     @PostMapping("/kickOut")
@@ -115,9 +115,9 @@ public class WorksheetController {
         try {
             return worksheetService.kickOut(worksheetId, makerId);
         } catch (Exception e) {
-            e.printStackTrace();
-            return R.fail("工单踢出创客失败");
+            log.error("工单踢出创客失败", e);
         }
+        return R.fail("工单踢出创客失败");
     }
 
     @PostMapping("/checkAccept")
@@ -128,9 +128,9 @@ public class WorksheetController {
         try {
             return worksheetService.checkAccept(worksheetMakerId, checkMoney);
         } catch (Exception e) {
-            e.printStackTrace();
-            return R.fail("验收工单失败");
+            log.error("验收工单失败", e);
         }
+        return R.fail("验收工单失败");
     }
 
     @PostMapping("/closeOrOpen")
@@ -141,9 +141,9 @@ public class WorksheetController {
         try {
             return worksheetService.closeOrOpen(worksheetId, variable);
         } catch (Exception e) {
-            e.printStackTrace();
-            return R.fail("开单或关单失败");
+            log.error("开单或关单失败", e);
         }
+        return R.fail("开单或关单失败");
     }
 
     @PostMapping("/orderGrabbing")
@@ -154,9 +154,9 @@ public class WorksheetController {
             MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
             return worksheetService.orderGrabbing(worksheetId, makerEntity.getId());
         } catch (Exception e) {
-            e.printStackTrace();
-            return R.fail("抢单失败");
+            log.error("抢单失败", e);
         }
+        return R.fail("抢单失败");
     }
 
     @GetMapping("/findXiaoPage")
@@ -165,11 +165,16 @@ public class WorksheetController {
             @ApiImplicitParam(name = "worksheetState", value = "工单状态：1代表待抢单，2已接单，3已交付", paramType = "query", dataType = "string"),
     })
     public R findXiaoPage(Query query,@NotNull(message = "请输入工单的状态") @RequestParam(required = false) Integer worksheetState, BladeUser bladeUser) {
-        MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
-        if (null == worksheetState || (worksheetState != 1 && worksheetState != 2 && worksheetState != 3)) {
-            return R.fail("参数错误");
+        try {
+            MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
+            if (null == worksheetState || (worksheetState != 1 && worksheetState != 2 && worksheetState != 3)) {
+                return R.fail("参数错误");
+            }
+            return worksheetService.findXiaoPage(Condition.getPage(query), worksheetState, makerEntity.getId());
+        }catch (Exception e){
+            log.info("小程查询工单失败");
         }
-        return worksheetService.findXiaoPage(Condition.getPage(query), worksheetState, makerEntity.getId());
+        return R.fail("小程查询工单失败");
     }
 
     @PostMapping("/submitachievement")
@@ -177,7 +182,7 @@ public class WorksheetController {
     public R submitachievement(@NotNull(message = "请输入工单的状态") @RequestParam(required = false) Long worksheetMakerId,
                                @NotNull(message = "请输入工单说明") @RequestParam(required = false) String achievementDesc,
                                @NotNull(message = "请输入工单url") @RequestParam(required = false)String achievementFiles) {
-        log.info("提交工作成果");
+
         try {
             WorksheetMakerEntity worksheetMakerEntity = worksheetMakerService.getById(worksheetMakerId);
             WorksheetEntity worksheetEntity = worksheetService.getById(worksheetMakerEntity.getWorksheetId());
@@ -186,10 +191,9 @@ public class WorksheetController {
             }
             return worksheetMakerService.submitAchievement(worksheetMakerEntity, achievementDesc, achievementFiles);
         } catch (Exception e) {
-            e.printStackTrace();
-            return R.fail("提交工作成果失败");
+            log.info("提交工作成果失败");
         }
-
+        return R.fail("提交工作成果失败");
     }
 
     @PostMapping("/checkAchievement")
@@ -202,9 +206,9 @@ public class WorksheetController {
         try {
             return worksheetMakerService.checkAchievement(worksheetMakerId, checkMoney, enterpriseId, bool);
         } catch (Exception e) {
-            e.printStackTrace();
-            return R.fail("验收工作成果失败");
+            log.info("验收工作成果失败");
         }
+        return R.fail("验收工作成果失败");
     }
 
     @GetMapping("/getWorksheetDetails")
@@ -214,9 +218,9 @@ public class WorksheetController {
         try {
             return worksheetService.getWorksheetDetails(worksheetMakerId);
         } catch (Exception e) {
-            e.printStackTrace();
-            return R.fail("查询工单详情失败");
+            log.info("查询工单详情失败");
         }
+        return R.fail("查询工单详情失败");
     }
 
     @GetMapping("/get_enterprise_worksheet_details")

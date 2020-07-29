@@ -3,6 +3,7 @@ package com.lgyun.system.user.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.lgyun.common.enumeration.AuditState;
 import com.lgyun.common.enumeration.SignState;
 import com.lgyun.common.enumeration.SignType;
 import io.swagger.annotations.ApiModelProperty;
@@ -48,6 +49,10 @@ public class AgreementEntity extends BaseEntity {
      */
     private SignType signType;
 
+    /**
+     *单方授权函审核状态 1，编辑中；2，已驳回；3，已审核通过
+     */
+    private AuditState auditState;
     /**
      * 0签署中 1已完毕
      */
