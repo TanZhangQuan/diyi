@@ -51,7 +51,7 @@ public class WechatTokenGranter implements ITokenGranter {
                 String sessionKey = jsonObject.getString("sessionKey");
                 purePhoneNumber = jsonObject.getString("purePhoneNumber");
                 // 创客处理
-                R res = userClient.makerSaveOrUpdate(openid, sessionKey, purePhoneNumber, "", GrantType.WECHAT);
+                R res = userClient.makerDeal(openid, sessionKey, purePhoneNumber, "", GrantType.WECHAT);
                 if (!(res.isSuccess())) {
                     return res;
                 }

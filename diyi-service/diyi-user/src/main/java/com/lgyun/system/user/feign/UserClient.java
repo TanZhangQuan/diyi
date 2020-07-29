@@ -2,23 +2,20 @@ package com.lgyun.system.user.feign;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.constant.CommonConstant;
-import com.lgyun.common.enumeration.*;
+import com.lgyun.common.enumeration.GrantType;
+import com.lgyun.common.enumeration.Ibstate;
+import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.common.tool.DigestUtil;
-import com.lgyun.common.tool.StringUtil;
 import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.IndividualBusinessListByMakerVO;
 import com.lgyun.system.user.vo.IndividualEnterpriseListByMakerVO;
-import com.lgyun.system.user.vo.MakerDetailVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,6 +35,7 @@ public class UserClient implements IUserClient {
     private IIndividualBusinessService iIndividualBusinessService;
     private IRunCompanyService iRunCompanyService;
     private IEnterpriseService iEnterpriseService;
+    private IEnterpriseWorkerService iEnterpriseWorkerService;
 
     @Override
     @GetMapping(API_PREFIX + "/user-info-by-id")
@@ -64,78 +62,18 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public User userFindById(Long id) {
-        return service.getById(id);
-    }
-
-    @Override
-    public MakerEntity makerFindByPhoneNumberAndLoginPwd(String phoneNumber, String loginPwd) {
-        return iMakerService.findByPhoneNumberAndLoginPwd(phoneNumber, loginPwd);
-    }
-
-    @Override
     public MakerEntity makerFindByPhoneNumber(String phoneNumber) {
         return iMakerService.findByPhoneNumber(phoneNumber);
     }
 
     @Override
-    public EnterpriseWorkerEntity enterpriseWorkerFindByEmployeeUserNameEmployeePwd(String employeeUserName, String employeePwd) {
-        return null;
-    }
-
-    @Override
     public EnterpriseWorkerEntity enterpriseWorkerFindByPhoneNumber(String phoneNumber) {
-        return null;
-    }
-
-    public void makerSave(String openid, String sessionKey, String purePhoneNumber, String loginPwd) {
-        //新建管理员
-        User user = new User();
-        user.setUserType(UserType.MAKER);
-        user.setAccount(purePhoneNumber);
-        user.setPassword(DigestUtil.encrypt(CommonConstant.DEFAULT_PASSWORD));
-        user.setName("用户");
-        user.setRealName("用户");
-        user.setEmail("user@bladex.vip");
-        user.setPhone(purePhoneNumber);
-        user.setBirthday(new Date());
-        user.setSex(1);
-        service.save(user);
-
-        //新建创客
-        MakerEntity makerEntity = new MakerEntity();
-        makerEntity.setOpenid(openid);
-        makerEntity.setUserId(user.getId());
-        makerEntity.setSessionKey(sessionKey);
-        makerEntity.setPhoneNumber(purePhoneNumber);
-        if (StringUtil.isNotBlank(loginPwd)) {
-            makerEntity.setLoginPwd(loginPwd);
-        } else {
-            makerEntity.setLoginPwd(DigestUtil.encrypt(CommonConstant.DEFAULT_PASSWORD));
-        }
-        makerEntity.setRelDate(new Date());
-        makerEntity.setCertificationState(CertificationState.UNCERTIFIED);
-        makerEntity.setJoinSignState(SignState.UNSIGN);
-        makerEntity.setEmpowerSignState(SignState.UNSIGN);
-        makerEntity.setMakerState(AccountState.NORMAL);
-        makerEntity.setIdcardVerifyStatus(VerifyStatus.TOVERIFY);
-        makerEntity.setFaceVerifyStatus(VerifyStatus.TOVERIFY);
-        makerEntity.setPhoneNumberVerifyStatus(VerifyStatus.TOVERIFY);
-        makerEntity.setBankCardVerifyStatus(VerifyStatus.TOVERIFY);
-        makerEntity.setVideoAudit(VideoAudit.TOAUDIT);
-        iMakerService.save(makerEntity);
-    }
-
-    public void makerUpdate(MakerEntity makerEntity, String openid, String sessionKey) {
-        //更新微信信息
-        makerEntity.setOpenid(openid);
-        makerEntity.setSessionKey(sessionKey);
-        iMakerService.updateById(makerEntity);
+        return iEnterpriseWorkerService.findByPhoneNumber(phoneNumber);
     }
 
     @Override
-    public R<String> makerSaveOrUpdate(String openid, String sessionKey, String phoneNumber, String loginPwd, GrantType grantType) {
-        log.info("[makerSaveOrUpdate] phone={}", phoneNumber);
+    public R<String> makerDeal(String openid, String sessionKey, String phoneNumber, String loginPwd, GrantType grantType) {
+        log.info("[makerDeal] phone={}", phoneNumber);
         //根据手机号码查询创客，存在就更新微信信息，不存在就新建创客
         MakerEntity makerEntity;
         switch (grantType) {
@@ -143,17 +81,17 @@ public class UserClient implements IUserClient {
                 //根据手机号获取创客
                 makerEntity = iMakerService.findByPhoneNumber(phoneNumber);
                 if (makerEntity != null) {
-                    makerUpdate(makerEntity, openid, sessionKey);
+                    iMakerService.makerUpdate(makerEntity, openid, sessionKey);
                 } else {
-                    makerSave(openid, sessionKey, phoneNumber, "");
+                    iMakerService.makerSave(openid, sessionKey, phoneNumber, loginPwd);
                 }
                 break;
 
             case PASSWORD:
-                //根据手机号密码获取创客
+                //根据账号密码获取创客
                 makerEntity = iMakerService.findByPhoneNumberAndLoginPwd(phoneNumber, loginPwd);
                 if (makerEntity != null) {
-                    makerUpdate(makerEntity, openid, sessionKey);
+                    iMakerService.makerUpdate(makerEntity, openid, sessionKey);
                 } else {
                     return R.fail("账号或密码错误");
                 }
@@ -163,7 +101,7 @@ public class UserClient implements IUserClient {
                 //根据手机号获取创客
                 makerEntity = iMakerService.findByPhoneNumber(phoneNumber);
                 if (makerEntity != null) {
-                    makerUpdate(makerEntity, openid, sessionKey);
+                    iMakerService.makerUpdate(makerEntity, openid, sessionKey);
                 } else {
                     return R.fail("用户未注册");
                 }
@@ -175,7 +113,36 @@ public class UserClient implements IUserClient {
                 if (makerEntity != null) {
                     return R.fail("手机号已注册");
                 } else {
-                    makerSave(openid, sessionKey, phoneNumber, loginPwd);
+                    iMakerService.makerSave(openid, sessionKey, phoneNumber, loginPwd);
+                }
+                break;
+
+            default:
+                return R.fail("登陆方式有误");
+        }
+
+        return R.success("操作成功");
+    }
+
+    @Override
+    public R<String> enterpriseWorkerDeal(String phoneNumber, String loginPwd, GrantType grantType) {
+        log.info("[enterpriseWorkerDeal] phone={}", phoneNumber);
+        EnterpriseWorkerEntity enterpriseWorkerEntity;
+        switch (grantType) {
+
+            case PASSWORD:
+                //根据账号密码获取商户
+                enterpriseWorkerEntity = iEnterpriseWorkerService.findByEmployeeUserNameAndEmployeePwd(phoneNumber, loginPwd);
+                if (enterpriseWorkerEntity == null) {
+                    return R.fail("账号或密码错误");
+                }
+                break;
+
+            case MOBILE:
+                //根据手机号获取商户
+                enterpriseWorkerEntity = iEnterpriseWorkerService.findByPhoneNumber(phoneNumber);
+                if (enterpriseWorkerEntity == null) {
+                    return R.fail("用户未注册");
                 }
                 break;
 
@@ -244,6 +211,11 @@ public class UserClient implements IUserClient {
     @Override
     public R getMakerName(Integer current, Integer size, String makerName) {
         return iMakerService.getMakerName(current,size,makerName);
+    }
+
+    @Override
+    public EnterpriseEntity currentEnterprise(BladeUser bladeUser) {
+        return iEnterpriseService.current(bladeUser);
     }
 
 }

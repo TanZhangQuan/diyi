@@ -5,6 +5,9 @@ import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
+import com.lgyun.system.user.vo.RelEnterpriseMakerVO;
+
+import java.util.Set;
 
 /**
  * Service 接口
@@ -13,6 +16,15 @@ import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
  * @since 2020-06-26 17:21:05
  */
 public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEntity> {
+
+    /**
+     * 添加创客商户关联
+     *
+     * @param enterpriseId
+     * @param makerId
+     * @return
+     */
+    void makerEnterpriseEntitySave(Long enterpriseId, Long makerId);
 
     /**
      * 查询关联商户和关注商户
@@ -39,11 +51,56 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
      *
      * @param enterpriseId
      * @param makerId
+     * @return
+     */
+    MakerEnterpriseEntity getEnterpriseIdAndMakerId(Long enterpriseId, Long makerId);
+
+    /**
+     * 通过商户id，创客id，关系查询
+     *
+     * @param enterpriseId
+     * @param makerId
      * @param relationshipType
      * @return
      */
-    MakerEnterpriseEntity getEnterpriseIdAndMakerId(Long enterpriseId, Long makerId, Integer relationshipType);
+    MakerEnterpriseEntity getEnterpriseIdAndMakerIdAndRelationshipType(Long enterpriseId, Long makerId, Integer relationshipType);
 
+    /**
+     * 根据商户ID，关系，关键字获取当前商户的所有创客
+     *
+     * @param page
+     * @param enterpriseId
+     * @param relationshipType
+     * @param keyword
+     * @return
+     */
+    R<IPage<RelEnterpriseMakerVO>> getRelEnterpriseMaker(IPage<RelEnterpriseMakerVO> page, Long enterpriseId, Integer relationshipType, String keyword);
 
+    /**
+     * 批量关联创客
+     *
+     * @param makerIds
+     * @param enterpriseId
+     * @return
+     */
+    R<String> relMakers(Set<Long> makerIds, Long enterpriseId);
+
+    /**
+     * 批量取消创客关注
+     *
+     * @param makerIds
+     * @param enterpriseId
+     * @return
+     */
+    R<String> cancelMakersRel(Set<Long> makerIds, Long enterpriseId);
+
+    /**
+     * 批量取消创客关联
+     *
+     * @param makerIds
+     * @param enterpriseId
+     * @return
+     */
+    R<String> cancelRelMakers(Set<Long> makerIds, Long enterpriseId);
 }
 

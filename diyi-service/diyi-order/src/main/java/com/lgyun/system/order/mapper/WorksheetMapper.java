@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.system.order.entity.WorksheetEntity;
+import com.lgyun.system.order.vo.EnterpriseWorksheetDetailVo;
 import com.lgyun.system.order.vo.WorksheetXiaoVo;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -58,5 +59,14 @@ public interface WorksheetMapper extends BaseMapper<WorksheetEntity> {
      */
     List<WorksheetXiaoVo> getEnterpriseWorksheet(Long enterpriseId, WorksheetState worksheetState,String worksheetNo,String worksheetName,String startTime,String endTime,IPage<WorksheetXiaoVo> page);
 
+    /**
+     * 根据创客ID查询工单
+     *
+     * @param enterpriseId
+     * @param makerId
+     * @param page
+     * @return
+     */
+    List<EnterpriseWorksheetDetailVo> getWorksheetDetailsByMaker(Long enterpriseId, Long makerId, IPage<EnterpriseWorksheetDetailVo> page);
 }
 

@@ -48,20 +48,31 @@ public class PasswordTokenGranter implements ITokenGranter {
         //获取用户类型
         UserType userType = (UserType) tokenParameter.getArgs().get("userType");
         UserInfo userInfo;
+        R<String> res;
         switch (userType) {
             case MAKER:
                 // 获取微信授权码
                 String wechatCode = tokenParameter.getArgs().getStr("wechatCode");
                 //微信授权
                 R<JSONObject> result = wechatUtil.authorization(wechatCode);
-                if (!(result.isSuccess())){
+                if (!(result.isSuccess())) {
                     return result;
                 }
                 JSONObject jsonObject = result.getData();
                 String openid = jsonObject.getString("openid");
                 String sessionKey = jsonObject.getString("sessionKey");
                 //创客处理
-                R res = userClient.makerSaveOrUpdate(openid, sessionKey, account, DigestUtil.encrypt(password), GrantType.PASSWORD);
+                res = userClient.makerDeal(openid, sessionKey, account, DigestUtil.encrypt(password), GrantType.PASSWORD);
+                if (!(res.isSuccess())) {
+                    return res;
+                }
+
+                userInfo = userClient.userInfoByPhone(account, userType);
+                break;
+
+            case ENTERPRISE:
+                //创客处理
+                res = userClient.enterpriseWorkerDeal(account, DigestUtil.encrypt(password), GrantType.PASSWORD);
                 if (!(res.isSuccess())) {
                     return res;
                 }

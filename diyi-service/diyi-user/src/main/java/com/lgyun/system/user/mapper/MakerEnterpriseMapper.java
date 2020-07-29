@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
+import com.lgyun.system.user.vo.RelEnterpriseMakerVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -26,6 +27,17 @@ public interface MakerEnterpriseMapper extends BaseMapper<MakerEnterpriseEntity>
      * @return
      */
     List<MakerEnterpriseRelationVO> selectMakerEnterprisePage(Long makerId, Integer relationshipType, IPage<MakerEnterpriseRelationVO> page);
+
+    /**
+     * 根据商户ID，关系，关键字获取当前商户的所有创客
+     *
+     * @param enterpriseId
+     * @param relationshipType
+     * @param keyword
+     * @param page
+     * @return
+     */
+    List<RelEnterpriseMakerVO> getRelEnterpriseMaker(Long enterpriseId, Integer relationshipType, String keyword, IPage<RelEnterpriseMakerVO> page);
 
 }
 

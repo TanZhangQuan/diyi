@@ -49,7 +49,7 @@ public class RegisterGranter implements ITokenGranter {
         switch (userType) {
             case MAKER:
                 // 创客处理
-                R res = userClient.makerSaveOrUpdate("", "", mobile, DigestUtil.encrypt(password), GrantType.REGISTER);
+                R res = userClient.makerDeal("", "", mobile, DigestUtil.encrypt(password), GrantType.REGISTER);
                 if (!(res.isSuccess())) {
                     return res;
                 }

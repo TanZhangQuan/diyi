@@ -1,6 +1,7 @@
 package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.AccountState;
@@ -28,6 +29,12 @@ import java.math.BigDecimal;
 @TableName("diyi_enterprise")
 public class EnterpriseEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 管理者ID
+     */
+    @JsonIgnore
+    private Long userId;
 
     /**
      * 用户名

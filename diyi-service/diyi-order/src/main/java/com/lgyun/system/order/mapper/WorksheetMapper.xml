@@ -83,6 +83,19 @@
         <result property="achievementFiles" column="achievement_files"/>
     </resultMap>
 
+    <resultMap id="enterpriseWorksheetDetailVo" type="com.lgyun.system.order.vo.EnterpriseWorksheetDetailVo">
+        <result property="id" column="id"/>
+        <result property="worksheetNo" column="worksheet_no"/>
+        <result property="worksheetName" column="worksheet_name"/>
+        <result property="worksheetType" column="worksheet_type"/>
+        <result property="worksheetType" column="worksheet_type"/>
+        <result property="makerType" column="maker_type"/>
+        <result property="worksheetMode" column="worksheet_mode"/>
+        <result property="boolAchievement" column="bool_achievement"/>
+        <result property="checkMoney" column="check_money"/>
+        <result property="publishDate" column="publish_date"/>
+    </resultMap>
+
     <select id="findXiaoPage" resultMap="worksheetXiaoMap">
         SELECT ws.id AS worksheet_id, ws.enterprise_id, e.enterprise_name, ws.worksheet_mode, ws.worksheet_name, ws.worksheet_type, ws.upPerson_num,
         ws.worksheet_no, ws.work_days, ws.worksheet_fee_low, ws.worksheet_fee_high, ws.publish_date FROM diyi_worksheet ws INNER JOIN diyi_enterprise e
@@ -111,6 +124,13 @@
         wm.achievement_desc, wm.achievement_files FROM diyi_worksheet ws INNER JOIN diyi_enterprise e ON e.id = ws.enterprise_id
         INNER JOIN diyi_worksheet_maker wm ON wm.worksheet_id = ws.id WHERE ws.is_deleted = 0 AND e.is_deleted = 0 AND wm.is_deleted = 0
          AND wm.id = #{param1}
+    </select>
+
+    <select id="getWorksheetDetailsByMaker" resultMap="enterpriseWorksheetDetailVo">
+        SELECT t1.id, t1.worksheet_no, t1.worksheet_name, t1.worksheet_type, t1.maker_type, t1.worksheet_mode, t2.check_money, t1.publish_date,
+        IF(ISNULL(t2.achievement_files) || LENGTH(trim(t2.achievement_files)) <![CDATA[ < ]]> 1, FALSE, TRUE) AS bool_achievement
+        FROM diyi_worksheet t1 INNER JOIN diyi_worksheet_maker t2 ON t1.id = t2.worksheet_id
+        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.enterprise_id = #{param1} AND t2.maker_id = #{param2}
     </select>
 
     <select id="getEnterpriseWorksheet" resultMap="worksheetXiaoMap">

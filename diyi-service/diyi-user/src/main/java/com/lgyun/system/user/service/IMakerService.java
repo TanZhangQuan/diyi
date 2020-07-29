@@ -1,21 +1,18 @@
 package com.lgyun.system.user.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.dto.IdcardOcrSaveDto;
+import com.lgyun.system.user.dto.MakerAddDto;
+import com.lgyun.system.user.dto.UpdatePasswordDto;
 import com.lgyun.system.user.entity.MakerEntity;
-import com.lgyun.system.user.vo.IdcardOcrVO;
-import com.lgyun.system.user.vo.MakerDetailVO;
-import com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO;
-import com.lgyun.system.user.vo.MakerInfoVO;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import com.lgyun.system.user.vo.MakerRealNameAuthenticationStateVO;
+import com.lgyun.system.user.excel.MakerExcel;
+import com.lgyun.system.user.vo.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Service 接口
@@ -24,6 +21,52 @@ import javax.servlet.http.HttpServletRequest;
  * @since 2020-06-26 17:21:06
  */
 public interface IMakerService extends IService<MakerEntity> {
+
+    /**
+     * 新建创客
+     *
+     * @param openid
+     * @param sessionKey
+     * @param purePhoneNumber
+     * @param loginPwd
+     */
+    void makerSave(String openid, String sessionKey, String purePhoneNumber, String loginPwd);
+
+    /**
+     * 新建创客
+     *
+     * @param purePhoneNumber
+     * @param name
+     * @param idcardNo
+     * @param bankCardNo
+     * @param bankName
+     * @param subBankName
+     * @param enterpriseId
+     */
+    void makerSave(String purePhoneNumber, String name, String idcardNo, String bankCardNo, String bankName, String subBankName, Long enterpriseId);
+
+    /**
+     * 新建创客
+     *
+     * @param openid
+     * @param sessionKey
+     * @param purePhoneNumber
+     * @param loginPwd
+     * @param name
+     * @param idcardNo
+     * @param enterpriseId
+     * @return
+     */
+    void makerSave(String openid, String sessionKey, String purePhoneNumber, String loginPwd, String name, String idcardNo, String bankCardNo, String bankName, String subBankName, Long enterpriseId);
+
+    /**
+     * 修改创客
+     *
+     * @param makerEntity
+     * @param openid
+     * @param sessionKey
+     */
+    void makerUpdate(MakerEntity makerEntity, String openid, String sessionKey);
 
     /**
      * 根据微信手机号码获取创客
@@ -186,5 +229,46 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      */
     R<MakerRealNameAuthenticationStateVO> getRealNameAuthenticationState(Long makerId);
+
+    /**
+     * 导入创客数据
+     *
+     * @param list
+     */
+    void importMaker(List<MakerExcel> list);
+
+    /**
+     * 修改密码
+     *
+     * @param updatePasswordDto
+     * @return
+     */
+    R<String> updatePassword(UpdatePasswordDto updatePasswordDto);
+
+    /**
+     * 新增单个创客
+     *
+     * @param makerAddDto
+     * @param enterpriseId
+     * @return
+     */
+    R<String> makerAdd(MakerAddDto makerAddDto, Long enterpriseId);
+
+    /**
+     * 根据身份证号查找创客
+     *
+     * @param idcardNo
+     * @return
+     */
+    MakerEntity findByIdcardNo(String idcardNo);
+
+    /**
+     * 根据创客ID获取创客详情
+     *
+     * @param enterpriseId
+     * @param makerId
+     * @return
+     */
+    R<EnterpriseMakerDetailVO> getMakerDetailById(Long enterpriseId, Long makerId);
 }
 

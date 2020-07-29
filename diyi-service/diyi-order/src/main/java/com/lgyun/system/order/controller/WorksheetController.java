@@ -10,6 +10,7 @@ import com.lgyun.system.order.entity.WorksheetEntity;
 import com.lgyun.system.order.entity.WorksheetMakerEntity;
 import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.order.service.IWorksheetService;
+import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.*;
@@ -217,4 +218,20 @@ public class WorksheetController {
             return R.fail("查询工单详情失败");
         }
     }
+
+    @GetMapping("/get_enterprise_worksheet_details")
+    @ApiOperation(value = "根据创客ID查询工单", notes = "根据创客ID查询工单")
+    public R getEnterpriseWorksheetDetails(@ApiParam(value = "创客ID") @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId, Query query, BladeUser bladeUser) {
+
+        log.info("根据创客ID查询工单");
+        try {
+            //获取当前商户
+            EnterpriseEntity enterpriseEntity = iUserClient.currentEnterprise(bladeUser);
+            return worksheetService.getWorksheetDetailsByMaker(Condition.getPage(query.setDescs("create_time")), enterpriseEntity.getId(), makerId);
+        } catch (Exception e) {
+            log.error("根据创客ID查询工单异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
 }

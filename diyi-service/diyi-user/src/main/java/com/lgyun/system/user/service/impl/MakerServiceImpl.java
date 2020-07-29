@@ -6,26 +6,34 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.RealnameVerifyConstant;
+import com.lgyun.common.constant.SmsConstant;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.exception.ServiceException;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.*;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.dto.IdcardOcrSaveDto;
+import com.lgyun.system.user.dto.MakerAddDto;
+import com.lgyun.system.user.dto.UpdatePasswordDto;
 import com.lgyun.system.user.entity.MakerEntity;
+import com.lgyun.system.user.entity.User;
+import com.lgyun.system.user.excel.MakerExcel;
 import com.lgyun.system.user.mapper.MakerMapper;
 import com.lgyun.system.user.oss.AliyunOssService;
+import com.lgyun.system.user.service.IMakerEnterpriseService;
 import com.lgyun.system.user.service.IMakerService;
+import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.user.vo.*;
-import com.lgyun.system.user.wrapper.MakerWrapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -40,7 +48,102 @@ import java.util.stream.Collectors;
 public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> implements IMakerService {
 
     private AliyunOssService ossService;
+    private IUserService iUserService;
+    private IMakerEnterpriseService makerEnterpriseService;
     private SmsUtil smsUtil;
+    private RedisUtil redisUtil;
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void makerSave(String openid, String sessionKey, String purePhoneNumber, String loginPwd) {
+        makerSave(openid, sessionKey, purePhoneNumber, loginPwd, "", "", "", "", "", null);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void makerSave(String purePhoneNumber, String name, String idcardNo, String bankCardNo, String bankName, String subBankName, Long enterpriseId) {
+        makerSave("", "", purePhoneNumber, "", name, idcardNo, bankName, bankCardNo, bankName, enterpriseId);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void makerSave(String openid, String sessionKey, String purePhoneNumber, String loginPwd, String name,
+                          String idcardNo, String bankCardNo, String bankName, String subBankName, Long enterpriseId) {
+
+        Long makerId = null;
+        MakerEntity makerEntityPhoneNumber = findByPhoneNumber(purePhoneNumber);
+        MakerEntity makerEntityIdcardNo = findByIdcardNo(idcardNo);
+
+        if (makerEntityPhoneNumber == null && makerEntityIdcardNo == null) {
+            //新建管理员
+            User user = new User();
+            user.setUserType(UserType.MAKER);
+            user.setAccount(purePhoneNumber);
+            user.setPassword(DigestUtil.encrypt(String.valueOf(UUID.randomUUID())));
+            user.setPhone(purePhoneNumber);
+            iUserService.save(user);
+
+            //新建创客
+            MakerEntity makerEntity = new MakerEntity();
+            makerEntity.setOpenid(openid);
+            makerEntity.setUserId(user.getId());
+            makerEntity.setSessionKey(sessionKey);
+            makerEntity.setPhoneNumber(purePhoneNumber);
+            if (StringUtil.isNotBlank(loginPwd)) {
+                makerEntity.setLoginPwd(loginPwd);
+            } else {
+                makerEntity.setLoginPwd(DigestUtil.encrypt(String.valueOf(UUID.randomUUID())));
+            }
+            makerEntity.setName(name);
+            makerEntity.setIdcardNo(idcardNo);
+            makerEntity.setBankCardNo(bankCardNo);
+            makerEntity.setBankName(bankName);
+            makerEntity.setSubBankName(subBankName);
+            makerEntity.setRelDate(new Date());
+            makerEntity.setCertificationState(CertificationState.UNCERTIFIED);
+            makerEntity.setJoinSignState(SignState.UNSIGN);
+            makerEntity.setEmpowerSignState(SignState.UNSIGN);
+            makerEntity.setMakerState(AccountState.NORMAL);
+            makerEntity.setIdcardVerifyStatus(VerifyStatus.TOVERIFY);
+            makerEntity.setFaceVerifyStatus(VerifyStatus.TOVERIFY);
+            makerEntity.setPhoneNumberVerifyStatus(VerifyStatus.TOVERIFY);
+            makerEntity.setBankCardVerifyStatus(VerifyStatus.TOVERIFY);
+            makerEntity.setVideoAudit(VideoAudit.TOAUDIT);
+            save(makerEntity);
+            makerId = makerEntity.getId();
+
+        } else if (makerEntityPhoneNumber != null && makerEntityIdcardNo == null) {
+            if (!(VerifyStatus.VERIFYPASS.equals(makerEntityPhoneNumber.getIdcardVerifyStatus()))) {
+                makerEntityPhoneNumber.setName(name);
+                makerEntityPhoneNumber.setIdcardNo(idcardNo);
+                makerEntityPhoneNumber.setBankCardNo(bankCardNo);
+                makerEntityPhoneNumber.setBankName(bankName);
+                makerEntityPhoneNumber.setSubBankName(subBankName);
+            }
+            makerId = makerEntityPhoneNumber.getId();
+        } else {
+            if (VerifyStatus.VERIFYPASS.equals(makerEntityIdcardNo.getIdcardVerifyStatus())) {
+                makerId = makerEntityIdcardNo.getId();
+            }
+        }
+
+        if (enterpriseId != null && makerId != null) {
+            //商户-创客关联
+            makerEnterpriseService.makerEnterpriseEntitySave(enterpriseId, makerId);
+
+            //添加创客合同和授权
+            //TODO
+        }
+
+    }
+
+    @Override
+    public void makerUpdate(MakerEntity makerEntity, String openid, String sessionKey) {
+        //更新微信信息
+        makerEntity.setOpenid(openid);
+        makerEntity.setSessionKey(sessionKey);
+        updateById(makerEntity);
+    }
 
     @Override
     public MakerEntity findByPhoneNumber(String phoneNumber) {
@@ -90,18 +193,16 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return R.fail("身份证已实名认证");
         }
 
+        //查询身份证号码是否已被使用
+        MakerEntity makerEntityIdcardNo = findByIdcardNo(idcardOcrSaveDto.getIdcardNo());
+        if (makerEntityIdcardNo != null) {
+            return R.fail("身份证号码已被使用");
+        }
+
         BeanUtils.copyProperties(idcardOcrSaveDto, makerEntity);
         makerEntity.setIdcardVerifyStatus(VerifyStatus.VERIFYPASS);
         makerEntity.setIdcardVerifyType(IdcardVerifyType.SYSTEMVERIFY);
         makerEntity.setIdcardVerifyDate(new Date());
-
-        //判断是否已认证
-        if (CertificationState.UNCERTIFIED.equals(makerEntity)) {
-            if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()) && VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus())
-                    && SignState.SIGNED.equals(makerEntity.getJoinSignState())&& SignState.SIGNED.equals(makerEntity.getEmpowerSignState())) {
-                makerEntity.setCertificationState(CertificationState.CERTIFIED);
-            }
-        }
 
         updateById(makerEntity);
 
@@ -190,14 +291,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             makerEntity.setFaceVerifyStatus(VerifyStatus.VERIFYPASS);
             makerEntity.setFaceVerifyDate(new Date());
 
-            //判断是否已认证
-            if (CertificationState.UNCERTIFIED.equals(makerEntity)) {
-                if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()) && VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus())
-                        && SignState.SIGNED.equals(makerEntity.getJoinSignState())&& SignState.SIGNED.equals(makerEntity.getEmpowerSignState())) {
-                    makerEntity.setCertificationState(CertificationState.CERTIFIED);
-                }
-            }
-
             updateById(makerEntity);
 
             return R.success("身份实名认证成功");
@@ -281,6 +374,13 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             makerEntity.setBankCardNo(bankCardNo);
             makerEntity.setBankCardVerifyStatus(VerifyStatus.VERIFYPASS);
             makerEntity.setBankCardVerifyDate(new Date());
+
+            //判断是否已认证
+            if (CertificationState.UNCERTIFIED.equals(makerEntity.getCertificationState()) && SignState.SIGNED.equals(makerEntity.getJoinSignState())
+                    && SignState.SIGNED.equals(makerEntity.getEmpowerSignState())) {
+                makerEntity.setCertificationState(CertificationState.CERTIFIED);
+            }
+
             updateById(makerEntity);
 
             return R.success("银行卡实名认证成功");
@@ -476,6 +576,72 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
         MakerRealNameAuthenticationStateVO makerRealNameAuthenticationStateVO = BeanUtil.copy(makerEntity, MakerRealNameAuthenticationStateVO.class);
         return R.data(makerRealNameAuthenticationStateVO);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void importMaker(List<MakerExcel> list) {
+        list.forEach(makerExcel -> {
+            try {
+                //新建创客
+                makerSave(makerExcel.getPhoneNumber(), makerExcel.getName(), makerExcel.getIdcardNo(), makerExcel.getBankCardNo(),
+                        makerExcel.getBankName(), makerExcel.getBankCardNo(), makerExcel.getEnterpriseId());
+            } catch (Exception e) {
+                log.error("新建创客异常", e);
+            }
+
+        });
+    }
+
+    @Override
+    public R<String> updatePassword(UpdatePasswordDto updatePasswordDto) {
+
+        MakerEntity makerEntity = findByPhoneNumber(updatePasswordDto.getPhoneNumber());
+        if (makerEntity == null) {
+            return R.fail("创客不存在");
+        }
+
+        //获取缓存短信验证码
+        String redisCode = (String) redisUtil.get(SmsConstant.AVAILABLE_TIME + updatePasswordDto.getPhoneNumber());
+        //判断验证码
+        if (!StringUtil.equalsIgnoreCase(redisCode, updatePasswordDto.getSmsCode())) {
+            return R.fail("短信验证码不正确");
+        }
+
+        makerEntity.setLoginPwd(DigestUtil.encrypt(updatePasswordDto.getNewPassword()));
+        save(makerEntity);
+
+        //删除缓存短信验证码
+        redisUtil.del(SmsConstant.AVAILABLE_TIME + updatePasswordDto.getPhoneNumber());
+
+        return R.success("修改密码成功");
+    }
+
+    @Override
+    public R<String> makerAdd(MakerAddDto makerAddDto, Long enterpriseId) {
+        //新建创客
+        makerSave(makerAddDto.getPhoneNumber(), makerAddDto.getName(), makerAddDto.getIdcardNo(), makerAddDto.getBankCardNo(),
+                makerAddDto.getBankName(), makerAddDto.getBankCardNo(), enterpriseId);
+
+        return R.success("添加成功");
+    }
+
+    @Override
+    public MakerEntity findByIdcardNo(String idcardNo) {
+
+        if (StringUtil.isBlank(idcardNo)) {
+            return null;
+        }
+
+        QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(MakerEntity::getIdcardNo, idcardNo);
+
+        return baseMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public R<EnterpriseMakerDetailVO> getMakerDetailById(Long enterpriseId, Long makerId) {
+        return R.data(baseMapper.getMakerDetailById(enterpriseId, makerId));
     }
 
 }
