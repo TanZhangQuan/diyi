@@ -61,12 +61,13 @@
     <select id="getRelEnterpriseMaker" resultMap="relEnterpriseMakerVO">
         SELECT t2.id, t2.name, t2.idcard_no, t2.phone_number, t2.bank_card_no,
         IF(t2.idcard_verify_status = 'VERIFYPASS' AND t2.face_verify_status = 'VERIFYPASS' AND t2.phone_number_verify_status = 'VERIFYPASS'
-        AND t2.bank_card_verify_status = 'VERIFYPASS', TRUE, FALSE) AS boolRealNameVerify,
-        IF((SELECT COUNT(id) FROM diyi_agreement WHERE maker_id = t2.id AND sign_state = 'SIGNED' AND relationship_type = 1) > 0
-        AND (SELECT COUNT(id) FROM diyi_agreement WHERE maker_id = t2.id AND sign_state = 'SIGNED' AND relationship_type = 9) > 0, TRUE, FALSE) AS boolSign,
-        IF((SELECT COUNT(id) FROM diyi_individual_business WHERE maker_id = t2.id AND ibstate = 'OPERATING') > 0, TRUE, FALSE) AS boolIndividualBusiness,
-        IF((SELECT COUNT(id) FROM diyi_individual_enterprise WHERE maker_id = t2.id AND ibstate = 'OPERATING') > 0, TRUE, FALSE) AS boolIndividualEnterprise
-        FROM diyi_maker_enterprise t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id WHERE t1.enterprise_id = #{param1} AND t1.relationship_type = #{param2}
+        AND t2.bank_card_verify_status = 'VERIFYPASS', TRUE, FALSE) AS bool_real_name_verify,
+        IF((SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t2.id AND sign_state = 'SIGNED' AND relationship_type = 1) > 0
+        AND (SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t2.id AND sign_state = 'SIGNED' AND relationship_type = 9) > 0, TRUE, FALSE) AS bool_sign,
+        IF((SELECT COUNT(id) FROM diyi_individual_business WHERE is_deleted = 0 AND maker_id = t2.id AND ibstate = 'OPERATING') > 0, TRUE, FALSE) AS bool_individual_business,
+        IF((SELECT COUNT(id) FROM diyi_individual_enterprise WHERE is_deleted = 0 AND maker_id = t2.id AND ibstate = 'OPERATING') > 0, TRUE, FALSE) AS bool_individual_enterprise
+        FROM diyi_maker_enterprise t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.enterprise_id = #{param1}
+        AND t1.relationship_type = #{param2}
         <if test="param3 != null and param3.trim() != ''">
             AND (t2.id like concat('%', #{param3}, '%')
             OR t2.name like concat('%', #{param3}, '%')

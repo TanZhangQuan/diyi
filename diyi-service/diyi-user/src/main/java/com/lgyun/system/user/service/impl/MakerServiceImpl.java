@@ -21,10 +21,7 @@ import com.lgyun.system.user.oss.AliyunOssService;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
 import com.lgyun.system.user.service.IMakerService;
 import com.lgyun.system.user.service.IUserService;
-import com.lgyun.system.user.vo.IdcardOcrVO;
-import com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO;
-import com.lgyun.system.user.vo.MakerInfoVO;
-import com.lgyun.system.user.vo.MakerRealNameAuthenticationStateVO;
+import com.lgyun.system.user.vo.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -203,14 +200,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         makerEntity.setIdcardVerifyType(IdcardVerifyType.SYSTEMVERIFY);
         makerEntity.setIdcardVerifyDate(new Date());
 
-        //判断是否已认证
-        if (CertificationState.UNCERTIFIED.equals(makerEntity)) {
-            if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()) && VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus())
-                    && SignState.SIGNED.equals(makerEntity.getSignState())) {
-                makerEntity.setCertificationState(CertificationState.CERTIFIED);
-            }
-        }
-
         updateById(makerEntity);
 
         return R.success("身份证实名认证信息保存成功");
@@ -298,14 +287,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             makerEntity.setFaceVerifyStatus(VerifyStatus.VERIFYPASS);
             makerEntity.setFaceVerifyDate(new Date());
 
-            //判断是否已认证
-            if (CertificationState.UNCERTIFIED.equals(makerEntity)) {
-                if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()) && VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus())
-                        && SignState.SIGNED.equals(makerEntity.getSignState())) {
-                    makerEntity.setCertificationState(CertificationState.CERTIFIED);
-                }
-            }
-
             updateById(makerEntity);
 
             return R.success("身份实名认证成功");
@@ -389,6 +370,12 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             makerEntity.setBankCardNo(bankCardNo);
             makerEntity.setBankCardVerifyStatus(VerifyStatus.VERIFYPASS);
             makerEntity.setBankCardVerifyDate(new Date());
+
+            //判断是否已认证
+            if (CertificationState.UNCERTIFIED.equals(makerEntity.getCertificationState()) && SignState.SIGNED.equals(makerEntity.getSignState())) {
+                makerEntity.setCertificationState(CertificationState.CERTIFIED);
+            }
+
             updateById(makerEntity);
 
             return R.success("银行卡实名认证成功");
@@ -630,6 +617,11 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         queryWrapper.lambda().eq(MakerEntity::getIdcardNo, idcardNo);
 
         return baseMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public R<EnterpriseMakerDetailVO> getMakerDetailById(Long enterpriseId, Long makerId) {
+        return R.data(baseMapper.getMakerDetailById(enterpriseId, makerId));
     }
 
 }

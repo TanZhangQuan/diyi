@@ -208,4 +208,9 @@ public class UserClient implements IUserClient {
         return iMakerService.current(bladeUser);
     }
 
+    @Override
+    public EnterpriseEntity currentEnterprise(BladeUser bladeUser) {
+        return iEnterpriseService.current(bladeUser);
+    }
+
 }

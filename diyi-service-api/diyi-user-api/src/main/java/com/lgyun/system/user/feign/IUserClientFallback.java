@@ -113,4 +113,9 @@ public class IUserClientFallback implements IUserClient {
         return null;
     }
 
+    @Override
+    public EnterpriseEntity currentEnterprise(BladeUser bladeUser) {
+        return null;
+    }
+
 }

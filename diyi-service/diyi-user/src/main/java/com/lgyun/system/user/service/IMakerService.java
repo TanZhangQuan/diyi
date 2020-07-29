@@ -9,10 +9,7 @@ import com.lgyun.system.user.dto.MakerAddDto;
 import com.lgyun.system.user.dto.UpdatePasswordDto;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.excel.MakerExcel;
-import com.lgyun.system.user.vo.IdcardOcrVO;
-import com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO;
-import com.lgyun.system.user.vo.MakerInfoVO;
-import com.lgyun.system.user.vo.MakerRealNameAuthenticationStateVO;
+import com.lgyun.system.user.vo.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -260,5 +257,13 @@ public interface IMakerService extends IService<MakerEntity> {
      */
     MakerEntity findByIdcardNo(String idcardNo);
 
+    /**
+     * 根据创客ID获取创客详情
+     *
+     * @param enterpriseId
+     * @param makerId
+     * @return
+     */
+    R<EnterpriseMakerDetailVO> getMakerDetailById(Long enterpriseId, Long makerId);
 }
 

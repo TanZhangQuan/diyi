@@ -6,6 +6,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.dto.ReleaseWorksheetDto;
 import com.lgyun.system.order.entity.WorksheetEntity;
+import com.lgyun.system.order.vo.EnterpriseWorksheetDetailVo;
 import com.lgyun.system.order.vo.WorksheetXiaoVo;
 
 /**
@@ -51,5 +52,15 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      * @return
      */
     R<WorksheetXiaoVo> getWorksheetDetails(Long worksheetMakerId);
+
+    /**
+     * 根据创客查询工单详情
+     *
+     * @param page
+     * @param enterpriseId
+     * @param makerId
+     * @return
+     */
+    R<IPage<EnterpriseWorksheetDetailVo>> getWorksheetDetailsByMaker(IPage<EnterpriseWorksheetDetailVo> page, Long enterpriseId, Long makerId);
 }
 

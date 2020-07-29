@@ -266,6 +266,8 @@ public class MakerController {
     @GetMapping("/current-detail")
     @ApiOperation(value = "获取当前创客详情", notes = "获取当前创客详情")
     public R currentDetail(BladeUser bladeUser) {
+
+        log.info("获取当前创客详情");
         try {
             //获取当前创客
             MakerEntity maker = makerService.current(bladeUser);
@@ -279,6 +281,8 @@ public class MakerController {
     @PostMapping("/update-password")
     @ApiOperation(value = "修改密码", notes = "修改密码")
     public R updatePassword(@Valid @RequestBody UpdatePasswordDto updatePasswordDto) {
+
+        log.info("修改密码");
         try {
             return makerService.updatePassword(updatePasswordDto);
         } catch (Exception e) {
@@ -291,6 +295,7 @@ public class MakerController {
     @ApiOperation(value = "导入创客", notes = "导入创客")
     public R importUser(MultipartFile file, BladeUser bladeUser) {
 
+        log.info("导入创客");
         try {
             //获取当前商户
             EnterpriseEntity enterpriseEntity = enterpriseService.current(bladeUser);
@@ -311,6 +316,21 @@ public class MakerController {
             log.error("导入创客异常", e);
         }
         return R.success("操作成功");
+    }
+
+    @GetMapping("/get_maker_detail_by_id")
+    @ApiOperation(value = "根据创客ID获取创客详情", notes = "根据创客ID获取创客详情")
+    public R getMakerDetailById(@ApiParam(value = "创客ID") @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId, BladeUser bladeUser) {
+
+        log.info("根据创客ID获取创客详情");
+        try {
+            //获取当前商户
+            EnterpriseEntity enterpriseEntity = enterpriseService.current(bladeUser);
+            return makerService.getMakerDetailById(enterpriseEntity.getId(), makerId);
+        } catch (Exception e) {
+            log.error("根据创客ID获取创客详情异常", e);
+        }
+        return R.fail("查询失败");
     }
 
 }

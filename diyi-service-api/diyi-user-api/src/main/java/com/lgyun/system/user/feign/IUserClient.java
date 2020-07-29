@@ -187,7 +187,7 @@ public interface IUserClient {
     IndividualBusinessEntity individualBusinessById(@RequestParam("individualBusinessId") Long individualBusinessId);
 
     /**
-     * 商户id查询商户
+     * 根据商户id查询商户
      *
      * @param enterpriseId
      * @return
@@ -205,12 +205,21 @@ public interface IUserClient {
     MakerEntity makerFindById(@RequestParam("makerId") Long makerId);
 
     /**
-     * 根据user_id获取创客信息
+     * 根据user_id获取创客
      *
      * @param bladeUser
      * @return
      */
     @PostMapping(API_PREFIX + "/current-maker")
     MakerEntity currentMaker(@RequestBody BladeUser bladeUser);
+
+    /**
+     * 根据user_id获取商户
+     *
+     * @param bladeUser
+     * @return
+     */
+    @PostMapping(API_PREFIX + "/current-enterprise")
+    EnterpriseEntity currentEnterprise(@RequestBody BladeUser bladeUser);
 
 }
