@@ -2,7 +2,7 @@ package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.lgyun.common.enumeration.IndEntTaxType;
+import com.lgyun.common.enumeration.BizType;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -55,15 +55,9 @@ public class IndividualEnterpriseDetailVO implements Serializable {
     private String bizScope;
 
     /**
-     * 个体户税种：小规模，一般纳税人
+     * 税种：小规模，一般纳税人
      */
-    private IndEntTaxType indEntTaxType;
-
-    /**
-     * 创客ID
-     */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long makerId;
+    private BizType bizType;
 
     /**
      * 经营者

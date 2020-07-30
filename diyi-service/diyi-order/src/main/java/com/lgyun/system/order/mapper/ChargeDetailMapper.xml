@@ -5,22 +5,22 @@
 
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.order.entity.ChargeDetailEntity" id="chargeDetailMap">
-                <result property="id" column="id"/>
-                <result property="enterpriseId" column="enterprise_id"/>
-                <result property="runCompanyId" column="run_company_id"/>
-                <result property="chargeMoneyNum" column="charge_money_num"/>
-                <result property="chargeDateTime" column="charge_date_time"/>
-                <result property="chargeMoneyPlatformPerson" column="charge_money_platform_person"/>
-                <result property="chargeState" column="charge_state"/>
-                <result property="bankReceiptUrl" column="bank_receipt_url"/>
-                <result property="bankReceiptUploadDate" column="bank_receipt_upload_date"/>
-                <result property="chargeMoneyEnPerson" column="charge_money_en_person"/>
-                <result property="createUser" column="create_user"/>
-                <result property="createTime" column="create_time"/>
-                <result property="updateUser" column="update_user"/>
-                <result property="updateTime" column="update_time"/>
-                <result property="status" column="status"/>
-                <result property="isDeleted" column="is_deleted"/>
-            </resultMap>
+        <result property="id" column="id"/>
+        <result property="enterpriseId" column="enterprise_id"/>
+        <result property="runCompanyId" column="run_company_id"/>
+        <result property="chargeMoneyNum" column="charge_money_num"/>
+        <result property="chargeDateTime" column="charge_date_time"/>
+        <result property="chargeMoneyPlatformPerson" column="charge_money_platform_person"/>
+        <result property="chargeState" column="charge_state"/>
+        <result property="bankReceiptUrl" column="bank_receipt_url"/>
+        <result property="bankReceiptUploadDate" column="bank_receipt_upload_date"/>
+        <result property="chargeMoneyEnPerson" column="charge_money_en_person"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="status" column="status"/>
+        <result property="isDeleted" column="is_deleted"/>
+    </resultMap>
 
 </mapper>

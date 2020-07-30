@@ -1,12 +1,15 @@
 package com.lgyun.system.user.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.BizType;
+import com.lgyun.common.enumeration.Ibstate;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 视图实体类
@@ -15,7 +18,7 @@ import java.math.BigDecimal;
  * @since 2020/6/6 00:28
  */
 @Data
-public class IndividualBusinessDetailVO implements Serializable {
+public class EnterpriseIndividualEnterpriseVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -30,19 +33,9 @@ public class IndividualBusinessDetailVO implements Serializable {
     private String ibname;
 
     /**
-     * 注册时候选名称
-     */
-    private String candidatedNames;
-
-    /**
      * 统一社会信用代码
      */
     private String ibtaxNo;
-
-    /**
-     * 园区
-     */
-    private String bizPark;
 
     /**
      * 主要行业
@@ -65,6 +58,21 @@ public class IndividualBusinessDetailVO implements Serializable {
     private String bizName;
 
     /**
+     * 经营者身份证号码
+     */
+    private String bizIdcardNo;
+
+    /**
+     * 联系人姓名
+     */
+    private String contactName;
+
+    /**
+     * 联系人手机号
+     */
+    private String contactPhone;
+
+    /**
      * 注册资金
      */
     private BigDecimal registeredMoney;
@@ -75,8 +83,19 @@ public class IndividualBusinessDetailVO implements Serializable {
     private String businessLicenceUrl;
 
     /**
-     * 营业执照副本
+     * 年审信息
      */
-    private String businessLicenceCopyUrl;
+    private String businessLicenceUrl1;
+
+    /**
+     * 个体户状态：注册中，税务登记中，运营中，已注销
+     */
+    private Ibstate ibstate;
+
+    /**
+     * 注册日期
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date createTime;
 
 }

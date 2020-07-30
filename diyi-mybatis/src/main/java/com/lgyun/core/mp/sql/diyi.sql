@@ -906,7 +906,7 @@ DROP TABLE IF EXISTS `diyi_individual_business`;
 CREATE TABLE `diyi_individual_business` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
-  `ind_bus_tax_type` varchar(50) NOT NULL COMMENT '个体户税种：小规模',
+  `biz_type` varchar(50) NOT NULL COMMENT '个体户税种：小规模',
   `ibname` varchar(50) NOT NULL DEFAULT '' COMMENT '个体户名称',
   `ibtax_no` varchar(50) NOT NULL DEFAULT '' COMMENT '统一社会信用代码',
   `build_date_time` datetime DEFAULT NULL COMMENT '营业执照的注册日期',
@@ -976,7 +976,7 @@ DROP TABLE IF EXISTS `diyi_individual_enterprise`;
 CREATE TABLE `diyi_individual_enterprise` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
-  `ind_ent_tax_type` varchar(50) NOT NULL COMMENT '个独税种：小规模，一般纳税人',
+  `bizType` varchar(50) NOT NULL COMMENT '个独税种：小规模，一般纳税人',
   `ibname` varchar(50) NOT NULL DEFAULT '' COMMENT '个体户名称',
   `ibtax_no` varchar(50) NOT NULL DEFAULT '' COMMENT '统一社会信用代码',
   `build_date_time` datetime DEFAULT NULL COMMENT '营业执照的注册日期',
@@ -998,7 +998,7 @@ CREATE TABLE `diyi_individual_enterprise` (
   `contact_name` varchar(50) NOT NULL COMMENT '联系人姓名',
   `contact_phone` varchar(50) NOT NULL COMMENT '联系人手机号',
   `service_rat` decimal(3,2) DEFAULT NULL COMMENT '服务费率',
-  `investor_hand_commitment` varchar(100) NOT NULL COMMENT '手持承诺书照片',
+  `investor_hand_commitment` varchar(100) NOT NULL DEFAULT '' COMMENT '手持承诺书照片',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',

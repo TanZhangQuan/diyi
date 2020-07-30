@@ -1,6 +1,6 @@
 package com.lgyun.system.user.dto;
 
-import com.lgyun.common.enumeration.IndBusTaxType;
+import com.lgyun.common.enumeration.BizType;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -12,16 +12,17 @@ import java.math.BigDecimal;
 
 /**
  * @author tzq
+ * @Description 个体户新增dto
  * @return
- * @date 2020.07.15
+ * @date 2020.06.27
  */
 @Data
-public class IndividualBusinessAddDto implements Serializable {
+public class IndividualBusinessEnterpriseAddDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //个体户税种：小规模
+    //税种：小规模，一般纳税人
     @NotNull(message = "请选择税种")
-    private IndBusTaxType indBusTaxType;
+    private BizType bizType;
 
     //注册资金
     @NotNull(message = "请输入注册资金")

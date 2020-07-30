@@ -1,5 +1,6 @@
 package com.lgyun.system.order.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.InvoiceAuditState;
 import com.lgyun.common.enumeration.MakerType;
@@ -12,17 +13,18 @@ import com.lgyun.system.order.mapper.SelfHelpInvoiceMapper;
 import com.lgyun.system.order.service.ISelfHelpInvoiceDetailService;
 import com.lgyun.system.order.service.ISelfHelpInvoiceService;
 import com.lgyun.system.order.vo.SelfHelpInvoiceDetailsVO;
+import com.lgyun.system.order.vo.SelfHelpInvoiceListVO;
+import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.feign.IUserClient;
-import com.lgyun.system.order.vo.SelfHelpInvoiceYearMonthMoneyVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- *  Service 实现
+ * Service 实现
  *
  * @author jun
  * @since 2020-07-08 14:32:47
@@ -38,7 +40,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     @Override
     @Transactional
     public R<String> submitSelfHelpInvoice(SelfHelpInvoiceDto selfHelpInvoiceDto) {
-        if(!selfHelpInvoiceDto.getInvoicePeopleType().equals(MakerType.NATURALPERSON) && null == selfHelpInvoiceDto.getBusinessEnterpriseId()){
+        if (!selfHelpInvoiceDto.getInvoicePeopleType().equals(MakerType.NATURALPERSON) && null == selfHelpInvoiceDto.getBusinessEnterpriseId()) {
             R.fail("参数错误");
         }
         SelfHelpInvoiceEntity selfHelpInvoiceEntity = new SelfHelpInvoiceEntity();
@@ -47,13 +49,13 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         save(selfHelpInvoiceEntity);
         String bizName = "";
         String socialCreditNo = "";
-        if(selfHelpInvoiceDto.getInvoicePeopleType().equals(MakerType.INDIVIDUALENTERPRISE)){
+        if (selfHelpInvoiceDto.getInvoicePeopleType().equals(MakerType.INDIVIDUALENTERPRISE)) {
             IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.individualEnterpriseFindById(selfHelpInvoiceDto.getBusinessEnterpriseId());
             bizName = individualEnterpriseEntity.getIbname();
             socialCreditNo = individualEnterpriseEntity.getIbtaxNo();
             selfHelpInvoiceEntity.setBusinessEnterpriseId(individualEnterpriseEntity.getId());
         }
-        if(selfHelpInvoiceDto.getInvoicePeopleType().equals(MakerType.INDIVIDUALBUSINESS)){
+        if (selfHelpInvoiceDto.getInvoicePeopleType().equals(MakerType.INDIVIDUALBUSINESS)) {
             IndividualBusinessEntity individualBusinessEntity = iUserClient.individualBusinessById(selfHelpInvoiceDto.getBusinessEnterpriseId());
             bizName = individualBusinessEntity.getIbname();
             socialCreditNo = individualBusinessEntity.getIbtaxNo();
@@ -76,16 +78,37 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     @Override
     public R<SelfHelpInvoiceDetailsVO> getSelfHelpInvoiceDetails(Long selfHelpInvoiceId) {
         SelfHelpInvoiceEntity selfHelpInvoiceEntity = getById(selfHelpInvoiceId);
-        if(!selfHelpInvoiceEntity.getInvoiceAuditState().equals(InvoiceAuditState.APPROVED)){
+        if (!selfHelpInvoiceEntity.getInvoiceAuditState().equals(InvoiceAuditState.APPROVED)) {
             return R.fail("自助开票在审核中，请耐心等候");
         }
         return R.data(baseMapper.getSelfHelpInvoiceDetails(selfHelpInvoiceId));
     }
 
     @Override
-    public R<SelfHelpInvoiceYearMonthMoneyVO> yearMonthMoney(Long businessEnterpriseId, MakerType makerType) {
-        SelfHelpInvoiceYearMonthMoneyVO selfHelpInvoiceYearMonthMoneyVO = baseMapper.yearMonthMoney(businessEnterpriseId, makerType);
-        return R.data(selfHelpInvoiceYearMonthMoneyVO);
+    public R<SelfHelpInvoiceStatisticsVO> yearMonthMoney(Long businessEnterpriseId, MakerType makerType) {
+        return R.data(baseMapper.yearMonthMoney(businessEnterpriseId, makerType));
+    }
+
+    @Override
+    public R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(Long businessEnterpriseId, MakerType makerType) {
+        return R.data(baseMapper.selfHelpInvoiceStatistics(businessEnterpriseId, makerType));
+    }
+
+    @Override
+    public R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(IPage<SelfHelpInvoiceListVO> page, Long businessEnterpriseId, MakerType makerType) {
+
+        switch (makerType) {
+
+            case INDIVIDUALENTERPRISE:
+                return R.data(page.setRecords(baseMapper.selfHelpInvoiceListEnterprise(businessEnterpriseId, page)));
+
+            case INDIVIDUALBUSINESS:
+                return R.data(page.setRecords(baseMapper.selfHelpInvoiceListBusiness(businessEnterpriseId, page)));
+
+            default:
+                return R.fail("创客类别有误");
+        }
+
     }
 
 }

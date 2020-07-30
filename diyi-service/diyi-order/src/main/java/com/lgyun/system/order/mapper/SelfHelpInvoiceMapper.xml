@@ -65,9 +65,22 @@
         <result property="basicTaxFee" column="basic_tax_fee"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.order.vo.SelfHelpInvoiceYearMonthMoneyVO" id="selfHelpInvoiceYearMonthMoneyVO">
+    <resultMap type="com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO" id="selfHelpInvoiceStatisticsVO">
+        <result property="num" column="num"/>
         <result property="monthMoney" column="month_money"/>
         <result property="yearMoney" column="year_money"/>
+        <result property="allMoney" column="all_money"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.SelfHelpInvoiceListVO" id="selfHelpInvoiceListVO">
+        <result property="id" column="id"/>
+        <result property="companyName" column="company_name"/>
+        <result property="invoiceType" column="invoice_type"/>
+        <result property="bizType" column="biz_type"/>
+        <result property="chargeMoneyNum" column="charge_money_num"/>
+        <result property="flowContractUrl" column="flow_contract_url"/>
+        <result property="businessContractUrl" column="business_contract_url"/>
+        <result property="createTime" column="create_time"/>
     </resultMap>
 
     <select id="getSelfHelpInvoiceDetails" resultMap="selfHelpInvoiceDetailsVO">
@@ -82,11 +95,34 @@
         AND a.is_deleted = 0 AND sp.is_deleted = 0 AND hf.is_deleted = 0 AND zs.id =#{selfHelpInvoiceId}
     </select>
 
-    <select id="yearMonthMoney" resultMap="selfHelpInvoiceYearMonthMoneyVO">
+    <select id="yearMonthMoney" resultMap="selfHelpInvoiceStatisticsVO">
         SELECT IFNULL(SUM(IF(MONTH(create_time) = MONTH(NOW()), charge_money_num, 0)), 0) AS month_money,
         IFNULL(SUM(IF(YEAR(create_time) = YEAR(NOW()), charge_money_num, 0)), 0) AS year_money
         FROM diyi_self_help_invoice WHERE is_deleted = 0 AND invoice_audit_state = 'APPROVED'
-        AND invoice_people_type = #{param1} AND business_enterprise_id = #{param2}
+        AND business_enterprise_id = #{param1} AND invoice_people_type = #{param2}
+    </select>
+
+    <select id="selfHelpInvoiceStatistics" resultMap="selfHelpInvoiceStatisticsVO">
+        SELECT COUNT(id), IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, charge_money_num, 0)), 0) AS month_money,
+        IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365), charge_money_num, 0)), 0) AS year_money,
+        IFNULL(SUM(charge_money_num), 0) AS all_money FROM diyi_self_help_invoice WHERE is_deleted = 0 AND invoice_audit_state = 'APPROVED'
+        AND business_enterprise_id = #{param1} AND invoice_people_type = #{param2}
+    </select>
+
+    <select id="selfHelpInvoiceListEnterprise" resultMap="selfHelpInvoiceListVO">
+        SELECT t1.id, t4.company_name, t2.invoice_type, t3.biz_type, t1.charge_money_num, t2.flow_contract_url, t2.business_contract_url, t1.create_time
+        FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_detail t2 ON t1.id = t2.self_help_invoice_id
+        INNER JOIN diyi_individual_enterprise t3 ON t1.business_enterprise_id = t3.id INNER JOIN diyi_run_company t4 ON t1.company_id = t4.id
+        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t4.is_deleted = 0 AND t1.invoice_people_type = 'INDIVIDUALENTERPRISE'
+        AND t3.id = #{paarm1}
+    </select>
+
+    <select id="selfHelpInvoiceListBusiness" resultMap="selfHelpInvoiceListVO">
+        SELECT t1.id, t4.company_name, t2.invoice_type, t3.biz_type, t1.charge_money_num, t2.flow_contract_url, t2.business_contract_url, t1.create_time
+        FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_detail t2 ON t1.id = t2.self_help_invoice_id
+        INNER JOIN diyi_individual_business t3 ON t1.business_enterprise_id = t3.id INNER JOIN diyi_run_company t4 ON t1.company_id = t4.id
+        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t4.is_deleted = 0 AND t1.invoice_people_type = 'INDIVIDUALBUSINESS'
+        AND t3.id = #{paarm1}
     </select>
 
 </mapper>

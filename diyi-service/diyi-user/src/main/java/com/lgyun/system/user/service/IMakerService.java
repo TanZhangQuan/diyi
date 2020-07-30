@@ -25,12 +25,28 @@ public interface IMakerService extends IService<MakerEntity> {
     /**
      * 新建创客
      *
+     * @param purePhoneNumber
+     * @param name
+     * @param idcardNo
+     * @param idcardPic
+     * @param idcardPicBack
+     * @param idcardHand
+     * @param idcardBackHand
+     * @param enterpriseId
+     * @return
+     */
+    MakerEntity makerSave(String purePhoneNumber, String name, String idcardNo, String idcardPic, String idcardPicBack, String idcardHand, String idcardBackHand, Long enterpriseId);
+
+    /**
+     * 新建创客
+     *
      * @param openid
      * @param sessionKey
      * @param purePhoneNumber
      * @param loginPwd
+     * @return
      */
-    void makerSave(String openid, String sessionKey, String purePhoneNumber, String loginPwd);
+    MakerEntity makerSave(String openid, String sessionKey, String purePhoneNumber, String loginPwd);
 
     /**
      * 新建创客
@@ -42,22 +58,9 @@ public interface IMakerService extends IService<MakerEntity> {
      * @param bankName
      * @param subBankName
      * @param enterpriseId
-     */
-    void makerSave(String purePhoneNumber, String name, String idcardNo, String bankCardNo, String bankName, String subBankName, Long enterpriseId);
-
-    /**
-     * 新建创客
-     *
-     * @param openid
-     * @param sessionKey
-     * @param purePhoneNumber
-     * @param loginPwd
-     * @param name
-     * @param idcardNo
-     * @param enterpriseId
      * @return
      */
-    void makerSave(String openid, String sessionKey, String purePhoneNumber, String loginPwd, String name, String idcardNo, String bankCardNo, String bankName, String subBankName, Long enterpriseId);
+    MakerEntity makerSave(String purePhoneNumber, String name, String idcardNo, String bankCardNo, String bankName, String subBankName, Long enterpriseId);
 
     /**
      * 修改创客

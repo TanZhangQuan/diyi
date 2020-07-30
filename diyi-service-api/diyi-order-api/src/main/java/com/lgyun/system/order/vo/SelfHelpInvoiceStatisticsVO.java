@@ -12,8 +12,13 @@ import java.math.BigDecimal;
  * @since 2020/6/6 00:28
  */
 @Data
-public class SelfHelpInvoiceYearMonthMoneyVO implements Serializable {
+public class SelfHelpInvoiceStatisticsVO implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 开票数
+     */
+    private Integer num;
 
     /**
      * 月度开票金额
@@ -24,5 +29,10 @@ public class SelfHelpInvoiceYearMonthMoneyVO implements Serializable {
      * 年度开票金额
      */
     private BigDecimal yearMoney;
+
+    /**
+     * 开票总金额
+     */
+    private BigDecimal allMoney;
 
 }

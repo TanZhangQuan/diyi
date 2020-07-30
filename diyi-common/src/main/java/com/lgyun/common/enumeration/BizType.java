@@ -4,12 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 个体户税种
+ * 税种
  */
 @Getter
 @AllArgsConstructor
-public enum IndBusTaxType {
-    SMALL("SMALL", "小规模");
+public enum BizType {
+    SMALL("SMALL", "小规模"),
+    TAXPAYER("TAXPAYER", "一般纳税人");
 
     private final String value;
     private final String desc;

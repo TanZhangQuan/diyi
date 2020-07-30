@@ -1,5 +1,7 @@
 package com.lgyun.system.order.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.*;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
@@ -21,6 +23,7 @@ public class WorksheetMakerDetailsVO implements Serializable {
     /**
      * 工单创客Id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long worksheetMakerId;
     /**
      * 名字

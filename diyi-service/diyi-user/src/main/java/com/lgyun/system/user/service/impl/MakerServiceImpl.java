@@ -55,25 +55,30 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void makerSave(String openid, String sessionKey, String purePhoneNumber, String loginPwd) {
-        makerSave(openid, sessionKey, purePhoneNumber, loginPwd, "", "", "", "", "", null);
+    public MakerEntity makerSave(String purePhoneNumber, String name, String idcardNo, String idcardPic, String idcardPicBack, String idcardHand, String idcardBackHand, Long enterpriseId) {
+        return makerSave("", "", purePhoneNumber, "", name, idcardNo, "", "", "", idcardPic, idcardPicBack, idcardHand, idcardBackHand, enterpriseId);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void makerSave(String purePhoneNumber, String name, String idcardNo, String bankCardNo, String bankName, String subBankName, Long enterpriseId) {
-        makerSave("", "", purePhoneNumber, "", name, idcardNo, bankName, bankCardNo, bankName, enterpriseId);
+    public MakerEntity makerSave(String openid, String sessionKey, String purePhoneNumber, String loginPwd) {
+        return makerSave(openid, sessionKey, purePhoneNumber, loginPwd, "", "", "", "", "", "", "", "", "", null);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void makerSave(String openid, String sessionKey, String purePhoneNumber, String loginPwd, String name,
-                          String idcardNo, String bankCardNo, String bankName, String subBankName, Long enterpriseId) {
+    public MakerEntity makerSave(String purePhoneNumber, String name, String idcardNo, String bankCardNo, String bankName, String subBankName, Long enterpriseId) {
+        return makerSave("", "", purePhoneNumber, "", name, idcardNo, bankCardNo, bankName, subBankName, "", "", "", "", enterpriseId);
+    }
 
-        Long makerId = null;
+    @Transactional(rollbackFor = Exception.class)
+    public MakerEntity makerSave(String openid, String sessionKey, String purePhoneNumber, String loginPwd, String name,
+                                 String idcardNo, String bankCardNo, String bankName, String subBankName, String idcardPic,
+                                 String idcardPicBack, String idcardHand, String idcardBackHand, Long enterpriseId) {
+
+        MakerEntity makerEntity;
         MakerEntity makerEntityPhoneNumber = findByPhoneNumber(purePhoneNumber);
         MakerEntity makerEntityIdcardNo = findByIdcardNo(idcardNo);
-
         if (makerEntityPhoneNumber == null && makerEntityIdcardNo == null) {
             //新建管理员
             User user = new User();
@@ -84,7 +89,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             iUserService.save(user);
 
             //新建创客
-            MakerEntity makerEntity = new MakerEntity();
+            makerEntity = new MakerEntity();
             makerEntity.setOpenid(openid);
             makerEntity.setUserId(user.getId());
             makerEntity.setSessionKey(sessionKey);
@@ -99,6 +104,10 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             makerEntity.setBankCardNo(bankCardNo);
             makerEntity.setBankName(bankName);
             makerEntity.setSubBankName(subBankName);
+            makerEntity.setIdcardPic(idcardPic);
+            makerEntity.setIdcardPicBack(idcardPicBack);
+            makerEntity.setIdcardHand(idcardHand);
+            makerEntity.setIdcardBackHand(idcardBackHand);
             makerEntity.setRelDate(new Date());
             makerEntity.setCertificationState(CertificationState.UNCERTIFIED);
             makerEntity.setJoinSignState(SignState.UNSIGN);
@@ -110,7 +119,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             makerEntity.setBankCardVerifyStatus(VerifyStatus.TOVERIFY);
             makerEntity.setVideoAudit(VideoAudit.TOAUDIT);
             save(makerEntity);
-            makerId = makerEntity.getId();
 
         } else if (makerEntityPhoneNumber != null && makerEntityIdcardNo == null) {
             if (!(VerifyStatus.VERIFYPASS.equals(makerEntityPhoneNumber.getIdcardVerifyStatus()))) {
@@ -119,22 +127,51 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
                 makerEntityPhoneNumber.setBankCardNo(bankCardNo);
                 makerEntityPhoneNumber.setBankName(bankName);
                 makerEntityPhoneNumber.setSubBankName(subBankName);
+                makerEntityPhoneNumber.setIdcardPic(idcardPic);
+                makerEntityPhoneNumber.setIdcardPicBack(idcardPicBack);
+                makerEntityPhoneNumber.setIdcardHand(idcardHand);
+                makerEntityPhoneNumber.setIdcardBackHand(idcardBackHand);
+            } else {
+                if (!(VerifyStatus.VERIFYPASS.equals(makerEntityPhoneNumber.getBankCardVerifyStatus()))) {
+                    makerEntityPhoneNumber.setBankCardNo(bankCardNo);
+                    makerEntityPhoneNumber.setBankName(bankName);
+                    makerEntityPhoneNumber.setSubBankName(subBankName);
+                }
             }
-            makerId = makerEntityPhoneNumber.getId();
+
+            makerEntity = makerEntityPhoneNumber;
         } else {
-            if (VerifyStatus.VERIFYPASS.equals(makerEntityIdcardNo.getIdcardVerifyStatus())) {
-                makerId = makerEntityIdcardNo.getId();
+
+            if (!(VerifyStatus.VERIFYPASS.equals(makerEntityIdcardNo.getIdcardVerifyStatus()))) {
+                makerEntityIdcardNo.setName(name);
+                makerEntityIdcardNo.setIdcardNo(idcardNo);
+                makerEntityIdcardNo.setBankCardNo(bankCardNo);
+                makerEntityIdcardNo.setBankName(bankName);
+                makerEntityIdcardNo.setSubBankName(subBankName);
+                makerEntityIdcardNo.setIdcardPic(idcardPic);
+                makerEntityIdcardNo.setIdcardPicBack(idcardPicBack);
+                makerEntityIdcardNo.setIdcardHand(idcardHand);
+                makerEntityIdcardNo.setIdcardBackHand(idcardBackHand);
+            } else {
+                if (!(VerifyStatus.VERIFYPASS.equals(makerEntityIdcardNo.getBankCardVerifyStatus()))) {
+                    makerEntityIdcardNo.setBankCardNo(bankCardNo);
+                    makerEntityIdcardNo.setBankName(bankName);
+                    makerEntityIdcardNo.setSubBankName(subBankName);
+                }
             }
+
+            makerEntity = makerEntityIdcardNo;
         }
 
-        if (enterpriseId != null && makerId != null) {
+        if (enterpriseId != null) {
             //商户-创客关联
-            makerEnterpriseService.makerEnterpriseEntitySave(enterpriseId, makerId);
+            makerEnterpriseService.makerEnterpriseEntitySave(enterpriseId, makerEntity.getId());
 
             //添加创客合同和授权
             //TODO
         }
 
+        return makerEntity;
     }
 
     @Override

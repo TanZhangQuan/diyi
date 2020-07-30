@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.Ibstate;
-import com.lgyun.common.enumeration.IndEntTaxType;
+import com.lgyun.common.enumeration.BizType;
 import com.lgyun.common.tool.DateUtil;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -37,9 +37,9 @@ public class IndividualEnterpriseEntity extends BaseEntity {
     private Long makerId;
 
     /**
-     * 个独税种：小规模，一般纳税人
+     * 税种：小规模，一般纳税人
      */
-    private IndEntTaxType indEntTaxType;
+    private BizType bizType;
 
     /**
      * 个体户名称

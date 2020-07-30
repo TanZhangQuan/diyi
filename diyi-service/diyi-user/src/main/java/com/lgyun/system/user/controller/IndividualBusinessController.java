@@ -9,10 +9,14 @@ import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.IndividualBusinessAddDto;
+import com.lgyun.system.user.dto.EnterpriseIndividualBusinessDto;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddEnterpriseDto;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDto;
 import com.lgyun.system.user.dto.IndividualBusinessListDto;
+import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.MakerEntity;
+import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IIndividualBusinessService;
 import com.lgyun.system.user.service.IMakerService;
 import com.lgyun.system.user.wrapper.IndividualBusinessWrapper;
@@ -41,16 +45,17 @@ public class IndividualBusinessController {
 
     private IIndividualBusinessService individualBusinessService;
     private IMakerService iMakerService;
+    private IEnterpriseService enterpriseService;
 
     @PostMapping("/save")
     @ApiOperation(value = "新增", notes = "新增")
-    public R save(@Valid @RequestBody IndividualBusinessAddDto individualBusinessAddDto, BladeUser bladeUser) {
+    public R save(@Valid @RequestBody IndividualBusinessEnterpriseAddDto individualBusinessEnterpriseAddDto, BladeUser bladeUser) {
 
         log.info("新增个体户");
         try {
             //获取当前创客
             MakerEntity makerEntity = iMakerService.current(bladeUser);
-            return individualBusinessService.save(individualBusinessAddDto, makerEntity);
+            return individualBusinessService.save(individualBusinessEnterpriseAddDto, makerEntity);
         } catch (Exception e) {
             log.error("新增个体户异常", e);
         }
@@ -126,6 +131,34 @@ public class IndividualBusinessController {
         return R.fail("查询失败");
     }
 
+    @GetMapping("/get_by_dto_enterprise")
+    @ApiOperation(value = "查询当前商户的关联创客的个体户", notes = "查询当前商户的所有关联创客的个体户")
+    public R getByDtoEnterprise(EnterpriseIndividualBusinessDto enterpriseIndividualBusinessDto, Query query, BladeUser bladeUser) {
+
+        log.info("查询当前商户的所有关联创客的个体户");
+        try {
+            //获取当前商户
+            EnterpriseEntity enterpriseEntity = enterpriseService.current(bladeUser);
+            return individualBusinessService.getByDtoEnterprise(Condition.getPage(query.setDescs("create_time")), enterpriseIndividualBusinessDto, enterpriseEntity.getId());
+        } catch (Exception e) {
+            log.error("查询当前商户的所有关联创客的个体户异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/find_by_id_enterprise")
+    @ApiOperation(value = "查询当前商户的关联创客的个体户详情", notes = "查询当前商户的关联创客的个体户详情")
+    public R findByIdEnterprise(@ApiParam(value = "个体户编号") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
+
+        log.info("查询当前商户的关联创客的个体户详情");
+        try {
+            return individualBusinessService.findByIdEnterprise(individualBusinessId);
+        } catch (Exception e) {
+            log.error("查询当前商户的关联创客的个体户详情异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
     @GetMapping("/find-by-id")
     @ApiOperation(value = "查询个体户详情", notes = "查询个体户详情")
     public R findById(@ApiParam(value = "个体户编号") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
@@ -150,6 +183,48 @@ public class IndividualBusinessController {
             log.error("查询个体户月度开票金额和年度开票金额异常", e);
         }
         return R.fail("查询失败");
+    }
+
+    @GetMapping("/self_help_invoice_statistics")
+    @ApiOperation(value = "查询个体户开票次数，月度开票金额，年度开票金额和总开票金额", notes = "查询个体户开票次数，月度开票金额，年度开票金额和总开票金额")
+    public R selfHelpInvoiceStatistics(@ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
+
+        log.info("查询个体户开票次数，月度开票金额，年度开票金额和总开票金额");
+        try {
+            return individualBusinessService.selfHelpInvoiceStatistics(individualBusinessId, MakerType.INDIVIDUALBUSINESS);
+        } catch (Exception e) {
+            log.error("查询个体户开票次数，月度开票金额，年度开票金额和总开票金额异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/self_help_invoice_list")
+    @ApiOperation(value = "查询个体户开票记录", notes = "查询个体户开票记录")
+    public R selfHelpInvoiceList(Query query, @ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
+
+        log.info("查询个体户开票记录");
+        try {
+            return individualBusinessService.selfHelpInvoiceList(query.getCurrent(), query.getSize(), individualBusinessId, MakerType.INDIVIDUALBUSINESS);
+        } catch (Exception e) {
+            log.error("查询个体户开票记录异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @PostMapping("/save_by_enterprise")
+    @ApiOperation(value = "当前商户申请创建个体户", notes = "当前商户申请创建个体户")
+    public R saveByEnterprise(@Valid @RequestBody IndividualBusinessEnterpriseAddEnterpriseDto individualBusinessEnterpriseAddEnterpriseDto, BladeUser bladeUser) {
+
+        log.info("当前商户申请创建个体户");
+        try {
+            //获取当前商户
+            EnterpriseEntity enterpriseEntity = enterpriseService.current(bladeUser);
+            return individualBusinessService.saveByEnterprise(individualBusinessEnterpriseAddEnterpriseDto, enterpriseEntity.getId());
+        } catch (Exception e) {
+            log.error("当前商户申请创建个体户异常", e);
+        }
+        return R.fail("新增个体户失败");
+
     }
 
 }

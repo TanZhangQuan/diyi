@@ -152,10 +152,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             if(SignState.SIGNED.equals(worksheetMakerDetailsVO.getJoinSignState()) && SignState.SIGNED.equals(worksheetMakerDetailsVO.getEmpowerSignState())){
                 worksheetMakerDetailsVO.setProtocolAuthentication(CertificationState.CERTIFIED);
             }
-            if(VerifyStatus.VERIFYPASS.equals(worksheetMakerDetailsVO.getBankCardVerifyStatus()) &&
-                    VerifyStatus.VERIFYPASS.equals(worksheetMakerDetailsVO.getFaceVerifyStatus()) &&
-                    VerifyStatus.VERIFYPASS.equals(worksheetMakerDetailsVO.getIdcardVerifyStatus()) &&
-                    VerifyStatus.VERIFYPASS.equals(worksheetMakerDetailsVO.getPhoneNumberVerifyStatus())){
+            if(VerifyStatus.VERIFYPASS.equals(worksheetMakerDetailsVO.getBankCardVerifyStatus())){
                 worksheetMakerDetailsVO.setRealNameAuthentication(CertificationState.CERTIFIED);
             }
         }
