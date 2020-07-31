@@ -2,6 +2,7 @@ package com.lgyun.system.order.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.system.order.entity.WorksheetEntity;
 import com.lgyun.system.order.vo.EnterpriseWorksheetDetailVo;
@@ -70,14 +71,14 @@ public interface WorksheetMapper extends BaseMapper<WorksheetEntity> {
     List<EnterpriseWorksheetDetailVo> getWorksheetDetailsByMaker(Long enterpriseId, Long makerId, IPage<EnterpriseWorksheetDetailVo> page);
 
     /**
-     * 获取当前商户所有已完毕的工单
+     * 获取当前商户所有已完毕的类型工单
      *
      * @param enterpriseId
+     * @param workSheetType
      * @param worksheetNo
      * @param worksheetName
-     * @param page
      * @return
      */
-    List<WorksheetByEnterpriseVO> getWorksheetByEnterpriseId(Long enterpriseId, String worksheetNo, String worksheetName, IPage<WorksheetByEnterpriseVO> page);
+    List<WorksheetByEnterpriseVO> getWorksheetByEnterpriseId(Long enterpriseId, WorkSheetType workSheetType, String worksheetNo, String worksheetName, IPage<WorksheetByEnterpriseVO> page);
 }
 

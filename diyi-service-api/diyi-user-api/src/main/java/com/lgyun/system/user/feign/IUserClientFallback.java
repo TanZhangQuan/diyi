@@ -122,4 +122,9 @@ public class IUserClientFallback implements IUserClient {
         return null;
     }
 
+    @Override
+    public EnterpriseProviderEntity findByEnterpriseIdServiceProviderId(Long enterpriseId, Long serviceProviderId) {
+        return null;
+    }
+
 }

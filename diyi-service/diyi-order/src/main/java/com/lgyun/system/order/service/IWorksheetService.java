@@ -3,6 +3,7 @@ package com.lgyun.system.order.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.dto.ReleaseWorksheetDto;
@@ -96,14 +97,15 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
     R<IPage<EnterpriseWorksheetDetailVo>> getWorksheetDetailsByMaker(IPage<EnterpriseWorksheetDetailVo> page, Long enterpriseId, Long makerId);
 
     /**
-     * 获取当前商户所有已完毕的工单
+     * 获取当前商户所有已完毕的类型工单
      *
      * @param enterpriseId
+     * @param workSheetType
      * @param worksheetNo
      * @param worksheetName
      * @param page
      * @return
      */
-    R<IPage<WorksheetByEnterpriseVO>> getWorksheetByEnterpriseId(Long enterpriseId, String worksheetNo, String worksheetName, IPage<WorksheetByEnterpriseVO> page);
+    R<IPage<WorksheetByEnterpriseVO>> getWorksheetByEnterpriseId(Long enterpriseId, WorkSheetType workSheetType, String worksheetNo, String worksheetName, IPage<WorksheetByEnterpriseVO> page);
 }
 

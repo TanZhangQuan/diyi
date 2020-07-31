@@ -204,8 +204,8 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     }
 
     @Override
-    public R<IPage<WorksheetByEnterpriseVO>> getWorksheetByEnterpriseId(Long enterpriseId, String worksheetNo, String worksheetName, IPage<WorksheetByEnterpriseVO> page) {
-        return R.data(page.setRecords(baseMapper.getWorksheetByEnterpriseId(enterpriseId, worksheetNo, worksheetName,  page)));
+    public R<IPage<WorksheetByEnterpriseVO>> getWorksheetByEnterpriseId(Long enterpriseId, WorkSheetType workSheetType, String worksheetNo, String worksheetName, IPage<WorksheetByEnterpriseVO> page) {
+        return R.data(page.setRecords(baseMapper.getWorksheetByEnterpriseId(enterpriseId, workSheetType, worksheetNo, worksheetName,  page)));
     }
 
     public synchronized R<String> orderGrabbing(WorksheetEntity worksheetEntity, MakerEntity makerEntity, int worksheetCount) {

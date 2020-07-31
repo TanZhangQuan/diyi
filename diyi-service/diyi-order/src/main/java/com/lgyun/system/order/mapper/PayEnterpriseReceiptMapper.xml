@@ -8,7 +8,6 @@
         <result property="id" column="id"/>
         <result property="enterprisePayId" column="enterprise_pay_id"/>
         <result property="enterprisePayReceiptUrl" column="enterprise_pay_receipt_url"/>
-        <result property="uploadDateTime" column="upload_date_time"/>
         <result property="createUser" column="create_user"/>
         <result property="createTime" column="create_time"/>
         <result property="updateUser" column="update_user"/>

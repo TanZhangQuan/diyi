@@ -127,13 +127,14 @@
         </if>
     </select>
 
-    <select id="getWorksheetByEnterpriseId" resultMap="worksheetXiaoMap">
-        SELECT worksheet_no, worksheet_name, create_time FROM diyi_worksheet WHERE is_deleted = 0 AND worksheet_state = 'FINISHED' AND enterprise_id = #{param1}
-        <if test="param2 != null and param2 != ''">
-            AND worksheet_no like concat('%', #{param2}, '%')
-        </if>
+    <select id="getWorksheetByEnterpriseId" resultMap="worksheetByEnterpriseVO">
+        SELECT worksheet_no, worksheet_name, create_time FROM diyi_worksheet WHERE is_deleted = 0 AND worksheet_state = 'FINISHED'
+        AND enterprise_id = #{param1} AND worksheet_type = #{param2}
         <if test="param3 != null and param3 != ''">
-            AND worksheet_name like concat('%', #{param3}, '%')
+            AND worksheet_no like concat('%', #{param3}, '%')
+        </if>
+        <if test="param4 != null and param4 != ''">
+            AND worksheet_name like concat('%', #{param4}, '%')
         </if>
     </select>
 

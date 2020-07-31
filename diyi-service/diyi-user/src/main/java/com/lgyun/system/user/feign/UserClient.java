@@ -35,6 +35,7 @@ public class UserClient implements IUserClient {
     private IRunCompanyService iRunCompanyService;
     private IEnterpriseService iEnterpriseService;
     private IEnterpriseWorkerService iEnterpriseWorkerService;
+    private IEnterpriseProviderService iEnterpriseProviderService;
 
     @Override
     @GetMapping(API_PREFIX + "/user-info-by-id")
@@ -42,12 +43,6 @@ public class UserClient implements IUserClient {
         return service.userInfo(userId, userType);
     }
 
-    /**
-     * 获取用户信息
-     *
-     * @param phone 用户手机号
-     * @return
-     */
     @Override
     @GetMapping(API_PREFIX + "/phone")
     public UserInfo userInfoByPhone(String phone, UserType userType) {
@@ -215,6 +210,11 @@ public class UserClient implements IUserClient {
     @Override
     public EnterpriseEntity currentEnterprise(BladeUser bladeUser) {
         return iEnterpriseService.current(bladeUser);
+    }
+
+    @Override
+    public EnterpriseProviderEntity findByEnterpriseIdServiceProviderId(Long enterpriseId, Long serviceProviderId) {
+        return iEnterpriseProviderService.findByEnterpriseIdServiceProviderId(enterpriseId, serviceProviderId);
     }
 
 }

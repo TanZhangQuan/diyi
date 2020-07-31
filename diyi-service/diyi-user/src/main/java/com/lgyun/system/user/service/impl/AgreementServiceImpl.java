@@ -36,9 +36,7 @@ import java.util.*;
 public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, AgreementEntity> implements IAgreementService {
 
     private IOnlineAgreementTemplateService iOnlineAgreementTemplateService;
-
     private IEnterpriseService enterpriseService;
-
     private IServiceProviderService serviceProviderService;
 
     @Override

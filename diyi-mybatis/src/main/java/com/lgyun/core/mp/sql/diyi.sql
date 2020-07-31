@@ -1500,7 +1500,6 @@ CREATE TABLE `diyi_pay_enterprise_receipt` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `enterprise_pay_id` bigint(50) NOT NULL COMMENT '支付ID',
   `enterprise_pay_receipt_url` varchar(100) NOT NULL COMMENT '支付回单图片URL地址',
-  `upload_date_time` datetime NOT NULL COMMENT '上传日期时间',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',

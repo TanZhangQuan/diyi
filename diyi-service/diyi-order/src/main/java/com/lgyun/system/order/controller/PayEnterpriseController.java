@@ -6,6 +6,7 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
+import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.wrapper.PayEnterpriseWrapper;
@@ -83,6 +84,21 @@ public class PayEnterpriseController {
             log.error("获取交付清单统计数据异常", e);
         }
         return R.fail("查询失败");
+    }
+
+    @PostMapping("/upload")
+    @ApiOperation(value = "上传支付清单", notes = "上传支付清单")
+    public R upload(@Valid @RequestBody PayEnterpriseUploadDto payEnterpriseUploadDto, BladeUser bladeUser) {
+
+        log.info("上传支付清单");
+        try {
+            //获取当前商户
+            EnterpriseEntity enterpriseEntity = iUserClient.currentEnterprise(bladeUser);
+            return enterprisePayService.upload(payEnterpriseUploadDto, enterpriseEntity.getId());
+        } catch (Exception e) {
+            log.error("上传支付清单异常", e);
+        }
+        return R.fail("上传失败");
     }
 
 }

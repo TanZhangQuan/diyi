@@ -227,4 +227,14 @@ public interface IUserClient {
     @PostMapping(API_PREFIX + "/current-enterprise")
     EnterpriseEntity currentEnterprise(@RequestBody BladeUser bladeUser);
 
+    /**
+     * 根据商户ID, 服务商ID查询关联
+     *
+     * @param enterpriseId
+     * @param serviceProviderId
+     * @return
+     */
+    @PostMapping(API_PREFIX + "/find_by_enterprise_id_service_provider_id")
+    EnterpriseProviderEntity findByEnterpriseIdServiceProviderId(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("serviceProviderId") Long serviceProviderId);
+
 }

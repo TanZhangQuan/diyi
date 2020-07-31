@@ -3,16 +3,14 @@ package com.lgyun.system.order.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.core.mp.base.BaseEntity;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import com.lgyun.core.mp.base.BaseEntity;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
 
 /**
  * Entity
@@ -45,10 +43,5 @@ public class PayEnterpriseReceiptEntity extends BaseEntity {
      * 支付回单图片URL地址
      */
     private String enterprisePayReceiptUrl;
-
-    /**
-     * 上传日期时间
-     */
-    private Date uploadDateTime;
 
 }

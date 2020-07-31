@@ -12,8 +12,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 /**
  * Entity
  *
@@ -45,10 +43,5 @@ public class PayReceiptEntity extends BaseEntity {
      * 支付回单
      */
     private String makerPayReceiptUrl;
-
-    /**
-     * 上传日期时间
-     */
-    private Date uploadDateTime;
 
 }

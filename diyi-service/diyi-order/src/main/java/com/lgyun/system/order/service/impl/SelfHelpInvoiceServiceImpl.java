@@ -34,7 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceMapper, SelfHelpInvoiceEntity> implements ISelfHelpInvoiceService {
 
-    private final IUserClient iUserClient;
+    private IUserClient iUserClient;
     private final ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
 
     @Override

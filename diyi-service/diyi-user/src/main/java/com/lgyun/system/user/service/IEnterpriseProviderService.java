@@ -22,5 +22,14 @@ public interface IEnterpriseProviderService extends BaseService<EnterpriseProvid
      * @return
      */
     R<IPage<ProviderListVO>> listByEnterpriseId(IPage<ProviderListVO> page, Long enterpriseId);
+
+    /**
+     * 根据商户ID, 服务商ID查询关联
+     *
+     * @param enterpriseId
+     * @param serviceProviderId
+     * @return
+     */
+    EnterpriseProviderEntity findByEnterpriseIdServiceProviderId(Long enterpriseId, Long serviceProviderId);
 }
 

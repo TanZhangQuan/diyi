@@ -3,6 +3,7 @@ package com.lgyun.system.order.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
+import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.InvoiceEnterpriseVO;
 import com.lgyun.system.order.vo.PayEnterpriseStatisticalVO;
@@ -52,5 +53,14 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @return
      */
     R<PayEnterpriseStatisticalVO> statistical(Long enterpriseId);
+
+    /**
+     * 上传支付清单
+     *
+     * @param payEnterpriseUploadDto
+     * @param enterpriseId
+     * @return
+     */
+    R<String> upload(PayEnterpriseUploadDto payEnterpriseUploadDto, Long enterpriseId);
 }
 
