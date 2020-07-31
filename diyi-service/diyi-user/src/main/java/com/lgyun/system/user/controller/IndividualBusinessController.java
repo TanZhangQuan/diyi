@@ -144,8 +144,8 @@ public class IndividualBusinessController {
         log.info("查询当前商户的关联创客的所有个体户");
         try {
             //获取当前商户
-//            EnterpriseEntity enterpriseEntity = enterpriseService.current(bladeUser);
-            return individualBusinessService.getByDtoEnterprise(Condition.getPage(query.setDescs("create_time")), 1L, ibstate, enterpriseIndividualBusinessEnterpriseDto);
+            EnterpriseEntity enterpriseEntity = enterpriseService.current(bladeUser);
+            return individualBusinessService.getByDtoEnterprise(Condition.getPage(query.setDescs("create_time")), enterpriseEntity.getId(), ibstate, enterpriseIndividualBusinessEnterpriseDto);
         } catch (Exception e) {
             log.error("查询当前商户的关联创客的所有个体户异常", e);
         }
