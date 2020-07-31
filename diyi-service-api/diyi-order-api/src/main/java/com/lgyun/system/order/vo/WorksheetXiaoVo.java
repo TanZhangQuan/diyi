@@ -88,7 +88,7 @@ public class WorksheetXiaoVo implements Serializable {
      * 发布时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date publishDate;
+    private Date createTime;
 
     /**
      * 工单创客的状态：1待提交，2待验证，3验证通过，4验证失败

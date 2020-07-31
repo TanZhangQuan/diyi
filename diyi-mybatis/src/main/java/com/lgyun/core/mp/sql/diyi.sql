@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2020-07-23 17:42:33
+Date: 2020-07-31 16:25:07
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -63,8 +63,8 @@ CREATE TABLE `blade_code` (
   `package_name` varchar(500) DEFAULT NULL COMMENT '后端包名',
   `base_mode` int(2) DEFAULT NULL COMMENT '基础业务模式',
   `wrap_mode` int(2) DEFAULT NULL COMMENT '包装器模式',
-  `api_path` varchar(2000) DEFAULT NULL COMMENT '后端路径',
-  `web_path` varchar(2000) DEFAULT NULL COMMENT '前端路径',
+  `api_path` varchar(100) DEFAULT NULL COMMENT '后端路径',
+  `web_path` varchar(100) DEFAULT NULL COMMENT '前端路径',
   `is_deleted` int(2) DEFAULT '0' COMMENT '是否已删除',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='代码生成表';
@@ -600,7 +600,7 @@ CREATE TABLE `blade_user` (
   `password` varchar(50) DEFAULT NULL COMMENT '密码',
   `name` varchar(20) DEFAULT NULL COMMENT '昵称',
   `real_name` varchar(10) DEFAULT NULL COMMENT '真名',
-  `avatar` varchar(2000) DEFAULT NULL COMMENT '头像',
+  `avatar` varchar(100) DEFAULT NULL COMMENT '头像',
   `email` varchar(50) DEFAULT NULL COMMENT '邮箱',
   `phone` varchar(50) DEFAULT NULL COMMENT '手机',
   `birthday` datetime DEFAULT NULL COMMENT '生日',
@@ -866,6 +866,30 @@ CREATE TABLE `diyi_enterprise` (
 
 -- ----------------------------
 -- Records of diyi_enterprise
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `diyi_enterprise_provider`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_enterprise_provider`;
+CREATE TABLE `diyi_enterprise_provider` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `enterprise_id` bigint(50) NOT NULL COMMENT '商户ID',
+  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商id',
+  `matchPerson` varchar(50) NOT NULL COMMENT '分配人员',
+  `matchDesc` varchar(500) NOT NULL COMMENT '分配说明',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`enterprise_id`,`service_provider_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of diyi_enterprise_provider
 -- ----------------------------
 
 -- ----------------------------
@@ -1907,7 +1931,6 @@ CREATE TABLE `diyi_worksheet` (
   `worksheet_fee_high` decimal(12,2) DEFAULT '0.00' COMMENT '最高费用',
   `worksheet_type` varchar(50) NOT NULL COMMENT '类型，总包+分包，众包/众采',
   `worksheet_mode` varchar(50) NOT NULL COMMENT '模式，派单、抢单、混合（默认：混合型）',
-  `publish_date` datetime NOT NULL COMMENT '发布时间',
   `maker_type` varchar(50) NOT NULL COMMENT '创客身份，自然人，个体户，个独。如果是个体户/个独，则抢单或派单时需要指定相关个体户/个独，如果只有一个则不用指定。',
   `worksheet_state` varchar(50) NOT NULL COMMENT '工单状态：\r\na) 发布中，发布代抢单或代派单的工单\r\nb) 已关单，已经抢单或者派单完毕（人数不做控制依据）\r\nc) 验收中，有个人创客提交了工单等待验收或部分验收完毕\r\nd) 已完毕，所有个人创客都验收完毕了\r\ne) 已作废，验收中工单都可以作废，已完毕的不能作废',
   `destroy_datetime` datetime DEFAULT NULL COMMENT '作废时间',
@@ -1925,9 +1948,9 @@ CREATE TABLE `diyi_worksheet` (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`worksheet_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 
 -- ----------------------------
 -- Records of diyi_worksheet

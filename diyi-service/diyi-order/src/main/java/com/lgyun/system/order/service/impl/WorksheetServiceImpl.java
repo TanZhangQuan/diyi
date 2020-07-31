@@ -13,6 +13,7 @@ import com.lgyun.system.order.mapper.WorksheetMapper;
 import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.order.vo.EnterpriseWorksheetDetailVo;
+import com.lgyun.system.order.vo.WorksheetByEnterpriseVO;
 import com.lgyun.system.order.vo.WorksheetMakerDetailsVO;
 import com.lgyun.system.order.vo.WorksheetXiaoVo;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
@@ -65,7 +66,6 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         }
         BeanUtil.copy(releaseWorksheetDTO, worksheetEntity);
         worksheetEntity.setWorksheetNo(UUID.randomUUID().toString());
-        worksheetEntity.setPublishDate(new Date());
         worksheetEntity.setWorksheetState(WorksheetState.PUBLISHING);
         save(worksheetEntity);
         if (WorkSheetMode.BLEND.equals(releaseWorksheetDTO.getWorksheetMode()) || WorkSheetMode.DISPATCH.equals(releaseWorksheetDTO.getWorksheetMode())) {
@@ -201,6 +201,11 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     @Override
     public R<IPage<EnterpriseWorksheetDetailVo>> getWorksheetDetailsByMaker(IPage<EnterpriseWorksheetDetailVo> page, Long enterpriseId, Long makerId) {
         return R.data(page.setRecords(baseMapper.getWorksheetDetailsByMaker(enterpriseId, makerId,  page)));
+    }
+
+    @Override
+    public R<IPage<WorksheetByEnterpriseVO>> getWorksheetByEnterpriseId(Long enterpriseId, String worksheetNo, String worksheetName, IPage<WorksheetByEnterpriseVO> page) {
+        return R.data(page.setRecords(baseMapper.getWorksheetByEnterpriseId(enterpriseId, worksheetNo, worksheetName,  page)));
     }
 
     public synchronized R<String> orderGrabbing(WorksheetEntity worksheetEntity, MakerEntity makerEntity, int worksheetCount) {

@@ -1,8 +1,12 @@
 package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.user.entity.EnterpriseProviderEntity;
+import com.lgyun.system.user.vo.ProviderListVO;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  *  Mapper
@@ -13,5 +17,13 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface EnterpriseProviderMapper extends BaseMapper<EnterpriseProviderEntity> {
 
+    /**
+     * 根据商户ID查询所有合作的服务商
+     *
+     * @param enterpriseId
+     * @param page
+     * @return
+     */
+    List<ProviderListVO> listByEnterpriseId(Long enterpriseId, IPage<ProviderListVO> page);
 }
 

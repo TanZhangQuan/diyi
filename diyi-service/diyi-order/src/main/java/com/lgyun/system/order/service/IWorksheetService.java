@@ -8,13 +8,14 @@ import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.dto.ReleaseWorksheetDto;
 import com.lgyun.system.order.entity.WorksheetEntity;
 import com.lgyun.system.order.vo.EnterpriseWorksheetDetailVo;
+import com.lgyun.system.order.vo.WorksheetByEnterpriseVO;
 import com.lgyun.system.order.vo.WorksheetMakerDetailsVO;
 import com.lgyun.system.order.vo.WorksheetXiaoVo;
 
 import java.math.BigDecimal;
 
 /**
- *  Service 接口
+ * Service 接口
  *
  * @author jun
  * @since 2020-07-07 14:40:21
@@ -37,7 +38,7 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      * @param makerId
      * @return
      */
-    R orderGrabbing(Long worksheetId,Long makerId);
+    R orderGrabbing(Long worksheetId, Long makerId);
 
     /**
      * 小程序查询工单
@@ -47,7 +48,7 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      * @param makerId
      * @return
      */
-    R<IPage<WorksheetXiaoVo>> findXiaoPage(IPage<WorksheetXiaoVo> page, Integer worksheetState,Long makerId);
+    R<IPage<WorksheetXiaoVo>> findXiaoPage(IPage<WorksheetXiaoVo> page, Integer worksheetState, Long makerId);
 
     /**
      * 查询详情
@@ -59,9 +60,9 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
 
 
     /**
-     *根据工单状态和商户id查询
+     * 根据工单状态和商户id查询
      */
-    R getEnterpriseWorksheet(IPage<WorksheetXiaoVo> page, Long enterpriseId, WorksheetState worksheetState,String worksheetNo,String worksheetName,String startTime,String endTime);
+    R getEnterpriseWorksheet(IPage<WorksheetXiaoVo> page, Long enterpriseId, WorksheetState worksheetState, String worksheetNo, String worksheetName, String startTime, String endTime);
 
 
     /**
@@ -72,12 +73,12 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
     /**
      * 开启或关闭
      */
-    R closeOrOpen(Long worksheetId,Integer variable);
+    R closeOrOpen(Long worksheetId, Integer variable);
 
     /**
      * 踢出创客
      */
-    R kickOut(Long worksheetId,Long makerId);
+    R kickOut(Long worksheetId, Long makerId);
 
     /**
      * 验收
@@ -93,5 +94,16 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      * @return
      */
     R<IPage<EnterpriseWorksheetDetailVo>> getWorksheetDetailsByMaker(IPage<EnterpriseWorksheetDetailVo> page, Long enterpriseId, Long makerId);
+
+    /**
+     * 获取当前商户所有已完毕的工单
+     *
+     * @param enterpriseId
+     * @param worksheetNo
+     * @param worksheetName
+     * @param page
+     * @return
+     */
+    R<IPage<WorksheetByEnterpriseVO>> getWorksheetByEnterpriseId(Long enterpriseId, String worksheetNo, String worksheetName, IPage<WorksheetByEnterpriseVO> page);
 }
 

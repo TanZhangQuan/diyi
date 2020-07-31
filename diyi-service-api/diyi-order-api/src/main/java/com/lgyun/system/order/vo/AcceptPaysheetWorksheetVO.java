@@ -32,7 +32,7 @@ public class AcceptPaysheetWorksheetVO implements Serializable {
 
     //发布时间
     @JsonFormat(pattern = "MM-dd", timezone = "GMT+8")
-    private Date publishDate;
+    private Date createTime;
 
     //关单时间
     @JsonFormat(pattern = "MM-dd", timezone = "GMT+8")
@@ -52,7 +52,7 @@ public class AcceptPaysheetWorksheetVO implements Serializable {
 
     //发布时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date publishDate2;
+    private Date createTime2;
 
     //工单编号
     private String worksheetNo;

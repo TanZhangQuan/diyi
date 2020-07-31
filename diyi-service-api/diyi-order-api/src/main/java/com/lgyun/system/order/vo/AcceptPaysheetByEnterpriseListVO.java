@@ -32,7 +32,7 @@ public class AcceptPaysheetByEnterpriseListVO implements Serializable {
 
     //发布时间
     @JsonFormat(pattern = "MM-dd", timezone = "GMT+8")
-    private Date publishDate;
+    private Date createTime;
 
     //关单时间
     @JsonFormat(pattern = "MM-dd", timezone = "GMT+8")

@@ -56,7 +56,7 @@ public class ServiceProviderEntity extends BaseEntity {
     private AccountState serviceProviderState;
 
     /**
-     * 客户名称
+     * 服务商名称
      */
     private String serviceProviderName;
 

@@ -74,11 +74,6 @@ public class WorksheetEntity extends BaseEntity {
     private WorkSheetMode worksheetMode;
 
     /**
-     * 发布时间
-     */
-    private Date publishDate;
-
-    /**
      * 创客身份，自然人，个体户，个独。如果是个体户/个独，则抢单或派单时需要指定相关个体户/个独，如果只有一个则不用指定。
      */
     private MakerType makerType;

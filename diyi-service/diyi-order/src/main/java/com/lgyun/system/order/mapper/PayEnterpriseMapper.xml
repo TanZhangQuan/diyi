@@ -44,7 +44,7 @@
         <result property="makerTaxUrl" column="maker_tax_url"/>
         <result property="worksheetName" column="worksheet_name"/>
         <result property="worksheetMode" column="worksheet_mode"/>
-        <result property="publishDate" column="publish_date"/>
+        <result property="createTime" column="create_time"/>
         <result property="worksheetNo" column="worksheet_no"/>
         <result property="achievementFiles" column="achievement_files"/>
         <result property="checkMoney" column="check_money"/>
@@ -77,7 +77,7 @@
     <select id="getEnterpriseMakerIdDetail" resultMap="InvoiceEnterpriseVOMap">
         SELECT e.id AS enterprise_id, pe.id AS pay_list_id, pm.id AS pay_maker_id, e.enterprise_name AS enterprise_name,
         s.service_provider_name AS service_provider_name, w.worksheet_type, pe.pay_to_platform_amount, mi.maker_voice_url, mtr.maker_tax_url, w.worksheet_name,
-        w.worksheet_mode, w.publish_date, w.worksheet_no, wm.achievement_desc, wm.achievement_files, wm.check_money FROM diyi_enterprise e
+        w.worksheet_mode, w.create_time, w.worksheet_no, wm.achievement_desc, wm.achievement_files, wm.check_money FROM diyi_enterprise e
         INNER JOIN diyi_pay_enterprise pe ON e.id = pe.enterprise_id INNER JOIN diyi_service_provider s ON pe.service_provider_id = s.id
         INNER JOIN diyi_pay_maker pm ON pm.pay_list_id = pe.id LEFT JOIN diyi_worksheet w ON w.id = pe.worksheet_id AND w.is_deleted = 0
         INNER JOIN diyi_maker_invoice mi ON mi.pay_maker_id = pm.id INNER JOIN diyi_maker_tax_record mtr ON mtr.pay_maker_id = pm.id LEFT JOIN diyi_worksheet_maker wm

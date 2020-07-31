@@ -78,7 +78,7 @@ public class InvoiceEnterpriseVO  implements Serializable {
     /**
      * 发布日期
      */
-    private String publishDate;
+    private String createTime;
 
     /**
      * 工单编号

@@ -238,4 +238,24 @@ public class WorksheetController {
         return R.fail("查询失败");
     }
 
+    @GetMapping("/get_worksheet_by_enterprise_id")
+    @ApiOperation(value = "获取当前商户所有已完毕的工单", notes = "获取当前商户所有已完毕的工单")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "worksheetNo", value = "工单编号", paramType = "query", dataType = "string"),
+            @ApiImplicitParam(name = "worksheetName", value = "工单名称", paramType = "query", dataType = "string")
+    })
+    public R getWorksheetByEnterpriseId(String worksheetNo, String worksheetName, Query query, BladeUser bladeUser) {
+
+        log.info("获取当前商户所有已完毕的工单");
+        try {
+            //获取当前商户
+            EnterpriseEntity enterpriseEntity = iUserClient.currentEnterprise(bladeUser);
+            return worksheetService.getWorksheetByEnterpriseId(enterpriseEntity.getId(), worksheetNo, worksheetName, Condition.getPage(query.setDescs("create_time")));
+        } catch (Exception e) {
+            log.error("获取当前商户所有已完毕的工单异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+
 }

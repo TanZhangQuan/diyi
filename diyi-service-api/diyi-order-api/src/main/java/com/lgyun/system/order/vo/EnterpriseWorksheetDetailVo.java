@@ -66,6 +66,6 @@ public class EnterpriseWorksheetDetailVo implements Serializable {
      * 发布时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date publishDate;
+    private Date createTime;
 
 }
