@@ -56,7 +56,7 @@ public class AddressDto implements Serializable {
     private Integer isDefault;
 
     /**
-     * addressId
+     * 地址ID
      */
     private Long addressId;
 }

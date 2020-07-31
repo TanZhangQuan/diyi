@@ -1,7 +1,6 @@
 package com.lgyun.system.user.feign;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.google.gson.internal.$Gson$Preconditions;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
 import com.lgyun.common.enumeration.GrantType;
@@ -154,7 +153,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/individualEnterprise/listByMaker")
-    R<IPage<IndividualEnterpriseListByMakerVO>> individualEnterpriseListByMaker(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId, @RequestParam("ibstate") Ibstate ibstate);
+    R<IPage<IndividualBusinessEnterpriseListByMakerVO>> individualEnterpriseListByMaker(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId, @RequestParam("ibstate") Ibstate ibstate);
 
     /**
      * 查询当前创客的所有个体户
@@ -166,7 +165,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/individualBusiness/listByMaker")
-    R<IPage<IndividualBusinessListByMakerVO>> individualBusinessListByMaker(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId, @RequestParam("ibstate") Ibstate ibstate);
+    R<IPage<IndividualBusinessEnterpriseListByMakerVO>> individualBusinessListByMaker(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId, @RequestParam("ibstate") Ibstate ibstate);
 
     /**
      * 根据Id获取个独信息

@@ -8,9 +8,7 @@ import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.*;
-import com.lgyun.system.user.vo.IndividualBusinessListByMakerVO;
-import com.lgyun.system.user.vo.IndividualEnterpriseListByMakerVO;
-import com.lgyun.system.user.vo.MakerDetailVO;
+import com.lgyun.system.user.vo.IndividualBusinessEnterpriseListByMakerVO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -80,12 +78,12 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public R<IPage<IndividualEnterpriseListByMakerVO>> individualEnterpriseListByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate) {
+    public R<IPage<IndividualBusinessEnterpriseListByMakerVO>> individualEnterpriseListByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate) {
         return R.fail("网络繁忙，请稍后尝试");
     }
 
     @Override
-    public R<IPage<IndividualBusinessListByMakerVO>> individualBusinessListByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate) {
+    public R<IPage<IndividualBusinessEnterpriseListByMakerVO>> individualBusinessListByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate) {
         return R.fail("网络繁忙，请稍后尝试");
     }
 

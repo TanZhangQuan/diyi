@@ -18,6 +18,7 @@ import java.util.Date;
 @Data
 @ApiModel(value = "AcceptPaysheetEnterpriseVO对象", description = "AcceptPaysheetEnterpriseVO对象")
 public class AcceptPaysheetByEnterpriseListVO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     //交付支付验收单ID
     @JsonSerialize(using = ToStringSerializer.class)

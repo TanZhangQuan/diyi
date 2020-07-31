@@ -19,6 +19,7 @@ import java.util.Date;
  */
 @Data
 public class WorksheetXiaoVo implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /**
      * 工单创客ID

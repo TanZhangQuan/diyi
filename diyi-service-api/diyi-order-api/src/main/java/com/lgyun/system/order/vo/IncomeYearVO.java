@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 @Data
 @ApiModel(value = "IncomeYearVO对象", description = "IncomeYearVO对象")
 public class IncomeYearVO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     //年份
     @JsonSerialize(using = ToStringSerializer.class)

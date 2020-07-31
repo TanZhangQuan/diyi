@@ -13,7 +13,7 @@ import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.feign.IOrderClient;
 import com.lgyun.system.order.vo.SelfHelpInvoiceListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
-import com.lgyun.system.user.dto.EnterpriseIndividualBusinessDto;
+import com.lgyun.system.user.dto.EnterpriseIndividualBusinessEnterpriseDto;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddEnterpriseDto;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDto;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
@@ -21,9 +21,8 @@ import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.mapper.IndividualBusinessMapper;
 import com.lgyun.system.user.service.IIndividualBusinessService;
 import com.lgyun.system.user.service.IMakerService;
-import com.lgyun.system.user.vo.EnterpriseIndividualBusinessVO;
-import com.lgyun.system.user.vo.IndividualBusinessDetailVO;
-import com.lgyun.system.user.vo.IndividualBusinessListByMakerVO;
+import com.lgyun.system.user.vo.IndividualBusinessEnterpriseDetailsVO;
+import com.lgyun.system.user.vo.IndividualBusinessEnterpriseListByMakerVO;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -93,7 +92,7 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
     }
 
     @Override
-    public R<IPage<IndividualBusinessListByMakerVO>> listByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate) {
+    public R<IPage<IndividualBusinessEnterpriseListByMakerVO>> listByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate) {
 
         QueryWrapper<IndividualBusinessEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(IndividualBusinessEntity::getMakerId, makerId)
@@ -102,16 +101,16 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
 
         IPage<IndividualBusinessEntity> pages = this.page(new Page<>(current, size), queryWrapper);
 
-        List<IndividualBusinessListByMakerVO> records = pages.getRecords().stream().map(individualBusinessEntity -> BeanUtil.copy(individualBusinessEntity, IndividualBusinessListByMakerVO.class)).collect(Collectors.toList());
+        List<IndividualBusinessEnterpriseListByMakerVO> records = pages.getRecords().stream().map(individualBusinessEntity -> BeanUtil.copy(individualBusinessEntity, IndividualBusinessEnterpriseListByMakerVO.class)).collect(Collectors.toList());
 
-        IPage<IndividualBusinessListByMakerVO> pageVo = new Page<>(pages.getCurrent(), pages.getSize(), pages.getTotal());
+        IPage<IndividualBusinessEnterpriseListByMakerVO> pageVo = new Page<>(pages.getCurrent(), pages.getSize(), pages.getTotal());
         pageVo.setRecords(records);
 
         return R.data(pageVo);
     }
 
     @Override
-    public R<IndividualBusinessDetailVO> findById(Long individualBusinessId) {
+    public R<IndividualBusinessEnterpriseDetailsVO> findById(Long individualBusinessId) {
         return R.data(baseMapper.findById(individualBusinessId));
     }
 
@@ -121,12 +120,19 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
     }
 
     @Override
-    public R<IPage<EnterpriseIndividualBusinessVO>> getByDtoEnterprise(IPage<EnterpriseIndividualBusinessVO> page, EnterpriseIndividualBusinessDto enterpriseIndividualBusinessDto, Long enterpriseId) {
-        return R.data(page.setRecords(baseMapper.getByDtoEnterprise(enterpriseId, enterpriseIndividualBusinessDto, page)));
+    public R<IPage<IndividualBusinessEnterpriseDetailsVO>> getByDtoEnterprise(IPage<IndividualBusinessEnterpriseDetailsVO> page, Long enterpriseId, Ibstate ibstate, EnterpriseIndividualBusinessEnterpriseDto enterpriseIndividualBusinessEnterpriseDto) {
+
+        if (enterpriseIndividualBusinessEnterpriseDto.getBeginDate() != null && enterpriseIndividualBusinessEnterpriseDto.getEndDate() != null) {
+            if (enterpriseIndividualBusinessEnterpriseDto.getBeginDate().after(enterpriseIndividualBusinessEnterpriseDto.getEndDate())) {
+                return R.fail("开始时间不能大于结束时间");
+            }
+        }
+
+        return R.data(page.setRecords(baseMapper.getByDtoEnterprise(enterpriseId, ibstate, enterpriseIndividualBusinessEnterpriseDto, page)));
     }
 
     @Override
-    public R<EnterpriseIndividualBusinessVO> findByIdEnterprise(Long individualBusinessId) {
+    public R<IndividualBusinessEnterpriseDetailsVO> findByIdEnterprise(Long individualBusinessId) {
         return R.data(baseMapper.findByIdEnterprise(individualBusinessId));
     }
 

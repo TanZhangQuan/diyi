@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 @Data
 @ApiModel(value = "AllIncomeYearMonthVO对象", description = "AllIncomeYearMonthVO对象")
 public class AllIncomeYearMonthVO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     //记录数
     private Integer num;

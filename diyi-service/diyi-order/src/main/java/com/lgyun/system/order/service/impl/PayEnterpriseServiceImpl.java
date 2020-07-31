@@ -7,6 +7,7 @@ import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.mapper.PayEnterpriseMapper;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.vo.InvoiceEnterpriseVO;
+import com.lgyun.system.order.vo.PayEnterpriseStatisticalVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -39,5 +40,10 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             return R.fail("抱歉，由于此发票人数过多，你没有权限观看");
         }
         return R.data(enterpriseMakerIdDetail);
+    }
+
+    @Override
+    public R<PayEnterpriseStatisticalVO> statistical(Long enterpriseId) {
+        return R.data(baseMapper.statistical(enterpriseId));
     }
 }

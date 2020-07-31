@@ -12,6 +12,7 @@ import java.io.Serializable;
  */
 @Data
 public class RunCompanyDto implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /**
      * 公司名称
@@ -50,5 +51,8 @@ public class RunCompanyDto implements Serializable {
      */
     private String contacterName;
 
+    /**
+     * 创客ID
+     */
     private Long makerId;
 }

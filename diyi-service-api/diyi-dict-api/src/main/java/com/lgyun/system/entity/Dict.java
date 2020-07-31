@@ -22,7 +22,6 @@ import java.io.Serializable;
 @TableName("blade_dict")
 @ApiModel(value = "Dict对象", description = "Dict对象")
 public class Dict implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     /**

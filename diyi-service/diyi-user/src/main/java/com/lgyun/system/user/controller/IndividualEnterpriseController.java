@@ -8,9 +8,9 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.EnterpriseIndividualEnterpriseDto;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddEnterpriseDto;
+import com.lgyun.system.user.dto.EnterpriseIndividualBusinessEnterpriseDto;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDto;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddEnterpriseDto;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
@@ -107,16 +107,22 @@ public class IndividualEnterpriseController {
 	}
 
 	@GetMapping("/get_by_dto_enterprise")
-	@ApiOperation(value = "查询当前商户的所有关联创客的个独", notes = "查询当前商户的所有关联创客的个独")
-	public R getByDtoEnterprise(EnterpriseIndividualEnterpriseDto enterpriseIndividualEnterpriseDto, Query query, BladeUser bladeUser) {
+	@ApiOperation(value = "查询当前商户的所有关联创客的所有个独", notes = "查询当前商户的所有关联创客的所有个独")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "individualBusinessEnterpriseId", value = "个体户编号", paramType = "query", dataType = "long"),
+			@ApiImplicitParam(name = "ibname", value = "个体户名称", paramType = "query", dataType = "string"),
+			@ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
+			@ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
+	})
+	public R getByDtoEnterprise(@NotNull(message = "请选择个体户状态") @RequestParam(required = false) Ibstate ibstate, EnterpriseIndividualBusinessEnterpriseDto enterpriseIndividualBusinessEnterpriseDto, Query query, BladeUser bladeUser) {
 
-		log.info("查询当前商户的所有关联创客的个独");
+		log.info("查询当前商户的所有关联创客的所有个独");
 		try {
 			//获取当前商户
-			EnterpriseEntity enterpriseEntity = enterpriseService.current(bladeUser);
-			return individualEnterpriseService.getByDtoEnterprise(Condition.getPage(query.setDescs("create_time")), enterpriseIndividualEnterpriseDto, enterpriseEntity.getId());
+//			EnterpriseEntity enterpriseEntity = enterpriseService.current(bladeUser);
+			return individualEnterpriseService.getByDtoEnterprise(Condition.getPage(query.setDescs("create_time")), 1L, ibstate, enterpriseIndividualBusinessEnterpriseDto);
 		} catch (Exception e) {
-			log.error("查询当前商户的所有关联创客的个独异常", e);
+			log.error("查询当前商户的所有关联创客的所有个独异常", e);
 		}
 		return R.fail("查询失败");
 	}

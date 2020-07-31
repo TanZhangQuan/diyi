@@ -16,6 +16,8 @@ import java.math.BigDecimal;
 @Data
 @ApiModel(value = "InvoiceEnterpriseVO对象", description = "InvoiceEnterpriseVO对象")
 public class InvoiceEnterpriseVO  implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     /**
      * 商户id
      */

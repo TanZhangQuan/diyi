@@ -7,14 +7,13 @@ import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.vo.SelfHelpInvoiceListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
-import com.lgyun.system.user.dto.EnterpriseIndividualEnterpriseDto;
+import com.lgyun.system.user.dto.EnterpriseIndividualBusinessEnterpriseDto;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDto;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddEnterpriseDto;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
-import com.lgyun.system.user.vo.EnterpriseIndividualEnterpriseVO;
-import com.lgyun.system.user.vo.IndividualEnterpriseDetailVO;
-import com.lgyun.system.user.vo.IndividualEnterpriseListByMakerVO;
+import com.lgyun.system.user.vo.IndividualBusinessEnterpriseDetailsVO;
+import com.lgyun.system.user.vo.IndividualBusinessEnterpriseListByMakerVO;
 
 import java.util.List;
 
@@ -52,7 +51,7 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
      * @param ibstate
      * @return
      */
-    R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate);
+    R<IPage<IndividualBusinessEnterpriseListByMakerVO>> listByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate);
 
     /**
      * 根据ID查询个独详情
@@ -60,7 +59,7 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
      * @param individualEnterpriseId
      * @return
      */
-    R<IndividualEnterpriseDetailVO> findById(Long individualEnterpriseId);
+    R<IndividualBusinessEnterpriseDetailsVO> findById(Long individualEnterpriseId);
 
     /**
      * 查询个独月度开票金额和年度开票金额
@@ -75,11 +74,12 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
      * 查询当前商户的所有关联创客的个独
      *
      * @param page
-     * @param enterpriseIndividualEnterpriseDto
      * @param enterpriseId
+     * @param ibstate
+     * @param enterpriseIndividualBusinessEnterpriseDto
      * @return
      */
-    R<IPage<EnterpriseIndividualEnterpriseVO>> getByDtoEnterprise(IPage<EnterpriseIndividualEnterpriseVO> page, EnterpriseIndividualEnterpriseDto enterpriseIndividualEnterpriseDto, Long enterpriseId);
+    R<IPage<IndividualBusinessEnterpriseDetailsVO>> getByDtoEnterprise(IPage<IndividualBusinessEnterpriseDetailsVO> page, Long enterpriseId, Ibstate ibstate, EnterpriseIndividualBusinessEnterpriseDto enterpriseIndividualBusinessEnterpriseDto);
 
     /**
      * 查询当前商户的关联创客的个独详情
@@ -87,7 +87,7 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
      * @param individualEnterpriseId
      * @return
      */
-    R<EnterpriseIndividualEnterpriseVO> findByIdEnterprise(Long individualEnterpriseId);
+    R<IndividualBusinessEnterpriseDetailsVO> findByIdEnterprise(Long individualEnterpriseId);
 
     /**
      * 查询个独开票次数，月度开票金额，年度开票金额和总开票金额

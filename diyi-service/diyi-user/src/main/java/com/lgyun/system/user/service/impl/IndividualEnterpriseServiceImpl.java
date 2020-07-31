@@ -13,7 +13,7 @@ import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.feign.IOrderClient;
 import com.lgyun.system.order.vo.SelfHelpInvoiceListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
-import com.lgyun.system.user.dto.EnterpriseIndividualEnterpriseDto;
+import com.lgyun.system.user.dto.EnterpriseIndividualBusinessEnterpriseDto;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDto;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddEnterpriseDto;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
@@ -21,9 +21,8 @@ import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.mapper.IndividualEnterpriseMapper;
 import com.lgyun.system.user.service.IIndividualEnterpriseService;
 import com.lgyun.system.user.service.IMakerService;
-import com.lgyun.system.user.vo.EnterpriseIndividualEnterpriseVO;
-import com.lgyun.system.user.vo.IndividualEnterpriseDetailVO;
-import com.lgyun.system.user.vo.IndividualEnterpriseListByMakerVO;
+import com.lgyun.system.user.vo.IndividualBusinessEnterpriseDetailsVO;
+import com.lgyun.system.user.vo.IndividualBusinessEnterpriseListByMakerVO;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -77,7 +76,7 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
     }
 
     @Override
-    public R<IPage<IndividualEnterpriseListByMakerVO>> listByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate) {
+    public R<IPage<IndividualBusinessEnterpriseListByMakerVO>> listByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate) {
 
         QueryWrapper<IndividualEnterpriseEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(IndividualEnterpriseEntity::getMakerId, makerId)
@@ -86,16 +85,16 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
 
         IPage<IndividualEnterpriseEntity> pages = this.page(new Page<>(current, size), queryWrapper);
 
-        List<IndividualEnterpriseListByMakerVO> records = pages.getRecords().stream().map(individualEnterpriseEntity -> BeanUtil.copy(individualEnterpriseEntity, IndividualEnterpriseListByMakerVO.class)).collect(Collectors.toList());
+        List<IndividualBusinessEnterpriseListByMakerVO> records = pages.getRecords().stream().map(individualEnterpriseEntity -> BeanUtil.copy(individualEnterpriseEntity, IndividualBusinessEnterpriseListByMakerVO.class)).collect(Collectors.toList());
 
-        IPage<IndividualEnterpriseListByMakerVO> pageVo = new Page<>(pages.getCurrent(), pages.getSize(), pages.getTotal());
+        IPage<IndividualBusinessEnterpriseListByMakerVO> pageVo = new Page<>(pages.getCurrent(), pages.getSize(), pages.getTotal());
         pageVo.setRecords(records);
 
         return R.data(pageVo);
     }
 
     @Override
-    public R<IndividualEnterpriseDetailVO> findById(Long individualEnterpriseId) {
+    public R<IndividualBusinessEnterpriseDetailsVO> findById(Long individualEnterpriseId) {
         return R.data(baseMapper.findById(individualEnterpriseId));
     }
 
@@ -105,12 +104,12 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
     }
 
     @Override
-    public R<IPage<EnterpriseIndividualEnterpriseVO>> getByDtoEnterprise(IPage<EnterpriseIndividualEnterpriseVO> page, EnterpriseIndividualEnterpriseDto enterpriseIndividualEnterpriseDto, Long enterpriseId) {
-        return R.data(page.setRecords(baseMapper.getByDtoEnterprise(enterpriseId, enterpriseIndividualEnterpriseDto, page)));
+    public R<IPage<IndividualBusinessEnterpriseDetailsVO>> getByDtoEnterprise(IPage<IndividualBusinessEnterpriseDetailsVO> page, Long enterpriseId, Ibstate ibstate, EnterpriseIndividualBusinessEnterpriseDto enterpriseIndividualBusinessEnterpriseDto) {
+        return R.data(page.setRecords(baseMapper.getByDtoEnterprise(enterpriseId, ibstate, enterpriseIndividualBusinessEnterpriseDto, page)));
     }
 
     @Override
-    public R<EnterpriseIndividualEnterpriseVO> findByIdEnterprise(Long individualEnterpriseId) {
+    public R<IndividualBusinessEnterpriseDetailsVO> findByIdEnterprise(Long individualEnterpriseId) {
         return R.data(baseMapper.findByIdEnterprise(individualEnterpriseId));
     }
 

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.InvoiceEnterpriseVO;
+import com.lgyun.system.order.vo.PayEnterpriseStatisticalVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -45,5 +46,13 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * @return
      */
     InvoiceEnterpriseVO getEnterpriseMakerIdDetail(Long makerId, Long enterpriseId, Long payMakerId);
+
+    /**
+     * 获取交付清单统计数据
+     *
+     * @param enterpriseId
+     * @return
+     */
+    PayEnterpriseStatisticalVO statistical(Long enterpriseId);
 }
 

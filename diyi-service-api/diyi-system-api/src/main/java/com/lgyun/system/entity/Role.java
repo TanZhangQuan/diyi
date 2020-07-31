@@ -21,7 +21,6 @@ import java.io.Serializable;
 @TableName("blade_role")
 @ApiModel(value = "Role对象", description = "Role对象")
 public class Role implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     /**

@@ -15,6 +15,7 @@ import java.io.Serializable;
 @Data
 @ApiModel(value = "MakerEnterpriseRelationVO对象", description = "MakerEnterpriseRelationVO对象")
 public class MakerEnterpriseRelationVO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     //客户名称
     private String enterpriseName;

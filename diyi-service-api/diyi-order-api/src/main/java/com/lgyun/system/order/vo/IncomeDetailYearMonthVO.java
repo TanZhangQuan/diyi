@@ -16,6 +16,7 @@ import java.util.Date;
 @Data
 @ApiModel(value = "AllIncomeYearMonthVO对象", description = "AllIncomeYearMonthVO对象")
 public class IncomeDetailYearMonthVO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     //收入
     private BigDecimal income;

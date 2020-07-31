@@ -19,6 +19,7 @@ import java.util.Date;
 @Data
 @ApiModel(value = "AcceptPaysheetWorksheetVO对象", description = "AcceptPaysheetWorksheetVO对象")
 public class AcceptPaysheetWorksheetVO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     //交付支付验收单类型：清单式，单人单张
     private AcceptPaysheetType acceptPaysheetType;

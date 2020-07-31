@@ -18,6 +18,7 @@ import java.util.Date;
 @Data
 @ApiModel(value = "SelfHelpInvoiceDetailsVO对象", description = "SelfHelpInvoiceDetailsVO对象")
 public class SelfHelpInvoiceDetailsVO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
@@ -35,7 +36,7 @@ public class SelfHelpInvoiceDetailsVO implements Serializable {
     private Long selfHelpInvoiceDetailId;
 
     @JsonSerialize(using = ToStringSerializer.class)
-    private  Long handPayId;
+    private Long handPayId;
 
     private String companyName;
 
@@ -47,33 +48,33 @@ public class SelfHelpInvoiceDetailsVO implements Serializable {
 
     private String bankName;
 
-    private  String bankAccount;
+    private String bankAccount;
 
     private BigDecimal chargeMoneyNum;
 
-    private  String invoiceType;
+    private String invoiceType;
 
-    private  String flowContractUrl;
+    private String flowContractUrl;
 
-    private  String businessContractUrl;
+    private String businessContractUrl;
 
-    private  String addressName;
+    private String addressName;
 
-    private  String addressPhone;
+    private String addressPhone;
 
-    private  String area;
+    private String area;
 
-    private  String city;
+    private String city;
 
-    private  String province;
+    private String province;
 
-    private  String detailedAddress;
+    private String detailedAddress;
 
-    private  String idCardName;
+    private String idCardName;
 
-    private  String idCardNo;
+    private String idCardNo;
 
-    private  String phoneNumber;
+    private String phoneNumber;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date givePriceDate;

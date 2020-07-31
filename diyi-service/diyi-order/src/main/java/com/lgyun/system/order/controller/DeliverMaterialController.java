@@ -26,7 +26,7 @@ import javax.validation.Valid;
  */
 @Slf4j
 @RestController
-@RequestMapping("/user/deliver-material")
+@RequestMapping("/user/deliver_material")
 @Validated
 @AllArgsConstructor
 @Api(value = "验收单交付材料相关接口", tags = "验收单交付材料相关接口")

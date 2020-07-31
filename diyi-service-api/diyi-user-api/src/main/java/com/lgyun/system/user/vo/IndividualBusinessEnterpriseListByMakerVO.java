@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @since 2020/7/6 00:28
  */
 @Data
-public class IndividualEnterpriseListByMakerVO implements Serializable {
+public class IndividualBusinessEnterpriseListByMakerVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**

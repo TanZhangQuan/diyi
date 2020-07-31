@@ -50,6 +50,14 @@
         <result property="checkMoney" column="check_money"/>
         <result property="makerNum" column="maker_num"/>
     </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.PayEnterpriseStatisticalVO" id="payEnterpriseStatisticalVO">
+        <result property="monthPay" column="month_pay"/>
+        <result property="yearPay" column="year_pay"/>
+        <result property="allPay" column="all_pay"/>
+        <result property="makerNum" column="maker_num"/>
+        <result property="serviceProviderNum" column="service_provider_num"/>
+    </resultMap>
     
     <select id="getEnterpriseAll" resultMap="InvoiceEnterpriseVOMap">
         SELECT e.id AS enterprise_id, pe.id AS pay_list_id, pm.id AS pay_maker_id, e.enterprise_name AS enterprise_name FROM diyi_enterprise e
@@ -76,4 +84,9 @@
         ON pe.worksheet_id = wm.worksheet_id AND wm.is_deleted = 0 WHERE e.is_deleted = 0 AND pe.is_deleted = 0 AND s.is_deleted = 0 AND pm.is_deleted = 0 AND
         mi.is_deleted = 0 and mtr.is_deleted = 0 and pm.maker_id = #{param1} and e.id= #{param2} and pm.id=#{param3}
     </select>
+
+    <select id="statistical" resultMap="payEnterpriseStatisticalVO">
+
+    </select>
+
 </mapper>

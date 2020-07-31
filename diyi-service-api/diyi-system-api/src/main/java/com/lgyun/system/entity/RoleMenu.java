@@ -20,7 +20,6 @@ import java.io.Serializable;
 @TableName("blade_role_menu")
 @ApiModel(value = "RoleMenu对象", description = "RoleMenu对象")
 public class RoleMenu implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     /**

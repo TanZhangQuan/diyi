@@ -5,6 +5,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.InvoiceEnterpriseVO;
+import com.lgyun.system.order.vo.PayEnterpriseStatisticalVO;
 
 /**
  *  Service 接口
@@ -43,5 +44,13 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @return
      */
     R<InvoiceEnterpriseVO> getEnterpriseMakerIdDetail(Long makerId,Long enterpriseId,Long payMakerId);
+
+    /**
+     * 获取交付清单统计数据
+     *
+     * @param enterpriseId
+     * @return
+     */
+    R<PayEnterpriseStatisticalVO> statistical(Long enterpriseId);
 }
 

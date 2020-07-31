@@ -13,6 +13,8 @@ import java.math.BigDecimal;
  */
 @Data
 public class SelfHelpInvoiceDto implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     //购买方
    private Long companyId;
 
