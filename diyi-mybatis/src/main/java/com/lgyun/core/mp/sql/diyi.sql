@@ -905,7 +905,10 @@ CREATE TABLE `diyi_enterprise_worker` (
 DROP TABLE IF EXISTS `diyi_individual_business`;
 CREATE TABLE `diyi_individual_business` (
   `id` bigint(50) NOT NULL COMMENT '主键',
+  `annual_fee_id` bigint(50) DEFAULT NULL COMMENT '年费ID',
+  `annual_fee_year` datetime NOT NULL COMMENT '年费年度',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
+  `service_provider_id` bigint(50) DEFAULT NULL COMMENT '服务商ID',
   `biz_type` varchar(50) NOT NULL COMMENT '个体户税种：小规模',
   `ibname` varchar(50) NOT NULL DEFAULT '' COMMENT '个体户名称',
   `ibtax_no` varchar(50) NOT NULL DEFAULT '' COMMENT '统一社会信用代码',
@@ -975,7 +978,10 @@ CREATE TABLE `diyi_individual_business_annual_fee` (
 DROP TABLE IF EXISTS `diyi_individual_enterprise`;
 CREATE TABLE `diyi_individual_enterprise` (
   `id` bigint(50) NOT NULL COMMENT '主键',
+  `annual_fee_id` bigint(50) DEFAULT NULL COMMENT '年费ID',
+  `annual_fee_year` datetime NOT NULL COMMENT '年费年度',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
+  `service_provider_id` bigint(50) DEFAULT NULL COMMENT '服务商ID',
   `bizType` varchar(50) NOT NULL COMMENT '个独税种：小规模，一般纳税人',
   `ibname` varchar(50) NOT NULL DEFAULT '' COMMENT '个体户名称',
   `ibtax_no` varchar(50) NOT NULL DEFAULT '' COMMENT '统一社会信用代码',

@@ -2,6 +2,8 @@ package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.tool.DateUtil;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -28,6 +30,7 @@ public class RunCompanyEntity extends BaseEntity {
     /**
      * 创客Id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long makerId;
 
     /**

@@ -6,7 +6,10 @@
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.user.entity.IndividualEnterpriseEntity" id="individualEnterpriseMap">
         <result property="id" column="id"/>
+        <result property="annualFeeId" column="annual_fee_id"/>
+        <result property="annualFeeYear" column="annual_fee_year"/>
         <result property="makerId" column="maker_id"/>
+        <result property="serviceProviderId" column="service_provider_id"/>
         <result property="bizType" column="biz_type"/>
         <result property="ibname" column="ibname"/>
         <result property="ibtaxNo" column="ibtax_no"/>
