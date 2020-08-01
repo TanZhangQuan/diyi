@@ -8,10 +8,7 @@ import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.dto.ReleaseWorksheetDto;
 import com.lgyun.system.order.entity.WorksheetEntity;
-import com.lgyun.system.order.vo.EnterpriseWorksheetDetailVo;
-import com.lgyun.system.order.vo.WorksheetByEnterpriseVO;
-import com.lgyun.system.order.vo.WorksheetMakerDetailsVO;
-import com.lgyun.system.order.vo.WorksheetXiaoVo;
+import com.lgyun.system.order.vo.*;
 
 import java.math.BigDecimal;
 
@@ -107,5 +104,13 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      * @return
      */
     R<IPage<WorksheetByEnterpriseVO>> getWorksheetByEnterpriseId(Long enterpriseId, WorkSheetType workSheetType, String worksheetNo, String worksheetName, IPage<WorksheetByEnterpriseVO> page);
+
+    /**
+     * 根据工单编号获取工单
+     *
+     * @param worksheetNo
+     * @return
+     */
+    R<WorksheetNoVO> getWorksheetNo(String worksheetNo);
 }
 

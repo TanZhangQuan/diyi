@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "EnterprisePayReceiptVO对象", description = "EnterprisePayReceiptVO对象")
+@ApiModel(value = "PayEnterpriseReceiptVO对象", description = "PayEnterpriseReceiptVO对象")
 public class PayEnterpriseReceiptVO extends PayEnterpriseReceiptEntity {
     private static final long serialVersionUID = 1L;
 }

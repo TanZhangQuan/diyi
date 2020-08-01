@@ -101,10 +101,22 @@ public interface WorksheetMakerMapper extends BaseMapper<WorksheetMakerEntity> {
      */
     BigDecimal queryAllMoneyDetailByYearMonth(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year, Long month, Long enterpriseId);
 
-
     /**
      * 根据工单id查询所有的创客明细
+     *
+     * @param worksheetId
+     * @param page
+     * @return
      */
     List<WorksheetMakerDetailsVO> getWorksheetMakerDetails(Long worksheetId,IPage<WorksheetMakerDetailsVO> page);
+
+    /**
+     * 根据支付清单ID获取创客工单关联
+     *
+     * @param enterprisePayId
+     * @param page
+     * @return
+     */
+    List<WorksheetMakerListVO> getByEnterprisePayId(Long enterprisePayId, IPage<WorksheetMakerListVO> page);
 }
 

@@ -9,10 +9,9 @@ import com.lgyun.system.order.entity.WorksheetMakerEntity;
 import com.lgyun.system.order.vo.*;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 /**
- *  Service 接口
+ * Service 接口
  *
  * @author jun
  * @since 2020-07-07 14:40:21
@@ -35,7 +34,7 @@ public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity
      * @param achievementFiles
      * @return
      */
-    R<String> submitAchievement(WorksheetMakerEntity worksheetMakerEntity,String achievementDesc,String achievementFiles);
+    R<String> submitAchievement(WorksheetMakerEntity worksheetMakerEntity, String achievementDesc, String achievementFiles);
 
 
     /**
@@ -47,7 +46,7 @@ public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity
      * @param bool
      * @return
      */
-    R<String> checkAchievement(Long worksheetMakerId, BigDecimal checkMoney,Long enterpriseId,Boolean bool);
+    R<String> checkAchievement(Long worksheetMakerId, BigDecimal checkMoney, Long enterpriseId, Boolean bool);
 
     /**
      * 查询创客有没有抢单
@@ -56,7 +55,7 @@ public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity
      * @param worksheetId
      * @return
      */
-    Boolean isMakerId(Long makerId,Long worksheetId);
+    Boolean isMakerId(Long makerId, Long worksheetId);
 
     /**
      * 根据工单类型，创客类型，年份，月份（可选）查询工单笔数和总收入金额
@@ -133,8 +132,12 @@ public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity
 
     /**
      * 根据工单id查询所有的创客明细
+     *
+     * @param worksheetId
+     * @param page
+     * @return
      */
-    IPage<WorksheetMakerDetailsVO> getWorksheetMakerDetails(Long worksheetId,IPage<WorksheetMakerDetailsVO> page);
+    IPage<WorksheetMakerDetailsVO> getWorksheetMakerDetails(Long worksheetId, IPage<WorksheetMakerDetailsVO> page);
 
 
     /**
@@ -144,6 +147,15 @@ public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity
      * @param worksheetId
      * @return
      */
-    WorksheetMakerEntity getmakerIdAndWorksheetId(Long makerId,Long worksheetId);
+    WorksheetMakerEntity getmakerIdAndWorksheetId(Long makerId, Long worksheetId);
+
+    /**
+     * 根据支付清单ID获取创客工单关联
+     *
+     * @param enterprisePayId
+     * @param page
+     * @return
+     */
+    R<IPage<WorksheetMakerListVO>> getByEnterprisePayId(Long enterprisePayId, IPage<WorksheetMakerListVO> page);
 }
 

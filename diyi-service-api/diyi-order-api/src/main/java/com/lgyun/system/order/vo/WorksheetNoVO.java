@@ -1,42 +1,21 @@
-package com.lgyun.system.order.entity;
+package com.lgyun.system.order.vo;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.lgyun.common.enumeration.MakerType;
-import com.lgyun.common.enumeration.WorkSheetMode;
-import com.lgyun.common.enumeration.WorkSheetType;
-import com.lgyun.common.enumeration.WorksheetState;
-import com.lgyun.core.mp.base.BaseEntity;
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.lgyun.common.enumeration.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * Entity
- *
- * @author jun
- * @since 2020-07-07 14:40:21
+ * @author jun.
+ * @date 2020/7/7.
+ * @time 18:22.
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor
-@AllArgsConstructor
-@TableName("diyi_worksheet")
-public class WorksheetEntity extends BaseEntity {
+public class WorksheetNoVO implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 企业ID
-     */
-    private Long enterpriseId;
-
-    /**
-     * 工单编号
-     */
-    private String worksheetNo;
 
     /**
      * 工单名称
@@ -89,38 +68,9 @@ public class WorksheetEntity extends BaseEntity {
     private WorksheetState worksheetState;
 
     /**
-     * 作废时间
-     */
-    private Date destroyDatetime;
-
-    /**
-     * 作废人员
-     */
-    private String destroyPerson;
-
-    /**
-     * 作废说明
-     */
-    private String destroyDesc;
-
-    /**
-     * 关单时间
-     */
-    private Date closeWorksheetDate;
-
-    /**
-     * 1，手动关单；2，自动关单
-     */
-    private String closeDesc;
-
-    /**
-     * 关单人员
-     */
-    private String closePerson;
-
-    /**
      * 完毕日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date finishDate;
 
     /**

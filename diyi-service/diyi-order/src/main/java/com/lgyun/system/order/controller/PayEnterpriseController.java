@@ -6,15 +6,14 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
+import com.lgyun.system.order.dto.PayEnterpriseTotalListDto;
 import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.wrapper.PayEnterpriseWrapper;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.feign.IUserClient;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -99,6 +98,26 @@ public class PayEnterpriseController {
             log.error("上传支付清单异常", e);
         }
         return R.fail("上传失败");
+    }
+
+    @GetMapping("/get_by_dto_enterprise")
+    @ApiOperation(value = "查询当前商户所有总包支付清单", notes = "查询当前商户所有总包支付清单")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "serviceProviderName", value = "服务商名称", paramType = "query", dataType = "string"),
+            @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
+            @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
+    })
+    public R getByDtoEnterprise(PayEnterpriseTotalListDto payEnterpriseTotalListDto, Query query, BladeUser bladeUser) {
+
+        log.info("查询当前商户所有总包支付清单");
+        try {
+            //获取当前商户
+            EnterpriseEntity enterpriseEntity = iUserClient.currentEnterprise(bladeUser);
+            return enterprisePayService.getByDtoEnterprise(enterpriseEntity.getId(), payEnterpriseTotalListDto, Condition.getPage(query.setDescs("create_time")));
+        } catch (Exception e) {
+            log.error("查询当前商户所有总包支付清单异常", e);
+        }
+        return R.fail("查询失败");
     }
 
 }

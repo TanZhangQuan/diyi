@@ -160,11 +160,25 @@ public class WorksheetMakerController {
                                                                          @ApiParam(value = "月份") @NotNull(message = "请选择月份") @RequestParam(required = false) Long month,
                                                                          @ApiParam(value = "商户编号") @RequestParam(required = false) Long enterpriseId,
                                                                          BladeUser bladeUser, Query query) {
+        log.info("根据工单类型，创客类型，年份，月份，商户编号（可选）查询收入明细");
         try {
             MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
             return worksheetMakerService.queryMoneyDetailByYearMonth(Condition.getPage(query.setDescs("create_time")), worksheetType, makerType, makerEntity.getId(), year, month, enterpriseId);
         } catch (Exception e) {
             log.error("根据工单类型，创客类型，年份，月份，商户编号（可选）查询收入明细异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/get_by_enterprise_pay_id")
+    @ApiOperation(value = "根据支付清单ID获取创客工单关联", notes = "根据支付清单ID获取创客工单关联")
+    public R getByEnterprisePayId(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long enterprisePayId, Query query) {
+
+        log.info("根据支付清单ID获取创客工单关联");
+        try {
+            return worksheetMakerService.getByEnterprisePayId(enterprisePayId, Condition.getPage(query.setDescs("create_time")));
+        } catch (Exception e) {
+            log.error("根据支付清单ID获取创客工单关联异常", e);
         }
         return R.fail("查询失败");
     }

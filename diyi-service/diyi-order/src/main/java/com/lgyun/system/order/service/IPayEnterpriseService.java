@@ -3,10 +3,12 @@ package com.lgyun.system.order.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
+import com.lgyun.system.order.dto.PayEnterpriseTotalListDto;
 import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.InvoiceEnterpriseVO;
 import com.lgyun.system.order.vo.PayEnterpriseStatisticalVO;
+import com.lgyun.system.order.vo.PayEnterpriseTotalListVO;
 
 /**
  *  Service 接口
@@ -62,5 +64,15 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @return
      */
     R<String> upload(PayEnterpriseUploadDto payEnterpriseUploadDto, Long enterpriseId);
+
+    /**
+     * 查询当前商户所有总包支付清单
+     *
+     * @param enterpriseId
+     * @param payEnterpriseTotalListDto
+     * @param page
+     * @return
+     */
+    R<IPage<PayEnterpriseTotalListVO>> getByDtoEnterprise(Long enterpriseId, PayEnterpriseTotalListDto payEnterpriseTotalListDto, IPage<PayEnterpriseTotalListVO> page);
 }
 

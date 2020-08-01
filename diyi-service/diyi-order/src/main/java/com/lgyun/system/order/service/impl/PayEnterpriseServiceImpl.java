@@ -5,6 +5,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.system.order.dto.PayEnterpriseTotalListDto;
 import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.entity.PayEnterpriseReceiptEntity;
@@ -15,6 +16,7 @@ import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.order.vo.InvoiceEnterpriseVO;
 import com.lgyun.system.order.vo.PayEnterpriseStatisticalVO;
+import com.lgyun.system.order.vo.PayEnterpriseTotalListVO;
 import com.lgyun.system.user.entity.EnterpriseProviderEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
@@ -113,5 +115,17 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
         return R.success("上传支付清单成功");
 
+    }
+
+    @Override
+    public R<IPage<PayEnterpriseTotalListVO>> getByDtoEnterprise(Long enterpriseId, PayEnterpriseTotalListDto payEnterpriseTotalListDto, IPage<PayEnterpriseTotalListVO> page) {
+
+        if (payEnterpriseTotalListDto.getBeginDate() != null && payEnterpriseTotalListDto.getEndDate() != null) {
+            if (payEnterpriseTotalListDto.getBeginDate().after(payEnterpriseTotalListDto.getEndDate())) {
+                return R.fail("开始时间不能大于结束时间");
+            }
+        }
+
+        return R.data(page.setRecords(baseMapper.getByDtoEnterprise(enterpriseId, payEnterpriseTotalListDto, page)));
     }
 }

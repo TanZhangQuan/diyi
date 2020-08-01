@@ -1,13 +1,12 @@
 package com.lgyun.system.order.vo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.math.BigDecimal;
 
 /**
  * @author .
@@ -15,30 +14,28 @@ import java.util.Date;
  * @time 15:53.
  */
 @Data
-@ApiModel(value = "WorksheetByEnterpriseVO对象", description = "WorksheetByEnterpriseVO对象")
-public class WorksheetByEnterpriseVO implements Serializable {
+@ApiModel(value = "WorksheetMakerDetailsVO对象", description = "WorksheetMakerDetailsVO对象")
+public class WorksheetMakerListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 工单ID
+     * 创客编号
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     /**
-     * 工单编号
+     * 名字
      */
-    private String worksheetNo;
+    private String name;
 
     /**
-     * 工单名称
+     * 身份证
      */
-    private String worksheetName;
+    private String idcardNo;
 
     /**
-     * 创建时间
+     * 验收金额
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date createTime;
-
+    private BigDecimal checkMoney;
 }

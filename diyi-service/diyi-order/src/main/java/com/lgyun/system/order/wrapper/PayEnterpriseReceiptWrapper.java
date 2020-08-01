@@ -18,13 +18,13 @@ public class PayEnterpriseReceiptWrapper extends BaseEntityWrapper<PayEnterprise
     }
 
     @Override
-    public PayEnterpriseReceiptVO entityVO(PayEnterpriseReceiptEntity enterprisePayReceipt) {
+    public PayEnterpriseReceiptVO entityVO(PayEnterpriseReceiptEntity payEnterpriseReceiptEntity) {
 
-        if (enterprisePayReceipt == null){
+        if (payEnterpriseReceiptEntity == null){
             return null;
         }
 
-        return BeanUtil.copy(enterprisePayReceipt, PayEnterpriseReceiptVO.class);
+        return BeanUtil.copy(payEnterpriseReceiptEntity, PayEnterpriseReceiptVO.class);
     }
 
 }

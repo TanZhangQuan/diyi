@@ -258,5 +258,17 @@ public class WorksheetController {
         return R.fail("查询失败");
     }
 
+    @GetMapping("/get_worksheet_no")
+    @ApiOperation(value = "根据工单编号获取工单", notes = "根据工单编号获取工单")
+    public R get_worksheet_no(String worksheetNo) {
+
+        log.info("根据工单编号获取工单");
+        try {
+            return worksheetService.getWorksheetNo(worksheetNo);
+        } catch (Exception e) {
+            log.error("根据工单编号获取工单异常", e);
+        }
+        return R.fail("查询失败");
+    }
 
 }

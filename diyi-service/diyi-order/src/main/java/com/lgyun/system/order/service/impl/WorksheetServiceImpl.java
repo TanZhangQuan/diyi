@@ -1,5 +1,6 @@
 package com.lgyun.system.order.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
@@ -12,10 +13,7 @@ import com.lgyun.system.order.entity.WorksheetMakerEntity;
 import com.lgyun.system.order.mapper.WorksheetMapper;
 import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.order.service.IWorksheetService;
-import com.lgyun.system.order.vo.EnterpriseWorksheetDetailVo;
-import com.lgyun.system.order.vo.WorksheetByEnterpriseVO;
-import com.lgyun.system.order.vo.WorksheetMakerDetailsVO;
-import com.lgyun.system.order.vo.WorksheetXiaoVo;
+import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
@@ -136,8 +134,8 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     }
 
     @Override
-    public R getEnterpriseWorksheet(IPage<WorksheetXiaoVo> page, Long enterpriseId,WorksheetState worksheetState,String worksheetNo,String worksheetName,String startTime,String endTime) {
-        return R.data(baseMapper.getEnterpriseWorksheet(enterpriseId,worksheetState, worksheetNo, worksheetName, startTime, endTime,page));
+    public R getEnterpriseWorksheet(IPage<WorksheetXiaoVo> page, Long enterpriseId, WorksheetState worksheetState, String worksheetNo, String worksheetName, String startTime, String endTime) {
+        return R.data(baseMapper.getEnterpriseWorksheet(enterpriseId, worksheetState, worksheetNo, worksheetName, startTime, endTime, page));
     }
 
     @Override
@@ -145,30 +143,32 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         WorksheetEntity worksheetEntity = getById(worksheetId);
         WorksheetXiaoVo worksheetXiaoVo = BeanUtil.copy(worksheetEntity, WorksheetXiaoVo.class);
         Map map = new HashMap();
-        map.put("worksheetXiaoVo",worksheetXiaoVo);
+        map.put("worksheetXiaoVo", worksheetXiaoVo);
+
         IPage<WorksheetMakerDetailsVO> worksheetMakerDetails = worksheetMakerService.getWorksheetMakerDetails(worksheetId, page);
         List<WorksheetMakerDetailsVO> records = worksheetMakerDetails.getRecords();
         for (WorksheetMakerDetailsVO worksheetMakerDetailsVO : records) {
-            if(SignState.SIGNED.equals(worksheetMakerDetailsVO.getJoinSignState()) && SignState.SIGNED.equals(worksheetMakerDetailsVO.getEmpowerSignState())){
+            if (SignState.SIGNED.equals(worksheetMakerDetailsVO.getJoinSignState()) && SignState.SIGNED.equals(worksheetMakerDetailsVO.getEmpowerSignState())) {
                 worksheetMakerDetailsVO.setProtocolAuthentication(CertificationState.CERTIFIED);
             }
-            if(VerifyStatus.VERIFYPASS.equals(worksheetMakerDetailsVO.getBankCardVerifyStatus())){
+            if (VerifyStatus.VERIFYPASS.equals(worksheetMakerDetailsVO.getBankCardVerifyStatus())) {
                 worksheetMakerDetailsVO.setRealNameAuthentication(CertificationState.CERTIFIED);
             }
         }
+
         return R.data(worksheetMakerDetails);
     }
 
     @Override
     public R closeOrOpen(Long worksheetId, Integer variable) {
         WorksheetEntity worksheetEntity = getById(worksheetId);
-        if(variable != 1 && variable != 2){
+        if (variable != 1 && variable != 2) {
             R.fail("参数有误");
         }
-        if(1 == variable){
+        if (1 == variable) {
             worksheetEntity.setWorksheetState(WorksheetState.CLOSED);
             return R.success("关闭成功");
-        }else{
+        } else {
             worksheetEntity.setWorksheetState(WorksheetState.PUBLISHING);
             return R.success("开启成功");
         }
@@ -177,7 +177,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     @Override
     public R kickOut(Long worksheetId, Long makerId) {
         WorksheetMakerEntity worksheetMakerEntity = worksheetMakerService.getmakerIdAndWorksheetId(worksheetId, makerId);
-        if(null == worksheetMakerEntity){
+        if (null == worksheetMakerEntity) {
             R.fail("创客没有抢单记录");
         }
         removeById(worksheetMakerEntity.getId());
@@ -188,7 +188,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     public R checkAccept(Long worksheetMakerId, BigDecimal checkMoney) {
         WorksheetMakerEntity worksheetMakerEntity = worksheetMakerService.getById(worksheetMakerId);
         WorksheetEntity worksheetEntity = getById(worksheetMakerEntity.getWorksheetId());
-        if(!worksheetEntity.getWorksheetState().equals(WorksheetState.CLOSED)){
+        if (!worksheetEntity.getWorksheetState().equals(WorksheetState.CLOSED)) {
             R.fail("工单还没有关单");
         }
         worksheetMakerEntity.setCheckMoney(checkMoney);
@@ -200,12 +200,25 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
 
     @Override
     public R<IPage<EnterpriseWorksheetDetailVo>> getWorksheetDetailsByMaker(IPage<EnterpriseWorksheetDetailVo> page, Long enterpriseId, Long makerId) {
-        return R.data(page.setRecords(baseMapper.getWorksheetDetailsByMaker(enterpriseId, makerId,  page)));
+        return R.data(page.setRecords(baseMapper.getWorksheetDetailsByMaker(enterpriseId, makerId, page)));
     }
 
     @Override
     public R<IPage<WorksheetByEnterpriseVO>> getWorksheetByEnterpriseId(Long enterpriseId, WorkSheetType workSheetType, String worksheetNo, String worksheetName, IPage<WorksheetByEnterpriseVO> page) {
-        return R.data(page.setRecords(baseMapper.getWorksheetByEnterpriseId(enterpriseId, workSheetType, worksheetNo, worksheetName,  page)));
+        return R.data(page.setRecords(baseMapper.getWorksheetByEnterpriseId(enterpriseId, workSheetType, worksheetNo, worksheetName, page)));
+    }
+
+    @Override
+    public R<WorksheetNoVO> getWorksheetNo(String worksheetNo) {
+        QueryWrapper<WorksheetEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(WorksheetEntity::getWorksheetNo, worksheetNo);
+
+        WorksheetEntity worksheetEntity = baseMapper.selectOne(queryWrapper);
+        if (worksheetEntity == null) {
+            return R.fail("工单不存在");
+        }
+
+        return R.data(BeanUtil.copy(worksheetEntity, WorksheetNoVO.class));
     }
 
     public synchronized R<String> orderGrabbing(WorksheetEntity worksheetEntity, MakerEntity makerEntity, int worksheetCount) {
