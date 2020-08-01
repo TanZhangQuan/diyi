@@ -1,6 +1,5 @@
 package com.lgyun.system.order.dto;
 
-import com.lgyun.common.enumeration.WorkSheetType;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -23,12 +22,6 @@ public class PayEnterpriseUploadDto implements Serializable {
      */
     @NotNull(message = "请选择服务商")
     private Long serviceProviderId;
-
-    /**
-     * 类型，总包+分包，众包/众采
-     */
-    @NotNull(message = "请选择类型")
-    private WorkSheetType worksheetType;
 
     /**
      * 支付清单URL

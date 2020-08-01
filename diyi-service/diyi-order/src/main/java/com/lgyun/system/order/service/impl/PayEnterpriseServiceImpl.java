@@ -93,7 +93,6 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         }
 
         //新建支付清单
-        //TODO(DTO里面的类型未做)
         PayEnterpriseEntity payEnterpriseEntity = new PayEnterpriseEntity();
         payEnterpriseEntity.setEnterpriseId(enterpriseId);
         payEnterpriseEntity.setServiceProviderId(payEnterpriseUploadDto.getServiceProviderId());
