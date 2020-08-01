@@ -293,19 +293,22 @@ public class MakerController {
 
     @PostMapping("import-maker")
     @ApiOperation(value = "导入创客", notes = "导入创客")
-    public R importUser(MultipartFile file, BladeUser bladeUser) {
+    public R importUser(@ApiParam(value = "文件") @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file, BladeUser bladeUser) {
 
         log.info("导入创客");
         try {
             //获取当前商户
             EnterpriseEntity enterpriseEntity = enterpriseService.current(bladeUser);
 
-            String filename = file.getOriginalFilename();
-            if (StringUtils.isEmpty(filename)) {
-                return R.fail("请上传文件!");
+            //判断文件内容是否为空
+            if (file.isEmpty()) {
+                return R.fail("Excel文件不能为空");
             }
-            if ((!StringUtils.endsWithIgnoreCase(filename, ".xls") && !StringUtils.endsWithIgnoreCase(filename, ".xlsx"))) {
-                return R.fail("请上传正确的excel文件!");
+
+            // 获取上传文件的后缀
+            String suffix = file.getOriginalFilename();
+            if ((!StringUtils.endsWithIgnoreCase(suffix, ".xls") && !StringUtils.endsWithIgnoreCase(suffix, ".xlsx"))) {
+                return R.fail("请选择Excel文件");
             }
 
             MakerImportListener makerImportListener = new MakerImportListener(makerService, enterpriseEntity.getId());

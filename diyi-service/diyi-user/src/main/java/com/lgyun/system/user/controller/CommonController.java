@@ -37,7 +37,21 @@ public class CommonController {
             log.error("上传文件异常", e);
         }
 
-        return R.fail("上传文件失败");
+        return R.fail("上传失败");
+    }
+
+    @PostMapping("/oss_excel_upload")
+    @ApiOperation(value = "上传Excel文件", notes = "上传Excel文件")
+    public R ossExcelUpload(@ApiParam(value = "文件") @NotNull(message = "请选择上传Excel文件") @RequestParam(required = false) MultipartFile file) {
+
+        log.info("上传Excel文件");
+        try {
+            return iCommonService.ossExcelUpload(file);
+        } catch (Exception e) {
+            log.error("上传Excel文件异常", e);
+        }
+
+        return R.fail("上传失败");
     }
 
 }
