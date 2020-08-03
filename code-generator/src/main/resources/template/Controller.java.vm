@@ -27,7 +27,7 @@ import ${package}.${moduleName}.service.${className}VO;
  */
 @Slf4j
 @RestController
-@RequestMapping("/${moduleName}/${pathName}")
+@RequestMapping("/${pathName}")
 @Validated
 @AllArgsConstructor
 @Api(value = "${comments}相关接口", tags = "${comments}相关接口")
