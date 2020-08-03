@@ -26,7 +26,7 @@ import javax.validation.Valid;
  */
 @Slf4j
 @RestController
-@RequestMapping("/order/paymaker")
+@RequestMapping("/paymaker")
 @Validated
 @AllArgsConstructor
 @Api(value = "创客支付明细相关接口", tags = "创客支付明细相关接口")

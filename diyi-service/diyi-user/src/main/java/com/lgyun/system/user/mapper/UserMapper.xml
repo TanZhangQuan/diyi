@@ -53,11 +53,11 @@
         FROM
         blade_role
         WHERE
+        is_deleted = 0 and
         id IN
         <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
             #{ids}
         </foreach>
-        and is_deleted = 0
     </select>
 
     <select id="getRoleAlias" resultType="java.lang.String">
@@ -66,11 +66,11 @@
         FROM
         blade_role
         WHERE
+        is_deleted = 0 and
         id IN
         <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
             #{ids}
         </foreach>
-        and is_deleted = 0
     </select>
 
     <select id="getDeptName" resultType="java.lang.String">
@@ -79,11 +79,11 @@
         FROM
         blade_dept
         WHERE
+        is_deleted = 0 and
         id IN
         <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
             #{ids}
         </foreach>
-        and is_deleted = 0
     </select>
 
     <select id="exportUser" resultType="com.lgyun.system.user.excel.UserExcel">

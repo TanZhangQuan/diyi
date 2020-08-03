@@ -26,7 +26,7 @@ import javax.validation.Valid;
  */
 @Slf4j
 @RestController
-@RequestMapping("/order/onlineagreementtemplate")
+@RequestMapping("/onlineagreementtemplate")
 @Validated
 @AllArgsConstructor
 @Api(value = "平台在线协议模板相关接口", tags = "平台在线协议模板相关接口")

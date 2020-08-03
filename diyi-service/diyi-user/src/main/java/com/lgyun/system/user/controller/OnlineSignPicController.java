@@ -26,7 +26,7 @@ import javax.validation.Valid;
  */
 @Slf4j
 @RestController
-@RequestMapping("/order/onlinesignpic")
+@RequestMapping("/onlinesignpic")
 @Validated
 @AllArgsConstructor
 @Api(value = "在线签字图片相关接口", tags = "在线签字图片相关接口")

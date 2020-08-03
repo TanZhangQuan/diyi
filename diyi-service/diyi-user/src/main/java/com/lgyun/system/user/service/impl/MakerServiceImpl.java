@@ -8,7 +8,6 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.constant.RealnameVerifyConstant;
 import com.lgyun.common.constant.SmsConstant;
 import com.lgyun.common.enumeration.*;
-import com.lgyun.common.exception.ServiceException;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.*;
 import com.lgyun.core.mp.base.BaseServiceImpl;
@@ -52,6 +51,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     private IMakerEnterpriseService makerEnterpriseService;
     private SmsUtil smsUtil;
     private RedisUtil redisUtil;
+    private IUserService userService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -556,22 +556,31 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public MakerEntity current(BladeUser bladeUser) {
+    public R<MakerEntity> currentMaker(BladeUser bladeUser) {
 
         if (bladeUser == null || bladeUser.getUserId() == null) {
-            throw new ServiceException("创客未登陆");
+            return R.fail("账号未登陆");
+        }
+
+        User user = userService.getById(bladeUser.getUserId());
+        if (user == null){
+            return R.fail("用户不存在");
+        }
+
+        if (!(UserType.ENTERPRISE.equals(user.getUserType()))) {
+            return R.fail("用户类型有误");
         }
 
         MakerEntity makerEntity = findByUserId(bladeUser.getUserId());
         if (makerEntity == null) {
-            throw new ServiceException("创客未注册");
+            return R.fail("账号未注册");
         }
 
         if (!(AccountState.NORMAL.equals(makerEntity.getMakerState()))) {
-            throw new ServiceException("创客账户状态非正常，请联系客服");
+            return R.fail("账号状态非正常，请联系客服");
         }
 
-        return makerEntity;
+        return R.data(makerEntity);
     }
 
     @Override

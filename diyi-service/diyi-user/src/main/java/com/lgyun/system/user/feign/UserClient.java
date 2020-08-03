@@ -198,8 +198,8 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public MakerEntity currentMaker(BladeUser bladeUser) {
-        return iMakerService.current(bladeUser);
+    public R<MakerEntity> currentMaker(BladeUser bladeUser) {
+        return iMakerService.currentMaker(bladeUser);
     }
 
     @Override
@@ -208,8 +208,8 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public EnterpriseEntity currentEnterprise(BladeUser bladeUser) {
-        return iEnterpriseService.current(bladeUser);
+    public R<EnterpriseWorkerEntity> currentEnterpriseWorker(BladeUser bladeUser) {
+        return iEnterpriseWorkerService.currentEnterpriseWorker(bladeUser);
     }
 
     @Override

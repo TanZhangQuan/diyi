@@ -31,14 +31,6 @@ public class OnlineAgreementTemplateEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 唯一性控制
-     */
-    @ApiModelProperty(value = "主键")
-    @TableId(type = IdType.ASSIGN_ID)
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
-
-    /**
      * 协议类别 1,创客加盟协议；2，商户加盟协议；3，服务商加盟协议；4，渠道商加盟协议；5、合伙人加盟协议；6、园区合作协议；7、税局合作协议；8、工商合作协议；9、创客授权书；10、商户-创客补充协议；11、服务商-商户补充协议；12、创客单独税务事项委托授权书；13、创客单独支付事项委托授权书；14、其他协议
      */
     private Integer templateType;

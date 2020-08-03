@@ -208,7 +208,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * @param bladeUser
      * @return
      */
-    MakerEntity current(BladeUser bladeUser);
+    R<MakerEntity> currentMaker(BladeUser bladeUser);
 
 
     /**

@@ -210,7 +210,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/current-maker")
-    MakerEntity currentMaker(@RequestBody BladeUser bladeUser);
+    R<MakerEntity> currentMaker(@RequestBody BladeUser bladeUser);
 
     /**
      * 根据创客姓名分页查询
@@ -224,8 +224,8 @@ public interface IUserClient {
      * @param bladeUser
      * @return
      */
-    @PostMapping(API_PREFIX + "/current-enterprise")
-    EnterpriseEntity currentEnterprise(@RequestBody BladeUser bladeUser);
+    @PostMapping(API_PREFIX + "/current_enterprise_worker")
+    R<EnterpriseWorkerEntity> currentEnterpriseWorker(@RequestBody BladeUser bladeUser);
 
     /**
      * 根据商户ID, 服务商ID查询关联

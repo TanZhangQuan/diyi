@@ -6,10 +6,10 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.EnterpriseProviderEntity;
+import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.service.IEnterpriseProviderService;
-import com.lgyun.system.user.service.IEnterpriseService;
+import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.wrapper.EnterpriseProviderWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,14 +29,14 @@ import javax.validation.Valid;
  */
 @Slf4j
 @RestController
-@RequestMapping("/order/enterpriseprovider")
+@RequestMapping("/enterpriseprovider")
 @Validated
 @AllArgsConstructor
 @Api(value = "商户-服务商相关接口", tags = "商户-服务商相关接口")
 public class EnterpriseProviderController {
 
     private IEnterpriseProviderService enterpriseProviderService;
-	private IEnterpriseService enterpriseService;
+	private IEnterpriseWorkerService enterpriseWorkerService;
 
     @PostMapping("/save")
     @ApiOperation(value = "新增", notes = "新增")
@@ -76,9 +76,14 @@ public class EnterpriseProviderController {
 
         log.info("根据商户ID查询所有合作的服务商");
         try{
-			//获取当前商户
-			EnterpriseEntity enterpriseEntity = enterpriseService.current(bladeUser);
-			return enterpriseProviderService.listByEnterpriseId(Condition.getPage(query.setDescs("create_time")), enterpriseEntity.getId());
+			//获取当前商户员工
+            R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+			return enterpriseProviderService.listByEnterpriseId(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId());
         } catch (Exception e) {
 			log.error("根据商户ID查询所有合作的服务商异常", e);
         }

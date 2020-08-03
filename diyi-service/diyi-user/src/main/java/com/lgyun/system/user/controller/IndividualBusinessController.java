@@ -13,10 +13,10 @@ import com.lgyun.system.user.dto.EnterpriseIndividualBusinessEnterpriseDto;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDto;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddEnterpriseDto;
 import com.lgyun.system.user.dto.IndividualBusinessListDto;
-import com.lgyun.system.user.entity.EnterpriseEntity;
+import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.MakerEntity;
-import com.lgyun.system.user.service.IEnterpriseService;
+import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.service.IIndividualBusinessService;
 import com.lgyun.system.user.service.IMakerService;
 import com.lgyun.system.user.wrapper.IndividualBusinessWrapper;
@@ -45,7 +45,7 @@ public class IndividualBusinessController {
 
     private IIndividualBusinessService individualBusinessService;
     private IMakerService iMakerService;
-    private IEnterpriseService enterpriseService;
+    private IEnterpriseWorkerService enterpriseWorkerService;
 
     @PostMapping("/save")
     @ApiOperation(value = "新增", notes = "新增")
@@ -54,7 +54,12 @@ public class IndividualBusinessController {
         log.info("新增个体户");
         try {
             //获取当前创客
-            MakerEntity makerEntity = iMakerService.current(bladeUser);
+            R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             return individualBusinessService.save(individualBusinessEnterpriseAddDto, makerEntity);
         } catch (Exception e) {
             log.error("新增个体户异常", e);
@@ -123,7 +128,13 @@ public class IndividualBusinessController {
 
         log.info("查询当前创客的所有个体户");
         try {
-            MakerEntity makerEntity = iMakerService.current(bladeUser);
+            //获取当前创客
+            R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             return individualBusinessService.listByMaker(query.getCurrent(), query.getSize(), makerEntity.getId(), ibstate);
         } catch (Exception e) {
             log.error("查询当前创客的所有个体户异常", e);
@@ -143,9 +154,14 @@ public class IndividualBusinessController {
 
         log.info("查询当前商户的关联创客的所有个体户");
         try {
-            //获取当前商户
-            EnterpriseEntity enterpriseEntity = enterpriseService.current(bladeUser);
-            return individualBusinessService.getByDtoEnterprise(Condition.getPage(query.setDescs("create_time")), enterpriseEntity.getId(), ibstate, enterpriseIndividualBusinessEnterpriseDto);
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return individualBusinessService.getByDtoEnterprise(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), ibstate, enterpriseIndividualBusinessEnterpriseDto);
         } catch (Exception e) {
             log.error("查询当前商户的关联创客的所有个体户异常", e);
         }
@@ -223,9 +239,14 @@ public class IndividualBusinessController {
 
         log.info("当前商户申请创建个体户");
         try {
-            //获取当前商户
-            EnterpriseEntity enterpriseEntity = enterpriseService.current(bladeUser);
-            return individualBusinessService.saveByEnterprise(individualBusinessEnterpriseAddEnterpriseDto, enterpriseEntity.getId());
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return individualBusinessService.saveByEnterprise(individualBusinessEnterpriseAddEnterpriseDto, enterpriseWorkerEntity.getEnterpriseId());
         } catch (Exception e) {
             log.error("当前商户申请创建个体户异常", e);
         }

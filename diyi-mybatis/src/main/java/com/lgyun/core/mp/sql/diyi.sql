@@ -636,9 +636,9 @@ CREATE TABLE `diyi_accept_paysheet` (
   `upload_date_source` varchar(50) NOT NULL COMMENT '上传来源',
   `upload_date_person` varchar(50) NOT NULL COMMENT '上传人员',
   `accept_paysheet_url` varchar(100) NOT NULL COMMENT '验收单URL',
-  `confirm_date` datetime NOT NULL COMMENT '验收单验收日期',
-  `confirm_person` varchar(50) NOT NULL COMMENT '验收人员',
-  `confirm_desc` varchar(500) NOT NULL COMMENT '验收说明',
+  `confirm_date` datetime DEFAULT NULL COMMENT '验收单验收日期',
+  `confirm_person` varchar(50) NOT NULL DEFAULT '' COMMENT '验收人员',
+  `confirm_desc` varchar(500) NOT NULL DEFAULT '' COMMENT '验收说明',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
@@ -809,9 +809,6 @@ CREATE TABLE `diyi_employee` (
 DROP TABLE IF EXISTS `diyi_enterprise`;
 CREATE TABLE `diyi_enterprise` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `user_id` bigint(50) NOT NULL COMMENT '管理者ID',
-  `enterprise_user_name` varchar(50) NOT NULL COMMENT '用户名',
-  `enterprise_pwd` varchar(100) NOT NULL COMMENT '密码',
   `enterprise_state` varchar(50) NOT NULL COMMENT '商户账户状态',
   `invite_no` varchar(50) NOT NULL COMMENT '创客加入邀请码',
   `enterprise_name` varchar(50) NOT NULL COMMENT '客户名称',
@@ -858,10 +855,8 @@ CREATE TABLE `diyi_enterprise` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`enterprise_user_name`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`invite_no`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`enterprise_name`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k4` (`user_id`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`enterprise_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
@@ -899,6 +894,8 @@ DROP TABLE IF EXISTS `diyi_enterprise_worker`;
 CREATE TABLE `diyi_enterprise_worker` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `enterprise_id` bigint(50) NOT NULL COMMENT '商户ID',
+  `user_id` bigint(50) NOT NULL COMMENT '管理者ID',
+  `enterprise_worker_state` varchar(50) NOT NULL COMMENT '商户员工账户状态',
   `worker_name` varchar(50) NOT NULL COMMENT '姓名',
   `worker_sex` varchar(50) NOT NULL COMMENT '性别',
   `position_name` varchar(50) NOT NULL COMMENT '岗位性质',
@@ -916,7 +913,8 @@ CREATE TABLE `diyi_enterprise_worker` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`phone_number`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`employee_user_name`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`employee_user_name`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------

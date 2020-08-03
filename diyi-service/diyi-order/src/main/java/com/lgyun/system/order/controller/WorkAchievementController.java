@@ -26,7 +26,7 @@ import javax.validation.Valid;
  */
 @Slf4j
 @RestController
-@RequestMapping("/user/workachievement")
+@RequestMapping("/workachievement")
 @Validated
 @AllArgsConstructor
 @Api(value = "相关接口", tags = "相关接口")

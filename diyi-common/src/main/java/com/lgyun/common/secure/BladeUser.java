@@ -25,26 +25,31 @@ public class BladeUser implements Serializable {
      */
     @ApiModelProperty(hidden = true)
     private Long userId;
+
     /**
      * 租户ID
      */
     @ApiModelProperty(hidden = true)
     private String tenantId;
+
     /**
      * 昵称
      */
     @ApiModelProperty(hidden = true)
     private String userName;
+
     /**
      * 账号
      */
     @ApiModelProperty(hidden = true)
     private String account;
+
     /**
      * 角色id
      */
     @ApiModelProperty(hidden = true)
     private String roleId;
+
     /**
      * 角色名
      */

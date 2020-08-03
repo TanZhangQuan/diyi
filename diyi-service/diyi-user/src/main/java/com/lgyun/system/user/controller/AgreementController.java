@@ -47,7 +47,13 @@ public class AgreementController {
     public R makerIdFind(BladeUser bladeUser, Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId) {
         log.info("根据创客查询合同");
         try {
-            MakerEntity makerEntity = iMakerService.current(bladeUser);
+            //获取当前创客
+            R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             return agreementService.makerIdFind(makerEntity.getId(), onlineAgreementTemplateId, onlineAgreementNeedSignId);
         } catch (Exception e) {
             log.error("根据创客查询合同异常", e);
@@ -90,7 +96,13 @@ public class AgreementController {
     public R saveOnlineAgreementNeedSign(BladeUser bladeUser, String signPic, Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId) {
         log.info("保存创客的签名");
         try {
-            MakerEntity makerEntity = iMakerService.current(bladeUser);
+            //获取当前创客
+            R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             return onlineSignPicService.saveOnlineSignPic(makerEntity.getId(), ObjectType.MAKERPEOPLE, signPic, onlineAgreementTemplateId, onlineAgreementNeedSignId);
         } catch (Exception e) {
             log.error("保存创客的签名异常", e);
@@ -106,7 +118,13 @@ public class AgreementController {
     public R getOnlineAgreementNeedSign(BladeUser bladeUser, Integer isContract) {
         log.info("查询创客需要签署的授权协议和合同");
         try {
-            MakerEntity makerEntity = iMakerService.current(bladeUser);
+            //获取当前创客
+            R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             return onlineAgreementNeedSignService.getOnlineAgreementNeedSign(makerEntity.getId(), isContract);
         } catch (Exception e) {
             log.error("查询创客需要签署的授权协议和合同异常", e);
@@ -119,7 +137,13 @@ public class AgreementController {
     public R selectMakerEnterprisePage(BladeUser bladeUser, Query query) {
         log.info("查询合作商户");
         try {
-            MakerEntity makerEntity = iMakerService.current(bladeUser);
+            //获取当前创客
+            R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             IPage<MakerEnterpriseRelationVO> pages = makerEnterpriseService.selectMakerEnterprisePage(Condition.getPage(query), makerEntity.getId(), 0);
             return R.data(pages);
         } catch (Exception e) {
@@ -133,7 +157,13 @@ public class AgreementController {
     public R uploadMakerVideo(BladeUser bladeUser, String applyShortVideo) {
         log.info("上传创客视频");
         try {
-            MakerEntity makerEntity = iMakerService.current(bladeUser);
+            //获取当前创客
+            R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             return iMakerService.uploadMakerVideo(makerEntity, applyShortVideo);
         } catch (Exception e) {
             log.error("上传创客视频异常", e);

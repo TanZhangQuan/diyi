@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-@RequestMapping("/order/invoice")
+@RequestMapping("/invoice")
 @Validated
 @AllArgsConstructor
 @Api(value = "发票和完税证明接口", tags = "发票和完税证明接口")
@@ -39,7 +39,13 @@ public class InvoiceController {
     public R getEnterpriseAll(Query query, BladeUser bladeUser) {
         log.info("根据创客id查询所有商户");
         try {
-            MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
+            //获取当前创客
+            R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             return payEnterpriseService.getEnterpriseAll(makerEntity.getId(), Condition.getPage(query));
         } catch (Exception e) {
             log.error("根据创客id查询所有商户失败",e);
@@ -52,7 +58,13 @@ public class InvoiceController {
     public R getEnterpriseMakerIdAll(Query query, BladeUser bladeUser, Long enterpriseId) {
         log.info("根据创客id和商户id查询创客在商户下所开的票");
         try {
-            MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
+            //获取当前创客
+            R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             return payEnterpriseService.getEnterpriseMakerIdAll(makerEntity.getId(), enterpriseId, Condition.getPage(query));
         } catch (Exception e) {
             log.error("根据创客id和商户id查询创客在商户下所开的票失败",e);
@@ -65,7 +77,13 @@ public class InvoiceController {
     public R getEnterpriseMakerIdDetail(BladeUser bladeUser, Long enterpriseId, Long payMakerId) {
         log.info("根据创客id,商户id和创客支付id查询票的详情");
         try {
-            MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
+            //获取当前创客
+            R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             return payEnterpriseService.getEnterpriseMakerIdDetail(makerEntity.getId(), enterpriseId, payMakerId);
         } catch (Exception e) {
             log.error("根据创客id,商户id和创客支付id查询票的详情失败",e);

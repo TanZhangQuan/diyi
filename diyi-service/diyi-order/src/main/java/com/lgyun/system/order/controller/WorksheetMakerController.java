@@ -33,7 +33,7 @@ import javax.validation.constraints.NotNull;
  */
 @Slf4j
 @RestController
-@RequestMapping("/user/worksheetmaker")
+@RequestMapping("/worksheetmaker")
 @Validated
 @AllArgsConstructor
 @Api(value = "工单创客关联相关接口", tags = "工单创客关联相关接口")
@@ -82,7 +82,13 @@ public class WorksheetMakerController {
                                                             @ApiParam(value = "月份") @RequestParam(required = false) Long month,
                                                             BladeUser bladeUser) {
         try {
-            MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
+            //获取当前创客
+            R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             return worksheetMakerService.queryAllMoneyByYearMonth(worksheetType, makerType, makerEntity.getId(), year, month);
         } catch (Exception e) {
             log.error("根据工单类型，创客类型，年份，月份（可选）查询工单笔数和总收入金额异常", e);
@@ -96,7 +102,13 @@ public class WorksheetMakerController {
                                             @ApiParam(value = "工单创客类型") @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType,
                                             BladeUser bladeUser) {
         try {
-            MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
+            //获取当前创客
+            R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             return worksheetMakerService.queryMoneyByYear(worksheetType, makerType, makerEntity.getId());
         } catch (Exception e) {
             log.error("根据工单类型，创客类型查询每年收入异常", e);
@@ -111,7 +123,13 @@ public class WorksheetMakerController {
                                               @ApiParam(value = "年份") @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
                                               BladeUser bladeUser) {
         try {
-            MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
+            //获取当前创客
+            R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             return worksheetMakerService.queryMoneyByMonth(worksheetType, makerType, makerEntity.getId(), year);
         } catch (Exception e) {
             log.error("根据工单类型，创客类型，年份查询每月收入异常", e);
@@ -127,7 +145,13 @@ public class WorksheetMakerController {
                                                                                        @ApiParam(value = "月份") @RequestParam(required = false) Long month,
                                                                                        BladeUser bladeUser, Query query) {
         try {
-            MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
+            //获取当前创客
+            R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             return worksheetMakerService.queryAllMoneyByYearMonthEnterprise(Condition.getPage(query), worksheetType, makerType, makerEntity.getId(), year, month);
         } catch (Exception e) {
             log.error("根据工单类型，创客类型，年份，月份（可选）查询创客对应商户的总收入金额异常", e);
@@ -144,7 +168,13 @@ public class WorksheetMakerController {
                                                         @ApiParam(value = "商户编号") @RequestParam(required = false) Long enterpriseId,
                                                         BladeUser bladeUser) {
         try {
-            MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
+            //获取当前创客
+            R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             return worksheetMakerService.queryAllMoneyDetailByYearMonth(worksheetType, makerType, makerEntity.getId(), year, month, enterpriseId);
         } catch (Exception e) {
             log.error("根据工单类型，创客类型，年份，月份，商户编号（可选）查询明细总收入异常", e);
@@ -162,7 +192,13 @@ public class WorksheetMakerController {
                                                                          BladeUser bladeUser, Query query) {
         log.info("根据工单类型，创客类型，年份，月份，商户编号（可选）查询收入明细");
         try {
-            MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
+            //获取当前创客
+            R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             return worksheetMakerService.queryMoneyDetailByYearMonth(Condition.getPage(query.setDescs("create_time")), worksheetType, makerType, makerEntity.getId(), year, month, enterpriseId);
         } catch (Exception e) {
             log.error("根据工单类型，创客类型，年份，月份，商户编号（可选）查询收入明细异常", e);

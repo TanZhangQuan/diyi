@@ -1,13 +1,12 @@
 package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.AccountState;
+import com.lgyun.common.enumeration.BusinessPattern;
 import com.lgyun.common.enumeration.CreateType;
 import com.lgyun.common.enumeration.CrowdSourcePayPath;
-import com.lgyun.common.enumeration.BusinessPattern;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,22 +28,6 @@ import java.math.BigDecimal;
 @TableName("diyi_enterprise")
 public class EnterpriseEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 管理者ID
-     */
-    @JsonIgnore
-    private Long userId;
-
-    /**
-     * 用户名
-     */
-    private String enterpriseUserName;
-
-    /**
-     * 密码
-     */
-    private String enterprisePwd;
 
     /**
      * 商户账户状态

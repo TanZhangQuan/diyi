@@ -11,7 +11,7 @@ import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.wrapper.PayEnterpriseWrapper;
-import com.lgyun.system.user.entity.EnterpriseEntity;
+import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
@@ -29,7 +29,7 @@ import javax.validation.Valid;
  */
 @Slf4j
 @RestController
-@RequestMapping("/user/pay_enterprise")
+@RequestMapping("/pay_enterprise")
 @Validated
 @AllArgsConstructor
 @Api(value = "商户支付清单相关接口", tags = "商户支付清单相关接口")
@@ -76,9 +76,14 @@ public class PayEnterpriseController {
 
         log.info("获取交付清单统计数据");
         try {
-            //获取当前商户
-            EnterpriseEntity enterpriseEntity = iUserClient.currentEnterprise(bladeUser);
-            return enterprisePayService.statistical(enterpriseEntity.getId());
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return enterprisePayService.statistical(enterpriseWorkerEntity.getEnterpriseId());
         } catch (Exception e) {
             log.error("获取交付清单统计数据异常", e);
         }
@@ -91,9 +96,14 @@ public class PayEnterpriseController {
 
         log.info("上传支付清单");
         try {
-            //获取当前商户
-            EnterpriseEntity enterpriseEntity = iUserClient.currentEnterprise(bladeUser);
-            return enterprisePayService.upload(payEnterpriseUploadDto, enterpriseEntity.getId());
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return enterprisePayService.upload(payEnterpriseUploadDto, enterpriseWorkerEntity.getEnterpriseId());
         } catch (Exception e) {
             log.error("上传支付清单异常", e);
         }
@@ -111,9 +121,14 @@ public class PayEnterpriseController {
 
         log.info("查询当前商户所有总包支付清单");
         try {
-            //获取当前商户
-            EnterpriseEntity enterpriseEntity = iUserClient.currentEnterprise(bladeUser);
-            return enterprisePayService.getByDtoEnterprise(enterpriseEntity.getId(), payEnterpriseTotalListDto, Condition.getPage(query.setDescs("create_time")));
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return enterprisePayService.getByDtoEnterprise(enterpriseWorkerEntity.getEnterpriseId(), payEnterpriseTotalListDto, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("查询当前商户所有总包支付清单异常", e);
         }

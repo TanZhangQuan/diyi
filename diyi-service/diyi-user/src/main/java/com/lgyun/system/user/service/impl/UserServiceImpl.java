@@ -63,8 +63,10 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
         userInfo.setUser(user);
         //获取角色别名
         if (!(UserType.MAKER.equals(userType))) {
-            List<String> roleAlias = baseMapper.getRoleAlias(Func.toStrArray(user.getRoleId()));
-            userInfo.setRoles(roleAlias);
+            if (StringUtil.isNotBlank(user.getRoleId())) {
+                List<String> roleAlias = baseMapper.getRoleAlias(Func.toStrArray(user.getRoleId()));
+                userInfo.setRoles(roleAlias);
+            }
         }
 
         return userInfo;
@@ -85,8 +87,10 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
         userInfo.setUser(user);
         //获取角色别名
         if (!(UserType.MAKER.equals(userType))) {
-            List<String> roleAlias = baseMapper.getRoleAlias(Func.toStrArray(user.getRoleId()));
-            userInfo.setRoles(roleAlias);
+            if (StringUtil.isNotBlank(user.getRoleId())) {
+                List<String> roleAlias = baseMapper.getRoleAlias(Func.toStrArray(user.getRoleId()));
+                userInfo.setRoles(roleAlias);
+            }
         }
 
         return userInfo;
@@ -108,8 +112,10 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
         userInfo.setUser(user);
         //获取角色别名
         if (!(UserType.MAKER.equals(userType))) {
-            List<String> roleAlias = baseMapper.getRoleAlias(Func.toStrArray(user.getRoleId()));
-            userInfo.setRoles(roleAlias);
+            if (StringUtil.isNotBlank(user.getRoleId())) {
+                List<String> roleAlias = baseMapper.getRoleAlias(Func.toStrArray(user.getRoleId()));
+                userInfo.setRoles(roleAlias);
+            }
         }
 
         return userInfo;

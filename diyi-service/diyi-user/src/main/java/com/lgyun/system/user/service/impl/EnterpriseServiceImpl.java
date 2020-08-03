@@ -2,9 +2,6 @@ package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.AccountState;
-import com.lgyun.common.exception.ServiceException;
-import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
@@ -29,32 +26,6 @@ import org.springframework.stereotype.Service;
 public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, EnterpriseEntity> implements IEnterpriseService {
 
     private IMakerEnterpriseService makerEnterpriseService;
-
-    @Override
-    public EnterpriseEntity current(BladeUser bladeUser) {
-
-        if (bladeUser == null || bladeUser.getUserId() == null) {
-            throw new ServiceException("商户未登陆");
-        }
-
-        EnterpriseEntity enterpriseEntity = findByUserId(bladeUser.getUserId());
-        if (enterpriseEntity == null) {
-            throw new ServiceException("商户未注册");
-        }
-
-        if (!(AccountState.NORMAL.equals(enterpriseEntity.getEnterpriseState()))) {
-            throw new ServiceException("创客账户状态非正常，请联系客服");
-        }
-
-        return enterpriseEntity;
-    }
-
-    @Override
-    public EnterpriseEntity findByUserId(Long userId) {
-        QueryWrapper<EnterpriseEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(EnterpriseEntity::getUserId, userId);
-        return baseMapper.selectOne(queryWrapper);
-    }
 
     @Override
     public MakerEnterpriseRelationVO getEnterpriseName(String enterpriseName) {

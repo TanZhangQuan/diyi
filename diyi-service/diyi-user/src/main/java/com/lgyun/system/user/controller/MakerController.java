@@ -11,11 +11,11 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IdcardOcrSaveDto;
 import com.lgyun.system.user.dto.MakerAddDto;
 import com.lgyun.system.user.dto.UpdatePasswordDto;
-import com.lgyun.system.user.entity.EnterpriseEntity;
+import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.excel.MakerExcel;
 import com.lgyun.system.user.excel.MakerImportListener;
-import com.lgyun.system.user.service.IEnterpriseService;
+import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.service.IMakerService;
 import com.lgyun.system.user.vo.MakerVO;
 import com.lgyun.system.user.wrapper.MakerWrapper;
@@ -51,14 +51,27 @@ import java.io.InputStream;
 public class MakerController {
 
     private IMakerService makerService;
-    private IEnterpriseService enterpriseService;
+    private IEnterpriseWorkerService enterpriseWorkerService;
 
     @PostMapping("/save")
     @ApiOperation(value = "新增单个创客", notes = "新增单个创客")
     public R makerAdd(@Valid @RequestBody MakerAddDto makerAddDto, BladeUser bladeUser) {
-        //获取当前商户
-        EnterpriseEntity enterpriseEntity = enterpriseService.current(bladeUser);
-        return makerService.makerAdd(makerAddDto, enterpriseEntity.getId());
+
+        log.info("新增单个创客");
+        try {
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return makerService.makerAdd(makerAddDto, enterpriseWorkerEntity.getEnterpriseId());
+        } catch (Exception e) {
+            log.error("新增单个创客异常", e);
+        }
+
+        return R.fail("新增失败");
     }
 
     //	@PostMapping("/update")
@@ -96,7 +109,12 @@ public class MakerController {
         log.info("身份证实名认证");
         try {
             //获取当前创客
-            MakerEntity makerEntity = makerService.current(bladeUser);
+            R<MakerEntity> result = makerService.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             return makerService.idcardOcr(idcardPic, makerEntity);
         } catch (Exception e) {
             log.error("身份证实名认证异常", e);
@@ -111,7 +129,12 @@ public class MakerController {
         log.info("身份证实名认证信息保存");
         try {
             //获取当前创客
-            MakerEntity makerEntity = makerService.current(bladeUser);
+            R<MakerEntity> result = makerService.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             return makerService.idcardOcrSave(idcardOcrSaveDto, makerEntity);
         } catch (Exception e) {
             log.error("身份证实名认证信息保存异常", e);
@@ -126,7 +149,12 @@ public class MakerController {
         log.info("身份实名认证");
         try {
             //获取当前创客
-            MakerEntity makerEntity = makerService.current(bladeUser);
+            R<MakerEntity> result = makerService.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             return makerService.faceOcr(makerEntity);
         } catch (Exception e) {
             log.error("身份实名认证异常", e);
@@ -154,7 +182,12 @@ public class MakerController {
         log.info("银行卡实名认证");
         try {
             //获取当前创客
-            MakerEntity makerEntity = makerService.current(bladeUser);
+            R<MakerEntity> result = makerService.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             return makerService.bankCardOcr(bankCardNo, makerEntity);
         } catch (Exception e) {
             log.error("银行卡实名认证异常", e);
@@ -182,7 +215,12 @@ public class MakerController {
         log.info("手机号实名认证");
         try {
             //获取当前创客
-            MakerEntity makerEntity = makerService.current(bladeUser);
+            R<MakerEntity> result = makerService.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             return makerService.mobileOcr(makerEntity);
         } catch (Exception e) {
             log.error("手机号实名认证异常", e);
@@ -210,7 +248,12 @@ public class MakerController {
         log.info("查询当前创客身份证实名认证的照片");
         try {
             //获取当前创客
-            MakerEntity makerEntity = makerService.current(bladeUser);
+            R<MakerEntity> result = makerService.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             return makerService.queryIdcardOcr(makerEntity);
         } catch (Exception e) {
             log.error("查询当前创客身份证实名认证的照片异常", e);
@@ -225,8 +268,13 @@ public class MakerController {
         log.info("获取当前创客所有实名认证状态");
         try {
             //获取当前创客
-            MakerEntity maker = makerService.current(bladeUser);
-            return makerService.getRealNameAuthenticationState(maker.getId());
+            R<MakerEntity> result = makerService.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
+            return makerService.getRealNameAuthenticationState(makerEntity.getId());
         } catch (Exception e) {
             log.error("获取当前创客所有实名认证状态异常", e);
         }
@@ -240,8 +288,13 @@ public class MakerController {
         log.info("获取当前创客基本信息");
         try {
             //获取当前创客
-            MakerEntity maker = makerService.current(bladeUser);
-            return makerService.getInfo(maker.getId());
+            R<MakerEntity> result = makerService.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
+            return makerService.getInfo(makerEntity.getId());
         } catch (Exception e) {
             log.error("获取当前创客基本信息异常", e);
         }
@@ -255,8 +308,13 @@ public class MakerController {
         log.info("查询当前创客关联商户数和收入情况");
         try {
             //获取当前创客
-            MakerEntity maker = makerService.current(bladeUser);
-            return makerService.getEnterpriseNumIncome(maker.getId());
+            R<MakerEntity> result = makerService.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
+            return makerService.getEnterpriseNumIncome(makerEntity.getId());
         } catch (Exception e) {
             log.error("查询当前创客关联商户数和收入情况异常", e);
         }
@@ -270,8 +328,13 @@ public class MakerController {
         log.info("获取当前创客详情");
         try {
             //获取当前创客
-            MakerEntity maker = makerService.current(bladeUser);
-            return R.data(MakerWrapper.build().entityVO(maker));
+            R<MakerEntity> result = makerService.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
+            return R.data(MakerWrapper.build().entityVO(makerEntity));
         } catch (Exception e) {
             log.error("获取当前创客详情异常", e);
         }
@@ -297,8 +360,12 @@ public class MakerController {
 
         log.info("导入创客");
         try {
-            //获取当前商户
-            EnterpriseEntity enterpriseEntity = enterpriseService.current(bladeUser);
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
             //判断文件内容是否为空
             if (file.isEmpty()) {
@@ -311,7 +378,7 @@ public class MakerController {
                 return R.fail("请选择Excel文件");
             }
 
-            MakerImportListener makerImportListener = new MakerImportListener(makerService, enterpriseEntity.getId());
+            MakerImportListener makerImportListener = new MakerImportListener(makerService, enterpriseWorkerEntity.getEnterpriseId());
             InputStream inputStream = new BufferedInputStream(file.getInputStream());
             ExcelReaderBuilder builder = EasyExcel.read(inputStream, MakerExcel.class, makerImportListener);
             builder.doReadAll();
@@ -327,9 +394,14 @@ public class MakerController {
 
         log.info("根据创客ID获取创客详情");
         try {
-            //获取当前商户
-            EnterpriseEntity enterpriseEntity = enterpriseService.current(bladeUser);
-            return makerService.getMakerDetailById(enterpriseEntity.getId(), makerId);
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return makerService.getMakerDetailById(enterpriseWorkerEntity.getEnterpriseId(), makerId);
         } catch (Exception e) {
             log.error("根据创客ID获取创客详情异常", e);
         }

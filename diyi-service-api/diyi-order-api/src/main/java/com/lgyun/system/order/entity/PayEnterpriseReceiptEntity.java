@@ -27,14 +27,6 @@ public class PayEnterpriseReceiptEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 主键
-     */
-    @ApiModelProperty(value = "主键")
-    @TableId(type = IdType.ASSIGN_ID)
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
-
-    /**
      * 支付ID
      */
     private Long enterprisePayId;

@@ -6,9 +6,11 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
+import com.lgyun.system.order.dto.AcceptPaysheetSaveDto;
 import com.lgyun.system.order.entity.AcceptPaysheetEntity;
 import com.lgyun.system.order.service.IAcceptPaysheetService;
 import com.lgyun.system.order.wrapper.AcceptPaysheetWrapper;
+import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
@@ -30,7 +32,7 @@ import javax.validation.constraints.NotNull;
  */
 @Slf4j
 @RestController
-@RequestMapping("/user/acceptpaysheet")
+@RequestMapping("/acceptpaysheet")
 @Validated
 @AllArgsConstructor
 @Api(value = "交付支付验收单相关接口", tags = "交付支付验收单相关接口")
@@ -39,10 +41,25 @@ public class AcceptPaysheetController {
     private IAcceptPaysheetService acceptPaysheetService;
     private IUserClient iUserClient;
 
-    //	@PostMapping("/save")
-//	@ApiOperation(value = "新增", notes = "新增")
-    public R save(@Valid @RequestBody AcceptPaysheetEntity acceptPaysheet) {
-        return R.status(acceptPaysheetService.save(acceptPaysheet));
+    @PostMapping("/upload")
+    @ApiOperation(value = "上传交付支付验收单", notes = "上传交付支付验收单")
+    public R save(@Valid @RequestBody AcceptPaysheetSaveDto acceptPaysheet, BladeUser bladeUser) {
+
+        log.info("上传交付支付验收单");
+        try {
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return acceptPaysheetService.upload(acceptPaysheet, enterpriseWorkerEntity);
+        } catch (Exception e) {
+            log.error("上传交付支付验收单异常", e);
+        }
+
+        return R.fail("上传失败");
     }
 
     //	@PostMapping("/update")
@@ -74,21 +91,39 @@ public class AcceptPaysheetController {
     @GetMapping("/get-enterprises-by-worksheet")
     @ApiOperation(value = "查询创客所有交付支付验收单的商户", notes = "查询创客所有交付支付验收单的商户")
     public R getEnterprisesByWorksheet(Query query, BladeUser bladeUser) {
-        MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
+        //获取当前创客
+        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+        if (!(result.isSuccess())){
+            return result;
+        }
+        MakerEntity makerEntity = result.getData();
+
         return acceptPaysheetService.getEnterprisesByWorksheet(Condition.getPage(query.setDescs("create_time")), makerEntity.getId());
     }
 
     @GetMapping("/get-accept-paysheets-by-enterprise")
     @ApiOperation(value = "查询创客对应某商户的所有交付支付验收单", notes = "查询创客对应某商户的所有交付支付验收单")
     public R getAcceptPaysheetsByEnterprise(@ApiParam(value = "商户ID") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
-        MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
+        //获取当前创客
+        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+        if (!(result.isSuccess())){
+            return result;
+        }
+        MakerEntity makerEntity = result.getData();
+
         return acceptPaysheetService.getAcceptPaysheetsByEnterprise(Condition.getPage(query.setDescs("create_time")), enterpriseId, makerEntity.getId());
     }
 
     @GetMapping("/get-accept-paysheet-worksheet")
     @ApiOperation(value = "根据ID查询交付支付验收单", notes = "根据ID查询交付支付验收单")
     public R getAcceptPaysheetWorksheet(@ApiParam(value = "交付支付验收单ID") @NotNull(message = "请输入交付支付验收单编号") @RequestParam(required = false) Long acceptPaysheetId, BladeUser bladeUser) {
-        MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
+        //获取当前创客
+        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+        if (!(result.isSuccess())){
+            return result;
+        }
+        MakerEntity makerEntity = result.getData();
+
         return acceptPaysheetService.getAcceptPaysheetWorksheet(makerEntity.getId(), acceptPaysheetId);
     }
 

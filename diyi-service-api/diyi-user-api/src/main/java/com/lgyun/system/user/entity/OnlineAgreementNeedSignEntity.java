@@ -1,14 +1,9 @@
 package com.lgyun.system.user.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.enumeration.SignPower;
 import com.lgyun.common.enumeration.SignState;
-import io.swagger.annotations.ApiModelProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,14 +23,6 @@ import lombok.NoArgsConstructor;
 @TableName("diyi_online_agreement_need_sign")
 public class OnlineAgreementNeedSignEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 唯一性控制
-     */
-    @ApiModelProperty(value = "主键")
-    @TableId(type = IdType.ASSIGN_ID)
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
 
     /**
      * 平台在线协议模板ID

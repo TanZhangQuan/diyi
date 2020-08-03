@@ -1,7 +1,6 @@
 package com.lgyun.system.user.service;
 
 import com.lgyun.common.api.R;
-import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
@@ -13,22 +12,6 @@ import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
  * @since 2020-06-26 17:21:05
  */
 public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
-
-    /**
-     * 获取当前商户
-     *
-     * @param bladeUser
-     * @return
-     */
-    EnterpriseEntity current(BladeUser bladeUser);
-
-    /**
-     * 根据userId获取商户
-     *
-     * @param userId
-     * @return
-     */
-    EnterpriseEntity findByUserId(Long userId);
 
     /**
      * 通过商户名字查询

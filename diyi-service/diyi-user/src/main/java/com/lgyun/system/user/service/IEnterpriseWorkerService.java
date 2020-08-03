@@ -1,5 +1,7 @@
 package com.lgyun.system.user.service;
 
+import com.lgyun.common.api.R;
+import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 
@@ -27,5 +29,20 @@ public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEn
      */
     EnterpriseWorkerEntity findByEmployeeUserNameAndEmployeePwd(String employeeUserName, String employeePwd);
 
+    /**
+     * 获取当前商户员工
+     *
+     * @param bladeUser
+     * @return
+     */
+    R<EnterpriseWorkerEntity> currentEnterpriseWorker(BladeUser bladeUser);
+
+    /**
+     * 根据userId查找商户员工
+     *
+     * @param userId
+     * @return
+     */
+    EnterpriseWorkerEntity findByUserId(Long userId);
 }
 

@@ -1,16 +1,11 @@
 package com.lgyun.system.order.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.OrderBusinessPattern;
 import com.lgyun.common.enumeration.OrderPattern;
 import com.lgyun.common.enumeration.OrderPayType;
 import com.lgyun.common.enumeration.OrderState;
 import com.lgyun.core.mp.base.BaseEntity;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,14 +26,6 @@ import java.math.BigDecimal;
 @TableName("diyi_order")
 public class OrderEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 主键
-     */
-    @ApiModelProperty(value = "主键")
-    @TableId(type = IdType.ASSIGN_ID)
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
 
     /**
      * 企业ID

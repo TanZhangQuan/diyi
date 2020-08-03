@@ -25,7 +25,7 @@ public class BaseEntity implements Serializable {
     public static final String PATTERN_DATETIME = "yyyy-MM-dd HH:mm:ss";
 
     /**
-     * 主键id
+     * 主键
      */
     @ApiModelProperty(value = "主键")
     @TableId(value = "id", type = IdType.ASSIGN_ID)

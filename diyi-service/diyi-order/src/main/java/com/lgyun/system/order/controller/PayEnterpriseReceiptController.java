@@ -26,7 +26,7 @@ import javax.validation.Valid;
  */
 @Slf4j
 @RestController
-@RequestMapping("/user/enterprisepayreceipt")
+@RequestMapping("/enterprisepayreceipt")
 @Validated
 @AllArgsConstructor
 @Api(value = "商户支付回单相关接口", tags = "商户支付回单相关接口")

@@ -5,9 +5,10 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.entity.EnterpriseEntity;
+import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.IEnterpriseService;
+import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
 import com.lgyun.system.user.service.IMakerService;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
@@ -37,7 +38,7 @@ public class MakerEnterpriseController {
     private IMakerEnterpriseService makerEnterpriseService;
     private IEnterpriseService iEnterpriseService;
     private IMakerService iMakerService;
-    private IEnterpriseService enterpriseService;
+    private IEnterpriseWorkerService enterpriseWorkerService;
 
     @GetMapping("/detail")
     @ApiImplicitParams({
@@ -47,7 +48,13 @@ public class MakerEnterpriseController {
     public R detail(Long enterpriseId, BladeUser bladeUser) {
         log.info("查询商户详情");
         try {
-            MakerEntity makerEntity = iMakerService.current(bladeUser);
+            //获取当前创客
+            R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             return iEnterpriseService.getEnterpriseId(enterpriseId, makerEntity.getId());
         } catch (Exception e) {
             log.error("查询商户详情异常", e);
@@ -65,7 +72,13 @@ public class MakerEnterpriseController {
 
         log.info("查询关联商户和关注商户");
         try {
-            MakerEntity makerEntity = iMakerService.current(bladeUser);
+            //获取当前创客
+            R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             IPage<MakerEnterpriseRelationVO> pages = makerEnterpriseService.selectMakerEnterprisePage(Condition.getPage(query), makerEntity.getId(), relationshipType);
             return R.data(pages);
         } catch (Exception e) {
@@ -101,7 +114,13 @@ public class MakerEnterpriseController {
 
         log.info("添加关注或取消关注");
         try {
-            MakerEntity makerEntity = iMakerService.current(bladeUser);
+            //获取当前创客
+            R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             return makerEnterpriseService.addOrCancelfollow(enterpriseId, makerEntity.getId(), attribute);
         } catch (Exception e) {
             log.error("添加关注或取消关注异常", e);
@@ -116,9 +135,14 @@ public class MakerEnterpriseController {
 
         log.info("获取关注当前商户的所有创客");
         try {
-            //获取当前商户
-            EnterpriseEntity enterpriseEntity = enterpriseService.current(bladeUser);
-            return makerEnterpriseService.getRelEnterpriseMaker(Condition.getPage(query.setDescs("create_time")), enterpriseEntity.getId(), 1, keyword);
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return makerEnterpriseService.getRelEnterpriseMaker(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), 1, keyword);
         } catch (Exception e) {
             log.error("获取关注当前商户的所有创客异常", e);
         }
@@ -131,9 +155,14 @@ public class MakerEnterpriseController {
 
         log.info("获取关联当前商户的所有创客");
         try {
-            //获取当前商户
-            EnterpriseEntity enterpriseEntity = enterpriseService.current(bladeUser);
-            return makerEnterpriseService.getRelEnterpriseMaker(Condition.getPage(query.setDescs("create_time")), enterpriseEntity.getId(), 0, keyword);
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return makerEnterpriseService.getRelEnterpriseMaker(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), 0, keyword);
         } catch (Exception e) {
             log.error("获取关联当前商户的所有创客异常", e);
         }
@@ -146,9 +175,14 @@ public class MakerEnterpriseController {
 
         log.info("批量取消创客关注");
         try {
-            //获取当前商户
-            EnterpriseEntity enterpriseEntity = enterpriseService.current(bladeUser);
-            return makerEnterpriseService.cancelMakersRel(makerIds, enterpriseEntity.getId());
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return makerEnterpriseService.cancelMakersRel(makerIds, enterpriseWorkerEntity.getEnterpriseId());
         } catch (Exception e) {
             log.error("批量取消创客关注异常", e);
         }
@@ -161,9 +195,14 @@ public class MakerEnterpriseController {
 
         log.info("批量取消关联创客");
         try {
-            //获取当前商户
-            EnterpriseEntity enterpriseEntity = enterpriseService.current(bladeUser);
-            return makerEnterpriseService.cancelRelMakers(makerIds, enterpriseEntity.getId());
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return makerEnterpriseService.cancelRelMakers(makerIds, enterpriseWorkerEntity.getEnterpriseId());
         } catch (Exception e) {
             log.error("批量取消关联创客异常", e);
         }
@@ -176,9 +215,14 @@ public class MakerEnterpriseController {
 
         log.info("批量关联创客");
         try {
-            //获取当前商户
-            EnterpriseEntity enterpriseEntity = enterpriseService.current(bladeUser);
-            return makerEnterpriseService.relMakers(makerIds, enterpriseEntity.getId());
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return makerEnterpriseService.relMakers(makerIds, enterpriseWorkerEntity.getEnterpriseId());
         } catch (Exception e) {
             log.error("批量关联创客异常", e);
         }

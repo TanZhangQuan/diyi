@@ -26,7 +26,7 @@ import javax.validation.Valid;
  */
 @Slf4j
 @RestController
-@RequestMapping("/order/makertotalinvoice")
+@RequestMapping("/makertotalinvoice")
 @Validated
 @AllArgsConstructor
 @Api(value = "创客汇总代开发票相关接口", tags = "创客汇总代开发票相关接口")

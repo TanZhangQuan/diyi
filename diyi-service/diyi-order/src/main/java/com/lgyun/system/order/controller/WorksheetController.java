@@ -11,7 +11,7 @@ import com.lgyun.system.order.entity.WorksheetEntity;
 import com.lgyun.system.order.entity.WorksheetMakerEntity;
 import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.order.service.IWorksheetService;
-import com.lgyun.system.user.entity.EnterpriseEntity;
+import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.*;
@@ -32,7 +32,7 @@ import java.math.BigDecimal;
  */
 @Slf4j
 @RestController
-@RequestMapping("/order/worksheet")
+@RequestMapping("/worksheet")
 @Validated
 @AllArgsConstructor
 @Api(value = "工单相关接口", tags = "工单相关接口")
@@ -152,7 +152,13 @@ public class WorksheetController {
     public R orderGrabbing(@NotNull(message = "请输入工单的id") @RequestParam(required = false)Long worksheetId, BladeUser bladeUser) {
         log.info("抢单");
         try {
-            MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
+            //获取当前创客
+            R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             return worksheetService.orderGrabbing(worksheetId, makerEntity.getId());
         } catch (Exception e) {
             log.error("抢单失败", e);
@@ -167,7 +173,13 @@ public class WorksheetController {
     })
     public R findXiaoPage(Query query,@NotNull(message = "请输入工单的状态") @RequestParam(required = false) Integer worksheetState, BladeUser bladeUser) {
         try {
-            MakerEntity makerEntity = iUserClient.currentMaker(bladeUser);
+            //获取当前创客
+            R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
+
             if (null == worksheetState || (worksheetState != 1 && worksheetState != 2 && worksheetState != 3)) {
                 return R.fail("参数错误");
             }
@@ -230,9 +242,14 @@ public class WorksheetController {
 
         log.info("根据创客ID查询工单");
         try {
-            //获取当前商户
-            EnterpriseEntity enterpriseEntity = iUserClient.currentEnterprise(bladeUser);
-            return worksheetService.getWorksheetDetailsByMaker(Condition.getPage(query.setDescs("create_time")), enterpriseEntity.getId(), makerId);
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return worksheetService.getWorksheetDetailsByMaker(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), makerId);
         } catch (Exception e) {
             log.error("根据创客ID查询工单异常", e);
         }
@@ -249,9 +266,14 @@ public class WorksheetController {
 
         log.info("获取当前商户所有已完毕的总包+分包类型的工单");
         try {
-            //获取当前商户
-            EnterpriseEntity enterpriseEntity = iUserClient.currentEnterprise(bladeUser);
-            return worksheetService.getWorksheetByEnterpriseId(enterpriseEntity.getId(), WorkSheetType.SUBPACKAGE, worksheetNo, worksheetName, Condition.getPage(query.setDescs("create_time")));
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return worksheetService.getWorksheetByEnterpriseId(enterpriseWorkerEntity.getEnterpriseId(), WorkSheetType.SUBPACKAGE, worksheetNo, worksheetName, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("获取当前商户所有已完毕的总包+分包类型的工单异常", e);
         }

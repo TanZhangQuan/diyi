@@ -26,7 +26,7 @@ import javax.validation.Valid;
  */
 @Slf4j
 @RestController
-@RequestMapping("/order/onlineagreementneedsign")
+@RequestMapping("/onlineagreementneedsign")
 @Validated
 @AllArgsConstructor
 @Api(value = "在线签署清单-签名保存相关接口", tags = "在线签署清单-签名保存相关接口")

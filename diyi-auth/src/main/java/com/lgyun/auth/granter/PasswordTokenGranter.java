@@ -47,6 +47,7 @@ public class PasswordTokenGranter implements ITokenGranter {
         String password = tokenParameter.getArgs().getStr("password");
         //获取用户类型
         UserType userType = (UserType) tokenParameter.getArgs().get("userType");
+
         UserInfo userInfo;
         R<String> res;
         switch (userType) {

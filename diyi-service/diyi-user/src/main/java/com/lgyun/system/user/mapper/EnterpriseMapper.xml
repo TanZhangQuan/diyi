@@ -6,8 +6,6 @@
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.user.entity.EnterpriseEntity" id="enterpriseMap">
         <result property="id" column="id"/>
-        <result property="enterpriseUserName" column="enterprise_user_name"/>
-        <result property="enterprisePwd" column="enterprise_pwd"/>
         <result property="enterpriseState" column="enterprise_state"/>
         <result property="inviteNo" column="invite_no"/>
         <result property="enterpriseName" column="enterprise_name"/>
