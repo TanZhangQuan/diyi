@@ -6,7 +6,7 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.PayEnterpriseTotalListDto;
+import com.lgyun.system.order.dto.PayListDto;
 import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.service.IPayEnterpriseService;
@@ -117,7 +117,7 @@ public class PayEnterpriseController {
             @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
     })
-    public R getByDtoEnterprise(PayEnterpriseTotalListDto payEnterpriseTotalListDto, Query query, BladeUser bladeUser) {
+    public R getByDtoEnterprise(PayListDto payListDto, Query query, BladeUser bladeUser) {
 
         log.info("查询当前商户所有总包支付清单");
         try {
@@ -128,7 +128,7 @@ public class PayEnterpriseController {
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-            return enterprisePayService.getByDtoEnterprise(enterpriseWorkerEntity.getEnterpriseId(), payEnterpriseTotalListDto, Condition.getPage(query.setDescs("create_time")));
+            return enterprisePayService.getByDtoEnterprise(enterpriseWorkerEntity.getEnterpriseId(), payListDto, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("查询当前商户所有总包支付清单异常", e);
         }

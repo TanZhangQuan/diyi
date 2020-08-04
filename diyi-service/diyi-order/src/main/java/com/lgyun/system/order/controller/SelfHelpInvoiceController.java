@@ -5,16 +5,15 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.RealnameVerifyUtil;
+import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.dto.DictDTO;
 import com.lgyun.system.entity.Dict;
 import com.lgyun.system.feign.IDictClient;
-import com.lgyun.system.order.dto.AddressDto;
-import com.lgyun.system.order.dto.ConfirmPaymentDto;
-import com.lgyun.system.order.dto.SelfHelpInvoiceDto;
-import com.lgyun.system.order.dto.SelfHelpInvoicePersonDto;
+import com.lgyun.system.order.dto.*;
 import com.lgyun.system.order.service.*;
 import com.lgyun.system.user.dto.RunCompanyDto;
+import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
@@ -56,6 +55,7 @@ public class SelfHelpInvoiceController {
     @PostMapping("/runCompanySave")
     @ApiOperation(value = "新建购买方", notes = "新建购买方")
     public R runCompanySave(@Valid @RequestBody RunCompanyDto runCompanyDto, BladeUser bladeUser) {
+
         log.info("新建购买方");
         try {
             //获取当前创客
@@ -76,6 +76,7 @@ public class SelfHelpInvoiceController {
     @GetMapping("/findMakerId")
     @ApiOperation(value = "查询购买方", notes = "查询购买方")
     public R findMakerId(Query query, BladeUser bladeUser) {
+
         log.info("通过创客id查询购买方");
         try {
             //获取当前创客
@@ -95,6 +96,7 @@ public class SelfHelpInvoiceController {
     @PostMapping("/saveSelfHelpInvoicePerson")
     @ApiOperation(value = "新建非创客开票人", notes = "新建非创客开票人")
     public R saveSelfHelpInvoicePerson(@Valid @RequestBody SelfHelpInvoicePersonDto selfHelpInvoicePersonDto, BladeUser bladeUser) {
+
         log.info("新建非创客开票人");
         try {
             //获取当前创客
@@ -114,6 +116,7 @@ public class SelfHelpInvoiceController {
     @GetMapping("/findPersonMakerId")
     @ApiOperation(value = "查询非创客开票人", notes = "查询非创客开票人")
     public R findPersonMakerId(Query query, MakerType makerType, BladeUser bladeUser) {
+
         log.info("根据创客Idc查询自助开票非创客开票人");
         try {
             //获取当前创客
@@ -146,6 +149,7 @@ public class SelfHelpInvoiceController {
     @PostMapping("/saveAddress")
     @ApiOperation(value = "新建收货地址", notes = "新建收货地址")
     public R saveAddress(@Valid @RequestBody AddressDto addressDto, BladeUser bladeUser) {
+
         log.info("新建收货地址");
         try {
             //获取当前创客
@@ -165,6 +169,7 @@ public class SelfHelpInvoiceController {
     @GetMapping("/getAddressById")
     @ApiOperation(value = "地址详情接口", notes = "地址详情接口")
     public R getAddressById(Long addressId) {
+
         log.info("地址详情接口");
         try {
             return addressService.getAddressById(addressId);
@@ -177,6 +182,7 @@ public class SelfHelpInvoiceController {
     @PostMapping("/updateAddress")
     @ApiOperation(value = "地址编辑接口", notes = "地址编辑接口")
     public R updateAddress(@Valid @RequestBody AddressDto addressDto) {
+
         log.info("地址编辑接口");
         try {
             return addressService.updateAddress(addressDto);
@@ -189,6 +195,7 @@ public class SelfHelpInvoiceController {
     @PostMapping("/deleteAddress")
     @ApiOperation(value = "地址删除接口", notes = "地址删除接口")
     public R deleteAddress(Long addressId) {
+
         log.info("地址编辑接口");
         try {
             return addressService.deleteAddress(addressId);
@@ -201,6 +208,7 @@ public class SelfHelpInvoiceController {
     @GetMapping("/findAddressMakerId")
     @ApiOperation(value = "查询收货地址", notes = "查询收货地址")
     public R findAddressMakerId(Query query, BladeUser bladeUser) {
+
         log.info("查询收货地址");
         try {
             //获取当前创客
@@ -220,6 +228,7 @@ public class SelfHelpInvoiceController {
     @GetMapping("/getInvoiceType")
     @ApiOperation(value = "开票类目", notes = "开票类目")
     public R getInvoiceType() {
+
         log.info("开票类目");
         try {
             return iDictClient.getList("tax_category");
@@ -232,6 +241,7 @@ public class SelfHelpInvoiceController {
     @GetMapping("/getInvoiceTypeDetails")
     @ApiOperation(value = "开票类目-详情", notes = "开票类目-详情")
     public R getInvoiceTypeDetails(Long parentId) {
+
         log.info("开票类目-详情");
         try {
             return iDictClient.getParentList(parentId);
@@ -247,6 +257,7 @@ public class SelfHelpInvoiceController {
             @ApiImplicitParam(name = "dictType", value = "1代表一级类目，2二级类目", paramType = "query", dataType = "int"),
     })
     public R saveInvoiceTypeDetails(@RequestParam String dictValue, @RequestParam Integer dictType, @RequestParam(required = false) Long parentId) {
+
         log.info("新建开票类目");
         if (dictType != 1 && dictType != 2) {
             R.fail("参数错误");
@@ -280,6 +291,7 @@ public class SelfHelpInvoiceController {
     @PostMapping("/submitSelfHelpInvoice")
     @ApiOperation(value = "创客提交自助开票", notes = "创客提交自助开票")
     public R submitSelfHelpInvoice(@Valid @RequestBody SelfHelpInvoiceDto selfHelpInvoiceDto, BladeUser bladeUser) {
+
         log.info("创客提交自助开票");
         try {
             //获取当前创客
@@ -300,6 +312,7 @@ public class SelfHelpInvoiceController {
     @GetMapping("/getSelfHelpInvoiceDetails")
     @ApiOperation(value = "查询开票详情", notes = "查询开票详情")
     public R getSelfHelpInvoiceDetails(Long selfHelpInvoiceId) {
+
         log.info("查询开票详情");
         try {
             return selfHelpInvoiceService.getSelfHelpInvoiceDetails(selfHelpInvoiceId);
@@ -312,6 +325,7 @@ public class SelfHelpInvoiceController {
     @GetMapping("/immediatePayment")
     @ApiOperation(value = "立即支付", notes = "立即支付")
     public R immediatePayment() {
+
         log.info("立即支付");
         try {
             return R.data(selfHelpInvoiceAccountService.immediatePayment());
@@ -324,6 +338,7 @@ public class SelfHelpInvoiceController {
     @PostMapping("/confirmPayment")
     @ApiOperation(value = "确认支付", notes = "确认支付")
     public R confirmPayment(@Valid @RequestBody ConfirmPaymentDto confirmPaymentDto) {
+
         log.info("确认支付");
         try {
             return R.data(selfHelpInvoiceFeeService.confirmPayment(confirmPaymentDto));
@@ -337,7 +352,7 @@ public class SelfHelpInvoiceController {
     @ApiOperation(value = "识别身份证", notes = "识别身份证")
     public R identificationCard(String infoImg) {
         log.info("识别身份证");
-        JSONObject jsonObject = null;
+        JSONObject jsonObject;
         try {
             jsonObject = RealnameVerifyUtil.idCardOCR(infoImg);
         } catch (Exception e) {
@@ -377,5 +392,30 @@ public class SelfHelpInvoiceController {
             e.printStackTrace();
             return R.fail("判断创客资质失败");
         }
+    }
+
+    @GetMapping("/get_by_dto_enterprise")
+    @ApiOperation(value = "查询当前商户所有自主开票记录(众包)", notes = "查询当前商户所有自主开票记录(众包)")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "serviceProviderName", value = "服务商名称", paramType = "query", dataType = "string"),
+            @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
+            @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
+    })
+    public R getByDtoEnterprise(PayListDto payListDto, Query query, BladeUser bladeUser) {
+
+        log.info("查询当前商户所有自主开票记录(众包)");
+        try {
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return selfHelpInvoiceService.getByDtoEnterprise(enterpriseWorkerEntity.getEnterpriseId(), payListDto, Condition.getPage(query.setDescs("create_time")));
+        } catch (Exception e) {
+            log.error("查询当前商户所有自主开票记录(众包)异常", e);
+        }
+        return R.fail("查询失败");
     }
 }

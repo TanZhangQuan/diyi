@@ -83,6 +83,19 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.order.vo.PayListVO" id="payListVO">
+        <result property="id" column="id"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="serviceProviderName" column="service_provider_name"/>
+        <result property="chargeListUrl" column="charge_list_url"/>
+        <result property="enterprisePayReceiptUrls" column="enterprise_pay_receipt_urls"/>
+        <result property="worksheetNo" column="worksheet_no"/>
+        <result property="acceptPaysheetUrls" column="accept_paysheet_urls"/>
+        <result property="makerPayReceiptUrls" column="maker_pay_receipt_urls"/>
+        <result property="createTime" column="create_time"/>
+        <result property="payToPlatformAmount" column="pay_to_platform_amount"/>
+    </resultMap>
+
     <select id="getSelfHelpInvoiceDetails" resultMap="selfHelpInvoiceDetailsVO">
         SELECT zs.id, rc.id as run_company_id, a.id as address_id, sp.id as invoice_people_id, sd.id as self_help_invoice_detail_id,
         hf.id as hand_pay_id, rc.company_name, rc.tax_no, rc.employee_name, rc.phone_no, rc.bank_name, rc.bank_account, sd.charge_money_num,
@@ -123,6 +136,10 @@
         INNER JOIN diyi_individual_business t3 ON t1.business_enterprise_id = t3.id INNER JOIN diyi_run_company t4 ON t1.company_id = t4.id
         WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t4.is_deleted = 0 AND t1.invoice_people_type = 'INDIVIDUALBUSINESS'
         AND t3.id = #{paarm1}
+    </select>
+
+    <select id="getByDtoEnterprise" resultMap="payListVO">
+
     </select>
 
 </mapper>

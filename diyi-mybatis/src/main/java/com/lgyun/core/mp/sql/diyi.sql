@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2020-07-31 16:25:07
+Date: 2020-08-04 14:18:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -1549,6 +1549,27 @@ CREATE TABLE `diyi_pay_maker` (
 
 -- ----------------------------
 -- Records of diyi_pay_maker
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `diyi_pay_maker_receipt`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_pay_maker_receipt`;
+CREATE TABLE `diyi_pay_maker_receipt` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `pay_maker_id` bigint(50) NOT NULL COMMENT '创客支付ID',
+  `maker_pay_receipt_url` varchar(100) NOT NULL COMMENT '支付回单图片URL地址',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of diyi_pay_maker_receipt
 -- ----------------------------
 
 -- ----------------------------

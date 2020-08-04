@@ -6,12 +6,14 @@ import com.lgyun.common.enumeration.InvoiceAuditState;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.system.order.dto.PayListDto;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDto;
 import com.lgyun.system.order.entity.SelfHelpInvoiceDetailEntity;
 import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
 import com.lgyun.system.order.mapper.SelfHelpInvoiceMapper;
 import com.lgyun.system.order.service.ISelfHelpInvoiceDetailService;
 import com.lgyun.system.order.service.ISelfHelpInvoiceService;
+import com.lgyun.system.order.vo.PayListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceDetailsVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
@@ -109,6 +111,18 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
                 return R.fail("创客类别有误");
         }
 
+    }
+
+    @Override
+    public R<IPage<PayListVO>> getByDtoEnterprise(Long enterpriseId, PayListDto payListDto, IPage<PayListVO> page) {
+
+        if (payListDto.getBeginDate() != null && payListDto.getEndDate() != null) {
+            if (payListDto.getBeginDate().after(payListDto.getEndDate())) {
+                return R.fail("开始时间不能大于结束时间");
+            }
+        }
+
+        return R.data(page.setRecords(baseMapper.getByDtoEnterprise(enterpriseId, payListDto, page)));
     }
 
 }

@@ -16,8 +16,8 @@ import java.util.Date;
  * @time 14:36.
  */
 @Data
-@ApiModel(value = "PayEnterpriseTotalListVO对象", description = "PayEnterpriseStatisticalVO对象")
-public class PayEnterpriseTotalListVO implements Serializable {
+@ApiModel(value = "PayListVOVO对象", description = "PayListVO对象")
+public class PayListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //支付清单编号
@@ -30,10 +30,10 @@ public class PayEnterpriseTotalListVO implements Serializable {
     //服务商名称
     private String serviceProviderName;
 
-    //支付清单URL
+    //总包支付清单URL
     private String chargeListUrl;
 
-    //支付回单图片URL地址(多张逗号隔开)
+    //总包支付回单图片URL地址(多张逗号隔开)
     private String enterprisePayReceiptUrls;
 
     //工单编号
@@ -41,6 +41,9 @@ public class PayEnterpriseTotalListVO implements Serializable {
 
     //验收单URL
     private String acceptPaysheetUrls;
+
+    //支付回单图片URL地址(多张逗号隔开)
+    private String makerPayReceiptUrls;
 
     //创建时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

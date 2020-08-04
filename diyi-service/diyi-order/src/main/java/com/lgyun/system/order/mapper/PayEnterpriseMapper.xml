@@ -59,7 +59,7 @@
         <result property="serviceProviderNum" column="service_provider_num"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.order.vo.PayEnterpriseTotalListVO" id="payEnterpriseTotalListVO">
+    <resultMap type="com.lgyun.system.order.vo.PayListVO" id="payListVO">
         <result property="id" column="id"/>
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="serviceProviderName" column="service_provider_name"/>
@@ -67,6 +67,7 @@
         <result property="enterprisePayReceiptUrls" column="enterprise_pay_receipt_urls"/>
         <result property="worksheetNo" column="worksheet_no"/>
         <result property="acceptPaysheetUrls" column="accept_paysheet_urls"/>
+        <result property="makerPayReceiptUrls" column="maker_pay_receipt_urls"/>
         <result property="createTime" column="create_time"/>
         <result property="payToPlatformAmount" column="pay_to_platform_amount"/>
     </resultMap>
@@ -101,7 +102,7 @@
 
     </select>
 
-    <select id="getByDtoEnterprise" resultMap="payEnterpriseTotalListVO">
+    <select id="getByDtoEnterprise" resultMap="payListVO">
         SELECT t1.id, t2.enterprise_name, t3.service_provider_name, t1.charge_list_url, t4.worksheet_no, t1.create_time, t1.pay_to_platform_amount,
         (SELECT group_concat(enterprise_pay_receipt_url) FROM diyi_pay_enterprise_receipt WHERE pay_enterprise_id = t1.id) AS enterprise_pay_receipt_urls,
         (SELECT group_concat(accept_paysheet_url) FROM diyi_accept_paysheet WHERE pay_enterprise_id = t1.id) AS accept_paysheet_urls FROM diyi_pay_enterprise t1
@@ -111,7 +112,7 @@
             AND t1.id = #{param2.payEnterpriseId}
         </if>
         <if test="param2.serviceProviderName != null and param2.serviceProviderName.trim() != ''">
-            AND t3.service_provider_name like concat('%', #{param2.ibname}, '%')
+            AND t3.service_provider_name like concat('%', #{param2.serviceProviderName}, '%')
         </if>
         <if test="param2.beginDate != null">
             AND DATEDIFF(t1.create_time, #{param2.beginDate}) <![CDATA[ >= ]]> 0

@@ -14,7 +14,7 @@ import java.util.Date;
  * @time 16:27.
  */
 @Data
-public class PayEnterpriseTotalListDto implements Serializable {
+public class PayListDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //支付清单ID
