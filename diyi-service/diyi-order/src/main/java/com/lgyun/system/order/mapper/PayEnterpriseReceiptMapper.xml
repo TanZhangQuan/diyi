@@ -6,7 +6,7 @@
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.order.entity.PayEnterpriseReceiptEntity" id="enterprisePayReceiptMap">
         <result property="id" column="id"/>
-        <result property="enterprisePayId" column="enterprise_pay_id"/>
+        <result property="payEnterpriseId" column="pay_enterprise_id"/>
         <result property="enterprisePayReceiptUrl" column="enterprise_pay_receipt_url"/>
         <result property="createUser" column="create_user"/>
         <result property="createTime" column="create_time"/>

@@ -32,7 +32,7 @@ public class PlatformVoiceEntity extends BaseEntity {
     /**
      * 支付ID
      */
-    private Long enterprisePayId;
+    private Long payEnterpriseId;
 
     /**
      * 订单ID

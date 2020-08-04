@@ -113,10 +113,10 @@ public interface WorksheetMakerMapper extends BaseMapper<WorksheetMakerEntity> {
     /**
      * 根据支付清单ID获取创客工单关联
      *
-     * @param enterprisePayId
+     * @param payEnterpriseId
      * @param page
      * @return
      */
-    List<WorksheetMakerListVO> getByEnterprisePayId(Long enterprisePayId, IPage<WorksheetMakerListVO> page);
+    List<WorksheetMakerListVO> getByPayEnterpriseId(Long payEnterpriseId, IPage<WorksheetMakerListVO> page);
 }
 

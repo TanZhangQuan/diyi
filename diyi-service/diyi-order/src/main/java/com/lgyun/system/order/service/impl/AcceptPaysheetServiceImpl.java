@@ -55,7 +55,7 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
             acceptPaysheetEntity.setMakerId(acceptPaysheetSaveDto.getMakerId());
         }
 
-        acceptPaysheetEntity.setEnterprisePayId(acceptPaysheetSaveDto.getEnterprisePayId());
+        acceptPaysheetEntity.setPayEnterpriseId(acceptPaysheetSaveDto.getPayEnterpriseId());
         acceptPaysheetEntity.setAcceptPaysheetUrl(acceptPaysheetSaveDto.getAcceptPaysheetUrl());
         acceptPaysheetEntity.setAcceptPaysheetType(acceptPaysheetSaveDto.getAcceptPaysheetType());
         acceptPaysheetEntity.setUploadDateSource("商户上传");

@@ -27,7 +27,7 @@ public class MakerTotalInvoiceEntity extends BaseEntity {
     /**
      * 支付清单ID
      */
-    private Long payListId;
+    private Long payEnterpriseId;
 
     /**
      * 发票代码

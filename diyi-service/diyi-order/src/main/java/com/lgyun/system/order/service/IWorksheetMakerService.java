@@ -152,10 +152,10 @@ public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity
     /**
      * 根据支付清单ID获取创客工单关联
      *
-     * @param enterprisePayId
+     * @param payEnterpriseId
      * @param page
      * @return
      */
-    R<IPage<WorksheetMakerListVO>> getByEnterprisePayId(Long enterprisePayId, IPage<WorksheetMakerListVO> page);
+    R<IPage<WorksheetMakerListVO>> getByPayEnterpriseId(Long payEnterpriseId, IPage<WorksheetMakerListVO> page);
 }
 

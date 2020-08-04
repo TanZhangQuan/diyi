@@ -21,7 +21,7 @@ public class AcceptPaysheetSaveDto implements Serializable {
      * 支付清单ID
      */
     @NotNull(message = "请选择支付清单")
-    private Long enterprisePayId;
+    private Long payEnterpriseId;
 
     /**
      * 交付支付验收单类型：清单式，单人单张

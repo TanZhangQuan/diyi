@@ -6,7 +6,7 @@
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.order.entity.PayMakerEntity" id="payMakerMap">
         <result property="id" column="id"/>
-        <result property="payListId" column="pay_list_id"/>
+        <result property="payEnterpriseId" column="pay_enterprise_id"/>
         <result property="makerId" column="maker_id"/>
         <result property="makerType" column="maker_type"/>
         <result property="individualBusinessName" column="Individual_business_name"/>

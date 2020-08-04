@@ -29,7 +29,7 @@ public class PayEnterpriseReceiptEntity extends BaseEntity {
     /**
      * 支付ID
      */
-    private Long enterprisePayId;
+    private Long payEnterpriseId;
 
     /**
      * 支付回单图片URL地址

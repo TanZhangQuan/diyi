@@ -6,7 +6,7 @@
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.order.entity.PlatformVoiceEntity" id="platformVoiceMap">
                 <result property="id" column="id"/>
-                <result property="enterprisePayId" column="enterprise_pay_id"/>
+                <result property="payEnterpriseId" column="pay_enterprise_id"/>
                 <result property="orderId" column="order_id"/>
                 <result property="enterpriseId" column="enterprise_id"/>
                 <result property="voiceTypeNo" column="voice_type_no"/>

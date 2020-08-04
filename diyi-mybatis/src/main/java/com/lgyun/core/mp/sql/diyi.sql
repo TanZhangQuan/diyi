@@ -630,7 +630,7 @@ INSERT INTO `blade_user` VALUES ('1123598821738675201', 'ADMIN', '000000', null,
 DROP TABLE IF EXISTS `diyi_accept_paysheet`;
 CREATE TABLE `diyi_accept_paysheet` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `enterprise_pay_id` bigint(50) NOT NULL COMMENT '支付清单ID',
+  `pay_enterprise_id` bigint(50) NOT NULL COMMENT '支付清单ID',
   `accept_paysheet_type` varchar(50) NOT NULL COMMENT '交付支付验收单类型：清单式，单人单张',
   `maker_id` bigint(50) DEFAULT NULL COMMENT '创客ID',
   `upload_date_source` varchar(50) NOT NULL COMMENT '上传来源',
@@ -1243,7 +1243,7 @@ CREATE TABLE `diyi_maker_tax_record` (
 DROP TABLE IF EXISTS `diyi_maker_total_invoice`;
 CREATE TABLE `diyi_maker_total_invoice` (
   `id` bigint(50) NOT NULL,
-  `pay_list_id` bigint(50) NOT NULL COMMENT '支付清单ID',
+  `pay_enterprise_id` bigint(50) NOT NULL COMMENT '支付清单ID',
   `invoice_type_no` varchar(100) NOT NULL COMMENT '发票代码',
   `invoice_serial_no` varchar(100) NOT NULL COMMENT '发票号码',
   `invoice_datetime` datetime NOT NULL COMMENT '开票日期',
@@ -1496,7 +1496,7 @@ CREATE TABLE `diyi_pay_enterprise` (
 DROP TABLE IF EXISTS `diyi_pay_enterprise_receipt`;
 CREATE TABLE `diyi_pay_enterprise_receipt` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `enterprise_pay_id` bigint(50) NOT NULL COMMENT '支付ID',
+  `pay_enterprise_id` bigint(50) NOT NULL COMMENT '支付ID',
   `enterprise_pay_receipt_url` varchar(100) NOT NULL COMMENT '支付回单图片URL地址',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
@@ -1517,7 +1517,7 @@ CREATE TABLE `diyi_pay_enterprise_receipt` (
 DROP TABLE IF EXISTS `diyi_pay_maker`;
 CREATE TABLE `diyi_pay_maker` (
   `id` bigint(50) NOT NULL COMMENT '唯一性控制',
-  `pay_list_id` bigint(50) NOT NULL COMMENT '支付清单ID',
+  `pay_enterprise_id` bigint(50) NOT NULL COMMENT '支付清单ID',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
   `maker_type` varchar(50) NOT NULL COMMENT '创客身份，自然人，个体户，个独。',
   `Individual_business_name` varchar(100) NOT NULL COMMENT '个体户/个独名称',
@@ -1579,7 +1579,7 @@ CREATE TABLE `diyi_pay_receipt` (
 DROP TABLE IF EXISTS `diyi_platform_voice`;
 CREATE TABLE `diyi_platform_voice` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `enterprise_pay_id` bigint(50) NOT NULL COMMENT '支付ID',
+  `pay_enterprise_id` bigint(50) NOT NULL COMMENT '支付ID',
   `order_id` bigint(50) NOT NULL COMMENT '订单ID',
   `enterprise_id` bigint(50) NOT NULL COMMENT '企业ID',
   `voice_type_no` varchar(50) NOT NULL COMMENT '发票代码',

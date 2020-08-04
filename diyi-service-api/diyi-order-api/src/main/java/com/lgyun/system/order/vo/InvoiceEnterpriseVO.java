@@ -28,7 +28,7 @@ public class InvoiceEnterpriseVO  implements Serializable {
      *支付清单ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long payListId;
+    private Long payEnterpriseId;
 
     /**
      * 创客支付ID

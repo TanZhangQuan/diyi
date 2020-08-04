@@ -30,7 +30,7 @@ public class AcceptPaysheetEntity extends BaseEntity {
      * 支付清单ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long enterprisePayId;
+    private Long payEnterpriseId;
 
     /**
      * 交付支付验收单类型：清单式，单人单张

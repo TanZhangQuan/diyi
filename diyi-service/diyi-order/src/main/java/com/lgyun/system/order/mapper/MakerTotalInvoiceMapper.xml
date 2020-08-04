@@ -6,7 +6,7 @@
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.order.entity.MakerTotalInvoiceEntity" id="makerTotalInvoiceMap">
         <result property="id" column="id"/>
-        <result property="payListId" column="pay_list_id"/>
+        <result property="payEnterpriseId" column="pay_enterprise_id"/>
         <result property="invoiceTypeNo" column="invoice_type_no"/>
         <result property="invoiceSerialNo" column="invoice_serial_no"/>
         <result property="invoiceDatetime" column="invoice_datetime"/>

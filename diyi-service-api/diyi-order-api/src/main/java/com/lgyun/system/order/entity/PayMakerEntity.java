@@ -27,7 +27,7 @@ public class PayMakerEntity extends BaseEntity {
     /**
      * 支付清单ID
      */
-    private Long payListId;
+    private Long payEnterpriseId;
 
     /**
      * 创客ID

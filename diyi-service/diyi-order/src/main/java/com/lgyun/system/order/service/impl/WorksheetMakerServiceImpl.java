@@ -111,13 +111,12 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
         queryWrapper.lambda().eq(WorksheetMakerEntity::getMakerId, makerId)
                 .eq(WorksheetMakerEntity::getWorksheetId, worksheetId);
 
-        WorksheetMakerEntity worksheetMakerEntity = baseMapper.selectOne(queryWrapper);
-        return worksheetMakerEntity;
+        return baseMapper.selectOne(queryWrapper);
     }
 
     @Override
-    public R<IPage<WorksheetMakerListVO>> getByEnterprisePayId(Long enterprisePayId, IPage<WorksheetMakerListVO> page) {
-        return R.data(page.setRecords(baseMapper.getByEnterprisePayId(enterprisePayId, page)));
+    public R<IPage<WorksheetMakerListVO>> getByPayEnterpriseId(Long payEnterpriseId, IPage<WorksheetMakerListVO> page) {
+        return R.data(page.setRecords(baseMapper.getByPayEnterpriseId(payEnterpriseId, page)));
     }
 
     @Override

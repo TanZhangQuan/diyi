@@ -107,7 +107,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         for (int i = 0; i < split.length; i++) {
             if (StringUtils.isNotBlank(split[i])) {
                 PayEnterpriseReceiptEntity payEnterpriseReceiptEntity = new PayEnterpriseReceiptEntity();
-                payEnterpriseReceiptEntity.setEnterprisePayId(enterpriseId);
+                payEnterpriseReceiptEntity.setPayEnterpriseId(payEnterpriseEntity.getId());
                 payEnterpriseReceiptEntity.setEnterprisePayReceiptUrl(split[i]);
                 payEnterpriseReceiptService.save(payEnterpriseReceiptEntity);
             }

@@ -206,13 +206,13 @@ public class WorksheetMakerController {
         return R.fail("查询失败");
     }
 
-    @GetMapping("/get_by_enterprise_pay_id")
+    @GetMapping("/get_by_pay_enterprise_id")
     @ApiOperation(value = "根据支付清单ID获取创客工单关联", notes = "根据支付清单ID获取创客工单关联")
-    public R getByEnterprisePayId(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long enterprisePayId, Query query) {
+    public R getByPayEnterpriseId(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, Query query) {
 
         log.info("根据支付清单ID获取创客工单关联");
         try {
-            return worksheetMakerService.getByEnterprisePayId(enterprisePayId, Condition.getPage(query.setDescs("create_time")));
+            return worksheetMakerService.getByPayEnterpriseId(payEnterpriseId, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("根据支付清单ID获取创客工单关联异常", e);
         }
