@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.Ibstate;
+import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.dto.RunCompanyDto;
@@ -68,9 +69,10 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public R<IPage<RunCompanyEntity>> findRunCompanyMakerId(Integer current, Integer size, Long makerId) {
+    public R findRunCompanyMakerId(Integer current, Integer size, Long objectId, ObjectType objectType) {
         return R.fail("网络繁忙，请稍后尝试");
     }
+
 
     @Override
     public R<String> runCompanySave(RunCompanyDto runCompanyDto) {

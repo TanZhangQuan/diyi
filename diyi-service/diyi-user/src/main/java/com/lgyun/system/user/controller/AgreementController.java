@@ -242,4 +242,16 @@ public class AgreementController {
         }
         return R.fail("商户上传服务商的补充协议失败");
     }
+
+    @GetMapping("/web/selectMakerAgreement")
+    @ApiOperation(value = "查询创客加盟合同", notes = "查询创客加盟合同")
+    public R selectMakerAgreement(Query query,Long enterpriseId) {
+        log.info("查询创客加盟合同");
+        try {
+            return agreementService.selectMakerAgreement(Condition.getPage(query),enterpriseId);
+        } catch (Exception e) {
+            log.error("查询创客加盟合同异常", e);
+        }
+        return R.fail("查询创客加盟合同失败");
+    }
 }

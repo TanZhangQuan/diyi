@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.enumeration.SignType;
 import com.lgyun.system.user.entity.AgreementEntity;
+import com.lgyun.system.user.vo.AgreementMakerWebVO;
 import com.lgyun.system.user.vo.AgreementWebVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -26,5 +27,7 @@ public interface AgreementMapper extends BaseMapper<AgreementEntity> {
 
 
     List<AgreementWebVO> selectServiceSupplementaryAgreement(Long enterpriseId, String serviceProviderName, String agreementNo,Integer agreementType, IPage<AgreementWebVO> page);
+
+    List selectMakerAgreement( Long enterpriseId,IPage<AgreementMakerWebVO> page);
 }
 

@@ -1,6 +1,7 @@
 package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,9 +23,14 @@ public class AddressEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 创客ID
+     * 对象id
      */
-    private Long makerId;
+    private Long objectId;
+
+    /**
+     * 对象身份1、创客本人2、商户人员3、服务商人员4、相关局人员5、渠道商人员6、合伙人本人
+     */
+    private ObjectType objectType;
 
     /**
      * 收件人

@@ -76,6 +76,10 @@ public class SelfHelpInvoiceDetailsVO implements Serializable {
 
     private String phoneNumber;
 
+    private String idCardPic;
+
+    private String idCardPicBack;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date givePriceDate;
 
@@ -88,4 +92,6 @@ public class SelfHelpInvoiceDetailsVO implements Serializable {
     private BigDecimal invoiceFee;
 
     private BigDecimal identifyFee;
+
+    private String deliverSheetUrl;
 }

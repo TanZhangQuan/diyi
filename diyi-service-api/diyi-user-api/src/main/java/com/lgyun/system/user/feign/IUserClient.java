@@ -5,6 +5,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.Ibstate;
+import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.dto.RunCompanyDto;
@@ -128,11 +129,10 @@ public interface IUserClient {
      *
      * @param current
      * @param size
-     * @param makerId
      * @return
      */
     @GetMapping(API_PREFIX + "/runCompany/find_by_maker_id")
-    R<IPage<RunCompanyEntity>> findRunCompanyMakerId(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId);
+    R findRunCompanyMakerId(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("objectId") Long objectId, @RequestParam("objectType") ObjectType objectType);
 
     /**
      * 新增平台运营公司（平台方）信息ID
