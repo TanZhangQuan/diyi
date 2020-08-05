@@ -6,7 +6,8 @@
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.order.entity.AddressEntity" id="addressMap">
         <result property="id" column="id"/>
-        <result property="makerId" column="maker_id"/>
+        <result property="objectId" column="object_id"/>
+        <result property="objectType" column="object_type"/>
         <result property="addressName" column="address_name"/>
         <result property="addressPhone" column="address_phone"/>
         <result property="province" column="province"/>

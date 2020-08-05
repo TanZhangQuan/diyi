@@ -16,6 +16,8 @@
         <result property="originalSelfHelpId" column="original_self_help_id"/>
         <result property="businessEnterpriseId" column="business_enterprise_id"/>
         <result property="invoicePeopleType" column="invoice_people_type"/>
+        <result property="invoiceState" column="invoice_state"/>
+        <result property="invoiceDate" column="invoice_date"/>
         <result property="listFile" column="list_file"/>
         <result property="chargeMoneyNum" column="charge_money_num"/>
         <result property="serviceRate" column="service_rate"/>
@@ -26,6 +28,10 @@
         <result property="idendityConfirmFee" column="idendity_confirm_fee"/>
         <result property="addressId" column="address_id"/>
         <result property="invoiceAuditState" column="invoice_audit_state"/>
+        <result property="expressSheetNo" column="express_sheet_no"/>
+        <result property="expressCompanyName" column="express_company_name"/>
+        <result property="expressUpdatePerson" column="express_update_person"/>
+        <result property="expressUpdatePersonTel" column="express_update_person_tel"/>
         <result property="createUser" column="create_user"/>
         <result property="createTime" column="create_time"/>
         <result property="updateUser" column="update_user"/>
@@ -49,6 +55,7 @@
         <result property="bankAccount" column="bank_account"/>
         <result property="chargeMoneyNum" column="charge_money_num"/>
         <result property="invoiceType" column="invoice_type"/>
+        <result property="deliverSheetUrl" column="deliver_sheet_url"/>
         <result property="flowContractUrl" column="flow_contract_url"/>
         <result property="businessContractUrl" column="business_contract_url"/>
         <result property="addressName" column="address_name"/>
@@ -83,6 +90,26 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
+
+    <resultMap type="com.lgyun.system.order.vo.SelfHelpInvoiceWebVO" id="selfHelpInvoiceWebVO">
+        <result property="selfHelpInvoiceId" column="self_help_invoice_id"/>
+        <result property="runCompanyId" column="run_company_id"/>
+        <result property="selfHelpInvoiceDetailId" column="self_help_invoice_detail_id"/>
+        <result property="addressId" column="address_id"/>
+        <result property="invoicePersonId" column="invoice_person_id"/>
+        <result property="selfHelpInvoiceFeeId" column="self_help_invoice_fee_id"/>
+        <result property="companyName" column="company_name"/>
+        <result property="invoiceType" column="invoice_type"/>
+        <result property="chargeMoneyNum" column="charge_money_num"/>
+        <result property="invoicePeopleName" column="invoice_people_name"/>
+        <result property="idCardPic" column="id_card_pic"/>
+        <result property="idCardPicBack" column="id_card_pic_back"/>
+        <result property="flowContractUrl" column="flow_contract_url"/>
+        <result property="businessContractUrl" column="business_contract_url"/>
+        <result property="invoiceState" column="invoice_state"/>
+        <result property="invoiceDate" column="invoice_date"/>
+    </resultMap>
+
     <resultMap type="com.lgyun.system.order.vo.PayListVO" id="payListVO">
         <result property="id" column="id"/>
         <result property="enterpriseName" column="enterprise_name"/>
@@ -99,11 +126,11 @@
     <select id="getSelfHelpInvoiceDetails" resultMap="selfHelpInvoiceDetailsVO">
         SELECT zs.id, rc.id as run_company_id, a.id as address_id, sp.id as invoice_people_id, sd.id as self_help_invoice_detail_id,
         hf.id as hand_pay_id, rc.company_name, rc.tax_no, rc.employee_name, rc.phone_no, rc.bank_name, rc.bank_account, sd.charge_money_num,
-        sd.invoice_type, sd.flow_contract_url, sd.business_contract_url, a.address_name, a.address_phone, a.area, a.city, a.province,
-        a.detailed_address, sp.id_card_name, sp.id_card_no, sp.phone_number, hf.give_price_date, hf.total_tax_fee, hf.basic_tax_fee,
+        sd.invoice_type, sd.flow_contract_url, sd.business_contract_url,sd.deliver_sheet_url, a.address_name, a.address_phone, a.area, a.city, a.province,
+        a.detailed_address, sp.id_card_name, sp.id_card_no, sp.phone_number,sp.id_card_pic, sp.id_card_pic_back, hf.give_price_date, hf.total_tax_fee, hf.basic_tax_fee,
         hf.basic_tax_fee_rate, hf.invoice_fee, hf.identify_fee FROM diyi_self_help_invoice zs INNER JOIN diyi_run_company rc
-        ON rc.run_company_id = zs.company_id INNER JOIN diyi_self_help_invoice_detail sd ON sd.self_help_invoice_id = zs.id
-        INNER JOIN diyi_address a ON a.id = zs.address_id INNER JOIN diyi_self_help_invoice_person sp ON sp.invoice_people_id = sd.none_maker_invoice_person_id
+        ON rc.id = zs.company_id INNER JOIN diyi_self_help_invoice_detail sd ON sd.self_help_invoice_id = zs.id
+        INNER JOIN diyi_address a ON a.id = zs.address_id INNER JOIN diyi_self_help_invoice_person sp ON sp.id = sd.none_maker_invoice_person_id
         INNER JOIN diyi_self_help_invoice_fee hf ON zs.id = hf.self_help_invoice_id where zs.is_deleted = 0 AND rc.is_deleted = 0 AND sd.is_deleted = 0
         AND a.is_deleted = 0 AND sp.is_deleted = 0 AND hf.is_deleted = 0 AND zs.id =#{selfHelpInvoiceId}
     </select>
@@ -127,7 +154,7 @@
         FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_detail t2 ON t1.id = t2.self_help_invoice_id
         INNER JOIN diyi_individual_enterprise t3 ON t1.business_enterprise_id = t3.id INNER JOIN diyi_run_company t4 ON t1.company_id = t4.id
         WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t4.is_deleted = 0 AND t1.invoice_people_type = 'INDIVIDUALENTERPRISE'
-        AND t3.id = #{paarm1}
+        AND t3.id = #{param1}
     </select>
 
     <select id="selfHelpInvoiceListBusiness" resultMap="selfHelpInvoiceListVO">
@@ -135,7 +162,11 @@
         FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_detail t2 ON t1.id = t2.self_help_invoice_id
         INNER JOIN diyi_individual_business t3 ON t1.business_enterprise_id = t3.id INNER JOIN diyi_run_company t4 ON t1.company_id = t4.id
         WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t4.is_deleted = 0 AND t1.invoice_people_type = 'INDIVIDUALBUSINESS'
-        AND t3.id = #{paarm1}
+        AND t3.id = #{param1}
+    </select>
+
+    <select id="findMakerTypeSelfHelpInvoice" resultMap="selfHelpInvoiceWebVO">
+        SELECT zs.id AS self_help_invoice_id, rc.id AS run_company_id, sd.id AS self_help_invoice_detail_id, a.id AS address_id, sp.id AS invoice_person_id, hf.id AS self_help_invoice_fee_id, rc.company_name, sd.invoice_type, sd.charge_money_num, sd.invoice_people_name, sp.id_card_pic, sp.id_card_pic_back, sd.flow_contract_url, sd.business_contract_url, zs.invoice_state,zs.invoice_date FROM diyi_self_help_invoice zs INNER JOIN diyi_run_company rc ON rc.id = zs.company_id INNER JOIN diyi_self_help_invoice_detail sd ON sd.self_help_invoice_id = zs.id INNER JOIN diyi_address a ON a.id = zs.address_id INNER JOIN diyi_self_help_invoice_person sp ON sp.id = sd.none_maker_invoice_person_id INNER JOIN diyi_self_help_invoice_fee hf ON zs.id = hf.self_help_invoice_id WHERE zs.is_deleted = 0 AND rc.is_deleted = 0 AND sd.is_deleted = 0 AND a.is_deleted = 0 AND sp.is_deleted = 0 AND hf.is_deleted = 0 AND zs.apply_enterprise_id = #{param1} and zs.invoice_people_type =#{param2}
     </select>
 
     <select id="getByDtoEnterprise" resultMap="payListVO">

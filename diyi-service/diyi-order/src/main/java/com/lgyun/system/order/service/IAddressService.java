@@ -2,6 +2,7 @@ package com.lgyun.system.order.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.dto.AddressDto;
 import com.lgyun.system.order.entity.AddressEntity;
@@ -18,10 +19,10 @@ public interface IAddressService extends BaseService<AddressEntity> {
      * 新增地址
      *
      * @param addressDto
-     * @param makerId
+     * @param objectId
      * @return
      */
-    R<String> saveAddress(AddressDto addressDto, Long makerId);
+    R<String> saveAddress(AddressDto addressDto, Long objectId, ObjectType objectType);
 
 
     /**
@@ -29,10 +30,9 @@ public interface IAddressService extends BaseService<AddressEntity> {
      *
      * @param current
      * @param size
-     * @param makerId
      * @return
      */
-    R<IPage<AddressEntity>> findAddressMakerId(Integer current, Integer size, Long makerId);
+    R<IPage<AddressEntity>> findAddressMakerId(Integer current, Integer size, Long objectId, ObjectType objectType);
 
     /**
      * 地址详情接口

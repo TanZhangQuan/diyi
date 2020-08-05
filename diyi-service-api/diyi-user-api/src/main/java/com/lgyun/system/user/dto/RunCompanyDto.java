@@ -1,8 +1,10 @@
 package com.lgyun.system.user.dto;
 
+import com.lgyun.common.enumeration.ObjectType;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -52,7 +54,15 @@ public class RunCompanyDto implements Serializable {
     private String contacterName;
 
     /**
-     * 创客ID
+     *
      */
-    private Long makerId;
+    @NotNull(message = "对象id不能为空")
+    private Long objectId;
+
+    /**
+     * 对象身份1、创客本人2、商户人员3、服务商人员4、相关局人员5、渠道商人员6、合伙人本人
+     */
+    @NotNull(message = "对象身份不能为空")
+    private ObjectType objectType;
+
 }

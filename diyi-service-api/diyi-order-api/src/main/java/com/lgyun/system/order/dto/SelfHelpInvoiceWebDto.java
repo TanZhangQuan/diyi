@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  * @time 16:35.
  */
 @Data
-public class SelfHelpInvoiceDto implements Serializable {
+public class SelfHelpInvoiceWebDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //购买方
@@ -39,8 +39,8 @@ public class SelfHelpInvoiceDto implements Serializable {
     //开票人的身份
     private MakerType invoicePeopleType;
 
-    //申请创客id
-    private Long applyMakerId;
+    //申请商户id
+    private Long applyEnterpriseId;
 
     //服务税费率
     private BigDecimal serviceRate;
@@ -64,4 +64,5 @@ public class SelfHelpInvoiceDto implements Serializable {
 
     private String accountBalanceUrl;
 
+    private String listFile;
 }

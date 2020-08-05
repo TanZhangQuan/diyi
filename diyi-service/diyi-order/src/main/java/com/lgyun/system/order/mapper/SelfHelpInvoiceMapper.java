@@ -67,6 +67,11 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
     List<SelfHelpInvoiceListVO> selfHelpInvoiceListBusiness(Long businessEnterpriseId, IPage<SelfHelpInvoiceListVO> page);
 
     /**
+     * 根据创客类型查询自助开票
+     */
+    List<SelfHelpInvoiceDetailsVO> findMakerTypeSelfHelpInvoice( Long enterpriseId, MakerType makerType,IPage<SelfHelpInvoiceDetailsVO> page);
+
+    /**
      * 查询当前商户所有自主开票记录(众包)
      *
      * @param enterpriseId

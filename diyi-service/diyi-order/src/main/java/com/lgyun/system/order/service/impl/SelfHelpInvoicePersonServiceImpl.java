@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.MakerType;
+import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.dto.SelfHelpInvoicePersonDto;
 import com.lgyun.system.order.entity.SelfHelpInvoicePersonEntity;
@@ -27,19 +28,19 @@ import org.springframework.stereotype.Service;
 public class SelfHelpInvoicePersonServiceImpl extends BaseServiceImpl<SelfHelpInvoicePersonMapper, SelfHelpInvoicePersonEntity> implements ISelfHelpInvoicePersonService {
 
     @Override
-    public R<IPage<SelfHelpInvoicePersonEntity>> findPersonMakerId(Integer current, Integer size, Long makerId, MakerType makerType) {
+    public R<IPage<SelfHelpInvoicePersonEntity>> findPersonMakerId(Integer current, Integer size, Long objectId, MakerType makerType,ObjectType objectType) {
         QueryWrapper<SelfHelpInvoicePersonEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(SelfHelpInvoicePersonEntity::getMakerId, makerId);
-
+        queryWrapper.lambda().eq(SelfHelpInvoicePersonEntity::getObjectId, objectId).eq(SelfHelpInvoicePersonEntity::getObjectType, objectType);
         IPage<SelfHelpInvoicePersonEntity> page = this.page(new Page<>(current, size), queryWrapper);
         return R.data(page);
     }
 
     @Override
-    public R<String> saveSelfHelpInvoicePerson(SelfHelpInvoicePersonDto selfHelpInvoicePersonDto, Long makerId) {
+    public R<String> saveSelfHelpInvoicePerson(SelfHelpInvoicePersonDto selfHelpInvoicePersonDto, Long objectId,ObjectType objectType) {
         SelfHelpInvoicePersonEntity personEntity = new SelfHelpInvoicePersonEntity();
         BeanUtils.copyProperties(selfHelpInvoicePersonDto, personEntity);
-        personEntity.setMakerId(makerId);
+        personEntity.setObjectId(objectId);
+        personEntity.setObjectType(objectType);
         save(personEntity);
         return R.success("成功");
     }

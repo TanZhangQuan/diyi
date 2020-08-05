@@ -5,6 +5,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.SignType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.AgreementEntity;
+import com.lgyun.system.user.vo.AgreementMakerWebVO;
 import com.lgyun.system.user.vo.AgreementWebVO;
 
 import java.util.List;
@@ -64,5 +65,10 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
      * 商户上传服务商的补充协议
      */
     R saveSupplementaryAgreement(Long enterpriseId,String paperAgreementURL,Long serviceProviderId);
+
+    /**
+     *查询创客加盟合同
+     */
+    R selectMakerAgreement(IPage<AgreementMakerWebVO> page,Long enterpriseId);
 }
 

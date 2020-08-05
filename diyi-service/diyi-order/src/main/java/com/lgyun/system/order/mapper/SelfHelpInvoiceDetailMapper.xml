@@ -17,6 +17,7 @@
         <result property="flowContractUrl" column="flow_contract_url"/>
         <result property="businessContractUrl" column="business_contract_url"/>
         <result property="accountBalanceUrl" column="account_balance_url"/>
+        <result property="deliverSheetUrl" column="deliver_sheet_url"/>
         <result property="serviceInvoiceFee" column="service_invoice_fee"/>
         <result property="idendityConfirmFee" column="idendity_confirm_fee"/>
         <result property="createUser" column="create_user"/>

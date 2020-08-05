@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.dto.AddressDto;
 import com.lgyun.system.order.entity.AddressEntity;
@@ -26,18 +27,19 @@ import org.springframework.stereotype.Service;
 public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEntity> implements IAddressService {
 
     @Override
-    public R<String> saveAddress(AddressDto addressDto, Long makerId) {
+    public R<String> saveAddress(AddressDto addressDto, Long objectId,ObjectType objectType) {
         AddressEntity addressEntity = new AddressEntity();
         BeanUtils.copyProperties(addressDto, addressEntity);
-        addressEntity.setMakerId(makerId);
+        addressEntity.setObjectId(objectId);
+        addressEntity.setObjectType(objectType);
         save(addressEntity);
         return R.success("成功");
     }
 
     @Override
-    public R<IPage<AddressEntity>> findAddressMakerId(Integer current, Integer size, Long makerId) {
+    public R<IPage<AddressEntity>> findAddressMakerId(Integer current, Integer size, Long objectId,ObjectType objectType) {
         QueryWrapper<AddressEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(AddressEntity::getMakerId, makerId);
+        queryWrapper.lambda().eq(AddressEntity::getObjectId, objectId).eq(AddressEntity::getObjectType,objectType);
 
         IPage<AddressEntity> page = this.page(new Page<>(current, size), queryWrapper);
         return R.data(page);

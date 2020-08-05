@@ -72,6 +72,10 @@ public class SelfHelpInvoiceDetailEntity extends BaseEntity {
      * 业务合同URL
      */
     private String businessContractUrl;
+    /**
+     *交付支付验收单URL
+     */
+   private String deliverSheetUrl;
 
     /**
      * 账户余额url

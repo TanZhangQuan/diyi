@@ -1,6 +1,6 @@
 package com.lgyun.system.order.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.entity.SelfHelpInvoiceDetailEntity;
 
@@ -12,5 +12,6 @@ import com.lgyun.system.order.entity.SelfHelpInvoiceDetailEntity;
  */
 public interface ISelfHelpInvoiceDetailService extends BaseService<SelfHelpInvoiceDetailEntity> {
 
+    R uploadDeliverSheetUrl(Long selfHelpInvoiceDetailId,String deliverSheetUrl);
 }
 
