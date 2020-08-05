@@ -1,9 +1,6 @@
 package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.lgyun.common.enumeration.AcceptPaysheetType;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,45 +10,43 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- * Entity
+ * 众包交付支付验收单表 Entity
  *
  * @author liangfeihu
- * @since 2020-07-17 14:38:25
+ * @since 2020-08-05 10:43:29
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("diyi_accept_paysheet")
-public class AcceptPaysheetEntity extends BaseEntity {
+@TableName("diyi_accept_paysheet_cs")
+public class AcceptPaysheetCsEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 支付清单ID
+     * 自助开票Id
      */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long payEnterpriseId;
-
-    /**
-     * 服务开始日期
-     */
-    private Date ServiceTimeStart;
-
-    /**
-     * 服务结束日期
-     */
-    private Date ServiceTimeEnd;
+    private Long selfHelpInvoiceId;
 
     /**
      * 交付支付验收单类型：清单式，单人单张
      */
-    private AcceptPaysheetType acceptPaysheetType;
+    private String acceptPaysheetType;
 
     /**
-     * 创客ID
+     * 自助开票明细Id
      */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long makerId;
+    private Long selfHelpInvoiceDetailId;
+
+    /**
+     * 服务开始日期
+     */
+    private Date serviceTimeStart;
+
+    /**
+     * 服务结束日期
+     */
+    private Date serviceTimeEnd;
 
     /**
      * 上传来源

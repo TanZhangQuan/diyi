@@ -7,7 +7,6 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -16,11 +15,11 @@ import java.util.Date;
  * @time 14:36.
  */
 @Data
-@ApiModel(value = "PayListVO对象", description = "PayListVO对象")
-public class PayListVO implements Serializable {
+@ApiModel(value = "AcceptPayListVO对象", description = "AcceptPayListVO对象")
+public class AcceptPayListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //支付清单编号
+    //交付支付清单编号
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
@@ -30,26 +29,28 @@ public class PayListVO implements Serializable {
     //服务商名称
     private String serviceProviderName;
 
-    //总包支付清单URL
-    private String chargeListUrl;
+    //支付清单ID
+    private Long payEnterpriseId;
 
-    //总包支付回单图片URL地址(多张逗号隔开)
-    private String enterprisePayReceiptUrls;
+    //创客名称(多个逗号隔开)
+    private String makerNames;
 
-    //工单编号
-    private String worksheetNo;
+    //工单ID
+    private Long worksheetId;
 
-    //验收单URL(多张逗号隔开)
-    private String acceptPaysheetUrls;
+    //开始时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date serviceTimeStart;
 
-    //分包支付回单图片URL地址(多张逗号隔开)
-    private String makerPayReceiptUrls;
+    //结束时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date serviceTimeEnd;
+
+    //验收单URL
+    private String acceptPaysheetUrl;
 
     //创建时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
-
-    //支付总额
-    private BigDecimal payToPlatformAmount;
 
 }

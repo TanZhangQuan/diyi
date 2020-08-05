@@ -4,16 +4,19 @@
 <mapper namespace="com.lgyun.system.order.mapper.AcceptPaysheetMapper">
 
     <!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.lgyun.system.order.entity.AcceptPaysheetEntity" id="acceptPaysheetMap">
+    <resultMap type="com.lgyun.system.user.entity.AcceptPaysheetEntity" id="acceptPaysheetMap">
         <result property="id" column="id"/>
+        <result property="payEnterpriseId" column="pay_enterprise_id"/>
+        <result property="serviceTimeStart" column="service_time_start"/>
+        <result property="serviceTimeEnd" column="service_time_end"/>
+        <result property="acceptPaysheetType" column="accept_paysheet_type"/>
         <result property="makerId" column="maker_id"/>
-        <result property="addressName" column="address_name"/>
-        <result property="addressPhone" column="address_phone"/>
-        <result property="province" column="province"/>
-        <result property="city" column="city"/>
-        <result property="area" column="area"/>
-        <result property="detailedAddress" column="detailed_address"/>
-        <result property="isDefault" column="is_default"/>
+        <result property="uploadDateSource" column="upload_date_source"/>
+        <result property="uploadDatePerson" column="upload_date_person"/>
+        <result property="acceptPaysheetUrl" column="accept_paysheet_url"/>
+        <result property="confirmDate" column="confirm_date"/>
+        <result property="confirmPerson" column="confirm_person"/>
+        <result property="confirmDesc" column="confirm_desc"/>
         <result property="createUser" column="create_user"/>
         <result property="createTime" column="create_time"/>
         <result property="updateUser" column="update_user"/>
@@ -52,6 +55,19 @@
         <result property="enterpriseName" column="enterprise_name"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.order.vo.AcceptPayListVO" id="acceptPayListVO">
+        <result property="id" column="id"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="serviceProviderName" column="service_provider_name"/>
+        <result property="payEnterpriseId" column="pay_enterprise_id"/>
+        <result property="makerNames" column="maker_names"/>
+        <result property="worksheetId" column="worksheet_id"/>
+        <result property="serviceTimeStart" column="service_time_start"/>
+        <result property="serviceTimeEnd" column="service_time_end"/>
+        <result property="acceptPaysheetUrl" column="accept_paysheet_url"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
     <select id="getAcceptPaysheetsByEnterprise" resultMap="acceptPaysheetByEnterpriseListVO">
         SELECT t1.id, t3.enterprise_name, t2.pay_to_platform_amount, t4.create_time, t4.close_worksheet_date
         FROM diyi_accept_paysheet t1 INNER JOIN diyi_pay_enterprise t2 ON t1.pay_enterprise_id = t2.id
@@ -74,6 +90,27 @@
         SELECT t1.id, t1.enterprise_name FROM diyi_enterprise t1 INNER JOIN diyi_worksheet t2 ON t1.id = t2.enterprise_id
         INNER JOIN diyi_worksheet_maker t3 ON t2.id = t3.worksheet_id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0
         AND t2.worksheet_state = 'FINISHED' AND t3.worksheet_maker_state = 'VALIDATION' AND t3.maker_id = #{param1}
+    </select>
+
+    <select id="getByDtoEnterprise" resultMap="payListVO">
+        SELECT * FROM (SELECT t3.id, t3.pay_enterprise_id, t5.enterprise_name, t3.service_time_start, t3.service_time_end, t4.worksheet_id, t3.accept_paysheet_url, t3.create_time,
+        IF(t3.accept_paysheet_type = 'SINGLE', (SELECT name FROM diyi_maker WHERE is_deleted = 0 AND id = t3.maker_id), (SELECT group_concat(t2.name)
+        FROM diyi_worksheet_maker t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.worksheet_id = t4.worksheet_id)) AS maker_names
+        FROM diyi_accept_paysheet t3 INNER JOIN diyi_pay_enterprise t4 ON t3.pay_enterprise_id = t4.id LEFT JOIN diyi_enterprise t5 ON t4.enterprise_id = t5.id AND t5.is_deleted = 0
+        LEFT JOIN diyi_service_provider t6 ON t4.service_provider_id = t6.id AND t6.is_deleted = 0 WHERE t3.is_deleted = 0 AND t4.is_deleted = 0
+        <if test="param2.acceptPayId != null">
+            AND t3.id = #{param2.acceptPayId}
+        </if>
+        <if test="param2.beginDate != null">
+            AND DATEDIFF(t1.create_time, #{param2.beginDate}) <![CDATA[ >= ]]> 0
+        </if>
+        <if test="param2.endDate != null">
+            AND DATEDIFF(t1.create_time, #{param2.endDate}) <![CDATA[ <= ]]> 0
+        </if>
+        AND t4.enterprise_id = #{param1}) temp WHERE 1=1
+        <if test="param2.makerName != null and param2.makerName.trim() != ''">
+            AND temp.maker_names like concat('%', #{param2.makerName}, '%')
+        </if>
     </select>
 
 </mapper>

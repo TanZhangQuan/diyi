@@ -3,8 +3,10 @@ package com.lgyun.system.order.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
+import com.lgyun.system.order.dto.AcceptPayListDto;
 import com.lgyun.system.order.dto.AcceptPaysheetSaveDto;
 import com.lgyun.system.order.entity.AcceptPaysheetEntity;
+import com.lgyun.system.order.vo.AcceptPayListVO;
 import com.lgyun.system.order.vo.AcceptPaysheetByEnterpriseListVO;
 import com.lgyun.system.order.vo.AcceptPaysheetWorksheetVO;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
@@ -54,5 +56,15 @@ public interface IAcceptPaysheetService extends BaseService<AcceptPaysheetEntity
      * @return
      */
     R<String> upload(AcceptPaysheetSaveDto acceptPaysheetSaveDto, EnterpriseWorkerEntity enterpriseWorkerEntity);
+
+    /**
+     * 查询当前商户所有总包交付支付验收单
+     *
+     * @param enterpriseId
+     * @param acceptPayListDto
+     * @param page
+     * @return
+     */
+    R<IPage<AcceptPayListVO>> getByDtoEnterprise(Long enterpriseId, AcceptPayListDto acceptPayListDto, IPage<AcceptPayListVO> page);
 }
 

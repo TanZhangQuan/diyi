@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2020-08-04 14:18:37
+Date: 2020-08-05 10:40:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -631,6 +631,8 @@ DROP TABLE IF EXISTS `diyi_accept_paysheet`;
 CREATE TABLE `diyi_accept_paysheet` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `pay_enterprise_id` bigint(50) NOT NULL COMMENT '支付清单ID',
+  `service_time_start` datetime DEFAULT NULL COMMENT '服务开始日期',
+  `service_time_end` datetime DEFAULT NULL COMMENT '服务结束日期',
   `accept_paysheet_type` varchar(50) NOT NULL COMMENT '交付支付验收单类型：清单式，单人单张',
   `maker_id` bigint(50) DEFAULT NULL COMMENT '创客ID',
   `upload_date_source` varchar(50) NOT NULL COMMENT '上传来源',
@@ -646,10 +648,40 @@ CREATE TABLE `diyi_accept_paysheet` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='总包交付支付验收单表';
 
 -- ----------------------------
 -- Records of diyi_accept_paysheet
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `diyi_accept_paysheet_cs`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_accept_paysheet_cs`;
+CREATE TABLE `diyi_accept_paysheet_cs` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `self_help_invoice_id` bigint(50) NOT NULL COMMENT '自助开票Id',
+  `accept_paysheet_type` varchar(50) NOT NULL COMMENT '交付支付验收单类型：清单式，单人单张',
+  `self_help_invoice_detail_id` bigint(50) DEFAULT NULL COMMENT '自助开票明细Id',
+  `service_time_start` datetime DEFAULT NULL COMMENT '服务开始日期',
+  `service_time_end` datetime DEFAULT NULL COMMENT '服务结束日期',
+  `upload_date_source` varchar(50) NOT NULL COMMENT '上传来源',
+  `upload_date_person` varchar(50) NOT NULL COMMENT '上传人员',
+  `accept_paysheet_url` varchar(100) NOT NULL COMMENT '验收单URL',
+  `confirm_date` datetime DEFAULT NULL COMMENT '验收单验收日期',
+  `confirm_person` varchar(50) NOT NULL DEFAULT '' COMMENT '验收人员',
+  `confirm_desc` varchar(500) NOT NULL DEFAULT '' COMMENT '验收说明',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='众包交付支付验收单表';
+
+-- ----------------------------
+-- Records of diyi_accept_paysheet_cs
 -- ----------------------------
 
 -- ----------------------------
@@ -673,7 +705,7 @@ CREATE TABLE `diyi_address` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='收件地址表';
 
 -- ----------------------------
 -- Records of diyi_address
@@ -715,7 +747,7 @@ CREATE TABLE `diyi_agreement` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='综合合同表';
 
 -- ----------------------------
 -- Records of diyi_agreement
@@ -743,7 +775,7 @@ CREATE TABLE `diyi_charge_detail` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='未知表';
 
 -- ----------------------------
 -- Records of diyi_charge_detail
@@ -769,7 +801,7 @@ CREATE TABLE `diyi_deliver_material` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='验收单交付材料表';
 
 -- ----------------------------
 -- Records of diyi_deliver_material
@@ -797,7 +829,7 @@ CREATE TABLE `diyi_employee` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`phone_number`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='未知表';
 
 -- ----------------------------
 -- Records of diyi_employee
@@ -857,7 +889,7 @@ CREATE TABLE `diyi_enterprise` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`invite_no`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`enterprise_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商户表';
 
 -- ----------------------------
 -- Records of diyi_enterprise
@@ -881,7 +913,7 @@ CREATE TABLE `diyi_enterprise_provider` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`enterprise_id`,`service_provider_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商户服务商关联表';
 
 -- ----------------------------
 -- Records of diyi_enterprise_provider
@@ -915,7 +947,7 @@ CREATE TABLE `diyi_enterprise_worker` (
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`phone_number`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`employee_user_name`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商户员工表';
 
 -- ----------------------------
 -- Records of diyi_enterprise_worker
@@ -960,7 +992,7 @@ CREATE TABLE `diyi_individual_business` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='个体工商户信息表';
 
 -- ----------------------------
 -- Records of diyi_individual_business
@@ -988,7 +1020,7 @@ CREATE TABLE `diyi_individual_business_annual_fee` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`individual_business_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='个体工商户年费信息表';
 
 -- ----------------------------
 -- Records of diyi_individual_business_annual_fee
@@ -1034,7 +1066,7 @@ CREATE TABLE `diyi_individual_enterprise` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='个独信息表';
 
 -- ----------------------------
 -- Records of diyi_individual_enterprise
@@ -1062,7 +1094,7 @@ CREATE TABLE `diyi_individual_enterprise_annual_fee` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`individual_enterprise_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='个独年费信息表';
 
 -- ----------------------------
 -- Records of diyi_individual_enterprise_annual_fee
@@ -1134,7 +1166,7 @@ CREATE TABLE `diyi_maker` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`user_id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`phone_number`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='创客表';
 
 -- ----------------------------
 -- Records of diyi_maker
@@ -1165,7 +1197,7 @@ CREATE TABLE `diyi_maker_enterprise` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`enterprise_id`,`maker_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='创客商户关联表';
 
 -- ----------------------------
 -- Records of diyi_maker_enterprise
@@ -1199,7 +1231,7 @@ CREATE TABLE `diyi_maker_invoice` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='创客门征单开发票信息表';
 
 -- ----------------------------
 -- Records of diyi_maker_invoice
@@ -1231,7 +1263,7 @@ CREATE TABLE `diyi_maker_tax_record` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='创客单张完税证明信息表';
 
 -- ----------------------------
 -- Records of diyi_maker_tax_record
@@ -1264,7 +1296,7 @@ CREATE TABLE `diyi_maker_total_invoice` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='汇总代开发票表';
 
 -- ----------------------------
 -- Records of diyi_maker_total_invoice
@@ -1289,7 +1321,7 @@ CREATE TABLE `diyi_online_agreement_need_sign` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`online_agreement_template_id`,`sign_power`,`object_type`,`object_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='平台在线协议需要签署清单表';
 
 -- ----------------------------
 -- Records of diyi_online_agreement_need_sign
@@ -1320,7 +1352,7 @@ CREATE TABLE `diyi_online_agreement_template` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`template_type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='平台在线协议模板表';
 
 -- ----------------------------
 -- Records of diyi_online_agreement_template
@@ -1344,7 +1376,7 @@ CREATE TABLE `diyi_online_sign_pic` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='在线签字图片表';
 
 -- ----------------------------
 -- Records of diyi_online_sign_pic
@@ -1380,7 +1412,7 @@ CREATE TABLE `diyi_order` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`order_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单表';
 
 -- ----------------------------
 -- Records of diyi_order
@@ -1417,7 +1449,7 @@ CREATE TABLE `diyi_pay` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='未知表';
 
 -- ----------------------------
 -- Records of diyi_pay
@@ -1447,7 +1479,7 @@ CREATE TABLE `diyi_paysheet` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='未知表';
 
 -- ----------------------------
 -- Records of diyi_paysheet
@@ -1484,7 +1516,7 @@ CREATE TABLE `diyi_pay_enterprise` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商户支付清单表';
 
 -- ----------------------------
 -- Records of diyi_pay_enterprise
@@ -1505,7 +1537,7 @@ CREATE TABLE `diyi_pay_enterprise_receipt` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商户支付回单表';
 
 -- ----------------------------
 -- Records of diyi_pay_enterprise_receipt
@@ -1545,7 +1577,7 @@ CREATE TABLE `diyi_pay_maker` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='创客支付明细表';
 
 -- ----------------------------
 -- Records of diyi_pay_maker
@@ -1566,7 +1598,7 @@ CREATE TABLE `diyi_pay_maker_receipt` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='创客支付明细回单表';
 
 -- ----------------------------
 -- Records of diyi_pay_maker_receipt
@@ -1588,7 +1620,7 @@ CREATE TABLE `diyi_pay_receipt` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='未知表';
 
 -- ----------------------------
 -- Records of diyi_pay_receipt
@@ -1621,7 +1653,7 @@ CREATE TABLE `diyi_platform_voice` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='未知表';
 
 -- ----------------------------
 -- Records of diyi_platform_voice
@@ -1643,7 +1675,7 @@ CREATE TABLE `diyi_position` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`position_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='外包岗位表';
 
 -- ----------------------------
 -- Records of diyi_position
@@ -1676,7 +1708,7 @@ CREATE TABLE `diyi_run_company` (
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`company_name`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`tax_no`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`bank_account`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='公司表';
 
 -- ----------------------------
 -- Records of diyi_run_company
@@ -1715,7 +1747,7 @@ CREATE TABLE `diyi_self_help_invoice` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自助开票主表';
 
 -- ----------------------------
 -- Records of diyi_self_help_invoice
@@ -1739,7 +1771,7 @@ CREATE TABLE `diyi_self_help_invoice_account` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自助开票收款账号表';
 
 -- ----------------------------
 -- Records of diyi_self_help_invoice_account
@@ -1771,7 +1803,7 @@ CREATE TABLE `diyi_self_help_invoice_detail` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自助开票明细表';
 
 -- ----------------------------
 -- Records of diyi_self_help_invoice_detail
@@ -1794,7 +1826,7 @@ CREATE TABLE `diyi_self_help_invoice_express` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自助开票快递单号表';
 
 -- ----------------------------
 -- Records of diyi_self_help_invoice_express
@@ -1825,7 +1857,7 @@ CREATE TABLE `diyi_self_help_invoice_fee` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自助开票收费表';
 
 -- ----------------------------
 -- Records of diyi_self_help_invoice_fee
@@ -1850,7 +1882,7 @@ CREATE TABLE `diyi_self_help_invoice_person` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自助开票非创客开票人表';
 
 -- ----------------------------
 -- Records of diyi_self_help_invoice_person
@@ -1907,7 +1939,7 @@ CREATE TABLE `diyi_service_provider` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`service_provider_user_name`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`service_provider_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商的基本信息表';
 
 -- ----------------------------
 -- Records of diyi_service_provider
@@ -1928,7 +1960,7 @@ CREATE TABLE `diyi_setup` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='特殊配置表';
 
 -- ----------------------------
 -- Records of diyi_setup
@@ -1968,7 +2000,7 @@ CREATE TABLE `diyi_worksheet` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`worksheet_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='工单表';
 
 -- ----------------------------
 -- Records of diyi_worksheet
@@ -1991,7 +2023,7 @@ CREATE TABLE `diyi_worksheet_attention` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`worksheet_attention_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='未知表';
 
 -- ----------------------------
 -- Records of diyi_worksheet_attention
@@ -2025,7 +2057,7 @@ CREATE TABLE `diyi_worksheet_maker` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`maker_id`,`worksheet_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='工单创客关联表';
 
 -- ----------------------------
 -- Records of diyi_worksheet_maker
@@ -2052,7 +2084,7 @@ CREATE TABLE `diyi_work_achievement` (
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='众包工作验收成果表';
 
 -- ----------------------------
 -- Records of diyi_work_achievement

@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AcceptPaysheetType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.system.order.dto.AcceptPayListDto;
 import com.lgyun.system.order.dto.AcceptPaysheetSaveDto;
 import com.lgyun.system.order.entity.AcceptPaysheetEntity;
 import com.lgyun.system.order.mapper.AcceptPaysheetMapper;
 import com.lgyun.system.order.service.IAcceptPaysheetService;
+import com.lgyun.system.order.vo.AcceptPayListVO;
 import com.lgyun.system.order.vo.AcceptPaysheetByEnterpriseListVO;
 import com.lgyun.system.order.vo.AcceptPaysheetWorksheetVO;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
@@ -56,14 +58,26 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
         }
 
         acceptPaysheetEntity.setPayEnterpriseId(acceptPaysheetSaveDto.getPayEnterpriseId());
-        acceptPaysheetEntity.setAcceptPaysheetUrl(acceptPaysheetSaveDto.getAcceptPaysheetUrl());
         acceptPaysheetEntity.setAcceptPaysheetType(acceptPaysheetSaveDto.getAcceptPaysheetType());
         acceptPaysheetEntity.setUploadDateSource("商户上传");
         acceptPaysheetEntity.setUploadDatePerson(enterpriseWorkerEntity.getWorkerName());
+        acceptPaysheetEntity.setAcceptPaysheetUrl(acceptPaysheetSaveDto.getAcceptPaysheetUrl());
 
         save(acceptPaysheetEntity);
 
         return R.success("上传成功");
+    }
+
+    @Override
+    public R<IPage<AcceptPayListVO>> getByDtoEnterprise(Long enterpriseId, AcceptPayListDto acceptPayListDto, IPage<AcceptPayListVO> page) {
+
+        if (acceptPayListDto.getBeginDate() != null && acceptPayListDto.getEndDate() != null) {
+            if (acceptPayListDto.getBeginDate().after(acceptPayListDto.getEndDate())) {
+                return R.fail("开始时间不能大于结束时间");
+            }
+        }
+
+        return R.data(page.setRecords(baseMapper.getByDtoEnterprise(enterpriseId, acceptPayListDto, page)));
     }
 
 }

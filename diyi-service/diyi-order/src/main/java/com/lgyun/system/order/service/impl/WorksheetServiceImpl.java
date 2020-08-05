@@ -209,7 +209,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     }
 
     @Override
-    public R<WorksheetNoVO> getWorksheetNo(String worksheetNo) {
+    public R<WorksheetNoIdVO> getByWorksheetNo(String worksheetNo) {
         QueryWrapper<WorksheetEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(WorksheetEntity::getWorksheetNo, worksheetNo);
 
@@ -218,7 +218,21 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             return R.fail("工单不存在");
         }
 
-        return R.data(BeanUtil.copy(worksheetEntity, WorksheetNoVO.class));
+        return R.data(BeanUtil.copy(worksheetEntity, WorksheetNoIdVO.class));
+    }
+
+    @Override
+    public R<WorksheetNoIdVO> getByWorksheetId(String worksheetId) {
+
+        QueryWrapper<WorksheetEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(WorksheetEntity::getId, worksheetId);
+
+        WorksheetEntity worksheetEntity = baseMapper.selectOne(queryWrapper);
+        if (worksheetEntity == null) {
+            return R.fail("工单不存在");
+        }
+
+        return R.data(BeanUtil.copy(worksheetEntity, WorksheetNoIdVO.class));
     }
 
     public synchronized R<String> orderGrabbing(WorksheetEntity worksheetEntity, MakerEntity makerEntity, int worksheetCount) {

@@ -111,6 +111,14 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      * @param worksheetNo
      * @return
      */
-    R<WorksheetNoVO> getWorksheetNo(String worksheetNo);
+    R<WorksheetNoIdVO> getByWorksheetNo(String worksheetNo);
+
+    /**
+     * 根据工单ID获取工单
+     *
+     * @param worksheetId
+     * @return
+     */
+    R<WorksheetNoIdVO> getByWorksheetId(String worksheetId);
 }
 

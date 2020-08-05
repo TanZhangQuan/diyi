@@ -2,6 +2,8 @@ package com.lgyun.system.order.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.EnterprisePayState;
+import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.core.mp.base.BaseServiceImpl;
@@ -94,12 +96,14 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             }
         }
 
-        //新建支付清单
+        //新建总包支付清单
         PayEnterpriseEntity payEnterpriseEntity = new PayEnterpriseEntity();
         payEnterpriseEntity.setEnterpriseId(enterpriseId);
         payEnterpriseEntity.setServiceProviderId(payEnterpriseUploadDto.getServiceProviderId());
         payEnterpriseEntity.setChargeListUrl(payEnterpriseUploadDto.getChargeListUrl());
         payEnterpriseEntity.setWorksheetId(payEnterpriseUploadDto.getWorksheetId());
+        payEnterpriseEntity.setEnterprisePayState(EnterprisePayState.PAYED);
+        payEnterpriseEntity.setCompanyInvoiceState(InvoiceState.UNOPEN);
         save(payEnterpriseEntity);
 
         //支付回单拆分

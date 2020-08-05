@@ -14,7 +14,7 @@ import java.util.Date;
  * @time 18:22.
  */
 @Data
-public class WorksheetNoVO implements Serializable {
+public class WorksheetNoIdVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
