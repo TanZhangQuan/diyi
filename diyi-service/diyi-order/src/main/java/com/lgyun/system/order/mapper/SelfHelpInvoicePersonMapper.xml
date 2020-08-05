@@ -6,7 +6,8 @@
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lgyun.system.order.entity.SelfHelpInvoicePersonEntity" id="selfHelpInvoicePersonMap">
         <result property="id" column="id"/>
-        <result property="makerId" column="maker_id"/>
+        <result property="objectId" column="object_id"/>
+        <result property="objectType" column="object_type"/>
         <result property="idCardNo" column="id_card_no"/>
         <result property="idCardName" column="id_card_name"/>
         <result property="idCardPic" column="id_card_pic"/>

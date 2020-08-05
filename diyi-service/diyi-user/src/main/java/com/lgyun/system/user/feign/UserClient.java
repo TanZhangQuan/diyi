@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.Ibstate;
+import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.dto.RunCompanyDto;
@@ -158,8 +159,8 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R<IPage<RunCompanyEntity>> findRunCompanyMakerId(Integer current, Integer size, Long makerId) {
-        return iRunCompanyService.findMakerId(current, size, makerId);
+    public R findRunCompanyMakerId(Integer current, Integer size, Long objectId, ObjectType objectType) {
+        return iRunCompanyService.findMakerId(current, size, objectId,objectType);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.common.enumeration.InvoiceAuditState;
+import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * Entity
@@ -76,6 +78,16 @@ public class SelfHelpInvoiceEntity extends BaseEntity {
     private MakerType invoicePeopleType;
 
     /**
+     * 开票状态 1未开，2一开
+     */
+    private InvoiceState invoiceState = InvoiceState.UNOPEN;
+
+    /**
+     * 开票时间
+     */
+    private Date invoiceDate;
+
+    /**
      * 开票清单文件
      */
     private String listFile;
@@ -123,6 +135,26 @@ public class SelfHelpInvoiceEntity extends BaseEntity {
     /**
      * 1.未审核，2审核通过，3不通过
      */
-    private InvoiceAuditState invoiceAuditState;
+    private InvoiceAuditState invoiceAuditState = InvoiceAuditState.NOTREVIEWED;
+
+    /**
+     * 快递单号
+     */
+    private String expressSheetNo;
+
+    /**
+     * 收件地址Id
+     */
+    private String expressCompanyName;
+
+    /**
+     * 收件地址Id
+     */
+    private String expressUpdatePerson;
+
+    /**
+     * 收件地址Id
+     */
+    private String expressUpdatePersonTel;
 
 }

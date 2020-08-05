@@ -17,6 +17,7 @@ import com.lgyun.system.user.service.IAgreementService;
 import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IOnlineAgreementTemplateService;
 import com.lgyun.system.user.service.IServiceProviderService;
+import com.lgyun.system.user.vo.AgreementMakerWebVO;
 import com.lgyun.system.user.vo.AgreementWebVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -151,5 +152,10 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         agreementEntity.setUploadPerson(byId.getEnterpriseName());
         save(agreementEntity);
         return R.success("上传成功");
+    }
+
+    @Override
+    public R selectMakerAgreement(IPage<AgreementMakerWebVO> page, Long enterpriseId) {
+        return R.data(page.setRecords(baseMapper.selectMakerAgreement(enterpriseId,page)));
     }
 }

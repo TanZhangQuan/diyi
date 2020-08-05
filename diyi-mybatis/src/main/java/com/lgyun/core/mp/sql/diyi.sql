@@ -658,7 +658,8 @@ CREATE TABLE `diyi_accept_paysheet` (
 DROP TABLE IF EXISTS `diyi_address`;
 CREATE TABLE `diyi_address` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
+  `object_id` bigint(50) NOT NULL COMMENT '对象Id',
+  `object_type` varchar(20) NOT NULL COMMENT '对象身份1、创客本人2、商户人员3、服务商人员4、相关局人员5、渠道商人员6、合伙人本人',
   `address_name` varchar(50) NOT NULL COMMENT '收件人',
   `address_phone` varchar(50) NOT NULL COMMENT '手机号码',
   `province` varchar(500) NOT NULL COMMENT '省',
@@ -674,6 +675,8 @@ CREATE TABLE `diyi_address` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
 
 -- ----------------------------
 -- Records of diyi_address
@@ -1655,7 +1658,8 @@ CREATE TABLE `diyi_position` (
 DROP TABLE IF EXISTS `diyi_run_company`;
 CREATE TABLE `diyi_run_company` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
+  `object_id` bigint(50) NOT NULL COMMENT '对象id',
+  `object_type` varchar(20) NOT NULL COMMENT '对象身份1、创客本人2、商户人员3、服务商人员4、相关局人员5、渠道商人员6、合伙人本人',
   `company_name` varchar(50) NOT NULL COMMENT '公司名称',
   `employee_name` varchar(100) DEFAULT NULL COMMENT '公司地址',
   `tax_no` varchar(50) NOT NULL COMMENT '纳税人识别号',
@@ -1689,16 +1693,18 @@ DROP TABLE IF EXISTS `diyi_self_help_invoice`;
 CREATE TABLE `diyi_self_help_invoice` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `company_id` bigint(50) NOT NULL COMMENT '运营公司ID',
-  `pay_id` bigint(50) NOT NULL COMMENT '创客支付ID',
-  `apply_maker_id` bigint(50) NOT NULL COMMENT '申请创客ID',
-  `apply_enterprise_id` bigint(50) NOT NULL COMMENT '申请商户ID',
-  `apply_channel_id` bigint(50) NOT NULL COMMENT '申请渠道ID',
-  `apply_partner_id` bigint(50) NOT NULL COMMENT '申请合伙人ID',
-  `apply_management_id` bigint(50) NOT NULL COMMENT '平台用户ID',
-  `original_self_help_id` bigint(50) NOT NULL COMMENT '原自助开票ID',
+  `pay_id` bigint(50) DEFAULT NULL COMMENT '创客支付ID',
+  `apply_maker_id` bigint(50) DEFAULT NULL COMMENT '申请创客ID',
+  `apply_enterprise_id` bigint(50) DEFAULT NULL COMMENT '申请商户ID',
+  `apply_channel_id` bigint(50) DEFAULT NULL COMMENT '申请渠道ID',
+  `apply_partner_id` bigint(50) DEFAULT NULL COMMENT '申请合伙人ID',
+  `apply_management_id` bigint(50) DEFAULT NULL COMMENT '平台用户ID',
+  `original_self_help_id` bigint(50) DEFAULT NULL COMMENT '原自助开票ID',
+  `invoice_state` varchar(255) NOT NULL COMMENT '开票状态：1未开票，2已开票',
+  `invoice_date` datetime DEFAULT NULL COMMENT '开票时间',
   `business_enterprise_id` bigint(50) DEFAULT NULL COMMENT '个体户或个独ID',
   `invoice_people_type` varchar(50) NOT NULL COMMENT '开票人身份类别 1，自然人；2，个体户；3，个独',
-  `list_file` varchar(500) NOT NULL COMMENT '开票清单文件',
+  `list_file` varchar(500) DEFAULT NULL COMMENT '开票清单文件',
   `charge_money_num` decimal(12,2) DEFAULT '0.00' COMMENT '总价税合计额',
   `service_rate` decimal(12,2) DEFAULT '0.00' COMMENT '服务税费率',
   `service_and_tax_money` decimal(12,2) DEFAULT '0.00' COMMENT '总服务税费',
@@ -1707,6 +1713,10 @@ CREATE TABLE `diyi_self_help_invoice` (
   `service_invoice_fee` decimal(12,2) DEFAULT '0.00' COMMENT '总开票手续费',
   `idendity_confirm_fee` decimal(12,2) DEFAULT '0.00' COMMENT '总身份验证费',
   `address_id` bigint(50) NOT NULL COMMENT '收件地址Id',
+  `express_sheet_no` varchar(100) DEFAULT NULL COMMENT '快递单号',
+  `express_company_name` varchar(100) DEFAULT NULL COMMENT '快递更新日期',
+  `express_update_person` varchar(100) DEFAULT NULL COMMENT '快递更新人员',
+  `express_update_person_tel` varchar(100) DEFAULT NULL COMMENT '快递更新人员电话',
   `invoice_audit_state` varchar(50) NOT NULL COMMENT '发票审核：未审核，审核通过，不通过',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
@@ -1716,6 +1726,7 @@ CREATE TABLE `diyi_self_help_invoice` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 -- ----------------------------
 -- Records of diyi_self_help_invoice
@@ -1753,7 +1764,7 @@ CREATE TABLE `diyi_self_help_invoice_detail` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `self_help_invoice_id` bigint(50) NOT NULL COMMENT '自助开票Id',
   `invoice_people_name` varchar(100) NOT NULL COMMENT '开票人姓名',
-  `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
+  `maker_id` bigint(50) DEFAULT NULL COMMENT '创客ID',
   `none_maker_invoice_person_id` bigint(50) NOT NULL COMMENT '非创客开票人ID',
   `biz_name` varchar(100) NOT NULL COMMENT '个体户或个独名称',
   `social_credit_no` varchar(100) NOT NULL COMMENT '统一社会信用代码',
@@ -1762,6 +1773,7 @@ CREATE TABLE `diyi_self_help_invoice_detail` (
   `flow_contract_url` varchar(500) NOT NULL COMMENT '流水回单URL',
   `business_contract_url` varchar(100) NOT NULL COMMENT '业务合同URL',
   `account_balance_url` varchar(100) NOT NULL COMMENT '账户余额url',
+  `deliver_sheet_url` varchar(300) DEFAULT NULL COMMENT '交付支付验收单URL',
   `service_invoice_fee` decimal(12,2) DEFAULT '0.00' COMMENT '开票手续费',
   `idendity_confirm_fee` decimal(12,2) DEFAULT '0.00' COMMENT '身份验证费',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
@@ -1837,7 +1849,8 @@ CREATE TABLE `diyi_self_help_invoice_fee` (
 DROP TABLE IF EXISTS `diyi_self_help_invoice_person`;
 CREATE TABLE `diyi_self_help_invoice_person` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `maker_id` bigint(50) NOT NULL COMMENT '创客id',
+  `object_id` bigint(50) NOT NULL COMMENT '对象id',
+  `object_type` varchar(20) NOT NULL COMMENT '对象身份1、创客本人2、商户人员3、服务商人员4、相关局人员5、渠道商人员6、合伙人本人',
   `id_card_no` varchar(50) NOT NULL COMMENT '身份证号码',
   `id_card_name` varchar(50) NOT NULL COMMENT '身份证姓名',
   `id_card_pic` varchar(500) NOT NULL COMMENT '身份证正面图',
