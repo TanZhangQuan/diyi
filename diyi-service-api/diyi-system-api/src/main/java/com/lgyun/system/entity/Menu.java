@@ -19,7 +19,7 @@ import java.io.Serializable;
  * @author liangfeihu
  */
 @Data
-@TableName("blade_menu")
+@TableName("sys_menu")
 @ApiModel(value = "Menu对象", description = "Menu对象")
 public class Menu implements Serializable {
     private static final long serialVersionUID = 1L;

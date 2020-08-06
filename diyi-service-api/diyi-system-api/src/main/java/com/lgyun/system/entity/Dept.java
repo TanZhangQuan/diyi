@@ -18,7 +18,7 @@ import java.io.Serializable;
  * @author liangfeihu
  */
 @Data
-@TableName("blade_dept")
+@TableName("sys_dept")
 @ApiModel(value = "Dept对象", description = "Dept对象")
 public class Dept implements Serializable {
     private static final long serialVersionUID = 1L;

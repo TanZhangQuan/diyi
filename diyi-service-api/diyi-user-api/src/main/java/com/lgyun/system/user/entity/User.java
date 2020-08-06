@@ -22,7 +22,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("blade_user")
+@TableName("sys_user")
 public class User extends TenantEntity {
 	private static final long serialVersionUID = 1L;
 

@@ -19,7 +19,7 @@ import java.io.Serializable;
  * @since 2020/6/6 19:21
  */
 @Data
-@TableName("blade_dict")
+@TableName("sys_dict")
 @ApiModel(value = "Dict对象", description = "Dict对象")
 public class Dict implements Serializable {
     private static final long serialVersionUID = 1L;
