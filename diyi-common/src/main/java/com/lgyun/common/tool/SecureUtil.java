@@ -69,16 +69,17 @@ public class SecureUtil {
         String tenantId = Func.toStr(claims.get(SecureUtil.TENANT_ID));
         String roleId = Func.toStr(claims.get(SecureUtil.ROLE_ID));
         String account = Func.toStr(claims.get(SecureUtil.ACCOUNT));
-        String roleName = Func.toStr(claims.get(SecureUtil.ROLE_NAME));
         String userName = Func.toStr(claims.get(SecureUtil.USER_NAME));
+        String roleName = Func.toStr(claims.get(SecureUtil.ROLE_NAME));
+
         BladeUser bladeUser = new BladeUser();
         bladeUser.setClientId(clientId);
         bladeUser.setUserId(userId);
         bladeUser.setTenantId(tenantId);
         bladeUser.setAccount(account);
+        bladeUser.setUserName(userName);
         bladeUser.setRoleId(roleId);
         bladeUser.setRoleName(roleName);
-        bladeUser.setUserName(userName);
         return bladeUser;
     }
 

@@ -65,7 +65,7 @@ public class TokenUtil {
         param.put(TokenConstant.USER_ID, Func.toStr(user.getId()));
         param.put(TokenConstant.ROLE_ID, user.getRoleId());
         param.put(TokenConstant.ACCOUNT, user.getAccount());
-        param.put(TokenConstant.USER_NAME, user.getAccount());
+        param.put(TokenConstant.USER_NAME, user.getRealName());
         param.put(TokenConstant.ROLE_NAME, Func.join(userInfo.getRoles()));
 
         TokenInfo accessToken = this.createJWT(param, "audience", "issuser", TokenConstant.ACCESS_TOKEN);
@@ -77,7 +77,6 @@ public class TokenUtil {
         authInfo.setExpiresIn(accessToken.getExpire());
         authInfo.setRefreshToken(createRefreshToken(userInfo).getToken());
         authInfo.setTokenType(TokenConstant.BEARER);
-        authInfo.setLicense(TokenConstant.LICENSE_NAME);
 
         return authInfo;
     }
