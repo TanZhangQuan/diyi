@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 import com.lgyun.core.mp.base.BaseEntity;
 
 /**
- * 实体类
+ * 参数配置 实体类
  *
  * @author liangfeihu
  */

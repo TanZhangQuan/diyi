@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 视图实体类
+ * 角色菜单 视图实体类
  *
  * @author liangfeihu
  */

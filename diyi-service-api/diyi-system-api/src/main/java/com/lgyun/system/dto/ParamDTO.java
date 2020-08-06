@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import com.lgyun.system.entity.Param;
 
 /**
- * 数据传输对象实体类
+ * 参数配置数据传输对象实体类
  *
  * @author liangfeihu
  */

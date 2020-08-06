@@ -14,7 +14,7 @@ import com.lgyun.common.tool.Func;
 import java.io.Serializable;
 
 /**
- * 实体类
+ * 系统菜单 实体类
  *
  * @author liangfeihu
  */

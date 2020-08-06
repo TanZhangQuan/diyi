@@ -12,7 +12,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 实体类
+ * 角色菜单对应关系 实体类
  *
  * @author liangfeihu
  */

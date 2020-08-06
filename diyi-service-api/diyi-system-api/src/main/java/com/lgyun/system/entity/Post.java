@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 import com.lgyun.core.mp.base.TenantEntity;
 
 /**
- * 岗位表实体类
+ * 岗位表 实体类
  *
  * @author liangfeihu
  */

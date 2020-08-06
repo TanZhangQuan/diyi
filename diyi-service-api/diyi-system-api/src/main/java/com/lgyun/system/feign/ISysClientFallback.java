@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * Feign失败配置
+ * 系统服务模块 Feign失败配置
  *
  * @author liangfeihu
  */

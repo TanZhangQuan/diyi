@@ -13,7 +13,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 实体类
+ * 系统角色 实体类
  *
  * @author liangfeihu
  */
