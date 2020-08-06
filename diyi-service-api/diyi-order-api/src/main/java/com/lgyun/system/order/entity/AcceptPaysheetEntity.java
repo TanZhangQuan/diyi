@@ -35,12 +35,12 @@ public class AcceptPaysheetEntity extends BaseEntity {
     /**
      * 服务开始日期
      */
-    private Date ServiceTimeStart;
+    private Date serviceTimeStart;
 
     /**
      * 服务结束日期
      */
-    private Date ServiceTimeEnd;
+    private Date serviceTimeEnd;
 
     /**
      * 交付支付验收单类型：清单式，单人单张

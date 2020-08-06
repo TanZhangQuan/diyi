@@ -1,5 +1,6 @@
 package com.lgyun.system.order.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AcceptPaysheetType;
@@ -10,6 +11,7 @@ import com.lgyun.system.order.entity.AcceptPaysheetEntity;
 import com.lgyun.system.order.mapper.AcceptPaysheetMapper;
 import com.lgyun.system.order.service.IAcceptPaysheetService;
 import com.lgyun.system.order.vo.AcceptPayListVO;
+import com.lgyun.system.order.vo.AcceptPayMakerListVO;
 import com.lgyun.system.order.vo.AcceptPaysheetByEnterpriseListVO;
 import com.lgyun.system.order.vo.AcceptPaysheetWorksheetVO;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
@@ -47,6 +49,12 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
     @Override
     public R<String> upload(AcceptPaysheetSaveDto acceptPaysheetSaveDto, EnterpriseWorkerEntity enterpriseWorkerEntity) {
 
+        //根据支付清单ID, 创客ID查询交付支付验收单
+        AcceptPaysheetEntity oldAcceptPaysheetEntity = getAcceptPaysheet(acceptPaysheetSaveDto.getPayEnterpriseId(), acceptPaysheetSaveDto.getMakerId());
+        if (oldAcceptPaysheetEntity != null) {
+            return R.fail("已存在相同交付支付验收单");
+        }
+
         //保存交付支付验收单
         AcceptPaysheetEntity acceptPaysheetEntity = new AcceptPaysheetEntity();
         if (AcceptPaysheetType.SINGLE.equals(acceptPaysheetSaveDto.getAcceptPaysheetType())) {
@@ -57,6 +65,8 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
             acceptPaysheetEntity.setMakerId(acceptPaysheetSaveDto.getMakerId());
         }
 
+        acceptPaysheetEntity.setServiceTimeStart(acceptPaysheetSaveDto.getServiceTimeStart());
+        acceptPaysheetEntity.setServiceTimeEnd(acceptPaysheetSaveDto.getServiceTimeEnd());
         acceptPaysheetEntity.setPayEnterpriseId(acceptPaysheetSaveDto.getPayEnterpriseId());
         acceptPaysheetEntity.setAcceptPaysheetType(acceptPaysheetSaveDto.getAcceptPaysheetType());
         acceptPaysheetEntity.setUploadDateSource("商户上传");
@@ -78,6 +88,21 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
         }
 
         return R.data(page.setRecords(baseMapper.getByDtoEnterprise(enterpriseId, acceptPayListDto, page)));
+    }
+
+    @Override
+    public R<IPage<AcceptPayMakerListVO>> getMakerList(Long acceptPaysheetId, IPage<AcceptPayMakerListVO> page) {
+        return R.data(page.setRecords(baseMapper.getMakerList(acceptPaysheetId, page)));
+    }
+
+    @Override
+    public AcceptPaysheetEntity getAcceptPaysheet(Long payEnterpriseId, Long makerId) {
+
+        QueryWrapper<AcceptPaysheetEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(AcceptPaysheetEntity::getPayEnterpriseId, payEnterpriseId)
+                .eq(AcceptPaysheetEntity::getMakerId, makerId);
+
+        return baseMapper.selectOne(queryWrapper);
     }
 
 }

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.order.dto.PayListDto;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.InvoiceEnterpriseVO;
+import com.lgyun.system.order.vo.PayEnterpriseMakerListVO;
 import com.lgyun.system.order.vo.PayEnterpriseStatisticalVO;
 import com.lgyun.system.order.vo.PayListVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -66,5 +67,14 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * @return
      */
     List<PayListVO> getByDtoEnterprise(Long enterpriseId, PayListDto payListDto, IPage<PayListVO> page);
+
+    /**
+     * 根据支付清单ID查询支付清单关联工单的创客
+     *
+     * @param payEnterpriseId
+     * @param page
+     * @return
+     */
+    List<PayEnterpriseMakerListVO> getMakers(Long payEnterpriseId, IPage<PayEnterpriseMakerListVO> page);
 }
 

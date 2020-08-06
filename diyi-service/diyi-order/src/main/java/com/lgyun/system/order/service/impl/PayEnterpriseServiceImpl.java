@@ -17,6 +17,7 @@ import com.lgyun.system.order.service.IPayEnterpriseReceiptService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.order.vo.InvoiceEnterpriseVO;
+import com.lgyun.system.order.vo.PayEnterpriseMakerListVO;
 import com.lgyun.system.order.vo.PayEnterpriseStatisticalVO;
 import com.lgyun.system.order.vo.PayListVO;
 import com.lgyun.system.user.entity.EnterpriseProviderEntity;
@@ -131,5 +132,10 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         }
 
         return R.data(page.setRecords(baseMapper.getByDtoEnterprise(enterpriseId, payListDto, page)));
+    }
+
+    @Override
+    public R<IPage<PayEnterpriseMakerListVO>> getMakers(Long payEnterpriseId, IPage<PayEnterpriseMakerListVO> page) {
+        return R.data(page.setRecords(baseMapper.getMakers(payEnterpriseId, page)));
     }
 }

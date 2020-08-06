@@ -55,16 +55,16 @@ DROP TABLE IF EXISTS `blade_code`;
 CREATE TABLE `blade_code` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `datasource_id` bigint(50) DEFAULT NULL COMMENT '数据源主键',
-  `service_name` varchar(50) DEFAULT NULL COMMENT '服务名称',
-  `code_name` varchar(50) DEFAULT NULL COMMENT '模块名称',
-  `table_name` varchar(50) DEFAULT NULL COMMENT '表名',
-  `table_prefix` varchar(50) DEFAULT NULL COMMENT '表前缀',
-  `pk_name` varchar(32) DEFAULT NULL COMMENT '主键名',
-  `package_name` varchar(500) DEFAULT NULL COMMENT '后端包名',
+  `service_name` varchar(50) NOT NULL DEFAULT '' COMMENT '服务名称',
+  `code_name` varchar(50) NOT NULL DEFAULT '' COMMENT '模块名称',
+  `table_name` varchar(50) NOT NULL DEFAULT '' COMMENT '表名',
+  `table_prefix` varchar(50) NOT NULL DEFAULT '' COMMENT '表前缀',
+  `pk_name` varchar(32)NOT NULL DEFAULT '' COMMENT '主键名',
+  `package_name` varchar(500) NOT NULL DEFAULT '' COMMENT '后端包名',
   `base_mode` int(2) DEFAULT NULL COMMENT '基础业务模式',
   `wrap_mode` int(2) DEFAULT NULL COMMENT '包装器模式',
-  `api_path` varchar(100) DEFAULT NULL COMMENT '后端路径',
-  `web_path` varchar(100) DEFAULT NULL COMMENT '前端路径',
+  `api_path` varchar(100) NOT NULL DEFAULT '' COMMENT '后端路径',
+  `web_path` varchar(100) NOT NULL DEFAULT '' COMMENT '前端路径',
   `is_deleted` int(2) DEFAULT '0' COMMENT '是否已删除',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='代码生成表';
@@ -80,12 +80,12 @@ INSERT INTO `blade_code` VALUES ('1123598812738675201', '1123598812738675201', '
 DROP TABLE IF EXISTS `blade_datasource`;
 CREATE TABLE `blade_datasource` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `name` varchar(100) DEFAULT NULL COMMENT '名称',
-  `driver_class` varchar(100) DEFAULT NULL COMMENT '驱动类',
-  `url` varchar(500) DEFAULT NULL COMMENT '连接地址',
-  `username` varchar(50) DEFAULT NULL COMMENT '用户名',
-  `password` varchar(50) DEFAULT NULL COMMENT '密码',
-  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `name` varchar(100) NOT NULL DEFAULT '' COMMENT '名称',
+  `driver_class` varchar(100) NOT NULL DEFAULT '' COMMENT '驱动类',
+  `url` varchar(500) NOT NULL DEFAULT '' COMMENT '连接地址',
+  `username` varchar(50) NOT NULL DEFAULT '' COMMENT '用户名',
+  `password` varchar(50) NOT NULL DEFAULT '' COMMENT '密码',
+  `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
@@ -110,10 +110,10 @@ CREATE TABLE `blade_dept` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `tenant_id` varchar(12) DEFAULT '000000' COMMENT '租户ID',
   `parent_id` bigint(50) DEFAULT '0' COMMENT '父主键',
-  `dept_name` varchar(50) DEFAULT NULL COMMENT '部门名',
-  `full_name` varchar(50) DEFAULT NULL COMMENT '部门全称',
+  `dept_name` varchar(50) NOT NULL DEFAULT '' COMMENT '部门名',
+  `full_name` varchar(50) NOT NULL DEFAULT '' COMMENT '部门全称',
   `sort` int(11) DEFAULT NULL COMMENT '排序',
-  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `is_deleted` int(2) DEFAULT '0' COMMENT '是否已删除',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='部门表';
@@ -121,9 +121,9 @@ CREATE TABLE `blade_dept` (
 -- ----------------------------
 -- Records of blade_dept
 -- ----------------------------
-INSERT INTO `blade_dept` VALUES ('1123598813738675201', '000000', '0', '刀锋科技', '江苏刀锋科技有限公司', '1', null, '0');
-INSERT INTO `blade_dept` VALUES ('1123598813738675202', '000000', '1123598813738675201', '常州刀锋', '常州刀锋科技有限公司', '1', null, '0');
-INSERT INTO `blade_dept` VALUES ('1123598813738675203', '000000', '1123598813738675201', '苏州刀锋', '苏州刀锋科技有限公司', '1', null, '0');
+INSERT INTO `blade_dept` VALUES ('1123598813738675201', '000000', '0', '刀锋科技', '江苏刀锋科技有限公司', '1', '', '0');
+INSERT INTO `blade_dept` VALUES ('1123598813738675202', '000000', '1123598813738675201', '常州刀锋', '常州刀锋科技有限公司', '1', '', '0');
+INSERT INTO `blade_dept` VALUES ('1123598813738675203', '000000', '1123598813738675201', '苏州刀锋', '苏州刀锋科技有限公司', '1', '', '0');
 
 -- ----------------------------
 -- Table structure for `blade_dict`
@@ -132,11 +132,11 @@ DROP TABLE IF EXISTS `blade_dict`;
 CREATE TABLE `blade_dict` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `parent_id` bigint(50) DEFAULT '0' COMMENT '父主键',
-  `code` varchar(255) DEFAULT NULL COMMENT '字典码',
+  `code` varchar(255) NOT NULL DEFAULT '' COMMENT '字典码',
   `dict_key` int(2) DEFAULT NULL COMMENT '字典值',
-  `dict_value` varchar(255) DEFAULT NULL COMMENT '字典名称',
+  `dict_value` varchar(255) NOT NULL DEFAULT '' COMMENT '字典名称',
   `sort` int(11) DEFAULT NULL COMMENT '排序',
-  `remark` varchar(255) DEFAULT NULL COMMENT '字典备注',
+  `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '字典备注',
   `is_deleted` int(2) DEFAULT '0' COMMENT '是否已删除',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='字典表';
@@ -144,31 +144,31 @@ CREATE TABLE `blade_dict` (
 -- ----------------------------
 -- Records of blade_dict
 -- ----------------------------
-INSERT INTO `blade_dict` VALUES ('1123598814738675201', '0', 'sex', '-1', '性别', '1', null, '0');
-INSERT INTO `blade_dict` VALUES ('1123598814738675202', '1123598814738675201', 'sex', '1', '男', '1', null, '0');
-INSERT INTO `blade_dict` VALUES ('1123598814738675203', '1123598814738675201', 'sex', '2', '女', '2', null, '0');
-INSERT INTO `blade_dict` VALUES ('1123598814738675204', '0', 'notice', '-1', '通知类型', '2', null, '0');
-INSERT INTO `blade_dict` VALUES ('1123598814738675205', '1123598814738675204', 'notice', '1', '发布通知', '1', null, '0');
-INSERT INTO `blade_dict` VALUES ('1123598814738675206', '1123598814738675204', 'notice', '2', '批转通知', '2', null, '0');
-INSERT INTO `blade_dict` VALUES ('1123598814738675207', '1123598814738675204', 'notice', '3', '转发通知', '3', null, '0');
-INSERT INTO `blade_dict` VALUES ('1123598814738675208', '1123598814738675204', 'notice', '4', '指示通知', '4', null, '0');
-INSERT INTO `blade_dict` VALUES ('1123598814738675209', '1123598814738675204', 'notice', '5', '任免通知', '5', null, '0');
-INSERT INTO `blade_dict` VALUES ('1123598814738675210', '1123598814738675204', 'notice', '6', '事务通知', '6', null, '0');
-INSERT INTO `blade_dict` VALUES ('1123598814738675211', '0', 'menu_category', '-1', '菜单类型', '3', null, '0');
-INSERT INTO `blade_dict` VALUES ('1123598814738675212', '1123598814738675211', 'menu_category', '1', '菜单', '1', null, '0');
-INSERT INTO `blade_dict` VALUES ('1123598814738675213', '1123598814738675211', 'menu_category', '2', '按钮', '2', null, '0');
-INSERT INTO `blade_dict` VALUES ('1123598814738675214', '0', 'button_func', '-1', '按钮功能', '4', null, '0');
-INSERT INTO `blade_dict` VALUES ('1123598814738675215', '1123598814738675214', 'button_func', '1', '工具栏', '1', null, '0');
-INSERT INTO `blade_dict` VALUES ('1123598814738675216', '1123598814738675214', 'button_func', '2', '操作栏', '2', null, '0');
-INSERT INTO `blade_dict` VALUES ('1123598814738675217', '1123598814738675214', 'button_func', '3', '工具操作栏', '3', null, '0');
-INSERT INTO `blade_dict` VALUES ('1123598814738675218', '0', 'yes_no', '-1', '是否', '5', null, '0');
-INSERT INTO `blade_dict` VALUES ('1123598814738675219', '1123598814738675218', 'yes_no', '1', '否', '1', null, '0');
-INSERT INTO `blade_dict` VALUES ('1123598814738675220', '1123598814738675218', 'yes_no', '2', '是', '2', null, '0');
-INSERT INTO `blade_dict` VALUES ('1123598814738777220', '0', 'post_category', '-1', '岗位类型', '12', null, '0');
-INSERT INTO `blade_dict` VALUES ('1123598814738777221', '1123598814738777220', 'post_category', '1', '高层', '1', null, '0');
-INSERT INTO `blade_dict` VALUES ('1123598814738777222', '1123598814738777220', 'post_category', '2', '中层', '2', null, '0');
-INSERT INTO `blade_dict` VALUES ('1123598814738777223', '1123598814738777220', 'post_category', '3', '基层', '3', null, '0');
-INSERT INTO `blade_dict` VALUES ('1123598814738777224', '1123598814738777220', 'post_category', '4', '其他', '4', null, '0');
+INSERT INTO `blade_dict` VALUES ('1123598814738675201', '0', 'sex', '-1', '性别', '1', '', '0');
+INSERT INTO `blade_dict` VALUES ('1123598814738675202', '1123598814738675201', 'sex', '1', '男', '1', '', '0');
+INSERT INTO `blade_dict` VALUES ('1123598814738675203', '1123598814738675201', 'sex', '2', '女', '2', '', '0');
+INSERT INTO `blade_dict` VALUES ('1123598814738675204', '0', 'notice', '-1', '通知类型', '2', '', '0');
+INSERT INTO `blade_dict` VALUES ('1123598814738675205', '1123598814738675204', 'notice', '1', '发布通知', '1', '', '0');
+INSERT INTO `blade_dict` VALUES ('1123598814738675206', '1123598814738675204', 'notice', '2', '批转通知', '2', '', '0');
+INSERT INTO `blade_dict` VALUES ('1123598814738675207', '1123598814738675204', 'notice', '3', '转发通知', '3', '', '0');
+INSERT INTO `blade_dict` VALUES ('1123598814738675208', '1123598814738675204', 'notice', '4', '指示通知', '4', '', '0');
+INSERT INTO `blade_dict` VALUES ('1123598814738675209', '1123598814738675204', 'notice', '5', '任免通知', '5', '', '0');
+INSERT INTO `blade_dict` VALUES ('1123598814738675210', '1123598814738675204', 'notice', '6', '事务通知', '6', '', '0');
+INSERT INTO `blade_dict` VALUES ('1123598814738675211', '0', 'menu_category', '-1', '菜单类型', '3', '', '0');
+INSERT INTO `blade_dict` VALUES ('1123598814738675212', '1123598814738675211', 'menu_category', '1', '菜单', '1', '', '0');
+INSERT INTO `blade_dict` VALUES ('1123598814738675213', '1123598814738675211', 'menu_category', '2', '按钮', '2', '', '0');
+INSERT INTO `blade_dict` VALUES ('1123598814738675214', '0', 'button_func', '-1', '按钮功能', '4', '', '0');
+INSERT INTO `blade_dict` VALUES ('1123598814738675215', '1123598814738675214', 'button_func', '1', '工具栏', '1', '', '0');
+INSERT INTO `blade_dict` VALUES ('1123598814738675216', '1123598814738675214', 'button_func', '2', '操作栏', '2', '', '0');
+INSERT INTO `blade_dict` VALUES ('1123598814738675217', '1123598814738675214', 'button_func', '3', '工具操作栏', '3', '', '0');
+INSERT INTO `blade_dict` VALUES ('1123598814738675218', '0', 'yes_no', '-1', '是否', '5', '', '0');
+INSERT INTO `blade_dict` VALUES ('1123598814738675219', '1123598814738675218', 'yes_no', '1', '否', '1', '', '0');
+INSERT INTO `blade_dict` VALUES ('1123598814738675220', '1123598814738675218', 'yes_no', '2', '是', '2', '', '0');
+INSERT INTO `blade_dict` VALUES ('1123598814738777220', '0', 'post_category', '-1', '岗位类型', '12', '', '0');
+INSERT INTO `blade_dict` VALUES ('1123598814738777221', '1123598814738777220', 'post_category', '1', '高层', '1', '', '0');
+INSERT INTO `blade_dict` VALUES ('1123598814738777222', '1123598814738777220', 'post_category', '2', '中层', '2', '', '0');
+INSERT INTO `blade_dict` VALUES ('1123598814738777223', '1123598814738777220', 'post_category', '3', '基层', '3', '', '0');
+INSERT INTO `blade_dict` VALUES ('1123598814738777224', '1123598814738777220', 'post_category', '4', '其他', '4', '', '0');
 
 -- ----------------------------
 -- Table structure for `blade_log_api`
@@ -177,21 +177,21 @@ DROP TABLE IF EXISTS `blade_log_api`;
 CREATE TABLE `blade_log_api` (
   `id` bigint(50) NOT NULL COMMENT '编号',
   `tenant_id` varchar(12) DEFAULT '000000' COMMENT '租户ID',
-  `service_id` varchar(32) DEFAULT NULL COMMENT '服务ID',
-  `server_host` varchar(255) DEFAULT NULL COMMENT '服务器名',
-  `server_ip` varchar(255) DEFAULT NULL COMMENT '服务器IP地址',
-  `env` varchar(255) DEFAULT NULL COMMENT '服务器环境',
+  `service_id` varchar(32) NOT NULL DEFAULT '' COMMENT '服务ID',
+  `server_host` varchar(255) NOT NULL DEFAULT '' COMMENT '服务器名',
+  `server_ip` varchar(255) NOT NULL DEFAULT '' COMMENT '服务器IP地址',
+  `env` varchar(255) NOT NULL DEFAULT '' COMMENT '服务器环境',
   `type` char(1) DEFAULT '1' COMMENT '日志类型',
   `title` varchar(255) DEFAULT '' COMMENT '日志标题',
-  `method` varchar(10) DEFAULT NULL COMMENT '操作方式',
-  `request_uri` varchar(255) DEFAULT NULL COMMENT '请求URI',
-  `user_agent` varchar(1000) DEFAULT NULL COMMENT '用户代理',
-  `remote_ip` varchar(255) DEFAULT NULL COMMENT '操作IP地址',
-  `method_class` varchar(255) DEFAULT NULL COMMENT '方法类',
-  `method_name` varchar(255) DEFAULT NULL COMMENT '方法名',
+  `method` varchar(10) NOT NULL DEFAULT '' COMMENT '操作方式',
+  `request_uri` varchar(255) NOT NULL DEFAULT '' COMMENT '请求URI',
+  `user_agent` varchar(1000) NOT NULL DEFAULT '' COMMENT '用户代理',
+  `remote_ip` varchar(255) NOT NULL DEFAULT '' COMMENT '操作IP地址',
+  `method_class` varchar(255) NOT NULL DEFAULT '' COMMENT '方法类',
+  `method_name` varchar(255) NOT NULL DEFAULT '' COMMENT '方法名',
   `params` text COMMENT '操作提交的数据',
-  `time` varchar(50) DEFAULT NULL COMMENT '执行时间',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建者',
+  `time` varchar(50) NOT NULL DEFAULT '' COMMENT '执行时间',
+  `create_by` varchar(50) NOT NULL DEFAULT '' COMMENT '创建者',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='接口日志表';
@@ -207,24 +207,24 @@ DROP TABLE IF EXISTS `blade_log_error`;
 CREATE TABLE `blade_log_error` (
   `id` bigint(50) NOT NULL COMMENT '编号',
   `tenant_id` varchar(12) DEFAULT '000000' COMMENT '租户ID',
-  `service_id` varchar(32) DEFAULT NULL COMMENT '服务ID',
-  `server_host` varchar(255) DEFAULT NULL COMMENT '服务器名',
-  `server_ip` varchar(255) DEFAULT NULL COMMENT '服务器IP地址',
-  `env` varchar(255) DEFAULT NULL COMMENT '系统环境',
-  `method` varchar(10) DEFAULT NULL COMMENT '操作方式',
-  `request_uri` varchar(255) DEFAULT NULL COMMENT '请求URI',
-  `user_agent` varchar(1000) DEFAULT NULL COMMENT '用户代理',
+  `service_id` varchar(32) NOT NULL DEFAULT '' COMMENT '服务ID',
+  `server_host` varchar(255) NOT NULL DEFAULT '' COMMENT '服务器名',
+  `server_ip` varchar(255) NOT NULL DEFAULT '' COMMENT '服务器IP地址',
+  `env` varchar(255) NOT NULL DEFAULT '' COMMENT '系统环境',
+  `method` varchar(10) NOT NULL DEFAULT '' COMMENT '操作方式',
+  `request_uri` varchar(255) NOT NULL DEFAULT '' COMMENT '请求URI',
+  `user_agent` varchar(1000) NOT NULL DEFAULT '' COMMENT '用户代理',
   `stack_trace` text COMMENT '堆栈',
-  `exception_name` varchar(255) DEFAULT NULL COMMENT '异常名',
+  `exception_name` varchar(255) NOT NULL DEFAULT '' COMMENT '异常名',
   `message` text COMMENT '异常信息',
   `line_number` int(11) DEFAULT NULL COMMENT '错误行数',
-  `remote_ip` varchar(255) DEFAULT NULL COMMENT '操作IP地址',
-  `method_class` varchar(255) DEFAULT NULL COMMENT '方法类',
-  `file_name` varchar(1000) DEFAULT NULL COMMENT '文件名',
-  `method_name` varchar(255) DEFAULT NULL COMMENT '方法名',
+  `remote_ip` varchar(255) NOT NULL DEFAULT '' COMMENT '操作IP地址',
+  `method_class` varchar(255) NOT NULL DEFAULT '' COMMENT '方法类',
+  `file_name` varchar(1000) NOT NULL DEFAULT '' COMMENT '文件名',
+  `method_name` varchar(255) NOT NULL DEFAULT '' COMMENT '方法名',
   `params` text COMMENT '操作提交的数据',
-  `time` varchar(50) DEFAULT NULL COMMENT '执行时间',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建者',
+  `time` varchar(50) NOT NULL DEFAULT '' COMMENT '执行时间',
+  `create_by` varchar(50) NOT NULL DEFAULT '' COMMENT '创建者',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='错误日志表';
@@ -240,22 +240,22 @@ DROP TABLE IF EXISTS `blade_log_usual`;
 CREATE TABLE `blade_log_usual` (
   `id` bigint(50) NOT NULL COMMENT '编号',
   `tenant_id` varchar(12) DEFAULT '000000' COMMENT '租户ID',
-  `service_id` varchar(32) DEFAULT NULL COMMENT '服务ID',
-  `server_host` varchar(255) DEFAULT NULL COMMENT '服务器名',
-  `server_ip` varchar(255) DEFAULT NULL COMMENT '服务器IP地址',
-  `env` varchar(255) DEFAULT NULL COMMENT '系统环境',
-  `log_level` varchar(10) DEFAULT NULL COMMENT '日志级别',
-  `log_id` varchar(100) DEFAULT NULL COMMENT '日志业务id',
+  `service_id` varchar(32) NOT NULL DEFAULT '' COMMENT '服务ID',
+  `server_host` varchar(255) NOT NULL DEFAULT '' COMMENT '服务器名',
+  `server_ip` varchar(255) NOT NULL DEFAULT '' COMMENT '服务器IP地址',
+  `env` varchar(255) NOT NULL DEFAULT '' COMMENT '系统环境',
+  `log_level` varchar(10) NOT NULL DEFAULT '' COMMENT '日志级别',
+  `log_id` varchar(100) NOT NULL DEFAULT '' COMMENT '日志业务id',
   `log_data` text COMMENT '日志数据',
-  `method` varchar(10) DEFAULT NULL COMMENT '操作方式',
-  `request_uri` varchar(255) DEFAULT NULL COMMENT '请求URI',
-  `remote_ip` varchar(255) DEFAULT NULL COMMENT '操作IP地址',
-  `method_class` varchar(255) DEFAULT NULL COMMENT '方法类',
-  `method_name` varchar(255) DEFAULT NULL COMMENT '方法名',
-  `user_agent` varchar(1000) DEFAULT NULL COMMENT '用户代理',
+  `method` varchar(10) NOT NULL DEFAULT '' COMMENT '操作方式',
+  `request_uri` varchar(255) NOT NULL DEFAULT '' COMMENT '请求URI',
+  `remote_ip` varchar(255) NOT NULL DEFAULT '' COMMENT '操作IP地址',
+  `method_class` varchar(255) NOT NULL DEFAULT '' COMMENT '方法类',
+  `method_name` varchar(255) NOT NULL DEFAULT '' COMMENT '方法名',
+  `user_agent` varchar(1000) NOT NULL DEFAULT '' COMMENT '用户代理',
   `params` text COMMENT '操作提交的数据',
   `time` datetime DEFAULT NULL COMMENT '执行时间',
-  `create_by` varchar(50) DEFAULT NULL COMMENT '创建者',
+  `create_by` varchar(50) NOT NULL DEFAULT '' COMMENT '创建者',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='通用日志表';
@@ -271,16 +271,16 @@ DROP TABLE IF EXISTS `blade_menu`;
 CREATE TABLE `blade_menu` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `parent_id` bigint(50) DEFAULT '0' COMMENT '父级菜单',
-  `code` varchar(255) DEFAULT NULL COMMENT '菜单编号',
-  `name` varchar(255) DEFAULT NULL COMMENT '菜单名称',
-  `alias` varchar(255) DEFAULT NULL COMMENT '菜单别名',
-  `path` varchar(255) DEFAULT NULL COMMENT '请求地址',
-  `source` varchar(255) DEFAULT NULL COMMENT '菜单资源',
+  `code` varchar(255) NOT NULL DEFAULT '' COMMENT '菜单编号',
+  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '菜单名称',
+  `alias` varchar(255) NOT NULL DEFAULT '' COMMENT '菜单别名',
+  `path` varchar(255) NOT NULL DEFAULT '' COMMENT '请求地址',
+  `source` varchar(255) NOT NULL DEFAULT '' COMMENT '菜单资源',
   `sort` int(2) DEFAULT NULL COMMENT '排序',
   `category` int(2) DEFAULT NULL COMMENT '菜单类型',
   `action` int(2) DEFAULT '0' COMMENT '操作按钮类型',
   `is_open` int(2) DEFAULT '1' COMMENT '是否打开新页面',
-  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `is_deleted` int(2) DEFAULT '0' COMMENT '是否已删除',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='菜单表';
@@ -288,81 +288,81 @@ CREATE TABLE `blade_menu` (
 -- ----------------------------
 -- Records of blade_menu
 -- ----------------------------
-INSERT INTO `blade_menu` VALUES ('1123598815738675201', '0', 'desk', '工作台', 'menu', '/desk', 'iconfont iconicon_airplay', '1', '1', '0', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675202', '1123598815738675201', 'notice', '通知公告', 'menu', '/desk/notice', 'iconfont iconicon_sms', '1', '1', '0', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675203', '0', 'system', '系统管理', 'menu', '/system', 'iconfont iconicon_setting', '2', '1', '0', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675204', '1123598815738675203', 'user', '用户管理', 'menu', '/system/user', 'iconfont iconicon_principal', '1', '1', '0', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675205', '1123598815738675203', 'dept', '部门管理', 'menu', '/system/dept', 'iconfont iconicon_group', '2', '1', '0', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675206', '1123598815738675203', 'dict', '字典管理', 'menu', '/system/dict', 'iconfont iconicon_addresslist', '3', '1', '0', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675207', '1123598815738675203', 'menu', '菜单管理', 'menu', '/system/menu', 'iconfont iconicon_subordinate', '4', '1', '0', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675208', '1123598815738675203', 'role', '角色管理', 'menu', '/system/role', 'iconfont iconicon_boss', '5', '1', '0', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675209', '1123598815738675203', 'param', '参数管理', 'menu', '/system/param', 'iconfont iconicon_community_line', '6', '1', '0', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675210', '0', 'monitor', '系统监控', 'menu', '/monitor', 'iconfont icon-yanzhengma', '3', '1', '0', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675211', '1123598815738675210', 'doc', '接口文档', 'menu', 'http://localhost/doc.html', 'iconfont iconicon_study', '1', '1', '0', '2', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675212', '1123598815738675210', 'admin', '服务治理', 'menu', 'http://localhost:7002', 'iconfont icon-canshu', '2', '1', '0', '2', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675213', '1123598815738675210', 'log', '日志管理', 'menu', '/monitor/log', 'iconfont iconicon_doc', '3', '1', '0', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675214', '1123598815738675213', 'log_usual', '通用日志', 'menu', '/monitor/log/usual', null, '1', '1', '0', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675215', '1123598815738675213', 'log_api', '接口日志', 'menu', '/monitor/log/api', null, '2', '1', '0', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675216', '1123598815738675213', 'log_error', '错误日志', 'menu', '/monitor/log/error', null, '3', '1', '0', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675217', '0', 'tool', '研发工具', 'menu', '/tool', 'iconfont icon-wxbgongju', '4', '1', '0', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675218', '1123598815738675217', 'code', '代码生成', 'menu', '/tool/code', 'iconfont iconicon_savememo', '1', '1', '0', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675219', '1123598815738675202', 'notice_add', '新增', 'add', '/desk/notice/add', 'plus', '1', '2', '1', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675220', '1123598815738675202', 'notice_edit', '修改', 'edit', '/desk/notice/edit', 'form', '2', '2', '2', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675221', '1123598815738675202', 'notice_delete', '删除', 'delete', '/api/blade-desk/notice/remove', 'delete', '3', '2', '3', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675222', '1123598815738675202', 'notice_view', '查看', 'view', '/desk/notice/view', 'file-text', '4', '2', '2', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675223', '1123598815738675204', 'user_add', '新增', 'add', '/system/user/add', 'plus', '1', '2', '1', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675224', '1123598815738675204', 'user_edit', '修改', 'edit', '/system/user/edit', 'form', '2', '2', '2', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675225', '1123598815738675204', 'user_delete', '删除', 'delete', '/api/blade-user/remove', 'delete', '3', '2', '3', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675226', '1123598815738675204', 'user_role', '角色配置', 'role', null, 'user-add', '4', '2', '1', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675227', '1123598815738675204', 'user_reset', '密码重置', 'reset-password', '/api/blade-user/reset-password', 'retweet', '5', '2', '1', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675228', '1123598815738675204', 'user_view', '查看', 'view', '/system/user/view', 'file-text', '6', '2', '2', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675229', '1123598815738675205', 'dept_add', '新增', 'add', '/system/dept/add', 'plus', '1', '2', '1', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675230', '1123598815738675205', 'dept_edit', '修改', 'edit', '/system/dept/edit', 'form', '2', '2', '2', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675231', '1123598815738675205', 'dept_delete', '删除', 'delete', '/api/blade-system/dept/remove', 'delete', '3', '2', '3', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675232', '1123598815738675205', 'dept_view', '查看', 'view', '/system/dept/view', 'file-text', '4', '2', '2', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675233', '1123598815738675206', 'dict_add', '新增', 'add', '/system/dict/add', 'plus', '1', '2', '1', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675234', '1123598815738675206', 'dict_edit', '修改', 'edit', '/system/dict/edit', 'form', '2', '2', '2', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675235', '1123598815738675206', 'dict_delete', '删除', 'delete', '/api/blade-system/dict/remove', 'delete', '3', '2', '3', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675236', '1123598815738675206', 'dict_view', '查看', 'view', '/system/dict/view', 'file-text', '4', '2', '2', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675237', '1123598815738675207', 'menu_add', '新增', 'add', '/system/menu/add', 'plus', '1', '2', '1', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675238', '1123598815738675207', 'menu_edit', '修改', 'edit', '/system/menu/edit', 'form', '2', '2', '2', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675239', '1123598815738675207', 'menu_delete', '删除', 'delete', '/api/blade-system/menu/remove', 'delete', '3', '2', '3', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675240', '1123598815738675207', 'menu_view', '查看', 'view', '/system/menu/view', 'file-text', '4', '2', '2', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675241', '1123598815738675208', 'role_add', '新增', 'add', '/system/role/add', 'plus', '1', '2', '1', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675242', '1123598815738675208', 'role_edit', '修改', 'edit', '/system/role/edit', 'form', '2', '2', '2', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675243', '1123598815738675208', 'role_delete', '删除', 'delete', '/api/blade-system/role/remove', 'delete', '3', '2', '3', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675244', '1123598815738675208', 'role_view', '查看', 'view', '/system/role/view', 'file-text', '4', '2', '2', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675245', '1123598815738675209', 'param_add', '新增', 'add', '/system/param/add', 'plus', '1', '2', '1', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675246', '1123598815738675209', 'param_edit', '修改', 'edit', '/system/param/edit', 'form', '2', '2', '2', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675247', '1123598815738675209', 'param_delete', '删除', 'delete', '/api/blade-system/param/remove', 'delete', '3', '2', '3', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675248', '1123598815738675209', 'param_view', '查看', 'view', '/system/param/view', 'file-text', '4', '2', '2', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675249', '1123598815738675214', 'log_usual_view', '查看', 'view', '/monitor/log/usual/view', 'file-text', '4', '2', '2', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675250', '1123598815738675215', 'log_api_view', '查看', 'view', '/monitor/log/api/view', 'file-text', '4', '2', '2', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675251', '1123598815738675216', 'log_error_view', '查看', 'view', '/monitor/log/error/view', 'file-text', '4', '2', '2', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675252', '1123598815738675218', 'code_add', '新增', 'add', '/tool/code/add', 'plus', '1', '2', '1', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675253', '1123598815738675218', 'code_edit', '修改', 'edit', '/tool/code/edit', 'form', '2', '2', '2', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675254', '1123598815738675218', 'code_delete', '删除', 'delete', '/api/blade-system/code/remove', 'delete', '3', '2', '3', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675255', '1123598815738675218', 'code_view', '查看', 'view', '/tool/code/view', 'file-text', '4', '2', '2', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675256', '1123598815738675203', 'tenant', '租户管理', 'menu', '/system/tenant', 'iconfont icon-quanxian', '7', '1', '0', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675257', '1123598815738675256', 'tenant_add', '新增', 'add', '/system/tenant/add', 'plus', '1', '2', '1', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675258', '1123598815738675256', 'tenant_edit', '修改', 'edit', '/system/tenant/edit', 'form', '2', '2', '2', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675259', '1123598815738675256', 'tenant_delete', '删除', 'delete', '/api/blade-system/tenant/remove', 'delete', '3', '2', '3', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675260', '1123598815738675256', 'tenant_view', '查看', 'view', '/system/tenant/view', 'file-text', '4', '2', '2', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675261', '1123598815738675203', 'client', '应用管理', 'menu', '/system/client', 'iconfont iconicon_mobilephone', '8', '1', '0', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675262', '1123598815738675261', 'client_add', '新增', 'add', '/system/client/add', 'plus', '1', '2', '1', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675263', '1123598815738675261', 'client_edit', '修改', 'edit', '/system/client/edit', 'form', '2', '2', '2', '2', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675264', '1123598815738675261', 'client_delete', '删除', 'delete', '/api/blade-system/client/remove', 'delete', '3', '2', '3', '3', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675265', '1123598815738675261', 'client_view', '查看', 'view', '/system/client/view', 'file-text', '4', '2', '2', '2', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675266', '1123598815738675217', 'datasource', '数据源管理', 'menu', '/tool/datasource', 'iconfont icon-caidanguanli', '2', '1', '0', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675267', '1123598815738675266', 'datasource_add', '新增', 'add', '/tool/datasource/add', 'plus', '1', '2', '1', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675268', '1123598815738675266', 'datasource_edit', '修改', 'edit', '/tool/datasource/edit', 'form', '2', '2', '2', '2', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675269', '1123598815738675266', 'datasource_delete', '删除', 'delete', '/api/blade-develop/datasource/remove', 'delete', '3', '2', '3', '3', null, '0');
-INSERT INTO `blade_menu` VALUES ('1123598815738675270', '1123598815738675266', 'datasource_view', '查看', 'view', '/tool/datasource/view', 'file-text', '4', '2', '2', '2', null, '0');
-INSERT INTO `blade_menu` VALUES ('1164733389668962251', '1123598815738675203', 'post', '岗位管理', 'menu', '/system/post', 'iconfont iconicon_message', '2', '1', '0', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1164733389668962252', '1164733389668962251', 'post_add', '新增', 'add', '/system/post/add', 'plus', '1', '2', '1', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1164733389668962253', '1164733389668962251', 'post_edit', '修改', 'edit', '/system/post/edit', 'form', '2', '2', '2', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1164733389668962254', '1164733389668962251', 'post_delete', '删除', 'delete', '/api/blade-system/post/remove', 'delete', '3', '2', '3', '1', null, '0');
-INSERT INTO `blade_menu` VALUES ('1164733389668962255', '1164733389668962251', 'post_view', '查看', 'view', '/system/post/view', 'file-text', '4', '2', '2', '1', null, '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675201', '0', 'desk', '工作台', 'menu', '/desk', 'iconfont iconicon_airplay', '1', '1', '0', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675202', '1123598815738675201', 'notice', '通知公告', 'menu', '/desk/notice', 'iconfont iconicon_sms', '1', '1', '0', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675203', '0', 'system', '系统管理', 'menu', '/system', 'iconfont iconicon_setting', '2', '1', '0', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675204', '1123598815738675203', 'user', '用户管理', 'menu', '/system/user', 'iconfont iconicon_principal', '1', '1', '0', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675205', '1123598815738675203', 'dept', '部门管理', 'menu', '/system/dept', 'iconfont iconicon_group', '2', '1', '0', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675206', '1123598815738675203', 'dict', '字典管理', 'menu', '/system/dict', 'iconfont iconicon_addresslist', '3', '1', '0', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675207', '1123598815738675203', 'menu', '菜单管理', 'menu', '/system/menu', 'iconfont iconicon_subordinate', '4', '1', '0', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675208', '1123598815738675203', 'role', '角色管理', 'menu', '/system/role', 'iconfont iconicon_boss', '5', '1', '0', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675209', '1123598815738675203', 'param', '参数管理', 'menu', '/system/param', 'iconfont iconicon_community_line', '6', '1', '0', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675210', '0', 'monitor', '系统监控', 'menu', '/monitor', 'iconfont icon-yanzhengma', '3', '1', '0', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675211', '1123598815738675210', 'doc', '接口文档', 'menu', 'http://localhost/doc.html', 'iconfont iconicon_study', '1', '1', '0', '2', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675212', '1123598815738675210', 'admin', '服务治理', 'menu', 'http://localhost:7002', 'iconfont icon-canshu', '2', '1', '0', '2', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675213', '1123598815738675210', 'log', '日志管理', 'menu', '/monitor/log', 'iconfont iconicon_doc', '3', '1', '0', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675214', '1123598815738675213', 'log_usual', '通用日志', 'menu', '/monitor/log/usual', '', '1', '1', '0', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675215', '1123598815738675213', 'log_api', '接口日志', 'menu', '/monitor/log/api', '', '2', '1', '0', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675216', '1123598815738675213', 'log_error', '错误日志', 'menu', '/monitor/log/error', '', '3', '1', '0', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675217', '0', 'tool', '研发工具', 'menu', '/tool', 'iconfont icon-wxbgongju', '4', '1', '0', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675218', '1123598815738675217', 'code', '代码生成', 'menu', '/tool/code', 'iconfont iconicon_savememo', '1', '1', '0', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675219', '1123598815738675202', 'notice_add', '新增', 'add', '/desk/notice/add', 'plus', '1', '2', '1', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675220', '1123598815738675202', 'notice_edit', '修改', 'edit', '/desk/notice/edit', 'form', '2', '2', '2', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675221', '1123598815738675202', 'notice_delete', '删除', 'delete', '/api/blade-desk/notice/remove', 'delete', '3', '2', '3', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675222', '1123598815738675202', 'notice_view', '查看', 'view', '/desk/notice/view', 'file-text', '4', '2', '2', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675223', '1123598815738675204', 'user_add', '新增', 'add', '/system/user/add', 'plus', '1', '2', '1', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675224', '1123598815738675204', 'user_edit', '修改', 'edit', '/system/user/edit', 'form', '2', '2', '2', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675225', '1123598815738675204', 'user_delete', '删除', 'delete', '/api/blade-user/remove', 'delete', '3', '2', '3', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675226', '1123598815738675204', 'user_role', '角色配置', 'role', '', 'user-add', '4', '2', '1', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675227', '1123598815738675204', 'user_reset', '密码重置', 'reset-password', '/api/blade-user/reset-password', 'retweet', '5', '2', '1', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675228', '1123598815738675204', 'user_view', '查看', 'view', '/system/user/view', 'file-text', '6', '2', '2', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675229', '1123598815738675205', 'dept_add', '新增', 'add', '/system/dept/add', 'plus', '1', '2', '1', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675230', '1123598815738675205', 'dept_edit', '修改', 'edit', '/system/dept/edit', 'form', '2', '2', '2', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675231', '1123598815738675205', 'dept_delete', '删除', 'delete', '/api/blade-system/dept/remove', 'delete', '3', '2', '3', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675232', '1123598815738675205', 'dept_view', '查看', 'view', '/system/dept/view', 'file-text', '4', '2', '2', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675233', '1123598815738675206', 'dict_add', '新增', 'add', '/system/dict/add', 'plus', '1', '2', '1', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675234', '1123598815738675206', 'dict_edit', '修改', 'edit', '/system/dict/edit', 'form', '2', '2', '2', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675235', '1123598815738675206', 'dict_delete', '删除', 'delete', '/api/blade-system/dict/remove', 'delete', '3', '2', '3', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675236', '1123598815738675206', 'dict_view', '查看', 'view', '/system/dict/view', 'file-text', '4', '2', '2', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675237', '1123598815738675207', 'menu_add', '新增', 'add', '/system/menu/add', 'plus', '1', '2', '1', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675238', '1123598815738675207', 'menu_edit', '修改', 'edit', '/system/menu/edit', 'form', '2', '2', '2', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675239', '1123598815738675207', 'menu_delete', '删除', 'delete', '/api/blade-system/menu/remove', 'delete', '3', '2', '3', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675240', '1123598815738675207', 'menu_view', '查看', 'view', '/system/menu/view', 'file-text', '4', '2', '2', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675241', '1123598815738675208', 'role_add', '新增', 'add', '/system/role/add', 'plus', '1', '2', '1', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675242', '1123598815738675208', 'role_edit', '修改', 'edit', '/system/role/edit', 'form', '2', '2', '2', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675243', '1123598815738675208', 'role_delete', '删除', 'delete', '/api/blade-system/role/remove', 'delete', '3', '2', '3', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675244', '1123598815738675208', 'role_view', '查看', 'view', '/system/role/view', 'file-text', '4', '2', '2', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675245', '1123598815738675209', 'param_add', '新增', 'add', '/system/param/add', 'plus', '1', '2', '1', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675246', '1123598815738675209', 'param_edit', '修改', 'edit', '/system/param/edit', 'form', '2', '2', '2', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675247', '1123598815738675209', 'param_delete', '删除', 'delete', '/api/blade-system/param/remove', 'delete', '3', '2', '3', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675248', '1123598815738675209', 'param_view', '查看', 'view', '/system/param/view', 'file-text', '4', '2', '2', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675249', '1123598815738675214', 'log_usual_view', '查看', 'view', '/monitor/log/usual/view', 'file-text', '4', '2', '2', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675250', '1123598815738675215', 'log_api_view', '查看', 'view', '/monitor/log/api/view', 'file-text', '4', '2', '2', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675251', '1123598815738675216', 'log_error_view', '查看', 'view', '/monitor/log/error/view', 'file-text', '4', '2', '2', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675252', '1123598815738675218', 'code_add', '新增', 'add', '/tool/code/add', 'plus', '1', '2', '1', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675253', '1123598815738675218', 'code_edit', '修改', 'edit', '/tool/code/edit', 'form', '2', '2', '2', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675254', '1123598815738675218', 'code_delete', '删除', 'delete', '/api/blade-system/code/remove', 'delete', '3', '2', '3', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675255', '1123598815738675218', 'code_view', '查看', 'view', '/tool/code/view', 'file-text', '4', '2', '2', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675256', '1123598815738675203', 'tenant', '租户管理', 'menu', '/system/tenant', 'iconfont icon-quanxian', '7', '1', '0', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675257', '1123598815738675256', 'tenant_add', '新增', 'add', '/system/tenant/add', 'plus', '1', '2', '1', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675258', '1123598815738675256', 'tenant_edit', '修改', 'edit', '/system/tenant/edit', 'form', '2', '2', '2', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675259', '1123598815738675256', 'tenant_delete', '删除', 'delete', '/api/blade-system/tenant/remove', 'delete', '3', '2', '3', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675260', '1123598815738675256', 'tenant_view', '查看', 'view', '/system/tenant/view', 'file-text', '4', '2', '2', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675261', '1123598815738675203', 'client', '应用管理', 'menu', '/system/client', 'iconfont iconicon_mobilephone', '8', '1', '0', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675262', '1123598815738675261', 'client_add', '新增', 'add', '/system/client/add', 'plus', '1', '2', '1', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675263', '1123598815738675261', 'client_edit', '修改', 'edit', '/system/client/edit', 'form', '2', '2', '2', '2', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675264', '1123598815738675261', 'client_delete', '删除', 'delete', '/api/blade-system/client/remove', 'delete', '3', '2', '3', '3', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675265', '1123598815738675261', 'client_view', '查看', 'view', '/system/client/view', 'file-text', '4', '2', '2', '2', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675266', '1123598815738675217', 'datasource', '数据源管理', 'menu', '/tool/datasource', 'iconfont icon-caidanguanli', '2', '1', '0', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675267', '1123598815738675266', 'datasource_add', '新增', 'add', '/tool/datasource/add', 'plus', '1', '2', '1', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675268', '1123598815738675266', 'datasource_edit', '修改', 'edit', '/tool/datasource/edit', 'form', '2', '2', '2', '2', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675269', '1123598815738675266', 'datasource_delete', '删除', 'delete', '/api/blade-develop/datasource/remove', 'delete', '3', '2', '3', '3', '', '0');
+INSERT INTO `blade_menu` VALUES ('1123598815738675270', '1123598815738675266', 'datasource_view', '查看', 'view', '/tool/datasource/view', 'file-text', '4', '2', '2', '2', '', '0');
+INSERT INTO `blade_menu` VALUES ('1164733389668962251', '1123598815738675203', 'post', '岗位管理', 'menu', '/system/post', 'iconfont iconicon_message', '2', '1', '0', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1164733389668962252', '1164733389668962251', 'post_add', '新增', 'add', '/system/post/add', 'plus', '1', '2', '1', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1164733389668962253', '1164733389668962251', 'post_edit', '修改', 'edit', '/system/post/edit', 'form', '2', '2', '2', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1164733389668962254', '1164733389668962251', 'post_delete', '删除', 'delete', '/api/blade-system/post/remove', 'delete', '3', '2', '3', '1', '', '0');
+INSERT INTO `blade_menu` VALUES ('1164733389668962255', '1164733389668962251', 'post_view', '查看', 'view', '/system/post/view', 'file-text', '4', '2', '2', '1', '', '0');
 
 -- ----------------------------
 -- Table structure for `blade_notice`
@@ -371,10 +371,10 @@ DROP TABLE IF EXISTS `blade_notice`;
 CREATE TABLE `blade_notice` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `tenant_id` varchar(12) DEFAULT '000000' COMMENT '租户ID',
-  `title` varchar(255) DEFAULT NULL COMMENT '标题',
+  `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
   `category` int(11) DEFAULT NULL COMMENT '类型',
   `release_time` datetime DEFAULT NULL COMMENT '发布时间',
-  `content` varchar(255) DEFAULT NULL COMMENT '内容',
+  `content` varchar(255) NOT NULL DEFAULT '' COMMENT '内容',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
@@ -397,10 +397,10 @@ INSERT INTO `blade_notice` VALUES ('1123598818738675225', '000000', '测试公�
 DROP TABLE IF EXISTS `blade_param`;
 CREATE TABLE `blade_param` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `param_name` varchar(255) DEFAULT NULL COMMENT '参数名',
-  `param_key` varchar(255) DEFAULT NULL COMMENT '参数键',
-  `param_value` varchar(255) DEFAULT NULL COMMENT '参数值',
-  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `param_name` varchar(255) NOT NULL DEFAULT '' COMMENT '参数名',
+  `param_key` varchar(255) NOT NULL DEFAULT '' COMMENT '参数键',
+  `param_value` varchar(255) NOT NULL DEFAULT '' COMMENT '参数值',
+  `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
@@ -424,10 +424,10 @@ CREATE TABLE `blade_post` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `tenant_id` varchar(12) DEFAULT '000000' COMMENT '租户ID',
   `category` int(11) DEFAULT NULL COMMENT '岗位类型',
-  `post_code` varchar(12) DEFAULT NULL COMMENT '岗位编号',
-  `post_name` varchar(50) DEFAULT NULL COMMENT '岗位名称',
+  `post_code` varchar(12) NOT NULL DEFAULT '' COMMENT '岗位编号',
+  `post_name` varchar(50) NOT NULL DEFAULT '' COMMENT '岗位名称',
   `sort` int(2) DEFAULT NULL COMMENT '岗位排序',
-  `remark` varchar(255) DEFAULT NULL COMMENT '岗位描述',
+  `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '岗位描述',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_dept` bigint(50) DEFAULT NULL COMMENT '创建部门',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
@@ -458,9 +458,9 @@ CREATE TABLE `blade_role` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `tenant_id` varchar(12) DEFAULT '000000' COMMENT '租户ID',
   `parent_id` bigint(50) DEFAULT '0' COMMENT '父主键',
-  `role_name` varchar(255) DEFAULT NULL COMMENT '角色名',
+  `role_name` varchar(255) NOT NULL DEFAULT '' COMMENT '角色名',
   `sort` int(11) DEFAULT NULL COMMENT '排序',
-  `role_alias` varchar(255) DEFAULT NULL COMMENT '角色别名',
+  `role_alias` varchar(255) NOT NULL DEFAULT '' COMMENT '角色别名',
   `is_deleted` int(2) DEFAULT '0' COMMENT '是否已删除',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
@@ -570,9 +570,9 @@ CREATE TABLE `blade_tenant` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `tenant_id` varchar(12) NOT NULL COMMENT '租户ID',
   `tenant_name` varchar(50) NOT NULL COMMENT '租户名称',
-  `linkman` varchar(20) DEFAULT NULL COMMENT '联系人',
-  `contact_number` varchar(20) DEFAULT NULL COMMENT '联系电话',
-  `address` varchar(255) DEFAULT NULL COMMENT '联系地址',
+  `linkman` varchar(20) NOT NULL DEFAULT '' COMMENT '联系人',
+  `contact_number` varchar(20) NOT NULL DEFAULT '' COMMENT '联系电话',
+  `address` varchar(255) NOT NULL DEFAULT '' COMMENT '联系地址',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
@@ -595,19 +595,19 @@ CREATE TABLE `blade_user` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `user_type` varchar(50) NOT NULL COMMENT '用户类型',
   `tenant_id` varchar(12) DEFAULT '000000' COMMENT '租户ID',
-  `code` varchar(12) DEFAULT NULL COMMENT '用户编号',
-  `account` varchar(50) DEFAULT NULL COMMENT '账号',
-  `password` varchar(50) DEFAULT NULL COMMENT '密码',
-  `name` varchar(20) DEFAULT NULL COMMENT '昵称',
-  `real_name` varchar(10) DEFAULT NULL COMMENT '真名',
-  `avatar` varchar(100) DEFAULT NULL COMMENT '头像',
-  `email` varchar(50) DEFAULT NULL COMMENT '邮箱',
-  `phone` varchar(50) DEFAULT NULL COMMENT '手机',
+  `code` varchar(12) NOT NULL DEFAULT '' COMMENT '用户编号',
+  `account` varchar(50) NOT NULL DEFAULT '' COMMENT '账号',
+  `password` varchar(50) NOT NULL DEFAULT '' COMMENT '密码',
+  `name` varchar(20) NOT NULL DEFAULT '' COMMENT '昵称',
+  `real_name` varchar(10) NOT NULL DEFAULT '' COMMENT '真名',
+  `avatar` varchar(100) NOT NULL DEFAULT '' COMMENT '头像',
+  `email` varchar(50) NOT NULL DEFAULT '' COMMENT '邮箱',
+  `phone` varchar(50) NOT NULL DEFAULT '' COMMENT '手机',
   `birthday` datetime DEFAULT NULL COMMENT '生日',
   `sex` smallint(6) DEFAULT NULL COMMENT '性别',
-  `role_id` varchar(50) DEFAULT NULL COMMENT '角色id',
-  `dept_id` varchar(50) DEFAULT NULL COMMENT '部门id',
-  `post_id` varchar(50) DEFAULT NULL COMMENT '岗位id',
+  `role_id` varchar(50) NOT NULL DEFAULT '' COMMENT '角色id',
+  `dept_id` varchar(50) NOT NULL DEFAULT '' COMMENT '部门id',
+  `post_id` varchar(50) NOT NULL DEFAULT '' COMMENT '岗位id',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
@@ -622,7 +622,7 @@ CREATE TABLE `blade_user` (
 -- ----------------------------
 -- Records of blade_user
 -- ----------------------------
-INSERT INTO `blade_user` VALUES ('1123598821738675201', 'ADMIN', '000000', null, 'admin', '90b9aa7e25f80cf4f64e990b78a9fc5ebd6cecad', '管理员', '管理员', '', 'admin@bladex.vip', '22233322', '2018-08-08 00:00:00', '1', '1123598816738675201', '1123598813738675201', '1123598817738675201', '1123598821738675201', '2018-08-08 00:00:00', '1123598821738675201', '2018-08-08 00:00:00', '1', '0');
+INSERT INTO `blade_user` VALUES ('1123598821738675201', 'ADMIN', '000000', '', 'admin', '90b9aa7e25f80cf4f64e990b78a9fc5ebd6cecad', '管理员', '管理员', '', 'admin@bladex.vip', '22233322', '2018-08-08 00:00:00', '1', '1123598816738675201', '1123598813738675201', '1123598817738675201', '1123598821738675201', '2018-08-08 00:00:00', '1123598821738675201', '2018-08-08 00:00:00', '1', '0');
 
 -- ----------------------------
 -- Table structure for `diyi_accept_paysheet`
@@ -631,8 +631,8 @@ DROP TABLE IF EXISTS `diyi_accept_paysheet`;
 CREATE TABLE `diyi_accept_paysheet` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `pay_enterprise_id` bigint(50) NOT NULL COMMENT '支付清单ID',
-  `service_time_start` datetime DEFAULT NULL COMMENT '服务开始日期',
-  `service_time_end` datetime DEFAULT NULL COMMENT '服务结束日期',
+  `service_time_start` datetime NOT NULL COMMENT '服务开始日期',
+  `service_time_end` datetime NOT NULL COMMENT '服务结束日期',
   `accept_paysheet_type` varchar(50) NOT NULL COMMENT '交付支付验收单类型：清单式，单人单张',
   `maker_id` bigint(50) DEFAULT NULL COMMENT '创客ID',
   `upload_date_source` varchar(50) NOT NULL COMMENT '上传来源',
@@ -647,7 +647,8 @@ CREATE TABLE `diyi_accept_paysheet` (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`pay_enterprise_id`,`maker_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='总包交付支付验收单表';
 
 -- ----------------------------
@@ -725,7 +726,7 @@ CREATE TABLE `diyi_agreement` (
   `sign_state` int(11) NOT NULL DEFAULT '0' COMMENT '0签署中 1已完毕',
   `sign_date` datetime NOT NULL COMMENT '签署日期',
   `agreement_no` varchar(100) NOT NULL COMMENT '协议编号',
-  `sequence_no` varchar(100) DEFAULT NULL COMMENT '顺序号',
+  `sequence_no` varchar(100) NOT NULL DEFAULT '' COMMENT '顺序号',
   `maker_id` bigint(50) DEFAULT NULL COMMENT '创客ID',
   `enterprise_id` bigint(50) DEFAULT NULL COMMENT '商户ID',
   `service_provider_id` bigint(50) DEFAULT NULL COMMENT '服务商ID',
@@ -734,13 +735,13 @@ CREATE TABLE `diyi_agreement` (
   `partner_id` bigint(50) DEFAULT NULL COMMENT '合伙人ID',
   `online_agreement_template_id` bigint(50) NOT NULL COMMENT '平台在线协议模板ID',
   `online_aggrement_url` varchar(100) NOT NULL COMMENT '在线协议URL',
-  `paper_agreement_url` varchar(100) DEFAULT NULL COMMENT '纸质协议URL',
-  `third_online_agreement_url` varchar(100) DEFAULT NULL COMMENT '三方在线协议URL',
+  `paper_agreement_url` varchar(100) NOT NULL DEFAULT '' COMMENT '纸质协议URL',
+  `third_online_agreement_url` varchar(100) NOT NULL DEFAULT '' COMMENT '三方在线协议URL',
   `paper_agreement_upload` int(11) DEFAULT NULL COMMENT '纸质协议上传状态',
   `first_side_sign_person` varchar(100) NOT NULL COMMENT '甲方签署人员',
   `second_side_sign_person` varchar(100) NOT NULL COMMENT '乙方签署人员',
-  `third_side_sign_person` varchar(100) DEFAULT NULL COMMENT '丙方签署人员',
-  `fourth_side_sign_person` varchar(100) DEFAULT NULL COMMENT '丁方签署人员',
+  `third_side_sign_person` varchar(100) NOT NULL DEFAULT '' COMMENT '丙方签署人员',
+  `fourth_side_sign_person` varchar(100) NOT NULL DEFAULT '' COMMENT '丁方签署人员',
   `upload_datetime` datetime NOT NULL COMMENT '上传日期',
   `upload_person` varchar(100) NOT NULL COMMENT '上传人员',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
@@ -1693,15 +1694,15 @@ CREATE TABLE `diyi_run_company` (
   `object_id` bigint(50) NOT NULL COMMENT '对象id',
   `object_type` varchar(20) NOT NULL COMMENT '对象身份1、创客本人2、商户人员3、服务商人员4、相关局人员5、渠道商人员6、合伙人本人',
   `company_name` varchar(50) NOT NULL COMMENT '公司名称',
-  `employee_name` varchar(100) DEFAULT NULL COMMENT '公司地址',
+  `employee_name` varchar(100) NOT NULL DEFAULT '' COMMENT '公司地址',
   `tax_no` varchar(50) NOT NULL COMMENT '纳税人识别号',
-  `bank_name` varchar(50) DEFAULT NULL COMMENT '银行账户名',
-  `bank_account` varchar(50) DEFAULT NULL COMMENT '银行账户',
-  `contacter_name` varchar(50) DEFAULT NULL COMMENT '联系人',
-  `phone_no` varchar(50) DEFAULT NULL COMMENT '联系电话',
-  `email_address` varchar(50) DEFAULT NULL COMMENT '联系邮箱',
+  `bank_name` varchar(50) NOT NULL DEFAULT '' COMMENT '银行账户名',
+  `bank_account` varchar(50) NOT NULL DEFAULT '' COMMENT '银行账户',
+  `contacter_name` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人',
+  `phone_no` varchar(50) NOT NULL DEFAULT '' COMMENT '联系电话',
+  `email_address` varchar(50) NOT NULL DEFAULT '' COMMENT '联系邮箱',
   `set_date` datetime DEFAULT NULL COMMENT '配置日期',
-  `memo_info` varchar(500) DEFAULT NULL COMMENT '备注',
+  `memo_info` varchar(500) NOT NULL DEFAULT '' COMMENT '备注',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
@@ -1736,7 +1737,7 @@ CREATE TABLE `diyi_self_help_invoice` (
   `invoice_date` datetime DEFAULT NULL COMMENT '开票时间',
   `business_enterprise_id` bigint(50) DEFAULT NULL COMMENT '个体户或个独ID',
   `invoice_people_type` varchar(50) NOT NULL COMMENT '开票人身份类别 1，自然人；2，个体户；3，个独',
-  `list_file` varchar(500) DEFAULT NULL COMMENT '开票清单文件',
+  `list_file` varchar(500) NOT NULL DEFAULT '' COMMENT '开票清单文件',
   `charge_money_num` decimal(12,2) DEFAULT '0.00' COMMENT '总价税合计额',
   `service_rate` decimal(12,2) DEFAULT '0.00' COMMENT '服务税费率',
   `service_and_tax_money` decimal(12,2) DEFAULT '0.00' COMMENT '总服务税费',
@@ -1745,10 +1746,10 @@ CREATE TABLE `diyi_self_help_invoice` (
   `service_invoice_fee` decimal(12,2) DEFAULT '0.00' COMMENT '总开票手续费',
   `idendity_confirm_fee` decimal(12,2) DEFAULT '0.00' COMMENT '总身份验证费',
   `address_id` bigint(50) NOT NULL COMMENT '收件地址Id',
-  `express_sheet_no` varchar(100) DEFAULT NULL COMMENT '快递单号',
-  `express_company_name` varchar(100) DEFAULT NULL COMMENT '快递更新日期',
-  `express_update_person` varchar(100) DEFAULT NULL COMMENT '快递更新人员',
-  `express_update_person_tel` varchar(100) DEFAULT NULL COMMENT '快递更新人员电话',
+  `express_sheet_no` varchar(100) NOT NULL DEFAULT '' COMMENT '快递单号',
+  `express_company_name` varchar(100) NOT NULL DEFAULT '' COMMENT '快递更新日期',
+  `express_update_person` varchar(100) NOT NULL DEFAULT '' COMMENT '快递更新人员',
+  `express_update_person_tel` varchar(100) NOT NULL DEFAULT '' COMMENT '快递更新人员电话',
   `invoice_audit_state` varchar(50) NOT NULL COMMENT '发票审核：未审核，审核通过，不通过',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
@@ -1758,7 +1759,6 @@ CREATE TABLE `diyi_self_help_invoice` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自助开票主表';
-
 
 -- ----------------------------
 -- Records of diyi_self_help_invoice
@@ -1997,14 +1997,14 @@ CREATE TABLE `diyi_worksheet` (
   `maker_type` varchar(50) NOT NULL COMMENT '创客身份，自然人，个体户，个独。如果是个体户/个独，则抢单或派单时需要指定相关个体户/个独，如果只有一个则不用指定。',
   `worksheet_state` varchar(50) NOT NULL COMMENT '工单状态：\r\na) 发布中，发布代抢单或代派单的工单\r\nb) 已关单，已经抢单或者派单完毕（人数不做控制依据）\r\nc) 验收中，有个人创客提交了工单等待验收或部分验收完毕\r\nd) 已完毕，所有个人创客都验收完毕了\r\ne) 已作废，验收中工单都可以作废，已完毕的不能作废',
   `destroy_datetime` datetime DEFAULT NULL COMMENT '作废时间',
-  `destroy_person` varchar(50) DEFAULT NULL COMMENT '作废人员',
-  `destroy_desc` varchar(500) DEFAULT NULL COMMENT '作废说明',
+  `destroy_person` varchar(50) NOT NULL DEFAULT '' COMMENT '作废人员',
+  `destroy_desc` varchar(500) NOT NULL DEFAULT '' COMMENT '作废说明',
   `close_worksheet_date` datetime DEFAULT NULL COMMENT '关单时间',
   `close_desc` varchar(50) DEFAULT NULL COMMENT '1，手动关单；2，自动关单',
-  `close_person` varchar(500) DEFAULT NULL COMMENT '关单人员',
+  `close_person` varchar(500) NOT NULL DEFAULT '' COMMENT '关单人员',
   `finish_date` datetime DEFAULT NULL COMMENT '完毕日期',
-  `worksheet_memo` varchar(500) DEFAULT NULL COMMENT '工单说明',
-  `worksheet_desc_files` varchar(500) DEFAULT NULL COMMENT '工单说明图文',
+  `worksheet_memo` varchar(500) NOT NULL DEFAULT '' COMMENT '工单说明',
+  `worksheet_desc_files` varchar(500) NOT NULL DEFAULT '' COMMENT '工单说明图文',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
@@ -2054,13 +2054,13 @@ CREATE TABLE `diyi_worksheet_maker` (
   `get_type` varchar(50) NOT NULL COMMENT '获得方式：1,抢单获得；2，派单获得',
   `get_order_date` datetime NOT NULL COMMENT '抢单/派单日期',
   `worksheet_maker_state` varchar(50) NOT NULL COMMENT '工单创客的状态：1待提交，2待验证，3验证通过，4验证失败',
-  `achievement_desc` varchar(1000) DEFAULT NULL COMMENT '工作成果说明',
-  `achievement_files` varchar(1000) DEFAULT NULL COMMENT '工作成果附件',
+  `achievement_desc` varchar(1000) NOT NULL DEFAULT '' COMMENT '工作成果说明',
+  `achievement_files` varchar(1000) NOT NULL DEFAULT '' COMMENT '工作成果附件',
   `achievement_date` datetime DEFAULT NULL COMMENT '提交工作成果日期',
   `check_money` decimal(12,2) DEFAULT '0.00' COMMENT '验收金额',
-  `check_person` varchar(500) DEFAULT NULL COMMENT '验收人员',
+  `check_person` varchar(500) NOT NULL DEFAULT '' COMMENT '验收人员',
   `check_date` datetime DEFAULT NULL COMMENT '验收时间',
-  `arrange_person` varchar(50) DEFAULT NULL COMMENT '派单人员',
+  `arrange_person` varchar(50) NOT NULL DEFAULT '' COMMENT '派单人员',
   `arrange_date` datetime DEFAULT NULL COMMENT '派单日期',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
@@ -2086,7 +2086,7 @@ CREATE TABLE `diyi_work_achievement` (
   `work_explain` varchar(500) NOT NULL COMMENT '工作成果说明',
   `work_url` varchar(100) NOT NULL COMMENT '工作结果url',
   `check_money_num` decimal(12,2) NOT NULL COMMENT '验收金额',
-  `check_desc` varchar(500) DEFAULT NULL COMMENT '验收说明',
+  `check_desc` varchar(500) NOT NULL DEFAULT '' COMMENT '验收说明',
   `check_person` varchar(100) NOT NULL COMMENT '验收人员',
   `chece_datetime` datetime NOT NULL COMMENT '验收日期时间',
   `work_achievement_state` varchar(50) NOT NULL COMMENT '工作成果状态 1：待验收，2验收通过，3验收不通过',

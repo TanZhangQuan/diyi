@@ -7,6 +7,7 @@ import com.lgyun.system.order.dto.AcceptPayListDto;
 import com.lgyun.system.order.dto.AcceptPaysheetSaveDto;
 import com.lgyun.system.order.entity.AcceptPaysheetEntity;
 import com.lgyun.system.order.vo.AcceptPayListVO;
+import com.lgyun.system.order.vo.AcceptPayMakerListVO;
 import com.lgyun.system.order.vo.AcceptPaysheetByEnterpriseListVO;
 import com.lgyun.system.order.vo.AcceptPaysheetWorksheetVO;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
@@ -66,5 +67,23 @@ public interface IAcceptPaysheetService extends BaseService<AcceptPaysheetEntity
      * @return
      */
     R<IPage<AcceptPayListVO>> getByDtoEnterprise(Long enterpriseId, AcceptPayListDto acceptPayListDto, IPage<AcceptPayListVO> page);
+
+    /**
+     * 根据总包总包交付支付验收单ID查询关联创客
+     *
+     * @param acceptPaysheetId
+     * @param page
+     * @return
+     */
+    R<IPage<AcceptPayMakerListVO>> getMakerList(Long acceptPaysheetId, IPage<AcceptPayMakerListVO> page);
+
+    /**
+     * 根据支付清单ID, 创客ID查询交付支付验收单
+     *
+     * @param payEnterpriseId
+     * @param makerId
+     * @return
+     */
+    AcceptPaysheetEntity getAcceptPaysheet(Long payEnterpriseId, Long makerId);
 }
 
