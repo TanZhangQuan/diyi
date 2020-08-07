@@ -2,10 +2,15 @@ package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.SmsConstant;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
+import com.lgyun.common.tool.DigestUtil;
+import com.lgyun.common.tool.RedisUtil;
+import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.system.user.dto.UpdatePasswordDto;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.User;
@@ -30,6 +35,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
 
     private IEnterpriseService enterpriseService;
     private IUserService userService;
+    private RedisUtil redisUtil;
 
     @Override
     public EnterpriseWorkerEntity findByPhoneNumber(String phoneNumber) {
@@ -88,5 +94,29 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
         QueryWrapper<EnterpriseWorkerEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(EnterpriseWorkerEntity::getUserId, userId);
         return baseMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public R<String> updatePassword(UpdatePasswordDto updatePasswordDto) {
+
+        EnterpriseWorkerEntity enterpriseWorkerEntity = findByPhoneNumber(updatePasswordDto.getPhoneNumber());
+        if (enterpriseWorkerEntity == null) {
+            return R.fail("手机号未注册");
+        }
+
+        //获取缓存短信验证码
+        String redisCode = (String) redisUtil.get(SmsConstant.AVAILABLE_TIME + updatePasswordDto.getPhoneNumber());
+        //判断验证码
+        if (!StringUtil.equalsIgnoreCase(redisCode, updatePasswordDto.getSmsCode())) {
+            return R.fail("短信验证码不正确");
+        }
+
+        enterpriseWorkerEntity.setEmployeePwd(DigestUtil.encrypt(updatePasswordDto.getNewPassword()));
+        save(enterpriseWorkerEntity);
+
+        //删除缓存短信验证码
+        redisUtil.del(SmsConstant.AVAILABLE_TIME + updatePasswordDto.getPhoneNumber());
+
+        return R.success("修改密码成功");
     }
 }

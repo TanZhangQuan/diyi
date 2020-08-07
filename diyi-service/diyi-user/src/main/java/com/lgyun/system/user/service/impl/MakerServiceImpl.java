@@ -645,7 +645,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
         MakerEntity makerEntity = findByPhoneNumber(updatePasswordDto.getPhoneNumber());
         if (makerEntity == null) {
-            return R.fail("创客不存在");
+            return R.fail("手机号未注册");
         }
 
         //获取缓存短信验证码

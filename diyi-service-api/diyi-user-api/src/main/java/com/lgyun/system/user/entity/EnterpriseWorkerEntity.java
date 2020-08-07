@@ -74,6 +74,7 @@ public class EnterpriseWorkerEntity extends BaseEntity {
     /**
      * 密码
      */
+    @JsonIgnore
     private String employeePwd;
 
     /**
