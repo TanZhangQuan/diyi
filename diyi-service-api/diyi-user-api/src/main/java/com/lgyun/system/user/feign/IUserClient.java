@@ -157,7 +157,7 @@ public interface IUserClient {
     R<IPage<IndividualBusinessEnterpriseListByMakerVO>> individualBusinessListByMaker(@RequestParam("query") Query query, @RequestParam("makerId") Long makerId, @RequestParam("ibstate") Ibstate ibstate);
 
     /**
-     * 根据Id获取个独信息
+     * 根据Id获取个独或个体户信息
      *
      * @param individualEnterpriseId
      * @return

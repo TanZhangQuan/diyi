@@ -2,7 +2,7 @@ package com.lgyun.system.order.feign;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.MakerType;
+import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.service.ISelfHelpInvoiceService;
@@ -24,18 +24,18 @@ public class OrderClient implements IOrderClient {
     private ISelfHelpInvoiceService iSelfHelpInvoiceService;
 
     @Override
-    public R<SelfHelpInvoiceStatisticsVO> yearMonthMoney(Long businessEnterpriseId, MakerType makerType) {
-        return iSelfHelpInvoiceService.yearMonthMoney(businessEnterpriseId, makerType);
+    public R<SelfHelpInvoiceStatisticsVO> yearMonthMoney(Long allKindEnterpriseId, InvoicePeopleType invoicePeopleType) {
+        return iSelfHelpInvoiceService.yearMonthMoney(allKindEnterpriseId, invoicePeopleType);
     }
 
     @Override
-    public R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(Long businessEnterpriseId, MakerType makerType) {
-        return iSelfHelpInvoiceService.selfHelpInvoiceStatistics(businessEnterpriseId, makerType);
+    public R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(Long allKindEnterpriseId, InvoicePeopleType invoicePeopleType) {
+        return iSelfHelpInvoiceService.selfHelpInvoiceStatistics(allKindEnterpriseId, invoicePeopleType);
     }
 
     @Override
-    public R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(Query query, Long businessEnterpriseId, MakerType makerType) {
-        return iSelfHelpInvoiceService.selfHelpInvoiceList(Condition.getPage(query.setDescs("create_time")), businessEnterpriseId, makerType);
+    public R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(Query query, Long allKindEnterpriseId, InvoicePeopleType invoicePeopleType) {
+        return iSelfHelpInvoiceService.selfHelpInvoiceList(Condition.getPage(query.setDescs("create_time")), allKindEnterpriseId, invoicePeopleType);
     }
 
 }

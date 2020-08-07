@@ -2,10 +2,10 @@ package com.lgyun.system.order.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.MakerType;
+import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.order.dto.PayListDto;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDto;
+import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
 import com.lgyun.system.order.dto.SelfHelpInvoiceWebDto;
 import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
 import com.lgyun.system.order.vo.PayListVO;
@@ -41,38 +41,47 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      * 查询开票次数，月度开票金额，年度开票金额和总开票金额
      *
      * @param businessEnterpriseId
-     * @param makerType
+     * @param invoicePeopleType
      * @return
      */
-    R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(Long businessEnterpriseId, MakerType makerType);
+    R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(Long businessEnterpriseId, InvoicePeopleType invoicePeopleType);
 
     /**
      * 查询自助开票记录
      *
      * @param page
      * @param businessEnterpriseId
-     * @param makerType
+     * @param invoicePeopleType
      * @return
      */
-    R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(IPage<SelfHelpInvoiceListVO> page, Long businessEnterpriseId, MakerType makerType);
+    R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(IPage<SelfHelpInvoiceListVO> page, Long businessEnterpriseId, InvoicePeopleType invoicePeopleType);
 
 
     /**
      * 查询月度开票金额和年度开票金额
      *
-     * @param makerType
+     * @param individualBusinessId
+     * @param invoicePeopleType
      * @return
      */
-    R<SelfHelpInvoiceStatisticsVO> yearMonthMoney(Long individualBusinessId, MakerType makerType);
+    R<SelfHelpInvoiceStatisticsVO> yearMonthMoney(Long individualBusinessId, InvoicePeopleType invoicePeopleType);
 
 
     /**
-     * 根据创客类型查询自助开票
+     * 根据商户ID, 开票人身份类别查询自助开票
+     *
+     * @param page
+     * @param enterpriseId
+     * @param invoicePeopleType
+     * @return
      */
-    R findMakerTypeSelfHelpInvoice(IPage<SelfHelpInvoiceDetailsVO> page,Long enterpriseId,MakerType makerType);
+    R findMakerTypeSelfHelpInvoice(IPage<SelfHelpInvoiceDetailsVO> page, Long enterpriseId, InvoicePeopleType invoicePeopleType);
 
     /**
-     *商户提交自助开票
+     * 商户提交自助开票
+     *
+     * @param selfHelpInvoiceWebDto
+     * @return
      */
     R submitWebSelfHelpInvoice(SelfHelpInvoiceWebDto selfHelpInvoiceWebDto);
 
@@ -81,10 +90,10 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      * 查询当前商户所有自主开票记录(众包)
      *
      * @param enterpriseId
-     * @param payListDto
+     * @param selfHelpInvoicePayDto
      * @param page
      * @return
      */
-    R<IPage<PayListVO>> getByDtoEnterprise(Long enterpriseId, PayListDto payListDto, IPage<PayListVO> page);
+    R<IPage<PayListVO>> getByDtoEnterprise(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<PayListVO> page);
 }
 

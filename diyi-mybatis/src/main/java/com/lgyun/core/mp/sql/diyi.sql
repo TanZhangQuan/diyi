@@ -1012,7 +1012,7 @@ CREATE TABLE `diyi_individual_enterprise` (
   `annual_fee_year` datetime NOT NULL COMMENT '年费年度',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
   `service_provider_id` bigint(50) DEFAULT NULL COMMENT '服务商ID',
-  `bizType` varchar(50) NOT NULL COMMENT '个独税种：小规模，一般纳税人',
+  `biz_type` varchar(50) NOT NULL COMMENT '个独税种：小规模，一般纳税人',
   `ibname` varchar(50) NOT NULL DEFAULT '' COMMENT '个体户名称',
   `ibtax_no` varchar(50) NOT NULL DEFAULT '' COMMENT '统一社会信用代码',
   `build_date_time` datetime DEFAULT NULL COMMENT '营业执照的注册日期',

@@ -3,14 +3,14 @@ package com.lgyun.system.user.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
-import com.lgyun.common.enumeration.MakerType;
+import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.vo.SelfHelpInvoiceListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
-import com.lgyun.system.user.dto.EnterpriseIndividualBusinessEnterpriseDto;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDto;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDto;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddEnterpriseDto;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDto;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.vo.IndividualBusinessEnterpriseDetailsVO;
@@ -65,10 +65,10 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
      * 查询个独月度开票金额和年度开票金额
      *
      * @param individualEnterpriseId
-     * @param makerType
+     * @param invoicePeopleType
      * @return
      */
-    R<SelfHelpInvoiceStatisticsVO> yearMonthMoney(Long individualEnterpriseId, MakerType makerType);
+    R<SelfHelpInvoiceStatisticsVO> yearMonthMoney(Long individualEnterpriseId, InvoicePeopleType invoicePeopleType);
 
     /**
      * 查询当前商户的所有关联创客的个独
@@ -76,10 +76,10 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
      * @param page
      * @param enterpriseId
      * @param ibstate
-     * @param enterpriseIndividualBusinessEnterpriseDto
+     * @param individualBusinessEnterpriseDto
      * @return
      */
-    R<IPage<IndividualBusinessEnterpriseDetailsVO>> getByDtoEnterprise(IPage<IndividualBusinessEnterpriseDetailsVO> page, Long enterpriseId, Ibstate ibstate, EnterpriseIndividualBusinessEnterpriseDto enterpriseIndividualBusinessEnterpriseDto);
+    R<IPage<IndividualBusinessEnterpriseDetailsVO>> getByDtoEnterprise(IPage<IndividualBusinessEnterpriseDetailsVO> page, Long enterpriseId, Ibstate ibstate, IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto);
 
     /**
      * 查询当前商户的关联创客的个独详情
@@ -93,28 +93,28 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
      * 查询个独开票次数，月度开票金额，年度开票金额和总开票金额
      *
      * @param individualBusinessId
-     * @param makerType
+     * @param invoicePeopleType
      * @return
      */
-    R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(Long individualBusinessId, MakerType makerType);
+    R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(Long individualBusinessId, InvoicePeopleType invoicePeopleType);
 
     /**
      * 查询个独开票记录
      *
      * @param query
      * @param individualBusinessId
-     * @param makerType
+     * @param invoicePeopleType
      * @return
      */
-    R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(Query query, Long individualBusinessId, MakerType makerType);
+    R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(Query query, Long individualBusinessId, InvoicePeopleType invoicePeopleType);
 
     /**
      * 当前商户申请创建个独
      *
-     * @param individualBusinessEnterpriseAddEnterpriseDto
+     * @param individualBusinessEnterpriseWebAddDto
      * @param enterpriseId
      * @return
      */
-    R<String> saveByEnterprise(IndividualBusinessEnterpriseAddEnterpriseDto individualBusinessEnterpriseAddEnterpriseDto, Long enterpriseId);
+    R<String> saveByEnterprise(IndividualBusinessEnterpriseWebAddDto individualBusinessEnterpriseWebAddDto, Long enterpriseId);
 }
 

@@ -3,7 +3,7 @@ package com.lgyun.system.order.feign;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
-import com.lgyun.common.enumeration.MakerType;
+import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.vo.SelfHelpInvoiceListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
@@ -27,31 +27,31 @@ public interface IOrderClient {
     /**
      * 获取开票月度年度金额
      *
-     * @param businessEnterpriseId
-     * @param makerType
+     * @param allKindEnterpriseId
+     * @param invoicePeopleType
      * @return
      */
     @GetMapping(API_PREFIX + "/self_help_invoice/year_month_money")
-    R<SelfHelpInvoiceStatisticsVO> yearMonthMoney(@RequestParam("businessEnterpriseId") Long businessEnterpriseId, @RequestParam("makerType") MakerType makerType);
+    R<SelfHelpInvoiceStatisticsVO> yearMonthMoney(@RequestParam("allKindEnterpriseId") Long allKindEnterpriseId, @RequestParam("invoicePeopleType") InvoicePeopleType invoicePeopleType);
 
     /**
      * 获取开票统计
      *
-     * @param businessEnterpriseId
-     * @param makerType
+     * @param allKindEnterpriseId
+     * @param invoicePeopleType
      * @return
      */
     @GetMapping(API_PREFIX + "/self_help_invoice/self_help_invoice_statistics")
-    R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(@RequestParam("businessEnterpriseId") Long businessEnterpriseId, @RequestParam("makerType") MakerType makerType);
+    R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(@RequestParam("allKindEnterpriseId") Long allKindEnterpriseId, @RequestParam("invoicePeopleType") InvoicePeopleType invoicePeopleType);
 
     /**
      * 根据个独或个体户ID查询自助开票记录
      *
-     * @param businessEnterpriseId
-     * @param makerType
+     * @param allKindEnterpriseId
+     * @param invoicePeopleType
      * @return
      */
     @GetMapping(API_PREFIX + "/self_help_invoice/self_help_invoice_list")
-    R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(@RequestParam("query") Query query, @RequestParam("businessEnterpriseId") Long businessEnterpriseId, @RequestParam("makerType") MakerType makerType);
+    R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(@RequestParam("query") Query query, @RequestParam("allKindEnterpriseId") Long allKindEnterpriseId, @RequestParam("invoicePeopleType") InvoicePeopleType invoicePeopleType);
 
 }

@@ -4,19 +4,16 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.BizType;
-import com.lgyun.common.enumeration.Ibstate;
-import com.lgyun.common.enumeration.MakerType;
-import com.lgyun.common.enumeration.VerifyStatus;
+import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.feign.IOrderClient;
 import com.lgyun.system.order.vo.SelfHelpInvoiceListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
-import com.lgyun.system.user.dto.EnterpriseIndividualBusinessEnterpriseDto;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDto;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDto;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddEnterpriseDto;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDto;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.mapper.IndividualEnterpriseMapper;
@@ -100,13 +97,13 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
     }
 
     @Override
-    public R<SelfHelpInvoiceStatisticsVO> yearMonthMoney(Long individualEnterpriseId, MakerType makerType) {
-        return orderClient.yearMonthMoney(individualEnterpriseId, makerType);
+    public R<SelfHelpInvoiceStatisticsVO> yearMonthMoney(Long individualEnterpriseId, InvoicePeopleType invoicePeopleType) {
+        return orderClient.yearMonthMoney(individualEnterpriseId, invoicePeopleType);
     }
 
     @Override
-    public R<IPage<IndividualBusinessEnterpriseDetailsVO>> getByDtoEnterprise(IPage<IndividualBusinessEnterpriseDetailsVO> page, Long enterpriseId, Ibstate ibstate, EnterpriseIndividualBusinessEnterpriseDto enterpriseIndividualBusinessEnterpriseDto) {
-        return R.data(page.setRecords(baseMapper.getByDtoEnterprise(enterpriseId, ibstate, enterpriseIndividualBusinessEnterpriseDto, page)));
+    public R<IPage<IndividualBusinessEnterpriseDetailsVO>> getByDtoEnterprise(IPage<IndividualBusinessEnterpriseDetailsVO> page, Long enterpriseId, Ibstate ibstate, IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto) {
+        return R.data(page.setRecords(baseMapper.getByDtoEnterprise(enterpriseId, ibstate, individualBusinessEnterpriseDto, page)));
     }
 
     @Override
@@ -115,37 +112,37 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
     }
 
     @Override
-    public R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(Long individualBusinessId, MakerType makerType) {
-        return orderClient.selfHelpInvoiceStatistics(individualBusinessId, makerType);
+    public R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(Long individualBusinessId, InvoicePeopleType invoicePeopleType) {
+        return orderClient.selfHelpInvoiceStatistics(individualBusinessId, invoicePeopleType);
     }
 
     @Override
-    public R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(Query query, Long individualBusinessId, MakerType makerType) {
-        return orderClient.selfHelpInvoiceList(query, individualBusinessId, makerType);
+    public R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(Query query, Long individualBusinessId, InvoicePeopleType invoicePeopleType) {
+        return orderClient.selfHelpInvoiceList(query, individualBusinessId, invoicePeopleType);
     }
 
     @Override
-    public R<String> saveByEnterprise(IndividualBusinessEnterpriseAddEnterpriseDto individualBusinessEnterpriseAddEnterpriseDto, Long enterpriseId) {
+    public R<String> saveByEnterprise(IndividualBusinessEnterpriseWebAddDto individualBusinessEnterpriseWebAddDto, Long enterpriseId) {
         //新建创客
-        MakerEntity makerEntity = makerService.makerSave(individualBusinessEnterpriseAddEnterpriseDto.getPhone(), individualBusinessEnterpriseAddEnterpriseDto.getName(),
-                individualBusinessEnterpriseAddEnterpriseDto.getIdcardNo(), individualBusinessEnterpriseAddEnterpriseDto.getIdcardPic(), individualBusinessEnterpriseAddEnterpriseDto.getIdcardPicBack(),
-                individualBusinessEnterpriseAddEnterpriseDto.getIdcardHand(), individualBusinessEnterpriseAddEnterpriseDto.getIdcardBackHand(), enterpriseId);
+        MakerEntity makerEntity = makerService.makerSave(individualBusinessEnterpriseWebAddDto.getPhone(), individualBusinessEnterpriseWebAddDto.getName(),
+                individualBusinessEnterpriseWebAddDto.getIdcardNo(), individualBusinessEnterpriseWebAddDto.getIdcardPic(), individualBusinessEnterpriseWebAddDto.getIdcardPicBack(),
+                individualBusinessEnterpriseWebAddDto.getIdcardHand(), individualBusinessEnterpriseWebAddDto.getIdcardBackHand(), enterpriseId);
 
         //判断税种
-        if (BizType.TAXPAYER.equals(individualBusinessEnterpriseAddEnterpriseDto.getBizType())) {
+        if (BizType.TAXPAYER.equals(individualBusinessEnterpriseWebAddDto.getBizType())) {
             return R.fail("个体户税种不存在一般纳税人");
         }
 
         //新建个体户
         IndividualEnterpriseEntity individualEnterpriseEntity = new IndividualEnterpriseEntity();
-        individualEnterpriseEntity.setCandidatedNames(individualBusinessEnterpriseAddEnterpriseDto.getCandidatedNames());
-        individualEnterpriseEntity.setMainIndustry(individualBusinessEnterpriseAddEnterpriseDto.getMainIndustry());
-        individualEnterpriseEntity.setBizScope(individualBusinessEnterpriseAddEnterpriseDto.getBizScope());
-        individualEnterpriseEntity.setBizType(individualBusinessEnterpriseAddEnterpriseDto.getBizType());
-        individualEnterpriseEntity.setRegisteredMoney(individualBusinessEnterpriseAddEnterpriseDto.getRegisteredMoney());
+        individualEnterpriseEntity.setCandidatedNames(individualBusinessEnterpriseWebAddDto.getCandidatedNames());
+        individualEnterpriseEntity.setMainIndustry(individualBusinessEnterpriseWebAddDto.getMainIndustry());
+        individualEnterpriseEntity.setBizScope(individualBusinessEnterpriseWebAddDto.getBizScope());
+        individualEnterpriseEntity.setBizType(individualBusinessEnterpriseWebAddDto.getBizType());
+        individualEnterpriseEntity.setRegisteredMoney(individualBusinessEnterpriseWebAddDto.getRegisteredMoney());
         individualEnterpriseEntity.setMakerId(makerEntity.getId());
-        individualEnterpriseEntity.setContactName(individualBusinessEnterpriseAddEnterpriseDto.getContactName());
-        individualEnterpriseEntity.setContactPhone(individualBusinessEnterpriseAddEnterpriseDto.getContactPhone());
+        individualEnterpriseEntity.setContactName(individualBusinessEnterpriseWebAddDto.getContactName());
+        individualEnterpriseEntity.setContactPhone(individualBusinessEnterpriseWebAddDto.getContactPhone());
         individualEnterpriseEntity.setIbstate(Ibstate.REGISTERING);
         save(individualEnterpriseEntity);
 

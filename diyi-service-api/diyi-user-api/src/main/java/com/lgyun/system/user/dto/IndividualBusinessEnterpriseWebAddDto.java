@@ -16,7 +16,7 @@ import java.math.BigDecimal;
  * @date 2020.07.15
  */
 @Data
-public class IndividualBusinessEnterpriseAddEnterpriseDto implements Serializable {
+public class IndividualBusinessEnterpriseWebAddDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //注册时候选名称

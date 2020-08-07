@@ -13,7 +13,7 @@ import java.util.Date;
  * @date 2020.06.27
  */
 @Data
-public class EnterpriseIndividualBusinessEnterpriseDto implements Serializable {
+public class IndividualBusinessEnterpriseDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //个体户或个独编号

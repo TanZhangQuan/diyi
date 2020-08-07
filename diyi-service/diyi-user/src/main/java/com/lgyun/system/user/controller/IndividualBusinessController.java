@@ -3,15 +3,15 @@ package com.lgyun.system.user.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
-import com.lgyun.common.enumeration.MakerType;
+import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.EnterpriseIndividualBusinessEnterpriseDto;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDto;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDto;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddEnterpriseDto;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDto;
 import com.lgyun.system.user.dto.IndividualBusinessListDto;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
@@ -150,7 +150,7 @@ public class IndividualBusinessController {
             @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
     })
-    public R getByDtoEnterprise(@NotNull(message = "请选择个体户状态") @RequestParam(required = false) Ibstate ibstate, EnterpriseIndividualBusinessEnterpriseDto enterpriseIndividualBusinessEnterpriseDto, Query query, BladeUser bladeUser) {
+    public R getByDtoEnterprise(@NotNull(message = "请选择个体户状态") @RequestParam(required = false) Ibstate ibstate, IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto, Query query, BladeUser bladeUser) {
 
         log.info("查询当前商户的关联创客的所有个体户");
         try {
@@ -161,7 +161,7 @@ public class IndividualBusinessController {
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-            return individualBusinessService.getByDtoEnterprise(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), ibstate, enterpriseIndividualBusinessEnterpriseDto);
+            return individualBusinessService.getByDtoEnterprise(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), ibstate, individualBusinessEnterpriseDto);
         } catch (Exception e) {
             log.error("查询当前商户的关联创客的所有个体户异常", e);
         }
@@ -200,7 +200,7 @@ public class IndividualBusinessController {
 
         log.info("查询个体户月度开票金额和年度开票金额");
         try {
-            return individualBusinessService.yearMonthMoney(individualBusinessId, MakerType.INDIVIDUALBUSINESS);
+            return individualBusinessService.yearMonthMoney(individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
         } catch (Exception e) {
             log.error("查询个体户月度开票金额和年度开票金额异常", e);
         }
@@ -213,7 +213,7 @@ public class IndividualBusinessController {
 
         log.info("查询个体户开票次数，月度开票金额，年度开票金额和总开票金额");
         try {
-            return individualBusinessService.selfHelpInvoiceStatistics(individualBusinessId, MakerType.INDIVIDUALBUSINESS);
+            return individualBusinessService.selfHelpInvoiceStatistics(individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
         } catch (Exception e) {
             log.error("查询个体户开票次数，月度开票金额，年度开票金额和总开票金额异常", e);
         }
@@ -226,7 +226,7 @@ public class IndividualBusinessController {
 
         log.info("查询个体户开票记录");
         try {
-            return individualBusinessService.selfHelpInvoiceList(query, individualBusinessId, MakerType.INDIVIDUALBUSINESS);
+            return individualBusinessService.selfHelpInvoiceList(query, individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
         } catch (Exception e) {
             log.error("查询个体户开票记录异常", e);
         }
@@ -235,7 +235,7 @@ public class IndividualBusinessController {
 
     @PostMapping("/save_by_enterprise")
     @ApiOperation(value = "当前商户申请创建个体户", notes = "当前商户申请创建个体户")
-    public R saveByEnterprise(@Valid @RequestBody IndividualBusinessEnterpriseAddEnterpriseDto individualBusinessEnterpriseAddEnterpriseDto, BladeUser bladeUser) {
+    public R saveByEnterprise(@Valid @RequestBody IndividualBusinessEnterpriseWebAddDto individualBusinessEnterpriseWebAddDto, BladeUser bladeUser) {
 
         log.info("当前商户申请创建个体户");
         try {
@@ -246,7 +246,7 @@ public class IndividualBusinessController {
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-            return individualBusinessService.saveByEnterprise(individualBusinessEnterpriseAddEnterpriseDto, enterpriseWorkerEntity.getEnterpriseId());
+            return individualBusinessService.saveByEnterprise(individualBusinessEnterpriseWebAddDto, enterpriseWorkerEntity.getEnterpriseId());
         } catch (Exception e) {
             log.error("当前商户申请创建个体户异常", e);
         }

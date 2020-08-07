@@ -2,14 +2,16 @@ package com.lgyun.system.order.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.BizType;
 import com.lgyun.common.enumeration.InvoiceAuditState;
 import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.tool.BeanUtil;
+import com.lgyun.common.tool.CollectionUtil;
 import com.lgyun.common.tool.KdniaoTrackQueryUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.order.dto.PayListDto;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDto;
+import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
 import com.lgyun.system.order.dto.SelfHelpInvoiceWebDto;
 import com.lgyun.system.order.entity.SelfHelpInvoiceDetailEntity;
 import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
@@ -20,12 +22,16 @@ import com.lgyun.system.order.vo.PayListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceDetailsVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
+import com.lgyun.system.user.entity.IndividualBusinessEntity;
+import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
+import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,7 +45,8 @@ import java.util.Map;
 @AllArgsConstructor
 public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceMapper, SelfHelpInvoiceEntity> implements ISelfHelpInvoiceService {
 
-    private final ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
+    private ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
+    private IUserClient iUserClient;
 
     @Override
     @Transactional
@@ -73,7 +80,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     @Override
     public R getSelfHelpInvoiceDetails(Long selfHelpInvoiceId) {
         SelfHelpInvoiceEntity selfHelpInvoiceEntity = getById(selfHelpInvoiceId);
-        if(null == selfHelpInvoiceEntity){
+        if (null == selfHelpInvoiceEntity) {
             return R.fail("数据不存在");
         }
         if (!selfHelpInvoiceEntity.getInvoiceAuditState().equals(InvoiceAuditState.APPROVED)) {
@@ -82,64 +89,81 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         KdniaoTrackQueryUtil api = new KdniaoTrackQueryUtil();
         String orderTracesByJson = "";
         Map map = new HashMap();
-        try{
-            if(null != selfHelpInvoiceEntity.getExpressCompanyName() && "" != selfHelpInvoiceEntity.getExpressCompanyName()){
+        try {
+            if (null != selfHelpInvoiceEntity.getExpressCompanyName() && "" != selfHelpInvoiceEntity.getExpressCompanyName()) {
                 orderTracesByJson = api.getOrderTracesByJson(selfHelpInvoiceEntity.getExpressCompanyName(), selfHelpInvoiceEntity.getExpressSheetNo());
             }
-        }catch (Exception e){
-            log.error("查询物流错误",e);
+        } catch (Exception e) {
+            log.error("查询物流错误", e);
         }
         SelfHelpInvoiceDetailsVO selfHelpInvoiceDetails = baseMapper.getSelfHelpInvoiceDetails(selfHelpInvoiceId);
-        map.put("expressCompanyName",null != selfHelpInvoiceEntity.getExpressCompanyName() ? "" : selfHelpInvoiceEntity.getExpressCompanyName());
-        map.put("expressSheetNo",null != selfHelpInvoiceEntity.getExpressSheetNo() ? "" : selfHelpInvoiceEntity.getExpressSheetNo());
-        map.put("expressUpdatePerson",null != selfHelpInvoiceEntity.getExpressUpdatePerson() ? "" : selfHelpInvoiceEntity.getExpressUpdatePerson());
-        map.put("expressUpdatePersonTel",null != selfHelpInvoiceEntity.getExpressUpdatePersonTel() ? "" : selfHelpInvoiceEntity.getExpressUpdatePersonTel());
-        map.put("orderTracesByJson",orderTracesByJson);
-        map.put("selfHelpInvoiceDetails",selfHelpInvoiceDetails);
+        map.put("expressCompanyName", null != selfHelpInvoiceEntity.getExpressCompanyName() ? "" : selfHelpInvoiceEntity.getExpressCompanyName());
+        map.put("expressSheetNo", null != selfHelpInvoiceEntity.getExpressSheetNo() ? "" : selfHelpInvoiceEntity.getExpressSheetNo());
+        map.put("expressUpdatePerson", null != selfHelpInvoiceEntity.getExpressUpdatePerson() ? "" : selfHelpInvoiceEntity.getExpressUpdatePerson());
+        map.put("expressUpdatePersonTel", null != selfHelpInvoiceEntity.getExpressUpdatePersonTel() ? "" : selfHelpInvoiceEntity.getExpressUpdatePersonTel());
+        map.put("orderTracesByJson", orderTracesByJson);
+        map.put("selfHelpInvoiceDetails", selfHelpInvoiceDetails);
         return R.data(map);
     }
 
     @Override
-    public R<SelfHelpInvoiceStatisticsVO> yearMonthMoney(Long businessEnterpriseId, InvoicePeopleType invoicePeopleType) {
-        return R.data(baseMapper.yearMonthMoney(businessEnterpriseId, makerType));
+    public R<SelfHelpInvoiceStatisticsVO> yearMonthMoney(Long allKindEnterpriseId, InvoicePeopleType invoicePeopleType) {
+        return R.data(baseMapper.yearMonthMoney(allKindEnterpriseId, invoicePeopleType));
     }
 
     @Override
-    public R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(Long businessEnterpriseId, InvoicePeopleType invoicePeopleType) {
-        return R.data(baseMapper.selfHelpInvoiceStatistics(businessEnterpriseId, makerType));
+    public R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(Long allKindEnterpriseId, InvoicePeopleType invoicePeopleType) {
+        return R.data(baseMapper.selfHelpInvoiceStatistics(allKindEnterpriseId, invoicePeopleType));
     }
 
     @Override
-    public R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(IPage<SelfHelpInvoiceListVO> page, Long businessEnterpriseId, InvoicePeopleType invoicePeopleType) {
+    public R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(IPage<SelfHelpInvoiceListVO> page, Long allKindEnterpriseId, InvoicePeopleType invoicePeopleType) {
 
+        List<SelfHelpInvoiceListVO> selfHelpInvoiceListVOs = baseMapper.selfHelpInvoiceList(allKindEnterpriseId, invoicePeopleType, page);
+
+
+        BizType bizType = null;
         switch (invoicePeopleType) {
 
-            case INDIVIDUALENTERPRISE:
-                return R.data(page.setRecords(baseMapper.selfHelpInvoiceListEnterprise(businessEnterpriseId, page)));
-
             case INDIVIDUALBUSINESS:
-                return R.data(page.setRecords(baseMapper.selfHelpInvoiceListBusiness(businessEnterpriseId, page)));
+                IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.individualEnterpriseFindById(allKindEnterpriseId);
+                bizType = individualEnterpriseEntity.getBizType();
+                break;
+
+            case INDIVIDUALENTERPRISE:
+                IndividualBusinessEntity individualBusinessEntity = iUserClient.individualBusinessById(allKindEnterpriseId);
+                bizType = individualBusinessEntity.getBizType();
+                break;
 
             default:
-                return R.fail("开票人身份类别有误");
+                break;
         }
 
-    }
-    @Override
-    public R findMakerTypeSelfHelpInvoice(IPage<SelfHelpInvoiceDetailsVO> page, Long enterpriseId, MakerType makerType) {
-        return R.data(page.setRecords(baseMapper.findMakerTypeSelfHelpInvoice(enterpriseId,makerType, page)));
+        if (bizType != null && CollectionUtil.isNotEmpty(selfHelpInvoiceListVOs)) {
+            BizType finalBizType = bizType;
+            selfHelpInvoiceListVOs.forEach(selfHelpInvoiceListVO -> {
+                selfHelpInvoiceListVO.setBizType(finalBizType);
+            });
+        }
+
+        return R.data(page.setRecords(selfHelpInvoiceListVOs));
     }
 
     @Override
-    public R<IPage<PayListVO>> getByDtoEnterprise(Long enterpriseId, PayListDto payListDto, IPage<PayListVO> page) {
+    public R findMakerTypeSelfHelpInvoice(IPage<SelfHelpInvoiceDetailsVO> page, Long enterpriseId, InvoicePeopleType invoicePeopleType) {
+        return R.data(page.setRecords(baseMapper.findMakerTypeSelfHelpInvoice(enterpriseId, invoicePeopleType, page)));
+    }
 
-        if (payListDto.getBeginDate() != null && payListDto.getEndDate() != null) {
-            if (payListDto.getBeginDate().after(payListDto.getEndDate())) {
+    @Override
+    public R<IPage<PayListVO>> getByDtoEnterprise(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<PayListVO> page) {
+
+        if (selfHelpInvoicePayDto.getBeginDate() != null && selfHelpInvoicePayDto.getEndDate() != null) {
+            if (selfHelpInvoicePayDto.getBeginDate().after(selfHelpInvoicePayDto.getEndDate())) {
                 return R.fail("开始时间不能大于结束时间");
             }
         }
 
-        return R.data(page.setRecords(baseMapper.getByDtoEnterprise(enterpriseId, payListDto, page)));
+        return R.data(page.setRecords(baseMapper.getByDtoEnterprise(enterpriseId, selfHelpInvoicePayDto, page)));
     }
 
     @Override

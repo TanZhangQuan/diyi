@@ -3,14 +3,14 @@ package com.lgyun.system.user.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
-import com.lgyun.common.enumeration.MakerType;
+import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.vo.SelfHelpInvoiceListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
-import com.lgyun.system.user.dto.EnterpriseIndividualBusinessEnterpriseDto;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDto;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDto;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddEnterpriseDto;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDto;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.vo.IndividualBusinessEnterpriseDetailsVO;
@@ -44,22 +44,6 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
     List<IndividualBusinessEntity> findMakerId(Long makerId);
 
     /**
-     * 根据个独名称查询个体户
-     *
-     * @param ibname
-     * @return
-     */
-    IndividualBusinessEntity findIBName(String ibname);
-
-    /**
-     * 通过创客id查询个体户
-     *
-     * @param ibtaxNo
-     * @return
-     */
-    IndividualBusinessEntity findIBTaxNo(String ibtaxNo);
-
-    /**
      * 查询当前创客的所有个体户
      *
      * @param query
@@ -81,10 +65,10 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
      * 查询个体户月度开票金额和年度开票金额
      *
      * @param individualBusinessId
-     * @param makerType
+     * @param invoicePeopleType
      * @return
      */
-    R<SelfHelpInvoiceStatisticsVO> yearMonthMoney(Long individualBusinessId, MakerType makerType);
+    R<SelfHelpInvoiceStatisticsVO> yearMonthMoney(Long individualBusinessId, InvoicePeopleType invoicePeopleType);
 
     /**
      * 查询当前商户的所有关联创客的个体户
@@ -92,10 +76,10 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
      * @param page
      * @param enterpriseId
      * @param ibstate
-     * @param enterpriseIndividualBusinessEnterpriseDto
+     * @param individualBusinessEnterpriseDto
      * @return
      */
-    R<IPage<IndividualBusinessEnterpriseDetailsVO>> getByDtoEnterprise(IPage<IndividualBusinessEnterpriseDetailsVO> page, Long enterpriseId, Ibstate ibstate, EnterpriseIndividualBusinessEnterpriseDto enterpriseIndividualBusinessEnterpriseDto);
+    R<IPage<IndividualBusinessEnterpriseDetailsVO>> getByDtoEnterprise(IPage<IndividualBusinessEnterpriseDetailsVO> page, Long enterpriseId, Ibstate ibstate, IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto);
 
     /**
      * 查询当前商户的关联创客的个体户详情
@@ -109,28 +93,28 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
      * 查询个体户开票次数，月度开票金额，年度开票金额和总开票金额
      *
      * @param individualBusinessId
-     * @param makerType
+     * @param invoicePeopleType
      * @return
      */
-    R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(Long individualBusinessId, MakerType makerType);
+    R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(Long individualBusinessId, InvoicePeopleType invoicePeopleType);
 
     /**
      * 查询个体户开票记录
      *
      * @param query
      * @param individualBusinessId
-     * @param makerType
+     * @param invoicePeopleType
      * @return
      */
-    R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(Query query, Long individualBusinessId, MakerType makerType);
+    R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(Query query, Long individualBusinessId, InvoicePeopleType invoicePeopleType);
 
     /**
      * 当前商户申请创建个体户
      *
-     * @param individualBusinessEnterpriseAddEnterpriseDto
+     * @param individualBusinessEnterpriseWebAddDto
      * @param enterpriseId
      * @return
      */
-    R<String> saveByEnterprise(IndividualBusinessEnterpriseAddEnterpriseDto individualBusinessEnterpriseAddEnterpriseDto, Long enterpriseId);
+    R<String> saveByEnterprise(IndividualBusinessEnterpriseWebAddDto individualBusinessEnterpriseWebAddDto, Long enterpriseId);
 }
 

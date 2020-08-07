@@ -375,11 +375,10 @@ public class SelfHelpInvoiceController {
     @GetMapping("/get_by_dto_enterprise")
     @ApiOperation(value = "查询当前商户所有自主开票记录(众包)", notes = "查询当前商户所有自主开票记录(众包)")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "serviceProviderName", value = "服务商名称", paramType = "query", dataType = "string"),
             @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
     })
-    public R getByDtoEnterprise(PayListDto payListDto, Query query, BladeUser bladeUser) {
+    public R getByDtoEnterprise(SelfHelpInvoicePayDto selfHelpInvoicePayDto, Query query, BladeUser bladeUser) {
 
         log.info("查询当前商户所有自主开票记录(众包)");
         try {
@@ -390,7 +389,7 @@ public class SelfHelpInvoiceController {
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-            return selfHelpInvoiceService.getByDtoEnterprise(enterpriseWorkerEntity.getEnterpriseId(), payListDto, Condition.getPage(query.setDescs("create_time")));
+            return selfHelpInvoiceService.getByDtoEnterprise(enterpriseWorkerEntity.getEnterpriseId(), selfHelpInvoicePayDto, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("查询当前商户所有自主开票记录(众包)异常", e);
         }

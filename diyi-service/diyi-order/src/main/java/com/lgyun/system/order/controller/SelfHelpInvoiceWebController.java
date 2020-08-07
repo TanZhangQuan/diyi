@@ -2,6 +2,7 @@ package com.lgyun.system.order.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
@@ -166,15 +167,12 @@ public class SelfHelpInvoiceWebController {
         return R.fail("查询收货地址失败");
     }
 
-    /**
-     * 根据创客类型查询自助开票
-     */
     @GetMapping("/findMakerTypeSelfHelpInvoice")
     @ApiOperation(value = "根据创客类型查询自助开票", notes = "根据创客类型查询自助开票")
-    public R findMakerTypeSelfHelpInvoice(Query query, Long enterpriseId, MakerType makerType) {
+    public R findMakerTypeSelfHelpInvoice(Query query, Long enterpriseId, InvoicePeopleType invoicePeopleType) {
         log.info("根据创客类型查询自助开票");
         try {
-            return selfHelpInvoiceService.findMakerTypeSelfHelpInvoice(Condition.getPage(query.setDescs("create_time")), enterpriseId, makerType);
+            return selfHelpInvoiceService.findMakerTypeSelfHelpInvoice(Condition.getPage(query.setDescs("create_time")), enterpriseId, invoicePeopleType);
         } catch (Exception e) {
             log.error("根据创客类型查询自助开票失败", e);
         }
