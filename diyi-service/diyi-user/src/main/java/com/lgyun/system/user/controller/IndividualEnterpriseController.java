@@ -84,7 +84,7 @@ public class IndividualEnterpriseController {
 //	@GetMapping("/list")
 //	@ApiOperation(value = "分页", notes = "分页")
 	public R list(IndividualEnterpriseEntity individualEnterprise, Query query) {
-		IPage<IndividualEnterpriseEntity> pages = individualEnterpriseService.page(Condition.getPage(query), Condition.getQueryWrapper(individualEnterprise));
+		IPage<IndividualEnterpriseEntity> pages = individualEnterpriseService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(individualEnterprise));
 		return R.data(IndividualEnterpriseWrapper.build().pageVO(pages));
 	}
 
@@ -110,7 +110,7 @@ public class IndividualEnterpriseController {
 			}
 			MakerEntity makerEntity = result.getData();
 
-			return individualEnterpriseService.listByMaker(query.getCurrent(), query.getSize(), makerEntity.getId(), ibstate);
+			return individualEnterpriseService.listByMaker(query, makerEntity.getId(), ibstate);
 		} catch (Exception e) {
 			log.error("查询当前创客的所有个独异常", e);
 		}
@@ -201,7 +201,7 @@ public class IndividualEnterpriseController {
 
 		log.info("查询个独开票记录");
 		try {
-			return individualEnterpriseService.selfHelpInvoiceList(query.getCurrent(), query.getSize(), individualBusinessId, MakerType.INDIVIDUALENTERPRISE);
+			return individualEnterpriseService.selfHelpInvoiceList(query, individualBusinessId, MakerType.INDIVIDUALENTERPRISE);
 		} catch (Exception e) {
 			log.error("查询个独开票记录异常", e);
 		}

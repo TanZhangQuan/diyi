@@ -56,7 +56,7 @@ public class EnterpriseController {
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "分页")
 	public R list(EnterpriseEntity enterprise, Query query) {
-		IPage<EnterpriseEntity> pages = enterpriseService.page(Condition.getPage(query), Condition.getQueryWrapper(enterprise));
+		IPage<EnterpriseEntity> pages = enterpriseService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(enterprise));
 		return R.data(EnterpriseWrapper.build().pageVO(pages));
 	}
 

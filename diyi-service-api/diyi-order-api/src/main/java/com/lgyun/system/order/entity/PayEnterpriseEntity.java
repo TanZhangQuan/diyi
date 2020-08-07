@@ -1,14 +1,9 @@
 package com.lgyun.system.order.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.EnterprisePayState;
 import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.core.mp.base.BaseEntity;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -94,7 +89,7 @@ public class PayEnterpriseEntity extends BaseEntity {
     /**
      * 支付给平台状态：待支付，已支付，已确认收款
      */
-    private EnterprisePayState enterprisePayState;
+    private EnterprisePayState enterprisePayState = EnterprisePayState.TOPAY;
 
     /**
      * 支付确认日期时间
@@ -114,7 +109,7 @@ public class PayEnterpriseEntity extends BaseEntity {
     /**
      * 开票状态：未开，已开
      */
-    private InvoiceState companyInvoiceState;
+    private InvoiceState companyInvoiceState = InvoiceState.UNOPEN;
 
     /**
      * 开票日期

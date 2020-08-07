@@ -5,19 +5,19 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.Ibstate;
-import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.system.user.dto.RunCompanyDto;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.*;
-import com.lgyun.system.user.vo.*;
+import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
+import com.lgyun.system.user.vo.IndividualBusinessEnterpriseListByMakerVO;
+import com.lgyun.system.user.vo.MakerDetailVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -125,47 +125,36 @@ public interface IUserClient {
     List<IndividualBusinessEntity> individualBusinessByMakerId(@RequestParam("makerId") Long makerId);
 
     /**
-     * 根据创客Id
+     * 根据创客ID查询商户
      *
-     * @param current
-     * @param size
+     * @param query
+     * @param makerId
      * @return
      */
-    @GetMapping(API_PREFIX + "/runCompany/find_by_maker_id")
-    R findRunCompanyMakerId(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("objectId") Long objectId, @RequestParam("objectType") ObjectType objectType);
-
-    /**
-     * 新增平台运营公司（平台方）信息ID
-     *
-     * @param runCompanyDto
-     * @return
-     */
-    @PostMapping(API_PREFIX + "/runCompanySave")
-    R<String> runCompanySave(@Valid @RequestBody RunCompanyDto runCompanyDto);
+    @GetMapping(API_PREFIX + "/find_enterprise_by_maker_id")
+    R<IPage<EnterprisesIdNameListVO>> findEnterpriseByMakerId(@RequestParam("query") Query query, @RequestParam("makerId") Long makerId);
 
     /**
      * 查询当前创客的所有个独
      *
-     * @param current
-     * @param size
+     * @param query
      * @param makerId
      * @param ibstate
      * @return
      */
     @PostMapping(API_PREFIX + "/individualEnterprise/listByMaker")
-    R<IPage<IndividualBusinessEnterpriseListByMakerVO>> individualEnterpriseListByMaker(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId, @RequestParam("ibstate") Ibstate ibstate);
+    R<IPage<IndividualBusinessEnterpriseListByMakerVO>> individualEnterpriseListByMaker(@RequestParam("query") Query query, @RequestParam("makerId") Long makerId, @RequestParam("ibstate") Ibstate ibstate);
 
     /**
      * 查询当前创客的所有个体户
      *
-     * @param current
-     * @param size
+     * @param query
      * @param makerId
      * @param ibstate
      * @return
      */
     @PostMapping(API_PREFIX + "/individualBusiness/listByMaker")
-    R<IPage<IndividualBusinessEnterpriseListByMakerVO>> individualBusinessListByMaker(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId, @RequestParam("ibstate") Ibstate ibstate);
+    R<IPage<IndividualBusinessEnterpriseListByMakerVO>> individualBusinessListByMaker(@RequestParam("query") Query query, @RequestParam("makerId") Long makerId, @RequestParam("ibstate") Ibstate ibstate);
 
     /**
      * 根据Id获取个独信息
@@ -216,7 +205,7 @@ public interface IUserClient {
      * 根据创客姓名分页查询
      */
     @PostMapping(API_PREFIX + "/maker/getMakerName")
-    R getMakerName(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam(name = "makerName",required = false) String makerName);
+    R<IPage<MakerDetailVO>> getMakerName(@RequestParam("query") Query query, @RequestParam(name = "makerName", required = false) String makerName);
 
     /**
      * 根据user_id获取商户

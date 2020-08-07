@@ -1,9 +1,11 @@
 package com.lgyun.system.user.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IdcardOcrSaveDto;
 import com.lgyun.system.user.dto.MakerAddDto;
 import com.lgyun.system.user.dto.UpdatePasswordDto;
@@ -222,8 +224,12 @@ public interface IMakerService extends IService<MakerEntity> {
 
     /**
      * 根据创客姓名分页查询
+     *
+     * @param query
+     * @param makerName
+     * @return
      */
-    R getMakerName(Integer current,Integer size,String makerName);
+    R<IPage<MakerDetailVO>> getMakerName(Query query, String makerName);
 
     /**
      * 获取当前创客所有实名认证状态

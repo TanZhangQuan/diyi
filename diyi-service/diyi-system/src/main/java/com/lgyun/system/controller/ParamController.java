@@ -51,7 +51,7 @@ public class ParamController extends BladeController {
 	})
 	@ApiOperation(value = "分页", notes = "传入param")
 	public R<IPage<Param>> list(@ApiIgnore @RequestParam Map<String, Object> param, Query query) {
-		IPage<Param> pages = paramService.page(Condition.getPage(query), Condition.getQueryWrapper(param, Param.class));
+		IPage<Param> pages = paramService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(param, Param.class));
 		return R.data(pages);
 	}
 

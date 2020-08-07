@@ -1,6 +1,7 @@
 package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,6 +35,11 @@ public class SelfHelpInvoiceDetailEntity extends BaseEntity {
     private String invoicePeopleName;
 
     /**
+     * 开票人身份类别 1，自然人；2，个体户；3，个独；4，合伙企业；5，有限公司
+     */
+    private InvoicePeopleType invoicePeopleType;
+
+    /**
      * 创客ID
      */
     private Long makerId;
@@ -44,14 +50,9 @@ public class SelfHelpInvoiceDetailEntity extends BaseEntity {
     private Long noneMakerInvoicePersonId;
 
     /**
-     * 个体户或个独名称
+     * 各类企业ID
      */
-    private String bizName;
-
-    /**
-     * 统一社会信用代码
-     */
-    private String socialCreditNo;
+    private Long allKindEnterpriseID;
 
     /**
      * 开票类目
@@ -72,6 +73,7 @@ public class SelfHelpInvoiceDetailEntity extends BaseEntity {
      * 业务合同URL
      */
     private String businessContractUrl;
+
     /**
      *交付支付验收单URL
      */

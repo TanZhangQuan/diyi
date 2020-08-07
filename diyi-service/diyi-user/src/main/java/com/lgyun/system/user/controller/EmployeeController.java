@@ -56,7 +56,7 @@ public class EmployeeController {
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "分页")
 	public R list(EmployeeEntity employee, Query query) {
-		IPage<EmployeeEntity> pages = employeeService.page(Condition.getPage(query), Condition.getQueryWrapper(employee));
+		IPage<EmployeeEntity> pages = employeeService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(employee));
 		return R.data(EmployeeWrapper.build().pageVO(pages));
 	}
 

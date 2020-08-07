@@ -9,9 +9,11 @@ import com.lgyun.common.tool.RealnameVerifyUtil;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.feign.IDictClient;
-import com.lgyun.system.order.dto.*;
+import com.lgyun.system.order.dto.AddressDto;
+import com.lgyun.system.order.dto.ConfirmPaymentDto;
+import com.lgyun.system.order.dto.SelfHelpInvoicePersonDto;
+import com.lgyun.system.order.dto.SelfHelpInvoiceWebDto;
 import com.lgyun.system.order.service.*;
-import com.lgyun.system.user.dto.RunCompanyDto;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
@@ -26,6 +28,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * 商户自助开票相关接口
+ *
  * @author jun.
  * @date 2020/7/30.
  * @time 17:37.
@@ -44,33 +47,25 @@ public class SelfHelpInvoiceWebController {
     private IUserClient iUserClient;
     private ISelfHelpInvoiceAccountService selfHelpInvoiceAccountService;
     private ISelfHelpInvoiceFeeService selfHelpInvoiceFeeService;
-
     private ISelfHelpInvoiceDetailService iSelfHelpInvoiceDetailService;
 
-    @PostMapping("/runCompanySave")
-    @ApiOperation(value = "新建购买方", notes = "新建购买方")
-    public R runCompanySave(@Valid @RequestBody RunCompanyDto runCompanyDto, Long enterpriseId) {
-        log.info("新建购买方");
+    @GetMapping("/find_enterprise_by_maker_id")
+    @ApiOperation(value = "根据创客ID查询商户", notes = "根据创客ID查询商户")
+    public R findEnterpriseByMakerId(Query query, BladeUser bladeUser) {
+        log.info("根据创客ID查询商户");
         try {
-            runCompanyDto.setObjectId(enterpriseId);
-            runCompanyDto.setObjectType(ObjectType.ENTERPRISEPEOPLE);
-            return iUserClient.runCompanySave(runCompanyDto);
-        } catch (Exception e) {
-            log.error("新建购买方失败",e);
-        }
-        return R.fail("新建购买方失败");
-    }
+            //获取当前创客
+            R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            MakerEntity makerEntity = result.getData();
 
-    @GetMapping("/findMakerId")
-    @ApiOperation(value = "查询购买方", notes = "查询购买方")
-    public R findMakerId(Query query,Long enterpriseId) {
-        log.info("通过创客id查询购买方");
-        try {
-            return iUserClient.findRunCompanyMakerId(query.getCurrent(), query.getSize(), enterpriseId,ObjectType.ENTERPRISEPEOPLE);
+            return iUserClient.findEnterpriseByMakerId(query, makerEntity.getId());
         } catch (Exception e) {
-            log.error("通过创客id查询购买方失败",e);
+            log.error("根据创客ID查询商户异常", e);
         }
-        return R.fail("通过创客id查询购买方失败");
+        return R.fail("查询失败");
     }
 
 
@@ -79,9 +74,9 @@ public class SelfHelpInvoiceWebController {
     public R saveSelfHelpInvoicePerson(@Valid @RequestBody SelfHelpInvoicePersonDto selfHelpInvoicePersonDto, Long enterpriseId) {
         log.info("新建非创客开票人");
         try {
-            return selfHelpInvoicePersonService.saveSelfHelpInvoicePerson(selfHelpInvoicePersonDto, enterpriseId,ObjectType.ENTERPRISEPEOPLE);
+            return selfHelpInvoicePersonService.saveSelfHelpInvoicePerson(selfHelpInvoicePersonDto, enterpriseId, ObjectType.ENTERPRISEPEOPLE);
         } catch (Exception e) {
-            log.error("新建非创客开票人失败",e);
+            log.error("新建非创客开票人失败", e);
         }
         return R.fail("新建非创客开票人失败");
     }
@@ -94,19 +89,19 @@ public class SelfHelpInvoiceWebController {
             switch (makerType) {
 
                 case INDIVIDUALBUSINESS:
-                    return iUserClient.individualBusinessListByMaker(query.getCurrent(), query.getSize(),enterpriseId, null);
+                    return iUserClient.individualBusinessListByMaker(query, enterpriseId, null);
 
                 case NATURALPERSON:
-                    return selfHelpInvoicePersonService.findPersonMakerId(query.getCurrent(), query.getSize(), enterpriseId, makerType,ObjectType.ENTERPRISEPEOPLE);
+                    return selfHelpInvoicePersonService.findPersonMakerId(query, enterpriseId, makerType, ObjectType.ENTERPRISEPEOPLE);
 
                 case INDIVIDUALENTERPRISE:
-                    return iUserClient.individualEnterpriseListByMaker(query.getCurrent(), query.getSize(), enterpriseId, null);
+                    return iUserClient.individualEnterpriseListByMaker(query, enterpriseId, null);
 
                 default:
                     return R.fail("创客类型有误");
             }
         } catch (Exception e) {
-            log.error("根据创客Idc查询自助开票非创客开票人失败",e);
+            log.error("根据创客Idc查询自助开票非创客开票人失败", e);
         }
         return R.fail("根据创客Idc查询自助开票非创客开票人失败");
     }
@@ -116,9 +111,9 @@ public class SelfHelpInvoiceWebController {
     public R saveAddress(@Valid @RequestBody AddressDto addressDto, Long enterpriseId) {
         log.info("新建收货地址");
         try {
-            return addressService.saveAddress(addressDto, enterpriseId,ObjectType.ENTERPRISEPEOPLE);
+            return addressService.saveAddress(addressDto, enterpriseId, ObjectType.ENTERPRISEPEOPLE);
         } catch (Exception e) {
-            log.error("新建收货地址失败",e);
+            log.error("新建收货地址失败", e);
         }
         return R.fail("新建收货地址失败");
     }
@@ -130,7 +125,7 @@ public class SelfHelpInvoiceWebController {
         try {
             return addressService.getAddressById(addressId);
         } catch (Exception e) {
-            log.error("地址详情接口失败",e);
+            log.error("地址详情接口失败", e);
         }
         return R.fail("地址详情接口失败");
     }
@@ -142,7 +137,7 @@ public class SelfHelpInvoiceWebController {
         try {
             return addressService.updateAddress(addressDto);
         } catch (Exception e) {
-            log.error("地址编辑接口失败",e);
+            log.error("地址编辑接口失败", e);
         }
         return R.fail("地址编辑接口失败");
     }
@@ -154,7 +149,7 @@ public class SelfHelpInvoiceWebController {
         try {
             return addressService.deleteAddress(addressId);
         } catch (Exception e) {
-            log.error("地址删除接口失败",e);
+            log.error("地址删除接口失败", e);
         }
         return R.fail("地址删除接口失败");
     }
@@ -164,9 +159,9 @@ public class SelfHelpInvoiceWebController {
     public R findAddressMakerId(Query query, Long enterpriseId) {
         log.info("查询收货地址");
         try {
-            return addressService.findAddressMakerId(query.getCurrent(), query.getCurrent(), enterpriseId,ObjectType.ENTERPRISEPEOPLE);
+            return addressService.findAddressMakerId(query.getCurrent(), query.getCurrent(), enterpriseId, ObjectType.ENTERPRISEPEOPLE);
         } catch (Exception e) {
-            log.error("查询收货地址失败",e);
+            log.error("查询收货地址失败", e);
         }
         return R.fail("查询收货地址失败");
     }
@@ -176,12 +171,12 @@ public class SelfHelpInvoiceWebController {
      */
     @GetMapping("/findMakerTypeSelfHelpInvoice")
     @ApiOperation(value = "根据创客类型查询自助开票", notes = "根据创客类型查询自助开票")
-    public R findMakerTypeSelfHelpInvoice(Query query, Long enterpriseId,MakerType makerType) {
+    public R findMakerTypeSelfHelpInvoice(Query query, Long enterpriseId, MakerType makerType) {
         log.info("根据创客类型查询自助开票");
         try {
-            return selfHelpInvoiceService.findMakerTypeSelfHelpInvoice(Condition.getPage(query), enterpriseId,makerType);
+            return selfHelpInvoiceService.findMakerTypeSelfHelpInvoice(Condition.getPage(query.setDescs("create_time")), enterpriseId, makerType);
         } catch (Exception e) {
-            log.error("根据创客类型查询自助开票失败",e);
+            log.error("根据创客类型查询自助开票失败", e);
         }
         return R.fail("根据创客类型查询自助开票失败");
     }
@@ -193,7 +188,7 @@ public class SelfHelpInvoiceWebController {
         try {
             return iDictClient.getList("tax_category");
         } catch (Exception e) {
-            log.error("开票类目-详情失败",e);
+            log.error("开票类目-详情失败", e);
         }
         return R.fail("开票类目-详情失败");
     }
@@ -205,7 +200,7 @@ public class SelfHelpInvoiceWebController {
         try {
             return selfHelpInvoiceService.getSelfHelpInvoiceDetails(selfHelpInvoiceId);
         } catch (Exception e) {
-            log.error("查询开票详情失败",e);
+            log.error("查询开票详情失败", e);
         }
         return R.fail("查询开票详情失败");
     }
@@ -216,9 +211,9 @@ public class SelfHelpInvoiceWebController {
                                    @NotNull(message = "交付支付验收单URL不能为空") @RequestParam(required = false) String deliverSheetUrl) {
         log.info("上传交付支付验收单URL");
         try {
-            return iSelfHelpInvoiceDetailService.uploadDeliverSheetUrl(selfHelpInvoiceDetailId,deliverSheetUrl);
+            return iSelfHelpInvoiceDetailService.uploadDeliverSheetUrl(selfHelpInvoiceDetailId, deliverSheetUrl);
         } catch (Exception e) {
-            log.error("上传交付支付验收单URL失败",e);
+            log.error("上传交付支付验收单URL失败", e);
         }
         return R.fail("上传交付支付验收单URL失败");
     }
@@ -231,7 +226,7 @@ public class SelfHelpInvoiceWebController {
             selfHelpInvoiceWebDto.setApplyEnterpriseId(enterpriseId);
             return selfHelpInvoiceService.submitWebSelfHelpInvoice(selfHelpInvoiceWebDto);
         } catch (Exception e) {
-            log.error("商户提交自助开票失败",e);
+            log.error("商户提交自助开票失败", e);
         }
         return R.fail("商户提交自助开票失败");
     }
@@ -243,7 +238,7 @@ public class SelfHelpInvoiceWebController {
         try {
             return R.data(selfHelpInvoiceAccountService.immediatePayment());
         } catch (Exception e) {
-            log.error("立即支付失败",e);
+            log.error("立即支付失败", e);
         }
         return R.fail("立即支付失败");
     }
@@ -255,7 +250,7 @@ public class SelfHelpInvoiceWebController {
         try {
             return R.data(selfHelpInvoiceFeeService.confirmPayment(confirmPaymentDto));
         } catch (Exception e) {
-            log.error("确认支付失败",e);
+            log.error("确认支付失败", e);
         }
         return R.fail("确认支付失败");
     }
@@ -268,7 +263,7 @@ public class SelfHelpInvoiceWebController {
         try {
             jsonObject = RealnameVerifyUtil.idCardOCR(infoImg);
         } catch (Exception e) {
-            log.error("识别失败",e);
+            log.error("识别失败", e);
         }
         return R.data(jsonObject);
     }

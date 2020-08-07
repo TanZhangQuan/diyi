@@ -56,7 +56,7 @@ public class WorksheetAttentionController {
     @GetMapping("/list")
     @ApiOperation(value = "分页", notes = "分页")
     public R list(WorksheetAttentionEntity worksheetAttention, Query query) {
-        IPage<WorksheetAttentionEntity> pages = worksheetAttentionService.page(Condition.getPage(query), Condition.getQueryWrapper(worksheetAttention));
+        IPage<WorksheetAttentionEntity> pages = worksheetAttentionService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(worksheetAttention));
         return R.data(WorksheetAttentionWrapper.build().pageVO(pages));
     }
 

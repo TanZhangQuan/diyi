@@ -46,7 +46,7 @@ public class InvoiceController {
             }
             MakerEntity makerEntity = result.getData();
 
-            return payEnterpriseService.getEnterpriseAll(makerEntity.getId(), Condition.getPage(query));
+            return payEnterpriseService.getEnterpriseAll(makerEntity.getId(), Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("根据创客id查询所有商户失败",e);
         }
@@ -65,7 +65,7 @@ public class InvoiceController {
             }
             MakerEntity makerEntity = result.getData();
 
-            return payEnterpriseService.getEnterpriseMakerIdAll(makerEntity.getId(), enterpriseId, Condition.getPage(query));
+            return payEnterpriseService.getEnterpriseMakerIdAll(makerEntity.getId(), enterpriseId, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("根据创客id和商户id查询创客在商户下所开的票失败",e);
         }

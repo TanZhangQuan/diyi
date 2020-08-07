@@ -1,20 +1,16 @@
 package com.lgyun.system.order.controller;
 
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.common.enumeration.WorksheetState;
-import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.ReleaseWorksheetDto;
-import com.lgyun.system.order.entity.WorksheetEntity;
-import com.lgyun.system.order.entity.WorksheetMakerEntity;
 import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.order.service.IWorksheetService;
-import com.lgyun.system.user.entity.EnterpriseEntity;
-import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -57,13 +53,15 @@ public class WorksheetWebController {
 
     @GetMapping("getMakerName")
     @ApiOperation(value = "通过创客名字查询", notes = "通过创客名字查询")
-    public R getMakerName(Query query,@RequestParam(required = false) String makerName){
+    public R getMakerName(Query query, @RequestParam(required = false) String makerName) {
+
         log.info("通过创客名字查询");
         try {
-            return iUserClient.getMakerName(query.getCurrent(), query.getSize(),makerName);
+            return iUserClient.getMakerName(query, makerName);
         } catch (Exception e) {
             log.error("通过创客名字查询失败", e);
         }
+
         return R.fail("通过创客名字查询失败");
     }
 
@@ -74,10 +72,10 @@ public class WorksheetWebController {
                                     @RequestParam(required = false) String worksheetNo,
                                     @RequestParam(required = false) String worksheetName,
                                     @RequestParam(required = false) String startTime,
-                                    @RequestParam(required = false) String endTime){
+                                    @RequestParam(required = false) String endTime) {
         log.info("根据工单状态和商户id查询");
         try {
-            return worksheetService.getEnterpriseWorksheet(Condition.getPage(query),enterpriseId,worksheetState,worksheetNo,worksheetName,startTime,endTime);
+            return worksheetService.getEnterpriseWorksheet(Condition.getPage(query.setDescs("create_time")), enterpriseId, worksheetState, worksheetNo, worksheetName, startTime, endTime);
         } catch (Exception e) {
             log.error("根据工单状态和商户id查询失败", e);
         }
@@ -86,7 +84,7 @@ public class WorksheetWebController {
 
     @PostMapping("deleteWorksheet")
     @ApiOperation(value = "删除", notes = "删除")
-    public R deleteWorksheet(@NotNull(message = "请输入工单的id") @RequestParam(required = false) Long worksheetId){
+    public R deleteWorksheet(@NotNull(message = "请输入工单的id") @RequestParam(required = false) Long worksheetId) {
         log.info("删除");
         try {
             worksheetService.removeById(worksheetId);
@@ -99,10 +97,10 @@ public class WorksheetWebController {
 
     @GetMapping("getWorksheetWebDetails")
     @ApiOperation(value = "查看", notes = "查看")
-    public R getWorksheetWebDetails(Query query,@NotNull(message = "请输入工单的id") @RequestParam(required = false) Long worksheetId){
+    public R getWorksheetWebDetails(Query query, @NotNull(message = "请输入工单的id") @RequestParam(required = false) Long worksheetId) {
         log.info("查看");
         try {
-            return worksheetService.getWorksheetWebDetails(Condition.getPage(query),worksheetId);
+            return worksheetService.getWorksheetWebDetails(Condition.getPage(query.setDescs("create_time")), worksheetId);
         } catch (Exception e) {
             log.error("查看失败", e);
         }
@@ -112,7 +110,7 @@ public class WorksheetWebController {
     @PostMapping("/kickOut")
     @ApiOperation(value = "工单踢出创客", notes = "工单踢出创客")
     public R kickOut(@NotNull(message = "请输入工单的id") @RequestParam(required = false) Long worksheetId,
-                     @NotNull(message = "请输入创客id") @RequestParam(required = false)   Long makerId) {
+                     @NotNull(message = "请输入创客id") @RequestParam(required = false) Long makerId) {
         log.info("工单踢出创客");
         try {
             return worksheetService.kickOut(worksheetId, makerId);
@@ -137,7 +135,7 @@ public class WorksheetWebController {
 
     @PostMapping("/closeOrOpen")
     @ApiOperation(value = "开单或关单", notes = "开单或关单")
-    public R closeOrOpen(@NotNull(message = "请输入工单的id") @RequestParam(required = false)Long worksheetId,
+    public R closeOrOpen(@NotNull(message = "请输入工单的id") @RequestParam(required = false) Long worksheetId,
                          @ApiParam(value = "1代表关闭，2开启") @NotNull(message = "请输入1代表关闭，2开启") @RequestParam(required = false) Integer variable) {
         log.info("开单或关单");
         try {

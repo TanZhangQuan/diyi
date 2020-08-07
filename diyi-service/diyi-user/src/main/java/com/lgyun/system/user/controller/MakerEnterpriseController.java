@@ -79,7 +79,7 @@ public class MakerEnterpriseController {
             }
             MakerEntity makerEntity = result.getData();
 
-            IPage<MakerEnterpriseRelationVO> pages = makerEnterpriseService.selectMakerEnterprisePage(Condition.getPage(query), makerEntity.getId(), relationshipType);
+            IPage<MakerEnterpriseRelationVO> pages = makerEnterpriseService.selectMakerEnterprisePage(Condition.getPage(query.setDescs("create_time")), makerEntity.getId(), relationshipType);
             return R.data(pages);
         } catch (Exception e) {
             log.error("查询关联商户和关注商户异常", e);

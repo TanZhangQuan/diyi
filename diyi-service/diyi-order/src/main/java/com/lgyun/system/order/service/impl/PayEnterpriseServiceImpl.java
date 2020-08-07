@@ -2,13 +2,11 @@ package com.lgyun.system.order.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.EnterprisePayState;
-import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.order.dto.PayListDto;
 import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
+import com.lgyun.system.order.dto.PayListDto;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.entity.PayEnterpriseReceiptEntity;
 import com.lgyun.system.order.entity.WorksheetEntity;
@@ -103,8 +101,6 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         payEnterpriseEntity.setServiceProviderId(payEnterpriseUploadDto.getServiceProviderId());
         payEnterpriseEntity.setChargeListUrl(payEnterpriseUploadDto.getChargeListUrl());
         payEnterpriseEntity.setWorksheetId(payEnterpriseUploadDto.getWorksheetId());
-        payEnterpriseEntity.setEnterprisePayState(EnterprisePayState.PAYED);
-        payEnterpriseEntity.setCompanyInvoiceState(InvoiceState.UNOPEN);
         save(payEnterpriseEntity);
 
         //支付回单拆分

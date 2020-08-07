@@ -144,7 +144,7 @@ public class AgreementController {
             }
             MakerEntity makerEntity = result.getData();
 
-            IPage<MakerEnterpriseRelationVO> pages = makerEnterpriseService.selectMakerEnterprisePage(Condition.getPage(query), makerEntity.getId(), 0);
+            IPage<MakerEnterpriseRelationVO> pages = makerEnterpriseService.selectMakerEnterprisePage(Condition.getPage(query.setDescs("create_time")), makerEntity.getId(), 0);
             return R.data(pages);
         } catch (Exception e) {
             log.error("查询合作商户异常", e);
@@ -212,7 +212,7 @@ public class AgreementController {
     public R selectServiceAgreement(Query query,Long enterpriseId,@RequestParam(required = false)String serviceProviderName,@RequestParam(required = false)String agreementNo) {
         log.info("查询商户关联服务商的加盟合同");
         try {
-            R.data(agreementService.selectServiceAgreement(Condition.getPage(query),enterpriseId,serviceProviderName,agreementNo, SignType.PLATFORMAGREEMENT,3));
+            R.data(agreementService.selectServiceAgreement(Condition.getPage(query.setDescs("create_time")),enterpriseId,serviceProviderName,agreementNo, SignType.PLATFORMAGREEMENT,3));
         } catch (Exception e) {
             log.error("查询商户关联服务商的加盟合同异常", e);
         }
@@ -224,7 +224,7 @@ public class AgreementController {
     public R selectServiceSupplementaryAgreement(Query query,Long enterpriseId,@RequestParam(required = false)String serviceProviderName,@RequestParam(required = false)String agreementNo) {
         log.info("查询商户关联服务商的加盟合同");
         try {
-            R.data(agreementService.selectServiceSupplementaryAgreement(Condition.getPage(query),enterpriseId,serviceProviderName,agreementNo,11));
+            R.data(agreementService.selectServiceSupplementaryAgreement(Condition.getPage(query.setDescs("create_time")),enterpriseId,serviceProviderName,agreementNo,11));
         } catch (Exception e) {
             log.error("查询商户关联服务商的补充协议异常", e);
         }
@@ -248,7 +248,7 @@ public class AgreementController {
     public R selectMakerAgreement(Query query,Long enterpriseId) {
         log.info("查询创客加盟合同");
         try {
-            return agreementService.selectMakerAgreement(Condition.getPage(query),enterpriseId);
+            return agreementService.selectMakerAgreement(Condition.getPage(query.setDescs("create_time")),enterpriseId);
         } catch (Exception e) {
             log.error("查询创客加盟合同异常", e);
         }

@@ -11,7 +11,7 @@ import com.lgyun.system.order.vo.AcceptPayMakerListVO;
 import com.lgyun.system.order.vo.AcceptPaysheetByEnterpriseListVO;
 import com.lgyun.system.order.vo.AcceptPaysheetWorksheetVO;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
-import com.lgyun.system.user.vo.EnterprisesByWorksheetListVO;
+import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 
 /**
  * Service 接口
@@ -47,7 +47,7 @@ public interface IAcceptPaysheetService extends BaseService<AcceptPaysheetEntity
      * @param makerId
      * @return
      */
-    R<IPage<EnterprisesByWorksheetListVO>> getEnterprisesByWorksheet(IPage<EnterprisesByWorksheetListVO> page, Long makerId);
+    R<IPage<EnterprisesIdNameListVO>> getEnterprisesByWorksheet(IPage<EnterprisesIdNameListVO> page, Long makerId);
 
     /**
      * 上传交付支付验收单

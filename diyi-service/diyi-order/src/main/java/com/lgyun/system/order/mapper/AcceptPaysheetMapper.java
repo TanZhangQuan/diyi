@@ -8,7 +8,7 @@ import com.lgyun.system.order.vo.AcceptPayListVO;
 import com.lgyun.system.order.vo.AcceptPayMakerListVO;
 import com.lgyun.system.order.vo.AcceptPaysheetByEnterpriseListVO;
 import com.lgyun.system.order.vo.AcceptPaysheetWorksheetVO;
-import com.lgyun.system.user.vo.EnterprisesByWorksheetListVO;
+import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -48,7 +48,7 @@ public interface AcceptPaysheetMapper extends BaseMapper<AcceptPaysheetEntity> {
      * @param page
      * @return
      */
-    List<EnterprisesByWorksheetListVO> getEnterprisesByWorksheet(Long makerId, IPage<EnterprisesByWorksheetListVO> page);
+    List<EnterprisesIdNameListVO> getEnterprisesByWorksheet(Long makerId, IPage<EnterprisesIdNameListVO> page);
 
     /**
      * 查询当前商户所有总包交付支付验收单

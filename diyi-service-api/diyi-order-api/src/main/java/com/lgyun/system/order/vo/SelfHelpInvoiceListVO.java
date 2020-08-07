@@ -29,7 +29,7 @@ public class SelfHelpInvoiceListVO implements Serializable {
     /**
      * 公司名称
      */
-    private String companyName;
+    private String enterpriseName;
 
     /**
      * 开票类目

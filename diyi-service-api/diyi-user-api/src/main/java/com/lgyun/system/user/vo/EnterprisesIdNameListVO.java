@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 @Data
 @ApiModel(value = "EnterprisesByWorksheetListVO对象", description = "EnterprisesByWorksheetListVO对象")
-public class EnterprisesByWorksheetListVO implements Serializable {
+public class EnterprisesIdNameListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //商户ID

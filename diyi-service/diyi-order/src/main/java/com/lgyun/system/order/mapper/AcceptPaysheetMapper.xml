@@ -50,7 +50,7 @@
         <result property="achievementFiles" column="achievement_files"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.EnterprisesByWorksheetListVO" id="acceptPaysheetEnterpriseVO">
+    <resultMap type="com.lgyun.system.user.vo.EnterprisesIdNameListVO" id="acceptPaysheetEnterpriseVO">
         <result property="id" column="id"/>
         <result property="enterpriseName" column="enterprise_name"/>
     </resultMap>

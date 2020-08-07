@@ -11,6 +11,7 @@ import com.lgyun.common.enumeration.*;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.*;
 import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IdcardOcrSaveDto;
 import com.lgyun.system.user.dto.MakerAddDto;
 import com.lgyun.system.user.dto.UpdatePasswordDto;
@@ -595,11 +596,11 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R getMakerName(Integer current, Integer size, String makerName) {
+    public R<IPage<MakerDetailVO>> getMakerName(Query query, String makerName) {
         QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().like(makerName != null, MakerEntity::getName, makerName);
 
-        IPage<MakerEntity> pages = this.page(new Page<>(current, size), queryWrapper);
+        IPage<MakerEntity> pages = this.page(new Page<>(query.getCurrent() , query.getSize()), queryWrapper);
 
         List<MakerDetailVO> records = pages.getRecords().stream().map(MakerEntity -> BeanUtil.copy(MakerEntity, MakerDetailVO.class)).collect(Collectors.toList());
 

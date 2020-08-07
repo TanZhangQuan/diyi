@@ -56,7 +56,7 @@ public class SetupController {
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "分页")
 	public R list(SetupEntity setup, Query query) {
-		IPage<SetupEntity> pages = setupService.page(Condition.getPage(query), Condition.getQueryWrapper(setup));
+		IPage<SetupEntity> pages = setupService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(setup));
 		return R.data(SetupWrapper.build().pageVO(pages));
 	}
 

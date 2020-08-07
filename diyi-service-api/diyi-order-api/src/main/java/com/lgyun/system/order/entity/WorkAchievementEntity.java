@@ -63,6 +63,6 @@ public class WorkAchievementEntity extends BaseEntity {
     /**
      * 工作成果状态
      */
-    private WorkAchievementState workAchievementState;
+    private WorkAchievementState workAchievementState = WorkAchievementState.TOCHECK;
 
 }

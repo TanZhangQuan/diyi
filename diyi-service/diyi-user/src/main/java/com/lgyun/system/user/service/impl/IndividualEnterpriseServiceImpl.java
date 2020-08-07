@@ -10,6 +10,7 @@ import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.VerifyStatus;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.feign.IOrderClient;
 import com.lgyun.system.order.vo.SelfHelpInvoiceListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
@@ -76,14 +77,14 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
     }
 
     @Override
-    public R<IPage<IndividualBusinessEnterpriseListByMakerVO>> listByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate) {
+    public R<IPage<IndividualBusinessEnterpriseListByMakerVO>> listByMaker(Query query, Long makerId, Ibstate ibstate) {
 
         QueryWrapper<IndividualEnterpriseEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(IndividualEnterpriseEntity::getMakerId, makerId)
                 .eq(ibstate != null, IndividualEnterpriseEntity::getIbstate, ibstate)
                 .orderByDesc(IndividualEnterpriseEntity::getCreateTime);
 
-        IPage<IndividualEnterpriseEntity> pages = this.page(new Page<>(current, size), queryWrapper);
+        IPage<IndividualEnterpriseEntity> pages = this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper);
 
         List<IndividualBusinessEnterpriseListByMakerVO> records = pages.getRecords().stream().map(individualEnterpriseEntity -> BeanUtil.copy(individualEnterpriseEntity, IndividualBusinessEnterpriseListByMakerVO.class)).collect(Collectors.toList());
 
@@ -119,8 +120,8 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
     }
 
     @Override
-    public R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(Integer current, Integer size, Long individualBusinessId, MakerType makerType) {
-        return orderClient.selfHelpInvoiceList(current, size, individualBusinessId, makerType);
+    public R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(Query query, Long individualBusinessId, MakerType makerType) {
+        return orderClient.selfHelpInvoiceList(query, individualBusinessId, makerType);
     }
 
     @Override

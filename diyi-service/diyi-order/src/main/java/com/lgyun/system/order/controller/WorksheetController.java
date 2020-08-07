@@ -78,7 +78,7 @@ public class WorksheetController {
             if (null == worksheetState || (worksheetState != 1 && worksheetState != 2 && worksheetState != 3)) {
                 return R.fail("参数错误");
             }
-            return worksheetService.findXiaoPage(Condition.getPage(query), worksheetState, makerEntity.getId());
+            return worksheetService.findXiaoPage(Condition.getPage(query.setDescs("create_time")), worksheetState, makerEntity.getId());
         }catch (Exception e){
             log.info("小程查询工单失败");
         }

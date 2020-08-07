@@ -1,9 +1,7 @@
 package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.lgyun.common.enumeration.InvoiceAuditState;
-import com.lgyun.common.enumeration.InvoiceState;
-import com.lgyun.common.enumeration.MakerType;
+import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * Entity
@@ -28,14 +26,14 @@ public class SelfHelpInvoiceEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 运营公司ID
+     * 商户ID
      */
-    private Long companyId;
+    private Long enterpriseId;
 
     /**
-     * 创客支付ID
+     * 在线支付ID
      */
-    private Long payId;
+    private Long onlinePayId;
 
     /**
      * 申请创客ID
@@ -68,24 +66,9 @@ public class SelfHelpInvoiceEntity extends BaseEntity {
     private Long originalSelfHelpId;
 
     /**
-     * 个体户或个独ID
+     * 开票人身份类别 1，自然人；2，个体户；3，个独；4，合伙企业；5，有限公司
      */
-    private Long businessEnterpriseId;
-
-    /**
-     * 开票人身份类别 1，自然人；2，个体户；3，个独
-     */
-    private MakerType invoicePeopleType;
-
-    /**
-     * 开票状态 1未开，2一开
-     */
-    private InvoiceState invoiceState = InvoiceState.UNOPEN;
-
-    /**
-     * 开票时间
-     */
-    private Date invoiceDate;
+    private InvoicePeopleType invoicePeopleType;
 
     /**
      * 开票清单文件
@@ -133,27 +116,27 @@ public class SelfHelpInvoiceEntity extends BaseEntity {
     private Long addressId;
 
     /**
-     * 1.未审核，2审核通过，3不通过
-     */
-    private InvoiceAuditState invoiceAuditState = InvoiceAuditState.NOTREVIEWED;
-
-    /**
      * 快递单号
      */
     private String expressSheetNo;
 
     /**
-     * 收件地址Id
+     * 快递公司名称
      */
     private String expressCompanyName;
 
     /**
-     * 收件地址Id
+     * 快递更新日期
+     */
+    private Date expressUpdateDatetime;
+
+    /**
+     * 快递更新人员
      */
     private String expressUpdatePerson;
 
     /**
-     * 收件地址Id
+     * 快递更新人员电话
      */
     private String expressUpdatePersonTel;
 

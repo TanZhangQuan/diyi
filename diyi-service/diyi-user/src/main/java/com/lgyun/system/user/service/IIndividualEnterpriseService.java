@@ -5,6 +5,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.core.mp.base.BaseService;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.vo.SelfHelpInvoiceListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
 import com.lgyun.system.user.dto.EnterpriseIndividualBusinessEnterpriseDto;
@@ -45,13 +46,12 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
     /**
      * 查询当前创客的所有个独
      *
-     * @param current
-     * @param size
+     * @param query
      * @param makerId
      * @param ibstate
      * @return
      */
-    R<IPage<IndividualBusinessEnterpriseListByMakerVO>> listByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate);
+    R<IPage<IndividualBusinessEnterpriseListByMakerVO>> listByMaker(Query query, Long makerId, Ibstate ibstate);
 
     /**
      * 根据ID查询个独详情
@@ -101,13 +101,12 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
     /**
      * 查询个独开票记录
      *
-     * @param current
-     * @param size
+     * @param query
      * @param individualBusinessId
      * @param makerType
      * @return
      */
-    R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(Integer current, Integer size, Long individualBusinessId, MakerType makerType);
+    R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(Query query, Long individualBusinessId, MakerType makerType);
 
     /**
      * 当前商户申请创建个独

@@ -152,7 +152,7 @@ public class WorksheetMakerController {
             }
             MakerEntity makerEntity = result.getData();
 
-            return worksheetMakerService.queryAllMoneyByYearMonthEnterprise(Condition.getPage(query), worksheetType, makerType, makerEntity.getId(), year, month);
+            return worksheetMakerService.queryAllMoneyByYearMonthEnterprise(Condition.getPage(query.setDescs("create_time")), worksheetType, makerType, makerEntity.getId(), year, month);
         } catch (Exception e) {
             log.error("根据工单类型，创客类型，年份，月份（可选）查询创客对应商户的总收入金额异常", e);
         }

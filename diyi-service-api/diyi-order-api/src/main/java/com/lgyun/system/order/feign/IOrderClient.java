@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
 import com.lgyun.common.enumeration.MakerType;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.vo.SelfHelpInvoiceListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -51,6 +52,6 @@ public interface IOrderClient {
      * @return
      */
     @GetMapping(API_PREFIX + "/self_help_invoice/self_help_invoice_list")
-    R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("businessEnterpriseId") Long businessEnterpriseId, @RequestParam("makerType") MakerType makerType);
+    R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(@RequestParam("query") Query query, @RequestParam("businessEnterpriseId") Long businessEnterpriseId, @RequestParam("makerType") MakerType makerType);
 
 }

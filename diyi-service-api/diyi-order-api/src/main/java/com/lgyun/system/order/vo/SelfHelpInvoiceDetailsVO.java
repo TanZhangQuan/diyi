@@ -24,7 +24,7 @@ public class SelfHelpInvoiceDetailsVO implements Serializable {
     private Long id;
 
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long runCompanyId;
+    private Long enterpriseId;
 
     @JsonSerialize(using = ToStringSerializer.class)
     private Long addressId;
@@ -38,7 +38,7 @@ public class SelfHelpInvoiceDetailsVO implements Serializable {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long handPayId;
 
-    private String companyName;
+    private String enterpriseName;
 
     private String taxNo;
 

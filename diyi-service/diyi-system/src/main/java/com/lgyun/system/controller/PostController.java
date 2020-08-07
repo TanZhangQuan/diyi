@@ -50,7 +50,7 @@ public class PostController extends BladeController {
     @GetMapping("/list")
     @ApiOperation(value = "分页", notes = "传入post")
     public R<IPage<PostVO>> list(Post post, Query query) {
-        IPage<Post> pages = postService.page(Condition.getPage(query), Condition.getQueryWrapper(post));
+        IPage<Post> pages = postService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(post));
         return R.data(PostWrapper.build().pageVO(pages));
     }
 
@@ -61,7 +61,7 @@ public class PostController extends BladeController {
     @GetMapping("/page")
     @ApiOperation(value = "分页", notes = "传入post")
     public R<IPage<PostVO>> page(PostVO post, Query query) {
-        IPage<PostVO> pages = postService.selectPostPage(Condition.getPage(query), post);
+        IPage<PostVO> pages = postService.selectPostPage(Condition.getPage(query.setDescs("create_time")), post);
         return R.data(pages);
     }
 

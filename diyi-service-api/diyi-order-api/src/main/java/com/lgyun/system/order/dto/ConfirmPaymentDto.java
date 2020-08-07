@@ -28,6 +28,7 @@ public class ConfirmPaymentDto implements Serializable {
      */
     @NotBlank(message = "请输入支付说明")
     private String payDesc;
+
     /**
      * 支付回单
      */
@@ -37,5 +38,6 @@ public class ConfirmPaymentDto implements Serializable {
     /**
      * 支付选择
      */
-    private PaymentType paymentType = PaymentType.BANKCARDPAYMENT;
+    @NotNull(message = "请选择支付方式")
+    private PaymentType paymentType;
 }

@@ -1,6 +1,7 @@
 package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.lgyun.common.enumeration.PaymentType;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -77,7 +78,7 @@ public class SelfHelpInvoiceFeeEntity extends BaseEntity {
     /**
      * 支付方式 1，微信；2，支付宝，3，银行转账；4，现金
      */
-    private String payType;
+    private PaymentType payType;
 
     /**
      * 自助开票收款账号ID

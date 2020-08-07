@@ -5,6 +5,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.core.mp.base.BaseService;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.SelfHelpInvoicePersonDto;
 import com.lgyun.system.order.entity.SelfHelpInvoicePersonEntity;
 
@@ -19,12 +20,11 @@ public interface ISelfHelpInvoicePersonService extends BaseService<SelfHelpInvoi
     /**
      * 根据创客Idc查询自助开票非创客开票人
      *
-     * @param current
-     * @param size
+     * @param query
      * @param makerType
      * @return
      */
-    R<IPage<SelfHelpInvoicePersonEntity>> findPersonMakerId(Integer current, Integer size, Long objectId, MakerType makerType,ObjectType objectType);
+    R<IPage<SelfHelpInvoicePersonEntity>> findPersonMakerId(Query query, Long objectId, MakerType makerType, ObjectType objectType);
 
     /**
      * 新建开票人

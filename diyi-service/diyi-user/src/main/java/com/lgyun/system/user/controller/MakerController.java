@@ -92,7 +92,7 @@ public class MakerController {
     //	@GetMapping("/list")
 //	@ApiOperation(value = "分页", notes = "分页")
     public R list(MakerEntity maker, Query query) {
-        IPage<MakerEntity> pages = makerService.page(Condition.getPage(query), Condition.getQueryWrapper(maker));
+        IPage<MakerEntity> pages = makerService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(maker));
         return R.data(MakerWrapper.build().pageVO(pages));
     }
 

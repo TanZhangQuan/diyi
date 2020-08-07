@@ -86,7 +86,7 @@ public class WorksheetEntity extends BaseEntity {
      * d) 已完毕，所有个人创客都验收完毕了
      * e) 已作废，验收中工单都可以作废，已完毕的不能作废
      */
-    private WorksheetState worksheetState;
+    private WorksheetState worksheetState = WorksheetState.PUBLISHING;
 
     /**
      * 作废时间

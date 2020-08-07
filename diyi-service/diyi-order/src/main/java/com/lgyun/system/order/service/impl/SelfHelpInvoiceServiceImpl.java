@@ -3,6 +3,7 @@ package com.lgyun.system.order.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.InvoiceAuditState;
+import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.KdniaoTrackQueryUtil;
@@ -19,9 +20,6 @@ import com.lgyun.system.order.vo.PayListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceDetailsVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
-import com.lgyun.system.user.entity.IndividualBusinessEntity;
-import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
-import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -41,13 +39,15 @@ import java.util.Map;
 @AllArgsConstructor
 public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceMapper, SelfHelpInvoiceEntity> implements ISelfHelpInvoiceService {
 
-    private IUserClient iUserClient;
     private final ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
 
     @Override
     @Transactional
     public R<String> submitSelfHelpInvoice(SelfHelpInvoiceDto selfHelpInvoiceDto) {
-        if (!selfHelpInvoiceDto.getInvoicePeopleType().equals(MakerType.NATURALPERSON) && null == selfHelpInvoiceDto.getBusinessEnterpriseId()) {
+
+        //TODO(重写)
+
+        if (!selfHelpInvoiceDto.getInvoicePeopleType().equals(InvoicePeopleType.NATURALPERSON)) {
             R.fail("参数错误");
         }
         SelfHelpInvoiceEntity selfHelpInvoiceEntity = new SelfHelpInvoiceEntity();
@@ -56,18 +56,6 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         save(selfHelpInvoiceEntity);
         String bizName = "";
         String socialCreditNo = "";
-        if (selfHelpInvoiceDto.getInvoicePeopleType().equals(MakerType.INDIVIDUALENTERPRISE)) {
-            IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.individualEnterpriseFindById(selfHelpInvoiceDto.getBusinessEnterpriseId());
-            bizName = individualEnterpriseEntity.getIbname();
-            socialCreditNo = individualEnterpriseEntity.getIbtaxNo();
-            selfHelpInvoiceEntity.setBusinessEnterpriseId(individualEnterpriseEntity.getId());
-        }
-        if (selfHelpInvoiceDto.getInvoicePeopleType().equals(MakerType.INDIVIDUALBUSINESS)) {
-            IndividualBusinessEntity individualBusinessEntity = iUserClient.individualBusinessById(selfHelpInvoiceDto.getBusinessEnterpriseId());
-            bizName = individualBusinessEntity.getIbname();
-            socialCreditNo = individualBusinessEntity.getIbtaxNo();
-            selfHelpInvoiceEntity.setBusinessEnterpriseId(individualBusinessEntity.getId());
-        }
 
         SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = new SelfHelpInvoiceDetailEntity();
         BeanUtil.copy(selfHelpInvoiceDto, selfHelpInvoiceDetailEntity);
@@ -112,19 +100,19 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
-    public R<SelfHelpInvoiceStatisticsVO> yearMonthMoney(Long businessEnterpriseId, MakerType makerType) {
+    public R<SelfHelpInvoiceStatisticsVO> yearMonthMoney(Long businessEnterpriseId, InvoicePeopleType invoicePeopleType) {
         return R.data(baseMapper.yearMonthMoney(businessEnterpriseId, makerType));
     }
 
     @Override
-    public R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(Long businessEnterpriseId, MakerType makerType) {
+    public R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(Long businessEnterpriseId, InvoicePeopleType invoicePeopleType) {
         return R.data(baseMapper.selfHelpInvoiceStatistics(businessEnterpriseId, makerType));
     }
 
     @Override
-    public R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(IPage<SelfHelpInvoiceListVO> page, Long businessEnterpriseId, MakerType makerType) {
+    public R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(IPage<SelfHelpInvoiceListVO> page, Long businessEnterpriseId, InvoicePeopleType invoicePeopleType) {
 
-        switch (makerType) {
+        switch (invoicePeopleType) {
 
             case INDIVIDUALENTERPRISE:
                 return R.data(page.setRecords(baseMapper.selfHelpInvoiceListEnterprise(businessEnterpriseId, page)));
@@ -133,7 +121,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
                 return R.data(page.setRecords(baseMapper.selfHelpInvoiceListBusiness(businessEnterpriseId, page)));
 
             default:
-                return R.fail("创客类别有误");
+                return R.fail("开票人身份类别有误");
         }
 
     }
@@ -157,7 +145,10 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     @Override
     @Transactional
     public R submitWebSelfHelpInvoice(SelfHelpInvoiceWebDto selfHelpInvoiceWebDto) {
-        if (!selfHelpInvoiceWebDto.getInvoicePeopleType().equals(MakerType.NATURALPERSON) && null == selfHelpInvoiceWebDto.getBusinessEnterpriseId()) {
+
+        //TODO(重写)
+
+        if (!selfHelpInvoiceWebDto.getInvoicePeopleType().equals(MakerType.NATURALPERSON)) {
             R.fail("参数错误");
         }
         SelfHelpInvoiceEntity selfHelpInvoiceEntity = new SelfHelpInvoiceEntity();
@@ -166,18 +157,6 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         save(selfHelpInvoiceEntity);
         String bizName = "";
         String socialCreditNo = "";
-        if (selfHelpInvoiceWebDto.getInvoicePeopleType().equals(MakerType.INDIVIDUALENTERPRISE)) {
-            IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.individualEnterpriseFindById(selfHelpInvoiceWebDto.getBusinessEnterpriseId());
-            bizName = individualEnterpriseEntity.getIbname();
-            socialCreditNo = individualEnterpriseEntity.getIbtaxNo();
-            selfHelpInvoiceEntity.setBusinessEnterpriseId(individualEnterpriseEntity.getId());
-        }
-        if (selfHelpInvoiceWebDto.getInvoicePeopleType().equals(MakerType.INDIVIDUALBUSINESS)) {
-            IndividualBusinessEntity individualBusinessEntity = iUserClient.individualBusinessById(selfHelpInvoiceWebDto.getBusinessEnterpriseId());
-            bizName = individualBusinessEntity.getIbname();
-            socialCreditNo = individualBusinessEntity.getIbtaxNo();
-            selfHelpInvoiceEntity.setBusinessEnterpriseId(individualBusinessEntity.getId());
-        }
 
         SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = new SelfHelpInvoiceDetailEntity();
         BeanUtil.copy(selfHelpInvoiceWebDto, selfHelpInvoiceDetailEntity);

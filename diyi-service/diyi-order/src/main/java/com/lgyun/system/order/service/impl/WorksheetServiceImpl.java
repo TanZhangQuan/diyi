@@ -64,7 +64,6 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         }
         BeanUtil.copy(releaseWorksheetDTO, worksheetEntity);
         worksheetEntity.setWorksheetNo(UUID.randomUUID().toString());
-        worksheetEntity.setWorksheetState(WorksheetState.PUBLISHING);
         save(worksheetEntity);
         if (WorkSheetMode.BLEND.equals(releaseWorksheetDTO.getWorksheetMode()) || WorkSheetMode.DISPATCH.equals(releaseWorksheetDTO.getWorksheetMode())) {
             String makerIds = releaseWorksheetDTO.getMakerIds();
@@ -79,7 +78,6 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
                 worksheetMakerEntity.setGetOrderDate(new Date());
                 worksheetMakerEntity.setArrangePerson("xitong");
                 worksheetMakerEntity.setArrangeDate(new Date());
-                worksheetMakerEntity.setWorksheetMakerState(WorksheetMakerState.SUBMITTED);
                 worksheetMakerService.save(worksheetMakerEntity);
             }
         }
@@ -263,7 +261,6 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         worksheetMakerEntity.setMakerName(makerEntity.getName());
         worksheetMakerEntity.setArrangePerson("qiangdan");
         worksheetMakerEntity.setArrangeDate(new Date());
-        worksheetMakerEntity.setWorksheetMakerState(WorksheetMakerState.SUBMITTED);
         worksheetMakerService.save(worksheetMakerEntity);
         return R.success("抢单成功");
     }

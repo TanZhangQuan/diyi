@@ -3,6 +3,7 @@ package com.lgyun.system.user.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
+import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.RelEnterpriseMakerVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -39,5 +40,13 @@ public interface MakerEnterpriseMapper extends BaseMapper<MakerEnterpriseEntity>
      */
     List<RelEnterpriseMakerVO> getRelEnterpriseMaker(Long enterpriseId, Integer relationshipType, String keyword, IPage<RelEnterpriseMakerVO> page);
 
+    /**
+     * 根据创客ID查询关联商户
+     *
+     * @param makerId
+     * @param page
+     * @return
+     */
+    List<EnterprisesIdNameListVO> findEnterpriseIdNameByMakerId(Long makerId, IPage<EnterprisesIdNameListVO> page);
 }
 

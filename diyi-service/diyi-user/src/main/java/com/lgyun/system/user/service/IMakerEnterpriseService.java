@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
+import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.RelEnterpriseMakerVO;
 
@@ -27,7 +28,7 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
     void makerEnterpriseEntitySave(Long enterpriseId, Long makerId);
 
     /**
-     * 查询关联商户和关注商户
+     * 根据创客ID, 两者关系 查询商户
      *
      * @param page
      * @param makerId
@@ -35,6 +36,15 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
      * @return
      */
     IPage<MakerEnterpriseRelationVO> selectMakerEnterprisePage(IPage<MakerEnterpriseRelationVO> page, Long makerId, Integer relationshipType);
+
+    /**
+     * 根据创客ID查询关联商户
+     *
+     * @param page
+     * @param makerId
+     * @return
+     */
+    R<IPage<EnterprisesIdNameListVO>> findEnterpriseIdNameByMakerId(IPage<EnterprisesIdNameListVO> page, Long makerId);
 
     /**
      * 添加和取消关注 relationshipType = 1,取消 2添加

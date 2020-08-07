@@ -98,7 +98,7 @@ public class IndividualBusinessController {
         try {
             IndividualBusinessEntity individualBusiness = new IndividualBusinessEntity();
             BeanUtil.copy(individualBusinessListDto, individualBusiness);
-            IPage<IndividualBusinessEntity> pages = individualBusinessService.page(Condition.getPage(query), Condition.getQueryWrapper(individualBusiness));
+            IPage<IndividualBusinessEntity> pages = individualBusinessService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(individualBusiness));
             return R.data(IndividualBusinessWrapper.build().pageVO(pages));
         } catch (Exception e) {
             log.error("查询所有个体户异常", e);
@@ -135,7 +135,7 @@ public class IndividualBusinessController {
             }
             MakerEntity makerEntity = result.getData();
 
-            return individualBusinessService.listByMaker(query.getCurrent(), query.getSize(), makerEntity.getId(), ibstate);
+            return individualBusinessService.listByMaker(query, makerEntity.getId(), ibstate);
         } catch (Exception e) {
             log.error("查询当前创客的所有个体户异常", e);
         }
@@ -226,7 +226,7 @@ public class IndividualBusinessController {
 
         log.info("查询个体户开票记录");
         try {
-            return individualBusinessService.selfHelpInvoiceList(query.getCurrent(), query.getSize(), individualBusinessId, MakerType.INDIVIDUALBUSINESS);
+            return individualBusinessService.selfHelpInvoiceList(query, individualBusinessId, MakerType.INDIVIDUALBUSINESS);
         } catch (Exception e) {
             log.error("查询个体户开票记录异常", e);
         }

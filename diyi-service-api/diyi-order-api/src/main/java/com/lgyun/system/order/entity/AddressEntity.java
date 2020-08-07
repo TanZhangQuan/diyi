@@ -55,7 +55,7 @@ public class AddressEntity extends BaseEntity {
     /**
      * 区
      */
-        private String area;
+    private String area;
 
     /**
      * 详细地址

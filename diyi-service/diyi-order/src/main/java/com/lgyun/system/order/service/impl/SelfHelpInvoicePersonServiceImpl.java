@@ -7,6 +7,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.SelfHelpInvoicePersonDto;
 import com.lgyun.system.order.entity.SelfHelpInvoicePersonEntity;
 import com.lgyun.system.order.mapper.SelfHelpInvoicePersonMapper;
@@ -28,10 +29,10 @@ import org.springframework.stereotype.Service;
 public class SelfHelpInvoicePersonServiceImpl extends BaseServiceImpl<SelfHelpInvoicePersonMapper, SelfHelpInvoicePersonEntity> implements ISelfHelpInvoicePersonService {
 
     @Override
-    public R<IPage<SelfHelpInvoicePersonEntity>> findPersonMakerId(Integer current, Integer size, Long objectId, MakerType makerType,ObjectType objectType) {
+    public R<IPage<SelfHelpInvoicePersonEntity>> findPersonMakerId(Query query, Long objectId, MakerType makerType, ObjectType objectType) {
         QueryWrapper<SelfHelpInvoicePersonEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(SelfHelpInvoicePersonEntity::getObjectId, objectId).eq(SelfHelpInvoicePersonEntity::getObjectType, objectType);
-        IPage<SelfHelpInvoicePersonEntity> page = this.page(new Page<>(current, size), queryWrapper);
+        IPage<SelfHelpInvoicePersonEntity> page = this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper);
         return R.data(page);
     }
 

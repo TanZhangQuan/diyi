@@ -56,7 +56,7 @@ public class TenantController extends BladeController {
 	@ApiOperation(value = "分页", notes = "传入tenant")
 	public R<IPage<Tenant>> list(@ApiIgnore @RequestParam Map<String, Object> tenant, Query query, BladeUser bladeUser) {
 		QueryWrapper<Tenant> queryWrapper = Condition.getQueryWrapper(tenant, Tenant.class);
-		IPage<Tenant> pages = tenantService.page(Condition.getPage(query), (!bladeUser.getTenantId().equals(BladeConstant.ADMIN_TENANT_ID)) ? queryWrapper.lambda().eq(Tenant::getTenantId, bladeUser.getTenantId()) : queryWrapper);
+		IPage<Tenant> pages = tenantService.page(Condition.getPage(query.setDescs("create_time")), (!bladeUser.getTenantId().equals(BladeConstant.ADMIN_TENANT_ID)) ? queryWrapper.lambda().eq(Tenant::getTenantId, bladeUser.getTenantId()) : queryWrapper);
 		return R.data(pages);
 	}
 
@@ -77,7 +77,7 @@ public class TenantController extends BladeController {
 	@GetMapping("/page")
 	@ApiOperation(value = "分页", notes = "传入tenant")
 	public R<IPage<Tenant>> page(Tenant tenant, Query query) {
-		IPage<Tenant> pages = tenantService.selectTenantPage(Condition.getPage(query), tenant);
+		IPage<Tenant> pages = tenantService.selectTenantPage(Condition.getPage(query.setDescs("create_time")), tenant);
 		return R.data(pages);
 	}
 

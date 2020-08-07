@@ -9,6 +9,7 @@ import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.mapper.MakerEnterpriseMapper;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
+import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.RelEnterpriseMakerVO;
 import lombok.AllArgsConstructor;
@@ -60,6 +61,11 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     @Override
     public IPage<MakerEnterpriseRelationVO> selectMakerEnterprisePage(IPage<MakerEnterpriseRelationVO> page, Long makerId, Integer relationshipType) {
         return page.setRecords(baseMapper.selectMakerEnterprisePage(makerId, relationshipType, page));
+    }
+
+    @Override
+    public R<IPage<EnterprisesIdNameListVO>> findEnterpriseIdNameByMakerId(IPage<EnterprisesIdNameListVO> page, Long makerId) {
+        return R.data(page.setRecords(baseMapper.findEnterpriseIdNameByMakerId(makerId, page)));
     }
 
     @Override

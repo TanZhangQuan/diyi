@@ -56,7 +56,7 @@ public class PositionController {
 	@GetMapping("/list")
 	@ApiOperation(value = "分页", notes = "分页")
 	public R list(PositionEntity position, Query query) {
-		IPage<PositionEntity> pages = positionService.page(Condition.getPage(query), Condition.getQueryWrapper(position));
+		IPage<PositionEntity> pages = positionService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(position));
 		return R.data(PositionWrapper.build().pageVO(pages));
 	}
 

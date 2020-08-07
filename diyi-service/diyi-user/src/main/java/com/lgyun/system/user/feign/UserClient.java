@@ -4,13 +4,15 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.Ibstate;
-import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.system.user.dto.RunCompanyDto;
+import com.lgyun.core.mp.support.Condition;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.service.*;
+import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import com.lgyun.system.user.vo.IndividualBusinessEnterpriseListByMakerVO;
+import com.lgyun.system.user.vo.MakerDetailVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,9 +33,9 @@ public class UserClient implements IUserClient {
 
     private IUserService service;
     private IMakerService iMakerService;
+    private IMakerEnterpriseService iMakerEnterpriseService;
     private IIndividualEnterpriseService iIndividualEnterpriseService;
     private IIndividualBusinessService iIndividualBusinessService;
-    private IRunCompanyService iRunCompanyService;
     private IEnterpriseService iEnterpriseService;
     private IEnterpriseWorkerService iEnterpriseWorkerService;
     private IEnterpriseProviderService iEnterpriseProviderService;
@@ -159,23 +161,18 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R findRunCompanyMakerId(Integer current, Integer size, Long objectId, ObjectType objectType) {
-        return iRunCompanyService.findMakerId(current, size, objectId,objectType);
+    public R<IPage<EnterprisesIdNameListVO>> findEnterpriseByMakerId(Query query, Long makerId) {
+        return iMakerEnterpriseService.findEnterpriseIdNameByMakerId(Condition.getPage(query.setDescs("create_time")), makerId);
     }
 
     @Override
-    public R<String> runCompanySave(RunCompanyDto runCompanyDto) {
-        return iRunCompanyService.runCompanySave(runCompanyDto);
+    public R<IPage<IndividualBusinessEnterpriseListByMakerVO>> individualEnterpriseListByMaker(Query query, Long makerId, Ibstate ibstate) {
+        return iIndividualEnterpriseService.listByMaker(query, makerId, ibstate);
     }
 
     @Override
-    public R<IPage<IndividualBusinessEnterpriseListByMakerVO>> individualEnterpriseListByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate) {
-        return iIndividualEnterpriseService.listByMaker(current, size, makerId, ibstate);
-    }
-
-    @Override
-    public R<IPage<IndividualBusinessEnterpriseListByMakerVO>> individualBusinessListByMaker(Integer current, Integer size, Long makerId, Ibstate ibstate) {
-        return iIndividualBusinessService.listByMaker(current, size, makerId, ibstate);
+    public R<IPage<IndividualBusinessEnterpriseListByMakerVO>> individualBusinessListByMaker(Query query, Long makerId, Ibstate ibstate) {
+        return iIndividualBusinessService.listByMaker(query, makerId, ibstate);
     }
 
     @Override
@@ -204,8 +201,8 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R getMakerName(Integer current, Integer size, String makerName) {
-        return iMakerService.getMakerName(current,size,makerName);
+    public R<IPage<MakerDetailVO>> getMakerName(Query query, String makerName) {
+        return iMakerService.getMakerName(query, makerName);
     }
 
     @Override

@@ -34,10 +34,7 @@ public class OrderClient implements IOrderClient {
     }
 
     @Override
-    public R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(Integer current, Integer size, Long businessEnterpriseId, MakerType makerType) {
-        Query query = new Query();
-        query.setCurrent(current);
-        query.setSize(size);
+    public R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(Query query, Long businessEnterpriseId, MakerType makerType) {
         return iSelfHelpInvoiceService.selfHelpInvoiceList(Condition.getPage(query.setDescs("create_time")), businessEnterpriseId, makerType);
     }
 

@@ -16,7 +16,7 @@ public class SelfHelpInvoiceWebDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //购买方
-   private Long companyId;
+   private Long enterpriseId;
 
    //开票人
    private Long selfHelpInvoicePersonId;
@@ -60,9 +60,7 @@ public class SelfHelpInvoiceWebDto implements Serializable {
     //总身份验证费
     private BigDecimal idendityConfirmFee;
 
-    private Long businessEnterpriseId;
-
+    //账户余额url
     private String accountBalanceUrl;
 
-    private String listFile;
 }

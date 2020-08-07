@@ -49,7 +49,7 @@ public class WorksheetMakerEntity extends BaseEntity {
     /**
      * 工单创客的状态：1待提交，2待验证，3验证通过，4验证失败
      */
-    private WorksheetMakerState worksheetMakerState;
+    private WorksheetMakerState worksheetMakerState = WorksheetMakerState.SUBMITTED;
 
     /**
      * 抢单/派单日期

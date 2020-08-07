@@ -1,6 +1,10 @@
 package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.lgyun.common.enumeration.InvoiceState;
+import com.lgyun.common.enumeration.InvoiceType;
+import com.lgyun.common.enumeration.MakerPayState;
+import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,7 +41,7 @@ public class PayMakerEntity extends BaseEntity {
     /**
      * 创客身份，自然人，个体户，个独。
      */
-    private String makerType;
+    private MakerType makerType;
 
     /**
      * 个体户/个独名称
@@ -82,7 +86,7 @@ public class PayMakerEntity extends BaseEntity {
     /**
      * 1：待支付；2:企业已申请支付；3：企业已支付；4：平台已支付；5：已确认收款
      */
-    private Integer payState;
+    private MakerPayState payState = MakerPayState.TOPAY;
 
     /**
      * 企业申请支付日期时间
@@ -107,17 +111,17 @@ public class PayMakerEntity extends BaseEntity {
     /**
      * 完税证明开票状态:1:已开；0：未开
      */
-    private Integer makerTaxState;
+    private InvoiceState makerTaxState = InvoiceState.UNOPEN;
 
     /**
      * 发票开票状态:1:已开；0：未开
      */
-    private Integer makerInvoiceState;
+    private InvoiceState makerInvoiceState = InvoiceState.UNOPEN;
 
     /**
      * 发票类别:1,汇总代开；2，门征单开
      */
-    private Integer invoiceType;
+    private InvoiceType invoiceType;
 
     /**
      * 支付说明

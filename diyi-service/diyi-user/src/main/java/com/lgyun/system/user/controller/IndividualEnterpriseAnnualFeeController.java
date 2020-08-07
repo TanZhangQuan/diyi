@@ -56,7 +56,7 @@ public class IndividualEnterpriseAnnualFeeController {
     @GetMapping("/list")
     @ApiOperation(value = "分页", notes = "分页")
     public R list(IndividualEnterpriseAnnualFeeEntity individualEnterpriseAnnualFee, Query query) {
-        IPage<IndividualEnterpriseAnnualFeeEntity> pages = individualEnterpriseAnnualFeeService.page(Condition.getPage(query), Condition.getQueryWrapper(individualEnterpriseAnnualFee));
+        IPage<IndividualEnterpriseAnnualFeeEntity> pages = individualEnterpriseAnnualFeeService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(individualEnterpriseAnnualFee));
         return R.data(IndividualEnterpriseAnnualFeeWrapper.build().pageVO(pages));
     }
 
