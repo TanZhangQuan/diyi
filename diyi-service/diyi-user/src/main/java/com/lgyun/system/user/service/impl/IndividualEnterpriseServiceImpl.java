@@ -4,15 +4,18 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.*;
+import com.lgyun.common.enumeration.BizType;
+import com.lgyun.common.enumeration.Ibstate;
+import com.lgyun.common.enumeration.InvoicePeopleType;
+import com.lgyun.common.enumeration.VerifyStatus;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.feign.IOrderClient;
 import com.lgyun.system.order.vo.SelfHelpInvoiceListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDto;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDto;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDto;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDto;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
@@ -147,6 +150,14 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
         save(individualEnterpriseEntity);
 
         return R.success("个独新增成功");
+    }
+
+    @Override
+    public IndividualEnterpriseEntity findByMakerIdAndIbtaxNo(Long makerId, String ibtaxNo) {
+        QueryWrapper<IndividualEnterpriseEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(IndividualEnterpriseEntity::getMakerId, makerId)
+                .eq(IndividualEnterpriseEntity::getIbtaxNo, ibtaxNo);
+        return baseMapper.selectOne(queryWrapper);
     }
 
 }

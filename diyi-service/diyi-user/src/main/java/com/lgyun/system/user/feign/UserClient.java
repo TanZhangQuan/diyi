@@ -215,4 +215,14 @@ public class UserClient implements IUserClient {
         return iEnterpriseProviderService.findByEnterpriseIdServiceProviderId(enterpriseId, serviceProviderId);
     }
 
+    @Override
+    public IndividualBusinessEntity findByMakerIdAndIbtaxNoBusiness(Long makerId, String ibtaxNo) {
+        return iIndividualBusinessService.findByMakerIdAndIbtaxNo(makerId, ibtaxNo);
+    }
+
+    @Override
+    public IndividualEnterpriseEntity findByMakerIdAndIbtaxNoEnterprise(Long makerId, String ibtaxNo) {
+        return iIndividualEnterpriseService.findByMakerIdAndIbtaxNo(makerId, ibtaxNo);
+    }
+
 }

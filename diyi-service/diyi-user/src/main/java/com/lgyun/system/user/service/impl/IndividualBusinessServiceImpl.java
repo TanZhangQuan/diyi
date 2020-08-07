@@ -158,4 +158,12 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
         return R.success("个体户新增成功");
     }
 
+    @Override
+    public IndividualBusinessEntity findByMakerIdAndIbtaxNo(Long makerId, String ibtaxNo) {
+        QueryWrapper<IndividualBusinessEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(IndividualBusinessEntity::getMakerId, makerId)
+                .eq(IndividualBusinessEntity::getIbtaxNo, ibtaxNo);
+        return baseMapper.selectOne(queryWrapper);
+    }
+
 }

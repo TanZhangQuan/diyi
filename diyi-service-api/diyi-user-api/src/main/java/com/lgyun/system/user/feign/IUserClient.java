@@ -203,6 +203,10 @@ public interface IUserClient {
 
     /**
      * 根据创客姓名分页查询
+     *
+     * @param query
+     * @param makerName
+     * @return
      */
     @PostMapping(API_PREFIX + "/maker/getMakerName")
     R<IPage<MakerDetailVO>> getMakerName(@RequestParam("query") Query query, @RequestParam(name = "makerName", required = false) String makerName);
@@ -226,4 +230,23 @@ public interface IUserClient {
     @PostMapping(API_PREFIX + "/find_by_enterprise_id_service_provider_id")
     EnterpriseProviderEntity findByEnterpriseIdServiceProviderId(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("serviceProviderId") Long serviceProviderId);
 
+    /**
+     * 根据创客ID, 统一社会信用代码查询个独
+     *
+     * @param makerId
+     * @param ibtaxNo
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/find_by_maker_id_and_ibtax_no_business")
+    IndividualBusinessEntity findByMakerIdAndIbtaxNoBusiness(Long makerId, String ibtaxNo);
+
+    /**
+     * 根据创客ID, 统一社会信用代码查询个体户
+     *
+     * @param makerId
+     * @param ibtaxNo
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/find_by_maker_id_and_ibtax_no_enterprise")
+    IndividualEnterpriseEntity findByMakerIdAndIbtaxNoEnterprise(Long makerId, String ibtaxNo);
 }
