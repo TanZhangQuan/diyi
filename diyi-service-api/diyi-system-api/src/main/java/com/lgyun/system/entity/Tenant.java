@@ -12,12 +12,12 @@ import lombok.EqualsAndHashCode;
 import com.lgyun.core.mp.base.BaseEntity;
 
 /**
- * 实体类
+ * 租户管理 实体类
  *
  * @author liangfeihu
  */
 @Data
-@TableName("blade_tenant")
+@TableName("sys_tenant")
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "Tenant对象", description = "Tenant对象")
 public class Tenant extends BaseEntity {

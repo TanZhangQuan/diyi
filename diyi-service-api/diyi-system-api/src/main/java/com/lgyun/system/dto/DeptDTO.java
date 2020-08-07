@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import com.lgyun.system.entity.Dept;
 
 /**
- * 数据传输对象实体类
+ * 部门数据传输对象实体类
  *
  * @author liangfeihu
  */

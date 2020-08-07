@@ -12,13 +12,13 @@ import lombok.EqualsAndHashCode;
 import com.lgyun.core.mp.base.BaseEntity;
 
 /**
- * 实体类
+ * 系统客户端 实体类
  *
  * @author liangfeihu
  * @since 2019-03-24
  */
 @Data
-@TableName("blade_client")
+@TableName("sys_client")
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "Client对象", description = "Client对象")
 public class AuthClient extends BaseEntity {

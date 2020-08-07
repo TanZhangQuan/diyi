@@ -12,12 +12,12 @@ import lombok.EqualsAndHashCode;
 import com.lgyun.core.mp.base.BaseEntity;
 
 /**
- * 实体类
+ * 参数配置 实体类
  *
  * @author liangfeihu
  */
 @Data
-@TableName("blade_param")
+@TableName("sys_param")
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "Param对象", description = "Param对象")
 public class Param extends BaseEntity {

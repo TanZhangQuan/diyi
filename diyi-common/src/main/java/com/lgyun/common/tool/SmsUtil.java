@@ -5,11 +5,18 @@ import com.lgyun.common.constant.SmsConstant;
 import com.lgyun.common.enumeration.MessageType;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 短信验证码 Util
+ *
+ * @author tzq
+ * @since 2020/8/5 23:07
+ */
 @Slf4j
 @Component
 @AllArgsConstructor
@@ -34,12 +41,8 @@ public class SmsUtil {
             return R.fail("短信已经发送，请稍后重试");
         }
 
-        Random random = new Random();
         //随机六位数字验证码
-        String randomCode = "";
-        for (int i = 0; i < 6; i++) {
-            randomCode += random.nextInt(10);
-        }
+        String randomCode = RandomStringUtils.randomNumeric(6);
         log.info("手机号：" + mobile + "，验证码：" + randomCode);
 
         if ("yuntongxun".equals(SmsConstant.SMS_PLATFORM)) {

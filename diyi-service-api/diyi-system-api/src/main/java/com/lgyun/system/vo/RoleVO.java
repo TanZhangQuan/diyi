@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 视图实体类
+ * 角色 视图实体类
  *
  * @author liangfeihu
  */

@@ -12,12 +12,12 @@ import lombok.EqualsAndHashCode;
 import com.lgyun.core.mp.base.TenantEntity;
 
 /**
- * 岗位表实体类
+ * 岗位表 实体类
  *
  * @author liangfeihu
  */
 @Data
-@TableName("blade_post")
+@TableName("sys_post")
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "Post对象", description = "岗位表")
 public class Post extends TenantEntity {

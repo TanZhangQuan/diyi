@@ -13,12 +13,12 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 实体类
+ * 系统角色 实体类
  *
  * @author liangfeihu
  */
 @Data
-@TableName("blade_role")
+@TableName("sys_role")
 @ApiModel(value = "Role对象", description = "Role对象")
 public class Role implements Serializable {
     private static final long serialVersionUID = 1L;

@@ -14,12 +14,12 @@ import com.lgyun.common.tool.Func;
 import java.io.Serializable;
 
 /**
- * 实体类
+ * 系统菜单 实体类
  *
  * @author liangfeihu
  */
 @Data
-@TableName("blade_menu")
+@TableName("sys_menu")
 @ApiModel(value = "Menu对象", description = "Menu对象")
 public class Menu implements Serializable {
     private static final long serialVersionUID = 1L;

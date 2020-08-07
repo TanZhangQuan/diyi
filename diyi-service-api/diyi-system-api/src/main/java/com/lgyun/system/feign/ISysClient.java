@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 /**
- * Feign接口类
+ * 系统服务模块 Feign接口类
  *
  * @author liangfeihu
  */

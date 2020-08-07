@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 数据传输对象实体类
+ * 角色菜单 数据传输对象实体类
  *
  * @author liangfeihu
  */

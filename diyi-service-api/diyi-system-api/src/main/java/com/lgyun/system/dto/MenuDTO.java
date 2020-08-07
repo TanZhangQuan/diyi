@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 数据传输对象实体类
+ * 菜单数据传输对象实体类
  *
  * @author liangfeihu
  */

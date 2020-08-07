@@ -20,6 +20,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * 短信验证码登录
+ *
  * @author liangfeihu
  * @since 2020/6/30 18:27
  */
@@ -37,6 +39,7 @@ public class MobileTokenGranter implements ITokenGranter {
     private WechatUtil wechatUtil;
 
     /**
+     * 短信验证码登录
      * 获取用户信息
      *
      * @param tokenParameter 授权参数
@@ -108,7 +111,7 @@ public class MobileTokenGranter implements ITokenGranter {
     }
 
     /**
-     * 发送验证码
+     * 发送短信验证码
      * <p>
      * 1. 先去redis 查询是否 60S内已经发送
      * 2. 未发送： 判断手机号是否存 ? false :产生4位数字  手机号-验证码

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 视图实体类
+ * 菜单 视图实体类
  *
  * @author liangfeihu
  */

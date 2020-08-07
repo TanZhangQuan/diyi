@@ -5,6 +5,8 @@ import lombok.Getter;
 
 /**
  * 用户类型
+ *
+ * @author tzq
  */
 @Getter
 @AllArgsConstructor

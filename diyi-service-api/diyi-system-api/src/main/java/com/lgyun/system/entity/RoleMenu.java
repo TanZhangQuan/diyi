@@ -12,12 +12,12 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 实体类
+ * 角色菜单对应关系 实体类
  *
  * @author liangfeihu
  */
 @Data
-@TableName("blade_role_menu")
+@TableName("sys_role_menu")
 @ApiModel(value = "RoleMenu对象", description = "RoleMenu对象")
 public class RoleMenu implements Serializable {
     private static final long serialVersionUID = 1L;
