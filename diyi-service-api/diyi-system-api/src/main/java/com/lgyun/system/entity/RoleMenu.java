@@ -1,15 +1,14 @@
 package com.lgyun.system.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import io.swagger.annotations.ApiModel;
+import com.lgyun.core.mp.base.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.io.Serializable;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * 角色菜单对应关系 实体类
@@ -17,18 +16,12 @@ import java.io.Serializable;
  * @author liangfeihu
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("sys_role_menu")
-@ApiModel(value = "RoleMenu对象", description = "RoleMenu对象")
-public class RoleMenu implements Serializable {
+public class RoleMenu extends BaseEntity {
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 主键
-     */
-    @ApiModelProperty(value = "主键")
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
 
     /**
      * 菜单id

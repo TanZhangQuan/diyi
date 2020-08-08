@@ -238,7 +238,7 @@ public interface IUserClient {
      * @return
      */
     @GetMapping(API_PREFIX + "/find_by_maker_id_and_ibtax_no_business")
-    IndividualBusinessEntity findByMakerIdAndIbtaxNoBusiness(Long makerId, String ibtaxNo);
+    IndividualBusinessEntity findByMakerIdAndIbtaxNoBusiness(@RequestParam("makerId") Long makerId, @RequestParam("ibtaxNo") String ibtaxNo);
 
     /**
      * 根据创客ID, 统一社会信用代码查询个体户
@@ -248,5 +248,5 @@ public interface IUserClient {
      * @return
      */
     @GetMapping(API_PREFIX + "/find_by_maker_id_and_ibtax_no_enterprise")
-    IndividualEnterpriseEntity findByMakerIdAndIbtaxNoEnterprise(Long makerId, String ibtaxNo);
+    IndividualEnterpriseEntity findByMakerIdAndIbtaxNoEnterprise(@RequestParam("makerId") Long makerId, @RequestParam("ibtaxNo") String ibtaxNo);
 }

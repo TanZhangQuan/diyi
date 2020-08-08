@@ -13,6 +13,8 @@ import com.lgyun.system.order.vo.SelfHelpInvoiceDetailsVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
 
+import java.util.Map;
+
 /**
  * Service 接口
  *
@@ -35,7 +37,7 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      * @param selfHelpInvoiceId
      * @return
      */
-    R getSelfHelpInvoiceDetails(Long selfHelpInvoiceId);
+    R<Map> getSelfHelpInvoiceDetails(Long selfHelpInvoiceId);
 
     /**
      * 查询开票次数，月度开票金额，年度开票金额和总开票金额
@@ -75,7 +77,7 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      * @param invoicePeopleType
      * @return
      */
-    R findMakerTypeSelfHelpInvoice(IPage<SelfHelpInvoiceDetailsVO> page, Long enterpriseId, InvoicePeopleType invoicePeopleType);
+    R<IPage<SelfHelpInvoiceDetailsVO>> findMakerTypeSelfHelpInvoice(IPage<SelfHelpInvoiceDetailsVO> page, Long enterpriseId, InvoicePeopleType invoicePeopleType);
 
     /**
      * 商户提交自助开票
@@ -83,7 +85,7 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      * @param selfHelpInvoiceWebDto
      * @return
      */
-    R submitWebSelfHelpInvoice(SelfHelpInvoiceWebDto selfHelpInvoiceWebDto);
+    R<String> submitWebSelfHelpInvoice(SelfHelpInvoiceWebDto selfHelpInvoiceWebDto);
 
 
     /**

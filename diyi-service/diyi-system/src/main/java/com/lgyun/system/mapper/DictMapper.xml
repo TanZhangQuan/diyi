@@ -29,34 +29,34 @@
     </sql>
 
     <select id="selectDictPage" resultMap="dictResultMap">
-        select * from blade_dict where is_deleted = 0
+        select * from sys_dict where is_deleted = 0
     </select>
 
     <select id="getValue" resultType="java.lang.String">
         select
             dict_value
-        from blade_dict where code = #{param1} and dict_key = #{param2} and is_deleted = 0 limit 1
+        from sys_dict where code = #{param1} and dict_key = #{param2} and is_deleted = 0 limit 1
     </select>
 
     <!-- oracle 版本 -->
     <!--<select id="getValue" resultType="java.lang.String">
         select
             dict_value
-        from blade_dict where code = #{param1, jdbcType=VARCHAR} and dict_key = #{param2} and dict_value >= 0 rownum 1
+        from sys_dict where code = #{param1, jdbcType=VARCHAR} and dict_key = #{param2} and dict_value >= 0 rownum 1
     </select>-->
 
     <select id="getList" resultMap="dictResultMap">
-        select id,parent_id,code, dict_key, dict_value, sort, remark from blade_dict where code = #{param1} and dict_key >= 0 and is_deleted = 0
+        select id,parent_id,code, dict_key, dict_value, sort, remark from sys_dict where code = #{param1} and dict_key >= 0 and is_deleted = 0
     </select>
 
     <select id="tree" resultMap="treeNodeResultMap">
-        select id, parent_id, dict_value as title, id as 'value', id as 'key' from blade_dict where is_deleted = 0
+        select id, parent_id, dict_value as title, id as 'value', id as 'key' from sys_dict where is_deleted = 0
     </select>
     <select id="getParentList" resultMap="dictResultMap">
-        SELECT id,parent_id,CODE, dict_key, dict_value, sort, remark FROM blade_dict WHERE parent_id = #{parentId} and dict_key >= 0 and is_deleted = 0
+        SELECT id,parent_id,CODE, dict_key, dict_value, sort, remark FROM sys_dict WHERE parent_id = #{parentId} and dict_key >= 0 and is_deleted = 0
     </select>
 
     <select id="getDict" resultMap="dictResultMap">
-        select id,parent_id,code, dict_key, dict_value, sort, remark from blade_dict where code = #{param1} and dict_key = -1 and is_deleted = 0
+        select id,parent_id,code, dict_key, dict_value, sort, remark from sys_dict where code = #{param1} and dict_key = -1 and is_deleted = 0
     </select>
 </mapper>

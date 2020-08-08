@@ -31,7 +31,7 @@
     </sql>
 
     <select id="selectParamPage" resultMap="paramResultMap">
-        select * from blade_param where is_deleted = 0
+        select * from sys_param where is_deleted = 0
     </select>
 
 </mapper>

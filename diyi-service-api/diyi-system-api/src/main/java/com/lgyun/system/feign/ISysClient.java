@@ -22,7 +22,6 @@ public interface ISysClient {
 
     String API_PREFIX = "/sys";
 
-
     /**
      * 获取部门
      *

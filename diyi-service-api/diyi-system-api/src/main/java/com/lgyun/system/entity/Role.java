@@ -1,16 +1,14 @@
 package com.lgyun.system.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import io.swagger.annotations.ApiModel;
+import com.lgyun.core.mp.base.TenantEntity;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.io.Serializable;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * 系统角色 实体类
@@ -18,24 +16,12 @@ import java.io.Serializable;
  * @author liangfeihu
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("sys_role")
-@ApiModel(value = "Role对象", description = "Role对象")
-public class Role implements Serializable {
+public class Role extends TenantEntity {
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 主键
-     */
-    @ApiModelProperty(value = "主键")
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
-
-    /**
-     * 租户ID
-     */
-    @ApiModelProperty(value = "租户ID")
-    private String tenantId;
 
     /**
      * 父主键
@@ -61,13 +47,5 @@ public class Role implements Serializable {
      */
     @ApiModelProperty(value = "角色别名")
     private String roleAlias;
-
-    /**
-     * 是否已删除
-     */
-    @TableLogic
-    @ApiModelProperty(value = "是否已删除")
-    private Integer isDeleted;
-
 
 }

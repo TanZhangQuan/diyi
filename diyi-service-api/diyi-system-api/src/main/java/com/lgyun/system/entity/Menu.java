@@ -1,17 +1,14 @@
 package com.lgyun.system.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import io.swagger.annotations.ApiModel;
+import com.lgyun.core.mp.base.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import com.lgyun.common.tool.Func;
-
-import java.io.Serializable;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * 系统菜单 实体类
@@ -19,18 +16,12 @@ import java.io.Serializable;
  * @author liangfeihu
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("sys_menu")
-@ApiModel(value = "Menu对象", description = "Menu对象")
-public class Menu implements Serializable {
+public class Menu extends BaseEntity {
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 主键
-     */
-    @ApiModelProperty(value = "主键")
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
 
     /**
      * 菜单父主键
@@ -98,28 +89,5 @@ public class Menu implements Serializable {
      */
     @ApiModelProperty(value = "备注")
     private String remark;
-
-    /**
-     * 是否已删除
-     */
-    @TableLogic
-    @ApiModelProperty(value = "是否已删除")
-    private Integer isDeleted;
-
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        Menu other = (Menu) obj;
-        if (Func.equals(this.getId(), other.getId())) {
-            return true;
-        }
-        return false;
-    }
 
 }

@@ -78,7 +78,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
-    public R getSelfHelpInvoiceDetails(Long selfHelpInvoiceId) {
+    public R<Map> getSelfHelpInvoiceDetails(Long selfHelpInvoiceId) {
         SelfHelpInvoiceEntity selfHelpInvoiceEntity = getById(selfHelpInvoiceId);
         if (null == selfHelpInvoiceEntity) {
             return R.fail("数据不存在");
@@ -150,7 +150,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
-    public R findMakerTypeSelfHelpInvoice(IPage<SelfHelpInvoiceDetailsVO> page, Long enterpriseId, InvoicePeopleType invoicePeopleType) {
+    public R<IPage<SelfHelpInvoiceDetailsVO>> findMakerTypeSelfHelpInvoice(IPage<SelfHelpInvoiceDetailsVO> page, Long enterpriseId, InvoicePeopleType invoicePeopleType) {
         return R.data(page.setRecords(baseMapper.findMakerTypeSelfHelpInvoice(enterpriseId, invoicePeopleType, page)));
     }
 
@@ -168,7 +168,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
 
     @Override
     @Transactional
-    public R submitWebSelfHelpInvoice(SelfHelpInvoiceWebDto selfHelpInvoiceWebDto) {
+    public R<String> submitWebSelfHelpInvoice(SelfHelpInvoiceWebDto selfHelpInvoiceWebDto) {
 
         //TODO(重写)
 

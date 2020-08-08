@@ -31,6 +31,6 @@ public class BladeTenantProperties {
 	/**
 	 * 多租户系统数据表
 	 */
-	private List<String> bladeTables = Arrays.asList("blade_notice", "blade_log_api", "blade_log_error", "blade_log_usual");
+	private List<String> bladeTables = Arrays.asList("sys_notice", "sys_log_api", "sys_log_error", "sys_log_usual");
 
 }

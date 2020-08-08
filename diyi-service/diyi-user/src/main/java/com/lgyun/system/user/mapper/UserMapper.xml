@@ -51,7 +51,7 @@
         SELECT
         role_name
         FROM
-        blade_role
+        sys_role
         WHERE
         is_deleted = 0 and
         id IN
@@ -64,7 +64,7 @@
         SELECT
         role_alias
         FROM
-        blade_role
+        sys_role
         WHERE
         is_deleted = 0 and
         id IN
@@ -77,7 +77,7 @@
         SELECT
         dept_name
         FROM
-        blade_dept
+        sys_dept
         WHERE
         is_deleted = 0 and
         id IN
@@ -98,7 +98,7 @@
                role_id,
                dept_id,
                post_id
-        FROM blade_user ${ew.customSqlSegment}
+        FROM sys_user ${ew.customSqlSegment}
     </select>
 
 </mapper>

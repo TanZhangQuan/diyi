@@ -63,13 +63,13 @@ public class BaseEntity implements Serializable {
     private Date updateTime;
 
     /**
-     * 状态[1:正常]
+     * 记录状态[0-非正常 1-正常]
      */
-    @ApiModelProperty(value = "业务状态")
+    @ApiModelProperty(value = "记录状态")
     private Integer status;
 
     /**
-     * 状态[0:未删除,1:删除]
+     * 是否已删除[0-未删除 1-已删除]
      */
     @TableLogic
     @ApiModelProperty(value = "是否已删除")
