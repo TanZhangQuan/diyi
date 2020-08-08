@@ -28,7 +28,7 @@ import javax.validation.constraints.NotNull;
  */
 @Slf4j
 @RestController
-@RequestMapping("/individual-business")
+@RequestMapping("/web/individual-business")
 @Validated
 @AllArgsConstructor
 @Api(value = "个体户相关接口(管理端)", tags = "个体户相关接口(管理端)")
