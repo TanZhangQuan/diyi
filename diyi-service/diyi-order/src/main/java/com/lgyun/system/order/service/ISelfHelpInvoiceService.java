@@ -3,6 +3,7 @@ package com.lgyun.system.order.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.InvoicePeopleType;
+import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDto;
 import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
@@ -22,14 +23,6 @@ import java.util.Map;
  * @since 2020-07-08 14:32:47
  */
 public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEntity> {
-
-    /**
-     * 提交自助接口
-     *
-     * @param selfHelpInvoiceDto
-     * @return
-     */
-    R<String> submitSelfHelpInvoice(SelfHelpInvoiceDto selfHelpInvoiceDto);
 
     /**
      * 查询开票详情
@@ -74,19 +67,9 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      *
      * @param page
      * @param enterpriseId
-     * @param invoicePeopleType
      * @return
      */
-    R<IPage<SelfHelpInvoiceDetailsVO>> findMakerTypeSelfHelpInvoice(IPage<SelfHelpInvoiceDetailsVO> page, Long enterpriseId, InvoicePeopleType invoicePeopleType);
-
-    /**
-     * 商户提交自助开票
-     *
-     * @param selfHelpInvoiceWebDto
-     * @return
-     */
-    R<String> submitWebSelfHelpInvoice(SelfHelpInvoiceWebDto selfHelpInvoiceWebDto);
-
+    R findMakerTypeSelfHelpInvoice(IPage<SelfHelpInvoiceDetailsVO> page, Long enterpriseId, MakerType makerType,String invoicePeopleName,String startTime,String endTime);
 
     /**
      * 查询当前商户所有自主开票记录(众包)

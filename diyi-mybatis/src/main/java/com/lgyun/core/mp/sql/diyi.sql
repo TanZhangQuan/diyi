@@ -1495,6 +1495,9 @@ CREATE TABLE `diyi_self_help_invoice` (
   `service_invoice_fee` decimal(12,2) DEFAULT '0.00' COMMENT '总开票手续费',
   `idendity_confirm_fee` decimal(12,2) DEFAULT '0.00' COMMENT '总身份验证费',
   `address_id` bigint(50) NOT NULL COMMENT '收件地址Id',
+    `confirm_price_person` varchar(100) DEFAULT NULL COMMENT '核价人员',
+   `confirm_price_datetime` datetime NOT NULL COMMENT COMMENT '核价时间',
+   `current_state` varchar(50) NOT NULL COMMENT '当前状态：0,未申请，1，申请编辑中，2，审核中；3，已通过开票中；4，已驳回；5，已开票结束',
   `express_sheet_no` varchar(100) NOT NULL DEFAULT '' COMMENT '快递单号',
   `express_company_name` varchar(100) NOT NULL DEFAULT '' COMMENT '快递公司名称',
   `express_update_datetime` datetime DEFAULT NULL COMMENT '快递更新日期',
@@ -1549,7 +1552,7 @@ CREATE TABLE `diyi_self_help_invoice_detail` (
   `maker_id` bigint(50) DEFAULT NULL COMMENT '创客ID',
   `none_maker_invoice_person_id` bigint(50) DEFAULT NULL COMMENT '非创客开票人ID',
   `all_kind_enterprise_id` bigint(50) DEFAULT NULL COMMENT '各类企业ID',
-  `invoice_type` varchar(100) NOT NULL COMMENT '开票类目',
+   `invoice_type` varchar(100) NOT NULL COMMENT '开票类目',
   `charge_money_num` decimal(12,2) DEFAULT '0.00' COMMENT '价税合计额',
   `flow_contract_url` varchar(500) NOT NULL COMMENT '流水回单URL',
   `business_contract_url` varchar(100) NOT NULL COMMENT '业务合同URL',
@@ -1630,8 +1633,6 @@ CREATE TABLE `diyi_self_help_invoice_fee` (
 DROP TABLE IF EXISTS `diyi_self_help_invoice_person`;
 CREATE TABLE `diyi_self_help_invoice_person` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `object_id` bigint(50) NOT NULL COMMENT '对象id',
-  `object_type` varchar(20) NOT NULL COMMENT '对象身份1、创客本人2、商户人员3、服务商人员4、相关局人员5、渠道商人员6、合伙人本人',
   `id_card_no` varchar(50) NOT NULL COMMENT '身份证号码',
   `id_card_name` varchar(50) NOT NULL COMMENT '身份证姓名',
   `id_card_pic` varchar(500) NOT NULL COMMENT '身份证正面图',
