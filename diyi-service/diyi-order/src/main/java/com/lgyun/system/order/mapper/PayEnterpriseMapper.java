@@ -66,7 +66,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * @param page
      * @return
      */
-    List<PayListVO> getByDtoEnterprise(Long enterpriseId, PayListDto payListDto, IPage<PayListVO> page);
+    List<PayListVO> getPayEnterprisesByEnterprise(Long enterpriseId, PayListDto payListDto, IPage<PayListVO> page);
 
     /**
      * 根据支付清单ID查询支付清单关联工单的创客

@@ -66,7 +66,7 @@ public interface IAcceptPaysheetService extends BaseService<AcceptPaysheetEntity
      * @param page
      * @return
      */
-    R<IPage<AcceptPayListVO>> getByDtoEnterprise(Long enterpriseId, AcceptPayListDto acceptPayListDto, IPage<AcceptPayListVO> page);
+    R<IPage<AcceptPayListVO>> getAcceptPaySheetsByEnterprise(Long enterpriseId, AcceptPayListDto acceptPayListDto, IPage<AcceptPayListVO> page);
 
     /**
      * 根据总包总包交付支付验收单ID查询关联创客

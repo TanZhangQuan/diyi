@@ -119,7 +119,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R<IPage<PayListVO>> getByDtoEnterprise(Long enterpriseId, PayListDto payListDto, IPage<PayListVO> page) {
+    public R<IPage<PayListVO>> getPayEnterprisesByEnterprise(Long enterpriseId, PayListDto payListDto, IPage<PayListVO> page) {
 
         if (payListDto.getBeginDate() != null && payListDto.getEndDate() != null) {
             if (payListDto.getBeginDate().after(payListDto.getEndDate())) {
@@ -127,7 +127,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             }
         }
 
-        return R.data(page.setRecords(baseMapper.getByDtoEnterprise(enterpriseId, payListDto, page)));
+        return R.data(page.setRecords(baseMapper.getPayEnterprisesByEnterprise(enterpriseId, payListDto, page)));
     }
 
     @Override

@@ -105,7 +105,7 @@
         AND t2.worksheet_state = 'FINISHED' AND t3.worksheet_maker_state = 'VALIDATION' AND t3.maker_id = #{param1}
     </select>
 
-    <select id="getByDtoEnterprise" resultMap="acceptPayListVO">
+    <select id="getAcceptPaySheetsByEnterprise" resultMap="acceptPayListVO">
         SELECT * FROM (SELECT t3.id, t3.pay_enterprise_id, t5.enterprise_name, t3.service_time_start, t3.service_time_end, t4.worksheet_id, t3.accept_paysheet_url, t3.create_time,
         IF(t3.accept_paysheet_type = 'SINGLE', (SELECT name FROM diyi_maker WHERE is_deleted = 0 AND id = t3.maker_id), (SELECT group_concat(t2.name)
         FROM diyi_worksheet_maker t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.worksheet_id = t4.worksheet_id)) AS maker_names

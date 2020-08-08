@@ -74,7 +74,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @param page
      * @return
      */
-    R<IPage<PayListVO>> getByDtoEnterprise(Long enterpriseId, PayListDto payListDto, IPage<PayListVO> page);
+    R<IPage<PayListVO>> getPayEnterprisesByEnterprise(Long enterpriseId, PayListDto payListDto, IPage<PayListVO> page);
 
     /**
      * 根据支付清单ID查询支付清单关联工单的创客

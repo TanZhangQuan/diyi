@@ -79,7 +79,7 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
     }
 
     @Override
-    public R<IPage<AcceptPayListVO>> getByDtoEnterprise(Long enterpriseId, AcceptPayListDto acceptPayListDto, IPage<AcceptPayListVO> page) {
+    public R<IPage<AcceptPayListVO>> getAcceptPaySheetsByEnterprise(Long enterpriseId, AcceptPayListDto acceptPayListDto, IPage<AcceptPayListVO> page) {
 
         if (acceptPayListDto.getBeginDate() != null && acceptPayListDto.getEndDate() != null) {
             if (acceptPayListDto.getBeginDate().after(acceptPayListDto.getEndDate())) {
@@ -87,7 +87,7 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
             }
         }
 
-        return R.data(page.setRecords(baseMapper.getByDtoEnterprise(enterpriseId, acceptPayListDto, page)));
+        return R.data(page.setRecords(baseMapper.getAcceptPaySheetsByEnterprise(enterpriseId, acceptPayListDto, page)));
     }
 
     @Override
