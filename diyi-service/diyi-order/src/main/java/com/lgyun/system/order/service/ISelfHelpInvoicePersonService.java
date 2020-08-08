@@ -1,12 +1,6 @@
 package com.lgyun.system.order.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.MakerType;
-import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.SelfHelpInvoicePersonDto;
 import com.lgyun.system.order.entity.SelfHelpInvoicePersonEntity;
 
 /**
@@ -17,21 +11,5 @@ import com.lgyun.system.order.entity.SelfHelpInvoicePersonEntity;
  */
 public interface ISelfHelpInvoicePersonService extends BaseService<SelfHelpInvoicePersonEntity> {
 
-    /**
-     * 根据创客Idc查询自助开票非创客开票人
-     *
-     * @param query
-     * @param makerType
-     * @return
-     */
-    R<IPage<SelfHelpInvoicePersonEntity>> findPersonMakerId(Query query, Long objectId, MakerType makerType, ObjectType objectType);
-
-    /**
-     * 新建开票人
-     *
-     * @param selfHelpInvoicePersonDto
-     * @return
-     */
-    R<String> saveSelfHelpInvoicePerson(SelfHelpInvoicePersonDto selfHelpInvoicePersonDto, Long objectId, ObjectType objectType);
 }
 

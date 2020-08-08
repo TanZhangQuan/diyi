@@ -1,6 +1,8 @@
 package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.lgyun.common.enumeration.ApplyState;
+import com.lgyun.common.enumeration.AuditState;
 import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -114,6 +116,21 @@ public class SelfHelpInvoiceEntity extends BaseEntity {
      * 收件地址Id
      */
     private Long addressId;
+
+    /**
+     * 核价人员
+     */
+    private Long confirmPricePerson;
+
+    /**
+     * 核价时间
+     */
+    private Date ConfirmPriceDatetime;
+
+    /**
+     * 当前状态
+     */
+    private ApplyState currentState;
 
     /**
      * 快递单号

@@ -1,8 +1,11 @@
 package com.lgyun.system.order.dto;
 
-import com.lgyun.common.enumeration.MakerType;
+import com.lgyun.common.enumeration.InvoicePeopleType;
+import com.lgyun.common.enumeration.ObjectType;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -16,51 +19,50 @@ public class SelfHelpInvoiceDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //购买方
-   private Long enterpriseId;
+    @NotNull(message = "购买方Id不能为空")
+    private Long enterpriseId;
 
-   //开票人
-   private Long selfHelpInvoicePersonId;
+    //开票选择的身份
+    @NotBlank(message = "开票选择的身份不能为空")
+    private InvoicePeopleType invoiceIdentityType;
 
-   //开票类目
-   private String invoiceType;
+    //开票类目
+    @NotBlank(message = "开票类目不能为空")
+    private String invoiceType;
 
-   //价税合计额
+    //开票清单文件
+    @NotBlank(message = "开票清单文件不能为空")
+    private String listFile;
+
+    //价税合计额
+    @NotNull(message = "价税合计额不能为空")
     private BigDecimal chargeMoneyNum;
 
     //收件地址
+    @NotNull(message = "收件地址不能为空")
     private Long addressId;
 
     //流水凭证
+    @NotBlank(message = "流水凭证不能为空")
     private  String flowContractUrl;
 
     //业务合同
+    @NotBlank(message = "业务合同不能为空")
     private String businessContractUrl;
 
-    //开票人的身份
-    private MakerType invoicePeopleType;
-
-    //申请创客id
-    private Long applyMakerId;
-
-    //服务税费率
-    private BigDecimal serviceRate;
-
-    //总服务税费
-    private BigDecimal serviceAndTaxMoney;
-
-    //总服务费
-    private BigDecimal serviceFee;
-
-    //总税
-    private BigDecimal serviceTax;
-
-    //总开票手续费
-    private BigDecimal serviceInvoiceFee;
-
-    //总身份验证费
-    private BigDecimal idendityConfirmFee;
+    //交付支付验收单URL
+    @NotBlank(message = "交付支付验收单URL不能为空")
+    private String deliverSheetUrl;
 
     //账户余额url
+    @NotBlank(message = "账户余额url不能为空")
     private String accountBalanceUrl;
 
+    //申请人Id
+    @NotNull(message = "申请人创客的Id不能为空")
+    private Long objectId;
+
+    //申请人的身份
+    @NotNull(message = "申请人的身份不能为空")
+    private ObjectType objectType;
 }

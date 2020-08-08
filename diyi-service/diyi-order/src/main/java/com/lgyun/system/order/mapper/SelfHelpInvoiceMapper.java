@@ -3,6 +3,7 @@ package com.lgyun.system.order.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.enumeration.InvoicePeopleType;
+import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
 import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
 import com.lgyun.system.order.vo.PayListVO;
@@ -62,11 +63,11 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
      * 根据商户ID, 开票客户类型查询自助开票
      *
      * @param enterpriseId
-     * @param invoicePeopleType
+     * @param makerType
      * @param page
      * @return
      */
-    List<SelfHelpInvoiceDetailsVO> findMakerTypeSelfHelpInvoice(Long enterpriseId, InvoicePeopleType invoicePeopleType,IPage<SelfHelpInvoiceDetailsVO> page);
+    List<SelfHelpInvoiceDetailsVO> findMakerTypeSelfHelpInvoice(Long enterpriseId, MakerType makerType,String invoicePeopleName,String startTime,String endTime, IPage<SelfHelpInvoiceDetailsVO> page);
 
     /**
      * 查询当前商户所有自主开票记录(众包)

@@ -22,15 +22,15 @@ import lombok.NoArgsConstructor;
 public class SelfHelpInvoicePersonEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 对象id
-     */
-    private Long objectId;
-
-    /**
-     * 对象身份1、创客本人2、商户人员3、服务商人员4、相关局人员5、渠道商人员6、合伙人本人
-     */
-    private ObjectType objectType;
+//    /**
+//     * 对象id
+//     */
+//    private Long objectId;
+//
+//    /**
+//     * 对象身份1、创客本人2、商户人员3、服务商人员4、相关局人员5、渠道商人员6、合伙人本人
+//     */
+//    private ObjectType objectType;
 
     /**
      * 身份证号码
