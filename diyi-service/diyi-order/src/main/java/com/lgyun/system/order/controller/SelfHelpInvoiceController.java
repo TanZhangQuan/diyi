@@ -1,5 +1,7 @@
 package com.lgyun.system.order.controller;
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.alibaba.fastjson.JSONObject;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.MakerType;
@@ -12,22 +14,27 @@ import com.lgyun.system.dto.DictDTO;
 import com.lgyun.system.entity.Dict;
 import com.lgyun.system.feign.IDictClient;
 import com.lgyun.system.order.dto.*;
+import com.lgyun.system.order.excel.InvoiceListExcel;
+import com.lgyun.system.order.excel.InvoiceListListener;
 import com.lgyun.system.order.service.*;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -44,7 +51,7 @@ import java.util.List;
 @Api(value = "自助开票相关接口", tags = "自助开票相关接口")
 public class SelfHelpInvoiceController {
 
-    private ISelfHelpInvoicePersonService selfHelpInvoicePersonService;
+    private ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
     private IAddressService addressService;
     private IDictClient iDictClient;
@@ -72,58 +79,6 @@ public class SelfHelpInvoiceController {
         return R.fail("查询失败");
     }
 
-    @PostMapping("/saveSelfHelpInvoicePerson")
-    @ApiOperation(value = "新建非创客开票人", notes = "新建非创客开票人")
-    public R saveSelfHelpInvoicePerson(@Valid @RequestBody SelfHelpInvoicePersonDto selfHelpInvoicePersonDto, BladeUser bladeUser) {
-
-        log.info("新建非创客开票人");
-        try {
-            //获取当前创客
-            R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
-            if (!(result.isSuccess())) {
-                return result;
-            }
-            MakerEntity makerEntity = result.getData();
-
-            return selfHelpInvoicePersonService.saveSelfHelpInvoicePerson(selfHelpInvoicePersonDto, makerEntity.getId(), ObjectType.MAKERPEOPLE);
-        } catch (Exception e) {
-            log.error("新建非创客开票人失败", e);
-        }
-        return R.fail("新建非创客开票人失败");
-    }
-
-    @GetMapping("/findPersonMakerId")
-    @ApiOperation(value = "查询非创客开票人", notes = "查询非创客开票人")
-    public R findPersonMakerId(Query query, MakerType makerType, BladeUser bladeUser) {
-
-        log.info("根据创客Idc查询自助开票非创客开票人");
-        try {
-            //获取当前创客
-            R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
-            if (!(result.isSuccess())) {
-                return result;
-            }
-            MakerEntity makerEntity = result.getData();
-
-            switch (makerType) {
-
-                case INDIVIDUALBUSINESS:
-                    return iUserClient.individualBusinessListByMaker(query, makerEntity.getId(), null);
-
-                case NATURALPERSON:
-                    return selfHelpInvoicePersonService.findPersonMakerId(query, makerEntity.getId(), makerType, ObjectType.MAKERPEOPLE);
-
-                case INDIVIDUALENTERPRISE:
-                    return iUserClient.individualEnterpriseListByMaker(query, makerEntity.getId(), null);
-
-                default:
-                    return R.fail("创客类型有误");
-            }
-        } catch (Exception e) {
-            log.error("根据创客Idc查询自助开票非创客开票人失败", e);
-        }
-        return R.fail("根据创客Idc查询自助开票非创客开票人失败");
-    }
 
     @PostMapping("/saveAddress")
     @ApiOperation(value = "新建收货地址", notes = "新建收货地址")
@@ -269,7 +224,9 @@ public class SelfHelpInvoiceController {
 
     @PostMapping("/submitSelfHelpInvoice")
     @ApiOperation(value = "创客提交自助开票", notes = "创客提交自助开票")
-    public R submitSelfHelpInvoice(@Valid @RequestBody SelfHelpInvoiceDto selfHelpInvoiceDto, BladeUser bladeUser) {
+    @Transactional(rollbackFor = Exception.class)
+    public R submitSelfHelpInvoice(@ApiParam(value = "文件") @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file,
+                                   @Valid @RequestBody SelfHelpInvoiceDto selfHelpInvoiceDto, BladeUser bladeUser) {
 
         log.info("创客提交自助开票");
         try {
@@ -279,9 +236,22 @@ public class SelfHelpInvoiceController {
                 return result;
             }
             MakerEntity makerEntity = result.getData();
-
-            selfHelpInvoiceDto.setApplyMakerId(makerEntity.getId());
-            return selfHelpInvoiceService.submitSelfHelpInvoice(selfHelpInvoiceDto);
+            //判断文件内容是否为空
+            if (file.isEmpty()) {
+                return R.fail("Excel文件不能为空");
+            }
+            selfHelpInvoiceDto.setObjectType(ObjectType.MAKERPEOPLE);
+            selfHelpInvoiceDto.setObjectId(makerEntity.getId());
+            // 获取上传文件的后缀
+            String suffix = file.getOriginalFilename();
+            if ((!StringUtils.endsWithIgnoreCase(suffix, ".xls") && !StringUtils.endsWithIgnoreCase(suffix, ".xlsx"))) {
+                return R.fail("请选择Excel文件");
+            }
+            InvoiceListListener makerImportListener = new InvoiceListListener(selfHelpInvoiceDto,selfHelpInvoiceDetailService);
+            InputStream inputStream = new BufferedInputStream(file.getInputStream());
+            ExcelReaderBuilder builder = EasyExcel.read(inputStream, InvoiceListExcel.class, makerImportListener);
+            builder.doReadAll();
+            return R.success("申请成功");
         } catch (Exception e) {
             log.error("创客提交自助开票失败", e);
         }
@@ -372,27 +342,4 @@ public class SelfHelpInvoiceController {
         return R.fail("判断创客资质失败");
     }
 
-    @GetMapping("/get_by_dto_enterprise")
-    @ApiOperation(value = "查询当前商户所有自主开票记录(众包)", notes = "查询当前商户所有自主开票记录(众包)")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
-            @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
-    })
-    public R getByDtoEnterprise(SelfHelpInvoicePayDto selfHelpInvoicePayDto, Query query, BladeUser bladeUser) {
-
-        log.info("查询当前商户所有自主开票记录(众包)");
-        try {
-            //获取当前商户员工
-            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())) {
-                return result;
-            }
-            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-            return selfHelpInvoiceService.getByDtoEnterprise(enterpriseWorkerEntity.getEnterpriseId(), selfHelpInvoicePayDto, Condition.getPage(query.setDescs("create_time")));
-        } catch (Exception e) {
-            log.error("查询当前商户所有自主开票记录(众包)异常", e);
-        }
-        return R.fail("查询失败");
-    }
 }
