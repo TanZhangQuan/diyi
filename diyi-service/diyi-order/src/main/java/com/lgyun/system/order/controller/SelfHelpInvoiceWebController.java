@@ -4,7 +4,6 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.alibaba.fastjson.JSONObject;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
@@ -12,7 +11,10 @@ import com.lgyun.common.tool.RealnameVerifyUtil;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.feign.IDictClient;
-import com.lgyun.system.order.dto.*;
+import com.lgyun.system.order.dto.AddressDto;
+import com.lgyun.system.order.dto.ConfirmPaymentDto;
+import com.lgyun.system.order.dto.SelfHelpInvoiceDto;
+import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
 import com.lgyun.system.order.excel.InvoiceListExcel;
 import com.lgyun.system.order.excel.InvoiceListListener;
 import com.lgyun.system.order.service.*;
@@ -44,7 +46,7 @@ import java.io.InputStream;
 @RequestMapping("/order/webSelfhelpinvoice")
 @Validated
 @AllArgsConstructor
-@Api(value = "商户端自助开票相关接口", tags = "商户端自助开票相关接口")
+@Api(value = "自助开票相关接口(管理端)", tags = "自助开票相关接口(管理端)")
 public class SelfHelpInvoiceWebController {
     private ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
     private ISelfHelpInvoiceService selfHelpInvoiceService;

@@ -1,11 +1,8 @@
 package com.lgyun.system.order.feign;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
 import com.lgyun.common.enumeration.InvoicePeopleType;
-import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.vo.SelfHelpInvoiceListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,6 +49,6 @@ public interface IOrderClient {
      * @return
      */
     @GetMapping(API_PREFIX + "/self_help_invoice/self_help_invoice_list")
-    R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(@RequestParam("query") Query query, @RequestParam("allKindEnterpriseId") Long allKindEnterpriseId, @RequestParam("invoicePeopleType") InvoicePeopleType invoicePeopleType);
+    R selfHelpInvoiceList(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("allKindEnterpriseId") Long allKindEnterpriseId, @RequestParam("invoicePeopleType") InvoicePeopleType invoicePeopleType);
 
 }

@@ -5,8 +5,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
-
 /**
  * 分页工具
  *
@@ -16,7 +14,7 @@ import java.io.Serializable;
 @Data
 @Accessors(chain = true)
 @ApiModel(description = "查询条件")
-public class Query implements Serializable {
+public class Query {
 
     /**
      * 当前页

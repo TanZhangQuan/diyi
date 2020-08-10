@@ -92,21 +92,21 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
     /**
      * 查询个独开票次数，月度开票金额，年度开票金额和总开票金额
      *
-     * @param individualBusinessId
+     * @param individualEnterpriseId
      * @param invoicePeopleType
      * @return
      */
-    R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(Long individualBusinessId, InvoicePeopleType invoicePeopleType);
+    R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(Long individualEnterpriseId, InvoicePeopleType invoicePeopleType);
 
     /**
      * 查询个独开票记录
      *
      * @param query
-     * @param individualBusinessId
+     * @param individualEnterpriseId
      * @param invoicePeopleType
      * @return
      */
-    R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(Query query, Long individualBusinessId, InvoicePeopleType invoicePeopleType);
+    R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(Query query, Long individualEnterpriseId, InvoicePeopleType invoicePeopleType);
 
     /**
      * 当前商户申请创建个独

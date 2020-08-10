@@ -90,7 +90,6 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-
     <resultMap type="com.lgyun.system.order.vo.SelfHelpInvoiceWebVO" id="selfHelpInvoiceWebVO">
         <result property="selfHelpInvoiceId" column="self_help_invoice_id"/>
         <result property="enterpriseId" column="enterprise_id"/>
@@ -151,7 +150,7 @@
     </select>
 
     <select id="selfHelpInvoiceList" resultMap="selfHelpInvoiceListVO">
-        SELECT t1.id, t3.enterprise_name, t1.invoice_type, t1.invoice_people_type, t1.all_kind_enterprise_id, t1.charge_money_num, t1.flow_contract_url,
+        SELECT t1.id, t3.enterprise_name, t1.invoice_type, t1.charge_money_num, t1.flow_contract_url,
         t1.business_contract_url, t1.create_time FROM diyi_self_help_invoice_detail t1 INNER JOIN diyi_self_help_invoice t2 ON t1.self_help_invoice_id = t2.id
         INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0
         AND t1.all_kind_enterprise_id = #{param1} AND t1.invoice_people_type = #{param2}
@@ -180,7 +179,7 @@
     <select id="getByDtoEnterprise" resultMap="selfHelpInvoicePayVO">
         SELECT t1.id, t3.enterprise_name, t1.list_file, t1.invoice_people_type, t1.charge_money_num, t2.invoice_people_name, t2.flow_contract_url, t2.business_contract_url,
         t2.deliver_sheet_url, t2.account_balance_url, t1.create_time FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_detail t2 ON t1.id = t2.self_help_invoice_id
-        INNER JOIN diyi_enterprise t3 ON t1.enterprise_id = t3.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t1.enterprise_id = 1 = #{param1}
+        INNER JOIN diyi_enterprise t3 ON t1.enterprise_id = t3.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t1.enterprise_id = #{param1}
         <if test="param2.beginDate != null">
             AND DATEDIFF(t1.create_time, #{param2.beginDate}) <![CDATA[ >= ]]> 0
         </if>

@@ -6,10 +6,9 @@ import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.vo.SelfHelpInvoiceListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDto;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDto;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDto;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDto;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.MakerEntity;
@@ -82,14 +81,6 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
     R<IPage<IndividualBusinessEnterpriseDetailsVO>> getByDtoEnterprise(IPage<IndividualBusinessEnterpriseDetailsVO> page, Long enterpriseId, Ibstate ibstate, IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto);
 
     /**
-     * 查询当前商户的关联创客的个体户详情
-     *
-     * @param individualBusinessId
-     * @return
-     */
-    R<IndividualBusinessEnterpriseDetailsVO> findByIdEnterprise(Long individualBusinessId);
-
-    /**
      * 查询个体户开票次数，月度开票金额，年度开票金额和总开票金额
      *
      * @param individualBusinessId
@@ -106,7 +97,7 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
      * @param invoicePeopleType
      * @return
      */
-    R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(Query query, Long individualBusinessId, InvoicePeopleType invoicePeopleType);
+    R selfHelpInvoiceList(Query query, Long individualBusinessId, InvoicePeopleType invoicePeopleType);
 
     /**
      * 当前商户申请创建个体户

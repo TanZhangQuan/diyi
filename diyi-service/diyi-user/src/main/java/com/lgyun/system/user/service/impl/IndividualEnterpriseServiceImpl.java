@@ -115,13 +115,13 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
     }
 
     @Override
-    public R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(Long individualBusinessId, InvoicePeopleType invoicePeopleType) {
-        return orderClient.selfHelpInvoiceStatistics(individualBusinessId, invoicePeopleType);
+    public R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(Long individualEnterpriseId, InvoicePeopleType invoicePeopleType) {
+        return orderClient.selfHelpInvoiceStatistics(individualEnterpriseId, invoicePeopleType);
     }
 
     @Override
-    public R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(Query query, Long individualBusinessId, InvoicePeopleType invoicePeopleType) {
-        return orderClient.selfHelpInvoiceList(query, individualBusinessId, invoicePeopleType);
+    public R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(Query query, Long individualEnterpriseId, InvoicePeopleType invoicePeopleType) {
+        return orderClient.selfHelpInvoiceList(query.getCurrent(), query.getSize(), individualEnterpriseId, invoicePeopleType);
     }
 
     @Override

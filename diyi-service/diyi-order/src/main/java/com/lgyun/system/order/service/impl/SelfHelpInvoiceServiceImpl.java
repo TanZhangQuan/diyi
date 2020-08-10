@@ -2,36 +2,25 @@ package com.lgyun.system.order.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.*;
-import com.lgyun.common.tool.BeanUtil;
-import com.lgyun.common.tool.CollectionUtil;
+import com.lgyun.common.enumeration.ApplyState;
+import com.lgyun.common.enumeration.InvoicePeopleType;
+import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.tool.KdniaoTrackQueryUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.order.dto.SelfHelpInvoiceDto;
 import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
-import com.lgyun.system.order.dto.SelfHelpInvoiceWebDto;
-import com.lgyun.system.order.entity.SelfHelpInvoiceDetailEntity;
 import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
 import com.lgyun.system.order.mapper.SelfHelpInvoiceMapper;
-import com.lgyun.system.order.service.ISelfHelpInvoiceDetailService;
-import com.lgyun.system.order.service.ISelfHelpInvoicePersonService;
 import com.lgyun.system.order.service.ISelfHelpInvoiceService;
 import com.lgyun.system.order.vo.PayListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceDetailsVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
-import com.lgyun.system.user.entity.MakerEntity;
-import com.lgyun.system.user.feign.IUserClient;
-import com.lgyun.system.user.entity.IndividualBusinessEntity;
-import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -90,34 +79,35 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     @Override
     public R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(IPage<SelfHelpInvoiceListVO> page, Long allKindEnterpriseId, InvoicePeopleType invoicePeopleType) {
 
-        List<SelfHelpInvoiceListVO> selfHelpInvoiceListVOs = baseMapper.selfHelpInvoiceList(allKindEnterpriseId, invoicePeopleType, page);
+//        List<SelfHelpInvoiceListVO> selfHelpInvoiceListVOs = baseMapper.selfHelpInvoiceList(allKindEnterpriseId, invoicePeopleType, page);
+//        BizType bizType = null;
+//        switch (invoicePeopleType) {
+//
+//            case INDIVIDUALENTERPRISE:
+//                IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.individualEnterpriseFindById(allKindEnterpriseId);
+//                if (individualEnterpriseEntity != null){
+//                    bizType = individualEnterpriseEntity.getBizType();
+//                }
+//                break;
+//
+//            case INDIVIDUALBUSINESS:
+//                IndividualBusinessEntity individualBusinessEntity = iUserClient.individualBusinessById(allKindEnterpriseId);
+//                if (individualBusinessEntity != null){
+//                    bizType = individualBusinessEntity.getBizType();
+//                }
+//                break;
+//
+//            default:
+//                break;
+//        }
+//
+//        if (bizType != null && CollectionUtil.isNotEmpty(selfHelpInvoiceListVOs)) {
+//            BizType finalBizType = bizType;
+//            selfHelpInvoiceListVOs.forEach(selfHelpInvoiceListVO -> selfHelpInvoiceListVO.setBizType(finalBizType));
+//        }
 
-
-        BizType bizType = null;
-        switch (invoicePeopleType) {
-
-            case INDIVIDUALBUSINESS:
-                IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.individualEnterpriseFindById(allKindEnterpriseId);
-                bizType = individualEnterpriseEntity.getBizType();
-                break;
-
-            case INDIVIDUALENTERPRISE:
-                IndividualBusinessEntity individualBusinessEntity = iUserClient.individualBusinessById(allKindEnterpriseId);
-                bizType = individualBusinessEntity.getBizType();
-                break;
-
-            default:
-                break;
-        }
-
-        if (bizType != null && CollectionUtil.isNotEmpty(selfHelpInvoiceListVOs)) {
-            BizType finalBizType = bizType;
-            selfHelpInvoiceListVOs.forEach(selfHelpInvoiceListVO -> {
-                selfHelpInvoiceListVO.setBizType(finalBizType);
-            });
-        }
-
-        return R.data(page.setRecords(selfHelpInvoiceListVOs));
+//        return R.data(page.setRecords(baseMapper.selfHelpInvoiceList(allKindEnterpriseId, invoicePeopleType, page)));
+        return R.data(page.setRecords(baseMapper.selfHelpInvoiceList(allKindEnterpriseId, invoicePeopleType, page)));
     }
 
     @Override

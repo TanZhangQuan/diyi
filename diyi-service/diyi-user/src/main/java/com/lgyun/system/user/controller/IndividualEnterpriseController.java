@@ -104,30 +104,4 @@ public class IndividualEnterpriseController {
 		return R.fail("查询失败");
 	}
 
-	@GetMapping("/self_help_invoice_statistics")
-	@ApiOperation(value = "查询个独开票次数，月度开票金额，年度开票金额和总开票金额", notes = "查询个独开票次数，月度开票金额，年度开票金额和总开票金额")
-	public R selfHelpInvoiceStatistics(@ApiParam(value = "个独ID") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualBusinessId) {
-
-		log.info("查询个独开票次数，月度开票金额，年度开票金额和总开票金额");
-		try {
-			return individualEnterpriseService.selfHelpInvoiceStatistics(individualBusinessId, InvoicePeopleType.INDIVIDUALENTERPRISE);
-		} catch (Exception e) {
-			log.error("查询个独开票次数，月度开票金额，年度开票金额和总开票金额异常", e);
-		}
-		return R.fail("查询失败");
-	}
-
-	@GetMapping("/self_help_invoice_list")
-	@ApiOperation(value = "查询个独开票记录", notes = "查询个独开票记录")
-	public R selfHelpInvoiceList(Query query, @ApiParam(value = "个独ID") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualBusinessId) {
-
-		log.info("查询个独开票记录");
-		try {
-			return individualEnterpriseService.selfHelpInvoiceList(query, individualBusinessId, InvoicePeopleType.INDIVIDUALENTERPRISE);
-		} catch (Exception e) {
-			log.error("查询个独开票记录异常", e);
-		}
-		return R.fail("查询失败");
-	}
-
 }

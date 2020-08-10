@@ -69,35 +69,9 @@ public class IndividualBusinessWebController {
 
         log.info("查询当前商户的关联创客的个体户详情");
         try {
-            return individualBusinessService.findByIdEnterprise(individualBusinessId);
-        } catch (Exception e) {
-            log.error("查询当前商户的关联创客的个体户详情异常", e);
-        }
-        return R.fail("查询失败");
-    }
-
-    @GetMapping("/find-by-id")
-    @ApiOperation(value = "查询个体户详情", notes = "查询个体户详情")
-    public R findById(@ApiParam(value = "个体户编号") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
-
-        log.info("查询个体户详情");
-        try {
             return individualBusinessService.findById(individualBusinessId);
         } catch (Exception e) {
-            log.error("查询个体户详情异常", e);
-        }
-        return R.fail("查询失败");
-    }
-
-    @GetMapping("/year-month-money")
-    @ApiOperation(value = "查询个体户月度开票金额和年度开票金额", notes = "查询个体户月度开票金额和年度开票金额")
-    public R yearMonthMoney(@ApiParam(value = "个体户编号") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
-
-        log.info("查询个体户月度开票金额和年度开票金额");
-        try {
-            return individualBusinessService.yearMonthMoney(individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
-        } catch (Exception e) {
-            log.error("查询个体户月度开票金额和年度开票金额异常", e);
+            log.error("查询当前商户的关联创客的个体户详情异常", e);
         }
         return R.fail("查询失败");
     }
