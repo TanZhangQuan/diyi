@@ -8,6 +8,7 @@ import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
+import com.lgyun.system.user.dto.MakerAddDto;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
@@ -223,6 +224,32 @@ public class UserClient implements IUserClient {
     @Override
     public IndividualEnterpriseEntity findByMakerIdAndIbtaxNoEnterprise(Long makerId, String ibtaxNo) {
         return iIndividualEnterpriseService.findByMakerIdAndIbtaxNo(makerId, ibtaxNo);
+    }
+
+
+    @Override
+    public IndividualBusinessEntity findByIbtaxNoBusiness(String ibtaxNo) {
+        return iIndividualBusinessService.findByIbtaxNo(ibtaxNo);
+    }
+
+    @Override
+    public IndividualEnterpriseEntity findByIbtaxNoEnterprise(String ibtaxNo) {
+        return iIndividualEnterpriseService.findByIbtaxNo(ibtaxNo);
+    }
+
+    @Override
+    public MakerEntity makerAdd(String name, String idcardNo, String phoneNumber,Long enterpriseId) {
+        MakerAddDto makerAddDto = new MakerAddDto();
+        makerAddDto.setName(name);
+        makerAddDto.setIdcardNo(idcardNo);
+        makerAddDto.setPhoneNumber(phoneNumber);
+        MakerEntity makerEntity = iMakerService.enterpriseMakerAdd(makerAddDto, enterpriseId);
+        return makerEntity;
+    }
+
+    @Override
+    public MakerEnterpriseEntity makerEnterpriseAdd(Long enterpriseId, Long makerId) {
+        return iMakerEnterpriseService.makerEnterpriseEntitySave(enterpriseId,makerId);
     }
 
 }

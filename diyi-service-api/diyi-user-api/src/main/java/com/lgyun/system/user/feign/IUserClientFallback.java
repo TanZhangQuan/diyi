@@ -134,4 +134,24 @@ public class IUserClientFallback implements IUserClient {
         return null;
     }
 
+    @Override
+    public IndividualBusinessEntity findByIbtaxNoBusiness(String ibtaxNo) {
+        return null;
+    }
+
+    @Override
+    public IndividualEnterpriseEntity findByIbtaxNoEnterprise(String ibtaxNo) {
+        return null;
+    }
+
+    @Override
+    public MakerEntity makerAdd(String name, String idcardNo, String phoneNumber,Long enterpriseId) {
+        return null;
+    }
+
+    @Override
+    public MakerEnterpriseEntity makerEnterpriseAdd(Long enterpriseId, Long makerId) {
+        return null;
+    }
+
 }

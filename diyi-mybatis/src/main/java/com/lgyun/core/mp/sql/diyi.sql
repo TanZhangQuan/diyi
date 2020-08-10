@@ -1851,3 +1851,20 @@ CREATE TABLE `sys_user` (
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user` VALUES ('1123598821738675201', 'ADMIN', '000000', '', 'admin', '90b9aa7e25f80cf4f64e990b78a9fc5ebd6cecad', '管理员', '管理员', '', 'admin@bladex.vip', '22233322', '2018-08-08 00:00:00', '1', '1123598816738675201', '1123598813738675201', '1123598817738675201', null, '2018-08-08 00:00:00', null, '2018-08-08 00:00:00', '1', '0');
+
+
+CREATE TABLE `diyi_self_help_invoice_apply` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `self_help_invoice_id` bigint(50) NOT NULL COMMENT '自助开票主表id',
+  `apply_date` datetime NOT NULL COMMENT '申请日期',
+  `apply_state` varchar(100) NOT NULL COMMENT '申请状态',
+  `apply_desc` varchar(500) NOT NULL COMMENT '申请说明',
+  `audit_desc` varchar(500) NOT NULL COMMENT '审核说明',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自助开票申请：记录自助开票主表的申请记录情况';

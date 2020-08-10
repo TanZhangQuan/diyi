@@ -249,4 +249,34 @@ public interface IUserClient {
      */
     @GetMapping(API_PREFIX + "/find_by_maker_id_and_ibtax_no_enterprise")
     IndividualEnterpriseEntity findByMakerIdAndIbtaxNoEnterprise(@RequestParam("makerId") Long makerId, @RequestParam("ibtaxNo") String ibtaxNo);
+
+
+    /**
+     *  统一社会信用代码查询个独
+     *
+     * @param ibtaxNo
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/find_by_ibtax_no_business")
+    IndividualBusinessEntity findByIbtaxNoBusiness(@RequestParam("ibtaxNo") String ibtaxNo);
+
+    /**
+     * 统一社会信用代码查询个体户
+     *
+     * @param ibtaxNo
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/find_by_ibtax_no_enterprise")
+    IndividualEnterpriseEntity findByIbtaxNoEnterprise(@RequestParam("ibtaxNo") String ibtaxNo);
+
+    /**
+     * 新增创客
+     */
+    MakerEntity makerAdd(@RequestParam("name") String name,@RequestParam("idcardNo") String idcardNo,@RequestParam("phoneNumber") String phoneNumber,@RequestParam("enterpriseId") Long enterpriseId);
+
+
+    /**
+     * 根据商户id和创客id建立关联关系
+     */
+    MakerEnterpriseEntity makerEnterpriseAdd(@RequestParam("enterpriseId") Long enterpriseId,@RequestParam("makerId") Long makerId);
 }
