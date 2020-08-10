@@ -32,7 +32,7 @@ import java.util.Set;
 public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseMapper, MakerEnterpriseEntity> implements IMakerEnterpriseService {
 
     @Override
-    public void makerEnterpriseEntitySave(Long enterpriseId, Long makerId) {
+    public MakerEnterpriseEntity makerEnterpriseEntitySave(Long enterpriseId, Long makerId) {
         MakerEnterpriseEntity makerEnterpriseEntity = getEnterpriseIdAndMakerId(enterpriseId, makerId);
         if (makerEnterpriseEntity != null) {
             if (!(makerEnterpriseEntity.getRelationshipType() == 0 && CooperateStatus.COOPERATING.equals(makerEnterpriseEntity.getCooperateStatus()))) {
@@ -41,7 +41,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
                 makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATING);
                 save(makerEnterpriseEntity);
             } else {
-                return;
+                return makerEnterpriseEntity;
             }
         }
 
@@ -56,6 +56,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
         makerEnterpriseEntity.setFirstCooperation(true);
         makerEnterpriseEntity.setRelMemo("关联");
         save(makerEnterpriseEntity);
+        return makerEnterpriseEntity;
     }
 
     @Override

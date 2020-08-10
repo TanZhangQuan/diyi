@@ -4,6 +4,7 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.alibaba.fastjson.JSONObject;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
@@ -35,6 +36,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -59,7 +61,7 @@ public class SelfHelpInvoiceController {
     private ISelfHelpInvoiceAccountService selfHelpInvoiceAccountService;
     private ISelfHelpInvoiceFeeService selfHelpInvoiceFeeService;
 
-    @GetMapping("/find_enterprise_by_maker_id")
+    @GetMapping("/findEnterpriseByMakerId")
     @ApiOperation(value = "根据创客ID查询商户", notes = "根据创客ID查询商户")
     public R findEnterpriseByMakerId(Query query, BladeUser bladeUser) {
 
@@ -226,8 +228,7 @@ public class SelfHelpInvoiceController {
     @ApiOperation(value = "创客提交自助开票", notes = "创客提交自助开票")
     @Transactional(rollbackFor = Exception.class)
     public R submitSelfHelpInvoice(@ApiParam(value = "文件") @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file,
-                                   @Valid @RequestBody SelfHelpInvoiceDto selfHelpInvoiceDto, BladeUser bladeUser) {
-
+                                   @Valid @RequestBody SelfHelpInvoiceDto selfHelpInvoiceDto,BladeUser bladeUser) {
         log.info("创客提交自助开票");
         try {
             //获取当前创客

@@ -116,5 +116,13 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
      * @return
      */
     IndividualBusinessEntity findByMakerIdAndIbtaxNo(Long makerId, String ibtaxNo);
+
+    /**
+     * 统一社会信用代码查询个体户
+     *
+     * @param ibtaxNo
+     * @return
+     */
+    IndividualBusinessEntity findByIbtaxNo(String ibtaxNo);
 }
 
