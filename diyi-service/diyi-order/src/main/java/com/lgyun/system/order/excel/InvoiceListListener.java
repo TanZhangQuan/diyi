@@ -1,10 +1,7 @@
 package com.lgyun.system.order.excel;
 
-import com.alibaba.excel.annotation.ExcelIgnore;
-import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
-import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDto;
 import com.lgyun.system.order.service.ISelfHelpInvoiceDetailService;
 import lombok.Data;

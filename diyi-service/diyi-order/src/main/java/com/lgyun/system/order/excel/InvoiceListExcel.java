@@ -5,14 +5,10 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.alibaba.excel.annotation.write.style.ContentRowHeight;
 import com.alibaba.excel.annotation.write.style.HeadRowHeight;
-import com.lgyun.common.enumeration.InvoicePeopleType;
-import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDto;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 /**
  * UserDTO

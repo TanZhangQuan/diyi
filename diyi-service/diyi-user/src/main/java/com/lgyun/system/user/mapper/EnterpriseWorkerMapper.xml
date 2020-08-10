@@ -8,6 +8,7 @@
         <result property="id" column="id"/>
         <result property="enterpriseId" column="enterprise_id"/>
         <result property="userId" column="user_id"/>
+        <result property="avatar" column="avatar"/>
         <result property="enterpriseWorkerState" column="enterprise_worker_state"/>
         <result property="workerName" column="worker_name"/>
         <result property="workerSex" column="worker_sex"/>

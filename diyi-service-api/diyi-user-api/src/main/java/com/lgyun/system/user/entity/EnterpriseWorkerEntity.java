@@ -37,6 +37,11 @@ public class EnterpriseWorkerEntity extends BaseEntity {
     private Long userId;
 
     /**
+     * 头像
+     */
+    private String avatar;
+
+    /**
      * 商户员工账户状态
      */
     private AccountState enterpriseWorkerState;

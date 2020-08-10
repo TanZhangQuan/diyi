@@ -292,6 +292,7 @@ CREATE TABLE `diyi_enterprise_worker` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `enterprise_id` bigint(50) NOT NULL COMMENT '商户ID',
   `user_id` bigint(50) NOT NULL COMMENT '管理者ID',
+  `avatar` varchar(100) NOT NULL DEFAULT '' COMMENT '头像',
   `enterprise_worker_state` varchar(50) NOT NULL COMMENT '商户员工账户状态',
   `worker_name` varchar(50) NOT NULL COMMENT '姓名',
   `worker_sex` varchar(50) NOT NULL COMMENT '性别',
