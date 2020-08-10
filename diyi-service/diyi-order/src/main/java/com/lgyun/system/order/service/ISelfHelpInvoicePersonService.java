@@ -11,5 +11,9 @@ import com.lgyun.system.order.entity.SelfHelpInvoicePersonEntity;
  */
 public interface ISelfHelpInvoicePersonService extends BaseService<SelfHelpInvoicePersonEntity> {
 
+    /**
+     * 根据身份证号码
+     */
+    SelfHelpInvoicePersonEntity findCardNo(String CardNo);
 }
 

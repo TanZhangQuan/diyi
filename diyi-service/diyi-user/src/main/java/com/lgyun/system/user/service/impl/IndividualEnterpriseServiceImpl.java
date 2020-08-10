@@ -160,4 +160,11 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
         return baseMapper.selectOne(queryWrapper);
     }
 
+    @Override
+    public IndividualEnterpriseEntity findByIbtaxNo(String ibtaxNo) {
+        QueryWrapper<IndividualEnterpriseEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(IndividualEnterpriseEntity::getIbtaxNo, ibtaxNo);
+        return baseMapper.selectOne(queryWrapper);
+    }
+
 }

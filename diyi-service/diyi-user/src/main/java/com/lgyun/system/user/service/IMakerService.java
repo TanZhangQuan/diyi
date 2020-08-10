@@ -279,5 +279,15 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      */
     R<EnterpriseMakerDetailVO> getMakerDetailById(Long enterpriseId, Long makerId);
+
+
+    /**
+     * 新增单个创客
+     *
+     * @param makerAddDto
+     * @param enterpriseId
+     * @return
+     */
+    MakerEntity enterpriseMakerAdd(MakerAddDto makerAddDto, Long enterpriseId);
 }
 

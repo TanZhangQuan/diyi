@@ -1,6 +1,8 @@
 package com.lgyun.system.order.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.system.order.entity.SelfHelpInvoiceAccountEntity;
 import com.lgyun.system.order.entity.SelfHelpInvoicePersonEntity;
 import com.lgyun.system.order.mapper.SelfHelpInvoicePersonMapper;
 import com.lgyun.system.order.service.ISelfHelpInvoicePersonService;
@@ -19,4 +21,13 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class SelfHelpInvoicePersonServiceImpl extends BaseServiceImpl<SelfHelpInvoicePersonMapper, SelfHelpInvoicePersonEntity> implements ISelfHelpInvoicePersonService {
 
+    @Override
+    public SelfHelpInvoicePersonEntity findCardNo(String CardNo) {
+        QueryWrapper<SelfHelpInvoicePersonEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(SelfHelpInvoicePersonEntity::getIdCardNo, CardNo)
+                .eq(SelfHelpInvoicePersonEntity::getIsDeleted,0)
+                .eq(SelfHelpInvoicePersonEntity::getStatus,1);
+
+        return baseMapper.selectOne(queryWrapper);
+    }
 }

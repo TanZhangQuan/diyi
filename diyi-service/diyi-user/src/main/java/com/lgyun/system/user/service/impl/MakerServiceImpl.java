@@ -691,4 +691,12 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         return R.data(baseMapper.getMakerDetailById(enterpriseId, makerId));
     }
 
+    @Override
+    public MakerEntity enterpriseMakerAdd(MakerAddDto makerAddDto, Long enterpriseId) {
+        //新建创客
+        MakerEntity makerEntity = makerSave(makerAddDto.getPhoneNumber(), makerAddDto.getName(), makerAddDto.getIdcardNo(), makerAddDto.getBankCardNo(),
+                makerAddDto.getBankName(), makerAddDto.getBankCardNo(), enterpriseId);
+        return makerEntity;
+    }
+
 }

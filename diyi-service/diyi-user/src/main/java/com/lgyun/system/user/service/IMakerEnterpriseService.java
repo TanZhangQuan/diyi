@@ -25,7 +25,7 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
      * @param makerId
      * @return
      */
-    void makerEnterpriseEntitySave(Long enterpriseId, Long makerId);
+    MakerEnterpriseEntity makerEnterpriseEntitySave(Long enterpriseId, Long makerId);
 
     /**
      * 根据创客ID, 两者关系 查询商户
