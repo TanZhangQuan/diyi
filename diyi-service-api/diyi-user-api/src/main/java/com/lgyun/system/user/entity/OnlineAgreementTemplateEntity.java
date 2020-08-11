@@ -1,14 +1,11 @@
 package com.lgyun.system.user.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.AgreementType;
 import com.lgyun.common.enumeration.TemplateSignState;
 import com.lgyun.common.enumeration.TemplateState;
+import com.lgyun.common.enumeration.TemplateType;
 import com.lgyun.core.mp.base.BaseEntity;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,19 +28,19 @@ public class OnlineAgreementTemplateEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 协议类别 1,创客加盟协议；2，商户加盟协议；3，服务商加盟协议；4，渠道商加盟协议；5、合伙人加盟协议；6、园区合作协议；7、税局合作协议；8、工商合作协议；9、创客授权书；10、商户-创客补充协议；11、服务商-商户补充协议；12、创客单独税务事项委托授权书；13、创客单独支付事项委托授权书；14、其他协议
+     * 协议类别
      */
-    private Integer templateType;
+    private AgreementType agreementType;
 
     /**
      * 模板状态 1,应用中；2，已过期。同一个模板上传新模板后，原来的模板即为已过期
      */
-    private TemplateState templateState;
+    private TemplateState templateState = TemplateState.APPLICATION;
 
     /**
      * 1，开启中；2，已关闭
      */
-    private TemplateSignState templateSignState;
+    private TemplateSignState templateSignState = TemplateSignState.OPEN;
 
     /**
      * 协议模板
@@ -71,9 +68,9 @@ public class OnlineAgreementTemplateEntity extends BaseEntity {
     private Date shangeStateDate;
 
     /**
-     * 商户全部创客 1,商户-创客，全部正常创客都需要签署,0 不是
+     * 是否需要全部创客签署
      */
-    private Integer allMakers;
+    private Boolean boolAllMakers;
 
     /**
      * 模板的页数
@@ -81,7 +78,7 @@ public class OnlineAgreementTemplateEntity extends BaseEntity {
     private Integer templateCount;
 
     /**
-     * 0.合同1.授权
+     * 模板类型
      */
-    private Integer isContract;
+    private TemplateType templateType;
 }

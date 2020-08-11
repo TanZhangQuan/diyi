@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.enumeration.RelType;
+import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.mapper.MakerEnterpriseMapper;
@@ -32,23 +33,25 @@ import java.util.Set;
 public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseMapper, MakerEnterpriseEntity> implements IMakerEnterpriseService {
 
     @Override
-    public MakerEnterpriseEntity makerEnterpriseEntitySave(Long enterpriseId, Long makerId) {
+    public void makerEnterpriseEntitySave(Long enterpriseId, Long makerId) {
         MakerEnterpriseEntity makerEnterpriseEntity = getEnterpriseIdAndMakerId(enterpriseId, makerId);
         if (makerEnterpriseEntity != null) {
-            if (!(makerEnterpriseEntity.getRelationshipType() == 0 && CooperateStatus.COOPERATING.equals(makerEnterpriseEntity.getCooperateStatus()))) {
-                makerEnterpriseEntity.setRelationshipType(0);
+            if (!(RelationshipType.RELEVANCE.equals(makerEnterpriseEntity.getRelationshipType()) && CooperateStatus.COOPERATING.equals(makerEnterpriseEntity.getCooperateStatus()))) {
+                makerEnterpriseEntity.setRelationshipType(RelationshipType.RELEVANCE);
                 makerEnterpriseEntity.setFirstCooperation(false);
+                makerEnterpriseEntity.setRelMemo("关联");
                 makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATING);
-                save(makerEnterpriseEntity);
+                updateById(makerEnterpriseEntity);
+                return;
             } else {
-                return makerEnterpriseEntity;
+                return;
             }
         }
 
         makerEnterpriseEntity = new MakerEnterpriseEntity();
         makerEnterpriseEntity.setMakerId(makerId);
         makerEnterpriseEntity.setEnterpriseId(enterpriseId);
-        makerEnterpriseEntity.setRelationshipType(0);
+        makerEnterpriseEntity.setRelationshipType(RelationshipType.RELEVANCE);
         makerEnterpriseEntity.setRelDate(new Date());
         makerEnterpriseEntity.setRelType(RelType.ENTERPRISEREL);
         makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATING);
@@ -56,11 +59,10 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
         makerEnterpriseEntity.setFirstCooperation(true);
         makerEnterpriseEntity.setRelMemo("关联");
         save(makerEnterpriseEntity);
-        return makerEnterpriseEntity;
     }
 
     @Override
-    public IPage<MakerEnterpriseRelationVO> selectMakerEnterprisePage(IPage<MakerEnterpriseRelationVO> page, Long makerId, Integer relationshipType) {
+    public IPage<MakerEnterpriseRelationVO> selectMakerEnterprisePage(IPage<MakerEnterpriseRelationVO> page, Long makerId, RelationshipType relationshipType) {
         return page.setRecords(baseMapper.selectMakerEnterprisePage(makerId, relationshipType, page));
     }
 
@@ -84,7 +86,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
             makerEnterpriseEntity = new MakerEnterpriseEntity();
             makerEnterpriseEntity.setMakerId(makerId);
             makerEnterpriseEntity.setEnterpriseId(enterpriseId);
-            makerEnterpriseEntity.setRelationshipType(1);
+            makerEnterpriseEntity.setRelationshipType(RelationshipType.ATTENTION);
             makerEnterpriseEntity.setRelDate(new Date());
             makerEnterpriseEntity.setRelType(RelType.MAKERREL);
             makerEnterpriseEntity.setCooperationStartTime(new Date());
@@ -106,7 +108,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
-    public MakerEnterpriseEntity getEnterpriseIdAndMakerIdAndRelationshipType(Long enterpriseId, Long makerId, Integer relationshipType) {
+    public MakerEnterpriseEntity getEnterpriseIdAndMakerIdAndRelationshipType(Long enterpriseId, Long makerId, RelationshipType relationshipType) {
         QueryWrapper<MakerEnterpriseEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(MakerEnterpriseEntity::getMakerId, makerId)
                 .eq(MakerEnterpriseEntity::getEnterpriseId, enterpriseId)
@@ -116,8 +118,8 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
-    public R<IPage<RelEnterpriseMakerVO>> getRelEnterpriseMaker(IPage<RelEnterpriseMakerVO> page, Long enterpriseId, Integer relationshipType, String keyword) {
-        return R.data(page.setRecords(baseMapper.getRelEnterpriseMaker(enterpriseId, relationshipType, keyword,  page)));
+    public R<IPage<RelEnterpriseMakerVO>> getEnterpriseMakers(IPage<RelEnterpriseMakerVO> page, Long enterpriseId, RelationshipType relationshipType, String keyword) {
+        return R.data(page.setRecords(baseMapper.getEnterpriseMakers(enterpriseId, relationshipType, keyword, page)));
     }
 
     @Override
@@ -137,46 +139,52 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
-    public R<String> cancelMakersRel(Set<Long> makerIds, Long enterpriseId) {
+    public R<String> cancelRelMakers(Set<Long> makerIds, RelationshipType relationshipType, Long enterpriseId) {
 
-        makerIds.forEach(makerId -> {
-            try {
+        switch (relationshipType) {
+
+            case ATTENTION:
                 //取消创客关注
-                MakerEnterpriseEntity makerEnterpriseEntity = getEnterpriseIdAndMakerId(enterpriseId, makerId);
-                if (makerEnterpriseEntity != null) {
-                    if (makerEnterpriseEntity.getRelationshipType() == 1) {
-                        makerEnterpriseEntity.setRelationshipType(2);
-                        save(makerEnterpriseEntity);
+                makerIds.forEach(makerId -> {
+                    try {
+                        MakerEnterpriseEntity makerEnterpriseEntity = getEnterpriseIdAndMakerId(enterpriseId, makerId);
+                        if (makerEnterpriseEntity != null) {
+                            if (RelationshipType.ATTENTION.equals(makerEnterpriseEntity.getRelationshipType())) {
+                                makerEnterpriseEntity.setRelationshipType(RelationshipType.NORELATION);
+                                makerEnterpriseEntity.setRelMemo("");
+                                updateById(makerEnterpriseEntity);
+                            }
+                        }
+                    } catch (Exception e) {
+                        log.error("取消创客关注异常", e);
                     }
-                }
-            } catch (Exception e) {
-                log.error("取消创客关注异常", e);
-            }
-        });
+                });
+                break;
 
-        return R.success("取消关注成功");
-    }
-
-    @Override
-    public R<String> cancelRelMakers(Set<Long> makerIds, Long enterpriseId) {
-
-        makerIds.forEach(makerId -> {
-            try {
+            case RELEVANCE:
                 //取消创客关联
-                MakerEnterpriseEntity makerEnterpriseEntity = getEnterpriseIdAndMakerId(enterpriseId, makerId);
-                if (makerEnterpriseEntity != null) {
-                    if (makerEnterpriseEntity.getRelationshipType() == 0 && CooperateStatus.COOPERATING.equals(makerEnterpriseEntity.getCooperateStatus())) {
-                        makerEnterpriseEntity.setRelationshipType(2);
-                        makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATESTOP);
-                        save(makerEnterpriseEntity);
+                makerIds.forEach(makerId -> {
+                    try {
+                        MakerEnterpriseEntity makerEnterpriseEntity = getEnterpriseIdAndMakerId(enterpriseId, makerId);
+                        if (makerEnterpriseEntity != null) {
+                            if (RelationshipType.RELEVANCE.equals(makerEnterpriseEntity.getRelationshipType()) && CooperateStatus.COOPERATING.equals(makerEnterpriseEntity.getCooperateStatus())) {
+                                makerEnterpriseEntity.setRelationshipType(RelationshipType.NORELATION);
+                                makerEnterpriseEntity.setRelMemo("");
+                                makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATESTOP);
+                                updateById(makerEnterpriseEntity);
+                            }
+                        }
+                    } catch (Exception e) {
+                        log.error("取消创客关联异常", e);
                     }
-                }
-            } catch (Exception e) {
-                log.error("取消创客关联异常", e);
-            }
-        });
+                });
+                break;
 
-        return R.success("取消关联成功");
+            default:
+                return R.fail("创客商户关系有误");
+        }
+
+        return R.success("操作成功");
     }
 
 }

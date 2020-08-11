@@ -63,7 +63,7 @@ public class AddressEntity extends BaseEntity {
     private String detailedAddress;
 
     /**
-     * 是否默认[0:默认,1:不默认]
+     * 是否默认
      */
-    private Integer isDefault;
+    private Boolean isDefault;
 }

@@ -128,7 +128,7 @@ public class IndividualBusinessEntity extends BaseEntity {
     /**
      * 个体户状态：注册中，税务登记中，运营中，已注销
      */
-    private Ibstate ibstate;
+    private Ibstate ibstate = Ibstate.REGISTERING;
 
     /**
      * 提交日期

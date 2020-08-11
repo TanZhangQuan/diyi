@@ -47,5 +47,5 @@ public class OnlineAgreementNeedSignEntity extends BaseEntity {
     /**
      * 签署状态
      */
-    private SignState signState;
+    private SignState signState = SignState.UNSIGN;
 }

@@ -137,8 +137,8 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public MakerEnterpriseEntity makerEnterpriseAdd(Long enterpriseId, Long makerId) {
-        return null;
+    public void makerEnterpriseAdd(Long enterpriseId, Long makerId) {
+
     }
 
 }

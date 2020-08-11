@@ -50,7 +50,7 @@ public class MakerTotalInvoiceEntity extends BaseEntity {
     private String invoiceCategory;
 
     /**
-     *
+     * 总金额
      */
     private BigDecimal totalAmount;
 

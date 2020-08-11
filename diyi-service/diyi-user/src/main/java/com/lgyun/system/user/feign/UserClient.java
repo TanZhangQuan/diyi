@@ -234,13 +234,12 @@ public class UserClient implements IUserClient {
         makerAddDto.setName(name);
         makerAddDto.setIdcardNo(idcardNo);
         makerAddDto.setPhoneNumber(phoneNumber);
-        MakerEntity makerEntity = iMakerService.enterpriseMakerAdd(makerAddDto, enterpriseId);
-        return makerEntity;
+        return iMakerService.enterpriseMakerAdd(makerAddDto, enterpriseId);
     }
 
     @Override
-    public MakerEnterpriseEntity makerEnterpriseAdd(Long enterpriseId, Long makerId) {
-        return iMakerEnterpriseService.makerEnterpriseEntitySave(enterpriseId,makerId);
+    public void makerEnterpriseAdd(Long enterpriseId, Long makerId) {
+        iMakerEnterpriseService.makerEnterpriseEntitySave(enterpriseId,makerId);
     }
 
 }

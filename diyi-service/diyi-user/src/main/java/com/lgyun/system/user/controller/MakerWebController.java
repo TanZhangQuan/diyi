@@ -3,6 +3,7 @@ package com.lgyun.system.user.controller;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
@@ -13,9 +14,7 @@ import com.lgyun.system.user.excel.MakerImportListener;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
 import com.lgyun.system.user.service.IMakerService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
@@ -105,10 +104,10 @@ public class MakerWebController {
     }
 
     @GetMapping("/get_relevance_enterprise_maker")
-    @ApiOperation(value = "获取关联当前商户的所有创客", notes = "获取关联当前商户的所有创客")
-    public R getRelevanceEnterpriseMaker(String keyword, Query query, BladeUser bladeUser) {
+    @ApiOperation(value = "获取当前商户的所有关联或关注创客", notes = "获取当前商户的所有关联或关注创客")
+    public R getEnterpriseMakers(String keyword, @ApiParam(value = "创客商户关系") @NotNull(message = "请选择创客商户关系") @RequestParam(required = false) RelationshipType relationshipType, Query query, BladeUser bladeUser) {
 
-        log.info("获取关联当前商户的所有创客");
+        log.info("获取当前商户的所有关联或关注创客");
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
@@ -117,29 +116,9 @@ public class MakerWebController {
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-            return makerEnterpriseService.getRelEnterpriseMaker(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), 0, keyword);
+            return makerEnterpriseService.getEnterpriseMakers(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), relationshipType, keyword);
         } catch (Exception e) {
-            log.error("获取关联当前商户的所有创客异常", e);
-        }
-        return R.fail("查询失败");
-    }
-
-    @GetMapping("/get_attention_enterprise_maker")
-    @ApiOperation(value = "获取关注当前商户的所有创客", notes = "获取关注当前商户的所有创客")
-    public R getAttentionEnterpriseMaker(String keyword, Query query, BladeUser bladeUser) {
-
-        log.info("获取关注当前商户的所有创客");
-        try {
-            //获取当前商户员工
-            R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
-                return result;
-            }
-            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-            return makerEnterpriseService.getRelEnterpriseMaker(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), 1, keyword);
-        } catch (Exception e) {
-            log.error("获取关注当前商户的所有创客异常", e);
+            log.error("获取当前商户的所有关联或关注创客异常", e);
         }
         return R.fail("查询失败");
     }
@@ -164,31 +143,13 @@ public class MakerWebController {
         return R.fail("查询失败");
     }
 
-    @PostMapping("/cancel_makers_attention")
-    @ApiOperation(value = "批量取消创客关注", notes = "批量取消创客关注")
-    public R cancelMakersAttention(@ApiParam(value = "创客ID") @NotEmpty(message = "请选择要取消关注的创客") @RequestParam(required = false) Set<Long> makerIds, BladeUser bladeUser) {
-
-        log.info("批量取消创客关注");
-        try {
-            //获取当前商户员工
-            R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
-                return result;
-            }
-            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-            return makerEnterpriseService.cancelMakersRel(makerIds, enterpriseWorkerEntity.getEnterpriseId());
-        } catch (Exception e) {
-            log.error("批量取消创客关注异常", e);
-        }
-        return R.fail("取消关注失败");
-    }
-
     @PostMapping("/cancel_relevance_makers")
-    @ApiOperation(value = "批量取消关联创客", notes = "批量取消关联创客")
-    public R cancelRelevanceMakers(@ApiParam(value = "创客ID") @NotEmpty(message = "请选择要取消关联的创客") @RequestParam(required = false) Set<Long> makerIds, BladeUser bladeUser) {
+    @ApiOperation(value = "批量取消创客关联或关注", notes = "批量取消创客关联或关注")
+    public R cancelRelevanceMakers(@ApiParam(value = "创客ID") @NotEmpty(message = "请选择要取消关联的创客") @RequestParam(required = false) Set<Long> makerIds,
+                                   @ApiParam(value = "创客商户关系") @NotNull(message = "请选择创客商户关系") @RequestParam(required = false) RelationshipType relationshipType,
+                                   BladeUser bladeUser) {
 
-        log.info("批量取消关联创客");
+        log.info("批量取消创客关联或关注");
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
@@ -197,11 +158,11 @@ public class MakerWebController {
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-            return makerEnterpriseService.cancelRelMakers(makerIds, enterpriseWorkerEntity.getEnterpriseId());
+            return makerEnterpriseService.cancelRelMakers(makerIds, relationshipType, enterpriseWorkerEntity.getEnterpriseId());
         } catch (Exception e) {
-            log.error("批量取消关联创客异常", e);
+            log.error("批量取消创客关联或关注异常", e);
         }
-        return R.fail("取消关联失败");
+        return R.fail("操作失败");
     }
 
     @PostMapping("/relevance_makers")

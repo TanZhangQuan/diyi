@@ -18,7 +18,6 @@ import com.lgyun.system.order.service.ISelfHelpInvoicePersonService;
 import com.lgyun.system.order.service.ISelfHelpInvoiceService;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
-import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
@@ -164,7 +163,6 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
                 MakerEntity makerEntity = userClient.makerFindByPhoneNumber(invoiceListExcel.getPhoneNumber());
                 if(null == makerEntity){
                     MakerEntity makerEntity1 = userClient.makerAdd(invoiceListExcel.getInvoicePeopleName(), invoiceListExcel.getIdCardNo(), invoiceListExcel.getPhoneNumber(), selfHelpInvoiceDto.getObjectId());
-                    userClient.makerEnterpriseAdd(selfHelpInvoiceDto.getObjectId(), makerEntity1.getId());
                     selfHelpInvoiceDetailEntity.setMakerId(makerEntity1.getId());
                 }else{
                     userClient.makerEnterpriseAdd(selfHelpInvoiceDto.getObjectId(), makerEntity.getId());

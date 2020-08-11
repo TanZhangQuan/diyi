@@ -3,7 +3,7 @@ package com.lgyun.system.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.AuditState;
+import com.lgyun.common.enumeration.AgreementType;
 import com.lgyun.common.enumeration.SignState;
 import com.lgyun.common.enumeration.SignType;
 import com.lgyun.common.tool.BeanUtil;
@@ -67,7 +67,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     @Override
     public List<AgreementEntity> findByEnterpriseId(Long enterpriseId) {
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(AgreementEntity::getEnterpriseId, enterpriseId).eq(AgreementEntity::getSignType,SignType.PLATFORMAGREEMENT);
+        queryWrapper.lambda().eq(AgreementEntity::getEnterpriseId, enterpriseId).eq(AgreementEntity::getSignType, SignType.PLATFORMAGREEMENT);
         return baseMapper.selectList(queryWrapper);
     }
 
@@ -75,8 +75,8 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     public AgreementWebVO findByEnterpriseAndType(Long enterpriseId, Integer agreementType) {
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(AgreementEntity::getEnterpriseId, enterpriseId)
-                            .eq(AgreementEntity::getAgreementType,agreementType)
-                            .eq(AgreementEntity::getSignType,SignType.PLATFORMAGREEMENT);
+                .eq(AgreementEntity::getAgreementType, agreementType)
+                .eq(AgreementEntity::getSignType, SignType.PLATFORMAGREEMENT);
         AgreementEntity agreementEntity = baseMapper.selectOne(queryWrapper);
         AgreementWebVO agreementWebVO = BeanUtil.copy(agreementEntity, AgreementWebVO.class);
         return agreementWebVO;
@@ -86,10 +86,10 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     public List<AgreementWebVO> selectAuthorization(Long enterpriseId) {
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(AgreementEntity::getEnterpriseId, enterpriseId)
-                .in(AgreementEntity::getSignType,SignType.UNILATERALPOWER,SignType.ELEUNILATERALPOWER);
+                .in(AgreementEntity::getSignType, SignType.UNILATERALPOWER, SignType.ELEUNILATERALPOWER);
         List<AgreementEntity> agreementEntities = baseMapper.selectList(queryWrapper);
         List<AgreementWebVO> agreementWebVOS = new ArrayList<>();
-        for (AgreementEntity agreementEntity : agreementEntities){
+        for (AgreementEntity agreementEntity : agreementEntities) {
             AgreementWebVO agreementWebVO = BeanUtil.copy(agreementEntity, AgreementWebVO.class);
             agreementWebVOS.add(agreementWebVO);
         }
@@ -97,14 +97,12 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
-    public R saveAuthorization(Long enterpriseId,String paperAgreementURL) {
+    public R<String> saveAuthorization(Long enterpriseId, String paperAgreementURL) {
         EnterpriseEntity byId = enterpriseService.getById(enterpriseId);
-        OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = iOnlineAgreementTemplateService.findTemplateType(14);
+        OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = iOnlineAgreementTemplateService.findTemplateType(AgreementType.OTHERAGREEMENT);
         AgreementEntity agreementEntity = new AgreementEntity();
-        agreementEntity.setAgreementType(14);
+        agreementEntity.setAgreementType(AgreementType.OTHERAGREEMENT);
         agreementEntity.setSignType(SignType.UNILATERALPOWER);
-        agreementEntity.setAuditState(AuditState.EDITING);
-        agreementEntity.setSignState(SignState.SIGNING);
         agreementEntity.setSignDate(new Date());
         agreementEntity.setAgreementNo(UUID.randomUUID().toString());
         agreementEntity.setSequenceNo(UUID.randomUUID().toString());
@@ -120,25 +118,23 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
-    public IPage<AgreementWebVO> selectServiceAgreement(IPage<AgreementWebVO> page, Long enterpriseId,String serviceProviderName,String agreementNo,SignType signType,Integer agreementType) {
-        return page.setRecords(baseMapper.selectServiceAgreement(enterpriseId,serviceProviderName,agreementNo,signType,agreementType,page));
+    public IPage<AgreementWebVO> selectServiceAgreement(IPage<AgreementWebVO> page, Long enterpriseId, String serviceProviderName, String agreementNo, SignType signType, Integer agreementType) {
+        return page.setRecords(baseMapper.selectServiceAgreement(enterpriseId, serviceProviderName, agreementNo, signType, agreementType, page));
     }
 
     @Override
     public IPage<AgreementWebVO> selectServiceSupplementaryAgreement(IPage<AgreementWebVO> page, Long enterpriseId, String serviceProviderName, String agreementNo, Integer agreementType) {
-        return page.setRecords(baseMapper.selectServiceSupplementaryAgreement(enterpriseId,serviceProviderName,agreementNo,agreementType,page));
+        return page.setRecords(baseMapper.selectServiceSupplementaryAgreement(enterpriseId, serviceProviderName, agreementNo, agreementType, page));
     }
 
     @Override
-    public R saveSupplementaryAgreement(Long enterpriseId, String paperAgreementURL, Long serviceProviderId) {
+    public R<String> saveSupplementaryAgreement(Long enterpriseId, String paperAgreementURL, Long serviceProviderId) {
         EnterpriseEntity byId = enterpriseService.getById(enterpriseId);
-        OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = iOnlineAgreementTemplateService.findTemplateType(11);
+        OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = iOnlineAgreementTemplateService.findTemplateType(AgreementType.SERENTSUPPLEMENTARYAGREEMENT);
         ServiceProviderEntity serviceProviderEntity = serviceProviderService.getById(serviceProviderId);
         AgreementEntity agreementEntity = new AgreementEntity();
-        agreementEntity.setAgreementType(11);
+        agreementEntity.setAgreementType(AgreementType.SERENTSUPPLEMENTARYAGREEMENT);
         agreementEntity.setSignType(SignType.PAPERAGREEMENT);
-        agreementEntity.setAuditState(AuditState.EDITING);
-        agreementEntity.setSignState(SignState.SIGNING);
         agreementEntity.setSignDate(new Date());
         agreementEntity.setAgreementNo(UUID.randomUUID().toString());
         agreementEntity.setSequenceNo(UUID.randomUUID().toString());
@@ -155,7 +151,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
-    public R selectMakerAgreement(IPage<AgreementMakerWebVO> page, Long enterpriseId) {
-        return R.data(page.setRecords(baseMapper.selectMakerAgreement(enterpriseId,page)));
+    public R<IPage<AgreementMakerWebVO>> selectMakerAgreement(IPage<AgreementMakerWebVO> page, Long enterpriseId) {
+        return R.data(page.setRecords(baseMapper.selectMakerAgreement(enterpriseId, page)));
     }
 }

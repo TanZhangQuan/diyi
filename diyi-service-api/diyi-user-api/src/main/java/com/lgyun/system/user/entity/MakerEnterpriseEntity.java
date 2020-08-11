@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.enumeration.RelType;
+import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.common.tool.DateUtil;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.Data;
@@ -46,9 +47,9 @@ public class MakerEnterpriseEntity extends BaseEntity {
     private Long positionId;
 
     /**
-     * 0：关联，1关注，2：不关联不关注
+     * 创客商户关系
      */
-    private Integer relationshipType;
+    private RelationshipType relationshipType;
 
     /**
      * 关联日期
@@ -62,7 +63,7 @@ public class MakerEnterpriseEntity extends BaseEntity {
     private RelType relType;
 
     /**
-     * 关联备注
+     * 关系备注
      */
     private String relMemo;
 

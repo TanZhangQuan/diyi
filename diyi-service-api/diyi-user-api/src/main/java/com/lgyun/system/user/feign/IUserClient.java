@@ -264,5 +264,5 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/maker_enterprise_add")
-    MakerEnterpriseEntity makerEnterpriseAdd(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("makerId") Long makerId);
+    void makerEnterpriseAdd(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("makerId") Long makerId);
 }

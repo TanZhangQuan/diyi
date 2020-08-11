@@ -43,7 +43,7 @@ public class SelfHelpInvoiceDetailEntity extends BaseEntity {
     /**
      * 开票状态 1，开票中；2，已开票；3，开票失败
      */
-    private InvoicePrintState invoicePrintState;
+    private InvoicePrintState invoicePrintState = InvoicePrintState.INVOICEING;
 
     /**
      * 创客ID

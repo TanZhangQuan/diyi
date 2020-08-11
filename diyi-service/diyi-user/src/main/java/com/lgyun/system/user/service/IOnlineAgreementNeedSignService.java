@@ -4,6 +4,7 @@ package com.lgyun.system.user.service;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.enumeration.SignPower;
+import com.lgyun.common.enumeration.TemplateType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.OnlineAgreementNeedSignEntity;
 import com.lgyun.system.user.vo.OnlineAgreementNeedSignVO;
@@ -43,10 +44,10 @@ public interface IOnlineAgreementNeedSignService extends BaseService<OnlineAgree
      * 查询创客需要签署的授权协议
      *
      * @param makerId
-     * @param isContract
+     * @param templateType
      * @return
      */
-    R<List<OnlineAgreementNeedSignVO>> getOnlineAgreementNeedSign(Long makerId, Integer isContract);
+    R<List<OnlineAgreementNeedSignVO>> getOnlineAgreementNeedSign(Long makerId, TemplateType templateType);
 
 }
 

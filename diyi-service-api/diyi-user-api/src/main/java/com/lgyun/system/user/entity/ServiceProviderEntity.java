@@ -40,7 +40,7 @@ public class ServiceProviderEntity extends BaseEntity {
     /**
      * 服务商账户状态
      */
-    private AccountState serviceProviderState;
+    private AccountState serviceProviderState = AccountState.NORMAL;
 
     /**
      * 服务商名称

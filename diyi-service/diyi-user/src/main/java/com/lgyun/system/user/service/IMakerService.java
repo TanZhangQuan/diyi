@@ -280,7 +280,6 @@ public interface IMakerService extends IService<MakerEntity> {
      */
     R<EnterpriseMakerDetailVO> getMakerDetailById(Long enterpriseId, Long makerId);
 
-
     /**
      * 新增单个创客
      *

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.enumeration.SignPower;
-import com.lgyun.common.enumeration.SignState;
+import com.lgyun.common.enumeration.TemplateType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.OnlineAgreementNeedSignEntity;
 import com.lgyun.system.user.mapper.OnlineAgreementNeedSignMapper;
@@ -40,7 +40,6 @@ public class OnlineAgreementNeedSignServiceImpl extends BaseServiceImpl<OnlineAg
         onlineAgreementNeedSignEntity.setObjectType(objectType);
         onlineAgreementNeedSignEntity.setSignPower(signPower);
         onlineAgreementNeedSignEntity.setObjectId(objectId);
-        onlineAgreementNeedSignEntity.setSignState(SignState.UNSIGN);
         save(onlineAgreementNeedSignEntity);
 
         return R.success("添加成功");
@@ -58,8 +57,8 @@ public class OnlineAgreementNeedSignServiceImpl extends BaseServiceImpl<OnlineAg
     }
 
     @Override
-    public R<List<OnlineAgreementNeedSignVO>> getOnlineAgreementNeedSign(Long makerId, Integer isContract) {
-        List<OnlineAgreementNeedSignVO> onlineAgreementNeedSign = baseMapper.getOnlineAgreementNeedSign(makerId, isContract);
+    public R<List<OnlineAgreementNeedSignVO>> getOnlineAgreementNeedSign(Long makerId, TemplateType templateType) {
+        List<OnlineAgreementNeedSignVO> onlineAgreementNeedSign = baseMapper.getOnlineAgreementNeedSign(makerId, templateType);
         return R.data(onlineAgreementNeedSign);
     }
 }

@@ -1,12 +1,9 @@
 package com.lgyun.system.order.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.InvoiceState;
+import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.core.mp.base.BaseEntity;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -42,7 +39,7 @@ public class PayEntity extends BaseEntity {
     /**
      * 创客类别：自然人，个体户
      */
-    private String makerType;
+    private MakerType makerType;
 
     /**
      * 个体户名称
@@ -102,12 +99,12 @@ public class PayEntity extends BaseEntity {
     /**
      * 创客完税证明开票状态: 未开，已开
      */
-    private String makerTaxState;
+    private InvoiceState makerTaxState;
 
     /**
      * 创客发票开票状态: 未开，已开
      */
-    private String makerVoiceState;
+    private InvoiceState makerVoiceState;
 
     /**
      * 支付说明

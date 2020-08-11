@@ -32,7 +32,7 @@ public class EnterpriseEntity extends BaseEntity {
     /**
      * 商户账户状态
      */
-    private AccountState enterpriseState;
+    private AccountState enterpriseState = AccountState.NORMAL;
 
     /**
      * 创客加入邀请码

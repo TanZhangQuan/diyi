@@ -2,7 +2,6 @@ package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.common.enumeration.ApplyState;
-import com.lgyun.common.enumeration.AuditState;
 import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -130,7 +129,7 @@ public class SelfHelpInvoiceEntity extends BaseEntity {
     /**
      * 当前状态
      */
-    private ApplyState currentState;
+    private ApplyState currentState = ApplyState.EDITING;
 
     /**
      * 快递单号

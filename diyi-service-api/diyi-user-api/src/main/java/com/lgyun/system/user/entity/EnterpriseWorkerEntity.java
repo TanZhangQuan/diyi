@@ -44,7 +44,7 @@ public class EnterpriseWorkerEntity extends BaseEntity {
     /**
      * 商户员工账户状态
      */
-    private AccountState enterpriseWorkerState;
+    private AccountState enterpriseWorkerState = AccountState.NORMAL;
 
     /**
      * 姓名

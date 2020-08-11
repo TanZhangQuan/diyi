@@ -74,10 +74,9 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
             //稍后添加
             MakerEntity makerEntity = makerService.getById(ObjectId);
             AgreementEntity agreementEntity = new AgreementEntity();
-            agreementEntity.setAgreementType(onlineAgreementTemplateEntity.getTemplateType());
+            agreementEntity.setAgreementType(onlineAgreementTemplateEntity.getAgreementType());
             agreementEntity.setSignDate(new Date());
             agreementEntity.setSignType(SignType.PLATFORMAGREEMENT);
-            agreementEntity.setSignState(SignState.SIGNING);
             agreementEntity.setAgreementNo(UUID.randomUUID().toString());
             agreementEntity.setSequenceNo(UUID.randomUUID().toString());
             agreementEntity.setMakerId(ObjectId);

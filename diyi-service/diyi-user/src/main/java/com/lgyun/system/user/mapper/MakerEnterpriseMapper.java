@@ -2,6 +2,7 @@ package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
@@ -27,7 +28,7 @@ public interface MakerEnterpriseMapper extends BaseMapper<MakerEnterpriseEntity>
      * @param page
      * @return
      */
-    List<MakerEnterpriseRelationVO> selectMakerEnterprisePage(Long makerId, Integer relationshipType, IPage<MakerEnterpriseRelationVO> page);
+    List<MakerEnterpriseRelationVO> selectMakerEnterprisePage(Long makerId, RelationshipType relationshipType, IPage<MakerEnterpriseRelationVO> page);
 
     /**
      * 根据商户ID，关系，关键字获取当前商户的所有创客
@@ -38,7 +39,7 @@ public interface MakerEnterpriseMapper extends BaseMapper<MakerEnterpriseEntity>
      * @param page
      * @return
      */
-    List<RelEnterpriseMakerVO> getRelEnterpriseMaker(Long enterpriseId, Integer relationshipType, String keyword, IPage<RelEnterpriseMakerVO> page);
+    List<RelEnterpriseMakerVO> getEnterpriseMakers(Long enterpriseId, RelationshipType relationshipType, String keyword, IPage<RelEnterpriseMakerVO> page);
 
     /**
      * 根据创客ID查询关联商户

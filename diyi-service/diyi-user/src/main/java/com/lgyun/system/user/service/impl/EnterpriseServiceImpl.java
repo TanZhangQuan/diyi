@@ -2,6 +2,7 @@ package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
@@ -37,8 +38,8 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
 
     @Override
     public R<MakerEnterpriseRelationVO> getEnterpriseId(Long enterpriseId, Long makerId) {
-        MakerEnterpriseEntity enterpriseIdAndMakerIdLian = makerEnterpriseService.getEnterpriseIdAndMakerIdAndRelationshipType(enterpriseId, makerId, 0);
-        MakerEnterpriseEntity enterpriseIdAndMakerIdZhu = makerEnterpriseService.getEnterpriseIdAndMakerIdAndRelationshipType(enterpriseId, makerId, 1);
+        MakerEnterpriseEntity enterpriseIdAndMakerIdLian = makerEnterpriseService.getEnterpriseIdAndMakerIdAndRelationshipType(enterpriseId, makerId, RelationshipType.RELEVANCE);
+        MakerEnterpriseEntity enterpriseIdAndMakerIdZhu = makerEnterpriseService.getEnterpriseIdAndMakerIdAndRelationshipType(enterpriseId, makerId, RelationshipType.ATTENTION);
         QueryWrapper<EnterpriseEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(EnterpriseEntity::getId, enterpriseId);
 
@@ -58,16 +59,16 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             makerEnterpriseRelationVO.setSocialCreditNo("*******");
             makerEnterpriseRelationVO.setContact1Position("********");
             makerEnterpriseRelationVO.setShopUserName("*****");
-            makerEnterpriseRelationVO.setRelationshipType(1);
+            makerEnterpriseRelationVO.setRelationshipType(RelationshipType.ATTENTION);
             return R.data(makerEnterpriseRelationVO);
         } else if (null != enterpriseIdAndMakerIdLian && null == enterpriseIdAndMakerIdZhu) {
-            makerEnterpriseRelationVO.setRelationshipType(0);
+            makerEnterpriseRelationVO.setRelationshipType(RelationshipType.RELEVANCE);
             return R.data(makerEnterpriseRelationVO);
         } else if (null == enterpriseIdAndMakerIdLian && null == enterpriseIdAndMakerIdZhu) {
-            makerEnterpriseRelationVO.setRelationshipType(2);
+            makerEnterpriseRelationVO.setRelationshipType(RelationshipType.NORELATION);
             return R.data(makerEnterpriseRelationVO);
         } else {
-            makerEnterpriseRelationVO.setRelationshipType(0);
+            makerEnterpriseRelationVO.setRelationshipType(RelationshipType.RELEVANCE);
             return R.data(makerEnterpriseRelationVO);
         }
     }

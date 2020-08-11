@@ -1,9 +1,7 @@
 package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.lgyun.common.enumeration.AuditState;
-import com.lgyun.common.enumeration.SignState;
-import com.lgyun.common.enumeration.SignType;
+import com.lgyun.common.enumeration.*;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,9 +25,9 @@ public class AgreementEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 协议类别 1,创客加盟协议；2，商户加盟协议；3，服务商加盟协议；4，渠道商加盟协议；5、合伙人加盟协议；6、园区合作协议；7、税局合作协议；8、工商合作协议；9、创客授权书；10、商户-创客补充协议；11、服务商-商户补充协议；12、创客单独税务事项委托授权书；13、创客单独支付事项委托授权书；14、其他协议
+     * 协议类别
      */
-    private Integer agreementType;
+    private AgreementType agreementType;
 
     /**
      * 1、纸质协议，2、平台在线协议，3、三方在线协议，4、单方授权函（纸质），5、单方授权函（电子）
@@ -39,11 +37,11 @@ public class AgreementEntity extends BaseEntity {
     /**
      *单方授权函审核状态 1，编辑中；2，已驳回；3，已审核通过
      */
-    private AuditState auditState;
+    private AuditState auditState = AuditState.EDITING;
     /**
      * 0签署中 1已完毕
      */
-    private SignState signState;
+    private SignState signState = SignState.SIGNING;
 
     /**
      * 签署日期
@@ -113,7 +111,7 @@ public class AgreementEntity extends BaseEntity {
     /**
      * 纸质协议上传状态
      */
-    private Integer paperAgreementUpload;
+    private PaaState paperAgreementUpload;
 
     /**
      * 甲方签署人员

@@ -2,6 +2,7 @@ package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.RelationshipType;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -46,7 +47,7 @@ public class MakerEnterpriseRelationVO implements Serializable {
     private Long enterpriseId;
 
     //0：关联，1关注，2：不关联不关注
-    private Integer relationshipType;
+    private RelationshipType relationshipType;
 
     //商户id
     @JsonSerialize(using = ToStringSerializer.class)

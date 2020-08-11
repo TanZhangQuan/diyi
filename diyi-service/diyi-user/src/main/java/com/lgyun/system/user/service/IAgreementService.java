@@ -37,7 +37,6 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
      */
     List<AgreementEntity> findByEnterpriseId(Long enterpriseId);
 
-
     /**
      * 根据商户和合同类型找合同
      */
@@ -47,10 +46,12 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
      * 根据商户查询商户的单方授权函
      */
     List<AgreementWebVO> selectAuthorization(Long enterpriseId);
+
     /**
      * 商户上传授权函
      */
-    R saveAuthorization(Long enterpriseId,String paperAgreementURL);
+    R<String> saveAuthorization(Long enterpriseId,String paperAgreementURL);
+
     /**
      * 查询商户关联服务商的加盟合同
      */
@@ -64,11 +65,11 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
     /**
      * 商户上传服务商的补充协议
      */
-    R saveSupplementaryAgreement(Long enterpriseId,String paperAgreementURL,Long serviceProviderId);
+    R<String> saveSupplementaryAgreement(Long enterpriseId,String paperAgreementURL,Long serviceProviderId);
 
     /**
      *查询创客加盟合同
      */
-    R selectMakerAgreement(IPage<AgreementMakerWebVO> page,Long enterpriseId);
+    R<IPage<AgreementMakerWebVO>> selectMakerAgreement(IPage<AgreementMakerWebVO> page,Long enterpriseId);
 }
 

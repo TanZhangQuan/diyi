@@ -65,25 +65,25 @@ public class MakerEntity extends BaseEntity {
     /**
      * 认证状态
      */
-    private CertificationState certificationState;
+    private CertificationState certificationState = CertificationState.UNCERTIFIED;
 
     /**
      * 授权合同签署状态
      */
     @JsonIgnore
-    private SignState empowerSignState;
+    private SignState empowerSignState = SignState.UNSIGN;
 
     /**
      * 加盟合同签署状态
      */
     @JsonIgnore
-    private SignState joinSignState;
+    private SignState joinSignState = SignState.UNSIGN;
 
     /**
      * 账户状态
      */
     @JsonIgnore
-    private AccountState makerState;
+    private AccountState makerState = AccountState.NORMAL;
 
     /**
      * 政治面貌
@@ -184,7 +184,7 @@ public class MakerEntity extends BaseEntity {
     /**
      * 身份证验证状态：未验证，验证通过，验证未通过
      */
-    private VerifyStatus idcardVerifyStatus;
+    private VerifyStatus idcardVerifyStatus = VerifyStatus.TOVERIFY;
 
     /**
      * 身份证验证日期时间
@@ -194,7 +194,7 @@ public class MakerEntity extends BaseEntity {
     /**
      * 人脸验证状态：未验证，验证通过，验证未通过
      */
-    private VerifyStatus faceVerifyStatus;
+    private VerifyStatus faceVerifyStatus = VerifyStatus.TOVERIFY;
 
     /**
      * 人脸验证日期时间
@@ -204,7 +204,7 @@ public class MakerEntity extends BaseEntity {
     /**
      * 银行卡验证状态：未验证，验证通过，验证未通过
      */
-    private VerifyStatus bankCardVerifyStatus;
+    private VerifyStatus bankCardVerifyStatus = VerifyStatus.TOVERIFY;
 
     /**
      * 银行卡验证日期时间
@@ -214,7 +214,7 @@ public class MakerEntity extends BaseEntity {
     /**
      * 手机号码验证状态：未验证，验证通过，验证未通过
      */
-    private VerifyStatus phoneNumberVerifyStatus;
+    private VerifyStatus phoneNumberVerifyStatus = VerifyStatus.TOVERIFY;
 
     /**
      * 手机号码验证日期时间
@@ -280,7 +280,7 @@ public class MakerEntity extends BaseEntity {
     /**
      * 短视频审核状态：未审核，审核通过，审核未通过
      */
-    private VideoAudit videoAudit;
+    private VideoAudit videoAudit = VideoAudit.TOAUDIT;
 
     /**
      * 审核日期

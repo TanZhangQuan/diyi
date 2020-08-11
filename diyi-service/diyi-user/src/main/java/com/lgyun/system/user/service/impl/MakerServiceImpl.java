@@ -109,15 +109,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             makerEntity.setIdcardHand(idcardHand);
             makerEntity.setIdcardBackHand(idcardBackHand);
             makerEntity.setRelDate(new Date());
-            makerEntity.setCertificationState(CertificationState.UNCERTIFIED);
-            makerEntity.setJoinSignState(SignState.UNSIGN);
-            makerEntity.setEmpowerSignState(SignState.UNSIGN);
-            makerEntity.setMakerState(AccountState.NORMAL);
-            makerEntity.setIdcardVerifyStatus(VerifyStatus.TOVERIFY);
-            makerEntity.setFaceVerifyStatus(VerifyStatus.TOVERIFY);
-            makerEntity.setPhoneNumberVerifyStatus(VerifyStatus.TOVERIFY);
-            makerEntity.setBankCardVerifyStatus(VerifyStatus.TOVERIFY);
-            makerEntity.setVideoAudit(VideoAudit.TOAUDIT);
             save(makerEntity);
 
         } else if (makerEntityPhoneNumber != null && makerEntityIdcardNo == null) {
@@ -589,7 +580,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             R.fail("视频连接不能为空");
         }
         makerEntity.setApplyShortVideo(applyShortVideo);
-        makerEntity.setVideoAudit(VideoAudit.TOAUDIT);
         saveOrUpdate(makerEntity);
         return R.success("成功");
     }

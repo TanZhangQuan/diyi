@@ -2,6 +2,7 @@ package com.lgyun.system.user.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
@@ -25,7 +26,7 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
      * @param makerId
      * @return
      */
-    MakerEnterpriseEntity makerEnterpriseEntitySave(Long enterpriseId, Long makerId);
+    void makerEnterpriseEntitySave(Long enterpriseId, Long makerId);
 
     /**
      * 根据创客ID, 两者关系 查询商户
@@ -35,7 +36,7 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
      * @param relationshipType
      * @return
      */
-    IPage<MakerEnterpriseRelationVO> selectMakerEnterprisePage(IPage<MakerEnterpriseRelationVO> page, Long makerId, Integer relationshipType);
+    IPage<MakerEnterpriseRelationVO> selectMakerEnterprisePage(IPage<MakerEnterpriseRelationVO> page, Long makerId, RelationshipType relationshipType);
 
     /**
      * 根据创客ID查询关联商户
@@ -73,10 +74,10 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
      * @param relationshipType
      * @return
      */
-    MakerEnterpriseEntity getEnterpriseIdAndMakerIdAndRelationshipType(Long enterpriseId, Long makerId, Integer relationshipType);
+    MakerEnterpriseEntity getEnterpriseIdAndMakerIdAndRelationshipType(Long enterpriseId, Long makerId, RelationshipType relationshipType);
 
     /**
-     * 根据商户ID，关系，关键字获取当前商户的所有创客
+     * 根获取当前商户的所有关联或关注创客
      *
      * @param page
      * @param enterpriseId
@@ -84,7 +85,7 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
      * @param keyword
      * @return
      */
-    R<IPage<RelEnterpriseMakerVO>> getRelEnterpriseMaker(IPage<RelEnterpriseMakerVO> page, Long enterpriseId, Integer relationshipType, String keyword);
+    R<IPage<RelEnterpriseMakerVO>> getEnterpriseMakers(IPage<RelEnterpriseMakerVO> page, Long enterpriseId, RelationshipType relationshipType, String keyword);
 
     /**
      * 批量关联创客
@@ -96,21 +97,13 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
     R<String> relMakers(Set<Long> makerIds, Long enterpriseId);
 
     /**
-     * 批量取消创客关注
+     * 批量取消创客关联或关注
      *
      * @param makerIds
+     * @param relationshipType
      * @param enterpriseId
      * @return
      */
-    R<String> cancelMakersRel(Set<Long> makerIds, Long enterpriseId);
-
-    /**
-     * 批量取消创客关联
-     *
-     * @param makerIds
-     * @param enterpriseId
-     * @return
-     */
-    R<String> cancelRelMakers(Set<Long> makerIds, Long enterpriseId);
+    R<String> cancelRelMakers(Set<Long> makerIds, RelationshipType relationshipType, Long enterpriseId);
 }
 

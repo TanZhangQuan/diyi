@@ -1,5 +1,6 @@
 package com.lgyun.system.user.service;
 
+import com.lgyun.common.enumeration.AgreementType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.OnlineAgreementTemplateEntity;
 
@@ -14,7 +15,7 @@ public interface IOnlineAgreementTemplateService extends BaseService<OnlineAgree
     /**
      * 通过协议类别查询
      */
-    OnlineAgreementTemplateEntity findTemplateType(Integer templateType);
+    OnlineAgreementTemplateEntity findTemplateType(AgreementType agreementType);
 
 }
 

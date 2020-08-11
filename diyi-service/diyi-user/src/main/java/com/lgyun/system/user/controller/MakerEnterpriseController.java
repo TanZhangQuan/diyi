@@ -2,12 +2,12 @@ package com.lgyun.system.user.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.IEnterpriseService;
-import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
 import com.lgyun.system.user.service.IMakerService;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
@@ -40,7 +40,6 @@ public class MakerEnterpriseController {
     private IMakerEnterpriseService makerEnterpriseService;
     private IEnterpriseService iEnterpriseService;
     private IMakerService iMakerService;
-    private IEnterpriseWorkerService enterpriseWorkerService;
 
     @GetMapping("/detail")
     @ApiImplicitParams({
@@ -67,10 +66,10 @@ public class MakerEnterpriseController {
 
     @GetMapping("/selectMakerEnterprisePage")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "relationshipType", value = "类型", paramType = "query", dataType = "int")
+            @ApiImplicitParam(name = "relationshipType", value = "创客商户关系", paramType = "query", dataType = "string")
     })
     @ApiOperation(value = "查询关联商户和关注商户", notes = "查询关联商户和关注商户")
-    public R selectMakerEnterprisePage(BladeUser bladeUser, Integer relationshipType, Query query) {
+    public R selectMakerEnterprisePage(BladeUser bladeUser, RelationshipType relationshipType, Query query) {
 
         log.info("查询关联商户和关注商户");
         try {

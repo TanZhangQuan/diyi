@@ -2,7 +2,9 @@ package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.AgreementType;
 import com.lgyun.common.enumeration.SignState;
+import com.lgyun.common.enumeration.TemplateType;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -24,11 +26,11 @@ public class OnlineAgreementNeedSignVO implements Serializable {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long onlineAgreementTemplateId;
 
-    private String templateType;
+    private AgreementType agreementType;
 
     private String agreementTemplate;
 
-    private Integer isContract;
+    private TemplateType templateType;
 
     private SignState signState;
 

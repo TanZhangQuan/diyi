@@ -63,7 +63,6 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
 
         IndividualBusinessEntity individualBusinessEntity = new IndividualBusinessEntity();
         BeanUtils.copyProperties(individualBusinessEnterpriseAddDto, individualBusinessEntity);
-        individualBusinessEntity.setIbstate(Ibstate.REGISTERING);
         individualBusinessEntity.setMakerId(makerEntity.getId());
         save(individualBusinessEntity);
 
@@ -149,7 +148,6 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
         individualBusinessEntity.setMakerId(makerEntity.getId());
         individualBusinessEntity.setContactName(individualBusinessEnterpriseWebAddDto.getContactName());
         individualBusinessEntity.setContactPhone(individualBusinessEnterpriseWebAddDto.getContactPhone());
-        individualBusinessEntity.setIbstate(Ibstate.REGISTERING);
         save(individualBusinessEntity);
 
         return R.success("个体户新增成功");
