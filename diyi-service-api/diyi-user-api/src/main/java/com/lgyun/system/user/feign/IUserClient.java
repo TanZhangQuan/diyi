@@ -1,17 +1,11 @@
 package com.lgyun.system.user.feign;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
 import com.lgyun.common.enumeration.GrantType;
-import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.*;
-import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
-import com.lgyun.system.user.vo.IndividualBusinessEnterpriseListByMakerVO;
-import com.lgyun.system.user.vo.MakerDetailVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+
+;
 
 /**
  * User Feign接口类
@@ -127,34 +123,13 @@ public interface IUserClient {
     /**
      * 根据创客ID查询商户
      *
-     * @param query
+     * @param current
+     * @param size
      * @param makerId
      * @return
      */
     @GetMapping(API_PREFIX + "/find_enterprise_by_maker_id")
-    R<IPage<EnterprisesIdNameListVO>> findEnterpriseByMakerId(@RequestParam("query") Query query, @RequestParam("makerId") Long makerId);
-
-    /**
-     * 查询当前创客的所有个独
-     *
-     * @param query
-     * @param makerId
-     * @param ibstate
-     * @return
-     */
-    @PostMapping(API_PREFIX + "/individualEnterprise/listByMaker")
-    R<IPage<IndividualBusinessEnterpriseListByMakerVO>> individualEnterpriseListByMaker(@RequestParam("query") Query query, @RequestParam("makerId") Long makerId, @RequestParam("ibstate") Ibstate ibstate);
-
-    /**
-     * 查询当前创客的所有个体户
-     *
-     * @param query
-     * @param makerId
-     * @param ibstate
-     * @return
-     */
-    @PostMapping(API_PREFIX + "/individualBusiness/listByMaker")
-    R<IPage<IndividualBusinessEnterpriseListByMakerVO>> individualBusinessListByMaker(@RequestParam("query") Query query, @RequestParam("makerId") Long makerId, @RequestParam("ibstate") Ibstate ibstate);
+    R findEnterpriseByMakerId(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId);
 
     /**
      * 根据Id获取个独或个体户信息
@@ -204,12 +179,13 @@ public interface IUserClient {
     /**
      * 根据创客姓名分页查询
      *
-     * @param query
+     * @param current
+     * @param size
      * @param makerName
      * @return
      */
     @PostMapping(API_PREFIX + "/maker/getMakerName")
-    R<IPage<MakerDetailVO>> getMakerName(@RequestParam("query") Query query, @RequestParam(name = "makerName", required = false) String makerName);
+    R getMakerName(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam(name = "makerName", required = false) String makerName);
 
     /**
      * 根据user_id获取商户
@@ -250,9 +226,8 @@ public interface IUserClient {
     @GetMapping(API_PREFIX + "/find_by_maker_id_and_ibtax_no_enterprise")
     IndividualEnterpriseEntity findByMakerIdAndIbtaxNoEnterprise(@RequestParam("makerId") Long makerId, @RequestParam("ibtaxNo") String ibtaxNo);
 
-
     /**
-     *  统一社会信用代码查询个独
+     * 统一社会信用代码查询个独
      *
      * @param ibtaxNo
      * @return
@@ -271,12 +246,23 @@ public interface IUserClient {
 
     /**
      * 新增创客
+     *
+     * @param name
+     * @param idcardNo
+     * @param phoneNumber
+     * @param enterpriseId
+     * @return
      */
-    MakerEntity makerAdd(@RequestParam("name") String name,@RequestParam("idcardNo") String idcardNo,@RequestParam("phoneNumber") String phoneNumber,@RequestParam("enterpriseId") Long enterpriseId);
-
+    @PostMapping(API_PREFIX + "/maker_add")
+    MakerEntity makerAdd(@RequestParam("name") String name, @RequestParam("idcardNo") String idcardNo, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("enterpriseId") Long enterpriseId);
 
     /**
      * 根据商户id和创客id建立关联关系
+     *
+     * @param enterpriseId
+     * @param makerId
+     * @return
      */
-    MakerEnterpriseEntity makerEnterpriseAdd(@RequestParam("enterpriseId") Long enterpriseId,@RequestParam("makerId") Long makerId);
+    @PostMapping(API_PREFIX + "/maker_enterprise_add")
+    MakerEnterpriseEntity makerEnterpriseAdd(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("makerId") Long makerId);
 }

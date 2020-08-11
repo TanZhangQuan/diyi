@@ -57,7 +57,7 @@ public class WorksheetWebController {
 
         log.info("通过创客名字查询");
         try {
-            return iUserClient.getMakerName(query, makerName);
+            return iUserClient.getMakerName(query.getCurrent(), query.getSize(), makerName);
         } catch (Exception e) {
             log.error("通过创客名字查询失败", e);
         }

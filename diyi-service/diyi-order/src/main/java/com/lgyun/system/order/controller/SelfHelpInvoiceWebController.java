@@ -275,7 +275,7 @@ public class SelfHelpInvoiceWebController {
             }
             MakerEntity makerEntity = result.getData();
 
-            return iUserClient.findEnterpriseByMakerId(query, makerEntity.getId());
+            return iUserClient.findEnterpriseByMakerId(query.getCurrent(), query.getSize(), makerEntity.getId());
         } catch (Exception e) {
             log.error("根据创客ID查询商户异常", e);
         }

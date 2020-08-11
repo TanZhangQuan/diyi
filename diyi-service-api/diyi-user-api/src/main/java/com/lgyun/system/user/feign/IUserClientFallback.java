@@ -3,13 +3,10 @@ package com.lgyun.system.user.feign;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.GrantType;
-import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
-import com.lgyun.system.user.vo.IndividualBusinessEnterpriseListByMakerVO;
 import com.lgyun.system.user.vo.MakerDetailVO;
 import org.springframework.stereotype.Component;
 
@@ -70,17 +67,7 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public R<IPage<EnterprisesIdNameListVO>> findEnterpriseByMakerId(Query query, Long makerId) {
-        return R.fail("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public R<IPage<IndividualBusinessEnterpriseListByMakerVO>> individualEnterpriseListByMaker(Query query, Long makerId, Ibstate ibstate) {
-        return R.fail("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public R<IPage<IndividualBusinessEnterpriseListByMakerVO>> individualBusinessListByMaker(Query query, Long makerId, Ibstate ibstate) {
+    public R<IPage<EnterprisesIdNameListVO>> findEnterpriseByMakerId(Integer current, Integer size, Long makerId) {
         return R.fail("网络繁忙，请稍后尝试");
     }
 
@@ -110,7 +97,7 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public R<IPage<MakerDetailVO>> getMakerName(Query query, String makerName) {
+    public R<IPage<MakerDetailVO>> getMakerName(Integer current, Integer size, String makerName) {
         return R.fail("网络繁忙，请稍后尝试");
     }
 

@@ -3,28 +3,4 @@
 
 <mapper namespace="com.lgyun.system.order.mapper.MakerTaxRecordMapper">
 
-    <!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.lgyun.system.order.entity.MakerTaxRecordEntity" id="makerTaxRecordMap">
-        <result property="id" column="id"/>
-        <result property="payMakerId" column="pay_maker_id"/>
-        <result property="voiceTypeNo" column="voice_type_no"/>
-        <result property="voiceSerialNo" column="voice_serial_no"/>
-        <result property="makerTaxAmount" column="maker_tax_amount"/>
-        <result property="totalAmount" column="total_amount"/>
-        <result property="salesamount" column="SalesAmount"/>
-        <result property="taxAmount" column="tax_amount"/>
-        <result property="voicePerson" column="voice_person"/>
-        <result property="saleCompany" column="sale_company"/>
-        <result property="helpMakeOrganationName" column="help_make_organation_name"/>
-        <result property="makerTaxUrl" column="maker_tax_url"/>
-        <result property="makerTaxGetDatetime" column="maker_tax_get_datetime"/>
-        <result property="makerTaxUploadDatetime" column="maker_tax_upload_datetime"/>
-        <result property="createUser" column="create_user"/>
-        <result property="createTime" column="create_time"/>
-        <result property="updateUser" column="update_user"/>
-        <result property="updateTime" column="update_time"/>
-        <result property="status" column="status"/>
-        <result property="isDeleted" column="is_deleted"/>
-    </resultMap>
-
 </mapper>

@@ -3,7 +3,6 @@ package com.lgyun.system.user.feign;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.GrantType;
-import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
@@ -12,7 +11,6 @@ import com.lgyun.system.user.dto.MakerAddDto;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
-import com.lgyun.system.user.vo.IndividualBusinessEnterpriseListByMakerVO;
 import com.lgyun.system.user.vo.MakerDetailVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -162,18 +160,11 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R<IPage<EnterprisesIdNameListVO>> findEnterpriseByMakerId(Query query, Long makerId) {
+    public R<IPage<EnterprisesIdNameListVO>> findEnterpriseByMakerId(Integer current, Integer size, Long makerId) {
+        Query query = new Query();
+        query.setCurrent(current);
+        query.setSize(size);
         return iMakerEnterpriseService.findEnterpriseIdNameByMakerId(Condition.getPage(query.setDescs("create_time")), makerId);
-    }
-
-    @Override
-    public R<IPage<IndividualBusinessEnterpriseListByMakerVO>> individualEnterpriseListByMaker(Query query, Long makerId, Ibstate ibstate) {
-        return iIndividualEnterpriseService.listByMaker(query, makerId, ibstate);
-    }
-
-    @Override
-    public R<IPage<IndividualBusinessEnterpriseListByMakerVO>> individualBusinessListByMaker(Query query, Long makerId, Ibstate ibstate) {
-        return iIndividualBusinessService.listByMaker(query, makerId, ibstate);
     }
 
     @Override
@@ -202,8 +193,8 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R<IPage<MakerDetailVO>> getMakerName(Query query, String makerName) {
-        return iMakerService.getMakerName(query, makerName);
+    public R<IPage<MakerDetailVO>> getMakerName(Integer current, Integer size, String makerName) {
+        return iMakerService.getMakerName(current, size, makerName);
     }
 
     @Override

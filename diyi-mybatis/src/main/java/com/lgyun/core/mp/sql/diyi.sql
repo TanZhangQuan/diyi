@@ -1089,6 +1089,7 @@ CREATE TABLE `diyi_self_help_invoice_detail` (
   `self_help_invoice_id` bigint(50) NOT NULL COMMENT '自助开票Id',
   `invoice_people_name` varchar(100) NOT NULL COMMENT '开票人姓名',
   `invoice_people_type` varchar(50) NOT NULL COMMENT '开票人身份类别',
+  `invoice_print_state` varchar(50) NOT NULL COMMENT '开票状态',
   `maker_id` bigint(50) DEFAULT NULL COMMENT '创客ID',
   `none_maker_invoice_person_id` bigint(50) DEFAULT NULL COMMENT '非创客开票人ID',
   `all_kind_enterprise_id` bigint(50) DEFAULT NULL COMMENT '各类企业ID',

@@ -3,11 +3,4 @@
 
 <mapper namespace="${package}.${moduleName}.mapper.${className}Mapper">
 
-    <!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="${package}.${moduleName}.entity.${className}Entity" id="${classname}Map">
-        #foreach($column in $columns)
-        <result property="${column.attrname}" column="${column.columnName}"/>
-        #end
-    </resultMap>
-
 </mapper>

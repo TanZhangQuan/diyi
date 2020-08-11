@@ -3,8 +3,10 @@ package com.lgyun.system.order.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.ApplyState;
+import com.lgyun.common.enumeration.BizType;
 import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.common.enumeration.MakerType;
+import com.lgyun.common.tool.CollectionUtil;
 import com.lgyun.common.tool.KdniaoTrackQueryUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
@@ -15,12 +17,15 @@ import com.lgyun.system.order.vo.PayListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceDetailsVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
+import com.lgyun.system.user.entity.IndividualBusinessEntity;
+import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -79,35 +84,34 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     @Override
     public R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(IPage<SelfHelpInvoiceListVO> page, Long allKindEnterpriseId, InvoicePeopleType invoicePeopleType) {
 
-//        List<SelfHelpInvoiceListVO> selfHelpInvoiceListVOs = baseMapper.selfHelpInvoiceList(allKindEnterpriseId, invoicePeopleType, page);
-//        BizType bizType = null;
-//        switch (invoicePeopleType) {
-//
-//            case INDIVIDUALENTERPRISE:
-//                IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.individualEnterpriseFindById(allKindEnterpriseId);
-//                if (individualEnterpriseEntity != null){
-//                    bizType = individualEnterpriseEntity.getBizType();
-//                }
-//                break;
-//
-//            case INDIVIDUALBUSINESS:
-//                IndividualBusinessEntity individualBusinessEntity = iUserClient.individualBusinessById(allKindEnterpriseId);
-//                if (individualBusinessEntity != null){
-//                    bizType = individualBusinessEntity.getBizType();
-//                }
-//                break;
-//
-//            default:
-//                break;
-//        }
-//
-//        if (bizType != null && CollectionUtil.isNotEmpty(selfHelpInvoiceListVOs)) {
-//            BizType finalBizType = bizType;
-//            selfHelpInvoiceListVOs.forEach(selfHelpInvoiceListVO -> selfHelpInvoiceListVO.setBizType(finalBizType));
-//        }
+        List<SelfHelpInvoiceListVO> selfHelpInvoiceListVOs = baseMapper.selfHelpInvoiceList(allKindEnterpriseId, invoicePeopleType, page);
+        BizType bizType = null;
+        switch (invoicePeopleType) {
 
-//        return R.data(page.setRecords(baseMapper.selfHelpInvoiceList(allKindEnterpriseId, invoicePeopleType, page)));
-        return R.data(page.setRecords(baseMapper.selfHelpInvoiceList(allKindEnterpriseId, invoicePeopleType, page)));
+            case INDIVIDUALENTERPRISE:
+                IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.individualEnterpriseFindById(allKindEnterpriseId);
+                if (individualEnterpriseEntity != null){
+                    bizType = individualEnterpriseEntity.getBizType();
+                }
+                break;
+
+            case INDIVIDUALBUSINESS:
+                IndividualBusinessEntity individualBusinessEntity = iUserClient.individualBusinessById(allKindEnterpriseId);
+                if (individualBusinessEntity != null){
+                    bizType = individualBusinessEntity.getBizType();
+                }
+                break;
+
+            default:
+                break;
+        }
+
+        if (bizType != null && CollectionUtil.isNotEmpty(selfHelpInvoiceListVOs)) {
+            BizType finalBizType = bizType;
+            selfHelpInvoiceListVOs.forEach(selfHelpInvoiceListVO -> selfHelpInvoiceListVO.setBizType(finalBizType));
+        }
+
+        return R.data(page.setRecords(selfHelpInvoiceListVOs));
     }
 
     @Override

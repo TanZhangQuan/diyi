@@ -4,7 +4,6 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.alibaba.fastjson.JSONObject;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
@@ -36,7 +35,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -74,7 +72,7 @@ public class SelfHelpInvoiceController {
             }
             MakerEntity makerEntity = result.getData();
 
-            return iUserClient.findEnterpriseByMakerId(query, makerEntity.getId());
+            return iUserClient.findEnterpriseByMakerId(query.getCurrent(), query.getSize(), makerEntity.getId());
         } catch (Exception e) {
             log.error("根据创客ID查询商户异常", e);
         }

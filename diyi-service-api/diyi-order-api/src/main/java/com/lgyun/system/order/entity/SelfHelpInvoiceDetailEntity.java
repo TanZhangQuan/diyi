@@ -2,6 +2,7 @@ package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.common.enumeration.InvoicePeopleType;
+import com.lgyun.common.enumeration.InvoicePrintState;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,6 +39,11 @@ public class SelfHelpInvoiceDetailEntity extends BaseEntity {
      * 开票人身份类别 1，自然人；2，个体户；3，个独；4，合伙企业；5，有限公司
      */
     private InvoicePeopleType invoicePeopleType;
+
+    /**
+     * 开票状态 1，开票中；2，已开票；3，开票失败
+     */
+    private InvoicePrintState invoicePrintState;
 
     /**
      * 创客ID

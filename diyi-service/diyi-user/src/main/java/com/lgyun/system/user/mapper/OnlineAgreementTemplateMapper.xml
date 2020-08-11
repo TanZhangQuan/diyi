@@ -3,26 +3,4 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.OnlineAgreementTemplateMapper">
 
-    <!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.lgyun.system.user.entity.OnlineAgreementTemplateEntity" id="onlineAgreementTemplateMap">
-        <result property="id" column="id"/>
-        <result property="templateType" column="template_type"/>
-        <result property="templateState" column="template_state"/>
-        <result property="templateSignState" column="template_sign_state"/>
-        <result property="agreementTemplate" column="agreement_template"/>
-        <result property="uploadPerson" column="upload_person"/>
-        <result property="uploadDate" column="upload_date"/>
-        <result property="changeStatePerson" column="change_state_person"/>
-        <result property="shangeStateDate" column="shange_state_date"/>
-        <result property="allMakers" column="all_makers"/>
-        <result property="isContract" column="is_contract"/>
-        <result property="templateCount" column="template_count"/>
-        <result property="createUser" column="create_user"/>
-        <result property="createTime" column="create_time"/>
-        <result property="updateUser" column="update_user"/>
-        <result property="updateTime" column="update_time"/>
-        <result property="status" column="status"/>
-        <result property="isDeleted" column="is_deleted"/>
-    </resultMap>
-
 </mapper>

@@ -3,22 +3,4 @@
 
 <mapper namespace="com.lgyun.system.order.mapper.DeliverMaterialMapper">
 
-    <!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.lgyun.system.order.entity.DeliverMaterialEntity" id="deliverMaterialMap">
-        <result property="id" column="id"/>
-        <result property="paysheetId" column="paysheet_id"/>
-        <result property="materialTitle" column="material_title"/>
-        <result property="materialMemo" column="material_memo"/>
-        <result property="materialUrl" column="material_url"/>
-        <result property="thirdMaterialUrl" column="third_material_url"/>
-        <result property="uploadDateTime" column="upload_date_time"/>
-        <result property="uploadPerson" column="upload_person"/>
-        <result property="createUser" column="create_user"/>
-        <result property="createTime" column="create_time"/>
-        <result property="updateUser" column="update_user"/>
-        <result property="updateTime" column="update_time"/>
-        <result property="status" column="status"/>
-        <result property="isDeleted" column="is_deleted"/>
-    </resultMap>
-
 </mapper>

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.BizType;
+import com.lgyun.common.enumeration.InvoicePrintState;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -35,6 +36,11 @@ public class SelfHelpInvoiceListVO implements Serializable {
      * 开票类目
      */
     private String invoiceType;
+
+    /**
+     * 开票状态 1，开票中；2，已开票；3，开票失败
+     */
+    private InvoicePrintState invoicePrintState;
 
     /**
      * 税种：小规模，一般纳税人
