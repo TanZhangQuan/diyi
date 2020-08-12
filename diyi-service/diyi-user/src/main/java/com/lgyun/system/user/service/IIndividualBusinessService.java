@@ -12,6 +12,7 @@ import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDto;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDto;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.MakerEntity;
+import com.lgyun.system.user.vo.EnterpriseReportsVO;
 import com.lgyun.system.user.vo.IndividualBusinessEnterpriseDetailsVO;
 import com.lgyun.system.user.vo.IndividualBusinessEnterpriseListByMakerVO;
 
@@ -124,5 +125,14 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
      * @return
      */
     IndividualBusinessEntity findByIbtaxNo(String ibtaxNo);
+
+    /**
+     * 查询个体户年审信息
+     *
+     * @param query
+     * @param individualBusinessId
+     * @return
+     */
+    R<IPage<EnterpriseReportsVO>> queryEnterpriseReports(Query query, Long individualBusinessId);
 }
 

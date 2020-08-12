@@ -122,4 +122,17 @@ public class IndividualEnterpriseWebController {
 		return R.fail("新增个独失败");
 	}
 
+	@GetMapping("/query_enterprise_reports")
+	@ApiOperation(value = "查询个独年审信息", notes = "查询个独年审信息")
+	public R queryEnterpriseReports(Query query, @ApiParam(value = "个独ID") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
+
+		log.info("查询个独年审信息");
+		try {
+			return individualEnterpriseService.queryEnterpriseReports(query, individualEnterpriseId);
+		} catch (Exception e) {
+			log.error("查询个独年审信息异常", e);
+		}
+		return R.fail("查询失败");
+	}
+
 }

@@ -122,4 +122,17 @@ public class IndividualBusinessWebController {
         return R.fail("新增个体户失败");
     }
 
+    @GetMapping("/query_enterprise_reports")
+    @ApiOperation(value = "查询个体户年审信息", notes = "查询个体户年审信息")
+    public R queryEnterpriseReports(Query query, @ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
+
+        log.info("查询个体户年审信息");
+        try {
+            return individualBusinessService.queryEnterpriseReports(query, individualBusinessId);
+        } catch (Exception e) {
+            log.error("查询个体户年审信息异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
 }

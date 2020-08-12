@@ -4,10 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.BizType;
-import com.lgyun.common.enumeration.Ibstate;
-import com.lgyun.common.enumeration.InvoicePeopleType;
-import com.lgyun.common.enumeration.VerifyStatus;
+import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Query;
@@ -20,8 +17,10 @@ import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDto;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.mapper.IndividualEnterpriseMapper;
+import com.lgyun.system.user.service.IEnterpriseReportService;
 import com.lgyun.system.user.service.IIndividualEnterpriseService;
 import com.lgyun.system.user.service.IMakerService;
+import com.lgyun.system.user.vo.EnterpriseReportsVO;
 import com.lgyun.system.user.vo.IndividualBusinessEnterpriseDetailsVO;
 import com.lgyun.system.user.vo.IndividualBusinessEnterpriseListByMakerVO;
 import lombok.AllArgsConstructor;
@@ -43,6 +42,7 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
 
     private IOrderClient orderClient;
     private IMakerService makerService;
+    private IEnterpriseReportService enterpriseReportService;
 
     @Override
     public R<String> save(IndividualBusinessEnterpriseAddDto individualBusinessEnterpriseAddDto, MakerEntity makerEntity) {
@@ -163,6 +163,11 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
         QueryWrapper<IndividualEnterpriseEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(IndividualEnterpriseEntity::getIbtaxNo, ibtaxNo);
         return baseMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public R<IPage<EnterpriseReportsVO>> queryEnterpriseReports(Query query, Long individualBusinessId) {
+        return enterpriseReportService.findByBodyTypeAndBodyId(query, BodyType.INDIVIDUALBUSINESS, individualBusinessId);
     }
 
 }
