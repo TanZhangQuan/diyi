@@ -31,18 +31,6 @@ public class IndividualBusinessEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 年费ID
-     */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long annualFeeId;
-
-    /**
-     * 年费年度
-     */
-    @JsonFormat(pattern = "yyyy", timezone = "GMT+8")
-    private Date annualFeeYear;
-
-    /**
      * 创客ID
      */
     @JsonSerialize(using = ToStringSerializer.class)

@@ -28,6 +28,11 @@ public class IndividualBusinessEnterpriseDetailsVO implements Serializable {
     private Long id;
 
     /**
+     * 服务商名称
+     */
+    private String serviceProviderName;
+
+    /**
      * 个体户名称
      */
     private String ibname;
@@ -61,21 +66,6 @@ public class IndividualBusinessEnterpriseDetailsVO implements Serializable {
      * 经营者
      */
     private String bizName;
-
-    /**
-     * 经营者身份证号码
-     */
-    private String bizIdcardNo;
-
-    /**
-     * 联系人姓名
-     */
-    private String contactName;
-
-    /**
-     * 联系人手机号
-     */
-    private String contactPhone;
 
     /**
      * 注册资金

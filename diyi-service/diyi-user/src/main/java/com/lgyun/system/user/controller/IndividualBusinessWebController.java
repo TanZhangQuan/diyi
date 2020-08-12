@@ -120,7 +120,6 @@ public class IndividualBusinessWebController {
             log.error("当前商户申请创建个体户异常", e);
         }
         return R.fail("新增个体户失败");
-
     }
 
 }
