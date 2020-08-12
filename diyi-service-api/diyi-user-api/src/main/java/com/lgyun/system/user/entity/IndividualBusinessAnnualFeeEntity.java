@@ -2,8 +2,6 @@ package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.AnnualFeeState;
 import com.lgyun.common.tool.DateUtil;
 import com.lgyun.core.mp.base.BaseEntity;
@@ -32,19 +30,16 @@ public class IndividualBusinessAnnualFeeEntity extends BaseEntity {
     /**
      * 年费年度
      */
-    @JsonFormat(pattern = "yyyy", timezone = "GMT+8")
-    private Date annualFeeYear;
+    private Integer annualFeeYear;
 
     /**
      * 个体户ID
      */
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long individualBusinessId;
 
     /**
      * 创客ID
      */
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long makerId;
 
     /**

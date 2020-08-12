@@ -401,7 +401,7 @@ CREATE TABLE `diyi_individual_business` (
 DROP TABLE IF EXISTS `diyi_individual_business_annual_fee`;
 CREATE TABLE `diyi_individual_business_annual_fee` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `annual_fee_year` datetime NOT NULL COMMENT '年费年度',
+  `annual_fee_year` int(5) NOT NULL COMMENT '年费年度',
   `individual_business_id` bigint(50) NOT NULL COMMENT '个体户ID',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
   `annual_fee_date_time` datetime NOT NULL COMMENT '年费缴纳日期',
@@ -474,7 +474,7 @@ CREATE TABLE `diyi_individual_enterprise` (
 DROP TABLE IF EXISTS `diyi_individual_enterprise_annual_fee`;
 CREATE TABLE `diyi_individual_enterprise_annual_fee` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `annual_fee_year` datetime NOT NULL COMMENT '年费年度',
+  `annual_fee_year` int(5) NOT NULL COMMENT '年费年度',
   `individual_enterprise_id` bigint(50) NOT NULL COMMENT '个独ID',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
   `annual_fee_date_time` datetime NOT NULL COMMENT '年费缴纳日期',

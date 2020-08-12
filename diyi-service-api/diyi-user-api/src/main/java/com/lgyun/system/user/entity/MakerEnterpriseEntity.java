@@ -2,8 +2,6 @@ package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.enumeration.RelType;
 import com.lgyun.common.enumeration.RelationshipType;
@@ -31,19 +29,16 @@ public class MakerEnterpriseEntity extends BaseEntity {
     /**
      * 商户ID
      */
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
 
     /**
      * 创客ID
      */
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long makerId;
 
     /**
      * 外包岗位ID
      */
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long positionId;
 
     /**

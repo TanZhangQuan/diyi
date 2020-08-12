@@ -1,8 +1,6 @@
 package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.Gender;
 import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.core.mp.base.BaseEntity;
@@ -48,7 +46,6 @@ public class EmployeeEntity extends BaseEntity {
     /**
      * 上级主管
      */
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long upLevelId;
 
     /**

@@ -1,8 +1,6 @@
 package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.BusinessPattern;
 import com.lgyun.common.enumeration.CreateType;
@@ -187,13 +185,11 @@ public class EnterpriseEntity extends BaseEntity {
     /**
      * 营销人员
      */
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long salerId;
 
     /**
      * 运营人员
      */
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long runnerId;
 
     /**
@@ -214,7 +210,6 @@ public class EnterpriseEntity extends BaseEntity {
     /**
      * 商铺ID
      */
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long shopId;
 
     /**

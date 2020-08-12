@@ -1,8 +1,6 @@
 package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.AcceptPaysheetType;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -29,7 +27,6 @@ public class AcceptPaysheetEntity extends BaseEntity {
     /**
      * 支付清单ID
      */
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long payEnterpriseId;
 
     /**
@@ -50,7 +47,6 @@ public class AcceptPaysheetEntity extends BaseEntity {
     /**
      * 创客ID
      */
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long makerId;
 
     /**

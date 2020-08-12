@@ -3,8 +3,6 @@ package com.lgyun.system.user.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.DateUtil;
 import com.lgyun.core.mp.base.BaseEntity;
@@ -259,7 +257,6 @@ public class MakerEntity extends BaseEntity {
     /**
      * 商铺ID
      */
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long shopId;
 
     /**
@@ -291,7 +288,6 @@ public class MakerEntity extends BaseEntity {
     /**
      * 审核人员
      */
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long videoAuditPersonId;
 
 }

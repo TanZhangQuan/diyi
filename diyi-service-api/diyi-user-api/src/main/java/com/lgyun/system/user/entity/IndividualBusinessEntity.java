@@ -39,7 +39,6 @@ public class IndividualBusinessEntity extends BaseEntity {
     /**
      * 服务商ID
      */
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long serviceProviderId;
 
     /**
