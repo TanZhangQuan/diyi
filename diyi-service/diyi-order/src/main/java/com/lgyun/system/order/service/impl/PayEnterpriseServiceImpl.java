@@ -2,8 +2,10 @@ package com.lgyun.system.order.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.ApplicationState;
 import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.common.enumeration.WorksheetState;
+import com.lgyun.common.tool.KdniaoTrackQueryUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
@@ -11,11 +13,18 @@ import com.lgyun.system.order.dto.AcceptPaysheetSaveDto;
 import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
 import com.lgyun.system.order.dto.PayEnterpriseListDto;
 import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
+import com.lgyun.system.order.dto.PayListDto;
+import com.lgyun.system.order.entity.InvoiceApplicationEntity;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.entity.PayEnterpriseReceiptEntity;
 import com.lgyun.system.order.entity.WorksheetEntity;
 import com.lgyun.system.order.mapper.PayEnterpriseMapper;
 import com.lgyun.system.order.service.*;
+import com.lgyun.system.order.vo.*;
+import com.lgyun.system.order.service.IInvoiceApplicationService;
+import com.lgyun.system.order.service.IPayEnterpriseReceiptService;
+import com.lgyun.system.order.service.IPayEnterpriseService;
+import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.entity.EnterpriseProviderEntity;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
@@ -25,6 +34,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Service 实现
@@ -42,6 +53,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     private IUserClient userClient;
     private IAcceptPaysheetService acceptPaysheetService;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
+    private IInvoiceApplicationService invoiceApplicationService;
 
     @Override
     public R<IPage<InvoiceEnterpriseVO>> getEnterpriseAll(Long makerId, IPage<InvoiceEnterpriseVO> page) {
@@ -155,5 +167,53 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     @Override
     public R<IPage<PayEnterpriseListVO>> getSelfHelfInvoiceByEnterpriseId(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<PayEnterpriseListVO> page) {
         return selfHelpInvoiceService.getSelfHelfInvoiceByEnterpriseId(enterpriseId, selfHelpInvoicePayDto, page);
+    }
+
+    @Override
+    public R findEnterpriseLumpSumInvoice(String invoiceSerialNo,String serviceProviderName,String startTime,String endTime,Long enterpriseId, IPage<EnterpriseLumpSumInvoiceVO> page) {
+        IPage<EnterpriseLumpSumInvoiceVO> enterpriseLumpSumInvoiceVOIPage = page.setRecords(baseMapper.findEnterpriseLumpSumInvoice(invoiceSerialNo, serviceProviderName, startTime, endTime, enterpriseId, page));
+        List<EnterpriseLumpSumInvoiceVO> records = enterpriseLumpSumInvoiceVOIPage.getRecords();
+        for (EnterpriseLumpSumInvoiceVO enterpriseLumpSumInvoiceVO: records) {
+            String enterprisePayReceiptUrl = payEnterpriseReceiptService.findEnterprisePayReceiptUrl(enterpriseLumpSumInvoiceVO.getPayEnterpriseId());
+            enterpriseLumpSumInvoiceVO.setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
+        }
+        return R.data(enterpriseLumpSumInvoiceVOIPage);
+    }
+
+    @Override
+    public R withdraw(Long applicationId) {
+        InvoiceApplicationEntity invoiceApplicationEntity = invoiceApplicationService.getById(applicationId);
+        if(null == invoiceApplicationEntity){
+            return R.fail("申请不存在");
+        }
+        invoiceApplicationEntity.setApplicationState(ApplicationState.CANCELLED);
+        invoiceApplicationService.saveOrUpdate(invoiceApplicationEntity);
+        return R.success("取消成功");
+    }
+
+    @Override
+    public R findPayEnterpriseDetails(Long payEnterpriseId) {
+        EnterpriseLumpSumInvoiceVO payEnterpriseDetails = baseMapper.findPayEnterpriseDetails(payEnterpriseId);
+        String enterprisePayReceiptUrl = payEnterpriseReceiptService.findEnterprisePayReceiptUrl(payEnterpriseId);
+        payEnterpriseDetails.setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
+        KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
+        try{
+            String orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(payEnterpriseDetails.getEnterpriseName(), payEnterpriseDetails.getInvoiceSerialNo());
+            payEnterpriseDetails.setKOrderTracesByJson(orderTracesByJson);
+        }catch (Exception e){
+            log.info("快鸟接口访问失败");
+        }
+        return R.data(payEnterpriseDetails);
+    }
+
+    @Override
+    public R findEnterprisePaymentList(Long enterpriseId,String serviceProviderName,IPage<EnterprisePaymentListVO> page) {
+        IPage<EnterprisePaymentListVO> enterprisePaymentListVOIPage = page.setRecords(baseMapper.findEnterprisePaymentList(enterpriseId, serviceProviderName, page));
+        List<EnterprisePaymentListVO> records = enterprisePaymentListVOIPage.getRecords();
+        for (EnterprisePaymentListVO enterprisePaymentListVO: records) {
+            String enterprisePayReceiptUrl = payEnterpriseReceiptService.findEnterprisePayReceiptUrl(enterprisePaymentListVO.getPayEnterpriseId());
+            enterprisePaymentListVO.setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
+        }
+        return R.data(enterprisePaymentListVOIPage);
     }
 }

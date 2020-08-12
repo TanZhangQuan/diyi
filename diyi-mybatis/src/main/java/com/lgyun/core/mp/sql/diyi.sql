@@ -868,6 +868,7 @@ CREATE TABLE `diyi_pay_enterprise` (
   `pay_confirm_date_time` datetime DEFAULT NULL COMMENT '支付确认日期时间',
   `confirm_date_time` datetime DEFAULT NULL COMMENT '确认回款日期时间',
   `employee_id` bigint(50) DEFAULT NULL COMMENT '确认到款人员ID',
+  `audit_state` varchar(20) NOT NULL COMMENT '1，编辑中；2，已提交；3，审核通过；4，已驳回。驳回的还可以再提交审核',
   `company_invoice_state` varchar(50) NOT NULL COMMENT '开票状态：未开，已开',
   `invoice_print_date` datetime DEFAULT NULL COMMENT '开票日期',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
@@ -1907,3 +1908,132 @@ CREATE TABLE `sys_user` (
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user` VALUES ('1123598821738675201', 'ADMIN', '000000', '', 'admin', '90b9aa7e25f80cf4f64e990b78a9fc5ebd6cecad', '管理员', '管理员', '', 'admin@bladex.vip', '22233322', '2018-08-08 00:00:00', '1', '1123598816738675201', '1123598813738675201', '1123598817738675201', null, '2018-08-08 00:00:00', null, '2018-08-08 00:00:00', '1', '0');
+
+
+CREATE TABLE `diyi_self_help_invoice_apply` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `self_help_invoice_id` bigint(50) NOT NULL COMMENT '自助开票主表id',
+  `apply_date` datetime NOT NULL COMMENT '申请日期',
+  `apply_state` varchar(100) NOT NULL COMMENT '申请状态',
+  `apply_desc` varchar(500) NOT NULL COMMENT '申请说明',
+  `audit_desc` varchar(500) NOT NULL COMMENT '审核说明',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自助开票申请：记录自助开票主表的申请记录情况';
+
+
+CREATE TABLE `diyi_PLATFORM_INVOICE_PAY_LIST` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `invoice_print_id` bigint(50) NOT NULL COMMENT '开票ID',
+  `pay_enterprise_id` bigint(50) NOT NULL COMMENT '支付清单ID',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='记录服务商开具给商户的总包发票关联的支付清单';
+
+
+CREATE TABLE `diyi_platform_invoice_list` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `invoice_print_id` bigint(50) NOT NULL COMMENT '开票ID',
+  `invoice_type_no` varchar(100) NOT NULL COMMENT '发票代码',
+  `invoice_serial_no` varchar(100) NOT NULL COMMENT '发票号码',
+  `invoice_datetime` datetime NOT NULL COMMENT '开票日期',
+  `invoice_category` varchar(400) NOT NULL COMMENT '货物或应税劳务、服务名称',
+  `total_amount` decimal(12,2) NOT NULL COMMENT '价税合计',
+  `sales_amount` decimal(12,2) NOT NULL COMMENT '金额合计',
+  `tax_amount` decimal(12,2) NOT NULL COMMENT '税额合计',
+  `invoice_person` varchar(100) NOT NULL COMMENT '开票人',
+  `sale_company` varchar(100) NOT NULL COMMENT '销售方名称',
+  `company_invoice_url` varchar(100) NOT NULL COMMENT '总包发票URL',
+  `company_voice_upload_datetime` datetime NOT NULL COMMENT '发票上传日期',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='记录服务商开具给商户的总包发票';
+
+CREATE TABLE `diyi_platform_invoice` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `application_id` bigint(50) NOT NULL COMMENT '总包开票申请ID',
+`invoice_print_date` datetime NOT NULL COMMENT '开票日期',
+`invoice_total_amount` decimal(12,2) NOT NULL COMMENT '开票总额',
+`invoice_numbers` int(11) NOT NULL COMMENT '发票张数',
+  `invoice_print_person` varchar(50) NOT NULL COMMENT '开票人',
+  `express_sheet_no` varchar(50) NOT NULL COMMENT '快递单号',
+  `express_company_name` varchar(50) DEFAULT NULL COMMENT '快递公司',
+  `express_update_datetime` datetime DEFAULT NULL COMMENT '快递更新日期',
+  `express_update_person` datetime DEFAULT NULL COMMENT '快递更新人员',
+  `express_update_person_tel` varchar(50) NOT NULL COMMENT '快递更新人员电话',
+  `express_update_personTel` varchar(50) NOT NULL COMMENT '快递更新人员电话',
+    `invoice_desc` varchar(50) NOT NULL COMMENT '开票说明',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='总包发票信息：记录服务商开具给商户的总包发票，一次开票可能多个清单一起';
+
+
+CREATE TABLE `diyi_INVOICE_APPLICATION_PAY_LIST` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `application_id` bigint(50) NOT NULL COMMENT '总包开票申请ID',
+  `pay_enterprise_id` bigint(50) NOT NULL COMMENT '支付清单ID',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='总包开票申请关联的支付清单';
+
+
+CREATE TABLE `diyi_invoice_application` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `invoice_catalog_id` bigint(50) NOT NULL COMMENT '开票类目ID',
+  `application_date` datetime NOT NULL COMMENT '申请日期',
+  `application_person` varchar(50) NOT NULL COMMENT '申请人',
+  `voice_total_amount` decimal(12,2) NOT NULL COMMENT '开票总额',
+  `application_desc` varchar(100) NOT NULL COMMENT '申请说明',
+  `application_state` varchar(50) NOT NULL COMMENT '处理状态 1,申请中；2，已拒绝；3，已全额开具；4，已部分开具，5已取消',
+  `application_handle_desc` varchar(1000) NOT NULL COMMENT '处理说明',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='开票申请：记录商户的总包开票申请';
+
+
+CREATE TABLE `diyi_enterprise_provider_invoice_catalogs` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `enterprise_id` bigint(50) NOT NULL COMMENT '商户ID',
+  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
+  `invoice_catalog_name` varchar(50) NOT NULL COMMENT '发票类目名称',
+  `set_date` datetime DEFAULT NULL COMMENT '设置日期',
+  `set_person` varchar(50) DEFAULT NULL COMMENT '设置人员',
+  `set_type` varchar(50) NOT NULL DEFAULT '1' COMMENT '设置性质',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[1:正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商户-服务商开票类目：记录商户在特定服务商的开票类目';

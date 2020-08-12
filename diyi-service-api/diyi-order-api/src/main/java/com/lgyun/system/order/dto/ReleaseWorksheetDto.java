@@ -75,4 +75,13 @@ public class ReleaseWorksheetDto implements Serializable {
      */
     private String MakerIds;
 
+    /**
+     * 工单说明
+     */
+    private String worksheetMemo;
+
+    /**
+     * 工单图文说明
+     */
+    private String worksheetDescFiles;
 }

@@ -12,6 +12,7 @@ import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
+import com.lgyun.system.order.vo.*;
 
 /**
  * Service 接口
@@ -86,6 +87,29 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @return
      */
     R<IPage<PayEnterpriseMakerListVO>> getMakers(Long payEnterpriseId, IPage<PayEnterpriseMakerListVO> page);
+
+    /**
+     * 根据商户查询总包发票
+     * @param enterpriseId
+     * @param page
+     * @return
+     */
+    R<IPage<EnterpriseLumpSumInvoiceVO>> findEnterpriseLumpSumInvoice(String invoiceSerialNo,String serviceProviderName,String startTime,String endTime,Long enterpriseId,IPage<EnterpriseLumpSumInvoiceVO> page);
+
+    /**
+     * 取消申请
+     */
+    R withdraw(Long applicationId);
+
+    /**
+     * 查看总包发票详情
+     */
+    R findPayEnterpriseDetails(Long payEnterpriseId);
+
+    /**
+     * 根据商户查询支付清单
+     */
+    R findEnterprisePaymentList(Long enterpriseId,String serviceProviderName,IPage<EnterprisePaymentListVO> page);
 
     /**
      * 获取当前商户所有已完毕的总包+分包类型的工单
