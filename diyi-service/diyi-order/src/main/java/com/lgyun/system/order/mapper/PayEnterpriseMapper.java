@@ -3,13 +3,7 @@ package com.lgyun.system.order.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.order.dto.PayEnterpriseListDto;
-import com.lgyun.common.api.R;
-import com.lgyun.system.order.dto.PayListDto;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
-import com.lgyun.system.order.vo.InvoiceEnterpriseVO;
-import com.lgyun.system.order.vo.PayEnterpriseMakerListVO;
-import com.lgyun.system.order.vo.PayEnterpriseStatisticalVO;
-import com.lgyun.system.order.vo.PayEnterpriseListVO;
 import com.lgyun.system.order.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -85,7 +79,6 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * @param enterpriseId
      */
     List<EnterpriseLumpSumInvoiceVO> findEnterpriseLumpSumInvoice(String invoiceSerialNo,String serviceProviderName,String startTime,String endTime,Long enterpriseId,IPage<EnterpriseLumpSumInvoiceVO> page);
-
 
     /**
      * 查看总包发票详情
