@@ -6,10 +6,7 @@ import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
 import com.lgyun.system.order.dto.PayListDto;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
-import com.lgyun.system.order.vo.InvoiceEnterpriseVO;
-import com.lgyun.system.order.vo.PayEnterpriseMakerListVO;
-import com.lgyun.system.order.vo.PayEnterpriseStatisticalVO;
-import com.lgyun.system.order.vo.PayListVO;
+import com.lgyun.system.order.vo.*;
 
 /**
  *  Service 接口
@@ -84,5 +81,28 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @return
      */
     R<IPage<PayEnterpriseMakerListVO>> getMakers(Long payEnterpriseId, IPage<PayEnterpriseMakerListVO> page);
+
+    /**
+     * 根据商户查询总包发票
+     * @param enterpriseId
+     * @param page
+     * @return
+     */
+    R<IPage<EnterpriseLumpSumInvoiceVO>> findEnterpriseLumpSumInvoice(String invoiceSerialNo,String serviceProviderName,String startTime,String endTime,Long enterpriseId,IPage<EnterpriseLumpSumInvoiceVO> page);
+
+    /**
+     * 取消申请
+     */
+    R withdraw(Long applicationId);
+
+    /**
+     * 查看总包发票详情
+     */
+    R findPayEnterpriseDetails(Long payEnterpriseId);
+
+    /**
+     * 根据商户查询支付清单
+     */
+    R findEnterprisePaymentList(Long enterpriseId,String serviceProviderName,IPage<EnterprisePaymentListVO> page);
 }
 

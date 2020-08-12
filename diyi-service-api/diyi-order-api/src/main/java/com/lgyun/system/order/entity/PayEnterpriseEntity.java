@@ -1,6 +1,7 @@
 package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.lgyun.common.enumeration.AuditState;
 import com.lgyun.common.enumeration.EnterprisePayState;
 import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.core.mp.base.BaseEntity;
@@ -106,6 +107,10 @@ public class PayEnterpriseEntity extends BaseEntity {
      */
     private Long employeeId;
 
+    /**
+     *1，编辑中；2，已提交；3，审核通过；4，已驳回。驳回的还可以再提交审核
+     */
+    private AuditState auditState;
     /**
      * 开票状态：未开，已开
      */
