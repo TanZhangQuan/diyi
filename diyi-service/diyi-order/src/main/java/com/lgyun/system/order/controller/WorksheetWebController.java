@@ -2,11 +2,13 @@ package com.lgyun.system.order.controller;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.WorksheetState;
+import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.ReleaseWorksheetDto;
 import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.order.service.IWorksheetService;
+import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,9 +43,16 @@ public class WorksheetWebController {
 
     @PostMapping("/releaseWorksheet")
     @ApiOperation(value = "发布工单", notes = "发布工单")
-    public R releaseWorksheet(@Valid @RequestBody ReleaseWorksheetDto releaseWorksheetDTO) {
+    public R releaseWorksheet(@Valid @RequestBody ReleaseWorksheetDto releaseWorksheetDTO,BladeUser bladeUser) {
         log.info("发布工单");
         try {
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+            releaseWorksheetDTO.setEnterpriseId(enterpriseWorkerEntity.getEnterpriseId());
             return worksheetService.releaseWorksheet(releaseWorksheetDTO);
         } catch (Exception e) {
             log.error("发布订单失败", e);
@@ -67,7 +76,7 @@ public class WorksheetWebController {
 
     @GetMapping("getEnterpriseWorksheet")
     @ApiOperation(value = "根据工单状态和商户id查询", notes = "根据工单状态和商户id查询")
-    public R getEnterpriseWorksheet(Query query, Long enterpriseId,
+    public R getEnterpriseWorksheet(Query query, BladeUser bladeUser,
                                     @NotNull(message = "请输入工单的状态") @RequestParam(required = false) WorksheetState worksheetState,
                                     @RequestParam(required = false) String worksheetNo,
                                     @RequestParam(required = false) String worksheetName,
@@ -75,7 +84,13 @@ public class WorksheetWebController {
                                     @RequestParam(required = false) String endTime) {
         log.info("根据工单状态和商户id查询");
         try {
-            return worksheetService.getEnterpriseWorksheet(Condition.getPage(query.setDescs("create_time")), enterpriseId, worksheetState, worksheetNo, worksheetName, startTime, endTime);
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+            return worksheetService.getEnterpriseWorksheet(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), worksheetState, worksheetNo, worksheetName, startTime, endTime);
         } catch (Exception e) {
             log.error("根据工单状态和商户id查询失败", e);
         }
@@ -150,11 +165,17 @@ public class WorksheetWebController {
     @ApiOperation(value = "验收工作成果", notes = "验收工作成果")
     public R checkAchievement(@NotNull(message = "请输入id") @RequestParam(required = false) Long worksheetMakerId,
                               @NotNull(message = "请输入验证金额") @RequestParam(required = false) BigDecimal checkMoney,
-                              @NotNull(message = "请输入商户id") @RequestParam(required = false) Long enterpriseId,
-                              @NotNull(message = "请输入验收的结果") @RequestParam(required = false) Boolean bool) {
+                              @NotNull(message = "请输入验收的结果") @RequestParam(required = false) Boolean bool,
+                              BladeUser bladeUser) {
         log.info("验收工作成果");
         try {
-            return worksheetMakerService.checkAchievement(worksheetMakerId, checkMoney, enterpriseId, bool);
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+            return worksheetMakerService.checkAchievement(worksheetMakerId, checkMoney, enterpriseWorkerEntity.getEnterpriseId(), bool);
         } catch (Exception e) {
             log.info("验收工作成果失败");
         }
