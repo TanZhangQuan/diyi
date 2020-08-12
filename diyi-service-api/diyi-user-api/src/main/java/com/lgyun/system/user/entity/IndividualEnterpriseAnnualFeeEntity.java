@@ -30,6 +30,12 @@ public class IndividualEnterpriseAnnualFeeEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 年费年度
+     */
+    @JsonFormat(pattern = "yyyy", timezone = "GMT+8")
+    private Date annualFeeYear;
+
+    /**
      * 个独ID
      */
     @JsonSerialize(using = ToStringSerializer.class)

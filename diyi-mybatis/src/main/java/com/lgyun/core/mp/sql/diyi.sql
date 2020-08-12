@@ -325,8 +325,6 @@ CREATE TABLE `diyi_enterprise_worker` (
 DROP TABLE IF EXISTS `diyi_individual_business`;
 CREATE TABLE `diyi_individual_business` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `annual_fee_id` bigint(50) DEFAULT NULL COMMENT '年费ID',
-  `annual_fee_year` datetime DEFAULT NULL COMMENT '年费年度',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
   `service_provider_id` bigint(50) DEFAULT NULL COMMENT '服务商ID',
   `biz_type` varchar(50) NOT NULL COMMENT '个体户税种：小规模',
@@ -370,6 +368,7 @@ CREATE TABLE `diyi_individual_business` (
 DROP TABLE IF EXISTS `diyi_individual_business_annual_fee`;
 CREATE TABLE `diyi_individual_business_annual_fee` (
   `id` bigint(50) NOT NULL COMMENT '主键',
+  `annual_fee_year` datetime NOT NULL COMMENT '年费年度',
   `individual_business_id` bigint(50) NOT NULL COMMENT '个体户ID',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
   `annual_fee_date_time` datetime NOT NULL COMMENT '年费缴纳日期',
@@ -398,8 +397,6 @@ CREATE TABLE `diyi_individual_business_annual_fee` (
 DROP TABLE IF EXISTS `diyi_individual_enterprise`;
 CREATE TABLE `diyi_individual_enterprise` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `annual_fee_id` bigint(50) DEFAULT NULL COMMENT '年费ID',
-  `annual_fee_year` datetime DEFAULT NULL COMMENT '年费年度',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
   `service_provider_id` bigint(50) DEFAULT NULL COMMENT '服务商ID',
   `biz_type` varchar(50) NOT NULL COMMENT '个独税种：小规模，一般纳税人',
@@ -444,6 +441,7 @@ CREATE TABLE `diyi_individual_enterprise` (
 DROP TABLE IF EXISTS `diyi_individual_enterprise_annual_fee`;
 CREATE TABLE `diyi_individual_enterprise_annual_fee` (
   `id` bigint(50) NOT NULL COMMENT '主键',
+  `annual_fee_year` datetime NOT NULL COMMENT '年费年度',
   `individual_enterprise_id` bigint(50) NOT NULL COMMENT '个独ID',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
   `annual_fee_date_time` datetime NOT NULL COMMENT '年费缴纳日期',
