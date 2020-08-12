@@ -17,7 +17,7 @@ import java.util.Date;
  */
 @Data
 @ApiModel(value = "PayListVO对象", description = "PayListVO对象")
-public class PayListVO implements Serializable {
+public class PayEnterpriseListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //支付清单编号

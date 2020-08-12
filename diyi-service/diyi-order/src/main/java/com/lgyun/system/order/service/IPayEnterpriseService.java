@@ -2,17 +2,19 @@ package com.lgyun.system.order.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.core.mp.base.BaseService;
+import com.lgyun.core.mp.support.Query;
+import com.lgyun.system.order.dto.AcceptPaysheetSaveDto;
 import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
-import com.lgyun.system.order.dto.PayListDto;
+import com.lgyun.system.order.dto.PayEnterpriseListDto;
+import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
-import com.lgyun.system.order.vo.InvoiceEnterpriseVO;
-import com.lgyun.system.order.vo.PayEnterpriseMakerListVO;
-import com.lgyun.system.order.vo.PayEnterpriseStatisticalVO;
-import com.lgyun.system.order.vo.PayListVO;
+import com.lgyun.system.order.vo.*;
+import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 
 /**
- *  Service 接口
+ * Service 接口
  *
  * @author liangfeihu
  * @since 2020-07-17 20:01:13
@@ -26,7 +28,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @param page
      * @return
      */
-    R<IPage<InvoiceEnterpriseVO>> getEnterpriseAll(Long makerId,IPage<InvoiceEnterpriseVO> page);
+    R<IPage<InvoiceEnterpriseVO>> getEnterpriseAll(Long makerId, IPage<InvoiceEnterpriseVO> page);
 
 
     /**
@@ -37,7 +39,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @param page
      * @return
      */
-    R<IPage<InvoiceEnterpriseVO>> getEnterpriseMakerIdAll(Long makerId,Long enterpriseId,IPage<InvoiceEnterpriseVO> page);
+    R<IPage<InvoiceEnterpriseVO>> getEnterpriseMakerIdAll(Long makerId, Long enterpriseId, IPage<InvoiceEnterpriseVO> page);
 
     /**
      * 根据创客id,商户id和创客支付id查询票的详情
@@ -47,7 +49,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @param payMakerId
      * @return
      */
-    R<InvoiceEnterpriseVO> getEnterpriseMakerIdDetail(Long makerId,Long enterpriseId,Long payMakerId);
+    R<InvoiceEnterpriseVO> getEnterpriseMakerIdDetail(Long makerId, Long enterpriseId, Long payMakerId);
 
     /**
      * 获取交付清单统计数据
@@ -70,11 +72,11 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * 查询当前商户所有总包支付清单
      *
      * @param enterpriseId
-     * @param payListDto
+     * @param payEnterpriseListDto
      * @param page
      * @return
      */
-    R<IPage<PayListVO>> getPayEnterprisesByEnterprise(Long enterpriseId, PayListDto payListDto, IPage<PayListVO> page);
+    R<IPage<PayEnterpriseListVO>> getPayEnterprisesByEnterprise(Long enterpriseId, PayEnterpriseListDto payEnterpriseListDto, IPage<PayEnterpriseListVO> page);
 
     /**
      * 根据支付清单ID查询支付清单关联工单的创客
@@ -84,5 +86,46 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @return
      */
     R<IPage<PayEnterpriseMakerListVO>> getMakers(Long payEnterpriseId, IPage<PayEnterpriseMakerListVO> page);
+
+    /**
+     * 获取当前商户所有已完毕的总包+分包类型的工单
+     *
+     * @param query
+     * @param enterpriseId
+     * @param subpackage
+     * @param worksheetNo
+     * @param worksheetName
+     * @return
+     */
+    R<IPage<WorksheetByEnterpriseVO>> getWorksheetByEnterpriseId(Query query, Long enterpriseId, WorkSheetType subpackage, String worksheetNo, String worksheetName);
+
+    /**
+     * 获取当前商户关联服务商
+     *
+     * @param query
+     * @param enterpriseId
+     * @param serviceProviderName
+     * @return
+     */
+    R getServiceProviderByEnterpriseId(Query query, Long enterpriseId, String serviceProviderName);
+
+    /**
+     * 上传总包交付支付验收单
+     *
+     * @param acceptPaysheet
+     * @param enterpriseWorkerEntity
+     * @return
+     */
+    R<String> uploadAcceptPaysheet(AcceptPaysheetSaveDto acceptPaysheet, EnterpriseWorkerEntity enterpriseWorkerEntity);
+
+    /**
+     * 查询当前商户所有自主开票记录(众包)
+     *
+     * @param enterpriseId
+     * @param selfHelpInvoicePayDto
+     * @param page
+     * @return
+     */
+    R<IPage<PayEnterpriseListVO>> getSelfHelfInvoiceByEnterpriseId(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<PayEnterpriseListVO> page);
 }
 

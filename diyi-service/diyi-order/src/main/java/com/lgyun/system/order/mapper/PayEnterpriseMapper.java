@@ -2,12 +2,12 @@ package com.lgyun.system.order.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.system.order.dto.PayListDto;
+import com.lgyun.system.order.dto.PayEnterpriseListDto;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.InvoiceEnterpriseVO;
 import com.lgyun.system.order.vo.PayEnterpriseMakerListVO;
 import com.lgyun.system.order.vo.PayEnterpriseStatisticalVO;
-import com.lgyun.system.order.vo.PayListVO;
+import com.lgyun.system.order.vo.PayEnterpriseListVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -62,11 +62,11 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * 查询当前商户所有总包支付清单
      *
      * @param enterpriseId
-     * @param payListDto
+     * @param payEnterpriseListDto
      * @param page
      * @return
      */
-    List<PayListVO> getPayEnterprisesByEnterprise(Long enterpriseId, PayListDto payListDto, IPage<PayListVO> page);
+    List<PayEnterpriseListVO> getPayEnterprisesByEnterprise(Long enterpriseId, PayEnterpriseListDto payEnterpriseListDto, IPage<PayEnterpriseListVO> page);
 
     /**
      * 根据支付清单ID查询支付清单关联工单的创客

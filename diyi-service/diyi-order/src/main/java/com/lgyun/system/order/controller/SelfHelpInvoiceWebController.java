@@ -14,14 +14,14 @@ import com.lgyun.system.feign.IDictClient;
 import com.lgyun.system.order.dto.AddressDto;
 import com.lgyun.system.order.dto.ConfirmPaymentDto;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDto;
-import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
 import com.lgyun.system.order.excel.InvoiceListExcel;
 import com.lgyun.system.order.excel.InvoiceListListener;
 import com.lgyun.system.order.service.*;
-import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
@@ -236,31 +236,6 @@ public class SelfHelpInvoiceWebController {
             log.error("识别失败", e);
         }
         return R.data(jsonObject);
-    }
-
-
-    @GetMapping("/get_by_dto_enterprise")
-    @ApiOperation(value = "查询当前商户所有自主开票记录(众包)", notes = "查询当前商户所有自主开票记录(众包)")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
-            @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
-    })
-    public R getByDtoEnterprise(SelfHelpInvoicePayDto selfHelpInvoicePayDto, Query query, BladeUser bladeUser) {
-
-        log.info("查询当前商户所有自主开票记录(众包)");
-        try {
-            //获取当前商户员工
-            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())) {
-                return result;
-            }
-            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-            return selfHelpInvoiceService.getByDtoEnterprise(enterpriseWorkerEntity.getEnterpriseId(), selfHelpInvoicePayDto, Condition.getPage(query.setDescs("create_time")));
-        } catch (Exception e) {
-            log.error("查询当前商户所有自主开票记录(众包)异常", e);
-        }
-        return R.fail("查询失败");
     }
 
     @GetMapping("/find_enterprise_by_maker_id")

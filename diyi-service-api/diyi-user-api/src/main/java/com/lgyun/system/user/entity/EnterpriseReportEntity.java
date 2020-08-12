@@ -44,12 +44,12 @@ public class EnterpriseReportEntity extends BaseEntity {
     /**
      * 申报主题
      */
-    private String reportTheme;
+    private ReportTheme reportTheme;
 
     /**
      * 申报年度
      */
-    private ReportTheme reportYear;
+    private Integer reportYear;
 
     /**
      * 申报季度

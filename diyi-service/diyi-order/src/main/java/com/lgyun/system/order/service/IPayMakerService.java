@@ -3,9 +3,9 @@ package com.lgyun.system.order.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.order.dto.PayListDto;
+import com.lgyun.system.order.dto.PayEnterpriseListDto;
 import com.lgyun.system.order.entity.PayMakerEntity;
-import com.lgyun.system.order.vo.PayListVO;
+import com.lgyun.system.order.vo.PayEnterpriseListVO;
 
 /**
  *  Service 接口
@@ -19,10 +19,10 @@ public interface IPayMakerService extends BaseService<PayMakerEntity> {
      * 查询当前商户所有分包支付清单
      *
      * @param enterpriseId
-     * @param payListDto
+     * @param payEnterpriseListDto
      * @param page
      * @return
      */
-    R<IPage<PayListVO>> getByDtoEnterprise(Long enterpriseId, PayListDto payListDto, IPage<PayListVO> page);
+    R<IPage<PayEnterpriseListVO>> getByDtoEnterprise(Long enterpriseId, PayEnterpriseListDto payEnterpriseListDto, IPage<PayEnterpriseListVO> page);
 }
 

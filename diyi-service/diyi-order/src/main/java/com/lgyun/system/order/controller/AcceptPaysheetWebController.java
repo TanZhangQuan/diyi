@@ -7,7 +7,7 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.AcceptPayListDto;
 import com.lgyun.system.order.dto.AcceptPaysheetSaveDto;
-import com.lgyun.system.order.dto.PayListDto;
+import com.lgyun.system.order.dto.PayEnterpriseListDto;
 import com.lgyun.system.order.service.IAcceptPaysheetService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
@@ -77,6 +77,7 @@ public class AcceptPaysheetWebController {
     @GetMapping("/get_accept_pay_sheet_by_enterprise")
     @ApiOperation(value = "查询当前商户所有总包交付支付验收单", notes = "查询当前商户所有总包交付支付验收单")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "acceptPayId", value = "交付支付验收单ID", paramType = "query", dataType = "long"),
             @ApiImplicitParam(name = "makerName", value = "创客名称", paramType = "query", dataType = "string"),
             @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
@@ -119,7 +120,7 @@ public class AcceptPaysheetWebController {
             @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
     })
-    public R getPayEnterprisesByEnterprise(PayListDto payListDto, Query query, BladeUser bladeUser) {
+    public R getPayEnterprisesByEnterprise(PayEnterpriseListDto payEnterpriseListDto, Query query, BladeUser bladeUser) {
 
         log.info("查询当前商户所有总包支付清单");
         try {
@@ -130,7 +131,7 @@ public class AcceptPaysheetWebController {
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-            return payEnterpriseService.getPayEnterprisesByEnterprise(enterpriseWorkerEntity.getEnterpriseId(), payListDto, Condition.getPage(query.setDescs("create_time")));
+            return payEnterpriseService.getPayEnterprisesByEnterprise(enterpriseWorkerEntity.getEnterpriseId(), payEnterpriseListDto, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("查询当前商户所有总包支付清单异常", e);
         }

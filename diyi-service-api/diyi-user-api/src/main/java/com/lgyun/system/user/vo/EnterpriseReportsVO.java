@@ -19,9 +19,9 @@ public class EnterpriseReportsVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 服务商ID
+     * 服务商名称
      */
-    private Long serviceProviderName;
+    private String serviceProviderName;
 
     /**
      * 申报主题

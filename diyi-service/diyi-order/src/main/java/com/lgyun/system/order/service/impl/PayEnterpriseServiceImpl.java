@@ -5,20 +5,20 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.core.mp.support.Condition;
+import com.lgyun.core.mp.support.Query;
+import com.lgyun.system.order.dto.AcceptPaysheetSaveDto;
 import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
-import com.lgyun.system.order.dto.PayListDto;
+import com.lgyun.system.order.dto.PayEnterpriseListDto;
+import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.entity.PayEnterpriseReceiptEntity;
 import com.lgyun.system.order.entity.WorksheetEntity;
 import com.lgyun.system.order.mapper.PayEnterpriseMapper;
-import com.lgyun.system.order.service.IPayEnterpriseReceiptService;
-import com.lgyun.system.order.service.IPayEnterpriseService;
-import com.lgyun.system.order.service.IWorksheetService;
-import com.lgyun.system.order.vo.InvoiceEnterpriseVO;
-import com.lgyun.system.order.vo.PayEnterpriseMakerListVO;
-import com.lgyun.system.order.vo.PayEnterpriseStatisticalVO;
-import com.lgyun.system.order.vo.PayListVO;
+import com.lgyun.system.order.service.*;
+import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.entity.EnterpriseProviderEntity;
+import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +40,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     private IPayEnterpriseReceiptService payEnterpriseReceiptService;
     private IWorksheetService worksheetService;
     private IUserClient userClient;
+    private IAcceptPaysheetService acceptPaysheetService;
+    private ISelfHelpInvoiceService selfHelpInvoiceService;
 
     @Override
     public R<IPage<InvoiceEnterpriseVO>> getEnterpriseAll(Long makerId, IPage<InvoiceEnterpriseVO> page) {
@@ -119,19 +121,39 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R<IPage<PayListVO>> getPayEnterprisesByEnterprise(Long enterpriseId, PayListDto payListDto, IPage<PayListVO> page) {
+    public R<IPage<PayEnterpriseListVO>> getPayEnterprisesByEnterprise(Long enterpriseId, PayEnterpriseListDto payEnterpriseListDto, IPage<PayEnterpriseListVO> page) {
 
-        if (payListDto.getBeginDate() != null && payListDto.getEndDate() != null) {
-            if (payListDto.getBeginDate().after(payListDto.getEndDate())) {
+        if (payEnterpriseListDto.getBeginDate() != null && payEnterpriseListDto.getEndDate() != null) {
+            if (payEnterpriseListDto.getBeginDate().after(payEnterpriseListDto.getEndDate())) {
                 return R.fail("开始时间不能大于结束时间");
             }
         }
 
-        return R.data(page.setRecords(baseMapper.getPayEnterprisesByEnterprise(enterpriseId, payListDto, page)));
+        return R.data(page.setRecords(baseMapper.getPayEnterprisesByEnterprise(enterpriseId, payEnterpriseListDto, page)));
     }
 
     @Override
     public R<IPage<PayEnterpriseMakerListVO>> getMakers(Long payEnterpriseId, IPage<PayEnterpriseMakerListVO> page) {
         return R.data(page.setRecords(baseMapper.getMakers(payEnterpriseId, page)));
+    }
+
+    @Override
+    public R<IPage<WorksheetByEnterpriseVO>> getWorksheetByEnterpriseId(Query query, Long enterpriseId, WorkSheetType subpackage, String worksheetNo, String worksheetName) {
+        return worksheetService.getWorksheetByEnterpriseId(enterpriseId, WorkSheetType.SUBPACKAGE, worksheetNo, worksheetName, Condition.getPage(query.setDescs("create_time")));
+    }
+
+    @Override
+    public R getServiceProviderByEnterpriseId(Query query, Long enterpriseId, String serviceProviderName) {
+        return userClient.getServiceProviderByEnterpriseId(query.getCurrent(), query.getSize(), enterpriseId, serviceProviderName);
+    }
+
+    @Override
+    public R<String> uploadAcceptPaysheet(AcceptPaysheetSaveDto acceptPaysheet, EnterpriseWorkerEntity enterpriseWorkerEntity) {
+        return acceptPaysheetService.upload(acceptPaysheet, enterpriseWorkerEntity);
+    }
+
+    @Override
+    public R<IPage<PayEnterpriseListVO>> getSelfHelfInvoiceByEnterpriseId(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<PayEnterpriseListVO> page) {
+        return selfHelpInvoiceService.getSelfHelfInvoiceByEnterpriseId(enterpriseId, selfHelpInvoicePayDto, page);
     }
 }

@@ -1,12 +1,10 @@
 package com.lgyun.system.order.controller;
 
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.ReleaseWorksheetDto;
 import com.lgyun.system.order.entity.WorksheetEntity;
 import com.lgyun.system.order.entity.WorksheetMakerEntity;
 import com.lgyun.system.order.service.IWorksheetMakerService;
@@ -20,9 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 
 /**
  * 工单
@@ -132,30 +128,6 @@ public class WorksheetController {
             return worksheetService.getWorksheetDetailsByMaker(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), makerId);
         } catch (Exception e) {
             log.error("根据创客ID查询工单异常", e);
-        }
-        return R.fail("查询失败");
-    }
-
-    @GetMapping("/get_worksheet_by_enterprise_id")
-    @ApiOperation(value = "获取当前商户所有已完毕的总包+分包类型的工单", notes = "获取当前商户所有已完毕的总包+分包类型的工单")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "worksheetNo", value = "工单编号", paramType = "query", dataType = "string"),
-            @ApiImplicitParam(name = "worksheetName", value = "工单名称", paramType = "query", dataType = "string")
-    })
-    public R getWorksheetByEnterpriseId(String worksheetNo, String worksheetName, Query query, BladeUser bladeUser) {
-
-        log.info("获取当前商户所有已完毕的总包+分包类型的工单");
-        try {
-            //获取当前商户员工
-            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
-                return result;
-            }
-            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-            return worksheetService.getWorksheetByEnterpriseId(enterpriseWorkerEntity.getEnterpriseId(), WorkSheetType.SUBPACKAGE, worksheetNo, worksheetName, Condition.getPage(query.setDescs("create_time")));
-        } catch (Exception e) {
-            log.error("获取当前商户所有已完毕的总包+分包类型的工单异常", e);
         }
         return R.fail("查询失败");
     }

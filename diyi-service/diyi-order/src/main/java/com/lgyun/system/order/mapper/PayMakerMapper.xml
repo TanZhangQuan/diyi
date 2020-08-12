@@ -3,7 +3,7 @@
 
 <mapper namespace="com.lgyun.system.order.mapper.PayMakerMapper">
 
-    <resultMap type="com.lgyun.system.order.vo.PayListVO" id="payListVO">
+    <resultMap type="com.lgyun.system.order.vo.PayEnterpriseListVO" id="payListVO">
         <result property="id" column="id"/>
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="serviceProviderName" column="service_provider_name"/>

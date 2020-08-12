@@ -13,7 +13,7 @@ import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
 import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
 import com.lgyun.system.order.mapper.SelfHelpInvoiceMapper;
 import com.lgyun.system.order.service.ISelfHelpInvoiceService;
-import com.lgyun.system.order.vo.PayListVO;
+import com.lgyun.system.order.vo.PayEnterpriseListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceDetailsVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceListVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
@@ -120,7 +120,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
-    public R<IPage<PayListVO>> getByDtoEnterprise(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<PayListVO> page) {
+    public R<IPage<PayEnterpriseListVO>> getSelfHelfInvoiceByEnterpriseId(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<PayEnterpriseListVO> page) {
 
         if (selfHelpInvoicePayDto.getBeginDate() != null && selfHelpInvoicePayDto.getEndDate() != null) {
             if (selfHelpInvoicePayDto.getBeginDate().after(selfHelpInvoicePayDto.getEndDate())) {
@@ -128,6 +128,6 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             }
         }
 
-        return R.data(page.setRecords(baseMapper.getByDtoEnterprise(enterpriseId, selfHelpInvoicePayDto, page)));
+        return R.data(page.setRecords(baseMapper.getSelfHelfInvoiceByEnterpriseId(enterpriseId, selfHelpInvoicePayDto, page)));
     }
 }

@@ -265,4 +265,16 @@ public interface IUserClient {
      */
     @PostMapping(API_PREFIX + "/maker_enterprise_add")
     void makerEnterpriseAdd(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("makerId") Long makerId);
+
+    /**
+     * 获取当前商户关联服务商
+     *
+     * @param current
+     * @param size
+     * @param enterpriseId
+     * @param serviceProviderName
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/get_service_provider_by_enterprise_id")
+    R getServiceProviderByEnterpriseId(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam(name = "enterpriseId") Long enterpriseId, @RequestParam(name = "serviceProviderName", required = false) String serviceProviderName);
 }

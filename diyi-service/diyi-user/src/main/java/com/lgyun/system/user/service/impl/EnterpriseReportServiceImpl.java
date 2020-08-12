@@ -9,8 +9,10 @@ import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.EnterpriseReportEntity;
+import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.mapper.EnterpriseReportMapper;
 import com.lgyun.system.user.service.IEnterpriseReportService;
+import com.lgyun.system.user.service.IServiceProviderService;
 import com.lgyun.system.user.vo.EnterpriseReportsVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +32,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class EnterpriseReportServiceImpl extends BaseServiceImpl<EnterpriseReportMapper, EnterpriseReportEntity> implements IEnterpriseReportService {
 
+    private IServiceProviderService serviceProviderService;
+
     @Override
     public R<IPage<EnterpriseReportsVO>> findByBodyTypeAndBodyId(Query query, BodyType mainBodyType, Long mainBodyId) {
 
@@ -40,7 +44,17 @@ public class EnterpriseReportServiceImpl extends BaseServiceImpl<EnterpriseRepor
 
         IPage<EnterpriseReportEntity> pages = this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper);
 
-        List<EnterpriseReportsVO> records = pages.getRecords().stream().map(enterpriseReportEntity -> BeanUtil.copy(enterpriseReportEntity, EnterpriseReportsVO.class)).collect(Collectors.toList());
+        List<EnterpriseReportsVO> records = pages.getRecords().stream().map(enterpriseReportEntity -> {
+
+                    EnterpriseReportsVO enterpriseReportsVO = BeanUtil.copy(enterpriseReportEntity, EnterpriseReportsVO.class);
+                    ServiceProviderEntity serviceProviderEntity = serviceProviderService.getById(enterpriseReportEntity.getServiceProviderId());
+                    if (serviceProviderEntity != null) {
+                        enterpriseReportsVO.setServiceProviderName(serviceProviderEntity.getServiceProviderName());
+                    }
+                    return enterpriseReportsVO;
+
+                }
+        ).collect(Collectors.toList());
 
         IPage<EnterpriseReportsVO> pageVo = new Page<>(pages.getCurrent(), pages.getSize(), pages.getTotal());
         pageVo.setRecords(records);

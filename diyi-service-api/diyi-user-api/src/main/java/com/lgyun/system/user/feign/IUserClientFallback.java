@@ -141,4 +141,9 @@ public class IUserClientFallback implements IUserClient {
 
     }
 
+    @Override
+    public R getServiceProviderByEnterpriseId(Integer current, Integer size, Long enterpriseId, String serviceProviderName) {
+        return R.fail("网络繁忙，请稍后尝试");
+    }
+
 }

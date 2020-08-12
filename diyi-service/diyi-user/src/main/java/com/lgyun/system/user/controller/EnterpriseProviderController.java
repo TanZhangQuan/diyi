@@ -2,12 +2,10 @@ package com.lgyun.system.user.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.EnterpriseProviderEntity;
-import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.service.IEnterpriseProviderService;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.wrapper.EnterpriseProviderWrapper;
@@ -68,26 +66,6 @@ public class EnterpriseProviderController {
     @ApiOperation(value = "删除", notes = "删除")
     public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
         return R.status(enterpriseProviderService.removeByIds(Func.toLongList(ids)));
-    }
-
-    @GetMapping("/list_by_enterprise_id")
-    @ApiOperation(value = "根据商户ID查询所有合作的服务商", notes = "根据商户ID查询所有合作的服务商")
-    public R listByEnterpriseId(Query query, BladeUser bladeUser) {
-
-        log.info("根据商户ID查询所有合作的服务商");
-        try{
-			//获取当前商户员工
-            R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
-                return result;
-            }
-            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-			return enterpriseProviderService.listByEnterpriseId(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId());
-        } catch (Exception e) {
-			log.error("根据商户ID查询所有合作的服务商异常", e);
-        }
-       return R.fail("查询失败");
     }
 
 }

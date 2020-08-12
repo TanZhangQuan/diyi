@@ -3,14 +3,17 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.EnterpriseProviderMapper">
 
-    <resultMap type="com.lgyun.system.user.vo.ProviderListVO" id="providerListVO">
+    <resultMap type="com.lgyun.system.user.vo.ServiceProviderIdNameListVO" id="providerListVO">
         <result property="serviceProviderId" column="service_provider_id"/>
         <result property="serviceProviderName" column="service_provider_name"/>
     </resultMap>
 
-    <select id="listByEnterpriseId" resultMap="providerListVO">
+    <select id="getServiceProviderByEnterpriseId" resultMap="providerListVO">
        SELECT t1.service_provider_id, t2.service_provider_name FROM diyi_enterprise_provider t1 INNER JOIN diyi_service_provider t2
        ON t1.service_provider_id = t2.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t2.service_provider_state = 'NORMAL' AND t1.enterprise_id = #{param1}
+        <if test="param2 != null and param2.trim() != ''">
+            AND t2.service_provider_name like concat('%', #{param2}, '%')
+        </if>
     </select>
 
 </mapper>

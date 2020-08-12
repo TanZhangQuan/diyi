@@ -7,7 +7,7 @@ import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.EnterpriseProviderEntity;
 import com.lgyun.system.user.mapper.EnterpriseProviderMapper;
 import com.lgyun.system.user.service.IEnterpriseProviderService;
-import com.lgyun.system.user.vo.ProviderListVO;
+import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,8 +24,8 @@ import org.springframework.stereotype.Service;
 public class EnterpriseProviderServiceImpl extends BaseServiceImpl<EnterpriseProviderMapper, EnterpriseProviderEntity> implements IEnterpriseProviderService {
 
     @Override
-    public R<IPage<ProviderListVO>> listByEnterpriseId(IPage<ProviderListVO> page, Long enterpriseId) {
-        return R.data(page.setRecords(baseMapper.listByEnterpriseId(enterpriseId, page)));
+    public R<IPage<ServiceProviderIdNameListVO>> getServiceProviderByEnterpriseId(IPage<ServiceProviderIdNameListVO> page, Long enterpriseId, String serviceProviderName) {
+        return R.data(page.setRecords(baseMapper.getServiceProviderByEnterpriseId(enterpriseId, serviceProviderName, page)));
     }
 
     @Override

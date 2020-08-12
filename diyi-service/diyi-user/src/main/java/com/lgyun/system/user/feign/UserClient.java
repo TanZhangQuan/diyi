@@ -12,6 +12,7 @@ import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import com.lgyun.system.user.vo.MakerDetailVO;
+import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -240,6 +241,14 @@ public class UserClient implements IUserClient {
     @Override
     public void makerEnterpriseAdd(Long enterpriseId, Long makerId) {
         iMakerEnterpriseService.makerEnterpriseEntitySave(enterpriseId,makerId);
+    }
+
+    @Override
+    public R<IPage<ServiceProviderIdNameListVO>> getServiceProviderByEnterpriseId(Integer current, Integer size, Long enterpriseId, String serviceProviderName) {
+        Query query = new Query();
+        query.setCurrent(current);
+        query.setSize(size);
+        return iEnterpriseProviderService.getServiceProviderByEnterpriseId(Condition.getPage(query.setDescs("create_time")), enterpriseId, serviceProviderName);
     }
 
 }
