@@ -63,19 +63,6 @@ public class IndividualEnterpriseWebController {
 		return R.fail("查询失败");
 	}
 
-	@GetMapping("/find_by_id_enterprise")
-	@ApiOperation(value = "查询当前商户的关联创客的个独详情", notes = "查询当前商户的关联创客的个独详情")
-	public R findByIdEnterprise(@ApiParam(value = "个独编号") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
-
-		log.info("查询当前商户的关联创客的个独详情");
-		try {
-			return individualEnterpriseService.findByIdEnterprise(individualEnterpriseId);
-		} catch (Exception e) {
-			log.error("查询当前商户的关联创客的个独详情异常", e);
-		}
-		return R.fail("查询失败");
-	}
-
 	@GetMapping("/self_help_invoice_statistics")
 	@ApiOperation(value = "查询个独开票次数，月度开票金额，年度开票金额和总开票金额", notes = "查询个独开票次数，月度开票金额，年度开票金额和总开票金额")
 	public R selfHelpInvoiceStatistics(@ApiParam(value = "个独ID") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
