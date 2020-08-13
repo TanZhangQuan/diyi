@@ -1,6 +1,7 @@
 package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.core.mp.base.BaseEntity;
@@ -31,6 +32,7 @@ public class ServiceProviderWorkerEntity extends BaseEntity {
     /**
      * 管理者ID
      */
+    @JsonIgnore
     private Long userId;
 
     /**
@@ -76,6 +78,7 @@ public class ServiceProviderWorkerEntity extends BaseEntity {
     /**
      * 密码
      */
+    @JsonIgnore
     private String employeePwd;
 
     /**

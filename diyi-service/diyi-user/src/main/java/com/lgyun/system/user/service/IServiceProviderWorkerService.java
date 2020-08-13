@@ -3,6 +3,7 @@ package com.lgyun.system.user.service;
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseService;
+import com.lgyun.system.user.dto.UpdatePasswordDto;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 
 /**
@@ -44,5 +45,13 @@ public interface IServiceProviderWorkerService extends BaseService<ServiceProvid
      * @return
      */
     ServiceProviderWorkerEntity findByUserId(Long userId);
+
+    /**
+     * 修改密码
+     *
+     * @param updatePasswordDto
+     * @return
+     */
+    R<String> updatePassword(UpdatePasswordDto updatePasswordDto);
 }
 
