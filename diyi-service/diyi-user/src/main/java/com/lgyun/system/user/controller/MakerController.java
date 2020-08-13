@@ -31,7 +31,7 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/maker")
 @Validated
 @AllArgsConstructor
-@Api(value = "创客（分包方）的基本信息相关接口", tags = "创客（分包方）的基本信息相关接口")
+@Api(value = "创客的基本信息相关接口", tags = "创客的基本信息相关接口")
 public class MakerController {
 
     private IMakerService makerService;

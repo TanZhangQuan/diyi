@@ -190,24 +190,4 @@ public class PayEnterpriseWebController {
         return R.fail("查询失败");
     }
 
-    @GetMapping("/statistical")
-    @ApiOperation(value = "获取交付清单统计数据", notes = "获取交付清单统计数据")
-    public R statistical(BladeUser bladeUser) {
-
-        log.info("获取交付清单统计数据");
-        try {
-            //获取当前商户员工
-            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
-                return result;
-            }
-            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-            return payEnterpriseService.statistical(enterpriseWorkerEntity.getEnterpriseId());
-        } catch (Exception e) {
-            log.error("获取交付清单统计数据异常", e);
-        }
-        return R.fail("查询失败");
-    }
-
 }

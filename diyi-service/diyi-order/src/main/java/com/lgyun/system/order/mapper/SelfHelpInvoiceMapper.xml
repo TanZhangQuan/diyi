@@ -102,7 +102,7 @@
     <select id="yearMonthMoney" resultMap="selfHelpInvoiceStatisticsVO">
         SELECT IFNULL(SUM(IF(MONTH(create_time) = MONTH(NOW()), charge_money_num, 0)), 0) AS month_money,
         IFNULL(SUM(IF(YEAR(create_time) = YEAR(NOW()), charge_money_num, 0)), 0) AS year_money
-        FROM diyi_self_help_invoice_detail WHERE is_deleted = 0
+        FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND invoice_print_state = 'INVOICESUCCESS'
         AND all_kind_enterprise_id = #{param1} AND invoice_people_type = #{param2}
     </select>
 

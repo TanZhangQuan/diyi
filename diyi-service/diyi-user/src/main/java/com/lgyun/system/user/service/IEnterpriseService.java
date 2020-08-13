@@ -1,9 +1,14 @@
 package com.lgyun.system.user.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
+import com.lgyun.core.mp.support.Query;
+import com.lgyun.system.order.vo.TransactionMonthVO;
 import com.lgyun.system.user.entity.EnterpriseEntity;
+import com.lgyun.system.user.vo.EnterpriseStatisticalVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
+import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 
 /**
  * Service 接口
@@ -30,5 +35,29 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      */
     R<MakerEnterpriseRelationVO> getEnterpriseId(Long enterpriseId, Long makerId);
 
+    /**
+     * 获取商户首页统计数据
+     *
+     * @param enterpriseId
+     * @return
+     */
+    R<EnterpriseStatisticalVO> statistical(Long enterpriseId);
+
+    /**
+     * 获取商户合作服务商
+     *
+     * @param query
+     * @param enterpriseId
+     * @return
+     */
+    R<IPage<ServiceProviderIdNameListVO>> getServiceProviders(Query query, Long enterpriseId);
+
+    /**
+     * 获取商户交易金额
+     *
+     * @param enterpriseId
+     * @return
+     */
+    R<TransactionMonthVO> queryEnterprisePayMoney(Long enterpriseId);
 }
 

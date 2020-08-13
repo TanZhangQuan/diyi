@@ -3,4 +3,57 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.EnterpriseMapper">
 
+    <resultMap type="com.lgyun.system.user.vo.EnterpriseStatisticalVO" id="enterpriseStatisticalVO">
+        <result property="monthPay" column="month_pay"/>
+        <result property="yearPay" column="year_pay"/>
+        <result property="allPay" column="all_pay"/>
+        <result property="makerNum" column="maker_num"/>
+        <result property="serviceProviderNum" column="service_provider_num"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.TransactionMonthVO" id="transactionMonthVO">
+        <result property="janIncome" column="jan_income"/>
+        <result property="febIncome" column="feb_income"/>
+        <result property="marIncome" column="mar_income"/>
+        <result property="aprIncome" column="apr_income"/>
+        <result property="mayIncome" column="may_income"/>
+        <result property="junIncome" column="jun_income"/>
+        <result property="julIncome" column="jul_income"/>
+        <result property="augIncome" column="aug_income"/>
+        <result property="sepIncome" column="sep_income"/>
+        <result property="octIncome" column="oct_income"/>
+        <result property="novIncome" column="nov_income"/>
+        <result property="decIncome" column="dec_income"/>
+    </resultMap>
+
+    <select id="statistical" resultMap="enterpriseStatisticalVO">
+        SELECT SUM(temp.month_pay) AS month_pay, SUM(temp.year_pay) AS year_pay, SUM(temp.all_pay) AS all_pay,
+        (SELECT COUNT(id) FROM diyi_maker_enterprise WHERE enterprise_id = #{param1}) AS maker_num,
+        (SELECT COUNT(id) FROM diyi_enterprise_provider WHERE enterprise_id = #{param1}) AS service_provider_num FROM
+        (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, charge_money_num, 0)), 0) AS month_pay,
+        IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, charge_money_num, 0)), 0) AS year_pay,
+        IFNULL(SUM(charge_money_num), 0) AS all_pay FROM diyi_self_help_invoice WHERE is_deleted = 0
+        AND (current_state = 'PASSED' OR current_state = 'INVOICED') AND apply_enterprise_id = #{param1}
+        UNION ALL
+        SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, pay_to_platform_amount, 0)), 0) AS month_pay,
+        IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, pay_to_platform_amount, 0)), 0) AS year_pay,
+        IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay FROM diyi_pay_enterprise WHERE is_deleted = 0 AND
+        (enterprise_pay_state = 'PAYED' OR enterprise_pay_state = 'CONFIRMPAY') AND audit_state = 'APPROVED'
+        AND enterprise_id = #{param1}) AS temp
+    </select>
+
+    <select id="queryEnterprisePayMoney" resultMap="transactionMonthVO">
+        SELECT IFNULL(SUM(IF(temp.month = 1, temp.money, 0)), 0) AS jan_income, IFNULL(SUM(IF(temp.month = 2, temp.money, 0)), 0) AS feb_income,
+        IFNULL(SUM(IF(temp.month = 3, temp.money, 0)), 0) AS mar_income, IFNULL(SUM(IF(temp.month = 4, temp.money, 0)), 0) AS apr_income,
+        IFNULL(SUM(IF(temp.month = 5, temp.money, 0)), 0) AS may_income, IFNULL(SUM(IF(temp.month = 6, temp.money, 0)), 0) AS jun_income,
+        IFNULL(SUM(IF(temp.month = 7, temp.money, 0)), 0) AS jul_income, IFNULL(SUM(IF(temp.month = 8, temp.money, 0)), 0) AS aug_income,
+        IFNULL(SUM(IF(temp.month = 9, temp.money, 0)), 0) AS sep_income, IFNULL(SUM(IF(temp.month = 10, temp.money, 0)), 0) AS oct_income,
+        IFNULL(SUM(IF(temp.month = 11, temp.money, 0)), 0) AS nov_income, IFNULL(SUM(IF(temp.month = 12, temp.money, 0)), 0) AS dec_income
+        FROM (SELECT charge_money_num AS money, MONTH(create_time) AS month FROM diyi_self_help_invoice WHERE is_deleted = 0
+        AND (current_state = 'PASSED' OR current_state = 'INVOICED') AND apply_enterprise_id = #{param1}
+        UNION ALL SELECT pay_to_platform_amount AS money, MONTH(create_time) AS month FROM diyi_pay_enterprise WHERE is_deleted = 0 AND
+        (enterprise_pay_state = 'PAYED' OR enterprise_pay_state = 'CONFIRMPAY') AND audit_state = 'APPROVED'
+        AND enterprise_id = #{param1}) AS temp
+    </select>
+
 </mapper>

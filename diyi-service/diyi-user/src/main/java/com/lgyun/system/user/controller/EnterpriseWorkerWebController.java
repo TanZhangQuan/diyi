@@ -23,11 +23,11 @@ import javax.validation.Valid;
  */
 @Slf4j
 @RestController
-@RequestMapping("/enterprise_worker")
+@RequestMapping("/web/enterprise_worker")
 @Validated
 @AllArgsConstructor
 @Api(value = "商户员工相关接口", tags = "商户员工相关接口")
-public class EnterpriseWorkerController {
+public class EnterpriseWorkerWebController {
 
     private IEnterpriseWorkerService enterpriseWorkerService;
 

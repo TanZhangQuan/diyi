@@ -29,7 +29,7 @@ import javax.validation.Valid;
 @RequestMapping("/enterprise")
 @Validated
 @AllArgsConstructor
-@Api(value = "商户（外包企业）基本信息相关接口", tags = "商户（外包企业）基本信息相关接口")
+@Api(value = "商户基本信息相关接口", tags = "商户基本信息相关接口")
 public class EnterpriseController {
 
 	private IEnterpriseService enterpriseService;

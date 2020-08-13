@@ -6,13 +6,12 @@ import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.AcceptPaysheetSaveDto;
-import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
 import com.lgyun.system.order.dto.PayEnterpriseListDto;
+import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
 import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
-import com.lgyun.system.order.vo.*;
 
 /**
  * Service 接口
@@ -51,14 +50,6 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @return
      */
     R<InvoiceEnterpriseVO> getEnterpriseMakerIdDetail(Long makerId, Long enterpriseId, Long payMakerId);
-
-    /**
-     * 获取交付清单统计数据
-     *
-     * @param enterpriseId
-     * @return
-     */
-    R<PayEnterpriseStatisticalVO> statistical(Long enterpriseId);
 
     /**
      * 上传支付清单

@@ -13,7 +13,7 @@
         <result property="yearIncome" column="year_income"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.order.vo.IncomeMonthVO" id="incomeMonthVO">
+    <resultMap type="com.lgyun.system.order.vo.TransactionMonthVO" id="transactionMonthVO">
         <result property="janIncome" column="jan_income"/>
         <result property="febIncome" column="feb_income"/>
         <result property="marIncome" column="mar_income"/>
@@ -42,7 +42,6 @@
         <result property="checkMoney" column="check_money"/>
         <result property="checkDate" column="check_date"/>
     </resultMap>
-
 
     <resultMap id="worksheetMakerDetailsVOMap" type="com.lgyun.system.order.vo.WorksheetMakerDetailsVO">
         <result property="worksheetMakerId" column="id"/>
@@ -91,7 +90,7 @@
         AND t1.worksheet_type = #{param1} AND t1.maker_type = #{param2} AND t2.maker_id = #{param3} GROUP BY YEAR (t2.check_date)
     </select>
 
-    <select id="queryMoneyByMonth" resultMap="incomeMonthVO">
+    <select id="queryMoneyByMonth" resultMap="transactionMonthVO">
         SELECT IFNULL(SUM(IF(MONTH(t2.check_date) = 1, t2.check_money, 0)), 0) AS jan_income, IFNULL(SUM(IF(MONTH(t2.check_date) = 2, t2.check_money, 0)), 0) AS feb_income,
         IFNULL(SUM(IF(MONTH(t2.check_date) = 3, t2.check_money, 0)), 0) AS mar_income, IFNULL(SUM(IF(MONTH(t2.check_date) = 4, t2.check_money, 0)), 0) AS apr_income,
         IFNULL(SUM(IF(MONTH(t2.check_date) = 5, t2.check_money, 0)), 0) AS may_income, IFNULL(SUM(IF(MONTH(t2.check_date) = 6, t2.check_money, 0)), 0) AS jun_income,

@@ -69,11 +69,6 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R<PayEnterpriseStatisticalVO> statistical(Long enterpriseId) {
-        return R.data(baseMapper.statistical(enterpriseId));
-    }
-
-    @Override
     @Transactional(rollbackFor = Exception.class)
     public R<String> upload(PayEnterpriseUploadDto payEnterpriseUploadDto, Long enterpriseId) {
 

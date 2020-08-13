@@ -1,4 +1,4 @@
-package com.lgyun.system.order.vo;
+package com.lgyun.system.user.vo;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
@@ -13,7 +13,7 @@ import java.math.BigDecimal;
  */
 @Data
 @ApiModel(value = "PayEnterpriseStatisticalVO对象", description = "PayEnterpriseStatisticalVO对象")
-public class PayEnterpriseStatisticalVO implements Serializable {
+public class EnterpriseStatisticalVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //最近30天支出

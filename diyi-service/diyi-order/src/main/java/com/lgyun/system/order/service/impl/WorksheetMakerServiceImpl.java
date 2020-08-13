@@ -81,7 +81,7 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
     }
 
     @Override
-    public R<IncomeMonthVO> queryMoneyByMonth(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year) {
+    public R<TransactionMonthVO> queryMoneyByMonth(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year) {
         return R.data(baseMapper.queryMoneyByMonth(worksheetType, makerType, makerId, year));
     }
 
