@@ -4,13 +4,13 @@ Navicat MySQL Data Transfer
 Source Server         : local
 Source Server Version : 50717
 Source Host           : localhost:3306
-Source Database       : diyi
+Source Database       : diyi1
 
 Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2020-08-12 20:27:17
+Date: 2020-08-13 17:29:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -415,8 +415,6 @@ CREATE TABLE `diyi_individual_business` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='个体工商户信息表';
-
-INSERT INTO `diyi_individual_business` VALUES ('1292658991252623362', null, null, '1292652110270418946', null, 'SMALL', '', '', null, '', '', '500.00', '', 'IT行业', '各种软件', '广州想象力有限公司，佛山隔离有限公司', '', '', '', 'REGISTERING', null, null, null, null, '离开对', '15633265984', null, '1123598821738675202', '2020-05-01 11:08:15', '1123598821738675202', '2020-08-10 11:08:15', '1', '0');
 
 -- ----------------------------
 -- Records of diyi_individual_business
@@ -1411,8 +1409,6 @@ CREATE TABLE `diyi_self_help_invoice_person` (
 DROP TABLE IF EXISTS `diyi_service_provider`;
 CREATE TABLE `diyi_service_provider` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `service_provider_user_name` varchar(50) NOT NULL COMMENT '用户名',
-  `service_provider_pwd` varchar(100) NOT NULL COMMENT '密码',
   `service_provider_state` varchar(50) NOT NULL COMMENT '服务商账户状态',
   `service_provider_name` varchar(50) NOT NULL COMMENT '客户名称',
   `legal_person` varchar(50) NOT NULL COMMENT '法人代表名称',
@@ -1454,12 +1450,46 @@ CREATE TABLE `diyi_service_provider` (
   `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`service_provider_user_name`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`service_provider_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商的基本信息表';
 
 -- ----------------------------
 -- Records of diyi_service_provider
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `diyi_service_provider_worker`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_service_provider_worker`;
+CREATE TABLE `diyi_service_provider_worker` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
+  `user_id` bigint(50) NOT NULL COMMENT '管理者ID',
+  `avatar` varchar(100) NOT NULL DEFAULT '' COMMENT '头像',
+  `service_provider_worker_state` varchar(50) NOT NULL COMMENT '服务商员工账户状态',
+  `worker_name` varchar(50) NOT NULL COMMENT '姓名',
+  `worker_sex` varchar(50) NOT NULL COMMENT '性别',
+  `position_name` varchar(50) NOT NULL COMMENT '岗位性质',
+  `phone_number` varchar(50) NOT NULL COMMENT '手机号码',
+  `up_level_id` bigint(50) NOT NULL COMMENT '上级主管',
+  `employee_user_name` varchar(50) NOT NULL COMMENT '用户名',
+  `employee_pwd` varchar(100) NOT NULL COMMENT '密码',
+  `admin_power` bit(1) NOT NULL COMMENT '管理员特性',
+  `super_admin` bit(1) NOT NULL COMMENT '是否超级管理员',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`phone_number`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`employee_user_name`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商员工表';
+
+-- ----------------------------
+-- Records of diyi_service_provider_worker
 -- ----------------------------
 
 -- ----------------------------

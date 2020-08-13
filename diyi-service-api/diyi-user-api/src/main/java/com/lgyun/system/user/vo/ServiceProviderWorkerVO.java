@@ -1,6 +1,6 @@
 package com.lgyun.system.user.vo;
 
-import com.lgyun.system.user.entity.EmployeeEntity;
+import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,9 +13,8 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "EmployeeVO对象", description = "EmployeeVO对象")
-public class EmployeeVO extends EmployeeEntity {
+@ApiModel(value = "ServiceProviderWorkerVO对象", description = "ServiceProviderWorkerVO对象")
+public class ServiceProviderWorkerVO extends ServiceProviderWorkerEntity {
     private static final long serialVersionUID = 1L;
-
 
 }

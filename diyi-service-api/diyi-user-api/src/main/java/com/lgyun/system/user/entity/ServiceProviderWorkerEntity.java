@@ -1,8 +1,6 @@
 package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.lgyun.common.enumeration.Gender;
-import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,33 +8,53 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- * Entity
+ * 服务商员工表 Entity
  *
  * @author liangfeihu
- * @since 2020-06-26 17:21:05
+ * @since 2020-08-13 17:05:17
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("diyi_employee")
-public class EmployeeEntity extends BaseEntity {
+@TableName("diyi_service_provider_worker")
+public class ServiceProviderWorkerEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 服务商ID
+     */
+    private Long serviceProviderId;
+
+    /**
+     * 管理者ID
+     */
+    private Long userId;
+
+    /**
+     * 头像
+     */
+    private String avatar;
+
+    /**
+     * 服务商员工账户状态
+     */
+    private String serviceProviderWorkerState;
 
     /**
      * 姓名
      */
-    private String employeeName;
+    private String workerName;
 
     /**
-     * 性别：男，女
+     * 性别
      */
-    private Gender gender;
+    private String workerSex;
 
     /**
-     * 岗位性质：营销人员，客服人员，运营人员，管理人员，其他
+     * 岗位性质
      */
-    private PositionName positionName;
+    private String positionName;
 
     /**
      * 手机号码
@@ -49,7 +67,7 @@ public class EmployeeEntity extends BaseEntity {
     private Long upLevelId;
 
     /**
-     * 用户名: 手机号码和用户名皆可
+     * 用户名
      */
     private String employeeUserName;
 
@@ -59,8 +77,13 @@ public class EmployeeEntity extends BaseEntity {
     private String employeePwd;
 
     /**
-     * 是否管理员
+     * 管理员特性
      */
     private Boolean adminPower;
+
+    /**
+     * 是否超级管理员
+     */
+    private Boolean superAdmin;
 
 }
