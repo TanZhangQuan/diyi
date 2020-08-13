@@ -39,6 +39,7 @@ public class UserClient implements IUserClient {
     private IEnterpriseService iEnterpriseService;
     private IEnterpriseWorkerService iEnterpriseWorkerService;
     private IEnterpriseProviderService iEnterpriseProviderService;
+    private IServiceProviderWorkerService iServiceProviderWorkerService;
 
     @Override
     @GetMapping(API_PREFIX + "/user-info-by-id")
@@ -66,6 +67,11 @@ public class UserClient implements IUserClient {
     @Override
     public EnterpriseWorkerEntity enterpriseWorkerFindByPhoneNumber(String phoneNumber) {
         return iEnterpriseWorkerService.findByPhoneNumber(phoneNumber);
+    }
+
+    @Override
+    public ServiceProviderWorkerEntity serviceProviderWorkerFindByPhoneNumber(String phoneNumber) {
+        return iServiceProviderWorkerService.findByPhoneNumber(phoneNumber);
     }
 
     @Override
@@ -139,6 +145,35 @@ public class UserClient implements IUserClient {
                 //根据手机号获取商户
                 enterpriseWorkerEntity = iEnterpriseWorkerService.findByPhoneNumber(phoneNumber);
                 if (enterpriseWorkerEntity == null) {
+                    return R.fail("用户未注册");
+                }
+                break;
+
+            default:
+                return R.fail("登陆方式有误");
+        }
+
+        return R.success("操作成功");
+    }
+
+    @Override
+    public R<String> serviceProviderWorkerDeal(String phoneNumber, String loginPwd, GrantType grantType) {
+        log.info("[serviceProviderWorkerDeal] phone={}", phoneNumber);
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity;
+        switch (grantType) {
+
+            case PASSWORD:
+                //根据账号密码获取服务商
+                serviceProviderWorkerEntity = iServiceProviderWorkerService.findByEmployeeUserNameAndEmployeePwd(phoneNumber, loginPwd);
+                if (serviceProviderWorkerEntity == null) {
+                    return R.fail("账号或密码错误");
+                }
+                break;
+
+            case MOBILE:
+                //根据手机号获取服务商
+                serviceProviderWorkerEntity = iServiceProviderWorkerService.findByPhoneNumber(phoneNumber);
+                if (serviceProviderWorkerEntity == null) {
                     return R.fail("用户未注册");
                 }
                 break;

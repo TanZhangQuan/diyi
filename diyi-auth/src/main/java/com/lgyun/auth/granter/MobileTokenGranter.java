@@ -90,6 +90,14 @@ public class MobileTokenGranter implements ITokenGranter {
                 }
                 break;
 
+            case SERVICEPROVIDER:
+                // 商户处理
+                res = userClient.serviceProviderWorkerDeal(mobile, "", GrantType.MOBILE);
+                if (!(res.isSuccess())) {
+                    return res;
+                }
+                break;
+
             case ADMIN:
                 break;
 
@@ -139,6 +147,12 @@ public class MobileTokenGranter implements ITokenGranter {
                     }
                     break;
 
+                case SERVICEPROVIDER:
+                    if (userClient.serviceProviderWorkerFindByPhoneNumber(mobile) == null) {
+                        return R.fail("手机号未注册");
+                    }
+                    break;
+
                 case MAKER:
                     if (userClient.makerFindByPhoneNumber(mobile) == null) {
                         return R.fail("手机号未注册");
@@ -161,6 +175,12 @@ public class MobileTokenGranter implements ITokenGranter {
 
                 case ENTERPRISE:
                     if (userClient.enterpriseWorkerFindByPhoneNumber(mobile) != null) {
+                        return R.fail("手机号已注册");
+                    }
+                    break;
+
+                case SERVICEPROVIDER:
+                    if (userClient.serviceProviderWorkerFindByPhoneNumber(mobile) != null) {
                         return R.fail("手机号已注册");
                     }
                     break;

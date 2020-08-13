@@ -81,6 +81,17 @@ public class PasswordTokenGranter implements ITokenGranter {
                 userInfo = userClient.userInfoByPhone(account, userType);
                 break;
 
+            case SERVICEPROVIDER:
+                //创客处理
+                res = userClient.serviceProviderWorkerDeal(account, DigestUtil.encrypt(password), GrantType.PASSWORD);
+                if (!(res.isSuccess())) {
+                    return res;
+                }
+
+                userInfo = userClient.userInfoByPhone(account, userType);
+                break;
+
+
             case ADMIN:
                 //判断是否跑图形验证码
                 if (CommonConstant.BOOL_GRAPH_CODE) {

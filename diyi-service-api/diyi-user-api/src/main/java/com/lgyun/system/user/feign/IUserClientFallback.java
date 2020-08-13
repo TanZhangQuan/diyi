@@ -47,12 +47,22 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
+    public ServiceProviderWorkerEntity serviceProviderWorkerFindByPhoneNumber(String phoneNumber) {
+        return null;
+    }
+
+    @Override
     public R<String> makerDeal(String openid, String sessionKey, String phoneNumber, String loginPwd, GrantType grantType) {
         return R.fail("网络繁忙，请稍后尝试");
     }
 
     @Override
     public R<String> enterpriseWorkerDeal(String phoneNumber, String loginPwd, GrantType grantType) {
+        return R.fail("网络繁忙，请稍后尝试");
+    }
+
+    @Override
+    public R<String> serviceProviderWorkerDeal(String phoneNumber, String loginPwd, GrantType grantType) {
         return R.fail("网络繁忙，请稍后尝试");
     }
 

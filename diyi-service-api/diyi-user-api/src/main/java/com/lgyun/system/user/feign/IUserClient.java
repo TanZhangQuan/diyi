@@ -36,7 +36,7 @@ public interface IUserClient {
      * @param userType
      * @return
      */
-    @GetMapping(API_PREFIX + "/user-info-by-id")
+    @GetMapping(API_PREFIX + "/user_info_by_id")
     UserInfo userInfo(@RequestParam("userId") Long userId, @RequestParam("userType") UserType userType);
 
     /**
@@ -57,7 +57,7 @@ public interface IUserClient {
      * @param userType
      * @return
      */
-    @GetMapping(API_PREFIX + "/user-info")
+    @GetMapping(API_PREFIX + "/user_info")
     UserInfo userInfo(@RequestParam("account") String account, @RequestParam("password") String password, @RequestParam("userType") UserType userType);
 
     /**
@@ -66,7 +66,7 @@ public interface IUserClient {
      * @param phoneNumber
      * @return
      */
-    @GetMapping(API_PREFIX + "/maker-find-by-phone-number")
+    @GetMapping(API_PREFIX + "/maker_find_by_phone_number")
     MakerEntity makerFindByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
 
     /**
@@ -75,8 +75,17 @@ public interface IUserClient {
      * @param phoneNumber
      * @return
      */
-    @GetMapping(API_PREFIX + "/enterprise-worker-find-by-phone-number")
+    @GetMapping(API_PREFIX + "/enterprise_worker_find_by_phone_number")
     EnterpriseWorkerEntity enterpriseWorkerFindByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
+
+    /**
+     * 获取商户员工信息
+     *
+     * @param phoneNumber
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/service_provider_worker_find_by_phone_number")
+    ServiceProviderWorkerEntity serviceProviderWorkerFindByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
 
     /**
      * 创客处理
@@ -88,8 +97,8 @@ public interface IUserClient {
      * @param grantType
      * @return
      */
-    @PostMapping(API_PREFIX + "/maker-deal")
-    R<String> makerDeal(@RequestParam("openid") String openid, @RequestParam("sessionKey") String sessionKey, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
+    @PostMapping(API_PREFIX + "/maker_deal")
+    R makerDeal(@RequestParam("openid") String openid, @RequestParam("sessionKey") String sessionKey, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 商户处理
@@ -99,8 +108,20 @@ public interface IUserClient {
      * @param grantType
      * @return
      */
-    @PostMapping(API_PREFIX + "/enterprise-worker-deal")
-    R<String> enterpriseWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
+    @PostMapping(API_PREFIX + "/enterprise_worker_deal")
+    R enterpriseWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
+
+    /**
+     * 服务商处理
+     *
+     * @param phoneNumber
+     * @param loginPwd
+     * @param grantType
+     * @return
+     */
+    @PostMapping(API_PREFIX + "/service_provider_worker_deal")
+    R serviceProviderWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
+
 
     /**
      * 获取个独信息
@@ -164,7 +185,7 @@ public interface IUserClient {
      * @param makerId
      * @return
      */
-    @GetMapping(API_PREFIX + "/maker-find-by-id")
+    @GetMapping(API_PREFIX + "/maker_find_by_id")
     MakerEntity makerFindById(@RequestParam("makerId") Long makerId);
 
     /**
@@ -173,8 +194,8 @@ public interface IUserClient {
      * @param bladeUser
      * @return
      */
-    @PostMapping(API_PREFIX + "/current-maker")
-    R<MakerEntity> currentMaker(@RequestBody BladeUser bladeUser);
+    @PostMapping(API_PREFIX + "/current_maker")
+    R currentMaker(@RequestBody BladeUser bladeUser);
 
     /**
      * 根据创客姓名分页查询
@@ -194,7 +215,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/current_enterprise_worker")
-    R<EnterpriseWorkerEntity> currentEnterpriseWorker(@RequestBody BladeUser bladeUser);
+    R currentEnterpriseWorker(@RequestBody BladeUser bladeUser);
 
     /**
      * 根据商户ID, 服务商ID查询关联
@@ -277,4 +298,5 @@ public interface IUserClient {
      */
     @GetMapping(API_PREFIX + "/get_service_provider_by_enterprise_id")
     R getServiceProviderByEnterpriseId(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam(name = "enterpriseId") Long enterpriseId, @RequestParam(name = "serviceProviderName", required = false) String serviceProviderName);
+
 }

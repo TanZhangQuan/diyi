@@ -1,6 +1,8 @@
 package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.lgyun.common.enumeration.AccountState;
+import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,7 +41,7 @@ public class ServiceProviderWorkerEntity extends BaseEntity {
     /**
      * 服务商员工账户状态
      */
-    private String serviceProviderWorkerState;
+    private AccountState serviceProviderWorkerState;
 
     /**
      * 姓名
@@ -54,7 +56,7 @@ public class ServiceProviderWorkerEntity extends BaseEntity {
     /**
      * 岗位性质
      */
-    private String positionName;
+    private PositionName positionName;
 
     /**
      * 手机号码

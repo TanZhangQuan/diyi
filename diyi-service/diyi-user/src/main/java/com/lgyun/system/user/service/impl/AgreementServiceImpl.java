@@ -142,7 +142,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         agreementEntity.setServiceProviderId(serviceProviderId);
         agreementEntity.setOnlineAgreementTemplateId(onlineAgreementTemplateEntity.getId());
         agreementEntity.setPaperAgreementUrl(paperAgreementURL);
-        agreementEntity.setFirstSideSignPerson(serviceProviderEntity.getServiceProviderUserName());
+        agreementEntity.setFirstSideSignPerson(serviceProviderEntity.getServiceProviderName());
         agreementEntity.setSecondSideSignPerson(byId.getEnterpriseName());
         agreementEntity.setUploadDatetime(new Date());
         agreementEntity.setUploadPerson(byId.getEnterpriseName());
