@@ -26,7 +26,7 @@ import javax.validation.Valid;
 @RequestMapping("/web/enterprise_worker")
 @Validated
 @AllArgsConstructor
-@Api(value = "商户员工相关接口", tags = "商户员工相关接口")
+@Api(value = "商户员工相关接口(管理端)", tags = "商户员工相关接口(管理端)")
 public class EnterpriseWorkerWebController {
 
     private IEnterpriseWorkerService enterpriseWorkerService;
