@@ -29,7 +29,9 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Service 实现
@@ -48,6 +50,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     private IAcceptPaysheetService acceptPaysheetService;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
     private IInvoiceApplicationService invoiceApplicationService;
+    private IPayEnterpriseService payEnterpriseService;
+    private IWorksheetMakerService worksheetMakerService;
 
     @Override
     public R<IPage<InvoiceEnterpriseVO>> getEnterpriseAll(Long makerId, IPage<InvoiceEnterpriseVO> page) {
@@ -204,5 +208,53 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             enterprisePaymentListVO.setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
         }
         return R.data(enterprisePaymentListVOIPage);
+    }
+
+    @Override
+    public R findEnterpriseSubcontractSummary(Long enterpriseId, String serviceProviderName, IPage<EnterpriseSubcontractInvoiceVO> page) {
+        return R.data(baseMapper.findEnterpriseSubcontractSummary(enterpriseId,serviceProviderName,page));
+    }
+
+    @Override
+    public R findEnterpriseSubcontractPortal(Long enterpriseId, String serviceProviderName, IPage<EnterpriseSubcontractPortalVO> page) {
+        return R.data(baseMapper.findEnterpriseSubcontractPortal(enterpriseId,serviceProviderName,page));
+    }
+
+    @Override
+    public R findDetailSummary(Long makerTotalInvoiceId) {
+        Map map = new HashMap();
+        EnterpriseSubcontractInvoiceVO detailSummary = baseMapper.findDetailSummary(makerTotalInvoiceId);
+        map.put("enterpriseSubcontractInvoiceVO",detailSummary);
+        PayEnterpriseEntity byId = payEnterpriseService.getById(detailSummary.getPayEnterpriseId());
+        if(null == byId){
+            R.fail("数据错误");
+        }
+        Long worksheetId = byId.getWorksheetId();
+        if(null != worksheetId){
+            List<WorksheetMakerDetailsVO> worksheetMakerDetails = worksheetMakerService.getWorksheetMakerDetails(worksheetId);
+            map.put("worksheetMakerDetails",worksheetMakerDetails);
+        }else {
+            map.put("makers","");
+        }
+        return R.data(map);
+    }
+
+    @Override
+    public R findDetailSubcontractPortal(Long makerInvoiceId) {
+        Map map = new HashMap();
+        EnterpriseSubcontractInvoiceVO detailSummary = baseMapper.findDetailSubcontractPortal(makerInvoiceId);
+        map.put("EnterpriseSubcontractInvoiceVO",detailSummary);
+        PayEnterpriseEntity byId = payEnterpriseService.getById(detailSummary.getPayEnterpriseId());
+        if(null == byId){
+            R.fail("数据错误");
+        }
+        Long worksheetId = byId.getWorksheetId();
+        if(null != worksheetId){
+            List<WorksheetMakerDetailsVO> worksheetMakerDetails = worksheetMakerService.getWorksheetMakerDetails(worksheetId);
+            map.put("worksheetMakerDetails",worksheetMakerDetails);
+        }else {
+            map.put("makers","");
+        }
+        return R.data(map);
     }
 }
