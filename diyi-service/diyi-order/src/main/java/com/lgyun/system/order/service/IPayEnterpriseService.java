@@ -141,6 +141,27 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @param page
      * @return
      */
+    R<IPage<PayEnterpriseListVO>> getSelfHelfInvoiceByEnterpriseId(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<PayEnterpriseListVO> page);
+
+    /**
+     * 根据商户查询分包列表-汇总
+     */
+    R findEnterpriseSubcontractSummary(Long enterpriseId,String serviceProviderName,IPage<EnterpriseSubcontractInvoiceVO> page);
+
+    /**
+     * 根据商户查询分包列表-门征
+     */
+    R findEnterpriseSubcontractPortal(Long enterpriseId,String serviceProviderName,IPage<EnterpriseSubcontractPortalVO> page);
+
+    /**
+     * 查询详情接口-汇总
+     */
+    R findDetailSummary(Long makerTotalInvoiceId);
+
+    /**
+     * 查询详情接口-门征
+     */
+    R findDetailSubcontractPortal(Long makerInvoiceId);
     R<IPage<SelfHelpInvoicePayVO>> getSelfHelfInvoiceByEnterpriseId(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<SelfHelpInvoicePayVO> page);
 }
 

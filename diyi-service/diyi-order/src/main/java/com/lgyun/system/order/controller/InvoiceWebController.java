@@ -120,4 +120,65 @@ public class InvoiceWebController {
         return R.fail("查看总包发票详情失败");
     }
 
+    /**
+     * 根据商户查询分包列表-汇总
+     */
+    @GetMapping("/findEnterpriseSubcontractSummary")
+    @ApiOperation(value = "根据商户查询分包列表-汇总", notes = "根据商户查询分包列表-汇总")
+    public R findEnterpriseSubcontractSummary(Long enterpriseId,@RequestParam(required = false) String serviceProviderName,Query query){
+        log.info("根据商户查询分包列表-汇总");
+        try {
+            return payEnterpriseService.findEnterpriseSubcontractSummary(enterpriseId,serviceProviderName,Condition.getPage(query.setDescs("create_time")));
+        }catch (Exception e){
+            log.info("根据商户查询分包列表-汇总失败",e);
+        }
+        return R.fail("根据商户查询分包列表-汇总失败");
+    }
+
+
+    /**
+     * 查询详情接口-汇总
+     */
+    @GetMapping("/findDetailSummary")
+    @ApiOperation(value = "查询详情接口-汇总", notes = "查询详情接口-汇总")
+    public R findDetailSummary(Long makerTotalInvoiceId){
+        log.info("查询详情接口-汇总");
+        try {
+            return payEnterpriseService.findDetailSummary(makerTotalInvoiceId);
+        }catch (Exception e){
+            log.info("查询详情接口-汇总失败",e);
+        }
+        return R.fail("查询详情接口-汇总失败");
+    }
+
+
+    /**
+     * 根据商户查询分包列表-门征
+     */
+    @GetMapping("/findEnterpriseSubcontractPortal")
+    @ApiOperation(value = "根据商户查询分包列表-门征", notes = "根据商户查询分包列表-门征")
+    public R findEnterpriseSubcontractPortal(Long enterpriseId,@RequestParam(required = false) String serviceProviderName,Query query){
+        log.info("根据商户查询分包列表-门征");
+        try {
+            return payEnterpriseService.findEnterpriseSubcontractPortal(enterpriseId,serviceProviderName,Condition.getPage(query.setDescs("create_time")));
+        }catch (Exception e){
+            log.info("根据商户查询分包列表-门征失败",e);
+        }
+        return R.fail("根据商户查询分包列表-门征失败");
+    }
+
+    /**
+     * 查询详情接口-门征
+     */
+    @GetMapping("/findDetailSubcontractPortal")
+    @ApiOperation(value = "查询详情接口-门征", notes = "查询详情接口-门征")
+    public R findDetailSubcontractPortal(Long makerInvoiceId){
+        log.info("查询详情接口-门征");
+        try {
+            return payEnterpriseService.findDetailSubcontractPortal(makerInvoiceId);
+        }catch (Exception e){
+            log.info("查询详情接口-门征失败",e);
+        }
+        return R.fail("查询详情接口-门征失败");
+    }
 }

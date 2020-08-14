@@ -83,5 +83,27 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * 根据商户查询支付清单
      */
     List<EnterprisePaymentListVO> findEnterprisePaymentList(Long enterpriseId, String serviceProviderName,IPage<EnterprisePaymentListVO> page);
+
+
+    /**
+     *根据商户查询分包列表-汇总
+     */
+     List<EnterpriseSubcontractInvoiceVO> findEnterpriseSubcontractSummary(Long enterpriseId, String serviceProviderName, IPage<EnterpriseSubcontractInvoiceVO> page);
+
+
+    /**
+     *根据商户查询分包列表-门征
+     */
+    List<EnterpriseSubcontractPortalVO> findEnterpriseSubcontractPortal(Long enterpriseId, String serviceProviderName, IPage<EnterpriseSubcontractPortalVO> page);
+
+    /**
+     *分包列表详情-汇总
+     */
+    EnterpriseSubcontractInvoiceVO findDetailSummary(Long makerTotalInvoiceId);
+
+    /**
+     *分包列表详情-汇总
+     */
+    EnterpriseSubcontractInvoiceVO findDetailSubcontractPortal(Long makerInvoiceId);
 }
 
