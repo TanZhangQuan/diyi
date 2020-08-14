@@ -8,7 +8,6 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.entity.PayMakerEntity;
 import com.lgyun.system.order.service.IPayMakerService;
 import com.lgyun.system.order.wrapper.PayMakerWrapper;
-import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -34,7 +33,6 @@ import javax.validation.Valid;
 public class PayMakerController {
 
     private IPayMakerService payMakerService;
-    private IUserClient iUserClient;
 
     @PostMapping("/save")
     @ApiOperation(value = "新增", notes = "新增")

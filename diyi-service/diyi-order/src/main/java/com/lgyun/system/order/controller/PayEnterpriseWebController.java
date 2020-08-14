@@ -6,10 +6,11 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.AcceptPaysheetSaveDto;
-import com.lgyun.system.order.dto.PayEnterpriseListDto;
+import com.lgyun.system.order.dto.PayEnterpriseMakerListDto;
 import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
 import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
 import com.lgyun.system.order.service.IPayEnterpriseService;
+import com.lgyun.system.order.service.IPayMakerService;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.*;
@@ -36,6 +37,7 @@ import javax.validation.constraints.NotNull;
 public class PayEnterpriseWebController {
 
     private IPayEnterpriseService payEnterpriseService;
+    private IPayMakerService payMakerService;
     private IUserClient iUserClient;
 
 
@@ -109,12 +111,12 @@ public class PayEnterpriseWebController {
     @GetMapping("/get_pay_enterprises_by_enterprise")
     @ApiOperation(value = "查询当前商户所有总包支付清单", notes = "查询当前商户所有总包支付清单")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "payEnterpriseId", value = "支付清单ID", paramType = "query", dataType = "long"),
+            @ApiImplicitParam(name = "payEnterpriseId", value = "总包支付清单ID", paramType = "query", dataType = "long"),
             @ApiImplicitParam(name = "serviceProviderName", value = "服务商名称", paramType = "query", dataType = "string"),
             @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
     })
-    public R getPayEnterprisesByEnterprise(PayEnterpriseListDto payEnterpriseListDto, Query query, BladeUser bladeUser) {
+    public R getPayEnterprisesByEnterprise(PayEnterpriseMakerListDto payEnterpriseMakerListDto, Query query, BladeUser bladeUser) {
 
         log.info("查询当前商户所有总包支付清单");
         try {
@@ -125,7 +127,7 @@ public class PayEnterpriseWebController {
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-            return payEnterpriseService.getPayEnterprisesByEnterprise(enterpriseWorkerEntity.getEnterpriseId(), payEnterpriseListDto, Condition.getPage(query.setDescs("create_time")));
+            return payEnterpriseService.getPayEnterprisesByEnterprise(enterpriseWorkerEntity.getEnterpriseId(), payEnterpriseMakerListDto, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("查询当前商户所有总包支付清单异常", e);
         }
@@ -164,6 +166,32 @@ public class PayEnterpriseWebController {
         }
 
         return R.fail("上传失败");
+    }
+
+    @GetMapping("/get_pay_makers_by_enterprise")
+    @ApiOperation(value = "查询当前商户所有分包支付清单", notes = "查询当前商户所有分包支付清单")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "payMakerId", value = "分包支付清单ID", paramType = "query", dataType = "long"),
+            @ApiImplicitParam(name = "serviceProviderName", value = "服务商名称", paramType = "query", dataType = "string"),
+            @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
+            @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
+    })
+    public R getPayMakersByEnterprise(PayEnterpriseMakerListDto payEnterpriseMakerListDto, Query query, BladeUser bladeUser) {
+
+        log.info("查询当前商户所有分包支付清单");
+        try {
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return payMakerService.getPayMakersByEnterprise(enterpriseWorkerEntity.getEnterpriseId(), payEnterpriseMakerListDto, Condition.getPage(query.setDescs("create_time")));
+        } catch (Exception e) {
+            log.error("查询当前商户所有分包支付清单异常", e);
+        }
+        return R.fail("查询失败");
     }
 
     @GetMapping("/get_self_helf_invoice_by_enterprise_id")

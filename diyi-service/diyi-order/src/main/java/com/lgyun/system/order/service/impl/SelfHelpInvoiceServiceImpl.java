@@ -13,10 +13,7 @@ import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
 import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
 import com.lgyun.system.order.mapper.SelfHelpInvoiceMapper;
 import com.lgyun.system.order.service.ISelfHelpInvoiceService;
-import com.lgyun.system.order.vo.PayEnterpriseListVO;
-import com.lgyun.system.order.vo.SelfHelpInvoiceDetailsVO;
-import com.lgyun.system.order.vo.SelfHelpInvoiceListVO;
-import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
+import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.feign.IUserClient;
@@ -120,7 +117,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
-    public R<IPage<PayEnterpriseListVO>> getSelfHelfInvoiceByEnterpriseId(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<PayEnterpriseListVO> page) {
+    public R<IPage<SelfHelpInvoicePayVO>> getSelfHelfInvoiceByEnterpriseId(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<SelfHelpInvoicePayVO> page) {
 
         if (selfHelpInvoicePayDto.getBeginDate() != null && selfHelpInvoicePayDto.getEndDate() != null) {
             if (selfHelpInvoicePayDto.getBeginDate().after(selfHelpInvoicePayDto.getEndDate())) {

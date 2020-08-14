@@ -14,11 +14,11 @@ import java.util.Date;
  * @time 16:27.
  */
 @Data
-public class PayEnterpriseListDto implements Serializable {
+public class PayEnterpriseMakerListDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //支付清单ID
-    private Long payEnterpriseId;
+    //总包或分包支付清单ID
+    private Long payEnterpriseMakerId;
 
     //服务商名称
     private String serviceProviderName;

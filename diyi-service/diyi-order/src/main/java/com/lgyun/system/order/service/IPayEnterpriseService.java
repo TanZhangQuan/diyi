@@ -6,7 +6,7 @@ import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.AcceptPaysheetSaveDto;
-import com.lgyun.system.order.dto.PayEnterpriseListDto;
+import com.lgyun.system.order.dto.PayEnterpriseMakerListDto;
 import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
 import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
@@ -64,11 +64,11 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * 查询当前商户所有总包支付清单
      *
      * @param enterpriseId
-     * @param payEnterpriseListDto
+     * @param payEnterpriseMakerListDto
      * @param page
      * @return
      */
-    R<IPage<PayEnterpriseListVO>> getPayEnterprisesByEnterprise(Long enterpriseId, PayEnterpriseListDto payEnterpriseListDto, IPage<PayEnterpriseListVO> page);
+    R<IPage<PayEnterpriseMakersListVO>> getPayEnterprisesByEnterprise(Long enterpriseId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page);
 
     /**
      * 根据支付清单ID查询支付清单关联工单的创客
@@ -141,6 +141,6 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @param page
      * @return
      */
-    R<IPage<PayEnterpriseListVO>> getSelfHelfInvoiceByEnterpriseId(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<PayEnterpriseListVO> page);
+    R<IPage<SelfHelpInvoicePayVO>> getSelfHelfInvoiceByEnterpriseId(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<SelfHelpInvoicePayVO> page);
 }
 

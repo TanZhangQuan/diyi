@@ -10,7 +10,7 @@ import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.AcceptPaysheetSaveDto;
-import com.lgyun.system.order.dto.PayEnterpriseListDto;
+import com.lgyun.system.order.dto.PayEnterpriseMakerListDto;
 import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
 import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
 import com.lgyun.system.order.entity.InvoiceApplicationEntity;
@@ -122,15 +122,15 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R<IPage<PayEnterpriseListVO>> getPayEnterprisesByEnterprise(Long enterpriseId, PayEnterpriseListDto payEnterpriseListDto, IPage<PayEnterpriseListVO> page) {
+    public R<IPage<PayEnterpriseMakersListVO>> getPayEnterprisesByEnterprise(Long enterpriseId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page) {
 
-        if (payEnterpriseListDto.getBeginDate() != null && payEnterpriseListDto.getEndDate() != null) {
-            if (payEnterpriseListDto.getBeginDate().after(payEnterpriseListDto.getEndDate())) {
+        if (payEnterpriseMakerListDto.getBeginDate() != null && payEnterpriseMakerListDto.getEndDate() != null) {
+            if (payEnterpriseMakerListDto.getBeginDate().after(payEnterpriseMakerListDto.getEndDate())) {
                 return R.fail("开始时间不能大于结束时间");
             }
         }
 
-        return R.data(page.setRecords(baseMapper.getPayEnterprisesByEnterprise(enterpriseId, payEnterpriseListDto, page)));
+        return R.data(page.setRecords(baseMapper.getPayEnterprisesByEnterprise(enterpriseId, payEnterpriseMakerListDto, page)));
     }
 
     @Override
@@ -154,7 +154,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R<IPage<PayEnterpriseListVO>> getSelfHelfInvoiceByEnterpriseId(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<PayEnterpriseListVO> page) {
+    public R<IPage<SelfHelpInvoicePayVO>> getSelfHelfInvoiceByEnterpriseId(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<SelfHelpInvoicePayVO> page) {
         return selfHelpInvoiceService.getSelfHelfInvoiceByEnterpriseId(enterpriseId, selfHelpInvoicePayDto, page);
     }
 

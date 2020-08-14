@@ -6,10 +6,7 @@ import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
 import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
-import com.lgyun.system.order.vo.PayEnterpriseListVO;
-import com.lgyun.system.order.vo.SelfHelpInvoiceDetailsVO;
-import com.lgyun.system.order.vo.SelfHelpInvoiceListVO;
-import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
+import com.lgyun.system.order.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -77,6 +74,6 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
      * @param page
      * @return
      */
-    List<PayEnterpriseListVO> getSelfHelfInvoiceByEnterpriseId(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<PayEnterpriseListVO> page);
+    List<SelfHelpInvoicePayVO> getSelfHelfInvoiceByEnterpriseId(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<SelfHelpInvoicePayVO> page);
 }
 

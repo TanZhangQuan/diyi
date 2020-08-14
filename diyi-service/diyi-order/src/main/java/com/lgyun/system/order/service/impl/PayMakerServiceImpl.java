@@ -3,11 +3,11 @@ package com.lgyun.system.order.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.order.dto.PayEnterpriseListDto;
+import com.lgyun.system.order.dto.PayEnterpriseMakerListDto;
 import com.lgyun.system.order.entity.PayMakerEntity;
 import com.lgyun.system.order.mapper.PayMakerMapper;
 import com.lgyun.system.order.service.IPayMakerService;
-import com.lgyun.system.order.vo.PayEnterpriseListVO;
+import com.lgyun.system.order.vo.PayEnterpriseMakersListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,14 +24,14 @@ import org.springframework.stereotype.Service;
 public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMakerEntity> implements IPayMakerService {
 
     @Override
-    public R<IPage<PayEnterpriseListVO>> getByDtoEnterprise(Long enterpriseId, PayEnterpriseListDto payEnterpriseListDto, IPage<PayEnterpriseListVO> page) {
+    public R<IPage<PayEnterpriseMakersListVO>> getPayMakersByEnterprise(Long enterpriseId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page) {
 
-        if (payEnterpriseListDto.getBeginDate() != null && payEnterpriseListDto.getEndDate() != null) {
-            if (payEnterpriseListDto.getBeginDate().after(payEnterpriseListDto.getEndDate())) {
+        if (payEnterpriseMakerListDto.getBeginDate() != null && payEnterpriseMakerListDto.getEndDate() != null) {
+            if (payEnterpriseMakerListDto.getBeginDate().after(payEnterpriseMakerListDto.getEndDate())) {
                 return R.fail("开始时间不能大于结束时间");
             }
         }
 
-        return R.data(page.setRecords(baseMapper.getByDtoEnterprise(enterpriseId, payEnterpriseListDto, page)));
+        return R.data(page.setRecords(baseMapper.getPayMakersByEnterprise(enterpriseId, payEnterpriseMakerListDto, page)));
     }
 }

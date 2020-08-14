@@ -17,12 +17,16 @@ import java.util.Date;
  */
 @Data
 @ApiModel(value = "PayListVO对象", description = "PayListVO对象")
-public class PayEnterpriseListVO implements Serializable {
+public class PayEnterpriseMakersListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //支付清单编号
+    //总包或分包支付清单编号
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
+
+    //总包支付清单编号(分包时赋值)
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long payEnterpriseId;
 
     //商户名称
     private String enterpriseName;
