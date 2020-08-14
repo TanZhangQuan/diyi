@@ -1382,7 +1382,7 @@ DROP TABLE IF EXISTS `diyi_service_provider`;
 CREATE TABLE `diyi_service_provider` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `service_provider_state` varchar(50) NOT NULL COMMENT '服务商账户状态',
-  `service_provider_name` varchar(50) NOT NULL COMMENT '客户名称',
+  `service_provider_name` varchar(50) NOT NULL COMMENT '服务商名称',
   `legal_person` varchar(50) NOT NULL COMMENT '法人代表名称',
   `legal_person_card` varchar(50) NOT NULL COMMENT '法人身份证',
   `social_credit_no` varchar(100) NOT NULL COMMENT '统一社会信用代码',
