@@ -118,5 +118,14 @@ public interface WorksheetMakerMapper extends BaseMapper<WorksheetMakerEntity> {
      * @return
      */
     List<WorksheetMakerListVO> getByPayEnterpriseId(Long payEnterpriseId, IPage<WorksheetMakerListVO> page);
+
+
+    /**
+     * 根据工单id查询所有的创客明细
+     *
+     * @param worksheetId
+     * @return
+     */
+    List<WorksheetMakerDetailsVO> getWorksheetMakerDetails(Long worksheetId);
 }
 

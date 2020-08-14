@@ -9,6 +9,7 @@ import com.lgyun.system.order.entity.WorksheetMakerEntity;
 import com.lgyun.system.order.vo.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Service 接口
@@ -157,5 +158,14 @@ public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity
      * @return
      */
     R<IPage<WorksheetMakerListVO>> getByPayEnterpriseId(Long payEnterpriseId, IPage<WorksheetMakerListVO> page);
+
+
+    /**
+     * 根据工单id查询所有的创客明细
+     *
+     * @param worksheetId
+     * @return
+     */
+    List<WorksheetMakerDetailsVO> getWorksheetMakerDetails(Long worksheetId);
 }
 
