@@ -1,22 +1,22 @@
 package com.lgyun.system.order.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lgyun.common.api.R;
+import com.lgyun.common.tool.Func;
+import com.lgyun.core.mp.support.Condition;
+import com.lgyun.core.mp.support.Query;
+import com.lgyun.system.order.entity.SelfHelpInvoiceApplyEntity;
+import com.lgyun.system.order.service.ISelfHelpInvoiceApplyService;
+import com.lgyun.system.order.wrapper.SelfHelpInvoiceApplyWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import javax.validation.Valid;
-import com.lgyun.core.mp.support.Condition;
-import com.lgyun.core.mp.support.Query;
-import com.lgyun.common.api.R;
-import com.lgyun.common.tool.Func;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.validation.annotation.Validated;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.system.order.wrapper.SelfHelpInvoiceApplyWrapper;
-import com.lgyun.system.order.entity.SelfHelpInvoiceApplyEntity;
-import com.lgyun.system.order.service.ISelfHelpInvoiceApplyService;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * 自助开票申请：记录自助开票主表的申请记录情况控制器
@@ -29,7 +29,7 @@ import com.lgyun.system.order.service.ISelfHelpInvoiceApplyService;
 @RequestMapping("/selfhelpinvoiceapply")
 @Validated
 @AllArgsConstructor
-@Api(value = "自助开票申请：记录自助开票主表的申请记录情况相关接口", tags = "自助开票申请：记录自助开票主表的申请记录情况相关接口")
+@Api(value = "自助开票申请相关接口", tags = "自助开票申请相关接口")
 public class SelfHelpInvoiceApplyController {
 
 	private ISelfHelpInvoiceApplyService selfHelpInvoiceApplyService;
