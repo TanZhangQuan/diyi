@@ -181,4 +181,16 @@ public class WorksheetWebController {
         }
         return R.fail("验收工作成果失败");
     }
+
+    @GetMapping("/getWorksheetDetails")
+    @ApiOperation(value = "查询工单详情", notes = "查询工单详情")
+    public R getWorksheetDetails(@NotNull(message = "请输入id") @RequestParam(required = false) Long worksheetMakerId) {
+        log.info("查询工单详情");
+        try {
+            return worksheetService.getWorksheetDetails(worksheetMakerId);
+        } catch (Exception e) {
+            log.info("查询工单详情失败");
+        }
+        return R.fail("查询工单详情失败");
+    }
 }
