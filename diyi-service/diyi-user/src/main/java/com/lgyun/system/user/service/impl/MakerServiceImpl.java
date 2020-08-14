@@ -157,9 +157,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         if (enterpriseId != null) {
             //商户-创客关联
             makerEnterpriseService.makerEnterpriseEntitySave(enterpriseId, makerEntity.getId());
-
-            //添加创客合同和授权
-            //TODO
         }
 
         return makerEntity;
