@@ -202,7 +202,7 @@
     </select>
 
 
-    <select id="findEnterpriseSubcontractSummary" resultMap="EnterpriseSubcontractSummaryMap">
+    <select id="findDetailSummary" resultMap="EnterpriseSubcontractSummaryMap">
         SELECT pe.id AS pay_enterprise_id, mt.id AS maker_total_invoice_id, sp.id AS service_provider_id, mt.invoice_serial_no, mt.company_invoice_url, mt.maker_tax_url, pe.company_invoice_state, sp.service_provider_name, pe.invoice_print_date FROM diyi_pay_enterprise pe INNER JOIN diyi_maker_total_invoice mt ON mt.pay_enterprise_id = pe.id INNER JOIN diyi_service_provider sp ON sp.id = pe.service_provider_id
         where pe.is_deleted= 0 and mt.is_deleted = 0 and sp.is_deleted = 0 and mt.id = #{param1}
     </select>

@@ -50,7 +50,6 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     private IAcceptPaysheetService acceptPaysheetService;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
     private IInvoiceApplicationService invoiceApplicationService;
-    private IPayEnterpriseService payEnterpriseService;
     private IWorksheetMakerService worksheetMakerService;
 
     @Override
@@ -225,7 +224,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         Map map = new HashMap();
         EnterpriseSubcontractInvoiceVO detailSummary = baseMapper.findDetailSummary(makerTotalInvoiceId);
         map.put("enterpriseSubcontractInvoiceVO",detailSummary);
-        PayEnterpriseEntity byId = payEnterpriseService.getById(detailSummary.getPayEnterpriseId());
+        PayEnterpriseEntity byId = getById(detailSummary.getPayEnterpriseId());
         if(null == byId){
             R.fail("数据错误");
         }
@@ -244,7 +243,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         Map map = new HashMap();
         EnterpriseSubcontractInvoiceVO detailSummary = baseMapper.findDetailSubcontractPortal(makerInvoiceId);
         map.put("EnterpriseSubcontractInvoiceVO",detailSummary);
-        PayEnterpriseEntity byId = payEnterpriseService.getById(detailSummary.getPayEnterpriseId());
+        PayEnterpriseEntity byId = getById(detailSummary.getPayEnterpriseId());
         if(null == byId){
             R.fail("数据错误");
         }

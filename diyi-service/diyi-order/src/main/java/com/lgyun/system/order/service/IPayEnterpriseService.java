@@ -81,11 +81,12 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
 
     /**
      * 根据商户查询总包发票
+     *
      * @param enterpriseId
      * @param page
      * @return
      */
-    R<IPage<EnterpriseLumpSumInvoiceVO>> findEnterpriseLumpSumInvoice(String invoiceSerialNo,String serviceProviderName,String startTime,String endTime,Long enterpriseId,IPage<EnterpriseLumpSumInvoiceVO> page);
+    R<IPage<EnterpriseLumpSumInvoiceVO>> findEnterpriseLumpSumInvoice(String invoiceSerialNo, String serviceProviderName, String startTime, String endTime, Long enterpriseId, IPage<EnterpriseLumpSumInvoiceVO> page);
 
     /**
      * 取消申请
@@ -100,7 +101,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     /**
      * 根据商户查询支付清单
      */
-    R findEnterprisePaymentList(Long enterpriseId,String serviceProviderName,IPage<EnterprisePaymentListVO> page);
+    R findEnterprisePaymentList(Long enterpriseId, String serviceProviderName, IPage<EnterprisePaymentListVO> page);
 
     /**
      * 获取当前商户所有已完毕的总包+分包类型的工单
@@ -141,17 +142,17 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @param page
      * @return
      */
-    R<IPage<PayEnterpriseListVO>> getSelfHelfInvoiceByEnterpriseId(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<PayEnterpriseListVO> page);
+    R<IPage<SelfHelpInvoicePayVO>> getSelfHelfInvoiceByEnterpriseId(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<SelfHelpInvoicePayVO> page);
 
     /**
      * 根据商户查询分包列表-汇总
      */
-    R findEnterpriseSubcontractSummary(Long enterpriseId,String serviceProviderName,IPage<EnterpriseSubcontractInvoiceVO> page);
+    R findEnterpriseSubcontractSummary(Long enterpriseId, String serviceProviderName, IPage<EnterpriseSubcontractInvoiceVO> page);
 
     /**
      * 根据商户查询分包列表-门征
      */
-    R findEnterpriseSubcontractPortal(Long enterpriseId,String serviceProviderName,IPage<EnterpriseSubcontractPortalVO> page);
+    R findEnterpriseSubcontractPortal(Long enterpriseId, String serviceProviderName, IPage<EnterpriseSubcontractPortalVO> page);
 
     /**
      * 查询详情接口-汇总
@@ -162,6 +163,5 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * 查询详情接口-门征
      */
     R findDetailSubcontractPortal(Long makerInvoiceId);
-    R<IPage<SelfHelpInvoicePayVO>> getSelfHelfInvoiceByEnterpriseId(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<SelfHelpInvoicePayVO> page);
 }
 
