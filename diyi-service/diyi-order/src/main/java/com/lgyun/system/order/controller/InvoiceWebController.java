@@ -43,9 +43,6 @@ public class InvoiceWebController {
     private IInvoiceApplicationService invoiceApplicationService;
     private IUserClient iUserClient;
 
-    /**
-     * 根据商户查询总包发票
-     */
     @GetMapping("/findEnterpriseLumpSumInvoice")
     @ApiOperation(value = "根据商户查询总包发票", notes = "根据商户查询总包发票")
     public R findEnterpriseLumpSumInvoice(@RequestParam(required = false) String invoiceSerialNo,
@@ -62,9 +59,6 @@ public class InvoiceWebController {
         return R.fail("根据商户查询总包发票失败");
     }
 
-    /**
-     * 取消申请
-     */
     @PostMapping("/withdraw")
     @ApiOperation(value = "取消申请", notes = "取消申请")
     public R withdraw(@NotNull(message = "申请开票id不能为空") Long applicationId){
@@ -77,9 +71,6 @@ public class InvoiceWebController {
         return R.fail("取消申请失败");
     }
 
-    /**
-     * 查看总包发票详情
-     */
     @GetMapping("/findPayEnterpriseDetails")
     @ApiOperation(value = "查看总包发票详情", notes = "查看总包发票详情")
     public R findPayEnterpriseDetails(@NotNull(message = "支付清单Id不能为空") Long payEnterpriseId){
@@ -92,9 +83,6 @@ public class InvoiceWebController {
         return R.fail("查看总包发票详情失败");
     }
 
-    /**
-     * 根据商户查询支付清单
-     */
     @GetMapping("/findEnterprisePaymentList")
     @ApiOperation(value = "根据商户查询支付清单", notes = "根据商户查询支付清单")
     public R findEnterprisePaymentList(Long enterpriseId,@RequestParam(required = false) String serviceProviderName,Query query){
@@ -114,9 +102,6 @@ public class InvoiceWebController {
         return R.data(EnterpriseProviderInvoiceCatalogsWrapper.build().pageVO(pages));
     }
 
-    /**
-     * 总包申请开票
-     */
     @PostMapping("/contractApplyInvoice")
     @ApiOperation(value = "查看总包发票详情", notes = "查看总包发票详情")
     public R contractApplyInvoice(@Valid @RequestBody ContractApplyInvoiceDto contractApplyInvoiceDto,BladeUser bladeUser){
