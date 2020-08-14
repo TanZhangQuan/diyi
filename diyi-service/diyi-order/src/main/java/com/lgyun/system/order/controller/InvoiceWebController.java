@@ -7,16 +7,11 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.ContractApplyInvoiceDto;
 import com.lgyun.system.order.entity.EnterpriseProviderInvoiceCatalogsEntity;
-import com.lgyun.system.order.entity.PayReceiptEntity;
 import com.lgyun.system.order.service.IEnterpriseProviderInvoiceCatalogsService;
 import com.lgyun.system.order.service.IInvoiceApplicationService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.wrapper.EnterpriseProviderInvoiceCatalogsWrapper;
-import com.lgyun.system.order.wrapper.PayReceiptWrapper;
-import com.lgyun.system.user.entity.EnterpriseEntity;
-import com.lgyun.system.user.entity.EnterpriseProviderEntity;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
-import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -44,11 +39,8 @@ import javax.validation.constraints.NotNull;
 public class InvoiceWebController {
 
     private IPayEnterpriseService payEnterpriseService;
-
     private IEnterpriseProviderInvoiceCatalogsService enterpriseProviderInvoiceCatalogsService;
-
     private IInvoiceApplicationService invoiceApplicationService;
-
     private IUserClient iUserClient;
 
     /**
