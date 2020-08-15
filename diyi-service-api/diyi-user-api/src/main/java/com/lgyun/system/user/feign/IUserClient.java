@@ -215,7 +215,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/current_enterprise_worker")
-    R currentEnterpriseWorker(@RequestBody BladeUser bladeUser);
+    R<EnterpriseWorkerEntity> currentEnterpriseWorker(@RequestBody BladeUser bladeUser);
 
     /**
      * 根据商户ID, 服务商ID查询关联
