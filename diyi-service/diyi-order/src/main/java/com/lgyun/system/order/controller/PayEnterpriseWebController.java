@@ -111,7 +111,7 @@ public class PayEnterpriseWebController {
     @GetMapping("/get_pay_enterprises_by_enterprise")
     @ApiOperation(value = "查询当前商户所有总包支付清单", notes = "查询当前商户所有总包支付清单")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "payEnterpriseId", value = "总包支付清单ID", paramType = "query", dataType = "long"),
+            @ApiImplicitParam(name = "payEnterpriseMakerId", value = "总包支付清单ID", paramType = "query", dataType = "long"),
             @ApiImplicitParam(name = "serviceProviderName", value = "服务商名称", paramType = "query", dataType = "string"),
             @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
@@ -171,7 +171,7 @@ public class PayEnterpriseWebController {
     @GetMapping("/get_pay_makers_by_enterprise")
     @ApiOperation(value = "查询当前商户所有分包支付清单", notes = "查询当前商户所有分包支付清单")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "payMakerId", value = "分包支付清单ID", paramType = "query", dataType = "long"),
+            @ApiImplicitParam(name = "payEnterpriseMakerId", value = "分包支付清单ID", paramType = "query", dataType = "long"),
             @ApiImplicitParam(name = "serviceProviderName", value = "服务商名称", paramType = "query", dataType = "string"),
             @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
