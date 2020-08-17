@@ -153,8 +153,8 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
                 worksheetMakerDetailsVO.setRealNameAuthentication(CertificationState.CERTIFIED);
             }
         }
-
-        return R.data(worksheetMakerDetails);
+        map.put("worksheetMakerDetails",worksheetMakerDetails);
+        return R.data(map);
     }
 
     @Override
