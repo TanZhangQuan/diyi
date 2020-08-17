@@ -46,5 +46,5 @@ public class MakerWorksheetVO implements Serializable {
     /**
      * 协议认证状态
      */
-    private SignState signState;
+    private SignState signState = SignState.UNSIGN;
 }

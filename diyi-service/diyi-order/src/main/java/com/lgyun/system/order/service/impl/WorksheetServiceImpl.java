@@ -140,6 +140,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     public R getWorksheetWebDetails(IPage<WorksheetMakerDetailsVO> page, Long worksheetId) {
         WorksheetEntity worksheetEntity = getById(worksheetId);
         WorksheetXiaoVo worksheetXiaoVo = BeanUtil.copy(worksheetEntity, WorksheetXiaoVo.class);
+        worksheetXiaoVo.setWorksheetMakerId(worksheetId);
         Map map = new HashMap();
         map.put("worksheetXiaoVo", worksheetXiaoVo);
 
@@ -153,8 +154,8 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
                 worksheetMakerDetailsVO.setRealNameAuthentication(CertificationState.CERTIFIED);
             }
         }
-
-        return R.data(worksheetMakerDetails);
+        map.put("worksheetMakerDetails",worksheetMakerDetails);
+        return R.data(map);
     }
 
     @Override
@@ -176,7 +177,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     public R kickOut(Long worksheetId, Long makerId) {
         WorksheetMakerEntity worksheetMakerEntity = worksheetMakerService.getmakerIdAndWorksheetId(worksheetId, makerId);
         if (null == worksheetMakerEntity) {
-            R.fail("创客没有抢单记录");
+           return R.fail("创客没有抢单记录");
         }
         removeById(worksheetMakerEntity.getId());
         return R.success("移除成功");
