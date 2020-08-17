@@ -73,7 +73,7 @@ public class InvoiceWebController {
 
     @GetMapping("/findPayEnterpriseDetails")
     @ApiOperation(value = "查看总包发票详情", notes = "查看总包发票详情")
-    public R findPayEnterpriseDetails(@NotNull(message = "支付清单Id不能为空") Long payEnterpriseId){
+    public R findPayEnterpriseDetails(Long payEnterpriseId){
         log.info("查看总包发票详情");
         try {
             return payEnterpriseService.findPayEnterpriseDetails(payEnterpriseId);
@@ -96,16 +96,16 @@ public class InvoiceWebController {
     }
 
     @GetMapping("/list")
-    @ApiOperation(value = "分页", notes = "分页")
+    @ApiOperation(value = "查询服务商开票类目", notes = "查询服务商开票类目")
     public R list(Query query) {
         IPage<EnterpriseProviderInvoiceCatalogsEntity> pages = enterpriseProviderInvoiceCatalogsService.page(Condition.getPage(query.setDescs("create_time")));
         return R.data(EnterpriseProviderInvoiceCatalogsWrapper.build().pageVO(pages));
     }
 
     @PostMapping("/contractApplyInvoice")
-    @ApiOperation(value = "查看总包发票详情", notes = "查看总包发票详情")
+    @ApiOperation(value = "申请总包发票", notes = "申请总包发票")
     public R contractApplyInvoice(@Valid @RequestBody ContractApplyInvoiceDto contractApplyInvoiceDto,BladeUser bladeUser){
-        log.info("查看总包发票详情");
+        log.info("申请总包发票");
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
@@ -115,9 +115,9 @@ public class InvoiceWebController {
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
             return invoiceApplicationService.contractApplyInvoice(contractApplyInvoiceDto, enterpriseWorkerEntity.getEnterpriseId());
         }catch (Exception e){
-            log.info("查看总包发票详情失败",e);
+            log.info("申请总包发票失败",e);
         }
-        return R.fail("查看总包发票详情失败");
+        return R.fail("申请总包发票失败");
     }
 
     /**
