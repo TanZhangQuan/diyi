@@ -102,8 +102,8 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     EnterpriseSubcontractInvoiceVO findDetailSummary(Long makerTotalInvoiceId);
 
     /**
-     *分包列表详情-汇总
+     *分包列表详情-门征
      */
-    EnterpriseSubcontractInvoiceVO findDetailSubcontractPortal(Long makerInvoiceId);
+    EnterpriseSubcontractPortalVO findDetailSubcontractPortal(Long makerInvoiceId);
 }
 

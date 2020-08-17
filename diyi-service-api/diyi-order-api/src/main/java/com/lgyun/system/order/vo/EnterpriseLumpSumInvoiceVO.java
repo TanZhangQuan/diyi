@@ -40,7 +40,7 @@ public class EnterpriseLumpSumInvoiceVO {
     /**
      *商户名字
      */
-    private String invoiceEnName;
+    private String enterpriseName;
     /**
      * 服务商名字
      */
@@ -79,7 +79,7 @@ public class EnterpriseLumpSumInvoiceVO {
     /**
      *  快递公司
      */
-    private String enterpriseName;
+    private String expressCompanyName;
 
     /**
      * 支付回单
