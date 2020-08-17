@@ -49,10 +49,16 @@ public class InvoiceWebController {
                                           @RequestParam(required = false) String serviceProviderName,
                                           @RequestParam(required = false) String startTime,
                                           @RequestParam(required = false) String endTime,
-                                          Query query, Long enterpriseId) {
+                                          Query query, BladeUser bladeUser) {
         log.info("根据商户查询总包发票");
         try {
-            return payEnterpriseService.findEnterpriseLumpSumInvoice(invoiceSerialNo,serviceProviderName,startTime,endTime,enterpriseId, Condition.getPage(query.setDescs("create_time")));
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+            return payEnterpriseService.findEnterpriseLumpSumInvoice(invoiceSerialNo,serviceProviderName,startTime,endTime,enterpriseWorkerEntity.getEnterpriseId(), Condition.getPage(query.setDescs("create_time")));
         }catch (Exception e){
             log.info("根据商户查询总包发票失败",e);
         }
@@ -61,7 +67,7 @@ public class InvoiceWebController {
 
     @PostMapping("/withdraw")
     @ApiOperation(value = "取消申请", notes = "取消申请")
-    public R withdraw(@NotNull(message = "申请开票id不能为空") Long applicationId){
+    public R withdraw(Long applicationId){
         log.info("取消申请");
         try {
             return  payEnterpriseService.withdraw(applicationId);
@@ -85,10 +91,16 @@ public class InvoiceWebController {
 
     @GetMapping("/findEnterprisePaymentList")
     @ApiOperation(value = "根据商户查询支付清单", notes = "根据商户查询支付清单")
-    public R findEnterprisePaymentList(Long enterpriseId,@RequestParam(required = false) String serviceProviderName,Query query){
+    public R findEnterprisePaymentList(BladeUser bladeUser,@RequestParam(required = false) String serviceProviderName,Query query){
         log.info("根据商户查询支付清单");
         try {
-            return payEnterpriseService.findEnterprisePaymentList(enterpriseId,serviceProviderName,Condition.getPage(query.setDescs("create_time")));
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+            return payEnterpriseService.findEnterprisePaymentList(enterpriseWorkerEntity.getEnterpriseId(),serviceProviderName,Condition.getPage(query.setDescs("create_time")));
         }catch (Exception e){
             log.info("根据商户查询支付清单失败",e);
         }
@@ -125,10 +137,16 @@ public class InvoiceWebController {
      */
     @GetMapping("/findEnterpriseSubcontractSummary")
     @ApiOperation(value = "根据商户查询分包列表-汇总", notes = "根据商户查询分包列表-汇总")
-    public R findEnterpriseSubcontractSummary(Long enterpriseId,@RequestParam(required = false) String serviceProviderName,Query query){
+    public R findEnterpriseSubcontractSummary(BladeUser bladeUser,@RequestParam(required = false) String serviceProviderName,Query query){
         log.info("根据商户查询分包列表-汇总");
         try {
-            return payEnterpriseService.findEnterpriseSubcontractSummary(enterpriseId,serviceProviderName,Condition.getPage(query.setDescs("create_time")));
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+            return payEnterpriseService.findEnterpriseSubcontractSummary(enterpriseWorkerEntity.getEnterpriseId(),serviceProviderName,Condition.getPage(query.setDescs("create_time")));
         }catch (Exception e){
             log.info("根据商户查询分包列表-汇总失败",e);
         }
@@ -157,10 +175,16 @@ public class InvoiceWebController {
      */
     @GetMapping("/findEnterpriseSubcontractPortal")
     @ApiOperation(value = "根据商户查询分包列表-门征", notes = "根据商户查询分包列表-门征")
-    public R findEnterpriseSubcontractPortal(Long enterpriseId,@RequestParam(required = false) String serviceProviderName,Query query){
+    public R findEnterpriseSubcontractPortal(BladeUser bladeUser,@RequestParam(required = false) String serviceProviderName,Query query){
         log.info("根据商户查询分包列表-门征");
         try {
-            return payEnterpriseService.findEnterpriseSubcontractPortal(enterpriseId,serviceProviderName,Condition.getPage(query.setDescs("create_time")));
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+            return payEnterpriseService.findEnterpriseSubcontractPortal(enterpriseWorkerEntity.getEnterpriseId(),serviceProviderName,Condition.getPage(query.setDescs("create_time")));
         }catch (Exception e){
             log.info("根据商户查询分包列表-门征失败",e);
         }

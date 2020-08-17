@@ -173,7 +173,7 @@
         pe ON pe.id = pipl.pay_enterprise_id INNER JOIN diyi_platform_invoice pi ON pi.id = pipl.invoice_print_id INNER JOIN diyi_platform_invoice_list pil
         ON pil.invoice_print_id = pi.id INNER JOIN diyi_enterprise e ON e.id = pe.enterprise_id INNER JOIN diyi_service_provider sp ON sp.id = pe.service_provider_id
         LEFT JOIN diyi_INVOICE_APPLICATION ia ON ia.id = pi.application_id AND ia.is_deleted = 0 AND ia.application_state != 'CANCELLED' WHERE pipl.is_deleted = 0
-        AND pe.is_deleted = 0 AND pi.is_deleted = 0 AND pil.is_deleted = 0 AND e.is_deleted = 0 AND sp.is_deleted = 0 AND pe.pay_enterprise_id = #{param1}
+        AND pe.is_deleted = 0 AND pi.is_deleted = 0 AND pil.is_deleted = 0 AND e.is_deleted = 0 AND sp.is_deleted = 0 AND pe.id = #{param1}
     </select>
 
     <select id="findEnterprisePaymentList" resultMap="EnterprisePaymentListMap">
