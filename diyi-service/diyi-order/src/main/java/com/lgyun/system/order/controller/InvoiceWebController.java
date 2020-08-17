@@ -61,7 +61,7 @@ public class InvoiceWebController {
 
     @PostMapping("/withdraw")
     @ApiOperation(value = "取消申请", notes = "取消申请")
-    public R withdraw(@NotNull(message = "申请开票id不能为空") Long applicationId){
+    public R withdraw(Long applicationId){
         log.info("取消申请");
         try {
             return  payEnterpriseService.withdraw(applicationId);
