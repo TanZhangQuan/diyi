@@ -162,13 +162,15 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     public R closeOrOpen(Long worksheetId, Integer variable) {
         WorksheetEntity worksheetEntity = getById(worksheetId);
         if (variable != 1 && variable != 2) {
-            R.fail("参数有误");
+            return R.fail("参数有误");
         }
         if (1 == variable) {
             worksheetEntity.setWorksheetState(WorksheetState.CLOSED);
+            saveOrUpdate(worksheetEntity);
             return R.success("关闭成功");
         } else {
             worksheetEntity.setWorksheetState(WorksheetState.PUBLISHING);
+            saveOrUpdate(worksheetEntity);
             return R.success("开启成功");
         }
     }
