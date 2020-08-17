@@ -1,5 +1,6 @@
 package com.lgyun.system.user.vo;
 
+import com.lgyun.common.enumeration.CertificationState;
 import com.lgyun.common.enumeration.SignState;
 import com.lgyun.common.enumeration.VerifyStatus;
 import io.swagger.annotations.ApiModel;
@@ -43,8 +44,15 @@ public class MakerWorksheetVO implements Serializable {
      */
     private SignState joinSignState;
 
+
+
     /**
-     * 协议认证状态
+     * 实名认证
      */
-    private SignState signState = SignState.UNSIGN;
+    private CertificationState realNameAuthentication = CertificationState.UNCERTIFIED;
+
+    /**
+     * 协议状态
+     */
+    private CertificationState protocolAuthentication = CertificationState.UNCERTIFIED;
 }

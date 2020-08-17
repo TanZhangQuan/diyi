@@ -591,7 +591,10 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         List<MakerWorksheetVO> records = pages.getRecords().stream().map(MakerEntity -> BeanUtil.copy(MakerEntity, MakerWorksheetVO.class)).collect(Collectors.toList());
         for (MakerWorksheetVO makerWorksheetVO : records) {
             if(SignState.SIGNED.equals(makerWorksheetVO.getEmpowerSignState()) && SignState.SIGNED.equals(makerWorksheetVO.getJoinSignState())){
-                makerWorksheetVO.setSignState(SignState.SIGNING);
+                makerWorksheetVO.setProtocolAuthentication(CertificationState.CERTIFIED);
+            }
+            if(VerifyStatus.VERIFYPASS.equals(makerWorksheetVO.getBankCardVerifyStatus())){
+                makerWorksheetVO.setRealNameAuthentication(CertificationState.CERTIFIED);
             }
         }
 
