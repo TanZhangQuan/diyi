@@ -111,15 +111,15 @@ public class WorksheetWebController {
     }
 
     @GetMapping("getWorksheetWebDetails")
-    @ApiOperation(value = "查看", notes = "查看")
+    @ApiOperation(value = "查询工单详情", notes = "查询工单详情")
     public R getWorksheetWebDetails(Query query, @NotNull(message = "请输入工单的id") @RequestParam(required = false) Long worksheetId) {
-        log.info("查看");
+        log.info("查询工单详情");
         try {
             return worksheetService.getWorksheetWebDetails(Condition.getPage(query.setDescs("create_time")), worksheetId);
         } catch (Exception e) {
-            log.error("查看失败", e);
+            log.error("查询工单详情失败", e);
         }
-        return R.fail("查看失败");
+        return R.fail("查询工单详情失败");
     }
 
     @PostMapping("/kickOut")
@@ -182,15 +182,4 @@ public class WorksheetWebController {
         return R.fail("验收工作成果失败");
     }
 
-    @GetMapping("/getWorksheetDetails")
-    @ApiOperation(value = "查询工单详情", notes = "查询工单详情")
-    public R getWorksheetDetails(@NotNull(message = "请输入id") @RequestParam(required = false) Long worksheetMakerId) {
-        log.info("查询工单详情");
-        try {
-            return worksheetService.getWorksheetDetails(worksheetMakerId);
-        } catch (Exception e) {
-            log.info("查询工单详情失败");
-        }
-        return R.fail("查询工单详情失败");
-    }
 }

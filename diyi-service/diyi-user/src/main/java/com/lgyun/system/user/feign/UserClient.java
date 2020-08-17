@@ -12,6 +12,7 @@ import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import com.lgyun.system.user.vo.MakerDetailVO;
+import com.lgyun.system.user.vo.MakerWorksheetVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -229,7 +230,7 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R<IPage<MakerDetailVO>> getMakerName(Integer current, Integer size, String makerName) {
+    public R<IPage<MakerWorksheetVO>> getMakerName(Integer current, Integer size, String makerName) {
         return iMakerService.getMakerName(current, size, makerName);
     }
 

@@ -229,7 +229,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * @param makerName
      * @return
      */
-    R<IPage<MakerDetailVO>> getMakerName(Integer current, Integer size, String makerName);
+    R<IPage<MakerWorksheetVO>> getMakerName(Integer current, Integer size, String makerName);
 
     /**
      * 获取当前创客所有实名认证状态
