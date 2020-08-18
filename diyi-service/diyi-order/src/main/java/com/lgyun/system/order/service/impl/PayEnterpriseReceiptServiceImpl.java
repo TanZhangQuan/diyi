@@ -26,8 +26,7 @@ public class PayEnterpriseReceiptServiceImpl extends BaseServiceImpl<PayEnterpri
     @Override
     public String findEnterprisePayReceiptUrl(Long payEnterpriseId) {
         QueryWrapper<PayEnterpriseReceiptEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(PayEnterpriseReceiptEntity::getPayEnterpriseId, payEnterpriseId)
-                .eq(PayEnterpriseReceiptEntity::getIsDeleted, 0);
+        queryWrapper.lambda().eq(PayEnterpriseReceiptEntity::getPayEnterpriseId, payEnterpriseId);
         List<PayEnterpriseReceiptEntity> payEnterpriseReceiptEntities = baseMapper.selectList(queryWrapper);
         if(null == payEnterpriseReceiptEntities){
             return "";

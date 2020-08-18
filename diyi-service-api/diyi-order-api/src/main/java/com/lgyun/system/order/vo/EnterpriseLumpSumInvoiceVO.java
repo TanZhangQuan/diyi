@@ -1,5 +1,7 @@
 package com.lgyun.system.order.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.InvoiceState;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
@@ -20,31 +22,43 @@ public class EnterpriseLumpSumInvoiceVO {
     /**
      * 支付清单Id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long payEnterpriseId;
+
     /**
      *开票ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long invoicePrintId;
+
     /**
      * 商户Id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
+
     /**
      * 服务商Id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long serviceProviderId;
+
     /**
      * 开篇申请id,没有就是没有申请
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long applicationId;
+
     /**
      *商户名字
      */
     private String enterpriseName;
+
     /**
      * 服务商名字
      */
     private String serviceProviderName;
+
     /**
      * 支付清单url
      */
@@ -54,18 +68,23 @@ public class EnterpriseLumpSumInvoiceVO {
      * 关联的工单号
      */
     private Long worksheetId;
+
     /**
      * 发票编码
      */
     private String invoiceSerialNo;
+
     /**
      * 发票url
      */
     private String companyInvoiceUrl;
+
     /**
+     *
      * 开票状态
      */
     private InvoiceState companyInvoiceState;
+
     /**
      * 开篇日期
      */
