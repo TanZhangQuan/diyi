@@ -35,7 +35,7 @@ public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity
      * @param achievementFiles
      * @return
      */
-    R<String> submitAchievement(WorksheetMakerEntity worksheetMakerEntity, String achievementDesc, String achievementFiles);
+    R<String> submitAchievement(WorksheetMakerEntity worksheetMakerEntity, String achievementDesc, String achievementFiles,IWorksheetService worksheetService);
 
 
     /**

@@ -38,8 +38,6 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
 
     private IUserClient iUserClient;
 
-    private IWorksheetService worksheetService;
-
     @Override
     public int getWorksheetCount(Long worksheetId) {
         return baseMapper.getWorksheetCount(worksheetId);
@@ -47,7 +45,7 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
 
     @Override
     @Transactional
-    public R<String> submitAchievement(WorksheetMakerEntity worksheetMakerEntity, String achievementDesc, String achievementFiles) {
+    public R<String> submitAchievement(WorksheetMakerEntity worksheetMakerEntity, String achievementDesc, String achievementFiles,IWorksheetService worksheetService) {
         if (null == worksheetMakerEntity || null == achievementFiles || "" == achievementFiles) {
             return R.fail("提交失败");
         }
