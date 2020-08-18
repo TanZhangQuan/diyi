@@ -582,15 +582,23 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R<IPage<MakerDetailVO>> getMakerName(Integer current, Integer size, String makerName) {
+    public R<IPage<MakerWorksheetVO>> getMakerName(Integer current, Integer size, String makerName) {
         QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().like(makerName != null, MakerEntity::getName, makerName);
 
         IPage<MakerEntity> pages = this.page(new Page<>(current , size), queryWrapper);
 
-        List<MakerDetailVO> records = pages.getRecords().stream().map(MakerEntity -> BeanUtil.copy(MakerEntity, MakerDetailVO.class)).collect(Collectors.toList());
+        List<MakerWorksheetVO> records = pages.getRecords().stream().map(MakerEntity -> BeanUtil.copy(MakerEntity, MakerWorksheetVO.class)).collect(Collectors.toList());
+        for (MakerWorksheetVO makerWorksheetVO : records) {
+            if(SignState.SIGNED.equals(makerWorksheetVO.getEmpowerSignState()) && SignState.SIGNED.equals(makerWorksheetVO.getJoinSignState())){
+                makerWorksheetVO.setProtocolAuthentication(CertificationState.CERTIFIED);
+            }
+            if(VerifyStatus.VERIFYPASS.equals(makerWorksheetVO.getBankCardVerifyStatus())){
+                makerWorksheetVO.setRealNameAuthentication(CertificationState.CERTIFIED);
+            }
+        }
 
-        IPage<MakerDetailVO> pageVo = new Page<>(pages.getCurrent(), pages.getSize(), pages.getTotal());
+        IPage<MakerWorksheetVO> pageVo = new Page<>(pages.getCurrent(), pages.getSize(), pages.getTotal());
         pageVo.setRecords(records);
 
         return R.data(pageVo);

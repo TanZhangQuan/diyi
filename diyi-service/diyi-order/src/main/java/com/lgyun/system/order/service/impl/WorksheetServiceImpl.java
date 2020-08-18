@@ -133,13 +133,14 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
 
     @Override
     public R getEnterpriseWorksheet(IPage<WorksheetXiaoVo> page, Long enterpriseId, WorksheetState worksheetState, String worksheetNo, String worksheetName, String startTime, String endTime) {
-        return R.data(baseMapper.getEnterpriseWorksheet(enterpriseId, worksheetState, worksheetNo, worksheetName, startTime, endTime, page));
+        return R.data(page.setRecords(baseMapper.getEnterpriseWorksheet(enterpriseId, worksheetState, worksheetNo, worksheetName, startTime, endTime, page)));
     }
 
     @Override
     public R getWorksheetWebDetails(IPage<WorksheetMakerDetailsVO> page, Long worksheetId) {
         WorksheetEntity worksheetEntity = getById(worksheetId);
         WorksheetXiaoVo worksheetXiaoVo = BeanUtil.copy(worksheetEntity, WorksheetXiaoVo.class);
+        worksheetXiaoVo.setWorksheetMakerId(worksheetId);
         Map map = new HashMap();
         map.put("worksheetXiaoVo", worksheetXiaoVo);
 
@@ -153,21 +154,23 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
                 worksheetMakerDetailsVO.setRealNameAuthentication(CertificationState.CERTIFIED);
             }
         }
-
-        return R.data(worksheetMakerDetails);
+        map.put("worksheetMakerDetails",worksheetMakerDetails);
+        return R.data(map);
     }
 
     @Override
     public R closeOrOpen(Long worksheetId, Integer variable) {
         WorksheetEntity worksheetEntity = getById(worksheetId);
         if (variable != 1 && variable != 2) {
-            R.fail("参数有误");
+            return R.fail("参数有误");
         }
         if (1 == variable) {
             worksheetEntity.setWorksheetState(WorksheetState.CLOSED);
+            saveOrUpdate(worksheetEntity);
             return R.success("关闭成功");
         } else {
             worksheetEntity.setWorksheetState(WorksheetState.PUBLISHING);
+            saveOrUpdate(worksheetEntity);
             return R.success("开启成功");
         }
     }
@@ -176,7 +179,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     public R kickOut(Long worksheetId, Long makerId) {
         WorksheetMakerEntity worksheetMakerEntity = worksheetMakerService.getmakerIdAndWorksheetId(worksheetId, makerId);
         if (null == worksheetMakerEntity) {
-            R.fail("创客没有抢单记录");
+           return R.fail("创客没有抢单记录");
         }
         removeById(worksheetMakerEntity.getId());
         return R.success("移除成功");

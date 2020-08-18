@@ -241,8 +241,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     @Override
     public R findDetailSubcontractPortal(Long makerInvoiceId) {
         Map map = new HashMap();
-        EnterpriseSubcontractInvoiceVO detailSummary = baseMapper.findDetailSubcontractPortal(makerInvoiceId);
-        map.put("EnterpriseSubcontractInvoiceVO",detailSummary);
+        EnterpriseSubcontractPortalVO detailSummary = baseMapper.findDetailSubcontractPortal(makerInvoiceId);
+        map.put("EnterpriseSubcontractPortalVO",detailSummary);
         PayEnterpriseEntity byId = getById(detailSummary.getPayEnterpriseId());
         if(null == byId){
             R.fail("数据错误");

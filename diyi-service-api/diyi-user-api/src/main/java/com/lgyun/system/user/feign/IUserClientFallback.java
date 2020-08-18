@@ -8,6 +8,7 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import com.lgyun.system.user.vo.MakerDetailVO;
+import com.lgyun.system.user.vo.MakerWorksheetVO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -107,7 +108,7 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public R<IPage<MakerDetailVO>> getMakerName(Integer current, Integer size, String makerName) {
+    public R<IPage<MakerWorksheetVO>> getMakerName(Integer current, Integer size, String makerName) {
         return R.fail("网络繁忙，请稍后尝试");
     }
 
