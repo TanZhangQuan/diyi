@@ -88,9 +88,14 @@ public class PayEnterpriseEntity extends BaseEntity {
     private String payMemo;
 
     /**
+     *1，编辑中；2，已提交；3，审核通过；4，已驳回。驳回的还可以再提交审核
+     */
+    private AuditState auditState = AuditState.EDITING;
+
+    /**
      * 支付给平台状态：待支付，已支付，已确认收款
      */
-    private EnterprisePayState enterprisePayState = EnterprisePayState.TOPAY;
+    private EnterprisePayState payState = EnterprisePayState.TOPAY;
 
     /**
      * 支付确认日期时间
@@ -107,10 +112,6 @@ public class PayEnterpriseEntity extends BaseEntity {
      */
     private Long employeeId;
 
-    /**
-     *1，编辑中；2，已提交；3，审核通过；4，已驳回。驳回的还可以再提交审核
-     */
-    private AuditState auditState;
     /**
      * 开票状态：未开，已开
      */

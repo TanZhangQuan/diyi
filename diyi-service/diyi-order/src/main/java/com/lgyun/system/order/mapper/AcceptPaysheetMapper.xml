@@ -46,7 +46,7 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.order.vo.AcceptPayMakerListVO" id="acceptPayMakerListVO">
+    <resultMap type="com.lgyun.system.order.vo.PayEnterpriseMakerDetailListVO" id="payEnterpriseMakerDetailListVO">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="idcardNo" column="idcard_no"/>
@@ -104,7 +104,7 @@
         </if>
     </select>
 
-    <select id="getMakerList" resultMap="acceptPayMakerListVO">
+    <select id="getMakerList" resultMap="payEnterpriseMakerDetailListVO">
         SELECT t4.id, t4.name, t4.idcard_no, t4.phone_number, t4.bank_card_no, IF(t4.bank_card_verify_status = 'VERIFYPASS', TRUE, FALSE) AS bool_real_name_verify,
         IF((SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t4.id AND sign_state = 'SIGNED' AND agreement_type = 1) > 0
         AND (SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t4.id AND sign_state = 'SIGNED' AND agreement_type = 9) > 0, TRUE, FALSE) AS bool_sign,

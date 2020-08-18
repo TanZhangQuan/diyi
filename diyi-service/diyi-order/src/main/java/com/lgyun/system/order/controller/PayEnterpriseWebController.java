@@ -9,6 +9,7 @@ import com.lgyun.system.order.dto.AcceptPaysheetSaveDto;
 import com.lgyun.system.order.dto.PayEnterpriseMakerListDto;
 import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
 import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
+import com.lgyun.system.order.service.IAcceptPaysheetService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.service.IPayMakerService;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
@@ -36,6 +37,7 @@ import javax.validation.constraints.NotNull;
 @Api(value = "商户支付清单相关接口(管理端)", tags = "商户支付清单相关接口(管理端)")
 public class PayEnterpriseWebController {
 
+    private IAcceptPaysheetService acceptPaysheetService;
     private IPayEnterpriseService payEnterpriseService;
     private IPayMakerService payMakerService;
     private IUserClient iUserClient;
@@ -140,7 +142,7 @@ public class PayEnterpriseWebController {
 
         log.info("根据支付清单ID查询支付清单关联工单的创客");
         try {
-            return payEnterpriseService.getMakers(payEnterpriseId, Condition.getPage(query.setDescs("create_time")));
+            return payEnterpriseService.getMakerList(payEnterpriseId, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("根据支付清单ID查询支付清单关联工单的创客异常", e);
         }
@@ -160,7 +162,7 @@ public class PayEnterpriseWebController {
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-            return payEnterpriseService.uploadAcceptPaysheet(acceptPaysheetSaveDto, enterpriseWorkerEntity);
+            return acceptPaysheetService.upload(acceptPaysheetSaveDto, enterpriseWorkerEntity);
         } catch (Exception e) {
             log.error("上传总包交付支付验收单异常", e);
         }
@@ -215,19 +217,6 @@ public class PayEnterpriseWebController {
             return payEnterpriseService.getSelfHelfInvoiceByEnterpriseId(enterpriseWorkerEntity.getEnterpriseId(), selfHelpInvoicePayDto, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("查询当前商户所有自主开票记录(众包)异常", e);
-        }
-        return R.fail("查询失败");
-    }
-
-    @GetMapping("/get_worksheet_by_worksheet_no")
-    @ApiOperation(value = "根据工单编号获取工单", notes = "根据工单编号获取工单")
-    public R getWorksheetByWorksheetNo(String worksheetNo) {
-
-        log.info("根据工单编号获取工单");
-        try {
-            return payEnterpriseService.getWorksheetByWorksheetNo(worksheetNo);
-        } catch (Exception e) {
-            log.error("根据工单编号获取工单异常", e);
         }
         return R.fail("查询失败");
     }

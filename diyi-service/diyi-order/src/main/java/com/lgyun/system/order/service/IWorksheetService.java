@@ -28,7 +28,6 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      */
     R<String> releaseWorksheet(ReleaseWorksheetDto releaseWorksheetDTO);
 
-
     /**
      * 抢单
      *
@@ -120,7 +119,6 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      * @return
      */
     R<WorksheetNoIdVO> getByWorksheetId(String worksheetId);
-
 
 }
 

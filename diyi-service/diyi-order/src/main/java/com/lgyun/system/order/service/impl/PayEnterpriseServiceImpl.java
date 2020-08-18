@@ -9,7 +9,6 @@ import com.lgyun.common.tool.KdniaoTrackQueryUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.AcceptPaysheetSaveDto;
 import com.lgyun.system.order.dto.PayEnterpriseMakerListDto;
 import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
 import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
@@ -21,7 +20,6 @@ import com.lgyun.system.order.mapper.PayEnterpriseMapper;
 import com.lgyun.system.order.service.*;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.entity.EnterpriseProviderEntity;
-import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +45,6 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     private IPayEnterpriseReceiptService payEnterpriseReceiptService;
     private IWorksheetService worksheetService;
     private IUserClient userClient;
-    private IAcceptPaysheetService acceptPaysheetService;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
     private IInvoiceApplicationService invoiceApplicationService;
     private IWorksheetMakerService worksheetMakerService;
@@ -152,11 +149,6 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R<String> uploadAcceptPaysheet(AcceptPaysheetSaveDto acceptPaysheet, EnterpriseWorkerEntity enterpriseWorkerEntity) {
-        return acceptPaysheetService.upload(acceptPaysheet, enterpriseWorkerEntity);
-    }
-
-    @Override
     public R<IPage<SelfHelpInvoicePayVO>> getSelfHelfInvoiceByEnterpriseId(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<SelfHelpInvoicePayVO> page) {
         return selfHelpInvoiceService.getSelfHelfInvoiceByEnterpriseId(enterpriseId, selfHelpInvoicePayDto, page);
     }
@@ -258,7 +250,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R<WorksheetNoIdVO> getWorksheetByWorksheetNo(String worksheetNo) {
-        return worksheetService.getByWorksheetNo(worksheetNo);
+    public R<IPage<PayEnterpriseMakerDetailListVO>> getMakerList(Long payEnterpriseId, IPage<PayEnterpriseMakerDetailListVO> page) {
+        return R.data(page.setRecords(baseMapper.getMakerList(payEnterpriseId, page)));
     }
+
 }

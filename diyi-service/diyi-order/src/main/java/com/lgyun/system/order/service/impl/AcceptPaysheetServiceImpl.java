@@ -8,12 +8,18 @@ import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.dto.AcceptPayListDto;
 import com.lgyun.system.order.dto.AcceptPaysheetSaveDto;
 import com.lgyun.system.order.entity.AcceptPaysheetEntity;
+import com.lgyun.system.order.entity.PayEnterpriseEntity;
+import com.lgyun.system.order.entity.WorksheetEntity;
+import com.lgyun.system.order.entity.WorksheetMakerEntity;
 import com.lgyun.system.order.mapper.AcceptPaysheetMapper;
 import com.lgyun.system.order.service.IAcceptPaysheetService;
+import com.lgyun.system.order.service.IPayEnterpriseService;
+import com.lgyun.system.order.service.IWorksheetMakerService;
+import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.order.vo.AcceptPayListVO;
-import com.lgyun.system.order.vo.AcceptPayMakerListVO;
 import com.lgyun.system.order.vo.AcceptPaysheetByEnterpriseListVO;
 import com.lgyun.system.order.vo.AcceptPaysheetWorksheetVO;
+import com.lgyun.system.order.vo.PayEnterpriseMakerDetailListVO;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import lombok.AllArgsConstructor;
@@ -30,6 +36,10 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMapper, AcceptPaysheetEntity> implements IAcceptPaysheetService {
+
+    private IPayEnterpriseService payEnterpriseService;
+    private IWorksheetMakerService worksheetMakerService;
+    private IWorksheetService worksheetService;
 
     @Override
     public R<IPage<AcceptPaysheetByEnterpriseListVO>> getAcceptPaysheetsByEnterprise(IPage<AcceptPaysheetByEnterpriseListVO> page, Long enterpriseId, Long makerId) {
@@ -49,6 +59,16 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
     @Override
     public R<String> upload(AcceptPaysheetSaveDto acceptPaysheetSaveDto, EnterpriseWorkerEntity enterpriseWorkerEntity) {
 
+        //判断支付清单是否存在
+        PayEnterpriseEntity payEnterpriseEntity = payEnterpriseService.getById(acceptPaysheetSaveDto.getPayEnterpriseId());
+        if (payEnterpriseEntity == null) {
+            return R.fail("支付清单不存在");
+        }
+
+        if (!(enterpriseWorkerEntity.getEnterpriseId().equals(payEnterpriseEntity.getEnterpriseId()))) {
+            return R.fail("支付清单不属于当前商户");
+        }
+
         //根据支付清单ID, 创客ID查询交付支付验收单
         AcceptPaysheetEntity oldAcceptPaysheetEntity = getAcceptPaysheet(acceptPaysheetSaveDto.getPayEnterpriseId(), acceptPaysheetSaveDto.getMakerId());
         if (oldAcceptPaysheetEntity != null) {
@@ -58,8 +78,18 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
         //保存交付支付验收单
         AcceptPaysheetEntity acceptPaysheetEntity = new AcceptPaysheetEntity();
         if (AcceptPaysheetType.SINGLE.equals(acceptPaysheetSaveDto.getAcceptPaysheetType())) {
+            WorksheetEntity worksheetEntity = worksheetService.getById(payEnterpriseEntity.getWorksheetId());
+            if (worksheetEntity == null) {
+                return R.fail("支付清单无关联工单，无法上传单个创客的交付支付验收单");
+            }
+
             if (acceptPaysheetSaveDto.getMakerId() == null) {
                 return R.fail("请选择创客");
+            }
+
+            WorksheetMakerEntity worksheetMakerEntity = worksheetMakerService.getmakerIdAndWorksheetId(acceptPaysheetSaveDto.getMakerId(), payEnterpriseEntity.getWorksheetId());
+            if (worksheetMakerEntity == null) {
+                return R.fail("创客和支付清单的工单无关联");
             }
 
             acceptPaysheetEntity.setMakerId(acceptPaysheetSaveDto.getMakerId());
@@ -91,7 +121,7 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
     }
 
     @Override
-    public R<IPage<AcceptPayMakerListVO>> getMakerList(Long acceptPaysheetId, IPage<AcceptPayMakerListVO> page) {
+    public R<IPage<PayEnterpriseMakerDetailListVO>> getMakerList(Long acceptPaysheetId, IPage<PayEnterpriseMakerDetailListVO> page) {
         return R.data(page.setRecords(baseMapper.getMakerList(acceptPaysheetId, page)));
     }
 
@@ -99,8 +129,14 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
     public AcceptPaysheetEntity getAcceptPaysheet(Long payEnterpriseId, Long makerId) {
 
         QueryWrapper<AcceptPaysheetEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(AcceptPaysheetEntity::getPayEnterpriseId, payEnterpriseId)
-                .eq(AcceptPaysheetEntity::getMakerId, makerId);
+        if (makerId != null) {
+            queryWrapper.lambda().eq(AcceptPaysheetEntity::getPayEnterpriseId, payEnterpriseId)
+                    .eq(AcceptPaysheetEntity::getMakerId, makerId);
+        } else {
+            queryWrapper.lambda().eq(AcceptPaysheetEntity::getPayEnterpriseId, payEnterpriseId)
+                    .isNull(true, AcceptPaysheetEntity::getMakerId);
+        }
+
 
         return baseMapper.selectOne(queryWrapper);
     }

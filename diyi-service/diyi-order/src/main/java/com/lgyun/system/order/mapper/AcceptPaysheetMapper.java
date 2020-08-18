@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.order.dto.AcceptPayListDto;
 import com.lgyun.system.order.entity.AcceptPaysheetEntity;
 import com.lgyun.system.order.vo.AcceptPayListVO;
-import com.lgyun.system.order.vo.AcceptPayMakerListVO;
+import com.lgyun.system.order.vo.PayEnterpriseMakerDetailListVO;
 import com.lgyun.system.order.vo.AcceptPaysheetByEnterpriseListVO;
 import com.lgyun.system.order.vo.AcceptPaysheetWorksheetVO;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
@@ -67,6 +67,6 @@ public interface AcceptPaysheetMapper extends BaseMapper<AcceptPaysheetEntity> {
      * @param page
      * @return
      */
-    List<AcceptPayMakerListVO> getMakerList(Long acceptPaysheetId, IPage<AcceptPayMakerListVO> page);
+    List<PayEnterpriseMakerDetailListVO> getMakerList(Long acceptPaysheetId, IPage<PayEnterpriseMakerDetailListVO> page);
 }
 

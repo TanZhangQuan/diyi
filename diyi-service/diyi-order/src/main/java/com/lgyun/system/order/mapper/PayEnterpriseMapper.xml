@@ -96,6 +96,19 @@
         <result property="invoicePrintDate" column="invoice_print_date"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.order.vo.PayEnterpriseMakerDetailListVO" id="payEnterpriseMakerDetailListVO">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="idcardNo" column="idcard_no"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="bankCardNo" column="bank_card_no"/>
+        <result property="boolRealNameVerify" column="bool_real_name_verify"/>
+        <result property="boolSign" column="bool_sign"/>
+        <result property="boolAchievement" column="bool_achievement"/>
+        <result property="checkMoney" column="check_money"/>
+        <result property="acceptPaysheetUrl" column="accept_paysheet_url"/>
+    </resultMap>
+
     <select id="getEnterpriseAll" resultMap="InvoiceEnterpriseVOMap">
         SELECT e.id AS enterprise_id, pe.id AS pay_enterprise_id, pm.id AS pay_maker_id, e.enterprise_name AS enterprise_name FROM diyi_enterprise e
         INNER JOIN diyi_pay_enterprise pe ON e.id = pe.enterprise_id INNER JOIN diyi_pay_maker pm ON pm.pay_enterprise_id = pe.id
@@ -126,7 +139,7 @@
         (SELECT group_concat(enterprise_pay_receipt_url) FROM diyi_pay_enterprise_receipt WHERE is_deleted = 0 AND pay_enterprise_id = t1.id) AS enterprise_pay_receipt_urls,
         (SELECT group_concat(accept_paysheet_url) FROM diyi_accept_paysheet WHERE is_deleted = 0 AND pay_enterprise_id = t1.id) AS accept_paysheet_urls FROM diyi_pay_enterprise t1
         INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id INNER JOIN diyi_service_provider t3 ON t1.service_provider_id = t3.id LEFT JOIN diyi_worksheet t4
-        ON t1.worksheet_id = t4.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t4.is_deleted = 0 AND t1.enterprise_id = #{param1}
+        ON t1.worksheet_id = t4.id AND t4.is_deleted = 0 WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t1.enterprise_id = #{param1}
         <if test="param2.payEnterpriseMakerId != null">
             AND t1.id = #{param2.payEnterpriseMakerId}
         </if>
@@ -212,4 +225,16 @@
         SELECT pe.id AS pay_enterprise_id,sp.id as service_provider_id, pm.id AS pay_maker_id, mi.id AS maker_invoice_id, mtr.id AS maker_tax_record_id, mi.voice_serial_no, mi.maker_voice_url, mtr.maker_tax_url, pe.company_invoice_state, sp.service_provider_name, pe.invoice_print_date FROM diyi_pay_enterprise pe INNER JOIN diyi_pay_maker pm ON pm.pay_enterprise_id = pe.id INNER JOIN diyi_maker_invoice mi ON mi.pay_maker_id = pm.id INNER JOIN diyi_service_provider sp ON pe.service_provider_id = sp.id LEFT JOIN diyi_maker_tax_record mtr ON pm.id = mtr.pay_maker_id AND mtr.is_deleted = 0
         WHERE pe.is_deleted = 0 AND pm.is_deleted = 0 AND mi.is_deleted = 0 AND sp.is_deleted = 0 and mi.id = #{param1}
     </select>
+
+    <select id="getMakerList" resultMap="payEnterpriseMakerDetailListVO">
+        SELECT t3.id, t3.name, t3.idcard_no, t3.phone_number, t3.bank_card_no, IF(t3.bank_card_verify_status = 'VERIFYPASS', TRUE, FALSE) AS bool_real_name_verify,
+        IF((SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t3.id AND sign_state = 'SIGNED' AND agreement_type = 1) > 0
+        AND (SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t3.id AND sign_state = 'SIGNED' AND agreement_type = 9) > 0, TRUE, FALSE) AS bool_sign,
+        IF(t2.achievement_files = '', FALSE, TRUE) AS boolAchievement, t2.check_money, IFNULL((SELECT accept_paysheet_url FROM diyi_accept_paysheet WHERE is_deleted = 0
+        AND pay_enterprise_id = t1.id AND maker_id = t2.maker_id AND accept_paysheet_type = 'SINGLE'), (SELECT accept_paysheet_url FROM diyi_accept_paysheet
+        WHERE is_deleted = 0 AND pay_enterprise_id = t1.id AND accept_paysheet_type = 'MANY')) AS accept_paysheet_url FROM diyi_pay_enterprise t1
+        INNER JOIN diyi_worksheet_maker t2 ON t1.worksheet_id = t2.worksheet_id INNER JOIN diyi_maker t3 ON t2.maker_id = t3.id
+        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t1.id = #{param1}
+    </select>
+
 </mapper>
