@@ -140,7 +140,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     public R getWorksheetWebDetails(IPage<WorksheetMakerDetailsVO> page, Long worksheetId) {
         WorksheetEntity worksheetEntity = getById(worksheetId);
         WorksheetXiaoVo worksheetXiaoVo = BeanUtil.copy(worksheetEntity, WorksheetXiaoVo.class);
-        worksheetXiaoVo.setWorksheetMakerId(worksheetId);
+        worksheetXiaoVo.setWorksheetId(worksheetId);
         Map map = new HashMap();
         map.put("worksheetXiaoVo", worksheetXiaoVo);
 
