@@ -46,14 +46,14 @@ public class WorksheetWebController {
     public R releaseWorksheet(@Valid @RequestBody ReleaseWorksheetDto releaseWorksheetDTO,BladeUser bladeUser) {
         log.info("发布工单");
         try {
-//            //获取当前商户员工
-//            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-//            if (!(result.isSuccess())){
-//                return result;
-//            }
-           // EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-            //releaseWorksheetDTO.setEnterpriseId(enterpriseWorkerEntity.getEnterpriseId());
-            releaseWorksheetDTO.setEnterpriseId(1123598821738675208L);
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+            releaseWorksheetDTO.setEnterpriseId(enterpriseWorkerEntity.getEnterpriseId());
+            //releaseWorksheetDTO.setEnterpriseId(1123598821738675208L);
             return worksheetService.releaseWorksheet(releaseWorksheetDTO);
         } catch (Exception e) {
             log.error("发布订单失败", e);
