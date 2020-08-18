@@ -1,5 +1,7 @@
 package com.lgyun.system.user.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.CertificationState;
 import com.lgyun.common.enumeration.SignState;
 import com.lgyun.common.enumeration.VerifyStatus;
@@ -21,6 +23,7 @@ public class MakerWorksheetVO implements Serializable {
     /**
      * 创客id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     /**
