@@ -93,7 +93,7 @@ public class WorksheetController {
             if (!(worksheetEntity.getWorksheetState().equals(WorksheetState.CLOSED) || worksheetEntity.getWorksheetState().equals(WorksheetState.CHECKACCEPT))) {
                 return R.fail("工单暂时不能提交工作成果，稍后再试");
             }
-            return worksheetMakerService.submitAchievement(worksheetMakerEntity, achievementDesc, achievementFiles);
+            return worksheetMakerService.submitAchievement(worksheetMakerEntity, achievementDesc, achievementFiles,worksheetService);
         } catch (Exception e) {
             log.info("提交工作成果失败");
         }
