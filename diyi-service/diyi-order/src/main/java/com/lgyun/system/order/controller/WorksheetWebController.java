@@ -53,7 +53,6 @@ public class WorksheetWebController {
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
             releaseWorksheetDTO.setEnterpriseId(enterpriseWorkerEntity.getEnterpriseId());
-            //releaseWorksheetDTO.setEnterpriseId(1123598821738675208L);
             return worksheetService.releaseWorksheet(releaseWorksheetDTO);
         } catch (Exception e) {
             log.error("发布订单失败", e);

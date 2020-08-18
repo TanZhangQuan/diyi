@@ -211,12 +211,12 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
     @Override
     public R findEnterpriseSubcontractSummary(Long enterpriseId, String serviceProviderName, IPage<EnterpriseSubcontractInvoiceVO> page) {
-        return R.data(baseMapper.findEnterpriseSubcontractSummary(enterpriseId,serviceProviderName,page));
+        return R.data(page.setRecords(baseMapper.findEnterpriseSubcontractSummary(enterpriseId,serviceProviderName,page)));
     }
 
     @Override
     public R findEnterpriseSubcontractPortal(Long enterpriseId, String serviceProviderName, IPage<EnterpriseSubcontractPortalVO> page) {
-        return R.data(baseMapper.findEnterpriseSubcontractPortal(enterpriseId,serviceProviderName,page));
+        return R.data(page.setRecords(baseMapper.findEnterpriseSubcontractPortal(enterpriseId,serviceProviderName,page)));
     }
 
     @Override

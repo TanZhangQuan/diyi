@@ -1,5 +1,7 @@
 package com.lgyun.system.order.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.InvoiceState;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
@@ -19,31 +21,37 @@ public class SelfHelpInvoiceWebVO implements Serializable {
     /**
      * 自助开票id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long selfHelpInvoiceId;
 
     /**
      * 购买方Id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
 
     /**
      * 自助开票详情id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long selfHelpInvoiceDetailId;
 
     /**
      * 地址Id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long addressId;
 
     /**
      * 自助人id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long invoicePersonId;
 
     /**
      * 自助费用id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long selfHelpInvoiceFeeId;
 
     /**
