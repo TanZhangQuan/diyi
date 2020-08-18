@@ -58,6 +58,8 @@ public class InvoiceWebController {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+//            EnterpriseWorkerEntity enterpriseWorkerEntity =new EnterpriseWorkerEntity();
+//            enterpriseWorkerEntity.setEnterpriseId(1123598821738675208L);
             return payEnterpriseService.findEnterpriseLumpSumInvoice(invoiceSerialNo,serviceProviderName,startTime,endTime,enterpriseWorkerEntity.getEnterpriseId(), Condition.getPage(query.setDescs("create_time")));
         }catch (Exception e){
             log.info("根据商户查询总包发票失败",e);
@@ -100,6 +102,8 @@ public class InvoiceWebController {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+//            EnterpriseWorkerEntity enterpriseWorkerEntity =new EnterpriseWorkerEntity();
+//            enterpriseWorkerEntity.setEnterpriseId(1123598821738675208L);
             return payEnterpriseService.findEnterprisePaymentList(enterpriseWorkerEntity.getEnterpriseId(),serviceProviderName,Condition.getPage(query.setDescs("create_time")));
         }catch (Exception e){
             log.info("根据商户查询支付清单失败",e);
@@ -125,6 +129,8 @@ public class InvoiceWebController {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+//            EnterpriseWorkerEntity enterpriseWorkerEntity =new EnterpriseWorkerEntity();
+//            enterpriseWorkerEntity.setEnterpriseId(1123598821738675208L);
             return invoiceApplicationService.contractApplyInvoice(contractApplyInvoiceDto, enterpriseWorkerEntity.getEnterpriseId());
         }catch (Exception e){
             log.info("申请总包发票失败",e);
@@ -146,6 +152,8 @@ public class InvoiceWebController {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+//            EnterpriseWorkerEntity enterpriseWorkerEntity =new EnterpriseWorkerEntity();
+//            enterpriseWorkerEntity.setEnterpriseId(1123598821738675208L);
             return payEnterpriseService.findEnterpriseSubcontractSummary(enterpriseWorkerEntity.getEnterpriseId(),serviceProviderName,Condition.getPage(query.setDescs("create_time")));
         }catch (Exception e){
             log.info("根据商户查询分包列表-汇总失败",e);
@@ -184,6 +192,8 @@ public class InvoiceWebController {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+//            EnterpriseWorkerEntity enterpriseWorkerEntity =new EnterpriseWorkerEntity();
+//            enterpriseWorkerEntity.setEnterpriseId(1123598821738675208L);
             return payEnterpriseService.findEnterpriseSubcontractPortal(enterpriseWorkerEntity.getEnterpriseId(),serviceProviderName,Condition.getPage(query.setDescs("create_time")));
         }catch (Exception e){
             log.info("根据商户查询分包列表-门征失败",e);

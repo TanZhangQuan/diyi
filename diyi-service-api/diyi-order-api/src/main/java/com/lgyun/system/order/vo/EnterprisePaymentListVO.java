@@ -1,5 +1,7 @@
 package com.lgyun.system.order.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -17,10 +19,12 @@ public class EnterprisePaymentListVO {
     /**
      * 支付清单id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long payEnterpriseId;
     /**
      * 服务商Id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long serviceProviderId;
     /**
      * 服务商名字
