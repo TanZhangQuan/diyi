@@ -41,7 +41,7 @@ public class AcceptPaysheetWebController {
 
     @PostMapping("/upload")
     @ApiOperation(value = "上传总包交付支付验收单", notes = "上传总包交付支付验收单")
-    public R save(@Valid @RequestBody AcceptPaysheetSaveDto acceptPaysheet, BladeUser bladeUser) {
+    public R save(@Valid @RequestBody AcceptPaysheetSaveDto acceptPaysheetSaveDto, BladeUser bladeUser) {
 
         log.info("上传总包交付支付验收单");
         try {
@@ -52,7 +52,7 @@ public class AcceptPaysheetWebController {
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-            return acceptPaysheetService.upload(acceptPaysheet, enterpriseWorkerEntity);
+            return acceptPaysheetService.upload(acceptPaysheetSaveDto, enterpriseWorkerEntity);
         } catch (Exception e) {
             log.error("上传总包交付支付验收单异常", e);
         }

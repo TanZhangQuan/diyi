@@ -256,4 +256,9 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         }
         return R.data(map);
     }
+
+    @Override
+    public R<WorksheetNoIdVO> getWorksheetByWorksheetNo(String worksheetNo) {
+        return worksheetService.getByWorksheetNo(worksheetNo);
+    }
 }

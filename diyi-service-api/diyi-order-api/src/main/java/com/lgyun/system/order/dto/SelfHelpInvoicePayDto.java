@@ -17,6 +17,9 @@ import java.util.Date;
 public class SelfHelpInvoicePayDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    //自助开票ID
+    private Long selfHelpInvoiceId;
+
     //自主开票开始时间
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date beginDate;

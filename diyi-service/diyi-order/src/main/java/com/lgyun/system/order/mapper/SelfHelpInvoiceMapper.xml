@@ -129,9 +129,9 @@
         INNER JOIN diyi_self_help_invoice_fee hf ON zs.id = hf.self_help_invoice_id
         WHERE zs.is_deleted = 0 AND rc.is_deleted = 0 AND sd.is_deleted = 0 AND a.is_deleted = 0 AND sp.is_deleted = 0 AND hf.is_deleted = 0 AND
          zs.apply_enterprise_id = #{param1} and zs.invoice_people_type =#{param2}
-         <if test="param3 != null and param3 != ''">
+        <if test="param3 != null and param3 != ''">
              and sd.invoice_people_name like concat('%', #{param3}, '%')
-         </if>
+        </if>
         <if test="param4 != null and param4 != ''">
             and zs.create_time > #{param4}
         </if>
@@ -144,6 +144,9 @@
         SELECT t1.id, t3.enterprise_name, t1.list_file, t1.invoice_people_type, t1.charge_money_num, t2.invoice_people_name, t2.flow_contract_url, t2.business_contract_url,
         t2.deliver_sheet_url, t2.account_balance_url, t1.create_time FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_detail t2 ON t1.id = t2.self_help_invoice_id
         INNER JOIN diyi_enterprise t3 ON t1.enterprise_id = t3.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t1.enterprise_id = #{param1}
+        <if test="param2.selfHelpInvoiceId != null">
+            AND t1.id = #{param2.selfHelpInvoiceId}
+        </if>
         <if test="param2.beginDate != null">
             AND DATEDIFF(t1.create_time, #{param2.beginDate}) <![CDATA[ >= ]]> 0
         </if>

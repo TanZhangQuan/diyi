@@ -149,7 +149,7 @@ public class PayEnterpriseWebController {
 
     @PostMapping("/upload_accept_paysheet")
     @ApiOperation(value = "上传总包交付支付验收单", notes = "上传总包交付支付验收单")
-    public R uploadAcceptPaysheet(@Valid @RequestBody AcceptPaysheetSaveDto acceptPaysheet, BladeUser bladeUser) {
+    public R uploadAcceptPaysheet(@Valid @RequestBody AcceptPaysheetSaveDto acceptPaysheetSaveDto, BladeUser bladeUser) {
 
         log.info("上传总包交付支付验收单");
         try {
@@ -160,7 +160,7 @@ public class PayEnterpriseWebController {
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-            return payEnterpriseService.uploadAcceptPaysheet(acceptPaysheet, enterpriseWorkerEntity);
+            return payEnterpriseService.uploadAcceptPaysheet(acceptPaysheetSaveDto, enterpriseWorkerEntity);
         } catch (Exception e) {
             log.error("上传总包交付支付验收单异常", e);
         }
@@ -197,6 +197,7 @@ public class PayEnterpriseWebController {
     @GetMapping("/get_self_helf_invoice_by_enterprise_id")
     @ApiOperation(value = "查询当前商户所有自主开票记录(众包)", notes = "查询当前商户所有自主开票记录(众包)")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "payEnterpriseMakerId", value = "自助开票ID", paramType = "query", dataType = "long"),
             @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
     })
@@ -214,6 +215,19 @@ public class PayEnterpriseWebController {
             return payEnterpriseService.getSelfHelfInvoiceByEnterpriseId(enterpriseWorkerEntity.getEnterpriseId(), selfHelpInvoicePayDto, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("查询当前商户所有自主开票记录(众包)异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/get_worksheet_by_worksheet_no")
+    @ApiOperation(value = "根据工单编号获取工单", notes = "根据工单编号获取工单")
+    public R getWorksheetByWorksheetNo(String worksheetNo) {
+
+        log.info("根据工单编号获取工单");
+        try {
+            return payEnterpriseService.getWorksheetByWorksheetNo(worksheetNo);
+        } catch (Exception e) {
+            log.error("根据工单编号获取工单异常", e);
         }
         return R.fail("查询失败");
     }

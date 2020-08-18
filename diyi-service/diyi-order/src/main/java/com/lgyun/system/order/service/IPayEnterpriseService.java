@@ -163,5 +163,13 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * 查询详情接口-门征
      */
     R findDetailSubcontractPortal(Long makerInvoiceId);
+
+    /**
+     * 根据工单编号获取工单
+     *
+     * @param worksheetNo
+     * @return
+     */
+    R<WorksheetNoIdVO> getWorksheetByWorksheetNo(String worksheetNo);
 }
 
