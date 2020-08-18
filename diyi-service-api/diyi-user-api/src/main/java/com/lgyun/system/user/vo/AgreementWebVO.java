@@ -1,5 +1,7 @@
 package com.lgyun.system.user.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.SignState;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
@@ -20,15 +22,18 @@ public class AgreementWebVO implements Serializable {
     /**
      * 商户服务商ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseProviderId;
 
     /**
      * 合同id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long agreementId;
     /**
      * 商户id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
 
     /**
@@ -69,5 +74,6 @@ public class AgreementWebVO implements Serializable {
     /**
      * 服务商id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long serviceProviderId;
 }
