@@ -67,6 +67,7 @@ public class EnterpriseLumpSumInvoiceVO {
     /**
      * 关联的工单号
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long worksheetId;
 
     /**

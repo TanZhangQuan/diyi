@@ -30,12 +30,14 @@ public class AcceptPayListVO implements Serializable {
     private String serviceProviderName;
 
     //支付清单ID
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long payEnterpriseId;
 
     //创客名称(多个逗号隔开)
     private String makerNames;
 
     //工单ID
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long worksheetId;
 
     //开始时间
