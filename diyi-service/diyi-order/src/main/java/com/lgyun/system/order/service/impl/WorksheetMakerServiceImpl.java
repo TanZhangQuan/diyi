@@ -6,16 +6,20 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.common.enumeration.WorksheetMakerState;
+import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.system.order.entity.WorksheetEntity;
 import com.lgyun.system.order.entity.WorksheetMakerEntity;
 import com.lgyun.system.order.mapper.WorksheetMakerMapper;
 import com.lgyun.system.order.service.IWorksheetMakerService;
+import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -34,12 +38,15 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
 
     private IUserClient iUserClient;
 
+    private IWorksheetService worksheetService;
+
     @Override
     public int getWorksheetCount(Long worksheetId) {
         return baseMapper.getWorksheetCount(worksheetId);
     }
 
     @Override
+    @Transactional
     public R<String> submitAchievement(WorksheetMakerEntity worksheetMakerEntity, String achievementDesc, String achievementFiles) {
         if (null == worksheetMakerEntity || null == achievementFiles || "" == achievementFiles) {
             return R.fail("提交失败");
@@ -49,6 +56,14 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
         worksheetMakerEntity.setAchievementDate(new Date());
         worksheetMakerEntity.setWorksheetMakerState(WorksheetMakerState.VERIFIED);
         saveOrUpdate(worksheetMakerEntity);
+        WorksheetEntity byId = worksheetService.getById(worksheetMakerEntity.getWorksheetId());
+        if(null == byId){
+            return R.fail("提交失败");
+        }
+        if(WorksheetState.CLOSED.equals(byId.getWorksheetState())){
+            byId.setWorksheetState(WorksheetState.CHECKACCEPT);
+            worksheetService.saveOrUpdate(byId);
+        }
         return R.success("提交工作");
     }
 

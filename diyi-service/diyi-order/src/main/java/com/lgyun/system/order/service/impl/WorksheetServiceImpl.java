@@ -190,7 +190,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         WorksheetMakerEntity worksheetMakerEntity = worksheetMakerService.getById(worksheetMakerId);
         WorksheetEntity worksheetEntity = getById(worksheetMakerEntity.getWorksheetId());
         if (!worksheetEntity.getWorksheetState().equals(WorksheetState.CLOSED)) {
-            R.fail("工单还没有关单");
+            return R.fail("工单还没有关单");
         }
         worksheetMakerEntity.setCheckMoney(checkMoney);
         worksheetMakerEntity.setCheckDate(new Date());

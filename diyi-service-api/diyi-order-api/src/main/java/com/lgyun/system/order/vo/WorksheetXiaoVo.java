@@ -3,10 +3,7 @@ package com.lgyun.system.order.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.lgyun.common.enumeration.MakerType;
-import com.lgyun.common.enumeration.WorkSheetMode;
-import com.lgyun.common.enumeration.WorkSheetType;
-import com.lgyun.common.enumeration.WorksheetMakerState;
+import com.lgyun.common.enumeration.*;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -115,4 +112,9 @@ public class WorksheetXiaoVo implements Serializable {
      * 创客身份
      */
     private MakerType makerType;
+
+    /**
+     * 工单状态
+     */
+    private WorksheetState worksheetState;
 }
