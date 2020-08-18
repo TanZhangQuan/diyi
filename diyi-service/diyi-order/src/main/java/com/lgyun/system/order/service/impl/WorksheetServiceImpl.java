@@ -70,8 +70,8 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             String[] split = makerIds.split(",");
             for (int i = 0; i < split.length; i++) {
                 WorksheetMakerEntity worksheetMakerEntity = new WorksheetMakerEntity();
-                worksheetMakerEntity.setMakerId(Long.parseLong(split[0]));
-                MakerEntity makerEntity = iUserClient.makerFindById(Long.parseLong(split[0]));
+                worksheetMakerEntity.setMakerId(Long.parseLong(split[i]));
+                MakerEntity makerEntity = iUserClient.makerFindById(Long.parseLong(split[i]));
                 worksheetMakerEntity.setMakerName(makerEntity.getName());
                 worksheetMakerEntity.setWorksheetId(worksheetEntity.getId());
                 worksheetMakerEntity.setGetType(GetType.GETDISPATCH);
@@ -81,7 +81,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
                 worksheetMakerService.save(worksheetMakerEntity);
             }
         }
-        return R.success("成功");
+        return R.success("发布成功");
     }
 
     @Override
