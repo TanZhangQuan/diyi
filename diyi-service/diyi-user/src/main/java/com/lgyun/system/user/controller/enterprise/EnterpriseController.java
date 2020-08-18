@@ -59,7 +59,12 @@ public class EnterpriseController {
 	@PostMapping("/upload/licence")
 	@ApiOperation(value = "上传营业执照", notes = "上传营业执照")
 	public R licenceImageUpload(@RequestParam("file") MultipartFile file, BladeUser bladeUser) {
-
+		try {
+			enterpriseService.uploadEnterpriseLicence(bladeUser, file);
+		} catch (Exception e) {
+			log.error("[uploadEnterpriseLicence] error=", e);
+			return R.fail("上传失败");
+		}
 		return R.success("上传成功");
 	}
 
