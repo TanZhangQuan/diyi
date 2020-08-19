@@ -137,7 +137,6 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
                     .isNull(true, AcceptPaysheetEntity::getMakerId);
         }
 
-
         return baseMapper.selectOne(queryWrapper);
     }
 
