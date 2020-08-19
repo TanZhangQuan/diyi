@@ -64,7 +64,7 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
             return R.fail("用户不存在");
         }
 
-        if (!(UserType.ENTERPRISE.equals(user.getUserType()))) {
+        if (!(UserType.SERVICEPROVIDER.equals(user.getUserType()))) {
             return R.fail("用户类型有误");
         }
 

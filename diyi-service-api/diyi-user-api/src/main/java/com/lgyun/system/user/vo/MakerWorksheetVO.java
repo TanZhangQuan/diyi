@@ -36,7 +36,6 @@ public class MakerWorksheetVO implements Serializable {
      */
     private VerifyStatus bankCardVerifyStatus;
 
-
     /**
      * 合同
      */
@@ -46,8 +45,6 @@ public class MakerWorksheetVO implements Serializable {
      * 协议
      */
     private SignState joinSignState;
-
-
 
     /**
      * 实名认证

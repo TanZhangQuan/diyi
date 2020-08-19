@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @since 2020/6/6 00:28
  */
 @Data
-public class RelEnterpriseMakerVO implements Serializable {
+public class RelMakerListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**

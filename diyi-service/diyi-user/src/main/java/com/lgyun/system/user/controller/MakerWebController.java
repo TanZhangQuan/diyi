@@ -9,11 +9,10 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.MakerAddDto;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
+import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.excel.MakerExcel;
 import com.lgyun.system.user.excel.MakerImportListener;
-import com.lgyun.system.user.service.IEnterpriseWorkerService;
-import com.lgyun.system.user.service.IMakerEnterpriseService;
-import com.lgyun.system.user.service.IMakerService;
+import com.lgyun.system.user.service.*;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +46,8 @@ public class MakerWebController {
     private IMakerService makerService;
     private IEnterpriseWorkerService enterpriseWorkerService;
     private IMakerEnterpriseService makerEnterpriseService;
+    private IServiceProviderWorkerService serviceProviderWorkerService;
+    private IServiceProviderMakerService serviceProviderMakerService;
 
     @PostMapping("/save")
     @ApiOperation(value = "新增单个创客", notes = "新增单个创客")
@@ -124,7 +125,7 @@ public class MakerWebController {
     }
 
     @GetMapping("/get_maker_detail_by_id")
-    @ApiOperation(value = "根据创客ID获取创客详情", notes = "根据创客ID获取创客详情")
+    @ApiOperation(value = "根据创客ID获取创客详情(商户)", notes = "根据创客ID获取创客详情(商户)")
     public R getMakerDetailById(@ApiParam(value = "创客ID") @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId, BladeUser bladeUser) {
 
         log.info("根据创客ID获取创客详情");
@@ -183,6 +184,42 @@ public class MakerWebController {
             log.error("批量关联创客异常", e);
         }
         return R.fail("关联失败");
+    }
+
+    @GetMapping("/get_relevance_service_provider_maker")
+    @ApiOperation(value = "获取当前服务商的所有关联创客", notes = "获取当前服务商的所有关联创客")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "搜索关键字(创客编号，姓名，手机号)", value = "搜索关键字(创客编号，姓名，手机号)", paramType = "query", dataType = "string"),
+    })
+    public R getRelevanceServiceProviderMaker(String keyword, Query query, BladeUser bladeUser) {
+
+        log.info("获取当前服务商的所有关联创客");
+        try {
+            //获取当前服务商员工
+            R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+            return serviceProviderMakerService.getServiceProviderMakers(Condition.getPage(query.setDescs("create_time")), serviceProviderWorkerEntity.getServiceProviderId(), keyword);
+        } catch (Exception e) {
+            log.error("获取当前服务商的所有关联创客异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/get_service_provider_maker_detail_by_id")
+    @ApiOperation(value = "根据创客ID获取创客详情", notes = "根据创客ID获取创客详情")
+    public R getServiceProviderMakerDetailById(@ApiParam(value = "创客ID") @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId) {
+
+        log.info("根据创客ID获取创客详情");
+        try {
+            return makerService.getMakerDetailById(null, makerId);
+        } catch (Exception e) {
+            log.error("根据创客ID获取创客详情异常", e);
+        }
+        return R.fail("查询失败");
     }
 
 }

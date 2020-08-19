@@ -9,9 +9,11 @@ import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.vo.EnterpriseStatisticalVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
+import com.lgyun.system.user.vo.enterprise.EnterpriseResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
- * Service 接口
+ * 商户信息 Service 接口
  *
  * @author liangfeihu
  * @since 2020-06-26 17:21:05
@@ -59,5 +61,22 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * @return
      */
     R<TransactionMonthVO> queryEnterprisePayMoney(Long enterpriseId);
+
+    /**
+     * 获取商户基本信息
+     *
+     * @param enterpriseId
+     * @return
+     */
+    R<EnterpriseResponse> getBasicEnterpriseResponse(Long enterpriseId);
+
+    /**
+     * 上传商户营业执照
+     *
+     * @param enterpriseId
+     * @param file
+     * @return
+     */
+    void uploadEnterpriseLicence(Long enterpriseId, MultipartFile file) throws Exception;
 }
 

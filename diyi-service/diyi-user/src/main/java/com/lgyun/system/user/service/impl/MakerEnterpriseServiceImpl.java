@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CooperateStatus;
-import com.lgyun.common.enumeration.RelType;
+import com.lgyun.common.enumeration.EnterpriseMakerRelType;
 import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
@@ -12,7 +12,7 @@ import com.lgyun.system.user.mapper.MakerEnterpriseMapper;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
-import com.lgyun.system.user.vo.RelEnterpriseMakerVO;
+import com.lgyun.system.user.vo.RelMakerListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -53,7 +53,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
         makerEnterpriseEntity.setEnterpriseId(enterpriseId);
         makerEnterpriseEntity.setRelationshipType(RelationshipType.RELEVANCE);
         makerEnterpriseEntity.setRelDate(new Date());
-        makerEnterpriseEntity.setRelType(RelType.ENTERPRISEREL);
+        makerEnterpriseEntity.setRelType(EnterpriseMakerRelType.ENTERPRISEREL);
         makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATING);
         makerEnterpriseEntity.setCooperationStartTime(new Date());
         makerEnterpriseEntity.setFirstCooperation(true);
@@ -88,7 +88,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
             makerEnterpriseEntity.setEnterpriseId(enterpriseId);
             makerEnterpriseEntity.setRelationshipType(RelationshipType.ATTENTION);
             makerEnterpriseEntity.setRelDate(new Date());
-            makerEnterpriseEntity.setRelType(RelType.MAKERREL);
+            makerEnterpriseEntity.setRelType(EnterpriseMakerRelType.MAKERREL);
             makerEnterpriseEntity.setCooperationStartTime(new Date());
             makerEnterpriseEntity.setFirstCooperation(true);
             makerEnterpriseEntity.setRelMemo("关注");
@@ -118,7 +118,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
-    public R<IPage<RelEnterpriseMakerVO>> getEnterpriseMakers(IPage<RelEnterpriseMakerVO> page, Long enterpriseId, RelationshipType relationshipType, String keyword) {
+    public R<IPage<RelMakerListVO>> getEnterpriseMakers(IPage<RelMakerListVO> page, Long enterpriseId, RelationshipType relationshipType, String keyword) {
         return R.data(page.setRecords(baseMapper.getEnterpriseMakers(enterpriseId, relationshipType, keyword, page)));
     }
 

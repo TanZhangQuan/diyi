@@ -6,6 +6,7 @@ import com.lgyun.common.constant.SmsConstant;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
+import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.common.tool.RedisUtil;
 import com.lgyun.common.tool.StringUtil;
@@ -18,9 +19,13 @@ import com.lgyun.system.user.mapper.EnterpriseWorkerMapper;
 import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.service.IUserService;
+import com.lgyun.system.user.vo.enterprise.EnterpriseContactRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 /**
  * Service 实现
@@ -119,4 +124,37 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
 
         return R.success("修改密码成功");
     }
+
+    /**
+     * 新增商户联系人
+     *
+     * @param request
+     * @return
+     */
+    @Override
+    public R<String> addNewEnterpriseWorker(EnterpriseContactRequest request, EnterpriseWorkerEntity enterpriseWorkerEntity, BladeUser bladeUser) {
+        //新建管理员
+        User user = new User();
+        user.setUserType(UserType.ENTERPRISE);
+        user.setAccount(request.getPhoneNumber());
+        user.setPassword(DigestUtil.encrypt(String.valueOf(UUID.randomUUID())));
+        user.setPhone(request.getPhoneNumber());
+        user.setEmail(request.getEmail());
+        user.setName(request.getWorkerName());
+        userService.save(user);
+
+        EnterpriseWorkerEntity workerEntity = new EnterpriseWorkerEntity();
+        BeanUtils.copyProperties(request, workerEntity);
+        workerEntity.setEnterpriseId(enterpriseWorkerEntity.getEnterpriseId());
+        workerEntity.setUserId(user.getId());
+        workerEntity.setCreateUser(bladeUser.getUserId());
+        workerEntity.setEnterpriseWorkerState(AccountState.NORMAL);
+        workerEntity.setUpLevelId(enterpriseWorkerEntity.getId());
+        // TODO 密码待修改
+        workerEntity.setEmployeePwd(DigestUtil.encrypt(String.valueOf(UUID.randomUUID())));
+        this.save(workerEntity);
+
+        return R.success("创建成功");
+    }
+
 }

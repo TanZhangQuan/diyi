@@ -11,7 +11,6 @@ import com.lgyun.system.user.dto.MakerAddDto;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
-import com.lgyun.system.user.vo.MakerDetailVO;
 import com.lgyun.system.user.vo.MakerWorksheetVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 import lombok.AllArgsConstructor;

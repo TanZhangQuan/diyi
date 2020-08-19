@@ -6,7 +6,7 @@ import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
-import com.lgyun.system.user.vo.RelEnterpriseMakerVO;
+import com.lgyun.system.user.vo.RelMakerListVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -39,7 +39,7 @@ public interface MakerEnterpriseMapper extends BaseMapper<MakerEnterpriseEntity>
      * @param page
      * @return
      */
-    List<RelEnterpriseMakerVO> getEnterpriseMakers(Long enterpriseId, RelationshipType relationshipType, String keyword, IPage<RelEnterpriseMakerVO> page);
+    List<RelMakerListVO> getEnterpriseMakers(Long enterpriseId, RelationshipType relationshipType, String keyword, IPage<RelMakerListVO> page);
 
     /**
      * 根据创客ID查询关联商户

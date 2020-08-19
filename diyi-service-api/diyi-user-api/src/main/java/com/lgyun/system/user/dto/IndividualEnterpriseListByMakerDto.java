@@ -19,7 +19,6 @@ public class IndividualEnterpriseListByMakerDto {
     private Long makerId;
 
     //个体工商户状态
-    @ApiModelProperty(value = "个体工商户状态")
     private Ibstate ibstate;
 
 }

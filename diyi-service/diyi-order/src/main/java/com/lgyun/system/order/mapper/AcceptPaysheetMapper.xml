@@ -37,16 +37,16 @@
         <result property="id" column="id"/>
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="serviceProviderName" column="service_provider_name"/>
-        <result property="payEnterpriseId" column="pay_enterprise_id"/>
+        <result property="chargeListUrl" column="charge_list_url"/>
         <result property="makerNames" column="maker_names"/>
-        <result property="worksheetId" column="worksheet_id"/>
+        <result property="worksheetNo" column="worksheet_no"/>
         <result property="serviceTimeStart" column="service_time_start"/>
         <result property="serviceTimeEnd" column="service_time_end"/>
         <result property="acceptPaysheetUrl" column="accept_paysheet_url"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.order.vo.AcceptPayMakerListVO" id="acceptPayMakerListVO">
+    <resultMap type="com.lgyun.system.order.vo.PayEnterpriseMakerDetailListVO" id="payEnterpriseMakerDetailListVO">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="idcardNo" column="idcard_no"/>
@@ -84,11 +84,12 @@
     </select>
 
     <select id="getAcceptPaySheetsByEnterprise" resultMap="acceptPayListVO">
-        SELECT * FROM (SELECT t3.id, t3.pay_enterprise_id, t5.enterprise_name, t3.service_time_start, t3.service_time_end, t4.worksheet_id, t3.accept_paysheet_url, t3.create_time,
+        SELECT * FROM (SELECT t3.id, t4.charge_list_url, t5.enterprise_name, t6.service_provider_name, t3.service_time_start, t3.service_time_end, t7.worksheet_no, t3.accept_paysheet_url, t3.create_time,
         IF(t3.accept_paysheet_type = 'SINGLE', (SELECT name FROM diyi_maker WHERE is_deleted = 0 AND id = t3.maker_id), (SELECT group_concat(t2.name)
         FROM diyi_worksheet_maker t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.worksheet_id = t4.worksheet_id)) AS maker_names
-        FROM diyi_accept_paysheet t3 INNER JOIN diyi_pay_enterprise t4 ON t3.pay_enterprise_id = t4.id LEFT JOIN diyi_enterprise t5 ON t4.enterprise_id = t5.id AND t5.is_deleted = 0
-        LEFT JOIN diyi_service_provider t6 ON t4.service_provider_id = t6.id AND t6.is_deleted = 0 WHERE t3.is_deleted = 0 AND t4.is_deleted = 0
+        FROM diyi_accept_paysheet t3 INNER JOIN diyi_pay_enterprise t4 ON t3.pay_enterprise_id = t4.id INNER JOIN diyi_enterprise t5 ON t4.enterprise_id = t5.id
+        INNER JOIN diyi_service_provider t6 ON t4.service_provider_id = t6.id LEFT JOIN diyi_worksheet t7 ON t4.worksheet_id = t7.id AND t7.is_deleted = 0
+        WHERE t3.is_deleted = 0 AND t4.is_deleted = 0 AND t5.is_deleted = 0 AND t6.is_deleted = 0
         <if test="param2.acceptPayId != null">
             AND t3.id = #{param2.acceptPayId}
         </if>
@@ -104,7 +105,7 @@
         </if>
     </select>
 
-    <select id="getMakerList" resultMap="acceptPayMakerListVO">
+    <select id="getMakerList" resultMap="payEnterpriseMakerDetailListVO">
         SELECT t4.id, t4.name, t4.idcard_no, t4.phone_number, t4.bank_card_no, IF(t4.bank_card_verify_status = 'VERIFYPASS', TRUE, FALSE) AS bool_real_name_verify,
         IF((SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t4.id AND sign_state = 'SIGNED' AND agreement_type = 1) > 0
         AND (SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t4.id AND sign_state = 'SIGNED' AND agreement_type = 9) > 0, TRUE, FALSE) AS bool_sign,

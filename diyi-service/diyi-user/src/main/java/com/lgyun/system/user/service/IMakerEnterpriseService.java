@@ -7,7 +7,7 @@ import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
-import com.lgyun.system.user.vo.RelEnterpriseMakerVO;
+import com.lgyun.system.user.vo.RelMakerListVO;
 
 import java.util.Set;
 
@@ -85,7 +85,7 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
      * @param keyword
      * @return
      */
-    R<IPage<RelEnterpriseMakerVO>> getEnterpriseMakers(IPage<RelEnterpriseMakerVO> page, Long enterpriseId, RelationshipType relationshipType, String keyword);
+    R<IPage<RelMakerListVO>> getEnterpriseMakers(IPage<RelMakerListVO> page, Long enterpriseId, RelationshipType relationshipType, String keyword);
 
     /**
      * 批量关联创客
