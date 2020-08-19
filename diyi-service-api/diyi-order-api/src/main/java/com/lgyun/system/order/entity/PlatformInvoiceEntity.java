@@ -80,11 +80,6 @@ public class PlatformInvoiceEntity extends BaseEntity {
     private String expressUpdatePersonTel;
 
     /**
-     * 快递更新人员电话
-     */
-    private String expressUpdatePersontel;
-
-    /**
      * 开票说明
      */
     private String invoiceDesc;

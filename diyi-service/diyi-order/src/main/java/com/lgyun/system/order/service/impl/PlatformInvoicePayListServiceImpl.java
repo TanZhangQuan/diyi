@@ -1,5 +1,7 @@
 package com.lgyun.system.order.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.lgyun.system.order.entity.SelfHelpInvoiceAccountEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
@@ -21,4 +23,13 @@ import com.lgyun.system.order.service.IPlatformInvoicePayListService;
 @AllArgsConstructor
 public class PlatformInvoicePayListServiceImpl extends BaseServiceImpl<PlatformInvoicePayListMapper, PlatformInvoicePayListEntity> implements IPlatformInvoicePayListService {
 
+    @Override
+    public PlatformInvoicePayListEntity findPayEnterpriseId(Long payEnterpriseId) {
+        QueryWrapper<PlatformInvoicePayListEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(PlatformInvoicePayListEntity::getIsDeleted, 0)
+                .eq(PlatformInvoicePayListEntity::getPayEnterpriseId, payEnterpriseId);
+
+        PlatformInvoicePayListEntity platformInvoicePayListEntity = baseMapper.selectOne(queryWrapper);
+        return platformInvoicePayListEntity;
+    }
 }

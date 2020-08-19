@@ -10,6 +10,7 @@ import com.lgyun.system.order.entity.EnterpriseProviderInvoiceCatalogsEntity;
 import com.lgyun.system.order.service.IEnterpriseProviderInvoiceCatalogsService;
 import com.lgyun.system.order.service.IInvoiceApplicationService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
+import com.lgyun.system.order.service.ISelfHelpInvoiceService;
 import com.lgyun.system.order.wrapper.EnterpriseProviderInvoiceCatalogsWrapper;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
@@ -42,6 +43,7 @@ public class InvoiceWebController {
     private IEnterpriseProviderInvoiceCatalogsService enterpriseProviderInvoiceCatalogsService;
     private IInvoiceApplicationService invoiceApplicationService;
     private IUserClient iUserClient;
+    private ISelfHelpInvoiceService selfHelpInvoiceService;
 
     @GetMapping("/findEnterpriseLumpSumInvoice")
     @ApiOperation(value = "根据商户查询总包发票", notes = "根据商户查询总包发票")
@@ -58,8 +60,6 @@ public class InvoiceWebController {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-//            EnterpriseWorkerEntity enterpriseWorkerEntity =new EnterpriseWorkerEntity();
-//            enterpriseWorkerEntity.setEnterpriseId(1123598821738675208L);
             return payEnterpriseService.findEnterpriseLumpSumInvoice(invoiceSerialNo,serviceProviderName,startTime,endTime,enterpriseWorkerEntity.getEnterpriseId(), Condition.getPage(query.setDescs("create_time")));
         }catch (Exception e){
             log.info("根据商户查询总包发票失败",e);
@@ -102,8 +102,6 @@ public class InvoiceWebController {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-//            EnterpriseWorkerEntity enterpriseWorkerEntity =new EnterpriseWorkerEntity();
-//            enterpriseWorkerEntity.setEnterpriseId(1123598821738675208L);
             return payEnterpriseService.findEnterprisePaymentList(enterpriseWorkerEntity.getEnterpriseId(),serviceProviderName,Condition.getPage(query.setDescs("create_time")));
         }catch (Exception e){
             log.info("根据商户查询支付清单失败",e);
@@ -129,9 +127,7 @@ public class InvoiceWebController {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-//            EnterpriseWorkerEntity enterpriseWorkerEntity =new EnterpriseWorkerEntity();
-//            enterpriseWorkerEntity.setEnterpriseId(1123598821738675208L);
-            return invoiceApplicationService.contractApplyInvoice(contractApplyInvoiceDto, enterpriseWorkerEntity.getEnterpriseId());
+            return invoiceApplicationService.contractApplyInvoice(contractApplyInvoiceDto, enterpriseWorkerEntity.getEnterpriseId(), payEnterpriseService);
         }catch (Exception e){
             log.info("申请总包发票失败",e);
         }
@@ -152,8 +148,6 @@ public class InvoiceWebController {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-//            EnterpriseWorkerEntity enterpriseWorkerEntity =new EnterpriseWorkerEntity();
-//            enterpriseWorkerEntity.setEnterpriseId(1123598821738675208L);
             return payEnterpriseService.findEnterpriseSubcontractSummary(enterpriseWorkerEntity.getEnterpriseId(),serviceProviderName,Condition.getPage(query.setDescs("create_time")));
         }catch (Exception e){
             log.info("根据商户查询分包列表-汇总失败",e);
@@ -192,8 +186,6 @@ public class InvoiceWebController {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-//            EnterpriseWorkerEntity enterpriseWorkerEntity =new EnterpriseWorkerEntity();
-//            enterpriseWorkerEntity.setEnterpriseId(1123598821738675208L);
             return payEnterpriseService.findEnterpriseSubcontractPortal(enterpriseWorkerEntity.getEnterpriseId(),serviceProviderName,Condition.getPage(query.setDescs("create_time")));
         }catch (Exception e){
             log.info("根据商户查询分包列表-门征失败",e);
@@ -214,5 +206,41 @@ public class InvoiceWebController {
             log.info("查询详情接口-门征失败",e);
         }
         return R.fail("查询详情接口-门征失败");
+    }
+
+    /**
+     * 根据商户查询众包
+     */
+    @GetMapping("/findEnterpriseCrowdSourcing")
+    @ApiOperation(value = "根据商户查询众包", notes = "根据商户查询众包")
+    public R findEnterpriseCrowdSourcing(BladeUser bladeUser,@RequestParam(required = false) String serviceProviderName,Query query){
+        log.info("根据商户查询众包");
+        try {
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+            return selfHelpInvoiceService.findEnterpriseCrowdSourcing(enterpriseWorkerEntity.getEnterpriseId(),serviceProviderName,Condition.getPage(query.setDescs("create_time")) );
+        }catch (Exception e){
+            log.info("根据商户查询众包失败",e);
+        }
+        return R.fail("根据商户查询众包失败");
+    }
+
+    /**
+     * 查询详情接口-众包
+      */
+    @GetMapping("/findDetailCrowdSourcing")
+    @ApiOperation(value = "查询详情接口-众包", notes = "查询详情接口-众包")
+    public R findDetailCrowdSourcing(Long selfHelpInvoiceId){
+        log.info("查询详情接口-众包");
+        try {
+            return selfHelpInvoiceService.findDetailCrowdSourcing(selfHelpInvoiceId);
+        }catch (Exception e){
+            log.info("查询详情接口-众包失败",e);
+        }
+        return R.fail("查询详情接口-众包失败");
     }
 }

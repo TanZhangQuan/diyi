@@ -103,10 +103,10 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
             InvoicePeopleType invoicePeopleType = selfHelpInvoiceDto.getInvoiceIdentityType();;
             if(invoicePeopleType.equals(InvoicePeopleType.NATURALPERSON)){
                 MakerEntity makerEntity = userClient.makerFindByPhoneNumber(invoiceListExcel.getPhoneNumber());
-                if(null != makerEntity && selfHelpInvoiceDto.getObjectId() != makerEntity.getId()){
+                if(null != makerEntity && !selfHelpInvoiceDto.getObjectId().equals(makerEntity.getId())){
                     continue;
                 }
-                if(null != makerEntity && selfHelpInvoiceDto.getObjectId() == makerEntity.getId()){
+                if(null != makerEntity && selfHelpInvoiceDto.getObjectId() .equals(makerEntity.getId())){
                     selfHelpInvoiceDetailEntity.setMakerId(selfHelpInvoiceDto.getObjectId());
                 }
                 if(null == makerEntity){
