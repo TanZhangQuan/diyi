@@ -68,8 +68,14 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
     @Override
     public R<String> checkAchievement(Long worksheetMakerId, BigDecimal checkMoney, Long enterpriseId, Boolean bool) {
         WorksheetMakerEntity worksheetMakerEntity = getById(worksheetMakerId);
-        if (null == worksheetMakerEntity || null == checkMoney || !worksheetMakerEntity.getWorksheetMakerState().equals(WorksheetMakerState.VERIFIED)) {
-            return R.fail("验收失败");
+        if (null == worksheetMakerEntity) {
+            return R.fail("数据不存在");
+        }
+        if(null == checkMoney){
+            return R.fail("验收金额不能为空");
+        }
+        if(!WorksheetMakerState.VERIFIED.equals(worksheetMakerEntity.getWorksheetMakerState())){
+            return R.fail("状态不对");
         }
         EnterpriseEntity byId = iUserClient.getEnterpriseById(enterpriseId);
         worksheetMakerEntity.setCheckDate(new Date());

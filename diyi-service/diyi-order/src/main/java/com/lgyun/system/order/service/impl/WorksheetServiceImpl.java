@@ -236,6 +236,56 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         return R.data(BeanUtil.copy(worksheetEntity, WorksheetNoIdVO.class));
     }
 
+    @Override
+    @Transactional
+    public R closeOrOpenList(String worksheetIds, Integer variable) {
+        String[] split = worksheetIds.split(",");
+        if (variable != 1 && variable != 2) {
+            return R.fail("参数有误");
+        }
+        for(int i= 0;i<split.length;i++){
+            WorksheetEntity worksheetEntity = getById(split[i]);
+            if (1 == variable) {
+                worksheetEntity.setWorksheetState(WorksheetState.CLOSED);
+                saveOrUpdate(worksheetEntity);
+            } else {
+                worksheetEntity.setWorksheetState(WorksheetState.PUBLISHING);
+                saveOrUpdate(worksheetEntity);
+            }
+        }
+        return R.success("操作成功");
+    }
+
+    @Override
+    @Transactional
+    public R deleteWorksheetList(String worksheetIds) {
+        String[] split = worksheetIds.split(",");
+        for(int i= 0;i<split.length;i++){
+            WorksheetEntity worksheetEntity = getById(split[i]);
+            removeById(worksheetEntity.getId());
+        }
+        return R.success("操作成功");
+    }
+
+    @Override
+    public R wholeWorksheetCheck(Long worksheetId) {
+        WorksheetEntity byId = getById(worksheetId);
+        if(!WorksheetState.CHECKACCEPT.equals(byId.getWorksheetState())){
+            return R.fail("工单状态不对应");
+        }
+        List<WorksheetMakerDetailsVO> worksheetMakerDetails = worksheetMakerService.getWorksheetMakerDetails(worksheetId);
+        for (WorksheetMakerDetailsVO worksheetMakerDetailsVO: worksheetMakerDetails) {
+            if(!(WorksheetMakerState.VALIDATION.equals(worksheetMakerDetailsVO.getWorksheetMakerState()) || WorksheetMakerState.FAILED.equals(worksheetMakerDetailsVO.getWorksheetMakerState()))){
+                return R.fail("请全部验收后再确认验收");
+            }
+        }
+
+
+        byId.setWorksheetState(WorksheetState.FINISHED);
+        saveOrUpdate(byId);
+        return R.success("操作成功");
+    }
+
     public synchronized R<String> orderGrabbing(WorksheetEntity worksheetEntity, MakerEntity makerEntity, int worksheetCount) {
 
         if (worksheetCount == worksheetEntity.getUppersonNum()) {

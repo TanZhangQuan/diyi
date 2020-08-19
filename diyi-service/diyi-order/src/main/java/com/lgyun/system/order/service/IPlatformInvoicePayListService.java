@@ -11,5 +11,6 @@ import com.lgyun.system.order.entity.PlatformInvoicePayListEntity;
  */
 public interface IPlatformInvoicePayListService extends BaseService<PlatformInvoicePayListEntity> {
 
+    PlatformInvoicePayListEntity findPayEnterpriseId(Long payEnterpriseId);
 }
 

@@ -135,18 +135,18 @@ public class WorksheetWebController {
         return R.fail("工单踢出创客失败");
     }
 
-    @PostMapping("/checkAccept")
-    @ApiOperation(value = "验收工单", notes = "验收工单")
-    public R checkAccept(@NotNull(message = "请输入工单创客的id") @RequestParam(required = false) Long worksheetMakerId,
-                         @NotNull(message = "请输入创客id") @RequestParam(required = false) BigDecimal checkMoney) {
-        log.info("验收工单");
-        try {
-            return worksheetService.checkAccept(worksheetMakerId, checkMoney);
-        } catch (Exception e) {
-            log.error("验收工单失败", e);
-        }
-        return R.fail("验收工单失败");
-    }
+//    @PostMapping("/checkAccept")
+//    @ApiOperation(value = "验收工单", notes = "验收工单")
+//    public R checkAccept(@NotNull(message = "请输入工单创客的id") @RequestParam(required = false) Long worksheetMakerId,
+//                         @NotNull(message = "请输入创客id") @RequestParam(required = false) BigDecimal checkMoney) {
+//        log.info("验收工单");
+//        try {
+//            return worksheetService.checkAccept(worksheetMakerId, checkMoney);
+//        } catch (Exception e) {
+//            log.error("验收工单失败", e);
+//        }
+//        return R.fail("验收工单失败");
+//    }
 
     @PostMapping("/closeOrOpen")
     @ApiOperation(value = "开单或关单", notes = "开单或关单")
@@ -182,4 +182,49 @@ public class WorksheetWebController {
         return R.fail("验收工作成果失败");
     }
 
+    /**
+     * 批量开启或关闭工单
+     */
+    @PostMapping("/closeOrOpenList")
+    @ApiOperation(value = "批量开启或关闭工单", notes = "批量开启或关闭工单")
+    public R closeOrOpenAll(@NotNull(message = "请输入工单的id") @RequestParam(required = false) String worksheetIds,
+                              @ApiParam(value = "1代表关闭，2开启") @NotNull(message = "请输入1代表关闭，2开启") @RequestParam(required = false) Integer variable) {
+        log.info("批量开启工单");
+        try {
+            return worksheetService.closeOrOpenList(worksheetIds,variable);
+        } catch (Exception e) {
+            log.info("批量开启或关闭工单失败");
+        }
+        return R.fail("批量开启或关闭工单失败");
+    }
+
+    /**
+     * 批量删除工单
+     */
+    @PostMapping("/deleteWorksheetList")
+    @ApiOperation(value = "批量删除工单", notes = "批量删除工单")
+    public R deleteWorksheetList(@NotNull(message = "请输入工单的id") @RequestParam(required = false) String worksheetIds) {
+        log.info("批量开启工单");
+        try {
+            return worksheetService.deleteWorksheetList(worksheetIds);
+        } catch (Exception e) {
+            log.info("批量删除工单失败");
+        }
+        return R.fail("批量删除工单失败");
+    }
+
+    /**
+     * 整体验收工单
+     */
+    @PostMapping("/wholeWorksheetCheck")
+    @ApiOperation(value = "整体验收工单", notes = "整体验收工单")
+    public R wholeWorksheetCheck(@NotNull(message = "请输入工单的id") @RequestParam(required = false) Long worksheetId) {
+        log.info("整体验收工单");
+        try {
+            return worksheetService.wholeWorksheetCheck(worksheetId);
+        } catch (Exception e) {
+            log.info("整体验收工单失败");
+        }
+        return R.fail("整体验收工单失败");
+    }
 }

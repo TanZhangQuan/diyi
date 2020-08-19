@@ -75,5 +75,21 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
      * @return
      */
     List<SelfHelpInvoicePayVO> getSelfHelfInvoiceByEnterpriseId(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<SelfHelpInvoicePayVO> page);
+
+    /**
+     * 根据商户查询众包
+     * @param enterpriseId
+     * @param serviceProviderName
+     * @param page
+     * @return
+     */
+    List<SelfHelpInvoiceCrowdSourcingVO> findEnterpriseCrowdSourcing(Long enterpriseId,String serviceProviderName,IPage<SelfHelpInvoiceCrowdSourcingVO> page);
+
+    /**
+     * 查询众包详情
+     * @param selfHelpInvoiceId
+     * @return
+     */
+    SelfHelpInvoiceCrowdSourcingVO findDetailCrowdSourcing(Long selfHelpInvoiceId);
 }
 

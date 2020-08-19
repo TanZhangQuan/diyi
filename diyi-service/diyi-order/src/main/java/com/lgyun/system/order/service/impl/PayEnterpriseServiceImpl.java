@@ -187,10 +187,12 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     public R findPayEnterpriseDetails(Long payEnterpriseId) {
         EnterpriseLumpSumInvoiceVO payEnterpriseDetails = baseMapper.findPayEnterpriseDetails(payEnterpriseId);
         String enterprisePayReceiptUrl = payEnterpriseReceiptService.findEnterprisePayReceiptUrl(payEnterpriseId);
-        payEnterpriseDetails.setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
+        if(null != enterprisePayReceiptUrl){
+            payEnterpriseDetails.setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
+        }
         KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
         try{
-            String orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(payEnterpriseDetails.getEnterpriseName(), payEnterpriseDetails.getInvoiceSerialNo());
+            String orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(payEnterpriseDetails.getExpressCompanyName(), payEnterpriseDetails.getExpressSheetNo());
             payEnterpriseDetails.setKOrderTracesByJson(orderTracesByJson);
         }catch (Exception e){
             log.info("快鸟接口访问失败");

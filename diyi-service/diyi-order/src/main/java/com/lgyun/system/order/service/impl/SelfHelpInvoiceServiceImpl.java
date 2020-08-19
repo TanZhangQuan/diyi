@@ -127,4 +127,25 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
 
         return R.data(page.setRecords(baseMapper.getSelfHelfInvoiceByEnterpriseId(enterpriseId, selfHelpInvoicePayDto, page)));
     }
+
+    @Override
+    public R findEnterpriseCrowdSourcing(Long enterpriseId, String serviceProviderName, IPage<SelfHelpInvoiceCrowdSourcingVO> page) {
+        return R.data(page.setRecords(baseMapper.findEnterpriseCrowdSourcing(enterpriseId,serviceProviderName,page)));
+    }
+
+    @Override
+    public R findDetailCrowdSourcing(Long selfHelpInvoiceId) {
+        Map map = new HashMap();
+        SelfHelpInvoiceCrowdSourcingVO detailCrowdSourcing = baseMapper.findDetailCrowdSourcing(selfHelpInvoiceId);
+        map.put("detailCrowdSourcing",detailCrowdSourcing);
+        KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
+        String orderTracesByJson = "";
+        try{
+            orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(detailCrowdSourcing.getExpressCompanyName(), detailCrowdSourcing.getExpressSheetNo());
+        }catch (Exception e){
+            log.info("快鸟接口访问失败");
+        }
+        map.put("orderTracesByJson",orderTracesByJson);
+        return R.data(map);
+    }
 }

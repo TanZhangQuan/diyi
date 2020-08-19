@@ -42,38 +42,6 @@ public class WorksheetMakerController {
     private IWorksheetMakerService worksheetMakerService;
     private IUserClient iUserClient;
 
-    //	@PostMapping("/save")
-//	@ApiOperation(value = "新增", notes = "新增")
-    public R save(@Valid @RequestBody WorksheetMakerEntity worksheetMaker) {
-        return R.status(worksheetMakerService.save(worksheetMaker));
-    }
-
-    //	@PostMapping("/update")
-//	@ApiOperation(value = "修改", notes = "修改")
-    public R update(@Valid @RequestBody WorksheetMakerEntity worksheetMaker) {
-        return R.status(worksheetMakerService.updateById(worksheetMaker));
-    }
-
-    //	@GetMapping("/detail")
-//	@ApiOperation(value = "详情", notes = "详情")
-    public R<WorksheetMakerVO> detail(WorksheetMakerEntity worksheetMaker) {
-        WorksheetMakerEntity detail = worksheetMakerService.getOne(Condition.getQueryWrapper(worksheetMaker));
-        return R.data(WorksheetMakerWrapper.build().entityVO(detail));
-    }
-
-    //	@GetMapping("/list")
-//	@ApiOperation(value = "分页", notes = "分页")
-    public R<IPage<WorksheetMakerVO>> list(WorksheetMakerEntity worksheetMaker, Query query) {
-        IPage<WorksheetMakerEntity> pages = worksheetMakerService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(worksheetMaker));
-        return R.data(WorksheetMakerWrapper.build().pageVO(pages));
-    }
-
-    //	@PostMapping("/remove")
-//	@ApiOperation(value = "删除", notes = "删除")
-    public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
-        return R.status(worksheetMakerService.removeByIds(Func.toLongList(ids)));
-    }
-
     @GetMapping("/query-all-money-by-year-month")
     @ApiOperation(value = "根据工单类型，创客类型，年份，月份（可选）查询工单笔数和总收入金额", notes = "根据工单类型，创客类型，年份，月份（可选）查询工单笔数和总收入金额")
     public R queryAllMoneyByYearMonth(@ApiParam(value = "工单类型") @NotNull(message = "请选择工单类型") @RequestParam(required = false) WorkSheetType worksheetType,
