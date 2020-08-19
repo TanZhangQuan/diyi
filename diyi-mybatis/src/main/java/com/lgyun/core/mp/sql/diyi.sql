@@ -4,13 +4,13 @@ Navicat MySQL Data Transfer
 Source Server         : local
 Source Server Version : 50717
 Source Host           : localhost:3306
-Source Database       : diyi1
+Source Database       : diyi
 
 Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2020-08-14 17:39:48
+Date: 2020-08-19 15:59:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -638,23 +638,6 @@ CREATE TABLE `diyi_maker_enterprise` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`enterprise_id`,`maker_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='创客商户关联表';
-
-DROP TABLE IF EXISTS `diyi_service_provider_maker`;
-CREATE TABLE `diyi_service_provider_maker` (
-  `id` bigint(50) NOT NULL COMMENT '主键',
-  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
-  `enterprise_id` bigint(50) NOT NULL COMMENT '企业ID',
-  `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
-  `rel_type` varchar(50) NOT NULL COMMENT '关联类型：总包+分包支付关联；众包代开票关联',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`enterprise_id`,`maker_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商创客关联表';
 
 -- ----------------------------
 -- Records of diyi_maker_enterprise
@@ -1443,6 +1426,30 @@ CREATE TABLE `diyi_service_provider` (
 
 -- ----------------------------
 -- Records of diyi_service_provider
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `diyi_service_provider_maker`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_service_provider_maker`;
+CREATE TABLE `diyi_service_provider_maker` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
+  `enterprise_id` bigint(50) NOT NULL COMMENT '企业ID',
+  `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
+  `rel_type` varchar(50) NOT NULL COMMENT '关联类型：总包+分包支付关联；众包代开票关联',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`enterprise_id`,`maker_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商创客关联表';
+
+-- ----------------------------
+-- Records of diyi_service_provider_maker
 -- ----------------------------
 
 -- ----------------------------
