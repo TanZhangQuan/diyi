@@ -622,8 +622,7 @@ CREATE TABLE `diyi_maker_enterprise` (
   `enterprise_id` bigint(50) NOT NULL COMMENT '企业ID',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
   `position_id` bigint(50) DEFAULT NULL COMMENT '外包岗位ID',
-  `rel_date` datetime NOT NULL COMMENT '关联日期',
-  `rel_type` varchar(50) DEFAULT NULL COMMENT '关联类型：创客主动关联，企业主动关联，平台关联',
+  `rel_type` varchar(50) NOT NULL COMMENT '关联类型：创客主动关联，企业主动关联，平台关联',
   `relationship_type` varchar(50) NOT NULL COMMENT '创客商户关系',
   `rel_memo` varchar(500) NOT NULL DEFAULT '' COMMENT '关联备注',
   `cooperate_status` varchar(50) DEFAULT NULL COMMENT '合作状态：合作中，停止合作；首次关联时默认为合作中',
@@ -639,6 +638,23 @@ CREATE TABLE `diyi_maker_enterprise` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`enterprise_id`,`maker_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='创客商户关联表';
+
+DROP TABLE IF EXISTS `diyi_service_provider_maker`;
+CREATE TABLE `diyi_service_provider_maker` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
+  `enterprise_id` bigint(50) NOT NULL COMMENT '企业ID',
+  `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
+  `rel_type` varchar(50) NOT NULL COMMENT '关联类型：总包+分包支付关联；众包代开票关联',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`enterprise_id`,`maker_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商创客关联表';
 
 -- ----------------------------
 -- Records of diyi_maker_enterprise

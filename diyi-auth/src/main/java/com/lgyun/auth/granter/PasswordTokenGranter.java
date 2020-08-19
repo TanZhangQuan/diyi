@@ -72,7 +72,7 @@ public class PasswordTokenGranter implements ITokenGranter {
                 break;
 
             case ENTERPRISE:
-                //创客处理
+                //商户处理
                 res = userClient.enterpriseWorkerDeal(account, DigestUtil.encrypt(password), GrantType.PASSWORD);
                 if (!(res.isSuccess())) {
                     return res;
@@ -82,7 +82,7 @@ public class PasswordTokenGranter implements ITokenGranter {
                 break;
 
             case SERVICEPROVIDER:
-                //创客处理
+                //服务商处理
                 res = userClient.serviceProviderWorkerDeal(account, DigestUtil.encrypt(password), GrantType.PASSWORD);
                 if (!(res.isSuccess())) {
                     return res;

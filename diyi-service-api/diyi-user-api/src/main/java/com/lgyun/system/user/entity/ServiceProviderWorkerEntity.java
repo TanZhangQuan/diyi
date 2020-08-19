@@ -3,6 +3,7 @@ package com.lgyun.system.user.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lgyun.common.enumeration.AccountState;
+import com.lgyun.common.enumeration.Gender;
 import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -53,7 +54,7 @@ public class ServiceProviderWorkerEntity extends BaseEntity {
     /**
      * 性别
      */
-    private String workerSex;
+    private Gender workerSex;
 
     /**
      * 岗位性质
