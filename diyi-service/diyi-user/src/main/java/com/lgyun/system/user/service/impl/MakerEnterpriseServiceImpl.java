@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CooperateStatus;
-import com.lgyun.common.enumeration.RelType;
+import com.lgyun.common.enumeration.EnterpriseMakerRelType;
 import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
@@ -53,7 +53,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
         makerEnterpriseEntity.setEnterpriseId(enterpriseId);
         makerEnterpriseEntity.setRelationshipType(RelationshipType.RELEVANCE);
         makerEnterpriseEntity.setRelDate(new Date());
-        makerEnterpriseEntity.setRelType(RelType.ENTERPRISEREL);
+        makerEnterpriseEntity.setRelType(EnterpriseMakerRelType.ENTERPRISEREL);
         makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATING);
         makerEnterpriseEntity.setCooperationStartTime(new Date());
         makerEnterpriseEntity.setFirstCooperation(true);
@@ -88,7 +88,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
             makerEnterpriseEntity.setEnterpriseId(enterpriseId);
             makerEnterpriseEntity.setRelationshipType(RelationshipType.ATTENTION);
             makerEnterpriseEntity.setRelDate(new Date());
-            makerEnterpriseEntity.setRelType(RelType.MAKERREL);
+            makerEnterpriseEntity.setRelType(EnterpriseMakerRelType.MAKERREL);
             makerEnterpriseEntity.setCooperationStartTime(new Date());
             makerEnterpriseEntity.setFirstCooperation(true);
             makerEnterpriseEntity.setRelMemo("关注");
