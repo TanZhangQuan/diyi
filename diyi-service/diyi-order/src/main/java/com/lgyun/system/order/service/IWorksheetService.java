@@ -120,5 +120,26 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      */
     R<WorksheetNoIdVO> getByWorksheetId(String worksheetId);
 
+    /**
+     * 批量开启或关闭工单
+     * @param worksheetIds
+     * @param variable
+     * @return
+     */
+    R closeOrOpenList(String worksheetIds,Integer variable);
+
+    /**
+     * 批量删除工单
+     * @param worksheetIds
+     * @return
+     */
+    R deleteWorksheetList(String worksheetIds);
+
+    /**
+     * 整体验收工单
+     * @param worksheetId
+     * @return
+     */
+    R wholeWorksheetCheck(Long worksheetId);
 }
 

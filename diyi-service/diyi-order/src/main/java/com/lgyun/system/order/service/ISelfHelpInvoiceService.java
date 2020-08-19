@@ -75,5 +75,20 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      * @return
      */
     R<IPage<SelfHelpInvoicePayVO>> getSelfHelfInvoiceByEnterpriseId(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<SelfHelpInvoicePayVO> page);
+
+    /**
+     * 根据商户查询众包
+     * @param enterpriseId
+     * @param serviceProviderName
+     * @param page
+     * @return
+     */
+    R findEnterpriseCrowdSourcing(Long enterpriseId,String serviceProviderName,IPage<SelfHelpInvoiceCrowdSourcingVO> page);
+
+
+    /**
+     * 查询详情接口-众包
+     */
+    R findDetailCrowdSourcing(Long selfHelpInvoiceId);
 }
 

@@ -504,9 +504,9 @@ CREATE TABLE `diyi_invoice_application` (
   `application_date` datetime NOT NULL COMMENT '申请日期',
   `application_person` varchar(50) NOT NULL COMMENT '申请人',
   `voice_total_amount` decimal(12,2) NOT NULL COMMENT '开票总额',
-  `application_desc` varchar(100) NOT NULL COMMENT '申请说明',
+  `application_desc` varchar(100) DEFAULT NULL COMMENT '申请说明',
   `application_state` varchar(50) NOT NULL COMMENT '处理状态 1,申请中；2，已拒绝；3，已全额开具；4，已部分开具，5已取消',
-  `application_handle_desc` varchar(1000) NOT NULL COMMENT '处理说明',
+  `application_handle_desc` varchar(1000) DEFAULT NULL COMMENT '处理说明',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
@@ -2090,3 +2090,50 @@ CREATE TABLE `sys_user` (
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user` VALUES ('1123598821738675201', '000000', 'ADMIN', '', 'admin', '90b9aa7e25f80cf4f64e990b78a9fc5ebd6cecad', '管理员', '管理员', '', 'admin@bladex.vip', '22233322', '2018-08-08 00:00:00', '1', '1123598816738675201', '1123598813738675201', '1123598817738675201', null, '2018-08-08 00:00:00', null, '2018-08-08 00:00:00', '1', '0');
+
+DROP TABLE IF EXISTS `diyi_self_help_invoice_sp_detail`;
+CREATE TABLE `diyi_self_help_invoice_sp_detail` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `self_help_invoice_apply_provider_id` bigint(50) NOT NULL COMMENT '服务商自助开票明细Id',
+  `self_help_invoice_detail_id` bigint(50) NOT NULL COMMENT '自助开票明细Id',
+  `invoice_scan_pictures` varchar(1000) NOT NULL COMMENT ' 发票扫描件（可多张）',
+  `tax_scan_pictures` varchar(1000) NOT NULL COMMENT ' 税票扫描件（可多张）',
+  `invoice_operate_person` varchar(50) NOT NULL COMMENT '发票处理人员',
+  `update_datetime` datetime NOT NULL COMMENT '更新日期',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商开票明细：是从自助开票明细中选择过来的，信息是一致的';
+
+
+DROP TABLE IF EXISTS `diyi_self_help_invoice_sp`;
+CREATE TABLE `diyi_self_help_invoice_sp` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `self_help_invoice_id` bigint(50) NOT NULL COMMENT '自助开票Id',
+  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
+  `operate_person` varchar(50) NOT NULL COMMENT ' 提交人员',
+  `apply_date` datetime NOT NULL COMMENT '申请日期 可以多次申请，每次独立数据',
+  `apply_state` varchar(50) NOT NULL COMMENT ' 申请状态 1，已提交开票中；2，已撤回；3，已开票结束。。。这个是管理端运营老师负责，提交和撤回。',
+  `apply_desc` varchar(500) NOT NULL COMMENT '申请说明',
+  `audit_desc` varchar(500) NOT NULL COMMENT '结果说明',
+  `charge_money_num` decimal(12,2) NOT NULL COMMENT '价税合计额',
+  `value_money_num` decimal(12,2) NOT NULL COMMENT '总开票金额合计',
+  `service_rate` decimal(12,2) NOT NULL COMMENT '服务税费率',
+  `service_and_tax_money` decimal(12,2) NOT NULL COMMENT '总服务税费',
+  `service_invoice_fee` decimal(12,2) NOT NULL COMMENT '总开票手续费',
+  `idendity_confirm_fee` decimal(12,2) NOT NULL COMMENT '总身份验证费',
+  `pay_total_num` decimal(12,2) NOT NULL COMMENT '支付总额',
+  `address_id` bigint(50) NOT NULL COMMENT '收件地址Id',
+  `address_type` varchar(50) NOT NULL COMMENT '收件地址性质 1，快递给管理中心；2，直接快递给客户',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自助开票-服务商：记录自助开票主表的提交给不同服务商的';
