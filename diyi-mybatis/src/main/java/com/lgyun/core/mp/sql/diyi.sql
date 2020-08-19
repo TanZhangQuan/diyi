@@ -4,13 +4,13 @@ Navicat MySQL Data Transfer
 Source Server         : local
 Source Server Version : 50717
 Source Host           : localhost:3306
-Source Database       : diyi1
+Source Database       : diyi
 
 Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2020-08-14 17:39:48
+Date: 2020-08-19 15:59:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -622,8 +622,7 @@ CREATE TABLE `diyi_maker_enterprise` (
   `enterprise_id` bigint(50) NOT NULL COMMENT '企业ID',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
   `position_id` bigint(50) DEFAULT NULL COMMENT '外包岗位ID',
-  `rel_date` datetime NOT NULL COMMENT '关联日期',
-  `rel_type` varchar(50) DEFAULT NULL COMMENT '关联类型：创客主动关联，企业主动关联，平台关联',
+  `rel_type` varchar(50) NOT NULL COMMENT '关联类型：创客主动关联，企业主动关联，平台关联',
   `relationship_type` varchar(50) NOT NULL COMMENT '创客商户关系',
   `rel_memo` varchar(500) NOT NULL DEFAULT '' COMMENT '关联备注',
   `cooperate_status` varchar(50) DEFAULT NULL COMMENT '合作状态：合作中，停止合作；首次关联时默认为合作中',
@@ -908,7 +907,7 @@ CREATE TABLE `diyi_pay_enterprise` (
   `identify_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '总身份验证费',
   `service_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '总支付手续费',
   `pay_memo` varchar(500) NOT NULL DEFAULT '' COMMENT '支付说明',
-  `enterprise_pay_state` varchar(50) NOT NULL COMMENT '支付给平台状态：待支付，已支付，已确认收款',
+  `pay_state` varchar(50) NOT NULL COMMENT '支付给平台状态：待支付，已支付，已确认收款',
   `pay_confirm_date_time` datetime DEFAULT NULL COMMENT '支付确认日期时间',
   `confirm_date_time` datetime DEFAULT NULL COMMENT '确认回款日期时间',
   `employee_id` bigint(50) DEFAULT NULL COMMENT '确认到款人员ID',
@@ -954,7 +953,7 @@ CREATE TABLE `diyi_pay_enterprise_receipt` (
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_pay_maker`;
 CREATE TABLE `diyi_pay_maker` (
-  `id` bigint(50) NOT NULL COMMENT '唯一性控制',
+  `id` bigint(50) NOT NULL COMMENT '主键',
   `pay_enterprise_id` bigint(50) NOT NULL COMMENT '支付清单ID',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
   `maker_type` varchar(50) NOT NULL COMMENT '创客身份，自然人，个体户，个独。',
@@ -966,15 +965,15 @@ CREATE TABLE `diyi_pay_maker` (
   `maker_net_income` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '创客到手:外包费总额-创客税费',
   `audit_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '身份验证费',
   `pay_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '支付手续费',
-  `pay_state` int(1) NOT NULL COMMENT '1：待支付；2:企业已申请支付；3：企业已支付；4：平台已支付；5：已确认收款',
+  `pay_state` varchar(50) NOT NULL COMMENT '1：待支付；2:企业已申请支付；3：企业已支付；4：平台已支付；5：已确认收款',
   `company_apply_datetime` datetime NOT NULL COMMENT '企业申请支付日期时间',
   `company_pay_ok_datetime` datetime NOT NULL COMMENT '企业支付确认日期时间',
   `platform_pay_ok_datetime` datetime NOT NULL COMMENT '平台支付确认日期时间',
   `maker_confirm_datetime` datetime NOT NULL COMMENT '取交付支付确认函的确认到款日期时间',
-  `maker_tax_state` int(1) NOT NULL COMMENT '完税证明开票状态:1:已开；0：未开',
-  `maker_invoice_state` int(1) NOT NULL COMMENT '发票开票状态:1:已开；0：未开',
-  `invoice_type` int(1) NOT NULL COMMENT '发票类别:1,汇总代开；2，门征单开',
-  `pay_memo` varchar(1000) NOT NULL COMMENT '支付说明',
+  `maker_tax_state` varchar(50) NOT NULL COMMENT '完税证明开票状态:1:已开；0：未开',
+  `maker_invoice_state` varchar(50) NOT NULL COMMENT '发票开票状态:1:已开；0：未开',
+  `invoice_type` varchar(50) NOT NULL COMMENT '发票类别:1,汇总代开；2，门征单开',
+  `pay_memo` varchar(500) DEFAULT NULL COMMENT '支付说明',
   `maker_invoice_category` varchar(1000) NOT NULL COMMENT '创客发票类目:默认取订单中的默认信息，可更改，根据具体业务开，如*现代服务*市场推广费		',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
@@ -1427,6 +1426,30 @@ CREATE TABLE `diyi_service_provider` (
 
 -- ----------------------------
 -- Records of diyi_service_provider
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `diyi_service_provider_maker`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_service_provider_maker`;
+CREATE TABLE `diyi_service_provider_maker` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
+  `enterprise_id` bigint(50) NOT NULL COMMENT '企业ID',
+  `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
+  `rel_type` varchar(50) NOT NULL COMMENT '关联类型：总包+分包支付关联；众包代开票关联',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`service_provider_id`,`enterprise_id`,`maker_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商创客关联表';
+
+-- ----------------------------
+-- Records of diyi_service_provider_maker
 -- ----------------------------
 
 -- ----------------------------

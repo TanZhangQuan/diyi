@@ -7,7 +7,6 @@ import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
-import com.lgyun.system.user.vo.MakerDetailVO;
 import com.lgyun.system.user.vo.MakerWorksheetVO;
 import org.springframework.stereotype.Component;
 

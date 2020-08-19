@@ -17,7 +17,7 @@
         <result property="enterpriseId" column="enterprise_id"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.RelEnterpriseMakerVO" id="relEnterpriseMakerVO">
+    <resultMap type="com.lgyun.system.user.vo.RelMakerListVO" id="relEnterpriseMakerVO">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="idcardNo" column="idcard_no"/>

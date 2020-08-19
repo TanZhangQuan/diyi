@@ -26,7 +26,7 @@ import javax.validation.Valid;
 @RequestMapping("/web/service_provider_worker")
 @Validated
 @AllArgsConstructor
-@Api(value = "服务商员工表相关接口", tags = "服务商员工表相关接口")
+@Api(value = "服务商员工表相关接口(管理端)", tags = "服务商员工表相关接口(管理端)")
 public class ServiceProviderWorkerWebController {
 
 	private IServiceProviderWorkerService serviceProviderWorkerService;

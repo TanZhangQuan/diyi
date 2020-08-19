@@ -5,8 +5,6 @@ import com.lgyun.core.mp.support.Query;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
  * @author tzq
  * @Description 查询创客的个体户dto
@@ -22,7 +20,6 @@ public class IndividualBusinessListByMakerDto extends Query {
     private Long makerId;
 
     //个体工商户状态
-    @ApiModelProperty(value = "个体工商户状态")
     private Ibstate ibstate;
 
 }

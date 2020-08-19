@@ -15,7 +15,7 @@ import java.math.BigDecimal;
  */
 @Data
 @ApiModel(value = "AcceptPayMakerListVO对象", description = "AcceptPayMakerListVO对象")
-public class AcceptPayMakerListVO implements Serializable {
+public class PayEnterpriseMakerDetailListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //创客编号

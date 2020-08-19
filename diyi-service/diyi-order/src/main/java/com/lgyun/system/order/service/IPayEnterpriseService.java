@@ -5,13 +5,11 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.AcceptPaysheetSaveDto;
 import com.lgyun.system.order.dto.PayEnterpriseMakerListDto;
 import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
 import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.*;
-import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 
 /**
  * Service 接口
@@ -126,15 +124,6 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R getServiceProviderByEnterpriseId(Query query, Long enterpriseId, String serviceProviderName);
 
     /**
-     * 上传总包交付支付验收单
-     *
-     * @param acceptPaysheet
-     * @param enterpriseWorkerEntity
-     * @return
-     */
-    R<String> uploadAcceptPaysheet(AcceptPaysheetSaveDto acceptPaysheet, EnterpriseWorkerEntity enterpriseWorkerEntity);
-
-    /**
      * 查询当前商户所有自主开票记录(众包)
      *
      * @param enterpriseId
@@ -165,11 +154,12 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R findDetailSubcontractPortal(Long makerInvoiceId);
 
     /**
-     * 根据工单编号获取工单
+     * 根据支付清单ID查询关联创客
      *
-     * @param worksheetNo
+     * @param payEnterpriseId
+     * @param page
      * @return
      */
-    R<WorksheetNoIdVO> getWorksheetByWorksheetNo(String worksheetNo);
+    R<IPage<PayEnterpriseMakerDetailListVO>> getMakerList(Long payEnterpriseId, IPage<PayEnterpriseMakerDetailListVO> page);
 }
 

@@ -11,16 +11,18 @@ import com.lgyun.system.order.vo.TransactionMonthVO;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.mapper.EnterpriseMapper;
-import com.lgyun.system.user.service.IEnterpriseProviderService;
-import com.lgyun.system.user.service.IEnterpriseService;
-import com.lgyun.system.user.service.IMakerEnterpriseService;
+import com.lgyun.system.user.oss.AliyunOssService;
+import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.EnterpriseStatisticalVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
+import com.lgyun.system.user.vo.enterprise.EnterpriseResponse;
 import com.lgyun.system.user.wrapper.EnterpriseWrapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Service 实现
@@ -33,6 +35,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, EnterpriseEntity> implements IEnterpriseService {
 
+    private AliyunOssService ossService;
     private IMakerEnterpriseService makerEnterpriseService;
     private IEnterpriseProviderService enterpriseProviderService;
 
@@ -94,6 +97,46 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     @Override
     public R<TransactionMonthVO> queryEnterprisePayMoney(Long enterpriseId) {
         return R.data(baseMapper.queryEnterprisePayMoney(enterpriseId));
+    }
+
+    /**
+     * 获取商户基本信息
+     *
+     * @param enterpriseId
+     * @return
+     */
+    @Override
+    public R<EnterpriseResponse> getBasicEnterpriseResponse(Long enterpriseId) {
+        EnterpriseEntity enterpriseEntity = getById(enterpriseId);
+        EnterpriseResponse enterpriseResponse = new EnterpriseResponse();
+        BeanUtils.copyProperties(enterpriseEntity, enterpriseResponse);
+        return R.data(enterpriseResponse);
+    }
+
+    /**
+     * 上传商户营业执照
+     *
+     * @param enterpriseId
+     * @param file
+     * @return
+     */
+    @Override
+    public void uploadEnterpriseLicence(Long enterpriseId, MultipartFile file) throws Exception {
+
+        //判断文件内容是否为空
+        if (file.isEmpty()) {
+            throw new RuntimeException("上传文件不能为空");
+        }
+        // 获取上传文件的后缀
+        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+        // 上传文件中
+        String url = ossService.uploadSuffix(file.getBytes(), suffix);
+
+        EnterpriseEntity enterpriseEntity = getById(enterpriseId);
+        log.info("[uploadEnterpriseLicence]enterpriseId={} url={}", enterpriseEntity.getId(), url);
+        // 更新营业执照
+        enterpriseEntity.setBizLicenceUrl(url);
+        this.save(enterpriseEntity);
     }
 
 }
