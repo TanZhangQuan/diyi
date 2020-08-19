@@ -2,7 +2,6 @@ package com.lgyun.system.user.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.vo.TransactionMonthVO;
@@ -66,18 +65,18 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
     /**
      * 获取商户基本信息
      *
-     * @param bladeUser
+     * @param enterpriseId
      * @return
      */
-    EnterpriseResponse getBasicEnterpriseResponse(BladeUser bladeUser);
+    R<EnterpriseResponse> getBasicEnterpriseResponse(Long enterpriseId);
 
     /**
      * 上传商户营业执照
      *
-     * @param bladeUser
+     * @param enterpriseId
      * @param file
      * @return
      */
-    void uploadEnterpriseLicence(BladeUser bladeUser, MultipartFile file) throws Exception;
+    void uploadEnterpriseLicence(Long enterpriseId, MultipartFile file) throws Exception;
 }
 
