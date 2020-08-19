@@ -12,7 +12,7 @@ import com.lgyun.system.user.mapper.MakerEnterpriseMapper;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
-import com.lgyun.system.user.vo.RelEnterpriseMakerVO;
+import com.lgyun.system.user.vo.RelMakerListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -118,7 +118,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
-    public R<IPage<RelEnterpriseMakerVO>> getEnterpriseMakers(IPage<RelEnterpriseMakerVO> page, Long enterpriseId, RelationshipType relationshipType, String keyword) {
+    public R<IPage<RelMakerListVO>> getEnterpriseMakers(IPage<RelMakerListVO> page, Long enterpriseId, RelationshipType relationshipType, String keyword) {
         return R.data(page.setRecords(baseMapper.getEnterpriseMakers(enterpriseId, relationshipType, keyword, page)));
     }
 

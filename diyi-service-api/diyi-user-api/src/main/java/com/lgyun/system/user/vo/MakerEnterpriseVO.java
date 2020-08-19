@@ -17,5 +17,4 @@ import lombok.EqualsAndHashCode;
 public class MakerEnterpriseVO extends MakerEnterpriseEntity {
     private static final long serialVersionUID = 1L;
 
-
 }
