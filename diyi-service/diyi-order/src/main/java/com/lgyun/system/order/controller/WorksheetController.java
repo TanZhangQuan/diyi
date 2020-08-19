@@ -40,12 +40,12 @@ public class WorksheetController {
 
     @PostMapping("/orderGrabbing")
     @ApiOperation(value = "抢单", notes = "抢单")
-    public R orderGrabbing(@NotNull(message = "请输入工单的id") @RequestParam(required = false)Long worksheetId, BladeUser bladeUser) {
+    public R orderGrabbing(@NotNull(message = "请输入工单的id") @RequestParam(required = false) Long worksheetId, BladeUser bladeUser) {
         log.info("抢单");
         try {
             //获取当前创客
             R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             MakerEntity makerEntity = result.getData();
@@ -62,11 +62,11 @@ public class WorksheetController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "worksheetState", value = "工单状态：1代表待抢单，2已接单，3已交付", paramType = "query", dataType = "string"),
     })
-    public R findXiaoPage(Query query,@NotNull(message = "请输入工单的状态") @RequestParam(required = false) Integer worksheetState, BladeUser bladeUser) {
+    public R findXiaoPage(Query query, @NotNull(message = "请输入工单的状态") @RequestParam(required = false) Integer worksheetState, BladeUser bladeUser) {
         try {
             //获取当前创客
             R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             MakerEntity makerEntity = result.getData();
@@ -75,7 +75,7 @@ public class WorksheetController {
                 return R.fail("参数错误");
             }
             return worksheetService.findXiaoPage(Condition.getPage(query.setDescs("create_time")), worksheetState, makerEntity.getId());
-        }catch (Exception e){
+        } catch (Exception e) {
             log.info("小程查询工单失败");
         }
         return R.fail("小程查询工单失败");
@@ -85,7 +85,7 @@ public class WorksheetController {
     @ApiOperation(value = "提交工作成果", notes = "提交工作成果")
     public R submitachievement(@NotNull(message = "请输入工单的状态") @RequestParam(required = false) Long worksheetMakerId,
                                @NotNull(message = "请输入工单说明") @RequestParam(required = false) String achievementDesc,
-                               @NotNull(message = "请输入工单url") @RequestParam(required = false)String achievementFiles) {
+                               @NotNull(message = "请输入工单url") @RequestParam(required = false) String achievementFiles) {
 
         try {
             WorksheetMakerEntity worksheetMakerEntity = worksheetMakerService.getById(worksheetMakerId);
@@ -93,7 +93,7 @@ public class WorksheetController {
             if (!(worksheetEntity.getWorksheetState().equals(WorksheetState.CLOSED) || worksheetEntity.getWorksheetState().equals(WorksheetState.CHECKACCEPT))) {
                 return R.fail("工单暂时不能提交工作成果，稍后再试");
             }
-            return worksheetMakerService.submitAchievement(worksheetMakerEntity, achievementDesc, achievementFiles,worksheetService);
+            return worksheetMakerService.submitAchievement(worksheetMakerEntity, achievementDesc, achievementFiles, worksheetService);
         } catch (Exception e) {
             log.info("提交工作成果失败");
         }
@@ -120,7 +120,7 @@ public class WorksheetController {
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();

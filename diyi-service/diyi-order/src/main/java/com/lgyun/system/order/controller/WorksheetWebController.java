@@ -33,7 +33,7 @@ import java.math.BigDecimal;
 @RequestMapping("/order/worksheet")
 @Validated
 @AllArgsConstructor
-@Api(value = "商户工单相关接口", tags = "商户工单相关接口")
+@Api(value = "工单相关接口(管理端)", tags = "工单相关接口(管理端)")
 public class WorksheetWebController {
 
     private IWorksheetService worksheetService;
@@ -175,6 +175,7 @@ public class WorksheetWebController {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
             return worksheetMakerService.checkAchievement(worksheetMakerId, checkMoney, enterpriseWorkerEntity.getEnterpriseId(), bool);
         } catch (Exception e) {
             log.info("验收工作成果失败");
