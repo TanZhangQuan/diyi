@@ -1,6 +1,6 @@
 package com.lgyun.system.user.vo;
 
-import com.lgyun.system.user.entity.AgreementEntity;
+import com.lgyun.system.user.entity.ServiceProviderEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "ServiceProviderVO对象", description = "ServiceProviderVO对象")
-public class ServiceProviderVO extends AgreementEntity {
+public class ServiceProviderVO extends ServiceProviderEntity {
     private static final long serialVersionUID = 1L;
 
 }

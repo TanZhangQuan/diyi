@@ -48,6 +48,7 @@ public class MakerWebController {
     private IMakerEnterpriseService makerEnterpriseService;
     private IServiceProviderWorkerService serviceProviderWorkerService;
     private IServiceProviderMakerService serviceProviderMakerService;
+    private IServiceProviderService serviceProviderService;
 
     @PostMapping("/save")
     @ApiOperation(value = "新增单个创客", notes = "新增单个创客")
@@ -218,6 +219,39 @@ public class MakerWebController {
             return makerService.getMakerDetailById(null, makerId);
         } catch (Exception e) {
             log.error("根据创客ID获取创客详情异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/get_enterprise_by_service_provider")
+    @ApiOperation(value = "获取服务商关联的所有商户", notes = "获取服务商关联的所有商户")
+    public R getEnterpriseByServiceProvider(Query query, BladeUser bladeUser) {
+
+        log.info("获取服务商关联的所有商户");
+        try {
+            //获取当前服务商员工
+            R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+            return serviceProviderService.getEnterpriseByServiceProvider(query, serviceProviderWorkerEntity.getServiceProviderId());
+        } catch (Exception e) {
+            log.error("获取服务商关联的所有商户异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/get_relevance_maker_by_enterprise_id")
+    @ApiOperation(value = "根据商户ID获取所有关联创客", notes = "根据商户ID获取所有关联创客")
+    public R getRelevanceMakerByEnterpriseId(@ApiParam(value = "商户编号") @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long enterpriseId, String keyword, Query query, BladeUser bladeUser) {
+
+        log.info("根据商户ID获取所有关联创客");
+        try {
+            return makerEnterpriseService.getEnterpriseMakers(Condition.getPage(query.setDescs("create_time")), enterpriseId, RelationshipType.RELEVANCE, keyword);
+        } catch (Exception e) {
+            log.error("根据商户ID获取所有关联创客异常", e);
         }
         return R.fail("查询失败");
     }

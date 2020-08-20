@@ -6,3 +6,13 @@ spring:
     url: ${blade.datasource.test.url}
     username: ${blade.datasource.test.username}
     password: ${blade.datasource.test.password}
+
+# 阿里云OSS云存储配置
+aliyun:
+  oss:
+    domain: http://diyi-cr.oss-cn-shanghai.aliyuncs.com
+    endPoint: http://oss-cn-shanghai.aliyuncs.com
+    bucketName: diyi-cr
+    accessKeyId: LTAI4GDMovvBWMpWk2VTDBpq
+    accessKeySecret: yO6t0rEOSxTr4tPSZ4w1ZxMy1n0Hmf
+    prefix: upload

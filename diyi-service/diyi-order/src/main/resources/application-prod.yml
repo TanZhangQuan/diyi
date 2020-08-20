@@ -10,9 +10,9 @@ spring:
 # 阿里云OSS云存储配置
 aliyun:
   oss:
-    domain: http://cashbus-ddh.oss-cn-beijing.aliyuncs.com
-    endPoint: http://oss-cn-beijing.aliyuncs.com
-    bucketName: cashbus-ddh
-    accessKeyId: LTAIZ7QfWA70sj6P
-    accessKeySecret: GKET6qGz6RXHFM2qd2xwL9c1QbxhRT
+    domain: http://diyi-cr.oss-cn-shanghai.aliyuncs.com
+    endPoint: http://oss-cn-shanghai.aliyuncs.com
+    bucketName: diyi-cr
+    accessKeyId: LTAI4GDMovvBWMpWk2VTDBpq
+    accessKeySecret: yO6t0rEOSxTr4tPSZ4w1ZxMy1n0Hmf
     prefix: upload

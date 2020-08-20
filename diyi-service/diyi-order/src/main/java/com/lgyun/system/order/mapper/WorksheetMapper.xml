@@ -78,7 +78,11 @@
         SELECT t1.id, t1.worksheet_no, t1.worksheet_name, t1.worksheet_type, t1.maker_type, t1.worksheet_mode, t2.check_money, t1.create_time,
         IF(ISNULL(t2.achievement_files) || LENGTH(trim(t2.achievement_files)) <![CDATA[ < ]]> 1, FALSE, TRUE) AS bool_achievement
         FROM diyi_worksheet t1 INNER JOIN diyi_worksheet_maker t2 ON t1.id = t2.worksheet_id
-        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.enterprise_id = #{param1} AND t2.maker_id = #{param2}
+        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0
+        <if test="param1 != null">
+        AND t1.enterprise_id = #{param1}
+        </if>
+        AND t2.maker_id = #{param2}
     </select>
 
     <select id="getEnterpriseWorksheet" resultMap="worksheetXiaoMap">

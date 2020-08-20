@@ -22,6 +22,12 @@ public class EnterpriseMakerDetailVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 创客编号
+     */
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long id;
+
+    /**
      * 头像
      */
     private String avatar;
@@ -50,12 +56,6 @@ public class EnterpriseMakerDetailVO implements Serializable {
      * 总收入
      */
     private BigDecimal income;
-
-    /**
-     * 创客编号
-     */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
 
     /**
      * 身份证号码

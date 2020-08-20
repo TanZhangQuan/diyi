@@ -40,7 +40,6 @@ public class WorksheetWebController {
     private IWorksheetMakerService worksheetMakerService;
     private IUserClient iUserClient;
 
-
     @PostMapping("/releaseWorksheet")
     @ApiOperation(value = "发布工单", notes = "发布工单")
     public R releaseWorksheet(@Valid @RequestBody ReleaseWorksheetDto releaseWorksheetDTO,BladeUser bladeUser) {
@@ -183,9 +182,6 @@ public class WorksheetWebController {
         return R.fail("验收工作成果失败");
     }
 
-    /**
-     * 批量开启或关闭工单
-     */
     @PostMapping("/closeOrOpenList")
     @ApiOperation(value = "批量开启或关闭工单", notes = "批量开启或关闭工单")
     public R closeOrOpenAll(@NotNull(message = "请输入工单的id") @RequestParam(required = false) String worksheetIds,
@@ -199,9 +195,6 @@ public class WorksheetWebController {
         return R.fail("批量开启或关闭工单失败");
     }
 
-    /**
-     * 批量删除工单
-     */
     @PostMapping("/deleteWorksheetList")
     @ApiOperation(value = "批量删除工单", notes = "批量删除工单")
     public R deleteWorksheetList(@NotNull(message = "请输入工单的id") @RequestParam(required = false) String worksheetIds) {
@@ -214,9 +207,6 @@ public class WorksheetWebController {
         return R.fail("批量删除工单失败");
     }
 
-    /**
-     * 整体验收工单
-     */
     @PostMapping("/wholeWorksheetCheck")
     @ApiOperation(value = "整体验收工单", notes = "整体验收工单")
     public R wholeWorksheetCheck(@NotNull(message = "请输入工单的id") @RequestParam(required = false) Long worksheetId) {
