@@ -3,13 +3,13 @@ package com.lgyun.system.order.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.core.mp.base.BaseEntity;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.lgyun.core.mp.base.BaseEntity;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
@@ -31,38 +31,38 @@ public class SelfHelpInvoiceSpDetailEntity extends BaseEntity {
     /**
      * 主键
      */
-        @ApiModelProperty(value = "主键")
+    @ApiModelProperty(value = "主键")
     @TableId(type = IdType.ASSIGN_ID)
     @JsonSerialize(using = ToStringSerializer.class)
-        private Long id;
+    private Long id;
 
     /**
      * 服务商自助开票明细Id
      */
-        private Long selfHelpInvoiceApplyProviderId;
+    private Long selfHelpInvoiceApplyProviderId;
 
     /**
      * 自助开票明细Id
      */
-        private Long selfHelpInvoiceDetailId;
+    private Long selfHelpInvoiceDetailId;
 
     /**
-     *  发票扫描件（可多张）
+     * 发票扫描件（可多张）
      */
-        private String invoiceScanPictures;
+    private String invoiceScanPictures;
 
     /**
-     *  税票扫描件（可多张）
+     * 税票扫描件（可多张）
      */
-        private String taxScanPictures;
+    private String taxScanPictures;
 
     /**
      * 发票处理人员
      */
-        private String invoiceOperatePerson;
+    private String invoiceOperatePerson;
 
     /**
      * 更新日期
      */
-        private Date updateDatetime;
-    }
+    private Date updateDatetime;
+}
