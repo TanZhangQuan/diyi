@@ -1,7 +1,6 @@
 package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
