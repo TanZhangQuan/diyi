@@ -122,7 +122,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R<IPage<PayEnterpriseMakersListVO>> getPayEnterprisesByEnterprise(Long enterpriseId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page) {
+    public R<IPage<PayEnterpriseMakersListVO>> getPayEnterprises(Long enterpriseId, Long serviceProviderId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page) {
 
         if (payEnterpriseMakerListDto.getBeginDate() != null && payEnterpriseMakerListDto.getEndDate() != null) {
             if (payEnterpriseMakerListDto.getBeginDate().after(payEnterpriseMakerListDto.getEndDate())) {
@@ -130,7 +130,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             }
         }
 
-        return R.data(page.setRecords(baseMapper.getPayEnterprisesByEnterprise(enterpriseId, payEnterpriseMakerListDto, page)));
+        return R.data(page.setRecords(baseMapper.getPayEnterprises(enterpriseId, serviceProviderId, payEnterpriseMakerListDto, page)));
     }
 
     @Override

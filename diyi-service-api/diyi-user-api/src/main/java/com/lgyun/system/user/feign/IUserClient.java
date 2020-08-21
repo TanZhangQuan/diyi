@@ -198,6 +198,24 @@ public interface IUserClient {
     R currentMaker(@RequestBody BladeUser bladeUser);
 
     /**
+     * 根据user_id获取商户
+     *
+     * @param bladeUser
+     * @return
+     */
+    @PostMapping(API_PREFIX + "/current_enterprise_worker")
+    R<EnterpriseWorkerEntity> currentEnterpriseWorker(@RequestBody BladeUser bladeUser);
+
+    /**
+     * 根据user_id获取服务商
+     *
+     * @param bladeUser
+     * @return
+     */
+    @PostMapping(API_PREFIX + "/current_service_provider_worker")
+    R<ServiceProviderWorkerEntity> currentServiceProviderWorker(@RequestBody BladeUser bladeUser);
+
+    /**
      * 根据创客姓名分页查询
      *
      * @param current
@@ -207,15 +225,6 @@ public interface IUserClient {
      */
     @PostMapping(API_PREFIX + "/maker/getMakerName")
     R getMakerName(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam(name = "makerName", required = false) String makerName);
-
-    /**
-     * 根据user_id获取商户
-     *
-     * @param bladeUser
-     * @return
-     */
-    @PostMapping(API_PREFIX + "/current_enterprise_worker")
-    R<EnterpriseWorkerEntity> currentEnterpriseWorker(@RequestBody BladeUser bladeUser);
 
     /**
      * 根据商户ID, 服务商ID查询关联

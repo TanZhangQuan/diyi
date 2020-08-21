@@ -239,6 +239,11 @@ public class UserClient implements IUserClient {
     }
 
     @Override
+    public R<ServiceProviderWorkerEntity> currentServiceProviderWorker(BladeUser bladeUser) {
+        return iServiceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+    }
+
+    @Override
     public EnterpriseProviderEntity findByEnterpriseIdServiceProviderId(Long enterpriseId, Long serviceProviderId) {
         return iEnterpriseProviderService.findByEnterpriseIdServiceProviderId(enterpriseId, serviceProviderId);
     }

@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMakerEntity> implements IPayMakerService {
 
     @Override
-    public R<IPage<PayEnterpriseMakersListVO>> getPayMakersByEnterprise(Long enterpriseId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page) {
+    public R<IPage<PayEnterpriseMakersListVO>> getPayMakersByEnterprise(Long enterpriseId, Long serviceProviderId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page) {
 
         if (payEnterpriseMakerListDto.getBeginDate() != null && payEnterpriseMakerListDto.getEndDate() != null) {
             if (payEnterpriseMakerListDto.getBeginDate().after(payEnterpriseMakerListDto.getEndDate())) {
@@ -32,6 +32,6 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
             }
         }
 
-        return R.data(page.setRecords(baseMapper.getPayMakersByEnterprise(enterpriseId, payEnterpriseMakerListDto, page)));
+        return R.data(page.setRecords(baseMapper.getPayMakersByEnterprise(enterpriseId, serviceProviderId, payEnterpriseMakerListDto, page)));
     }
 }
