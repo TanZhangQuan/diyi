@@ -137,15 +137,15 @@ public class PayEnterpriseWebController {
         return R.fail("查询失败");
     }
 
-    @GetMapping("/get_makers")
-    @ApiOperation(value = "根据支付清单ID查询支付清单关联工单的创客", notes = "根据支付清单ID查询支付清单关联工单的创客")
-    public R getMakers(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, Query query) {
+    @GetMapping("/get_pay_maker_list_by_pay_enterprise_id")
+    @ApiOperation(value = "根据支付清单ID查询创客支付明细", notes = "根据支付清单ID查询创客支付明细")
+    public R getPayMakerListByPayEnterpriseId(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, Query query) {
 
-        log.info("根据支付清单ID查询支付清单关联工单的创客");
+        log.info("根据支付清单ID查询创客支付明细");
         try {
-            return payEnterpriseService.getMakerList(payEnterpriseId, Condition.getPage(query.setDescs("create_time")));
+            return payEnterpriseService.getPayMakerListByPayEnterpriseId(payEnterpriseId, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
-            log.error("根据支付清单ID查询支付清单关联工单的创客异常", e);
+            log.error("根据支付清单ID查询创客支付明细异常", e);
         }
         return R.fail("查询失败");
     }

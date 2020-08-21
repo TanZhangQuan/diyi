@@ -154,12 +154,12 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R findDetailSubcontractPortal(Long makerInvoiceId);
 
     /**
-     * 根据支付清单ID查询关联创客
+     * 根据支付清单ID查询创客支付明细
      *
      * @param payEnterpriseId
      * @param page
      * @return
      */
-    R<IPage<PayEnterpriseMakerDetailListVO>> getMakerList(Long payEnterpriseId, IPage<PayEnterpriseMakerDetailListVO> page);
+    R<IPage<PayMakerListVO>> getPayMakerListByPayEnterpriseId(Long payEnterpriseId, IPage<PayMakerListVO> page);
 }
 

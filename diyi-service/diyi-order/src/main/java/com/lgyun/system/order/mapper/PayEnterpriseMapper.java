@@ -106,12 +106,12 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     EnterpriseSubcontractPortalVO findDetailSubcontractPortal(Long makerInvoiceId);
 
     /**
-     * 根据支付清单ID查询关联创客
+     * 根据支付清单ID查询创客支付明细
      *
      * @param payEnterpriseId
      * @param page
      * @return
      */
-    List<PayEnterpriseMakerDetailListVO> getMakerList(Long payEnterpriseId, IPage<PayEnterpriseMakerDetailListVO> page);
+    List<PayMakerListVO> getPayMakerListByPayEnterpriseId(Long payEnterpriseId, IPage<PayMakerListVO> page);
 }
 

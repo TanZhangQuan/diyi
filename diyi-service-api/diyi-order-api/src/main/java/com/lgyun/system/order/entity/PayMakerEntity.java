@@ -46,7 +46,7 @@ public class PayMakerEntity extends BaseEntity {
     /**
      * 个体户/个独名称
      */
-    private String individualBusinessName;
+    private String individualName;
 
     /**
      * 总费用 外包费总额+身份验证费+支付手续费

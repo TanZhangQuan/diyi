@@ -252,8 +252,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R<IPage<PayEnterpriseMakerDetailListVO>> getMakerList(Long payEnterpriseId, IPage<PayEnterpriseMakerDetailListVO> page) {
-        return R.data(page.setRecords(baseMapper.getMakerList(payEnterpriseId, page)));
+    public R<IPage<PayMakerListVO>> getPayMakerListByPayEnterpriseId(Long payEnterpriseId, IPage<PayMakerListVO> page) {
+        return R.data(page.setRecords(baseMapper.getPayMakerListByPayEnterpriseId(payEnterpriseId, page)));
     }
 
 }

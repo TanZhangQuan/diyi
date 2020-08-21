@@ -44,7 +44,7 @@ public class PayEntity extends BaseEntity {
     /**
      * 个体户名称
      */
-    private String individualBusinessName;
+    private String individualName;
 
     /**
      * 创客到手外包费
