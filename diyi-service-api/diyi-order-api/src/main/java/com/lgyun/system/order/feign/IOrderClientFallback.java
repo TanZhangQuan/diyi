@@ -31,14 +31,4 @@ public class IOrderClientFallback implements IOrderClient {
         return R.fail("网络繁忙，请稍后尝试");
     }
 
-    @Override
-    public R selectEntMakSourc(Integer current, Integer size, Long enterpriseId) {
-        return R.fail("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public R findDetailCrowdSourcing(Long selfHelpInvoiceId) {
-        return R.fail("网络繁忙，请稍后尝试");
-    }
-
 }

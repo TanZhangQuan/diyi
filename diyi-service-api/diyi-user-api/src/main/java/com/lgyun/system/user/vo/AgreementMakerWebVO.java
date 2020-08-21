@@ -38,8 +38,6 @@ public class AgreementMakerWebVO implements Serializable {
 
     private String onlineAggrementUrl;
 
-    private String paperAgreementUrl;
-
     private SignState signState;
 
     private Date signDate;

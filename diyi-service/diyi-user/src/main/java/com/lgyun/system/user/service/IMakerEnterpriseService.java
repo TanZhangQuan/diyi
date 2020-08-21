@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.core.mp.support.Condition;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
-import com.lgyun.system.user.vo.*;
+import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
+import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
+import com.lgyun.system.user.vo.RelMakerListVO;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -105,15 +105,5 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
      * @return
      */
     R<String> cancelRelMakers(Set<Long> makerIds, RelationshipType relationshipType, Long enterpriseId);
-
-    /**
-     * 根据商户id查询所有关联的创客
-     */
-    List<MakerEnterpriseEntity> getEnterpriseId(Long enterpriseId);
-
-    /**
-     *
-     */
-    R<IPage<MakerEnterpriseWebVO>> selectEnterpriseMaker(IPage<MakerEnterpriseWebVO> page, Long enterpriseId);
 }
 

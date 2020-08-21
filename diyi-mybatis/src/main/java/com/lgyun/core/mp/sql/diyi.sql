@@ -110,10 +110,9 @@ CREATE TABLE `diyi_address` (
 DROP TABLE IF EXISTS `diyi_agreement`;
 CREATE TABLE `diyi_agreement` (
   `id` bigint(50) NOT NULL COMMENT '唯一性控制',
-  `agreement_type` varchar(50) NOT NULL COMMENT '协议类别 1,创客加盟协议；2，商户加盟协议；3，服务商加盟协议；4，渠道商加盟协议；5、合伙人加盟协议；6、园区合作协议；7、税局合作协议；8、工商合作协议；9、创客授权书；10、商户-创客补充协议；11、服务商-商户补充协议；12、创客单独税务事项委托授权书；13、创客单独支付事项委托授权书；14、其他协议',
+  `agreement_type` int(11) NOT NULL COMMENT '协议类别 1,创客加盟协议；2，商户加盟协议；3，服务商加盟协议；4，渠道商加盟协议；5、合伙人加盟协议；6、园区合作协议；7、税局合作协议；8、工商合作协议；9、创客授权书；10、商户-创客补充协议；11、服务商-商户补充协议；12、创客单独税务事项委托授权书；13、创客单独支付事项委托授权书；14、其他协议',
   `sign_type` varchar(50) NOT NULL COMMENT '1、纸质协议2、平台在线协议3、三方在线协议',
-  `sign_state` varchar(50) NOT NULL COMMENT '0签署中 1已完毕',
-  `audit_state` varchar(50) DEFAULT NULL COMMENT '单方授权函审核状态 1，编辑中；2，已驳回；3，已审核通过',
+  `sign_state` int(11) NOT NULL DEFAULT '0' COMMENT '0签署中 1已完毕',
   `sign_date` datetime NOT NULL COMMENT '签署日期',
   `agreement_no` varchar(100) NOT NULL COMMENT '协议编号',
   `sequence_no` varchar(100) NOT NULL DEFAULT '' COMMENT '顺序号',
@@ -123,17 +122,17 @@ CREATE TABLE `diyi_agreement` (
   `rel_bureau_id` bigint(50) DEFAULT NULL COMMENT '相关局ID',
   `agent_id` bigint(50) DEFAULT NULL COMMENT '渠道商ID',
   `partner_id` bigint(50) DEFAULT NULL COMMENT '合伙人ID',
-  `online_agreement_template_id` bigint(50) DEFAULT NULL COMMENT '平台在线协议模板ID',
-  `online_aggrement_url` varchar(100) DEFAULT NULL COMMENT '在线协议URL',
-  `paper_agreement_url` varchar(100) DEFAULT '' COMMENT '纸质协议URL',
-  `third_online_agreement_url` varchar(100) DEFAULT '' COMMENT '三方在线协议URL',
+  `online_agreement_template_id` bigint(50) NOT NULL COMMENT '平台在线协议模板ID',
+  `online_aggrement_url` varchar(100) NOT NULL COMMENT '在线协议URL',
+  `paper_agreement_url` varchar(100) NOT NULL DEFAULT '' COMMENT '纸质协议URL',
+  `third_online_agreement_url` varchar(100) NOT NULL DEFAULT '' COMMENT '三方在线协议URL',
   `paper_agreement_upload` varchar(50) DEFAULT NULL COMMENT '纸质协议上传状态',
   `first_side_sign_person` varchar(100) NOT NULL COMMENT '甲方签署人员',
-  `second_side_sign_person` varchar(100) DEFAULT NULL COMMENT '乙方签署人员',
-  `third_side_sign_person` varchar(100) DEFAULT '' COMMENT '丙方签署人员',
-  `fourth_side_sign_person` varchar(100) DEFAULT '' COMMENT '丁方签署人员',
-  `upload_datetime` datetime DEFAULT NULL COMMENT '上传日期',
-  `upload_person` varchar(100) DEFAULT NULL COMMENT '上传人员',
+  `second_side_sign_person` varchar(100) NOT NULL COMMENT '乙方签署人员',
+  `third_side_sign_person` varchar(100) NOT NULL DEFAULT '' COMMENT '丙方签署人员',
+  `fourth_side_sign_person` varchar(100) NOT NULL DEFAULT '' COMMENT '丁方签署人员',
+  `upload_datetime` datetime NOT NULL COMMENT '上传日期',
+  `upload_person` varchar(100) NOT NULL COMMENT '上传人员',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
@@ -142,9 +141,6 @@ CREATE TABLE `diyi_agreement` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='综合合同表';
-
-
-
 
 -- ----------------------------
 -- Records of diyi_agreement
@@ -753,7 +749,7 @@ DROP TABLE IF EXISTS `diyi_online_agreement_need_sign`;
 CREATE TABLE `diyi_online_agreement_need_sign` (
   `id` bigint(50) NOT NULL COMMENT '唯一性控制',
   `online_agreement_template_id` bigint(50) NOT NULL COMMENT '平台在线协议模板ID',
-  `object_type` varchar(50) NOT NULL COMMENT '对象身份1、创客本人2、商户人员3、服务商人员4、相关局人员5、渠道商人员6、合伙人本人',
+  `object_type` int(1) NOT NULL COMMENT '对象身份1、创客本人2、商户人员3、服务商人员4、相关局人员5、渠道商人员6、合伙人本人',
   `sign_state` varchar(50) NOT NULL DEFAULT '0' COMMENT '0未签约，1已签约',
   `sign_power` varchar(50) NOT NULL COMMENT '签字对象性质 甲方；2，乙方；3，丙方；4，丁方',
   `object_id` bigint(50) NOT NULL COMMENT '对象ID 1、创客ID2、商户ID，具体签署时可能是某个用户3、服务商ID，具体签署时可能是某个用户4、相关局ID，具体签署时可能是某个用户5、渠道商ID，具体签署时可能是某个用户6、合伙人ID',
@@ -763,7 +759,8 @@ CREATE TABLE `diyi_online_agreement_need_sign` (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`online_agreement_template_id`,`sign_power`,`object_type`,`object_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='平台在线协议需要签署清单表';
 
 -- ----------------------------
@@ -782,8 +779,8 @@ CREATE TABLE `diyi_online_agreement_template` (
   `agreement_template` varchar(100) NOT NULL COMMENT '协议模板',
   `upload_person` varchar(100) NOT NULL COMMENT '上传人员',
   `upload_date` datetime NOT NULL COMMENT '上传日期',
-  `change_state_person` varchar(100) DEFAULT NULL COMMENT '变更状态人员',
-  `shange_state_date` datetime DEFAULT NULL COMMENT '变更日期',
+  `change_state_person` varchar(100) NOT NULL COMMENT '变更状态人员',
+  `shange_state_date` datetime NOT NULL COMMENT '变更日期',
   `bool_all_makers` bit(1) NOT NULL COMMENT '是否需要全部创客签署',
   `template_type` varchar(50) NOT NULL COMMENT '模板类型',
   `template_count` int(11) NOT NULL COMMENT '模板的页数',
@@ -793,7 +790,8 @@ CREATE TABLE `diyi_online_agreement_template` (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`agreement_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='平台在线协议模板表';
 
 -- ----------------------------

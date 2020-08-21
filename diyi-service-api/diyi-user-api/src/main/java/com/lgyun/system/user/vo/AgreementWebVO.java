@@ -52,14 +52,9 @@ public class AgreementWebVO implements Serializable {
     private String firstSideSignPerson;
 
     /**
-     * 在线合同url
+     * 合同url
      */
     private String onlineAggrementUrl;
-
-    /**
-     * 纸质合同url
-     */
-    private String paperAgreementUrl;
 
     /**
      * 合同状态
