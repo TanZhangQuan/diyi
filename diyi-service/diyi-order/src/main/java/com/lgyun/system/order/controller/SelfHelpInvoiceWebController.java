@@ -17,6 +17,7 @@ import com.lgyun.system.order.dto.SelfHelpInvoiceDto;
 import com.lgyun.system.order.excel.InvoiceListExcel;
 import com.lgyun.system.order.excel.InvoiceListListener;
 import com.lgyun.system.order.service.*;
+import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
@@ -59,13 +60,19 @@ public class SelfHelpInvoiceWebController {
 
     @GetMapping("/findMakerTypeSelfHelpInvoice")
     @ApiOperation(value = "根据创客类型查询自助开票", notes = "根据创客类型查询自助开票")
-    public R findMakerTypeSelfHelpInvoice(Query query, Long enterpriseId, MakerType makerType,
+    public R findMakerTypeSelfHelpInvoice(Query query, BladeUser bladeUser, MakerType makerType,
                                           @RequestParam(required = false) String invoicePeopleName,
                                           @RequestParam(required = false) String startTime,
                                           @RequestParam(required = false) String endTime) {
         log.info("根据创客类型查询自助开票");
         try {
-            return selfHelpInvoiceService.findMakerTypeSelfHelpInvoice(Condition.getPage(query.setDescs("create_time")), enterpriseId, makerType,invoicePeopleName,startTime,endTime);
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+            return selfHelpInvoiceService.findMakerTypeSelfHelpInvoice(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), makerType,invoicePeopleName,startTime,endTime);
         } catch (Exception e) {
             log.error("根据创客类型查询自助开票失败", e);
         }
@@ -86,10 +93,16 @@ public class SelfHelpInvoiceWebController {
 
     @PostMapping("/saveAddress")
     @ApiOperation(value = "新建收货地址", notes = "新建收货地址")
-    public R saveAddress(@Valid @RequestBody AddressDto addressDto, Long enterpriseId) {
+    public R saveAddress(@Valid @RequestBody AddressDto addressDto, BladeUser bladeUser) {
         log.info("新建收货地址");
         try {
-            return addressService.saveAddress(addressDto, enterpriseId, ObjectType.ENTERPRISEPEOPLE);
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+            return addressService.saveAddress(addressDto, enterpriseWorkerEntity.getEnterpriseId(), ObjectType.ENTERPRISEPEOPLE);
         } catch (Exception e) {
             log.error("新建收货地址失败", e);
         }
@@ -134,10 +147,16 @@ public class SelfHelpInvoiceWebController {
 
     @GetMapping("/findAddressMakerId")
     @ApiOperation(value = "查询收货地址", notes = "查询收货地址")
-    public R findAddressMakerId(Query query, Long enterpriseId) {
+    public R findAddressMakerId(Query query, BladeUser bladeUser) {
         log.info("查询收货地址");
         try {
-            return addressService.findAddressMakerId(query.getCurrent(), query.getCurrent(), enterpriseId, ObjectType.ENTERPRISEPEOPLE);
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+            return addressService.findAddressMakerId(query.getCurrent(), query.getCurrent(), enterpriseWorkerEntity.getEnterpriseId(), ObjectType.ENTERPRISEPEOPLE);
         } catch (Exception e) {
             log.error("查询收货地址失败", e);
         }
@@ -175,16 +194,22 @@ public class SelfHelpInvoiceWebController {
     @PostMapping("/submitSelfHelpInvoiceWeb")
     @ApiOperation(value = "商户提交自助开票", notes = "商户提交自助开票")
     public R submitSelfHelpInvoiceWeb(@ApiParam(value = "文件") @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file,
-                                      @Valid @RequestBody SelfHelpInvoiceDto selfHelpInvoiceDto, Long enterpriseId) {
+                                      @Valid @RequestBody SelfHelpInvoiceDto selfHelpInvoiceDto, BladeUser bladeUser) {
         log.info("商户提交自助开票");
         try {
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
             //判断文件内容是否为空
             if (file.isEmpty()) {
                 return R.fail("Excel文件不能为空");
             }
             //判断文件内容是否为空
             selfHelpInvoiceDto.setObjectType(ObjectType.ENTERPRISEPEOPLE);
-            selfHelpInvoiceDto.setObjectId(enterpriseId);
+            selfHelpInvoiceDto.setObjectId(enterpriseWorkerEntity.getEnterpriseId());
             // 获取上传文件的后缀
             String suffix = file.getOriginalFilename();
             if ((!StringUtils.endsWithIgnoreCase(suffix, ".xls") && !StringUtils.endsWithIgnoreCase(suffix, ".xlsx"))) {
