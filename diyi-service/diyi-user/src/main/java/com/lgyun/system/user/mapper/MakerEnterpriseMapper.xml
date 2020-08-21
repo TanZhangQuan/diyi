@@ -77,7 +77,10 @@
     </select>
 
     <select id="getSelfHelpInvoiceByServiceProviderId" resultMap="selfHelpInvoiceSerProVO">
-
+        SELECT t1.id, t1.current_state, t3.enterprise_name, t4.invoice_scan_pictures, t4.tax_scan_pictures FROM diyi_self_help_invoice t1
+        INNER JOIN diyi_self_help_invoice_sp t2 ON t1.id = t2.self_help_invoice_id INNER JOIN diyi_enterprise t3 ON t1.enterprise_id = t3.id
+        LEFT JOIN diyi_self_help_invoice_sp_detail t4 ON t2.id = t4.self_help_invoice_apply_provider_id AND t4.is_deleted = 0
+        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t2.service_provider_id = #{param1}
     </select>
 
 </mapper>

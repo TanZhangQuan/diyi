@@ -1,6 +1,7 @@
 package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.lgyun.common.enumeration.AddressType;
 import com.lgyun.common.enumeration.ApplyState;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -101,7 +102,7 @@ public class SelfHelpInvoiceSpEntity extends BaseEntity {
     private Long addressId;
 
     /**
-     * 收件地址性质 1，快递给管理中心；2，直接快递给客户
+     * 收件地址性质：快递给管理中心；直接快递给客户
      */
-    private String addressType;
+    private AddressType addressType;
 }
