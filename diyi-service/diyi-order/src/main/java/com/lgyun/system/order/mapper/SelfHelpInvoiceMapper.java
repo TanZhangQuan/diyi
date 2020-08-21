@@ -91,5 +91,10 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
      * @return
      */
     SelfHelpInvoiceCrowdSourcingVO findDetailCrowdSourcing(Long selfHelpInvoiceId);
+
+    /**
+     *
+     */
+    List<SelfHelpInvoiceCrowdSourcingVO> selectEntMakSourc(Long enterpriseId,IPage<SelfHelpInvoiceCrowdSourcingVO> page);
 }
 
