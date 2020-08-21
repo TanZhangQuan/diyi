@@ -3,15 +3,14 @@ package com.lgyun.system.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.CooperateStatus;
-import com.lgyun.common.enumeration.EnterpriseMakerRelType;
-import com.lgyun.common.enumeration.RelationshipType;
+import com.lgyun.common.enumeration.*;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.mapper.MakerEnterpriseMapper;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
+import com.lgyun.system.user.vo.MakerEnterpriseWebVO;
 import com.lgyun.system.user.vo.RelMakerListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -185,6 +185,26 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
         }
 
         return R.success("操作成功");
+    }
+
+    @Override
+    public List<MakerEnterpriseEntity> getEnterpriseId(Long enterpriseId) {
+        QueryWrapper<MakerEnterpriseEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(MakerEnterpriseEntity::getRelationshipType, RelationshipType.RELEVANCE)
+                .eq(MakerEnterpriseEntity::getEnterpriseId, enterpriseId)
+                .eq(MakerEnterpriseEntity::getCooperateStatus, CooperateStatus.COOPERATING);
+        return baseMapper.selectList(queryWrapper);
+    }
+
+    @Override
+    public R<IPage<MakerEnterpriseWebVO>> selectEnterpriseMaker(IPage<MakerEnterpriseWebVO> page, Long enterpriseId) {
+        List<MakerEnterpriseWebVO> makerEnterpriseWebVOS = baseMapper.selectEnterpriseMaker(enterpriseId, page);
+        for (MakerEnterpriseWebVO makerEnterpriseWebVO : makerEnterpriseWebVOS) {
+            if(SignState.SIGNED.equals(makerEnterpriseWebVO.getEmpowerSignState()) && SignState.SIGNED.equals(makerEnterpriseWebVO.getJoinSignState())){
+                makerEnterpriseWebVO.setProtocolAuthentication(CertificationState.CERTIFIED);
+            }
+        }
+        return R.data(page.setRecords(makerEnterpriseWebVOS));
     }
 
 }

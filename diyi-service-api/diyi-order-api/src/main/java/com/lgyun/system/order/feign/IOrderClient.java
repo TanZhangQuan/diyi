@@ -51,4 +51,18 @@ public interface IOrderClient {
     @GetMapping(API_PREFIX + "/self_help_invoice/self_help_invoice_list")
     R selfHelpInvoiceList(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("allKindEnterpriseId") Long allKindEnterpriseId, @RequestParam("invoicePeopleType") InvoicePeopleType invoicePeopleType);
 
+    /**
+     * 根据商户id查询众包的合同
+     *
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/self_help_invoice/select_ent_mak_sourc")
+    R selectEntMakSourc(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("enterpriseId") Long enterpriseId);
+
+
+    /**
+     * 根据自助开票id查询众包的详情
+     */
+    @GetMapping(API_PREFIX + "/self_help_invoice/find_detail_crowd_sourc")
+    R findDetailCrowdSourcing( @RequestParam("selfHelpInvoiceId") Long selfHelpInvoiceId);
 }
