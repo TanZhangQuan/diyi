@@ -35,6 +35,8 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
 
     @Override
     public R<IPage<ServiceProvidersVO>> getServiceProvidersByEnterpriseId(Long payEnterpriseId, IPage<ServiceProvidersVO> page) {
-        return R.data(page.setRecords(baseMapper.getServiceProvidersByEnterpriseId(payEnterpriseId, page)));
+        //TODO
+        return null;
+//        return R.data(page.setRecords(baseMapper.getServiceProvidersByEnterpriseId(payEnterpriseId, page)));
     }
 }
