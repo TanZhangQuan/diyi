@@ -7,6 +7,7 @@ import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.EnterpriseProviderEntity;
 import com.lgyun.system.user.mapper.EnterpriseProviderMapper;
 import com.lgyun.system.user.service.IEnterpriseProviderService;
+import com.lgyun.system.user.vo.EnterprisesVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,5 +36,10 @@ public class EnterpriseProviderServiceImpl extends BaseServiceImpl<EnterprisePro
                 eq(EnterpriseProviderEntity::getServiceProviderId, serviceProviderId);
 
         return baseMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public R<IPage<EnterprisesVO>> getEnterpriseByServiceProvider(IPage<EnterprisesVO> page, Long serviceProviderId) {
+        return R.data(page.setRecords(baseMapper.getEnterpriseByServiceProvider(serviceProviderId, page)));
     }
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.EnterpriseProviderEntity;
+import com.lgyun.system.user.vo.EnterprisesVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 
 /**
@@ -31,5 +32,15 @@ public interface IEnterpriseProviderService extends BaseService<EnterpriseProvid
      * @return
      */
     EnterpriseProviderEntity findByEnterpriseIdServiceProviderId(Long enterpriseId, Long serviceProviderId);
+
+    /**
+     * 获取服务商关联的所有商户
+     *
+     * @param page
+     * @param serviceProviderId
+     * @return
+     */
+    R<IPage<EnterprisesVO>> getEnterpriseByServiceProvider(IPage<EnterprisesVO> page, Long serviceProviderId);
+
 }
 

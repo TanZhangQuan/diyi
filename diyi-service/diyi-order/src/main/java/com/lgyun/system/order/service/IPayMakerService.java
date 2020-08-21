@@ -16,13 +16,14 @@ import com.lgyun.system.order.vo.PayEnterpriseMakersListVO;
 public interface IPayMakerService extends BaseService<PayMakerEntity> {
 
     /**
-     * 查询当前商户所有分包支付清单
+     * 根据条件查询所有分包
      *
      * @param enterpriseId
+     * @param serviceProviderId
      * @param payEnterpriseMakerListDto
      * @param page
      * @return
      */
-    R<IPage<PayEnterpriseMakersListVO>> getPayMakersByEnterprise(Long enterpriseId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page);
+    R<IPage<PayEnterpriseMakersListVO>> getPayMakersByEnterprise(Long enterpriseId, Long serviceProviderId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page);
 }
 

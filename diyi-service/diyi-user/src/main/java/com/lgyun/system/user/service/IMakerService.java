@@ -211,7 +211,6 @@ public interface IMakerService extends IService<MakerEntity> {
      */
     R<MakerEntity> currentMaker(BladeUser bladeUser);
 
-
     /**
      * 上传创客视频
      *

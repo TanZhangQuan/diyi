@@ -33,13 +33,12 @@ import java.math.BigDecimal;
 @RequestMapping("/order/worksheet")
 @Validated
 @AllArgsConstructor
-@Api(value = "商户工单相关接口", tags = "商户工单相关接口")
+@Api(value = "工单相关接口(管理端)", tags = "工单相关接口(管理端)")
 public class WorksheetWebController {
 
     private IWorksheetService worksheetService;
     private IWorksheetMakerService worksheetMakerService;
     private IUserClient iUserClient;
-
 
     @PostMapping("/releaseWorksheet")
     @ApiOperation(value = "发布工单", notes = "发布工单")
@@ -175,6 +174,7 @@ public class WorksheetWebController {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
             return worksheetMakerService.checkAchievement(worksheetMakerId, checkMoney, enterpriseWorkerEntity.getEnterpriseId(), bool);
         } catch (Exception e) {
             log.info("验收工作成果失败");
@@ -182,9 +182,6 @@ public class WorksheetWebController {
         return R.fail("验收工作成果失败");
     }
 
-    /**
-     * 批量开启或关闭工单
-     */
     @PostMapping("/closeOrOpenList")
     @ApiOperation(value = "批量开启或关闭工单", notes = "批量开启或关闭工单")
     public R closeOrOpenAll(@NotNull(message = "请输入工单的id") @RequestParam(required = false) String worksheetIds,
@@ -198,9 +195,6 @@ public class WorksheetWebController {
         return R.fail("批量开启或关闭工单失败");
     }
 
-    /**
-     * 批量删除工单
-     */
     @PostMapping("/deleteWorksheetList")
     @ApiOperation(value = "批量删除工单", notes = "批量删除工单")
     public R deleteWorksheetList(@NotNull(message = "请输入工单的id") @RequestParam(required = false) String worksheetIds) {
@@ -213,9 +207,6 @@ public class WorksheetWebController {
         return R.fail("批量删除工单失败");
     }
 
-    /**
-     * 整体验收工单
-     */
     @PostMapping("/wholeWorksheetCheck")
     @ApiOperation(value = "整体验收工单", notes = "整体验收工单")
     public R wholeWorksheetCheck(@NotNull(message = "请输入工单的id") @RequestParam(required = false) Long worksheetId) {

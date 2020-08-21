@@ -23,6 +23,9 @@ public class PayEnterpriseMakerListDto implements Serializable {
     //服务商名称
     private String serviceProviderName;
 
+    //商户名称
+    private String enterpriseName;
+
     //上传支付清单开始时间
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date beginDate;

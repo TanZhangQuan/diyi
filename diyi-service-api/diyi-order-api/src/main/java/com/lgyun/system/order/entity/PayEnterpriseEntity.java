@@ -88,7 +88,7 @@ public class PayEnterpriseEntity extends BaseEntity {
     private String payMemo;
 
     /**
-     *1，编辑中；2，已提交；3，审核通过；4，已驳回。驳回的还可以再提交审核
+     * 审核状态
      */
     private AuditState auditState = AuditState.EDITING;
 

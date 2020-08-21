@@ -18,6 +18,15 @@ import java.util.List;
 @Mapper
 public interface PayMakerMapper extends BaseMapper<PayMakerEntity> {
 
-    List<PayEnterpriseMakersListVO> getPayMakersByEnterprise(Long enterpriseId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page);
+    /**
+     * 根据条件查询所有分包
+     *
+     * @param enterpriseId
+     * @param serviceProviderId
+     * @param payEnterpriseMakerListDto
+     * @param page
+     * @return
+     */
+    List<PayEnterpriseMakersListVO> getPayMakersByEnterprise(Long enterpriseId, Long serviceProviderId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page);
 }
 

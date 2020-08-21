@@ -55,12 +55,10 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      */
     R<WorksheetXiaoVo> getWorksheetDetails(Long worksheetMakerId);
 
-
     /**
      * 根据工单状态和商户id查询
      */
     R getEnterpriseWorksheet(IPage<WorksheetXiaoVo> page, Long enterpriseId, WorksheetState worksheetState, String worksheetNo, String worksheetName, String startTime, String endTime);
-
 
     /**
      * 后台查询订单详情

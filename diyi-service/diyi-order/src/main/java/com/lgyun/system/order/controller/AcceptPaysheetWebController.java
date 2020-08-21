@@ -131,7 +131,7 @@ public class AcceptPaysheetWebController {
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-            return payEnterpriseService.getPayEnterprisesByEnterprise(enterpriseWorkerEntity.getEnterpriseId(), payEnterpriseMakerListDto, Condition.getPage(query.setDescs("create_time")));
+            return payEnterpriseService.getPayEnterprises(enterpriseWorkerEntity.getEnterpriseId(), null, payEnterpriseMakerListDto, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("查询当前商户所有总包支付清单异常", e);
         }
