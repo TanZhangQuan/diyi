@@ -58,7 +58,7 @@
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="invoiceScanPictures" column="invoice_scan_pictures"/>
         <result property="taxScanPictures" column="tax_scan_pictures"/>
-        <result property="createTime" column="createTime"/>
+        <result property="createTime" column="create_time"/>
     </resultMap>
 
     <select id="selectMakerEnterprisePage" resultMap="makerEnterpriseRelationMap">
