@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.core.mp.base.BaseService;
+import com.lgyun.system.order.vo.SelfHelpInvoiceSerProVO;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
@@ -105,5 +106,14 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
      * @return
      */
     R<String> cancelRelMakers(Set<Long> makerIds, RelationshipType relationshipType, Long enterpriseId);
+
+    /**
+     * 获取当前服务商的自主开票
+     *
+     * @param page
+     * @param serviceProviderId
+     * @return
+     */
+    R<IPage<SelfHelpInvoiceSerProVO>> getSelfHelpInvoiceByServiceProviderId(IPage<SelfHelpInvoiceSerProVO> page, Long serviceProviderId);
 }
 

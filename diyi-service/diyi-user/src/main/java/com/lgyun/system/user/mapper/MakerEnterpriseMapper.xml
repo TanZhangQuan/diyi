@@ -41,6 +41,14 @@
         <result property="boolIndividualEnterprise" column="bool_individual_enterprise"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.order.vo.SelfHelpInvoiceSerProVO" id="selfHelpInvoiceSerProVO">
+        <result property="id" column="id"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="invoiceScanPictures" column="invoice_scan_pictures"/>
+        <result property="taxScanPictures" column="tax_scan_pictures"/>
+        <result property="createTime" column="createTime"/>
+    </resultMap>
+
     <select id="selectMakerEnterprisePage" resultMap="makerEnterpriseRelationMap">
         SELECT e.enterprise_name, e.shop_user_name, e.legal_person, e.legal_person_card, e.contact1_position, e.contact1_phone, e.social_credit_no,
         e.biz_licence_url, e.id as enterprise_id FROM diyi_maker_enterprise me INNER JOIN diyi_enterprise e ON me.enterprise_id = e.id
@@ -66,6 +74,10 @@
     <select id="findEnterpriseIdNameByMakerId" resultMap="enterprisesIdNameListVO">
         SELECT t2.id, t2.enterprise_name FROM diyi_maker_enterprise t1 INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id
         WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t2.enterprise_state = 'NORMAL' AND t1.relationship_type = 'RELEVANCE' AND t1.maker_id = #{param1}
+    </select>
+
+    <select id="getSelfHelpInvoiceByServiceProviderId" resultMap="selfHelpInvoiceSerProVO">
+
     </select>
 
 </mapper>

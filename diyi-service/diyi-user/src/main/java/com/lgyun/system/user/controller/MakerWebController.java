@@ -58,7 +58,7 @@ public class MakerWebController {
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
@@ -79,7 +79,7 @@ public class MakerWebController {
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
@@ -113,7 +113,7 @@ public class MakerWebController {
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
@@ -133,7 +133,7 @@ public class MakerWebController {
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
@@ -155,7 +155,7 @@ public class MakerWebController {
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
@@ -175,7 +175,7 @@ public class MakerWebController {
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
@@ -198,7 +198,7 @@ public class MakerWebController {
         try {
             //获取当前服务商员工
             R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
@@ -231,7 +231,7 @@ public class MakerWebController {
         try {
             //获取当前服务商员工
             R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
@@ -252,6 +252,26 @@ public class MakerWebController {
             return makerEnterpriseService.getEnterpriseMakers(Condition.getPage(query.setDescs("create_time")), enterpriseId, RelationshipType.RELEVANCE, keyword);
         } catch (Exception e) {
             log.error("根据商户ID获取所有关联创客异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/get_self_help_invoice_by_service_provider_id")
+    @ApiOperation(value = "获取当前服务商的自主开票", notes = "获取当前服务商的自主开票")
+    public R getSelfHelpInvoiceByServiceProviderId(String keyword, Query query, BladeUser bladeUser) {
+
+        log.info("获取当前服务商的自主开票");
+        try {
+            //获取当前服务商员工
+            R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+            return makerEnterpriseService.getSelfHelpInvoiceByServiceProviderId(Condition.getPage(query.setDescs("create_time")), serviceProviderWorkerEntity.getServiceProviderId());
+        } catch (Exception e) {
+            log.error("获取当前服务商的自主开票异常", e);
         }
         return R.fail("查询失败");
     }

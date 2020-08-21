@@ -7,6 +7,7 @@ import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.enumeration.EnterpriseMakerRelType;
 import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.system.order.vo.SelfHelpInvoiceSerProVO;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.mapper.MakerEnterpriseMapper;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
@@ -185,6 +186,11 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
         }
 
         return R.success("操作成功");
+    }
+
+    @Override
+    public R<IPage<SelfHelpInvoiceSerProVO>> getSelfHelpInvoiceByServiceProviderId(IPage<SelfHelpInvoiceSerProVO> page, Long serviceProviderId) {
+        return R.data(page.setRecords(baseMapper.getSelfHelpInvoiceByServiceProviderId(serviceProviderId, page)));
     }
 
 }

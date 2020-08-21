@@ -378,7 +378,7 @@ CREATE TABLE `diyi_individual_business` (
   `logout_date_time` datetime DEFAULT NULL COMMENT '注销日期',
   `contact_name` varchar(50) NOT NULL COMMENT '联系人姓名',
   `contact_phone` varchar(50) NOT NULL COMMENT '联系人手机号',
-  `service_rat` decimal(3,2) DEFAULT NULL COMMENT '服务费率',
+  `service_rat` decimal(5,2) DEFAULT NULL COMMENT '服务费率',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
@@ -450,7 +450,7 @@ CREATE TABLE `diyi_individual_enterprise` (
   `logout_date_time` datetime DEFAULT NULL COMMENT '注销日期',
   `contact_name` varchar(50) NOT NULL COMMENT '联系人姓名',
   `contact_phone` varchar(50) NOT NULL COMMENT '联系人手机号',
-  `service_rat` decimal(3,2) DEFAULT NULL COMMENT '服务费率',
+  `service_rat` decimal(5,2) DEFAULT NULL COMMENT '服务费率',
   `investor_hand_commitment` varchar(100) NOT NULL DEFAULT '' COMMENT '手持承诺书照片',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
@@ -901,7 +901,7 @@ CREATE TABLE `diyi_pay_enterprise` (
   `worksheet_id` bigint(50) DEFAULT NULL COMMENT '工单ID',
   `pay_to_platform_amount` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '支付总额=外包费总额+总身份验证费+总开票手续费',
   `sourcing_amount` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '外包费总额',
-  `service_rate` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '服务税费率',
+  `service_rate` decimal(5,2) NOT NULL DEFAULT '0.00' COMMENT '服务税费率',
   `total_tax_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '总税费=外包费总额*服务税费率',
   `maker_num` int(10) DEFAULT NULL COMMENT '创客数',
   `identify_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '总身份验证费',
@@ -960,7 +960,7 @@ CREATE TABLE `diyi_pay_maker` (
   `Individual_business_name` varchar(100) DEFAULT NULL COMMENT '个体户/个独名称',
   `total_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '总费用 外包费总额+身份验证费+支付手续费	',
   `maker_ne_income` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '外包费总额',
-  `service_rate` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '服务税费率',
+  `service_rate` decimal(5,2) NOT NULL DEFAULT '0.00' COMMENT '服务税费率',
   `maker_tax_and_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '创客税费:外包费总额*服务税费率',
   `maker_net_income` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '创客到手:外包费总额-创客税费',
   `audit_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '身份验证费',
@@ -974,7 +974,7 @@ CREATE TABLE `diyi_pay_maker` (
   `maker_invoice_state` varchar(50) NOT NULL COMMENT '发票开票状态:1:已开；0：未开',
   `invoice_type` varchar(50) NOT NULL COMMENT '发票类别:1,汇总代开；2，门征单开',
   `pay_memo` varchar(500) DEFAULT NULL COMMENT '支付说明',
-  `maker_invoice_category` varchar(1000) NOT NULL COMMENT '创客发票类目:默认取订单中的默认信息，可更改，根据具体业务开，如*现代服务*市场推广费		',
+  `maker_invoice_category` varchar(1000) NOT NULL COMMENT '创客发票类目:默认取订单中的默认信息，可更改，根据具体业务开，如*现代服务*市场推广费',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
@@ -1186,7 +1186,7 @@ CREATE TABLE `diyi_self_help_invoice` (
   `invoice_people_type` varchar(50) NOT NULL COMMENT '开票人身份类别',
   `list_file` varchar(100) NOT NULL COMMENT '开票清单文件',
   `charge_money_num` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '总价税合计额',
-  `service_rate` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '服务税费率',
+  `service_rate` decimal(5,2) NOT NULL DEFAULT '0.00' COMMENT '服务税费率',
   `service_and_tax_money` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '总服务税费',
   `service_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '总服务费',
   `service_tax` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '总税',
@@ -1330,7 +1330,7 @@ CREATE TABLE `diyi_self_help_invoice_fee` (
   `give_price_date` datetime NOT NULL COMMENT '核价日期',
   `total_tax_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '总税费',
   `basic_tax_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '基础税费',
-  `basic_tax_fee_rate` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '基础税费率',
+  `basic_tax_fee_rate` decimal(5,2) NOT NULL DEFAULT '0.00' COMMENT '基础税费率',
   `invoice_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '开票手续费',
   `identify_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '身份验证费',
   `pay_desc` varchar(500) NOT NULL COMMENT '支付说明',
@@ -2107,7 +2107,7 @@ CREATE TABLE `diyi_self_help_invoice_sp_detail` (
   `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商开票明细：是从自助开票明细中选择过来的，信息是一致的';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商开票明细表';
 
 
 DROP TABLE IF EXISTS `diyi_self_help_invoice_sp`;
@@ -2116,13 +2116,12 @@ CREATE TABLE `diyi_self_help_invoice_sp` (
   `self_help_invoice_id` bigint(50) NOT NULL COMMENT '自助开票Id',
   `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
   `operate_person` varchar(50) NOT NULL COMMENT ' 提交人员',
-  `apply_date` datetime NOT NULL COMMENT '申请日期 可以多次申请，每次独立数据',
-  `apply_state` varchar(50) NOT NULL COMMENT ' 申请状态 1，已提交开票中；2，已撤回；3，已开票结束。。。这个是管理端运营老师负责，提交和撤回。',
-  `apply_desc` varchar(500) NOT NULL COMMENT '申请说明',
-  `audit_desc` varchar(500) NOT NULL COMMENT '结果说明',
+  `apply_state` varchar(50) NOT NULL COMMENT ' 申请状态',
+  `apply_desc` varchar(500) DEFAULT NULL COMMENT '申请说明',
+  `audit_desc` varchar(500) DEFAULT NULL COMMENT '结果说明',
   `charge_money_num` decimal(12,2) NOT NULL COMMENT '价税合计额',
   `value_money_num` decimal(12,2) NOT NULL COMMENT '总开票金额合计',
-  `service_rate` decimal(12,2) NOT NULL COMMENT '服务税费率',
+  `service_rate` decimal(5,2) NOT NULL COMMENT '服务税费率',
   `service_and_tax_money` decimal(12,2) NOT NULL COMMENT '总服务税费',
   `service_invoice_fee` decimal(12,2) NOT NULL COMMENT '总开票手续费',
   `idendity_confirm_fee` decimal(12,2) NOT NULL COMMENT '总身份验证费',
@@ -2136,4 +2135,4 @@ CREATE TABLE `diyi_self_help_invoice_sp` (
   `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自助开票-服务商：记录自助开票主表的提交给不同服务商的';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自助开票服务商关联表';

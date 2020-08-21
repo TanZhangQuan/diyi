@@ -3,6 +3,7 @@ package com.lgyun.system.user.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.enumeration.RelationshipType;
+import com.lgyun.system.order.vo.SelfHelpInvoiceSerProVO;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
@@ -49,5 +50,14 @@ public interface MakerEnterpriseMapper extends BaseMapper<MakerEnterpriseEntity>
      * @return
      */
     List<EnterprisesIdNameListVO> findEnterpriseIdNameByMakerId(Long makerId, IPage<EnterprisesIdNameListVO> page);
+
+    /**
+     * 获取当前服务商的自主开票
+     *
+     * @param serviceProviderId
+     * @param page
+     * @return
+     */
+    List<SelfHelpInvoiceSerProVO> getSelfHelpInvoiceByServiceProviderId(Long serviceProviderId, IPage<SelfHelpInvoiceSerProVO> page);
 }
 
