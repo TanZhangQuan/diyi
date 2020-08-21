@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 
 /**
- * Entity
+ * 自助开票主表 Entity
  *
  * @author jun
  * @since 2020-07-08 14:32:47

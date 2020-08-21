@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- * Entity
+ * 收货地址 Entity
  *
  * @author jun
  * @since 2020-07-02 16:21:19
