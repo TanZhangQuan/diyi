@@ -41,4 +41,17 @@ public class OrderClient implements IOrderClient {
         return iSelfHelpInvoiceService.selfHelpInvoiceList(Condition.getPage(query.setDescs("create_time")), allKindEnterpriseId, invoicePeopleType);
     }
 
+    @Override
+    public R selectEntMakSourc(Integer current, Integer size, Long enterpriseId) {
+        Query query = new Query();
+        query.setCurrent(current);
+        query.setSize(size);
+        return iSelfHelpInvoiceService.findEnterpriseCrowdSourcing(enterpriseId,"",Condition.getPage(query.setDescs("create_time")) );
+    }
+
+    @Override
+    public R findDetailCrowdSourcing(Long selfHelpInvoiceId) {
+        return iSelfHelpInvoiceService.findDetailCrowdSourcing(selfHelpInvoiceId);
+    }
+
 }

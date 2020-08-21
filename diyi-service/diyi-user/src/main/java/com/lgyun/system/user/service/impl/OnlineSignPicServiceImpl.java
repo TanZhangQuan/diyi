@@ -1,6 +1,7 @@
 package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.enumeration.SignState;
@@ -92,5 +93,14 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
             return R.fail("签名失败");
         }
         return R.success("保存成功");
+    }
+
+    @Override
+    public OnlineSignPicEntity findObjectTypeAndObjectId(Long ObjectId, ObjectType objectType) {
+        QueryWrapper<OnlineSignPicEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(OnlineSignPicEntity::getObjectType, objectType)
+                .eq(OnlineSignPicEntity::getObjectId, ObjectId);
+        OnlineSignPicEntity onlineSignPicEntity = baseMapper.selectOne(queryWrapper);
+        return onlineSignPicEntity;
     }
 }

@@ -90,5 +90,6 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      * 查询详情接口-众包
      */
     R findDetailCrowdSourcing(Long selfHelpInvoiceId);
+
 }
 
