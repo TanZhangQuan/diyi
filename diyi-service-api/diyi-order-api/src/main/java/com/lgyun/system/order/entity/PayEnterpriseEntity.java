@@ -48,14 +48,19 @@ public class PayEnterpriseEntity extends BaseEntity {
     private Long worksheetId;
 
     /**
-     * 支付总额=外包费总额+总身份验证费+总开票手续费
+     * 企业总支付额价税合计总额=服务外包费总额+身份验证费总额/个体户年费总额+第三方支付手续费总额
      */
     private BigDecimal payToPlatformAmount;
 
     /**
-     * 外包费总额
+     * 服务税费总额=服务外包费总额*服务税费率
      */
-    private BigDecimal sourcingAmount;
+    private BigDecimal totalTaxFee;
+
+    /**
+     * 创客到手总额
+     */
+    private BigDecimal totalMakerNetIncome;
 
     /**
      * 服务税费率
@@ -63,24 +68,29 @@ public class PayEnterpriseEntity extends BaseEntity {
     private BigDecimal serviceRate;
 
     /**
-     * 总税费=外包费总额*服务税费率
+     * '服务外包费总额'
      */
-    private BigDecimal totalTaxFee;
+    private BigDecimal sourcingAmount;
+
+    /**
+     * 企业年费总额，个体户，个独，有限公司都有年费，自然人没有年费
+     */
+    private BigDecimal enterpriseBusinessAnnualFee;
+
+    /**
+     * 身份验证费总额
+     */
+    private BigDecimal identifyFee;
+
+    /**
+     * 第三方支付手续费总额
+     */
+    private BigDecimal serviceFee;
 
     /**
      * 创客数
      */
     private Integer makerNum;
-
-    /**
-     * 总身份验证费
-     */
-    private BigDecimal identifyFee;
-
-    /**
-     * 总支付手续费
-     */
-    private BigDecimal serviceFee;
 
     /**
      * 支付说明

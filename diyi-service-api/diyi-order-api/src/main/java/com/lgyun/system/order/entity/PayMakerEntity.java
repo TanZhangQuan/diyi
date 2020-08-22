@@ -49,12 +49,22 @@ public class PayMakerEntity extends BaseEntity {
     private String individualName;
 
     /**
-     * 总费用 外包费总额+身份验证费+支付手续费
+     * 企业总支付额价税合计=服务外包费+身份验证费/个体户年费+第三方支付手续费
      */
     private BigDecimal totalFee;
 
     /**
-     * 外包费总额
+     * 创客到手=服务外包费-创客税费=服务外包费*服务税费率
+     */
+    private BigDecimal makerNetIncome;
+
+    /**
+     * 服务税费=服务外包费*服务税费率
+     */
+    private BigDecimal makerTaxFee;
+
+    /**
+     * 服务外包费=创客到手/(1-服务税费率)
      */
     private BigDecimal makerNeIncome;
 
@@ -64,14 +74,9 @@ public class PayMakerEntity extends BaseEntity {
     private BigDecimal serviceRate;
 
     /**
-     * 创客税费:外包费总额*服务税费率
+     * 企业年费总额，个体户，个独，有限公司都有年费，自然人没有年费
      */
-    private BigDecimal makerTaxAndFee;
-
-    /**
-     * 创客到手:外包费总额-创客税费
-     */
-    private BigDecimal makerNetIncome;
+    private BigDecimal enterpriseBusinessAnnualFee;
 
     /**
      * 身份验证费
@@ -79,7 +84,7 @@ public class PayMakerEntity extends BaseEntity {
     private BigDecimal auditFee;
 
     /**
-     * 支付手续费
+     * 第三方支付手续费
      */
     private BigDecimal payFee;
 

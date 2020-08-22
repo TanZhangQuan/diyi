@@ -66,6 +66,11 @@ public class SelfHelpInvoiceDetailEntity extends BaseEntity {
     private String invoiceType;
 
     /**
+     * 增值税税率
+     */
+    private BigDecimal valueAddedTaxRate;
+
+    /**
      * 价税合计额
      */
     private BigDecimal chargeMoneyNum;
@@ -99,5 +104,10 @@ public class SelfHelpInvoiceDetailEntity extends BaseEntity {
      * 身份验证费
      */
     private BigDecimal idendityConfirmFee;
+
+    /**
+     * 需支付服务商税费=价税合计额*服务税费率+开票手续费+身份验证费
+     */
+    private BigDecimal payProviderFee;
 
 }

@@ -54,7 +54,7 @@ public class PayEntity extends BaseEntity {
     /**
      * 创客税费
      */
-    private BigDecimal makerTaxAndFee;
+    private BigDecimal makerTaxFee;
 
     /**
      * 企业管理服务费
