@@ -74,7 +74,7 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
         selfHelpInvoiceEntity.setCurrentState(ApplyState.UNDERREVIEW);
         selfHelpInvoiceEntity.setInvoicePeopleType(selfHelpInvoiceDto.getInvoiceIdentityType());
         selfHelpInvoiceEntity.setListFile(selfHelpInvoiceDto.getListFile());
-        selfHelpInvoiceEntity.setChargeMoneyNum(selfHelpInvoiceDto.getChargeMoneyNum());
+        selfHelpInvoiceEntity.setTotalPayProviderFee(selfHelpInvoiceDto.getChargeMoneyNum());
         selfHelpInvoiceEntity.setAddressId(selfHelpInvoiceDto.getAddressId());
         selfHelpInvoiceService.save(selfHelpInvoiceEntity);
 
