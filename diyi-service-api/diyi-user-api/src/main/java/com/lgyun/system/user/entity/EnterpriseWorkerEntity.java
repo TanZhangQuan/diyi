@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- * Entity
+ * 商户账号 Entity
  *
  * @author tzq
  * @since 2020-07-23 17:50:16
@@ -91,5 +91,10 @@ public class EnterpriseWorkerEntity extends BaseEntity {
      * 超级管理员
      */
     private Boolean superAdmin;
+
+    /**
+     * 拥有的菜单名字
+     */
+    private String menus;
 
 }
