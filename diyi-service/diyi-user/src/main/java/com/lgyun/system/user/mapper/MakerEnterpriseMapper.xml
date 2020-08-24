@@ -41,7 +41,7 @@
         <result property="boolIndividualEnterprise" column="bool_individual_enterprise"/>
     </resultMap>
 
-    <resultMap id="MakerEnterpriseWebVOMap" type="com.lgyun.system.user.vo.MakerEnterpriseWebVO">
+    <resultMap id="makerEnterpriseWebVOMap" type="com.lgyun.system.user.vo.MakerEnterpriseWebVO">
         <result property="enterpriseId" column="enterprise_id"/>
         <result property="name" column="name"/>
         <result property="makerEnterpriseId" column="maker_enterprise_id"/>
@@ -59,6 +59,14 @@
         <result property="invoiceScanPictures" column="invoice_scan_pictures"/>
         <result property="taxScanPictures" column="tax_scan_pictures"/>
         <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.SelfHelpInvoiceDetailProviderVO" id="selfHelpInvoiceDetailProviderVO">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="idCardNo" column="id_card_no"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="bankNo" column="bank_no"/>
     </resultMap>
 
     <select id="selectMakerEnterprisePage" resultMap="makerEnterpriseRelationMap">
@@ -93,13 +101,25 @@
         INNER JOIN diyi_self_help_invoice_sp t2 ON t1.id = t2.self_help_invoice_id INNER JOIN diyi_enterprise t3 ON t1.enterprise_id = t3.id
         LEFT JOIN diyi_self_help_invoice_sp_detail t4 ON t2.id = t4.self_help_invoice_apply_provider_id AND t4.is_deleted = 0
         WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t2.service_provider_id = #{param1}
+        <if test="param2 != null and param2.trim() != ''">
+            AND t3.enterprise_name like concat('%', #{param2}, '%')
+        </if>
     </select>
 
-    <select id="selectEnterpriseMaker" resultMap="MakerEnterpriseWebVOMap">
+    <select id="selectEnterpriseMaker" resultMap="makerEnterpriseWebVOMap">
         SELECT e.id AS enterprise_id, m.id AS maker_enterprise_id, k.id AS maker_id, k.certification_state, k.empower_sign_state, k.join_sign_state,
         k. NAME FROM diyi_maker_enterprise m INNER JOIN diyi_enterprise e ON m.enterprise_id = e.id INNER JOIN diyi_maker k ON k.id = m.maker_id
         WHERE m.relationship_type = 'RELEVANCE' AND m.cooperate_status = 'COOPERATING' AND m.is_deleted = 0 AND e.is_deleted = 0 AND k.is_deleted = 0
         AND m.enterprise_id = #{param1}
+    </select>
+
+    <select id="getSelfHelpInvoiceDetails" resultMap="selfHelpInvoiceDetailProviderVO">
+        SELECT IF(t2.maker_id IS NOT NULL, (SELECT id FROM diyi_maker WHERE id = t2.maker_id), (SELECT id FROM diyi_self_help_invoice_person WHERE id = t2.id)) AS id,
+        IF(t2.maker_id IS NOT NULL, (SELECT name FROM diyi_maker WHERE id = t2.maker_id), (SELECT id_card_name FROM diyi_self_help_invoice_person WHERE id = t2.id)) AS name,
+        IF(t2.maker_id IS NOT NULL, (SELECT idcard_no FROM diyi_maker WHERE id = t2.maker_id), (SELECT id_card_no FROM diyi_self_help_invoice_person WHERE id = t2.id)) AS id_card_no,
+        IF(t2.maker_id IS NOT NULL, (SELECT phone_number FROM diyi_maker WHERE id = t2.maker_id), (SELECT phone_number FROM diyi_self_help_invoice_person WHERE id = t2.id)) AS phone_number,
+        IF(t2.maker_id IS NOT NULL, (SELECT bank_card_no FROM diyi_maker WHERE id = t2.maker_id), '') AS bank_no
+        FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_detail t2 ON t1.id = t2.self_help_invoice_id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.id = #{param1}
     </select>
 
 </mapper>

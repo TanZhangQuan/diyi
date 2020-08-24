@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.system.order.vo.SelfHelpInvoiceDetailProviderVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceSerProVO;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.mapper.MakerEnterpriseMapper;
@@ -209,8 +210,13 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
-    public R<IPage<SelfHelpInvoiceSerProVO>> getSelfHelpInvoiceByServiceProviderId(IPage<SelfHelpInvoiceSerProVO> page, Long serviceProviderId) {
-        return R.data(page.setRecords(baseMapper.getSelfHelpInvoiceByServiceProviderId(serviceProviderId, page)));
+    public R<IPage<SelfHelpInvoiceDetailProviderVO>> getSelfHelpInvoiceDetails(IPage<SelfHelpInvoiceDetailProviderVO> page, Long selfHelpvoiceId) {
+        return R.data(page.setRecords(baseMapper.getSelfHelpInvoiceDetails(selfHelpvoiceId, page)));
+    }
+
+    @Override
+    public R<IPage<SelfHelpInvoiceSerProVO>> getSelfHelpInvoiceByServiceProviderId(IPage<SelfHelpInvoiceSerProVO> page, String keyword, Long serviceProviderId) {
+        return R.data(page.setRecords(baseMapper.getSelfHelpInvoiceByServiceProviderId(serviceProviderId, keyword, page)));
     }
 
 }

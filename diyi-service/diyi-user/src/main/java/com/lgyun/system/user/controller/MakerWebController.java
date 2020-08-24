@@ -269,9 +269,22 @@ public class MakerWebController {
             }
             ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-            return makerEnterpriseService.getSelfHelpInvoiceByServiceProviderId(Condition.getPage(query.setDescs("create_time")), serviceProviderWorkerEntity.getServiceProviderId());
+            return makerEnterpriseService.getSelfHelpInvoiceByServiceProviderId(Condition.getPage(query.setDescs("create_time")), keyword, serviceProviderWorkerEntity.getServiceProviderId());
         } catch (Exception e) {
             log.error("获取当前服务商的自主开票异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/get_self_help_invoice_details")
+    @ApiOperation(value = "根据自主开票ID获取自主开票详情", notes = "根据自主开票ID获取自主开票详情")
+    public R getSelfHelpInvoiceDetails(@ApiParam(value = "自主开票编号") @NotNull(message = "请输入自主开票编号") @RequestParam(required = false) Long selfHelpvoiceId, Query query) {
+
+        log.info("根据自主开票ID获取自主开票详情");
+        try {
+            return makerEnterpriseService.getSelfHelpInvoiceDetails(Condition.getPage(query.setDescs("create_time")), selfHelpvoiceId);
+        } catch (Exception e) {
+            log.error("根据自主开票ID获取自主开票详情异常", e);
         }
         return R.fail("查询失败");
     }

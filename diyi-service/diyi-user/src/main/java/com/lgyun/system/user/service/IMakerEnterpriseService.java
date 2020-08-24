@@ -4,10 +4,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.core.mp.support.Condition;
+import com.lgyun.system.order.vo.SelfHelpInvoiceDetailProviderVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceSerProVO;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
-import com.lgyun.system.user.vo.*;
+import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
+import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
+import com.lgyun.system.user.vo.MakerEnterpriseWebVO;
+import com.lgyun.system.user.vo.RelMakerListVO;
 
 import java.util.List;
 import java.util.Set;
@@ -111,10 +114,11 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
      * 获取当前服务商的自主开票
      *
      * @param page
+     * @param keyword
      * @param serviceProviderId
      * @return
      */
-    R<IPage<SelfHelpInvoiceSerProVO>> getSelfHelpInvoiceByServiceProviderId(IPage<SelfHelpInvoiceSerProVO> page, Long serviceProviderId);
+    R<IPage<SelfHelpInvoiceSerProVO>> getSelfHelpInvoiceByServiceProviderId(IPage<SelfHelpInvoiceSerProVO> page, String keyword, Long serviceProviderId);
 
     /**
      * 根据商户id查询所有关联的创客
@@ -122,8 +126,22 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
     List<MakerEnterpriseEntity> getEnterpriseId(Long enterpriseId);
 
     /**
+     * 根据商户id查询关联的创客
      *
+     * @param page
+     * @param enterpriseId
+     * @return
      */
     R<IPage<MakerEnterpriseWebVO>> selectEnterpriseMaker(IPage<MakerEnterpriseWebVO> page, Long enterpriseId);
+
+    /**
+     * 根据当前服务商和自主开票ID获取自主开票详情
+     *
+     * @param page
+     * @param selfHelpvoiceId
+     * @return
+     */
+    R<IPage<SelfHelpInvoiceDetailProviderVO>> getSelfHelpInvoiceDetails(IPage<SelfHelpInvoiceDetailProviderVO> page, Long selfHelpvoiceId);
+
 }
 

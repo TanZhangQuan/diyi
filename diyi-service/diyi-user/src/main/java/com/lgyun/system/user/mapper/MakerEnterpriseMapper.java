@@ -2,8 +2,8 @@ package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.RelationshipType;
+import com.lgyun.system.order.vo.SelfHelpInvoiceDetailProviderVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceSerProVO;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
@@ -57,14 +57,28 @@ public interface MakerEnterpriseMapper extends BaseMapper<MakerEnterpriseEntity>
      * 获取当前服务商的自主开票
      *
      * @param serviceProviderId
+     * @param keyword
      * @param page
      * @return
      */
-    List<SelfHelpInvoiceSerProVO> getSelfHelpInvoiceByServiceProviderId(Long serviceProviderId, IPage<SelfHelpInvoiceSerProVO> page);
+    List<SelfHelpInvoiceSerProVO> getSelfHelpInvoiceByServiceProviderId(Long serviceProviderId, String keyword, IPage<SelfHelpInvoiceSerProVO> page);
 
     /**
+     * 根据商户id查询关联的创客
      *
+     * @param enterpriseId
+     * @param page
+     * @return
      */
     List<MakerEnterpriseWebVO> selectEnterpriseMaker( Long enterpriseId,IPage<MakerEnterpriseWebVO> page);
+
+    /**
+     * 根据当前服务商和自主开票ID获取自主开票详情
+     *
+     * @param selfHelpvoiceId
+     * @param page
+     * @return
+     */
+    List<SelfHelpInvoiceDetailProviderVO> getSelfHelpInvoiceDetails(Long selfHelpvoiceId, IPage<SelfHelpInvoiceDetailProviderVO> page);
 }
 
