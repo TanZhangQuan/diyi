@@ -5,8 +5,10 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
+import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.service.IEnterpriseProviderService;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
+import com.lgyun.system.user.service.IServiceProviderWorkerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -32,9 +34,11 @@ public class EnterpriseProviderWebController {
 
     private IEnterpriseProviderService enterpriseProviderService;
 	private IEnterpriseWorkerService enterpriseWorkerService;
+	private IServiceProviderWorkerService serviceProviderWorkerService;
 
     @GetMapping("/get_service_providers_by_enterprise_id")
     @ApiOperation(value = "获取当前商户合作服务商", notes = "获取当前商户合作服务商")
+    //TODO
     public R getServiceProvidersByEnterpriseId(String keyWord, Query query, BladeUser bladeUser) {
 
         log.info("获取当前商户合作服务商");
@@ -49,6 +53,27 @@ public class EnterpriseProviderWebController {
             return enterpriseProviderService.getServiceProvidersByEnterpriseId(enterpriseWorkerEntity.getEnterpriseId(), keyWord, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("获取当前商户合作服务商异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/get_enterprtises_by_service_provider_id")
+    @ApiOperation(value = "获取当前服务商合作商户", notes = "获取当前服务商合作商户")
+    //TODO
+    public R getEnterprtisesByServiceProviderId(String keyWord, Query query, BladeUser bladeUser) {
+
+        log.info("获取当前商户合作服务商");
+        try {
+            //获取当前服务商员工
+            R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+            return enterpriseProviderService.getEnterprtisesByServiceProviderId(serviceProviderWorkerEntity.getServiceProviderId(), keyWord, Condition.getPage(query.setDescs("create_time")));
+        } catch (Exception e) {
+            log.error("获取当前服务商合作商户异常", e);
         }
         return R.fail("查询失败");
     }

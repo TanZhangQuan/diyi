@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lgyun.system.order.vo.TransactionMonthVO;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.vo.EnterpriseStatisticalVO;
+import com.lgyun.system.user.vo.EnterprisesDetailVO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -30,5 +31,13 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
      * @return
      */
     TransactionMonthVO queryEnterprisePayMoney(Long enterpriseId);
+
+    /**
+     * 根据商户ID获取商户详情
+     *
+     * @param enterpriseId
+     * @return
+     */
+    EnterprisesDetailVO getEnterpriseDetailById(Long enterpriseId);
 }
 

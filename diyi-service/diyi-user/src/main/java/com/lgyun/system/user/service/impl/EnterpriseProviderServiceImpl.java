@@ -7,6 +7,7 @@ import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.EnterpriseProviderEntity;
 import com.lgyun.system.user.mapper.EnterpriseProviderMapper;
 import com.lgyun.system.user.service.IEnterpriseProviderService;
+import com.lgyun.system.user.vo.EnterprisesByProviderVO;
 import com.lgyun.system.user.vo.EnterprisesVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 import com.lgyun.system.user.vo.ServiceProvidersVO;
@@ -47,5 +48,10 @@ public class EnterpriseProviderServiceImpl extends BaseServiceImpl<EnterprisePro
     @Override
     public R<IPage<ServiceProvidersVO>> getServiceProvidersByEnterpriseId(Long enterpriseId, String keyWord, IPage<ServiceProvidersVO> page) {
         return R.data(page.setRecords(baseMapper.getServiceProvidersByEnterpriseId(enterpriseId, keyWord, page)));
+    }
+
+    @Override
+    public R<IPage<EnterprisesByProviderVO>> getEnterprtisesByServiceProviderId(Long serviceProviderId, String keyWord, IPage<EnterprisesByProviderVO> page) {
+        return R.data(page.setRecords(baseMapper.getEnterprtisesByServiceProviderId(serviceProviderId, keyWord, page)));
     }
 }

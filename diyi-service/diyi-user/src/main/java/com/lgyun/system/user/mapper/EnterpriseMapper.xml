@@ -26,6 +26,18 @@
         <result property="decIncome" column="dec_income"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.user.vo.EnterprisesDetailVO" id="enterprisesDetailVO">
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="legalPerson" column="legal_person"/>
+        <result property="contact1Mail" column="contact1_mail"/>
+        <result property="contact1Phone" column="contact1_phone"/>
+        <result property="workingAddress" column="working_address"/>
+        <result property="socialCreditNo" column="social_credit_no"/>
+        <result property="bizLicenceUrl" column="biz_licence_url"/>
+        <result property="createTime" column="create_time"/>
+        <result property="enterpriseState" column="enterprise_state"/>
+    </resultMap>
+
     <select id="statistical" resultMap="enterpriseStatisticalVO">
         SELECT SUM(temp.month_pay) AS month_pay, SUM(temp.year_pay) AS year_pay, SUM(temp.all_pay) AS all_pay,
         (SELECT COUNT(id) FROM diyi_maker_enterprise WHERE enterprise_id = #{param1}) AS maker_num,
@@ -54,6 +66,11 @@
         UNION ALL SELECT pay_to_platform_amount AS money, MONTH(create_time) AS month FROM diyi_pay_enterprise WHERE is_deleted = 0 AND
         (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND audit_state = 'APPROVED'
         AND enterprise_id = #{param1}) AS temp
+    </select>
+
+    <select id="getEnterpriseDetailById" resultMap="enterprisesDetailVO">
+        SELECT enterprise_name, legal_person, contact1_mail, contact1_phone, working_address, social_credit_no, biz_licence_url,
+        create_time, enterprise_state FROM diyi_enterprise t1 WHERE is_deleted = 0 AND id = #{param1}
     </select>
 
 </mapper>

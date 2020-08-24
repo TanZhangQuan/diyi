@@ -23,6 +23,15 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.user.vo.EnterprisesByProviderVO" id="enterprisesByProviderVO">
+        <result property="id" column="id"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="cooperationNum" column="cooperation_num"/>
+        <result property="cooperationMoney" column="cooperation_money"/>
+        <result property="cooperateStatus" column="cooperate_status"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
     <select id="getServiceProviderByEnterpriseId" resultMap="providerListVO">
        SELECT t1.service_provider_id, t2.service_provider_name FROM diyi_enterprise_provider t1 INNER JOIN diyi_service_provider t2
        ON t1.service_provider_id = t2.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t2.service_provider_state = 'NORMAL' AND t1.enterprise_id = #{param1}
@@ -48,6 +57,20 @@
         AND t4.enterprise_id = #{param1}
         <if test="param2 != null and param2.trim() != ''">
         AND t5.service_provider_name like concat('%', #{param2}, '%')
+        </if>
+    </select>
+
+    <select id="getEnterprtisesByServiceProviderId" resultMap="enterprisesByProviderVO">
+        SELECT t5.id, t5.enterprise_name, 0 AS cooperation_num, 0.00 AS cooperation_money, t4.cooperate_status, t4.create_time
+        --         SELECT SUM(temp.cooperation_nums) AS cooperation_num, SUM(temp.cooperation_moneys) AS cooperation_money FROM (SELECT COUNT(t1.id) AS cooperation_nums,
+        --         IFNULL(SUM(t1.pay_to_platform_amount), 0) AS cooperation_moneys FROM diyi_pay_enterprise t1 WHERE t1.is_deleted = 0 AND t1.enterprise_id = 99
+        --         AND t1.service_provider_id = 99 UNION ALL SELECT COUNT(t2.id) AS cooperation_nums, IFNULL(SUM(t3.pay_total_num), 0) AS cooperation_moneys
+        --         FROM diyi_self_help_invoice t2 INNER JOIN diyi_self_help_invoice_sp t3 ON t2.id = t3.self_help_invoice_id WHERE t2.is_deleted = 0 and t3.is_deleted = 0
+        --         AND t2.enterprise_id = 99 AND t3.service_provider_id = 99) AS temp
+        FROM diyi_enterprise_provider t4 INNER JOIN diyi_enterprise t5 ON t4.enterprise_id = t5.id WHERE t4.is_deleted = 0 AND t5.is_deleted = 0
+        AND t4.service_provider_id = #{param1}
+        <if test="param2 != null and param2.trim() != ''">
+        AND t5.enterprise_name like concat('%', #{param2}, '%')
         </if>
     </select>
 

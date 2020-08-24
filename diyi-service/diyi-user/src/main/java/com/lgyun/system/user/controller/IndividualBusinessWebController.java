@@ -9,8 +9,10 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDto;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDto;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
+import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.service.IIndividualBusinessService;
+import com.lgyun.system.user.service.IServiceProviderWorkerService;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +38,7 @@ public class IndividualBusinessWebController {
 
     private IIndividualBusinessService individualBusinessService;
     private IEnterpriseWorkerService enterpriseWorkerService;
+    private IServiceProviderWorkerService serviceProviderWorkerService;
 
     @GetMapping("/get_by_dto_enterprise")
     @ApiOperation(value = "查询当前商户的关联创客的所有个体户", notes = "查询当前商户的所有关联创客的所有个体户")
@@ -56,7 +59,7 @@ public class IndividualBusinessWebController {
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-            return individualBusinessService.getByDtoEnterprise(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), ibstate, individualBusinessEnterpriseDto);
+            return individualBusinessService.getIndividualBusinessList(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), null, ibstate, individualBusinessEnterpriseDto);
         } catch (Exception e) {
             log.error("查询当前商户的关联创客的所有个体户异常", e);
         }
@@ -118,6 +121,32 @@ public class IndividualBusinessWebController {
             return individualBusinessService.queryEnterpriseReports(query, individualBusinessId);
         } catch (Exception e) {
             log.error("查询个体户年审信息异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/get_list_by_service_provider_id")
+    @ApiOperation(value = "查询当前服务商关联的所有个体户", notes = "查询当前服务商关联的所有个体户")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "individualBusinessEnterpriseId", value = "个体户编号", paramType = "query", dataType = "long"),
+            @ApiImplicitParam(name = "ibname", value = "个体户名称", paramType = "query", dataType = "string"),
+            @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
+            @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
+    })
+    public R getListByServiceProviderId(@NotNull(message = "请选择个体户状态") @RequestParam(required = false) Ibstate ibstate, IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto, Query query, BladeUser bladeUser) {
+
+        log.info("查询当前服务商关联的所有个体户");
+        try {
+            //获取当前服务商员工
+            R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+            return individualBusinessService.getIndividualBusinessList(Condition.getPage(query.setDescs("create_time")), null, serviceProviderWorkerEntity.getServiceProviderId(), ibstate, individualBusinessEnterpriseDto);
+        } catch (Exception e) {
+            log.error("查询当前服务商关联的所有个体户异常", e);
         }
         return R.fail("查询失败");
     }

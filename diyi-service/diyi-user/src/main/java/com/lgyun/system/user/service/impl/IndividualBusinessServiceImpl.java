@@ -105,7 +105,7 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
     }
 
     @Override
-    public R<IPage<IndividualBusinessEnterpriseDetailsVO>> getByDtoEnterprise(IPage<IndividualBusinessEnterpriseDetailsVO> page, Long enterpriseId, Ibstate ibstate, IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto) {
+    public R<IPage<IndividualBusinessEnterpriseDetailsVO>> getIndividualBusinessList(IPage<IndividualBusinessEnterpriseDetailsVO> page, Long enterpriseId, Long serviceProviderId, Ibstate ibstate, IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto) {
 
         if (individualBusinessEnterpriseDto.getBeginDate() != null && individualBusinessEnterpriseDto.getEndDate() != null) {
             if (individualBusinessEnterpriseDto.getBeginDate().after(individualBusinessEnterpriseDto.getEndDate())) {
@@ -113,7 +113,19 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
             }
         }
 
-        return R.data(page.setRecords(baseMapper.getByDtoEnterprise(enterpriseId, ibstate, individualBusinessEnterpriseDto, page)));
+        if (enterpriseId != null && serviceProviderId != null) {
+            return R.fail("只能选择商户或者服务商");
+        }
+
+        if (enterpriseId == null && serviceProviderId == null) {
+            return R.fail("请选择选择商户或者服务商");
+        }
+
+        if (enterpriseId != null) {
+            return R.data(page.setRecords(baseMapper.getIndividualBusinessListByEnterpriseId(enterpriseId, ibstate, individualBusinessEnterpriseDto, page)));
+        } else {
+            return R.data(page.setRecords(baseMapper.getIndividualBusinessListByServiceProviderId(serviceProviderId, ibstate, individualBusinessEnterpriseDto, page)));
+        }
     }
 
     @Override

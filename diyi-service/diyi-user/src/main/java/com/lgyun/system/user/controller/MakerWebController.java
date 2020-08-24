@@ -278,6 +278,7 @@ public class MakerWebController {
 
     @GetMapping("/get_self_help_invoice_details")
     @ApiOperation(value = "根据自主开票ID获取自主开票详情", notes = "根据自主开票ID获取自主开票详情")
+    //TODO
     public R getSelfHelpInvoiceDetails(@ApiParam(value = "自主开票编号") @NotNull(message = "请输入自主开票编号") @RequestParam(required = false) Long selfHelpvoiceId, Query query) {
 
         log.info("根据自主开票ID获取自主开票详情");

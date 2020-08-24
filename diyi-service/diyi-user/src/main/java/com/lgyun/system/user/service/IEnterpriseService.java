@@ -7,6 +7,7 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.vo.TransactionMonthVO;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.vo.EnterpriseStatisticalVO;
+import com.lgyun.system.user.vo.EnterprisesDetailVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 import com.lgyun.system.user.vo.enterprise.EnterpriseResponse;
@@ -78,5 +79,13 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * @return
      */
     void uploadEnterpriseLicence(Long enterpriseId, MultipartFile file) throws Exception;
+
+    /**
+     * 根据商户ID获取商户详情
+     *
+     * @param enterpriseId
+     * @return
+     */
+    R<EnterprisesDetailVO> getEnterpriseDetailById(Long enterpriseId);
 }
 

@@ -8,12 +8,16 @@ import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * 控制器
@@ -91,5 +95,18 @@ public class EnterpriseWebController {
 		}
 		return R.fail("查询失败");
 	}
+
+    @GetMapping("/get_enterprise_detail_by_id")
+    @ApiOperation(value = "根据商户ID获取商户详情", notes = "根据商户ID获取商户详情")
+    public R getEnterpriseDetailById(@ApiParam(value = "商户ID") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId) {
+
+        log.info("根据商户ID获取商户详情");
+        try {
+            return enterpriseService.getEnterpriseDetailById(enterpriseId);
+        } catch (Exception e) {
+            log.error("根据商户ID获取商户详情异常", e);
+        }
+        return R.fail("查询失败");
+    }
 
 }

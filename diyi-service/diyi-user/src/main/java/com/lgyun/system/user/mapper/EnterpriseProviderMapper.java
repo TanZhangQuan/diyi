@@ -3,6 +3,7 @@ package com.lgyun.system.user.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.user.entity.EnterpriseProviderEntity;
+import com.lgyun.system.user.vo.EnterprisesByProviderVO;
 import com.lgyun.system.user.vo.EnterprisesVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 import com.lgyun.system.user.vo.ServiceProvidersVO;
@@ -46,5 +47,15 @@ public interface EnterpriseProviderMapper extends BaseMapper<EnterpriseProviderE
      * @return
      */
     List<ServiceProvidersVO> getServiceProvidersByEnterpriseId(Long enterpriseId, String keyWord, IPage<ServiceProvidersVO> page);
+
+    /**
+     * 获取当前商户合作服务商
+     *
+     * @param serviceProviderId
+     * @param keyWord
+     * @param page
+     * @return
+     */
+    List<EnterprisesByProviderVO> getEnterprtisesByServiceProviderId(Long serviceProviderId, String keyWord, IPage<EnterprisesByProviderVO> page);
 }
 

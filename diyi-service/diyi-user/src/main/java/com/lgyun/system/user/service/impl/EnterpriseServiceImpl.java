@@ -14,6 +14,7 @@ import com.lgyun.system.user.mapper.EnterpriseMapper;
 import com.lgyun.system.user.oss.AliyunOssService;
 import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.EnterpriseStatisticalVO;
+import com.lgyun.system.user.vo.EnterprisesDetailVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 import com.lgyun.system.user.vo.enterprise.EnterpriseResponse;
@@ -137,6 +138,11 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         // 更新营业执照
         enterpriseEntity.setBizLicenceUrl(url);
         this.save(enterpriseEntity);
+    }
+
+    @Override
+    public R<EnterprisesDetailVO> getEnterpriseDetailById(Long enterpriseId) {
+        return R.data(baseMapper.getEnterpriseDetailById(enterpriseId));
     }
 
 }
