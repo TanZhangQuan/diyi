@@ -46,10 +46,12 @@
     </select>
 
     <select id="roleMenu" resultMap="menuResultMap">
-        select * from sys_menu where is_deleted = 0 and id IN ( SELECT menu_id FROM sys_role_menu WHERE role_id IN
-        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
-            #{item}
-        </foreach> )
+        select * from sys_menu where is_deleted = 0 and id IN (
+            SELECT menu_id FROM sys_role_menu WHERE role_id IN
+                <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+        )
     </select>
 
     <select id="routes" resultMap="menuResultMap">

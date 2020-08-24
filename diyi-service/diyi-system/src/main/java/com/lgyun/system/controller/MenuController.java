@@ -3,6 +3,8 @@ package com.lgyun.system.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.lgyun.system.entity.Menu;
 import com.lgyun.system.service.IMenuService;
+import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
+import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import com.lgyun.common.annotation.PreAuth;
@@ -36,6 +38,7 @@ import java.util.Map;
 public class MenuController extends BladeController {
 
 	private IMenuService menuService;
+	private IUserClient userClient;
 
 	/**
 	 * 详情
@@ -92,7 +95,14 @@ public class MenuController extends BladeController {
 	@ApiOperation(value = "前端菜单数据", notes = "前端菜单数据")
 	public R<List<MenuVO>> routes(BladeUser user) {
 		log.info("[routes]user info = {}", JSONObject.toJSONString(user));
-		List<MenuVO> list = menuService.routes(user.getRoleId());
+		//获取当前创客
+		R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(user);
+		if (!(result.isSuccess())) {
+			return R.fail("当前登录用户失效");
+		}
+		EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+		List<MenuVO> list = menuService.routes(enterpriseWorkerEntity.getId().toString());
 		return R.data(list);
 	}
 

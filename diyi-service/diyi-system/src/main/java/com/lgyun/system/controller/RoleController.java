@@ -2,6 +2,9 @@ package com.lgyun.system.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.system.service.IRoleService;
+import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
+import com.lgyun.system.user.feign.IUserClient;
+import com.lgyun.system.vo.GrantRequest;
 import com.lgyun.system.vo.RoleVO;
 import com.lgyun.system.wrapper.RoleWrapper;
 import io.swagger.annotations.*;
@@ -18,11 +21,12 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 /**
- * 控制器
+ * 角色 控制器
  *
  * @author Chill
  */
@@ -33,6 +37,7 @@ import java.util.Map;
 public class RoleController extends BladeController {
 
 	private IRoleService roleService;
+	private IUserClient userClient;
 
 	/**
 	 * 详情
@@ -78,6 +83,11 @@ public class RoleController extends BladeController {
 		if (Func.isEmpty(role.getId())) {
 			role.setTenantId(user.getTenantId());
 		}
+		//获取当前创客
+		R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(user);
+		if (!(result.isSuccess())) {
+			return R.fail("当前登录用户失效");
+		}
 		return R.status(roleService.saveOrUpdate(role));
 	}
 
@@ -94,15 +104,22 @@ public class RoleController extends BladeController {
 	/**
 	 * 设置菜单权限
 	 *
-	 * @param roleIds
-	 * @param menuIds
+	 * @param request
 	 * @return
 	 */
 	@PostMapping("/grant")
-	@ApiOperation(value = "权限设置", notes = "传入roleId集合以及menuId集合")
-	public R grant(@ApiParam(value = "roleId集合", required = true) @RequestParam String roleIds,
-				   @ApiParam(value = "menuId集合", required = true) @RequestParam String menuIds) {
-		boolean temp = roleService.grant(Func.toLongList(roleIds), Func.toLongList(menuIds));
+	@ApiOperation(value = "权限设置", notes = "传入menuId集合")
+	public R grant(@RequestBody GrantRequest request, BladeUser user) {
+		//获取当前创客
+		R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(user);
+		if (!(result.isSuccess())) {
+			return R.fail("当前登录用户失效");
+		}
+		EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+		if (!enterpriseWorkerEntity.getId().equals(request.getAccountId())) {
+			return R.fail("请求参数非法");
+		}
+		boolean temp = roleService.grant(Arrays.asList(request.getAccountId()), request.getMenuIds());
 		return R.status(temp);
 	}
 

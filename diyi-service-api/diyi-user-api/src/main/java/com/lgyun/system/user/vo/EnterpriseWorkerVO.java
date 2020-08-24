@@ -20,4 +20,16 @@ public class EnterpriseWorkerVO extends EnterpriseWorkerEntity {
     //商户名称
     private String enterpriseName;
 
+    private String accountStateValue;
+
+    private String accountStateDesc;
+
+    private String workerSexValue;
+
+    private String workerSexDesc;
+
+    private String positionNameValue;
+
+    private String positionNameDesc;
+
 }
