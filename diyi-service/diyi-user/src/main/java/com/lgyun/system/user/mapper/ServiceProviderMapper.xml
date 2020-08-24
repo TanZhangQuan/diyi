@@ -3,13 +3,4 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.ServiceProviderMapper">
 
-<!--    <resultMap type="com.lgyun.system.user.vo.ServiceProvidersVO" id="serviceProvidersVO">-->
-<!--        <result property="id" column="id"/>-->
-<!--        <result property="serviceProviderName" column="service_provider_name"/>-->
-<!--    </resultMap>-->
-
-<!--    <select id="getServiceProviderMakers" resultMap="relEnterpriseMakerVO">-->
-
-<!--    </select>-->
-
 </mapper>

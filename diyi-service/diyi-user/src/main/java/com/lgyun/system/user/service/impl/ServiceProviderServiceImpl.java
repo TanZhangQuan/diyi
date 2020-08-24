@@ -10,7 +10,6 @@ import com.lgyun.system.user.mapper.ServiceProviderMapper;
 import com.lgyun.system.user.service.IEnterpriseProviderService;
 import com.lgyun.system.user.service.IServiceProviderService;
 import com.lgyun.system.user.vo.EnterprisesVO;
-import com.lgyun.system.user.vo.ServiceProvidersVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,10 +32,4 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         return enterpriseProviderService.getEnterpriseByServiceProvider(Condition.getPage(query.setDescs("create_time")), serviceProviderId);
     }
 
-    @Override
-    public R<IPage<ServiceProvidersVO>> getServiceProvidersByEnterpriseId(Long payEnterpriseId, IPage<ServiceProvidersVO> page) {
-        //TODO
-        return null;
-//        return R.data(page.setRecords(baseMapper.getServiceProvidersByEnterpriseId(payEnterpriseId, page)));
-    }
 }

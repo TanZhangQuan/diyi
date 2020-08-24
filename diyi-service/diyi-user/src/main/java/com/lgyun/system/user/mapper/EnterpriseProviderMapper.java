@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.user.entity.EnterpriseProviderEntity;
 import com.lgyun.system.user.vo.EnterprisesVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
+import com.lgyun.system.user.vo.ServiceProvidersVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -35,5 +36,15 @@ public interface EnterpriseProviderMapper extends BaseMapper<EnterpriseProviderE
      * @return
      */
     List<EnterprisesVO> getEnterpriseByServiceProvider(Long serviceProviderId, IPage<EnterprisesVO> page);
+
+    /**
+     * 获取当前商户合作服务商
+     *
+     * @param enterpriseId
+     * @param keyWord
+     * @param page
+     * @return
+     */
+    List<ServiceProvidersVO> getServiceProvidersByEnterpriseId(Long enterpriseId, String keyWord, IPage<ServiceProvidersVO> page);
 }
 

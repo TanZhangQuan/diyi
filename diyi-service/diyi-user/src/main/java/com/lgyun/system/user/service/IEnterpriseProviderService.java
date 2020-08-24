@@ -6,6 +6,7 @@ import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.EnterpriseProviderEntity;
 import com.lgyun.system.user.vo.EnterprisesVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
+import com.lgyun.system.user.vo.ServiceProvidersVO;
 
 /**
  *  Service 接口
@@ -42,5 +43,14 @@ public interface IEnterpriseProviderService extends BaseService<EnterpriseProvid
      */
     R<IPage<EnterprisesVO>> getEnterpriseByServiceProvider(IPage<EnterprisesVO> page, Long serviceProviderId);
 
+    /**
+     * 获取当前商户合作服务商
+     *
+     * @param enterpriseId
+     * @param keyWord
+     * @param page
+     * @return
+     */
+    R<IPage<ServiceProvidersVO>> getServiceProvidersByEnterpriseId(Long enterpriseId, String keyWord, IPage<ServiceProvidersVO> page);
 }
 

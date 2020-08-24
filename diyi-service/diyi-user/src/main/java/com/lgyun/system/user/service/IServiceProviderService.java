@@ -6,7 +6,6 @@ import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.vo.EnterprisesVO;
-import com.lgyun.system.user.vo.ServiceProvidersVO;
 
 /**
  *  Service 接口
@@ -25,13 +24,5 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
      */
     R<IPage<EnterprisesVO>> getEnterpriseByServiceProvider(Query query, Long serviceProviderId);
 
-    /**
-     * 获取当前商户合作服务商
-     *
-     * @param payEnterpriseId
-     * @param page
-     * @return
-     */
-    R<IPage<ServiceProvidersVO>> getServiceProvidersByEnterpriseId(Long payEnterpriseId, IPage<ServiceProvidersVO> page);
 }
 

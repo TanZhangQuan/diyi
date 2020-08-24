@@ -13,13 +13,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ServiceProviderMapper extends BaseMapper<ServiceProviderEntity> {
 
-    /**
-     * 获取当前商户合作服务商
-     *
-     * @param payEnterpriseId
-     * @param page
-     * @return
-     */
-//    List<ServiceProvidersVO> getServiceProvidersByEnterpriseId(Long payEnterpriseId, IPage<ServiceProvidersVO> page);
 }
 
