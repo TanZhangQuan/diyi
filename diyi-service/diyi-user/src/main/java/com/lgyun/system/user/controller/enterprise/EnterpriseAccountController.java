@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 商户主子账号相关接口 控制器
@@ -120,6 +121,11 @@ public class EnterpriseAccountController {
             }
 
             BeanUtils.copyProperties(request, entity);
+            if (request.getMenuNameList() != null && request.getMenuNameList().size() > 0) {
+                String collect = request.getMenuNameList().stream().collect(Collectors.joining(", "));
+                entity.setMenus(collect);
+            }
+
             enterpriseWorkerService.save(entity);
 
             return R.success("操作成功");

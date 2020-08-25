@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
+
 /**
  * 视图实体类
  *
@@ -31,5 +33,7 @@ public class EnterpriseWorkerVO extends EnterpriseWorkerEntity {
     private String positionNameValue;
 
     private String positionNameDesc;
+
+    private List<String> menuNameList;
 
 }
