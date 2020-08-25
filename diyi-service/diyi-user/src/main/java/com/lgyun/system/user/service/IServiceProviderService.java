@@ -20,9 +20,10 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
      *
      * @param query
      * @param serviceProviderId
+     * @param keyword
      * @return
      */
-    R<IPage<EnterprisesVO>> getEnterpriseByServiceProvider(Query query, Long serviceProviderId);
+    R<IPage<EnterprisesVO>> getEnterpriseByServiceProvider(Query query, Long serviceProviderId, String keyword);
 
 }
 

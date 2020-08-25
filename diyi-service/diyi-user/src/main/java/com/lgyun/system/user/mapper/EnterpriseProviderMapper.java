@@ -33,10 +33,11 @@ public interface EnterpriseProviderMapper extends BaseMapper<EnterpriseProviderE
      * 获取服务商关联的所有商户
      *
      * @param serviceProviderId
+     * @param keyword
      * @param page
      * @return
      */
-    List<EnterprisesVO> getEnterpriseByServiceProvider(Long serviceProviderId, IPage<EnterprisesVO> page);
+    List<EnterprisesVO> getEnterpriseByServiceProvider(Long serviceProviderId, String keyword, IPage<EnterprisesVO> page);
 
     /**
      * 获取当前商户合作服务商

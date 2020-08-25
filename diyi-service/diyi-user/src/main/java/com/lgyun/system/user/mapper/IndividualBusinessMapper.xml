@@ -55,8 +55,8 @@
     <select id="getIndividualBusinessListByServiceProviderId" resultMap="individualBusinessDetailsVO">
         SELECT t1.id, t2.service_provider_name, t1.ibname, t1.ibtax_no, t1.main_industry, t1.biz_scope, t1.biz_type, t3.name AS biz_name,
         t3.idcard_no AS bizIdcardNo, t1.registered_money, t1.business_licence_url, t1.ibstate, t1.create_time FROM diyi_individual_business t1
-        INNER JOIN diyi_service_provider t2 ON t1.service_provider_id = t2.id INNER JOIN diyi_maker t3 ON t1.maker_id = t3.id
-        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0
+        INNER JOIN diyi_service_provider t2 ON t1.service_provider_id = t2.id LEFT JOIN diyi_maker t3 ON t1.maker_id = t3.id AND t3.is_deleted = 0
+        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0
         <if test="param1 != null">
             AND t1.service_provider_id = #{param1}
         </if>

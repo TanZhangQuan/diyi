@@ -25,5 +25,14 @@ public interface IEnterpriseReportService extends BaseService<EnterpriseReportEn
      * @return
      */
     R<IPage<EnterpriseReportsVO>> findByBodyTypeAndBodyId(Query query, BodyType mainBodyType, Long mainBodyId);
+
+    /**
+     * 根据申报主体类别，申报主体ID查询申报结果文件资料
+     *
+     * @param mainBodyType
+     * @param mainBodyId
+     * @return
+     */
+    String findReportResultFiles(BodyType mainBodyType, Long mainBodyId);
 }
 

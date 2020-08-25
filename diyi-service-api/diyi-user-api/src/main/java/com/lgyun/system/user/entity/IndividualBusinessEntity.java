@@ -68,9 +68,19 @@ public class IndividualBusinessEntity extends BaseEntity {
     private String bizPark;
 
     /**
-     * 所在省市县
+     * 省
      */
-    private String provinceandCounty;
+    private String province;
+
+    /**
+     * 市
+     */
+    private String city;
+
+    /**
+     * 区
+     */
+    private String area;
 
     /**
      * 注册资金

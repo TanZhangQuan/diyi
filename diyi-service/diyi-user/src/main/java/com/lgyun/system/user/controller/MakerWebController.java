@@ -225,7 +225,7 @@ public class MakerWebController {
 
     @GetMapping("/get_enterprise_by_service_provider")
     @ApiOperation(value = "获取服务商关联的所有商户", notes = "获取服务商关联的所有商户")
-    public R getEnterpriseByServiceProvider(Query query, BladeUser bladeUser) {
+    public R getEnterpriseByServiceProvider(String keyword, Query query, BladeUser bladeUser) {
 
         log.info("获取服务商关联的所有商户");
         try {
@@ -236,7 +236,7 @@ public class MakerWebController {
             }
             ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-            return serviceProviderService.getEnterpriseByServiceProvider(query, serviceProviderWorkerEntity.getServiceProviderId());
+            return serviceProviderService.getEnterpriseByServiceProvider(query, serviceProviderWorkerEntity.getServiceProviderId(), keyword);
         } catch (Exception e) {
             log.error("获取服务商关联的所有商户异常", e);
         }
@@ -245,7 +245,7 @@ public class MakerWebController {
 
     @GetMapping("/get_relevance_maker_by_enterprise_id")
     @ApiOperation(value = "根据商户ID获取所有关联创客", notes = "根据商户ID获取所有关联创客")
-    public R getRelevanceMakerByEnterpriseId(@ApiParam(value = "商户编号") @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long enterpriseId, String keyword, Query query, BladeUser bladeUser) {
+    public R getRelevanceMakerByEnterpriseId(@ApiParam(value = "商户编号") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, String keyword, Query query) {
 
         log.info("根据商户ID获取所有关联创客");
         try {

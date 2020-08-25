@@ -185,4 +185,19 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
         return enterpriseReportService.findByBodyTypeAndBodyId(query, BodyType.INDIVIDUALBUSINESS, individualBusinessId);
     }
 
+    @Override
+    public R<String> cancell(Long individualBusinessId) {
+        IndividualBusinessEntity individualBusinessEntity = getById(individualBusinessId);
+        if (individualBusinessEntity == null) {
+            return R.fail("个体户不存在");
+        }
+
+        if (!(Ibstate.CANCELLED.equals(individualBusinessEntity.getIbstate()))) {
+            individualBusinessEntity.setIbstate(Ibstate.CANCELLED);
+            updateById(individualBusinessEntity);
+        }
+
+        return R.success("注销成功");
+    }
+
 }

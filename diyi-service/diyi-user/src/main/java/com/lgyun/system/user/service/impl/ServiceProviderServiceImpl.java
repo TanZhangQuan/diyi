@@ -28,8 +28,8 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
     private IEnterpriseProviderService enterpriseProviderService;
 
     @Override
-    public R<IPage<EnterprisesVO>> getEnterpriseByServiceProvider(Query query, Long serviceProviderId) {
-        return enterpriseProviderService.getEnterpriseByServiceProvider(Condition.getPage(query.setDescs("create_time")), serviceProviderId);
+    public R<IPage<EnterprisesVO>> getEnterpriseByServiceProvider(Query query, Long serviceProviderId, String keyword) {
+        return enterpriseProviderService.getEnterpriseByServiceProvider(Condition.getPage(query.setDescs("create_time")), serviceProviderId, keyword);
     }
 
 }

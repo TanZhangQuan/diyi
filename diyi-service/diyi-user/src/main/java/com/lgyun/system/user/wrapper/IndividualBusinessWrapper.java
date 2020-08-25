@@ -1,10 +1,11 @@
 package com.lgyun.system.user.wrapper;
 
+import com.lgyun.common.enumeration.BodyType;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.SpringUtil;
 import com.lgyun.core.mp.support.BaseEntityWrapper;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
-import com.lgyun.system.user.service.IMakerService;
+import com.lgyun.system.user.service.IEnterpriseReportService;
 import com.lgyun.system.user.vo.IndividualBusinessVO;
 
 /**
@@ -15,10 +16,10 @@ import com.lgyun.system.user.vo.IndividualBusinessVO;
  */
 public class IndividualBusinessWrapper extends BaseEntityWrapper<IndividualBusinessEntity, IndividualBusinessVO> {
 
-	private static IMakerService makerService;
+	private static IEnterpriseReportService enterpriseReportService;
 
 	static {
-		makerService = SpringUtil.getBean(IMakerService.class);
+		enterpriseReportService = SpringUtil.getBean(IEnterpriseReportService.class);
 	}
 
 	public static IndividualBusinessWrapper build() {
@@ -32,9 +33,11 @@ public class IndividualBusinessWrapper extends BaseEntityWrapper<IndividualBusin
 			return null;
 		}
 
-    	IndividualBusinessVO individualBusinessVO = BeanUtil.copy(individualBusiness, IndividualBusinessVO.class);
-		String bizName = makerService.getName(individualBusiness.getMakerId());
-		individualBusinessVO.setBizName(bizName);
+		//获取年审信息
+		String reportResultFiles = enterpriseReportService.findReportResultFiles(BodyType.INDIVIDUALBUSINESS, individualBusiness.getId());
+		IndividualBusinessVO individualBusinessVO = BeanUtil.copy(individualBusiness, IndividualBusinessVO.class);
+		individualBusinessVO.setReportResultFiles(reportResultFiles);
+
 		return individualBusinessVO;
 	}
 

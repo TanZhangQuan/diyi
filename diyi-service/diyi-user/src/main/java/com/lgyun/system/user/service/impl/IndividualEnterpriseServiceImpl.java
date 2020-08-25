@@ -104,13 +104,26 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
     }
 
     @Override
-    public R<IPage<IndividualBusinessEnterpriseDetailsVO>> getByDtoEnterprise(IPage<IndividualBusinessEnterpriseDetailsVO> page, Long enterpriseId, Ibstate ibstate, IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto) {
-        return R.data(page.setRecords(baseMapper.getByDtoEnterprise(enterpriseId, ibstate, individualBusinessEnterpriseDto, page)));
-    }
+    public R<IPage<IndividualBusinessEnterpriseDetailsVO>> getIndividualBusinessList(IPage<IndividualBusinessEnterpriseDetailsVO> page, Long enterpriseId, Long serviceProviderId, Ibstate ibstate, IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto) {
+        if (individualBusinessEnterpriseDto.getBeginDate() != null && individualBusinessEnterpriseDto.getEndDate() != null) {
+            if (individualBusinessEnterpriseDto.getBeginDate().after(individualBusinessEnterpriseDto.getEndDate())) {
+                return R.fail("开始时间不能大于结束时间");
+            }
+        }
 
-    @Override
-    public R<IndividualBusinessEnterpriseDetailsVO> findByIdEnterprise(Long individualEnterpriseId) {
-        return R.data(baseMapper.findByIdEnterprise(individualEnterpriseId));
+        if (enterpriseId != null && serviceProviderId != null) {
+            return R.fail("只能选择商户或者服务商");
+        }
+
+        if (enterpriseId == null && serviceProviderId == null) {
+            return R.fail("请选择选择商户或者服务商");
+        }
+
+        if (enterpriseId != null) {
+            return R.data(page.setRecords(baseMapper.getIndividualEnterpriseListByEnterpriseId(enterpriseId, ibstate, individualBusinessEnterpriseDto, page)));
+        } else {
+            return R.data(page.setRecords(baseMapper.getIndividualEnterpriseListByServiceProviderId(serviceProviderId, ibstate, individualBusinessEnterpriseDto, page)));
+        }
     }
 
     @Override
@@ -168,6 +181,21 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
     @Override
     public R<IPage<EnterpriseReportsVO>> queryEnterpriseReports(Query query, Long individualBusinessId) {
         return enterpriseReportService.findByBodyTypeAndBodyId(query, BodyType.INDIVIDUALBUSINESS, individualBusinessId);
+    }
+
+    @Override
+    public R<String> cancell(Long individualEnterpriseId) {
+        IndividualEnterpriseEntity individualEnterpriseEntity = getById(individualEnterpriseId);
+        if (individualEnterpriseEntity == null){
+            return R.fail("个体户不存在");
+        }
+
+        if (!(Ibstate.CANCELLED.equals(individualEnterpriseEntity.getIbstate()))) {
+            individualEnterpriseEntity.setIbstate(Ibstate.CANCELLED);
+            updateById(individualEnterpriseEntity);
+        }
+
+        return R.success("注销成功");
     }
 
 }

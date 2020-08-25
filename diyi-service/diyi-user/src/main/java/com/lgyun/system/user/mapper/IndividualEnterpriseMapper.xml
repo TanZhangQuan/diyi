@@ -26,12 +26,18 @@
         WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.id = #{param1}
     </select>
 
-    <select id="getByDtoEnterprise" resultMap="individualEnterpriseDetailsVO">
+    <select id="getIndividualEnterpriseListByEnterpriseId" resultMap="individualEnterpriseDetailsVO">
         SELECT t1.id, t4.service_provider_name, t1.ibname, t1.ibtax_no, t1.main_industry, t1.biz_scope, t1.biz_type, t2.name AS bizName,
         t1.registered_money, t1.business_licence_url, t1.ibstate, t1.create_time FROM diyi_individual_enterprise t1 INNER JOIN diyi_maker t2
         ON t1.maker_id = t2.id INNER JOIN diyi_maker_enterprise t3 ON t2.id = t3.maker_id LEFT JOIN diyi_service_provider t4
         ON t1.service_provider_id = t4.id AND t4.is_deleted = 0 WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0
-        AND t3.enterprise_id = #{param1} AND t1.ibstate = #{param2}
+        AND t2.maker_state = 'NORMAL' AND t3.cooperate_status = 'COOPERATING'
+        <if test="param1 != null">
+            AND t3.enterprise_id = #{param1}
+        </if>
+        <if test="param2 != null">
+            AND t1.ibstate = #{param2}
+        </if>
         <if test="param3.individualBusinessEnterpriseId != null">
             AND t1.id like concat('%', #{param3.individualBusinessEnterpriseId}, '%')
         </if>
@@ -46,10 +52,29 @@
         </if>
     </select>
 
-    <select id="findByIdEnterprise" resultMap="individualEnterpriseDetailsVO">
-        SELECT t1.id, t1.ibname, t1.ibtax_no, t1.main_industry, t1.biz_scope, t1.biz_type, t2.name AS biz_name, t1.registered_money, t1.business_licence_url,
-        t1.ibstate, t1.create_time FROM diyi_individual_enterprise t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id
-        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.id = #{param1}
+    <select id="getIndividualEnterpriseListByServiceProviderId" resultMap="individualEnterpriseDetailsVO">
+        SELECT t1.id, t2.service_provider_name, t1.ibname, t1.ibtax_no, t1.main_industry, t1.biz_scope, t1.biz_type, t3.name AS biz_name,
+        t3.idcard_no AS bizIdcardNo, t1.registered_money, t1.business_licence_url, t1.ibstate, t1.create_time FROM diyi_individual_enterprise t1
+        INNER JOIN diyi_service_provider t2 ON t1.service_provider_id = t2.id LEFT JOIN diyi_maker t3 ON t1.maker_id = t3.id AND t3.is_deleted = 0
+        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0
+        <if test="param1 != null">
+            AND t1.service_provider_id = #{param1}
+        </if>
+        <if test="param2 != null">
+            AND t1.ibstate = #{param2}
+        </if>
+        <if test="param3.individualBusinessEnterpriseId != null">
+            AND t1.id like concat('%', #{param3.individualBusinessEnterpriseId}, '%')
+        </if>
+        <if test="param3.ibname != null and param3.ibname.trim() != ''">
+            AND t1.ibname like concat('%', #{param3.ibname}, '%')
+        </if>
+        <if test="param3.beginDate != null">
+            AND DATEDIFF(t1.create_time, #{param3.beginDate}) <![CDATA[ >= ]]> 0
+        </if>
+        <if test="param3.endDate != null">
+            AND DATEDIFF(t1.create_time, #{param3.endDate}) <![CDATA[ <= ]]> 0
+        </if>
     </select>
 
 </mapper>

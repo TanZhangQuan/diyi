@@ -76,19 +76,12 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
      *
      * @param page
      * @param enterpriseId
+     * @param serviceProviderId
      * @param ibstate
      * @param individualBusinessEnterpriseDto
      * @return
      */
-    R<IPage<IndividualBusinessEnterpriseDetailsVO>> getByDtoEnterprise(IPage<IndividualBusinessEnterpriseDetailsVO> page, Long enterpriseId, Ibstate ibstate, IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto);
-
-    /**
-     * 查询当前商户的关联创客的个独详情
-     *
-     * @param individualEnterpriseId
-     * @return
-     */
-    R<IndividualBusinessEnterpriseDetailsVO> findByIdEnterprise(Long individualEnterpriseId);
+    R<IPage<IndividualBusinessEnterpriseDetailsVO>> getIndividualBusinessList(IPage<IndividualBusinessEnterpriseDetailsVO> page, Long enterpriseId, Long serviceProviderId, Ibstate ibstate, IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto);
 
     /**
      * 查询个独开票次数，月度开票金额，年度开票金额和总开票金额
@@ -144,5 +137,13 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
      * @return
      */
     R<IPage<EnterpriseReportsVO>> queryEnterpriseReports(Query query, Long individualEnterpriseId);
+
+    /**
+     * 注销个独
+     *
+     * @param individualEnterpriseId
+     * @return
+     */
+    R<String> cancell(Long individualEnterpriseId);
 }
 

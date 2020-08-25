@@ -4,13 +4,18 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.common.secure.BladeUser;
+import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDto;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDto;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
+import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
+import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.service.IIndividualEnterpriseService;
+import com.lgyun.system.user.service.IServiceProviderWorkerService;
+import com.lgyun.system.user.wrapper.IndividualEnterpriseWrapper;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +23,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -36,6 +42,7 @@ public class IndividualEnterpriseWebController {
 
 	private IIndividualEnterpriseService individualEnterpriseService;
 	private IEnterpriseWorkerService enterpriseWorkerService;
+	private IServiceProviderWorkerService serviceProviderWorkerService;
 
 	@GetMapping("/get_by_dto_enterprise")
 	@ApiOperation(value = "查询当前商户的所有关联创客的所有个独", notes = "查询当前商户的所有关联创客的所有个独")
@@ -56,7 +63,7 @@ public class IndividualEnterpriseWebController {
 			}
 			EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-			return individualEnterpriseService.getByDtoEnterprise(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), ibstate, individualBusinessEnterpriseDto);
+			return individualEnterpriseService.getIndividualBusinessList(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), null, ibstate, individualBusinessEnterpriseDto);
 		} catch (Exception e) {
 			log.error("查询当前商户的所有关联创客的所有个独异常", e);
 		}
@@ -119,6 +126,87 @@ public class IndividualEnterpriseWebController {
 		} catch (Exception e) {
 			log.error("查询个独年审信息异常", e);
 		}
+		return R.fail("查询失败");
+	}
+
+	@GetMapping("/get_list_by_service_provider_id")
+	@ApiOperation(value = "查询当前服务商关联的所有个独", notes = "查询当前服务商关联的所有个独")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "individualBusinessEnterpriseId", value = "个独编号", paramType = "query", dataType = "long"),
+			@ApiImplicitParam(name = "ibname", value = "个独名称", paramType = "query", dataType = "string"),
+			@ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
+			@ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
+	})
+	public R getListByServiceProviderId(@ApiParam(value = "个独状态") @NotNull(message = "请选择个独状态") @RequestParam(required = false) Ibstate ibstate, IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto, Query query, BladeUser bladeUser) {
+
+		log.info("查询当前服务商关联的所有个独");
+		try {
+			//获取当前服务商员工
+			R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+			if (!(result.isSuccess())) {
+				return result;
+			}
+			ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+			return individualEnterpriseService.getIndividualBusinessList(Condition.getPage(query.setDescs("create_time")), null, serviceProviderWorkerEntity.getServiceProviderId(), ibstate, individualBusinessEnterpriseDto);
+		} catch (Exception e) {
+			log.error("查询当前服务商关联的所有个独异常", e);
+		}
+		return R.fail("查询失败");
+	}
+
+	@PostMapping("/cancell")
+	@ApiOperation(value = "注销个独", notes = "注销个独")
+	public R cancell(@ApiParam(value = "个独ID") @NotNull(message = "请选择要注销的个独") @RequestParam(required = false) Long individualEnterpriseId) {
+
+		log.info("注销个独");
+		try {
+			return individualEnterpriseService.cancell(individualEnterpriseId);
+		} catch (Exception e) {
+			log.error("注销个独异常", e);
+		}
+		return R.fail("注销失败");
+	}
+	
+	@PostMapping("/remove")
+	@ApiOperation(value = "个独逻辑删除", notes = "个独逻辑删除")
+	public R remove(@ApiParam(value = "个独ID集合") @NotBlank(message = "请选择要删除的个独") @RequestParam(required = false) String ids) {
+
+		log.info("个独逻辑删除");
+		try {
+			return R.status(individualEnterpriseService.removeByIds(Func.toLongList(ids)));
+		} catch (Exception e) {
+			log.error("个独逻辑删除异常", e);
+		}
+		return R.fail("删除失败");
+	}
+
+	@GetMapping("/detail")
+	@ApiOperation(value = "获取个独详情", notes = "获取个独详情")
+	public R detail(@ApiParam(value = "个独ID") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
+
+		log.info("获取个独详情");
+		try {
+			IndividualEnterpriseEntity individualEnterpriseEntity = individualEnterpriseService.getById(individualEnterpriseId);
+			return R.data(IndividualEnterpriseWrapper.build().entityVO(individualEnterpriseEntity));
+		} catch (Exception e) {
+			log.error("获取个独详情异常", e);
+		}
+
+		return R.fail("查询失败");
+	}
+
+	@PostMapping("/update")
+	@ApiOperation(value = "修改个独信息", notes = "修改个独信息")
+	public R update(@Valid @RequestBody IndividualEnterpriseEntity individualEnterprise) {
+
+		log.info("修改个独信息");
+		try {
+			return R.status(individualEnterpriseService.updateById(individualEnterprise));
+		} catch (Exception e) {
+			log.error("修改个独信息异常", e);
+		}
+
 		return R.fail("查询失败");
 	}
 

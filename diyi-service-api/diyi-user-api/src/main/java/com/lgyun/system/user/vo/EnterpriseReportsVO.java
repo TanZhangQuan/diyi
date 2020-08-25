@@ -77,4 +77,5 @@ public class EnterpriseReportsVO implements Serializable {
      * 申报相关政府机关名称
      */
     private String reportGuardName;
+
 }

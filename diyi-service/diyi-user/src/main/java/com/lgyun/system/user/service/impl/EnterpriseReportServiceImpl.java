@@ -61,4 +61,9 @@ public class EnterpriseReportServiceImpl extends BaseServiceImpl<EnterpriseRepor
 
         return R.data(pageVo);
     }
+
+    @Override
+    public String findReportResultFiles(BodyType mainBodyType, Long mainBodyId) {
+        return baseMapper.findReportResultFiles(mainBodyType, mainBodyId);
+    }
 }

@@ -136,5 +136,12 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
      */
     R<IPage<EnterpriseReportsVO>> queryEnterpriseReports(Query query, Long individualBusinessId);
 
+    /**
+     * 注销个体户
+     *
+     * @param individualBusinessId
+     * @return
+     */
+    R<String> cancell(Long individualBusinessId);
 }
 

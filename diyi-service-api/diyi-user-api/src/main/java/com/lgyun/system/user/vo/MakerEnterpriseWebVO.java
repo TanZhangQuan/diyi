@@ -16,15 +16,44 @@ import java.io.Serializable;
 @ApiModel(value = "MakerEnterpriseWebVO对象", description = "MakerEnterpriseWebVO对象")
 public class MakerEnterpriseWebVO implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 商户id
+     */
     private Long enterpriseId;
+
+    /**
+     * 创客和商户关联的Id
+     */
     private Long makerEnterpriseId;
+
+    /**
+     * 创客id
+     */
     private Long makerId;
+
+    /**
+     * 认证状态
+     */
     private CertificationState certificationState;
+
     /**
      * 协议状态
      */
     private CertificationState protocolAuthentication = CertificationState.UNCERTIFIED;
+
+    /**
+     * 授权协议
+     */
     private SignState empowerSignState;
+
+    /**
+     * 加盟协议
+     */
     private SignState joinSignState;
+
+    /**
+     *
+     */
     private String name;
 }

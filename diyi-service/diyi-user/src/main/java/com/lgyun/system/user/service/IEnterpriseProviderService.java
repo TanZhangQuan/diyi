@@ -40,9 +40,10 @@ public interface IEnterpriseProviderService extends BaseService<EnterpriseProvid
      *
      * @param page
      * @param serviceProviderId
+     * @param keyword
      * @return
      */
-    R<IPage<EnterprisesVO>> getEnterpriseByServiceProvider(IPage<EnterprisesVO> page, Long serviceProviderId);
+    R<IPage<EnterprisesVO>> getEnterpriseByServiceProvider(IPage<EnterprisesVO> page, Long serviceProviderId, String keyword);
 
     /**
      * 获取当前商户合作服务商
