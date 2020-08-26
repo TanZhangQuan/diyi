@@ -1,9 +1,9 @@
 package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.lgyun.common.enumeration.AuditState;
 import com.lgyun.common.enumeration.EnterprisePayState;
 import com.lgyun.common.enumeration.InvoiceState;
+import com.lgyun.common.enumeration.PayEnterpriseAuditState;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -100,7 +100,7 @@ public class PayEnterpriseEntity extends BaseEntity {
     /**
      * 审核状态
      */
-    private AuditState auditState = AuditState.EDITING;
+    private PayEnterpriseAuditState auditState = PayEnterpriseAuditState.EDITING;
 
     /**
      * 支付给平台状态：待支付，已支付，已确认收款

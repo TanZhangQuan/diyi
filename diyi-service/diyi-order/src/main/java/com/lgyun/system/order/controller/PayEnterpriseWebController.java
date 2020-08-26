@@ -111,6 +111,26 @@ public class PayEnterpriseWebController {
         return R.fail("上传失败");
     }
 
+    @PostMapping("/submit")
+    @ApiOperation(value = "提交支付清单", notes = "提交支付清单")
+    public R submit(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
+
+        log.info("提交支付清单");
+        try {
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())){
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return payEnterpriseService.submit(payEnterpriseId, enterpriseWorkerEntity.getEnterpriseId());
+        } catch (Exception e) {
+            log.error("提交支付清单异常", e);
+        }
+        return R.fail("提交失败");
+    }
+
     @GetMapping("/get_pay_enterprises_by_enterprise")
     @ApiOperation(value = "查询当前商户所有总包支付清单", notes = "查询当前商户所有总包支付清单")
     @ApiImplicitParams({

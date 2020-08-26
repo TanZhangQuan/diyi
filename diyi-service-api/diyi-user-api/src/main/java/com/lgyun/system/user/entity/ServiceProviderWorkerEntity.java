@@ -92,4 +92,9 @@ public class ServiceProviderWorkerEntity extends BaseEntity {
      */
     private Boolean superAdmin;
 
+    /**
+     * 拥有的菜单名字
+     */
+    private String menus;
+
 }

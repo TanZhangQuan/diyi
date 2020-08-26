@@ -32,7 +32,7 @@ public class PayMakerListVO implements Serializable {
     private BigDecimal makerNetIncome;
 
     //综合税+费
-    private BigDecimal makerNeIncome;
+    private BigDecimal makerTaxFee;
 
     //首次身份验证费
     private BigDecimal auditFee;

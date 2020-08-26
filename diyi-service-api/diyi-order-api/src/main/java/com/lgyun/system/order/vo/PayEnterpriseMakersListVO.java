@@ -3,7 +3,7 @@ package com.lgyun.system.order.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.lgyun.common.enumeration.AuditState;
+import com.lgyun.common.enumeration.PayEnterpriseAuditState;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -51,7 +51,7 @@ public class PayEnterpriseMakersListVO implements Serializable {
     private String makerPayReceiptUrls;
 
     //审核状态
-    private AuditState auditState;
+    private PayEnterpriseAuditState auditState;
 
     //创建时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

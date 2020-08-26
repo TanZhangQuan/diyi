@@ -59,6 +59,15 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R<String> upload(PayEnterpriseUploadDto payEnterpriseUploadDto, Long enterpriseId);
 
     /**
+     * 提交支付清单
+     *
+     * @param payEnterpriseId
+     * @param enterpriseId
+     * @return
+     */
+    R<String> submit(Long payEnterpriseId, Long enterpriseId);
+
+    /**
      * 根据条件查询所有总包支付清单
      *
      * @param enterpriseId
@@ -161,5 +170,6 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @return
      */
     R<IPage<PayMakerListVO>> getPayMakerListByPayEnterpriseId(Long payEnterpriseId, IPage<PayMakerListVO> page);
+
 }
 

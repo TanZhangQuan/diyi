@@ -1,10 +1,10 @@
 package com.lgyun.system.order.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.ApplicationState;
-import com.lgyun.common.enumeration.WorkSheetType;
-import com.lgyun.common.enumeration.WorksheetState;
+import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.KdniaoTrackQueryUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Condition;
@@ -74,7 +74,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
         //判断服务商和商户是否关联
         EnterpriseProviderEntity enterpriseProviderEntity = userClient.findByEnterpriseIdServiceProviderId(enterpriseId, payEnterpriseUploadDto.getServiceProviderId());
-        if (enterpriseProviderEntity == null){
+        if (enterpriseProviderEntity == null) {
             return R.fail("服务商和商户未关联");
         }
 
@@ -122,6 +122,34 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
+    public R<String> submit(Long payEnterpriseId, Long enterpriseId) {
+
+        PayEnterpriseEntity payEnterpriseEntity = getById(payEnterpriseId);
+        if (payEnterpriseEntity == null) {
+            return R.fail("总包支付不存在");
+        }
+
+        if (!(payEnterpriseEntity.getEnterpriseId().equals(enterpriseId))) {
+            return R.fail("总包支付不属于当前商户");
+        }
+
+        QueryWrapper<PayEnterpriseReceiptEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(PayEnterpriseReceiptEntity::getPayEnterpriseId, payEnterpriseId);
+
+        //查询是否上传支付回单
+        int PayEnterpriseReceipts = payEnterpriseReceiptService.count(Wrappers.<PayEnterpriseReceiptEntity>query().lambda().eq(PayEnterpriseReceiptEntity::getPayEnterpriseId, payEnterpriseId));
+        if (PayEnterpriseReceipts > 0) {
+            return R.fail("请上传支付回单");
+        }
+
+        payEnterpriseEntity.setAuditState(PayEnterpriseAuditState.SUBMITED);
+        payEnterpriseEntity.setPayState(EnterprisePayState.PAYED);
+        updateById(payEnterpriseEntity);
+
+        return R.success("提交成功");
+    }
+
+    @Override
     public R<IPage<PayEnterpriseMakersListVO>> getPayEnterprises(Long enterpriseId, Long serviceProviderId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page) {
 
         if (payEnterpriseMakerListDto.getBeginDate() != null && payEnterpriseMakerListDto.getEndDate() != null) {
@@ -154,10 +182,10 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R findEnterpriseLumpSumInvoice(String invoiceSerialNo,String serviceProviderName,String startTime,String endTime,Long enterpriseId, IPage<EnterpriseLumpSumInvoiceVO> page) {
+    public R findEnterpriseLumpSumInvoice(String invoiceSerialNo, String serviceProviderName, String startTime, String endTime, Long enterpriseId, IPage<EnterpriseLumpSumInvoiceVO> page) {
         IPage<EnterpriseLumpSumInvoiceVO> enterpriseLumpSumInvoiceVOIPage = page.setRecords(baseMapper.findEnterpriseLumpSumInvoice(invoiceSerialNo, serviceProviderName, startTime, endTime, enterpriseId, page));
         List<EnterpriseLumpSumInvoiceVO> records = enterpriseLumpSumInvoiceVOIPage.getRecords();
-        for (EnterpriseLumpSumInvoiceVO enterpriseLumpSumInvoiceVO: records) {
+        for (EnterpriseLumpSumInvoiceVO enterpriseLumpSumInvoiceVO : records) {
             String enterprisePayReceiptUrl = payEnterpriseReceiptService.findEnterprisePayReceiptUrl(enterpriseLumpSumInvoiceVO.getPayEnterpriseId());
             enterpriseLumpSumInvoiceVO.setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
         }
@@ -167,7 +195,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     @Override
     public R withdraw(Long applicationId) {
         InvoiceApplicationEntity invoiceApplicationEntity = invoiceApplicationService.getById(applicationId);
-        if(null == invoiceApplicationEntity){
+        if (null == invoiceApplicationEntity) {
             return R.fail("申请不存在");
         }
         invoiceApplicationEntity.setApplicationState(ApplicationState.CANCELLED);
@@ -179,24 +207,24 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     public R findPayEnterpriseDetails(Long payEnterpriseId) {
         EnterpriseLumpSumInvoiceVO payEnterpriseDetails = baseMapper.findPayEnterpriseDetails(payEnterpriseId);
         String enterprisePayReceiptUrl = payEnterpriseReceiptService.findEnterprisePayReceiptUrl(payEnterpriseId);
-        if(null != enterprisePayReceiptUrl){
+        if (null != enterprisePayReceiptUrl) {
             payEnterpriseDetails.setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
         }
         KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
-        try{
+        try {
             String orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(payEnterpriseDetails.getExpressCompanyName(), payEnterpriseDetails.getExpressSheetNo());
             payEnterpriseDetails.setKOrderTracesByJson(orderTracesByJson);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.info("快鸟接口访问失败");
         }
         return R.data(payEnterpriseDetails);
     }
 
     @Override
-    public R findEnterprisePaymentList(Long enterpriseId,String serviceProviderName,IPage<EnterprisePaymentListVO> page) {
+    public R findEnterprisePaymentList(Long enterpriseId, String serviceProviderName, IPage<EnterprisePaymentListVO> page) {
         IPage<EnterprisePaymentListVO> enterprisePaymentListVOIPage = page.setRecords(baseMapper.findEnterprisePaymentList(enterpriseId, serviceProviderName, page));
         List<EnterprisePaymentListVO> records = enterprisePaymentListVOIPage.getRecords();
-        for (EnterprisePaymentListVO enterprisePaymentListVO: records) {
+        for (EnterprisePaymentListVO enterprisePaymentListVO : records) {
             String enterprisePayReceiptUrl = payEnterpriseReceiptService.findEnterprisePayReceiptUrl(enterprisePaymentListVO.getPayEnterpriseId());
             enterprisePaymentListVO.setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
         }
@@ -205,29 +233,29 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
     @Override
     public R findEnterpriseSubcontractSummary(Long enterpriseId, String serviceProviderName, IPage<EnterpriseSubcontractInvoiceVO> page) {
-        return R.data(page.setRecords(baseMapper.findEnterpriseSubcontractSummary(enterpriseId,serviceProviderName,page)));
+        return R.data(page.setRecords(baseMapper.findEnterpriseSubcontractSummary(enterpriseId, serviceProviderName, page)));
     }
 
     @Override
     public R findEnterpriseSubcontractPortal(Long enterpriseId, String serviceProviderName, IPage<EnterpriseSubcontractPortalVO> page) {
-        return R.data(page.setRecords(baseMapper.findEnterpriseSubcontractPortal(enterpriseId,serviceProviderName,page)));
+        return R.data(page.setRecords(baseMapper.findEnterpriseSubcontractPortal(enterpriseId, serviceProviderName, page)));
     }
 
     @Override
     public R findDetailSummary(Long makerTotalInvoiceId) {
         Map map = new HashMap();
         EnterpriseSubcontractInvoiceVO detailSummary = baseMapper.findDetailSummary(makerTotalInvoiceId);
-        map.put("enterpriseSubcontractInvoiceVO",detailSummary);
+        map.put("enterpriseSubcontractInvoiceVO", detailSummary);
         PayEnterpriseEntity byId = getById(detailSummary.getPayEnterpriseId());
-        if(null == byId){
+        if (null == byId) {
             R.fail("数据错误");
         }
         Long worksheetId = byId.getWorksheetId();
-        if(null != worksheetId){
+        if (null != worksheetId) {
             List<WorksheetMakerDetailsVO> worksheetMakerDetails = worksheetMakerService.getWorksheetMakerDetails(worksheetId);
-            map.put("worksheetMakerDetails",worksheetMakerDetails);
-        }else {
-            map.put("makers","");
+            map.put("worksheetMakerDetails", worksheetMakerDetails);
+        } else {
+            map.put("makers", "");
         }
         return R.data(map);
     }
@@ -236,17 +264,17 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     public R findDetailSubcontractPortal(Long makerInvoiceId) {
         Map map = new HashMap();
         EnterpriseSubcontractPortalVO detailSummary = baseMapper.findDetailSubcontractPortal(makerInvoiceId);
-        map.put("EnterpriseSubcontractPortalVO",detailSummary);
+        map.put("EnterpriseSubcontractPortalVO", detailSummary);
         PayEnterpriseEntity byId = getById(detailSummary.getPayEnterpriseId());
-        if(null == byId){
+        if (null == byId) {
             R.fail("数据错误");
         }
         Long worksheetId = byId.getWorksheetId();
-        if(null != worksheetId){
+        if (null != worksheetId) {
             List<WorksheetMakerDetailsVO> worksheetMakerDetails = worksheetMakerService.getWorksheetMakerDetails(worksheetId);
-            map.put("worksheetMakerDetails",worksheetMakerDetails);
-        }else {
-            map.put("makers","");
+            map.put("worksheetMakerDetails", worksheetMakerDetails);
+        } else {
+            map.put("makers", "");
         }
         return R.data(map);
     }
