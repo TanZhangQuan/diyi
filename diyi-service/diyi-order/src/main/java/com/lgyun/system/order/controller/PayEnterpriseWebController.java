@@ -1,6 +1,7 @@
 package com.lgyun.system.order.controller;
 
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.PayEnterpriseAuditState;
 import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
@@ -56,7 +57,7 @@ public class PayEnterpriseWebController {
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
@@ -79,7 +80,7 @@ public class PayEnterpriseWebController {
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
@@ -88,6 +89,7 @@ public class PayEnterpriseWebController {
         } catch (Exception e) {
             log.error("获取当前商户关联服务商异常", e);
         }
+
         return R.fail("查询失败");
     }
 
@@ -99,7 +101,7 @@ public class PayEnterpriseWebController {
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
@@ -119,7 +121,7 @@ public class PayEnterpriseWebController {
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
@@ -145,7 +147,7 @@ public class PayEnterpriseWebController {
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
@@ -205,7 +207,7 @@ public class PayEnterpriseWebController {
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
@@ -256,7 +258,7 @@ public class PayEnterpriseWebController {
         try {
             //获取当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
@@ -282,7 +284,7 @@ public class PayEnterpriseWebController {
         try {
             //获取当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
@@ -292,6 +294,26 @@ public class PayEnterpriseWebController {
             log.error("查询当前服务商所有分包支付清单异常", e);
         }
         return R.fail("查询失败");
+    }
+
+    @PostMapping("/audit")
+    @ApiOperation(value = "支付清单审核", notes = "支付清单审核")
+    public R audit(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, @ApiParam(value = "支付清单审核状态") @NotNull(message = "请选择支付清单审核状态") @RequestParam(required = false) PayEnterpriseAuditState auditState, BladeUser bladeUser) {
+
+        log.info("支付清单审核");
+        try {
+            //获取当前服务商员工
+            R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+            return payEnterpriseService.audit(payEnterpriseId, serviceProviderWorkerEntity.getServiceProviderId(), auditState);
+        } catch (Exception e) {
+            log.error("支付清单审核异常", e);
+        }
+        return R.fail("审核失败");
     }
 
 }

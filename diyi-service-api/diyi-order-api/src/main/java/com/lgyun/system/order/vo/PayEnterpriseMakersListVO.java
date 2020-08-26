@@ -3,6 +3,8 @@ package com.lgyun.system.order.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.EnterprisePayState;
+import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.common.enumeration.PayEnterpriseAuditState;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
@@ -50,8 +52,14 @@ public class PayEnterpriseMakersListVO implements Serializable {
     //分包支付回单图片URL地址(多张逗号隔开)
     private String makerPayReceiptUrls;
 
+    //支付状态
+    private EnterprisePayState payState;
+
     //审核状态
     private PayEnterpriseAuditState auditState;
+
+    //开票状态
+    private InvoiceState companyInvoiceState;
 
     //创建时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

@@ -2,6 +2,7 @@ package com.lgyun.system.order.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.PayEnterpriseAuditState;
 import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.core.mp.support.Query;
@@ -170,6 +171,16 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @return
      */
     R<IPage<PayMakerListVO>> getPayMakerListByPayEnterpriseId(Long payEnterpriseId, IPage<PayMakerListVO> page);
+
+    /**
+     * 支付清单审核
+     *
+     * @param payEnterpriseId
+     * @param serviceProviderId
+     * @param auditState
+     * @return
+     */
+    R<String> audit(Long payEnterpriseId, Long serviceProviderId, PayEnterpriseAuditState auditState);
 
 }
 

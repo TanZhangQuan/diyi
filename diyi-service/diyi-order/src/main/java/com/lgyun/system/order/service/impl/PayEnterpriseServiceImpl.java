@@ -1,6 +1,5 @@
 package com.lgyun.system.order.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
@@ -133,8 +132,13 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             return R.fail("总包支付不属于当前商户");
         }
 
-        QueryWrapper<PayEnterpriseReceiptEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(PayEnterpriseReceiptEntity::getPayEnterpriseId, payEnterpriseId);
+        if (!(EnterprisePayState.TOPAY.equals(payEnterpriseEntity.getPayState())) && !(EnterprisePayState.PAYED.equals(payEnterpriseEntity.getPayState()))) {
+            return R.fail("支付清单支付状态有误");
+        }
+
+        if (!(PayEnterpriseAuditState.EDITING.equals(payEnterpriseEntity.getAuditState())) && !(PayEnterpriseAuditState.REJECTED.equals(payEnterpriseEntity.getAuditState()))) {
+            return R.fail("支付清单审核状态有误");
+        }
 
         //查询是否上传支付回单
         int PayEnterpriseReceipts = payEnterpriseReceiptService.count(Wrappers.<PayEnterpriseReceiptEntity>query().lambda().eq(PayEnterpriseReceiptEntity::getPayEnterpriseId, payEnterpriseId));
@@ -282,6 +286,39 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     @Override
     public R<IPage<PayMakerListVO>> getPayMakerListByPayEnterpriseId(Long payEnterpriseId, IPage<PayMakerListVO> page) {
         return R.data(page.setRecords(baseMapper.getPayMakerListByPayEnterpriseId(payEnterpriseId, page)));
+    }
+
+    @Override
+    public R<String> audit(Long payEnterpriseId, Long serviceProviderId, PayEnterpriseAuditState auditState) {
+
+        PayEnterpriseEntity payEnterpriseEntity = getById(payEnterpriseId);
+        if (payEnterpriseEntity == null) {
+            return R.fail("总包支付不存在");
+        }
+
+        if (!(payEnterpriseEntity.getServiceProviderId().equals(serviceProviderId))) {
+            return R.fail("总包支付不属于当前服务商");
+        }
+
+        if (!(EnterprisePayState.PAYED.equals(payEnterpriseEntity.getPayState()))) {
+            return R.fail("支付清单支付状态有误");
+        }
+
+        if (!(PayEnterpriseAuditState.SUBMITED.equals(payEnterpriseEntity.getAuditState()))) {
+            return R.fail("支付清单审核状态有误");
+        }
+
+        if (!(PayEnterpriseAuditState.APPROVED.equals(auditState)) && !(PayEnterpriseAuditState.REJECTED.equals(auditState))) {
+            return R.fail("审核状态有误");
+        }
+
+        payEnterpriseEntity.setAuditState(auditState);
+        if (PayEnterpriseAuditState.APPROVED.equals(auditState)) {
+            payEnterpriseEntity.setPayState(EnterprisePayState.CONFIRMPAY);
+        }
+        updateById(payEnterpriseEntity);
+
+        return R.success("审核成功");
     }
 
 }
