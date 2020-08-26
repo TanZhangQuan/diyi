@@ -122,7 +122,7 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
 
 
     /**
-     *  统一社会信用代码查询个独
+     * 统一社会信用代码查询个独
      *
      * @param ibtaxNo
      * @return
@@ -139,11 +139,14 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
     R<IPage<EnterpriseReportsVO>> queryEnterpriseReports(Query query, Long individualEnterpriseId);
 
     /**
-     * 注销个独
+     * 修改个独状态
      *
+     * @param serviceProviderId
      * @param individualEnterpriseId
+     * @param ibstate
      * @return
      */
-    R<String> cancell(Long individualEnterpriseId);
+    R<String> updateIbstate(Long serviceProviderId, Long individualEnterpriseId, Ibstate ibstate);
+
 }
 

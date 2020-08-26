@@ -35,10 +35,10 @@ public class AgreementEntity extends BaseEntity {
     private SignType signType;
 
     /**
-     *单方授权函审核状态 1，编辑中；2，已驳回；3，已审核通过
+     * 单方授权函审核状态 1，编辑中；2，已驳回；3，已审核通过
      */
     private AuditState auditState = AuditState.EDITING;
-    
+
     /**
      * 0签署中 1已完毕
      */

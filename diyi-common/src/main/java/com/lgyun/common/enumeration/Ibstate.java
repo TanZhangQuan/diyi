@@ -9,7 +9,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum Ibstate {
-    REGISTERING("REGISTERING", "注册中"),
+    BUSINESSREGISTERING("BUSINESSREGISTERING", "工商注册中"),
+    BANKACCOUNTING("BANKACCOUNTING", "银行开户中"),
     TAXREGISTERING("TAXREGISTERING", "税务登记中"),
     OPERATING("OPERATING", "运营中"),
     CANCELLED("CANCELLED", "已注销");

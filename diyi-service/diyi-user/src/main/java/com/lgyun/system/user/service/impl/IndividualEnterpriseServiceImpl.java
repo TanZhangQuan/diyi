@@ -145,10 +145,10 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
 
         //判断税种
         if (BizType.TAXPAYER.equals(individualBusinessEnterpriseWebAddDto.getBizType())) {
-            return R.fail("个体户税种不存在一般纳税人");
+            return R.fail("个独税种不存在一般纳税人");
         }
 
-        //新建个体户
+        //新建个独
         IndividualEnterpriseEntity individualEnterpriseEntity = new IndividualEnterpriseEntity();
         individualEnterpriseEntity.setCandidatedNames(individualBusinessEnterpriseWebAddDto.getCandidatedNames());
         individualEnterpriseEntity.setMainIndustry(individualBusinessEnterpriseWebAddDto.getMainIndustry());
@@ -184,18 +184,21 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
     }
 
     @Override
-    public R<String> cancell(Long individualEnterpriseId) {
+    public R<String> updateIbstate(Long serviceProviderId, Long individualEnterpriseId, Ibstate ibstate) {
+
         IndividualEnterpriseEntity individualEnterpriseEntity = getById(individualEnterpriseId);
-        if (individualEnterpriseEntity == null){
-            return R.fail("个体户不存在");
+        if (individualEnterpriseEntity == null) {
+            return R.fail("个独不存在");
         }
 
-        if (!(Ibstate.CANCELLED.equals(individualEnterpriseEntity.getIbstate()))) {
-            individualEnterpriseEntity.setIbstate(Ibstate.CANCELLED);
-            updateById(individualEnterpriseEntity);
+        if (!(serviceProviderId.equals(individualEnterpriseEntity.getServiceProviderId()))) {
+            return R.fail("个独不属于当前服务商");
         }
 
-        return R.success("注销成功");
+        individualEnterpriseEntity.setIbstate(ibstate);
+        updateById(individualEnterpriseEntity);
+
+        return R.success("操作成功");
     }
 
 }

@@ -137,11 +137,13 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
     R<IPage<EnterpriseReportsVO>> queryEnterpriseReports(Query query, Long individualBusinessId);
 
     /**
-     * 注销个体户
+     * 修改个体户状态
      *
+     * @param serviceProviderId
      * @param individualBusinessId
+     * @param ibstate
      * @return
      */
-    R<String> cancell(Long individualBusinessId);
+    R<String> updateIbstate(Long serviceProviderId, Long individualBusinessId, Ibstate ibstate);
 }
 

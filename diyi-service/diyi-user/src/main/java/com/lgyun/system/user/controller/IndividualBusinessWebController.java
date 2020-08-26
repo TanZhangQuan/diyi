@@ -58,7 +58,7 @@ public class IndividualBusinessWebController {
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
@@ -104,7 +104,7 @@ public class IndividualBusinessWebController {
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
@@ -155,19 +155,6 @@ public class IndividualBusinessWebController {
         return R.fail("查询失败");
     }
 
-    @PostMapping("/cancell")
-    @ApiOperation(value = "注销个体户", notes = "注销个体户")
-    public R cancell(@ApiParam(value = "个体户ID") @NotNull(message = "请选择要注销的个体户") @RequestParam(required = false) Long individualBusinessId) {
-
-        log.info("注销个体户");
-        try {
-            return individualBusinessService.cancell(individualBusinessId);
-        } catch (Exception e) {
-            log.error("注销个体户异常", e);
-        }
-        return R.fail("注销失败");
-    }
-
     @PostMapping("/remove")
     @ApiOperation(value = "个体户逻辑删除", notes = "个体户逻辑删除")
     public R remove(@ApiParam(value = "个体户ID集合") @NotBlank(message = "请选择要删除的个体户") @RequestParam(required = false) String ids) {
@@ -204,6 +191,27 @@ public class IndividualBusinessWebController {
             return R.status(individualBusinessService.updateById(individualBusiness));
         } catch (Exception e) {
             log.error("修改个体户异常", e);
+        }
+
+        return R.fail("修改失败");
+    }
+
+    @PostMapping("/update_ibstate")
+    @ApiOperation(value = "修改个体户状态", notes = "修改个体户状态")
+    public R updateIbstate(@ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId, @ApiParam(value = "个体户状态") @NotNull(message = "请选择个体户状态") @RequestParam(required = false) Ibstate ibstate, BladeUser bladeUser) {
+
+        log.info("修改个体户状态");
+        try {
+            //获取当前服务商员工
+            R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+            return individualBusinessService.updateIbstate(serviceProviderWorkerEntity.getServiceProviderId(), individualBusinessId, ibstate);
+        } catch (Exception e) {
+            log.error("修改个体户状态异常", e);
         }
 
         return R.fail("修改失败");

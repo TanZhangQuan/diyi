@@ -186,10 +186,15 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
     }
 
     @Override
-    public R<String> cancell(Long individualBusinessId) {
+    public R<String> updateIbstate(Long serviceProviderId, Long individualBusinessId, Ibstate ibstate) {
+
         IndividualBusinessEntity individualBusinessEntity = getById(individualBusinessId);
         if (individualBusinessEntity == null) {
             return R.fail("个体户不存在");
+        }
+
+        if (!(serviceProviderId.equals(individualBusinessEntity.getServiceProviderId()))) {
+            return R.fail("个体户不属于当前服务商");
         }
 
         if (!(Ibstate.CANCELLED.equals(individualBusinessEntity.getIbstate()))) {
@@ -197,7 +202,7 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
             updateById(individualBusinessEntity);
         }
 
-        return R.success("注销成功");
+        return R.success("操作成功");
     }
 
 }
