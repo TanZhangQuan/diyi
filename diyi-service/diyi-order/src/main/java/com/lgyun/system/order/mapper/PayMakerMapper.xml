@@ -31,6 +31,8 @@
         </if>
         <if test="param2 != null">
             AND t1.service_provider_id = #{param2}
+            AND t1.pay_state <![CDATA[ <> ]]> 'TOPAY'
+            AND t1.audit_state <![CDATA[ <> ]]> 'EDITING'
         </if>
         <if test="param3.payEnterpriseMakerId != null">
             AND t5.id = #{param3.payEnterpriseMakerId}
