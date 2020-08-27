@@ -78,7 +78,7 @@
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="listFile" column="list_file"/>
         <result property="invoicePeopleType" column="invoice_people_type"/>
-        <result property="chargeMoneyNum" column="charge_money_num"/>
+        <result property="chargeMoneyNum" column="total_pay_provider_fee"/>
         <result property="invoicePeopleName" column="invoice_people_name"/>
         <result property="flowContractUrl" column="flow_contract_url"/>
         <result property="businessContractUrl" column="business_contract_url"/>
@@ -140,7 +140,9 @@
     </select>
 
     <select id="findMakerTypeSelfHelpInvoice" resultMap="selfHelpInvoiceWebVO">
-        SELECT zs.id AS self_help_invoice_id, rc.id AS enterprise_id, sd.id AS self_help_invoice_detail_id, a.id AS address_id, sp.id AS invoice_person_id, hf.id AS self_help_invoice_fee_id, rc.enterprise_name, sd.invoice_type, sd.charge_money_num, sd.invoice_people_name, sp.id_card_pic, sp.id_card_pic_back, sd.flow_contract_url, sd.business_contract_url, zs.current_state, zs.confirm_price_datetime FROM diyi_self_help_invoice zs
+        SELECT zs.id AS self_help_invoice_id, rc.id AS enterprise_id, sd.id AS self_help_invoice_detail_id, a.id AS address_id, sp.id AS invoice_person_id,
+        hf.id AS self_help_invoice_fee_id, rc.enterprise_name, sd.invoice_type, sd.charge_money_num, sd.invoice_people_name, sp.id_card_pic, sp.id_card_pic_back,
+        sd.flow_contract_url, sd.business_contract_url, zs.current_state, zs.confirm_price_datetime FROM diyi_self_help_invoice zs
         INNER JOIN diyi_enterprise rc ON rc.id = zs.enterprise_id
         INNER JOIN diyi_self_help_invoice_detail sd ON sd.self_help_invoice_id = zs.id
         INNER JOIN diyi_address a ON a.id = zs.address_id
@@ -160,7 +162,7 @@
     </select>
 
     <select id="getSelfHelfInvoiceByEnterpriseId" resultMap="selfHelpInvoicePayVO">
-        SELECT t1.id, t3.enterprise_name, t1.list_file, t1.invoice_people_type, t1.charge_money_num, t2.invoice_people_name, t2.flow_contract_url, t2.business_contract_url,
+        SELECT t1.id, t3.enterprise_name, t1.list_file, t1.invoice_people_type, t1.total_pay_provider_fee, t2.invoice_people_name, t2.flow_contract_url, t2.business_contract_url,
         t2.deliver_sheet_url, t2.account_balance_url, t1.create_time FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_detail t2 ON t1.id = t2.self_help_invoice_id
         INNER JOIN diyi_enterprise t3 ON t1.enterprise_id = t3.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t1.enterprise_id = #{param1}
         <if test="param2.selfHelpInvoiceId != null">
@@ -175,7 +177,14 @@
     </select>
 
     <select id="findEnterpriseCrowdSourcing" resultMap="EnterpriseCrowdSourcingVOMap">
-        SELECT e.id AS enterprise_id, si.id AS self_help_invoice_id, sa.id AS self_help_invoice_apply_id, ss.id AS self_help_invoice_apply_provider_id, ssd.id AS provider_self_help_invoice_id, sd.id AS self_help_invoice_detail_id, sp.id AS service_provider_id, e.enterprise_name, sp.service_provider_name, si.List_file, ssd.invoice_scan_pictures, ssd.tax_scan_pictures, ssd.update_datetime, sd.invoice_print_state,si.express_sheet_no, si.express_company_name FROM diyi_self_help_invoice si INNER JOIN diyi_self_help_invoice_apply sa ON si.id = sa.self_help_invoice_id INNER JOIN diyi_self_help_invoice_detail sd ON sd.self_help_invoice_id = si.id INNER JOIN diyi_self_help_invoice_sp ss ON si.id = ss.self_help_invoice_id INNER JOIN diyi_self_help_invoice_sp_detail ssd ON ssd.self_help_invoice_apply_provider_id = ss.id INNER JOIN diyi_enterprise e ON e.id = si.enterprise_id INNER JOIN diyi_service_provider sp ON sp.id = ss.service_provider_id WHERE si.is_deleted = 0 AND sa.is_deleted = 0 AND sd.is_deleted = 0 AND ss.is_deleted = 0 AND ssd.is_deleted = 0 AND e.is_deleted = 0 and e.id =#{param1}
+        SELECT e.id AS enterprise_id, si.id AS self_help_invoice_id, sa.id AS self_help_invoice_apply_id, ss.id AS self_help_invoice_apply_provider_id,
+        ssd.id AS provider_self_help_invoice_id, sd.id AS self_help_invoice_detail_id, sp.id AS service_provider_id, e.enterprise_name, sp.service_provider_name,
+        si.List_file, ssd.invoice_scan_pictures, ssd.tax_scan_pictures, ssd.update_datetime, sd.invoice_print_state,si.express_sheet_no, si.express_company_name
+        FROM diyi_self_help_invoice si INNER JOIN diyi_self_help_invoice_apply sa ON si.id = sa.self_help_invoice_id INNER JOIN diyi_self_help_invoice_detail sd
+        ON sd.self_help_invoice_id = si.id INNER JOIN diyi_self_help_invoice_sp ss ON si.id = ss.self_help_invoice_id INNER JOIN diyi_self_help_invoice_sp_detail ssd
+        ON ssd.self_help_invoice_apply_provider_id = ss.id INNER JOIN diyi_enterprise e ON e.id = si.enterprise_id INNER JOIN diyi_service_provider sp
+        ON sp.id = ss.service_provider_id WHERE si.is_deleted = 0 AND sa.is_deleted = 0 AND sd.is_deleted = 0 AND ss.is_deleted = 0 AND ssd.is_deleted = 0
+        AND e.is_deleted = 0 and e.id =#{param1}
         <if test="param2 != null and param2 != ''">
             AND sp.service_provider_name like concat('%', #{param2}, '%')
         </if>
@@ -183,6 +192,13 @@
 
 
     <select id="findDetailCrowdSourcing" resultMap="EnterpriseCrowdSourcingVOMap">
-        SELECT e.id AS enterprise_id, si.id AS self_help_invoice_id, sa.id AS self_help_invoice_apply_id, ss.id AS self_help_invoice_apply_provider_id, ssd.id AS provider_self_help_invoice_id, sd.id AS self_help_invoice_detail_id, sp.id AS service_provider_id, e.enterprise_name, sp.service_provider_name, si.List_file, ssd.invoice_scan_pictures, ssd.tax_scan_pictures, ssd.update_datetime, sd.invoice_print_state, si.express_sheet_no, si.express_company_name FROM diyi_self_help_invoice si INNER JOIN diyi_self_help_invoice_apply sa ON si.id = sa.self_help_invoice_id INNER JOIN diyi_self_help_invoice_detail sd ON sd.self_help_invoice_id = si.id INNER JOIN diyi_self_help_invoice_sp ss ON si.id = ss.self_help_invoice_id INNER JOIN diyi_self_help_invoice_sp_detail ssd ON ssd.self_help_invoice_apply_provider_id = ss.id INNER JOIN diyi_enterprise e ON e.id = si.enterprise_id INNER JOIN diyi_service_provider sp ON sp.id = ss.service_provider_id WHERE si.is_deleted = 0 AND sa.is_deleted = 0 AND sd.is_deleted = 0 AND ss.is_deleted = 0 AND ssd.is_deleted = 0 AND e.is_deleted = 0 and si.id =#{param1}
+        SELECT e.id AS enterprise_id, si.id AS self_help_invoice_id, sa.id AS self_help_invoice_apply_id, ss.id AS self_help_invoice_apply_provider_id,
+        ssd.id AS provider_self_help_invoice_id, sd.id AS self_help_invoice_detail_id, sp.id AS service_provider_id, e.enterprise_name, sp.service_provider_name,
+        si.List_file, ssd.invoice_scan_pictures, ssd.tax_scan_pictures, ssd.update_datetime, sd.invoice_print_state, si.express_sheet_no, si.express_company_name
+        FROM diyi_self_help_invoice si INNER JOIN diyi_self_help_invoice_apply sa ON si.id = sa.self_help_invoice_id INNER JOIN diyi_self_help_invoice_detail sd
+        ON sd.self_help_invoice_id = si.id INNER JOIN diyi_self_help_invoice_sp ss ON si.id = ss.self_help_invoice_id INNER JOIN diyi_self_help_invoice_sp_detail ssd
+        ON ssd.self_help_invoice_apply_provider_id = ss.id INNER JOIN diyi_enterprise e ON e.id = si.enterprise_id INNER JOIN diyi_service_provider sp
+        ON sp.id = ss.service_provider_id WHERE si.is_deleted = 0 AND sa.is_deleted = 0 AND sd.is_deleted = 0 AND ss.is_deleted = 0 AND ssd.is_deleted = 0
+        AND e.is_deleted = 0 and si.id =#{param1}
     </select>
 </mapper>
