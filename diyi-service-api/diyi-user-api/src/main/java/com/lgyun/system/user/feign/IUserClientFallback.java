@@ -37,7 +37,17 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
+    public MakerEntity makerFindById(Long makerId) {
+        return null;
+    }
+
+    @Override
     public MakerEntity makerFindByPhoneNumber(String phoneNumber) {
+        return null;
+    }
+
+    @Override
+    public MakerEntity makerFindByIdcardNo(String idcardNo) {
         return null;
     }
 
@@ -93,11 +103,6 @@ public class IUserClientFallback implements IUserClient {
 
     @Override
     public EnterpriseEntity getEnterpriseById(Long enterpriseId) {
-        return null;
-    }
-
-    @Override
-    public MakerEntity makerFindById(Long makerId) {
         return null;
     }
 

@@ -621,12 +621,12 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void importMaker(List<MakerExcel> list) {
+    public void importMaker(List<MakerExcel> list, Long enterpriseId) {
         list.forEach(makerExcel -> {
             try {
                 //新建创客
                 makerSave(makerExcel.getPhoneNumber(), makerExcel.getName(), makerExcel.getIdcardNo(), makerExcel.getBankCardNo(),
-                        makerExcel.getBankName(), makerExcel.getBankCardNo(), makerExcel.getEnterpriseId());
+                        makerExcel.getBankName(), makerExcel.getBankCardNo(), enterpriseId);
             } catch (Exception e) {
                 log.error("新建创客异常", e);
             }
@@ -688,9 +688,8 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     @Override
     public MakerEntity enterpriseMakerAdd(MakerAddDto makerAddDto, Long enterpriseId) {
         //新建创客
-        MakerEntity makerEntity = makerSave(makerAddDto.getPhoneNumber(), makerAddDto.getName(), makerAddDto.getIdcardNo(), makerAddDto.getBankCardNo(),
+        return makerSave(makerAddDto.getPhoneNumber(), makerAddDto.getName(), makerAddDto.getIdcardNo(), makerAddDto.getBankCardNo(),
                 makerAddDto.getBankName(), makerAddDto.getBankCardNo(), enterpriseId);
-        return makerEntity;
     }
 
 }

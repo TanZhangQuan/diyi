@@ -3,6 +3,7 @@ package com.lgyun.system.order.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.common.enumeration.EnterprisePayState;
 import com.lgyun.common.enumeration.InvoiceState;
+import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.PayEnterpriseAuditState;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -43,6 +44,11 @@ public class PayEnterpriseEntity extends BaseEntity {
     private String chargeListUrl;
 
     /**
+     * 创客身份，自然人，个体户，个独
+     */
+    private MakerType makerType;
+
+    /**
      * 工单ID
      */
     private Long worksheetId;
@@ -68,7 +74,7 @@ public class PayEnterpriseEntity extends BaseEntity {
     private BigDecimal serviceRate;
 
     /**
-     * '服务外包费总额'
+     * 服务外包费总额
      */
     private BigDecimal sourcingAmount;
 

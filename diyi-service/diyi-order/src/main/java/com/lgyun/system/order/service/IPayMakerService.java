@@ -4,8 +4,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.dto.PayEnterpriseMakerListDto;
+import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.entity.PayMakerEntity;
+import com.lgyun.system.order.excel.PayEnterpriseExcel;
 import com.lgyun.system.order.vo.PayEnterpriseMakersListVO;
+
+import java.util.List;
 
 /**
  *  Service 接口
@@ -25,5 +29,14 @@ public interface IPayMakerService extends BaseService<PayMakerEntity> {
      * @return
      */
     R<IPage<PayEnterpriseMakersListVO>> getPayMakersByEnterprise(Long enterpriseId, Long serviceProviderId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page);
+
+    /**
+     * 上传分包支付清单
+     *
+     * @param list
+     * @param payEnterpriseEntity
+     * @param payReceiptUrl
+     */
+    void importMaker(List<PayEnterpriseExcel> list, PayEnterpriseEntity payEnterpriseEntity, String payReceiptUrl);
 }
 

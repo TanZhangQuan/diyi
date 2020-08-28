@@ -5,7 +5,6 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.dto.IdcardOcrSaveDto;
 import com.lgyun.system.user.dto.UpdatePasswordDto;
 import com.lgyun.system.user.entity.MakerEntity;
-import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.service.IMakerService;
 import com.lgyun.system.user.wrapper.MakerWrapper;
 import io.swagger.annotations.Api;
@@ -35,7 +34,6 @@ import javax.validation.constraints.NotNull;
 public class MakerController {
 
     private IMakerService makerService;
-    private IEnterpriseWorkerService enterpriseWorkerService;
 
     @PostMapping("/idcard_ocr")
     @ApiOperation(value = "身份证实名认证", notes = "身份证实名认证")

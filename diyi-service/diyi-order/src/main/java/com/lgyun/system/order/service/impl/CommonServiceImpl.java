@@ -32,6 +32,7 @@ public class CommonServiceImpl implements ICommonService {
         String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
         // 上传文件中
         String url = ossService.uploadSuffix(file.getBytes(), suffix);
+
         //保存图片url信息
         return R.data(url);
     }
@@ -45,7 +46,7 @@ public class CommonServiceImpl implements ICommonService {
         }
 
         // 获取上传文件的后缀
-        String suffix = file.getOriginalFilename();
+        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
         if ((!StringUtils.endsWithIgnoreCase(suffix, ".xls") && !StringUtils.endsWithIgnoreCase(suffix, ".xlsx"))) {
             return R.fail("请选择Excel文件");
         }
@@ -56,4 +57,5 @@ public class CommonServiceImpl implements ICommonService {
         //保存图片url信息
         return R.data(url);
     }
+
 }

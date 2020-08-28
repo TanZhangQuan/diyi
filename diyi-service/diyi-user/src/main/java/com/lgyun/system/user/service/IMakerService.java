@@ -242,8 +242,9 @@ public interface IMakerService extends IService<MakerEntity> {
      * 导入创客数据
      *
      * @param list
+     * @param enterpriseId
      */
-    void importMaker(List<MakerExcel> list);
+    void importMaker(List<MakerExcel> list, Long enterpriseId);
 
     /**
      * 修改密码

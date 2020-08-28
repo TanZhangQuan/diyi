@@ -95,6 +95,10 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             if (!(WorkSheetType.SUBPACKAGE.equals(worksheetEntity.getWorksheetType()))) {
                 return R.fail("工单类型有误");
             }
+
+            if (!(payEnterpriseUploadDto.getMakerType().equals(worksheetEntity.getMakerType()))) {
+                return R.fail("选择的创客类型与工单创客类型不一致");
+            }
         }
 
         //新建总包支付清单
@@ -102,7 +106,18 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         payEnterpriseEntity.setEnterpriseId(enterpriseId);
         payEnterpriseEntity.setServiceProviderId(payEnterpriseUploadDto.getServiceProviderId());
         payEnterpriseEntity.setChargeListUrl(payEnterpriseUploadDto.getChargeListUrl());
+        payEnterpriseEntity.setMakerType(payEnterpriseUploadDto.getMakerType());
         payEnterpriseEntity.setWorksheetId(payEnterpriseUploadDto.getWorksheetId());
+        payEnterpriseEntity.setPayToPlatformAmount(payEnterpriseUploadDto.getPayToPlatformAmount());
+        payEnterpriseEntity.setTotalTaxFee(payEnterpriseUploadDto.getTotalTaxFee());
+        payEnterpriseEntity.setTotalMakerNetIncome(payEnterpriseUploadDto.getTotalMakerNetIncome());
+        payEnterpriseEntity.setServiceRate(payEnterpriseUploadDto.getServiceRate());
+        payEnterpriseEntity.setSourcingAmount(payEnterpriseUploadDto.getSourcingAmount());
+        payEnterpriseEntity.setEnterpriseBusinessAnnualFee(payEnterpriseUploadDto.getEnterpriseBusinessAnnualFee());
+        payEnterpriseEntity.setIdentifyFee(payEnterpriseUploadDto.getIdentifyFee());
+        payEnterpriseEntity.setServiceFee(payEnterpriseUploadDto.getServiceFee());
+        payEnterpriseEntity.setMakerNum(payEnterpriseUploadDto.getMakerNum());
+        payEnterpriseEntity.setPayMemo(payEnterpriseUploadDto.getPayMemo());
         save(payEnterpriseEntity);
 
         //支付回单拆分
@@ -117,7 +132,6 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         }
 
         return R.success("上传支付清单成功");
-
     }
 
     @Override
@@ -319,6 +333,18 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         updateById(payEnterpriseEntity);
 
         return R.success("审核成功");
+    }
+
+    @Override
+    public R<IPage<PayEnterpriseMakersListVO>> getPayEnterprisesByEnterprisesServiceProvider(Long enterpriseId, Long serviceProviderId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page) {
+
+        if (payEnterpriseMakerListDto.getBeginDate() != null && payEnterpriseMakerListDto.getEndDate() != null) {
+            if (payEnterpriseMakerListDto.getBeginDate().after(payEnterpriseMakerListDto.getEndDate())) {
+                return R.fail("开始时间不能大于结束时间");
+            }
+        }
+
+        return R.data(page.setRecords(baseMapper.getPayEnterprisesByEnterprisesServiceProvider(enterpriseId, serviceProviderId, payEnterpriseMakerListDto, page)));
     }
 
 }

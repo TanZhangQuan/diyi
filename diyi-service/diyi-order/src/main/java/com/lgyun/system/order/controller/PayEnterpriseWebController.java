@@ -270,6 +270,32 @@ public class PayEnterpriseWebController {
         return R.fail("查询失败");
     }
 
+    @GetMapping("/get_pay_enterprises_by_enterprise_service_provider")
+    @ApiOperation(value = "根据当前服务商，商户ID查询总包支付清单", notes = "根据当前服务商，商户ID查询总包支付清单")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "payEnterpriseMakerId", value = "总包支付清单ID", paramType = "query", dataType = "long"),
+            @ApiImplicitParam(name = "enterpriseName", value = "商户名称", paramType = "query", dataType = "string"),
+            @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
+            @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
+    })
+    public R getPayEnterprisesByEnterprisesServiceProvider(@ApiParam(value = "商户ID") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, Query query, BladeUser bladeUser) {
+
+        log.info("根据当前服务商，商户ID查询总包支付清单");
+        try {
+            //获取当前服务商员工
+            R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+            return payEnterpriseService.getPayEnterprisesByEnterprisesServiceProvider(enterpriseId, serviceProviderWorkerEntity.getServiceProviderId(), payEnterpriseMakerListDto, Condition.getPage(query.setDescs("create_time")));
+        } catch (Exception e) {
+            log.error("根据当前服务商，商户ID查询总包支付清单异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
     @GetMapping("/get_pay_makers_by_service_provider")
     @ApiOperation(value = "查询当前服务商所有分包支付清单", notes = "查询当前服务商所有分包支付清单")
     @ApiImplicitParams({

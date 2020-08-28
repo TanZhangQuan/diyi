@@ -182,5 +182,15 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      */
     R<String> audit(Long payEnterpriseId, Long serviceProviderId, PayEnterpriseAuditState auditState);
 
+    /**
+     * 根据当前服务商，商户ID查询总包支付清单
+     *
+     * @param enterpriseId
+     * @param serviceProviderId
+     * @param payEnterpriseMakerListDto
+     * @param page
+     * @return
+     */
+    R<IPage<PayEnterpriseMakersListVO>> getPayEnterprisesByEnterprisesServiceProvider(Long enterpriseId, Long serviceProviderId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page);
 }
 

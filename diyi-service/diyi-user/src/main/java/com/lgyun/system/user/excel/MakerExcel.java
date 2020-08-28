@@ -1,6 +1,5 @@
 package com.lgyun.system.user.excel;
 
-import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.alibaba.excel.annotation.write.style.ContentRowHeight;
@@ -45,9 +44,5 @@ public class MakerExcel implements Serializable {
     @ColumnWidth(20)
     @ExcelProperty("卡号")
     private String bankCardNo;
-
-    @ExcelIgnore
-    @ExcelProperty("商户ID")
-    private Long enterpriseId;
 
 }

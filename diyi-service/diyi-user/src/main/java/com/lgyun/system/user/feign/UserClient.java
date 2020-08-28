@@ -60,8 +60,18 @@ public class UserClient implements IUserClient {
     }
 
     @Override
+    public MakerEntity makerFindById(Long makerId) {
+        return iMakerService.getById(makerId);
+    }
+
+    @Override
     public MakerEntity makerFindByPhoneNumber(String phoneNumber) {
         return iMakerService.findByPhoneNumber(phoneNumber);
+    }
+
+    @Override
+    public MakerEntity makerFindByIdcardNo(String idcardNo) {
+        return iMakerService.findByIdcardNo(idcardNo);
     }
 
     @Override
@@ -216,11 +226,6 @@ public class UserClient implements IUserClient {
     @Override
     public EnterpriseEntity getEnterpriseById(Long enterpriseId) {
         return iEnterpriseService.getById(enterpriseId);
-    }
-
-    @Override
-    public MakerEntity makerFindById(Long makerId) {
-        return iMakerService.getById(makerId);
     }
 
     @Override

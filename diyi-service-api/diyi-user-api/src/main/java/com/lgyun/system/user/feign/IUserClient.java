@@ -61,6 +61,15 @@ public interface IUserClient {
     UserInfo userInfo(@RequestParam("account") String account, @RequestParam("password") String password, @RequestParam("userType") UserType userType);
 
     /**
+     * 根据创客id获取创客信息
+     *
+     * @param makerId
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/maker_find_by_id")
+    MakerEntity makerFindById(@RequestParam("makerId") Long makerId);
+
+    /**
      * 获取创客信息
      *
      * @param phoneNumber
@@ -68,6 +77,15 @@ public interface IUserClient {
      */
     @GetMapping(API_PREFIX + "/maker_find_by_phone_number")
     MakerEntity makerFindByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
+
+    /**
+     * 获取创客信息
+     *
+     * @param idcardNo
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/maker_find_by_idcard_no")
+    MakerEntity makerFindByIdcardNo(@RequestParam("idcardNo") String idcardNo);
 
     /**
      * 获取商户员工信息
@@ -178,15 +196,6 @@ public interface IUserClient {
      */
     @GetMapping(API_PREFIX + "/enterprise/get_by_id")
     EnterpriseEntity getEnterpriseById(@RequestParam("enterpriseId") Long enterpriseId);
-
-    /**
-     * 根据创客id获取创客信息
-     *
-     * @param makerId
-     * @return
-     */
-    @GetMapping(API_PREFIX + "/maker_find_by_id")
-    MakerEntity makerFindById(@RequestParam("makerId") Long makerId);
 
     /**
      * 根据user_id获取创客
