@@ -2,6 +2,7 @@ package com.lgyun.system.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lgyun.common.node.TreeNode;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.support.Kv;
 import com.lgyun.system.entity.Menu;
@@ -46,7 +47,7 @@ public interface IMenuService extends IService<Menu> {
 	 *
 	 * @return
 	 */
-	List<MenuVO> tree();
+	List<TreeNode> tree();
 
 	/**
 	 * 授权树形结构

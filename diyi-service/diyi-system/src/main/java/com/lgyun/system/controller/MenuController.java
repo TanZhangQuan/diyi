@@ -1,6 +1,7 @@
 package com.lgyun.system.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lgyun.common.node.TreeNode;
 import com.lgyun.system.entity.Menu;
 import com.lgyun.system.service.IMenuService;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
@@ -121,8 +122,8 @@ public class MenuController extends BladeController {
 	 */
 	@GetMapping("/tree")
 	@ApiOperation(value = "树形结构", notes = "树形结构")
-	public R<List<MenuVO>> tree() {
-		List<MenuVO> tree = menuService.tree();
+	public R<List<TreeNode>> tree() {
+		List<TreeNode> tree = menuService.tree();
 		return R.data(tree);
 	}
 
