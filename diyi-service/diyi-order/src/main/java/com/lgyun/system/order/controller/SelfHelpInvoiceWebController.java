@@ -4,6 +4,7 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.alibaba.fastjson.JSONObject;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.ApplyState;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
@@ -14,15 +15,15 @@ import com.lgyun.system.feign.IDictClient;
 import com.lgyun.system.order.dto.AddressDto;
 import com.lgyun.system.order.dto.ConfirmPaymentDto;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDto;
+import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
 import com.lgyun.system.order.excel.InvoiceListExcel;
 import com.lgyun.system.order.excel.InvoiceListListener;
 import com.lgyun.system.order.service.*;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.MakerEntity;
+import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
@@ -163,7 +164,6 @@ public class SelfHelpInvoiceWebController {
         return R.fail("查询收货地址失败");
     }
 
-
     @GetMapping("/getInvoiceType")
     @ApiOperation(value = "开票类目", notes = "开票类目")
     public R getInvoiceType() {
@@ -175,8 +175,6 @@ public class SelfHelpInvoiceWebController {
         }
         return R.fail("开票类目-详情失败");
     }
-
-
 
     @PostMapping("/uploadDeliverSheetUrl")
     @ApiOperation(value = "上传交付支付验收单URL", notes = "上传交付支付验收单URL")
@@ -281,4 +279,51 @@ public class SelfHelpInvoiceWebController {
         }
         return R.fail("查询失败");
     }
+
+    @GetMapping("/find_self_help_invoice_by_service_provider")
+    @ApiOperation(value = "查询当前服务商的所有众包/众采", notes = "查询当前服务商的所有众包/众采")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "selfHelfInvoiceId", value = "众包/众采ID", paramType = "query", dataType = "long"),
+            @ApiImplicitParam(name = "enterpriseName", value = "商户名称", paramType = "query", dataType = "string"),
+            @ApiImplicitParam(name = "beginDate", value = "开始时间", paramType = "query", dataType = "date"),
+            @ApiImplicitParam(name = "endDate", value = "结束时间", paramType = "query", dataType = "date")
+    })
+    public R findSelfHelpInvoiceByServiceProvider(SelfHelpInvoicePayDto selfHelpInvoicePayDto, Query query, BladeUser bladeUser) {
+        log.info("查询当前服务商的所有众包/众采");
+        try {
+            //获取当前服务商员工
+            R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+            return selfHelpInvoiceService.findSelfHelpInvoiceByServiceProvider(Condition.getPage(query.setDescs("create_time")), serviceProviderWorkerEntity.getServiceProviderId(), selfHelpInvoicePayDto);
+        } catch (Exception e) {
+            log.error("查询当前服务商的所有众包/众采失败", e);
+        }
+
+        return R.fail("查询失败");
+    }
+
+    @PostMapping("/audit")
+    @ApiOperation(value = "自主开票审核", notes = "自主开票审核")
+    public R audit(@ApiParam(value = "自主开票编号") @NotNull(message = "请输入自主开票编号") @RequestParam(required = false) Long selfHelpInvoiceId, @ApiParam(value = "自主开票审核状态") @NotNull(message = "请选择自主开票审核状态") @RequestParam(required = false) ApplyState applyState, BladeUser bladeUser) {
+
+        log.info("自主开票审核");
+        try {
+            //获取当前服务商员工
+            R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+            return selfHelpInvoiceService.audit(serviceProviderWorkerEntity.getId(), selfHelpInvoiceId, applyState);
+        } catch (Exception e) {
+            log.error("自主开票审核异常", e);
+        }
+        return R.fail("审核失败");
+    }
+
 }

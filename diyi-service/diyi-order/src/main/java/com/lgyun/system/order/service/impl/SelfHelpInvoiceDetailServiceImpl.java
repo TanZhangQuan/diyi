@@ -71,7 +71,7 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
         if(ObjectType.ENTERPRISEPEOPLE.equals(selfHelpInvoiceDto.getObjectType())){
             selfHelpInvoiceEntity.setApplyEnterpriseId(selfHelpInvoiceDto.getObjectId());
         }
-        selfHelpInvoiceEntity.setCurrentState(ApplyState.UNDERREVIEW);
+        selfHelpInvoiceEntity.setCurrentState(ApplyState.AUDITING);
         selfHelpInvoiceEntity.setInvoicePeopleType(selfHelpInvoiceDto.getInvoiceIdentityType());
         selfHelpInvoiceEntity.setListFile(selfHelpInvoiceDto.getListFile());
         selfHelpInvoiceEntity.setTotalPayProviderFee(selfHelpInvoiceDto.getChargeMoneyNum());
@@ -81,7 +81,7 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
         SelfHelpInvoiceApplyEntity selfHelpInvoiceApplyEntity = new SelfHelpInvoiceApplyEntity();
         selfHelpInvoiceApplyEntity.setSelfHelpInvoiceId(selfHelpInvoiceEntity.getId());
         selfHelpInvoiceApplyEntity.setApplyDate(new Date());
-        selfHelpInvoiceApplyEntity.setApplyState(ApplyState.UNDERREVIEW);
+        selfHelpInvoiceApplyEntity.setApplyState(ApplyState.AUDITING);
         selfHelpInvoiceApplyEntity.setApplyDesc("");
         selfHelpInvoiceApplyService.save(selfHelpInvoiceApplyEntity);
         if(ObjectType.MAKERPEOPLE.equals(selfHelpInvoiceDto.getObjectType())){

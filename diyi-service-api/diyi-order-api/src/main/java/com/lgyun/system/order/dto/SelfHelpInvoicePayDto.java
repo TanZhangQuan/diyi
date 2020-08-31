@@ -20,6 +20,12 @@ public class SelfHelpInvoicePayDto implements Serializable {
     //自助开票ID
     private Long selfHelpInvoiceId;
 
+    //服务商名称
+    private String serviceProviderName;
+
+    //商户名称
+    private String enterpriseName;
+
     //自主开票开始时间
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date beginDate;

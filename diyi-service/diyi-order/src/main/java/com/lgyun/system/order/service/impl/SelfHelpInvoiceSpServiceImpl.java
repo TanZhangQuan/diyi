@@ -1,14 +1,14 @@
 package com.lgyun.system.order.service.impl;
 
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.lgyun.common.enumeration.ApplyState;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.lgyun.system.order.mapper.SelfHelpInvoiceSpMapper;
 import com.lgyun.system.order.entity.SelfHelpInvoiceSpEntity;
+import com.lgyun.system.order.mapper.SelfHelpInvoiceSpMapper;
 import com.lgyun.system.order.service.ISelfHelpInvoiceSpService;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 /**
  * 自助开票-服务商：记录自助开票主表的提交给不同服务商的 Service 实现
@@ -21,4 +21,13 @@ import com.lgyun.system.order.service.ISelfHelpInvoiceSpService;
 @AllArgsConstructor
 public class SelfHelpInvoiceSpServiceImpl extends BaseServiceImpl<SelfHelpInvoiceSpMapper, SelfHelpInvoiceSpEntity> implements ISelfHelpInvoiceSpService {
 
+    @Override
+    public SelfHelpInvoiceSpEntity findBySelfHelpInvoiceIdAndAuditing(Long selfHelpInvoiceId) {
+
+        QueryWrapper<SelfHelpInvoiceSpEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(SelfHelpInvoiceSpEntity::getSelfHelpInvoiceId, selfHelpInvoiceId)
+                .eq(SelfHelpInvoiceSpEntity::getApplyState, ApplyState.AUDITING);
+
+        return baseMapper.selectOne(queryWrapper);
+    }
 }

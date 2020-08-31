@@ -11,5 +11,12 @@ import com.lgyun.system.order.entity.SelfHelpInvoiceSpEntity;
  */
 public interface ISelfHelpInvoiceSpService extends BaseService<SelfHelpInvoiceSpEntity> {
 
+    /**
+     * 根据自主开票ID查询审核中的自主开票
+     *
+     * @param selfHelpInvoiceId
+     * @return
+     */
+    SelfHelpInvoiceSpEntity findBySelfHelpInvoiceIdAndAuditing(Long selfHelpInvoiceId);
 }
 

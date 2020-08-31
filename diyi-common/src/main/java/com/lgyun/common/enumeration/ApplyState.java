@@ -13,7 +13,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum  ApplyState {
     EDITING("EDITING", "编辑中"),
-    UNDERREVIEW("UNDERREVIEW", "审核中"),
+    AUDITING("AUDITING", "审核中"),
     PASSED("PASSED", "已通过开票中"),
     REJECTED("REJECTED", "已驳回"),
     INVOICED("INVOICED", "已开票结束");

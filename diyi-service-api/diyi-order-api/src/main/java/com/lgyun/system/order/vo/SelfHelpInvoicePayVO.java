@@ -2,6 +2,7 @@ package com.lgyun.system.order.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.ApplyState;
 import com.lgyun.common.enumeration.InvoicePeopleType;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
@@ -23,6 +24,9 @@ public class SelfHelpInvoicePayVO implements Serializable {
     //自主开票ID
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
+
+    //服务商名称
+    private String serviceProviderName;
 
     //商户名称
     private String enterpriseName;
@@ -50,6 +54,9 @@ public class SelfHelpInvoicePayVO implements Serializable {
 
     //账户余额url
     private String accountBalanceUrl;
+
+    //当前状态：0,未申请，1，申请编辑中，2，审核中；3，已通过开票中；4，已驳回；5，已开票结束
+    private ApplyState currentState;
 
     //发生时间
     private Date createTime;

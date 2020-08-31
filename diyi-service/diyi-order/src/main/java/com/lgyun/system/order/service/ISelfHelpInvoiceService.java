@@ -2,6 +2,7 @@ package com.lgyun.system.order.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.ApplyState;
 import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.core.mp.base.BaseService;
@@ -91,5 +92,24 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      */
     R findDetailCrowdSourcing(Long selfHelpInvoiceId);
 
+    /**
+     * 查询当前服务商的所有众包/众采
+     *
+     * @param page
+     * @param serviceProviderId
+     * @param selfHelpInvoicePayDto
+     * @return
+     */
+    R<IPage<SelfHelpInvoicePayVO>> findSelfHelpInvoiceByServiceProvider(IPage<SelfHelpInvoicePayVO> page, Long serviceProviderId, SelfHelpInvoicePayDto selfHelpInvoicePayDto);
+
+    /**
+     * 自主开票审核
+     *
+     * @param serviceProviderId
+     * @param selfHelpInvoiceId
+     * @param applyState
+     * @return
+     */
+    R<String> audit(Long serviceProviderId, Long selfHelpInvoiceId, ApplyState applyState);
 }
 
