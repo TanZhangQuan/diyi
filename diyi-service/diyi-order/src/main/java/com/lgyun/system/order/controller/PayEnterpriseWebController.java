@@ -1,6 +1,7 @@
 package com.lgyun.system.order.controller;
 
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.MakerInvoiceType;
 import com.lgyun.common.enumeration.PayEnterpriseAuditState;
 import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.common.secure.BladeUser;
@@ -324,7 +325,7 @@ public class PayEnterpriseWebController {
 
     @PostMapping("/audit")
     @ApiOperation(value = "支付清单审核", notes = "支付清单审核")
-    public R audit(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, @ApiParam(value = "支付清单审核状态") @NotNull(message = "请选择支付清单审核状态") @RequestParam(required = false) PayEnterpriseAuditState auditState, BladeUser bladeUser) {
+    public R audit(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, @ApiParam(value = "支付清单审核状态") @NotNull(message = "请选择支付清单审核状态") @RequestParam(required = false) PayEnterpriseAuditState auditState, MakerInvoiceType makerInvoiceType, BladeUser bladeUser) {
 
         log.info("支付清单审核");
         try {
@@ -335,7 +336,7 @@ public class PayEnterpriseWebController {
             }
             ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-            return payEnterpriseService.audit(payEnterpriseId, serviceProviderWorkerEntity.getServiceProviderId(), auditState);
+            return payEnterpriseService.audit(payEnterpriseId, serviceProviderWorkerEntity.getServiceProviderId(), auditState, makerInvoiceType);
         } catch (Exception e) {
             log.error("支付清单审核异常", e);
         }

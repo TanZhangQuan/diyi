@@ -2,7 +2,6 @@ package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.common.enumeration.InvoiceState;
-import com.lgyun.common.enumeration.InvoiceType;
 import com.lgyun.common.enumeration.MakerPayState;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.core.mp.base.BaseEntity;
@@ -49,14 +48,14 @@ public class PayMakerEntity extends BaseEntity {
     private String individualName;
 
     /**
-     * 企业总支付额价税合计=服务外包费+身份验证费/个体户年费+第三方支付手续费
-     */
-    private BigDecimal totalFee;
-
-    /**
      * 创客到手=服务外包费-创客税费=服务外包费*服务税费率
      */
     private BigDecimal makerNetIncome;
+
+    /**
+     * 服务税费率
+     */
+    private BigDecimal serviceRate;
 
     /**
      * 服务税费=服务外包费*服务税费率
@@ -67,11 +66,6 @@ public class PayMakerEntity extends BaseEntity {
      * 服务外包费=创客到手/(1-服务税费率)
      */
     private BigDecimal makerNeIncome;
-
-    /**
-     * 服务税费率
-     */
-    private BigDecimal serviceRate;
 
     /**
      * 企业年费总额，个体户，个独，有限公司都有年费，自然人没有年费
@@ -87,6 +81,11 @@ public class PayMakerEntity extends BaseEntity {
      * 第三方支付手续费
      */
     private BigDecimal payFee;
+
+    /**
+     * 企业总支付额价税合计=服务外包费+身份验证费/个体户年费+第三方支付手续费
+     */
+    private BigDecimal totalFee;
 
     /**
      * 1：待支付；2:企业已申请支付；3：企业已支付；4：平台已支付；5：已确认收款
@@ -122,11 +121,6 @@ public class PayMakerEntity extends BaseEntity {
      * 发票开票状态:1:已开；0：未开
      */
     private InvoiceState makerInvoiceState = InvoiceState.UNOPEN;
-
-    /**
-     * 发票类别:1,汇总代开；2，门征单开
-     */
-    private InvoiceType invoiceType;
 
     /**
      * 支付说明

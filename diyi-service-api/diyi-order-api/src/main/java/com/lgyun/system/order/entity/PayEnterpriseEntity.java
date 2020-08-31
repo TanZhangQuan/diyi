@@ -1,10 +1,7 @@
 package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.lgyun.common.enumeration.EnterprisePayState;
-import com.lgyun.common.enumeration.InvoiceState;
-import com.lgyun.common.enumeration.MakerType;
-import com.lgyun.common.enumeration.PayEnterpriseAuditState;
+import com.lgyun.common.enumeration.*;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -49,19 +46,14 @@ public class PayEnterpriseEntity extends BaseEntity {
     private MakerType makerType;
 
     /**
+     * 创客发票开票类别: 自然人汇总代开；自然人门征单开；个体户税局代开；个体户自开；个独自开
+     */
+    private MakerInvoiceType makerInvoiceType;
+
+    /**
      * 工单ID
      */
     private Long worksheetId;
-
-    /**
-     * 企业总支付额价税合计总额=服务外包费总额+身份验证费总额/个体户年费总额+第三方支付手续费总额
-     */
-    private BigDecimal payToPlatformAmount;
-
-    /**
-     * 服务税费总额=服务外包费总额*服务税费率
-     */
-    private BigDecimal totalTaxFee;
 
     /**
      * 创客到手总额
@@ -72,6 +64,11 @@ public class PayEnterpriseEntity extends BaseEntity {
      * 服务税费率
      */
     private BigDecimal serviceRate;
+
+    /**
+     * 服务税费总额=服务外包费总额*服务税费率
+     */
+    private BigDecimal totalTaxFee;
 
     /**
      * 服务外包费总额
@@ -97,6 +94,11 @@ public class PayEnterpriseEntity extends BaseEntity {
      * 创客数
      */
     private Integer makerNum;
+
+    /**
+     * 企业总支付额价税合计总额=服务外包费总额+身份验证费总额/个体户年费总额+第三方支付手续费总额
+     */
+    private BigDecimal payToPlatformAmount;
 
     /**
      * 支付说明
@@ -137,5 +139,10 @@ public class PayEnterpriseEntity extends BaseEntity {
      * 开票日期
      */
     private Date invoicePrintDate;
+
+    /**
+     * 开票要求说明
+     */
+    private String invoiceDemondDesc;
 
 }
