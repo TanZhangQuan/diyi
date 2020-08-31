@@ -36,7 +36,7 @@ public class EnterpriseAccountController {
 
     @GetMapping("/list")
     @ApiOperation(value = "获取商户所有主子账号详情", notes = "获取商户所有主子账号详情")
-    public R currentDetail(BladeUser bladeUser) {
+    public R listDetail(BladeUser bladeUser) {
         log.info("获取当前商户所有主子账号详情 userId={}", bladeUser.getUserId());
         try {
             //获取当前创客
@@ -66,6 +66,38 @@ public class EnterpriseAccountController {
             return R.data(responseList);
         } catch (Exception e) {
             log.error("获取当前商户所有账户详情，error", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/detail")
+    @ApiOperation(value = "获取商户账号详情", notes = "获取商户账号详情")
+    public R oneDetail(@RequestParam("accountId") Long accountId, BladeUser bladeUser) {
+        log.info("获取当前商户账号详情 userId={} accountId={}", bladeUser.getUserId(), accountId);
+        try {
+            //获取当前创客
+            R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+
+            EnterpriseWorkerEntity entity = enterpriseWorkerService.getById(accountId);
+            if (entity == null) {
+                return R.fail("参数有误, 查询失败");
+            }
+
+            EnterpriseWorkerVO response = new EnterpriseWorkerVO();
+            BeanUtils.copyProperties(entity, response);
+            response.setWorkerSexDesc(entity.getWorkerSex().getDesc());
+            response.setWorkerSexValue(entity.getWorkerSex().getValue());
+            response.setAccountStateValue(entity.getEnterpriseWorkerState().getValue());
+            response.setAccountStateDesc(entity.getEnterpriseWorkerState().getDesc());
+            response.setPositionNameValue(entity.getPositionName().getValue());
+            response.setPositionNameDesc(entity.getPositionName().getDesc());
+
+            return R.data(response);
+        } catch (Exception e) {
+            log.error("获取商户账户详情失败，error", e);
         }
         return R.fail("查询失败");
     }
