@@ -22,7 +22,7 @@ public interface IAddressService extends BaseService<AddressEntity> {
      * @param objectId
      * @return
      */
-    R<String> saveAddress(AddressDto addressDto, Long objectId, ObjectType objectType);
+    R<String> addOrUpdate(AddressDto addressDto, Long objectId, ObjectType objectType);
 
 
     /**
@@ -30,9 +30,12 @@ public interface IAddressService extends BaseService<AddressEntity> {
      *
      * @param current
      * @param size
+     * @param objectId
+     * @param objectType
+     * @param addressId
      * @return
      */
-    R<IPage<AddressEntity>> findAddressMakerId(Integer current, Integer size, Long objectId, ObjectType objectType);
+    R<IPage<AddressEntity>> findAddressMakerId(Integer current, Integer size, Long objectId, ObjectType objectType, Long addressId);
 
     /**
      * 地址详情接口

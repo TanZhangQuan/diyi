@@ -93,7 +93,7 @@ public class SelfHelpInvoiceController {
             }
             MakerEntity makerEntity = result.getData();
 
-            return addressService.saveAddress(addressDto, makerEntity.getId(), ObjectType.MAKERPEOPLE);
+            return addressService.addOrUpdate(addressDto, makerEntity.getId(), ObjectType.MAKERPEOPLE);
         } catch (Exception e) {
             log.error("新建收货地址失败", e);
         }
@@ -152,7 +152,7 @@ public class SelfHelpInvoiceController {
             }
             MakerEntity makerEntity = result.getData();
 
-            return addressService.findAddressMakerId(query.getCurrent(), query.getCurrent(), makerEntity.getId(), ObjectType.MAKERPEOPLE);
+            return addressService.findAddressMakerId(query.getCurrent(), query.getCurrent(), makerEntity.getId(), ObjectType.MAKERPEOPLE, null);
         } catch (Exception e) {
             log.error("查询收货地址失败", e);
         }

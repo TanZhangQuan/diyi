@@ -70,7 +70,7 @@ public class EnterpriseAddressController {
             }
             EnterpriseWorkerEntity entity = result.getData();
 
-            return addressService.saveAddress(addressDto, entity.getEnterpriseId(), ObjectType.ENTERPRISEPEOPLE);
+            return addressService.addOrUpdate(addressDto, entity.getEnterpriseId(), ObjectType.ENTERPRISEPEOPLE);
         } catch (Exception e) {
             log.error("新建收货地址失败", e);
         }

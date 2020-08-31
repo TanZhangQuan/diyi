@@ -103,7 +103,7 @@ public class SelfHelpInvoiceWebController {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-            return addressService.saveAddress(addressDto, enterpriseWorkerEntity.getEnterpriseId(), ObjectType.ENTERPRISEPEOPLE);
+            return addressService.addOrUpdate(addressDto, enterpriseWorkerEntity.getEnterpriseId(), ObjectType.ENTERPRISEPEOPLE);
         } catch (Exception e) {
             log.error("新建收货地址失败", e);
         }
@@ -157,7 +157,7 @@ public class SelfHelpInvoiceWebController {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-            return addressService.findAddressMakerId(query.getCurrent(), query.getCurrent(), enterpriseWorkerEntity.getEnterpriseId(), ObjectType.ENTERPRISEPEOPLE);
+            return addressService.findAddressMakerId(query.getCurrent(), query.getCurrent(), enterpriseWorkerEntity.getEnterpriseId(), ObjectType.ENTERPRISEPEOPLE, null);
         } catch (Exception e) {
             log.error("查询收货地址失败", e);
         }
