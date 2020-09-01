@@ -65,7 +65,7 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      * @param enterpriseId
      * @return
      */
-    R findMakerTypeSelfHelpInvoice(IPage<SelfHelpInvoiceDetailsVO> page, Long enterpriseId, MakerType makerType,String invoicePeopleName,String startTime,String endTime);
+    R findMakerTypeSelfHelpInvoice(IPage<SelfHelpInvoiceDetailsVO> page, Long enterpriseId, MakerType makerType, String invoicePeopleName, String startTime, String endTime);
 
     /**
      * 查询当前商户所有自主开票记录(众包)
@@ -79,12 +79,13 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
 
     /**
      * 根据商户查询众包
+     *
      * @param enterpriseId
      * @param serviceProviderName
      * @param page
      * @return
      */
-    R findEnterpriseCrowdSourcing(Long enterpriseId,String serviceProviderName,IPage<SelfHelpInvoiceCrowdSourcingVO> page);
+    R findEnterpriseCrowdSourcing(Long enterpriseId, String serviceProviderName, IPage<SelfHelpInvoiceCrowdSourcingVO> page);
 
 
     /**
@@ -111,5 +112,22 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      * @return
      */
     R<String> audit(Long serviceProviderId, Long selfHelpInvoiceId, ApplyState applyState);
+
+    /**
+     * 查询当前商户众包年流水
+     *
+     * @param enterpriseId
+     * @return
+     */
+    R<YearTradeVO> queryCrowdYearTradeByEnterprise(Long enterpriseId);
+
+    /**
+     * 查询当前服务商众包年流水
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    R<YearTradeVO> queryCrowdYearTradeByServiceProvider(Long serviceProviderId);
+
 }
 

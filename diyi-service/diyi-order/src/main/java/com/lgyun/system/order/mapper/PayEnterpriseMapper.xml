@@ -111,6 +111,33 @@
         <result property="serviceRate" column="service_rate"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.user.vo.TransactionVO" id="transactionVO">
+        <result property="totalSubMonthPay" column="total_sub_month_pay"/>
+        <result property="totalSubYearPay" column="total_sub_year_pay"/>
+        <result property="totalSubAllPay" column="total_sub_all_pay"/>
+        <result property="crowdMonthPay" column="crowd_month_pay"/>
+        <result property="crowdYearPay" column="crowd_year_pay"/>
+        <result property="crowdAllPay" column="crowd_all_pay"/>
+        <result property="makerNum" column="maker_num"/>
+        <result property="enterpriseNum" column="enterprise_num"/>
+        <result property="serviceProviderNum" column="service_provider_num"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.YearTradeVO" id="yearTradeVO">
+        <result property="janIncome" column="jan_income"/>
+        <result property="febIncome" column="feb_income"/>
+        <result property="marIncome" column="mar_income"/>
+        <result property="aprIncome" column="apr_income"/>
+        <result property="mayIncome" column="may_income"/>
+        <result property="junIncome" column="jun_income"/>
+        <result property="julIncome" column="jul_income"/>
+        <result property="augIncome" column="aug_income"/>
+        <result property="sepIncome" column="sep_income"/>
+        <result property="octIncome" column="oct_income"/>
+        <result property="novIncome" column="nov_income"/>
+        <result property="decIncome" column="dec_income"/>
+    </resultMap>
+
     <select id="getEnterpriseAll" resultMap="InvoiceEnterpriseVOMap">
         SELECT e.id AS enterprise_id, pe.id AS pay_enterprise_id, pm.id AS pay_maker_id, e.enterprise_name AS enterprise_name FROM diyi_enterprise e
         INNER JOIN diyi_pay_enterprise pe ON e.id = pe.enterprise_id INNER JOIN diyi_pay_maker pm ON pm.pay_enterprise_id = pe.id
@@ -282,6 +309,56 @@
         SELECT t2.id, t2.name, t2.idcard_no, t1.maker_net_income, t1.maker_tax_fee, t1.audit_fee, t1.pay_fee, t1.total_fee, t1.service_rate
         FROM diyi_pay_maker t1 LEFT JOIN diyi_maker t2 ON t1.maker_id = t2.id AND t2.is_deleted = 0 WHERE t1.is_deleted = 0
         AND t1.pay_enterprise_id = #{param1}
+    </select>
+
+    <select id="transactionByEnterprise" resultMap="transactionVO">
+        SELECT t1.month_pay AS total_sub_month_pay, t1.year_pay AS total_sub_year_pay, t1.all_pay AS total_sub_all_pay,
+        t2.month_pay AS crowd_month_pay, t2.year_pay AS crowd_year_pay, t2.all_pay AS crowd_all_pay,
+        (SELECT COUNT(DISTINCT id) FROM diyi_maker_enterprise WHERE enterprise_id = #{param1}) AS maker_num,
+        (SELECT COUNT(id) FROM diyi_enterprise_provider WHERE enterprise_id = #{param1}) AS enterprise_num FROM
+        (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, pay_to_platform_amount, 0)), 0) AS month_pay,
+        IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, pay_to_platform_amount, 0)), 0) AS year_pay,
+        IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay FROM diyi_pay_enterprise WHERE is_deleted = 0 AND
+        (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND audit_state = 'APPROVED' AND enterprise_id = #{param1}) t1,
+        (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, total_pay_provider_fee, 0)), 0) AS month_pay,
+        IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, total_pay_provider_fee, 0)), 0) AS year_pay,
+        IFNULL(SUM(total_pay_provider_fee), 0) AS all_pay FROM diyi_self_help_invoice WHERE is_deleted = 0
+        AND (current_state = 'PASSED' OR current_state = 'INVOICED') AND apply_enterprise_id = #{param1}) t2
+    </select>
+
+    <select id="transactionByServiceProvider" resultMap="transactionVO">
+        SELECT t1.month_pay AS total_sub_month_pay, t1.year_pay AS total_sub_year_pay, t1.all_pay AS total_sub_all_pay,
+        t2.month_pay AS crowd_month_pay, t2.year_pay AS crowd_year_pay, t2.all_pay AS crowd_all_pay,
+        (SELECT COUNT(DISTINCT id) FROM diyi_service_provider_maker WHERE service_provider_id = #{param1}) AS maker_num,
+        (SELECT COUNT(id) FROM diyi_enterprise_provider WHERE service_provider_id = #{param1}) AS enterprise_num FROM
+        (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, pay_to_platform_amount, 0)), 0) AS month_pay,
+        IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, pay_to_platform_amount, 0)), 0) AS year_pay,
+        IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay FROM diyi_pay_enterprise WHERE is_deleted = 0 AND
+        (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND audit_state = 'APPROVED' AND service_provider_id = #{param1}) t1,
+        (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, charge_money_num, 0)), 0) AS month_pay,
+        IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, charge_money_num, 0)), 0) AS year_pay,
+        IFNULL(SUM(charge_money_num), 0) AS all_pay FROM diyi_self_help_invoice_sp WHERE is_deleted = 0
+        AND (apply_state = 'PASSED' OR apply_state = 'INVOICED') AND service_provider_id = #{param1}) t2
+    </select>
+
+    <select id="queryTotalSubYearTradeByEnterprise" resultMap="yearTradeVO">
+        SELECT IFNULL(SUM(IF(MONTH(create_time) = 1, pay_to_platform_amount, 0)), 0) AS jan_income, IFNULL(SUM(IF(MONTH(create_time) = 2, pay_to_platform_amount, 0)), 0) AS feb_income,
+        IFNULL(SUM(IF(MONTH(create_time) = 3, pay_to_platform_amount, 0)), 0) AS mar_income, IFNULL(SUM(IF(MONTH(create_time) = 4, pay_to_platform_amount, 0)), 0) AS apr_income,
+        IFNULL(SUM(IF(MONTH(create_time) = 5, pay_to_platform_amount, 0)), 0) AS may_income, IFNULL(SUM(IF(MONTH(create_time) = 6, pay_to_platform_amount, 0)), 0) AS jun_income,
+        IFNULL(SUM(IF(MONTH(create_time) = 7, pay_to_platform_amount, 0)), 0) AS jul_income, IFNULL(SUM(IF(MONTH(create_time) = 8, pay_to_platform_amount, 0)), 0) AS aug_income,
+        IFNULL(SUM(IF(MONTH(create_time) = 9, pay_to_platform_amount, 0)), 0) AS sep_income, IFNULL(SUM(IF(MONTH(create_time) = 10, pay_to_platform_amount, 0)), 0) AS oct_income,
+        IFNULL(SUM(IF(MONTH(create_time) = 11, pay_to_platform_amount, 0)), 0) AS nov_income, IFNULL(SUM(IF(MONTH(create_time) = 12, pay_to_platform_amount, 0)), 0) AS dec_income
+        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND audit_state = 'APPROVED' AND enterprise_id = #{param1}
+    </select>
+
+    <select id="queryTotalSubYearTradeByServiceProvider" resultMap="yearTradeVO">
+        SELECT IFNULL(SUM(IF(MONTH(create_time) = 1, pay_to_platform_amount, 0)), 0) AS jan_income, IFNULL(SUM(IF(MONTH(create_time) = 2, pay_to_platform_amount, 0)), 0) AS feb_income,
+        IFNULL(SUM(IF(MONTH(create_time) = 3, pay_to_platform_amount, 0)), 0) AS mar_income, IFNULL(SUM(IF(MONTH(create_time) = 4, pay_to_platform_amount, 0)), 0) AS apr_income,
+        IFNULL(SUM(IF(MONTH(create_time) = 5, pay_to_platform_amount, 0)), 0) AS may_income, IFNULL(SUM(IF(MONTH(create_time) = 6, pay_to_platform_amount, 0)), 0) AS jun_income,
+        IFNULL(SUM(IF(MONTH(create_time) = 7, pay_to_platform_amount, 0)), 0) AS jul_income, IFNULL(SUM(IF(MONTH(create_time) = 8, pay_to_platform_amount, 0)), 0) AS aug_income,
+        IFNULL(SUM(IF(MONTH(create_time) = 9, pay_to_platform_amount, 0)), 0) AS sep_income, IFNULL(SUM(IF(MONTH(create_time) = 10, pay_to_platform_amount, 0)), 0) AS oct_income,
+        IFNULL(SUM(IF(MONTH(create_time) = 11, pay_to_platform_amount, 0)), 0) AS nov_income, IFNULL(SUM(IF(MONTH(create_time) = 12, pay_to_platform_amount, 0)), 0) AS dec_income
+        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND audit_state = 'APPROVED' AND service_provider_id = #{param1}
     </select>
 
 </mapper>

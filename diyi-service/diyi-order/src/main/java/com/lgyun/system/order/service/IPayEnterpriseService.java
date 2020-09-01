@@ -12,6 +12,7 @@ import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
 import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.*;
+import com.lgyun.system.user.vo.TransactionVO;
 
 /**
  * Service 接口
@@ -194,5 +195,37 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @return
      */
     R<IPage<PayEnterpriseMakersListVO>> getPayEnterprisesByEnterprisesServiceProvider(Long enterpriseId, Long serviceProviderId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page);
+
+    /**
+     * 获取当前商户首页交易情况数据
+     *
+     * @param enterpriseId
+     * @return
+     */
+    R<TransactionVO> transactionByEnterprise(Long enterpriseId);
+
+    /**
+     * 获取当前服务商首页交易情况数据
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    R<TransactionVO> transactionByServiceProvider(Long serviceProviderId);
+
+    /**
+     * 查询当前商户总包+分包年流水
+     *
+     * @param enterpriseId
+     * @return
+     */
+    R<YearTradeVO> queryTotalSubYearTradeByEnterprise(Long enterpriseId);
+
+    /**
+     * 查询当前服务商总包+分包年流水
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    R<YearTradeVO> queryTotalSubYearTradeByServiceProvider(Long serviceProviderId);
 }
 

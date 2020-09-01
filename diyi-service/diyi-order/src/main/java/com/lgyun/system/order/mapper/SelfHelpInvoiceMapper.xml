@@ -106,6 +106,21 @@
         <result property="expressCompanyName" column="express_company_name"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.order.vo.YearTradeVO" id="yearTradeVO">
+        <result property="janIncome" column="jan_income"/>
+        <result property="febIncome" column="feb_income"/>
+        <result property="marIncome" column="mar_income"/>
+        <result property="aprIncome" column="apr_income"/>
+        <result property="mayIncome" column="may_income"/>
+        <result property="junIncome" column="jun_income"/>
+        <result property="julIncome" column="jul_income"/>
+        <result property="augIncome" column="aug_income"/>
+        <result property="sepIncome" column="sep_income"/>
+        <result property="octIncome" column="oct_income"/>
+        <result property="novIncome" column="nov_income"/>
+        <result property="decIncome" column="dec_income"/>
+    </resultMap>
+
     <select id="getSelfHelpInvoiceDetails" resultMap="selfHelpInvoiceDetailsVO">
         SELECT zs.id, rc.id as enterprise_id, a.id as address_id, sp.id as invoice_people_id, sd.id as self_help_invoice_detail_id,
         hf.id as hand_pay_id, rc.enterprise_name, rc.invoice_tax_no, rc.shop_user_name, rc.invoice_tel_no, rc.invoice_bank_name, rc.invoice_account_name, sd.charge_money_num,
@@ -226,6 +241,26 @@
         <if test="param2.endDate != null">
             AND DATEDIFF(t1.create_time, #{param2.endDate}) <![CDATA[ <= ]]> 0
         </if>
+    </select>
+
+    <select id="queryCrowdYearTradeByEnterprise" resultMap="yearTradeVO">
+        SELECT IFNULL(SUM(IF(MONTH(create_time) = 1, charge_money_num, 0)), 0) AS jan_income, IFNULL(SUM(IF(MONTH(create_time) = 2, charge_money_num, 0)), 0) AS feb_income,
+        IFNULL(SUM(IF(MONTH(create_time) = 3, charge_money_num, 0)), 0) AS mar_income, IFNULL(SUM(IF(MONTH(create_time) = 4, charge_money_num, 0)), 0) AS apr_income,
+        IFNULL(SUM(IF(MONTH(create_time) = 5, charge_money_num, 0)), 0) AS may_income, IFNULL(SUM(IF(MONTH(create_time) = 6, charge_money_num, 0)), 0) AS jun_income,
+        IFNULL(SUM(IF(MONTH(create_time) = 7, charge_money_num, 0)), 0) AS jul_income, IFNULL(SUM(IF(MONTH(create_time) = 8, charge_money_num, 0)), 0) AS aug_income,
+        IFNULL(SUM(IF(MONTH(create_time) = 9, charge_money_num, 0)), 0) AS sep_income, IFNULL(SUM(IF(MONTH(create_time) = 10, charge_money_num, 0)), 0) AS oct_income,
+        IFNULL(SUM(IF(MONTH(create_time) = 11, charge_money_num, 0)), 0) AS nov_income, IFNULL(SUM(IF(MONTH(create_time) = 12, charge_money_num, 0)), 0) AS dec_income
+        FROM diyi_self_help_invoice_sp WHERE is_deleted = 0 AND (apply_state = 'PASSED' OR apply_state = 'INVOICED') AND service_provider_id = #{param1}
+    </select>
+
+    <select id="queryCrowdYearTradeByServiceProvider" resultMap="yearTradeVO">
+        SELECT IFNULL(SUM(IF(MONTH(create_time) = 1, total_pay_provider_fee, 0)), 0) AS jan_income, IFNULL(SUM(IF(MONTH(create_time) = 2, total_pay_provider_fee, 0)), 0) AS feb_income,
+        IFNULL(SUM(IF(MONTH(create_time) = 3, total_pay_provider_fee, 0)), 0) AS mar_income, IFNULL(SUM(IF(MONTH(create_time) = 4, total_pay_provider_fee, 0)), 0) AS apr_income,
+        IFNULL(SUM(IF(MONTH(create_time) = 5, total_pay_provider_fee, 0)), 0) AS may_income, IFNULL(SUM(IF(MONTH(create_time) = 6, total_pay_provider_fee, 0)), 0) AS jun_income,
+        IFNULL(SUM(IF(MONTH(create_time) = 7, total_pay_provider_fee, 0)), 0) AS jul_income, IFNULL(SUM(IF(MONTH(create_time) = 8, total_pay_provider_fee, 0)), 0) AS aug_income,
+        IFNULL(SUM(IF(MONTH(create_time) = 9, total_pay_provider_fee, 0)), 0) AS sep_income, IFNULL(SUM(IF(MONTH(create_time) = 10, total_pay_provider_fee, 0)), 0) AS oct_income,
+        IFNULL(SUM(IF(MONTH(create_time) = 11, total_pay_provider_fee, 0)), 0) AS nov_income, IFNULL(SUM(IF(MONTH(create_time) = 12, total_pay_provider_fee, 0)), 0) AS dec_income
+        FROM diyi_self_help_invoice WHERE is_deleted = 0 AND (current_state = 'PASSED' OR current_state = 'INVOICED') AND enterprise_id = #{param1}
     </select>
 
 </mapper>

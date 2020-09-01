@@ -20,6 +20,7 @@ import com.lgyun.system.order.service.*;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.entity.EnterpriseProviderEntity;
 import com.lgyun.system.user.feign.IUserClient;
+import com.lgyun.system.user.vo.TransactionVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -350,6 +351,26 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         }
 
         return R.data(page.setRecords(baseMapper.getPayEnterprisesByEnterprisesServiceProvider(enterpriseId, serviceProviderId, payEnterpriseMakerListDto, page)));
+    }
+
+    @Override
+    public R<TransactionVO> transactionByEnterprise(Long enterpriseId) {
+        return R.data(baseMapper.transactionByEnterprise(enterpriseId));
+    }
+
+    @Override
+    public R<TransactionVO> transactionByServiceProvider(Long serviceProviderId) {
+        return R.data(baseMapper.transactionByServiceProvider(serviceProviderId));
+    }
+
+    @Override
+    public R<YearTradeVO> queryTotalSubYearTradeByEnterprise(Long enterpriseId) {
+        return R.data(baseMapper.queryTotalSubYearTradeByEnterprise(enterpriseId));
+    }
+
+    @Override
+    public R<YearTradeVO> queryTotalSubYearTradeByServiceProvider(Long serviceProviderId) {
+        return R.data(baseMapper.queryTotalSubYearTradeByServiceProvider(serviceProviderId));
     }
 
 }

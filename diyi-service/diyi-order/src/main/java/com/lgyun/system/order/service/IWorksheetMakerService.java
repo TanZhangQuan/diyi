@@ -88,7 +88,7 @@ public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity
      * @param year
      * @return
      */
-    R<TransactionMonthVO> queryMoneyByMonth(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year);
+    R<YearTradeVO> queryMoneyByMonth(WorkSheetType worksheetType, MakerType makerType, Long makerId, Long year);
 
     /**
      * 根据工单类型，创客类型，年份，月份（可选）查询创客对应商户的总收入金额

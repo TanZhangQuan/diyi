@@ -189,4 +189,14 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
 
         return R.success("审核成功");
     }
+
+    @Override
+    public R<YearTradeVO> queryCrowdYearTradeByEnterprise(Long enterpriseId) {
+        return R.data(baseMapper.queryCrowdYearTradeByEnterprise(enterpriseId));
+    }
+
+    @Override
+    public R<YearTradeVO> queryCrowdYearTradeByServiceProvider(Long serviceProviderId) {
+        return R.data(baseMapper.queryCrowdYearTradeByServiceProvider(serviceProviderId));
+    }
 }

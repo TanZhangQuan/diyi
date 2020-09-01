@@ -326,4 +326,44 @@ public class SelfHelpInvoiceWebController {
         return R.fail("审核失败");
     }
 
+    @GetMapping("/query_crowd_year_trade_by_enterprise")
+    @ApiOperation(value = "查询当前商户众包年流水", notes = "查询当前商户众包年流水")
+    public R queryCrowdYearTradeByEnterprise(BladeUser bladeUser) {
+
+        log.info("查询当前商户众包年流水");
+        try {
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return selfHelpInvoiceService.queryCrowdYearTradeByEnterprise(enterpriseWorkerEntity.getEnterpriseId());
+        } catch (Exception e) {
+            log.error("查询当前商户众包年流水异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/query_crowd_year_trade_by_service_provider")
+    @ApiOperation(value = "查询当前服务商众包年流水", notes = "查询当前服务商众包年流水")
+    public R queryCrowdYearTradeByServiceProvider(BladeUser bladeUser) {
+
+        log.info("查询当前服务商众包年流水");
+        try {
+            //获取当前服务商员工
+            R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+            return selfHelpInvoiceService.queryCrowdYearTradeByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId());
+        } catch (Exception e) {
+            log.error("查询当前服务商众包年流水异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
 }

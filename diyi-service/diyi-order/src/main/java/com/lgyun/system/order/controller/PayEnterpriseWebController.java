@@ -343,4 +343,84 @@ public class PayEnterpriseWebController {
         return R.fail("审核失败");
     }
 
+    @GetMapping("/transaction_by_enterprise")
+    @ApiOperation(value = "获取当前商户首页交易情况数据", notes = "获取当前商户首页交易情况数据")
+    public R transactionByEnterprise(BladeUser bladeUser) {
+
+        log.info("获取当前商户首页统计数据");
+        try {
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return payEnterpriseService.transactionByEnterprise(enterpriseWorkerEntity.getEnterpriseId());
+        } catch (Exception e) {
+            log.error("获取当前商户首页交易情况数据异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/transaction_by_service_provider")
+    @ApiOperation(value = "获取当前服务商首页交易情况数据", notes = "获取当前服务商首页交易情况数据")
+    public R transactionByServiceProvider(BladeUser bladeUser) {
+
+        log.info("获取当前服务商首页交易情况数据");
+        try {
+            //获取当前服务商员工
+            R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+            return payEnterpriseService.transactionByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId());
+        } catch (Exception e) {
+            log.error("获取当前服务商首页交易情况数据异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/query_total_sub_year_trade_by_enterprise")
+    @ApiOperation(value = "查询当前商户总包+分包年流水", notes = "查询当前商户总包+分包年流水")
+    public R queryTotalSubYearTradeByEnterprise(BladeUser bladeUser) {
+
+        log.info("查询当前商户总包+分包年流水");
+        try {
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return payEnterpriseService.queryTotalSubYearTradeByEnterprise(enterpriseWorkerEntity.getEnterpriseId());
+        } catch (Exception e) {
+            log.error("查询当前商户总包+分包年流水异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/query_total_sub_year_trade_by_service_provider")
+    @ApiOperation(value = "查询当前服务商总包+分包年流水", notes = "查询当前服务商总包+分包年流水")
+    public R queryTotalSubYearTradeByServiceProvider(BladeUser bladeUser) {
+
+        log.info("查询当前服务商总包+分包年流水");
+        try {
+            //获取当前服务商员工
+            R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+            return payEnterpriseService.queryTotalSubYearTradeByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId());
+        } catch (Exception e) {
+            log.error("查询当前服务商总包+分包年流水异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
 }

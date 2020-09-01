@@ -106,5 +106,22 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
      * @return
      */
     List<SelfHelpInvoicePayVO> findSelfHelpInvoiceByServiceProvider(Long serviceProviderId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<SelfHelpInvoicePayVO> page);
+
+    /**
+     * 查询当前商户众包年流水
+     *
+     * @param enterpriseId
+     * @return
+     */
+    YearTradeVO queryCrowdYearTradeByEnterprise(Long enterpriseId);
+
+    /**
+     * 查询当前服务商众包年流水
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    YearTradeVO queryCrowdYearTradeByServiceProvider(Long serviceProviderId);
+
 }
 

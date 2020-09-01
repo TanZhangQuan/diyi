@@ -36,26 +36,6 @@ public class EnterpriseWebController {
     private IEnterpriseService enterpriseService;
     private IEnterpriseWorkerService enterpriseWorkerService;
 
-    @GetMapping("/statistical")
-    @ApiOperation(value = "获取商户首页统计数据", notes = "获取商户首页统计数据")
-    public R statistical(BladeUser bladeUser) {
-
-        log.info("获取商户首页统计数据");
-        try {
-            //获取当前商户员工
-            R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())) {
-                return result;
-            }
-            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-            return enterpriseService.statistical(enterpriseWorkerEntity.getEnterpriseId());
-        } catch (Exception e) {
-            log.error("获取商户首页统计数据异常", e);
-        }
-        return R.fail("查询失败");
-    }
-
     @GetMapping("/get_service_providers")
     @ApiOperation(value = "获取商户合作服务商", notes = "获取商户合作服务商")
     public R getServiceProviders(Query query, BladeUser bladeUser) {
@@ -75,26 +55,6 @@ public class EnterpriseWebController {
         }
         return R.fail("查询失败");
     }
-
-	@GetMapping("/query_enterprise_pay_money")
-	@ApiOperation(value = "获取商户交易金额", notes = "获取商户交易金额")
-	public R queryEnterprisePayMoney(BladeUser bladeUser) {
-
-		log.info("获取商户交易金额");
-		try {
-			//获取当前商户员工
-			R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
-			if (!(result.isSuccess())) {
-				return result;
-			}
-			EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-			return enterpriseService.queryEnterprisePayMoney(enterpriseWorkerEntity.getEnterpriseId());
-		} catch (Exception e) {
-			log.error("获取商户交易金额异常", e);
-		}
-		return R.fail("查询失败");
-	}
 
     @GetMapping("/get_enterprise_detail_by_id")
     @ApiOperation(value = "根据商户ID获取商户详情", notes = "根据商户ID获取商户详情")

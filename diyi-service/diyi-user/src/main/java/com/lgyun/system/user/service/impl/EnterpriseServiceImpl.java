@@ -7,13 +7,16 @@ import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.vo.TransactionMonthVO;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.mapper.EnterpriseMapper;
 import com.lgyun.system.user.oss.AliyunOssService;
-import com.lgyun.system.user.service.*;
-import com.lgyun.system.user.vo.*;
+import com.lgyun.system.user.service.IEnterpriseProviderService;
+import com.lgyun.system.user.service.IEnterpriseService;
+import com.lgyun.system.user.service.IMakerEnterpriseService;
+import com.lgyun.system.user.vo.EnterprisesDetailVO;
+import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
+import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 import com.lgyun.system.user.vo.enterprise.EnterpriseResponse;
 import com.lgyun.system.user.wrapper.EnterpriseWrapper;
 import lombok.AllArgsConstructor;
@@ -83,18 +86,8 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     @Override
-    public R<EnterpriseStatisticalVO> statistical(Long enterpriseId) {
-        return R.data(baseMapper.statistical(enterpriseId));
-    }
-
-    @Override
     public R<IPage<ServiceProviderIdNameListVO>> getServiceProviders(Query query, Long enterpriseId) {
         return enterpriseProviderService.getServiceProviderByEnterpriseId(Condition.getPage(query.setDescs("create_time")), enterpriseId, null);
-    }
-
-    @Override
-    public R<TransactionMonthVO> queryEnterprisePayMoney(Long enterpriseId) {
-        return R.data(baseMapper.queryEnterprisePayMoney(enterpriseId));
     }
 
     /**

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.order.dto.PayEnterpriseMakerListDto;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.*;
+import com.lgyun.system.user.vo.TransactionVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -124,5 +125,37 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * @return
      */
     List<PayEnterpriseMakersListVO> getPayEnterprisesByEnterprisesServiceProvider(Long enterpriseId, Long serviceProviderId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page);
+
+    /**
+     * 获取当前商户首页交易情况数据
+     *
+     * @param enterpriseId
+     * @return
+     */
+    TransactionVO transactionByEnterprise(Long enterpriseId);
+
+    /**
+     * 获取当前服务商首页交易情况数据
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    TransactionVO transactionByServiceProvider(Long serviceProviderId);
+
+    /**
+     * 查询当前商户总包+分包年流水
+     *
+     * @param enterpriseId
+     * @return
+     */
+    YearTradeVO queryTotalSubYearTradeByEnterprise(Long enterpriseId);
+
+    /**
+     * 查询当前服务商总包+分包年流水
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    YearTradeVO queryTotalSubYearTradeByServiceProvider(Long serviceProviderId);
 }
 
