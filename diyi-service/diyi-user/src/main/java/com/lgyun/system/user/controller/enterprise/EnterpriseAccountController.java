@@ -161,6 +161,8 @@ public class EnterpriseAccountController {
                 return result;
             }
 
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
             if (request.getId() != null) {
                 // 更新账号
                 EnterpriseWorkerEntity entity = enterpriseWorkerService.getById(request.getId());
@@ -205,6 +207,7 @@ public class EnterpriseAccountController {
                     entity.setMenus(collect);
                 }
                 entity.setUserId(user.getId());
+                entity.setEnterpriseId(enterpriseWorkerEntity.getEnterpriseId());
                 if (StringUtils.isNotBlank(request.getEmployeePwd())) {
                     entity.setEmployeePwd(DigestUtil.encrypt(request.getEmployeePwd()));
                 }
