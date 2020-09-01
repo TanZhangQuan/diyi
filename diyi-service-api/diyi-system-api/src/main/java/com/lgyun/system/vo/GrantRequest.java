@@ -26,4 +26,7 @@ public class GrantRequest implements Serializable {
     @ApiModelProperty(value = "账号Id")
     private Long accountId;
 
+    @ApiModelProperty(value = "创建者UserId")
+    private Long userId;
+
 }

@@ -79,7 +79,7 @@ public class ISysClientFallback implements ISysClient {
      * @return
      */
     @Override
-    public R grantFeign(GrantRequest request, BladeUser bladeUser) {
+    public R grantFeign(GrantRequest request) {
         return null;
     }
 

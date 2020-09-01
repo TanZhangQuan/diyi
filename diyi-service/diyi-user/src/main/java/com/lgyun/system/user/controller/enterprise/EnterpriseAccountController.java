@@ -220,7 +220,9 @@ public class EnterpriseAccountController {
                 grantRequest.setAccountId(request.getId());
                 grantRequest.setMenuIds(request.getMenuIds());
 
-                R grant = sysClient.grantFeign(grantRequest, bladeUser);
+                grantRequest.setUserId(bladeUser.getUserId());
+
+                R grant = sysClient.grantFeign(grantRequest);
                 if (!grant.isSuccess()) {
                     return R.fail("新增、更新商户账号失败");
                 }

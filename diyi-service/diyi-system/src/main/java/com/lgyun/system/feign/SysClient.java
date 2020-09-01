@@ -101,8 +101,8 @@ public class SysClient implements ISysClient {
 	 */
 	@Override
 	@PostMapping(API_PREFIX + "/grant")
-	public R grantFeign(GrantRequest request, BladeUser bladeUser) {
-		boolean temp = roleService.grantFeign(Arrays.asList(request.getAccountId()), request.getMenuIds(), bladeUser);
+	public R grantFeign(GrantRequest request) {
+		boolean temp = roleService.grantFeign(request);
 		return R.status(temp);
 	}
 

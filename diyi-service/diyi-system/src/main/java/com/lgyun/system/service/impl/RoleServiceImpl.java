@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.DateUtil;
+import com.lgyun.system.vo.GrantRequest;
 import lombok.AllArgsConstructor;
 import com.lgyun.common.constant.RoleConstant;
 import com.lgyun.common.node.ForestNodeMerger;
@@ -23,6 +24,7 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -72,8 +74,12 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 	}
 
 	@Override
-	public boolean grantFeign(@NotEmpty List<Long> roleIds, @NotEmpty List<Long> menuIds, BladeUser user) {
-		// 删除角色配置的菜单集合
+	public boolean grantFeign(GrantRequest request) {
+
+        List<Long> roleIds = Arrays.asList(request.getAccountId());
+        List<Long> menuIds = request.getMenuIds();
+
+	    // 删除角色配置的菜单集合
 		roleMenuService.remove(Wrappers.<RoleMenu>update().lambda().in(RoleMenu::getRoleId, roleIds));
 
 		// 组装配置
@@ -84,8 +90,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 			roleMenu.setMenuId(menuId);
 
 
-			roleMenu.setCreateUser(user.getUserId());
-			roleMenu.setUpdateUser(user.getUserId());
+			roleMenu.setCreateUser(request.getUserId());
+			roleMenu.setUpdateUser(request.getUserId());
 			Date now = DateUtil.now();
 			roleMenu.setCreateTime(now);
 			roleMenu.setUpdateTime(now);

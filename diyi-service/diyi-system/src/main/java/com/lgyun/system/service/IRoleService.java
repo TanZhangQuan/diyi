@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.entity.Role;
+import com.lgyun.system.vo.GrantRequest;
 import com.lgyun.system.vo.RoleVO;
 
 import javax.validation.constraints.NotEmpty;
@@ -45,11 +46,10 @@ public interface IRoleService extends IService<Role> {
 	/**
 	 * 权限配置
 	 *
-	 * @param roleIds 角色id集合
-	 * @param menuIds 菜单id集合
+	 * @param request
 	 * @return 是否成功
 	 */
-	boolean grantFeign(@NotEmpty List<Long> roleIds, @NotEmpty List<Long> menuIds, BladeUser bladeUser);
+	boolean grantFeign(GrantRequest request);
 
 
 	/**
