@@ -3,6 +3,9 @@ package com.lgyun.system.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lgyun.common.node.ForestNodeManager;
+import com.lgyun.common.node.INode;
+import com.lgyun.common.node.TreeNode;
 import lombok.AllArgsConstructor;
 import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.node.ForestNodeMerger;
@@ -66,7 +69,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 	}
 
 	@Override
-	public List<MenuVO> tree() {
+	public List<TreeNode> tree() {
 		return ForestNodeMerger.merge(baseMapper.tree());
 	}
 

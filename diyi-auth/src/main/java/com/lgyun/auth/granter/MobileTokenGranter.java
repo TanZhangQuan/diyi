@@ -91,7 +91,7 @@ public class MobileTokenGranter implements ITokenGranter {
                 break;
 
             case SERVICEPROVIDER:
-                // 商户处理
+                // 服务商处理
                 res = userClient.serviceProviderWorkerDeal(mobile, "", GrantType.MOBILE);
                 if (!(res.isSuccess())) {
                     return res;

@@ -2,6 +2,7 @@ package com.lgyun.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lgyun.common.node.TreeNode;
 import com.lgyun.system.dto.MenuDTO;
 import com.lgyun.system.entity.Menu;
 import com.lgyun.system.vo.MenuVO;
@@ -29,7 +30,7 @@ public interface MenuMapper extends BaseMapper<Menu> {
 	 *
 	 * @return
 	 */
-	List<MenuVO> tree();
+	List<TreeNode> tree();
 
 	/**
 	 * 授权树形结构
