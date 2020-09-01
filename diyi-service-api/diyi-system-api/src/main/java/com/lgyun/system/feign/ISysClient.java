@@ -1,10 +1,16 @@
 package com.lgyun.system.feign;
 
+import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
+import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.entity.Dept;
 import com.lgyun.system.entity.Role;
+import com.lgyun.system.vo.GrantRequest;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -124,5 +130,14 @@ public interface ISysClient {
      */
     @GetMapping(API_PREFIX + "/getRoleAlias")
     String getRoleAlias(@RequestParam("id") Long id);
+
+    /**
+     * 授权接口
+     *
+     * @param request
+     * @return
+     */
+    @PostMapping(API_PREFIX + "/grant")
+    R grant(@RequestBody GrantRequest request);
 
 }

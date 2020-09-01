@@ -1,15 +1,19 @@
 package com.lgyun.system.feign;
 
+import com.lgyun.common.api.R;
 import com.lgyun.system.entity.Dept;
 import com.lgyun.system.entity.Role;
 import com.lgyun.system.service.IDeptService;
 import com.lgyun.system.service.IPostService;
 import com.lgyun.system.service.IRoleService;
+import com.lgyun.system.vo.GrantRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -87,4 +91,18 @@ public class SysClient implements ISysClient {
 	public String getRoleAlias(Long id) {
 		return roleService.getById(id).getRoleAlias();
 	}
+
+	/**
+	 * 授权接口
+	 *
+	 * @param request
+	 * @return
+	 */
+	@Override
+	@PostMapping(API_PREFIX + "/grant")
+	public R grant(GrantRequest request) {
+		boolean temp = roleService.grant(Arrays.asList(request.getAccountId()), request.getMenuIds());
+		return R.status(temp);
+	}
+
 }
