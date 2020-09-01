@@ -2,6 +2,7 @@ package com.lgyun.system.user.vo;
 
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -34,6 +35,10 @@ public class EnterpriseWorkerVO extends EnterpriseWorkerEntity {
 
     private String positionNameDesc;
 
+    @ApiModelProperty(value = "菜单集合,勾选菜单title集合")
     private List<String> menuNameList;
+
+    @ApiModelProperty(value = "菜单集合,勾选菜单Id集合")
+    private List<Long> menuIds;
 
 }

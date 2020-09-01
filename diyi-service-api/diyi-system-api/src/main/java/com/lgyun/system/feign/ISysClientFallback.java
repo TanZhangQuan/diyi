@@ -1,7 +1,9 @@
 package com.lgyun.system.feign;
 
+import com.lgyun.common.api.R;
 import com.lgyun.system.entity.Dept;
 import com.lgyun.system.entity.Role;
+import com.lgyun.system.vo.GrantRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -68,4 +70,16 @@ public class ISysClientFallback implements ISysClient {
     public String getRoleAlias(Long id) {
         return null;
     }
+
+    /**
+     * 授权接口
+     *
+     * @param request
+     * @return
+     */
+    @Override
+    public R grant(GrantRequest request) {
+        return null;
+    }
+
 }
