@@ -138,6 +138,6 @@ public interface ISysClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/grant")
-    R grant(@RequestBody GrantRequest request);
+    R grantFeign(@RequestBody GrantRequest request, BladeUser bladeUser);
 
 }

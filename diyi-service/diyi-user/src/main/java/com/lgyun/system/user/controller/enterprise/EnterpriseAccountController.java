@@ -15,7 +15,6 @@ import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.user.vo.EnterpriseWorkerVO;
 import com.lgyun.system.user.vo.enterprise.EnterpriseAccountRequest;
-import com.lgyun.system.user.vo.enterprise.EnterpriseContactRequest;
 import com.lgyun.system.vo.GrantRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -221,7 +220,7 @@ public class EnterpriseAccountController {
                 grantRequest.setAccountId(request.getId());
                 grantRequest.setMenuIds(request.getMenuIds());
 
-                R grant = sysClient.grant(grantRequest);
+                R grant = sysClient.grantFeign(grantRequest, bladeUser);
                 if (!grant.isSuccess()) {
                     return R.fail("新增、更新商户账号失败");
                 }

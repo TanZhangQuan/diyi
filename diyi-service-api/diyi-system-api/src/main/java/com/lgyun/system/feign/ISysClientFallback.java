@@ -1,6 +1,7 @@
 package com.lgyun.system.feign;
 
 import com.lgyun.common.api.R;
+import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.entity.Dept;
 import com.lgyun.system.entity.Role;
 import com.lgyun.system.vo.GrantRequest;
@@ -78,7 +79,7 @@ public class ISysClientFallback implements ISysClient {
      * @return
      */
     @Override
-    public R grant(GrantRequest request) {
+    public R grantFeign(GrantRequest request, BladeUser bladeUser) {
         return null;
     }
 

@@ -1,6 +1,7 @@
 package com.lgyun.system.feign;
 
 import com.lgyun.common.api.R;
+import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.entity.Dept;
 import com.lgyun.system.entity.Role;
 import com.lgyun.system.service.IDeptService;
@@ -100,8 +101,8 @@ public class SysClient implements ISysClient {
 	 */
 	@Override
 	@PostMapping(API_PREFIX + "/grant")
-	public R grant(GrantRequest request) {
-		boolean temp = roleService.grant(Arrays.asList(request.getAccountId()), request.getMenuIds());
+	public R grantFeign(GrantRequest request, BladeUser bladeUser) {
+		boolean temp = roleService.grantFeign(Arrays.asList(request.getAccountId()), request.getMenuIds(), bladeUser);
 		return R.status(temp);
 	}
 
