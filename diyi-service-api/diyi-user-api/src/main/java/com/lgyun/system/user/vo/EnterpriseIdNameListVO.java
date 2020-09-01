@@ -13,19 +13,19 @@ import java.io.Serializable;
  * @time 14:55.
  */
 @Data
-@ApiModel(value = "ServiceProviderIdNameListVO对象", description = "ServiceProviderIdNameListVO对象")
-public class ServiceProviderIdNameListVO implements Serializable {
+@ApiModel(value = "EnterpriseIdNameListVO对象", description = "EnterpriseIdNameListVO对象")
+public class EnterpriseIdNameListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 服务商ID
+     * 商户ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long serviceProviderId;
+    private Long enterpriseId;
 
     /**
-     * 服务商名称
+     * 商户名称
      */
-    private String serviceProviderName;
+    private String enterpriseName;
 
 }

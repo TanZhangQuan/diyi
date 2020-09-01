@@ -3,4 +3,45 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.ServiceProviderMapper">
 
+    <resultMap type="com.lgyun.system.user.vo.ServiceProviderBankCardVO" id="serviceProviderBankCardVO">
+        <result property="invoiceAccount" column="invoice_account"/>
+        <result property="invoiceBankName" column="invoice_bank_name"/>
+        <result property="invoiceAccountName" column="invoice_account_name"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.user.vo.ServiceProviderContactPersonVO" id="serviceProviderContactPersonVO">
+        <result property="contact1Name" column="contact1_name"/>
+        <result property="contact1Position" column="contact1_position"/>
+        <result property="contact1Phone" column="contact1_phone"/>
+        <result property="contact1Mail" column="contact1_mail"/>
+        <result property="contact2Name" column="contact2_name"/>
+        <result property="contact2Position" column="contact2_position"/>
+        <result property="contact2Phone" column="contact2_phone"/>
+        <result property="contact2Mail" column="contact2_mail"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.user.vo.ServiceProviderInvoiceVO" id="serviceProviderInvoiceVO">
+        <result property="invoiceEnterpriseName" column="invoice_enterprise_name"/>
+        <result property="invoiceTaxNo" column="invoice_tax_no"/>
+        <result property="invoiceAddress" column="invoice_address"/>
+        <result property="invoiceTelNo" column="invoice_tel_no"/>
+        <result property="invoiceBankName" column="invoice_bank_name"/>
+        <result property="invoiceAccountName" column="invoice_account_name"/>
+        <result property="invoiceAccount" column="invoice_account"/>
+    </resultMap>
+
+    <select id="getBankCard" resultMap="serviceProviderBankCardVO">
+        SELECT invoice_account, invoice_account_name, invoice_bank_name FROM diyi_service_provider WHERE is_deleted = 0 AND id = #{param1} LIMIT 1
+    </select>
+
+    <select id="getContactPerson" resultMap="serviceProviderContactPersonVO">
+        SELECT contact1_name, contact1_position, contact1_phone, contact1_mail, contact2_name, contact2_position, contact2_phone, contact2_mail
+        FROM diyi_service_provider WHERE is_deleted = 0 AND id = #{param1} LIMIT 1
+    </select>
+
+    <select id="getInvoice" resultMap="serviceProviderInvoiceVO">
+        SELECT invoice_enterprise_name, invoice_tax_no, invoice_address, invoice_tel_no, invoice_bank_name, invoice_account_name, invoice_account
+        FROM diyi_service_provider WHERE is_deleted = 0 AND id = #{param1} LIMIT 1
+    </select>
+
 </mapper>

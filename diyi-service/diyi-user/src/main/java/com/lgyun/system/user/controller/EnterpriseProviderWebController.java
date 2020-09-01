@@ -78,4 +78,24 @@ public class EnterpriseProviderWebController {
         return R.fail("查询失败");
     }
 
+    @GetMapping("/getEnterprisesByServiceProvider")
+    @ApiOperation(value = "获取当前服务商合作商户", notes = "获取当前服务商合作商户")
+    public R getEnterprises(Query query, BladeUser bladeUser) {
+
+        log.info("获取当前服务商合作商户");
+        try {
+            //获取当前服务商员工
+            R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+            return enterpriseProviderService.getEnterprisesByServiceProvider(Condition.getPage(query.setDescs("create_time")), serviceProviderWorkerEntity.getServiceProviderId());
+        } catch (Exception e) {
+            log.error("获取当前服务商合作商户异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
 }
