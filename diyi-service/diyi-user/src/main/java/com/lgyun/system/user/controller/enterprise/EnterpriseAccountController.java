@@ -208,6 +208,7 @@ public class EnterpriseAccountController {
                 }
                 entity.setUserId(user.getId());
                 entity.setEnterpriseId(enterpriseWorkerEntity.getEnterpriseId());
+                entity.setUpLevelId(enterpriseWorkerEntity.getId());
                 if (StringUtils.isNotBlank(request.getEmployeePwd())) {
                     entity.setEmployeePwd(DigestUtil.encrypt(request.getEmployeePwd()));
                 }
