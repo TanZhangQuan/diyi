@@ -24,7 +24,7 @@ public interface RoleMenuMapper extends BaseMapper<RoleMenu> {
 	 */
 	List<RoleMenuVO> selectRoleMenuPage(IPage page, RoleMenuVO roleMenu);
 
-	@Select("select menu_id from sys_role_menu where role_d=#{roleId} and is_deleted = 0")
+	@Select("select menu_id from sys_role_menu where role_id=#{roleId} and is_deleted = 0")
 	List<String> getUserMenus(@Param("roleId") Long roleId);
 
 }
