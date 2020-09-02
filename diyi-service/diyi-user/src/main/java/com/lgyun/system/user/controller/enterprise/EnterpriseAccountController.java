@@ -15,7 +15,6 @@ import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.user.vo.EnterpriseWorkerVO;
 import com.lgyun.system.user.vo.enterprise.EnterpriseAccountRequest;
-import com.lgyun.system.user.vo.enterprise.EnterpriseContactRequest;
 import com.lgyun.system.vo.GrantRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,8 +25,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -45,7 +44,6 @@ public class EnterpriseAccountController {
 
     private IEnterpriseWorkerService enterpriseWorkerService;
     private ISysClient sysClient;
-    private IUserService userService;
 
     @GetMapping("/list")
     @ApiOperation(value = "获取商户所有主子账号详情", notes = "获取商户所有主子账号详情")
@@ -108,6 +106,9 @@ public class EnterpriseAccountController {
             response.setPositionNameValue(entity.getPositionName().getValue());
             response.setPositionNameDesc(entity.getPositionName().getDesc());
 
+            List<String> menuIds = sysClient.getMenuIds(entity.getId());
+            response.setMenuIds(menuIds);
+
             return R.data(response);
         } catch (Exception e) {
             log.error("获取商户账户详情失败，error", e);
@@ -127,21 +128,22 @@ public class EnterpriseAccountController {
             }
 
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-            if (!enterpriseWorkerEntity.getId().equals(request.getAccountId())) {
-                return R.fail("请求参数非法");
-            }
 
             EnterpriseWorkerEntity entity = enterpriseWorkerService.getById(request.getAccountId());
             if (entity == null) {
                 return R.fail("没有此账号");
             }
+
             if (EnterpriseAccountRequest.ACCOUNT_DEL.equals(request.getOperationCode())) {
                 entity.setIsDeleted(1);
             } else if (EnterpriseAccountRequest.ACCOUNT_STOP.equals(request.getOperationCode())) {
                 entity.setStatus(0);
             }
+
+            entity.setUpdateUser(enterpriseWorkerEntity.getId());
+            entity.setUpdateTime(new Date());
             entity.setEnterpriseWorkerState(AccountState.FREEZE);
-            enterpriseWorkerService.save(entity);
+            enterpriseWorkerService.updateById(entity);
 
             return R.success("操作成功");
         } catch (Exception e) {
@@ -161,69 +163,11 @@ public class EnterpriseAccountController {
                 return result;
             }
 
-            if (request.getId() != null) {
-                // 更新账号
-                EnterpriseWorkerEntity entity = enterpriseWorkerService.getById(request.getId());
-                if (entity == null) {
-                    return R.fail("没有此账号");
-                }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-                BeanUtils.copyProperties(request, entity, BeanServiceUtil.getNullPropertyNames(request));
-                if (request.getMenuNameList() != null && request.getMenuNameList().size() > 0) {
-                    String collect = request.getMenuNameList().stream().collect(Collectors.joining(", "));
-                    entity.setMenus(collect);
-                }
-                if (StringUtils.isNotBlank(request.getEmployeePwd())) {
-                    entity.setEmployeePwd(DigestUtil.encrypt(request.getEmployeePwd()));
-                }
-                enterpriseWorkerService.updateById(entity);
-
-            } else {
-                // 新增账号
-                EnterpriseWorkerEntity workerServiceByPhoneNumber = enterpriseWorkerService.findByPhoneNumber(request.getPhoneNumber());
-                if (workerServiceByPhoneNumber != null) {
-                    return R.fail("该手机号已经注册过");
-                }
-
-                UserInfo userInfo = userService.userInfoByPhone(request.getPhoneNumber(), UserType.ENTERPRISE);
-                if (userInfo != null) {
-                    return R.fail("该手机号已经注册过");
-                }
-                //新建管理员
-                User user = new User();
-                user.setUserType(UserType.ENTERPRISE);
-                user.setAccount(request.getPhoneNumber());
-                user.setPassword(DigestUtil.encrypt(String.valueOf(UUID.randomUUID())));
-                user.setPhone(request.getPhoneNumber());
-                user.setName(request.getWorkerName());
-                userService.save(user);
-
-                EnterpriseWorkerEntity entity = new EnterpriseWorkerEntity();
-                BeanUtils.copyProperties(request, entity, BeanServiceUtil.getNullPropertyNames(request));
-                if (request.getMenuNameList() != null && request.getMenuNameList().size() > 0) {
-                    String collect = request.getMenuNameList().stream().collect(Collectors.joining(", "));
-                    entity.setMenus(collect);
-                }
-                entity.setUserId(user.getId());
-                if (StringUtils.isNotBlank(request.getEmployeePwd())) {
-                    entity.setEmployeePwd(DigestUtil.encrypt(request.getEmployeePwd()));
-                }
-
-                enterpriseWorkerService.save(entity);
-                request.setId(entity.getId());
-            }
-            if (request.getMenuIds() != null && request.getMenuIds().size() > 0) {
-                GrantRequest grantRequest = new GrantRequest();
-                grantRequest.setAccountId(request.getId());
-                grantRequest.setMenuIds(request.getMenuIds());
-
-                R grant = sysClient.grant(grantRequest);
-                if (!grant.isSuccess()) {
-                    return R.fail("新增、更新商户账号失败");
-                }
-            }
-
-            return R.success("操作成功");
+            // 执行新增、更新、授权操作
+            R<String> stringR = enterpriseWorkerService.saveEnterpriseAccount(request, enterpriseWorkerEntity, bladeUser);
+            return stringR;
         } catch (Exception e) {
             log.error("新增、更新商户账号 error=", e);
         }

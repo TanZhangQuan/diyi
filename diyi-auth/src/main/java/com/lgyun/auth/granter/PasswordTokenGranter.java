@@ -48,6 +48,8 @@ public class PasswordTokenGranter implements ITokenGranter {
         //获取用户类型
         UserType userType = (UserType) tokenParameter.getArgs().get("userType");
 
+        String encrypt = DigestUtil.encrypt(password);
+
         UserInfo userInfo;
         R<String> res;
         switch (userType) {
@@ -73,12 +75,11 @@ public class PasswordTokenGranter implements ITokenGranter {
 
             case ENTERPRISE:
                 //商户处理
-                res = userClient.enterpriseWorkerDeal(account, DigestUtil.encrypt(password), GrantType.PASSWORD);
+                res = userClient.enterpriseWorkerDeal(account, encrypt, GrantType.PASSWORD);
                 if (!(res.isSuccess())) {
                     return res;
                 }
-
-                userInfo = userClient.userInfoByPhone(account, userType);
+                userInfo = userClient.userInfo(account, encrypt, userType);
                 break;
 
             case SERVICEPROVIDER:
@@ -88,9 +89,8 @@ public class PasswordTokenGranter implements ITokenGranter {
                     return res;
                 }
 
-                userInfo = userClient.userInfoByPhone(account, userType);
+                userInfo = userClient.userInfo(account, encrypt, userType);
                 break;
-
 
             case ADMIN:
                 //判断是否跑图形验证码

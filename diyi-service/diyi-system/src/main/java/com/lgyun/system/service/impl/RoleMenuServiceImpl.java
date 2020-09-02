@@ -6,6 +6,8 @@ import com.lgyun.system.mapper.RoleMenuMapper;
 import com.lgyun.system.service.IRoleMenuService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 服务实现类
  *
@@ -13,5 +15,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> implements IRoleMenuService {
+
+    @Override
+    public List<String> getUserMenus(Long roleId) {
+        return this.baseMapper.getUserMenus(roleId);
+    }
 
 }

@@ -3,6 +3,10 @@ package com.lgyun.system.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lgyun.common.constant.BladeConstant;
+import com.lgyun.common.secure.BladeUser;
+import com.lgyun.common.tool.DateUtil;
+import com.lgyun.system.vo.GrantRequest;
 import lombok.AllArgsConstructor;
 import com.lgyun.common.constant.RoleConstant;
 import com.lgyun.common.node.ForestNodeMerger;
@@ -20,6 +24,8 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,6 +66,40 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 			RoleMenu roleMenu = new RoleMenu();
 			roleMenu.setRoleId(roleId);
 			roleMenu.setMenuId(menuId);
+
+			roleMenus.add(roleMenu);
+		}));
+		// 新增配置
+		return roleMenuService.saveBatch(roleMenus);
+	}
+
+	@Override
+	public boolean grantFeign(GrantRequest request) {
+
+        List<Long> roleIds = Arrays.asList(request.getAccountId());
+        List<Long> menuIds = request.getMenuIds();
+
+	    // 删除角色配置的菜单集合
+		roleMenuService.remove(Wrappers.<RoleMenu>update().lambda().in(RoleMenu::getRoleId, roleIds));
+
+		// 组装配置
+		List<RoleMenu> roleMenus = new ArrayList<>();
+		roleIds.forEach(roleId -> menuIds.forEach(menuId -> {
+			RoleMenu roleMenu = new RoleMenu();
+			roleMenu.setRoleId(roleId);
+			roleMenu.setMenuId(menuId);
+
+
+			roleMenu.setCreateUser(request.getUserId());
+			roleMenu.setUpdateUser(request.getUserId());
+			Date now = DateUtil.now();
+			roleMenu.setCreateTime(now);
+			roleMenu.setUpdateTime(now);
+			if (roleMenu.getStatus() == null) {
+				roleMenu.setStatus(BladeConstant.DB_STATUS_NORMAL);
+			}
+			roleMenu.setIsDeleted(BladeConstant.DB_NOT_DELETED);
+
 			roleMenus.add(roleMenu);
 		}));
 		// 新增配置

@@ -39,6 +39,6 @@ public class EnterpriseWorkerVO extends EnterpriseWorkerEntity {
     private List<String> menuNameList;
 
     @ApiModelProperty(value = "菜单集合,勾选菜单Id集合")
-    private List<Long> menuIds;
+    private List<String> menuIds;
 
 }

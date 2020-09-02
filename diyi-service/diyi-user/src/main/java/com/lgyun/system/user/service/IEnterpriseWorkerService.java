@@ -5,6 +5,7 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.dto.UpdatePasswordDto;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
+import com.lgyun.system.user.vo.EnterpriseWorkerVO;
 import com.lgyun.system.user.vo.enterprise.EnterpriseContactRequest;
 
 /**
@@ -62,6 +63,16 @@ public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEn
      * @return
      */
     R<String> addNewEnterpriseWorker(EnterpriseContactRequest request, EnterpriseWorkerEntity enterpriseWorkerEntity, BladeUser bladeUser);
+
+    /**
+     * 新增或更新商户账号信息，含认证授权
+     *
+     * @param request
+     * @param enterpriseWorkerEntity
+     * @param bladeUser
+     * @return
+     */
+    R<String> saveEnterpriseAccount(EnterpriseWorkerVO request, EnterpriseWorkerEntity enterpriseWorkerEntity, BladeUser bladeUser);
 
 }
 
