@@ -6,26 +6,32 @@ import com.lgyun.common.constant.SmsConstant;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.common.tool.BeanUtil;
-import com.lgyun.common.tool.DigestUtil;
-import com.lgyun.common.tool.RedisUtil;
-import com.lgyun.common.tool.StringUtil;
+import com.lgyun.common.tool.*;
 import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.system.feign.ISysClient;
 import com.lgyun.system.user.dto.UpdatePasswordDto;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.User;
+import com.lgyun.system.user.entity.UserInfo;
 import com.lgyun.system.user.mapper.EnterpriseWorkerMapper;
 import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.service.IUserService;
+import com.lgyun.system.user.vo.EnterpriseWorkerVO;
 import com.lgyun.system.user.vo.enterprise.EnterpriseContactRequest;
+import com.lgyun.system.vo.GrantRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Service 实现
@@ -41,6 +47,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
     private IEnterpriseService enterpriseService;
     private IUserService userService;
     private RedisUtil redisUtil;
+    private ISysClient sysClient;
 
     @Override
     public EnterpriseWorkerEntity findByPhoneNumber(String phoneNumber) {
@@ -155,6 +162,90 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
         this.save(workerEntity);
 
         return R.success("创建成功");
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public R<String> saveEnterpriseAccount(EnterpriseWorkerVO request, EnterpriseWorkerEntity enterpriseWorkerEntity, BladeUser bladeUser) {
+        User userLogin = userService.getById(bladeUser.getUserId());
+        if (request.getId() != null) {
+            // 更新账号
+            EnterpriseWorkerEntity entity = this.getById(request.getId());
+            if (entity == null) {
+                return R.fail("没有此账号");
+            }
+
+            BeanUtils.copyProperties(request, entity, BeanServiceUtil.getNullPropertyNames(request));
+            if (request.getMenuNameList() != null && request.getMenuNameList().size() > 0) {
+                String collect = request.getMenuNameList().stream().collect(Collectors.joining(", "));
+                entity.setMenus(collect);
+            }
+            if (StringUtils.isNotBlank(request.getEmployeePwd())) {
+                String encrypt = DigestUtil.encrypt(request.getEmployeePwd());
+                entity.setEmployeePwd(encrypt);
+                userLogin.setPassword(encrypt);
+                userLogin.setAccount(entity.getEmployeeUserName());
+            }
+
+            userService.updateById(userLogin);
+            this.updateById(entity);
+        } else {
+            // 新增账号
+            EnterpriseWorkerEntity workerServiceByPhoneNumber = this.findByPhoneNumber(request.getPhoneNumber());
+            if (workerServiceByPhoneNumber != null) {
+                return R.fail("该手机号已经注册过");
+            }
+
+            UserInfo userInfo = userService.userInfoByPhone(request.getPhoneNumber(), UserType.ENTERPRISE);
+            if (userInfo != null) {
+                return R.fail("该手机号已经注册过");
+            }
+            //新建管理员
+            User user = new User();
+            user.setUserType(UserType.ENTERPRISE);
+            user.setAccount(request.getEmployeeUserName());
+            if (StringUtils.isNotBlank(request.getEmployeePwd())) {
+                user.setPassword(DigestUtil.encrypt(request.getEmployeePwd()));
+            }
+            user.setPhone(request.getPhoneNumber());
+            user.setName(request.getWorkerName());
+            userService.save(user);
+
+            EnterpriseWorkerEntity entity = new EnterpriseWorkerEntity();
+            BeanUtils.copyProperties(request, entity, BeanServiceUtil.getNullPropertyNames(request));
+            if (request.getMenuNameList() != null && request.getMenuNameList().size() > 0) {
+                String collect = request.getMenuNameList().stream().collect(Collectors.joining(", "));
+                entity.setMenus(collect);
+            }
+            entity.setUserId(user.getId());
+            entity.setEnterpriseId(enterpriseWorkerEntity.getEnterpriseId());
+            entity.setUpLevelId(enterpriseWorkerEntity.getId());
+            if (StringUtils.isNotBlank(request.getEmployeePwd())) {
+                entity.setEmployeePwd(DigestUtil.encrypt(request.getEmployeePwd()));
+            }
+
+            this.save(entity);
+            request.setId(entity.getId());
+        }
+        if (request.getMenuIds() != null && request.getMenuIds().size() > 0) {
+            GrantRequest grantRequest = new GrantRequest();
+            grantRequest.setAccountId(request.getId());
+            List<String> menuIds = request.getMenuIds();
+            List<Long> menuList = new ArrayList<>();
+            menuIds.stream().forEach(menu -> {
+                menuList.add(Long.valueOf(menu));
+            });
+            grantRequest.setMenuIds(menuList);
+
+            grantRequest.setUserId(bladeUser.getUserId());
+
+            R grant = sysClient.grantFeign(grantRequest);
+            if (!grant.isSuccess()) {
+                return R.fail("新增、更新商户账号失败");
+            }
+        }
+
+        return R.success("OK");
     }
 
 }

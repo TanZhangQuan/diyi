@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -45,7 +44,6 @@ public class EnterpriseAccountController {
 
     private IEnterpriseWorkerService enterpriseWorkerService;
     private ISysClient sysClient;
-    private IUserService userService;
 
     @GetMapping("/list")
     @ApiOperation(value = "获取商户所有主子账号详情", notes = "获取商户所有主子账号详情")
@@ -167,86 +165,9 @@ public class EnterpriseAccountController {
 
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-            User userLogin = userService.getById(bladeUser.getUserId());
-            if (request.getId() != null) {
-                // 更新账号
-                EnterpriseWorkerEntity entity = enterpriseWorkerService.getById(request.getId());
-                if (entity == null) {
-                    return R.fail("没有此账号");
-                }
-
-                BeanUtils.copyProperties(request, entity, BeanServiceUtil.getNullPropertyNames(request));
-                if (request.getMenuNameList() != null && request.getMenuNameList().size() > 0) {
-                    String collect = request.getMenuNameList().stream().collect(Collectors.joining(", "));
-                    entity.setMenus(collect);
-                }
-                if (StringUtils.isNotBlank(request.getEmployeePwd())) {
-                    String encrypt = DigestUtil.encrypt(request.getEmployeePwd());
-                    entity.setEmployeePwd(encrypt);
-                    userLogin.setPassword(encrypt);
-                    userLogin.setAccount(entity.getEmployeeUserName());
-                }
-
-                userService.updateById(userLogin);
-                enterpriseWorkerService.updateById(entity);
-
-            } else {
-                // 新增账号
-                EnterpriseWorkerEntity workerServiceByPhoneNumber = enterpriseWorkerService.findByPhoneNumber(request.getPhoneNumber());
-                if (workerServiceByPhoneNumber != null) {
-                    return R.fail("该手机号已经注册过");
-                }
-
-                UserInfo userInfo = userService.userInfoByPhone(request.getPhoneNumber(), UserType.ENTERPRISE);
-                if (userInfo != null) {
-                    return R.fail("该手机号已经注册过");
-                }
-                //新建管理员
-                User user = new User();
-                user.setUserType(UserType.ENTERPRISE);
-                user.setAccount(request.getEmployeeUserName());
-                if (StringUtils.isNotBlank(request.getEmployeePwd())) {
-                    user.setPassword(DigestUtil.encrypt(request.getEmployeePwd()));
-                }
-                user.setPhone(request.getPhoneNumber());
-                user.setName(request.getWorkerName());
-                userService.save(user);
-
-                EnterpriseWorkerEntity entity = new EnterpriseWorkerEntity();
-                BeanUtils.copyProperties(request, entity, BeanServiceUtil.getNullPropertyNames(request));
-                if (request.getMenuNameList() != null && request.getMenuNameList().size() > 0) {
-                    String collect = request.getMenuNameList().stream().collect(Collectors.joining(", "));
-                    entity.setMenus(collect);
-                }
-                entity.setUserId(user.getId());
-                entity.setEnterpriseId(enterpriseWorkerEntity.getEnterpriseId());
-                entity.setUpLevelId(enterpriseWorkerEntity.getId());
-                if (StringUtils.isNotBlank(request.getEmployeePwd())) {
-                    entity.setEmployeePwd(DigestUtil.encrypt(request.getEmployeePwd()));
-                }
-
-                enterpriseWorkerService.save(entity);
-                request.setId(entity.getId());
-            }
-            if (request.getMenuIds() != null && request.getMenuIds().size() > 0) {
-                GrantRequest grantRequest = new GrantRequest();
-                grantRequest.setAccountId(request.getId());
-                List<String> menuIds = request.getMenuIds();
-                List<Long> menuList = new ArrayList<>();
-                menuIds.stream().forEach(menu -> {
-                    menuList.add(Long.valueOf(menu));
-                });
-                grantRequest.setMenuIds(menuList);
-
-                grantRequest.setUserId(bladeUser.getUserId());
-
-                R grant = sysClient.grantFeign(grantRequest);
-                if (!grant.isSuccess()) {
-                    return R.fail("新增、更新商户账号失败");
-                }
-            }
-
-            return R.success("操作成功");
+            // 执行新增、更新、授权操作
+            R<String> stringR = enterpriseWorkerService.saveEnterpriseAccount(request, enterpriseWorkerEntity, bladeUser);
+            return stringR;
         } catch (Exception e) {
             log.error("新增、更新商户账号 error=", e);
         }
