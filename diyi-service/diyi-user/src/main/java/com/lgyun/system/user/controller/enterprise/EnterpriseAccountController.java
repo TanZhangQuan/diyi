@@ -25,6 +25,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -126,19 +127,20 @@ public class EnterpriseAccountController {
             }
 
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-            if (!enterpriseWorkerEntity.getId().equals(request.getAccountId())) {
-                return R.fail("请求参数非法");
-            }
 
             EnterpriseWorkerEntity entity = enterpriseWorkerService.getById(request.getAccountId());
             if (entity == null) {
                 return R.fail("没有此账号");
             }
+
             if (EnterpriseAccountRequest.ACCOUNT_DEL.equals(request.getOperationCode())) {
                 entity.setIsDeleted(1);
             } else if (EnterpriseAccountRequest.ACCOUNT_STOP.equals(request.getOperationCode())) {
                 entity.setStatus(0);
             }
+
+            entity.setUpdateUser(enterpriseWorkerEntity.getId());
+            entity.setUpdateTime(new Date());
             entity.setEnterpriseWorkerState(AccountState.FREEZE);
             enterpriseWorkerService.save(entity);
 
