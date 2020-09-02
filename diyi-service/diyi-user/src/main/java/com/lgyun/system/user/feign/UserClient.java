@@ -54,7 +54,6 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    @GetMapping(API_PREFIX + "/user-info")
     public UserInfo userInfo(String account, String password, UserType userType) {
         return service.userInfo(account, password, userType);
     }
