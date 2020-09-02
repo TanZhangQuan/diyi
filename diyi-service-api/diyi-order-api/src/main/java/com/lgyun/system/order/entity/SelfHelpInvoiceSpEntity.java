@@ -47,7 +47,7 @@ public class SelfHelpInvoiceSpEntity extends BaseEntity {
     private Date applyDate;
 
     /**
-     * 申请状态 1，已提交开票中；2，已撤回；3，已开票结束。。。这个是管理端运营老师负责，提交和撤回。
+     * 申请状态: 已提交开票中；已撤回；已开票结束。。。这个是管理端运营老师负责，提交和撤回。
      */
     private ApplyState applyState;
 

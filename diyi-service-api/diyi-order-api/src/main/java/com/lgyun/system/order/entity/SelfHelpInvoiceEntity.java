@@ -118,7 +118,7 @@ public class SelfHelpInvoiceEntity extends BaseEntity {
     private BigDecimal idendityConfirmFee;
 
     /**
-     * 当前状态：0,未申请，1，申请编辑中，2，审核中；3，已通过开票中；4，已驳回；5，已开票结束
+     * 当前状态：未申请，申请编辑中，审核中；已通过开票中；已驳回；已开票结束
      */
     private ApplyState currentState = ApplyState.EDITING;
 

@@ -199,4 +199,35 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     public R<YearTradeVO> queryCrowdYearTradeByServiceProvider(Long serviceProviderId) {
         return R.data(baseMapper.queryCrowdYearTradeByServiceProvider(serviceProviderId));
     }
+
+    @Override
+    public R<MonthTradeVO> queryCrowdMonthTradeByEnterprise(Long enterpriseId) {
+        return R.data(baseMapper.queryCrowdMonthTradeByEnterprise(enterpriseId));
+    }
+
+    @Override
+    public R<MonthTradeVO> queryCrowdMonthTradeByServiceProvider(Long serviceProviderId) {
+        return R.data(baseMapper.queryCrowdMonthTradeByServiceProvider(serviceProviderId));
+    }
+
+    @Override
+    public R<WeekTradeVO> queryCrowdWeekTradeByEnterprise(Long enterpriseId) {
+        return R.data(baseMapper.queryCrowdWeekTradeByEnterprise(enterpriseId));
+    }
+
+    @Override
+    public R<WeekTradeVO> queryCrowdWeekTradeByServiceProvider(Long serviceProviderId) {
+        return R.data(baseMapper.queryCrowdWeekTradeByServiceProvider(serviceProviderId));
+    }
+
+    @Override
+    public R<DayTradeVO> queryCrowdDayTradeByEnterprise(Long enterpriseId) {
+        return R.data(baseMapper.queryCrowdDayTradeByEnterprise(enterpriseId));
+    }
+
+    @Override
+    public R<DayTradeVO> queryCrowdDayTradeByServiceProvider(Long serviceProviderId) {
+        return R.data(baseMapper.queryCrowdDayTradeByServiceProvider(serviceProviderId));
+    }
+    
 }

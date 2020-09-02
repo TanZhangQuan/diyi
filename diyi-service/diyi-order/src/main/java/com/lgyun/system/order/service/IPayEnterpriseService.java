@@ -213,7 +213,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R<TransactionVO> transactionByServiceProvider(Long serviceProviderId);
 
     /**
-     * 查询当前商户总包+分包年流水
+     * 查询当前商户总包+分包全年流水
      *
      * @param enterpriseId
      * @return
@@ -221,11 +221,60 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R<YearTradeVO> queryTotalSubYearTradeByEnterprise(Long enterpriseId);
 
     /**
-     * 查询当前服务商总包+分包年流水
+     * 查询当前服务商总包+分包全年流水
      *
      * @param serviceProviderId
      * @return
      */
     R<YearTradeVO> queryTotalSubYearTradeByServiceProvider(Long serviceProviderId);
+
+    /**
+     * 查询当前商户总包+分包本月流水
+     *
+     * @param enterpriseId
+     * @return
+     */
+    R<MonthTradeVO> queryTotalSubMonthTradeByEnterprise(Long enterpriseId);
+
+    /**
+     * 查询当前服务商总包+分包本月流水
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    R<MonthTradeVO> queryTotalSubMonthTradeByServiceProvider(Long serviceProviderId);
+
+    /**
+     * 查询当前商户总包+分包本周流水
+     *
+     * @param enterpriseId
+     * @return
+     */
+    R<WeekTradeVO> queryTotalSubWeekTradeByEnterprise(Long enterpriseId);
+
+    /**
+     * 查询当前服务商总包+分包本周流水
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    R<WeekTradeVO> queryTotalSubWeekTradeByServiceProvider(Long serviceProviderId);
+
+    /**
+     * 查询当前商户总包+分包今日流水
+     *
+     * @param enterpriseId
+     * @return
+     */
+    R<DayTradeVO> queryTotalSubDayTradeByEnterprise(Long enterpriseId);
+
+    /**
+     * 查询当前服务商总包+分包今日流水
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    R<DayTradeVO> queryTotalSubDayTradeByServiceProvider(Long serviceProviderId);
+
 }
 

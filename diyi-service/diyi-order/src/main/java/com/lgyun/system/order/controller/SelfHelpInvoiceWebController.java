@@ -366,4 +366,124 @@ public class SelfHelpInvoiceWebController {
         return R.fail("查询失败");
     }
 
+    @GetMapping("/query_crowd_month_trade_by_enterprise")
+    @ApiOperation(value = "查询当前商户众包包本月流水", notes = "查询当前商户众包包本月流水")
+    public R queryCrowdMonthTradeByEnterprise(BladeUser bladeUser) {
+
+        log.info("查询当前商户众包包本月流水");
+        try {
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return selfHelpInvoiceService.queryCrowdMonthTradeByEnterprise(enterpriseWorkerEntity.getEnterpriseId());
+        } catch (Exception e) {
+            log.error("查询当前商户众包包本月流水异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/query_crowd_month_trade_by_service_provider")
+    @ApiOperation(value = "查询当前服务商众包包本月流水", notes = "查询当前服务商众包包本月流水")
+    public R queryCrowdMonthTradeByServiceProvider(BladeUser bladeUser) {
+
+        log.info("查询当前服务商众包包本月流水");
+        try {
+            //获取当前服务商员工
+            R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+            return selfHelpInvoiceService.queryCrowdMonthTradeByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId());
+        } catch (Exception e) {
+            log.error("查询当前服务商众包包本月流水异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/query_crowd_week_trade_by_enterprise")
+    @ApiOperation(value = "查询当前商户众包包本周流水", notes = "查询当前商户众包包本周流水")
+    public R queryCrowdWeekTradeByEnterprise(BladeUser bladeUser) {
+
+        log.info("查询当前商户众包包本周流水");
+        try {
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return selfHelpInvoiceService.queryCrowdWeekTradeByEnterprise(enterpriseWorkerEntity.getEnterpriseId());
+        } catch (Exception e) {
+            log.error("查询当前商户众包包本周流水异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/query_crowd_week_trade_by_service_provider")
+    @ApiOperation(value = "查询当前服务商众包包本周流水", notes = "查询当前服务商众包包本周流水")
+    public R queryCrowdWeekTradeByServiceProvider(BladeUser bladeUser) {
+
+        log.info("查询当前服务商众包包本周流水");
+        try {
+            //获取当前服务商员工
+            R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+            return selfHelpInvoiceService.queryCrowdWeekTradeByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId());
+        } catch (Exception e) {
+            log.error("查询当前服务商众包包本周流水异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/query_crowd_day_trade_by_enterprise")
+    @ApiOperation(value = "查询当前商户众包包今日流水", notes = "查询当前商户众包包今日流水")
+    public R queryCrowdDayTradeByEnterprise(BladeUser bladeUser) {
+
+        log.info("查询当前商户众包包今日流水");
+        try {
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return selfHelpInvoiceService.queryCrowdDayTradeByEnterprise(enterpriseWorkerEntity.getEnterpriseId());
+        } catch (Exception e) {
+            log.error("查询当前商户众包包今日流水异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/query_crowd_day_trade_by_service_provider")
+    @ApiOperation(value = "查询当前服务商众包包今日流水", notes = "查询当前服务商众包包今日流水")
+    public R queryCrowdDayTradeByServiceProvider(BladeUser bladeUser) {
+
+        log.info("查询当前服务商众包包今日流水");
+        try {
+            //获取当前服务商员工
+            R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+            return selfHelpInvoiceService.queryCrowdDayTradeByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId());
+        } catch (Exception e) {
+            log.error("查询当前服务商众包包今日流水异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
 }

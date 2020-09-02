@@ -123,5 +123,53 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
      */
     YearTradeVO queryCrowdYearTradeByServiceProvider(Long serviceProviderId);
 
+    /**
+     * 查询当前商户众包本月流水
+     *
+     * @param enterpriseId
+     * @return
+     */
+    MonthTradeVO queryCrowdMonthTradeByEnterprise(Long enterpriseId);
+
+    /**
+     * 查询当前服务商众包本月流水
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    MonthTradeVO queryCrowdMonthTradeByServiceProvider(Long serviceProviderId);
+
+    /**
+     * 查询当前商户众包本周流水
+     *
+     * @param enterpriseId
+     * @return
+     */
+    WeekTradeVO queryCrowdWeekTradeByEnterprise(Long enterpriseId);
+
+    /**
+     * 查询当前服务商众包本周流水
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    WeekTradeVO queryCrowdWeekTradeByServiceProvider(Long serviceProviderId);
+
+    /**
+     * 查询当前商户众包今日流水
+     *
+     * @param enterpriseId
+     * @return
+     */
+    DayTradeVO queryCrowdDayTradeByEnterprise(Long enterpriseId);
+
+    /**
+     * 查询当前服务商众包今日流水
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    DayTradeVO queryCrowdDayTradeByServiceProvider(Long serviceProviderId);
+
 }
 

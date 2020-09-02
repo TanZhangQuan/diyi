@@ -129,5 +129,52 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      */
     R<YearTradeVO> queryCrowdYearTradeByServiceProvider(Long serviceProviderId);
 
+    /**
+     * 查询当前商户众包本月流水
+     *
+     * @param enterpriseId
+     * @return
+     */
+    R<MonthTradeVO> queryCrowdMonthTradeByEnterprise(Long enterpriseId);
+
+    /**
+     * 查询当前服务商众包本月流水
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    R<MonthTradeVO> queryCrowdMonthTradeByServiceProvider(Long serviceProviderId);
+
+    /**
+     * 查询当前商户众包本周流水
+     *
+     * @param enterpriseId
+     * @return
+     */
+    R<WeekTradeVO> queryCrowdWeekTradeByEnterprise(Long enterpriseId);
+
+    /**
+     * 查询当前服务商众包本周流水
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    R<WeekTradeVO> queryCrowdWeekTradeByServiceProvider(Long serviceProviderId);
+
+    /**
+     * 查询当前商户众包今日流水
+     *
+     * @param enterpriseId
+     * @return
+     */
+    R<DayTradeVO> queryCrowdDayTradeByEnterprise(Long enterpriseId);
+
+    /**
+     * 查询当前服务商众包今日流水
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    R<DayTradeVO> queryCrowdDayTradeByServiceProvider(Long serviceProviderId);
 }
 

@@ -70,12 +70,14 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
 
     /**
      * 根据商户查询总包发票
+     *
      * @param enterpriseId
      */
-    List<EnterpriseLumpSumInvoiceVO> findEnterpriseLumpSumInvoice(String invoiceSerialNo,String serviceProviderName,String startTime,String endTime,Long enterpriseId,IPage<EnterpriseLumpSumInvoiceVO> page);
+    List<EnterpriseLumpSumInvoiceVO> findEnterpriseLumpSumInvoice(String invoiceSerialNo, String serviceProviderName, String startTime, String endTime, Long enterpriseId, IPage<EnterpriseLumpSumInvoiceVO> page);
 
     /**
      * 查看总包发票详情
+     *
      * @param payEnterpriseId
      * @return
      */
@@ -84,25 +86,25 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     /**
      * 根据商户查询支付清单
      */
-    List<EnterprisePaymentListVO> findEnterprisePaymentList(Long enterpriseId, String serviceProviderName,IPage<EnterprisePaymentListVO> page);
+    List<EnterprisePaymentListVO> findEnterprisePaymentList(Long enterpriseId, String serviceProviderName, IPage<EnterprisePaymentListVO> page);
 
     /**
-     *根据商户查询分包列表-汇总
+     * 根据商户查询分包列表-汇总
      */
-     List<EnterpriseSubcontractInvoiceVO> findEnterpriseSubcontractSummary(Long enterpriseId, String serviceProviderName, IPage<EnterpriseSubcontractInvoiceVO> page);
+    List<EnterpriseSubcontractInvoiceVO> findEnterpriseSubcontractSummary(Long enterpriseId, String serviceProviderName, IPage<EnterpriseSubcontractInvoiceVO> page);
 
     /**
-     *根据商户查询分包列表-门征
+     * 根据商户查询分包列表-门征
      */
     List<EnterpriseSubcontractPortalVO> findEnterpriseSubcontractPortal(Long enterpriseId, String serviceProviderName, IPage<EnterpriseSubcontractPortalVO> page);
 
     /**
-     *分包列表详情-汇总
+     * 分包列表详情-汇总
      */
     EnterpriseSubcontractInvoiceVO findDetailSummary(Long makerTotalInvoiceId);
 
     /**
-     *分包列表详情-门征
+     * 分包列表详情-门征
      */
     EnterpriseSubcontractPortalVO findDetailSubcontractPortal(Long makerInvoiceId);
 
@@ -143,7 +145,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     TransactionVO transactionByServiceProvider(Long serviceProviderId);
 
     /**
-     * 查询当前商户总包+分包年流水
+     * 查询当前商户总包+分包全年流水
      *
      * @param enterpriseId
      * @return
@@ -151,11 +153,60 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     YearTradeVO queryTotalSubYearTradeByEnterprise(Long enterpriseId);
 
     /**
-     * 查询当前服务商总包+分包年流水
+     * 查询当前服务商总包+分包全年流水
      *
      * @param serviceProviderId
      * @return
      */
     YearTradeVO queryTotalSubYearTradeByServiceProvider(Long serviceProviderId);
+
+    /**
+     * 查询当前商户总包+分包本月流水
+     *
+     * @param enterpriseId
+     * @return
+     */
+    MonthTradeVO queryTotalSubMonthTradeByEnterprise(Long enterpriseId);
+
+    /**
+     * 查询当前服务商总包+分包本月流水
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    MonthTradeVO queryTotalSubMonthTradeByServiceProvider(Long serviceProviderId);
+
+    /**
+     * 查询当前商户总包+分包本周流水
+     *
+     * @param enterpriseId
+     * @return
+     */
+    WeekTradeVO queryTotalSubWeekTradeByEnterprise(Long enterpriseId);
+
+    /**
+     * 查询当前服务商总包+分包本周流水
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    WeekTradeVO queryTotalSubWeekTradeByServiceProvider(Long serviceProviderId);
+
+    /**
+     * 查询当前商户总包+分包今日流水
+     *
+     * @param enterpriseId
+     * @return
+     */
+    DayTradeVO queryTotalSubDayTradeByEnterprise(Long enterpriseId);
+
+    /**
+     * 查询当前服务商总包+分包今日流水
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    DayTradeVO queryTotalSubDayTradeByServiceProvider(Long serviceProviderId);
+
 }
 

@@ -373,4 +373,34 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         return R.data(baseMapper.queryTotalSubYearTradeByServiceProvider(serviceProviderId));
     }
 
+    @Override
+    public R<MonthTradeVO> queryTotalSubMonthTradeByEnterprise(Long enterpriseId) {
+        return R.data(baseMapper.queryTotalSubMonthTradeByEnterprise(enterpriseId));
+    }
+
+    @Override
+    public R<MonthTradeVO> queryTotalSubMonthTradeByServiceProvider(Long serviceProviderId) {
+        return R.data(baseMapper.queryTotalSubMonthTradeByServiceProvider(serviceProviderId));
+    }
+
+    @Override
+    public R<WeekTradeVO> queryTotalSubWeekTradeByEnterprise(Long enterpriseId) {
+        return R.data(baseMapper.queryTotalSubWeekTradeByEnterprise(enterpriseId));
+    }
+
+    @Override
+    public R<WeekTradeVO> queryTotalSubWeekTradeByServiceProvider(Long serviceProviderId) {
+        return R.data(baseMapper.queryTotalSubWeekTradeByServiceProvider(serviceProviderId));
+    }
+
+    @Override
+    public R<DayTradeVO> queryTotalSubDayTradeByEnterprise(Long enterpriseId) {
+        return R.data(baseMapper.queryTotalSubDayTradeByEnterprise(enterpriseId));
+    }
+
+    @Override
+    public R<DayTradeVO> queryTotalSubDayTradeByServiceProvider(Long serviceProviderId) {
+        return R.data(baseMapper.queryTotalSubDayTradeByServiceProvider(serviceProviderId));
+    }
+
 }

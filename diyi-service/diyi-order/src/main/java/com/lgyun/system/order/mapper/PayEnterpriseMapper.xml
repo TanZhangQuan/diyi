@@ -138,6 +138,77 @@
         <result property="decIncome" column="dec_income"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.order.vo.MonthTradeVO" id="monthTradeVO">
+        <result property="oneDayIncome" column="one_day_income"/>
+        <result property="twoDayIncome" column="two_day_income"/>
+        <result property="threeDayIncome" column="three_day_income"/>
+        <result property="fourDayIncome" column="four_day_income"/>
+        <result property="fiveDayIncome" column="five_day_income"/>
+        <result property="sixDayIncome" column="six_day_income"/>
+        <result property="sevenDayIncome" column="seven_day_income"/>
+        <result property="eightDayIncome" column="eight_day_income"/>
+        <result property="nineDayIncome" column="nine_day_income"/>
+        <result property="tenDayIncome" column="ten_day_income"/>
+        <result property="elevenDayIncome" column="eleven_day_income"/>
+        <result property="twelveDayIncome" column="twelve_day_income"/>
+        <result property="thirteenDayIncome" column="thirteen_day_income"/>
+        <result property="fourteenDayIncome" column="fourteen_day_income"/>
+        <result property="fifteenDayIncome" column="fifteen_day_income"/>
+        <result property="sixteenDayIncome" column="sixteen_day_income"/>
+        <result property="seventeenDayIncome" column="seventeen_day_income"/>
+        <result property="eighteenDayIncome" column="eighteen_day_income"/>
+        <result property="nineteenDayIncome" column="nineteen_day_income"/>
+        <result property="twentyDayIncome" column="twenty_day_income"/>
+        <result property="twentyOneDayIncome" column="twenty_one_day_income"/>
+        <result property="twentyTwoDayIncome" column="twenty_two_day_income"/>
+        <result property="twentyThreeDayIncome" column="twenty_three_day_income"/>
+        <result property="twentyFourDayIncome" column="twenty_four_day_income"/>
+        <result property="twentyFiveDayIncome" column="twenty_five_day_income"/>
+        <result property="twentySixDayIncome" column="twenty_six_day_income"/>
+        <result property="twentySevenDayIncome" column="twenty_seven_day_income"/>
+        <result property="twentyEightDayIncome" column="twenty_eight_day_income"/>
+        <result property="twentyNineDayIncome" column="twenty_nine_day_income"/>
+        <result property="thirtyDayIncome" column="thirty_day_income"/>
+        <result property="thirtyOneDayIncome" column="thirty_one_day_income"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.WeekTradeVO" id="weekTradeVO">
+        <result property="monIncome" column="mon_income"/>
+        <result property="tueIncome" column="tue_income"/>
+        <result property="wedIncome" column="wed_income"/>
+        <result property="thuIncome" column="thu_income"/>
+        <result property="friIncome" column="fri_income"/>
+        <result property="satIncome" column="sat_income"/>
+        <result property="sunIncome" column="sun_income"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.DayTradeVO" id="dayTradeVO">
+        <result property="oneHourIncome" column="one_hour_income"/>
+        <result property="twoHourIncome" column="two_hour_income"/>
+        <result property="threeHourIncome" column="three_hour_income"/>
+        <result property="fourHourIncome" column="four_hour_income"/>
+        <result property="fiveHourIncome" column="five_hour_income"/>
+        <result property="sixHourIncome" column="six_hour_income"/>
+        <result property="sevenHourIncome" column="seven_hour_income"/>
+        <result property="eightHourIncome" column="eight_hour_income"/>
+        <result property="nineHourIncome" column="nine_hour_income"/>
+        <result property="tenHourIncome" column="ten_hour_income"/>
+        <result property="elevenHourIncome" column="eleven_hour_income"/>
+        <result property="twelveHourIncome" column="twelve_hour_income"/>
+        <result property="thirteenHourIncome" column="thirteen_hour_income"/>
+        <result property="fourteenHourIncome" column="fourteen_hour_income"/>
+        <result property="fifteenHourIncome" column="fifteen_hour_income"/>
+        <result property="sixteenHourIncome" column="sixteen_hour_income"/>
+        <result property="seventeenHourIncome" column="seventeen_hour_income"/>
+        <result property="eighteenHourIncome" column="eighteen_hour_income"/>
+        <result property="nineteenHourIncome" column="nineteen_hour_income"/>
+        <result property="twentyHourIncome" column="twenty_hour_income"/>
+        <result property="twentyOneHourIncome" column="twenty_one_hour_income"/>
+        <result property="twentyTwoHourIncome" column="twenty_two_hour_income"/>
+        <result property="twentyThreeHourIncome" column="twenty_three_hour_income"/>
+        <result property="twentyFourHourIncome" column="twenty_four_hour_income"/>
+    </resultMap>
+
     <select id="getEnterpriseAll" resultMap="InvoiceEnterpriseVOMap">
         SELECT e.id AS enterprise_id, pe.id AS pay_enterprise_id, pm.id AS pay_maker_id, e.enterprise_name AS enterprise_name FROM diyi_enterprise e
         INNER JOIN diyi_pay_enterprise pe ON e.id = pe.enterprise_id INNER JOIN diyi_pay_maker pm ON pm.pay_enterprise_id = pe.id
@@ -199,7 +270,7 @@
         (SELECT group_concat(enterprise_pay_receipt_url) FROM diyi_pay_enterprise_receipt WHERE is_deleted = 0 AND pay_enterprise_id = t1.id) AS enterprise_pay_receipt_urls,
         (SELECT group_concat(accept_paysheet_url) FROM diyi_accept_paysheet WHERE is_deleted = 0 AND pay_enterprise_id = t1.id) AS accept_paysheet_urls FROM diyi_pay_enterprise t1
         INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id INNER JOIN diyi_service_provider t3 ON t1.service_provider_id = t3.id LEFT JOIN diyi_worksheet t4
-        ON t1.worksheet_id = t4.id AND t4.is_deleted = 0 WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t1.pay_state = 'CONFIRMPAY' AND t1.audit_state = 'APPROVED'
+        ON t1.worksheet_id = t4.id AND t4.is_deleted = 0 WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t1.pay_state = 'CONFIRMPAY'
         <if test="param1 != null">
             AND t1.enterprise_id = #{param1}
         </if>
@@ -288,14 +359,12 @@
         </if>
     </select>
 
-
     <select id="findDetailSummary" resultMap="EnterpriseSubcontractSummaryMap">
         SELECT pe.id AS pay_enterprise_id, mt.id AS maker_total_invoice_id, sp.id AS service_provider_id, mt.invoice_serial_no, mt.company_invoice_url,
         mt.maker_tax_url, pe.company_invoice_state, sp.service_provider_name, pe.invoice_print_date FROM diyi_pay_enterprise pe INNER JOIN diyi_maker_total_invoice
         mt ON mt.pay_enterprise_id = pe.id INNER JOIN diyi_service_provider sp ON sp.id = pe.service_provider_id
         where pe.is_deleted= 0 and mt.is_deleted = 0 and sp.is_deleted = 0 and mt.id = #{param1}
     </select>
-
 
     <select id="findDetailSubcontractPortal" resultMap="EnterpriseSubcontractPortalMap">
         SELECT pe.id AS pay_enterprise_id,sp.id as service_provider_id, pm.id AS pay_maker_id, mi.id AS maker_invoice_id, mtr.id AS maker_tax_record_id,
@@ -319,11 +388,11 @@
         (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, pay_to_platform_amount, 0)), 0) AS month_pay,
         IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, pay_to_platform_amount, 0)), 0) AS year_pay,
         IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay FROM diyi_pay_enterprise WHERE is_deleted = 0 AND
-        (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND audit_state = 'APPROVED' AND enterprise_id = #{param1}) t1,
+        (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND enterprise_id = #{param1}) t1,
         (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, total_pay_provider_fee, 0)), 0) AS month_pay,
         IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, total_pay_provider_fee, 0)), 0) AS year_pay,
         IFNULL(SUM(total_pay_provider_fee), 0) AS all_pay FROM diyi_self_help_invoice WHERE is_deleted = 0
-        AND (current_state = 'PASSED' OR current_state = 'INVOICED') AND apply_enterprise_id = #{param1}) t2
+        AND current_state != 'REJECTED' AND apply_enterprise_id = #{param1}) t2
     </select>
 
     <select id="transactionByServiceProvider" resultMap="transactionVO">
@@ -334,7 +403,7 @@
         (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, pay_to_platform_amount, 0)), 0) AS month_pay,
         IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, pay_to_platform_amount, 0)), 0) AS year_pay,
         IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay FROM diyi_pay_enterprise WHERE is_deleted = 0 AND
-        (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND audit_state = 'APPROVED' AND service_provider_id = #{param1}) t1,
+        pay_state = 'CONFIRMPAY' AND service_provider_id = #{param1}) t1,
         (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, charge_money_num, 0)), 0) AS month_pay,
         IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, charge_money_num, 0)), 0) AS year_pay,
         IFNULL(SUM(charge_money_num), 0) AS all_pay FROM diyi_self_help_invoice_sp WHERE is_deleted = 0
@@ -348,7 +417,7 @@
         IFNULL(SUM(IF(MONTH(create_time) = 7, pay_to_platform_amount, 0)), 0) AS jul_income, IFNULL(SUM(IF(MONTH(create_time) = 8, pay_to_platform_amount, 0)), 0) AS aug_income,
         IFNULL(SUM(IF(MONTH(create_time) = 9, pay_to_platform_amount, 0)), 0) AS sep_income, IFNULL(SUM(IF(MONTH(create_time) = 10, pay_to_platform_amount, 0)), 0) AS oct_income,
         IFNULL(SUM(IF(MONTH(create_time) = 11, pay_to_platform_amount, 0)), 0) AS nov_income, IFNULL(SUM(IF(MONTH(create_time) = 12, pay_to_platform_amount, 0)), 0) AS dec_income
-        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND audit_state = 'APPROVED' AND enterprise_id = #{param1}
+        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND YEAR(create_time) = YEAR(NOW()) AND enterprise_id = #{param1}
     </select>
 
     <select id="queryTotalSubYearTradeByServiceProvider" resultMap="yearTradeVO">
@@ -358,7 +427,99 @@
         IFNULL(SUM(IF(MONTH(create_time) = 7, pay_to_platform_amount, 0)), 0) AS jul_income, IFNULL(SUM(IF(MONTH(create_time) = 8, pay_to_platform_amount, 0)), 0) AS aug_income,
         IFNULL(SUM(IF(MONTH(create_time) = 9, pay_to_platform_amount, 0)), 0) AS sep_income, IFNULL(SUM(IF(MONTH(create_time) = 10, pay_to_platform_amount, 0)), 0) AS oct_income,
         IFNULL(SUM(IF(MONTH(create_time) = 11, pay_to_platform_amount, 0)), 0) AS nov_income, IFNULL(SUM(IF(MONTH(create_time) = 12, pay_to_platform_amount, 0)), 0) AS dec_income
-        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND audit_state = 'APPROVED' AND service_provider_id = #{param1}
+        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND pay_state = 'CONFIRMPAY' AND YEAR(create_time) = YEAR(NOW()) AND service_provider_id = #{param1}
+    </select>
+
+    <select id="queryTotalSubMonthTradeByEnterprise" resultMap="monthTradeVO">
+        SELECT IFNULL(SUM(IF(DAY(create_time) = 1, pay_to_platform_amount, 0)), 0) AS one_day_income, IFNULL(SUM(IF(DAY(create_time) = 2, pay_to_platform_amount, 0)), 0) AS two_day_income,
+        IFNULL(SUM(IF(DAY(create_time) = 3, pay_to_platform_amount, 0)), 0) AS three_day_income, IFNULL(SUM(IF(DAY(create_time) = 4, pay_to_platform_amount, 0)), 0) AS four_day_income,
+        IFNULL(SUM(IF(DAY(create_time) = 5, pay_to_platform_amount, 0)), 0) AS five_day_income, IFNULL(SUM(IF(DAY(create_time) = 6, pay_to_platform_amount, 0)), 0) AS six_day_income,
+        IFNULL(SUM(IF(DAY(create_time) = 7, pay_to_platform_amount, 0)), 0) AS seven_day_income, IFNULL(SUM(IF(DAY(create_time) = 8, pay_to_platform_amount, 0)), 0) AS eight_day_income,
+        IFNULL(SUM(IF(DAY(create_time) = 9, pay_to_platform_amount, 0)), 0) AS nine_day_income, IFNULL(SUM(IF(DAY(create_time) = 10, pay_to_platform_amount, 0)), 0) AS ten_day_income,
+        IFNULL(SUM(IF(DAY(create_time) = 11, pay_to_platform_amount, 0)), 0) AS eleven_day_income, IFNULL(SUM(IF(DAY(create_time) = 12, pay_to_platform_amount, 0)), 0) AS twelve_day_income,
+        IFNULL(SUM(IF(DAY(create_time) = 13, pay_to_platform_amount, 0)), 0) AS thirteen_day_income, IFNULL(SUM(IF(DAY(create_time) = 14, pay_to_platform_amount, 0)), 0) AS fourteen_day_income,
+        IFNULL(SUM(IF(DAY(create_time) = 15, pay_to_platform_amount, 0)), 0) AS fifteen_day_income, IFNULL(SUM(IF(DAY(create_time) = 16, pay_to_platform_amount, 0)), 0) AS sixteen_day_income,
+        IFNULL(SUM(IF(DAY(create_time) = 17, pay_to_platform_amount, 0)), 0) AS seventeen_day_income, IFNULL(SUM(IF(DAY(create_time) = 18, pay_to_platform_amount, 0)), 0) AS eighteen_day_income,
+        IFNULL(SUM(IF(DAY(create_time) = 19, pay_to_platform_amount, 0)), 0) AS nineteen_day_income, IFNULL(SUM(IF(DAY(create_time) = 20, pay_to_platform_amount, 0)), 0) AS twenty_day_income,
+        IFNULL(SUM(IF(DAY(create_time) = 21, pay_to_platform_amount, 0)), 0) AS twenty_one_day_income, IFNULL(SUM(IF(DAY(create_time) = 22, pay_to_platform_amount, 0)), 0) AS twenty_two_day_income,
+        IFNULL(SUM(IF(DAY(create_time) = 23, pay_to_platform_amount, 0)), 0) AS twenty_three_day_income, IFNULL(SUM(IF(DAY(create_time) = 24, pay_to_platform_amount, 0)), 0) AS twenty_four_day_income,
+		IFNULL(SUM(IF(DAY(create_time) = 25, pay_to_platform_amount, 0)), 0) AS twenty_five_day_income, IFNULL(SUM(IF(DAY(create_time) = 26, pay_to_platform_amount, 0)), 0) AS twenty_six_day_income,
+        IFNULL(SUM(IF(DAY(create_time) = 27, pay_to_platform_amount, 0)), 0) AS twenty_seven_day_income, IFNULL(SUM(IF(DAY(create_time) = 28, pay_to_platform_amount, 0)), 0) AS twenty_eight_day_income,
+        IF(DAY(LAST_DAY(NOW())) >= 29, IFNULL(SUM(IF(DAY(create_time) = 29, pay_to_platform_amount, 0)), 0), NULL) AS twenty_nine_day_income,
+        IF(DAY(LAST_DAY(NOW())) >= 30, IFNULL(SUM(IF(DAY(create_time) = 30, pay_to_platform_amount, 0)), 0), NULL) AS thirty_day_income,
+		IF(DAY(LAST_DAY(NOW())) >= 31, IFNULL(SUM(IF(DAY(create_time) = 31, pay_to_platform_amount, 0)), 0), NULL) AS thirty_one_day_income
+        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND YEAR(create_time) = YEAR(NOW())
+		AND MONTH(create_time) = MONTH(NOW()) AND enterprise_id = #{param1}
+    </select>
+
+    <select id="queryTotalSubMonthTradeByServiceProvider" resultMap="monthTradeVO">
+        SELECT IFNULL(SUM(IF(DAY(create_time) = 1, pay_to_platform_amount, 0)), 0) AS one_day_income, IFNULL(SUM(IF(DAY(create_time) = 2, pay_to_platform_amount, 0)), 0) AS two_day_income,
+        IFNULL(SUM(IF(DAY(create_time) = 3, pay_to_platform_amount, 0)), 0) AS three_day_income, IFNULL(SUM(IF(DAY(create_time) = 4, pay_to_platform_amount, 0)), 0) AS four_day_income,
+        IFNULL(SUM(IF(DAY(create_time) = 5, pay_to_platform_amount, 0)), 0) AS five_day_income, IFNULL(SUM(IF(DAY(create_time) = 6, pay_to_platform_amount, 0)), 0) AS six_day_income,
+        IFNULL(SUM(IF(DAY(create_time) = 7, pay_to_platform_amount, 0)), 0) AS seven_day_income, IFNULL(SUM(IF(DAY(create_time) = 8, pay_to_platform_amount, 0)), 0) AS eight_day_income,
+        IFNULL(SUM(IF(DAY(create_time) = 9, pay_to_platform_amount, 0)), 0) AS nine_day_income, IFNULL(SUM(IF(DAY(create_time) = 10, pay_to_platform_amount, 0)), 0) AS ten_day_income,
+        IFNULL(SUM(IF(DAY(create_time) = 11, pay_to_platform_amount, 0)), 0) AS eleven_day_income, IFNULL(SUM(IF(DAY(create_time) = 12, pay_to_platform_amount, 0)), 0) AS twelve_day_income,
+        IFNULL(SUM(IF(DAY(create_time) = 13, pay_to_platform_amount, 0)), 0) AS thirteen_day_income, IFNULL(SUM(IF(DAY(create_time) = 14, pay_to_platform_amount, 0)), 0) AS fourteen_day_income,
+        IFNULL(SUM(IF(DAY(create_time) = 15, pay_to_platform_amount, 0)), 0) AS fifteen_day_income, IFNULL(SUM(IF(DAY(create_time) = 16, pay_to_platform_amount, 0)), 0) AS sixteen_day_income,
+        IFNULL(SUM(IF(DAY(create_time) = 17, pay_to_platform_amount, 0)), 0) AS seventeen_day_income, IFNULL(SUM(IF(DAY(create_time) = 18, pay_to_platform_amount, 0)), 0) AS eighteen_day_income,
+        IFNULL(SUM(IF(DAY(create_time) = 19, pay_to_platform_amount, 0)), 0) AS nineteen_day_income, IFNULL(SUM(IF(DAY(create_time) = 20, pay_to_platform_amount, 0)), 0) AS twenty_day_income,
+        IFNULL(SUM(IF(DAY(create_time) = 21, pay_to_platform_amount, 0)), 0) AS twenty_one_day_income, IFNULL(SUM(IF(DAY(create_time) = 22, pay_to_platform_amount, 0)), 0) AS twenty_two_day_income,
+        IFNULL(SUM(IF(DAY(create_time) = 23, pay_to_platform_amount, 0)), 0) AS twenty_three_day_income, IFNULL(SUM(IF(DAY(create_time) = 24, pay_to_platform_amount, 0)), 0) AS twenty_four_day_income,
+		IFNULL(SUM(IF(DAY(create_time) = 25, pay_to_platform_amount, 0)), 0) AS twenty_five_day_income, IFNULL(SUM(IF(DAY(create_time) = 26, pay_to_platform_amount, 0)), 0) AS twenty_six_day_income,
+        IFNULL(SUM(IF(DAY(create_time) = 27, pay_to_platform_amount, 0)), 0) AS twenty_seven_day_income, IFNULL(SUM(IF(DAY(create_time) = 28, pay_to_platform_amount, 0)), 0) AS twenty_eight_day_income,
+        IF(DAY(LAST_DAY(NOW())) >= 29, IFNULL(SUM(IF(DAY(create_time) = 29, pay_to_platform_amount, 0)), 0), NULL) AS twenty_nine_day_income,
+        IF(DAY(LAST_DAY(NOW())) >= 30, IFNULL(SUM(IF(DAY(create_time) = 30, pay_to_platform_amount, 0)), 0), NULL) AS thirty_day_income,
+		IF(DAY(LAST_DAY(NOW())) >= 31, IFNULL(SUM(IF(DAY(create_time) = 31, pay_to_platform_amount, 0)), 0), NULL) AS thirty_one_day_income
+        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND pay_state = 'CONFIRMPAY' AND YEAR(create_time) = YEAR(NOW())
+		AND MONTH(create_time) = MONTH(NOW()) AND service_provider_id = #{param1}
+    </select>
+
+    <select id="queryTotalSubWeekTradeByEnterprise" resultMap="weekTradeVO">
+        SELECT IFNULL(SUM(IF(WEEKDAY(create_time) = 0, pay_to_platform_amount, 0)), 0) AS mon_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 1, pay_to_platform_amount, 0)), 0) AS tue_income,
+        IFNULL(SUM(IF(WEEKDAY(create_time) = 2, pay_to_platform_amount, 0)), 0) AS wed_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 3, pay_to_platform_amount, 0)), 0) AS thu_income,
+        IFNULL(SUM(IF(WEEKDAY(create_time) = 4, pay_to_platform_amount, 0)), 0) AS fri_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 5, pay_to_platform_amount, 0)), 0) AS sat_income,
+        IFNULL(SUM(IF(WEEKDAY(create_time) = 6, pay_to_platform_amount, 0)), 0) AS sun_income
+        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND WEEK(create_time) = WEEK(NOW()) AND enterprise_id = #{param1}
+    </select>
+
+    <select id="queryTotalSubWeekTradeByServiceProvider" resultMap="weekTradeVO">
+        SELECT IFNULL(SUM(IF(WEEKDAY(create_time) = 0, pay_to_platform_amount, 0)), 0) AS mon_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 1, pay_to_platform_amount, 0)), 0) AS tue_income,
+        IFNULL(SUM(IF(WEEKDAY(create_time) = 2, pay_to_platform_amount, 0)), 0) AS wed_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 3, pay_to_platform_amount, 0)), 0) AS thu_income,
+        IFNULL(SUM(IF(WEEKDAY(create_time) = 4, pay_to_platform_amount, 0)), 0) AS fri_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 5, pay_to_platform_amount, 0)), 0) AS sat_income,
+        IFNULL(SUM(IF(WEEKDAY(create_time) = 6, pay_to_platform_amount, 0)), 0) AS sun_income
+        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND pay_state = 'CONFIRMPAY' AND WEEK(create_time) = WEEK(NOW()) AND service_provider_id = #{param1}
+    </select>
+
+    <select id="queryTotalSubDayTradeByEnterprise" resultMap="dayTradeVO">
+        SELECT IFNULL(SUM(IF(HOUR(create_time) = 1, pay_to_platform_amount, 0)), 0) AS one_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 2, pay_to_platform_amount, 0)), 0) AS two_hour_income,
+        IFNULL(SUM(IF(HOUR(create_time) = 3, pay_to_platform_amount, 0)), 0) AS three_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 4, pay_to_platform_amount, 0)), 0) AS four_hour_income,
+        IFNULL(SUM(IF(HOUR(create_time) = 5, pay_to_platform_amount, 0)), 0) AS five_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 6, pay_to_platform_amount, 0)), 0) AS six_hour_income,
+        IFNULL(SUM(IF(HOUR(create_time) = 7, pay_to_platform_amount, 0)), 0) AS seven_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 8, pay_to_platform_amount, 0)), 0) AS eight_hour_income,
+        IFNULL(SUM(IF(HOUR(create_time) = 9, pay_to_platform_amount, 0)), 0) AS nine_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 10, pay_to_platform_amount, 0)), 0) AS ten_hour_income,
+        IFNULL(SUM(IF(HOUR(create_time) = 11, pay_to_platform_amount, 0)), 0) AS eleven_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 12, pay_to_platform_amount, 0)), 0) AS twelve_hour_income,
+        IFNULL(SUM(IF(HOUR(create_time) = 13, pay_to_platform_amount, 0)), 0) AS thirteen_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 14, pay_to_platform_amount, 0)), 0) AS fourteen_hour_income,
+        IFNULL(SUM(IF(HOUR(create_time) = 15, pay_to_platform_amount, 0)), 0) AS fifteen_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 16, pay_to_platform_amount, 0)), 0) AS sixteen_hour_income,
+        IFNULL(SUM(IF(HOUR(create_time) = 17, pay_to_platform_amount, 0)), 0) AS seventeen_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 18, pay_to_platform_amount, 0)), 0) AS eighteen_hour_income,
+        IFNULL(SUM(IF(HOUR(create_time) = 19, pay_to_platform_amount, 0)), 0) AS nineteen_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 20, pay_to_platform_amount, 0)), 0) AS twenty_hour_income,
+        IFNULL(SUM(IF(HOUR(create_time) = 21, pay_to_platform_amount, 0)), 0) AS twenty_one_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 22, pay_to_platform_amount, 0)), 0) AS twenty_two_hour_income,
+        IFNULL(SUM(IF(HOUR(create_time) = 23, pay_to_platform_amount, 0)), 0) AS twenty_three_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 0, pay_to_platform_amount, 0)), 0) AS twenty_four_hour_income
+        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND DATE(create_time) = DATE(NOW()) AND enterprise_id = #{param1}
+    </select>
+
+    <select id="queryTotalSubDayTradeByServiceProvider" resultMap="dayTradeVO">
+        SELECT IFNULL(SUM(IF(HOUR(create_time) = 1, pay_to_platform_amount, 0)), 0) AS one_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 2, pay_to_platform_amount, 0)), 0) AS two_hour_income,
+        IFNULL(SUM(IF(HOUR(create_time) = 3, pay_to_platform_amount, 0)), 0) AS three_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 4, pay_to_platform_amount, 0)), 0) AS four_hour_income,
+        IFNULL(SUM(IF(HOUR(create_time) = 5, pay_to_platform_amount, 0)), 0) AS five_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 6, pay_to_platform_amount, 0)), 0) AS six_hour_income,
+        IFNULL(SUM(IF(HOUR(create_time) = 7, pay_to_platform_amount, 0)), 0) AS seven_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 8, pay_to_platform_amount, 0)), 0) AS eight_hour_income,
+        IFNULL(SUM(IF(HOUR(create_time) = 9, pay_to_platform_amount, 0)), 0) AS nine_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 10, pay_to_platform_amount, 0)), 0) AS ten_hour_income,
+        IFNULL(SUM(IF(HOUR(create_time) = 11, pay_to_platform_amount, 0)), 0) AS eleven_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 12, pay_to_platform_amount, 0)), 0) AS twelve_hour_income,
+        IFNULL(SUM(IF(HOUR(create_time) = 13, pay_to_platform_amount, 0)), 0) AS thirteen_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 14, pay_to_platform_amount, 0)), 0) AS fourteen_hour_income,
+        IFNULL(SUM(IF(HOUR(create_time) = 15, pay_to_platform_amount, 0)), 0) AS fifteen_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 16, pay_to_platform_amount, 0)), 0) AS sixteen_hour_income,
+        IFNULL(SUM(IF(HOUR(create_time) = 17, pay_to_platform_amount, 0)), 0) AS seventeen_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 18, pay_to_platform_amount, 0)), 0) AS eighteen_hour_income,
+        IFNULL(SUM(IF(HOUR(create_time) = 19, pay_to_platform_amount, 0)), 0) AS nineteen_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 20, pay_to_platform_amount, 0)), 0) AS twenty_hour_income,
+        IFNULL(SUM(IF(HOUR(create_time) = 21, pay_to_platform_amount, 0)), 0) AS twenty_one_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 22, pay_to_platform_amount, 0)), 0) AS twenty_two_hour_income,
+        IFNULL(SUM(IF(HOUR(create_time) = 23, pay_to_platform_amount, 0)), 0) AS twenty_three_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 0, pay_to_platform_amount, 0)), 0) AS twenty_four_hour_income
+        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND pay_state = 'CONFIRMPAY' AND DATE(create_time) = DATE(NOW()) AND service_provider_id = #{param1}
     </select>
 
 </mapper>
