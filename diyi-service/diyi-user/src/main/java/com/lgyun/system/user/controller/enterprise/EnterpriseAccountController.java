@@ -108,6 +108,9 @@ public class EnterpriseAccountController {
             response.setPositionNameValue(entity.getPositionName().getValue());
             response.setPositionNameDesc(entity.getPositionName().getDesc());
 
+            List<String> menuIds = sysClient.getMenuIds(entity.getId());
+            response.setMenuIds(menuIds);
+
             return R.data(response);
         } catch (Exception e) {
             log.error("获取商户账户详情失败，error", e);
@@ -142,7 +145,7 @@ public class EnterpriseAccountController {
             entity.setUpdateUser(enterpriseWorkerEntity.getId());
             entity.setUpdateTime(new Date());
             entity.setEnterpriseWorkerState(AccountState.FREEZE);
-            enterpriseWorkerService.save(entity);
+            enterpriseWorkerService.updateById(entity);
 
             return R.success("操作成功");
         } catch (Exception e) {
@@ -220,7 +223,12 @@ public class EnterpriseAccountController {
             if (request.getMenuIds() != null && request.getMenuIds().size() > 0) {
                 GrantRequest grantRequest = new GrantRequest();
                 grantRequest.setAccountId(request.getId());
-                grantRequest.setMenuIds(request.getMenuIds());
+                List<String> menuIds = request.getMenuIds();
+                List<Long> menuList = new ArrayList<>();
+                menuIds.stream().forEach(menu -> {
+                    menuList.add(Long.valueOf(menu));
+                });
+                grantRequest.setMenuIds(menuList);
 
                 grantRequest.setUserId(bladeUser.getUserId());
 

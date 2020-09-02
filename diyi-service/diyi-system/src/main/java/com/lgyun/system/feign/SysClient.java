@@ -6,6 +6,7 @@ import com.lgyun.system.entity.Dept;
 import com.lgyun.system.entity.Role;
 import com.lgyun.system.service.IDeptService;
 import com.lgyun.system.service.IPostService;
+import com.lgyun.system.service.IRoleMenuService;
 import com.lgyun.system.service.IRoleService;
 import com.lgyun.system.vo.GrantRequest;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,8 @@ public class SysClient implements ISysClient {
 	private IPostService postService;
 
 	private IRoleService roleService;
+
+	private IRoleMenuService roleMenuService;
 
 	@Override
 	@GetMapping(API_PREFIX + "/getDept")
@@ -104,6 +107,17 @@ public class SysClient implements ISysClient {
 	public R grantFeign(GrantRequest request) {
 		boolean temp = roleService.grantFeign(request);
 		return R.status(temp);
+	}
+
+	/**
+	 * 获取权限
+	 *
+	 * @param roleId 主键
+	 * @return
+	 */
+	@Override
+	public List<String> getMenuIds(Long roleId) {
+		return roleMenuService.getUserMenus(roleId);
 	}
 
 }

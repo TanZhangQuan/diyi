@@ -83,4 +83,14 @@ public class ISysClientFallback implements ISysClient {
         return null;
     }
 
+    /**
+     * 获取权限
+     *
+     * @param roleId 主键
+     * @return
+     */
+    @Override
+    public List<String> getMenuIds(Long roleId) {
+        return null;
+    }
 }

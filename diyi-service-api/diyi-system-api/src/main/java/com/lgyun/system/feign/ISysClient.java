@@ -140,4 +140,13 @@ public interface ISysClient {
     @PostMapping(API_PREFIX + "/grant")
     R grantFeign(@RequestBody GrantRequest request);
 
+    /**
+     * 获取权限
+     *
+     * @param roleId 主键
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/menus")
+    List<String> getMenuIds(@RequestParam("roleId") Long roleId);
+
 }
