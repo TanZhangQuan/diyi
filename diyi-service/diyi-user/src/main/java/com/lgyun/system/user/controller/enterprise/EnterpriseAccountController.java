@@ -167,6 +167,7 @@ public class EnterpriseAccountController {
 
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
+            User userLogin = userService.getById(bladeUser.getUserId());
             if (request.getId() != null) {
                 // 更新账号
                 EnterpriseWorkerEntity entity = enterpriseWorkerService.getById(request.getId());
@@ -180,8 +181,13 @@ public class EnterpriseAccountController {
                     entity.setMenus(collect);
                 }
                 if (StringUtils.isNotBlank(request.getEmployeePwd())) {
-                    entity.setEmployeePwd(DigestUtil.encrypt(request.getEmployeePwd()));
+                    String encrypt = DigestUtil.encrypt(request.getEmployeePwd());
+                    entity.setEmployeePwd(encrypt);
+                    userLogin.setPassword(encrypt);
+                    userLogin.setAccount(entity.getEmployeeUserName());
                 }
+
+                userService.updateById(userLogin);
                 enterpriseWorkerService.updateById(entity);
 
             } else {
@@ -198,8 +204,10 @@ public class EnterpriseAccountController {
                 //新建管理员
                 User user = new User();
                 user.setUserType(UserType.ENTERPRISE);
-                user.setAccount(request.getPhoneNumber());
-                user.setPassword(DigestUtil.encrypt(String.valueOf(UUID.randomUUID())));
+                user.setAccount(request.getEmployeeUserName());
+                if (StringUtils.isNotBlank(request.getEmployeePwd())) {
+                    user.setPassword(DigestUtil.encrypt(request.getEmployeePwd()));
+                }
                 user.setPhone(request.getPhoneNumber());
                 user.setName(request.getWorkerName());
                 userService.save(user);
