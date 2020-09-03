@@ -65,7 +65,7 @@ public class PasswordTokenGranter implements ITokenGranter {
                 String openid = jsonObject.getString("openid");
                 String sessionKey = jsonObject.getString("sessionKey");
                 //创客处理
-                res = userClient.makerDeal(openid, sessionKey, account, DigestUtil.encrypt(password), GrantType.PASSWORD);
+                res = userClient.makerDeal(openid, sessionKey, account, encrypt, GrantType.PASSWORD);
                 if (!(res.isSuccess())) {
                     return res;
                 }
@@ -79,7 +79,7 @@ public class PasswordTokenGranter implements ITokenGranter {
                 if (!(res.isSuccess())) {
                     return res;
                 }
-                userInfo = userClient.userInfo(account, encrypt, userType);
+                userInfo = userClient.userInfoByPhone(account, userType);
                 break;
 
             case SERVICEPROVIDER:
@@ -89,7 +89,7 @@ public class PasswordTokenGranter implements ITokenGranter {
                     return res;
                 }
 
-                userInfo = userClient.userInfo(account, encrypt, userType);
+                userInfo = userClient.userInfoByPhone(account, userType);
                 break;
 
             case ADMIN:
@@ -106,7 +106,7 @@ public class PasswordTokenGranter implements ITokenGranter {
                     }
                 }
 
-                userInfo = userClient.userInfo(account, DigestUtil.encrypt(password), userType);
+                userInfo = userClient.userInfo(account, encrypt, userType);
                 break;
 
             default:
