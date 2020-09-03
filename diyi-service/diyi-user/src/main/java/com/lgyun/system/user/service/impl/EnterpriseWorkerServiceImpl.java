@@ -184,7 +184,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
                 String encrypt = DigestUtil.encrypt(request.getEmployeePwd());
                 entity.setEmployeePwd(encrypt);
                 userLogin.setPassword(encrypt);
-                userLogin.setAccount(entity.getEmployeeUserName());
+                userLogin.setAccount(entity.getPhoneNumber());
             }
 
             userService.updateById(userLogin);
@@ -203,12 +203,13 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
             //新建管理员
             User user = new User();
             user.setUserType(UserType.ENTERPRISE);
-            user.setAccount(request.getEmployeeUserName());
+            user.setAccount(request.getPhoneNumber());
             if (StringUtils.isNotBlank(request.getEmployeePwd())) {
                 user.setPassword(DigestUtil.encrypt(request.getEmployeePwd()));
             }
             user.setPhone(request.getPhoneNumber());
-            user.setName(request.getWorkerName());
+            user.setName(request.getEmployeeUserName());
+            user.setRealName(request.getWorkerName());
             userService.save(user);
 
             EnterpriseWorkerEntity entity = new EnterpriseWorkerEntity();
