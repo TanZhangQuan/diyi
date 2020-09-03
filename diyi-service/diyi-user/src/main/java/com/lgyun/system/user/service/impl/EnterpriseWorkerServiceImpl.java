@@ -64,6 +64,21 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
         return baseMapper.selectOne(queryWrapper);
     }
 
+    /**
+     * 根据手机号密码获取商户员工
+     *
+     * @param phone
+     * @param employeePwd
+     * @return
+     */
+    @Override
+    public EnterpriseWorkerEntity findByPhoneAndEmployeePwd(String phone, String employeePwd) {
+        QueryWrapper<EnterpriseWorkerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(EnterpriseWorkerEntity::getPhoneNumber, phone)
+                .eq(EnterpriseWorkerEntity::getEmployeePwd, employeePwd);
+        return baseMapper.selectOne(queryWrapper);
+    }
+
     @Override
     public R<EnterpriseWorkerEntity> currentEnterpriseWorker(BladeUser bladeUser) {
 

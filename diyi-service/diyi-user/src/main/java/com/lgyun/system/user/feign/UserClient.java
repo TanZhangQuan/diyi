@@ -144,7 +144,7 @@ public class UserClient implements IUserClient {
 
             case PASSWORD:
                 //根据账号密码获取商户
-                enterpriseWorkerEntity = iEnterpriseWorkerService.findByEmployeeUserNameAndEmployeePwd(phoneNumber, loginPwd);
+                enterpriseWorkerEntity = iEnterpriseWorkerService.findByPhoneAndEmployeePwd(phoneNumber, loginPwd);
                 if (enterpriseWorkerEntity == null) {
                     return R.fail("账号或密码错误");
                 }
