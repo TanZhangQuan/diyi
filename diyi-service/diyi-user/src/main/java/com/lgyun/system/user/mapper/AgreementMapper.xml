@@ -44,6 +44,22 @@
         <result property="signDate" column="sign_date"/>
     </resultMap>
 
+
+    <resultMap id="agreementServiceVOMap" type="com.lgyun.system.user.vo.AgreementServiceVO">
+        <result property="agreementId" column="agreement_id"/>
+        <result property="serviceProviderId" column="service_provider_id"/>
+        <result property="agreementNo" column="agreement_no"/>
+        <result property="signType" column="sign_type"/>
+        <result property="agreementType" column="agreement_type"/>
+        <result property="serviceProviderName" column="service_provider_name"/>
+        <result property="makerName" column="maker_name"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="paperAgreementUrl" column="paper_agreement_url"/>
+        <result property="onlineAggrementUrl" column="online_aggrement_url"/>
+        <result property="signState" column="sign_state"/>
+        <result property="signDate" column="sign_date"/>
+    </resultMap>
+
     <select id="selectServiceAgreement" resultMap="agreementWebVOMap">
         SELECT ep.id AS enterprise_provider_id, ep.enterprise_id, ep.service_provider_id, a.id AS agreement_id, a.agreement_no,a.paper_agreement_url,
         sp.service_provider_name, a.first_side_sign_person, a.online_aggrement_url, a.sign_state, a.sign_date FROM diyi_enterprise_provider ep INNER JOIN
@@ -80,5 +96,36 @@
         SELECT a.id AS agreement_id, e.enterprise_name, e.id AS enterprise_id, a.agreement_no, m. NAME, a.sign_type, a.paper_agreement_url, a.online_aggrement_url,
         a.sign_state, a.sign_date FROM diyi_agreement a INNER JOIN diyi_enterprise e ON a.enterprise_id = e.id LEFT JOIN diyi_maker m ON m.id = a.maker_id
         AND m.is_deleted = 0 WHERE a.is_deleted = 0 AND e.is_deleted = 0 AND a.agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' AND a.enterprise_id = #{param1}
+    </select>
+
+
+    <select id="findSeriveAgreement" resultMap="agreementServiceVOMap">
+       SELECT a.id AS agreement_id, s.id AS service_provider_id, a.agreement_no, a.sign_type, a.agreement_type, s.service_provider_name, a.online_aggrement_url, a.paper_agreement_url, a.sign_date, a.sign_state FROM diyi_agreement a INNER JOIN diyi_service_provider s ON a.service_provider_id = s.id WHERE a.agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' OR ( a.agreement_type = 'OTHERAGREEMENT' AND a.sign_type = 'UNILATERALPOWER' )
+       <if test="param1 != null and param1 !=''">
+           and a.agreement_no like concat('%', #{param1}, '%')
+       </if>
+        and s.id = #{param2}
+    </select>
+
+    <select id="findMakerAgreement" resultMap="agreementServiceVOMap">
+        SELECT a.id AS agreement_id,m.name as maker_name, s.id AS service_provider_id, a.agreement_no, a.sign_type, a.agreement_type, s.service_provider_name, a.online_aggrement_url, a.paper_agreement_url, a.sign_date, a.sign_state FROM diyi_agreement a INNER JOIN diyi_maker m ON a.maker_id = m.id INNER JOIN diyi_service_provider_maker pa ON pa.maker_id = m.id INNER JOIN diyi_service_provider s ON pa.service_provider_id = s.id WHERE a.agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' OR ( a.agreement_type = 'OTHERAGREEMENT' AND a.sign_type = 'UNILATERALPOWER' )
+        <if test="param1 != null and param1 !=''">
+            and a.agreement_no like concat('%', #{param1}, '%')
+        </if>
+        <if test="param3 != null and param3 !=''">
+            and m.name like concat('%', #{param3}, '%')
+        </if>
+        AND pa.service_provider_id = #{param2}
+    </select>
+
+    <select id="findEnterpriseAgreement" resultMap="agreementServiceVOMap">
+        SELECT a.id AS agreement_id, s.id AS service_provider_id,e.enterprise_name, a.agreement_no, a.sign_type, a.agreement_type, s.service_provider_name, a.online_aggrement_url, a.paper_agreement_url, a.sign_date, a.sign_state FROM diyi_agreement a INNER JOIN diyi_enterprise e ON a.enterprise_id = e.id INNER JOIN diyi_enterprise_provider ep ON ep.enterprise_id = m.id INNER JOIN diyi_service_provider s ON ep.service_provider_id = s.id WHERE a.agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' OR ( a.agreement_type = 'OTHERAGREEMENT' AND a.sign_type = 'UNILATERALPOWER' )
+        <if test="param1 != null and param1 !=''">
+            and a.agreement_no like concat('%', #{param1}, '%')
+        </if>
+        <if test="param3 != null and param3 !=''">
+            and e.enterprise_name like concat('%', #{param3}, '%')
+        </if>
+        AND s.service_provider_id = #{param2}
     </select>
 </mapper>
