@@ -555,7 +555,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return R.fail("用户不存在");
         }
 
-        if (!(UserType.ENTERPRISE.equals(user.getUserType()))) {
+        if (!(UserType.MAKER.equals(user.getUserType()))) {
             return R.fail("用户类型有误");
         }
 
