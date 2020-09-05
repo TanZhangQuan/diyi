@@ -13,6 +13,7 @@ import com.lgyun.system.user.mapper.AgreementMapper;
 import com.lgyun.system.user.oss.AliyunOssService;
 import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.AgreementMakerWebVO;
+import com.lgyun.system.user.vo.AgreementServiceVO;
 import com.lgyun.system.user.vo.AgreementWebVO;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -287,5 +288,50 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
             }
         }
         return R.success("上传成功");
+    }
+
+    @Override
+    public R findSeriveAgreement(String agreementNo, Long serviceProviderId, IPage<AgreementServiceVO> page) {
+        return R.data(page.setRecords(baseMapper.findSeriveAgreement(agreementNo, serviceProviderId,page)));
+    }
+
+    @Override
+    @Transactional
+    public R uploadContractAndLetter(String contractUrl, String letterUrl, Long serviceProviderId) {
+        if(StringUtil.isBlank(contractUrl) && StringUtil.isBlank(letterUrl)){
+            return R.fail("加盟合同和服务商承诺函不能同时为空");
+        }
+        ServiceProviderEntity serviceProviderEntity = serviceProviderService.getById(serviceProviderId);
+        if(!StringUtil.isBlank(contractUrl)){
+            saveContractAndLetter(AgreementType.SERVICEPROVIDERJOINAGREEMENT,contractUrl,serviceProviderEntity);
+        }
+        if(!StringUtil.isBlank(letterUrl)){
+            saveContractAndLetter(AgreementType.OTHERAGREEMENT,letterUrl,serviceProviderEntity);
+        }
+        return R.success("操作成功");
+    }
+
+    @Override
+    public R findMakerAgreement(String agreementNo, Long serviceProviderId, String makerName, IPage<AgreementServiceVO> page) {
+        return R.data(page.setRecords(baseMapper.findMakerAgreement(agreementNo, serviceProviderId,makerName,page)));
+    }
+
+    @Override
+    public R findEnterpriseAgreement(String agreementNo, Long serviceProviderId, String enterpriseName, IPage<AgreementServiceVO> page) {
+        return R.data(page.setRecords(baseMapper.findEnterpriseAgreement(agreementNo, serviceProviderId,enterpriseName,page)));
+    }
+
+    private void saveContractAndLetter(AgreementType agreementType,String file,ServiceProviderEntity serviceProviderEntity){
+        AgreementEntity agreementEntity = new AgreementEntity();
+        agreementEntity.setAgreementType(agreementType);
+        agreementEntity.setSignDate(new Date());
+        agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+        agreementEntity.setAgreementNo(UUID.randomUUID().toString());
+        agreementEntity.setSequenceNo(UUID.randomUUID().toString());
+        agreementEntity.setServiceProviderId(serviceProviderEntity.getId());
+        agreementEntity.setPaperAgreementUrl(file);
+        agreementEntity.setFirstSideSignPerson("第一平台");
+        agreementEntity.setSecondSideSignPerson(serviceProviderEntity.getServiceProviderName());
+        agreementService.save(agreementEntity);
     }
 }

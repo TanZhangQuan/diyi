@@ -33,6 +33,15 @@ public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEn
     EnterpriseWorkerEntity findByEmployeeUserNameAndEmployeePwd(String employeeUserName, String employeePwd);
 
     /**
+     * 根据手机号密码获取商户员工
+     *
+     * @param phone
+     * @param employeePwd
+     * @return
+     */
+    EnterpriseWorkerEntity findByPhoneAndEmployeePwd(String phone, String employeePwd);
+
+    /**
      * 获取当前商户员工
      *
      * @param bladeUser

@@ -3,10 +3,12 @@ package com.lgyun.system.user.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AgreementType;
+import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.enumeration.SignType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.AgreementEntity;
 import com.lgyun.system.user.vo.AgreementMakerWebVO;
+import com.lgyun.system.user.vo.AgreementServiceVO;
 import com.lgyun.system.user.vo.AgreementWebVO;
 
 import java.util.List;
@@ -87,5 +89,26 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
      *
      */
     R saveOnlineAgreement(Long enterpriseId, String paperAgreementURL,Boolean boolAllMakers,String makerIds,Integer templateCount,AgreementType agreementType,IMakerEnterpriseService makerEnterpriseService) throws Exception;
+
+
+    /**
+     * 查询服务商加盟平台合同和承诺函
+     */
+    R findSeriveAgreement(String agreementNo, Long serviceProviderId ,IPage<AgreementServiceVO> page);
+
+    /**
+     *上传加盟合同和承诺函
+     */
+    R uploadContractAndLetter(String contractUrl,String letterUrl,Long serviceProviderId);
+
+    /**
+     * 查询创客加盟平台合同和承诺函
+     */
+    R findMakerAgreement(String agreementNo, Long serviceProviderId ,String makerName,IPage<AgreementServiceVO> page);
+
+    /**
+     * 查询商户加盟平台合同和承诺函
+     */
+    R findEnterpriseAgreement(String agreementNo, Long serviceProviderId ,String enterpriseName,IPage<AgreementServiceVO> page);
 }
 

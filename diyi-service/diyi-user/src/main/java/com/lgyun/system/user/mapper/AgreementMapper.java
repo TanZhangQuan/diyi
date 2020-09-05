@@ -6,6 +6,7 @@ import com.lgyun.common.enumeration.AgreementType;
 import com.lgyun.common.enumeration.SignType;
 import com.lgyun.system.user.entity.AgreementEntity;
 import com.lgyun.system.user.vo.AgreementMakerWebVO;
+import com.lgyun.system.user.vo.AgreementServiceVO;
 import com.lgyun.system.user.vo.AgreementWebVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -35,5 +36,20 @@ public interface AgreementMapper extends BaseMapper<AgreementEntity> {
      * 商户和创客的补充协议
      */
     List<AgreementMakerWebVO> selectEnterpriseMakerAgreement( Long enterpriseId,IPage<AgreementMakerWebVO> page);
+
+    /**
+     *查询服务商加盟平台合同和承诺函
+     */
+    List<AgreementServiceVO> findSeriveAgreement(String agreementNo, Long serviceProviderId, IPage<AgreementServiceVO> page);
+
+    /**
+     * 查询创客加盟平台合同和承诺函
+     */
+    List<AgreementServiceVO> findMakerAgreement(String agreementNo, Long serviceProviderId,String makerName,IPage<AgreementServiceVO> page);
+
+    /**
+     *查询商户加盟平台合同和承诺函
+     */
+    List<AgreementServiceVO> findEnterpriseAgreement(String agreementNo, Long serviceProviderId,String enterpriseName,IPage<AgreementServiceVO> page);
 }
 
