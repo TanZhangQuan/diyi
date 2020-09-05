@@ -9,6 +9,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum InvoicePrintState {
+    TOAPPLY("TOAPPLY", "待申请"),
+    APPLYING("APPLYING", "申请中"),
     INVOICEING("INVOICEING", "开票中"),
     INVOICESUCCESS("INVOICESUCCESS", "已开票"),
     INVOICEFAIL("INVOICEFAIL", "开票失败");

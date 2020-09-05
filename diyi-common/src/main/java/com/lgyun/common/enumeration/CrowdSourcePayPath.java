@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 众包支付通路
+ * 众包/众采支付通路
  */
 @Getter
 @AllArgsConstructor
