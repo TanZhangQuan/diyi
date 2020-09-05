@@ -22,7 +22,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 /**
  * 商户发票和完税证明接口
@@ -209,12 +208,12 @@ public class InvoiceWebController {
     }
 
     /**
-     * 根据商户查询众包
+     * 根据商户查询众包/众采
      */
     @GetMapping("/findEnterpriseCrowdSourcing")
-    @ApiOperation(value = "根据商户查询众包", notes = "根据商户查询众包")
+    @ApiOperation(value = "根据商户查询众包/众采", notes = "根据商户查询众包/众采")
     public R findEnterpriseCrowdSourcing(BladeUser bladeUser,@RequestParam(required = false) String serviceProviderName,Query query){
-        log.info("根据商户查询众包");
+        log.info("根据商户查询众包/众采");
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
@@ -224,23 +223,23 @@ public class InvoiceWebController {
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
             return selfHelpInvoiceService.findEnterpriseCrowdSourcing(enterpriseWorkerEntity.getEnterpriseId(),serviceProviderName,Condition.getPage(query.setDescs("create_time")) );
         }catch (Exception e){
-            log.info("根据商户查询众包失败",e);
+            log.info("根据商户查询众包/众采失败",e);
         }
-        return R.fail("根据商户查询众包失败");
+        return R.fail("根据商户查询众包/众采失败");
     }
 
     /**
-     * 查询详情接口-众包
+     * 查询详情接口-众包/众采
       */
     @GetMapping("/findDetailCrowdSourcing")
-    @ApiOperation(value = "查询详情接口-众包", notes = "查询详情接口-众包")
+    @ApiOperation(value = "查询详情接口-众包/众采", notes = "查询详情接口-众包/众采")
     public R findDetailCrowdSourcing(Long selfHelpInvoiceId){
-        log.info("查询详情接口-众包");
+        log.info("查询详情接口-众包/众采");
         try {
             return selfHelpInvoiceService.findDetailCrowdSourcing(selfHelpInvoiceId);
         }catch (Exception e){
-            log.info("查询详情接口-众包失败",e);
+            log.info("查询详情接口-众包/众采失败",e);
         }
-        return R.fail("查询详情接口-众包失败");
+        return R.fail("查询详情接口-众包/众采失败");
     }
 }
