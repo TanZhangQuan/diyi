@@ -204,7 +204,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/current_maker")
-    R currentMaker(@RequestBody BladeUser bladeUser);
+    R<MakerEntity> currentMaker(@RequestBody BladeUser bladeUser);
 
     /**
      * 根据user_id获取商户

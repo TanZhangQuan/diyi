@@ -58,11 +58,13 @@ public class WorksheetController {
     }
 
     @GetMapping("/findXiaoPage")
-    @ApiOperation(value = "小程查询工单", notes = "小程查询工单")
+    @ApiOperation(value = "查询当前创客工单", notes = "查询当前创客工单")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "worksheetState", value = "工单状态：1代表待抢单，2已接单，3已交付", paramType = "query", dataType = "string"),
     })
-    public R findXiaoPage(Query query, @NotNull(message = "请输入工单的状态") @RequestParam(required = false) Integer worksheetState, BladeUser bladeUser) {
+    public R findXiaoPage(@NotNull(message = "请输入工单的状态") @RequestParam(required = false) Integer worksheetState, Query query, BladeUser bladeUser) {
+
+        log.info("查询当前创客工单");
         try {
             //获取当前创客
             R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
@@ -76,9 +78,9 @@ public class WorksheetController {
             }
             return worksheetService.findXiaoPage(Condition.getPage(query.setDescs("create_time")), worksheetState, makerEntity.getId());
         } catch (Exception e) {
-            log.info("小程查询工单失败");
+            log.info("查询当前创客工单异常", e);
         }
-        return R.fail("小程查询工单失败");
+        return R.fail("查询失败");
     }
 
     @PostMapping("/submitachievement")
