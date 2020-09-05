@@ -64,6 +64,7 @@ public class MobileTokenGranter implements ITokenGranter {
         UserType userType = (UserType) tokenParameter.getArgs().get("userType");
         R<String> res;
         switch (userType) {
+
             case MAKER:
                 // 微信授权码
                 String wechatCode = tokenParameter.getArgs().getStr("wechatCode");
