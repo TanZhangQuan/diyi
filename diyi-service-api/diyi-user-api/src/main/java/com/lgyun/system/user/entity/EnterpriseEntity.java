@@ -63,7 +63,7 @@ public class EnterpriseEntity extends BaseEntity {
     private String socialCreditNo;
 
     /**
-     * 营业执照图片地址
+     * 营业执照图片URL
      */
     private String bizLicenceUrl;
 
