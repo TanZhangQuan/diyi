@@ -1780,6 +1780,7 @@ CREATE TABLE `sys_menu` (
   `action` int(2) DEFAULT '0' COMMENT '操作按钮类型',
   `is_open` int(2) DEFAULT '1' COMMENT '是否打开新页面',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
+  `menu_type` varchar(50) DEFAULT NULL COMMENT '菜单类型：ENTERPRISE SERVICEPROVIDER ...',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',

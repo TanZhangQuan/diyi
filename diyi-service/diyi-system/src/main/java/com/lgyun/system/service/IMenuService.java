@@ -45,9 +45,10 @@ public interface IMenuService extends IService<Menu> {
 	/**
 	 * 树形结构
 	 *
+     * @param menuType
 	 * @return
 	 */
-	List<TreeNode> tree();
+	List<TreeNode> tree(String menuType);
 
 	/**
 	 * 授权树形结构

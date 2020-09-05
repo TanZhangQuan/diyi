@@ -90,4 +90,10 @@ public class Menu extends BaseEntity {
     @ApiModelProperty(value = "备注")
     private String remark;
 
+    /**
+     * 菜单类型：商户、服务商、管理平台
+     */
+    @ApiModelProperty(value = "菜单类型：商户、服务商、管理平台")
+    private String menuType;
+
 }

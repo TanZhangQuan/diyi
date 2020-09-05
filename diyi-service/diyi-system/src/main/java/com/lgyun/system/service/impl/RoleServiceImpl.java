@@ -89,7 +89,6 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 			roleMenu.setRoleId(roleId);
 			roleMenu.setMenuId(menuId);
 
-
 			roleMenu.setCreateUser(request.getUserId());
 			roleMenu.setUpdateUser(request.getUserId());
 			Date now = DateUtil.now();

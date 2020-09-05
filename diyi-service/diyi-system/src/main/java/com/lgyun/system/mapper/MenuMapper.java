@@ -6,6 +6,8 @@ import com.lgyun.common.node.TreeNode;
 import com.lgyun.system.dto.MenuDTO;
 import com.lgyun.system.entity.Menu;
 import com.lgyun.system.vo.MenuVO;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -28,9 +30,10 @@ public interface MenuMapper extends BaseMapper<Menu> {
 	/**
 	 * 树形结构
 	 *
+	 * @param menuType
 	 * @return
 	 */
-	List<TreeNode> tree();
+	List<TreeNode> tree(String menuType);
 
 	/**
 	 * 授权树形结构
@@ -50,9 +53,11 @@ public interface MenuMapper extends BaseMapper<Menu> {
 	/**
 	 * 所有菜单
 	 *
+	 * @param menuType
 	 * @return
 	 */
-	List<Menu> allMenu();
+	@Select("select * from sys_menu where menu_type=#{menuType} and is_deleted = 0 and category = 1 ")
+	List<Menu> allMenu(@Param("menuType") String menuType);
 
 	/**
 	 * 权限配置菜单
