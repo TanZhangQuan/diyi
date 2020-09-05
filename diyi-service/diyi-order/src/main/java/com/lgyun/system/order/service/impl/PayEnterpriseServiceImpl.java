@@ -5,31 +5,30 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.KdniaoTrackQueryUtil;
+import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.PayEnterpriseMakerListDto;
 import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
 import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
-import com.lgyun.system.order.entity.InvoiceApplicationEntity;
-import com.lgyun.system.order.entity.PayEnterpriseEntity;
-import com.lgyun.system.order.entity.PayEnterpriseReceiptEntity;
-import com.lgyun.system.order.entity.WorksheetEntity;
+import com.lgyun.system.order.entity.*;
 import com.lgyun.system.order.mapper.PayEnterpriseMapper;
 import com.lgyun.system.order.service.*;
 import com.lgyun.system.order.vo.*;
+import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.EnterpriseProviderEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import com.lgyun.system.user.vo.TransactionVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hssf.record.crypto.Biff8DecryptingStream;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * Service 实现
@@ -48,6 +47,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     private ISelfHelpInvoiceService selfHelpInvoiceService;
     private IInvoiceApplicationService invoiceApplicationService;
     private IWorksheetMakerService worksheetMakerService;
+    private IPlatformInvoiceService platformInvoiceService;
+    private IPlatformInvoicePayListService platformInvoicePayListService;
 
     @Override
     public R<IPage<InvoiceEnterpriseVO>> getEnterpriseAll(Long makerId, IPage<InvoiceEnterpriseVO> page) {
@@ -401,6 +402,86 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     @Override
     public R<DayTradeVO> queryTotalSubDayTradeByServiceProvider(Long serviceProviderId) {
         return R.data(baseMapper.queryTotalSubDayTradeByServiceProvider(serviceProviderId));
+    }
+
+    @Override
+    public R getServiceLumpSumInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime,InvoiceState companyInvoiceState, IPage<InvoiceServiceLumpVO> page) {
+        return R.data(page.setRecords(baseMapper.getServiceLumpSumInvoice(serviceProviderId,enterpriseName,startTime,endTime,companyInvoiceState,page)));
+    }
+
+    @Override
+    public R getServiceLumpSumInvoiceDetails(Long payEnterpriseId) {
+        Map map = new HashMap();
+        List<InvoiceServiceLumpDetailsVO> lumpSumInvoiceDetails = baseMapper.getServiceLumpSumInvoiceDetails(payEnterpriseId);
+        if(lumpSumInvoiceDetails.size() > 0){
+            map.put("lumpSumInvoiceDetails",lumpSumInvoiceDetails.get(0));
+        }else{
+            R.fail("商户支付清单不存在！！！");
+        }
+        String enterprisePayReceiptUrl = payEnterpriseReceiptService.findEnterprisePayReceiptUrl(payEnterpriseId);
+        lumpSumInvoiceDetails.get(0).setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
+        String expressCompanyName = lumpSumInvoiceDetails.get(0).getExpressCompanyName();
+        String expressSheetNo = lumpSumInvoiceDetails.get(0).getExpressSheetNo();
+        KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
+        String orderTracesByJson = "";
+        try {
+            if (!StringUtil.isBlank(expressCompanyName) && !StringUtil.isBlank(expressSheetNo)) {
+                orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(expressCompanyName, expressSheetNo);
+                map.put("orderTracesByJson",orderTracesByJson);
+            }else{
+                map.put("orderTracesByJson","");
+            }
+        } catch (Exception e) {
+            log.error("查询物流错误", e);
+        }
+        return R.data(map);
+    }
+
+    @Override
+    @Transactional
+    public R saveServiceLumpSumInvoice(Long serviceProviderId, Long payEnterpriseId,String serviceProviderName, Long applicationId, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName,String invoiceDesc) {
+        PayEnterpriseEntity byId = getById(payEnterpriseId);
+        EnterpriseEntity enterpriseById = userClient.getEnterpriseById(byId.getEnterpriseId());
+
+        PlatformInvoiceEntity platformInvoiceEntity = new PlatformInvoiceEntity();
+        platformInvoiceEntity.setApplicationId(applicationId);
+        platformInvoiceEntity.setInvoicePrintDate(new Date());
+        //价税合计
+        platformInvoiceEntity.setInvoiceTotalAmount(new BigDecimal("0"));
+        platformInvoiceEntity.setInvoiceNumbers(1);
+        platformInvoiceEntity.setInvoicePrintPerson(serviceProviderName);
+        platformInvoiceEntity.setExpressSheetNo(expressSheetNo);
+        platformInvoiceEntity.setExpressCompanyName(expressCompanyName);
+        platformInvoiceEntity.setInvoiceDesc(invoiceDesc);
+        platformInvoiceService.save(platformInvoiceEntity);
+        PlatformInvoicePayListEntity platformInvoicePayListEntity = new PlatformInvoicePayListEntity();
+        platformInvoicePayListEntity.setPayEnterpriseId(payEnterpriseId);
+        platformInvoicePayListEntity.setInvoicePrintId(platformInvoiceEntity.getId());
+        platformInvoicePayListService.save(platformInvoicePayListEntity);
+        PlatformInvoiceListEntity platformInvoiceListEntity = new PlatformInvoiceListEntity();
+        platformInvoiceListEntity.setInvoicePrintId(platformInvoiceEntity.getId());
+        //发票代码
+        platformInvoiceListEntity.setInvoiceTypeNo(UUID.randomUUID().toString());
+        //发票号码
+        platformInvoiceListEntity.setInvoiceSerialNo(UUID.randomUUID().toString());
+        platformInvoiceListEntity.setInvoiceDatetime(new Date());
+        //价税合计
+        platformInvoiceListEntity.setTotalAmount(new BigDecimal("0"));
+        //金额合计
+        platformInvoiceListEntity.setSalesAmount(new BigDecimal("0"));
+        //税额合计
+        platformInvoiceListEntity.setTaxAmount(new BigDecimal("0"));
+        platformInvoiceListEntity.setInvoicePerson(serviceProviderName);
+        //销售方名称
+        platformInvoiceListEntity.setSaleCompany(enterpriseById.getEnterpriseName());
+        platformInvoiceListEntity.setCompanyInvoiceUrl(companyInvoiceUrl);
+        platformInvoiceListEntity.setCompanyVoiceUploadDatetime(new Date());
+        return R.success("操作成功");
+    }
+
+    @Override
+    public R getServiceSummaryInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, InvoiceState companyInvoiceState, IPage<InvoiceServiceSummaryVO> page) {
+        return R.data(page.setRecords(baseMapper.getServiceSummaryInvoice(serviceProviderId,enterpriseName,startTime,endTime,companyInvoiceState,page)));
     }
 
 }
