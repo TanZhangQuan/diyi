@@ -122,7 +122,7 @@ public class PayEnterpriseUploadDto implements Serializable {
     private String payMemo;
 
     /**
-     * 支付回单(可能多张)
+     * 支付回单(多张)
      */
     @NotBlank(message = "请上传支付回单")
     private String payReceiptUrl;

@@ -1,8 +1,10 @@
 package com.lgyun.system.order.dto;
 
+import com.lgyun.common.enumeration.MakerType;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,17 +16,15 @@ import java.util.Date;
  * @time 16:27.
  */
 @Data
-public class SelfHelpInvoicePayDto implements Serializable {
+public class SelfHelpInvoicesByEnterpriseDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //自助开票ID
+    //自助开票编号
     private Long selfHelpInvoiceId;
 
-    //服务商名称
-    private String serviceProviderName;
-
-    //商户名称
-    private String enterpriseName;
+    //创客类别
+    @NotNull(message = "请选择创客类型")
+    private MakerType makerType;
 
     //自主开票开始时间
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

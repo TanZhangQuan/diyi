@@ -30,10 +30,10 @@ public class SelfHelpInvoiceSerProVO implements Serializable {
     //购买方
     private String enterpriseName;
 
-    //发票扫描件（可多张）
+    //发票扫描件（多张）
     private String invoiceScanPictures;
 
-    //税票扫描件（可多张）
+    //税票扫描件（多张）
     private String taxScanPictures;
 
     //创建时间

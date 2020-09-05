@@ -10,7 +10,6 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.AcceptPaysheetSaveDto;
 import com.lgyun.system.order.dto.PayEnterpriseMakerListDto;
 import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
-import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
 import com.lgyun.system.order.service.IAcceptPaysheetService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.service.IPayMakerService;
@@ -216,31 +215,6 @@ public class PayEnterpriseWebController {
             return payMakerService.getPayMakersByEnterprise(enterpriseWorkerEntity.getEnterpriseId(), null, payEnterpriseMakerListDto, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("查询当前商户所有分包支付清单异常", e);
-        }
-        return R.fail("查询失败");
-    }
-
-    @GetMapping("/get_self_helf_invoice_by_enterprise_id")
-    @ApiOperation(value = "查询当前商户所有自主开票记录(众包)", notes = "查询当前商户所有自主开票记录(众包)")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "payEnterpriseMakerId", value = "自助开票ID", paramType = "query", dataType = "long"),
-            @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
-            @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
-    })
-    public R getSelfHelfInvoiceByEnterpriseId(SelfHelpInvoicePayDto selfHelpInvoicePayDto, Query query, BladeUser bladeUser) {
-
-        log.info("查询当前商户所有自主开票记录(众包)");
-        try {
-            //获取当前商户员工
-            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())) {
-                return result;
-            }
-            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-            return payEnterpriseService.getSelfHelfInvoiceByEnterpriseId(enterpriseWorkerEntity.getEnterpriseId(), selfHelpInvoicePayDto, Condition.getPage(query.setDescs("create_time")));
-        } catch (Exception e) {
-            log.error("查询当前商户所有自主开票记录(众包)异常", e);
         }
         return R.fail("查询失败");
     }

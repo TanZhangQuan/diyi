@@ -41,9 +41,9 @@ public class SelfHelpInvoiceDetailEntity extends BaseEntity {
     private InvoicePeopleType invoicePeopleType;
 
     /**
-     * 开票状态 1，开票中；2，已开票；3，开票失败
+     * 开票状态：待申请；申请中；开票中；已开票；开票失败
      */
-    private InvoicePrintState invoicePrintState = InvoicePrintState.INVOICEING;
+    private InvoicePrintState invoicePrintState = InvoicePrintState.TOAPPLY;
 
     /**
      * 创客ID
@@ -76,7 +76,7 @@ public class SelfHelpInvoiceDetailEntity extends BaseEntity {
     private BigDecimal chargeMoneyNum;
 
     /**
-     * 流水回单URL
+     * 支付回单URL
      */
     private String flowContractUrl;
 

@@ -34,12 +34,12 @@ public class SelfHelpInvoiceSpDetailEntity extends BaseEntity {
     private Long selfHelpInvoiceDetailId;
 
     /**
-     * 发票扫描件（可多张）
+     * 发票扫描件（多张）
      */
     private String invoiceScanPictures;
 
     /**
-     * 税票扫描件（可多张）
+     * 税票扫描件（多张）
      */
     private String taxScanPictures;
 
