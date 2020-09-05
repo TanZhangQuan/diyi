@@ -2,6 +2,7 @@ package com.lgyun.system.order.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.common.enumeration.MakerInvoiceType;
 import com.lgyun.common.enumeration.PayEnterpriseAuditState;
 import com.lgyun.common.enumeration.WorkSheetType;
@@ -276,5 +277,42 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      */
     R<DayTradeVO> queryTotalSubDayTradeByServiceProvider(Long serviceProviderId);
 
+
+    /**
+     *服务商查询总包发票
+     */
+    R getServiceLumpSumInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, InvoiceState companyInvoiceState,IPage<InvoiceServiceLumpVO> page);
+
+
+    /**
+     * 服务商查询总包发票详情
+     * @param payEnterpriseId
+     * @return
+     */
+    R getServiceLumpSumInvoiceDetails(Long payEnterpriseId);
+
+    /**
+     * 服务商总包开票
+     * @param serviceProviderId
+     * @param payEnterpriseId
+     * @param applicationId
+     * @param companyInvoiceUrl
+     * @param expressSheetNo
+     * @param expressCompanyName
+     * @return
+     */
+    R saveServiceLumpSumInvoice(Long serviceProviderId,Long payEnterpriseId,String serviceProviderName,Long applicationId,String companyInvoiceUrl,String expressSheetNo,String expressCompanyName,String invoiceDesc);
+
+    /**
+     * 服务商查询汇总代开发票
+     * @param serviceProviderId
+     * @param enterpriseName
+     * @param startTime
+     * @param endTime
+     * @param companyInvoiceState
+     * @param page
+     * @return
+     */
+    R getServiceSummaryInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, InvoiceState companyInvoiceState,IPage<InvoiceServiceSummaryVO> page);
 }
 
