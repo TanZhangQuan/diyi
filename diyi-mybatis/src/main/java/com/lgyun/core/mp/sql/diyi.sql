@@ -70,7 +70,7 @@ CREATE TABLE `diyi_accept_paysheet_cs` (
   `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='众包交付支付验收单表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='众包/众采交付支付验收单表';
 
 -- ----------------------------
 -- Records of diyi_accept_paysheet_cs
@@ -1957,8 +1957,8 @@ CREATE TABLE `diyi_self_help_invoice_sp_detail` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `self_help_invoice_apply_provider_id` bigint(50) NOT NULL COMMENT '服务商自助开票明细Id',
   `self_help_invoice_detail_id` bigint(50) NOT NULL COMMENT '自助开票明细Id',
-  `invoice_scan_pictures` varchar(1000) NOT NULL COMMENT ' 发票扫描件（可多张）',
-  `tax_scan_pictures` varchar(1000) NOT NULL COMMENT ' 税票扫描件（可多张）',
+  `invoice_scan_pictures` varchar(1000) NOT NULL COMMENT ' 发票扫描件（多张）',
+  `tax_scan_pictures` varchar(1000) NOT NULL COMMENT ' 税票扫描件（多张）',
   `invoice_operate_person` varchar(50) NOT NULL COMMENT '发票处理人员',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
