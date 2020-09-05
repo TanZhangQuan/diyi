@@ -104,7 +104,7 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
     }
 
     @Override
-    public R<IPage<IndividualBusinessEnterpriseDetailsVO>> getIndividualBusinessList(IPage<IndividualBusinessEnterpriseDetailsVO> page, Long enterpriseId, Long serviceProviderId, Ibstate ibstate, IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto) {
+    public R<IPage<IndividualBusinessEnterpriseDetailsVO>> getIndividualBusinessList(IPage<IndividualBusinessEnterpriseDetailsVO> page, Long enterpriseId, Long serviceProviderId, IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto) {
         if (individualBusinessEnterpriseDto.getBeginDate() != null && individualBusinessEnterpriseDto.getEndDate() != null) {
             if (individualBusinessEnterpriseDto.getBeginDate().after(individualBusinessEnterpriseDto.getEndDate())) {
                 return R.fail("开始时间不能大于结束时间");
@@ -120,9 +120,9 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
         }
 
         if (enterpriseId != null) {
-            return R.data(page.setRecords(baseMapper.getIndividualEnterpriseListByEnterpriseId(enterpriseId, ibstate, individualBusinessEnterpriseDto, page)));
+            return R.data(page.setRecords(baseMapper.getIndividualEnterpriseListByEnterpriseId(enterpriseId, individualBusinessEnterpriseDto, page)));
         } else {
-            return R.data(page.setRecords(baseMapper.getIndividualEnterpriseListByServiceProviderId(serviceProviderId, ibstate, individualBusinessEnterpriseDto, page)));
+            return R.data(page.setRecords(baseMapper.getIndividualEnterpriseListByServiceProviderId(serviceProviderId, individualBusinessEnterpriseDto, page)));
         }
     }
 

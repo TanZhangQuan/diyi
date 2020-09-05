@@ -35,9 +35,6 @@
         <if test="param1 != null">
             AND t3.enterprise_id = #{param1}
         </if>
-        <if test="param2 != null">
-            AND t1.ibstate = #{param2}
-        </if>
         <if test="param3.individualBusinessEnterpriseId != null">
             AND t1.id like concat('%', #{param3.individualBusinessEnterpriseId}, '%')
         </if>
@@ -59,9 +56,6 @@
         WHERE t1.is_deleted = 0 AND t2.is_deleted = 0
         <if test="param1 != null">
             AND t1.service_provider_id = #{param1}
-        </if>
-        <if test="param2 != null">
-            AND t1.ibstate = #{param2}
         </if>
         <if test="param3.individualBusinessEnterpriseId != null">
             AND t1.id like concat('%', #{param3.individualBusinessEnterpriseId}, '%')

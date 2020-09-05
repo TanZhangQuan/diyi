@@ -105,7 +105,7 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
     }
 
     @Override
-    public R<IPage<IndividualBusinessEnterpriseDetailsVO>> getIndividualBusinessList(IPage<IndividualBusinessEnterpriseDetailsVO> page, Long enterpriseId, Long serviceProviderId, Ibstate ibstate, IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto) {
+    public R<IPage<IndividualBusinessEnterpriseDetailsVO>> getIndividualBusinessList(IPage<IndividualBusinessEnterpriseDetailsVO> page, Long enterpriseId, Long serviceProviderId, IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto) {
 
         if (individualBusinessEnterpriseDto.getBeginDate() != null && individualBusinessEnterpriseDto.getEndDate() != null) {
             if (individualBusinessEnterpriseDto.getBeginDate().after(individualBusinessEnterpriseDto.getEndDate())) {
@@ -122,9 +122,9 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
         }
 
         if (enterpriseId != null) {
-            return R.data(page.setRecords(baseMapper.getIndividualBusinessListByEnterpriseId(enterpriseId, ibstate, individualBusinessEnterpriseDto, page)));
+            return R.data(page.setRecords(baseMapper.getIndividualBusinessListByEnterpriseId(enterpriseId, individualBusinessEnterpriseDto, page)));
         } else {
-            return R.data(page.setRecords(baseMapper.getIndividualBusinessListByServiceProviderId(serviceProviderId, ibstate, individualBusinessEnterpriseDto, page)));
+            return R.data(page.setRecords(baseMapper.getIndividualBusinessListByServiceProviderId(serviceProviderId, individualBusinessEnterpriseDto, page)));
         }
     }
 

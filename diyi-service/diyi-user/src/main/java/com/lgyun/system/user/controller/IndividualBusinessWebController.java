@@ -52,7 +52,7 @@ public class IndividualBusinessWebController {
             @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
     })
-    public R getByDtoEnterprise(@ApiParam(value = "个体户状态") @NotNull(message = "请选择个体户状态") @RequestParam(required = false) Ibstate ibstate, IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto, Query query, BladeUser bladeUser) {
+    public R getByDtoEnterprise(IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto, Query query, BladeUser bladeUser) {
 
         log.info("查询当前商户的关联创客的所有个体户");
         try {
@@ -63,7 +63,7 @@ public class IndividualBusinessWebController {
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-            return individualBusinessService.getIndividualBusinessList(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), null, ibstate, individualBusinessEnterpriseDto);
+            return individualBusinessService.getIndividualBusinessList(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), null, individualBusinessEnterpriseDto);
         } catch (Exception e) {
             log.error("查询当前商户的关联创客的所有个体户异常", e);
         }
@@ -137,7 +137,7 @@ public class IndividualBusinessWebController {
             @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
     })
-    public R getListByServiceProviderId(@ApiParam(value = "个体户状态") @NotNull(message = "请选择个体户状态") @RequestParam(required = false) Ibstate ibstate, IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto, Query query, BladeUser bladeUser) {
+    public R getListByServiceProviderId(IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto, Query query, BladeUser bladeUser) {
 
         log.info("查询当前服务商关联的所有个体户");
         try {
@@ -148,7 +148,7 @@ public class IndividualBusinessWebController {
             }
             ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-            return individualBusinessService.getIndividualBusinessList(Condition.getPage(query.setDescs("create_time")), null, serviceProviderWorkerEntity.getServiceProviderId(), ibstate, individualBusinessEnterpriseDto);
+            return individualBusinessService.getIndividualBusinessList(Condition.getPage(query.setDescs("create_time")), null, serviceProviderWorkerEntity.getServiceProviderId(), individualBusinessEnterpriseDto);
         } catch (Exception e) {
             log.error("查询当前服务商关联的所有个体户异常", e);
         }
