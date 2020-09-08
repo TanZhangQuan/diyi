@@ -22,7 +22,7 @@ public class SelfHelpInvoiceListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 自主开票ID
+     * 自助开票ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;

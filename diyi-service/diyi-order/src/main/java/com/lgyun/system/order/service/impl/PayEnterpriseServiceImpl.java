@@ -1,5 +1,7 @@
 package com.lgyun.system.order.service.impl;
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
@@ -10,11 +12,12 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.PayEnterpriseMakerListDto;
 import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
-import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
 import com.lgyun.system.order.entity.InvoiceApplicationEntity;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.entity.PayEnterpriseReceiptEntity;
 import com.lgyun.system.order.entity.WorksheetEntity;
+import com.lgyun.system.order.excel.PayEnterpriseExcel;
+import com.lgyun.system.order.excel.PayEnterpriseImportListener;
 import com.lgyun.system.order.mapper.PayEnterpriseMapper;
 import com.lgyun.system.order.service.*;
 import com.lgyun.system.order.vo.*;
@@ -27,6 +30,9 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,9 +51,9 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     private IPayEnterpriseReceiptService payEnterpriseReceiptService;
     private IWorksheetService worksheetService;
     private IUserClient userClient;
-    private ISelfHelpInvoiceService selfHelpInvoiceService;
     private IInvoiceApplicationService invoiceApplicationService;
     private IWorksheetMakerService worksheetMakerService;
+    private IPayMakerService payMakerService;
 
     @Override
     public R<IPage<InvoiceEnterpriseVO>> getEnterpriseAll(Long makerId, IPage<InvoiceEnterpriseVO> page) {
@@ -70,7 +76,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> upload(PayEnterpriseUploadDto payEnterpriseUploadDto, Long enterpriseId) {
+    public R<String> upload(PayEnterpriseUploadDto payEnterpriseUploadDto, Long enterpriseId) throws Exception {
 
         //判断服务商和商户是否关联
         EnterpriseProviderEntity enterpriseProviderEntity = userClient.findByEnterpriseIdServiceProviderId(enterpriseId, payEnterpriseUploadDto.getServiceProviderId());
@@ -132,6 +138,20 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             }
         }
 
+        //根据总包支付清单生成分包
+        String path = payEnterpriseUploadDto.getChargeListUrl();
+        String type = path.substring(path.lastIndexOf(".") + 1);
+        //根据文件后缀（xls/xlsx）进行判断
+        InputStream input = new URL(path).openStream();
+        if (!("xls".equals(type)) && !("xlsx".equals(type))) {
+            return R.fail("支付清单文件类型有误");
+        }
+
+        PayEnterpriseImportListener payEnterpriseImportListener = new PayEnterpriseImportListener(payMakerService, payEnterpriseEntity);
+        InputStream inputStream = new BufferedInputStream(input);
+        ExcelReaderBuilder builder = EasyExcel.read(inputStream, PayEnterpriseExcel.class, payEnterpriseImportListener);
+        builder.doReadAll();
+
         return R.success("上传支付清单成功");
     }
 
@@ -148,7 +168,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         }
 
         if (!(EnterprisePayState.TOPAY.equals(payEnterpriseEntity.getPayState())) && !(EnterprisePayState.PAYED.equals(payEnterpriseEntity.getPayState()))) {
-            return R.fail("支付清单支付状态有误");
+            return R.fail("总包支付的支付状态有误");
         }
 
         if (!(PayEnterpriseAuditState.EDITING.equals(payEnterpriseEntity.getAuditState())) && !(PayEnterpriseAuditState.REJECTED.equals(payEnterpriseEntity.getAuditState()))) {
@@ -193,11 +213,6 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     @Override
     public R getServiceProviderByEnterpriseId(Query query, Long enterpriseId, String serviceProviderName) {
         return userClient.getServiceProviderByEnterpriseId(query.getCurrent(), query.getSize(), enterpriseId, serviceProviderName);
-    }
-
-    @Override
-    public R<IPage<SelfHelpInvoicePayVO>> getSelfHelfInvoiceByEnterpriseId(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<SelfHelpInvoicePayVO> page) {
-        return selfHelpInvoiceService.getSelfHelfInvoiceByEnterpriseId(enterpriseId, selfHelpInvoicePayDto, page);
     }
 
     @Override

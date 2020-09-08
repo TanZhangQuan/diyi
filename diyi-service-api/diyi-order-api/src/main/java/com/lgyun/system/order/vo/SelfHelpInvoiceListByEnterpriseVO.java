@@ -2,8 +2,8 @@ package com.lgyun.system.order.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.lgyun.common.enumeration.ApplyState;
 import com.lgyun.common.enumeration.CrowdSourcingPayType;
+import com.lgyun.common.enumeration.SelfHelpInvoiceApplyState;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -44,7 +44,7 @@ public class SelfHelpInvoiceListByEnterpriseVO implements Serializable {
     /**
      * 开票类目
      */
-    private String invoiceType;
+    private String invoiceTypes;
 
     /**
      * 总需支付服务商税费=总服务税费+总开票手续费+总身份验证费，自动计算
@@ -69,10 +69,10 @@ public class SelfHelpInvoiceListByEnterpriseVO implements Serializable {
     /**
      * 当前状态：未申请，申请编辑中，审核中；已通过开票中；已驳回；已开票结束
      */
-    private ApplyState currentState;
+    private SelfHelpInvoiceApplyState currentState;
 
     /**
      * 开票时间
      */
-    private Date invoiceDate;
+    private Date createTime;
 }

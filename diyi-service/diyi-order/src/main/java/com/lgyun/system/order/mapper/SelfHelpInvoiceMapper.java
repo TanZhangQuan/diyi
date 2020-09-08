@@ -3,8 +3,9 @@ package com.lgyun.system.order.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.enumeration.InvoicePeopleType;
-import com.lgyun.common.enumeration.MakerType;
-import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
+import com.lgyun.common.enumeration.SelfHelpInvoiceSpApplyState;
+import com.lgyun.system.order.dto.SelfHelpInvoiceDetailsByServiceProviderDto;
+import com.lgyun.system.order.dto.SelfHelpInvoicesByEnterpriseDto;
 import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
 import com.lgyun.system.order.vo.*;
 import org.apache.ibatis.annotations.Mapper;
@@ -21,12 +22,73 @@ import java.util.List;
 public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity> {
 
     /**
-     * 查询开票详情
+     * 查询条件查询所有自助开票记录
      *
+     * @param enterpriseId
+     * @param invoicePeopleType
+     * @param selfHelpInvoicesByEnterpriseDto
+     * @param page
+     * @return
+     */
+    List<SelfHelpInvoiceListByEnterpriseVO> getSelfHelfInvoicesByEnterprise(Long enterpriseId, InvoicePeopleType invoicePeopleType, SelfHelpInvoicesByEnterpriseDto selfHelpInvoicesByEnterpriseDto, IPage<SelfHelpInvoiceListByEnterpriseVO> page);
+
+    /**
+     * 查询当前商户某条自助开票记录详情
+     *
+     * @param enterpriseId
      * @param selfHelpInvoiceId
      * @return
      */
-    SelfHelpInvoiceDetailsVO getSelfHelpInvoiceDetails(Long selfHelpInvoiceId);
+    SelfHelpInvoiceSingleByEnterpriseVO getSingleSelfHelfInvoiceByEnterprise(Long enterpriseId, Long selfHelpInvoiceId);
+
+    /**
+     * 查询当前商户某条自助开票记录的所有自助开票明细
+     *
+     * @param enterpriseId
+     * @param selfHelpInvoiceId
+     * @return
+     */
+    List<SelfHelpInvoiceDetailListByEnterpriseVO> getSelfHelfInvoiceDetailsBySelfHelfInvoiceAndEnterprise(Long enterpriseId, Long selfHelpInvoiceId, IPage<SelfHelpInvoiceDetailListByEnterpriseVO> page);
+
+    /**
+     * 查询当前商户某条自助开票记录的所有快递信息
+     *
+     * @param selfHelpInvoiceId
+     * @param enterpriseId
+     * @param page
+     * @return
+     */
+    List<SelfHelpInvoiceExpressByEnterpriseProviderVO> getSelfHelfInvoiceExpressBySelfHelfInvoiceAndEnterprise(Long selfHelpInvoiceId, Long enterpriseId, IPage<SelfHelpInvoiceExpressByEnterpriseProviderVO> page);
+
+    /**
+     * 查询当前服务商所有自助开票明细记录
+     *
+     * @param serviceProviderId
+     * @param invoicePeopleType
+     * @param selfHelpInvoiceSpApplyState
+     * @param selfHelpInvoiceDetailsByServiceProviderDto
+     * @param page
+     * @return
+     */
+    List<SelfHelpInvoiceListByServiceProviderVO> getSelfHelfInvoicesByServiceProvider(Long serviceProviderId, InvoicePeopleType invoicePeopleType, SelfHelpInvoiceSpApplyState selfHelpInvoiceSpApplyState, SelfHelpInvoiceDetailsByServiceProviderDto selfHelpInvoiceDetailsByServiceProviderDto, IPage<SelfHelpInvoiceListByServiceProviderVO> page);
+
+    /**
+     * 查询当前服务商某条自助开票明细记录详情
+     *
+     * @param serviceProviderId
+     * @param selfHelpInvoiceId
+     * @return
+     */
+    SelfHelpInvoiceSingleByServiceProviderVO getSingleSelfHelfInvoiceByServiceProvider(Long serviceProviderId, Long selfHelpInvoiceId);
+
+    /**
+     * 查询当前服务商某条自助开票记录的快递信息
+     *
+     * @param selfHelpInvoiceId
+     * @param serviceProviderId
+     * @return
+     */
+    SelfHelpInvoiceExpressByEnterpriseProviderVO getSelfHelfInvoiceExpressBySelfHelfInvoiceAndProvider(Long selfHelpInvoiceId, Long serviceProviderId);
 
     /**
      * 查询个体户月度开票金额和年度开票金额
@@ -57,58 +119,25 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
     List<SelfHelpInvoiceListVO> selfHelpInvoiceList(Long allKindEnterpriseId, InvoicePeopleType invoicePeopleType, IPage<SelfHelpInvoiceListVO> page);
 
     /**
-     * 根据商户ID, 开票客户类型查询自助开票
+     * 根据商户查询众包/众采
      *
-     * @param enterpriseId
-     * @param makerType
-     * @param page
-     * @return
-     */
-    List<SelfHelpInvoiceDetailsVO> findMakerTypeSelfHelpInvoice(Long enterpriseId, MakerType makerType,String invoicePeopleName,String startTime,String endTime, IPage<SelfHelpInvoiceDetailsVO> page);
-
-    /**
-     * 查询当前商户所有自主开票记录(众包)
-     *
-     * @param enterpriseId
-     * @param selfHelpInvoicePayDto
-     * @param page
-     * @return
-     */
-    List<SelfHelpInvoicePayVO> getSelfHelfInvoiceByEnterpriseId(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<SelfHelpInvoicePayVO> page);
-
-    /**
-     * 根据商户查询众包
      * @param enterpriseId
      * @param serviceProviderName
      * @param page
      * @return
      */
-    List<SelfHelpInvoiceCrowdSourcingVO> findEnterpriseCrowdSourcing(Long enterpriseId,String serviceProviderName,IPage<SelfHelpInvoiceCrowdSourcingVO> page);
+    List<SelfHelpInvoiceCrowdSourcingVO> findEnterpriseCrowdSourcing(Long enterpriseId, String serviceProviderName, IPage<SelfHelpInvoiceCrowdSourcingVO> page);
 
     /**
-     * 查询众包详情
+     * 查询众包/众采详情
+     *
      * @param selfHelpInvoiceId
      * @return
      */
     SelfHelpInvoiceCrowdSourcingVO findDetailCrowdSourcing(Long selfHelpInvoiceId);
 
     /**
-     *
-     */
-    List<SelfHelpInvoiceCrowdSourcingVO> selectEntMakSourc(Long enterpriseId,IPage<SelfHelpInvoiceCrowdSourcingVO> page);
-
-    /**
-     * 查询当前服务商的所有众包/众采
-     *
-     * @param serviceProviderId
-     * @param selfHelpInvoicePayDto
-     * @param page
-     * @return
-     */
-    List<SelfHelpInvoicePayVO> findSelfHelpInvoiceByServiceProvider(Long serviceProviderId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<SelfHelpInvoicePayVO> page);
-
-    /**
-     * 查询当前商户众包年流水
+     * 查询当前商户众包/众采年流水
      *
      * @param enterpriseId
      * @return
@@ -116,7 +145,7 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
     YearTradeVO queryCrowdYearTradeByEnterprise(Long enterpriseId);
 
     /**
-     * 查询当前服务商众包年流水
+     * 查询当前服务商众包/众采年流水
      *
      * @param serviceProviderId
      * @return
@@ -124,7 +153,7 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
     YearTradeVO queryCrowdYearTradeByServiceProvider(Long serviceProviderId);
 
     /**
-     * 查询当前商户众包本月流水
+     * 查询当前商户众包/众采本月流水
      *
      * @param enterpriseId
      * @return

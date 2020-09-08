@@ -1,9 +1,9 @@
 package com.lgyun.system.order.service.impl;
 
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.ApplyState;
 import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.common.enumeration.ObjectType;
+import com.lgyun.common.enumeration.SelfHelpInvoiceApplyState;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDto;
 import com.lgyun.system.order.entity.SelfHelpInvoiceApplyEntity;
@@ -40,11 +40,8 @@ import java.util.List;
 public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpInvoiceDetailMapper, SelfHelpInvoiceDetailEntity> implements ISelfHelpInvoiceDetailService {
 
     private IUserClient userClient;
-
     private ISelfHelpInvoicePersonService selfHelpInvoicePersonService;
-
     private ISelfHelpInvoiceService selfHelpInvoiceService;
-
     private ISelfHelpInvoiceApplyService selfHelpInvoiceApplyService;
 
     @Override
@@ -71,7 +68,7 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
         if(ObjectType.ENTERPRISEPEOPLE.equals(selfHelpInvoiceDto.getObjectType())){
             selfHelpInvoiceEntity.setApplyEnterpriseId(selfHelpInvoiceDto.getObjectId());
         }
-        selfHelpInvoiceEntity.setCurrentState(ApplyState.AUDITING);
+        selfHelpInvoiceEntity.setCurrentState(SelfHelpInvoiceApplyState.AUDITING);
         selfHelpInvoiceEntity.setInvoicePeopleType(selfHelpInvoiceDto.getInvoiceIdentityType());
         selfHelpInvoiceEntity.setListFile(selfHelpInvoiceDto.getListFile());
         selfHelpInvoiceEntity.setTotalPayProviderFee(selfHelpInvoiceDto.getChargeMoneyNum());
@@ -81,7 +78,7 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
         SelfHelpInvoiceApplyEntity selfHelpInvoiceApplyEntity = new SelfHelpInvoiceApplyEntity();
         selfHelpInvoiceApplyEntity.setSelfHelpInvoiceId(selfHelpInvoiceEntity.getId());
         selfHelpInvoiceApplyEntity.setApplyDate(new Date());
-        selfHelpInvoiceApplyEntity.setApplyState(ApplyState.AUDITING);
+        selfHelpInvoiceApplyEntity.setApplyState(SelfHelpInvoiceApplyState.AUDITING);
         selfHelpInvoiceApplyEntity.setApplyDesc("");
         selfHelpInvoiceApplyService.save(selfHelpInvoiceApplyEntity);
         if(ObjectType.MAKERPEOPLE.equals(selfHelpInvoiceDto.getObjectType())){
@@ -130,7 +127,7 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
                 }
                 selfHelpInvoiceDetailEntity.setInvoicePeopleType(InvoicePeopleType.INDIVIDUALBUSINESS);
                 selfHelpInvoiceDetailEntity.setInvoicePeopleName(invoiceListExcel.getInvoicePeopleName());
-                selfHelpInvoiceDetailEntity.setAllKindEnterpriseID(byMakerIdAndIbtaxNoBusiness.getId());
+                selfHelpInvoiceDetailEntity.setAllKindEnterpriseId(byMakerIdAndIbtaxNoBusiness.getId());
             }
             if(invoicePeopleType.equals(InvoicePeopleType.INDIVIDUALENTERPRISE)){
                 IndividualEnterpriseEntity byMakerIdAndIbtaxNoEnterprise = userClient.findByMakerIdAndIbtaxNoEnterprise(selfHelpInvoiceDto.getObjectId(), invoiceListExcel.getIbtaxNo());
@@ -139,7 +136,7 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
                 }
                 selfHelpInvoiceDetailEntity.setInvoicePeopleType(InvoicePeopleType.INDIVIDUALENTERPRISE);
                 selfHelpInvoiceDetailEntity.setInvoicePeopleName(invoiceListExcel.getInvoicePeopleName());
-                selfHelpInvoiceDetailEntity.setAllKindEnterpriseID(byMakerIdAndIbtaxNoEnterprise.getId());
+                selfHelpInvoiceDetailEntity.setAllKindEnterpriseId(byMakerIdAndIbtaxNoEnterprise.getId());
             }
             selfHelpInvoiceDetailEntity.setInvoiceType(selfHelpInvoiceDto.getInvoiceType());
             selfHelpInvoiceDetailEntity.setChargeMoneyNum(selfHelpInvoiceDto.getChargeMoneyNum());
@@ -178,7 +175,7 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
                 }
                 selfHelpInvoiceDetailEntity.setInvoicePeopleType(InvoicePeopleType.INDIVIDUALBUSINESS);
                 selfHelpInvoiceDetailEntity.setInvoicePeopleName(invoiceListExcel.getInvoicePeopleName());
-                selfHelpInvoiceDetailEntity.setAllKindEnterpriseID(byMakerIdAndIbtaxNoBusiness.getId());
+                selfHelpInvoiceDetailEntity.setAllKindEnterpriseId(byMakerIdAndIbtaxNoBusiness.getId());
             }
             if(invoicePeopleType.equals(InvoicePeopleType.INDIVIDUALENTERPRISE)){
                 IndividualEnterpriseEntity byMakerIdAndIbtaxNoEnterprise = userClient.findByIbtaxNoEnterprise(invoiceListExcel.getIbtaxNo());
@@ -187,7 +184,7 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
                 }
                 selfHelpInvoiceDetailEntity.setInvoicePeopleType(InvoicePeopleType.INDIVIDUALENTERPRISE);
                 selfHelpInvoiceDetailEntity.setInvoicePeopleName(invoiceListExcel.getInvoicePeopleName());
-                selfHelpInvoiceDetailEntity.setAllKindEnterpriseID(byMakerIdAndIbtaxNoEnterprise.getId());
+                selfHelpInvoiceDetailEntity.setAllKindEnterpriseId(byMakerIdAndIbtaxNoEnterprise.getId());
             }
             selfHelpInvoiceDetailEntity.setInvoiceType(selfHelpInvoiceDto.getInvoiceType());
             selfHelpInvoiceDetailEntity.setChargeMoneyNum(selfHelpInvoiceDto.getChargeMoneyNum());

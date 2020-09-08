@@ -3,7 +3,7 @@ package com.lgyun.system.order.vo;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.CrowdSourcingPayType;
-import com.lgyun.common.enumeration.InvoicePrintState;
+import com.lgyun.common.enumeration.SelfHelpInvoiceSpApplyState;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -18,10 +18,10 @@ import java.util.Date;
  */
 @Data
 @ApiModel(value = "SelfHelpInvoiceListByServiceProviderVO对象", description = "SelfHelpInvoiceListByServiceProviderVO对象")
-public class SelfHelpInvoiceDetailListByServiceProviderVO implements Serializable {
+public class SelfHelpInvoiceListByServiceProviderVO implements Serializable {
 
     /**
-     * 自助开票明细id
+     * 自助开票id
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
@@ -39,35 +39,46 @@ public class SelfHelpInvoiceDetailListByServiceProviderVO implements Serializabl
     /**
      * 开票类目
      */
-    private String invoiceType;
+    private String invoiceTypes;
 
     /**
-     * 价税合计额
+     * 总需支付服务商税费=总服务税费+总开票手续费+总身份验证费，自动计算
      */
-    private BigDecimal chargeMoneyNum;
+    private BigDecimal totalPayProviderFee;
 
     /**
-     * 业务合同URL
+     * 业务合同URL(多张)
      */
-    private String businessContractUrl;
+    private String businessContractUrls;
 
     /**
-     * 支付回单URL
+     * 支付回单URL(多张)
      */
-    private String flowContractUrl;
+    private String flowContractUrls;
 
     /**
-     * 验收单URL
+     * 验收单URL(多张)
      */
-    private String acceptPaysheetUrl;
+    private String acceptPaysheetUrls;
 
     /**
-     * 开票状态：待申请；申请中；开票中；已开票；开票失败
+     * 快递单号
      */
-    private InvoicePrintState invoicePrintState;
+    private String expressNo;
+
+    /**
+     * 快递公司
+     */
+    private String expressCompanyName;
+
+    /**
+     * 自助开票服务商状态
+     */
+    private SelfHelpInvoiceSpApplyState applyState;
 
     /**
      * 开票时间
      */
-    private Date invoiceDate;
+    private Date createTime;
+
 }

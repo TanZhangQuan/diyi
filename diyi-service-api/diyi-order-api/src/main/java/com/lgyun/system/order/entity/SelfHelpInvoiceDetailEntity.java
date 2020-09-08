@@ -58,7 +58,7 @@ public class SelfHelpInvoiceDetailEntity extends BaseEntity {
     /**
      * 各类企业ID
      */
-    private Long allKindEnterpriseID;
+    private Long allKindEnterpriseId;
 
     /**
      * 开票类目

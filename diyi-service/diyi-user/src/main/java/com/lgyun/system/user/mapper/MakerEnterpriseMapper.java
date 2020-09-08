@@ -54,7 +54,7 @@ public interface MakerEnterpriseMapper extends BaseMapper<MakerEnterpriseEntity>
     List<EnterprisesIdNameListVO> findEnterpriseIdNameByMakerId(Long makerId, IPage<EnterprisesIdNameListVO> page);
 
     /**
-     * 获取当前服务商的自主开票
+     * 获取当前服务商的自助开票
      *
      * @param serviceProviderId
      * @param keyword
@@ -73,7 +73,7 @@ public interface MakerEnterpriseMapper extends BaseMapper<MakerEnterpriseEntity>
     List<MakerEnterpriseWebVO> selectEnterpriseMaker( Long enterpriseId,IPage<MakerEnterpriseWebVO> page);
 
     /**
-     * 根据当前服务商和自主开票ID获取自主开票详情
+     * 根据当前服务商和自助开票ID获取自助开票详情
      *
      * @param selfHelpvoiceId
      * @param page

@@ -1,9 +1,9 @@
 package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.lgyun.common.enumeration.ApplyState;
 import com.lgyun.common.enumeration.CrowdSourcingPayType;
 import com.lgyun.common.enumeration.InvoicePeopleType;
+import com.lgyun.common.enumeration.SelfHelpInvoiceApplyState;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -120,7 +120,7 @@ public class SelfHelpInvoiceEntity extends BaseEntity {
     /**
      * 当前状态：未申请，申请编辑中，审核中；已通过开票中；已驳回；已开票结束
      */
-    private ApplyState currentState = ApplyState.EDITING;
+    private SelfHelpInvoiceApplyState currentState = SelfHelpInvoiceApplyState.NOTAPPLY;
 
     /**
      * 申请次数
@@ -135,37 +135,12 @@ public class SelfHelpInvoiceEntity extends BaseEntity {
     /**
      * 核价人员
      */
-    private Long confirmPricePerson;
+    private String confirmPricePerson;
 
     /**
      * 核价时间
      */
-    private Date ConfirmPriceDatetime;
-
-    /**
-     * 快递单号
-     */
-    private String expressSheetNo;
-
-    /**
-     * 快递公司名称
-     */
-    private String expressCompanyName;
-
-    /**
-     * 快递更新日期
-     */
-    private Date expressUpdateDatetime;
-
-    /**
-     * 快递更新人员
-     */
-    private String expressUpdatePerson;
-
-    /**
-     * 快递更新人员电话
-     */
-    private String expressUpdatePersonTel;
+    private Date confirmPriceDatetime;
 
     /**
      * 扩展支付税费发票，多张间用“；”隔开。服务商开具

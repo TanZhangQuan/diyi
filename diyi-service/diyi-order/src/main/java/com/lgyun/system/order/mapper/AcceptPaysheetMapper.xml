@@ -85,7 +85,7 @@
 
     <select id="getAcceptPaySheetsByEnterprise" resultMap="acceptPayListVO">
         SELECT * FROM (SELECT t3.id, t4.charge_list_url, t5.enterprise_name, t6.service_provider_name, t3.service_time_start, t3.service_time_end, t7.worksheet_no, t3.accept_paysheet_url, t3.create_time,
-        IF(t3.accept_paysheet_type = 'SINGLE', (SELECT name FROM diyi_maker WHERE is_deleted = 0 AND id = t3.maker_id), (SELECT group_concat(t2.name)
+        IF(t3.accept_paysheet_type = 'SINGLE', (SELECT name FROM diyi_maker WHERE is_deleted = 0 AND id = t3.maker_id), (SELECT GROUP_CONCAT(t2.name)
         FROM diyi_worksheet_maker t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.worksheet_id = t4.worksheet_id)) AS maker_names
         FROM diyi_accept_paysheet t3 INNER JOIN diyi_pay_enterprise t4 ON t3.pay_enterprise_id = t4.id INNER JOIN diyi_enterprise t5 ON t4.enterprise_id = t5.id
         INNER JOIN diyi_service_provider t6 ON t4.service_provider_id = t6.id LEFT JOIN diyi_worksheet t7 ON t4.worksheet_id = t7.id AND t7.is_deleted = 0

@@ -35,8 +35,7 @@ public interface IPayMakerService extends BaseService<PayMakerEntity> {
      *
      * @param list
      * @param payEnterpriseEntity
-     * @param payReceiptUrl
      */
-    void importMaker(List<PayEnterpriseExcel> list, PayEnterpriseEntity payEnterpriseEntity, String payReceiptUrl);
+    void importMaker(List<PayEnterpriseExcel> list, PayEnterpriseEntity payEnterpriseEntity);
 }
 

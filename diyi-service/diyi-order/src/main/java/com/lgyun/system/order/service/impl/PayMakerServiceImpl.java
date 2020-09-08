@@ -8,7 +8,6 @@ import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.dto.PayEnterpriseMakerListDto;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.entity.PayMakerEntity;
-import com.lgyun.system.order.entity.PayMakerReceiptEntity;
 import com.lgyun.system.order.excel.PayEnterpriseExcel;
 import com.lgyun.system.order.mapper.PayMakerMapper;
 import com.lgyun.system.order.service.IPayMakerReceiptService;
@@ -55,7 +54,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void importMaker(List<PayEnterpriseExcel> list, PayEnterpriseEntity payEnterpriseEntity, String payReceiptUrl) {
+    public void importMaker(List<PayEnterpriseExcel> list, PayEnterpriseEntity payEnterpriseEntity) {
 
         for (PayEnterpriseExcel payEnterpriseExcel : list) {
             log.info(String.valueOf(payEnterpriseExcel));
@@ -239,12 +238,6 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
             payMakerEntity.setPayFee(payEnterpriseExcel.getPayFee());
             payMakerEntity.setPayMemo(payEnterpriseExcel.getNote());
             save(payMakerEntity);
-
-            //新建支付回单
-            PayMakerReceiptEntity payMakerReceiptEntity = new PayMakerReceiptEntity();
-            payMakerReceiptEntity.setMakerPayReceiptUrl(payReceiptUrl);
-            payMakerReceiptEntity.setPayMakerId(payMakerEntity.getMakerId());
-            payMakerReceiptService.save(payMakerReceiptEntity);
 
         }
     }

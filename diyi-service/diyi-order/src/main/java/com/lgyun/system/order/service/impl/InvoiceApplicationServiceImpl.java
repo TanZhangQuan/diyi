@@ -1,19 +1,16 @@
 package com.lgyun.system.order.service.impl;
 
 import com.lgyun.common.api.R;
+import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.dto.ContractApplyInvoiceDto;
 import com.lgyun.system.order.entity.*;
+import com.lgyun.system.order.mapper.InvoiceApplicationMapper;
 import com.lgyun.system.order.service.*;
 import com.lgyun.system.order.vo.ApplicationVo;
-import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.lgyun.core.mp.base.BaseServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.lgyun.system.order.mapper.InvoiceApplicationMapper;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
@@ -31,11 +28,8 @@ import java.util.List;
 public class InvoiceApplicationServiceImpl extends BaseServiceImpl<InvoiceApplicationMapper, InvoiceApplicationEntity> implements IInvoiceApplicationService {
 
     private IInvoiceApplicationPayListService iInvoiceApplicationPayListService;
-
     private IUserClient iUserClient;
-
     private IPlatformInvoicePayListService platformInvoicePayListService;
-
     private IPlatformInvoiceService platformInvoiceService;
 
     @Override

@@ -79,7 +79,6 @@ public class SelfHelpInvoiceController {
         return R.fail("查询失败");
     }
 
-
     @PostMapping("/saveAddress")
     @ApiOperation(value = "新建收货地址", notes = "新建收货地址")
     public R saveAddress(@Valid @RequestBody AddressDto addressDto, BladeUser bladeUser) {
@@ -255,19 +254,6 @@ public class SelfHelpInvoiceController {
             log.error("创客提交自助开票失败", e);
         }
         return R.fail("创客提交自助开票失败");
-    }
-
-    @GetMapping("/getSelfHelpInvoiceDetails")
-    @ApiOperation(value = "查询开票详情", notes = "查询开票详情")
-    public R getSelfHelpInvoiceDetails(Long selfHelpInvoiceId) {
-
-        log.info("查询开票详情");
-        try {
-            return selfHelpInvoiceService.getSelfHelpInvoiceDetails(selfHelpInvoiceId);
-        } catch (Exception e) {
-            log.error("查询开票详情失败", e);
-        }
-        return R.fail("查询开票详情失败");
     }
 
     @GetMapping("/immediatePayment")

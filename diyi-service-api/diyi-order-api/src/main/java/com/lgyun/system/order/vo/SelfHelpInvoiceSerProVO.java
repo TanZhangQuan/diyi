@@ -3,7 +3,7 @@ package com.lgyun.system.order.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.lgyun.common.enumeration.ApplyState;
+import com.lgyun.common.enumeration.SelfHelpInvoiceApplyState;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -24,8 +24,8 @@ public class SelfHelpInvoiceSerProVO implements Serializable {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    //购买方
-    private ApplyState currentState;
+    //自助开票状态
+    private SelfHelpInvoiceApplyState currentState;
 
     //购买方
     private String enterpriseName;

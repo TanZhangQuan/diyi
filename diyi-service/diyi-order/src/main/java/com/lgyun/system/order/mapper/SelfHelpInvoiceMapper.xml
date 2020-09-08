@@ -3,36 +3,119 @@
 
 <mapper namespace="com.lgyun.system.order.mapper.SelfHelpInvoiceMapper">
 
-    <resultMap id="selfHelpInvoiceDetailsVO" type="com.lgyun.system.order.vo.SelfHelpInvoiceDetailsVO">
+    <resultMap type="com.lgyun.system.order.vo.SelfHelpInvoiceListByEnterpriseVO" id="selfHelpInvoiceListByEnterpriseVO">
         <result property="id" column="id"/>
-        <result property="enterpriseId" column="enterprise_id"/>
-        <result property="addressId" column="address_id"/>
-        <result property="invoicePeopleId" column="invoice_people_id"/>
-        <result property="selfHelpInvoiceDetailId" column="self_help_invoice_detail_id"/>
-        <result property="handPayId" column="hand_pay_id"/>
         <result property="enterpriseName" column="enterprise_name"/>
-        <result property="taxNo" column="invoice_tax_no"/>
-        <result property="employeeName" column="shop_user_name"/>
-        <result property="phoneNo" column="invoice_tel_no"/>
-        <result property="bankName" column="invoice_bank_name"/>
-        <result property="bankAccount" column="invoice_account_name"/>
-        <result property="chargeMoneyNum" column="charge_money_num"/>
-        <result property="invoiceType" column="invoice_type"/>
-        <result property="deliverSheetUrl" column="deliver_sheet_url"/>
-        <result property="flowContractUrl" column="flow_contract_url"/>
-        <result property="businessContractUrl" column="business_contract_url"/>
+        <result property="listFile" column="list_file"/>
+        <result property="payType" column="pay_type"/>
+        <result property="invoiceTypes" column="invoice_types"/>
+        <result property="totalPayProviderFee" column="total_pay_provider_fee"/>
+        <result property="businessContractUrls" column="business_contract_urls"/>
+        <result property="flowContractUrls" column="flow_contract_urls"/>
+        <result property="acceptPaysheetUrls" column="accept_paysheet_urls"/>
+        <result property="currentState" column="current_state"/>
+        <result property="invoiceDate" column="invoice_date"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.SelfHelpInvoiceSingleByEnterpriseVO" id="selfHelpInvoiceSingleByEnterpriseVO">
+        <result property="id" column="id"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="listFile" column="list_file"/>
+        <result property="payType" column="pay_type"/>
+        <result property="invoiceTypes" column="invoice_types"/>
+        <result property="totalPayProviderFee" column="total_pay_provider_fee"/>
+        <result property="businessContractUrls" column="business_contract_urls"/>
+        <result property="flowContractUrls" column="flow_contract_urls"/>
+        <result property="acceptPaysheetUrls" column="accept_paysheet_urls"/>
+        <result property="currentState" column="current_state"/>
+        <result property="invoiceDate" column="invoice_date"/>
+        <result property="invoiceEnterpriseName" column="invoice_enterprise_name"/>
+        <result property="invoiceTaxNo" column="invoice_tax_no"/>
+        <result property="invoiceAddress" column="invoice_address"/>
+        <result property="invoiceTelNo" column="invoice_tel_no"/>
+        <result property="invoiceBankName" column="invoice_bank_name"/>
+        <result property="invoiceAccount" column="invoice_account"/>
         <result property="addressName" column="address_name"/>
         <result property="addressPhone" column="address_phone"/>
-        <result property="area" column="area"/>
-        <result property="city" column="city"/>
         <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="area" column="area"/>
         <result property="detailedAddress" column="detailed_address"/>
-        <result property="idCardName" column="id_card_name"/>
-        <result property="idCardNo" column="id_card_no"/>
-        <result property="phoneNumber" column="phone_number"/>
-        <result property="givePriceDate" column="give_price_date"/>
-        <result property="totalTaxFee" column="total_tax_fee"/>
-        <result property="basicTaxFee" column="basic_tax_fee"/>
+        <result property="serviceAndTaxMoney" column="service_and_tax_money"/>
+        <result property="serviceFee" column="service_fee"/>
+        <result property="serviceRate" column="service_rate"/>
+        <result property="serviceTax" column="service_tax"/>
+        <result property="serviceInvoiceFee" column="service_invoice_fee"/>
+        <result property="idendityConfirmFee" column="idendity_confirm_fee"/>
+        <result property="accountName" column="account_name"/>
+        <result property="accountNo" column="account_no"/>
+        <result property="accountBank" column="account_bank"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.SelfHelpInvoiceDetailListByEnterpriseVO" id="selfHelpInvoiceDetailListByEnterpriseVO">
+        <result property="id" column="id"/>
+        <result property="valueAddedTaxRate" column="value_added_tax_rate"/>
+        <result property="chargeMoneyNum" column="charge_money_num"/>
+        <result property="makerName" column="maker_name"/>
+        <result property="makerIdcardNo" column="maker_idcard_no"/>
+        <result property="makerPhoneNumber" column="maker_phone_number"/>
+        <result property="invoicePeopleName" column="invoice_people_name"/>
+        <result property="invoicePeopleIdCardNo" column="invoice_people_id_card_no"/>
+        <result property="invoicePeoplePhoneNumber" column="invoice_people_phone_number"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.SelfHelpInvoiceExpressByEnterpriseProviderVO" id="selfHelpInvoiceExpressByEnterpriseProviderVO">
+        <result property="invoiceScanPictures" column="invoice_scan_pictures"/>
+        <result property="expressNo" column="express_no"/>
+        <result property="expressCompanyName" column="express_company_name"/>
+        <result property="expressMessage" column="express_message"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.SelfHelpInvoiceListByServiceProviderVO" id="selfHelpInvoiceDetailListByServiceProviderVO">
+        <result property="id" column="id"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="payType" column="pay_type"/>
+        <result property="invoiceTypes" column="invoice_types"/>
+        <result property="totalPayProviderFee" column="total_pay_provider_fee"/>
+        <result property="businessContractUrls" column="business_contract_urls"/>
+        <result property="flowContractUrls" column="flow_contract_urls"/>
+        <result property="acceptPaysheetUrls" column="accept_paysheet_urls"/>
+        <result property="expressNo" column="express_no"/>
+        <result property="expressCompanyName" column="express_companyName"/>
+        <result property="applyState" column="apply_state"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.SelfHelpInvoiceSingleByServiceProviderVO" id="selfHelpInvoiceSingleByServiceProviderVO">
+        <result property="id" column="id"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="serviceProviderName" column="service_provider_name"/>
+        <result property="payType" column="pay_type"/>
+        <result property="invoiceTypes" column="invoice_types"/>
+        <result property="totalPayProviderFee" column="total_pay_provider_fee"/>
+        <result property="businessContractUrls" column="business_contract_urls"/>
+        <result property="flowContractUrls" column="flow_contract_urls"/>
+        <result property="acceptPaysheetUrls" column="accept_paysheet_urls"/>
+        <result property="applyState" column="apply_state"/>
+        <result property="createTime" column="create_time"/>
+        <result property="invoiceEnterpriseName" column="invoice_enterprise_name"/>
+        <result property="invoiceTaxNo" column="invoice_tax_no"/>
+        <result property="invoiceAddress" column="invoice_address"/>
+        <result property="invoiceTelNo" column="invoice_tel_no"/>
+        <result property="invoiceBankName" column="invoice_bank_name"/>
+        <result property="invoiceAccount" column="invoice_account"/>
+        <result property="addressName" column="address_name"/>
+        <result property="addressPhone" column="address_phone"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="area" column="area"/>
+        <result property="detailedAddress" column="detailed_address"/>
+        <result property="serviceAndTaxMoney" column="service_and_tax_money"/>
+        <result property="serviceFee" column="service_fee"/>
+        <result property="serviceRate" column="service_rate"/>
+        <result property="serviceTax" column="service_tax"/>
+        <result property="serviceInvoiceFee" column="service_invoice_fee"/>
+        <result property="idendityConfirmFee" column="idendity_confirm_fee"/>
     </resultMap>
 
     <resultMap type="com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO" id="selfHelpInvoiceStatisticsVO">
@@ -51,39 +134,6 @@
         <result property="chargeMoneyNum" column="charge_money_num"/>
         <result property="flowContractUrl" column="flow_contract_url"/>
         <result property="businessContractUrl" column="business_contract_url"/>
-        <result property="createTime" column="create_time"/>
-    </resultMap>
-
-    <resultMap type="com.lgyun.system.order.vo.SelfHelpInvoiceWebVO" id="selfHelpInvoiceWebVO">
-        <result property="selfHelpInvoiceId" column="self_help_invoice_id"/>
-        <result property="enterpriseId" column="enterprise_id"/>
-        <result property="selfHelpInvoiceDetailId" column="self_help_invoice_detail_id"/>
-        <result property="addressId" column="address_id"/>
-        <result property="invoicePersonId" column="invoice_person_id"/>
-        <result property="selfHelpInvoiceFeeId" column="self_help_invoice_fee_id"/>
-        <result property="enterpriseName" column="enterprise_name"/>
-        <result property="invoiceType" column="invoice_type"/>
-        <result property="chargeMoneyNum" column="charge_money_num"/>
-        <result property="invoicePeopleName" column="invoice_people_name"/>
-        <result property="idCardPic" column="id_card_pic"/>
-        <result property="idCardPicBack" column="id_card_pic_back"/>
-        <result property="flowContractUrl" column="flow_contract_url"/>
-        <result property="businessContractUrl" column="business_contract_url"/>
-        <result property="invoiceState" column="invoice_state"/>
-        <result property="invoiceDate" column="invoice_date"/>
-    </resultMap>
-
-    <resultMap type="com.lgyun.system.order.vo.SelfHelpInvoicePayVO" id="selfHelpInvoicePayVO">
-        <result property="id" column="id"/>
-        <result property="enterpriseName" column="enterprise_name"/>
-        <result property="listFile" column="list_file"/>
-        <result property="invoicePeopleType" column="invoice_people_type"/>
-        <result property="chargeMoneyNum" column="total_pay_provider_fee"/>
-        <result property="invoicePeopleName" column="invoice_people_name"/>
-        <result property="flowContractUrl" column="flow_contract_url"/>
-        <result property="businessContractUrl" column="business_contract_url"/>
-        <result property="deliverSheetUrl" column="deliver_sheet_url"/>
-        <result property="accountBalanceUrl" column="account_balance_url"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
 
@@ -192,16 +242,104 @@
         <result property="twentyFourHourIncome" column="twenty_four_hour_income"/>
     </resultMap>
 
-    <select id="getSelfHelpInvoiceDetails" resultMap="selfHelpInvoiceDetailsVO">
-        SELECT zs.id, rc.id as enterprise_id, a.id as address_id, sp.id as invoice_people_id, sd.id as self_help_invoice_detail_id,
-        hf.id as hand_pay_id, rc.enterprise_name, rc.invoice_tax_no, rc.shop_user_name, rc.invoice_tel_no, rc.invoice_bank_name, rc.invoice_account_name, sd.charge_money_num,
-        sd.invoice_type, sd.flow_contract_url, sd.business_contract_url,sd.deliver_sheet_url, a.address_name, a.address_phone, a.area, a.city, a.province,
-        a.detailed_address, sp.id_card_name, sp.id_card_no, sp.phone_number,sp.id_card_pic, sp.id_card_pic_back, hf.give_price_date, hf.total_tax_fee, hf.basic_tax_fee,
-        hf.basic_tax_fee_rate, hf.invoice_fee, hf.identify_fee FROM diyi_self_help_invoice zs INNER JOIN diyi_enterprise rc
-        ON rc.id = zs.enterprise_id INNER JOIN diyi_self_help_invoice_detail sd ON sd.self_help_invoice_id = zs.id
-        INNER JOIN diyi_address a ON a.id = zs.address_id INNER JOIN diyi_self_help_invoice_person sp ON sp.id = sd.none_maker_invoice_person_id
-        INNER JOIN diyi_self_help_invoice_fee hf ON zs.id = hf.self_help_invoice_id where zs.is_deleted = 0 AND rc.is_deleted = 0 AND sd.is_deleted = 0
-        AND a.is_deleted = 0 AND sp.is_deleted = 0 AND hf.is_deleted = 0 AND zs.id = #{selfHelpInvoiceId}
+    <select id="getSelfHelfInvoicesByEnterprise" resultMap="selfHelpInvoiceListByEnterpriseVO">
+        SELECT t1.id, t2.enterprise_name, t1.list_file, t1.pay_type, t1.total_pay_provider_fee, t1.current_state, t1.create_time,
+        (SELECT GROUP_CONCAT(invoice_type) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS invoice_types,
+        (SELECT GROUP_CONCAT(business_contract_url) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS business_contract_urls,
+        (SELECT GROUP_CONCAT(flow_contract_url) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS flow_contract_urls,
+        (SELECT GROUP_CONCAT(accept_paysheet_url) FROM diyi_accept_paysheet_cs WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS accept_paysheet_urls
+        FROM diyi_self_help_invoice t1 INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id
+        <if test="param3.invoicePeopleName != null and param3.invoicePeopleName != ''">
+            INNER JOIN diyi_self_help_invoice_detail t3 ON t3.is_deleted = 0 AND t1.id = t3.self_help_invoice_id
+        </if>
+        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.enterprise_id = #{param1} AND t1.invoice_people_type = #{param2}
+        <if test="param3.selfHelpInvoiceId != null">
+            AND t1.id = #{param3.selfHelpInvoiceId}
+        </if>
+        <if test="param3.invoicePeopleName != null and param3.invoicePeopleName != ''">
+            AND t3.invoice_people_name like concat('%', #{param3.invoicePeopleName}, '%')
+        </if>
+        <if test="param3.beginDate != null">
+            AND DATEDIFF(t1.create_time, #{param3.beginDate}) <![CDATA[ >= ]]> 0
+        </if>
+        <if test="param3.endDate != null">
+            AND DATEDIFF(t1.create_time, #{param3.endDate}) <![CDATA[ <= ]]> 0
+        </if>
+        GROUP BY t1.id
+    </select>
+
+    <select id="getSingleSelfHelfInvoiceByEnterprise" resultMap="selfHelpInvoiceSingleByEnterpriseVO">
+        SELECT t1.id, t2.enterprise_name, t1.list_file, t1.pay_type, t1.total_pay_provider_fee, t1.service_and_tax_money, t1.service_fee, t1.service_rate, t1.service_tax,
+        t1.service_invoice_fee, t1.idendity_confirm_fee, t1.current_state, t1.create_time, t2.invoice_enterprise_name, t2.invoice_tax_no,t2.invoice_address, t2.invoice_tel_no,
+        t2.invoice_bank_name, t2.invoice_account, t3.address_name, t3.address_phone, t3.province, t3.city, t3.area, t3.detailed_address, t5.account_name, t5.account_no, t5.account_bank,
+        (SELECT GROUP_CONCAT(invoice_type) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS invoice_types,
+        (SELECT GROUP_CONCAT(business_contract_url) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS business_contract_urls,
+        (SELECT GROUP_CONCAT(flow_contract_url) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS flow_contract_urls,
+        (SELECT GROUP_CONCAT(accept_paysheet_url) FROM diyi_accept_paysheet_cs WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS accept_paysheet_urls
+        FROM diyi_self_help_invoice t1 INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id LEFT JOIN diyi_address t3 ON t3.is_deleted = 0 AND t1.address_id = t3.id
+        LEFT JOIN diyi_self_help_invoice_fee t4 ON t4.is_deleted = 0 AND t1.id = t4.self_help_invoice_id LEFT JOIN diyi_self_help_invoice_account t5
+        ON t5.is_deleted = 0 AND t4.hand_pay_account_id = t5.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.enterprise_id = #{param1} AND t1.id = #{param2}
+    </select>
+
+    <select id="getSelfHelfInvoiceDetailsBySelfHelfInvoiceAndEnterprise" resultMap="selfHelpInvoiceDetailListByEnterpriseVO">
+        SELECT t2.id, t2.value_added_tax_rate, t2.charge_money_num, t3.name AS maker_name, t3.idcard_no AS maker_idcard_no, t3.phone_number AS maker_phone_number,
+        t4.id_card_name AS invoice_people_name, t4.id_card_no AS invoice_people_id_card_no, t4.phone_number AS invoice_people_phone_number FROM diyi_self_help_invoice t1
+        INNER JOIN diyi_self_help_invoice_detail t2 ON t1.id = t2.self_help_invoice_id LEFT JOIN diyi_maker t3 ON t3.is_deleted = 0 AND t3.id = t2.maker_id
+        LEFT JOIN diyi_self_help_invoice_person t4 ON t4.is_deleted = 0 AND t2.none_maker_invoice_person_id = t4.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0
+        AND t1.enterprise_id = #{param1} AND t1.id = #{param2}
+    </select>
+
+    <select id="getSelfHelfInvoiceExpressBySelfHelfInvoiceAndEnterprise" resultMap="selfHelpInvoiceExpressByEnterpriseProviderVO">
+        SELECT t3.express_no, t3.express_company_name, (SELECT GROUP_CONCAT(invoice_scan_pictures) FROM diyi_self_help_invoice_sp_detail WHERE is_deleted = 0
+        AND t2.id = self_help_invoice_apply_provider_id) AS invoice_scan_pictures FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_sp t2
+        ON t1.id = t2.self_help_invoice_id LEFT JOIN diyi_self_help_invoice_express t3 ON t3.is_deleted = 0 AND t2.id = t3.self_help_invoice_apply_provider_id
+        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.id = #{param1} AND t1.enterprise_id = #{param2}
+    </select>
+
+    <select id="getSelfHelfInvoicesByServiceProvider" resultMap="selfHelpInvoiceDetailListByServiceProviderVO">
+        SELECT DISTINCT t1.id, t2.enterprise_name, t1.pay_type, t1.total_pay_provider_fee, t4.express_no, t4.express_company_name, t3.apply_state, t1.create_time,
+        (SELECT GROUP_CONCAT(invoice_type) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS invoice_types,
+        (SELECT GROUP_CONCAT(business_contract_url) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS business_contract_urls,
+        (SELECT GROUP_CONCAT(flow_contract_url) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS flow_contract_urls,
+        (SELECT GROUP_CONCAT(accept_paysheet_url) FROM diyi_accept_paysheet_cs WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS accept_paysheet_urls
+        FROM diyi_self_help_invoice t1 INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id INNER JOIN diyi_self_help_invoice_sp t3 ON t1.id = t3.self_help_invoice_id
+        LEFT JOIN diyi_self_help_invoice_express t4 ON t4.is_deleted = 0 AND t3.id = t4.self_help_invoice_apply_provider_id
+        <if test="param4.invoicePeopleName != null and param4.invoicePeopleName != ''">
+            INNER JOIN diyi_self_help_invoice_detail t5 ON t5.is_deleted = 0 AND t1.id = t5.self_help_invoice_id
+        </if>
+        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t3.service_provider_id = #{param1} AND t1.invoice_people_type = #{param2} AND t3.apply_state = #{param3}
+        <if test="param4.enterpriseName != null and param4.enterpriseName != ''">
+            AND t2.enterprise_name like concat('%', #{param4.enterpriseName}, '%')
+        </if>
+        <if test="param4.invoicePeopleName != null and param4.invoicePeopleName != ''">
+            AND t5.invoice_people_name like concat('%', #{param4.invoicePeopleName}, '%')
+        </if>
+        <if test="param4.beginDate != null">
+            AND DATEDIFF(t1.create_time, #{param4.beginDate}) <![CDATA[ >= ]]> 0
+        </if>
+        <if test="param4.endDate != null">
+            AND DATEDIFF(t1.create_time, #{param4.endDate}) <![CDATA[ <= ]]> 0
+        </if>
+    </select>
+
+    <select id="getSingleSelfHelfInvoiceByServiceProvider" resultMap="selfHelpInvoiceSingleByServiceProviderVO">
+        SELECT t1.id, t2.enterprise_name, t4.service_provider_name, t1.pay_type, t1.total_pay_provider_fee, t1.service_and_tax_money, t1.service_fee, t1.service_rate, t1.service_tax,
+        t1.service_invoice_fee, t1.idendity_confirm_fee, t3.apply_state, t1.create_time, t2.invoice_enterprise_name, t2.invoice_tax_no,t2.invoice_address, t2.invoice_tel_no,
+        t2.invoice_bank_name, t2.invoice_account, t5.address_name, t5.address_phone, t5.province, t5.city, t5.area, t5.detailed_address,
+        (SELECT GROUP_CONCAT(invoice_type) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS invoice_types,
+        (SELECT GROUP_CONCAT(business_contract_url) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS business_contract_urls,
+        (SELECT GROUP_CONCAT(flow_contract_url) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS flow_contract_urls,
+        (SELECT GROUP_CONCAT(accept_paysheet_url) FROM diyi_accept_paysheet_cs WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS accept_paysheet_urls
+        FROM diyi_self_help_invoice t1 INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id INNER JOIN diyi_self_help_invoice_sp t3 ON t1.id = t3.self_help_invoice_id
+        INNER JOIN diyi_service_provider t4 ON t3.service_provider_id = t4.id LEFT JOIN diyi_address t5 ON t5.is_deleted = 0 AND t1.address_id = t5.id
+        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.service_provider_id = #{param1} AND t1.id = #{param2}
+    </select>
+
+    <select id="getSelfHelfInvoiceExpressBySelfHelfInvoiceAndProvider" resultMap="selfHelpInvoiceExpressByEnterpriseProviderVO">
+        SELECT t3.express_no, t3.express_company_name, (SELECT GROUP_CONCAT(invoice_scan_pictures) FROM diyi_self_help_invoice_sp_detail WHERE is_deleted = 0
+        AND t2.id = self_help_invoice_apply_provider_id) AS invoice_scan_pictures FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_sp t2
+        ON t1.id = t2.self_help_invoice_id LEFT JOIN diyi_self_help_invoice_express t3 ON t3.is_deleted = 0 AND t2.id = t3.self_help_invoice_apply_provider_id
+        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.id = #{param1} AND t2.service_provider_id = #{param2}
     </select>
 
     <select id="yearMonthMoney" resultMap="selfHelpInvoiceStatisticsVO">
@@ -225,51 +363,21 @@
         AND t1.all_kind_enterprise_id = #{param1} AND t1.invoice_people_type = #{param2}
     </select>
 
-    <select id="findMakerTypeSelfHelpInvoice" resultMap="selfHelpInvoiceWebVO">
-        SELECT zs.id AS self_help_invoice_id, rc.id AS enterprise_id, sd.id AS self_help_invoice_detail_id, a.id AS address_id, sp.id AS invoice_person_id,
-        hf.id AS self_help_invoice_fee_id, rc.enterprise_name, sd.invoice_type, sd.charge_money_num, sd.invoice_people_name, sp.id_card_pic, sp.id_card_pic_back,
-        sd.flow_contract_url, sd.business_contract_url, zs.current_state, zs.confirm_price_datetime FROM diyi_self_help_invoice zs
-        INNER JOIN diyi_enterprise rc ON rc.id = zs.enterprise_id
-        INNER JOIN diyi_self_help_invoice_detail sd ON sd.self_help_invoice_id = zs.id
-        INNER JOIN diyi_address a ON a.id = zs.address_id
-        INNER JOIN diyi_self_help_invoice_person sp ON sp.id = sd.none_maker_invoice_person_id
-        INNER JOIN diyi_self_help_invoice_fee hf ON zs.id = hf.self_help_invoice_id
-        WHERE zs.is_deleted = 0 AND rc.is_deleted = 0 AND sd.is_deleted = 0 AND a.is_deleted = 0 AND sp.is_deleted = 0 AND hf.is_deleted = 0 AND
-         zs.apply_enterprise_id = #{param1} and zs.invoice_people_type =#{param2}
-        <if test="param3 != null and param3 != ''">
-             and sd.invoice_people_name like concat('%', #{param3}, '%')
-        </if>
-        <if test="param4 != null and param4 != ''">
-            and zs.create_time > #{param4}
-        </if>
-        <if test="param5 != null and param5 != ''">
-            and zs.create_time &lt; #{param5}
-        </if>
-    </select>
-
-    <select id="getSelfHelfInvoiceByEnterpriseId" resultMap="selfHelpInvoicePayVO">
-        SELECT t1.id, t3.enterprise_name, t1.list_file, t1.invoice_people_type, t1.total_pay_provider_fee, t2.invoice_people_name, t2.flow_contract_url, t2.business_contract_url,
-        t2.deliver_sheet_url, t2.account_balance_url, t1.create_time FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_detail t2 ON t1.id = t2.self_help_invoice_id
-        INNER JOIN diyi_enterprise t3 ON t1.enterprise_id = t3.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t1.enterprise_id = #{param1}
-        <if test="param2.selfHelpInvoiceId != null">
-            AND t1.id = #{param2.selfHelpInvoiceId}
-        </if>
-        <if test="param2.beginDate != null">
-            AND DATEDIFF(t1.create_time, #{param2.beginDate}) <![CDATA[ >= ]]> 0
-        </if>
-        <if test="param2.endDate != null">
-            AND DATEDIFF(t1.create_time, #{param2.endDate}) <![CDATA[ <= ]]> 0
-        </if>
-    </select>
-
     <select id="findEnterpriseCrowdSourcing" resultMap="EnterpriseCrowdSourcingVOMap">
-        SELECT e.id AS enterprise_id, si.id AS self_help_invoice_id, sa.id AS self_help_invoice_apply_id, ss.id AS self_help_invoice_apply_provider_id,
-        ssd.id AS provider_self_help_invoice_id, sd.id AS self_help_invoice_detail_id, sp.id AS service_provider_id, e.enterprise_name, sp.service_provider_name,
-        si.List_file, ssd.invoice_scan_pictures, ssd.tax_scan_pictures, ssd.update_datetime, sd.invoice_print_state,si.express_sheet_no, si.express_company_name
-        FROM diyi_self_help_invoice si INNER JOIN diyi_self_help_invoice_apply sa ON si.id = sa.self_help_invoice_id INNER JOIN diyi_self_help_invoice_detail sd
-        ON sd.self_help_invoice_id = si.id INNER JOIN diyi_self_help_invoice_sp ss ON si.id = ss.self_help_invoice_id INNER JOIN diyi_self_help_invoice_sp_detail ssd
-        ON ssd.self_help_invoice_apply_provider_id = ss.id INNER JOIN diyi_enterprise e ON e.id = si.enterprise_id INNER JOIN diyi_service_provider sp
-        ON sp.id = ss.service_provider_id WHERE si.is_deleted = 0 AND sa.is_deleted = 0 AND sd.is_deleted = 0 AND ss.is_deleted = 0 AND ssd.is_deleted = 0
+        SELECT e.id AS enterprise_id, si.id AS self_help_invoice_id, sa.id AS self_help_invoice_apply_id, ss.id AS
+        self_help_invoice_apply_provider_id,
+        ssd.id AS provider_self_help_invoice_id, sd.id AS self_help_invoice_detail_id, sp.id AS service_provider_id,
+        e.enterprise_name, sp.service_provider_name,
+        si.List_file, ssd.invoice_scan_pictures, ssd.tax_scan_pictures, ssd.update_datetime,
+        sd.invoice_print_state,si.express_sheet_no, si.express_company_name
+        FROM diyi_self_help_invoice si INNER JOIN diyi_self_help_invoice_apply sa ON si.id = sa.self_help_invoice_id
+        INNER JOIN diyi_self_help_invoice_detail sd
+        ON sd.self_help_invoice_id = si.id INNER JOIN diyi_self_help_invoice_sp ss ON si.id = ss.self_help_invoice_id
+        INNER JOIN diyi_self_help_invoice_sp_detail ssd
+        ON ssd.self_help_invoice_apply_provider_id = ss.id INNER JOIN diyi_enterprise e ON e.id = si.enterprise_id INNER
+        JOIN diyi_service_provider sp
+        ON sp.id = ss.service_provider_id WHERE si.is_deleted = 0 AND sa.is_deleted = 0 AND sd.is_deleted = 0 AND
+        ss.is_deleted = 0 AND ssd.is_deleted = 0
         AND e.is_deleted = 0 and e.id =#{param1}
         <if test="param2 != null and param2 != ''">
             AND sp.service_provider_name like concat('%', #{param2}, '%')
@@ -285,32 +393,6 @@
         ON ssd.self_help_invoice_apply_provider_id = ss.id INNER JOIN diyi_enterprise e ON e.id = si.enterprise_id INNER JOIN diyi_service_provider sp
         ON sp.id = ss.service_provider_id WHERE si.is_deleted = 0 AND sa.is_deleted = 0 AND sd.is_deleted = 0 AND ss.is_deleted = 0 AND ssd.is_deleted = 0
         AND e.is_deleted = 0 and si.id =#{param1}
-    </select>
-
-    <select id="findSelfHelpInvoiceByServiceProvider" resultMap="selfHelpInvoicePayVO">
-        SELECT t1.id, t5.service_provider_name, t3.enterprise_name, t1.list_file, t1.invoice_people_type, t1.total_pay_provider_fee, t2.invoice_people_name, t2.flow_contract_url, t2.business_contract_url,
-        t2.deliver_sheet_url, t2.account_balance_url, t1.current_state, t1.create_time FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_detail t2
-        ON t1.id = t2.self_help_invoice_id INNER JOIN diyi_enterprise t3 ON t1.enterprise_id = t3.id INNER JOIN diyi_self_help_invoice_sp t4 ON t1.id = t4.self_help_invoice_id
-        INNER JOIN diyi_service_provider t5 ON t4.service_provider_id = t5.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t4.is_deleted = 0
-        AND t5.is_deleted = 0
-        <if test="param1 != null">
-            AND t5.id = #{param1}
-        </if>
-        <if test="param2.selfHelpInvoiceId != null">
-            AND t1.id = #{param2.selfHelpInvoiceId}
-        </if>
-        <if test="param2.serviceProviderName != null and param2.serviceProviderName != ''">
-            AND t5.service_provider_name like concat('%', #{param2.serviceProviderName}, '%')
-        </if>
-        <if test="param2.enterpriseName != null and param2.enterpriseName != ''">
-            AND t3.enterprise_name like concat('%', #{param2.enterpriseName}, '%')
-        </if>
-        <if test="param2.beginDate != null">
-            AND DATEDIFF(t1.create_time, #{param2.beginDate}) <![CDATA[ >= ]]> 0
-        </if>
-        <if test="param2.endDate != null">
-            AND DATEDIFF(t1.create_time, #{param2.endDate}) <![CDATA[ <= ]]> 0
-        </if>
     </select>
 
     <select id="queryCrowdYearTradeByEnterprise" resultMap="yearTradeVO">

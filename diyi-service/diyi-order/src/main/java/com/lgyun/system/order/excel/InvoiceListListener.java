@@ -36,7 +36,6 @@ public class InvoiceListListener extends AnalysisEventListener<InvoiceListExcel>
 
     private final ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
 
-
     @Override
     public void invoke(InvoiceListExcel data, AnalysisContext analysisContext) {
         list.add(data);

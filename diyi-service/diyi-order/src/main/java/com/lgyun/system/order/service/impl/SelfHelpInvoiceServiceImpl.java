@@ -2,26 +2,29 @@ package com.lgyun.system.order.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.ApplyState;
-import com.lgyun.common.enumeration.BizType;
-import com.lgyun.common.enumeration.InvoicePeopleType;
-import com.lgyun.common.enumeration.MakerType;
+import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.CollectionUtil;
 import com.lgyun.common.tool.KdniaoTrackQueryUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
-import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
-import com.lgyun.system.order.entity.SelfHelpInvoiceSpEntity;
+import com.lgyun.system.order.dto.SelfHelpInvoiceDetailInvoiceTaxDto;
+import com.lgyun.system.order.dto.SelfHelpInvoiceDetailsByServiceProviderDto;
+import com.lgyun.system.order.dto.SelfHelpInvoiceExpressDto;
+import com.lgyun.system.order.dto.SelfHelpInvoicesByEnterpriseDto;
+import com.lgyun.system.order.entity.*;
 import com.lgyun.system.order.mapper.SelfHelpInvoiceMapper;
-import com.lgyun.system.order.service.ISelfHelpInvoiceService;
-import com.lgyun.system.order.service.ISelfHelpInvoiceSpService;
+import com.lgyun.system.order.service.*;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
+import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,39 +38,203 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceMapper, SelfHelpInvoiceEntity> implements ISelfHelpInvoiceService {
 
-    private IUserClient iUserClient;
-    private ISelfHelpInvoiceSpService selfHelpInvoiceSpService;
+    private final IUserClient iUserClient;
+    private final ISelfHelpInvoiceSpService selfHelpInvoiceSpService;
+    private final ISelfHelpInvoiceSpDetailService selfHelpInvoiceSpDetailService;
+    private final ISelfHelpInvoiceExpressService selfHelpInvoiceExpressService;
+
+    @Autowired
+    @Lazy
+    private ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
 
     @Override
-    public R<Map> getSelfHelpInvoiceDetails(Long selfHelpInvoiceId) {
-        SelfHelpInvoiceEntity selfHelpInvoiceEntity = getById(selfHelpInvoiceId);
-        if (null == selfHelpInvoiceEntity) {
-            return R.fail("数据不存在");
-        }
-        if (selfHelpInvoiceEntity.getCurrentState().equals(ApplyState.EDITING) || selfHelpInvoiceEntity.getCurrentState().equals(ApplyState.AUDITING)) {
-            return R.fail("自助开票在审核中，请耐心等候");
-        }
-        KdniaoTrackQueryUtil api = new KdniaoTrackQueryUtil();
-        String orderTracesByJson = "";
-        Map map = new HashMap();
-        try {
-            if (null != selfHelpInvoiceEntity.getExpressCompanyName() && "" != selfHelpInvoiceEntity.getExpressCompanyName()) {
-                orderTracesByJson = api.getOrderTracesByJson(selfHelpInvoiceEntity.getExpressCompanyName(), selfHelpInvoiceEntity.getExpressSheetNo());
+    public R<IPage<SelfHelpInvoiceListByEnterpriseVO>> getSelfHelfInvoicesByEnterprise(Long enterpriseId, InvoicePeopleType invoicePeopleType, SelfHelpInvoicesByEnterpriseDto selfHelpInvoicesByEnterpriseDto, IPage<SelfHelpInvoiceListByEnterpriseVO> page) {
+
+        if (selfHelpInvoicesByEnterpriseDto.getBeginDate() != null && selfHelpInvoicesByEnterpriseDto.getEndDate() != null) {
+            if (selfHelpInvoicesByEnterpriseDto.getBeginDate().after(selfHelpInvoicesByEnterpriseDto.getEndDate())) {
+                return R.fail("开始时间不能大于结束时间");
             }
-        } catch (Exception e) {
-            log.error("查询物流错误", e);
         }
-        SelfHelpInvoiceDetailsVO selfHelpInvoiceDetails = baseMapper.getSelfHelpInvoiceDetails(selfHelpInvoiceId);
-        map.put("expressCompanyName", null != selfHelpInvoiceEntity.getExpressCompanyName() ? "" : selfHelpInvoiceEntity.getExpressCompanyName());
-        map.put("expressSheetNo", null != selfHelpInvoiceEntity.getExpressSheetNo() ? "" : selfHelpInvoiceEntity.getExpressSheetNo());
-        map.put("expressUpdatePerson", null != selfHelpInvoiceEntity.getExpressUpdatePerson() ? "" : selfHelpInvoiceEntity.getExpressUpdatePerson());
-        map.put("expressUpdatePersonTel", null != selfHelpInvoiceEntity.getExpressUpdatePersonTel() ? "" : selfHelpInvoiceEntity.getExpressUpdatePersonTel());
-        map.put("orderTracesByJson", orderTracesByJson);
-        map.put("selfHelpInvoiceDetails", selfHelpInvoiceDetails);
-        return R.data(map);
+
+        return R.data(page.setRecords(baseMapper.getSelfHelfInvoicesByEnterprise(enterpriseId, invoicePeopleType, selfHelpInvoicesByEnterpriseDto, page)));
+    }
+
+    @Override
+    public R<SelfHelpInvoiceSingleByEnterpriseVO> getSingleSelfHelfInvoiceByEnterprise(Long enterpriseId, Long selfHelpInvoiceId) {
+        return R.data(baseMapper.getSingleSelfHelfInvoiceByEnterprise(enterpriseId, selfHelpInvoiceId));
+    }
+
+    @Override
+    public R<IPage<SelfHelpInvoiceDetailListByEnterpriseVO>> getSelfHelfInvoiceDetailsBySelfHelfInvoiceAndEnterprise(Long enterpriseId, Long selfHelpInvoiceId, IPage<SelfHelpInvoiceDetailListByEnterpriseVO> page) {
+
+        SelfHelpInvoiceEntity selfHelpInvoiceEntity = getById(selfHelpInvoiceId);
+        if (selfHelpInvoiceEntity == null) {
+            return R.fail("自助开票不存在");
+        }
+
+        if (!(selfHelpInvoiceEntity.getEnterpriseId().equals(enterpriseId))) {
+            return R.fail("自助开票不属于当前商户");
+        }
+
+        return R.data(page.setRecords(baseMapper.getSelfHelfInvoiceDetailsBySelfHelfInvoiceAndEnterprise(enterpriseId, selfHelpInvoiceId, page)));
+    }
+
+    @Override
+    public R<IPage<SelfHelpInvoiceExpressByEnterpriseProviderVO>> getSelfHelfInvoiceExpressBySelfHelfInvoiceAndEnterprise(Long enterpriseId, Long selfHelpInvoiceId, IPage<SelfHelpInvoiceExpressByEnterpriseProviderVO> page) {
+
+        List<SelfHelpInvoiceExpressByEnterpriseProviderVO> selfHelpInvoiceExpressByEnterpriseVOList = baseMapper.getSelfHelfInvoiceExpressBySelfHelfInvoiceAndEnterprise(selfHelpInvoiceId, enterpriseId, page);
+        //根据快递公司，快递单号查询快递信息
+        for (SelfHelpInvoiceExpressByEnterpriseProviderVO selfHelpInvoiceExpressByEnterpriseVO : selfHelpInvoiceExpressByEnterpriseVOList) {
+            KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
+            String expressMessage = null;
+
+            if (StringUtils.isNotBlank(selfHelpInvoiceExpressByEnterpriseVO.getExpressCompanyName()) && StringUtils.isNotBlank(selfHelpInvoiceExpressByEnterpriseVO.getExpressNo())) {
+                try {
+                    expressMessage = kdniaoTrackQueryUtil.getOrderTracesByJson(selfHelpInvoiceExpressByEnterpriseVO.getExpressCompanyName(), selfHelpInvoiceExpressByEnterpriseVO.getExpressNo());
+                } catch (Exception e) {
+                    log.error("查询快递异常", e);
+                }
+            }
+
+            selfHelpInvoiceExpressByEnterpriseVO.setExpressMessage(expressMessage);
+        }
+
+        return R.data(page.setRecords(selfHelpInvoiceExpressByEnterpriseVOList));
+    }
+
+    @Override
+    public R<IPage<SelfHelpInvoiceListByServiceProviderVO>> getSelfHelfInvoicesByServiceProvider(Long serviceProviderId, InvoicePeopleType invoicePeopleType, SelfHelpInvoiceSpApplyState selfHelpInvoiceSpApplyState, SelfHelpInvoiceDetailsByServiceProviderDto selfHelpInvoiceDetailsByServiceProviderDto, IPage<SelfHelpInvoiceListByServiceProviderVO> page) {
+
+        if (selfHelpInvoiceDetailsByServiceProviderDto.getBeginDate() != null && selfHelpInvoiceDetailsByServiceProviderDto.getEndDate() != null) {
+            if (selfHelpInvoiceDetailsByServiceProviderDto.getBeginDate().after(selfHelpInvoiceDetailsByServiceProviderDto.getEndDate())) {
+                return R.fail("开始时间不能大于结束时间");
+            }
+        }
+
+        return R.data(page.setRecords(baseMapper.getSelfHelfInvoicesByServiceProvider(serviceProviderId, invoicePeopleType, selfHelpInvoiceSpApplyState, selfHelpInvoiceDetailsByServiceProviderDto, page)));
+    }
+
+    @Override
+    public R<SelfHelpInvoiceSingleByServiceProviderVO> getSingleSelfHelfInvoiceByServiceProvider(Long serviceProviderId, Long selfHelpInvoiceDetailId) {
+        return R.data(baseMapper.getSingleSelfHelfInvoiceByServiceProvider(serviceProviderId, selfHelpInvoiceDetailId));
+    }
+
+    @Override
+    public R<String> uploadInvoiceTaxByProvider(ServiceProviderWorkerEntity serviceProviderWorkerEntity, SelfHelpInvoiceDetailInvoiceTaxDto selfHelpInvoiceDetailInvoiceTaxDto) {
+
+        SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = selfHelpInvoiceDetailService.getById(selfHelpInvoiceDetailInvoiceTaxDto.getSelfHelpInvoiceDetailId());
+        if (selfHelpInvoiceDetailEntity == null) {
+            return R.fail("自助开票明细不存在");
+        }
+
+        SelfHelpInvoiceEntity selfHelpInvoiceEntity = getById(selfHelpInvoiceDetailEntity.getSelfHelpInvoiceId());
+        if (selfHelpInvoiceEntity == null) {
+            return R.fail("自助开票不存在");
+        }
+
+        if (!(SelfHelpInvoiceApplyState.PAID.equals(selfHelpInvoiceEntity.getCurrentState())) && !(SelfHelpInvoiceApplyState.INVOICED.equals(selfHelpInvoiceEntity.getCurrentState()))) {
+            return R.fail("自助开票的开票状态有误");
+        }
+
+        if (!(InvoicePrintState.INVOICEING.equals(selfHelpInvoiceDetailEntity.getInvoicePrintState())) && !(InvoicePrintState.INVOICESUCCESS.equals(selfHelpInvoiceDetailEntity.getInvoicePrintState()))) {
+            return R.fail("自助开票明细的开票状态有误");
+        }
+
+        //todo
+        //判断自助明细是否属于当前服务商
+        SelfHelpInvoiceSpEntity selfHelpInvoiceSpEntity = selfHelpInvoiceSpService.findByServiceProviderIdAndSelfHelpInvoiceId(serviceProviderWorkerEntity.getServiceProviderId(), selfHelpInvoiceDetailEntity.getSelfHelpInvoiceId());
+        if (selfHelpInvoiceSpEntity == null) {
+            return R.fail("自助开票明细不属于当前服务商");
+        }
+
+        if (InvoicePeopleType.NATURALPERSON.equals(selfHelpInvoiceDetailEntity.getInvoicePeopleType()) && StringUtils.isBlank(selfHelpInvoiceDetailInvoiceTaxDto.getTaxScanPictures())) {
+            return R.fail("自然人类型发票不能缺少税票");
+        }
+
+        SelfHelpInvoiceSpDetailEntity selfHelpInvoiceSpDetailEntity = selfHelpInvoiceSpDetailService.findBySelfHelpInvoiceDetailId(selfHelpInvoiceDetailEntity.getId());
+        if (selfHelpInvoiceSpDetailEntity == null) {
+            selfHelpInvoiceSpDetailEntity = new SelfHelpInvoiceSpDetailEntity();
+            selfHelpInvoiceSpDetailEntity.setSelfHelpInvoiceApplyProviderId(selfHelpInvoiceSpEntity.getId());
+            selfHelpInvoiceSpDetailEntity.setSelfHelpInvoiceDetailId(selfHelpInvoiceDetailEntity.getId());
+            selfHelpInvoiceSpDetailEntity.setInvoiceScanPictures(selfHelpInvoiceDetailInvoiceTaxDto.getInvoiceScanPictures());
+            selfHelpInvoiceSpDetailEntity.setTaxScanPictures(selfHelpInvoiceDetailInvoiceTaxDto.getTaxScanPictures());
+            selfHelpInvoiceSpDetailEntity.setInvoiceOperatePerson(serviceProviderWorkerEntity.getWorkerName());
+            selfHelpInvoiceSpDetailService.save(selfHelpInvoiceSpDetailEntity);
+        } else {
+            selfHelpInvoiceSpDetailEntity.setSelfHelpInvoiceApplyProviderId(selfHelpInvoiceSpEntity.getId());
+            selfHelpInvoiceSpDetailEntity.setSelfHelpInvoiceDetailId(selfHelpInvoiceDetailEntity.getId());
+            selfHelpInvoiceSpDetailEntity.setInvoiceScanPictures(selfHelpInvoiceDetailInvoiceTaxDto.getInvoiceScanPictures());
+            selfHelpInvoiceSpDetailEntity.setTaxScanPictures(selfHelpInvoiceDetailInvoiceTaxDto.getTaxScanPictures());
+            selfHelpInvoiceSpDetailEntity.setInvoiceOperatePerson(serviceProviderWorkerEntity.getWorkerName());
+            selfHelpInvoiceSpDetailService.updateById(selfHelpInvoiceSpDetailEntity);
+        }
+
+        return R.success("上传成功");
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public R<String> fillExpressByProvider(ServiceProviderWorkerEntity serviceProviderWorkerEntity, SelfHelpInvoiceExpressDto selfHelpInvoiceExpressDto) {
+
+        SelfHelpInvoiceEntity selfHelpInvoiceEntity = getById(selfHelpInvoiceExpressDto.getSelfHelpInvoiceId());
+        if (selfHelpInvoiceEntity == null) {
+            return R.fail("自助开票不存在");
+        }
+
+        if (!(SelfHelpInvoiceApplyState.PAID.equals(selfHelpInvoiceEntity.getCurrentState())) && !(SelfHelpInvoiceApplyState.INVOICED.equals(selfHelpInvoiceEntity.getCurrentState()))) {
+            return R.fail("自助开票的开票状态有误");
+        }
+
+        //todo
+        //1 判断自助开票-服务商的所有自助开票明细是否都已完成
+        //1 判断自助开票的所有自助开票明细是否都已完成
+        SelfHelpInvoiceSpEntity selfHelpInvoiceSpEntity = selfHelpInvoiceSpService.findByServiceProviderIdAndSelfHelpInvoiceId(serviceProviderWorkerEntity.getServiceProviderId(), selfHelpInvoiceEntity.getId());
+        if (selfHelpInvoiceSpEntity == null) {
+            return R.fail("自助开票明细不属于当前服务商");
+        }
+
+        //添加自助开票快递
+        SelfHelpInvoiceExpressEntity selfHelpInvoiceExpressEntity = selfHelpInvoiceExpressService.findBySelfHelpInvoiceApplyProviderId(selfHelpInvoiceSpEntity.getId());
+        if (selfHelpInvoiceExpressEntity == null) {
+            selfHelpInvoiceExpressEntity = new SelfHelpInvoiceExpressEntity();
+            selfHelpInvoiceExpressEntity.setSelfHelpInvoiceApplyProviderId(selfHelpInvoiceSpEntity.getId());
+            selfHelpInvoiceExpressEntity.setExpressNo(selfHelpInvoiceExpressDto.getExpressSheetNo());
+            selfHelpInvoiceExpressEntity.setExpressCompanyName(selfHelpInvoiceExpressDto.getExpressCompanyName());
+            selfHelpInvoiceExpressService.save(selfHelpInvoiceExpressEntity);
+        } else {
+            selfHelpInvoiceExpressEntity.setSelfHelpInvoiceApplyProviderId(selfHelpInvoiceSpEntity.getId());
+            selfHelpInvoiceExpressEntity.setExpressNo(selfHelpInvoiceExpressDto.getExpressSheetNo());
+            selfHelpInvoiceExpressEntity.setExpressCompanyName(selfHelpInvoiceExpressDto.getExpressCompanyName());
+            selfHelpInvoiceExpressService.save(selfHelpInvoiceExpressEntity);
+        }
+
+        //todo
+        //自助开票-服务商设置为已开票状态
+
+        return R.success("上传成功");
+    }
+
+    @Override
+    public R<SelfHelpInvoiceExpressByEnterpriseProviderVO> getSelfHelfInvoiceExpressBySelfHelfInvoiceAndProvider(Long serviceProviderId, Long selfHelpInvoiceId) {
+
+        SelfHelpInvoiceExpressByEnterpriseProviderVO selfHelpInvoiceExpressByEnterpriseProviderVO = baseMapper.getSelfHelfInvoiceExpressBySelfHelfInvoiceAndProvider(selfHelpInvoiceId, serviceProviderId);
+        //根据快递公司，快递单号查询快递信息
+        KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
+        String expressMessage = null;
+        if (StringUtils.isNotBlank(selfHelpInvoiceExpressByEnterpriseProviderVO.getExpressCompanyName()) && StringUtils.isNotBlank(selfHelpInvoiceExpressByEnterpriseProviderVO.getExpressNo())) {
+            try {
+                expressMessage = kdniaoTrackQueryUtil.getOrderTracesByJson(selfHelpInvoiceExpressByEnterpriseProviderVO.getExpressCompanyName(), selfHelpInvoiceExpressByEnterpriseProviderVO.getExpressNo());
+            } catch (Exception e) {
+                log.error("查询快递异常", e);
+            }
+        }
+
+        selfHelpInvoiceExpressByEnterpriseProviderVO.setExpressMessage(expressMessage);
+
+        return R.data(selfHelpInvoiceExpressByEnterpriseProviderVO);
     }
 
     @Override
@@ -114,23 +281,6 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
-    public R findMakerTypeSelfHelpInvoice(IPage<SelfHelpInvoiceDetailsVO> page, Long enterpriseId, MakerType makerType, String invoicePeopleName, String startTime, String endTime) {
-        return R.data(page.setRecords(baseMapper.findMakerTypeSelfHelpInvoice(enterpriseId, makerType, invoicePeopleName, startTime, endTime, page)));
-    }
-
-    @Override
-    public R<IPage<SelfHelpInvoicePayVO>> getSelfHelfInvoiceByEnterpriseId(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<SelfHelpInvoicePayVO> page) {
-
-        if (selfHelpInvoicePayDto.getBeginDate() != null && selfHelpInvoicePayDto.getEndDate() != null) {
-            if (selfHelpInvoicePayDto.getBeginDate().after(selfHelpInvoicePayDto.getEndDate())) {
-                return R.fail("开始时间不能大于结束时间");
-            }
-        }
-
-        return R.data(page.setRecords(baseMapper.getSelfHelfInvoiceByEnterpriseId(enterpriseId, selfHelpInvoicePayDto, page)));
-    }
-
-    @Override
     public R findEnterpriseCrowdSourcing(Long enterpriseId, String serviceProviderName, IPage<SelfHelpInvoiceCrowdSourcingVO> page) {
         return R.data(page.setRecords(baseMapper.findEnterpriseCrowdSourcing(enterpriseId, serviceProviderName, page)));
     }
@@ -152,36 +302,24 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
-    public R<IPage<SelfHelpInvoicePayVO>> findSelfHelpInvoiceByServiceProvider(IPage<SelfHelpInvoicePayVO> page, Long serviceProviderId, SelfHelpInvoicePayDto selfHelpInvoicePayDto) {
+    public R<String> audit(Long serviceProviderId, Long selfHelpInvoiceId, SelfHelpInvoiceSpApplyState applyState) {
 
-        if (selfHelpInvoicePayDto.getBeginDate() != null && selfHelpInvoicePayDto.getEndDate() != null) {
-            if (selfHelpInvoicePayDto.getBeginDate().after(selfHelpInvoicePayDto.getEndDate())) {
-                return R.fail("开始时间不能大于结束时间");
-            }
-        }
-
-        return R.data(page.setRecords(baseMapper.findSelfHelpInvoiceByServiceProvider(serviceProviderId, selfHelpInvoicePayDto, page)));
-    }
-
-    @Override
-    public R<String> audit(Long serviceProviderId, Long selfHelpInvoiceId, ApplyState applyState) {
-
-        if (!(ApplyState.REJECTED.equals(applyState)) && !(ApplyState.PASSED.equals(applyState))) {
+        if (!(SelfHelpInvoiceSpApplyState.RECALLED.equals(applyState)) && !(SelfHelpInvoiceSpApplyState.SUBMITTED.equals(applyState))) {
             return R.fail("审核状态有误");
         }
 
         SelfHelpInvoiceEntity selfHelpInvoiceEntity = getById(selfHelpInvoiceId);
         if (selfHelpInvoiceEntity == null) {
-            return R.fail("自主开票不存在");
+            return R.fail("自助开票不存在");
         }
 
         SelfHelpInvoiceSpEntity selfHelpInvoiceSpEntity = selfHelpInvoiceSpService.findBySelfHelpInvoiceIdAndAuditing(selfHelpInvoiceId);
         if (selfHelpInvoiceSpEntity == null) {
-            return R.fail("审核中的自主开票不存在");
+            return R.fail("审核中的自助开票不存在");
         }
 
         if (!(selfHelpInvoiceSpEntity.getServiceProviderId().equals(serviceProviderId))) {
-            return R.fail("自主开票不属于当前服务商");
+            return R.fail("自助开票不属于当前服务商");
         }
 
         selfHelpInvoiceSpEntity.setApplyState(applyState);
@@ -229,5 +367,5 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     public R<DayTradeVO> queryCrowdDayTradeByServiceProvider(Long serviceProviderId) {
         return R.data(baseMapper.queryCrowdDayTradeByServiceProvider(serviceProviderId));
     }
-    
+
 }

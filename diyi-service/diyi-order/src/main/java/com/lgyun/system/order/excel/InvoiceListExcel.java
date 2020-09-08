@@ -71,6 +71,10 @@ public class InvoiceListExcel implements Serializable {
     @ExcelProperty("公司名称")
     private String corporateName;
 
+    @ColumnWidth(20)
+    @ExcelProperty("图片")
+    private String tupian;
+
     @ExcelIgnore
     @ExcelProperty("对象")
     private SelfHelpInvoiceDto selfHelpInvoiceDto;

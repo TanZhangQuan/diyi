@@ -1,7 +1,7 @@
 package com.lgyun.system.order.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.lgyun.common.enumeration.ApplyState;
+import com.lgyun.common.enumeration.SelfHelpInvoiceApplyState;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.SelfHelpInvoiceSpEntity;
 import com.lgyun.system.order.mapper.SelfHelpInvoiceSpMapper;
@@ -22,11 +22,21 @@ import org.springframework.stereotype.Service;
 public class SelfHelpInvoiceSpServiceImpl extends BaseServiceImpl<SelfHelpInvoiceSpMapper, SelfHelpInvoiceSpEntity> implements ISelfHelpInvoiceSpService {
 
     @Override
+    public SelfHelpInvoiceSpEntity findByServiceProviderIdAndSelfHelpInvoiceId(Long serviceProviderId, Long selfHelpInvoiceId) {
+
+        QueryWrapper<SelfHelpInvoiceSpEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(SelfHelpInvoiceSpEntity::getServiceProviderId, serviceProviderId)
+                .eq(SelfHelpInvoiceSpEntity::getSelfHelpInvoiceId, selfHelpInvoiceId);
+
+        return baseMapper.selectOne(queryWrapper);
+    }
+
+    @Override
     public SelfHelpInvoiceSpEntity findBySelfHelpInvoiceIdAndAuditing(Long selfHelpInvoiceId) {
 
         QueryWrapper<SelfHelpInvoiceSpEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(SelfHelpInvoiceSpEntity::getSelfHelpInvoiceId, selfHelpInvoiceId)
-                .eq(SelfHelpInvoiceSpEntity::getApplyState, ApplyState.AUDITING);
+                .eq(SelfHelpInvoiceSpEntity::getApplyState, SelfHelpInvoiceApplyState.AUDITING);
 
         return baseMapper.selectOne(queryWrapper);
     }

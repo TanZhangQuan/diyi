@@ -2,7 +2,7 @@ package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.common.enumeration.AddressType;
-import com.lgyun.common.enumeration.ApplyState;
+import com.lgyun.common.enumeration.SelfHelpInvoiceSpApplyState;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +10,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * 自助开票-服务商：记录自助开票主表的提交给不同服务商的 Entity
@@ -42,14 +41,9 @@ public class SelfHelpInvoiceSpEntity extends BaseEntity {
     private String operatePerson;
 
     /**
-     * 申请日期 可以多次申请，每次独立数据
+     * 1，已分配服务商；2，已提交开票中；3，已撤回；4，已开票结束 这个是管理端运营老师负责，提交和撤回。
      */
-    private Date applyDate;
-
-    /**
-     * 申请状态: 已提交开票中；已撤回；已开票结束。。。这个是管理端运营老师负责，提交和撤回。
-     */
-    private ApplyState applyState;
+    private SelfHelpInvoiceSpApplyState applyState;
 
     /**
      * 申请说明

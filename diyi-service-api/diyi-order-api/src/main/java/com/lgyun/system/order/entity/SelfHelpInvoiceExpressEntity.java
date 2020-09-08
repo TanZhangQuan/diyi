@@ -22,14 +22,9 @@ public class SelfHelpInvoiceExpressEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 唯一性控制
+     * 自助开票服务商ID
      */
-    private Long selfHelpInvoiceId;
-
-    /**
-     * 地址id
-     */
-    private Long addressId;
+    private Long selfHelpInvoiceApplyProviderId;
 
     /**
      * 快递单号
@@ -37,8 +32,28 @@ public class SelfHelpInvoiceExpressEntity extends BaseEntity {
     private String expressNo;
 
     /**
+     * 快递公司
+     */
+    private String expressCompanyName;
+
+    /**
      * 快递回单或二维码
      */
     private String expressFileUrl;
+
+    /**
+     * 处理人员
+     */
+    private String operatePerson;
+
+    /**
+     * 快递更新人员电话
+     */
+    private String expressUpdatePersonTel;
+
+    /**
+     * 特殊说明
+     */
+    private String specialDesc;
 
 }

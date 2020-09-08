@@ -4,18 +4,13 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.alibaba.fastjson.JSONObject;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.ApplyState;
-import com.lgyun.common.enumeration.MakerType;
-import com.lgyun.common.enumeration.ObjectType;
+import com.lgyun.common.enumeration.*;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.RealnameVerifyUtil;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.feign.IDictClient;
-import com.lgyun.system.order.dto.AddressDto;
-import com.lgyun.system.order.dto.ConfirmPaymentDto;
-import com.lgyun.system.order.dto.SelfHelpInvoiceDto;
-import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
+import com.lgyun.system.order.dto.*;
 import com.lgyun.system.order.excel.InvoiceListExcel;
 import com.lgyun.system.order.excel.InvoiceListListener;
 import com.lgyun.system.order.service.*;
@@ -32,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
@@ -50,6 +46,7 @@ import java.io.InputStream;
 @AllArgsConstructor
 @Api(value = "自助开票相关接口(管理端)", tags = "自助开票相关接口(管理端)")
 public class SelfHelpInvoiceWebController {
+
     private ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
     private IAddressService addressService;
@@ -58,38 +55,186 @@ public class SelfHelpInvoiceWebController {
     private ISelfHelpInvoiceAccountService selfHelpInvoiceAccountService;
     private ISelfHelpInvoiceFeeService selfHelpInvoiceFeeService;
 
+    @GetMapping("/get-self-helf-invoices-by-enterprise")
+    @ApiOperation(value = "查询当前商户所有自助开票记录", notes = "查询当前商户所有自助开票记录")
+    public R getSelfHelfInvoicesByEnterprise(@ApiParam(value = "创客类型") @NotNull(message = "请选择创客类型") @RequestParam(required = false) InvoicePeopleType invoicePeopleType, SelfHelpInvoicesByEnterpriseDto selfHelpInvoicesByEnterpriseDto, Query query, BladeUser bladeUser) {
 
-    @GetMapping("/findMakerTypeSelfHelpInvoice")
-    @ApiOperation(value = "根据创客类型查询自助开票", notes = "根据创客类型查询自助开票")
-    public R findMakerTypeSelfHelpInvoice(Query query, BladeUser bladeUser, MakerType makerType,
-                                          @RequestParam(required = false) String invoicePeopleName,
-                                          @RequestParam(required = false) String startTime,
-                                          @RequestParam(required = false) String endTime) {
-        log.info("根据创客类型查询自助开票");
+        log.info("查询当前商户所有自助开票记录");
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-            return selfHelpInvoiceService.findMakerTypeSelfHelpInvoice(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), makerType,invoicePeopleName,startTime,endTime);
+
+            return selfHelpInvoiceService.getSelfHelfInvoicesByEnterprise(enterpriseWorkerEntity.getEnterpriseId(), invoicePeopleType, selfHelpInvoicesByEnterpriseDto, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
-            log.error("根据创客类型查询自助开票失败", e);
+            log.error("查询当前商户所有自助开票记录异常", e);
         }
-        return R.fail("根据创客类型查询自助开票失败");
+        return R.fail("查询失败");
     }
 
-    @GetMapping("/getSelfHelpInvoiceDetails")
-    @ApiOperation(value = "查询开票详情", notes = "查询开票详情")
-    public R getSelfHelpInvoiceDetails(Long selfHelpInvoiceId) {
-        log.info("查询开票详情");
+    @GetMapping("/get-single-self-helf-invoice-by-enterprise")
+    @ApiOperation(value = "查询当前商户某条自助开票记录详情", notes = "查询当前商户某条自助开票记录详情")
+    public R getSingleSelfHelfInvoiceByEnterprise(@ApiParam(value = "自助开票ID") @NotNull(message = "请输入自助开票编号") @RequestParam(required = false) Long selfHelpInvoiceId, BladeUser bladeUser) {
+
+        log.info("查询当前商户某条自助开票记录详情");
         try {
-            return selfHelpInvoiceService.getSelfHelpInvoiceDetails(selfHelpInvoiceId);
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return selfHelpInvoiceService.getSingleSelfHelfInvoiceByEnterprise(enterpriseWorkerEntity.getEnterpriseId(), selfHelpInvoiceId);
         } catch (Exception e) {
-            log.error("查询开票详情失败", e);
+            log.error("查询当前商户某条自助开票记录详情异常", e);
         }
-        return R.fail("查询开票详情失败");
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/get-self-helf-invoice-details-by-self-helf-invoice-and-enterprise")
+    @ApiOperation(value = "查询当前商户某条自助开票记录的所有自助开票明细", notes = "查询当前商户某条自助开票记录的所有自助开票明细")
+    public R getSelfHelfInvoiceDetailsBySelfHelfInvoiceAndEnterprise(@ApiParam(value = "自助开票ID") @NotNull(message = "请输入自助开票编号") @RequestParam(required = false) Long selfHelpInvoiceId, Query query, BladeUser bladeUser) {
+
+        log.info("查询当前商户某条自助开票记录的所有自助开票明细");
+        try {
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return selfHelpInvoiceService.getSelfHelfInvoiceDetailsBySelfHelfInvoiceAndEnterprise(enterpriseWorkerEntity.getEnterpriseId(), selfHelpInvoiceId, Condition.getPage(query.setDescs("create_time")));
+        } catch (Exception e) {
+            log.error("查询当前商户某条自助开票记录的所有自助开票明细异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/get-self-helf-invoice-express-by-self-helf-invoice-and-enterprise")
+    @ApiOperation(value = "查询当前商户某条自助开票记录的所有快递信息", notes = "查询当前商户某条自助开票记录的所有快递信息")
+    public R getSelfHelfInvoiceExpressBySelfHelfInvoiceAndEnterprise(@ApiParam(value = "自助开票ID") @NotNull(message = "请输入自助开票编号") @RequestParam(required = false) Long selfHelpInvoiceId, Query query, BladeUser bladeUser) {
+
+        log.info("查询当前商户某条自助开票记录的所有快递信息");
+        try {
+            //获取当前商户员工
+            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+            return selfHelpInvoiceService.getSelfHelfInvoiceExpressBySelfHelfInvoiceAndEnterprise(enterpriseWorkerEntity.getEnterpriseId(), selfHelpInvoiceId, Condition.getPage(query.setDescs("create_time")));
+        } catch (Exception e) {
+            log.error("查询当前商户某条自助开票记录的所有快递信息异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/get-self-helf-invoices-by-service-provider")
+    @ApiOperation(value = "查询当前服务商所有自助开票记录", notes = "查询当前服务商所有自助开票记录")
+    public R getSelfHelfInvoicesByServiceProvider(@ApiParam(value = "创客类型") @NotNull(message = "请选择创客类型") @RequestParam(required = false) InvoicePeopleType invoicePeopleType,
+                                                        @ApiParam(value = "自助开票-服务商状态") @NotNull(message = "请选择自助开票-服务商状态") @RequestParam(required = false) SelfHelpInvoiceSpApplyState selfHelpInvoiceSpApplyState,
+                                                        SelfHelpInvoiceDetailsByServiceProviderDto selfHelpInvoiceDetailsByServiceProviderDto, Query query, BladeUser bladeUser) {
+
+        log.info("查询当前服务商所有自助开票记录");
+        try {
+            //获取当前服务商员工
+            R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+            return selfHelpInvoiceService.getSelfHelfInvoicesByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId(), invoicePeopleType, selfHelpInvoiceSpApplyState, selfHelpInvoiceDetailsByServiceProviderDto, Condition.getPage(query.setDescs("create_time")));
+        } catch (Exception e) {
+            log.error("查询当前服务商所有自助开票记录异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/get-single-self-helf-invoice-by-service-provider")
+    @ApiOperation(value = "查询当前服务商某条自助开票记录详情", notes = "查询当前服务商某条自助开票记录详情")
+    public R getSingleSelfHelfInvoiceByServiceProvider(@ApiParam(value = "自助开票ID") @NotNull(message = "请输入自助开票编号") @RequestParam(required = false) Long selfHelpInvoiceId, BladeUser bladeUser) {
+
+        log.info("查询当前服务商某条自助开票记录详情");
+        try {
+            //获取当前服务商员工
+            R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+            return selfHelpInvoiceService.getSingleSelfHelfInvoiceByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId(), selfHelpInvoiceId);
+        } catch (Exception e) {
+            log.error("查询当前服务商某条自助开票记录详情异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @PostMapping("/upload_invoice_tax_by_provider")
+    @ApiOperation(value = "服务商自助开票上传发票税票", notes = "服务商自助开票上传发票税票")
+    public R uploadInvoiceTaxByProvider(@Valid @RequestBody SelfHelpInvoiceDetailInvoiceTaxDto selfHelpInvoiceDetailInvoiceTaxDto, BladeUser bladeUser) {
+
+        log.info("服务商自助开票上传发票税票");
+        try {
+            //获取当前服务商员工
+            R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+            return selfHelpInvoiceService.uploadInvoiceTaxByProvider(serviceProviderWorkerEntity, selfHelpInvoiceDetailInvoiceTaxDto);
+        } catch (Exception e) {
+            log.error("服务商自助开票上传发票税票失败", e);
+        }
+        return R.fail("上传失败");
+    }
+
+    @PostMapping("/fill_express_by_provider")
+    @ApiOperation(value = "服务商自助开票填写快递信息", notes = "服务商自助开票填写快递信息")
+    public R fillExpressByProvider(@Valid @RequestBody SelfHelpInvoiceExpressDto selfHelpInvoiceExpressDto, BladeUser bladeUser) {
+
+        log.info("服务商自助开票填写快递信息");
+        try {
+            //获取当前服务商员工
+            R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+            return selfHelpInvoiceService.fillExpressByProvider(serviceProviderWorkerEntity, selfHelpInvoiceExpressDto);
+        } catch (Exception e) {
+            log.error("服务商自助开票填写快递信息失败", e);
+        }
+        return R.fail("快递信息更新失败");
+    }
+
+    @GetMapping("/get-self-helf-invoice-express-by-self-helf-invoice-and-provider")
+    @ApiOperation(value = "查询当前服务商某条自助开票记录的快递信息", notes = "查询当前服务商某条自助开票记录的快递信息")
+    public R getSelfHelfInvoiceExpressBySelfHelfInvoiceAndProvider(@ApiParam(value = "自助开票ID") @NotNull(message = "请输入自助开票编号") @RequestParam(required = false) Long selfHelpInvoiceId, Query query, BladeUser bladeUser) {
+
+        log.info("查询当前服务商某条自助开票记录的快递信息");
+        try {
+            //获取当前服务商员工
+            R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+            return selfHelpInvoiceService.getSelfHelfInvoiceExpressBySelfHelfInvoiceAndProvider(serviceProviderWorkerEntity.getServiceProviderId(), selfHelpInvoiceId);
+        } catch (Exception e) {
+            log.error("查询当前服务商某条自助开票记录的快递信息异常", e);
+        }
+        return R.fail("查询失败");
     }
 
     @PostMapping("/saveAddress")
@@ -99,7 +244,7 @@ public class SelfHelpInvoiceWebController {
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
@@ -153,7 +298,7 @@ public class SelfHelpInvoiceWebController {
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
@@ -178,8 +323,8 @@ public class SelfHelpInvoiceWebController {
 
     @PostMapping("/uploadDeliverSheetUrl")
     @ApiOperation(value = "上传交付支付验收单URL", notes = "上传交付支付验收单URL")
-    public R uploadDeliverSheetUrl(@NotNull(message = "自助开票详情id有误") @RequestParam(required = false) Long selfHelpInvoiceDetailId,
-                                   @NotNull(message = "交付支付验收单URL不能为空") @RequestParam(required = false) String deliverSheetUrl) {
+    public R uploadDeliverSheetUrl(@NotNull(message = "请输入自助开票明细编号") @RequestParam(required = false) Long selfHelpInvoiceDetailId,
+                                   @NotBlank(message = "请上传交付支付验收单") @RequestParam(required = false) String deliverSheetUrl) {
         log.info("上传交付支付验收单URL");
         try {
             return selfHelpInvoiceDetailService.uploadDeliverSheetUrl(selfHelpInvoiceDetailId, deliverSheetUrl);
@@ -190,14 +335,14 @@ public class SelfHelpInvoiceWebController {
     }
 
     @PostMapping("/submitSelfHelpInvoiceWeb")
-    @ApiOperation(value = "商户提交自助开票", notes = "商户提交自助开票")
+    @ApiOperation(value = "当前商户提交自助开票", notes = "商户提交自助开票")
     public R submitSelfHelpInvoiceWeb(@ApiParam(value = "文件") @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file,
                                       @Valid @RequestBody SelfHelpInvoiceDto selfHelpInvoiceDto, BladeUser bladeUser) {
         log.info("商户提交自助开票");
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
@@ -205,15 +350,18 @@ public class SelfHelpInvoiceWebController {
             if (file.isEmpty()) {
                 return R.fail("Excel文件不能为空");
             }
+
             //判断文件内容是否为空
             selfHelpInvoiceDto.setObjectType(ObjectType.ENTERPRISEPEOPLE);
             selfHelpInvoiceDto.setObjectId(enterpriseWorkerEntity.getEnterpriseId());
+
             // 获取上传文件的后缀
             String suffix = file.getOriginalFilename();
             if ((!StringUtils.endsWithIgnoreCase(suffix, ".xls") && !StringUtils.endsWithIgnoreCase(suffix, ".xlsx"))) {
                 return R.fail("请选择Excel文件");
             }
-            InvoiceListListener makerImportListener = new InvoiceListListener(selfHelpInvoiceDto,selfHelpInvoiceDetailService);
+
+            InvoiceListListener makerImportListener = new InvoiceListListener(selfHelpInvoiceDto, selfHelpInvoiceDetailService);
             InputStream inputStream = new BufferedInputStream(file.getInputStream());
             ExcelReaderBuilder builder = EasyExcel.read(inputStream, InvoiceListExcel.class, makerImportListener);
             builder.doReadAll();
@@ -280,37 +428,11 @@ public class SelfHelpInvoiceWebController {
         return R.fail("查询失败");
     }
 
-    @GetMapping("/find_self_help_invoice_by_service_provider")
-    @ApiOperation(value = "查询当前服务商的所有众包/众采", notes = "查询当前服务商的所有众包/众采")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "selfHelfInvoiceId", value = "众包/众采ID", paramType = "query", dataType = "long"),
-            @ApiImplicitParam(name = "enterpriseName", value = "商户名称", paramType = "query", dataType = "string"),
-            @ApiImplicitParam(name = "beginDate", value = "开始时间", paramType = "query", dataType = "date"),
-            @ApiImplicitParam(name = "endDate", value = "结束时间", paramType = "query", dataType = "date")
-    })
-    public R findSelfHelpInvoiceByServiceProvider(SelfHelpInvoicePayDto selfHelpInvoicePayDto, Query query, BladeUser bladeUser) {
-        log.info("查询当前服务商的所有众包/众采");
-        try {
-            //获取当前服务商员工
-            R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
-            if (!(result.isSuccess())) {
-                return result;
-            }
-            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
-
-            return selfHelpInvoiceService.findSelfHelpInvoiceByServiceProvider(Condition.getPage(query.setDescs("create_time")), serviceProviderWorkerEntity.getServiceProviderId(), selfHelpInvoicePayDto);
-        } catch (Exception e) {
-            log.error("查询当前服务商的所有众包/众采失败", e);
-        }
-
-        return R.fail("查询失败");
-    }
-
     @PostMapping("/audit")
-    @ApiOperation(value = "自主开票审核", notes = "自主开票审核")
-    public R audit(@ApiParam(value = "自主开票编号") @NotNull(message = "请输入自主开票编号") @RequestParam(required = false) Long selfHelpInvoiceId, @ApiParam(value = "自主开票审核状态") @NotNull(message = "请选择自主开票审核状态") @RequestParam(required = false) ApplyState applyState, BladeUser bladeUser) {
+    @ApiOperation(value = "自助开票审核", notes = "自助开票审核")
+    public R audit(@ApiParam(value = "自助开票编号") @NotNull(message = "请输入自助开票编号") @RequestParam(required = false) Long selfHelpInvoiceId, @ApiParam(value = "自助开票审核状态") @NotNull(message = "请选择自助开票审核状态") @RequestParam(required = false) SelfHelpInvoiceSpApplyState applyState, BladeUser bladeUser) {
 
-        log.info("自主开票审核");
+        log.info("自助开票审核");
         try {
             //获取当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
@@ -321,16 +443,16 @@ public class SelfHelpInvoiceWebController {
 
             return selfHelpInvoiceService.audit(serviceProviderWorkerEntity.getId(), selfHelpInvoiceId, applyState);
         } catch (Exception e) {
-            log.error("自主开票审核异常", e);
+            log.error("自助开票审核异常", e);
         }
         return R.fail("审核失败");
     }
 
     @GetMapping("/query_crowd_year_trade_by_enterprise")
-    @ApiOperation(value = "查询当前商户众包年流水", notes = "查询当前商户众包年流水")
+    @ApiOperation(value = "查询当前商户众包/众采年流水", notes = "查询当前商户众包/众采年流水")
     public R queryCrowdYearTradeByEnterprise(BladeUser bladeUser) {
 
-        log.info("查询当前商户众包年流水");
+        log.info("查询当前商户众包/众采年流水");
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
@@ -341,16 +463,16 @@ public class SelfHelpInvoiceWebController {
 
             return selfHelpInvoiceService.queryCrowdYearTradeByEnterprise(enterpriseWorkerEntity.getEnterpriseId());
         } catch (Exception e) {
-            log.error("查询当前商户众包年流水异常", e);
+            log.error("查询当前商户众包/众采年流水异常", e);
         }
         return R.fail("查询失败");
     }
 
     @GetMapping("/query_crowd_year_trade_by_service_provider")
-    @ApiOperation(value = "查询当前服务商众包年流水", notes = "查询当前服务商众包年流水")
+    @ApiOperation(value = "查询当前服务商众包/众采年流水", notes = "查询当前服务商众包/众采年流水")
     public R queryCrowdYearTradeByServiceProvider(BladeUser bladeUser) {
 
-        log.info("查询当前服务商众包年流水");
+        log.info("查询当前服务商众包/众采年流水");
         try {
             //获取当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
@@ -361,16 +483,16 @@ public class SelfHelpInvoiceWebController {
 
             return selfHelpInvoiceService.queryCrowdYearTradeByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId());
         } catch (Exception e) {
-            log.error("查询当前服务商众包年流水异常", e);
+            log.error("查询当前服务商众包/众采年流水异常", e);
         }
         return R.fail("查询失败");
     }
 
     @GetMapping("/query_crowd_month_trade_by_enterprise")
-    @ApiOperation(value = "查询当前商户众包包本月流水", notes = "查询当前商户众包包本月流水")
+    @ApiOperation(value = "查询当前商户众包/众采本月流水", notes = "查询当前商户众包/众采本月流水")
     public R queryCrowdMonthTradeByEnterprise(BladeUser bladeUser) {
 
-        log.info("查询当前商户众包包本月流水");
+        log.info("查询当前商户众包/众采本月流水");
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
@@ -381,16 +503,16 @@ public class SelfHelpInvoiceWebController {
 
             return selfHelpInvoiceService.queryCrowdMonthTradeByEnterprise(enterpriseWorkerEntity.getEnterpriseId());
         } catch (Exception e) {
-            log.error("查询当前商户众包包本月流水异常", e);
+            log.error("查询当前商户众包/众采本月流水异常", e);
         }
         return R.fail("查询失败");
     }
 
     @GetMapping("/query_crowd_month_trade_by_service_provider")
-    @ApiOperation(value = "查询当前服务商众包包本月流水", notes = "查询当前服务商众包包本月流水")
+    @ApiOperation(value = "查询当前服务商众包/众采本月流水", notes = "查询当前服务商众包/众采本月流水")
     public R queryCrowdMonthTradeByServiceProvider(BladeUser bladeUser) {
 
-        log.info("查询当前服务商众包包本月流水");
+        log.info("查询当前服务商众包/众采本月流水");
         try {
             //获取当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
@@ -401,7 +523,7 @@ public class SelfHelpInvoiceWebController {
 
             return selfHelpInvoiceService.queryCrowdMonthTradeByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId());
         } catch (Exception e) {
-            log.error("查询当前服务商众包包本月流水异常", e);
+            log.error("查询当前服务商众包/众采本月流水异常", e);
         }
         return R.fail("查询失败");
     }

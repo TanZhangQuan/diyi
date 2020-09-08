@@ -7,8 +7,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 /**
  * 服务商开票明细：是从自助开票明细中选择过来的，信息是一致的 Entity
  *
@@ -48,8 +46,4 @@ public class SelfHelpInvoiceSpDetailEntity extends BaseEntity {
      */
     private String invoiceOperatePerson;
 
-    /**
-     * 更新日期
-     */
-    private Date updateDatetime;
 }

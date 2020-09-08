@@ -1,6 +1,7 @@
 package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.lgyun.common.enumeration.AcceptPaysheetType;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,7 +32,7 @@ public class AcceptPaysheetCsEntity extends BaseEntity {
     /**
      * 交付支付验收单类型：清单式，单人单张
      */
-    private String acceptPaysheetType;
+    private AcceptPaysheetType acceptPaysheetType;
 
     /**
      * 自助开票明细Id

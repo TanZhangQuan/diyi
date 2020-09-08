@@ -94,10 +94,10 @@ public class PayEnterpriseWebController {
     }
 
     @PostMapping("/upload")
-    @ApiOperation(value = "上传支付清单", notes = "上传支付清单")
+    @ApiOperation(value = "当前商户上传总包支付清单", notes = "当前商户上传总包支付清单")
     public R upload(@Valid @RequestBody PayEnterpriseUploadDto payEnterpriseUploadDto, BladeUser bladeUser) {
 
-        log.info("上传支付清单");
+        log.info("当前商户上传总包支付清单");
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
@@ -108,16 +108,16 @@ public class PayEnterpriseWebController {
 
             return payEnterpriseService.upload(payEnterpriseUploadDto, enterpriseWorkerEntity.getEnterpriseId());
         } catch (Exception e) {
-            log.error("上传支付清单异常", e);
+            log.error("当前商户上传总包支付清单异常", e);
         }
         return R.fail("上传失败");
     }
 
     @PostMapping("/submit")
-    @ApiOperation(value = "提交支付清单", notes = "提交支付清单")
+    @ApiOperation(value = "当前商户提交支付清单", notes = "当前商户提交支付清单")
     public R submit(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
 
-        log.info("提交支付清单");
+        log.info("当前商户提交支付清单");
         try {
             //获取当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
@@ -128,7 +128,7 @@ public class PayEnterpriseWebController {
 
             return payEnterpriseService.submit(payEnterpriseId, enterpriseWorkerEntity.getEnterpriseId());
         } catch (Exception e) {
-            log.error("提交支付清单异常", e);
+            log.error("提当前商户提交支付清单异常", e);
         }
         return R.fail("提交失败");
     }
@@ -299,7 +299,9 @@ public class PayEnterpriseWebController {
 
     @PostMapping("/audit")
     @ApiOperation(value = "支付清单审核", notes = "支付清单审核")
-    public R audit(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, @ApiParam(value = "支付清单审核状态") @NotNull(message = "请选择支付清单审核状态") @RequestParam(required = false) PayEnterpriseAuditState auditState, MakerInvoiceType makerInvoiceType, BladeUser bladeUser) {
+    public R audit(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId,
+                   @ApiParam(value = "支付清单审核状态") @NotNull(message = "请选择支付清单审核状态") @RequestParam(required = false) PayEnterpriseAuditState auditState,
+                   MakerInvoiceType makerInvoiceType, BladeUser bladeUser) {
 
         log.info("支付清单审核");
         try {

@@ -1,7 +1,7 @@
 package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.lgyun.common.enumeration.ApplyState;
+import com.lgyun.common.enumeration.SelfHelpInvoiceApplyState;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,7 +37,7 @@ public class SelfHelpInvoiceApplyEntity extends BaseEntity {
     /**
      * 申请状态
      */
-    private ApplyState applyState;
+    private SelfHelpInvoiceApplyState applyState;
 
     /**
      * 申请说明

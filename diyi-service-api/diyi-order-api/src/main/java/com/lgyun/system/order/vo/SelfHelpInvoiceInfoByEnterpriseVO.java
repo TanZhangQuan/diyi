@@ -2,8 +2,8 @@ package com.lgyun.system.order.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.lgyun.common.enumeration.ApplyState;
 import com.lgyun.common.enumeration.CrowdSourcingPayType;
+import com.lgyun.common.enumeration.SelfHelpInvoiceApplyState;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -69,7 +69,7 @@ public class SelfHelpInvoiceInfoByEnterpriseVO implements Serializable {
     /**
      * 当前状态：未申请，申请编辑中，审核中；已通过开票中；已驳回；已开票结束
      */
-    private ApplyState currentState;
+    private SelfHelpInvoiceApplyState currentState;
 
     /**
      * 开票时间

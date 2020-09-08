@@ -28,16 +28,16 @@ public class PayEnterpriseUploadDto implements Serializable {
     private Long serviceProviderId;
 
     /**
-     * 支付清单URL
-     */
-    @NotBlank(message = "请上传支付清单")
-    private String chargeListUrl;
-
-    /**
      * 创客类型
      */
     @NotNull(message = "请选择创客类型")
     private MakerType makerType;
+
+    /**
+     * 支付清单URL
+     */
+    @NotBlank(message = "请上传支付清单")
+    private String chargeListUrl;
 
     /**
      * 工单ID

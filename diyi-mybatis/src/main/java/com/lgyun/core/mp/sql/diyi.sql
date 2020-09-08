@@ -69,7 +69,8 @@ CREATE TABLE `diyi_accept_paysheet_cs` (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`self_help_invoice_id`,`self_help_invoice_detail_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='众包/众采交付支付验收单表';
 
 -- ----------------------------
@@ -386,7 +387,7 @@ CREATE TABLE `diyi_individual_business` (
   `logout_date_time` datetime DEFAULT NULL COMMENT '注销日期',
   `contact_name` varchar(50) NOT NULL COMMENT '联系人姓名',
   `contact_phone` varchar(50) NOT NULL COMMENT '联系人手机号',
-  `service_rat` decimal(5,2) NOT NULL DEFAULT '0.00' COMMENT '服务费率',
+  `service_rate` decimal(5,2) NOT NULL DEFAULT '0.00' COMMENT '服务费率',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
@@ -460,7 +461,7 @@ CREATE TABLE `diyi_individual_enterprise` (
   `logout_date_time` datetime DEFAULT NULL COMMENT '注销日期',
   `contact_name` varchar(50) NOT NULL COMMENT '联系人姓名',
   `contact_phone` varchar(50) NOT NULL COMMENT '联系人手机号',
-  `service_rat` decimal(5,2) NOT NULL DEFAULT '0.00' COMMENT '服务费率',
+  `service_rate` decimal(5,2) NOT NULL DEFAULT '0.00' COMMENT '服务费率',
   `investor_hand_commitment` varchar(500) NOT NULL DEFAULT '' COMMENT '手持承诺书照片',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
@@ -1212,11 +1213,6 @@ CREATE TABLE `diyi_self_help_invoice` (
   `confirm_price_person` varchar(50) NOT NULL DEFAULT '' COMMENT '核价人员',
   `confirm_price_datetime` datetime DEFAULT NULL COMMENT '核价时间',
   `address_id` bigint(50) NOT NULL COMMENT '收件地址Id',
-  `express_sheet_no` varchar(100) NOT NULL DEFAULT '' COMMENT '快递单号',
-  `express_company_name` varchar(100) NOT NULL DEFAULT '' COMMENT '快递公司名称',
-  `express_update_datetime` datetime DEFAULT NULL COMMENT '快递更新日期',
-  `express_update_person` varchar(50) NOT NULL DEFAULT '' COMMENT '快递更新人员',
-  `express_update_person_tel` varchar(50) NOT NULL DEFAULT '' COMMENT '快递更新人员电话',
   `extend_pay_invoices` varchar(500) NOT NULL DEFAULT '' COMMENT '扩展支付税费发票，多张间用“；”隔开。服务商开具',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
@@ -1226,7 +1222,6 @@ CREATE TABLE `diyi_self_help_invoice` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自助开票主表';
-
 -- ----------------------------
 -- Records of diyi_self_help_invoice
 -- ----------------------------
@@ -1321,18 +1316,22 @@ CREATE TABLE `diyi_self_help_invoice_detail` (
 DROP TABLE IF EXISTS `diyi_self_help_invoice_express`;
 CREATE TABLE `diyi_self_help_invoice_express` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `self_help_invoice_id` bigint(50) NOT NULL COMMENT '唯一性控制',
-  `address_id` bigint(50) NOT NULL COMMENT '地址id',
+  `self_help_invoice_apply_provider_id` bigint(50) NOT NULL COMMENT '自助开票服务商ID',
   `express_no` varchar(100) NOT NULL COMMENT '快递单号',
+  `express_company_name` varchar(100) NOT NULL COMMENT '快递公司',
   `express_file_url` varchar(500) NOT NULL COMMENT '快递回单或二维码',
+  `operate_person` varchar(500) NOT NULL COMMENT '处理人员',
+  `express_update_person_tel` varchar(50) NOT NULL COMMENT '快递更新人员电话',
+  `special_desc` varchar(500) NOT NULL DEFAULT '' COMMENT '特殊说明',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自助开票快递单号表';
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`self_help_invoice_apply_provider_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自助开票快递表';
 
 -- ----------------------------
 -- Records of diyi_self_help_invoice_express
@@ -1932,7 +1931,7 @@ CREATE TABLE `sys_user` (
   `email` varchar(50) NOT NULL DEFAULT '' COMMENT '邮箱',
   `phone` varchar(50) NOT NULL DEFAULT '' COMMENT '手机',
   `birthday` datetime DEFAULT NULL COMMENT '生日',
-  `sex` smallint(6) DEFAULT NULL COMMENT '性别',
+  `sex` int(1) DEFAULT NULL COMMENT '性别',
   `role_id` varchar(50) NOT NULL DEFAULT '' COMMENT '角色id',
   `dept_id` varchar(50) NOT NULL DEFAULT '' COMMENT '部门id',
   `post_id` varchar(50) NOT NULL DEFAULT '' COMMENT '岗位id',
@@ -1966,7 +1965,8 @@ CREATE TABLE `diyi_self_help_invoice_sp_detail` (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`self_help_invoice_detail_id`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商开票明细表';
 
 
@@ -1994,5 +1994,6 @@ CREATE TABLE `diyi_self_help_invoice_sp` (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`self_help_invoice_id`,`service_provider_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自助开票服务商关联表';

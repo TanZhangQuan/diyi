@@ -42,11 +42,6 @@ public class PayEnterpriseImportListener extends AnalysisEventListener<PayEnterp
      */
    private final PayEnterpriseEntity payEnterpriseEntity;
 
-    /**
-     * 分包支付回单
-     */
-    private final String payReceiptUrl;
-
     @Override
     public void invoke(PayEnterpriseExcel data, AnalysisContext context) {
         list.add(data);
@@ -54,7 +49,7 @@ public class PayEnterpriseImportListener extends AnalysisEventListener<PayEnterp
         // 达到BATCH_COUNT，则调用importer方法入库，防止数据几万条数据在内存，容易OOM
         if (list.size() >= batchCount) {
             // 调用importer方法
-            iPayMakerService.importMaker(list, payEnterpriseEntity, payReceiptUrl);
+            iPayMakerService.importMaker(list, payEnterpriseEntity);
             // 存储完成清理list
             list.clear();
         }
@@ -63,7 +58,7 @@ public class PayEnterpriseImportListener extends AnalysisEventListener<PayEnterp
     @Override
     public void doAfterAllAnalysed(AnalysisContext analysisContext) {
         // 调用importer方法
-        iPayMakerService.importMaker(list, payEnterpriseEntity, payReceiptUrl);
+        iPayMakerService.importMaker(list, payEnterpriseEntity);
         // 存储完成清理list
         list.clear();
     }
