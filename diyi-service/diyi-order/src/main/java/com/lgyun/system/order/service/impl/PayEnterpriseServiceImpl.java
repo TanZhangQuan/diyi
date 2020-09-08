@@ -1,7 +1,5 @@
 package com.lgyun.system.order.service.impl;
 
-import com.alibaba.excel.EasyExcel;
-import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
@@ -13,13 +11,6 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.PayEnterpriseMakerListDto;
 import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
-import com.lgyun.system.order.entity.InvoiceApplicationEntity;
-import com.lgyun.system.order.entity.PayEnterpriseEntity;
-import com.lgyun.system.order.entity.PayEnterpriseReceiptEntity;
-import com.lgyun.system.order.entity.WorksheetEntity;
-import com.lgyun.system.order.excel.PayEnterpriseExcel;
-import com.lgyun.system.order.excel.PayEnterpriseImportListener;
-import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
 import com.lgyun.system.order.entity.*;
 import com.lgyun.system.order.mapper.PayEnterpriseMapper;
 import com.lgyun.system.order.service.*;
@@ -31,19 +22,12 @@ import com.lgyun.system.user.vo.TransactionVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.hssf.record.crypto.Biff8DecryptingStream;
 import org.json.JSONArray;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.*;
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Service 实现
@@ -64,7 +48,6 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     private IPayMakerService payMakerService;
     private IPlatformInvoiceService platformInvoiceService;
     private IPlatformInvoicePayListService platformInvoicePayListService;
-    private IPayMakerService payMakerService;
     private IMakerTotalInvoiceService makerTotalInvoiceService;
     private IMakerInvoiceService makerInvoiceService;
     private IMakerTaxRecordService makerTaxRecordService;
@@ -213,11 +196,6 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     @Override
     public R getServiceProviderByEnterpriseId(Query query, Long enterpriseId, String serviceProviderName) {
         return userClient.getServiceProviderByEnterpriseId(query.getCurrent(), query.getSize(), enterpriseId, serviceProviderName);
-    }
-
-    @Override
-    public R<IPage<SelfHelpInvoicePayVO>> getSelfHelfInvoiceByEnterpriseId(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<SelfHelpInvoicePayVO> page) {
-        return selfHelpInvoiceService.getSelfHelfInvoiceByEnterpriseId(enterpriseId, selfHelpInvoicePayDto, page);
     }
 
     @Override
