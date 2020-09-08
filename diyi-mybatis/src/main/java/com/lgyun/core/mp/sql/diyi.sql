@@ -1926,7 +1926,7 @@ CREATE TABLE `sys_user` (
   `user_type` varchar(50) NOT NULL COMMENT '用户类型',
   `code` varchar(12) NOT NULL DEFAULT '' COMMENT '用户编号',
   `account` varchar(50) NOT NULL DEFAULT '' COMMENT '账号',
-  `password` varchar(50) NOT NULL DEFAULT '' COMMENT '密码',
+  `password` varchar(100) NOT NULL DEFAULT '' COMMENT '密码',
   `name` varchar(20) NOT NULL DEFAULT '' COMMENT '昵称',
   `real_name` varchar(10) NOT NULL DEFAULT '' COMMENT '真名',
   `avatar` varchar(500) NOT NULL DEFAULT '' COMMENT '头像',
@@ -1947,7 +1947,6 @@ CREATE TABLE `sys_user` (
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`user_type`,`phone`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`user_type`,`account`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
-
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
@@ -1968,7 +1967,7 @@ CREATE TABLE `diyi_self_help_invoice_sp_detail` (
   `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`self_help_invoice_detail_id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`self_help_invoice_detail_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商开票明细表';
 
 
