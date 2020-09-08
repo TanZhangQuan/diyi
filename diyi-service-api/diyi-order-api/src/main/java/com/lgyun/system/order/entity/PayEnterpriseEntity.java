@@ -131,10 +131,14 @@ public class PayEnterpriseEntity extends BaseEntity {
     private Long employeeId;
 
     /**
-     * 开票状态：未开，已开
+     * 总包开票状态：未开，已开
      */
     private InvoiceState companyInvoiceState = InvoiceState.UNOPEN;
 
+    /**
+     *分包开票状态：未开，已开
+     */
+    private InvoiceState subcontractingInvoiceState = InvoiceState.UNOPEN;
     /**
      * 开票日期
      */

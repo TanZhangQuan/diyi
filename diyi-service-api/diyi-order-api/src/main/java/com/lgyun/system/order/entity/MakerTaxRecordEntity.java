@@ -30,12 +30,12 @@ public class MakerTaxRecordEntity extends BaseEntity {
     private Long payMakerId;
 
     /**
-     * 票证号码
+     * 票证代码
      */
     private String voiceTypeNo;
 
     /**
-     * 金库名称
+     * 票证号码
      */
     private String voiceSerialNo;
 
@@ -45,37 +45,37 @@ public class MakerTaxRecordEntity extends BaseEntity {
     private BigDecimal makerTaxAmount;
 
     /**
-     * 填票人
+     * 价税合计
      */
     private BigDecimal totalAmount;
 
     /**
-     * 金额
+     * 金额合计
      */
     private BigDecimal salesamount;
 
     /**
-     * 纳税人名称
+     * 税额合计
      */
-    private String taxAmount;
+    private BigDecimal taxAmount;
 
     /**
-     * 纳税人识别号
+     * 开票人
      */
     private String voicePerson;
 
     /**
-     * 税务机关
+     * 销售方名称
      */
     private String saleCompany;
 
     /**
-     * 证明类型
+     * 代开机关名称
      */
-    private Integer helpMakeOrganationName;
+    private String helpMakeOrganationName;
 
     /**
-     * 税务机关
+     * 完税证明url
      */
     private String makerTaxUrl;
 

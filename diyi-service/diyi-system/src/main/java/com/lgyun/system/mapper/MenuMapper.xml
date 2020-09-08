@@ -16,6 +16,7 @@
         <result column="action" property="action"/>
         <result column="is_open" property="isOpen"/>
         <result column="remark" property="remark"/>
+        <result column="menu_type" property="menuType"/>
         <result column="is_deleted" property="isDeleted"/>
     </resultMap>
 
@@ -38,11 +39,7 @@
     </select>
 
     <select id="tree" resultMap="treeNodeResultMap">
-        select id, parent_id, name as title, id as 'value', id as 'key' from sys_menu where is_deleted = 0 and category = 1
-    </select>
-
-    <select id="allMenu" resultMap="menuResultMap">
-        select * from sys_menu where is_deleted = 0 and category = 1
+        select id, parent_id, name as title, id as 'value', id as 'key' from sys_menu where menu_type = #{param1} and is_deleted = 0 and category = 1
     </select>
 
     <select id="roleMenu" resultMap="menuResultMap">

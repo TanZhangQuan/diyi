@@ -1,18 +1,25 @@
 package com.lgyun.system.order.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
+import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.dto.PayEnterpriseMakerListDto;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.entity.PayMakerEntity;
+import com.lgyun.system.order.entity.*;
 import com.lgyun.system.order.excel.PayEnterpriseExcel;
 import com.lgyun.system.order.mapper.PayMakerMapper;
+import com.lgyun.system.order.service.IMakerInvoiceService;
+import com.lgyun.system.order.service.IMakerTaxRecordService;
 import com.lgyun.system.order.service.IPayMakerReceiptService;
 import com.lgyun.system.order.service.IPayMakerService;
 import com.lgyun.system.order.vo.PayEnterpriseMakersListVO;
+import com.lgyun.system.order.vo.PayMakerVO;
+import com.lgyun.system.order.vo.SelfHelpInvoiceAccountVO;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
@@ -24,6 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,6 +47,8 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
 
     private IUserClient iUserClient;
     private IPayMakerReceiptService payMakerReceiptService;
+    private IMakerInvoiceService makerInvoiceService;
+    private IMakerTaxRecordService makerTaxRecordService;
 
     @Override
     public R<IPage<PayEnterpriseMakersListVO>> getPayMakersByEnterprise(Long enterpriseId, Long serviceProviderId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page) {
@@ -240,6 +250,39 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
             save(payMakerEntity);
 
         }
+    }
+
+    @Override
+    public List<PayMakerVO> getPayEnterpriseId(Long payEnterpriseId) {
+        QueryWrapper<PayMakerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(PayMakerEntity::getPayEnterpriseId,payEnterpriseId);
+        List<PayMakerEntity> payMakerEntities = baseMapper.selectList(queryWrapper);
+        List<PayMakerVO> payMakerVOList = new ArrayList<>();
+        for (PayMakerEntity payMakerEntity: payMakerEntities) {
+            payMakerVOList.add(BeanUtil.copy(payMakerEntity, PayMakerVO.class));
+        }
+        return payMakerVOList;
+    }
+
+    @Override
+    public List<PayMakerVO> getPayEnterprise(Long payEnterpriseId) {
+        QueryWrapper<PayMakerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(PayMakerEntity::getPayEnterpriseId,payEnterpriseId);
+        List<PayMakerEntity> payMakerEntities = baseMapper.selectList(queryWrapper);
+        List<PayMakerVO> payMakerVOList = new ArrayList<>();
+        for (PayMakerEntity payMakerEntity: payMakerEntities) {
+            PayMakerVO payMakerVO = BeanUtil.copy(payMakerEntity, PayMakerVO.class);
+            MakerInvoiceEntity makerInvoiceEntity = makerInvoiceService.getById(payMakerEntity.getMakerId());
+            MakerTaxRecordEntity makerTaxRecordEntity = makerTaxRecordService.getById(payMakerEntity.getMakerId());
+            payMakerVO.setVoiceTypeNo(makerInvoiceEntity.getVoiceTypeNo());
+            payMakerVO.setVoiceSerialNo(makerInvoiceEntity.getVoiceSerialNo());
+            payMakerVO.setMakerVoiceUrl(makerInvoiceEntity.getMakerVoiceUrl());
+            payMakerVO.setTaxVoiceTypeNo(makerTaxRecordEntity.getVoiceTypeNo());
+            payMakerVO.setTaxVoiceSerialNo(makerTaxRecordEntity.getVoiceSerialNo());
+            payMakerVO.setMakerTaxUrl(makerTaxRecordEntity.getMakerTaxUrl());
+            payMakerVOList.add(payMakerVO);
+        }
+        return payMakerVOList;
     }
 
 }

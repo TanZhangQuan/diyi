@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.KdniaoTrackQueryUtil;
+import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
@@ -18,18 +19,25 @@ import com.lgyun.system.order.entity.PayEnterpriseReceiptEntity;
 import com.lgyun.system.order.entity.WorksheetEntity;
 import com.lgyun.system.order.excel.PayEnterpriseExcel;
 import com.lgyun.system.order.excel.PayEnterpriseImportListener;
+import com.lgyun.system.order.dto.SelfHelpInvoicePayDto;
+import com.lgyun.system.order.entity.*;
 import com.lgyun.system.order.mapper.PayEnterpriseMapper;
 import com.lgyun.system.order.service.*;
 import com.lgyun.system.order.vo.*;
+import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.EnterpriseProviderEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import com.lgyun.system.user.vo.TransactionVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hssf.record.crypto.Biff8DecryptingStream;
+import org.json.JSONArray;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.util.*;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.URL;
@@ -54,6 +62,12 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     private IInvoiceApplicationService invoiceApplicationService;
     private IWorksheetMakerService worksheetMakerService;
     private IPayMakerService payMakerService;
+    private IPlatformInvoiceService platformInvoiceService;
+    private IPlatformInvoicePayListService platformInvoicePayListService;
+    private IPayMakerService payMakerService;
+    private IMakerTotalInvoiceService makerTotalInvoiceService;
+    private IMakerInvoiceService makerInvoiceService;
+    private IMakerTaxRecordService makerTaxRecordService;
 
     @Override
     public R<IPage<InvoiceEnterpriseVO>> getEnterpriseAll(Long makerId, IPage<InvoiceEnterpriseVO> page) {
@@ -76,7 +90,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> upload(PayEnterpriseUploadDto payEnterpriseUploadDto, Long enterpriseId) throws Exception {
+    public R<String> upload(PayEnterpriseUploadDto payEnterpriseUploadDto, Long enterpriseId) {
 
         //判断服务商和商户是否关联
         EnterpriseProviderEntity enterpriseProviderEntity = userClient.findByEnterpriseIdServiceProviderId(enterpriseId, payEnterpriseUploadDto.getServiceProviderId());
@@ -138,20 +152,6 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             }
         }
 
-        //根据总包支付清单生成分包
-        String path = payEnterpriseUploadDto.getChargeListUrl();
-        String type = path.substring(path.lastIndexOf(".") + 1);
-        //根据文件后缀（xls/xlsx）进行判断
-        InputStream input = new URL(path).openStream();
-        if (!("xls".equals(type)) && !("xlsx".equals(type))) {
-            return R.fail("支付清单文件类型有误");
-        }
-
-        PayEnterpriseImportListener payEnterpriseImportListener = new PayEnterpriseImportListener(payMakerService, payEnterpriseEntity);
-        InputStream inputStream = new BufferedInputStream(input);
-        ExcelReaderBuilder builder = EasyExcel.read(inputStream, PayEnterpriseExcel.class, payEnterpriseImportListener);
-        builder.doReadAll();
-
         return R.success("上传支付清单成功");
     }
 
@@ -168,7 +168,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         }
 
         if (!(EnterprisePayState.TOPAY.equals(payEnterpriseEntity.getPayState())) && !(EnterprisePayState.PAYED.equals(payEnterpriseEntity.getPayState()))) {
-            return R.fail("总包支付的支付状态有误");
+            return R.fail("支付清单支付状态有误");
         }
 
         if (!(PayEnterpriseAuditState.EDITING.equals(payEnterpriseEntity.getAuditState())) && !(PayEnterpriseAuditState.REJECTED.equals(payEnterpriseEntity.getAuditState()))) {
@@ -213,6 +213,11 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     @Override
     public R getServiceProviderByEnterpriseId(Query query, Long enterpriseId, String serviceProviderName) {
         return userClient.getServiceProviderByEnterpriseId(query.getCurrent(), query.getSize(), enterpriseId, serviceProviderName);
+    }
+
+    @Override
+    public R<IPage<SelfHelpInvoicePayVO>> getSelfHelfInvoiceByEnterpriseId(Long enterpriseId, SelfHelpInvoicePayDto selfHelpInvoicePayDto, IPage<SelfHelpInvoicePayVO> page) {
+        return selfHelpInvoiceService.getSelfHelfInvoiceByEnterpriseId(enterpriseId, selfHelpInvoicePayDto, page);
     }
 
     @Override
@@ -416,6 +421,204 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     @Override
     public R<DayTradeVO> queryTotalSubDayTradeByServiceProvider(Long serviceProviderId) {
         return R.data(baseMapper.queryTotalSubDayTradeByServiceProvider(serviceProviderId));
+    }
+
+    @Override
+    public R getServiceLumpSumInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime,InvoiceState companyInvoiceState, IPage<InvoiceServiceLumpVO> page) {
+        return R.data(page.setRecords(baseMapper.getServiceLumpSumInvoice(serviceProviderId,enterpriseName,startTime,endTime,companyInvoiceState,page)));
+    }
+
+    @Override
+    public R getServiceLumpSumInvoiceDetails(Long payEnterpriseId) {
+        Map map = new HashMap();
+        List<InvoiceServiceLumpDetailsVO> lumpSumInvoiceDetails = baseMapper.getServiceLumpSumInvoiceDetails(payEnterpriseId);
+        if(lumpSumInvoiceDetails.size() > 0){
+            map.put("lumpSumInvoiceDetails",lumpSumInvoiceDetails.get(0));
+        }else{
+            R.fail("商户支付清单不存在！！！");
+        }
+        String enterprisePayReceiptUrl = payEnterpriseReceiptService.findEnterprisePayReceiptUrl(payEnterpriseId);
+        lumpSumInvoiceDetails.get(0).setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
+        String expressCompanyName = lumpSumInvoiceDetails.get(0).getExpressCompanyName();
+        String expressSheetNo = lumpSumInvoiceDetails.get(0).getExpressSheetNo();
+        KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
+        String orderTracesByJson = "";
+        try {
+            if (!StringUtil.isBlank(expressCompanyName) && !StringUtil.isBlank(expressSheetNo)) {
+                orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(expressCompanyName, expressSheetNo);
+                map.put("orderTracesByJson",orderTracesByJson);
+            }else{
+                map.put("orderTracesByJson","");
+            }
+        } catch (Exception e) {
+            log.error("查询物流错误", e);
+        }
+        return R.data(map);
+    }
+
+    @Override
+    @Transactional
+    public R saveServiceLumpSumInvoice(Long serviceProviderId, Long payEnterpriseId,String serviceProviderName, Long applicationId, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName,String invoiceDesc) {
+        PayEnterpriseEntity byId = getById(payEnterpriseId);
+        EnterpriseEntity enterpriseById = userClient.getEnterpriseById(byId.getEnterpriseId());
+
+        PlatformInvoiceEntity platformInvoiceEntity = new PlatformInvoiceEntity();
+        platformInvoiceEntity.setApplicationId(applicationId);
+        platformInvoiceEntity.setInvoicePrintDate(new Date());
+        //价税合计
+        platformInvoiceEntity.setInvoiceTotalAmount(new BigDecimal("0"));
+        platformInvoiceEntity.setInvoiceNumbers(1);
+        platformInvoiceEntity.setInvoicePrintPerson(serviceProviderName);
+        platformInvoiceEntity.setExpressSheetNo(expressSheetNo);
+        platformInvoiceEntity.setExpressCompanyName(expressCompanyName);
+        platformInvoiceEntity.setInvoiceDesc(invoiceDesc);
+        platformInvoiceService.save(platformInvoiceEntity);
+        PlatformInvoicePayListEntity platformInvoicePayListEntity = new PlatformInvoicePayListEntity();
+        platformInvoicePayListEntity.setPayEnterpriseId(payEnterpriseId);
+        platformInvoicePayListEntity.setInvoicePrintId(platformInvoiceEntity.getId());
+        platformInvoicePayListService.save(platformInvoicePayListEntity);
+        PlatformInvoiceListEntity platformInvoiceListEntity = new PlatformInvoiceListEntity();
+        platformInvoiceListEntity.setInvoicePrintId(platformInvoiceEntity.getId());
+        //发票代码
+        platformInvoiceListEntity.setInvoiceTypeNo(UUID.randomUUID().toString());
+        //发票号码
+        platformInvoiceListEntity.setInvoiceSerialNo(UUID.randomUUID().toString());
+        platformInvoiceListEntity.setInvoiceDatetime(new Date());
+        //价税合计
+        platformInvoiceListEntity.setTotalAmount(new BigDecimal("0"));
+        //金额合计
+        platformInvoiceListEntity.setSalesAmount(new BigDecimal("0"));
+        //税额合计
+        platformInvoiceListEntity.setTaxAmount(new BigDecimal("0"));
+        platformInvoiceListEntity.setInvoicePerson(serviceProviderName);
+        //销售方名称
+        platformInvoiceListEntity.setSaleCompany(enterpriseById.getEnterpriseName());
+        platformInvoiceListEntity.setCompanyInvoiceUrl(companyInvoiceUrl);
+        platformInvoiceListEntity.setCompanyVoiceUploadDatetime(new Date());
+        //更新商户支付清单的总包开票状态
+        byId.setCompanyInvoiceState(InvoiceState.OPENED);
+        save(byId);
+        return R.success("操作成功");
+    }
+
+    @Override
+    public R getSubcontractInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, IPage<InvoiceServiceSubVO> page) {
+        return R.data(page.setRecords(baseMapper.getSubcontractInvoice(serviceProviderId,enterpriseName,startTime,endTime,page)));
+    }
+
+    @Override
+    public R getSubcontractInvoiceDetails(Long payEnterpriseId) {
+        return R.data(baseMapper.getSubcontractInvoiceDetails(payEnterpriseId));
+    }
+
+    @Override
+    @Transactional
+    public R saveSummaryInvoice(Long serviceProviderId, Long payEnterpriseId, String serviceProviderName, String invoiceTypeNo, String invoiceSerialNo, String invoiceCategory, String companyInvoiceUrl, String makerTaxUrl, String makerTaxListUrl) {
+        PayEnterpriseEntity byId = getById(payEnterpriseId);
+        byId.setSubcontractingInvoiceState(InvoiceState.OPENED);
+        MakerTotalInvoiceEntity makerTotalInvoiceEntity = new MakerTotalInvoiceEntity();
+        makerTotalInvoiceEntity.setPayEnterpriseId(payEnterpriseId);
+        makerTotalInvoiceEntity.setInvoiceTypeNo(invoiceTypeNo);
+        makerTotalInvoiceEntity.setInvoiceSerialNo(invoiceSerialNo);
+        makerTotalInvoiceEntity.setInvoiceDatetime(new Date());
+        makerTotalInvoiceEntity.setInvoiceCategory(invoiceCategory);
+        makerTotalInvoiceEntity.setTotalAmount(new BigDecimal("0"));
+        makerTotalInvoiceEntity.setSalesAmount(new BigDecimal("0"));
+        makerTotalInvoiceEntity.setTotalAmount(new BigDecimal("0"));
+        makerTotalInvoiceEntity.setInvoicePerson(serviceProviderName);
+        makerTotalInvoiceEntity.setSaleCompany(serviceProviderName);
+        makerTotalInvoiceEntity.setCompanyInvoiceUrl(companyInvoiceUrl);
+        makerTotalInvoiceEntity.setCompanyVoiceUploadDatetime(new Date());
+        makerTotalInvoiceEntity.setMakerTaxUrl(makerTaxUrl);
+        makerTotalInvoiceEntity.setMakerTaxListUrl(makerTaxListUrl);
+        makerTotalInvoiceService.save(makerTotalInvoiceEntity);
+        saveOrUpdate(byId);
+        return R.success("汇总代开成功");
+    }
+
+    @Override
+    public R applyPortalSignInvoice(Long payEnterpriseId) {
+        Map map = new HashMap();
+        InvoiceServiceSubDetailsVO subcontractInvoiceDetail = baseMapper.getSubcontractInvoiceDetails(payEnterpriseId);
+        List<PayMakerVO> payMakerList = payMakerService.getPayEnterpriseId(payEnterpriseId);
+        map.put("payMakerList",payMakerList);
+        map.put("subcontractInvoiceDetail",subcontractInvoiceDetail);
+        return R.data(map);
+    }
+
+    @Override
+    @Transactional
+    public R savePortalSignInvoice(Long serviceProviderId, Long payEnterpriseId, String payMakers,String serviceProviderName) {
+        JSONArray payMakerArray = null;
+        payMakerArray = new JSONArray(payMakers);
+        for (int i = 0;i < payMakerArray.length() ; i++) {
+            String voiceTypeNo = payMakerArray.getJSONObject(i).get("voiceTypeNo").toString();
+            String voiceSerialNo = payMakerArray.getJSONObject(i).get("voiceSerialNo").toString();
+            String voiceCategory = payMakerArray.getJSONObject(i).get("voiceCategory").toString();
+            String helpMakeOrganationName = payMakerArray.getJSONObject(i).get("helpMakeOrganationName").toString();
+            String helpMakeCompany = payMakerArray.getJSONObject(i).get("helpMakeCompany").toString();
+            String makerVoiceUrl = payMakerArray.getJSONObject(i).get("makerVoiceUrl").toString();
+            String helpMakeTaxNo = payMakerArray.getJSONObject(i).get("helpMakeTaxNo").toString();
+            String payMakerId = payMakerArray.getJSONObject(i).get("payMakerId").toString();
+            String makerTaxRecord = payMakerArray.getJSONObject(i).get("makerTaxRecord").toString();
+            String taxAmount = payMakerArray.getJSONObject(i).get("taxAmount").toString();
+            PayMakerEntity byId = payMakerService.getById(payMakerId);
+            if(null == byId){
+                return R.fail("创客支付明细不存在");
+            }
+            String voicePerson = userClient.makerFindById(byId.getMakerId()).getName();
+            BigDecimal makerNeIncome = byId.getMakerNeIncome();
+            BigDecimal salesAmount = makerNeIncome.divide(new BigDecimal("1").add(new BigDecimal("0.03")),2);
+            MakerInvoiceEntity makerInvoiceEntity = new MakerInvoiceEntity(byId.getId(),voiceTypeNo,voiceSerialNo,new Date(),voiceCategory,byId.getMakerNeIncome(),salesAmount,new BigDecimal(taxAmount),voicePerson,helpMakeOrganationName,helpMakeOrganationName,helpMakeCompany,helpMakeTaxNo,makerVoiceUrl,new Date());
+            makerInvoiceService.save(makerInvoiceEntity);
+            if(StringUtil.isNotBlank(makerTaxRecord)){
+                JSONArray makerTaxRecordArray = new JSONArray(payMakers);
+                for (int j = 0;j < makerTaxRecordArray.length() ; j++) {
+                    String voiceTaxTypeNo = payMakerArray.getJSONObject(i).get("voiceTaxTypeNo").toString();
+                    String voiceTaxSerialNo = payMakerArray.getJSONObject(i).get("voiceTaxSerialNo").toString();
+                    String makerTaxUrl = payMakerArray.getJSONObject(i).get("makerTaxUrl").toString();
+                    String makerTaxAmount = payMakerArray.getJSONObject(i).get("makerTaxAmount").toString();
+                    MakerTaxRecordEntity makerTaxRecordEntity = new MakerTaxRecordEntity(byId.getId(),voiceTaxTypeNo,voiceTaxSerialNo,new BigDecimal(makerTaxAmount),byId.getMakerNeIncome(),salesAmount,new BigDecimal(taxAmount),voicePerson,helpMakeOrganationName,helpMakeOrganationName,makerTaxUrl,new Date(),new Date());
+                    makerTaxRecordService.save(makerTaxRecordEntity);
+                }
+            }
+        }
+        PayEnterpriseEntity byId = getById(payEnterpriseId);
+        byId.setSubcontractingInvoiceState(InvoiceState.OPENED);
+        saveOrUpdate(byId);
+        return R.success("操作成功");
+    }
+
+    @Override
+    public R getServiceSummaryInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime,IPage<InvoiceServiceSubVO> page) {
+        return R.data(page.setRecords(baseMapper.getServiceSummaryInvoice( serviceProviderId,  enterpriseName,  startTime,  endTime, page)));
+    }
+
+    @Override
+    public R getSummaryInvoiceDetails(Long payEnterpriseId) {
+        Map map = new HashMap();
+        InvoiceServiceSubDetailsVO subcontractInvoiceDetail = baseMapper.getSubcontractInvoiceDetails(payEnterpriseId);
+        List<PayMakerVO> payMakerList = payMakerService.getPayEnterpriseId(payEnterpriseId);
+        MakerTotalInvoiceVO makerTotalInvoiceVO = makerTotalInvoiceService.getPayEnterpriseId(payEnterpriseId);
+        map.put("payMakerList",payMakerList);
+        map.put("subcontractInvoiceDetail",subcontractInvoiceDetail);
+        map.put("makerTotalInvoiceVO",makerTotalInvoiceVO);
+        return R.data(map);
+    }
+
+    @Override
+    public R getServicePortalSignInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, IPage<InvoiceServiceSubVO> page) {
+        return R.data(page.setRecords(baseMapper.getServicePortalSignInvoice( serviceProviderId,  enterpriseName,  startTime,  endTime, page)));
+    }
+
+    @Override
+    public R getServicePortalSignInvoiceDetails(Long payEnterpriseId) {
+        Map map = new HashMap();
+        InvoiceServiceSubDetailsVO subcontractInvoiceDetail = baseMapper.getSubcontractInvoiceDetails(payEnterpriseId);
+        List<PayMakerVO> payMakerList = payMakerService.getPayEnterprise(payEnterpriseId);
+        map.put("payMakerList",payMakerList);
+        map.put("subcontractInvoiceDetail",subcontractInvoiceDetail);
+        return R.data(map);
     }
 
 }

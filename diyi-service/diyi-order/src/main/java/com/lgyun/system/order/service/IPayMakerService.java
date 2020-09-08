@@ -8,6 +8,7 @@ import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.entity.PayMakerEntity;
 import com.lgyun.system.order.excel.PayEnterpriseExcel;
 import com.lgyun.system.order.vo.PayEnterpriseMakersListVO;
+import com.lgyun.system.order.vo.PayMakerVO;
 
 import java.util.List;
 
@@ -31,11 +32,14 @@ public interface IPayMakerService extends BaseService<PayMakerEntity> {
     R<IPage<PayEnterpriseMakersListVO>> getPayMakersByEnterprise(Long enterpriseId, Long serviceProviderId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page);
 
     /**
-     * 上传分包支付清单
-     *
-     * @param list
-     * @param payEnterpriseEntity
+     * 根据商户支付清单id查询创客支付明细
      */
+    List<PayMakerVO> getPayEnterpriseId(Long payEnterpriseId);
+
+    /**
+     * 根据商户支付清单id查询创客支付明细和门征发票信息
+     */
+    List<PayMakerVO> getPayEnterprise(Long payEnterpriseId);
     void importMaker(List<PayEnterpriseExcel> list, PayEnterpriseEntity payEnterpriseEntity);
 }
 

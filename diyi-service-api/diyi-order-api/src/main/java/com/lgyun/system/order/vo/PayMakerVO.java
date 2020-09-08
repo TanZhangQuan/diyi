@@ -14,4 +14,34 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "PayMakerVO对象", description = "PayMakerVO对象")
 public class PayMakerVO extends PayMakerEntity {
+    /**
+     * 门征发票代码
+     */
+    private String voiceTypeNo;
+
+    /**
+     * 门征发票号码
+     */
+    private String voiceSerialNo;
+
+    /**
+     * 门征发票Url
+     */
+    private String makerVoiceUrl;
+
+
+    /**
+     * 门征发票完税证明代码
+     */
+    private String taxVoiceTypeNo;
+
+    /**
+     * 门征发票完税证明号码
+     */
+    private String  taxVoiceSerialNo;
+
+    /**
+     * 完税证明Url
+     */
+    private String makerTaxUrl;
 }

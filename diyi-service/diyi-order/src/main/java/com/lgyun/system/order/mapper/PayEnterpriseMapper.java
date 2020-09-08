@@ -2,6 +2,8 @@ package com.lgyun.system.order.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.system.order.dto.PayEnterpriseMakerListDto;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.*;
@@ -208,5 +210,54 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      */
     DayTradeVO queryTotalSubDayTradeByServiceProvider(Long serviceProviderId);
 
+    /**
+     * 服务商查询总包发票
+     * @param serviceProviderId
+     * @param enterpriseName
+     * @param startTime
+     * @param endTime
+     * @param page
+     * @return
+     */
+    List<InvoiceServiceLumpVO> getServiceLumpSumInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, InvoiceState companyInvoiceState, IPage<InvoiceServiceLumpVO> page);
+
+
+    /**
+     * 服务商查询总包发票详情
+     * @param payEnterpriseId
+     * @return
+     */
+    List<InvoiceServiceLumpDetailsVO> getServiceLumpSumInvoiceDetails(Long payEnterpriseId);
+
+
+    /**
+     * 服务商查询未开票分包发票
+     * @param serviceProviderId
+     * @param enterpriseName
+     * @param startTime
+     * @param endTime
+     * @param page
+     * @return
+     */
+   List<InvoiceServiceSubVO> getSubcontractInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, IPage<InvoiceServiceSubVO> page);
+
+    /**
+     * 服务商查看分包发票详情
+     * @param payEnterpriseId
+     * @return
+     */
+   InvoiceServiceSubDetailsVO getSubcontractInvoiceDetails(Long payEnterpriseId);
+
+
+    /**
+     *服务商查询已开票的汇总代开发票
+     */
+    List<InvoiceServiceSubVO> getServiceSummaryInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime,IPage<InvoiceServiceSubVO> page);
+
+
+    /**
+     * 服务商查询已开票的门征代开发票
+     */
+    List<InvoiceServiceSubVO> getServicePortalSignInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime,IPage<InvoiceServiceSubVO> page);
 }
 

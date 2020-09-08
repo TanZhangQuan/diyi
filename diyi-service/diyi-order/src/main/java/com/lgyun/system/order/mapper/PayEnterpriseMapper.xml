@@ -210,6 +210,78 @@
         <result property="twentyFourHourIncome" column="twenty_four_hour_income"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.order.vo.InvoiceServiceLumpVO" id="invoiceServiceLumpMap">
+        <result property="payEnterpriseId" column="pay_enterprise_id"/>
+        <result property="enterpriseId" column="enterprise_id"/>
+        <result property="applicationId" column="application_id"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="chargeListUrl" column="charge_list_url"/>
+        <result property="isPayEnterpriseReceipt" column="isPayEnterpriseReceipt"/>
+        <result property="isApplication" column="is_application"/>
+        <result property="companyInvoiceState" column="company_invoice_state"/>
+        <result property="invoiceDemondDesc" column="invoice_demond_desc"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.InvoiceServiceLumpDetailsVO" id="InvoiceServiceLumpDetailsMap">
+        <result property="payEnterpriseId" column="pay_enterprise_id"/>
+        <result property="enterpriseId" column="enterprise_id"/>
+        <result property="addressId" column="address_id"/>
+        <result property="invoicePrintId" column="invoice_print_id"/>
+        <result property="invoiceDetailId" column="invoice_detail_id"/>
+        <result property="payToPlatformAmount" column="pay_to_platform_amount"/>
+        <result property="invoiceCatalogName" column="invoice_catalog_name"/>
+        <result property="enterpriseName" column="enterprise_bame"/>
+        <result property="invoiceTaxNo" column="invoice_tax_no"/>
+        <result property="invoiceAddress" column="invoice_address"/>
+        <result property="invoiceTelNo" column="invoice_tel_no"/>
+        <result property="invoiceBankName" column="invoice_bank_name"/>
+        <result property="invoiceAccountName" column="invoice_account_name"/>
+        <result property="serviceProviderName" column="service_provider_name"/>
+        <result property="chargeListUrl" column="charge_list_url"/>
+        <result property="worksheetId" column="worksheet_id"/>
+        <result property="companyInvoiceState" column="company_invoice_state"/>
+        <result property="createTime" column="create_time"/>
+        <result property="addressName" column="address_name"/>
+        <result property="addressPhone" column="address_phone"/>
+        <result property="area" column="area"/>
+        <result property="city" column="city"/>
+        <result property="province" column="province"/>
+        <result property="detailedAddress" column="detailed_address"/>
+        <result property="expressSheetNo" column="express_sheet_no"/>
+        <result property="expressCompanyName" column="express_company_name"/>
+        <result property="companyInvoiceUrl" column="company_invoice_url"/>
+    </resultMap>
+
+    <resultMap id="invoiceServiceSubcontractMap" type="com.lgyun.system.order.vo.InvoiceServiceSubVO">
+        <result property="payEnterpriseId" column="pay_enterprise_id"/>
+        <result property="enterpriseId" column="enterprise_id"/>
+        <result property="makerInvoiceType" column="maker_invoice_type"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="chargeListUrl" column="charge_list_url"/>
+        <result property="isPayEnterpriseReceipt" column="isPayEnterpriseReceipt"/>
+        <result property="subcontractingInvoiceState" column="subcontracting_invoice_state"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.InvoiceServiceSubDetailsVO" id="invoiceServiceSubDetailsMap">
+        <result property="payEnterpriseId" column="pay_enterprise_id"/>
+        <result property="enterpriseId" column="enterprise_id"/>
+        <result property="payToPlatformAmount" column="pay_to_platform_amount"/>
+        <result property="enterpriseName" column="enterprise_bame"/>
+        <result property="invoiceTaxNo" column="invoice_tax_no"/>
+        <result property="invoiceAddress" column="invoice_address"/>
+        <result property="invoiceTelNo" column="invoice_tel_no"/>
+        <result property="invoiceBankName" column="invoice_bank_name"/>
+        <result property="invoiceAccountName" column="invoice_account_name"/>
+        <result property="serviceProviderName" column="service_provider_name"/>
+        <result property="chargeListUrl" column="charge_list_url"/>
+        <result property="worksheetId" column="worksheet_id"/>
+        <result property="subcontractingInvoiceState" column="subcontracting_invoice_state"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+
     <select id="getEnterpriseAll" resultMap="InvoiceEnterpriseVOMap">
         SELECT e.id AS enterprise_id, pe.id AS pay_enterprise_id, pm.id AS pay_maker_id, e.enterprise_name AS enterprise_name FROM diyi_enterprise e
         INNER JOIN diyi_pay_enterprise pe ON e.id = pe.enterprise_id INNER JOIN diyi_pay_maker pm ON pm.pay_enterprise_id = pe.id
@@ -523,4 +595,67 @@
         FROM diyi_pay_enterprise WHERE is_deleted = 0 AND pay_state = 'CONFIRMPAY' AND DATE(create_time) = DATE(NOW()) AND service_provider_id = #{param1}
     </select>
 
+    <select id="getServiceLumpSumInvoice" resultMap="invoiceServiceLumpMap">
+        SELECT pe.id AS pay_enterprise_id, e.id AS enterprise_id, ia.id AS application_id, e.enterprise_name, pe.charge_list_url, IF (( SELECT count(*) FROM diyi_pay_enterprise_receipt r WHERE r.pay_enterprise_id = pe.id ) > 0, '是', '否' ) AS isPayEnterpriseReceipt, IF (apl.id IS NULL, '否', '是') AS isApplication, pe.company_invoice_state,pe.invoice_demond_desc, pe.create_time FROM diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON e.id = pe.enterprise_id LEFT JOIN diyi_INVOICE_APPLICATION_PAY_LIST apl ON pe.id = apl.pay_enterprise_id LEFT JOIN diyi_invoice_application ia ON ia.id = apl.application_id
+            where pe.service_provider_id = #{param1} and pe.company_invoice_state = #{param5}
+        <if test="param2 !=null and param2 != ''">
+             AND e.enterprise_name like concat('%', #{param2}, '%')
+        </if>
+        <if test="param3 !=null and param3 != ''">
+             AND pe.create_time > #{param3}
+        </if>
+        <if test="param4 !=null and param4 != ''">
+             AND pe.create_time &lt; #{param4}
+        </if>
+    </select>
+
+    <select id="getServiceLumpSumInvoiceDetails" resultMap="InvoiceServiceLumpDetailsMap">
+        SELECT pe.id AS pay_enterprise_id, e.id AS enterprise_id, a.id AS address_id, pi.id AS invoice_print_id, pil.id AS invoice_detail_id, pe.pay_to_platform_amount, ( SELECT invoice_catalog_name FROM diyi_enterprise_provider_invoice_catalogs ic WHERE ic.id = ia.invoice_catalog_id ) AS invoice_catalog_name, e.enterprise_name, e.invoice_tax_no, e.invoice_address, e.invoice_tel_no, e.invoice_bank_name, e.invoice_account_name, sp.service_provider_name, pe.charge_list_url, pe.worksheet_id, pe.company_invoice_state, pe.create_time, a.address_name, a.address_phone, a.area, a.city, a.province, a.detailed_address, pi.express_sheet_no, pi.express_company_name, pil.company_invoice_url FROM diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON pe.enterprise_id = e.id INNER JOIN diyi_address a ON a.object_id = pe.enterprise_id and a.is_default =1 AND a.object_type = 'ENTERPRISEPEOPLE' INNER JOIN diyi_service_provider sp ON sp.id = pe.service_provider_id LEFT JOIN diyi_platform_invoice_pay_list pl ON pl.pay_enterprise_id = pe.id LEFT JOIN diyi_platform_invoice pi ON pl.invoice_print_id = pi.id LEFT JOIN diyi_platform_invoice_list pil ON pil.invoice_print_id = pi.id LEFT JOIN diyi_invoice_application_pay_list iapl ON iapl.pay_enterprise_id = pe.id LEFT JOIN diyi_invoice_application ia ON ia.id = iapl.application_id where pe.pay_enterprise_id=#{param1}
+    </select>
+
+    <select id="getSubcontractInvoice" resultMap="invoiceServiceSubcontractMap">
+        SELECT pe.id AS pay_enterprise_id, e.id AS enterprise_id,pe.maker_invoice_type, e.enterprise_name, pe.charge_list_url, IF (( SELECT COUNT(*) FROM diyi_PAY_ENTERPRISE_RECEIPT per WHERE per.pay_enterprise_id = pe.id ) > 0, '是', '否' ) AS isPayEnterpriseReceipt, pe.subcontracting_invoice_state, pe.create_time FROM diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON e.id = pe.enterprise_id
+         where pe.service_provider_id = #{param1} and pe.subcontracting_invoice_state = 'UNOPEN'
+        <if test="param2 !=null and param2 != ''">
+            AND e.enterprise_name like concat('%', #{param2}, '%')
+        </if>
+        <if test="param3 !=null and param3 != ''">
+            AND pe.create_time > #{param3}
+        </if>
+        <if test="param4 !=null and param4 != ''">
+            AND pe.create_time &lt; #{param4}
+        </if>
+    </select>
+
+    <select id="getSubcontractInvoiceDetails" resultMap="invoiceServiceSubDetailsMap">
+        SELECT pe.id AS pay_enterprise_id, e.id AS enterprise_id, pe.pay_to_platform_amount, e.enterprise_name, e.invoice_tax_no, e.invoice_address, e.invoice_tel_no, e.invoice_bank_name, e.invoice_account_name, sp.service_provider_name, pe.charge_list_url, pe.worksheet_id, pe.subcontracting_invoice_state, pe.create_time FROM diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON pe.enterprise_id = e.id INNER JOIN diyi_service_provider sp ON sp.id = pe.service_provider_id where pe.pay_enterprise_id=#{param1}
+    </select>
+
+    <select id="getServiceSummaryInvoice" resultMap="invoiceServiceSubcontractMap">
+        SELECT pe.id AS pay_enterprise_id, e.id AS enterprise_id, pe.maker_invoice_type, e.enterprise_name, pe.charge_list_url, IF (( SELECT COUNT(*) FROM diyi_PAY_ENTERPRISE_RECEIPT per WHERE per.pay_enterprise_id = pe.id ) > 0, '是', '否' ) AS isPayEnterpriseReceipt, pe.subcontracting_invoice_state, pe.create_time FROM diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON e.id = pe.enterprise_id INNER JOIN diyi_MAKER_TOTAL_INVOICE m ON m.pay_enterprise_id = pe.id
+         where pe.service_provider_id = #{param1} and pe.subcontracting_invoice_state = 'OPENED'
+        <if test="param2 !=null and param2 != ''">
+             AND e.enterprise_name like concat('%', #{param2}, '%')
+        </if>
+        <if test="param3 !=null and param3 != ''">
+             AND pe.create_time > #{param3}
+        </if>
+        <if test="param4 !=null and param4 != ''">
+             AND pe.create_time &lt; #{param4}
+        </if>
+    </select>
+
+    <select id="getServicePortalSignInvoice"  resultMap="invoiceServiceSubcontractMap">
+        SELECT pe.id AS pay_enterprise_id, e.id AS enterprise_id, pe.maker_invoice_type, e.enterprise_name, pe.charge_list_url, IF (( SELECT COUNT(*) FROM diyi_PAY_ENTERPRISE_RECEIPT per WHERE per.pay_enterprise_id = pe.id ) > 0, '是', '否' ) AS isPayEnterpriseReceipt, pe.subcontracting_invoice_state, pe.create_time FROM diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON e.id = pe.enterprise_id INNER JOIN diyi_pay_maker pm ON pm.pay_enterprise_id = pe.id INNER JOIN diyi_maker_invoice mi ON mi.pay_maker_id = pm.id
+        where pe.service_provider_id = #{param1} and pe.subcontracting_invoice_state = 'OPENED'
+        <if test="param2 !=null and param2 != ''">
+            AND e.enterprise_name like concat('%', #{param2}, '%')
+        </if>
+        <if test="param3 !=null and param3 != ''">
+            AND pe.create_time > #{param3}
+        </if>
+        <if test="param4 !=null and param4 != ''">
+            AND pe.create_time &lt; #{param4}
+        </if>
+    </select>
 </mapper>

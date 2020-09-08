@@ -1,6 +1,7 @@
 package com.lgyun.system.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.node.TreeNode;
 import com.lgyun.system.entity.Menu;
 import com.lgyun.system.service.IMenuService;
@@ -122,8 +123,13 @@ public class MenuController extends BladeController {
 	 */
 	@GetMapping("/tree")
 	@ApiOperation(value = "树形结构", notes = "树形结构")
-	public R<List<TreeNode>> tree() {
-		List<TreeNode> tree = menuService.tree();
+	public R<List<TreeNode>> tree(BladeUser user) {
+		//获取当前创客
+		R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(user);
+		if (!(result.isSuccess())) {
+			return R.fail("当前登录用户失效");
+		}
+		List<TreeNode> tree = menuService.tree(UserType.ENTERPRISE.getValue());
 		return R.data(tree);
 	}
 

@@ -23,11 +23,11 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping("/service")
+@RequestMapping("/service/agreement")
 @Validated
 @AllArgsConstructor
 @Api(value = "(服务商)合同相关相关接口", tags = "(服务商)合同相关相关接口")
-public class ServiceAgreementController {
+public class AgreementServiceController {
 
     private IAgreementService iAgreementService;
 
