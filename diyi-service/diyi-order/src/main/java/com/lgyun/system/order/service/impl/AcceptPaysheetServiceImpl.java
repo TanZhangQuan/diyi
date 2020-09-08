@@ -25,6 +25,7 @@ import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service 实现
@@ -57,6 +58,7 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
     }
 
     @Override
+    @Transactional
     public R<String> upload(AcceptPaysheetSaveDto acceptPaysheetSaveDto, EnterpriseWorkerEntity enterpriseWorkerEntity) {
 
         //判断支付清单是否存在

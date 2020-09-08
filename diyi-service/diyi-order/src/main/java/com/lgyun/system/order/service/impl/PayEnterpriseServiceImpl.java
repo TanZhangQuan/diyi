@@ -24,6 +24,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.record.crypto.Biff8DecryptingStream;
+import org.json.JSONArray;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,6 +50,10 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     private IWorksheetMakerService worksheetMakerService;
     private IPlatformInvoiceService platformInvoiceService;
     private IPlatformInvoicePayListService platformInvoicePayListService;
+    private IPayMakerService payMakerService;
+    private IMakerTotalInvoiceService makerTotalInvoiceService;
+    private IMakerInvoiceService makerInvoiceService;
+    private IMakerTaxRecordService makerTaxRecordService;
 
     @Override
     public R<IPage<InvoiceEnterpriseVO>> getEnterpriseAll(Long makerId, IPage<InvoiceEnterpriseVO> page) {
@@ -476,12 +481,130 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         platformInvoiceListEntity.setSaleCompany(enterpriseById.getEnterpriseName());
         platformInvoiceListEntity.setCompanyInvoiceUrl(companyInvoiceUrl);
         platformInvoiceListEntity.setCompanyVoiceUploadDatetime(new Date());
+        //更新商户支付清单的总包开票状态
+        byId.setCompanyInvoiceState(InvoiceState.OPENED);
+        save(byId);
         return R.success("操作成功");
     }
 
     @Override
-    public R getServiceSummaryInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, InvoiceState companyInvoiceState, IPage<InvoiceServiceSummaryVO> page) {
-        return R.data(page.setRecords(baseMapper.getServiceSummaryInvoice(serviceProviderId,enterpriseName,startTime,endTime,companyInvoiceState,page)));
+    public R getSubcontractInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, IPage<InvoiceServiceSubVO> page) {
+        return R.data(page.setRecords(baseMapper.getSubcontractInvoice(serviceProviderId,enterpriseName,startTime,endTime,page)));
+    }
+
+    @Override
+    public R getSubcontractInvoiceDetails(Long payEnterpriseId) {
+        return R.data(baseMapper.getSubcontractInvoiceDetails(payEnterpriseId));
+    }
+
+    @Override
+    @Transactional
+    public R saveSummaryInvoice(Long serviceProviderId, Long payEnterpriseId, String serviceProviderName, String invoiceTypeNo, String invoiceSerialNo, String invoiceCategory, String companyInvoiceUrl, String makerTaxUrl, String makerTaxListUrl) {
+        PayEnterpriseEntity byId = getById(payEnterpriseId);
+        byId.setSubcontractingInvoiceState(InvoiceState.OPENED);
+        MakerTotalInvoiceEntity makerTotalInvoiceEntity = new MakerTotalInvoiceEntity();
+        makerTotalInvoiceEntity.setPayEnterpriseId(payEnterpriseId);
+        makerTotalInvoiceEntity.setInvoiceTypeNo(invoiceTypeNo);
+        makerTotalInvoiceEntity.setInvoiceSerialNo(invoiceSerialNo);
+        makerTotalInvoiceEntity.setInvoiceDatetime(new Date());
+        makerTotalInvoiceEntity.setInvoiceCategory(invoiceCategory);
+        makerTotalInvoiceEntity.setTotalAmount(new BigDecimal("0"));
+        makerTotalInvoiceEntity.setSalesAmount(new BigDecimal("0"));
+        makerTotalInvoiceEntity.setTotalAmount(new BigDecimal("0"));
+        makerTotalInvoiceEntity.setInvoicePerson(serviceProviderName);
+        makerTotalInvoiceEntity.setSaleCompany(serviceProviderName);
+        makerTotalInvoiceEntity.setCompanyInvoiceUrl(companyInvoiceUrl);
+        makerTotalInvoiceEntity.setCompanyVoiceUploadDatetime(new Date());
+        makerTotalInvoiceEntity.setMakerTaxUrl(makerTaxUrl);
+        makerTotalInvoiceEntity.setMakerTaxListUrl(makerTaxListUrl);
+        makerTotalInvoiceService.save(makerTotalInvoiceEntity);
+        saveOrUpdate(byId);
+        return R.success("汇总代开成功");
+    }
+
+    @Override
+    public R applyPortalSignInvoice(Long payEnterpriseId) {
+        Map map = new HashMap();
+        InvoiceServiceSubDetailsVO subcontractInvoiceDetail = baseMapper.getSubcontractInvoiceDetails(payEnterpriseId);
+        List<PayMakerVO> payMakerList = payMakerService.getPayEnterpriseId(payEnterpriseId);
+        map.put("payMakerList",payMakerList);
+        map.put("subcontractInvoiceDetail",subcontractInvoiceDetail);
+        return R.data(map);
+    }
+
+    @Override
+    @Transactional
+    public R savePortalSignInvoice(Long serviceProviderId, Long payEnterpriseId, String payMakers,String serviceProviderName) {
+        JSONArray payMakerArray = null;
+        payMakerArray = new JSONArray(payMakers);
+        for (int i = 0;i < payMakerArray.length() ; i++) {
+            String voiceTypeNo = payMakerArray.getJSONObject(i).get("voiceTypeNo").toString();
+            String voiceSerialNo = payMakerArray.getJSONObject(i).get("voiceSerialNo").toString();
+            String voiceCategory = payMakerArray.getJSONObject(i).get("voiceCategory").toString();
+            String helpMakeOrganationName = payMakerArray.getJSONObject(i).get("helpMakeOrganationName").toString();
+            String helpMakeCompany = payMakerArray.getJSONObject(i).get("helpMakeCompany").toString();
+            String makerVoiceUrl = payMakerArray.getJSONObject(i).get("makerVoiceUrl").toString();
+            String helpMakeTaxNo = payMakerArray.getJSONObject(i).get("helpMakeTaxNo").toString();
+            String payMakerId = payMakerArray.getJSONObject(i).get("payMakerId").toString();
+            String makerTaxRecord = payMakerArray.getJSONObject(i).get("makerTaxRecord").toString();
+            String taxAmount = payMakerArray.getJSONObject(i).get("taxAmount").toString();
+            PayMakerEntity byId = payMakerService.getById(payMakerId);
+            if(null == byId){
+                return R.fail("创客支付明细不存在");
+            }
+            String voicePerson = userClient.makerFindById(byId.getMakerId()).getName();
+            BigDecimal makerNeIncome = byId.getMakerNeIncome();
+            BigDecimal salesAmount = makerNeIncome.divide(new BigDecimal("1").add(new BigDecimal("0.03")),2);
+            MakerInvoiceEntity makerInvoiceEntity = new MakerInvoiceEntity(byId.getId(),voiceTypeNo,voiceSerialNo,new Date(),voiceCategory,byId.getMakerNeIncome(),salesAmount,new BigDecimal(taxAmount),voicePerson,helpMakeOrganationName,helpMakeOrganationName,helpMakeCompany,helpMakeTaxNo,makerVoiceUrl,new Date());
+            makerInvoiceService.save(makerInvoiceEntity);
+            if(StringUtil.isNotBlank(makerTaxRecord)){
+                JSONArray makerTaxRecordArray = new JSONArray(payMakers);
+                for (int j = 0;j < makerTaxRecordArray.length() ; j++) {
+                    String voiceTaxTypeNo = payMakerArray.getJSONObject(i).get("voiceTaxTypeNo").toString();
+                    String voiceTaxSerialNo = payMakerArray.getJSONObject(i).get("voiceTaxSerialNo").toString();
+                    String makerTaxUrl = payMakerArray.getJSONObject(i).get("makerTaxUrl").toString();
+                    String makerTaxAmount = payMakerArray.getJSONObject(i).get("makerTaxAmount").toString();
+                    MakerTaxRecordEntity makerTaxRecordEntity = new MakerTaxRecordEntity(byId.getId(),voiceTaxTypeNo,voiceTaxSerialNo,new BigDecimal(makerTaxAmount),byId.getMakerNeIncome(),salesAmount,new BigDecimal(taxAmount),voicePerson,helpMakeOrganationName,helpMakeOrganationName,makerTaxUrl,new Date(),new Date());
+                    makerTaxRecordService.save(makerTaxRecordEntity);
+                }
+            }
+        }
+        PayEnterpriseEntity byId = getById(payEnterpriseId);
+        byId.setSubcontractingInvoiceState(InvoiceState.OPENED);
+        saveOrUpdate(byId);
+        return R.success("操作成功");
+    }
+
+    @Override
+    public R getServiceSummaryInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime,IPage<InvoiceServiceSubVO> page) {
+        return R.data(page.setRecords(baseMapper.getServiceSummaryInvoice( serviceProviderId,  enterpriseName,  startTime,  endTime, page)));
+    }
+
+    @Override
+    public R getSummaryInvoiceDetails(Long payEnterpriseId) {
+        Map map = new HashMap();
+        InvoiceServiceSubDetailsVO subcontractInvoiceDetail = baseMapper.getSubcontractInvoiceDetails(payEnterpriseId);
+        List<PayMakerVO> payMakerList = payMakerService.getPayEnterpriseId(payEnterpriseId);
+        MakerTotalInvoiceVO makerTotalInvoiceVO = makerTotalInvoiceService.getPayEnterpriseId(payEnterpriseId);
+        map.put("payMakerList",payMakerList);
+        map.put("subcontractInvoiceDetail",subcontractInvoiceDetail);
+        map.put("makerTotalInvoiceVO",makerTotalInvoiceVO);
+        return R.data(map);
+    }
+
+    @Override
+    public R getServicePortalSignInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, IPage<InvoiceServiceSubVO> page) {
+        return R.data(page.setRecords(baseMapper.getServicePortalSignInvoice( serviceProviderId,  enterpriseName,  startTime,  endTime, page)));
+    }
+
+    @Override
+    public R getServicePortalSignInvoiceDetails(Long payEnterpriseId) {
+        Map map = new HashMap();
+        InvoiceServiceSubDetailsVO subcontractInvoiceDetail = baseMapper.getSubcontractInvoiceDetails(payEnterpriseId);
+        List<PayMakerVO> payMakerList = payMakerService.getPayEnterprise(payEnterpriseId);
+        map.put("payMakerList",payMakerList);
+        map.put("subcontractInvoiceDetail",subcontractInvoiceDetail);
+        return R.data(map);
     }
 
 }

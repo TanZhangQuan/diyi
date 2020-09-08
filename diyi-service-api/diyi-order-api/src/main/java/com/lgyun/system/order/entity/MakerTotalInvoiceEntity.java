@@ -75,7 +75,7 @@ public class MakerTotalInvoiceEntity extends BaseEntity {
     private String saleCompany;
 
     /**
-     * 总包发票URL
+     * 汇总发票URL
      */
     private String companyInvoiceUrl;
 
