@@ -231,15 +231,33 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
 
 
     /**
-     * 服务商查询汇总代开发票
+     * 服务商查询未开票分包发票
      * @param serviceProviderId
      * @param enterpriseName
      * @param startTime
      * @param endTime
-     * @param companyInvoiceState
      * @param page
      * @return
      */
-   List<InvoiceServiceSummaryVO> getServiceSummaryInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, InvoiceState companyInvoiceState, IPage<InvoiceServiceSummaryVO> page);
+   List<InvoiceServiceSubVO> getSubcontractInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, IPage<InvoiceServiceSubVO> page);
+
+    /**
+     * 服务商查看分包发票详情
+     * @param payEnterpriseId
+     * @return
+     */
+   InvoiceServiceSubDetailsVO getSubcontractInvoiceDetails(Long payEnterpriseId);
+
+
+    /**
+     *服务商查询已开票的汇总代开发票
+     */
+    List<InvoiceServiceSubVO> getServiceSummaryInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime,IPage<InvoiceServiceSubVO> page);
+
+
+    /**
+     * 服务商查询已开票的门征代开发票
+     */
+    List<InvoiceServiceSubVO> getServicePortalSignInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime,IPage<InvoiceServiceSubVO> page);
 }
 

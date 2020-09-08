@@ -304,15 +304,57 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R saveServiceLumpSumInvoice(Long serviceProviderId,Long payEnterpriseId,String serviceProviderName,Long applicationId,String companyInvoiceUrl,String expressSheetNo,String expressCompanyName,String invoiceDesc);
 
     /**
-     * 服务商查询汇总代开发票
+     * 服务商查询未开票分包发票
      * @param serviceProviderId
      * @param enterpriseName
      * @param startTime
      * @param endTime
-     * @param companyInvoiceState
      * @param page
      * @return
      */
-    R getServiceSummaryInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, InvoiceState companyInvoiceState,IPage<InvoiceServiceSummaryVO> page);
+    R getSubcontractInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime,IPage<InvoiceServiceSubVO> page);
+
+
+    /**
+     * 服务商查看未开票分包发票详情
+     * @param payEnterpriseId
+     * @return
+     */
+    R getSubcontractInvoiceDetails(Long payEnterpriseId);
+
+    /**
+     * 服务商总包开票
+     */
+    R saveSummaryInvoice(Long serviceProviderId,Long payEnterpriseId,String serviceProviderName,String invoiceTypeNo,String invoiceSerialNo,String invoiceCategory,String companyInvoiceUrl,String makerTaxUrl,String makerTaxListUrl);
+
+    /**
+     * 服务商申请门征单开发票
+     */
+    R applyPortalSignInvoice(Long payEnterpriseId);
+
+    /**
+     * 服务商门征单开发票开票
+     */
+    R savePortalSignInvoice(Long serviceProviderId,Long payEnterpriseId,String payMakers,String serviceProviderName);
+
+    /**
+     * 服务商查询已开票的汇总代开发票
+     */
+    R getServiceSummaryInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime,IPage<InvoiceServiceSubVO> page);
+
+    /**
+     * 服务商查询已开票的汇总代开发票详情
+     */
+    R getSummaryInvoiceDetails(Long payEnterpriseId);
+
+    /**
+     * 服务商查询已门征单开的发票
+     */
+    R getServicePortalSignInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime,IPage<InvoiceServiceSubVO> page);
+
+    /**
+     * 服务商查询已门征单开的发票详情
+     */
+    R getServicePortalSignInvoiceDetails(Long payEnterpriseId);
 }
 
