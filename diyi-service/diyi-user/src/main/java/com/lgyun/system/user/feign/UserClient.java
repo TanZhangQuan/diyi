@@ -31,7 +31,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UserClient implements IUserClient {
 
-    private IUserService service;
+    private IUserService iUserService;
     private IMakerService iMakerService;
     private IMakerEnterpriseService iMakerEnterpriseService;
     private IIndividualEnterpriseService iIndividualEnterpriseService;
@@ -44,23 +44,23 @@ public class UserClient implements IUserClient {
     @Override
     @GetMapping(API_PREFIX + "/user-info-by-id")
     public UserInfo userInfo(Long userId, UserType userType) {
-        return service.userInfo(userId, userType);
+        return iUserService.userInfo(userId, userType);
     }
 
     @Override
     @GetMapping(API_PREFIX + "/phone")
     public UserInfo userInfoByPhone(String phone, UserType userType) {
-        return service.userInfoByPhone(phone, userType);
+        return iUserService.userInfoByPhone(phone, userType);
     }
 
     @Override
     public User userByPhone(String phone) {
-        return service.findByPhone(phone);
+        return iUserService.findByPhone(phone);
     }
 
     @Override
     public UserInfo userInfo(String account, String password, UserType userType) {
-        return service.userInfo(account, password, userType);
+        return iUserService.userInfo(account, password, userType);
     }
 
     @Override
@@ -253,6 +253,11 @@ public class UserClient implements IUserClient {
     }
 
     @Override
+    public R<User> currentUser(BladeUser bladeUser) {
+        return iUserService.currentUser(bladeUser);
+    }
+
+    @Override
     public EnterpriseProviderEntity findByEnterpriseIdServiceProviderId(Long enterpriseId, Long serviceProviderId) {
         return iEnterpriseProviderService.findByEnterpriseIdServiceProviderId(enterpriseId, serviceProviderId);
     }
@@ -279,7 +284,7 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public MakerEntity makerAdd(String name, String idcardNo, String phoneNumber,Long enterpriseId) {
+    public MakerEntity makerAdd(String name, String idcardNo, String phoneNumber, Long enterpriseId) {
         MakerAddDto makerAddDto = new MakerAddDto();
         makerAddDto.setName(name);
         makerAddDto.setIdcardNo(idcardNo);
@@ -289,7 +294,7 @@ public class UserClient implements IUserClient {
 
     @Override
     public void makerEnterpriseAdd(Long enterpriseId, Long makerId) {
-        iMakerEnterpriseService.makerEnterpriseEntitySave(enterpriseId,makerId);
+        iMakerEnterpriseService.makerEnterpriseEntitySave(enterpriseId, makerId);
     }
 
     @Override

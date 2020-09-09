@@ -234,6 +234,15 @@ public interface IUserClient {
     R<ServiceProviderWorkerEntity> currentServiceProviderWorker(@RequestBody BladeUser bladeUser);
 
     /**
+     * 根据user_id获取管理员
+     *
+     * @param bladeUser
+     * @return
+     */
+    @PostMapping(API_PREFIX + "/current_user")
+    R<User> currentUser(@RequestBody BladeUser bladeUser);
+
+    /**
      * 根据创客姓名分页查询
      *
      * @param current

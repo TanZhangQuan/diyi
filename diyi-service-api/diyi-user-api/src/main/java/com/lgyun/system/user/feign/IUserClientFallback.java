@@ -132,6 +132,11 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
+    public R<User> currentUser(BladeUser bladeUser) {
+        return R.fail("网络繁忙，请稍后尝试");
+    }
+
+    @Override
     public EnterpriseProviderEntity findByEnterpriseIdServiceProviderId(Long enterpriseId, Long serviceProviderId) {
         return null;
     }
