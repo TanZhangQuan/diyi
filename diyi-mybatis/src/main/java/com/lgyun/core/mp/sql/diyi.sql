@@ -1924,6 +1924,7 @@ CREATE TABLE `sys_user` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `tenant_id` varchar(12) DEFAULT '000000' COMMENT '租户ID',
   `user_type` varchar(50) NOT NULL COMMENT '用户类型',
+  `user_state` varchar(50) NOT NULL COMMENT '用户状态',
   `code` varchar(12) NOT NULL DEFAULT '' COMMENT '用户编号',
   `account` varchar(50) NOT NULL DEFAULT '' COMMENT '账号',
   `password` varchar(100) NOT NULL DEFAULT '' COMMENT '密码',
@@ -1950,7 +1951,7 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1123598821738675201', '000000', 'ADMIN', '', 'admin', '90b9aa7e25f80cf4f64e990b78a9fc5ebd6cecad', '管理员', '管理员', '', 'admin@bladex.vip', '22233322', '2018-08-08 00:00:00', '1', '1123598816738675201', '1123598813738675201', '1123598817738675201', null, '2018-08-08 00:00:00', null, '2018-08-08 00:00:00', '1', '0');
+INSERT INTO `sys_user` VALUES ('1123598821738675201', '000000', 'ADMIN', 'NORMAL', '', 'admin', '10470c3b4b1fed12c3baac014be15fac67c6e815', '管理员', '管理员', '', 'admin@bladex.vip', '22233322', '2018-08-08 00:00:00', '1', '1123598816738675201', '1123598813738675201', '1123598817738675201', null, '2018-08-08 00:00:00', null, '2018-08-08 00:00:00', '1', '0');
 
 DROP TABLE IF EXISTS `diyi_self_help_invoice_sp_detail`;
 CREATE TABLE `diyi_self_help_invoice_sp_detail` (

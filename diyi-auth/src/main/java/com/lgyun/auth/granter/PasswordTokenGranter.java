@@ -4,22 +4,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.lgyun.auth.utils.TokenUtil;
 import com.lgyun.auth.utils.WechatUtil;
 import com.lgyun.common.api.R;
-import com.lgyun.common.cache.CacheNames;
-import com.lgyun.common.constant.CommonConstant;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.AuthInfo;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.common.tool.RedisUtil;
-import com.lgyun.common.tool.StringUtil;
-import com.lgyun.common.tool.WebUtil;
 import com.lgyun.system.user.entity.UserInfo;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * PasswordTokenGranter
@@ -84,7 +78,7 @@ public class PasswordTokenGranter implements ITokenGranter {
 
             case SERVICEPROVIDER:
                 //服务商处理
-                res = userClient.serviceProviderWorkerDeal(account, DigestUtil.encrypt(password), GrantType.PASSWORD);
+                res = userClient.serviceProviderWorkerDeal(account, encrypt, GrantType.PASSWORD);
                 if (!(res.isSuccess())) {
                     return res;
                 }
@@ -94,17 +88,17 @@ public class PasswordTokenGranter implements ITokenGranter {
 
             case ADMIN:
                 //判断是否跑图形验证码
-                if (CommonConstant.BOOL_GRAPH_CODE) {
-                    HttpServletRequest request = WebUtil.getRequest();
-                    String key = request.getHeader(TokenUtil.CAPTCHA_HEADER_KEY);
-                    String code = request.getHeader(TokenUtil.CAPTCHA_HEADER_CODE);
-                    // 获取验证码
-                    String redisCode = String.valueOf(redisUtil.get(CacheNames.CAPTCHA_KEY + key));
-                    // 判断验证码
-                    if (code == null || !StringUtil.equalsIgnoreCase(redisCode, code)) {
-                        return R.fail(TokenUtil.CAPTCHA_NOT_CORRECT);
-                    }
-                }
+//                if (CommonConstant.BOOL_GRAPH_CODE) {
+//                    HttpServletRequest request = WebUtil.getRequest();
+//                    String key = request.getHeader(TokenUtil.CAPTCHA_HEADER_KEY);
+//                    String code = request.getHeader(TokenUtil.CAPTCHA_HEADER_CODE);
+//                    // 获取验证码
+//                    String redisCode = String.valueOf(redisUtil.get(CacheNames.CAPTCHA_KEY + key));
+//                    // 判断验证码
+//                    if (code == null || !StringUtil.equalsIgnoreCase(redisCode, code)) {
+//                        return R.fail(TokenUtil.CAPTCHA_NOT_CORRECT);
+//                    }
+//                }
 
                 userInfo = userClient.userInfo(account, encrypt, userType);
                 break;

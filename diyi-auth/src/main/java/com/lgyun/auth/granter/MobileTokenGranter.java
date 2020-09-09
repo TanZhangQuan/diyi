@@ -137,7 +137,7 @@ public class MobileTokenGranter implements ITokenGranter {
             switch (userType) {
 
                 case ADMIN:
-                    if (userClient.userInfoByPhone(mobile, userType) == null) {
+                    if (userClient.userByPhone(mobile) == null) {
                         return R.fail("手机号未注册");
                     }
                     break;
@@ -169,7 +169,7 @@ public class MobileTokenGranter implements ITokenGranter {
             switch (userType) {
 
                 case ADMIN:
-                    if (userClient.userInfoByPhone(mobile, userType) != null) {
+                    if (userClient.userByPhone(mobile) != null) {
                         return R.fail("手机号已注册");
                     }
                     break;

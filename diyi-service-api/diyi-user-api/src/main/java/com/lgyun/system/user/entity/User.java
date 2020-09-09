@@ -2,6 +2,8 @@ package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.tool.DateUtil;
 import com.lgyun.core.mp.base.TenantEntity;
@@ -29,7 +31,14 @@ public class User extends TenantEntity {
 	/**
 	 * 用户类型
 	 */
+	@JsonIgnore
 	private UserType userType;
+
+	/**
+	 * 商户员工账户状态
+	 */
+	@JsonIgnore
+	private AccountState userState = AccountState.NORMAL;
 
 	/**
 	 * 编号
@@ -44,6 +53,7 @@ public class User extends TenantEntity {
 	/**
 	 * 密码
 	 */
+	@JsonIgnore
 	private String password;
 
 	/**

@@ -36,7 +36,7 @@ public interface IUserClient {
      * @param userType
      * @return
      */
-    @GetMapping(API_PREFIX + "/user_info_by_id")
+    @GetMapping(API_PREFIX + "/user_info_find_by_user_id_and_user_type")
     UserInfo userInfo(@RequestParam("userId") Long userId, @RequestParam("userType") UserType userType);
 
     /**
@@ -46,8 +46,17 @@ public interface IUserClient {
      * @param userType
      * @return
      */
-    @GetMapping(API_PREFIX + "/phone")
+    @GetMapping(API_PREFIX + "/user_info_find_by_phone_and_user_type")
     UserInfo userInfoByPhone(@RequestParam("phone") String phone, @RequestParam("userType") UserType userType);
+
+    /**
+     * 获取用户信息
+     *
+     * @param phone
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/user_find_by_phone")
+    User userByPhone(@RequestParam("phone") String phone);
 
     /**
      * 获取用户信息
@@ -57,7 +66,7 @@ public interface IUserClient {
      * @param userType
      * @return
      */
-    @GetMapping(API_PREFIX + "/user_info")
+    @GetMapping(API_PREFIX + "/user_info_find_by_account_and_password_and_user_type")
     UserInfo userInfo(@RequestParam("account") String account, @RequestParam("password") String password, @RequestParam("userType") UserType userType);
 
     /**

@@ -4,15 +4,16 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.exceptions.ApiException;
+import com.lgyun.common.api.R;
 import com.lgyun.common.constant.CommonConstant;
+import com.lgyun.common.constant.SmsConstant;
+import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.UserType;
-import com.lgyun.common.exception.ServiceException;
-import com.lgyun.common.tool.BeanUtil;
-import com.lgyun.common.tool.DigestUtil;
-import com.lgyun.common.tool.Func;
-import com.lgyun.common.tool.StringUtil;
+import com.lgyun.common.secure.BladeUser;
+import com.lgyun.common.tool.*;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.feign.ISysClient;
+import com.lgyun.system.user.dto.UpdatePasswordDto;
 import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.entity.UserInfo;
 import com.lgyun.system.user.excel.UserExcel;
@@ -35,6 +36,30 @@ import java.util.Objects;
 public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implements IUserService {
 
     private ISysClient sysClient;
+    private RedisUtil redisUtil;
+
+    @Override
+    public R<User> currentUser(BladeUser bladeUser) {
+
+        if (bladeUser == null || bladeUser.getUserId() == null) {
+            return R.fail("未登陆状态");
+        }
+
+        User user = getById(bladeUser.getUserId());
+        if (user == null){
+            return R.fail("管理员不存在");
+        }
+
+        if (!(UserType.ADMIN.equals(user.getUserType()))) {
+            return R.fail("用户类型有误");
+        }
+
+        if (!(AccountState.NORMAL.equals(user.getUserState()))) {
+            return R.fail("管理员状态非正常，请联系客服");
+        }
+
+        return R.data(user);
+    }
 
     @Override
     public boolean submit(User user) {
@@ -99,6 +124,16 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
     }
 
     @Override
+    public User findByPhone(String phone) {
+
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(User::getPhone, phone)
+                .eq(User::getUserType, UserType.ADMIN);
+
+        return baseMapper.selectOne(queryWrapper);
+    }
+
+    @Override
     public UserInfo userInfo(String account, String password, UserType userType) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(User::getAccount, account)
@@ -138,15 +173,27 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
     }
 
     @Override
-    public boolean updatePassword(Long userId, String oldPassword, String newPassword, String newPassword1) {
-        User user = getById(userId);
-        if (!newPassword.equals(newPassword1)) {
-            throw new ServiceException("请输入正确的确认密码!");
+    public R<String> updatePassword(UpdatePasswordDto updatePasswordDto) {
+
+        User user = findByPhone(updatePasswordDto.getPhoneNumber());
+        if (user == null) {
+            return R.fail("手机号未注册");
         }
-        if (!user.getPassword().equals(DigestUtil.encrypt(oldPassword))) {
-            throw new ServiceException("原密码不正确!");
+
+        //获取缓存短信验证码
+        String redisCode = (String) redisUtil.get(SmsConstant.AVAILABLE_TIME + updatePasswordDto.getPhoneNumber());
+        //判断验证码
+        if (!StringUtil.equalsIgnoreCase(redisCode, updatePasswordDto.getSmsCode())) {
+            return R.fail("短信验证码不正确");
         }
-        return this.update(Wrappers.<User>update().lambda().set(User::getPassword, DigestUtil.encrypt(newPassword)).eq(User::getId, userId));
+
+        user.setPassword(DigestUtil.encrypt(updatePasswordDto.getNewPassword()));
+        save(user);
+
+        //删除缓存短信验证码
+        redisUtil.del(SmsConstant.AVAILABLE_TIME + updatePasswordDto.getPhoneNumber());
+
+        return R.success("修改密码成功");
     }
 
     @Override

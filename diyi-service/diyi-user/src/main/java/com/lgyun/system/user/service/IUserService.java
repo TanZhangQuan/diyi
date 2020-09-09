@@ -1,8 +1,11 @@
 package com.lgyun.system.user.service;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.UserType;
+import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseService;
+import com.lgyun.system.user.dto.UpdatePasswordDto;
 import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.entity.UserInfo;
 import com.lgyun.system.user.excel.UserExcel;
@@ -16,6 +19,14 @@ import java.util.List;
  * @since 2020/6/6 22:09
  */
 public interface IUserService extends BaseService<User> {
+
+    /**
+     * 获取当前管理员
+     *
+     * @param bladeUser
+     * @return
+     */
+    R<User> currentUser(BladeUser bladeUser);
 
     /**
      * 新增或修改用户
@@ -42,6 +53,14 @@ public interface IUserService extends BaseService<User> {
      * @return
      */
     UserInfo userInfoByPhone(String phone, UserType userType);
+
+    /**
+     * 用户信息
+     *
+     * @param phone
+     * @return
+     */
+    User findByPhone(String phone);
 
     /**
      * 用户信息
@@ -73,13 +92,10 @@ public interface IUserService extends BaseService<User> {
     /**
      * 修改密码
      *
-     * @param userId
-     * @param oldPassword
-     * @param newPassword
-     * @param newPassword1
+     * @param updatePasswordDto
      * @return
      */
-    boolean updatePassword(Long userId, String oldPassword, String newPassword, String newPassword1);
+    R<String> updatePassword(UpdatePasswordDto updatePasswordDto);
 
     /**
      * 获取角色名

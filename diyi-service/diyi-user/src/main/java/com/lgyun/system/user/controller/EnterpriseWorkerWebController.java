@@ -37,7 +37,7 @@ public class EnterpriseWorkerWebController {
 
         log.info("获取当前商户员工详情");
         try {
-            //获取当前创客
+            //获取当前商户员工
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())){
                 return result;

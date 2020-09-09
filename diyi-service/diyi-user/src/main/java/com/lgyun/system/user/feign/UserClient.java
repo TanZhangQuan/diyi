@@ -54,6 +54,11 @@ public class UserClient implements IUserClient {
     }
 
     @Override
+    public User userByPhone(String phone) {
+        return service.findByPhone(phone);
+    }
+
+    @Override
     public UserInfo userInfo(String account, String password, UserType userType) {
         return service.userInfo(account, password, userType);
     }

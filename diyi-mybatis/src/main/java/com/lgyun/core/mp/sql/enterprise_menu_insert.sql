@@ -1,4 +1,3 @@
-
 ###首页1
 INSERT INTO `sys_menu` VALUES ('1123598815738675101',                 '0', 'Dashboard', '首页', 'menu', '/dashboard',              'home', '1', '1', '0', '1', '', 'ENTERPRISE', null, NOW(), null, NOW(), '1', '0');
 ###工单管理2
