@@ -164,7 +164,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R<IPage<PayMakerListVO>> getPayMakerListByPayEnterprise(Long payEnterpriseId, IPage<PayMakerListVO> page);
 
     /**
-     * 支付清单审核
+     * 总包审核
      *
      * @param payEnterpriseId
      * @param serviceProviderId

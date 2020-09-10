@@ -327,26 +327,25 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
         PayEnterpriseEntity payEnterpriseEntity = getById(payEnterpriseId);
         if (payEnterpriseEntity == null) {
-            return R.fail("支付清单不存在");
+            return R.fail("总包不存在");
         }
 
         if (!(payEnterpriseEntity.getServiceProviderId().equals(serviceProviderId))) {
-            return R.fail("支付清单不属于当前服务商");
+            return R.fail("总包不属于当前服务商");
         }
 
         if (!(EnterprisePayState.PAYED.equals(payEnterpriseEntity.getPayState()))) {
-            return R.fail("支付清单支付状态有误");
+            return R.fail("总包支付状态有误");
         }
 
         if (!(PayEnterpriseAuditState.SUBMITED.equals(payEnterpriseEntity.getAuditState()))) {
-            return R.fail("支付清单审核状态有误");
+            return R.fail("总包审核状态有误");
         }
 
         if (!(PayEnterpriseAuditState.APPROVED.equals(auditState)) && !(PayEnterpriseAuditState.REJECTED.equals(auditState))) {
             return R.fail("审核状态有误");
         }
 
-        payEnterpriseEntity.setAuditState(auditState);
         if (PayEnterpriseAuditState.APPROVED.equals(auditState)) {
             if (makerInvoiceType == null) {
                 return R.fail("请选择创客发票开票类别");
@@ -355,6 +354,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             payEnterpriseEntity.setMakerInvoiceType(makerInvoiceType);
             payEnterpriseEntity.setPayState(EnterprisePayState.CONFIRMPAY);
         }
+        payEnterpriseEntity.setAuditState(auditState);
         updateById(payEnterpriseEntity);
 
         return R.success("审核成功");

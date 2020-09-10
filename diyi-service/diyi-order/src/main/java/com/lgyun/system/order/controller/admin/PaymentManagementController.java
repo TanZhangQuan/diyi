@@ -2,6 +2,8 @@ package com.lgyun.system.order.controller.admin;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.InvoicePeopleType;
+import com.lgyun.common.enumeration.MakerInvoiceType;
+import com.lgyun.common.enumeration.PayEnterpriseAuditState;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
@@ -33,11 +35,11 @@ import javax.validation.constraints.NotNull;
  */
 @Slf4j
 @RestController
-@RequestMapping("/payment-management/admin")
+@RequestMapping("/admin/payment-management")
 @Validated
 @AllArgsConstructor
 @Api(value = "平台端---支付管理模块相关接口", tags = "平台端---支付管理模块相关接口")
-public class PaymentManagementAdminController {
+public class PaymentManagementController {
 
     private IPayEnterpriseService payEnterpriseService;
     private IUserClient userClient;
@@ -52,7 +54,20 @@ public class PaymentManagementAdminController {
         try {
             return payEnterpriseService.getPayEnterpriseList(enterpriseId, null, payEnterpriseDto, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
-            log.error("根据商户查询总包支付异常", e);
+            log.error("根据商户查询总包异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/query-pay-enterprise-list-by-service-provider")
+    @ApiOperation(value = "根据服务商查询总包", notes = "根据服务商查询总包")
+    public R queryPayEnterpriseListByServiceProvider(@ApiParam(value = "服务商编号") @NotNull(message = "请输入服务商编号") @RequestParam(required = false) Long serviceProviderId, PayEnterpriseDto payEnterpriseDto, Query query) {
+
+        log.info("根据服务商查询总包");
+        try {
+            return payEnterpriseService.getPayEnterpriseList(null, serviceProviderId, payEnterpriseDto, Condition.getPage(query.setDescs("create_time")));
+        } catch (Exception e) {
+            log.error("根据服务商查询总包异常", e);
         }
         return R.fail("查询失败");
     }
@@ -96,7 +111,7 @@ public class PaymentManagementAdminController {
             }
             User user = result.getData();
 
-            return acceptPaysheetService.upload(acceptPaysheetSaveDto, null,  "平台上传", user.getRealName());
+            return acceptPaysheetService.upload(acceptPaysheetSaveDto, null, "平台上传", user.getRealName());
         } catch (Exception e) {
             log.error("上传总包交付支付验收单异常", e);
         }
@@ -117,6 +132,22 @@ public class PaymentManagementAdminController {
             log.error("根据商户查询众包/众采异常", e);
         }
         return R.fail("查询失败");
+    }
+
+    @PostMapping("/pay-enterprise-audit")
+    @ApiOperation(value = "总包审核", notes = "总包审核")
+    public R payEnterpriseAudit(@ApiParam(value = "服务商编号") @NotNull(message = "请输入服务商编号") @RequestParam(required = false) Long serviceProviderId,
+                                @ApiParam(value = "总包编号") @NotNull(message = "请输入总包编号") @RequestParam(required = false) Long payEnterpriseId,
+                                @ApiParam(value = "支付清单审核状态") @NotNull(message = "请选择支付清单审核状态") @RequestParam(required = false) PayEnterpriseAuditState auditState,
+                                MakerInvoiceType makerInvoiceType) {
+
+        log.info("支付清单审核");
+        try {
+            return payEnterpriseService.audit(payEnterpriseId, serviceProviderId, auditState, makerInvoiceType);
+        } catch (Exception e) {
+            log.error("支付清单审核异常", e);
+        }
+        return R.fail("审核失败");
     }
 
 }

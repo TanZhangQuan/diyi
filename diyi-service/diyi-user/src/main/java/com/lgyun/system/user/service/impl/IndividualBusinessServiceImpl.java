@@ -117,15 +117,7 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
             return R.fail("只能选择商户或者服务商");
         }
 
-        if (enterpriseId == null && serviceProviderId == null) {
-            return R.fail("请选择选择商户或者服务商");
-        }
-
-        if (enterpriseId != null) {
-            return R.data(page.setRecords(baseMapper.getIndividualBusinessListByEnterpriseId(enterpriseId, individualBusinessEnterpriseDto, page)));
-        } else {
-            return R.data(page.setRecords(baseMapper.getIndividualBusinessListByServiceProviderId(serviceProviderId, individualBusinessEnterpriseDto, page)));
-        }
+        return R.data(page.setRecords(baseMapper.getIndividualBusinessList(enterpriseId, serviceProviderId, individualBusinessEnterpriseDto, page)));
     }
 
     @Override
@@ -139,7 +131,7 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
     }
 
     @Override
-    public R<String> saveByEnterprise(IndividualBusinessEnterpriseWebAddDto individualBusinessEnterpriseWebAddDto, Long enterpriseId) {
+    public R<String> save(IndividualBusinessEnterpriseWebAddDto individualBusinessEnterpriseWebAddDto, Long enterpriseId) {
         //新建创客
         MakerEntity makerEntity = makerService.makerSave(individualBusinessEnterpriseWebAddDto.getPhone(), individualBusinessEnterpriseWebAddDto.getName(),
                 individualBusinessEnterpriseWebAddDto.getIdcardNo(), individualBusinessEnterpriseWebAddDto.getIdcardPic(), individualBusinessEnterpriseWebAddDto.getIdcardPicBack(),

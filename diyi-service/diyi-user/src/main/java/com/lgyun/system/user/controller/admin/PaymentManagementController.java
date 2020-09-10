@@ -23,11 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-@RequestMapping("/payment-management/admin")
+@RequestMapping("/admin/payment-management")
 @Validated
 @AllArgsConstructor
 @Api(value = "平台端---支付管理模块相关接口", tags = "平台端---支付管理模块相关接口")
-public class PaymentManagementAdminController {
+public class PaymentManagementController {
 
     private IEnterpriseService enterpriseService;
 

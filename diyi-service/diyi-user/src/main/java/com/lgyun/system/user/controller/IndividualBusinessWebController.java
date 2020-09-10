@@ -109,7 +109,7 @@ public class IndividualBusinessWebController {
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-            return individualBusinessService.saveByEnterprise(individualBusinessEnterpriseWebAddDto, enterpriseWorkerEntity.getEnterpriseId());
+            return individualBusinessService.save(individualBusinessEnterpriseWebAddDto, enterpriseWorkerEntity.getEnterpriseId());
         } catch (Exception e) {
             log.error("当前商户申请创建个体户异常", e);
         }

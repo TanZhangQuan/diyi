@@ -107,7 +107,7 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
      * @param enterpriseId
      * @return
      */
-    R<String> saveByEnterprise(IndividualBusinessEnterpriseWebAddDto individualBusinessEnterpriseWebAddDto, Long enterpriseId);
+    R<String> save(IndividualBusinessEnterpriseWebAddDto individualBusinessEnterpriseWebAddDto, Long enterpriseId);
 
     /**
      * 根据创客ID, 统一社会信用代码查询个体户
