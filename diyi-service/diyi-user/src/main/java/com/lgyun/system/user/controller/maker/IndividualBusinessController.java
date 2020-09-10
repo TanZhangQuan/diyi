@@ -1,4 +1,4 @@
-package com.lgyun.system.user.controller;
+package com.lgyun.system.user.controller.maker;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;

@@ -1,11 +1,13 @@
 package com.lgyun.system.user.controller.admin;
 
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.BodyType;
 import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDto;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDto;
+import com.lgyun.system.user.service.IEnterpriseReportService;
 import com.lgyun.system.user.service.IIndividualBusinessService;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
@@ -28,9 +30,10 @@ import javax.validation.constraints.NotNull;
 @Validated
 @AllArgsConstructor
 @Api(value = "平台端---个体户管理模块相关接口", tags = "平台端---个体户管理模块相关接口")
-public class IndividualBusinessController {
+public class IndividualBusinessAdminController {
 
     private IIndividualBusinessService individualBusinessService;
+    private IEnterpriseReportService enterpriseReportService;
 
     @GetMapping("/query")
     @ApiOperation(value = "查询所有个体户", notes = "查询所有个体户")
@@ -51,20 +54,20 @@ public class IndividualBusinessController {
         return R.fail("查询失败");
     }
 
-    @GetMapping("/query_enterprise_reports")
+    @GetMapping("/query-enterprise-report-list")
     @ApiOperation(value = "查询个体户年审信息", notes = "查询个体户年审信息")
-    public R queryEnterpriseReports(Query query, @ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
+    public R queryEnterpriseReportList(Query query, @ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
 
         log.info("查询个体户年审信息");
         try {
-            return individualBusinessService.queryEnterpriseReports(query, individualBusinessId);
+            return enterpriseReportService.findByBodyTypeAndBodyId(query, BodyType.INDIVIDUALBUSINESS, individualBusinessId);
         } catch (Exception e) {
             log.error("查询个体户年审信息异常", e);
         }
         return R.fail("查询失败");
     }
 
-    @GetMapping("/self_help_invoice_statistics")
+    @GetMapping("/self-help-invoice-statistics")
     @ApiOperation(value = "查询个体户开票次数，月度开票金额，年度开票金额和总开票金额", notes = "查询个体户开票次数，月度开票金额，年度开票金额和总开票金额")
     public R selfHelpInvoiceStatistics(@ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
 
@@ -77,7 +80,7 @@ public class IndividualBusinessController {
         return R.fail("查询失败");
     }
 
-    @GetMapping("/self_help_invoice_list")
+    @GetMapping("/self-help-invoice-list")
     @ApiOperation(value = "查询个体户开票记录", notes = "查询个体户开票记录")
     public R selfHelpInvoiceList(Query query, @ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
 
@@ -102,7 +105,6 @@ public class IndividualBusinessController {
         }
         return R.fail("新增个体户失败");
     }
-
 
 
 }

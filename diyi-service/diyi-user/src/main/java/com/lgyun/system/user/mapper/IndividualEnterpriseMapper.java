@@ -20,8 +20,7 @@ public interface IndividualEnterpriseMapper extends BaseMapper<IndividualEnterpr
 
     IndividualBusinessEnterpriseDetailsVO findById(Long individualEnterpriseId);
 
-    List<IndividualBusinessEnterpriseDetailsVO> getIndividualEnterpriseListByEnterpriseId(Long enterpriseId, IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto, IPage<IndividualBusinessEnterpriseDetailsVO> page);
+    List<IndividualBusinessEnterpriseDetailsVO> getIndividualEnterpriseList(Long enterpriseId, Long serviceProviderId, IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto, IPage<IndividualBusinessEnterpriseDetailsVO> page);
 
-    List<IndividualBusinessEnterpriseDetailsVO> getIndividualEnterpriseListByServiceProviderId(Long serviceProviderId, IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto, IPage<IndividualBusinessEnterpriseDetailsVO> page);
 }
 

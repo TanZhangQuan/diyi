@@ -113,10 +113,6 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
             }
         }
 
-        if (enterpriseId != null && serviceProviderId != null) {
-            return R.fail("只能选择商户或者服务商");
-        }
-
         return R.data(page.setRecords(baseMapper.getIndividualBusinessList(enterpriseId, serviceProviderId, individualBusinessEnterpriseDto, page)));
     }
 

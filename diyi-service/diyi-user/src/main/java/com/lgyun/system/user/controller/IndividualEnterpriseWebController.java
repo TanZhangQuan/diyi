@@ -63,7 +63,7 @@ public class IndividualEnterpriseWebController {
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-            return individualEnterpriseService.getIndividualBusinessList(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), null, individualBusinessEnterpriseDto);
+            return individualEnterpriseService.getIndividualEnterpriseList(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), null, individualBusinessEnterpriseDto);
         } catch (Exception e) {
             log.error("查询当前商户的所有关联创客的所有个独异常", e);
         }
@@ -148,7 +148,7 @@ public class IndividualEnterpriseWebController {
             }
             ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-            return individualEnterpriseService.getIndividualBusinessList(Condition.getPage(query.setDescs("create_time")), null, serviceProviderWorkerEntity.getServiceProviderId(), individualBusinessEnterpriseDto);
+            return individualEnterpriseService.getIndividualEnterpriseList(Condition.getPage(query.setDescs("create_time")), null, serviceProviderWorkerEntity.getServiceProviderId(), individualBusinessEnterpriseDto);
         } catch (Exception e) {
             log.error("查询当前服务商关联的所有个独异常", e);
         }

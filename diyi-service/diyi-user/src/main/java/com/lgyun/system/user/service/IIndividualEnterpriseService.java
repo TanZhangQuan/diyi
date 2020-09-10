@@ -80,7 +80,7 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
      * @param individualBusinessEnterpriseDto
      * @return
      */
-    R<IPage<IndividualBusinessEnterpriseDetailsVO>> getIndividualBusinessList(IPage<IndividualBusinessEnterpriseDetailsVO> page, Long enterpriseId, Long serviceProviderId, IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto);
+    R<IPage<IndividualBusinessEnterpriseDetailsVO>> getIndividualEnterpriseList(IPage<IndividualBusinessEnterpriseDetailsVO> page, Long enterpriseId, Long serviceProviderId, IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto);
 
     /**
      * 查询个独开票次数，月度开票金额，年度开票金额和总开票金额

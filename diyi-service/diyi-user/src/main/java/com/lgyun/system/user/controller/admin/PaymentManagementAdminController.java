@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @AllArgsConstructor
 @Api(value = "平台端---支付管理模块相关接口", tags = "平台端---支付管理模块相关接口")
-public class PaymentManagementController {
+public class PaymentManagementAdminController {
 
     private IEnterpriseService enterpriseService;
 

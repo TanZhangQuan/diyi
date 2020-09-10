@@ -22,7 +22,7 @@ public class IndividualBusinessEnterpriseDetailsVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 个体户ID
+     * 个体户/个独ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
@@ -33,7 +33,7 @@ public class IndividualBusinessEnterpriseDetailsVO implements Serializable {
     private String serviceProviderName;
 
     /**
-     * 个体户名称
+     * 个体户/个独名称
      */
     private String ibname;
 
@@ -58,7 +58,7 @@ public class IndividualBusinessEnterpriseDetailsVO implements Serializable {
     private String bizScope;
 
     /**
-     * 个体户税种：小规模，一般纳税人
+     * 个体户/个独税种：小规模，一般纳税人
      */
     private BizType bizType;
 
@@ -78,12 +78,7 @@ public class IndividualBusinessEnterpriseDetailsVO implements Serializable {
     private String businessLicenceUrl;
 
     /**
-     * 营业执照副本
-     */
-    private String businessLicenceCopyUrl;
-
-    /**
-     * 个体户状态：注册中，税务登记中，运营中，已注销
+     * 个体户/个独状态：注册中，税务登记中，运营中，已注销
      */
     private Ibstate ibstate;
 
