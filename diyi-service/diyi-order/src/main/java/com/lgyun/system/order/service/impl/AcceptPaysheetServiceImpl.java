@@ -9,8 +9,6 @@ import com.lgyun.system.order.dto.AcceptPayListDto;
 import com.lgyun.system.order.dto.AcceptPaysheetSaveDto;
 import com.lgyun.system.order.entity.AcceptPaysheetEntity;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
-import com.lgyun.system.order.entity.WorksheetEntity;
-import com.lgyun.system.order.entity.WorksheetMakerEntity;
 import com.lgyun.system.order.mapper.AcceptPaysheetMapper;
 import com.lgyun.system.order.service.IAcceptPaysheetService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
@@ -20,7 +18,6 @@ import com.lgyun.system.order.vo.AcceptPayListVO;
 import com.lgyun.system.order.vo.AcceptPaysheetByEnterpriseListVO;
 import com.lgyun.system.order.vo.AcceptPaysheetWorksheetVO;
 import com.lgyun.system.order.vo.PayEnterpriseMakerDetailListVO;
-import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -59,7 +56,7 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
 
     @Override
     @Transactional
-    public R<String> upload(AcceptPaysheetSaveDto acceptPaysheetSaveDto, EnterpriseWorkerEntity enterpriseWorkerEntity) {
+    public R<String> upload(AcceptPaysheetSaveDto acceptPaysheetSaveDto, Long enterpriseId, String uploadSource, String uploadPerson) {
 
         //判断支付清单是否存在
         PayEnterpriseEntity payEnterpriseEntity = payEnterpriseService.getById(acceptPaysheetSaveDto.getPayEnterpriseId());
@@ -67,8 +64,10 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
             return R.fail("支付清单不存在");
         }
 
-        if (!(enterpriseWorkerEntity.getEnterpriseId().equals(payEnterpriseEntity.getEnterpriseId()))) {
-            return R.fail("支付清单不属于当前商户");
+        if (enterpriseId != null) {
+            if (!(payEnterpriseEntity.getEnterpriseId().equals(enterpriseId))) {
+                return R.fail("支付清单不属于当前商户");
+            }
         }
 
         //根据支付清单ID, 创客ID查询交付支付验收单
@@ -80,18 +79,9 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
         //保存交付支付验收单
         AcceptPaysheetEntity acceptPaysheetEntity = new AcceptPaysheetEntity();
         if (AcceptPaysheetType.SINGLE.equals(acceptPaysheetSaveDto.getAcceptPaysheetType())) {
-            WorksheetEntity worksheetEntity = worksheetService.getById(payEnterpriseEntity.getWorksheetId());
-            if (worksheetEntity == null) {
-                return R.fail("支付清单无关联工单，无法上传单个创客的交付支付验收单");
-            }
 
             if (acceptPaysheetSaveDto.getMakerId() == null) {
-                return R.fail("请选择创客");
-            }
-
-            WorksheetMakerEntity worksheetMakerEntity = worksheetMakerService.getmakerIdAndWorksheetId(acceptPaysheetSaveDto.getMakerId(), payEnterpriseEntity.getWorksheetId());
-            if (worksheetMakerEntity == null) {
-                return R.fail("创客和支付清单的工单无关联");
+                return R.fail("单个上传交付支付验收单需要选择创客");
             }
 
             acceptPaysheetEntity.setMakerId(acceptPaysheetSaveDto.getMakerId());
@@ -101,8 +91,8 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
         acceptPaysheetEntity.setServiceTimeEnd(acceptPaysheetSaveDto.getServiceTimeEnd());
         acceptPaysheetEntity.setPayEnterpriseId(acceptPaysheetSaveDto.getPayEnterpriseId());
         acceptPaysheetEntity.setAcceptPaysheetType(acceptPaysheetSaveDto.getAcceptPaysheetType());
-        acceptPaysheetEntity.setUploadDateSource("商户上传");
-        acceptPaysheetEntity.setUploadDatePerson(enterpriseWorkerEntity.getWorkerName());
+        acceptPaysheetEntity.setUploadSource(uploadSource);
+        acceptPaysheetEntity.setUploadPerson(uploadPerson);
         acceptPaysheetEntity.setAcceptPaysheetUrl(acceptPaysheetSaveDto.getAcceptPaysheetUrl());
 
         save(acceptPaysheetEntity);

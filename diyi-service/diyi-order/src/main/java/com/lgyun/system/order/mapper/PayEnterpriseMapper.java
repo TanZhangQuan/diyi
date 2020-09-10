@@ -2,9 +2,8 @@ package com.lgyun.system.order.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.InvoiceState;
-import com.lgyun.system.order.dto.PayEnterpriseMakerListDto;
+import com.lgyun.system.order.dto.PayEnterpriseDto;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.vo.TransactionVO;
@@ -55,11 +54,11 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      *
      * @param enterpriseId
      * @param serviceProviderId
-     * @param payEnterpriseMakerListDto
+     * @param payEnterpriseDto
      * @param page
      * @return
      */
-    List<PayEnterpriseMakersListVO> getPayEnterprises(Long enterpriseId, Long serviceProviderId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page);
+    List<PayEnterpriseMakersListVO> getPayEnterpriseList(Long enterpriseId, Long serviceProviderId, PayEnterpriseDto payEnterpriseDto, IPage<PayEnterpriseMakersListVO> page);
 
     /**
      * 根据支付清单ID查询支付清单关联工单的创客
@@ -117,18 +116,18 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * @param page
      * @return
      */
-    List<PayMakerListVO> getPayMakerListByPayEnterpriseId(Long payEnterpriseId, IPage<PayMakerListVO> page);
+    List<PayMakerListVO> getPayMakerListByPayEnterprise(Long payEnterpriseId, IPage<PayMakerListVO> page);
 
     /**
      * 根据当前服务商，商户ID查询总包支付清单
      *
      * @param enterpriseId
      * @param serviceProviderId
-     * @param payEnterpriseMakerListDto
+     * @param payEnterpriseDto
      * @param page
      * @return
      */
-    List<PayEnterpriseMakersListVO> getPayEnterprisesByEnterprisesServiceProvider(Long enterpriseId, Long serviceProviderId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page);
+    List<PayEnterpriseMakersListVO> getPayEnterprisesByEnterprisesServiceProvider(Long enterpriseId, Long serviceProviderId, PayEnterpriseDto payEnterpriseDto, IPage<PayEnterpriseMakersListVO> page);
 
     /**
      * 获取当前商户首页交易情况数据

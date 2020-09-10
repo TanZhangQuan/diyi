@@ -25,9 +25,9 @@ public class PayEnterpriseMakerListVO implements Serializable {
     private String name;
 
     //是否实名
-    private boolean boolRealNameVerify;
+    private Boolean boolRealNameVerify;
 
     //是否已签协议
-    private boolean boolSign;
+    private Boolean boolSign;
 
 }

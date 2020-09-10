@@ -80,7 +80,7 @@ public class EnterpriseMakerDetailVO implements Serializable {
     /**
      * 是否实名
      */
-    private boolean boolRealNameVerify;
+    private Boolean boolRealNameVerify;
 
     /**
      * 平台加盟合同

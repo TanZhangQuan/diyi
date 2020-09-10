@@ -1,25 +1,20 @@
 package com.lgyun.system.order.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.order.dto.PayEnterpriseMakerListDto;
+import com.lgyun.system.order.entity.MakerInvoiceEntity;
+import com.lgyun.system.order.entity.MakerTaxRecordEntity;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.entity.PayMakerEntity;
-import com.lgyun.system.order.entity.*;
 import com.lgyun.system.order.excel.PayEnterpriseExcel;
 import com.lgyun.system.order.mapper.PayMakerMapper;
 import com.lgyun.system.order.service.IMakerInvoiceService;
 import com.lgyun.system.order.service.IMakerTaxRecordService;
-import com.lgyun.system.order.service.IPayMakerReceiptService;
 import com.lgyun.system.order.service.IPayMakerService;
-import com.lgyun.system.order.vo.PayEnterpriseMakersListVO;
 import com.lgyun.system.order.vo.PayMakerVO;
-import com.lgyun.system.order.vo.SelfHelpInvoiceAccountVO;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
@@ -46,21 +41,8 @@ import java.util.List;
 public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMakerEntity> implements IPayMakerService {
 
     private IUserClient iUserClient;
-    private IPayMakerReceiptService payMakerReceiptService;
     private IMakerInvoiceService makerInvoiceService;
     private IMakerTaxRecordService makerTaxRecordService;
-
-    @Override
-    public R<IPage<PayEnterpriseMakersListVO>> getPayMakersByEnterprise(Long enterpriseId, Long serviceProviderId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page) {
-
-        if (payEnterpriseMakerListDto.getBeginDate() != null && payEnterpriseMakerListDto.getEndDate() != null) {
-            if (payEnterpriseMakerListDto.getBeginDate().after(payEnterpriseMakerListDto.getEndDate())) {
-                return R.fail("开始时间不能大于结束时间");
-            }
-        }
-
-        return R.data(page.setRecords(baseMapper.getPayMakersByEnterprise(enterpriseId, serviceProviderId, payEnterpriseMakerListDto, page)));
-    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)

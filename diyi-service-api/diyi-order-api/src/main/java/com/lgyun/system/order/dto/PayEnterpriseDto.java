@@ -1,5 +1,6 @@
 package com.lgyun.system.order.dto;
 
+import com.lgyun.common.enumeration.PayEnterpriseAuditState;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -14,17 +15,20 @@ import java.util.Date;
  * @time 16:27.
  */
 @Data
-public class PayEnterpriseMakerListDto implements Serializable {
+public class PayEnterpriseDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //总包或分包支付清单ID
-    private Long payEnterpriseMakerId;
+    //总包ID
+    private Long payEnterpriseId;
 
     //服务商名称
     private String serviceProviderName;
 
     //商户名称
     private String enterpriseName;
+
+    //总包审核状态
+    private PayEnterpriseAuditState payEnterpriseAuditState;
 
     //上传支付清单开始时间
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

@@ -36,7 +36,7 @@ public interface IUserClient {
      * @param userType
      * @return
      */
-    @GetMapping(API_PREFIX + "/user_info_find_by_user_id_and_user_type")
+    @GetMapping(API_PREFIX + "/user-info-find-by-user-id-and-user-type")
     UserInfo userInfo(@RequestParam("userId") Long userId, @RequestParam("userType") UserType userType);
 
     /**
@@ -46,7 +46,7 @@ public interface IUserClient {
      * @param userType
      * @return
      */
-    @GetMapping(API_PREFIX + "/user_info_find_by_phone_and_user_type")
+    @GetMapping(API_PREFIX + "/user-info-find-by-phone-and-user-type")
     UserInfo userInfoByPhone(@RequestParam("phone") String phone, @RequestParam("userType") UserType userType);
 
     /**
@@ -55,7 +55,7 @@ public interface IUserClient {
      * @param phone
      * @return
      */
-    @GetMapping(API_PREFIX + "/user_find_by_phone")
+    @GetMapping(API_PREFIX + "/user-find-by-phone")
     User userByPhone(@RequestParam("phone") String phone);
 
     /**
@@ -66,7 +66,7 @@ public interface IUserClient {
      * @param userType
      * @return
      */
-    @GetMapping(API_PREFIX + "/user_info_find_by_account_and_password_and_user_type")
+    @GetMapping(API_PREFIX + "/user-info-find-by-account-and-password-and-user-type")
     UserInfo userInfo(@RequestParam("account") String account, @RequestParam("password") String password, @RequestParam("userType") UserType userType);
 
     /**
@@ -75,7 +75,7 @@ public interface IUserClient {
      * @param makerId
      * @return
      */
-    @GetMapping(API_PREFIX + "/maker_find_by_id")
+    @GetMapping(API_PREFIX + "/maker-find-by-id")
     MakerEntity makerFindById(@RequestParam("makerId") Long makerId);
 
     /**
@@ -84,7 +84,7 @@ public interface IUserClient {
      * @param phoneNumber
      * @return
      */
-    @GetMapping(API_PREFIX + "/maker_find_by_phone_number")
+    @GetMapping(API_PREFIX + "/maker-find-by-phone-number")
     MakerEntity makerFindByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
 
     /**
@@ -93,7 +93,7 @@ public interface IUserClient {
      * @param idcardNo
      * @return
      */
-    @GetMapping(API_PREFIX + "/maker_find_by_idcard_no")
+    @GetMapping(API_PREFIX + "/maker-find-by-idcard-no")
     MakerEntity makerFindByIdcardNo(@RequestParam("idcardNo") String idcardNo);
 
     /**
@@ -102,7 +102,7 @@ public interface IUserClient {
      * @param phoneNumber
      * @return
      */
-    @GetMapping(API_PREFIX + "/enterprise_worker_find_by_phone_number")
+    @GetMapping(API_PREFIX + "/enterprise-worker-find-by-phone-number")
     EnterpriseWorkerEntity enterpriseWorkerFindByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
 
     /**
@@ -111,7 +111,7 @@ public interface IUserClient {
      * @param phoneNumber
      * @return
      */
-    @GetMapping(API_PREFIX + "/service_provider_worker_find_by_phone_number")
+    @GetMapping(API_PREFIX + "/service-provider-worker-find-by-phone-number")
     ServiceProviderWorkerEntity serviceProviderWorkerFindByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
 
     /**
@@ -124,7 +124,7 @@ public interface IUserClient {
      * @param grantType
      * @return
      */
-    @PostMapping(API_PREFIX + "/maker_deal")
+    @PostMapping(API_PREFIX + "/maker-deal")
     R makerDeal(@RequestParam("openid") String openid, @RequestParam("sessionKey") String sessionKey, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
 
     /**
@@ -135,7 +135,7 @@ public interface IUserClient {
      * @param grantType
      * @return
      */
-    @PostMapping(API_PREFIX + "/enterprise_worker_deal")
+    @PostMapping(API_PREFIX + "/enterprise-worker-deal")
     R enterpriseWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
 
     /**
@@ -146,7 +146,7 @@ public interface IUserClient {
      * @param grantType
      * @return
      */
-    @PostMapping(API_PREFIX + "/service_provider_worker_deal")
+    @PostMapping(API_PREFIX + "/service-provider-worker-deal")
     R serviceProviderWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
 
 
@@ -156,7 +156,7 @@ public interface IUserClient {
      * @param makerId
      * @return
      */
-    @GetMapping(API_PREFIX + "/individualEnterprise/find_by_maker_id")
+    @GetMapping(API_PREFIX + "/individualEnterprise/find-by-maker-id")
     List<IndividualEnterpriseEntity> individualEnterpriseFindByMakerId(@RequestParam("makerId") Long makerId);
 
     /**
@@ -165,7 +165,7 @@ public interface IUserClient {
      * @param makerId
      * @return
      */
-    @GetMapping(API_PREFIX + "/individualBusiness/find_by_maker_id")
+    @GetMapping(API_PREFIX + "/individualBusiness/find-by-maker-id")
     List<IndividualBusinessEntity> individualBusinessByMakerId(@RequestParam("makerId") Long makerId);
 
     /**
@@ -176,7 +176,7 @@ public interface IUserClient {
      * @param makerId
      * @return
      */
-    @GetMapping(API_PREFIX + "/find_enterprise_by_maker_id")
+    @GetMapping(API_PREFIX + "/find-enterprise-by-maker-id")
     R findEnterpriseByMakerId(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId);
 
     /**
@@ -185,7 +185,7 @@ public interface IUserClient {
      * @param individualEnterpriseId
      * @return
      */
-    @GetMapping(API_PREFIX + "/individualEnterprise/find_by_id")
+    @GetMapping(API_PREFIX + "/individualEnterprise/find-by-id")
     IndividualEnterpriseEntity individualEnterpriseFindById(@RequestParam("individualEnterpriseId") Long individualEnterpriseId);
 
     /**
@@ -194,7 +194,7 @@ public interface IUserClient {
      * @param individualBusinessId
      * @return
      */
-    @GetMapping(API_PREFIX + "/individualBusiness/find_by_id")
+    @GetMapping(API_PREFIX + "/individualBusiness/find-by-id")
     IndividualBusinessEntity individualBusinessById(@RequestParam("individualBusinessId") Long individualBusinessId);
 
     /**
@@ -203,43 +203,43 @@ public interface IUserClient {
      * @param enterpriseId
      * @return
      */
-    @GetMapping(API_PREFIX + "/enterprise/get_by_id")
+    @GetMapping(API_PREFIX + "/enterprise/get-by-id")
     EnterpriseEntity getEnterpriseById(@RequestParam("enterpriseId") Long enterpriseId);
 
     /**
-     * 根据user_id获取创客
+     * 根据user-id获取创客
      *
      * @param bladeUser
      * @return
      */
-    @PostMapping(API_PREFIX + "/current_maker")
+    @PostMapping(API_PREFIX + "/current-maker")
     R<MakerEntity> currentMaker(@RequestBody BladeUser bladeUser);
 
     /**
-     * 根据user_id获取商户
+     * 根据user-id获取商户
      *
      * @param bladeUser
      * @return
      */
-    @PostMapping(API_PREFIX + "/current_enterprise_worker")
+    @PostMapping(API_PREFIX + "/current-enterprise-worker")
     R<EnterpriseWorkerEntity> currentEnterpriseWorker(@RequestBody BladeUser bladeUser);
 
     /**
-     * 根据user_id获取服务商
+     * 根据user-id获取服务商
      *
      * @param bladeUser
      * @return
      */
-    @PostMapping(API_PREFIX + "/current_service_provider_worker")
+    @PostMapping(API_PREFIX + "/current-service-provider-worker")
     R<ServiceProviderWorkerEntity> currentServiceProviderWorker(@RequestBody BladeUser bladeUser);
 
     /**
-     * 根据user_id获取管理员
+     * 根据user-id获取管理员
      *
      * @param bladeUser
      * @return
      */
-    @PostMapping(API_PREFIX + "/current_user")
+    @PostMapping(API_PREFIX + "/current-user")
     R<User> currentUser(@RequestBody BladeUser bladeUser);
 
     /**
@@ -260,7 +260,7 @@ public interface IUserClient {
      * @param serviceProviderId
      * @return
      */
-    @PostMapping(API_PREFIX + "/find_by_enterprise_id_service_provider_id")
+    @PostMapping(API_PREFIX + "/find-by-enterprise-id-service-provider-id")
     EnterpriseProviderEntity findByEnterpriseIdServiceProviderId(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("serviceProviderId") Long serviceProviderId);
 
     /**
@@ -270,7 +270,7 @@ public interface IUserClient {
      * @param ibtaxNo
      * @return
      */
-    @GetMapping(API_PREFIX + "/find_by_maker_id_and_ibtax_no_business")
+    @GetMapping(API_PREFIX + "/find-by-maker-id-and-ibtax-no-business")
     IndividualBusinessEntity findByMakerIdAndIbtaxNoBusiness(@RequestParam("makerId") Long makerId, @RequestParam("ibtaxNo") String ibtaxNo);
 
     /**
@@ -280,7 +280,7 @@ public interface IUserClient {
      * @param ibtaxNo
      * @return
      */
-    @GetMapping(API_PREFIX + "/find_by_maker_id_and_ibtax_no_enterprise")
+    @GetMapping(API_PREFIX + "/find-by-maker-id-and-ibtax-no-enterprise")
     IndividualEnterpriseEntity findByMakerIdAndIbtaxNoEnterprise(@RequestParam("makerId") Long makerId, @RequestParam("ibtaxNo") String ibtaxNo);
 
     /**
@@ -289,7 +289,7 @@ public interface IUserClient {
      * @param ibtaxNo
      * @return
      */
-    @GetMapping(API_PREFIX + "/find_by_ibtax_no_business")
+    @GetMapping(API_PREFIX + "/find-by-ibtax-no-business")
     IndividualBusinessEntity findByIbtaxNoBusiness(@RequestParam("ibtaxNo") String ibtaxNo);
 
     /**
@@ -298,7 +298,7 @@ public interface IUserClient {
      * @param ibtaxNo
      * @return
      */
-    @GetMapping(API_PREFIX + "/find_by_ibtax_no_enterprise")
+    @GetMapping(API_PREFIX + "/find-by-ibtax-no-enterprise")
     IndividualEnterpriseEntity findByIbtaxNoEnterprise(@RequestParam("ibtaxNo") String ibtaxNo);
 
     /**
@@ -310,7 +310,7 @@ public interface IUserClient {
      * @param enterpriseId
      * @return
      */
-    @PostMapping(API_PREFIX + "/maker_add")
+    @PostMapping(API_PREFIX + "/maker-add")
     MakerEntity makerAdd(@RequestParam("name") String name, @RequestParam("idcardNo") String idcardNo, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("enterpriseId") Long enterpriseId);
 
     /**
@@ -320,7 +320,7 @@ public interface IUserClient {
      * @param makerId
      * @return
      */
-    @PostMapping(API_PREFIX + "/maker_enterprise_add")
+    @PostMapping(API_PREFIX + "/maker-enterprise-add")
     void makerEnterpriseAdd(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("makerId") Long makerId);
 
     /**
@@ -332,7 +332,7 @@ public interface IUserClient {
      * @param serviceProviderName
      * @return
      */
-    @GetMapping(API_PREFIX + "/get_service_provider_by_enterprise_id")
+    @GetMapping(API_PREFIX + "/get-service-provider-by-enterprise-id")
     R getServiceProviderByEnterpriseId(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam(name = "enterpriseId") Long enterpriseId, @RequestParam(name = "serviceProviderName", required = false) String serviceProviderName);
 
 }

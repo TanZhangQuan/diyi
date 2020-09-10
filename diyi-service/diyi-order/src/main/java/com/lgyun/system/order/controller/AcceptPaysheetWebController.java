@@ -7,7 +7,7 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.AcceptPayListDto;
 import com.lgyun.system.order.dto.AcceptPaysheetSaveDto;
-import com.lgyun.system.order.dto.PayEnterpriseMakerListDto;
+import com.lgyun.system.order.dto.PayEnterpriseDto;
 import com.lgyun.system.order.service.IAcceptPaysheetService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
@@ -52,7 +52,7 @@ public class AcceptPaysheetWebController {
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-            return acceptPaysheetService.upload(acceptPaysheetSaveDto, enterpriseWorkerEntity);
+            return acceptPaysheetService.upload(acceptPaysheetSaveDto, enterpriseWorkerEntity.getEnterpriseId(), "商户上传", enterpriseWorkerEntity.getWorkerName());
         } catch (Exception e) {
             log.error("上传总包交付支付验收单异常", e);
         }
@@ -120,7 +120,7 @@ public class AcceptPaysheetWebController {
             @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
     })
-    public R getPayEnterprisesByEnterprise(PayEnterpriseMakerListDto payEnterpriseMakerListDto, Query query, BladeUser bladeUser) {
+    public R getPayEnterprisesByEnterprise(PayEnterpriseDto payEnterpriseDto, Query query, BladeUser bladeUser) {
 
         log.info("查询当前商户所有总包支付清单");
         try {
@@ -131,7 +131,7 @@ public class AcceptPaysheetWebController {
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-            return payEnterpriseService.getPayEnterprises(enterpriseWorkerEntity.getEnterpriseId(), null, payEnterpriseMakerListDto, Condition.getPage(query.setDescs("create_time")));
+            return payEnterpriseService.getPayEnterpriseList(enterpriseWorkerEntity.getEnterpriseId(), null, payEnterpriseDto, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("查询当前商户所有总包支付清单异常", e);
         }

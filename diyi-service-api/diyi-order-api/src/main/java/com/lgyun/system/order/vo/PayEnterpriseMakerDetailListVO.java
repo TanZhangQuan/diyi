@@ -35,13 +35,13 @@ public class PayEnterpriseMakerDetailListVO implements Serializable {
     private String bankCardNo;
 
     //是否实名
-    private boolean boolRealNameVerify;
+    private Boolean boolRealNameVerify;
 
     //是否已签协议
-    private boolean boolSign;
+    private Boolean boolSign;
 
     //工作成果附件
-    private boolean boolAchievement;
+    private Boolean boolAchievement;
 
     //验收金额
     private BigDecimal checkMoney;

@@ -4,10 +4,14 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.core.mp.support.Query;
+import com.lgyun.system.user.dto.admin.QueryEnterpriseListDTO;
+import com.lgyun.system.user.dto.admin.QueryServiceProviderListDTO;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.vo.EnterprisesDetailVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
+import com.lgyun.system.user.vo.admin.QueryEnterpriseListVO;
+import com.lgyun.system.user.vo.admin.QueryServiceProviderListVO;
 import com.lgyun.system.user.vo.enterprise.EnterpriseResponse;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -69,5 +73,22 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * @return
      */
     R<EnterprisesDetailVO> getEnterpriseDetailById(Long enterpriseId);
+
+    /**
+     * 查询所有商户
+     *
+     * @param page
+     * @return
+     */
+    R<IPage<QueryEnterpriseListVO>> queryEnterpriseList(QueryEnterpriseListDTO queryEnterpriseListDTO, IPage<QueryEnterpriseListVO> page);
+
+    /**
+     * 查询所有服务商
+     *
+     * @param queryServiceProviderListDTO
+     * @param page
+     * @return
+     */
+    R<IPage<QueryServiceProviderListVO>> queryServiceProviderList(QueryServiceProviderListDTO queryServiceProviderListDTO, IPage<QueryServiceProviderListVO> page);
 }
 

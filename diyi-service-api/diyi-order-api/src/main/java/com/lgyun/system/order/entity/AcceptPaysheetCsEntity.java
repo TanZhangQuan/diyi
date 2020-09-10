@@ -52,12 +52,12 @@ public class AcceptPaysheetCsEntity extends BaseEntity {
     /**
      * 上传来源
      */
-    private String uploadDateSource;
+    private String uploadSource;
 
     /**
      * 上传人员
      */
-    private String uploadDatePerson;
+    private String uploadPerson;
 
     /**
      * 验收单URL

@@ -7,6 +7,8 @@ import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
+import com.lgyun.system.user.dto.admin.QueryEnterpriseListDTO;
+import com.lgyun.system.user.dto.admin.QueryServiceProviderListDTO;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.mapper.EnterpriseMapper;
@@ -17,6 +19,8 @@ import com.lgyun.system.user.service.IMakerEnterpriseService;
 import com.lgyun.system.user.vo.EnterprisesDetailVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
+import com.lgyun.system.user.vo.admin.QueryEnterpriseListVO;
+import com.lgyun.system.user.vo.admin.QueryServiceProviderListVO;
 import com.lgyun.system.user.vo.enterprise.EnterpriseResponse;
 import com.lgyun.system.user.wrapper.EnterpriseWrapper;
 import lombok.AllArgsConstructor;
@@ -133,6 +137,16 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     @Override
     public R<EnterprisesDetailVO> getEnterpriseDetailById(Long enterpriseId) {
         return R.data(baseMapper.getEnterpriseDetailById(enterpriseId));
+    }
+
+    @Override
+    public R<IPage<QueryEnterpriseListVO>> queryEnterpriseList(QueryEnterpriseListDTO queryEnterpriseListDTO, IPage<QueryEnterpriseListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryEnterpriseList(queryEnterpriseListDTO, page)));
+    }
+
+    @Override
+    public R<IPage<QueryServiceProviderListVO>> queryServiceProviderList(QueryServiceProviderListDTO queryServiceProviderListDTO, IPage<QueryServiceProviderListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryServiceProviderList(queryServiceProviderListDTO, page)));
     }
 
 }

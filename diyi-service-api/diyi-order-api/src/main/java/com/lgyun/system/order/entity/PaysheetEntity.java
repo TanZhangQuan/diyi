@@ -1,13 +1,8 @@
 package com.lgyun.system.order.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.PaysheetUploadSource;
 import com.lgyun.core.mp.base.BaseEntity;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -57,7 +52,7 @@ public class PaysheetEntity extends BaseEntity {
     /**
      * 上传人员
      */
-    private String uploadDatePerson;
+    private String uploadPerson;
 
     /**
      * 确认函URL

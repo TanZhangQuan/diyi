@@ -7,10 +7,9 @@ import com.lgyun.system.order.dto.AcceptPayListDto;
 import com.lgyun.system.order.dto.AcceptPaysheetSaveDto;
 import com.lgyun.system.order.entity.AcceptPaysheetEntity;
 import com.lgyun.system.order.vo.AcceptPayListVO;
-import com.lgyun.system.order.vo.PayEnterpriseMakerDetailListVO;
 import com.lgyun.system.order.vo.AcceptPaysheetByEnterpriseListVO;
 import com.lgyun.system.order.vo.AcceptPaysheetWorksheetVO;
-import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
+import com.lgyun.system.order.vo.PayEnterpriseMakerDetailListVO;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 
 /**
@@ -53,10 +52,12 @@ public interface IAcceptPaysheetService extends BaseService<AcceptPaysheetEntity
      * 上传交付支付验收单
      *
      * @param acceptPaysheetSaveDto
-     * @param enterpriseWorkerEntity
+     * @param enterpriseId
+     * @param uploadSource
+     * @param uploadPerson
      * @return
      */
-    R<String> upload(AcceptPaysheetSaveDto acceptPaysheetSaveDto, EnterpriseWorkerEntity enterpriseWorkerEntity);
+    R<String> upload(AcceptPaysheetSaveDto acceptPaysheetSaveDto, Long enterpriseId, String uploadSource, String uploadPerson);
 
     /**
      * 查询当前商户所有总包交付支付验收单

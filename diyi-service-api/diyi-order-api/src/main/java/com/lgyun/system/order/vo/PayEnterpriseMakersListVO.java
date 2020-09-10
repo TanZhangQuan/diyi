@@ -23,11 +23,7 @@ import java.util.Date;
 public class PayEnterpriseMakersListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //总包或分包支付清单编号
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
-
-    //总包支付清单编号(分包时赋值)
+    //总包编号
     @JsonSerialize(using = ToStringSerializer.class)
     private Long payEnterpriseId;
 

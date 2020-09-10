@@ -1,5 +1,7 @@
 package com.lgyun.system.order.service.impl;
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
@@ -9,9 +11,11 @@ import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.PayEnterpriseMakerListDto;
+import com.lgyun.system.order.dto.PayEnterpriseDto;
 import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
 import com.lgyun.system.order.entity.*;
+import com.lgyun.system.order.excel.PayEnterpriseExcel;
+import com.lgyun.system.order.excel.PayEnterpriseImportListener;
 import com.lgyun.system.order.mapper.PayEnterpriseMapper;
 import com.lgyun.system.order.service.*;
 import com.lgyun.system.order.vo.*;
@@ -26,7 +30,10 @@ import org.json.JSONArray;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -73,7 +80,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> upload(PayEnterpriseUploadDto payEnterpriseUploadDto, Long enterpriseId) {
+    public R<String> upload(PayEnterpriseUploadDto payEnterpriseUploadDto, Long enterpriseId) throws Exception {
 
         //判断服务商和商户是否关联
         EnterpriseProviderEntity enterpriseProviderEntity = userClient.findByEnterpriseIdServiceProviderId(enterpriseId, payEnterpriseUploadDto.getServiceProviderId());
@@ -135,6 +142,20 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             }
         }
 
+        //根据总包支付清单生成分包
+        String path = payEnterpriseEntity.getChargeListUrl();
+        String type = path.substring(path.lastIndexOf(".") + 1);
+        //根据文件后缀（xls/xlsx）进行判断
+        InputStream input = new URL(path).openStream();
+        if (!("xls".equals(type)) && !("xlsx".equals(type))) {
+            return R.fail("支付清单文件类型有误");
+        }
+
+        PayEnterpriseImportListener payEnterpriseImportListener = new PayEnterpriseImportListener(payMakerService, payEnterpriseEntity);
+        InputStream inputStream = new BufferedInputStream(input);
+        ExcelReaderBuilder builder = EasyExcel.read(inputStream, PayEnterpriseExcel.class, payEnterpriseImportListener);
+        builder.doReadAll();
+
         return R.success("上传支付清单成功");
     }
 
@@ -172,15 +193,15 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R<IPage<PayEnterpriseMakersListVO>> getPayEnterprises(Long enterpriseId, Long serviceProviderId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page) {
+    public R<IPage<PayEnterpriseMakersListVO>> getPayEnterpriseList(Long enterpriseId, Long serviceProviderId, PayEnterpriseDto payEnterpriseDto, IPage<PayEnterpriseMakersListVO> page) {
 
-        if (payEnterpriseMakerListDto.getBeginDate() != null && payEnterpriseMakerListDto.getEndDate() != null) {
-            if (payEnterpriseMakerListDto.getBeginDate().after(payEnterpriseMakerListDto.getEndDate())) {
+        if (payEnterpriseDto.getBeginDate() != null && payEnterpriseDto.getEndDate() != null) {
+            if (payEnterpriseDto.getBeginDate().after(payEnterpriseDto.getEndDate())) {
                 return R.fail("开始时间不能大于结束时间");
             }
         }
 
-        return R.data(page.setRecords(baseMapper.getPayEnterprises(enterpriseId, serviceProviderId, payEnterpriseMakerListDto, page)));
+        return R.data(page.setRecords(baseMapper.getPayEnterpriseList(enterpriseId, serviceProviderId, payEnterpriseDto, page)));
     }
 
     @Override
@@ -297,8 +318,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R<IPage<PayMakerListVO>> getPayMakerListByPayEnterpriseId(Long payEnterpriseId, IPage<PayMakerListVO> page) {
-        return R.data(page.setRecords(baseMapper.getPayMakerListByPayEnterpriseId(payEnterpriseId, page)));
+    public R<IPage<PayMakerListVO>> getPayMakerListByPayEnterprise(Long payEnterpriseId, IPage<PayMakerListVO> page) {
+        return R.data(page.setRecords(baseMapper.getPayMakerListByPayEnterprise(payEnterpriseId, page)));
     }
 
     @Override
@@ -340,15 +361,15 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R<IPage<PayEnterpriseMakersListVO>> getPayEnterprisesByEnterprisesServiceProvider(Long enterpriseId, Long serviceProviderId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page) {
+    public R<IPage<PayEnterpriseMakersListVO>> getPayEnterprisesByEnterprisesServiceProvider(Long enterpriseId, Long serviceProviderId, PayEnterpriseDto payEnterpriseDto, IPage<PayEnterpriseMakersListVO> page) {
 
-        if (payEnterpriseMakerListDto.getBeginDate() != null && payEnterpriseMakerListDto.getEndDate() != null) {
-            if (payEnterpriseMakerListDto.getBeginDate().after(payEnterpriseMakerListDto.getEndDate())) {
+        if (payEnterpriseDto.getBeginDate() != null && payEnterpriseDto.getEndDate() != null) {
+            if (payEnterpriseDto.getBeginDate().after(payEnterpriseDto.getEndDate())) {
                 return R.fail("开始时间不能大于结束时间");
             }
         }
 
-        return R.data(page.setRecords(baseMapper.getPayEnterprisesByEnterprisesServiceProvider(enterpriseId, serviceProviderId, payEnterpriseMakerListDto, page)));
+        return R.data(page.setRecords(baseMapper.getPayEnterprisesByEnterprisesServiceProvider(enterpriseId, serviceProviderId, payEnterpriseDto, page)));
     }
 
     @Override
@@ -527,7 +548,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     @Override
     @Transactional
     public R savePortalSignInvoice(Long serviceProviderId, Long payEnterpriseId, String payMakers,String serviceProviderName) {
-        JSONArray payMakerArray = null;
+        JSONArray payMakerArray;
         payMakerArray = new JSONArray(payMakers);
         for (int i = 0;i < payMakerArray.length() ; i++) {
             String voiceTypeNo = payMakerArray.getJSONObject(i).get("voiceTypeNo").toString();

@@ -8,7 +8,7 @@ import com.lgyun.common.enumeration.PayEnterpriseAuditState;
 import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.PayEnterpriseMakerListDto;
+import com.lgyun.system.order.dto.PayEnterpriseDto;
 import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.*;
@@ -30,7 +30,6 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @return
      */
     R<IPage<InvoiceEnterpriseVO>> getEnterpriseAll(Long makerId, IPage<InvoiceEnterpriseVO> page);
-
 
     /**
      * 根据创客id和商户id查询创客在商户下所开的票
@@ -74,11 +73,11 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * 根据条件查询所有总包支付清单
      *
      * @param enterpriseId
-     * @param payEnterpriseMakerListDto
+     * @param payEnterpriseDto
      * @param page
      * @return
      */
-    R<IPage<PayEnterpriseMakersListVO>> getPayEnterprises(Long enterpriseId, Long serviceProviderId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page);
+    R<IPage<PayEnterpriseMakersListVO>> getPayEnterpriseList(Long enterpriseId, Long serviceProviderId, PayEnterpriseDto payEnterpriseDto, IPage<PayEnterpriseMakersListVO> page);
 
     /**
      * 根据支付清单ID查询支付清单关联工单的创客
@@ -162,7 +161,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @param page
      * @return
      */
-    R<IPage<PayMakerListVO>> getPayMakerListByPayEnterpriseId(Long payEnterpriseId, IPage<PayMakerListVO> page);
+    R<IPage<PayMakerListVO>> getPayMakerListByPayEnterprise(Long payEnterpriseId, IPage<PayMakerListVO> page);
 
     /**
      * 支付清单审核
@@ -180,11 +179,11 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      *
      * @param enterpriseId
      * @param serviceProviderId
-     * @param payEnterpriseMakerListDto
+     * @param payEnterpriseDto
      * @param page
      * @return
      */
-    R<IPage<PayEnterpriseMakersListVO>> getPayEnterprisesByEnterprisesServiceProvider(Long enterpriseId, Long serviceProviderId, PayEnterpriseMakerListDto payEnterpriseMakerListDto, IPage<PayEnterpriseMakersListVO> page);
+    R<IPage<PayEnterpriseMakersListVO>> getPayEnterprisesByEnterprisesServiceProvider(Long enterpriseId, Long serviceProviderId, PayEnterpriseDto payEnterpriseDto, IPage<PayEnterpriseMakersListVO> page);
 
     /**
      * 获取当前商户首页交易情况数据
@@ -345,5 +344,6 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * 服务商查询已门征单开的发票详情
      */
     R getServicePortalSignInvoiceDetails(Long payEnterpriseId);
+
 }
 

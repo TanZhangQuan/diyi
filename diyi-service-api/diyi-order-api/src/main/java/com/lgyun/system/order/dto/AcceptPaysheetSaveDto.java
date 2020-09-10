@@ -20,9 +20,9 @@ public class AcceptPaysheetSaveDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 支付清单ID
+     * 总包编号
      */
-    @NotNull(message = "请选择支付清单")
+    @NotNull(message = "请选择总包编号")
     private Long payEnterpriseId;
 
     /**
