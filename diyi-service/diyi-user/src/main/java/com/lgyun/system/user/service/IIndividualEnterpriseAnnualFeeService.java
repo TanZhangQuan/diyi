@@ -6,7 +6,7 @@ import com.lgyun.system.user.entity.IndividualEnterpriseAnnualFeeEntity;
 /**
  *  Service 接口
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-07-02 17:44:02
  */
 public interface IIndividualEnterpriseAnnualFeeService extends BaseService<IndividualEnterpriseAnnualFeeEntity> {

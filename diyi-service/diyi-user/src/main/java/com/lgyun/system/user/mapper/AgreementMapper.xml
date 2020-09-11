@@ -62,7 +62,7 @@
 
     <select id="selectServiceAgreement" resultMap="agreementWebVOMap">
         SELECT ep.id AS enterprise_provider_id, ep.enterprise_id, ep.service_provider_id, a.id AS agreement_id, a.agreement_no,a.paper_agreement_url,
-        sp.service_provider_name, a.first_side_sign_person, a.online_aggrement_url, a.sign_state, a.sign_date FROM diyi_enterprise_provider ep INNER JOIN
+        sp.service_provider_name, a.first_side_sign_person, a.online_aggrement_url, a.sign_state, a.sign_date FROM diyi_enterprise_service_provider ep INNER JOIN
         diyi_service_provider sp ON sp.id = ep.service_provider_id INNER JOIN diyi_agreement a ON sp.id = a.service_provider_id WHERE
         sp.is_deleted = 0 AND a.is_deleted = 0 AND ep.is_deleted = 0  and ep.enterprise_id =#{param1}
         <if test="param2 != null and param2 != ''">
@@ -74,7 +74,7 @@
         and a.sign_type=#{param4} AND a.agreement_type =#{param5}
     </select>
     <select id="selectServiceSupplementaryAgreement" resultMap="agreementWebVOMap">
-        SELECT ep.id AS enterprise_provider_id, ep.enterprise_id, ep.service_provider_id, a.id AS agreement_id, a.agreement_no,a.paper_agreement_url, sp.service_provider_name, a.first_side_sign_person, a.online_aggrement_url, a.sign_state, a.sign_date FROM diyi_enterprise_provider ep INNER JOIN diyi_service_provider sp ON sp.id = ep.service_provider_id INNER JOIN diyi_agreement a ON sp.id = a.service_provider_id WHERE
+        SELECT ep.id AS enterprise_provider_id, ep.enterprise_id, ep.service_provider_id, a.id AS agreement_id, a.agreement_no,a.paper_agreement_url, sp.service_provider_name, a.first_side_sign_person, a.online_aggrement_url, a.sign_state, a.sign_date FROM diyi_enterprise_service_provider ep INNER JOIN diyi_service_provider sp ON sp.id = ep.service_provider_id INNER JOIN diyi_agreement a ON sp.id = a.service_provider_id WHERE
         sp.is_deleted = 0 AND a.is_deleted = 0 AND ep.is_deleted = 0  and ep.enterprise_id =#{param1}
         <if test="param2 != null and param2 != ''">
             and sp.service_provider_name like concat('%', #{param2}, '%')
@@ -119,7 +119,7 @@
     </select>
 
     <select id="findEnterpriseAgreement" resultMap="agreementServiceVOMap">
-        SELECT a.id AS agreement_id, s.id AS service_provider_id,e.enterprise_name, a.agreement_no, a.sign_type, a.agreement_type, s.service_provider_name, a.online_aggrement_url, a.paper_agreement_url, a.sign_date, a.sign_state FROM diyi_agreement a INNER JOIN diyi_enterprise e ON a.enterprise_id = e.id INNER JOIN diyi_enterprise_provider ep ON ep.enterprise_id = m.id INNER JOIN diyi_service_provider s ON ep.service_provider_id = s.id WHERE a.agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' OR ( a.agreement_type = 'OTHERAGREEMENT' AND a.sign_type = 'UNILATERALPOWER' )
+        SELECT a.id AS agreement_id, s.id AS service_provider_id,e.enterprise_name, a.agreement_no, a.sign_type, a.agreement_type, s.service_provider_name, a.online_aggrement_url, a.paper_agreement_url, a.sign_date, a.sign_state FROM diyi_agreement a INNER JOIN diyi_enterprise e ON a.enterprise_id = e.id INNER JOIN diyi_enterprise_service_provider ep ON ep.enterprise_id = m.id INNER JOIN diyi_service_provider s ON ep.service_provider_id = s.id WHERE a.agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' OR ( a.agreement_type = 'OTHERAGREEMENT' AND a.sign_type = 'UNILATERALPOWER' )
         <if test="param1 != null and param1 !=''">
             and a.agreement_no like concat('%', #{param1}, '%')
         </if>

@@ -5,7 +5,7 @@
 
     <resultMap type="com.lgyun.system.user.vo.EnterprisesDetailVO" id="enterprisesDetailVO">
         <result property="enterpriseName" column="enterprise_name"/>
-        <result property="legalPerson" column="legal_person"/>
+        <result property="legalPersonName" column="legal_person_name"/>
         <result property="contact1Mail" column="contact1_mail"/>
         <result property="contact1Phone" column="contact1_phone"/>
         <result property="workingAddress" column="working_address"/>
@@ -15,14 +15,14 @@
         <result property="enterpriseState" column="enterprise_state"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.admin.QueryEnterpriseListVO" id="queryEnterpriseListVO">
+    <resultMap type="com.lgyun.system.user.vo.admin.QueryEnterpriseListPaymentVO" id="queryEnterpriseListVO">
         <result property="enterpriseId" column="enterprise_id"/>
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="boolSignContract" column="bool_sign_contract"/>
         <result property="boolSignAgreement" column="bool_sign_agreement"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.admin.QueryServiceProviderListVO" id="queryServiceProviderListVO">
+    <resultMap type="com.lgyun.system.user.vo.admin.QueryServiceProviderListPaymentVO" id="queryServiceProviderListVO">
         <result property="serviceProviderId" column="service_provider_id"/>
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="boolSignContract" column="bool_sign_contract"/>
@@ -35,7 +35,7 @@
     </resultMap>
 
     <select id="getEnterpriseDetailById" resultMap="enterprisesDetailVO">
-        SELECT enterprise_name, legal_person, contact1_mail, contact1_phone, working_address, social_credit_no, biz_licence_url,
+        SELECT enterprise_name, legal_person_name, contact1_mail, contact1_phone, working_address, social_credit_no, biz_licence_url,
         create_time, enterprise_state FROM diyi_enterprise t1 WHERE is_deleted = 0 AND id = #{param1}
     </select>
 

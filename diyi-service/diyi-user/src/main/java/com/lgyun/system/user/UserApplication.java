@@ -11,7 +11,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 /**
  * 用户项目服务器
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/6 22:03
  */
 @Slf4j

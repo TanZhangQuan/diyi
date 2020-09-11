@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @date 2020/9/9
  */
 @Data
-public class QueryEnterpriseListVO implements Serializable {
+public class QueryEnterpriseListPaymentVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //商户编号

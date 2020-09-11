@@ -1,11 +1,15 @@
 package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 /**
  * 服务商开票明细：是从自助开票明细中选择过来的，信息是一致的 Entity
@@ -30,6 +34,13 @@ public class SelfHelpInvoiceSpDetailEntity extends BaseEntity {
      * 自助开票明细Id
      */
     private Long selfHelpInvoiceDetailId;
+
+    /**
+     * 更新时间
+     */
+    @DateTimeFormat(pattern = PATTERN_DATETIME)
+    @JsonFormat(pattern = PATTERN_DATETIME, timezone = "GMT+8")
+    private Date MatchDatetime;
 
     /**
      * 发票扫描件（多张）

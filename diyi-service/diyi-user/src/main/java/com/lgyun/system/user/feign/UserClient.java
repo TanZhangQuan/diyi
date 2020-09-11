@@ -15,7 +15,6 @@ import com.lgyun.system.user.vo.MakerWorksheetVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -23,7 +22,7 @@ import java.util.List;
 /**
  * 用户服务Feign实现类
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/6 22:11
  */
 @Slf4j
@@ -42,13 +41,11 @@ public class UserClient implements IUserClient {
     private IServiceProviderWorkerService iServiceProviderWorkerService;
 
     @Override
-    @GetMapping(API_PREFIX + "/user-info-by-id")
     public UserInfo userInfo(Long userId, UserType userType) {
         return iUserService.userInfo(userId, userType);
     }
 
     @Override
-    @GetMapping(API_PREFIX + "/phone")
     public UserInfo userInfoByPhone(String phone, UserType userType) {
         return iUserService.userInfoByPhone(phone, userType);
     }

@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("diyi_enterprise_provider")
+@TableName("diyi_enterprise_service_provider")
 public class EnterpriseProviderEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 

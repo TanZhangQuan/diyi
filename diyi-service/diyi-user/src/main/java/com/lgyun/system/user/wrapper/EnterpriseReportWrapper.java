@@ -8,7 +8,7 @@ import com.lgyun.system.user.vo.EnterpriseReportVO;
 /**
  * 年度申报管理表包装类,返回视图层所需的字段
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-08-12 14:47:56
  */
 public class EnterpriseReportWrapper extends BaseEntityWrapper<EnterpriseReportEntity, EnterpriseReportVO> {

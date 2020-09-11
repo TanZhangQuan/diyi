@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 /**
  * 服务商员工表 Entity
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-08-13 17:05:17
  */
 @Data
@@ -28,6 +28,7 @@ public class ServiceProviderWorkerEntity extends BaseEntity {
     /**
      * 服务商ID
      */
+    @JsonIgnore
     private Long serviceProviderId;
 
     /**
@@ -86,11 +87,6 @@ public class ServiceProviderWorkerEntity extends BaseEntity {
      * 管理员特性
      */
     private Boolean adminPower;
-
-    /**
-     * 是否超级管理员
-     */
-    private Boolean superAdmin;
 
     /**
      * 拥有的菜单名字

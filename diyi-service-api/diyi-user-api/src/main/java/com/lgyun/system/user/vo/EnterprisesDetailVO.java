@@ -22,7 +22,7 @@ public class EnterprisesDetailVO implements Serializable {
     private String enterpriseName;
 
     //法人名称
-    private String legalPerson;
+    private String legalPersonName;
 
     //邮箱
     private String contact1Mail;

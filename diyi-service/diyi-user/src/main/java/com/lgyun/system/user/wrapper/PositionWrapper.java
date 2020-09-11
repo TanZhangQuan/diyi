@@ -8,7 +8,7 @@ import com.lgyun.system.user.vo.PositionVO;
 /**
  * 包装类,返回视图层所需的字段
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-06-26 17:21:06
  */
 public class PositionWrapper extends BaseEntityWrapper<PositionEntity, PositionVO> {

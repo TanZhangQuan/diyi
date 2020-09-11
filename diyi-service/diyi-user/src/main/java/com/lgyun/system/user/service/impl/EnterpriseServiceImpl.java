@@ -7,8 +7,8 @@ import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.admin.QueryEnterpriseListDTO;
-import com.lgyun.system.user.dto.admin.QueryServiceProviderListDTO;
+import com.lgyun.system.user.dto.admin.QueryEnterpriseListPaymentDTO;
+import com.lgyun.system.user.dto.admin.QueryServiceProviderListPaymentDTO;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.mapper.EnterpriseMapper;
@@ -19,8 +19,8 @@ import com.lgyun.system.user.service.IMakerEnterpriseService;
 import com.lgyun.system.user.vo.EnterprisesDetailVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
-import com.lgyun.system.user.vo.admin.QueryEnterpriseListVO;
-import com.lgyun.system.user.vo.admin.QueryServiceProviderListVO;
+import com.lgyun.system.user.vo.admin.QueryEnterpriseListPaymentVO;
+import com.lgyun.system.user.vo.admin.QueryServiceProviderListPaymentVO;
 import com.lgyun.system.user.vo.admin.QueryEnterpriseIdAndNameListVO;
 import com.lgyun.system.user.vo.enterprise.EnterpriseResponse;
 import com.lgyun.system.user.wrapper.EnterpriseWrapper;
@@ -33,7 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 /**
  * Service 实现
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-06-26 17:21:05
  */
 @Slf4j
@@ -71,8 +71,8 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             //TODO
             makerEnterpriseRelationVO.setContact1Phone("138********");
             makerEnterpriseRelationVO.setBizLicenceUrl("*");
-            makerEnterpriseRelationVO.setLegalPerson("***");
-            makerEnterpriseRelationVO.setLegalPersonCard("*********");
+            makerEnterpriseRelationVO.setLegalPersonName("***");
+            makerEnterpriseRelationVO.setLegalPersonIdCard("*********");
             makerEnterpriseRelationVO.setSocialCreditNo("*******");
             makerEnterpriseRelationVO.setContact1Position("********");
             makerEnterpriseRelationVO.setShopUserName("*****");
@@ -141,13 +141,13 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     @Override
-    public R<IPage<QueryEnterpriseListVO>> queryEnterpriseList(QueryEnterpriseListDTO queryEnterpriseListDTO, IPage<QueryEnterpriseListVO> page) {
-        return R.data(page.setRecords(baseMapper.queryEnterpriseList(queryEnterpriseListDTO, page)));
+    public R<IPage<QueryEnterpriseListPaymentVO>> queryEnterpriseList(QueryEnterpriseListPaymentDTO queryEnterpriseListPaymentDTO, IPage<QueryEnterpriseListPaymentVO> page) {
+        return R.data(page.setRecords(baseMapper.queryEnterpriseList(queryEnterpriseListPaymentDTO, page)));
     }
 
     @Override
-    public R<IPage<QueryServiceProviderListVO>> queryServiceProviderList(QueryServiceProviderListDTO queryServiceProviderListDTO, IPage<QueryServiceProviderListVO> page) {
-        return R.data(page.setRecords(baseMapper.queryServiceProviderList(queryServiceProviderListDTO, page)));
+    public R<IPage<QueryServiceProviderListPaymentVO>> queryServiceProviderList(QueryServiceProviderListPaymentDTO queryServiceProviderListPaymentDTO, IPage<QueryServiceProviderListPaymentVO> page) {
+        return R.data(page.setRecords(baseMapper.queryServiceProviderList(queryServiceProviderListPaymentDTO, page)));
     }
 
     @Override

@@ -9,7 +9,7 @@ import com.lgyun.system.user.vo.RelMakerListVO;
 /**
  * 服务商创客关联表 Service 接口
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-08-19 16:01:29
  */
 public interface IServiceProviderMakerService extends BaseService<ServiceProviderMakerEntity> {

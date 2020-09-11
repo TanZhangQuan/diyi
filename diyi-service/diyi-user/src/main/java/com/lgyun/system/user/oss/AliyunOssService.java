@@ -15,7 +15,7 @@ import java.util.UUID;
 /**
  * 阿里云存储
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2018/8/2 16:46.
  */
 @Slf4j

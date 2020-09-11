@@ -15,7 +15,7 @@ import java.util.Date;
 /**
  * 年度申报管理表 Entity
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-08-12 14:47:56
  */
 @Data

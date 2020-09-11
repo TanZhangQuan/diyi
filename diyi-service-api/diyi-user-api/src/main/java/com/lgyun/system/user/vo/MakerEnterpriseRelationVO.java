@@ -25,10 +25,10 @@ public class MakerEnterpriseRelationVO implements Serializable {
     private String shopUserName;
 
     //法人名字
-    private String legalPerson;
+    private String legalPersonName;
 
     //法人身份证
-    private String legalPersonCard;
+    private String legalPersonIdCard;
 
     //联系人职位
     private String contact1Position;

@@ -4,14 +4,14 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.admin.QueryEnterpriseListDTO;
-import com.lgyun.system.user.dto.admin.QueryServiceProviderListDTO;
+import com.lgyun.system.user.dto.admin.QueryEnterpriseListPaymentDTO;
+import com.lgyun.system.user.dto.admin.QueryServiceProviderListPaymentDTO;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.vo.EnterprisesDetailVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
-import com.lgyun.system.user.vo.admin.QueryEnterpriseListVO;
-import com.lgyun.system.user.vo.admin.QueryServiceProviderListVO;
+import com.lgyun.system.user.vo.admin.QueryEnterpriseListPaymentVO;
+import com.lgyun.system.user.vo.admin.QueryServiceProviderListPaymentVO;
 import com.lgyun.system.user.vo.admin.QueryEnterpriseIdAndNameListVO;
 import com.lgyun.system.user.vo.enterprise.EnterpriseResponse;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 /**
  * 商户信息 Service 接口
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-06-26 17:21:05
  */
 public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
@@ -81,16 +81,16 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * @param page
      * @return
      */
-    R<IPage<QueryEnterpriseListVO>> queryEnterpriseList(QueryEnterpriseListDTO queryEnterpriseListDTO, IPage<QueryEnterpriseListVO> page);
+    R<IPage<QueryEnterpriseListPaymentVO>> queryEnterpriseList(QueryEnterpriseListPaymentDTO queryEnterpriseListPaymentDTO, IPage<QueryEnterpriseListPaymentVO> page);
 
     /**
      * 查询所有服务商
      *
-     * @param queryServiceProviderListDTO
+     * @param queryServiceProviderListPaymentDTO
      * @param page
      * @return
      */
-    R<IPage<QueryServiceProviderListVO>> queryServiceProviderList(QueryServiceProviderListDTO queryServiceProviderListDTO, IPage<QueryServiceProviderListVO> page);
+    R<IPage<QueryServiceProviderListPaymentVO>> queryServiceProviderList(QueryServiceProviderListPaymentDTO queryServiceProviderListPaymentDTO, IPage<QueryServiceProviderListPaymentVO> page);
 
     /**
      * 查询所有商户的编号名称

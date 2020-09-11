@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 /**
  * Entity
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-06-26 17:21:05
  */
 @Data
@@ -45,12 +45,12 @@ public class EnterpriseEntity extends BaseEntity {
     /**
      * 法人名称
      */
-    private String legalPerson;
+    private String legalPersonName;
 
     /**
      * 法人身份证
      */
-    private String legalPersonCard;
+    private String legalPersonIdCard;
 
     /**
      * 企业网址

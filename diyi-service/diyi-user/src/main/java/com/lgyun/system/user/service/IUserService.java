@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * 服务类
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/6 22:09
  */
 public interface IUserService extends BaseService<User> {

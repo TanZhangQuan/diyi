@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * 年度申报管理表 Mapper
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-08-12 14:47:56
  */
 @Mapper

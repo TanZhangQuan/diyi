@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 /**
  * 服务商创客关联表 Entity
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-08-19 16:01:29
  */
 @Data

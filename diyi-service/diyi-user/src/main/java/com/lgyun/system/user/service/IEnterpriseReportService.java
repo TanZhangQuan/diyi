@@ -11,7 +11,7 @@ import com.lgyun.system.user.vo.EnterpriseReportsVO;
 /**
  * 年度申报管理表 Service 接口
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-08-12 14:47:56
  */
 public interface IEnterpriseReportService extends BaseService<EnterpriseReportEntity> {

@@ -19,7 +19,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
- * 平台端---个独管理管理controller
+ * 平台端---个独管理controller
  *
  * @author tzq
  * @date 2020-09-9
@@ -29,7 +29,7 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/admin/individual-enterprise")
 @Validated
 @AllArgsConstructor
-@Api(value = "平台端---个独管理管理模块相关接口", tags = "平台端---个独管理管理模块相关接口")
+@Api(value = "平台端---个独管理模块相关接口", tags = "平台端---个独管理模块相关接口")
 public class IndividualEnterpriseAdminController {
 
     private IIndividualEnterpriseService individualEnterpriseService;

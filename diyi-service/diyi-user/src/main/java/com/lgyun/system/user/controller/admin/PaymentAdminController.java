@@ -3,8 +3,8 @@ package com.lgyun.system.user.controller.admin;
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.admin.QueryEnterpriseListDTO;
-import com.lgyun.system.user.dto.admin.QueryServiceProviderListDTO;
+import com.lgyun.system.user.dto.admin.QueryEnterpriseListPaymentDTO;
+import com.lgyun.system.user.dto.admin.QueryServiceProviderListPaymentDTO;
 import com.lgyun.system.user.service.IEnterpriseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-@RequestMapping("/admin/payment-management")
+@RequestMapping("/admin/payment")
 @Validated
 @AllArgsConstructor
 @Api(value = "平台端---支付管理模块相关接口", tags = "平台端---支付管理模块相关接口")
@@ -31,26 +31,26 @@ public class PaymentAdminController {
 
     private IEnterpriseService enterpriseService;
 
-    @GetMapping("/query-enterprise-list")
+    @GetMapping("/query-enterprise-list-payment")
     @ApiOperation(value = "查询所有商户", notes = "查询所有商户")
-    public R queryEnterpriseList(QueryEnterpriseListDTO queryEnterpriseListDTO, Query query) {
+    public R queryEnterpriseListPayment(QueryEnterpriseListPaymentDTO queryEnterpriseListPaymentDTO, Query query) {
 
         log.info("查询所有商户");
         try {
-            return enterpriseService.queryEnterpriseList(queryEnterpriseListDTO, Condition.getPage(query.setDescs("create_time")));
+            return enterpriseService.queryEnterpriseList(queryEnterpriseListPaymentDTO, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("查询所有商户异常", e);
         }
         return R.fail("查询失败");
     }
 
-    @GetMapping("/query-service-provider-list")
+    @GetMapping("/query-service-provider-list-payment")
     @ApiOperation(value = "查询所有服务商", notes = "查询所有服务商")
-    public R queryServiceProviderList(QueryServiceProviderListDTO queryServiceProviderListDTO, Query query) {
+    public R queryServiceProviderListPayment(QueryServiceProviderListPaymentDTO queryServiceProviderListPaymentDTO, Query query) {
 
         log.info("查询所有服务商");
         try {
-            return enterpriseService.queryServiceProviderList(queryServiceProviderListDTO, Condition.getPage(query.setDescs("create_time")));
+            return enterpriseService.queryServiceProviderList(queryServiceProviderListPaymentDTO, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("查询所有商户异常", e);
         }

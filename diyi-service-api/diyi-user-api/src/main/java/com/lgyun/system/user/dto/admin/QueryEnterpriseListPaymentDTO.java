@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @date 2020-09-9
  */
 @Data
-public class QueryEnterpriseListDTO implements Serializable {
+public class QueryEnterpriseListPaymentDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //商户编号

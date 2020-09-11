@@ -6,8 +6,8 @@
     <resultMap type="com.lgyun.system.user.vo.MakerEnterpriseRelationVO" id="makerEnterpriseRelationMap">
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="shopUserName" column="shop_user_name"/>
-        <result property="legalPerson" column="legal_person"/>
-        <result property="legalPersonCard" column="legal_person_card"/>
+        <result property="legalPersonName" column="legal_person_name"/>
+        <result property="legalPersonIdCard" column="legal_person_id_card"/>
         <result property="contact1Position" column="contact1_position"/>
         <result property="contact1Phone" column="contact1_phone"/>
         <result property="socialCreditNo" column="social_credit_no"/>
@@ -70,7 +70,7 @@
     </resultMap>
 
     <select id="selectMakerEnterprisePage" resultMap="makerEnterpriseRelationMap">
-        SELECT e.enterprise_name, e.shop_user_name, e.legal_person, e.legal_person_card, e.contact1_position, e.contact1_phone, e.social_credit_no,
+        SELECT e.enterprise_name, e.shop_user_name, e.legal_person_name, e.legal_person_id_card, e.contact1_position, e.contact1_phone, e.social_credit_no,
         e.biz_licence_url, e.id as enterprise_id FROM diyi_maker_enterprise me INNER JOIN diyi_enterprise e ON me.enterprise_id = e.id
         WHERE me.is_deleted = 0 and e.is_deleted = 0 and me.maker_id = #{param1} AND me.relationship_type = #{param2} and me.cooperate_status = 'COOPERATING'
     </select>

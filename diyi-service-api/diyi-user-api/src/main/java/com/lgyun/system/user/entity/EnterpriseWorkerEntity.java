@@ -28,6 +28,7 @@ public class EnterpriseWorkerEntity extends BaseEntity {
     /**
      * 商户ID
      */
+    @JsonIgnore
     private Long enterpriseId;
 
     /**
@@ -86,11 +87,6 @@ public class EnterpriseWorkerEntity extends BaseEntity {
      * 管理员特性
      */
     private Boolean adminPower;
-
-    /**
-     * 超级管理员
-     */
-    private Boolean superAdmin;
 
     /**
      * 拥有的菜单名字

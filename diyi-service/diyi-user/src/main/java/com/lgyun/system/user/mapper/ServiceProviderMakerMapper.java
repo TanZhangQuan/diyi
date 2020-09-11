@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 服务商创客关联表 Mapper
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-08-19 16:01:29
  */
 @Mapper

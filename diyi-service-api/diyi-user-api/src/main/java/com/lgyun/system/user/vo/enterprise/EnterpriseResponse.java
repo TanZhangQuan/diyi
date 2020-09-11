@@ -24,12 +24,12 @@ public class EnterpriseResponse implements Serializable {
     /**
      * 法人名称
      */
-    private String legalPerson;
+    private String legalPersonName;
 
     /**
      * 法人身份证
      */
-    private String legalPersonCard;
+    private String legalPersonIdCard;
 
     /**
      * 企业网址

@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 /**
  * Entity
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-07-25 14:38:06
  */
 @Data
@@ -40,12 +40,12 @@ public class ServiceProviderEntity extends BaseEntity {
     /**
      * 法人代表名称
      */
-    private String legalPerson;
+    private String legalPersonName;
 
     /**
      * 法人身份证
      */
-    private String legalPersonCard;
+    private String legalPersonIdCard;
 
     /**
      * 统一社会信用代码

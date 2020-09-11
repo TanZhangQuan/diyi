@@ -73,6 +73,7 @@ public class PasswordTokenGranter implements ITokenGranter {
                 if (!(res.isSuccess())) {
                     return res;
                 }
+
                 userInfo = userClient.userInfoByPhone(account, userType);
                 break;
 

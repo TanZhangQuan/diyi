@@ -8,7 +8,7 @@ import com.lgyun.system.user.vo.ServiceProviderWorkerVO;
 /**
  * 服务商员工表包装类,返回视图层所需的字段
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-08-13 17:05:17
  */
 public class ServiceProviderWorkerWrapper extends BaseEntityWrapper<ServiceProviderWorkerEntity, ServiceProviderWorkerVO> {

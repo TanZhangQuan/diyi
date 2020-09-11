@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * 服务商员工表 Mapper
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-08-13 17:05:17
  */
 @Mapper

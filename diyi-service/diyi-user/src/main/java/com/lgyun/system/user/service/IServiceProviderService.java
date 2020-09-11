@@ -13,7 +13,7 @@ import com.lgyun.system.user.vo.*;
 /**
  *  Service 接口
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-07-25 14:38:06
  */
 public interface IServiceProviderService extends BaseService<ServiceProviderEntity> {

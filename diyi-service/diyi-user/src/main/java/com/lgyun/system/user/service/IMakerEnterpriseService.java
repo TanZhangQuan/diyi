@@ -19,7 +19,7 @@ import java.util.Set;
 /**
  * Service 接口
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-06-26 17:21:05
  */
 public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEntity> {
