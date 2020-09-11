@@ -73,7 +73,7 @@ public interface IMakerService extends IService<MakerEntity> {
     void makerUpdate(MakerEntity makerEntity, String openid, String sessionKey);
 
     /**
-     * 根据微信手机号码获取创客
+     * 根据微信手机号码查询创客
      *
      * @param phoneNumber
      * @return
@@ -81,7 +81,7 @@ public interface IMakerService extends IService<MakerEntity> {
     MakerEntity findByPhoneNumber(String phoneNumber);
 
     /**
-     * 根据手机号码密码获取创客
+     * 根据手机号码密码查询创客
      *
      * @param phoneNumber
      * @param loginPwd
@@ -172,7 +172,7 @@ public interface IMakerService extends IService<MakerEntity> {
     R<IdcardOcrVO> queryIdcardOcr(MakerEntity makerEntity);
 
     /**
-     * 获取运营者名称
+     * 查询运营者名称
      *
      * @param makerId
      * @return
@@ -180,7 +180,7 @@ public interface IMakerService extends IService<MakerEntity> {
     String getName(Long makerId);
 
     /**
-     * 根据userId获取创客
+     * 根据userId查询创客
      *
      * @param userId
      * @return
@@ -188,7 +188,7 @@ public interface IMakerService extends IService<MakerEntity> {
     MakerEntity findByUserId(Long userId);
 
     /**
-     * 获取创客基本信息
+     * 查询创客基本信息
      *
      * @param makerId
      * @return
@@ -196,7 +196,7 @@ public interface IMakerService extends IService<MakerEntity> {
     R<MakerInfoVO> getInfo(Long makerId);
 
     /**
-     * 获取当前创客关联商户数和收入情况
+     * 查询当前创客关联商户数和收入情况
      *
      * @param makerId
      * @return
@@ -204,7 +204,7 @@ public interface IMakerService extends IService<MakerEntity> {
     R<MakerEnterpriseNumIncomeVO> getEnterpriseNumIncome(Long makerId);
 
     /**
-     * 获取当前创客
+     * 查询当前创客
      *
      * @param bladeUser
      * @return
@@ -231,7 +231,7 @@ public interface IMakerService extends IService<MakerEntity> {
     R<IPage<MakerWorksheetVO>> getMakerName(Integer current, Integer size, String makerName);
 
     /**
-     * 获取当前创客所有实名认证状态
+     * 查询当前创客所有实名认证状态
      *
      * @param makerId
      * @return
@@ -272,7 +272,7 @@ public interface IMakerService extends IService<MakerEntity> {
     MakerEntity findByIdcardNo(String idcardNo);
 
     /**
-     * 根据创客ID获取创客详情
+     * 根据创客ID查询创客详情
      *
      * @param enterpriseId
      * @param makerId

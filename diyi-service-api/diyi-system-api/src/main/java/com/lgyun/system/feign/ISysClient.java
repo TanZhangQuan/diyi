@@ -2,11 +2,9 @@ package com.lgyun.system.feign;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
-import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.entity.Dept;
 import com.lgyun.system.entity.Role;
 import com.lgyun.system.vo.GrantRequest;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +27,7 @@ public interface ISysClient {
     String API_PREFIX = "/sys";
 
     /**
-     * 获取部门
+     * 查询部门
      *
      * @param id 主键
      * @return Dept
@@ -38,7 +36,7 @@ public interface ISysClient {
     Dept getDept(@RequestParam("id") Long id);
 
     /**
-     * 获取部门名
+     * 查询部门名
      *
      * @param id 主键
      * @return 部门名
@@ -47,7 +45,7 @@ public interface ISysClient {
     String getDeptName(@RequestParam("id") Long id);
 
     /**
-     * 获取部门id
+     * 查询部门id
      *
      * @param tenantId  租户id
      * @param deptNames 部门名
@@ -57,7 +55,7 @@ public interface ISysClient {
     String getDeptIds(@RequestParam("tenantId") String tenantId, @RequestParam("deptNames") String deptNames);
 
     /**
-     * 获取部门名
+     * 查询部门名
      *
      * @param deptIds 主键
      * @return
@@ -66,7 +64,7 @@ public interface ISysClient {
     List<String> getDeptNames(@RequestParam("deptIds") String deptIds);
 
     /**
-     * 获取岗位id
+     * 查询岗位id
      *
      * @param tenantId  租户id
      * @param postNames 岗位名
@@ -76,7 +74,7 @@ public interface ISysClient {
     String getPostIds(@RequestParam("tenantId") String tenantId, @RequestParam("postNames") String postNames);
 
     /**
-     * 获取岗位名
+     * 查询岗位名
      *
      * @param postIds 主键
      * @return
@@ -86,7 +84,7 @@ public interface ISysClient {
 
 
     /**
-     * 获取角色
+     * 查询角色
      *
      * @param id 主键
      * @return Role
@@ -95,7 +93,7 @@ public interface ISysClient {
     Role getRole(@RequestParam("id") Long id);
 
     /**
-     * 获取角色id
+     * 查询角色id
      *
      * @param tenantId  租户id
      * @param roleNames 角色名
@@ -105,7 +103,7 @@ public interface ISysClient {
     String getRoleIds(@RequestParam("tenantId") String tenantId, @RequestParam("roleNames") String roleNames);
 
     /**
-     * 获取角色名
+     * 查询角色名
      *
      * @param id 主键
      * @return 角色名
@@ -114,7 +112,7 @@ public interface ISysClient {
     String getRoleName(@RequestParam("id") Long id);
 
     /**
-     * 获取角色名
+     * 查询角色名
      *
      * @param roleIds 主键
      * @return
@@ -123,7 +121,7 @@ public interface ISysClient {
     List<String> getRoleNames(@RequestParam("roleIds") String roleIds);
 
     /**
-     * 获取角色别名
+     * 查询角色别名
      *
      * @param id 主键
      * @return 角色别名
@@ -141,7 +139,7 @@ public interface ISysClient {
     R grantFeign(@RequestBody GrantRequest request);
 
     /**
-     * 获取权限
+     * 查询权限
      *
      * @param roleId 主键
      * @return

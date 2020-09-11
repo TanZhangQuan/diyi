@@ -32,12 +32,12 @@ public class ServiceProviderWorkerWebController {
 	private IServiceProviderWorkerService serviceProviderWorkerService;
 
 	@GetMapping("/current-detail")
-	@ApiOperation(value = "获取当前服务商员工详情", notes = "获取当前服务商员工详情")
+	@ApiOperation(value = "查询当前服务商员工详情", notes = "查询当前服务商员工详情")
 	public R currentDetail(BladeUser bladeUser) {
 
-		log.info("获取当前服务商员工详情");
+		log.info("查询当前服务商员工详情");
 		try {
-			//获取当前创客
+			//查询当前创客
 			R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
 			if (!(result.isSuccess())){
 				return result;
@@ -46,7 +46,7 @@ public class ServiceProviderWorkerWebController {
 
 			return R.data(ServiceProviderWorkerWrapper.build().entityVO(serviceProviderWorkerEntity));
 		} catch (Exception e) {
-			log.error("获取当前服务商员工详情异常", e);
+			log.error("查询当前服务商员工详情异常", e);
 		}
 		return R.fail("查询失败");
 	}

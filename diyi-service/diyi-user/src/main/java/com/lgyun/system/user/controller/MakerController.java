@@ -41,7 +41,7 @@ public class MakerController {
 
         log.info("身份证实名认证");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = makerService.currentMaker(bladeUser);
             if (!(result.isSuccess())){
                 return result;
@@ -61,7 +61,7 @@ public class MakerController {
 
         log.info("身份证实名认证信息保存");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = makerService.currentMaker(bladeUser);
             if (!(result.isSuccess())){
                 return result;
@@ -81,7 +81,7 @@ public class MakerController {
 
         log.info("身份实名认证");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = makerService.currentMaker(bladeUser);
             if (!(result.isSuccess())){
                 return result;
@@ -114,7 +114,7 @@ public class MakerController {
 
         log.info("银行卡实名认证");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = makerService.currentMaker(bladeUser);
             if (!(result.isSuccess())){
                 return result;
@@ -147,7 +147,7 @@ public class MakerController {
 
         log.info("手机号实名认证");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = makerService.currentMaker(bladeUser);
             if (!(result.isSuccess())){
                 return result;
@@ -180,7 +180,7 @@ public class MakerController {
 
         log.info("查询当前创客身份证实名认证的照片");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = makerService.currentMaker(bladeUser);
             if (!(result.isSuccess())){
                 return result;
@@ -195,12 +195,12 @@ public class MakerController {
     }
 
     @GetMapping("/get-real-name-authentication-state")
-    @ApiOperation(value = "获取当前创客所有实名认证状态", notes = "获取当前创客所有实名认证状态")
+    @ApiOperation(value = "查询当前创客所有实名认证状态", notes = "查询当前创客所有实名认证状态")
     public R getRealNameAuthenticationState(BladeUser bladeUser) {
 
-        log.info("获取当前创客所有实名认证状态");
+        log.info("查询当前创客所有实名认证状态");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = makerService.currentMaker(bladeUser);
             if (!(result.isSuccess())){
                 return result;
@@ -209,18 +209,18 @@ public class MakerController {
 
             return makerService.getRealNameAuthenticationState(makerEntity.getId());
         } catch (Exception e) {
-            log.error("获取当前创客所有实名认证状态异常", e);
+            log.error("查询当前创客所有实名认证状态异常", e);
         }
         return R.fail("查询失败");
     }
 
     @GetMapping("/get-info")
-    @ApiOperation(value = "获取当前创客基本信息", notes = "获取当前创客基本信息")
+    @ApiOperation(value = "查询当前创客基本信息", notes = "查询当前创客基本信息")
     public R getInfo(BladeUser bladeUser) {
 
-        log.info("获取当前创客基本信息");
+        log.info("查询当前创客基本信息");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = makerService.currentMaker(bladeUser);
             if (!(result.isSuccess())){
                 return result;
@@ -229,7 +229,7 @@ public class MakerController {
 
             return makerService.getInfo(makerEntity.getId());
         } catch (Exception e) {
-            log.error("获取当前创客基本信息异常", e);
+            log.error("查询当前创客基本信息异常", e);
         }
         return R.fail("查询失败");
     }
@@ -240,7 +240,7 @@ public class MakerController {
 
         log.info("查询当前创客关联商户数和收入情况");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = makerService.currentMaker(bladeUser);
             if (!(result.isSuccess())){
                 return result;
@@ -255,12 +255,12 @@ public class MakerController {
     }
 
     @GetMapping("/current-detail")
-    @ApiOperation(value = "获取当前创客详情", notes = "获取当前创客详情")
+    @ApiOperation(value = "查询当前创客详情", notes = "查询当前创客详情")
     public R currentDetail(BladeUser bladeUser) {
 
-        log.info("获取当前创客详情");
+        log.info("查询当前创客详情");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = makerService.currentMaker(bladeUser);
             if (!(result.isSuccess())){
                 return result;
@@ -269,7 +269,7 @@ public class MakerController {
 
             return R.data(MakerWrapper.build().entityVO(makerEntity));
         } catch (Exception e) {
-            log.error("获取当前创客详情异常", e);
+            log.error("查询当前创客详情异常", e);
         }
         return R.fail("查询失败");
     }

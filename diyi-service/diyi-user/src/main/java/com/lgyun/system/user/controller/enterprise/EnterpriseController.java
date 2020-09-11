@@ -57,7 +57,7 @@ public class EnterpriseController {
 
 		log.info("查询商户基本信息");
 		try {
-			//获取当前商户员工
+			//查询当前商户员工
 			R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
 			if (!(result.isSuccess())) {
 				return result;
@@ -76,7 +76,7 @@ public class EnterpriseController {
     @ApiOperation(value = "上传营业执照", notes = "上传营业执照")
     public R licenceImageUpload(@RequestParam("file") MultipartFile file, BladeUser bladeUser) {
         try {
-			//获取当前商户员工
+			//查询当前商户员工
 			R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
 			if (!(result.isSuccess())) {
 				return result;

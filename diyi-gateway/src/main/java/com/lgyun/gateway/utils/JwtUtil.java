@@ -22,7 +22,7 @@ public class JwtUtil {
 	public static String BASE64_SECURITY = Base64.getEncoder().encodeToString(SIGN_KEY.getBytes(StandardCharsets.UTF_8));
 
 	/**
-	 * 获取token串
+	 * 查询token串
 	 *
 	 * @param auth token
 	 * @return String

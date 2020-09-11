@@ -45,7 +45,7 @@ public class BladeProperties {
     private final Map<String, String> prop = new HashMap<>();
 
     /**
-     * 获取配置
+     * 查询配置
      *
      * @param key key
      * @return value
@@ -56,7 +56,7 @@ public class BladeProperties {
     }
 
     /**
-     * 获取配置
+     * 查询配置
      *
      * @param key          key
      * @param defaultValue 默认值
@@ -72,7 +72,7 @@ public class BladeProperties {
     }
 
     /**
-     * 获取配置
+     * 查询配置
      *
      * @param key key
      * @return int value
@@ -83,7 +83,7 @@ public class BladeProperties {
     }
 
     /**
-     * 获取配置
+     * 查询配置
      *
      * @param key          key
      * @param defaultValue 默认值
@@ -99,7 +99,7 @@ public class BladeProperties {
     }
 
     /**
-     * 获取配置
+     * 查询配置
      *
      * @param key key
      * @return long value
@@ -110,7 +110,7 @@ public class BladeProperties {
     }
 
     /**
-     * 获取配置
+     * 查询配置
      *
      * @param key          key
      * @param defaultValue 默认值
@@ -126,7 +126,7 @@ public class BladeProperties {
     }
 
     /**
-     * 获取配置
+     * 查询配置
      *
      * @param key key
      * @return Boolean value
@@ -137,7 +137,7 @@ public class BladeProperties {
     }
 
     /**
-     * 获取配置
+     * 查询配置
      *
      * @param key          key
      * @param defaultValue 默认值
@@ -154,7 +154,7 @@ public class BladeProperties {
     }
 
     /**
-     * 获取配置
+     * 查询配置
      *
      * @param key key
      * @return double value
@@ -165,7 +165,7 @@ public class BladeProperties {
     }
 
     /**
-     * 获取配置
+     * 查询配置
      *
      * @param key          key
      * @param defaultValue 默认值

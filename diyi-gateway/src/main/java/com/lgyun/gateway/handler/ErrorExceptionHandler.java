@@ -26,7 +26,7 @@ public class ErrorExceptionHandler extends DefaultErrorWebExceptionHandler {
     }
 
     /**
-     * 获取异常属性
+     * 查询异常属性
      */
     @Override
     protected Map<String, Object> getErrorAttributes(ServerRequest request, boolean includeStackTrace) {
@@ -52,7 +52,7 @@ public class ErrorExceptionHandler extends DefaultErrorWebExceptionHandler {
     }
 
     /**
-     * 根据code获取对应的HttpStatus
+     * 根据code查询对应的HttpStatus
      *
      * @param errorAttributes
      * @return

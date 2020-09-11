@@ -35,11 +35,11 @@ public class PasswordTokenGranter implements ITokenGranter {
 
     @Override
     public R grant(TokenParameter tokenParameter) throws Exception {
-        //获取账号
+        //查询账号
         String account = tokenParameter.getArgs().getStr("account");
-        //获取密码
+        //查询密码
         String password = tokenParameter.getArgs().getStr("password");
-        //获取用户类型
+        //查询用户类型
         UserType userType = (UserType) tokenParameter.getArgs().get("userType");
 
         String encrypt = DigestUtil.encrypt(password);
@@ -48,7 +48,7 @@ public class PasswordTokenGranter implements ITokenGranter {
         R<String> res;
         switch (userType) {
             case MAKER:
-                // 获取微信授权码
+                // 查询微信授权码
                 String wechatCode = tokenParameter.getArgs().getStr("wechatCode");
                 //微信授权
                 R<JSONObject> result = wechatUtil.authorization(wechatCode);
@@ -92,7 +92,7 @@ public class PasswordTokenGranter implements ITokenGranter {
 //                    HttpServletRequest request = WebUtil.getRequest();
 //                    String key = request.getHeader(TokenUtil.CAPTCHA_HEADER_KEY);
 //                    String code = request.getHeader(TokenUtil.CAPTCHA_HEADER_CODE);
-//                    // 获取验证码
+//                    // 查询验证码
 //                    String redisCode = String.valueOf(redisUtil.get(CacheNames.CAPTCHA_KEY + key));
 //                    // 判断验证码
 //                    if (code == null || !StringUtil.equalsIgnoreCase(redisCode, code)) {

@@ -27,7 +27,7 @@ public interface EnterpriseProviderMapper extends BaseMapper<EnterpriseProviderE
     List<ServiceProviderIdNameListVO> getServiceProviderByEnterpriseId(Long enterpriseId, String serviceProviderName, IPage<ServiceProviderIdNameListVO> page);
 
     /**
-     * 获取服务商关联的所有商户
+     * 查询服务商关联的所有商户
      *
      * @param serviceProviderId
      * @param keyword
@@ -37,7 +37,7 @@ public interface EnterpriseProviderMapper extends BaseMapper<EnterpriseProviderE
     List<EnterprisesVO> getEnterpriseByServiceProvider(Long serviceProviderId, String keyword, IPage<EnterprisesVO> page);
 
     /**
-     * 获取当前商户合作服务商
+     * 查询当前商户合作服务商
      *
      * @param enterpriseId
      * @param keyWord
@@ -47,7 +47,7 @@ public interface EnterpriseProviderMapper extends BaseMapper<EnterpriseProviderE
     List<ServiceProvidersVO> getServiceProvidersByEnterpriseId(Long enterpriseId, String keyWord, IPage<ServiceProvidersVO> page);
 
     /**
-     * 获取当前商户合作服务商
+     * 查询当前商户合作服务商
      *
      * @param serviceProviderId
      * @param keyWord
@@ -57,7 +57,7 @@ public interface EnterpriseProviderMapper extends BaseMapper<EnterpriseProviderE
     List<EnterprisesByProviderVO> getEnterprtisesByServiceProviderId(Long serviceProviderId, String keyWord, IPage<EnterprisesByProviderVO> page);
 
     /**
-     * 获取当前服务商合作商户
+     * 查询当前服务商合作商户
      *
      * @param serviceProviderId
      * @param page

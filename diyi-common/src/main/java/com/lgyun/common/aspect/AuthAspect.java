@@ -77,7 +77,7 @@ public class AuthAspect implements ApplicationContextAware {
 	}
 
 	/**
-	 * 获取方法上的参数
+	 * 查询方法上的参数
 	 *
 	 * @param method 方法
 	 * @param args   变量

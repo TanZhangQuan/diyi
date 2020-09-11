@@ -34,7 +34,7 @@ public class UrlUtil extends org.springframework.web.util.UriUtils {
     }
 
     /**
-     * 获取url路径
+     * 查询url路径
      *
      * @param uriStr 路径
      * @return url路径

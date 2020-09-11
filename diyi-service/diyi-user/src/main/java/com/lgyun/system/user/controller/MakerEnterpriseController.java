@@ -49,7 +49,7 @@ public class MakerEnterpriseController {
     public R detail(Long enterpriseId, BladeUser bladeUser) {
         log.info("查询商户详情");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
             if (!(result.isSuccess())){
                 return result;
@@ -73,7 +73,7 @@ public class MakerEnterpriseController {
 
         log.info("查询关联商户和关注商户");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
             if (!(result.isSuccess())){
                 return result;
@@ -115,7 +115,7 @@ public class MakerEnterpriseController {
 
         log.info("添加关注或取消关注");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
             if (!(result.isSuccess())){
                 return result;

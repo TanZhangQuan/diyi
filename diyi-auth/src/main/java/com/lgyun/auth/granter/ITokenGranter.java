@@ -11,7 +11,7 @@ import com.lgyun.common.api.R;
 public interface ITokenGranter {
 
     /**
-     * 获取用户信息
+     * 查询用户信息
      *
      * @param tokenParameter 授权参数
      * @return UserInfo

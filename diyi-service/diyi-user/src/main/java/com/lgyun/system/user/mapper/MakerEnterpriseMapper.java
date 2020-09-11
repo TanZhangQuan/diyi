@@ -2,6 +2,7 @@ package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lgyun.common.enumeration.CertificationState;
 import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.system.order.vo.SelfHelpInvoiceDetailProviderVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceSerProVO;
@@ -34,15 +35,16 @@ public interface MakerEnterpriseMapper extends BaseMapper<MakerEnterpriseEntity>
     List<MakerEnterpriseRelationVO> selectMakerEnterprisePage(Long makerId, RelationshipType relationshipType, IPage<MakerEnterpriseRelationVO> page);
 
     /**
-     * 根据商户ID，关系，关键字获取当前商户的所有创客
+     * 根据条件查询所有创客
      *
      * @param enterpriseId
      * @param relationshipType
+     * @param certificationState
      * @param keyword
      * @param page
      * @return
      */
-    List<RelMakerListVO> getEnterpriseMakers(Long enterpriseId, RelationshipType relationshipType, String keyword, IPage<RelMakerListVO> page);
+    List<RelMakerListVO> getEnterpriseMakerList(Long enterpriseId, RelationshipType relationshipType, CertificationState certificationState, String keyword, IPage<RelMakerListVO> page);
 
     /**
      * 根据创客ID查询关联商户
@@ -54,7 +56,7 @@ public interface MakerEnterpriseMapper extends BaseMapper<MakerEnterpriseEntity>
     List<EnterprisesIdNameListVO> findEnterpriseIdNameByMakerId(Long makerId, IPage<EnterprisesIdNameListVO> page);
 
     /**
-     * 获取当前服务商的自助开票
+     * 查询当前服务商的自助开票
      *
      * @param serviceProviderId
      * @param keyword
@@ -73,7 +75,7 @@ public interface MakerEnterpriseMapper extends BaseMapper<MakerEnterpriseEntity>
     List<MakerEnterpriseWebVO> selectEnterpriseMaker( Long enterpriseId,IPage<MakerEnterpriseWebVO> page);
 
     /**
-     * 根据当前服务商和自助开票ID获取自助开票详情
+     * 根据当前服务商和自助开票ID查询自助开票详情
      *
      * @param selfHelpvoiceId
      * @param page

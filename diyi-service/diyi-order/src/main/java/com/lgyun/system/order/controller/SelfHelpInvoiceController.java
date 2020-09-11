@@ -65,7 +65,7 @@ public class SelfHelpInvoiceController {
 
         log.info("根据创客ID查询商户");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -85,7 +85,7 @@ public class SelfHelpInvoiceController {
 
         log.info("新建收货地址");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -144,7 +144,7 @@ public class SelfHelpInvoiceController {
 
         log.info("查询收货地址");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -228,7 +228,7 @@ public class SelfHelpInvoiceController {
                                    @Valid @RequestBody SelfHelpInvoiceDto selfHelpInvoiceDto,BladeUser bladeUser) {
         log.info("创客提交自助开票");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -240,7 +240,7 @@ public class SelfHelpInvoiceController {
             }
             selfHelpInvoiceDto.setObjectType(ObjectType.MAKERPEOPLE);
             selfHelpInvoiceDto.setObjectId(makerEntity.getId());
-            // 获取上传文件的后缀
+            // 查询上传文件的后缀
             String suffix = file.getOriginalFilename();
             if ((!StringUtils.endsWithIgnoreCase(suffix, ".xls") && !StringUtils.endsWithIgnoreCase(suffix, ".xlsx"))) {
                 return R.fail("请选择Excel文件");
@@ -300,7 +300,7 @@ public class SelfHelpInvoiceController {
     public R judgeMakerAatural(MakerType makerType, BladeUser bladeUser) {
         log.info("判断创客资质");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;

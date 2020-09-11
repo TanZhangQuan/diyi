@@ -29,6 +29,11 @@
         <result property="boolSignAgreement" column="bool_sign_agreement"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.user.vo.admin.QueryEnterpriseIdAndNameListVO" id="queryEnterpriseIdAndNameListVO">
+        <result property="enterpriseId" column="enterprise_id"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+    </resultMap>
+
     <select id="getEnterpriseDetailById" resultMap="enterprisesDetailVO">
         SELECT enterprise_name, legal_person, contact1_mail, contact1_phone, working_address, social_credit_no, biz_licence_url,
         create_time, enterprise_state FROM diyi_enterprise t1 WHERE is_deleted = 0 AND id = #{param1}
@@ -56,6 +61,10 @@
         <if test="param1.serviceProviderName != null and param1.serviceProviderName.trim() != ''">
             AND t1.service_provider_name like concat('%', #{param1.serviceProviderName}, '%')
         </if>
+    </select>
+
+    <select id="queryServiceProviderList" resultMap="queryServiceProviderListVO">
+        SELECT id AS enterprise_id, enterprise_name FROM diyi_enterprise WHERE is_deleted = 0
     </select>
 
 </mapper>

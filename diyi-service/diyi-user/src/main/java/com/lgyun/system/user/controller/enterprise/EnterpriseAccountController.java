@@ -3,31 +3,22 @@ package com.lgyun.system.user.controller.enterprise;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
-import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.common.tool.BeanServiceUtil;
-import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.system.feign.ISysClient;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
-import com.lgyun.system.user.entity.User;
-import com.lgyun.system.user.entity.UserInfo;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
-import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.user.vo.EnterpriseWorkerVO;
 import com.lgyun.system.user.vo.enterprise.EnterpriseAccountRequest;
-import com.lgyun.system.vo.GrantRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 商户主子账号相关接口 控制器
@@ -46,11 +37,11 @@ public class EnterpriseAccountController {
     private ISysClient sysClient;
 
     @GetMapping("/list")
-    @ApiOperation(value = "获取商户所有主子账号详情", notes = "获取商户所有主子账号详情")
+    @ApiOperation(value = "查询商户所有主子账号详情", notes = "查询商户所有主子账号详情")
     public R listDetail(BladeUser bladeUser) {
-        log.info("获取当前商户所有主子账号详情 userId={}", bladeUser.getUserId());
+        log.info("查询当前商户所有主子账号详情 userId={}", bladeUser.getUserId());
         try {
-            //获取当前创客
+            //查询当前创客
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -76,17 +67,17 @@ public class EnterpriseAccountController {
             });
             return R.data(responseList);
         } catch (Exception e) {
-            log.error("获取当前商户所有账户详情，error", e);
+            log.error("查询当前商户所有账户详情，error", e);
         }
         return R.fail("查询失败");
     }
 
     @GetMapping("/detail")
-    @ApiOperation(value = "获取商户账号详情", notes = "获取商户账号详情")
+    @ApiOperation(value = "查询商户账号详情", notes = "查询商户账号详情")
     public R oneDetail(@RequestParam("accountId") Long accountId, BladeUser bladeUser) {
-        log.info("获取当前商户账号详情 userId={} accountId={}", bladeUser.getUserId(), accountId);
+        log.info("查询当前商户账号详情 userId={} accountId={}", bladeUser.getUserId(), accountId);
         try {
-            //获取当前创客
+            //查询当前创客
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -111,7 +102,7 @@ public class EnterpriseAccountController {
 
             return R.data(response);
         } catch (Exception e) {
-            log.error("获取商户账户详情失败，error", e);
+            log.error("查询商户账户详情失败，error", e);
         }
         return R.fail("查询失败");
     }
@@ -121,7 +112,7 @@ public class EnterpriseAccountController {
     public R operateEnterpriseWorker(@RequestBody EnterpriseAccountRequest request, BladeUser bladeUser) {
         log.info("删除、停用 商户主子账号 userId={}", bladeUser.getUserId());
         try {
-            //获取当前创客
+            //查询当前创客
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -157,7 +148,7 @@ public class EnterpriseAccountController {
     public R updateEnterpriseWorker(@RequestBody EnterpriseWorkerVO request, BladeUser bladeUser) {
         log.info("新增、更新(编辑)商户主子账号 userId={}", bladeUser.getUserId());
         try {
-            //获取当前创客
+            //查询当前创客
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;

@@ -34,12 +34,12 @@ public class PDFUtil {
         FileOutputStream fileOutputStream = new FileOutputStream(htmlFile);
         PdfStamper stamper = new PdfStamper(reader, fileOutputStream);
         Document document = new Document();
-        // 通过域名获取所在页和坐标，左下角为起点
+        // 通过域名查询所在页和坐标，左下角为起点
         float x = document.getPageSize().getWidth() - 440;
         float y = document.getPageSize().getHeight() - 480;
         // 读图片
         Image image = Image.getInstance(signPic);
-        // 获取操作的页面
+        // 查询操作的页面
         PdfContentByte under = stamper.getOverContent(pageSize);
         // 根据域的大小缩放图片
         image.scaleToFit(document.getPageSize().getWidth() - 350, document.getPageSize().getHeight() - 290);

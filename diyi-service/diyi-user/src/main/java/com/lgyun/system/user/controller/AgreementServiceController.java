@@ -41,7 +41,7 @@ public class AgreementServiceController {
     public R findSeriveAgreement(BladeUser bladeUser, Query query, @RequestParam(required = false) String agreementNo, ObjectType objectType){
         log.info("查询服务商加盟平台合同和承诺函");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -62,7 +62,7 @@ public class AgreementServiceController {
     public R uploadContractAndLetter(BladeUser bladeUser,String contractUrl,String letterUrl){
         log.info("上传加盟合同和承诺函");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -83,7 +83,7 @@ public class AgreementServiceController {
     public R findMakerAgreement(BladeUser bladeUser, Query query, @RequestParam(required = false) String agreementNo, String makerName){
         log.info("查询创客加盟平台合同和承诺函");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -105,7 +105,7 @@ public class AgreementServiceController {
     public R findEnterpriseAgreement(BladeUser bladeUser, Query query, @RequestParam(required = false) String agreementNo, String enterpriseName){
         log.info("查询商户加盟平台合同和承诺函");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;

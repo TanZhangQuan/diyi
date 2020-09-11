@@ -43,7 +43,7 @@ public class AcceptPaysheetController {
 
         log.info("查询创客所有总包交付支付验收单的商户");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -64,7 +64,7 @@ public class AcceptPaysheetController {
 
         log.info("查询创客对应某商户的所有总包交付支付验收单");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -85,7 +85,7 @@ public class AcceptPaysheetController {
 
         log.info("根据ID查询总包交付支付验收单");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;

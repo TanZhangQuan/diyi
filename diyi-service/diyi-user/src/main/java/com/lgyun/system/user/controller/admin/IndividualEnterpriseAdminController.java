@@ -35,7 +35,7 @@ public class IndividualEnterpriseAdminController {
     private IIndividualEnterpriseService individualEnterpriseService;
     private IEnterpriseReportService enterpriseReportService;
 
-    @GetMapping("/query")
+    @GetMapping("/query-individual-enterprise-list")
     @ApiOperation(value = "查询所有个独", notes = "查询所有个独")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "individualBusinessEnterpriseId", value = "个独编号", paramType = "query", dataType = "long"),
@@ -43,7 +43,7 @@ public class IndividualEnterpriseAdminController {
             @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
     })
-    public R query(IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto, Query query) {
+    public R queryIndividualEnterpriseList(IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto, Query query) {
 
         log.info("查询所有个独");
         try {
@@ -54,9 +54,9 @@ public class IndividualEnterpriseAdminController {
         return R.fail("查询失败");
     }
 
-    @GetMapping("/query_enterprise_report")
+    @GetMapping("/query-enterprise-report-list")
     @ApiOperation(value = "查询个独年审信息", notes = "查询个独年审信息")
-    public R queryEnterpriseReports(Query query, @ApiParam(value = "个独ID") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
+    public R queryEnterpriseReportList(Query query, @ApiParam(value = "个独ID") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
 
         log.info("查询个独年审信息");
         try {
@@ -67,9 +67,9 @@ public class IndividualEnterpriseAdminController {
         return R.fail("查询失败");
     }
 
-    @GetMapping("/self_help_invoice_statistics")
+    @GetMapping("/query-self-help-invoice-statistics")
     @ApiOperation(value = "查询个独开票次数，月度开票金额，年度开票金额和总开票金额", notes = "查询个独开票次数，月度开票金额，年度开票金额和总开票金额")
-    public R selfHelpInvoiceStatistics(@ApiParam(value = "个独ID") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
+    public R querySelfHelpInvoiceStatistics(@ApiParam(value = "个独ID") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
 
         log.info("查询个独开票次数，月度开票金额，年度开票金额和总开票金额");
         try {
@@ -80,9 +80,9 @@ public class IndividualEnterpriseAdminController {
         return R.fail("查询失败");
     }
 
-    @GetMapping("/self_help_invoice_list")
+    @GetMapping("/query-self-help-invoice-list")
     @ApiOperation(value = "查询个独开票记录", notes = "查询个独开票记录")
-    public R selfHelpInvoiceList(Query query, @ApiParam(value = "个独ID") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
+    public R querySelfHelpInvoiceList(Query query, @ApiParam(value = "个独ID") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
 
         log.info("查询个独开票记录");
         try {
@@ -93,9 +93,9 @@ public class IndividualEnterpriseAdminController {
         return R.fail("查询失败");
     }
 
-    @PostMapping("/save")
+    @PostMapping("/save-individual-enterprise")
     @ApiOperation(value = "创建个独", notes = "当前商户申请创建个独")
-    public R save(@Valid @RequestBody IndividualBusinessEnterpriseWebAddDto individualBusinessEnterpriseWebAddDto) {
+    public R saveIndividualEnterprise(@Valid @RequestBody IndividualBusinessEnterpriseWebAddDto individualBusinessEnterpriseWebAddDto) {
 
         log.info("当前商户申请创建个独");
         try {

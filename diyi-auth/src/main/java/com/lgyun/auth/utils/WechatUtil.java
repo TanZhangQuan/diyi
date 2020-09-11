@@ -45,7 +45,7 @@ public class WechatUtil {
      */
     public R<JSONObject> authorization(String code, String iv, String encryptedData) throws Exception {
 
-        // 获取微信授权码
+        // 查询微信授权码
         if (StringUtil.isBlank(code)) {
             return R.fail("请输入微信授权码");
         }
@@ -59,7 +59,7 @@ public class WechatUtil {
 
         JSONObject jsonObject = JSON.parseObject(HttpUtil.post(WechatConstant.WECHAT_SESSIONHOST, requestUrlParam));
         if (jsonObject == null) {
-            log.error("微信授权失败, 获取数据失败");
+            log.error("微信授权失败, 查询数据失败");
             return R.fail("登陆失败");
         }
 
@@ -97,7 +97,7 @@ public class WechatUtil {
 
             // 将解密后的JSON格式字符串转化为对象
             jsonObject = JSONObject.parseObject(AesResult);
-            // 获取手机号
+            // 查询手机号
             String purePhoneNumber = jsonObject.getString("purePhoneNumber");
             if (StringUtils.isBlank(purePhoneNumber)) {
                 log.error("微信授权失败，手机号为空");

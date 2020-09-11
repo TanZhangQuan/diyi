@@ -2,6 +2,7 @@ package com.lgyun.system.user.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.CertificationState;
 import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.vo.SelfHelpInvoiceDetailProviderVO;
@@ -81,15 +82,16 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
     MakerEnterpriseEntity getEnterpriseIdAndMakerIdAndRelationshipType(Long enterpriseId, Long makerId, RelationshipType relationshipType);
 
     /**
-     * 根获取当前商户的所有关联或关注创客
+     * 根据条件查询所有创客
      *
      * @param page
      * @param enterpriseId
      * @param relationshipType
+     * @param certificationState
      * @param keyword
      * @return
      */
-    R<IPage<RelMakerListVO>> getEnterpriseMakers(IPage<RelMakerListVO> page, Long enterpriseId, RelationshipType relationshipType, String keyword);
+    R<IPage<RelMakerListVO>> getEnterpriseMakerList(IPage<RelMakerListVO> page, Long enterpriseId, RelationshipType relationshipType, CertificationState certificationState, String keyword);
 
     /**
      * 批量关联创客
@@ -111,7 +113,7 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
     R<String> cancelRelMakers(Set<Long> makerIds, RelationshipType relationshipType, Long enterpriseId);
 
     /**
-     * 获取当前服务商的自助开票
+     * 查询当前服务商的自助开票
      *
      * @param page
      * @param keyword
@@ -135,7 +137,7 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
     R<IPage<MakerEnterpriseWebVO>> selectEnterpriseMaker(IPage<MakerEnterpriseWebVO> page, Long enterpriseId);
 
     /**
-     * 根据当前服务商和自助开票ID获取自助开票详情
+     * 根据当前服务商和自助开票ID查询自助开票详情
      *
      * @param page
      * @param selfHelpvoiceId

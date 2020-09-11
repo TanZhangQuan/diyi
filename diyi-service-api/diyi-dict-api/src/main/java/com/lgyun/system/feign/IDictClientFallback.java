@@ -17,17 +17,17 @@ import java.util.List;
 public class IDictClientFallback implements IDictClient {
 	@Override
 	public R<String> getValue(String code, Integer dictKey) {
-		return R.fail("获取数据失败");
+		return R.fail("查询数据失败");
 	}
 
 	@Override
 	public R<List<Dict>> getList(String code) {
-		return R.fail("获取数据失败");
+		return R.fail("查询数据失败");
 	}
 
 	@Override
 	public R<List<Dict>> getParentList(Long parentId) {
-		return R.fail("获取数据失败");
+		return R.fail("查询数据失败");
 	}
 
 	@Override

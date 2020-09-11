@@ -60,7 +60,7 @@ public class DeptController extends BladeController {
     }
 
     /**
-     * 获取部门树形结构
+     * 查询部门树形结构
      *
      * @return
      */

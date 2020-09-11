@@ -95,7 +95,7 @@ public class UserClient implements IUserClient {
         MakerEntity makerEntity;
         switch (grantType) {
             case WECHAT:
-                //根据手机号获取创客
+                //根据手机号查询创客
                 makerEntity = iMakerService.findByPhoneNumber(phoneNumber);
                 if (makerEntity != null) {
                     iMakerService.makerUpdate(makerEntity, openid, sessionKey);
@@ -105,7 +105,7 @@ public class UserClient implements IUserClient {
                 break;
 
             case PASSWORD:
-                //根据账号密码获取创客
+                //根据账号密码查询创客
                 makerEntity = iMakerService.findByPhoneNumberAndLoginPwd(phoneNumber, loginPwd);
                 if (makerEntity != null) {
                     iMakerService.makerUpdate(makerEntity, openid, sessionKey);
@@ -115,7 +115,7 @@ public class UserClient implements IUserClient {
                 break;
 
             case MOBILE:
-                //根据手机号获取创客
+                //根据手机号查询创客
                 makerEntity = iMakerService.findByPhoneNumber(phoneNumber);
                 if (makerEntity != null) {
                     iMakerService.makerUpdate(makerEntity, openid, sessionKey);
@@ -125,7 +125,7 @@ public class UserClient implements IUserClient {
                 break;
 
             case REGISTER:
-                //根据手机号获取创客
+                //根据手机号查询创客
                 makerEntity = iMakerService.findByPhoneNumber(phoneNumber);
                 if (makerEntity != null) {
                     return R.fail("手机号已注册");
@@ -148,7 +148,7 @@ public class UserClient implements IUserClient {
         switch (grantType) {
 
             case PASSWORD:
-                //根据账号密码获取商户
+                //根据账号密码查询商户
                 enterpriseWorkerEntity = iEnterpriseWorkerService.findByPhoneAndEmployeePwd(phoneNumber, loginPwd);
                 if (enterpriseWorkerEntity == null) {
                     return R.fail("账号或密码错误");
@@ -156,7 +156,7 @@ public class UserClient implements IUserClient {
                 break;
 
             case MOBILE:
-                //根据手机号获取商户
+                //根据手机号查询商户
                 enterpriseWorkerEntity = iEnterpriseWorkerService.findByPhoneNumber(phoneNumber);
                 if (enterpriseWorkerEntity == null) {
                     return R.fail("用户未注册");
@@ -177,7 +177,7 @@ public class UserClient implements IUserClient {
         switch (grantType) {
 
             case PASSWORD:
-                //根据账号密码获取服务商
+                //根据账号密码查询服务商
                 serviceProviderWorkerEntity = iServiceProviderWorkerService.findByEmployeeUserNameAndEmployeePwd(phoneNumber, loginPwd);
                 if (serviceProviderWorkerEntity == null) {
                     return R.fail("账号或密码错误");
@@ -185,7 +185,7 @@ public class UserClient implements IUserClient {
                 break;
 
             case MOBILE:
-                //根据手机号获取服务商
+                //根据手机号查询服务商
                 serviceProviderWorkerEntity = iServiceProviderWorkerService.findByPhoneNumber(phoneNumber);
                 if (serviceProviderWorkerEntity == null) {
                     return R.fail("用户未注册");

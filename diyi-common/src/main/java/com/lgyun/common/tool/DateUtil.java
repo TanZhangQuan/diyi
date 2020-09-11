@@ -40,7 +40,7 @@ public class DateUtil {
 	public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern(DateUtil.PATTERN_TIME);
 
 	/**
-	 * 获取当前日期
+	 * 查询当前日期
 	 *
 	 * @return 当前日期
 	 */
@@ -584,7 +584,7 @@ public class DateUtil {
 	}
 
 	/**
-	 * 获取今天的日期
+	 * 查询今天的日期
 	 *
 	 * @return 时间
 	 */

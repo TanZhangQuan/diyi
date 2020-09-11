@@ -60,7 +60,7 @@ public class HttpUtil {
         configBuilder.setConnectTimeout(MAX_TIMEOUT);
         // 设置读取超时
         configBuilder.setSocketTimeout(MAX_TIMEOUT);
-        // 设置从连接池获取连接实例的超时
+        // 设置从连接池查询连接实例的超时
         configBuilder.setConnectionRequestTimeout(MAX_TIMEOUT);
         // 在提交请求之前 测试连接是否可用
         configBuilder.setStaleConnectionCheckEnabled(true);
@@ -231,12 +231,12 @@ public class HttpUtil {
             }
             //4、调用HttpClient对象的execute方法执行请求;
             httpResponse = httpClient.execute(request);
-            //5、获取请求响应对象和响应Entity;
+            //5、查询请求响应对象和响应Entity;
             HttpEntity httpEntity = httpResponse.getEntity();
             log.info("发送地址：" + request.getURI());
             log.info("发送内容：" + params);
             log.info("响应状态：" + httpResponse.getStatusLine());
-            //6、从响应对象中获取响应状态，从响应Entity中获取响应内容;
+            //6、从响应对象中查询响应状态，从响应Entity中查询响应内容;
             if (httpEntity != null) {
                 responseContent = EntityUtils.toString(httpEntity, "UTF-8");
                 log.info("响应内容：" + responseContent);
@@ -310,9 +310,9 @@ public class HttpUtil {
             //4、调用HttpClient对象的execute方法执行请求;
             httpResponse = httpClient.execute(request);
             log.info("响应状态：" + httpResponse.getStatusLine());
-            //5、获取请求响应对象和响应Entity;
+            //5、查询请求响应对象和响应Entity;
             HttpEntity httpEntity = httpResponse.getEntity();
-            //6、从响应对象中获取响应状态，从响应Entity中获取响应内容;
+            //6、从响应对象中查询响应状态，从响应Entity中查询响应内容;
             if (httpEntity != null) {
                 responseContent = EntityUtils.toString(httpEntity, "UTF-8");
                 log.info("响应内容：" + responseContent);
@@ -385,10 +385,10 @@ public class HttpUtil {
             httpResponse = httpClient.execute(request);
             log.info("响应内容:====================");
 //			log.info(httpResponse);
-            //5、获取请求响应对象和响应Entity;
+            //5、查询请求响应对象和响应Entity;
             HttpEntity httpEntity = httpResponse.getEntity();
             log.info("响应状态：" + httpResponse.getStatusLine());
-            //6、从响应对象中获取响应状态，从响应Entity中获取响应内容;
+            //6、从响应对象中查询响应状态，从响应Entity中查询响应内容;
             if (httpEntity != null) {
                 responseContent = EntityUtils.toString(httpEntity, "UTF-8");
                 log.info("响应内容：" + responseContent);

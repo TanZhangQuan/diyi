@@ -91,7 +91,7 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
     R<IPage<EnterpriseWorksheetDetailVo>> getWorksheetDetailsByMaker(IPage<EnterpriseWorksheetDetailVo> page, Long enterpriseId, Long makerId);
 
     /**
-     * 获取当前商户所有已完毕的类型工单
+     * 查询当前商户所有已完毕的类型工单
      *
      * @param enterpriseId
      * @param workSheetType
@@ -103,7 +103,7 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
     R<IPage<WorksheetByEnterpriseVO>> getWorksheetByEnterpriseId(Long enterpriseId, WorkSheetType workSheetType, String worksheetNo, String worksheetName, IPage<WorksheetByEnterpriseVO> page);
 
     /**
-     * 根据工单编号获取工单
+     * 根据工单编号查询工单
      *
      * @param worksheetNo
      * @return
@@ -111,7 +111,7 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
     R<WorksheetNoIdVO> getByWorksheetNo(String worksheetNo);
 
     /**
-     * 根据工单ID获取工单
+     * 根据工单ID查询工单
      *
      * @param worksheetId
      * @return

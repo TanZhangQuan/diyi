@@ -150,7 +150,7 @@ public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity
     WorksheetMakerEntity getmakerIdAndWorksheetId(Long makerId, Long worksheetId);
 
     /**
-     * 根据支付清单ID获取创客工单关联
+     * 根据支付清单ID查询创客工单关联
      *
      * @param payEnterpriseId
      * @param page

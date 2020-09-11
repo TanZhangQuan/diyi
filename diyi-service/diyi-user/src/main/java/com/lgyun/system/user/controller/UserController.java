@@ -32,12 +32,12 @@ public class UserController {
     private IUserService userService;
 
     @GetMapping("/current-detail")
-    @ApiOperation(value = "获取当前管理员详情", notes = "获取当前管理员详情")
+    @ApiOperation(value = "查询当前管理员详情", notes = "查询当前管理员详情")
     public R currentDetail(BladeUser bladeUser) {
 
-        log.info("获取当前管理员详情");
+        log.info("查询当前管理员详情");
         try {
-            //获取当前管理员
+            //查询当前管理员
             R<User> result = userService.currentUser(bladeUser);
             if (!(result.isSuccess())){
                 return result;
@@ -46,7 +46,7 @@ public class UserController {
 
             return R.data(UserWrapper.build().entityVO(user));
         } catch (Exception e) {
-            log.error("获取当前管理员详情异常", e);
+            log.error("查询当前管理员详情异常", e);
         }
         return R.fail("查询失败");
     }

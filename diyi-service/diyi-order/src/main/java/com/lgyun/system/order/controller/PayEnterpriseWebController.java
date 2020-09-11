@@ -44,16 +44,16 @@ public class PayEnterpriseWebController {
 
 
     @GetMapping("/get_worksheet_by_enterprise_id")
-    @ApiOperation(value = "获取当前商户所有已完毕的总包+分包类型的工单", notes = "获取当前商户所有已完毕的总包+分包类型的工单")
+    @ApiOperation(value = "查询当前商户所有已完毕的总包+分包类型的工单", notes = "查询当前商户所有已完毕的总包+分包类型的工单")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "worksheetNo", value = "工单编号", paramType = "query", dataType = "string"),
             @ApiImplicitParam(name = "worksheetName", value = "工单名称", paramType = "query", dataType = "string")
     })
     public R getWorksheetByEnterpriseId(String worksheetNo, String worksheetName, Query query, BladeUser bladeUser) {
 
-        log.info("获取当前商户所有已完毕的总包+分包类型的工单");
+        log.info("查询当前商户所有已完毕的总包+分包类型的工单");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -62,21 +62,21 @@ public class PayEnterpriseWebController {
 
             return payEnterpriseService.getWorksheetByEnterpriseId(query, enterpriseWorkerEntity.getEnterpriseId(), WorkSheetType.SUBPACKAGE, worksheetNo, worksheetName);
         } catch (Exception e) {
-            log.error("获取当前商户所有已完毕的总包+分包类型的工单异常", e);
+            log.error("查询当前商户所有已完毕的总包+分包类型的工单异常", e);
         }
         return R.fail("查询失败");
     }
 
     @GetMapping("/get_service_provider_by_enterprise_id")
-    @ApiOperation(value = "获取当前商户关联服务商", notes = "获取当前商户关联服务商")
+    @ApiOperation(value = "查询当前商户关联服务商", notes = "查询当前商户关联服务商")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "serviceProviderName", value = "工单编号", paramType = "query", dataType = "string")
     })
     public R getServiceProviderByEnterpriseId(String serviceProviderName, Query query, BladeUser bladeUser) {
 
-        log.info("获取当前商户关联服务商");
+        log.info("查询当前商户关联服务商");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -85,7 +85,7 @@ public class PayEnterpriseWebController {
 
             return payEnterpriseService.getServiceProviderByEnterpriseId(query, enterpriseWorkerEntity.getEnterpriseId(), serviceProviderName);
         } catch (Exception e) {
-            log.error("获取当前商户关联服务商异常", e);
+            log.error("查询当前商户关联服务商异常", e);
         }
 
         return R.fail("查询失败");
@@ -97,7 +97,7 @@ public class PayEnterpriseWebController {
 
         log.info("当前商户上传总包支付清单");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -117,7 +117,7 @@ public class PayEnterpriseWebController {
 
         log.info("当前商户提交支付清单");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -144,7 +144,7 @@ public class PayEnterpriseWebController {
 
         log.info("查询当前商户所有总包支付清单");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -177,7 +177,7 @@ public class PayEnterpriseWebController {
 
         log.info("上传总包交付支付验收单");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -205,7 +205,7 @@ public class PayEnterpriseWebController {
 
         log.info("查询当前服务商所有总包支付清单");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -231,7 +231,7 @@ public class PayEnterpriseWebController {
 
         log.info("根据当前服务商，商户ID查询总包支付清单");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -253,7 +253,7 @@ public class PayEnterpriseWebController {
 
         log.info("支付清单审核");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -268,12 +268,12 @@ public class PayEnterpriseWebController {
     }
 
     @GetMapping("/transaction_by_enterprise")
-    @ApiOperation(value = "获取当前商户首页交易情况数据", notes = "获取当前商户首页交易情况数据")
+    @ApiOperation(value = "查询当前商户首页交易情况数据", notes = "查询当前商户首页交易情况数据")
     public R transactionByEnterprise(BladeUser bladeUser) {
 
-        log.info("获取当前商户首页统计数据");
+        log.info("查询当前商户首页统计数据");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -282,18 +282,18 @@ public class PayEnterpriseWebController {
 
             return payEnterpriseService.transactionByEnterprise(enterpriseWorkerEntity.getEnterpriseId());
         } catch (Exception e) {
-            log.error("获取当前商户首页交易情况数据异常", e);
+            log.error("查询当前商户首页交易情况数据异常", e);
         }
         return R.fail("查询失败");
     }
 
     @GetMapping("/transaction_by_service_provider")
-    @ApiOperation(value = "获取当前服务商首页交易情况数据", notes = "获取当前服务商首页交易情况数据")
+    @ApiOperation(value = "查询当前服务商首页交易情况数据", notes = "查询当前服务商首页交易情况数据")
     public R transactionByServiceProvider(BladeUser bladeUser) {
 
-        log.info("获取当前服务商首页交易情况数据");
+        log.info("查询当前服务商首页交易情况数据");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -302,7 +302,7 @@ public class PayEnterpriseWebController {
 
             return payEnterpriseService.transactionByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId());
         } catch (Exception e) {
-            log.error("获取当前服务商首页交易情况数据异常", e);
+            log.error("查询当前服务商首页交易情况数据异常", e);
         }
         return R.fail("查询失败");
     }
@@ -313,7 +313,7 @@ public class PayEnterpriseWebController {
 
         log.info("查询当前商户总包+分包年流水");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -333,7 +333,7 @@ public class PayEnterpriseWebController {
 
         log.info("查询当前服务商总包+分包全年流水");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -353,7 +353,7 @@ public class PayEnterpriseWebController {
 
         log.info("查询当前商户总包+分包本月流水");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -373,7 +373,7 @@ public class PayEnterpriseWebController {
 
         log.info("查询当前服务商总包+分包本月流水");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -393,7 +393,7 @@ public class PayEnterpriseWebController {
 
         log.info("查询当前商户总包+分包本周流水");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -413,7 +413,7 @@ public class PayEnterpriseWebController {
 
         log.info("查询当前服务商总包+分包本周流水");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -433,7 +433,7 @@ public class PayEnterpriseWebController {
 
         log.info("查询当前商户总包+分包今日流水");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -453,7 +453,7 @@ public class PayEnterpriseWebController {
 
         log.info("查询当前服务商总包+分包今日流水");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;

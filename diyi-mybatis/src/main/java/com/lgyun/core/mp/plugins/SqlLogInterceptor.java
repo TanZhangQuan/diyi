@@ -142,7 +142,7 @@ public class SqlLogInterceptor implements Interceptor {
     }
 
     /**
-     * 获取此方法名的具体 Method
+     * 查询此方法名的具体 Method
      *
      * @param clazz      class 对象
      * @param methodName 方法名
@@ -161,7 +161,7 @@ public class SqlLogInterceptor implements Interceptor {
     }
 
     /**
-     * 获取sql语句开头部分
+     * 查询sql语句开头部分
      *
      * @param sql ignore
      * @return ignore

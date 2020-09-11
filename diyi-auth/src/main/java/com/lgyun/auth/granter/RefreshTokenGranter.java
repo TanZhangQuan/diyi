@@ -34,7 +34,7 @@ public class RefreshTokenGranter implements ITokenGranter {
 
 	@Override
 	public R grant(TokenParameter tokenParameter) {
-		//获取用户类型
+		//查询用户类型
 		UserType userType = (UserType) tokenParameter.getArgs().get("userType");
 		String refreshToken = tokenParameter.getArgs().getStr("refreshToken");
 		UserInfo userInfo = null;

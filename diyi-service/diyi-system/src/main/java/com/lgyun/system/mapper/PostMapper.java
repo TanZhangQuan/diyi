@@ -24,7 +24,7 @@ public interface PostMapper extends BaseMapper<Post> {
 	List<PostVO> selectPostPage(IPage page, PostVO post);
 
 	/**
-	 * 获取岗位名
+	 * 查询岗位名
 	 *
 	 * @param ids
 	 * @return

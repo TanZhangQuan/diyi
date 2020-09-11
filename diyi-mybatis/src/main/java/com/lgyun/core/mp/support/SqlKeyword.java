@@ -70,7 +70,7 @@ public class SqlKeyword {
     }
 
     /**
-     * 获取数据库字段
+     * 查询数据库字段
      *
      * @param column  字段名
      * @param keyword 关键字

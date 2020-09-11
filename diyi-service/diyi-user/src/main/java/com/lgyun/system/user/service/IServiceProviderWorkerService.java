@@ -15,7 +15,7 @@ import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 public interface IServiceProviderWorkerService extends BaseService<ServiceProviderWorkerEntity> {
 
     /**
-     * 根据手机号码获取服务商员工
+     * 根据手机号码查询服务商员工
      *
      * @param phoneNumber
      * @return
@@ -23,7 +23,7 @@ public interface IServiceProviderWorkerService extends BaseService<ServiceProvid
     ServiceProviderWorkerEntity findByPhoneNumber(String phoneNumber);
 
     /**
-     * 根据用户名密码获取服务商员工
+     * 根据用户名密码查询服务商员工
      *
      * @param
      * @return
@@ -31,7 +31,7 @@ public interface IServiceProviderWorkerService extends BaseService<ServiceProvid
     ServiceProviderWorkerEntity findByEmployeeUserNameAndEmployeePwd(String employeeUserName, String employeePwd);
 
     /**
-     * 获取当前服务商员工
+     * 查询当前服务商员工
      *
      * @param bladeUser
      * @return

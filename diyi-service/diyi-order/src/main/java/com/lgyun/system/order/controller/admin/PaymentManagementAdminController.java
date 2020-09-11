@@ -104,7 +104,7 @@ public class PaymentManagementAdminController {
 
         log.info("上传总包交付支付验收单");
         try {
-            //获取当前管理员
+            //查询当前管理员
             R<User> result = userClient.currentUser(bladeUser);
             if (!(result.isSuccess())) {
                 return result;

@@ -96,7 +96,7 @@ public class TokenUtil {
     }
 
     /**
-     * 获取客户端信息
+     * 查询客户端信息
      *
      * @param clientId 客户端id
      * @return clientDetails
@@ -135,7 +135,7 @@ public class TokenUtil {
         String clientId = tokens[0];
         String clientSecret = tokens[1];
 
-        // 获取客户端信息
+        // 查询客户端信息
         IClientDetails clientDetails = clientDetails(clientId);
 
         // 校验客户端信息
@@ -190,7 +190,7 @@ public class TokenUtil {
      */
     @SneakyThrows
     public String[] extractAndDecodeHeader() {
-        // 获取请求头客户端信息
+        // 查询请求头客户端信息
         String header = Objects.requireNonNull(WebUtil.getRequest()).getHeader(SecureConstant.BASIC_HEADER_KEY);
         header = Func.toStr(header).replace(SecureConstant.BASIC_HEADER_PREFIX_EXT, SecureConstant.BASIC_HEADER_PREFIX);
         if (!header.startsWith(SecureConstant.BASIC_HEADER_PREFIX)) {
@@ -215,7 +215,7 @@ public class TokenUtil {
     }
 
     /**
-     * 获取请求头中的客户端id
+     * 查询请求头中的客户端id
      */
     public String getClientIdFromHeader() {
         String[] tokens = extractAndDecodeHeader();
@@ -224,7 +224,7 @@ public class TokenUtil {
     }
 
     /**
-     * 获取过期时间(次日凌晨3点)
+     * 查询过期时间(次日凌晨3点)
      *
      * @return expire
      */

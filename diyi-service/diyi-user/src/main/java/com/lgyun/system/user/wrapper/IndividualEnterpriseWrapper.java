@@ -33,7 +33,7 @@ public class IndividualEnterpriseWrapper extends BaseEntityWrapper<IndividualEnt
 			return null;
 		}
 
-		//获取年审信息
+		//查询年审信息
 		String reportResultFiles = enterpriseReportService.findReportResultFiles(BodyType.INDIVIDUALENTERPRISE, individualEnterprise.getId());
 		IndividualEnterpriseVO individualEnterpriseVO = BeanUtil.copy(individualEnterprise, IndividualEnterpriseVO.class);
 		individualEnterpriseVO.setReportResultFiles(reportResultFiles);

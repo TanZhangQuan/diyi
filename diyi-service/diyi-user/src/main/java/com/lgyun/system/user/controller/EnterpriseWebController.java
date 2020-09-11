@@ -37,12 +37,12 @@ public class EnterpriseWebController {
     private IEnterpriseWorkerService enterpriseWorkerService;
 
     @GetMapping("/get_service_providers")
-    @ApiOperation(value = "获取商户合作服务商", notes = "获取商户合作服务商")
+    @ApiOperation(value = "查询商户合作服务商", notes = "查询商户合作服务商")
     public R getServiceProviders(Query query, BladeUser bladeUser) {
 
-        log.info("获取商户合作服务商");
+        log.info("查询商户合作服务商");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -51,20 +51,20 @@ public class EnterpriseWebController {
 
             return enterpriseService.getServiceProviders(query, enterpriseWorkerEntity.getEnterpriseId());
         } catch (Exception e) {
-            log.error("获取商户合作服务商异常", e);
+            log.error("查询商户合作服务商异常", e);
         }
         return R.fail("查询失败");
     }
 
     @GetMapping("/get_enterprise_detail_by_id")
-    @ApiOperation(value = "根据商户ID获取商户详情", notes = "根据商户ID获取商户详情")
+    @ApiOperation(value = "根据商户ID查询商户详情", notes = "根据商户ID查询商户详情")
     public R getEnterpriseDetailById(@ApiParam(value = "商户ID") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId) {
 
-        log.info("根据商户ID获取商户详情");
+        log.info("根据商户ID查询商户详情");
         try {
             return enterpriseService.getEnterpriseDetailById(enterpriseId);
         } catch (Exception e) {
-            log.error("根据商户ID获取商户详情异常", e);
+            log.error("根据商户ID查询商户详情异常", e);
         }
         return R.fail("查询失败");
     }

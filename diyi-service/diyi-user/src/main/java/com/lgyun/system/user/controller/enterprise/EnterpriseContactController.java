@@ -33,11 +33,11 @@ public class EnterpriseContactController {
     private IEnterpriseWorkerService enterpriseWorkerService;
 
     @GetMapping("/list")
-    @ApiOperation(value = "获取当前商户所有联系人详情", notes = "获取当前商户所有联系人详情")
+    @ApiOperation(value = "查询当前商户所有联系人详情", notes = "查询当前商户所有联系人详情")
     public R currentDetail(BladeUser bladeUser) {
-        log.info("获取当前商户所有联系人详情");
+        log.info("查询当前商户所有联系人详情");
         try {
-            //获取当前创客
+            //查询当前创客
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -61,7 +61,7 @@ public class EnterpriseContactController {
             });
             return R.data(responseList);
         } catch (Exception e) {
-            log.error("获取当前商户所有联系人详情，error", e);
+            log.error("查询当前商户所有联系人详情，error", e);
         }
         return R.fail("查询失败");
     }
@@ -71,7 +71,7 @@ public class EnterpriseContactController {
     public R addNewEnterpriseWorker(@RequestBody EnterpriseContactRequest request, BladeUser bladeUser) {
         log.info("新建商户联系人");
         try {
-            //获取当前创客
+            //查询当前创客
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;

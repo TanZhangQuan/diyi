@@ -30,7 +30,7 @@ public interface IUserClient {
     String API_PREFIX = "/user";
 
     /**
-     * 获取用户信息
+     * 查询用户信息
      *
      * @param userId
      * @param userType
@@ -40,7 +40,7 @@ public interface IUserClient {
     UserInfo userInfo(@RequestParam("userId") Long userId, @RequestParam("userType") UserType userType);
 
     /**
-     * 获取用户信息
+     * 查询用户信息
      *
      * @param phone
      * @param userType
@@ -50,7 +50,7 @@ public interface IUserClient {
     UserInfo userInfoByPhone(@RequestParam("phone") String phone, @RequestParam("userType") UserType userType);
 
     /**
-     * 获取用户信息
+     * 查询用户信息
      *
      * @param phone
      * @return
@@ -59,7 +59,7 @@ public interface IUserClient {
     User userByPhone(@RequestParam("phone") String phone);
 
     /**
-     * 获取用户信息
+     * 查询用户信息
      *
      * @param account
      * @param password
@@ -70,7 +70,7 @@ public interface IUserClient {
     UserInfo userInfo(@RequestParam("account") String account, @RequestParam("password") String password, @RequestParam("userType") UserType userType);
 
     /**
-     * 根据创客id获取创客信息
+     * 根据创客id查询创客信息
      *
      * @param makerId
      * @return
@@ -79,7 +79,7 @@ public interface IUserClient {
     MakerEntity makerFindById(@RequestParam("makerId") Long makerId);
 
     /**
-     * 获取创客信息
+     * 查询创客信息
      *
      * @param phoneNumber
      * @return
@@ -88,7 +88,7 @@ public interface IUserClient {
     MakerEntity makerFindByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
 
     /**
-     * 获取创客信息
+     * 查询创客信息
      *
      * @param idcardNo
      * @return
@@ -97,7 +97,7 @@ public interface IUserClient {
     MakerEntity makerFindByIdcardNo(@RequestParam("idcardNo") String idcardNo);
 
     /**
-     * 获取商户员工信息
+     * 查询商户员工信息
      *
      * @param phoneNumber
      * @return
@@ -106,7 +106,7 @@ public interface IUserClient {
     EnterpriseWorkerEntity enterpriseWorkerFindByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
 
     /**
-     * 获取商户员工信息
+     * 查询商户员工信息
      *
      * @param phoneNumber
      * @return
@@ -151,7 +151,7 @@ public interface IUserClient {
 
 
     /**
-     * 获取个独信息
+     * 查询个独信息
      *
      * @param makerId
      * @return
@@ -160,7 +160,7 @@ public interface IUserClient {
     List<IndividualEnterpriseEntity> individualEnterpriseFindByMakerId(@RequestParam("makerId") Long makerId);
 
     /**
-     * 获取个体信息
+     * 查询个体信息
      *
      * @param makerId
      * @return
@@ -180,7 +180,7 @@ public interface IUserClient {
     R findEnterpriseByMakerId(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId);
 
     /**
-     * 根据Id获取个独或个体户信息
+     * 根据Id查询个独或个体户信息
      *
      * @param individualEnterpriseId
      * @return
@@ -189,7 +189,7 @@ public interface IUserClient {
     IndividualEnterpriseEntity individualEnterpriseFindById(@RequestParam("individualEnterpriseId") Long individualEnterpriseId);
 
     /**
-     * 根据Id获取个体信息
+     * 根据Id查询个体信息
      *
      * @param individualBusinessId
      * @return
@@ -207,7 +207,7 @@ public interface IUserClient {
     EnterpriseEntity getEnterpriseById(@RequestParam("enterpriseId") Long enterpriseId);
 
     /**
-     * 根据user-id获取创客
+     * 根据user-id查询创客
      *
      * @param bladeUser
      * @return
@@ -216,7 +216,7 @@ public interface IUserClient {
     R<MakerEntity> currentMaker(@RequestBody BladeUser bladeUser);
 
     /**
-     * 根据user-id获取商户
+     * 根据user-id查询商户
      *
      * @param bladeUser
      * @return
@@ -225,7 +225,7 @@ public interface IUserClient {
     R<EnterpriseWorkerEntity> currentEnterpriseWorker(@RequestBody BladeUser bladeUser);
 
     /**
-     * 根据user-id获取服务商
+     * 根据user-id查询服务商
      *
      * @param bladeUser
      * @return
@@ -234,7 +234,7 @@ public interface IUserClient {
     R<ServiceProviderWorkerEntity> currentServiceProviderWorker(@RequestBody BladeUser bladeUser);
 
     /**
-     * 根据user-id获取管理员
+     * 根据user-id查询管理员
      *
      * @param bladeUser
      * @return
@@ -324,7 +324,7 @@ public interface IUserClient {
     void makerEnterpriseAdd(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("makerId") Long makerId);
 
     /**
-     * 获取当前商户关联服务商
+     * 查询当前商户关联服务商
      *
      * @param current
      * @param size

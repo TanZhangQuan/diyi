@@ -16,7 +16,7 @@ import java.util.List;
 public class SwaggerUtil {
 
     /**
-     * 获取包集合
+     * 查询包集合
      *
      * @param basePackages 多个包名集合
      */

@@ -74,12 +74,12 @@ public class ServiceProviderController {
 	}
 
 	@GetMapping("/get_bank_card")
-	@ApiOperation(value = "获取当前服务商银行卡信息", notes = "获取当前服务商银行卡信息")
+	@ApiOperation(value = "查询当前服务商银行卡信息", notes = "查询当前服务商银行卡信息")
 	public R getBankCard(BladeUser bladeUser) {
 
-		log.info("获取当前服务商银行卡信息");
+		log.info("查询当前服务商银行卡信息");
 		try {
-			//获取当前服务商员工
+			//查询当前服务商员工
 			R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
 			if (!(result.isSuccess())) {
 				return result;
@@ -88,7 +88,7 @@ public class ServiceProviderController {
 
 			return serviceProviderService.getBankCard(serviceProviderWorkerEntity.getServiceProviderId());
 		} catch (Exception e) {
-			log.error("获取当前服务商银行卡信息异常", e);
+			log.error("查询当前服务商银行卡信息异常", e);
 		}
 
 		return R.fail("查询失败");
@@ -100,7 +100,7 @@ public class ServiceProviderController {
 
 		log.info("新增或修改当前服务商银行卡信息");
 		try {
-			//获取当前服务商员工
+			//查询当前服务商员工
 			R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
 			if (!(result.isSuccess())) {
 				return result;
@@ -116,12 +116,12 @@ public class ServiceProviderController {
 	}
 
 	@GetMapping("/get_contact_person")
-	@ApiOperation(value = "获取当前服务商联系人信息", notes = "获取当前服务商联系人信息")
+	@ApiOperation(value = "查询当前服务商联系人信息", notes = "查询当前服务商联系人信息")
 	public R getContactPerson(BladeUser bladeUser) {
 
-		log.info("获取当前服务商联系人信息");
+		log.info("查询当前服务商联系人信息");
 		try {
-			//获取当前服务商员工
+			//查询当前服务商员工
 			R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
 			if (!(result.isSuccess())) {
 				return result;
@@ -130,7 +130,7 @@ public class ServiceProviderController {
 
 			return serviceProviderService.getContactPerson(serviceProviderWorkerEntity.getServiceProviderId());
 		} catch (Exception e) {
-			log.error("获取当前服务商联系人信息异常", e);
+			log.error("查询当前服务商联系人信息异常", e);
 		}
 
 		return R.fail("查询失败");
@@ -142,7 +142,7 @@ public class ServiceProviderController {
 
 		log.info("新增或修改当前服务商联系人信息");
 		try {
-			//获取当前服务商员工
+			//查询当前服务商员工
 			R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
 			if (!(result.isSuccess())) {
 				return result;
@@ -158,12 +158,12 @@ public class ServiceProviderController {
 	}
 
 	@GetMapping("/get_invoice")
-	@ApiOperation(value = "获取当前服务商开票信息", notes = "获取当前服务商开票信息")
+	@ApiOperation(value = "查询当前服务商开票信息", notes = "查询当前服务商开票信息")
 	public R getInvoice(BladeUser bladeUser) {
 
-		log.info("获取当前服务商开票信息");
+		log.info("查询当前服务商开票信息");
 		try {
-			//获取当前服务商员工
+			//查询当前服务商员工
 			R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
 			if (!(result.isSuccess())) {
 				return result;
@@ -172,7 +172,7 @@ public class ServiceProviderController {
 
 			return serviceProviderService.getInvoice(serviceProviderWorkerEntity.getServiceProviderId());
 		} catch (Exception e) {
-			log.error("获取当前服务商开票信息异常", e);
+			log.error("查询当前服务商开票信息异常", e);
 		}
 
 		return R.fail("查询失败");
@@ -184,7 +184,7 @@ public class ServiceProviderController {
 
 		log.info("新增或修改当前服务商开票信息");
 		try {
-			//获取当前服务商员工
+			//查询当前服务商员工
 			R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
 			if (!(result.isSuccess())) {
 				return result;

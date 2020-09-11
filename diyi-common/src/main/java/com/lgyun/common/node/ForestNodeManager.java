@@ -25,7 +25,7 @@ public class ForestNodeManager<T extends INode> {
     }
 
     /**
-     * 根据节点ID获取一个节点
+     * 根据节点ID查询一个节点
      *
      * @param id 节点ID
      * @return 对应的节点对象
@@ -49,7 +49,7 @@ public class ForestNodeManager<T extends INode> {
     }
 
     /**
-     * 获取树的根节点(一个森林对应多颗树)
+     * 查询树的根节点(一个森林对应多颗树)
      *
      * @return 树的根节点集合
      */

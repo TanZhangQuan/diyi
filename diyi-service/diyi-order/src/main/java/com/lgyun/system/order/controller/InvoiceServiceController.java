@@ -6,7 +6,6 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.service.IPayEnterpriseService;
-import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
@@ -47,7 +46,7 @@ public class InvoiceServiceController {
                                @RequestParam InvoiceState companyInvoiceState) {
         log.info("服务商查询总包发票");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -68,7 +67,7 @@ public class InvoiceServiceController {
     public R getLumpSumInvoiceDetails(BladeUser bladeUser,Long payEnterpriseId) {
         log.info("服务商查询总包发票详情");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -88,7 +87,7 @@ public class InvoiceServiceController {
     public R saveLumpSumInvoice(BladeUser bladeUser,Long payEnterpriseId,String serviceProviderName,Long applicationId,String companyInvoiceUrl,String expressSheetNo,String expressCompanyName,String invoiceDesc) {
         log.info("服务商总包开票");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -110,7 +109,7 @@ public class InvoiceServiceController {
                                @RequestParam(required = false) String endTime) {
         log.info("服务商查询未开票分包发票");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -129,7 +128,7 @@ public class InvoiceServiceController {
     public R getSubcontractInvoice(@ApiParam(value = "商户支付清单Id") @NotNull(message = "请输入商户支付清单Id") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
         log.info("服务商查看未开票分包发票详情");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -146,7 +145,7 @@ public class InvoiceServiceController {
     public R applySummaryInvoice(@ApiParam(value = "商户支付清单Id") @NotNull(message = "请输入商户支付清单Id") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
         log.info("服务商申请汇总代开发票");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -174,7 +173,7 @@ public class InvoiceServiceController {
                                 @ApiParam(value = "清单式完税凭证URL") @NotBlank(message = "请输入清单式完税凭证URL") String makerTaxListUrl) {
         log.info("服务商总包开票");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -192,7 +191,7 @@ public class InvoiceServiceController {
     public R applyPortalSignInvoice(BladeUser bladeUser,@ApiParam(value = "商户支付清单Id") @NotNull(message = "请输入商户支付清单Id") @RequestParam(required = false) Long payEnterpriseId) {
         log.info("服务商申请门征单开发票");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -211,7 +210,7 @@ public class InvoiceServiceController {
                                    @ApiParam(value = "服务商的名字") @NotBlank(message = "请输入服务商的名字") @RequestParam(required = false) String serviceProviderName) {
         log.info("服务商门征单开发票开票");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -232,7 +231,7 @@ public class InvoiceServiceController {
                                @RequestParam(required = false) String endTime) {
         log.info("服务商申请门征单开发票");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -250,7 +249,7 @@ public class InvoiceServiceController {
     public R getSummaryInvoiceDetails(BladeUser bladeUser,@ApiParam(value = "商户支付清单Id") @NotNull(message = "请输入商户支付清单Id") @RequestParam(required = false) Long payEnterpriseId) {
         log.info("服务商查询已汇总代开的发票详情");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -270,7 +269,7 @@ public class InvoiceServiceController {
                                       @RequestParam(required = false) String endTime) {
         log.info("服务商查询已门征单开的发票");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -289,7 +288,7 @@ public class InvoiceServiceController {
     public R getPortalSignInvoiceDetails(BladeUser bladeUser,@ApiParam(value = "商户支付清单Id") @NotNull(message = "请输入商户支付清单Id") @RequestParam(required = false) Long payEnterpriseId) {
         log.info("服务商查询已门征单开的发票详情");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;

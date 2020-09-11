@@ -39,7 +39,7 @@ public class InvoiceController {
     public R getEnterpriseAll(Query query, BladeUser bladeUser) {
         log.info("根据创客id查询所有商户");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
             if (!(result.isSuccess())){
                 return result;
@@ -58,7 +58,7 @@ public class InvoiceController {
     public R getEnterpriseMakerIdAll(Query query, BladeUser bladeUser, Long enterpriseId) {
         log.info("根据创客id和商户id查询创客在商户下所开的票");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
             if (!(result.isSuccess())){
                 return result;
@@ -77,7 +77,7 @@ public class InvoiceController {
     public R getEnterpriseMakerIdDetail(BladeUser bladeUser, Long enterpriseId, Long payMakerId) {
         log.info("根据创客id,商户id和创客支付id查询票的详情");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
             if (!(result.isSuccess())){
                 return result;

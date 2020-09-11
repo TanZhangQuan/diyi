@@ -27,7 +27,7 @@ public interface IDictClient {
     String API_PREFIX = "/dict";
 
     /**
-     * 获取字典表对应值
+     * 查询字典表对应值
      *
      * @param code    字典编号
      * @param dictKey 字典序号
@@ -37,7 +37,7 @@ public interface IDictClient {
     R<String> getValue(@RequestParam("code") String code, @RequestParam("dictKey") Integer dictKey);
 
     /**
-     * 获取字典表
+     * 查询字典表
      *
      * @param code 字典编号
      * @return
@@ -47,7 +47,7 @@ public interface IDictClient {
 
 
     /**
-     * 获取字典表
+     * 查询字典表
      *
      * @param parentId
      * @return
@@ -62,7 +62,7 @@ public interface IDictClient {
     R saveDict(@RequestBody DictDTO dictDTO);
 
     /**
-     * 获取字典
+     * 查询字典
      */
     @GetMapping(API_PREFIX + "/getDict")
     Dict getDict(@RequestParam("code") String code);

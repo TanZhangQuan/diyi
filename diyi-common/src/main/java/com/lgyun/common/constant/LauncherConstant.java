@@ -58,7 +58,7 @@ public interface LauncherConstant {
 	String ZIPKIN_TEST_ADDR = "http://172.30.0.58:9411";
 
 	/**
-	 * 动态获取nacos地址
+	 * 动态查询nacos地址
 	 *
 	 * @param profile 环境变量
 	 * @return addr
@@ -75,7 +75,7 @@ public interface LauncherConstant {
 	}
 
 	/**
-	 * 动态获取sentinel地址
+	 * 动态查询sentinel地址
 	 *
 	 * @param profile 环境变量
 	 * @return addr
@@ -92,7 +92,7 @@ public interface LauncherConstant {
 	}
 
 	/**
-	 * 动态获取zipkin地址
+	 * 动态查询zipkin地址
 	 *
 	 * @param profile 环境变量
 	 * @return addr

@@ -22,7 +22,7 @@ public interface IOrderClient {
     String API_PREFIX = "/order";
 
     /**
-     * 获取开票月度年度金额
+     * 查询开票月度年度金额
      *
      * @param allKindEnterpriseId
      * @param invoicePeopleType
@@ -32,7 +32,7 @@ public interface IOrderClient {
     R<SelfHelpInvoiceStatisticsVO> yearMonthMoney(@RequestParam("allKindEnterpriseId") Long allKindEnterpriseId, @RequestParam("invoicePeopleType") InvoicePeopleType invoicePeopleType);
 
     /**
-     * 获取开票统计
+     * 查询开票统计
      *
      * @param allKindEnterpriseId
      * @param invoicePeopleType

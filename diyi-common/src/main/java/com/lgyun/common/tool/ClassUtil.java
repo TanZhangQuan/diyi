@@ -22,7 +22,7 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
     private static final ParameterNameDiscoverer PARAMETER_NAME_DISCOVERER = new DefaultParameterNameDiscoverer();
 
     /**
-     * 获取方法参数信息
+     * 查询方法参数信息
      *
      * @param constructor    构造器
      * @param parameterIndex 参数序号
@@ -35,7 +35,7 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
     }
 
     /**
-     * 获取方法参数信息
+     * 查询方法参数信息
      *
      * @param method         方法
      * @param parameterIndex 参数序号
@@ -48,7 +48,7 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
     }
 
     /**
-     * 获取Annotation
+     * 查询Annotation
      *
      * @param method         Method
      * @param annotationType 注解类
@@ -68,12 +68,12 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
         if (null != annotation) {
             return annotation;
         }
-        // 获取类上面的Annotation，可能包含组合注解，故采用spring的工具类
+        // 查询类上面的Annotation，可能包含组合注解，故采用spring的工具类
         return AnnotatedElementUtils.findMergedAnnotation(specificMethod.getDeclaringClass(), annotationType);
     }
 
     /**
-     * 获取Annotation
+     * 查询Annotation
      *
      * @param handlerMethod  HandlerMethod
      * @param annotationType 注解类
@@ -86,7 +86,7 @@ public class ClassUtil extends org.springframework.util.ClassUtils {
         if (null != annotation) {
             return annotation;
         }
-        // 获取类上面的Annotation，可能包含组合注解，故采用spring的工具类
+        // 查询类上面的Annotation，可能包含组合注解，故采用spring的工具类
         Class<?> beanType = handlerMethod.getBeanType();
         return AnnotatedElementUtils.findMergedAnnotation(beanType, annotationType);
     }

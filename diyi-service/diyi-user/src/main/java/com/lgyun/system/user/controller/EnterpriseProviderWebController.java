@@ -37,13 +37,13 @@ public class EnterpriseProviderWebController {
 	private IServiceProviderWorkerService serviceProviderWorkerService;
 
     @GetMapping("/get_service_providers_by_enterprise_id")
-    @ApiOperation(value = "获取当前商户合作服务商", notes = "获取当前商户合作服务商")
+    @ApiOperation(value = "查询当前商户合作服务商", notes = "查询当前商户合作服务商")
     //TODO
     public R getServiceProvidersByEnterpriseId(String keyWord, Query query, BladeUser bladeUser) {
 
-        log.info("获取当前商户合作服务商");
+        log.info("查询当前商户合作服务商");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -52,19 +52,19 @@ public class EnterpriseProviderWebController {
 
             return enterpriseProviderService.getServiceProvidersByEnterpriseId(enterpriseWorkerEntity.getEnterpriseId(), keyWord, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
-            log.error("获取当前商户合作服务商异常", e);
+            log.error("查询当前商户合作服务商异常", e);
         }
         return R.fail("查询失败");
     }
 
     @GetMapping("/get_enterprtises_by_service_provider_id")
-    @ApiOperation(value = "获取当前服务商合作商户", notes = "获取当前服务商合作商户")
+    @ApiOperation(value = "查询当前服务商合作商户", notes = "查询当前服务商合作商户")
     //TODO
     public R getEnterprtisesByServiceProviderId(String keyWord, Query query, BladeUser bladeUser) {
 
-        log.info("获取当前商户合作服务商");
+        log.info("查询当前商户合作服务商");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())){
                 return result;
@@ -73,18 +73,18 @@ public class EnterpriseProviderWebController {
 
             return enterpriseProviderService.getEnterprtisesByServiceProviderId(serviceProviderWorkerEntity.getServiceProviderId(), keyWord, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
-            log.error("获取当前服务商合作商户异常", e);
+            log.error("查询当前服务商合作商户异常", e);
         }
         return R.fail("查询失败");
     }
 
     @GetMapping("/getEnterprisesByServiceProvider")
-    @ApiOperation(value = "获取当前服务商合作商户", notes = "获取当前服务商合作商户")
+    @ApiOperation(value = "查询当前服务商合作商户", notes = "查询当前服务商合作商户")
     public R getEnterprises(Query query, BladeUser bladeUser) {
 
-        log.info("获取当前服务商合作商户");
+        log.info("查询当前服务商合作商户");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -93,7 +93,7 @@ public class EnterpriseProviderWebController {
 
             return enterpriseProviderService.getEnterprisesByServiceProvider(Condition.getPage(query.setDescs("create_time")), serviceProviderWorkerEntity.getServiceProviderId());
         } catch (Exception e) {
-            log.error("获取当前服务商合作商户异常", e);
+            log.error("查询当前服务商合作商户异常", e);
         }
         return R.fail("查询失败");
     }

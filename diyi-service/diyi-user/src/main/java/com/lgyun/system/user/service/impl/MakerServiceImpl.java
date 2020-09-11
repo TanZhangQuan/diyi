@@ -199,7 +199,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return R.fail("身份证实名认证失败");
         }
 
-        //获取姓名和身份证号码
+        //查询姓名和身份证号码
         String name = jsonObject.getString("name");
         String idNo = jsonObject.getString("idNo");
 
@@ -268,7 +268,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     public R<String> faceOcrNotify(HttpServletRequest request) {
 
         try {
-            //获取body的数据进行验签
+            //查询body的数据进行验签
             String rbody = RealnameVerifyUtil.getRequestBody(request, "UTF-8");
             boolean res = RealnameVerifyUtil.checkPass(request, rbody, RealnameVerifyConstant.APPKEY);
             if (!res) {
@@ -302,11 +302,11 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
                 return R.fail("查询认证信息失败");
             }
 
-            //获取个人信息
+            //查询个人信息
             JSONObject indivInfo = detail.getJSONObject("indivInfo");
             //人脸截图base64请求地址
             String facePhotoUrl = indivInfo.getString("facePhotoUrl");
-            //获取人脸截图base64
+            //查询人脸截图base64
             String facePhotoBase64 = HttpUtil.get(facePhotoUrl);
             //上传人脸截图base64到阿里云存储
             byte[] bytes = Base64Util.decodeFromString(facePhotoBase64.trim());
@@ -357,7 +357,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     public R<String> bankCardOcrNotify(HttpServletRequest request) {
 
         try {
-            //获取body的数据进行验签
+            //查询body的数据进行验签
             String rbody = RealnameVerifyUtil.getRequestBody(request, "UTF-8");
             boolean res = RealnameVerifyUtil.checkPass(request, rbody, RealnameVerifyConstant.APPKEY);
             if (!res) {
@@ -391,9 +391,9 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
                 return R.fail("查询认证信息失败");
             }
 
-            //获取个人信息
+            //查询个人信息
             JSONObject indivInfo = detail.getJSONObject("indivInfo");
-            //获取银行卡号
+            //查询银行卡号
             String bankCardNo = indivInfo.getString("bankCardNo");
 
             makerEntity.setBankCardNo(bankCardNo);
@@ -442,7 +442,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     public R<String> mobileOcrNotify(HttpServletRequest request) {
 
         try {
-            //获取body的数据进行验签
+            //查询body的数据进行验签
             String rbody = RealnameVerifyUtil.getRequestBody(request, "UTF-8");
             boolean res = RealnameVerifyUtil.checkPass(request, rbody, RealnameVerifyConstant.APPKEY);
             if (!res) {
@@ -642,7 +642,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return R.fail("手机号未注册");
         }
 
-        //获取缓存短信验证码
+        //查询缓存短信验证码
         String redisCode = (String) redisUtil.get(SmsConstant.AVAILABLE_TIME + updatePasswordDto.getPhoneNumber());
         //判断验证码
         if (!StringUtil.equalsIgnoreCase(redisCode, updatePasswordDto.getSmsCode())) {

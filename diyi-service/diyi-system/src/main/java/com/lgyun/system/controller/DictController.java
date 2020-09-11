@@ -64,7 +64,7 @@ public class DictController extends BladeController {
 	}
 
 	/**
-	 * 获取字典树形结构
+	 * 查询字典树形结构
 	 *
 	 * @return
 	 */
@@ -96,12 +96,12 @@ public class DictController extends BladeController {
 	}
 
 	/**
-	 * 获取字典
+	 * 查询字典
 	 *
 	 * @return
 	 */
 	@GetMapping("/dictionary")
-	@ApiOperation(value = "获取字典", notes = "获取字典")
+	@ApiOperation(value = "查询字典", notes = "查询字典")
 	public R<List<Dict>> dictionary(String code) {
 		List<Dict> tree = dictService.getList(code);
 		return R.data(tree);

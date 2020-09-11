@@ -29,17 +29,17 @@ public class WechatTokenGranter implements ITokenGranter {
     @Transactional(rollbackFor = Exception.class)
     public R grant(TokenParameter tokenParameter) throws Exception {
 
-        // 获取用户类型
+        // 查询用户类型
         UserType userType = (UserType) tokenParameter.getArgs().get("userType");
-        // 获取加密算法的初始向量
+        // 查询加密算法的初始向量
         String iv = tokenParameter.getArgs().getStr("iv");
-        // 获取加密数据
+        // 查询加密数据
         String encryptedData = tokenParameter.getArgs().getStr("encryptedData");
         //手机号
         String purePhoneNumber;
         switch (userType) {
             case MAKER:
-                // 获取微信授权码
+                // 查询微信授权码
                 String wechatCode = tokenParameter.getArgs().getStr("wechatCode");
                 //微信授权
                 R<JSONObject> result = wechatUtil.authorization(wechatCode, iv, encryptedData);

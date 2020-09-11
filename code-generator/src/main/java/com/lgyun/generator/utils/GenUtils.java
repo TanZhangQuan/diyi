@@ -121,7 +121,7 @@ public class GenUtils {
         map.put("datetime", DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
         VelocityContext context = new VelocityContext(map);
 
-        //获取模板列表
+        //查询模板列表
         List<String> templates = getTemplates();
         for (String template : templates) {
             //渲染模板
@@ -159,18 +159,18 @@ public class GenUtils {
     }
 
     /**
-     * 获取配置信息
+     * 查询配置信息
      */
     public static Configuration getConfig() {
         try {
             return new PropertiesConfiguration("generator.properties");
         } catch (ConfigurationException e) {
-            throw new RRException("获取配置文件失败，", e);
+            throw new RRException("查询配置文件失败，", e);
         }
     }
 
     /**
-     * 获取文件名
+     * 查询文件名
      */
     public static String getFileName(String template, String className, String packageName, String moduleName) {
         String packagePath = "main" + File.separator + "java" + File.separator;

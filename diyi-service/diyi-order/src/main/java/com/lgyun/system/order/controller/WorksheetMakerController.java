@@ -47,7 +47,7 @@ public class WorksheetMakerController {
                                       @ApiParam(value = "月份") @RequestParam(required = false) Long month,
                                       BladeUser bladeUser) {
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -67,7 +67,7 @@ public class WorksheetMakerController {
                               @ApiParam(value = "工单创客类型") @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType,
                               BladeUser bladeUser) {
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -88,7 +88,7 @@ public class WorksheetMakerController {
                                @ApiParam(value = "年份") @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
                                BladeUser bladeUser) {
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -110,7 +110,7 @@ public class WorksheetMakerController {
                                                 @ApiParam(value = "月份") @RequestParam(required = false) Long month,
                                                 BladeUser bladeUser, Query query) {
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -133,7 +133,7 @@ public class WorksheetMakerController {
                                             @ApiParam(value = "商户编号") @RequestParam(required = false) Long enterpriseId,
                                             BladeUser bladeUser) {
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -157,7 +157,7 @@ public class WorksheetMakerController {
                                          BladeUser bladeUser, Query query) {
         log.info("根据工单类型，创客类型，年份，月份，商户编号（可选）查询收入明细");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -172,14 +172,14 @@ public class WorksheetMakerController {
     }
 
     @GetMapping("/get_by_pay_enterprise_id")
-    @ApiOperation(value = "根据支付清单ID获取创客工单关联", notes = "根据支付清单ID获取创客工单关联")
+    @ApiOperation(value = "根据支付清单ID查询创客工单关联", notes = "根据支付清单ID查询创客工单关联")
     public R getByPayEnterpriseId(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, Query query) {
 
-        log.info("根据支付清单ID获取创客工单关联");
+        log.info("根据支付清单ID查询创客工单关联");
         try {
             return worksheetMakerService.getByPayEnterpriseId(payEnterpriseId, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
-            log.error("根据支付清单ID获取创客工单关联异常", e);
+            log.error("根据支付清单ID查询创客工单关联异常", e);
         }
         return R.fail("查询失败");
     }

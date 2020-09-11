@@ -8,7 +8,7 @@ package com.lgyun.auth.client;
 public interface IClientDetailsService {
 
     /**
-     * 根据clientId获取Client详情
+     * 根据clientId查询Client详情
      *
      * @param clientId 客户端id
      * @return IClientDetails

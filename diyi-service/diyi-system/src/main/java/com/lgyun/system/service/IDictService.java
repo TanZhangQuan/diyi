@@ -2,7 +2,6 @@ package com.lgyun.system.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.lgyun.common.api.R;
 import com.lgyun.system.entity.Dict;
 import com.lgyun.system.vo.DictVO;
 
@@ -32,7 +31,7 @@ public interface IDictService extends IService<Dict> {
 	List<DictVO> tree();
 
 	/**
-	 * 获取字典表对应中文
+	 * 查询字典表对应中文
 	 *
 	 * @param code    字典编号
 	 * @param dictKey 字典序号
@@ -41,7 +40,7 @@ public interface IDictService extends IService<Dict> {
 	String getValue(String code, Integer dictKey);
 
 	/**
-	 * 获取字典表
+	 * 查询字典表
 	 *
 	 * @param code 字典编号
 	 * @return
@@ -57,7 +56,7 @@ public interface IDictService extends IService<Dict> {
 
 
 	/**
-	 * 获取字典表
+	 * 查询字典表
 	 *
 	 * @param parentId
 	 * @return
@@ -65,7 +64,7 @@ public interface IDictService extends IService<Dict> {
 	List<Dict> getParentList(Long parentId);
 
 	/**
-	 * 获取字典表
+	 * 查询字典表
 	 * @param code
 	 * @return
 	 */

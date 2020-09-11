@@ -130,7 +130,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     List<PayEnterpriseMakersListVO> getPayEnterprisesByEnterprisesServiceProvider(Long enterpriseId, Long serviceProviderId, PayEnterpriseDto payEnterpriseDto, IPage<PayEnterpriseMakersListVO> page);
 
     /**
-     * 获取当前商户首页交易情况数据
+     * 查询当前商户首页交易情况数据
      *
      * @param enterpriseId
      * @return
@@ -138,7 +138,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     TransactionVO transactionByEnterprise(Long enterpriseId);
 
     /**
-     * 获取当前服务商首页交易情况数据
+     * 查询当前服务商首页交易情况数据
      *
      * @param serviceProviderId
      * @return

@@ -33,7 +33,7 @@ public interface IEnterpriseProviderService extends BaseService<EnterpriseProvid
     EnterpriseProviderEntity findByEnterpriseIdServiceProviderId(Long enterpriseId, Long serviceProviderId);
 
     /**
-     * 获取服务商关联的所有商户
+     * 查询服务商关联的所有商户
      *
      * @param page
      * @param serviceProviderId
@@ -43,7 +43,7 @@ public interface IEnterpriseProviderService extends BaseService<EnterpriseProvid
     R<IPage<EnterprisesVO>> getEnterpriseByServiceProvider(IPage<EnterprisesVO> page, Long serviceProviderId, String keyword);
 
     /**
-     * 获取当前商户合作服务商
+     * 查询当前商户合作服务商
      *
      * @param enterpriseId
      * @param keyWord
@@ -53,7 +53,7 @@ public interface IEnterpriseProviderService extends BaseService<EnterpriseProvid
     R<IPage<ServiceProvidersVO>> getServiceProvidersByEnterpriseId(Long enterpriseId, String keyWord, IPage<ServiceProvidersVO> page);
 
     /**
-     * 获取当前服务商合作商户
+     * 查询当前服务商合作商户
      *
      * @param serviceProviderId
      * @param keyWord
@@ -63,7 +63,7 @@ public interface IEnterpriseProviderService extends BaseService<EnterpriseProvid
     R<IPage<EnterprisesByProviderVO>> getEnterprtisesByServiceProviderId(Long serviceProviderId, String keyWord, IPage<EnterprisesByProviderVO> page);
 
     /**
-     * 获取当前服务商合作商户
+     * 查询当前服务商合作商户
      *
      * @param page
      * @param serviceProviderId

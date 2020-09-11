@@ -19,7 +19,7 @@ import com.lgyun.system.user.vo.*;
 public interface IServiceProviderService extends BaseService<ServiceProviderEntity> {
 
     /**
-     * 获取服务商关联的所有商户
+     * 查询服务商关联的所有商户
      *
      * @param query
      * @param serviceProviderId
@@ -29,7 +29,7 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
     R<IPage<EnterprisesVO>> getEnterpriseByServiceProvider(Query query, Long serviceProviderId, String keyword);
 
     /**
-     * 获取当前服务商银行卡信息
+     * 查询当前服务商银行卡信息
      *
      * @param serviceProviderId
      * @return
@@ -46,7 +46,7 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
     R<String> addOrUpdateBankCard(ServiceProviderBankCardDto serviceProviderBankCardDto, Long serviceProviderId);
 
     /**
-     * 获取当前服务商联系人信息
+     * 查询当前服务商联系人信息
      *
      * @param serviceProviderId
      * @return
@@ -63,7 +63,7 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
     R<String> addOrUpdateContactPerson(ServiceProviderContactPersonDto serviceProviderContactPersonDto, Long serviceProviderId);
 
     /**
-     * 获取当前服务商开票信息
+     * 查询当前服务商开票信息
      *
      * @param serviceProviderId
      * @return

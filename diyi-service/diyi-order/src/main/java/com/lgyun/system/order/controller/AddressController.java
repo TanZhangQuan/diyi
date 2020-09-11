@@ -42,7 +42,7 @@ public class AddressController {
 
         log.info("新建或修改收货地址");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -63,7 +63,7 @@ public class AddressController {
 
         log.info("查询当前服务商所有地址");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;

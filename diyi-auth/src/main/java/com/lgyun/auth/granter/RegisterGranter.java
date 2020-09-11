@@ -31,15 +31,15 @@ public class RegisterGranter implements ITokenGranter {
 
     @Override
     public R grant(TokenParameter tokenParameter) {
-        //获取用户类型
+        //查询用户类型
         UserType userType = (UserType) tokenParameter.getArgs().get("userType");
-        //获取手机号
+        //查询手机号
         String mobile = tokenParameter.getArgs().getStr("mobile");
-        //获取密码
+        //查询密码
         String password = tokenParameter.getArgs().getStr("password");
-        //获取用户填写的短信验证码
+        //查询用户填写的短信验证码
         String smsCode = tokenParameter.getArgs().getStr("smsCode");
-        //获取缓存短信验证码
+        //查询缓存短信验证码
         String redisCode = (String) redisUtil.get(SmsConstant.AVAILABLE_TIME + mobile);
         //判断验证码
         if (!StringUtil.equalsIgnoreCase(redisCode, smsCode)) {

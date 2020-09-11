@@ -111,7 +111,7 @@ public interface WorksheetMakerMapper extends BaseMapper<WorksheetMakerEntity> {
     List<WorksheetMakerDetailsVO> getWorksheetMakerDetails(Long worksheetId,IPage<WorksheetMakerDetailsVO> page);
 
     /**
-     * 根据支付清单ID获取创客工单关联
+     * 根据支付清单ID查询创客工单关联
      *
      * @param payEnterpriseId
      * @param page

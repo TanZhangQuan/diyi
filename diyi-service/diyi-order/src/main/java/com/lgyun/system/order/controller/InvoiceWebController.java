@@ -53,7 +53,7 @@ public class InvoiceWebController {
                                           Query query, BladeUser bladeUser) {
         log.info("根据商户查询总包发票");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())){
                 return result;
@@ -95,7 +95,7 @@ public class InvoiceWebController {
     public R findEnterprisePaymentList(BladeUser bladeUser,@RequestParam(required = false) String serviceProviderName,Query query){
         log.info("根据商户查询支付清单");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())){
                 return result;
@@ -120,7 +120,7 @@ public class InvoiceWebController {
     public R contractApplyInvoice(@Valid @RequestBody ContractApplyInvoiceDto contractApplyInvoiceDto,BladeUser bladeUser){
         log.info("申请总包发票");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())){
                 return result;
@@ -141,7 +141,7 @@ public class InvoiceWebController {
     public R findEnterpriseSubcontractSummary(BladeUser bladeUser,@RequestParam(required = false) String serviceProviderName,Query query){
         log.info("根据商户查询分包列表-汇总");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())){
                 return result;
@@ -179,7 +179,7 @@ public class InvoiceWebController {
     public R findEnterpriseSubcontractPortal(BladeUser bladeUser,@RequestParam(required = false) String serviceProviderName,Query query){
         log.info("根据商户查询分包列表-门征");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())){
                 return result;
@@ -215,7 +215,7 @@ public class InvoiceWebController {
     public R findEnterpriseCrowdSourcing(BladeUser bladeUser,@RequestParam(required = false) String serviceProviderName,Query query){
         log.info("根据商户查询众包/众采");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())){
                 return result;

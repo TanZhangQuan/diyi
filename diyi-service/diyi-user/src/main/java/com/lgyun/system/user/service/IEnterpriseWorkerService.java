@@ -17,7 +17,7 @@ import com.lgyun.system.user.vo.enterprise.EnterpriseContactRequest;
 public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEntity> {
 
     /**
-     * 根据手机号码获取商户员工
+     * 根据手机号码查询商户员工
      *
      * @param phoneNumber
      * @return
@@ -25,7 +25,7 @@ public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEn
     EnterpriseWorkerEntity findByPhoneNumber(String phoneNumber);
 
     /**
-     * 根据用户名密码获取商户员工
+     * 根据用户名密码查询商户员工
      *
      * @param
      * @return
@@ -33,7 +33,7 @@ public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEn
     EnterpriseWorkerEntity findByEmployeeUserNameAndEmployeePwd(String employeeUserName, String employeePwd);
 
     /**
-     * 根据手机号密码获取商户员工
+     * 根据手机号密码查询商户员工
      *
      * @param phone
      * @param employeePwd
@@ -42,7 +42,7 @@ public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEn
     EnterpriseWorkerEntity findByPhoneAndEmployeePwd(String phone, String employeePwd);
 
     /**
-     * 获取当前商户员工
+     * 查询当前商户员工
      *
      * @param bladeUser
      * @return

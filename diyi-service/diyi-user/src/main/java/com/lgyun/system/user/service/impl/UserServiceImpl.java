@@ -88,7 +88,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
         }
         UserInfo userInfo = new UserInfo();
         userInfo.setUser(user);
-        //获取角色别名
+        //查询角色别名
         if (!(UserType.MAKER.equals(userType))) {
             if (StringUtil.isNotBlank(user.getRoleId())) {
                 List<String> roleAlias = baseMapper.getRoleAlias(Func.toStrArray(user.getRoleId()));
@@ -112,7 +112,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
 
         UserInfo userInfo = new UserInfo();
         userInfo.setUser(user);
-        //获取角色别名
+        //查询角色别名
         if (!(UserType.MAKER.equals(userType))) {
             if (StringUtil.isNotBlank(user.getRoleId())) {
                 List<String> roleAlias = baseMapper.getRoleAlias(Func.toStrArray(user.getRoleId()));
@@ -147,7 +147,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
 
         UserInfo userInfo = new UserInfo();
         userInfo.setUser(user);
-        //获取角色别名
+        //查询角色别名
         if (!(UserType.MAKER.equals(userType))) {
             if (StringUtil.isNotBlank(user.getRoleId())) {
                 List<String> roleAlias = baseMapper.getRoleAlias(Func.toStrArray(user.getRoleId()));
@@ -180,7 +180,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
             return R.fail("手机号未注册");
         }
 
-        //获取缓存短信验证码
+        //查询缓存短信验证码
         String redisCode = (String) redisUtil.get(SmsConstant.AVAILABLE_TIME + updatePasswordDto.getPhoneNumber());
         //判断验证码
         if (!StringUtil.equalsIgnoreCase(redisCode, updatePasswordDto.getSmsCode())) {

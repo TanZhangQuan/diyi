@@ -12,6 +12,7 @@ import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 import com.lgyun.system.user.vo.admin.QueryEnterpriseListVO;
 import com.lgyun.system.user.vo.admin.QueryServiceProviderListVO;
+import com.lgyun.system.user.vo.admin.QueryEnterpriseIdAndNameListVO;
 import com.lgyun.system.user.vo.enterprise.EnterpriseResponse;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,7 +42,7 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
     R<MakerEnterpriseRelationVO> getEnterpriseId(Long enterpriseId, Long makerId);
 
     /**
-     * 获取商户合作服务商
+     * 查询商户合作服务商
      *
      * @param query
      * @param enterpriseId
@@ -50,7 +51,7 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
     R<IPage<ServiceProviderIdNameListVO>> getServiceProviders(Query query, Long enterpriseId);
 
     /**
-     * 获取商户基本信息
+     * 查询商户基本信息
      *
      * @param enterpriseId
      * @return
@@ -67,7 +68,7 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
     void uploadEnterpriseLicence(Long enterpriseId, MultipartFile file) throws Exception;
 
     /**
-     * 根据商户ID获取商户详情
+     * 根据商户ID查询商户详情
      *
      * @param enterpriseId
      * @return
@@ -90,5 +91,14 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * @return
      */
     R<IPage<QueryServiceProviderListVO>> queryServiceProviderList(QueryServiceProviderListDTO queryServiceProviderListDTO, IPage<QueryServiceProviderListVO> page);
+
+    /**
+     * 查询所有商户的编号名称
+     *
+     * @param enterpriseName
+     * @param page
+     * @return
+     */
+    R<IPage<QueryEnterpriseIdAndNameListVO>> queryEnterpriseIdAndNameList(String enterpriseName, IPage<QueryEnterpriseIdAndNameListVO> page);
 }
 

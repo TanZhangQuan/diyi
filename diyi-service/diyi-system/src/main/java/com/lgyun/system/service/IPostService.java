@@ -24,7 +24,7 @@ public interface IPostService extends BaseService<Post> {
 	IPage<PostVO> selectPostPage(IPage<PostVO> page, PostVO post);
 
 	/**
-	 * 获取岗位ID
+	 * 查询岗位ID
 	 *
 	 * @param tenantId
 	 * @param postNames
@@ -33,7 +33,7 @@ public interface IPostService extends BaseService<Post> {
 	String getPostIds(String tenantId, String postNames);
 
 	/**
-	 * 获取岗位名
+	 * 查询岗位名
 	 *
 	 * @param postIds
 	 * @return

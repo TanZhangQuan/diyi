@@ -21,6 +21,7 @@ import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 import com.lgyun.system.user.vo.admin.QueryEnterpriseListVO;
 import com.lgyun.system.user.vo.admin.QueryServiceProviderListVO;
+import com.lgyun.system.user.vo.admin.QueryEnterpriseIdAndNameListVO;
 import com.lgyun.system.user.vo.enterprise.EnterpriseResponse;
 import com.lgyun.system.user.wrapper.EnterpriseWrapper;
 import lombok.AllArgsConstructor;
@@ -95,7 +96,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     /**
-     * 获取商户基本信息
+     * 查询商户基本信息
      *
      * @param enterpriseId
      * @return
@@ -122,7 +123,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         if (file.isEmpty()) {
             throw new RuntimeException("上传文件不能为空");
         }
-        // 获取上传文件的后缀
+        // 查询上传文件的后缀
         String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
         // 上传文件中
         String url = ossService.uploadSuffix(file.getBytes(), suffix);
@@ -147,6 +148,11 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     @Override
     public R<IPage<QueryServiceProviderListVO>> queryServiceProviderList(QueryServiceProviderListDTO queryServiceProviderListDTO, IPage<QueryServiceProviderListVO> page) {
         return R.data(page.setRecords(baseMapper.queryServiceProviderList(queryServiceProviderListDTO, page)));
+    }
+
+    @Override
+    public R<IPage<QueryEnterpriseIdAndNameListVO>> queryEnterpriseIdAndNameList(String enterpriseName, IPage<QueryEnterpriseIdAndNameListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryEnterpriseIdAndNameList(enterpriseName, page)));
     }
 
 }

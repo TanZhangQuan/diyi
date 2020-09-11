@@ -120,8 +120,8 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
-    public R<IPage<RelMakerListVO>> getEnterpriseMakers(IPage<RelMakerListVO> page, Long enterpriseId, RelationshipType relationshipType, String keyword) {
-        return R.data(page.setRecords(baseMapper.getEnterpriseMakers(enterpriseId, relationshipType, keyword, page)));
+    public R<IPage<RelMakerListVO>> getEnterpriseMakerList(IPage<RelMakerListVO> page, Long enterpriseId, RelationshipType relationshipType, CertificationState certificationState, String keyword) {
+        return R.data(page.setRecords(baseMapper.getEnterpriseMakerList(enterpriseId, relationshipType, certificationState, keyword, page)));
     }
 
     @Override

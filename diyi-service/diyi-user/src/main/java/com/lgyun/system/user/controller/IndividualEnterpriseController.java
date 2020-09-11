@@ -41,7 +41,7 @@ public class IndividualEnterpriseController {
 
 		log.info("新增个独");
 		try {
-			//获取当前创客
+			//查询当前创客
 			R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
 			if (!(result.isSuccess())){
 				return result;
@@ -64,7 +64,7 @@ public class IndividualEnterpriseController {
 
 		log.info("查询当前创客的所有个独");
 		try {
-			//获取当前创客
+			//查询当前创客
 			R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
 			if (!(result.isSuccess())){
 				return result;

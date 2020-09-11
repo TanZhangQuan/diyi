@@ -65,7 +65,7 @@ public class RoleController extends BladeController {
 	}
 
 	/**
-	 * 获取角色树形结构
+	 * 查询角色树形结构
 	 */
 	@GetMapping("/tree")
 	@ApiOperation(value = "树形结构", notes = "树形结构")
@@ -83,7 +83,7 @@ public class RoleController extends BladeController {
 		if (Func.isEmpty(role.getId())) {
 			role.setTenantId(user.getTenantId());
 		}
-		//获取当前创客
+		//查询当前创客
 		R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(user);
 		if (!(result.isSuccess())) {
 			return R.fail("当前登录用户失效");
@@ -110,7 +110,7 @@ public class RoleController extends BladeController {
 	@PostMapping("/grant")
 	@ApiOperation(value = "权限设置", notes = "传入menuId集合")
 	public R grant(@RequestBody GrantRequest request, BladeUser user) {
-		//获取当前创客
+		//查询当前创客
 		R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(user);
 		if (!(result.isSuccess())) {
 			return R.fail("当前登录用户失效");

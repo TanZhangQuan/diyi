@@ -30,7 +30,7 @@ import javax.validation.constraints.NotNull;
 @Validated
 @AllArgsConstructor
 @Api(value = "个体户相关接口", tags = "个体户相关接口")
-public class IndividualBusinessController {
+public class IndividualBusinessMakerController {
 
     private IIndividualBusinessService individualBusinessService;
     private IMakerService iMakerService;
@@ -41,7 +41,7 @@ public class IndividualBusinessController {
 
         log.info("新增个体户");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
             if (!(result.isSuccess())){
                 return result;
@@ -65,7 +65,7 @@ public class IndividualBusinessController {
 
         log.info("查询当前创客的所有个体户");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
             if (!(result.isSuccess())){
                 return result;

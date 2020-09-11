@@ -48,7 +48,7 @@ public class BeanUtil extends org.springframework.beans.BeanUtils {
 	}
 
 	/**
-	 * 获取Bean的属性
+	 * 查询Bean的属性
 	 * @param bean bean
 	 * @param propertyName 属性名
 	 * @return 属性值
@@ -187,7 +187,7 @@ public class BeanUtil extends org.springframework.beans.BeanUtils {
 	}
 
 	/**
-	 * 获取 Bean 的所有 get方法
+	 * 查询 Bean 的所有 get方法
 	 * @param type 类
 	 * @return PropertyDescriptor数组
 	 */
@@ -196,7 +196,7 @@ public class BeanUtil extends org.springframework.beans.BeanUtils {
 	}
 
 	/**
-	 * 获取 Bean 的所有 set方法
+	 * 查询 Bean 的所有 set方法
 	 * @param type 类
 	 * @return PropertyDescriptor数组
 	 */

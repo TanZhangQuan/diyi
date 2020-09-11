@@ -56,7 +56,7 @@ public class IndividualBusinessWebController {
 
         log.info("查询当前商户的关联创客的所有个体户");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -102,7 +102,7 @@ public class IndividualBusinessWebController {
 
         log.info("当前商户申请创建个体户");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -141,7 +141,7 @@ public class IndividualBusinessWebController {
 
         log.info("查询当前服务商关联的所有个体户");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -169,15 +169,15 @@ public class IndividualBusinessWebController {
     }
 
     @GetMapping("/detail")
-    @ApiOperation(value = "获取个体户详情", notes = "获取个体户详情")
+    @ApiOperation(value = "查询个体户详情", notes = "查询个体户详情")
     public R detail(@ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
 
-        log.info("获取个体户详情");
+        log.info("查询个体户详情");
         try {
             IndividualBusinessEntity individualBusinessEntity = individualBusinessService.getById(individualBusinessId);
             return R.data(IndividualBusinessWrapper.build().entityVO(individualBusinessEntity));
         } catch (Exception e) {
-            log.error("获取个体户详情异常", e);
+            log.error("查询个体户详情异常", e);
         }
         return R.fail("查询失败");
     }
@@ -202,7 +202,7 @@ public class IndividualBusinessWebController {
 
         log.info("修改个体户状态");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;

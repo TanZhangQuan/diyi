@@ -53,7 +53,7 @@ public interface IRoleService extends IService<Role> {
 
 
 	/**
-	 * 获取角色ID
+	 * 查询角色ID
 	 *
 	 * @param tenantId
 	 * @param roleNames
@@ -62,7 +62,7 @@ public interface IRoleService extends IService<Role> {
 	String getRoleIds(String tenantId, String roleNames);
 
 	/**
-	 * 获取角色名
+	 * 查询角色名
 	 *
 	 * @param roleIds
 	 * @return

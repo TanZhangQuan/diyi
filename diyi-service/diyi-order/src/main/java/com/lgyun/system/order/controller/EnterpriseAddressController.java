@@ -37,11 +37,11 @@ public class EnterpriseAddressController {
     private IUserClient iUserClient;
 
     @GetMapping("/list")
-    @ApiOperation(value = "获取商户所有地址信息", notes = "获取商户所有地址信息")
+    @ApiOperation(value = "查询商户所有地址信息", notes = "查询商户所有地址信息")
     public R getEnterpriseAddressListA(BladeUser bladeUser) {
-        log.info("获取商户所有地址信息");
+        log.info("查询商户所有地址信息");
         try {
-            //获取当前商户信息
+            //查询当前商户信息
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -53,9 +53,9 @@ public class EnterpriseAddressController {
             List<AddressEntity> list = addressService.list();
             return R.data(list);
         } catch (Exception e) {
-            log.error("获取商户所有地址信息失败 error", e);
+            log.error("查询商户所有地址信息失败 error", e);
         }
-        return R.fail("获取商户所有地址信息失败");
+        return R.fail("查询商户所有地址信息失败");
     }
 
     @PostMapping("/saveAddress")
@@ -63,7 +63,7 @@ public class EnterpriseAddressController {
     public R saveAddress(@Valid @RequestBody AddressDto addressDto, BladeUser bladeUser) {
         log.info("新建收货地址");
         try {
-            //获取当前商户信息
+            //查询当前商户信息
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;

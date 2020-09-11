@@ -44,7 +44,7 @@ public class BladeApplication {
 		propertySources.addFirst(new SimpleCommandLinePropertySource(args));
 		propertySources.addLast(new MapPropertySource(StandardEnvironment.SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME, environment.getSystemProperties()));
 		propertySources.addLast(new SystemEnvironmentPropertySource(StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME, environment.getSystemEnvironment()));
-		// 获取配置的环境变量
+		// 查询配置的环境变量
 		String[] activeProfiles = environment.getActiveProfiles();
 		// 判断环境:dev、test、prod
 		List<String> profiles = Arrays.asList(activeProfiles);

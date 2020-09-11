@@ -43,7 +43,7 @@ public class RedisUtil {
 	}
 
 	/**
-	 * 根据key 获取过期时间
+	 * 根据key 查询过期时间
 	 *
 	 * @param key 键 不能为null
 	 * @return 时间(秒) 返回0代表为永久有效
@@ -86,7 +86,7 @@ public class RedisUtil {
 	//============================String=============================
 
 	/**
-	 * 普通缓存获取
+	 * 普通缓存查询
 	 *
 	 * @param key 键
 	 * @return 值
@@ -200,7 +200,7 @@ public class RedisUtil {
 	}
 
 	/**
-	 * 获取hashKey对应的所有键值
+	 * 查询hashKey对应的所有键值
 	 *
 	 * @param key 键
 	 * @return 对应的多个键值
@@ -335,7 +335,7 @@ public class RedisUtil {
 	//============================set=============================
 
 	/**
-	 * 根据key获取Set中的所有值
+	 * 根据key查询Set中的所有值
 	 *
 	 * @param key 键
 	 * @return Set
@@ -403,7 +403,7 @@ public class RedisUtil {
 	}
 
 	/**
-	 * 获取set缓存的长度
+	 * 查询set缓存的长度
 	 *
 	 * @param key 键
 	 * @return long
@@ -436,7 +436,7 @@ public class RedisUtil {
 	//===============================list=================================
 
 	/**
-	 * 获取list缓存的内容
+	 * 查询list缓存的内容
 	 *
 	 * @param key   键
 	 * @param start 开始
@@ -453,7 +453,7 @@ public class RedisUtil {
 	}
 
 	/**
-	 * 获取list缓存的长度
+	 * 查询list缓存的长度
 	 *
 	 * @param key 键
 	 * @return long
@@ -468,7 +468,7 @@ public class RedisUtil {
 	}
 
 	/**
-	 * 通过索引 获取list中的值
+	 * 通过索引 查询list中的值
 	 *
 	 * @param key   键
 	 * @param index 索引

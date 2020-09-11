@@ -24,7 +24,7 @@ public interface RoleMapper extends BaseMapper<Role> {
 	List<RoleVO> selectRolePage(IPage page, RoleVO role);
 
 	/**
-	 * 获取树形节点
+	 * 查询树形节点
 	 *
 	 * @param tenantId
 	 * @param excludeRole
@@ -33,7 +33,7 @@ public interface RoleMapper extends BaseMapper<Role> {
 	List<RoleVO> tree(String tenantId, String excludeRole);
 
 	/**
-	 * 获取角色名
+	 * 查询角色名
 	 *
 	 * @param ids
 	 * @return

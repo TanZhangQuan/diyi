@@ -38,7 +38,7 @@ public class RealnameVerifyUtil {
         MessageDigest md5 = MessageDigest.getInstance("MD5");
         // 计算md5函数
         md5.update(str.getBytes("UTF-8"));
-        // 获取文件MD5的二进制数组（128位）
+        // 查询文件MD5的二进制数组（128位）
         byte[] md5Bytes = md5.digest();
         // 把MD5摘要后的二进制数组md5Bytes使用Base64进行编码（而不是对32位的16进制字符串进行编码）
         String contentMD5 = new String(Base64.encodeBase64(md5Bytes), "UTF-8");
@@ -72,7 +72,7 @@ public class RealnameVerifyUtil {
     }
 
     /***
-     * 获取时间戳(毫秒级)
+     * 查询时间戳(毫秒级)
      *
      * @return 毫秒级时间戳, 如 1578446909000
      */
@@ -255,7 +255,7 @@ public class RealnameVerifyUtil {
         //计算请求签名值
         String reqSignature = doSignatureBase64(plaintext, RealnameVerifyConstant.APPKEY);
 
-        //获取时间戳(精确到毫秒)
+        //查询时间戳(精确到毫秒)
         long timeStamp = timeStamp();
 
         //构建请求头
@@ -307,10 +307,10 @@ public class RealnameVerifyUtil {
     public static boolean checkPass(HttpServletRequest request, String rbody, String appSecret) throws Exception {
 
         String signture = request.getHeader("X-Tsign-Open-SIGNATURE");
-        //1. 获取时间戳的字节流
+        //1. 查询时间戳的字节流
         String timestamp = request.getHeader("X-Tsign-Open-TIMESTAMP");
 //		String content_type  =request
-        //2. 获取query请求字符串
+        //2. 查询query请求字符串
         String requestQuery = getRequestQueryStr(request);
         //4、按照规则进行加密
         String signdata = timestamp + requestQuery + rbody;
@@ -328,7 +328,7 @@ public class RealnameVerifyUtil {
     }
 
     /**
-     * 获取请求body
+     * 查询请求body
      *
      * @param request
      * @param encoding
@@ -355,7 +355,7 @@ public class RealnameVerifyUtil {
     }
 
     /**
-     * 获取query请求字符串
+     * 查询query请求字符串
      *
      * @param request
      * @return
@@ -374,12 +374,12 @@ public class RealnameVerifyUtil {
             String value = request.getParameter(key);
             requestQuery += value == null ? "" : value;
         }
-        log.info("获取的query请求字符串是：------》》》" + requestQuery);
+        log.info("查询的query请求字符串是：------》》》" + requestQuery);
         return requestQuery;
     }
 
     /***
-     * 获取请求签名值
+     * 查询请求签名值
      *
      * @param data
      *            加密前数据

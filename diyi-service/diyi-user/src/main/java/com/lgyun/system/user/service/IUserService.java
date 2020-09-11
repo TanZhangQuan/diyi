@@ -21,7 +21,7 @@ import java.util.List;
 public interface IUserService extends BaseService<User> {
 
     /**
-     * 获取当前管理员
+     * 查询当前管理员
      *
      * @param bladeUser
      * @return
@@ -98,7 +98,7 @@ public interface IUserService extends BaseService<User> {
     R<String> updatePassword(UpdatePasswordDto updatePasswordDto);
 
     /**
-     * 获取角色名
+     * 查询角色名
      *
      * @param roleIds
      * @return
@@ -106,7 +106,7 @@ public interface IUserService extends BaseService<User> {
     List<String> getRoleName(String roleIds);
 
     /**
-     * 获取部门名
+     * 查询部门名
      *
      * @param deptIds
      * @return
@@ -121,7 +121,7 @@ public interface IUserService extends BaseService<User> {
     void importUser(List<UserExcel> data);
 
     /**
-     * 获取导出用户数据
+     * 查询导出用户数据
      *
      * @param queryWrapper
      * @return

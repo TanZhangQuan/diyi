@@ -24,7 +24,7 @@ public interface DictMapper extends BaseMapper<Dict> {
 	List<DictVO> selectDictPage(IPage page, DictVO dict);
 
 	/**
-	 * 获取字典表对应中文
+	 * 查询字典表对应中文
 	 *
 	 * @param code    字典编号
 	 * @param dictKey 字典序号
@@ -33,7 +33,7 @@ public interface DictMapper extends BaseMapper<Dict> {
 	String getValue(String code, Integer dictKey);
 
 	/**
-	 * 获取字典表
+	 * 查询字典表
 	 *
 	 * @param code 字典编号
 	 * @return
@@ -41,14 +41,14 @@ public interface DictMapper extends BaseMapper<Dict> {
 	List<Dict> getList(String code);
 
 	/**
-	 * 获取树形节点
+	 * 查询树形节点
 	 *
 	 * @return
 	 */
 	List<DictVO> tree();
 
 	/**
-	 * 获取字典表
+	 * 查询字典表
 	 *
 	 * @param parentId
 	 * @return

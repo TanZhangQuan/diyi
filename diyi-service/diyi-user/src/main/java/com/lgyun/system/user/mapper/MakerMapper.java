@@ -25,7 +25,7 @@ public interface MakerMapper extends BaseMapper<MakerEntity> {
     MakerEnterpriseNumIncomeVO getEnterpriseNumIncome(Long makerId1, Long makerId2);
 
     /**
-     * 根据创客ID获取创客详情
+     * 根据创客ID查询创客详情
      *
      * @param enterpriseId
      * @param makerId

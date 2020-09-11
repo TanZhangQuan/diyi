@@ -32,7 +32,7 @@ public class SecureUtil {
     private static String BASE64_SECURITY = Base64.getEncoder().encodeToString(TokenConstant.SIGN_KEY.getBytes(Charsets.UTF_8));
 
     /**
-     * 获取用户信息
+     * 查询用户信息
      *
      * @return BladeUser
      */
@@ -41,7 +41,7 @@ public class SecureUtil {
         if (request == null) {
             return null;
         }
-        // 优先从 request 中获取
+        // 优先从 request 中查询
         Object bladeUser = request.getAttribute(BLADE_USER_REQUEST_ATTR);
         if (bladeUser == null) {
             bladeUser = getUser(request);
@@ -54,7 +54,7 @@ public class SecureUtil {
     }
 
     /**
-     * 获取用户信息
+     * 查询用户信息
      *
      * @param request request
      * @return BladeUser
@@ -93,7 +93,7 @@ public class SecureUtil {
     }
 
     /**
-     * 获取用户id
+     * 查询用户id
      *
      * @return userId
      */
@@ -103,7 +103,7 @@ public class SecureUtil {
     }
 
     /**
-     * 获取用户id
+     * 查询用户id
      *
      * @param request request
      * @return userId
@@ -114,7 +114,7 @@ public class SecureUtil {
     }
 
     /**
-     * 获取用户账号
+     * 查询用户账号
      *
      * @return userAccount
      */
@@ -124,7 +124,7 @@ public class SecureUtil {
     }
 
     /**
-     * 获取用户账号
+     * 查询用户账号
      *
      * @param request request
      * @return userAccount
@@ -135,7 +135,7 @@ public class SecureUtil {
     }
 
     /**
-     * 获取用户名
+     * 查询用户名
      *
      * @return userName
      */
@@ -145,7 +145,7 @@ public class SecureUtil {
     }
 
     /**
-     * 获取用户名
+     * 查询用户名
      *
      * @param request request
      * @return userName
@@ -156,7 +156,7 @@ public class SecureUtil {
     }
 
     /**
-     * 获取用户角色
+     * 查询用户角色
      *
      * @return userName
      */
@@ -166,7 +166,7 @@ public class SecureUtil {
     }
 
     /**
-     * 获取用角色
+     * 查询用角色
      *
      * @param request request
      * @return userName
@@ -177,7 +177,7 @@ public class SecureUtil {
     }
 
     /**
-     * 获取租户ID
+     * 查询租户ID
      *
      * @return tenantId
      */
@@ -187,7 +187,7 @@ public class SecureUtil {
     }
 
     /**
-     * 获取租户ID
+     * 查询租户ID
      *
      * @param request request
      * @return tenantId
@@ -198,7 +198,7 @@ public class SecureUtil {
     }
 
     /**
-     * 获取客户端id
+     * 查询客户端id
      *
      * @return tenantId
      */
@@ -208,7 +208,7 @@ public class SecureUtil {
     }
 
     /**
-     * 获取客户端id
+     * 查询客户端id
      *
      * @param request request
      * @return tenantId
@@ -219,7 +219,7 @@ public class SecureUtil {
     }
 
     /**
-     * 获取Claims
+     * 查询Claims
      *
      * @param request request
      * @return Claims
@@ -242,7 +242,7 @@ public class SecureUtil {
     }
 
     /**
-     * 获取请求头
+     * 查询请求头
      *
      * @return header
      */
@@ -251,7 +251,7 @@ public class SecureUtil {
     }
 
     /**
-     * 获取请求头
+     * 查询请求头
      *
      * @param request request
      * @return header

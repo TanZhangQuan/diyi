@@ -1335,7 +1335,7 @@ public class Func {
     }
 
     /**
-     * 获取方法参数信息
+     * 查询方法参数信息
      *
      * @param constructor    构造器
      * @param parameterIndex 参数序号
@@ -1346,7 +1346,7 @@ public class Func {
     }
 
     /**
-     * 获取方法参数信息
+     * 查询方法参数信息
      *
      * @param method         方法
      * @param parameterIndex 参数序号
@@ -1357,7 +1357,7 @@ public class Func {
     }
 
     /**
-     * 获取Annotation
+     * 查询Annotation
      *
      * @param annotatedElement AnnotatedElement
      * @param annotationType   注解类
@@ -1370,7 +1370,7 @@ public class Func {
     }
 
     /**
-     * 获取Annotation
+     * 查询Annotation
      *
      * @param method         Method
      * @param annotationType 注解类
@@ -1383,7 +1383,7 @@ public class Func {
     }
 
     /**
-     * 获取Annotation
+     * 查询Annotation
      *
      * @param handlerMethod  HandlerMethod
      * @param annotationType 注解类
@@ -1419,7 +1419,7 @@ public class Func {
     }
 
     /**
-     * 获取Bean的属性
+     * 查询Bean的属性
      *
      * @param bean         bean
      * @param propertyName 属性名

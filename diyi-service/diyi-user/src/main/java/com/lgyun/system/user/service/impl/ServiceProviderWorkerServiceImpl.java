@@ -104,7 +104,7 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
             return R.fail("手机号未注册");
         }
 
-        //获取缓存短信验证码
+        //查询缓存短信验证码
         String redisCode = (String) redisUtil.get(SmsConstant.AVAILABLE_TIME + updatePasswordDto.getPhoneNumber());
         //判断验证码
         if (!StringUtil.equalsIgnoreCase(redisCode, updatePasswordDto.getSmsCode())) {

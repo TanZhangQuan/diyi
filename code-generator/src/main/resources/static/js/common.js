@@ -6,7 +6,7 @@ $.jgrid.defaults.styleUI = 'Bootstrap';
 //工具集合Tools
 window.T = {};
 
-// 获取请求参数
+// 查询请求参数
 // 使用示例
 // location.href = http://localhost:8080/index.html?id=123
 // T.p('id') --> 123;

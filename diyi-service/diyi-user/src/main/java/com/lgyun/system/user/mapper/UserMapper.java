@@ -17,7 +17,7 @@ import java.util.List;
 public interface UserMapper extends BaseMapper<User> {
 
     /**
-     * 获取角色名
+     * 查询角色名
      *
      * @param ids
      * @return
@@ -25,7 +25,7 @@ public interface UserMapper extends BaseMapper<User> {
     List<String> getRoleName(String[] ids);
 
     /**
-     * 获取角色别名
+     * 查询角色别名
      *
      * @param ids
      * @return
@@ -33,7 +33,7 @@ public interface UserMapper extends BaseMapper<User> {
     List<String> getRoleAlias(String[] ids);
 
     /**
-     * 获取部门名
+     * 查询部门名
      *
      * @param ids
      * @return
@@ -41,7 +41,7 @@ public interface UserMapper extends BaseMapper<User> {
     List<String> getDeptName(String[] ids);
 
     /**
-     * 获取导出用户数据
+     * 查询导出用户数据
      *
      * @param queryWrapper
      * @return

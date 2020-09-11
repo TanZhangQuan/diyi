@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.enumeration.RelationshipType;
-import com.lgyun.common.enumeration.SignType;
 import com.lgyun.common.enumeration.TemplateType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
@@ -20,7 +19,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -49,7 +51,7 @@ public class AgreementController {
     public R makerIdFind(BladeUser bladeUser, Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId) {
         log.info("根据创客查询合同");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -98,7 +100,7 @@ public class AgreementController {
     public R saveOnlineAgreementNeedSign(BladeUser bladeUser, String signPic, Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId) {
         log.info("保存创客的签名");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -120,7 +122,7 @@ public class AgreementController {
     public R getOnlineAgreementNeedSign(BladeUser bladeUser, TemplateType templateType) {
         log.info("查询创客需要签署的授权协议和合同");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -139,7 +141,7 @@ public class AgreementController {
     public R selectMakerEnterprisePage(BladeUser bladeUser, Query query) {
         log.info("查询合作商户");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -159,7 +161,7 @@ public class AgreementController {
     public R uploadMakerVideo(BladeUser bladeUser, String applyShortVideo) {
         log.info("上传创客视频");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;

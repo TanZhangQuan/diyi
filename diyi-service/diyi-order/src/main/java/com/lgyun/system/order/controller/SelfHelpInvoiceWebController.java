@@ -61,7 +61,7 @@ public class SelfHelpInvoiceWebController {
 
         log.info("查询当前商户所有自助开票记录");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -81,7 +81,7 @@ public class SelfHelpInvoiceWebController {
 
         log.info("查询当前商户某条自助开票记录详情");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -101,7 +101,7 @@ public class SelfHelpInvoiceWebController {
 
         log.info("查询当前商户某条自助开票记录的所有自助开票明细");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -121,7 +121,7 @@ public class SelfHelpInvoiceWebController {
 
         log.info("查询当前商户某条自助开票记录的所有快递信息");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -143,7 +143,7 @@ public class SelfHelpInvoiceWebController {
 
         log.info("查询当前服务商所有自助开票记录");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -163,7 +163,7 @@ public class SelfHelpInvoiceWebController {
 
         log.info("查询当前服务商某条自助开票记录详情");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -183,7 +183,7 @@ public class SelfHelpInvoiceWebController {
 
         log.info("服务商自助开票上传发票税票");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -203,7 +203,7 @@ public class SelfHelpInvoiceWebController {
 
         log.info("服务商自助开票填写快递信息");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -223,7 +223,7 @@ public class SelfHelpInvoiceWebController {
 
         log.info("查询当前服务商某条自助开票记录的快递信息");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -242,7 +242,7 @@ public class SelfHelpInvoiceWebController {
     public R saveAddress(@Valid @RequestBody AddressDto addressDto, BladeUser bladeUser) {
         log.info("新建收货地址");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -296,7 +296,7 @@ public class SelfHelpInvoiceWebController {
     public R findAddressMakerId(Query query, BladeUser bladeUser) {
         log.info("查询收货地址");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -340,7 +340,7 @@ public class SelfHelpInvoiceWebController {
                                       @Valid @RequestBody SelfHelpInvoiceDto selfHelpInvoiceDto, BladeUser bladeUser) {
         log.info("商户提交自助开票");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -355,7 +355,7 @@ public class SelfHelpInvoiceWebController {
             selfHelpInvoiceDto.setObjectType(ObjectType.ENTERPRISEPEOPLE);
             selfHelpInvoiceDto.setObjectId(enterpriseWorkerEntity.getEnterpriseId());
 
-            // 获取上传文件的后缀
+            // 查询上传文件的后缀
             String suffix = file.getOriginalFilename();
             if ((!StringUtils.endsWithIgnoreCase(suffix, ".xls") && !StringUtils.endsWithIgnoreCase(suffix, ".xlsx"))) {
                 return R.fail("请选择Excel文件");
@@ -414,7 +414,7 @@ public class SelfHelpInvoiceWebController {
     public R findEnterpriseByMakerId(Query query, BladeUser bladeUser) {
         log.info("根据创客ID查询商户");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -434,7 +434,7 @@ public class SelfHelpInvoiceWebController {
 
         log.info("自助开票审核");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -454,7 +454,7 @@ public class SelfHelpInvoiceWebController {
 
         log.info("查询当前商户众包/众采年流水");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -474,7 +474,7 @@ public class SelfHelpInvoiceWebController {
 
         log.info("查询当前服务商众包/众采年流水");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -494,7 +494,7 @@ public class SelfHelpInvoiceWebController {
 
         log.info("查询当前商户众包/众采本月流水");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -514,7 +514,7 @@ public class SelfHelpInvoiceWebController {
 
         log.info("查询当前服务商众包/众采本月流水");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -534,7 +534,7 @@ public class SelfHelpInvoiceWebController {
 
         log.info("查询当前商户众包包本周流水");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -554,7 +554,7 @@ public class SelfHelpInvoiceWebController {
 
         log.info("查询当前服务商众包包本周流水");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -574,7 +574,7 @@ public class SelfHelpInvoiceWebController {
 
         log.info("查询当前商户众包包今日流水");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -594,7 +594,7 @@ public class SelfHelpInvoiceWebController {
 
         log.info("查询当前服务商众包包今日流水");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;

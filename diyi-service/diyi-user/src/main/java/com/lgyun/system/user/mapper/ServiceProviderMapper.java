@@ -17,7 +17,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface ServiceProviderMapper extends BaseMapper<ServiceProviderEntity> {
 
     /**
-     * 获取当前服务商银行卡信息
+     * 查询当前服务商银行卡信息
      *
      * @param serviceProviderId
      * @return
@@ -25,7 +25,7 @@ public interface ServiceProviderMapper extends BaseMapper<ServiceProviderEntity>
     ServiceProviderBankCardVO getBankCard(Long serviceProviderId);
 
     /**
-     * 获取当前服务商联系人信息
+     * 查询当前服务商联系人信息
      *
      * @param serviceProviderId
      * @return
@@ -33,7 +33,7 @@ public interface ServiceProviderMapper extends BaseMapper<ServiceProviderEntity>
     ServiceProviderContactPersonVO getContactPerson(Long serviceProviderId);
 
     /**
-     * 获取当前服务商开票信息
+     * 查询当前服务商开票信息
      *
      * @param serviceProviderId
      * @return

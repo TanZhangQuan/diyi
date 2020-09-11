@@ -15,7 +15,7 @@ import com.lgyun.system.user.vo.RelMakerListVO;
 public interface IServiceProviderMakerService extends BaseService<ServiceProviderMakerEntity> {
 
     /**
-     * 获取当前服务商的所有关联创客
+     * 查询当前服务商的所有关联创客
      *
      * @param page
      * @param serviceProviderId

@@ -43,7 +43,7 @@ public class WorksheetController {
     public R orderGrabbing(@NotNull(message = "请输入工单的id") @RequestParam(required = false) Long worksheetId, BladeUser bladeUser) {
         log.info("抢单");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -66,7 +66,7 @@ public class WorksheetController {
 
         log.info("查询当前创客工单");
         try {
-            //获取当前创客
+            //查询当前创客
             R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -120,7 +120,7 @@ public class WorksheetController {
 
         log.info("根据创客ID查询工单");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -148,27 +148,27 @@ public class WorksheetController {
     }
 
     @GetMapping("/get_by_worksheet_no")
-    @ApiOperation(value = "根据工单编号获取工单", notes = "根据工单编号获取工单")
+    @ApiOperation(value = "根据工单编号查询工单", notes = "根据工单编号查询工单")
     public R getByWorksheetNo(String worksheetNo) {
 
-        log.info("根据工单编号获取工单");
+        log.info("根据工单编号查询工单");
         try {
             return worksheetService.getByWorksheetNo(worksheetNo);
         } catch (Exception e) {
-            log.error("根据工单编号获取工单异常", e);
+            log.error("根据工单编号查询工单异常", e);
         }
         return R.fail("查询失败");
     }
 
     @GetMapping("/get_by_worksheet_id")
-    @ApiOperation(value = "根据工单ID获取工单", notes = "根据工单ID获取工单")
+    @ApiOperation(value = "根据工单ID查询工单", notes = "根据工单ID查询工单")
     public R getByWorksheetId(String worksheetId) {
 
-        log.info("根据工单ID获取工单");
+        log.info("根据工单ID查询工单");
         try {
             return worksheetService.getByWorksheetId(worksheetId);
         } catch (Exception e) {
-            log.error("根据工单ID获取工单异常", e);
+            log.error("根据工单ID查询工单异常", e);
         }
         return R.fail("查询失败");
     }

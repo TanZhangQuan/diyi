@@ -84,7 +84,7 @@ public interface MenuMapper extends BaseMapper<Menu> {
 	List<Menu> buttons(List<Long> roleId);
 
 	/**
-	 * 获取配置的角色权限
+	 * 查询配置的角色权限
 	 *
 	 * @param roleIds
 	 * @return

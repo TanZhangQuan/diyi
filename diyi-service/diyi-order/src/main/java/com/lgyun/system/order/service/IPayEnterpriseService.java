@@ -113,7 +113,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R findEnterprisePaymentList(Long enterpriseId, String serviceProviderName, IPage<EnterprisePaymentListVO> page);
 
     /**
-     * 获取当前商户所有已完毕的总包+分包类型的工单
+     * 查询当前商户所有已完毕的总包+分包类型的工单
      *
      * @param query
      * @param enterpriseId
@@ -125,7 +125,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R<IPage<WorksheetByEnterpriseVO>> getWorksheetByEnterpriseId(Query query, Long enterpriseId, WorkSheetType subpackage, String worksheetNo, String worksheetName);
 
     /**
-     * 获取当前商户关联服务商
+     * 查询当前商户关联服务商
      *
      * @param query
      * @param enterpriseId
@@ -186,7 +186,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R<IPage<PayEnterpriseMakersListVO>> getPayEnterprisesByEnterprisesServiceProvider(Long enterpriseId, Long serviceProviderId, PayEnterpriseDto payEnterpriseDto, IPage<PayEnterpriseMakersListVO> page);
 
     /**
-     * 获取当前商户首页交易情况数据
+     * 查询当前商户首页交易情况数据
      *
      * @param enterpriseId
      * @return
@@ -194,7 +194,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R<TransactionVO> transactionByEnterprise(Long enterpriseId);
 
     /**
-     * 获取当前服务商首页交易情况数据
+     * 查询当前服务商首页交易情况数据
      *
      * @param serviceProviderId
      * @return

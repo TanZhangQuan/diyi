@@ -96,7 +96,7 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
     }
 
     /**
-     * 获取 HttpServletRequest
+     * 查询 HttpServletRequest
      *
      * @return {HttpServletRequest}
      */
@@ -133,7 +133,7 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
     }
 
     /**
-     * 获取ip
+     * 查询ip
      *
      * @return {String}
      */
@@ -142,7 +142,7 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
     }
 
     /**
-     * 获取ip
+     * 查询ip
      *
      * @param request HttpServletRequest
      * @return {String}
@@ -174,7 +174,7 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
 
 
     /***
-     * 获取 request 中 json 字符串的内容
+     * 查询 request 中 json 字符串的内容
      *
      * @param request request
      * @return 字符串内容
@@ -188,7 +188,7 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
     }
 
     /**
-     * 获取 request 请求内容
+     * 查询 request 请求内容
      *
      * @param request request
      * @return String
@@ -203,7 +203,7 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
     }
 
     /**
-     * 获取 request 请求的 byte[] 数组
+     * 查询 request 请求的 byte[] 数组
      *
      * @param request request
      * @return byte[]
@@ -227,7 +227,7 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
     }
 
     /**
-     * 获取 request 请求内容
+     * 查询 request 请求内容
      *
      * @param request request
      * @param buffer  buffer

@@ -97,7 +97,7 @@ public class MenuController extends BladeController {
 	@ApiOperation(value = "前端菜单数据", notes = "前端菜单数据")
 	public R<List<MenuVO>> routes(BladeUser user) {
 		log.info("[routes]user info = {}", JSONObject.toJSONString(user));
-		//获取当前创客
+		//查询当前创客
 		R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(user);
 		if (!(result.isSuccess())) {
 			return R.fail("当前登录用户失效");
@@ -119,12 +119,12 @@ public class MenuController extends BladeController {
 	}
 
 	/**
-	 * 获取菜单树形结构
+	 * 查询菜单树形结构
 	 */
 	@GetMapping("/tree")
 	@ApiOperation(value = "树形结构", notes = "树形结构")
 	public R<List<TreeNode>> tree(BladeUser user) {
-		//获取当前创客
+		//查询当前创客
 		R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(user);
 		if (!(result.isSuccess())) {
 			return R.fail("当前登录用户失效");
@@ -134,7 +134,7 @@ public class MenuController extends BladeController {
 	}
 
 	/**
-	 * 获取权限分配树形结构
+	 * 查询权限分配树形结构
 	 */
 	@GetMapping("/grant-tree")
 	@ApiOperation(value = "权限分配树形结构", notes = "权限分配树形结构")
@@ -143,7 +143,7 @@ public class MenuController extends BladeController {
 	}
 
 	/**
-	 * 获取权限分配树形结构
+	 * 查询权限分配树形结构
 	 */
 	@GetMapping("/role-tree-keys")
 	@ApiOperation(value = "角色所分配的树", notes = "角色所分配的树")
@@ -152,7 +152,7 @@ public class MenuController extends BladeController {
 	}
 
 	/**
-	 * 获取配置的角色权限
+	 * 查询配置的角色权限
 	 */
 	@GetMapping("auth-routes")
 	@ApiOperation(value = "菜单的角色权限")

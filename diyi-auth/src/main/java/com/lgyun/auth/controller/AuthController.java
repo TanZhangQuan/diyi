@@ -154,7 +154,7 @@ public class AuthController {
     }
 
     @GetMapping("/captcha")
-    @ApiOperation(value = "获取图形验证码")
+    @ApiOperation(value = "查询图形验证码")
     public R captcha() {
         SpecCaptcha specCaptcha = new SpecCaptcha(130, 48, 5);
         String verCode = specCaptcha.text().toLowerCase();
@@ -173,7 +173,7 @@ public class AuthController {
      * @return R
      */
     @PostMapping("/send-code")
-    @ApiOperation(value = "获取手机短信验证码")
+    @ApiOperation(value = "查询手机短信验证码")
     public R sendCode(@Valid @RequestBody SendCodeDto sendCodeDto) {
         return mobileTokenGranter.sendSmsCode(sendCodeDto.getMobile(), sendCodeDto.getCodeType(), sendCodeDto.getUserType());
     }

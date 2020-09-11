@@ -15,7 +15,7 @@ public class INetUtil {
 	public static final String LOCAL_HOST = "127.0.0.1";
 
 	/**
-	 * 获取 服务器 hostname
+	 * 查询 服务器 hostname
 	 *
 	 * @return hostname
 	 */
@@ -35,7 +35,7 @@ public class INetUtil {
 	}
 
 	/**
-	 * 获取 服务器 HostIp
+	 * 查询 服务器 HostIp
 	 *
 	 * @return HostIp
 	 */

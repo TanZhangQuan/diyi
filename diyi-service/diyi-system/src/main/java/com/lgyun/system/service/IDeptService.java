@@ -32,7 +32,7 @@ public interface IDeptService extends IService<Dept> {
 	List<DeptVO> tree(String tenantId);
 
 	/**
-	 * 获取部门ID
+	 * 查询部门ID
 	 *
 	 * @param tenantId
 	 * @param deptNames
@@ -41,7 +41,7 @@ public interface IDeptService extends IService<Dept> {
 	String getDeptIds(String tenantId, String deptNames);
 
 	/**
-	 * 获取部门名
+	 * 查询部门名
 	 *
 	 * @param deptIds
 	 * @return

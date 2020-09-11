@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 /**
- * 获取客户端详情
+ * 查询客户端详情
  *
  * @author liangfeihu
  * @since 2020/6/5 19:07

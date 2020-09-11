@@ -18,7 +18,7 @@ import java.util.List;
 public interface ServiceProviderMakerMapper extends BaseMapper<ServiceProviderMakerEntity> {
 
     /**
-     * 获取当前服务商的所有关联创客
+     * 查询当前服务商的所有关联创客
      *
      * @param serviceProviderId
      * @param keyword

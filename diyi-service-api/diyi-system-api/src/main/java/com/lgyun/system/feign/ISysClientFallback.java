@@ -84,7 +84,7 @@ public class ISysClientFallback implements ISysClient {
     }
 
     /**
-     * 获取权限
+     * 查询权限
      *
      * @param roleId 主键
      * @return

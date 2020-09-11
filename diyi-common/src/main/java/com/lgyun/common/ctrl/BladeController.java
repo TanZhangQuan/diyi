@@ -25,7 +25,7 @@ public class BladeController {
 	private HttpServletRequest request;
 
 	/**
-	 * 获取request
+	 * 查询request
 	 *
 	 * @return HttpServletRequest
 	 */
@@ -34,7 +34,7 @@ public class BladeController {
 	}
 
 	/**
-	 * 获取当前用户
+	 * 查询当前用户
 	 *
 	 * @return BladeUser
 	 */

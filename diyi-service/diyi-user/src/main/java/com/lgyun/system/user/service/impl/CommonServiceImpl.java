@@ -30,7 +30,7 @@ public class CommonServiceImpl implements ICommonService {
             return R.fail("上传文件不能为空");
         }
 
-        // 获取上传文件的后缀
+        // 查询上传文件的后缀
         String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
 
         // 上传文件中
@@ -48,7 +48,7 @@ public class CommonServiceImpl implements ICommonService {
             return R.fail("上传文件不能为空");
         }
 
-        // 获取上传文件的后缀
+        // 查询上传文件的后缀
         String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
         if ((!StringUtils.endsWithIgnoreCase(suffix, ".xls") && !StringUtils.endsWithIgnoreCase(suffix, ".xlsx"))) {
             return R.fail("请选择Excel文件");

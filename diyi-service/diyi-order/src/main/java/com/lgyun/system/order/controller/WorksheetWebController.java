@@ -42,12 +42,12 @@ public class WorksheetWebController {
 
     @PostMapping("/releaseWorksheet")
     @ApiOperation(value = "发布工单", notes = "发布工单")
-    public R releaseWorksheet(@Valid @RequestBody ReleaseWorksheetDto releaseWorksheetDTO,BladeUser bladeUser) {
+    public R releaseWorksheet(@Valid @RequestBody ReleaseWorksheetDto releaseWorksheetDTO, BladeUser bladeUser) {
         log.info("发布工单");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
@@ -83,9 +83,9 @@ public class WorksheetWebController {
                                     @RequestParam(required = false) String endTime) {
         log.info("根据工单状态和商户id查询");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
@@ -168,9 +168,9 @@ public class WorksheetWebController {
                               BladeUser bladeUser) {
         log.info("验收工作成果");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
+            if (!(result.isSuccess())) {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
@@ -185,10 +185,10 @@ public class WorksheetWebController {
     @PostMapping("/closeOrOpenList")
     @ApiOperation(value = "批量开启或关闭工单", notes = "批量开启或关闭工单")
     public R closeOrOpenAll(@NotNull(message = "请输入工单的id") @RequestParam(required = false) String worksheetIds,
-                              @ApiParam(value = "1代表关闭，2开启") @NotNull(message = "请输入1代表关闭，2开启") @RequestParam(required = false) Integer variable) {
+                            @ApiParam(value = "1代表关闭，2开启") @NotNull(message = "请输入1代表关闭，2开启") @RequestParam(required = false) Integer variable) {
         log.info("批量开启工单");
         try {
-            return worksheetService.closeOrOpenList(worksheetIds,variable);
+            return worksheetService.closeOrOpenList(worksheetIds, variable);
         } catch (Exception e) {
             log.info("批量开启或关闭工单失败");
         }

@@ -45,7 +45,7 @@ public class AcceptPaysheetWebController {
 
         log.info("上传总包交付支付验收单");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -86,7 +86,7 @@ public class AcceptPaysheetWebController {
 
         log.info("查询当前商户所有总包交付支付验收单");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -124,7 +124,7 @@ public class AcceptPaysheetWebController {
 
         log.info("查询当前商户所有总包支付清单");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())){
                 return result;

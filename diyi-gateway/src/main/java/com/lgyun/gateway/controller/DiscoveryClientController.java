@@ -27,7 +27,7 @@ public class DiscoveryClientController {
     private final DiscoveryClient discoveryClient;
 
     /**
-     * 获取服务实例
+     * 查询服务实例
      */
     @GetMapping("/instances")
     public Map<String, List<ServiceInstance>> instances() {

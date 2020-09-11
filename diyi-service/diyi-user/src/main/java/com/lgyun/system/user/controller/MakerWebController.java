@@ -56,7 +56,7 @@ public class MakerWebController {
 
         log.info("新增单个创客");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -77,7 +77,7 @@ public class MakerWebController {
 
         log.info("导入创客");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -89,7 +89,7 @@ public class MakerWebController {
                 return R.fail("Excel文件不能为空");
             }
 
-            // 获取上传文件的后缀
+            // 查询上传文件的后缀
             String suffix = file.getOriginalFilename();
             if ((!StringUtils.endsWithIgnoreCase(suffix, ".xls") && !StringUtils.endsWithIgnoreCase(suffix, ".xlsx"))) {
                 return R.fail("请选择Excel文件");
@@ -107,32 +107,32 @@ public class MakerWebController {
     }
 
     @GetMapping("/get_relevance_enterprise_maker")
-    @ApiOperation(value = "获取当前商户的所有关联或关注创客", notes = "获取当前商户的所有关联或关注创客")
+    @ApiOperation(value = "查询当前商户的所有关联或关注创客", notes = "查询当前商户的所有关联或关注创客")
     public R getEnterpriseMakers(String keyword, @ApiParam(value = "创客商户关系") @NotNull(message = "请选择创客商户关系") @RequestParam(required = false) RelationshipType relationshipType, Query query, BladeUser bladeUser) {
 
-        log.info("获取当前商户的所有关联或关注创客");
+        log.info("查询当前商户的所有关联或关注创客");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-            return makerEnterpriseService.getEnterpriseMakers(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), relationshipType, keyword);
+            return makerEnterpriseService.getEnterpriseMakerList(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), relationshipType, null, keyword);
         } catch (Exception e) {
-            log.error("获取当前商户的所有关联或关注创客异常", e);
+            log.error("查询当前商户的所有关联或关注创客异常", e);
         }
         return R.fail("查询失败");
     }
 
     @GetMapping("/get_maker_detail_by_id")
-    @ApiOperation(value = "根据创客ID获取创客详情(商户)", notes = "根据创客ID获取创客详情(商户)")
+    @ApiOperation(value = "根据创客ID查询创客详情(商户)", notes = "根据创客ID查询创客详情(商户)")
     public R getMakerDetailById(@ApiParam(value = "创客ID") @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId, BladeUser bladeUser) {
 
-        log.info("根据创客ID获取创客详情");
+        log.info("根据创客ID查询创客详情");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -141,7 +141,7 @@ public class MakerWebController {
 
             return makerService.getMakerDetailById(enterpriseWorkerEntity.getEnterpriseId(), makerId);
         } catch (Exception e) {
-            log.error("根据创客ID获取创客详情异常", e);
+            log.error("根据创客ID查询创客详情异常", e);
         }
         return R.fail("查询失败");
     }
@@ -154,7 +154,7 @@ public class MakerWebController {
 
         log.info("批量取消创客关联或关注");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -174,7 +174,7 @@ public class MakerWebController {
 
         log.info("批量关联创客");
         try {
-            //获取当前商户员工
+            //查询当前商户员工
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -189,15 +189,15 @@ public class MakerWebController {
     }
 
     @GetMapping("/get_relevance_service_provider_maker")
-    @ApiOperation(value = "获取当前服务商的所有关联创客", notes = "获取当前服务商的所有关联创客")
+    @ApiOperation(value = "查询当前服务商的所有关联创客", notes = "查询当前服务商的所有关联创客")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "搜索关键字(创客编号，姓名，手机号)", value = "搜索关键字(创客编号，姓名，手机号)", paramType = "query", dataType = "string"),
     })
     public R getRelevanceServiceProviderMaker(String keyword, Query query, BladeUser bladeUser) {
 
-        log.info("获取当前服务商的所有关联创客");
+        log.info("查询当前服务商的所有关联创客");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -206,31 +206,31 @@ public class MakerWebController {
 
             return serviceProviderMakerService.getServiceProviderMakers(Condition.getPage(query.setDescs("create_time")), serviceProviderWorkerEntity.getServiceProviderId(), keyword);
         } catch (Exception e) {
-            log.error("获取当前服务商的所有关联创客异常", e);
+            log.error("查询当前服务商的所有关联创客异常", e);
         }
         return R.fail("查询失败");
     }
 
     @GetMapping("/get_service_provider_maker_detail_by_id")
-    @ApiOperation(value = "根据创客ID获取创客详情", notes = "根据创客ID获取创客详情")
+    @ApiOperation(value = "根据创客ID查询创客详情", notes = "根据创客ID查询创客详情")
     public R getServiceProviderMakerDetailById(@ApiParam(value = "创客ID") @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId) {
 
-        log.info("根据创客ID获取创客详情");
+        log.info("根据创客ID查询创客详情");
         try {
             return makerService.getMakerDetailById(null, makerId);
         } catch (Exception e) {
-            log.error("根据创客ID获取创客详情异常", e);
+            log.error("根据创客ID查询创客详情异常", e);
         }
         return R.fail("查询失败");
     }
 
     @GetMapping("/get_enterprise_by_service_provider")
-    @ApiOperation(value = "获取服务商关联的所有商户", notes = "获取服务商关联的所有商户")
+    @ApiOperation(value = "查询服务商关联的所有商户", notes = "查询服务商关联的所有商户")
     public R getEnterpriseByServiceProvider(String keyword, Query query, BladeUser bladeUser) {
 
-        log.info("获取服务商关联的所有商户");
+        log.info("查询服务商关联的所有商户");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -239,31 +239,31 @@ public class MakerWebController {
 
             return serviceProviderService.getEnterpriseByServiceProvider(query, serviceProviderWorkerEntity.getServiceProviderId(), keyword);
         } catch (Exception e) {
-            log.error("获取服务商关联的所有商户异常", e);
+            log.error("查询服务商关联的所有商户异常", e);
         }
         return R.fail("查询失败");
     }
 
     @GetMapping("/get_relevance_maker_by_enterprise_id")
-    @ApiOperation(value = "根据商户ID获取所有关联创客", notes = "根据商户ID获取所有关联创客")
+    @ApiOperation(value = "根据商户ID查询所有关联创客", notes = "根据商户ID查询所有关联创客")
     public R getRelevanceMakerByEnterpriseId(@ApiParam(value = "商户编号") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, String keyword, Query query) {
 
-        log.info("根据商户ID获取所有关联创客");
+        log.info("根据商户ID查询所有关联创客");
         try {
-            return makerEnterpriseService.getEnterpriseMakers(Condition.getPage(query.setDescs("create_time")), enterpriseId, RelationshipType.RELEVANCE, keyword);
+            return makerEnterpriseService.getEnterpriseMakerList(Condition.getPage(query.setDescs("create_time")), enterpriseId, RelationshipType.RELEVANCE, null, keyword);
         } catch (Exception e) {
-            log.error("根据商户ID获取所有关联创客异常", e);
+            log.error("根据商户ID查询所有关联创客异常", e);
         }
         return R.fail("查询失败");
     }
 
     @GetMapping("/get_self_help_invoice_by_service_provider_id")
-    @ApiOperation(value = "获取当前服务商的自助开票", notes = "获取当前服务商的自助开票")
+    @ApiOperation(value = "查询当前服务商的自助开票", notes = "查询当前服务商的自助开票")
     public R getSelfHelpInvoiceByServiceProviderId(String keyword, Query query, BladeUser bladeUser) {
 
-        log.info("获取当前服务商的自助开票");
+        log.info("查询当前服务商的自助开票");
         try {
-            //获取当前服务商员工
+            //查询当前服务商员工
             R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
             if (!(result.isSuccess())) {
                 return result;
@@ -272,21 +272,21 @@ public class MakerWebController {
 
             return makerEnterpriseService.getSelfHelpInvoiceByServiceProviderId(Condition.getPage(query.setDescs("create_time")), keyword, serviceProviderWorkerEntity.getServiceProviderId());
         } catch (Exception e) {
-            log.error("获取当前服务商的自助开票异常", e);
+            log.error("查询当前服务商的自助开票异常", e);
         }
         return R.fail("查询失败");
     }
 
     @GetMapping("/get_self_help_invoice_details")
-    @ApiOperation(value = "根据自助开票ID获取自助开票详情", notes = "根据自助开票ID获取自助开票详情")
+    @ApiOperation(value = "根据自助开票ID查询自助开票详情", notes = "根据自助开票ID查询自助开票详情")
     //TODO
     public R getSelfHelpInvoiceDetails(@ApiParam(value = "自助开票编号") @NotNull(message = "请输入自助开票编号") @RequestParam(required = false) Long selfHelpvoiceId, Query query) {
 
-        log.info("根据自助开票ID获取自助开票详情");
+        log.info("根据自助开票ID查询自助开票详情");
         try {
             return makerEnterpriseService.getSelfHelpInvoiceDetails(Condition.getPage(query.setDescs("create_time")), selfHelpvoiceId);
         } catch (Exception e) {
-            log.error("根据自助开票ID获取自助开票详情异常", e);
+            log.error("根据自助开票ID查询自助开票详情异常", e);
         }
         return R.fail("查询失败");
     }

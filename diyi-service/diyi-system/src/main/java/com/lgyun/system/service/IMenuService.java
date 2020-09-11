@@ -67,7 +67,7 @@ public interface IMenuService extends IService<Menu> {
 	List<String> roleTreeKeys(String roleIds);
 
 	/**
-	 * 获取配置的角色权限
+	 * 查询配置的角色权限
 	 *
 	 * @param user
 	 * @return

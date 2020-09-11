@@ -82,7 +82,7 @@
     }
 
     /**
-     * 获取callback
+     * 查询callback
      * @return false or callback
      */
     function getCb(addr, hashList) {

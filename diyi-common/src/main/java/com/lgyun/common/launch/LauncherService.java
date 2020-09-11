@@ -21,7 +21,7 @@ public interface LauncherService extends Ordered, Comparable<LauncherService>  {
 	void launcher(SpringApplicationBuilder builder, String appName, String profile);
 
 	/**
-	 * 获取排列顺序
+	 * 查询排列顺序
 	 *
 	 * @return order
 	 */

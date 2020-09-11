@@ -39,7 +39,7 @@ public class Condition {
     }
 
     /**
-     * 获取mybatis plus中的QueryWrapper
+     * 查询mybatis plus中的QueryWrapper
      *
      * @param entity 实体
      * @param <T>    类型
@@ -50,7 +50,7 @@ public class Condition {
     }
 
     /**
-     * 获取mybatis plus中的QueryWrapper
+     * 查询mybatis plus中的QueryWrapper
      *
      * @param query 查询条件
      * @param clazz 实体类
@@ -64,7 +64,7 @@ public class Condition {
     }
 
     /**
-     * 获取mybatis plus中的QueryWrapper
+     * 查询mybatis plus中的QueryWrapper
      *
      * @param query   查询条件
      * @param exclude 排除的查询条件

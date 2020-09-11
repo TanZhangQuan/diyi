@@ -32,7 +32,7 @@ public class TokenGranterBuilder {
 	}
 
 	/**
-	 * 获取TokenGranter
+	 * 查询TokenGranter
 	 *
 	 * @param grantType 授权类型
 	 * @return ITokenGranter

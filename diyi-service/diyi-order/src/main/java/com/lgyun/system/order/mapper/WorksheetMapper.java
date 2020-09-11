@@ -71,7 +71,7 @@ public interface WorksheetMapper extends BaseMapper<WorksheetEntity> {
     List<EnterpriseWorksheetDetailVo> getWorksheetDetailsByMaker(Long enterpriseId, Long makerId, IPage<EnterpriseWorksheetDetailVo> page);
 
     /**
-     * 获取当前商户所有已完毕的类型工单
+     * 查询当前商户所有已完毕的类型工单
      *
      * @param enterpriseId
      * @param workSheetType

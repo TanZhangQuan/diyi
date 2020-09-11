@@ -24,7 +24,7 @@ public interface DeptMapper extends BaseMapper<Dept> {
 	List<DeptVO> selectDeptPage(IPage page, DeptVO dept);
 
 	/**
-	 * 获取树形节点
+	 * 查询树形节点
 	 *
 	 * @param tenantId
 	 * @return
@@ -32,7 +32,7 @@ public interface DeptMapper extends BaseMapper<Dept> {
 	List<DeptVO> tree(String tenantId);
 
 	/**
-	 * 获取部门名
+	 * 查询部门名
 	 *
 	 * @param ids
 	 * @return

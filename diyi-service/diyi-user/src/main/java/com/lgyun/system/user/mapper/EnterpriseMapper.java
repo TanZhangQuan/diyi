@@ -8,6 +8,7 @@ import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.vo.EnterprisesDetailVO;
 import com.lgyun.system.user.vo.admin.QueryEnterpriseListVO;
 import com.lgyun.system.user.vo.admin.QueryServiceProviderListVO;
+import com.lgyun.system.user.vo.admin.QueryEnterpriseIdAndNameListVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -22,7 +23,7 @@ import java.util.List;
 public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
 
     /**
-     * 根据商户ID获取商户详情
+     * 根据商户ID查询商户详情
      *
      * @param enterpriseId
      * @return
@@ -45,5 +46,14 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
      * @return
      */
     List<QueryServiceProviderListVO> queryServiceProviderList(QueryServiceProviderListDTO queryServiceProviderListDTO, IPage<QueryServiceProviderListVO> page);
+
+    /**
+     * 查询所有商户的编号名称
+     *
+     * @param enterpriseName
+     * @param page
+     * @return
+     */
+    List<QueryEnterpriseIdAndNameListVO> queryEnterpriseIdAndNameList(String enterpriseName, IPage<QueryEnterpriseIdAndNameListVO> page);
 }
 
