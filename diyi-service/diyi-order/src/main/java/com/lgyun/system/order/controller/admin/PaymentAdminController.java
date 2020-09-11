@@ -39,7 +39,7 @@ import javax.validation.constraints.NotNull;
 @Validated
 @AllArgsConstructor
 @Api(value = "平台端---支付管理模块相关接口", tags = "平台端---支付管理模块相关接口")
-public class PaymentManagementAdminController {
+public class PaymentAdminController {
 
     private IPayEnterpriseService payEnterpriseService;
     private IUserClient userClient;
