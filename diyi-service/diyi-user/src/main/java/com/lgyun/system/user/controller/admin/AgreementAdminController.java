@@ -55,7 +55,7 @@ public class AgreementAdminController {
     /**
      * 平台通过创客id查询加盟合同或者授权协议
      */
-    @GetMapping("/find_maker_id_agreement")
+    @GetMapping("/find_admin_maker_id_agreement")
     @ApiOperation(value = "平台通过创客id查询加盟合同或者授权协议", notes = "平台通过创客id查询加盟合同或者授权协议")
     public R findAdminMakerIdAgreement(BladeUser bladeUser, Long makerId,AgreementType agreementType){
         log.info("平台通过创客id查询加盟合同或者授权协议");

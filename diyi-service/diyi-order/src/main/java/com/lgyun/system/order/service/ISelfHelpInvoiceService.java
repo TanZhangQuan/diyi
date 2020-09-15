@@ -235,7 +235,7 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
     /**
      * 服务商查询众包发票
      */
-    R getServiceCrowdSourDetails(Long selfHelpInvoiceApplyProviderId);
+    R getServiceCrowdSourDetails(Long providerSelfHelpInvoiceId);
 
     /**
      * 服务商众包发票开票
