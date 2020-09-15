@@ -7,9 +7,7 @@ import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.enumeration.SignType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.AgreementEntity;
-import com.lgyun.system.user.vo.AgreementMakerWebVO;
-import com.lgyun.system.user.vo.AgreementServiceVO;
-import com.lgyun.system.user.vo.AgreementWebVO;
+import com.lgyun.system.user.vo.*;
 
 import java.util.List;
 import java.util.Map;
@@ -110,5 +108,35 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
      * 查询商户加盟平台合同和承诺函
      */
     R findEnterpriseAgreement(String agreementNo, Long serviceProviderId ,String enterpriseName,IPage<AgreementServiceVO> page);
+
+    /**
+     * 根据创客id查询加盟或者授权协议
+     */
+    R<AgreementEntity> findAdminMakerId(Long makerId,AgreementType agreementType);
+
+    /**
+     *平台通过创客id查询合作商户的合同
+     */
+    R findAdMaEnterAgreement(Long makerId,String enterpriseName,IPage<AgreementMakerEnterAdminVO> page);
+
+    /**
+     * 平台端添加合同
+     */
+    R saveAdminAgreement(Long agreementId,String name,Long objectId, ObjectType objectType,Integer contractType,AgreementType agreementType,String paperAgreementUrl);
+
+    /**
+     * 平台根据商户id查询商户加盟合同或授权协议
+     */
+    R findAdminEnterpriseId(Long enterpriseId,AgreementType agreementType);
+
+    /**
+     * 平台根据商户id查询合作服务商的合同
+     */
+    R findEnterIdServiceAgreement(Long enterpriseId,String serviceProviderName,IPage<AgreementEnterServiceAdminVO> page);
+
+    /**
+     * 平台根据服务商id查询服务商加盟合同或授权协议
+     */
+    R findAdminSerIdAgreement(Long serviceProviderId,AgreementType agreementType);
 }
 
