@@ -378,10 +378,10 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
-    public R getServiceCrowdSourDetails(Long selfHelpInvoiceApplyProviderId) {
+    public R getServiceCrowdSourDetails(Long providerSelfHelpInvoiceId) {
         Map map = new HashMap();
 
-        ServiceCrowdSourcingDetailVO serviceCrowdSourDetails = baseMapper.getServiceCrowdSourDetails(selfHelpInvoiceApplyProviderId);
+        ServiceCrowdSourcingDetailVO serviceCrowdSourDetails = baseMapper.getServiceCrowdSourDetails(providerSelfHelpInvoiceId);
         map.put("serviceCrowdSourDetails",serviceCrowdSourDetails);
         try{
             if(StringUtil.isNotBlank(serviceCrowdSourDetails.getExpressNo()) && StringUtil.isNotBlank(serviceCrowdSourDetails.getExpressCompanyName())){
@@ -408,15 +408,15 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         }
         byId.setInvoiceScanPictures(invoiceScanPictures);
         byId.setTaxScanPictures(taxScanPictures);
-        byId.setInvoiceOperatePerson(serviceProviderEntity.getServiceProviderName());
+        byId.setInvoiceOperatePerson(serviceProviderId != null ?serviceProviderEntity.getServiceProviderName():"平台");
         selfHelpInvoiceSpDetailService.saveOrUpdate(byId);
 
         SelfHelpInvoiceExpressEntity selfHelpInvoiceExpressEntity = new SelfHelpInvoiceExpressEntity();
         selfHelpInvoiceExpressEntity.setSelfHelpInvoiceApplyProviderId(byId.getSelfHelpInvoiceApplyProviderId());
         selfHelpInvoiceExpressEntity.setExpressNo(expressNo);
         selfHelpInvoiceExpressEntity.setExpressCompanyName(expressCompanyName);
-        selfHelpInvoiceExpressEntity.setOperatePerson(serviceProviderEntity.getServiceProviderName());
-        selfHelpInvoiceExpressEntity.setExpressUpdatePersonTel(serviceProviderEntity.getContact1Phone());
+        selfHelpInvoiceExpressEntity.setOperatePerson(serviceProviderId != null ?serviceProviderEntity.getServiceProviderName():"平台");
+        selfHelpInvoiceExpressEntity.setExpressUpdatePersonTel(serviceProviderId != null ?serviceProviderEntity.getServiceProviderName():"平台");
         selfHelpInvoiceExpressService.save(selfHelpInvoiceExpressEntity);
         return R.success("操作成功");
     }

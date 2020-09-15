@@ -203,13 +203,13 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
     /**
      * 服务商查询众包发票
      */
-    List getServiceCrowdSour(Long serviceProviderId, String enterpriseName,String startTime,String endTime,SelfHelpInvoiceSpApplyState selfHelpInvoiceSpApplyState,IPage<SelfHelpInvoiceCrowdSourcingVO> page);
+    List<SelfHelpInvoiceCrowdSourcingVO> getServiceCrowdSour(Long serviceProviderId, String enterpriseName,String startTime,String endTime,SelfHelpInvoiceSpApplyState selfHelpInvoiceSpApplyState,IPage<SelfHelpInvoiceCrowdSourcingVO> page);
 
 
     /**
      * 服务商查询众包发票
      */
-    ServiceCrowdSourcingDetailVO getServiceCrowdSourDetails(Long selfHelpInvoiceApplyProviderId);
+    ServiceCrowdSourcingDetailVO getServiceCrowdSourDetails(Long providerSelfHelpInvoiceId);
 
 }
 
