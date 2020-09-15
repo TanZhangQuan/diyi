@@ -39,6 +39,7 @@ public class UserClient implements IUserClient {
     private IEnterpriseWorkerService iEnterpriseWorkerService;
     private IEnterpriseProviderService iEnterpriseProviderService;
     private IServiceProviderWorkerService iServiceProviderWorkerService;
+    private IServiceProviderService serviceProviderService;
 
     @Override
     public UserInfo userInfo(Long userId, UserType userType) {
@@ -300,6 +301,11 @@ public class UserClient implements IUserClient {
         query.setCurrent(current);
         query.setSize(size);
         return iEnterpriseProviderService.getServiceProviderByEnterpriseId(Condition.getPage(query.setDescs("create_time")), enterpriseId, serviceProviderName);
+    }
+
+    @Override
+    public ServiceProviderEntity getServiceProviderId(Long serviceProviderId) {
+        return serviceProviderService.getById(serviceProviderId);
     }
 
 }

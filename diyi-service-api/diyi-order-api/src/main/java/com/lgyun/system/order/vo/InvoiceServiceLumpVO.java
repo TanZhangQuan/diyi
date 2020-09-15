@@ -9,6 +9,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
+ * 服务商查询总包发票
  * @author .
  * @date 2020/9/4.
  * @time 15:28.

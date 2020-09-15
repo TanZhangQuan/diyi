@@ -2,10 +2,13 @@ package com.lgyun.system.order.controller;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.InvoiceState;
+import com.lgyun.common.enumeration.SelfHelpInvoiceSpApplyState;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.service.IPayEnterpriseService;
+import com.lgyun.system.order.service.ISelfHelpInvoiceService;
+import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
@@ -36,6 +39,7 @@ public class InvoiceServiceController {
 
     private IPayEnterpriseService payEnterpriseService;
     private IUserClient iUserClient;
+    private ISelfHelpInvoiceService selfHelpInvoiceService;
 
     @GetMapping("/getLumpSumInvoice")
     @ApiOperation(value = "服务商查询总包发票", notes = "服务商查询总包发票")
@@ -298,5 +302,63 @@ public class InvoiceServiceController {
             log.error("服务商查询已门征单开的发票详情失败",e);
         }
         return R.fail("服务商查询已门征单开的发票详情失败");
+    }
+
+
+    @GetMapping("/getServiceCrowdSour")
+    @ApiOperation(value = "服务商查询众包发票", notes = "服务商查询众包发票")
+    public R getServiceCrowdSour(BladeUser bladeUser, Query query,
+                                 @RequestParam(required = false) String enterpriseName,
+                                 @RequestParam(required = false) String startTime,
+                                 @RequestParam(required = false) String endTime,
+                                 SelfHelpInvoiceSpApplyState selfHelpInvoiceSpApplyState) {
+        log.info("服务商查询众包发票");
+        try {
+            //获取当前服务商员工
+            R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+            return selfHelpInvoiceService.getServiceCrowdSour(serviceProviderWorkerEntity.getServiceProviderId(),enterpriseName,startTime,endTime,selfHelpInvoiceSpApplyState,Condition.getPage(query.setDescs("create_time")));
+        } catch (Exception e) {
+            log.error("服务商查询众包发票失败",e);
+        }
+        return R.fail("服务商查询众包发票失败");
+    }
+
+    @GetMapping("/getServiceCrowdSourDetails")
+    @ApiOperation(value = "服务商查询众包发票详情", notes = "服务商查询众包发票详情")
+    public R getServiceCrowdSourDetails(BladeUser bladeUser,Long selfHelpInvoiceApplyProviderId) {
+        log.info("服务商查询众包发票");
+        try {
+            //获取当前服务商员工
+            R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            return selfHelpInvoiceService.getServiceCrowdSourDetails(selfHelpInvoiceApplyProviderId);
+        } catch (Exception e) {
+            log.error("服务商查询众包发票详情失败",e);
+        }
+        return R.fail("服务商查询众包发票详情失败");
+    }
+
+    @PostMapping("/saveServiceCrowdSour")
+    @ApiOperation(value = "服务商众包发票开票", notes = "服务商众包发票开票")
+    public R savePortalSignInvoice(BladeUser bladeUser,Long providerSelfHelpInvoiceId,String expressNo,String expressCompanyName,String invoiceScanPictures,String taxScanPictures) {
+        log.info("服务商众包发票开票");
+        try {
+            //获取当前服务商员工
+            R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+            return selfHelpInvoiceService.savePortalSignInvoice(serviceProviderWorkerEntity.getId(),providerSelfHelpInvoiceId,expressNo,expressCompanyName,invoiceScanPictures,taxScanPictures);
+        } catch (Exception e) {
+            log.error("服务商众包发票开票失败",e);
+        }
+        return R.fail("服务商众包发票开票失败");
     }
 }

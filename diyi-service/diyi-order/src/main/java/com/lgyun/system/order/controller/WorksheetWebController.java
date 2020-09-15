@@ -174,7 +174,6 @@ public class WorksheetWebController {
                 return result;
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
             return worksheetMakerService.checkAchievement(worksheetMakerId, checkMoney, enterpriseWorkerEntity.getEnterpriseId(), bool);
         } catch (Exception e) {
             log.info("验收工作成果失败");
