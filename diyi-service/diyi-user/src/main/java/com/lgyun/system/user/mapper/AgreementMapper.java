@@ -5,9 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.enumeration.AgreementType;
 import com.lgyun.common.enumeration.SignType;
 import com.lgyun.system.user.entity.AgreementEntity;
-import com.lgyun.system.user.vo.AgreementMakerWebVO;
-import com.lgyun.system.user.vo.AgreementServiceVO;
-import com.lgyun.system.user.vo.AgreementWebVO;
+import com.lgyun.system.user.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -51,5 +49,15 @@ public interface AgreementMapper extends BaseMapper<AgreementEntity> {
      *查询商户加盟平台合同和承诺函
      */
     List<AgreementServiceVO> findEnterpriseAgreement(String agreementNo, Long serviceProviderId,String enterpriseName,IPage<AgreementServiceVO> page);
+
+    /**
+     * 查询平台自然人创客的合同
+     */
+    List<AgreementMakerEnterAdminVO> findAdMaEnterAgreement(Long makerId,String enterpriseName, IPage<AgreementMakerEnterAdminVO> page);
+
+    /**
+     *平台根据商户id查询合作服务商的合同
+     */
+    List<AgreementEnterServiceAdminVO> findEnterIdServiceAgreement(Long enterpriseId, String serviceProviderName, IPage<AgreementEnterServiceAdminVO> page);
 }
 

@@ -288,5 +288,10 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      */
     MakerEntity enterpriseMakerAdd(MakerAddDto makerAddDto, Long enterpriseId);
+
+    /**
+     * 平台端上传创客授权视频
+     */
+    R saveAdminMakerVideo(Long makerId,String videoUrl);
 }
 

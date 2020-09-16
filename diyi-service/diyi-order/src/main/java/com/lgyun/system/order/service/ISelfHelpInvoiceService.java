@@ -227,5 +227,19 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      */
     R<DayTradeVO> queryCrowdDayTradeByServiceProvider(Long serviceProviderId);
 
+    /**
+     * 服务商查询众包发票
+     */
+    R getServiceCrowdSour(Long serviceProviderId,String enterpriseName,String startTime,String endTime,SelfHelpInvoiceSpApplyState selfHelpInvoiceSpApplyState,IPage<SelfHelpInvoiceCrowdSourcingVO> page);
+
+    /**
+     * 服务商查询众包发票
+     */
+    R getServiceCrowdSourDetails(Long providerSelfHelpInvoiceId);
+
+    /**
+     * 服务商众包发票开票
+     */
+    R savePortalSignInvoice(Long serviceProviderId,Long providerSelfHelpInvoiceId,String expressNo,String expressCompanyName,String invoiceScanPictures,String taxScanPictures);
 }
 

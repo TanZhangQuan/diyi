@@ -337,4 +337,11 @@ public interface IUserClient {
     @GetMapping(API_PREFIX + "/get-service-provider-by-enterprise-id")
     R getServiceProviderByEnterpriseId(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam(name = "enterpriseId") Long enterpriseId, @RequestParam(name = "serviceProviderName", required = false) String serviceProviderName);
 
+
+    /**
+     * 通过服务商Id获取服务商
+     */
+    @GetMapping(API_PREFIX + "/get_service_provider_id")
+    ServiceProviderEntity getServiceProviderId(@RequestParam("serviceProviderId") Long serviceProviderId);
+
 }

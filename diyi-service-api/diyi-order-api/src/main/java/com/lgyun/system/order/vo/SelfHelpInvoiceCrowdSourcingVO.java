@@ -63,7 +63,7 @@ public class SelfHelpInvoiceCrowdSourcingVO implements Serializable {
     /**
      * 清单
      */
-    private String ListFile;
+    private String listFile;
     /**
      * 发票可能会多张，隔开
      */

@@ -467,7 +467,12 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         //价税合计
         platformInvoiceEntity.setInvoiceTotalAmount(new BigDecimal("0"));
         platformInvoiceEntity.setInvoiceNumbers(1);
-        platformInvoiceEntity.setInvoicePrintPerson(serviceProviderName);
+        if(null == serviceProviderName){
+            platformInvoiceEntity.setInvoicePrintPerson("平台");
+        }else{
+            platformInvoiceEntity.setInvoicePrintPerson(serviceProviderName);
+        }
+
         platformInvoiceEntity.setExpressSheetNo(expressSheetNo);
         platformInvoiceEntity.setExpressCompanyName(expressCompanyName);
         platformInvoiceEntity.setInvoiceDesc(invoiceDesc);
@@ -489,7 +494,11 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         platformInvoiceListEntity.setSalesAmount(new BigDecimal("0"));
         //税额合计
         platformInvoiceListEntity.setTaxAmount(new BigDecimal("0"));
-        platformInvoiceListEntity.setInvoicePerson(serviceProviderName);
+        if(null == serviceProviderName){
+            platformInvoiceListEntity.setInvoicePerson("平台");
+        }else{
+            platformInvoiceListEntity.setInvoicePerson(serviceProviderName);
+        }
         //销售方名称
         platformInvoiceListEntity.setSaleCompany(enterpriseById.getEnterpriseName());
         platformInvoiceListEntity.setCompanyInvoiceUrl(companyInvoiceUrl);
@@ -524,8 +533,13 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         makerTotalInvoiceEntity.setTotalAmount(new BigDecimal("0"));
         makerTotalInvoiceEntity.setSalesAmount(new BigDecimal("0"));
         makerTotalInvoiceEntity.setTotalAmount(new BigDecimal("0"));
-        makerTotalInvoiceEntity.setInvoicePerson(serviceProviderName);
-        makerTotalInvoiceEntity.setSaleCompany(serviceProviderName);
+        if(null == serviceProviderName){
+            makerTotalInvoiceEntity.setInvoicePerson("平台");
+            makerTotalInvoiceEntity.setSaleCompany("平台");
+        }else{
+            makerTotalInvoiceEntity.setInvoicePerson(serviceProviderName);
+            makerTotalInvoiceEntity.setSaleCompany(serviceProviderName);
+        }
         makerTotalInvoiceEntity.setCompanyInvoiceUrl(companyInvoiceUrl);
         makerTotalInvoiceEntity.setCompanyVoiceUploadDatetime(new Date());
         makerTotalInvoiceEntity.setMakerTaxUrl(makerTaxUrl);

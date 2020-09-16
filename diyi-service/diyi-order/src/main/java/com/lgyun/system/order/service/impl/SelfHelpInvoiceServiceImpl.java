@@ -5,6 +5,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.CollectionUtil;
 import com.lgyun.common.tool.KdniaoTrackQueryUtil;
+import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDetailInvoiceTaxDto;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDetailsByServiceProviderDto;
@@ -16,6 +17,7 @@ import com.lgyun.system.order.service.*;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
+import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.RequiredArgsConstructor;
@@ -41,10 +43,12 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceMapper, SelfHelpInvoiceEntity> implements ISelfHelpInvoiceService {
 
-    private final IUserClient iUserClient;
-    private final ISelfHelpInvoiceSpService selfHelpInvoiceSpService;
-    private final ISelfHelpInvoiceSpDetailService selfHelpInvoiceSpDetailService;
-    private final ISelfHelpInvoiceExpressService selfHelpInvoiceExpressService;
+    private IUserClient iUserClient;
+    private ISelfHelpInvoiceSpService selfHelpInvoiceSpService;
+    private ISelfHelpInvoiceSpDetailService selfHelpInvoiceSpDetailService;
+    private ISelfHelpInvoiceExpressService selfHelpInvoiceExpressService;
+
+
 
     @Autowired
     @Lazy
@@ -366,6 +370,55 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     @Override
     public R<DayTradeVO> queryCrowdDayTradeByServiceProvider(Long serviceProviderId) {
         return R.data(baseMapper.queryCrowdDayTradeByServiceProvider(serviceProviderId));
+    }
+
+    @Override
+    public R getServiceCrowdSour(Long serviceProviderId, String enterpriseName,String startTime,String endTime,SelfHelpInvoiceSpApplyState selfHelpInvoiceSpApplyState,IPage<SelfHelpInvoiceCrowdSourcingVO> page) {
+        return R.data(page.setRecords(baseMapper.getServiceCrowdSour(serviceProviderId,enterpriseName,startTime,endTime,selfHelpInvoiceSpApplyState,page)));
+    }
+
+    @Override
+    public R getServiceCrowdSourDetails(Long providerSelfHelpInvoiceId) {
+        Map map = new HashMap();
+
+        ServiceCrowdSourcingDetailVO serviceCrowdSourDetails = baseMapper.getServiceCrowdSourDetails(providerSelfHelpInvoiceId);
+        map.put("serviceCrowdSourDetails",serviceCrowdSourDetails);
+        try{
+            if(StringUtil.isNotBlank(serviceCrowdSourDetails.getExpressNo()) && StringUtil.isNotBlank(serviceCrowdSourDetails.getExpressCompanyName())){
+                KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
+                String orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(serviceCrowdSourDetails.getExpressCompanyName(), serviceCrowdSourDetails.getExpressNo());
+                map.put("orderTracesByJson",orderTracesByJson);
+            }else{
+                map.put("orderTracesByJson","");
+            }
+        }catch (Exception e){
+            log.error("快鸟接口出错！！！",e);
+            map.put("orderTracesByJson","");
+        }
+        return R.data(map);
+    }
+
+    @Override
+    @Transactional
+    public R savePortalSignInvoice(Long serviceProviderId,Long providerSelfHelpInvoiceId,String expressNo, String expressCompanyName, String invoiceScanPictures, String taxScanPictures) {
+        SelfHelpInvoiceSpDetailEntity byId = selfHelpInvoiceSpDetailService.getById(providerSelfHelpInvoiceId);
+        ServiceProviderEntity serviceProviderEntity = iUserClient.getServiceProviderId(serviceProviderId);
+        if(null != byId){
+            return R.fail("数据错误！！！");
+        }
+        byId.setInvoiceScanPictures(invoiceScanPictures);
+        byId.setTaxScanPictures(taxScanPictures);
+        byId.setInvoiceOperatePerson(serviceProviderId != null ?serviceProviderEntity.getServiceProviderName():"平台");
+        selfHelpInvoiceSpDetailService.saveOrUpdate(byId);
+
+        SelfHelpInvoiceExpressEntity selfHelpInvoiceExpressEntity = new SelfHelpInvoiceExpressEntity();
+        selfHelpInvoiceExpressEntity.setSelfHelpInvoiceApplyProviderId(byId.getSelfHelpInvoiceApplyProviderId());
+        selfHelpInvoiceExpressEntity.setExpressNo(expressNo);
+        selfHelpInvoiceExpressEntity.setExpressCompanyName(expressCompanyName);
+        selfHelpInvoiceExpressEntity.setOperatePerson(serviceProviderId != null ?serviceProviderEntity.getServiceProviderName():"平台");
+        selfHelpInvoiceExpressEntity.setExpressUpdatePersonTel(serviceProviderId != null ?serviceProviderEntity.getServiceProviderName():"平台");
+        selfHelpInvoiceExpressService.save(selfHelpInvoiceExpressEntity);
+        return R.success("操作成功");
     }
 
 }

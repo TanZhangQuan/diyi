@@ -692,4 +692,17 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
                 makerAddDto.getBankName(), makerAddDto.getBankCardNo(), enterpriseId);
     }
 
+    @Override
+    public R saveAdminMakerVideo(Long makerId, String videoUrl) {
+        MakerEntity makerEntity = getById(makerId);
+        if(null == makerEntity){
+            return R.fail("不存在此创客");
+        }
+        makerEntity.setApplyShortVideo(videoUrl);
+        makerEntity.setVideoAudit(VideoAudit.AUDITPASS);
+        makerEntity.setVideoAuditDate(new Date());
+        saveOrUpdate(makerEntity);
+        return R.success("上传视频成功");
+    }
+
 }
