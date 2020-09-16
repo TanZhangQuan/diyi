@@ -10,7 +10,7 @@ import com.lgyun.system.user.dto.ServiceProviderContactPersonDto;
 import com.lgyun.system.user.dto.ServiceProviderInvoiceDto;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.mapper.ServiceProviderMapper;
-import com.lgyun.system.user.service.IEnterpriseProviderService;
+import com.lgyun.system.user.service.IEnterpriseServiceProviderService;
 import com.lgyun.system.user.service.IServiceProviderService;
 import com.lgyun.system.user.vo.*;
 import lombok.AllArgsConstructor;
@@ -29,7 +29,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderMapper, ServiceProviderEntity> implements IServiceProviderService {
 
-    private IEnterpriseProviderService enterpriseProviderService;
+    private IEnterpriseServiceProviderService enterpriseProviderService;
 
     @Override
     public R<IPage<EnterprisesVO>> getEnterpriseByServiceProvider(Query query, Long serviceProviderId, String keyword) {

@@ -6,7 +6,7 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
-import com.lgyun.system.user.service.IEnterpriseProviderService;
+import com.lgyun.system.user.service.IEnterpriseServiceProviderService;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.service.IServiceProviderWorkerService;
 import io.swagger.annotations.Api;
@@ -30,9 +30,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @AllArgsConstructor
 @Api(value = "商户-服务商相关接口(管理端)", tags = "商户-服务商相关接口(管理端)")
-public class EnterpriseProviderWebController {
+public class EnterpriseServiceProviderWebController {
 
-    private IEnterpriseProviderService enterpriseProviderService;
+    private IEnterpriseServiceProviderService enterpriseProviderService;
 	private IEnterpriseWorkerService enterpriseWorkerService;
 	private IServiceProviderWorkerService serviceProviderWorkerService;
 

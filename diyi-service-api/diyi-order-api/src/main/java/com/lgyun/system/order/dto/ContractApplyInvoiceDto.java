@@ -2,6 +2,7 @@ package com.lgyun.system.order.dto;
 
 import lombok.Data;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -23,8 +24,9 @@ public class ContractApplyInvoiceDto implements Serializable {
     /**
      * 开票总金额
      */
-    @NotNull(message = "开票总金额不能为空")
-    @Min(0)
+    @NotNull(message = "请输入开票总金额")
+    @Min(value = 0, message = "开票总金额不能小于0")
+    @Max(value = 999999999, message = "开票总金额不能大于999999999")
     private BigDecimal voiceTotalAmount;
     /**
      * 开票类目Id

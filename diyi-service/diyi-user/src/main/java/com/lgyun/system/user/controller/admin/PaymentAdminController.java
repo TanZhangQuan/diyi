@@ -31,26 +31,26 @@ public class PaymentAdminController {
 
     private IEnterpriseService enterpriseService;
 
-    @GetMapping("/query-enterprise-list-payment")
+    @GetMapping("/query-enterprise-list")
     @ApiOperation(value = "查询所有商户", notes = "查询所有商户")
-    public R queryEnterpriseListPayment(QueryEnterpriseListPaymentDTO queryEnterpriseListPaymentDTO, Query query) {
+    public R queryEnterpriseList(QueryEnterpriseListPaymentDTO queryEnterpriseListPaymentDTO, Query query) {
 
         log.info("查询所有商户");
         try {
-            return enterpriseService.queryEnterpriseList(queryEnterpriseListPaymentDTO, Condition.getPage(query.setDescs("create_time")));
+            return enterpriseService.queryEnterpriseListPayment(queryEnterpriseListPaymentDTO, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("查询所有商户异常", e);
         }
         return R.fail("查询失败");
     }
 
-    @GetMapping("/query-service-provider-list-payment")
+    @GetMapping("/query-service-provider-list")
     @ApiOperation(value = "查询所有服务商", notes = "查询所有服务商")
-    public R queryServiceProviderListPayment(QueryServiceProviderListPaymentDTO queryServiceProviderListPaymentDTO, Query query) {
+    public R queryServiceProviderList(QueryServiceProviderListPaymentDTO queryServiceProviderListPaymentDTO, Query query) {
 
         log.info("查询所有服务商");
         try {
-            return enterpriseService.queryServiceProviderList(queryServiceProviderListPaymentDTO, Condition.getPage(query.setDescs("create_time")));
+            return enterpriseService.queryServiceProviderListPayment(queryServiceProviderListPaymentDTO, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("查询所有商户异常", e);
         }

@@ -55,8 +55,8 @@ public interface IUserClient {
      * @param phone
      * @return
      */
-    @GetMapping(API_PREFIX + "/user-find-by-phone")
-    User userByPhone(@RequestParam("phone") String phone);
+    @GetMapping(API_PREFIX + "/user-find-by-phone-and-user-type")
+    User userByPhone(@RequestParam("phone") String phone, @RequestParam("userType") UserType userType);
 
     /**
      * 查询用户信息
@@ -131,23 +131,25 @@ public interface IUserClient {
      * 商户处理
      *
      * @param phoneNumber
+     * @param employeeUserName
      * @param loginPwd
      * @param grantType
      * @return
      */
     @PostMapping(API_PREFIX + "/enterprise-worker-deal")
-    R enterpriseWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
+    R enterpriseWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("employeeUserName") String employeeUserName, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 服务商处理
      *
      * @param phoneNumber
+     * @param employeeUserName
      * @param loginPwd
      * @param grantType
      * @return
      */
     @PostMapping(API_PREFIX + "/service-provider-worker-deal")
-    R serviceProviderWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
+    R serviceProviderWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("employeeUserName") String employeeUserName, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
 
 
     /**
@@ -261,7 +263,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/find-by-enterprise-id-service-provider-id")
-    EnterpriseProviderEntity findByEnterpriseIdServiceProviderId(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("serviceProviderId") Long serviceProviderId);
+    EnterpriseServiceProviderEntity findByEnterpriseIdServiceProviderId(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("serviceProviderId") Long serviceProviderId);
 
     /**
      * 根据创客ID, 统一社会信用代码查询个独

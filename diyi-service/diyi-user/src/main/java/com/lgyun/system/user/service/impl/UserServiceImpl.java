@@ -46,7 +46,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
         }
 
         User user = getById(bladeUser.getUserId());
-        if (user == null){
+        if (user == null) {
             return R.fail("管理员不存在");
         }
 
@@ -124,11 +124,11 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
     }
 
     @Override
-    public User findByPhone(String phone) {
+    public User findByPhone(String phone, UserType userType) {
 
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(User::getPhone, phone)
-                .eq(User::getUserType, UserType.ADMIN);
+                .eq(User::getUserType, userType);
 
         return baseMapper.selectOne(queryWrapper);
     }
@@ -175,7 +175,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
     @Override
     public R<String> updatePassword(UpdatePasswordDto updatePasswordDto) {
 
-        User user = findByPhone(updatePasswordDto.getPhoneNumber());
+        User user = findByPhone(updatePasswordDto.getPhoneNumber(), UserType.ADMIN);
         if (user == null) {
             return R.fail("手机号未注册");
         }

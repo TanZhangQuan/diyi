@@ -55,7 +55,7 @@ public class EnterpriseWorkerEntity extends BaseEntity {
     /**
      * 性别
      */
-    private Gender workerSex;
+    private Gender workerSex = Gender.UNKNOW;
 
     /**
      * 岗位性质
@@ -80,7 +80,7 @@ public class EnterpriseWorkerEntity extends BaseEntity {
     /**
      * 密码
      */
-    //@JsonIgnore
+    @JsonIgnore
     private String employeePwd;
 
     /**

@@ -1,18 +1,30 @@
 package com.lgyun.system.user.controller.admin;
 
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.AccountState;
+import com.lgyun.common.enumeration.PositionName;
+import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.admin.QueryEnterpriseListPaymentDTO;
+import com.lgyun.system.user.dto.admin.AddEnterpriseDTO;
+import com.lgyun.system.user.dto.admin.QueryEnterpriseListEnterpriseDTO;
+import com.lgyun.system.user.dto.admin.UpdateEnterpriseDTO;
+import com.lgyun.system.user.entity.User;
+import com.lgyun.system.user.service.IEnterpriseServiceProviderService;
 import com.lgyun.system.user.service.IEnterpriseService;
+import com.lgyun.system.user.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * 平台端---商户管理controller
@@ -29,18 +41,126 @@ import org.springframework.web.bind.annotation.RestController;
 public class EnterpriseAdminController {
 
     private IEnterpriseService enterpriseService;
+    private IEnterpriseServiceProviderService enterpriseProviderService;
+    private IUserService userService;
 
-    @GetMapping("/query-enterprise-list-enterprise")
+    @PostMapping("/create-enterprise")
+    @ApiOperation(value = "添加商户", notes = "添加商户")
+    public R createEnterprise(@Valid @RequestBody AddEnterpriseDTO addEnterpriseDTO) {
+
+        log.info("添加商户");
+        try {
+            return enterpriseService.createEnterprise(addEnterpriseDTO);
+        } catch (Exception e) {
+            log.error("添加商户异常", e);
+        }
+
+        return R.fail("操作失败");
+    }
+
+    @PostMapping("/update-enterprise")
+    @ApiOperation(value = "修改商户", notes = "修改商户")
+    public R updateEnterprise(@Valid @RequestBody UpdateEnterpriseDTO updateEnterpriseDTO) {
+
+        log.info("修改商户");
+        try {
+            return enterpriseService.updateEnterprise(updateEnterpriseDTO);
+        } catch (Exception e) {
+            log.error("修改商户异常", e);
+        }
+
+        return R.fail("操作失败");
+    }
+
+    @GetMapping("/query-enterprise-list")
     @ApiOperation(value = "查询所有商户", notes = "查询所有商户")
-    public R queryEnterpriseListEnterprise(QueryEnterpriseListPaymentDTO queryEnterpriseListPaymentDTO, Query query) {
+    public R queryEnterpriseList(QueryEnterpriseListEnterpriseDTO queryEnterpriseListEnterpriseDTO, Query query) {
 
         log.info("查询所有商户");
         try {
-            return enterpriseService.queryEnterpriseList(queryEnterpriseListPaymentDTO, Condition.getPage(query.setDescs("create_time")));
+            return enterpriseService.queryEnterpriseListEnterprise(queryEnterpriseListEnterpriseDTO, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("查询所有商户异常", e);
         }
         return R.fail("查询失败");
+    }
+
+    @GetMapping("/query-enterprise-detail")
+    @ApiOperation(value = "查询商户基本信息", notes = "查询商户基本信息")
+    public R queryEnterpriseDetail(@ApiParam(value = "商户ID") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId) {
+
+        log.info("查询商户基本信息");
+        try {
+            return enterpriseService.queryEnterpriseDetailEnterprise(enterpriseId);
+        } catch (Exception e) {
+            log.error("查询商户基本信息异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @GetMapping("/query-enterprise-worker")
+    @ApiOperation(value = "查询商户员工", notes = "查询商户员工")
+    public R queryEnterpriseWorker(@ApiParam(value = "商户ID") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId,
+                                   @ApiParam(value = "岗位性质") @NotNull(message = "请选择岗位性质") @RequestParam(required = false) PositionName positionName) {
+
+        log.info("查询商户员工");
+        try {
+            return enterpriseService.queryEnterpriseWorkerEnterprise(enterpriseId, positionName);
+        } catch (Exception e) {
+            log.error("查询商户员工异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @PostMapping("/update-enterprise-state")
+    @ApiOperation(value = "更改商户状态", notes = "更改商户状态")
+    public R updateEnterpriseState(@ApiParam(value = "商户ID") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId,
+                                   @ApiParam(value = "商户状态") @NotNull(message = "请选择商户状态") @RequestParam(required = false) AccountState accountState) {
+
+        log.info("更改商户状态");
+        try {
+            return enterpriseService.updateEnterpriseState(enterpriseId, accountState);
+        } catch (Exception e) {
+            log.error("更改商户状态异常", e);
+        }
+
+        return R.fail("更改商户状态失败");
+    }
+
+    @GetMapping("/query-service-provider-id-name-list")
+    @ApiOperation(value = "查询所有服务商", notes = "查询所有服务商")
+    public R queryServiceProviderIdNameList(@ApiParam(value = "商户名称") @RequestParam(required = false) String serviceProviderName, Query query) {
+
+        log.info("查询所有服务商");
+        try {
+            return enterpriseProviderService.getServiceProviderByEnterpriseId(Condition.getPage(query.setDescs("create_time")), null, serviceProviderName);
+        } catch (Exception e) {
+            log.error("查询所有服务商异常", e);
+        }
+
+        return R.fail("查询失败");
+    }
+
+    @PostMapping("/relevance-enterprise-service-provider")
+    @ApiOperation(value = "商户匹配服务商", notes = "商户匹配服务商")
+    public R relevanceEnterpriseServiceProvider(@ApiParam(value = "商户ID") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId,
+                                                @ApiParam(value = "服务商ID集合") @NotEmpty(message= "请选择服务商") @RequestParam(required = false) List<Long> serviceProviderIdList,
+                                                BladeUser bladeUser) {
+        log.info("商户匹配服务商");
+        try {
+            //查询当前管理员
+            R<User> result = userService.currentUser(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            User user = result.getData();
+
+            return enterpriseProviderService.relevanceEnterpriseServiceProvider(enterpriseId, serviceProviderIdList, user);
+        } catch (Exception e) {
+            log.error("商户匹配服务商异常", e);
+        }
+
+        return R.fail("商户匹配服务商失败");
     }
 
 }

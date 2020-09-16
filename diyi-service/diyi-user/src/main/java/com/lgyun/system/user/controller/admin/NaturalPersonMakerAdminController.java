@@ -52,7 +52,7 @@ public class NaturalPersonMakerAdminController {
 
         log.info("查询所有商户的编号名称");
         try {
-            return enterpriseService.queryEnterpriseIdAndNameList(enterpriseName, Condition.getPage(query.setDescs("create_time")));
+            return enterpriseService.queryEnterpriseListNaturalPersonMaker(enterpriseName, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("查询所有商户的编号名称异常", e);
         }

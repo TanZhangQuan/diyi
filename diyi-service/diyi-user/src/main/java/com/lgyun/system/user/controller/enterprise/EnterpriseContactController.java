@@ -78,7 +78,7 @@ public class EnterpriseContactController {
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-            return enterpriseWorkerService.addNewEnterpriseWorker(request, enterpriseWorkerEntity, bladeUser);
+            return enterpriseWorkerService.addNewEnterpriseWorker(request, enterpriseWorkerEntity.getEnterpriseId(), enterpriseWorkerEntity.getId());
         } catch (Exception e) {
             log.error("新建商户联系人 error=", e);
         }

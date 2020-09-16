@@ -1,8 +1,13 @@
 package com.lgyun.system.order.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.system.order.entity.AddressEntity;
+import com.lgyun.system.order.vo.admin.QueryEnterpriseAddressListEnterpriseVO;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  *  Mapper
@@ -13,5 +18,14 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface AddressMapper extends BaseMapper<AddressEntity> {
 
+    /**
+     * 查询商户所有收货地址信息
+     *
+     * @param objectType
+     * @param objectId
+     * @param page
+     * @return
+     */
+    List<QueryEnterpriseAddressListEnterpriseVO> queryEnterpriseAddressListEnterprise(ObjectType objectType, Long objectId, IPage<QueryEnterpriseAddressListEnterpriseVO> page);
 }
 

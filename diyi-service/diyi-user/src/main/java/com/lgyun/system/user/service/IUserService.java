@@ -60,7 +60,7 @@ public interface IUserService extends BaseService<User> {
      * @param phone
      * @return
      */
-    User findByPhone(String phone);
+    User findByPhone(String phone, UserType userType);
 
     /**
      * 用户信息

@@ -3,4 +3,21 @@
 
 <mapper namespace="com.lgyun.system.order.mapper.AddressMapper">
 
+    <resultMap type="com.lgyun.system.order.vo.admin.QueryEnterpriseAddressListEnterpriseVO" id="queryEnterpriseAddressListEnterpriseVO">
+        <result property="addressId" column="address_id"/>
+        <result property="addressName" column="address_name"/>
+        <result property="addressPhone" column="address_phone"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="area" column="area"/>
+        <result property="detailedAddress" column="detailed_address"/>
+        <result property="isDefault" column="is_default"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <select id="queryEnterpriseAddressListEnterprise" resultMap="queryEnterpriseAddressListEnterpriseVO">
+        SELECT id AS address_id, address_name, address_phone, province, city, area, detailed_address, is_default, create_time
+        FROM diyi_address WHERE is_deleted = 0 AND object_type = #{param1} and object_id = #{param2}
+    </select>
+
 </mapper>

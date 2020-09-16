@@ -2,7 +2,7 @@ package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.system.user.entity.EnterpriseProviderEntity;
+import com.lgyun.system.user.entity.EnterpriseServiceProviderEntity;
 import com.lgyun.system.user.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @since 2020-07-28 14:53:11
  */
 @Mapper
-public interface EnterpriseProviderMapper extends BaseMapper<EnterpriseProviderEntity> {
+public interface EnterpriseServiceProviderMapper extends BaseMapper<EnterpriseServiceProviderEntity> {
 
     /**
      * 根据商户ID查询所有合作的服务商

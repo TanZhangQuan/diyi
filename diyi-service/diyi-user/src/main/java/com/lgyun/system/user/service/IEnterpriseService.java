@@ -2,19 +2,20 @@ package com.lgyun.system.user.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.AccountState;
+import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.admin.QueryEnterpriseListPaymentDTO;
-import com.lgyun.system.user.dto.admin.QueryServiceProviderListPaymentDTO;
+import com.lgyun.system.user.dto.admin.*;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.vo.EnterprisesDetailVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
-import com.lgyun.system.user.vo.admin.QueryEnterpriseListPaymentVO;
-import com.lgyun.system.user.vo.admin.QueryServiceProviderListPaymentVO;
-import com.lgyun.system.user.vo.admin.QueryEnterpriseIdAndNameListVO;
+import com.lgyun.system.user.vo.admin.*;
 import com.lgyun.system.user.vo.enterprise.EnterpriseResponse;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * 商户信息 Service 接口
@@ -23,6 +24,22 @@ import org.springframework.web.multipart.MultipartFile;
  * @since 2020-06-26 17:21:05
  */
 public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
+
+    /**
+     * 通过商户名字查询商户
+     *
+     * @param enterpriseName
+     * @return
+     */
+    EnterpriseEntity findByEnterpriseName(String enterpriseName);
+
+    /**
+     * 通过统一社会信用代码查询商户
+     *
+     * @param socialCreditNo
+     * @return
+     */
+    EnterpriseEntity findBySocialCreditNo(String socialCreditNo);
 
     /**
      * 通过商户名字查询
@@ -76,21 +93,21 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
     R<EnterprisesDetailVO> getEnterpriseDetailById(Long enterpriseId);
 
     /**
-     * 查询所有商户
+     * 支付管理模块查询所有商户
      *
      * @param page
      * @return
      */
-    R<IPage<QueryEnterpriseListPaymentVO>> queryEnterpriseList(QueryEnterpriseListPaymentDTO queryEnterpriseListPaymentDTO, IPage<QueryEnterpriseListPaymentVO> page);
+    R<IPage<QueryEnterpriseListPaymentVO>> queryEnterpriseListPayment(QueryEnterpriseListPaymentDTO queryEnterpriseListPaymentDTO, IPage<QueryEnterpriseListPaymentVO> page);
 
     /**
-     * 查询所有服务商
+     * 支付管理模块查询所有服务商
      *
      * @param queryServiceProviderListPaymentDTO
      * @param page
      * @return
      */
-    R<IPage<QueryServiceProviderListPaymentVO>> queryServiceProviderList(QueryServiceProviderListPaymentDTO queryServiceProviderListPaymentDTO, IPage<QueryServiceProviderListPaymentVO> page);
+    R<IPage<QueryServiceProviderListPaymentVO>> queryServiceProviderListPayment(QueryServiceProviderListPaymentDTO queryServiceProviderListPaymentDTO, IPage<QueryServiceProviderListPaymentVO> page);
 
     /**
      * 查询所有商户的编号名称
@@ -99,6 +116,58 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * @param page
      * @return
      */
-    R<IPage<QueryEnterpriseIdAndNameListVO>> queryEnterpriseIdAndNameList(String enterpriseName, IPage<QueryEnterpriseIdAndNameListVO> page);
+    R<IPage<QueryEnterpriseListNaturalPersonMaker>> queryEnterpriseListNaturalPersonMaker(String enterpriseName, IPage<QueryEnterpriseListNaturalPersonMaker> page);
+
+    /**
+     * 添加商户
+     *
+     * @param addEnterpriseDTO
+     * @return
+     */
+    R<String> createEnterprise(AddEnterpriseDTO addEnterpriseDTO);
+
+    /**
+     * 修改商户
+     *
+     * @param updateEnterpriseDTO
+     * @return
+     */
+    R<String> updateEnterprise(UpdateEnterpriseDTO updateEnterpriseDTO);
+
+    /**
+     * 商户管理模块查询所有商户
+     *
+     * @param queryEnterpriseListEnterpriseDTO
+     * @param page
+     * @return
+     */
+    R<IPage<QueryEnterpriseListEnterpriseVO>> queryEnterpriseListEnterprise(QueryEnterpriseListEnterpriseDTO queryEnterpriseListEnterpriseDTO, IPage<QueryEnterpriseListEnterpriseVO> page);
+
+    /**
+     * 商户管理模块查询商户基本信息
+     *
+     * @param enterpriseId
+     * @return
+     */
+    R<QueryEnterpriseDetailEnterpriseVO> queryEnterpriseDetailEnterprise(Long enterpriseId);
+
+    /**
+     * 商户管理模块查询商户员工
+     *
+     * @param enterpriseId
+     * @param positionName
+     * @return
+     */
+    R<List<QueryEnterpriseWorkerEnterpriseVO>> queryEnterpriseWorkerEnterprise(Long enterpriseId, PositionName positionName);
+
+    /**
+     * 更改商户状态
+     *
+     * @param enterpriseId
+     * @param accountState
+     * @return
+     */
+    R<String> updateEnterpriseState(Long enterpriseId, AccountState accountState);
+
 }
 

@@ -1,5 +1,7 @@
 package com.lgyun.system.user.vo.enterprise;
 
+import com.lgyun.common.enumeration.EnterprisePositionName;
+import com.lgyun.common.enumeration.Gender;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -29,7 +31,7 @@ public class EnterpriseContactRequest implements Serializable {
     /**
      * 岗位性质
      */
-    private String positionName;
+    private EnterprisePositionName positionName;
 
     /**
      * email
@@ -44,11 +46,16 @@ public class EnterpriseContactRequest implements Serializable {
     /**
      * 性别
      */
-    private String workerSex;
+    private Gender workerSex = Gender.UNKNOW;
 
     /**
      * 用户名
      */
     private String employeeUserName;
+
+    /**
+     * 管理员特性
+     */
+    private Boolean adminPower = false;
 
 }

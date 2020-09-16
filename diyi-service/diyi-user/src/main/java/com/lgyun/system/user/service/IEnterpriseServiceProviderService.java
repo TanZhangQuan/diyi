@@ -3,8 +3,11 @@ package com.lgyun.system.user.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.entity.EnterpriseProviderEntity;
+import com.lgyun.system.user.entity.EnterpriseServiceProviderEntity;
+import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.vo.*;
+
+import java.util.List;
 
 /**
  *  Service 接口
@@ -12,10 +15,10 @@ import com.lgyun.system.user.vo.*;
  * @author jun
  * @since 2020-07-28 14:53:11
  */
-public interface IEnterpriseProviderService extends BaseService<EnterpriseProviderEntity> {
+public interface IEnterpriseServiceProviderService extends BaseService<EnterpriseServiceProviderEntity> {
 
     /**
-     * 根据商户ID查询所有合作的服务商
+     * 查询所有的服务商
      *
      * @param page
      * @param enterpriseId
@@ -30,7 +33,7 @@ public interface IEnterpriseProviderService extends BaseService<EnterpriseProvid
      * @param serviceProviderId
      * @return
      */
-    EnterpriseProviderEntity findByEnterpriseIdServiceProviderId(Long enterpriseId, Long serviceProviderId);
+    EnterpriseServiceProviderEntity findByEnterpriseIdServiceProviderId(Long enterpriseId, Long serviceProviderId);
 
     /**
      * 查询服务商关联的所有商户
@@ -70,5 +73,15 @@ public interface IEnterpriseProviderService extends BaseService<EnterpriseProvid
      * @return
      */
     R<IPage<EnterpriseIdNameListVO>> getEnterprisesByServiceProvider(IPage<EnterpriseIdNameListVO> page, Long serviceProviderId);
+
+    /**
+     * 商户匹配服务商
+     *
+     * @param enterpriseId
+     * @param serviceProviderIdList
+     * @param user
+     * @return
+     */
+    R<String> relevanceEnterpriseServiceProvider(Long enterpriseId, List<Long> serviceProviderIdList, User user);
 }
 

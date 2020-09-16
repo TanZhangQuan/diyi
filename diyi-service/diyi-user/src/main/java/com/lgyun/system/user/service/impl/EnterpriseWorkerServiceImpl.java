@@ -6,7 +6,10 @@ import com.lgyun.common.constant.SmsConstant;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.common.tool.*;
+import com.lgyun.common.tool.BeanServiceUtil;
+import com.lgyun.common.tool.DigestUtil;
+import com.lgyun.common.tool.RedisUtil;
+import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.feign.ISysClient;
 import com.lgyun.system.user.dto.UpdatePasswordDto;
@@ -21,10 +24,12 @@ import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.user.vo.EnterpriseWorkerVO;
 import com.lgyun.system.user.vo.enterprise.EnterpriseContactRequest;
 import com.lgyun.system.vo.GrantRequest;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,13 +46,16 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorkerMapper, EnterpriseWorkerEntity> implements IEnterpriseWorkerService {
 
+    private final IUserService userService;
+    private final RedisUtil redisUtil;
+    private final ISysClient sysClient;
+
+    @Autowired
+    @Lazy
     private IEnterpriseService enterpriseService;
-    private IUserService userService;
-    private RedisUtil redisUtil;
-    private ISysClient sysClient;
 
     @Override
     public EnterpriseWorkerEntity findByPhoneNumber(String phoneNumber) {
@@ -64,21 +72,6 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
         return baseMapper.selectOne(queryWrapper);
     }
 
-    /**
-     * 根据手机号密码查询商户员工
-     *
-     * @param phone
-     * @param employeePwd
-     * @return
-     */
-    @Override
-    public EnterpriseWorkerEntity findByPhoneAndEmployeePwd(String phone, String employeePwd) {
-        QueryWrapper<EnterpriseWorkerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(EnterpriseWorkerEntity::getPhoneNumber, phone)
-                .eq(EnterpriseWorkerEntity::getEmployeePwd, employeePwd);
-        return baseMapper.selectOne(queryWrapper);
-    }
-
     @Override
     public R<EnterpriseWorkerEntity> currentEnterpriseWorker(BladeUser bladeUser) {
 
@@ -87,7 +80,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
         }
 
         User user = userService.getById(bladeUser.getUserId());
-        if (user == null){
+        if (user == null) {
             return R.fail("用户不存在");
         }
 
@@ -154,7 +147,8 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
      * @return
      */
     @Override
-    public R<String> addNewEnterpriseWorker(EnterpriseContactRequest request, EnterpriseWorkerEntity enterpriseWorkerEntity, BladeUser bladeUser) {
+    @Transactional(rollbackFor = Exception.class)
+    public R<String> addNewEnterpriseWorker(EnterpriseContactRequest request, Long enterpriseId, Long enterpriseWorkerId) {
         //新建管理员
         User user = new User();
         user.setUserType(UserType.ENTERPRISE);
@@ -167,13 +161,12 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
 
         EnterpriseWorkerEntity workerEntity = new EnterpriseWorkerEntity();
         BeanUtils.copyProperties(request, workerEntity);
-        workerEntity.setEnterpriseId(enterpriseWorkerEntity.getEnterpriseId());
+        workerEntity.setEnterpriseId(enterpriseId);
         workerEntity.setUserId(user.getId());
-        workerEntity.setCreateUser(bladeUser.getUserId());
         workerEntity.setEnterpriseWorkerState(AccountState.NORMAL);
-        workerEntity.setUpLevelId(enterpriseWorkerEntity.getId());
+        workerEntity.setUpLevelId(enterpriseWorkerId);
         // TODO 密码待修改
-        workerEntity.setEmployeePwd(DigestUtil.encrypt(String.valueOf(UUID.randomUUID())));
+        workerEntity.setEmployeePwd(DigestUtil.encrypt("123456"));
         this.save(workerEntity);
 
         return R.success("创建成功");

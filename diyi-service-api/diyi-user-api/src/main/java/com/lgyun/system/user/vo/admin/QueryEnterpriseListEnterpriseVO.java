@@ -1,13 +1,16 @@
 package com.lgyun.system.user.vo.admin;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.AccountState;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
- * 平台端---商户管理vo
+ * 平台端---商户管理---商户列表vo
  *
  * @author tzq
  * @date 2020/9/9
@@ -28,5 +31,18 @@ public class QueryEnterpriseListEnterpriseVO implements Serializable {
 
     //联系人电话
     private String contact1Phone;
+
+    //加盟合同
+    private String joinContract;
+
+    //商家承诺函
+    private String commitmentLetter;
+
+    //状态
+    private AccountState enterpriseState;
+
+    //创建时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date createTime;
 
 }

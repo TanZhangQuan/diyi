@@ -10,10 +10,14 @@ import com.lgyun.system.order.dto.AddressDto;
 import com.lgyun.system.order.entity.AddressEntity;
 import com.lgyun.system.order.mapper.AddressMapper;
 import com.lgyun.system.order.service.IAddressService;
+import com.lgyun.system.order.vo.admin.QueryEnterpriseAddressListEnterpriseVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Service 实现
@@ -27,6 +31,7 @@ import org.springframework.stereotype.Service;
 public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEntity> implements IAddressService {
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> addOrUpdate(AddressDto addressDto, Long objectId, ObjectType objectType) {
 
         AddressEntity addressEntity;
@@ -35,17 +40,59 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
             if (addressEntity == null) {
                 return R.fail("收货地址不存在");
             }
+
+            if (!(addressEntity.getObjectId().equals(objectId) && addressEntity.getObjectType().equals(objectType))) {
+                return R.fail("收货地址不属于当前用户");
+            }
+
+            //如果地址选择默认，修改其他地址非默认
+            if (addressDto.getIsDefault()) {
+                //查询所有收货地址
+                QueryWrapper<AddressEntity> queryWrapper = new QueryWrapper<>();
+                queryWrapper.lambda().eq(AddressEntity::getObjectId, objectId)
+                        .eq(AddressEntity::getObjectType, objectType);
+
+                List<AddressEntity> addressEntitieList = baseMapper.selectList(queryWrapper);
+
+                for (AddressEntity addressEntity1 : addressEntitieList) {
+                    if (addressEntity1.getIsDefault()) {
+                        addressEntity1.setIsDefault(false);
+                        updateById(addressEntity1);
+                    }
+                }
+            }
+
         } else {
             addressEntity = new AddressEntity();
+
+            //查询所有收货地址
+            QueryWrapper<AddressEntity> queryWrapper = new QueryWrapper<>();
+            queryWrapper.lambda().eq(AddressEntity::getObjectId, objectId)
+                    .eq(AddressEntity::getObjectType, objectType);
+
+            List<AddressEntity> addressEntitieList = baseMapper.selectList(queryWrapper);
+
+            if (addressEntitieList.isEmpty()) {
+                addressEntity.setIsDefault(true);
+            } else {
+                if (addressDto.getIsDefault()) {
+                    for (AddressEntity addressEntity1 : addressEntitieList) {
+                        if (addressEntity1.getIsDefault()) {
+                            addressEntity1.setIsDefault(false);
+                            updateById(addressEntity1);
+                        }
+                    }
+                }
+            }
         }
 
         BeanUtils.copyProperties(addressDto, addressEntity);
-        addressEntity.setObjectId(objectId);
-        addressEntity.setObjectType(objectType);
 
         if (addressDto.getAddressId() != null) {
             updateById(addressEntity);
         } else {
+            addressEntity.setObjectId(objectId);
+            addressEntity.setObjectType(objectType);
             save(addressEntity);
         }
 
@@ -80,5 +127,10 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
     public R<String> deleteAddress(Long addressId) {
         removeById(addressId);
         return R.success("删除成功");
+    }
+
+    @Override
+    public R<IPage<QueryEnterpriseAddressListEnterpriseVO>> queryEnterpriseAddressListEnterprise(ObjectType objectType, Long objectId, IPage<QueryEnterpriseAddressListEnterpriseVO> page) {
+        return R.data(page.setRecords(baseMapper.queryEnterpriseAddressListEnterprise(objectType, objectId, page)));
     }
 }

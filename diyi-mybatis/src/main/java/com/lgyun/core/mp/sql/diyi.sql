@@ -151,7 +151,9 @@ CREATE TABLE `diyi_agent_main` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`agent_main_name`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`social_credit_no`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`social_credit_no`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`contact1_phone`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k4` (`contact2_phone`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='渠道商表';
 
 -- ----------------------------
@@ -324,11 +326,11 @@ CREATE TABLE `diyi_enterprise` (
   `legal_person_id_card` varchar(50) NOT NULL COMMENT '法人身份证',
   `social_credit_no` varchar(100) NOT NULL COMMENT '统一社会信用代码',
   `biz_licence_url` varchar(500) NOT NULL COMMENT '营业执照正本',
-  `biz_licence_copy_url` varchar(500) NOT NULL COMMENT '营业执照副本',
-  `enterprise_url` varchar(500) NOT NULL COMMENT '商户网址',
-  `working_address` varchar(100) NOT NULL COMMENT '办公地址(快递地址）',
-  `working_rel_name` varchar(50) NOT NULL COMMENT '收发票/税票快递【到付】联系人姓名',
-  `working_rel_phone` varchar(50) NOT NULL COMMENT '收发票/税票快递【到付】联系人手机号',
+  `biz_licence_copy_url` varchar(500) NOT NULL DEFAULT '' COMMENT '营业执照副本',
+  `enterprise_url` varchar(500) NOT NULL DEFAULT '' COMMENT '商户网址',
+  `working_address` varchar(100) NOT NULL DEFAULT '' COMMENT '办公地址(快递地址）',
+  `working_rel_name` varchar(50) NOT NULL DEFAULT '' COMMENT '收发票/税票快递【到付】联系人姓名',
+  `working_rel_phone` varchar(50) NOT NULL DEFAULT '' COMMENT '收发票/税票快递【到付】联系人手机号',
   `invoice_enterprise_name` varchar(50) NOT NULL COMMENT '开票资料-公司名称',
   `invoice_tax_no` varchar(50) NOT NULL COMMENT '开票资料-税号',
   `invoice_address` varchar(100) NOT NULL COMMENT '开票资料-地址',
@@ -337,7 +339,7 @@ CREATE TABLE `diyi_enterprise` (
   `invoice_account_name` varchar(50) NOT NULL COMMENT '开票资料-账户名',
   `invoice_account` varchar(50) NOT NULL COMMENT '开票资料-账号',
   `business_pattern` varchar(50) NOT NULL COMMENT '业务外包模式：自然人众包（3%普票），自然人总包+分包（6%专票），个体户众包（3%专票），个体户总包+分包（6%专票），个体户众包（3%普票）',
-  `crowd_source_pay_path` varchar(50) NOT NULL COMMENT '众包支付通路：通联支付代发，招商银行代发，系统集成代发，平台代收代付，平台预存支付',
+  `crowd_source_pay_path` varchar(50) DEFAULT NULL COMMENT '众包支付通路：通联支付代发，招商银行代发，系统集成代发，平台代收代付，平台预存支付',
   `service_price` decimal(5,2) NOT NULL COMMENT '综合税费率（默认9%）',
   `contact1_name` varchar(50) NOT NULL COMMENT '联系人1姓名（一般为老板/财务负责人）',
   `contact1_position` varchar(50) NOT NULL COMMENT '联系人1职位',
@@ -349,13 +351,13 @@ CREATE TABLE `diyi_enterprise` (
   `contact2_mail` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人2邮箱',
   `spec_demmand` varchar(500) NOT NULL DEFAULT '' COMMENT '特殊需求',
   `create_type` varchar(50) NOT NULL COMMENT '创建类型：平台创建，自注册',
-  `saler_id` bigint(50) NOT NULL COMMENT '营销人员',
-  `runner_id` bigint(50) NOT NULL COMMENT '运营人员',
-  `industry_type` varchar(50) NOT NULL COMMENT '行业分类',
+  `saler_id` bigint(50) DEFAULT NULL COMMENT '营销人员',
+  `runner_id` bigint(50) DEFAULT NULL COMMENT '运营人员',
+  `industry_type` varchar(50) NOT NULL DEFAULT '' COMMENT '行业分类',
   `main_business_desc` varchar(500) NOT NULL DEFAULT '' COMMENT '主营业务描述',
-  `qyshop_address` varchar(500) NOT NULL COMMENT '企翼网商铺地址',
-  `shop_id` bigint(50) NOT NULL COMMENT '商铺ID',
-  `shop_user_name` varchar(50) NOT NULL COMMENT '商铺用户名',
+  `qyshop_address` varchar(500) NOT NULL DEFAULT '' COMMENT '企翼网商铺地址',
+  `shop_id` bigint(50) DEFAULT NULL COMMENT '商铺ID',
+  `shop_user_name` varchar(50) NOT NULL DEFAULT '' COMMENT '商铺用户名',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
@@ -365,7 +367,9 @@ CREATE TABLE `diyi_enterprise` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`invite_no`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`enterprise_name`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`social_credit_no`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`social_credit_no`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k4` (`contact1_phone`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k5` (`contact2_phone`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商户表';
 
 -- ----------------------------
@@ -466,10 +470,10 @@ CREATE TABLE `diyi_enterprise_worker` (
   `avatar` varchar(500) NOT NULL DEFAULT '' COMMENT '头像',
   `enterprise_worker_state` varchar(50) NOT NULL COMMENT '商户员工账户状态',
   `worker_name` varchar(50) NOT NULL COMMENT '姓名',
-  `worker_sex` varchar(50) NOT NULL COMMENT '性别',
+  `worker_sex` varchar(50) DEFAULT NULL COMMENT '性别',
   `position_name` varchar(50) NOT NULL COMMENT '岗位性质',
   `phone_number` varchar(50) NOT NULL COMMENT '手机号码',
-  `up_level_id` bigint(50) NOT NULL COMMENT '上级主管',
+  `up_level_id` bigint(50) DEFAULT NULL COMMENT '上级主管',
   `employee_user_name` varchar(50) NOT NULL COMMENT '用户名',
   `employee_pwd` varchar(100) NOT NULL COMMENT '密码',
   `admin_power` bit(1) NOT NULL COMMENT '管理员特性',
@@ -1726,7 +1730,9 @@ CREATE TABLE `diyi_service_provider` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`service_provider_name`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`social_credit_no`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`social_credit_no`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`contact1_phone`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k4` (`contact2_phone`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商的基本信息表';
 
 -- ----------------------------

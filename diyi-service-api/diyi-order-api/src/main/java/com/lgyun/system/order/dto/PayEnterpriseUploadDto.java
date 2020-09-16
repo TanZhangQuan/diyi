@@ -2,8 +2,8 @@ package com.lgyun.system.order.dto;
 
 import com.lgyun.common.enumeration.MakerType;
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -49,7 +49,7 @@ public class PayEnterpriseUploadDto implements Serializable {
      */
     @NotNull(message = "请输入企业总支付额价税合计总额")
     @Min(value = 0, message = "企业总支付额价税合计总额不能小于0")
-    @Length(max = 10, message = "企业总支付额价税合计总额十位数不能超过10位")
+    @Max(value = 999999999, message = "企业总支付额价税合计总额不能大于999999999")
     private BigDecimal payToPlatformAmount;
 
     /**
@@ -57,7 +57,7 @@ public class PayEnterpriseUploadDto implements Serializable {
      */
     @NotNull(message = "请输入服务税费总额")
     @Min(value = 0, message = "服务税费总额不能小于0")
-    @Length(max = 10, message = "服务税费总额十位数不能超过10位")
+    @Max(value = 999999999, message = "服务税费总额不能大于999999999")
     private BigDecimal totalTaxFee;
 
     /**
@@ -65,7 +65,7 @@ public class PayEnterpriseUploadDto implements Serializable {
      */
     @NotNull(message = "请输入创客到手总额")
     @Min(value = 0, message = "创客到手总额不能小于0")
-    @Length(max = 10, message = "创客到手总额十位数不能超过10位")
+    @Max(value = 999999999, message = "创客到手总额不能大于999999999")
     private BigDecimal totalMakerNetIncome;
 
     /**
@@ -73,7 +73,7 @@ public class PayEnterpriseUploadDto implements Serializable {
      */
     @NotNull(message = "请输入服务税费率")
     @Min(value = 0, message = "服务税费率不能小于0")
-    @Length(max = 3, message = "服务税费率十位数不能超过3位")
+    @Max(value = 100, message = "服务税费率不能大于100")
     private BigDecimal serviceRate;
 
     /**
@@ -81,7 +81,7 @@ public class PayEnterpriseUploadDto implements Serializable {
      */
     @NotNull(message = "请输入服务外包费总额")
     @Min(value = 0, message = "服务外包费总额不能小于0")
-    @Length(max = 10, message = "服务外包费总额十位数不能超过10位")
+    @Max(value = 999999999, message = "服务外包费总额不能大于999999999")
     private BigDecimal sourcingAmount;
 
     /**
@@ -89,7 +89,7 @@ public class PayEnterpriseUploadDto implements Serializable {
      */
     @NotNull(message = "请输入企业年费总额")
     @Min(value = 0, message = "企业年费总额不能小于0")
-    @Length(max = 10, message = "企业年费总额十位数不能超过10位")
+    @Max(value = 999999999, message = "企业年费总额不能大于999999999")
     private BigDecimal enterpriseBusinessAnnualFee;
 
     /**
@@ -97,7 +97,7 @@ public class PayEnterpriseUploadDto implements Serializable {
      */
     @NotNull(message = "请输入身份验证费总额")
     @Min(value = 0, message = "身份验证费总额不能小于0")
-    @Length(max = 10, message = "身份验证费总额十位数不能超过10位")
+    @Max(value = 999999999, message = "身份验证费总额不能大于999999999")
     private BigDecimal identifyFee;
 
     /**
@@ -105,15 +105,15 @@ public class PayEnterpriseUploadDto implements Serializable {
      */
     @NotNull(message = "请输入第三方支付手续费总额")
     @Min(value = 0, message = "第三方支付手续费总额不能小于0")
-    @Length(max = 10, message = "第三方支付手续费总额十位数不能超过10位")
+    @Max(value = 999999999, message = "第三方支付手续费总额不能大于999999999")
     private BigDecimal serviceFee;
 
     /**
      * 创客数
      */
     @NotNull(message = "请输入创客数")
-    @Min(value = 0, message = "创客数不能小于0")
-    @Length(max = 10, message = "创客数十位数不能超过10位")
+    @Min(value = 1, message = "创客数不能小于1")
+    @Max(value = 999999999, message = "创客数不能大于999999999")
     private Integer makerNum;
 
     /**

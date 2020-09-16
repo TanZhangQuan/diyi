@@ -51,7 +51,7 @@ public class MobileTokenGranter implements ITokenGranter {
 
         //查询手机号
         String mobile = tokenParameter.getArgs().getStr("mobile");
-        //查询用户填写的短信验证码
+        //用户填写的短信验证码
         String smsCode = tokenParameter.getArgs().getStr("smsCode");
         //查询缓存短信验证码
         String redisCode = (String) redisUtil.get(SmsConstant.AVAILABLE_TIME + mobile);
@@ -85,7 +85,7 @@ public class MobileTokenGranter implements ITokenGranter {
 
             case ENTERPRISE:
                 // 商户处理
-                res = userClient.enterpriseWorkerDeal(mobile, "", GrantType.MOBILE);
+                res = userClient.enterpriseWorkerDeal(mobile, "", "", GrantType.MOBILE);
                 if (!(res.isSuccess())) {
                     return res;
                 }
@@ -93,7 +93,7 @@ public class MobileTokenGranter implements ITokenGranter {
 
             case SERVICEPROVIDER:
                 // 服务商处理
-                res = userClient.serviceProviderWorkerDeal(mobile, "", GrantType.MOBILE);
+                res = userClient.serviceProviderWorkerDeal(mobile, "", "", GrantType.MOBILE);
                 if (!(res.isSuccess())) {
                     return res;
                 }
@@ -137,7 +137,7 @@ public class MobileTokenGranter implements ITokenGranter {
             switch (userType) {
 
                 case ADMIN:
-                    if (userClient.userByPhone(mobile) == null) {
+                    if (userClient.userByPhone(mobile, UserType.ADMIN) == null) {
                         return R.fail("手机号未注册");
                     }
                     break;
@@ -169,7 +169,7 @@ public class MobileTokenGranter implements ITokenGranter {
             switch (userType) {
 
                 case ADMIN:
-                    if (userClient.userByPhone(mobile) != null) {
+                    if (userClient.userByPhone(mobile, UserType.ADMIN) != null) {
                         return R.fail("手机号已注册");
                     }
                     break;

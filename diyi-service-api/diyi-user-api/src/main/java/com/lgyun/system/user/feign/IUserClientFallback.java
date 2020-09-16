@@ -37,7 +37,7 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public User userByPhone(String phone) {
+    public User userByPhone(String phone, UserType userType) {
         return null;
     }
 
@@ -72,12 +72,12 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public R<String> enterpriseWorkerDeal(String phoneNumber, String loginPwd, GrantType grantType) {
+    public R<String> enterpriseWorkerDeal(String phoneNumber, String employeeUserName, String loginPwd, GrantType grantType) {
         return R.fail("网络繁忙，请稍后尝试");
     }
 
     @Override
-    public R<String> serviceProviderWorkerDeal(String phoneNumber, String loginPwd, GrantType grantType) {
+    public R<String> serviceProviderWorkerDeal(String phoneNumber, String employeeUserName, String loginPwd, GrantType grantType) {
         return R.fail("网络繁忙，请稍后尝试");
     }
 
@@ -137,7 +137,7 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public EnterpriseProviderEntity findByEnterpriseIdServiceProviderId(Long enterpriseId, Long serviceProviderId) {
+    public EnterpriseServiceProviderEntity findByEnterpriseIdServiceProviderId(Long enterpriseId, Long serviceProviderId) {
         return null;
     }
 

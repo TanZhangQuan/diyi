@@ -20,7 +20,7 @@ import com.lgyun.system.order.mapper.PayEnterpriseMapper;
 import com.lgyun.system.order.service.*;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.entity.EnterpriseEntity;
-import com.lgyun.system.user.entity.EnterpriseProviderEntity;
+import com.lgyun.system.user.entity.EnterpriseServiceProviderEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import com.lgyun.system.user.vo.TransactionVO;
 import lombok.AllArgsConstructor;
@@ -83,8 +83,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     public R<String> upload(PayEnterpriseUploadDto payEnterpriseUploadDto, Long enterpriseId) throws Exception {
 
         //判断服务商和商户是否关联
-        EnterpriseProviderEntity enterpriseProviderEntity = userClient.findByEnterpriseIdServiceProviderId(enterpriseId, payEnterpriseUploadDto.getServiceProviderId());
-        if (enterpriseProviderEntity == null) {
+        EnterpriseServiceProviderEntity enterpriseServiceProviderEntity = userClient.findByEnterpriseIdServiceProviderId(enterpriseId, payEnterpriseUploadDto.getServiceProviderId());
+        if (enterpriseServiceProviderEntity == null) {
             return R.fail("服务商和商户未关联");
         }
 
@@ -597,9 +597,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     public R getSummaryInvoiceDetails(Long payEnterpriseId) {
         Map map = new HashMap();
         InvoiceServiceSubDetailsVO subcontractInvoiceDetail = baseMapper.getSubcontractInvoiceDetails(payEnterpriseId);
-        List<PayMakerVO> payMakerList = payMakerService.getPayEnterpriseId(payEnterpriseId);
         MakerTotalInvoiceVO makerTotalInvoiceVO = makerTotalInvoiceService.getPayEnterpriseId(payEnterpriseId);
-        map.put("payMakerList",payMakerList);
         map.put("subcontractInvoiceDetail",subcontractInvoiceDetail);
         map.put("makerTotalInvoiceVO",makerTotalInvoiceVO);
         return R.data(map);

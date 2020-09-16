@@ -119,9 +119,9 @@ public class PaymentAdminController {
         return R.fail("上传失败");
     }
 
-    @GetMapping("/query-self-helf-invoice-list-by-enterprise")
+    @GetMapping("/query-self-helf-invoice-list")
     @ApiOperation(value = "根据商户查询众包/众采", notes = "根据商户查询众包/众采")
-    public R getSelfHelfInvoicesByEnterprise(@ApiParam(value = "商户编号") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId,
+    public R getSelfHelfInvoiceList(@ApiParam(value = "商户编号") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId,
                                              @ApiParam(value = "创客类型") @NotNull(message = "请选择创客类型") @RequestParam(required = false) InvoicePeopleType invoicePeopleType,
                                              SelfHelpInvoicesByEnterpriseDto selfHelpInvoicesByEnterpriseDto, Query query) {
 

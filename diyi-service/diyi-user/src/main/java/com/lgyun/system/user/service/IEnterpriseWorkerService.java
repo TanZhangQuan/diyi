@@ -33,15 +33,6 @@ public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEn
     EnterpriseWorkerEntity findByEmployeeUserNameAndEmployeePwd(String employeeUserName, String employeePwd);
 
     /**
-     * 根据手机号密码查询商户员工
-     *
-     * @param phone
-     * @param employeePwd
-     * @return
-     */
-    EnterpriseWorkerEntity findByPhoneAndEmployeePwd(String phone, String employeePwd);
-
-    /**
      * 查询当前商户员工
      *
      * @param bladeUser
@@ -69,9 +60,11 @@ public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEn
      * 新增商户联系人
      *
      * @param request
+     * @param enterpriseId
+     * @param enterpriseWorkerId
      * @return
      */
-    R<String> addNewEnterpriseWorker(EnterpriseContactRequest request, EnterpriseWorkerEntity enterpriseWorkerEntity, BladeUser bladeUser);
+    R<String> addNewEnterpriseWorker(EnterpriseContactRequest request, Long enterpriseId, Long enterpriseWorkerId);
 
     /**
      * 新增或更新商户账号信息，含认证授权

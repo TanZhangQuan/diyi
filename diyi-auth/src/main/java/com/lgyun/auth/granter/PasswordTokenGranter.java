@@ -8,7 +8,6 @@ import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.AuthInfo;
 import com.lgyun.common.tool.DigestUtil;
-import com.lgyun.common.tool.RedisUtil;
 import com.lgyun.system.user.entity.UserInfo;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
@@ -30,7 +29,6 @@ public class PasswordTokenGranter implements ITokenGranter {
 
     private TokenUtil tokenUtil;
     private IUserClient userClient;
-    private RedisUtil redisUtil;
     private WechatUtil wechatUtil;
 
     @Override
@@ -69,7 +67,7 @@ public class PasswordTokenGranter implements ITokenGranter {
 
             case ENTERPRISE:
                 //商户处理
-                res = userClient.enterpriseWorkerDeal(account, encrypt, GrantType.PASSWORD);
+                res = userClient.enterpriseWorkerDeal("", account, encrypt, GrantType.PASSWORD);
                 if (!(res.isSuccess())) {
                     return res;
                 }
@@ -79,7 +77,7 @@ public class PasswordTokenGranter implements ITokenGranter {
 
             case SERVICEPROVIDER:
                 //服务商处理
-                res = userClient.serviceProviderWorkerDeal(account, encrypt, GrantType.PASSWORD);
+                res = userClient.serviceProviderWorkerDeal("", account, encrypt, GrantType.PASSWORD);
                 if (!(res.isSuccess())) {
                     return res;
                 }

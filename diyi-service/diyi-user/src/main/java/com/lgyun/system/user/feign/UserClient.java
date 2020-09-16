@@ -37,7 +37,7 @@ public class UserClient implements IUserClient {
     private IIndividualBusinessService iIndividualBusinessService;
     private IEnterpriseService iEnterpriseService;
     private IEnterpriseWorkerService iEnterpriseWorkerService;
-    private IEnterpriseProviderService iEnterpriseProviderService;
+    private IEnterpriseServiceProviderService iEnterpriseServiceProviderService;
     private IServiceProviderWorkerService iServiceProviderWorkerService;
 
     @Override
@@ -51,8 +51,8 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public User userByPhone(String phone) {
-        return iUserService.findByPhone(phone);
+    public User userByPhone(String phone, UserType userType) {
+        return iUserService.findByPhone(phone, userType);
     }
 
     @Override
@@ -139,14 +139,14 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R<String> enterpriseWorkerDeal(String phoneNumber, String loginPwd, GrantType grantType) {
-        log.info("[enterpriseWorkerDeal] phone={}", phoneNumber);
+    public R<String> enterpriseWorkerDeal(String phoneNumber, String employeeUserName, String loginPwd, GrantType grantType) {
+
         EnterpriseWorkerEntity enterpriseWorkerEntity;
         switch (grantType) {
 
             case PASSWORD:
                 //根据账号密码查询商户
-                enterpriseWorkerEntity = iEnterpriseWorkerService.findByPhoneAndEmployeePwd(phoneNumber, loginPwd);
+                enterpriseWorkerEntity = iEnterpriseWorkerService.findByEmployeeUserNameAndEmployeePwd(employeeUserName, loginPwd);
                 if (enterpriseWorkerEntity == null) {
                     return R.fail("账号或密码错误");
                 }
@@ -168,14 +168,14 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R<String> serviceProviderWorkerDeal(String phoneNumber, String loginPwd, GrantType grantType) {
-        log.info("[serviceProviderWorkerDeal] phone={}", phoneNumber);
+    public R<String> serviceProviderWorkerDeal(String phoneNumber, String employeeUserName, String loginPwd, GrantType grantType) {
+
         ServiceProviderWorkerEntity serviceProviderWorkerEntity;
         switch (grantType) {
 
             case PASSWORD:
                 //根据账号密码查询服务商
-                serviceProviderWorkerEntity = iServiceProviderWorkerService.findByEmployeeUserNameAndEmployeePwd(phoneNumber, loginPwd);
+                serviceProviderWorkerEntity = iServiceProviderWorkerService.findByEmployeeUserNameAndEmployeePwd(employeeUserName, loginPwd);
                 if (serviceProviderWorkerEntity == null) {
                     return R.fail("账号或密码错误");
                 }
@@ -255,8 +255,8 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public EnterpriseProviderEntity findByEnterpriseIdServiceProviderId(Long enterpriseId, Long serviceProviderId) {
-        return iEnterpriseProviderService.findByEnterpriseIdServiceProviderId(enterpriseId, serviceProviderId);
+    public EnterpriseServiceProviderEntity findByEnterpriseIdServiceProviderId(Long enterpriseId, Long serviceProviderId) {
+        return iEnterpriseServiceProviderService.findByEnterpriseIdServiceProviderId(enterpriseId, serviceProviderId);
     }
 
     @Override
@@ -299,7 +299,7 @@ public class UserClient implements IUserClient {
         Query query = new Query();
         query.setCurrent(current);
         query.setSize(size);
-        return iEnterpriseProviderService.getServiceProviderByEnterpriseId(Condition.getPage(query.setDescs("create_time")), enterpriseId, serviceProviderName);
+        return iEnterpriseServiceProviderService.getServiceProviderByEnterpriseId(Condition.getPage(query.setDescs("create_time")), enterpriseId, serviceProviderName);
     }
 
 }

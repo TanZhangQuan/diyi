@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("diyi_enterprise_service_provider")
-public class EnterpriseProviderEntity extends BaseEntity {
+public class EnterpriseServiceProviderEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**

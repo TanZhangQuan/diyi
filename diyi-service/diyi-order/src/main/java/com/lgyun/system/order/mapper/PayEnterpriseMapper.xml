@@ -630,7 +630,7 @@
     </select>
 
     <select id="getSubcontractInvoiceDetails" resultMap="invoiceServiceSubDetailsMap">
-        SELECT pe.id AS pay_enterprise_id, e.id AS enterprise_id, pe.pay_to_platform_amount, e.enterprise_name, e.invoice_tax_no, e.invoice_address, e.invoice_tel_no, e.invoice_bank_name, e.invoice_account_name, sp.service_provider_name, pe.charge_list_url, pe.worksheet_id, pe.subcontracting_invoice_state, pe.create_time FROM diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON pe.enterprise_id = e.id INNER JOIN diyi_service_provider sp ON sp.id = pe.service_provider_id where pe.pay_enterprise_id=#{param1}
+        SELECT pe.id AS pay_enterprise_id, e.id AS enterprise_id, pe.pay_to_platform_amount, e.enterprise_name, e.invoice_tax_no, e.invoice_address, e.invoice_tel_no, e.invoice_bank_name, e.invoice_account_name, sp.service_provider_name, pe.charge_list_url, pe.worksheet_id, pe.subcontracting_invoice_state, pe.create_time FROM diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON pe.enterprise_id = e.id INNER JOIN diyi_service_provider sp ON sp.id = pe.service_provider_id where pe.id=#{param1}
     </select>
 
     <select id="getServiceSummaryInvoice" resultMap="invoiceServiceSubcontractMap">

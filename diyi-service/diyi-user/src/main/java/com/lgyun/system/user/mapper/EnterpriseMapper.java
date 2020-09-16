@@ -2,13 +2,13 @@ package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lgyun.common.enumeration.PositionName;
+import com.lgyun.system.user.dto.admin.QueryEnterpriseListEnterpriseDTO;
 import com.lgyun.system.user.dto.admin.QueryEnterpriseListPaymentDTO;
 import com.lgyun.system.user.dto.admin.QueryServiceProviderListPaymentDTO;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.vo.EnterprisesDetailVO;
-import com.lgyun.system.user.vo.admin.QueryEnterpriseListPaymentVO;
-import com.lgyun.system.user.vo.admin.QueryServiceProviderListPaymentVO;
-import com.lgyun.system.user.vo.admin.QueryEnterpriseIdAndNameListVO;
+import com.lgyun.system.user.vo.admin.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
      * @param page
      * @return
      */
-    List<QueryEnterpriseListPaymentVO> queryEnterpriseList(QueryEnterpriseListPaymentDTO queryEnterpriseListPaymentDTO, IPage<QueryEnterpriseListPaymentVO> page);
+    List<QueryEnterpriseListPaymentVO> queryEnterpriseListPayment(QueryEnterpriseListPaymentDTO queryEnterpriseListPaymentDTO, IPage<QueryEnterpriseListPaymentVO> page);
 
     /**
      * 查询所有服务商
@@ -45,7 +45,7 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
      * @param page
      * @return
      */
-    List<QueryServiceProviderListPaymentVO> queryServiceProviderList(QueryServiceProviderListPaymentDTO queryServiceProviderListPaymentDTO, IPage<QueryServiceProviderListPaymentVO> page);
+    List<QueryServiceProviderListPaymentVO> queryServiceProviderListPayment(QueryServiceProviderListPaymentDTO queryServiceProviderListPaymentDTO, IPage<QueryServiceProviderListPaymentVO> page);
 
     /**
      * 查询所有商户的编号名称
@@ -54,6 +54,32 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
      * @param page
      * @return
      */
-    List<QueryEnterpriseIdAndNameListVO> queryEnterpriseIdAndNameList(String enterpriseName, IPage<QueryEnterpriseIdAndNameListVO> page);
+    List<QueryEnterpriseListNaturalPersonMaker> queryEnterpriseListNaturalPersonMaker(String enterpriseName, IPage<QueryEnterpriseListNaturalPersonMaker> page);
+
+    /**
+     * 商户管理模块查询所有商户
+     *
+     * @param queryEnterpriseListEnterpriseDTO
+     * @param page
+     * @return
+     */
+    List<QueryEnterpriseListEnterpriseVO> queryEnterpriseListEnterprise(QueryEnterpriseListEnterpriseDTO queryEnterpriseListEnterpriseDTO, IPage<QueryEnterpriseListEnterpriseVO> page);
+
+    /**
+     * 商户管理模块查询商户基本信息
+     *
+     * @param enterpriseId
+     * @return
+     */
+    QueryEnterpriseDetailEnterpriseVO queryEnterpriseDetailEnterprise(Long enterpriseId);
+
+    /**
+     * 查询商户员工
+     *
+     * @param enterpriseId
+     * @param positionName
+     * @return
+     */
+    List<QueryEnterpriseWorkerEnterpriseVO> queryEnterpriseWorkerEnterprise(Long enterpriseId, PositionName positionName);
 }
 
