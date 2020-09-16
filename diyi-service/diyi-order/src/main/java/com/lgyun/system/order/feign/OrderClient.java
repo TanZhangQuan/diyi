@@ -46,7 +46,7 @@ public class OrderClient implements IOrderClient {
         Query query = new Query();
         query.setCurrent(current);
         query.setSize(size);
-        return iSelfHelpInvoiceService.findEnterpriseCrowdSourcing(enterpriseId,"",Condition.getPage(query.setDescs("create_time")) );
+        return iSelfHelpInvoiceService.findEnterpriseCrowdSourcing(enterpriseId, "", Condition.getPage(query.setDescs("create_time")));
     }
 
     @Override

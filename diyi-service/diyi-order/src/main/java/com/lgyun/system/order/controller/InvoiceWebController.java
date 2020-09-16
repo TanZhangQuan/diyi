@@ -6,12 +6,12 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.ContractApplyInvoiceDto;
-import com.lgyun.system.order.entity.EnterpriseProviderInvoiceCatalogsEntity;
-import com.lgyun.system.order.service.IEnterpriseProviderInvoiceCatalogsService;
+import com.lgyun.system.order.entity.EnterpriseServiceProviderInvoiceCatalogsEntity;
+import com.lgyun.system.order.service.IEnterpriseServiceProviderInvoiceCatalogsService;
 import com.lgyun.system.order.service.IInvoiceApplicationService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.service.ISelfHelpInvoiceService;
-import com.lgyun.system.order.wrapper.EnterpriseProviderInvoiceCatalogsWrapper;
+import com.lgyun.system.order.wrapper.EnterpriseServiceProviderInvoiceCatalogsWrapper;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
@@ -39,7 +39,7 @@ import javax.validation.Valid;
 public class InvoiceWebController {
 
     private IPayEnterpriseService payEnterpriseService;
-    private IEnterpriseProviderInvoiceCatalogsService enterpriseProviderInvoiceCatalogsService;
+    private IEnterpriseServiceProviderInvoiceCatalogsService enterpriseProviderInvoiceCatalogsService;
     private IInvoiceApplicationService invoiceApplicationService;
     private IUserClient iUserClient;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
@@ -111,8 +111,8 @@ public class InvoiceWebController {
     @GetMapping("/list")
     @ApiOperation(value = "查询服务商开票类目", notes = "查询服务商开票类目")
     public R list(Query query) {
-        IPage<EnterpriseProviderInvoiceCatalogsEntity> pages = enterpriseProviderInvoiceCatalogsService.page(Condition.getPage(query.setDescs("create_time")));
-        return R.data(EnterpriseProviderInvoiceCatalogsWrapper.build().pageVO(pages));
+        IPage<EnterpriseServiceProviderInvoiceCatalogsEntity> pages = enterpriseProviderInvoiceCatalogsService.page(Condition.getPage(query.setDescs("create_time")));
+        return R.data(EnterpriseServiceProviderInvoiceCatalogsWrapper.build().pageVO(pages));
     }
 
     @PostMapping("/contractApplyInvoice")

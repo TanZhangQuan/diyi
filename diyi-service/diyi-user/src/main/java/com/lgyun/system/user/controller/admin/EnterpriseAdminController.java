@@ -12,6 +12,7 @@ import com.lgyun.system.user.dto.admin.UpdateEnterpriseDTO;
 import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.service.IEnterpriseServiceProviderService;
 import com.lgyun.system.user.service.IEnterpriseService;
+import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,6 +44,7 @@ public class EnterpriseAdminController {
     private IEnterpriseService enterpriseService;
     private IEnterpriseServiceProviderService enterpriseProviderService;
     private IUserService userService;
+    private IEnterpriseWorkerService enterpriseWorkerService;
 
     @PostMapping("/create-enterprise")
     @ApiOperation(value = "添加商户", notes = "添加商户")
@@ -105,7 +107,7 @@ public class EnterpriseAdminController {
 
         log.info("查询商户员工");
         try {
-            return enterpriseService.queryEnterpriseWorkerEnterprise(enterpriseId, positionName);
+            return enterpriseWorkerService.queryEnterpriseWorkerEnterprise(enterpriseId, positionName);
         } catch (Exception e) {
             log.error("查询商户员工异常", e);
         }
@@ -141,6 +143,19 @@ public class EnterpriseAdminController {
         return R.fail("查询失败");
     }
 
+    @GetMapping("/query-enterprise-id-and-name")
+    @ApiOperation(value = "查询商户编号名称", notes = "查询商户编号名称")
+    public R queryEnterpriseIdAndName(@ApiParam(value = "商户ID") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId) {
+
+        log.info("查询商户编号名称");
+        try {
+            return enterpriseService.queryEnterpriseIdAndName(enterpriseId);
+        } catch (Exception e) {
+            log.error("查询商户编号名称异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
     @PostMapping("/relevance-enterprise-service-provider")
     @ApiOperation(value = "商户匹配服务商", notes = "商户匹配服务商")
     public R relevanceEnterpriseServiceProvider(@ApiParam(value = "商户ID") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId,
@@ -161,6 +176,19 @@ public class EnterpriseAdminController {
         }
 
         return R.fail("商户匹配服务商失败");
+    }
+
+    @GetMapping("/query-cooperation-service-provider-list")
+    @ApiOperation(value = "查询商户合作服务商", notes = "查询商户合作服务商")
+    public R queryCooperationServiceProviderList(@ApiParam(value = "商户ID") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, Query query) {
+
+        log.info("查询商户合作服务商");
+        try {
+            return enterpriseService.queryCooperationServiceProviderList(enterpriseId, Condition.getPage(query.setDescs("create_time")));
+        } catch (Exception e) {
+            log.error("查询商户合作服务商异常", e);
+        }
+        return R.fail("查询失败");
     }
 
 }

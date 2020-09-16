@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping("/agreement/admin")
+@RequestMapping("/admin/agreement")
 @Validated
 @AllArgsConstructor
 @Api(value = "(平台)合同相关相关接口", tags = "(平台)合同相关相关接口")

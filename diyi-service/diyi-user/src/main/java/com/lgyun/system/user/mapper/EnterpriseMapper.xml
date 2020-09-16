@@ -81,10 +81,18 @@
         <result property="enterpriseState" column="enterprise_state"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.admin.QueryEnterpriseWorkerEnterpriseVO" id="queryEnterpriseWorkerEnterpriseVO">
-        <result property="enterpriseWorkerId" column="enterprise_worker_id"/>
-        <result property="workerName" column="worker_name"/>
-        <result property="phoneNumber" column="phone_number"/>
+    <resultMap type="com.lgyun.system.user.vo.admin.QueryCooperationServiceProviderListVO" id="queryCooperationServiceProviderListVO">
+        <result property="serviceProviderId" column="service_provider_id"/>
+        <result property="serviceProviderName" column="service_provider_name"/>
+        <result property="totalSubAmount" column="total_sub_amount"/>
+        <result property="crowdAmount" column="crowd_amount"/>
+        <result property="cooperateStatus" column="cooperate_status"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.user.vo.EnterpriseIdNameListVO" id="enterpriseIdNameListVO">
+        <result property="enterpriseId" column="enterprise_id"/>
+        <result property="enterpriseName" column="enterprise_name"/>
     </resultMap>
 
     <select id="getEnterpriseDetailById" resultMap="enterprisesDetailVO">
@@ -154,9 +162,18 @@
         AND t1.id = #{param1}
     </select>
 
-    <select id="queryEnterpriseWorkerEnterprise" resultMap="queryEnterpriseWorkerEnterpriseVO">
-        SELECT id AS enterprise_worker_id, worker_name, phone_number FROM diyi_enterprise_worker WHERE is_deleted = 0
-        AND enterprise_id = #{param1} AND position_name = #{param2}
+    <select id="queryCooperationServiceProviderList" resultMap="queryCooperationServiceProviderListVO">
+        SELECT t3.id AS service_provider_id, t3.service_provider_name, t4.cooperate_status, t4.create_time,
+        (SELECT IFNULL(SUM(pay_to_platform_amount), 0) FROM diyi_pay_enterprise WHERE is_deleted = 0 AND
+        (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND enterprise_id = t4.enterprise_id AND service_provider_id = t3.id) AS total_sub_amount,
+        (SELECT IFNULL(SUM(t2.charge_money_num), 0) FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_sp t2 WHERE t1.is_deleted = 0
+        AND t2.is_deleted = 0 AND (t2.apply_state = 'SUBMITTED' OR t2.apply_state = 'INVOICED') AND t1.apply_enterprise_id = t4.enterprise_id
+        AND t2.service_provider_id = t3.id) AS crowd_amount FROM diyi_service_provider t3 INNER JOIN diyi_enterprise_service_provider t4
+        ON t3.id = t4.service_provider_id WHERE t3.is_deleted = 0 AND t4.is_deleted = 0 AND t4.enterprise_id = #{param1}
+    </select>
+
+    <select id="queryEnterpriseIdAndName" resultMap="enterpriseIdNameListVO">
+        SELECT id AS enterprise_id, enterprise_name FROM diyi_enterprise WHERE is_deleted = 0 AND id = #{param1}
     </select>
 
 </mapper>

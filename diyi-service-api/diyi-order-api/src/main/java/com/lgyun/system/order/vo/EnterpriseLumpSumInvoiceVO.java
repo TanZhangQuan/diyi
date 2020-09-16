@@ -1,5 +1,6 @@
 package com.lgyun.system.order.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.InvoiceState;
@@ -87,8 +88,9 @@ public class EnterpriseLumpSumInvoiceVO {
     private InvoiceState companyInvoiceState;
 
     /**
-     * 开篇日期
+     * 开票日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date invoicePrintDate;
 
     /**

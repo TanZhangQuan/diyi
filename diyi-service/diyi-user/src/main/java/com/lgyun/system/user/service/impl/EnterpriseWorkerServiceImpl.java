@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.SmsConstant;
 import com.lgyun.common.enumeration.AccountState;
+import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.BeanServiceUtil;
@@ -22,6 +23,7 @@ import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.user.vo.EnterpriseWorkerVO;
+import com.lgyun.system.user.vo.admin.QueryEnterpriseWorkerEnterpriseVO;
 import com.lgyun.system.user.vo.enterprise.EnterpriseContactRequest;
 import com.lgyun.system.vo.GrantRequest;
 import lombok.RequiredArgsConstructor;
@@ -255,6 +257,11 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
         }
 
         return R.success("OK");
+    }
+
+    @Override
+    public R<List<QueryEnterpriseWorkerEnterpriseVO>> queryEnterpriseWorkerEnterprise(Long enterpriseId, PositionName positionName) {
+        return R.data(baseMapper.queryEnterpriseWorkerEnterprise(enterpriseId, positionName));
     }
 
 }

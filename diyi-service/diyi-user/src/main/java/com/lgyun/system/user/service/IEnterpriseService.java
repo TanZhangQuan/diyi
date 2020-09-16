@@ -3,19 +3,17 @@ package com.lgyun.system.user.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
-import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.admin.*;
 import com.lgyun.system.user.entity.EnterpriseEntity;
+import com.lgyun.system.user.vo.EnterpriseIdNameListVO;
 import com.lgyun.system.user.vo.EnterprisesDetailVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 import com.lgyun.system.user.vo.admin.*;
 import com.lgyun.system.user.vo.enterprise.EnterpriseResponse;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * 商户信息 Service 接口
@@ -152,15 +150,6 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
     R<QueryEnterpriseDetailEnterpriseVO> queryEnterpriseDetailEnterprise(Long enterpriseId);
 
     /**
-     * 商户管理模块查询商户员工
-     *
-     * @param enterpriseId
-     * @param positionName
-     * @return
-     */
-    R<List<QueryEnterpriseWorkerEnterpriseVO>> queryEnterpriseWorkerEnterprise(Long enterpriseId, PositionName positionName);
-
-    /**
      * 更改商户状态
      *
      * @param enterpriseId
@@ -169,5 +158,21 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      */
     R<String> updateEnterpriseState(Long enterpriseId, AccountState accountState);
 
+    /**
+     * 查询商户合作服务商
+     *
+     * @param enterpriseId
+     * @param page
+     * @return
+     */
+    R<IPage<QueryCooperationServiceProviderListVO>> queryCooperationServiceProviderList(Long enterpriseId, IPage<QueryCooperationServiceProviderListVO> page);
+
+    /**
+     * 查询商户编号名称
+     *
+     * @param enterpriseId
+     * @return
+     */
+    R<EnterpriseIdNameListVO> queryEnterpriseIdAndName(Long enterpriseId);
 }
 

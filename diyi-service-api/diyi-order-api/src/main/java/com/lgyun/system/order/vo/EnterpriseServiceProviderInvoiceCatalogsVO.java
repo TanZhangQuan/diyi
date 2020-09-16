@@ -1,6 +1,6 @@
 package com.lgyun.system.order.vo;
 
-import com.lgyun.system.order.entity.EnterpriseProviderInvoiceCatalogsEntity;
+import com.lgyun.system.order.entity.EnterpriseServiceProviderInvoiceCatalogsEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -11,6 +11,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value = "EnterpriseProviderInvoiceCatalogsVO对象", description = "EnterpriseProviderInvoiceCatalogsVO对象")
-public class EnterpriseProviderInvoiceCatalogsVO extends EnterpriseProviderInvoiceCatalogsEntity {
+public class EnterpriseServiceProviderInvoiceCatalogsVO extends EnterpriseServiceProviderInvoiceCatalogsEntity {
     private static final long serialVersionUID = 1L;
+
 }

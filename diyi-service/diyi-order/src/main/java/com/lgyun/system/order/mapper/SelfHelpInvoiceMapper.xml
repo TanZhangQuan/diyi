@@ -431,7 +431,7 @@
         IFNULL(SUM(IF(MONTH(create_time) = 7, charge_money_num, 0)), 0) AS jul_income, IFNULL(SUM(IF(MONTH(create_time) = 8, charge_money_num, 0)), 0) AS aug_income,
         IFNULL(SUM(IF(MONTH(create_time) = 9, charge_money_num, 0)), 0) AS sep_income, IFNULL(SUM(IF(MONTH(create_time) = 10, charge_money_num, 0)), 0) AS oct_income,
         IFNULL(SUM(IF(MONTH(create_time) = 11, charge_money_num, 0)), 0) AS nov_income, IFNULL(SUM(IF(MONTH(create_time) = 12, charge_money_num, 0)), 0) AS dec_income
-        FROM diyi_self_help_invoice_sp WHERE is_deleted = 0 AND (apply_state = 'PASSED' OR apply_state = 'INVOICED') AND YEAR(create_time) = YEAR(NOW()) AND service_provider_id = #{param1}
+        FROM diyi_self_help_invoice_sp WHERE is_deleted = 0 AND (apply_state = 'SUBMITTED' OR apply_state = 'INVOICED') AND YEAR(create_time) = YEAR(NOW()) AND service_provider_id = #{param1}
     </select>
 
     <select id="queryCrowdMonthTradeByEnterprise" resultMap="monthTradeVO">
@@ -474,7 +474,7 @@
         IF(DAY(LAST_DAY(NOW())) >= 29, IFNULL(SUM(IF(DAY(create_time) = 29, charge_money_num, 0)), 0), NULL) AS twenty_nine_day_income,
         IF(DAY(LAST_DAY(NOW())) >= 30, IFNULL(SUM(IF(DAY(create_time) = 30, charge_money_num, 0)), 0), NULL) AS thirty_day_income,
 		IF(DAY(LAST_DAY(NOW())) >= 31, IFNULL(SUM(IF(DAY(create_time) = 31, charge_money_num, 0)), 0), NULL) AS thirty_one_day_income
-        FROM diyi_self_help_invoice_sp WHERE is_deleted = 0 AND (apply_state = 'PASSED' OR apply_state = 'INVOICED')
+        FROM diyi_self_help_invoice_sp WHERE is_deleted = 0 AND (apply_state = 'SUBMITTED' OR apply_state = 'INVOICED')
         AND YEAR(create_time) = YEAR(NOW()) AND MONTH(create_time) = MONTH(NOW()) AND service_provider_id = #{param1}
     </select>
 
@@ -491,7 +491,7 @@
         IFNULL(SUM(IF(WEEKDAY(create_time) = 2, charge_money_num, 0)), 0) AS wed_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 3, charge_money_num, 0)), 0) AS thu_income,
         IFNULL(SUM(IF(WEEKDAY(create_time) = 4, charge_money_num, 0)), 0) AS fri_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 5, charge_money_num, 0)), 0) AS sat_income,
         IFNULL(SUM(IF(WEEKDAY(create_time) = 6, charge_money_num, 0)), 0) AS sun_income
-        FROM diyi_self_help_invoice_sp WHERE is_deleted = 0 AND (apply_state = 'PASSED' OR apply_state = 'INVOICED') AND WEEK(create_time) = WEEK(NOW()) AND service_provider_id = #{param1}
+        FROM diyi_self_help_invoice_sp WHERE is_deleted = 0 AND (apply_state = 'SUBMITTED' OR apply_state = 'INVOICED') AND WEEK(create_time) = WEEK(NOW()) AND service_provider_id = #{param1}
     </select>
 
     <select id="queryCrowdDayTradeByEnterprise" resultMap="dayTradeVO">
@@ -523,7 +523,7 @@
         IFNULL(SUM(IF(HOUR(create_time) = 19, charge_money_num, 0)), 0) AS nineteen_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 20, charge_money_num, 0)), 0) AS twenty_hour_income,
         IFNULL(SUM(IF(HOUR(create_time) = 21, charge_money_num, 0)), 0) AS twenty_one_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 22, charge_money_num, 0)), 0) AS twenty_two_hour_income,
         IFNULL(SUM(IF(HOUR(create_time) = 23, charge_money_num, 0)), 0) AS twenty_three_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 0, charge_money_num, 0)), 0) AS twenty_four_hour_income
-        FROM diyi_self_help_invoice_sp WHERE is_deleted = 0 AND (apply_state = 'PASSED' OR apply_state = 'INVOICED') AND DATE(create_time) = DATE(NOW()) AND service_provider_id = #{param1}
+        FROM diyi_self_help_invoice_sp WHERE is_deleted = 0 AND (apply_state = 'SUBMITTED' OR apply_state = 'INVOICED') AND DATE(create_time) = DATE(NOW()) AND service_provider_id = #{param1}
     </select>
 
     <select id="getServiceCrowdSour" resultMap="EnterpriseCrowdSourcingVOMap">

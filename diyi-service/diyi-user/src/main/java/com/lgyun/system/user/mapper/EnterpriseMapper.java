@@ -2,11 +2,11 @@ package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.system.user.dto.admin.QueryEnterpriseListEnterpriseDTO;
 import com.lgyun.system.user.dto.admin.QueryEnterpriseListPaymentDTO;
 import com.lgyun.system.user.dto.admin.QueryServiceProviderListPaymentDTO;
 import com.lgyun.system.user.entity.EnterpriseEntity;
+import com.lgyun.system.user.vo.EnterpriseIdNameListVO;
 import com.lgyun.system.user.vo.EnterprisesDetailVO;
 import com.lgyun.system.user.vo.admin.*;
 import org.apache.ibatis.annotations.Mapper;
@@ -74,12 +74,20 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
     QueryEnterpriseDetailEnterpriseVO queryEnterpriseDetailEnterprise(Long enterpriseId);
 
     /**
-     * 查询商户员工
+     * 查询商户合作服务商
      *
      * @param enterpriseId
-     * @param positionName
+     * @param page
      * @return
      */
-    List<QueryEnterpriseWorkerEnterpriseVO> queryEnterpriseWorkerEnterprise(Long enterpriseId, PositionName positionName);
+    List<QueryCooperationServiceProviderListVO> queryCooperationServiceProviderList(Long enterpriseId, IPage<QueryCooperationServiceProviderListVO> page);
+
+    /**
+     * 查询商户编号名称
+     *
+     * @param enterpriseId
+     * @return
+     */
+    EnterpriseIdNameListVO queryEnterpriseIdAndName(Long enterpriseId);
 }
 

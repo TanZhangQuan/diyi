@@ -9,10 +9,14 @@ import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.admin.*;
-import com.lgyun.system.user.entity.*;
+import com.lgyun.system.user.entity.AgreementEntity;
+import com.lgyun.system.user.entity.EnterpriseEntity;
+import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
+import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.mapper.EnterpriseMapper;
 import com.lgyun.system.user.oss.AliyunOssService;
 import com.lgyun.system.user.service.*;
+import com.lgyun.system.user.vo.EnterpriseIdNameListVO;
 import com.lgyun.system.user.vo.EnterprisesDetailVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
@@ -27,7 +31,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -359,11 +362,6 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     @Override
-    public R<List<QueryEnterpriseWorkerEnterpriseVO>> queryEnterpriseWorkerEnterprise(Long enterpriseId, PositionName positionName) {
-        return R.data(baseMapper.queryEnterpriseWorkerEnterprise(enterpriseId, positionName));
-    }
-
-    @Override
     public R<String> updateEnterpriseState(Long enterpriseId, AccountState accountState) {
 
         EnterpriseEntity enterpriseEntity = getById(enterpriseId);
@@ -375,6 +373,16 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         save(enterpriseEntity);
 
         return R.fail("更改商户状态成功");
+    }
+
+    @Override
+    public R<IPage<QueryCooperationServiceProviderListVO>> queryCooperationServiceProviderList(Long enterpriseId, IPage<QueryCooperationServiceProviderListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryCooperationServiceProviderList(enterpriseId, page)));
+    }
+
+    @Override
+    public R<EnterpriseIdNameListVO> queryEnterpriseIdAndName(Long enterpriseId) {
+        return R.data(baseMapper.queryEnterpriseIdAndName(enterpriseId));
     }
 
 }

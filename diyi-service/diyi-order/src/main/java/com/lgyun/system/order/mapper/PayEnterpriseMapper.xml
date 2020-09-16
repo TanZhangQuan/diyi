@@ -482,7 +482,7 @@
         (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, charge_money_num, 0)), 0) AS month_pay,
         IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, charge_money_num, 0)), 0) AS year_pay,
         IFNULL(SUM(charge_money_num), 0) AS all_pay FROM diyi_self_help_invoice_sp WHERE is_deleted = 0
-        AND (apply_state = 'PASSED' OR apply_state = 'INVOICED') AND service_provider_id = #{param1}) t2
+        AND (apply_state = 'SUBMITTED' OR apply_state = 'INVOICED') AND service_provider_id = #{param1}) t2
     </select>
 
     <select id="queryTotalSubYearTradeByEnterprise" resultMap="yearTradeVO">
