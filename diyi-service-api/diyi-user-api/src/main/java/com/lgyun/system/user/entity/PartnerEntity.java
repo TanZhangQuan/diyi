@@ -1,7 +1,6 @@
 package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -28,25 +27,21 @@ public class PartnerEntity extends BaseEntity {
     /**
      * 管理者ID
      */
-    @JsonIgnore
     private Long userId;
 
     /**
      * 介绍合伙人ID
      */
-    @JsonIgnore
     private Long introducePartnerId;
 
     /**
      * 微信open_id
      */
-    @JsonIgnore
     private String openid;
 
     /**
      * 微信session_key
      */
-    @JsonIgnore
     private String sessionKey;
 
     /**
@@ -72,19 +67,16 @@ public class PartnerEntity extends BaseEntity {
     /**
      * 认证状态
      */
-    @JsonIgnore
     private CertificationState certificationState = CertificationState.UNCERTIFIED;
 
     /**
      * 加盟协议状态
      */
-    @JsonIgnore
     private SignState joinSignState = SignState.UNSIGN;
 
     /**
      * 账户状态
      */
-    @JsonIgnore
     private AccountState partnerState = AccountState.NORMAL;
 
     /**
@@ -125,7 +117,6 @@ public class PartnerEntity extends BaseEntity {
     /**
      * 登录密码
      */
-    @JsonIgnore
     private String loginPwd;
 
     /**

@@ -2,7 +2,6 @@ package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.DateUtil;
 import com.lgyun.core.mp.base.BaseEntity;
@@ -30,19 +29,16 @@ public class MakerEntity extends BaseEntity {
     /**
      * 管理者ID
      */
-    @JsonIgnore
     private Long userId;
 
     /**
      * 微信open_id
      */
-    @JsonIgnore
     private String openid;
 
     /**
      * 微信session_key
      */
-    @JsonIgnore
     private String sessionKey;
 
     /**
@@ -68,19 +64,16 @@ public class MakerEntity extends BaseEntity {
     /**
      * 授权合同签署状态
      */
-    @JsonIgnore
     private SignState empowerSignState = SignState.UNSIGN;
 
     /**
      * 加盟合同签署状态
      */
-    @JsonIgnore
     private SignState joinSignState = SignState.UNSIGN;
 
     /**
      * 账户状态
      */
-    @JsonIgnore
     private AccountState makerState = AccountState.NORMAL;
 
     /**
@@ -126,7 +119,6 @@ public class MakerEntity extends BaseEntity {
     /**
      * 登录密码
      */
-    @JsonIgnore
     private String loginPwd;
 
     /**

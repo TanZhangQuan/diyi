@@ -8,11 +8,13 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.ServiceProviderBankCardDto;
 import com.lgyun.system.user.dto.ServiceProviderContactPersonDto;
 import com.lgyun.system.user.dto.ServiceProviderInvoiceDto;
+import com.lgyun.system.user.dto.admin.QueryServiceProviderListDTO;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.mapper.ServiceProviderMapper;
 import com.lgyun.system.user.service.IEnterpriseServiceProviderService;
 import com.lgyun.system.user.service.IServiceProviderService;
 import com.lgyun.system.user.vo.*;
+import com.lgyun.system.user.vo.admin.QueryServiceProviderListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -91,6 +93,11 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         updateById(serviceProviderWorkerEntity);
 
         return R.success("操作成功");
+    }
+
+    @Override
+    public R<IPage<QueryServiceProviderListVO>> queryServiceProviderListAdmin(QueryServiceProviderListDTO queryServiceProviderListDTO, IPage<QueryServiceProviderListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryServiceProviderListAdmin(queryServiceProviderListDTO, page)));
     }
 
 }

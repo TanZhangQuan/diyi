@@ -352,8 +352,8 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     @Override
-    public R<IPage<QueryEnterpriseListEnterpriseVO>> queryEnterpriseListEnterprise(QueryEnterpriseListEnterpriseDTO queryEnterpriseListEnterpriseDTO, IPage<QueryEnterpriseListEnterpriseVO> page) {
-        return R.data(page.setRecords(baseMapper.queryEnterpriseListEnterprise(queryEnterpriseListEnterpriseDTO, page)));
+    public R<IPage<QueryEnterpriseListEnterpriseVO>> queryEnterpriseListEnterprise(QueryEnterpriseListDTO queryEnterpriseListDTO, IPage<QueryEnterpriseListEnterpriseVO> page) {
+        return R.data(page.setRecords(baseMapper.queryEnterpriseListEnterprise(queryEnterpriseListDTO, page)));
     }
 
     @Override

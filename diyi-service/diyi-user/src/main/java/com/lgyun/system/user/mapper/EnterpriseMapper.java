@@ -2,7 +2,7 @@ package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.system.user.dto.admin.QueryEnterpriseListEnterpriseDTO;
+import com.lgyun.system.user.dto.admin.QueryEnterpriseListDTO;
 import com.lgyun.system.user.dto.admin.QueryEnterpriseListPaymentDTO;
 import com.lgyun.system.user.dto.admin.QueryServiceProviderListPaymentDTO;
 import com.lgyun.system.user.entity.EnterpriseEntity;
@@ -59,11 +59,11 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
     /**
      * 商户管理模块查询所有商户
      *
-     * @param queryEnterpriseListEnterpriseDTO
+     * @param queryEnterpriseListDTO
      * @param page
      * @return
      */
-    List<QueryEnterpriseListEnterpriseVO> queryEnterpriseListEnterprise(QueryEnterpriseListEnterpriseDTO queryEnterpriseListEnterpriseDTO, IPage<QueryEnterpriseListEnterpriseVO> page);
+    List<QueryEnterpriseListEnterpriseVO> queryEnterpriseListEnterprise(QueryEnterpriseListDTO queryEnterpriseListDTO, IPage<QueryEnterpriseListEnterpriseVO> page);
 
     /**
      * 商户管理模块查询商户基本信息

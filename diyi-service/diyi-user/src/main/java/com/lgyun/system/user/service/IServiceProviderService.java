@@ -7,8 +7,10 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.ServiceProviderBankCardDto;
 import com.lgyun.system.user.dto.ServiceProviderContactPersonDto;
 import com.lgyun.system.user.dto.ServiceProviderInvoiceDto;
+import com.lgyun.system.user.dto.admin.QueryServiceProviderListDTO;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.vo.*;
+import com.lgyun.system.user.vo.admin.QueryServiceProviderListVO;
 
 /**
  *  Service 接口
@@ -78,6 +80,15 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
      * @return
      */
     R<String> addOrUpdateInvoice(ServiceProviderInvoiceDto serviceProviderInvoiceDto, Long serviceProviderId);
+
+    /**
+     * 查询所有服务商
+     *
+     * @param queryServiceProviderListDTO
+     * @param page
+     * @return
+     */
+    R<IPage<QueryServiceProviderListVO>> queryServiceProviderListAdmin(QueryServiceProviderListDTO queryServiceProviderListDTO, IPage<QueryServiceProviderListVO> page);
 
 }
 

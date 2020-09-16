@@ -30,6 +30,17 @@
         <result property="invoiceAccount" column="invoice_account"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.user.vo.admin.QueryServiceProviderListVO" id="queryServiceProviderListVO">
+        <result property="serviceProviderId" column="service_provider_id"/>
+        <result property="serviceProviderName" column="service_provider_name"/>
+        <result property="contact1Name" column="contact1_name"/>
+        <result property="contact1Phone" column="contact1_phone"/>
+        <result property="joinContract" column="join_contract"/>
+        <result property="commitmentLetter" column="commitment_letter"/>
+        <result property="serviceProviderState" column="service_provider_state"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
     <select id="getBankCard" resultMap="serviceProviderBankCardVO">
         SELECT invoice_account, invoice_account_name, invoice_bank_name FROM diyi_service_provider WHERE is_deleted = 0 AND id = #{param1} LIMIT 1
     </select>
@@ -42,6 +53,27 @@
     <select id="getInvoice" resultMap="serviceProviderInvoiceVO">
         SELECT invoice_enterprise_name, invoice_tax_no, invoice_address, invoice_tel_no, invoice_bank_name, invoice_account_name, invoice_account
         FROM diyi_service_provider WHERE is_deleted = 0 AND id = #{param1} LIMIT 1
+    </select>
+
+    <select id="queryServiceProviderListAdmin" resultMap="queryServiceProviderListVO">
+        SELECT t1.id AS enterprise_id, t1.enterprise_name, t1.contact1_name, t1.contact1_phone, t1.enterprise_state, t1.create_time,
+        (SELECT IF(online_aggrement_url <![CDATA[ <> ]]> NULL OR online_aggrement_url <![CDATA[ <> ]]> '', online_aggrement_url, paper_agreement_url)
+        FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'ENTERPRISEJOINAGREEMENT' AND sign_state = 'SIGNED'
+        AND enterprise_id = t1.id) AS join_contract, (SELECT IF(online_aggrement_url <![CDATA[ <> ]]> NULL OR online_aggrement_url <![CDATA[ <> ]]> '',
+        online_aggrement_url, paper_agreement_url) FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'OTHERAGREEMENT'
+        AND audit_state = 'APPROVED' AND enterprise_id = t1.id) AS commitment_letter FROM diyi_enterprise t1 WHERE t1.is_deleted = 0
+        <if test="param1.enterpriseId != null">
+            AND t1.id = #{param1.enterpriseId}
+        </if>
+        <if test="param1.enterpriseName != null and param1.enterpriseName.trim() != ''">
+            AND t1.enterprise_name like concat('%', #{param1.enterpriseName}, '%')
+        </if>
+        <if test="param1.beginDate != null">
+            AND DATEDIFF(t1.create_time, #{param1.beginDate}) <![CDATA[ >= ]]> 0
+        </if>
+        <if test="param1.endDate != null">
+            AND DATEDIFF(t1.create_time, #{param1.endDate}) <![CDATA[ <= ]]> 0
+        </if>
     </select>
 
 </mapper>

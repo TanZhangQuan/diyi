@@ -135,11 +135,11 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
     /**
      * 商户管理模块查询所有商户
      *
-     * @param queryEnterpriseListEnterpriseDTO
+     * @param queryEnterpriseListDTO
      * @param page
      * @return
      */
-    R<IPage<QueryEnterpriseListEnterpriseVO>> queryEnterpriseListEnterprise(QueryEnterpriseListEnterpriseDTO queryEnterpriseListEnterpriseDTO, IPage<QueryEnterpriseListEnterpriseVO> page);
+    R<IPage<QueryEnterpriseListEnterpriseVO>> queryEnterpriseListEnterprise(QueryEnterpriseListDTO queryEnterpriseListDTO, IPage<QueryEnterpriseListEnterpriseVO> page);
 
     /**
      * 商户管理模块查询商户基本信息
@@ -174,5 +174,6 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * @return
      */
     R<EnterpriseIdNameListVO> queryEnterpriseIdAndName(Long enterpriseId);
+
 }
 

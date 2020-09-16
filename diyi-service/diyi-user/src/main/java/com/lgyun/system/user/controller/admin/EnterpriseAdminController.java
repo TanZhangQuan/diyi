@@ -7,7 +7,7 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.admin.AddEnterpriseDTO;
-import com.lgyun.system.user.dto.admin.QueryEnterpriseListEnterpriseDTO;
+import com.lgyun.system.user.dto.admin.QueryEnterpriseListDTO;
 import com.lgyun.system.user.dto.admin.UpdateEnterpriseDTO;
 import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.service.IEnterpriseServiceProviderService;
@@ -76,11 +76,11 @@ public class EnterpriseAdminController {
 
     @GetMapping("/query-enterprise-list")
     @ApiOperation(value = "查询所有商户", notes = "查询所有商户")
-    public R queryEnterpriseList(QueryEnterpriseListEnterpriseDTO queryEnterpriseListEnterpriseDTO, Query query) {
+    public R queryEnterpriseList(QueryEnterpriseListDTO queryEnterpriseListDTO, Query query) {
 
         log.info("查询所有商户");
         try {
-            return enterpriseService.queryEnterpriseListEnterprise(queryEnterpriseListEnterpriseDTO, Condition.getPage(query.setDescs("create_time")));
+            return enterpriseService.queryEnterpriseListEnterprise(queryEnterpriseListDTO, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("查询所有商户异常", e);
         }
@@ -159,7 +159,7 @@ public class EnterpriseAdminController {
     @PostMapping("/relevance-enterprise-service-provider")
     @ApiOperation(value = "商户匹配服务商", notes = "商户匹配服务商")
     public R relevanceEnterpriseServiceProvider(@ApiParam(value = "商户ID") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId,
-                                                @ApiParam(value = "服务商ID集合") @NotEmpty(message= "请选择服务商") @RequestParam(required = false) List<Long> serviceProviderIdList,
+                                                @ApiParam(value = "服务商ID集合") @NotEmpty(message = "请选择服务商") @RequestParam(required = false) List<Long> serviceProviderIdList,
                                                 BladeUser bladeUser) {
         log.info("商户匹配服务商");
         try {
