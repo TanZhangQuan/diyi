@@ -426,7 +426,6 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         return R.data(agreementEntity);
     }
 
-    private void saveContractAndLetter(AgreementType agreementType,String file,ServiceProviderEntity serviceProviderEntity){
     @Override
     public void uploadAgreementByAdmin(ObjectType objectType, Long objectId, AgreementType agreementType, String file) {
 

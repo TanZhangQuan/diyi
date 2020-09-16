@@ -147,7 +147,6 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
      * 平台根据服务商id查询服务商加盟合同或授权协议
      */
     R findAdminSerIdAgreement(Long serviceProviderId,AgreementType agreementType);
-    R findEnterpriseAgreement(String agreementNo, Long serviceProviderId, String enterpriseName, IPage<AgreementServiceVO> page);
 
     /**
      * 上传合同
