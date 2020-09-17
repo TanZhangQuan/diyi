@@ -1,15 +1,16 @@
 package com.lgyun.system.order.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.InvoicePeopleType;
+import com.lgyun.common.enumeration.InvoicePrintState;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.enumeration.SelfHelpInvoiceApplyState;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDto;
-import com.lgyun.system.order.entity.SelfHelpInvoiceApplyEntity;
-import com.lgyun.system.order.entity.SelfHelpInvoiceDetailEntity;
-import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
-import com.lgyun.system.order.entity.SelfHelpInvoicePersonEntity;
+import com.lgyun.system.order.entity.*;
 import com.lgyun.system.order.excel.InvoiceListExcel;
 import com.lgyun.system.order.mapper.SelfHelpInvoiceDetailMapper;
 import com.lgyun.system.order.service.ISelfHelpInvoiceApplyService;
@@ -22,6 +23,8 @@ import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +44,8 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
 
     private IUserClient userClient;
     private ISelfHelpInvoicePersonService selfHelpInvoicePersonService;
+    @Autowired
+    @Lazy
     private ISelfHelpInvoiceService selfHelpInvoiceService;
     private ISelfHelpInvoiceApplyService selfHelpInvoiceApplyService;
 
@@ -87,6 +92,27 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
         if(ObjectType.ENTERPRISEPEOPLE.equals(selfHelpInvoiceDto.getObjectType())){
             enterpriseSelfHelpInvoice(list,selfHelpInvoiceDto,selfHelpInvoiceEntity);
         }
+    }
+
+    @Override
+    public Boolean getSelfHelpInvoiceDetails(Long selfHelpInvoiceId,Long selfHelpInvoiceDetailId) {
+        QueryWrapper<SelfHelpInvoiceDetailEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(SelfHelpInvoiceDetailEntity::getSelfHelpInvoiceId, selfHelpInvoiceId);
+        List<SelfHelpInvoiceDetailEntity> selfHelpInvoiceDetailEntities = baseMapper.selectList(queryWrapper);
+        int count = 0;
+        int num =0;
+        for (SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity : selfHelpInvoiceDetailEntities){
+            if(!selfHelpInvoiceDetailEntity.getInvoicePrintState().equals(InvoicePrintState.INVOICESUCCESS)){
+                count++;
+                if(selfHelpInvoiceDetailEntity.getId() == selfHelpInvoiceDetailId){
+                    num++;
+                }
+            }
+        }
+       if((count == 1 && num == 1) || count == 0){
+         return true;
+       }
+       return false;
     }
 
 

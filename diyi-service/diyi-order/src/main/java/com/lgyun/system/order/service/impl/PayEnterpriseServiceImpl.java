@@ -58,6 +58,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     private IMakerTotalInvoiceService makerTotalInvoiceService;
     private IMakerInvoiceService makerInvoiceService;
     private IMakerTaxRecordService makerTaxRecordService;
+    private IPlatformInvoiceListService platformInvoiceListService;
 
     @Override
     public R<IPage<InvoiceEnterpriseVO>> getEnterpriseAll(Long makerId, IPage<InvoiceEnterpriseVO> page) {
@@ -459,7 +460,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     @Transactional
     public R saveServiceLumpSumInvoice(Long serviceProviderId, Long payEnterpriseId,String serviceProviderName, Long applicationId, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName,String invoiceDesc) {
         PayEnterpriseEntity byId = getById(payEnterpriseId);
-        EnterpriseEntity enterpriseById = userClient.getEnterpriseById(byId.getEnterpriseId());
+        //EnterpriseEntity enterpriseById = userClient.getEnterpriseById(byId.getEnterpriseId());
 
         PlatformInvoiceEntity platformInvoiceEntity = new PlatformInvoiceEntity();
         platformInvoiceEntity.setApplicationId(applicationId);
@@ -500,12 +501,13 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             platformInvoiceListEntity.setInvoicePerson(serviceProviderName);
         }
         //销售方名称
-        platformInvoiceListEntity.setSaleCompany(enterpriseById.getEnterpriseName());
+        platformInvoiceListEntity.setSaleCompany("商户");
         platformInvoiceListEntity.setCompanyInvoiceUrl(companyInvoiceUrl);
         platformInvoiceListEntity.setCompanyVoiceUploadDatetime(new Date());
+        platformInvoiceListService.save(platformInvoiceListEntity);
         //更新商户支付清单的总包开票状态
         byId.setCompanyInvoiceState(InvoiceState.OPENED);
-        save(byId);
+        saveOrUpdate(byId);
         return R.success("操作成功");
     }
 
@@ -532,7 +534,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         makerTotalInvoiceEntity.setInvoiceCategory(invoiceCategory);
         makerTotalInvoiceEntity.setTotalAmount(new BigDecimal("0"));
         makerTotalInvoiceEntity.setSalesAmount(new BigDecimal("0"));
-        makerTotalInvoiceEntity.setTotalAmount(new BigDecimal("0"));
+        makerTotalInvoiceEntity.setTaxAmount(new BigDecimal("0"));
         if(null == serviceProviderName){
             makerTotalInvoiceEntity.setInvoicePerson("平台");
             makerTotalInvoiceEntity.setSaleCompany("平台");

@@ -305,7 +305,8 @@ public class UserClient implements IUserClient {
 
     @Override
     public ServiceProviderEntity getServiceProviderId(Long serviceProviderId) {
-        return serviceProviderService.getById(serviceProviderId);
+        ServiceProviderEntity byId = serviceProviderService.getId(serviceProviderId);
+        return byId;
     }
 
 }

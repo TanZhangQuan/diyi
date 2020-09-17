@@ -28,6 +28,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,9 +44,13 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceMapper, SelfHelpInvoiceEntity> implements ISelfHelpInvoiceService {
 
+    @Resource
     private IUserClient iUserClient;
+    @Resource
     private ISelfHelpInvoiceSpService selfHelpInvoiceSpService;
+    @Resource
     private ISelfHelpInvoiceSpDetailService selfHelpInvoiceSpDetailService;
+    @Resource
     private ISelfHelpInvoiceExpressService selfHelpInvoiceExpressService;
 
 
@@ -400,25 +405,46 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
 
     @Override
     @Transactional
-    public R savePortalSignInvoice(Long serviceProviderId,Long providerSelfHelpInvoiceId,String expressNo, String expressCompanyName, String invoiceScanPictures, String taxScanPictures) {
+    public R savePortalSignInvoice(String serviceProviderName,Long providerSelfHelpInvoiceId,String expressNo, String expressCompanyName, String invoiceScanPictures, String taxScanPictures) {
         SelfHelpInvoiceSpDetailEntity byId = selfHelpInvoiceSpDetailService.getById(providerSelfHelpInvoiceId);
-        ServiceProviderEntity serviceProviderEntity = iUserClient.getServiceProviderId(serviceProviderId);
         if(null != byId){
             return R.fail("数据错误！！！");
         }
         byId.setInvoiceScanPictures(invoiceScanPictures);
         byId.setTaxScanPictures(taxScanPictures);
-        byId.setInvoiceOperatePerson(serviceProviderId != null ?serviceProviderEntity.getServiceProviderName():"平台");
+        byId.setInvoiceOperatePerson(serviceProviderName);
         selfHelpInvoiceSpDetailService.saveOrUpdate(byId);
 
         SelfHelpInvoiceExpressEntity selfHelpInvoiceExpressEntity = new SelfHelpInvoiceExpressEntity();
         selfHelpInvoiceExpressEntity.setSelfHelpInvoiceApplyProviderId(byId.getSelfHelpInvoiceApplyProviderId());
         selfHelpInvoiceExpressEntity.setExpressNo(expressNo);
         selfHelpInvoiceExpressEntity.setExpressCompanyName(expressCompanyName);
-        selfHelpInvoiceExpressEntity.setOperatePerson(serviceProviderId != null ?serviceProviderEntity.getServiceProviderName():"平台");
-        selfHelpInvoiceExpressEntity.setExpressUpdatePersonTel(serviceProviderId != null ?serviceProviderEntity.getServiceProviderName():"平台");
+        selfHelpInvoiceExpressEntity.setOperatePerson(serviceProviderName);
+        selfHelpInvoiceExpressEntity.setExpressUpdatePersonTel(serviceProviderName);
         selfHelpInvoiceExpressService.save(selfHelpInvoiceExpressEntity);
+
+
+
+        //更新明细里面的数据
+        SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = selfHelpInvoiceDetailService.getById(byId.getSelfHelpInvoiceDetailId());
+        selfHelpInvoiceDetailEntity.setInvoicePrintState(InvoicePrintState.INVOICESUCCESS);
+        selfHelpInvoiceDetailService.saveOrUpdate(selfHelpInvoiceDetailEntity);
+        if(selfHelpInvoiceDetailService.getSelfHelpInvoiceDetails(selfHelpInvoiceDetailEntity.getSelfHelpInvoiceId(),selfHelpInvoiceDetailEntity.getId())){
+            //更新主表的发票状态
+            SelfHelpInvoiceSpEntity selfHelpInvoiceSpEntity = selfHelpInvoiceSpService.getById(byId.getSelfHelpInvoiceApplyProviderId());
+            selfHelpInvoiceSpEntity.setApplyState(SelfHelpInvoiceSpApplyState.INVOICED);
+            selfHelpInvoiceSpService.saveOrUpdate(selfHelpInvoiceSpEntity);
+
+            SelfHelpInvoiceEntity selfHelpInvoiceEntity = getById(selfHelpInvoiceDetailEntity.getSelfHelpInvoiceId());
+            selfHelpInvoiceEntity.setCurrentState(SelfHelpInvoiceApplyState.INVOICED);
+            saveOrUpdate(selfHelpInvoiceEntity);
+        }
         return R.success("操作成功");
+    }
+
+    @Override
+    public R getAdminMakerTypeSelfHelpInvoice(String invoicePeopleName, String startTime, String endTime, IPage<SelfHelpInvoiceCrowdSourcingVO> page) {
+        return R.data(page.setRecords(baseMapper.getAdminMakerTypeSelfHelpInvoice(invoicePeopleName,startTime,endTime,page)));
     }
 
 }

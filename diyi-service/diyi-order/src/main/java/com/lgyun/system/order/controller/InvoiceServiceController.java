@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -91,7 +92,7 @@ public class InvoiceServiceController {
      */
     @PostMapping("/saveLumpSumInvoice")
     @ApiOperation(value = "服务商总包开票", notes = "服务商总包开票")
-    public R saveLumpSumInvoice(BladeUser bladeUser, LumpSumInvoiceDto lumpSumInvoiceDto) {
+    public R saveLumpSumInvoice(BladeUser bladeUser,@Valid @RequestBody LumpSumInvoiceDto lumpSumInvoiceDto) {
         log.info("服务商总包开票");
         try {
             //查询当前服务商员工
@@ -100,7 +101,7 @@ public class InvoiceServiceController {
                 return result;
             }
             ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
-            return payEnterpriseService.saveServiceLumpSumInvoice(serviceProviderWorkerEntity.getId(),lumpSumInvoiceDto.getPayEnterpriseId(),lumpSumInvoiceDto.getServiceProviderName(),lumpSumInvoiceDto.getApplicationId(),lumpSumInvoiceDto.getCompanyInvoiceUrl(),lumpSumInvoiceDto.getExpressSheetNo(),lumpSumInvoiceDto.getExpressCompanyName(),lumpSumInvoiceDto.getInvoiceDesc());
+            return payEnterpriseService.saveServiceLumpSumInvoice(serviceProviderWorkerEntity.getServiceProviderId(),lumpSumInvoiceDto.getPayEnterpriseId(),lumpSumInvoiceDto.getServiceProviderName(),lumpSumInvoiceDto.getApplicationId(),lumpSumInvoiceDto.getCompanyInvoiceUrl(),lumpSumInvoiceDto.getExpressSheetNo(),lumpSumInvoiceDto.getExpressCompanyName(),lumpSumInvoiceDto.getInvoiceDesc());
         } catch (Exception e) {
             log.error("服务商总包开票失败",e);
         }
@@ -169,7 +170,7 @@ public class InvoiceServiceController {
      */
     @PostMapping("/saveSummaryInvoice")
     @ApiOperation(value = "服务商汇总代开开票", notes = "服务商汇总代开开票")
-    public R saveSummaryInvoice(BladeUser bladeUser, SummaryInvoiceDto summaryInvoiceDto) {
+    public R saveSummaryInvoice(BladeUser bladeUser, @Valid @RequestBody SummaryInvoiceDto summaryInvoiceDto) {
         log.info("服务商总包开票");
         try {
             //查询当前服务商员工
@@ -178,7 +179,7 @@ public class InvoiceServiceController {
                 return result;
             }
             ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
-            return payEnterpriseService.saveSummaryInvoice(serviceProviderWorkerEntity.getId(),summaryInvoiceDto.getPayEnterpriseId(),summaryInvoiceDto.getServiceProviderName(),summaryInvoiceDto.getInvoiceTypeNo(),summaryInvoiceDto.getInvoiceSerialNo(),summaryInvoiceDto.getInvoiceCategory(),summaryInvoiceDto.getCompanyInvoiceUrl(),summaryInvoiceDto.getMakerTaxUrl(),summaryInvoiceDto.getMakerTaxListUrl());
+            return payEnterpriseService.saveSummaryInvoice(serviceProviderWorkerEntity.getServiceProviderId(),summaryInvoiceDto.getPayEnterpriseId(),summaryInvoiceDto.getServiceProviderName(),summaryInvoiceDto.getInvoiceTypeNo(),summaryInvoiceDto.getInvoiceSerialNo(),summaryInvoiceDto.getInvoiceCategory(),summaryInvoiceDto.getCompanyInvoiceUrl(),summaryInvoiceDto.getMakerTaxUrl(),summaryInvoiceDto.getMakerTaxListUrl());
         } catch (Exception e) {
             log.error("服务商汇总代开开票失败",e);
         }
@@ -204,7 +205,7 @@ public class InvoiceServiceController {
 
     @PostMapping("/savePortalSignInvoice")
     @ApiOperation(value = "服务商门征单开发票开票", notes = "服务商门征单开发票开票")
-    public R savePortalSignInvoice(BladeUser bladeUser, ReleaseWorksheetDto releaseWorksheetDto) {
+    public R savePortalSignInvoice(BladeUser bladeUser,@Valid @RequestBody ReleaseWorksheetDto releaseWorksheetDto) {
         log.info("服务商门征单开发票开票");
         try {
             //查询当前服务商员工
@@ -322,7 +323,7 @@ public class InvoiceServiceController {
 
     @GetMapping("/getServiceCrowdSourDetails")
     @ApiOperation(value = "服务商查询众包发票详情", notes = "服务商查询众包发票详情")
-    public R getServiceCrowdSourDetails(BladeUser bladeUser,Long selfHelpInvoiceApplyProviderId) {
+    public R getServiceCrowdSourDetails(BladeUser bladeUser,Long providerSelfHelpInvoiceId) {
         log.info("服务商查询众包发票");
         try {
             //获取当前服务商员工
@@ -330,7 +331,7 @@ public class InvoiceServiceController {
             if (!(result.isSuccess())) {
                 return result;
             }
-            return selfHelpInvoiceService.getServiceCrowdSourDetails(selfHelpInvoiceApplyProviderId);
+            return selfHelpInvoiceService.getServiceCrowdSourDetails(providerSelfHelpInvoiceId);
         } catch (Exception e) {
             log.error("服务商查询众包发票详情失败",e);
         }
@@ -339,7 +340,7 @@ public class InvoiceServiceController {
 
     @PostMapping("/saveServiceCrowdSour")
     @ApiOperation(value = "服务商众包发票开票", notes = "服务商众包发票开票")
-    public R savePortalSignInvoice(BladeUser bladeUser,Long providerSelfHelpInvoiceId,String expressNo,String expressCompanyName,String invoiceScanPictures,String taxScanPictures) {
+    public R savePortalSignInvoice(BladeUser bladeUser,String serviceProviderName,Long providerSelfHelpInvoiceId,String expressNo,String expressCompanyName,String invoiceScanPictures,String taxScanPictures) {
         log.info("服务商众包发票开票");
         try {
             //获取当前服务商员工
@@ -348,7 +349,7 @@ public class InvoiceServiceController {
                 return result;
             }
             ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
-            return selfHelpInvoiceService.savePortalSignInvoice(serviceProviderWorkerEntity.getId(),providerSelfHelpInvoiceId,expressNo,expressCompanyName,invoiceScanPictures,taxScanPictures);
+            return selfHelpInvoiceService.savePortalSignInvoice(serviceProviderName,providerSelfHelpInvoiceId,expressNo,expressCompanyName,invoiceScanPictures,taxScanPictures);
         } catch (Exception e) {
             log.error("服务商众包发票开票失败",e);
         }

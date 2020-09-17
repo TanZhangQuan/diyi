@@ -90,5 +90,10 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
      */
     R<IPage<QueryServiceProviderListVO>> queryServiceProviderListAdmin(QueryServiceProviderListDTO queryServiceProviderListDTO, IPage<QueryServiceProviderListVO> page);
 
+    /**
+     * 根据id
+     */
+    ServiceProviderEntity getId(Long serviceProviderId);
+
 }
 
