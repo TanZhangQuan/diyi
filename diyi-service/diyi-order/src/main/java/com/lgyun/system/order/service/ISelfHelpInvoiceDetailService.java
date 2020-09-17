@@ -18,5 +18,10 @@ public interface ISelfHelpInvoiceDetailService extends BaseService<SelfHelpInvoi
     R uploadDeliverSheetUrl(Long selfHelpInvoiceDetailId,String deliverSheetUrl);
 
     void importSelfHelpInvoiceDetail(List<InvoiceListExcel> list);
+
+    /**
+     * 根据自主开票主表Id查询明细是否已全部开票
+     */
+    Boolean  getSelfHelpInvoiceDetails(Long selfHelpInvoiceId,Long selfHelpInvoiceDetailId);
 }
 

@@ -311,7 +311,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R getSubcontractInvoiceDetails(Long payEnterpriseId);
 
     /**
-     * 服务商总包开票
+     * 服务商汇总代开开票
      */
     R saveSummaryInvoice(Long serviceProviderId,Long payEnterpriseId,String serviceProviderName,String invoiceTypeNo,String invoiceSerialNo,String invoiceCategory,String companyInvoiceUrl,String makerTaxUrl,String makerTaxListUrl);
 
