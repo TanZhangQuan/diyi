@@ -239,6 +239,11 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
     /**
      * 服务商众包发票开票
      */
-    R savePortalSignInvoice(Long serviceProviderId,Long providerSelfHelpInvoiceId,String expressNo,String expressCompanyName,String invoiceScanPictures,String taxScanPictures);
+    R savePortalSignInvoice(String serviceProviderName,Long providerSelfHelpInvoiceId,String expressNo,String expressCompanyName,String invoiceScanPictures,String taxScanPictures);
+
+    /**
+     * 平台跟据创客身份查询自助开票
+     */
+    R getAdminMakerTypeSelfHelpInvoice(String invoicePeopleName,String startTime,String endTime,IPage<SelfHelpInvoiceCrowdSourcingVO> page);
 }
 

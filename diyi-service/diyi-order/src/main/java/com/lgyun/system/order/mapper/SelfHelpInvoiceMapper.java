@@ -210,5 +210,10 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
      */
     ServiceCrowdSourcingDetailVO getServiceCrowdSourDetails(Long providerSelfHelpInvoiceId);
 
+
+    /**
+     * 平台跟据创客身份查询自助开票
+     */
+    List getAdminMakerTypeSelfHelpInvoice(String invoicePeopleName, String startTime, String endTime, IPage<SelfHelpInvoiceCrowdSourcingVO> page);
 }
 
