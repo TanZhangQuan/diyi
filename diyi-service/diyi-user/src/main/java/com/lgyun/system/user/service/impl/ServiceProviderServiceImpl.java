@@ -136,11 +136,6 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
     }
 
     @Override
-    public ServiceProviderEntity getId(Long serviceProviderId) {
-        return getById(serviceProviderId);
-    }
-
-    @Override
     public R<IPage<QueryServiceProviderListVO>> queryServiceProviderListAdmin(QueryServiceProviderListDTO queryServiceProviderListDTO, IPage<QueryServiceProviderListVO> page) {
         return R.data(page.setRecords(baseMapper.queryServiceProviderListAdmin(queryServiceProviderListDTO, page)));
     }

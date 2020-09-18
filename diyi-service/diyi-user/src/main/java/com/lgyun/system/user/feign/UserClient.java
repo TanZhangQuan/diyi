@@ -303,10 +303,4 @@ public class UserClient implements IUserClient {
         return iEnterpriseServiceProviderService.getServiceProviderByEnterpriseId(Condition.getPage(query.setDescs("create_time")), enterpriseId, serviceProviderName);
     }
 
-    @Override
-    public ServiceProviderEntity getServiceProviderId(Long serviceProviderId) {
-        ServiceProviderEntity byId = serviceProviderService.getId(serviceProviderId);
-        return byId;
-    }
-
 }

@@ -176,9 +176,4 @@ public class IUserClientFallback implements IUserClient {
         return R.fail("网络繁忙，请稍后尝试");
     }
 
-    @Override
-    public ServiceProviderEntity getServiceProviderId(Long serviceProviderId) {
-        return null;
-    }
-
 }
