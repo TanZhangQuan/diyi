@@ -10,7 +10,7 @@ import com.lgyun.system.order.dto.AddressDto;
 import com.lgyun.system.order.entity.AddressEntity;
 import com.lgyun.system.order.mapper.AddressMapper;
 import com.lgyun.system.order.service.IAddressService;
-import com.lgyun.system.order.vo.admin.QueryEnterpriseAddressListEnterpriseVO;
+import com.lgyun.system.order.vo.admin.QueryAddressListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -32,7 +32,7 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> addOrUpdate(AddressDto addressDto, Long objectId, ObjectType objectType) {
+    public R<String> addOrUpdateAddress(AddressDto addressDto, Long objectId, ObjectType objectType) {
 
         AddressEntity addressEntity;
         if (addressDto.getAddressId() != null) {
@@ -130,7 +130,7 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
     }
 
     @Override
-    public R<IPage<QueryEnterpriseAddressListEnterpriseVO>> queryEnterpriseAddressListEnterprise(ObjectType objectType, Long objectId, IPage<QueryEnterpriseAddressListEnterpriseVO> page) {
-        return R.data(page.setRecords(baseMapper.queryEnterpriseAddressListEnterprise(objectType, objectId, page)));
+    public R<IPage<QueryAddressListVO>> queryAddressList(ObjectType objectType, Long objectId, IPage<QueryAddressListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryAddressList(objectType, objectId, page)));
     }
 }

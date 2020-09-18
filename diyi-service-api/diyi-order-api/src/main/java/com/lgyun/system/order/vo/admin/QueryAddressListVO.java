@@ -3,7 +3,6 @@ package com.lgyun.system.order.vo.admin;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -15,15 +14,14 @@ import java.util.Date;
  * @time 20:04.
  */
 @Data
-@ApiModel(value = "QueryEnterpriseAddressListEnterpriseVO对象", description = "QueryEnterpriseAddressListEnterpriseVO对象")
-public class QueryEnterpriseAddressListEnterpriseVO implements Serializable {
+public class QueryAddressListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //收货地址ID
     @JsonSerialize(using = ToStringSerializer.class)
     private Long addressId;
 
-    //电话/手机
+    //收件人
     private String addressName;
 
     //电话/手机

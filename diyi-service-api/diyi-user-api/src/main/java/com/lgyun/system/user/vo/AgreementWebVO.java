@@ -71,7 +71,7 @@ public class AgreementWebVO implements Serializable {
      * 签署时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date signDate;
+    private Date createTime;
 
     /**
      * 服务商名字

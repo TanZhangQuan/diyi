@@ -1,5 +1,6 @@
 package com.lgyun.system.user.vo;
 
+import com.lgyun.common.enumeration.PositionName;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -23,7 +24,7 @@ public class ServiceProviderContactPersonVO implements Serializable {
     /**
      * 联系人1职位
      */
-    private String contact1Position;
+    private PositionName contact1Position;
 
     /**
      * 联系人1电话手机（必填）
@@ -43,7 +44,7 @@ public class ServiceProviderContactPersonVO implements Serializable {
     /**
      * 联系人2职位
      */
-    private String contact2Position;
+    private PositionName contact2Position;
 
     /**
      * 联系人2电话手机（必填）

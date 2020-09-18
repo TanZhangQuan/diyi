@@ -2,6 +2,7 @@ package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.common.enumeration.RelationshipType;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
@@ -31,7 +32,7 @@ public class MakerEnterpriseRelationVO implements Serializable {
     private String legalPersonIdCard;
 
     //联系人职位
-    private String contact1Position;
+    private PositionName contact1Position;
 
     //联系人电话
     private String contact1Phone;

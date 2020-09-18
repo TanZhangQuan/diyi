@@ -48,11 +48,18 @@ public class EnterpriseAdminController {
 
     @PostMapping("/create-enterprise")
     @ApiOperation(value = "添加商户", notes = "添加商户")
-    public R createEnterprise(@Valid @RequestBody AddEnterpriseDTO addEnterpriseDTO) {
+    public R createEnterprise(@Valid @RequestBody AddEnterpriseDTO addEnterpriseDTO, BladeUser bladeUser) {
 
         log.info("添加商户");
         try {
-            return enterpriseService.createEnterprise(addEnterpriseDTO);
+            //查询当前管理员
+            R<User> result = userService.currentUser(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            User user = result.getData();
+
+            return enterpriseService.createEnterprise(addEnterpriseDTO, user);
         } catch (Exception e) {
             log.error("添加商户异常", e);
         }
@@ -62,11 +69,18 @@ public class EnterpriseAdminController {
 
     @PostMapping("/update-enterprise")
     @ApiOperation(value = "修改商户", notes = "修改商户")
-    public R updateEnterprise(@Valid @RequestBody UpdateEnterpriseDTO updateEnterpriseDTO) {
+    public R updateEnterprise(@Valid @RequestBody UpdateEnterpriseDTO updateEnterpriseDTO, BladeUser bladeUser) {
 
         log.info("修改商户");
         try {
-            return enterpriseService.updateEnterprise(updateEnterpriseDTO);
+            //查询当前管理员
+            R<User> result = userService.currentUser(bladeUser);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+            User user = result.getData();
+
+            return enterpriseService.updateEnterprise(updateEnterpriseDTO, user);
         } catch (Exception e) {
             log.error("修改商户异常", e);
         }
@@ -100,14 +114,14 @@ public class EnterpriseAdminController {
         return R.fail("查询失败");
     }
 
-    @GetMapping("/query-enterprise-worker")
+    @GetMapping("/query-enterprise-worker-list")
     @ApiOperation(value = "查询商户员工", notes = "查询商户员工")
-    public R queryEnterpriseWorker(@ApiParam(value = "商户ID") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId,
+    public R queryEnterpriseWorkerList(@ApiParam(value = "商户ID") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId,
                                    @ApiParam(value = "岗位性质") @NotNull(message = "请选择岗位性质") @RequestParam(required = false) PositionName positionName) {
 
         log.info("查询商户员工");
         try {
-            return enterpriseWorkerService.queryEnterpriseWorkerEnterprise(enterpriseId, positionName);
+            return enterpriseWorkerService.queryEnterpriseWorkerList(enterpriseId, positionName);
         } catch (Exception e) {
             log.error("查询商户员工异常", e);
         }
@@ -117,11 +131,11 @@ public class EnterpriseAdminController {
     @PostMapping("/update-enterprise-state")
     @ApiOperation(value = "更改商户状态", notes = "更改商户状态")
     public R updateEnterpriseState(@ApiParam(value = "商户ID") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId,
-                                   @ApiParam(value = "商户状态") @NotNull(message = "请选择商户状态") @RequestParam(required = false) AccountState accountState) {
+                                   @ApiParam(value = "商户状态") @NotNull(message = "请选择商户状态") @RequestParam(required = false) AccountState enterpriseState) {
 
         log.info("更改商户状态");
         try {
-            return enterpriseService.updateEnterpriseState(enterpriseId, accountState);
+            return enterpriseService.updateEnterpriseState(enterpriseId, enterpriseState);
         } catch (Exception e) {
             log.error("更改商户状态异常", e);
         }

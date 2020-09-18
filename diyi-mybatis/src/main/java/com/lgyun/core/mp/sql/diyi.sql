@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2020-09-11 17:18:38
+Date: 2020-09-17 14:55:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -252,9 +252,8 @@ CREATE TABLE `diyi_agreement` (
   `id` bigint(50) NOT NULL COMMENT '唯一性控制',
   `agreement_type` varchar(50) NOT NULL COMMENT '协议类别 1,创客加盟协议；2，商户加盟协议；3，服务商加盟协议；4，渠道商加盟协议；5、合伙人加盟协议；6、园区合作协议；7、税局合作协议；8、工商合作协议；9、创客授权书；10、商户-创客补充协议；11、服务商-商户补充协议；12、创客单独税务事项委托授权书；13、创客单独支付事项委托授权书；14、其他协议',
   `sign_type` varchar(50) NOT NULL COMMENT '1、纸质协议2、平台在线协议3、三方在线协议',
-  `sign_state` varchar(50) NOT NULL COMMENT '0签署中 1已完毕',
+  `sign_state` varchar(50) DEFAULT NULL COMMENT '0签署中 1已完毕',
   `audit_state` varchar(50) DEFAULT NULL COMMENT '单方授权函审核状态 1，编辑中；2，已驳回；3，已审核通过',
-  `sign_date` datetime NOT NULL COMMENT '签署日期',
   `agreement_no` varchar(100) NOT NULL COMMENT '协议编号',
   `sequence_no` varchar(100) NOT NULL DEFAULT '' COMMENT '顺序号',
   `maker_id` bigint(50) DEFAULT NULL COMMENT '创客ID',
@@ -1737,6 +1736,32 @@ CREATE TABLE `diyi_service_provider` (
 
 -- ----------------------------
 -- Records of diyi_service_provider
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `diyi_service_provider_cert`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_service_provider_cert`;
+CREATE TABLE `diyi_service_provider_cert` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `service_provider_id` varchar(50) NOT NULL COMMENT '服务商ID',
+  `certificate_type` varchar(50) NOT NULL COMMENT '类别',
+  `certificate_name` varchar(50) NOT NULL COMMENT '资格名称',
+  `certificate_desc` varchar(500) NOT NULL DEFAULT '' COMMENT '资格说明',
+  `certificate_main_url` varchar(500) NOT NULL COMMENT '资格证书正本URL',
+  `certificate_supply_url` varchar(500) NOT NULL DEFAULT '' COMMENT '资格证书副本URL',
+  `certificate_other_url` varchar(500) NOT NULL DEFAULT '' COMMENT '资格证书辅助文件URL',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商资格信息表';
+
+-- ----------------------------
+-- Records of diyi_service_provider_cert
 -- ----------------------------
 
 -- ----------------------------

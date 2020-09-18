@@ -52,7 +52,7 @@
         <result property="accountBank" column="account_bank"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.order.vo.SelfHelpInvoiceDetailListByEnterpriseVO" id="selfHelpInvoiceDetailListByEnterpriseVO">
+    <resultMap type="com.lgyun.system.order.vo.SelfHelpInvoiceDetailListVO" id="selfHelpInvoiceDetailListVO">
         <result property="id" column="id"/>
         <result property="valueAddedTaxRate" column="value_added_tax_rate"/>
         <result property="chargeMoneyNum" column="charge_money_num"/>
@@ -314,12 +314,12 @@
         ON t5.is_deleted = 0 AND t4.hand_pay_account_id = t5.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.enterprise_id = #{param1} AND t1.id = #{param2}
     </select>
 
-    <select id="getSelfHelfInvoiceDetailsBySelfHelfInvoiceAndEnterprise" resultMap="selfHelpInvoiceDetailListByEnterpriseVO">
+    <select id="getSelfHelfInvoiceDetailListBySelfHelfInvoice" resultMap="selfHelpInvoiceDetailListVO">
         SELECT t2.id, t2.value_added_tax_rate, t2.charge_money_num, t3.name AS maker_name, t3.idcard_no AS maker_idcard_no, t3.phone_number AS maker_phone_number,
         t4.id_card_name AS invoice_people_name, t4.id_card_no AS invoice_people_id_card_no, t4.phone_number AS invoice_people_phone_number FROM diyi_self_help_invoice t1
         INNER JOIN diyi_self_help_invoice_detail t2 ON t1.id = t2.self_help_invoice_id LEFT JOIN diyi_maker t3 ON t3.is_deleted = 0 AND t3.id = t2.maker_id
         LEFT JOIN diyi_self_help_invoice_person t4 ON t4.is_deleted = 0 AND t2.none_maker_invoice_person_id = t4.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0
-        AND t1.enterprise_id = #{param1} AND t1.id = #{param2}
+        AND t1.id = #{param1}
     </select>
 
     <select id="getSelfHelfInvoiceExpressBySelfHelfInvoiceAndEnterprise" resultMap="selfHelpInvoiceExpressByEnterpriseProviderVO">

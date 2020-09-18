@@ -1,10 +1,15 @@
 package com.lgyun.system.user.service;
 
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.dto.UpdatePasswordDto;
+import com.lgyun.system.user.dto.serviceProvider.AddOrUpdateServiceProviderContactDto;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
+import com.lgyun.system.user.vo.admin.QueryServiceProviderWorkerListVO;
+
+import java.util.List;
 
 /**
  * 服务商员工表 Service 接口
@@ -53,5 +58,23 @@ public interface IServiceProviderWorkerService extends BaseService<ServiceProvid
      * @return
      */
     R<String> updatePassword(UpdatePasswordDto updatePasswordDto);
+
+    /**
+     * 添加或修改服务商联系人
+     *
+     * @param addOrUpdateServiceProviderContactDto
+     * @param serviceProviderWorkerId
+     * @return
+     */
+    R<String> addOrUpdateServiceProviderContact(AddOrUpdateServiceProviderContactDto addOrUpdateServiceProviderContactDto, Long serviceProviderWorkerId);
+
+    /**
+     * 查询服务商员工
+     *
+     * @param serviceProviderId
+     * @param positionName
+     * @return
+     */
+    R<List<QueryServiceProviderWorkerListVO>> queryServiceProviderWorkerList(Long serviceProviderId, PositionName positionName);
 }
 

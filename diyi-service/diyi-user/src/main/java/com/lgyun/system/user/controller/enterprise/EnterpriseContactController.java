@@ -3,9 +3,9 @@ package com.lgyun.system.user.controller.enterprise;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
+import com.lgyun.system.user.dto.enterprise.AddOrUpdateEnterpriseContactDto;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
-import com.lgyun.system.user.vo.enterprise.EnterpriseContactRequest;
 import com.lgyun.system.user.vo.enterprise.EnterpriseContactResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,10 +67,11 @@ public class EnterpriseContactController {
         return R.fail("查询失败");
     }
 
-    @PostMapping("/add")
-    @ApiOperation(value = "新建商户联系人", notes = "新建商户联系人")
-    public R addNewEnterpriseWorker(@RequestBody EnterpriseContactRequest request, BladeUser bladeUser) {
-        log.info("新建商户联系人");
+    @PostMapping("/add-or-update-enterprise-contact")
+    @ApiOperation(value = "添加或修改商户联系人", notes = "添加或修改商户联系人")
+    public R addOrUpdateEnterpriseContact(@Valid @RequestBody AddOrUpdateEnterpriseContactDto addOrUpdateEnterpriseContactDto, BladeUser bladeUser) {
+
+        log.info("添加或修改商户联系人");
         try {
             //查询当前创客
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
@@ -78,11 +80,12 @@ public class EnterpriseContactController {
             }
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-            return enterpriseWorkerService.addNewEnterpriseWorker(request, enterpriseWorkerEntity.getEnterpriseId(), enterpriseWorkerEntity.getId());
+            return enterpriseWorkerService.addOrUpdateEnterpriseContact(addOrUpdateEnterpriseContactDto, enterpriseWorkerEntity.getId());
         } catch (Exception e) {
-            log.error("新建商户联系人 error=", e);
+            log.error("添加或修改商户联系人异常", e);
         }
-        return R.fail("新建商户联系人失败");
+
+        return R.fail("操作失败");
     }
 
 }

@@ -24,5 +24,5 @@ public class EnterpriseMakerAgreementVO implements Serializable {
     private String signType;
     private String paperAgreementUrl;
     private SignState signState;
-    private String signDate;
+    private String createTime;
 }

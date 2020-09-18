@@ -44,5 +44,5 @@ public class AgreementMakerWebVO implements Serializable {
     private SignState signState;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date signDate;
+    private Date createTime;
 }

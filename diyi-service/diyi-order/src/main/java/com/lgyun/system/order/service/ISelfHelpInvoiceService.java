@@ -44,12 +44,11 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
     /**
      * 查询当前商户某条自助开票记录的所有自助开票明细
      *
-     * @param enterpriseId
      * @param selfHelpInvoiceId
      * @param page
      * @return
      */
-    R<IPage<SelfHelpInvoiceDetailListByEnterpriseVO>> getSelfHelfInvoiceDetailsBySelfHelfInvoiceAndEnterprise(Long enterpriseId, Long selfHelpInvoiceId, IPage<SelfHelpInvoiceDetailListByEnterpriseVO> page);
+    R<IPage<SelfHelpInvoiceDetailListVO>> getSelfHelfInvoiceDetailListBySelfHelfInvoice(Long selfHelpInvoiceId, IPage<SelfHelpInvoiceDetailListVO> page);
 
     /**
      * 查询当前商户某条自助开票记录的所有快递信息

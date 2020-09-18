@@ -5,10 +5,10 @@ import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.dto.UpdatePasswordDto;
+import com.lgyun.system.user.dto.enterprise.AddOrUpdateEnterpriseContactDto;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.vo.EnterpriseWorkerVO;
-import com.lgyun.system.user.vo.admin.QueryEnterpriseWorkerEnterpriseVO;
-import com.lgyun.system.user.vo.enterprise.EnterpriseContactRequest;
+import com.lgyun.system.user.vo.admin.QueryEnterpriseWorkerListVO;
 
 import java.util.List;
 
@@ -61,14 +61,13 @@ public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEn
     R<String> updatePassword(UpdatePasswordDto updatePasswordDto);
 
     /**
-     * 新增商户联系人
+     * 添加或修改商户联系人
      *
-     * @param request
-     * @param enterpriseId
+     * @param addOrUpdateEnterpriseContactDto
      * @param enterpriseWorkerId
      * @return
      */
-    R<String> addNewEnterpriseWorker(EnterpriseContactRequest request, Long enterpriseId, Long enterpriseWorkerId);
+    R<String> addOrUpdateEnterpriseContact(AddOrUpdateEnterpriseContactDto addOrUpdateEnterpriseContactDto, Long enterpriseWorkerId);
 
     /**
      * 新增或更新商户账号信息，含认证授权
@@ -87,7 +86,7 @@ public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEn
      * @param positionName
      * @return
      */
-    R<List<QueryEnterpriseWorkerEnterpriseVO>> queryEnterpriseWorkerEnterprise(Long enterpriseId, PositionName positionName);
+    R<List<QueryEnterpriseWorkerListVO>> queryEnterpriseWorkerList(Long enterpriseId, PositionName positionName);
 
 }
 

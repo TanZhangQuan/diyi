@@ -9,10 +9,12 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum PositionName {
-    MARKETING("MARKETING", "营销人员"),
-    SERVICE("SERVICE", "客服人员"),
+    FINANCIAL("FINANCIAL", "财务人员"),
+    PERSONNEL("PERSONNEL", "人事人员"),
     OPERATION("OPERATION", "运营人员"),
+    MARKETING("MARKETING", "营销人员"),
     MANAGEMENT("MANAGEMENT", "管理人员"),
+    SERVICE("SERVICE", "客服人员"),
     OTHERS("OTHERS", "其他");
 
     private final String value;

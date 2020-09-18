@@ -66,7 +66,7 @@ public class AgreementServiceVO implements Serializable {
     /**
      * 签署日期
      */
-    private String signDate;
+    private String createTime;
     /**
      * 签署状态
      */

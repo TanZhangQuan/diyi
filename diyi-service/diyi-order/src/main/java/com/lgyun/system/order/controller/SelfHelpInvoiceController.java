@@ -52,7 +52,6 @@ import java.util.List;
 public class SelfHelpInvoiceController {
 
     private ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
-    private ISelfHelpInvoiceService selfHelpInvoiceService;
     private IAddressService addressService;
     private IDictClient iDictClient;
     private IUserClient iUserClient;
@@ -92,7 +91,7 @@ public class SelfHelpInvoiceController {
             }
             MakerEntity makerEntity = result.getData();
 
-            return addressService.addOrUpdate(addressDto, makerEntity.getId(), ObjectType.MAKERPEOPLE);
+            return addressService.addOrUpdateAddress(addressDto, makerEntity.getId(), ObjectType.MAKERPEOPLE);
         } catch (Exception e) {
             log.error("新建收货地址失败", e);
         }

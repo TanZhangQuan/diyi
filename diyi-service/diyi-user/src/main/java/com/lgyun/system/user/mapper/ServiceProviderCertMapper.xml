@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lgyun.system.user.mapper.ServiceProviderCertMapper">
+
+    <resultMap type="com.lgyun.system.user.vo.admin.QueryServiceProviderCertListVO" id="queryServiceProviderCertListVO">
+        <result property="serviceProviderCertId" column="service_provider_cert_id"/>
+        <result property="certificateType" column="certificate_type"/>
+        <result property="certificateName" column="certificate_name"/>
+        <result property="certificateDesc" column="certificate_desc"/>
+        <result property="certificateMainUrl" column="certificate_main_url"/>
+    </resultMap>
+
+    <select id="queryServiceProviderCertList" resultMap="queryServiceProviderCertListVO">
+        SELECT id AS service_provider_cert_id, certificate_type, certificate_name, certificate_desc, certificate_main_url
+        FROM diyi_service_provider_cert WHERE is_deleted = 0 AND service_provider_id = #{param1}
+    </select>
+
+</mapper>

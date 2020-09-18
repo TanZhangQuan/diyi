@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Entity
@@ -37,27 +38,22 @@ public class AgreementEntity extends BaseEntity {
     /**
      * 单方授权函审核状态 1，编辑中；2，已驳回；3，已审核通过
      */
-    private AuditState auditState = AuditState.EDITING;
+    private AuditState auditState;
 
     /**
      * 0签署中 1已完毕
      */
-    private SignState signState = SignState.SIGNING;
-
-    /**
-     * 签署日期
-     */
-    private Date signDate;
+    private SignState signState;
 
     /**
      * 协议编号
      */
-    private String agreementNo;
+    private String agreementNo = String.valueOf(UUID.randomUUID());
 
     /**
      * 顺序号
      */
-    private String sequenceNo;
+    private String sequenceNo = String.valueOf(UUID.randomUUID());
 
     /**
      * 创客ID

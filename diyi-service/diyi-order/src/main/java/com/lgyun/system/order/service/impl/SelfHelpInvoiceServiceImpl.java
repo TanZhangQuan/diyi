@@ -72,18 +72,14 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
-    public R<IPage<SelfHelpInvoiceDetailListByEnterpriseVO>> getSelfHelfInvoiceDetailsBySelfHelfInvoiceAndEnterprise(Long enterpriseId, Long selfHelpInvoiceId, IPage<SelfHelpInvoiceDetailListByEnterpriseVO> page) {
+    public R<IPage<SelfHelpInvoiceDetailListVO>> getSelfHelfInvoiceDetailListBySelfHelfInvoice(Long selfHelpInvoiceId, IPage<SelfHelpInvoiceDetailListVO> page) {
 
         SelfHelpInvoiceEntity selfHelpInvoiceEntity = getById(selfHelpInvoiceId);
         if (selfHelpInvoiceEntity == null) {
             return R.fail("自助开票不存在");
         }
 
-        if (!(selfHelpInvoiceEntity.getEnterpriseId().equals(enterpriseId))) {
-            return R.fail("自助开票不属于当前商户");
-        }
-
-        return R.data(page.setRecords(baseMapper.getSelfHelfInvoiceDetailsBySelfHelfInvoiceAndEnterprise(enterpriseId, selfHelpInvoiceId, page)));
+        return R.data(page.setRecords(baseMapper.getSelfHelfInvoiceDetailListBySelfHelfInvoice(selfHelpInvoiceId, page)));
     }
 
     @Override

@@ -43,20 +43,20 @@ public class EnterpriseAdminController {
 
         log.info("查询商户所有收货地址信息");
         try {
-            return addressService.queryEnterpriseAddressListEnterprise(ObjectType.ENTERPRISEPEOPLE, enterpriseId, Condition.getPage(query.setDescs("create_time")));
+            return addressService.queryAddressList(ObjectType.ENTERPRISEPEOPLE, enterpriseId, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("查询商户所有收货地址信息异常", e);
         }
         return R.fail("查询失败");
     }
 
-    @PostMapping("/save-or-update-address")
+    @PostMapping("/add-or-update-address")
     @ApiOperation(value = "添加/编辑收货地址", notes = "添加/编辑收货地址")
-    public R saveOrUpdateAddress(@ApiParam(value = "商户编号") @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, @Valid @RequestBody AddressDto addressDto) {
+    public R addOrUpdateAddress(@ApiParam(value = "商户编号") @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, @Valid @RequestBody AddressDto addressDto) {
 
         log.info("添加/编辑收货地址");
         try {
-            return addressService.addOrUpdate(addressDto, enterpriseId, ObjectType.ENTERPRISEPEOPLE);
+            return addressService.addOrUpdateAddress(addressDto, enterpriseId, ObjectType.ENTERPRISEPEOPLE);
         } catch (Exception e) {
             log.error("添加/编辑收货地址异常", e);
         }

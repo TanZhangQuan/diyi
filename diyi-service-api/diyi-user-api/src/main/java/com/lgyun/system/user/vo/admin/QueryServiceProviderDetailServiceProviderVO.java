@@ -10,21 +10,21 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * 平台端---商户管理---商户详情vo
+ * 平台端---服务商管理---服务商详情vo
  *
  * @author tzq
  * @date 2020/9/9
  */
 @Data
-public class QueryEnterpriseDetailEnterpriseVO implements Serializable {
+public class QueryServiceProviderDetailServiceProviderVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //商户编号
+    //服务商编号
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long enterpriseId;
+    private Long serviceProviderId;
 
-    //商户名称
-    private String enterpriseName;
+    //服务商名称
+    private String serviceProviderName;
 
     //法人
     private String legalPersonName;
@@ -39,10 +39,7 @@ public class QueryEnterpriseDetailEnterpriseVO implements Serializable {
     private String bizLicenceUrl;
 
     //企业网址
-    private String enterpriseUrl;
-
-    //创客加入邀请码
-    private String inviteNo;
+    private String serviceProviderUrl;
 
     //加盟合同
     private String joinContract;

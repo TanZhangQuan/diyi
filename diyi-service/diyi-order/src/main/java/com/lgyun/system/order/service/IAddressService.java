@@ -6,7 +6,7 @@ import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.dto.AddressDto;
 import com.lgyun.system.order.entity.AddressEntity;
-import com.lgyun.system.order.vo.admin.QueryEnterpriseAddressListEnterpriseVO;
+import com.lgyun.system.order.vo.admin.QueryAddressListVO;
 
 /**
  * Service 接口
@@ -23,7 +23,7 @@ public interface IAddressService extends BaseService<AddressEntity> {
      * @param objectId
      * @return
      */
-    R<String> addOrUpdate(AddressDto addressDto, Long objectId, ObjectType objectType);
+    R<String> addOrUpdateAddress(AddressDto addressDto, Long objectId, ObjectType objectType);
 
     /**
      * 查询收货地址
@@ -62,14 +62,14 @@ public interface IAddressService extends BaseService<AddressEntity> {
     R<String> deleteAddress(Long addressId);
 
     /**
-     * 查询商户所有收货地址信息
+     * 查询收货地址信息
      *
      * @param objectType
      * @param objectId
      * @param page
      * @return
      */
-    R<IPage<QueryEnterpriseAddressListEnterpriseVO>> queryEnterpriseAddressListEnterprise(ObjectType objectType, Long objectId, IPage<QueryEnterpriseAddressListEnterpriseVO> page);
+    R<IPage<QueryAddressListVO>> queryAddressList(ObjectType objectType, Long objectId, IPage<QueryAddressListVO> page);
 
 }
 

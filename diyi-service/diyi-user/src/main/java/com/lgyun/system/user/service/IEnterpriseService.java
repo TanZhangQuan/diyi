@@ -7,6 +7,7 @@ import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.admin.*;
 import com.lgyun.system.user.entity.EnterpriseEntity;
+import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.vo.EnterpriseIdNameListVO;
 import com.lgyun.system.user.vo.EnterprisesDetailVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
@@ -24,20 +25,22 @@ import org.springframework.web.multipart.MultipartFile;
 public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
 
     /**
-     * 通过商户名字查询商户
+     * 查询商户名字是否已存在
      *
      * @param enterpriseName
+     * @param enterpriseId
      * @return
      */
-    EnterpriseEntity findByEnterpriseName(String enterpriseName);
+    Integer findCountByEnterpriseName(String enterpriseName, Long enterpriseId);
 
     /**
-     * 通过统一社会信用代码查询商户
+     * 查询统一社会信用代码是否已存在
      *
      * @param socialCreditNo
+     * @param enterpriseId
      * @return
      */
-    EnterpriseEntity findBySocialCreditNo(String socialCreditNo);
+    Integer findCountBySocialCreditNo(String socialCreditNo, Long enterpriseId);
 
     /**
      * 通过商户名字查询
@@ -114,23 +117,25 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * @param page
      * @return
      */
-    R<IPage<QueryEnterpriseListNaturalPersonMaker>> queryEnterpriseListNaturalPersonMaker(String enterpriseName, IPage<QueryEnterpriseListNaturalPersonMaker> page);
+    R<IPage<EnterpriseIdNameListVO>> queryEnterpriseListNaturalPersonMaker(String enterpriseName, IPage<EnterpriseIdNameListVO> page);
 
     /**
      * 添加商户
      *
      * @param addEnterpriseDTO
+     * @param user
      * @return
      */
-    R<String> createEnterprise(AddEnterpriseDTO addEnterpriseDTO);
+    R<String> createEnterprise(AddEnterpriseDTO addEnterpriseDTO, User user);
 
     /**
-     * 修改商户
+     * 编辑商户
      *
      * @param updateEnterpriseDTO
+     * @param user
      * @return
      */
-    R<String> updateEnterprise(UpdateEnterpriseDTO updateEnterpriseDTO);
+    R<String> updateEnterprise(UpdateEnterpriseDTO updateEnterpriseDTO, User user);
 
     /**
      * 商户管理模块查询所有商户
@@ -153,10 +158,10 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * 更改商户状态
      *
      * @param enterpriseId
-     * @param accountState
+     * @param enterpriseState
      * @return
      */
-    R<String> updateEnterpriseState(Long enterpriseId, AccountState accountState);
+    R<String> updateEnterpriseState(Long enterpriseId, AccountState enterpriseState);
 
     /**
      * 查询商户合作服务商

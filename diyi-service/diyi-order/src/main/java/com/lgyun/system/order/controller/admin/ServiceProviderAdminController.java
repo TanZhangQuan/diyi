@@ -7,7 +7,6 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.AddressDto;
 import com.lgyun.system.order.service.IAddressService;
-import com.lgyun.system.order.service.IPayEnterpriseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -35,28 +34,27 @@ import javax.validation.constraints.NotNull;
 public class ServiceProviderAdminController {
 
     private IAddressService addressService;
-    private IPayEnterpriseService payEnterpriseService;
 
     @GetMapping("/query-address-list")
     @ApiOperation(value = "查询服务商所有收货地址信息", notes = "查询服务商所有收货地址信息")
-    public R queryAddressList(@ApiParam(value = "服务商ID") @NotNull(message = "请输入服务商编号") @RequestParam(required = false) Long enterpriseId, Query query) {
+    public R queryAddressList(@ApiParam(value = "服务商ID") @NotNull(message = "请输入服务商编号") @RequestParam(required = false) Long serviceProviderId, Query query) {
 
         log.info("查询服务商所有收货地址信息");
         try {
-            return addressService.queryEnterpriseAddressListEnterprise(ObjectType.ENTERPRISEPEOPLE, enterpriseId, Condition.getPage(query.setDescs("create_time")));
+            return addressService.queryAddressList(ObjectType.SERVICEPEOPLE, serviceProviderId, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("查询服务商所有收货地址信息异常", e);
         }
         return R.fail("查询失败");
     }
 
-    @PostMapping("/save-or-update-address")
+    @PostMapping("/add-or-update-address")
     @ApiOperation(value = "添加/编辑收货地址", notes = "添加/编辑收货地址")
-    public R saveOrUpdateAddress(@ApiParam(value = "服务商编号") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long enterpriseId, @Valid @RequestBody AddressDto addressDto) {
+    public R addOrUpdateAddress(@ApiParam(value = "服务商编号") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId, @Valid @RequestBody AddressDto addressDto) {
 
         log.info("添加/编辑收货地址");
         try {
-            return addressService.addOrUpdate(addressDto, enterpriseId, ObjectType.ENTERPRISEPEOPLE);
+            return addressService.addOrUpdateAddress(addressDto, serviceProviderId, ObjectType.SERVICEPEOPLE);
         } catch (Exception e) {
             log.error("添加/编辑收货地址异常", e);
         }
@@ -76,19 +74,6 @@ public class ServiceProviderAdminController {
         }
 
         return R.fail("删除失败");
-    }
-
-    @GetMapping("/enterprise-transaction")
-    @ApiOperation(value = "查询服务商交易数据", notes = "查询服务商交易数据")
-    public R transactionByEnterprise(@ApiParam(value = "服务商ID") @NotNull(message = "请输入服务商编号") @RequestParam(required = false) Long enterpriseId) {
-
-        log.info("查询服务商交易数据");
-        try {
-            return payEnterpriseService.transactionByEnterprise(enterpriseId);
-        } catch (Exception e) {
-            log.error("查询某服务商交易数据异常", e);
-        }
-        return R.fail("查询失败");
     }
 
 }

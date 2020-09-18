@@ -1,6 +1,7 @@
 package com.lgyun.system.user.dto.admin;
 
 import com.lgyun.common.enumeration.BusinessPattern;
+import com.lgyun.common.enumeration.PositionName;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -70,8 +71,8 @@ public class AddEnterpriseDTO implements Serializable {
     private String contact1Name;
 
     //联系人1职位
-    @NotBlank(message = "请输入联系人1职位")
-    private String contact1Position;
+    @NotNull(message = "请输入联系人1职位")
+    private PositionName contact1Position;
 
     //联系人1电话/手机
     @NotBlank(message = "请输入联系人1电话/手机")
@@ -88,8 +89,8 @@ public class AddEnterpriseDTO implements Serializable {
     private String contact2Name;
 
     //联系人2职位
-    @NotBlank(message = "请输入联系人2职位")
-    private String contact2Position;
+    @NotNull(message = "请输入联系人2职位")
+    private PositionName contact2Position;
 
     //联系人2电话/手机
     @NotBlank(message = "请输入联系人2电话/手机")

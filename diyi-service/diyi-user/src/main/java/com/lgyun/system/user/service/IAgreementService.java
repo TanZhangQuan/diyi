@@ -22,12 +22,13 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
      * 根据条件查询成功的合同
      *
      * @param enterpriseId
+     * @param serviceProviderId
      * @param agreementType
      * @param auditState
      * @param signState
      * @return
      */
-    AgreementEntity findSuccessAgreement(Long enterpriseId, AgreementType agreementType, AuditState auditState, SignState signState);
+    AgreementEntity findSuccessAgreement(Long enterpriseId, Long serviceProviderId, AgreementType agreementType, AuditState auditState, SignState signState);
 
     /**
      * 根据创客找合同
@@ -148,15 +149,5 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
      */
     R findAdminSerIdAgreement(Long serviceProviderId,AgreementType agreementType);
 
-    /**
-     * 上传合同
-     *
-     * @param objectType
-     * @param objectId
-     * @param agreementType
-     * @param file
-     * @return
-     */
-    void uploadAgreementByAdmin(ObjectType objectType, Long objectId, AgreementType agreementType, String file);
 }
 

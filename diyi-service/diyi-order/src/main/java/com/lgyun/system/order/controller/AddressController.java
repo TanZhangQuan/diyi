@@ -49,7 +49,7 @@ public class AddressController {
             }
             ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-            return addressService.addOrUpdate(addressDto, serviceProviderWorkerEntity.getServiceProviderId(), ObjectType.SERVICEPEOPLE);
+            return addressService.addOrUpdateAddress(addressDto, serviceProviderWorkerEntity.getServiceProviderId(), ObjectType.SERVICEPEOPLE);
         } catch (Exception e) {
             log.error("当前服务商新建或修改收货地址异常", e);
         }

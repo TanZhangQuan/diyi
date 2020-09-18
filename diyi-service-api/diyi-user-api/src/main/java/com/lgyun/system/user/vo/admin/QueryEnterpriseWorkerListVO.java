@@ -7,20 +7,23 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 平台端---自然人创客管理---创建创客选择的商户vo
+ * 平台端---商户管理---商户员工vo
  *
  * @author tzq
  * @date 2020/9/9
  */
 @Data
-public class QueryEnterpriseListNaturalPersonMaker implements Serializable {
+public class QueryEnterpriseWorkerListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //商户编号
+    //商户员工编号
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long enterpriseId;
+    private Long enterpriseWorkerId;
 
-    //商户名称
-    private String enterpriseName;
+    //姓名
+    private String workerName;
+
+    //手机号码
+    private String phoneNumber;
 
 }

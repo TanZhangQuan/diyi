@@ -54,7 +54,7 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
      * @param page
      * @return
      */
-    List<QueryEnterpriseListNaturalPersonMaker> queryEnterpriseListNaturalPersonMaker(String enterpriseName, IPage<QueryEnterpriseListNaturalPersonMaker> page);
+    List<EnterpriseIdNameListVO> queryEnterpriseListNaturalPersonMaker(String enterpriseName, IPage<EnterpriseIdNameListVO> page);
 
     /**
      * 商户管理模块查询所有商户

@@ -1,27 +1,25 @@
 package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.enumeration.SignState;
 import com.lgyun.common.enumeration.SignType;
 import com.lgyun.common.tool.PDFUtil;
+import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.OnlineSignPicMapper;
 import com.lgyun.system.user.oss.AliyunOssService;
 import com.lgyun.system.user.service.*;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
-import com.lgyun.core.mp.base.BaseServiceImpl;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Date;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * Service 实现
@@ -76,10 +74,7 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
             MakerEntity makerEntity = makerService.getById(ObjectId);
             AgreementEntity agreementEntity = new AgreementEntity();
             agreementEntity.setAgreementType(onlineAgreementTemplateEntity.getAgreementType());
-            agreementEntity.setSignDate(new Date());
             agreementEntity.setSignType(SignType.PLATFORMAGREEMENT);
-            agreementEntity.setAgreementNo(UUID.randomUUID().toString());
-            agreementEntity.setSequenceNo(UUID.randomUUID().toString());
             agreementEntity.setMakerId(ObjectId);
             agreementEntity.setOnlineAgreementTemplateId(onlineAgreementTemplateId);
             agreementEntity.setOnlineAggrementUrl(pdf);

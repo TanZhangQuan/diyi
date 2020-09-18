@@ -10,22 +10,22 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * 平台端---商户管理---编辑商户dto
+ * 平台端---服务商管理---编辑服务商dto
  *
  * @author tzq
  * @date 2020-09-9
  */
 @Data
-public class UpdateEnterpriseDTO implements Serializable {
+public class UpdateServiceProviderDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //商户编号
-    @NotNull(message = "请输入商户编号")
-    private Long enterpriseId;
+    //服务商编号
+    @NotBlank(message = "请输入服务商编号")
+    private Long serviceProviderId;
 
-    //商户名称
-    @NotBlank(message = "请输入商户名称")
-    private String enterpriseName;
+    //服务商名称
+    @NotBlank(message = "请输入服务商名称")
+    private String serviceProviderName;
 
     //法人
     @NotBlank(message = "请输入法人")
@@ -44,7 +44,7 @@ public class UpdateEnterpriseDTO implements Serializable {
     private String bizLicenceUrl;
 
     //企业网址
-    private String enterpriseUrl;
+    private String serviceProviderUrl;
 
     //加盟合同
     @NotBlank(message = "请上传加盟合同")

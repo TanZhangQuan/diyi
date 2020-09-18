@@ -3,4 +3,15 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.ServiceProviderWorkerMapper">
 
+    <resultMap type="com.lgyun.system.user.vo.admin.QueryServiceProviderWorkerListVO" id="queryServiceProviderWorkerListVO">
+        <result property="serviceProviderId" column="service_provider_id"/>
+        <result property="workerName" column="worker_name"/>
+        <result property="phoneNumber" column="phone_number"/>
+    </resultMap>
+
+    <select id="queryServiceProviderWorkerList" resultMap="queryServiceProviderWorkerListVO">
+        SELECT id AS service_provider_id, worker_name, phone_number FROM diyi_service_provider_worker WHERE is_deleted = 0
+        AND service_provider_id = #{param1} AND position_name = #{param2}
+    </select>
+
 </mapper>

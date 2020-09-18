@@ -44,11 +44,10 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
     /**
      * 查询当前商户某条自助开票记录的所有自助开票明细
      *
-     * @param enterpriseId
      * @param selfHelpInvoiceId
      * @return
      */
-    List<SelfHelpInvoiceDetailListByEnterpriseVO> getSelfHelfInvoiceDetailsBySelfHelfInvoiceAndEnterprise(Long enterpriseId, Long selfHelpInvoiceId, IPage<SelfHelpInvoiceDetailListByEnterpriseVO> page);
+    List<SelfHelpInvoiceDetailListVO> getSelfHelfInvoiceDetailListBySelfHelfInvoice(Long selfHelpInvoiceId, IPage<SelfHelpInvoiceDetailListVO> page);
 
     /**
      * 查询当前商户某条自助开票记录的所有快递信息

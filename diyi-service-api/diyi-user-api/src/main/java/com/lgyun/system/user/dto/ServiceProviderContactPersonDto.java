@@ -1,5 +1,6 @@
 package com.lgyun.system.user.dto;
 
+import com.lgyun.common.enumeration.PositionName;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -22,7 +23,7 @@ public class ServiceProviderContactPersonDto implements Serializable {
     /**
      * 联系人1职位
      */
-    private String contact1Position;
+    private PositionName contact1Position;
 
     /**
      * 联系人1电话手机（必填）
@@ -42,7 +43,7 @@ public class ServiceProviderContactPersonDto implements Serializable {
     /**
      * 联系人2职位
      */
-    private String contact2Position;
+    private PositionName contact2Position;
 
     /**
      * 联系人2电话手机（必填）
