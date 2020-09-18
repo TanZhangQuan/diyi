@@ -6,6 +6,7 @@ import com.lgyun.common.node.TreeNode;
 import com.lgyun.system.entity.Menu;
 import com.lgyun.system.service.IMenuService;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
+import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
@@ -91,7 +92,7 @@ public class MenuController extends BladeController {
 	}
 
 	/**
-	 * 前端菜单数据
+	 * 商户 前端菜单数据
 	 */
 	@GetMapping("/routes")
 	@ApiOperation(value = "前端菜单数据", notes = "前端菜单数据")
@@ -105,6 +106,24 @@ public class MenuController extends BladeController {
 		EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
 		List<MenuVO> list = menuService.routes(enterpriseWorkerEntity.getId().toString());
+		return R.data(list);
+	}
+
+	/**
+	 * 服务商 前端菜单数据
+	 */
+	@GetMapping("/routes/service")
+	@ApiOperation(value = "前端菜单数据", notes = "前端菜单数据")
+	public R<List<MenuVO>> routesService(BladeUser user) {
+		log.info("[routes]user info = {}", JSONObject.toJSONString(user));
+		//查询当前创客
+		R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(user);
+		if (!(result.isSuccess())) {
+			return R.fail("当前登录用户失效");
+		}
+		ServiceProviderWorkerEntity data = result.getData();
+
+		List<MenuVO> list = menuService.routes(data.getId().toString());
 		return R.data(list);
 	}
 
@@ -130,6 +149,22 @@ public class MenuController extends BladeController {
 			return R.fail("当前登录用户失效");
 		}
 		List<TreeNode> tree = menuService.tree(UserType.ENTERPRISE.getValue());
+		return R.data(tree);
+	}
+
+	/**
+	 * 查询菜单树形结构
+	 */
+	@GetMapping("/tree/service")
+	@ApiOperation(value = "树形结构", notes = "树形结构")
+	public R<List<TreeNode>> treeService(BladeUser user) {
+		//查询当前创客
+		R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(user);
+		if (!(result.isSuccess())) {
+			return R.fail("当前登录用户失效");
+		}
+
+		List<TreeNode> tree = menuService.tree(UserType.SERVICEPROVIDER.getValue());
 		return R.data(tree);
 	}
 
