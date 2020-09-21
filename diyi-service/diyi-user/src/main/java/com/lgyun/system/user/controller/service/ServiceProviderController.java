@@ -1,4 +1,4 @@
-package com.lgyun.system.user.controller;
+package com.lgyun.system.user.controller.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;

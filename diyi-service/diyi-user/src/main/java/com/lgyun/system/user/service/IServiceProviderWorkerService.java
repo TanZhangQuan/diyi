@@ -7,6 +7,7 @@ import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.dto.UpdatePasswordDto;
 import com.lgyun.system.user.dto.serviceProvider.AddOrUpdateServiceProviderContactDto;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
+import com.lgyun.system.user.vo.ServiceProviderWorkerVO;
 import com.lgyun.system.user.vo.admin.QueryServiceProviderWorkerListVO;
 
 import java.util.List;
@@ -84,5 +85,16 @@ public interface IServiceProviderWorkerService extends BaseService<ServiceProvid
      * @return
      */
     R<List<QueryServiceProviderWorkerListVO>> queryServiceProviderWorkerList(Long serviceProviderId, PositionName positionName);
+
+    /**
+     * 新增或更新服务商账号信息，含认证授权
+     *
+     * @param request
+     * @param workerEntity
+     * @param bladeUser
+     * @return
+     */
+    R<String> saveServiceProviderAccount(ServiceProviderWorkerVO request, ServiceProviderWorkerEntity workerEntity, BladeUser bladeUser);
+
 }
 

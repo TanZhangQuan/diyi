@@ -7,26 +7,36 @@ import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
+import com.lgyun.common.tool.BeanServiceUtil;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.common.tool.RedisUtil;
 import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.system.feign.ISysClient;
 import com.lgyun.system.user.dto.UpdatePasswordDto;
 import com.lgyun.system.user.dto.serviceProvider.AddOrUpdateServiceProviderContactDto;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.entity.User;
+import com.lgyun.system.user.entity.UserInfo;
 import com.lgyun.system.user.mapper.ServiceProviderWorkerMapper;
 import com.lgyun.system.user.service.IServiceProviderService;
 import com.lgyun.system.user.service.IServiceProviderWorkerService;
 import com.lgyun.system.user.service.IUserService;
+import com.lgyun.system.user.vo.ServiceProviderWorkerVO;
 import com.lgyun.system.user.vo.admin.QueryServiceProviderWorkerListVO;
+import com.lgyun.system.vo.GrantRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * 服务商员工表 Service 实现
@@ -42,6 +52,8 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
     private IUserService userService;
     private IServiceProviderService iServiceProviderService;
     private RedisUtil redisUtil;
+
+    private final ISysClient sysClient;
 
     @Override
     public ServiceProviderWorkerEntity findByPhoneNumber(String phoneNumber) {
@@ -215,6 +227,91 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
     @Override
     public R<List<QueryServiceProviderWorkerListVO>> queryServiceProviderWorkerList(Long serviceProviderId, PositionName positionName) {
         return R.data(baseMapper.queryServiceProviderWorkerList(serviceProviderId, positionName));
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public R<String> saveServiceProviderAccount(ServiceProviderWorkerVO request, ServiceProviderWorkerEntity workerEntity, BladeUser bladeUser) {
+        User userLogin = userService.getById(bladeUser.getUserId());
+        if (request.getId() != null) {
+            // 更新账号
+            ServiceProviderWorkerEntity entity = this.getById(request.getId());
+            if (entity == null) {
+                return R.fail("没有此账号");
+            }
+
+            BeanUtils.copyProperties(request, entity, BeanServiceUtil.getNullPropertyNames(request));
+            if (request.getMenuNameList() != null && request.getMenuNameList().size() > 0) {
+                String collect = request.getMenuNameList().stream().collect(Collectors.joining(", "));
+                entity.setMenus(collect);
+            }
+            if (StringUtils.isNotBlank(request.getEmployeePwd())) {
+                String encrypt = DigestUtil.encrypt(request.getEmployeePwd());
+                entity.setEmployeePwd(encrypt);
+                userLogin.setPassword(encrypt);
+                userLogin.setAccount(entity.getPhoneNumber());
+            }
+
+            userService.updateById(userLogin);
+            this.updateById(entity);
+        } else {
+            // 新增账号
+            ServiceProviderWorkerEntity workerServiceByPhoneNumber = this.findByPhoneNumber(request.getPhoneNumber());
+            if (workerServiceByPhoneNumber != null) {
+                return R.fail("该手机号已经注册过");
+            }
+
+            UserInfo userInfo = userService.userInfoByPhone(request.getPhoneNumber(), UserType.SERVICEPROVIDER);
+            if (userInfo != null) {
+                return R.fail("该手机号已经注册过");
+            }
+            //新建管理员
+            User user = new User();
+            user.setUserType(UserType.SERVICEPROVIDER);
+            user.setAccount(request.getPhoneNumber());
+            if (StringUtils.isNotBlank(request.getEmployeePwd())) {
+                user.setPassword(DigestUtil.encrypt(request.getEmployeePwd()));
+            }
+            user.setPhone(request.getPhoneNumber());
+            user.setName(request.getEmployeeUserName());
+            user.setRealName(request.getWorkerName());
+            userService.save(user);
+
+            ServiceProviderWorkerEntity entity = new ServiceProviderWorkerEntity();
+            BeanUtils.copyProperties(request, entity, BeanServiceUtil.getNullPropertyNames(request));
+            if (request.getMenuNameList() != null && request.getMenuNameList().size() > 0) {
+                String collect = request.getMenuNameList().stream().collect(Collectors.joining(", "));
+                entity.setMenus(collect);
+            }
+            entity.setUserId(user.getId());
+            entity.setServiceProviderId(workerEntity.getServiceProviderId());
+            entity.setUpLevelId(workerEntity.getId());
+            if (StringUtils.isNotBlank(request.getEmployeePwd())) {
+                entity.setEmployeePwd(DigestUtil.encrypt(request.getEmployeePwd()));
+            }
+
+            this.save(entity);
+            request.setId(entity.getId());
+        }
+        if (request.getMenuIds() != null && request.getMenuIds().size() > 0) {
+            GrantRequest grantRequest = new GrantRequest();
+            grantRequest.setAccountId(request.getId());
+            List<String> menuIds = request.getMenuIds();
+            List<Long> menuList = new ArrayList<>();
+            menuIds.stream().forEach(menu -> {
+                menuList.add(Long.valueOf(menu));
+            });
+            grantRequest.setMenuIds(menuList);
+
+            grantRequest.setUserId(bladeUser.getUserId());
+
+            R grant = sysClient.grantFeign(grantRequest);
+            if (!grant.isSuccess()) {
+                return R.fail("新增、更新服务商账号失败");
+            }
+        }
+
+        return R.success("OK");
     }
 
 }
