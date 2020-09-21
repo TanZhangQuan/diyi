@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 
 /**
  * @author tzq
- * @Description 个体户新增dto
+ * @Description 个体户新增DTO
  * @return
  * @date 2020.06.27
  */

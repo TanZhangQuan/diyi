@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2020-09-19 14:41:15
+Date: 2020-09-21 14:34:13
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -137,6 +137,32 @@ CREATE TABLE `diyi_admin` (
 
 -- ----------------------------
 -- Records of diyi_admin
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `diyi_admin_center_material`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_admin_center_material`;
+CREATE TABLE `diyi_admin_center_material` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `service_provider_id` bigint(50) DEFAULT NULL COMMENT '相关服务商',
+  `material_name` varchar(50) NOT NULL COMMENT '业务资料名称',
+  `material_belong` varchar(50) NOT NULL COMMENT '文档归属',
+  `material_type` varchar(50) NOT NULL COMMENT '文档属性',
+  `open_atribute` varchar(50) NOT NULL COMMENT '公开属性',
+  `material_url` varchar(500) NOT NULL COMMENT '文件URL',
+  `material_desc` varchar(500) NOT NULL DEFAULT '' COMMENT '文件概述',
+  `material_state` varchar(50) NOT NULL COMMENT '状态',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
+  `update_time` datetime NOT NULL COMMENT '修改时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='综合业务资料表';
+
+-- ----------------------------
+-- Records of diyi_admin_center_material
 -- ----------------------------
 
 -- ----------------------------

@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 /**
  * @author tzq
- * @Description 发送验证码dto
+ * @Description 发送验证码DTO
  * @return
  * @date 2020.06.27
  */

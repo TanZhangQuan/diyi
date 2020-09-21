@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * @author tzq
- * @Description 银行卡实名认证dto
+ * @Description 银行卡实名认证DTO
  * @return
  * @date 2020.06.27
  */

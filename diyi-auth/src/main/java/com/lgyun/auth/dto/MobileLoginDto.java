@@ -11,7 +11,7 @@ import java.io.Serializable;
 
 /**
  * @author tzq
- * @Description 短信验证码登陆dto
+ * @Description 短信验证码登陆DTO
  * @return
  * @date 2020.06.27
  */

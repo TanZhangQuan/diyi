@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  * @author tzq
- * @Description 添加创客dto
+ * @Description 添加创客DTO
  * @return
  * @date 2020.06.27
  */

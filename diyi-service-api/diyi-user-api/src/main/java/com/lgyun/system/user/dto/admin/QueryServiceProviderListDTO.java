@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 平台端---服务商管理dto
+ * 平台端---服务商管理DTO
  *
  * @author tzq
  * @date 2020-09-9

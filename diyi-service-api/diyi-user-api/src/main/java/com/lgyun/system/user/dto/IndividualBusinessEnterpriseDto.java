@@ -8,7 +8,7 @@ import java.util.Date;
 
 /**
  * @author tzq
- * @Description 个体户或个独查询dto
+ * @Description 个体户或个独查询DTO
  * @return
  * @date 2020.06.27
  */

@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * @author tzq
- * @Description 身份证实名认证dto
+ * @Description 身份证实名认证DTO
  * @return
  * @date 2020.06.27
  */

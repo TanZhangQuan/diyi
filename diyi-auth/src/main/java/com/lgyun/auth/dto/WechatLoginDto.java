@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  * @author tzq
- * @Description 微信授权登陆dto
+ * @Description 微信授权登陆DTO
  * @return
  * @date 2020.06.27
  */

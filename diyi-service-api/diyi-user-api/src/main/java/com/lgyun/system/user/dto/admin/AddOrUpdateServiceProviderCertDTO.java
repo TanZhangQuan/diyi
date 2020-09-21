@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * 平台端---服务商管理---添加或修改服务商资格信息dto
+ * 平台端---服务商管理---添加或修改服务商资格信息DTO
  *
  * @author tzq
  * @date 2020-09-9

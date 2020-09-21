@@ -7,7 +7,7 @@ import lombok.Data;
 
 /**
  * @author tzq
- * @Description 查询创客的个体户dto
+ * @Description 查询创客的个体户DTO
  * @return
  * @date 2020.06.27
  */

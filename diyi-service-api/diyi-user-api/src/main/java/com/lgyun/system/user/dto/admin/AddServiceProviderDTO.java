@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * 平台端---服务商管理---创建服务商dto
+ * 平台端---服务商管理---创建服务商DTO
  *
  * @author tzq
  * @date 2020-09-9

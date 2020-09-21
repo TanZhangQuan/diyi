@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * @author tzq
- * @Description 个体户列表dto
+ * @Description 个体户列表DTO
  * @return
  * @date 2020.06.27
  */

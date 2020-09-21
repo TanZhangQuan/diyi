@@ -2,20 +2,15 @@ package com.lgyun.system.user.controller.admin;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
+import com.lgyun.common.enumeration.MaterialState;
 import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.admin.AddOrUpdateServiceProviderCertDTO;
-import com.lgyun.system.user.dto.admin.AddServiceProviderDTO;
-import com.lgyun.system.user.dto.admin.QueryServiceProviderListDTO;
-import com.lgyun.system.user.dto.admin.UpdateServiceProviderDTO;
+import com.lgyun.system.user.dto.admin.*;
 import com.lgyun.system.user.entity.AdminEntity;
-import com.lgyun.system.user.service.IAdminService;
-import com.lgyun.system.user.service.IServiceProviderCertService;
-import com.lgyun.system.user.service.IServiceProviderService;
-import com.lgyun.system.user.service.IServiceProviderWorkerService;
+import com.lgyun.system.user.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -46,6 +41,7 @@ public class ServiceProviderAdminController {
     private IAdminService adminService;
     private IServiceProviderWorkerService serviceProviderWorkerService;
     private IServiceProviderCertService serviceProviderCertService;
+    private IAdminCenterMaterialService adminCenterMaterialService;
 
     @PostMapping("/create-service-provider")
     @ApiOperation(value = "添加服务商", notes = "添加服务商")
@@ -138,6 +134,72 @@ public class ServiceProviderAdminController {
             log.error("添加或修改服务商资格信息异常", e);
         }
 
+        return R.fail("操作失败");
+    }
+
+    @PostMapping("/add-admin-center-material")
+    @ApiOperation(value = "创建服务商综合业务资料(模板管理)", notes = "创建服务商综合业务资料(模板管理)")
+    public R addAdminCenterMaterial(@Valid @RequestBody AddAdminCenterMaterialDTO addAdminCenterMaterialDTO) {
+
+        log.info("创建服务商综合业务资料(模板管理)");
+        try {
+            return adminCenterMaterialService.addAdminCenterMaterial(addAdminCenterMaterialDTO);
+        } catch (Exception e) {
+            log.error("创建服务商综合业务资料(模板管理)异常", e);
+        }
+        return R.fail("创建失败");
+    }
+
+    @PostMapping("/update-admin-center-material")
+    @ApiOperation(value = "编辑服务商综合业务资料(模板管理)", notes = "编辑服务商综合业务资料(模板管理)")
+    public R updateAdminCenterMaterial(@Valid @RequestBody UpdateAdminCenterMaterialDTO updateAdminCenterMaterialDTO) {
+
+        log.info("编辑服务商综合业务资料(模板管理)");
+        try {
+            return adminCenterMaterialService.updateAdminCenterMaterial(updateAdminCenterMaterialDTO);
+        } catch (Exception e) {
+            log.error("编辑服务商综合业务资料(模板管理)异常", e);
+        }
+        return R.fail("编辑失败");
+    }
+
+    @GetMapping("/query-admin-center-material-list")
+    @ApiOperation(value = "查询服务商综合业务资料(模板管理)", notes = "查询服务商综合业务资料(模板管理)")
+    public R queryAdminCenterMaterialList(@ApiParam(value = "服务商ID") @NotNull(message = "请输入服务商编号") @RequestParam(required = false) Long serviceProviderId, Query query) {
+
+        log.info("查询服务商综合业务资料(模板管理)");
+        try {
+            return adminCenterMaterialService.queryAdminCenterMaterialList(serviceProviderId, Condition.getPage(query.setDescs("create_time")));
+        } catch (Exception e) {
+            log.error("查询服务商综合业务资料(模板管理)异常", e);
+        }
+        return R.fail("查询失败");
+    }
+
+    @PostMapping("/remove-admin-center-material")
+    @ApiOperation(value = "删除服务商综合业务资料(模板管理)", notes = "删除服务商综合业务资料(模板管理)")
+    public R queryAdminCenterMaterialList(@ApiParam(value = "综合业务资料ID集合", required = true) @NotBlank(message = "请选择要删除的综合业务资料") @RequestParam(required = false) String ids) {
+
+        log.info("删除服务商综合业务资料(模板管理)");
+        try {
+            return R.status(adminCenterMaterialService.removeByIds(Func.toLongList(ids)));
+        } catch (Exception e) {
+            log.error("删除服务商综合业务资料(模板管理)异常", e);
+        }
+        return R.fail("删除失败");
+    }
+
+    @PostMapping("/update-admin-center-material-state")
+    @ApiOperation(value = "更改服务商综合业务资料(模板管理)状态", notes = "更改服务商综合业务资料(模板管理)状态")
+    public R updateAdminCenterMaterialState(@ApiParam(value = "综合业务资料ID", required = true) @NotBlank(message = "请输入综合业务资料编号") @RequestParam(required = false) Long adminCenterMaterialId,
+                                            @ApiParam(value = "综合业务资料状态", required = true) @NotBlank(message = "请选择综合业务资料状态") @RequestParam(required = false) MaterialState materialState) {
+
+        log.info("更改服务商综合业务资料(模板管理)状态");
+        try {
+            return adminCenterMaterialService.updateAdminCenterMaterialState(adminCenterMaterialId, materialState);
+        } catch (Exception e) {
+            log.error("更改服务商综合业务资料(模板管理)状态异常", e);
+        }
         return R.fail("操作失败");
     }
 

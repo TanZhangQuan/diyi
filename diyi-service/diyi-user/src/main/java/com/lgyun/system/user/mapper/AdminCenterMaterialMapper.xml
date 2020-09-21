@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lgyun.system.user.mapper.AdminCenterMaterialMapper">
+
+    <resultMap id="queryAdminCenterMaterialListVO" type="com.lgyun.system.user.vo.admin.QueryAdminCenterMaterialListVO">
+        <result property="adminCenterMaterialId" column="admin_center_material_id"/>
+        <result property="materialName" column="material_name"/>
+        <result property="materialDesc" column="material_desc"/>
+        <result property="materialUrl" column="material_url"/>
+        <result property="materialState" column="material_state"/>
+    </resultMap>
+
+    <select id="selectServiceAgreement" resultMap="agreementWebVOMap">
+        SELECT id AS admin_center_material_id, material_name, material_desc, material_url, material_state
+        FROM diyi_admin_center_material WHERE is_deleted = 0 AND rel_service_provider = #{param1}
+    </select>
+
+</mapper>

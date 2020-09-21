@@ -11,7 +11,7 @@ import java.io.Serializable;
 
 /**
  * @author tzq
- * @Description 注册dto
+ * @Description 注册DTO
  * @return
  * @date 2020.06.27
  */

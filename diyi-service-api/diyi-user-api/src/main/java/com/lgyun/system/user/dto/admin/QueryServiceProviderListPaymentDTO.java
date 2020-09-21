@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 平台端---支付管理---服务商支付管理dto
+ * 平台端---支付管理---服务商支付管理DTO
  *
  * @author tzq
  * @date 2020-09-9
