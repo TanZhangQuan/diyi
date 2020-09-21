@@ -31,17 +31,17 @@ public class AgreementEntity extends BaseEntity {
     private AgreementType agreementType;
 
     /**
-     * 1、纸质协议，2、平台在线协议，3、三方在线协议，4、单方授权函（纸质），5、单方授权函（电子）
+     * 签署类型
      */
     private SignType signType;
 
     /**
-     * 单方授权函审核状态 1，编辑中；2，已驳回；3，已审核通过
+     * 审核状态
      */
     private AuditState auditState;
 
     /**
-     * 0签署中 1已完毕
+     * 签署状态
      */
     private SignState signState;
 
@@ -53,7 +53,7 @@ public class AgreementEntity extends BaseEntity {
     /**
      * 顺序号
      */
-    private String sequenceNo = String.valueOf(UUID.randomUUID());
+    private Integer sequenceNo;
 
     /**
      * 创客ID

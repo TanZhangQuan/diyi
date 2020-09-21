@@ -11,11 +11,11 @@ import com.lgyun.system.user.dto.admin.AddOrUpdateServiceProviderCertDTO;
 import com.lgyun.system.user.dto.admin.AddServiceProviderDTO;
 import com.lgyun.system.user.dto.admin.QueryServiceProviderListDTO;
 import com.lgyun.system.user.dto.admin.UpdateServiceProviderDTO;
-import com.lgyun.system.user.entity.User;
+import com.lgyun.system.user.entity.AdminEntity;
+import com.lgyun.system.user.service.IAdminService;
 import com.lgyun.system.user.service.IServiceProviderCertService;
 import com.lgyun.system.user.service.IServiceProviderService;
 import com.lgyun.system.user.service.IServiceProviderWorkerService;
-import com.lgyun.system.user.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -43,7 +43,7 @@ import javax.validation.constraints.NotNull;
 public class ServiceProviderAdminController {
 
     private IServiceProviderService serviceProviderService;
-    private IUserService userService;
+    private IAdminService adminService;
     private IServiceProviderWorkerService serviceProviderWorkerService;
     private IServiceProviderCertService serviceProviderCertService;
 
@@ -54,13 +54,13 @@ public class ServiceProviderAdminController {
         log.info("添加服务商");
         try {
             //查询当前管理员
-            R<User> result = userService.currentUser(bladeUser);
-            if (!(result.isSuccess())) {
+            R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+            if (!(result.isSuccess())){
                 return result;
             }
-            User user = result.getData();
+            AdminEntity adminEntity = result.getData();
 
-            return serviceProviderService.createServiceProvider(addServiceProviderDTO, user);
+            return serviceProviderService.createServiceProvider(addServiceProviderDTO, adminEntity);
         } catch (Exception e) {
             log.error("添加服务商异常", e);
         }
@@ -75,13 +75,13 @@ public class ServiceProviderAdminController {
         log.info("修改服务商");
         try {
             //查询当前管理员
-            R<User> result = userService.currentUser(bladeUser);
-            if (!(result.isSuccess())) {
+            R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+            if (!(result.isSuccess())){
                 return result;
             }
-            User user = result.getData();
+            AdminEntity adminEntity = result.getData();
 
-            return serviceProviderService.updateServiceProvider(updateServiceProviderDTO, user);
+            return serviceProviderService.updateServiceProvider(updateServiceProviderDTO, adminEntity);
         } catch (Exception e) {
             log.error("修改服务商异常", e);
         }

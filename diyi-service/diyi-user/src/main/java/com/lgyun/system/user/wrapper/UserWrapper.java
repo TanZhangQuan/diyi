@@ -1,13 +1,12 @@
 package com.lgyun.system.user.wrapper;
 
-import com.lgyun.common.api.R;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.Func;
 import com.lgyun.common.tool.SpringUtil;
 import com.lgyun.core.mp.support.BaseEntityWrapper;
-import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.feign.IDictClient;
 import com.lgyun.system.user.entity.User;
+import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.user.vo.UserVO;
 
 import java.util.List;
@@ -44,10 +43,6 @@ public class UserWrapper extends BaseEntityWrapper<User, UserVO> {
 		List<String> deptName = userService.getDeptName(user.getDeptId());
 		userVO.setRoleName(Func.join(roleName));
 		userVO.setDeptName(Func.join(deptName));
-		R<String> dict = dictClient.getValue("sex", Func.toInt(user.getSex()));
-		if (dict.isSuccess()) {
-			userVO.setSexName(dict.getData());
-		}
 		return userVO;
 	}
 

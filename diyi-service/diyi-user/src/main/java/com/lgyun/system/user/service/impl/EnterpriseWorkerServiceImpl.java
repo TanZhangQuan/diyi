@@ -37,7 +37,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -67,11 +66,18 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
     }
 
     @Override
-    public EnterpriseWorkerEntity findByEmployeeUserNameAndEmployeePwd(String employeeUserName, String employeePwd) {
+    public Integer findCountByPhoneNumber(String phoneNumber) {
+        QueryWrapper<EnterpriseWorkerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(EnterpriseWorkerEntity::getPhoneNumber, phoneNumber);
+        return baseMapper.selectCount(queryWrapper);
+    }
+
+    @Override
+    public Integer findCountByEmployeeUserNameAndEmployeePwd(String employeeUserName, String employeePwd) {
         QueryWrapper<EnterpriseWorkerEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(EnterpriseWorkerEntity::getEmployeeUserName, employeeUserName)
                 .eq(EnterpriseWorkerEntity::getEmployeePwd, employeePwd);
-        return baseMapper.selectOne(queryWrapper);
+        return baseMapper.selectCount(queryWrapper);
     }
 
     @Override
@@ -153,60 +159,35 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
 
         //判断商户联系人1是否已存在
         EnterpriseWorkerEntity oldEnterpriseWorkerEntity1 = findByPhoneNumber(addOrUpdateEnterpriseContactDto.getContact1Phone());
-        User user1 = null;
-        if (oldEnterpriseWorkerEntity1 != null) {
-
-            if (!(oldEnterpriseWorkerEntity1.getEnterpriseId().equals(addOrUpdateEnterpriseContactDto.getEnterpriseId()))){
-                return R.fail("联系人1电话/手机：" + addOrUpdateEnterpriseContactDto.getContact1Phone() + "已存在");
-            }
-
-            user1 = userService.findByPhone(addOrUpdateEnterpriseContactDto.getContact1Phone(), UserType.ENTERPRISE);
-            if (user1 == null) {
-                return R.fail("联系人1系统数据有误");
-            }
+        if (oldEnterpriseWorkerEntity1 != null && !(oldEnterpriseWorkerEntity1.getEnterpriseId().equals(addOrUpdateEnterpriseContactDto.getEnterpriseId()))) {
+            return R.fail("联系人1电话/手机：" + addOrUpdateEnterpriseContactDto.getContact1Phone() + "已存在");
         }
 
         //判断商户联系人2是否已存在
         EnterpriseWorkerEntity oldEnterpriseWorkerEntity2 = findByPhoneNumber(addOrUpdateEnterpriseContactDto.getContact2Phone());
-        User user2 = null;
-        if (oldEnterpriseWorkerEntity2 != null) {
-
-            if (!(oldEnterpriseWorkerEntity2.getEnterpriseId().equals(addOrUpdateEnterpriseContactDto.getEnterpriseId()))){
-                return R.fail("联系人2电话/手机：" + addOrUpdateEnterpriseContactDto.getContact2Phone() + "已存在");
-            }
-
-            user2 = userService.findByPhone(addOrUpdateEnterpriseContactDto.getContact2Phone(), UserType.ENTERPRISE);
-            if (user2 == null) {
-                return R.fail("联系人2系统数据有误");
-            }
+        if (oldEnterpriseWorkerEntity2 != null && !(oldEnterpriseWorkerEntity2.getEnterpriseId().equals(addOrUpdateEnterpriseContactDto.getEnterpriseId()))) {
+            return R.fail("联系人2电话/手机：" + addOrUpdateEnterpriseContactDto.getContact2Phone() + "已存在");
         }
 
+
+        User user;
         //处理联系人1
         if (oldEnterpriseWorkerEntity1 != null) {
             //修改联系人2
-            user1.setName(addOrUpdateEnterpriseContactDto.getContact1Name());
-            user1.setRealName(addOrUpdateEnterpriseContactDto.getContact1Name());
-            user1.setEmail(addOrUpdateEnterpriseContactDto.getContact1Mail());
-            userService.updateById(user1);
-
             oldEnterpriseWorkerEntity1.setWorkerName(addOrUpdateEnterpriseContactDto.getContact1Name());
             oldEnterpriseWorkerEntity1.setPositionName(addOrUpdateEnterpriseContactDto.getContact1Position());
             updateById(oldEnterpriseWorkerEntity1);
         } else {
             //新建联系人1
-            user1 = new User();
-            user1.setUserType(UserType.ENTERPRISE);
-            user1.setAccount(addOrUpdateEnterpriseContactDto.getContact1Phone());
-            user1.setPassword(DigestUtil.encrypt(String.valueOf(UUID.randomUUID())));
-            user1.setName(addOrUpdateEnterpriseContactDto.getContact1Name());
-            user1.setRealName(addOrUpdateEnterpriseContactDto.getContact1Name());
-            user1.setEmail(addOrUpdateEnterpriseContactDto.getContact1Mail());
-            user1.setPhone(addOrUpdateEnterpriseContactDto.getContact1Phone());
-            userService.save(user1);
+            user = new User();
+            user.setUserType(UserType.ENTERPRISE);
+            user.setAccount(addOrUpdateEnterpriseContactDto.getContact1Phone());
+            user.setPhone(addOrUpdateEnterpriseContactDto.getContact1Phone());
+            userService.save(user);
 
             oldEnterpriseWorkerEntity1 = new EnterpriseWorkerEntity();
             oldEnterpriseWorkerEntity1.setEnterpriseId(addOrUpdateEnterpriseContactDto.getEnterpriseId());
-            oldEnterpriseWorkerEntity1.setUserId(user1.getId());
+            oldEnterpriseWorkerEntity1.setUserId(user.getId());
             oldEnterpriseWorkerEntity1.setWorkerName(addOrUpdateEnterpriseContactDto.getContact1Name());
             oldEnterpriseWorkerEntity1.setPositionName(addOrUpdateEnterpriseContactDto.getContact1Position());
             oldEnterpriseWorkerEntity1.setPhoneNumber(addOrUpdateEnterpriseContactDto.getContact1Phone());
@@ -220,29 +201,20 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
         //处理联系人2
         if (oldEnterpriseWorkerEntity2 != null) {
             //修改联系人2
-            user2.setName(addOrUpdateEnterpriseContactDto.getContact2Name());
-            user2.setRealName(addOrUpdateEnterpriseContactDto.getContact2Name());
-            user2.setEmail(addOrUpdateEnterpriseContactDto.getContact2Mail());
-            userService.updateById(user2);
-
             oldEnterpriseWorkerEntity2.setWorkerName(addOrUpdateEnterpriseContactDto.getContact2Name());
             oldEnterpriseWorkerEntity2.setPositionName(addOrUpdateEnterpriseContactDto.getContact2Position());
             updateById(oldEnterpriseWorkerEntity2);
         } else {
             //新建联系人2
-            user2 = new User();
-            user2.setUserType(UserType.ENTERPRISE);
-            user2.setAccount(addOrUpdateEnterpriseContactDto.getContact2Phone());
-            user2.setPassword(DigestUtil.encrypt(String.valueOf(UUID.randomUUID())));
-            user2.setName(addOrUpdateEnterpriseContactDto.getContact2Name());
-            user2.setRealName(addOrUpdateEnterpriseContactDto.getContact2Name());
-            user2.setEmail(addOrUpdateEnterpriseContactDto.getContact2Mail());
-            user2.setPhone(addOrUpdateEnterpriseContactDto.getContact2Phone());
-            userService.save(user2);
+            user = new User();
+            user.setUserType(UserType.ENTERPRISE);
+            user.setAccount(addOrUpdateEnterpriseContactDto.getContact2Phone());
+            user.setPhone(addOrUpdateEnterpriseContactDto.getContact2Phone());
+            userService.save(user);
 
             oldEnterpriseWorkerEntity2 = new EnterpriseWorkerEntity();
             oldEnterpriseWorkerEntity2.setEnterpriseId(addOrUpdateEnterpriseContactDto.getEnterpriseId());
-            oldEnterpriseWorkerEntity2.setUserId(user2.getId());
+            oldEnterpriseWorkerEntity2.setUserId(user.getId());
             oldEnterpriseWorkerEntity2.setWorkerName(addOrUpdateEnterpriseContactDto.getContact2Name());
             oldEnterpriseWorkerEntity2.setPositionName(addOrUpdateEnterpriseContactDto.getContact2Position());
             oldEnterpriseWorkerEntity2.setPhoneNumber(addOrUpdateEnterpriseContactDto.getContact2Phone());
@@ -275,7 +247,6 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
             if (StringUtils.isNotBlank(request.getEmployeePwd())) {
                 String encrypt = DigestUtil.encrypt(request.getEmployeePwd());
                 entity.setEmployeePwd(encrypt);
-                userLogin.setPassword(encrypt);
                 userLogin.setAccount(entity.getPhoneNumber());
             }
 
@@ -288,7 +259,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
                 return R.fail("该手机号已经注册过");
             }
 
-            UserInfo userInfo = userService.userInfoByPhone(request.getPhoneNumber(), UserType.ENTERPRISE);
+            UserInfo userInfo = userService.userInfoFindByPhoneAndUserType(request.getPhoneNumber(), UserType.ENTERPRISE);
             if (userInfo != null) {
                 return R.fail("该手机号已经注册过");
             }
@@ -296,12 +267,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
             User user = new User();
             user.setUserType(UserType.ENTERPRISE);
             user.setAccount(request.getPhoneNumber());
-            if (StringUtils.isNotBlank(request.getEmployeePwd())) {
-                user.setPassword(DigestUtil.encrypt(request.getEmployeePwd()));
-            }
             user.setPhone(request.getPhoneNumber());
-            user.setName(request.getEmployeeUserName());
-            user.setRealName(request.getWorkerName());
             userService.save(user);
 
             EnterpriseWorkerEntity entity = new EnterpriseWorkerEntity();

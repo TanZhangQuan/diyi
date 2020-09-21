@@ -84,7 +84,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             User user = new User();
             user.setUserType(UserType.MAKER);
             user.setAccount(purePhoneNumber);
-            user.setPassword(DigestUtil.encrypt(String.valueOf(UUID.randomUUID())));
             user.setPhone(purePhoneNumber);
             iUserService.save(user);
 
@@ -175,6 +174,13 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(MakerEntity::getPhoneNumber, phoneNumber);
         return baseMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public Integer findCountByPhoneNumber(String phoneNumber) {
+        QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(MakerEntity::getPhoneNumber, phoneNumber);
+        return baseMapper.selectCount(queryWrapper);
     }
 
     @Override

@@ -11,8 +11,8 @@ import com.lgyun.system.user.dto.ServiceProviderInvoiceDto;
 import com.lgyun.system.user.dto.admin.AddServiceProviderDTO;
 import com.lgyun.system.user.dto.admin.QueryServiceProviderListDTO;
 import com.lgyun.system.user.dto.admin.UpdateServiceProviderDTO;
+import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
-import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.vo.EnterprisesVO;
 import com.lgyun.system.user.vo.ServiceProviderBankCardVO;
 import com.lgyun.system.user.vo.ServiceProviderContactPersonVO;
@@ -128,18 +128,19 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
      * 添加服务商
      *
      * @param addServiceProviderDTO
+     * @param adminEntity
      * @return
      */
-    R<String> createServiceProvider(AddServiceProviderDTO addServiceProviderDTO, User user);
+    R<String> createServiceProvider(AddServiceProviderDTO addServiceProviderDTO, AdminEntity adminEntity);
 
     /**
      * 编辑服务商
      *
      * @param updateServiceProviderDTO
-     * @param user
+     * @param adminEntity
      * @return
      */
-    R<String> updateServiceProvider(UpdateServiceProviderDTO updateServiceProviderDTO, User user);
+    R<String> updateServiceProvider(UpdateServiceProviderDTO updateServiceProviderDTO, AdminEntity adminEntity);
 
     /**
      * 更改服务商状态

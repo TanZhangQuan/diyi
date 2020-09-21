@@ -33,8 +33,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.UUID;
-
 /**
  * Service 实现
  *
@@ -147,7 +145,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> createServiceProvider(AddServiceProviderDTO addServiceProviderDTO, User user) {
+    public R<String> createServiceProvider(AddServiceProviderDTO addServiceProviderDTO, AdminEntity adminEntity) {
 
         //判断服务商联系人是否已存在
         if (addServiceProviderDTO.getContact1Phone().equals(addServiceProviderDTO.getContact2Phone())) {
@@ -187,10 +185,6 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         User user1 = new User();
         user1.setUserType(UserType.SERVICEPROVIDER);
         user1.setAccount(addServiceProviderDTO.getContact1Phone());
-        user1.setPassword(DigestUtil.encrypt(String.valueOf(UUID.randomUUID())));
-        user1.setName(addServiceProviderDTO.getContact1Name());
-        user1.setRealName(addServiceProviderDTO.getContact1Name());
-        user1.setEmail(addServiceProviderDTO.getContact1Mail());
         user1.setPhone(addServiceProviderDTO.getContact1Phone());
         userService.save(user1);
 
@@ -209,10 +203,6 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         user1 = new User();
         user1.setUserType(UserType.SERVICEPROVIDER);
         user1.setAccount(addServiceProviderDTO.getContact2Phone());
-        user1.setPassword(DigestUtil.encrypt(String.valueOf(UUID.randomUUID())));
-        user1.setName(addServiceProviderDTO.getContact2Name());
-        user1.setRealName(addServiceProviderDTO.getContact2Name());
-        user1.setEmail(addServiceProviderDTO.getContact2Mail());
         user1.setPhone(addServiceProviderDTO.getContact2Phone());
         userService.save(user1);
 
@@ -233,7 +223,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         agreementEntity.setSignType(SignType.PAPERAGREEMENT);
         agreementEntity.setSignState(SignState.SIGNED);
         agreementEntity.setPaperAgreementUrl(addServiceProviderDTO.getJoinContract());
-        agreementEntity.setFirstSideSignPerson(user.getRealName());
+        agreementEntity.setFirstSideSignPerson(adminEntity.getName());
         agreementEntity.setServiceProviderId(serviceProviderEntity.getId());
         agreementEntity.setSecondSideSignPerson(serviceProviderEntity.getContact1Name());
         agreementService.save(agreementEntity);
@@ -244,7 +234,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         agreementEntity.setSignType(SignType.PAPERAGREEMENT);
         agreementEntity.setAuditState(AuditState.APPROVED);
         agreementEntity.setPaperAgreementUrl(addServiceProviderDTO.getCommitmentLetter());
-        agreementEntity.setFirstSideSignPerson(user.getRealName());
+        agreementEntity.setFirstSideSignPerson(adminEntity.getName());
         agreementEntity.setServiceProviderId(serviceProviderEntity.getId());
         agreementEntity.setSecondSideSignPerson(serviceProviderEntity.getContact1Name());
         agreementService.save(agreementEntity);
@@ -254,7 +244,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> updateServiceProvider(UpdateServiceProviderDTO updateServiceProviderDTO, User user) {
+    public R<String> updateServiceProvider(UpdateServiceProviderDTO updateServiceProviderDTO, AdminEntity adminEntity) {
 
         ServiceProviderEntity serviceProviderEntity = getById(updateServiceProviderDTO.getServiceProviderId());
         if (serviceProviderEntity == null) {
@@ -300,7 +290,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
             agreementEntity.setSignType(SignType.PAPERAGREEMENT);
             agreementEntity.setSignState(SignState.SIGNED);
             agreementEntity.setPaperAgreementUrl(updateServiceProviderDTO.getJoinContract());
-            agreementEntity.setFirstSideSignPerson(user.getRealName());
+            agreementEntity.setFirstSideSignPerson(adminEntity.getName());
             agreementEntity.setServiceProviderId(serviceProviderEntity.getId());
             agreementEntity.setSecondSideSignPerson(serviceProviderEntity.getContact1Name());
             agreementService.save(agreementEntity);
@@ -317,7 +307,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
             agreementEntity.setSignType(SignType.PAPERAGREEMENT);
             agreementEntity.setAuditState(AuditState.APPROVED);
             agreementEntity.setPaperAgreementUrl(updateServiceProviderDTO.getCommitmentLetter());
-            agreementEntity.setFirstSideSignPerson(user.getRealName());
+            agreementEntity.setFirstSideSignPerson(adminEntity.getName());
             agreementEntity.setServiceProviderId(serviceProviderEntity.getId());
             agreementEntity.setSecondSideSignPerson(serviceProviderEntity.getContact1Name());
             agreementService.save(agreementEntity);

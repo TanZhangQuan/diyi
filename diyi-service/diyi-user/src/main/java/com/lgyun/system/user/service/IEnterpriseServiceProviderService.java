@@ -3,8 +3,8 @@ package com.lgyun.system.user.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
+import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.EnterpriseServiceProviderEntity;
-import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.vo.*;
 
 import java.util.List;
@@ -79,9 +79,9 @@ public interface IEnterpriseServiceProviderService extends BaseService<Enterpris
      *
      * @param enterpriseId
      * @param serviceProviderIdList
-     * @param user
+     * @param adminEntity
      * @return
      */
-    R<String> relevanceEnterpriseServiceProvider(Long enterpriseId, List<Long> serviceProviderIdList, User user);
+    R<String> relevanceEnterpriseServiceProvider(Long enterpriseId, List<Long> serviceProviderIdList, AdminEntity adminEntity);
 }
 

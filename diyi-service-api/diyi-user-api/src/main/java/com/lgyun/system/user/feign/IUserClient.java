@@ -37,7 +37,7 @@ public interface IUserClient {
      * @return
      */
     @GetMapping(API_PREFIX + "/user-info-find-by-user-id-and-user-type")
-    UserInfo userInfo(@RequestParam("userId") Long userId, @RequestParam("userType") UserType userType);
+    UserInfo userInfoFindByUserIdAndUserType(@RequestParam("userId") Long userId, @RequestParam("userType") UserType userType);
 
     /**
      * 查询用户信息
@@ -47,27 +47,17 @@ public interface IUserClient {
      * @return
      */
     @GetMapping(API_PREFIX + "/user-info-find-by-phone-and-user-type")
-    UserInfo userInfoByPhone(@RequestParam("phone") String phone, @RequestParam("userType") UserType userType);
-
-    /**
-     * 查询用户信息
-     *
-     * @param phone
-     * @return
-     */
-    @GetMapping(API_PREFIX + "/user-find-by-phone-and-user-type")
-    User userByPhone(@RequestParam("phone") String phone, @RequestParam("userType") UserType userType);
+    UserInfo userInfoFindByPhoneAndUserType(@RequestParam("phone") String phone, @RequestParam("userType") UserType userType);
 
     /**
      * 查询用户信息
      *
      * @param account
-     * @param password
      * @param userType
      * @return
      */
     @GetMapping(API_PREFIX + "/user-info-find-by-account-and-password-and-user-type")
-    UserInfo userInfo(@RequestParam("account") String account, @RequestParam("password") String password, @RequestParam("userType") UserType userType);
+    UserInfo userInfoByAccountAndUserType(@RequestParam("account") String account, @RequestParam("userType") UserType userType);
 
     /**
      * 根据创客id查询创客信息
@@ -79,6 +69,15 @@ public interface IUserClient {
     MakerEntity makerFindById(@RequestParam("makerId") Long makerId);
 
     /**
+     * 根据身份证号码查询创客信息
+     *
+     * @param idcardNo
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/maker-find-by-idcard-no")
+    MakerEntity makerFindByIdcardNo(@RequestParam("idcardNo") String idcardNo);
+
+    /**
      * 查询创客信息
      *
      * @param phoneNumber
@@ -88,31 +87,52 @@ public interface IUserClient {
     MakerEntity makerFindByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
 
     /**
-     * 查询创客信息
-     *
-     * @param idcardNo
-     * @return
-     */
-    @GetMapping(API_PREFIX + "/maker-find-by-idcard-no")
-    MakerEntity makerFindByIdcardNo(@RequestParam("idcardNo") String idcardNo);
-
-    /**
-     * 查询商户员工信息
+     * 根据手机号查询管理员是否存在
      *
      * @param phoneNumber
      * @return
      */
-    @GetMapping(API_PREFIX + "/enterprise-worker-find-by-phone-number")
-    EnterpriseWorkerEntity enterpriseWorkerFindByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
+    @GetMapping(API_PREFIX + "/admin-count-find-by-phone-umber")
+    Integer adminCountFindByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
 
     /**
-     * 查询商户员工信息
+     * 根据手机号查询创客是否存在
      *
      * @param phoneNumber
      * @return
      */
-    @GetMapping(API_PREFIX + "/service-provider-worker-find-by-phone-number")
-    ServiceProviderWorkerEntity serviceProviderWorkerFindByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
+    @GetMapping(API_PREFIX + "/maker-count-find-by-phone-number")
+    Integer makerCountFindByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
+
+    /**
+     * 根据手机号查询商户员工是否存在
+     *
+     * @param phoneNumber
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/enterprise-worker-count-find-by-phone-number")
+    Integer enterpriseWorkerCountFindByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
+
+    /**
+     * 根据手机号查询服务商员工是否存在
+     *
+     * @param phoneNumber
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/service-provider-worker-count-find-by-phone-number")
+    Integer serviceProviderWorkerCountFindByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
+
+    /**
+     * 管理员处理
+     *
+     * @param phoneNumber
+     * @param userName
+     * @param loginPwd
+     * @param grantType
+     * @return
+     */
+    @PostMapping(API_PREFIX + "/admin-deal")
+    R adminDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("userName") String userName, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 创客处理
@@ -150,7 +170,6 @@ public interface IUserClient {
      */
     @PostMapping(API_PREFIX + "/service-provider-worker-deal")
     R serviceProviderWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("employeeUserName") String employeeUserName, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
-
 
     /**
      * 查询个独信息
@@ -209,6 +228,15 @@ public interface IUserClient {
     EnterpriseEntity getEnterpriseById(@RequestParam("enterpriseId") Long enterpriseId);
 
     /**
+     * 根据user-id查询管理员
+     *
+     * @param bladeUser
+     * @return
+     */
+    @PostMapping(API_PREFIX + "/current-admin")
+    R<AdminEntity> currentAdmin(@RequestBody BladeUser bladeUser);
+
+    /**
      * 根据user-id查询创客
      *
      * @param bladeUser
@@ -234,15 +262,6 @@ public interface IUserClient {
      */
     @PostMapping(API_PREFIX + "/current-service-provider-worker")
     R<ServiceProviderWorkerEntity> currentServiceProviderWorker(@RequestBody BladeUser bladeUser);
-
-    /**
-     * 根据user-id查询管理员
-     *
-     * @param bladeUser
-     * @return
-     */
-    @PostMapping(API_PREFIX + "/current-user")
-    R<User> currentUser(@RequestBody BladeUser bladeUser);
 
     /**
      * 根据创客姓名分页查询

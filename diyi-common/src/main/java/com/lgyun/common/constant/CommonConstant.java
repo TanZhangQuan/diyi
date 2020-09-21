@@ -27,12 +27,6 @@ public interface CommonConstant {
 	 */
 	String TOP_PARENT_NAME = "顶级";
 
-
-	/**
-	 * 默认密码
-	 */
-	String DEFAULT_PASSWORD = "123456";
-
 	/**
 	 * 管理员账号密码登录是否开启图形验证码
 	 */

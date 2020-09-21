@@ -4,16 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.exceptions.ApiException;
-import com.lgyun.common.api.R;
-import com.lgyun.common.constant.CommonConstant;
-import com.lgyun.common.constant.SmsConstant;
-import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.UserType;
-import com.lgyun.common.secure.BladeUser;
-import com.lgyun.common.tool.*;
+import com.lgyun.common.tool.BeanUtil;
+import com.lgyun.common.tool.Func;
+import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.feign.ISysClient;
-import com.lgyun.system.user.dto.UpdatePasswordDto;
 import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.entity.UserInfo;
 import com.lgyun.system.user.excel.UserExcel;
@@ -36,40 +32,12 @@ import java.util.Objects;
 public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implements IUserService {
 
     private ISysClient sysClient;
-    private RedisUtil redisUtil;
-
-    @Override
-    public R<User> currentUser(BladeUser bladeUser) {
-
-        if (bladeUser == null || bladeUser.getUserId() == null) {
-            return R.fail("未登陆状态");
-        }
-
-        User user = getById(bladeUser.getUserId());
-        if (user == null) {
-            return R.fail("管理员不存在");
-        }
-
-        if (!(UserType.ADMIN.equals(user.getUserType()))) {
-            return R.fail("用户类型有误");
-        }
-
-        if (!(AccountState.NORMAL.equals(user.getUserState()))) {
-            return R.fail("管理员状态非正常，请联系客服");
-        }
-
-        return R.data(user);
-    }
 
     @Override
     public boolean submit(User user) {
 
         if (UserType.MAKER.equals(user.getUserType())) {
             throw new ApiException("用户类型不允许手动添加修改");
-        }
-
-        if (Func.isNoneBlank(user.getPassword())) {
-            user.setPassword(DigestUtil.encrypt(user.getPassword()));
         }
 
         Integer cnt = baseMapper.selectCount(Wrappers.<User>query().lambda().eq(User::getTenantId, user.getTenantId()).eq(User::getUserType, user.getUserType()).eq(User::getAccount, user.getAccount()));
@@ -81,7 +49,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
     }
 
     @Override
-    public UserInfo userInfo(Long userId, UserType userType) {
+    public UserInfo userInfoFindByUserIdAndUserType(Long userId, UserType userType) {
         User user = baseMapper.selectById(userId);
         if (user == null) {
             return null;
@@ -100,7 +68,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
     }
 
     @Override
-    public UserInfo userInfoByPhone(String phone, UserType userType) {
+    public UserInfo userInfoFindByPhoneAndUserType(String phone, UserType userType) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(User::getPhone, phone)
                 .eq(User::getUserType, userType);
@@ -124,20 +92,9 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
     }
 
     @Override
-    public User findByPhone(String phone, UserType userType) {
-
-        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(User::getPhone, phone)
-                .eq(User::getUserType, userType);
-
-        return baseMapper.selectOne(queryWrapper);
-    }
-
-    @Override
-    public UserInfo userInfo(String account, String password, UserType userType) {
+    public UserInfo userInfoByAccountAndUserType(String account, UserType userType) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(User::getAccount, account)
-                .eq(User::getPassword, password)
                 .eq(User::getUserType, userType);
 
         User user = baseMapper.selectOne(queryWrapper);
@@ -168,32 +125,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
     @Override
     public boolean resetPassword(String userIds) {
         User user = new User();
-        user.setPassword(DigestUtil.encrypt(CommonConstant.DEFAULT_PASSWORD));
         return this.update(user, Wrappers.<User>update().lambda().in(User::getId, Func.toLongList(userIds)));
-    }
-
-    @Override
-    public R<String> updatePassword(UpdatePasswordDto updatePasswordDto) {
-
-        User user = findByPhone(updatePasswordDto.getPhoneNumber(), UserType.ADMIN);
-        if (user == null) {
-            return R.fail("手机号未注册");
-        }
-
-        //查询缓存短信验证码
-        String redisCode = (String) redisUtil.get(SmsConstant.AVAILABLE_TIME + updatePasswordDto.getPhoneNumber());
-        //判断验证码
-        if (!StringUtil.equalsIgnoreCase(redisCode, updatePasswordDto.getSmsCode())) {
-            return R.fail("短信验证码不正确");
-        }
-
-        user.setPassword(DigestUtil.encrypt(updatePasswordDto.getNewPassword()));
-        save(user);
-
-        //删除缓存短信验证码
-        redisUtil.del(SmsConstant.AVAILABLE_TIME + updatePasswordDto.getPhoneNumber());
-
-        return R.success("修改密码成功");
     }
 
     @Override
@@ -216,8 +148,6 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
             user.setPostId(sysClient.getPostIds(userExcel.getTenantId(), userExcel.getPostName()));
             // 设置角色ID
             user.setRoleId(sysClient.getRoleIds(userExcel.getTenantId(), userExcel.getRoleName()));
-            // 设置默认密码
-            user.setPassword(DigestUtil.encrypt(CommonConstant.DEFAULT_PASSWORD));
             this.submit(user);
         });
     }

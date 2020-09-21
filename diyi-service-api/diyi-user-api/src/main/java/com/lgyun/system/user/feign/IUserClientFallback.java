@@ -22,22 +22,17 @@ import java.util.List;
 public class IUserClientFallback implements IUserClient {
 
     @Override
-    public UserInfo userInfo(Long userId, UserType userType) {
+    public UserInfo userInfoFindByUserIdAndUserType(Long userId, UserType userType) {
         return null;
     }
 
     @Override
-    public UserInfo userInfo(String account, String password, UserType userType) {
+    public UserInfo userInfoFindByPhoneAndUserType(String phone, UserType userType) {
         return null;
     }
 
     @Override
-    public UserInfo userInfoByPhone(String phone, UserType userType) {
-        return null;
-    }
-
-    @Override
-    public User userByPhone(String phone, UserType userType) {
+    public UserInfo userInfoByAccountAndUserType(String account, UserType userType) {
         return null;
     }
 
@@ -47,23 +42,38 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public MakerEntity makerFindByPhoneNumber(String phoneNumber) {
-        return null;
-    }
-
-    @Override
     public MakerEntity makerFindByIdcardNo(String idcardNo) {
         return null;
     }
 
     @Override
-    public EnterpriseWorkerEntity enterpriseWorkerFindByPhoneNumber(String phoneNumber) {
+    public MakerEntity makerFindByPhoneNumber(String phoneNumber) {
         return null;
     }
 
     @Override
-    public ServiceProviderWorkerEntity serviceProviderWorkerFindByPhoneNumber(String phoneNumber) {
+    public Integer adminCountFindByPhoneNumber(String phoneNumber) {
         return null;
+    }
+
+    @Override
+    public Integer makerCountFindByPhoneNumber(String phoneNumber) {
+        return null;
+    }
+
+    @Override
+    public Integer enterpriseWorkerCountFindByPhoneNumber(String phoneNumber) {
+        return null;
+    }
+
+    @Override
+    public Integer serviceProviderWorkerCountFindByPhoneNumber(String phoneNumber) {
+        return null;
+    }
+
+    @Override
+    public R<String> adminDeal(String phoneNumber, String userName, String loginPwd, GrantType grantType) {
+        return R.fail("网络繁忙，请稍后尝试");
     }
 
     @Override
@@ -112,12 +122,17 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public R<MakerEntity> currentMaker(BladeUser bladeUser) {
+    public R<IPage<MakerWorksheetVO>> getMakerName(Integer current, Integer size, String makerName) {
         return R.fail("网络繁忙，请稍后尝试");
     }
 
     @Override
-    public R<IPage<MakerWorksheetVO>> getMakerName(Integer current, Integer size, String makerName) {
+    public R<AdminEntity> currentAdmin(BladeUser bladeUser) {
+        return R.fail("网络繁忙，请稍后尝试");
+    }
+
+    @Override
+    public R<MakerEntity> currentMaker(BladeUser bladeUser) {
         return R.fail("网络繁忙，请稍后尝试");
     }
 
@@ -128,11 +143,6 @@ public class IUserClientFallback implements IUserClient {
 
     @Override
     public R<ServiceProviderWorkerEntity> currentServiceProviderWorker(BladeUser bladeUser) {
-        return R.fail("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public R<User> currentUser(BladeUser bladeUser) {
         return R.fail("网络繁忙，请稍后尝试");
     }
 

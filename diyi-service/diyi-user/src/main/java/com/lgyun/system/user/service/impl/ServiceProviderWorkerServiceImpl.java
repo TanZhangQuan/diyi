@@ -27,7 +27,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * 服务商员工表 Service 实现
@@ -43,7 +42,7 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
     private IUserService userService;
     private IServiceProviderService iServiceProviderService;
     private RedisUtil redisUtil;
-    
+
     @Override
     public ServiceProviderWorkerEntity findByPhoneNumber(String phoneNumber) {
         QueryWrapper<ServiceProviderWorkerEntity> queryWrapper = new QueryWrapper<>();
@@ -52,22 +51,29 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
     }
 
     @Override
-    public ServiceProviderWorkerEntity findByEmployeeUserNameAndEmployeePwd(String employeeUserName, String employeePwd) {
+    public Integer findCountByPhoneNumber(String phoneNumber) {
+        QueryWrapper<ServiceProviderWorkerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(ServiceProviderWorkerEntity::getPhoneNumber, phoneNumber);
+        return baseMapper.selectCount(queryWrapper);
+    }
+
+    @Override
+    public Integer findCountByEmployeeUserNameAndEmployeePwd(String employeeUserName, String employeePwd) {
         QueryWrapper<ServiceProviderWorkerEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(ServiceProviderWorkerEntity::getEmployeeUserName, employeeUserName)
                 .eq(ServiceProviderWorkerEntity::getEmployeePwd, employeePwd);
-        return baseMapper.selectOne(queryWrapper);
+        return baseMapper.selectCount(queryWrapper);
     }
 
     @Override
     public R<ServiceProviderWorkerEntity> currentServiceProviderWorker(BladeUser bladeUser) {
-        
+
         if (bladeUser == null || bladeUser.getUserId() == null) {
             return R.fail("账号未登陆");
         }
 
         User user = userService.getById(bladeUser.getUserId());
-        if (user == null){
+        if (user == null) {
             return R.fail("用户不存在");
         }
 
@@ -138,60 +144,34 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
 
         //判断服务商联系人1是否已存在
         ServiceProviderWorkerEntity oldServiceProviderWorkerEntity1 = findByPhoneNumber(addOrUpdateServiceProviderContactDto.getContact1Phone());
-        User user1 = null;
-        if (oldServiceProviderWorkerEntity1 != null) {
-
-            if (!(oldServiceProviderWorkerEntity1.getServiceProviderId().equals(addOrUpdateServiceProviderContactDto.getServiceProviderId()))){
-                return R.fail("联系人1电话/手机：" + addOrUpdateServiceProviderContactDto.getContact1Phone() + "已存在");
-            }
-
-            user1 = userService.findByPhone(addOrUpdateServiceProviderContactDto.getContact1Phone(), UserType.SERVICEPROVIDER);
-            if (user1 == null) {
-                return R.fail("联系人1系统数据有误");
-            }
+        if (oldServiceProviderWorkerEntity1 != null && !(oldServiceProviderWorkerEntity1.getServiceProviderId().equals(addOrUpdateServiceProviderContactDto.getServiceProviderId()))) {
+            return R.fail("联系人1电话/手机：" + addOrUpdateServiceProviderContactDto.getContact1Phone() + "已存在");
         }
 
         //判断服务商联系人2是否已存在
         ServiceProviderWorkerEntity oldServiceProviderWorkerEntity2 = findByPhoneNumber(addOrUpdateServiceProviderContactDto.getContact2Phone());
-        User user2 = null;
-        if (oldServiceProviderWorkerEntity2 != null) {
-
-            if (!(oldServiceProviderWorkerEntity2.getServiceProviderId().equals(addOrUpdateServiceProviderContactDto.getServiceProviderId()))){
-                return R.fail("联系人2电话/手机：" + addOrUpdateServiceProviderContactDto.getContact2Phone() + "已存在");
-            }
-
-            user2 = userService.findByPhone(addOrUpdateServiceProviderContactDto.getContact2Phone(), UserType.SERVICEPROVIDER);
-            if (user2 == null) {
-                return R.fail("联系人2系统数据有误");
-            }
+        if (oldServiceProviderWorkerEntity2 != null && !(oldServiceProviderWorkerEntity2.getServiceProviderId().equals(addOrUpdateServiceProviderContactDto.getServiceProviderId()))) {
+            return R.fail("联系人2电话/手机：" + addOrUpdateServiceProviderContactDto.getContact2Phone() + "已存在");
         }
 
+        User user;
         //处理联系人1
         if (oldServiceProviderWorkerEntity1 != null) {
             //修改联系人2
-            user1.setName(addOrUpdateServiceProviderContactDto.getContact1Name());
-            user1.setRealName(addOrUpdateServiceProviderContactDto.getContact1Name());
-            user1.setEmail(addOrUpdateServiceProviderContactDto.getContact1Mail());
-            userService.updateById(user1);
-
             oldServiceProviderWorkerEntity1.setWorkerName(addOrUpdateServiceProviderContactDto.getContact1Name());
             oldServiceProviderWorkerEntity1.setPositionName(addOrUpdateServiceProviderContactDto.getContact1Position());
             updateById(oldServiceProviderWorkerEntity1);
         } else {
             //新建联系人1
-            user1 = new User();
-            user1.setUserType(UserType.SERVICEPROVIDER);
-            user1.setAccount(addOrUpdateServiceProviderContactDto.getContact1Phone());
-            user1.setPassword(DigestUtil.encrypt(String.valueOf(UUID.randomUUID())));
-            user1.setName(addOrUpdateServiceProviderContactDto.getContact1Name());
-            user1.setRealName(addOrUpdateServiceProviderContactDto.getContact1Name());
-            user1.setEmail(addOrUpdateServiceProviderContactDto.getContact1Mail());
-            user1.setPhone(addOrUpdateServiceProviderContactDto.getContact1Phone());
-            userService.save(user1);
+            user = new User();
+            user.setUserType(UserType.SERVICEPROVIDER);
+            user.setAccount(addOrUpdateServiceProviderContactDto.getContact1Phone());
+            user.setPhone(addOrUpdateServiceProviderContactDto.getContact1Phone());
+            userService.save(user);
 
             oldServiceProviderWorkerEntity1 = new ServiceProviderWorkerEntity();
             oldServiceProviderWorkerEntity1.setServiceProviderId(addOrUpdateServiceProviderContactDto.getServiceProviderId());
-            oldServiceProviderWorkerEntity1.setUserId(user1.getId());
+            oldServiceProviderWorkerEntity1.setUserId(user.getId());
             oldServiceProviderWorkerEntity1.setWorkerName(addOrUpdateServiceProviderContactDto.getContact1Name());
             oldServiceProviderWorkerEntity1.setPositionName(addOrUpdateServiceProviderContactDto.getContact1Position());
             oldServiceProviderWorkerEntity1.setPhoneNumber(addOrUpdateServiceProviderContactDto.getContact1Phone());
@@ -205,29 +185,20 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
         //处理联系人2
         if (oldServiceProviderWorkerEntity2 != null) {
             //修改联系人2
-            user2.setName(addOrUpdateServiceProviderContactDto.getContact2Name());
-            user2.setRealName(addOrUpdateServiceProviderContactDto.getContact2Name());
-            user2.setEmail(addOrUpdateServiceProviderContactDto.getContact2Mail());
-            userService.updateById(user2);
-
             oldServiceProviderWorkerEntity2.setWorkerName(addOrUpdateServiceProviderContactDto.getContact2Name());
             oldServiceProviderWorkerEntity2.setPositionName(addOrUpdateServiceProviderContactDto.getContact2Position());
             updateById(oldServiceProviderWorkerEntity2);
         } else {
             //新建联系人2
-            user2 = new User();
-            user2.setUserType(UserType.SERVICEPROVIDER);
-            user2.setAccount(addOrUpdateServiceProviderContactDto.getContact2Phone());
-            user2.setPassword(DigestUtil.encrypt(String.valueOf(UUID.randomUUID())));
-            user2.setName(addOrUpdateServiceProviderContactDto.getContact2Name());
-            user2.setRealName(addOrUpdateServiceProviderContactDto.getContact2Name());
-            user2.setEmail(addOrUpdateServiceProviderContactDto.getContact2Mail());
-            user2.setPhone(addOrUpdateServiceProviderContactDto.getContact2Phone());
-            userService.save(user2);
+            user = new User();
+            user.setUserType(UserType.SERVICEPROVIDER);
+            user.setAccount(addOrUpdateServiceProviderContactDto.getContact2Phone());
+            user.setPhone(addOrUpdateServiceProviderContactDto.getContact2Phone());
+            userService.save(user);
 
             oldServiceProviderWorkerEntity2 = new ServiceProviderWorkerEntity();
             oldServiceProviderWorkerEntity2.setServiceProviderId(addOrUpdateServiceProviderContactDto.getServiceProviderId());
-            oldServiceProviderWorkerEntity2.setUserId(user2.getId());
+            oldServiceProviderWorkerEntity2.setUserId(user.getId());
             oldServiceProviderWorkerEntity2.setWorkerName(addOrUpdateServiceProviderContactDto.getContact2Name());
             oldServiceProviderWorkerEntity2.setPositionName(addOrUpdateServiceProviderContactDto.getContact2Position());
             oldServiceProviderWorkerEntity2.setPhoneNumber(addOrUpdateServiceProviderContactDto.getContact2Phone());

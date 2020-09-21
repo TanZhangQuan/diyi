@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2020-09-17 14:55:57
+Date: 2020-09-19 14:41:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -103,6 +103,40 @@ CREATE TABLE `diyi_address` (
 
 -- ----------------------------
 -- Records of diyi_address
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `diyi_admin`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_admin`;
+CREATE TABLE `diyi_admin` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `user_id` bigint(50) NOT NULL COMMENT '管理者ID',
+  `avatar` varchar(500) NOT NULL DEFAULT '' COMMENT '头像',
+  `admin_state` varchar(50) NOT NULL COMMENT '管理员账户状态',
+  `name` varchar(50) NOT NULL COMMENT '姓名',
+  `gender` varchar(50) NOT NULL COMMENT '性别',
+  `position_name` varchar(50) NOT NULL COMMENT '岗位性质',
+  `phone_number` varchar(50) NOT NULL COMMENT '手机号码',
+  `up_level_id` bigint(50) DEFAULT NULL COMMENT '上级主管',
+  `user_name` varchar(50) NOT NULL COMMENT '用户名',
+  `login_pwd` varchar(100) NOT NULL COMMENT '密码',
+  `admin_power` bit(1) NOT NULL COMMENT '管理员特性',
+  `menus` varchar(1000) NOT NULL DEFAULT '' COMMENT '拥有的菜单名字',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`user_id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`phone_number`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`user_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='平台管理员信息表';
+
+-- ----------------------------
+-- Records of diyi_admin
 -- ----------------------------
 
 -- ----------------------------
@@ -223,7 +257,7 @@ CREATE TABLE `diyi_agent_main_worker` (
   `worker_sex` varchar(50) NOT NULL COMMENT '性别',
   `position_name` varchar(50) NOT NULL COMMENT '岗位性质',
   `phone_number` varchar(50) NOT NULL COMMENT '手机号码',
-  `up_level_id` bigint(50) NOT NULL COMMENT '上级主管',
+  `up_level_id` bigint(50) DEFAULT NULL COMMENT '上级主管',
   `employee_user_name` varchar(50) NOT NULL COMMENT '用户名',
   `employee_pwd` varchar(100) NOT NULL COMMENT '密码',
   `admin_power` bit(1) NOT NULL COMMENT '管理员特性',
@@ -250,12 +284,12 @@ CREATE TABLE `diyi_agent_main_worker` (
 DROP TABLE IF EXISTS `diyi_agreement`;
 CREATE TABLE `diyi_agreement` (
   `id` bigint(50) NOT NULL COMMENT '唯一性控制',
-  `agreement_type` varchar(50) NOT NULL COMMENT '协议类别 1,创客加盟协议；2，商户加盟协议；3，服务商加盟协议；4，渠道商加盟协议；5、合伙人加盟协议；6、园区合作协议；7、税局合作协议；8、工商合作协议；9、创客授权书；10、商户-创客补充协议；11、服务商-商户补充协议；12、创客单独税务事项委托授权书；13、创客单独支付事项委托授权书；14、其他协议',
-  `sign_type` varchar(50) NOT NULL COMMENT '1、纸质协议2、平台在线协议3、三方在线协议',
-  `sign_state` varchar(50) DEFAULT NULL COMMENT '0签署中 1已完毕',
-  `audit_state` varchar(50) DEFAULT NULL COMMENT '单方授权函审核状态 1，编辑中；2，已驳回；3，已审核通过',
+  `agreement_type` varchar(50) NOT NULL COMMENT '协议类别',
+  `sign_type` varchar(50) NOT NULL COMMENT '签署类型',
+  `sign_state` varchar(50) DEFAULT NULL COMMENT '签署状态',
+  `audit_state` varchar(50) DEFAULT NULL COMMENT '审核状态',
   `agreement_no` varchar(100) NOT NULL COMMENT '协议编号',
-  `sequence_no` varchar(100) NOT NULL DEFAULT '' COMMENT '顺序号',
+  `sequence_no` int(5) DEFAULT NULL COMMENT '顺序号',
   `maker_id` bigint(50) DEFAULT NULL COMMENT '创客ID',
   `enterprise_id` bigint(50) DEFAULT NULL COMMENT '商户ID',
   `service_provider_id` bigint(50) DEFAULT NULL COMMENT '服务商ID',
@@ -1802,7 +1836,7 @@ CREATE TABLE `diyi_service_provider_worker` (
   `worker_sex` varchar(50) NOT NULL COMMENT '性别',
   `position_name` varchar(50) NOT NULL COMMENT '岗位性质',
   `phone_number` varchar(50) NOT NULL COMMENT '手机号码',
-  `up_level_id` bigint(50) NOT NULL COMMENT '上级主管',
+  `up_level_id` bigint(50) DEFAULT NULL COMMENT '上级主管',
   `employee_user_name` varchar(50) NOT NULL COMMENT '用户名',
   `employee_pwd` varchar(100) NOT NULL COMMENT '密码',
   `admin_power` bit(1) NOT NULL COMMENT '管理员特性',
@@ -2246,22 +2280,14 @@ INSERT INTO `sys_tenant` VALUES ('1123598820738675201', '000000', '管理组', '
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `tenant_id` varchar(12) DEFAULT '000000' COMMENT '租户ID',
+  `tenant_id` varchar(50) NOT NULL DEFAULT '000000' COMMENT '租户ID',
   `user_type` varchar(50) NOT NULL COMMENT '用户类型',
-  `user_state` varchar(50) NOT NULL COMMENT '用户状态',
-  `code` varchar(12) NOT NULL DEFAULT '' COMMENT '用户编号',
-  `account` varchar(50) NOT NULL DEFAULT '' COMMENT '账号',
-  `password` varchar(100) NOT NULL DEFAULT '' COMMENT '密码',
-  `name` varchar(20) NOT NULL DEFAULT '' COMMENT '昵称',
-  `real_name` varchar(10) NOT NULL DEFAULT '' COMMENT '真名',
-  `avatar` varchar(500) NOT NULL DEFAULT '' COMMENT '头像',
-  `email` varchar(50) NOT NULL DEFAULT '' COMMENT '邮箱',
-  `phone` varchar(50) NOT NULL DEFAULT '' COMMENT '手机',
-  `birthday` datetime DEFAULT NULL COMMENT '生日',
-  `sex` int(1) DEFAULT NULL COMMENT '性别',
-  `role_id` varchar(50) NOT NULL DEFAULT '' COMMENT '角色id',
-  `dept_id` varchar(50) NOT NULL DEFAULT '' COMMENT '部门id',
-  `post_id` varchar(50) NOT NULL DEFAULT '' COMMENT '岗位id',
+  `account` varchar(50) NOT NULL COMMENT '账号',
+  `password` varchar(100) NOT NULL COMMENT '密码',
+  `phone` varchar(50) NOT NULL COMMENT '手机',
+  `role_id` varchar(500) NOT NULL DEFAULT '' COMMENT '角色id',
+  `dept_id` varchar(500) NOT NULL DEFAULT '' COMMENT '部门id',
+  `post_id` varchar(500) NOT NULL DEFAULT '' COMMENT '岗位id',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
@@ -2276,4 +2302,4 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1123598821738675201', '000000', 'ADMIN', 'NORMAL', '', 'admin', '10470c3b4b1fed12c3baac014be15fac67c6e815', '管理员', '管理员', '', 'admin@bladex.vip', '22233322', '2018-08-08 00:00:00', '1', '1123598816738675201', '1123598813738675201', '1123598817738675201', null, '2018-08-08 00:00:00', null, '2018-08-08 00:00:00', '1', '0');
+INSERT INTO `sys_user` VALUES ('1123598821738675201', '000000', 'ADMIN', '88888888888', '10470c3b4b1fed12c3baac014be15fac67c6e815', '88888888888', '1123598816738675201', '1123598813738675201', '1123598817738675201', null, '2018-08-08 00:00:00', null, '2018-08-08 00:00:00', '1', '0');

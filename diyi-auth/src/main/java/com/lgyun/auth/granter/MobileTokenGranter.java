@@ -65,6 +65,14 @@ public class MobileTokenGranter implements ITokenGranter {
         R<String> res;
         switch (userType) {
 
+            case ADMIN:
+                // 服务商处理
+                res = userClient.adminDeal(mobile, "", "", GrantType.MOBILE);
+                if (!(res.isSuccess())) {
+                    return res;
+                }
+                break;
+
             case MAKER:
                 // 微信授权码
                 String wechatCode = tokenParameter.getArgs().getStr("wechatCode");
@@ -99,14 +107,11 @@ public class MobileTokenGranter implements ITokenGranter {
                 }
                 break;
 
-            case ADMIN:
-                break;
-
             default:
                 return R.fail("用户类型有误");
         }
 
-        UserInfo userInfo = userClient.userInfoByPhone(mobile, userType);
+        UserInfo userInfo = userClient.userInfoFindByPhoneAndUserType(mobile, userType);
         if (userInfo == null) {
             return R.fail("手机号未注册");
         }
@@ -137,25 +142,25 @@ public class MobileTokenGranter implements ITokenGranter {
             switch (userType) {
 
                 case ADMIN:
-                    if (userClient.userByPhone(mobile, UserType.ADMIN) == null) {
-                        return R.fail("手机号未注册");
-                    }
-                    break;
-
-                case ENTERPRISE:
-                    if (userClient.enterpriseWorkerFindByPhoneNumber(mobile) == null) {
-                        return R.fail("手机号未注册");
-                    }
-                    break;
-
-                case SERVICEPROVIDER:
-                    if (userClient.serviceProviderWorkerFindByPhoneNumber(mobile) == null) {
+                    if (userClient.adminCountFindByPhoneNumber(mobile) <= 0) {
                         return R.fail("手机号未注册");
                     }
                     break;
 
                 case MAKER:
-                    if (userClient.makerFindByPhoneNumber(mobile) == null) {
+                    if (userClient.makerCountFindByPhoneNumber(mobile) <= 0) {
+                        return R.fail("手机号未注册");
+                    }
+                    break;
+
+                case ENTERPRISE:
+                    if (userClient.enterpriseWorkerCountFindByPhoneNumber(mobile) <= 0) {
+                        return R.fail("手机号未注册");
+                    }
+                    break;
+
+                case SERVICEPROVIDER:
+                    if (userClient.serviceProviderWorkerCountFindByPhoneNumber(mobile) <= 0) {
                         return R.fail("手机号未注册");
                     }
                     break;
@@ -169,25 +174,25 @@ public class MobileTokenGranter implements ITokenGranter {
             switch (userType) {
 
                 case ADMIN:
-                    if (userClient.userByPhone(mobile, UserType.ADMIN) != null) {
-                        return R.fail("手机号已注册");
-                    }
-                    break;
-
-                case ENTERPRISE:
-                    if (userClient.enterpriseWorkerFindByPhoneNumber(mobile) != null) {
-                        return R.fail("手机号已注册");
-                    }
-                    break;
-
-                case SERVICEPROVIDER:
-                    if (userClient.serviceProviderWorkerFindByPhoneNumber(mobile) != null) {
+                    if (userClient.adminCountFindByPhoneNumber(mobile) > 0) {
                         return R.fail("手机号已注册");
                     }
                     break;
 
                 case MAKER:
-                    if (userClient.makerFindByPhoneNumber(mobile) != null) {
+                    if (userClient.makerCountFindByPhoneNumber(mobile) > 0) {
+                        return R.fail("手机号已注册");
+                    }
+                    break;
+
+                case ENTERPRISE:
+                    if (userClient.enterpriseWorkerCountFindByPhoneNumber(mobile) > 0) {
+                        return R.fail("手机号已注册");
+                    }
+                    break;
+
+                case SERVICEPROVIDER:
+                    if (userClient.serviceProviderWorkerCountFindByPhoneNumber(mobile) > 0) {
                         return R.fail("手机号已注册");
                     }
                     break;

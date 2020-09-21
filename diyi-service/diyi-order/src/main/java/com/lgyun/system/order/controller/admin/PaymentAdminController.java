@@ -14,7 +14,7 @@ import com.lgyun.system.order.dto.SelfHelpInvoicesByEnterpriseDto;
 import com.lgyun.system.order.service.IAcceptPaysheetService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.service.ISelfHelpInvoiceService;
-import com.lgyun.system.user.entity.User;
+import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -105,13 +105,13 @@ public class PaymentAdminController {
         log.info("上传总包交付支付验收单");
         try {
             //查询当前管理员
-            R<User> result = userClient.currentUser(bladeUser);
-            if (!(result.isSuccess())) {
+            R<AdminEntity> result = userClient.currentAdmin(bladeUser);
+            if (!(result.isSuccess())){
                 return result;
             }
-            User user = result.getData();
+            AdminEntity adminEntity = result.getData();
 
-            return acceptPaysheetService.upload(acceptPaysheetSaveDto, null, "平台上传", user.getRealName());
+            return acceptPaysheetService.upload(acceptPaysheetSaveDto, null, "平台上传", adminEntity.getName());
         } catch (Exception e) {
             log.error("上传总包交付支付验收单异常", e);
         }

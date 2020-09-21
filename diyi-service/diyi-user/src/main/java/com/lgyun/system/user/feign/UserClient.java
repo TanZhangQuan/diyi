@@ -39,26 +39,21 @@ public class UserClient implements IUserClient {
     private IEnterpriseWorkerService iEnterpriseWorkerService;
     private IEnterpriseServiceProviderService iEnterpriseServiceProviderService;
     private IServiceProviderWorkerService iServiceProviderWorkerService;
-    private IServiceProviderService serviceProviderService;
+    private IAdminService iAdminService;
 
     @Override
-    public UserInfo userInfo(Long userId, UserType userType) {
-        return iUserService.userInfo(userId, userType);
+    public UserInfo userInfoFindByUserIdAndUserType(Long userId, UserType userType) {
+        return iUserService.userInfoFindByUserIdAndUserType(userId, userType);
     }
 
     @Override
-    public UserInfo userInfoByPhone(String phone, UserType userType) {
-        return iUserService.userInfoByPhone(phone, userType);
+    public UserInfo userInfoFindByPhoneAndUserType(String phone, UserType userType) {
+        return iUserService.userInfoFindByPhoneAndUserType(phone, userType);
     }
 
     @Override
-    public User userByPhone(String phone, UserType userType) {
-        return iUserService.findByPhone(phone, userType);
-    }
-
-    @Override
-    public UserInfo userInfo(String account, String password, UserType userType) {
-        return iUserService.userInfo(account, password, userType);
+    public UserInfo userInfoByAccountAndUserType(String account, UserType userType) {
+        return iUserService.userInfoByAccountAndUserType(account, userType);
     }
 
     @Override
@@ -67,23 +62,61 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public MakerEntity makerFindByPhoneNumber(String phoneNumber) {
-        return iMakerService.findByPhoneNumber(phoneNumber);
-    }
-
-    @Override
     public MakerEntity makerFindByIdcardNo(String idcardNo) {
         return iMakerService.findByIdcardNo(idcardNo);
     }
 
     @Override
-    public EnterpriseWorkerEntity enterpriseWorkerFindByPhoneNumber(String phoneNumber) {
-        return iEnterpriseWorkerService.findByPhoneNumber(phoneNumber);
+    public MakerEntity makerFindByPhoneNumber(String phoneNumber) {
+        return iMakerService.findByPhoneNumber(phoneNumber);
     }
 
     @Override
-    public ServiceProviderWorkerEntity serviceProviderWorkerFindByPhoneNumber(String phoneNumber) {
-        return iServiceProviderWorkerService.findByPhoneNumber(phoneNumber);
+    public Integer adminCountFindByPhoneNumber(String phoneNumber) {
+        return iAdminService.findCountByPhoneNumber(phoneNumber);
+    }
+
+    @Override
+    public Integer makerCountFindByPhoneNumber(String phoneNumber) {
+        return iMakerService.findCountByPhoneNumber(phoneNumber);
+    }
+
+    @Override
+    public Integer enterpriseWorkerCountFindByPhoneNumber(String phoneNumber) {
+        return iEnterpriseWorkerService.findCountByPhoneNumber(phoneNumber);
+    }
+
+    @Override
+    public Integer serviceProviderWorkerCountFindByPhoneNumber(String phoneNumber) {
+        return iServiceProviderWorkerService.findCountByPhoneNumber(phoneNumber);
+    }
+
+    @Override
+    public R<String> adminDeal(String phoneNumber, String userName, String loginPwd, GrantType grantType) {
+
+        switch (grantType) {
+
+            case PASSWORD:
+                //根据账号密码查询管理员
+                Integer countByUserNameAndLoginPwd = iAdminService.findCountByUserNameAndLoginPwd(userName, loginPwd);
+                if (countByUserNameAndLoginPwd <= 0) {
+                    return R.fail("账号或密码错误");
+                }
+                break;
+
+            case MOBILE:
+                //根据手机号查询管理员
+                Integer countByPhoneNumber = iAdminService.findCountByPhoneNumber(phoneNumber);
+                if (countByPhoneNumber <= 0) {
+                    return R.fail("手机号未注册");
+                }
+                break;
+
+            default:
+                return R.fail("登陆方式有误");
+        }
+
+        return R.success("操作成功");
     }
 
     @Override
@@ -118,7 +151,7 @@ public class UserClient implements IUserClient {
                 if (makerEntity != null) {
                     iMakerService.makerUpdate(makerEntity, openid, sessionKey);
                 } else {
-                    return R.fail("用户未注册");
+                    return R.fail("手机号未注册");
                 }
                 break;
 
@@ -142,22 +175,21 @@ public class UserClient implements IUserClient {
     @Override
     public R<String> enterpriseWorkerDeal(String phoneNumber, String employeeUserName, String loginPwd, GrantType grantType) {
 
-        EnterpriseWorkerEntity enterpriseWorkerEntity;
         switch (grantType) {
 
             case PASSWORD:
                 //根据账号密码查询商户
-                enterpriseWorkerEntity = iEnterpriseWorkerService.findByEmployeeUserNameAndEmployeePwd(employeeUserName, loginPwd);
-                if (enterpriseWorkerEntity == null) {
+                Integer countByEmployeeUserNameAndEmployeePwd = iEnterpriseWorkerService.findCountByEmployeeUserNameAndEmployeePwd(employeeUserName, loginPwd);
+                if (countByEmployeeUserNameAndEmployeePwd <= 0) {
                     return R.fail("账号或密码错误");
                 }
                 break;
 
             case MOBILE:
                 //根据手机号查询商户
-                enterpriseWorkerEntity = iEnterpriseWorkerService.findByPhoneNumber(phoneNumber);
-                if (enterpriseWorkerEntity == null) {
-                    return R.fail("用户未注册");
+                Integer countByPhoneNumber = iEnterpriseWorkerService.findCountByPhoneNumber(phoneNumber);
+                if (countByPhoneNumber <= 0) {
+                    return R.fail("手机号未注册");
                 }
                 break;
 
@@ -171,22 +203,21 @@ public class UserClient implements IUserClient {
     @Override
     public R<String> serviceProviderWorkerDeal(String phoneNumber, String employeeUserName, String loginPwd, GrantType grantType) {
 
-        ServiceProviderWorkerEntity serviceProviderWorkerEntity;
         switch (grantType) {
 
             case PASSWORD:
                 //根据账号密码查询服务商
-                serviceProviderWorkerEntity = iServiceProviderWorkerService.findByEmployeeUserNameAndEmployeePwd(employeeUserName, loginPwd);
-                if (serviceProviderWorkerEntity == null) {
+                Integer countByEmployeeUserNameAndEmployeePwd = iServiceProviderWorkerService.findCountByEmployeeUserNameAndEmployeePwd(employeeUserName, loginPwd);
+                if (countByEmployeeUserNameAndEmployeePwd <= 0) {
                     return R.fail("账号或密码错误");
                 }
                 break;
 
             case MOBILE:
                 //根据手机号查询服务商
-                serviceProviderWorkerEntity = iServiceProviderWorkerService.findByPhoneNumber(phoneNumber);
-                if (serviceProviderWorkerEntity == null) {
-                    return R.fail("用户未注册");
+                Integer countByPhoneNumber = iServiceProviderWorkerService.findCountByPhoneNumber(phoneNumber);
+                if (countByPhoneNumber <= 0) {
+                    return R.fail("手机号未注册");
                 }
                 break;
 
@@ -231,13 +262,18 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R<MakerEntity> currentMaker(BladeUser bladeUser) {
-        return iMakerService.currentMaker(bladeUser);
+    public R<IPage<MakerWorksheetVO>> getMakerName(Integer current, Integer size, String makerName) {
+        return iMakerService.getMakerName(current, size, makerName);
     }
 
     @Override
-    public R<IPage<MakerWorksheetVO>> getMakerName(Integer current, Integer size, String makerName) {
-        return iMakerService.getMakerName(current, size, makerName);
+    public R<AdminEntity> currentAdmin(BladeUser bladeUser) {
+        return iAdminService.currentAdmin(bladeUser);
+    }
+
+    @Override
+    public R<MakerEntity> currentMaker(BladeUser bladeUser) {
+        return iMakerService.currentMaker(bladeUser);
     }
 
     @Override
@@ -248,11 +284,6 @@ public class UserClient implements IUserClient {
     @Override
     public R<ServiceProviderWorkerEntity> currentServiceProviderWorker(BladeUser bladeUser) {
         return iServiceProviderWorkerService.currentServiceProviderWorker(bladeUser);
-    }
-
-    @Override
-    public R<User> currentUser(BladeUser bladeUser) {
-        return iUserService.currentUser(bladeUser);
     }
 
     @Override

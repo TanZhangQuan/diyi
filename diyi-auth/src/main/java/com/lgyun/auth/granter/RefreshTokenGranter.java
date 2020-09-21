@@ -42,7 +42,7 @@ public class RefreshTokenGranter implements ITokenGranter {
 			Claims claims = SecureUtil.parseJWT(refreshToken);
 			String tokenType = Func.toStr(Objects.requireNonNull(claims).get(TokenConstant.TOKEN_TYPE));
 			if (tokenType.equals(TokenConstant.REFRESH_TOKEN)) {
-				userInfo = userClient.userInfo(Func.toLong(claims.get(TokenConstant.USER_ID)), userType);
+				userInfo = userClient.userInfoFindByUserIdAndUserType(Func.toLong(claims.get(TokenConstant.USER_ID)), userType);
 			}
 		}
 

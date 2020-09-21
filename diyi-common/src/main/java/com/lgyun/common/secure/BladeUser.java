@@ -33,12 +33,6 @@ public class BladeUser implements Serializable {
     private String tenantId;
 
     /**
-     * 昵称
-     */
-    @ApiModelProperty(hidden = true)
-    private String userName;
-
-    /**
      * 账号
      */
     @ApiModelProperty(hidden = true)

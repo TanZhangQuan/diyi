@@ -81,6 +81,14 @@ public interface IMakerService extends IService<MakerEntity> {
     MakerEntity findByPhoneNumber(String phoneNumber);
 
     /**
+     * 根据微信手机号码查询创客是否存在
+     *
+     * @param phoneNumber
+     * @return
+     */
+    Integer findCountByPhoneNumber(String phoneNumber);
+
+    /**
      * 根据手机号码密码查询创客
      *
      * @param phoneNumber

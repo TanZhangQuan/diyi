@@ -29,12 +29,20 @@ public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEn
     EnterpriseWorkerEntity findByPhoneNumber(String phoneNumber);
 
     /**
-     * 根据用户名密码查询商户员工
+     * 根据手机号码查询商户员工是否存在
+     *
+     * @param phoneNumber
+     * @return
+     */
+    Integer findCountByPhoneNumber(String phoneNumber);
+
+    /**
+     * 根据用户名密码查询商户员工是否存在
      *
      * @param
      * @return
      */
-    EnterpriseWorkerEntity findByEmployeeUserNameAndEmployeePwd(String employeeUserName, String employeePwd);
+    Integer findCountByEmployeeUserNameAndEmployeePwd(String employeeUserName, String employeePwd);
 
     /**
      * 查询当前商户员工

@@ -5,10 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.user.entity.EnterpriseEntity;
-import com.lgyun.system.user.entity.EnterpriseServiceProviderEntity;
-import com.lgyun.system.user.entity.ServiceProviderEntity;
-import com.lgyun.system.user.entity.User;
+import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.EnterpriseServiceProviderMapper;
 import com.lgyun.system.user.service.IEnterpriseServiceProviderService;
 import com.lgyun.system.user.service.IEnterpriseService;
@@ -76,7 +73,7 @@ public class EnterpriseServiceProviderServiceImpl extends BaseServiceImpl<Enterp
     }
 
     @Override
-    public R<String> relevanceEnterpriseServiceProvider(Long enterpriseId, List<Long> serviceProviderIdList, User user) {
+    public R<String> relevanceEnterpriseServiceProvider(Long enterpriseId, List<Long> serviceProviderIdList, AdminEntity adminEntity) {
 
         EnterpriseEntity enterpriseEntity = enterpriseService.getById(enterpriseId);
         if (enterpriseEntity == null) {
@@ -97,7 +94,7 @@ public class EnterpriseServiceProviderServiceImpl extends BaseServiceImpl<Enterp
                 enterpriseServiceProviderEntity.setEnterpriseId(enterpriseId);
                 enterpriseServiceProviderEntity.setServiceProviderId(serviceProviderId);
                 enterpriseServiceProviderEntity.setCooperateStatus(CooperateStatus.COOPERATING);
-                enterpriseServiceProviderEntity.setMatchPerson(user.getRealName());
+                enterpriseServiceProviderEntity.setMatchPerson(adminEntity.getName());
                 enterpriseServiceProviderEntity.setMatchDesc("平台匹配服务商给商户");
                 save(enterpriseServiceProviderEntity);
             } else {

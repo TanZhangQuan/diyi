@@ -24,7 +24,6 @@ public class SecureUtil {
     private final static String ACCOUNT = TokenConstant.ACCOUNT;
     private final static String USER_ID = TokenConstant.USER_ID;
     private final static String ROLE_ID = TokenConstant.ROLE_ID;
-    private final static String USER_NAME = TokenConstant.USER_NAME;
     private final static String ROLE_NAME = TokenConstant.ROLE_NAME;
     private final static String TENANT_ID = TokenConstant.TENANT_ID;
     private final static String CLIENT_ID = TokenConstant.CLIENT_ID;
@@ -69,7 +68,6 @@ public class SecureUtil {
         String tenantId = Func.toStr(claims.get(SecureUtil.TENANT_ID));
         String roleId = Func.toStr(claims.get(SecureUtil.ROLE_ID));
         String account = Func.toStr(claims.get(SecureUtil.ACCOUNT));
-        String userName = Func.toStr(claims.get(SecureUtil.USER_NAME));
         String roleName = Func.toStr(claims.get(SecureUtil.ROLE_NAME));
 
         BladeUser bladeUser = new BladeUser();
@@ -77,7 +75,6 @@ public class SecureUtil {
         bladeUser.setUserId(userId);
         bladeUser.setTenantId(tenantId);
         bladeUser.setAccount(account);
-        bladeUser.setUserName(userName);
         bladeUser.setRoleId(roleId);
         bladeUser.setRoleName(roleName);
         return bladeUser;
@@ -132,27 +129,6 @@ public class SecureUtil {
     public static String getUserAccount(HttpServletRequest request) {
         BladeUser user = getUser(request);
         return (null == user) ? StringPool.EMPTY : user.getAccount();
-    }
-
-    /**
-     * 查询用户名
-     *
-     * @return userName
-     */
-    public static String getUserName() {
-        BladeUser user = getUser();
-        return (null == user) ? StringPool.EMPTY : user.getUserName();
-    }
-
-    /**
-     * 查询用户名
-     *
-     * @param request request
-     * @return userName
-     */
-    public static String getUserName(HttpServletRequest request) {
-        BladeUser user = getUser(request);
-        return (null == user) ? StringPool.EMPTY : user.getUserName();
     }
 
     /**

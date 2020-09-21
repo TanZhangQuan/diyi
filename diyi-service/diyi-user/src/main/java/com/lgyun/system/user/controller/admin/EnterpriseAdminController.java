@@ -9,11 +9,11 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.admin.AddEnterpriseDTO;
 import com.lgyun.system.user.dto.admin.QueryEnterpriseListDTO;
 import com.lgyun.system.user.dto.admin.UpdateEnterpriseDTO;
-import com.lgyun.system.user.entity.User;
-import com.lgyun.system.user.service.IEnterpriseServiceProviderService;
+import com.lgyun.system.user.entity.AdminEntity;
+import com.lgyun.system.user.service.IAdminService;
 import com.lgyun.system.user.service.IEnterpriseService;
+import com.lgyun.system.user.service.IEnterpriseServiceProviderService;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
-import com.lgyun.system.user.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -43,7 +43,7 @@ public class EnterpriseAdminController {
 
     private IEnterpriseService enterpriseService;
     private IEnterpriseServiceProviderService enterpriseProviderService;
-    private IUserService userService;
+    private IAdminService adminService;
     private IEnterpriseWorkerService enterpriseWorkerService;
 
     @PostMapping("/create-enterprise")
@@ -53,13 +53,13 @@ public class EnterpriseAdminController {
         log.info("添加商户");
         try {
             //查询当前管理员
-            R<User> result = userService.currentUser(bladeUser);
-            if (!(result.isSuccess())) {
+            R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+            if (!(result.isSuccess())){
                 return result;
             }
-            User user = result.getData();
+            AdminEntity adminEntity = result.getData();
 
-            return enterpriseService.createEnterprise(addEnterpriseDTO, user);
+            return enterpriseService.createEnterprise(addEnterpriseDTO, adminEntity);
         } catch (Exception e) {
             log.error("添加商户异常", e);
         }
@@ -74,13 +74,13 @@ public class EnterpriseAdminController {
         log.info("修改商户");
         try {
             //查询当前管理员
-            R<User> result = userService.currentUser(bladeUser);
-            if (!(result.isSuccess())) {
+            R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+            if (!(result.isSuccess())){
                 return result;
             }
-            User user = result.getData();
+            AdminEntity adminEntity = result.getData();
 
-            return enterpriseService.updateEnterprise(updateEnterpriseDTO, user);
+            return enterpriseService.updateEnterprise(updateEnterpriseDTO, adminEntity);
         } catch (Exception e) {
             log.error("修改商户异常", e);
         }
@@ -178,13 +178,13 @@ public class EnterpriseAdminController {
         log.info("商户匹配服务商");
         try {
             //查询当前管理员
-            R<User> result = userService.currentUser(bladeUser);
-            if (!(result.isSuccess())) {
+            R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+            if (!(result.isSuccess())){
                 return result;
             }
-            User user = result.getData();
+            AdminEntity adminEntity = result.getData();
 
-            return enterpriseProviderService.relevanceEnterpriseServiceProvider(enterpriseId, serviceProviderIdList, user);
+            return enterpriseProviderService.relevanceEnterpriseServiceProvider(enterpriseId, serviceProviderIdList, adminEntity);
         } catch (Exception e) {
             log.error("商户匹配服务商异常", e);
         }

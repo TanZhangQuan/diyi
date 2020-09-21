@@ -29,8 +29,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.UUID;
-
 /**
  * Service 实现
  *
@@ -177,7 +175,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> createEnterprise(AddEnterpriseDTO addEnterpriseDTO, User user) {
+    public R<String> createEnterprise(AddEnterpriseDTO addEnterpriseDTO, AdminEntity adminEntity) {
 
         //判断商户联系人是否相同
         if (addEnterpriseDTO.getContact1Phone().equals(addEnterpriseDTO.getContact2Phone())) {
@@ -197,14 +195,14 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         }
 
         //判断商户联系人1是否已存在
-        EnterpriseWorkerEntity enterpriseWorkerEntity = enterpriseWorkerService.findByPhoneNumber(addEnterpriseDTO.getContact1Phone());
-        if (enterpriseWorkerEntity != null) {
+        Integer countByPhoneNumber1 = enterpriseWorkerService.findCountByPhoneNumber(addEnterpriseDTO.getContact1Phone());
+        if (countByPhoneNumber1 > 0) {
             return R.fail("联系人1电话/手机：" + addEnterpriseDTO.getContact1Phone() + "已存在");
         }
 
         //判断商户联系人2是否已存在
-        enterpriseWorkerEntity = enterpriseWorkerService.findByPhoneNumber(addEnterpriseDTO.getContact2Phone());
-        if (enterpriseWorkerEntity != null) {
+        Integer countByPhoneNumber2 = enterpriseWorkerService.findCountByPhoneNumber(addEnterpriseDTO.getContact2Phone());
+        if (countByPhoneNumber2 > 0) {
             return R.fail("联系人2电话/手机：" + addEnterpriseDTO.getContact2Phone() + "已存在");
         }
 
@@ -214,19 +212,15 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         save(enterpriseEntity);
 
         //新建联系人员工1
-        User user1 = new User();
-        user1.setUserType(UserType.ENTERPRISE);
-        user1.setAccount(addEnterpriseDTO.getContact1Phone());
-        user1.setPassword(DigestUtil.encrypt(String.valueOf(UUID.randomUUID())));
-        user1.setName(addEnterpriseDTO.getContact1Name());
-        user1.setRealName(addEnterpriseDTO.getContact1Name());
-        user1.setEmail(addEnterpriseDTO.getContact1Mail());
-        user1.setPhone(addEnterpriseDTO.getContact1Phone());
-        userService.save(user1);
+        User user = new User();
+        user.setUserType(UserType.ENTERPRISE);
+        user.setAccount(addEnterpriseDTO.getContact1Phone());
+        user.setPhone(addEnterpriseDTO.getContact1Phone());
+        userService.save(user);
 
-        enterpriseWorkerEntity = new EnterpriseWorkerEntity();
+        EnterpriseWorkerEntity enterpriseWorkerEntity = new EnterpriseWorkerEntity();
         enterpriseWorkerEntity.setEnterpriseId(enterpriseEntity.getId());
-        enterpriseWorkerEntity.setUserId(user1.getId());
+        enterpriseWorkerEntity.setUserId(user.getId());
         enterpriseWorkerEntity.setWorkerName(addEnterpriseDTO.getContact1Name());
         enterpriseWorkerEntity.setPositionName(addEnterpriseDTO.getContact1Position());
         enterpriseWorkerEntity.setPhoneNumber(addEnterpriseDTO.getContact1Phone());
@@ -236,19 +230,15 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         enterpriseWorkerService.save(enterpriseWorkerEntity);
 
         //新建联系人员工2
-        user1 = new User();
-        user1.setUserType(UserType.ENTERPRISE);
-        user1.setAccount(addEnterpriseDTO.getContact2Phone());
-        user1.setPassword(DigestUtil.encrypt(String.valueOf(UUID.randomUUID())));
-        user1.setName(addEnterpriseDTO.getContact2Name());
-        user1.setRealName(addEnterpriseDTO.getContact2Name());
-        user1.setEmail(addEnterpriseDTO.getContact2Mail());
-        user1.setPhone(addEnterpriseDTO.getContact2Phone());
-        userService.save(user1);
+        user = new User();
+        user.setUserType(UserType.ENTERPRISE);
+        user.setAccount(addEnterpriseDTO.getContact2Phone());
+        user.setPhone(addEnterpriseDTO.getContact2Phone());
+        userService.save(user);
 
         enterpriseWorkerEntity = new EnterpriseWorkerEntity();
         enterpriseWorkerEntity.setEnterpriseId(enterpriseEntity.getId());
-        enterpriseWorkerEntity.setUserId(user1.getId());
+        enterpriseWorkerEntity.setUserId(user.getId());
         enterpriseWorkerEntity.setWorkerName(addEnterpriseDTO.getContact2Name());
         enterpriseWorkerEntity.setPositionName(addEnterpriseDTO.getContact2Position());
         enterpriseWorkerEntity.setPhoneNumber(addEnterpriseDTO.getContact2Phone());
@@ -263,7 +253,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         agreementEntity.setSignType(SignType.PAPERAGREEMENT);
         agreementEntity.setSignState(SignState.SIGNED);
         agreementEntity.setPaperAgreementUrl(addEnterpriseDTO.getJoinContract());
-        agreementEntity.setFirstSideSignPerson(user.getRealName());
+        agreementEntity.setFirstSideSignPerson(adminEntity.getName());
         agreementEntity.setEnterpriseId(enterpriseEntity.getId());
         agreementEntity.setSecondSideSignPerson(enterpriseEntity.getContact1Name());
         agreementService.save(agreementEntity);
@@ -274,7 +264,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         agreementEntity.setSignType(SignType.PAPERAGREEMENT);
         agreementEntity.setAuditState(AuditState.APPROVED);
         agreementEntity.setPaperAgreementUrl(addEnterpriseDTO.getCommitmentLetter());
-        agreementEntity.setFirstSideSignPerson(user.getRealName());
+        agreementEntity.setFirstSideSignPerson(adminEntity.getName());
         agreementEntity.setEnterpriseId(enterpriseEntity.getId());
         agreementEntity.setSecondSideSignPerson(enterpriseEntity.getContact1Name());
         agreementService.save(agreementEntity);
@@ -284,7 +274,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> updateEnterprise(UpdateEnterpriseDTO updateEnterpriseDTO, User user) {
+    public R<String> updateEnterprise(UpdateEnterpriseDTO updateEnterpriseDTO, AdminEntity adminEntity) {
 
         EnterpriseEntity enterpriseEntity = getById(updateEnterpriseDTO.getEnterpriseId());
         if (enterpriseEntity == null) {
@@ -330,7 +320,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             agreementEntity.setSignType(SignType.PAPERAGREEMENT);
             agreementEntity.setSignState(SignState.SIGNED);
             agreementEntity.setPaperAgreementUrl(updateEnterpriseDTO.getJoinContract());
-            agreementEntity.setFirstSideSignPerson(user.getRealName());
+            agreementEntity.setFirstSideSignPerson(adminEntity.getName());
             agreementEntity.setEnterpriseId(enterpriseEntity.getId());
             agreementEntity.setSecondSideSignPerson(enterpriseEntity.getContact1Name());
             agreementService.save(agreementEntity);
@@ -347,7 +337,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             agreementEntity.setSignType(SignType.PAPERAGREEMENT);
             agreementEntity.setAuditState(AuditState.APPROVED);
             agreementEntity.setPaperAgreementUrl(updateEnterpriseDTO.getCommitmentLetter());
-            agreementEntity.setFirstSideSignPerson(user.getRealName());
+            agreementEntity.setFirstSideSignPerson(adminEntity.getName());
             agreementEntity.setEnterpriseId(enterpriseEntity.getId());
             agreementEntity.setSecondSideSignPerson(enterpriseEntity.getContact1Name());
             agreementService.save(agreementEntity);

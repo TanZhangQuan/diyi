@@ -40,8 +40,4 @@ public class UserVO extends User {
      */
     private String postName;
 
-    /**
-     * 性别
-     */
-    private String sexName;
 }
