@@ -35,7 +35,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -248,7 +247,6 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
             if (StringUtils.isNotBlank(request.getEmployeePwd())) {
                 String encrypt = DigestUtil.encrypt(request.getEmployeePwd());
                 entity.setEmployeePwd(encrypt);
-                userLogin.setPassword(encrypt);
                 userLogin.setAccount(entity.getPhoneNumber());
             }
 
@@ -261,7 +259,7 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
                 return R.fail("该手机号已经注册过");
             }
 
-            UserInfo userInfo = userService.userInfoByPhone(request.getPhoneNumber(), UserType.SERVICEPROVIDER);
+            UserInfo userInfo = userService.userInfoFindByPhoneAndUserType(request.getPhoneNumber(), UserType.SERVICEPROVIDER);
             if (userInfo != null) {
                 return R.fail("该手机号已经注册过");
             }
@@ -269,12 +267,7 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
             User user = new User();
             user.setUserType(UserType.SERVICEPROVIDER);
             user.setAccount(request.getPhoneNumber());
-            if (StringUtils.isNotBlank(request.getEmployeePwd())) {
-                user.setPassword(DigestUtil.encrypt(request.getEmployeePwd()));
-            }
             user.setPhone(request.getPhoneNumber());
-            user.setName(request.getEmployeeUserName());
-            user.setRealName(request.getWorkerName());
             userService.save(user);
 
             ServiceProviderWorkerEntity entity = new ServiceProviderWorkerEntity();
