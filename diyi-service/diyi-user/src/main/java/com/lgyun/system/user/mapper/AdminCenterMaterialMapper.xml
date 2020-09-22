@@ -11,7 +11,7 @@
         <result property="materialState" column="material_state"/>
     </resultMap>
 
-    <select id="selectServiceAgreement" resultMap="agreementWebVOMap">
+    <select id="queryAdminCenterMaterialList" resultMap="queryAdminCenterMaterialListVO">
         SELECT id AS admin_center_material_id, material_name, material_desc, material_url, material_state
         FROM diyi_admin_center_material WHERE is_deleted = 0 AND rel_service_provider = #{param1}
     </select>
