@@ -1523,7 +1523,7 @@ CREATE TABLE `diyi_self_help_invoice_account` (
   `account_name` varchar(50) NOT NULL COMMENT '账户名称',
   `account_no` varchar(50) NOT NULL COMMENT '银行账号',
   `account_bank` varchar(50) NOT NULL COMMENT '开户银行',
-  `basic_account_bank` varchar(50) NOT NULL COMMENT '基本存款账号',
+  `basic_account_bank` varchar(50) DEFAULT NULL COMMENT '基本存款账号',
   `is_default` bit(1) NOT NULL COMMENT '是否默认',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
