@@ -3,4 +3,28 @@
 
 <mapper namespace="com.lgyun.system.order.mapper.SelfHelpInvoiceDetailMapper">
 
+    <resultMap id="SelfHelpInvoiceDetailAdminMap" type="com.lgyun.system.order.vo.admin.SelfHelpInvoiceDetailAdminVO">
+        <result property="selfHelpInvoiceId" column="self_help_invoice_id"/>
+        <result property="selfHelpInvoiceDetailId" column="self_help_invoice_detail_id"/>
+        <result property="selfHelpInvoiceApplyProviderId" column="self_help_invoice_apply_provider_id"/>
+        <result property="selfHelpInvoiceApplyProviderDetailId" column="self_help_invoice_apply_provider_detail_id"/>
+        <result property="selfHelpInvoiceExpressId" column="self_help_invoice_express_id"/>
+        <result property="invoicePeopleName" column="invoice_people_name"/>
+        <result property="idCardNo" column="id_card_no"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="chargeMoneyNum" column="charge_money_num"/>
+        <result property="serviceRate" column="service_rate"/>
+        <result property="flowContractUrl" column="flow_contract_url"/>
+        <result property="businessContractUrl" column="business_contract_url"/>
+        <result property="deliverSheetUrl" column="deliver_sheet_url"/>
+        <result property="invoiceScanPictures" column="invoice_scan_pictures"/>
+        <result property="taxScanPictures" column="tax_scan_pictures"/>
+        <result property="expressCompanyName" column="express_company_name"/>
+        <result property="expressNo" column="express_no"/>
+        <result property="invoicePrintState" column="invoice_print_state"/>
+    </resultMap>
+
+    <select id="getSelfHelpInvoiceIdAll">
+        SELECT z.id AS self_help_invoice_id, a.id AS self_help_invoice_detail_id, b.id AS self_help_invoice_apply_provider_id, c.id AS self_help_invoice_apply_provider_detail_id, d.id AS self_help_invoice_express_id,a.invoice_print_state, a.invoice_people_name, IF ( a.maker_id IS NULL, ( SELECT e.id_card_no FROM diyi_self_help_invoice_person e WHERE e.id = a.none_maker_invoice_person_id ), ( SELECT m.idcard_no FROM diyi_maker AS m WHERE m.id = a.maker_id )) AS id_card_no, IF ( a.maker_id IS NULL, ( SELECT e.phone_number FROM diyi_self_help_invoice_person e WHERE e.id = a.none_maker_invoice_person_id ), ( SELECT m.phone_number FROM diyi_maker AS m WHERE m.id = a.maker_id )) AS phone_number, a.charge_money_num, z.service_rate, a.flow_contract_url, a.business_contract_url, a.deliver_sheet_url, c.invoice_scan_pictures, c.tax_scan_pictures, d.express_company_name, d.express_no FROM diyi_self_help_invoice z INNER JOIN diyi_self_help_invoice_detail a ON z.id = a.self_help_invoice_id LEFT JOIN diyi_self_help_invoice_sp b ON a.self_help_invoice_id = b.self_help_invoice_id LEFT JOIN diyi_self_help_invoice_sp_detail c ON b.id = c.self_help_invoice_apply_provider_id LEFT JOIN diyi_self_help_invoice_express d ON d.self_help_invoice_apply_provider_id = b.id WHERE z.id = #{param1}
+    </select>
 </mapper>

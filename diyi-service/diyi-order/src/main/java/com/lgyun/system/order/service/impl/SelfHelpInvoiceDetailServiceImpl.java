@@ -6,6 +6,7 @@ import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.common.enumeration.InvoicePrintState;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.enumeration.SelfHelpInvoiceApplyState;
+import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDto;
 import com.lgyun.system.order.entity.SelfHelpInvoiceApplyEntity;
@@ -18,6 +19,8 @@ import com.lgyun.system.order.service.ISelfHelpInvoiceApplyService;
 import com.lgyun.system.order.service.ISelfHelpInvoiceDetailService;
 import com.lgyun.system.order.service.ISelfHelpInvoicePersonService;
 import com.lgyun.system.order.service.ISelfHelpInvoiceService;
+import com.lgyun.system.order.vo.SelfHelpInvoiceDetailVO;
+import com.lgyun.system.order.vo.admin.SelfHelpInvoiceDetailAdminVO;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
@@ -29,6 +32,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -116,8 +120,30 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
         return false;
     }
 
-    private void makerSelfHelpInvoice(List<InvoiceListExcel> list, SelfHelpInvoiceDto selfHelpInvoiceDto, SelfHelpInvoiceEntity selfHelpInvoiceEntity) {
-        for (InvoiceListExcel invoiceListExcel : list) {
+    @Override
+    public List<SelfHelpInvoiceDetailVO> getSelfHelpInvoiceId(Long selfHelpInvoiceId) {
+        QueryWrapper<SelfHelpInvoiceDetailEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(SelfHelpInvoiceDetailEntity::getSelfHelpInvoiceId, selfHelpInvoiceId);
+        List<SelfHelpInvoiceDetailEntity> selfHelpInvoiceDetailEntities = baseMapper.selectList(queryWrapper);
+        List<SelfHelpInvoiceDetailVO> selfHelpInvoiceDetail = new ArrayList<>();
+        for (SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity:selfHelpInvoiceDetailEntities){
+            SelfHelpInvoiceDetailVO copy = BeanUtil.copy(selfHelpInvoiceDetailEntity, SelfHelpInvoiceDetailVO.class);
+            selfHelpInvoiceDetail.add(copy);
+        }
+        return selfHelpInvoiceDetail;
+    }
+
+    @Override
+    public List<SelfHelpInvoiceDetailAdminVO> getSelfHelpInvoiceIdAll(Long selfHelpInvoiceId) {
+        return baseMapper.getSelfHelpInvoiceIdAll(selfHelpInvoiceId);
+    }
+
+
+    /**
+     * 创客自助开票
+     */
+    private void makerSelfHelpInvoice(List<InvoiceListExcel> list,SelfHelpInvoiceDto selfHelpInvoiceDto,SelfHelpInvoiceEntity selfHelpInvoiceEntity){
+        for (InvoiceListExcel invoiceListExcel: list) {
             SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = new SelfHelpInvoiceDetailEntity();
             selfHelpInvoiceDetailEntity.setSelfHelpInvoiceId(selfHelpInvoiceEntity.getId());
             InvoicePeopleType invoicePeopleType = selfHelpInvoiceDto.getInvoiceIdentityType();

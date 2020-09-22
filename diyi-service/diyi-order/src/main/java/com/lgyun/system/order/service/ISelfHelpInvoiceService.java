@@ -3,14 +3,17 @@ package com.lgyun.system.order.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.InvoicePeopleType;
+import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.SelfHelpInvoiceSpApplyState;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDetailInvoiceTaxDto;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDetailsByServiceProviderDto;
 import com.lgyun.system.order.dto.SelfHelpInvoiceExpressDto;
 import com.lgyun.system.order.dto.SelfHelpInvoicesByEnterpriseDto;
+import com.lgyun.system.order.dto.admin.ToExamineSelfHelpInvoiceDto;
 import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
 import com.lgyun.system.order.vo.*;
+import com.lgyun.system.order.vo.admin.SelfHelpInvoiceAdminVO;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 
 /**
@@ -244,6 +247,31 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
     /**
      * 平台跟据创客身份查询自助开票
      */
-    R getAdminMakerTypeSelfHelpInvoice(String invoicePeopleName,String startTime,String endTime,IPage<SelfHelpInvoiceCrowdSourcingVO> page);
+    R getAdminMakerTypeSelfHelpInvoice(String enterpriseName, String startTime, String endTime, MakerType makerType,IPage<SelfHelpInvoiceAdminVO> page);
+
+    /**
+     * 平台跟据创客身份查询自助开票详情
+     */
+    R getMakerTypeSelfHelpInvoiceDetails(Long selfHelpInvoiceId);
+
+    /**
+     *平台审核自助开票
+     */
+    R toExamineSelfHelpInvoice(ToExamineSelfHelpInvoiceDto toExamineSelfHelpInvoiceDto);
+
+    /**
+     *平台上传支付回单和匹配服务商开票
+     */
+    R matchServiceProvider(Long selfHelpInvoiceId,Long selfHelpInvoiceFeeId,Long serviceProviderId,String payCertificate);
+
+    /**
+     * 平台上传快递
+     */
+    R uploadAdminExpress(Long selfHelpInvoiceId, Long serviceProviderId,String expressNo, String expressCompanyName);
+
+    /**
+     * 平台上传发票
+     */
+    R uploadAdminInvoice(Long selfHelpInvoiceApplyProviderDetailId, String invoiceScanPictures, String taxScanPictures);
 }
 
