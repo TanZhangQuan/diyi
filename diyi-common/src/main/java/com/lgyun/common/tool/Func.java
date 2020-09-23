@@ -1414,7 +1414,7 @@ public class Func {
      * @param <T>      泛型标记
      * @return 对象
      */
-    public static <T> T newInstance(String clazzStr) {
+    public static <T> T newInstance(String clazzStr) throws ClassNotFoundException {
         return BeanUtil.newInstance(clazzStr);
     }
 

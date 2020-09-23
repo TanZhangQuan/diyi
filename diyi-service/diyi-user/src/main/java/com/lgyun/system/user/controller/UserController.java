@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.BladeConstant;
+import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.Charsets;
 import com.lgyun.common.tool.Func;
@@ -121,13 +122,13 @@ public class UserController {
 
     @PostMapping("import-user")
     @ApiOperation(value = "导入用户", notes = "传入excel")
-    public R importUser(MultipartFile file, Integer isCovered) {
+    public R importUser(MultipartFile file) {
         String filename = file.getOriginalFilename();
         if (StringUtils.isEmpty(filename)) {
-            throw new RuntimeException("请上传文件!");
+            throw new CustomException("请上传文件!");
         }
         if ((!StringUtils.endsWithIgnoreCase(filename, ".xls") && !StringUtils.endsWithIgnoreCase(filename, ".xlsx"))) {
-            throw new RuntimeException("请上传正确的excel文件!");
+            throw new CustomException("请上传正确的excel文件!");
         }
         InputStream inputStream;
         try {

@@ -1,10 +1,10 @@
 package com.lgyun.auth.granter;
 
 import com.lgyun.common.enumeration.GrantType;
-import lombok.AllArgsConstructor;
-import com.lgyun.common.exception.SecureException;
+import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.tool.Func;
 import com.lgyun.common.tool.SpringUtil;
+import lombok.AllArgsConstructor;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -40,7 +40,7 @@ public class TokenGranterBuilder {
 	public static ITokenGranter getGranter(GrantType grantType) {
 		ITokenGranter tokenGranter = granterPool.get(Func.toStr(grantType.getValue(), PasswordTokenGranter.GRANT_TYPE));
 		if (tokenGranter == null) {
-			throw new SecureException("no grantType was found");
+			throw new CustomException("no grantType was found");
 		} else {
 			return tokenGranter;
 		}

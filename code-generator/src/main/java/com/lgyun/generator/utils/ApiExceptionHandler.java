@@ -12,18 +12,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @since 2018/6/23 18:15.
  */
 @RestControllerAdvice
-public class RRExceptionHandler {
+public class ApiExceptionHandler {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    /**
-     * 处理自定义异常
-     */
-    @ExceptionHandler(RRException.class)
-    public R handleRRException(RRException e) {
+    @ExceptionHandler(CustomException.class)
+    public R handleRRException(CustomException e) {
         R r = new R();
         r.put("code", e.getCode());
         r.put("msg", e.getMessage());
-
         return r;
     }
 

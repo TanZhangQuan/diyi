@@ -2,7 +2,7 @@ package com.lgyun.common.aspect;
 
 import com.lgyun.common.annotation.PreAuth;
 import com.lgyun.common.auth.AuthFun;
-import com.lgyun.common.exception.SecureException;
+import com.lgyun.common.exception.CustomException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -51,7 +51,8 @@ public class AuthAspect implements ApplicationContextAware {
 		if (handleAuth(point)) {
 			return point.proceed();
 		}
-		throw new SecureException(ResultCode.UN_AUTHORIZED);
+
+		throw new CustomException(ResultCode.UN_AUTHORIZED);
 	}
 
 	/**

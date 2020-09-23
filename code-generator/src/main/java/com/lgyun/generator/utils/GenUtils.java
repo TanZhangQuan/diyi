@@ -136,7 +136,7 @@ public class GenUtils {
                 IOUtils.closeQuietly(sw);
                 zip.closeEntry();
             } catch (IOException e) {
-                throw new RRException("渲染模板失败，表名：" + tableEntity.getTableName(), e);
+                throw new CustomException("渲染模板失败，表名：" + tableEntity.getTableName(), e);
             }
         }
     }
@@ -165,7 +165,7 @@ public class GenUtils {
         try {
             return new PropertiesConfiguration("generator.properties");
         } catch (ConfigurationException e) {
-            throw new RRException("查询配置文件失败，", e);
+            throw new CustomException("查询配置文件失败，", e);
         }
     }
 

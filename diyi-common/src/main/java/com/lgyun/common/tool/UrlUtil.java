@@ -39,15 +39,8 @@ public class UrlUtil extends org.springframework.web.util.UriUtils {
      * @param uriStr 路径
      * @return url路径
      */
-    public static String getPath(String uriStr) {
-        URI uri;
-
-        try {
-            uri = new URI(uriStr);
-        } catch (URISyntaxException var3) {
-            throw new RuntimeException(var3);
-        }
-
+    public static String getPath(String uriStr) throws URISyntaxException {
+        URI uri = new URI(uriStr);
         return uri.getPath();
     }
 

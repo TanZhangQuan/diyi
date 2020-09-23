@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
+import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
@@ -139,7 +140,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
 
         //判断文件内容是否为空
         if (file.isEmpty()) {
-            throw new RuntimeException("上传文件不能为空");
+            throw new CustomException("上传文件不能为空");
         }
         // 查询上传文件的后缀
         String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));

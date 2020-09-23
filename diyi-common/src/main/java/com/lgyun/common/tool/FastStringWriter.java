@@ -1,5 +1,6 @@
 package com.lgyun.common.tool;
 
+import com.lgyun.common.exception.CustomException;
 import org.springframework.lang.Nullable;
 
 import java.io.Writer;
@@ -18,7 +19,7 @@ public class FastStringWriter extends Writer {
 
 	public FastStringWriter(final int capacity) {
 		if (capacity < 0) {
-			throw new IllegalArgumentException("Negative builderfer size");
+			throw new CustomException("Negative builderfer size");
 		}
 		builder = new StringBuilder(capacity);
 	}
@@ -45,7 +46,7 @@ public class FastStringWriter extends Writer {
 	public void write(char[] cbuilder, int off, int len) {
 		if ((off < 0) || (off > cbuilder.length) || (len < 0) ||
 			((off + len) > cbuilder.length) || ((off + len) < 0)) {
-			throw new IndexOutOfBoundsException();
+			throw new CustomException("数组下标越界");
 		} else if (len == 0) {
 			return;
 		}

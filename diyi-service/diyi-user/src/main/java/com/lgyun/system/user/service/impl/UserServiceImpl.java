@@ -3,8 +3,8 @@ package com.lgyun.system.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.exceptions.ApiException;
 import com.lgyun.common.enumeration.UserType;
+import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.Func;
 import com.lgyun.common.tool.StringUtil;
@@ -37,12 +37,12 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
     public boolean submit(User user) {
 
         if (UserType.MAKER.equals(user.getUserType())) {
-            throw new ApiException("用户类型不允许手动添加修改");
+            throw new CustomException("用户类型不允许手动添加修改");
         }
 
         Integer cnt = baseMapper.selectCount(Wrappers.<User>query().lambda().eq(User::getTenantId, user.getTenantId()).eq(User::getUserType, user.getUserType()).eq(User::getAccount, user.getAccount()));
         if (cnt > 0) {
-            throw new ApiException("当前用户已存在!");
+            throw new CustomException("当前用户已存在!");
         }
 
         return saveOrUpdate(user);

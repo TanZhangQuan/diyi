@@ -2,6 +2,7 @@ package com.lgyun.common;
 
 import com.lgyun.common.constant.AppConstant;
 import com.lgyun.common.constant.NacosConstant;
+import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.launch.LauncherService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -66,7 +67,7 @@ public class BladeApplication {
 			profile = activeProfileList.get(0);
 		} else {
 			// 同时存在dev、test、prod环境时
-			throw new RuntimeException("同时存在环境变量:[" + StringUtils.arrayToCommaDelimitedString(activeProfiles) + "]");
+			throw new CustomException("同时存在环境变量:[" + StringUtils.arrayToCommaDelimitedString(activeProfiles) + "]");
 		}
 		String startJarPath = BladeApplication.class.getResource("/").getPath().split("!")[0];
 		String activePros = joinFun.apply(activeProfileList.toArray());
