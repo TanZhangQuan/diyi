@@ -11,7 +11,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,12 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.NotNull;
 
 /**
- * 控制器
+ * 总包交付支付验收单相关接口
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-07-17 14:38:25
  */
-@Slf4j
 @RestController
 @RequestMapping("/acceptpaysheet")
 @Validated
@@ -41,63 +39,42 @@ public class AcceptPaysheetController {
     @ApiOperation(value = "查询创客所有总包交付支付验收单的商户", notes = "查询创客所有总包交付支付验收单的商户")
     public R getEnterprisesByWorksheet(Query query, BladeUser bladeUser) {
 
-        log.info("查询创客所有总包交付支付验收单的商户");
-        try {
-            //查询当前创客
-            R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
-            if (!(result.isSuccess())) {
-                return result;
-            }
-            MakerEntity makerEntity = result.getData();
-
-            return acceptPaysheetService.getEnterprisesByWorksheet(Condition.getPage(query.setDescs("create_time")), makerEntity.getId());
-        } catch (Exception e) {
-            log.error("查询创客所有总包交付支付验收单的商户异常", e);
+        //查询当前创客
+        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
         }
+        MakerEntity makerEntity = result.getData();
 
-        return R.fail("查询失败");
+        return acceptPaysheetService.getEnterprisesByWorksheet(Condition.getPage(query.setDescs("create_time")), makerEntity.getId());
     }
 
     @GetMapping("/get-accept-paysheets-by-enterprise")
     @ApiOperation(value = "查询创客对应某商户的所有总包交付支付验收单", notes = "查询创客对应某商户的所有总包交付支付验收单")
     public R getAcceptPaysheetsByEnterprise(@ApiParam(value = "商户ID") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
 
-        log.info("查询创客对应某商户的所有总包交付支付验收单");
-        try {
-            //查询当前创客
-            R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
-            if (!(result.isSuccess())) {
-                return result;
-            }
-            MakerEntity makerEntity = result.getData();
-
-            return acceptPaysheetService.getAcceptPaysheetsByEnterprise(Condition.getPage(query.setDescs("create_time")), enterpriseId, makerEntity.getId());
-        } catch (Exception e) {
-            log.error("查询创客对应某商户的所有总包交付支付验收单异常", e);
+        //查询当前创客
+        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
         }
+        MakerEntity makerEntity = result.getData();
 
-        return R.fail("查询失败");
+        return acceptPaysheetService.getAcceptPaysheetsByEnterprise(Condition.getPage(query.setDescs("create_time")), enterpriseId, makerEntity.getId());
     }
 
     @GetMapping("/get-accept-paysheet-worksheet")
     @ApiOperation(value = "根据ID查询总包交付支付验收单", notes = "根据ID查询总包交付支付验收单")
     public R getAcceptPaysheetWorksheet(@ApiParam(value = "总包交付支付验收单ID") @NotNull(message = "请输入总包交付支付验收单编号") @RequestParam(required = false) Long acceptPaysheetId, BladeUser bladeUser) {
 
-        log.info("根据ID查询总包交付支付验收单");
-        try {
-            //查询当前创客
-            R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
-            if (!(result.isSuccess())) {
-                return result;
-            }
-            MakerEntity makerEntity = result.getData();
-
-            return acceptPaysheetService.getAcceptPaysheetWorksheet(makerEntity.getId(), acceptPaysheetId);
-        } catch (Exception e) {
-            log.error("根据ID查询总包交付支付验收单异常", e);
+        //查询当前创客
+        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
         }
+        MakerEntity makerEntity = result.getData();
 
-        return R.fail("查询失败");
+        return acceptPaysheetService.getAcceptPaysheetWorksheet(makerEntity.getId(), acceptPaysheetId);
     }
 
 }

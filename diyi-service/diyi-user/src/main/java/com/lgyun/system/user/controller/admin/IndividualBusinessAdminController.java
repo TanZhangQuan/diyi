@@ -11,7 +11,6 @@ import com.lgyun.system.user.service.IEnterpriseReportService;
 import com.lgyun.system.user.service.IIndividualBusinessService;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +18,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
- * 平台端---个体户管理controller
+ * 平台端---个体户管理模块相关接口
  *
  * @author tzq
  * @date 2020-09-9
  */
-@Slf4j
 @RestController
 @RequestMapping("/admin/individual-business")
 @Validated
@@ -44,67 +42,31 @@ public class IndividualBusinessAdminController {
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
     })
     public R queryIndividualBusinessList(IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto, Query query) {
-
-        log.info("查询所有个体户");
-        try {
-            return individualBusinessService.getIndividualBusinessList(Condition.getPage(query.setDescs("create_time")), null, null, individualBusinessEnterpriseDto);
-        } catch (Exception e) {
-            log.error("查询所有个体户异常", e);
-        }
-        return R.fail("查询失败");
+        return individualBusinessService.getIndividualBusinessList(Condition.getPage(query.setDescs("create_time")), null, null, individualBusinessEnterpriseDto);
     }
 
     @GetMapping("/query-enterprise-report-list")
     @ApiOperation(value = "查询个体户年审信息", notes = "查询个体户年审信息")
     public R queryEnterpriseReportList(Query query, @ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
-
-        log.info("查询个体户年审信息");
-        try {
-            return enterpriseReportService.findByBodyTypeAndBodyId(query, BodyType.INDIVIDUALBUSINESS, individualBusinessId);
-        } catch (Exception e) {
-            log.error("查询个体户年审信息异常", e);
-        }
-        return R.fail("查询失败");
+        return enterpriseReportService.findByBodyTypeAndBodyId(query, BodyType.INDIVIDUALBUSINESS, individualBusinessId);
     }
 
     @GetMapping("/query-self-help-invoice-statistics")
     @ApiOperation(value = "查询个体户开票次数，月度开票金额，年度开票金额和总开票金额", notes = "查询个体户开票次数，月度开票金额，年度开票金额和总开票金额")
     public R querySelfHelpInvoiceStatistics(@ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
-
-        log.info("查询个体户开票次数，月度开票金额，年度开票金额和总开票金额");
-        try {
-            return individualBusinessService.selfHelpInvoiceStatistics(individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
-        } catch (Exception e) {
-            log.error("查询个体户开票次数，月度开票金额，年度开票金额和总开票金额异常", e);
-        }
-        return R.fail("查询失败");
+        return individualBusinessService.selfHelpInvoiceStatistics(individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
     }
 
     @GetMapping("/query-self-help-invoice-list")
     @ApiOperation(value = "查询个体户开票记录", notes = "查询个体户开票记录")
     public R querySelfHelpInvoiceList(Query query, @ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
-
-        log.info("查询个体户开票记录");
-        try {
-            return individualBusinessService.selfHelpInvoiceList(query, individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
-        } catch (Exception e) {
-            log.error("查询个体户开票记录异常", e);
-        }
-        return R.fail("查询失败");
+        return individualBusinessService.selfHelpInvoiceList(query, individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
     }
 
     @PostMapping("/save-individual-business")
     @ApiOperation(value = "创建个体户", notes = "创建个体户")
     public R saveIndividualBusiness(@Valid @RequestBody IndividualBusinessEnterpriseWebAddDto individualBusinessEnterpriseWebAddDto) {
-
-        log.info("当前商户申请创建个体户");
-        try {
-            return individualBusinessService.save(individualBusinessEnterpriseWebAddDto, null);
-        } catch (Exception e) {
-            log.error("当前商户申请创建个体户异常", e);
-        }
-        return R.fail("新增个体户失败");
+        return individualBusinessService.save(individualBusinessEnterpriseWebAddDto, null);
     }
-
 
 }

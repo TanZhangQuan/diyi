@@ -39,9 +39,6 @@ public class RoleController extends BladeController {
 	private IRoleService roleService;
 	private IUserClient userClient;
 
-	/**
-	 * 详情
-	 */
 	@GetMapping("/detail")
 	@ApiOperation(value = "详情", notes = "传入role")
 	public R<RoleVO> detail(Role role) {
@@ -49,9 +46,6 @@ public class RoleController extends BladeController {
 		return R.data(RoleWrapper.build().entityVO(detail));
 	}
 
-	/**
-	 * 列表
-	 */
 	@GetMapping("/list")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "roleName", value = "参数名称", paramType = "query", dataType = "string"),
@@ -64,9 +58,6 @@ public class RoleController extends BladeController {
 		return R.data(RoleWrapper.build().listNodeVO(list));
 	}
 
-	/**
-	 * 查询角色树形结构
-	 */
 	@GetMapping("/tree")
 	@ApiOperation(value = "树形结构", notes = "树形结构")
 	public R<List<RoleVO>> tree(String tenantId, BladeUser bladeUser) {
@@ -74,46 +65,33 @@ public class RoleController extends BladeController {
 		return R.data(tree);
 	}
 
-	/**
-	 * 新增或修改
-	 */
 	@PostMapping("/submit")
 	@ApiOperation(value = "新增或修改", notes = "传入role")
 	public R submit(@Valid @RequestBody Role role, BladeUser user) {
 		if (Func.isEmpty(role.getId())) {
 			role.setTenantId(user.getTenantId());
 		}
-		//查询当前创客
+		//查询当前商户员工
 		R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(user);
 		if (!(result.isSuccess())) {
-			return R.fail("当前登录用户失效");
+			return result;
 		}
 		return R.status(roleService.saveOrUpdate(role));
 	}
 
-
-	/**
-	 * 删除
-	 */
 	@PostMapping("/remove")
 	@ApiOperation(value = "删除", notes = "传入ids")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
 		return R.status(roleService.removeByIds(Func.toLongList(ids)));
 	}
 
-	/**
-	 * 设置菜单权限
-	 *
-	 * @param request
-	 * @return
-	 */
 	@PostMapping("/grant")
 	@ApiOperation(value = "权限设置", notes = "传入menuId集合")
 	public R grant(@RequestBody GrantRequest request, BladeUser user) {
-		//查询当前创客
+		//查询当前商户员工
 		R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(user);
 		if (!(result.isSuccess())) {
-			return R.fail("当前登录用户失效");
+			return result;
 		}
 		EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 		if (!enterpriseWorkerEntity.getId().equals(request.getAccountId())) {

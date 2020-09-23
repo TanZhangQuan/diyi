@@ -34,9 +34,6 @@ public class TenantController extends BladeController {
 
 	private ITenantService tenantService;
 
-	/**
-	 * 详情
-	 */
 	@GetMapping("/detail")
 	@ApiOperation(value = "详情", notes = "传入tenant")
 	public R<Tenant> detail(Tenant tenant) {
@@ -44,9 +41,6 @@ public class TenantController extends BladeController {
 		return R.data(detail);
 	}
 
-	/**
-	 * 分页
-	 */
 	@GetMapping("/list")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "tenantId", value = "参数名称", paramType = "query", dataType = "string"),
@@ -60,9 +54,6 @@ public class TenantController extends BladeController {
 		return R.data(pages);
 	}
 
-	/**
-	 * 下拉数据源
-	 */
 	@GetMapping("/select")
 	@ApiOperation(value = "下拉数据源", notes = "传入tenant")
 	public R<List<Tenant>> select(Tenant tenant, BladeUser bladeUser) {
@@ -71,9 +62,6 @@ public class TenantController extends BladeController {
 		return R.data(list);
 	}
 
-	/**
-	 * 自定义分页
-	 */
 	@GetMapping("/page")
 	@ApiOperation(value = "分页", notes = "传入tenant")
 	public R<IPage<Tenant>> page(Tenant tenant, Query query) {
@@ -81,24 +69,16 @@ public class TenantController extends BladeController {
 		return R.data(pages);
 	}
 
-	/**
-	 * 新增或修改
-	 */
 	@PostMapping("/submit")
 	@ApiOperation(value = "新增或修改", notes = "传入tenant")
 	public R submit(@Valid @RequestBody Tenant tenant) {
 		return R.status(tenantService.saveTenant(tenant));
 	}
 
-
-	/**
-	 * 删除
-	 */
 	@PostMapping("/remove")
 	@ApiOperation(value = "逻辑删除", notes = "传入ids")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
 		return R.status(tenantService.deleteLogic(Func.toLongList(ids)));
 	}
-
 
 }

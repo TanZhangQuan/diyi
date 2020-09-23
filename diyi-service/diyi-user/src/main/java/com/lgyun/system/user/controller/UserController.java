@@ -21,7 +21,6 @@ import com.lgyun.system.user.wrapper.UserWrapper;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +43,6 @@ import java.util.Map;
  * @author tzq
  * @since 2020/6/6 22:13
  */
-@Slf4j
 @RestController
 @RequestMapping("/web/user")
 @AllArgsConstructor

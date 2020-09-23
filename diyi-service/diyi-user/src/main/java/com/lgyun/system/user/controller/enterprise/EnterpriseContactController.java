@@ -10,7 +10,6 @@ import com.lgyun.system.user.vo.enterprise.EnterpriseContactResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +23,6 @@ import java.util.List;
  * @author tzq
  * @since 2020/8/19 11:37
  */
-@Slf4j
 @RestController
 @RequestMapping("/enterprise/contact")
 @AllArgsConstructor
@@ -36,56 +34,43 @@ public class EnterpriseContactController {
     @GetMapping("/list")
     @ApiOperation(value = "查询当前商户所有联系人详情", notes = "查询当前商户所有联系人详情")
     public R currentDetail(BladeUser bladeUser) {
-        log.info("查询当前商户所有联系人详情");
-        try {
-            //查询当前创客
-            R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())) {
-                return result;
-            }
-            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-            QueryWrapper<EnterpriseWorkerEntity> queryWrapper = new QueryWrapper<>();
-            queryWrapper.lambda().eq(EnterpriseWorkerEntity::getEnterpriseId, enterpriseWorkerEntity.getEnterpriseId());
-            List<EnterpriseWorkerEntity> list = enterpriseWorkerService.list(queryWrapper);
-
-            List<EnterpriseContactResponse> responseList = new ArrayList<>();
-            list.stream().forEach(entity -> {
-                EnterpriseContactResponse response = new EnterpriseContactResponse();
-                BeanUtils.copyProperties(entity, response);
-                response.setWorkerSex(entity.getWorkerSex().getDesc());
-                response.setCreateTime(entity.getCreateTime().getTime());
-                response.setEnterpriseWorkerState(entity.getEnterpriseWorkerState().getValue());
-                response.setPositionName(entity.getPositionName().getDesc());
-
-                responseList.add(response);
-            });
-            return R.data(responseList);
-        } catch (Exception e) {
-            log.error("查询当前商户所有联系人详情，error", e);
+        //查询当前创客
+        R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
         }
-        return R.fail("查询失败");
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+        QueryWrapper<EnterpriseWorkerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(EnterpriseWorkerEntity::getEnterpriseId, enterpriseWorkerEntity.getEnterpriseId());
+        List<EnterpriseWorkerEntity> list = enterpriseWorkerService.list(queryWrapper);
+
+        List<EnterpriseContactResponse> responseList = new ArrayList<>();
+        list.stream().forEach(entity -> {
+            EnterpriseContactResponse response = new EnterpriseContactResponse();
+            BeanUtils.copyProperties(entity, response);
+            response.setWorkerSex(entity.getWorkerSex().getDesc());
+            response.setCreateTime(entity.getCreateTime().getTime());
+            response.setEnterpriseWorkerState(entity.getEnterpriseWorkerState().getValue());
+            response.setPositionName(entity.getPositionName().getDesc());
+
+            responseList.add(response);
+        });
+
+        return R.data(responseList);
     }
 
     @PostMapping("/add-or-update-enterprise-contact")
     @ApiOperation(value = "添加或修改商户联系人", notes = "添加或修改商户联系人")
     public R addOrUpdateEnterpriseContact(@Valid @RequestBody AddOrUpdateEnterpriseContactDto addOrUpdateEnterpriseContactDto, BladeUser bladeUser) {
-
-        log.info("添加或修改商户联系人");
-        try {
-            //查询当前创客
-            R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())) {
-                return result;
-            }
-            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-            return enterpriseWorkerService.addOrUpdateEnterpriseContact(addOrUpdateEnterpriseContactDto, enterpriseWorkerEntity.getId());
-        } catch (Exception e) {
-            log.error("添加或修改商户联系人异常", e);
+        //查询当前创客
+        R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
         }
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return R.fail("操作失败");
+        return enterpriseWorkerService.addOrUpdateEnterpriseContact(addOrUpdateEnterpriseContactDto, enterpriseWorkerEntity.getId());
     }
 
 }

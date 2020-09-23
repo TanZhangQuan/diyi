@@ -18,7 +18,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +29,6 @@ import javax.validation.Valid;
  * @author tzq
  * @since 2020-07-25 14:38:06
  */
-@Slf4j
 @RestController
 @RequestMapping("/serviceprovider")
 @Validated
@@ -38,165 +36,117 @@ import javax.validation.Valid;
 @Api(value = "服务商相关接口", tags = "服务商相关接口")
 public class ServiceProviderController {
 
-	private IServiceProviderService serviceProviderService;
-	private IServiceProviderWorkerService serviceProviderWorkerService;
+    private IServiceProviderService serviceProviderService;
+    private IServiceProviderWorkerService serviceProviderWorkerService;
 
-	@PostMapping("/save")
-	@ApiOperation(value = "新增", notes = "新增")
-	public R save(@Valid @RequestBody ServiceProviderEntity serviceProvider) {
-		return R.status(serviceProviderService.save(serviceProvider));
-	}
+    @PostMapping("/save")
+    @ApiOperation(value = "新增", notes = "新增")
+    public R save(@Valid @RequestBody ServiceProviderEntity serviceProvider) {
+        return R.status(serviceProviderService.save(serviceProvider));
+    }
 
-	@PostMapping("/update")
-	@ApiOperation(value = "修改", notes = "修改")
-	public R update(@Valid @RequestBody ServiceProviderEntity serviceProvider) {
-		return R.status(serviceProviderService.updateById(serviceProvider));
-	}
+    @PostMapping("/update")
+    @ApiOperation(value = "修改", notes = "修改")
+    public R update(@Valid @RequestBody ServiceProviderEntity serviceProvider) {
+        return R.status(serviceProviderService.updateById(serviceProvider));
+    }
 
-	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "详情")
-	public R detail(ServiceProviderEntity serviceProvider) {
-		ServiceProviderEntity detail = serviceProviderService.getOne(Condition.getQueryWrapper(serviceProvider));
-		return R.data(ServiceProviderWrapper.build().entityVO(detail));
-	}
+    @GetMapping("/detail")
+    @ApiOperation(value = "详情", notes = "详情")
+    public R detail(ServiceProviderEntity serviceProvider) {
+        ServiceProviderEntity detail = serviceProviderService.getOne(Condition.getQueryWrapper(serviceProvider));
+        return R.data(ServiceProviderWrapper.build().entityVO(detail));
+    }
 
-	@GetMapping("/list")
-	@ApiOperation(value = "分页", notes = "分页")
-	public R list(ServiceProviderEntity serviceProvider, Query query) {
-		IPage<ServiceProviderEntity> pages = serviceProviderService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(serviceProvider));
-		return R.data(ServiceProviderWrapper.build().pageVO(pages));
-	}
+    @GetMapping("/list")
+    @ApiOperation(value = "分页", notes = "分页")
+    public R list(ServiceProviderEntity serviceProvider, Query query) {
+        IPage<ServiceProviderEntity> pages = serviceProviderService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(serviceProvider));
+        return R.data(ServiceProviderWrapper.build().pageVO(pages));
+    }
 
-	@PostMapping("/remove")
-	@ApiOperation(value = "删除", notes = "删除")
-	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
-		return R.status(serviceProviderService.removeByIds(Func.toLongList(ids)));
-	}
+    @PostMapping("/remove")
+    @ApiOperation(value = "删除", notes = "删除")
+    public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
+        return R.status(serviceProviderService.removeByIds(Func.toLongList(ids)));
+    }
 
-	@GetMapping("/get_bank_card")
-	@ApiOperation(value = "查询当前服务商银行卡信息", notes = "查询当前服务商银行卡信息")
-	public R getBankCard(BladeUser bladeUser) {
+    @GetMapping("/get_bank_card")
+    @ApiOperation(value = "查询当前服务商银行卡信息", notes = "查询当前服务商银行卡信息")
+    public R getBankCard(BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-		log.info("查询当前服务商银行卡信息");
-		try {
-			//查询当前服务商员工
-			R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
-			if (!(result.isSuccess())) {
-				return result;
-			}
-			ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+        return serviceProviderService.getBankCard(serviceProviderWorkerEntity.getServiceProviderId());
+    }
 
-			return serviceProviderService.getBankCard(serviceProviderWorkerEntity.getServiceProviderId());
-		} catch (Exception e) {
-			log.error("查询当前服务商银行卡信息异常", e);
-		}
+    @PostMapping("/add_or_update_bank_card")
+    @ApiOperation(value = "新增或修改当前服务商银行卡信息", notes = "新增或修改当前服务商银行卡信息")
+    public R addOrUpdateBankCard(@Valid @RequestBody ServiceProviderBankCardDto serviceProviderBankCardDto, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-		return R.fail("查询失败");
-	}
+        return serviceProviderService.addOrUpdateBankCard(serviceProviderBankCardDto, serviceProviderWorkerEntity.getServiceProviderId());
+    }
 
-	@PostMapping("/add_or_update_bank_card")
-	@ApiOperation(value = "新增或修改当前服务商银行卡信息", notes = "新增或修改当前服务商银行卡信息")
-	public R addOrUpdateBankCard(@Valid @RequestBody ServiceProviderBankCardDto serviceProviderBankCardDto, BladeUser bladeUser) {
+    @GetMapping("/get_contact_person")
+    @ApiOperation(value = "查询当前服务商联系人信息", notes = "查询当前服务商联系人信息")
+    public R getContactPerson(BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-		log.info("新增或修改当前服务商银行卡信息");
-		try {
-			//查询当前服务商员工
-			R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
-			if (!(result.isSuccess())) {
-				return result;
-			}
-			ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+        return serviceProviderService.getContactPerson(serviceProviderWorkerEntity.getServiceProviderId());
+    }
 
-			return serviceProviderService.addOrUpdateBankCard(serviceProviderBankCardDto, serviceProviderWorkerEntity.getServiceProviderId());
-		} catch (Exception e) {
-			log.error("新增或修改当前服务商银行卡信息异常", e);
-		}
+    @PostMapping("/add_or_update_contact_person")
+    @ApiOperation(value = "新增或修改当前服务商联系人信息", notes = "新增或修改当前服务商联系人信息")
+    public R addOrUpdateContactPerson(@Valid @RequestBody ServiceProviderContactPersonDto serviceProviderContactPersonDto, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-		return R.fail("操作失败");
-	}
+        return serviceProviderService.addOrUpdateContactPerson(serviceProviderContactPersonDto, serviceProviderWorkerEntity.getServiceProviderId());
+    }
 
-	@GetMapping("/get_contact_person")
-	@ApiOperation(value = "查询当前服务商联系人信息", notes = "查询当前服务商联系人信息")
-	public R getContactPerson(BladeUser bladeUser) {
+    @GetMapping("/get_invoice")
+    @ApiOperation(value = "查询当前服务商开票信息", notes = "查询当前服务商开票信息")
+    public R getInvoice(BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-		log.info("查询当前服务商联系人信息");
-		try {
-			//查询当前服务商员工
-			R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
-			if (!(result.isSuccess())) {
-				return result;
-			}
-			ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+        return serviceProviderService.getInvoice(serviceProviderWorkerEntity.getServiceProviderId());
+    }
 
-			return serviceProviderService.getContactPerson(serviceProviderWorkerEntity.getServiceProviderId());
-		} catch (Exception e) {
-			log.error("查询当前服务商联系人信息异常", e);
-		}
+    @PostMapping("/add_or_update_invoice")
+    @ApiOperation(value = "新增或修改当前服务商开票信息", notes = "新增或修改当前服务商开票信息")
+    public R addOrUpdateInvoice(@Valid @RequestBody ServiceProviderInvoiceDto serviceProviderInvoiceDto, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-		return R.fail("查询失败");
-	}
-
-	@PostMapping("/add_or_update_contact_person")
-	@ApiOperation(value = "新增或修改当前服务商联系人信息", notes = "新增或修改当前服务商联系人信息")
-	public R addOrUpdateContactPerson(@Valid @RequestBody ServiceProviderContactPersonDto serviceProviderContactPersonDto, BladeUser bladeUser) {
-
-		log.info("新增或修改当前服务商联系人信息");
-		try {
-			//查询当前服务商员工
-			R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
-			if (!(result.isSuccess())) {
-				return result;
-			}
-			ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
-
-			return serviceProviderService.addOrUpdateContactPerson(serviceProviderContactPersonDto, serviceProviderWorkerEntity.getServiceProviderId());
-		} catch (Exception e) {
-			log.error("新增或修改当前服务商联系人信息异常", e);
-		}
-
-		return R.fail("操作失败");
-	}
-
-	@GetMapping("/get_invoice")
-	@ApiOperation(value = "查询当前服务商开票信息", notes = "查询当前服务商开票信息")
-	public R getInvoice(BladeUser bladeUser) {
-
-		log.info("查询当前服务商开票信息");
-		try {
-			//查询当前服务商员工
-			R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
-			if (!(result.isSuccess())) {
-				return result;
-			}
-			ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
-
-			return serviceProviderService.getInvoice(serviceProviderWorkerEntity.getServiceProviderId());
-		} catch (Exception e) {
-			log.error("查询当前服务商开票信息异常", e);
-		}
-
-		return R.fail("查询失败");
-	}
-
-	@PostMapping("/add_or_update_invoice")
-	@ApiOperation(value = "新增或修改当前服务商开票信息", notes = "新增或修改当前服务商开票信息")
-	public R addOrUpdateInvoice(@Valid @RequestBody ServiceProviderInvoiceDto serviceProviderInvoiceDto, BladeUser bladeUser) {
-
-		log.info("新增或修改当前服务商开票信息");
-		try {
-			//查询当前服务商员工
-			R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
-			if (!(result.isSuccess())) {
-				return result;
-			}
-			ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
-
-			return serviceProviderService.addOrUpdateInvoice(serviceProviderInvoiceDto, serviceProviderWorkerEntity.getServiceProviderId());
-		} catch (Exception e) {
-			log.error("新增或修改当前服务商开票信息异常", e);
-		}
-
-		return R.fail("操作失败");
-	}
+        return serviceProviderService.addOrUpdateInvoice(serviceProviderInvoiceDto, serviceProviderWorkerEntity.getServiceProviderId());
+    }
 
 }

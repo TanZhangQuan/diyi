@@ -18,7 +18,6 @@ import com.lgyun.system.user.service.IServiceProviderWorkerService;
 import com.lgyun.system.user.wrapper.IndividualBusinessWrapper;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +31,6 @@ import javax.validation.constraints.NotNull;
  * @author tzq
  * @since 2020-07-02 17:44:02
  */
-@Slf4j
 @RestController
 @RequestMapping("/web/individual-business")
 @Validated
@@ -53,80 +51,45 @@ public class IndividualBusinessWebController {
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
     })
     public R getByDtoEnterprise(IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto, Query query, BladeUser bladeUser) {
-
-        log.info("查询当前商户的关联创客的所有个体户");
-        try {
-            //查询当前商户员工
-            R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())) {
-                return result;
-            }
-            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-            return individualBusinessService.getIndividualBusinessList(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), null, individualBusinessEnterpriseDto);
-        } catch (Exception e) {
-            log.error("查询当前商户的关联创客的所有个体户异常", e);
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
         }
-        return R.fail("查询失败");
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+        return individualBusinessService.getIndividualBusinessList(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), null, individualBusinessEnterpriseDto);
     }
 
     @GetMapping("/self_help_invoice_statistics")
     @ApiOperation(value = "查询个体户开票次数，月度开票金额，年度开票金额和总开票金额", notes = "查询个体户开票次数，月度开票金额，年度开票金额和总开票金额")
     public R selfHelpInvoiceStatistics(@ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
-
-        log.info("查询个体户开票次数，月度开票金额，年度开票金额和总开票金额");
-        try {
-            return individualBusinessService.selfHelpInvoiceStatistics(individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
-        } catch (Exception e) {
-            log.error("查询个体户开票次数，月度开票金额，年度开票金额和总开票金额异常", e);
-        }
-        return R.fail("查询失败");
+        return individualBusinessService.selfHelpInvoiceStatistics(individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
     }
 
     @GetMapping("/self_help_invoice_list")
     @ApiOperation(value = "查询个体户开票记录", notes = "查询个体户开票记录")
     public R selfHelpInvoiceList(Query query, @ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
-
-        log.info("查询个体户开票记录");
-        try {
-            return individualBusinessService.selfHelpInvoiceList(query, individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
-        } catch (Exception e) {
-            log.error("查询个体户开票记录异常", e);
-        }
-        return R.fail("查询失败");
+        return individualBusinessService.selfHelpInvoiceList(query, individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
     }
 
     @PostMapping("/save_by_enterprise")
     @ApiOperation(value = "当前商户申请创建个体户", notes = "当前商户申请创建个体户")
     public R saveByEnterprise(@Valid @RequestBody IndividualBusinessEnterpriseWebAddDto individualBusinessEnterpriseWebAddDto, BladeUser bladeUser) {
-
-        log.info("当前商户申请创建个体户");
-        try {
-            //查询当前商户员工
-            R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())) {
-                return result;
-            }
-            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-            return individualBusinessService.save(individualBusinessEnterpriseWebAddDto, enterpriseWorkerEntity.getEnterpriseId());
-        } catch (Exception e) {
-            log.error("当前商户申请创建个体户异常", e);
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
         }
-        return R.fail("新增个体户失败");
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+        return individualBusinessService.save(individualBusinessEnterpriseWebAddDto, enterpriseWorkerEntity.getEnterpriseId());
     }
 
     @GetMapping("/query_enterprise_reports")
     @ApiOperation(value = "查询个体户年审信息", notes = "查询个体户年审信息")
     public R queryEnterpriseReports(Query query, @ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
-
-        log.info("查询个体户年审信息");
-        try {
-            return individualBusinessService.queryEnterpriseReports(query, individualBusinessId);
-        } catch (Exception e) {
-            log.error("查询个体户年审信息异常", e);
-        }
-        return R.fail("查询失败");
+        return individualBusinessService.queryEnterpriseReports(query, individualBusinessId);
     }
 
     @GetMapping("/get_list_by_service_provider_id")
@@ -138,83 +101,46 @@ public class IndividualBusinessWebController {
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
     })
     public R getListByServiceProviderId(IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto, Query query, BladeUser bladeUser) {
-
-        log.info("查询当前服务商关联的所有个体户");
-        try {
-            //查询当前服务商员工
-            R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
-            if (!(result.isSuccess())) {
-                return result;
-            }
-            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
-
-            return individualBusinessService.getIndividualBusinessList(Condition.getPage(query.setDescs("create_time")), null, serviceProviderWorkerEntity.getServiceProviderId(), individualBusinessEnterpriseDto);
-        } catch (Exception e) {
-            log.error("查询当前服务商关联的所有个体户异常", e);
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
         }
-        return R.fail("查询失败");
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+        return individualBusinessService.getIndividualBusinessList(Condition.getPage(query.setDescs("create_time")), null, serviceProviderWorkerEntity.getServiceProviderId(), individualBusinessEnterpriseDto);
     }
 
     @PostMapping("/remove")
     @ApiOperation(value = "个体户逻辑删除", notes = "个体户逻辑删除")
     public R remove(@ApiParam(value = "个体户ID集合") @NotBlank(message = "请选择要删除的个体户") @RequestParam(required = false) String ids) {
-
-        log.info("个体户逻辑删除");
-        try {
-            return R.status(individualBusinessService.removeByIds(Func.toLongList(ids)));
-        } catch (Exception e) {
-            log.error("个体户逻辑删除异常", e);
-        }
-        return R.fail("删除失败");
+        return R.status(individualBusinessService.removeByIds(Func.toLongList(ids)));
     }
 
     @GetMapping("/detail")
     @ApiOperation(value = "查询个体户详情", notes = "查询个体户详情")
     public R detail(@ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
-
-        log.info("查询个体户详情");
-        try {
-            IndividualBusinessEntity individualBusinessEntity = individualBusinessService.getById(individualBusinessId);
-            return R.data(IndividualBusinessWrapper.build().entityVO(individualBusinessEntity));
-        } catch (Exception e) {
-            log.error("查询个体户详情异常", e);
-        }
-        return R.fail("查询失败");
+        IndividualBusinessEntity individualBusinessEntity = individualBusinessService.getById(individualBusinessId);
+        return R.data(IndividualBusinessWrapper.build().entityVO(individualBusinessEntity));
     }
 
     @PostMapping("/update")
     @ApiOperation(value = "修改个体户", notes = "修改个体户")
     public R update(@Valid @RequestBody IndividualBusinessEntity individualBusiness) {
-
-        log.info("修改个体户");
-        try {
-            return R.status(individualBusinessService.updateById(individualBusiness));
-        } catch (Exception e) {
-            log.error("修改个体户异常", e);
-        }
-
-        return R.fail("修改失败");
+        return R.status(individualBusinessService.updateById(individualBusiness));
     }
 
     @PostMapping("/update_ibstate")
     @ApiOperation(value = "修改个体户状态", notes = "修改个体户状态")
     public R updateIbstate(@ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId, @ApiParam(value = "个体户状态") @NotNull(message = "请选择个体户状态") @RequestParam(required = false) Ibstate ibstate, BladeUser bladeUser) {
-
-        log.info("修改个体户状态");
-        try {
-            //查询当前服务商员工
-            R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
-            if (!(result.isSuccess())) {
-                return result;
-            }
-            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
-
-            return individualBusinessService.updateIbstate(serviceProviderWorkerEntity.getServiceProviderId(), individualBusinessId, ibstate);
-        } catch (Exception e) {
-            log.error("修改个体户状态异常", e);
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
         }
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return R.fail("修改失败");
+        return individualBusinessService.updateIbstate(serviceProviderWorkerEntity.getServiceProviderId(), individualBusinessId, ibstate);
     }
 
 }

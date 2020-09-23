@@ -14,7 +14,6 @@ import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,12 +21,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
- * 控制器
+ * 总包交付支付验收单相关接口(管理端)
  *
  * @author liangfeihu
  * @since 2020-07-17 14:38:25
  */
-@Slf4j
 @RestController
 @RequestMapping("/web/accept_pay_sheet")
 @Validated
@@ -43,35 +41,20 @@ public class AcceptPaysheetWebController {
     @ApiOperation(value = "上传总包交付支付验收单", notes = "上传总包交付支付验收单")
     public R save(@Valid @RequestBody AcceptPaysheetSaveDto acceptPaysheetSaveDto, BladeUser bladeUser) {
 
-        log.info("上传总包交付支付验收单");
-        try {
-            //查询当前商户员工
-            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())) {
-                return result;
-            }
-            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-            return acceptPaysheetService.upload(acceptPaysheetSaveDto, enterpriseWorkerEntity.getEnterpriseId(), "商户上传", enterpriseWorkerEntity.getWorkerName());
-        } catch (Exception e) {
-            log.error("上传总包交付支付验收单异常", e);
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
         }
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return R.fail("上传失败");
+        return acceptPaysheetService.upload(acceptPaysheetSaveDto, enterpriseWorkerEntity.getEnterpriseId(), "商户上传", enterpriseWorkerEntity.getWorkerName());
     }
 
     @PostMapping("/remove")
     @ApiOperation(value = "删除总包交付支付验收单", notes = "删除总包交付支付验收单")
     public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
-
-        log.info("删除总包交付支付验收单");
-        try {
-            return R.status(acceptPaysheetService.removeByIds(Func.toLongList(ids)));
-        } catch (Exception e) {
-            log.error("删除总包交付支付验收单异常", e);
-        }
-
-        return R.fail("删除失败");
+        return R.status(acceptPaysheetService.removeByIds(Func.toLongList(ids)));
     }
 
     @GetMapping("/get_accept_pay_sheet_by_enterprise")
@@ -83,34 +66,20 @@ public class AcceptPaysheetWebController {
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
     })
     public R getAcceptPaySheetsByEnterprise(AcceptPayListDto acceptPayListDto, Query query, BladeUser bladeUser) {
-
-        log.info("查询当前商户所有总包交付支付验收单");
-        try {
-            //查询当前商户员工
-            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())) {
-                return result;
-            }
-            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-            return acceptPaysheetService.getAcceptPaySheetsByEnterprise(enterpriseWorkerEntity.getEnterpriseId(), acceptPayListDto, Condition.getPage(query.setDescs("create_time")));
-        } catch (Exception e) {
-            log.error("查询当前商户所有总包交付支付验收单异常", e);
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
         }
-        return R.fail("查询失败");
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+        return acceptPaysheetService.getAcceptPaySheetsByEnterprise(enterpriseWorkerEntity.getEnterpriseId(), acceptPayListDto, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/get_maker_list")
     @ApiOperation(value = "根据总包交付支付验收单ID查询关联创客", notes = "根据总包交付支付验收单ID查询关联创客")
     public R getMakerList(@ApiParam(value = "总包交付支付验收单ID") @NotNull(message = "请输入总包交付支付验收单编号") @RequestParam(required = false) Long acceptPaysheetId, Query query) {
-
-        log.info("根据总包交付支付验收单ID查询关联创客");
-        try {
-            return acceptPaysheetService.getMakerList(acceptPaysheetId, Condition.getPage(query.setDescs("create_time")));
-        } catch (Exception e) {
-            log.error("根据总包交付支付验收单ID查询关联创客异常", e);
-        }
-        return R.fail("查询失败");
+        return acceptPaysheetService.getMakerList(acceptPaysheetId, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/get_pay_enterprises_by_enterprise")
@@ -121,34 +90,20 @@ public class AcceptPaysheetWebController {
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
     })
     public R getPayEnterprisesByEnterprise(PayEnterpriseDto payEnterpriseDto, Query query, BladeUser bladeUser) {
-
-        log.info("查询当前商户所有总包支付清单");
-        try {
-            //查询当前商户员工
-            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())){
-                return result;
-            }
-            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-            return payEnterpriseService.getPayEnterpriseList(enterpriseWorkerEntity.getEnterpriseId(), null, payEnterpriseDto, Condition.getPage(query.setDescs("create_time")));
-        } catch (Exception e) {
-            log.error("查询当前商户所有总包支付清单异常", e);
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
         }
-        return R.fail("查询失败");
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+        return payEnterpriseService.getPayEnterpriseList(enterpriseWorkerEntity.getEnterpriseId(), null, payEnterpriseDto, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/get_makers")
     @ApiOperation(value = "根据支付清单ID查询支付清单关联工单的创客", notes = "根据支付清单ID查询支付清单关联工单的创客")
     public R getMakers(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, Query query) {
-
-        log.info("根据支付清单ID查询支付清单关联工单的创客");
-        try {
-            return payEnterpriseService.getMakers(payEnterpriseId, Condition.getPage(query.setDescs("create_time")));
-        } catch (Exception e) {
-            log.error("根据支付清单ID查询支付清单关联工单的创客异常", e);
-        }
-        return R.fail("查询失败");
+        return payEnterpriseService.getMakers(payEnterpriseId, Condition.getPage(query.setDescs("create_time")));
     }
 
 }

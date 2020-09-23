@@ -16,12 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 平台端---支付管理controller
+ * 平台端---支付管理模块相关接口
  *
  * @author tzq
  * @date 2020-09-9
  */
-@Slf4j
 @RestController
 @RequestMapping("/admin/payment")
 @Validated
@@ -34,27 +33,13 @@ public class PaymentAdminController {
     @GetMapping("/query-enterprise-list")
     @ApiOperation(value = "查询所有商户", notes = "查询所有商户")
     public R queryEnterpriseList(QueryEnterpriseListPaymentDTO queryEnterpriseListPaymentDTO, Query query) {
-
-        log.info("查询所有商户");
-        try {
-            return enterpriseService.queryEnterpriseListPayment(queryEnterpriseListPaymentDTO, Condition.getPage(query.setDescs("create_time")));
-        } catch (Exception e) {
-            log.error("查询所有商户异常", e);
-        }
-        return R.fail("查询失败");
+        return enterpriseService.queryEnterpriseListPayment(queryEnterpriseListPaymentDTO, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-service-provider-list")
     @ApiOperation(value = "查询所有服务商", notes = "查询所有服务商")
     public R queryServiceProviderList(QueryServiceProviderListPaymentDTO queryServiceProviderListPaymentDTO, Query query) {
-
-        log.info("查询所有服务商");
-        try {
-            return enterpriseService.queryServiceProviderListPayment(queryServiceProviderListPaymentDTO, Condition.getPage(query.setDescs("create_time")));
-        } catch (Exception e) {
-            log.error("查询所有商户异常", e);
-        }
-        return R.fail("查询失败");
+        return enterpriseService.queryServiceProviderListPayment(queryServiceProviderListPaymentDTO, Condition.getPage(query.setDescs("create_time")));
     }
 
 }
