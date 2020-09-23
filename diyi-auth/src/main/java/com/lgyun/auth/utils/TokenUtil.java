@@ -4,7 +4,7 @@ import com.lgyun.auth.client.IClientDetails;
 import com.lgyun.auth.client.IClientDetailsService;
 import com.lgyun.common.constant.SecureConstant;
 import com.lgyun.common.constant.TokenConstant;
-import com.lgyun.common.exception.SecureException;
+import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.secure.AuthInfo;
 import com.lgyun.common.secure.TokenInfo;
 import com.lgyun.common.tool.*;
@@ -138,7 +138,7 @@ public class TokenUtil {
 
         // 校验客户端信息
         if (!validateClient(clientDetails, clientId, clientSecret)) {
-            throw new SecureException("客户端认证失败!");
+            throw new CustomException("客户端认证失败!");
         }
 
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
@@ -192,7 +192,7 @@ public class TokenUtil {
         String header = Objects.requireNonNull(WebUtil.getRequest()).getHeader(SecureConstant.BASIC_HEADER_KEY);
         header = Func.toStr(header).replace(SecureConstant.BASIC_HEADER_PREFIX_EXT, SecureConstant.BASIC_HEADER_PREFIX);
         if (!header.startsWith(SecureConstant.BASIC_HEADER_PREFIX)) {
-            throw new SecureException("No client information in request header");
+            throw new CustomException("No client information in request header");
         }
         byte[] base64Token = header.substring(6).getBytes(Charsets.UTF_8_NAME);
 
@@ -200,13 +200,13 @@ public class TokenUtil {
         try {
             decoded = Base64.getDecoder().decode(base64Token);
         } catch (IllegalArgumentException var7) {
-            throw new RuntimeException("Failed to decode basic authentication token");
+            throw new CustomException("Failed to decode basic authentication token");
         }
 
         String token = new String(decoded, Charsets.UTF_8_NAME);
         int index = token.indexOf(StringPool.COLON);
         if (index == -1) {
-            throw new RuntimeException("Invalid basic authentication token");
+            throw new CustomException("Invalid basic authentication token");
         } else {
             return new String[]{token.substring(0, index), token.substring(index + 1)};
         }

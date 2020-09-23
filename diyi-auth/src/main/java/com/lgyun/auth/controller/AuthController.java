@@ -88,25 +88,18 @@ public class AuthController {
 
     @PostMapping("/password-login")
     @ApiOperation(value = "账号密码登陆", notes = "账号密码登陆")
-    public R passwordLogin(@Valid @RequestBody PasswordLoginDto passwordLoginDto) {
+    public R passwordLogin(@Valid @RequestBody PasswordLoginDto passwordLoginDto) throws Exception {
 
-        log.info("账号密码登陆");
-        try {
-            TokenParameter tokenParameter = new TokenParameter();
-            tokenParameter.getArgs()
-                    .set("userType", passwordLoginDto.getUserType())
-                    .set("account", passwordLoginDto.getAccount())
-                    .set("password", passwordLoginDto.getPassword())
-                    .set("wechatCode", passwordLoginDto.getWechatCode());
+        TokenParameter tokenParameter = new TokenParameter();
+        tokenParameter.getArgs()
+                .set("userType", passwordLoginDto.getUserType())
+                .set("account", passwordLoginDto.getAccount())
+                .set("password", passwordLoginDto.getPassword())
+                .set("wechatCode", passwordLoginDto.getWechatCode());
 
-            ITokenGranter granter = TokenGranterBuilder.getGranter(GrantType.PASSWORD);
-            return granter.grant(tokenParameter);
+        ITokenGranter granter = TokenGranterBuilder.getGranter(GrantType.PASSWORD);
 
-        } catch (Exception e) {
-            log.error("账号密码登陆异常", e);
-        }
-
-        return R.fail("登陆失败");
+        return granter.grant(tokenParameter);
     }
 
     @PostMapping("/refresh-token")

@@ -6,29 +6,29 @@ package com.lgyun.generator.utils;
  * @author liangfeihu
  * @since 2018/6/20 18:15.
  */
-public class RRException extends RuntimeException {
+public class CustomException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     private String msg;
     private int code = 500;
 
-    public RRException(String msg) {
+    public CustomException(String msg) {
         super(msg);
         this.msg = msg;
     }
 
-    public RRException(String msg, Throwable e) {
+    public CustomException(String msg, Throwable e) {
         super(msg, e);
         this.msg = msg;
     }
 
-    public RRException(String msg, int code) {
+    public CustomException(String msg, int code) {
         super(msg);
         this.msg = msg;
         this.code = code;
     }
 
-    public RRException(String msg, int code, Throwable e) {
+    public CustomException(String msg, int code, Throwable e) {
         super(msg, e);
         this.msg = msg;
         this.code = code;

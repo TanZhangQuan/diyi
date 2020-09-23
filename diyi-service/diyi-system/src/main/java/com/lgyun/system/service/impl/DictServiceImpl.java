@@ -3,9 +3,8 @@ package com.lgyun.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.exceptions.ApiException;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.lgyun.common.api.R;
+import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.node.ForestNodeMerger;
 import com.lgyun.common.tool.Func;
 import com.lgyun.common.tool.StringPool;
@@ -58,7 +57,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements ID
 		LambdaQueryWrapper<Dict> lqw = Wrappers.<Dict>query().lambda().eq(Dict::getCode, dict.getCode()).eq(Dict::getDictKey, dict.getDictKey());
 		Integer cnt = baseMapper.selectCount((Func.isEmpty(dict.getId())) ? lqw : lqw.notIn(Dict::getId, dict.getId()));
 		if (cnt > 0) {
-			throw new ApiException("当前字典键值已存在!");
+			throw new CustomException("当前字典键值已存在!");
 		}
 		return saveOrUpdate(dict);
 	}
