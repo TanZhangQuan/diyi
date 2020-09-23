@@ -1523,7 +1523,7 @@ CREATE TABLE `diyi_self_help_invoice_account` (
   `account_name` varchar(50) NOT NULL COMMENT '账户名称',
   `account_no` varchar(50) NOT NULL COMMENT '银行账号',
   `account_bank` varchar(50) NOT NULL COMMENT '开户银行',
-  `basic_account_bank` varchar(50) NOT NULL COMMENT '基本存款账号',
+  `basic_account_bank` varchar(50) DEFAULT NULL COMMENT '基本存款账号',
   `is_default` bit(1) NOT NULL COMMENT '是否默认',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
@@ -2280,6 +2280,26 @@ CREATE TABLE `sys_user` (
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`user_type`,`account`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
 
+
+CREATE TABLE `diyi_regular_declare` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
+  `subject_type` varchar(50) NOT NULL COMMENT '申报主体',
+  `declare_subject_id` bigint(50) NOT NULL COMMENT '申报主体id',
+  `declare_theme` varchar(50) NOT NULL COMMENT '申报主题',
+  `declare_year` varchar(500) NOT NULL COMMENT '年度',
+  `declare_quarter` varchar(500) NOT NULL COMMENT '季度',
+  `declare_monthly` varchar(500) NOT NULL COMMENT '月度',
+  `declare_result` varchar(500) NOT NULL COMMENT '申报结果',
+  `government_office_name` varchar(500) DEFAULT '' COMMENT '申报相关政府机关名称',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='申报表';
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------

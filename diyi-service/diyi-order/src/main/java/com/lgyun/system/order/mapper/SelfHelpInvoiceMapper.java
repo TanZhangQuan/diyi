@@ -3,11 +3,14 @@ package com.lgyun.system.order.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.enumeration.InvoicePeopleType;
+import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.SelfHelpInvoiceSpApplyState;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDetailsByServiceProviderDto;
 import com.lgyun.system.order.dto.SelfHelpInvoicesByEnterpriseDto;
 import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
 import com.lgyun.system.order.vo.*;
+import com.lgyun.system.order.vo.admin.SelfHelpInvoiceAdminDetailVO;
+import com.lgyun.system.order.vo.admin.SelfHelpInvoiceAdminVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -214,6 +217,11 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
     /**
      * 平台跟据创客身份查询自助开票
      */
-    List getAdminMakerTypeSelfHelpInvoice(String invoicePeopleName, String startTime, String endTime, IPage<SelfHelpInvoiceCrowdSourcingVO> page);
+    List<SelfHelpInvoiceAdminVO> getAdminMakerTypeSelfHelpInvoice(String enterpriseName, String startTime, String endTime, MakerType makerType, IPage<SelfHelpInvoiceAdminVO> page);
+
+    /**
+     *平台跟据创客身份查询自助开票详情
+     */
+    SelfHelpInvoiceAdminDetailVO getMakerTypeSelfHelpInvoiceDetails(Long selfHelpInvoiceId);
 }
 

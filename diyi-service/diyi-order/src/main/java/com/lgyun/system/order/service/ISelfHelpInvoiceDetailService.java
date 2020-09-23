@@ -4,6 +4,8 @@ import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.entity.SelfHelpInvoiceDetailEntity;
 import com.lgyun.system.order.excel.InvoiceListExcel;
+import com.lgyun.system.order.vo.SelfHelpInvoiceDetailVO;
+import com.lgyun.system.order.vo.admin.SelfHelpInvoiceDetailAdminVO;
 
 import java.util.List;
 
@@ -23,5 +25,12 @@ public interface ISelfHelpInvoiceDetailService extends BaseService<SelfHelpInvoi
      * 根据自主开票主表Id查询明细是否已全部开票
      */
     Boolean  getSelfHelpInvoiceDetails(Long selfHelpInvoiceId,Long selfHelpInvoiceDetailId);
+
+    /**
+     * 根据主表id查询所有明细
+     */
+    List<SelfHelpInvoiceDetailVO> getSelfHelpInvoiceId(Long selfHelpInvoiceId);
+
+    List<SelfHelpInvoiceDetailAdminVO> getSelfHelpInvoiceIdAll(Long selfHelpInvoiceId);
 }
 

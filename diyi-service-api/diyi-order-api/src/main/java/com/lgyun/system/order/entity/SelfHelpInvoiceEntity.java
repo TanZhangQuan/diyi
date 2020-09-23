@@ -147,4 +147,9 @@ public class SelfHelpInvoiceEntity extends BaseEntity {
      */
     private String extendPayInvoices;
 
+    /**
+     * 总价税合计额
+     */
+    private BigDecimal totlChargeMoneyNum;
+
 }
