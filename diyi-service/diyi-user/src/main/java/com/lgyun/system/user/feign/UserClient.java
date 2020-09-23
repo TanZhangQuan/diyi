@@ -116,7 +116,7 @@ public class UserClient implements IUserClient {
                 return R.fail("登陆方式有误");
         }
 
-        return R.success("操作成功");
+        return R.success("登录成功");
     }
 
     @Override
@@ -166,10 +166,10 @@ public class UserClient implements IUserClient {
                 break;
 
             default:
-                return R.fail("登陆方式有误");
+                return R.fail("登录方式有误");
         }
 
-        return R.success("操作成功");
+        return R.success("登录成功");
     }
 
     @Override
@@ -194,10 +194,10 @@ public class UserClient implements IUserClient {
                 break;
 
             default:
-                return R.fail("登陆方式有误");
+                return R.fail("登录方式有误");
         }
 
-        return R.success("操作成功");
+        return R.success("登录成功");
     }
 
     @Override
@@ -222,10 +222,10 @@ public class UserClient implements IUserClient {
                 break;
 
             default:
-                return R.fail("登陆方式有误");
+                return R.fail("登录方式有误");
         }
 
-        return R.success("操作成功");
+        return R.success("登录成功");
     }
 
     @Override

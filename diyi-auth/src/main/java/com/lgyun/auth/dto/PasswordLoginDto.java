@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  * @author tzq
- * @Description 账号密码登陆DTO
+ * @Description 账号密码登录DTO
  * @return
  * @date 2020.06.27
  */

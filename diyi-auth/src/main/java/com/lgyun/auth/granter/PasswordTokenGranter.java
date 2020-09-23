@@ -12,6 +12,7 @@ import com.lgyun.system.user.entity.UserInfo;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 /**
@@ -69,6 +70,10 @@ public class PasswordTokenGranter implements ITokenGranter {
             case MAKER:
                 // 查询微信授权码
                 String wechatCode = tokenParameter.getArgs().getStr("wechatCode");
+                if (StringUtils.isBlank(wechatCode)) {
+                    return R.fail("请输入微信授权码");
+                }
+
                 //微信授权
                 R<JSONObject> result = wechatUtil.authorization(wechatCode);
                 if (!(result.isSuccess())) {
@@ -77,6 +82,7 @@ public class PasswordTokenGranter implements ITokenGranter {
                 JSONObject jsonObject = result.getData();
                 String openid = jsonObject.getString("openid");
                 String sessionKey = jsonObject.getString("sessionKey");
+
                 //创客处理
                 res = userClient.makerDeal(openid, sessionKey, account, encrypt, GrantType.PASSWORD);
                 if (!(res.isSuccess())) {
@@ -106,7 +112,7 @@ public class PasswordTokenGranter implements ITokenGranter {
 
         UserInfo userInfo = userClient.userInfoByAccountAndUserType(account, userType);
         if (userInfo == null) {
-            return R.fail("账号或密码错误");
+            return R.fail("用户不存在");
         }
 
         //创建认证token

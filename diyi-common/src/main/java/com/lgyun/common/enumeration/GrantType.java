@@ -12,9 +12,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum GrantType {
-    PASSWORD("PASSWORD", "账号密码登陆"),
-    MOBILE("MOBILE", "短信验证码登陆"),
-    WECHAT("WECHAT", "微信授权登陆"),
+    PASSWORD("PASSWORD", "账号密码登录"),
+    MOBILE("MOBILE", "短信验证码登录"),
+    WECHAT("WECHAT", "微信授权登录"),
     REGISTER("REGISTER", "注册"),
     REFRESHTOKEN("REFRESHTOKEN", "刷新token");
 

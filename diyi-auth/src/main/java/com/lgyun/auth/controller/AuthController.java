@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * 认证模块
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/6 01:04
  */
 @RestController
@@ -39,7 +39,7 @@ public class AuthController {
     private MobileTokenGranter mobileTokenGranter;
 
     @PostMapping("/wechat-login")
-    @ApiOperation(value = "微信授权登陆", notes = "微信授权登陆")
+    @ApiOperation(value = "微信授权登录", notes = "微信授权登录")
     public R wechatlogin(@Valid @RequestBody WechatLoginDto wechatLoginDto) throws Exception {
 
         TokenParameter tokenParameter = new TokenParameter();
@@ -55,7 +55,7 @@ public class AuthController {
     }
 
     @PostMapping("/mobile-login")
-    @ApiOperation(value = "手机验证码登陆", notes = "手机验证码登陆")
+    @ApiOperation(value = "手机验证码登录", notes = "手机验证码登录")
     public R mobileLogin(@Valid @RequestBody MobileLoginDto mobileLoginDto) throws Exception {
 
         TokenParameter tokenParameter = new TokenParameter();
@@ -71,7 +71,7 @@ public class AuthController {
     }
 
     @PostMapping("/password-login")
-    @ApiOperation(value = "账号密码登陆", notes = "账号密码登陆")
+    @ApiOperation(value = "账号密码登录", notes = "账号密码登录")
     public R passwordLogin(@Valid @RequestBody PasswordLoginDto passwordLoginDto) throws Exception {
 
         TokenParameter tokenParameter = new TokenParameter();
@@ -116,7 +116,7 @@ public class AuthController {
     }
 
     @GetMapping("/captcha")
-    @ApiOperation(value = "查询图形验证码")
+    @ApiOperation(value = "生成图形验证码")
     public R captcha() {
         SpecCaptcha specCaptcha = new SpecCaptcha(130, 48, 5);
         String verCode = specCaptcha.text().toLowerCase();
@@ -127,15 +127,8 @@ public class AuthController {
         return R.data(Kv.init().set("key", key).set("image", specCaptcha.toBase64()));
     }
 
-    /**
-     * 发送手机验证码
-     * 后期要加接口限制
-     *
-     * @param sendCodeDto
-     * @return R
-     */
     @PostMapping("/send-code")
-    @ApiOperation(value = "查询手机短信验证码")
+    @ApiOperation(value = "发送手机短信验证码")
     public R sendCode(@Valid @RequestBody SendCodeDto sendCodeDto) {
         return mobileTokenGranter.sendSmsCode(sendCodeDto.getMobile(), sendCodeDto.getCodeType(), sendCodeDto.getUserType());
     }
