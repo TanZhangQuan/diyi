@@ -2284,7 +2284,8 @@ CREATE TABLE `sys_user` (
 CREATE TABLE `diyi_regular_declare` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
-  `subject_type` varchar(50) NOT NULL COMMENT '申报主体',
+  `subject_type` varchar(50) NOT NULL COMMENT '申报类别',
+  `subject_subject_type` varchar(50) NOT NULL COMMENT '申报主体类别',
   `declare_subject_id` bigint(50) NOT NULL COMMENT '申报主体id',
   `declare_theme` varchar(50) NOT NULL COMMENT '申报主题',
   `declare_year` varchar(500) NOT NULL COMMENT '年度',
