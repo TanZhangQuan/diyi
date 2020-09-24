@@ -5,15 +5,20 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.BodyType;
+import com.lgyun.common.enumeration.ReportState;
+import com.lgyun.common.enumeration.ReportTheme;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Query;
+import com.lgyun.system.user.dto.admin.AdminEnterpriseReportDTO;
 import com.lgyun.system.user.entity.EnterpriseReportEntity;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.mapper.EnterpriseReportMapper;
 import com.lgyun.system.user.service.IEnterpriseReportService;
 import com.lgyun.system.user.service.IServiceProviderService;
 import com.lgyun.system.user.vo.EnterpriseReportsVO;
+import com.lgyun.system.user.vo.admin.QueryAdminEnterpriseReportAllVO;
+import com.lgyun.system.user.vo.admin.QueryAdminEnterpriseReportVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -65,5 +70,59 @@ public class EnterpriseReportServiceImpl extends BaseServiceImpl<EnterpriseRepor
     @Override
     public String findReportResultFiles(BodyType mainBodyType, Long mainBodyId) {
         return baseMapper.findReportResultFiles(mainBodyType, mainBodyId);
+    }
+
+    @Override
+    public R findAdminEnterpriseReportAll(String serviceProviderName, ReportTheme reportTheme, IPage<QueryAdminEnterpriseReportAllVO> page) {
+        return R.data(page.setRecords(baseMapper.findAdminEnterpriseReportAll(serviceProviderName, reportTheme,page)));
+    }
+
+    @Override
+    public R findAdminEnterpriseReport(Long serviceProviderId,IPage<QueryAdminEnterpriseReportVO> page) {
+        return R.data(page.setRecords(baseMapper.findAdminEnterpriseReport(serviceProviderId,page)));
+    }
+
+    @Override
+    public R findAdminEnterpriseReportDetail(Long enterpriseReportId) {
+        return R.data(baseMapper.findAdminEnterpriseReportDetail(enterpriseReportId));
+    }
+
+    @Override
+    public R saveAdminEnterpriseReport(AdminEnterpriseReportDTO adminEnterpriseReportDTO) {
+        EnterpriseReportEntity enterpriseReportEntity = null;
+        if(null == adminEnterpriseReportDTO.getEnterpriseReportId() ){
+            enterpriseReportEntity = BeanUtil.copy(adminEnterpriseReportDTO, EnterpriseReportEntity.class);
+            enterpriseReportEntity.setReportState(ReportState.DECLARESUCCESS);
+            save(enterpriseReportEntity);
+        }else{
+            enterpriseReportEntity = getById(adminEnterpriseReportDTO.getEnterpriseReportId());
+            enterpriseReportEntity.setServiceProviderId(adminEnterpriseReportDTO.getServiceProviderId());
+            enterpriseReportEntity.setMainBodyType(adminEnterpriseReportDTO.getMainBodyType());
+            enterpriseReportEntity.setMainBodyId(adminEnterpriseReportDTO.getMainBodyId());
+            enterpriseReportEntity.setReportTheme(adminEnterpriseReportDTO.getReportTheme());
+            enterpriseReportEntity.setReportYear(adminEnterpriseReportDTO.getReportYear());
+            enterpriseReportEntity.setReportMonth(adminEnterpriseReportDTO.getReportMonth());
+            enterpriseReportEntity.setReportQuater(adminEnterpriseReportDTO.getReportQuater());
+            enterpriseReportEntity.setReportDeadDate(adminEnterpriseReportDTO.getReportDeadDate());
+            enterpriseReportEntity.setReportGuardName(adminEnterpriseReportDTO.getReportGuardName());
+            saveOrUpdate(enterpriseReportEntity);
+        }
+        return R.success("操作成功");
+    }
+
+    @Override
+    public R toExamineAdminEnterpriseReport(Long enterpriseReportId, Integer toExamine) {
+        EnterpriseReportEntity byId = getById(enterpriseReportId);
+        if(null == toExamine || (toExamine != 1 && toExamine != 2)){
+            return R.fail("审核失败");
+        }
+        if(toExamine == 1){
+           byId.setReportState(ReportState.DECLARESUCCESS);
+        }
+        if(toExamine == 2){
+            byId.setReportState(ReportState.DECLAREFAIL);
+        }
+        saveOrUpdate(byId);
+        return R.success("审核成功");
     }
 }

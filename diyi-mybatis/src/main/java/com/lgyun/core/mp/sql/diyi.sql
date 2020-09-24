@@ -463,23 +463,22 @@ CREATE TABLE `diyi_enterprise_provider_invoice_catalogs` (
 -- ----------------------------
 -- Table structure for `diyi_enterprise_report`
 -- ----------------------------
-DROP TABLE IF EXISTS `diyi_enterprise_report`;
 CREATE TABLE `diyi_enterprise_report` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
   `main_body_type` varchar(50) NOT NULL COMMENT '申报主体类别',
   `main_body_id` bigint(50) NOT NULL COMMENT '申报主体ID',
   `report_theme` varchar(50) NOT NULL COMMENT '申报主题',
-  `report_year` int(5) NOT NULL COMMENT '申报年度',
-  `report_quater` int(5) NOT NULL COMMENT '申报季度',
-  `report_month` int(5) NOT NULL COMMENT '申报月度',
-  `report_dead_date` datetime NOT NULL COMMENT '申报截止日期',
+  `report_year` int(5) DEFAULT NULL COMMENT '申报年度',
+  `report_quater` int(5) DEFAULT NULL COMMENT '申报季度',
+  `report_month` int(5) DEFAULT NULL COMMENT '申报月度',
+  `report_dead_date` datetime DEFAULT NULL COMMENT '申报截止日期',
   `report_complete_date` datetime DEFAULT NULL COMMENT '申报完成日期',
-  `report_result_desc` varchar(500) NOT NULL DEFAULT '' COMMENT '申报结果说明',
-  `report_result_files` varchar(500) NOT NULL DEFAULT '' COMMENT '申报结果文件资料',
-  `report_person` varchar(50) NOT NULL COMMENT '申报人员',
-  `report_state` varchar(50) NOT NULL COMMENT '申报状态',
-  `report_guard_name` varchar(50) NOT NULL COMMENT '申报相关政府机关名称',
+  `report_result_desc` varchar(500) DEFAULT '' COMMENT '申报结果说明',
+  `report_result_files` varchar(500) DEFAULT '' COMMENT '申报结果文件资料',
+  `report_person` varchar(50) DEFAULT NULL COMMENT '申报人员',
+  `report_state` varchar(50) DEFAULT NULL COMMENT '申报状态',
+  `report_guard_name` varchar(50) DEFAULT NULL COMMENT '申报相关政府机关名称',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',

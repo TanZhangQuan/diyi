@@ -3,14 +3,18 @@ package com.lgyun.system.user.controller.admin;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AgreementType;
 import com.lgyun.common.enumeration.ObjectType;
+import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
+import com.lgyun.system.user.entity.AdminEntity;
+import com.lgyun.system.user.service.IAdminService;
 import com.lgyun.system.user.service.IAgreementService;
 import com.lgyun.system.user.service.IMakerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +34,7 @@ public class AgreementAdminController {
 
     private IAgreementService iAgreementService;
     private IMakerService makerService;
+    private IAdminService adminService;
 
     @GetMapping("/find_maker_agreement")
     @ApiOperation(value = "查询平台自然人创客的合同", notes = "查询平台自然人创客的合同")
