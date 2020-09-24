@@ -34,9 +34,6 @@ public class PostController extends BladeController {
 
     private IPostService postService;
 
-    /**
-     * 详情
-     */
     @GetMapping("/detail")
     @ApiOperation(value = "详情", notes = "传入post")
     public R<PostVO> detail(Post post) {
@@ -44,9 +41,6 @@ public class PostController extends BladeController {
         return R.data(PostWrapper.build().entityVO(detail));
     }
 
-    /**
-     * 分页 岗位表
-     */
     @GetMapping("/list")
     @ApiOperation(value = "分页", notes = "传入post")
     public R<IPage<PostVO>> list(Post post, Query query) {
@@ -54,10 +48,6 @@ public class PostController extends BladeController {
         return R.data(PostWrapper.build().pageVO(pages));
     }
 
-
-    /**
-     * 自定义分页 岗位表
-     */
     @GetMapping("/page")
     @ApiOperation(value = "分页", notes = "传入post")
     public R<IPage<PostVO>> page(PostVO post, Query query) {
@@ -65,46 +55,30 @@ public class PostController extends BladeController {
         return R.data(pages);
     }
 
-    /**
-     * 新增 岗位表
-     */
     @PostMapping("/save")
     @ApiOperation(value = "新增", notes = "传入post")
     public R save(@Valid @RequestBody Post post) {
         return R.status(postService.save(post));
     }
 
-    /**
-     * 修改 岗位表
-     */
     @PostMapping("/update")
     @ApiOperation(value = "修改", notes = "传入post")
     public R update(@Valid @RequestBody Post post) {
         return R.status(postService.updateById(post));
     }
 
-    /**
-     * 新增或修改 岗位表
-     */
     @PostMapping("/submit")
     @ApiOperation(value = "新增或修改", notes = "传入post")
     public R submit(@Valid @RequestBody Post post) {
         return R.status(postService.saveOrUpdate(post));
     }
 
-
-    /**
-     * 删除 岗位表
-     */
     @PostMapping("/remove")
     @ApiOperation(value = "逻辑删除", notes = "传入ids")
     public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
         return R.status(postService.deleteLogic(Func.toLongList(ids)));
     }
 
-    /**
-     * 下拉数据源
-     */
     @GetMapping("/select")
     @ApiOperation(value = "下拉数据源", notes = "传入post")
     public R<List<Post>> select(String tenantId, BladeUser bladeUser) {

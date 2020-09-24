@@ -12,7 +12,6 @@ import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +24,6 @@ import java.util.List;
  * @author liangfeihu
  * @since 2020/8/20 17:42
  */
-@Slf4j
 @Validated
 @RestController
 @RequestMapping("/enterprise/address")
@@ -39,42 +37,30 @@ public class EnterpriseAddressController {
     @GetMapping("/list")
     @ApiOperation(value = "查询商户所有地址信息", notes = "查询商户所有地址信息")
     public R getEnterpriseAddressListA(BladeUser bladeUser) {
-        log.info("查询商户所有地址信息");
-        try {
-            //查询当前商户信息
-            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())) {
-                return result;
-            }
-            EnterpriseWorkerEntity entity = result.getData();
-            QueryWrapper<AddressEntity> queryWrapper = new QueryWrapper<>();
-            queryWrapper.lambda().eq(AddressEntity::getObjectId, entity.getEnterpriseId()).eq(AddressEntity::getObjectType, ObjectType.ENTERPRISEPEOPLE);
-
-            List<AddressEntity> list = addressService.list();
-            return R.data(list);
-        } catch (Exception e) {
-            log.error("查询商户所有地址信息失败 error", e);
+        //查询当前商户信息
+        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
         }
-        return R.fail("查询商户所有地址信息失败");
+        EnterpriseWorkerEntity entity = result.getData();
+        QueryWrapper<AddressEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(AddressEntity::getObjectId, entity.getEnterpriseId()).eq(AddressEntity::getObjectType, ObjectType.ENTERPRISEPEOPLE);
+
+        List<AddressEntity> list = addressService.list();
+        return R.data(list);
     }
 
     @PostMapping("/saveAddress")
     @ApiOperation(value = "新建收货地址", notes = "新建收货地址")
     public R saveAddress(@Valid @RequestBody AddressDto addressDto, BladeUser bladeUser) {
-        log.info("新建收货地址");
-        try {
-            //查询当前商户信息
-            R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())) {
-                return result;
-            }
-            EnterpriseWorkerEntity entity = result.getData();
-
-            return addressService.addOrUpdateAddress(addressDto, entity.getEnterpriseId(), ObjectType.ENTERPRISEPEOPLE);
-        } catch (Exception e) {
-            log.error("新建收货地址失败", e);
+        //查询当前商户信息
+        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
         }
-        return R.fail("新建收货地址失败");
+        EnterpriseWorkerEntity entity = result.getData();
+
+        return addressService.addOrUpdateAddress(addressDto, entity.getEnterpriseId(), ObjectType.ENTERPRISEPEOPLE);
     }
 
 }

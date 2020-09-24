@@ -10,7 +10,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +24,6 @@ import javax.validation.constraints.NotNull;
  * @author tzq
  * @since 2020-06-26 17:21:05
  */
-@Slf4j
 @RestController
 @RequestMapping("/web/enterprise")
 @Validated
@@ -39,9 +37,6 @@ public class EnterpriseWebController {
     @GetMapping("/get_service_providers")
     @ApiOperation(value = "查询商户合作服务商", notes = "查询商户合作服务商")
     public R getServiceProviders(Query query, BladeUser bladeUser) {
-
-        log.info("查询商户合作服务商");
-        try {
             //查询当前商户员工
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {
@@ -50,23 +45,12 @@ public class EnterpriseWebController {
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
             return enterpriseService.getServiceProviders(query, enterpriseWorkerEntity.getEnterpriseId());
-        } catch (Exception e) {
-            log.error("查询商户合作服务商异常", e);
-        }
-        return R.fail("查询失败");
     }
 
     @GetMapping("/get_enterprise_detail_by_id")
     @ApiOperation(value = "根据商户ID查询商户详情", notes = "根据商户ID查询商户详情")
     public R getEnterpriseDetailById(@ApiParam(value = "商户ID") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId) {
-
-        log.info("根据商户ID查询商户详情");
-        try {
             return enterpriseService.getEnterpriseDetailById(enterpriseId);
-        } catch (Exception e) {
-            log.error("根据商户ID查询商户详情异常", e);
-        }
-        return R.fail("查询失败");
     }
 
 }

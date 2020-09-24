@@ -9,7 +9,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum CodeType {
-    LOGIN("LOGIN", "登陆验证码"),
+    LOGIN("LOGIN", "登录验证码"),
     REGISTER("REGISTER", "注册验证码"),
     UPDATEPASSWORD("UPDATEPASSWORD", "修改密码验证码");
 

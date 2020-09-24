@@ -31,15 +31,15 @@ public class RegisterGranter implements ITokenGranter {
 
     @Override
     public R grant(TokenParameter tokenParameter) {
-        //查询用户类型
+        //用户类型
         UserType userType = (UserType) tokenParameter.getArgs().get("userType");
-        //查询手机号
+        //手机号
         String mobile = tokenParameter.getArgs().getStr("mobile");
-        //查询密码
+        //密码
         String password = tokenParameter.getArgs().getStr("password");
-        //查询用户填写的短信验证码
+        //用户填写的短信验证码
         String smsCode = tokenParameter.getArgs().getStr("smsCode");
-        //查询缓存短信验证码
+        //缓存短信验证码
         String redisCode = (String) redisUtil.get(SmsConstant.AVAILABLE_TIME + mobile);
         //判断验证码
         if (!StringUtil.equalsIgnoreCase(redisCode, smsCode)) {
@@ -47,9 +47,10 @@ public class RegisterGranter implements ITokenGranter {
         }
 
         switch (userType) {
+
             case MAKER:
                 // 创客处理
-                R res = userClient.makerDeal("", "", mobile, DigestUtil.encrypt(password), GrantType.REGISTER);
+                R<String> res = userClient.makerDeal("", "", mobile, DigestUtil.encrypt(password), GrantType.REGISTER);
                 if (!(res.isSuccess())) {
                     return res;
                 }

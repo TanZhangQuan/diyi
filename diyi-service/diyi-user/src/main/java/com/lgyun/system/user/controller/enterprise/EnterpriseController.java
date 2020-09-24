@@ -15,7 +15,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,7 +27,6 @@ import javax.validation.Valid;
  * @author tzq
  * @since 2020-06-26 17:21:05
  */
-@Slf4j
 @RestController
 @RequestMapping("/enterprise")
 @Validated
@@ -54,41 +52,29 @@ public class EnterpriseController {
     @GetMapping("/basicInfo")
     @ApiOperation(value = "查询商户基本信息", notes = "查询商户基本信息")
     public R basicInfo(BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-		log.info("查询商户基本信息");
-		try {
-			//查询当前商户员工
-			R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
-			if (!(result.isSuccess())) {
-				return result;
-			}
-			EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-			return enterpriseService.getBasicEnterpriseResponse(enterpriseWorkerEntity.getEnterpriseId());
-		} catch (Exception e) {
-			log.error("查询商户基本信息异常", e);
-		}
-
-		return R.fail("查询失败");
+        return enterpriseService.getBasicEnterpriseResponse(enterpriseWorkerEntity.getEnterpriseId());
     }
 
     @PostMapping("/upload/licence")
     @ApiOperation(value = "上传营业执照", notes = "上传营业执照")
-    public R licenceImageUpload(@RequestParam("file") MultipartFile file, BladeUser bladeUser) {
-        try {
-			//查询当前商户员工
-			R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
-			if (!(result.isSuccess())) {
-				return result;
-			}
-			EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-            enterpriseService.uploadEnterpriseLicence(enterpriseWorkerEntity.getEnterpriseId(), file);
-			return R.success("上传成功");
-        } catch (Exception e) {
-            log.error("[uploadEnterpriseLicence] error=", e);
+    public R licenceImageUpload(@RequestParam("file") MultipartFile file, BladeUser bladeUser) throws Exception {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
         }
-		return R.fail("上传失败");
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+        enterpriseService.uploadEnterpriseLicence(enterpriseWorkerEntity.getEnterpriseId(), file);
+
+        return R.success("上传成功");
     }
 
     @GetMapping("/list")

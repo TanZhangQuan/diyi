@@ -10,7 +10,6 @@ import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2020/7/22.
  * @time 16:24.
  */
-@Slf4j
 @RestController
 @RequestMapping("/invoice")
 @Validated
@@ -37,57 +35,39 @@ public class InvoiceController {
     @GetMapping("/getEnterpriseAll")
     @ApiOperation(value = "根据创客id查询所有商户", notes = "根据创客id查询所有商户")
     public R getEnterpriseAll(Query query, BladeUser bladeUser) {
-        log.info("根据创客id查询所有商户");
-        try {
-            //查询当前创客
-            R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
-            if (!(result.isSuccess())){
-                return result;
-            }
-            MakerEntity makerEntity = result.getData();
-
-            return payEnterpriseService.getEnterpriseAll(makerEntity.getId(), Condition.getPage(query.setDescs("create_time")));
-        } catch (Exception e) {
-            log.error("根据创客id查询所有商户失败",e);
+        //查询当前创客
+        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
         }
-        return R.fail("根据创客id查询所有商户失败");
+        MakerEntity makerEntity = result.getData();
+
+        return payEnterpriseService.getEnterpriseAll(makerEntity.getId(), Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/getEnterpriseMakerIdAll")
     @ApiOperation(value = "根据创客id和商户id查询创客在商户下所开的票", notes = "根据创客id和商户id查询创客在商户下所开的票")
     public R getEnterpriseMakerIdAll(Query query, BladeUser bladeUser, Long enterpriseId) {
-        log.info("根据创客id和商户id查询创客在商户下所开的票");
-        try {
-            //查询当前创客
-            R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
-            if (!(result.isSuccess())){
-                return result;
-            }
-            MakerEntity makerEntity = result.getData();
-
-            return payEnterpriseService.getEnterpriseMakerIdAll(makerEntity.getId(), enterpriseId, Condition.getPage(query.setDescs("create_time")));
-        } catch (Exception e) {
-            log.error("根据创客id和商户id查询创客在商户下所开的票失败",e);
+        //查询当前创客
+        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
         }
-        return R.fail("根据创客id和商户id查询创客在商户下所开的票失败");
+        MakerEntity makerEntity = result.getData();
+
+        return payEnterpriseService.getEnterpriseMakerIdAll(makerEntity.getId(), enterpriseId, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/getEnterpriseMakerIdDetail")
     @ApiOperation(value = "根据创客id,商户id和创客支付id查询票的详情", notes = "根据创客id,商户id和创客支付id查询票的详情")
     public R getEnterpriseMakerIdDetail(BladeUser bladeUser, Long enterpriseId, Long payMakerId) {
-        log.info("根据创客id,商户id和创客支付id查询票的详情");
-        try {
-            //查询当前创客
-            R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
-            if (!(result.isSuccess())){
-                return result;
-            }
-            MakerEntity makerEntity = result.getData();
-
-            return payEnterpriseService.getEnterpriseMakerIdDetail(makerEntity.getId(), enterpriseId, payMakerId);
-        } catch (Exception e) {
-            log.error("根据创客id,商户id和创客支付id查询票的详情失败",e);
+        //查询当前创客
+        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
         }
-        return R.fail("根据创客id,商户id和创客支付id查询票的详情失败");
+        MakerEntity makerEntity = result.getData();
+
+        return payEnterpriseService.getEnterpriseMakerIdDetail(makerEntity.getId(), enterpriseId, payMakerId);
     }
 }

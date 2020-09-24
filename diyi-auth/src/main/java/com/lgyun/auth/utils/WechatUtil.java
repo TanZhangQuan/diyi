@@ -60,7 +60,7 @@ public class WechatUtil {
         JSONObject jsonObject = JSON.parseObject(HttpUtil.post(WechatConstant.WECHAT_SESSIONHOST, requestUrlParam));
         if (jsonObject == null) {
             log.error("微信授权失败, 查询数据失败");
-            return R.fail("登陆失败");
+            return R.fail("登录失败");
         }
 
         Object errcode = jsonObject.get("errcode");
@@ -74,12 +74,12 @@ public class WechatUtil {
         String sessionKey = jsonObject.getString("session_key");
         if (StringUtils.isBlank(openid)) {
             log.error("微信授权失败, openid为空");
-            return R.fail("登陆失败");
+            return R.fail("登录失败");
         }
 
         if (StringUtils.isBlank(sessionKey)) {
             log.error("微信授权失败, session_key为空");
-            return R.fail("登陆失败");
+            return R.fail("登录失败");
         }
 
         result.put("openid", openid);
@@ -92,7 +92,7 @@ public class WechatUtil {
 
             if (StringUtil.isBlank(AesResult)) {
                 log.error("解密数据失败");
-                return R.fail("登陆失败");
+                return R.fail("登录失败");
             }
 
             // 将解密后的JSON格式字符串转化为对象
@@ -101,7 +101,7 @@ public class WechatUtil {
             String purePhoneNumber = jsonObject.getString("purePhoneNumber");
             if (StringUtils.isBlank(purePhoneNumber)) {
                 log.error("微信授权失败，手机号为空");
-                return R.fail("登陆失败");
+                return R.fail("登录失败");
             }
 
             result.put("purePhoneNumber", purePhoneNumber);

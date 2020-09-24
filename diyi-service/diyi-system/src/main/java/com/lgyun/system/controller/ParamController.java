@@ -30,9 +30,6 @@ public class ParamController extends BladeController {
 
 	private IParamService paramService;
 
-	/**
-	 * 详情
-	 */
 	@GetMapping("/detail")
 	@ApiOperation(value = "详情", notes = "传入param")
 	public R<Param> detail(Param param) {
@@ -40,9 +37,6 @@ public class ParamController extends BladeController {
 		return R.data(detail);
 	}
 
-	/**
-	 * 分页
-	 */
 	@GetMapping("/list")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "paramName", value = "参数名称", paramType = "query", dataType = "string"),
@@ -55,19 +49,12 @@ public class ParamController extends BladeController {
 		return R.data(pages);
 	}
 
-	/**
-	 * 新增或修改
-	 */
 	@PostMapping("/submit")
 	@ApiOperation(value = "新增或修改", notes = "传入param")
 	public R submit(@Valid @RequestBody Param param) {
 		return R.status(paramService.saveOrUpdate(param));
 	}
 
-
-	/**
-	 * 删除
-	 */
 	@PostMapping("/remove")
 	@ApiOperation(value = "逻辑删除", notes = "传入ids")
 	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {

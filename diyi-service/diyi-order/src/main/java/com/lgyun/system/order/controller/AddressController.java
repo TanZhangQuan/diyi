@@ -13,7 +13,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +24,6 @@ import javax.validation.Valid;
  * @author liangfeihu
  * @since 2020-08-31 14:48:05
  */
-@Slf4j
 @RestController
 @RequestMapping("/address")
 @Validated
@@ -39,57 +37,33 @@ public class AddressController {
     @PostMapping("/addOrUpdate")
     @ApiOperation(value = "当前服务商新建或修改收货地址", notes = "当前服务商新建或修改收货地址")
     public R addOrUpdate(@Valid @RequestBody AddressDto addressDto, BladeUser bladeUser) {
-
-        log.info("新建或修改收货地址");
-        try {
-            //查询当前服务商员工
-            R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
-            if (!(result.isSuccess())) {
-                return result;
-            }
-            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
-
-            return addressService.addOrUpdateAddress(addressDto, serviceProviderWorkerEntity.getServiceProviderId(), ObjectType.SERVICEPEOPLE);
-        } catch (Exception e) {
-            log.error("当前服务商新建或修改收货地址异常", e);
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
         }
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return R.fail("操作失败");
+        return addressService.addOrUpdateAddress(addressDto, serviceProviderWorkerEntity.getServiceProviderId(), ObjectType.SERVICEPEOPLE);
     }
 
     @GetMapping("/list_by_service_provider")
     @ApiOperation(value = "查询当前服务商所有地址", notes = "查询当前服务商所有地址")
     public R list(Long addressId, Query query, BladeUser bladeUser) {
-
-        log.info("查询当前服务商所有地址");
-        try {
-            //查询当前服务商员工
-            R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
-            if (!(result.isSuccess())) {
-                return result;
-            }
-            ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
-
-            return addressService.findAddressMakerId(query.getCurrent(), query.getCurrent(), serviceProviderWorkerEntity.getServiceProviderId(), ObjectType.SERVICEPEOPLE, addressId);
-        } catch (Exception e) {
-            log.error("查询当前服务商所有地址异常", e);
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
         }
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return R.fail("查询失败");
+        return addressService.findAddressMakerId(query.getCurrent(), query.getCurrent(), serviceProviderWorkerEntity.getServiceProviderId(), ObjectType.SERVICEPEOPLE, addressId);
     }
 
     @PostMapping("/remove")
     @ApiOperation(value = "删除收货地址", notes = "删除收货地址")
     public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
-
-        log.info("删除收货地址");
-        try {
-            return R.status(addressService.removeByIds(Func.toLongList(ids)));
-        } catch (Exception e) {
-            log.error("删除收货地址异常", e);
-        }
-
-        return R.fail("删除失败");
+        return R.status(addressService.removeByIds(Func.toLongList(ids)));
     }
 
 }

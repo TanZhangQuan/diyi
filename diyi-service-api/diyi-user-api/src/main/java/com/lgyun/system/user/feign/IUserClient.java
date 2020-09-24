@@ -132,7 +132,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/admin-deal")
-    R adminDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("userName") String userName, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
+    R<String> adminDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("userName") String userName, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 创客处理
@@ -145,7 +145,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/maker-deal")
-    R makerDeal(@RequestParam("openid") String openid, @RequestParam("sessionKey") String sessionKey, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
+    R<String> makerDeal(@RequestParam("openid") String openid, @RequestParam("sessionKey") String sessionKey, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 商户处理
@@ -157,7 +157,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/enterprise-worker-deal")
-    R enterpriseWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("employeeUserName") String employeeUserName, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
+    R<String> enterpriseWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("employeeUserName") String employeeUserName, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 服务商处理
@@ -169,7 +169,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/service-provider-worker-deal")
-    R serviceProviderWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("employeeUserName") String employeeUserName, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
+    R<String> serviceProviderWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("employeeUserName") String employeeUserName, @RequestParam("loginPwd") String loginPwd, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 查询个独信息

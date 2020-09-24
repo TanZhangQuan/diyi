@@ -18,17 +18,17 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
- * 控制器
+ * 创客端---登录注册管理模块相关接口
  *
  * @author tzq
  * @since 2020-07-02 17:44:02
  */
 @RestController
-@RequestMapping("/individual-business")
+@RequestMapping("")
 @Validated
 @AllArgsConstructor
-@Api(value = "个体户相关接口", tags = "个体户相关接口")
-public class IndividualBusinessMakerController {
+@Api(value = "创客端---登录注册管理模块相关接口", tags = "创客端---登录注册管理模块相关接口")
+public class LoginRegisterMakerController {
 
     private IIndividualBusinessService individualBusinessService;
     private IMakerService iMakerService;

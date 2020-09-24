@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * @author tzq
- * @Description 创客登陆DTO
+ * @Description 创客登录DTO
  * @return
  * @date 2020.06.27
  */

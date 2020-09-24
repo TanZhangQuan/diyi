@@ -16,7 +16,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,10 +26,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * 认证模块
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/6 01:04
  */
-@Slf4j
 @RestController
 @AllArgsConstructor
 @RequestMapping("/auth")
@@ -41,53 +39,39 @@ public class AuthController {
     private MobileTokenGranter mobileTokenGranter;
 
     @PostMapping("/wechat-login")
-    @ApiOperation(value = "微信授权登陆", notes = "微信授权登陆")
-    public R wechatlogin(@Valid @RequestBody WechatLoginDto wechatLoginDto) {
+    @ApiOperation(value = "微信授权登录", notes = "微信授权登录")
+    public R wechatlogin(@Valid @RequestBody WechatLoginDto wechatLoginDto) throws Exception {
 
-        log.info("微信授权登陆");
-        try {
-            TokenParameter tokenParameter = new TokenParameter();
-            tokenParameter.getArgs()
-                    .set("userType", wechatLoginDto.getUserType())
-                    .set("wechatCode", wechatLoginDto.getWechatCode())
-                    .set("iv", wechatLoginDto.getIv())
-                    .set("encryptedData", wechatLoginDto.getEncryptedData());
+        TokenParameter tokenParameter = new TokenParameter();
+        tokenParameter.getArgs()
+                .set("userType", wechatLoginDto.getUserType())
+                .set("wechatCode", wechatLoginDto.getWechatCode())
+                .set("iv", wechatLoginDto.getIv())
+                .set("encryptedData", wechatLoginDto.getEncryptedData());
 
-            ITokenGranter granter = TokenGranterBuilder.getGranter(GrantType.WECHAT);
-            return granter.grant(tokenParameter);
+        ITokenGranter granter = TokenGranterBuilder.getGranter(GrantType.WECHAT);
 
-        } catch (Exception e) {
-            log.error("微信授权登陆异常", e);
-        }
-
-        return R.fail("登陆失败");
+        return granter.grant(tokenParameter);
     }
 
     @PostMapping("/mobile-login")
-    @ApiOperation(value = "手机验证码登陆", notes = "手机验证码登陆")
-    public R mobileLogin(@Valid @RequestBody MobileLoginDto mobileLoginDto) {
+    @ApiOperation(value = "手机验证码登录", notes = "手机验证码登录")
+    public R mobileLogin(@Valid @RequestBody MobileLoginDto mobileLoginDto) throws Exception {
 
-        log.info("手机验证码登陆");
-        try {
-            TokenParameter tokenParameter = new TokenParameter();
-            tokenParameter.getArgs()
-                    .set("userType", mobileLoginDto.getUserType())
-                    .set("mobile", mobileLoginDto.getMobile())
-                    .set("smsCode", mobileLoginDto.getSmsCode())
-                    .set("wechatCode", mobileLoginDto.getWechatCode());
+        TokenParameter tokenParameter = new TokenParameter();
+        tokenParameter.getArgs()
+                .set("userType", mobileLoginDto.getUserType())
+                .set("mobile", mobileLoginDto.getMobile())
+                .set("smsCode", mobileLoginDto.getSmsCode())
+                .set("wechatCode", mobileLoginDto.getWechatCode());
 
-            ITokenGranter granter = TokenGranterBuilder.getGranter(GrantType.MOBILE);
-            return granter.grant(tokenParameter);
+        ITokenGranter granter = TokenGranterBuilder.getGranter(GrantType.MOBILE);
 
-        } catch (Exception e) {
-            log.error("手机验证码登陆异常", e);
-        }
-
-        return R.fail("登陆失败");
+        return granter.grant(tokenParameter);
     }
 
     @PostMapping("/password-login")
-    @ApiOperation(value = "账号密码登陆", notes = "账号密码登陆")
+    @ApiOperation(value = "账号密码登录", notes = "账号密码登录")
     public R passwordLogin(@Valid @RequestBody PasswordLoginDto passwordLoginDto) throws Exception {
 
         TokenParameter tokenParameter = new TokenParameter();
@@ -104,50 +88,35 @@ public class AuthController {
 
     @PostMapping("/refresh-token")
     @ApiOperation(value = "刷新令牌", notes = "刷新令牌")
-    public R refreshToken(@ApiParam(value = "令牌") @NotBlank(message = "请输入令牌") @RequestParam(required = false) String refreshToken, @ApiParam(value = "用户类型") @NotBlank(message = "请选择用户类型") @RequestParam(required = false) UserType userType) {
+    public R refreshToken(@ApiParam(value = "令牌") @NotBlank(message = "请输入令牌") @RequestParam(required = false) String refreshToken, @ApiParam(value = "用户类型") @NotBlank(message = "请选择用户类型") @RequestParam(required = false) UserType userType) throws Exception {
 
-        log.info("刷新token");
-        try {
-            TokenParameter tokenParameter = new TokenParameter();
-            tokenParameter.getArgs()
-                    .set("userType", userType)
-                    .set("refreshToken", refreshToken);
+        TokenParameter tokenParameter = new TokenParameter();
+        tokenParameter.getArgs()
+                .set("userType", userType)
+                .set("refreshToken", refreshToken);
 
-            ITokenGranter granter = TokenGranterBuilder.getGranter(GrantType.REFRESHTOKEN);
-            return granter.grant(tokenParameter);
+        ITokenGranter granter = TokenGranterBuilder.getGranter(GrantType.REFRESHTOKEN);
 
-        } catch (Exception e) {
-            log.error("刷新令牌异常", e);
-        }
-
-        return R.fail("刷新令牌失败");
+        return granter.grant(tokenParameter);
     }
 
     @PostMapping("/register")
     @ApiOperation(value = "注册", notes = "注册")
-    public R register(@Valid @RequestBody RegisterDto registerDto) {
+    public R register(@Valid @RequestBody RegisterDto registerDto) throws Exception {
 
-        log.info("注册");
-        try {
-            TokenParameter tokenParameter = new TokenParameter();
-            tokenParameter.getArgs()
-                    .set("userType", registerDto.getUserType())
-                    .set("mobile", registerDto.getMobile())
-                    .set("password", registerDto.getPassword())
-                    .set("smsCode", registerDto.getSmsCode());
+        TokenParameter tokenParameter = new TokenParameter();
+        tokenParameter.getArgs()
+                .set("userType", registerDto.getUserType())
+                .set("mobile", registerDto.getMobile())
+                .set("password", registerDto.getPassword())
+                .set("smsCode", registerDto.getSmsCode());
 
-            ITokenGranter granter = TokenGranterBuilder.getGranter(GrantType.REGISTER);
-            return granter.grant(tokenParameter);
-
-        } catch (Exception e) {
-            log.error("注册异常", e);
-        }
-
-        return R.fail("注册失败");
+        ITokenGranter granter = TokenGranterBuilder.getGranter(GrantType.REGISTER);
+        return granter.grant(tokenParameter);
     }
 
     @GetMapping("/captcha")
-    @ApiOperation(value = "查询图形验证码")
+    @ApiOperation(value = "生成图形验证码")
     public R captcha() {
         SpecCaptcha specCaptcha = new SpecCaptcha(130, 48, 5);
         String verCode = specCaptcha.text().toLowerCase();
@@ -158,15 +127,8 @@ public class AuthController {
         return R.data(Kv.init().set("key", key).set("image", specCaptcha.toBase64()));
     }
 
-    /**
-     * 发送手机验证码
-     * 后期要加接口限制
-     *
-     * @param sendCodeDto
-     * @return R
-     */
     @PostMapping("/send-code")
-    @ApiOperation(value = "查询手机短信验证码")
+    @ApiOperation(value = "发送手机短信验证码")
     public R sendCode(@Valid @RequestBody SendCodeDto sendCodeDto) {
         return mobileTokenGranter.sendSmsCode(sendCodeDto.getMobile(), sendCodeDto.getCodeType(), sendCodeDto.getUserType());
     }

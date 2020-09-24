@@ -37,7 +37,7 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
     public R<AdminEntity> currentAdmin(BladeUser bladeUser) {
 
         if (bladeUser == null || bladeUser.getUserId() == null) {
-            return R.fail("账号未登陆");
+            return R.fail("账号未登录");
         }
 
         User user = userService.getById(bladeUser.getUserId());

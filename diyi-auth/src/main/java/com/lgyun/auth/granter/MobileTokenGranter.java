@@ -17,7 +17,6 @@ import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 短信验证码登录
@@ -46,7 +45,6 @@ public class MobileTokenGranter implements ITokenGranter {
      * @return UserInfo
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public R grant(TokenParameter tokenParameter) throws Exception {
 
         //查询手机号
@@ -66,7 +64,7 @@ public class MobileTokenGranter implements ITokenGranter {
         switch (userType) {
 
             case ADMIN:
-                // 服务商处理
+                // 管理员处理
                 res = userClient.adminDeal(mobile, "", "", GrantType.MOBILE);
                 if (!(res.isSuccess())) {
                     return res;

@@ -34,9 +34,6 @@ public class DeptController extends BladeController {
 
     private IDeptService deptService;
 
-    /**
-     * 详情
-     */
     @GetMapping("/detail")
     @ApiOperation(value = "详情", notes = "传入dept")
     public R<DeptVO> detail(Dept dept) {
@@ -44,9 +41,6 @@ public class DeptController extends BladeController {
         return R.data(DeptWrapper.build().entityVO(detail));
     }
 
-    /**
-     * 列表
-     */
     @GetMapping("/list")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "deptName", value = "部门名称", paramType = "query", dataType = "string"),
@@ -59,11 +53,6 @@ public class DeptController extends BladeController {
         return R.data(DeptWrapper.build().listNodeVO(list));
     }
 
-    /**
-     * 查询部门树形结构
-     *
-     * @return
-     */
     @GetMapping("/tree")
     @ApiOperation(value = "树形结构", notes = "树形结构")
     public R<List<DeptVO>> tree(String tenantId, BladeUser bladeUser) {
@@ -71,9 +60,6 @@ public class DeptController extends BladeController {
         return R.data(tree);
     }
 
-    /**
-     * 新增或修改
-     */
     @PostMapping("/submit")
     @ApiOperation(value = "新增或修改", notes = "传入dept")
     public R submit(@Valid @RequestBody Dept dept, BladeUser user) {
@@ -83,9 +69,6 @@ public class DeptController extends BladeController {
         return R.status(deptService.saveOrUpdate(dept));
     }
 
-    /**
-     * 删除
-     */
     @PostMapping("/remove")
     @ApiOperation(value = "删除", notes = "传入ids")
     public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {

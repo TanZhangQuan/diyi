@@ -63,7 +63,7 @@ public class WechatTokenGranter implements ITokenGranter {
 
         UserInfo userInfo = userClient.userInfoFindByPhoneAndUserType(purePhoneNumber, userType);
         if (userInfo == null) {
-            return R.fail("登陆失败");
+            return R.fail("登录失败");
         }
 
         //创建认证token
