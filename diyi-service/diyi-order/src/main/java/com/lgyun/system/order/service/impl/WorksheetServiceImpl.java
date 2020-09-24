@@ -62,12 +62,22 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         if (!WorkSheetMode.GRABBING.equals(releaseWorksheetDTO.getWorksheetMode()) && StringUtil.isBlank(releaseWorksheetDTO.getMakerIds())) {
             return R.fail("创客的ids不能为空");
         }
+        if(releaseWorksheetDTO.getUppersonNum() != 0 && releaseWorksheetDTO.getMakerIds().split(",").length != releaseWorksheetDTO.getUppersonNum()){
+            return R.fail("工单创建失败，上限人数为"+releaseWorksheetDTO.getUppersonNum()+",创客数为"+releaseWorksheetDTO.getMakerIds().split(",").length);
+        }
+        String makerIds = releaseWorksheetDTO.getMakerIds();
+        String[] split = makerIds.split(",");
+        Set<String> sameSet = new HashSet<>();
+        for(String element:split) {
+            sameSet.add(element);
+        }
+        if(sameSet.size() != split.length){
+            return R.fail("有存在相同的指定创客！！");
+        }
         BeanUtil.copy(releaseWorksheetDTO, worksheetEntity);
         worksheetEntity.setWorksheetNo(UUID.randomUUID().toString());
         save(worksheetEntity);
         if (WorkSheetMode.BLEND.equals(releaseWorksheetDTO.getWorksheetMode()) || WorkSheetMode.DISPATCH.equals(releaseWorksheetDTO.getWorksheetMode())) {
-            String makerIds = releaseWorksheetDTO.getMakerIds();
-            String[] split = makerIds.split(",");
             for (int i = 0; i < split.length; i++) {
                 WorksheetMakerEntity worksheetMakerEntity = new WorksheetMakerEntity();
                 worksheetMakerEntity.setMakerId(Long.parseLong(split[i]));
