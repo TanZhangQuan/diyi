@@ -2,18 +2,14 @@ package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
-import com.lgyun.common.constant.SmsConstant;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.BeanServiceUtil;
 import com.lgyun.common.tool.DigestUtil;
-import com.lgyun.common.tool.RedisUtil;
-import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.feign.ISysClient;
-import com.lgyun.system.user.dto.UpdatePasswordDto;
 import com.lgyun.system.user.dto.enterprise.AddOrUpdateEnterpriseContactDto;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
@@ -51,7 +47,6 @@ import java.util.stream.Collectors;
 public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorkerMapper, EnterpriseWorkerEntity> implements IEnterpriseWorkerService {
 
     private final IUserService userService;
-    private final RedisUtil redisUtil;
     private final ISysClient sysClient;
 
     @Autowired
@@ -66,6 +61,14 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
     }
 
     @Override
+    public EnterpriseWorkerEntity findByEmployeeUserNameAndEmployeePwd(String employeeUserName, String employeePwd) {
+        QueryWrapper<EnterpriseWorkerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(EnterpriseWorkerEntity::getEmployeeUserName, employeeUserName)
+                .eq(EnterpriseWorkerEntity::getEmployeePwd, employeePwd);
+        return baseMapper.selectOne(queryWrapper);
+    }
+
+    @Override
     public Integer findCountByPhoneNumber(String phoneNumber) {
         QueryWrapper<EnterpriseWorkerEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(EnterpriseWorkerEntity::getPhoneNumber, phoneNumber);
@@ -73,32 +76,19 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
     }
 
     @Override
-    public Integer findCountByEmployeeUserNameAndEmployeePwd(String employeeUserName, String employeePwd) {
-        QueryWrapper<EnterpriseWorkerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(EnterpriseWorkerEntity::getEmployeeUserName, employeeUserName)
-                .eq(EnterpriseWorkerEntity::getEmployeePwd, employeePwd);
-        return baseMapper.selectCount(queryWrapper);
-    }
-
-    @Override
     public R<EnterpriseWorkerEntity> currentEnterpriseWorker(BladeUser bladeUser) {
 
         if (bladeUser == null || bladeUser.getUserId() == null) {
-            return R.fail("账号未登录");
-        }
-
-        User user = userService.getById(bladeUser.getUserId());
-        if (user == null) {
-            return R.fail("用户不存在");
-        }
-
-        if (!(UserType.ENTERPRISE.equals(user.getUserType()))) {
-            return R.fail("用户类型有误");
+            return R.fail("用户未登录");
         }
 
         EnterpriseWorkerEntity enterpriseWorkerEntity = findByUserId(bladeUser.getUserId());
         if (enterpriseWorkerEntity == null) {
-            return R.fail("账号未注册");
+            return R.fail("商户员工不存在");
+        }
+
+        if (!(AccountState.NORMAL.equals(enterpriseWorkerEntity.getEnterpriseWorkerState()))) {
+            return R.fail("账号状态非正常，请联系客服");
         }
 
         EnterpriseEntity enterpriseEntity = enterpriseService.getById(enterpriseWorkerEntity.getEnterpriseId());
@@ -108,10 +98,6 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
 
         if (!(AccountState.NORMAL.equals(enterpriseEntity.getEnterpriseState()))) {
             return R.fail("商户状态非正常，请联系客服");
-        }
-
-        if (!(AccountState.NORMAL.equals(enterpriseWorkerEntity.getEnterpriseWorkerState()))) {
-            return R.fail("账号状态非正常，请联系客服");
         }
 
         return R.data(enterpriseWorkerEntity);

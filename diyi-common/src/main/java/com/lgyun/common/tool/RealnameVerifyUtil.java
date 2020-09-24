@@ -107,8 +107,7 @@ public class RealnameVerifyUtil {
         String detailUrl = "/v2/identity/auth/api/common/" + flowId + "/detail";
 
         //发送POST请求
-        JSONObject resultJson = realnameVerifyOCR(detailUrl, new JSONObject(), HttpMethod.GET);
-        return resultJson;
+        return realnameVerifyOCR(detailUrl, new JSONObject(), HttpMethod.GET);
     }
 
     /**

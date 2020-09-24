@@ -48,8 +48,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     private IUserService iUserService;
     private IMakerEnterpriseService makerEnterpriseService;
     private SmsUtil smsUtil;
-    private RedisUtil redisUtil;
-    private IUserService userService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -239,7 +237,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R<String> faceOcr(MakerEntity makerEntity) throws Exception {
+    public R faceOcr(MakerEntity makerEntity) throws Exception {
 
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
@@ -251,16 +249,16 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return R.fail("已身份实名认证");
         }
 
-        R result = RealnameVerifyUtil.faceOCR(makerEntity.getId(), makerEntity.getName(), makerEntity.getIdcardNo());
+        R<JSONObject> result = RealnameVerifyUtil.faceOCR(makerEntity.getId(), makerEntity.getName(), makerEntity.getIdcardNo());
         log.info("人脸识别请求返回参数", result);
         if (!(result.isSuccess())) {
             return result;
         }
 
         //通过短信发送人脸识别URL
-        JSONObject jsonObject = (JSONObject) result.getData();
+        JSONObject jsonObject = result.getData();
         String shortLink = jsonObject.getString("shortLink");
-        R smsResult = smsUtil.sendLink(makerEntity.getPhoneNumber(), shortLink, UserType.MAKER);
+        R<String> smsResult = smsUtil.sendLink(makerEntity.getPhoneNumber(), shortLink, UserType.MAKER);
         if (!(smsResult.isSuccess())) {
             return result;
         }
@@ -551,21 +549,12 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     public R<MakerEntity> currentMaker(BladeUser bladeUser) {
 
         if (bladeUser == null || bladeUser.getUserId() == null) {
-            return R.fail("账号未登录");
-        }
-
-        User user = userService.getById(bladeUser.getUserId());
-        if (user == null){
-            return R.fail("用户不存在");
-        }
-
-        if (!(UserType.MAKER.equals(user.getUserType()))) {
-            return R.fail("用户类型有误");
+            return R.fail("用户未登录");
         }
 
         MakerEntity makerEntity = findByUserId(bladeUser.getUserId());
         if (makerEntity == null) {
-            return R.fail("账号未注册");
+            return R.fail("创客不存在");
         }
 
         if (!(AccountState.NORMAL.equals(makerEntity.getMakerState()))) {

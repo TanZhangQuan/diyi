@@ -3,6 +3,8 @@ package com.lgyun.auth.service;
 import com.lgyun.auth.dto.*;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.UserType;
+import com.lgyun.common.secure.AuthInfo;
+import com.lgyun.common.support.Kv;
 
 /**
  * Service 接口
@@ -27,7 +29,7 @@ public interface IAuthService {
      * @param sendCodeDto
      * @return
      */
-    R sendCode(SendCodeDto sendCodeDto);
+    R<String> sendCode(SendCodeDto sendCodeDto);
 
     /**
      * 手机验证码登录
@@ -52,7 +54,7 @@ public interface IAuthService {
      * @param userType
      * @return
      */
-    R refreshToken(String refreshToken, UserType userType);
+    R<AuthInfo> refreshToken(String refreshToken, UserType userType);
 
     /**
      * 注册
@@ -61,14 +63,14 @@ public interface IAuthService {
      * @return
      * @throws Exception
      */
-    R register(RegisterDto registerDto);
+    R<String> register(RegisterDto registerDto);
 
     /**
      * 生成图形验证码
      *
      * @return
      */
-    R captcha();
+    R<Kv> captcha();
 
     /**
      * 修改密码
@@ -76,7 +78,7 @@ public interface IAuthService {
      * @param updatePasswordDto
      * @return
      */
-    R updatePassword(UpdatePasswordDto updatePasswordDto);
+    R<String> updatePassword(UpdatePasswordDto updatePasswordDto);
 
 }
 

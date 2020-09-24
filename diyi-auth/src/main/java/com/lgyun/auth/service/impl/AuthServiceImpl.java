@@ -50,7 +50,6 @@ public class AuthServiceImpl implements IAuthService {
     @Transactional(rollbackFor = Exception.class)
     public R wechatlogin(WechatLoginDto wechatLoginDto) throws Exception {
 
-        String purePhoneNumber;
         if (wechatLoginDto.getUserType() == UserType.MAKER) {
             //微信授权
             R<JSONObject> result = wechatUtil.authorization(wechatLoginDto.getWechatCode(), wechatLoginDto.getIv(), wechatLoginDto.getEncryptedData());
@@ -60,9 +59,9 @@ public class AuthServiceImpl implements IAuthService {
             JSONObject jsonObject = result.getData();
             String openid = jsonObject.getString("openid");
             String sessionKey = jsonObject.getString("sessionKey");
-            purePhoneNumber = jsonObject.getString("purePhoneNumber");
+            String purePhoneNumber = jsonObject.getString("purePhoneNumber");
             // 创客处理
-            R res = userClient.makerDeal(openid, sessionKey, purePhoneNumber, "", GrantType.WECHAT);
+            R<String> res = userClient.makerDeal(openid, sessionKey, purePhoneNumber, "", GrantType.WECHAT);
             if (!(res.isSuccess())) {
                 return res;
             }
@@ -75,7 +74,7 @@ public class AuthServiceImpl implements IAuthService {
             //创建认证token
             AuthInfo authInfo = tokenUtil.createAuthInfo(userInfo);
 
-            return R.data(authInfo);
+            return R.data(authInfo, "登录成功");
         } else {
             return R.fail("用户类型有误");
         }

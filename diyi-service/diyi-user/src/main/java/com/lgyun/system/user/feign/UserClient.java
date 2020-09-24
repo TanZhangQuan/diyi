@@ -2,6 +2,7 @@ package com.lgyun.system.user.feign;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
@@ -98,35 +99,50 @@ public class UserClient implements IUserClient {
     @Override
     public R<String> adminDeal(String phoneNumber, String userName, String password, GrantType grantType) {
 
+        AdminEntity adminEntity;
         switch (grantType) {
 
             case PASSWORD:
                 //根据账号密码查询管理员
-                Integer countByUserNameAndLoginPwd = iAdminService.findCountByUserNameAndLoginPwd(userName, password);
-                if (countByUserNameAndLoginPwd <= 0) {
+                adminEntity = iAdminService.findByUserNameAndLoginPwd(userName, password);
+                if (adminEntity == null) {
                     return R.fail("账号或密码错误");
                 }
+
+                if (!(AccountState.NORMAL.equals(adminEntity.getAdminState()))) {
+                    return R.fail("账号状态非正常，请联系客服");
+                }
+
                 break;
 
             case MOBILE:
                 //根据手机号查询管理员
-                Integer countByPhoneNumber = iAdminService.findCountByPhoneNumber(phoneNumber);
-                if (countByPhoneNumber <= 0) {
+                adminEntity = iAdminService.findByPhoneNumber(phoneNumber);
+                if (adminEntity == null) {
                     return R.fail("手机号未注册");
                 }
+
+                if (!(AccountState.NORMAL.equals(adminEntity.getAdminState()))) {
+                    return R.fail("账号状态非正常，请联系客服");
+                }
+
                 break;
 
             case UPDATEPASSWORD:
                 //修改管理员密码
-                AdminEntity adminEntity = iAdminService.findByPhoneNumber(phoneNumber);
+                adminEntity = iAdminService.findByPhoneNumber(phoneNumber);
                 if (adminEntity == null) {
                     return R.fail("手机号未注册");
+                }
+
+                if (!(AccountState.NORMAL.equals(adminEntity.getAdminState()))) {
+                    return R.fail("账号状态非正常，请联系客服");
                 }
 
                 adminEntity.setLoginPwd(password);
                 iAdminService.save(adminEntity);
 
-                return R.success("修改密码成功");
+                break;
 
             default:
                 return R.fail("授权类型有误");
@@ -138,8 +154,7 @@ public class UserClient implements IUserClient {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public R<String> makerDeal(String openid, String sessionKey, String phoneNumber, String password, GrantType grantType) {
-        log.info("[makerDeal] phone={}", phoneNumber);
-        //根据手机号码查询创客，存在就更新微信信息，不存在就新建创客
+
         MakerEntity makerEntity;
         switch (grantType) {
 
@@ -147,30 +162,48 @@ public class UserClient implements IUserClient {
                 //根据手机号查询创客
                 makerEntity = iMakerService.findByPhoneNumber(phoneNumber);
                 if (makerEntity != null) {
+
+                    if (!(AccountState.NORMAL.equals(makerEntity.getMakerState()))) {
+                        return R.fail("账号状态非正常，请联系客服");
+                    }
+
                     iMakerService.makerUpdate(makerEntity, openid, sessionKey);
                 } else {
                     iMakerService.makerSave(openid, sessionKey, phoneNumber, password);
                 }
+
                 break;
 
             case PASSWORD:
                 //根据账号密码查询创客
                 makerEntity = iMakerService.findByPhoneNumberAndLoginPwd(phoneNumber, password);
                 if (makerEntity != null) {
+
+                    if (!(AccountState.NORMAL.equals(makerEntity.getMakerState()))) {
+                        return R.fail("账号状态非正常，请联系客服");
+                    }
+
                     iMakerService.makerUpdate(makerEntity, openid, sessionKey);
                 } else {
                     return R.fail("账号或密码错误");
                 }
+
                 break;
 
             case MOBILE:
                 //根据手机号查询创客
                 makerEntity = iMakerService.findByPhoneNumber(phoneNumber);
                 if (makerEntity != null) {
+
+                    if (!(AccountState.NORMAL.equals(makerEntity.getMakerState()))) {
+                        return R.fail("账号状态非正常，请联系客服");
+                    }
+
                     iMakerService.makerUpdate(makerEntity, openid, sessionKey);
                 } else {
                     return R.fail("手机号未注册");
                 }
+
                 break;
 
             case REGISTER:
@@ -181,18 +214,24 @@ public class UserClient implements IUserClient {
                 } else {
                     iMakerService.makerSave(openid, sessionKey, phoneNumber, password);
                 }
+
                 break;
 
             case UPDATEPASSWORD:
+                //根据手机号查询创客
                 makerEntity = iMakerService.findByPhoneNumber(phoneNumber);
                 if (makerEntity == null) {
                     return R.fail("手机号未注册");
                 }
 
+                if (!(AccountState.NORMAL.equals(makerEntity.getMakerState()))) {
+                    return R.fail("账号状态非正常，请联系客服");
+                }
+
                 makerEntity.setLoginPwd(password);
                 iMakerService.save(makerEntity);
 
-                return R.success("修改密码成功");
+                break;
 
             default:
                 return R.fail("授权类型有误");
@@ -204,34 +243,78 @@ public class UserClient implements IUserClient {
     @Override
     public R<String> enterpriseWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
 
+        EnterpriseWorkerEntity enterpriseWorkerEntity;
+        EnterpriseEntity enterpriseEntity;
         switch (grantType) {
 
             case PASSWORD:
-                //根据账号密码查询商户
-                Integer countByEmployeeUserNameAndEmployeePwd = iEnterpriseWorkerService.findCountByEmployeeUserNameAndEmployeePwd(employeeUserName, password);
-                if (countByEmployeeUserNameAndEmployeePwd <= 0) {
+                //根据账号密码查询商户员工
+                enterpriseWorkerEntity = iEnterpriseWorkerService.findByEmployeeUserNameAndEmployeePwd(employeeUserName, password);
+                if (enterpriseWorkerEntity == null) {
                     return R.fail("账号或密码错误");
                 }
+
+                if (!(AccountState.NORMAL.equals(enterpriseWorkerEntity.getEnterpriseWorkerState()))) {
+                    return R.fail("账号状态非正常，请联系客服");
+                }
+
+                enterpriseEntity = iEnterpriseService.getById(enterpriseWorkerEntity.getEnterpriseId());
+                if (enterpriseEntity == null) {
+                    return R.fail("商户不存在");
+                }
+
+                if (!(AccountState.NORMAL.equals(enterpriseEntity.getEnterpriseState()))) {
+                    return R.fail("商户状态非正常，请联系客服");
+                }
+
                 break;
 
             case MOBILE:
-                //根据手机号查询商户
-                Integer countByPhoneNumber = iEnterpriseWorkerService.findCountByPhoneNumber(phoneNumber);
-                if (countByPhoneNumber <= 0) {
-                    return R.fail("手机号未注册");
+                //根据手机号查询商户员工
+                enterpriseWorkerEntity = iEnterpriseWorkerService.findByPhoneNumber(phoneNumber);
+                if (enterpriseWorkerEntity == null) {
+                    return R.fail("账号或密码错误");
                 }
+
+                if (!(AccountState.NORMAL.equals(enterpriseWorkerEntity.getEnterpriseWorkerState()))) {
+                    return R.fail("账号状态非正常，请联系客服");
+                }
+
+                enterpriseEntity = iEnterpriseService.getById(enterpriseWorkerEntity.getEnterpriseId());
+                if (enterpriseEntity == null) {
+                    return R.fail("商户不存在");
+                }
+
+                if (!(AccountState.NORMAL.equals(enterpriseEntity.getEnterpriseState()))) {
+                    return R.fail("商户状态非正常，请联系客服");
+                }
+
                 break;
 
             case UPDATEPASSWORD:
-                EnterpriseWorkerEntity enterpriseWorkerEntity = iEnterpriseWorkerService.findByPhoneNumber(phoneNumber);
+                //根据手机号查询商户员工
+                enterpriseWorkerEntity = iEnterpriseWorkerService.findByPhoneNumber(phoneNumber);
                 if (enterpriseWorkerEntity == null) {
                     return R.fail("手机号未注册");
+                }
+
+                if (!(AccountState.NORMAL.equals(enterpriseWorkerEntity.getEnterpriseWorkerState()))) {
+                    return R.fail("账号状态非正常，请联系客服");
+                }
+
+                enterpriseEntity = iEnterpriseService.getById(enterpriseWorkerEntity.getEnterpriseId());
+                if (enterpriseEntity == null) {
+                    return R.fail("商户不存在");
+                }
+
+                if (!(AccountState.NORMAL.equals(enterpriseEntity.getEnterpriseState()))) {
+                    return R.fail("商户状态非正常，请联系客服");
                 }
 
                 enterpriseWorkerEntity.setEmployeePwd(password);
                 iEnterpriseWorkerService.save(enterpriseWorkerEntity);
 
-                return R.success("修改密码成功");
+                break;
 
             default:
                 return R.fail("授权类型有误");
@@ -243,34 +326,77 @@ public class UserClient implements IUserClient {
     @Override
     public R<String> serviceProviderWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
 
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity;
+        ServiceProviderEntity serviceProviderEntity;
         switch (grantType) {
 
             case PASSWORD:
                 //根据账号密码查询服务商
-                Integer countByEmployeeUserNameAndEmployeePwd = iServiceProviderWorkerService.findCountByEmployeeUserNameAndEmployeePwd(employeeUserName, password);
-                if (countByEmployeeUserNameAndEmployeePwd <= 0) {
+                serviceProviderWorkerEntity = iServiceProviderWorkerService.findByEmployeeUserNameAndEmployeePwd(employeeUserName, password);
+                if (serviceProviderWorkerEntity == null) {
                     return R.fail("账号或密码错误");
                 }
+
+                if (!(AccountState.NORMAL.equals(serviceProviderWorkerEntity.getServiceProviderWorkerState()))) {
+                    return R.fail("账号状态非正常，请联系客服");
+                }
+
+                serviceProviderEntity = iServiceProviderService.getById(serviceProviderWorkerEntity.getServiceProviderId());
+                if (serviceProviderEntity == null) {
+                    return R.fail("服务商不存在");
+                }
+
+                if (!(AccountState.NORMAL.equals(serviceProviderEntity.getServiceProviderState()))) {
+                    return R.fail("服务商状态非正常，请联系客服");
+                }
+
                 break;
 
             case MOBILE:
                 //根据手机号查询服务商
-                Integer countByPhoneNumber = iServiceProviderWorkerService.findCountByPhoneNumber(phoneNumber);
-                if (countByPhoneNumber <= 0) {
+                serviceProviderWorkerEntity = iServiceProviderWorkerService.findByPhoneNumber(phoneNumber);
+                if (serviceProviderWorkerEntity == null) {
                     return R.fail("手机号未注册");
                 }
+
+                if (!(AccountState.NORMAL.equals(serviceProviderWorkerEntity.getServiceProviderWorkerState()))) {
+                    return R.fail("账号状态非正常，请联系客服");
+                }
+
+                serviceProviderEntity = iServiceProviderService.getById(serviceProviderWorkerEntity.getServiceProviderId());
+                if (serviceProviderEntity == null) {
+                    return R.fail("服务商不存在");
+                }
+
+                if (!(AccountState.NORMAL.equals(serviceProviderEntity.getServiceProviderState()))) {
+                    return R.fail("服务商状态非正常，请联系客服");
+                }
+
                 break;
 
             case UPDATEPASSWORD:
-                ServiceProviderWorkerEntity serviceProviderWorkerEntity = iServiceProviderWorkerService.findByPhoneNumber(phoneNumber);
+                serviceProviderWorkerEntity = iServiceProviderWorkerService.findByPhoneNumber(phoneNumber);
                 if (serviceProviderWorkerEntity == null) {
                     return R.fail("手机号未注册");
+                }
+
+                if (!(AccountState.NORMAL.equals(serviceProviderWorkerEntity.getServiceProviderWorkerState()))) {
+                    return R.fail("账号状态非正常，请联系客服");
+                }
+
+                serviceProviderEntity = iServiceProviderService.getById(serviceProviderWorkerEntity.getServiceProviderId());
+                if (serviceProviderEntity == null) {
+                    return R.fail("服务商不存在");
+                }
+
+                if (!(AccountState.NORMAL.equals(serviceProviderEntity.getServiceProviderState()))) {
+                    return R.fail("服务商状态非正常，请联系客服");
                 }
 
                 serviceProviderWorkerEntity.setEmployeePwd(password);
                 iServiceProviderWorkerService.save(serviceProviderWorkerEntity);
 
-                return R.success("修改密码成功");
+                break;
 
             default:
                 return R.fail("授权类型有误");
