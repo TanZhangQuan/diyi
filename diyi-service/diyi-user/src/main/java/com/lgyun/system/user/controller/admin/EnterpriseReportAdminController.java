@@ -20,17 +20,17 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 /**
- * 年度申报管理表控制器
+ * 平台年度申报管理表控制器
  *
  * @author tzq
  * @since 2020-08-12 14:47:56
  */
 @Slf4j
 @RestController
-@RequestMapping("/enterprise_report")
+@RequestMapping("/admin/enterprise_report")
 @Validated
 @AllArgsConstructor
-@Api(value = "年度申报管理表相关接口", tags = "年度申报管理表相关接口")
+@Api(value = "平台年度申报管理表控制器", tags = "平台年度申报管理表控制器")
 public class EnterpriseReportAdminController {
 
     private IEnterpriseReportService enterpriseReportService;
@@ -41,6 +41,7 @@ public class EnterpriseReportAdminController {
     @ApiOperation(value = "平台查询所有服务商税务申报或工商申报", notes = "平台查询所有服务商税务申报或工商申报")
     public R findAdminEnterpriseReportAll(@ApiParam(value = "服务商名字") @RequestParam(required = false) String serviceProviderName,
                                           @ApiParam(value = "申报主题") @RequestParam(required = false) ReportTheme reportTheme,
+                                          String startTime, String endTime,
                                           Query query, BladeUser bladeUser) {
         log.info("平台查询所有服务商税务申报或工商申报");
         try {
@@ -50,7 +51,7 @@ public class EnterpriseReportAdminController {
                 return result;
             }
             AdminEntity adminEntity = result.getData();
-            return enterpriseReportService.findAdminEnterpriseReportAll(serviceProviderName,reportTheme, Condition.getPage(query.setDescs("create_time")));
+            return enterpriseReportService.findAdminEnterpriseReportAll(serviceProviderName,reportTheme, startTime, endTime, Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("平台查询所有服务商税务申报或工商申报异常", e);
         }
@@ -59,7 +60,7 @@ public class EnterpriseReportAdminController {
 
     @GetMapping("/findAdminEnterpriseReport")
     @ApiOperation(value = "平台根据服务商查询税务申报或工商申报", notes = "平台根据服务商查询税务申报或工商申报")
-    public R findAdminEnterpriseReport(Long serviceProviderId,Query query, BladeUser bladeUser) {
+    public R findAdminEnterpriseReport(Long serviceProviderId,ReportTheme reportTheme,Query query, BladeUser bladeUser) {
         log.info("平台根据服务商查询税务申报或工商申报");
         try {
             //查询当前管理员
@@ -68,7 +69,7 @@ public class EnterpriseReportAdminController {
                 return result;
             }
             AdminEntity adminEntity = result.getData();
-            return enterpriseReportService.findAdminEnterpriseReport(serviceProviderId,Condition.getPage(query.setDescs("create_time")));
+            return enterpriseReportService.findAdminEnterpriseReport(serviceProviderId, reportTheme,Condition.getPage(query.setDescs("create_time")));
         } catch (Exception e) {
             log.error("平台根据服务商查询税务申报或工商申报异常", e);
         }
