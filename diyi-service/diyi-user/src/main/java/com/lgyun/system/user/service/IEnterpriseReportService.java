@@ -42,12 +42,12 @@ public interface IEnterpriseReportService extends BaseService<EnterpriseReportEn
     /**
      *平台查询所有服务商税务申报或工商申报
      */
-    R findAdminEnterpriseReportAll(String serviceProviderName, ReportTheme reportTheme,IPage<QueryAdminEnterpriseReportAllVO> page);
+    R findAdminEnterpriseReportAll(String serviceProviderName, ReportTheme reportTheme,String startTime, String endTime,IPage<QueryAdminEnterpriseReportAllVO> page);
 
     /**
      * 平台根据服务商查询税务申报或工商申报
      */
-    R findAdminEnterpriseReport(Long serviceProviderId,IPage<QueryAdminEnterpriseReportVO> page);
+    R findAdminEnterpriseReport(Long serviceProviderId,ReportTheme reportTheme,IPage<QueryAdminEnterpriseReportVO> page);
 
     /**
      * 平台查询税务申报或工商申报详情
@@ -63,5 +63,17 @@ public interface IEnterpriseReportService extends BaseService<EnterpriseReportEn
      * 平台审核税务申报或工商申报
      */
     R toExamineAdminEnterpriseReport(Long enterpriseReportId,Integer toExamine);
+
+
+    /**
+     * 根据服务商id查询税务申报或工商申报
+     */
+    R findServiceEnterpriseReport(Long serviceProviderId,ReportTheme reportTheme,String startTime,String endTime,IPage<QueryAdminEnterpriseReportAllVO> page);
+
+
+    /**
+     *服务商保存税务申报或工商申报
+     */
+    R saveServiceEnterpriseReport(AdminEnterpriseReportDTO adminEnterpriseReportDTO);
 }
 

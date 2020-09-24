@@ -33,16 +33,21 @@ public interface EnterpriseReportMapper extends BaseMapper<EnterpriseReportEntit
     /**
      * 平台查询所有服务商税务申报或工商申报
      */
-    List<QueryAdminEnterpriseReportAllVO> findAdminEnterpriseReportAll(String serviceProviderName, ReportTheme reportTheme, IPage<QueryAdminEnterpriseReportAllVO> page);
+    List<QueryAdminEnterpriseReportAllVO> findAdminEnterpriseReportAll(String serviceProviderName, ReportTheme reportTheme,String startTime, String endTime, IPage<QueryAdminEnterpriseReportAllVO> page);
 
     /**
      *平台根据服务商查询税务申报或工商申报
      */
-    List<QueryAdminEnterpriseReportVO> findAdminEnterpriseReport(Long serviceProviderId,IPage<QueryAdminEnterpriseReportVO> page);
+    List<QueryAdminEnterpriseReportVO> findAdminEnterpriseReport(Long serviceProviderId,ReportTheme reportTheme,IPage<QueryAdminEnterpriseReportVO> page);
 
     /**
      * 平台查询税务申报或工商申报详情
      */
     QueryAdminEnterpriseReportVO findAdminEnterpriseReportDetail(Long enterpriseReportId);
+
+    /**
+     *根据服务商id查询税务申报或工商申报
+     */
+    List<QueryAdminEnterpriseReportAllVO> findServiceEnterpriseReport(Long serviceProviderId,ReportTheme reportTheme, String startTime, String endTime, IPage<QueryAdminEnterpriseReportAllVO> page);
 }
 
