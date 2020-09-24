@@ -3,7 +3,6 @@ package com.lgyun.system.user.controller;
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.dto.IdcardOcrSaveDto;
-import com.lgyun.system.user.dto.UpdatePasswordDto;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.IMakerService;
 import com.lgyun.system.user.wrapper.MakerWrapper;
@@ -60,7 +59,7 @@ public class MakerController {
     }
 
     @PostMapping("/face_ocr")
-    @ApiOperation(value = "身份实名认证", notes = "身份实名认证")
+    @ApiOperation(value = "活体认证", notes = "活体认证")
     public R faceOcr(BladeUser bladeUser) throws Exception {
         //查询当前创客
         R<MakerEntity> result = makerService.currentMaker(bladeUser);
@@ -73,7 +72,7 @@ public class MakerController {
     }
 
     @PostMapping("/face_ocr_notify")
-    @ApiOperation(value = "身份实名认证异步回调", notes = "身份实名认证异步回调")
+    @ApiOperation(value = "活体认证异步回调", notes = "活体认证异步回调")
     public R faceOcrNotify(HttpServletRequest request) throws Exception {
         return makerService.faceOcrNotify(request);
     }

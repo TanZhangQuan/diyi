@@ -116,7 +116,7 @@ public interface IMakerService extends IService<MakerEntity> {
     R<String> idcardOcrSave(IdcardOcrSaveDto idcardOcrSaveDto, MakerEntity makerEntity);
 
     /**
-     * 身份实名认证
+     * 活体认证
      *
      * @param makerEntity
      * @return

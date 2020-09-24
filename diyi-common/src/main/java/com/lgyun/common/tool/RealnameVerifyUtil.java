@@ -111,7 +111,7 @@ public class RealnameVerifyUtil {
     }
 
     /**
-     * 身份实名认证
+     * 活体认证
      */
     public static R<JSONObject> faceOCR(Long contextId, String name, String certNo) throws Exception {
 
