@@ -6,14 +6,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.RealnameVerifyConstant;
-import com.lgyun.common.constant.SmsConstant;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.*;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.dto.IdcardOcrSaveDto;
 import com.lgyun.system.user.dto.MakerAddDto;
-import com.lgyun.system.user.dto.UpdatePasswordDto;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.excel.MakerExcel;
@@ -262,7 +260,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         //通过短信发送人脸识别URL
         JSONObject jsonObject = (JSONObject) result.getData();
         String shortLink = jsonObject.getString("shortLink");
-        R smsResult = smsUtil.sendLink(makerEntity.getPhoneNumber(), shortLink);
+        R smsResult = smsUtil.sendLink(makerEntity.getPhoneNumber(), shortLink, UserType.MAKER);
         if (!(smsResult.isSuccess())) {
             return result;
         }
@@ -638,30 +636,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             }
 
         });
-    }
-
-    @Override
-    public R<String> updatePassword(UpdatePasswordDto updatePasswordDto) {
-
-        MakerEntity makerEntity = findByPhoneNumber(updatePasswordDto.getPhoneNumber());
-        if (makerEntity == null) {
-            return R.fail("手机号未注册");
-        }
-
-        //查询缓存短信验证码
-        String redisCode = (String) redisUtil.get(SmsConstant.AVAILABLE_TIME + updatePasswordDto.getPhoneNumber());
-        //判断验证码
-        if (!StringUtil.equalsIgnoreCase(redisCode, updatePasswordDto.getSmsCode())) {
-            return R.fail("短信验证码不正确");
-        }
-
-        makerEntity.setLoginPwd(DigestUtil.encrypt(updatePasswordDto.getNewPassword()));
-        save(makerEntity);
-
-        //删除缓存短信验证码
-        redisUtil.del(SmsConstant.AVAILABLE_TIME + updatePasswordDto.getPhoneNumber());
-
-        return R.success("修改密码成功");
     }
 
     @Override

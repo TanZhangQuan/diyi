@@ -14,7 +14,7 @@ import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.feign.ISysClient;
 import com.lgyun.system.user.dto.UpdatePasswordDto;
-import com.lgyun.system.user.dto.serviceProvider.AddOrUpdateServiceProviderContactDto;
+import com.lgyun.system.user.dto.service_provider.AddOrUpdateServiceProviderContactDto;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.entity.User;
@@ -118,30 +118,6 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
         QueryWrapper<ServiceProviderWorkerEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(ServiceProviderWorkerEntity::getUserId, userId);
         return baseMapper.selectOne(queryWrapper);
-    }
-
-    @Override
-    public R<String> updatePassword(UpdatePasswordDto updatePasswordDto) {
-
-        ServiceProviderWorkerEntity serviceProviderWorkerEntity = findByPhoneNumber(updatePasswordDto.getPhoneNumber());
-        if (serviceProviderWorkerEntity == null) {
-            return R.fail("手机号未注册");
-        }
-
-        //查询缓存短信验证码
-        String redisCode = (String) redisUtil.get(SmsConstant.AVAILABLE_TIME + updatePasswordDto.getPhoneNumber());
-        //判断验证码
-        if (!StringUtil.equalsIgnoreCase(redisCode, updatePasswordDto.getSmsCode())) {
-            return R.fail("短信验证码不正确");
-        }
-
-        serviceProviderWorkerEntity.setEmployeePwd(DigestUtil.encrypt(updatePasswordDto.getNewPassword()));
-        save(serviceProviderWorkerEntity);
-
-        //删除缓存短信验证码
-        redisUtil.del(SmsConstant.AVAILABLE_TIME + updatePasswordDto.getPhoneNumber());
-
-        return R.success("修改密码成功");
     }
 
     @Override

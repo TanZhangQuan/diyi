@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * 微信授权工具类
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/6 00:21
  */
 @Slf4j

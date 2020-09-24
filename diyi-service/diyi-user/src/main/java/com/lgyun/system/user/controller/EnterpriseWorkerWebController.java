@@ -2,18 +2,16 @@ package com.lgyun.system.user.controller;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.system.user.dto.UpdatePasswordDto;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.wrapper.EnterpriseWorkerWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 控制器
@@ -41,12 +39,6 @@ public class EnterpriseWorkerWebController {
             EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
             return R.data(EnterpriseWorkerWrapper.build().entityVO(enterpriseWorkerEntity));
-    }
-
-    @PostMapping("/update-password")
-    @ApiOperation(value = "修改密码", notes = "修改密码")
-    public R updatePassword(@Valid @RequestBody UpdatePasswordDto updatePasswordDto) {
-            return enterpriseWorkerService.updatePassword(updatePasswordDto);
     }
 
 }

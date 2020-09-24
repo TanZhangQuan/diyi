@@ -255,14 +255,6 @@ public interface IMakerService extends IService<MakerEntity> {
     void importMaker(List<MakerExcel> list, Long enterpriseId);
 
     /**
-     * 修改密码
-     *
-     * @param updatePasswordDto
-     * @return
-     */
-    R<String> updatePassword(UpdatePasswordDto updatePasswordDto);
-
-    /**
      * 新增单个创客
      *
      * @param makerAddDto

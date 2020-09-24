@@ -4,7 +4,6 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.dto.UpdatePasswordDto;
 import com.lgyun.system.user.dto.enterprise.AddOrUpdateEnterpriseContactDto;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.vo.EnterpriseWorkerVO;
@@ -59,14 +58,6 @@ public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEn
      * @return
      */
     EnterpriseWorkerEntity findByUserId(Long userId);
-
-    /**
-     * 修改密码
-     *
-     * @param updatePasswordDto
-     * @return
-     */
-    R<String> updatePassword(UpdatePasswordDto updatePasswordDto);
 
     /**
      * 添加或修改商户联系人

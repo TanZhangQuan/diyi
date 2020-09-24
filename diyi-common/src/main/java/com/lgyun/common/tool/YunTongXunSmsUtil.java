@@ -26,7 +26,7 @@ public class YunTongXunSmsUtil {
     private RedisUtil redisUtil;
 
     /**
-     * 云通讯发送短信
+     * 云通讯发送短信验证码/短信链接
      *
      * @param mobile 手机号
      */

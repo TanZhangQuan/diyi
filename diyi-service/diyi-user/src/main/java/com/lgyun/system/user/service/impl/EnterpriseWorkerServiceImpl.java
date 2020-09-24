@@ -125,30 +125,6 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
     }
 
     @Override
-    public R<String> updatePassword(UpdatePasswordDto updatePasswordDto) {
-
-        EnterpriseWorkerEntity enterpriseWorkerEntity = findByPhoneNumber(updatePasswordDto.getPhoneNumber());
-        if (enterpriseWorkerEntity == null) {
-            return R.fail("手机号未注册");
-        }
-
-        //查询缓存短信验证码
-        String redisCode = (String) redisUtil.get(SmsConstant.AVAILABLE_TIME + updatePasswordDto.getPhoneNumber());
-        //判断验证码
-        if (!StringUtil.equalsIgnoreCase(redisCode, updatePasswordDto.getSmsCode())) {
-            return R.fail("短信验证码不正确");
-        }
-
-        enterpriseWorkerEntity.setEmployeePwd(DigestUtil.encrypt(updatePasswordDto.getNewPassword()));
-        save(enterpriseWorkerEntity);
-
-        //删除缓存短信验证码
-        redisUtil.del(SmsConstant.AVAILABLE_TIME + updatePasswordDto.getPhoneNumber());
-
-        return R.success("修改密码成功");
-    }
-
-    @Override
     @Transactional(rollbackFor = Exception.class)
     public R<String> addOrUpdateEnterpriseContact(AddOrUpdateEnterpriseContactDto addOrUpdateEnterpriseContactDto, Long enterpriseWorkerId) {
 

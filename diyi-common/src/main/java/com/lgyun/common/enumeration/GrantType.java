@@ -16,7 +16,7 @@ public enum GrantType {
     MOBILE("MOBILE", "短信验证码登录"),
     WECHAT("WECHAT", "微信授权登录"),
     REGISTER("REGISTER", "注册"),
-    REFRESHTOKEN("REFRESHTOKEN", "刷新token");
+    UPDATEPASSWORD("UPDATEPASSWORD", "修改密码");
 
     private final String value;
     private final String desc;

@@ -181,10 +181,4 @@ public class MakerController {
         return R.data(MakerWrapper.build().entityVO(makerEntity));
     }
 
-    @PostMapping("/update-password")
-    @ApiOperation(value = "修改密码", notes = "修改密码")
-    public R updatePassword(@Valid @RequestBody UpdatePasswordDto updatePasswordDto) {
-        return makerService.updatePassword(updatePasswordDto);
-    }
-
 }

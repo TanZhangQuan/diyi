@@ -1,4 +1,4 @@
-package com.lgyun.system.user.vo.service;
+package com.lgyun.system.user.vo.service_provider;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

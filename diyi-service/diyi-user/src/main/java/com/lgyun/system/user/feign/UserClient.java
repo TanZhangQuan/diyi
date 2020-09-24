@@ -5,6 +5,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
+import com.lgyun.common.tool.RedisUtil;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.MakerAddDto;
@@ -15,6 +16,7 @@ import com.lgyun.system.user.vo.MakerWorksheetVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -31,15 +33,17 @@ import java.util.List;
 public class UserClient implements IUserClient {
 
     private IUserService iUserService;
-    private IMakerService iMakerService;
+    private IEnterpriseService iEnterpriseService;
     private IMakerEnterpriseService iMakerEnterpriseService;
     private IIndividualEnterpriseService iIndividualEnterpriseService;
     private IIndividualBusinessService iIndividualBusinessService;
-    private IEnterpriseService iEnterpriseService;
-    private IEnterpriseWorkerService iEnterpriseWorkerService;
     private IEnterpriseServiceProviderService iEnterpriseServiceProviderService;
     private IServiceProviderWorkerService iServiceProviderWorkerService;
     private IAdminService iAdminService;
+    private IMakerService iMakerService;
+    private IEnterpriseWorkerService iEnterpriseWorkerService;
+    private IServiceProviderService iServiceProviderService;
+    private RedisUtil redisUtil;
 
     @Override
     public UserInfo userInfoFindByUserIdAndUserType(Long userId, UserType userType) {
@@ -92,13 +96,13 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R<String> adminDeal(String phoneNumber, String userName, String loginPwd, GrantType grantType) {
+    public R<String> adminDeal(String phoneNumber, String userName, String password, GrantType grantType) {
 
         switch (grantType) {
 
             case PASSWORD:
                 //根据账号密码查询管理员
-                Integer countByUserNameAndLoginPwd = iAdminService.findCountByUserNameAndLoginPwd(userName, loginPwd);
+                Integer countByUserNameAndLoginPwd = iAdminService.findCountByUserNameAndLoginPwd(userName, password);
                 if (countByUserNameAndLoginPwd <= 0) {
                     return R.fail("账号或密码错误");
                 }
@@ -112,32 +116,46 @@ public class UserClient implements IUserClient {
                 }
                 break;
 
+            case UPDATEPASSWORD:
+                //修改管理员密码
+                AdminEntity adminEntity = iAdminService.findByPhoneNumber(phoneNumber);
+                if (adminEntity == null) {
+                    return R.fail("手机号未注册");
+                }
+
+                adminEntity.setLoginPwd(password);
+                iAdminService.save(adminEntity);
+
+                return R.success("修改密码成功");
+
             default:
-                return R.fail("登陆方式有误");
+                return R.fail("授权类型有误");
         }
 
-        return R.success("登录成功");
+        return R.success("操作成功");
     }
 
     @Override
-    public R<String> makerDeal(String openid, String sessionKey, String phoneNumber, String loginPwd, GrantType grantType) {
+    @Transactional(rollbackFor = Exception.class)
+    public R<String> makerDeal(String openid, String sessionKey, String phoneNumber, String password, GrantType grantType) {
         log.info("[makerDeal] phone={}", phoneNumber);
         //根据手机号码查询创客，存在就更新微信信息，不存在就新建创客
         MakerEntity makerEntity;
         switch (grantType) {
+
             case WECHAT:
                 //根据手机号查询创客
                 makerEntity = iMakerService.findByPhoneNumber(phoneNumber);
                 if (makerEntity != null) {
                     iMakerService.makerUpdate(makerEntity, openid, sessionKey);
                 } else {
-                    iMakerService.makerSave(openid, sessionKey, phoneNumber, loginPwd);
+                    iMakerService.makerSave(openid, sessionKey, phoneNumber, password);
                 }
                 break;
 
             case PASSWORD:
                 //根据账号密码查询创客
-                makerEntity = iMakerService.findByPhoneNumberAndLoginPwd(phoneNumber, loginPwd);
+                makerEntity = iMakerService.findByPhoneNumberAndLoginPwd(phoneNumber, password);
                 if (makerEntity != null) {
                     iMakerService.makerUpdate(makerEntity, openid, sessionKey);
                 } else {
@@ -161,25 +179,36 @@ public class UserClient implements IUserClient {
                 if (makerEntity != null) {
                     return R.fail("手机号已注册");
                 } else {
-                    iMakerService.makerSave(openid, sessionKey, phoneNumber, loginPwd);
+                    iMakerService.makerSave(openid, sessionKey, phoneNumber, password);
                 }
                 break;
 
+            case UPDATEPASSWORD:
+                makerEntity = iMakerService.findByPhoneNumber(phoneNumber);
+                if (makerEntity == null) {
+                    return R.fail("手机号未注册");
+                }
+
+                makerEntity.setLoginPwd(password);
+                iMakerService.save(makerEntity);
+
+                return R.success("修改密码成功");
+
             default:
-                return R.fail("登录方式有误");
+                return R.fail("授权类型有误");
         }
 
-        return R.success("登录成功");
+        return R.success("操作成功");
     }
 
     @Override
-    public R<String> enterpriseWorkerDeal(String phoneNumber, String employeeUserName, String loginPwd, GrantType grantType) {
+    public R<String> enterpriseWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
 
         switch (grantType) {
 
             case PASSWORD:
                 //根据账号密码查询商户
-                Integer countByEmployeeUserNameAndEmployeePwd = iEnterpriseWorkerService.findCountByEmployeeUserNameAndEmployeePwd(employeeUserName, loginPwd);
+                Integer countByEmployeeUserNameAndEmployeePwd = iEnterpriseWorkerService.findCountByEmployeeUserNameAndEmployeePwd(employeeUserName, password);
                 if (countByEmployeeUserNameAndEmployeePwd <= 0) {
                     return R.fail("账号或密码错误");
                 }
@@ -193,21 +222,32 @@ public class UserClient implements IUserClient {
                 }
                 break;
 
+            case UPDATEPASSWORD:
+                EnterpriseWorkerEntity enterpriseWorkerEntity = iEnterpriseWorkerService.findByPhoneNumber(phoneNumber);
+                if (enterpriseWorkerEntity == null) {
+                    return R.fail("手机号未注册");
+                }
+
+                enterpriseWorkerEntity.setEmployeePwd(password);
+                iEnterpriseWorkerService.save(enterpriseWorkerEntity);
+
+                return R.success("修改密码成功");
+
             default:
-                return R.fail("登录方式有误");
+                return R.fail("授权类型有误");
         }
 
-        return R.success("登录成功");
+        return R.success("操作成功");
     }
 
     @Override
-    public R<String> serviceProviderWorkerDeal(String phoneNumber, String employeeUserName, String loginPwd, GrantType grantType) {
+    public R<String> serviceProviderWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
 
         switch (grantType) {
 
             case PASSWORD:
                 //根据账号密码查询服务商
-                Integer countByEmployeeUserNameAndEmployeePwd = iServiceProviderWorkerService.findCountByEmployeeUserNameAndEmployeePwd(employeeUserName, loginPwd);
+                Integer countByEmployeeUserNameAndEmployeePwd = iServiceProviderWorkerService.findCountByEmployeeUserNameAndEmployeePwd(employeeUserName, password);
                 if (countByEmployeeUserNameAndEmployeePwd <= 0) {
                     return R.fail("账号或密码错误");
                 }
@@ -221,11 +261,22 @@ public class UserClient implements IUserClient {
                 }
                 break;
 
+            case UPDATEPASSWORD:
+                ServiceProviderWorkerEntity serviceProviderWorkerEntity = iServiceProviderWorkerService.findByPhoneNumber(phoneNumber);
+                if (serviceProviderWorkerEntity == null) {
+                    return R.fail("手机号未注册");
+                }
+
+                serviceProviderWorkerEntity.setEmployeePwd(password);
+                iServiceProviderWorkerService.save(serviceProviderWorkerEntity);
+
+                return R.success("修改密码成功");
+
             default:
-                return R.fail("登录方式有误");
+                return R.fail("授权类型有误");
         }
 
-        return R.success("登录成功");
+        return R.success("操作成功");
     }
 
     @Override

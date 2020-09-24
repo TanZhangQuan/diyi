@@ -15,7 +15,7 @@ import com.lgyun.system.user.dto.ServiceProviderInvoiceDto;
 import com.lgyun.system.user.dto.admin.AddServiceProviderDTO;
 import com.lgyun.system.user.dto.admin.QueryServiceProviderListDTO;
 import com.lgyun.system.user.dto.admin.UpdateServiceProviderDTO;
-import com.lgyun.system.user.dto.serviceProvider.AddOrUpdateServiceProviderContactDto;
+import com.lgyun.system.user.dto.service_provider.AddOrUpdateServiceProviderContactDto;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.ServiceProviderMapper;
 import com.lgyun.system.user.service.*;

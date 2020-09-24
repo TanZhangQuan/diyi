@@ -72,22 +72,22 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public R<String> adminDeal(String phoneNumber, String userName, String loginPwd, GrantType grantType) {
+    public R<String> adminDeal(String phoneNumber, String userName, String password, GrantType grantType) {
         return R.fail("网络繁忙，请稍后尝试");
     }
 
     @Override
-    public R<String> makerDeal(String openid, String sessionKey, String phoneNumber, String loginPwd, GrantType grantType) {
+    public R<String> makerDeal(String openid, String sessionKey, String phoneNumber, String password, GrantType grantType) {
         return R.fail("网络繁忙，请稍后尝试");
     }
 
     @Override
-    public R<String> enterpriseWorkerDeal(String phoneNumber, String employeeUserName, String loginPwd, GrantType grantType) {
+    public R<String> enterpriseWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
         return R.fail("网络繁忙，请稍后尝试");
     }
 
     @Override
-    public R<String> serviceProviderWorkerDeal(String phoneNumber, String employeeUserName, String loginPwd, GrantType grantType) {
+    public R<String> serviceProviderWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
         return R.fail("网络繁忙，请稍后尝试");
     }
 

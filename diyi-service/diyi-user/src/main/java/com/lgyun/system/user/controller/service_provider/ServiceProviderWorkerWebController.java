@@ -1,4 +1,4 @@
-package com.lgyun.system.user.controller.service;
+package com.lgyun.system.user.controller.service_provider;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
@@ -40,12 +40,6 @@ public class ServiceProviderWorkerWebController {
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
         return R.data(ServiceProviderWorkerWrapper.build().entityVO(serviceProviderWorkerEntity));
-    }
-
-    @PostMapping("/update-password")
-    @ApiOperation(value = "修改密码", notes = "修改密码")
-    public R updatePassword(@Valid @RequestBody UpdatePasswordDto updatePasswordDto) {
-        return serviceProviderWorkerService.updatePassword(updatePasswordDto);
     }
 
 }

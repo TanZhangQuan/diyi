@@ -36,8 +36,6 @@ public class TokenUtil {
     public final static String CAPTCHA_HEADER_CODE = "Captcha-Code";
     public final static String CAPTCHA_NOT_CORRECT = "验证码不正确";
     public final static String SMS_CAPTCHA_NOT_CORRECT = "短信验证码不正确";
-    public final static String HEADER_KEY = "Authorization";
-    public final static String HEADER_PREFIX = "Basic ";
     private static String BASE64_SECURITY = Base64.getEncoder().encodeToString(TokenConstant.SIGN_KEY.getBytes(Charsets.UTF_8));
 
     @Autowired

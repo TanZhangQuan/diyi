@@ -44,7 +44,7 @@
         </if>
         WHERE t1.is_deleted = 0 AND t1.service_provider_state = 'NORMAL'
         <if test="param1 != null">
-            AND t2.service_provider_name like concat('%', #{param2}, '%')
+            AND t2.enterprise_id = #{param1}
         </if>
         <if test="param2 != null and param2.trim() != ''">
             AND t1.service_provider_name like concat('%', #{param2}, '%')

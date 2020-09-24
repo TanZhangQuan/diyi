@@ -1,9 +1,11 @@
-package com.lgyun.system.user.dto;
+package com.lgyun.auth.dto;
 
+import com.lgyun.common.enumeration.UserType;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
@@ -16,6 +18,10 @@ import java.io.Serializable;
 @Data
 public class UpdatePasswordDto implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    //用户类型
+    @NotNull(message = "请选择用户类型")
+    private UserType userType;
 
     //手机号
     @NotBlank(message = "请输入手机号")

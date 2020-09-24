@@ -2,13 +2,14 @@ package com.lgyun.common.tool;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.SmsConstant;
+import com.lgyun.common.enumeration.CodeType;
 import com.lgyun.common.enumeration.MessageType;
+import com.lgyun.common.enumeration.UserType;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -28,13 +29,14 @@ public class SmsUtil {
     /**
      * 发送验证码
      *
-     * @param
+     * @param mobile
+     * @param userType
      * @return
      */
-    public R<String> sendCode(String mobile) {
+    public R<String> sendCode(String mobile, UserType userType, CodeType codeType) {
 
-        String sendKey = SmsConstant.SEND_INTERVAL + mobile;
-        String availableKey = SmsConstant.AVAILABLE_TIME + mobile;
+        String availableKey = SmsConstant.AVAILABLE_TIME + mobile + "_" + userType + "_" + codeType;
+        String sendKey = SmsConstant.SEND_INTERVAL_CODE + mobile + "_" + userType + "_" + codeType;
 
         // 判断发送间隔是否正常
         if (redisUtil.get(sendKey) != null) {
@@ -48,7 +50,7 @@ public class SmsUtil {
         if ("yuntongxun".equals(SmsConstant.SMS_PLATFORM)) {
             String[] datas = new String[]{randomCode, String.valueOf(SmsConstant.SMS_AVAILABLE_TIME_MINUTES)};
             R<String> response = yunTongXunSmsUtil.send(datas, mobile, MessageType.CODE);
-            if (!(response.isSuccess())){
+            if (!(response.isSuccess())) {
                 return response;
             }
 
@@ -65,12 +67,13 @@ public class SmsUtil {
     /**
      * 发送链接
      *
-     * @param
+     * @param mobile
+     * @param link
      * @return
      */
-    public R<String> sendLink(String mobile, String link) {
+    public R<String> sendLink(String mobile, String link, UserType userType) {
 
-        String sendKey = SmsConstant.SEND_INTERVAL + mobile;
+        String sendKey = SmsConstant.SEND_INTERVAL_LINK + mobile + "_" + userType.getValue();
 
         // 判断发送间隔是否正常
         if (redisUtil.get(sendKey) != null) {
@@ -80,7 +83,7 @@ public class SmsUtil {
         if ("yuntongxun".equals(SmsConstant.SMS_PLATFORM)) {
             String[] datas = new String[]{link};
             R<String> response = yunTongXunSmsUtil.send(datas, mobile, MessageType.LINK);
-            if (!(response.isSuccess())){
+            if (!(response.isSuccess())) {
                 return response;
             }
 

@@ -2,16 +2,13 @@ package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
-import com.lgyun.common.constant.SmsConstant;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.common.tool.RedisUtil;
-import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.user.dto.UpdatePasswordDto;
-import com.lgyun.system.user.entity.*;
+import com.lgyun.system.user.entity.AdminEntity;
+import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.mapper.AdminMapper;
 import com.lgyun.system.user.service.IAdminService;
 import com.lgyun.system.user.service.IUserService;
@@ -66,30 +63,6 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
         QueryWrapper<AdminEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(AdminEntity::getUserId, userId);
         return baseMapper.selectOne(queryWrapper);
-    }
-
-    @Override
-    public R<String> updatePassword(UpdatePasswordDto updatePasswordDto) {
-
-        AdminEntity adminEntity = findByPhoneNumber(updatePasswordDto.getPhoneNumber());
-        if (adminEntity == null) {
-            return R.fail("手机号未注册");
-        }
-
-        //查询缓存短信验证码
-        String redisCode = (String) redisUtil.get(SmsConstant.AVAILABLE_TIME + updatePasswordDto.getPhoneNumber());
-        //判断验证码
-        if (!StringUtil.equalsIgnoreCase(redisCode, updatePasswordDto.getSmsCode())) {
-            return R.fail("短信验证码不正确");
-        }
-
-        adminEntity.setLoginPwd(DigestUtil.encrypt(updatePasswordDto.getNewPassword()));
-        save(adminEntity);
-
-        //删除缓存短信验证码
-        redisUtil.del(SmsConstant.AVAILABLE_TIME + updatePasswordDto.getPhoneNumber());
-
-        return R.success("修改密码成功");
     }
 
     @Override
