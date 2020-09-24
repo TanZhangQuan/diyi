@@ -8,7 +8,6 @@ import lombok.Data;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -37,23 +36,20 @@ public class ReleaseWorksheetDto implements Serializable {
     /**
      * 上限人数
      */
-    @NotNull(message = "请输入上限人数")
-    @Min(value = 1, message = "上限人数不能小于1")
+    @Min(value = 0, message = "上限人数不能小于1")
     @Max(value = 999999999, message = "上限人数不能大于999999999")
     private Integer uppersonNum;
 
     /**
      * 工作天数
      */
-    @NotNull(message = "请输入工作天数")
-    @Min(value = 1, message = "工作天数不能小于1")
+    @Min(value = 0, message = "工作天数不能小于1")
     @Max(value = 999999999, message = "工作天数不能大于999999999")
     private Integer workDays;
 
     /**
      * 最低费用
      */
-    @NotNull(message = "请输入最低费用")
     @Min(value = 0, message = "最低费用不能小于0")
     @Max(value = 999999999, message = "最低费用不能大于999999999")
     private BigDecimal worksheetFeeLow;
@@ -61,7 +57,6 @@ public class ReleaseWorksheetDto implements Serializable {
     /**
      * 最高费用
      */
-    @NotNull(message = "请输入最高费用")
     @Min(value = 0, message = "最高费用不能小于0")
     @Max(value = 999999999, message = "最高费用不能大于999999999")
     private BigDecimal worksheetFeeHigh;

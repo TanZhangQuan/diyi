@@ -73,13 +73,13 @@ public class EnterpriseReportServiceImpl extends BaseServiceImpl<EnterpriseRepor
     }
 
     @Override
-    public R findAdminEnterpriseReportAll(String serviceProviderName, ReportTheme reportTheme, IPage<QueryAdminEnterpriseReportAllVO> page) {
-        return R.data(page.setRecords(baseMapper.findAdminEnterpriseReportAll(serviceProviderName, reportTheme,page)));
+    public R findAdminEnterpriseReportAll(String serviceProviderName, ReportTheme reportTheme,String startTime, String endTime, IPage<QueryAdminEnterpriseReportAllVO> page) {
+        return R.data(page.setRecords(baseMapper.findAdminEnterpriseReportAll(serviceProviderName, reportTheme, startTime,  endTime,page)));
     }
 
     @Override
-    public R findAdminEnterpriseReport(Long serviceProviderId,IPage<QueryAdminEnterpriseReportVO> page) {
-        return R.data(page.setRecords(baseMapper.findAdminEnterpriseReport(serviceProviderId,page)));
+    public R findAdminEnterpriseReport(Long serviceProviderId,ReportTheme reportTheme,IPage<QueryAdminEnterpriseReportVO> page) {
+        return R.data(page.setRecords(baseMapper.findAdminEnterpriseReport(serviceProviderId, reportTheme,page)));
     }
 
     @Override
@@ -124,5 +124,33 @@ public class EnterpriseReportServiceImpl extends BaseServiceImpl<EnterpriseRepor
         }
         saveOrUpdate(byId);
         return R.success("审核成功");
+    }
+
+    @Override
+    public R findServiceEnterpriseReport(Long serviceProviderId,ReportTheme reportTheme, String startTime, String endTime, IPage<QueryAdminEnterpriseReportAllVO> page) {
+        return R.data(page.setRecords(baseMapper.findServiceEnterpriseReport(serviceProviderId,reportTheme,startTime,endTime,page)));
+    }
+
+    @Override
+    public R saveServiceEnterpriseReport(AdminEnterpriseReportDTO adminEnterpriseReportDTO) {
+        EnterpriseReportEntity enterpriseReportEntity = null;
+        if(null == adminEnterpriseReportDTO.getEnterpriseReportId() ){
+            enterpriseReportEntity = BeanUtil.copy(adminEnterpriseReportDTO, EnterpriseReportEntity.class);
+            enterpriseReportEntity.setReportState(ReportState.DECLAREING);
+            save(enterpriseReportEntity);
+        }else{
+            enterpriseReportEntity = getById(adminEnterpriseReportDTO.getEnterpriseReportId());
+            enterpriseReportEntity.setServiceProviderId(adminEnterpriseReportDTO.getServiceProviderId());
+            enterpriseReportEntity.setMainBodyType(adminEnterpriseReportDTO.getMainBodyType());
+            enterpriseReportEntity.setMainBodyId(adminEnterpriseReportDTO.getMainBodyId());
+            enterpriseReportEntity.setReportTheme(adminEnterpriseReportDTO.getReportTheme());
+            enterpriseReportEntity.setReportYear(adminEnterpriseReportDTO.getReportYear());
+            enterpriseReportEntity.setReportMonth(adminEnterpriseReportDTO.getReportMonth());
+            enterpriseReportEntity.setReportQuater(adminEnterpriseReportDTO.getReportQuater());
+            enterpriseReportEntity.setReportDeadDate(adminEnterpriseReportDTO.getReportDeadDate());
+            enterpriseReportEntity.setReportGuardName(adminEnterpriseReportDTO.getReportGuardName());
+            saveOrUpdate(enterpriseReportEntity);
+        }
+        return R.success("操作成功");
     }
 }
