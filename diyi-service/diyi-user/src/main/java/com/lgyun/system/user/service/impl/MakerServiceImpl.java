@@ -244,18 +244,18 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return R.fail("请先进行身份证实名认证");
         }
 
-        //查看创客是否已经身份实名认证
+        //查看创客是否已经活体认证
         if (VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus())) {
-            return R.fail("已身份实名认证");
+            return R.fail("已活体认证");
         }
 
         R<JSONObject> result = RealnameVerifyUtil.faceOCR(makerEntity.getId(), makerEntity.getName(), makerEntity.getIdcardNo());
-        log.info("人脸识别请求返回参数", result);
+        log.info("活体认证请求返回参数", result);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        //通过短信发送人脸识别URL
+        //通过短信发送活体认证URL
         JSONObject jsonObject = result.getData();
         String shortLink = jsonObject.getString("shortLink");
         R<String> smsResult = smsUtil.sendLink(makerEntity.getPhoneNumber(), shortLink, UserType.MAKER);
@@ -280,22 +280,22 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             // 业务逻辑处理 ****************************
             //回调参数转json
             JSONObject jsonObject = JSONObject.parseObject(rbody);
-            log.info("身份实名认证异步通知回调参数", jsonObject);
+            log.info("活体认证异步通知回调参数", jsonObject);
             boolean boolSuccess = jsonObject.getBooleanValue("success");
             if (!boolSuccess) {
-                return R.fail("身份实名认证失败");
+                return R.fail("活体认证失败");
             }
 
             Long makerId = jsonObject.getLong("contextId");
             MakerEntity makerEntity = getById(makerId);
             if (makerEntity == null) {
                 log.info("创客不存在");
-                return R.fail("身份实名认证回调处理失败");
+                return R.fail("活体认证回调处理失败");
             }
 
-            //查看创客是否已经身份实名认证
+            //查看创客是否已经活体认证
             if (VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus())) {
-                return R.success("已身份实名认证");
+                return R.success("已活体认证");
             }
 
             //查询认证信息
@@ -320,13 +320,13 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
             updateById(makerEntity);
 
-            return R.success("身份实名认证成功");
+            return R.success("活体认证成功");
 
         } catch (Exception e) {
-            log.error("身份实名认证异步回调处理异常", e);
+            log.error("活体认证异步回调处理异常", e);
         }
 
-        return R.fail("身份实名认证回调处理失败");
+        return R.fail("活体认证回调处理失败");
     }
 
     @Override
@@ -337,9 +337,9 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return R.fail("请先进行身份证实名认证");
         }
 
-        //查看创客是否已经身份实名认证
+        //查看创客是否已经活体认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus()))) {
-            return R.fail("请先进行身份实名认证");
+            return R.fail("请先进行活体认证");
         }
 
         //查看创客是否已经手机号实名认证
@@ -347,7 +347,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return R.fail("请先进行手机号实名认证");
         }
 
-        //查看创客是否已经身份实名认证
+        //查看创客是否已经活体认证
         if (VerifyStatus.VERIFYPASS.equals(makerEntity.getBankCardVerifyStatus())) {
             return R.fail("银行卡已实名认证");
         }
@@ -427,9 +427,9 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return R.fail("请先进行身份证实名认证");
         }
 
-        //查看创客是否已经身份实名认证
+        //查看创客是否已经活体认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus()))) {
-            return R.fail("请先进行身份实名认证");
+            return R.fail("请先进行活体认证");
         }
 
         //查看创客是否已经手机号实名认证

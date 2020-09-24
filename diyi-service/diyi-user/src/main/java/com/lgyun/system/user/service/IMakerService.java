@@ -125,7 +125,7 @@ public interface IMakerService extends IService<MakerEntity> {
     R faceOcr(MakerEntity makerEntity) throws Exception;
 
     /**
-     * 身份实名认证异步回调
+     * 活体认证异步回调
      *
      * @param request
      * @return

@@ -134,7 +134,7 @@ public class RealnameVerifyUtil {
         ConfigParams configParams = new ConfigParams();
         configParams.setIndivUneditableInfo(indivUneditableInfo);
 
-        //身份实名认证请求
+        //活体认证请求
         return faceBankCardMobileOCR("PSN_FACEAUTH_BYURL", availableAuthTypes, contextInfo, indivInfo, configParams);
 
     }
@@ -199,7 +199,7 @@ public class RealnameVerifyUtil {
     }
 
     /**
-     * 人脸识别认证、银行卡认证以及手机认证
+     * 活体认证、银行卡认证以及手机认证
      */
     public static R<JSONObject> faceBankCardMobileOCR(String authType, List<String> availableAuthTypes, ContextInfo contextInfo, IndivInfo indivInfo, ConfigParams configParams) throws Exception {
 
