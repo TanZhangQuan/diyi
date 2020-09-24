@@ -1,9 +1,15 @@
 package com.lgyun.system.user.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.enumeration.BodyType;
+import com.lgyun.common.enumeration.ReportTheme;
 import com.lgyun.system.user.entity.EnterpriseReportEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.lgyun.system.user.vo.admin.QueryAdminEnterpriseReportAllVO;
+import com.lgyun.system.user.vo.admin.QueryAdminEnterpriseReportVO;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * 年度申报管理表 Mapper
@@ -22,5 +28,21 @@ public interface EnterpriseReportMapper extends BaseMapper<EnterpriseReportEntit
      * @return
      */
     String findReportResultFiles(BodyType mainBodyType, Long mainBodyId);
+
+
+    /**
+     * 平台查询所有服务商税务申报或工商申报
+     */
+    List<QueryAdminEnterpriseReportAllVO> findAdminEnterpriseReportAll(String serviceProviderName, ReportTheme reportTheme, IPage<QueryAdminEnterpriseReportAllVO> page);
+
+    /**
+     *平台根据服务商查询税务申报或工商申报
+     */
+    List<QueryAdminEnterpriseReportVO> findAdminEnterpriseReport(Long serviceProviderId,IPage<QueryAdminEnterpriseReportVO> page);
+
+    /**
+     * 平台查询税务申报或工商申报详情
+     */
+    QueryAdminEnterpriseReportVO findAdminEnterpriseReportDetail(Long enterpriseReportId);
 }
 
