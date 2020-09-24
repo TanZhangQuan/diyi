@@ -7,7 +7,6 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.dto.IdcardOcrSaveDto;
 import com.lgyun.system.user.dto.MakerAddDto;
-import com.lgyun.system.user.dto.UpdatePasswordDto;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.excel.MakerExcel;
 import com.lgyun.system.user.vo.*;
@@ -123,7 +122,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      * @throws Exception
      */
-    R<String> faceOcr(MakerEntity makerEntity) throws Exception;
+    R faceOcr(MakerEntity makerEntity) throws Exception;
 
     /**
      * 身份实名认证异步回调

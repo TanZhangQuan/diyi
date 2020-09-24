@@ -1,11 +1,15 @@
 package com.lgyun.system.user.feign;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.entity.*;
+import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
+import com.lgyun.system.user.vo.MakerWorksheetVO;
+import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -198,7 +202,7 @@ public interface IUserClient {
      * @return
      */
     @GetMapping(API_PREFIX + "/find-enterprise-by-maker-id")
-    R findEnterpriseByMakerId(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId);
+    R<IPage<EnterprisesIdNameListVO>> findEnterpriseByMakerId(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId);
 
     /**
      * 根据Id查询个独或个体户信息
@@ -272,7 +276,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/maker/getMakerName")
-    R getMakerName(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam(name = "makerName", required = false) String makerName);
+    R<IPage<MakerWorksheetVO>> getMakerName(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam(name = "makerName", required = false) String makerName);
 
     /**
      * 根据商户ID, 服务商ID查询关联
@@ -354,6 +358,6 @@ public interface IUserClient {
      * @return
      */
     @GetMapping(API_PREFIX + "/get-service-provider-by-enterprise-id")
-    R getServiceProviderByEnterpriseId(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam(name = "enterpriseId") Long enterpriseId, @RequestParam(name = "serviceProviderName", required = false) String serviceProviderName);
+    R<IPage<ServiceProviderIdNameListVO>> getServiceProviderByEnterpriseId(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam(name = "enterpriseId") Long enterpriseId, @RequestParam(name = "serviceProviderName", required = false) String serviceProviderName);
 
 }

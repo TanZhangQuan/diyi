@@ -28,20 +28,20 @@ public interface IServiceProviderWorkerService extends BaseService<ServiceProvid
     ServiceProviderWorkerEntity findByPhoneNumber(String phoneNumber);
 
     /**
+     * 根据用户名密码查询服务商员工
+     *
+     * @param
+     * @return
+     */
+    ServiceProviderWorkerEntity findByEmployeeUserNameAndEmployeePwd(String employeeUserName, String employeePwd);
+
+    /**
      * 根据手机号码查询服务商员工是否存在
      *
      * @param phoneNumber
      * @return
      */
     Integer findCountByPhoneNumber(String phoneNumber);
-
-    /**
-     * 根据用户名密码查询服务商员工是否存在
-     *
-     * @param
-     * @return
-     */
-    Integer findCountByEmployeeUserNameAndEmployeePwd(String employeeUserName, String employeePwd);
 
     /**
      * 查询当前服务商员工

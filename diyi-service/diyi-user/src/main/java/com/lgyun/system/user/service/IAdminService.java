@@ -30,15 +30,6 @@ public interface IAdminService extends BaseService<AdminEntity> {
     AdminEntity findByUserId(Long userId);
 
     /**
-     * 根据账号密码查询管理员是否存在
-     *
-     * @param userName
-     * @param loginPwd
-     * @return
-     */
-    Integer findCountByUserNameAndLoginPwd(String userName, String loginPwd);
-
-    /**
      * 根据手机号查询管理员是否存在
      *
      * @param phoneNumber
@@ -53,6 +44,15 @@ public interface IAdminService extends BaseService<AdminEntity> {
      * @return
      */
     AdminEntity findByPhoneNumber(String phoneNumber);
+
+    /**
+     * 根据账号密码查询管理员
+     *
+     * @param userName
+     * @param loginPwd
+     * @return
+     */
+    AdminEntity findByUserNameAndLoginPwd(String userName, String loginPwd);
 
 }
 
