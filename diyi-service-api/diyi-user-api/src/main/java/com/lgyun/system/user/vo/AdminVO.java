@@ -1,7 +1,6 @@
 package com.lgyun.system.user.vo;
 
-import com.lgyun.system.user.entity.EnterpriseEntity;
-import io.swagger.annotations.ApiModel;
+import com.lgyun.system.user.entity.AdminEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,7 +12,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class AdminVO extends EnterpriseEntity {
+public class AdminVO extends AdminEntity {
     private static final long serialVersionUID = 1L;
 
 

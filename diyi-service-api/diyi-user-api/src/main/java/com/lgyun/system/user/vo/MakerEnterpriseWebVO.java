@@ -53,7 +53,7 @@ public class MakerEnterpriseWebVO implements Serializable {
     private SignState joinSignState;
 
     /**
-     *
+     * 创客名称
      */
     private String name;
 }
