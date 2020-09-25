@@ -17,11 +17,15 @@ import java.io.Serializable;
 public class EnterprisesIdNameListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //商户ID
+    /**
+     * 商户ID
+     */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    //商户名称
+    /**
+     * 商户名称
+     */
     private String enterpriseName;
 
 }

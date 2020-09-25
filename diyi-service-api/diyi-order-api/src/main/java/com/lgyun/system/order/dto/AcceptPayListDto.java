@@ -17,17 +17,25 @@ import java.util.Date;
 public class AcceptPayListDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //交付支付验收单ID
+    /**
+     * 交付支付验收单ID
+     */
     private Long acceptPayId;
 
-    //创客名称
+    /**
+     * 创客名称
+     */
     private String makerName;
 
-    //交付支付验收单开始时间
+    /**
+     * 交付支付验收单开始时间
+     */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date beginDate;
 
-    //交付支付验收单结束时间
+    /**
+     * 交付支付验收单结束时间
+     */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endDate;
 

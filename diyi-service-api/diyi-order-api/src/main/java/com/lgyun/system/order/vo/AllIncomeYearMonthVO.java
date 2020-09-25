@@ -16,10 +16,14 @@ import java.math.BigDecimal;
 public class AllIncomeYearMonthVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //记录数
+    /**
+     * 记录数
+     */
     private Integer num;
 
-    //总收入
+    /**
+     * 总收入
+     */
     private BigDecimal income;
 
 }

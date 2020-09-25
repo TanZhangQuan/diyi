@@ -22,7 +22,7 @@ import java.util.Date;
 public class SelfHelpInvoiceSingleByServiceProviderVO implements Serializable {
 
     /**
-     * 自助开票id
+     * 自助开票ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;

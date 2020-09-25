@@ -24,32 +24,39 @@ public class InvoiceServiceLumpVO implements Serializable {
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long payEnterpriseId;
+
     /**
      * 商户id
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
+
     /**
      * 总包申请id
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long applicationId;
+
     /**
      * 商户名称
      */
     private String enterpriseName;
+
     /**
      * 清单url
      */
     private String chargeListUrl;
+
     /**
      * 是否有支付回单
      */
     private String isPayEnterpriseReceipt;
+
     /**
      * 是否申请
      */
     private String isApplication;
+
     /**
      * 开票状态
      */
@@ -59,6 +66,7 @@ public class InvoiceServiceLumpVO implements Serializable {
      * 开票说明:一个支付清单，可能多张发票，一张发票可能多个支付清单
      */
     private String invoiceDemondDesc;
+
     /**
      * 创建时间
      */

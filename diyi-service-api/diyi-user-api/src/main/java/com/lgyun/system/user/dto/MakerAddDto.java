@@ -17,30 +17,44 @@ import java.io.Serializable;
 public class MakerAddDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //姓名
+    /**
+     * 姓名
+     */
     @NotBlank(message = "请输入姓名")
     private String name;
 
-    //身份证号码
+    /**
+     * 身份证号码
+     */
     @NotBlank(message = "请输入身份证号码")
     private String idcardNo;
 
-    //手机号
+    /**
+     * 手机号
+     */
     @NotBlank(message = "请输入手机号")
     @Length(min = 11, max = 11, message = "请输入11位手机号")
     @Pattern(regexp = "[0-9]*", message = "请输入有效的手机号码")
     private String phoneNumber;
 
-    //银行卡号
+    /**
+     * 银行卡号
+     */
     private String bankCardNo;
 
-    //开户行
+    /**
+     * 开户行
+     */
     private String bankName;
 
-    //开户行支行
+    /**
+     * 开户行支行
+     */
     private String subBankName;
 
-    //新密码
+    /**
+     * 新密码
+     */
     private String password;
 
 }

@@ -20,21 +20,31 @@ import java.util.Date;
 public class AcceptPaysheetByEnterpriseListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //交付支付验收单ID
+    /**
+     * 交付支付验收单ID
+     */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    //商户名称
+    /**
+     * 商户名称
+     */
     private String enterpriseName;
 
-    //支付总额=外包费总额+总身份验证费+总开票手续费
+    /**
+     * 支付总额
+     */
     private BigDecimal payToPlatformAmount;
 
-    //发布时间
+    /**
+     * 发布时间
+     */
     @JsonFormat(pattern = "MM-dd", timezone = "GMT+8")
     private Date createTime;
 
-    //关单时间
+    /**
+     * 关单时间
+     */
     @JsonFormat(pattern = "MM-dd", timezone = "GMT+8")
     private Date closeWorksheetDate;
 

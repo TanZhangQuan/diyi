@@ -15,15 +15,21 @@ import java.io.Serializable;
 public class MakerWechatLoginDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //微信授权乱码
+    /**
+     * 微信授权乱码
+     */
     @NotBlank(message = "请输入微信授权乱码")
     private String random;
 
-    //加密算法的初始向量
+    /**
+     * 加密算法的初始向量
+     */
     @NotBlank(message = "请输入加密算法的初始向量")
     private String iv;
 
-    //加密数据
+    /**
+     * 加密数据
+     */
     @NotBlank(message = "请输入加密数据")
     private String encryptedData;
 

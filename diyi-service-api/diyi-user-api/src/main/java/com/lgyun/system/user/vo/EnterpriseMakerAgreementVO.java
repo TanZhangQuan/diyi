@@ -17,12 +17,20 @@ public class EnterpriseMakerAgreementVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long agreementId;
+
     private String enterpriseName;
+
     private Long enterpriseId;
+
     private String agreementNo;
+
     private String name;
+
     private String signType;
+
     private String paperAgreementUrl;
+
     private SignState signState;
+
     private String createTime;
 }

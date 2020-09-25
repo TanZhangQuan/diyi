@@ -25,31 +25,38 @@ public class AgreementServiceVO implements Serializable {
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long agreementId;
+
     /**
      * 服务商ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private String serviceProviderId;
+
     /**
      * 合同编号
      */
     private String agreementNo;
+
     /**
-     * 1、纸质协议，2、平台在线协议，3、三方在线协议，4、单方授权函（纸质），5、单方授权函（电子）
+     * 签署类型
      */
     private SignType signType;
+
     /**
      * 协议类别
      */
     private AgreementType agreementType;
+
     /**
      * 服务商名字
      */
     private String serviceProviderName;
+
     /**
      * 创客名字
      */
     private String makerName;
+
     /**
      * 商户名字
      */
@@ -59,14 +66,17 @@ public class AgreementServiceVO implements Serializable {
      * 在线合同地址
      */
     private String onlineAggrementUrl;
+
     /**
      * 线下合同地址
      */
     private String paperAgreementUrl;
+
     /**
      * 签署日期
      */
     private String createTime;
+
     /**
      * 签署状态
      */

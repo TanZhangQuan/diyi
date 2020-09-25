@@ -17,7 +17,9 @@ import lombok.EqualsAndHashCode;
 public class IndividualEnterpriseVO extends IndividualEnterpriseEntity {
     private static final long serialVersionUID = 1L;
 
-    //申报结果文件资料
+    /**
+     * 申报结果文件资料
+     */
     private String reportResultFiles;
 
 }

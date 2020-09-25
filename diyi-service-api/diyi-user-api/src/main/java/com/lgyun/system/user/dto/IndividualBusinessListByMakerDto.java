@@ -15,11 +15,15 @@ import lombok.Data;
 public class IndividualBusinessListByMakerDto extends Query {
     private static final long serialVersionUID = 1L;
 
-    //创客ID
+    /**
+     * 创客ID
+     */
     @ApiModelProperty(hidden = true)
     private Long makerId;
 
-    //个体工商户状态
+    /**
+     * 个体工商户状态
+     */
     private Ibstate ibstate;
 
 }

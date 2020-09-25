@@ -15,27 +15,39 @@ import java.io.Serializable;
 public class IdcardOcrSaveDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //身份证正面图
+    /**
+     * 身份证正面图
+     */
     @NotBlank(message = "请上传身份证正面图")
     private String idcardPic;
 
-    //身份证反面图
+    /**
+     * 身份证反面图
+     */
     @NotBlank(message = "请上传身份证反面图")
     private String idcardPicBack;
 
-    //姓名
+    /**
+     * 姓名
+     */
     @NotBlank(message = "请输入姓名")
     private String name;
 
-    //身份证号码
+    /**
+     * 身份证号码
+     */
     @NotBlank(message = "请输入身份证号码")
     private String idcardNo;
 
-    //手持证件正面照
+    /**
+     * 手持证件正面照
+     */
     @NotBlank(message = "请上传手持证件正面照")
     private String idcardHand;
 
-    //手持证件反面照
+    /**
+     * 手持证件反面照
+     */
     @NotBlank(message = "请上传手持证件反面照")
     private String idcardBackHand;
 

@@ -21,23 +21,35 @@ import java.util.Date;
 public class EnterprisesByProviderVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //商户ID
+    /**
+     * 商户ID
+     */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    //商户名称
+    /**
+     * 商户名称
+     */
     private String enterpriseName;
 
-    //合作次数
+    /**
+     * 合作次数
+     */
     private Integer cooperationNum;
 
-    //合作金额
+    /**
+     * 合作金额
+     */
     private BigDecimal cooperationMoney;
 
-    //合作状态
+    /**
+     * 合作状态
+     */
     private CooperateStatus cooperateStatus;
 
-    //开始合作时间
+    /**
+     * 开始合作时间
+     */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 

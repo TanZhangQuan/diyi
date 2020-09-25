@@ -18,16 +18,24 @@ import java.util.Date;
 public class IncomeDetailYearMonthVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //收入
+    /**
+     * 收入
+     */
     private BigDecimal income;
 
-    //商户名称
+    /**
+     * 商户名称
+     */
     private String enterpriseName;
 
-    //验收金额
+    /**
+     * 验收金额
+     */
     private BigDecimal checkMoney;
 
-    //创建时间
+    /**
+     * 创建时间
+     */
     @JsonFormat(pattern = "MM-dd HH:mm", timezone = "GMT+8")
     private Date checkDate;
 

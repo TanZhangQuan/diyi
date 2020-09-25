@@ -15,7 +15,9 @@ import java.io.Serializable;
 public class IndividualEnterpriseListDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //创客ID
+    /**
+     * 创客ID
+     */
     @NotNull(message = "请输入创客编号")
     private Long makerId;
 

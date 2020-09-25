@@ -15,11 +15,15 @@ import java.io.Serializable;
 public class BankCardOcrDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //个人银行卡号
+    /**
+     * 个人银行卡号
+     */
     @NotBlank(message = "请输入银行卡号")
     private String bankCardNo;
 
-    //身份证反面图
+    /**
+     * 身份证反面图
+     */
     @NotBlank(message = "请上传身份证反面图")
     private String idcardPicBack;
 

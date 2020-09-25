@@ -1,8 +1,6 @@
 package com.lgyun.system.order.dto;
 
-import io.swagger.annotations.ApiParam;
 import lombok.Data;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -15,16 +13,19 @@ import java.io.Serializable;
  */
 @Data
 public class PortalSignInvoiceDto implements Serializable {
+
     /**
      * 商户支付清单Id
      */
     @NotNull(message = "请输入商户支付清单Id")
     private Long payEnterpriseId;
+
     /**
      * 创客支付明细json
      */
     @NotBlank(message = "请输入创客支付明细json")
     private String payMakers;
+
     /**
      * 服务商的名字
      */

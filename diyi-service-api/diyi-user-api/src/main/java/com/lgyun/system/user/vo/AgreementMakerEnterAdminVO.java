@@ -19,40 +19,47 @@ public class AgreementMakerEnterAdminVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 合同id
+     * 合同ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long agreementId;
+
     /**
-     * 创客id
+     * 创客ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long makerId;
     /**
-     * 商户id
+     * 商户ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
+
     /**
      *协议编号
      */
     private String agreementNo;
+
     /**
      * 创客名字
      */
     private String makerName;
+
     /**
      * 商户名字
      */
     private String enterpriseName;
+
     /**
      * 在线签约合同url
      */
     private String onlineAggrementUrl;
+
     /**
      * 纸质协议URL
      */
     private String paperAgreementUrl;
+
     /**
      * 发布时间
      */

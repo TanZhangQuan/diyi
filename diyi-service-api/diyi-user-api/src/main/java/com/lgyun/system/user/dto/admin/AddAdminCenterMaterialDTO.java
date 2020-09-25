@@ -16,18 +16,26 @@ import java.io.Serializable;
 public class AddAdminCenterMaterialDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //相关服务商ID
+    /**
+     * 相关服务商ID
+     */
     @NotNull(message = "请输入服务商编号")
     private Long serviceProviderId;
 
-    //文档名称
+    /**
+     * 文档名称
+     */
     @NotBlank(message = "请输入文档名称")
     private String materialName;
 
-    //文件描述
+    /**
+     * 文件描述
+     */
     private String materialDesc;
 
-    //模板
+    /**
+     * 模板
+     */
     @NotBlank(message = "请上传模板")
     private String materialUrl;
 

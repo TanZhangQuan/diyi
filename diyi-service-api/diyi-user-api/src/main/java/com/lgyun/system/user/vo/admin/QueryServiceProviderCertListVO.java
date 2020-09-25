@@ -17,20 +17,30 @@ import java.io.Serializable;
 public class QueryServiceProviderCertListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //服务商资格信息编号
+    /**
+     * 服务商资格信息编号
+     */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long serviceProviderCertId;
 
-    //类别
+    /**
+     * 类别
+     */
     private CertificateType certificateType;
 
-    //资格名称
+    /**
+     * 资格名称
+     */
     private String certificateName;
 
-    //资格说明
+    /**
+     * 资格说明
+     */
     private String certificateDesc;
 
-    //资格证书正本URL
+    /**
+     * 资格证书正本URL
+     */
     private String certificateMainUrl;
 
 }

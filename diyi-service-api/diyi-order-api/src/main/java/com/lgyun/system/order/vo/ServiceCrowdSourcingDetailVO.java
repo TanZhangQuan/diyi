@@ -14,122 +14,149 @@ import java.io.Serializable;
  * @time 19:45.
  */
 @Data
-@ApiModel(value = "ServiceCrowdSourcingDetailVO对象",description = "ServiceCrowdSourcingDetailVO对象")
+@ApiModel(value = "ServiceCrowdSourcingDetailVO对象", description = "ServiceCrowdSourcingDetailVO对象")
 public class ServiceCrowdSourcingDetailVO implements Serializable {
     private static final long serialVersionUID = 1L;
+
     /**
-     * 商户id
+     * 商户ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private String enterpriseId;
+
     /**
-     *
+     * 自助开票ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private String selfHelpInvoiceId;
+
     /**
-     *
+     * 自助开票申请ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private String selfHelpInvoiceApplyId;
+
     /**
-     *
+     * 自助开票服务商ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private String selfHelpInvoiceApplyProviderId;
+
     /**
-     *
+     * 服务商自助开票明细Id
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private String providerSelfHelpInvoiceId;
+
     /**
-     *
+     * 自助开票明细表ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private String selfHelpInvoiceDetailId;
+
     /**
-     *服务商id
+     * 服务商ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private String serviceProviderId;
+
     /**
-     *价税合计额
+     * 价税合计额
      */
     private String chargeMoneyNum;
+
     /**
-     *开票类目
+     * 开票类目
      */
     private String invoiceType;
+
     /**
-     *商户名
+     * 商户名
      */
     private String enterpriseName;
+
     /**
-     *纳税号
+     * 纳税号
      */
     private String invoiceTaxNo;
+
     /**
-     *地址
+     * 地址
      */
     private String invoiceAddress;
+
     /**
-     *电话
+     * 电话
      */
     private String invoiceTelNo;
+
     /**
-     *银行开户行
+     * 银行开户行
      */
     private String invoiceBankName;
+
     /**
-     *银行卡号
+     * 银行卡号
      */
     private String invoiceAccount;
+
     /**
-     *服务商名称
+     * 服务商名称
      */
     private String serviceProviderName;
+
     /**
-     *流水回单
+     * 流水回单
      */
     private String flowContractUrl;
+
     /**
-     *交付首验单
+     * 交付首验单
      */
     private String deliverSheetUrl;
+
     /**
-     *申请状态
+     * 申请状态
      */
     private SelfHelpInvoiceSpApplyState applyState;
+
     /**
-     *申请时间
+     * 申请时间
      */
     private String createTime;
+
     /**
-     *收件人姓名
+     * 收件人姓名
      */
     private String addressName;
+
     /**
-     *收件人电话
+     * 收件人电话
      */
     private String addressPhone;
+
     /**
-     *省
+     * 省
      */
     private String province;
+
     /**
-     *城市
+     * 城市
      */
     private String city;
+
     /**
-     *区
+     * 区
      */
     private String area;
+
     /**
-     *众包发票
+     * 众包发票
      */
     private String invoiceScanPictures;
+
     /**
-     *完税证明
+     * 完税证明
      */
     private String taxScanPictures;
 
@@ -137,6 +164,7 @@ public class ServiceCrowdSourcingDetailVO implements Serializable {
      * 快递单号
      */
     private String expressNo;
+
     /**
      * 快递公司
      */

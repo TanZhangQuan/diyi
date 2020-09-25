@@ -17,17 +17,23 @@ import java.io.Serializable;
 public class UpdatePasswordDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //手机号
+    /**
+     * 手机号
+     */
     @NotBlank(message = "请输入手机号")
     @Length(min = 11, max = 11, message = "请输入11位手机号")
     @Pattern(regexp = "[0-9]*", message = "请输入有效的手机号码")
     private String phoneNumber;
 
-    //短信验证码
+    /**
+     * 短信验证码
+     */
     @NotBlank(message = "请输入短信验证码")
     private String smsCode;
 
-    //新密码
+    /**
+     * 新密码
+     */
     @NotBlank(message = "请输入新密码")
     @Length(min = 6, max = 18, message = "请输入长度为6-18位新密码")
     private String newPassword;

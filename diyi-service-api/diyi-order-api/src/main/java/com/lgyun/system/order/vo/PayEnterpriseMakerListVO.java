@@ -17,17 +17,25 @@ import java.io.Serializable;
 public class PayEnterpriseMakerListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //创客编号
+    /**
+     * 创客编号
+     */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    //姓名
+    /**
+     * 姓名
+     */
     private String name;
 
-    //是否实名
+    /**
+     * 是否实名
+     */
     private Boolean boolRealNameVerify;
 
-    //是否已签协议
+    /**
+     * 是否已签协议
+     */
     private Boolean boolSign;
 
 }

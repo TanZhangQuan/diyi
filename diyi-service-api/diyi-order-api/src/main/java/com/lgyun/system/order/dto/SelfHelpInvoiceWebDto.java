@@ -1,7 +1,6 @@
 package com.lgyun.system.order.dto;
 
 import com.lgyun.common.enumeration.InvoicePeopleType;
-import com.lgyun.common.enumeration.MakerType;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -16,37 +15,59 @@ import java.math.BigDecimal;
 public class SelfHelpInvoiceWebDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //购买方
+    /**
+     * 购买方
+     */
     private Long enterpriseId;
 
-   //开票人
+    /**
+     * 开票人
+     */
     private Long selfHelpInvoicePersonId;
 
-   //开票类目
+    /**
+     * 开票类目
+     */
     private String invoiceType;
 
-   //价税合计额
+    /**
+     * 价税合计额
+     */
     private BigDecimal chargeMoneyNum;
 
-    //收件地址
+    /**
+     * 收件地址
+     */
     private Long addressId;
 
-    //流水凭证
-    private  String flowContractUrl;
+    /**
+     * 流水凭证
+     */
+    private String flowContractUrl;
 
-    //业务合同
+    /**
+     * 业务合同
+     */
     private String businessContractUrl;
 
-    //开票人的身份
+    /**
+     * 开票人的身份
+     */
     private InvoicePeopleType invoicePeopleType;
 
-    //申请商户id
+    /**
+     * 申请商户ID
+     */
     private Long applyEnterpriseId;
 
-    //账户余额url
+    /**
+     * 账户余额url
+     */
     private String accountBalanceUrl;
 
-    //开票清单
+    /**
+     * 开票清单
+     */
     private String listFile;
 
 }

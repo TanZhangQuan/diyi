@@ -23,45 +23,71 @@ import java.util.Date;
 public class PayEnterpriseMakersListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //总包编号
+    /**
+     * 总包编号
+     */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long payEnterpriseId;
 
-    //商户名称
+    /**
+     * 商户名称
+     */
     private String enterpriseName;
 
-    //服务商名称
+    /**
+     * 服务商名称
+     */
     private String serviceProviderName;
 
-    //总包支付清单URL
+    /**
+     * 总包支付清单URL
+     */
     private String chargeListUrl;
 
-    //总包支付回单图片URL地址(多张逗号隔开)
+    /**
+     * 总包支付回单图片URL地址(多张逗号隔开)
+     */
     private String enterprisePayReceiptUrls;
 
-    //工单编号
+    /**
+     * 工单编号
+     */
     private String worksheetNo;
 
-    //交付支付验收单URL(多张逗号隔开)
+    /**
+     * 交付支付验收单URL(多张逗号隔开)
+     */
     private String acceptPaysheetUrls;
 
-    //分包支付回单图片URL地址(多张逗号隔开)
+    /**
+     * 分包支付回单图片URL地址(多张逗号隔开)
+     */
     private String makerPayReceiptUrls;
 
-    //支付状态
+    /**
+     * 支付状态
+     */
     private EnterprisePayState payState;
 
-    //审核状态
+    /**
+     * 审核状态
+     */
     private PayEnterpriseAuditState auditState;
 
-    //开票状态
+    /**
+     * 开票状态
+     */
     private InvoiceState companyInvoiceState;
 
-    //创建时间
+    /**
+     * 创建时间
+     */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
-    //支付总额
+    /**
+     * 支付总额
+     */
     private BigDecimal payToPlatformAmount;
 
 }

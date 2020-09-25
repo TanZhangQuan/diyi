@@ -20,7 +20,9 @@ import java.util.List;
 public class EnterpriseWorkerVO extends EnterpriseWorkerEntity {
     private static final long serialVersionUID = 1L;
 
-    //商户名称
+    /**
+     * 商户名称
+     */
     private String enterpriseName;
 
     private String accountStateValue;

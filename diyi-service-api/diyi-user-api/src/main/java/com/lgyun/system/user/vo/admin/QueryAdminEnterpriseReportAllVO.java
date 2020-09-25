@@ -20,15 +20,18 @@ public class QueryAdminEnterpriseReportAllVO implements Serializable {
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseReportId;
+
     /**
      * 服务商id
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long serviceProviderId;
+
     /**
      * 服务商名字
      */
     private String serviceProviderName;
+
     /**
      * 申请次数
      */

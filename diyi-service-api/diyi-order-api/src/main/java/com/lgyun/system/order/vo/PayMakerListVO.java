@@ -18,35 +18,55 @@ import java.math.BigDecimal;
 public class PayMakerListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //创客编号
+    /**
+     * 创客编号
+     */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    //姓名
+    /**
+     * 姓名
+     */
     private String name;
 
-    //身份证号码
+    /**
+     * 身份证号码
+     */
     private String idcardNo;
 
-    //到手服务费
+    /**
+     * 到手服务费
+     */
     private BigDecimal makerNetIncome;
 
-    //综合税+费
+    /**
+     * 综合税+费
+     */
     private BigDecimal makerTaxFee;
 
-    //首次身份验证费
+    /**
+     * 首次身份验证费
+     */
     private BigDecimal auditFee;
 
-    //第三方支付手续费
+    /**
+     * 第三方支付手续费
+     */
     private BigDecimal payFee;
 
-    //企业总支付金额
+    /**
+     * 企业总支付金额
+     */
     private BigDecimal totalFee;
 
-    //综合税费率
+    /**
+     * 综合税费率
+     */
     private BigDecimal serviceRate;
 
-    //验收单URL
+    /**
+     * 验收单URL
+     */
     private String acceptPaysheetUrl;
 
 }

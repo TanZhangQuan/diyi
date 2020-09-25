@@ -17,20 +17,30 @@ import java.io.Serializable;
 public class QueryAdminCenterMaterialListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //综合业务资料ID
+    /**
+     * 综合业务资料ID
+     */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long adminCenterMaterialId;
 
-    //文档名称
+    /**
+     * 文档名称
+     */
     private String materialName;
 
-    //文件描述
+    /**
+     * 文件描述
+     */
     private String materialDesc;
 
-    //模板
+    /**
+     * 模板
+     */
     private String materialUrl;
 
-    //状态
+    /**
+     * 状态
+     */
     private MaterialState materialState;
 
 }

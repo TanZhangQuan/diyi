@@ -21,49 +21,77 @@ import java.util.Date;
 public class AcceptPaysheetWorksheetVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //交付支付验收单类型：清单式，单人单张
+    /**
+     * 交付支付验收单类型：清单式，单人单张
+     */
     private AcceptPaysheetType acceptPaysheetType;
 
-    //商户名称
+    /**
+     * 商户名称
+     */
     private String enterpriseName;
 
-    //支付总额=外包费总额+总身份验证费+总开票手续费
+    /**
+     * 支付总额
+     */
     private BigDecimal payToPlatformAmount;
 
-    //发布时间
+    /**
+     * 发布时间
+     */
     @JsonFormat(pattern = "MM-dd", timezone = "GMT+8")
     private Date createTime;
 
-    //关单时间
+    /**
+     * 关单时间
+     */
     @JsonFormat(pattern = "MM-dd", timezone = "GMT+8")
     private Date closeWorksheetDate;
 
-    //验收单URL
+    /**
+     * 验收单URL
+     */
     private String acceptPaysheetUrl;
 
-    //工单名称
+    /**
+     * 工单名称
+     */
     private String worksheetName;
 
-    //类型，总包+分包，众包/众采
+    /**
+     * 类型
+     */
     private WorkSheetType worksheetType;
 
-    //模式，派单、抢单、混合（默认：混合型）
+    /**
+     * 模式
+     */
     private WorkSheetMode worksheetMode;
 
-    //发布时间
+    /**
+     * 发布时间
+     */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime2;
 
-    //工单编号
+    /**
+     * 工单编号
+     */
     private String worksheetNo;
 
-    //验收金额
+    /**
+     * 验收金额
+     */
     private BigDecimal checkMoney;
 
-    //工作成果说明
+    /**
+     * 工作成果说明
+     */
     private String achievementDesc;
 
-    //工作成果附件
+    /**
+     * 工作成果附件
+     */
     private String achievementFiles;
 
 }

@@ -17,32 +17,50 @@ import java.util.Date;
 public class QueryAddressListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //收货地址ID
+    /**
+     * 收货地址ID
+     */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long addressId;
 
-    //收件人
+    /**
+     * 收件人
+     */
     private String addressName;
 
-    //电话/手机
+    /**
+     * 电话/手机
+     */
     private String addressPhone;
 
-    //省
+    /**
+     * 省
+     */
     private String province;
 
-    //市
+    /**
+     * 市
+     */
     private String city;
 
-    //区
+    /**
+     * 区
+     */
     private String area;
 
-    //详细地址
+    /**
+     * 详细地址
+     */
     private String detailedAddress;
 
-    //是否默认
+    /**
+     * 是否默认
+     */
     private Boolean isDefault;
 
-    //创建时间
+    /**
+     * 创建时间
+     */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 

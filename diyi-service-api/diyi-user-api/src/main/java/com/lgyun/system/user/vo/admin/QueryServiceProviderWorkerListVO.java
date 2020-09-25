@@ -16,14 +16,20 @@ import java.io.Serializable;
 public class QueryServiceProviderWorkerListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //服务商员工编号
+    /**
+     * 服务商员工编号
+     */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long serviceProviderId;
 
-    //姓名
+    /**
+     * 姓名
+     */
     private String workerName;
 
-    //手机号码
+    /**
+     * 手机号码
+     */
     private String phoneNumber;
 
 }

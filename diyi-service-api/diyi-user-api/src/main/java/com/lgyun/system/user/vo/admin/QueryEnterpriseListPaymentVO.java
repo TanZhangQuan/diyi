@@ -16,17 +16,25 @@ import java.io.Serializable;
 public class QueryEnterpriseListPaymentVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //商户编号
+     /**
+     * 商户编号
+     */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
 
-    //商户名称
+     /**
+     * 商户名称
+     */
     private String enterpriseName;
 
-    //是否已签合同
+     /**
+     * 是否已签合同
+     */
     private Boolean boolSignContract;
 
-    //是否已签协议
+     /**
+     * 是否已签协议
+     */
     private Boolean boolSignAgreement;
 
 }

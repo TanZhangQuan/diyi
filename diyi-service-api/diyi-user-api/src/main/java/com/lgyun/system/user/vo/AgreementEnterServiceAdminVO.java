@@ -23,36 +23,44 @@ public class AgreementEnterServiceAdminVO implements Serializable {
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long agreementId;
+
     /**
      * 服务商id
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long service_provider_id;
+
     /**
      * 商户id
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
+
     /**
      *协议编号
      */
     private String agreementNo;
+
     /**
      * 服务商名字
      */
-    private String service_provider_name;
+    private String serviceProviderName;
+
     /**
      * 商户名字
      */
     private String enterpriseName;
+
     /**
      * 在线签约合同url
      */
     private String onlineAggrementUrl;
+
     /**
      * 纸质协议URL
      */
     private String paperAgreementUrl;
+
     /**
      * 发布时间
      */

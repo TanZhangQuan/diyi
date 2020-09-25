@@ -15,11 +15,15 @@ import java.io.Serializable;
 public class WechatUserInfoDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //微信头像
+    /**
+     * 微信头像
+     */
     @NotBlank(message = "请输入加密算法的初始向量")
     private String iv;
 
-    //加密数据
+    /**
+     * 加密数据
+     */
     @NotBlank(message = "请输入加密数据")
     private String encryptedData;
 

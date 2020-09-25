@@ -23,56 +23,69 @@ public class InvoiceServiceSubDetailsVO implements Serializable {
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long payEnterpriseId;
+
     /**
      * 商户id
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
+
     /**
      * 价税合计额
      */
     private String payToPlatformAmount;
+
     /**
      * 商户名称
      */
     private String enterpriseName;
+
     /**
      * 纳税号码
      */
     private String invoiceTaxNo;
+
     /**
      * 地址
      */
     private String invoiceAddress;
+
     /**
      * 公司电话
      */
     private String invoiceTelNo;
+
     /**
      * 开票银行
      */
     private String invoiceBankName;
+
     /**
      * 开票银行账户
      */
     private String invoiceAccountName;
+
     /**
      * 服务商名字
      */
     private String serviceProviderName;
+
     /**
      * 支付清单url
      */
     private String chargeListUrl;
+
     /**
      * 工单id
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private String worksheetId;
+
     /**
      * 开票状态
      */
     private InvoiceState subcontractingInvoiceState;
+
     /**
      * 创建时间
      */

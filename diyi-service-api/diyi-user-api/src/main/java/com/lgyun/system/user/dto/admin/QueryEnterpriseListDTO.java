@@ -16,17 +16,25 @@ import java.util.Date;
 public class QueryEnterpriseListDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //商户编号
+    /**
+     * 商户编号
+     */
     private Long enterpriseId;
 
-    //商户名称
+    /**
+     * 商户名称
+     */
     private String enterpriseName;
 
-    //商户创建开始时间
+    /**
+     * 商户创建开始时间
+     */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date beginDate;
 
-    //商户创建结束时间
+    /**
+     * 商户创建结束时间
+     */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endDate;
 

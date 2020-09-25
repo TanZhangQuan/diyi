@@ -16,15 +16,21 @@ import java.io.Serializable;
 public class SelfHelpInvoiceExpressDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //自助开票ID
+    /**
+     * 自助开票ID
+     */
     @NotNull(message = "请输入自助开票编号")
     private Long selfHelpInvoiceId;
 
-    //快递单号
+    /**
+     * 快递单号
+     */
     @NotNull(message = "请输入运单号")
     private String expressSheetNo;
 
-    //快递公司
+    /**
+     * 快递公司
+     */
     @NotNull(message = "请选择快递公司")
     private String expressCompanyName;
 

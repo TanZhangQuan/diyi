@@ -14,6 +14,4 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class AdminVO extends AdminEntity {
     private static final long serialVersionUID = 1L;
-
-
 }

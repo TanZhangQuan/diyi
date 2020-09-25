@@ -16,8 +16,10 @@ import java.io.Serializable;
 @ApiModel(value = "ApplicationVo对象", description = "ApplicationVo对象")
 public class ApplicationVo implements Serializable {
     private static final long serialVersionUID = 1L;
+
     @JsonSerialize(using = ToStringSerializer.class)
     private Long applicationId;
+
     @JsonSerialize(using = ToStringSerializer.class)
     private Long payEnterpriseId;
 }

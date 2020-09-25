@@ -17,20 +17,30 @@ import java.io.Serializable;
 public class SelfHelpInvoiceDetailProviderVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //创客或非创客开票人ID
+    /**
+     * 创客或非创客开票人ID
+     */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    //创客或非创客开票人名称
+    /**
+     * 创客或非创客开票人名称
+     */
     private String name;
 
-    //创客或非创客开票人身份证号码
+    /**
+     * 创客或非创客开票人身份证号码
+     */
     private String idCardNo;
 
-    //创客或非创客开票人身份证号码
+    /**
+     * 创客或非创客开票人身份证号码
+     */
     private String phoneNumber;
 
-    //创客银行卡号
+    /**
+     * 创客银行卡号
+     */
     private String bankNo;
 
 }

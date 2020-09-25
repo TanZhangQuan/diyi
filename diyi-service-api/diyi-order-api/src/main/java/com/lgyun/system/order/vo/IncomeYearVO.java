@@ -18,11 +18,15 @@ import java.math.BigDecimal;
 public class IncomeYearVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //年份
+    /**
+     * 年份
+     */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long year;
 
-    //收入
+    /**
+     * 收入
+     */
     private BigDecimal yearIncome;
 
 }

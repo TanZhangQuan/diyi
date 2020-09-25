@@ -17,20 +17,24 @@ import java.util.Date;
 @ApiModel(value = "EnterprisePaymentListVO对象",description = "EnterprisePaymentListVO对象")
 public class EnterprisePaymentListVO {
     private static final long serialVersionUID = 1L;
+
     /**
      * 支付清单id
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long payEnterpriseId;
+
     /**
      * 服务商Id
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long serviceProviderId;
+
     /**
      * 服务商名字
      */
     private String serviceProviderName;
+
     /**
      * 支付清单url
      */

@@ -17,24 +17,36 @@ import java.io.Serializable;
 public class AddOrUpdateServiceProviderCertDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //服务商资格信息编号
+     /**
+     * 服务商资格信息编号
+     */
     private Long serviceProviderCertId;
 
-    //服务商编号
+     /**
+     * 服务商编号
+     */
     private Long serviceProviderId;
 
-    //类别
+     /**
+     * 类别
+     */
     @NotNull(message = "请选择类型")
     private CertificateType certificateType;
 
-    //资格名称
+     /**
+     * 资格名称
+     */
     @NotBlank(message = "请输入资格名称")
     private String certificateName;
 
-    //资格说明
+     /**
+     * 资格说明
+     */
     private String certificateDesc;
 
-    //资格证书
+     /**
+     * 资格证书
+     */
     @NotBlank(message = "请上传资格证书")
     private String certificateMainUrl;
 

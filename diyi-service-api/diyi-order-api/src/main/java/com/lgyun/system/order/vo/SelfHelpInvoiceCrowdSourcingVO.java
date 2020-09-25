@@ -37,16 +37,19 @@ public class SelfHelpInvoiceCrowdSourcingVO implements Serializable {
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long selfHelpInvoiceApplyProviderId;
+
     /**
      *服务商自助开票明细Id
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long providerSelfHelpInvoiceId;
+
     /**
      * 自助开票详情ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long selfHelpInvoiceDetailId;
+
     /**
      * 服务商Id
      */

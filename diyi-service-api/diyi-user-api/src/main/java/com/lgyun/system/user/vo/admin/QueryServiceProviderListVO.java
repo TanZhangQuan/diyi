@@ -19,29 +19,45 @@ import java.util.Date;
 public class QueryServiceProviderListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //服务商编号
+    /**
+     * 服务商编号
+     */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long serviceProviderId;
 
-    //服务商名称
+    /**
+     * 服务商名称
+     */
     private String serviceProviderName;
 
-    //联系人
+    /**
+     * 联系人
+     */
     private String contact1Name;
 
-    //联系人电话
+    /**
+     * 联系人电话
+     */
     private String contact1Phone;
 
-    //加盟合同
+    /**
+     * 加盟合同
+     */
     private String joinContract;
 
-    //商家承诺函
+    /**
+     * 商家承诺函
+     */
     private String commitmentLetter;
 
-    //状态
+    /**
+     * 状态
+     */
     private AccountState serviceProviderState;
 
-    //创建时间
+    /**
+     * 创建时间
+     */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 

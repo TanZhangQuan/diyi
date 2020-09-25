@@ -18,35 +18,55 @@ import java.math.BigDecimal;
 public class PayEnterpriseMakerDetailListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //创客编号
+    /**
+     * 创客编号
+     */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    //姓名
+    /**
+     * 姓名
+     */
     private String name;
 
-    //身份证号码
+    /**
+     * 身份证号码
+     */
     private String idcardNo;
 
-    //手机号码
+    /**
+     * 手机号码
+     */
     private String phoneNumber;
 
-    //银行卡号
+    /**
+     * 银行卡号
+     */
     private String bankCardNo;
 
-    //是否实名
+    /**
+     * 是否实名
+     */
     private Boolean boolRealNameVerify;
 
-    //是否已签协议
+    /**
+     * 是否已签协议
+     */
     private Boolean boolSign;
 
-    //工作成果附件
+    /**
+     * 工作成果附件
+     */
     private Boolean boolAchievement;
 
-    //验收金额
+    /**
+     * 验收金额
+     */
     private BigDecimal checkMoney;
 
-    //验收单URL
+    /**
+     * 验收单URL
+     */
     private String acceptPaysheetUrl;
 
 }

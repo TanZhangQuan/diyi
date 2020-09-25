@@ -19,29 +19,45 @@ import java.util.Date;
 public class QueryEnterpriseListEnterpriseVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //商户编号
+    /**
+     * 商户编号
+     */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
 
-    //商户名称
+    /**
+     * 商户名称
+     */
     private String enterpriseName;
 
-    //联系人
+    /**
+     * 联系人
+     */
     private String contact1Name;
 
-    //联系人电话
+    /**
+     * 联系人电话
+     */
     private String contact1Phone;
 
-    //加盟合同
+    /**
+     * 加盟合同
+     */
     private String joinContract;
 
-    //商家承诺函
+    /**
+     * 商家承诺函
+     */
     private String commitmentLetter;
 
-    //状态
+    /**
+     * 状态
+     */
     private AccountState enterpriseState;
 
-    //创建时间
+    /**
+     * 创建时间
+     */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 

@@ -16,11 +16,13 @@ import java.math.BigDecimal;
 @Data
 public class ContractApplyInvoiceDto implements Serializable {
     private static final long serialVersionUID = 1L;
+
     /**
      * 支付清单id
      */
     @NotNull(message = "支付清单id不能为空")
     private Long payEnterpriseId;
+
     /**
      * 开票总金额
      */
@@ -28,11 +30,13 @@ public class ContractApplyInvoiceDto implements Serializable {
     @Min(value = 0, message = "开票总金额不能小于0")
     @Max(value = 999999999, message = "开票总金额不能大于999999999")
     private BigDecimal voiceTotalAmount;
+
     /**
      * 开票类目Id
      */
     @NotNull(message = "开票类目Id不能为空")
     private Long invoiceCatalogId;
+
     /**
      * 说明
      */

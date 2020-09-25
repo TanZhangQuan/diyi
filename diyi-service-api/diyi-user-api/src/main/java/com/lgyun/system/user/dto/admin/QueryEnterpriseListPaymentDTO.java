@@ -14,10 +14,14 @@ import java.io.Serializable;
 public class QueryEnterpriseListPaymentDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //商户编号
+    /**
+     * 商户编号
+     */
     private Long enterpriseId;
 
-    //商户名称
+    /**
+     * 商户名称
+     */
     private String enterpriseName;
 
 }
