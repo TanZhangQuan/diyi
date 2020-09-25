@@ -337,6 +337,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         worksheetMakerEntity.setArrangePerson("qiangdan");
         worksheetMakerEntity.setArrangeDate(new Date());
         worksheetMakerService.save(worksheetMakerEntity);
+        iUserClient.makerEnterpriseAdd(worksheetEntity.getEnterpriseId(),makerEntity.getId());
         return R.success("抢单成功");
     }
 }

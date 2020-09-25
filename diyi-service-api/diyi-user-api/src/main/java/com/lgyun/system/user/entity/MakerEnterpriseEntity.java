@@ -47,12 +47,6 @@ public class MakerEnterpriseEntity extends BaseEntity {
     private RelationshipType relationshipType;
 
     /**
-     * 关联日期
-     */
-    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
-    private Date relDate;
-
-    /**
      * 关联类型：创客主动关联，企业主动关联，平台关联
      */
     private EnterpriseMakerRelType relType;
