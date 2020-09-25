@@ -161,7 +161,7 @@ public class IndividualEnterpriseEntity extends BaseEntity {
     /**
      * 服务费率
      */
-    private BigDecimal serviceRat;
+    private BigDecimal serviceRate;
 
     /**
      * 手持承诺书照片
