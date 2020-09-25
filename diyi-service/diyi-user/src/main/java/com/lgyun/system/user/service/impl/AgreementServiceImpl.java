@@ -135,6 +135,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         AgreementEntity agreementEntity = new AgreementEntity();
         agreementEntity.setAgreementType(AgreementType.OTHERAGREEMENT);
         agreementEntity.setSignType(SignType.UNILATERALPOWER);
+        agreementEntity.setSignState(SignState.UNSIGN);
         agreementEntity.setEnterpriseId(enterpriseId);
         agreementEntity.setPaperAgreementUrl(paperAgreementURL);
         agreementEntity.setFirstSideSignPerson("地衣众包");
