@@ -140,6 +140,35 @@ public class RealnameVerifyUtil {
     }
 
     /**
+     * 手机号实名认证
+     */
+    public static R<JSONObject> mobileOCR(Long contextId, String name, String certNo, String mobileNo) throws Exception {
+
+        //指定页面显示认证方式
+        List<String> availableAuthTypes = new ArrayList<>();
+        availableAuthTypes.add("PSN_TELECOM_AUTHCODE");
+
+        //业务方交互上下文信息
+        ContextInfo contextInfo = new ContextInfo();
+        contextInfo.setContextId(String.valueOf(contextId));
+        contextInfo.setNotifyUrl(RealnameVerifyConstant.MOBILEOCRNOTIFYURL);
+
+        //个人基本信息
+        IndivInfo indivInfo = new IndivInfo();
+        indivInfo.setName(name);
+        indivInfo.setCertNo(certNo);
+        indivInfo.setMobileNo(mobileNo);
+
+        //认证配置信息
+        String[] indivUneditableInfo = new String[]{"name", "certNo", "mobileNo"};
+        ConfigParams configParams = new ConfigParams();
+        configParams.setIndivUneditableInfo(indivUneditableInfo);
+
+        //手机号实名认证请求
+        return faceBankCardMobileOCR("PSN_TELECOM_AUTHCODE", availableAuthTypes, contextInfo, indivInfo, configParams);
+    }
+
+    /**
      * 银行卡实名认证
      */
     public static R<JSONObject> bankCardOCR(Long contextId, String name, String certNo, String bankCardNo, String mobileNo) throws Exception {
@@ -167,35 +196,6 @@ public class RealnameVerifyUtil {
 
         //银行卡实名认证请求
         return faceBankCardMobileOCR("PSN_BANK4_AUTHCODE", availableAuthTypes, contextInfo, indivInfo, configParams);
-    }
-
-    /**
-     * 手机号实名认证
-     */
-    public static R<JSONObject> mobileOCR(Long contextId, String name, String certNo, String mobileNo) throws Exception {
-
-        //指定页面显示认证方式
-        List<String> availableAuthTypes = new ArrayList<>();
-        availableAuthTypes.add("PSN_TELECOM_AUTHCODE");
-
-        //业务方交互上下文信息
-        ContextInfo contextInfo = new ContextInfo();
-        contextInfo.setContextId(String.valueOf(contextId));
-        contextInfo.setNotifyUrl(RealnameVerifyConstant.MOBILEOCRNOTIFYURL);
-
-        //个人基本信息
-        IndivInfo indivInfo = new IndivInfo();
-        indivInfo.setName(name);
-        indivInfo.setCertNo(certNo);
-        indivInfo.setMobileNo(mobileNo);
-
-        //认证配置信息
-        String[] indivUneditableInfo = new String[]{"name", "certNo", "mobileNo"};
-        ConfigParams configParams = new ConfigParams();
-        configParams.setIndivUneditableInfo(indivUneditableInfo);
-
-        //手机号实名认证请求
-        return faceBankCardMobileOCR("PSN_TELECOM_AUTHCODE", availableAuthTypes, contextInfo, indivInfo, configParams);
     }
 
     /**
@@ -236,7 +236,6 @@ public class RealnameVerifyUtil {
         String method = "POST";
         String accept = "*/*";
         String contentType = "application/json; charset=UTF-8";
-        String url = OcrApi;
         String headers = "";
         String date = "";
 
@@ -244,9 +243,9 @@ public class RealnameVerifyUtil {
         sb.append(method).append("\n").append(accept).append("\n").append(contentMD5).append("\n")
                 .append(contentType).append("\n").append(date).append("\n");
         if ("".equals(headers)) {
-            sb.append(headers).append(url);
+            sb.append(headers).append(OcrApi);
         } else {
-            sb.append(headers).append("\n").append(url);
+            sb.append(headers).append("\n").append(OcrApi);
         }
 
         //构建参与请求签名计算的明文

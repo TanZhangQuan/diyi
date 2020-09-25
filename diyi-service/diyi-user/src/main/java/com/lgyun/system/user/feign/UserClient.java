@@ -140,7 +140,7 @@ public class UserClient implements IUserClient {
                 }
 
                 adminEntity.setLoginPwd(password);
-                iAdminService.save(adminEntity);
+                iAdminService.updateById(adminEntity);
 
                 break;
 
@@ -229,7 +229,7 @@ public class UserClient implements IUserClient {
                 }
 
                 makerEntity.setLoginPwd(password);
-                iMakerService.save(makerEntity);
+                iMakerService.updateById(makerEntity);
 
                 break;
 
@@ -312,7 +312,7 @@ public class UserClient implements IUserClient {
                 }
 
                 enterpriseWorkerEntity.setEmployeePwd(password);
-                iEnterpriseWorkerService.save(enterpriseWorkerEntity);
+                iEnterpriseWorkerService.updateById(enterpriseWorkerEntity);
 
                 break;
 
@@ -394,7 +394,7 @@ public class UserClient implements IUserClient {
                 }
 
                 serviceProviderWorkerEntity.setEmployeePwd(password);
-                iServiceProviderWorkerService.save(serviceProviderWorkerEntity);
+                iServiceProviderWorkerService.updateById(serviceProviderWorkerEntity);
 
                 break;
 

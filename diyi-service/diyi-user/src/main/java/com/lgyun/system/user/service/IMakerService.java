@@ -134,6 +134,24 @@ public interface IMakerService extends IService<MakerEntity> {
     R<String> faceOcrNotify(HttpServletRequest request) throws Exception;
 
     /**
+     * 手机号实名认证
+     *
+     * @param makerEntity
+     * @return
+     * @throws Exception
+     */
+    R<JSONObject> mobileOcr(MakerEntity makerEntity) throws Exception;
+
+    /**
+     * 手机号实名认证异步回调
+     *
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    R<String> mobileOcrNotify(HttpServletRequest request) throws Exception;
+
+    /**
      * 银行卡实名认证
      *
      * @param bankCardNo
@@ -153,38 +171,12 @@ public interface IMakerService extends IService<MakerEntity> {
     R<String> bankCardOcrNotify(HttpServletRequest request) throws Exception;
 
     /**
-     * 银行卡实名认证
-     *
-     * @param makerEntity
-     * @return
-     * @throws Exception
-     */
-    R<JSONObject> mobileOcr(MakerEntity makerEntity) throws Exception;
-
-    /**
-     * 银行卡实名认证异步回调
-     *
-     * @param request
-     * @return
-     * @throws Exception
-     */
-    R<String> mobileOcrNotify(HttpServletRequest request) throws Exception;
-
-    /**
      * 查询当前创客身份证实名认证的照片
      *
      * @param makerEntity
      * @return
      */
     R<IdcardOcrVO> queryIdcardOcr(MakerEntity makerEntity);
-
-    /**
-     * 查询运营者名称
-     *
-     * @param makerId
-     * @return
-     */
-    String getName(Long makerId);
 
     /**
      * 根据userId查询创客

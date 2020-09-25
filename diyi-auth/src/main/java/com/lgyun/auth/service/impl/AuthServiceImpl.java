@@ -408,7 +408,7 @@ public class AuthServiceImpl implements IAuthService {
         //用户填写的短信验证码
         String smsCode = updatePasswordDto.getSmsCode();
         //缓存短信验证码
-        String key = SmsConstant.AVAILABLE_TIME + mobile + "_" + updatePasswordDto.getUserType() + CodeType.UPDATEPASSWORD;
+        String key = SmsConstant.AVAILABLE_TIME + mobile + "_" + updatePasswordDto.getUserType() + "_" + CodeType.UPDATEPASSWORD;
         String redisCode = (String) redisUtil.get(key);
         //判断验证码
         if (!StringUtil.equalsIgnoreCase(redisCode, smsCode)) {

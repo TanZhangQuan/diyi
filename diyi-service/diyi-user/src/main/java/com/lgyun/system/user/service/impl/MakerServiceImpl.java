@@ -23,6 +23,7 @@ import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.user.vo.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -258,12 +259,12 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         //通过短信发送活体认证URL
         JSONObject jsonObject = result.getData();
         String shortLink = jsonObject.getString("shortLink");
-        R<String> smsResult = smsUtil.sendLink(makerEntity.getPhoneNumber(), shortLink, UserType.MAKER);
+        R<String> smsResult = smsUtil.sendLink(makerEntity.getPhoneNumber(), shortLink, UserType.MAKER, MessageType.FACEOCRLINK);
         if (!(smsResult.isSuccess())) {
             return result;
         }
 
-        return R.success("身份识别请求已通过短信发送，请及时进行操作");
+        return R.success("短信已发送，请及时处理");
     }
 
     @Override
@@ -308,16 +309,17 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             JSONObject indivInfo = detail.getJSONObject("indivInfo");
             //人脸截图base64请求地址
             String facePhotoUrl = indivInfo.getString("facePhotoUrl");
-            //查询人脸截图base64
-            String facePhotoBase64 = HttpUtil.get(facePhotoUrl);
-            //上传人脸截图base64到阿里云存储
-            byte[] bytes = Base64Util.decodeFromString(facePhotoBase64.trim());
-            String url = ossService.uploadSuffix(bytes, ".jpg");
+            if (StringUtils.isNotBlank(facePhotoUrl)) {
+                //查询人脸截图base64
+                String facePhotoBase64 = HttpUtil.get(facePhotoUrl);
+                //上传人脸截图base64到阿里云存储
+                byte[] bytes = Base64Util.decodeFromString(facePhotoBase64.trim());
+                String url = ossService.uploadSuffix(bytes, ".jpg");
+                makerEntity.setPicVerify(url);
+            }
 
-            makerEntity.setPicVerify(url);
             makerEntity.setFaceVerifyStatus(VerifyStatus.VERIFYPASS);
             makerEntity.setFaceVerifyDate(new Date());
-
             updateById(makerEntity);
 
             return R.success("活体认证成功");
@@ -327,6 +329,86 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         }
 
         return R.fail("活体认证回调处理失败");
+    }
+
+    @Override
+    public R<JSONObject> mobileOcr(MakerEntity makerEntity) throws Exception {
+
+        //查看创客是否已经身份证实名认证
+        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
+            return R.fail("请先进行身份证实名认证");
+        }
+
+        //查看创客是否已经活体认证
+        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus()))) {
+            return R.fail("请先进行活体认证");
+        }
+
+        //查看创客是否已经手机号实名认证
+        if (VerifyStatus.VERIFYPASS.equals(makerEntity.getPhoneNumberVerifyStatus())) {
+            return R.fail("手机号已实名认证");
+        }
+
+        R<JSONObject> result = RealnameVerifyUtil.mobileOCR(makerEntity.getId(), makerEntity.getName(), makerEntity.getIdcardNo(), makerEntity.getPhoneNumber());
+        log.info("手机号实名认证请求返回参数", result);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        //通过短信发送手机号实名认证URL
+        JSONObject jsonObject = result.getData();
+        String shortLink = jsonObject.getString("shortLink");
+        R<String> smsResult = smsUtil.sendLink(makerEntity.getPhoneNumber(), shortLink, UserType.MAKER, MessageType.MOBILEOCRLINK);
+        if (!(smsResult.isSuccess())) {
+            return result;
+        }
+
+        return R.success("短信已发送，请及时处理");
+    }
+
+    @Override
+    public R<String> mobileOcrNotify(HttpServletRequest request) {
+
+        try {
+            //查询body的数据进行验签
+            String rbody = RealnameVerifyUtil.getRequestBody(request, "UTF-8");
+            boolean res = RealnameVerifyUtil.checkPass(request, rbody, RealnameVerifyConstant.APPKEY);
+            if (!res) {
+                return R.fail("验签失败");
+            }
+
+            // 业务逻辑处理 ****************************
+            //回调参数转json
+            JSONObject jsonObject = JSONObject.parseObject(rbody);
+            log.info("手机号实名认证异步通知回调参数", jsonObject);
+            boolean boolSuccess = jsonObject.getBooleanValue("success");
+            if (!boolSuccess) {
+                return R.fail("手机号实名认证失败");
+            }
+
+            Long makerId = jsonObject.getLong("contextId");
+            MakerEntity makerEntity = getById(makerId);
+            if (makerEntity == null) {
+                log.info("创客不存在");
+                return R.fail("手机号实名认证回调处理失败");
+            }
+
+            //查看创客手机号是否已经实名认证
+            if (VerifyStatus.VERIFYPASS.equals(makerEntity.getPhoneNumberVerifyStatus())) {
+                return R.success("手机号已实名认证");
+            }
+
+            makerEntity.setPhoneNumberVerifyStatus(VerifyStatus.VERIFYPASS);
+            makerEntity.setPhoneNumberVerifyDate(new Date());
+            updateById(makerEntity);
+
+            return R.success("手机号实名认证成功");
+
+        } catch (Exception e) {
+            log.error("手机号实名认证异步回调处理异常", e);
+        }
+
+        return R.fail("手机号实名认证回调处理失败");
     }
 
     @Override
@@ -352,7 +434,21 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return R.fail("银行卡已实名认证");
         }
 
-        return RealnameVerifyUtil.bankCardOCR(makerEntity.getId(), makerEntity.getName(), makerEntity.getIdcardNo(), bankCardNo, makerEntity.getPhoneNumber());
+        R<JSONObject> result = RealnameVerifyUtil.bankCardOCR(makerEntity.getId(), makerEntity.getName(), makerEntity.getIdcardNo(), bankCardNo, makerEntity.getPhoneNumber());
+        log.info("银行卡实名认证请求返回参数", result);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        //通过短信发送银行卡实名认证URL
+        JSONObject jsonObject = result.getData();
+        String shortLink = jsonObject.getString("shortLink");
+        R<String> smsResult = smsUtil.sendLink(makerEntity.getPhoneNumber(), shortLink, UserType.MAKER, MessageType.BANKCARDOCRLINK);
+        if (!(smsResult.isSuccess())) {
+            return result;
+        }
+
+        return R.success("短信已发送，请及时处理");
     }
 
     @Override
@@ -420,72 +516,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R<JSONObject> mobileOcr(MakerEntity makerEntity) throws Exception {
-
-        //查看创客是否已经身份证实名认证
-        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
-            return R.fail("请先进行身份证实名认证");
-        }
-
-        //查看创客是否已经活体认证
-        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus()))) {
-            return R.fail("请先进行活体认证");
-        }
-
-        //查看创客是否已经手机号实名认证
-        if (VerifyStatus.VERIFYPASS.equals(makerEntity.getPhoneNumberVerifyStatus())) {
-            return R.fail("手机号已实名认证");
-        }
-
-        return RealnameVerifyUtil.mobileOCR(makerEntity.getId(), makerEntity.getName(), makerEntity.getIdcardNo(), makerEntity.getPhoneNumber());
-    }
-
-    @Override
-    public R<String> mobileOcrNotify(HttpServletRequest request) {
-
-        try {
-            //查询body的数据进行验签
-            String rbody = RealnameVerifyUtil.getRequestBody(request, "UTF-8");
-            boolean res = RealnameVerifyUtil.checkPass(request, rbody, RealnameVerifyConstant.APPKEY);
-            if (!res) {
-                return R.fail("验签失败");
-            }
-
-            // 业务逻辑处理 ****************************
-            //回调参数转json
-            JSONObject jsonObject = JSONObject.parseObject(rbody);
-            log.info("手机号实名认证异步通知回调参数", jsonObject);
-            boolean boolSuccess = jsonObject.getBooleanValue("success");
-            if (!boolSuccess) {
-                return R.fail("手机号实名认证失败");
-            }
-
-            Long makerId = jsonObject.getLong("contextId");
-            MakerEntity makerEntity = getById(makerId);
-            if (makerEntity == null) {
-                log.info("创客不存在");
-                return R.fail("手机号实名认证回调处理失败");
-            }
-
-            //查看创客手机号是否已经实名认证
-            if (VerifyStatus.VERIFYPASS.equals(makerEntity.getPhoneNumberVerifyStatus())) {
-                return R.success("手机号已实名认证");
-            }
-
-            makerEntity.setPhoneNumberVerifyStatus(VerifyStatus.VERIFYPASS);
-            makerEntity.setPhoneNumberVerifyDate(new Date());
-            updateById(makerEntity);
-
-            return R.success("手机号实名认证成功");
-
-        } catch (Exception e) {
-            log.error("手机号实名认证异步回调处理异常", e);
-        }
-
-        return R.fail("手机号实名认证回调处理失败");
-    }
-
-    @Override
     public R<IdcardOcrVO> queryIdcardOcr(MakerEntity makerEntity) {
 
         //查看创客是否已经身份证实名认证
@@ -503,19 +533,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
         return R.data(idcardOcrVO);
 
-    }
-
-    @Override
-    public String getName(Long makerId) {
-
-        QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(MakerEntity::getId, makerId);
-        MakerEntity makerEntity = baseMapper.selectOne(queryWrapper);
-        if (makerEntity == null) {
-            return null;
-        }
-
-        return makerEntity.getName();
     }
 
     @Override
@@ -579,14 +596,14 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().like(makerName != null, MakerEntity::getName, makerName);
 
-        IPage<MakerEntity> pages = this.page(new Page<>(current , size), queryWrapper);
+        IPage<MakerEntity> pages = this.page(new Page<>(current, size), queryWrapper);
 
         List<MakerWorksheetVO> records = pages.getRecords().stream().map(MakerEntity -> BeanUtil.copy(MakerEntity, MakerWorksheetVO.class)).collect(Collectors.toList());
         for (MakerWorksheetVO makerWorksheetVO : records) {
-            if(SignState.SIGNED.equals(makerWorksheetVO.getEmpowerSignState()) && SignState.SIGNED.equals(makerWorksheetVO.getJoinSignState())){
+            if (SignState.SIGNED.equals(makerWorksheetVO.getEmpowerSignState()) && SignState.SIGNED.equals(makerWorksheetVO.getJoinSignState())) {
                 makerWorksheetVO.setProtocolAuthentication(CertificationState.CERTIFIED);
             }
-            if(VerifyStatus.VERIFYPASS.equals(makerWorksheetVO.getBankCardVerifyStatus())){
+            if (VerifyStatus.VERIFYPASS.equals(makerWorksheetVO.getBankCardVerifyStatus())) {
                 makerWorksheetVO.setRealNameAuthentication(CertificationState.CERTIFIED);
             }
         }
@@ -664,7 +681,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     @Override
     public R saveAdminMakerVideo(Long makerId, String videoUrl) {
         MakerEntity makerEntity = getById(makerId);
-        if(null == makerEntity){
+        if (null == makerEntity) {
             return R.fail("不存在此创客");
         }
         makerEntity.setApplyShortVideo(videoUrl);

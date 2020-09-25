@@ -77,25 +77,6 @@ public class MakerController {
         return makerService.faceOcrNotify(request);
     }
 
-    @PostMapping("/bank_card_ocr")
-    @ApiOperation(value = "银行卡实名认证", notes = "银行卡实名认证")
-    public R bankCardOcr(@ApiParam(value = "银行卡号") @NotNull(message = "请输入银行卡号") @RequestParam(required = false) String bankCardNo, BladeUser bladeUser) throws Exception {
-        //查询当前创客
-        R<MakerEntity> result = makerService.currentMaker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        MakerEntity makerEntity = result.getData();
-
-        return makerService.bankCardOcr(bankCardNo, makerEntity);
-    }
-
-    @PostMapping("/bank_card_ocr_notify")
-    @ApiOperation(value = "银行卡实名认证异步回调", notes = "银行卡实名认证异步回调")
-    public R bankCardOcrNotify(HttpServletRequest request) throws Exception {
-        return makerService.bankCardOcrNotify(request);
-    }
-
     @PostMapping("/mobile_ocr")
     @ApiOperation(value = "手机号实名认证", notes = "手机号实名认证")
     public R mobileOcr(BladeUser bladeUser) throws Exception {
@@ -113,6 +94,25 @@ public class MakerController {
     @ApiOperation(value = "手机号实名认证异步回调", notes = "手机号实名认证异步回调")
     public R mobileOcrNotify(HttpServletRequest request) throws Exception {
         return makerService.mobileOcrNotify(request);
+    }
+
+    @PostMapping("/bank_card_ocr")
+    @ApiOperation(value = "银行卡实名认证", notes = "银行卡实名认证")
+    public R bankCardOcr(@ApiParam(value = "银行卡号") @NotNull(message = "请输入银行卡号") @RequestParam(required = false) String bankCardNo, BladeUser bladeUser) throws Exception {
+        //查询当前创客
+        R<MakerEntity> result = makerService.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        MakerEntity makerEntity = result.getData();
+
+        return makerService.bankCardOcr(bankCardNo, makerEntity);
+    }
+
+    @PostMapping("/bank_card_ocr_notify")
+    @ApiOperation(value = "银行卡实名认证异步回调", notes = "银行卡实名认证异步回调")
+    public R bankCardOcrNotify(HttpServletRequest request) throws Exception {
+        return makerService.bankCardOcrNotify(request);
     }
 
     @PostMapping("/query_idcard_ocr")

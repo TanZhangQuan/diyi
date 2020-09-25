@@ -86,8 +86,18 @@ public interface SmsConstant {
     String TEMPLATE_CODE_ID = "622059";
 
     /**
-     * 云通讯链接短信模板ID
+     * 云通讯活体认证链接短信模板ID
      */
-    String TEMPLATE_LINK_ID = "622111";
+    String TEMPLATE_FACE_OCR_LINK_ID = "650419";
+
+    /**
+     * 云通讯手机号实名认证链接短信模板ID
+     */
+    String TEMPLATE_MOBILE_OCR_LINK_ID = "650425";
+
+    /**
+     * 云通讯银行卡实名认证链接短信模板ID
+     */
+    String TEMPLATE_BANK_CARD_OCR_LINK_ID = "650427";
 
 }

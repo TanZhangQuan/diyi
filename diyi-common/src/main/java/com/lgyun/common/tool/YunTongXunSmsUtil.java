@@ -54,12 +54,21 @@ public class YunTongXunSmsUtil {
 
         String template_id;
         switch (messageType){
+
             case CODE:
                 template_id = SmsConstant.TEMPLATE_CODE_ID;
                 break;
 
-            case LINK:
-                template_id = SmsConstant.TEMPLATE_LINK_ID;
+            case FACEOCRLINK:
+                template_id = SmsConstant.TEMPLATE_FACE_OCR_LINK_ID;
+                break;
+
+            case MOBILEOCRLINK:
+                template_id = SmsConstant.TEMPLATE_MOBILE_OCR_LINK_ID;
+                break;
+
+            case BANKCARDOCRLINK:
+                template_id = SmsConstant.TEMPLATE_BANK_CARD_OCR_LINK_ID;
                 break;
 
             default:

@@ -71,9 +71,9 @@ public class SmsUtil {
      * @param link
      * @return
      */
-    public R<String> sendLink(String mobile, String link, UserType userType) {
+    public R<String> sendLink(String mobile, String link, UserType userType, MessageType messageType) {
 
-        String sendKey = SmsConstant.SEND_INTERVAL_LINK + mobile + "_" + userType.getValue();
+        String sendKey = SmsConstant.SEND_INTERVAL_LINK + mobile + "_" + userType.getValue() + "_" + messageType;
 
         // 判断发送间隔是否正常
         if (redisUtil.get(sendKey) != null) {
@@ -82,7 +82,7 @@ public class SmsUtil {
 
         if ("yuntongxun".equals(SmsConstant.SMS_PLATFORM)) {
             String[] datas = new String[]{link};
-            R<String> response = yunTongXunSmsUtil.send(datas, mobile, MessageType.LINK);
+            R<String> response = yunTongXunSmsUtil.send(datas, mobile, messageType);
             if (!(response.isSuccess())) {
                 return response;
             }
