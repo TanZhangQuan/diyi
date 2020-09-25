@@ -216,8 +216,8 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
             this.updateById(entity);
         } else {
             // 新增账号
-            EnterpriseWorkerEntity workerServiceByPhoneNumber = this.findByPhoneNumber(request.getPhoneNumber());
-            if (workerServiceByPhoneNumber != null) {
+            Integer countByPhoneNumber = this.findCountByPhoneNumber(request.getPhoneNumber());
+            if (countByPhoneNumber > 0) {
                 return R.fail("该手机号已经注册过");
             }
 
@@ -235,7 +235,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
             EnterpriseWorkerEntity entity = new EnterpriseWorkerEntity();
             BeanUtils.copyProperties(request, entity, BeanServiceUtil.getNullPropertyNames(request));
             if (request.getMenuNameList() != null && request.getMenuNameList().size() > 0) {
-                String collect = request.getMenuNameList().stream().collect(Collectors.joining(", "));
+                String collect = String.join(", ", request.getMenuNameList());
                 entity.setMenus(collect);
             }
             entity.setUserId(user.getId());

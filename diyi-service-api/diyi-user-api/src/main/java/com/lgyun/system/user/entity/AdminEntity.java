@@ -77,7 +77,7 @@ public class AdminEntity extends BaseEntity {
     /**
      * 管理员特性
      */
-    private Boolean adminPower;
+    private Boolean adminPower = false;
 
     /**
      * 拥有的菜单名字
