@@ -78,6 +78,12 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
             return R.fail("状态不对");
         }
         EnterpriseEntity byId = iUserClient.getEnterpriseById(enterpriseId);
+        if(WorksheetMakerState.VALIDATION.equals(worksheetMakerEntity.getWorksheetMakerState())){
+            worksheetMakerEntity.setCheckDate(new Date());
+            worksheetMakerEntity.setCheckMoney(checkMoney);
+            saveOrUpdate(worksheetMakerEntity);
+            return R.success("修改成功");
+        }
         worksheetMakerEntity.setCheckDate(new Date());
         worksheetMakerEntity.setCheckMoney(checkMoney);
         worksheetMakerEntity.setCheckPerson(byId.getEnterpriseName());
@@ -87,6 +93,7 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
             worksheetMakerEntity.setWorksheetMakerState(WorksheetMakerState.FAILED);
         }
         saveOrUpdate(worksheetMakerEntity);
+
         return R.success("验收成功");
     }
 
