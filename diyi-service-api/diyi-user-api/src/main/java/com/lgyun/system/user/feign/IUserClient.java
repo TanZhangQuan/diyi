@@ -8,7 +8,6 @@ import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
-import com.lgyun.system.user.vo.MakerWorksheetVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -275,8 +274,8 @@ public interface IUserClient {
      * @param makerName
      * @return
      */
-    @PostMapping(API_PREFIX + "/maker/getMakerName")
-    R<IPage<MakerWorksheetVO>> getMakerName(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam(name = "makerName", required = false) String makerName);
+    @GetMapping(API_PREFIX + "/maker/getMakerName")
+    R getMakerName(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam(name = "makerName", required = false) String makerName);
 
     /**
      * 根据商户ID, 服务商ID查询关联

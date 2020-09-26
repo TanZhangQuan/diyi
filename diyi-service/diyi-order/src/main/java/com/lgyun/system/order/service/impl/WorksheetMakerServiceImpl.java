@@ -74,7 +74,7 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
         if(null == checkMoney){
             return R.fail("验收金额不能为空");
         }
-        if(!WorksheetMakerState.VERIFIED.equals(worksheetMakerEntity.getWorksheetMakerState())){
+        if(!(WorksheetMakerState.VERIFIED.equals(worksheetMakerEntity.getWorksheetMakerState()) || WorksheetMakerState.VALIDATION.equals(worksheetMakerEntity.getWorksheetMakerState()))){
             return R.fail("状态不对");
         }
         EnterpriseEntity byId = iUserClient.getEnterpriseById(enterpriseId);
