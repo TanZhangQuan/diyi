@@ -7,7 +7,6 @@ import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
-import com.lgyun.system.user.vo.MakerWorksheetVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 import org.springframework.stereotype.Component;
 
@@ -123,7 +122,7 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public R<IPage<MakerWorksheetVO>> getMakerName(Integer current, Integer size, String makerName) {
+    public R getMakerName(Integer current, Integer size, String makerName) {
         return R.fail("网络繁忙，请稍后尝试");
     }
 
