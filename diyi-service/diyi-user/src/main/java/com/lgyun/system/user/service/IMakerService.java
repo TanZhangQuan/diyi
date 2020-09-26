@@ -140,7 +140,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      * @throws Exception
      */
-    R<JSONObject> mobileOcr(MakerEntity makerEntity) throws Exception;
+    R mobileOcr(MakerEntity makerEntity) throws Exception;
 
     /**
      * 手机号实名认证异步回调
@@ -159,7 +159,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      * @throws Exception
      */
-    R<JSONObject> bankCardOcr(String bankCardNo, MakerEntity makerEntity) throws Exception;
+    R bankCardOcr(String bankCardNo, MakerEntity makerEntity) throws Exception;
 
     /**
      * 银行卡实名认证异步回调

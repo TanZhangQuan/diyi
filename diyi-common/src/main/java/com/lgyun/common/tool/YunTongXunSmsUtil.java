@@ -63,14 +63,6 @@ public class YunTongXunSmsUtil {
                 template_id = SmsConstant.TEMPLATE_FACE_OCR_LINK_ID;
                 break;
 
-            case MOBILEOCRLINK:
-                template_id = SmsConstant.TEMPLATE_MOBILE_OCR_LINK_ID;
-                break;
-
-            case BANKCARDOCRLINK:
-                template_id = SmsConstant.TEMPLATE_BANK_CARD_OCR_LINK_ID;
-                break;
-
             default:
                 return R.fail("短信类型不存在");
         }

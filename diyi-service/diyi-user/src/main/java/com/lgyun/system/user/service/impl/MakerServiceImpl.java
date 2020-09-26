@@ -353,7 +353,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R<JSONObject> mobileOcr(MakerEntity makerEntity) throws Exception {
+    public R mobileOcr(MakerEntity makerEntity) throws Exception {
 
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
@@ -376,15 +376,11 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return result;
         }
 
-        //通过短信发送手机号实名认证URL
+        //手机号实名认证URL
         JSONObject jsonObject = result.getData();
         String shortLink = jsonObject.getString("shortLink");
-        R<String> smsResult = smsUtil.sendLink(makerEntity.getPhoneNumber(), shortLink, UserType.MAKER, MessageType.MOBILEOCRLINK);
-        if (!(smsResult.isSuccess())) {
-            return result;
-        }
 
-        return R.success("短信已发送，请及时处理");
+        return R.data(shortLink);
     }
 
     @Override
@@ -433,7 +429,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R<JSONObject> bankCardOcr(String bankCardNo, MakerEntity makerEntity) throws Exception {
+    public R bankCardOcr(String bankCardNo, MakerEntity makerEntity) throws Exception {
 
         //查看创客是否已经身份证实名认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
@@ -461,15 +457,11 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return result;
         }
 
-        //通过短信发送银行卡实名认证URL
+        //银行卡实名认证URL
         JSONObject jsonObject = result.getData();
         String shortLink = jsonObject.getString("shortLink");
-        R<String> smsResult = smsUtil.sendLink(makerEntity.getPhoneNumber(), shortLink, UserType.MAKER, MessageType.BANKCARDOCRLINK);
-        if (!(smsResult.isSuccess())) {
-            return result;
-        }
 
-        return R.success("短信已发送，请及时处理");
+        return R.data(shortLink);
     }
 
     @Override
