@@ -13,13 +13,12 @@ import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.dto.IdcardOcrSaveDto;
 import com.lgyun.system.user.dto.MakerAddDto;
 import com.lgyun.system.user.entity.MakerEntity;
+import com.lgyun.system.user.entity.OnlineAgreementTemplateEntity;
 import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.excel.MakerExcel;
 import com.lgyun.system.user.mapper.MakerMapper;
 import com.lgyun.system.user.oss.AliyunOssService;
-import com.lgyun.system.user.service.IMakerEnterpriseService;
-import com.lgyun.system.user.service.IMakerService;
-import com.lgyun.system.user.service.IUserService;
+import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +48,8 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     private IUserService iUserService;
     private IMakerEnterpriseService makerEnterpriseService;
     private SmsUtil smsUtil;
+    private IOnlineAgreementNeedSignService onlineAgreementNeedSignService;
+    private IOnlineAgreementTemplateService onlineAgreementTemplateService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -86,9 +87,14 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
             //新建创客
             makerEntity = new MakerEntity();
-            makerEntity.setOpenid(openid);
+            //微信登陆新建创客
+            if (StringUtils.isNotBlank(openid) && StringUtils.isNotBlank(sessionKey)) {
+                makerEntity.setOpenid(openid);
+                makerEntity.setSessionKey(sessionKey);
+                makerEntity.setRelDate(new Date());
+            }
+
             makerEntity.setUserId(user.getId());
-            makerEntity.setSessionKey(sessionKey);
             makerEntity.setPhoneNumber(purePhoneNumber);
             if (StringUtil.isNotBlank(loginPwd)) {
                 makerEntity.setLoginPwd(loginPwd);
@@ -104,8 +110,19 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             makerEntity.setIdcardPicBack(idcardPicBack);
             makerEntity.setIdcardHand(idcardHand);
             makerEntity.setIdcardBackHand(idcardBackHand);
-            makerEntity.setRelDate(new Date());
             save(makerEntity);
+
+            //新建创客添加加盟合同需要签署的模板
+            OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = onlineAgreementTemplateService.findTemplateType(AgreementType.MAKERJOINAGREEMENT);
+            if (onlineAgreementTemplateEntity != null) {
+                onlineAgreementNeedSignService.OnlineAgreementNeedSignAdd(onlineAgreementTemplateEntity.getId(), ObjectType.MAKERPEOPLE, SignPower.PARTYB, makerEntity.getId());
+            }
+
+            //新建创客授权协议需要签署的模板
+            onlineAgreementTemplateEntity = onlineAgreementTemplateService.findTemplateType(AgreementType.MAKERPOWERATTORNEY);
+            if (onlineAgreementTemplateEntity != null) {
+                onlineAgreementNeedSignService.OnlineAgreementNeedSignAdd(onlineAgreementTemplateEntity.getId(), ObjectType.MAKERPEOPLE, SignPower.PARTYB, makerEntity.getId());
+            }
 
         } else if (makerEntityPhoneNumber != null && makerEntityIdcardNo == null) {
             if (!(VerifyStatus.VERIFYPASS.equals(makerEntityPhoneNumber.getIdcardVerifyStatus()))) {
@@ -118,11 +135,13 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
                 makerEntityPhoneNumber.setIdcardPicBack(idcardPicBack);
                 makerEntityPhoneNumber.setIdcardHand(idcardHand);
                 makerEntityPhoneNumber.setIdcardBackHand(idcardBackHand);
+                updateById(makerEntityPhoneNumber);
             } else {
                 if (!(VerifyStatus.VERIFYPASS.equals(makerEntityPhoneNumber.getBankCardVerifyStatus()))) {
                     makerEntityPhoneNumber.setBankCardNo(bankCardNo);
                     makerEntityPhoneNumber.setBankName(bankName);
                     makerEntityPhoneNumber.setSubBankName(subBankName);
+                    updateById(makerEntityPhoneNumber);
                 }
             }
 
@@ -139,11 +158,13 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
                 makerEntityIdcardNo.setIdcardPicBack(idcardPicBack);
                 makerEntityIdcardNo.setIdcardHand(idcardHand);
                 makerEntityIdcardNo.setIdcardBackHand(idcardBackHand);
+                updateById(makerEntityIdcardNo);
             } else {
                 if (!(VerifyStatus.VERIFYPASS.equals(makerEntityIdcardNo.getBankCardVerifyStatus()))) {
                     makerEntityIdcardNo.setBankCardNo(bankCardNo);
                     makerEntityIdcardNo.setBankName(bankName);
                     makerEntityIdcardNo.setSubBankName(subBankName);
+                    updateById(makerEntityIdcardNo);
                 }
             }
 
@@ -645,6 +666,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> makerAdd(MakerAddDto makerAddDto, Long enterpriseId) {
         //新建创客
         makerSave(makerAddDto.getPhoneNumber(), makerAddDto.getName(), makerAddDto.getIdcardNo(), makerAddDto.getBankCardNo(),
@@ -669,13 +691,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     @Override
     public R<EnterpriseMakerDetailVO> getMakerDetailById(Long enterpriseId, Long makerId) {
         return R.data(baseMapper.getMakerDetailById(enterpriseId, makerId));
-    }
-
-    @Override
-    public MakerEntity enterpriseMakerAdd(MakerAddDto makerAddDto, Long enterpriseId) {
-        //新建创客
-        return makerSave(makerAddDto.getPhoneNumber(), makerAddDto.getName(), makerAddDto.getIdcardNo(), makerAddDto.getBankCardNo(),
-                makerAddDto.getBankName(), makerAddDto.getBankCardNo(), enterpriseId);
     }
 
     @Override

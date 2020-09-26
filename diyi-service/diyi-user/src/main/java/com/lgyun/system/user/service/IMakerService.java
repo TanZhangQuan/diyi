@@ -272,16 +272,11 @@ public interface IMakerService extends IService<MakerEntity> {
     R<EnterpriseMakerDetailVO> getMakerDetailById(Long enterpriseId, Long makerId);
 
     /**
-     * 新增单个创客
-     *
-     * @param makerAddDto
-     * @param enterpriseId
-     * @return
-     */
-    MakerEntity enterpriseMakerAdd(MakerAddDto makerAddDto, Long enterpriseId);
-
-    /**
      * 平台端上传创客授权视频
+     *
+     * @param makerId
+     * @param videoUrl
+     * @return
      */
     R saveAdminMakerVideo(Long makerId,String videoUrl);
 }

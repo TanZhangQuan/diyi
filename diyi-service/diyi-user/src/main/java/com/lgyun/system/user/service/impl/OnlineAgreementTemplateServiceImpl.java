@@ -26,7 +26,7 @@ public class OnlineAgreementTemplateServiceImpl extends BaseServiceImpl<OnlineAg
     @Override
     public OnlineAgreementTemplateEntity findTemplateType(AgreementType agreementType) {
         QueryWrapper<OnlineAgreementTemplateEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(OnlineAgreementTemplateEntity::getTemplateType, agreementType)
+        queryWrapper.lambda().eq(OnlineAgreementTemplateEntity::getAgreementType, agreementType)
                 .eq(OnlineAgreementTemplateEntity::getTemplateSignState, TemplateSignState.OPEN)
                 .eq(OnlineAgreementTemplateEntity::getTemplateState, TemplateState.APPLICATION);
         return baseMapper.selectOne(queryWrapper);

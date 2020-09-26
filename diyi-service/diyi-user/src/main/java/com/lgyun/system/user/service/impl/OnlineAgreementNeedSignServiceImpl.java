@@ -31,7 +31,7 @@ public class OnlineAgreementNeedSignServiceImpl extends BaseServiceImpl<OnlineAg
     public R<String> OnlineAgreementNeedSignAdd(Long onlineAgreementTemplateId, ObjectType objectType, SignPower signPower, Long objectId) {
 
         OnlineAgreementNeedSignEntity oldOnlineAgreementNeedSignEntity = findByonlineAgreementTemplateIdAndobjectTypeAndobjectId(onlineAgreementTemplateId, objectType, signPower, objectId);
-        if (oldOnlineAgreementNeedSignEntity != null){
+        if (oldOnlineAgreementNeedSignEntity != null) {
             return R.fail("需要签署的授权协议已存在");
         }
 

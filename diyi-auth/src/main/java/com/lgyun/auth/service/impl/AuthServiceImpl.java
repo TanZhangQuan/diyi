@@ -353,6 +353,7 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> register(RegisterDto registerDto) {
         //用户类型
         UserType userType = registerDto.getUserType();

@@ -6,6 +6,7 @@ import com.lgyun.system.user.service.IMakerService;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,7 @@ public class MakerImportListener extends AnalysisEventListener<MakerExcel> {
     private final Long enterpriseId;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void invoke(MakerExcel data, AnalysisContext context) {
         list.add(data);
         // 达到BATCH_COUNT，则调用importer方法入库，防止数据几万条数据在内存，容易OOM
@@ -54,6 +56,7 @@ public class MakerImportListener extends AnalysisEventListener<MakerExcel> {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void doAfterAllAnalysed(AnalysisContext analysisContext) {
         // 调用importer方法
         iMakerService.importMaker(list, enterpriseId);

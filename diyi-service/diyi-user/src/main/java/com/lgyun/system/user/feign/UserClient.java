@@ -9,7 +9,6 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.RedisUtil;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.MakerAddDto;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
@@ -491,11 +490,7 @@ public class UserClient implements IUserClient {
 
     @Override
     public MakerEntity makerAdd(String name, String idcardNo, String phoneNumber, Long enterpriseId) {
-        MakerAddDto makerAddDto = new MakerAddDto();
-        makerAddDto.setName(name);
-        makerAddDto.setIdcardNo(idcardNo);
-        makerAddDto.setPhoneNumber(phoneNumber);
-        return iMakerService.enterpriseMakerAdd(makerAddDto, enterpriseId);
+        return iMakerService.makerSave(phoneNumber, name, idcardNo, "", "", "", enterpriseId);
     }
 
     @Override
