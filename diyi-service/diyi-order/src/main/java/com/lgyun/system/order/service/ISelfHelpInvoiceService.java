@@ -6,11 +6,11 @@ import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.SelfHelpInvoiceSpApplyState;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.order.dto.SelfHelpInvoiceDetailInvoiceTaxDto;
-import com.lgyun.system.order.dto.SelfHelpInvoiceDetailsByServiceProviderDto;
-import com.lgyun.system.order.dto.SelfHelpInvoiceExpressDto;
-import com.lgyun.system.order.dto.SelfHelpInvoicesByEnterpriseDto;
-import com.lgyun.system.order.dto.admin.ToExamineSelfHelpInvoiceDto;
+import com.lgyun.system.order.dto.SelfHelpInvoiceDetailInvoiceTaxDTO;
+import com.lgyun.system.order.dto.SelfHelpInvoiceDetailsByServiceProviderDTO;
+import com.lgyun.system.order.dto.SelfHelpInvoiceExpressDTO;
+import com.lgyun.system.order.dto.SelfHelpInvoicesByEnterpriseDTO;
+import com.lgyun.system.order.dto.admin.ToExamineSelfHelpInvoiceDTO;
 import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.order.vo.admin.SelfHelpInvoiceAdminVO;
@@ -33,7 +33,7 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      * @param page
      * @return
      */
-    R<IPage<SelfHelpInvoiceListByEnterpriseVO>> getSelfHelfInvoicesByEnterprise(Long enterpriseId, InvoicePeopleType invoicePeopleType, SelfHelpInvoicesByEnterpriseDto selfHelpInvoicesByEnterpriseDto, IPage<SelfHelpInvoiceListByEnterpriseVO> page);
+    R<IPage<SelfHelpInvoiceListByEnterpriseVO>> getSelfHelfInvoicesByEnterprise(Long enterpriseId, InvoicePeopleType invoicePeopleType, SelfHelpInvoicesByEnterpriseDTO selfHelpInvoicesByEnterpriseDto, IPage<SelfHelpInvoiceListByEnterpriseVO> page);
 
     /**
      * 查询当前商户某条自助开票记录详情
@@ -73,7 +73,7 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      * @param page
      * @return
      */
-    R<IPage<SelfHelpInvoiceListByServiceProviderVO>> getSelfHelfInvoicesByServiceProvider(Long serviceProviderId, InvoicePeopleType invoicePeopleType, SelfHelpInvoiceSpApplyState selfHelpInvoiceSpApplyState, SelfHelpInvoiceDetailsByServiceProviderDto selfHelpInvoiceDetailsByServiceProviderDto, IPage<SelfHelpInvoiceListByServiceProviderVO> page);
+    R<IPage<SelfHelpInvoiceListByServiceProviderVO>> getSelfHelfInvoicesByServiceProvider(Long serviceProviderId, InvoicePeopleType invoicePeopleType, SelfHelpInvoiceSpApplyState selfHelpInvoiceSpApplyState, SelfHelpInvoiceDetailsByServiceProviderDTO selfHelpInvoiceDetailsByServiceProviderDto, IPage<SelfHelpInvoiceListByServiceProviderVO> page);
 
     /**
      * 查询当前服务商某条自助开票明细记录详情
@@ -91,7 +91,7 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      * @param selfHelpInvoiceDetailInvoiceTaxDto
      * @return
      */
-    R<String> uploadInvoiceTaxByProvider(ServiceProviderWorkerEntity serviceProviderWorkerEntity, SelfHelpInvoiceDetailInvoiceTaxDto selfHelpInvoiceDetailInvoiceTaxDto);
+    R<String> uploadInvoiceTaxByProvider(ServiceProviderWorkerEntity serviceProviderWorkerEntity, SelfHelpInvoiceDetailInvoiceTaxDTO selfHelpInvoiceDetailInvoiceTaxDto);
 
     /**
      * 服务商自助开票填写快递信息
@@ -100,7 +100,7 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      * @param selfHelpInvoiceExpressDto
      * @return
      */
-    R<String> fillExpressByProvider(ServiceProviderWorkerEntity serviceProviderWorkerEntity, SelfHelpInvoiceExpressDto selfHelpInvoiceExpressDto);
+    R<String> fillExpressByProvider(ServiceProviderWorkerEntity serviceProviderWorkerEntity, SelfHelpInvoiceExpressDTO selfHelpInvoiceExpressDto);
 
     /**
      * 查询当前服务商某条自助开票记录的快递信息
@@ -257,7 +257,7 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
     /**
      *平台审核自助开票
      */
-    R toExamineSelfHelpInvoice(ToExamineSelfHelpInvoiceDto toExamineSelfHelpInvoiceDto);
+    R toExamineSelfHelpInvoice(ToExamineSelfHelpInvoiceDTO toExamineSelfHelpInvoiceDto);
 
     /**
      *平台上传支付回单和匹配服务商开票

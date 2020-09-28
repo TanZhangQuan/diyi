@@ -6,7 +6,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.order.dto.ReleaseWorksheetDto;
+import com.lgyun.system.order.dto.ReleaseWorksheetDTO;
 import com.lgyun.system.order.entity.WorksheetEntity;
 import com.lgyun.system.order.vo.*;
 
@@ -26,7 +26,7 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      * @param releaseWorksheetDTO
      * @return
      */
-    R<String> releaseWorksheet(ReleaseWorksheetDto releaseWorksheetDTO);
+    R<String> releaseWorksheet(ReleaseWorksheetDTO releaseWorksheetDTO);
 
     /**
      * 抢单
@@ -45,7 +45,7 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      * @param makerId
      * @return
      */
-    R<IPage<WorksheetXiaoVo>> findXiaoPage(IPage<WorksheetXiaoVo> page, Integer worksheetState, Long makerId);
+    R<IPage<WorksheetXiaoVO>> findXiaoPage(IPage<WorksheetXiaoVO> page, Integer worksheetState, Long makerId);
 
     /**
      * 查询详情
@@ -53,12 +53,12 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      * @param worksheetMakerId
      * @return
      */
-    R<WorksheetXiaoVo> getWorksheetDetails(Long worksheetMakerId);
+    R<WorksheetXiaoVO> getWorksheetDetails(Long worksheetMakerId);
 
     /**
      * 根据工单状态和商户id查询
      */
-    R getEnterpriseWorksheet(IPage<WorksheetXiaoVo> page, Long enterpriseId, WorksheetState worksheetState, String worksheetNo, String worksheetName, String startTime, String endTime);
+    R getEnterpriseWorksheet(IPage<WorksheetXiaoVO> page, Long enterpriseId, WorksheetState worksheetState, String worksheetNo, String worksheetName, String startTime, String endTime);
 
     /**
      * 后台查询订单详情
@@ -88,7 +88,7 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      * @param makerId
      * @return
      */
-    R<IPage<EnterpriseWorksheetDetailVo>> getWorksheetDetailsByMaker(IPage<EnterpriseWorksheetDetailVo> page, Long enterpriseId, Long makerId);
+    R<IPage<EnterpriseWorksheetDetailVO>> getWorksheetDetailsByMaker(IPage<EnterpriseWorksheetDetailVO> page, Long enterpriseId, Long makerId);
 
     /**
      * 查询当前商户所有已完毕的类型工单

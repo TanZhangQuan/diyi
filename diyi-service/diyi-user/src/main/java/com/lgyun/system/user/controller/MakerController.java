@@ -2,10 +2,9 @@ package com.lgyun.system.user.controller;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.system.user.dto.IdcardOcrSaveDto;
+import com.lgyun.system.user.dto.IdcardOcrSaveDTO;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.IMakerService;
-import com.lgyun.system.user.wrapper.MakerWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -47,7 +46,7 @@ public class MakerController {
 
     @PostMapping("/idcard_ocr_save")
     @ApiOperation(value = "身份证实名认证信息保存", notes = "身份证实名认证信息保存")
-    public R idcardOcrSave(@Valid @RequestBody IdcardOcrSaveDto idcardOcrSaveDto, BladeUser bladeUser) {
+    public R idcardOcrSave(@Valid @RequestBody IdcardOcrSaveDTO idcardOcrSaveDTO, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = makerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -55,7 +54,7 @@ public class MakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return makerService.idcardOcrSave(idcardOcrSaveDto, makerEntity);
+        return makerService.idcardOcrSave(idcardOcrSaveDTO, makerEntity);
     }
 
     @PostMapping("/face_ocr")
@@ -141,19 +140,6 @@ public class MakerController {
         return makerService.getRealNameAuthenticationState(makerEntity.getId());
     }
 
-    @GetMapping("/get-info")
-    @ApiOperation(value = "查询当前创客基本信息", notes = "查询当前创客基本信息")
-    public R getInfo(BladeUser bladeUser) {
-        //查询当前创客
-        R<MakerEntity> result = makerService.currentMaker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        MakerEntity makerEntity = result.getData();
-
-        return makerService.getInfo(makerEntity.getId());
-    }
-
     @GetMapping("/get-enterprise-num-income")
     @ApiOperation(value = "查询当前创客关联商户数和收入情况", notes = "查询当前创客关联商户数和收入情况")
     public R getEnterpriseNumIncome(BladeUser bladeUser) {
@@ -165,19 +151,6 @@ public class MakerController {
         MakerEntity makerEntity = result.getData();
 
         return makerService.getEnterpriseNumIncome(makerEntity.getId());
-    }
-
-    @GetMapping("/current-detail")
-    @ApiOperation(value = "查询当前创客详情", notes = "查询当前创客详情")
-    public R currentDetail(BladeUser bladeUser) {
-        //查询当前创客
-        R<MakerEntity> result = makerService.currentMaker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        MakerEntity makerEntity = result.getData();
-
-        return R.data(MakerWrapper.build().entityVO(makerEntity));
     }
 
 }

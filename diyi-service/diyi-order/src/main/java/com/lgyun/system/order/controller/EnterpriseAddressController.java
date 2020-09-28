@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.system.order.dto.AddressDto;
+import com.lgyun.system.order.dto.AddressDTO;
 import com.lgyun.system.order.entity.AddressEntity;
 import com.lgyun.system.order.service.IAddressService;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
@@ -52,7 +52,7 @@ public class EnterpriseAddressController {
 
     @PostMapping("/saveAddress")
     @ApiOperation(value = "新建收货地址", notes = "新建收货地址")
-    public R saveAddress(@Valid @RequestBody AddressDto addressDto, BladeUser bladeUser) {
+    public R saveAddress(@Valid @RequestBody AddressDTO addressDto, BladeUser bladeUser) {
         //查询当前商户信息
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {

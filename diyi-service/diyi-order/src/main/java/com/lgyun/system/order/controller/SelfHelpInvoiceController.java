@@ -11,9 +11,9 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.dto.DictDTO;
 import com.lgyun.system.entity.Dict;
 import com.lgyun.system.feign.IDictClient;
-import com.lgyun.system.order.dto.AddressDto;
-import com.lgyun.system.order.dto.ConfirmPaymentDto;
-import com.lgyun.system.order.dto.SelfHelpInvoiceDto;
+import com.lgyun.system.order.dto.AddressDTO;
+import com.lgyun.system.order.dto.ConfirmPaymentDTO;
+import com.lgyun.system.order.dto.SelfHelpInvoiceDTO;
 import com.lgyun.system.order.excel.InvoiceListExcel;
 import com.lgyun.system.order.excel.InvoiceListListener;
 import com.lgyun.system.order.service.IAddressService;
@@ -74,7 +74,7 @@ public class SelfHelpInvoiceController {
 
     @PostMapping("/saveAddress")
     @ApiOperation(value = "新建收货地址", notes = "新建收货地址")
-    public R saveAddress(@Valid @RequestBody AddressDto addressDto, BladeUser bladeUser) {
+    public R saveAddress(@Valid @RequestBody AddressDTO addressDto, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -93,7 +93,7 @@ public class SelfHelpInvoiceController {
 
     @PostMapping("/updateAddress")
     @ApiOperation(value = "地址编辑接口", notes = "地址编辑接口")
-    public R updateAddress(@Valid @RequestBody AddressDto addressDto) {
+    public R updateAddress(@Valid @RequestBody AddressDTO addressDto) {
         return addressService.updateAddress(addressDto);
     }
 
@@ -164,7 +164,7 @@ public class SelfHelpInvoiceController {
     @ApiOperation(value = "创客提交自助开票", notes = "创客提交自助开票")
     @Transactional(rollbackFor = Exception.class)
     public R submitSelfHelpInvoice(@ApiParam(value = "文件") @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file,
-                                   @Valid @RequestBody SelfHelpInvoiceDto selfHelpInvoiceDto, BladeUser bladeUser) throws IOException {
+                                   @Valid @RequestBody SelfHelpInvoiceDTO selfHelpInvoiceDto, BladeUser bladeUser) throws IOException {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -197,7 +197,7 @@ public class SelfHelpInvoiceController {
 
     @PostMapping("/confirmPayment")
     @ApiOperation(value = "确认支付", notes = "确认支付")
-    public R confirmPayment(@Valid @RequestBody ConfirmPaymentDto confirmPaymentDto) {
+    public R confirmPayment(@Valid @RequestBody ConfirmPaymentDTO confirmPaymentDto) {
         return R.data(selfHelpInvoiceFeeService.confirmPayment(confirmPaymentDto));
     }
 

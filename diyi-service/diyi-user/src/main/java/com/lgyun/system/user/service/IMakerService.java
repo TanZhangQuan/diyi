@@ -5,11 +5,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.system.user.dto.IdcardOcrSaveDto;
-import com.lgyun.system.user.dto.MakerAddDto;
+import com.lgyun.system.user.dto.IdcardOcrSaveDTO;
+import com.lgyun.system.user.dto.MakerAddDTO;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.excel.MakerExcel;
 import com.lgyun.system.user.vo.*;
+import com.lgyun.system.user.vo.maker.MakerDetailVO;
+import com.lgyun.system.user.vo.maker.MakerInfoVO;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -21,6 +23,22 @@ import java.util.List;
  * @since 2020-06-26 17:21:06
  */
 public interface IMakerService extends IService<MakerEntity> {
+
+    /**
+     * 查询创客基本信息
+     *
+     * @param makerId
+     * @return
+     */
+    R<MakerInfoVO> queryMakerInfo(Long makerId);
+
+    /**
+     * 查询当前创客详情
+     *
+     * @param makerId
+     * @return
+     */
+    R<MakerDetailVO> queryCurrentMakerDetail(Long makerId);
 
     /**
      * 新建创客
@@ -109,11 +127,11 @@ public interface IMakerService extends IService<MakerEntity> {
     /**
      * 身份证实名认证信息保存
      *
-     * @param idcardOcrSaveDto
+     * @param idcardOcrSaveDTO
      * @param makerEntity
      * @return
      */
-    R<String> idcardOcrSave(IdcardOcrSaveDto idcardOcrSaveDto, MakerEntity makerEntity);
+    R<String> idcardOcrSave(IdcardOcrSaveDTO idcardOcrSaveDTO, MakerEntity makerEntity);
 
     /**
      * 活体认证
@@ -187,14 +205,6 @@ public interface IMakerService extends IService<MakerEntity> {
     MakerEntity findByUserId(Long userId);
 
     /**
-     * 查询创客基本信息
-     *
-     * @param makerId
-     * @return
-     */
-    R<MakerInfoVO> getInfo(Long makerId);
-
-    /**
      * 查询当前创客关联商户数和收入情况
      *
      * @param makerId
@@ -252,7 +262,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * @param enterpriseId
      * @return
      */
-    R<String> makerAdd(MakerAddDto makerAddDto, Long enterpriseId);
+    R<String> makerAdd(MakerAddDTO makerAddDto, Long enterpriseId);
 
     /**
      * 根据身份证号查找创客
@@ -279,5 +289,6 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      */
     R saveAdminMakerVideo(Long makerId,String videoUrl);
+
 }
 

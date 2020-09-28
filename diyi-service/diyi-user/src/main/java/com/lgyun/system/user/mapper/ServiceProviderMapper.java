@@ -7,8 +7,8 @@ import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.vo.ServiceProviderBankCardVO;
 import com.lgyun.system.user.vo.ServiceProviderContactPersonVO;
 import com.lgyun.system.user.vo.ServiceProviderInvoiceVO;
-import com.lgyun.system.user.vo.admin.QueryServiceProviderDetailServiceProviderVO;
-import com.lgyun.system.user.vo.admin.QueryServiceProviderListVO;
+import com.lgyun.system.user.vo.admin.ServiceProviderDetailServiceProviderVO;
+import com.lgyun.system.user.vo.admin.ServiceProviderListVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -53,7 +53,7 @@ public interface ServiceProviderMapper extends BaseMapper<ServiceProviderEntity>
      * @param page
      * @return
      */
-    List<QueryServiceProviderListVO> queryServiceProviderListAdmin(QueryServiceProviderListDTO queryServiceProviderListDTO, IPage<QueryServiceProviderListVO> page);
+    List<ServiceProviderListVO> queryServiceProviderListAdmin(QueryServiceProviderListDTO queryServiceProviderListDTO, IPage<ServiceProviderListVO> page);
 
     /**
      * 查询服务商基本信息
@@ -61,6 +61,6 @@ public interface ServiceProviderMapper extends BaseMapper<ServiceProviderEntity>
      * @param serviceProviderId
      * @return
      */
-    QueryServiceProviderDetailServiceProviderVO queryServiceProviderDetailServiceProvider(Long serviceProviderId);
+    ServiceProviderDetailServiceProviderVO queryServiceProviderDetailServiceProvider(Long serviceProviderId);
 }
 

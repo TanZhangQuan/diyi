@@ -8,8 +8,8 @@ import com.lgyun.common.enumeration.PayEnterpriseAuditState;
 import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.PayEnterpriseDto;
-import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
+import com.lgyun.system.order.dto.PayEnterpriseDTO;
+import com.lgyun.system.order.dto.PayEnterpriseUploadDTO;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.vo.TransactionVO;
@@ -58,7 +58,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @param enterpriseId
      * @return
      */
-    R<String> upload(PayEnterpriseUploadDto payEnterpriseUploadDto, Long enterpriseId) throws Exception;
+    R<String> upload(PayEnterpriseUploadDTO payEnterpriseUploadDto, Long enterpriseId) throws Exception;
 
     /**
      * 提交支付清单
@@ -77,7 +77,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @param page
      * @return
      */
-    R<IPage<PayEnterpriseMakersListVO>> getPayEnterpriseList(Long enterpriseId, Long serviceProviderId, PayEnterpriseDto payEnterpriseDto, IPage<PayEnterpriseMakersListVO> page);
+    R<IPage<PayEnterpriseMakersListVO>> getPayEnterpriseList(Long enterpriseId, Long serviceProviderId, PayEnterpriseDTO payEnterpriseDto, IPage<PayEnterpriseMakersListVO> page);
 
     /**
      * 根据支付清单ID查询支付清单关联工单的创客
@@ -183,7 +183,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @param page
      * @return
      */
-    R<IPage<PayEnterpriseMakersListVO>> getPayEnterprisesByEnterprisesServiceProvider(Long enterpriseId, Long serviceProviderId, PayEnterpriseDto payEnterpriseDto, IPage<PayEnterpriseMakersListVO> page);
+    R<IPage<PayEnterpriseMakersListVO>> getPayEnterprisesByEnterprisesServiceProvider(Long enterpriseId, Long serviceProviderId, PayEnterpriseDTO payEnterpriseDto, IPage<PayEnterpriseMakersListVO> page);
 
     /**
      * 查询当前商户首页交易情况数据

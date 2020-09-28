@@ -5,10 +5,10 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.feign.ISysClient;
+import com.lgyun.system.user.dto.enterprise.OperateEnterpriseWorkerDTO;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.vo.EnterpriseWorkerVO;
-import com.lgyun.system.user.vo.enterprise.EnterpriseAccountRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -96,7 +96,7 @@ public class EnterpriseAccountController {
 
     @PostMapping("/operate")
     @ApiOperation(value = "删除、停用 商户主子账号", notes = "删除、停用 商户主子账号")
-    public R operateEnterpriseWorker(@RequestBody EnterpriseAccountRequest request, BladeUser bladeUser) {
+    public R operateEnterpriseWorker(@RequestBody OperateEnterpriseWorkerDTO request, BladeUser bladeUser) {
         //查询当前创客
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -110,9 +110,9 @@ public class EnterpriseAccountController {
             return R.fail("没有此账号");
         }
 
-        if (EnterpriseAccountRequest.ACCOUNT_DEL.equals(request.getOperationCode())) {
+        if (OperateEnterpriseWorkerDTO.ACCOUNT_DEL.equals(request.getOperationCode())) {
             entity.setIsDeleted(1);
-        } else if (EnterpriseAccountRequest.ACCOUNT_STOP.equals(request.getOperationCode())) {
+        } else if (OperateEnterpriseWorkerDTO.ACCOUNT_STOP.equals(request.getOperationCode())) {
             entity.setStatus(0);
         }
 

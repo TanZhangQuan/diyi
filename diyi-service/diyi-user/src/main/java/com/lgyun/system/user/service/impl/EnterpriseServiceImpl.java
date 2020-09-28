@@ -11,7 +11,7 @@ import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.admin.*;
-import com.lgyun.system.user.dto.enterprise.AddOrUpdateEnterpriseContactDto;
+import com.lgyun.system.user.dto.enterprise.AddOrUpdateEnterpriseContactDTO;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.EnterpriseMapper;
 import com.lgyun.system.user.oss.AliyunOssService;
@@ -160,12 +160,12 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     @Override
-    public R<IPage<QueryEnterpriseListPaymentVO>> queryEnterpriseListPayment(QueryEnterpriseListPaymentDTO queryEnterpriseListPaymentDTO, IPage<QueryEnterpriseListPaymentVO> page) {
+    public R<IPage<EnterpriseListPaymentVO>> queryEnterpriseListPayment(QueryEnterpriseListPaymentDTO queryEnterpriseListPaymentDTO, IPage<EnterpriseListPaymentVO> page) {
         return R.data(page.setRecords(baseMapper.queryEnterpriseListPayment(queryEnterpriseListPaymentDTO, page)));
     }
 
     @Override
-    public R<IPage<QueryServiceProviderListPaymentVO>> queryServiceProviderListPayment(QueryServiceProviderListPaymentDTO queryServiceProviderListPaymentDTO, IPage<QueryServiceProviderListPaymentVO> page) {
+    public R<IPage<ServiceProviderListPaymentVO>> queryServiceProviderListPayment(QueryServiceProviderListPaymentDTO queryServiceProviderListPaymentDTO, IPage<ServiceProviderListPaymentVO> page) {
         return R.data(page.setRecords(baseMapper.queryServiceProviderListPayment(queryServiceProviderListPaymentDTO, page)));
     }
 
@@ -295,7 +295,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         }
 
         //根据联系人生成商户员工
-        AddOrUpdateEnterpriseContactDto addOrUpdateEnterpriseContactDto = new AddOrUpdateEnterpriseContactDto();
+        AddOrUpdateEnterpriseContactDTO addOrUpdateEnterpriseContactDto = new AddOrUpdateEnterpriseContactDTO();
         addOrUpdateEnterpriseContactDto.setEnterpriseId(enterpriseEntity.getId());
         addOrUpdateEnterpriseContactDto.setContact1Name(updateEnterpriseDTO.getContact1Name());
         addOrUpdateEnterpriseContactDto.setContact1Position(updateEnterpriseDTO.getContact1Position());
@@ -351,12 +351,12 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     @Override
-    public R<IPage<QueryEnterpriseListEnterpriseVO>> queryEnterpriseListEnterprise(QueryEnterpriseListDTO queryEnterpriseListDTO, IPage<QueryEnterpriseListEnterpriseVO> page) {
+    public R<IPage<EnterpriseListEnterpriseVO>> queryEnterpriseListEnterprise(QueryEnterpriseListDTO queryEnterpriseListDTO, IPage<EnterpriseListEnterpriseVO> page) {
         return R.data(page.setRecords(baseMapper.queryEnterpriseListEnterprise(queryEnterpriseListDTO, page)));
     }
 
     @Override
-    public R<QueryEnterpriseDetailEnterpriseVO> queryEnterpriseDetailEnterprise(Long enterpriseId) {
+    public R<EnterpriseDetailEnterpriseVO> queryEnterpriseDetailEnterprise(Long enterpriseId) {
         return R.data(baseMapper.queryEnterpriseDetailEnterprise(enterpriseId));
     }
 
@@ -377,7 +377,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     @Override
-    public R<IPage<QueryCooperationServiceProviderListVO>> queryCooperationServiceProviderList(Long enterpriseId, IPage<QueryCooperationServiceProviderListVO> page) {
+    public R<IPage<CooperationServiceProviderListVO>> queryCooperationServiceProviderList(Long enterpriseId, IPage<CooperationServiceProviderListVO> page) {
         return R.data(page.setRecords(baseMapper.queryCooperationServiceProviderList(enterpriseId, page)));
     }
 

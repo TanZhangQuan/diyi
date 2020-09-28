@@ -3,11 +3,67 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.MakerMapper">
 
+    <resultMap type="com.lgyun.system.user.vo.maker.MakerInfoVO" id="makerInfoVO">
+        <result property="avatar" column="avatar"/>
+        <result property="name" column="name"/>
+        <result property="certificationState" column="certification_state"/>
+        <result property="selfDesc" column="self_desc"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.user.vo.maker.MakerDetailVO" id="makerDetailVO">
+        <result property="avatar" column="avatar"/>
+        <result property="name" column="name"/>
+        <result property="certificationState" column="certification_state"/>
+        <result property="selfDesc" column="self_desc"/>
+    </resultMap>
+
     <resultMap type="com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO" id="makerEnterpriseNumIncomeVO">
-        <result property="enterpriseNum" column="enterprise_num"/>
-        <result property="monthIncome" column="month_income"/>
-        <result property="yearIncome" column="year_income"/>
-        <result property="allIncome" column="all_income"/>
+        <result property="relDate" column="rel_date"/>
+        <result property="name" column="name"/>
+        <result property="avatar" column="avatar"/>
+        <result property="certificationState" column="certification_state"/>
+        <result property="empowerSignState" column="empower_sign_state"/>
+        <result property="joinSignState" column="join_sign_state"/>
+        <result property="makerState" column="maker_state"/>
+        <result property="politicState" column="politic_state"/>
+        <result property="nationality" column="nationality"/>
+        <result property="levelofedu" column="levelofedu"/>
+        <result property="emailAddress" column="email_address"/>
+        <result property="idCardNo" column="id_card_no"/>
+        <result property="dueDate" column="due_date"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="phoneNumber2" column="phone_number2"/>
+        <result property="bankCardNo" column="bank_card_no"/>
+        <result property="bankName" column="bank_name"/>
+        <result property="subBankName" column="sub_bank_name"/>
+        <result property="idCardPic" column="id_card_pic"/>
+        <result property="idcardPicBack" column="idcard_pic_back"/>
+        <result property="selfPic" column="self_pic"/>
+        <result property="idcardCopy" column="idcard_copy"/>
+        <result property="idcardHand" column="idcard_hand"/>
+        <result property="idcardBackHand" column="idcard_back_hand"/>
+        <result property="picVerify" column="pic_verify"/>
+        <result property="idcardVerifyStatus" column="idcard_verify_status"/>
+        <result property="idcardVerifyDate" column="idcard_verify_date"/>
+        <result property="faceVerifyStatus" column="face_verify_status"/>
+        <result property="faceVerifyDate" column="face_verify_date"/>
+        <result property="bankCardVerifyStatus" column="bank_card_verify_status"/>
+        <result property="bankCardVerifyDate" column="bank_card_verify_date"/>
+        <result property="phoneNumberVerifyStatus" column="phone_number_verify_status"/>
+        <result property="phoneNumberVerifyDate" column="phone_number_verify_date"/>
+        <result property="idcardVerifyType" column="idcard_verify_type"/>
+        <result property="manualVerifyName" column="manual_verify_name"/>
+        <result property="manualVerifyDesc" column="manual_verify_desc"/>
+        <result property="runAddress" column="run_address"/>
+        <result property="houseAddress" column="house_address"/>
+        <result property="livingAddress" column="living_address"/>
+        <result property="selfDesc" column="self_desc"/>
+        <result property="shopUrl" column="shop_url"/>
+        <result property="shopUserName" column="shop_user_name"/>
+        <result property="applyShortVideo" column="apply_short_video"/>
+        <result property="videoAudit" column="video_audit"/>
+        <result property="videoAuditDate" column="video_audit_date"/>
+        <result property="videoAuditPersonId" column="video_audit_person_id"/>
     </resultMap>
 
     <resultMap type="com.lgyun.system.user.vo.EnterpriseMakerDetailVO" id="enterpriseMakerDetailVO">
@@ -29,6 +85,19 @@
         <result property="createTime" column="create_time"/>
         <result property="makerState" column="maker_state"/>
     </resultMap>
+
+    <select id="queryMakerInfo" resultMap="makerInfoVO">
+        SELECT avatar, name, certification_state, self_desc FROM diyi_maker WHERE is_deleted = 0 AND id = #{param1}
+    </select>
+
+    <select id="queryCurrentMakerDetail" resultMap="makerDetailVO">
+        SELECT rel_date, name, avatar, certification_state, empower_sign_state, join_sign_state, maker_state, politic_state, nationality, levelofedu,
+        email_address, idcard_no, due_date, phone_number, phone_number2, bank_card_no, bank_name, sub_bank_name, idcard_pic, idcard_pic_back,
+        self_pic, idcard_copy, idcard_hand, idcard_back_hand, pic_verify, idcard_verify_status, idcard_verify_date, face_verify_status, face_verify_date,
+        bank_card_verify_status, bank_card_verify_date, phone_number_verify_status, phone_number_verify_date, idcard_verify_type, manual_verify_name,
+        manual_verify_desc, run_address, house_address, living_address, self_desc, shop_url, shop_user_name, apply_short_video, video_audit,
+        video_audit_date, video_audit_person_id FROM diyi_maker WHERE is_deleted = 0 AND id = #{param1}
+    </select>
 
     <select id="getEnterpriseNumIncome" resultMap="makerEnterpriseNumIncomeVO">
         SELECT * FROM (SELECT COUNT(t1.id) AS enterprise_num FROM diyi_maker_enterprise t1 INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id

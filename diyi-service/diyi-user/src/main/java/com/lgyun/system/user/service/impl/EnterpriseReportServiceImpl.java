@@ -17,8 +17,8 @@ import com.lgyun.system.user.mapper.EnterpriseReportMapper;
 import com.lgyun.system.user.service.IEnterpriseReportService;
 import com.lgyun.system.user.service.IServiceProviderService;
 import com.lgyun.system.user.vo.EnterpriseReportsVO;
-import com.lgyun.system.user.vo.admin.QueryAdminEnterpriseReportAllVO;
-import com.lgyun.system.user.vo.admin.QueryAdminEnterpriseReportVO;
+import com.lgyun.system.user.vo.admin.AdminEnterpriseReportAllVO;
+import com.lgyun.system.user.vo.admin.AdminEnterpriseReportVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -73,13 +73,13 @@ public class EnterpriseReportServiceImpl extends BaseServiceImpl<EnterpriseRepor
     }
 
     @Override
-    public R findAdminEnterpriseReportAll(String serviceProviderName, ReportTheme reportTheme,String startTime, String endTime, IPage<QueryAdminEnterpriseReportAllVO> page) {
-        return R.data(page.setRecords(baseMapper.findAdminEnterpriseReportAll(serviceProviderName, reportTheme, startTime,  endTime,page)));
+    public R findAdminEnterpriseReportAll(String serviceProviderName, ReportTheme reportTheme, String startTime, String endTime, IPage<AdminEnterpriseReportAllVO> page) {
+        return R.data(page.setRecords(baseMapper.findAdminEnterpriseReportAll(serviceProviderName, reportTheme, startTime, endTime, page)));
     }
 
     @Override
-    public R findAdminEnterpriseReport(Long serviceProviderId,ReportTheme reportTheme,IPage<QueryAdminEnterpriseReportVO> page) {
-        return R.data(page.setRecords(baseMapper.findAdminEnterpriseReport(serviceProviderId, reportTheme,page)));
+    public R findAdminEnterpriseReport(Long serviceProviderId, ReportTheme reportTheme, IPage<AdminEnterpriseReportVO> page) {
+        return R.data(page.setRecords(baseMapper.findAdminEnterpriseReport(serviceProviderId, reportTheme, page)));
     }
 
     @Override
@@ -90,11 +90,11 @@ public class EnterpriseReportServiceImpl extends BaseServiceImpl<EnterpriseRepor
     @Override
     public R saveAdminEnterpriseReport(AdminEnterpriseReportDTO adminEnterpriseReportDTO) {
         EnterpriseReportEntity enterpriseReportEntity = null;
-        if(null == adminEnterpriseReportDTO.getEnterpriseReportId() ){
+        if (null == adminEnterpriseReportDTO.getEnterpriseReportId()) {
             enterpriseReportEntity = BeanUtil.copy(adminEnterpriseReportDTO, EnterpriseReportEntity.class);
             enterpriseReportEntity.setReportState(ReportState.DECLARESUCCESS);
             save(enterpriseReportEntity);
-        }else{
+        } else {
             enterpriseReportEntity = getById(adminEnterpriseReportDTO.getEnterpriseReportId());
             enterpriseReportEntity.setServiceProviderId(adminEnterpriseReportDTO.getServiceProviderId());
             enterpriseReportEntity.setMainBodyType(adminEnterpriseReportDTO.getMainBodyType());
@@ -113,13 +113,13 @@ public class EnterpriseReportServiceImpl extends BaseServiceImpl<EnterpriseRepor
     @Override
     public R toExamineAdminEnterpriseReport(Long enterpriseReportId, Integer toExamine) {
         EnterpriseReportEntity byId = getById(enterpriseReportId);
-        if(null == toExamine || (toExamine != 1 && toExamine != 2)){
+        if (null == toExamine || (toExamine != 1 && toExamine != 2)) {
             return R.fail("审核失败");
         }
-        if(toExamine == 1){
-           byId.setReportState(ReportState.DECLARESUCCESS);
+        if (toExamine == 1) {
+            byId.setReportState(ReportState.DECLARESUCCESS);
         }
-        if(toExamine == 2){
+        if (toExamine == 2) {
             byId.setReportState(ReportState.DECLAREFAIL);
         }
         saveOrUpdate(byId);
@@ -127,18 +127,18 @@ public class EnterpriseReportServiceImpl extends BaseServiceImpl<EnterpriseRepor
     }
 
     @Override
-    public R findServiceEnterpriseReport(Long serviceProviderId,ReportTheme reportTheme, String startTime, String endTime, IPage<QueryAdminEnterpriseReportAllVO> page) {
-        return R.data(page.setRecords(baseMapper.findServiceEnterpriseReport(serviceProviderId,reportTheme,startTime,endTime,page)));
+    public R findServiceEnterpriseReport(Long serviceProviderId, ReportTheme reportTheme, String startTime, String endTime, IPage<AdminEnterpriseReportAllVO> page) {
+        return R.data(page.setRecords(baseMapper.findServiceEnterpriseReport(serviceProviderId, reportTheme, startTime, endTime, page)));
     }
 
     @Override
     public R saveServiceEnterpriseReport(AdminEnterpriseReportDTO adminEnterpriseReportDTO) {
         EnterpriseReportEntity enterpriseReportEntity = null;
-        if(null == adminEnterpriseReportDTO.getEnterpriseReportId() ){
+        if (null == adminEnterpriseReportDTO.getEnterpriseReportId()) {
             enterpriseReportEntity = BeanUtil.copy(adminEnterpriseReportDTO, EnterpriseReportEntity.class);
             enterpriseReportEntity.setReportState(ReportState.DECLAREING);
             save(enterpriseReportEntity);
-        }else{
+        } else {
             enterpriseReportEntity = getById(adminEnterpriseReportDTO.getEnterpriseReportId());
             enterpriseReportEntity.setServiceProviderId(adminEnterpriseReportDTO.getServiceProviderId());
             enterpriseReportEntity.setMainBodyType(adminEnterpriseReportDTO.getMainBodyType());

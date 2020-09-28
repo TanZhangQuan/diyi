@@ -7,7 +7,7 @@ import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.MakerAddDto;
+import com.lgyun.system.user.dto.MakerAddDTO;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.excel.MakerExcel;
@@ -50,7 +50,7 @@ public class MakerWebController {
 
     @PostMapping("/save")
     @ApiOperation(value = "新增单个创客", notes = "新增单个创客")
-    public R makerAdd(@Valid @RequestBody MakerAddDto makerAddDto, BladeUser bladeUser) {
+    public R makerAdd(@Valid @RequestBody MakerAddDTO makerAddDto, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {

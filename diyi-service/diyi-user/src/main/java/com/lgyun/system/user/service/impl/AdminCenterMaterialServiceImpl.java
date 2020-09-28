@@ -12,7 +12,7 @@ import com.lgyun.system.user.dto.admin.UpdateAdminCenterMaterialDTO;
 import com.lgyun.system.user.entity.AdminCenterMaterialEntity;
 import com.lgyun.system.user.mapper.AdminCenterMaterialMapper;
 import com.lgyun.system.user.service.IAdminCenterMaterialService;
-import com.lgyun.system.user.vo.admin.QueryAdminCenterMaterialListVO;
+import com.lgyun.system.user.vo.admin.AdminCenterMaterialListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ import org.springframework.stereotype.Service;
 public class AdminCenterMaterialServiceImpl extends BaseServiceImpl<AdminCenterMaterialMapper, AdminCenterMaterialEntity> implements IAdminCenterMaterialService {
 
     @Override
-    public R<IPage<QueryAdminCenterMaterialListVO>> queryAdminCenterMaterialList(Long serviceProviderId, IPage<QueryAdminCenterMaterialListVO> page) {
+    public R<IPage<AdminCenterMaterialListVO>> queryAdminCenterMaterialList(Long serviceProviderId, IPage<AdminCenterMaterialListVO> page) {
         return R.data(page.setRecords(baseMapper.queryAdminCenterMaterialList(serviceProviderId, page)));
     }
 

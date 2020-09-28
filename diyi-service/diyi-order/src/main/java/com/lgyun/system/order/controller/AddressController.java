@@ -5,7 +5,7 @@ import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.AddressDto;
+import com.lgyun.system.order.dto.AddressDTO;
 import com.lgyun.system.order.service.IAddressService;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
@@ -36,7 +36,7 @@ public class AddressController {
 
     @PostMapping("/addOrUpdate")
     @ApiOperation(value = "当前服务商新建或修改收货地址", notes = "当前服务商新建或修改收货地址")
-    public R addOrUpdate(@Valid @RequestBody AddressDto addressDto, BladeUser bladeUser) {
+    public R addOrUpdate(@Valid @RequestBody AddressDTO addressDto, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {

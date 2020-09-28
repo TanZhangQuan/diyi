@@ -1,10 +1,9 @@
 package com.lgyun.system.feign;
 
 import com.lgyun.common.api.R;
-import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.entity.Dept;
 import com.lgyun.system.entity.Role;
-import com.lgyun.system.vo.GrantRequest;
+import com.lgyun.system.dto.GrantDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -79,7 +78,7 @@ public class ISysClientFallback implements ISysClient {
      * @return
      */
     @Override
-    public R grantFeign(GrantRequest request) {
+    public R grantFeign(GrantDTO request) {
         return null;
     }
 

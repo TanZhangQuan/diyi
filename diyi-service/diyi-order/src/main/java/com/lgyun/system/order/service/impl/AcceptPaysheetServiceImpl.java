@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AcceptPaysheetType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.order.dto.AcceptPayListDto;
-import com.lgyun.system.order.dto.AcceptPaysheetSaveDto;
+import com.lgyun.system.order.dto.AcceptPayListDTO;
+import com.lgyun.system.order.dto.AcceptPaysheetSaveDTO;
 import com.lgyun.system.order.entity.AcceptPaysheetEntity;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.mapper.AcceptPaysheetMapper;
@@ -56,7 +56,7 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
 
     @Override
     @Transactional
-    public R<String> upload(AcceptPaysheetSaveDto acceptPaysheetSaveDto, Long enterpriseId, String uploadSource, String uploadPerson) {
+    public R<String> upload(AcceptPaysheetSaveDTO acceptPaysheetSaveDto, Long enterpriseId, String uploadSource, String uploadPerson) {
 
         //判断支付清单是否存在
         PayEnterpriseEntity payEnterpriseEntity = payEnterpriseService.getById(acceptPaysheetSaveDto.getPayEnterpriseId());
@@ -101,7 +101,7 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
     }
 
     @Override
-    public R<IPage<AcceptPayListVO>> getAcceptPaySheetsByEnterprise(Long enterpriseId, AcceptPayListDto acceptPayListDto, IPage<AcceptPayListVO> page) {
+    public R<IPage<AcceptPayListVO>> getAcceptPaySheetsByEnterprise(Long enterpriseId, AcceptPayListDTO acceptPayListDto, IPage<AcceptPayListVO> page) {
 
         if (acceptPayListDto.getBeginDate() != null && acceptPayListDto.getEndDate() != null) {
             if (acceptPayListDto.getBeginDate().after(acceptPayListDto.getEndDate())) {

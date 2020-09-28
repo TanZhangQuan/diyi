@@ -5,9 +5,9 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.ServiceProviderBankCardDto;
-import com.lgyun.system.user.dto.ServiceProviderContactPersonDto;
-import com.lgyun.system.user.dto.ServiceProviderInvoiceDto;
+import com.lgyun.system.user.dto.ServiceProviderBankCardDTO;
+import com.lgyun.system.user.dto.ServiceProviderContactPersonDTO;
+import com.lgyun.system.user.dto.ServiceProviderInvoiceDTO;
 import com.lgyun.system.user.dto.admin.AddServiceProviderDTO;
 import com.lgyun.system.user.dto.admin.QueryServiceProviderListDTO;
 import com.lgyun.system.user.dto.admin.UpdateServiceProviderDTO;
@@ -17,8 +17,8 @@ import com.lgyun.system.user.vo.EnterprisesVO;
 import com.lgyun.system.user.vo.ServiceProviderBankCardVO;
 import com.lgyun.system.user.vo.ServiceProviderContactPersonVO;
 import com.lgyun.system.user.vo.ServiceProviderInvoiceVO;
-import com.lgyun.system.user.vo.admin.QueryServiceProviderDetailServiceProviderVO;
-import com.lgyun.system.user.vo.admin.QueryServiceProviderListVO;
+import com.lgyun.system.user.vo.admin.ServiceProviderDetailServiceProviderVO;
+import com.lgyun.system.user.vo.admin.ServiceProviderListVO;
 
 /**
  * Service 接口
@@ -71,7 +71,7 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
      * @param serviceProviderId
      * @return
      */
-    R<String> addOrUpdateBankCard(ServiceProviderBankCardDto serviceProviderBankCardDto, Long serviceProviderId);
+    R<String> addOrUpdateBankCard(ServiceProviderBankCardDTO serviceProviderBankCardDto, Long serviceProviderId);
 
     /**
      * 查询当前服务商联系人信息
@@ -88,7 +88,7 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
      * @param serviceProviderId
      * @return
      */
-    R<String> addOrUpdateContactPerson(ServiceProviderContactPersonDto serviceProviderContactPersonDto, Long serviceProviderId);
+    R<String> addOrUpdateContactPerson(ServiceProviderContactPersonDTO serviceProviderContactPersonDto, Long serviceProviderId);
 
     /**
      * 查询当前服务商开票信息
@@ -105,7 +105,7 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
      * @param serviceProviderId
      * @return
      */
-    R<String> addOrUpdateInvoice(ServiceProviderInvoiceDto serviceProviderInvoiceDto, Long serviceProviderId);
+    R<String> addOrUpdateInvoice(ServiceProviderInvoiceDTO serviceProviderInvoiceDto, Long serviceProviderId);
 
     /**
      * 查询所有服务商
@@ -114,7 +114,7 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
      * @param page
      * @return
      */
-    R<IPage<QueryServiceProviderListVO>> queryServiceProviderListAdmin(QueryServiceProviderListDTO queryServiceProviderListDTO, IPage<QueryServiceProviderListVO> page);
+    R<IPage<ServiceProviderListVO>> queryServiceProviderListAdmin(QueryServiceProviderListDTO queryServiceProviderListDTO, IPage<ServiceProviderListVO> page);
 
     /**
      * 查询服务商基本信息
@@ -122,7 +122,7 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
      * @param serviceProviderId
      * @return
      */
-    R<QueryServiceProviderDetailServiceProviderVO> queryServiceProviderDetailServiceProvider(Long serviceProviderId);
+    R<ServiceProviderDetailServiceProviderVO> queryServiceProviderDetailServiceProvider(Long serviceProviderId);
 
     /**
      * 添加服务商

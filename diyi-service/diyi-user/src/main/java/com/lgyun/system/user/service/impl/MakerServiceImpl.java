@@ -10,8 +10,8 @@ import com.lgyun.common.enumeration.*;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.*;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.user.dto.IdcardOcrSaveDto;
-import com.lgyun.system.user.dto.MakerAddDto;
+import com.lgyun.system.user.dto.IdcardOcrSaveDTO;
+import com.lgyun.system.user.dto.MakerAddDTO;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.entity.OnlineAgreementTemplateEntity;
 import com.lgyun.system.user.entity.User;
@@ -20,6 +20,8 @@ import com.lgyun.system.user.mapper.MakerMapper;
 import com.lgyun.system.user.oss.AliyunOssService;
 import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.*;
+import com.lgyun.system.user.vo.maker.MakerDetailVO;
+import com.lgyun.system.user.vo.maker.MakerInfoVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -50,6 +52,16 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     private SmsUtil smsUtil;
     private IOnlineAgreementNeedSignService onlineAgreementNeedSignService;
     private IOnlineAgreementTemplateService onlineAgreementTemplateService;
+
+    @Override
+    public R<MakerInfoVO> queryMakerInfo(Long makerId) {
+        return R.data(baseMapper.queryMakerInfo(makerId));
+    }
+
+    @Override
+    public R<MakerDetailVO> queryCurrentMakerDetail(Long makerId) {
+        return R.data(baseMapper.queryCurrentMakerDetail(makerId));
+    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -235,7 +247,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R<String> idcardOcrSave(IdcardOcrSaveDto idcardOcrSaveDto, MakerEntity makerEntity) {
+    public R<String> idcardOcrSave(IdcardOcrSaveDTO idcardOcrSaveDTO, MakerEntity makerEntity) {
 
         //查看创客是否已经身份证实名认证
         if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus())) {
@@ -243,12 +255,12 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         }
 
         //查询身份证号码是否已被使用
-        MakerEntity makerEntityIdcardNo = findByIdcardNo(idcardOcrSaveDto.getIdcardNo());
+        MakerEntity makerEntityIdcardNo = findByIdcardNo(idcardOcrSaveDTO.getIdcardNo());
         if (makerEntityIdcardNo != null) {
             return R.fail("身份证号码已被使用");
         }
 
-        BeanUtils.copyProperties(idcardOcrSaveDto, makerEntity);
+        BeanUtils.copyProperties(idcardOcrSaveDTO, makerEntity);
         makerEntity.setIdcardVerifyStatus(VerifyStatus.VERIFYPASS);
         makerEntity.setIdcardVerifyType(IdcardVerifyType.SYSTEMVERIFY);
         makerEntity.setIdcardVerifyDate(new Date());
@@ -556,21 +568,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R<MakerInfoVO> getInfo(Long makerId) {
-
-        QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(MakerEntity::getId, makerId);
-
-        MakerEntity makerEntity = baseMapper.selectOne(queryWrapper);
-        if (makerEntity == null) {
-            return R.fail("创客不存在");
-        }
-
-        MakerInfoVO makerInfoVO = BeanUtil.copy(makerEntity, MakerInfoVO.class);
-        return R.data(makerInfoVO);
-    }
-
-    @Override
     public R<MakerEnterpriseNumIncomeVO> getEnterpriseNumIncome(Long makerId) {
         return R.data(baseMapper.getEnterpriseNumIncome(makerId, makerId));
     }
@@ -659,7 +656,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> makerAdd(MakerAddDto makerAddDto, Long enterpriseId) {
+    public R<String> makerAdd(MakerAddDTO makerAddDto, Long enterpriseId) {
         //新建创客
         makerSave(makerAddDto.getPhoneNumber(), makerAddDto.getName(), makerAddDto.getIdcardNo(), makerAddDto.getBankCardNo(),
                 makerAddDto.getBankName(), makerAddDto.getBankCardNo(), enterpriseId);

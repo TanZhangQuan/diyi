@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.system.order.entity.WorksheetEntity;
-import com.lgyun.system.order.vo.EnterpriseWorksheetDetailVo;
+import com.lgyun.system.order.vo.EnterpriseWorksheetDetailVO;
 import com.lgyun.system.order.vo.WorksheetByEnterpriseVO;
-import com.lgyun.system.order.vo.WorksheetXiaoVo;
+import com.lgyun.system.order.vo.WorksheetXiaoVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public interface WorksheetMapper extends BaseMapper<WorksheetEntity> {
      * @param makerId
      * @return
      */
-    List<WorksheetXiaoVo> findXiaoPage(IPage<WorksheetXiaoVo> page,Long makerId);
+    List<WorksheetXiaoVO> findXiaoPage(IPage<WorksheetXiaoVO> page, Long makerId);
 
     /**
      * 小程序查询工单
@@ -36,7 +36,7 @@ public interface WorksheetMapper extends BaseMapper<WorksheetEntity> {
      * @param makerId
      * @return
      */
-    List<WorksheetXiaoVo> findXiaoPage2(IPage<WorksheetXiaoVo> page, Long makerId);
+    List<WorksheetXiaoVO> findXiaoPage2(IPage<WorksheetXiaoVO> page, Long makerId);
 
     /**
      * 小程序查询工单
@@ -45,7 +45,7 @@ public interface WorksheetMapper extends BaseMapper<WorksheetEntity> {
      * @param makerId
      * @return
      */
-    List<WorksheetXiaoVo> findXiaoPage3(IPage<WorksheetXiaoVo> page, Long makerId);
+    List<WorksheetXiaoVO> findXiaoPage3(IPage<WorksheetXiaoVO> page, Long makerId);
 
     /**
      * 查询详情
@@ -53,12 +53,12 @@ public interface WorksheetMapper extends BaseMapper<WorksheetEntity> {
      * @param worksheetMakerId
      * @return
      */
-    WorksheetXiaoVo getWorksheetDetails(Long worksheetMakerId);
+    WorksheetXiaoVO getWorksheetDetails(Long worksheetMakerId);
 
     /**
      *根据工单状态和商户id查询
      */
-    List<WorksheetXiaoVo> getEnterpriseWorksheet(Long enterpriseId, WorksheetState worksheetState,String worksheetNo,String worksheetName,String startTime,String endTime,IPage<WorksheetXiaoVo> page);
+    List<WorksheetXiaoVO> getEnterpriseWorksheet(Long enterpriseId, WorksheetState worksheetState, String worksheetNo, String worksheetName, String startTime, String endTime, IPage<WorksheetXiaoVO> page);
 
     /**
      * 根据创客ID查询工单
@@ -68,7 +68,7 @@ public interface WorksheetMapper extends BaseMapper<WorksheetEntity> {
      * @param page
      * @return
      */
-    List<EnterpriseWorksheetDetailVo> getWorksheetDetailsByMaker(Long enterpriseId, Long makerId, IPage<EnterpriseWorksheetDetailVo> page);
+    List<EnterpriseWorksheetDetailVO> getWorksheetDetailsByMaker(Long enterpriseId, Long makerId, IPage<EnterpriseWorksheetDetailVO> page);
 
     /**
      * 查询当前商户所有已完毕的类型工单

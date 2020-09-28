@@ -2,7 +2,7 @@ package com.lgyun.system.order.excel;
 
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
-import com.lgyun.system.order.dto.SelfHelpInvoiceDto;
+import com.lgyun.system.order.dto.SelfHelpInvoiceDTO;
 import com.lgyun.system.order.service.ISelfHelpInvoiceDetailService;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -32,7 +32,7 @@ public class InvoiceListListener extends AnalysisEventListener<InvoiceListExcel>
      */
     private List<InvoiceListExcel> list = new ArrayList<>();
 
-    private final SelfHelpInvoiceDto selfHelpInvoiceDto;
+    private final SelfHelpInvoiceDTO selfHelpInvoiceDto;
 
     private final ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
 

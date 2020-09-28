@@ -30,7 +30,7 @@
         <result property="invoiceAccount" column="invoice_account"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.admin.QueryServiceProviderListVO" id="queryServiceProviderListVO">
+    <resultMap type="com.lgyun.system.user.vo.admin.ServiceProviderListVO" id="serviceProviderListVO">
         <result property="serviceProviderId" column="service_provider_id"/>
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="contact1Name" column="contact1_name"/>
@@ -41,7 +41,7 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.admin.QueryServiceProviderDetailServiceProviderVO" id="queryServiceProviderDetailServiceProviderVO">
+    <resultMap type="com.lgyun.system.user.vo.admin.ServiceProviderDetailServiceProviderVO" id="serviceProviderDetailServiceProviderVO">
         <result property="serviceProviderId" column="service_provider_id"/>
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="legalPersonName" column="legal_person_name"/>
@@ -87,7 +87,7 @@
         FROM diyi_service_provider WHERE is_deleted = 0 AND id = #{param1} LIMIT 1
     </select>
 
-    <select id="queryServiceProviderListAdmin" resultMap="queryServiceProviderListVO">
+    <select id="queryServiceProviderListAdmin" resultMap="serviceProviderListVO">
         SELECT t1.id AS service_provider_id, t1.service_provider_name, t1.contact1_name, t1.contact1_phone, t1.service_provider_state, t1.create_time,
         (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL OR paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_aggrement_url) FROM diyi_agreement
         WHERE is_deleted = 0 AND agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' AND sign_state = 'SIGNED' AND service_provider_id = t1.id) AS join_contract,
@@ -108,7 +108,7 @@
         </if>
     </select>
 
-    <select id="queryServiceProviderDetailServiceProvider" resultMap="queryServiceProviderDetailServiceProviderVO">
+    <select id="queryServiceProviderDetailServiceProvider" resultMap="serviceProviderDetailServiceProviderVO">
         SELECT t1.id AS service_provider_id, t1.service_provider_name, t1.legal_person_name, t1.legal_person_id_card, t1.social_credit_no, t1.biz_licence_url,
         t1.service_provider_url, t1.business_pattern, t1.service_price, t1.saler_id, t1.runner_id, t1.contact1_name, t1.contact1_position,
         t1.contact1_phone, t1.contact1_mail, t1.contact2_name, t1.contact2_position, t1.contact2_phone, t1.contact2_mail, t1.invoice_enterprise_name,

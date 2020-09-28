@@ -1,7 +1,6 @@
 package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,7 +38,6 @@ public class SelfHelpInvoiceSpDetailEntity extends BaseEntity {
      * 更新时间
      */
     @DateTimeFormat(pattern = PATTERN_DATETIME)
-    @JsonFormat(pattern = PATTERN_DATETIME, timezone = "GMT+8")
     private Date MatchDatetime;
 
     /**

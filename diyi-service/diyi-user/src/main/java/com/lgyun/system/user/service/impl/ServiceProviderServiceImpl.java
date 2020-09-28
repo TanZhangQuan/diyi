@@ -9,13 +9,13 @@ import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.ServiceProviderBankCardDto;
-import com.lgyun.system.user.dto.ServiceProviderContactPersonDto;
-import com.lgyun.system.user.dto.ServiceProviderInvoiceDto;
+import com.lgyun.system.user.dto.ServiceProviderBankCardDTO;
+import com.lgyun.system.user.dto.ServiceProviderContactPersonDTO;
+import com.lgyun.system.user.dto.ServiceProviderInvoiceDTO;
 import com.lgyun.system.user.dto.admin.AddServiceProviderDTO;
 import com.lgyun.system.user.dto.admin.QueryServiceProviderListDTO;
 import com.lgyun.system.user.dto.admin.UpdateServiceProviderDTO;
-import com.lgyun.system.user.dto.service_provider.AddOrUpdateServiceProviderContactDto;
+import com.lgyun.system.user.dto.service_provider.AddOrUpdateServiceProviderContactDTO;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.ServiceProviderMapper;
 import com.lgyun.system.user.service.*;
@@ -23,8 +23,8 @@ import com.lgyun.system.user.vo.EnterprisesVO;
 import com.lgyun.system.user.vo.ServiceProviderBankCardVO;
 import com.lgyun.system.user.vo.ServiceProviderContactPersonVO;
 import com.lgyun.system.user.vo.ServiceProviderInvoiceVO;
-import com.lgyun.system.user.vo.admin.QueryServiceProviderDetailServiceProviderVO;
-import com.lgyun.system.user.vo.admin.QueryServiceProviderListVO;
+import com.lgyun.system.user.vo.admin.ServiceProviderDetailServiceProviderVO;
+import com.lgyun.system.user.vo.admin.ServiceProviderListVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -82,7 +82,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
     }
 
     @Override
-    public R<String> addOrUpdateBankCard(ServiceProviderBankCardDto serviceProviderBankCardDto, Long serviceProviderId) {
+    public R<String> addOrUpdateBankCard(ServiceProviderBankCardDTO serviceProviderBankCardDto, Long serviceProviderId) {
 
         ServiceProviderEntity serviceProviderWorkerEntity = getById(serviceProviderId);
         if (serviceProviderWorkerEntity == null) {
@@ -101,7 +101,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
     }
 
     @Override
-    public R<String> addOrUpdateContactPerson(ServiceProviderContactPersonDto serviceProviderContactPersonDto, Long serviceProviderId) {
+    public R<String> addOrUpdateContactPerson(ServiceProviderContactPersonDTO serviceProviderContactPersonDto, Long serviceProviderId) {
 
         ServiceProviderEntity serviceProviderWorkerEntity = getById(serviceProviderId);
         if (serviceProviderWorkerEntity == null) {
@@ -120,7 +120,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
     }
 
     @Override
-    public R<String> addOrUpdateInvoice(ServiceProviderInvoiceDto serviceProviderInvoiceDto, Long serviceProviderId) {
+    public R<String> addOrUpdateInvoice(ServiceProviderInvoiceDTO serviceProviderInvoiceDto, Long serviceProviderId) {
 
         ServiceProviderEntity serviceProviderWorkerEntity = getById(serviceProviderId);
         if (serviceProviderWorkerEntity == null) {
@@ -134,12 +134,12 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
     }
 
     @Override
-    public R<IPage<QueryServiceProviderListVO>> queryServiceProviderListAdmin(QueryServiceProviderListDTO queryServiceProviderListDTO, IPage<QueryServiceProviderListVO> page) {
+    public R<IPage<ServiceProviderListVO>> queryServiceProviderListAdmin(QueryServiceProviderListDTO queryServiceProviderListDTO, IPage<ServiceProviderListVO> page) {
         return R.data(page.setRecords(baseMapper.queryServiceProviderListAdmin(queryServiceProviderListDTO, page)));
     }
 
     @Override
-    public R<QueryServiceProviderDetailServiceProviderVO> queryServiceProviderDetailServiceProvider(Long serviceProviderId) {
+    public R<ServiceProviderDetailServiceProviderVO> queryServiceProviderDetailServiceProvider(Long serviceProviderId) {
         return R.data(baseMapper.queryServiceProviderDetailServiceProvider(serviceProviderId));
     }
 
@@ -264,7 +264,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         }
 
         //根据联系人生成商户员工
-        AddOrUpdateServiceProviderContactDto addOrUpdateServiceProviderContactDto = new AddOrUpdateServiceProviderContactDto();
+        AddOrUpdateServiceProviderContactDTO addOrUpdateServiceProviderContactDto = new AddOrUpdateServiceProviderContactDTO();
         addOrUpdateServiceProviderContactDto.setServiceProviderId(serviceProviderEntity.getId());
         addOrUpdateServiceProviderContactDto.setContact1Name(updateServiceProviderDTO.getContact1Name());
         addOrUpdateServiceProviderContactDto.setContact1Position(updateServiceProviderDTO.getContact1Position());

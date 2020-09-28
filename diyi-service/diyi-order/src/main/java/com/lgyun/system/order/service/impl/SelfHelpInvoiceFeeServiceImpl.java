@@ -2,7 +2,7 @@ package com.lgyun.system.order.service.impl;
 
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.order.dto.ConfirmPaymentDto;
+import com.lgyun.system.order.dto.ConfirmPaymentDTO;
 import com.lgyun.system.order.entity.SelfHelpInvoiceFeeEntity;
 import com.lgyun.system.order.mapper.SelfHelpInvoiceFeeMapper;
 import com.lgyun.system.order.service.ISelfHelpInvoiceFeeService;
@@ -24,7 +24,7 @@ public class SelfHelpInvoiceFeeServiceImpl extends BaseServiceImpl<SelfHelpInvoi
 
     @Override
     @Transactional
-    public R<String> confirmPayment(ConfirmPaymentDto confirmPaymentDto) {
+    public R<String> confirmPayment(ConfirmPaymentDTO confirmPaymentDto) {
         if(null == confirmPaymentDto.getHandPayId()){
             R.fail("参数错误");
         }

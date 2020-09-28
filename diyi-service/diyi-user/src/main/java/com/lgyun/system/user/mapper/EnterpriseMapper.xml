@@ -15,21 +15,21 @@
         <result property="enterpriseState" column="enterprise_state"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.admin.QueryEnterpriseListPaymentVO" id="queryEnterpriseListVO">
+    <resultMap type="com.lgyun.system.user.vo.admin.EnterpriseListPaymentVO" id="enterpriseListPaymentVO">
         <result property="enterpriseId" column="enterprise_id"/>
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="boolSignContract" column="bool_sign_contract"/>
         <result property="boolSignAgreement" column="bool_sign_agreement"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.admin.QueryServiceProviderListPaymentVO" id="queryServiceProviderListVO">
+    <resultMap type="com.lgyun.system.user.vo.admin.ServiceProviderListPaymentVO" id="serviceProviderListPaymentVO">
         <result property="serviceProviderId" column="service_provider_id"/>
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="boolSignContract" column="bool_sign_contract"/>
         <result property="boolSignAgreement" column="bool_sign_agreement"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.admin.QueryEnterpriseListEnterpriseVO" id="queryEnterpriseListEnterpriseVO">
+    <resultMap type="com.lgyun.system.user.vo.admin.EnterpriseListEnterpriseVO" id="enterpriseListEnterpriseVO">
         <result property="enterpriseId" column="enterprise_id"/>
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="contact1Name" column="contact1_name"/>
@@ -40,7 +40,7 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.admin.QueryEnterpriseDetailEnterpriseVO" id="queryEnterpriseDetailEnterpriseVO">
+    <resultMap type="com.lgyun.system.user.vo.admin.EnterpriseDetailEnterpriseVO" id="enterpriseDetailEnterpriseVO">
         <result property="enterpriseId" column="enterprise_id"/>
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="legalPersonName" column="legal_person_name"/>
@@ -72,7 +72,7 @@
         <result property="invoiceAccount" column="invoice_account"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.admin.QueryCooperationServiceProviderListVO" id="queryCooperationServiceProviderListVO">
+    <resultMap type="com.lgyun.system.user.vo.admin.CooperationServiceProviderListVO" id="cooperationServiceProviderListVO">
         <result property="serviceProviderId" column="service_provider_id"/>
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="totalSubAmount" column="total_sub_amount"/>
@@ -91,7 +91,7 @@
         create_time, enterprise_state FROM diyi_enterprise t1 WHERE is_deleted = 0 AND id = #{param1}
     </select>
 
-    <select id="queryEnterpriseListPayment" resultMap="queryEnterpriseListVO">
+    <select id="queryEnterpriseListPayment" resultMap="enterpriseListPaymentVO">
         SELECT t1.id AS enterprise_id, t1.enterprise_name, IF((SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'ENTERPRISEJOINAGREEMENT'
         AND sign_state = 'SIGNED' AND enterprise_id = t1.id) > 0, TRUE, FALSE) AS bool_sign_contract, IF((SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0
         AND agreement_type = 'ENTERPRISEPOWERATTORNEY' AND sign_state = 'SIGNED' AND enterprise_id = t1.id) > 0, TRUE, FALSE) AS bool_sign_agreement
@@ -104,7 +104,7 @@
         </if>
     </select>
 
-    <select id="queryServiceProviderListPayment" resultMap="queryServiceProviderListVO">
+    <select id="queryServiceProviderListPayment" resultMap="serviceProviderListPaymentVO">
         SELECT t1.id AS service_provider_id, t1.service_provider_name, IF((SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'SERVICEPROVIDERJOINAGREEMENT'
         AND sign_state = 'SIGNED' AND enterprise_id = t1.id) > 0, TRUE, FALSE) AS bool_sign_contract FROM diyi_service_provider t1 WHERE is_deleted = 0
         <if test="param1.serviceProviderId != null">
@@ -119,7 +119,7 @@
         SELECT id AS enterprise_id, enterprise_name FROM diyi_enterprise WHERE is_deleted = 0
     </select>
 
-    <select id="queryEnterpriseListEnterprise" resultMap="queryEnterpriseListEnterpriseVO">
+    <select id="queryEnterpriseListEnterprise" resultMap="enterpriseListEnterpriseVO">
         SELECT t1.id AS enterprise_id, t1.enterprise_name, t1.contact1_name, t1.contact1_phone, t1.enterprise_state, t1.create_time,
         (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_aggrement_url)
         FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'ENTERPRISEJOINAGREEMENT' AND sign_state = 'SIGNED'
@@ -140,7 +140,7 @@
         </if>
     </select>
 
-    <select id="queryEnterpriseDetailEnterprise" resultMap="queryEnterpriseDetailEnterpriseVO">
+    <select id="queryEnterpriseDetailEnterprise" resultMap="enterpriseDetailEnterpriseVO">
         SELECT t1.id AS enterprise_id, t1.enterprise_name, t1.legal_person_name, t1.legal_person_id_card, t1.social_credit_no, t1.biz_licence_url,
         t1.enterprise_url, t1.invite_no, t1.business_pattern, t1.service_price, t1.saler_id, t1.runner_id, t1.contact1_name, t1.contact1_position,
         t1.contact1_phone, t1.contact1_mail, t1.contact2_name, t1.contact2_position, t1.contact2_phone, t1.contact2_mail, t1.invoice_enterprise_name,
@@ -152,7 +152,7 @@
         WHERE t1.is_deleted = 0 AND t1.id = #{param1}
     </select>
 
-    <select id="queryCooperationServiceProviderList" resultMap="queryCooperationServiceProviderListVO">
+    <select id="queryCooperationServiceProviderList" resultMap="cooperationServiceProviderListVO">
         SELECT t3.id AS service_provider_id, t3.service_provider_name, t4.cooperate_status, t4.create_time,
         (SELECT IFNULL(SUM(pay_to_platform_amount), 0) FROM diyi_pay_enterprise WHERE is_deleted = 0 AND
         (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND enterprise_id = t4.enterprise_id AND service_provider_id = t3.id) AS total_sub_amount,

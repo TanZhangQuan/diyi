@@ -2,7 +2,7 @@ package com.lgyun.system.order.mapper;
 
 import com.lgyun.system.order.entity.InvoiceApplicationPayListEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.lgyun.system.order.vo.ApplicationVo;
+import com.lgyun.system.order.vo.ApplicationVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -16,6 +16,6 @@ import java.util.List;
 @Mapper
 public interface InvoiceApplicationPayListMapper extends BaseMapper<InvoiceApplicationPayListEntity> {
 
-    List<ApplicationVo> findApplication(Long payEnterpriseId);
+    List<ApplicationVO> findApplication(Long payEnterpriseId);
 }
 

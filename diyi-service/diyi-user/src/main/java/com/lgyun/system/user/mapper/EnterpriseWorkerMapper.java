@@ -3,7 +3,7 @@ package com.lgyun.system.user.mapper;
 import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.lgyun.system.user.vo.admin.QueryEnterpriseWorkerListVO;
+import com.lgyun.system.user.vo.admin.EnterpriseWorkerListVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public interface EnterpriseWorkerMapper extends BaseMapper<EnterpriseWorkerEntit
      * @param positionName
      * @return
      */
-    List<QueryEnterpriseWorkerListVO> queryEnterpriseWorkerList(Long enterpriseId, PositionName positionName);
+    List<EnterpriseWorkerListVO> queryEnterpriseWorkerList(Long enterpriseId, PositionName positionName);
 
 }
 

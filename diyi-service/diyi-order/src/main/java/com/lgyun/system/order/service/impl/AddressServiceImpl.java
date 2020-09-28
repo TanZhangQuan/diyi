@@ -6,11 +6,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.order.dto.AddressDto;
+import com.lgyun.system.order.dto.AddressDTO;
 import com.lgyun.system.order.entity.AddressEntity;
 import com.lgyun.system.order.mapper.AddressMapper;
 import com.lgyun.system.order.service.IAddressService;
-import com.lgyun.system.order.vo.admin.QueryAddressListVO;
+import com.lgyun.system.order.vo.admin.AddressListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -32,7 +32,7 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> addOrUpdateAddress(AddressDto addressDto, Long objectId, ObjectType objectType) {
+    public R<String> addOrUpdateAddress(AddressDTO addressDto, Long objectId, ObjectType objectType) {
 
         AddressEntity addressEntity;
         if (addressDto.getAddressId() != null) {
@@ -116,7 +116,7 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
     }
 
     @Override
-    public R<String> updateAddress(AddressDto addressDto) {
+    public R<String> updateAddress(AddressDTO addressDto) {
         AddressEntity addressEntity = getById(addressDto.getAddressId());
         BeanUtils.copyProperties(addressDto, addressEntity);
         saveOrUpdate(addressEntity);
@@ -130,7 +130,7 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
     }
 
     @Override
-    public R<IPage<QueryAddressListVO>> queryAddressList(ObjectType objectType, Long objectId, IPage<QueryAddressListVO> page) {
+    public R<IPage<AddressListVO>> queryAddressList(ObjectType objectType, Long objectId, IPage<AddressListVO> page) {
         return R.data(page.setRecords(baseMapper.queryAddressList(objectType, objectId, page)));
     }
 }

@@ -4,7 +4,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.admin.ToExamineSelfHelpInvoiceDto;
+import com.lgyun.system.order.dto.admin.ToExamineSelfHelpInvoiceDTO;
 import com.lgyun.system.order.service.ISelfHelpInvoiceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,7 +49,7 @@ public class SelfHelpInvoiceAdminController {
 
     @PostMapping("/toExamineSelfHelpInvoice")
     @ApiOperation(value = "平台审核自助开票", notes = "平台审核自助开票")
-    public R toExamineSelfHelpInvoice(@Valid @RequestBody ToExamineSelfHelpInvoiceDto toExamineSelfHelpInvoiceDto) {
+    public R toExamineSelfHelpInvoice(@Valid @RequestBody ToExamineSelfHelpInvoiceDTO toExamineSelfHelpInvoiceDto) {
         return selfHelpInvoiceService.toExamineSelfHelpInvoice(toExamineSelfHelpInvoiceDto);
     }
 

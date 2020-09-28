@@ -5,7 +5,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.ContractApplyInvoiceDto;
+import com.lgyun.system.order.dto.ContractApplyInvoiceDTO;
 import com.lgyun.system.order.entity.EnterpriseServiceProviderInvoiceCatalogsEntity;
 import com.lgyun.system.order.service.IEnterpriseServiceProviderInvoiceCatalogsService;
 import com.lgyun.system.order.service.IInvoiceApplicationService;
@@ -94,7 +94,7 @@ public class InvoiceWebController {
 
     @PostMapping("/contractApplyInvoice")
     @ApiOperation(value = "申请总包发票", notes = "申请总包发票")
-    public R contractApplyInvoice(@Valid @RequestBody ContractApplyInvoiceDto contractApplyInvoiceDto, BladeUser bladeUser) {
+    public R contractApplyInvoice(@Valid @RequestBody ContractApplyInvoiceDTO contractApplyInvoiceDto, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {

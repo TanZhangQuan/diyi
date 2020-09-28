@@ -3,7 +3,7 @@ package com.lgyun.system.user.mapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.user.entity.AdminCenterMaterialEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.lgyun.system.user.vo.admin.QueryAdminCenterMaterialListVO;
+import com.lgyun.system.user.vo.admin.AdminCenterMaterialListVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -24,6 +24,6 @@ public interface AdminCenterMaterialMapper extends BaseMapper<AdminCenterMateria
      * @param page
      * @return
      */
-    List<QueryAdminCenterMaterialListVO> queryAdminCenterMaterialList(Long serviceProviderId, IPage<QueryAdminCenterMaterialListVO> page);
+    List<AdminCenterMaterialListVO> queryAdminCenterMaterialList(Long serviceProviderId, IPage<AdminCenterMaterialListVO> page);
 }
 

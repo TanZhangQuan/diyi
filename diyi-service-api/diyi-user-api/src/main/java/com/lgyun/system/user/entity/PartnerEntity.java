@@ -152,7 +152,7 @@ public class PartnerEntity extends BaseEntity {
     /**
      * 身份证复印件图
      */
-    private String idcarCopy;
+    private String idcardCopy;
 
     /**
      * 手持证件反面照

@@ -3,7 +3,7 @@
 
 <mapper namespace="com.lgyun.system.order.mapper.AddressMapper">
 
-    <resultMap type="com.lgyun.system.order.vo.admin.QueryAddressListVO" id="queryAddressListVO">
+    <resultMap type="com.lgyun.system.order.vo.admin.AddressListVO" id="addressListVO">
         <result property="addressId" column="address_id"/>
         <result property="addressName" column="address_name"/>
         <result property="addressPhone" column="address_phone"/>
@@ -15,7 +15,7 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <select id="queryAddressList" resultMap="queryAddressListVO">
+    <select id="queryAddressList" resultMap="addressListVO">
         SELECT id AS address_id, address_name, address_phone, province, city, area, detailed_address, is_default, create_time
         FROM diyi_address WHERE is_deleted = 0 AND object_type = #{param1} and object_id = #{param2}
     </select>

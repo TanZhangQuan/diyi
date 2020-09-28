@@ -6,7 +6,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CertificationState;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.MakerAddDto;
+import com.lgyun.system.user.dto.MakerAddDTO;
 import com.lgyun.system.user.excel.MakerExcel;
 import com.lgyun.system.user.excel.MakerImportListener;
 import com.lgyun.system.user.service.IEnterpriseService;
@@ -52,7 +52,7 @@ public class NaturalPersonMakerAdminController {
 
     @PostMapping("/save-maker")
     @ApiOperation(value = "新增单个创客", notes = "新增单个创客")
-    public R saveMaker(@ApiParam(value = "商户编号") @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, @Valid @RequestBody MakerAddDto makerAddDto) {
+    public R saveMaker(@ApiParam(value = "商户编号") @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, @Valid @RequestBody MakerAddDTO makerAddDto) {
         return makerService.makerAdd(makerAddDto, enterpriseId);
     }
 

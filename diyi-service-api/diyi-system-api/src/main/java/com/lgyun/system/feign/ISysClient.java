@@ -4,7 +4,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
 import com.lgyun.system.entity.Dept;
 import com.lgyun.system.entity.Role;
-import com.lgyun.system.vo.GrantRequest;
+import com.lgyun.system.dto.GrantDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -136,7 +136,7 @@ public interface ISysClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/grant")
-    R grantFeign(@RequestBody GrantRequest request);
+    R grantFeign(@RequestBody GrantDTO request);
 
     /**
      * 查询权限

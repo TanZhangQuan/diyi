@@ -2,7 +2,7 @@ package com.lgyun.system.order.service;
 
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.entity.InvoiceApplicationPayListEntity;
-import com.lgyun.system.order.vo.ApplicationVo;
+import com.lgyun.system.order.vo.ApplicationVO;
 
 import java.util.List;
 
@@ -17,6 +17,6 @@ public interface IInvoiceApplicationPayListService extends BaseService<InvoiceAp
     /**
      *
      */
-    List<ApplicationVo> findApplication(Long payEnterpriseId);
+    List<ApplicationVO> findApplication(Long payEnterpriseId);
 }
 

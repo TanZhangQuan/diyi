@@ -1,9 +1,7 @@
 package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lgyun.common.enumeration.*;
-import com.lgyun.common.tool.DateUtil;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -154,7 +152,7 @@ public class MakerEntity extends BaseEntity {
     /**
      * 身份证复印件图
      */
-    private String idcarCopy;
+    private String idcardCopy;
 
     /**
      * 手持证件正面照
@@ -274,7 +272,6 @@ public class MakerEntity extends BaseEntity {
     /**
      * 审核日期
      */
-    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
     private Date videoAuditDate;
 
     /**

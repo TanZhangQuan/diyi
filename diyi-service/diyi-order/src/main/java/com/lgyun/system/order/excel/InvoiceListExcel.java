@@ -5,7 +5,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.alibaba.excel.annotation.write.style.ContentRowHeight;
 import com.alibaba.excel.annotation.write.style.HeadRowHeight;
-import com.lgyun.system.order.dto.SelfHelpInvoiceDto;
+import com.lgyun.system.order.dto.SelfHelpInvoiceDTO;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -77,5 +77,5 @@ public class InvoiceListExcel implements Serializable {
 
     @ExcelIgnore
     @ExcelProperty("对象")
-    private SelfHelpInvoiceDto selfHelpInvoiceDto;
+    private SelfHelpInvoiceDTO selfHelpInvoiceDto;
 }

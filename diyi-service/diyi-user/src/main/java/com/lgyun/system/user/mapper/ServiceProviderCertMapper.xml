@@ -3,7 +3,7 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.ServiceProviderCertMapper">
 
-    <resultMap type="com.lgyun.system.user.vo.admin.QueryServiceProviderCertListVO" id="queryServiceProviderCertListVO">
+    <resultMap type="com.lgyun.system.user.vo.admin.ServiceProviderCertListVO" id="serviceProviderCertListVO">
         <result property="serviceProviderCertId" column="service_provider_cert_id"/>
         <result property="certificateType" column="certificate_type"/>
         <result property="certificateName" column="certificate_name"/>
@@ -11,7 +11,7 @@
         <result property="certificateMainUrl" column="certificate_main_url"/>
     </resultMap>
 
-    <select id="queryServiceProviderCertList" resultMap="queryServiceProviderCertListVO">
+    <select id="queryServiceProviderCertList" resultMap="serviceProviderCertListVO">
         SELECT id AS service_provider_cert_id, certificate_type, certificate_name, certificate_desc, certificate_main_url
         FROM diyi_service_provider_cert WHERE is_deleted = 0 AND service_provider_id = #{param1}
     </select>

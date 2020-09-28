@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.vo.EnterpriseMakerDetailVO;
 import com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO;
+import com.lgyun.system.user.vo.maker.MakerDetailVO;
+import com.lgyun.system.user.vo.maker.MakerInfoVO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -14,6 +16,22 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface MakerMapper extends BaseMapper<MakerEntity> {
+
+    /**
+     * 查询当前创客基本信息
+     *
+     * @param makerId
+     * @return
+     */
+    MakerInfoVO queryMakerInfo(Long makerId);
+
+    /**
+     * 查询当前创客详情
+     *
+     * @param makerId
+     * @return
+     */
+    MakerDetailVO queryCurrentMakerDetail(Long makerId);
 
     /**
      * 查询当前创客关联商户数和收入情况
@@ -32,5 +50,6 @@ public interface MakerMapper extends BaseMapper<MakerEntity> {
      * @return
      */
     EnterpriseMakerDetailVO getMakerDetailById(Long enterpriseId,Long makerId);
+
 }
 

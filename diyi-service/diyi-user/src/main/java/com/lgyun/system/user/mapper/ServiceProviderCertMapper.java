@@ -3,7 +3,7 @@ package com.lgyun.system.user.mapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.user.entity.ServiceProviderCertEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.lgyun.system.user.vo.admin.QueryServiceProviderCertListVO;
+import com.lgyun.system.user.vo.admin.ServiceProviderCertListVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -24,6 +24,6 @@ public interface ServiceProviderCertMapper extends BaseMapper<ServiceProviderCer
      * @param page
      * @return
      */
-    List<QueryServiceProviderCertListVO> queryServiceProviderCertList(Long serviceProviderId, IPage<QueryServiceProviderCertListVO> page);
+    List<ServiceProviderCertListVO> queryServiceProviderCertList(Long serviceProviderId, IPage<ServiceProviderCertListVO> page);
 }
 

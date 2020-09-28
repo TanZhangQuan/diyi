@@ -5,7 +5,7 @@ import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.ReleaseWorksheetDto;
+import com.lgyun.system.order.dto.ReleaseWorksheetDTO;
 import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
@@ -40,7 +40,7 @@ public class WorksheetWebController {
 
     @PostMapping("/releaseWorksheet")
     @ApiOperation(value = "发布工单", notes = "发布工单")
-    public R releaseWorksheet(@Valid @RequestBody ReleaseWorksheetDto releaseWorksheetDTO, BladeUser bladeUser) {
+    public R releaseWorksheet(@Valid @RequestBody ReleaseWorksheetDTO releaseWorksheetDTO, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {

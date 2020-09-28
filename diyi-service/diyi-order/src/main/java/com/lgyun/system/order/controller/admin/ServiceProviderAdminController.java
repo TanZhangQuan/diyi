@@ -5,7 +5,7 @@ import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.AddressDto;
+import com.lgyun.system.order.dto.AddressDTO;
 import com.lgyun.system.order.service.IAddressService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,7 +41,7 @@ public class ServiceProviderAdminController {
 
     @PostMapping("/add-or-update-address")
     @ApiOperation(value = "添加/编辑收货地址", notes = "添加/编辑收货地址")
-    public R addOrUpdateAddress(@ApiParam(value = "服务商编号") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId, @Valid @RequestBody AddressDto addressDto) {
+    public R addOrUpdateAddress(@ApiParam(value = "服务商编号") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId, @Valid @RequestBody AddressDTO addressDto) {
         return addressService.addOrUpdateAddress(addressDto, serviceProviderId, ObjectType.SERVICEPEOPLE);
     }
 

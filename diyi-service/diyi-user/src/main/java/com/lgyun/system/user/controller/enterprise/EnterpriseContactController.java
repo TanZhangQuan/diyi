@@ -3,7 +3,7 @@ package com.lgyun.system.user.controller.enterprise;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.system.user.dto.enterprise.AddOrUpdateEnterpriseContactDto;
+import com.lgyun.system.user.dto.enterprise.AddOrUpdateEnterpriseContactDTO;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.vo.enterprise.EnterpriseContactResponse;
@@ -46,7 +46,7 @@ public class EnterpriseContactController {
         List<EnterpriseWorkerEntity> list = enterpriseWorkerService.list(queryWrapper);
 
         List<EnterpriseContactResponse> responseList = new ArrayList<>();
-        list.stream().forEach(entity -> {
+        list.forEach(entity -> {
             EnterpriseContactResponse response = new EnterpriseContactResponse();
             BeanUtils.copyProperties(entity, response);
             response.setWorkerSex(entity.getWorkerSex().getDesc());
@@ -62,7 +62,7 @@ public class EnterpriseContactController {
 
     @PostMapping("/add-or-update-enterprise-contact")
     @ApiOperation(value = "添加或修改商户联系人", notes = "添加或修改商户联系人")
-    public R addOrUpdateEnterpriseContact(@Valid @RequestBody AddOrUpdateEnterpriseContactDto addOrUpdateEnterpriseContactDto, BladeUser bladeUser) {
+    public R addOrUpdateEnterpriseContact(@Valid @RequestBody AddOrUpdateEnterpriseContactDTO addOrUpdateEnterpriseContactDto, BladeUser bladeUser) {
         //查询当前创客
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {

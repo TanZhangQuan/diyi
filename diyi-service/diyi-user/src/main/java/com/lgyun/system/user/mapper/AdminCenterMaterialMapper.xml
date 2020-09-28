@@ -3,7 +3,7 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.AdminCenterMaterialMapper">
 
-    <resultMap id="queryAdminCenterMaterialListVO" type="com.lgyun.system.user.vo.admin.QueryAdminCenterMaterialListVO">
+    <resultMap id="adminCenterMaterialListVO" type="com.lgyun.system.user.vo.admin.AdminCenterMaterialListVO">
         <result property="adminCenterMaterialId" column="admin_center_material_id"/>
         <result property="materialName" column="material_name"/>
         <result property="materialDesc" column="material_desc"/>
@@ -11,7 +11,7 @@
         <result property="materialState" column="material_state"/>
     </resultMap>
 
-    <select id="queryAdminCenterMaterialList" resultMap="queryAdminCenterMaterialListVO">
+    <select id="queryAdminCenterMaterialList" resultMap="adminCenterMaterialListVO">
         SELECT id AS admin_center_material_id, material_name, material_desc, material_url, material_state
         FROM diyi_admin_center_material WHERE is_deleted = 0 AND rel_service_provider = #{param1}
     </select>

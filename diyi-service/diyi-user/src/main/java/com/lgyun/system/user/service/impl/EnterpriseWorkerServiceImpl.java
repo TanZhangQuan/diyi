@@ -10,7 +10,7 @@ import com.lgyun.common.tool.BeanServiceUtil;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.feign.ISysClient;
-import com.lgyun.system.user.dto.enterprise.AddOrUpdateEnterpriseContactDto;
+import com.lgyun.system.user.dto.enterprise.AddOrUpdateEnterpriseContactDTO;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.User;
@@ -20,8 +20,8 @@ import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.user.vo.EnterpriseWorkerVO;
-import com.lgyun.system.user.vo.admin.QueryEnterpriseWorkerListVO;
-import com.lgyun.system.vo.GrantRequest;
+import com.lgyun.system.user.vo.admin.EnterpriseWorkerListVO;
+import com.lgyun.system.dto.GrantDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -112,7 +112,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> addOrUpdateEnterpriseContact(AddOrUpdateEnterpriseContactDto addOrUpdateEnterpriseContactDto, Long enterpriseWorkerId) {
+    public R<String> addOrUpdateEnterpriseContact(AddOrUpdateEnterpriseContactDTO addOrUpdateEnterpriseContactDto, Long enterpriseWorkerId) {
 
         //判断商户联系人是否相同
         if (addOrUpdateEnterpriseContactDto.getContact1Phone().equals(addOrUpdateEnterpriseContactDto.getContact2Phone())) {
@@ -249,18 +249,18 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
             request.setId(entity.getId());
         }
         if (request.getMenuIds() != null && request.getMenuIds().size() > 0) {
-            GrantRequest grantRequest = new GrantRequest();
-            grantRequest.setAccountId(request.getId());
+            GrantDTO grantDTO = new GrantDTO();
+            grantDTO.setAccountId(request.getId());
             List<String> menuIds = request.getMenuIds();
             List<Long> menuList = new ArrayList<>();
             menuIds.stream().forEach(menu -> {
                 menuList.add(Long.valueOf(menu));
             });
-            grantRequest.setMenuIds(menuList);
+            grantDTO.setMenuIds(menuList);
 
-            grantRequest.setUserId(bladeUser.getUserId());
+            grantDTO.setUserId(bladeUser.getUserId());
 
-            R grant = sysClient.grantFeign(grantRequest);
+            R grant = sysClient.grantFeign(grantDTO);
             if (!grant.isSuccess()) {
                 return R.fail("新增、更新商户账号失败");
             }
@@ -270,7 +270,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
     }
 
     @Override
-    public R<List<QueryEnterpriseWorkerListVO>> queryEnterpriseWorkerList(Long enterpriseId, PositionName positionName) {
+    public R<List<EnterpriseWorkerListVO>> queryEnterpriseWorkerList(Long enterpriseId, PositionName positionName) {
         return R.data(baseMapper.queryEnterpriseWorkerList(enterpriseId, positionName));
     }
 

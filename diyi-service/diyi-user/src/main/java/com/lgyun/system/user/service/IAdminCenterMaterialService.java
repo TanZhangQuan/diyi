@@ -7,7 +7,7 @@ import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.dto.admin.AddAdminCenterMaterialDTO;
 import com.lgyun.system.user.dto.admin.UpdateAdminCenterMaterialDTO;
 import com.lgyun.system.user.entity.AdminCenterMaterialEntity;
-import com.lgyun.system.user.vo.admin.QueryAdminCenterMaterialListVO;
+import com.lgyun.system.user.vo.admin.AdminCenterMaterialListVO;
 
 /**
  * 综合业务资料表 Service 接口
@@ -24,7 +24,7 @@ public interface IAdminCenterMaterialService extends BaseService<AdminCenterMate
      * @param page
      * @return
      */
-    R<IPage<QueryAdminCenterMaterialListVO>> queryAdminCenterMaterialList(Long serviceProviderId, IPage<QueryAdminCenterMaterialListVO> page);
+    R<IPage<AdminCenterMaterialListVO>> queryAdminCenterMaterialList(Long serviceProviderId, IPage<AdminCenterMaterialListVO> page);
 
     /**
      * 更改服务商综合业务资料状态

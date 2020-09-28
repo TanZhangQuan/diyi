@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.system.service.IRoleService;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
-import com.lgyun.system.vo.GrantRequest;
+import com.lgyun.system.dto.GrantDTO;
 import com.lgyun.system.vo.RoleVO;
 import com.lgyun.system.wrapper.RoleWrapper;
 import io.swagger.annotations.*;
@@ -87,7 +87,7 @@ public class RoleController extends BladeController {
 
 	@PostMapping("/grant")
 	@ApiOperation(value = "权限设置", notes = "传入menuId集合")
-	public R grant(@RequestBody GrantRequest request, BladeUser user) {
+	public R grant(@RequestBody GrantDTO request, BladeUser user) {
 		//查询当前商户员工
 		R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(user);
 		if (!(result.isSuccess())) {

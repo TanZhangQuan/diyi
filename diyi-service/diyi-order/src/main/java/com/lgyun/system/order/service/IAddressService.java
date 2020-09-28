@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.order.dto.AddressDto;
+import com.lgyun.system.order.dto.AddressDTO;
 import com.lgyun.system.order.entity.AddressEntity;
-import com.lgyun.system.order.vo.admin.QueryAddressListVO;
+import com.lgyun.system.order.vo.admin.AddressListVO;
 
 /**
  * Service 接口
@@ -23,7 +23,7 @@ public interface IAddressService extends BaseService<AddressEntity> {
      * @param objectId
      * @return
      */
-    R<String> addOrUpdateAddress(AddressDto addressDto, Long objectId, ObjectType objectType);
+    R<String> addOrUpdateAddress(AddressDTO addressDto, Long objectId, ObjectType objectType);
 
     /**
      * 查询收货地址
@@ -51,7 +51,7 @@ public interface IAddressService extends BaseService<AddressEntity> {
      * @param addressDto
      * @return
      */
-    R<String> updateAddress(AddressDto addressDto);
+    R<String> updateAddress(AddressDTO addressDto);
 
     /**
      * 地址删除接口
@@ -69,7 +69,7 @@ public interface IAddressService extends BaseService<AddressEntity> {
      * @param page
      * @return
      */
-    R<IPage<QueryAddressListVO>> queryAddressList(ObjectType objectType, Long objectId, IPage<QueryAddressListVO> page);
+    R<IPage<AddressListVO>> queryAddressList(ObjectType objectType, Long objectId, IPage<AddressListVO> page);
 
 }
 

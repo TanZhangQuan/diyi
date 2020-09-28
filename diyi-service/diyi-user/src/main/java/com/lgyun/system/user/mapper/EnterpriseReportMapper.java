@@ -5,8 +5,8 @@ import com.lgyun.common.enumeration.BodyType;
 import com.lgyun.common.enumeration.ReportTheme;
 import com.lgyun.system.user.entity.EnterpriseReportEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.lgyun.system.user.vo.admin.QueryAdminEnterpriseReportAllVO;
-import com.lgyun.system.user.vo.admin.QueryAdminEnterpriseReportVO;
+import com.lgyun.system.user.vo.admin.AdminEnterpriseReportAllVO;
+import com.lgyun.system.user.vo.admin.AdminEnterpriseReportVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -33,21 +33,21 @@ public interface EnterpriseReportMapper extends BaseMapper<EnterpriseReportEntit
     /**
      * 平台查询所有服务商税务申报或工商申报
      */
-    List<QueryAdminEnterpriseReportAllVO> findAdminEnterpriseReportAll(String serviceProviderName, ReportTheme reportTheme,String startTime, String endTime, IPage<QueryAdminEnterpriseReportAllVO> page);
+    List<AdminEnterpriseReportAllVO> findAdminEnterpriseReportAll(String serviceProviderName, ReportTheme reportTheme, String startTime, String endTime, IPage<AdminEnterpriseReportAllVO> page);
 
     /**
      *平台根据服务商查询税务申报或工商申报
      */
-    List<QueryAdminEnterpriseReportVO> findAdminEnterpriseReport(Long serviceProviderId,ReportTheme reportTheme,IPage<QueryAdminEnterpriseReportVO> page);
+    List<AdminEnterpriseReportVO> findAdminEnterpriseReport(Long serviceProviderId, ReportTheme reportTheme, IPage<AdminEnterpriseReportVO> page);
 
     /**
      * 平台查询税务申报或工商申报详情
      */
-    QueryAdminEnterpriseReportVO findAdminEnterpriseReportDetail(Long enterpriseReportId);
+    AdminEnterpriseReportVO findAdminEnterpriseReportDetail(Long enterpriseReportId);
 
     /**
      *根据服务商id查询税务申报或工商申报
      */
-    List<QueryAdminEnterpriseReportAllVO> findServiceEnterpriseReport(Long serviceProviderId,ReportTheme reportTheme, String startTime, String endTime, IPage<QueryAdminEnterpriseReportAllVO> page);
+    List<AdminEnterpriseReportAllVO> findServiceEnterpriseReport(Long serviceProviderId, ReportTheme reportTheme, String startTime, String endTime, IPage<AdminEnterpriseReportAllVO> page);
 }
 

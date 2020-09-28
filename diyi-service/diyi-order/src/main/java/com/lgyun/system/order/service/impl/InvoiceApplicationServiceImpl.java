@@ -2,11 +2,11 @@ package com.lgyun.system.order.service.impl;
 
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.order.dto.ContractApplyInvoiceDto;
+import com.lgyun.system.order.dto.ContractApplyInvoiceDTO;
 import com.lgyun.system.order.entity.*;
 import com.lgyun.system.order.mapper.InvoiceApplicationMapper;
 import com.lgyun.system.order.service.*;
-import com.lgyun.system.order.vo.ApplicationVo;
+import com.lgyun.system.order.vo.ApplicationVO;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,13 +34,13 @@ public class InvoiceApplicationServiceImpl extends BaseServiceImpl<InvoiceApplic
 
     @Override
     @Transactional
-    public R contractApplyInvoice(ContractApplyInvoiceDto contractApplyInvoiceDto, Long enterpriseId,IPayEnterpriseService payEnterpriseService) {
+    public R contractApplyInvoice(ContractApplyInvoiceDTO contractApplyInvoiceDto, Long enterpriseId, IPayEnterpriseService payEnterpriseService) {
         Long payEnterpriseId = contractApplyInvoiceDto.getPayEnterpriseId();
         PayEnterpriseEntity byId = payEnterpriseService.getById(payEnterpriseId);
         if(null == byId){
             return R.fail("支付清单不存在");
         }
-        List<ApplicationVo> application = iInvoiceApplicationPayListService.findApplication(payEnterpriseId);
+        List<ApplicationVO> application = iInvoiceApplicationPayListService.findApplication(payEnterpriseId);
         if(application.size() > 0){
             return R.fail("申请记录已存在，请耐心等候！！！");
         }

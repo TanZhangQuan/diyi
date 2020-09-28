@@ -9,7 +9,7 @@ import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.mapper.ServiceProviderCertMapper;
 import com.lgyun.system.user.service.IServiceProviderCertService;
 import com.lgyun.system.user.service.IServiceProviderService;
-import com.lgyun.system.user.vo.admin.QueryServiceProviderCertListVO;
+import com.lgyun.system.user.vo.admin.ServiceProviderCertListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class ServiceProviderCertServiceImpl extends BaseServiceImpl<ServiceProvi
     private IServiceProviderService serviceProviderService;
 
     @Override
-    public R<IPage<QueryServiceProviderCertListVO>> queryServiceProviderCertList(Long serviceProviderId, IPage<QueryServiceProviderCertListVO> page) {
+    public R<IPage<ServiceProviderCertListVO>> queryServiceProviderCertList(Long serviceProviderId, IPage<ServiceProviderCertListVO> page) {
         return R.data(page.setRecords(baseMapper.queryServiceProviderCertList(serviceProviderId, page)));
     }
 

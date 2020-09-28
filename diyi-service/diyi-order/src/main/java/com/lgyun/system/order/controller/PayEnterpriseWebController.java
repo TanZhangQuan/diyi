@@ -7,9 +7,9 @@ import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.AcceptPaysheetSaveDto;
-import com.lgyun.system.order.dto.PayEnterpriseDto;
-import com.lgyun.system.order.dto.PayEnterpriseUploadDto;
+import com.lgyun.system.order.dto.AcceptPaysheetSaveDTO;
+import com.lgyun.system.order.dto.PayEnterpriseDTO;
+import com.lgyun.system.order.dto.PayEnterpriseUploadDTO;
 import com.lgyun.system.order.service.IAcceptPaysheetService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
@@ -76,7 +76,7 @@ public class PayEnterpriseWebController {
 
     @PostMapping("/upload")
     @ApiOperation(value = "当前商户上传总包支付清单", notes = "当前商户上传总包支付清单")
-    public R upload(@Valid @RequestBody PayEnterpriseUploadDto payEnterpriseUploadDto, BladeUser bladeUser) throws Exception {
+    public R upload(@Valid @RequestBody PayEnterpriseUploadDTO payEnterpriseUploadDto, BladeUser bladeUser) throws Exception {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -109,7 +109,7 @@ public class PayEnterpriseWebController {
             @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
     })
-    public R getPayEnterprisesByEnterprise(PayEnterpriseDto payEnterpriseDto, Query query, BladeUser bladeUser) {
+    public R getPayEnterprisesByEnterprise(PayEnterpriseDTO payEnterpriseDto, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -128,7 +128,7 @@ public class PayEnterpriseWebController {
 
     @PostMapping("/upload_accept_paysheet")
     @ApiOperation(value = "上传总包交付支付验收单", notes = "上传总包交付支付验收单")
-    public R uploadAcceptPaysheet(@Valid @RequestBody AcceptPaysheetSaveDto acceptPaysheetSaveDto, BladeUser bladeUser) {
+    public R uploadAcceptPaysheet(@Valid @RequestBody AcceptPaysheetSaveDTO acceptPaysheetSaveDto, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -148,7 +148,7 @@ public class PayEnterpriseWebController {
             @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
     })
-    public R getPayEnterprisesByServiceProvider(PayEnterpriseDto payEnterpriseDto, Query query, BladeUser bladeUser) {
+    public R getPayEnterprisesByServiceProvider(PayEnterpriseDTO payEnterpriseDto, Query query, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -167,7 +167,7 @@ public class PayEnterpriseWebController {
             @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
     })
-    public R getPayEnterprisesByEnterprisesServiceProvider(@ApiParam(value = "商户ID") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, PayEnterpriseDto payEnterpriseDto, Query query, BladeUser bladeUser) {
+    public R getPayEnterprisesByEnterprisesServiceProvider(@ApiParam(value = "商户ID") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, PayEnterpriseDTO payEnterpriseDto, Query query, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {

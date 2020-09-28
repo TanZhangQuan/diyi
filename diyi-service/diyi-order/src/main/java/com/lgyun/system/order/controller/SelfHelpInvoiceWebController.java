@@ -59,7 +59,7 @@ public class SelfHelpInvoiceWebController {
 
     @GetMapping("/get-self-helf-invoices-by-enterprise")
     @ApiOperation(value = "查询当前商户所有自助开票记录", notes = "查询当前商户所有自助开票记录")
-    public R getSelfHelfInvoicesByEnterprise(@ApiParam(value = "创客类型") @NotNull(message = "请选择创客类型") @RequestParam(required = false) InvoicePeopleType invoicePeopleType, SelfHelpInvoicesByEnterpriseDto selfHelpInvoicesByEnterpriseDto, Query query, BladeUser bladeUser) {
+    public R getSelfHelfInvoicesByEnterprise(@ApiParam(value = "创客类型") @NotNull(message = "请选择创客类型") @RequestParam(required = false) InvoicePeopleType invoicePeopleType, SelfHelpInvoicesByEnterpriseDTO selfHelpInvoicesByEnterpriseDto, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -106,7 +106,7 @@ public class SelfHelpInvoiceWebController {
     @ApiOperation(value = "查询当前服务商所有自助开票记录", notes = "查询当前服务商所有自助开票记录")
     public R getSelfHelfInvoicesByServiceProvider(@ApiParam(value = "创客类型") @NotNull(message = "请选择创客类型") @RequestParam(required = false) InvoicePeopleType invoicePeopleType,
                                                   @ApiParam(value = "自助开票-服务商状态") @NotNull(message = "请选择自助开票-服务商状态") @RequestParam(required = false) SelfHelpInvoiceSpApplyState selfHelpInvoiceSpApplyState,
-                                                  SelfHelpInvoiceDetailsByServiceProviderDto selfHelpInvoiceDetailsByServiceProviderDto, Query query, BladeUser bladeUser) {
+                                                  SelfHelpInvoiceDetailsByServiceProviderDTO selfHelpInvoiceDetailsByServiceProviderDto, Query query, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -138,7 +138,7 @@ public class SelfHelpInvoiceWebController {
 
     @PostMapping("/upload_invoice_tax_by_provider")
     @ApiOperation(value = "服务商自助开票上传发票税票", notes = "服务商自助开票上传发票税票")
-    public R uploadInvoiceTaxByProvider(@Valid @RequestBody SelfHelpInvoiceDetailInvoiceTaxDto selfHelpInvoiceDetailInvoiceTaxDto, BladeUser bladeUser) {
+    public R uploadInvoiceTaxByProvider(@Valid @RequestBody SelfHelpInvoiceDetailInvoiceTaxDTO selfHelpInvoiceDetailInvoiceTaxDto, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -151,7 +151,7 @@ public class SelfHelpInvoiceWebController {
 
     @PostMapping("/fill_express_by_provider")
     @ApiOperation(value = "服务商自助开票填写快递信息", notes = "服务商自助开票填写快递信息")
-    public R fillExpressByProvider(@Valid @RequestBody SelfHelpInvoiceExpressDto selfHelpInvoiceExpressDto, BladeUser bladeUser) {
+    public R fillExpressByProvider(@Valid @RequestBody SelfHelpInvoiceExpressDTO selfHelpInvoiceExpressDto, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -178,7 +178,7 @@ public class SelfHelpInvoiceWebController {
 
     @PostMapping("/saveAddress")
     @ApiOperation(value = "新建收货地址", notes = "新建收货地址")
-    public R saveAddress(@Valid @RequestBody AddressDto addressDto, BladeUser bladeUser) {
+    public R saveAddress(@Valid @RequestBody AddressDTO addressDto, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -197,7 +197,7 @@ public class SelfHelpInvoiceWebController {
 
     @PostMapping("/updateAddress")
     @ApiOperation(value = "地址编辑接口", notes = "地址编辑接口")
-    public R updateAddress(@Valid @RequestBody AddressDto addressDto) {
+    public R updateAddress(@Valid @RequestBody AddressDTO addressDto) {
         return addressService.updateAddress(addressDto);
     }
 
@@ -237,7 +237,7 @@ public class SelfHelpInvoiceWebController {
     @PostMapping("/submitSelfHelpInvoiceWeb")
     @ApiOperation(value = "当前商户提交自助开票", notes = "商户提交自助开票")
     public R submitSelfHelpInvoiceWeb(@ApiParam(value = "文件") @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file,
-                                      @Valid @RequestBody SelfHelpInvoiceDto selfHelpInvoiceDto, BladeUser bladeUser) throws IOException {
+                                      @Valid @RequestBody SelfHelpInvoiceDTO selfHelpInvoiceDto, BladeUser bladeUser) throws IOException {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -274,7 +274,7 @@ public class SelfHelpInvoiceWebController {
 
     @PostMapping("/confirmPaymentWeb")
     @ApiOperation(value = "确认支付", notes = "确认支付")
-    public R confirmPaymentWeb(@Valid @RequestBody ConfirmPaymentDto confirmPaymentDto) {
+    public R confirmPaymentWeb(@Valid @RequestBody ConfirmPaymentDTO confirmPaymentDto) {
         return R.data(selfHelpInvoiceFeeService.confirmPayment(confirmPaymentDto));
     }
 

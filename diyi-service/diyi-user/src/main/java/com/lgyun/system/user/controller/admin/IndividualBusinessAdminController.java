@@ -5,8 +5,8 @@ import com.lgyun.common.enumeration.BodyType;
 import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDto;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDto;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDTO;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDTO;
 import com.lgyun.system.user.service.IEnterpriseReportService;
 import com.lgyun.system.user.service.IIndividualBusinessService;
 import io.swagger.annotations.*;
@@ -41,7 +41,7 @@ public class IndividualBusinessAdminController {
             @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
     })
-    public R queryIndividualBusinessList(IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto, Query query) {
+    public R queryIndividualBusinessList(IndividualBusinessEnterpriseDTO individualBusinessEnterpriseDto, Query query) {
         return individualBusinessService.getIndividualBusinessList(Condition.getPage(query.setDescs("create_time")), null, null, individualBusinessEnterpriseDto);
     }
 
@@ -65,7 +65,7 @@ public class IndividualBusinessAdminController {
 
     @PostMapping("/save-individual-business")
     @ApiOperation(value = "创建个体户", notes = "创建个体户")
-    public R saveIndividualBusiness(@Valid @RequestBody IndividualBusinessEnterpriseWebAddDto individualBusinessEnterpriseWebAddDto) {
+    public R saveIndividualBusiness(@Valid @RequestBody IndividualBusinessEnterpriseWebAddDTO individualBusinessEnterpriseWebAddDto) {
         return individualBusinessService.save(individualBusinessEnterpriseWebAddDto, null);
     }
 

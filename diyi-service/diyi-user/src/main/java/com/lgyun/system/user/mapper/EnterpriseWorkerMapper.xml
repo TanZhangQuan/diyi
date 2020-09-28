@@ -3,13 +3,13 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.EnterpriseWorkerMapper">
 
-    <resultMap type="com.lgyun.system.user.vo.admin.QueryEnterpriseWorkerListVO" id="queryEnterpriseWorkerListVO">
+    <resultMap type="com.lgyun.system.user.vo.admin.EnterpriseWorkerListVO" id="enterpriseWorkerListVO">
         <result property="enterpriseWorkerId" column="enterprise_worker_id"/>
         <result property="workerName" column="worker_name"/>
         <result property="phoneNumber" column="phone_number"/>
     </resultMap>
 
-    <select id="queryEnterpriseWorkerList" resultMap="queryEnterpriseWorkerListVO">
+    <select id="queryEnterpriseWorkerList" resultMap="enterpriseWorkerListVO">
         SELECT id AS enterprise_worker_id, worker_name, phone_number FROM diyi_enterprise_worker WHERE is_deleted = 0
         AND enterprise_id = #{param1} AND position_name = #{param2}
     </select>

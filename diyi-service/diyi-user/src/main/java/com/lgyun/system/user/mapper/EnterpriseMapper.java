@@ -36,7 +36,7 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
      * @param page
      * @return
      */
-    List<QueryEnterpriseListPaymentVO> queryEnterpriseListPayment(QueryEnterpriseListPaymentDTO queryEnterpriseListPaymentDTO, IPage<QueryEnterpriseListPaymentVO> page);
+    List<EnterpriseListPaymentVO> queryEnterpriseListPayment(QueryEnterpriseListPaymentDTO queryEnterpriseListPaymentDTO, IPage<EnterpriseListPaymentVO> page);
 
     /**
      * 查询所有服务商
@@ -45,7 +45,7 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
      * @param page
      * @return
      */
-    List<QueryServiceProviderListPaymentVO> queryServiceProviderListPayment(QueryServiceProviderListPaymentDTO queryServiceProviderListPaymentDTO, IPage<QueryServiceProviderListPaymentVO> page);
+    List<ServiceProviderListPaymentVO> queryServiceProviderListPayment(QueryServiceProviderListPaymentDTO queryServiceProviderListPaymentDTO, IPage<ServiceProviderListPaymentVO> page);
 
     /**
      * 查询所有商户的编号名称
@@ -63,7 +63,7 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
      * @param page
      * @return
      */
-    List<QueryEnterpriseListEnterpriseVO> queryEnterpriseListEnterprise(QueryEnterpriseListDTO queryEnterpriseListDTO, IPage<QueryEnterpriseListEnterpriseVO> page);
+    List<EnterpriseListEnterpriseVO> queryEnterpriseListEnterprise(QueryEnterpriseListDTO queryEnterpriseListDTO, IPage<EnterpriseListEnterpriseVO> page);
 
     /**
      * 商户管理模块查询商户基本信息
@@ -71,7 +71,7 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
      * @param enterpriseId
      * @return
      */
-    QueryEnterpriseDetailEnterpriseVO queryEnterpriseDetailEnterprise(Long enterpriseId);
+    EnterpriseDetailEnterpriseVO queryEnterpriseDetailEnterprise(Long enterpriseId);
 
     /**
      * 查询商户合作服务商
@@ -80,7 +80,7 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
      * @param page
      * @return
      */
-    List<QueryCooperationServiceProviderListVO> queryCooperationServiceProviderList(Long enterpriseId, IPage<QueryCooperationServiceProviderListVO> page);
+    List<CooperationServiceProviderListVO> queryCooperationServiceProviderList(Long enterpriseId, IPage<CooperationServiceProviderListVO> page);
 
     /**
      * 查询商户编号名称

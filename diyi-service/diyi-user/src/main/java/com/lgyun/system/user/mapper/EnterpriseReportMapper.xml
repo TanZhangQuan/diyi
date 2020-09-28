@@ -8,14 +8,14 @@
        OR report_state = 'EDITDECLARESUCCESS') AND main_body_type = #{param1} AND main_body_id = #{param2}
     </select>
 
-    <resultMap id="queryAdminEnterpriseReportAllMap" type="com.lgyun.system.user.vo.admin.QueryAdminEnterpriseReportAllVO">
+    <resultMap id="adminEnterpriseReportAllVO" type="com.lgyun.system.user.vo.admin.AdminEnterpriseReportAllVO">
         <result property="enterpriseReportId" column="enterprise_report_id"/>
         <result property="serviceProviderId" column="service_provider_id"/>
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="applyCount" column="apply_count"/>
     </resultMap>
 
-    <resultMap id="queryAdminEnterpriseReportMap" type="com.lgyun.system.user.vo.admin.QueryAdminEnterpriseReportVO">
+    <resultMap id="queryAdminEnterpriseReportMap" type="com.lgyun.system.user.vo.admin.AdminEnterpriseReportVO">
         <result property="id" column="enterpriseReportId"/>
         <result property="serviceProviderId" column="service_provider_id"/>
         <result property="mainBodyType" column="main_body_type"/>
@@ -34,7 +34,7 @@
         <result property="mainBodyName" column="mainBodyName"/>
     </resultMap>
 
-    <select id="findAdminEnterpriseReportAll" resultMap="queryAdminEnterpriseReportAllMap">
+    <select id="findAdminEnterpriseReportAll" resultMap="adminEnterpriseReportAllVO">
         SELECT a.id AS enterprise_report_id, a.service_provider_id, b.service_provider_name, ( SELECT COUNT(c.id) FROM diyi_enterprise_report c WHERE c.service_provider_id = a.service_provider_id ) AS apply_count FROM diyi_enterprise_report a INNER JOIN diyi_service_provider b ON a.service_provider_id = b.id WHERE
         a.report_theme = #{param2}
         <if test="param1 != null and param1 != ''">
@@ -60,7 +60,7 @@
 
 
 
-    <select id="findServiceEnterpriseReportAll" resultMap="queryAdminEnterpriseReportAllMap">
+    <select id="findServiceEnterpriseReportAll" resultMap="adminEnterpriseReportAllVO">
         SELECT id,service_provider_id,main_body_type,main_body_id,report_theme,report_year,report_quater,report_month,report_dead_date,report_complete_date,report_result_desc,report_result_files,report_person,report_state,report_guard_name, IF ( b.main_body_type = 'INDIVIDUALENTERPRISE', ( SELECT a.ibname FROM diyi_individual_enterprise a WHERE a.id = b.main_body_id ), ( SELECT c.ibname FROM diyi_individual_business c WHERE c.id = b.main_body_id )) AS main_body_name FROM diyi_enterprise_report b WHERE b.main_body_type = 'INDIVIDUALENTERPRISE' OR b.main_body_type = 'INDIVIDUALBUSINESS' and b.service_provider_id =#{param1} and a.report_theme = #{param2}
         <if test="param3 != null and param3 != ''">
             AND DATEDIFF(a.create_time, #{param3}) <![CDATA[ >= ]]> 0

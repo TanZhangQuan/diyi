@@ -2,7 +2,7 @@ package com.lgyun.system.order.service;
 
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.order.dto.ContractApplyInvoiceDto;
+import com.lgyun.system.order.dto.ContractApplyInvoiceDTO;
 import com.lgyun.system.order.entity.InvoiceApplicationEntity;
 
 /**
@@ -13,6 +13,6 @@ import com.lgyun.system.order.entity.InvoiceApplicationEntity;
  */
 public interface IInvoiceApplicationService extends BaseService<InvoiceApplicationEntity> {
 
-    R contractApplyInvoice(ContractApplyInvoiceDto contractApplyInvoiceDto, Long enterpriseId,IPayEnterpriseService payEnterpriseService);
+    R contractApplyInvoice(ContractApplyInvoiceDTO contractApplyInvoiceDto, Long enterpriseId, IPayEnterpriseService payEnterpriseService);
 }
 

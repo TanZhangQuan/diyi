@@ -6,9 +6,9 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.ServiceProviderBankCardDto;
-import com.lgyun.system.user.dto.ServiceProviderContactPersonDto;
-import com.lgyun.system.user.dto.ServiceProviderInvoiceDto;
+import com.lgyun.system.user.dto.ServiceProviderBankCardDTO;
+import com.lgyun.system.user.dto.ServiceProviderContactPersonDTO;
+import com.lgyun.system.user.dto.ServiceProviderInvoiceDTO;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.service.IServiceProviderService;
@@ -86,7 +86,7 @@ public class ServiceProviderController {
 
     @PostMapping("/add_or_update_bank_card")
     @ApiOperation(value = "新增或修改当前服务商银行卡信息", notes = "新增或修改当前服务商银行卡信息")
-    public R addOrUpdateBankCard(@Valid @RequestBody ServiceProviderBankCardDto serviceProviderBankCardDto, BladeUser bladeUser) {
+    public R addOrUpdateBankCard(@Valid @RequestBody ServiceProviderBankCardDTO serviceProviderBankCardDto, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -112,7 +112,7 @@ public class ServiceProviderController {
 
     @PostMapping("/add_or_update_contact_person")
     @ApiOperation(value = "新增或修改当前服务商联系人信息", notes = "新增或修改当前服务商联系人信息")
-    public R addOrUpdateContactPerson(@Valid @RequestBody ServiceProviderContactPersonDto serviceProviderContactPersonDto, BladeUser bladeUser) {
+    public R addOrUpdateContactPerson(@Valid @RequestBody ServiceProviderContactPersonDTO serviceProviderContactPersonDto, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -138,7 +138,7 @@ public class ServiceProviderController {
 
     @PostMapping("/add_or_update_invoice")
     @ApiOperation(value = "新增或修改当前服务商开票信息", notes = "新增或修改当前服务商开票信息")
-    public R addOrUpdateInvoice(@Valid @RequestBody ServiceProviderInvoiceDto serviceProviderInvoiceDto, BladeUser bladeUser) {
+    public R addOrUpdateInvoice(@Valid @RequestBody ServiceProviderInvoiceDTO serviceProviderInvoiceDto, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {

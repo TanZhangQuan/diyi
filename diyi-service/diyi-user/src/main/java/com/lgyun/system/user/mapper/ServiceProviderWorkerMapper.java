@@ -3,7 +3,7 @@ package com.lgyun.system.user.mapper;
 import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.lgyun.system.user.vo.admin.QueryServiceProviderWorkerListVO;
+import com.lgyun.system.user.vo.admin.ServiceProviderWorkerListVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -24,6 +24,6 @@ public interface ServiceProviderWorkerMapper extends BaseMapper<ServiceProviderW
      * @param positionName
      * @return
      */
-    List<QueryServiceProviderWorkerListVO> queryServiceProviderWorkerList(Long serviceProviderId, PositionName positionName);
+    List<ServiceProviderWorkerListVO> queryServiceProviderWorkerList(Long serviceProviderId, PositionName positionName);
 }
 

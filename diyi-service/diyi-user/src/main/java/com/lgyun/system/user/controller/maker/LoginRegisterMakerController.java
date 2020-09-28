@@ -5,7 +5,7 @@ import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDto;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDTO;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.IIndividualBusinessService;
 import com.lgyun.system.user.service.IMakerService;
@@ -18,7 +18,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
- * 创客端---登录注册管理模块相关接口
+ * 创客端
  *
  * @author tzq
  * @since 2020-07-02 17:44:02
@@ -27,7 +27,7 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("")
 @Validated
 @AllArgsConstructor
-@Api(value = "创客端---登录注册管理模块相关接口", tags = "创客端---登录注册管理模块相关接口")
+@Api(value = "创客端", tags = "创客端")
 public class LoginRegisterMakerController {
 
     private IIndividualBusinessService individualBusinessService;
@@ -35,7 +35,7 @@ public class LoginRegisterMakerController {
 
     @PostMapping("/save")
     @ApiOperation(value = "新增", notes = "新增")
-    public R save(@Valid @RequestBody IndividualBusinessEnterpriseAddDto individualBusinessEnterpriseAddDto, BladeUser bladeUser) {
+    public R save(@Valid @RequestBody IndividualBusinessEnterpriseAddDTO individualBusinessEnterpriseAddDto, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {

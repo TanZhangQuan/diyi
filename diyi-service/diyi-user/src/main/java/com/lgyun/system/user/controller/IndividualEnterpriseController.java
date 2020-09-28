@@ -5,7 +5,7 @@ import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDto;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDTO;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.IIndividualEnterpriseService;
 import com.lgyun.system.user.service.IMakerService;
@@ -35,7 +35,7 @@ public class IndividualEnterpriseController {
 
     @PostMapping("/save")
     @ApiOperation(value = "新增", notes = "新增")
-    public R save(@Valid @RequestBody IndividualBusinessEnterpriseAddDto individualBusinessEnterpriseAddDto, BladeUser bladeUser) {
+    public R save(@Valid @RequestBody IndividualBusinessEnterpriseAddDTO individualBusinessEnterpriseAddDto, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {

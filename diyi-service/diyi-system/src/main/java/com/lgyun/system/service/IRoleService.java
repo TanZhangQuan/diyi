@@ -2,9 +2,8 @@ package com.lgyun.system.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.entity.Role;
-import com.lgyun.system.vo.GrantRequest;
+import com.lgyun.system.dto.GrantDTO;
 import com.lgyun.system.vo.RoleVO;
 
 import javax.validation.constraints.NotEmpty;
@@ -49,7 +48,7 @@ public interface IRoleService extends IService<Role> {
 	 * @param request
 	 * @return 是否成功
 	 */
-	boolean grantFeign(GrantRequest request);
+	boolean grantFeign(GrantDTO request);
 
 
 	/**

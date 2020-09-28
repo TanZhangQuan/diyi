@@ -4,10 +4,10 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.dto.service_provider.AddOrUpdateServiceProviderContactDto;
+import com.lgyun.system.user.dto.service_provider.AddOrUpdateServiceProviderContactDTO;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.vo.ServiceProviderWorkerVO;
-import com.lgyun.system.user.vo.admin.QueryServiceProviderWorkerListVO;
+import com.lgyun.system.user.vo.admin.ServiceProviderWorkerListVO;
 
 import java.util.List;
 
@@ -66,7 +66,7 @@ public interface IServiceProviderWorkerService extends BaseService<ServiceProvid
      * @param serviceProviderWorkerId
      * @return
      */
-    R<String> addOrUpdateServiceProviderContact(AddOrUpdateServiceProviderContactDto addOrUpdateServiceProviderContactDto, Long serviceProviderWorkerId);
+    R<String> addOrUpdateServiceProviderContact(AddOrUpdateServiceProviderContactDTO addOrUpdateServiceProviderContactDto, Long serviceProviderWorkerId);
 
     /**
      * 查询服务商员工
@@ -75,7 +75,7 @@ public interface IServiceProviderWorkerService extends BaseService<ServiceProvid
      * @param positionName
      * @return
      */
-    R<List<QueryServiceProviderWorkerListVO>> queryServiceProviderWorkerList(Long serviceProviderId, PositionName positionName);
+    R<List<ServiceProviderWorkerListVO>> queryServiceProviderWorkerList(Long serviceProviderId, PositionName positionName);
 
     /**
      * 新增或更新服务商账号信息，含认证授权

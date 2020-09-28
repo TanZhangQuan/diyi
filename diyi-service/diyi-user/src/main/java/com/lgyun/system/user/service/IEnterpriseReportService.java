@@ -9,8 +9,8 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.admin.AdminEnterpriseReportDTO;
 import com.lgyun.system.user.entity.EnterpriseReportEntity;
 import com.lgyun.system.user.vo.EnterpriseReportsVO;
-import com.lgyun.system.user.vo.admin.QueryAdminEnterpriseReportAllVO;
-import com.lgyun.system.user.vo.admin.QueryAdminEnterpriseReportVO;
+import com.lgyun.system.user.vo.admin.AdminEnterpriseReportAllVO;
+import com.lgyun.system.user.vo.admin.AdminEnterpriseReportVO;
 
 /**
  * 年度申报管理表 Service 接口
@@ -42,12 +42,12 @@ public interface IEnterpriseReportService extends BaseService<EnterpriseReportEn
     /**
      *平台查询所有服务商税务申报或工商申报
      */
-    R findAdminEnterpriseReportAll(String serviceProviderName, ReportTheme reportTheme,String startTime, String endTime,IPage<QueryAdminEnterpriseReportAllVO> page);
+    R findAdminEnterpriseReportAll(String serviceProviderName, ReportTheme reportTheme,String startTime, String endTime,IPage<AdminEnterpriseReportAllVO> page);
 
     /**
      * 平台根据服务商查询税务申报或工商申报
      */
-    R findAdminEnterpriseReport(Long serviceProviderId,ReportTheme reportTheme,IPage<QueryAdminEnterpriseReportVO> page);
+    R findAdminEnterpriseReport(Long serviceProviderId,ReportTheme reportTheme,IPage<AdminEnterpriseReportVO> page);
 
     /**
      * 平台查询税务申报或工商申报详情
@@ -68,7 +68,7 @@ public interface IEnterpriseReportService extends BaseService<EnterpriseReportEn
     /**
      * 根据服务商id查询税务申报或工商申报
      */
-    R findServiceEnterpriseReport(Long serviceProviderId,ReportTheme reportTheme,String startTime,String endTime,IPage<QueryAdminEnterpriseReportAllVO> page);
+    R findServiceEnterpriseReport(Long serviceProviderId,ReportTheme reportTheme,String startTime,String endTime,IPage<AdminEnterpriseReportAllVO> page);
 
 
     /**

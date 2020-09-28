@@ -2,7 +2,7 @@ package com.lgyun.system.order.service;
 
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.order.dto.ConfirmPaymentDto;
+import com.lgyun.system.order.dto.ConfirmPaymentDTO;
 import com.lgyun.system.order.entity.SelfHelpInvoiceFeeEntity;
 
 /**
@@ -19,6 +19,6 @@ public interface ISelfHelpInvoiceFeeService extends BaseService<SelfHelpInvoiceF
      * @param confirmPaymentDto
      * @return
      */
-    R<String> confirmPayment(ConfirmPaymentDto confirmPaymentDto);
+    R<String> confirmPayment(ConfirmPaymentDTO confirmPaymentDto);
 }
 

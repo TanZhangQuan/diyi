@@ -7,9 +7,9 @@ import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDto;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDto;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDto;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDTO;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDTO;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDTO;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.vo.EnterpriseReportsVO;
@@ -33,7 +33,7 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
      * @param makerEntity
      * @return
      */
-    R<String> save(IndividualBusinessEnterpriseAddDto individualBusinessEnterpriseAddDto, MakerEntity makerEntity);
+    R<String> save(IndividualBusinessEnterpriseAddDTO individualBusinessEnterpriseAddDto, MakerEntity makerEntity);
 
     /**
      * 通过创客id查询个体户
@@ -79,7 +79,7 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
      * @param individualBusinessEnterpriseDto
      * @return
      */
-    R<IPage<IndividualBusinessEnterpriseDetailsVO>> getIndividualBusinessList(IPage<IndividualBusinessEnterpriseDetailsVO> page, Long enterpriseId, Long serviceProviderId, IndividualBusinessEnterpriseDto individualBusinessEnterpriseDto);
+    R<IPage<IndividualBusinessEnterpriseDetailsVO>> getIndividualBusinessList(IPage<IndividualBusinessEnterpriseDetailsVO> page, Long enterpriseId, Long serviceProviderId, IndividualBusinessEnterpriseDTO individualBusinessEnterpriseDto);
 
     /**
      * 查询个体户开票次数，月度开票金额，年度开票金额和总开票金额
@@ -107,7 +107,7 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
      * @param enterpriseId
      * @return
      */
-    R<String> save(IndividualBusinessEnterpriseWebAddDto individualBusinessEnterpriseWebAddDto, Long enterpriseId);
+    R<String> save(IndividualBusinessEnterpriseWebAddDTO individualBusinessEnterpriseWebAddDto, Long enterpriseId);
 
     /**
      * 根据创客ID, 统一社会信用代码查询个体户

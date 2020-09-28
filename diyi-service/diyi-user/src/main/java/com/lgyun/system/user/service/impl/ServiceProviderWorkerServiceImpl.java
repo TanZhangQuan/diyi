@@ -11,7 +11,7 @@ import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.common.tool.RedisUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.feign.ISysClient;
-import com.lgyun.system.user.dto.service_provider.AddOrUpdateServiceProviderContactDto;
+import com.lgyun.system.user.dto.service_provider.AddOrUpdateServiceProviderContactDTO;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.entity.User;
@@ -21,8 +21,8 @@ import com.lgyun.system.user.service.IServiceProviderService;
 import com.lgyun.system.user.service.IServiceProviderWorkerService;
 import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.user.vo.ServiceProviderWorkerVO;
-import com.lgyun.system.user.vo.admin.QueryServiceProviderWorkerListVO;
-import com.lgyun.system.vo.GrantRequest;
+import com.lgyun.system.user.vo.admin.ServiceProviderWorkerListVO;
+import com.lgyun.system.dto.GrantDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -110,7 +110,7 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> addOrUpdateServiceProviderContact(AddOrUpdateServiceProviderContactDto addOrUpdateServiceProviderContactDto, Long serviceProviderWorkerId) {
+    public R<String> addOrUpdateServiceProviderContact(AddOrUpdateServiceProviderContactDTO addOrUpdateServiceProviderContactDto, Long serviceProviderWorkerId) {
 
         //判断服务商联系人是否相同
         if (addOrUpdateServiceProviderContactDto.getContact1Phone().equals(addOrUpdateServiceProviderContactDto.getContact2Phone())) {
@@ -188,7 +188,7 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
     }
 
     @Override
-    public R<List<QueryServiceProviderWorkerListVO>> queryServiceProviderWorkerList(Long serviceProviderId, PositionName positionName) {
+    public R<List<ServiceProviderWorkerListVO>> queryServiceProviderWorkerList(Long serviceProviderId, PositionName positionName) {
         return R.data(baseMapper.queryServiceProviderWorkerList(serviceProviderId, positionName));
     }
 
@@ -251,18 +251,18 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
             request.setId(entity.getId());
         }
         if (request.getMenuIds() != null && request.getMenuIds().size() > 0) {
-            GrantRequest grantRequest = new GrantRequest();
-            grantRequest.setAccountId(request.getId());
+            GrantDTO grantDTO = new GrantDTO();
+            grantDTO.setAccountId(request.getId());
             List<String> menuIds = request.getMenuIds();
             List<Long> menuList = new ArrayList<>();
             menuIds.stream().forEach(menu -> {
                 menuList.add(Long.valueOf(menu));
             });
-            grantRequest.setMenuIds(menuList);
+            grantDTO.setMenuIds(menuList);
 
-            grantRequest.setUserId(bladeUser.getUserId());
+            grantDTO.setUserId(bladeUser.getUserId());
 
-            R grant = sysClient.grantFeign(grantRequest);
+            R grant = sysClient.grantFeign(grantDTO);
             if (!grant.isSuccess()) {
                 return R.fail("新增、更新服务商账号失败");
             }

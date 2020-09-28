@@ -6,9 +6,9 @@ import com.lgyun.common.enumeration.SelfHelpInvoiceSpApplyState;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.LumpSumInvoiceDto;
-import com.lgyun.system.order.dto.ReleaseWorksheetDto;
-import com.lgyun.system.order.dto.SummaryInvoiceDto;
+import com.lgyun.system.order.dto.LumpSumInvoiceDTO;
+import com.lgyun.system.order.dto.ReleaseWorksheetDTO;
+import com.lgyun.system.order.dto.SummaryInvoiceDTO;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.service.ISelfHelpInvoiceService;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
@@ -74,7 +74,7 @@ public class InvoiceServiceController {
 
     @PostMapping("/saveLumpSumInvoice")
     @ApiOperation(value = "服务商总包开票", notes = "服务商总包开票")
-    public R saveLumpSumInvoice(BladeUser bladeUser, @Valid @RequestBody LumpSumInvoiceDto lumpSumInvoiceDto) {
+    public R saveLumpSumInvoice(BladeUser bladeUser, @Valid @RequestBody LumpSumInvoiceDTO lumpSumInvoiceDto) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -130,7 +130,7 @@ public class InvoiceServiceController {
 
     @PostMapping("/saveSummaryInvoice")
     @ApiOperation(value = "服务商汇总代开开票", notes = "服务商汇总代开开票")
-    public R saveSummaryInvoice(BladeUser bladeUser, @Valid @RequestBody SummaryInvoiceDto summaryInvoiceDto) {
+    public R saveSummaryInvoice(BladeUser bladeUser, @Valid @RequestBody SummaryInvoiceDTO summaryInvoiceDto) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -155,7 +155,7 @@ public class InvoiceServiceController {
 
     @PostMapping("/savePortalSignInvoice")
     @ApiOperation(value = "服务商门征单开发票开票", notes = "服务商门征单开发票开票")
-    public R savePortalSignInvoice(BladeUser bladeUser, @Valid @RequestBody ReleaseWorksheetDto releaseWorksheetDto) {
+    public R savePortalSignInvoice(BladeUser bladeUser, @Valid @RequestBody ReleaseWorksheetDTO releaseWorksheetDto) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {

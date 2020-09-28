@@ -1,21 +1,19 @@
 package com.lgyun.system.feign;
 
 import com.lgyun.common.api.R;
-import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.entity.Dept;
 import com.lgyun.system.entity.Role;
 import com.lgyun.system.service.IDeptService;
 import com.lgyun.system.service.IPostService;
 import com.lgyun.system.service.IRoleMenuService;
 import com.lgyun.system.service.IRoleService;
-import com.lgyun.system.vo.GrantRequest;
+import com.lgyun.system.dto.GrantDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -104,7 +102,7 @@ public class SysClient implements ISysClient {
 	 */
 	@Override
 	@PostMapping(API_PREFIX + "/grant")
-	public R grantFeign(GrantRequest request) {
+	public R grantFeign(GrantDTO request) {
 		boolean temp = roleService.grantFeign(request);
 		return R.status(temp);
 	}

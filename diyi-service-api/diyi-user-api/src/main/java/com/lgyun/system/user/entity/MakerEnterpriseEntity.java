@@ -1,11 +1,9 @@
 package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.enumeration.EnterpriseMakerRelType;
 import com.lgyun.common.enumeration.RelationshipType;
-import com.lgyun.common.tool.DateUtil;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -69,13 +67,11 @@ public class MakerEnterpriseEntity extends BaseEntity {
     /**
      * 合作开始日期
      */
-    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
     private Date cooperationStartTime;
 
     /**
      * 合作终止日期
      */
-    @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
     private Date cooperationEndTime;
 
 }

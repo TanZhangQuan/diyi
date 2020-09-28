@@ -4,9 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lgyun.common.constant.BladeConstant;
-import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.DateUtil;
-import com.lgyun.system.vo.GrantRequest;
+import com.lgyun.system.dto.GrantDTO;
 import lombok.AllArgsConstructor;
 import com.lgyun.common.constant.RoleConstant;
 import com.lgyun.common.node.ForestNodeMerger;
@@ -74,7 +73,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 	}
 
 	@Override
-	public boolean grantFeign(GrantRequest request) {
+	public boolean grantFeign(GrantDTO request) {
 
         List<Long> roleIds = Arrays.asList(request.getAccountId());
         List<Long> menuIds = request.getMenuIds();

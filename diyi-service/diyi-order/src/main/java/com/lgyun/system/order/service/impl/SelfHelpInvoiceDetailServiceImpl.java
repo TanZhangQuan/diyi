@@ -8,7 +8,7 @@ import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.enumeration.SelfHelpInvoiceApplyState;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.order.dto.SelfHelpInvoiceDto;
+import com.lgyun.system.order.dto.SelfHelpInvoiceDTO;
 import com.lgyun.system.order.entity.SelfHelpInvoiceApplyEntity;
 import com.lgyun.system.order.entity.SelfHelpInvoiceDetailEntity;
 import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
@@ -69,7 +69,7 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
     @Transactional
     public void importSelfHelpInvoiceDetail(List<InvoiceListExcel> list) {
         //保存自助开票主表数据
-        SelfHelpInvoiceDto selfHelpInvoiceDto = list.get(0).getSelfHelpInvoiceDto();
+        SelfHelpInvoiceDTO selfHelpInvoiceDto = list.get(0).getSelfHelpInvoiceDto();
         SelfHelpInvoiceEntity selfHelpInvoiceEntity = new SelfHelpInvoiceEntity();
         selfHelpInvoiceEntity.setEnterpriseId(selfHelpInvoiceDto.getEnterpriseId());
         if (ObjectType.MAKERPEOPLE.equals(selfHelpInvoiceDto.getObjectType())) {
@@ -142,7 +142,7 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
     /**
      * 创客自助开票
      */
-    private void makerSelfHelpInvoice(List<InvoiceListExcel> list,SelfHelpInvoiceDto selfHelpInvoiceDto,SelfHelpInvoiceEntity selfHelpInvoiceEntity){
+    private void makerSelfHelpInvoice(List<InvoiceListExcel> list, SelfHelpInvoiceDTO selfHelpInvoiceDto, SelfHelpInvoiceEntity selfHelpInvoiceEntity){
         for (InvoiceListExcel invoiceListExcel: list) {
             SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = new SelfHelpInvoiceDetailEntity();
             selfHelpInvoiceDetailEntity.setSelfHelpInvoiceId(selfHelpInvoiceEntity.getId());
@@ -198,7 +198,7 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
         }
     }
 
-    private void enterpriseSelfHelpInvoice(List<InvoiceListExcel> list, SelfHelpInvoiceDto selfHelpInvoiceDto, SelfHelpInvoiceEntity selfHelpInvoiceEntity) {
+    private void enterpriseSelfHelpInvoice(List<InvoiceListExcel> list, SelfHelpInvoiceDTO selfHelpInvoiceDto, SelfHelpInvoiceEntity selfHelpInvoiceEntity) {
         for (InvoiceListExcel invoiceListExcel : list) {
             SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = new SelfHelpInvoiceDetailEntity();
             selfHelpInvoiceDetailEntity.setSelfHelpInvoiceId(selfHelpInvoiceEntity.getId());

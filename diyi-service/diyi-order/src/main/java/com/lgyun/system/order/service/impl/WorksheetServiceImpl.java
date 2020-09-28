@@ -7,7 +7,7 @@ import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.order.dto.ReleaseWorksheetDto;
+import com.lgyun.system.order.dto.ReleaseWorksheetDTO;
 import com.lgyun.system.order.entity.WorksheetEntity;
 import com.lgyun.system.order.entity.WorksheetMakerEntity;
 import com.lgyun.system.order.mapper.WorksheetMapper;
@@ -42,7 +42,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
 
     @Override
     @Transactional
-    public R<String> releaseWorksheet(ReleaseWorksheetDto releaseWorksheetDTO) {
+    public R<String> releaseWorksheet(ReleaseWorksheetDTO releaseWorksheetDTO) {
         WorksheetEntity worksheetEntity = new WorksheetEntity();
         if (StringUtil.isBlank(releaseWorksheetDTO.getWorksheetName())) {
             return R.fail("工单名称不能为空");
@@ -135,7 +135,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     }
 
     @Override
-    public R<IPage<WorksheetXiaoVo>> findXiaoPage(IPage<WorksheetXiaoVo> page, Integer worksheetState, Long makerId) {
+    public R<IPage<WorksheetXiaoVO>> findXiaoPage(IPage<WorksheetXiaoVO> page, Integer worksheetState, Long makerId) {
         if (worksheetState == 1) {
             return R.data(page.setRecords(baseMapper.findXiaoPage(page, makerId)));
         }
@@ -149,19 +149,19 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     }
 
     @Override
-    public R<WorksheetXiaoVo> getWorksheetDetails(Long worksheetMakerId) {
+    public R<WorksheetXiaoVO> getWorksheetDetails(Long worksheetMakerId) {
         return R.data(baseMapper.getWorksheetDetails(worksheetMakerId));
     }
 
     @Override
-    public R getEnterpriseWorksheet(IPage<WorksheetXiaoVo> page, Long enterpriseId, WorksheetState worksheetState, String worksheetNo, String worksheetName, String startTime, String endTime) {
+    public R getEnterpriseWorksheet(IPage<WorksheetXiaoVO> page, Long enterpriseId, WorksheetState worksheetState, String worksheetNo, String worksheetName, String startTime, String endTime) {
         return R.data(page.setRecords(baseMapper.getEnterpriseWorksheet(enterpriseId, worksheetState, worksheetNo, worksheetName, startTime, endTime, page)));
     }
 
     @Override
     public R getWorksheetWebDetails(IPage<WorksheetMakerDetailsVO> page, Long worksheetId) {
         WorksheetEntity worksheetEntity = getById(worksheetId);
-        WorksheetXiaoVo worksheetXiaoVo = BeanUtil.copy(worksheetEntity, WorksheetXiaoVo.class);
+        WorksheetXiaoVO worksheetXiaoVo = BeanUtil.copy(worksheetEntity, WorksheetXiaoVO.class);
         worksheetXiaoVo.setWorksheetId(worksheetId);
         Map map = new HashMap();
         map.put("worksheetXiaoVo", worksheetXiaoVo);
@@ -222,7 +222,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     }
 
     @Override
-    public R<IPage<EnterpriseWorksheetDetailVo>> getWorksheetDetailsByMaker(IPage<EnterpriseWorksheetDetailVo> page, Long enterpriseId, Long makerId) {
+    public R<IPage<EnterpriseWorksheetDetailVO>> getWorksheetDetailsByMaker(IPage<EnterpriseWorksheetDetailVO> page, Long enterpriseId, Long makerId) {
         return R.data(page.setRecords(baseMapper.getWorksheetDetailsByMaker(enterpriseId, makerId, page)));
     }
 
