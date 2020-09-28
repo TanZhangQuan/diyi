@@ -22,6 +22,7 @@ import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.user.vo.EnterpriseWorkerVO;
 import com.lgyun.system.user.vo.admin.EnterpriseWorkerListVO;
 import com.lgyun.system.dto.GrantDTO;
+import com.lgyun.system.user.vo.enterprise.EnterpriseWorkerDetailVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -54,28 +55,6 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
     private IEnterpriseService enterpriseService;
 
     @Override
-    public EnterpriseWorkerEntity findByPhoneNumber(String phoneNumber) {
-        QueryWrapper<EnterpriseWorkerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(EnterpriseWorkerEntity::getPhoneNumber, phoneNumber);
-        return baseMapper.selectOne(queryWrapper);
-    }
-
-    @Override
-    public EnterpriseWorkerEntity findByEmployeeUserNameAndEmployeePwd(String employeeUserName, String employeePwd) {
-        QueryWrapper<EnterpriseWorkerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(EnterpriseWorkerEntity::getEmployeeUserName, employeeUserName)
-                .eq(EnterpriseWorkerEntity::getEmployeePwd, employeePwd);
-        return baseMapper.selectOne(queryWrapper);
-    }
-
-    @Override
-    public Integer findCountByPhoneNumber(String phoneNumber) {
-        QueryWrapper<EnterpriseWorkerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(EnterpriseWorkerEntity::getPhoneNumber, phoneNumber);
-        return baseMapper.selectCount(queryWrapper);
-    }
-
-    @Override
     public R<EnterpriseWorkerEntity> currentEnterpriseWorker(BladeUser bladeUser) {
 
         if (bladeUser == null || bladeUser.getUserId() == null) {
@@ -101,6 +80,33 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
         }
 
         return R.data(enterpriseWorkerEntity);
+    }
+
+    @Override
+    public R<EnterpriseWorkerDetailVO> queryEnterpriseWorkerDetail(Long enterpriseWorkerId) {
+        return R.data(baseMapper.queryEnterpriseWorkerDetail(enterpriseWorkerId));
+    }
+
+    @Override
+    public EnterpriseWorkerEntity findByPhoneNumber(String phoneNumber) {
+        QueryWrapper<EnterpriseWorkerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(EnterpriseWorkerEntity::getPhoneNumber, phoneNumber);
+        return baseMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public EnterpriseWorkerEntity findByEmployeeUserNameAndEmployeePwd(String employeeUserName, String employeePwd) {
+        QueryWrapper<EnterpriseWorkerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(EnterpriseWorkerEntity::getEmployeeUserName, employeeUserName)
+                .eq(EnterpriseWorkerEntity::getEmployeePwd, employeePwd);
+        return baseMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public Integer findCountByPhoneNumber(String phoneNumber) {
+        QueryWrapper<EnterpriseWorkerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(EnterpriseWorkerEntity::getPhoneNumber, phoneNumber);
+        return baseMapper.selectCount(queryWrapper);
     }
 
     @Override

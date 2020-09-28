@@ -8,7 +8,7 @@ import com.lgyun.system.feign.ISysClient;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.service.IServiceProviderWorkerService;
 import com.lgyun.system.user.vo.ServiceProviderWorkerVO;
-import com.lgyun.system.user.vo.service_provider.ServiceAccountRequest;
+import com.lgyun.system.user.dto.service_provider.ServiceAccountDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -98,7 +98,7 @@ public class ServiceProviderAccountController {
 
     @PostMapping("/operate")
     @ApiOperation(value = "删除、停用 服务商主子账号", notes = "删除、停用 服务商主子账号")
-    public R operateEnterpriseWorker(@RequestBody ServiceAccountRequest request, BladeUser bladeUser) {
+    public R operateEnterpriseWorker(@RequestBody ServiceAccountDTO request, BladeUser bladeUser) {
         //查询当前创客
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -111,9 +111,9 @@ public class ServiceProviderAccountController {
             return R.fail("没有此账号");
         }
 
-        if (ServiceAccountRequest.ACCOUNT_DEL.equals(request.getOperationCode())) {
+        if (ServiceAccountDTO.ACCOUNT_DEL.equals(request.getOperationCode())) {
             entity.setIsDeleted(1);
-        } else if (ServiceAccountRequest.ACCOUNT_STOP.equals(request.getOperationCode())) {
+        } else if (ServiceAccountDTO.ACCOUNT_STOP.equals(request.getOperationCode())) {
             entity.setStatus(0);
         }
 

@@ -3,11 +3,23 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.EnterpriseWorkerMapper">
 
+    <resultMap type="com.lgyun.system.user.vo.admin.EnterpriseWorkerDetailVO" id="enterpriseWorkerDetailVO">
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="avatar" column="avatar"/>
+        <result property="workerName" column="worker_name"/>
+        <result property="positionName" column="position_name"/>
+    </resultMap>
+
     <resultMap type="com.lgyun.system.user.vo.admin.EnterpriseWorkerListVO" id="enterpriseWorkerListVO">
         <result property="enterpriseWorkerId" column="enterprise_worker_id"/>
         <result property="workerName" column="worker_name"/>
         <result property="phoneNumber" column="phone_number"/>
     </resultMap>
+
+    <select id="queryEnterpriseWorkerDetail" resultMap="enterpriseWorkerDetailVO">
+        SELECT t2.enterprise_name, t1.avatar, t1.worker_name, t1.position_name FROM diyi_enterprise_worker t1 INNER JOIN diyi_enterprise t2
+        ON t1.enterprise_id = t2.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.id = #{param1}
+    </select>
 
     <select id="queryEnterpriseWorkerList" resultMap="enterpriseWorkerListVO">
         SELECT id AS enterprise_worker_id, worker_name, phone_number FROM diyi_enterprise_worker WHERE is_deleted = 0

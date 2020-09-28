@@ -8,6 +8,7 @@ import com.lgyun.system.user.dto.enterprise.AddOrUpdateEnterpriseContactDTO;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.vo.EnterpriseWorkerVO;
 import com.lgyun.system.user.vo.admin.EnterpriseWorkerListVO;
+import com.lgyun.system.user.vo.enterprise.EnterpriseWorkerDetailVO;
 
 import java.util.List;
 
@@ -18,6 +19,22 @@ import java.util.List;
  * @since 2020-07-23 17:50:16
  */
 public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEntity> {
+
+    /**
+     * 查询当前商户员工
+     *
+     * @param bladeUser
+     * @return
+     */
+    R<EnterpriseWorkerEntity> currentEnterpriseWorker(BladeUser bladeUser);
+
+    /**
+     * 查询当前商户员工详情
+     *
+     * @param enterpriseWorkerId
+     * @return
+     */
+    R<EnterpriseWorkerDetailVO> queryEnterpriseWorkerDetail(Long enterpriseWorkerId);
 
     /**
      * 根据手机号码查询商户员工
@@ -42,14 +59,6 @@ public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEn
      * @return
      */
     Integer findCountByPhoneNumber(String phoneNumber);
-
-    /**
-     * 查询当前商户员工
-     *
-     * @param bladeUser
-     * @return
-     */
-    R<EnterpriseWorkerEntity> currentEnterpriseWorker(BladeUser bladeUser);
 
     /**
      * 根据userId查找商户员工

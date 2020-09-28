@@ -8,6 +8,7 @@ import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.mapper.AdminMapper;
 import com.lgyun.system.user.service.IAdminService;
+import com.lgyun.system.user.vo.admin.AdminDetailVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,11 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
         }
 
         return R.data(adminEntity);
+    }
+
+    @Override
+    public R<AdminDetailVO> queryAdminDetail(Long adminId) {
+        return R.data(baseMapper.queryAdminDetail(adminId));
     }
 
     @Override

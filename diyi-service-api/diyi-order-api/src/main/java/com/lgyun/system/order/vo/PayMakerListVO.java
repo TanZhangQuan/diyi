@@ -2,7 +2,6 @@ package com.lgyun.system.order.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -14,7 +13,6 @@ import java.math.BigDecimal;
  * @time 14:36.
  */
 @Data
-@ApiModel(value = "AcceptPayMakerListVO对象", description = "AcceptPayMakerListVO对象")
 public class PayMakerListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 

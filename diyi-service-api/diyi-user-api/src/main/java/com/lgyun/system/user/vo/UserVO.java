@@ -2,10 +2,9 @@ package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import io.swagger.annotations.ApiModel;
+import com.lgyun.system.user.entity.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.lgyun.system.user.entity.User;
 
 /**
  * User 视图实体类
@@ -15,7 +14,6 @@ import com.lgyun.system.user.entity.User;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "UserVO对象", description = "UserVO对象")
 public class UserVO extends User {
     private static final long serialVersionUID = 1L;
 

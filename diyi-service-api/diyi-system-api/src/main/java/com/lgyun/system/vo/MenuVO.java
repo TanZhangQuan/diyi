@@ -19,7 +19,6 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "MenuVO对象", description = "MenuVO对象")
 public class MenuVO extends Menu implements INode {
     private static final long serialVersionUID = 1L;
 

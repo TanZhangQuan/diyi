@@ -13,7 +13,6 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "ServiceProviderVO对象", description = "ServiceProviderVO对象")
 public class ServiceProviderVO extends ServiceProviderEntity {
     private static final long serialVersionUID = 1L;
 

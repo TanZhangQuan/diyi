@@ -16,7 +16,6 @@ import java.util.Date;
  * @time 15:29.
  */
 @Data
-@ApiModel(value = "SelfHelpInvoiceDetailsVO对象", description = "SelfHelpInvoiceDetailsVO对象")
 public class SelfHelpInvoiceDetailsVO implements Serializable {
     private static final long serialVersionUID = 1L;
 

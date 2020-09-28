@@ -1,6 +1,5 @@
 package com.lgyun.system.user.vo;
 
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,7 +10,6 @@ import java.io.Serializable;
  * @time 14:55.
  */
 @Data
-@ApiModel(value = "ServiceProviderInvoiceVO对象", description = "ServiceProviderInvoiceVO对象")
 public class ServiceProviderInvoiceVO implements Serializable {
     private static final long serialVersionUID = 1L;
 

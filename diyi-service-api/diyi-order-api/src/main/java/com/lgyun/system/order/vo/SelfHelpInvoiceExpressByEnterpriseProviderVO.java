@@ -1,6 +1,5 @@
 package com.lgyun.system.order.vo;
 
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,7 +10,6 @@ import java.io.Serializable;
  * @time 15:36.
  */
 @Data
-@ApiModel(value = "SelfHelpInvoiceExpressByEnterpriseVO对象", description = "SelfHelpInvoiceExpressByEnterpriseVO对象")
 public class SelfHelpInvoiceExpressByEnterpriseProviderVO implements Serializable {
 
     /**

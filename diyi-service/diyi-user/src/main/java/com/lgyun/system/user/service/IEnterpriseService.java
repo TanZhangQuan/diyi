@@ -13,7 +13,7 @@ import com.lgyun.system.user.vo.EnterprisesDetailVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 import com.lgyun.system.user.vo.admin.*;
-import com.lgyun.system.user.vo.enterprise.EnterpriseResponse;
+import com.lgyun.system.user.vo.enterprise.EnterpriseVO;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -74,7 +74,7 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * @param enterpriseId
      * @return
      */
-    R<EnterpriseResponse> getBasicEnterpriseResponse(Long enterpriseId);
+    R<EnterpriseVO> getBasicEnterpriseResponse(Long enterpriseId);
 
     /**
      * 上传商户营业执照

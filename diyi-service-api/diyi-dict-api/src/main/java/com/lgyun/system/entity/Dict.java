@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.core.mp.base.BaseEntity;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -16,7 +15,6 @@ import lombok.Data;
  */
 @Data
 @TableName("sys_dict")
-@ApiModel(value = "Dict对象", description = "Dict对象")
 public class Dict extends BaseEntity {
     private static final long serialVersionUID = 1L;
 

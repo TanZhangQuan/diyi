@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.CrowdSourcingPayType;
 import com.lgyun.common.enumeration.SelfHelpInvoiceSpApplyState;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -18,7 +17,6 @@ import java.util.Date;
  * @time 15:36.
  */
 @Data
-@ApiModel(value = "SelfHelpInvoiceSingleByServiceProviderVO对象", description = "SelfHelpInvoiceSingleByServiceProviderVO对象")
 public class SelfHelpInvoiceSingleByServiceProviderVO implements Serializable {
 
     /**

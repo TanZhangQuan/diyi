@@ -14,7 +14,6 @@ import java.math.BigDecimal;
  * @time 15:36.
  */
 @Data
-@ApiModel(value = "SelfHelpInvoiceDetailListByEnterpriseVO对象", description = "SelfHelpInvoiceDetailListByEnterpriseVO对象")
 public class SelfHelpInvoiceDetailListVO implements Serializable {
 
     /**

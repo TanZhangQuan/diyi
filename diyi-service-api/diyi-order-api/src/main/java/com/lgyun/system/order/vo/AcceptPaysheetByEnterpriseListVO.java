@@ -16,7 +16,6 @@ import java.util.Date;
  * @time 20:04.
  */
 @Data
-@ApiModel(value = "AcceptPaysheetEnterpriseVO对象", description = "AcceptPaysheetEnterpriseVO对象")
 public class AcceptPaysheetByEnterpriseListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 

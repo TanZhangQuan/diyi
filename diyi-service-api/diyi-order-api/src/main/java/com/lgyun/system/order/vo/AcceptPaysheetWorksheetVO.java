@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lgyun.common.enumeration.AcceptPaysheetType;
 import com.lgyun.common.enumeration.WorkSheetMode;
 import com.lgyun.common.enumeration.WorkSheetType;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -17,7 +16,6 @@ import java.util.Date;
  * @time 20:04.
  */
 @Data
-@ApiModel(value = "AcceptPaysheetWorksheetVO对象", description = "AcceptPaysheetWorksheetVO对象")
 public class AcceptPaysheetWorksheetVO implements Serializable {
     private static final long serialVersionUID = 1L;
 

@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.EnterprisePayState;
 import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.common.enumeration.PayEnterpriseAuditState;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -19,7 +18,6 @@ import java.util.Date;
  * @time 14:36.
  */
 @Data
-@ApiModel(value = "PayListVO对象", description = "PayListVO对象")
 public class PayEnterpriseMakersListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 

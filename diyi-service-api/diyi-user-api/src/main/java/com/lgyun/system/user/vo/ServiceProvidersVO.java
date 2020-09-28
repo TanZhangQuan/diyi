@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.CooperateStatus;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -17,7 +16,6 @@ import java.util.Date;
  * @time 14:55.
  */
 @Data
-@ApiModel(value = "ServiceProvidersVO对象", description = "ServiceProvidersVO对象")
 public class ServiceProvidersVO implements Serializable {
     private static final long serialVersionUID = 1L;
 

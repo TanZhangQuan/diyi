@@ -1,19 +1,17 @@
-package com.lgyun.system.user.vo.service_provider;
+package com.lgyun.system.user.dto.service_provider;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 /**
- * ServiceAccountRequest
+ * ServiceAccountDTO
  *
  * @author liangfeihu
  * @since 2020/9/19 16:40
  */
 @Data
-@NoArgsConstructor
-public class ServiceAccountRequest implements Serializable {
+public class ServiceAccountDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static final Integer ACCOUNT_DEL = 1;

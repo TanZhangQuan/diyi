@@ -17,7 +17,6 @@ import java.util.Date;
  * @time 15:53.
  */
 @Data
-@ApiModel(value = "WorksheetMakerDetailsVO对象", description = "WorksheetMakerDetailsVO对象")
 public class WorksheetMakerDetailsVO implements Serializable {
     private static final long serialVersionUID = 1L;
 

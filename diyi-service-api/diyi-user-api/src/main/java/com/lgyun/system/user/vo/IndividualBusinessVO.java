@@ -13,7 +13,6 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "IndividualBusinessVO对象", description = "IndividualBusinessVO对象")
 public class IndividualBusinessVO extends IndividualBusinessEntity {
     private static final long serialVersionUID = 1L;
 

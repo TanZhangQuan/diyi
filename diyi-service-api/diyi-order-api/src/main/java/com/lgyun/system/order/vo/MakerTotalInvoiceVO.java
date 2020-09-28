@@ -12,6 +12,5 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "MakerTotalInvoiceVO对象", description = "MakerTotalInvoiceVO对象")
 public class MakerTotalInvoiceVO extends MakerTotalInvoiceEntity {
 }

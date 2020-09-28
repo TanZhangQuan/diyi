@@ -15,7 +15,6 @@ import java.util.Date;
  * @time 15:53.
  */
 @Data
-@ApiModel(value = "WorksheetByEnterpriseVO对象", description = "WorksheetByEnterpriseVO对象")
 public class WorksheetByEnterpriseVO implements Serializable {
     private static final long serialVersionUID = 1L;
 

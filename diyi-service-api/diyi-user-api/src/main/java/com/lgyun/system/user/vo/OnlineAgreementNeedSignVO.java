@@ -16,7 +16,6 @@ import java.io.Serializable;
  * @time 14:48.
  */
 @Data
-@ApiModel(value = "OnlineAgreementNeedSignVO对象", description = "OnlineAgreementNeedSignVO对象")
 public class OnlineAgreementNeedSignVO implements Serializable {
     private static final long serialVersionUID = 1L;
 

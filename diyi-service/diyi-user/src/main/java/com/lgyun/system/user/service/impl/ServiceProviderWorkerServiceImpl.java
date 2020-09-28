@@ -8,8 +8,8 @@ import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.BeanServiceUtil;
 import com.lgyun.common.tool.DigestUtil;
-import com.lgyun.common.tool.RedisUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.system.dto.GrantDTO;
 import com.lgyun.system.feign.ISysClient;
 import com.lgyun.system.user.dto.service_provider.AddOrUpdateServiceProviderContactDTO;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
@@ -22,7 +22,7 @@ import com.lgyun.system.user.service.IServiceProviderWorkerService;
 import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.user.vo.ServiceProviderWorkerVO;
 import com.lgyun.system.user.vo.admin.ServiceProviderWorkerListVO;
-import com.lgyun.system.dto.GrantDTO;
+import com.lgyun.system.user.vo.service_provider.ServiceProviderWorkerDetailVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -47,31 +47,7 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
 
     private IUserService userService;
     private IServiceProviderService iServiceProviderService;
-    private RedisUtil redisUtil;
-
-    private final ISysClient sysClient;
-
-    @Override
-    public ServiceProviderWorkerEntity findByPhoneNumber(String phoneNumber) {
-        QueryWrapper<ServiceProviderWorkerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(ServiceProviderWorkerEntity::getPhoneNumber, phoneNumber);
-        return baseMapper.selectOne(queryWrapper);
-    }
-
-    @Override
-    public ServiceProviderWorkerEntity findByEmployeeUserNameAndEmployeePwd(String employeeUserName, String employeePwd) {
-        QueryWrapper<ServiceProviderWorkerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(ServiceProviderWorkerEntity::getEmployeeUserName, employeeUserName)
-                .eq(ServiceProviderWorkerEntity::getEmployeePwd, employeePwd);
-        return baseMapper.selectOne(queryWrapper);
-    }
-
-    @Override
-    public Integer findCountByPhoneNumber(String phoneNumber) {
-        QueryWrapper<ServiceProviderWorkerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(ServiceProviderWorkerEntity::getPhoneNumber, phoneNumber);
-        return baseMapper.selectCount(queryWrapper);
-    }
+    private ISysClient sysClient;
 
     @Override
     public R<ServiceProviderWorkerEntity> currentServiceProviderWorker(BladeUser bladeUser) {
@@ -99,6 +75,33 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
         }
 
         return R.data(serviceProviderWorkerEntity);
+    }
+
+    @Override
+    public R<ServiceProviderWorkerDetailVO> queryServiceProviderWorkerDetail(Long serviceProviderWorkerId) {
+        return R.data(baseMapper.queryServiceProviderWorkerDetail(serviceProviderWorkerId));
+    }
+
+    @Override
+    public ServiceProviderWorkerEntity findByPhoneNumber(String phoneNumber) {
+        QueryWrapper<ServiceProviderWorkerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(ServiceProviderWorkerEntity::getPhoneNumber, phoneNumber);
+        return baseMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public ServiceProviderWorkerEntity findByEmployeeUserNameAndEmployeePwd(String employeeUserName, String employeePwd) {
+        QueryWrapper<ServiceProviderWorkerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(ServiceProviderWorkerEntity::getEmployeeUserName, employeeUserName)
+                .eq(ServiceProviderWorkerEntity::getEmployeePwd, employeePwd);
+        return baseMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public Integer findCountByPhoneNumber(String phoneNumber) {
+        QueryWrapper<ServiceProviderWorkerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(ServiceProviderWorkerEntity::getPhoneNumber, phoneNumber);
+        return baseMapper.selectCount(queryWrapper);
     }
 
     @Override

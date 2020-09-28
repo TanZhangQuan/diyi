@@ -12,7 +12,6 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "PostVO对象", description = "岗位表")
 public class PostVO extends Post {
     private static final long serialVersionUID = 1L;
 

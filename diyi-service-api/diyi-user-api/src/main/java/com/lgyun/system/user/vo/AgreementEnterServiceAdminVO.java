@@ -2,7 +2,6 @@ package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -14,7 +13,6 @@ import java.io.Serializable;
  * @time 12:00.
  */
 @Data
-@ApiModel(value = "AgreementEnterServiceAdminVO对象", description = "AgreementEnterServiceAdminVO对象")
 public class AgreementEnterServiceAdminVO implements Serializable {
     private static final long serialVersionUID = 1L;
 

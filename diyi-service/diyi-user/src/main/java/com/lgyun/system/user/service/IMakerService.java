@@ -25,6 +25,14 @@ import java.util.List;
 public interface IMakerService extends IService<MakerEntity> {
 
     /**
+     * 查询当前创客
+     *
+     * @param bladeUser
+     * @return
+     */
+    R<MakerEntity> currentMaker(BladeUser bladeUser);
+
+    /**
      * 查询创客基本信息
      *
      * @param makerId
@@ -211,14 +219,6 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      */
     R<MakerEnterpriseNumIncomeVO> getEnterpriseNumIncome(Long makerId);
-
-    /**
-     * 查询当前创客
-     *
-     * @param bladeUser
-     * @return
-     */
-    R<MakerEntity> currentMaker(BladeUser bladeUser);
 
     /**
      * 上传创客视频

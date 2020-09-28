@@ -54,6 +54,25 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     private IOnlineAgreementTemplateService onlineAgreementTemplateService;
 
     @Override
+    public R<MakerEntity> currentMaker(BladeUser bladeUser) {
+
+        if (bladeUser == null || bladeUser.getUserId() == null) {
+            return R.fail("用户未登录");
+        }
+
+        MakerEntity makerEntity = findByUserId(bladeUser.getUserId());
+        if (makerEntity == null) {
+            return R.fail("创客不存在");
+        }
+
+        if (!(AccountState.NORMAL.equals(makerEntity.getMakerState()))) {
+            return R.fail("账号状态非正常，请联系客服");
+        }
+
+        return R.data(makerEntity);
+    }
+
+    @Override
     public R<MakerInfoVO> queryMakerInfo(Long makerId) {
         return R.data(baseMapper.queryMakerInfo(makerId));
     }
@@ -570,25 +589,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     @Override
     public R<MakerEnterpriseNumIncomeVO> getEnterpriseNumIncome(Long makerId) {
         return R.data(baseMapper.getEnterpriseNumIncome(makerId, makerId));
-    }
-
-    @Override
-    public R<MakerEntity> currentMaker(BladeUser bladeUser) {
-
-        if (bladeUser == null || bladeUser.getUserId() == null) {
-            return R.fail("用户未登录");
-        }
-
-        MakerEntity makerEntity = findByUserId(bladeUser.getUserId());
-        if (makerEntity == null) {
-            return R.fail("创客不存在");
-        }
-
-        if (!(AccountState.NORMAL.equals(makerEntity.getMakerState()))) {
-            return R.fail("账号状态非正常，请联系客服");
-        }
-
-        return R.data(makerEntity);
     }
 
     @Override

@@ -14,7 +14,6 @@ import java.util.Date;
  * @time 17:23.
  */
 @Data
-@ApiModel(value = "EnterprisePaymentListVO对象",description = "EnterprisePaymentListVO对象")
 public class EnterprisePaymentListVO {
     private static final long serialVersionUID = 1L;
 

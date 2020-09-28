@@ -3,11 +3,23 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.ServiceProviderWorkerMapper">
 
+    <resultMap type="com.lgyun.system.user.vo.admin.ServiceProviderWorkerDetailVO" id="serviceProviderWorkerDetailVO">
+        <result property="serviceProviderName" column="service_provider_name"/>
+        <result property="avatar" column="avatar"/>
+        <result property="workerName" column="worker_name"/>
+        <result property="positionName" column="position_name"/>
+    </resultMap>
+
     <resultMap type="com.lgyun.system.user.vo.admin.ServiceProviderWorkerListVO" id="serviceProviderWorkerListVO">
         <result property="serviceProviderId" column="service_provider_id"/>
         <result property="workerName" column="worker_name"/>
         <result property="phoneNumber" column="phone_number"/>
     </resultMap>
+
+    <select id="queryServiceProviderWorkerDetail" resultMap="serviceProviderWorkerDetailVO">
+        SELECT t2.service_provider_name, t1.avatar, t1.worker_name, t1.position_name FROM diyi_service_provider_worker t1 INNER JOIN diyi_service_provider t2
+        ON t1.service_provider_id = t2.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.id = #{param1}
+    </select>
 
     <select id="queryServiceProviderWorkerList" resultMap="serviceProviderWorkerListVO">
         SELECT id AS service_provider_id, worker_name, phone_number FROM diyi_service_provider_worker WHERE is_deleted = 0

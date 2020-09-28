@@ -8,20 +8,22 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 服务商员工表控制器
+ * 服务商端---首页管理模块相关接口
  *
- * @author tzq
- * @since 2020-08-13 17:05:17
+ * @author jun.
+ * @date 2020/9/9.
+ * @time 10:17.
  */
 @RestController
-@RequestMapping("/web/service_provider_worker")
+//@RequestMapping("/service-provider/home-page")
 @Validated
 @AllArgsConstructor
-@Api(value = "服务商员工表相关接口(管理端)", tags = "服务商员工表相关接口(管理端)")
-public class ServiceProviderWorkerWebController {
+@Api(value = "服务商端---首页管理模块相关接口", tags = "服务商端---首页管理模块相关接口")
+public class HomePageServiceProviderController {
 
     private IServiceProviderWorkerService serviceProviderWorkerService;
 
@@ -35,7 +37,7 @@ public class ServiceProviderWorkerWebController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return R.data(ServiceProviderWorkerWrapper.build().entityVO(serviceProviderWorkerEntity));
+        return serviceProviderWorkerService.queryServiceProviderWorkerDetail(serviceProviderWorkerEntity.getId());
     }
 
 }

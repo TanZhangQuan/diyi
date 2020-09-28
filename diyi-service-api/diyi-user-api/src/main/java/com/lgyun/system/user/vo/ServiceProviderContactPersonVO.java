@@ -12,7 +12,6 @@ import java.io.Serializable;
  * @time 14:55.
  */
 @Data
-@ApiModel(value = "ServiceProviderContactPersonVO对象", description = "ServiceProviderContactPersonVO对象")
 public class ServiceProviderContactPersonVO implements Serializable {
     private static final long serialVersionUID = 1L;
 

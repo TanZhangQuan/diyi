@@ -135,9 +135,7 @@ public class EnterpriseAccountController {
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
         // 执行新增、更新、授权操作
-        R<String> stringR = enterpriseWorkerService.saveEnterpriseAccount(request, enterpriseWorkerEntity, bladeUser);
-
-        return stringR;
+        return enterpriseWorkerService.saveEnterpriseAccount(request, enterpriseWorkerEntity, bladeUser);
     }
 
 }

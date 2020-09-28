@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.CertificationState;
 import com.lgyun.common.enumeration.SignState;
 import com.lgyun.common.enumeration.VerifyStatus;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -16,7 +15,6 @@ import java.io.Serializable;
  * @time 9:22.
  */
 @Data
-@ApiModel(value = "MakerWorksheetVO对象", description = "MakerWorksheetVO对象")
 public class MakerWorksheetVO implements Serializable {
     private static final long serialVersionUID = 1L;
 

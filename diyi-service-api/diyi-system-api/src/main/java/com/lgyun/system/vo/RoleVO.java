@@ -3,11 +3,10 @@ package com.lgyun.system.vo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import io.swagger.annotations.ApiModel;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import com.lgyun.common.node.INode;
 import com.lgyun.system.entity.Role;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,6 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "RoleVO对象", description = "RoleVO对象")
 public class RoleVO extends Role implements INode {
     private static final long serialVersionUID = 1L;
 

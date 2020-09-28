@@ -16,7 +16,6 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
-@ApiModel(value = "授权请求对象", description = "授权请求对象")
 public class GrantDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 

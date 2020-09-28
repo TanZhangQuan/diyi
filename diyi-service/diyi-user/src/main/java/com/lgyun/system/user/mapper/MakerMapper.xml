@@ -11,13 +11,6 @@
     </resultMap>
 
     <resultMap type="com.lgyun.system.user.vo.maker.MakerDetailVO" id="makerDetailVO">
-        <result property="avatar" column="avatar"/>
-        <result property="name" column="name"/>
-        <result property="certificationState" column="certification_state"/>
-        <result property="selfDesc" column="self_desc"/>
-    </resultMap>
-
-    <resultMap type="com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO" id="makerEnterpriseNumIncomeVO">
         <result property="relDate" column="rel_date"/>
         <result property="name" column="name"/>
         <result property="avatar" column="avatar"/>
@@ -64,6 +57,13 @@
         <result property="videoAudit" column="video_audit"/>
         <result property="videoAuditDate" column="video_audit_date"/>
         <result property="videoAuditPersonId" column="video_audit_person_id"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO" id="makerEnterpriseNumIncomeVO">
+        <result property="enterpriseNum" column="enterprise_num"/>
+        <result property="monthIncome" column="month_income"/>
+        <result property="yearIncome" column="year_income"/>
+        <result property="allIncome" column="all_income"/>
     </resultMap>
 
     <resultMap type="com.lgyun.system.user.vo.EnterpriseMakerDetailVO" id="enterpriseMakerDetailVO">

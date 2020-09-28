@@ -12,7 +12,6 @@ import lombok.Data;
  * @time 14:31.
  */
 @Data
-@ApiModel(value = "EnterpriseSubcontractInvoiceVO对象",description = "EnterpriseSubcontractInvoiceVO对象")
 public class EnterpriseSubcontractPortalVO {
     private static final long serialVersionUID = 1L;
 

@@ -15,7 +15,6 @@ import java.io.Serializable;
  * @time 14:26.
  */
 @Data
-@ApiModel(value = "InvoiceServiceLumpDetailsVO对象", description = "InvoiceServiceLumpDetailsVO对象")
 public class InvoiceServiceLumpDetailsVO implements Serializable {
     private static final long serialVersionUID = 1L;
 

@@ -1,9 +1,10 @@
 package com.lgyun.system.user.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lgyun.system.user.vo.admin.ServiceProviderWorkerListVO;
+import com.lgyun.system.user.vo.service_provider.ServiceProviderWorkerDetailVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -18,6 +19,14 @@ import java.util.List;
 public interface ServiceProviderWorkerMapper extends BaseMapper<ServiceProviderWorkerEntity> {
 
     /**
+     * 查询当前服务商员工详情
+     *
+     * @param serviceProviderWorkerId
+     * @return
+     */
+    ServiceProviderWorkerDetailVO queryServiceProviderWorkerDetail(Long serviceProviderWorkerId);
+
+    /**
      * 查询服务商员工
      *
      * @param serviceProviderId
@@ -25,5 +34,6 @@ public interface ServiceProviderWorkerMapper extends BaseMapper<ServiceProviderW
      * @return
      */
     List<ServiceProviderWorkerListVO> queryServiceProviderWorkerList(Long serviceProviderId, PositionName positionName);
+
 }
 

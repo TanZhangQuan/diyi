@@ -4,6 +4,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.AdminEntity;
+import com.lgyun.system.user.vo.admin.AdminDetailVO;
 
 /**
  * 平台管理员信息表 Service 接口
@@ -20,6 +21,14 @@ public interface IAdminService extends BaseService<AdminEntity> {
      * @return
      */
     R<AdminEntity> currentAdmin(BladeUser bladeUser);
+
+    /**
+     * 查询当前管理员详情
+     *
+     * @param adminId
+     * @return
+     */
+    R<AdminDetailVO> queryAdminDetail(Long adminId);
 
     /**
      * 根据userId查询管理员

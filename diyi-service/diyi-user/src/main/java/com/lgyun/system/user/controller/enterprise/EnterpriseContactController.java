@@ -6,7 +6,7 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.dto.enterprise.AddOrUpdateEnterpriseContactDTO;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
-import com.lgyun.system.user.vo.enterprise.EnterpriseContactResponse;
+import com.lgyun.system.user.vo.enterprise.EnterpriseContactVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -45,9 +45,9 @@ public class EnterpriseContactController {
         queryWrapper.lambda().eq(EnterpriseWorkerEntity::getEnterpriseId, enterpriseWorkerEntity.getEnterpriseId());
         List<EnterpriseWorkerEntity> list = enterpriseWorkerService.list(queryWrapper);
 
-        List<EnterpriseContactResponse> responseList = new ArrayList<>();
+        List<EnterpriseContactVO> responseList = new ArrayList<>();
         list.forEach(entity -> {
-            EnterpriseContactResponse response = new EnterpriseContactResponse();
+            EnterpriseContactVO response = new EnterpriseContactVO();
             BeanUtils.copyProperties(entity, response);
             response.setWorkerSex(entity.getWorkerSex().getDesc());
             response.setCreateTime(entity.getCreateTime().getTime());

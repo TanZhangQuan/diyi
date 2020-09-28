@@ -19,7 +19,6 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "DeptVO对象", description = "DeptVO对象")
 public class DeptVO extends Dept implements INode {
     private static final long serialVersionUID = 1L;
 

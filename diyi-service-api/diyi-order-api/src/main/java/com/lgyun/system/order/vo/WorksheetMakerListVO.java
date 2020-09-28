@@ -14,7 +14,6 @@ import java.math.BigDecimal;
  * @time 15:53.
  */
 @Data
-@ApiModel(value = "WorksheetMakerDetailsVO对象", description = "WorksheetMakerDetailsVO对象")
 public class WorksheetMakerListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 

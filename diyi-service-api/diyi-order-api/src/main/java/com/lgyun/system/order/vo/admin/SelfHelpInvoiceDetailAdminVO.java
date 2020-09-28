@@ -3,7 +3,6 @@ package com.lgyun.system.order.vo.admin;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.InvoicePrintState;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -14,7 +13,6 @@ import java.io.Serializable;
  * @time 10:57.
  */
 @Data
-@ApiModel(value = "SelfHelpInvoiceDetailAdminVO对象", description = "SelfHelpInvoiceDetailAdminVO对象")
 public class SelfHelpInvoiceDetailAdminVO implements Serializable {
     private static final long serialVersionUID = 1L;
 

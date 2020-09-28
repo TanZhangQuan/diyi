@@ -1,19 +1,17 @@
 package com.lgyun.system.user.vo.enterprise;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 /**
- * EnterpriseResponse
+ * EnterpriseVO
  *
  * @author liangfeihu
  * @since 2020/8/18 22:40
  */
 @Data
-@NoArgsConstructor
-public class EnterpriseResponse implements Serializable {
+public class EnterpriseVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**

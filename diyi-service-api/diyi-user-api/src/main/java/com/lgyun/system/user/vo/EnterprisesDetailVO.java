@@ -2,7 +2,6 @@ package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lgyun.common.enumeration.AccountState;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -14,7 +13,6 @@ import java.util.Date;
  * @time 14:55.
  */
 @Data
-@ApiModel(value = "EnterprisesDetailVO对象", description = "EnterprisesDetailVO对象")
 public class EnterprisesDetailVO implements Serializable {
     private static final long serialVersionUID = 1L;
 

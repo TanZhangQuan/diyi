@@ -13,7 +13,6 @@ import java.io.Serializable;
  * @time 19:50.
  */
 @Data
-@ApiModel(value = "MakerEnterpriseWebVO对象", description = "MakerEnterpriseWebVO对象")
 public class MakerEnterpriseWebVO implements Serializable {
     private static final long serialVersionUID = 1L;
 

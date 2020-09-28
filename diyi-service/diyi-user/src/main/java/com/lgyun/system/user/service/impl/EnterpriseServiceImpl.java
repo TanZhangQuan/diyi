@@ -21,7 +21,7 @@ import com.lgyun.system.user.vo.EnterprisesDetailVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 import com.lgyun.system.user.vo.admin.*;
-import com.lgyun.system.user.vo.enterprise.EnterpriseResponse;
+import com.lgyun.system.user.vo.enterprise.EnterpriseVO;
 import com.lgyun.system.user.wrapper.EnterpriseWrapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -121,11 +121,11 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
      * @return
      */
     @Override
-    public R<EnterpriseResponse> getBasicEnterpriseResponse(Long enterpriseId) {
+    public R<EnterpriseVO> getBasicEnterpriseResponse(Long enterpriseId) {
         EnterpriseEntity enterpriseEntity = getById(enterpriseId);
-        EnterpriseResponse enterpriseResponse = new EnterpriseResponse();
-        BeanUtils.copyProperties(enterpriseEntity, enterpriseResponse);
-        return R.data(enterpriseResponse);
+        EnterpriseVO enterpriseVO = new EnterpriseVO();
+        BeanUtils.copyProperties(enterpriseEntity, enterpriseVO);
+        return R.data(enterpriseVO);
     }
 
     /**

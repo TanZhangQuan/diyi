@@ -3,11 +3,10 @@ package com.lgyun.system.vo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.node.INode;
 import com.lgyun.system.entity.Dict;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.lgyun.common.node.INode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,6 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "DictVO对象", description = "DictVO对象")
 public class DictVO extends Dict implements INode {
 	private static final long serialVersionUID = 1L;
 	/**

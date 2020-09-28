@@ -4,7 +4,6 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.service.IAdminService;
-import com.lgyun.system.user.wrapper.AdminWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -38,7 +37,7 @@ public class HomePageAdminController {
         }
         AdminEntity adminEntity = result.getData();
 
-        return R.data(AdminWrapper.build().entityVO(adminEntity));
+        return adminService.queryAdminDetail(adminEntity.getId());
     }
 
 }

@@ -12,7 +12,6 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "SelfHelpInvoiceAccountVO对象", description = "SelfHelpInvoiceAccountVO对象")
 public class SelfHelpInvoiceAccountVO extends SelfHelpInvoiceAccountEntity {
     private static final long serialVersionUID = 1L;
 }

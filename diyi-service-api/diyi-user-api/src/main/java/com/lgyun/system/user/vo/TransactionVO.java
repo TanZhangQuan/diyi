@@ -1,6 +1,5 @@
 package com.lgyun.system.user.vo;
 
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -12,7 +11,6 @@ import java.math.BigDecimal;
  * @time 14:36.
  */
 @Data
-@ApiModel(value = "PayEnterpriseStatisticalVO对象", description = "PayEnterpriseStatisticalVO对象")
 public class TransactionVO implements Serializable {
     private static final long serialVersionUID = 1L;
 

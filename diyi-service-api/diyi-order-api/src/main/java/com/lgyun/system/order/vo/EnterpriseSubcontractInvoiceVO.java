@@ -12,7 +12,6 @@ import lombok.Data;
  * @time 9:47.
  */
 @Data
-@ApiModel(value = "EnterpriseSubcontractInvoiceVO对象",description = "EnterpriseSubcontractInvoiceVO对象")
 public class EnterpriseSubcontractInvoiceVO {
     private static final long serialVersionUID = 1L;
     @JsonSerialize(using = ToStringSerializer.class)

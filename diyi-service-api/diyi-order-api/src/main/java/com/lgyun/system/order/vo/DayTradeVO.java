@@ -12,7 +12,6 @@ import java.math.BigDecimal;
  * @time 20:04.
  */
 @Data
-@ApiModel(value = "DayTradeVO对象", description = "DayTradeVO对象")
 public class DayTradeVO implements Serializable {
     private static final long serialVersionUID = 1L;
 

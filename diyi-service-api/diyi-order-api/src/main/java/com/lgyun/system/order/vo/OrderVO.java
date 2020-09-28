@@ -1,7 +1,6 @@
 package com.lgyun.system.order.vo;
 
 import com.lgyun.system.order.entity.AddressEntity;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,7 +12,6 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "OrderVO对象", description = "OrderVO对象")
 public class OrderVO extends AddressEntity {
     private static final long serialVersionUID = 1L;
 

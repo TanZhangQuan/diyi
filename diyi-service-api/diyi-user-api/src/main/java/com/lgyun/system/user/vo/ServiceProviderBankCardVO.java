@@ -11,7 +11,6 @@ import java.io.Serializable;
  * @time 14:55.
  */
 @Data
-@ApiModel(value = "ServiceProviderBankCardVO对象", description = "ServiceProviderBankCardVO对象")
 public class ServiceProviderBankCardVO implements Serializable {
     private static final long serialVersionUID = 1L;
 

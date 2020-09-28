@@ -8,6 +8,7 @@ import com.lgyun.system.user.dto.service_provider.AddOrUpdateServiceProviderCont
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.vo.ServiceProviderWorkerVO;
 import com.lgyun.system.user.vo.admin.ServiceProviderWorkerListVO;
+import com.lgyun.system.user.vo.service_provider.ServiceProviderWorkerDetailVO;
 
 import java.util.List;
 
@@ -18,6 +19,22 @@ import java.util.List;
  * @since 2020-08-13 17:05:17
  */
 public interface IServiceProviderWorkerService extends BaseService<ServiceProviderWorkerEntity> {
+
+    /**
+     * 查询当前服务商员工
+     *
+     * @param bladeUser
+     * @return
+     */
+    R<ServiceProviderWorkerEntity> currentServiceProviderWorker(BladeUser bladeUser);
+
+    /**
+     * 查询当前服务商员工详情
+     *
+     * @param id
+     * @return
+     */
+    R<ServiceProviderWorkerDetailVO> queryServiceProviderWorkerDetail(Long id);
 
     /**
      * 根据手机号码查询服务商员工
@@ -42,14 +59,6 @@ public interface IServiceProviderWorkerService extends BaseService<ServiceProvid
      * @return
      */
     Integer findCountByPhoneNumber(String phoneNumber);
-
-    /**
-     * 查询当前服务商员工
-     *
-     * @param bladeUser
-     * @return
-     */
-    R<ServiceProviderWorkerEntity> currentServiceProviderWorker(BladeUser bladeUser);
 
     /**
      * 根据userId查询服务商员工
