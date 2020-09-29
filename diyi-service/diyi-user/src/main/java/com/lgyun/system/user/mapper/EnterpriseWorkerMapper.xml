@@ -3,7 +3,7 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.EnterpriseWorkerMapper">
 
-    <resultMap type="com.lgyun.system.user.vo.admin.EnterpriseWorkerDetailVO" id="enterpriseWorkerDetailVO">
+    <resultMap type="com.lgyun.system.user.vo.enterprise.EnterpriseWorkerDetailVO" id="enterpriseWorkerDetailVO">
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="avatar" column="avatar"/>
         <result property="workerName" column="worker_name"/>

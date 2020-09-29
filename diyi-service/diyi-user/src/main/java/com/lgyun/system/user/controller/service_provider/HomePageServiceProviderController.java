@@ -27,7 +27,7 @@ public class HomePageServiceProviderController {
 
     private IServiceProviderWorkerService serviceProviderWorkerService;
 
-    @GetMapping("/current-detail")
+    @GetMapping("/web/service_provider_worker/current-detail")
     @ApiOperation(value = "查询当前服务商员工详情", notes = "查询当前服务商员工详情")
     public R currentDetail(BladeUser bladeUser) {
         //查询当前创客
