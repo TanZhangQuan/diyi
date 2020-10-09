@@ -16,6 +16,7 @@ import java.io.Serializable;
 @Data
 public class InvoiceServiceSubDetailsVO implements Serializable {
     private static final long serialVersionUID = 1L;
+
     /**
      * 支付清单id
      */

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.SelfHelpInvoiceApplyState;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -19,23 +18,35 @@ import java.util.Date;
 public class SelfHelpInvoiceSerProVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //自助开票ID
+    /**
+     * 自助开票ID
+     */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    //自助开票状态
+    /**
+     * 自助开票状态
+     */
     private SelfHelpInvoiceApplyState currentState;
 
-    //购买方
+    /**
+     * 购买方
+     */
     private String enterpriseName;
 
-    //发票扫描件（多张）
+    /**
+     * 发票扫描件（多张）
+     */
     private String invoiceScanPictures;
 
-    //税票扫描件（多张）
+    /**
+     * 税票扫描件（多张）
+     */
     private String taxScanPictures;
 
-    //创建时间
+    /**
+     * 创建时间
+     */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 

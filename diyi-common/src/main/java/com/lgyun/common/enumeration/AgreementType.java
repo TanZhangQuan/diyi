@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 协议类别
+ * 合同协议类别
  */
 @Getter
 @AllArgsConstructor

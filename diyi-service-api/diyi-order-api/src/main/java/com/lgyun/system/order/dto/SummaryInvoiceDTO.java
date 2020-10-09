@@ -21,43 +21,43 @@ public class SummaryInvoiceDTO implements Serializable {
     private Long payEnterpriseId;
 
     /**
-     *服务商名字
+     * 服务商名字
      */
     @NotBlank(message = "请输入服务商名字")
     private String serviceProviderName;
 
     /**
-     *发票代码
+     * 发票代码
      */
     @NotBlank(message = "请输入发票代码")
     private String invoiceTypeNo;
 
     /**
-     *发票号码
+     * 发票号码
      */
     @NotBlank(message = "请输入发票号码")
     private String invoiceSerialNo;
 
     /**
-     *货物或应税劳务、服务名称
+     * 货物或应税劳务、服务名称
      */
     @NotBlank(message = "请输入货物或应税劳务、服务名称")
     private String invoiceCategory;
 
     /**
-     *汇总代开发票URL
+     * 汇总代开发票URL
      */
     @NotBlank(message = "请输入汇总代开发票URL")
     private String companyInvoiceUrl;
 
     /**
-     *总完税证明URL
+     * 总完税证明URL
      */
     @NotBlank(message = "请输入总完税证明URL")
     private String makerTaxUrl;
 
     /**
-     *清单式完税凭证URL
+     * 清单式完税凭证URL
      */
     @NotBlank(message = "请输入清单式完税凭证URL")
     private String makerTaxListUrl;

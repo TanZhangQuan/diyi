@@ -18,7 +18,7 @@ public class ConfirmPaymentDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 自助开票收费
+     * 自助开票收费ID
      */
     @NotNull(message = "请输入自助开票收费ID")
     private Long handPayId;

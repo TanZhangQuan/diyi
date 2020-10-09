@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 /**
  * 平台根据商户id查询合作服务商的合同
+ *
  * @author .
  * @date 2020/9/10.
  * @time 12:00.
@@ -35,7 +36,7 @@ public class AgreementEnterServiceAdminVO implements Serializable {
     private Long enterpriseId;
 
     /**
-     *协议编号
+     * 协议编号
      */
     private String agreementNo;
 

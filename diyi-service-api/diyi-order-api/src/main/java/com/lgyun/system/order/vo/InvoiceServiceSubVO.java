@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.common.enumeration.MakerInvoiceType;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -19,6 +18,7 @@ import java.io.Serializable;
 @Data
 public class InvoiceServiceSubVO implements Serializable {
     private static final long serialVersionUID = 1L;
+
     /**
      * 支付清单id
      */

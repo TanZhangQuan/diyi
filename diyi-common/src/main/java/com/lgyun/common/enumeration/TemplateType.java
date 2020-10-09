@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 签署文件类型
+ * 签署文件模板类型
  */
 @Getter
 @AllArgsConstructor

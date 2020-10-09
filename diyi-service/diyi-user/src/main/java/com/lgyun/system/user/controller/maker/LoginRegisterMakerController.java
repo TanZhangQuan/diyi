@@ -34,7 +34,7 @@ public class LoginRegisterMakerController {
     private IMakerService iMakerService;
 
     @PostMapping("/save")
-    @ApiOperation(value = "新增", notes = "新增")
+    @ApiOperation(value = "新增个体户", notes = "新增个体户")
     public R save(@Valid @RequestBody IndividualBusinessEnterpriseAddDTO individualBusinessEnterpriseAddDto, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iMakerService.currentMaker(bladeUser);

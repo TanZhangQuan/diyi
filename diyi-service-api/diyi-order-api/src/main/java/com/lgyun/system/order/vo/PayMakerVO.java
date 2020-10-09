@@ -12,6 +12,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class PayMakerVO extends PayMakerEntity {
+
     /**
      * 门征发票代码
      */
@@ -26,7 +27,6 @@ public class PayMakerVO extends PayMakerEntity {
      * 门征发票Url
      */
     private String makerVoiceUrl;
-
 
     /**
      * 门征发票完税证明代码

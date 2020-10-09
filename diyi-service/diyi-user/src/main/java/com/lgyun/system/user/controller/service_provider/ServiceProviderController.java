@@ -1,19 +1,14 @@
 package com.lgyun.system.user.controller.service_provider;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.Func;
-import com.lgyun.core.mp.support.Condition;
-import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.ServiceProviderBankCardDTO;
 import com.lgyun.system.user.dto.ServiceProviderContactPersonDTO;
 import com.lgyun.system.user.dto.ServiceProviderInvoiceDTO;
-import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.service.IServiceProviderService;
 import com.lgyun.system.user.service.IServiceProviderWorkerService;
-import com.lgyun.system.user.wrapper.ServiceProviderWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -38,38 +33,6 @@ public class ServiceProviderController {
 
     private IServiceProviderService serviceProviderService;
     private IServiceProviderWorkerService serviceProviderWorkerService;
-
-    @PostMapping("/save")
-    @ApiOperation(value = "新增", notes = "新增")
-    public R save(@Valid @RequestBody ServiceProviderEntity serviceProvider) {
-        return R.status(serviceProviderService.save(serviceProvider));
-    }
-
-    @PostMapping("/update")
-    @ApiOperation(value = "修改", notes = "修改")
-    public R update(@Valid @RequestBody ServiceProviderEntity serviceProvider) {
-        return R.status(serviceProviderService.updateById(serviceProvider));
-    }
-
-    @GetMapping("/detail")
-    @ApiOperation(value = "详情", notes = "详情")
-    public R detail(ServiceProviderEntity serviceProvider) {
-        ServiceProviderEntity detail = serviceProviderService.getOne(Condition.getQueryWrapper(serviceProvider));
-        return R.data(ServiceProviderWrapper.build().entityVO(detail));
-    }
-
-    @GetMapping("/list")
-    @ApiOperation(value = "分页", notes = "分页")
-    public R list(ServiceProviderEntity serviceProvider, Query query) {
-        IPage<ServiceProviderEntity> pages = serviceProviderService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(serviceProvider));
-        return R.data(ServiceProviderWrapper.build().pageVO(pages));
-    }
-
-    @PostMapping("/remove")
-    @ApiOperation(value = "删除", notes = "删除")
-    public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
-        return R.status(serviceProviderService.removeByIds(Func.toLongList(ids)));
-    }
 
     @GetMapping("/get_bank_card")
     @ApiOperation(value = "查询当前服务商银行卡信息", notes = "查询当前服务商银行卡信息")
@@ -147,6 +110,12 @@ public class ServiceProviderController {
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
         return serviceProviderService.addOrUpdateInvoice(serviceProviderInvoiceDto, serviceProviderWorkerEntity.getServiceProviderId());
+    }
+
+    @PostMapping("/remove")
+    @ApiOperation(value = "删除", notes = "删除")
+    public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
+        return R.status(serviceProviderService.removeByIds(Func.toLongList(ids)));
     }
 
 }
