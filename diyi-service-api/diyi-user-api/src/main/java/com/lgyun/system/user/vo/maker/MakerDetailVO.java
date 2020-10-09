@@ -36,22 +36,22 @@ public class MakerDetailVO implements Serializable {
     /**
      * 认证状态
      */
-    private CertificationState certificationState = CertificationState.UNCERTIFIED;
+    private CertificationState certificationState;
 
     /**
      * 授权合同签署状态
      */
-    private SignState empowerSignState = SignState.UNSIGN;
+    private SignState empowerSignState;
 
     /**
      * 加盟合同签署状态
      */
-    private SignState joinSignState = SignState.UNSIGN;
+    private SignState joinSignState;
 
     /**
      * 账户状态
      */
-    private AccountState makerState = AccountState.NORMAL;
+    private AccountState makerState;
 
     /**
      * 政治面貌
@@ -146,7 +146,7 @@ public class MakerDetailVO implements Serializable {
     /**
      * 身份证验证状态：未验证，验证通过，验证未通过
      */
-    private VerifyStatus idcardVerifyStatus = VerifyStatus.TOVERIFY;
+    private VerifyStatus idcardVerifyStatus;
 
     /**
      * 身份证验证日期时间
@@ -156,7 +156,7 @@ public class MakerDetailVO implements Serializable {
     /**
      * 人脸验证状态：未验证，验证通过，验证未通过
      */
-    private VerifyStatus faceVerifyStatus = VerifyStatus.TOVERIFY;
+    private VerifyStatus faceVerifyStatus;
 
     /**
      * 人脸验证日期时间
@@ -166,7 +166,7 @@ public class MakerDetailVO implements Serializable {
     /**
      * 银行卡验证状态：未验证，验证通过，验证未通过
      */
-    private VerifyStatus bankCardVerifyStatus = VerifyStatus.TOVERIFY;
+    private VerifyStatus bankCardVerifyStatus;
 
     /**
      * 银行卡验证日期时间
@@ -176,7 +176,7 @@ public class MakerDetailVO implements Serializable {
     /**
      * 手机号码验证状态：未验证，验证通过，验证未通过
      */
-    private VerifyStatus phoneNumberVerifyStatus = VerifyStatus.TOVERIFY;
+    private VerifyStatus phoneNumberVerifyStatus;
 
     /**
      * 手机号码验证日期时间
@@ -236,7 +236,7 @@ public class MakerDetailVO implements Serializable {
     /**
      * 短视频审核状态：未审核，审核通过，审核未通过
      */
-    private VideoAudit videoAudit = VideoAudit.TOAUDIT;
+    private VideoAudit videoAudit;
 
     /**
      * 审核日期
