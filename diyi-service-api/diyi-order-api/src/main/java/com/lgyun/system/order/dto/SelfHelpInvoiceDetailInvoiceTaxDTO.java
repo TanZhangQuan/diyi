@@ -17,15 +17,21 @@ import java.io.Serializable;
 public class SelfHelpInvoiceDetailInvoiceTaxDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //自助开票明细ID
+    /**
+     * 自助开票明细ID
+     */
     @NotNull(message = "请输入自助开票明细编号")
     private Long selfHelpInvoiceDetailId;
 
-    //发票
+    /**
+     * 发票（可能多张）
+     */
     @NotBlank(message = "请上传发票")
     private String InvoiceScanPictures;
 
-    //税票
+    /**
+     * 税票（可能多张）
+     */
     private String TaxScanPictures;
 
 }
