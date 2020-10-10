@@ -53,4 +53,17 @@ public class HomePageMakerController {
         return makerService.queryCurrentMakerDetail(makerEntity.getId());
     }
 
+    @GetMapping("/maker/get-enterprise-num-income")
+    @ApiOperation(value = "查询当前创客关联商户数和收入情况", notes = "查询当前创客关联商户数和收入情况")
+    public R getEnterpriseNumIncome(BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = makerService.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        MakerEntity makerEntity = result.getData();
+
+        return makerService.getEnterpriseNumIncome(makerEntity.getId());
+    }
+
 }
