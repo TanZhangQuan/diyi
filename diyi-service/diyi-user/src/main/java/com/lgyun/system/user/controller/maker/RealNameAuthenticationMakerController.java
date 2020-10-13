@@ -1,4 +1,4 @@
-package com.lgyun.system.user.controller;
+package com.lgyun.system.user.controller.maker;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
@@ -17,22 +17,36 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
- * 控制器
+ * 创客端---实名认证管理模块相关接口
  *
- * @author tzq
- * @since 2020-06-26 17:21:06
+ * @author jun.
+ * @date 2020/9/9.
+ * @time 10:17.
  */
 @RestController
-@RequestMapping("/maker")
+//@RequestMapping("/maker/real-name-authentication")
 @Validated
 @AllArgsConstructor
-@Api(value = "创客的基本信息相关接口", tags = "创客的基本信息相关接口")
-public class MakerController {
+@Api(value = "创客端---实名认证管理模块相关接口", tags = "创客端---实名认证管理模块相关接口")
+public class RealNameAuthenticationMakerController {
 
     private IMakerService makerService;
 
-    @PostMapping("/idcard_ocr")
-    @ApiOperation(value = "身份证实名认证", notes = "身份证实名认证")
+    @GetMapping("/maker/get-real-name-authentication-state")
+    @ApiOperation(value = "查询当前创客所有实名认证状态", notes = "查询当前创客所有实名认证状态")
+    public R getRealNameAuthenticationState(BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = makerService.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        MakerEntity makerEntity = result.getData();
+
+        return makerService.getRealNameAuthenticationState(makerEntity.getId());
+    }
+
+    @PostMapping("/maker/idcard_ocr")
+    @ApiOperation(value = "身份证正面信息获取", notes = "身份证正面信息获取")
     public R idcardOcr(@ApiParam(value = "正面照片") @NotNull(message = "请选择正面照片") @RequestParam(required = false) String idcardPic, BladeUser bladeUser) throws Exception {
         //查询当前创客
         R<MakerEntity> result = makerService.currentMaker(bladeUser);
@@ -44,7 +58,7 @@ public class MakerController {
         return makerService.idcardOcr(idcardPic, makerEntity);
     }
 
-    @PostMapping("/idcard_ocr_save")
+    @PostMapping("/maker/idcard_ocr_save")
     @ApiOperation(value = "身份证实名认证信息保存", notes = "身份证实名认证信息保存")
     public R idcardOcrSave(@Valid @RequestBody IdcardOcrSaveDTO idcardOcrSaveDTO, BladeUser bladeUser) {
         //查询当前创客
@@ -57,7 +71,20 @@ public class MakerController {
         return makerService.idcardOcrSave(idcardOcrSaveDTO, makerEntity);
     }
 
-    @PostMapping("/face_ocr")
+    @PostMapping("/maker/query_idcard_ocr")
+    @ApiOperation(value = "查询当前创客身份证实名认证信息", notes = "查询当前创客身份证实名认证信息")
+    public R queryIdcardOcr(BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = makerService.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        MakerEntity makerEntity = result.getData();
+
+        return makerService.queryIdcardOcr(makerEntity);
+    }
+
+    @PostMapping("/maker/face_ocr")
     @ApiOperation(value = "活体认证", notes = "活体认证")
     public R faceOcr(BladeUser bladeUser) throws Exception {
         //查询当前创客
@@ -70,13 +97,13 @@ public class MakerController {
         return makerService.faceOcr(makerEntity);
     }
 
-    @PostMapping("/face_ocr_notify")
+    @PostMapping("/maker/face_ocr_notify")
     @ApiOperation(value = "活体认证异步回调", notes = "活体认证异步回调")
     public R faceOcrNotify(HttpServletRequest request) throws Exception {
         return makerService.faceOcrNotify(request);
     }
 
-    @PostMapping("/mobile_ocr")
+    @PostMapping("/maker/mobile_ocr")
     @ApiOperation(value = "手机号实名认证", notes = "手机号实名认证")
     public R mobileOcr(BladeUser bladeUser) throws Exception {
         //查询当前创客
@@ -89,13 +116,13 @@ public class MakerController {
         return makerService.mobileOcr(makerEntity);
     }
 
-    @PostMapping("/mobile_ocr_notify")
+    @PostMapping("/maker/mobile_ocr_notify")
     @ApiOperation(value = "手机号实名认证异步回调", notes = "手机号实名认证异步回调")
     public R mobileOcrNotify(HttpServletRequest request) throws Exception {
         return makerService.mobileOcrNotify(request);
     }
 
-    @PostMapping("/bank_card_ocr")
+    @PostMapping("/maker/bank_card_ocr")
     @ApiOperation(value = "银行卡实名认证", notes = "银行卡实名认证")
     public R bankCardOcr(@ApiParam(value = "银行卡号") @NotNull(message = "请输入银行卡号") @RequestParam(required = false) String bankCardNo, BladeUser bladeUser) throws Exception {
         //查询当前创客
@@ -108,36 +135,10 @@ public class MakerController {
         return makerService.bankCardOcr(bankCardNo, makerEntity);
     }
 
-    @PostMapping("/bank_card_ocr_notify")
+    @PostMapping("/maker/bank_card_ocr_notify")
     @ApiOperation(value = "银行卡实名认证异步回调", notes = "银行卡实名认证异步回调")
     public R bankCardOcrNotify(HttpServletRequest request) throws Exception {
         return makerService.bankCardOcrNotify(request);
-    }
-
-    @PostMapping("/query_idcard_ocr")
-    @ApiOperation(value = "查询当前创客身份证实名认证的照片", notes = "查询当前创客身份证实名认证的照片")
-    public R queryIdcardOcr(BladeUser bladeUser) {
-        //查询当前创客
-        R<MakerEntity> result = makerService.currentMaker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        MakerEntity makerEntity = result.getData();
-
-        return makerService.queryIdcardOcr(makerEntity);
-    }
-
-    @GetMapping("/get-real-name-authentication-state")
-    @ApiOperation(value = "查询当前创客所有实名认证状态", notes = "查询当前创客所有实名认证状态")
-    public R getRealNameAuthenticationState(BladeUser bladeUser) {
-        //查询当前创客
-        R<MakerEntity> result = makerService.currentMaker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        MakerEntity makerEntity = result.getData();
-
-        return makerService.getRealNameAuthenticationState(makerEntity.getId());
     }
 
 }
