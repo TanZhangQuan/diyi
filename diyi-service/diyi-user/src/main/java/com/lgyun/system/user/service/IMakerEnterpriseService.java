@@ -44,6 +44,15 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
     IPage<MakerEnterpriseRelationVO> selectMakerEnterprisePage(IPage<MakerEnterpriseRelationVO> page, Long makerId, RelationshipType relationshipType);
 
     /**
+     * 查询创客所有交付支付验收单的商户
+     *
+     * @param page
+     * @param makerId
+     * @return
+     */
+    R<IPage<EnterprisesIdNameListVO>> getEnterprisesByWorksheet(IPage<EnterprisesIdNameListVO> page, Long makerId);
+
+    /**
      * 根据创客ID查询关联商户
      *
      * @param page

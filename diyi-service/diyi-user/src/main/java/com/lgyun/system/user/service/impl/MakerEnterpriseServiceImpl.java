@@ -68,6 +68,11 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
+    public R<IPage<EnterprisesIdNameListVO>> getEnterprisesByWorksheet(IPage<EnterprisesIdNameListVO> page, Long makerId) {
+        return R.data(page.setRecords(baseMapper.getEnterprisesByWorksheet(makerId, page)));
+    }
+
+    @Override
     public R<IPage<EnterprisesIdNameListVO>> findEnterpriseIdNameByMakerId(IPage<EnterprisesIdNameListVO> page, Long makerId) {
         return R.data(page.setRecords(baseMapper.findEnterpriseIdNameByMakerId(makerId, page)));
     }

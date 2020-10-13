@@ -18,7 +18,6 @@ import com.lgyun.system.order.vo.AcceptPayListVO;
 import com.lgyun.system.order.vo.AcceptPaysheetByEnterpriseListVO;
 import com.lgyun.system.order.vo.AcceptPaysheetWorksheetVO;
 import com.lgyun.system.order.vo.PayEnterpriseMakerDetailListVO;
-import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -47,11 +46,6 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
     @Override
     public R<AcceptPaysheetWorksheetVO> getAcceptPaysheetWorksheet(Long makerId, Long acceptPaysheetId) {
         return R.data(baseMapper.getAcceptPaysheetWorksheet(makerId, acceptPaysheetId));
-    }
-
-    @Override
-    public R<IPage<EnterprisesIdNameListVO>> getEnterprisesByWorksheet(IPage<EnterprisesIdNameListVO> page, Long makerId) {
-        return R.data(page.setRecords(baseMapper.getEnterprisesByWorksheet(makerId, page)));
     }
 
     @Override

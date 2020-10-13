@@ -47,6 +47,15 @@ public interface MakerEnterpriseMapper extends BaseMapper<MakerEnterpriseEntity>
     List<RelMakerListVO> getEnterpriseMakerList(Long enterpriseId, RelationshipType relationshipType, CertificationState certificationState, String keyword, IPage<RelMakerListVO> page);
 
     /**
+     * 查询创客所有交付支付验收单的商户
+     *
+     * @param makerId
+     * @param page
+     * @return
+     */
+    List<EnterprisesIdNameListVO> getEnterprisesByWorksheet(Long makerId, IPage<EnterprisesIdNameListVO> page);
+
+    /**
      * 根据创客ID查询关联商户
      *
      * @param makerId

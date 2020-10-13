@@ -5,10 +5,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.order.dto.AcceptPayListDTO;
 import com.lgyun.system.order.entity.AcceptPaysheetEntity;
 import com.lgyun.system.order.vo.AcceptPayListVO;
-import com.lgyun.system.order.vo.PayEnterpriseMakerDetailListVO;
 import com.lgyun.system.order.vo.AcceptPaysheetByEnterpriseListVO;
 import com.lgyun.system.order.vo.AcceptPaysheetWorksheetVO;
-import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
+import com.lgyun.system.order.vo.PayEnterpriseMakerDetailListVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -40,15 +39,6 @@ public interface AcceptPaysheetMapper extends BaseMapper<AcceptPaysheetEntity> {
      * @return
      */
     AcceptPaysheetWorksheetVO getAcceptPaysheetWorksheet(Long makerId, Long acceptPaysheetId);
-
-    /**
-     * 查询创客所有交付支付验收单的商户
-     *
-     * @param makerId
-     * @param page
-     * @return
-     */
-    List<EnterprisesIdNameListVO> getEnterprisesByWorksheet(Long makerId, IPage<EnterprisesIdNameListVO> page);
 
     /**
      * 查询当前商户所有总包交付支付验收单
