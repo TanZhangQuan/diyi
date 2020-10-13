@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * @author jun.
+ * @author tzq
  * @date 2020/9/16.
  * @time 15:51.
  */

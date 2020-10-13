@@ -38,7 +38,7 @@ import java.io.InputStream;
 /**
  * 商户自助开票相关接口
  *
- * @author jun.
+ * @author tzq
  * @date 2020/7/30.
  * @time 17:37.
  */

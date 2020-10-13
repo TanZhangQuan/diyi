@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @author jun.
+ * @author tzq
  * @date 2020/8/19.
  * @time 16:06.
  */

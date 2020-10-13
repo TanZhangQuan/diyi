@@ -5,7 +5,7 @@ import lombok.Getter;
 
 /**
  * 支付类型
- * @author jun.
+ * @author tzq
  * @date 2020/7/2.
  * @time 14:08.
  */

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 商户端---首页管理模块相关接口
  *
- * @author jun.
+ * @author tzq
  * @date 2020/9/9.
  * @time 10:17.
  */

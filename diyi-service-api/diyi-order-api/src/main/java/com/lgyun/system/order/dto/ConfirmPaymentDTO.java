@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  * 确认支付
- * @author jun.
+ * @author tzq
  * @date 2020/7/14.
  * @time 10:36.
  */

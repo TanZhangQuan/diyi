@@ -5,7 +5,7 @@ import lombok.Getter;
 
 /**
  * 模板状态 1,应用中；2，已过期。同一个模板上传新模板后，原来的模板即为已过期
- * @author jun.
+ * @author tzq
  * @date 2020/7/22.
  * @time 9:32.
  */

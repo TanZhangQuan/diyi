@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 发票和完税证明接口
  *
- * @author jun.
+ * @author tzq
  * @date 2020/7/22.
  * @time 16:24.
  */

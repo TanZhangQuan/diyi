@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
 /**
  * 平台端---发票和完税证明管理模块相关接口
  *
- * @author jun.
+ * @author tzq
  * @date 2020/7/22.
  * @time 16:24.
  */

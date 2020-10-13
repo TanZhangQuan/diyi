@@ -19,7 +19,7 @@ import javax.validation.constraints.NotNull;
 /**
  * 创客端---实名认证管理模块相关接口
  *
- * @author jun.
+ * @author tzq
  * @date 2020/9/9.
  * @time 10:17.
  */

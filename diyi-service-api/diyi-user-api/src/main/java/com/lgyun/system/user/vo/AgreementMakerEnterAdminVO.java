@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  * 平台端自然人创客和商户
- * @author jun.
+ * @author tzq
  * @date 2020/9/9.
  * @time 10:23.
  */

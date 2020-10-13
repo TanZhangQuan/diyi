@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * @author jun.
+ * @author tzq
  * @date 2020/8/3.
  * @time 15:36.
  */

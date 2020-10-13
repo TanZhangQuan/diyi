@@ -1,4 +1,4 @@
-package com.lgyun.system.user.controller;
+package com.lgyun.system.user.controller.maker;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
@@ -18,42 +18,30 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
- * 控制器
+ * 创客端---个独管理模块相关接口
  *
  * @author tzq
- * @since 2020-07-02 17:44:02
+ * @date 2020/9/9.
+ * @time 10:17.
  */
 @RestController
-@RequestMapping("/individual-enterprise")
+//@RequestMapping("/maker/individual-enterprise")
 @Validated
 @AllArgsConstructor
-@Api(value = "个独相关接口", tags = "个独相关接口")
-public class IndividualEnterpriseController {
+@Api(value = "创客端---个独管理模块相关接口", tags = "创客端---个独管理模块相关接口")
+public class IndividualEnterpriseMakerController {
 
     private IIndividualEnterpriseService individualEnterpriseService;
-    private IMakerService iMakerService;
+    private IMakerService makerService;
 
-    @PostMapping("/save")
-    @ApiOperation(value = "新增", notes = "新增")
-    public R save(@Valid @RequestBody IndividualBusinessEnterpriseAddDTO individualBusinessEnterpriseAddDto, BladeUser bladeUser) {
-        //查询当前创客
-        R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        MakerEntity makerEntity = result.getData();
-
-        return individualEnterpriseService.save(individualBusinessEnterpriseAddDto, makerEntity);
-    }
-
-    @GetMapping("/list-by-maker")
+    @GetMapping("/individual-enterprise/list-by-maker")
     @ApiOperation(value = "查询当前创客的所有个独", notes = "查询当前创客的所有个独")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "ibstate", value = "工商个独状态", paramType = "query", dataType = "string"),
     })
     public R listByMaker(Ibstate ibstate, Query query, BladeUser bladeUser) {
         //查询当前创客
-        R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
+        R<MakerEntity> result = makerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -62,16 +50,29 @@ public class IndividualEnterpriseController {
         return individualEnterpriseService.listByMaker(query, makerEntity.getId(), ibstate);
     }
 
-    @GetMapping("/find-by-id")
+    @GetMapping("/individual-enterprise/year-month-money")
+    @ApiOperation(value = "查询个独月度开票金额和年度开票金额", notes = "查询个独月度开票金额和年度开票金额")
+    public R yearMonthMoney(@ApiParam(value = "个独编号") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
+        return individualEnterpriseService.yearMonthMoney(individualEnterpriseId, InvoicePeopleType.INDIVIDUALENTERPRISE);
+    }
+
+    @GetMapping("/individual-enterprise/find-by-id")
     @ApiOperation(value = "查询个独详情", notes = "查询个独详情")
     public R findById(@ApiParam(value = "个独编号") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
         return individualEnterpriseService.findById(individualEnterpriseId);
     }
 
-    @GetMapping("/year-month-money")
-    @ApiOperation(value = "查询个独月度开票金额和年度开票金额", notes = "查询个独月度开票金额和年度开票金额")
-    public R yearMonthMoney(@ApiParam(value = "个独编号") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
-        return individualEnterpriseService.yearMonthMoney(individualEnterpriseId, InvoicePeopleType.INDIVIDUALENTERPRISE);
+    @PostMapping("/individual-enterprise/save")
+    @ApiOperation(value = "新增个独", notes = "新增个独")
+    public R save(@Valid @RequestBody IndividualBusinessEnterpriseAddDTO individualBusinessEnterpriseAddDto, BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = makerService.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        MakerEntity makerEntity = result.getData();
+
+        return individualEnterpriseService.save(individualBusinessEnterpriseAddDto, makerEntity);
     }
 
 }

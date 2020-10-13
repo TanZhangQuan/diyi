@@ -8,7 +8,7 @@ import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 /**
- * @author jun.
+ * @author tzq
  * @date 2020/7/8.
  * @time 15:56.
  */

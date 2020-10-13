@@ -5,7 +5,7 @@ import lombok.Getter;
 
 /**
  * 类型，总包+分包，众包/众采
- * @author jun.
+ * @author tzq
  * @date 2020/7/7.
  * @time 15:11.
  */

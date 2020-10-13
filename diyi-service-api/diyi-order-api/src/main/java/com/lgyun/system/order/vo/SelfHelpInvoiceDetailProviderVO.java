@@ -8,7 +8,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * @author jun.
+ * @author tzq
  * @date 2020/7/13.
  * @time 15:29.
  */

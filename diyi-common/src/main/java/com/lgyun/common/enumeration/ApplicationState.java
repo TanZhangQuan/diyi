@@ -5,7 +5,7 @@ import lombok.Getter;
 
 /**
  * 处理状态 1,申请中；2，已拒绝；3，已全额开具；4，已部分开具,5已取消
- * @author jun.
+ * @author tzq
  * @date 2020/8/12.
  * @time 14:17.
  */
