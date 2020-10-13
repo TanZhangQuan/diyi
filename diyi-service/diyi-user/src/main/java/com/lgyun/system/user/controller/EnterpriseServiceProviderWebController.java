@@ -60,17 +60,4 @@ public class EnterpriseServiceProviderWebController {
         return enterpriseProviderService.getEnterprtisesByServiceProviderId(serviceProviderWorkerEntity.getServiceProviderId(), keyWord, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @GetMapping("/getEnterprisesByServiceProvider")
-    @ApiOperation(value = "查询当前服务商合作商户", notes = "查询当前服务商合作商户")
-    public R getEnterprises(Query query, BladeUser bladeUser) {
-        //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
-
-        return enterpriseProviderService.getEnterprisesByServiceProvider(Condition.getPage(query.setDescs("create_time")), serviceProviderWorkerEntity.getServiceProviderId());
-    }
-
 }

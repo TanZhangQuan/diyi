@@ -125,16 +125,6 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R<IPage<WorksheetByEnterpriseVO>> getWorksheetByEnterpriseId(Query query, Long enterpriseId, WorkSheetType subpackage, String worksheetNo, String worksheetName);
 
     /**
-     * 查询当前商户关联服务商
-     *
-     * @param query
-     * @param enterpriseId
-     * @param serviceProviderName
-     * @return
-     */
-    R getServiceProviderByEnterpriseId(Query query, Long enterpriseId, String serviceProviderName);
-
-    /**
      * 根据商户查询分包列表-汇总
      */
     R findEnterpriseSubcontractSummary(Long enterpriseId, String serviceProviderName, IPage<EnterpriseSubcontractInvoiceVO> page);

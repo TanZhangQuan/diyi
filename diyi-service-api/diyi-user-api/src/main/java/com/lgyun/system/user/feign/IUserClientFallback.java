@@ -7,7 +7,6 @@ import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
-import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -179,11 +178,6 @@ public class IUserClientFallback implements IUserClient {
     @Override
     public void makerEnterpriseAdd(Long enterpriseId, Long makerId) {
 
-    }
-
-    @Override
-    public R<IPage<ServiceProviderIdNameListVO>> getServiceProviderByEnterpriseId(Integer current, Integer size, Long enterpriseId, String serviceProviderName) {
-        return R.fail("网络繁忙，请稍后尝试");
     }
 
 }

@@ -2,7 +2,10 @@ package com.lgyun.system.user.controller.service_provider;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
+import com.lgyun.core.mp.support.Condition;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
+import com.lgyun.system.user.service.IEnterpriseServiceProviderService;
 import com.lgyun.system.user.service.IServiceProviderWorkerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomePageServiceProviderController {
 
     private IServiceProviderWorkerService serviceProviderWorkerService;
+    private IEnterpriseServiceProviderService enterpriseProviderService;
 
     @GetMapping("/web/service_provider_worker/current-detail")
     @ApiOperation(value = "查询当前服务商员工详情", notes = "查询当前服务商员工详情")
@@ -38,6 +42,19 @@ public class HomePageServiceProviderController {
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
         return serviceProviderWorkerService.queryServiceProviderWorkerDetail(serviceProviderWorkerEntity.getId());
+    }
+
+    @GetMapping("/getEnterprisesByServiceProvider")
+    @ApiOperation(value = "查询当前服务商合作商户", notes = "查询当前服务商合作商户")
+    public R getEnterprises(Query query, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+        return enterpriseProviderService.getEnterprisesByServiceProvider(Condition.getPage(query.setDescs("create_time")), serviceProviderWorkerEntity.getServiceProviderId());
     }
 
 }

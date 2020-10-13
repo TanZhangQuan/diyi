@@ -8,7 +8,6 @@ import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
-import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -346,17 +345,5 @@ public interface IUserClient {
      */
     @PostMapping(API_PREFIX + "/maker-enterprise-add")
     void makerEnterpriseAdd(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("makerId") Long makerId);
-
-    /**
-     * 查询当前商户关联服务商
-     *
-     * @param current
-     * @param size
-     * @param enterpriseId
-     * @param serviceProviderName
-     * @return
-     */
-    @GetMapping(API_PREFIX + "/get-service-provider-by-enterprise-id")
-    R<IPage<ServiceProviderIdNameListVO>> getServiceProviderByEnterpriseId(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam(name = "enterpriseId") Long enterpriseId, @RequestParam(name = "serviceProviderName", required = false) String serviceProviderName);
 
 }
