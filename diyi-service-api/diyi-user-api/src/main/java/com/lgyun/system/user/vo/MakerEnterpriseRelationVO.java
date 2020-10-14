@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.common.enumeration.RelationshipType;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -19,7 +18,7 @@ public class MakerEnterpriseRelationVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 客户名称
+     * 商户名称
      */
     private String enterpriseName;
 
