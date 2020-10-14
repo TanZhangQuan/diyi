@@ -34,8 +34,8 @@ import javax.validation.constraints.NotNull;
 @Api(value = "创客端---收入管理模块相关接口", tags = "创客端---收入管理模块相关接口")
 public class IncomeMakerController {
 
-    private IWorksheetMakerService worksheetMakerService;
     private IUserClient iUserClient;
+    private IWorksheetMakerService worksheetMakerService;
 
     @GetMapping("/worksheetmaker/query-all-money-by-year-month")
     @ApiOperation(value = "根据工单类型，创客类型，年份，月份（可选）查询工单笔数和总收入金额", notes = "根据工单类型，创客类型，年份，月份（可选）查询工单笔数和总收入金额")

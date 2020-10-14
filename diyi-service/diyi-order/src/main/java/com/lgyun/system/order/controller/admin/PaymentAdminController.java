@@ -39,8 +39,8 @@ import javax.validation.constraints.NotNull;
 @Api(value = "平台端---支付管理模块相关接口", tags = "平台端---支付管理模块相关接口")
 public class PaymentAdminController {
 
-    private IPayEnterpriseService payEnterpriseService;
     private IUserClient userClient;
+    private IPayEnterpriseService payEnterpriseService;
     private IAcceptPaysheetService acceptPaysheetService;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
 

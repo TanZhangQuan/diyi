@@ -31,8 +31,8 @@ import javax.validation.constraints.NotNull;
 @Api(value = "创客端---首页管理模块相关接口", tags = "创客端---首页管理模块相关接口")
 public class HomePageMakerController {
 
-    private IWorksheetService worksheetService;
     private IUserClient iUserClient;
+    private IWorksheetService worksheetService;
 
     @PostMapping("/grab-worksheet")
     @ApiOperation(value = "抢单", notes = "抢单")

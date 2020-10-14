@@ -279,7 +279,7 @@ public class SelfHelpInvoiceWebController {
     }
 
     @GetMapping("/identificationCardWeb")
-    @ApiOperation(value = "识别身份证", notes = "识别身份证")
+    @ApiOperation(value = "身份证识别", notes = "身份证识别")
     public R identificationCardWeb(String infoImg) throws Exception {
         return R.data(RealnameVerifyUtil.idCardOCR(infoImg));
     }

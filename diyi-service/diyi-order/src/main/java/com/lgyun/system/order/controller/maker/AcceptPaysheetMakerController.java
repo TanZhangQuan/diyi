@@ -32,8 +32,8 @@ import javax.validation.constraints.NotNull;
 @Api(value = "创客端---交付支付验收单管理模块相关接口", tags = "创客端---交付支付验收单管理模块相关接口")
 public class AcceptPaysheetMakerController {
 
-    private IAcceptPaysheetService acceptPaysheetService;
     private IUserClient iUserClient;
+    private IAcceptPaysheetService acceptPaysheetService;
 
     @GetMapping("/acceptpaysheet/get-accept-paysheets-by-enterprise")
     @ApiOperation(value = "查询创客对应某商户的所有总包交付支付验收单", notes = "查询创客对应某商户的所有总包交付支付验收单")

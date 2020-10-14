@@ -1,4 +1,4 @@
-package com.lgyun.system.order.controller;
+package com.lgyun.system.order.controller.enterprise;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
@@ -21,43 +21,24 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
- * 总包交付支付验收单相关接口(管理端)
+ * 商户端---交付支付验收单管理模块相关接口
  *
- * @author liangfeihu
- * @since 2020-07-17 14:38:25
+ * @author tzq
+ * @date 2020/9/9.
+ * @time 10:17.
  */
 @RestController
-@RequestMapping("/web/accept_pay_sheet")
+//@RequestMapping("/enterprise/accept-paysheet")
 @Validated
 @AllArgsConstructor
-@Api(value = "总包交付支付验收单相关接口(管理端)", tags = "总包交付支付验收单相关接口(管理端)")
-public class AcceptPaysheetWebController {
+@Api(value = "商户端---交付支付验收单管理模块相关接口", tags = "商户端---交付支付验收单管理模块相关接口")
+public class AcceptPaysheetEnterpriseController {
 
-    private IAcceptPaysheetService acceptPaysheetService;
     private IUserClient iUserClient;
+    private IAcceptPaysheetService acceptPaysheetService;
     private IPayEnterpriseService payEnterpriseService;
 
-    @PostMapping("/upload")
-    @ApiOperation(value = "上传总包交付支付验收单", notes = "上传总包交付支付验收单")
-    public R save(@Valid @RequestBody AcceptPaysheetSaveDTO acceptPaysheetSaveDto, BladeUser bladeUser) {
-
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-        return acceptPaysheetService.upload(acceptPaysheetSaveDto, enterpriseWorkerEntity.getEnterpriseId(), "商户上传", enterpriseWorkerEntity.getWorkerName());
-    }
-
-    @PostMapping("/remove")
-    @ApiOperation(value = "删除总包交付支付验收单", notes = "删除总包交付支付验收单")
-    public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
-        return R.status(acceptPaysheetService.removeByIds(Func.toLongList(ids)));
-    }
-
-    @GetMapping("/get_accept_pay_sheet_by_enterprise")
+    @GetMapping("/web/accept_pay_sheet/get_accept_pay_sheet_by_enterprise")
     @ApiOperation(value = "查询当前商户所有总包交付支付验收单", notes = "查询当前商户所有总包交付支付验收单")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "acceptPayId", value = "交付支付验收单ID", paramType = "query", dataType = "long"),
@@ -76,13 +57,21 @@ public class AcceptPaysheetWebController {
         return acceptPaysheetService.getAcceptPaySheetsByEnterprise(enterpriseWorkerEntity.getEnterpriseId(), acceptPayListDto, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @GetMapping("/get_maker_list")
-    @ApiOperation(value = "根据总包交付支付验收单ID查询关联创客", notes = "根据总包交付支付验收单ID查询关联创客")
-    public R getMakerList(@ApiParam(value = "总包交付支付验收单ID") @NotNull(message = "请输入总包交付支付验收单编号") @RequestParam(required = false) Long acceptPaysheetId, Query query) {
-        return acceptPaysheetService.getMakerList(acceptPaysheetId, Condition.getPage(query.setDescs("create_time")));
+    @PostMapping("/web/accept_pay_sheet/upload")
+    @ApiOperation(value = "上传总包交付支付验收单", notes = "上传总包交付支付验收单")
+    public R save(@Valid @RequestBody AcceptPaysheetSaveDTO acceptPaysheetSaveDto, BladeUser bladeUser) {
+
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+        return acceptPaysheetService.upload(acceptPaysheetSaveDto, enterpriseWorkerEntity.getEnterpriseId(), "商户上传", enterpriseWorkerEntity.getWorkerName());
     }
 
-    @GetMapping("/get_pay_enterprises_by_enterprise")
+    @GetMapping("/web/accept_pay_sheet/get_pay_enterprises_by_enterprise")
     @ApiOperation(value = "查询当前商户所有总包支付清单", notes = "查询当前商户所有总包支付清单")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "serviceProviderName", value = "服务商名称", paramType = "query", dataType = "string"),
@@ -100,10 +89,22 @@ public class AcceptPaysheetWebController {
         return payEnterpriseService.getPayEnterpriseList(enterpriseWorkerEntity.getEnterpriseId(), null, payEnterpriseDto, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @GetMapping("/get_makers")
-    @ApiOperation(value = "根据支付清单ID查询支付清单关联工单的创客", notes = "根据支付清单ID查询支付清单关联工单的创客")
+    @GetMapping("/web/accept_pay_sheet/get_makers")
+    @ApiOperation(value = "根据支付清单查询支付清单关联工单的创客", notes = "根据支付清单查询支付清单关联工单的创客")
     public R getMakers(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, Query query) {
         return payEnterpriseService.getMakers(payEnterpriseId, Condition.getPage(query.setDescs("create_time")));
+    }
+
+    @PostMapping("/web/accept_pay_sheet/remove")
+    @ApiOperation(value = "删除总包交付支付验收单", notes = "删除总包交付支付验收单")
+    public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
+        return R.status(acceptPaysheetService.removeByIds(Func.toLongList(ids)));
+    }
+
+    @GetMapping("/web/accept_pay_sheet/get_maker_list")
+    @ApiOperation(value = "根据总包交付支付验收单查询关联创客", notes = "根据总包交付支付验收单查询关联创客")
+    public R getMakerList(@ApiParam(value = "总包交付支付验收单ID") @NotNull(message = "请输入总包交付支付验收单编号") @RequestParam(required = false) Long acceptPaysheetId, Query query) {
+        return acceptPaysheetService.getMakerList(acceptPaysheetId, Condition.getPage(query.setDescs("create_time")));
     }
 
 }
