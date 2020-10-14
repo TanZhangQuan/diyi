@@ -1,4 +1,4 @@
-package com.lgyun.system.user.dto.service_provider;
+package com.lgyun.system.user.dto.serviceProvider;
 
 import lombok.Data;
 

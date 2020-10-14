@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.vo.admin.ServiceProviderWorkerListVO;
-import com.lgyun.system.user.vo.service_provider.ServiceProviderWorkerDetailVO;
+import com.lgyun.system.user.vo.serviceProvider.ServiceProviderWorkerDetailVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

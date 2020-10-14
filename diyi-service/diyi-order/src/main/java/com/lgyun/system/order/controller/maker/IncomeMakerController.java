@@ -28,11 +28,11 @@ import javax.validation.constraints.NotNull;
  * @time 10:17.
  */
 @RestController
-//@RequestMapping("/maker/revenue-management")
+//@RequestMapping("/maker/income")
 @Validated
 @AllArgsConstructor
 @Api(value = "创客端---收入管理模块相关接口", tags = "创客端---收入管理模块相关接口")
-public class RevenueManagementMakerController {
+public class IncomeMakerController {
 
     private IWorksheetMakerService worksheetMakerService;
     private IUserClient iUserClient;

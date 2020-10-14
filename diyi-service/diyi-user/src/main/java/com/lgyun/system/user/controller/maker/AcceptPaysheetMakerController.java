@@ -23,11 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
  * @time 10:17.
  */
 @RestController
-@RequestMapping("/maker/delivery-payment-acceptance")
+@RequestMapping("/maker/accept-paysheet")
 @Validated
 @AllArgsConstructor
 @Api(value = "创客端---交付支付验收单管理模块相关接口", tags = "创客端---交付支付验收单管理模块相关接口")
-public class DeliveryPaymentAcceptanceMakerController {
+public class AcceptPaysheetMakerController {
 
     private IMakerService makerService;
     private IMakerEnterpriseService makerEnterpriseService;

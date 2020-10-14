@@ -3,7 +3,7 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.ServiceProviderWorkerMapper">
 
-    <resultMap type="com.lgyun.system.user.vo.service_provider.ServiceProviderWorkerDetailVO" id="serviceProviderWorkerDetailVO">
+    <resultMap type="com.lgyun.system.user.vo.serviceProvider.ServiceProviderWorkerDetailVO" id="serviceProviderWorkerDetailVO">
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="avatar" column="avatar"/>
         <result property="workerName" column="worker_name"/>

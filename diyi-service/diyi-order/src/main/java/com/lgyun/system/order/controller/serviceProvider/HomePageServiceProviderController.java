@@ -1,4 +1,4 @@
-package com.lgyun.system.order.controller.service_provider;
+package com.lgyun.system.order.controller.serviceProvider;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;

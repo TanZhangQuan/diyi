@@ -1,4 +1,4 @@
-package com.lgyun.system.user.vo.service_provider;
+package com.lgyun.system.user.vo.serviceProvider;
 
 import com.lgyun.common.enumeration.PositionName;
 import lombok.Data;

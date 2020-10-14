@@ -1,4 +1,4 @@
-package com.lgyun.system.user.controller.service_provider;
+package com.lgyun.system.user.controller.serviceProvider;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
@@ -8,7 +8,7 @@ import com.lgyun.system.feign.ISysClient;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.service.IServiceProviderWorkerService;
 import com.lgyun.system.user.vo.ServiceProviderWorkerVO;
-import com.lgyun.system.user.dto.service_provider.ServiceAccountDTO;
+import com.lgyun.system.user.dto.serviceProvider.ServiceAccountDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
