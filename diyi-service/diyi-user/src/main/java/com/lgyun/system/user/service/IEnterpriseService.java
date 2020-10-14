@@ -48,7 +48,7 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * @param enterpriseName
      * @return
      */
-    MakerEnterpriseRelationVO getEnterpriseName(String enterpriseName);
+    R<MakerEnterpriseRelationVO> getEnterpriseName(String enterpriseName);
 
     /**
      * 通过商户id查询

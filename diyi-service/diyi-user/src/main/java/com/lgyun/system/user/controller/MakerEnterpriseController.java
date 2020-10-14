@@ -79,8 +79,7 @@ public class MakerEnterpriseController {
     })
     @ApiOperation(value = "通过商户名字查询", notes = "通过商户名字查询")
     public R getEnterpriseName(String enterpriseName) {
-        MakerEnterpriseRelationVO makerEnterpriseRelationVO = iEnterpriseService.getEnterpriseName(enterpriseName);
-        return R.data(makerEnterpriseRelationVO, "查询成功");
+        return iEnterpriseService.getEnterpriseName(enterpriseName);
     }
 
     @PostMapping("/addOrCancelfollow")

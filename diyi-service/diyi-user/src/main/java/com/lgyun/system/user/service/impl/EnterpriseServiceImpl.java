@@ -65,11 +65,11 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     @Override
-    public MakerEnterpriseRelationVO getEnterpriseName(String enterpriseName) {
+    public R<MakerEnterpriseRelationVO> getEnterpriseName(String enterpriseName) {
         QueryWrapper<EnterpriseEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(EnterpriseEntity::getEnterpriseName, enterpriseName);
         EnterpriseEntity enterpriseEntity = baseMapper.selectOne(queryWrapper);
-        return EnterpriseWrapper.build().makerEnterpriseRelationVO(enterpriseEntity);
+        return R.data(EnterpriseWrapper.build().makerEnterpriseRelationVO(enterpriseEntity));
     }
 
     @Override
