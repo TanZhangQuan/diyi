@@ -66,7 +66,7 @@ public class EnterpriseDetailEnterpriseVO implements Serializable {
     private String joinContract;
 
     /**
-     * 商家承诺函
+     * 商户承诺函
      */
     private String commitmentLetter;
 

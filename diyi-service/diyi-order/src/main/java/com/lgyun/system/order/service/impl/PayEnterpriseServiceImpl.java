@@ -73,7 +73,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     public R<InvoiceEnterpriseVO> getEnterpriseMakerIdDetail(Long makerId, Long enterpriseId, Long payMakerId) {
         InvoiceEnterpriseVO enterpriseMakerIdDetail = baseMapper.getEnterpriseMakerIdDetail(makerId, enterpriseId, payMakerId);
         if (null != enterpriseMakerIdDetail.getMakerNum() && enterpriseMakerIdDetail.getMakerNum() > 1) {
-            return R.fail("抱歉，由于此发票人数过多，你没有权限观看");
+            return R.fail("抱歉，由于此发票为“汇总代开”的多人发票，你无权限查看");
         }
         return R.data(enterpriseMakerIdDetail);
     }

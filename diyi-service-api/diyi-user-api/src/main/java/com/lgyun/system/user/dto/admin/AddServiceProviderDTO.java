@@ -61,9 +61,9 @@ public class AddServiceProviderDTO implements Serializable {
     private String joinContract;
 
     /**
-     * 商家承诺函
+     * 商户承诺函
      */
-    @NotBlank(message = "请上传商家承诺函")
+    @NotBlank(message = "请上传商户承诺函")
     private String commitmentLetter;
 
     /**
