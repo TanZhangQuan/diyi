@@ -8,6 +8,7 @@ import com.lgyun.system.user.dto.admin.QueryServiceProviderListPaymentDTO;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.vo.EnterpriseIdNameListVO;
 import com.lgyun.system.user.vo.EnterprisesDetailVO;
+import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.admin.*;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -21,6 +22,14 @@ import java.util.List;
  */
 @Mapper
 public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
+
+    /**
+     * 通过商户名字查询
+     *
+     * @param enterpriseName
+     * @return
+     */
+    MakerEnterpriseRelationVO getEnterpriseName(String enterpriseName);
 
     /**
      * 根据商户ID查询商户详情

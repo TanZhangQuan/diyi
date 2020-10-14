@@ -1,16 +1,12 @@
 package com.lgyun.system.user.controller.enterprise;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.Func;
-import com.lgyun.core.mp.support.Condition;
-import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
-import com.lgyun.system.user.wrapper.EnterpriseWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -75,13 +71,6 @@ public class EnterpriseController {
         enterpriseService.uploadEnterpriseLicence(enterpriseWorkerEntity.getEnterpriseId(), file);
 
         return R.success("上传成功");
-    }
-
-    @GetMapping("/list")
-    @ApiOperation(value = "分页", notes = "分页")
-    public R list(EnterpriseEntity enterprise, Query query) {
-        IPage<EnterpriseEntity> pages = enterpriseService.page(Condition.getPage(query.setDescs("create_time")), Condition.getQueryWrapper(enterprise));
-        return R.data(EnterpriseWrapper.build().pageVO(pages));
     }
 
     @PostMapping("/remove")

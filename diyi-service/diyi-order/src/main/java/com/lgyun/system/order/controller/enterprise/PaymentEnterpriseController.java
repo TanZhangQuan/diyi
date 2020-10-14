@@ -12,18 +12,13 @@ import com.lgyun.system.order.service.IAcceptPaysheetService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  * 商户端---支付管理模块相关接口
@@ -93,7 +88,20 @@ public class PaymentEnterpriseController {
         return payEnterpriseService.getPayEnterpriseList(enterpriseWorkerEntity.getEnterpriseId(), null, payEnterpriseDto, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @PostMapping("/upload_accept_paysheet")
+    @PostMapping("/web/pay_enterprise/submit")
+    @ApiOperation(value = "当前商户提交支付清单", notes = "当前商户提交支付清单")
+    public R submit(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+        return payEnterpriseService.submit(payEnterpriseId, enterpriseWorkerEntity.getEnterpriseId());
+    }
+
+    @PostMapping("/web/pay_enterprise/upload_accept_paysheet")
     @ApiOperation(value = "上传总包交付支付验收单", notes = "上传总包交付支付验收单")
     public R uploadAcceptPaysheet(@Valid @RequestBody AcceptPaysheetSaveDTO acceptPaysheetSaveDto, BladeUser bladeUser) {
         //查询当前商户员工

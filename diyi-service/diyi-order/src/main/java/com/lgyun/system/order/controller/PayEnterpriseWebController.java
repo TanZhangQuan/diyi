@@ -6,13 +6,15 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.PayEnterpriseDTO;
 import com.lgyun.system.order.service.IPayEnterpriseService;
-import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
 
@@ -32,19 +34,6 @@ public class PayEnterpriseWebController {
     private IPayEnterpriseService payEnterpriseService;
     private IUserClient iUserClient;
 
-    @PostMapping("/submit")
-    @ApiOperation(value = "当前商户提交支付清单", notes = "当前商户提交支付清单")
-    public R submit(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-        return payEnterpriseService.submit(payEnterpriseId, enterpriseWorkerEntity.getEnterpriseId());
-    }
-
     @GetMapping("/get_pay_maker_list_by_pay_enterprise_id")
     @ApiOperation(value = "根据支付清单ID查询创客支付明细", notes = "根据支付清单ID查询创客支付明细")
     public R getPayMakerListByPayEnterpriseId(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, Query query) {
@@ -52,7 +41,7 @@ public class PayEnterpriseWebController {
     }
 
     @GetMapping("/get_pay_enterprises_by_enterprise_service_provider")
-    @ApiOperation(value = "根据当前服务商，商户ID查询总包支付清单", notes = "根据当前服务商，商户ID查询总包支付清单")
+    @ApiOperation(value = "根据当前服务商，商户查询总包支付清单", notes = "根据当前服务商，商户查询总包支付清单")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "payEnterpriseMakerId", value = "总包支付清单ID", paramType = "query", dataType = "long"),
             @ApiImplicitParam(name = "enterpriseName", value = "商户名称", paramType = "query", dataType = "string"),

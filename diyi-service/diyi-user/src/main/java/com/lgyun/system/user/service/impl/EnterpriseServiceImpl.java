@@ -22,7 +22,6 @@ import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 import com.lgyun.system.user.vo.admin.*;
 import com.lgyun.system.user.vo.enterprise.EnterpriseVO;
-import com.lgyun.system.user.wrapper.EnterpriseWrapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -66,10 +65,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
 
     @Override
     public R<MakerEnterpriseRelationVO> getEnterpriseName(String enterpriseName) {
-        QueryWrapper<EnterpriseEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(EnterpriseEntity::getEnterpriseName, enterpriseName);
-        EnterpriseEntity enterpriseEntity = baseMapper.selectOne(queryWrapper);
-        return R.data(EnterpriseWrapper.build().makerEnterpriseRelationVO(enterpriseEntity));
+        return R.data(baseMapper.getEnterpriseName(enterpriseName));
     }
 
     @Override
@@ -80,11 +76,11 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         queryWrapper.lambda().eq(EnterpriseEntity::getId, enterpriseId);
 
         EnterpriseEntity enterpriseEntity = baseMapper.selectOne(queryWrapper);
-
-        MakerEnterpriseRelationVO makerEnterpriseRelationVO = EnterpriseWrapper.build().makerEnterpriseRelationVO(enterpriseEntity);
-        if (makerEnterpriseRelationVO == null) {
+        if (null == enterpriseEntity) {
             return R.fail("商户不存在");
         }
+
+        MakerEnterpriseRelationVO makerEnterpriseRelationVO = BeanUtil.copy(enterpriseEntity, MakerEnterpriseRelationVO.class);
 
         if (null == enterpriseIdAndMakerIdLian && null != enterpriseIdAndMakerIdZhu) {
             //TODO

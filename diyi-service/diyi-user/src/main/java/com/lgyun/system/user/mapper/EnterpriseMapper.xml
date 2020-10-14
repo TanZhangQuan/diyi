@@ -3,6 +3,20 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.EnterpriseMapper">
 
+    <resultMap type="com.lgyun.system.user.vo.MakerEnterpriseRelationVO" id="makerEnterpriseRelationVO">
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="shopUserName" column="shop_user_name"/>
+        <result property="legalPersonName" column="legal_person_name"/>
+        <result property="legalPersonIdCard" column="legal_person_id_card"/>
+        <result property="contact1Position" column="contact1_position"/>
+        <result property="contact1Phone" column="contact1_phone"/>
+        <result property="socialCreditNo" column="social_credit_no"/>
+        <result property="bizLicenceUrl" column="biz_licence_url"/>
+        <result property="enterpriseId" column="enterprise_id"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="contact1Name" column="contact1_name"/>
+    </resultMap>
+
     <resultMap type="com.lgyun.system.user.vo.EnterprisesDetailVO" id="enterprisesDetailVO">
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="legalPersonName" column="legal_person_name"/>
@@ -85,6 +99,11 @@
         <result property="enterpriseId" column="enterprise_id"/>
         <result property="enterpriseName" column="enterprise_name"/>
     </resultMap>
+
+    <select id="getEnterpriseName" resultMap="makerEnterpriseRelationVO">
+       SELECT id AS enterprise_id, enterprise_name, shop_user_name, legal_person_name, legal_person_id_card, contact1_position, contact1_name, contact1_phone,
+       social_credit_no, biz_licence_url, shop_id, contact1_name FROM diyi_enterprise t1 WHERE is_deleted = 0 AND enterprise_name = #{param1}
+    </select>
 
     <select id="getEnterpriseDetailById" resultMap="enterprisesDetailVO">
         SELECT enterprise_name, legal_person_name, contact1_mail, contact1_phone, working_address, social_credit_no, biz_licence_url,
