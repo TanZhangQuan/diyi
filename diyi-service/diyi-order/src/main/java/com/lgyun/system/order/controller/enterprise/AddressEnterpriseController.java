@@ -1,4 +1,4 @@
-package com.lgyun.system.order.controller;
+package com.lgyun.system.order.controller.enterprise;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
@@ -29,7 +29,7 @@ import java.util.List;
 @RequestMapping("/enterprise/address")
 @AllArgsConstructor
 @Api(value = "商户收货地址接口", tags = "商户收货地址接口")
-public class EnterpriseAddressController {
+public class AddressEnterpriseController {
 
     private IAddressService addressService;
     private IUserClient iUserClient;

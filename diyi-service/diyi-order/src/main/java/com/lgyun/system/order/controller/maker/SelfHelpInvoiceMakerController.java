@@ -1,4 +1,4 @@
-package com.lgyun.system.order.controller;
+package com.lgyun.system.order.controller.maker;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.read.builder.ExcelReaderBuilder;
@@ -50,7 +50,7 @@ import java.util.List;
 @Validated
 @AllArgsConstructor
 @Api(value = "自助开票相关接口", tags = "自助开票相关接口")
-public class SelfHelpInvoiceController {
+public class SelfHelpInvoiceMakerController {
 
     private ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
     private IAddressService addressService;

@@ -52,6 +52,7 @@ public class EnterpriseMakerAgreementVO implements Serializable {
      */
     private String paperAgreementUrl;
 
+    private String onlineAggrementUrl;
     /**
      * 签署状态
      */

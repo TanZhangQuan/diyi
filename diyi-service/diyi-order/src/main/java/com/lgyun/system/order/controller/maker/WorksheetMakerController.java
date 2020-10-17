@@ -1,4 +1,4 @@
-package com.lgyun.system.order.controller;
+package com.lgyun.system.order.controller.maker;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.WorksheetState;
@@ -30,7 +30,7 @@ import javax.validation.constraints.NotNull;
 @Validated
 @AllArgsConstructor
 @Api(value = "工单相关接口", tags = "工单相关接口")
-public class WorksheetController {
+public class WorksheetMakerController {
 
     private IWorksheetService worksheetService;
     private IWorksheetMakerService worksheetMakerService;
@@ -119,6 +119,13 @@ public class WorksheetController {
     @ApiOperation(value = "根据工单ID查询工单", notes = "根据工单ID查询工单")
     public R getByWorksheetId(String worksheetId) {
         return worksheetService.getByWorksheetId(worksheetId);
+    }
+
+
+    @GetMapping("/get_by_pay_enterprise_id")
+    @ApiOperation(value = "根据支付清单ID查询创客工单关联", notes = "根据支付清单ID查询创客工单关联")
+    public R getByPayEnterpriseId(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, Query query) {
+        return worksheetMakerService.getByPayEnterpriseId(payEnterpriseId, Condition.getPage(query.setDescs("create_time")));
     }
 
 }

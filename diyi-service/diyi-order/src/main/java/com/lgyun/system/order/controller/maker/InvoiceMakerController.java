@@ -1,4 +1,4 @@
-package com.lgyun.system.order.controller;
+package com.lgyun.system.order.controller.maker;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @AllArgsConstructor
 @Api(value = "发票和完税证明接口", tags = "发票和完税证明接口")
-public class InvoiceController {
+public class InvoiceMakerController {
 
     private IPayEnterpriseService payEnterpriseService;
     private IUserClient iUserClient;
@@ -54,7 +54,6 @@ public class InvoiceController {
             return result;
         }
         MakerEntity makerEntity = result.getData();
-
         return payEnterpriseService.getEnterpriseMakerIdAll(makerEntity.getId(), enterpriseId, Condition.getPage(query.setDescs("create_time")));
     }
 

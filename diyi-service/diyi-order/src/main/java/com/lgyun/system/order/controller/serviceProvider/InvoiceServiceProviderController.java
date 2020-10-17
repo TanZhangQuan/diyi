@@ -1,4 +1,4 @@
-package com.lgyun.system.order.controller;
+package com.lgyun.system.order.controller.serviceProvider;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.InvoiceState;
@@ -35,7 +35,7 @@ import javax.validation.constraints.NotNull;
 @Validated
 @AllArgsConstructor
 @Api(value = "(服务商)发票和完税证明接口", tags = "(服务商)发票和完税证明接口")
-public class InvoiceServiceController {
+public class InvoiceServiceProviderController {
 
     private IPayEnterpriseService payEnterpriseService;
     private IUserClient iUserClient;
