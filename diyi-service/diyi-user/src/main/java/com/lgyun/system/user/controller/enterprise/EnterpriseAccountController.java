@@ -37,7 +37,7 @@ public class EnterpriseAccountController {
     @GetMapping("/list")
     @ApiOperation(value = "查询商户所有主子账号详情", notes = "查询商户所有主子账号详情")
     public R listDetail(BladeUser bladeUser) {
-        //查询当前创客
+        //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
@@ -68,7 +68,7 @@ public class EnterpriseAccountController {
     @GetMapping("/detail")
     @ApiOperation(value = "查询商户账号详情", notes = "查询商户账号详情")
     public R oneDetail(@RequestParam("accountId") Long accountId, BladeUser bladeUser) {
-        //查询当前创客
+        //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
@@ -97,7 +97,7 @@ public class EnterpriseAccountController {
     @PostMapping("/operate")
     @ApiOperation(value = "删除、停用 商户主子账号", notes = "删除、停用 商户主子账号")
     public R operateEnterpriseWorker(@RequestBody OperateEnterpriseWorkerDTO request, BladeUser bladeUser) {
-        //查询当前创客
+        //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
@@ -127,7 +127,7 @@ public class EnterpriseAccountController {
     @PostMapping("/save")
     @ApiOperation(value = "新增、更新(编辑)商户主子账号", notes = "新增、更新(编辑)商户主子账号")
     public R updateEnterpriseWorker(@RequestBody EnterpriseWorkerVO request, BladeUser bladeUser) {
-        //查询当前创客
+        //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;

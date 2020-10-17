@@ -90,7 +90,7 @@ public class PaymentEnterpriseController {
 
     @PostMapping("/web/pay_enterprise/submit")
     @ApiOperation(value = "当前商户提交支付清单", notes = "当前商户提交支付清单")
-    public R submit(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
+    public R submit(@ApiParam(value = "支付清单编号", required = true) @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {

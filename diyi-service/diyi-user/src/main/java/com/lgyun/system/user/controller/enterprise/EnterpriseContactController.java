@@ -34,7 +34,7 @@ public class EnterpriseContactController {
     @GetMapping("/list")
     @ApiOperation(value = "查询当前商户所有联系人详情", notes = "查询当前商户所有联系人详情")
     public R currentDetail(BladeUser bladeUser) {
-        //查询当前创客
+        //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
@@ -63,7 +63,7 @@ public class EnterpriseContactController {
     @PostMapping("/add-or-update-enterprise-contact")
     @ApiOperation(value = "添加或修改商户联系人", notes = "添加或修改商户联系人")
     public R addOrUpdateEnterpriseContact(@Valid @RequestBody AddOrUpdateEnterpriseContactDTO addOrUpdateEnterpriseContactDto, BladeUser bladeUser) {
-        //查询当前创客
+        //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;

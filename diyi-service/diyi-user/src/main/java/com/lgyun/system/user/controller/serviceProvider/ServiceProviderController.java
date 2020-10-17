@@ -2,7 +2,6 @@ package com.lgyun.system.user.controller.serviceProvider;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.common.tool.Func;
 import com.lgyun.system.user.dto.ServiceProviderBankCardDTO;
 import com.lgyun.system.user.dto.ServiceProviderContactPersonDTO;
 import com.lgyun.system.user.dto.ServiceProviderInvoiceDTO;
@@ -11,7 +10,6 @@ import com.lgyun.system.user.service.IServiceProviderService;
 import com.lgyun.system.user.service.IServiceProviderWorkerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -110,12 +108,6 @@ public class ServiceProviderController {
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
         return serviceProviderService.addOrUpdateInvoice(serviceProviderInvoiceDto, serviceProviderWorkerEntity.getServiceProviderId());
-    }
-
-    @PostMapping("/remove")
-    @ApiOperation(value = "删除", notes = "删除")
-    public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
-        return R.status(serviceProviderService.removeByIds(Func.toLongList(ids)));
     }
 
 }

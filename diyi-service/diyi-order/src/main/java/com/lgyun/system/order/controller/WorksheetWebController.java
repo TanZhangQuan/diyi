@@ -98,8 +98,8 @@ public class WorksheetWebController {
 
     @PostMapping("/closeOrOpen")
     @ApiOperation(value = "开单或关单", notes = "开单或关单")
-    public R closeOrOpen(@NotNull(message = "请输入工单的id") @RequestParam(required = false) Long worksheetId,
-                         @ApiParam(value = "1代表关闭，2开启") @NotNull(message = "请输入1代表关闭，2开启") @RequestParam(required = false) Integer variable) {
+    public R closeOrOpen(@ApiParam(value = "工单ID", required = true) @NotNull(message = "请输入工单编号") @RequestParam(required = false) Long worksheetId,
+                         @ApiParam(value = "1代表关闭，2开启", required = true) @NotNull(message = "请输入1代表关闭，2开启") @RequestParam(required = false) Integer variable) {
 
         return worksheetService.closeOrOpen(worksheetId, variable);
     }
@@ -122,7 +122,7 @@ public class WorksheetWebController {
     @PostMapping("/closeOrOpenList")
     @ApiOperation(value = "批量开启或关闭工单", notes = "批量开启或关闭工单")
     public R closeOrOpenAll(@NotNull(message = "请输入工单的id") @RequestParam(required = false) String worksheetIds,
-                            @ApiParam(value = "1代表关闭，2开启") @NotNull(message = "请输入1代表关闭，2开启") @RequestParam(required = false) Integer variable) {
+                            @ApiParam(value = "1代表关闭，2开启", required = true) @NotNull(message = "请输入1代表关闭，2开启") @RequestParam(required = false) Integer variable) {
 
         return worksheetService.closeOrOpenList(worksheetIds, variable);
     }

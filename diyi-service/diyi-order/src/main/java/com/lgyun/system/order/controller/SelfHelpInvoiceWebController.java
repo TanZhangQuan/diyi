@@ -59,7 +59,7 @@ public class SelfHelpInvoiceWebController {
 
     @GetMapping("/get-self-helf-invoices-by-enterprise")
     @ApiOperation(value = "查询当前商户所有自助开票记录", notes = "查询当前商户所有自助开票记录")
-    public R getSelfHelfInvoicesByEnterprise(@ApiParam(value = "创客类型") @NotNull(message = "请选择创客类型") @RequestParam(required = false) InvoicePeopleType invoicePeopleType, SelfHelpInvoicesByEnterpriseDTO selfHelpInvoicesByEnterpriseDto, Query query, BladeUser bladeUser) {
+    public R getSelfHelfInvoicesByEnterprise(@ApiParam(value = "创客类型", required = true) @NotNull(message = "请选择创客类型") @RequestParam(required = false) InvoicePeopleType invoicePeopleType, SelfHelpInvoicesByEnterpriseDTO selfHelpInvoicesByEnterpriseDto, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -72,7 +72,7 @@ public class SelfHelpInvoiceWebController {
 
     @GetMapping("/get-single-self-helf-invoice-by-enterprise")
     @ApiOperation(value = "查询当前商户某条自助开票记录详情", notes = "查询当前商户某条自助开票记录详情")
-    public R getSingleSelfHelfInvoiceByEnterprise(@ApiParam(value = "自助开票ID") @NotNull(message = "请输入自助开票编号") @RequestParam(required = false) Long selfHelpInvoiceId, BladeUser bladeUser) {
+    public R getSingleSelfHelfInvoiceByEnterprise(@ApiParam(value = "自助开票ID", required = true) @NotNull(message = "请输入自助开票编号") @RequestParam(required = false) Long selfHelpInvoiceId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -85,13 +85,13 @@ public class SelfHelpInvoiceWebController {
 
     @GetMapping("/get-self-helf-invoice-details-by-self-helf-invoice-and-enterprise")
     @ApiOperation(value = "查询当前商户某条自助开票记录的所有自助开票明细", notes = "查询当前商户某条自助开票记录的所有自助开票明细")
-    public R getSelfHelfInvoiceDetailsBySelfHelfInvoiceAndEnterprise(@ApiParam(value = "自助开票ID") @NotNull(message = "请输入自助开票编号") @RequestParam(required = false) Long selfHelpInvoiceId, Query query) {
+    public R getSelfHelfInvoiceDetailsBySelfHelfInvoiceAndEnterprise(@ApiParam(value = "自助开票ID", required = true) @NotNull(message = "请输入自助开票编号") @RequestParam(required = false) Long selfHelpInvoiceId, Query query) {
         return selfHelpInvoiceService.getSelfHelfInvoiceDetailListBySelfHelfInvoice(selfHelpInvoiceId, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/get-self-helf-invoice-express-by-self-helf-invoice-and-enterprise")
     @ApiOperation(value = "查询当前商户某条自助开票记录的所有快递信息", notes = "查询当前商户某条自助开票记录的所有快递信息")
-    public R getSelfHelfInvoiceExpressBySelfHelfInvoiceAndEnterprise(@ApiParam(value = "自助开票ID") @NotNull(message = "请输入自助开票编号") @RequestParam(required = false) Long selfHelpInvoiceId, Query query, BladeUser bladeUser) {
+    public R getSelfHelfInvoiceExpressBySelfHelfInvoiceAndEnterprise(@ApiParam(value = "自助开票ID", required = true) @NotNull(message = "请输入自助开票编号") @RequestParam(required = false) Long selfHelpInvoiceId, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -104,8 +104,8 @@ public class SelfHelpInvoiceWebController {
 
     @GetMapping("/get-self-helf-invoices-by-service-provider")
     @ApiOperation(value = "查询当前服务商所有自助开票记录", notes = "查询当前服务商所有自助开票记录")
-    public R getSelfHelfInvoicesByServiceProvider(@ApiParam(value = "创客类型") @NotNull(message = "请选择创客类型") @RequestParam(required = false) InvoicePeopleType invoicePeopleType,
-                                                  @ApiParam(value = "自助开票-服务商状态") @NotNull(message = "请选择自助开票-服务商状态") @RequestParam(required = false) SelfHelpInvoiceSpApplyState selfHelpInvoiceSpApplyState,
+    public R getSelfHelfInvoicesByServiceProvider(@ApiParam(value = "创客类型", required = true) @NotNull(message = "请选择创客类型") @RequestParam(required = false) InvoicePeopleType invoicePeopleType,
+                                                  @ApiParam(value = "自助开票-服务商状态", required = true) @NotNull(message = "请选择自助开票-服务商状态") @RequestParam(required = false) SelfHelpInvoiceSpApplyState selfHelpInvoiceSpApplyState,
                                                   SelfHelpInvoiceDetailsByServiceProviderDTO selfHelpInvoiceDetailsByServiceProviderDto, Query query, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
@@ -119,7 +119,7 @@ public class SelfHelpInvoiceWebController {
 
     @GetMapping("/get-single-self-helf-invoice-by-service-provider")
     @ApiOperation(value = "查询当前服务商某条自助开票记录详情", notes = "查询当前服务商某条自助开票记录详情")
-    public R getSingleSelfHelfInvoiceByServiceProvider(@ApiParam(value = "自助开票ID") @NotNull(message = "请输入自助开票编号") @RequestParam(required = false) Long selfHelpInvoiceId, BladeUser bladeUser) {
+    public R getSingleSelfHelfInvoiceByServiceProvider(@ApiParam(value = "自助开票ID", required = true) @NotNull(message = "请输入自助开票编号") @RequestParam(required = false) Long selfHelpInvoiceId, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -132,7 +132,7 @@ public class SelfHelpInvoiceWebController {
 
     @GetMapping("/get-self-helf-invoice-details-by-self-helf-invoice-and-service-provider")
     @ApiOperation(value = "查询当前服务商某条自助开票记录的所有自助开票明细", notes = "查询当前服务商某条自助开票记录的所有自助开票明细")
-    public R getSelfHelfInvoiceDetailsBySelfHelfInvoiceAndServiceProvider(@ApiParam(value = "自助开票ID") @NotNull(message = "请输入自助开票编号") @RequestParam(required = false) Long selfHelpInvoiceId, Query query) {
+    public R getSelfHelfInvoiceDetailsBySelfHelfInvoiceAndServiceProvider(@ApiParam(value = "自助开票ID", required = true) @NotNull(message = "请输入自助开票编号") @RequestParam(required = false) Long selfHelpInvoiceId, Query query) {
         return selfHelpInvoiceService.getSelfHelfInvoiceDetailListBySelfHelfInvoice(selfHelpInvoiceId, Condition.getPage(query.setDescs("create_time")));
     }
 

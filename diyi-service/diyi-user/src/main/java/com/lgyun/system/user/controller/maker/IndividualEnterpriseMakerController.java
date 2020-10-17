@@ -31,8 +31,8 @@ import javax.validation.constraints.NotNull;
 @Api(value = "创客端---个独管理模块相关接口", tags = "创客端---个独管理模块相关接口")
 public class IndividualEnterpriseMakerController {
 
-    private IIndividualEnterpriseService individualEnterpriseService;
     private IMakerService makerService;
+    private IIndividualEnterpriseService individualEnterpriseService;
 
     @GetMapping("/individual-enterprise/list-by-maker")
     @ApiOperation(value = "查询当前创客的所有个独", notes = "查询当前创客的所有个独")
@@ -52,13 +52,25 @@ public class IndividualEnterpriseMakerController {
 
     @GetMapping("/individual-enterprise/year-month-money")
     @ApiOperation(value = "查询个独月度开票金额和年度开票金额", notes = "查询个独月度开票金额和年度开票金额")
-    public R yearMonthMoney(@ApiParam(value = "个独编号") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
+    public R yearMonthMoney(@ApiParam(value = "个独编号", required = true) @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId, BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = makerService.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
         return individualEnterpriseService.yearMonthMoney(individualEnterpriseId, InvoicePeopleType.INDIVIDUALENTERPRISE);
     }
 
     @GetMapping("/individual-enterprise/find-by-id")
     @ApiOperation(value = "查询个独详情", notes = "查询个独详情")
-    public R findById(@ApiParam(value = "个独编号") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
+    public R findById(@ApiParam(value = "个独编号", required = true) @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId, BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = makerService.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
         return individualEnterpriseService.findById(individualEnterpriseId);
     }
 

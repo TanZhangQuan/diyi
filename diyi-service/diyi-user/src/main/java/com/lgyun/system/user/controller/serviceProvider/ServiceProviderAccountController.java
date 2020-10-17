@@ -39,7 +39,7 @@ public class ServiceProviderAccountController {
     @GetMapping("/list")
     @ApiOperation(value = "查询服务商所有主子账号详情", notes = "查询服务商所有主子账号详情")
     public R listDetail(BladeUser bladeUser) {
-        //查询当前创客
+        //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
@@ -70,7 +70,7 @@ public class ServiceProviderAccountController {
     @GetMapping("/detail")
     @ApiOperation(value = "查询服务商账号详情", notes = "查询服务商账号详情")
     public R oneDetail(@RequestParam("accountId") Long accountId, BladeUser bladeUser) {
-        //查询当前创客
+        //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
@@ -99,7 +99,7 @@ public class ServiceProviderAccountController {
     @PostMapping("/operate")
     @ApiOperation(value = "删除、停用 服务商主子账号", notes = "删除、停用 服务商主子账号")
     public R operateEnterpriseWorker(@RequestBody ServiceAccountDTO request, BladeUser bladeUser) {
-        //查询当前创客
+        //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
@@ -128,7 +128,7 @@ public class ServiceProviderAccountController {
     @PostMapping("/save")
     @ApiOperation(value = "新增、更新(编辑)服务商主子账号", notes = "新增、更新(编辑)服务商主子账号")
     public R updateEnterpriseWorker(@RequestBody ServiceProviderWorkerVO request, BladeUser bladeUser) {
-        //查询当前创客
+        //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;

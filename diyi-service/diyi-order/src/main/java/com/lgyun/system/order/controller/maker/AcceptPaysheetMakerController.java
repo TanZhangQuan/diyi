@@ -37,8 +37,7 @@ public class AcceptPaysheetMakerController {
 
     @GetMapping("/acceptpaysheet/get-accept-paysheets-by-enterprise")
     @ApiOperation(value = "查询创客对应某商户的所有总包交付支付验收单", notes = "查询创客对应某商户的所有总包交付支付验收单")
-    public R getAcceptPaysheetsByEnterprise(@ApiParam(value = "商户ID") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
-
+    public R getAcceptPaysheetsByEnterprise(@ApiParam(value = "商户ID", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -51,7 +50,7 @@ public class AcceptPaysheetMakerController {
 
     @GetMapping("/acceptpaysheet/get-accept-paysheet-worksheet")
     @ApiOperation(value = "根据ID查询总包交付支付验收单", notes = "根据ID查询总包交付支付验收单")
-    public R getAcceptPaysheetWorksheet(@ApiParam(value = "总包交付支付验收单ID") @NotNull(message = "请输入总包交付支付验收单编号") @RequestParam(required = false) Long acceptPaysheetId, BladeUser bladeUser) {
+    public R getAcceptPaysheetWorksheet(@ApiParam(value = "总包交付支付验收单ID", required = true) @NotNull(message = "请输入总包交付支付验收单编号") @RequestParam(required = false) Long acceptPaysheetId, BladeUser bladeUser) {
 
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);

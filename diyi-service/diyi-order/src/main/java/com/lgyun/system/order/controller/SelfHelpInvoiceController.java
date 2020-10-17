@@ -163,7 +163,7 @@ public class SelfHelpInvoiceController {
     @PostMapping("/submitSelfHelpInvoice")
     @ApiOperation(value = "创客提交自助开票", notes = "创客提交自助开票")
     @Transactional(rollbackFor = Exception.class)
-    public R submitSelfHelpInvoice(@ApiParam(value = "文件") @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file,
+    public R submitSelfHelpInvoice(@ApiParam(value = "文件", required = true) @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file,
                                    @Valid @RequestBody SelfHelpInvoiceDTO selfHelpInvoiceDto, BladeUser bladeUser) throws IOException {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);

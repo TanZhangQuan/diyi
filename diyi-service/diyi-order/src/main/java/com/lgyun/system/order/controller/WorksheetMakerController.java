@@ -33,7 +33,7 @@ public class WorksheetMakerController {
 
     @GetMapping("/get_by_pay_enterprise_id")
     @ApiOperation(value = "根据支付清单ID查询创客工单关联", notes = "根据支付清单ID查询创客工单关联")
-    public R getByPayEnterpriseId(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, Query query) {
+    public R getByPayEnterpriseId(@ApiParam(value = "支付清单编号", required = true) @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, Query query) {
         return worksheetMakerService.getByPayEnterpriseId(payEnterpriseId, Condition.getPage(query.setDescs("create_time")));
     }
 

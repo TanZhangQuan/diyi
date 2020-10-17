@@ -106,7 +106,7 @@ public class InvoiceServiceController {
 
     @GetMapping("/getSubcontractInvoiceDetails")
     @ApiOperation(value = "服务商查看未开票分包发票详情", notes = "服务商查看未开票分包发票详情")
-    public R getSubcontractInvoice(@ApiParam(value = "商户支付清单Id") @NotNull(message = "请输入商户支付清单Id") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
+    public R getSubcontractInvoice(@ApiParam(value = "商户支付清单Id", required = true) @NotNull(message = "请输入商户支付清单Id") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -118,7 +118,7 @@ public class InvoiceServiceController {
 
     @GetMapping("/applySummaryInvoice")
     @ApiOperation(value = "服务商申请汇总代开发票", notes = "服务商申请汇总代开发票")
-    public R applySummaryInvoice(@ApiParam(value = "商户支付清单Id") @NotNull(message = "请输入商户支付清单Id") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
+    public R applySummaryInvoice(@ApiParam(value = "商户支付清单Id", required = true) @NotNull(message = "请输入商户支付清单Id") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -143,7 +143,7 @@ public class InvoiceServiceController {
 
     @GetMapping("/applyPortalSignInvoice")
     @ApiOperation(value = "服务商申请门征单开发票", notes = "服务商申请门征单开发票")
-    public R applyPortalSignInvoice(BladeUser bladeUser, @ApiParam(value = "商户支付清单Id") @NotNull(message = "请输入商户支付清单Id") @RequestParam(required = false) Long payEnterpriseId) {
+    public R applyPortalSignInvoice(BladeUser bladeUser, @ApiParam(value = "商户支付清单Id", required = true) @NotNull(message = "请输入商户支付清单Id") @RequestParam(required = false) Long payEnterpriseId) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -185,7 +185,7 @@ public class InvoiceServiceController {
 
     @GetMapping("/getSummaryInvoiceDetails")
     @ApiOperation(value = "服务商查询已汇总代开的发票详情", notes = "服务商查询已汇总代开的发票详情")
-    public R getSummaryInvoiceDetails(BladeUser bladeUser, @ApiParam(value = "商户支付清单Id") @NotNull(message = "请输入商户支付清单Id") @RequestParam(required = false) Long payEnterpriseId) {
+    public R getSummaryInvoiceDetails(BladeUser bladeUser, @ApiParam(value = "商户支付清单Id", required = true) @NotNull(message = "请输入商户支付清单Id") @RequestParam(required = false) Long payEnterpriseId) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -214,7 +214,7 @@ public class InvoiceServiceController {
 
     @GetMapping("/getPortalSignInvoiceDetails")
     @ApiOperation(value = "服务商查询已门征单开的发票详情", notes = "服务商查询已门征单开的发票详情")
-    public R getPortalSignInvoiceDetails(BladeUser bladeUser, @ApiParam(value = "商户支付清单Id") @NotNull(message = "请输入商户支付清单Id") @RequestParam(required = false) Long payEnterpriseId) {
+    public R getPortalSignInvoiceDetails(BladeUser bladeUser, @ApiParam(value = "商户支付清单Id", required = true) @NotNull(message = "请输入商户支付清单Id") @RequestParam(required = false) Long payEnterpriseId) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {

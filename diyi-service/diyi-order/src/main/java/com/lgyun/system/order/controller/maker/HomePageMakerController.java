@@ -36,7 +36,7 @@ public class HomePageMakerController {
 
     @PostMapping("/grab-worksheet")
     @ApiOperation(value = "抢单", notes = "抢单")
-    public R orderGrabbing(@ApiParam(value = "工单ID") @NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId, BladeUser bladeUser) {
+    public R orderGrabbing(@ApiParam(value = "工单ID", required = true) @NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {

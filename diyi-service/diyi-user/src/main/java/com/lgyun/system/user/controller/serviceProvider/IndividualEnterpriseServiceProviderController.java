@@ -56,7 +56,7 @@ public class IndividualEnterpriseServiceProviderController {
 
     @PostMapping("/web/individual-enterprise/update_ibstate")
     @ApiOperation(value = "修改个独状态", notes = "修改个独状态")
-    public R updateIbstate(@ApiParam(value = "个独ID") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId, @ApiParam(value = "个独状态") @NotNull(message = "请选择个独状态") @RequestParam(required = false) Ibstate ibstate, BladeUser bladeUser) {
+    public R updateIbstate(@ApiParam(value = "个独ID", required = true) @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId, @ApiParam(value = "个独状态") @NotNull(message = "请选择个独状态") @RequestParam(required = false) Ibstate ibstate, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {

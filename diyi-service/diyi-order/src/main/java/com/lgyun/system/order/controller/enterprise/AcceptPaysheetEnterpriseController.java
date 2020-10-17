@@ -91,19 +91,37 @@ public class AcceptPaysheetEnterpriseController {
 
     @GetMapping("/web/accept_pay_sheet/get_makers")
     @ApiOperation(value = "根据支付清单查询支付清单关联工单的创客", notes = "根据支付清单查询支付清单关联工单的创客")
-    public R getMakers(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, Query query) {
+    public R getMakers(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, Query query, BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
         return payEnterpriseService.getMakers(payEnterpriseId, Condition.getPage(query.setDescs("create_time")));
     }
 
     @PostMapping("/web/accept_pay_sheet/remove")
     @ApiOperation(value = "删除总包交付支付验收单", notes = "删除总包交付支付验收单")
-    public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
+    public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids, BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
         return R.status(acceptPaysheetService.removeByIds(Func.toLongList(ids)));
     }
 
     @GetMapping("/web/accept_pay_sheet/get_maker_list")
     @ApiOperation(value = "根据总包交付支付验收单查询关联创客", notes = "根据总包交付支付验收单查询关联创客")
-    public R getMakerList(@ApiParam(value = "总包交付支付验收单ID") @NotNull(message = "请输入总包交付支付验收单编号") @RequestParam(required = false) Long acceptPaysheetId, Query query) {
+    public R getMakerList(@ApiParam(value = "总包交付支付验收单ID") @NotNull(message = "请输入总包交付支付验收单编号") @RequestParam(required = false) Long acceptPaysheetId, Query query, BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
         return acceptPaysheetService.getMakerList(acceptPaysheetId, Condition.getPage(query.setDescs("create_time")));
     }
 

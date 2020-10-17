@@ -39,11 +39,10 @@ public class IncomeMakerController {
 
     @GetMapping("/worksheetmaker/query-all-money-by-year-month")
     @ApiOperation(value = "根据工单类型，创客类型，年份，月份（可选）查询工单笔数和总收入金额", notes = "根据工单类型，创客类型，年份，月份（可选）查询工单笔数和总收入金额")
-    public R queryAllMoneyByYearMonth(@ApiParam(value = "工单类型") @NotNull(message = "请选择工单类型") @RequestParam(required = false) WorkSheetType worksheetType,
-                                      @ApiParam(value = "工单创客类型") @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType,
-                                      @ApiParam(value = "年份") @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
-                                      @ApiParam(value = "月份") @RequestParam(required = false) Long month,
-                                      BladeUser bladeUser) {
+    public R queryAllMoneyByYearMonth(@ApiParam(value = "工单类型", required = true) @NotNull(message = "请选择工单类型") @RequestParam(required = false) WorkSheetType worksheetType,
+                                      @ApiParam(value = "工单创客类型", required = true) @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType,
+                                      @ApiParam(value = "年份", required = true) @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
+                                      @ApiParam(value = "月份") @RequestParam(required = false) Long month, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -57,8 +56,7 @@ public class IncomeMakerController {
     @GetMapping("/worksheetmaker/query-money-by-year")
     @ApiOperation(value = "根据工单类型，创客类型查询每年收入", notes = "根据工单类型，创客类型查询每年收入")
     public R queryMoneyByYear(@ApiParam(value = "工单类型") @NotNull(message = "请选择工单类型") @RequestParam(required = false) WorkSheetType worksheetType,
-                              @ApiParam(value = "工单创客类型") @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType,
-                              BladeUser bladeUser) {
+                              @ApiParam(value = "工单创客类型") @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -73,8 +71,7 @@ public class IncomeMakerController {
     @ApiOperation(value = "根据工单类型，创客类型，年份查询每月收入", notes = "根据工单类型，创客类型，年份查询每月收入")
     public R queryMoneyByMonth(@ApiParam(value = "工单类型") @NotNull(message = "请选择工单类型") @RequestParam(required = false) WorkSheetType worksheetType,
                                @ApiParam(value = "工单创客类型") @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType,
-                               @ApiParam(value = "年份") @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
-                               BladeUser bladeUser) {
+                               @ApiParam(value = "年份") @NotNull(message = "请选择年份") @RequestParam(required = false) Long year, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -90,8 +87,7 @@ public class IncomeMakerController {
     public R queryAllMoneyByYearMonthEnterprise(@ApiParam(value = "工单类型") @NotNull(message = "请选择工单类型") @RequestParam(required = false) WorkSheetType worksheetType,
                                                 @ApiParam(value = "工单创客类型") @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType,
                                                 @ApiParam(value = "年份") @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
-                                                @ApiParam(value = "月份") @RequestParam(required = false) Long month,
-                                                BladeUser bladeUser, Query query) {
+                                                @ApiParam(value = "月份") @RequestParam(required = false) Long month, Query query, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -108,8 +104,7 @@ public class IncomeMakerController {
                                             @ApiParam(value = "工单创客类型") @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType,
                                             @ApiParam(value = "年份") @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
                                             @ApiParam(value = "月份") @NotNull(message = "请选择月份") @RequestParam(required = false) Long month,
-                                            @ApiParam(value = "商户编号") @RequestParam(required = false) Long enterpriseId,
-                                            BladeUser bladeUser) {
+                                            @ApiParam(value = "商户编号") @RequestParam(required = false) Long enterpriseId, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -126,8 +121,7 @@ public class IncomeMakerController {
                                          @ApiParam(value = "工单创客类型") @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType,
                                          @ApiParam(value = "年份") @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
                                          @ApiParam(value = "月份") @NotNull(message = "请选择月份") @RequestParam(required = false) Long month,
-                                         @ApiParam(value = "商户编号") @RequestParam(required = false) Long enterpriseId,
-                                         BladeUser bladeUser, Query query) {
+                                         @ApiParam(value = "商户编号") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {

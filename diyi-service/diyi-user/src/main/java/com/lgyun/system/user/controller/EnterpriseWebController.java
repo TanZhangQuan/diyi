@@ -49,7 +49,7 @@ public class EnterpriseWebController {
 
     @GetMapping("/get_enterprise_detail_by_id")
     @ApiOperation(value = "根据商户ID查询商户详情", notes = "根据商户ID查询商户详情")
-    public R getEnterpriseDetailById(@ApiParam(value = "商户ID") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId) {
+    public R getEnterpriseDetailById(@ApiParam(value = "商户ID", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId) {
             return enterpriseService.getEnterpriseDetailById(enterpriseId);
     }
 

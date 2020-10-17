@@ -4,11 +4,14 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CertificationState;
+import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.MakerAddDTO;
+import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.excel.MakerExcel;
 import com.lgyun.system.user.excel.MakerImportListener;
+import com.lgyun.system.user.service.IAdminService;
 import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
 import com.lgyun.system.user.service.IMakerService;
@@ -40,26 +43,45 @@ import java.io.InputStream;
 @Api(value = "平台端---自然人创客管理模块相关接口", tags = "平台端---自然人创客管理模块相关接口")
 public class NaturalPersonMakerAdminController {
 
+    private IAdminService adminService;
     private IMakerEnterpriseService makerEnterpriseService;
     private IMakerService makerService;
     private IEnterpriseService enterpriseService;
 
     @GetMapping("/query-enterprise-id-and-name-list")
     @ApiOperation(value = "查询所有商户的编号名称", notes = "查询所有商户的编号名称")
-    public R queryEnterpriseIdAndNameList(@ApiParam(value = "商户名称") @RequestParam(required = false) String enterpriseName, Query query) {
+    public R queryEnterpriseIdAndNameList(@ApiParam(value = "商户名称") @RequestParam(required = false) String enterpriseName, Query query, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
         return enterpriseService.queryEnterpriseListNaturalPersonMaker(enterpriseName, Condition.getPage(query.setDescs("create_time")));
     }
 
     @PostMapping("/save-maker")
     @ApiOperation(value = "新增单个创客", notes = "新增单个创客")
-    public R saveMaker(@ApiParam(value = "商户编号") @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, @Valid @RequestBody MakerAddDTO makerAddDto) {
+    public R saveMaker(@ApiParam(value = "商户编号", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
+                       @Valid @RequestBody MakerAddDTO makerAddDto, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
         return makerService.makerAdd(makerAddDto, enterpriseId);
     }
 
     @PostMapping("import-maker")
     @ApiOperation(value = "导入创客", notes = "导入创客")
-    public R importUser(@ApiParam(value = "商户编号") @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
-                        @ApiParam(value = "Excel文件") @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file) throws IOException {
+    public R importUser(@ApiParam(value = "商户编号", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
+                        @ApiParam(value = "Excel文件", required = true) @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file, BladeUser bladeUser) throws IOException {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
 
         //判断文件内容是否为空
         if (file.isEmpty()) {
@@ -82,15 +104,26 @@ public class NaturalPersonMakerAdminController {
 
     @GetMapping("/query-maker-list")
     @ApiOperation(value = "查询所有创客", notes = "查询所有创客")
-    public R queryMakerList(@ApiParam(value = "商户编号") @NotNull(message = "请选择商户") @RequestParam(required = false) CertificationState certificationState,
-                            @ApiParam(value = "搜索创客关键字：请输入创客编号/姓名/手机号") @RequestParam(required = false) String keyword, Query query) {
+    public R queryMakerList(@ApiParam(value = "商户编号", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) CertificationState certificationState,
+                            @ApiParam(value = "搜索创客关键字：请输入创客编号/姓名/手机号") @RequestParam(required = false) String keyword, Query query, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
 
         return makerEnterpriseService.getEnterpriseMakerList(Condition.getPage(query.setDescs("create_time")), null, null, certificationState, keyword);
     }
 
     @GetMapping("/query-maker-detail-by-maker-id")
     @ApiOperation(value = "根据创客ID查询创客详情", notes = "根据创客ID查询创客详情")
-    public R queryMakerDetailByMakerId(@ApiParam(value = "创客ID") @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId) {
+    public R queryMakerDetailByMakerId(@ApiParam(value = "创客ID", required = true) @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
         return makerService.getMakerDetailById(null, makerId);
     }
 

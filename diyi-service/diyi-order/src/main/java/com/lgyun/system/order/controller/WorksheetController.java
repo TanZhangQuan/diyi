@@ -38,7 +38,7 @@ public class WorksheetController {
 
     @PostMapping("/orderGrabbing")
     @ApiOperation(value = "抢单", notes = "抢单")
-    public R orderGrabbing(@ApiParam(value = "工单ID") @NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId, BladeUser bladeUser) {
+    public R orderGrabbing(@ApiParam(value = "工单ID", required = true) @NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -92,7 +92,7 @@ public class WorksheetController {
 
     @GetMapping("/get_enterprise_worksheet_details")
     @ApiOperation(value = "根据创客ID查询工单(商户)", notes = "根据创客ID查询工单(商户)")
-    public R getEnterpriseWorksheetDetails(@ApiParam(value = "创客ID") @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId, Query query, BladeUser bladeUser) {
+    public R getEnterpriseWorksheetDetails(@ApiParam(value = "创客ID", required = true) @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -105,7 +105,7 @@ public class WorksheetController {
 
     @GetMapping("/get_server_provider_worksheet_details")
     @ApiOperation(value = "根据创客ID查询工单(服务商)", notes = "根据创客ID查询工单(服务商)")
-    public R getMakerWorksheets(@ApiParam(value = "创客ID") @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId, Query query) {
+    public R getMakerWorksheets(@ApiParam(value = "创客ID", required = true) @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId, Query query) {
         return worksheetService.getWorksheetDetailsByMaker(Condition.getPage(query.setDescs("create_time")), null, makerId);
     }
 
