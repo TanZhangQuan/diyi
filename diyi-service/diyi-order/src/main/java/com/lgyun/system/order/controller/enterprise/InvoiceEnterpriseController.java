@@ -1,4 +1,4 @@
-package com.lgyun.system.order.controller;
+package com.lgyun.system.order.controller.enterprise;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
@@ -34,7 +34,7 @@ import javax.validation.Valid;
 @Validated
 @AllArgsConstructor
 @Api(value = "商户发票和完税证明接口", tags = "商户发票和完税证明接口")
-public class InvoiceWebController {
+public class InvoiceEnterpriseController {
 
     private IPayEnterpriseService payEnterpriseService;
     private IEnterpriseServiceProviderInvoiceCatalogsService enterpriseProviderInvoiceCatalogsService;

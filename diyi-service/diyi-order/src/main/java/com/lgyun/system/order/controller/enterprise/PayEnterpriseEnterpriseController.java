@@ -1,4 +1,4 @@
-package com.lgyun.system.order.controller;
+package com.lgyun.system.order.controller.enterprise;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
@@ -29,7 +29,7 @@ import javax.validation.constraints.NotNull;
 @Validated
 @AllArgsConstructor
 @Api(value = "商户支付清单相关接口(管理端)", tags = "商户支付清单相关接口(管理端)")
-public class PayEnterpriseWebController {
+public class PayEnterpriseEnterpriseController {
 
     private IPayEnterpriseService payEnterpriseService;
     private IUserClient iUserClient;
