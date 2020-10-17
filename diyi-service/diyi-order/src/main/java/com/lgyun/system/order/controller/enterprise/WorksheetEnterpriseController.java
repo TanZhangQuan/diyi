@@ -1,4 +1,4 @@
-package com.lgyun.system.order.controller;
+package com.lgyun.system.order.controller.enterprise;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.WorksheetState;
@@ -32,7 +32,7 @@ import java.math.BigDecimal;
 @Validated
 @AllArgsConstructor
 @Api(value = "工单相关接口(管理端)", tags = "工单相关接口(管理端)")
-public class WorksheetWebController {
+public class WorksheetEnterpriseController {
 
     private IWorksheetService worksheetService;
     private IWorksheetMakerService worksheetMakerService;

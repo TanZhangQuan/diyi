@@ -1,4 +1,4 @@
-package com.lgyun.system.user.controller;
+package com.lgyun.system.user.controller.serviceProvider;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.ObjectType;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 @AllArgsConstructor
 @Api(value = "(服务商)合同相关相关接口", tags = "(服务商)合同相关相关接口")
-public class AgreementServiceController {
+public class AgreementServiceProviderController {
 
     private IAgreementService iAgreementService;
     private IUserClient iUserClient;

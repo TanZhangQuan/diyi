@@ -65,6 +65,9 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         if(releaseWorksheetDTO.getWorksheetMode().equals("DISPATCH") && releaseWorksheetDTO.getUppersonNum() != 0 && releaseWorksheetDTO.getMakerIds().split(",").length != releaseWorksheetDTO.getUppersonNum()){
             return R.fail("工单创建失败，上限人数为"+releaseWorksheetDTO.getUppersonNum()+",创客数为"+releaseWorksheetDTO.getMakerIds().split(",").length);
         }
+        if(releaseWorksheetDTO.getWorksheetMode().equals("BLEND") && releaseWorksheetDTO.getUppersonNum() != 0 && releaseWorksheetDTO.getMakerIds().split(",").length < releaseWorksheetDTO.getUppersonNum()){
+            return R.fail("工单创建失败，上限人数为"+releaseWorksheetDTO.getUppersonNum()+",创客数为"+releaseWorksheetDTO.getMakerIds().split(",").length);
+        }
         String makerIds = releaseWorksheetDTO.getMakerIds();
         String[] split = makerIds.split(",");
         Set<String> sameSet = new HashSet<>();
@@ -309,8 +312,10 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     }
 
     public synchronized R<String> orderGrabbing(WorksheetEntity worksheetEntity, MakerEntity makerEntity, int worksheetCount) {
-
-        if (worksheetCount == worksheetEntity.getUppersonNum()) {
+        if(!(makerEntity.getCertificationState().equals("已认证") && makerEntity.getEmpowerSignState().equals("SIGNED") && makerEntity.getJoinSignState().equals("SIGNED"))){
+            return R.fail("请先完成认证，在抢单");
+        }
+        if (worksheetCount == worksheetEntity.getUppersonNum() && worksheetEntity.getUppersonNum() != 0) {
             if (worksheetEntity.getWorksheetState().equals(WorksheetState.PUBLISHING)) {
                 worksheetEntity.setWorksheetState(WorksheetState.CLOSED);
                 worksheetEntity.setCloseDesc("2");

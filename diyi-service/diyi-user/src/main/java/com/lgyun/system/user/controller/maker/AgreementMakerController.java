@@ -1,4 +1,4 @@
-package com.lgyun.system.user.controller;
+package com.lgyun.system.user.controller.maker;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @AllArgsConstructor
 @Api(value = "平台合同的信息相关接口", tags = "平台合同的信息相关接口")
-public class AgreementController {
+public class AgreementMakerController {
 
     private IAgreementService agreementService;
     private IOnlineSignPicService onlineSignPicService;

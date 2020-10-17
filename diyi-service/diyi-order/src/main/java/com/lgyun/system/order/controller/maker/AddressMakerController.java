@@ -1,4 +1,4 @@
-package com.lgyun.system.order.controller;
+package com.lgyun.system.order.controller.maker;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.ObjectType;
@@ -29,7 +29,7 @@ import javax.validation.Valid;
 @Validated
 @AllArgsConstructor
 @Api(value = "收件地址表相关接口", tags = "收件地址表相关接口")
-public class AddressController {
+public class AddressMakerController {
 
     private IAddressService addressService;
     private IUserClient iUserClient;
