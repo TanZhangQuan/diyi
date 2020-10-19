@@ -13,8 +13,9 @@ import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDTO;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.vo.EnterpriseReportsVO;
-import com.lgyun.system.user.vo.IndividualBusinessEnterpriseDetailsVO;
-import com.lgyun.system.user.vo.IndividualBusinessEnterpriseListByMakerVO;
+import com.lgyun.system.user.vo.enterprise.IndividualBusinessDetailEnterpriseVO;
+import com.lgyun.system.user.vo.maker.IndividualBusinessDetailMakerVO;
+import com.lgyun.system.user.vo.maker.IndividualBusinessListVO;
 
 import java.util.List;
 
@@ -46,12 +47,12 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
     /**
      * 查询当前创客的所有个体户
      *
-     * @param query
+     * @param page
      * @param makerId
      * @param ibstate
      * @return
      */
-    R<IPage<IndividualBusinessEnterpriseListByMakerVO>> listByMaker(Query query, Long makerId, Ibstate ibstate);
+    R<IPage<IndividualBusinessListVO>> listByMaker(IPage<IndividualBusinessListVO> page, Long makerId, Ibstate ibstate);
 
     /**
      * 根据ID查询个体户详情
@@ -59,16 +60,7 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
      * @param individualBusinessId
      * @return
      */
-    R<IndividualBusinessEnterpriseDetailsVO> findById(Long individualBusinessId);
-
-    /**
-     * 查询个体户月度开票金额和年度开票金额
-     *
-     * @param individualBusinessId
-     * @param invoicePeopleType
-     * @return
-     */
-    R<SelfHelpInvoiceStatisticsVO> yearMonthMoney(Long individualBusinessId, InvoicePeopleType invoicePeopleType);
+    R<IndividualBusinessDetailMakerVO> findById(Long individualBusinessId);
 
     /**
      * 查询当前商户的所有关联创客的个体户
@@ -79,7 +71,7 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
      * @param individualBusinessEnterpriseDto
      * @return
      */
-    R<IPage<IndividualBusinessEnterpriseDetailsVO>> getIndividualBusinessList(IPage<IndividualBusinessEnterpriseDetailsVO> page, Long enterpriseId, Long serviceProviderId, IndividualBusinessEnterpriseDTO individualBusinessEnterpriseDto);
+    R<IPage<IndividualBusinessDetailEnterpriseVO>> getIndividualBusinessList(IPage<IndividualBusinessDetailEnterpriseVO> page, Long enterpriseId, Long serviceProviderId, IndividualBusinessEnterpriseDTO individualBusinessEnterpriseDto);
 
     /**
      * 查询个体户开票次数，月度开票金额，年度开票金额和总开票金额

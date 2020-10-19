@@ -1,4 +1,4 @@
-package com.lgyun.system.user.vo;
+package com.lgyun.system.user.vo.maker;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -13,17 +13,17 @@ import java.io.Serializable;
  * @since 2020/7/6 00:28
  */
 @Data
-public class IndividualBusinessEnterpriseListByMakerVO implements Serializable {
+public class IndividualEnterpriseListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 个体户ID
+     * 个独ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     /**
-     * 个体户名称
+     * 个独名称
      */
     private String ibname;
 

@@ -22,16 +22,6 @@ public interface IOrderClient {
     String API_PREFIX = "/order";
 
     /**
-     * 查询开票月度年度金额
-     *
-     * @param allKindEnterpriseId
-     * @param invoicePeopleType
-     * @return
-     */
-    @GetMapping(API_PREFIX + "/self-help-invoice/year-month-money")
-    R<SelfHelpInvoiceStatisticsVO> yearMonthMoney(@RequestParam("allKindEnterpriseId") Long allKindEnterpriseId, @RequestParam("invoicePeopleType") InvoicePeopleType invoicePeopleType);
-
-    /**
      * 查询开票统计
      *
      * @param allKindEnterpriseId

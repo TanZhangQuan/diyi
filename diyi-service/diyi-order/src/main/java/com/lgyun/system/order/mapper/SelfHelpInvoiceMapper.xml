@@ -118,6 +118,11 @@
         <result property="idendityConfirmFee" column="idendity_confirm_fee"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.order.vo.maker.SelfHelpInvoiceYearMonthVO" id="selfHelpInvoiceYearMonthVO">
+        <result property="monthMoney" column="month_money"/>
+        <result property="yearMoney" column="year_money"/>
+    </resultMap>
+
     <resultMap type="com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO" id="selfHelpInvoiceStatisticsVO">
         <result property="num" column="num"/>
         <result property="monthMoney" column="month_money"/>
@@ -421,7 +426,7 @@
         WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.id = #{param1} AND t2.service_provider_id = #{param2}
     </select>
 
-    <select id="yearMonthMoney" resultMap="selfHelpInvoiceStatisticsVO">
+    <select id="yearMonthMoney" resultMap="selfHelpInvoiceYearMonthVO">
         SELECT IFNULL(SUM(IF(MONTH(create_time) = MONTH(NOW()), charge_money_num, 0)), 0) AS month_money,
         IFNULL(SUM(IF(YEAR(create_time) = YEAR(NOW()), charge_money_num, 0)), 0) AS year_money
         FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND invoice_print_state = 'INVOICESUCCESS'

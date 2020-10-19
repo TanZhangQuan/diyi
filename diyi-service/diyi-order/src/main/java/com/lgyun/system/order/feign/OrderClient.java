@@ -24,11 +24,6 @@ public class OrderClient implements IOrderClient {
     private ISelfHelpInvoiceService iSelfHelpInvoiceService;
 
     @Override
-    public R<SelfHelpInvoiceStatisticsVO> yearMonthMoney(Long allKindEnterpriseId, InvoicePeopleType invoicePeopleType) {
-        return iSelfHelpInvoiceService.yearMonthMoney(allKindEnterpriseId, invoicePeopleType);
-    }
-
-    @Override
     public R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(Long allKindEnterpriseId, InvoicePeopleType invoicePeopleType) {
         return iSelfHelpInvoiceService.selfHelpInvoiceStatistics(allKindEnterpriseId, invoicePeopleType);
     }

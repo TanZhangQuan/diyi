@@ -17,11 +17,6 @@ import org.springframework.stereotype.Component;
 public class IOrderClientFallback implements IOrderClient {
 
     @Override
-    public R<SelfHelpInvoiceStatisticsVO> yearMonthMoney(Long allKindEnterpriseId, InvoicePeopleType invoicePeopleType) {
-        return R.fail("网络繁忙，请稍后尝试");
-    }
-
-    @Override
     public R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(Long allKindEnterpriseId, InvoicePeopleType invoicePeopleType) {
         return R.fail("网络繁忙，请稍后尝试");
     }

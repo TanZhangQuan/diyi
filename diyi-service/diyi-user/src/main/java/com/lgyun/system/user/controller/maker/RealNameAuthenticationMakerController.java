@@ -71,7 +71,7 @@ public class RealNameAuthenticationMakerController {
         return makerService.idcardOcrSave(idcardOcrSaveDTO, makerEntity);
     }
 
-    @PostMapping("/query-idcard-info")
+    @GetMapping("/query-idcard-info")
     @ApiOperation(value = "查询当前创客身份证信息", notes = "查询当前创客身份证信息")
     public R queryIdcardInfo(BladeUser bladeUser) {
         //查询当前创客

@@ -11,6 +11,7 @@ import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.order.vo.admin.SelfHelpInvoiceAdminDetailVO;
 import com.lgyun.system.order.vo.admin.SelfHelpInvoiceAdminVO;
+import com.lgyun.system.order.vo.maker.SelfHelpInvoiceYearMonthVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -99,7 +100,7 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
      * @param invoicePeopleType
      * @return
      */
-    SelfHelpInvoiceStatisticsVO yearMonthMoney(Long allKindEnterpriseId, InvoicePeopleType invoicePeopleType);
+    SelfHelpInvoiceYearMonthVO yearMonthMoney(Long allKindEnterpriseId, InvoicePeopleType invoicePeopleType);
 
     /**
      * 查询个体户月度开票金额和年度开票金额

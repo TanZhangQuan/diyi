@@ -14,6 +14,7 @@ import com.lgyun.system.order.dto.admin.ToExamineSelfHelpInvoiceDTO;
 import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.order.vo.admin.SelfHelpInvoiceAdminVO;
+import com.lgyun.system.order.vo.maker.SelfHelpInvoiceYearMonthVO;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 
 /**
@@ -138,7 +139,7 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      * @param invoicePeopleType
      * @return
      */
-    R<SelfHelpInvoiceStatisticsVO> yearMonthMoney(Long individualBusinessId, InvoicePeopleType invoicePeopleType);
+    R<SelfHelpInvoiceYearMonthVO> yearMonthMoney(Long individualBusinessId, InvoicePeopleType invoicePeopleType);
 
     /**
      * 根据商户查询众包/众采
@@ -152,6 +153,9 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
 
     /**
      * 查询详情接口-众包/众采
+     *
+     * @param selfHelpInvoiceId
+     * @return
      */
     R findDetailCrowdSourcing(Long selfHelpInvoiceId);
 
@@ -231,46 +235,95 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
 
     /**
      * 服务商查询众包发票
+     *
+     * @param serviceProviderId
+     * @param enterpriseName
+     * @param startTime
+     * @param endTime
+     * @param selfHelpInvoiceSpApplyState
+     * @param page
+     * @return
      */
     R getServiceCrowdSour(Long serviceProviderId,String enterpriseName,String startTime,String endTime,SelfHelpInvoiceSpApplyState selfHelpInvoiceSpApplyState,IPage<SelfHelpInvoiceCrowdSourcingVO> page);
 
     /**
      * 服务商查询众包发票
+     *
+     * @param providerSelfHelpInvoiceId
+     * @return
      */
     R getServiceCrowdSourDetails(Long providerSelfHelpInvoiceId);
 
     /**
      * 服务商众包发票开票
+     *
+     * @param serviceProviderName
+     * @param providerSelfHelpInvoiceId
+     * @param expressNo
+     * @param expressCompanyName
+     * @param invoiceScanPictures
+     * @param taxScanPictures
+     * @return
      */
     R savePortalSignInvoice(String serviceProviderName,Long providerSelfHelpInvoiceId,String expressNo,String expressCompanyName,String invoiceScanPictures,String taxScanPictures);
 
     /**
      * 平台跟据创客身份查询自助开票
+     *
+     * @param enterpriseName
+     * @param startTime
+     * @param endTime
+     * @param makerType
+     * @param page
+     * @return
      */
     R getAdminMakerTypeSelfHelpInvoice(String enterpriseName, String startTime, String endTime, MakerType makerType,IPage<SelfHelpInvoiceAdminVO> page);
 
     /**
      * 平台跟据创客身份查询自助开票详情
+     *
+     * @param selfHelpInvoiceId
+     * @return
      */
     R getMakerTypeSelfHelpInvoiceDetails(Long selfHelpInvoiceId);
 
     /**
-     *平台审核自助开票
+     * 平台审核自助开票
+     *
+     * @param toExamineSelfHelpInvoiceDto
+     * @return
      */
     R toExamineSelfHelpInvoice(ToExamineSelfHelpInvoiceDTO toExamineSelfHelpInvoiceDto);
 
     /**
-     *平台上传支付回单和匹配服务商开票
+     * 平台上传支付回单和匹配服务商开票
+     *
+     * @param selfHelpInvoiceId
+     * @param selfHelpInvoiceFeeId
+     * @param serviceProviderId
+     * @param payCertificate
+     * @return
      */
     R matchServiceProvider(Long selfHelpInvoiceId,Long selfHelpInvoiceFeeId,Long serviceProviderId,String payCertificate);
 
     /**
      * 平台上传快递
+     *
+     * @param selfHelpInvoiceId
+     * @param serviceProviderId
+     * @param expressNo
+     * @param expressCompanyName
+     * @return
      */
     R uploadAdminExpress(Long selfHelpInvoiceId, Long serviceProviderId,String expressNo, String expressCompanyName);
 
     /**
      * 平台上传发票
+     *
+     * @param selfHelpInvoiceApplyProviderDetailId
+     * @param invoiceScanPictures
+     * @param taxScanPictures
+     * @return
      */
     R uploadAdminInvoice(Long selfHelpInvoiceApplyProviderDetailId, String invoiceScanPictures, String taxScanPictures);
 }
