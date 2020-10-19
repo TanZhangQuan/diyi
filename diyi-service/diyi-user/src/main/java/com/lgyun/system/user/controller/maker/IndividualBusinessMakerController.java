@@ -25,7 +25,7 @@ import javax.validation.constraints.NotNull;
  * @time 10:17.
  */
 @RestController
-//@RequestMapping("/maker/individual-business")
+@RequestMapping("/maker/individual-business")
 @Validated
 @AllArgsConstructor
 @Api(value = "创客端---个体户管理模块相关接口", tags = "创客端---个体户管理模块相关接口")
@@ -34,12 +34,9 @@ public class IndividualBusinessMakerController {
     private IIndividualBusinessService individualBusinessService;
     private IMakerService iMakerService;
 
-    @GetMapping("/individual-business/list-by-maker")
+    @GetMapping("/query-individual-business-list")
     @ApiOperation(value = "查询当前创客的所有个体户", notes = "查询当前创客的所有个体户")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "ibstate", value = "工商个体户状态", paramType = "query", dataType = "string"),
-    })
-    public R listByMaker(Ibstate ibstate, Query query, BladeUser bladeUser) {
+    public R queryIndividualBusinessList(@ApiParam(value = "个体户状态") @RequestParam(required = false) Ibstate ibstate, Query query, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -50,9 +47,9 @@ public class IndividualBusinessMakerController {
         return individualBusinessService.listByMaker(query, makerEntity.getId(), ibstate);
     }
 
-    @GetMapping("/individual-business/year-month-money")
+    @GetMapping("/query-individual-business-month-and-year-invoice-money")
     @ApiOperation(value = "查询个体户月度开票金额和年度开票金额", notes = "查询个体户月度开票金额和年度开票金额")
-    public R yearMonthMoney(@ApiParam(value = "个体户编号", required = true) @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId, BladeUser bladeUser) {
+    public R queryIndividualBusinessMonthAndYearInvoiceMoney(@ApiParam(value = "个体户", required = true) @NotNull(message = "请选择个体户") @RequestParam(required = false) Long individualBusinessId, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -62,9 +59,9 @@ public class IndividualBusinessMakerController {
         return individualBusinessService.yearMonthMoney(individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
     }
 
-    @GetMapping("/individual-business/find-by-id")
+    @GetMapping("/query-individual-business-detail")
     @ApiOperation(value = "查询个体户详情", notes = "查询个体户详情")
-    public R findById(@ApiParam(value = "个体户编号", required = true) @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId, BladeUser bladeUser) {
+    public R findById(@ApiParam(value = "个体户", required = true) @NotNull(message = "请选择个体户") @RequestParam(required = false) Long individualBusinessId, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -74,9 +71,9 @@ public class IndividualBusinessMakerController {
         return individualBusinessService.findById(individualBusinessId);
     }
 
-    @PostMapping("/individual-business/save")
+    @PostMapping("/save-individual-business")
     @ApiOperation(value = "新增个体户", notes = "新增个体户")
-    public R save(@Valid @RequestBody IndividualBusinessEnterpriseAddDTO individualBusinessEnterpriseAddDto, BladeUser bladeUser) {
+    public R saveIndividualBusiness(@Valid @RequestBody IndividualBusinessEnterpriseAddDTO individualBusinessEnterpriseAddDto, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
