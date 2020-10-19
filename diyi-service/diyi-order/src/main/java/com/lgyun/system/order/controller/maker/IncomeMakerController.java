@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,7 +29,7 @@ import javax.validation.constraints.NotNull;
  * @time 10:17.
  */
 @RestController
-//@RequestMapping("/maker/income")
+@RequestMapping("/maker/income")
 @Validated
 @AllArgsConstructor
 @Api(value = "创客端---收入管理模块相关接口", tags = "创客端---收入管理模块相关接口")
@@ -37,12 +38,12 @@ public class IncomeMakerController {
     private IUserClient iUserClient;
     private IWorksheetMakerService worksheetMakerService;
 
-    @GetMapping("/worksheetmaker/query-all-money-by-year-month")
+    @GetMapping("/query-worksheet-num-and-all-income")
     @ApiOperation(value = "根据工单类型，创客类型，年份，月份（可选）查询工单笔数和总收入金额", notes = "根据工单类型，创客类型，年份，月份（可选）查询工单笔数和总收入金额")
-    public R queryAllMoneyByYearMonth(@ApiParam(value = "工单类型", required = true) @NotNull(message = "请选择工单类型") @RequestParam(required = false) WorkSheetType worksheetType,
-                                      @ApiParam(value = "工单创客类型", required = true) @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType,
-                                      @ApiParam(value = "年份", required = true) @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
-                                      @ApiParam(value = "月份") @RequestParam(required = false) Long month, BladeUser bladeUser) {
+    public R queryWorksheetNumAndAllIncome(@ApiParam(value = "工单类型", required = true) @NotNull(message = "请选择工单类型") @RequestParam(required = false) WorkSheetType worksheetType,
+                                           @ApiParam(value = "工单创客类型", required = true) @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType,
+                                           @ApiParam(value = "年份", required = true) @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
+                                           @ApiParam(value = "月份") @RequestParam(required = false) Long month, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -53,10 +54,10 @@ public class IncomeMakerController {
         return worksheetMakerService.queryAllMoneyByYearMonth(worksheetType, makerType, makerEntity.getId(), year, month);
     }
 
-    @GetMapping("/worksheetmaker/query-money-by-year")
+    @GetMapping("/query-every-year-income")
     @ApiOperation(value = "根据工单类型，创客类型查询每年收入", notes = "根据工单类型，创客类型查询每年收入")
-    public R queryMoneyByYear(@ApiParam(value = "工单类型") @NotNull(message = "请选择工单类型") @RequestParam(required = false) WorkSheetType worksheetType,
-                              @ApiParam(value = "工单创客类型") @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType, BladeUser bladeUser) {
+    public R queryEveryYearIncome(@ApiParam(value = "工单类型", required = true) @NotNull(message = "请选择工单类型") @RequestParam(required = false) WorkSheetType worksheetType,
+                                  @ApiParam(value = "工单创客类型", required = true) @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -67,11 +68,11 @@ public class IncomeMakerController {
         return worksheetMakerService.queryMoneyByYear(worksheetType, makerType, makerEntity.getId());
     }
 
-    @GetMapping("/worksheetmaker/query-money-by-month")
+    @GetMapping("/query-every-month-income")
     @ApiOperation(value = "根据工单类型，创客类型，年份查询每月收入", notes = "根据工单类型，创客类型，年份查询每月收入")
-    public R queryMoneyByMonth(@ApiParam(value = "工单类型") @NotNull(message = "请选择工单类型") @RequestParam(required = false) WorkSheetType worksheetType,
-                               @ApiParam(value = "工单创客类型") @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType,
-                               @ApiParam(value = "年份") @NotNull(message = "请选择年份") @RequestParam(required = false) Long year, BladeUser bladeUser) {
+    public R queryEveryMonthIncome(@ApiParam(value = "工单类型", required = true) @NotNull(message = "请选择工单类型") @RequestParam(required = false) WorkSheetType worksheetType,
+                                   @ApiParam(value = "工单创客类型", required = true) @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType,
+                                   @ApiParam(value = "年份", required = true) @NotNull(message = "请选择年份") @RequestParam(required = false) Long year, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -82,12 +83,12 @@ public class IncomeMakerController {
         return worksheetMakerService.queryMoneyByMonth(worksheetType, makerType, makerEntity.getId(), year);
     }
 
-    @GetMapping("/worksheetmaker/query-all-money-by-year-month-enterprise")
+    @GetMapping("/query-maker-to-enterprise-all-income")
     @ApiOperation(value = "根据工单类型，创客类型，年份，月份（可选）查询创客对应商户的总收入金额", notes = "根据工单类型，创客类型，年份，月份（可选）查询创客对应商户的总收入金额")
-    public R queryAllMoneyByYearMonthEnterprise(@ApiParam(value = "工单类型") @NotNull(message = "请选择工单类型") @RequestParam(required = false) WorkSheetType worksheetType,
-                                                @ApiParam(value = "工单创客类型") @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType,
-                                                @ApiParam(value = "年份") @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
-                                                @ApiParam(value = "月份") @RequestParam(required = false) Long month, Query query, BladeUser bladeUser) {
+    public R queryMakerToEnterpriseAllIncome(@ApiParam(value = "工单类型", required = true) @NotNull(message = "请选择工单类型") @RequestParam(required = false) WorkSheetType worksheetType,
+                                             @ApiParam(value = "工单创客类型", required = true) @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType,
+                                             @ApiParam(value = "年份", required = true) @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
+                                             @ApiParam(value = "月份") @RequestParam(required = false) Long month, Query query, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -98,13 +99,13 @@ public class IncomeMakerController {
         return worksheetMakerService.queryAllMoneyByYearMonthEnterprise(Condition.getPage(query.setDescs("create_time")), worksheetType, makerType, makerEntity.getId(), year, month);
     }
 
-    @GetMapping("/worksheetmaker/query-all-money-detail-by-year-month")
+    @GetMapping("/query-detail-all-income")
     @ApiOperation(value = "根据工单类型，创客类型，年份，月份，商户编号（可选）查询明细总收入", notes = "根据工单类型，创客类型，年份，月份，商户编号（可选）查询明细总收入")
-    public R queryAllMoneyDetailByYearMonth(@ApiParam(value = "工单类型") @NotNull(message = "请选择工单类型") @RequestParam(required = false) WorkSheetType worksheetType,
-                                            @ApiParam(value = "工单创客类型") @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType,
-                                            @ApiParam(value = "年份") @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
-                                            @ApiParam(value = "月份") @NotNull(message = "请选择月份") @RequestParam(required = false) Long month,
-                                            @ApiParam(value = "商户编号") @RequestParam(required = false) Long enterpriseId, BladeUser bladeUser) {
+    public R queryDetailAllIncome(@ApiParam(value = "工单类型", required = true) @NotNull(message = "请选择工单类型") @RequestParam(required = false) WorkSheetType worksheetType,
+                                  @ApiParam(value = "工单创客类型", required = true) @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType,
+                                  @ApiParam(value = "年份", required = true) @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
+                                  @ApiParam(value = "月份", required = true) @NotNull(message = "请选择月份") @RequestParam(required = false) Long month,
+                                  @ApiParam(value = "商户编号") @RequestParam(required = false) Long enterpriseId, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -115,13 +116,13 @@ public class IncomeMakerController {
         return worksheetMakerService.queryAllMoneyDetailByYearMonth(worksheetType, makerType, makerEntity.getId(), year, month, enterpriseId);
     }
 
-    @GetMapping("/worksheetmaker/query-money-detail-by-year-month")
+    @GetMapping("/query-income-detail")
     @ApiOperation(value = "根据工单类型，创客类型，年份，月份，商户编号（可选）查询收入明细", notes = "根据工单类型，创客类型，年份，月份，商户编号（可选）查询收入明细")
-    public R queryMoneyDetailByYearMonth(@ApiParam(value = "工单类型") @NotNull(message = "请选择工单类型") @RequestParam(required = false) WorkSheetType worksheetType,
-                                         @ApiParam(value = "工单创客类型") @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType,
-                                         @ApiParam(value = "年份") @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
-                                         @ApiParam(value = "月份") @NotNull(message = "请选择月份") @RequestParam(required = false) Long month,
-                                         @ApiParam(value = "商户编号") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
+    public R queryIncomeDetail(@ApiParam(value = "工单类型", required = true) @NotNull(message = "请选择工单类型") @RequestParam(required = false) WorkSheetType worksheetType,
+                               @ApiParam(value = "工单创客类型", required = true) @NotNull(message = "请选择工单创客类型") @RequestParam(required = false) MakerType makerType,
+                               @ApiParam(value = "年份", required = true) @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
+                               @ApiParam(value = "月份", required = true) @NotNull(message = "请选择月份") @RequestParam(required = false) Long month,
+                               @ApiParam(value = "商户编号") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {

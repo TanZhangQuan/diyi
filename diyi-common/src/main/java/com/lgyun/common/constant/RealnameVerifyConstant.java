@@ -19,12 +19,12 @@ public interface RealnameVerifyConstant {
     String FACEBANKCARDMOBILEOCROCRURL = "/v2/identity/auth/web/indivAuthUrl";
 
     //活体认证回调url
-    String FACEOCRNOTIFYURL = "https://wxtest.diyicr.com/diyi-user/maker/face_ocr_notify";
+    String FACEOCRNOTIFYURL = "https://wxtest.diyicr.com/diyi-user/maker/real-name-authentication/face-ocr-notify";
 
     //手机认证回调url
-    String MOBILEOCRNOTIFYURL = "https://wxtest.diyicr.com/diyi-user/maker/mobile_ocr_notify";
+    String MOBILEOCRNOTIFYURL = "https://wxtest.diyicr.com/diyi-user/maker/real-name-authentication/mobile-ocr-notify";
 
     //银行卡认证回调url
-    String BANKCARDOCRNOTIFYURL = "https://wxtest.diyicr.com/diyi-user/maker/bank_card_ocr_notify";
+    String BANKCARDOCRNOTIFYURL = "https://wxtest.diyicr.com/diyi-user/maker/real-name-authentication/bank-card-ocr-notify";
 
 }

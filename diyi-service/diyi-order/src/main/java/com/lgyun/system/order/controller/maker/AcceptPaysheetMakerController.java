@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,7 +27,7 @@ import javax.validation.constraints.NotNull;
  * @time 10:17.
  */
 @RestController
-//@RequestMapping("/maker/accept-paysheet")
+@RequestMapping("/maker/accept-paysheet")
 @Validated
 @AllArgsConstructor
 @Api(value = "创客端---交付支付验收单管理模块相关接口", tags = "创客端---交付支付验收单管理模块相关接口")
@@ -35,9 +36,9 @@ public class AcceptPaysheetMakerController {
     private IUserClient iUserClient;
     private IAcceptPaysheetService acceptPaysheetService;
 
-    @GetMapping("/acceptpaysheet/get-accept-paysheets-by-enterprise")
+    @GetMapping("/query-maker-to-enterprise-accept-paysheet-list")
     @ApiOperation(value = "查询创客对应某商户的所有总包交付支付验收单", notes = "查询创客对应某商户的所有总包交付支付验收单")
-    public R getAcceptPaysheetsByEnterprise(@ApiParam(value = "商户ID", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
+    public R queryMakerToEnterpriseAcceptPaysheetList(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -48,10 +49,9 @@ public class AcceptPaysheetMakerController {
         return acceptPaysheetService.getAcceptPaysheetsByEnterprise(Condition.getPage(query.setDescs("create_time")), enterpriseId, makerEntity.getId());
     }
 
-    @GetMapping("/acceptpaysheet/get-accept-paysheet-worksheet")
+    @GetMapping("/query-accept-paysheet-detail")
     @ApiOperation(value = "根据ID查询总包交付支付验收单", notes = "根据ID查询总包交付支付验收单")
-    public R getAcceptPaysheetWorksheet(@ApiParam(value = "总包交付支付验收单ID", required = true) @NotNull(message = "请输入总包交付支付验收单编号") @RequestParam(required = false) Long acceptPaysheetId, BladeUser bladeUser) {
-
+    public R queryAcceptPaysheetDetail(@ApiParam(value = "总包交付支付验收单ID", required = true) @NotNull(message = "请输入总包交付支付验收单编号") @RequestParam(required = false) Long acceptPaysheetId, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {

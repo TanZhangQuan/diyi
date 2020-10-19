@@ -32,10 +32,9 @@ public class AcceptPaysheetMakerController {
     private IMakerService makerService;
     private IMakerEnterpriseService makerEnterpriseService;
 
-    @GetMapping("/get-enterprises-by-worksheet")
+    @GetMapping("/query-enterprise-list")
     @ApiOperation(value = "查询创客所有总包交付支付验收单的商户", notes = "查询创客所有总包交付支付验收单的商户")
-    public R getEnterprisesByWorksheet(Query query, BladeUser bladeUser) {
-
+    public R queryEnterpriseList(Query query, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = makerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
