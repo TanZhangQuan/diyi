@@ -21,7 +21,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
- * 平台端---发票和完税证明管理模块相关接口
+ * 平台端---发票/完税证明管理模块相关接口
  *
  * @author tzq
  * @date 2020/7/22.
@@ -31,7 +31,7 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/invoice/admin")
 @Validated
 @AllArgsConstructor
-@Api(value = "平台端---发票和完税证明管理模块相关接口", tags = "平台端---发票和完税证明管理模块相关接口")
+@Api(value = "平台端---发票/完税证明管理模块相关接口", tags = "平台端---发票/完税证明管理模块相关接口")
 public class InvoiceAdminController {
 
     private IUserClient userClient;

@@ -136,9 +136,7 @@ public class ServiceProviderAccountController {
         ServiceProviderWorkerEntity workerEntity = result.getData();
 
         // 执行新增、更新、授权操作
-        R<String> stringR = serviceProviderWorkerService.saveServiceProviderAccount(request, workerEntity, bladeUser);
-
-        return stringR;
+        return serviceProviderWorkerService.saveServiceProviderAccount(request, workerEntity, bladeUser);
     }
 
 }

@@ -63,7 +63,13 @@ public class AgreementMakerController {
 
     @GetMapping("/getEmployeeAgreement")
     @ApiOperation(value = "查看商户合同", notes = "查看商户合同")
-    public R getEmployeeIdAgreement(Long agreementId) {
+    public R getEmployeeIdAgreement(Long agreementId, BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
         AgreementEntity agreementEntity = agreementService.getById(agreementId);
         if (null == agreementEntity) {
             R.fail("合同不存在");

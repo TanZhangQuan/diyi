@@ -62,7 +62,13 @@ public class AddressMakerController {
 
     @PostMapping("/remove")
     @ApiOperation(value = "删除收货地址", notes = "删除收货地址")
-    public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
+    public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
         return R.status(addressService.removeByIds(Func.toLongList(ids)));
     }
 

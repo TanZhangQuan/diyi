@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.NotNull;
 
 /**
- * 控制器
+ * 商户端---发票/税票管理模块相关接口
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-07-17 20:01:13
  */
 @RestController

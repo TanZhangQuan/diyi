@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 /**
- * 商户发票和完税证明接口
+ * 商户端---发票/税票管理模块相关接口
  *
  * @author tzq
  * @date 2020/7/22.
@@ -33,7 +33,7 @@ import javax.validation.Valid;
 @RequestMapping("/web/invoice")
 @Validated
 @AllArgsConstructor
-@Api(value = "商户发票和完税证明接口", tags = "商户发票和完税证明接口")
+@Api(value = "商户端---发票/税票管理模块相关接口", tags = "商户端---发票/税票管理模块相关接口")
 public class InvoiceEnterpriseController {
 
     private IPayEnterpriseService payEnterpriseService;
@@ -62,13 +62,24 @@ public class InvoiceEnterpriseController {
 
     @PostMapping("/withdraw")
     @ApiOperation(value = "取消申请", notes = "取消申请")
-    public R withdraw(Long applicationId) {
+    public R withdraw(Long applicationId, BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
         return payEnterpriseService.withdraw(applicationId);
     }
 
     @GetMapping("/findPayEnterpriseDetails")
     @ApiOperation(value = "查看总包发票详情", notes = "查看总包发票详情")
-    public R findPayEnterpriseDetails(Long payEnterpriseId) {
+    public R findPayEnterpriseDetails(Long payEnterpriseId, BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
         return payEnterpriseService.findPayEnterpriseDetails(payEnterpriseId);
     }
 
@@ -87,7 +98,13 @@ public class InvoiceEnterpriseController {
 
     @GetMapping("/list")
     @ApiOperation(value = "查询服务商开票类目", notes = "查询服务商开票类目")
-    public R list(Query query) {
+    public R list(Query query, BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
         IPage<EnterpriseServiceProviderInvoiceCatalogsEntity> pages = enterpriseProviderInvoiceCatalogsService.page(Condition.getPage(query.setDescs("create_time")));
         return R.data(EnterpriseServiceProviderInvoiceCatalogsWrapper.build().pageVO(pages));
     }
@@ -120,7 +137,13 @@ public class InvoiceEnterpriseController {
 
     @GetMapping("/findDetailSummary")
     @ApiOperation(value = "查询详情接口-汇总", notes = "查询详情接口-汇总")
-    public R findDetailSummary(Long makerTotalInvoiceId) {
+    public R findDetailSummary(Long makerTotalInvoiceId, BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
         return payEnterpriseService.findDetailSummary(makerTotalInvoiceId);
     }
 
@@ -139,7 +162,13 @@ public class InvoiceEnterpriseController {
 
     @GetMapping("/findDetailSubcontractPortal")
     @ApiOperation(value = "查询详情接口-门征", notes = "查询详情接口-门征")
-    public R findDetailSubcontractPortal(Long makerInvoiceId) {
+    public R findDetailSubcontractPortal(Long makerInvoiceId, BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
         return payEnterpriseService.findDetailSubcontractPortal(makerInvoiceId);
     }
 
@@ -158,7 +187,13 @@ public class InvoiceEnterpriseController {
 
     @GetMapping("/findDetailCrowdSourcing")
     @ApiOperation(value = "查询详情接口-众包/众采", notes = "查询详情接口-众包/众采")
-    public R findDetailCrowdSourcing(Long selfHelpInvoiceId) {
+    public R findDetailCrowdSourcing(Long selfHelpInvoiceId, BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
         return selfHelpInvoiceService.findDetailCrowdSourcing(selfHelpInvoiceId);
     }
 }

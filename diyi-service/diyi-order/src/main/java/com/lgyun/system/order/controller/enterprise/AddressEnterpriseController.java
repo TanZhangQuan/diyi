@@ -19,7 +19,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
- * 商户收货地址 接口
+ * 商户端---交付支付验收单管理模块相关接口
  *
  * @author liangfeihu
  * @since 2020/8/20 17:42
