@@ -1,7 +1,10 @@
 package com.lgyun.system.order.vo;
 
-import com.lgyun.system.order.entity.EnterpriseServiceProviderInvoiceCatalogsEntity;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * @author .
@@ -9,7 +12,17 @@ import lombok.Data;
  * @time 16:16.
  */
 @Data
-public class EnterpriseServiceProviderInvoiceCatalogsVO extends EnterpriseServiceProviderInvoiceCatalogsEntity {
+public class EnterpriseServiceProviderInvoiceCatalogsVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 开票类目ID
+     */
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long id;
+
+    /**
+     * 发票类目名称
+     */
+    private String invoiceCatalogName;
 }

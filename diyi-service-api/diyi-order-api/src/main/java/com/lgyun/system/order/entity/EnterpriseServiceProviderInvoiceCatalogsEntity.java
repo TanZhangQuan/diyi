@@ -1,10 +1,11 @@
 package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.lgyun.common.enumeration.SetType;
+import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.lgyun.core.mp.base.BaseEntity;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
@@ -51,6 +52,6 @@ public class EnterpriseServiceProviderInvoiceCatalogsEntity extends BaseEntity {
     /**
      * 设置性质
      */
-    private String setType;
+    private SetType setType;
 
 }

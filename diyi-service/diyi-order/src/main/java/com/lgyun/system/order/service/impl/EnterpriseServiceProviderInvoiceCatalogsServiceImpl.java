@@ -1,5 +1,8 @@
 package com.lgyun.system.order.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lgyun.common.api.R;
+import com.lgyun.system.order.vo.EnterpriseServiceProviderInvoiceCatalogsVO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
@@ -19,4 +22,8 @@ import com.lgyun.system.order.service.IEnterpriseServiceProviderInvoiceCatalogsS
 @AllArgsConstructor
 public class EnterpriseServiceProviderInvoiceCatalogsServiceImpl extends BaseServiceImpl<EnterpriseServiceProviderInvoiceCatalogsMapper, EnterpriseServiceProviderInvoiceCatalogsEntity> implements IEnterpriseServiceProviderInvoiceCatalogsService {
 
+    @Override
+    public R<IPage<EnterpriseServiceProviderInvoiceCatalogsVO>> queryInvoiceCatalogsList(Long serviceProviderId, Long enterpriseId, IPage<EnterpriseServiceProviderInvoiceCatalogsVO> page) {
+        return R.data(page.setRecords(baseMapper.queryInvoiceCatalogsList(serviceProviderId, enterpriseId, page)));
+    }
 }

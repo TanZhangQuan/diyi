@@ -436,17 +436,17 @@ CREATE TABLE `diyi_enterprise` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `diyi_enterprise_provider_invoice_catalogs`
+-- Table structure for `diyi_enterprise_service_provider_invoice_catalogs`
 -- ----------------------------
-DROP TABLE IF EXISTS `diyi_enterprise_provider_invoice_catalogs`;
-CREATE TABLE `diyi_enterprise_provider_invoice_catalogs` (
+DROP TABLE IF EXISTS `diyi_enterprise_service_provider_invoice_catalogs`;
+CREATE TABLE `diyi_enterprise_service_provider_invoice_catalogs` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `enterprise_id` bigint(50) NOT NULL COMMENT '商户ID',
   `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
   `invoice_catalog_name` varchar(50) NOT NULL COMMENT '发票类目名称',
   `set_date` datetime DEFAULT NULL COMMENT '设置日期',
   `set_person` varchar(50) DEFAULT NULL COMMENT '设置人员',
-  `set_type` varchar(50) NOT NULL DEFAULT '1' COMMENT '设置性质',
+  `set_type` varchar(50) NOT NULL COMMENT '设置性质',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
@@ -457,7 +457,7 @@ CREATE TABLE `diyi_enterprise_provider_invoice_catalogs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商户-服务商开票类目表';
 
 -- ----------------------------
--- Records of diyi_enterprise_provider_invoice_catalogs
+-- Records of diyi_enterprise_service_provider_invoice_catalogs
 -- ----------------------------
 
 -- ----------------------------
