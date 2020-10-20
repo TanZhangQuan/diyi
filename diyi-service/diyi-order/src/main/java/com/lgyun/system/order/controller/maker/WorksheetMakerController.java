@@ -9,7 +9,6 @@ import com.lgyun.system.order.entity.WorksheetEntity;
 import com.lgyun.system.order.entity.WorksheetMakerEntity;
 import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.order.service.IWorksheetService;
-import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.*;
@@ -22,14 +21,14 @@ import javax.validation.constraints.NotNull;
 /**
  * 工单
  *
- * @author jun
+ * 创客端---工单相关接口
  * @since 2020-07-07 14:40:21
  */
 @RestController
-@RequestMapping("/worksheet")
+@RequestMapping("/maker/worksheet")
 @Validated
 @AllArgsConstructor
-@Api(value = "工单相关接口", tags = "工单相关接口")
+@Api(value = "创客端---工单相关接口", tags = "创客端---工单相关接口")
 public class WorksheetMakerController {
 
     private IWorksheetService worksheetService;
@@ -90,18 +89,6 @@ public class WorksheetMakerController {
         return worksheetService.getWorksheetDetails(worksheetMakerId);
     }
 
-    @GetMapping("/get_enterprise_worksheet_details")
-    @ApiOperation(value = "根据创客ID查询工单(商户)", notes = "根据创客ID查询工单(商户)")
-    public R getEnterpriseWorksheetDetails(@ApiParam(value = "创客ID", required = true) @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId, Query query, BladeUser bladeUser) {
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-        return worksheetService.getWorksheetDetailsByMaker(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), makerId);
-    }
 
     @GetMapping("/get_server_provider_worksheet_details")
     @ApiOperation(value = "根据创客ID查询工单(服务商)", notes = "根据创客ID查询工单(服务商)")

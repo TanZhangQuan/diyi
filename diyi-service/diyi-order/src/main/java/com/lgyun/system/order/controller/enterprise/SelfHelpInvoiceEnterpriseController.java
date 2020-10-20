@@ -43,10 +43,10 @@ import java.io.InputStream;
  * @time 17:37.
  */
 @RestController
-@RequestMapping("/order/webSelfhelpinvoice")
+@RequestMapping("/enterprise/enterpriseSelfhelpinvoice")
 @Validated
 @AllArgsConstructor
-@Api(value = "自助开票相关接口(管理端)", tags = "自助开票相关接口(管理端)")
+@Api(value = "商户端---自助开票相关接口(管理端)", tags = "商户端---自助开票相关接口(管理端)")
 public class SelfHelpInvoiceEnterpriseController {
 
     private ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
