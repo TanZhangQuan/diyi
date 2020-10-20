@@ -34,7 +34,7 @@ public class AgreementEnterpriseController {
     private IOrderClient orderClient;
     private IEnterpriseWorkerService enterpriseWorkerService;
 
-    @GetMapping("/web/selectEnterpriseId")
+    @GetMapping("/selectEnterpriseId")
     @ApiOperation(value = "根据商户查询商户的加盟合同", notes = "根据商户查询商户的加盟合同")
     public R selectEnterpriseId(BladeUser bladeUser) {
         //查询当前商户员工
@@ -47,7 +47,7 @@ public class AgreementEnterpriseController {
         return R.data(agreementService.findByEnterpriseAndType(enterpriseWorkerEntity.getEnterpriseId(), AgreementType.ENTERPRISEJOINAGREEMENT));
     }
 
-    @GetMapping("/web/selectAuthorization")
+    @GetMapping("/selectAuthorization")
     @ApiOperation(value = "根据商户查询商户的单方授权函", notes = "根据商户查询商户的单方授权函")
     public R selectAuthorization(BladeUser bladeUser, Query query) {
         //查询当前商户员工
@@ -73,7 +73,7 @@ public class AgreementEnterpriseController {
         return agreementService.saveAuthorization(enterpriseWorkerEntity.getEnterpriseId(), paperAgreementURL);
     }
 
-    @GetMapping("/web/selectServiceAgreement")
+    @GetMapping("/selectServiceAgreement")
     @ApiOperation(value = "查询商户关联服务商的加盟合同", notes = "查询商户关联服务商的加盟合同")
     public R selectServiceAgreement(Query query, BladeUser bladeUser, @RequestParam(required = false) String serviceProviderName, @RequestParam(required = false) String agreementNo) {
         //查询当前商户员工
@@ -86,7 +86,7 @@ public class AgreementEnterpriseController {
         return R.data(agreementService.selectServiceAgreement(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), serviceProviderName, agreementNo, SignType.PLATFORMAGREEMENT, AgreementType.SERVICEPROVIDERJOINAGREEMENT));
     }
 
-    @GetMapping("/web/selectServiceSupplementaryAgreement")
+    @GetMapping("/selectServiceSupplementaryAgreement")
     @ApiOperation(value = "查询商户关联服务商的补充协议", notes = "查询商户关联服务商的补充协议")
     public R selectServiceSupplementaryAgreement(Query query, BladeUser bladeUser, @RequestParam(required = false) String serviceProviderName, @RequestParam(required = false) String agreementNo) {
         //查询当前商户员工
@@ -112,7 +112,7 @@ public class AgreementEnterpriseController {
         return agreementService.saveSupplementaryAgreement(enterpriseWorkerEntity.getEnterpriseId(), paperAgreementURL, serviceProviderId);
     }
 
-    @GetMapping("/web/selectMakerAgreement")
+    @GetMapping("/selectMakerAgreement")
     @ApiOperation(value = "查询创客加盟合同", notes = "查询创客加盟合同")
     public R selectMakerAgreement(Query query, BladeUser bladeUser) {
         //查询当前商户员工
@@ -138,7 +138,7 @@ public class AgreementEnterpriseController {
         return agreementService.saveEnterpriseMakerAgreement(enterpriseWorkerEntity.getEnterpriseId(), paperAgreementURL);
     }
 
-    @GetMapping("/web/selectEnterpriseMakerAgreement")
+    @GetMapping("/selectEnterpriseMakerAgreement")
     @ApiOperation(value = "查询商户和创客的补充协议", notes = "查询商户和创客的补充协议")
     public R selectEnterpriseMakerAgreement(Query query, BladeUser bladeUser) {
         //查询当前商户员工
@@ -164,7 +164,7 @@ public class AgreementEnterpriseController {
         return agreementService.saveOnlineAgreement(enterpriseWorkerEntity.getEnterpriseId(), paperAgreementURL, boolAllMakers, makerIds, templateCount, AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT, makerEnterpriseService);
     }
 
-    @GetMapping("/web/selectEnterpriseMaker")
+    @GetMapping("/selectEnterpriseMaker")
     @ApiOperation(value = "根据商户id查询关联的创客", notes = "根据商户id查询关联的创客")
     public R selectEnterpriseMaker(Query query, BladeUser bladeUser) {
         //查询当前商户员工
@@ -190,7 +190,7 @@ public class AgreementEnterpriseController {
         return agreementService.saveOnlineAgreement(enterpriseWorkerEntity.getEnterpriseId(), paperAgreementURL, boolAllMakers, makerIds, templateCount, AgreementType.OTHERAGREEMENT, makerEnterpriseService);
     }
 
-    @GetMapping("/web/selectEntMakSourc")
+    @GetMapping("/selectEntMakSourc")
     @ApiOperation(value = "根据商户id查询众包的合同", notes = "根据商户id查询众包的合同")
     public R selectEntMakSourc(Query query, BladeUser bladeUser) {
         //查询当前商户员工
@@ -203,7 +203,7 @@ public class AgreementEnterpriseController {
         return orderClient.selectEntMakSourc(query.getCurrent(), query.getSize(), enterpriseWorkerEntity.getEnterpriseId());
     }
 
-    @GetMapping("/web/selectEntMakSourcDetail")
+    @GetMapping("/selectEntMakSourcDetail")
     @ApiOperation(value = "根据自助开票id查询众包的详情", notes = "根据自助开票id查询众包的详情")
     public R selectEntMakSourcDetail(Long selfHelpInvoiceId) {
         return orderClient.findDetailCrowdSourcing(selfHelpInvoiceId);
