@@ -25,10 +25,10 @@ import javax.validation.constraints.NotNull;
  * @since 2020-07-17 20:01:13
  */
 @RestController
-@RequestMapping("/web/pay_enterprise")
+@RequestMapping("/enterprise/pay_enterprise")
 @Validated
 @AllArgsConstructor
-@Api(value = "商户支付清单相关接口(管理端)", tags = "商户支付清单相关接口(管理端)")
+@Api(value = "商户端---商户支付清单相关接口(管理端)", tags = "商户端---商户支付清单相关接口(管理端)")
 public class PayEnterpriseEnterpriseController {
 
     private IPayEnterpriseService payEnterpriseService;

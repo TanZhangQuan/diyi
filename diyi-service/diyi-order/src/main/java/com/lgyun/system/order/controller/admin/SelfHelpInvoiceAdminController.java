@@ -25,7 +25,7 @@ import javax.validation.Valid;
  * @since 2020-07-08 14:32:47
  */
 @RestController
-@RequestMapping("/service/selfhelpinvoice")
+@RequestMapping("/admin/selfhelpinvoice")
 @Validated
 @AllArgsConstructor
 @Api(value = "平台端---自助开票管理模块相关接口", tags = "平台端---自助开票管理模块相关接口")

@@ -35,10 +35,10 @@ import javax.validation.constraints.NotNull;
  * @time 17:37.
  */
 @RestController
-@RequestMapping("/order/webSelfhelpinvoice")
+@RequestMapping("/serviceProvider/selfhelpinvoice")
 @Validated
 @AllArgsConstructor
-@Api(value = "自助开票相关接口(管理端)", tags = "自助开票相关接口(管理端)")
+@Api(value = "服务商端---自助开票相关接口(管理端)", tags = "服务商端---自助开票相关接口(管理端)")
 public class SelfHelpInvoiceServiceProviderController {
 
     private ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;

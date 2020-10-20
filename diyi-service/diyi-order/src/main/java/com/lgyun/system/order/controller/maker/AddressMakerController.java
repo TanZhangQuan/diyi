@@ -19,16 +19,16 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 /**
- * 收件地址表控制器
+ * 创客端---收件地址表相关接口
  *
  * @author liangfeihu
  * @since 2020-08-31 14:48:05
  */
 @RestController
-@RequestMapping("/address")
+@RequestMapping("/maker/address")
 @Validated
 @AllArgsConstructor
-@Api(value = "收件地址表相关接口", tags = "收件地址表相关接口")
+@Api(value = "创客端---收件地址表相关接口", tags = "创客端---收件地址表相关接口")
 public class AddressMakerController {
 
     private IAddressService addressService;

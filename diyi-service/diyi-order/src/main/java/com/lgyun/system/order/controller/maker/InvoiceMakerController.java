@@ -16,17 +16,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 发票和完税证明接口
- *
+ * 创客端---发票和完税证明接口
  * @author tzq
  * @date 2020/7/22.
  * @time 16:24.
  */
 @RestController
-@RequestMapping("/invoice")
+@RequestMapping("/maker/invoice")
 @Validated
 @AllArgsConstructor
-@Api(value = "发票和完税证明接口", tags = "发票和完税证明接口")
+@Api(value = "创客端---发票和完税证明接口", tags = "创客端---发票和完税证明接口")
 public class InvoiceMakerController {
 
     private IPayEnterpriseService payEnterpriseService;

@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.*;
  * @time 9:52.
  */
 @RestController
-@RequestMapping("/agreement")
+@RequestMapping("/enterprise/agreement")
 @Validated
 @AllArgsConstructor
-@Api(value = "商户平台合同的信息相关接口", tags = "商户平台合同的信息相关接口")
+@Api(value = "商户端---商户平台合同的信息相关接口", tags = "商户端---商户平台合同的信息相关接口")
 public class AgreementEnterpriseController {
 
     private IAgreementService agreementService;

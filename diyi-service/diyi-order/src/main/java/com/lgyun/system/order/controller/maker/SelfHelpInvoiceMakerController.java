@@ -40,16 +40,15 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
- * 控制器
- *
+ *创客端---自助开票相关接口
  * @author jun
  * @since 2020-07-08 14:32:47
  */
 @RestController
-@RequestMapping("/selfhelpinvoice")
+@RequestMapping("/maker/selfhelpinvoice")
 @Validated
 @AllArgsConstructor
-@Api(value = "自助开票相关接口", tags = "自助开票相关接口")
+@Api(value = "创客端---自助开票相关接口", tags = "创客端---自助开票相关接口")
 public class SelfHelpInvoiceMakerController {
 
     private ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
