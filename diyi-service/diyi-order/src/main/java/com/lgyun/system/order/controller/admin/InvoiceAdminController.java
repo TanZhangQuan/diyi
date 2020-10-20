@@ -28,7 +28,7 @@ import javax.validation.constraints.NotNull;
  * @time 16:24.
  */
 @RestController
-@RequestMapping("/invoice/admin")
+@RequestMapping("/admin/invoice")
 @Validated
 @AllArgsConstructor
 @Api(value = "平台端---发票/完税证明管理模块相关接口", tags = "平台端---发票/完税证明管理模块相关接口")

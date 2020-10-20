@@ -29,10 +29,10 @@ import javax.validation.constraints.NotNull;
  * @time 16:24.
  */
 @RestController
-@RequestMapping("/web/invoice")
+@RequestMapping("/enterprise/invoice")
 @Validated
 @AllArgsConstructor
-@Api(value = "商户端---发票/税票管理模块相关接口", tags = "商户端---发票/税票管理模块相关接口")
+@Api(value = "商户端---商户发票和完税证明接口", tags = "商户端---商户发票和完税证明接口")
 public class InvoiceEnterpriseController {
 
     private IPayEnterpriseService payEnterpriseService;

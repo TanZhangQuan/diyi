@@ -14,6 +14,7 @@ import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.MakerEnterpriseWebVO;
 import com.lgyun.system.user.vo.RelMakerListVO;
+import com.lgyun.system.user.vo.maker.MakerEnterpriseDetailYearMonthVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
                 makerEnterpriseEntity.setFirstCooperation(false);
                 makerEnterpriseEntity.setRelMemo("关联");
                 makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATING);
+
                 updateById(makerEnterpriseEntity);
                 return;
             } else {
@@ -94,6 +96,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
             makerEnterpriseEntity.setEnterpriseId(enterpriseId);
             makerEnterpriseEntity.setRelationshipType(RelationshipType.ATTENTION);
             makerEnterpriseEntity.setRelType(EnterpriseMakerRelType.MAKERREL);
+            makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATING);
             makerEnterpriseEntity.setCooperationStartTime(new Date());
             makerEnterpriseEntity.setFirstCooperation(true);
             makerEnterpriseEntity.setRelMemo("关注");
@@ -214,6 +217,14 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     @Override
     public R<IPage<SelfHelpInvoiceDetailProviderVO>> getSelfHelpInvoiceDetails(IPage<SelfHelpInvoiceDetailProviderVO> page, Long selfHelpvoiceId) {
         return R.data(page.setRecords(baseMapper.getSelfHelpInvoiceDetails(selfHelpvoiceId, page)));
+    }
+
+    @Override
+    public R getMakerDetailed(IPage<MakerEnterpriseDetailYearMonthVO> page, Long makerId, Long enterpriseId,WorkSheetType workSheetType) {
+            if(workSheetType.equals(WorkSheetType.CROWDSOURCED)){
+               return R.data(page.setRecords(baseMapper.getMakerCrowdDetailed(makerId,enterpriseId,page)));
+            }
+        return R.data(page.setRecords(baseMapper.getMakerDetailed(makerId,enterpriseId,page)));
     }
 
     @Override

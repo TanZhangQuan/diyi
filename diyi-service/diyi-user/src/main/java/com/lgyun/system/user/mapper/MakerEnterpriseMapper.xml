@@ -13,8 +13,7 @@
         <result property="socialCreditNo" column="social_credit_no"/>
         <result property="bizLicenceUrl" column="biz_licence_url"/>
         <result property="enterpriseId" column="enterprise_id"/>
-        <result property="enterpriseId" column="enterprise_id"/>
-        <result property="enterpriseId" column="enterprise_id"/>
+        <result property="relationshipType" column="relationship_type"/>
     </resultMap>
 
     <resultMap type="com.lgyun.system.user.vo.RelMakerListVO" id="relEnterpriseMakerVO">
@@ -62,9 +61,16 @@
         <result property="bankNo" column="bank_no"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.user.vo.maker.MakerEnterpriseDetailYearMonthVO" id="makerEnterpriseDetailYearMonthVO">
+        <result property="income" column="income"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="checkMoney" column="check_money"/>
+        <result property="checkDate" column="check_date"/>
+    </resultMap>
+
     <select id="selectMakerEnterprisePage" resultMap="makerEnterpriseRelationMap">
         SELECT e.enterprise_name, e.shop_user_name, e.legal_person_name, e.legal_person_id_card, e.contact1_position, e.contact1_phone, e.social_credit_no,
-        e.biz_licence_url, e.id as enterprise_id FROM diyi_maker_enterprise me INNER JOIN diyi_enterprise e ON me.enterprise_id = e.id
+        e.biz_licence_url, e.id as enterprise_id,me.relationship_type FROM diyi_maker_enterprise me INNER JOIN diyi_enterprise e ON me.enterprise_id = e.id
         WHERE me.is_deleted = 0 and e.is_deleted = 0 and me.maker_id = #{param1} AND me.relationship_type = #{param2} and me.cooperate_status = 'COOPERATING'
     </select>
 
@@ -133,4 +139,11 @@
         FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_detail t2 ON t1.id = t2.self_help_invoice_id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.id = #{param1}
     </select>
 
+    <select id="getMakerDetailed" resultMap="makerEnterpriseDetailYearMonthVO">
+        SELECT pm.maker_net_income check_money, pm.total_fee income, e.enterprise_name, pm.create_time AS check_date FROM diyi_maker_enterprise me INNER JOIN diyi_pay_enterprise pe ON me.enterprise_id = pe.enterprise_id INNER JOIN diyi_enterprise e ON e.id = me.enterprise_id INNER JOIN diyi_pay_maker pm ON pm.pay_enterprise_id = pe.id WHERE pe.pay_state = 'CONFIRMPAY' pm.maker_id =#{param1} AND me.enterprise_id =#{param2}
+    </select>
+
+    <select id="getMakerCrowdDetailed" resultMap="makerEnterpriseDetailYearMonthVO">
+        SELECT e.enterprise_name, shid.charge_money_num AS income, shid.create_time AS check_date, shid.charge_money_num AS check_money FROM diyi_maker_enterprise me INNER JOIN diyi_self_help_invoice shi ON me.enterprise_id = shi.enterprise_id INNER JOIN diyi_self_help_invoice_detail shid ON shid.self_help_invoice_id = shi.id INNER JOIN diyi_enterprise e ON e.id = me.enterprise_id WHERE 1 = 1 AND me.maker_id =#{param1} AND me.enterprise_id =#{param2}
+    </select>
 </mapper>
