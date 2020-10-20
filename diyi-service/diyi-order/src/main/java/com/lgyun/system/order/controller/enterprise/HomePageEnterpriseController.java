@@ -32,9 +32,9 @@ public class HomePageEnterpriseController {
     private IPayEnterpriseService payEnterpriseService;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
 
-    @GetMapping("/transaction_by_enterprise")
+    @GetMapping("/transaction-data")
     @ApiOperation(value = "查询当前商户首页交易情况数据", notes = "查询当前商户首页交易情况数据")
-    public R transactionByEnterprise(BladeUser bladeUser) {
+    public R transactionData(BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -45,9 +45,9 @@ public class HomePageEnterpriseController {
         return payEnterpriseService.transactionByEnterprise(enterpriseWorkerEntity.getEnterpriseId());
     }
 
-    @GetMapping("/query_total_sub_day_trade_by_enterprise")
+    @GetMapping("/query-total-sub-day-trade")
     @ApiOperation(value = "查询当前商户总包+分包今日流水", notes = "查询当前商户总包+分包今日流水")
-    public R queryTotalSubDayTradeByEnterprise(BladeUser bladeUser) {
+    public R queryTotalSubDayTrade(BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -58,9 +58,9 @@ public class HomePageEnterpriseController {
         return payEnterpriseService.queryTotalSubDayTradeByEnterprise(enterpriseWorkerEntity.getEnterpriseId());
     }
 
-    @GetMapping("/query_total_sub_week_trade_by_enterprise")
+    @GetMapping("/query-total-sub-week-trade")
     @ApiOperation(value = "查询当前商户总包+分包本周流水", notes = "查询当前商户总包+分包本周流水")
-    public R queryTotalSubWeekTradeByEnterprise(BladeUser bladeUser) {
+    public R queryTotalSubWeekTrade(BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -71,9 +71,9 @@ public class HomePageEnterpriseController {
         return payEnterpriseService.queryTotalSubWeekTradeByEnterprise(enterpriseWorkerEntity.getEnterpriseId());
     }
 
-    @GetMapping("/query_total_sub_month_trade_by_enterprise")
+    @GetMapping("/query-total-sub-month-trade")
     @ApiOperation(value = "查询当前商户总包+分包本月流水", notes = "查询当前商户总包+分包本月流水")
-    public R queryTotalSubMonthTradeByEnterprise(BladeUser bladeUser) {
+    public R queryTotalSubMonthTrade(BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -84,9 +84,9 @@ public class HomePageEnterpriseController {
         return payEnterpriseService.queryTotalSubMonthTradeByEnterprise(enterpriseWorkerEntity.getEnterpriseId());
     }
 
-    @GetMapping("/query_total_sub_year_trade_by_enterprise")
+    @GetMapping("/query-total-sub-year-trade")
     @ApiOperation(value = "查询当前商户总包+分包全年流水", notes = "查询当前商户总包+分包全年流水")
-    public R queryTotalSubYearTradeByEnterprise(BladeUser bladeUser) {
+    public R queryTotalSubYearTrade(BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -97,9 +97,9 @@ public class HomePageEnterpriseController {
         return payEnterpriseService.queryTotalSubYearTradeByEnterprise(enterpriseWorkerEntity.getEnterpriseId());
     }
 
-    @GetMapping("/query_crowd_day_trade_by_enterprise")
+    @GetMapping("/query-crowd-day-trade")
     @ApiOperation(value = "查询当前商户众包/众采今日流水", notes = "查询当前商户众包/众采今日流水")
-    public R queryCrowdDayTradeByEnterprise(BladeUser bladeUser) {
+    public R queryCrowdDayTrade(BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -110,9 +110,9 @@ public class HomePageEnterpriseController {
         return selfHelpInvoiceService.queryCrowdDayTradeByEnterprise(enterpriseWorkerEntity.getEnterpriseId());
     }
 
-    @GetMapping("/query_crowd_week_trade_by_enterprise")
+    @GetMapping("/query-crowd-week-trade")
     @ApiOperation(value = "查询当前商户众包/众采本周流水", notes = "查询当前商户众包/众采本周流水")
-    public R queryCrowdWeekTradeByEnterprise(BladeUser bladeUser) {
+    public R queryCrowdWeekTrade(BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -123,9 +123,9 @@ public class HomePageEnterpriseController {
         return selfHelpInvoiceService.queryCrowdWeekTradeByEnterprise(enterpriseWorkerEntity.getEnterpriseId());
     }
 
-    @GetMapping("/query_crowd_month_trade_by_enterprise")
+    @GetMapping("/query-crowd-month-trade")
     @ApiOperation(value = "查询当前商户众包/众采本月流水", notes = "查询当前商户众包/众采本月流水")
-    public R queryCrowdMonthTradeByEnterprise(BladeUser bladeUser) {
+    public R queryCrowdMonthTrade(BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -136,9 +136,9 @@ public class HomePageEnterpriseController {
         return selfHelpInvoiceService.queryCrowdMonthTradeByEnterprise(enterpriseWorkerEntity.getEnterpriseId());
     }
 
-    @GetMapping("/query_crowd_year_trade_by_enterprise")
+    @GetMapping("/query-crowd-year-trade")
     @ApiOperation(value = "查询当前商户众包/众采年流水", notes = "查询当前商户众包/众采年流水")
-    public R queryCrowdYearTradeByEnterprise(BladeUser bladeUser) {
+    public R queryCrowdYearTrade(BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {

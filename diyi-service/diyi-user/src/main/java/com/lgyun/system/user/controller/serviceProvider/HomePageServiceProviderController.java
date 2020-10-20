@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @time 10:17.
  */
 @RestController
-//@RequestMapping("/service-provider/home-page")
+@RequestMapping("/service-provider/home-page")
 @Validated
 @AllArgsConstructor
 @Api(value = "服务商端---首页管理模块相关接口", tags = "服务商端---首页管理模块相关接口")
@@ -31,9 +32,9 @@ public class HomePageServiceProviderController {
     private IServiceProviderWorkerService serviceProviderWorkerService;
     private IEnterpriseServiceProviderService enterpriseProviderService;
 
-    @GetMapping("/web/service_provider_worker/current-detail")
+    @GetMapping("/query-current-service-provider-detail")
     @ApiOperation(value = "查询当前服务商员工详情", notes = "查询当前服务商员工详情")
-    public R currentDetail(BladeUser bladeUser) {
+    public R queryCurrentServiceProviderDetail(BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -44,9 +45,9 @@ public class HomePageServiceProviderController {
         return serviceProviderWorkerService.queryServiceProviderWorkerDetail(serviceProviderWorkerEntity.getId());
     }
 
-    @GetMapping("/getEnterprisesByServiceProvider")
+    @GetMapping("/query-enterprise-list")
     @ApiOperation(value = "查询当前服务商合作商户", notes = "查询当前服务商合作商户")
-    public R getEnterprises(Query query, BladeUser bladeUser) {
+    public R queryEnterpriseList(Query query, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
