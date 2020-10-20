@@ -29,25 +29,25 @@ public class AuthController {
 
     @PostMapping("/wechat-login")
     @ApiOperation(value = "微信授权登录", notes = "微信授权登录")
-    public R wechatlogin(@Valid @RequestBody WechatLoginDto wechatLoginDto) throws Exception {
+    public R wechatlogin(@Valid @RequestBody WechatLoginDTO wechatLoginDto) throws Exception {
         return authService.wechatlogin(wechatLoginDto);
     }
 
     @PostMapping("/send-code")
     @ApiOperation(value = "发送短信验证码", notes = "发送短信验证码")
-    public R sendCode(@Valid @RequestBody SendCodeDto sendCodeDto) {
+    public R sendCode(@Valid @RequestBody SendCodeDTO sendCodeDto) {
         return authService.sendCode(sendCodeDto);
     }
 
     @PostMapping("/mobile-login")
     @ApiOperation(value = "手机验证码登录", notes = "手机验证码登录")
-    public R mobileLogin(@Valid @RequestBody MobileLoginDto mobileLoginDto) throws Exception {
+    public R mobileLogin(@Valid @RequestBody MobileLoginDTO mobileLoginDto) throws Exception {
         return authService.mobileLogin(mobileLoginDto);
     }
 
     @PostMapping("/password-login")
     @ApiOperation(value = "账号密码登录", notes = "账号密码登录")
-    public R passwordLogin(@Valid @RequestBody PasswordLoginDto passwordLoginDto) throws Exception {
+    public R passwordLogin(@Valid @RequestBody PasswordLoginDTO passwordLoginDto) throws Exception {
         return authService.passwordLogin(passwordLoginDto);
     }
 
@@ -61,7 +61,7 @@ public class AuthController {
 
     @PostMapping("/register")
     @ApiOperation(value = "注册", notes = "注册")
-    public R register(@Valid @RequestBody RegisterDto registerDto) {
+    public R register(@Valid @RequestBody RegisterDTO registerDto) {
         return authService.register(registerDto);
     }
 
@@ -73,7 +73,7 @@ public class AuthController {
 
     @PostMapping("/update-password")
     @ApiOperation(value = "修改密码", notes = "修改密码")
-    public R updatePassword(@Valid @RequestBody UpdatePasswordDto updatePasswordDto) {
+    public R updatePassword(@Valid @RequestBody UpdatePasswordDTO updatePasswordDto) {
         return authService.updatePassword(updatePasswordDto);
     }
 

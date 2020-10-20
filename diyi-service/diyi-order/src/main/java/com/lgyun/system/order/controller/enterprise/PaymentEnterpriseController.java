@@ -28,7 +28,7 @@ import javax.validation.constraints.NotNull;
  * @time 10:17.
  */
 @RestController
-//@RequestMapping("/enterprise/payment")
+@RequestMapping("/enterprise/payment")
 @Validated
 @AllArgsConstructor
 @Api(value = "商户端---支付管理模块相关接口", tags = "商户端---支付管理模块相关接口")
@@ -38,8 +38,8 @@ public class PaymentEnterpriseController {
     private IPayEnterpriseService payEnterpriseService;
     private IAcceptPaysheetService acceptPaysheetService;
 
-    @PostMapping("/web/pay_enterprise/upload")
-    @ApiOperation(value = "当前商户上传总包支付清单", notes = "当前商户上传总包支付清单")
+    @PostMapping("/upload-charge-list")
+    @ApiOperation(value = "上传总包支付清单", notes = "上传总包支付清单")
     public R upload(@Valid @RequestBody PayEnterpriseUploadDTO payEnterpriseUploadDto, BladeUser bladeUser) throws Exception {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
@@ -51,7 +51,7 @@ public class PaymentEnterpriseController {
         return payEnterpriseService.upload(payEnterpriseUploadDto, enterpriseWorkerEntity.getEnterpriseId());
     }
 
-    @GetMapping("/web/pay_enterprise/get_worksheet_by_enterprise_id")
+    @GetMapping("/get_worksheet_by_enterprise_id")
     @ApiOperation(value = "查询当前商户所有已完毕的总包+分包类型的工单", notes = "查询当前商户所有已完毕的总包+分包类型的工单")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "worksheetNo", value = "工单编号", paramType = "query", dataType = "string"),
@@ -68,7 +68,7 @@ public class PaymentEnterpriseController {
         return payEnterpriseService.getWorksheetByEnterpriseId(query, enterpriseWorkerEntity.getEnterpriseId(), WorkSheetType.SUBPACKAGE, worksheetNo, worksheetName);
     }
 
-    @GetMapping("/web/pay_enterprise/get_pay_enterprises_by_enterprise")
+    @GetMapping("/get_pay_enterprises_by_enterprise")
     @ApiOperation(value = "查询当前商户所有总包支付清单", notes = "查询当前商户所有总包支付清单")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "payEnterpriseId", value = "总包支付清单ID", paramType = "query", dataType = "long"),
@@ -88,7 +88,19 @@ public class PaymentEnterpriseController {
         return payEnterpriseService.getPayEnterpriseList(enterpriseWorkerEntity.getEnterpriseId(), null, payEnterpriseDto, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @PostMapping("/web/pay_enterprise/submit")
+    @GetMapping("/get_pay_maker_list_by_pay_enterprise_id")
+    @ApiOperation(value = "根据支付清单ID查询创客支付明细", notes = "根据支付清单ID查询创客支付明细")
+    public R getPayMakerListByPayEnterpriseId(@ApiParam(value = "支付清单编号", required = true) @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, Query query, BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return payEnterpriseService.getPayMakerListByPayEnterprise(payEnterpriseId, Condition.getPage(query.setDescs("create_time")));
+    }
+
+    @PostMapping("/submit")
     @ApiOperation(value = "当前商户提交支付清单", notes = "当前商户提交支付清单")
     public R submit(@ApiParam(value = "支付清单编号", required = true) @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
         //查询当前商户员工
@@ -101,7 +113,7 @@ public class PaymentEnterpriseController {
         return payEnterpriseService.submit(payEnterpriseId, enterpriseWorkerEntity.getEnterpriseId());
     }
 
-    @PostMapping("/web/pay_enterprise/upload_accept_paysheet")
+    @PostMapping("/upload_accept_paysheet")
     @ApiOperation(value = "上传总包交付支付验收单", notes = "上传总包交付支付验收单")
     public R uploadAcceptPaysheet(@Valid @RequestBody AcceptPaysheetSaveDTO acceptPaysheetSaveDto, BladeUser bladeUser) {
         //查询当前商户员工

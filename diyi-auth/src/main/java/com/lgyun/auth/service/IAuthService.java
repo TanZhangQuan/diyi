@@ -21,7 +21,7 @@ public interface IAuthService {
      * @return
      * @throws Exception
      */
-    R wechatlogin(WechatLoginDto wechatLoginDto) throws Exception;
+    R wechatlogin(WechatLoginDTO wechatLoginDto) throws Exception;
 
     /**
      * 发送短信验证码
@@ -29,7 +29,7 @@ public interface IAuthService {
      * @param sendCodeDto
      * @return
      */
-    R<String> sendCode(SendCodeDto sendCodeDto);
+    R<String> sendCode(SendCodeDTO sendCodeDto);
 
     /**
      * 手机验证码登录
@@ -37,7 +37,7 @@ public interface IAuthService {
      * @param mobileLoginDto
      * @return
      */
-    R mobileLogin(MobileLoginDto mobileLoginDto) throws Exception;
+    R mobileLogin(MobileLoginDTO mobileLoginDto) throws Exception;
 
     /**
      * 账号密码登录
@@ -45,7 +45,7 @@ public interface IAuthService {
      * @param passwordLoginDto
      * @return
      */
-    R passwordLogin(PasswordLoginDto passwordLoginDto) throws Exception;
+    R passwordLogin(PasswordLoginDTO passwordLoginDto) throws Exception;
 
     /**
      * 刷新令牌
@@ -63,7 +63,7 @@ public interface IAuthService {
      * @return
      * @throws Exception
      */
-    R<String> register(RegisterDto registerDto);
+    R<String> register(RegisterDTO registerDto);
 
     /**
      * 生成图形验证码
@@ -78,7 +78,7 @@ public interface IAuthService {
      * @param updatePasswordDto
      * @return
      */
-    R<String> updatePassword(UpdatePasswordDto updatePasswordDto);
+    R<String> updatePassword(UpdatePasswordDTO updatePasswordDto);
 
 }
 

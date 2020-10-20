@@ -71,7 +71,7 @@ public class BladeApplication {
 		}
 		String startJarPath = BladeApplication.class.getResource("/").getPath().split("!")[0];
 		String activePros = joinFun.apply(activeProfileList.toArray());
-		System.out.println(String.format("----启动中，读取到的环境变量:[%s]，jar地址:[%s]----", activePros, startJarPath));
+		log.info(String.format("----启动中，读取到的环境变量:[%s]，jar地址:[%s]----", activePros, startJarPath));
 		Properties props = System.getProperties();
 		props.setProperty("spring.application.name", appName);
 		props.setProperty("spring.profiles.active", profile);

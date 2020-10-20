@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @time 10:17.
  */
 @RestController
-//@RequestMapping("/enterprise/home-page")
+@RequestMapping("/enterprise/home-page")
 @Validated
 @AllArgsConstructor
 @Api(value = "商户端---首页管理模块相关接口", tags = "商户端---首页管理模块相关接口")
@@ -33,12 +34,12 @@ public class HomePageEnterpriseController {
     private IEnterpriseWorkerService enterpriseWorkerService;
     private IEnterpriseServiceProviderService enterpriseServiceProviderService;
 
-    @GetMapping("/web/enterprise_worker/current-detail")
+    @GetMapping("/current-detail")
     @ApiOperation(value = "查询当前商户员工详情", notes = "查询当前商户员工详情")
     public R currentDetail(BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
-        if (!(result.isSuccess())){
+        if (!(result.isSuccess())) {
             return result;
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();

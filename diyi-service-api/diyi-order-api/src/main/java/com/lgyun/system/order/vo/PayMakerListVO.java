@@ -62,9 +62,4 @@ public class PayMakerListVO implements Serializable {
      */
     private BigDecimal serviceRate;
 
-    /**
-     * 验收单URL
-     */
-    private String acceptPaysheetUrl;
-
 }

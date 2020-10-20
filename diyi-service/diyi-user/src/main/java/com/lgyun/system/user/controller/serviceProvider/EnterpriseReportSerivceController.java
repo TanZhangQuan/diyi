@@ -12,7 +12,6 @@ import com.lgyun.system.user.service.IServiceProviderWorkerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +23,6 @@ import javax.validation.Valid;
  * @author tzq
  * @since 2020-08-12 14:47:56
  */
-@Slf4j
 @RestController
 @RequestMapping("service/enterprise_report")
 @Validated

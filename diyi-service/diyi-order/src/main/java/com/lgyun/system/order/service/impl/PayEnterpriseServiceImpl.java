@@ -134,7 +134,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         save(payEnterpriseEntity);
 
         //支付回单拆分
-        String[] split = payEnterpriseUploadDto.getPayReceiptUrl().split(",");
+        String[] split = payEnterpriseUploadDto.getPayReceiptUrls().split(",");
         for (int i = 0; i < split.length; i++) {
             if (StringUtils.isNotBlank(split[i])) {
                 PayEnterpriseReceiptEntity payEnterpriseReceiptEntity = new PayEnterpriseReceiptEntity();

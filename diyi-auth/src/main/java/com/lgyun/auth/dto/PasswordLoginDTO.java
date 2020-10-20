@@ -9,28 +9,35 @@ import java.io.Serializable;
 
 /**
  * @author tzq
- * @Description 微信授权登录DTO
+ * @Description 账号密码登录DTO
  * @return
  * @date 2020.06.27
  */
 @Data
-public class WechatLoginDto implements Serializable {
+public class PasswordLoginDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //用户类型
+    /**
+     * 用户类型
+     */
     @NotNull(message = "请选择用户类型")
     private UserType userType;
 
-    //微信授权码
-    @NotBlank(message = "请输入微信授权码")
+    /**
+     * 账号
+     */
+    @NotBlank(message = "请输入账号")
+    private String account;
+
+    /**
+     * 密码
+     */
+    @NotBlank(message = "请输入密码")
+    private String password;
+
+    /**
+     * 微信授权码
+     */
     private String wechatCode;
-
-    //加密算法的初始向量
-    @NotBlank(message = "请输入加密算法的初始向量")
-    private String iv;
-
-    //加密数据
-    @NotBlank(message = "请输入加密数据")
-    private String encryptedData;
 
 }

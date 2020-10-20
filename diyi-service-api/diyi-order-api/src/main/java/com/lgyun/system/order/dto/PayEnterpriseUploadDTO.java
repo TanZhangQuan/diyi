@@ -125,6 +125,6 @@ public class PayEnterpriseUploadDTO implements Serializable {
      * 支付回单(多张)
      */
     @NotBlank(message = "请上传支付回单")
-    private String payReceiptUrl;
+    private String payReceiptUrls;
 
 }

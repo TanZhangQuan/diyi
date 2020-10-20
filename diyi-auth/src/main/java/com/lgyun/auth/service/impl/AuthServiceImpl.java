@@ -48,7 +48,7 @@ public class AuthServiceImpl implements IAuthService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R wechatlogin(WechatLoginDto wechatLoginDto) throws Exception {
+    public R wechatlogin(WechatLoginDTO wechatLoginDto) throws Exception {
 
         if (wechatLoginDto.getUserType() == UserType.MAKER) {
             //微信授权
@@ -81,7 +81,7 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    public R<String> sendCode(SendCodeDto sendCodeDto) {
+    public R<String> sendCode(SendCodeDTO sendCodeDto) {
 
         //验证码类型
         CodeType codeType = sendCodeDto.getCodeType();
@@ -162,7 +162,7 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    public R mobileLogin(MobileLoginDto mobileLoginDto) throws Exception {
+    public R mobileLogin(MobileLoginDTO mobileLoginDto) throws Exception {
 
         //查询手机号
         String mobile = mobileLoginDto.getMobile();
@@ -242,7 +242,7 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    public R passwordLogin(PasswordLoginDto passwordLoginDto) throws Exception {
+    public R passwordLogin(PasswordLoginDTO passwordLoginDto) throws Exception {
 
         //账号
         String account = passwordLoginDto.getAccount();
@@ -354,7 +354,7 @@ public class AuthServiceImpl implements IAuthService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> register(RegisterDto registerDto) {
+    public R<String> register(RegisterDTO registerDto) {
         //用户类型
         UserType userType = registerDto.getUserType();
         //手机号
@@ -399,7 +399,7 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    public R<String> updatePassword(UpdatePasswordDto updatePasswordDto) {
+    public R<String> updatePassword(UpdatePasswordDTO updatePasswordDto) {
         //用户类型
         UserType userType = updatePasswordDto.getUserType();
         //手机号

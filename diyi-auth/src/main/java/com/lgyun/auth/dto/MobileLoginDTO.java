@@ -11,31 +11,37 @@ import java.io.Serializable;
 
 /**
  * @author tzq
- * @Description 修改密码DTO
+ * @Description 短信验证码登录DTO
  * @return
  * @date 2020.06.27
  */
 @Data
-public class UpdatePasswordDto implements Serializable {
+public class MobileLoginDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //用户类型
+    /**
+     * 用户类型
+     */
     @NotNull(message = "请选择用户类型")
     private UserType userType;
 
-    //手机号
+    /**
+     * 手机号
+     */
     @NotBlank(message = "请输入手机号")
     @Length(min = 11, max = 11, message = "请输入11位手机号")
-    @Pattern(regexp = "[0-9]*", message = "请输入有效的手机号码")
-    private String phoneNumber;
+    @Pattern(regexp = "[0-9]*", message = "请输入有效的手机号")
+    private String mobile;
 
-    //短信验证码
+    /**
+     * 短信验证码
+     */
     @NotBlank(message = "请输入短信验证码")
     private String smsCode;
 
-    //新密码
-    @NotBlank(message = "请输入新密码")
-    @Length(min = 6, max = 18, message = "请输入长度为6-18位新密码")
-    private String newPassword;
+    /**
+     * 微信授权码
+     */
+    private String wechatCode;
 
 }
