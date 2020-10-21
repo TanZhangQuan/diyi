@@ -82,9 +82,8 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
 
         MakerEnterpriseRelationVO makerEnterpriseRelationVO = BeanUtil.copy(enterpriseEntity, MakerEnterpriseRelationVO.class);
 
-        if (null == enterpriseIdAndMakerIdLian && null != enterpriseIdAndMakerIdZhu) {
-            //TODO
-            makerEnterpriseRelationVO.setContact1Phone("138********");
+        if ((null == enterpriseIdAndMakerIdLian && null != enterpriseIdAndMakerIdZhu) || (null == enterpriseIdAndMakerIdLian && null == enterpriseIdAndMakerIdZhu)) {
+            makerEnterpriseRelationVO.setContact1Phone( makerEnterpriseRelationVO.getContact1Phone().replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2"));
             makerEnterpriseRelationVO.setBizLicenceUrl("*");
             makerEnterpriseRelationVO.setLegalPersonName("***");
             makerEnterpriseRelationVO.setLegalPersonIdCard("*********");
@@ -95,9 +94,6 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             return R.data(makerEnterpriseRelationVO);
         } else if (null != enterpriseIdAndMakerIdLian && null == enterpriseIdAndMakerIdZhu) {
             makerEnterpriseRelationVO.setRelationshipType(RelationshipType.RELEVANCE);
-            return R.data(makerEnterpriseRelationVO);
-        } else if (null == enterpriseIdAndMakerIdLian && null == enterpriseIdAndMakerIdZhu) {
-            makerEnterpriseRelationVO.setRelationshipType(RelationshipType.NORELATION);
             return R.data(makerEnterpriseRelationVO);
         } else {
             makerEnterpriseRelationVO.setRelationshipType(RelationshipType.RELEVANCE);

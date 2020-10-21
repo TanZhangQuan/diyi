@@ -30,10 +30,10 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020-06-26 17:21:06
  */
 @RestController
-@RequestMapping("/agreement")
+@RequestMapping("/maker/agreement")
 @Validated
 @AllArgsConstructor
-@Api(value = "平台合同的信息相关接口", tags = "平台合同的信息相关接口")
+@Api(value = "创客端---合同的信息相关接口", tags = "创客端---合同的信息相关接口")
 public class AgreementMakerController {
 
     private IAgreementService agreementService;
@@ -96,14 +96,18 @@ public class AgreementMakerController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "templateType", value = "签署文件类型", paramType = "query", dataType = "string"),
     })
-    public R getOnlineAgreementNeedSign(BladeUser bladeUser, TemplateType templateType) {
+    public R getOnlineAgreementNeedSign(BladeUser bladeUser, TemplateType templateType,int isContract) {
         //查询当前创客
         R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
         MakerEntity makerEntity = result.getData();
-
+        if(isContract == 0){
+            templateType = TemplateType.CONTRACT;
+        }else{
+            templateType = TemplateType.AUTHORIZATION;
+        }
         return onlineAgreementNeedSignService.getOnlineAgreementNeedSign(makerEntity.getId(), templateType);
     }
 
@@ -135,4 +139,16 @@ public class AgreementMakerController {
         return iMakerService.uploadMakerVideo(makerEntity, applyShortVideo);
     }
 
+    @PostMapping("/getMakerVideo")
+    @ApiOperation(value = "获取创客视频", notes = "获取创客视频")
+    public R getMakerVideo(BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        MakerEntity makerEntity = result.getData();
+
+        return R.data(makerEntity);
+    }
 }

@@ -30,9 +30,9 @@
         <result property="bankName" column="bank_name"/>
         <result property="subBankName" column="sub_bank_name"/>
         <result property="idCardPic" column="id_card_pic"/>
-        <result property="idcardPicBack" column="idcard_pic_back"/>
+        <result property="idCardPicBack" column="idcard_pic_back"/>
         <result property="selfPic" column="self_pic"/>
-        <result property="idcardCopy" column="idcard_copy"/>
+        <result property="idCardCopy" column="idcard_copy"/>
         <result property="idcardHand" column="idcard_hand"/>
         <result property="idcardBackHand" column="idcard_back_hand"/>
         <result property="picVerify" column="pic_verify"/>

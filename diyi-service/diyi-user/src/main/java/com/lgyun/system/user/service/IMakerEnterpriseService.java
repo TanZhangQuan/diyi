@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CertificationState;
 import com.lgyun.common.enumeration.RelationshipType;
+import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.vo.SelfHelpInvoiceDetailProviderVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceSerProVO;
@@ -12,6 +13,7 @@ import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.MakerEnterpriseWebVO;
 import com.lgyun.system.user.vo.RelMakerListVO;
+import com.lgyun.system.user.vo.maker.MakerEnterpriseDetailYearMonthVO;
 
 import java.util.List;
 import java.util.Set;
@@ -45,7 +47,6 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
 
     /**
      * 查询创客所有交付支付验收单的商户
-     *
      * @param page
      * @param makerId
      * @return
@@ -153,6 +154,11 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
      * @return
      */
     R<IPage<SelfHelpInvoiceDetailProviderVO>> getSelfHelpInvoiceDetails(IPage<SelfHelpInvoiceDetailProviderVO> page, Long selfHelpvoiceId);
+
+    /**
+     *查询关联商户和创客的明细
+     */
+    R getMakerDetailed(IPage<MakerEnterpriseDetailYearMonthVO> page, Long makerId, Long enterpriseId, WorkSheetType workSheetType);
 
 }
 

@@ -1,8 +1,9 @@
-package com.lgyun.system.user.controller;
+package com.lgyun.system.user.controller.maker;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.RelationshipType;
+import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
@@ -17,16 +18,16 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 控制器
+ * 创客端---创客和外包企业的关联相关接口
  *
  * @author tzq
  * @since 2020-06-26 17:21:05
  */
 @RestController
-@RequestMapping("/makerenterprise")
+@RequestMapping("/maker/makerenterprise")
 @Validated
 @AllArgsConstructor
-@Api(value = "创客和外包企业的关联相关接口", tags = "创客和外包企业的关联相关接口")
+@Api(value = "创客端---创客和外包企业的关联相关接口", tags = "创客端---创客和外包企业的关联相关接口")
 public class MakerEnterpriseController {
 
     private IMakerEnterpriseService makerEnterpriseService;
@@ -49,6 +50,19 @@ public class MakerEnterpriseController {
         return iEnterpriseService.getEnterpriseId(enterpriseId, makerEntity.getId());
 
     }
+
+    @GetMapping("/getMakerDetailed")
+    @ApiOperation(value = "查询关联商户和创客的明细", notes = "查询关联商户和创客的明细")
+    public R getMakerDetailed(BladeUser bladeUser, Long enterpriseId, WorkSheetType workSheetType, Query query) {
+        //查询当前创客
+        R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        MakerEntity makerEntity = result.getData();
+        return  makerEnterpriseService.getMakerDetailed(Condition.getPage(query.setDescs("create_time")),makerEntity.getId(),enterpriseId, workSheetType);
+    }
+
 
     @GetMapping("/selectMakerEnterprisePage")
     @ApiImplicitParams({
@@ -91,7 +105,6 @@ public class MakerEnterpriseController {
         MakerEntity makerEntity = result.getData();
 
         return makerEnterpriseService.addOrCancelfollow(enterpriseId, makerEntity.getId(), attribute);
-
     }
 
 }
