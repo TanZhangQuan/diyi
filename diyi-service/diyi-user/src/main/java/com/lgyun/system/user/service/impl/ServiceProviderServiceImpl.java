@@ -286,7 +286,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
             agreementService.updateById(agreementEntity);
         } else {
             agreementEntity = new AgreementEntity();
-            agreementEntity.setAgreementType(AgreementType.ENTERPRISEJOINAGREEMENT);
+            agreementEntity.setAgreementType(AgreementType.ENTERPRISEPROMISE);
             agreementEntity.setSignType(SignType.PAPERAGREEMENT);
             agreementEntity.setSignState(SignState.SIGNED);
             agreementEntity.setPaperAgreementUrl(updateServiceProviderDTO.getJoinContract());

@@ -61,6 +61,12 @@ public class AddEnterpriseDTO implements Serializable {
     private String joinContract;
 
     /**
+     * 加盟价格协议
+     */
+    @NotBlank(message = "请上传加盟价格协议")
+    private String priceAgreement;
+
+    /**
      * 商户承诺函
      */
     @NotBlank(message = "请上传商户承诺函")

@@ -251,6 +251,17 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         agreementEntity.setSecondSideSignPerson(enterpriseEntity.getContact1Name());
         agreementService.save(agreementEntity);
 
+        //上传加盟价格协议
+        AgreementEntity agreement = new AgreementEntity();
+        agreementEntity.setAgreementType(AgreementType.ENTERPRISEPRICEAGREEMENT);
+        agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+        agreementEntity.setSignState(SignState.SIGNED);
+        agreementEntity.setPaperAgreementUrl(addEnterpriseDTO.getPriceAgreement());
+        agreementEntity.setFirstSideSignPerson(adminEntity.getName());
+        agreementEntity.setEnterpriseId(enterpriseEntity.getId());
+        agreementEntity.setSecondSideSignPerson(enterpriseEntity.getContact1Name());
+        agreementService.save(agreement);
+
         //上传商户承诺函
         agreementEntity = new AgreementEntity();
         agreementEntity.setAgreementType(AgreementType.OTHERAGREEMENT);
