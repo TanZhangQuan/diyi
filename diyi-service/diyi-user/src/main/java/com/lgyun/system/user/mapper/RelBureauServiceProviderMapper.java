@@ -19,5 +19,7 @@ import java.util.List;
 public interface RelBureauServiceProviderMapper extends BaseMapper<RelBureauServiceProviderEntity> {
 
     List<RelBureauServiceProviderVO> queryRelBureauServiceProvider(@Param("serviceProviderName") String serviceProviderName, IPage<RelBureauServiceProviderVO> page);
+
+    Integer removeById(@Param("bureauServiceProviderId") Long bureauServiceProviderId);
 }
 

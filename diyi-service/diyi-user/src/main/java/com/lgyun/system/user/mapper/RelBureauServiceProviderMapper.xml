@@ -18,4 +18,8 @@
             AND service_provider_name like CONCTA('%',#{serviceProviderName},'%')
         </if>
     </select>
+
+    <select id="removeById" resultType="java.lang.Integer" >
+        DELETE FROM diyi_rel_bureau_service_provider WHERE id = #{bureauServiceProviderId}
+    </select>
 </mapper>
