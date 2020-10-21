@@ -47,12 +47,9 @@ public class WorksheetMakerController {
         return worksheetService.orderGrabbing(worksheetId, makerEntity.getId());
     }
 
-    @GetMapping("/query-")
+    @GetMapping("/query-maker-worksheet-list")
     @ApiOperation(value = "查询当前创客工单", notes = "查询当前创客工单")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "worksheetState", value = "工单状态：1代表待抢单，2已接单，3已交付", paramType = "query", dataType = "string"),
-    })
-    public R findXiaoPage(@NotNull(message = "请输入工单的状态") @RequestParam(required = false) Integer worksheetState, Query query, BladeUser bladeUser) {
+    public R queryMakerWorksheetList(@ApiParam(value = "工单的状态") @NotNull(message = "请选择工单的状态") @RequestParam(required = false) Integer worksheetState, Query query, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -60,16 +57,12 @@ public class WorksheetMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        if (null == worksheetState || (worksheetState != 1 && worksheetState != 2 && worksheetState != 3)) {
-            return R.fail("参数错误");
-        }
-
         return worksheetService.findXiaoPage(Condition.getPage(query.setDescs("create_time")), worksheetState, makerEntity.getId());
     }
 
-    @PostMapping("/submitachievement")
+    @PostMapping("/submit-achievement")
     @ApiOperation(value = "提交工作成果", notes = "提交工作成果")
-    public R submitachievement(@NotNull(message = "请输入工单的状态") @RequestParam(required = false) Long worksheetMakerId,
+    public R submitAchievement(@NotNull(message = "请输入工单的状态") @RequestParam(required = false) Long worksheetMakerId,
                                @NotNull(message = "请输入工单说明") @RequestParam(required = false) String achievementDesc,
                                @NotNull(message = "请输入工单url") @RequestParam(required = false) String achievementFiles, BladeUser bladeUser) {
         //查询当前创客
@@ -87,9 +80,9 @@ public class WorksheetMakerController {
         return worksheetMakerService.submitAchievement(worksheetMakerEntity, achievementDesc, achievementFiles, worksheetService);
     }
 
-    @GetMapping("/getWorksheetDetails")
+    @GetMapping("/query-worksheet-detail")
     @ApiOperation(value = "查询工单详情", notes = "查询工单详情")
-    public R getWorksheetDetails(@NotNull(message = "请输入id") @RequestParam(required = false) Long worksheetMakerId, BladeUser bladeUser) {
+    public R queryWorksheetDetail(@ApiParam(value = "工单") @NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetMakerId, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -100,15 +93,15 @@ public class WorksheetMakerController {
     }
 
 
-    @GetMapping("/get_server_provider_worksheet_details")
+    @GetMapping("/get-server-provider-worksheet-details")
     @ApiOperation(value = "根据创客查询工单(服务商)", notes = "根据创客ID查询工单(服务商)")
     public R getMakerWorksheets(@ApiParam(value = "创客ID", required = true) @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId, Query query, BladeUser bladeUser) {
         return worksheetService.getWorksheetDetailsByMaker(Condition.getPage(query.setDescs("create_time")), null, makerId);
     }
 
-    @GetMapping("/get_by_worksheet_no")
+    @GetMapping("/query-worksheet-list-by-worksheet-no")
     @ApiOperation(value = "根据工单编号查询工单", notes = "根据工单编号查询工单")
-    public R getByWorksheetNo(String worksheetNo, BladeUser bladeUser) {
+    public R queryWorksheetListByWorksheetNo(String worksheetNo, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -118,9 +111,9 @@ public class WorksheetMakerController {
         return worksheetService.getByWorksheetNo(worksheetNo);
     }
 
-    @GetMapping("/query-worksheet-")
+    @GetMapping("/query-worksheet-list-by-worksheet-id")
     @ApiOperation(value = "根据工单ID查询工单", notes = "根据工单ID查询工单")
-    public R getByWorksheetId(String worksheetId, BladeUser bladeUser) {
+    public R queryWorksheetListByWorksheetId(String worksheetId, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {

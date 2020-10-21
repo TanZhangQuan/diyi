@@ -68,7 +68,7 @@ public class AgreementAdminController {
             return result;
         }
 
-        return iAgreementService.findAdMaEnterAgreement(makerId, enterpriseName, Condition.getPage(query.setDescs("create-time")));
+        return iAgreementService.findAdMaEnterAgreement(makerId, enterpriseName, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-maker-id-apply-short-video")
@@ -130,7 +130,7 @@ public class AgreementAdminController {
             return result;
         }
 
-        return iAgreementService.findEnterIdServiceAgreement(enterpriseId, serviceProviderName, Condition.getPage(query.setDescs("create-time")));
+        return iAgreementService.findEnterIdServiceAgreement(enterpriseId, serviceProviderName, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-admin-ser-id-agreement")

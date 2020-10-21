@@ -46,7 +46,7 @@ public class AgreementEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return R.data(agreementService.findByEnterpriseAndType(enterpriseWorkerEntity.getEnterpriseId(), AgreementType.ENTERPRISEJOINAGREEMENT,SignType.PAPERAGREEMENT));
+        return R.data(agreementService.findByEnterpriseAndType(enterpriseWorkerEntity.getEnterpriseId(), AgreementType.ENTERPRISEJOINAGREEMENT, SignType.PAPERAGREEMENT));
     }
 
     @GetMapping("/selectPriceAgreement")
@@ -59,7 +59,7 @@ public class AgreementEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return R.data(agreementService.findByEnterpriseAndType(enterpriseWorkerEntity.getEnterpriseId(), AgreementType.ENTERPRISEPRICEAGREEMENT,SignType.PAPERAGREEMENT));
+        return R.data(agreementService.findByEnterpriseAndType(enterpriseWorkerEntity.getEnterpriseId(), AgreementType.ENTERPRISEPRICEAGREEMENT, SignType.PAPERAGREEMENT));
     }
 
     @GetMapping("/selectAuthorization")
@@ -226,7 +226,7 @@ public class AgreementEnterpriseController {
 
     @GetMapping("/getRelationServiceProvider")
     @ApiOperation(value = "根据商户id查询有关联的服务商", notes = "根据商户id查询有关联的服务商")
-    public R getRelationServiceProvider(BladeUser bladeUser,Query query,String keyWord) {
+    public R getRelationServiceProvider(BladeUser bladeUser, Query query, String keyWord) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -234,6 +234,6 @@ public class AgreementEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return agreementService.getRelationServiceProvider(query,enterpriseWorkerEntity.getEnterpriseId(),keyWord);
+        return agreementService.getRelationServiceProvider(query, enterpriseWorkerEntity.getEnterpriseId(), keyWord);
     }
 }

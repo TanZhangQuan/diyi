@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.core.mp.base.BaseService;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.AgreementEntity;
 import com.lgyun.system.user.vo.*;
 
@@ -55,7 +56,7 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
      * @param agreementType
      * @return
      */
-    AgreementWebVO findByEnterpriseAndType(Long enterpriseId, AgreementType agreementType,SignType signType);
+    AgreementWebVO findByEnterpriseAndType(Long enterpriseId, AgreementType agreementType, SignType signType);
 
     /**
      * 根据商户查询商户的承诺函
@@ -153,7 +154,7 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
     /**
      * 上传服务商和商户的补充协议
      */
-    R uploadSupplement(String contractUrl, Long serviceProviderId,Long enterpriseId);
+    R uploadSupplement(String contractUrl, Long serviceProviderId, Long enterpriseId);
 
     /**
      * 根据服务商id查询有关联的商户
@@ -173,12 +174,12 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
     /**
      * 服务商查询商户承诺函
      */
-    R findEnterprisePromise(String agreementNo, Long serviceProviderId ,String enterpriseName,IPage<AgreementServiceVO> page);
+    R findEnterprisePromise(String agreementNo, Long serviceProviderId, String enterpriseName, IPage<AgreementServiceVO> page);
 
     /**
      * 服务商查询服务商和商户的补充协议
      */
-    R findEnterpriseSupplement(String agreementNo, Long serviceProviderId ,String enterpriseName,IPage<AgreementServiceVO> page);
+    R findEnterpriseSupplement(String agreementNo, Long serviceProviderId, String enterpriseName, IPage<AgreementServiceVO> page);
 
 
     /**
@@ -244,8 +245,20 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
 
     /**
      * 根据商户id查询有关联的服务商
+     *
+     * @param query
+     * @param enterpriseId
+     * @param keyWord
+     * @return
      */
-    R getRelationServiceProvider(Query query,Long enterpriseId,String keyWord);
+    R getRelationServiceProvider(Query query, Long enterpriseId, String keyWord);
 
+    /**
+     * 查看在线协议URL
+     *
+     * @param agreementId
+     * @return
+     */
+    R queryOnlineAgreementUrl(Long agreementId);
 }
 

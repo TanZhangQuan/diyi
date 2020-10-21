@@ -56,7 +56,7 @@ public class NaturalPersonMakerEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return makerEnterpriseService.getEnterpriseMakerList(Condition.getPage(query.setDescs("create-time")), enterpriseWorkerEntity.getEnterpriseId(), relationshipType, null, keyword);
+        return makerEnterpriseService.getEnterpriseMakerList(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), relationshipType, null, keyword);
     }
 
     @PostMapping("/create-maker")

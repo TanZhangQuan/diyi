@@ -435,4 +435,14 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     public R getRelationServiceProvider(Query query, Long enterpriseId,String keyWord) {
         return enterpriseServiceProviderService.getServiceProvidersByEnterpriseId(enterpriseId, keyWord, Condition.getPage(query.setDescs("create_time")));
     }
+
+    @Override
+    public R queryOnlineAgreementUrl(Long agreementId) {
+        AgreementEntity agreementEntity = agreementService.getById(agreementId);
+        if (null == agreementEntity) {
+            return R.fail("合同不存在");
+        }
+
+        return R.data(agreementEntity.getOnlineAgreementUrl());
+    }
 }
