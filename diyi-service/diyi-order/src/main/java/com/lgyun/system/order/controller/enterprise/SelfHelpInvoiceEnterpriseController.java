@@ -356,7 +356,7 @@ public class SelfHelpInvoiceEnterpriseController {
         return iUserClient.findEnterpriseByMakerId(query.getCurrent(), query.getSize(), makerEntity.getId());
     }
 
-    @PostMapping("/audit")
+    @PostMapping("/audit1")
     @ApiOperation(value = "自助开票审核", notes = "自助开票审核")
     public R audit(@ApiParam(value = "自助开票编号") @NotNull(message = "请输入自助开票编号") @RequestParam(required = false) Long selfHelpInvoiceId, @ApiParam(value = "自助开票审核状态") @NotNull(message = "请选择自助开票审核状态") @RequestParam(required = false) SelfHelpInvoiceSpApplyState applyState, BladeUser bladeUser) {
         //查询当前服务商员工

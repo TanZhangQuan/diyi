@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lgyun.system.user.mapper.RelBureauServiceProviderMapper">
+
+    <resultMap id="relBureauServiceProviderVO" type="com.lgyun.system.user.vo.admin.RelBureauServiceProviderVO">
+        <id column="id" property="serviceProviderId" />
+        <result column="service_provider_name" property="serviceProviderName" />
+    </resultMap>
+
+    <!--查询可以匹配的服务商-->
+    <select id="queryRelBureauServiceProvider" resultMap="relBureauServiceProviderVO">
+        SELECT id,service_provider_name FROM diyi_service_provider
+        WHERE id NOT IN
+        (SELECT service_provider_id FROM diyi_rel_bureau_service_provider)
+        AND service_provider_state = 'NORMAL'
+        <if test="serviceProviderName != null and serviceProviderName != ''">
+            AND service_provider_name like CONCTA('%',#{serviceProviderName},'%')
+        </if>
+    </select>
+</mapper>

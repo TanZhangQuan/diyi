@@ -42,6 +42,160 @@ CREATE TABLE `diyi_accept_paysheet` (
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`pay_enterprise_id`,`maker_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='总包交付支付验收单表';
 
+
+
+
+
+
+-- 税务局管理表
+CREATE TABLE `diyi_rel_bureau` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `bureau_type` varchar(50) NOT NULL COMMENT '0，税务局；1，市场监督管理局；2，产业园区；3，支付机构',
+  `avatar` varchar(500) DEFAULT '' COMMENT '头像',
+  `rel_buser_uame` varchar(50) DEFAULT '' COMMENT '用户名',
+  `rel_bpwd` varchar(50) DEFAULT '' COMMENT '密码',
+  `rel_bureau_name` varchar(50) DEFAULT '' COMMENT '税务局名称',
+  `rel_bureau_address` varchar(200) DEFAULT '' COMMENT '地址',
+  `rel_bureau_website` varchar(200) DEFAULT '' COMMENT '网址',
+  `contact_person` varchar(50) DEFAULT '' COMMENT '联系人',
+  `contact_position` varchar(50) DEFAULT '' COMMENT '联系人职位',
+  `tel_phone_no` varchar(50) DEFAULT '' COMMENT '联系电话',
+  `mobile_no` varchar(50) DEFAULT '' COMMENT '联系手机',
+  `wechat_no` varchar(50) DEFAULT '' COMMENT '联系微信',
+  `director_name` varchar(50) DEFAULT '' COMMENT '局长姓名',
+  `director_phone` varchar(50) DEFAULT '' COMMENT '局长联系电话',
+  `vice_director_name` varchar(200) DEFAULT '' COMMENT '副局长姓名',
+  `vice_director_phone` varchar(200) DEFAULT '' COMMENT '副局长联系电话',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='税务局管理表';
+
+
+
+
+-- 相关局与服务商关联表
+CREATE TABLE `diyi_rel_bureau_service_provider` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `rel_bureau_id` bigint(50) NOT NULL COMMENT '相关局编号',
+  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商编号，一个服务商只能属于一个税局监管',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`service_provider_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='相关局与服务商关联表';
+
+
+-- 相关局合作协议表
+CREATE TABLE `diyi_rel_bureau_contract` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `rel_bureau_id` bigint(50) NOT NULL COMMENT '相关局编号',
+  `contract_name` varchar(500) DEFAULT '' COMMENT '合同名称',
+  `contract_desc` varchar(500) DEFAULT '' COMMENT '合同说明',
+  `contract_url` varchar(500) DEFAULT '' COMMENT '合同名称',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`rel_bureau_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='相关局合作协议表';
+
+
+-- 相关局通知管理表
+CREATE TABLE `diyi_rel_bureau_notice` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `bureau_id` bigint(50) NOT NULL COMMENT '相关局编号',
+  `notice_title` varchar(50) DEFAULT '' COMMENT '通知标题',
+  `notice_desc` varchar(500) DEFAULT '' COMMENT '通知摘要',
+  `notice_url` varchar(500) DEFAULT '' COMMENT '通知文件',
+  `publish_datetime` datetime NOT NULL COMMENT '发布日期时间',
+  `notice_state` varchar(50) DEFAULT '' COMMENT '通知状态:1，编辑中；2，已发布；3，已阅读；4，已作废',
+  `cancel_datetime` datetime NOT NULL COMMENT '作废日期时间',
+  `contact_person` varchar(50) DEFAULT '' COMMENT '发布联系人',
+  `mobile_no` varchar(50) DEFAULT '' COMMENT '联系手机',
+  `Wechat_no` varchar(50) DEFAULT '' COMMENT '联系微信',
+  `director_phone` varchar(50) DEFAULT '' COMMENT '联系电话',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='相关局通知管理表';
+
+
+-- 相关局通知阅读管理表
+CREATE TABLE `diyi_rel_bureau_notice_read` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `notice_id` bigint(50) NOT NULL COMMENT '通知ID',
+  `read_servicer` varchar(50) DEFAULT '' COMMENT '阅读服务商',
+  `reader` varchar(500) DEFAULT '' COMMENT '阅读人',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='相关局通知阅读管理表';
+
+
+
+-- 相关局监管文件：相关局监管文件管理表
+CREATE TABLE `diyi_rel_bureau_files` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `bureau_id` bigint(50) NOT NULL COMMENT '相关局编号',
+  `files_title` varchar(50) DEFAULT '' COMMENT '文件标题',
+  `files_desc` varchar(500) DEFAULT '' COMMENT '通知文件',
+  `files_url` varchar(500) DEFAULT '' COMMENT '监管文件',
+  `publish_datetime` datetime NOT NULL COMMENT '发布日期时间',
+  `notice_state` varchar(50) DEFAULT '' COMMENT '监管文件状态:0，编辑中；1，已发布；2，已阅读；3，已下架；4，已作废',
+  `cancel_datetime` datetime NOT NULL COMMENT '作废日期时间',
+  `contact_person` varchar(50) DEFAULT '' COMMENT '发布联系人',
+  `mobile_no` varchar(50) DEFAULT '' COMMENT '联系手机',
+  `Wechat_no` varchar(50) DEFAULT '' COMMENT '联系微信',
+  `director_phone` varchar(50) DEFAULT '' COMMENT '联系电话',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='相关局监管文件：相关局监管文件管理表';
+
+
+
+-- 监管文件阅读记录：相关局监管文件阅读管理表
+CREATE TABLE `diyi_rel_bureau_files_read` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `files_id` bigint(50) NOT NULL COMMENT '通知ID',
+  `read_servicer` varchar(50) DEFAULT '' COMMENT '阅读服务商',
+  `reader` varchar(500) DEFAULT '' COMMENT '阅读人',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='监管文件阅读记录：相关局监管文件阅读管理表';
+
+
+
+
 -- ----------------------------
 -- Records of diyi_accept_paysheet
 -- ----------------------------
@@ -72,6 +226,8 @@ CREATE TABLE `diyi_accept_paysheet_cs` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`self_help_invoice_id`,`self_help_invoice_detail_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='众包/众采交付支付验收单表';
+
+
 
 -- ----------------------------
 -- Records of diyi_accept_paysheet_cs
