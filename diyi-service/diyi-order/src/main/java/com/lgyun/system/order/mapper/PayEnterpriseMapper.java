@@ -6,8 +6,10 @@ import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.system.order.dto.PayEnterpriseDTO;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.*;
+import com.lgyun.system.order.vo.admin.TransactionByBureauServiceProviderInfoVO;
 import com.lgyun.system.user.vo.TransactionVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -211,6 +213,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
 
     /**
      * 服务商查询总包发票
+     *
      * @param serviceProviderId
      * @param enterpriseName
      * @param startTime
@@ -223,6 +226,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
 
     /**
      * 服务商查询总包发票详情
+     *
      * @param payEnterpriseId
      * @return
      */
@@ -231,6 +235,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
 
     /**
      * 服务商查询未开票分包发票
+     *
      * @param serviceProviderId
      * @param enterpriseName
      * @param startTime
@@ -238,25 +243,43 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * @param page
      * @return
      */
-   List<InvoiceServiceSubVO> getSubcontractInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, IPage<InvoiceServiceSubVO> page);
+    List<InvoiceServiceSubVO> getSubcontractInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, IPage<InvoiceServiceSubVO> page);
 
     /**
      * 服务商查看分包发票详情
+     *
      * @param payEnterpriseId
      * @return
      */
-   InvoiceServiceSubDetailsVO getSubcontractInvoiceDetails(Long payEnterpriseId);
+    InvoiceServiceSubDetailsVO getSubcontractInvoiceDetails(Long payEnterpriseId);
 
 
     /**
-     *服务商查询已开票的汇总代开发票
+     * 服务商查询已开票的汇总代开发票
      */
-    List<InvoiceServiceSubVO> getServiceSummaryInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime,IPage<InvoiceServiceSubVO> page);
+    List<InvoiceServiceSubVO> getServiceSummaryInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, IPage<InvoiceServiceSubVO> page);
 
 
     /**
      * 服务商查询已开票的门征代开发票
      */
-    List<InvoiceServiceSubVO> getServicePortalSignInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime,IPage<InvoiceServiceSubVO> page);
+    List<InvoiceServiceSubVO> getServicePortalSignInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, IPage<InvoiceServiceSubVO> page);
+
+    /**
+     * 查询当前税务局管理所有匹配的服务商交易情况数据
+     *
+     * @param bureauId
+     * @return
+     */
+    TransactionVO transactionByBureauServiceProvider(@Param("bureauId") Long bureauId);
+
+    /**
+     * 相关局查询匹配的服务商基本信息及交易金额
+     *
+     * @param bureauId
+     * @param page
+     * @return
+     */
+    List<TransactionByBureauServiceProviderInfoVO> transactionByBureauServiceProviderInfo(@Param("bureauId") Long bureauId, IPage<TransactionByBureauServiceProviderInfoVO> page);
 }
 

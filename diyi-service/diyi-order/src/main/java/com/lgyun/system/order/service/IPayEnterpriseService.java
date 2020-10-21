@@ -12,6 +12,7 @@ import com.lgyun.system.order.dto.PayEnterpriseDTO;
 import com.lgyun.system.order.dto.PayEnterpriseUploadDTO;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.*;
+import com.lgyun.system.order.vo.admin.TransactionByBureauServiceProviderInfoVO;
 import com.lgyun.system.user.vo.TransactionVO;
 
 /**
@@ -335,5 +336,13 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      */
     R getServicePortalSignInvoiceDetails(Long payEnterpriseId);
 
+    /**
+     * 查询当前税务局管理所有匹配的服务商交易情况数据
+     * @param bureauId
+     * @return
+     */
+    R<TransactionVO> transactionByBureauServiceProvider(Long bureauId);
+
+    R<IPage<TransactionByBureauServiceProviderInfoVO>> transactionByBureauServiceProviderInfo(Long bureauId, IPage<TransactionByBureauServiceProviderInfoVO> page);
 }
 
