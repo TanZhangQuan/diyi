@@ -1,7 +1,6 @@
 package com.lgyun.system.order.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -16,11 +15,6 @@ import java.util.Date;
 @Data
 public class IncomeDetailYearMonthVO implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 收入
-     */
-    private BigDecimal income;
 
     /**
      * 商户名称

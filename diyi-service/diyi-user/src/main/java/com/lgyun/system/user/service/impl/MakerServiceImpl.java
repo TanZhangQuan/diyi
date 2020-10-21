@@ -587,11 +587,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R<MakerEnterpriseNumIncomeVO> getEnterpriseNumIncome(Long makerId) {
-        return R.data(baseMapper.getEnterpriseNumIncome(makerId, makerId));
-    }
-
-    @Override
     public R<String> uploadMakerVideo(MakerEntity makerEntity, String applyShortVideo) {
         if (StringUtil.isBlank(applyShortVideo)) {
             R.fail("视频连接不能为空");

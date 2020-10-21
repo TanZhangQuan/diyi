@@ -15,7 +15,7 @@ public class AllIncomeYearMonthVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 记录数
+     * 收入笔数
      */
     private Integer num;
 
