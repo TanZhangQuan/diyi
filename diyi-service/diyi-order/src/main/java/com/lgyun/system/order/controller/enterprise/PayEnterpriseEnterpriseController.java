@@ -25,7 +25,7 @@ import javax.validation.constraints.NotNull;
  * @since 2020-07-17 20:01:13
  */
 @RestController
-@RequestMapping("/enterprise/pay_enterprise")
+@RequestMapping("/enterprise/pay-enterprise")
 @Validated
 @AllArgsConstructor
 @Api(value = "商户端---商户支付清单相关接口(管理端)", tags = "商户端---商户支付清单相关接口(管理端)")
@@ -34,13 +34,13 @@ public class PayEnterpriseEnterpriseController {
     private IPayEnterpriseService payEnterpriseService;
     private IUserClient iUserClient;
 
-    @GetMapping("/get_pay_maker_list_by_pay_enterprise_id")
+    @GetMapping("/get-pay-maker-list-by-pay-enterprise-id")
     @ApiOperation(value = "根据支付清单ID查询创客支付明细", notes = "根据支付清单ID查询创客支付明细")
     public R getPayMakerListByPayEnterpriseId(@ApiParam(value = "支付清单编号", required = true) @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, Query query) {
-        return payEnterpriseService.getPayMakerListByPayEnterprise(payEnterpriseId, Condition.getPage(query.setDescs("create_time")));
+        return payEnterpriseService.getPayMakerListByPayEnterprise(payEnterpriseId, Condition.getPage(query.setDescs("create-time")));
     }
 
-    @GetMapping("/get_pay_enterprises_by_enterprise_service_provider")
+    @GetMapping("/get-pay-enterprises-by-enterprise-service-provider")
     @ApiOperation(value = "根据当前服务商，商户查询总包支付清单", notes = "根据当前服务商，商户查询总包支付清单")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "payEnterpriseMakerId", value = "总包支付清单ID", paramType = "query", dataType = "long"),
@@ -56,7 +56,7 @@ public class PayEnterpriseEnterpriseController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return payEnterpriseService.getPayEnterprisesByEnterprisesServiceProvider(enterpriseId, serviceProviderWorkerEntity.getServiceProviderId(), payEnterpriseDto, Condition.getPage(query.setDescs("create_time")));
+        return payEnterpriseService.getPayEnterprisesByEnterprisesServiceProvider(enterpriseId, serviceProviderWorkerEntity.getServiceProviderId(), payEnterpriseDto, Condition.getPage(query.setDescs("create-time")));
     }
 
 }

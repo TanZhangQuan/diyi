@@ -31,7 +31,7 @@ import javax.validation.constraints.NotNull;
  * @time 16:24.
  */
 @RestController
-@RequestMapping("/serviceProvider/invoice")
+@RequestMapping("/service-provider/invoice")
 @Validated
 @AllArgsConstructor
 @Api(value = "服务商端---发票和完税证明接口", tags = "服务商端---发票和完税证明接口")

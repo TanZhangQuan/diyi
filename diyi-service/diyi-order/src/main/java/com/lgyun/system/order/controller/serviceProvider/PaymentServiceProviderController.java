@@ -13,10 +13,7 @@ import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 
@@ -28,7 +25,7 @@ import javax.validation.constraints.NotNull;
  * @time 10:17.
  */
 @RestController
-//@RequestMapping("/service-provider/payment")
+@RequestMapping("/service-provider/payment")
 @Validated
 @AllArgsConstructor
 @Api(value = "服务商端---支付管理模块相关接口", tags = "服务商端---支付管理模块相关接口")

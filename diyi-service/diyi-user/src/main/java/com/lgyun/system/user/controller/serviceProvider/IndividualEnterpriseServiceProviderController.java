@@ -12,10 +12,7 @@ import com.lgyun.system.user.service.IServiceProviderWorkerService;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 
@@ -26,7 +23,7 @@ import javax.validation.constraints.NotNull;
  * @date 2020-09-9
  */
 @RestController
-//@RequestMapping("/service-provider/individual-enterprise")
+@RequestMapping("/service-provider/individual-enterprise")
 @Validated
 @AllArgsConstructor
 @Api(value = "服务商端---个独管理模块相关接口", tags = "服务商端---个独管理模块相关接口")

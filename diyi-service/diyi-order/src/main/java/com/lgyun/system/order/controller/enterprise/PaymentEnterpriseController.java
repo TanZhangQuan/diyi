@@ -51,7 +51,7 @@ public class PaymentEnterpriseController {
         return payEnterpriseService.upload(payEnterpriseUploadDto, enterpriseWorkerEntity.getEnterpriseId());
     }
 
-    @GetMapping("/get_worksheet_by_enterprise_id")
+    @GetMapping("/get-worksheet-by-enterprise-id")
     @ApiOperation(value = "查询当前商户所有已完毕的总包+分包类型的工单", notes = "查询当前商户所有已完毕的总包+分包类型的工单")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "worksheetNo", value = "工单编号", paramType = "query", dataType = "string"),
@@ -68,7 +68,7 @@ public class PaymentEnterpriseController {
         return payEnterpriseService.getWorksheetByEnterpriseId(query, enterpriseWorkerEntity.getEnterpriseId(), WorkSheetType.SUBPACKAGE, worksheetNo, worksheetName);
     }
 
-    @GetMapping("/get_pay_enterprises_by_enterprise")
+    @GetMapping("/get-pay-enterprises-by-enterprise")
     @ApiOperation(value = "查询当前商户所有总包支付清单", notes = "查询当前商户所有总包支付清单")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "payEnterpriseId", value = "总包支付清单ID", paramType = "query", dataType = "long"),
@@ -85,10 +85,10 @@ public class PaymentEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return payEnterpriseService.getPayEnterpriseList(enterpriseWorkerEntity.getEnterpriseId(), null, payEnterpriseDto, Condition.getPage(query.setDescs("create_time")));
+        return payEnterpriseService.getPayEnterpriseList(enterpriseWorkerEntity.getEnterpriseId(), null, payEnterpriseDto, Condition.getPage(query.setDescs("create-time")));
     }
 
-    @GetMapping("/get_pay_maker_list_by_pay_enterprise_id")
+    @GetMapping("/get-pay-maker-list-by-pay-enterprise-id")
     @ApiOperation(value = "根据支付清单ID查询创客支付明细", notes = "根据支付清单ID查询创客支付明细")
     public R getPayMakerListByPayEnterpriseId(@ApiParam(value = "支付清单编号", required = true) @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, Query query, BladeUser bladeUser) {
         //查询当前商户员工
@@ -97,7 +97,7 @@ public class PaymentEnterpriseController {
             return result;
         }
 
-        return payEnterpriseService.getPayMakerListByPayEnterprise(payEnterpriseId, Condition.getPage(query.setDescs("create_time")));
+        return payEnterpriseService.getPayMakerListByPayEnterprise(payEnterpriseId, Condition.getPage(query.setDescs("create-time")));
     }
 
     @PostMapping("/submit")
@@ -113,7 +113,7 @@ public class PaymentEnterpriseController {
         return payEnterpriseService.submit(payEnterpriseId, enterpriseWorkerEntity.getEnterpriseId());
     }
 
-    @PostMapping("/upload_accept_paysheet")
+    @PostMapping("/upload-accept-paysheet")
     @ApiOperation(value = "上传总包交付支付验收单", notes = "上传总包交付支付验收单")
     public R uploadAcceptPaysheet(@Valid @RequestBody AcceptPaysheetSaveDTO acceptPaysheetSaveDto, BladeUser bladeUser) {
         //查询当前商户员工

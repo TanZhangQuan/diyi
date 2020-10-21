@@ -40,21 +40,22 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
- *创客端---自助开票相关接口
+ * 创客端---自助开票相关接口
+ *
  * @author jun
  * @since 2020-07-08 14:32:47
  */
 @RestController
-@RequestMapping("/maker/selfhelpinvoice")
+@RequestMapping("/maker/self-help-invoice")
 @Validated
 @AllArgsConstructor
-@Api(value = "创客端---自助开票相关接口", tags = "创客端---自助开票相关接口")
+@Api(value = "创客端---自助开票管理模块相关接口", tags = "创客端---自助开票管理模块相关接口")
 public class SelfHelpInvoiceMakerController {
 
+    private IUserClient iUserClient;
     private ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
     private IAddressService addressService;
     private IDictClient iDictClient;
-    private IUserClient iUserClient;
     private ISelfHelpInvoiceAccountService selfHelpInvoiceAccountService;
     private ISelfHelpInvoiceFeeService selfHelpInvoiceFeeService;
 
@@ -71,9 +72,9 @@ public class SelfHelpInvoiceMakerController {
         return iUserClient.findEnterpriseByMakerId(query.getCurrent(), query.getSize(), makerEntity.getId());
     }
 
-    @PostMapping("/saveAddress")
+    @PostMapping("/create-address")
     @ApiOperation(value = "新建收货地址", notes = "新建收货地址")
-    public R saveAddress(@Valid @RequestBody AddressDTO addressDto, BladeUser bladeUser) {
+    public R createAddress(@Valid @RequestBody AddressDTO addressDto, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {

@@ -26,7 +26,7 @@ import javax.validation.Valid;
  * @date 2020-09-9
  */
 @RestController
-//@RequestMapping("/enterprise/individual-business")
+@RequestMapping("/enterprise/individual-business")
 @Validated
 @AllArgsConstructor
 @Api(value = "商户端---个体户管理模块相关接口", tags = "商户端---个体户管理模块相关接口")
@@ -35,7 +35,7 @@ public class IndividualBusinessEnterpriseController {
     private IEnterpriseWorkerService enterpriseWorkerService;
     private IIndividualBusinessService individualBusinessService;
 
-    @GetMapping("/web/individual-business/get_by_dto_enterprise")
+    @GetMapping("/query-individual-business-list")
     @ApiOperation(value = "查询当前商户的关联创客的所有个体户", notes = "查询当前商户的所有关联创客的所有个体户")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "individualBusinessEnterpriseId", value = "个体户编号", paramType = "query", dataType = "long"),
@@ -43,7 +43,7 @@ public class IndividualBusinessEnterpriseController {
             @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
     })
-    public R getByDtoEnterprise(IndividualBusinessEnterpriseDTO individualBusinessEnterpriseDto, Query query, BladeUser bladeUser) {
+    public R queryIndividualBusinessList(IndividualBusinessEnterpriseDTO individualBusinessEnterpriseDto, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -54,9 +54,9 @@ public class IndividualBusinessEnterpriseController {
         return individualBusinessService.getIndividualBusinessList(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), null, individualBusinessEnterpriseDto);
     }
 
-    @PostMapping("/web/individual-business/save_by_enterprise")
+    @PostMapping("/create-individual-business")
     @ApiOperation(value = "当前商户申请创建个体户", notes = "当前商户申请创建个体户")
-    public R saveByEnterprise(@Valid @RequestBody IndividualBusinessEnterpriseWebAddDTO individualBusinessEnterpriseWebAddDto, BladeUser bladeUser) {
+    public R createIndividualBusiness(@Valid @RequestBody IndividualBusinessEnterpriseWebAddDTO individualBusinessEnterpriseWebAddDto, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {

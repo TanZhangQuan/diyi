@@ -24,7 +24,7 @@ import javax.validation.Valid;
  * @since 2020-08-12 14:47:56
  */
 @RestController
-@RequestMapping("service/enterprise_report")
+@RequestMapping("/service-provider/enterprise-report")
 @Validated
 @AllArgsConstructor
 @Api(value = "服务商端---定期申报管理模块相关接口", tags = "服务商端---定期申报管理模块相关接口")

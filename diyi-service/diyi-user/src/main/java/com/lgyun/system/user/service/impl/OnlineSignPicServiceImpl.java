@@ -77,7 +77,7 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
             agreementEntity.setSignType(SignType.PLATFORMAGREEMENT);
             agreementEntity.setMakerId(ObjectId);
             agreementEntity.setOnlineAgreementTemplateId(onlineAgreementTemplateId);
-            agreementEntity.setOnlineAggrementUrl(pdf);
+            agreementEntity.setOnlineAgreementUrl(pdf);
             agreementEntity.setFirstSideSignPerson("地衣众包平台");
             agreementEntity.setSecondSideSignPerson(makerEntity.getName());
             agreementEntity.setUploadDatetime(new Date());

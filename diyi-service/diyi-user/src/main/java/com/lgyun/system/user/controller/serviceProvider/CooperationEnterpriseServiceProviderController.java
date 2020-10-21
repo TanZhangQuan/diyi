@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @time 10:17.
  */
 @RestController
-//@RequestMapping("/enterprise/cooperation-enterprise")
+@RequestMapping("/service-provider/cooperation-enterprise")
 @Validated
 @AllArgsConstructor
 @Api(value = "服务商端---合作商户管理模块相关接口", tags = "服务商端---合作商户管理模块相关接口")

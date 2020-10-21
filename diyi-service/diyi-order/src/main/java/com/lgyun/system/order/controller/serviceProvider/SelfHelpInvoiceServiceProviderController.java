@@ -35,7 +35,7 @@ import javax.validation.constraints.NotNull;
  * @time 17:37.
  */
 @RestController
-@RequestMapping("/serviceProvider/selfhelpinvoice")
+@RequestMapping("/service-provider/self-help-invoice")
 @Validated
 @AllArgsConstructor
 @Api(value = "服务商端---自助开票相关接口(管理端)", tags = "服务商端---自助开票相关接口(管理端)")
@@ -46,8 +46,6 @@ public class SelfHelpInvoiceServiceProviderController {
     private IAddressService addressService;
     private IDictClient iDictClient;
     private IUserClient iUserClient;
-    private ISelfHelpInvoiceAccountService selfHelpInvoiceAccountService;
-    private ISelfHelpInvoiceFeeService selfHelpInvoiceFeeService;
 
     @GetMapping("/get-self-helf-invoices-by-service-provider")
     @ApiOperation(value = "查询当前服务商所有自助开票记录", notes = "查询当前服务商所有自助开票记录")

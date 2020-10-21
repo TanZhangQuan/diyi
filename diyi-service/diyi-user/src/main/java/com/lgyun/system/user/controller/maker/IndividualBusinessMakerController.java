@@ -51,7 +51,7 @@ public class IndividualBusinessMakerController {
 
     @GetMapping("/query-individual-business-detail")
     @ApiOperation(value = "查询个体户详情", notes = "查询个体户详情")
-    public R findById(@ApiParam(value = "个体户", required = true) @NotNull(message = "请选择个体户") @RequestParam(required = false) Long individualBusinessId, BladeUser bladeUser) {
+    public R queryIndividualBusinessDetail(@ApiParam(value = "个体户", required = true) @NotNull(message = "请选择个体户") @RequestParam(required = false) Long individualBusinessId, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = makerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -74,9 +74,9 @@ public class IndividualBusinessMakerController {
         return makerService.queryIdcardOcr(makerEntity);
     }
 
-    @PostMapping("/save-individual-business")
+    @PostMapping("/create-individual-business")
     @ApiOperation(value = "新增个体户", notes = "新增个体户")
-    public R saveIndividualBusiness(@Valid @RequestBody IndividualBusinessEnterpriseAddDTO individualBusinessEnterpriseAddDto, BladeUser bladeUser) {
+    public R createIndividualBusiness(@Valid @RequestBody IndividualBusinessEnterpriseAddDTO individualBusinessEnterpriseAddDto, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = makerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {

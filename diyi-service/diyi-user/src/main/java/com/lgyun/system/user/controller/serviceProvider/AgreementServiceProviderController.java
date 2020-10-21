@@ -15,15 +15,17 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
+ * 服务商端---合同管理模块相关接口
+ *
  * @author tzq
  * @date 2020/9/2.
  * @time 10:05.
  */
 @RestController
-@RequestMapping("/serviceProvider/agreement")
+@RequestMapping("/service-provider/agreement")
 @Validated
 @AllArgsConstructor
-@Api(value = "服务商端---合同相关相关接口", tags = "服务商端---合同相关相关接口")
+@Api(value = "服务商端---合同管理模块相关接口", tags = "服务商端---合同管理模块相关接口")
 public class AgreementServiceProviderController {
 
     private IAgreementService iAgreementService;

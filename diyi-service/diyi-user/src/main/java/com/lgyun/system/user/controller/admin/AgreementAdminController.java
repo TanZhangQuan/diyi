@@ -35,7 +35,7 @@ public class AgreementAdminController {
     private IAgreementService iAgreementService;
     private IMakerService makerService;
 
-    @GetMapping("/find_maker_agreement")
+    @GetMapping("/query-maker-agreement")
     @ApiOperation(value = "查询平台自然人创客的合同", notes = "查询平台自然人创客的合同")
     public R findAdminMakerAgreement(@ApiParam(value = "创客名称") @RequestParam(required = false) String makerName, Query query, BladeUser bladeUser) {
         //查询当前管理员
@@ -47,8 +47,8 @@ public class AgreementAdminController {
         return makerService.getMakerName(query.getCurrent(), query.getSize(), makerName);
     }
 
-    @GetMapping("/find_admin_maker_id_agreement")
-    @ApiOperation(value = "平台通过创客id查询加盟合同或者授权协议", notes = "平台通过创客id查询加盟合同或者授权协议")
+    @GetMapping("/query-admin-maker-id-agreement")
+    @ApiOperation(value = "平台通过创客ID查询加盟合同或者授权协议", notes = "平台通过创客id查询加盟合同或者授权协议")
     public R findAdminMakerIdAgreement(Long makerId, AgreementType agreementType, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
@@ -59,7 +59,7 @@ public class AgreementAdminController {
         return iAgreementService.findAdminMakerId(makerId, agreementType);
     }
 
-    @GetMapping("/find_maker_id_enterprise_agreement")
+    @GetMapping("/query-maker-id-enterprise-agreement")
     @ApiOperation(value = "平台通过创客id查询合作商户的合同", notes = "平台通过创客id查询合作商户的合同")
     public R findAdMaEnterAgreement(Long makerId, Query query, String enterpriseName, BladeUser bladeUser) {
         //查询当前管理员
@@ -68,10 +68,10 @@ public class AgreementAdminController {
             return result;
         }
 
-        return iAgreementService.findAdMaEnterAgreement(makerId, enterpriseName, Condition.getPage(query.setDescs("create_time")));
+        return iAgreementService.findAdMaEnterAgreement(makerId, enterpriseName, Condition.getPage(query.setDescs("create-time")));
     }
 
-    @GetMapping("/find_maker_id_apply_short_video")
+    @GetMapping("/query-maker-id-apply-short-video")
     @ApiOperation(value = "平台通过创客id查询授权视频", notes = "平台通过创客id查询授权视频")
     public R findMakerIdApplyShortVideo(Long makerId, BladeUser bladeUser) {
         //查询当前管理员
@@ -83,7 +83,7 @@ public class AgreementAdminController {
         return R.data(makerService.getById(makerId));
     }
 
-    @PostMapping("/save_admin_agreement")
+    @PostMapping("/save-admin-agreement")
     @ApiOperation(value = "平台端添加合同", notes = "平台端添加合同")
     public R saveAdminAgreement(@ApiParam(value = "合同id,编辑的时候才传") @RequestParam(required = false) Long agreementId, @ApiParam(value = "名字，商户就是商户名字，创客就是创客名字") String name,
                                 @ApiParam(value = "对象id") Long objectId, @ApiParam(value = "对象类型") ObjectType objectType, @ApiParam(value = "1：代表合同，2授权") Integer contractType,
@@ -97,7 +97,7 @@ public class AgreementAdminController {
         return iAgreementService.saveAdminAgreement(agreementId, name, objectId, objectType, contractType, agreementType, paperAgreementUrl);
     }
 
-    @PostMapping("/save_admin_maker_video")
+    @PostMapping("/save-admin-maker-video")
     @ApiOperation(value = "平台端添加合同", notes = "平台端添加合同")
     public R saveAdminMakerVideo(@ApiParam(value = "创客id") @RequestParam(required = false) Long makerId, @ApiParam(value = "创客视频Url") @RequestParam(required = false) String videoUrl, BladeUser bladeUser) {
         //查询当前管理员
@@ -109,7 +109,7 @@ public class AgreementAdminController {
         return makerService.saveAdminMakerVideo(makerId, videoUrl);
     }
 
-    @GetMapping("/find_maker_id_agreement")
+    @GetMapping("/query-maker-id-agreement")
     @ApiOperation(value = "平台根据商户id查询商户加盟合同或授权协议", notes = "平台根据商户id查询商户加盟合同或授权协议")
     public R findAdminEnterpriseId(Long enterpriseId, AgreementType agreementType, BladeUser bladeUser) {
         //查询当前管理员
@@ -121,7 +121,7 @@ public class AgreementAdminController {
         return iAgreementService.findAdminEnterpriseId(enterpriseId, agreementType);
     }
 
-    @GetMapping("/find_enter_id_service_agreement")
+    @GetMapping("/query-enter-id-service-agreement")
     @ApiOperation(value = "平台根据商户id查询合作服务商的合同", notes = "平台根据商户id查询合作服务商的合同")
     public R findEnterIdServiceAgreement(Long enterpriseId, Query query, String serviceProviderName, BladeUser bladeUser) {
         //查询当前管理员
@@ -130,10 +130,10 @@ public class AgreementAdminController {
             return result;
         }
 
-        return iAgreementService.findEnterIdServiceAgreement(enterpriseId, serviceProviderName, Condition.getPage(query.setDescs("create_time")));
+        return iAgreementService.findEnterIdServiceAgreement(enterpriseId, serviceProviderName, Condition.getPage(query.setDescs("create-time")));
     }
 
-    @GetMapping("/find_admin_ser_id_agreement")
+    @GetMapping("/query-admin-ser-id-agreement")
     @ApiOperation(value = "平台根据服务商id查询服务商加盟合同或授权协议", notes = "平台根据服务商id查询服务商加盟合同或授权协议")
     public R findAdminSerIdAgreement(Long serviceProviderId, AgreementType agreementType, BladeUser bladeUser) {
         //查询当前管理员

@@ -43,7 +43,7 @@ import java.io.InputStream;
  * @time 17:37.
  */
 @RestController
-@RequestMapping("/enterprise/enterpriseSelfhelpinvoice")
+@RequestMapping("/enterprise/self-help-invoice")
 @Validated
 @AllArgsConstructor
 @Api(value = "商户端---自助开票相关接口(管理端)", tags = "商户端---自助开票相关接口(管理端)")

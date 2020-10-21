@@ -12,9 +12,6 @@ import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.AgreementMapper;
 import com.lgyun.system.user.oss.AliyunOssService;
 import com.lgyun.system.user.service.*;
-import com.lgyun.system.user.vo.AgreementMakerWebVO;
-import com.lgyun.system.user.vo.AgreementServiceVO;
-import com.lgyun.system.user.vo.AgreementWebVO;
 import com.lgyun.system.user.vo.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +22,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Service 实现
@@ -94,7 +94,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         }
         map.put("onlineAgreementTemplateId", "");
         map.put("onlineAgreementNeedSignId", "");
-        map.put("agreementTemplate", agreementEntity.getOnlineAggrementUrl());
+        map.put("agreementTemplate", agreementEntity.getOnlineAgreementUrl());
         map.put("signState", agreementEntity.getSignState().getValue());
         return R.data(map);
     }
@@ -243,7 +243,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
                     agreementEntity.setMakerId(Long.parseLong(split[i]));
                     agreementEntity.setEnterpriseId(enterpriseId);
                     agreementEntity.setOnlineAgreementTemplateId(onlineAgreementTemplateEntity.getId());
-                    agreementEntity.setOnlineAggrementUrl(pdf);
+                    agreementEntity.setOnlineAgreementUrl(pdf);
                     agreementEntity.setFirstSideSignPerson(byId.getEnterpriseName());
                     MakerEntity makerEntity = makerService.getById(Long.parseLong(split[i]));
                     agreementEntity.setSecondSideSignPerson(makerEntity.getName());
@@ -275,7 +275,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
                     agreementEntity.setMakerId(makerEnterpriseEntity.getMakerId());
                     agreementEntity.setEnterpriseId(enterpriseId);
                     agreementEntity.setOnlineAgreementTemplateId(onlineAgreementTemplateEntity.getId());
-                    agreementEntity.setOnlineAggrementUrl(pdf);
+                    agreementEntity.setOnlineAgreementUrl(pdf);
                     agreementEntity.setFirstSideSignPerson(byId.getEnterpriseName());
                     agreementEntity.setSecondSideSignPerson(makerService.getById(makerEnterpriseEntity.getMakerId()).getName());
                     agreementService.save(agreementEntity);
@@ -352,7 +352,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
             agreementEntity.setPaperAgreementUrl(paperAgreementUrl);
             agreementEntity.setSignType(SignType.PAPERAGREEMENT);
             agreementEntity.setSignState(SignState.SIGNED);
-            agreementEntity.setOnlineAggrementUrl("");
+            agreementEntity.setOnlineAgreementUrl("");
             agreementEntity.setUpdateTime(new Date());
             saveOrUpdate(agreementEntity);
             return R.success("编辑成功");
@@ -408,6 +408,16 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
                 .eq(AgreementEntity::getAgreementType, agreementType);
         AgreementEntity agreementEntity = baseMapper.selectOne(queryWrapper);
         return R.data(agreementEntity);
+    }
+
+    @Override
+    public R<String> queryOnlineAgreementUrl(Long agreementId) {
+        AgreementEntity agreementEntity = agreementService.getById(agreementId);
+        if (null == agreementEntity) {
+            return R.fail("合同不存在");
+        }
+
+        return R.data(agreementEntity.getOnlineAgreementUrl());
     }
 
     private R<String> saveContractAndLetter(AgreementType agreementType, String file, ObjectType objectType, Long objectId) {
