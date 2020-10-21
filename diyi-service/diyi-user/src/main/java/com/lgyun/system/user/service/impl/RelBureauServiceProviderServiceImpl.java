@@ -70,4 +70,30 @@ public class RelBureauServiceProviderServiceImpl extends BaseServiceImpl<RelBure
         }
         return R.success("添加匹配服务商成功！");
     }
+
+    /**
+     * 开启或关闭匹配服务商
+     *
+     * @param bureauServiceProviderId
+     * @param bureauServiceProviderStatus
+     * @return
+     */
+    @Override
+    public R updateTaxBureauServiceProvider(Long bureauServiceProviderId, BureauServiceProviderStatus bureauServiceProviderStatus) {
+        RelBureauServiceProviderEntity entity = new RelBureauServiceProviderEntity();
+        entity.setId(bureauServiceProviderId);
+        entity.setBureauServiceProviderStatus(bureauServiceProviderStatus);
+        this.updateById(entity);
+        return R.success("操作成功！");
+    }
+
+    @Override
+    public R deleteTaxBureauServiceProvider(Long bureauServiceProviderId) {
+        RelBureauServiceProviderEntity relBureauServiceProviderEntity = this.getById(bureauServiceProviderId);
+        if (relBureauServiceProviderEntity == null) {
+            return R.fail("你输入的ID不存在");
+        }
+        baseMapper.removeById(bureauServiceProviderId);
+        return R.success("撤销成功！");
+    }
 }
