@@ -221,4 +221,17 @@ public class AgreementEnterpriseController {
     public R selectEntMakSourcDetail(Long selfHelpInvoiceId) {
         return orderClient.findDetailCrowdSourcing(selfHelpInvoiceId);
     }
+
+    @GetMapping("/getRelationServiceProvider")
+    @ApiOperation(value = "根据商户id查询有关联的服务商", notes = "根据商户id查询有关联的服务商")
+    public R getRelationServiceProvider(BladeUser bladeUser,Query query,String keyWord) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+        return agreementService.getRelationServiceProvider(query,enterpriseWorkerEntity.getEnterpriseId(),keyWord);
+    }
 }

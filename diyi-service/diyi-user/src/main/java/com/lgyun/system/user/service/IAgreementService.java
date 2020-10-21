@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.core.mp.base.BaseService;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.AgreementEntity;
 import com.lgyun.system.user.vo.*;
 
@@ -110,6 +111,11 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
     R uploadSupplement(String contractUrl, Long serviceProviderId,Long enterpriseId);
 
     /**
+     * 根据服务商id查询有关联的商户
+     */
+    R getRelationEnterprise(Query query, Long serviceProviderId);
+
+    /**
      * 查询创客加盟平台合同
      */
     R findMakerAgreement(String agreementNo, Long serviceProviderId, String makerName, IPage<AgreementServiceVO> page);
@@ -159,6 +165,11 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
      * 平台根据服务商id查询服务商加盟合同或授权协议
      */
     R findAdminSerIdAgreement(Long serviceProviderId,AgreementType agreementType);
+
+    /**
+     * 根据商户id查询有关联的服务商
+     */
+    R getRelationServiceProvider(Query query,Long enterpriseId,String keyWord);
 
 }
 

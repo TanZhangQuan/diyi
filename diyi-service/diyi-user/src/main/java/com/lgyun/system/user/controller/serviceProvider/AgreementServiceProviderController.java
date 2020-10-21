@@ -108,4 +108,18 @@ public class AgreementServiceProviderController {
 
         return iAgreementService.uploadSupplement(contractUrl, serviceProviderWorkerEntity.getServiceProviderId(),enterpriseId);
     }
+
+    @GetMapping("/getRelationEnterprise")
+    @ApiOperation(value = "根据服务商id查询有关联的商户", notes = "根据服务商id查询有关联的商户")
+    public R getRelationEnterprise(BladeUser bladeUser,Query query) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+        return iAgreementService.getRelationEnterprise(query,serviceProviderWorkerEntity.getServiceProviderId());
+    }
+
 }
