@@ -213,14 +213,6 @@ public interface IMakerService extends IService<MakerEntity> {
     MakerEntity findByUserId(Long userId);
 
     /**
-     * 查询当前创客关联商户数和收入情况
-     *
-     * @param makerId
-     * @return
-     */
-    R<MakerEnterpriseNumIncomeVO> getEnterpriseNumIncome(Long makerId);
-
-    /**
      * 上传创客视频
      *
      * @param makerEntity
