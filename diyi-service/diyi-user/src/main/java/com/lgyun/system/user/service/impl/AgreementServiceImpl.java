@@ -8,6 +8,8 @@ import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.PDFUtil;
 import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.core.mp.support.Condition;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.AgreementMapper;
 import com.lgyun.system.user.oss.AliyunOssService;
@@ -41,8 +43,8 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     private final IOnlineAgreementTemplateService iOnlineAgreementTemplateService;
     private final IServiceProviderService serviceProviderService;
     private final IOnlineAgreementNeedSignService onlineAgreementNeedSignService;
-    private final IAgentMainService agentMainService;
-    private final IPartnerService partnerService;
+
+    private IEnterpriseServiceProviderService enterpriseServiceProviderService;
 
     @Autowired
     @Lazy
@@ -323,6 +325,11 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
+    public R getRelationEnterprise(Query query, Long serviceProviderId) {
+        return enterpriseServiceProviderService.getEnterpriseByServiceProvider(Condition.getPage(query.setDescs("create_time")),serviceProviderId,"");
+    }
+
+    @Override
     public R findMakerAgreement(String agreementNo, Long serviceProviderId, String makerName, IPage<AgreementServiceVO> page) {
         return R.data(page.setRecords(baseMapper.findMakerAgreement(agreementNo, serviceProviderId, makerName, page)));
     }
@@ -423,5 +430,10 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
                 .eq(AgreementEntity::getAgreementType, agreementType);
         AgreementEntity agreementEntity = baseMapper.selectOne(queryWrapper);
         return R.data(agreementEntity);
+    }
+
+    @Override
+    public R getRelationServiceProvider(Query query, Long enterpriseId,String keyWord) {
+        return enterpriseServiceProviderService.getServiceProvidersByEnterpriseId(enterpriseId, keyWord, Condition.getPage(query.setDescs("create_time")));
     }
 }
