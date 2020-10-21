@@ -3,4 +3,68 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.AgentMainMapper">
 
+    <resultMap id="AgentMainVO" type="com.lgyun.system.user.vo.admin.AdminAgentMainVO">
+        <id column="id" property="agentMainId"/>
+        <result column="enterprise_name" property="enterpriseName"/>
+        <result column="contact1_name" property="contact1Name"/>
+        <result column="contact1_phone" property="contact1Phone"/>
+        <result column="franchise_contract" property="franchiseContract"/>
+        <result column="channel_commitment_letter" property="channelCommitmentLetter"/>
+        <result column="status" property="agentState" javaType="com.lgyun.common.enumeration.AccountState"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <select id="getAgentMainList" resultMap="AgentMainVO">
+                SELECT
+            am.id,
+            am.enterprise_name,
+            am.contact1_name,
+            am.contact1_phone,
+            (
+                SELECT
+
+                IF (
+                    a.sign_type = 'PLATFORMAGREEMENT',
+                    a.online_aggrement_url,
+                    a.paper_agreement_url
+                )
+                FROM
+                    diyi_agreement AS a
+                WHERE
+                    a.agent_id = am.id
+                AND a.agreement_type = 'AGENTJOINAGREEMENT'
+            ) AS franchise_contract,
+            (
+                SELECT
+
+                IF (
+                    a.sign_type = 'ELEUNILATERALPOWER',
+                    a.online_aggrement_url,
+                    a.paper_agreement_url
+                )
+                FROM
+                    diyi_agreement AS a
+                WHERE
+                    a.agent_id = am.id
+                AND a.agreement_type = 'OTHERAGREEMENT'
+            ) AS channel_commitment_letter,
+            am.agent_state,
+            am.create_time
+        FROM
+            diyi_agent_main AS am
+                WHERE
+                am.is_deleted=0
+                <if test="param1.agentMainId != null and param1.agentMainId != ''">
+                    and am.id = #{param1.agentMainId}
+                </if>
+                <if test="param1.enterpriseName != null and param1.enterpriseName.trim() != ''">
+                    AND t1.enterprise_name like concat('%', #{param1.enterpriseName}, '%')
+                </if>
+                <if test="param1.beginDate != null">
+                    AND DATEDIFF(t1.create_time, #{param1.beginDate}) <![CDATA[ >= ]]> 0
+                </if>
+                <if test="param1.endDate != null">
+                    AND DATEDIFF(t1.create_time, #{param1.endDate}) <![CDATA[ <= ]]> 0
+                </if>
+    </select>
 </mapper>

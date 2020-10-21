@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 /**
  * 合伙人信息表 Service 实现
  *
- * @author tzq
- * @since 2020-09-11 17:33:26
+ * @author liangfeihu
+ * @since 2020-10-20 18:25:03
  */
 @Slf4j
 @Service

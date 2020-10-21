@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- * 合伙人-商户关联表 Entity
+ * 渠道商人员表 Entity
  *
  * @author liangfeihu
  * @since 2020-10-20 18:25:03
@@ -19,22 +19,22 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("diyi_partner_enterprise")
-public class PartnerEnterpriseEntity extends BaseEntity {
+@TableName("diyi_agent_enterprise")
+public class AgentEnterpriseEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 合伙人ID
+     * 渠道商ID
      */
-    private Long partnerId;
+    private Long agentMainId;
 
     /**
-     * 商户ID
+     * 企业商户ID
      */
     private Long enterpriseId;
 
     /**
-     * 分配时间
+     * 分配日期
      */
     private Date matchDate;
 
