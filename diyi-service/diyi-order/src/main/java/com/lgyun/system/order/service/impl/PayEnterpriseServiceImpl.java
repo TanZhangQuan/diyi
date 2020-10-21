@@ -19,6 +19,7 @@ import com.lgyun.system.order.excel.PayEnterpriseImportListener;
 import com.lgyun.system.order.mapper.PayEnterpriseMapper;
 import com.lgyun.system.order.service.*;
 import com.lgyun.system.order.vo.*;
+import com.lgyun.system.order.vo.admin.TransactionByBureauServiceProviderInfoVO;
 import com.lgyun.system.user.entity.EnterpriseServiceProviderEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import com.lgyun.system.user.vo.TransactionVO;
@@ -628,6 +629,27 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         map.put("payMakerList",payMakerList);
         map.put("subcontractInvoiceDetail",subcontractInvoiceDetail);
         return R.data(map);
+    }
+
+    /**
+     *查询当前税务局管理所有匹配的服务商交易情况数据
+     * @param bureauId
+     * @return
+     */
+    @Override
+    public R<TransactionVO> transactionByBureauServiceProvider(Long bureauId) {
+        return R.data(baseMapper.transactionByBureauServiceProvider(bureauId));
+    }
+
+    /**
+     * 相关局查询匹配的服务商基本信息及交易金额
+     * @param bureauId
+     * @param page
+     * @return
+     */
+    @Override
+    public R<IPage<TransactionByBureauServiceProviderInfoVO>> transactionByBureauServiceProviderInfo(Long bureauId, IPage<TransactionByBureauServiceProviderInfoVO> page) {
+        return R.data(page.setRecords(baseMapper.transactionByBureauServiceProviderInfo(bureauId,page)));
     }
 
 }

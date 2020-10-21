@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lgyun.system.user.mapper.RelBureauNoticeMapper">
+
+    <resultMap id="RelBureauNoticeVOResultMap" type="com.lgyun.system.user.vo.admin.RelBureauNoticeVO">
+        <result column="notice_title" property="noticeTitle" />
+        <result column="notice_desc" property="noticeDesc" />
+        <result column="publish_datetime" property="publishDatetime" />
+        <result column="contact_person" property="contactPerson" />
+    </resultMap>
+
+    <!--查询税务局的通知-->
+    <select id="queryTaxBureauNotice" resultMap="RelBureauNoticeVOResultMap">
+        SELECT notice_title,
+        notice_desc,
+        publish_datetime,
+        contact_person
+        FROM diyi_rel_bureau_notice
+        WHERE bureau_id = #{bureauId}
+        AND is_deleted = 0
+        AND (notice_state = 'PUBLISHED'
+        OR notice_state = 'HAVEREAD')
+    </select>
+</mapper>
