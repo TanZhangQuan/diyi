@@ -44,11 +44,24 @@ public class AgreementEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return R.data(agreementService.findByEnterpriseAndType(enterpriseWorkerEntity.getEnterpriseId(), AgreementType.ENTERPRISEJOINAGREEMENT));
+        return R.data(agreementService.findByEnterpriseAndType(enterpriseWorkerEntity.getEnterpriseId(), AgreementType.ENTERPRISEJOINAGREEMENT,SignType.PAPERAGREEMENT));
+    }
+
+    @GetMapping("/selectPriceAgreement")
+    @ApiOperation(value = "根据商户查询商户的加盟价格协议合同", notes = "根据商户查询商户的加盟价格协议合同")
+    public R selectPriceAgreement(BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+        return R.data(agreementService.findByEnterpriseAndType(enterpriseWorkerEntity.getEnterpriseId(), AgreementType.ENTERPRISEPRICEAGREEMENT,SignType.PAPERAGREEMENT));
     }
 
     @GetMapping("/selectAuthorization")
-    @ApiOperation(value = "根据商户查询商户的单方授权函", notes = "根据商户查询商户的单方授权函")
+    @ApiOperation(value = "根据商户查询商户承诺函", notes = "根据商户查询商户承诺函")
     public R selectAuthorization(BladeUser bladeUser, Query query) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
@@ -61,7 +74,7 @@ public class AgreementEnterpriseController {
     }
 
     @PostMapping("/saveAuthorization")
-    @ApiOperation(value = "商户上传授权函", notes = "商户上传授权函")
+    @ApiOperation(value = "商户上传承诺函", notes = "商户上传承诺函")
     public R uploadMakerVideo(BladeUser bladeUser, String paperAgreementURL) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
@@ -207,5 +220,18 @@ public class AgreementEnterpriseController {
     @ApiOperation(value = "根据自助开票id查询众包的详情", notes = "根据自助开票id查询众包的详情")
     public R selectEntMakSourcDetail(Long selfHelpInvoiceId) {
         return orderClient.findDetailCrowdSourcing(selfHelpInvoiceId);
+    }
+
+    @GetMapping("/getRelationServiceProvider")
+    @ApiOperation(value = "根据商户id查询有关联的服务商", notes = "根据商户id查询有关联的服务商")
+    public R getRelationServiceProvider(BladeUser bladeUser,Query query,String keyWord) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+        return agreementService.getRelationServiceProvider(query,enterpriseWorkerEntity.getEnterpriseId(),keyWord);
     }
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.core.mp.base.BaseService;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.AgreementEntity;
 import com.lgyun.system.user.vo.*;
 
@@ -51,15 +52,15 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
     /**
      * 根据商户和合同类型找合同
      */
-    AgreementWebVO findByEnterpriseAndType(Long enterpriseId, AgreementType agreementType);
+    AgreementWebVO findByEnterpriseAndType(Long enterpriseId, AgreementType agreementType,SignType signType);
 
     /**
-     * 根据商户查询商户的单方授权函
+     * 根据商户查询商户的承诺函
      */
     R selectAuthorization(Long enterpriseId, IPage<AgreementEntity> page);
 
     /**
-     * 商户上传授权函
+     * 商户上传承诺函
      */
     R<String> saveAuthorization(Long enterpriseId, String paperAgreementURL);
 
@@ -100,24 +101,40 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
 
 
     /**
-     * 查询服务商加盟平台合同和承诺函
+     * 查询服务商加盟平台合同
      */
-    R findSeriveAgreement(String agreementNo, Long serviceProviderId, IPage<AgreementServiceVO> page);
+    R findSeriveAgreement(String agreementNo, Long serviceProviderId);
 
     /**
-     * 上传加盟合同和承诺函
+     * 上传服务商和商户的补充协议
      */
-    R uploadContractAndLetter(String contractUrl, String letterUrl, Long serviceProviderId);
+    R uploadSupplement(String contractUrl, Long serviceProviderId,Long enterpriseId);
 
     /**
-     * 查询创客加盟平台合同和承诺函
+     * 根据服务商id查询有关联的商户
+     */
+    R getRelationEnterprise(Query query, Long serviceProviderId);
+
+    /**
+     * 查询创客加盟平台合同
      */
     R findMakerAgreement(String agreementNo, Long serviceProviderId, String makerName, IPage<AgreementServiceVO> page);
 
     /**
-     * 查询商户加盟平台合同和承诺函
+     * 查询商户加盟平台合同
      */
     R findEnterpriseAgreement(String agreementNo, Long serviceProviderId ,String enterpriseName,IPage<AgreementServiceVO> page);
+
+    /**
+     * 服务商查询商户承诺函
+     */
+    R findEnterprisePromise(String agreementNo, Long serviceProviderId ,String enterpriseName,IPage<AgreementServiceVO> page);
+
+    /**
+     * 服务商查询服务商和商户的补充协议
+     */
+    R findEnterpriseSupplement(String agreementNo, Long serviceProviderId ,String enterpriseName,IPage<AgreementServiceVO> page);
+
 
     /**
      * 根据创客id查询加盟或者授权协议
@@ -148,6 +165,11 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
      * 平台根据服务商id查询服务商加盟合同或授权协议
      */
     R findAdminSerIdAgreement(Long serviceProviderId,AgreementType agreementType);
+
+    /**
+     * 根据商户id查询有关联的服务商
+     */
+    R getRelationServiceProvider(Query query,Long enterpriseId,String keyWord);
 
 }
 
