@@ -59,13 +59,6 @@
         <result property="videoAuditPersonId" column="video_audit_person_id"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO" id="makerEnterpriseNumIncomeVO">
-        <result property="enterpriseNum" column="enterprise_num"/>
-        <result property="monthIncome" column="month_income"/>
-        <result property="yearIncome" column="year_income"/>
-        <result property="allIncome" column="all_income"/>
-    </resultMap>
-
     <resultMap type="com.lgyun.system.user.vo.EnterpriseMakerDetailVO" id="enterpriseMakerDetailVO">
         <result property="avatar" column="avatar"/>
         <result property="name" column="name"/>
@@ -97,14 +90,6 @@
         bank_card_verify_status, bank_card_verify_date, phone_number_verify_status, phone_number_verify_date, idcard_verify_type, manual_verify_name,
         manual_verify_desc, run_address, house_address, living_address, self_desc, shop_url, shop_user_name, apply_short_video, video_audit,
         video_audit_date, video_audit_person_id FROM diyi_maker WHERE is_deleted = 0 AND id = #{param1}
-    </select>
-
-    <select id="getEnterpriseNumIncome" resultMap="makerEnterpriseNumIncomeVO">
-        SELECT * FROM (SELECT COUNT(t1.id) AS enterprise_num FROM diyi_maker_enterprise t1 INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id
-        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.maker_id = #{param1} AND t1.relationship_type = 'RELEVANCE' AND t1.cooperate_status = 'COOPERATING') t1,
-        (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), t2.check_date) <![CDATA[ < ]]> 30, t2.check_money, 0)), 0) AS month_income, IFNULL(SUM(IF(DATEDIFF(NOW(), t2.check_date) <![CDATA[ < ]]> 365, t2.check_money, 0)), 0) AS year_income,
-        IFNULL(SUM(t2.check_money), 0) AS all_income FROM diyi_worksheet t1 INNER JOIN diyi_worksheet_maker t2 ON t1.id = t2.worksheet_id
-        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t2.worksheet_maker_state = 'VALIDATION' AND t2.maker_id = #{param2}) t2
     </select>
 
     <select id="getMakerDetailById" resultMap="enterpriseMakerDetailVO">

@@ -1,11 +1,9 @@
 package com.lgyun.system.order.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.InvoicePeopleType;
-import com.lgyun.common.enumeration.InvoicePrintState;
-import com.lgyun.common.enumeration.ObjectType;
-import com.lgyun.common.enumeration.SelfHelpInvoiceApplyState;
+import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDTO;
@@ -19,7 +17,7 @@ import com.lgyun.system.order.service.ISelfHelpInvoiceApplyService;
 import com.lgyun.system.order.service.ISelfHelpInvoiceDetailService;
 import com.lgyun.system.order.service.ISelfHelpInvoicePersonService;
 import com.lgyun.system.order.service.ISelfHelpInvoiceService;
-import com.lgyun.system.order.vo.SelfHelpInvoiceDetailVO;
+import com.lgyun.system.order.vo.*;
 import com.lgyun.system.order.vo.admin.SelfHelpInvoiceDetailAdminVO;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
@@ -32,6 +30,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,6 +52,36 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
     @Lazy
     private ISelfHelpInvoiceService selfHelpInvoiceService;
     private ISelfHelpInvoiceApplyService selfHelpInvoiceApplyService;
+
+    @Override
+    public R<AllIncomeYearMonthVO> queryCrowdNumAndAllIncome(InvoicePeopleType invoicePeopleType, Long makerId, Long year, Long month) {
+        return R.data(baseMapper.queryCrowdNumAndAllIncome(invoicePeopleType, makerId, year, month));
+    }
+
+    @Override
+    public R<IncomeYearVO> queryEveryYearCrowdIncome(InvoicePeopleType invoicePeopleType, Long makerId) {
+        return R.data(baseMapper.queryEveryYearCrowdIncome(invoicePeopleType, makerId));
+    }
+
+    @Override
+    public R<YearTradeVO> queryEveryMonthCrowdIncome(InvoicePeopleType invoicePeopleType, Long makerId, Long year) {
+        return R.data(baseMapper.queryEveryMonthCrowdIncome(invoicePeopleType, makerId, year));
+    }
+
+    @Override
+    public R<IPage<AllIncomeYearMonthEnterpriseVO>> queryMakerToEnterpriseCrowdIncome(InvoicePeopleType invoicePeopleType, Long makerId, Long year, Long month, IPage<AllIncomeYearMonthEnterpriseVO> page) {
+        return R.data(page.setRecords(baseMapper.queryMakerToEnterpriseCrowdIncome(invoicePeopleType, makerId, year, month, page)));
+    }
+
+    @Override
+    public R<IPage<IncomeDetailYearMonthVO>> queryCrowdIncomeDetail(InvoicePeopleType invoicePeopleType, Long makerId, Long year, Long month, Long enterpriseId, IPage<IncomeDetailYearMonthVO> page) {
+        return R.data(page.setRecords(baseMapper.queryCrowdIncomeDetail(invoicePeopleType, makerId, year, month, enterpriseId, page)));
+    }
+
+    @Override
+    public R<BigDecimal> queryCrowdDetailAllIncome(InvoicePeopleType invoicePeopleType, Long makerId, Long year, Long month, Long enterpriseId) {
+        return R.data(baseMapper.queryCrowdDetailAllIncome(invoicePeopleType, makerId, year, month, enterpriseId));
+    }
 
     @Override
     public R uploadDeliverSheetUrl(Long selfHelpInvoiceDetailId, String deliverSheetUrl) {

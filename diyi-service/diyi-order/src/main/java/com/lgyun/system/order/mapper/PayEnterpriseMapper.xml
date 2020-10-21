@@ -280,6 +280,15 @@
     </resultMap>
 
 
+    <resultMap type="com.lgyun.system.order.vo.admin.TransactionByBureauServiceProviderInfoVO" id="transactionByBureauServiceProviderInfoVO">
+        <result column="id" property="serviceProviderId" />
+        <result column="service_provider_name" property="serviceProviderName" />
+        <result column="total_money" property="totalMoney" />
+        <result column="bureau_service_provider_status" property="bureauServiceProviderStatus" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+
     <select id="getEnterpriseAll" resultMap="InvoiceEnterpriseVOMap">
         SELECT e.id AS enterprise_id, pe.id AS pay_enterprise_id, pm.id AS pay_maker_id, e.enterprise_name AS enterprise_name FROM diyi_enterprise e
         INNER JOIN diyi_pay_enterprise pe ON e.id = pe.enterprise_id INNER JOIN diyi_pay_maker pm ON pm.pay_enterprise_id = pe.id
@@ -306,11 +315,17 @@
     </select>
 
     <select id="getPayEnterpriseList" resultMap="payEnterpriseMakersListVO">
-        SELECT t1.id AS pay_enterprise_id, t2.enterprise_name, t3.service_provider_name, t1.charge_list_url, t4.worksheet_no, t1.create_time, t1.pay_to_platform_amount, t1.pay_state, t1.audit_state, t1.company_invoice_state,
-        (SELECT GROUP_CONCAT(enterprise_pay_receipt_url) FROM diyi_pay_enterprise_receipt WHERE is_deleted = 0 AND pay_enterprise_id = t1.id) AS enterprise_pay_receipt_urls,
-        (SELECT GROUP_CONCAT(accept_paysheet_url) FROM diyi_accept_paysheet WHERE is_deleted = 0 AND pay_enterprise_id = t1.id) AS accept_paysheet_urls FROM diyi_pay_enterprise t1
-        INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id INNER JOIN diyi_service_provider t3 ON t1.service_provider_id = t3.id LEFT JOIN diyi_worksheet t4
-        ON t1.worksheet_id = t4.id AND t4.is_deleted = 0 WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0
+        SELECT t1.id AS pay_enterprise_id, t2.enterprise_name, t3.service_provider_name, t1.charge_list_url,
+        t4.worksheet_no, t1.create_time, t1.pay_to_platform_amount, t1.pay_state, t1.audit_state,
+        t1.company_invoice_state,
+        (SELECT GROUP_CONCAT(enterprise_pay_receipt_url) FROM diyi_pay_enterprise_receipt WHERE is_deleted = 0 AND
+        pay_enterprise_id = t1.id) AS enterprise_pay_receipt_urls,
+        (SELECT GROUP_CONCAT(accept_paysheet_url) FROM diyi_accept_paysheet WHERE is_deleted = 0 AND pay_enterprise_id =
+        t1.id) AS accept_paysheet_urls FROM diyi_pay_enterprise t1
+        INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id INNER JOIN diyi_service_provider t3 ON
+        t1.service_provider_id = t3.id LEFT JOIN diyi_worksheet t4
+        ON t1.worksheet_id = t4.id AND t4.is_deleted = 0 WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted
+        = 0
         <if test="param1 != null">
             AND t1.enterprise_id = #{param1}
         </if>
@@ -340,11 +355,16 @@
     </select>
 
     <select id="getPayEnterprisesByEnterprisesServiceProvider" resultMap="payEnterpriseMakersListVO">
-        SELECT t1.id, t2.enterprise_name, t3.service_provider_name, t1.charge_list_url, t4.worksheet_no, t1.create_time, t1.pay_to_platform_amount, t1.pay_state, t1.audit_state, t1.company_invoice_state,
-        (SELECT GROUP_CONCAT(enterprise_pay_receipt_url) FROM diyi_pay_enterprise_receipt WHERE is_deleted = 0 AND pay_enterprise_id = t1.id) AS enterprise_pay_receipt_urls,
-        (SELECT GROUP_CONCAT(accept_paysheet_url) FROM diyi_accept_paysheet WHERE is_deleted = 0 AND pay_enterprise_id = t1.id) AS accept_paysheet_urls FROM diyi_pay_enterprise t1
-        INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id INNER JOIN diyi_service_provider t3 ON t1.service_provider_id = t3.id LEFT JOIN diyi_worksheet t4
-        ON t1.worksheet_id = t4.id AND t4.is_deleted = 0 WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t1.pay_state = 'CONFIRMPAY'
+        SELECT t1.id, t2.enterprise_name, t3.service_provider_name, t1.charge_list_url, t4.worksheet_no, t1.create_time,
+        t1.pay_to_platform_amount, t1.pay_state, t1.audit_state, t1.company_invoice_state,
+        (SELECT GROUP_CONCAT(enterprise_pay_receipt_url) FROM diyi_pay_enterprise_receipt WHERE is_deleted = 0 AND
+        pay_enterprise_id = t1.id) AS enterprise_pay_receipt_urls,
+        (SELECT GROUP_CONCAT(accept_paysheet_url) FROM diyi_accept_paysheet WHERE is_deleted = 0 AND pay_enterprise_id =
+        t1.id) AS accept_paysheet_urls FROM diyi_pay_enterprise t1
+        INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id INNER JOIN diyi_service_provider t3 ON
+        t1.service_provider_id = t3.id LEFT JOIN diyi_worksheet t4
+        ON t1.worksheet_id = t4.id AND t4.is_deleted = 0 WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted
+        = 0 AND t1.pay_state = 'CONFIRMPAY'
         <if test="param1 != null">
             AND t1.enterprise_id = #{param1}
         </if>
@@ -377,8 +397,17 @@
     </select>
 
     <select id="findEnterpriseLumpSumInvoice" resultMap="EnterpriseLumpSumInvoiceMap">
-        SELECT pe.id AS pay_enterprise_id, pi.id AS invoice_print_id, e.id AS enterprise_id, sp.id AS service_provider_id, ia.id AS application_id, e.enterprise_name,pe.worksheet_id, sp.service_provider_name, pe.charge_list_url, pil.invoice_serial_no, pil.company_invoice_url, pe.company_invoice_state, pe.invoice_print_date, pi.express_sheet_no, pi.express_company_name FROM diyi_PLATFORM_INVOICE_PAY_LIST pipl INNER JOIN diyi_pay_enterprise pe ON pe.id = pipl.pay_enterprise_id INNER JOIN diyi_platform_invoice pi ON pi.id = pipl.invoice_print_id INNER JOIN diyi_platform_invoice_list pil ON pil.invoice_print_id = pi.id INNER JOIN diyi_enterprise e ON e.id = pe.enterprise_id INNER JOIN diyi_service_provider sp ON sp.id = pe.service_provider_id LEFT JOIN diyi_INVOICE_APPLICATION ia ON ia.id = pi.application_id AND ia.is_deleted = 0 and ia.application_state != 'CANCELLED' and ia.application_state !='REJECTED'
-         WHERE pipl.is_deleted = 0 AND pe.is_deleted = 0 AND pi.is_deleted = 0 AND pil.is_deleted = 0 AND e.is_deleted = 0 AND sp.is_deleted = 0 and pe.enterprise_id = #{param5}
+        SELECT pe.id AS pay_enterprise_id, pi.id AS invoice_print_id, e.id AS enterprise_id, sp.id AS
+        service_provider_id, ia.id AS application_id, e.enterprise_name,pe.worksheet_id, sp.service_provider_name,
+        pe.charge_list_url, pil.invoice_serial_no, pil.company_invoice_url, pe.company_invoice_state,
+        pe.invoice_print_date, pi.express_sheet_no, pi.express_company_name FROM diyi_PLATFORM_INVOICE_PAY_LIST pipl
+        INNER JOIN diyi_pay_enterprise pe ON pe.id = pipl.pay_enterprise_id INNER JOIN diyi_platform_invoice pi ON pi.id
+        = pipl.invoice_print_id INNER JOIN diyi_platform_invoice_list pil ON pil.invoice_print_id = pi.id INNER JOIN
+        diyi_enterprise e ON e.id = pe.enterprise_id INNER JOIN diyi_service_provider sp ON sp.id =
+        pe.service_provider_id LEFT JOIN diyi_INVOICE_APPLICATION ia ON ia.id = pi.application_id AND ia.is_deleted = 0
+        and ia.application_state != 'CANCELLED' and ia.application_state !='REJECTED'
+        WHERE pipl.is_deleted = 0 AND pe.is_deleted = 0 AND pi.is_deleted = 0 AND pil.is_deleted = 0 AND e.is_deleted =
+        0 AND sp.is_deleted = 0 and pe.enterprise_id = #{param5}
         <if test="param1 != null and param1 != ''">
             AND pil.invoice_serial_no like concat('%', #{param1}, '%')
         </if>
@@ -404,17 +433,21 @@
     </select>
 
     <select id="findEnterprisePaymentList" resultMap="EnterprisePaymentListMap">
-        SELECT pe.id AS pay_enterprise_id, sp.id AS service_provider_id, sp.service_provider_name, pe.charge_list_url, pe.create_time AS create_time
-        FROM diyi_pay_enterprise pe INNER JOIN diyi_service_provider sp ON pe.service_provider_id = sp.id INNER JOIN diyi_platform_invoice_pay_list pl on pl.pay_enterprise_id = pe.id
-        where pe.company_invoice_state != 'OPENED' and  pe.enterprise_id = #{param1}
+        SELECT pe.id AS pay_enterprise_id, sp.id AS service_provider_id, sp.service_provider_name, pe.charge_list_url,
+        pe.create_time AS create_time
+        FROM diyi_pay_enterprise pe INNER JOIN diyi_service_provider sp ON pe.service_provider_id = sp.id INNER JOIN
+        diyi_platform_invoice_pay_list pl on pl.pay_enterprise_id = pe.id
+        where pe.company_invoice_state != 'OPENED' and pe.enterprise_id = #{param1}
         <if test="param2 != null and param2 != ''">
             AND sp.service_provider_name like concat('%', #{param2}, '%')
         </if>
     </select>
 
     <select id="findEnterpriseSubcontractSummary" resultMap="EnterpriseSubcontractSummaryMap">
-        SELECT pe.id AS pay_enterprise_id, mt.id AS maker_total_invoice_id, sp.id AS service_provider_id, mt.invoice_serial_no, mt.company_invoice_url,
-        mt.maker_tax_url, pe.company_invoice_state, sp.service_provider_name, pe.invoice_print_date FROM diyi_pay_enterprise pe INNER JOIN diyi_maker_total_invoice mt
+        SELECT pe.id AS pay_enterprise_id, mt.id AS maker_total_invoice_id, sp.id AS service_provider_id,
+        mt.invoice_serial_no, mt.company_invoice_url,
+        mt.maker_tax_url, pe.company_invoice_state, sp.service_provider_name, pe.invoice_print_date FROM
+        diyi_pay_enterprise pe INNER JOIN diyi_maker_total_invoice mt
         ON mt.pay_enterprise_id = pe.id INNER JOIN diyi_service_provider sp ON sp.id = pe.service_provider_id
         where pe.is_deleted= 0 and mt.is_deleted = 0 and sp.is_deleted = 0 and pe.enterprise_id = #{param1}
         <if test="param2 != null and param2 != ''">
@@ -423,11 +456,16 @@
     </select>
 
     <select id="findEnterpriseSubcontractPortal" resultMap="EnterpriseSubcontractPortalMap">
-        SELECT pe.id AS pay_enterprise_id,sp.id as service_provider_id, pm.id AS pay_maker_id, mi.id AS maker_invoice_id, mtr.id AS maker_tax_record_id,
-         mi.voice_serial_no, mi.maker_voice_url, mtr.maker_tax_url, pe.company_invoice_state, sp.service_provider_name, pe.invoice_print_date
-         FROM diyi_pay_enterprise pe INNER JOIN diyi_pay_maker pm ON pm.pay_enterprise_id = pe.id INNER JOIN diyi_maker_invoice mi ON mi.pay_maker_id = pm.id
-         INNER JOIN diyi_service_provider sp ON pe.service_provider_id = sp.id LEFT JOIN diyi_maker_tax_record mtr ON pm.id = mtr.pay_maker_id AND mtr.is_deleted = 0
-         WHERE pe.is_deleted = 0 AND pm.is_deleted = 0 AND mi.is_deleted = 0 AND sp.is_deleted = 0 and pe.enterprise_id = #{param1}
+        SELECT pe.id AS pay_enterprise_id,sp.id as service_provider_id, pm.id AS pay_maker_id, mi.id AS
+        maker_invoice_id, mtr.id AS maker_tax_record_id,
+        mi.voice_serial_no, mi.maker_voice_url, mtr.maker_tax_url, pe.company_invoice_state, sp.service_provider_name,
+        pe.invoice_print_date
+        FROM diyi_pay_enterprise pe INNER JOIN diyi_pay_maker pm ON pm.pay_enterprise_id = pe.id INNER JOIN
+        diyi_maker_invoice mi ON mi.pay_maker_id = pm.id
+        INNER JOIN diyi_service_provider sp ON pe.service_provider_id = sp.id LEFT JOIN diyi_maker_tax_record mtr ON
+        pm.id = mtr.pay_maker_id AND mtr.is_deleted = 0
+        WHERE pe.is_deleted = 0 AND pm.is_deleted = 0 AND mi.is_deleted = 0 AND sp.is_deleted = 0 and pe.enterprise_id =
+        #{param1}
         <if test="param2 != null and param2 != ''">
             AND sp.service_provider_name like concat('%', #{param2}, '%')
         </if>
@@ -597,19 +635,24 @@
     </select>
 
     <select id="getServiceLumpSumInvoice" resultMap="invoiceServiceLumpMap">
-        SELECT pe.id AS pay_enterprise_id, e.id AS enterprise_id, ia.id AS application_id, e.enterprise_name, pe.charge_list_url, IF (( SELECT count(*) FROM diyi_pay_enterprise_receipt r WHERE r.pay_enterprise_id = pe.id ) > 0, '是', '否' ) AS isPayEnterpriseReceipt, IF (apl.id IS NULL, '否', '是') AS isApplication, pe.company_invoice_state,pe.invoice_demond_desc, pe.create_time FROM diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON e.id = pe.enterprise_id LEFT JOIN diyi_INVOICE_APPLICATION_PAY_LIST apl ON pe.id = apl.pay_enterprise_id LEFT JOIN diyi_invoice_application ia ON ia.id = apl.application_id
-            where pe.company_invoice_state = #{param5}
+        SELECT pe.id AS pay_enterprise_id, e.id AS enterprise_id, ia.id AS application_id, e.enterprise_name,
+        pe.charge_list_url, IF (( SELECT count(*) FROM diyi_pay_enterprise_receipt r WHERE r.pay_enterprise_id = pe.id )
+        > 0, '是', '否' ) AS isPayEnterpriseReceipt, IF (apl.id IS NULL, '否', '是') AS isApplication,
+        pe.company_invoice_state,pe.invoice_demond_desc, pe.create_time FROM diyi_pay_enterprise pe INNER JOIN
+        diyi_enterprise e ON e.id = pe.enterprise_id LEFT JOIN diyi_INVOICE_APPLICATION_PAY_LIST apl ON pe.id =
+        apl.pay_enterprise_id LEFT JOIN diyi_invoice_application ia ON ia.id = apl.application_id
+        where pe.company_invoice_state = #{param5}
         <if test="param1 !=null">
             AND pe.service_provider_id = #{param1}
         </if>
         <if test="param2 !=null and param2 != ''">
-             AND e.enterprise_name like concat('%', #{param2}, '%')
+            AND e.enterprise_name like concat('%', #{param2}, '%')
         </if>
         <if test="param3 !=null and param3 != ''">
-             AND pe.create_time > #{param3}
+            AND pe.create_time > #{param3}
         </if>
         <if test="param4 !=null and param4 != ''">
-             AND pe.create_time &lt; #{param4}
+            AND pe.create_time &lt; #{param4}
         </if>
     </select>
 
@@ -618,8 +661,11 @@
     </select>
 
     <select id="getSubcontractInvoice" resultMap="invoiceServiceSubcontractMap">
-        SELECT pe.id AS pay_enterprise_id, e.id AS enterprise_id,pe.maker_invoice_type, e.enterprise_name, pe.charge_list_url, IF (( SELECT COUNT(*) FROM diyi_PAY_ENTERPRISE_RECEIPT per WHERE per.pay_enterprise_id = pe.id ) > 0, '是', '否' ) AS isPayEnterpriseReceipt, pe.subcontracting_invoice_state, pe.create_time FROM diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON e.id = pe.enterprise_id
-         where pe.subcontracting_invoice_state = 'UNOPEN'
+        SELECT pe.id AS pay_enterprise_id, e.id AS enterprise_id,pe.maker_invoice_type, e.enterprise_name,
+        pe.charge_list_url, IF (( SELECT COUNT(*) FROM diyi_PAY_ENTERPRISE_RECEIPT per WHERE per.pay_enterprise_id =
+        pe.id ) > 0, '是', '否' ) AS isPayEnterpriseReceipt, pe.subcontracting_invoice_state, pe.create_time FROM
+        diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON e.id = pe.enterprise_id
+        where pe.subcontracting_invoice_state = 'UNOPEN'
         <if test="param1 !=null">
             and pe.service_provider_id = #{param1}
         </if>
@@ -639,24 +685,11 @@
     </select>
 
     <select id="getServiceSummaryInvoice" resultMap="invoiceServiceSubcontractMap">
-        SELECT pe.id AS pay_enterprise_id, e.id AS enterprise_id, pe.maker_invoice_type, e.enterprise_name, pe.charge_list_url, IF (( SELECT COUNT(*) FROM diyi_PAY_ENTERPRISE_RECEIPT per WHERE per.pay_enterprise_id = pe.id ) > 0, '是', '否' ) AS isPayEnterpriseReceipt, pe.subcontracting_invoice_state, pe.create_time FROM diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON e.id = pe.enterprise_id INNER JOIN diyi_MAKER_TOTAL_INVOICE m ON m.pay_enterprise_id = pe.id
-         where pe.subcontracting_invoice_state = 'OPENED'
-        <if test="param1 !=null">
-            AND pe.service_provider_id = #{param1}
-        </if>
-        <if test="param2 !=null and param2 != ''">
-             AND e.enterprise_name like concat('%', #{param2}, '%')
-        </if>
-        <if test="param3 !=null and param3 != ''">
-             AND pe.create_time > #{param3}
-        </if>
-        <if test="param4 !=null and param4 != ''">
-             AND pe.create_time &lt; #{param4}
-        </if>
-    </select>
-
-    <select id="getServicePortalSignInvoice"  resultMap="invoiceServiceSubcontractMap">
-        SELECT pe.id AS pay_enterprise_id, e.id AS enterprise_id, pe.maker_invoice_type, e.enterprise_name, pe.charge_list_url, IF (( SELECT COUNT(*) FROM diyi_PAY_ENTERPRISE_RECEIPT per WHERE per.pay_enterprise_id = pe.id ) > 0, '是', '否' ) AS isPayEnterpriseReceipt, pe.subcontracting_invoice_state, pe.create_time FROM diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON e.id = pe.enterprise_id INNER JOIN diyi_pay_maker pm ON pm.pay_enterprise_id = pe.id INNER JOIN diyi_maker_invoice mi ON mi.pay_maker_id = pm.id
+        SELECT pe.id AS pay_enterprise_id, e.id AS enterprise_id, pe.maker_invoice_type, e.enterprise_name,
+        pe.charge_list_url, IF (( SELECT COUNT(*) FROM diyi_PAY_ENTERPRISE_RECEIPT per WHERE per.pay_enterprise_id =
+        pe.id ) > 0, '是', '否' ) AS isPayEnterpriseReceipt, pe.subcontracting_invoice_state, pe.create_time FROM
+        diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON e.id = pe.enterprise_id INNER JOIN
+        diyi_MAKER_TOTAL_INVOICE m ON m.pay_enterprise_id = pe.id
         where pe.subcontracting_invoice_state = 'OPENED'
         <if test="param1 !=null">
             AND pe.service_provider_id = #{param1}
@@ -671,4 +704,96 @@
             AND pe.create_time &lt; #{param4}
         </if>
     </select>
+
+    <select id="getServicePortalSignInvoice" resultMap="invoiceServiceSubcontractMap">
+        SELECT pe.id AS pay_enterprise_id, e.id AS enterprise_id, pe.maker_invoice_type, e.enterprise_name,
+        pe.charge_list_url, IF (( SELECT COUNT(*) FROM diyi_PAY_ENTERPRISE_RECEIPT per WHERE per.pay_enterprise_id =
+        pe.id ) > 0, '是', '否' ) AS isPayEnterpriseReceipt, pe.subcontracting_invoice_state, pe.create_time FROM
+        diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON e.id = pe.enterprise_id INNER JOIN diyi_pay_maker pm ON
+        pm.pay_enterprise_id = pe.id INNER JOIN diyi_maker_invoice mi ON mi.pay_maker_id = pm.id
+        where pe.subcontracting_invoice_state = 'OPENED'
+        <if test="param1 !=null">
+            AND pe.service_provider_id = #{param1}
+        </if>
+        <if test="param2 !=null and param2 != ''">
+            AND e.enterprise_name like concat('%', #{param2}, '%')
+        </if>
+        <if test="param3 !=null and param3 != ''">
+            AND pe.create_time > #{param3}
+        </if>
+        <if test="param4 !=null and param4 != ''">
+            AND pe.create_time &lt; #{param4}
+        </if>
+    </select>
+
+    <!--相关局查询匹配的服务商流水统计-->
+    <select id="transactionByBureauServiceProvider" resultMap="transactionVO">
+        SELECT t1.month_pay AS total_sub_month_pay,
+        t1.year_pay AS total_sub_year_pay,
+        t1.all_pay AS total_sub_all_pay,
+        t2.month_pay AS crowd_month_pay,
+        t2.year_pay AS crowd_year_pay,
+        t2.all_pay AS crowd_all_pay,
+        (SELECT COUNT(DISTINCT id) FROM diyi_service_provider_maker WHERE service_provider_id IN
+        (SELECT service_provider_id FROM diyi_rel_bureau_service_provider WHERE rel_bureau_id = #{bureauId})) AS maker_num,
+        (SELECT COUNT(id) FROM diyi_rel_bureau_service_provider WHERE rel_bureau_id = '1318534401678622722') AS service_provider_num FROM
+        (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) &lt;= 30, pay_to_platform_amount, 0)), 0) AS month_pay,
+        IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) &lt;= 365, pay_to_platform_amount, 0)), 0) AS year_pay,
+        IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay
+        FROM diyi_pay_enterprise WHERE is_deleted = 0
+        AND pay_state = 'CONFIRMPAY'
+        AND service_provider_id IN
+        (SELECT service_provider_id FROM diyi_rel_bureau_service_provider WHERE rel_bureau_id = #{bureauId})) t1,
+        (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) &lt;= 30, charge_money_num, 0)), 0) AS month_pay,
+        IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) &lt;= 365, charge_money_num, 0)), 0) AS year_pay,
+        IFNULL(SUM(charge_money_num), 0) AS all_pay
+        FROM diyi_self_help_invoice_sp
+        WHERE is_deleted = 0
+        AND (apply_state = 'SUBMITTED' OR apply_state = 'INVOICED')
+        AND service_provider_id IN
+        (SELECT service_provider_id FROM diyi_rel_bureau_service_provider WHERE rel_bureau_id = #{bureauId})) t2
+    </select>
+
+    <!--相关局查询匹配的服务商基本信息及交易金额-->
+    <select id="transactionByBureauServiceProviderInfo" resultMap="transactionByBureauServiceProviderInfoVO">
+        SELECT t1.id,t1.service_provider_name,t2.total_money,t3.bureau_service_provider_status,t3.create_time
+        FROM diyi_service_provider t1 JOIN (
+        (SELECT (IFNULL(total.all_pay,0) + IFNULL(many.all_pay,0)) as 'total_money',
+        total.service_provider_id FROM
+        (SELECT IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay,
+        service_provider_id
+        FROM diyi_pay_enterprise WHERE is_deleted = 0
+        AND pay_state = 'CONFIRMPAY'
+        GROUP BY service_provider_id) total
+        LEFT JOIN
+        (SELECT IFNULL(SUM(charge_money_num), 0) AS all_pay ,
+        service_provider_id
+        FROM diyi_self_help_invoice_sp
+        WHERE is_deleted = 0
+        AND (apply_state = 'SUBMITTED' OR apply_state = 'INVOICED')
+        GROUP BY service_provider_id) many
+        ON total.service_provider_id = many.service_provider_id)
+        UNION
+        (SELECT (IFNULL(total.all_pay,0) + IFNULL(many.all_pay,0)) as 'total_money',
+        many.service_provider_id FROM
+        (SELECT IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay,
+        service_provider_id
+        FROM diyi_pay_enterprise WHERE is_deleted = 0
+        AND pay_state = 'CONFIRMPAY'
+        GROUP BY service_provider_id) total
+        RIGHT JOIN
+        (SELECT IFNULL(SUM(charge_money_num), 0) AS all_pay ,
+        service_provider_id
+        FROM diyi_self_help_invoice_sp
+        WHERE is_deleted = 0
+        AND (apply_state = 'SUBMITTED' OR apply_state = 'INVOICED')
+        GROUP BY service_provider_id) many
+        ON total.service_provider_id = many.service_provider_id)) t2
+        ON t1.id = t2.service_provider_id
+        JOIN diyi_rel_bureau_service_provider t3
+        ON t3.service_provider_id = t1.id
+        WHERE t3.rel_bureau_id = #{bureauId}
+    </select>
+
+
 </mapper>

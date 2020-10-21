@@ -1,8 +1,11 @@
 package com.lgyun.system.order.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
+import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.MakerInvoiceEntity;
@@ -14,11 +17,12 @@ import com.lgyun.system.order.mapper.PayMakerMapper;
 import com.lgyun.system.order.service.IMakerInvoiceService;
 import com.lgyun.system.order.service.IMakerTaxRecordService;
 import com.lgyun.system.order.service.IPayMakerService;
-import com.lgyun.system.order.vo.PayMakerVO;
+import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
+import com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -43,6 +47,41 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
     private IUserClient iUserClient;
     private IMakerInvoiceService makerInvoiceService;
     private IMakerTaxRecordService makerTaxRecordService;
+
+    @Override
+    public R<MakerEnterpriseNumIncomeVO> getEnterpriseNumIncome(Long makerId) {
+        return R.data(baseMapper.getEnterpriseNumIncome(makerId));
+    }
+
+    @Override
+    public R<AllIncomeYearMonthVO> queryTotalSubNumAndAllIncome(MakerType makerType, Long makerId, Long year, Long month) {
+        return R.data(baseMapper.queryTotalSubNumAndAllIncome(makerType, makerId, year, month));
+    }
+
+    @Override
+    public R<IncomeYearVO> queryEveryYearTotalSubIncome(MakerType makerType, Long makerId) {
+        return R.data(baseMapper.queryEveryYearTotalSubIncome(makerType, makerId));
+    }
+
+    @Override
+    public R<YearTradeVO> queryEveryMonthTotalSubIncome(MakerType makerType, Long makerId, Long year) {
+        return R.data(baseMapper.queryEveryMonthTotalSubIncome(makerType, makerId, year));
+    }
+
+    @Override
+    public R<IPage<AllIncomeYearMonthEnterpriseVO>> queryMakerToEnterpriseTotalSubIncome(MakerType makerType, Long makerId, Long year, Long month, IPage<AllIncomeYearMonthEnterpriseVO> page) {
+        return R.data(page.setRecords(baseMapper.queryMakerToEnterpriseTotalSubIncome(makerType, makerId, year, month, page)));
+    }
+
+    @Override
+    public R<IPage<IncomeDetailYearMonthVO>> queryTotalSubIncomeDetail(MakerType makerType, Long makerId, Long year, Long month, Long enterpriseId, IPage<IncomeDetailYearMonthVO> page) {
+        return R.data(page.setRecords(baseMapper.queryTotalSubIncomeDetail(makerType, makerId, year, month, enterpriseId, page)));
+    }
+
+    @Override
+    public R<BigDecimal> queryTotalSubDetailAllIncome(MakerType makerType, Long makerId, Long year, Long month, Long enterpriseId) {
+        return R.data(baseMapper.queryTotalSubDetailAllIncome(makerType, makerId, year, month, enterpriseId));
+    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -237,10 +276,10 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
     @Override
     public List<PayMakerVO> getPayEnterpriseId(Long payEnterpriseId) {
         QueryWrapper<PayMakerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(PayMakerEntity::getPayEnterpriseId,payEnterpriseId);
+        queryWrapper.lambda().eq(PayMakerEntity::getPayEnterpriseId, payEnterpriseId);
         List<PayMakerEntity> payMakerEntities = baseMapper.selectList(queryWrapper);
         List<PayMakerVO> payMakerVOList = new ArrayList<>();
-        for (PayMakerEntity payMakerEntity: payMakerEntities) {
+        for (PayMakerEntity payMakerEntity : payMakerEntities) {
             payMakerVOList.add(BeanUtil.copy(payMakerEntity, PayMakerVO.class));
         }
         return payMakerVOList;
@@ -249,10 +288,10 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
     @Override
     public List<PayMakerVO> getPayEnterprise(Long payEnterpriseId) {
         QueryWrapper<PayMakerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(PayMakerEntity::getPayEnterpriseId,payEnterpriseId);
+        queryWrapper.lambda().eq(PayMakerEntity::getPayEnterpriseId, payEnterpriseId);
         List<PayMakerEntity> payMakerEntities = baseMapper.selectList(queryWrapper);
         List<PayMakerVO> payMakerVOList = new ArrayList<>();
-        for (PayMakerEntity payMakerEntity: payMakerEntities) {
+        for (PayMakerEntity payMakerEntity : payMakerEntities) {
             PayMakerVO payMakerVO = BeanUtil.copy(payMakerEntity, PayMakerVO.class);
             MakerInvoiceEntity makerInvoiceEntity = makerInvoiceService.getById(payMakerEntity.getMakerId());
             MakerTaxRecordEntity makerTaxRecordEntity = makerTaxRecordService.getById(payMakerEntity.getMakerId());

@@ -3,6 +3,42 @@
 
 <mapper namespace="com.lgyun.system.order.mapper.SelfHelpInvoiceDetailMapper">
 
+    <resultMap type="com.lgyun.system.order.vo.AllIncomeYearMonthVO" id="allIncomeYearMonthVO">
+        <result property="num" column="num"/>
+        <result property="income" column="income"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.IncomeYearVO" id="incomeYearVO">
+        <result property="year" column="year"/>
+        <result property="yearIncome" column="year_income"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.YearTradeVO" id="yearTradeVO">
+        <result property="janIncome" column="jan_income"/>
+        <result property="febIncome" column="feb_income"/>
+        <result property="marIncome" column="mar_income"/>
+        <result property="aprIncome" column="apr_income"/>
+        <result property="mayIncome" column="may_income"/>
+        <result property="junIncome" column="jun_income"/>
+        <result property="julIncome" column="jul_income"/>
+        <result property="augIncome" column="aug_income"/>
+        <result property="sepIncome" column="sep_income"/>
+        <result property="octIncome" column="oct_income"/>
+        <result property="novIncome" column="nov_income"/>
+        <result property="decIncome" column="dec_income"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.AllIncomeYearMonthEnterpriseVO" id="allIncomeYearMonthEnterpriseVO">
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="income" column="income"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.IncomeDetailYearMonthVO" id="incomeDetailYearMonthVO">
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="checkMoney" column="check_money"/>
+        <result property="checkDate" column="check_date"/>
+    </resultMap>
+
     <resultMap id="SelfHelpInvoiceDetailAdminMap" type="com.lgyun.system.order.vo.admin.SelfHelpInvoiceDetailAdminVO">
         <result property="selfHelpInvoiceId" column="self_help_invoice_id"/>
         <result property="selfHelpInvoiceDetailId" column="self_help_invoice_detail_id"/>
@@ -24,7 +60,71 @@
         <result property="invoicePrintState" column="invoice_print_state"/>
     </resultMap>
 
+    <select id="queryCrowdNumAndAllIncome" resultMap="allIncomeYearMonthVO">
+        SELECT COUNT(id) AS num, IFNULL(SUM(charge_money_num), 0) AS income FROM diyi_self_help_invoice_detail WHERE is_deleted = 0
+        AND invoice_print_state = 'INVOICESUCCESS' AND invoice_people_type = #{param1} AND maker_id = #{param2} AND YEAR(create_time) = #{param3}
+        <if test="param4 != null">
+            AND MONTH(create_time) = #{param4}
+        </if>
+    </select>
+
+    <select id="queryEveryYearCrowdIncome" resultMap="incomeYearVO">
+       SELECT YEAR(create_time) AS year, IFNULL(SUM(charge_money_num), 0) AS year_income FROM diyi_self_help_invoice_detail WHERE is_deleted = 0
+       AND invoice_print_state = 'INVOICESUCCESS' AND invoice_people_type = #{param1} AND maker_id = #{param2} GROUP BY YEAR(create_time)
+    </select>
+
+    <select id="queryEveryMonthCrowdIncome" resultMap="yearTradeVO">
+       SELECT IFNULL(SUM(IF(MONTH(create_time) = 1, charge_money_num, 0)), 0) AS jan_income, IFNULL(SUM(IF(MONTH(create_time) = 2, charge_money_num, 0)), 0) AS feb_income,
+        IFNULL(SUM(IF(MONTH(create_time) = 3, charge_money_num, 0)), 0) AS mar_income, IFNULL(SUM(IF(MONTH(create_time) = 4, charge_money_num, 0)), 0) AS apr_income,
+        IFNULL(SUM(IF(MONTH(create_time) = 5, charge_money_num, 0)), 0) AS may_income, IFNULL(SUM(IF(MONTH(create_time) = 6, charge_money_num, 0)), 0) AS jun_income,
+        IFNULL(SUM(IF(MONTH(create_time) = 7, charge_money_num, 0)), 0) AS jul_income, IFNULL(SUM(IF(MONTH(create_time) = 8, charge_money_num, 0)), 0) AS aug_income,
+        IFNULL(SUM(IF(MONTH(create_time) = 9, charge_money_num, 0)), 0) AS sep_income, IFNULL(SUM(IF(MONTH(create_time) = 10, charge_money_num, 0)), 0) AS oct_income,
+        IFNULL(SUM(IF(MONTH(create_time) = 11, charge_money_num, 0)), 0) AS nov_income, IFNULL(SUM(IF(MONTH(create_time) = 12, charge_money_num, 0)), 0) AS dec_income
+        FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND invoice_print_state = 'INVOICESUCCESS' AND invoice_people_type = #{param1} AND maker_id = #{param2}
+        AND YEAR(create_time) = #{param3}
+    </select>
+
+    <select id="queryMakerToEnterpriseCrowdIncome" resultMap="allIncomeYearMonthEnterpriseVO">
+        SELECT t3.enterprise_name, IFNULL(SUM(t1.charge_money_num), 0) AS income FROM diyi_self_help_invoice_detail t1 INNER JOIN diyi_self_help_invoice t2
+        ON t1.self_help_invoice_id = t2.id INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0
+        AND t1.invoice_print_state = 'INVOICESUCCESS' AND invoice_people_type = #{param1} AND maker_id = #{param2} AND YEAR(t1.create_time) = #{param3}
+        <if test="param4 != null">
+            AND MONTH(t1.create_time) = #{param4}
+        </if>
+        GROUP BY t2.enterprise_id ORDER BY income DESC
+    </select>
+
+    <select id="queryCrowdIncomeDetail" resultMap="incomeDetailYearMonthVO">
+        SELECT t3.enterprise_name, t1.charge_money_num AS check_money, t1.create_time AS check_date FROM diyi_self_help_invoice_detail t1 INNER JOIN diyi_self_help_invoice t2
+        ON t1.self_help_invoice_id = t2.id INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0
+        AND t1.invoice_print_state = 'INVOICESUCCESS' AND invoice_people_type = #{param1} AND maker_id = #{param2}
+        AND YEAR(t1.create_time) = #{param3} AND MONTH(t1.create_time) = #{param4}
+        <if test="param5 != null">
+            AND t2.enterprise_id = #{param5}
+        </if>
+        ORDER BY t1.create_time DESC
+    </select>
+
+    <select id="queryCrowdDetailAllIncome" resultType="BigDecimal">
+        SELECT IFNULL(SUM(t1.charge_money_num), 0) AS all_income FROM diyi_self_help_invoice_detail t1 INNER JOIN diyi_self_help_invoice t2
+        ON t1.self_help_invoice_id = t2.id INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0
+        AND t1.invoice_print_state = 'INVOICESUCCESS' AND invoice_people_type = #{param1} AND maker_id = #{param2}
+        AND YEAR(t1.create_time) = #{param3} AND MONTH(t1.create_time) = #{param4}
+        <if test="param5 != null">
+            AND t2.enterprise_id = #{param5}
+        </if>
+    </select>
+
     <select id="getSelfHelpInvoiceIdAll">
-        SELECT z.id AS self_help_invoice_id, a.id AS self_help_invoice_detail_id, b.id AS self_help_invoice_apply_provider_id, c.id AS self_help_invoice_apply_provider_detail_id, d.id AS self_help_invoice_express_id,a.invoice_print_state, a.invoice_people_name, IF ( a.maker_id IS NULL, ( SELECT e.id_card_no FROM diyi_self_help_invoice_person e WHERE e.id = a.none_maker_invoice_person_id ), ( SELECT m.idcard_no FROM diyi_maker AS m WHERE m.id = a.maker_id )) AS id_card_no, IF ( a.maker_id IS NULL, ( SELECT e.phone_number FROM diyi_self_help_invoice_person e WHERE e.id = a.none_maker_invoice_person_id ), ( SELECT m.phone_number FROM diyi_maker AS m WHERE m.id = a.maker_id )) AS phone_number, a.charge_money_num, z.service_rate, a.flow_contract_url, a.business_contract_url, a.deliver_sheet_url, c.invoice_scan_pictures, c.tax_scan_pictures, d.express_company_name, d.express_no FROM diyi_self_help_invoice z INNER JOIN diyi_self_help_invoice_detail a ON z.id = a.self_help_invoice_id LEFT JOIN diyi_self_help_invoice_sp b ON a.self_help_invoice_id = b.self_help_invoice_id LEFT JOIN diyi_self_help_invoice_sp_detail c ON b.id = c.self_help_invoice_apply_provider_id LEFT JOIN diyi_self_help_invoice_express d ON d.self_help_invoice_apply_provider_id = b.id WHERE z.id = #{param1}
+        SELECT z.id AS self_help_invoice_id, a.id AS self_help_invoice_detail_id, b.id AS self_help_invoice_apply_provider_id, c.id
+        AS self_help_invoice_apply_provider_detail_id, d.id AS self_help_invoice_express_id,a.invoice_print_state, a.invoice_people_name,
+        IF ( a.maker_id IS NULL, ( SELECT e.id_card_no FROM diyi_self_help_invoice_person e WHERE e.id = a.none_maker_invoice_person_id ),
+        ( SELECT m.idcard_no FROM diyi_maker AS m WHERE m.id = a.maker_id )) AS id_card_no, IF ( a.maker_id IS NULL, ( SELECT e.phone_number
+        FROM diyi_self_help_invoice_person e WHERE e.id = a.none_maker_invoice_person_id ), ( SELECT m.phone_number FROM diyi_maker AS m WHERE m.id = a.maker_id ))
+        AS phone_number, a.charge_money_num, z.service_rate, a.flow_contract_url, a.business_contract_url, a.deliver_sheet_url,
+        c.invoice_scan_pictures, c.tax_scan_pictures, d.express_company_name, d.express_no FROM diyi_self_help_invoice z INNER JOIN diyi_self_help_invoice_detail a
+        ON z.id = a.self_help_invoice_id LEFT JOIN diyi_self_help_invoice_sp b ON a.self_help_invoice_id = b.self_help_invoice_id
+        LEFT JOIN diyi_self_help_invoice_sp_detail c ON b.id = c.self_help_invoice_apply_provider_id LEFT JOIN diyi_self_help_invoice_express d
+        ON d.self_help_invoice_apply_provider_id = b.id WHERE z.id = #{param1}
     </select>
 </mapper>
