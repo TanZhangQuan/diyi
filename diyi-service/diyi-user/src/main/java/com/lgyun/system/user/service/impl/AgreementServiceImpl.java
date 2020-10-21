@@ -41,7 +41,6 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     private final IOnlineAgreementTemplateService iOnlineAgreementTemplateService;
     private final IServiceProviderService serviceProviderService;
     private final IOnlineAgreementNeedSignService onlineAgreementNeedSignService;
-    private final IAgentMainService agentMainService;
     private final IPartnerService partnerService;
 
     @Autowired
@@ -63,6 +62,10 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     @Autowired
     @Lazy
     private IEnterpriseService enterpriseService;
+
+    @Autowired
+    @Lazy
+    private IAgentMainService agentMainService;
 
     @Override
     public AgreementEntity findSuccessAgreement(Long enterpriseId, Long serviceProviderId, AgreementType agreementType, AuditState auditState, SignState signState) {

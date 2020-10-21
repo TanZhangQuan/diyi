@@ -7,17 +7,18 @@ import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.admin.AddAdminAgentMainDTO;
+import com.lgyun.system.user.dto.admin.AddOrUpdateAgentMainContactDTO;
 import com.lgyun.system.user.dto.admin.QueryAgentMainDTO;
 import com.lgyun.system.user.dto.admin.UpdateAgentMainDTO;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.AgentMainMapper;
-import com.lgyun.system.user.service.IAgentMainService;
-import com.lgyun.system.user.service.IAgentPersonService;
-import com.lgyun.system.user.service.IAgreementService;
-import com.lgyun.system.user.service.IUserService;
+import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
+import com.lgyun.system.user.vo.admin.AdminAgentMainServiceProviderListVO;
 import com.lgyun.system.user.vo.admin.AdminAgentMainVO;
+import com.lgyun.system.user.vo.admin.AgentMainTransactionVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,8 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
     private IAgentPersonService agentPersonService;
     private IUserService userService;
     private IAgreementService agreementService;
+    private IAgentProviderService agentProviderService;
+    private IServiceProviderMakerService serviceProviderMakerService;
 
     @Override
     public Integer findCountByEnterpriseName(String enterpriseName, Long enterpriseId) {
@@ -78,17 +81,17 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
 
     @Override
     public R updateIllegal(Long agentMainId, AdminEntity adminEntity) {
-        return R.status(updateAgentState(agentMainId,AccountState.ILLEGAL,adminEntity.getUserId()));
+        return R.status(updateAgentState(agentMainId, AccountState.ILLEGAL, adminEntity.getUserId()));
     }
 
     @Override
     public R updateFreeze(Long agentMainId, AdminEntity adminEntity) {
-        return R.status(updateAgentState(agentMainId,AccountState.FREEZE,adminEntity.getUserId()));
+        return R.status(updateAgentState(agentMainId, AccountState.FREEZE, adminEntity.getUserId()));
     }
 
     @Override
     public R updateNormal(Long agentMainId, AdminEntity adminEntity) {
-        return R.status(updateAgentState(agentMainId,AccountState.NORMAL,adminEntity.getUserId()));
+        return R.status(updateAgentState(agentMainId, AccountState.NORMAL, adminEntity.getUserId()));
     }
 
     @Override
@@ -121,7 +124,7 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
         if (countByPhoneNumber2 > 0) {
             return R.fail("联系人2电话/手机：" + addAdminAgentMainDTO.getContact2Phone() + "已存在");
         }
-        AgentMainEntity agentMainEntity=new AgentMainEntity();
+        AgentMainEntity agentMainEntity = new AgentMainEntity();
         BeanUtil.copy(addAdminAgentMainDTO, agentMainEntity);
         agentMainEntity.setCreateType(CreateType.PLATFORMCREATE);
         save(agentMainEntity);
@@ -205,14 +208,97 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
         if (countBySocialCreditNo > 0) {
             return R.fail("统一社会信用代码已存在");
         }
+        //根据联系人生成商户员工
+        AddOrUpdateAgentMainContactDTO addOrUpdateAgentMainContactDto = new AddOrUpdateAgentMainContactDTO();
+        addOrUpdateAgentMainContactDto.setEnterpriseId(agentMainEntity.getId());
+        addOrUpdateAgentMainContactDto.setContact1Name(updateAgentMainDTO.getContact1Name());
+        addOrUpdateAgentMainContactDto.setContact1Position(updateAgentMainDTO.getContact1Position());
+        addOrUpdateAgentMainContactDto.setContact1Phone(updateAgentMainDTO.getContact1Phone());
+        addOrUpdateAgentMainContactDto.setContact1Mail(updateAgentMainDTO.getContact1Mail());
+        addOrUpdateAgentMainContactDto.setContact2Name(updateAgentMainDTO.getContact2Name());
+        addOrUpdateAgentMainContactDto.setContact2Position(updateAgentMainDTO.getContact2Position());
+        addOrUpdateAgentMainContactDto.setContact2Phone(updateAgentMainDTO.getContact2Phone());
+        addOrUpdateAgentMainContactDto.setContact2Mail(updateAgentMainDTO.getContact2Mail());
+        R<String> result = agentPersonService.addOrUpdateEnterpriseContact(addOrUpdateAgentMainContactDto, null);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        //上传或修改加盟合同
+        AgreementEntity agreementEntity = agreementService.findSuccessAgreement(agentMainEntity.getId(), null, AgreementType.AGENTJOINAGREEMENT, null, SignState.SIGNED);
+        if (agreementEntity != null) {
+            agreementEntity.setPaperAgreementUrl(updateAgentMainDTO.getJoinContract());
+            agreementService.updateById(agreementEntity);
+        } else {
+            agreementEntity = new AgreementEntity();
+            agreementEntity.setAgreementType(AgreementType.AGENTJOINAGREEMENT);
+            agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+            agreementEntity.setSignState(SignState.SIGNED);
+            agreementEntity.setPaperAgreementUrl(updateAgentMainDTO.getJoinContract());
+            agreementEntity.setFirstSideSignPerson(adminEntity.getName());
+            agreementEntity.setEnterpriseId(agentMainEntity.getId());
+            agreementEntity.setSecondSideSignPerson(agentMainEntity.getContact1Name());
+            agreementService.save(agreementEntity);
+        }
+
+        //上传或修改商户承诺函
+        agreementEntity = agreementService.findSuccessAgreement(agentMainEntity.getId(), null, AgreementType.OTHERAGREEMENT, AuditState.APPROVED, null);
+        if (agreementEntity != null) {
+            agreementEntity.setPaperAgreementUrl(updateAgentMainDTO.getCommitmentLetter());
+            agreementService.updateById(agreementEntity);
+        } else {
+            agreementEntity = new AgreementEntity();
+            agreementEntity.setAgreementType(AgreementType.OTHERAGREEMENT);
+            agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+            agreementEntity.setAuditState(AuditState.APPROVED);
+            agreementEntity.setPaperAgreementUrl(updateAgentMainDTO.getCommitmentLetter());
+            agreementEntity.setFirstSideSignPerson(adminEntity.getName());
+            agreementEntity.setEnterpriseId(agentMainEntity.getId());
+            agreementEntity.setSecondSideSignPerson(agentMainEntity.getContact1Name());
+            agreementService.save(agreementEntity);
+        }
+        BeanUtil.copy(updateAgentMainDTO, agentMainEntity);
+        updateById(agentMainEntity);
+        return R.success("编辑商户成功");
+    }
+
+    @Override
+    public R<AgentMainTransactionVO> transactionByAgentMainId(Long agentMainId) {
+        AgentMainEntity agentMainEntity = getById(agentMainId);
+
+        if (agentMainEntity == null) {
+            return R.fail("商户不存在");
+        }
+        AgentMainTransactionVO agentMainTransactionVO = baseMapper.getTransactionByAgentMainId(agentMainId);
+        return R.data(agentMainTransactionVO);
+    }
+
+    @Override
+    public R<IPage<AdminAgentMainServiceProviderListVO>> getCooperativeServiceProvider(Long agentMainId, Query query) {
+
 
 
 
         return null;
     }
 
+    @Override
+    public R updateOpenAgentProvider(Long agentProviderId, AdminEntity adminEntity) {
 
-    public Boolean updateAgentState(Long agentMainId, AccountState accountState,Long updateUser) {
+        return null;
+    }
+
+    @Override
+    public R updateCloseAgentProvider(Long agentProviderId, AdminEntity adminEntity) {
+        return null;
+    }
+
+    @Override
+    public R updateRevokeAgentProvider(Long agentProviderId, AdminEntity adminEntity) {
+        return null;
+    }
+
+
+    public Boolean updateAgentState(Long agentMainId, AccountState accountState, Long updateUser) {
         AgentMainEntity agentMainEntity = baseMapper.selectById(agentMainId);
         agentMainEntity.setUpdateUser(updateUser);
         agentMainEntity.setUpdateTime(new Date());
@@ -220,9 +306,10 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
             agentMainEntity.setAgentState(AccountState.NORMAL);
         } else if (AccountState.FREEZE.equals(accountState)) {
             agentMainEntity.setAgentState(AccountState.FREEZE);
-        }else {
+        } else {
             agentMainEntity.setAgentState(AccountState.ILLEGAL);
         }
         return this.updateById(agentMainEntity);
     }
+
 }

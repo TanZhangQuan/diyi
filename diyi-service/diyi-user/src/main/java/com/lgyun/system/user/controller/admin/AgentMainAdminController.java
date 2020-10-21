@@ -7,18 +7,17 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.admin.AddAdminAgentMainDTO;
 import com.lgyun.system.user.dto.admin.QueryAgentMainDTO;
+import com.lgyun.system.user.dto.admin.UpdateAgentMainDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.service.IAdminService;
 import com.lgyun.system.user.service.IAgentMainService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  * 平台端---合同管理模块相关接口
@@ -31,7 +30,7 @@ import javax.validation.Valid;
 @RequestMapping("/admin/agentmain")
 @Validated
 @AllArgsConstructor
-@Api(value = "平台端---合同管理模块相关接口", tags = "平台端---合同管理模块相关接口")
+@Api(value = "平台端---渠道管理模块相关接口", tags = "平台端---渠道管理模块相关接口")
 public class AgentMainAdminController {
     private IAdminService adminService;
     private IAgentMainService agentMainService;
@@ -50,7 +49,7 @@ public class AgentMainAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        return agentMainService.getAgentMainList(Condition.getPage(query.setDescs("create_time")),  queryAgentMainDTO);
+        return agentMainService.getAgentMainList(Condition.getPage(query.setDescs("create_time")), queryAgentMainDTO);
     }
 
     @PostMapping("/modify-illegal")
@@ -65,7 +64,7 @@ public class AgentMainAdminController {
             return result;
         }
         AdminEntity adminEntity = result.getData();
-        return agentMainService.updateIllegal(agentMainId,adminEntity);
+        return agentMainService.updateIllegal(agentMainId, adminEntity);
     }
 
     @PostMapping("/modify-freeze")
@@ -80,7 +79,7 @@ public class AgentMainAdminController {
             return result;
         }
         AdminEntity adminEntity = result.getData();
-        return agentMainService.updateFreeze(agentMainId,adminEntity);
+        return agentMainService.updateFreeze(agentMainId, adminEntity);
     }
 
     @PostMapping("/modify-normal")
@@ -95,7 +94,7 @@ public class AgentMainAdminController {
             return result;
         }
         AdminEntity adminEntity = result.getData();
-        return agentMainService.updateNormal(agentMainId,adminEntity);
+        return agentMainService.updateNormal(agentMainId, adminEntity);
     }
 
     @PostMapping("/create-agent-main")
@@ -107,7 +106,31 @@ public class AgentMainAdminController {
             return result;
         }
         AdminEntity adminEntity = result.getData();
-        return agentMainService.createAgentMain(addAdminAgentMainDTO,adminEntity);
+        return agentMainService.createAgentMain(addAdminAgentMainDTO, adminEntity);
+    }
+
+    @PostMapping("/modify-agent-main")
+    @ApiOperation(value = "添加渠道商信息", notes = "添加渠道商信息")
+    public R modifyAgentMain(@Valid @RequestBody UpdateAgentMainDTO updateAgentMainDTO, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        AdminEntity adminEntity = result.getData();
+        return agentMainService.updateAgentMain(updateAgentMainDTO, adminEntity);
+    }
+
+
+    @GetMapping("/agent-main-transaction")
+    @ApiOperation(value = "查询渠道商交易数据", notes = "查询渠道商交易数据")
+    public R transactionByEnterprise(@ApiParam(value = "渠道商ID", required = true) @NotNull(message = "请输入渠道商编号") @RequestParam(required = false) Long agentMainId, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        return agentMainService.transactionByAgentMainId(agentMainId);
     }
 
 
