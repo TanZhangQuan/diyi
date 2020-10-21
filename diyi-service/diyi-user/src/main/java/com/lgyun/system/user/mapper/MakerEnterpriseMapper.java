@@ -11,6 +11,7 @@ import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.MakerEnterpriseWebVO;
 import com.lgyun.system.user.vo.RelMakerListVO;
+import com.lgyun.system.user.vo.maker.MakerEnterpriseDetailYearMonthVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -91,5 +92,15 @@ public interface MakerEnterpriseMapper extends BaseMapper<MakerEnterpriseEntity>
      * @return
      */
     List<SelfHelpInvoiceDetailProviderVO> getSelfHelpInvoiceDetails(Long selfHelpvoiceId, IPage<SelfHelpInvoiceDetailProviderVO> page);
+
+    /**
+     *查询关联商户和创客的明细总包
+     */
+    List<MakerEnterpriseDetailYearMonthVO> getMakerDetailed(Long makerId,Long enterpriseId,IPage<MakerEnterpriseDetailYearMonthVO> page);
+
+    /**
+     *查询关联商户和创客的明细众包
+     */
+    List<MakerEnterpriseDetailYearMonthVO> getMakerCrowdDetailed(Long makerId, Long enterpriseId,IPage<MakerEnterpriseDetailYearMonthVO> page);
 }
 

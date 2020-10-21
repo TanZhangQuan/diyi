@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @time 10:17.
  */
 @RestController
-//@RequestMapping("/admin/home-page")
+@RequestMapping("/admin/home-page")
 @Validated
 @AllArgsConstructor
 @Api(value = "平台端---首页管理模块相关接口", tags = "平台端---首页管理模块相关接口")
@@ -27,9 +28,9 @@ public class HomePageAdminController {
 
     private IAdminService adminService;
 
-    @GetMapping("/admin/current-detail")
+    @GetMapping("/query-current-admin-detail")
     @ApiOperation(value = "查询当前管理员详情", notes = "查询当前管理员详情")
-    public R currentDetail(BladeUser bladeUser) {
+    public R queryCurrentAdminDetail(BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

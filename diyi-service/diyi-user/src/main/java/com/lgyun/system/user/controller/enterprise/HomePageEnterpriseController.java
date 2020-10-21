@@ -34,9 +34,9 @@ public class HomePageEnterpriseController {
     private IEnterpriseWorkerService enterpriseWorkerService;
     private IEnterpriseServiceProviderService enterpriseServiceProviderService;
 
-    @GetMapping("/current-detail")
+    @GetMapping("/query-current-enterprise-detail")
     @ApiOperation(value = "查询当前商户员工详情", notes = "查询当前商户员工详情")
-    public R currentDetail(BladeUser bladeUser) {
+    public R queryCurrentEnterpriseDetail(BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -47,12 +47,12 @@ public class HomePageEnterpriseController {
         return enterpriseWorkerService.queryEnterpriseWorkerDetail(enterpriseWorkerEntity.getId());
     }
 
-    @GetMapping("/get_service_provider_by_enterprise_id")
+    @GetMapping("/query-service-provider-list")
     @ApiOperation(value = "查询当前商户关联服务商", notes = "查询当前商户关联服务商")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "serviceProviderName", value = "工单编号", paramType = "query", dataType = "string")
+            @ApiImplicitParam(name = "serviceProviderName", value = "服务商名称", paramType = "query", dataType = "string")
     })
-    public R getServiceProviderByEnterpriseId(String serviceProviderName, Query query, BladeUser bladeUser) {
+    public R queryServiceProviderList(String serviceProviderName, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
