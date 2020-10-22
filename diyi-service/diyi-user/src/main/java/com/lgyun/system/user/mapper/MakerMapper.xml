@@ -22,17 +22,17 @@
         <result property="nationality" column="nationality"/>
         <result property="levelofedu" column="levelofedu"/>
         <result property="emailAddress" column="email_address"/>
-        <result property="idCardNo" column="id_card_no"/>
+        <result property="idcardNo" column="idcard_no"/>
         <result property="dueDate" column="due_date"/>
         <result property="phoneNumber" column="phone_number"/>
         <result property="phoneNumber2" column="phone_number2"/>
         <result property="bankCardNo" column="bank_card_no"/>
         <result property="bankName" column="bank_name"/>
         <result property="subBankName" column="sub_bank_name"/>
-        <result property="idCardPic" column="id_card_pic"/>
-        <result property="idCardPicBack" column="idcard_pic_back"/>
+        <result property="idcardPic" column="idcard_pic"/>
+        <result property="idcardPicBack" column="idcard_pic_back"/>
         <result property="selfPic" column="self_pic"/>
-        <result property="idCardCopy" column="idcard_copy"/>
+        <result property="idcardCopy" column="idcard_copy"/>
         <result property="idcardHand" column="idcard_hand"/>
         <result property="idcardBackHand" column="idcard_back_hand"/>
         <result property="picVerify" column="pic_verify"/>

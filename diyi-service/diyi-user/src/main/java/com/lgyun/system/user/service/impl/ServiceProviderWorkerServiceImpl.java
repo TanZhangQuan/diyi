@@ -226,7 +226,7 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
                 return R.fail("该手机号已经注册过");
             }
 
-            UserInfo userInfo = userService.userInfoFindByPhoneAndUserType(request.getPhoneNumber(), UserType.SERVICEPROVIDER);
+            UserInfo userInfo = userService.queryUserInfoByPhone(request.getPhoneNumber(), UserType.SERVICEPROVIDER);
             if (userInfo != null) {
                 return R.fail("该手机号已经注册过");
             }

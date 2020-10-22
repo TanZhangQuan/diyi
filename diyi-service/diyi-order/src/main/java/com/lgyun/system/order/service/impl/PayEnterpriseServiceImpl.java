@@ -86,7 +86,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     public R<String> upload(PayEnterpriseUploadDTO payEnterpriseUploadDto, Long enterpriseId) throws Exception {
 
         //判断服务商和商户是否关联
-        EnterpriseServiceProviderEntity enterpriseServiceProviderEntity = userClient.findByEnterpriseIdServiceProviderId(enterpriseId, payEnterpriseUploadDto.getServiceProviderId());
+        EnterpriseServiceProviderEntity enterpriseServiceProviderEntity = userClient.queryEnterpriseToServiceProvider(enterpriseId, payEnterpriseUploadDto.getServiceProviderId());
         if (enterpriseServiceProviderEntity == null) {
             return R.fail("服务商和商户未关联");
         }
@@ -578,7 +578,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             if(null == byId){
                 return R.fail("创客支付明细不存在");
             }
-            String voicePerson = userClient.makerFindById(byId.getMakerId()).getName();
+            String voicePerson = userClient.queryMakerById(byId.getMakerId()).getName();
             BigDecimal makerNeIncome = byId.getMakerNeIncome();
             BigDecimal salesAmount = makerNeIncome.divide(new BigDecimal("1").add(new BigDecimal("0.03")),2);
             MakerInvoiceEntity makerInvoiceEntity = new MakerInvoiceEntity(byId.getId(),voiceTypeNo,voiceSerialNo,new Date(),voiceCategory,byId.getMakerNeIncome(),salesAmount,new BigDecimal(taxAmount),voicePerson,helpMakeOrganationName,helpMakeOrganationName,helpMakeCompany,helpMakeTaxNo,makerVoiceUrl,new Date());

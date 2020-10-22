@@ -75,7 +75,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
-    public R<IPage<EnterprisesIdNameListVO>> findEnterpriseIdNameByMakerId(IPage<EnterprisesIdNameListVO> page, Long makerId) {
+    public R<IPage<EnterprisesIdNameListVO>> findEnterpriseIdNameByMakerId(Long makerId, IPage<EnterprisesIdNameListVO> page) {
         return R.data(page.setRecords(baseMapper.findEnterpriseIdNameByMakerId(makerId, page)));
     }
 

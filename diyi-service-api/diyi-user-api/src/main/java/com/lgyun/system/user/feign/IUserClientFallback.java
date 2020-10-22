@@ -1,12 +1,10 @@
 package com.lgyun.system.user.feign;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.entity.*;
-import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,52 +19,72 @@ import java.util.List;
 public class IUserClientFallback implements IUserClient {
 
     @Override
-    public UserInfo userInfoFindByUserIdAndUserType(Long userId, UserType userType) {
+    public UserInfo queryUserInfoByUserId(Long userId, UserType userType) {
         return null;
     }
 
     @Override
-    public UserInfo userInfoFindByPhoneAndUserType(String phone, UserType userType) {
+    public UserInfo queryUserInfoByPhone(String phone, UserType userType) {
         return null;
     }
 
     @Override
-    public UserInfo userInfoByAccountAndUserType(String account, UserType userType) {
+    public UserInfo queryUserInfoByAccount(String account, UserType userType) {
         return null;
     }
 
     @Override
-    public MakerEntity makerFindById(Long makerId) {
+    public R<AdminEntity> currentAdmin(BladeUser bladeUser) {
+        return R.fail("网络繁忙，请稍后尝试");
+    }
+
+    @Override
+    public R<MakerEntity> currentMaker(BladeUser bladeUser) {
+        return R.fail("网络繁忙，请稍后尝试");
+    }
+
+    @Override
+    public R<EnterpriseWorkerEntity> currentEnterpriseWorker(BladeUser bladeUser) {
+        return R.fail("网络繁忙，请稍后尝试");
+    }
+
+    @Override
+    public R<ServiceProviderWorkerEntity> currentServiceProviderWorker(BladeUser bladeUser) {
+        return R.fail("网络繁忙，请稍后尝试");
+    }
+
+    @Override
+    public MakerEntity queryMakerById(Long makerId) {
         return null;
     }
 
     @Override
-    public MakerEntity makerFindByIdcardNo(String idcardNo) {
+    public MakerEntity queryMakerByIdcardNo(String idcardNo) {
         return null;
     }
 
     @Override
-    public MakerEntity makerFindByPhoneNumber(String phoneNumber) {
+    public MakerEntity queryMakerByPhoneNumber(String phoneNumber) {
         return null;
     }
 
     @Override
-    public Integer adminCountFindByPhoneNumber(String phoneNumber) {
+    public Integer queryAdminCountByPhoneNumber(String phoneNumber) {
         return null;
     }
 
     @Override
-    public Integer makerCountFindByPhoneNumber(String phoneNumber) {
+    public Integer queryMakerCountByPhoneNumber(String phoneNumber) {
         return null;
     }
 
     @Override
-    public Integer enterpriseWorkerCountFindByPhoneNumber(String phoneNumber) {
+    public Integer queryEnterpriseWorkerCountByPhoneNumber(String phoneNumber) {
         return null;
     }
 
     @Override
-    public Integer serviceProviderWorkerCountFindByPhoneNumber(String phoneNumber) {
+    public Integer queryServiceProviderWorkerCountByPhoneNumber(String phoneNumber) {
         return null;
     }
 
@@ -91,92 +109,62 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public List<IndividualEnterpriseEntity> individualEnterpriseFindByMakerId(Long makerId) {
+    public IndividualEnterpriseEntity queryIndividualEnterpriseById(Long individualEnterpriseId) {
         return null;
     }
 
     @Override
-    public List<IndividualBusinessEntity> individualBusinessByMakerId(Long makerId) {
+    public IndividualBusinessEntity queryIndividualBusinessById(Long individualBusinessId) {
         return null;
     }
 
     @Override
-    public R<IPage<EnterprisesIdNameListVO>> findEnterpriseByMakerId(Integer current, Integer size, Long makerId) {
-        return R.fail("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public IndividualEnterpriseEntity individualEnterpriseFindById(Long individualEnterpriseId) {
+    public EnterpriseEntity queryEnterpriseById(Long enterpriseId) {
         return null;
     }
 
     @Override
-    public IndividualBusinessEntity individualBusinessById(Long individualBusinessId) {
+    public EnterpriseServiceProviderEntity queryEnterpriseToServiceProvider(Long enterpriseId, Long serviceProviderId) {
         return null;
     }
 
     @Override
-    public EnterpriseEntity getEnterpriseById(Long enterpriseId) {
+    public List<IndividualEnterpriseEntity> queryIndividualEnterpriseFindByMakerId(Long makerId) {
         return null;
     }
 
     @Override
-    public R getMakerName(Integer current, Integer size, String makerName) {
-        return R.fail("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public R<AdminEntity> currentAdmin(BladeUser bladeUser) {
-        return R.fail("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public R<MakerEntity> currentMaker(BladeUser bladeUser) {
-        return R.fail("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public R<EnterpriseWorkerEntity> currentEnterpriseWorker(BladeUser bladeUser) {
-        return R.fail("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public R<ServiceProviderWorkerEntity> currentServiceProviderWorker(BladeUser bladeUser) {
-        return R.fail("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public EnterpriseServiceProviderEntity findByEnterpriseIdServiceProviderId(Long enterpriseId, Long serviceProviderId) {
+    public List<IndividualBusinessEntity> queryIndividualBusinessByMakerId(Long makerId) {
         return null;
     }
 
     @Override
-    public IndividualBusinessEntity findByMakerIdAndIbtaxNoBusiness(Long makerId, String ibtaxNo) {
+    public IndividualBusinessEntity queryIndividualBusinessByMakerIdAndIbtaxNo(Long makerId, String ibtaxNo) {
         return null;
     }
 
     @Override
-    public IndividualEnterpriseEntity findByMakerIdAndIbtaxNoEnterprise(Long makerId, String ibtaxNo) {
+    public IndividualEnterpriseEntity queryIndividualEnterpriseByMakerIdAndIbtaxNo(Long makerId, String ibtaxNo) {
         return null;
     }
 
     @Override
-    public IndividualBusinessEntity findByIbtaxNoBusiness(String ibtaxNo) {
+    public IndividualBusinessEntity queryIndividualBusinessByIbtaxNo(String ibtaxNo) {
         return null;
     }
 
     @Override
-    public IndividualEnterpriseEntity findByIbtaxNoEnterprise(String ibtaxNo) {
+    public IndividualEnterpriseEntity queryIndividualEnterpriseByIbtaxNo(String ibtaxNo) {
         return null;
     }
 
     @Override
-    public MakerEntity makerAdd(String name, String idcardNo, String phoneNumber,Long enterpriseId) {
+    public MakerEntity createMaker(String name, String idcardNo, String phoneNumber, Long enterpriseId) {
         return null;
     }
 
     @Override
-    public void makerEnterpriseAdd(Long enterpriseId, Long makerId) {
+    public void createMakerToEnterpriseRelevance(Long enterpriseId, Long makerId) {
 
     }
 

@@ -66,7 +66,7 @@ public class AuthServiceImpl implements IAuthService {
                 return res;
             }
 
-            UserInfo userInfo = userClient.userInfoFindByPhoneAndUserType(purePhoneNumber, wechatLoginDto.getUserType());
+            UserInfo userInfo = userClient.queryUserInfoByPhone(purePhoneNumber, wechatLoginDto.getUserType());
             if (userInfo == null) {
                 return R.fail("登录失败");
             }
@@ -95,25 +95,25 @@ public class AuthServiceImpl implements IAuthService {
             switch (userType) {
 
                 case ADMIN:
-                    if (userClient.adminCountFindByPhoneNumber(mobile) <= 0) {
+                    if (userClient.queryAdminCountByPhoneNumber(mobile) <= 0) {
                         return R.fail("手机号未注册");
                     }
                     break;
 
                 case MAKER:
-                    if (userClient.makerCountFindByPhoneNumber(mobile) <= 0) {
+                    if (userClient.queryMakerCountByPhoneNumber(mobile) <= 0) {
                         return R.fail("手机号未注册");
                     }
                     break;
 
                 case ENTERPRISE:
-                    if (userClient.enterpriseWorkerCountFindByPhoneNumber(mobile) <= 0) {
+                    if (userClient.queryEnterpriseWorkerCountByPhoneNumber(mobile) <= 0) {
                         return R.fail("手机号未注册");
                     }
                     break;
 
                 case SERVICEPROVIDER:
-                    if (userClient.serviceProviderWorkerCountFindByPhoneNumber(mobile) <= 0) {
+                    if (userClient.queryServiceProviderWorkerCountByPhoneNumber(mobile) <= 0) {
                         return R.fail("手机号未注册");
                     }
                     break;
@@ -127,25 +127,25 @@ public class AuthServiceImpl implements IAuthService {
             switch (userType) {
 
                 case ADMIN:
-                    if (userClient.adminCountFindByPhoneNumber(mobile) > 0) {
+                    if (userClient.queryAdminCountByPhoneNumber(mobile) > 0) {
                         return R.fail("手机号已注册");
                     }
                     break;
 
                 case MAKER:
-                    if (userClient.makerCountFindByPhoneNumber(mobile) > 0) {
+                    if (userClient.queryMakerCountByPhoneNumber(mobile) > 0) {
                         return R.fail("手机号已注册");
                     }
                     break;
 
                 case ENTERPRISE:
-                    if (userClient.enterpriseWorkerCountFindByPhoneNumber(mobile) > 0) {
+                    if (userClient.queryEnterpriseWorkerCountByPhoneNumber(mobile) > 0) {
                         return R.fail("手机号已注册");
                     }
                     break;
 
                 case SERVICEPROVIDER:
-                    if (userClient.serviceProviderWorkerCountFindByPhoneNumber(mobile) > 0) {
+                    if (userClient.queryServiceProviderWorkerCountByPhoneNumber(mobile) > 0) {
                         return R.fail("手机号已注册");
                     }
                     break;
@@ -228,7 +228,7 @@ public class AuthServiceImpl implements IAuthService {
                 return R.fail("用户类型有误");
         }
 
-        UserInfo userInfo = userClient.userInfoFindByPhoneAndUserType(mobile, userType);
+        UserInfo userInfo = userClient.queryUserInfoByPhone(mobile, userType);
         if (userInfo == null) {
             return R.fail("手机号未注册");
         }
@@ -320,7 +320,7 @@ public class AuthServiceImpl implements IAuthService {
                 return R.fail("用户类型有误");
         }
 
-        UserInfo userInfo = userClient.userInfoByAccountAndUserType(account, userType);
+        UserInfo userInfo = userClient.queryUserInfoByAccount(account, userType);
         if (userInfo == null) {
             return R.fail("用户不存在");
         }
@@ -338,7 +338,7 @@ public class AuthServiceImpl implements IAuthService {
             Claims claims = SecureUtil.parseJWT(refreshToken);
             String tokenType = Func.toStr(Objects.requireNonNull(claims).get(TokenConstant.TOKEN_TYPE));
             if (tokenType.equals(TokenConstant.REFRESH_TOKEN)) {
-                userInfo = userClient.userInfoFindByUserIdAndUserType(Func.toLong(claims.get(TokenConstant.USER_ID)), userType);
+                userInfo = userClient.queryUserInfoByUserId(Func.toLong(claims.get(TokenConstant.USER_ID)), userType);
             }
         }
 

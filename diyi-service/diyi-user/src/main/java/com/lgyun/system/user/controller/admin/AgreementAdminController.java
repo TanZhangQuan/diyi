@@ -44,7 +44,7 @@ public class AgreementAdminController {
             return result;
         }
 
-        return makerService.getMakerName(query.getCurrent(), query.getSize(), makerName);
+        return makerService.getMakerName(query, makerName);
     }
 
     @GetMapping("/query-admin-maker-id-agreement")

@@ -16,7 +16,6 @@ import com.lgyun.system.order.excel.InvoiceListExcel;
 import com.lgyun.system.order.excel.InvoiceListListener;
 import com.lgyun.system.order.service.*;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
-import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
@@ -340,20 +339,7 @@ public class SelfHelpInvoiceEnterpriseController {
             return result;
         }
 
-        return R.data(RealnameVerifyUtil.idCardOCR(infoImg));
-    }
-
-    @GetMapping("/find_enterprise_by_maker_id")
-    @ApiOperation(value = "根据创客ID查询商户", notes = "根据创客ID查询商户")
-    public R findEnterpriseByMakerId(Query query, BladeUser bladeUser) {
-        //查询当前创客
-        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        MakerEntity makerEntity = result.getData();
-
-        return iUserClient.findEnterpriseByMakerId(query.getCurrent(), query.getSize(), makerEntity.getId());
+        return R.data(RealnameVerifyUtil.idcardOCR(infoImg));
     }
 
     @PostMapping("/audit1")

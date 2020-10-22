@@ -24,22 +24,22 @@ public class SelfHelpInvoicePersonEntity extends BaseEntity {
     /**
      * 身份证号码
      */
-    private String idCardNo;
+    private String idcardNo;
 
     /**
      * 身份证姓名
      */
-    private String idCardName;
+    private String idcardName;
 
     /**
      * 身份证正面图
      */
-    private String idCardPic;
+    private String idcardPic;
 
     /**
      * 身份证反面图
      */
-    private String idCardPicBack;
+    private String idcardPicBack;
 
     /**
      * 手机号码

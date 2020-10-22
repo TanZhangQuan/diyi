@@ -111,12 +111,12 @@ public class MakerDetailVO implements Serializable {
     /**
      * 身份证正面图
      */
-    private String idCardPic;
+    private String idcardPic;
 
     /**
      * 身份证反面图
      */
-    private String idCardPicBack;
+    private String idcardPicBack;
 
     /**
      * 正面自拍照
@@ -126,7 +126,7 @@ public class MakerDetailVO implements Serializable {
     /**
      * 身份证复印件图
      */
-    private String idCardCopy;
+    private String idcardCopy;
 
     /**
      * 手持证件正面照

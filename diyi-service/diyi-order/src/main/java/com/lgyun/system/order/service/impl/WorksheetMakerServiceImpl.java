@@ -76,7 +76,7 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
         if(!(WorksheetMakerState.VERIFIED.equals(worksheetMakerEntity.getWorksheetMakerState()) || WorksheetMakerState.VALIDATION.equals(worksheetMakerEntity.getWorksheetMakerState()))){
             return R.fail("状态不对");
         }
-        EnterpriseEntity byId = iUserClient.getEnterpriseById(enterpriseId);
+        EnterpriseEntity byId = iUserClient.queryEnterpriseById(enterpriseId);
         if(WorksheetMakerState.VALIDATION.equals(worksheetMakerEntity.getWorksheetMakerState())){
             worksheetMakerEntity.setCheckDate(new Date());
             worksheetMakerEntity.setCheckMoney(checkMoney);

@@ -96,7 +96,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             for (int i = 0; i < split.length; i++) {
                 WorksheetMakerEntity worksheetMakerEntity = new WorksheetMakerEntity();
                 worksheetMakerEntity.setMakerId(Long.parseLong(split[i]));
-                MakerEntity makerEntity = iUserClient.makerFindById(Long.parseLong(split[i]));
+                MakerEntity makerEntity = iUserClient.queryMakerById(Long.parseLong(split[i]));
                 worksheetMakerEntity.setMakerName(makerEntity.getName());
                 worksheetMakerEntity.setWorksheetId(worksheetEntity.getId());
                 worksheetMakerEntity.setGetType(GetType.GETDISPATCH);
@@ -122,7 +122,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         if (null == worksheetEntity) {
             return R.fail("没有此工单");
         }
-        MakerEntity makerEntity = iUserClient.makerFindById(makerId);
+        MakerEntity makerEntity = iUserClient.queryMakerById(makerId);
         if (null == worksheetEntity) {
             return R.fail("没有此创客");
         }
@@ -324,11 +324,11 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             }
             return R.fail("工单已抢完");
         }
-        List<IndividualBusinessEntity> individualBusinessEntities = iUserClient.individualBusinessByMakerId(makerEntity.getId());
+        List<IndividualBusinessEntity> individualBusinessEntities = iUserClient.queryIndividualBusinessByMakerId(makerEntity.getId());
         if ((null == individualBusinessEntities || individualBusinessEntities.size() <= 0) && worksheetEntity.getMakerType().equals(MakerType.INDIVIDUALBUSINESS)) {
             return R.fail("创客身份不符-个体");
         }
-        List<IndividualEnterpriseEntity> individualEnterpriseEntities = iUserClient.individualEnterpriseFindByMakerId(makerEntity.getId());
+        List<IndividualEnterpriseEntity> individualEnterpriseEntities = iUserClient.queryIndividualEnterpriseFindByMakerId(makerEntity.getId());
         if ((null == individualEnterpriseEntities || individualEnterpriseEntities.size() <= 0) && worksheetEntity.getMakerType().equals(MakerType.INDIVIDUALENTERPRISE)) {
             return R.fail("创客身份不符-个独");
         }
@@ -341,7 +341,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         worksheetMakerEntity.setArrangePerson("qiangdan");
         worksheetMakerEntity.setArrangeDate(new Date());
         worksheetMakerService.save(worksheetMakerEntity);
-        iUserClient.makerEnterpriseAdd(worksheetEntity.getEnterpriseId(), makerEntity.getId());
+        iUserClient.createMakerToEnterpriseRelevance(worksheetEntity.getEnterpriseId(), makerEntity.getId());
         return R.success("抢单成功");
     }
 }

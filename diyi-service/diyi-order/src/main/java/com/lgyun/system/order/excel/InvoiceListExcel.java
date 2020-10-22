@@ -57,7 +57,7 @@ public class InvoiceListExcel implements Serializable {
 
     @ColumnWidth(20)
     @ExcelProperty("身份证号码")
-    private String idCardNo;
+    private String idcardNo;
 
     @ColumnWidth(20)
     @ExcelProperty("手机号码")

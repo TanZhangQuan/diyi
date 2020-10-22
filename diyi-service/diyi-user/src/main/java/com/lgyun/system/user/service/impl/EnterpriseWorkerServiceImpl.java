@@ -227,7 +227,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
                 return R.fail("该手机号已经注册过");
             }
 
-            UserInfo userInfo = userService.userInfoFindByPhoneAndUserType(request.getPhoneNumber(), UserType.ENTERPRISE);
+            UserInfo userInfo = userService.queryUserInfoByPhone(request.getPhoneNumber(), UserType.ENTERPRISE);
             if (userInfo != null) {
                 return R.fail("该手机号已经注册过");
             }

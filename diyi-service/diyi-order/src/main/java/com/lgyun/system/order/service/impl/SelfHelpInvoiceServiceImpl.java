@@ -271,14 +271,14 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         switch (invoicePeopleType) {
 
             case INDIVIDUALENTERPRISE:
-                IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.individualEnterpriseFindById(allKindEnterpriseId);
+                IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.queryIndividualEnterpriseById(allKindEnterpriseId);
                 if (individualEnterpriseEntity != null) {
                     bizType = individualEnterpriseEntity.getBizType();
                 }
                 break;
 
             case INDIVIDUALBUSINESS:
-                IndividualBusinessEntity individualBusinessEntity = iUserClient.individualBusinessById(allKindEnterpriseId);
+                IndividualBusinessEntity individualBusinessEntity = iUserClient.queryIndividualBusinessById(allKindEnterpriseId);
                 if (individualBusinessEntity != null) {
                     bizType = individualBusinessEntity.getBizType();
                 }
