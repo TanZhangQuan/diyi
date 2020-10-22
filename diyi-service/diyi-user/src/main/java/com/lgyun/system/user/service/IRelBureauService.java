@@ -19,12 +19,38 @@ import com.lgyun.system.user.vo.admin.RelBureauVO;
  */
 public interface IRelBureauService extends BaseService<RelBureauEntity> {
 
+    /**
+     * 添加税局
+     *
+     * @param addRelBureauDto
+     * @return
+     */
     R addRelBureau(AddRelBureauDTO addRelBureauDto);
 
+    /**
+     * 查询税局
+     *
+     * @param queryRelBureauListDTO
+     * @param page
+     * @param bureauType
+     * @return
+     */
     R<IPage<RelBureauVO>> QueryRelBureau(QueryRelBureauListDTO queryRelBureauListDTO, IPage<RelBureauVO> page, BureauType bureauType);
 
+    /**
+     * 查询税局信息
+     *
+     * @param bureauId
+     * @return
+     */
     R<RelBureauEntity> queryRelBureauInfo(Long bureauId);
 
-    R updateTaxBureau(UpdateRelBureauDTO updateRelBureauDTO);
+    /**
+     * 编辑税局
+     *
+     * @param updateRelBureauDTO
+     * @return
+     */
+    R updateBureau(UpdateRelBureauDTO updateRelBureauDTO);
 }
 

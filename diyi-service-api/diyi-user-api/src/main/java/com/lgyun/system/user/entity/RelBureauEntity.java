@@ -34,7 +34,7 @@ public class RelBureauEntity extends BaseEntity {
     /**
      * 用户名
      */
-    private String relBuserUame;
+    private String relBuserName;
 
     /**
      * 密码

@@ -389,4 +389,11 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         return R.data(baseMapper.queryEnterpriseIdAndName(enterpriseId));
     }
 
+    @Override
+    public R getEnterpriseAll(IPage<EnterpriseEntity> page) {
+        QueryWrapper<EnterpriseEntity> queryWrapper = new QueryWrapper<>();
+        IPage<EnterpriseEntity> enterpriseEntityIPage = baseMapper.selectPage(page, queryWrapper);
+        return R.data(enterpriseEntityIPage);
+    }
+
 }

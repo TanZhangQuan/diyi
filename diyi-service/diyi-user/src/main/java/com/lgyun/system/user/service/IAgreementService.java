@@ -6,6 +6,9 @@ import com.lgyun.common.enumeration.*;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.AgreementEntity;
+import com.lgyun.system.user.entity.EnterpriseEntity;
+import com.lgyun.system.user.entity.MakerEntity;
+import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.vo.*;
 
 import java.util.List;
@@ -204,25 +207,17 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
     /**
      * 平台端添加合同
      *
-     * @param agreementId
-     * @param name
-     * @param objectId
-     * @param objectType
-     * @param contractType
-     * @param agreementType
-     * @param paperAgreementUrl
-     * @return
      */
-    R saveAdminAgreement(Long agreementId, String name, Long objectId, ObjectType objectType, Integer contractType, AgreementType agreementType, String paperAgreementUrl);
+    R saveAdminAgreement(Long makerId, Long enterpriseId,Long serviceProviderId, Long objectId, ObjectType objectType, Integer contractType, AgreementType agreementType, String paperAgreementUrl);
 
     /**
-     * 平台根据商户id查询商户加盟合同或授权协议
+     * 平台根据商户id查询商户加盟合同、授权协议或价格协议
      *
      * @param enterpriseId
      * @param agreementType
      * @return
      */
-    R findAdminEnterpriseId(Long enterpriseId, AgreementType agreementType);
+    R queryAdminEnterpriseId(Long enterpriseId, AgreementType agreementType);
 
     /**
      * 平台根据商户id查询合作服务商的合同
@@ -235,11 +230,7 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
     R findEnterIdServiceAgreement(Long enterpriseId, String serviceProviderName, IPage<AgreementEnterServiceAdminVO> page);
 
     /**
-     * 平台根据服务商id查询服务商加盟合同或授权协议
-     *
-     * @param serviceProviderId
-     * @param agreementType
-     * @return
+     * 平台根据服务商id查询服务商加盟合同
      */
     R findAdminSerIdAgreement(Long serviceProviderId, AgreementType agreementType);
 
@@ -260,5 +251,63 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
      * @return
      */
     R queryOnlineAgreementUrl(Long agreementId);
+
+
+    /**
+     * 平台查询创客合同的签署状态
+     */
+    R queryMakerAgreementState(String makerName,IPage<AgreementMakerStateAdminVO> page);
+
+    /**
+     * 平台通过创客id查询创客和商户的补充协议
+     */
+    R queryMakerIdSupplement(Long makerId,IPage<AgreementMakerEnterAdminVO> page);
+
+    /**
+     * 平台查询商户合同的签署状态
+     */
+    R queryEnterpriseAgreementState(String enterpriseName,IPage<AgreementMakerStateAdminVO> page);
+
+
+    /**
+     *平台根据商户id查询商户和创客的补充协议
+     */
+    R queryEnterpriseIdSupplement(Long enterpriseId,IPage<AgreementMakerEnterAdminVO> page);
+
+    /**
+     * 平台根据商户id查询合作商户和服务商补充协议
+     */
+    R queryEnterIdServiceSupplement(Long enterpriseId,IPage<AgreementServiceVO> page);
+
+    /**
+     * 平台根据商户id查询商户承诺函
+     */
+    R queryEnterIdPromise(Long enterpriseId,IPage<AgreementServiceVO> page);
+
+    /**
+     * 平台根据服务商id查询合作服务商和商户补充协议
+     */
+    R queryServiceIdEnterSupplement(Long serviceProviderId,IPage<AgreementServiceVO> page);
+
+    /**
+     * 根据合同id修改合同路径
+     */
+    R saveAdminAgreementId(Long agreementId,String agreementUrl);
+
+    /**
+     * 平台查所有创客
+     */
+    R queryAdminMakerAll(IPage<MakerEntity> page);
+
+    /**
+     * 平台查所有商户
+     */
+    R queryAdminEnterpriseAll(IPage<EnterpriseEntity> page);
+
+    /**
+     * 平台查所有服务商
+     */
+    R queryAdminServiceAll(IPage<ServiceProviderEntity> page);
+
 }
 
