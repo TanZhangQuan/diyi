@@ -74,9 +74,9 @@ public class IndividualEnterpriseMakerController {
         return makerService.queryIdcardOcr(makerEntity);
     }
 
-    @PostMapping("/save-individual-enterprise")
+    @PostMapping("/create-individual-enterprise")
     @ApiOperation(value = "新增个独", notes = "新增个独")
-    public R saveIndividualEnterprise(@Valid @RequestBody IndividualBusinessEnterpriseAddDTO individualBusinessEnterpriseAddDto, BladeUser bladeUser) {
+    public R createIndividualEnterprise(@Valid @RequestBody IndividualBusinessEnterpriseAddDTO individualBusinessEnterpriseAddDto, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = makerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {

@@ -137,12 +137,12 @@ public class SelfHelpInvoiceDetailsVO implements Serializable {
     /**
      * 身份证姓名
      */
-    private String idCardName;
+    private String idcardName;
 
     /**
      * 身份证号码
      */
-    private String idCardNo;
+    private String idcardNo;
 
     /**
      * 手机号码
@@ -152,12 +152,12 @@ public class SelfHelpInvoiceDetailsVO implements Serializable {
     /**
      * 身份证正面图
      */
-    private String idCardPic;
+    private String idcardPic;
 
     /**
      * 身份证反面图
      */
-    private String idCardPicBack;
+    private String idcardPicBack;
 
     /**
      * 核价日期

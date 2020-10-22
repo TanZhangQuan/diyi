@@ -64,7 +64,7 @@ public class AgreementServiceVO implements Serializable {
     /**
      * 在线合同地址
      */
-    private String onlineAggrementUrl;
+    private String onlineAgreementUrl;
 
     /**
      * 线下合同地址

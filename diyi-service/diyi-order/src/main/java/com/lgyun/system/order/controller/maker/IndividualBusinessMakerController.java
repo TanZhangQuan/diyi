@@ -35,9 +35,9 @@ public class IndividualBusinessMakerController {
     private IUserClient userClient;
     private ISelfHelpInvoiceService iSelfHelpInvoiceService;
 
-    @GetMapping("/query-individual-business-month-and-year-invoice-money")
+    @GetMapping("/query-month-and-year-invoice-money")
     @ApiOperation(value = "查询个体户月度开票金额和年度开票金额", notes = "查询个体户月度开票金额和年度开票金额")
-    public R queryIndividualBusinessMonthAndYearInvoiceMoney(@ApiParam(value = "个体户", required = true) @NotNull(message = "请选择个体户") @RequestParam(required = false) Long individualBusinessId, BladeUser bladeUser) {
+    public R queryMonthAndYearInvoiceMoney(@ApiParam(value = "个体户", required = true) @NotNull(message = "请选择个体户") @RequestParam(required = false) Long individualBusinessId, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {

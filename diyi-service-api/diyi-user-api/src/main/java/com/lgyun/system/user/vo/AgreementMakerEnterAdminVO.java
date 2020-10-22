@@ -52,7 +52,7 @@ public class AgreementMakerEnterAdminVO implements Serializable {
     /**
      * 在线签约合同url
      */
-    private String onlineAggrementUrl;
+    private String onlineAgreementUrl;
 
     /**
      * 纸质协议URL

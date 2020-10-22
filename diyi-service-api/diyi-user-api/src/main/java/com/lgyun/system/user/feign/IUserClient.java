@@ -1,13 +1,11 @@
 package com.lgyun.system.user.feign;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.entity.*;
-import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,8 +36,8 @@ public interface IUserClient {
      * @param userType
      * @return
      */
-    @GetMapping(API_PREFIX + "/user-info-find-by-user-id-and-user-type")
-    UserInfo userInfoFindByUserIdAndUserType(@RequestParam("userId") Long userId, @RequestParam("userType") UserType userType);
+    @GetMapping(API_PREFIX + "/query-user-info-by-user-id")
+    UserInfo queryUserInfoByUserId(@RequestParam("userId") Long userId, @RequestParam("userType") UserType userType);
 
     /**
      * 查询用户信息
@@ -48,8 +46,8 @@ public interface IUserClient {
      * @param userType
      * @return
      */
-    @GetMapping(API_PREFIX + "/user-info-find-by-phone-and-user-type")
-    UserInfo userInfoFindByPhoneAndUserType(@RequestParam("phone") String phone, @RequestParam("userType") UserType userType);
+    @GetMapping(API_PREFIX + "/query-user-info-by-phone")
+    UserInfo queryUserInfoByPhone(@RequestParam("phone") String phone, @RequestParam("userType") UserType userType);
 
     /**
      * 查询用户信息
@@ -58,8 +56,44 @@ public interface IUserClient {
      * @param userType
      * @return
      */
-    @GetMapping(API_PREFIX + "/user-info-find-by-account-and-password-and-user-type")
-    UserInfo userInfoByAccountAndUserType(@RequestParam("account") String account, @RequestParam("userType") UserType userType);
+    @GetMapping(API_PREFIX + "/query-user-info-by-account")
+    UserInfo queryUserInfoByAccount(@RequestParam("account") String account, @RequestParam("userType") UserType userType);
+
+    /**
+     * 查询当前管理员
+     *
+     * @param bladeUser
+     * @return
+     */
+    @PostMapping(API_PREFIX + "/current-admin")
+    R<AdminEntity> currentAdmin(@RequestBody BladeUser bladeUser);
+
+    /**
+     * 查询当前创客
+     *
+     * @param bladeUser
+     * @return
+     */
+    @PostMapping(API_PREFIX + "/current-maker")
+    R<MakerEntity> currentMaker(@RequestBody BladeUser bladeUser);
+
+    /**
+     * 查询当前商户
+     *
+     * @param bladeUser
+     * @return
+     */
+    @PostMapping(API_PREFIX + "/current-enterprise-worker")
+    R<EnterpriseWorkerEntity> currentEnterpriseWorker(@RequestBody BladeUser bladeUser);
+
+    /**
+     * 查询当前服务商
+     *
+     * @param bladeUser
+     * @return
+     */
+    @PostMapping(API_PREFIX + "/current-service-provider-worker")
+    R<ServiceProviderWorkerEntity> currentServiceProviderWorker(@RequestBody BladeUser bladeUser);
 
     /**
      * 根据创客id查询创客信息
@@ -67,8 +101,8 @@ public interface IUserClient {
      * @param makerId
      * @return
      */
-    @GetMapping(API_PREFIX + "/maker-find-by-id")
-    MakerEntity makerFindById(@RequestParam("makerId") Long makerId);
+    @GetMapping(API_PREFIX + "/query-maker-by-id")
+    MakerEntity queryMakerById(@RequestParam("makerId") Long makerId);
 
     /**
      * 根据身份证号码查询创客信息
@@ -76,8 +110,8 @@ public interface IUserClient {
      * @param idcardNo
      * @return
      */
-    @GetMapping(API_PREFIX + "/maker-find-by-idcard-no")
-    MakerEntity makerFindByIdcardNo(@RequestParam("idcardNo") String idcardNo);
+    @GetMapping(API_PREFIX + "/query-maker-by-idcard-no")
+    MakerEntity queryMakerByIdcardNo(@RequestParam("idcardNo") String idcardNo);
 
     /**
      * 查询创客信息
@@ -85,44 +119,44 @@ public interface IUserClient {
      * @param phoneNumber
      * @return
      */
-    @GetMapping(API_PREFIX + "/maker-find-by-phone-number")
-    MakerEntity makerFindByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
+    @GetMapping(API_PREFIX + "/query-maker-by-phone-number")
+    MakerEntity queryMakerByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
 
     /**
-     * 根据手机号查询管理员是否存在
+     * 根据手机号查询管理员数量
      *
      * @param phoneNumber
      * @return
      */
-    @GetMapping(API_PREFIX + "/admin-count-find-by-phone-umber")
-    Integer adminCountFindByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
+    @GetMapping(API_PREFIX + "/query-admin-count-by-phone-number")
+    Integer queryAdminCountByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
 
     /**
-     * 根据手机号查询创客是否存在
+     * 根据手机号查询创客数量
      *
      * @param phoneNumber
      * @return
      */
-    @GetMapping(API_PREFIX + "/maker-count-find-by-phone-number")
-    Integer makerCountFindByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
+    @GetMapping(API_PREFIX + "/query-maker-count-by-phone-number")
+    Integer queryMakerCountByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
 
     /**
-     * 根据手机号查询商户员工是否存在
+     * 根据手机号查询商户员工数量
      *
      * @param phoneNumber
      * @return
      */
-    @GetMapping(API_PREFIX + "/enterprise-worker-count-find-by-phone-number")
-    Integer enterpriseWorkerCountFindByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
+    @GetMapping(API_PREFIX + "/query-enterprise-worker-count-by-phone-number")
+    Integer queryEnterpriseWorkerCountByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
 
     /**
-     * 根据手机号查询服务商员工是否存在
+     * 根据手机号查询服务商员工数量
      *
      * @param phoneNumber
      * @return
      */
-    @GetMapping(API_PREFIX + "/service-provider-worker-count-find-by-phone-number")
-    Integer serviceProviderWorkerCountFindByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
+    @GetMapping(API_PREFIX + "/query-service-provider-worker-count-by-phone-number")
+    Integer queryServiceProviderWorkerCountByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
 
     /**
      * 管理员处理
@@ -176,11 +210,48 @@ public interface IUserClient {
     /**
      * 查询个独信息
      *
+     * @param individualEnterpriseId
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/query-individual-enterprise-by-id")
+    IndividualEnterpriseEntity queryIndividualEnterpriseById(@RequestParam("individualEnterpriseId") Long individualEnterpriseId);
+
+    /**
+     * 查询个体户信息
+     *
+     * @param individualBusinessId
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/query-individual-business-by-id")
+    IndividualBusinessEntity queryIndividualBusinessById(@RequestParam("individualBusinessId") Long individualBusinessId);
+
+    /**
+     * 根据商户查询商户
+     *
+     * @param enterpriseId
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/query-enterprise-by-id")
+    EnterpriseEntity queryEnterpriseById(@RequestParam("enterpriseId") Long enterpriseId);
+
+    /**
+     * 根据商户, 服务商查询关联
+     *
+     * @param enterpriseId
+     * @param serviceProviderId
+     * @return
+     */
+    @PostMapping(API_PREFIX + "/query-enterprise-to-service-provider")
+    EnterpriseServiceProviderEntity queryEnterpriseToServiceProvider(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("serviceProviderId") Long serviceProviderId);
+
+    /**
+     * 查询个独信息
+     *
      * @param makerId
      * @return
      */
     @GetMapping(API_PREFIX + "/individualEnterprise/find-by-maker-id")
-    List<IndividualEnterpriseEntity> individualEnterpriseFindByMakerId(@RequestParam("makerId") Long makerId);
+    List<IndividualEnterpriseEntity> queryIndividualEnterpriseFindByMakerId(@RequestParam("makerId") Long makerId);
 
     /**
      * 查询个体信息
@@ -188,123 +259,28 @@ public interface IUserClient {
      * @param makerId
      * @return
      */
-    @GetMapping(API_PREFIX + "/individualBusiness/find-by-maker-id")
-    List<IndividualBusinessEntity> individualBusinessByMakerId(@RequestParam("makerId") Long makerId);
+    @GetMapping(API_PREFIX + "/query-individual-business-by-maker-id")
+    List<IndividualBusinessEntity> queryIndividualBusinessByMakerId(@RequestParam("makerId") Long makerId);
 
     /**
-     * 根据创客ID查询商户
-     *
-     * @param current
-     * @param size
-     * @param makerId
-     * @return
-     */
-    @GetMapping(API_PREFIX + "/find-enterprise-by-maker-id")
-    R<IPage<EnterprisesIdNameListVO>> findEnterpriseByMakerId(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam("makerId") Long makerId);
-
-    /**
-     * 根据Id查询个独或个体户信息
-     *
-     * @param individualEnterpriseId
-     * @return
-     */
-    @GetMapping(API_PREFIX + "/individualEnterprise/find-by-id")
-    IndividualEnterpriseEntity individualEnterpriseFindById(@RequestParam("individualEnterpriseId") Long individualEnterpriseId);
-
-    /**
-     * 根据Id查询个体信息
-     *
-     * @param individualBusinessId
-     * @return
-     */
-    @GetMapping(API_PREFIX + "/individualBusiness/find-by-id")
-    IndividualBusinessEntity individualBusinessById(@RequestParam("individualBusinessId") Long individualBusinessId);
-
-    /**
-     * 根据商户id查询商户
-     *
-     * @param enterpriseId
-     * @return
-     */
-    @GetMapping(API_PREFIX + "/enterprise/get-by-id")
-    EnterpriseEntity getEnterpriseById(@RequestParam("enterpriseId") Long enterpriseId);
-
-    /**
-     * 根据user-id查询管理员
-     *
-     * @param bladeUser
-     * @return
-     */
-    @PostMapping(API_PREFIX + "/current-admin")
-    R<AdminEntity> currentAdmin(@RequestBody BladeUser bladeUser);
-
-    /**
-     * 根据user-id查询创客
-     *
-     * @param bladeUser
-     * @return
-     */
-    @PostMapping(API_PREFIX + "/current-maker")
-    R<MakerEntity> currentMaker(@RequestBody BladeUser bladeUser);
-
-    /**
-     * 根据user-id查询商户
-     *
-     * @param bladeUser
-     * @return
-     */
-    @PostMapping(API_PREFIX + "/current-enterprise-worker")
-    R<EnterpriseWorkerEntity> currentEnterpriseWorker(@RequestBody BladeUser bladeUser);
-
-    /**
-     * 根据user-id查询服务商
-     *
-     * @param bladeUser
-     * @return
-     */
-    @PostMapping(API_PREFIX + "/current-service-provider-worker")
-    R<ServiceProviderWorkerEntity> currentServiceProviderWorker(@RequestBody BladeUser bladeUser);
-
-    /**
-     * 根据创客姓名分页查询
-     *
-     * @param current
-     * @param size
-     * @param makerName
-     * @return
-     */
-    @GetMapping(API_PREFIX + "/maker/getMakerName")
-    R getMakerName(@RequestParam("current") Integer current, @RequestParam("size") Integer size, @RequestParam(name = "makerName", required = false) String makerName);
-
-    /**
-     * 根据商户ID, 服务商ID查询关联
-     *
-     * @param enterpriseId
-     * @param serviceProviderId
-     * @return
-     */
-    @PostMapping(API_PREFIX + "/find-by-enterprise-id-service-provider-id")
-    EnterpriseServiceProviderEntity findByEnterpriseIdServiceProviderId(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("serviceProviderId") Long serviceProviderId);
-
-    /**
-     * 根据创客ID, 统一社会信用代码查询个独
+     * 根据创客, 统一社会信用代码查询个独
      *
      * @param makerId
      * @param ibtaxNo
      * @return
      */
-    @GetMapping(API_PREFIX + "/find-by-maker-id-and-ibtax-no-business")
-    IndividualBusinessEntity findByMakerIdAndIbtaxNoBusiness(@RequestParam("makerId") Long makerId, @RequestParam("ibtaxNo") String ibtaxNo);
+    @GetMapping(API_PREFIX + "/query-individual-business-by-maker-id-and-ibtax-no")
+    IndividualBusinessEntity queryIndividualBusinessByMakerIdAndIbtaxNo(@RequestParam("makerId") Long makerId, @RequestParam("ibtaxNo") String ibtaxNo);
 
     /**
-     * 根据创客ID, 统一社会信用代码查询个体户
+     * 根据创客, 统一社会信用代码查询个体户
      *
      * @param makerId
      * @param ibtaxNo
      * @return
      */
-    @GetMapping(API_PREFIX + "/find-by-maker-id-and-ibtax-no-enterprise")
-    IndividualEnterpriseEntity findByMakerIdAndIbtaxNoEnterprise(@RequestParam("makerId") Long makerId, @RequestParam("ibtaxNo") String ibtaxNo);
+    @GetMapping(API_PREFIX + "/query-individual-enterprise-by-maker-id-and-ibtax-no")
+    IndividualEnterpriseEntity queryIndividualEnterpriseByMakerIdAndIbtaxNo(@RequestParam("makerId") Long makerId, @RequestParam("ibtaxNo") String ibtaxNo);
 
     /**
      * 统一社会信用代码查询个独
@@ -312,8 +288,8 @@ public interface IUserClient {
      * @param ibtaxNo
      * @return
      */
-    @GetMapping(API_PREFIX + "/find-by-ibtax-no-business")
-    IndividualBusinessEntity findByIbtaxNoBusiness(@RequestParam("ibtaxNo") String ibtaxNo);
+    @GetMapping(API_PREFIX + "/query-individual-business-by-ibtax-no")
+    IndividualBusinessEntity queryIndividualBusinessByIbtaxNo(@RequestParam("ibtaxNo") String ibtaxNo);
 
     /**
      * 统一社会信用代码查询个体户
@@ -321,8 +297,8 @@ public interface IUserClient {
      * @param ibtaxNo
      * @return
      */
-    @GetMapping(API_PREFIX + "/find-by-ibtax-no-enterprise")
-    IndividualEnterpriseEntity findByIbtaxNoEnterprise(@RequestParam("ibtaxNo") String ibtaxNo);
+    @GetMapping(API_PREFIX + "/query-individual-enterprise-by-ibtax-no")
+    IndividualEnterpriseEntity queryIndividualEnterpriseByIbtaxNo(@RequestParam("ibtaxNo") String ibtaxNo);
 
     /**
      * 新增创客
@@ -333,17 +309,17 @@ public interface IUserClient {
      * @param enterpriseId
      * @return
      */
-    @PostMapping(API_PREFIX + "/maker-add")
-    MakerEntity makerAdd(@RequestParam("name") String name, @RequestParam("idcardNo") String idcardNo, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("enterpriseId") Long enterpriseId);
+    @PostMapping(API_PREFIX + "/create-maker")
+    MakerEntity createMaker(@RequestParam("name") String name, @RequestParam("idcardNo") String idcardNo, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("enterpriseId") Long enterpriseId);
 
     /**
-     * 根据商户id和创客id建立关联关系
+     * 根据商户和创客建立关联关系
      *
      * @param enterpriseId
      * @param makerId
      * @return
      */
-    @PostMapping(API_PREFIX + "/maker-enterprise-add")
-    void makerEnterpriseAdd(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("makerId") Long makerId);
+    @PostMapping(API_PREFIX + "/create-maker-to-enterprise-relevance")
+    void createMakerToEnterpriseRelevance(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("makerId") Long makerId);
 
 }

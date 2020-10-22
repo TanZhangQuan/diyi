@@ -20,25 +20,25 @@ public class SelfHelpInvoicePersonDTO implements Serializable {
      * 身份证号码
      */
     @NotBlank(message = "请输入身份证号码")
-    private String idCardNo;
+    private String idcardNo;
 
     /**
      * 身份证姓名
      */
     @NotBlank(message = "请输入身份证姓名")
-    private String idCardName;
+    private String idcardName;
 
     /**
      * 身份证正面图
      */
     @NotBlank(message = "请输入身份证正面图")
-    private String idCardPic;
+    private String idcardPic;
 
     /**
      * 身份证反面图
      */
     @NotBlank(message = "请输入身份证反面图")
-    private String idCardPicBack;
+    private String idcardPicBack;
 
     /**
      * 手机号码

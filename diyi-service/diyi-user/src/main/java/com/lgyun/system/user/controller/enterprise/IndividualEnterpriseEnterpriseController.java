@@ -15,10 +15,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -29,7 +26,7 @@ import javax.validation.Valid;
  * @date 2020-09-9
  */
 @RestController
-//@RequestMapping("/enterprise/individual-enterprise")
+@RequestMapping("/enterprise/individual-enterprise")
 @Validated
 @AllArgsConstructor
 @Api(value = "商户端---个独管理模块相关接口", tags = "商户端---个独管理模块相关接口")
@@ -38,7 +35,7 @@ public class IndividualEnterpriseEnterpriseController {
     private IEnterpriseWorkerService enterpriseWorkerService;
     private IIndividualEnterpriseService individualEnterpriseService;
 
-    @GetMapping("/web/individual-enterprise/get_by_dto_enterprise")
+    @GetMapping("/query-individual-enterprise-list")
     @ApiOperation(value = "查询当前商户的所有关联创客的所有个独", notes = "查询当前商户的所有关联创客的所有个独")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "individualBusinessEnterpriseId", value = "个独编号", paramType = "query", dataType = "long"),
@@ -57,9 +54,9 @@ public class IndividualEnterpriseEnterpriseController {
         return individualEnterpriseService.getIndividualEnterpriseList(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), null, individualBusinessEnterpriseDto);
     }
 
-    @PostMapping("/web/individual-enterprise/save_by_enterprise")
-    @ApiOperation(value = "当前商户申请创建个独", notes = "当前商户申请创建个独")
-    public R saveByEnterprise(@Valid @RequestBody IndividualBusinessEnterpriseWebAddDTO individualBusinessEnterpriseWebAddDto, BladeUser bladeUser) {
+    @PostMapping("/create-individual-enterprise")
+    @ApiOperation(value = "创建个独", notes = "创建个独")
+    public R createIndividualEnterprise(@Valid @RequestBody IndividualBusinessEnterpriseWebAddDTO individualBusinessEnterpriseWebAddDto, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -67,7 +64,7 @@ public class IndividualEnterpriseEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return individualEnterpriseService.saveByEnterprise(individualBusinessEnterpriseWebAddDto, enterpriseWorkerEntity.getEnterpriseId());
+        return individualEnterpriseService.createIndividualEnterprise(individualBusinessEnterpriseWebAddDto, enterpriseWorkerEntity.getEnterpriseId());
     }
 
 }

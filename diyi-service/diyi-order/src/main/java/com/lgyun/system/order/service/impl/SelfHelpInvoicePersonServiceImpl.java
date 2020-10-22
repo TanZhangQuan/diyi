@@ -23,9 +23,7 @@ public class SelfHelpInvoicePersonServiceImpl extends BaseServiceImpl<SelfHelpIn
     @Override
     public SelfHelpInvoicePersonEntity findCardNo(String CardNo) {
         QueryWrapper<SelfHelpInvoicePersonEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(SelfHelpInvoicePersonEntity::getIdCardNo, CardNo)
-                .eq(SelfHelpInvoicePersonEntity::getIsDeleted,0)
-                .eq(SelfHelpInvoicePersonEntity::getStatus,1);
+        queryWrapper.lambda().eq(SelfHelpInvoicePersonEntity::getIdcardNo, CardNo);
 
         return baseMapper.selectOne(queryWrapper);
     }

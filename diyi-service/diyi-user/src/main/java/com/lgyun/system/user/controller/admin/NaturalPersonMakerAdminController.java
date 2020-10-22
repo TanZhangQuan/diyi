@@ -60,9 +60,9 @@ public class NaturalPersonMakerAdminController {
         return enterpriseService.queryEnterpriseListNaturalPersonMaker(enterpriseName, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @PostMapping("/save-maker")
+    @PostMapping("/create-maker")
     @ApiOperation(value = "新增单个创客", notes = "新增单个创客")
-    public R saveMaker(@ApiParam(value = "商户编号", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
+    public R createMaker(@ApiParam(value = "商户编号", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
                        @Valid @RequestBody MakerAddDTO makerAddDto, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
@@ -115,9 +115,9 @@ public class NaturalPersonMakerAdminController {
         return makerEnterpriseService.getEnterpriseMakerList(Condition.getPage(query.setDescs("create_time")), null, null, certificationState, keyword);
     }
 
-    @GetMapping("/query-maker-detail-by-maker-id")
-    @ApiOperation(value = "根据创客ID查询创客详情", notes = "根据创客ID查询创客详情")
-    public R queryMakerDetailByMakerId(@ApiParam(value = "创客ID", required = true) @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId, BladeUser bladeUser) {
+    @GetMapping("/query-maker-detail")
+    @ApiOperation(value = "查询创客详情", notes = "查询创客详情")
+    public R queryMakerDetail(@ApiParam(value = "创客", required = true) @NotNull(message = "请选择创客") @RequestParam(required = false) Long makerId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

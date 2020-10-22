@@ -25,7 +25,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Service 实现
@@ -41,7 +44,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     private final IOnlineAgreementTemplateService iOnlineAgreementTemplateService;
     private final IServiceProviderService serviceProviderService;
     private final IOnlineAgreementNeedSignService onlineAgreementNeedSignService;
-    private final IPartnerService partnerService;
+    private IEnterpriseServiceProviderService enterpriseServiceProviderService;
 
     @Autowired
     @Lazy
@@ -97,7 +100,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         }
         map.put("onlineAgreementTemplateId", "");
         map.put("onlineAgreementNeedSignId", "");
-        map.put("agreementTemplate", agreementEntity.getOnlineAggrementUrl());
+        map.put("agreementTemplate", agreementEntity.getOnlineAgreementUrl());
         map.put("signState", agreementEntity.getSignState().getValue());
         return R.data(map);
     }
@@ -111,11 +114,11 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
-    public AgreementWebVO findByEnterpriseAndType(Long enterpriseId, AgreementType agreementType) {
+    public AgreementWebVO findByEnterpriseAndType(Long enterpriseId, AgreementType agreementType,SignType signType) {
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(AgreementEntity::getEnterpriseId, enterpriseId)
                 .eq(AgreementEntity::getAgreementType, agreementType)
-                .eq(AgreementEntity::getSignType, SignType.PLATFORMAGREEMENT);
+                .eq(AgreementEntity::getSignType, signType);
         AgreementEntity agreementEntity = baseMapper.selectOne(queryWrapper);
         EnterpriseEntity byId = enterpriseService.getById(enterpriseId);
         AgreementWebVO agreementWebVO = BeanUtil.copy(agreementEntity, AgreementWebVO.class);
@@ -127,7 +130,8 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     public R selectAuthorization(Long enterpriseId, IPage<AgreementEntity> page) {
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(AgreementEntity::getEnterpriseId, enterpriseId)
-                .in(AgreementEntity::getSignType, SignType.UNILATERALPOWER, SignType.ELEUNILATERALPOWER);
+                .eq(AgreementEntity::getAgreementType,AgreementType.ENTERPRISEPROMISE)
+                .in(AgreementEntity::getSignType, SignType.PAPERAGREEMENT, SignType.PLATFORMAGREEMENT);
         IPage<AgreementEntity> agreementEntityIPage = baseMapper.selectPage(page, queryWrapper);
         return R.data(agreementEntityIPage);
     }
@@ -136,12 +140,12 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     public R<String> saveAuthorization(Long enterpriseId, String paperAgreementURL) {
         EnterpriseEntity byId = enterpriseService.getById(enterpriseId);
         AgreementEntity agreementEntity = new AgreementEntity();
-        agreementEntity.setAgreementType(AgreementType.OTHERAGREEMENT);
-        agreementEntity.setSignType(SignType.UNILATERALPOWER);
-        agreementEntity.setSignState(SignState.UNSIGN);
+        agreementEntity.setAgreementType(AgreementType.ENTERPRISEPROMISE);
+        agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+        agreementEntity.setSignState(SignState.SIGNING);
         agreementEntity.setEnterpriseId(enterpriseId);
         agreementEntity.setPaperAgreementUrl(paperAgreementURL);
-        agreementEntity.setFirstSideSignPerson("地衣众包");
+        agreementEntity.setFirstSideSignPerson("地衣众包平台");
         agreementEntity.setSecondSideSignPerson(byId.getEnterpriseName());
         agreementEntity.setUploadDatetime(new Date());
         agreementEntity.setUploadPerson(byId.getEnterpriseName());
@@ -246,7 +250,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
                     agreementEntity.setMakerId(Long.parseLong(split[i]));
                     agreementEntity.setEnterpriseId(enterpriseId);
                     agreementEntity.setOnlineAgreementTemplateId(onlineAgreementTemplateEntity.getId());
-                    agreementEntity.setOnlineAggrementUrl(pdf);
+                    agreementEntity.setOnlineAgreementUrl(pdf);
                     agreementEntity.setFirstSideSignPerson(byId.getEnterpriseName());
                     MakerEntity makerEntity = makerService.getById(Long.parseLong(split[i]));
                     agreementEntity.setSecondSideSignPerson(makerEntity.getName());
@@ -278,7 +282,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
                     agreementEntity.setMakerId(makerEnterpriseEntity.getMakerId());
                     agreementEntity.setEnterpriseId(enterpriseId);
                     agreementEntity.setOnlineAgreementTemplateId(onlineAgreementTemplateEntity.getId());
-                    agreementEntity.setOnlineAggrementUrl(pdf);
+                    agreementEntity.setOnlineAgreementUrl(pdf);
                     agreementEntity.setFirstSideSignPerson(byId.getEnterpriseName());
                     agreementEntity.setSecondSideSignPerson(makerService.getById(makerEnterpriseEntity.getMakerId()).getName());
                     agreementService.save(agreementEntity);
@@ -297,27 +301,36 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
-    public R findSeriveAgreement(String agreementNo, Long serviceProviderId, IPage<AgreementServiceVO> page) {
-        return R.data(page.setRecords(baseMapper.findSeriveAgreement(agreementNo, serviceProviderId, page)));
+    public R findSeriveAgreement(String agreementNo, Long serviceProviderId) {
+        return R.data(baseMapper.findSeriveAgreement(agreementNo, serviceProviderId));
     }
 
     @Override
     @Transactional
-    public R uploadContractAndLetter(String contractUrl, String letterUrl, Long serviceProviderId) {
+    public R uploadSupplement(String contractUrl, Long serviceProviderId,Long enterpriseId) {
 
-        if (StringUtil.isBlank(contractUrl) && StringUtil.isBlank(letterUrl)) {
-            return R.fail("加盟合同和服务商承诺函不能同时为空");
+        if (StringUtil.isBlank(contractUrl)) {
+            return R.fail("服务商和商户的补充协议为空");
         }
-
-        if (!StringUtil.isBlank(contractUrl)) {
-            saveContractAndLetter(AgreementType.SERVICEPROVIDERJOINAGREEMENT, contractUrl, ObjectType.SERVICEPEOPLE, serviceProviderId);
-        }
-
-        if (!StringUtil.isBlank(letterUrl)) {
-            saveContractAndLetter(AgreementType.OTHERAGREEMENT, letterUrl, ObjectType.SERVICEPEOPLE, serviceProviderId);
-        }
-
+        ServiceProviderEntity serviceProviderEntity = serviceProviderService.getById(serviceProviderId);
+        EnterpriseEntity byId = enterpriseService.getById(enterpriseId);
+        AgreementEntity agreementEntity = new AgreementEntity();
+        agreementEntity.setAgreementType(AgreementType.SERENTSUPPLEMENTARYAGREEMENT);
+        agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+        agreementEntity.setEnterpriseId(enterpriseId);
+        agreementEntity.setServiceProviderId(serviceProviderId);
+        agreementEntity.setPaperAgreementUrl(contractUrl);
+        agreementEntity.setFirstSideSignPerson(serviceProviderEntity.getServiceProviderName());
+        agreementEntity.setSecondSideSignPerson(byId.getEnterpriseName());
+        agreementEntity.setUploadDatetime(new Date());
+        agreementEntity.setUploadPerson(byId.getEnterpriseName());
+        save(agreementEntity);
         return R.success("操作成功");
+    }
+
+    @Override
+    public R getRelationEnterprise(Query query, Long serviceProviderId) {
+        return enterpriseServiceProviderService.getEnterpriseByServiceProvider(Condition.getPage(query.setDescs("create_time")),serviceProviderId,"");
     }
 
     @Override
@@ -328,6 +341,16 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     @Override
     public R findEnterpriseAgreement(String agreementNo, Long serviceProviderId, String enterpriseName, IPage<AgreementServiceVO> page) {
         return R.data(page.setRecords(baseMapper.findEnterpriseAgreement(agreementNo, serviceProviderId, enterpriseName, page)));
+    }
+
+    @Override
+    public R findEnterprisePromise(String agreementNo, Long serviceProviderId, String enterpriseName, IPage<AgreementServiceVO> page) {
+        return R.data(page.setRecords(baseMapper.findEnterprisePromise(agreementNo, serviceProviderId, enterpriseName, page)));
+    }
+
+    @Override
+    public R findEnterpriseSupplement(String agreementNo, Long serviceProviderId, String enterpriseName, IPage<AgreementServiceVO> page) {
+        return R.data(page.setRecords(baseMapper.findEnterpriseSupplement(agreementNo, serviceProviderId, enterpriseName, page)));
     }
 
     @Override
@@ -355,7 +378,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
             agreementEntity.setPaperAgreementUrl(paperAgreementUrl);
             agreementEntity.setSignType(SignType.PAPERAGREEMENT);
             agreementEntity.setSignState(SignState.SIGNED);
-            agreementEntity.setOnlineAggrementUrl("");
+            agreementEntity.setOnlineAgreementUrl("");
             agreementEntity.setUpdateTime(new Date());
             saveOrUpdate(agreementEntity);
             return R.success("编辑成功");
@@ -378,7 +401,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
             agreementEntity.setPartnerId(objectId);
         }
         agreementEntity.setPaperAgreementUrl(paperAgreementUrl);
-        agreementEntity.setFirstSideSignPerson("地衣平台");
+        agreementEntity.setFirstSideSignPerson("地衣众包平台");
         agreementEntity.setSecondSideSignPerson(name);
         save(agreementEntity);
         return R.success("操作成功");
@@ -413,76 +436,19 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         return R.data(agreementEntity);
     }
 
-    private R<String> saveContractAndLetter(AgreementType agreementType, String file, ObjectType objectType, Long objectId) {
+    @Override
+    public R getRelationServiceProvider(Query query, Long enterpriseId,String keyWord) {
+        return enterpriseServiceProviderService.getServiceProvidersByEnterpriseId(enterpriseId, keyWord, Condition.getPage(query.setDescs("create_time")));
+    }
 
-        AgreementEntity agreementEntity = new AgreementEntity();
-        agreementEntity.setAgreementType(agreementType);
-        agreementEntity.setSignType(SignType.PAPERAGREEMENT);
-        agreementEntity.setPaperAgreementUrl(file);
-        agreementEntity.setFirstSideSignPerson("地衣平台");
-
-        switch (objectType) {
-
-            case MAKERPEOPLE:
-                MakerEntity makerEntity = makerService.getById(objectId);
-                if (makerEntity == null) {
-                    return R.fail("创客不存在");
-                }
-
-                agreementEntity.setMakerId(objectId);
-                agreementEntity.setSecondSideSignPerson(makerEntity.getName());
-                break;
-
-            case ENTERPRISEPEOPLE:
-                EnterpriseEntity enterpriseEntity = enterpriseService.getById(objectId);
-                if (enterpriseEntity == null) {
-                    return R.fail("商户不存在");
-                }
-
-                agreementEntity.setMakerId(objectId);
-                agreementEntity.setSecondSideSignPerson(enterpriseEntity.getContact1Name());
-                break;
-
-            case SERVICEPEOPLE:
-                ServiceProviderEntity serviceProviderEntity = serviceProviderService.getById(objectId);
-                if (serviceProviderEntity == null) {
-                    return R.fail("服务商不存在");
-                }
-
-                agreementEntity.setMakerId(objectId);
-                agreementEntity.setSecondSideSignPerson(serviceProviderEntity.getContact1Name());
-                break;
-
-            case CHANNELPEOPLE:
-                AgentMainEntity agentMainEntity = agentMainService.getById(objectId);
-                if (agentMainEntity == null) {
-                    return R.fail("渠道商不存在");
-                }
-
-                agreementEntity.setMakerId(objectId);
-                agreementEntity.setSecondSideSignPerson(agentMainEntity.getContact1Name());
-                break;
-
-            case RELEVANTPEOPLE:
-                break;
-
-            case PARTNERSHIPPEOPLE:
-                PartnerEntity partnerEntity = partnerService.getById(objectId);
-                if (partnerEntity == null) {
-                    return R.fail("合伙人不存在");
-                }
-
-                agreementEntity.setMakerId(objectId);
-                agreementEntity.setSecondSideSignPerson(partnerEntity.getName());
-                break;
-
-            default:
-                return R.fail("用户类型不存在");
+    @Override
+    public R queryOnlineAgreementUrl(Long agreementId) {
+        AgreementEntity agreementEntity = agreementService.getById(agreementId);
+        if (null == agreementEntity) {
+            return R.fail("合同不存在");
         }
 
-        agreementService.save(agreementEntity);
-
-        return R.success("操作成功");
+        return R.data(agreementEntity.getOnlineAgreementUrl());
     }
 
 }

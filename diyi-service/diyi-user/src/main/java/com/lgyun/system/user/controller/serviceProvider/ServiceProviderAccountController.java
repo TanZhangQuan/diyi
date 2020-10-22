@@ -27,7 +27,7 @@ import java.util.List;
  * @since 2020/9/19 16:25
  */
 @RestController
-@RequestMapping("/service/account")
+@RequestMapping("/service-provider/account")
 @Validated
 @AllArgsConstructor
 @Api(value = "服务商账号相关接口(管理端)", tags = "服务商账号相关接口(管理端)")

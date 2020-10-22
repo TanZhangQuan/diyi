@@ -93,7 +93,7 @@ public class AgreementEntity extends BaseEntity {
     /**
      * 在线协议URL
      */
-    private String onlineAggrementUrl;
+    private String onlineAgreementUrl;
 
     /**
      * 纸质协议URL

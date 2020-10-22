@@ -10,6 +10,7 @@ import com.lgyun.common.enumeration.*;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.*;
 import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IdcardOcrSaveDTO;
 import com.lgyun.system.user.dto.MakerAddDTO;
 import com.lgyun.system.user.entity.MakerEntity;
@@ -249,7 +250,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         }
 
         //身份证实名认证
-        JSONObject jsonObject = RealnameVerifyUtil.idCardOCR(idcardPic);
+        JSONObject jsonObject = RealnameVerifyUtil.idcardOCR(idcardPic);
         if (jsonObject == null) {
             return R.fail("身份证实名认证失败");
         }
@@ -597,11 +598,11 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R<IPage<MakerWorksheetVO>> getMakerName(Integer current, Integer size, String makerName) {
+    public R<IPage<MakerWorksheetVO>> getMakerName(Query query, String makerName) {
         QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().like(makerName != null, MakerEntity::getName, makerName);
 
-        IPage<MakerEntity> pages = this.page(new Page<>(current, size), queryWrapper);
+        IPage<MakerEntity> pages = this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper);
 
         List<MakerWorksheetVO> records = pages.getRecords().stream().map(MakerEntity -> BeanUtil.copy(MakerEntity, MakerWorksheetVO.class)).collect(Collectors.toList());
         for (MakerWorksheetVO makerWorksheetVO : records) {

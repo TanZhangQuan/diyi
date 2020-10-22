@@ -17,19 +17,19 @@ public class SelfHelpInvoiceCrowdSourcingVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 商户id
+     * 商户ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
 
     /**
-     * 自助开票iD
+     * 自助开票ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long selfHelpInvoiceId;
 
     /**
-     * 自助开票申请iD
+     * 自助开票申请ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long selfHelpInvoiceApplyId;
@@ -41,7 +41,7 @@ public class SelfHelpInvoiceCrowdSourcingVO implements Serializable {
     private Long selfHelpInvoiceApplyProviderId;
 
     /**
-     *服务商自助开票明细Id
+     *服务商自助开票明细ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long providerSelfHelpInvoiceId;
@@ -53,7 +53,7 @@ public class SelfHelpInvoiceCrowdSourcingVO implements Serializable {
     private Long selfHelpInvoiceDetailId;
 
     /**
-     * 服务商Id
+     * 服务商ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long serviceProviderId;

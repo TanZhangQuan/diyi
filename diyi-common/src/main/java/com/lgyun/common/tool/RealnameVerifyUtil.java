@@ -84,7 +84,7 @@ public class RealnameVerifyUtil {
     /**
      * 身份证实名认证
      */
-    public static JSONObject idCardOCR(String infoImg) throws Exception {
+    public static JSONObject idcardOCR(String infoImg) throws Exception {
 
         //在线图片转换成base64字符串
         String idcardPicBase64 = Base64Util.imageToBase64ByOnline(infoImg);

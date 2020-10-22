@@ -19,7 +19,7 @@ public class MakerWorksheetVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 创客id
+     * 创客ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;

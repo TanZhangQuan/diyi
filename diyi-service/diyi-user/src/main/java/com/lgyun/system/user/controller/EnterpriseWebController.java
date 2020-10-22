@@ -34,7 +34,7 @@ public class EnterpriseWebController {
     private IEnterpriseService enterpriseService;
     private IEnterpriseWorkerService enterpriseWorkerService;
 
-    @GetMapping("/get_service_providers")
+    @GetMapping("/query-service-provider-list")
     @ApiOperation(value = "查询商户合作服务商", notes = "查询商户合作服务商")
     public R getServiceProviders(Query query, BladeUser bladeUser) {
         //查询当前商户员工
@@ -47,10 +47,10 @@ public class EnterpriseWebController {
         return enterpriseService.getServiceProviders(query, enterpriseWorkerEntity.getEnterpriseId());
     }
 
-    @GetMapping("/get_enterprise_detail_by_id")
-    @ApiOperation(value = "根据商户ID查询商户详情", notes = "根据商户ID查询商户详情")
-    public R getEnterpriseDetailById(@ApiParam(value = "商户ID", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId) {
-        return enterpriseService.getEnterpriseDetailById(enterpriseId);
+    @GetMapping("/query-enterprise-detail")
+    @ApiOperation(value = "查询商户详情", notes = "查询商户详情")
+    public R queryEnterpriseDetail(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId) {
+            return enterpriseService.getEnterpriseDetailById(enterpriseId);
     }
 
 }

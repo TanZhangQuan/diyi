@@ -53,5 +53,5 @@ public class OnlineAgreementNeedSignVO implements Serializable {
     /**
      * 在线合同协议
      */
-    private String onlineAggrementUrl;
+    private String onlineAgreementUrl;
 }

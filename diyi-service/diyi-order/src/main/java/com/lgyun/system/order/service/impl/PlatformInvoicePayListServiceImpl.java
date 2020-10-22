@@ -26,8 +26,7 @@ public class PlatformInvoicePayListServiceImpl extends BaseServiceImpl<PlatformI
     @Override
     public PlatformInvoicePayListEntity findPayEnterpriseId(Long payEnterpriseId) {
         QueryWrapper<PlatformInvoicePayListEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(PlatformInvoicePayListEntity::getIsDeleted, 0)
-                .eq(PlatformInvoicePayListEntity::getPayEnterpriseId, payEnterpriseId);
+        queryWrapper.lambda().eq(PlatformInvoicePayListEntity::getPayEnterpriseId, payEnterpriseId);
 
         PlatformInvoicePayListEntity platformInvoicePayListEntity = baseMapper.selectOne(queryWrapper);
         return platformInvoicePayListEntity;

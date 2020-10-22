@@ -46,9 +46,9 @@ public class NaturalPersonMakerEnterpriseController {
     private IMakerService makerService;
     private IMakerEnterpriseService makerEnterpriseService;
 
-    @GetMapping("/web/maker/get_relevance_enterprise_maker")
+    @GetMapping("/query-relevance-maker-list")
     @ApiOperation(value = "查询当前商户的所有关联或关注创客", notes = "查询当前商户的所有关联或关注创客")
-    public R getEnterpriseMakers(String keyword, @ApiParam(value = "创客商户关系") @NotNull(message = "请选择创客商户关系") @RequestParam(required = false) RelationshipType relationshipType, Query query, BladeUser bladeUser) {
+    public R queryRelevanceMakerList(String keyword, @ApiParam(value = "创客商户关系") @NotNull(message = "请选择创客商户关系") @RequestParam(required = false) RelationshipType relationshipType, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -59,9 +59,9 @@ public class NaturalPersonMakerEnterpriseController {
         return makerEnterpriseService.getEnterpriseMakerList(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), relationshipType, null, keyword);
     }
 
-    @PostMapping("/web/maker/save")
+    @PostMapping("/create-maker")
     @ApiOperation(value = "新增单个创客", notes = "新增单个创客")
-    public R makerAdd(@Valid @RequestBody MakerAddDTO makerAddDto, BladeUser bladeUser) {
+    public R createMaker(@Valid @RequestBody MakerAddDTO makerAddDto, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -72,9 +72,9 @@ public class NaturalPersonMakerEnterpriseController {
         return makerService.makerAdd(makerAddDto, enterpriseWorkerEntity.getEnterpriseId());
     }
 
-    @PostMapping("/web/maker/import-maker")
+    @PostMapping("/import-makers")
     @ApiOperation(value = "导入创客", notes = "导入创客")
-    public R importUser(@ApiParam(value = "文件") @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file, BladeUser bladeUser) throws IOException {
+    public R importMakers(@ApiParam(value = "文件") @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file, BladeUser bladeUser) throws IOException {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -101,9 +101,9 @@ public class NaturalPersonMakerEnterpriseController {
         return R.success("操作成功");
     }
 
-    @GetMapping("/web/maker/get_maker_detail_by_id")
-    @ApiOperation(value = "根据创客ID查询创客详情", notes = "根据创客ID查询创客详情")
-    public R getMakerDetailById(@ApiParam(value = "创客ID") @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId, BladeUser bladeUser) {
+    @GetMapping("/query-maker-detail")
+    @ApiOperation(value = "查询创客详情", notes = "查询创客详情")
+    public R queryMakerDetail(@ApiParam(value = "创客") @NotNull(message = "请选择创客") @RequestParam(required = false) Long makerId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -114,9 +114,9 @@ public class NaturalPersonMakerEnterpriseController {
         return makerService.getMakerDetailById(enterpriseWorkerEntity.getEnterpriseId(), makerId);
     }
 
-    @PostMapping("/web/maker/cancel_relevance_makers")
+    @PostMapping("/cancel-relevance-makers")
     @ApiOperation(value = "批量取消创客关联或关注", notes = "批量取消创客关联或关注")
-    public R cancelRelevanceMakers(@ApiParam(value = "创客ID") @NotEmpty(message = "请选择要取消关联的创客") @RequestParam(required = false) Set<Long> makerIds,
+    public R cancelRelevanceMakers(@ApiParam(value = "创客") @NotEmpty(message = "请选择要取消关联的创客") @RequestParam(required = false) Set<Long> makerIds,
                                    @ApiParam(value = "创客商户关系") @NotNull(message = "请选择创客商户关系") @RequestParam(required = false) RelationshipType relationshipType,
                                    BladeUser bladeUser) {
         //查询当前商户员工
@@ -129,9 +129,9 @@ public class NaturalPersonMakerEnterpriseController {
         return makerEnterpriseService.cancelRelMakers(makerIds, relationshipType, enterpriseWorkerEntity.getEnterpriseId());
     }
 
-    @PostMapping("/web/maker/relevance_makers")
+    @PostMapping("/relevance-makers")
     @ApiOperation(value = "批量关联创客", notes = "批量关联创客")
-    public R relevanceMakers(@ApiParam(value = "创客ID") @NotEmpty(message = "请选择要关联的创客") @RequestParam(required = false) Set<Long> makerIds, BladeUser bladeUser) {
+    public R relevanceMakers(@ApiParam(value = "创客") @NotEmpty(message = "请选择要关联的创客") @RequestParam(required = false) Set<Long> makerIds, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {

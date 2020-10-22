@@ -30,7 +30,7 @@ public class SelfHelpInvoiceDetailProviderVO implements Serializable {
     /**
      * 创客或非创客开票人身份证号码
      */
-    private String idCardNo;
+    private String idcardNo;
 
     /**
      * 创客或非创客开票人身份证号码

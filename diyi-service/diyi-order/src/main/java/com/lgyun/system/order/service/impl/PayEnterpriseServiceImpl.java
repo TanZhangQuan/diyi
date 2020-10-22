@@ -89,7 +89,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     public R<String> upload(PayEnterpriseUploadDTO payEnterpriseUploadDto, Long enterpriseId) throws Exception {
 
         //判断服务商和商户是否关联
-        EnterpriseServiceProviderEntity enterpriseServiceProviderEntity = userClient.findByEnterpriseIdServiceProviderId(enterpriseId, payEnterpriseUploadDto.getServiceProviderId());
+        EnterpriseServiceProviderEntity enterpriseServiceProviderEntity = userClient.queryEnterpriseToServiceProvider(enterpriseId, payEnterpriseUploadDto.getServiceProviderId());
         if (enterpriseServiceProviderEntity == null) {
             return R.fail("服务商和商户未关联");
         }
@@ -232,11 +232,12 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R withdraw(Long applicationId) {
+    public R cancelApply(Long applicationId) {
         InvoiceApplicationEntity invoiceApplicationEntity = invoiceApplicationService.getById(applicationId);
         if (null == invoiceApplicationEntity) {
             return R.fail("申请不存在");
         }
+
         invoiceApplicationEntity.setApplicationState(ApplicationState.CANCELLED);
         invoiceApplicationService.saveOrUpdate(invoiceApplicationEntity);
         return R.success("取消成功");
@@ -301,8 +302,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
     @Override
     public R findDetailSubcontractPortal(Long makerInvoiceId) {
-        Map map = new HashMap();
         EnterpriseSubcontractPortalVO detailSummary = baseMapper.findDetailSubcontractPortal(makerInvoiceId);
+        Map map = new HashMap();
         map.put("EnterpriseSubcontractPortalVO", detailSummary);
         PayEnterpriseEntity byId = getById(detailSummary.getPayEnterpriseId());
         if (null == byId) {
@@ -581,7 +582,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             if(null == byId){
                 return R.fail("创客支付明细不存在");
             }
-            String voicePerson = userClient.makerFindById(byId.getMakerId()).getName();
+            String voicePerson = userClient.queryMakerById(byId.getMakerId()).getName();
             BigDecimal makerNeIncome = byId.getMakerNeIncome();
             BigDecimal salesAmount = makerNeIncome.divide(new BigDecimal("1").add(new BigDecimal("0.03")),2);
             MakerInvoiceEntity makerInvoiceEntity = new MakerInvoiceEntity(byId.getId(),voiceTypeNo,voiceSerialNo,new Date(),voiceCategory,byId.getMakerNeIncome(),salesAmount,new BigDecimal(taxAmount),voicePerson,helpMakeOrganationName,helpMakeOrganationName,helpMakeCompany,helpMakeTaxNo,makerVoiceUrl,new Date());

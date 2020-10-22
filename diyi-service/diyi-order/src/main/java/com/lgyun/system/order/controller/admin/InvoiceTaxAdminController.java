@@ -28,11 +28,11 @@ import javax.validation.constraints.NotNull;
  * @time 16:24.
  */
 @RestController
-@RequestMapping("/admin/invoice")
+@RequestMapping("/admin/invoice-tax")
 @Validated
 @AllArgsConstructor
 @Api(value = "平台端---发票/完税证明管理模块相关接口", tags = "平台端---发票/完税证明管理模块相关接口")
-public class InvoiceAdminController {
+public class InvoiceTaxAdminController {
 
     private IUserClient userClient;
     private IPayEnterpriseService payEnterpriseService;
@@ -40,10 +40,8 @@ public class InvoiceAdminController {
 
     @GetMapping("/getAdminLumpSumInvoice")
     @ApiOperation(value = "平台查询查询总包发票", notes = "平台查询查询总包发票")
-    public R getAdminLumpSumInvoice(@RequestParam(required = false) String enterpriseName,
-                                    @RequestParam(required = false) String startTime,
-                                    @RequestParam(required = false) String endTime,
-                                    @RequestParam InvoiceState companyInvoiceState, Query query, BladeUser bladeUser) {
+    public R getAdminLumpSumInvoice(@RequestParam(required = false) String enterpriseName, @RequestParam(required = false) String startTime,
+                                    @RequestParam(required = false) String endTime, @RequestParam InvoiceState companyInvoiceState, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

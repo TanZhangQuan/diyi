@@ -54,7 +54,7 @@ public class SelfHelpInvoiceDetailAdminVO implements Serializable {
     /**
      *开票人身份证
      */
-    private String idCardNo;
+    private String idcardNo;
 
     /**
      *开票人电话
