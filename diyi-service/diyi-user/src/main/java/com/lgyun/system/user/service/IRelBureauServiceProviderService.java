@@ -15,12 +15,39 @@ import com.lgyun.system.user.vo.admin.RelBureauServiceProviderVO;
  */
 public interface IRelBureauServiceProviderService extends BaseService<RelBureauServiceProviderEntity> {
 
+    /**
+     * 查询匹配的服务商
+     *
+     * @param serviceProviderName
+     * @param page
+     * @return
+     */
     R<IPage<RelBureauServiceProviderVO>> queryRelBureauServiceProvider(String serviceProviderName, IPage<RelBureauServiceProviderVO> page);
 
+    /**
+     * 添加匹配服务商
+     *
+     * @param serviceProviderIds
+     * @param bureauId
+     * @return
+     */
     R addRelBureauServiceProvider(String serviceProviderIds, Long bureauId);
 
-    R updateTaxBureauServiceProvider(Long bureauServiceProviderId, BureauServiceProviderStatus bureauServiceProviderStatus);
+    /**
+     * 开启或关闭匹配服务商
+     *
+     * @param bureauServiceProviderId
+     * @param bureauServiceProviderStatus
+     * @return
+     */
+    R updateBureauServiceProvider(Long bureauServiceProviderId, BureauServiceProviderStatus bureauServiceProviderStatus);
 
-    R deleteTaxBureauServiceProvider(Long bureauServiceProviderId);
+    /**
+     * 撤销服务商
+     *
+     * @param bureauServiceProviderId
+     * @return
+     */
+    R deleteBureauServiceProvider(Long bureauServiceProviderId);
 }
 

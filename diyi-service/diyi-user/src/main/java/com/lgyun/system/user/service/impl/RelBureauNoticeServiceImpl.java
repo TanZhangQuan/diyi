@@ -36,7 +36,7 @@ public class RelBureauNoticeServiceImpl extends BaseServiceImpl<RelBureauNoticeM
      * @return
      */
     @Override
-    public R<IPage<RelBureauNoticeVO>> queryTaxBureauNotice(Long bureauId, IPage<RelBureauNoticeVO> page) {
+    public R<IPage<RelBureauNoticeVO>> queryBureauNotice(Long bureauId, IPage<RelBureauNoticeVO> page) {
         return R.data(page.setRecords(baseMapper.queryTaxBureauNotice(bureauId, page)));
     }
 }

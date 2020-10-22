@@ -77,10 +77,10 @@ public class RelBureauServiceImpl extends BaseServiceImpl<RelBureauMapper, RelBu
      * @return
      */
     @Override
-    public R updateTaxBureau(UpdateRelBureauDTO updateRelBureauDTO) {
+    public R updateBureau(UpdateRelBureauDTO updateRelBureauDTO) {
         RelBureauEntity relBureauEntity = this.getById(updateRelBureauDTO.getBureauId());
         if (relBureauEntity == null) {
-            R.fail("税务局管理的ID不能为空！");
+            return R.fail("您编辑的内容不存在！");
         }
         BeanUtil.copyProperties(updateRelBureauDTO,relBureauEntity);
         if (!StringUtils.isBlank(updateRelBureauDTO.getPassWord())) {
@@ -99,8 +99,8 @@ public class RelBureauServiceImpl extends BaseServiceImpl<RelBureauMapper, RelBu
         }
         boolean flag = this.updateById(relBureauEntity);
         if (flag) {
-            return R.success("编辑税务局管理成功！");
+            return R.success("编辑成功！");
         }
-        return R.fail("编辑税务局管理失败！");
+        return R.fail("编辑失败！");
     }
 }

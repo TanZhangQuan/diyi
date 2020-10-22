@@ -14,6 +14,6 @@ import com.lgyun.system.user.vo.admin.RelBureauNoticeVO;
  */
 public interface IRelBureauNoticeService extends BaseService<RelBureauNoticeEntity> {
 
-    R<IPage<RelBureauNoticeVO>> queryTaxBureauNotice(Long bureauId, IPage<RelBureauNoticeVO> page);
+    R<IPage<RelBureauNoticeVO>> queryBureauNotice(Long bureauId, IPage<RelBureauNoticeVO> page);
 }
 
