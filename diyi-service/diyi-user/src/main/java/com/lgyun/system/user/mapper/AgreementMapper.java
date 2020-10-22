@@ -33,7 +33,7 @@ public interface AgreementMapper extends BaseMapper<AgreementEntity> {
     /**
      * 商户和创客的补充协议
      */
-    List<AgreementMakerWebVO> selectEnterpriseMakerAgreement( Long enterpriseId,IPage<AgreementMakerWebVO> page);
+    List<AgreementMakerWebVO> selectEnterpriseMakerAgreement(Long enterpriseId,IPage<AgreementMakerWebVO> page);
 
     /**
      *查询服务商加盟平台合同
@@ -69,5 +69,31 @@ public interface AgreementMapper extends BaseMapper<AgreementEntity> {
      *平台根据商户id查询合作服务商的合同
      */
     List<AgreementEnterServiceAdminVO> findEnterIdServiceAgreement(Long enterpriseId, String serviceProviderName, IPage<AgreementEnterServiceAdminVO> page);
+
+
+    /**
+     * 平台查询创客合同的签署状态
+     */
+    List<AgreementMakerStateAdminVO> queryMakerAgreementState(String makerName,IPage<AgreementMakerStateAdminVO> page);
+
+    /**
+     * 平台通过创客id查询创客和商户的补充协议
+     */
+    List<AgreementMakerEnterAdminVO> queryMakerIdSupplement(Long makerId,Long enterpriseId,IPage<AgreementMakerEnterAdminVO> page);
+
+    /**
+     * 平台查询商户合同的签署状态
+     */
+    List<AgreementMakerStateAdminVO> queryEnterpriseAgreementState(String enterpriseName, IPage<AgreementMakerStateAdminVO> page);
+
+    /**
+     * 平台根据商户id查询合作商户和服务商补充协议
+     */
+    List<AgreementServiceVO> queryEnterIdServiceSupplement(Long enterpriseId,Long serviceProviderId, IPage<AgreementServiceVO> page);
+
+    /**
+     * 平台根据商户id查询商户承诺函
+     */
+    List<AgreementServiceVO> queryEnterIdPromise(Long enterpriseId, IPage<AgreementServiceVO> page);
 }
 

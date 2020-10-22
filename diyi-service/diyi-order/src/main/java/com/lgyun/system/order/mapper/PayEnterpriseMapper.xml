@@ -763,7 +763,7 @@
         t2.all_pay AS crowd_all_pay,
         (SELECT COUNT(DISTINCT id) FROM diyi_service_provider_maker WHERE service_provider_id IN
         (SELECT service_provider_id FROM diyi_rel_bureau_service_provider WHERE rel_bureau_id = #{bureauId})) AS maker_num,
-        (SELECT COUNT(id) FROM diyi_rel_bureau_service_provider WHERE rel_bureau_id = '1318534401678622722') AS service_provider_num FROM
+        (SELECT COUNT(id) FROM diyi_rel_bureau_service_provider WHERE rel_bureau_id = #{bureauId}) AS service_provider_num FROM
         (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) &lt;= 30, pay_to_platform_amount, 0)), 0) AS month_pay,
         IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) &lt;= 365, pay_to_platform_amount, 0)), 0) AS year_pay,
         IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay

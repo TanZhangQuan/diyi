@@ -351,12 +351,18 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R getServicePortalSignInvoiceDetails(Long payEnterpriseId);
 
     /**
-     * 查询当前税务局管理所有匹配的服务商交易情况数据
+     * 查询相关局的所有匹配服务商交易情况数据
      * @param bureauId
      * @return
      */
     R<TransactionVO> transactionByBureauServiceProvider(Long bureauId);
 
+    /**
+     * 相关局查询所有匹配服务商基本信息及交易金额
+     * @param bureauId
+     * @param page
+     * @return
+     */
     R<IPage<TransactionByBureauServiceProviderInfoVO>> transactionByBureauServiceProviderInfo(Long bureauId, IPage<TransactionByBureauServiceProviderInfoVO> page);
 
 

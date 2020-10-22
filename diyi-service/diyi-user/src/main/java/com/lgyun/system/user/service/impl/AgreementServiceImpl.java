@@ -43,7 +43,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     private final IOnlineAgreementTemplateService iOnlineAgreementTemplateService;
     private final IServiceProviderService serviceProviderService;
     private final IOnlineAgreementNeedSignService onlineAgreementNeedSignService;
-    private IEnterpriseServiceProviderService enterpriseServiceProviderService;
+    private final IEnterpriseServiceProviderService enterpriseServiceProviderService;
 
     @Autowired
     @Lazy
@@ -370,28 +370,29 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
-    public R saveAdminAgreement(Long agreementId, String name, Long objectId, ObjectType objectType, Integer contractType, AgreementType agreementType, String paperAgreementUrl) {
-        AgreementEntity agreementEntity = null;
-        agreementEntity = agreementService.getById(agreementId);
-        if (null != agreementEntity) {
-            agreementEntity.setPaperAgreementUrl(paperAgreementUrl);
-            agreementEntity.setSignType(SignType.PAPERAGREEMENT);
-            agreementEntity.setSignState(SignState.SIGNED);
-            agreementEntity.setOnlineAgreementUrl("");
-            agreementEntity.setUpdateTime(new Date());
-            saveOrUpdate(agreementEntity);
-            return R.success("编辑成功");
-        }
-        agreementEntity = new AgreementEntity();
+    public R saveAdminAgreement(Long makerId, Long enterpriseId,Long serviceProviderId, Long objectId, ObjectType objectType, Integer contractType, AgreementType agreementType, String paperAgreementUrl) {
+        AgreementEntity agreementEntity = new AgreementEntity();
         agreementEntity.setAgreementType(agreementType);
         agreementEntity.setSignType(SignType.PAPERAGREEMENT);
         agreementEntity.setSignState(SignState.SIGNED);
         if (ObjectType.MAKERPEOPLE.equals(objectType)) {
             agreementEntity.setMakerId(objectId);
+            if(AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType)){
+                agreementEntity.setEnterpriseId(enterpriseId);
+            }
         } else if (ObjectType.ENTERPRISEPEOPLE.equals(objectType)) {
             agreementEntity.setEnterpriseId(objectId);
+            if(AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType)){
+                agreementEntity.setMakerId(makerId);
+            }
+            if(AgreementType.SERENTSUPPLEMENTARYAGREEMENT.equals(agreementType)){
+                agreementEntity.setServiceProviderId(serviceProviderId);
+            }
         } else if (ObjectType.SERVICEPEOPLE.equals(objectType)) {
             agreementEntity.setServiceProviderId(objectId);
+            if(AgreementType.SERENTSUPPLEMENTARYAGREEMENT.equals(agreementType)){
+                agreementEntity.setEnterpriseId(enterpriseId);
+            }
         } else if (ObjectType.CHANNELPEOPLE.equals(objectType)) {
             agreementEntity.setAgentId(objectId);
         } else if (ObjectType.RELEVANTPEOPLE.equals(objectType)) {
@@ -400,15 +401,24 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
             agreementEntity.setPartnerId(objectId);
         }
         agreementEntity.setPaperAgreementUrl(paperAgreementUrl);
-        agreementEntity.setFirstSideSignPerson("地衣众包平台");
-        agreementEntity.setSecondSideSignPerson(name);
+        if(AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType)){
+            agreementEntity.setFirstSideSignPerson("");
+            agreementEntity.setSecondSideSignPerson("");
+        }else if(AgreementType.SERENTSUPPLEMENTARYAGREEMENT.equals(agreementType)){
+            agreementEntity.setFirstSideSignPerson("地衣众包平台");
+            agreementEntity.setSecondSideSignPerson("");
+        }else{
+            agreementEntity.setFirstSideSignPerson("地衣众包平台");
+            agreementEntity.setSecondSideSignPerson("");
+        }
+
         save(agreementEntity);
         return R.success("操作成功");
     }
 
     @Override
-    public R findAdminEnterpriseId(Long enterpriseId, AgreementType agreementType) {
-        if (!(AgreementType.ENTERPRISEJOINAGREEMENT.equals(agreementType) || AgreementType.ENTERPRISEPOWERATTORNEY.equals(agreementType))) {
+    public R queryAdminEnterpriseId(Long enterpriseId, AgreementType agreementType) {
+        if (!(AgreementType.ENTERPRISEJOINAGREEMENT.equals(agreementType) || AgreementType.ENTERPRISEPOWERATTORNEY.equals(agreementType) || AgreementType.ENTERPRISEPRICEAGREEMENT.equals(agreementType))) {
             return R.fail("合同协议类别错误!!!");
         }
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
@@ -425,7 +435,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
 
     @Override
     public R findAdminSerIdAgreement(Long serviceProviderId, AgreementType agreementType) {
-        if (!(AgreementType.SERVICEPROVIDERJOINAGREEMENT.equals(agreementType) || AgreementType.ENTERPRISEPOWERATTORNEY.equals(agreementType))) {
+        if (!(AgreementType.SERVICEPROVIDERJOINAGREEMENT.equals(agreementType))) {
             return R.fail("合同协议类别错误!!!");
         }
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
@@ -448,6 +458,67 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         }
 
         return R.data(agreementEntity.getOnlineAgreementUrl());
+    }
+
+    @Override
+    public R queryMakerAgreementState(String makerName,IPage<AgreementMakerStateAdminVO> page) {
+        return R.data(page.setRecords(baseMapper.queryMakerAgreementState(makerName,page)));
+    }
+
+    @Override
+    public R queryMakerIdSupplement(Long makerId, IPage<AgreementMakerEnterAdminVO> page) {
+        return R.data(page.setRecords(baseMapper.queryMakerIdSupplement(makerId,null,page)));
+    }
+
+    @Override
+    public R queryEnterpriseAgreementState(String enterpriseName, IPage<AgreementMakerStateAdminVO> page) {
+        return R.data(page.setRecords(baseMapper.queryEnterpriseAgreementState(enterpriseName,page)));
+    }
+
+    @Override
+    public R queryEnterpriseIdSupplement(Long enterpriseId, IPage<AgreementMakerEnterAdminVO> page) {
+        return R.data(page.setRecords(baseMapper.queryMakerIdSupplement(null,enterpriseId,page)));
+    }
+
+    @Override
+    public R queryEnterIdServiceSupplement(Long enterpriseId, IPage<AgreementServiceVO> page) {
+        return R.data(page.setRecords(baseMapper.queryEnterIdServiceSupplement(enterpriseId, null,page)));
+    }
+
+    @Override
+    public R queryEnterIdPromise(Long enterpriseId, IPage<AgreementServiceVO> page) {
+        return R.data(page.setRecords(baseMapper.queryEnterIdPromise(enterpriseId, page)));
+    }
+
+    @Override
+    public R queryServiceIdEnterSupplement(Long serviceProviderId, IPage<AgreementServiceVO> page) {
+        return R.data(page.setRecords(baseMapper.queryEnterIdServiceSupplement(null,serviceProviderId, page)));
+    }
+
+    @Override
+    public R saveAdminAgreementId(Long agreementId, String agreementUrl) {
+        AgreementEntity agreementEntity = getById(agreementId);
+        if(null == agreementEntity){
+            return R.fail("合同Id有误");
+        }
+        agreementEntity.setPaperAgreementUrl(agreementUrl);
+        saveOrUpdate(agreementEntity);
+        return R.success("编辑成功");
+    }
+
+    @Override
+    public R queryAdminMakerAll(IPage<MakerEntity> page) {
+        return makerService.getMakerAll(page);
+    }
+
+    @Override
+    public R queryAdminEnterpriseAll(IPage<EnterpriseEntity> page) {
+        return enterpriseService.getEnterpriseAll(page);
+    }
+
+    @Override
+    public R queryAdminServiceAll(IPage<ServiceProviderEntity> page) {
+        return serviceProviderService.getServiceAll(page);
     }
 
 }

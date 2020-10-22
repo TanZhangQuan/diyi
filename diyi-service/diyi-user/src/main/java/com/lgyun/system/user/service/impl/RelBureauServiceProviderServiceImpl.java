@@ -3,6 +3,7 @@ package com.lgyun.system.user.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.BureauServiceProviderStatus;
+import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.tool.Func;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.mapper.ServiceProviderMapper;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.lgyun.system.user.mapper.RelBureauServiceProviderMapper;
 import com.lgyun.system.user.entity.RelBureauServiceProviderEntity;
 import com.lgyun.system.user.service.IRelBureauServiceProviderService;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,12 +57,13 @@ public class RelBureauServiceProviderServiceImpl extends BaseServiceImpl<RelBure
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R addRelBureauServiceProvider(String serviceProviderIds, Long bureauId) {
         List<Long> longs = Func.toLongList(serviceProviderIds);
         for (Long id : longs) {
             ServiceProviderEntity serviceProviderEntity = serviceProviderMapper.selectById(id);
             if (serviceProviderEntity == null) {
-                break;
+                throw new CustomException("服务商不存在！");
             }
             RelBureauServiceProviderEntity entity = new RelBureauServiceProviderEntity();
             entity.setServiceProviderId(id);
@@ -79,19 +82,28 @@ public class RelBureauServiceProviderServiceImpl extends BaseServiceImpl<RelBure
      * @return
      */
     @Override
-    public R updateTaxBureauServiceProvider(Long bureauServiceProviderId, BureauServiceProviderStatus bureauServiceProviderStatus) {
-        RelBureauServiceProviderEntity entity = new RelBureauServiceProviderEntity();
+    public R updateBureauServiceProvider(Long bureauServiceProviderId, BureauServiceProviderStatus bureauServiceProviderStatus) {
+        RelBureauServiceProviderEntity entity = this.getById(bureauServiceProviderId);
+        if (entity == null) {
+            return R.fail("你输入的匹配服务商不存在");
+        }
         entity.setId(bureauServiceProviderId);
         entity.setBureauServiceProviderStatus(bureauServiceProviderStatus);
         this.updateById(entity);
         return R.success("操作成功！");
     }
 
+    /**
+     * 撤销匹配的服务商
+     *
+     * @param bureauServiceProviderId
+     * @return
+     */
     @Override
-    public R deleteTaxBureauServiceProvider(Long bureauServiceProviderId) {
+    public R deleteBureauServiceProvider(Long bureauServiceProviderId) {
         RelBureauServiceProviderEntity relBureauServiceProviderEntity = this.getById(bureauServiceProviderId);
         if (relBureauServiceProviderEntity == null) {
-            return R.fail("你输入的ID不存在");
+            return R.fail("你输入匹配服务商不存在");
         }
         baseMapper.removeById(bureauServiceProviderId);
         return R.success("撤销成功！");
