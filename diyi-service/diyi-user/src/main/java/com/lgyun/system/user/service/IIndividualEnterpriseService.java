@@ -3,11 +3,8 @@ package com.lgyun.system.user.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
-import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.vo.SelfHelpInvoiceListVO;
-import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDTO;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDTO;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDTO;
@@ -73,25 +70,6 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
      * @return
      */
     R<IPage<IndividualEnterpriseDetailEnterpriseVO>> getIndividualEnterpriseList(IPage<IndividualEnterpriseDetailEnterpriseVO> page, Long enterpriseId, Long serviceProviderId, IndividualBusinessEnterpriseDTO individualBusinessEnterpriseDto);
-
-    /**
-     * 查询个独开票次数，月度开票金额，年度开票金额和总开票金额
-     *
-     * @param individualEnterpriseId
-     * @param invoicePeopleType
-     * @return
-     */
-    R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(Long individualEnterpriseId, InvoicePeopleType invoicePeopleType);
-
-    /**
-     * 查询个独开票记录
-     *
-     * @param query
-     * @param individualEnterpriseId
-     * @param invoicePeopleType
-     * @return
-     */
-    R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(Query query, Long individualEnterpriseId, InvoicePeopleType invoicePeopleType);
 
     /**
      * 当前商户申请创建个独

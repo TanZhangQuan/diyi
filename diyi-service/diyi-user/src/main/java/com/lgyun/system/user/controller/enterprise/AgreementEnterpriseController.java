@@ -205,25 +205,6 @@ public class AgreementEnterpriseController {
         return agreementService.saveOnlineAgreement(enterpriseWorkerEntity.getEnterpriseId(), paperAgreementURL, boolAllMakers, makerIds, templateCount, AgreementType.OTHERAGREEMENT, makerEnterpriseService);
     }
 
-    @GetMapping("/query-ent-mak-sourc")
-    @ApiOperation(value = "根据商户查询众包的合同", notes = "根据商户查询众包的合同")
-    public R selectEntMakSourc(Query query, BladeUser bladeUser) {
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-        return orderClient.selectEntMakSourc(query.getCurrent(), query.getSize(), enterpriseWorkerEntity.getEnterpriseId());
-    }
-
-    @GetMapping("/query-ent-mak-sourc-detail")
-    @ApiOperation(value = "根据自助开票查询众包的详情", notes = "根据自助开票查询众包的详情")
-    public R selectEntMakSourcDetail(Long selfHelpInvoiceId) {
-        return orderClient.findDetailCrowdSourcing(selfHelpInvoiceId);
-    }
-
     @GetMapping("/getRelationServiceProvider")
     @ApiOperation(value = "根据商户id查询有关联的服务商", notes = "根据商户id查询有关联的服务商")
     public R getRelationServiceProvider(BladeUser bladeUser, Query query, String keyWord) {

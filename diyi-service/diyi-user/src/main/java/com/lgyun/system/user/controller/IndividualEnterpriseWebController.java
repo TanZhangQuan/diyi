@@ -1,7 +1,6 @@
 package com.lgyun.system.user.controller;
 
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
@@ -32,18 +31,6 @@ import javax.validation.constraints.NotNull;
 public class IndividualEnterpriseWebController {
 
     private IIndividualEnterpriseService individualEnterpriseService;
-
-    @GetMapping("/self_help_invoice_statistics")
-    @ApiOperation(value = "查询个独开票次数，月度开票金额，年度开票金额和总开票金额", notes = "查询个独开票次数，月度开票金额，年度开票金额和总开票金额")
-    public R selfHelpInvoiceStatistics(@ApiParam(value = "个独ID", required = true) @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
-        return individualEnterpriseService.selfHelpInvoiceStatistics(individualEnterpriseId, InvoicePeopleType.INDIVIDUALENTERPRISE);
-    }
-
-    @GetMapping("/self_help_invoice_list")
-    @ApiOperation(value = "查询个独开票记录", notes = "查询个独开票记录")
-    public R selfHelpInvoiceList(Query query, @ApiParam(value = "个独ID", required = true) @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
-        return individualEnterpriseService.selfHelpInvoiceList(query, individualEnterpriseId, InvoicePeopleType.INDIVIDUALENTERPRISE);
-    }
 
     @GetMapping("/query_enterprise_reports")
     @ApiOperation(value = "查询个独年审信息", notes = "查询个独年审信息")

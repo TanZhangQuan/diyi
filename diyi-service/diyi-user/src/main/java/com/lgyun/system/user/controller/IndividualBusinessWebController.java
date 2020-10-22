@@ -1,7 +1,6 @@
 package com.lgyun.system.user.controller;
 
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
@@ -32,18 +31,6 @@ import javax.validation.constraints.NotNull;
 public class IndividualBusinessWebController {
 
     private IIndividualBusinessService individualBusinessService;
-
-    @GetMapping("/self_help_invoice_statistics")
-    @ApiOperation(value = "查询个体户开票次数，月度开票金额，年度开票金额和总开票金额", notes = "查询个体户开票次数，月度开票金额，年度开票金额和总开票金额")
-    public R selfHelpInvoiceStatistics(@ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
-        return individualBusinessService.selfHelpInvoiceStatistics(individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
-    }
-
-    @GetMapping("/self_help_invoice_list")
-    @ApiOperation(value = "查询个体户开票记录", notes = "查询个体户开票记录")
-    public R selfHelpInvoiceList(Query query, @ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
-        return individualBusinessService.selfHelpInvoiceList(query, individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
-    }
 
     @GetMapping("/query_enterprise_reports")
     @ApiOperation(value = "查询个体户年审信息", notes = "查询个体户年审信息")

@@ -2,7 +2,6 @@ package com.lgyun.system.user.controller.admin;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.BodyType;
-import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
@@ -65,30 +64,6 @@ public class IndividualEnterpriseAdminController {
         }
 
         return enterpriseReportService.findByBodyTypeAndBodyId(query, BodyType.INDIVIDUALENTERPRISE, individualEnterpriseId);
-    }
-
-    @GetMapping("/query-self-help-invoice-statistics")
-    @ApiOperation(value = "查询个独开票次数，月度开票金额，年度开票金额和总开票金额", notes = "查询个独开票次数，月度开票金额，年度开票金额和总开票金额")
-    public R querySelfHelpInvoiceStatistics(@ApiParam(value = "个独ID") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId, BladeUser bladeUser) {
-        //查询当前管理员
-        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return individualEnterpriseService.selfHelpInvoiceStatistics(individualEnterpriseId, InvoicePeopleType.INDIVIDUALENTERPRISE);
-    }
-
-    @GetMapping("/query-self-help-invoice-list")
-    @ApiOperation(value = "查询个独开票记录", notes = "查询个独开票记录")
-    public R querySelfHelpInvoiceList(Query query, @ApiParam(value = "个独ID") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId, BladeUser bladeUser) {
-        //查询当前管理员
-        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return individualEnterpriseService.selfHelpInvoiceList(query, individualEnterpriseId, InvoicePeopleType.INDIVIDUALENTERPRISE);
     }
 
     @PostMapping("/save-individual-enterprise")

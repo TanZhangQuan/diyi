@@ -3,11 +3,12 @@ package com.lgyun.system.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.*;
+import com.lgyun.common.enumeration.BizType;
+import com.lgyun.common.enumeration.BodyType;
+import com.lgyun.common.enumeration.Ibstate;
+import com.lgyun.common.enumeration.VerifyStatus;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.feign.IOrderClient;
-import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDTO;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDTO;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDTO;
@@ -38,7 +39,6 @@ import java.util.List;
 @AllArgsConstructor
 public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBusinessMapper, IndividualBusinessEntity> implements IIndividualBusinessService {
 
-    private IOrderClient orderClient;
     private IMakerService makerService;
     private IEnterpriseReportService enterpriseReportService;
 
@@ -95,16 +95,6 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
         }
 
         return R.data(page.setRecords(baseMapper.getIndividualBusinessList(enterpriseId, serviceProviderId, individualBusinessEnterpriseDto, page)));
-    }
-
-    @Override
-    public R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(Long individualBusinessId, InvoicePeopleType invoicePeopleType) {
-        return orderClient.selfHelpInvoiceStatistics(individualBusinessId, invoicePeopleType);
-    }
-
-    @Override
-    public R selfHelpInvoiceList(Query query, Long individualBusinessId, InvoicePeopleType invoicePeopleType) {
-        return orderClient.selfHelpInvoiceList(query.getCurrent(), query.getSize(), individualBusinessId, invoicePeopleType);
     }
 
     @Override

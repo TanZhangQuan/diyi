@@ -1,10 +1,5 @@
 package com.lgyun.system.order.feign;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.InvoicePeopleType;
-import com.lgyun.system.order.vo.SelfHelpInvoiceListVO;
-import com.lgyun.system.order.vo.SelfHelpInvoiceStatisticsVO;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,25 +10,5 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class IOrderClientFallback implements IOrderClient {
-
-    @Override
-    public R<SelfHelpInvoiceStatisticsVO> selfHelpInvoiceStatistics(Long allKindEnterpriseId, InvoicePeopleType invoicePeopleType) {
-        return R.fail("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(Integer current, Integer size, Long allKindEnterpriseId, InvoicePeopleType invoicePeopleType) {
-        return R.fail("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public R selectEntMakSourc(Integer current, Integer size, Long enterpriseId) {
-        return R.fail("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public R findDetailCrowdSourcing(Long selfHelpInvoiceId) {
-        return R.fail("网络繁忙，请稍后尝试");
-    }
 
 }
