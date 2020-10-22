@@ -34,9 +34,9 @@ public class AddressMakerController {
     private IAddressService addressService;
     private IUserClient iUserClient;
 
-    @PostMapping("/addOrUpdate")
+    @PostMapping("/add-or-update-address")
     @ApiOperation(value = "当前服务商新建或修改收货地址", notes = "当前服务商新建或修改收货地址")
-    public R addOrUpdate(@Valid @RequestBody AddressDTO addressDto, BladeUser bladeUser) {
+    public R addOrUpdateAddress(@Valid @RequestBody AddressDTO addressDto, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -47,9 +47,9 @@ public class AddressMakerController {
         return addressService.addOrUpdateAddress(addressDto, serviceProviderWorkerEntity.getServiceProviderId(), ObjectType.SERVICEPEOPLE);
     }
 
-    @GetMapping("/list_by_service_provider")
+    @GetMapping("/query-address-list")
     @ApiOperation(value = "查询当前服务商所有地址", notes = "查询当前服务商所有地址")
-    public R list(Long addressId, Query query, BladeUser bladeUser) {
+    public R queryAddressList(Long addressId, Query query, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -60,9 +60,9 @@ public class AddressMakerController {
         return addressService.findAddressMakerId(query.getCurrent(), query.getCurrent(), serviceProviderWorkerEntity.getServiceProviderId(), ObjectType.SERVICEPEOPLE, addressId);
     }
 
-    @PostMapping("/remove")
+    @PostMapping("/remove-address")
     @ApiOperation(value = "删除收货地址", notes = "删除收货地址")
-    public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids, BladeUser bladeUser) {
+    public R removeAddress(@ApiParam(value = "主键集合", required = true) @RequestParam String ids, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {

@@ -23,7 +23,7 @@ import javax.validation.Valid;
  * @since 2020-07-25 14:38:06
  */
 @RestController
-@RequestMapping("/serviceprovider")
+@RequestMapping("/service-provider/")
 @Validated
 @AllArgsConstructor
 @Api(value = "服务商相关接口", tags = "服务商相关接口")

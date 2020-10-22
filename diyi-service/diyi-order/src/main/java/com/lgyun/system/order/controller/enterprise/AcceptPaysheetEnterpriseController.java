@@ -28,7 +28,7 @@ import javax.validation.constraints.NotNull;
  * @time 10:17.
  */
 @RestController
-//@RequestMapping("/enterprise/accept-paysheet")
+@RequestMapping("/enterprise/accept-paysheet")
 @Validated
 @AllArgsConstructor
 @Api(value = "商户端---交付支付验收单管理模块相关接口", tags = "商户端---交付支付验收单管理模块相关接口")

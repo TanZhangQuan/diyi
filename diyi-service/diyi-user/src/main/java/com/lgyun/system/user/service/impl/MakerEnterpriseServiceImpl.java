@@ -65,8 +65,8 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
-    public IPage<MakerEnterpriseRelationVO> selectMakerEnterprisePage(IPage<MakerEnterpriseRelationVO> page, Long makerId, RelationshipType relationshipType) {
-        return page.setRecords(baseMapper.selectMakerEnterprisePage(makerId, relationshipType, page));
+    public R<IPage<MakerEnterpriseRelationVO>> selectMakerEnterprisePage(IPage<MakerEnterpriseRelationVO> page, Long makerId, RelationshipType relationshipType) {
+        return R.data(page.setRecords(baseMapper.selectMakerEnterprisePage(makerId, relationshipType, page)));
     }
 
     @Override
@@ -220,7 +220,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
-    public R getMakerDetailed(IPage<MakerEnterpriseDetailYearMonthVO> page, Long makerId, Long enterpriseId,WorkSheetType workSheetType) {
+    public R<IPage<MakerEnterpriseDetailYearMonthVO>> getMakerDetailed(IPage<MakerEnterpriseDetailYearMonthVO> page, Long makerId, Long enterpriseId,WorkSheetType workSheetType) {
             if(workSheetType.equals(WorkSheetType.CROWDSOURCED)){
                return R.data(page.setRecords(baseMapper.getMakerCrowdDetailed(makerId,enterpriseId,page)));
             }

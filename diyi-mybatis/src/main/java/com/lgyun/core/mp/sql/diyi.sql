@@ -479,7 +479,7 @@ CREATE TABLE `diyi_agreement` (
   `agent_id` bigint(50) DEFAULT NULL COMMENT '渠道商ID',
   `partner_id` bigint(50) DEFAULT NULL COMMENT '合伙人ID',
   `online_agreement_template_id` bigint(50) DEFAULT NULL COMMENT '平台在线协议模板ID',
-  `online_aggrement_url` varchar(500) DEFAULT NULL COMMENT '在线协议URL',
+  `online_agreement_url` varchar(500) DEFAULT NULL COMMENT '在线协议URL',
   `paper_agreement_url` varchar(500) DEFAULT '' COMMENT '纸质协议URL',
   `third_online_agreement_url` varchar(500) DEFAULT '' COMMENT '三方在线协议URL',
   `paper_agreement_upload` varchar(50) DEFAULT NULL COMMENT '纸质协议上传状态',

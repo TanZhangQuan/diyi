@@ -51,8 +51,12 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
 
     /**
      * 根据商户和合同类型找合同
+     *
+     * @param enterpriseId
+     * @param agreementType
+     * @return
      */
-    AgreementWebVO findByEnterpriseAndType(Long enterpriseId, AgreementType agreementType,SignType signType);
+    AgreementWebVO findByEnterpriseAndType(Long enterpriseId, AgreementType agreementType, SignType signType);
 
     /**
      * 根据商户查询商户的承诺函
@@ -66,36 +70,78 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
 
     /**
      * 查询商户关联服务商的加盟合同
+     *
+     * @param page
+     * @param enterpriseId
+     * @param serviceProviderName
+     * @param agreementNo
+     * @param signType
+     * @param agreementType
+     * @return
      */
     IPage<AgreementWebVO> selectServiceAgreement(IPage<AgreementWebVO> page, Long enterpriseId, String serviceProviderName, String agreementNo, SignType signType, AgreementType agreementType);
 
     /**
      * 查询商户关联服务商的补充协议
+     *
+     * @param page
+     * @param enterpriseId
+     * @param serviceProviderName
+     * @param agreementNo
+     * @param agreementType
+     * @return
      */
     IPage<AgreementWebVO> selectServiceSupplementaryAgreement(IPage<AgreementWebVO> page, Long enterpriseId, String serviceProviderName, String agreementNo, AgreementType agreementType);
 
     /**
      * 商户上传服务商的补充协议
+     *
+     * @param enterpriseId
+     * @param paperAgreementURL
+     * @param serviceProviderId
+     * @return
      */
     R<String> saveSupplementaryAgreement(Long enterpriseId, String paperAgreementURL, Long serviceProviderId);
 
     /**
      * 查询创客加盟合同
+     *
+     * @param page
+     * @param enterpriseId
+     * @return
      */
     R<IPage<AgreementMakerWebVO>> selectMakerAgreement(IPage<AgreementMakerWebVO> page, Long enterpriseId);
 
     /**
      * 商户上传商户和创客的补充协议
+     *
+     * @param enterpriseId
+     * @param paperAgreementURL
+     * @return
      */
     R saveEnterpriseMakerAgreement(Long enterpriseId, String paperAgreementURL);
 
     /**
      * 商户和创客的补充协议
+     *
+     * @param page
+     * @param enterpriseId
+     * @return
      */
     R selectEnterpriseMakerAgreement(IPage<AgreementMakerWebVO> page, Long enterpriseId);
 
     /**
+     * 发布在线签署的协议
      *
+     * @param enterpriseId
+     * @param paperAgreementURL
+     * @param boolAllMakers
+     * @param makerIds
+     * @param templateCount
+     * @param agreementType
+     * @param makerEnterpriseService
+     * @return
+     * @throws Exception
      */
     R saveOnlineAgreement(Long enterpriseId, String paperAgreementURL, Boolean boolAllMakers, String makerIds, Integer templateCount, AgreementType agreementType, IMakerEnterpriseService makerEnterpriseService) throws Exception;
 
@@ -108,7 +154,7 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
     /**
      * 上传服务商和商户的补充协议
      */
-    R uploadSupplement(String contractUrl, Long serviceProviderId,Long enterpriseId);
+    R uploadSupplement(String contractUrl, Long serviceProviderId, Long enterpriseId);
 
     /**
      * 根据服务商id查询有关联的商户
@@ -123,53 +169,96 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
     /**
      * 查询商户加盟平台合同
      */
-    R findEnterpriseAgreement(String agreementNo, Long serviceProviderId ,String enterpriseName,IPage<AgreementServiceVO> page);
+    R findEnterpriseAgreement(String agreementNo, Long serviceProviderId, String enterpriseName, IPage<AgreementServiceVO> page);
 
     /**
      * 服务商查询商户承诺函
      */
-    R findEnterprisePromise(String agreementNo, Long serviceProviderId ,String enterpriseName,IPage<AgreementServiceVO> page);
+    R findEnterprisePromise(String agreementNo, Long serviceProviderId, String enterpriseName, IPage<AgreementServiceVO> page);
 
     /**
      * 服务商查询服务商和商户的补充协议
      */
-    R findEnterpriseSupplement(String agreementNo, Long serviceProviderId ,String enterpriseName,IPage<AgreementServiceVO> page);
+    R findEnterpriseSupplement(String agreementNo, Long serviceProviderId, String enterpriseName, IPage<AgreementServiceVO> page);
 
 
     /**
      * 根据创客id查询加盟或者授权协议
+     *
+     * @param makerId
+     * @param agreementType
+     * @return
      */
-    R<AgreementEntity> findAdminMakerId(Long makerId,AgreementType agreementType);
+    R<AgreementEntity> findAdminMakerId(Long makerId, AgreementType agreementType);
 
     /**
-     *平台通过创客id查询合作商户的合同
+     * 平台通过创客id查询合作商户的合同
+     *
+     * @param makerId
+     * @param enterpriseName
+     * @param page
+     * @return
      */
-    R findAdMaEnterAgreement(Long makerId,String enterpriseName,IPage<AgreementMakerEnterAdminVO> page);
+    R findAdMaEnterAgreement(Long makerId, String enterpriseName, IPage<AgreementMakerEnterAdminVO> page);
 
     /**
      * 平台端添加合同
+     *
+     * @param agreementId
+     * @param name
+     * @param objectId
+     * @param objectType
+     * @param contractType
+     * @param agreementType
+     * @param paperAgreementUrl
+     * @return
      */
-    R saveAdminAgreement(Long agreementId,String name,Long objectId, ObjectType objectType,Integer contractType,AgreementType agreementType,String paperAgreementUrl);
+    R saveAdminAgreement(Long agreementId, String name, Long objectId, ObjectType objectType, Integer contractType, AgreementType agreementType, String paperAgreementUrl);
 
     /**
      * 平台根据商户id查询商户加盟合同或授权协议
+     *
+     * @param enterpriseId
+     * @param agreementType
+     * @return
      */
-    R findAdminEnterpriseId(Long enterpriseId,AgreementType agreementType);
+    R findAdminEnterpriseId(Long enterpriseId, AgreementType agreementType);
 
     /**
      * 平台根据商户id查询合作服务商的合同
+     *
+     * @param enterpriseId
+     * @param serviceProviderName
+     * @param page
+     * @return
      */
-    R findEnterIdServiceAgreement(Long enterpriseId,String serviceProviderName,IPage<AgreementEnterServiceAdminVO> page);
+    R findEnterIdServiceAgreement(Long enterpriseId, String serviceProviderName, IPage<AgreementEnterServiceAdminVO> page);
 
     /**
      * 平台根据服务商id查询服务商加盟合同或授权协议
+     *
+     * @param serviceProviderId
+     * @param agreementType
+     * @return
      */
-    R findAdminSerIdAgreement(Long serviceProviderId,AgreementType agreementType);
+    R findAdminSerIdAgreement(Long serviceProviderId, AgreementType agreementType);
 
     /**
      * 根据商户id查询有关联的服务商
+     *
+     * @param query
+     * @param enterpriseId
+     * @param keyWord
+     * @return
      */
-    R getRelationServiceProvider(Query query,Long enterpriseId,String keyWord);
+    R getRelationServiceProvider(Query query, Long enterpriseId, String keyWord);
 
+    /**
+     * 查看在线协议URL
+     *
+     * @param agreementId
+     * @return
+     */
+    R queryOnlineAgreementUrl(Long agreementId);
 }
 

@@ -282,6 +282,7 @@
 
     <resultMap type="com.lgyun.system.order.vo.admin.TransactionByBureauServiceProviderInfoVO" id="transactionByBureauServiceProviderInfoVO">
         <result column="id" property="serviceProviderId" />
+        <result column="bureau_service_provider_id" property="bureauServiceProviderId" />
         <result column="service_provider_name" property="serviceProviderName" />
         <result column="total_money" property="totalMoney" />
         <result column="bureau_service_provider_status" property="bureauServiceProviderStatus" />
@@ -756,7 +757,7 @@
 
     <!--相关局查询匹配的服务商基本信息及交易金额-->
     <select id="transactionByBureauServiceProviderInfo" resultMap="transactionByBureauServiceProviderInfoVO">
-        SELECT t1.id,t1.service_provider_name,t2.total_money,t3.bureau_service_provider_status,t3.create_time
+        SELECT t1.id,t1.service_provider_name,t2.total_money,t3.bureau_service_provider_status,t3.create_time,t3.id as 'bureau_service_provider_id'
         FROM diyi_service_provider t1 JOIN (
         (SELECT (IFNULL(total.all_pay,0) + IFNULL(many.all_pay,0)) as 'total_money',
         total.service_provider_id FROM

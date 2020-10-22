@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @time 10:17.
  */
 @RestController
-//@RequestMapping("/enterprise/cooperation-service-provider")
+@RequestMapping("/enterprise/cooperation-service-provider")
 @Validated
 @AllArgsConstructor
 @Api(value = "商户端---合作服务商管理模块相关接口", tags = "商户端---合作服务商管理模块相关接口")
@@ -31,9 +32,9 @@ public class CooperationServiceProviderEnterpriseController {
     private IEnterpriseWorkerService enterpriseWorkerService;
     private IEnterpriseServiceProviderService enterpriseProviderService;
 
-    @GetMapping("/web/enterpriseprovider/get_service_providers_by_enterprise_id")
+    @GetMapping("/query-service-provider-list")
     @ApiOperation(value = "查询当前商户合作服务商", notes = "查询当前商户合作服务商")
-    public R getServiceProvidersByEnterpriseId(String keyWord, Query query, BladeUser bladeUser) {
+    public R queryServiceProviderList(String keyWord, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {

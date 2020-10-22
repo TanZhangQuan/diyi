@@ -140,10 +140,15 @@
     </select>
 
     <select id="getMakerDetailed" resultMap="makerEnterpriseDetailYearMonthVO">
-        SELECT pm.maker_net_income check_money, pm.total_fee income, e.enterprise_name, pm.create_time AS check_date FROM diyi_maker_enterprise me INNER JOIN diyi_pay_enterprise pe ON me.enterprise_id = pe.enterprise_id INNER JOIN diyi_enterprise e ON e.id = me.enterprise_id INNER JOIN diyi_pay_maker pm ON pm.pay_enterprise_id = pe.id WHERE pe.pay_state = 'CONFIRMPAY' pm.maker_id =#{param1} AND me.enterprise_id =#{param2}
+        SELECT pm.maker_net_income check_money, pm.total_fee income, e.enterprise_name, pm.create_time AS check_date FROM diyi_maker_enterprise me
+        INNER JOIN diyi_pay_enterprise pe ON me.enterprise_id = pe.enterprise_id INNER JOIN diyi_enterprise e ON e.id = me.enterprise_id INNER JOIN diyi_pay_maker pm
+        ON pm.pay_enterprise_id = pe.id WHERE pe.pay_state = 'CONFIRMPAY' pm.maker_id =#{param1} AND me.enterprise_id =#{param2}
     </select>
 
     <select id="getMakerCrowdDetailed" resultMap="makerEnterpriseDetailYearMonthVO">
-        SELECT e.enterprise_name, shid.charge_money_num AS income, shid.create_time AS check_date, shid.charge_money_num AS check_money FROM diyi_maker_enterprise me INNER JOIN diyi_self_help_invoice shi ON me.enterprise_id = shi.enterprise_id INNER JOIN diyi_self_help_invoice_detail shid ON shid.self_help_invoice_id = shi.id INNER JOIN diyi_enterprise e ON e.id = me.enterprise_id WHERE 1 = 1 AND me.maker_id =#{param1} AND me.enterprise_id =#{param2}
+        SELECT e.enterprise_name, shid.charge_money_num AS income, shid.create_time AS check_date, shid.charge_money_num AS check_money FROM diyi_maker_enterprise me
+        INNER JOIN diyi_self_help_invoice shi ON me.enterprise_id = shi.enterprise_id INNER JOIN diyi_self_help_invoice_detail shid
+        ON shid.self_help_invoice_id = shi.id INNER JOIN diyi_enterprise e ON e.id = me.enterprise_id WHERE 1 = 1 AND me.maker_id =#{param1}
+        AND me.enterprise_id =#{param2}
     </select>
 </mapper>

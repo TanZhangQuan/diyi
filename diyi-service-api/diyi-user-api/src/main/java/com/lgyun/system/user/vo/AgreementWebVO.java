@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.SignState;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -26,12 +25,12 @@ public class AgreementWebVO implements Serializable {
     private Long enterpriseProviderId;
 
     /**
-     * 合同id
+     * 合同ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long agreementId;
     /**
-     * 商户id
+     * 商户ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
@@ -40,6 +39,17 @@ public class AgreementWebVO implements Serializable {
      *商户编号
      */
     private String enterpriseName;
+
+    /**
+     * 服务商ID
+     */
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long serviceProviderId;
+
+    /**
+     * 服务商名字
+     */
+    private String serviceProviderName;
 
     /**
      * 合同编码
@@ -54,7 +64,7 @@ public class AgreementWebVO implements Serializable {
     /**
      * 在线合同url
      */
-    private String onlineAggrementUrl;
+    private String onlineAgreementUrl;
 
     /**
      * 纸质合同url
@@ -72,14 +82,4 @@ public class AgreementWebVO implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
-    /**
-     * 服务商名字
-     */
-    private String serviceProviderName;
-
-    /**
-     * 服务商id
-     */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long serviceProviderId;
 }

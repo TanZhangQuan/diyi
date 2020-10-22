@@ -11,7 +11,7 @@
         <result property="agreementNo" column="agreement_no"/>
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="firstSideSignPerson" column="first_side_sign_person"/>
-        <result property="onlineAggrementUrl" column="online_aggrement_url"/>
+        <result property="onlineAgreementUrl" column="online_agreement_url"/>
         <result property="paperAgreementUrl" column="paper_agreement_url"/>
         <result property="signState" column="sign_state"/>
         <result property="createTime" column="create_time"/>
@@ -25,7 +25,7 @@
         <result property="idcardNo" column="idcard_no"/>
         <result property="bankCardNo" column="bank_card_no"/>
         <result property="bankCardVerifyStatus" column="bank_card_verify_status"/>
-        <result property="onlineAggrementUrl" column="online_aggrement_url"/>
+        <result property="onlineAgreementUrl" column="online_agreement_url"/>
         <result property="paperAgreementUrl" column="paper_agreement_url"/>
         <result property="signState" column="sign_state"/>
         <result property="createTime" column="create_time"/>
@@ -39,7 +39,7 @@
         <result property="name" column="name"/>
         <result property="signType" column="sign_type"/>
         <result property="paperAgreementUrl" column="paper_agreement_url"/>
-        <result property="onlineAggrementUrl" column="online_aggrement_url"/>
+        <result property="onlineAgreementUrl" column="online_agreement_url"/>
         <result property="signState" column="sign_state"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
@@ -54,7 +54,7 @@
         <result property="makerName" column="maker_name"/>
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="paperAgreementUrl" column="paper_agreement_url"/>
-        <result property="onlineAggrementUrl" column="online_aggrement_url"/>
+        <result property="onlineAgreementUrl" column="online_agreement_url"/>
         <result property="signState" column="sign_state"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
@@ -66,7 +66,7 @@
         <result property="agreementNo" column="agreement_no"/>
         <result property="makerName" column="maker_name"/>
         <result property="enterpriseName" column="enterprise_name"/>
-        <result property="onlineAggrementUrl" column="online_aggrement_url"/>
+        <result property="onlineAgreementUrl" column="online_agreement_url"/>
         <result property="paperAgreementUrl" column="paper_agreement_url"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
@@ -78,14 +78,14 @@
         <result property="agreementNo" column="agreement_no"/>
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="enterpriseName" column="enterprise_name"/>
-        <result property="onlineAggrementUrl" column="online_aggrement_url"/>
+        <result property="onlineAgreementUrl" column="online_agreement_url"/>
         <result property="paperAgreementUrl" column="paper_agreement_url"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
 
     <select id="selectServiceAgreement" resultMap="agreementWebVOMap">
         SELECT ep.id AS enterprise_provider_id, ep.enterprise_id, ep.service_provider_id, a.id AS agreement_id, a.agreement_no,a.paper_agreement_url,
-        sp.service_provider_name, a.first_side_sign_person, a.online_aggrement_url, a.sign_state, a.create_time FROM diyi_enterprise_service_provider ep INNER JOIN
+        sp.service_provider_name, a.first_side_sign_person, a.online_agreement_url, a.sign_state, a.create_time FROM diyi_enterprise_service_provider ep INNER JOIN
         diyi_service_provider sp ON sp.id = ep.service_provider_id INNER JOIN diyi_agreement a ON sp.id = a.service_provider_id WHERE
         sp.is_deleted = 0 AND a.is_deleted = 0 AND ep.is_deleted = 0  and ep.enterprise_id =#{param1}
         <if test="param2 != null and param2 != ''">
@@ -99,7 +99,7 @@
 
     <select id="selectServiceSupplementaryAgreement" resultMap="agreementWebVOMap">
         SELECT ep.id AS enterprise_provider_id, ep.enterprise_id, ep.service_provider_id, a.id AS agreement_id, a.agreement_no,a.paper_agreement_url,
-        sp.service_provider_name, a.first_side_sign_person, a.online_aggrement_url, a.sign_state, a.create_time FROM diyi_enterprise_service_provider ep
+        sp.service_provider_name, a.first_side_sign_person, a.online_agreement_url, a.sign_state, a.create_time FROM diyi_enterprise_service_provider ep
         INNER JOIN diyi_service_provider sp ON sp.id = ep.service_provider_id INNER JOIN diyi_agreement a ON sp.id = a.service_provider_id WHERE
         sp.is_deleted = 0 AND a.is_deleted = 0 AND ep.is_deleted = 0  and ep.enterprise_id =#{param1}
         <if test="param2 != null and param2 != ''">
@@ -113,13 +113,13 @@
 
     <select id="selectMakerAgreement" resultMap="AgreementMakerWebVOMap">
         SELECT em.id AS maker_enterprise_id, m.id AS maker_id, e.id AS enterprise_id, m.phone_number, m. NAME, m.idcard_no, a.paper_agreement_url, m.bank_card_no,
-        m.bank_card_verify_status, a.online_aggrement_url, a.sign_state, a.create_time FROM diyi_maker_enterprise em INNER JOIN diyi_maker m ON em.maker_id = m.id
+        m.bank_card_verify_status, a.online_agreement_url, a.sign_state, a.create_time FROM diyi_maker_enterprise em INNER JOIN diyi_maker m ON em.maker_id = m.id
         INNER JOIN diyi_enterprise e ON e.id = em.enterprise_id INNER JOIN diyi_agreement a ON a.maker_id = m.id WHERE em.enterprise_id =#{param1} AND em.is_deleted = 0
         AND m.is_deleted = 0 AND e.is_deleted = 0 AND a.is_deleted = 0 AND agreement_type = 'MAKERJOINAGREEMENT'
     </select>
 
     <select id="selectEnterpriseMakerAgreement" resultMap="EnterpriseMakerAgreementVOMap">
-        SELECT a.id AS agreement_id, e.enterprise_name, e.id AS enterprise_id, a.agreement_no, m. NAME, a.sign_type, a.paper_agreement_url, a.online_aggrement_url,
+        SELECT a.id AS agreement_id, e.enterprise_name, e.id AS enterprise_id, a.agreement_no, m. NAME, a.sign_type, a.paper_agreement_url, a.online_agreement_url,
         a.sign_state, a.create_time FROM diyi_agreement a INNER JOIN diyi_enterprise e ON a.enterprise_id = e.id LEFT JOIN diyi_maker m ON m.id = a.maker_id
         AND m.is_deleted = 0 WHERE a.is_deleted = 0 AND e.is_deleted = 0 AND a.agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' AND a.enterprise_id = #{param1}
     </select>
@@ -192,9 +192,8 @@
         AND s.service_provider_id = #{param2}
     </select>
 
-
     <select id="findAdMaEnterAgreement" resultMap="agreementMakerEnterAdminMap">
-        SELECT a.id AS agreement_id,a.agreement_no, me.maker_id, me.enterprise_id, m. NAME AS maker_name, e.enterprise_name, a.online_aggrement_url,
+        SELECT a.id AS agreement_id,a.agreement_no, me.maker_id, me.enterprise_id, m. NAME AS maker_name, e.enterprise_name, a.online_agreement_url,
         a.paper_agreement_url, a.create_time FROM diyi_agreement a INNER JOIN diyi_maker_enterprise me ON me.enterprise_id = a.enterprise_id
         INNER JOIN diyi_maker m ON m.id = me.maker_id INNER JOIN diyi_enterprise e ON e.id = me.enterprise_id WHERE m.id = #{param1}
         AND a.agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' and a.sign_state = 'SIGNED'
@@ -205,7 +204,7 @@
 
     <select id="findEnterIdServiceAgreement" resultMap="agreementEnterServiceAdminMap">
         SELECT a.id AS agreement_id, a.agreement_no, ep.service_provider_id, ep.enterprise_id, sp.service_provider_name, e.enterprise_name,
-        a.online_aggrement_url, a.paper_agreement_url, a.create_time FROM diyi_agreement a INNER JOIN diyi_enterprise_provider ep
+        a.online_agreement_url, a.paper_agreement_url, a.create_time FROM diyi_agreement a INNER JOIN diyi_enterprise_provider ep
         ON ep.service_provider_id = a.service_provider_id INNER JOIN diyi_service_provider sp ON sp.id = ep.service_provider_id INNER JOIN diyi_enterprise e
         ON e.id = ep.enterprise_id WHERE e.id = #{param1} AND a.agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' and a.sign_state = 'SIGNED'
     </select>
