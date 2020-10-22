@@ -47,9 +47,9 @@ public class PaymentServiceProviderController {
         return payEnterpriseService.getPayEnterpriseList(null, serviceProviderWorkerEntity.getServiceProviderId(), payEnterpriseDto, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @PostMapping("/pay-enterprise-audit")
+    @PostMapping("/audit-pay-enterprise")
     @ApiOperation(value = "支付清单审核", notes = "支付清单审核")
-    public R payEnterpriseAudit(@ApiParam(value = "支付清单编号", required = true) @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId,
+    public R auditPayEnterprise(@ApiParam(value = "支付清单编号", required = true) @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId,
                                 @ApiParam(value = "支付清单审核状态", required = true) @NotNull(message = "请选择支付清单审核状态") @RequestParam(required = false) PayEnterpriseAuditState auditState,
                                 MakerInvoiceType makerInvoiceType, BladeUser bladeUser) {
         //查询当前服务商员工

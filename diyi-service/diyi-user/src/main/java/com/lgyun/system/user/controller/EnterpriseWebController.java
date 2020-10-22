@@ -28,9 +28,9 @@ public class EnterpriseWebController {
     private IEnterpriseService enterpriseService;
     private IEnterpriseWorkerService enterpriseWorkerService;
 
-    @GetMapping("/query-service-provider-list")
+    @GetMapping("/query-service-provider-id-and-name-list")
     @ApiOperation(value = "查询商户合作服务商", notes = "查询商户合作服务商")
-    public R getServiceProviders(Query query, BladeUser bladeUser) {
+    public R queryServiceProviderIdAndNameList(Query query, BladeUser bladeUser) {
             //查询当前商户员工
             R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
             if (!(result.isSuccess())) {

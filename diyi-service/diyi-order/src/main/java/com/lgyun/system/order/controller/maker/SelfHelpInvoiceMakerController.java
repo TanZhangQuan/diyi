@@ -66,27 +66,27 @@ public class SelfHelpInvoiceMakerController {
         return addressService.addOrUpdateAddress(addressDto, makerEntity.getId(), ObjectType.MAKERPEOPLE);
     }
 
-    @GetMapping("/getAddressById")
-    @ApiOperation(value = "地址详情接口", notes = "地址详情接口")
-    public R getAddressById(Long addressId) {
+    @GetMapping("/query-address-detail")
+    @ApiOperation(value = "查询地址详情", notes = "查询地址详情")
+    public R queryAddressDetail(Long addressId) {
         return addressService.getAddressById(addressId);
     }
 
-    @PostMapping("/updateAddress")
+    @PostMapping("/update-address")
     @ApiOperation(value = "地址编辑接口", notes = "地址编辑接口")
     public R updateAddress(@Valid @RequestBody AddressDTO addressDto) {
         return addressService.updateAddress(addressDto);
     }
 
-    @PostMapping("/deleteAddress")
+    @PostMapping("/delete-address")
     @ApiOperation(value = "地址删除接口", notes = "地址删除接口")
     public R deleteAddress(Long addressId) {
         return addressService.deleteAddress(addressId);
     }
 
-    @GetMapping("/findAddressMakerId")
+    @GetMapping("/query-address-list")
     @ApiOperation(value = "查询收货地址", notes = "查询收货地址")
-    public R findAddressMakerId(Query query, BladeUser bladeUser) {
+    public R queryAddressList(Query query, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -97,24 +97,24 @@ public class SelfHelpInvoiceMakerController {
         return addressService.findAddressMakerId(makerEntity.getId(), ObjectType.MAKERPEOPLE, null, query);
     }
 
-    @GetMapping("/getInvoiceType")
+    @GetMapping("/query-invoice-type")
     @ApiOperation(value = "开票类目", notes = "开票类目")
-    public R getInvoiceType() {
+    public R queryInvoiceType() {
         return iDictClient.getList("tax_category");
     }
 
-    @GetMapping("/getInvoiceTypeDetails")
+    @GetMapping("/query-invoice-type-detail")
     @ApiOperation(value = "开票类目-详情", notes = "开票类目-详情")
-    public R getInvoiceTypeDetails(Long parentId) {
+    public R queryInvoiceTypeDetail(Long parentId) {
         return iDictClient.getParentList(parentId);
     }
 
-    @PostMapping("/saveInvoiceTypeDetails")
+    @PostMapping("/create-invoice-type")
     @ApiOperation(value = "新建开票类目", notes = "新建开票类目")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "dictType", value = "1代表一级类目，2二级类目", paramType = "query", dataType = "int"),
     })
-    public R saveInvoiceTypeDetails(@RequestParam String dictValue, @RequestParam Integer dictType, @RequestParam(required = false) Long parentId) {
+    public R createInvoiceType(@RequestParam String dictValue, @RequestParam Integer dictType, @RequestParam(required = false) Long parentId) {
 
         if (dictType != 1 && dictType != 2) {
             R.fail("参数错误");
@@ -141,7 +141,7 @@ public class SelfHelpInvoiceMakerController {
         return iDictClient.saveDict(dictDTO);
     }
 
-    @PostMapping("/submitSelfHelpInvoice")
+    @PostMapping("/submit-self-help-invoice")
     @ApiOperation(value = "创客提交自助开票", notes = "创客提交自助开票")
     @Transactional(rollbackFor = Exception.class)
     public R submitSelfHelpInvoice(@ApiParam(value = "文件", required = true) @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file,
@@ -170,25 +170,25 @@ public class SelfHelpInvoiceMakerController {
         return R.success("申请成功");
     }
 
-    @GetMapping("/immediatePayment")
+    @GetMapping("/immediate-payment")
     @ApiOperation(value = "立即支付", notes = "立即支付")
     public R immediatePayment() {
         return R.data(selfHelpInvoiceAccountService.immediatePayment());
     }
 
-    @PostMapping("/confirmPayment")
+    @PostMapping("/confirm-payment")
     @ApiOperation(value = "确认支付", notes = "确认支付")
     public R confirmPayment(@Valid @RequestBody ConfirmPaymentDTO confirmPaymentDto) {
         return R.data(selfHelpInvoiceFeeService.confirmPayment(confirmPaymentDto));
     }
 
-    @GetMapping("/identificationCard")
+    @GetMapping("/idcard-ocr")
     @ApiOperation(value = "识别身份证", notes = "识别身份证")
-    public R identificationCard(String infoImg) throws Exception {
+    public R idcardOcr(String infoImg) throws Exception {
         return R.data(RealnameVerifyUtil.idcardOCR(infoImg));
     }
 
-    @GetMapping("/judgeMakerAatural")
+    @GetMapping("/judge-maker-aatural")
     @ApiOperation(value = "判断创客资质", notes = "判断创客资质")
     public R judgeMakerAatural(MakerType makerType, BladeUser bladeUser) {
         //查询当前创客

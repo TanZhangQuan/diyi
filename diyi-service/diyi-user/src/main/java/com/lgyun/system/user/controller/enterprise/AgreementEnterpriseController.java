@@ -6,7 +6,6 @@ import com.lgyun.common.enumeration.SignType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.feign.IOrderClient;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.service.IAgreementService;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
@@ -26,7 +25,6 @@ public class AgreementEnterpriseController {
 
     private IAgreementService agreementService;
     private IMakerEnterpriseService makerEnterpriseService;
-    private IOrderClient orderClient;
     private IEnterpriseWorkerService enterpriseWorkerService;
 
     @GetMapping("/query-enterprise-join-contract")
@@ -42,9 +40,9 @@ public class AgreementEnterpriseController {
         return R.data(agreementService.findByEnterpriseAndType(enterpriseWorkerEntity.getEnterpriseId(), AgreementType.ENTERPRISEJOINAGREEMENT, SignType.PAPERAGREEMENT));
     }
 
-    @GetMapping("/selectPriceAgreement")
+    @GetMapping("/query-price-agreement")
     @ApiOperation(value = "根据商户查询商户的加盟价格协议合同", notes = "根据商户查询商户的加盟价格协议合同")
-    public R selectPriceAgreement(BladeUser bladeUser) {
+    public R queryPriceAgreement(BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -55,9 +53,9 @@ public class AgreementEnterpriseController {
         return R.data(agreementService.findByEnterpriseAndType(enterpriseWorkerEntity.getEnterpriseId(), AgreementType.ENTERPRISEPRICEAGREEMENT, SignType.PAPERAGREEMENT));
     }
 
-    @GetMapping("/selectAuthorization")
+    @GetMapping("/query-commitment-letter")
     @ApiOperation(value = "根据商户查询商户承诺函", notes = "根据商户查询商户承诺函")
-    public R selectAuthorization(BladeUser bladeUser, Query query) {
+    public R queryCommitmentLetter(Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -68,9 +66,9 @@ public class AgreementEnterpriseController {
         return agreementService.selectAuthorization(enterpriseWorkerEntity.getEnterpriseId(), Condition.getPage(query.setDescs("create_time")));
     }
 
-    @PostMapping("/saveAuthorization")
-    @ApiOperation(value = "商户上传承诺函", notes = "商户上传承诺函")
-    public R uploadMakerVideo(BladeUser bladeUser, String paperAgreementURL) {
+    @PostMapping("/upload-commitment-letter")
+    @ApiOperation(value = "上传承诺函", notes = "上传承诺函")
+    public R uploadCommitmentLetter(String paperAgreementURL, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -133,9 +131,9 @@ public class AgreementEnterpriseController {
         return agreementService.selectMakerAgreement(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId());
     }
 
-    @PostMapping("/upload-enterprise-maker-supplementary-agreement")
+    @PostMapping("/upload-enterprise-to-maker-supplementary-agreement")
     @ApiOperation(value = "商户上传商户和创客的补充协议", notes = "商户上传商户和创客的补充协议")
-    public R saveEnterpriseMakerAgreement(BladeUser bladeUser, String paperAgreementURL) {
+    public R saveEnterpriseToMakerAgreement(BladeUser bladeUser, String paperAgreementURL) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -185,9 +183,9 @@ public class AgreementEnterpriseController {
         return makerEnterpriseService.selectEnterpriseMaker(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId());
     }
 
-    @PostMapping("/save-online-agreement")
+    @PostMapping("/create-online-agreement")
     @ApiOperation(value = "发布在线签署的协议", notes = "发布在线签署的协议")
-    public R saveOnlineAgreement(BladeUser bladeUser, String paperAgreementURL, Boolean boolAllMakers, @RequestParam(required = false) String makerIds, Integer templateCount) throws Exception {
+    public R createOnlineAgreement(BladeUser bladeUser, String paperAgreementURL, Boolean boolAllMakers, @RequestParam(required = false) String makerIds, Integer templateCount) throws Exception {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {

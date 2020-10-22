@@ -25,21 +25,21 @@ public class IndividualEnterpriseWebController {
 
     private IIndividualEnterpriseService individualEnterpriseService;
 
-    @GetMapping("/query-enterprise-reports")
+    @GetMapping("/query-enterprise-report-list")
     @ApiOperation(value = "查询个独年审信息", notes = "查询个独年审信息")
-    public R queryEnterpriseReports(Query query, @ApiParam(value = "个独ID", required = true) @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
+    public R queryEnterpriseReportList(Query query, @ApiParam(value = "个独ID", required = true) @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
         return individualEnterpriseService.queryEnterpriseReports(query, individualEnterpriseId);
     }
 
-    @PostMapping("/remove")
+    @PostMapping("/remove-individual-enterprise")
     @ApiOperation(value = "个独逻辑删除", notes = "个独逻辑删除")
-    public R remove(@ApiParam(value = "个独ID集合", required = true) @NotBlank(message = "请选择要删除的个独") @RequestParam(required = false) String ids) {
+    public R removeIndividualEnterprise(@ApiParam(value = "个独ID集合", required = true) @NotBlank(message = "请选择要删除的个独") @RequestParam(required = false) String ids) {
         return R.status(individualEnterpriseService.removeByIds(Func.toLongList(ids)));
     }
 
-    @PostMapping("/update")
+    @PostMapping("/update-individual-enterprise")
     @ApiOperation(value = "修改个独信息", notes = "修改个独信息")
-    public R update(@Valid @RequestBody IndividualEnterpriseEntity individualEnterprise) {
+    public R updateIndividualEnterprise(@Valid @RequestBody IndividualEnterpriseEntity individualEnterprise) {
         return R.status(individualEnterpriseService.updateById(individualEnterprise));
     }
 

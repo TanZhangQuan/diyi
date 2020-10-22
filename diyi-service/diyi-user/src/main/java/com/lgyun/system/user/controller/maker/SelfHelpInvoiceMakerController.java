@@ -25,9 +25,9 @@ public class SelfHelpInvoiceMakerController {
     private IMakerService makerService;
     private IMakerEnterpriseService makerEnterpriseService;
 
-    @GetMapping("/query-enterprise-by-maker-id")
-    @ApiOperation(value = "根据创客查询商户", notes = "根据创客查询商户")
-    public R queryEnterpriseByMakerId(Query query, BladeUser bladeUser) {
+    @GetMapping("/query-enterprise-list")
+    @ApiOperation(value = "根据当前创客查询关联商户", notes = "根据当前创客查询关联商户")
+    public R queryEnterpriseList(Query query, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = makerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {

@@ -41,7 +41,7 @@ import java.util.Map;
 @RequestMapping("/web/user")
 @AllArgsConstructor
 @Validated
-@Api(value = "平台端-管理员管理模块相关接口", tags = "平台端-管理员管理模块相关接口")
+@Api(value = "管理员管理模块相关接口", tags = "管理员管理模块相关接口")
 public class UserController {
 
     private IUserService userService;

@@ -126,9 +126,9 @@ public class EnterpriseAdminController {
         return enterpriseProviderService.getServiceProviderByEnterpriseId(Condition.getPage(query.setDescs("create_time")), null, serviceProviderName);
     }
 
-    @GetMapping("/query-enterprise-id-and-name")
+    @GetMapping("/query-enterprise-id-and-name-list")
     @ApiOperation(value = "查询商户编号名称", notes = "查询商户编号名称")
-    public R queryEnterpriseIdAndName(@ApiParam(value = "商户ID", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, BladeUser bladeUser) {
+    public R queryEnterpriseIdAndNameList(@ApiParam(value = "商户ID", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

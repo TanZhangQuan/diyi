@@ -13,16 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
-/**
- * 认证模块
- *
- * @author tzq
- * @since 2020/6/6 01:04
- */
 @RestController
 @AllArgsConstructor
 @RequestMapping("/auth")
-@Api(value = "用户授权认证", tags = "用户授权认证")
+@Api(value = "用户授权认证管理模块相关接口", tags = "用户授权认证管理模块相关接口")
 public class AuthController {
 
     private IAuthService authService;

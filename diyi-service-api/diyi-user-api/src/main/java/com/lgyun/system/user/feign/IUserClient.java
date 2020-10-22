@@ -250,7 +250,7 @@ public interface IUserClient {
      * @param makerId
      * @return
      */
-    @GetMapping(API_PREFIX + "/individualEnterprise/find-by-maker-id")
+    @GetMapping(API_PREFIX + "/query-individual-enterprise/find-by-maker-id")
     List<IndividualEnterpriseEntity> queryIndividualEnterpriseFindByMakerId(@RequestParam("makerId") Long makerId);
 
     /**

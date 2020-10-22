@@ -70,7 +70,13 @@ public class SelfHelpInvoiceServiceProviderController {
 
     @GetMapping("/query-self-helf-invoice-detail-list")
     @ApiOperation(value = "查询当前服务商某条自助开票记录的所有自助开票明细", notes = "查询当前服务商某条自助开票记录的所有自助开票明细")
-    public R querySelfHelfInvoiceDetailList(@ApiParam(value = "自助开票") @NotNull(message = "请选择自助开票") @RequestParam(required = false) Long selfHelpInvoiceId, Query query) {
+    public R querySelfHelfInvoiceDetailList(@ApiParam(value = "自助开票") @NotNull(message = "请选择自助开票") @RequestParam(required = false) Long selfHelpInvoiceId, Query query, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
         return selfHelpInvoiceService.getSelfHelfInvoiceDetailListBySelfHelfInvoice(selfHelpInvoiceId, Condition.getPage(query.setDescs("create_time")));
     }
 
@@ -166,15 +172,15 @@ public class SelfHelpInvoiceServiceProviderController {
 
     @PostMapping("/upload-deliver-sheet")
     @ApiOperation(value = "上传交付支付验收单", notes = "上传交付支付验收单")
-    public R uploadDeliverSheetUrl(@ApiParam(value = "自助开票明细") @NotNull(message = "请选择自助开票明细") @RequestParam(required = false) Long selfHelpInvoiceDetailId,
+    public R uploadDeliverSheet(@ApiParam(value = "自助开票明细") @NotNull(message = "请选择自助开票明细") @RequestParam(required = false) Long selfHelpInvoiceDetailId,
                                    @ApiParam(value = "交付支付验收单") @NotBlank(message = "请上传交付支付验收单") @RequestParam(required = false) String deliverSheetUrl) {
 
         return selfHelpInvoiceDetailService.uploadDeliverSheetUrl(selfHelpInvoiceDetailId, deliverSheetUrl);
     }
 
-    @PostMapping("/self-helf-invoice-audit")
+    @PostMapping("/audit-self-helf-invoice")
     @ApiOperation(value = "自助开票审核", notes = "自助开票审核")
-    public R selfHelfInvoiceAudit(@ApiParam(value = "自助开票编号") @NotNull(message = "请输入自助开票编号") @RequestParam(required = false) Long selfHelpInvoiceId, @ApiParam(value = "自助开票审核状态") @NotNull(message = "请选择自助开票审核状态") @RequestParam(required = false) SelfHelpInvoiceSpApplyState applyState, BladeUser bladeUser) {
+    public R auditSelfHelfInvoice(@ApiParam(value = "自助开票") @NotNull(message = "请选择自助开票") @RequestParam(required = false) Long selfHelpInvoiceId, @ApiParam(value = "自助开票审核状态") @NotNull(message = "请选择自助开票审核状态") @RequestParam(required = false) SelfHelpInvoiceSpApplyState applyState, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {

@@ -22,27 +22,21 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/enterprise/pay-enterprise")
 @Validated
 @AllArgsConstructor
-@Api(value = "商户端---商户支付清单相关接口(管理端)", tags = "商户端---商户支付清单相关接口(管理端)")
+@Api(value = "商户端---商户支付清单相关接口", tags = "商户端---商户支付清单相关接口(管理端)")
 public class PayEnterpriseEnterpriseController {
 
-    private IPayEnterpriseService payEnterpriseService;
     private IUserClient iUserClient;
+    private IPayEnterpriseService payEnterpriseService;
 
-    @GetMapping("/get-pay-maker-list-by-pay-enterprise-id")
-    @ApiOperation(value = "根据支付清单ID查询创客支付明细", notes = "根据支付清单ID查询创客支付明细")
-    public R getPayMakerListByPayEnterpriseId(@ApiParam(value = "支付清单编号", required = true) @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, Query query) {
+    @GetMapping("/query-pay-maker-list")
+    @ApiOperation(value = "根据支付清单查询创客支付明细", notes = "根据支付清单查询创客支付明细")
+    public R queryPayMakerList(@ApiParam(value = "支付清单", required = true) @NotNull(message = "请选择支付清单") @RequestParam(required = false) Long payEnterpriseId, Query query) {
         return payEnterpriseService.getPayMakerListByPayEnterprise(payEnterpriseId, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @GetMapping("/get-pay-enterprises-by-enterprise-service-provider")
+    @GetMapping("/query-pay-enterprise-list")
     @ApiOperation(value = "根据当前服务商，商户查询总包支付清单", notes = "根据当前服务商，商户查询总包支付清单")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "payEnterpriseMakerId", value = "总包支付清单ID", paramType = "query", dataType = "long"),
-            @ApiImplicitParam(name = "enterpriseName", value = "商户名称", paramType = "query", dataType = "string"),
-            @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
-            @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
-    })
-    public R getPayEnterprisesByEnterprisesServiceProvider(@ApiParam(value = "商户ID", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, PayEnterpriseDTO payEnterpriseDto, Query query, BladeUser bladeUser) {
+    public R queryPayEnterpriseList(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, PayEnterpriseDTO payEnterpriseDto, Query query, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
