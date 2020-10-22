@@ -66,16 +66,16 @@ public class IndividualEnterpriseAdminController {
         return enterpriseReportService.findByBodyTypeAndBodyId(query, BodyType.INDIVIDUALENTERPRISE, individualEnterpriseId);
     }
 
-    @PostMapping("/save-individual-enterprise")
-    @ApiOperation(value = "创建个独", notes = "当前商户申请创建个独")
-    public R saveIndividualEnterprise(@Valid @RequestBody IndividualBusinessEnterpriseWebAddDTO individualBusinessEnterpriseWebAddDto, BladeUser bladeUser) {
+    @PostMapping("/create-individual-enterprise")
+    @ApiOperation(value = "创建个独", notes = "创建个独")
+    public R createIndividualEnterprise(@Valid @RequestBody IndividualBusinessEnterpriseWebAddDTO individualBusinessEnterpriseWebAddDto, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return individualEnterpriseService.saveByEnterprise(individualBusinessEnterpriseWebAddDto, null);
+        return individualEnterpriseService.createIndividualEnterprise(individualBusinessEnterpriseWebAddDto, null);
     }
 
 }

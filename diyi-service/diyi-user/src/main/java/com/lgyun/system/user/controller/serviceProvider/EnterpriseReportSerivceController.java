@@ -33,9 +33,9 @@ public class EnterpriseReportSerivceController {
     private IServiceProviderWorkerService serviceProviderWorkerService;
     private IEnterpriseReportService enterpriseReportService;
 
-    @GetMapping("/findServiceEnterpriseReport")
-    @ApiOperation(value = "根据服务商id查询税务申报或工商申报", notes = "根据服务商id查询税务申报或工商申报")
-    public R findServiceEnterpriseReport(Long serviceProviderId, ReportTheme reportTheme, String startTime, String endTime, Query query, BladeUser bladeUser) {
+    @GetMapping("/query-enterprise-report-list")
+    @ApiOperation(value = "根据服务商查询税务申报或工商申报", notes = "根据服务商查询税务申报或工商申报")
+    public R queryEnterpriseReportList(Long serviceProviderId, ReportTheme reportTheme, String startTime, String endTime, Query query, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -45,9 +45,9 @@ public class EnterpriseReportSerivceController {
         return enterpriseReportService.findServiceEnterpriseReport(serviceProviderId, reportTheme, startTime, endTime, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @GetMapping("/findServiceEnterpriseReportDetail")
-    @ApiOperation(value = "服务商查询税务申报或工商申报详情", notes = "服务商查询税务申报或工商申报详情")
-    public R findServiceEnterpriseReportDetail(Long enterpriseReportId, BladeUser bladeUser) {
+    @GetMapping("/query-enterprise-report-detail")
+    @ApiOperation(value = "查询税务申报或工商申报详情", notes = "查询税务申报或工商申报详情")
+    public R queryEnterpriseReportDetail(Long enterpriseReportId, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -57,9 +57,9 @@ public class EnterpriseReportSerivceController {
         return enterpriseReportService.findAdminEnterpriseReportDetail(enterpriseReportId);
     }
 
-    @PostMapping("/saveServiceEnterpriseReport")
-    @ApiOperation(value = "服务商保存税务申报或工商申报", notes = "服务商保存税务申报或工商申报")
-    public R saveServiceEnterpriseReport(@Valid @RequestBody AdminEnterpriseReportDTO adminEnterpriseReportDTO, BladeUser bladeUser) {
+    @PostMapping("/create-enterprise-report")
+    @ApiOperation(value = "保存税务申报或工商申报", notes = "保存税务申报或工商申报")
+    public R createEnterpriseReport(@Valid @RequestBody AdminEnterpriseReportDTO adminEnterpriseReportDTO, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {

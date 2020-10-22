@@ -162,7 +162,7 @@ public class SelfHelpInvoiceServiceProviderController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return addressService.findAddressMakerId(query.getCurrent(), query.getCurrent(), enterpriseWorkerEntity.getEnterpriseId(), ObjectType.ENTERPRISEPEOPLE, null);
+        return addressService.findAddressMakerId(enterpriseWorkerEntity.getEnterpriseId(), ObjectType.ENTERPRISEPEOPLE, null, query);
     }
 
     @GetMapping("/query-invoice-type")

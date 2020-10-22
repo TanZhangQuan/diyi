@@ -29,11 +29,11 @@ import javax.validation.constraints.NotNull;
  * @time 16:24.
  */
 @RestController
-@RequestMapping("/enterprise/invoice")
+@RequestMapping("/enterprise/invoice-tax")
 @Validated
 @AllArgsConstructor
 @Api(value = "商户端---商户发票和完税证明接口", tags = "商户端---商户发票和完税证明接口")
-public class InvoiceEnterpriseController {
+public class InvoiceTaxEnterpriseController {
 
     private IPayEnterpriseService payEnterpriseService;
     private IEnterpriseServiceProviderInvoiceCatalogsService enterpriseProviderInvoiceCatalogsService;
@@ -41,12 +41,10 @@ public class InvoiceEnterpriseController {
     private IUserClient iUserClient;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
 
-    @GetMapping("/findEnterpriseLumpSumInvoice")
+    @GetMapping("/query-total-invoice-list")
     @ApiOperation(value = "根据商户查询总包发票", notes = "根据商户查询总包发票")
-    public R findEnterpriseLumpSumInvoice(@ApiParam(value = "发票号码") @RequestParam(required = false) String invoiceSerialNo,
-                                          @ApiParam(value = "服务商名字") @RequestParam(required = false) String serviceProviderName,
-                                          @ApiParam(value = "开始时间") @RequestParam(required = false) String startTime,
-                                          @ApiParam(value = "结束时间") @RequestParam(required = false) String endTime,
+    public R queryTotalInvoiceList(@ApiParam(value = "发票号码") @RequestParam(required = false) String invoiceSerialNo, @ApiParam(value = "服务商名字") @RequestParam(required = false) String serviceProviderName,
+                                          @ApiParam(value = "开始时间") @RequestParam(required = false) String startTime, @ApiParam(value = "结束时间") @RequestParam(required = false) String endTime,
                                           Query query, BladeUser bladeUser) {
 
         //查询当前商户员工
@@ -59,21 +57,21 @@ public class InvoiceEnterpriseController {
         return payEnterpriseService.findEnterpriseLumpSumInvoice(invoiceSerialNo, serviceProviderName, startTime, endTime, enterpriseWorkerEntity.getEnterpriseId(), Condition.getPage(query.setDescs("create_time")));
     }
 
-    @PostMapping("/withdraw")
+    @PostMapping("/cancel-apply")
     @ApiOperation(value = "取消申请", notes = "取消申请")
-    public R withdraw(Long applicationId, BladeUser bladeUser) {
+    public R cancelApply(Long applicationId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return payEnterpriseService.withdraw(applicationId);
+        return payEnterpriseService.cancelApply(applicationId);
     }
 
-    @GetMapping("/findPayEnterpriseDetails")
+    @GetMapping("/query-total-invoice-detail")
     @ApiOperation(value = "查看总包发票详情", notes = "查看总包发票详情")
-    public R findPayEnterpriseDetails(Long payEnterpriseId, BladeUser bladeUser) {
+    public R queryTotalInvoiceDetail(Long payEnterpriseId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -82,9 +80,9 @@ public class InvoiceEnterpriseController {
         return payEnterpriseService.findPayEnterpriseDetails(payEnterpriseId);
     }
 
-    @GetMapping("/findEnterprisePaymentList")
+    @GetMapping("/query-pay-enterprise-list")
     @ApiOperation(value = "根据商户查询支付清单", notes = "根据商户查询支付清单")
-    public R findEnterprisePaymentList(@RequestParam(required = false) String serviceProviderName, Query query, BladeUser bladeUser) {
+    public R queryPayEnterpriseList(@RequestParam(required = false) String serviceProviderName, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -108,9 +106,9 @@ public class InvoiceEnterpriseController {
         return enterpriseProviderInvoiceCatalogsService.queryInvoiceCatalogsList(serviceProviderId, enterpriseWorkerEntity.getEnterpriseId(), Condition.getPage(query.setDescs("create_time")));
     }
 
-    @PostMapping("/contractApplyInvoice")
+    @PostMapping("/apply-total-invoice")
     @ApiOperation(value = "申请总包发票", notes = "申请总包发票")
-    public R contractApplyInvoice(@Valid @RequestBody ContractApplyInvoiceDTO contractApplyInvoiceDto, BladeUser bladeUser) {
+    public R applyTotalInvoice(@Valid @RequestBody ContractApplyInvoiceDTO contractApplyInvoiceDto, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -121,9 +119,9 @@ public class InvoiceEnterpriseController {
         return invoiceApplicationService.contractApplyInvoice(contractApplyInvoiceDto, enterpriseWorkerEntity.getEnterpriseId(), payEnterpriseService);
     }
 
-    @GetMapping("/findEnterpriseSubcontractSummary")
-    @ApiOperation(value = "根据商户查询分包列表-汇总", notes = "根据商户查询分包列表-汇总")
-    public R findEnterpriseSubcontractSummary(BladeUser bladeUser, @RequestParam(required = false) String serviceProviderName, Query query) {
+    @GetMapping("/query-all-open-sub-list")
+    @ApiOperation(value = "根据商户查询汇总代开分包列表", notes = "根据商户查询汇总代开分包列表")
+    public R queryAllOpenSubList(@RequestParam(required = false) String serviceProviderName, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -134,9 +132,9 @@ public class InvoiceEnterpriseController {
         return payEnterpriseService.findEnterpriseSubcontractSummary(enterpriseWorkerEntity.getEnterpriseId(), serviceProviderName, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @GetMapping("/findDetailSummary")
-    @ApiOperation(value = "查询详情接口-汇总", notes = "查询详情接口-汇总")
-    public R findDetailSummary(Long makerTotalInvoiceId, BladeUser bladeUser) {
+    @GetMapping("/query-all-open-sub-detail")
+    @ApiOperation(value = "根据商户查询汇总代开分包详情", notes = "根据商户查询汇总代开分包详情")
+    public R queryAllOpenSubDetail(Long makerTotalInvoiceId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -146,9 +144,9 @@ public class InvoiceEnterpriseController {
         return payEnterpriseService.findDetailSummary(makerTotalInvoiceId);
     }
 
-    @GetMapping("/findEnterpriseSubcontractPortal")
-    @ApiOperation(value = "根据商户查询分包列表-门征", notes = "根据商户查询分包列表-门征")
-    public R findEnterpriseSubcontractPortal(BladeUser bladeUser, @RequestParam(required = false) String serviceProviderName, Query query) {
+    @GetMapping("/query-single-open-sub-list")
+    @ApiOperation(value = "根据商户查询门征单开分包列表", notes = "根据商户查询门征单开分包列表")
+    public R querySingleOpenSubList(@RequestParam(required = false) String serviceProviderName, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -159,9 +157,9 @@ public class InvoiceEnterpriseController {
         return payEnterpriseService.findEnterpriseSubcontractPortal(enterpriseWorkerEntity.getEnterpriseId(), serviceProviderName, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @GetMapping("/findDetailSubcontractPortal")
-    @ApiOperation(value = "查询详情接口-门征", notes = "查询详情接口-门征")
-    public R findDetailSubcontractPortal(Long makerInvoiceId, BladeUser bladeUser) {
+    @GetMapping("/query-single-open-sub-detail")
+    @ApiOperation(value = "根据商户查询门征单开分包详情", notes = "根据商户查询门征单开分包详情")
+    public R querySingleOpenSubDetail(Long makerInvoiceId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -171,9 +169,9 @@ public class InvoiceEnterpriseController {
         return payEnterpriseService.findDetailSubcontractPortal(makerInvoiceId);
     }
 
-    @GetMapping("/findEnterpriseCrowdSourcing")
+    @GetMapping("/query-crowd-list")
     @ApiOperation(value = "根据商户查询众包/众采", notes = "根据商户查询众包/众采")
-    public R findEnterpriseCrowdSourcing(BladeUser bladeUser, @RequestParam(required = false) String serviceProviderName, Query query) {
+    public R queryCrowdList(@RequestParam(required = false) String serviceProviderName, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -184,9 +182,9 @@ public class InvoiceEnterpriseController {
         return selfHelpInvoiceService.findEnterpriseCrowdSourcing(enterpriseWorkerEntity.getEnterpriseId(), serviceProviderName, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @GetMapping("/findDetailCrowdSourcing")
-    @ApiOperation(value = "查询详情接口-众包/众采", notes = "查询详情接口-众包/众采")
-    public R findDetailCrowdSourcing(Long selfHelpInvoiceId, BladeUser bladeUser) {
+    @GetMapping("/query-crowd-detail")
+    @ApiOperation(value = "查询众包/众采详情", notes = "查询众包/众采详情")
+    public R queryCrowdDetail(Long selfHelpInvoiceId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {

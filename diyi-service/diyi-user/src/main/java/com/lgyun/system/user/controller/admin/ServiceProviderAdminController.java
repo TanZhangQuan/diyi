@@ -81,7 +81,7 @@ public class ServiceProviderAdminController {
 
     @GetMapping("/query-service-provider-detail")
     @ApiOperation(value = "查询服务商基本信息", notes = "查询服务商基本信息")
-    public R queryServiceProviderDetail(@ApiParam(value = "服务商ID") @NotNull(message = "请输入服务商编号") @RequestParam(required = false) Long serviceProviderId, BladeUser bladeUser) {
+    public R queryServiceProviderDetail(@ApiParam(value = "服务商") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -93,7 +93,7 @@ public class ServiceProviderAdminController {
 
     @GetMapping("/query-service-provider-cert-list")
     @ApiOperation(value = "查询服务商资格信息", notes = "查询服务商资格信息")
-    public R queryServiceProviderCertList(@ApiParam(value = "服务商ID") @NotNull(message = "请输入服务商编号") @RequestParam(required = false) Long serviceProviderId, Query query, BladeUser bladeUser) {
+    public R queryServiceProviderCertList(@ApiParam(value = "服务商") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

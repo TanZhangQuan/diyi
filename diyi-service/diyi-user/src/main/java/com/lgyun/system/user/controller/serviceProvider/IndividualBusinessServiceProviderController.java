@@ -32,7 +32,7 @@ public class IndividualBusinessServiceProviderController {
     private IServiceProviderWorkerService serviceProviderWorkerService;
     private IIndividualBusinessService individualBusinessService;
 
-    @GetMapping("/web/individual-business/get_list_by_service_provider_id")
+    @GetMapping("/query-individual-business-list")
     @ApiOperation(value = "查询当前服务商关联的所有个体户", notes = "查询当前服务商关联的所有个体户")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "individualBusinessEnterpriseId", value = "个体户编号", paramType = "query", dataType = "long"),
@@ -40,7 +40,7 @@ public class IndividualBusinessServiceProviderController {
             @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
     })
-    public R getListByServiceProviderId(IndividualBusinessEnterpriseDTO individualBusinessEnterpriseDto, Query query, BladeUser bladeUser) {
+    public R queryIndividualBusinessList(IndividualBusinessEnterpriseDTO individualBusinessEnterpriseDto, Query query, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -51,7 +51,7 @@ public class IndividualBusinessServiceProviderController {
         return individualBusinessService.getIndividualBusinessList(Condition.getPage(query.setDescs("create_time")), null, serviceProviderWorkerEntity.getServiceProviderId(), individualBusinessEnterpriseDto);
     }
 
-    @PostMapping("/web/individual-business/update_ibstate")
+    @PostMapping("/update-ibstate")
     @ApiOperation(value = "修改个体户状态", notes = "修改个体户状态")
     public R updateIbstate(@ApiParam(value = "个体户ID", required = true) @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId, @ApiParam(value = "个体户状态") @NotNull(message = "请选择个体户状态") @RequestParam(required = false) Ibstate ibstate, BladeUser bladeUser) {
         //查询当前服务商员工

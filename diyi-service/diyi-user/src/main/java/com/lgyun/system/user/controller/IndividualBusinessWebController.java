@@ -5,7 +5,6 @@ import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.service.IIndividualBusinessService;
-import com.lgyun.system.user.wrapper.IndividualBusinessWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -32,28 +31,21 @@ public class IndividualBusinessWebController {
 
     private IIndividualBusinessService individualBusinessService;
 
-    @GetMapping("/query_enterprise_reports")
+    @GetMapping("/query-enterprise-reports")
     @ApiOperation(value = "查询个体户年审信息", notes = "查询个体户年审信息")
     public R queryEnterpriseReports(Query query, @ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
         return individualBusinessService.queryEnterpriseReports(query, individualBusinessId);
     }
 
-    @PostMapping("/remove")
+    @PostMapping("/remove-individual-business")
     @ApiOperation(value = "个体户逻辑删除", notes = "个体户逻辑删除")
     public R remove(@ApiParam(value = "个体户ID集合") @NotBlank(message = "请选择要删除的个体户") @RequestParam(required = false) String ids) {
         return R.status(individualBusinessService.removeByIds(Func.toLongList(ids)));
     }
 
-    @GetMapping("/detail")
-    @ApiOperation(value = "查询个体户详情", notes = "查询个体户详情")
-    public R detail(@ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
-        IndividualBusinessEntity individualBusinessEntity = individualBusinessService.getById(individualBusinessId);
-        return R.data(IndividualBusinessWrapper.build().entityVO(individualBusinessEntity));
-    }
-
-    @PostMapping("/update")
+    @PostMapping("/update-individual-business")
     @ApiOperation(value = "修改个体户", notes = "修改个体户")
-    public R update(@Valid @RequestBody IndividualBusinessEntity individualBusiness) {
+    public R updateIndividualBusiness(@Valid @RequestBody IndividualBusinessEntity individualBusiness) {
         return R.status(individualBusinessService.updateById(individualBusiness));
     }
 

@@ -57,7 +57,7 @@ public class AddressMakerController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return addressService.findAddressMakerId(query.getCurrent(), query.getCurrent(), serviceProviderWorkerEntity.getServiceProviderId(), ObjectType.SERVICEPEOPLE, addressId);
+        return addressService.findAddressMakerId(serviceProviderWorkerEntity.getServiceProviderId(), ObjectType.SERVICEPEOPLE, addressId, query);
     }
 
     @PostMapping("/remove-address")

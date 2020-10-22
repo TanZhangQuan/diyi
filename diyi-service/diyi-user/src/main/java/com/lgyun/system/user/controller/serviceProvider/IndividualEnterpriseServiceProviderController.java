@@ -32,7 +32,7 @@ public class IndividualEnterpriseServiceProviderController {
     private IServiceProviderWorkerService serviceProviderWorkerService;
     private IIndividualEnterpriseService individualEnterpriseService;
 
-    @GetMapping("/web/individual-enterprise/get_list_by_service_provider_id")
+    @GetMapping("/query-individual-enterprise-list")
     @ApiOperation(value = "查询当前服务商关联的所有个独", notes = "查询当前服务商关联的所有个独")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "individualBusinessEnterpriseId", value = "个独编号", paramType = "query", dataType = "long"),
@@ -40,7 +40,7 @@ public class IndividualEnterpriseServiceProviderController {
             @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
     })
-    public R getListByServiceProviderId(IndividualBusinessEnterpriseDTO individualBusinessEnterpriseDto, Query query, BladeUser bladeUser) {
+    public R queryIndividualEnterpriseList(IndividualBusinessEnterpriseDTO individualBusinessEnterpriseDto, Query query, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -51,7 +51,7 @@ public class IndividualEnterpriseServiceProviderController {
         return individualEnterpriseService.getIndividualEnterpriseList(Condition.getPage(query.setDescs("create_time")), null, serviceProviderWorkerEntity.getServiceProviderId(), individualBusinessEnterpriseDto);
     }
 
-    @PostMapping("/web/individual-enterprise/update_ibstate")
+    @PostMapping("/update-ibstate")
     @ApiOperation(value = "修改个独状态", notes = "修改个独状态")
     public R updateIbstate(@ApiParam(value = "个独ID", required = true) @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId, @ApiParam(value = "个独状态") @NotNull(message = "请选择个独状态") @RequestParam(required = false) Ibstate ibstate, BladeUser bladeUser) {
         //查询当前服务商员工

@@ -24,8 +24,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.ws.rs.POST;
 
 @RestController
 @RequestMapping("/admin/tax-bureau")
@@ -46,9 +44,9 @@ public class TaxBureauController {
         if (!(result.isSuccess())) {
             return result;
         }
+
         return bureauService.QueryRelBureau(queryRelBureauListDTO, Condition.getPage(query.setAscs("create_time")), BureauType.TAXBUREAU);
     }
-
 
     @PostMapping("/add-tax-bureau")
     @ApiOperation(value = "添加税局", notes = "添加税局")
@@ -58,6 +56,7 @@ public class TaxBureauController {
         if (!(result.isSuccess())) {
             return result;
         }
+
         return bureauService.addRelBureau(addRelBureauDto);
     }
 
@@ -69,6 +68,7 @@ public class TaxBureauController {
         if (!(result.isSuccess())) {
             return result;
         }
+
         return bureauService.queryRelBureauInfo(bureauId);
     }
 
@@ -80,6 +80,7 @@ public class TaxBureauController {
         if (!(result.isSuccess())) {
             return result;
         }
+
         return bureauService.updateTaxBureau(updateRelBureauDTO);
     }
 
@@ -91,6 +92,7 @@ public class TaxBureauController {
         if (!(result.isSuccess())) {
             return result;
         }
+
         return bureauNoticeService.queryTaxBureauNotice(bureauId, Condition.getPage(query.setDescs("create_time")));
     }
 
@@ -102,6 +104,7 @@ public class TaxBureauController {
         if (!(result.isSuccess())) {
             return result;
         }
+
         return bureauServiceProviderService.queryRelBureauServiceProvider(serviceProviderName, Condition.getPage(query.setDescs("create_time")));
     }
 
@@ -114,6 +117,7 @@ public class TaxBureauController {
         if (!(result.isSuccess())) {
             return result;
         }
+
         return bureauServiceProviderService.addRelBureauServiceProvider(serviceProviderIds, bureauId);
     }
 
@@ -125,6 +129,7 @@ public class TaxBureauController {
         if (!(result.isSuccess())) {
             return result;
         }
+
         return bureauServiceProviderService.updateTaxBureauServiceProvider(bureauServiceProviderId, bureauServiceProviderStatus);
     }
 
@@ -136,6 +141,7 @@ public class TaxBureauController {
         if (!(result.isSuccess())) {
             return result;
         }
+
         return bureauServiceProviderService.deleteTaxBureauServiceProvider(bureauServiceProviderId);
     }
 }

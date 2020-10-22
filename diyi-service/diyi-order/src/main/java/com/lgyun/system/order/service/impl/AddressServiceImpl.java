@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.AddressDTO;
 import com.lgyun.system.order.entity.AddressEntity;
 import com.lgyun.system.order.mapper.AddressMapper;
@@ -100,13 +101,13 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
     }
 
     @Override
-    public R<IPage<AddressEntity>> findAddressMakerId(Integer current, Integer size, Long objectId, ObjectType objectType, Long addressId) {
+    public R<IPage<AddressEntity>> findAddressMakerId(Long objectId, ObjectType objectType, Long addressId, Query query) {
         QueryWrapper<AddressEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(AddressEntity::getObjectId, objectId)
                 .eq(AddressEntity::getObjectType, objectType)
                 .eq(addressId != null, AddressEntity::getId, addressId);
 
-        IPage<AddressEntity> page = this.page(new Page<>(current, size), queryWrapper);
+        IPage<AddressEntity> page = this.page(new Page<>(query.getCurrent(), query.getCurrent()), queryWrapper);
         return R.data(page);
     }
 

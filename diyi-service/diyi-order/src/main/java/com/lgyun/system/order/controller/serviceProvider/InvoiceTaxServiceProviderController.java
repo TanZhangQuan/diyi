@@ -35,7 +35,7 @@ import javax.validation.constraints.NotNull;
 @Validated
 @AllArgsConstructor
 @Api(value = "服务商端---发票和完税证明管理模块相关接口", tags = "服务商端---发票和完税证明管理模块相关接口")
-public class InvoiceServiceProviderController {
+public class InvoiceTaxServiceProviderController {
 
     private IPayEnterpriseService payEnterpriseService;
     private IUserClient iUserClient;

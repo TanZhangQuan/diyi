@@ -72,13 +72,13 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
     R<IPage<IndividualEnterpriseDetailEnterpriseVO>> getIndividualEnterpriseList(IPage<IndividualEnterpriseDetailEnterpriseVO> page, Long enterpriseId, Long serviceProviderId, IndividualBusinessEnterpriseDTO individualBusinessEnterpriseDto);
 
     /**
-     * 当前商户申请创建个独
+     * 创建个独
      *
      * @param individualBusinessEnterpriseWebAddDto
      * @param enterpriseId
      * @return
      */
-    R<String> saveByEnterprise(IndividualBusinessEnterpriseWebAddDTO individualBusinessEnterpriseWebAddDto, Long enterpriseId);
+    R<String> createIndividualEnterprise(IndividualBusinessEnterpriseWebAddDTO individualBusinessEnterpriseWebAddDto, Long enterpriseId);
 
     /**
      * 根据创客ID, 统一社会信用代码查询个独

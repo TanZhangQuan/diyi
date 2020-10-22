@@ -33,9 +33,9 @@ public class AgreementEnterpriseController {
     private IUserClient userClient;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
 
-    @GetMapping("/query-ent-mak-sourc")
+    @GetMapping("/query-crowd-contract-list")
     @ApiOperation(value = "根据商户查询众包的合同", notes = "根据商户查询众包的合同")
-    public R selectEntMakSourc(Query query, BladeUser bladeUser) {
+    public R queryCrowdContractList(Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -46,9 +46,9 @@ public class AgreementEnterpriseController {
         return selfHelpInvoiceService.findEnterpriseCrowdSourcing(enterpriseWorkerEntity.getEnterpriseId(), "", Condition.getPage(query.setDescs("create_time")));
     }
 
-    @GetMapping("/query-ent-mak-sourc-detail")
+    @GetMapping("/query-crowd-contract-detail")
     @ApiOperation(value = "根据自助开票查询众包的详情", notes = "根据自助开票查询众包的详情")
-    public R selectEntMakSourcDetail(Long selfHelpInvoiceId, BladeUser bladeUser) {
+    public R queryCrowdContractDetail(Long selfHelpInvoiceId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {

@@ -99,7 +99,7 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> save(IndividualBusinessEnterpriseWebAddDTO individualBusinessEnterpriseWebAddDto, Long enterpriseId) {
+    public R<String> createIndividualBusiness(IndividualBusinessEnterpriseWebAddDTO individualBusinessEnterpriseWebAddDto, Long enterpriseId) {
         //新建创客
         MakerEntity makerEntity = makerService.makerSave(individualBusinessEnterpriseWebAddDto.getPhone(), individualBusinessEnterpriseWebAddDto.getName(),
                 individualBusinessEnterpriseWebAddDto.getIdcardNo(), individualBusinessEnterpriseWebAddDto.getIdcardPic(), individualBusinessEnterpriseWebAddDto.getIdcardPicBack(),

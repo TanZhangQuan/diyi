@@ -32,9 +32,9 @@ public class CooperationServiceProviderEnterpriseController {
     private IEnterpriseWorkerService enterpriseWorkerService;
     private IEnterpriseServiceProviderService enterpriseProviderService;
 
-    @GetMapping("/query-service-provider-list")
+    @GetMapping("/query-cooperation-service-provider-list")
     @ApiOperation(value = "查询当前商户合作服务商", notes = "查询当前商户合作服务商")
-    public R queryServiceProviderList(String keyWord, Query query, BladeUser bladeUser) {
+    public R queryCooperationServiceProviderList(String keyWord, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {

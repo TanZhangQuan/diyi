@@ -33,7 +33,7 @@ import javax.validation.constraints.NotNull;
  * @since 2020-09-9 20:01:13
  */
 @RestController
-@RequestMapping("/admin/payment-management")
+@RequestMapping("/admin/payment")
 @Validated
 @AllArgsConstructor
 @Api(value = "平台端---支付管理模块相关接口", tags = "平台端---支付管理模块相关接口")

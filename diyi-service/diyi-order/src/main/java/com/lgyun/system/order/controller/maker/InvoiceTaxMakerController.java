@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @AllArgsConstructor
 @Api(value = "创客端---发票和完税证明管理模块相关接口", tags = "创客端---发票和完税证明管理模块相关接口")
-public class InvoiceMakerController {
+public class InvoiceTaxMakerController {
 
     private IPayEnterpriseService payEnterpriseService;
     private IUserClient iUserClient;

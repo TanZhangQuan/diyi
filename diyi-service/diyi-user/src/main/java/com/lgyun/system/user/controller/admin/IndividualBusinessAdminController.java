@@ -56,7 +56,7 @@ public class IndividualBusinessAdminController {
 
     @GetMapping("/query-enterprise-report-list")
     @ApiOperation(value = "查询个体户年审信息", notes = "查询个体户年审信息")
-    public R queryEnterpriseReportList(Query query, @ApiParam(value = "个体户ID", required = true) @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId, BladeUser bladeUser) {
+    public R queryEnterpriseReportList(Query query, @ApiParam(value = "个体户", required = true) @NotNull(message = "请选择个体户") @RequestParam(required = false) Long individualBusinessId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -66,16 +66,16 @@ public class IndividualBusinessAdminController {
         return enterpriseReportService.findByBodyTypeAndBodyId(query, BodyType.INDIVIDUALBUSINESS, individualBusinessId);
     }
 
-    @PostMapping("/save-individual-business")
+    @PostMapping("/create-individual-business")
     @ApiOperation(value = "创建个体户", notes = "创建个体户")
-    public R saveIndividualBusiness(@Valid @RequestBody IndividualBusinessEnterpriseWebAddDTO individualBusinessEnterpriseWebAddDto, BladeUser bladeUser) {
+    public R createIndividualBusiness(@Valid @RequestBody IndividualBusinessEnterpriseWebAddDTO individualBusinessEnterpriseWebAddDto, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return individualBusinessService.save(individualBusinessEnterpriseWebAddDto, null);
+        return individualBusinessService.createIndividualBusiness(individualBusinessEnterpriseWebAddDto, null);
     }
 
 }

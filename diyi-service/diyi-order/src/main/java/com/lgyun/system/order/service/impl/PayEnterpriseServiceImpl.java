@@ -229,11 +229,12 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R withdraw(Long applicationId) {
+    public R cancelApply(Long applicationId) {
         InvoiceApplicationEntity invoiceApplicationEntity = invoiceApplicationService.getById(applicationId);
         if (null == invoiceApplicationEntity) {
             return R.fail("申请不存在");
         }
+
         invoiceApplicationEntity.setApplicationState(ApplicationState.CANCELLED);
         invoiceApplicationService.saveOrUpdate(invoiceApplicationEntity);
         return R.success("取消成功");
@@ -298,8 +299,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
     @Override
     public R findDetailSubcontractPortal(Long makerInvoiceId) {
-        Map map = new HashMap();
         EnterpriseSubcontractPortalVO detailSummary = baseMapper.findDetailSubcontractPortal(makerInvoiceId);
+        Map map = new HashMap();
         map.put("EnterpriseSubcontractPortalVO", detailSummary);
         PayEnterpriseEntity byId = getById(detailSummary.getPayEnterpriseId());
         if (null == byId) {

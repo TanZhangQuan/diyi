@@ -100,7 +100,7 @@ public class SelfHelpInvoiceMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return addressService.findAddressMakerId(query.getCurrent(), query.getCurrent(), makerEntity.getId(), ObjectType.MAKERPEOPLE, null);
+        return addressService.findAddressMakerId(makerEntity.getId(), ObjectType.MAKERPEOPLE, null, query);
     }
 
     @GetMapping("/getInvoiceType")

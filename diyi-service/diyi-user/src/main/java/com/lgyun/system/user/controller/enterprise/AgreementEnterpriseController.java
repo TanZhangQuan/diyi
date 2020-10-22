@@ -205,9 +205,9 @@ public class AgreementEnterpriseController {
         return agreementService.saveOnlineAgreement(enterpriseWorkerEntity.getEnterpriseId(), paperAgreementURL, boolAllMakers, makerIds, templateCount, AgreementType.OTHERAGREEMENT, makerEnterpriseService);
     }
 
-    @GetMapping("/getRelationServiceProvider")
-    @ApiOperation(value = "根据商户id查询有关联的服务商", notes = "根据商户id查询有关联的服务商")
-    public R getRelationServiceProvider(BladeUser bladeUser, Query query, String keyWord) {
+    @GetMapping("/query-relevance-service-provider-list")
+    @ApiOperation(value = "根据商户查询有关联的服务商", notes = "根据商户查询有关联的服务商")
+    public R queryRelevanceServiceProviderList(String keyWord, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {

@@ -55,7 +55,7 @@ public class IndividualBusinessEnterpriseController {
     }
 
     @PostMapping("/create-individual-business")
-    @ApiOperation(value = "当前商户申请创建个体户", notes = "当前商户申请创建个体户")
+    @ApiOperation(value = "创建个体户", notes = "创建个体户")
     public R createIndividualBusiness(@Valid @RequestBody IndividualBusinessEnterpriseWebAddDTO individualBusinessEnterpriseWebAddDto, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
@@ -64,7 +64,7 @@ public class IndividualBusinessEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return individualBusinessService.save(individualBusinessEnterpriseWebAddDto, enterpriseWorkerEntity.getEnterpriseId());
+        return individualBusinessService.createIndividualBusiness(individualBusinessEnterpriseWebAddDto, enterpriseWorkerEntity.getEnterpriseId());
     }
 
 }

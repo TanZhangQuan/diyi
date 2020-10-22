@@ -100,8 +100,11 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
 
     /**
      * 取消申请
+     *
+     * @param applicationId
+     * @return
      */
-    R withdraw(Long applicationId);
+    R cancelApply(Long applicationId);
 
     /**
      * 查看总包发票详情
@@ -258,7 +261,15 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
 
 
     /**
-     *服务商查询总包发票
+     * 服务商查询总包发票
+     *
+     * @param serviceProviderId
+     * @param enterpriseName
+     * @param startTime
+     * @param endTime
+     * @param companyInvoiceState
+     * @param page
+     * @return
      */
     R getServiceLumpSumInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, InvoiceState companyInvoiceState,IPage<InvoiceServiceLumpVO> page);
 

@@ -86,7 +86,6 @@ public class EnterpriseReportAdminController {
         return enterpriseReportService.saveAdminEnterpriseReport(adminEnterpriseReportDTO);
     }
 
-
     @PostMapping("/to-examine-admin-enterprise-report")
     @ApiOperation(value = "平台审核税务申报或工商申报", notes = "平台审核税务申报或工商申报")
     public R toExamineAdminEnterpriseReport(Long enterpriseReportId, @ApiParam("1审核通过，2审核不通过") Integer toExamine, BladeUser bladeUser) {

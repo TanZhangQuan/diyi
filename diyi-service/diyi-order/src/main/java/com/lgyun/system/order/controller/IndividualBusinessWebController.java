@@ -32,13 +32,13 @@ public class IndividualBusinessWebController {
 
     private ISelfHelpInvoiceService selfHelpInvoiceService;
 
-    @GetMapping("/self_help_invoice_statistics")
+    @GetMapping("/self-help-invoice-statistics")
     @ApiOperation(value = "查询个体户开票次数，月度开票金额，年度开票金额和总开票金额", notes = "查询个体户开票次数，月度开票金额，年度开票金额和总开票金额")
     public R selfHelpInvoiceStatistics(@ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
         return selfHelpInvoiceService.selfHelpInvoiceStatistics(individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
     }
 
-    @GetMapping("/self_help_invoice_list")
+    @GetMapping("/self-help-invoice-list")
     @ApiOperation(value = "查询个体户开票记录", notes = "查询个体户开票记录")
     public R selfHelpInvoiceList(Query query, @ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
         return selfHelpInvoiceService.selfHelpInvoiceList(Condition.getPage(query.setDescs("create_time")), individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
