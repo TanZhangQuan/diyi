@@ -151,5 +151,10 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
      */
     R<String> updateServiceProviderState(Long serviceProviderId, AccountState serviceProviderState);
 
+    /**
+     * 查询所有服务商
+     */
+    R getServiceAll(IPage<ServiceProviderEntity> page);
+
 }
 

@@ -282,5 +282,11 @@ public interface IMakerService extends IService<MakerEntity> {
      */
     R saveAdminMakerVideo(Long makerId, String videoUrl);
 
+
+    /**
+     * 查询所有创客
+     */
+    R getMakerAll(IPage<MakerEntity> page);
+
 }
 
