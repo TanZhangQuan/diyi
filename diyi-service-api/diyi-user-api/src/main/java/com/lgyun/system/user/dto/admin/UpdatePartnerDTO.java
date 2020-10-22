@@ -1,31 +1,23 @@
-package com.lgyun.system.user.entity;
+package com.lgyun.system.user.dto.admin;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.IdcardVerifyType;
 import com.lgyun.common.enumeration.VerifyStatus;
-import com.lgyun.core.mp.base.BaseEntity;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 
-/**
- * 合伙人信息表 Entity
- *
- * @author liangfeihu
- * @since 2020-10-20 18:25:03
- */
 @Data
-@EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor
-@AllArgsConstructor
-@TableName("diyi_partner")
-public class PartnerEntity extends BaseEntity {
+public class UpdatePartnerDTO  implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 合伙人ID
+     */
+    @NotNull(message = "请选择合伙人")
+    private Long partnerId;
 
     /**
      * 介绍合伙人ID
@@ -165,7 +157,7 @@ public class PartnerEntity extends BaseEntity {
     /**
      * 身份证验证状态：未验证，验证通过，验证未通过
      */
-    private VerifyStatus idCardVerifyStatus=VerifyStatus.TOVERIFY;
+    private VerifyStatus idCardVerifyStatus;
 
     /**
      * 身份证验证日期时间
@@ -206,5 +198,4 @@ public class PartnerEntity extends BaseEntity {
      * 自我描述
      */
     private String selfDesc;
-
 }

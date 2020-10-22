@@ -37,14 +37,14 @@ public class EnterpriseWebController {
     @GetMapping("/query-service-provider-list")
     @ApiOperation(value = "查询商户合作服务商", notes = "查询商户合作服务商")
     public R getServiceProviders(Query query, BladeUser bladeUser) {
-            //查询当前商户员工
-            R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
-            if (!(result.isSuccess())) {
-                return result;
-            }
-            EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-            return enterpriseService.getServiceProviders(query, enterpriseWorkerEntity.getEnterpriseId());
+        return enterpriseService.getServiceProviders(query, enterpriseWorkerEntity.getEnterpriseId());
     }
 
     @GetMapping("/query-enterprise-detail")

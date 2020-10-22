@@ -23,6 +23,9 @@ import com.lgyun.system.order.vo.admin.TransactionByBureauServiceProviderInfoVO;
 import com.lgyun.system.user.entity.EnterpriseServiceProviderEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import com.lgyun.system.user.vo.TransactionVO;
+import com.lgyun.system.user.vo.admin.AdminAgentMainServiceProviderListVO;
+import com.lgyun.system.user.vo.admin.AgentMainTransactionVO;
+import com.lgyun.system.user.vo.admin.PartnerServiceProviderListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -651,6 +654,27 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     @Override
     public R<IPage<TransactionByBureauServiceProviderInfoVO>> transactionByBureauServiceProviderInfo(Long bureauId, IPage<TransactionByBureauServiceProviderInfoVO> page) {
         return R.data(page.setRecords(baseMapper.transactionByBureauServiceProviderInfo(bureauId,page)));
+    }
+
+    @Override
+    public R<AgentMainTransactionVO> transactionByAgentMainId(Long agentMainId) {
+        AgentMainTransactionVO agentMainTransactionVO = baseMapper.getTransactionByAgentMainId(agentMainId);
+        return R.data(agentMainTransactionVO);
+    }
+
+    @Override
+    public R<IPage<AdminAgentMainServiceProviderListVO>> getCooperativeServiceProvider(IPage<AdminAgentMainServiceProviderListVO> page,Long agentMainId) {
+        return R.data(page.setRecords(baseMapper.getAgentMainServiceProviderList(agentMainId, page)));
+    }
+
+    @Override
+    public R<AgentMainTransactionVO> allTransaction() {
+        return R.data(baseMapper.getAllTransaction());
+    }
+
+    @Override
+    public R<IPage<PartnerServiceProviderListVO>> getPartnerAllServiceProvider(IPage<PartnerServiceProviderListVO> page) {
+        return R.data(page.setRecords(baseMapper.getPartnerAllServiceProvider(page)));
     }
 
 }
