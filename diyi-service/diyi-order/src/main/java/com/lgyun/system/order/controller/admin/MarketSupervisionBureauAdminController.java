@@ -20,18 +20,17 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.NotNull;
 
 @RestController
-@RequestMapping("/admin/paying-agency")
+@RequestMapping("/admin/market-supervision-bureau")
 @Validated
 @AllArgsConstructor
-@Api(value = "平台端---支付机构管理", tags = "平台端---支付机构管理")
-public class PayingAgencyController {
-
+@Api(value = "平台端---市场监督管理局管理", tags = "平台端---市场监督管理局管理")
+public class MarketSupervisionBureauAdminController {
     private IPayEnterpriseService payEnterpriseService;
     private IUserClient userClient;
 
     @PostMapping("/transaction-by-bureau-service-provider")
-    @ApiOperation(value = "查询当前支付机构所有匹配的服务商交易情况数据", notes = "查询当前支付机构所有匹配的服务商交易情况数据")
-    public R transactionByBureauServiceProvider(@ApiParam("支付机构ID") @NotNull(message = "支付机构ID不能为空！") @RequestParam(required = false) Long bureauId, BladeUser bladeUser) {
+    @ApiOperation(value = "查询当前市场监督管理局所有匹配的服务商交易情况数据", notes = "查询当前市场监督管理局所有匹配的服务商交易情况数据")
+    public R transactionByBureauServiceProvider(@ApiParam("市场监督管理局ID") @NotNull(message = "市场监督管理局ID不能为空！") @RequestParam(required = false) Long bureauId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -42,8 +41,8 @@ public class PayingAgencyController {
 
 
     @PostMapping("/transaction-by-bureau-service-provider-info")
-    @ApiOperation(value = "查询支付机构匹配的服务商基本信息及交易金额", notes = "查询支付机构匹配的服务商基本信息及交易金额")
-    public R transactionByBureauServiceProviderInfo(@ApiParam("支付机构ID") @NotNull(message = "支付机构ID不能为空！") @RequestParam(required = false) Long bureauId, Query query, BladeUser bladeUser) {
+    @ApiOperation(value = "查询市场监督管理局匹配的服务商基本信息及交易金额", notes = "查询市场监督管理局匹配的服务商基本信息及交易金额")
+    public R transactionByBureauServiceProviderInfo(@ApiParam("市场监督管理局ID") @NotNull(message = "市场监督管理局ID不能为空！") @RequestParam(required = false) Long bureauId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -51,5 +50,4 @@ public class PayingAgencyController {
         }
         return payEnterpriseService.transactionByBureauServiceProviderInfo(bureauId, Condition.getPage(query.setDescs("create_time")));
     }
-
 }

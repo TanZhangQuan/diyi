@@ -44,13 +44,13 @@ public class PaymentEnterpriseController {
         return payEnterpriseService.upload(payEnterpriseUploadDto, enterpriseWorkerEntity.getEnterpriseId());
     }
 
-    @GetMapping("/get-worksheet-by-enterprise-id")
+    @GetMapping("/query-worksheet-list-by-enterprise-id")
     @ApiOperation(value = "查询当前商户所有已完毕的总包+分包类型的工单", notes = "查询当前商户所有已完毕的总包+分包类型的工单")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "worksheetNo", value = "工单编号", paramType = "query", dataType = "string"),
             @ApiImplicitParam(name = "worksheetName", value = "工单名称", paramType = "query", dataType = "string")
     })
-    public R getWorksheetByEnterpriseId(String worksheetNo, String worksheetName, Query query, BladeUser bladeUser) {
+    public R queryWorksheetListByEnterpriseId(String worksheetNo, String worksheetName, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -61,16 +61,9 @@ public class PaymentEnterpriseController {
         return payEnterpriseService.getWorksheetByEnterpriseId(query, enterpriseWorkerEntity.getEnterpriseId(), WorkSheetType.SUBPACKAGE, worksheetNo, worksheetName);
     }
 
-    @GetMapping("/get-pay-enterprises-by-enterprise")
+    @GetMapping("/query-pay-enterprise-list")
     @ApiOperation(value = "查询当前商户所有总包支付清单", notes = "查询当前商户所有总包支付清单")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "payEnterpriseId", value = "总包支付清单ID", paramType = "query", dataType = "long"),
-            @ApiImplicitParam(name = "serviceProviderName", value = "服务商名称", paramType = "query", dataType = "string"),
-            @ApiImplicitParam(name = "payEnterpriseAuditState", value = "审核状态", paramType = "query", dataType = "string"),
-            @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
-            @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
-    })
-    public R getPayEnterprisesByEnterprise(PayEnterpriseDTO payEnterpriseDto, Query query, BladeUser bladeUser) {
+    public R queryPayEnterpriseList(PayEnterpriseDTO payEnterpriseDto, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -81,9 +74,9 @@ public class PaymentEnterpriseController {
         return payEnterpriseService.getPayEnterpriseList(enterpriseWorkerEntity.getEnterpriseId(), null, payEnterpriseDto, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @GetMapping("/get-pay-maker-list-by-pay-enterprise-id")
+    @GetMapping("/query-pay-maker-list")
     @ApiOperation(value = "根据支付清单ID查询创客支付明细", notes = "根据支付清单ID查询创客支付明细")
-    public R getPayMakerListByPayEnterpriseId(@ApiParam(value = "支付清单编号", required = true) @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, Query query, BladeUser bladeUser) {
+    public R queryPayMakerList(@ApiParam(value = "支付清单编号", required = true) @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {

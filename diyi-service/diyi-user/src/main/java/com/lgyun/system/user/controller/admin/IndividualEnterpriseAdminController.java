@@ -8,6 +8,7 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDTO;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDTO;
 import com.lgyun.system.user.entity.AdminEntity;
+import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.service.IAdminService;
 import com.lgyun.system.user.service.IEnterpriseReportService;
 import com.lgyun.system.user.service.IIndividualEnterpriseService;
@@ -70,6 +71,18 @@ public class IndividualEnterpriseAdminController {
         }
 
         return individualEnterpriseService.createIndividualEnterprise(individualBusinessEnterpriseWebAddDto, null);
+    }
+
+    @PostMapping("/update-individual-enterprise")
+    @ApiOperation(value = "修改个独信息", notes = "修改个独信息")
+    public R updateIndividualEnterprise(@Valid @RequestBody IndividualEnterpriseEntity individualEnterprise) {
+        return R.status(individualEnterpriseService.updateById(individualEnterprise));
+    }
+
+    @GetMapping("/query-enterprise-report-list")
+    @ApiOperation(value = "查询个独年审信息", notes = "查询个独年审信息")
+    public R queryEnterpriseReportList(Query query, @ApiParam(value = "个独ID", required = true) @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
+        return individualEnterpriseService.queryEnterpriseReports(query, individualEnterpriseId);
     }
 
 }

@@ -1,13 +1,10 @@
-package com.lgyun.system.order.controller.admin;
+package com.lgyun.system.order.controller.serviceProvider;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.InvoicePeopleType;
-import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.service.ISelfHelpInvoiceService;
-import com.lgyun.system.user.entity.AdminEntity;
-import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -21,36 +18,23 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.NotNull;
 
 @RestController
-@RequestMapping("/admin/individual-business")
+@RequestMapping("/service-provider/individual-business")
 @Validated
 @AllArgsConstructor
-@Api(value = "平台端---个体户管理模块相关接口", tags = "平台端---个体户管理模块相关接口")
-public class IndividualBusinessAdminController {
+@Api(value = "服务商端---个体户管理模块相关接口", tags = "服务商端---个体户管理模块相关接口")
+public class IndividualBusinessServiceProviderController {
 
-    private IUserClient userClient;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
 
-    @GetMapping("/query-self-help-invoice-statistics")
+    @GetMapping("/self-help-invoice-statistics")
     @ApiOperation(value = "查询个体户开票次数，月度开票金额，年度开票金额和总开票金额", notes = "查询个体户开票次数，月度开票金额，年度开票金额和总开票金额")
-    public R querySelfHelpInvoiceStatistics(@ApiParam(value = "个体户ID", required = true) @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId, BladeUser bladeUser) {
-        //查询当前管理员
-        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
+    public R selfHelpInvoiceStatistics(@ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
         return selfHelpInvoiceService.selfHelpInvoiceStatistics(individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
     }
 
-    @GetMapping("/query-self-help-invoice-list")
+    @GetMapping("/self-help-invoice-list")
     @ApiOperation(value = "查询个体户开票记录", notes = "查询个体户开票记录")
-    public R querySelfHelpInvoiceList(@ApiParam(value = "个体户ID", required = true) @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId, Query query, BladeUser bladeUser) {
-        //查询当前管理员
-        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
+    public R selfHelpInvoiceList(Query query, @ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
         return selfHelpInvoiceService.selfHelpInvoiceList(Condition.getPage(query.setDescs("create_time")), individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
     }
 

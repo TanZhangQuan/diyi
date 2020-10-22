@@ -1,4 +1,4 @@
-package com.lgyun.system.order.controller;
+package com.lgyun.system.order.controller.serviceProvider;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.InvoicePeopleType;
@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.NotNull;
 
 @RestController
-@RequestMapping("/web/individual-enterprise")
+@RequestMapping("/service-provider/individual-enterprise")
 @Validated
 @AllArgsConstructor
-@Api(value = "个独相关接口(管理端)", tags = "个独相关接口(管理端)")
-public class IndividualEnterpriseWebController {
+@Api(value = "服务商端---个独管理模块相关接口", tags = "服务商端---个独管理模块相关接口")
+public class IndividualEnterpriseServiceProviderController {
 
     private ISelfHelpInvoiceService selfHelpInvoiceService;
 

@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.ServiceProviderBankCardDTO;
 import com.lgyun.system.user.dto.ServiceProviderContactPersonDTO;
 import com.lgyun.system.user.dto.ServiceProviderInvoiceDTO;
@@ -13,7 +12,6 @@ import com.lgyun.system.user.dto.admin.QueryServiceProviderListDTO;
 import com.lgyun.system.user.dto.admin.UpdateServiceProviderDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
-import com.lgyun.system.user.vo.EnterprisesVO;
 import com.lgyun.system.user.vo.ServiceProviderBankCardVO;
 import com.lgyun.system.user.vo.ServiceProviderContactPersonVO;
 import com.lgyun.system.user.vo.ServiceProviderInvoiceVO;
@@ -45,16 +43,6 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
      * @return
      */
     Integer findCountBySocialCreditNo(String socialCreditNo, Long serviceProviderId);
-
-    /**
-     * 查询服务商关联的所有商户
-     *
-     * @param query
-     * @param serviceProviderId
-     * @param keyword
-     * @return
-     */
-    R<IPage<EnterprisesVO>> getEnterpriseByServiceProvider(Query query, Long serviceProviderId, String keyword);
 
     /**
      * 查询当前服务商银行卡信息

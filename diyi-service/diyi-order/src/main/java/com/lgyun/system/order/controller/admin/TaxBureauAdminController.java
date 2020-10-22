@@ -24,7 +24,7 @@ import javax.validation.constraints.NotNull;
 @Validated
 @AllArgsConstructor
 @Api(value = "平台端---税局管理模块相关接口", tags = "平台端---税局管理模块相关接口")
-public class TaxBureauController {
+public class TaxBureauAdminController {
     private IPayEnterpriseService payEnterpriseService;
     private IUserClient userClient;
 

@@ -87,10 +87,9 @@ public class WorksheetMakerController {
         return worksheetService.getWorksheetDetails(worksheetMakerId);
     }
 
-
-    @GetMapping("/get-server-provider-worksheet-details")
-    @ApiOperation(value = "根据创客查询工单(服务商)", notes = "根据创客ID查询工单(服务商)")
-    public R getMakerWorksheets(@ApiParam(value = "创客ID", required = true) @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId, Query query, BladeUser bladeUser) {
+    @GetMapping("/query-worksheet-list-by-maker-id")
+    @ApiOperation(value = "根据创客查询工单", notes = "根据创客ID查询工单")
+    public R queryWorksheetListByMakerId(@ApiParam(value = "创客ID", required = true) @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId, Query query, BladeUser bladeUser) {
         return worksheetService.getWorksheetDetailsByMaker(Condition.getPage(query.setDescs("create_time")), null, makerId);
     }
 
@@ -118,10 +117,9 @@ public class WorksheetMakerController {
         return worksheetService.getByWorksheetId(worksheetId);
     }
 
-
-    @GetMapping("/query-")
+    @GetMapping("/query-worksheet-list-pay-enterprise-id")
     @ApiOperation(value = "根据支付清单查询创客工单关联", notes = "根据支付清单查询创客工单关联")
-    public R getByPayEnterpriseId(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, Query query, BladeUser bladeUser) {
+    public R queryWorksheetListPayEnterpriseId(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, Query query, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {

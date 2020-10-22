@@ -30,15 +30,15 @@ import javax.validation.constraints.NotNull;
 @Validated
 @AllArgsConstructor
 @Api(value = "平台端---在线经济产业园区管理", tags = "平台端---在线经济产业园区管理")
-public class IndustrialParksController {
+public class IndustrialParksAdminController {
     private IRelBureauService bureauService;
     private IRelBureauNoticeService bureauNoticeService;
     private IAdminService adminService;
     private IRelBureauServiceProviderService bureauServiceProviderService;
 
-    @PostMapping("/query-industrial-parks")
+    @PostMapping("/query-industrial-park-list")
     @ApiOperation(value = "查询产业园区", notes = "查询产业园区")
-    public R getIndustrialParks(@RequestBody(required = false) QueryRelBureauListDTO queryRelBureauListDTO, Query query, BladeUser bladeUser) {
+    public R queryIndustrialParkList(@RequestBody(required = false) QueryRelBureauListDTO queryRelBureauListDTO, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

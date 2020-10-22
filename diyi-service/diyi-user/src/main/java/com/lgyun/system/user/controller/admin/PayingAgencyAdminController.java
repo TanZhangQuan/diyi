@@ -26,31 +26,31 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @RestController
-@RequestMapping("/admin/market-supervision-bureau")
+@RequestMapping("/admin/paying-agency")
 @Validated
 @AllArgsConstructor
-@Api(value = "平台端---市场监督管理局管理", tags = "平台端---市场监督管理局管理")
-public class MarketSupervisionBureauController {
+@Api(value = "平台端---支付机构管理", tags = "平台端---支付机构管理")
+public class PayingAgencyAdminController {
     private IRelBureauService bureauService;
     private IRelBureauNoticeService bureauNoticeService;
     private IAdminService adminService;
     private IRelBureauServiceProviderService bureauServiceProviderService;
 
-    @PostMapping("/query-market-supervision-bureau")
-    @ApiOperation(value = "查询市场监督管理局", notes = "查询市场监督管理局")
-    public R getMarketSupervisionBureau(@RequestBody(required = false) QueryRelBureauListDTO queryRelBureauListDTO, Query query, BladeUser bladeUser) {
+    @PostMapping("/query-paying-agency")
+    @ApiOperation(value = "查询支付机构", notes = "查询支付机构")
+    public R queryPayingAgency(@RequestBody(required = false) QueryRelBureauListDTO queryRelBureauListDTO, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
-        return bureauService.QueryRelBureau(queryRelBureauListDTO, Condition.getPage(query.setAscs("create_time")), BureauType.MARSUPANDADM);
+        return bureauService.QueryRelBureau(queryRelBureauListDTO, Condition.getPage(query.setAscs("create_time")), BureauType.PAYINGAGENCY);
     }
 
 
-    @PostMapping("/add-market-supervision-bureau")
-    @ApiOperation(value = "添加市场监督管理局", notes = "添加市场监督管理局")
-    public R addMarketSupervisionBureau(@Valid @RequestBody AddRelBureauDTO addRelBureauDto, BladeUser bladeUser) {
+    @PostMapping("/add-paying-agency")
+    @ApiOperation(value = "添加支付机构", notes = "添加支付机构")
+    public R addPayingAgency(@Valid @RequestBody AddRelBureauDTO addRelBureauDto, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -59,9 +59,9 @@ public class MarketSupervisionBureauController {
         return bureauService.addRelBureau(addRelBureauDto);
     }
 
-    @GetMapping("/query-market-supervision-bureau-info")
-    @ApiOperation(value = "查询市场监督管理局信息", notes = "查询市场监督管理局信息")
-    public R queryMarketSupervisionBureauInfo(@ApiParam("市场监督管理局Id") @NotNull(message = "市场监督管理局Id不能为空！") @RequestParam(required = false) Long bureauId, BladeUser bladeUser) {
+    @GetMapping("/query-paying-agency-info")
+    @ApiOperation(value = "查询支付机构信息", notes = "查询支付机构信息")
+    public R queryPayingAgencyInfo(@ApiParam("支付机构Id") @NotNull(message = "支付机构Id不能为空！") @RequestParam(required = false) Long bureauId, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -70,9 +70,9 @@ public class MarketSupervisionBureauController {
         return bureauService.queryRelBureauInfo(bureauId);
     }
 
-    @PostMapping("/update-market-supervision-bureau")
-    @ApiOperation(value = "编辑市场监督管理局", notes = "编辑市场监督管理局")
-    public R updateMarketSupervisionBureau(@Valid @RequestBody UpdateRelBureauDTO updateRelBureauDTO, BladeUser bladeUser) {
+    @PostMapping("/update-paying-agency")
+    @ApiOperation(value = "编辑支付机构", notes = "编辑支付机构")
+    public R updatePayingAgencyBureau(@Valid @RequestBody UpdateRelBureauDTO updateRelBureauDTO, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -81,9 +81,9 @@ public class MarketSupervisionBureauController {
         return bureauService.updateBureau(updateRelBureauDTO);
     }
 
-    @GetMapping("/query-market-supervision-bureau-notice")
-    @ApiOperation(value = "查询市场监督管理局通知", notes = "查询市场监督管理局通知")
-    public R queryMarketSupervisionBureauNotice(@ApiParam("市场监督管理局Id") @NotNull(message = "市场监督管理局Id不能为空！") @RequestParam(required = false) Long bureauId, Query query, BladeUser bladeUser) {
+    @GetMapping("/query-paying-agency-notice")
+    @ApiOperation(value = "查询支付机构通知", notes = "查询支付机构通知")
+    public R queryPayingAgencyNotice(@ApiParam("支付机构Id") @NotNull(message = "支付机构Id不能为空！") @RequestParam(required = false) Long bureauId, Query query, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -92,9 +92,9 @@ public class MarketSupervisionBureauController {
         return bureauNoticeService.queryBureauNotice(bureauId, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @GetMapping("/query-market-supervision-bureau-service-provider")
+    @GetMapping("/query-paying-agency-service-provider")
     @ApiOperation(value = "查询可以匹配的服务商", notes = "查询可以匹配的服务商")
-    public R queryMarketSupervisionBureauServiceProvider(@ApiParam("服务商名称") @RequestParam(required = false) String serviceProviderName, Query query, BladeUser bladeUser) {
+    public R queryPayingAgencyServiceProvider(@ApiParam("服务商名称") @RequestParam(required = false) String serviceProviderName, Query query, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -103,9 +103,9 @@ public class MarketSupervisionBureauController {
         return bureauServiceProviderService.queryRelBureauServiceProvider(serviceProviderName, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @PostMapping("/add-market-supervision-bureau-service-provider")
+    @PostMapping("/add-paying-agency-service-provider")
     @ApiOperation(value = "添加匹配服务商", notes = "添加匹配服务商")
-    public R addRelBureauServiceProvider(@ApiParam("市场监督管理局ID不能为空") @NotNull(message = "市场监督管理局ID不能为空") @RequestParam(required = false) Long bureauId,
+    public R addRelBureauServiceProvider(@ApiParam("支付机构ID不能为空") @NotNull(message = "支付机构ID不能为空") @RequestParam(required = false) Long bureauId,
                                          @ApiParam("服务商ID字符集，ID直接用逗号隔开") @NotBlank(message = "匹配服务商不能为空！") @RequestParam(required = false) String serviceProviderIds, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
@@ -115,9 +115,9 @@ public class MarketSupervisionBureauController {
         return bureauServiceProviderService.addRelBureauServiceProvider(serviceProviderIds, bureauId);
     }
 
-    @PostMapping("/update-market-supervision-bureau-service-provider")
+    @PostMapping("/update-paying-agency-service-provider")
     @ApiOperation(value = "开启或关闭匹配服务商", notes = "开启或关闭匹配服务商")
-    public R updateBureauServiceProvider(@ApiParam("匹配的ID") @NotNull(message = "匹配的ID不能为空") @RequestParam(required = false) Long bureauServiceProviderId, @NotNull(message = "状态不能为空！") BureauServiceProviderStatus bureauServiceProviderStatus, BladeUser bladeUser) {
+    public R updateBureauServiceProvider(@ApiParam("匹配的ID") @NotNull(message = "匹配的ID不能为空") @RequestParam(required = false) Long bureauServiceProviderId, @NotNull(message = "状态不能为空") BureauServiceProviderStatus bureauServiceProviderStatus, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -126,7 +126,7 @@ public class MarketSupervisionBureauController {
         return bureauServiceProviderService.updateBureauServiceProvider(bureauServiceProviderId, bureauServiceProviderStatus);
     }
 
-    @PostMapping("/delete-market-supervision-bureau-service-provider")
+    @PostMapping("/delete-paying-agency-service-provider")
     @ApiOperation(value = "撤销服务商", notes = "撤销服务商")
     public R deleteBureauServiceProvider(@ApiParam("匹配的ID") @NotNull(message = "匹配的ID不能为空") @RequestParam Long bureauServiceProviderId, BladeUser bladeUser) {
         //查询当前管理

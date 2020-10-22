@@ -28,9 +28,9 @@ public class AgentMainAdminController {
     private IPayEnterpriseService payEnterpriseService;
     private IUserClient userClient;
 
-    @GetMapping("/agent-main-transaction")
+    @GetMapping("/query-agent-main-transaction")
     @ApiOperation(value = "查询渠道商交易数据", notes = "查询渠道商交易数据")
-    public R transactionByEnterprise(@ApiParam(value = "渠道商ID", required = true) @NotNull(message = "请输入渠道商编号") @RequestParam(required = false) Long agentMainId, BladeUser bladeUser) {
+    public R queryAgentMainTransaction(@ApiParam(value = "渠道商ID", required = true) @NotNull(message = "请输入渠道商编号") @RequestParam(required = false) Long agentMainId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

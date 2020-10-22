@@ -23,8 +23,8 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/admin/industrial-parks-bureau")
 @Validated
 @AllArgsConstructor
-@Api(value = "平台端---在线经济产业园区管理", tags = "平台端---在线经济产业园区管理")
-public class IndustrialParksController {
+@Api(value = "平台端---在线经济产业园区管理模块相关接口", tags = "平台端---在线经济产业园区管理模块相关接口")
+public class IndustrialParksAdminController {
     private IPayEnterpriseService payEnterpriseService;
     private IUserClient userClient;
 

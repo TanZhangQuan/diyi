@@ -1,4 +1,4 @@
-package com.lgyun.system.user.controller;
+package com.lgyun.system.user.controller.serviceProvider;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.RelationshipType;
@@ -18,24 +18,24 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.NotNull;
 
 @RestController
-@RequestMapping("/web/maker")
+@RequestMapping("/service-provider/natural-person-maker")
 @Validated
 @AllArgsConstructor
-@Api(value = "创客相关接口(管理端)", tags = "创客相关接口(管理端)")
-public class MakerWebController {
+@Api(value = "服务商端---自然人创客管理模块相关接口", tags = "服务商端---自然人创客管理模块相关接口")
+public class NaturalPersonMakerServiceProviderController {
 
-    private IMakerService makerService;
-    private IMakerEnterpriseService makerEnterpriseService;
     private IServiceProviderWorkerService serviceProviderWorkerService;
     private IServiceProviderMakerService serviceProviderMakerService;
-    private IServiceProviderService serviceProviderService;
+    private IEnterpriseServiceProviderService enterpriseServiceProviderService;
+    private IMakerService makerService;
+    private IMakerEnterpriseService makerEnterpriseService;
 
-    @GetMapping("/query-relevance-service-provider-maker")
+    @GetMapping("/query-relevance-maker-list")
     @ApiOperation(value = "查询当前服务商的所有关联创客", notes = "查询当前服务商的所有关联创客")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "搜索关键字(创客编号，姓名，手机号)", value = "搜索关键字(创客编号，姓名，手机号)", paramType = "query", dataType = "string"),
     })
-    public R getRelevanceServiceProviderMaker(String keyword, Query query, BladeUser bladeUser) {
+    public R queryRelevanceMakerList(String keyword, Query query, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -62,7 +62,7 @@ public class MakerWebController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return serviceProviderService.getEnterpriseByServiceProvider(query, serviceProviderWorkerEntity.getServiceProviderId(), keyword);
+        return enterpriseServiceProviderService.getEnterpriseByServiceProvider(Condition.getPage(query.setDescs("create_time")), serviceProviderWorkerEntity.getServiceProviderId(), keyword);
     }
 
     @GetMapping("/query-relevance-maker-list")
@@ -85,7 +85,7 @@ public class MakerWebController {
     }
 
     @GetMapping("/query-self-help-invoice-detail")
-    @ApiOperation(value = "根据自助开票ID查询自助开票详情", notes = "根据自助开票ID查询自助开票详情")
+    @ApiOperation(value = "根据自助开票查询自助开票详情", notes = "根据自助开票查询自助开票详情")
     public R querySelfHelpInvoiceDetail(@ApiParam(value = "自助开票编号", required = true) @NotNull(message = "请输入自助开票编号") @RequestParam(required = false) Long selfHelpvoiceId, Query query) {
         return makerEnterpriseService.getSelfHelpInvoiceDetails(Condition.getPage(query.setDescs("create_time")), selfHelpvoiceId);
     }

@@ -6,6 +6,7 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDTO;
+import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.service.IIndividualEnterpriseService;
 import com.lgyun.system.user.service.IServiceProviderWorkerService;
@@ -14,6 +15,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @RestController
@@ -56,6 +58,18 @@ public class IndividualEnterpriseServiceProviderController {
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
         return individualEnterpriseService.updateIbstate(serviceProviderWorkerEntity.getServiceProviderId(), individualEnterpriseId, ibstate);
+    }
+
+    @PostMapping("/update-individual-enterprise")
+    @ApiOperation(value = "修改个独信息", notes = "修改个独信息")
+    public R updateIndividualEnterprise(@Valid @RequestBody IndividualEnterpriseEntity individualEnterprise) {
+        return R.status(individualEnterpriseService.updateById(individualEnterprise));
+    }
+
+    @GetMapping("/query-enterprise-report-list")
+    @ApiOperation(value = "查询个独年审信息", notes = "查询个独年审信息")
+    public R queryEnterpriseReportList(Query query, @ApiParam(value = "个独ID", required = true) @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
+        return individualEnterpriseService.queryEnterpriseReports(query, individualEnterpriseId);
     }
 
 }

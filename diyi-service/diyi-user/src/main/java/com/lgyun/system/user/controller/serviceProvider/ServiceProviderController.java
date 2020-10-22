@@ -26,9 +26,9 @@ public class ServiceProviderController {
     private IServiceProviderService serviceProviderService;
     private IServiceProviderWorkerService serviceProviderWorkerService;
 
-    @GetMapping("/get_bank_card")
+    @GetMapping("/query-bank-card")
     @ApiOperation(value = "查询当前服务商银行卡信息", notes = "查询当前服务商银行卡信息")
-    public R getBankCard(BladeUser bladeUser) {
+    public R queryBankCard(BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -52,9 +52,9 @@ public class ServiceProviderController {
         return serviceProviderService.addOrUpdateBankCard(serviceProviderBankCardDto, serviceProviderWorkerEntity.getServiceProviderId());
     }
 
-    @GetMapping("/get_contact_person")
+    @GetMapping("/query-contact-person")
     @ApiOperation(value = "查询当前服务商联系人信息", notes = "查询当前服务商联系人信息")
-    public R getContactPerson(BladeUser bladeUser) {
+    public R queryContactPerson(BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -78,9 +78,9 @@ public class ServiceProviderController {
         return serviceProviderService.addOrUpdateContactPerson(serviceProviderContactPersonDto, serviceProviderWorkerEntity.getServiceProviderId());
     }
 
-    @GetMapping("/get_invoice")
+    @GetMapping("/query-invoice")
     @ApiOperation(value = "查询当前服务商开票信息", notes = "查询当前服务商开票信息")
-    public R getInvoice(BladeUser bladeUser) {
+    public R queryInvoice(BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
