@@ -491,6 +491,11 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
+    public R queryServiceAgreementState(IPage<AgreementServiceStateAdminVO> page) {
+        return R.data(page.setRecords(baseMapper.queryServiceAgreementState(page)));
+    }
+
+    @Override
     public R queryServiceIdEnterSupplement(Long serviceProviderId, IPage<AgreementServiceVO> page) {
         return R.data(page.setRecords(baseMapper.queryEnterIdServiceSupplement(null,serviceProviderId, page)));
     }
