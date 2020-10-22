@@ -14,17 +14,6 @@
         <result column="create_time" property="createTime"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.admin.AgentMainTransactionVO" id="agentMainTransactionVO">
-        <result property="totalSubMonthPay" column="total_sub_month_pay"/>
-        <result property="totalSubYearPay" column="total_sub_year_pay"/>
-        <result property="totalSubAllPay" column="total_sub_all_pay"/>
-        <result property="crowdMonthPay" column="crowd_month_pay"/>
-        <result property="crowdYearPay" column="crowd_year_pay"/>
-        <result property="crowdAllPay" column="crowd_all_pay"/>
-        <result property="makerNum" column="maker_num"/>
-        <result property="serviceProviderNum" column="service_provider_num"/>
-    </resultMap>
-
     <resultMap type="com.lgyun.system.user.vo.admin.AdminAgentMainServiceProviderListVO" id="adminAgentMainServiceProviderListVO">
         <result property="serviceProviderId" column="service_provider_id"/>
         <result property="serviceProviderName" column="service_provider_name"/>
@@ -77,139 +66,29 @@
                     and am.id = #{param1.agentMainId}
                 </if>
                 <if test="param1.enterpriseName != null and param1.enterpriseName.trim() != ''">
-                    AND t1.enterprise_name like concat('%', #{param1.enterpriseName}, '%')
+                    AND am.enterprise_name like concat('%', #{param1.enterpriseName}, '%')
                 </if>
                 <if test="param1.beginDate != null">
-                    AND DATEDIFF(t1.create_time, #{param1.beginDate}) <![CDATA[ >= ]]> 0
+                    AND DATEDIFF(am.create_time, #{param1.beginDate}) <![CDATA[ >= ]]> 0
                 </if>
                 <if test="param1.endDate != null">
-                    AND DATEDIFF(t1.create_time, #{param1.endDate}) <![CDATA[ <= ]]> 0
+                    AND DATEDIFF(am.create_time, #{param1.endDate}) <![CDATA[ <= ]]> 0
                 </if>
     </select>
 
-    <select id="getTransactionByAgentMainId" resultMap="agentMainTransactionVO">
-        SELECT
-        SUM(t1.month_pay) AS total_sub_month_pay,
-        SUM(t1.year_pay) AS total_sub_year_pay,
-        SUM(t1.all_pay) AS total_sub_all_pay,
-        SUM(t2.month_pay) AS crowd_month_pay,
-        SUM(t2.year_pay) AS crowd_year_pay,
-        SUM(t2.all_pay) AS crowd_all_pay,
-        (
-        SELECT
-        COUNT(1)
-        FROM
-        diyi_agent_provider
-        WHERE
-        is_deleted = 0
-        AND agent_main_id = #{agentMainId}
-        ) AS service_provider_num,
-        (
-        SELECT
-        COUNT(DISTINCT id)
-        FROM
-        diyi_service_provider_maker
-        WHERE
-        service_provider_id IN (
-        SELECT
-        service_provider_id
-        FROM
-        diyi_agent_provider
-        WHERE
-        is_deleted = 0
-        AND agent_main_id = #{agentMainId}
-        )
-        ) AS maker_num
-        FROM
-        (
-        SELECT
-        IFNULL(
-        SUM(
 
-        IF (
-        DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30,
-        pay_to_platform_amount,
-        0
-        )
-        ),
-        0
-        ) AS month_pay,
-        IFNULL(
-        SUM(
-
-        IF (
-        DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365,
-        pay_to_platform_amount,
-        0
-        )
-        ),
-        0
-        ) AS year_pay,
-        IFNULL(
-        SUM(pay_to_platform_amount),
-        0
-        ) AS all_pay
-        FROM
-        diyi_pay_enterprise
-        WHERE
-        is_deleted = 0
-        AND pay_state = 'CONFIRMPAY'
-        AND service_provider_id IN (
-        SELECT
-        service_provider_id
-        FROM
-        diyi_agent_provider
-        WHERE
-        is_deleted = 0
-        AND agent_main_id = #{agentMainId}
-        )
-        ) t1,
-        (
-        SELECT
-        IFNULL(
-        SUM(
-
-        IF (
-        DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30,
-        charge_money_num,
-        0
-        )
-        ),
-        0
-        ) AS month_pay,
-        IFNULL(
-        SUM(
-
-        IF (
-        DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365,
-        charge_money_num,
-        0
-        )
-        ),
-        0
-        ) AS year_pay,
-        IFNULL(SUM(charge_money_num), 0) AS all_pay
-        FROM
-        diyi_self_help_invoice_sp
-        WHERE
-        is_deleted = 0
-        AND (
-        apply_state = 'SUBMITTED'
-        OR apply_state = 'INVOICED'
-        )
-        AND service_provider_id IN (
-        SELECT
-        service_provider_id
-        FROM
-        diyi_agent_provider
-        WHERE
-        is_deleted = 0
-        AND agent_main_id = #{agentMainId}
-        )
-        ) t2
-    </select>
 
     <select id="getAgentMainServiceProviderList" resultMap="adminAgentMainServiceProviderListVO">
 
+    </select>
+    <select id="queryAgentMainServiceProvider"
+            resultType="com.lgyun.system.user.vo.admin.AgentMainServiceProviderVO">
+        SELECT id,service_provider_name FROM diyi_service_provider
+        WHERE id NOT IN
+        (SELECT service_provider_id FROM diyi_agent_provider)
+        AND service_provider_state = 'NORMAL' AND is_deleted=0
+        <if test="serviceProviderName != null and serviceProviderName != ''">
+            AND service_provider_name like CONCTA('%',#{param1},'%')
+        </if>
     </select>
 </mapper>

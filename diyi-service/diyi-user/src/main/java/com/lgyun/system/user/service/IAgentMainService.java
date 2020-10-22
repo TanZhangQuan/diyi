@@ -3,16 +3,14 @@ package com.lgyun.system.user.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.admin.AddAdminAgentMainDTO;
 import com.lgyun.system.user.dto.admin.QueryAgentMainDTO;
 import com.lgyun.system.user.dto.admin.UpdateAgentMainDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.AgentMainEntity;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
-import com.lgyun.system.user.vo.admin.AdminAgentMainServiceProviderListVO;
 import com.lgyun.system.user.vo.admin.AdminAgentMainVO;
-import com.lgyun.system.user.vo.admin.AgentMainTransactionVO;
+import com.lgyun.system.user.vo.admin.AgentMainServiceProviderVO;
 
 /**
  * 渠道商信息表 Service 接口
@@ -108,25 +106,6 @@ public interface IAgentMainService extends BaseService<AgentMainEntity> {
      */
     R updateAgentMain(UpdateAgentMainDTO updateAgentMainDTO, AdminEntity adminEntity);
 
-
-    /**
-     * 查询渠道商交易情况数据
-     *
-     * @param agentMainId
-     * @return
-     */
-    R<AgentMainTransactionVO> transactionByAgentMainId(Long agentMainId);
-
-
-    /**
-     * 查询匹配好的服务商
-     *
-     * @param agentMainId
-     * @param query
-     * @return
-     */
-    R<IPage<AdminAgentMainServiceProviderListVO>> getCooperativeServiceProvider(Long agentMainId, Query query);
-
     /**
      * 开启
      * @param agentProviderId
@@ -144,11 +123,19 @@ public interface IAgentMainService extends BaseService<AgentMainEntity> {
     R updateCloseAgentProvider(Long agentProviderId,AdminEntity adminEntity);
 
     /**
-     * 撤销
-     * @param agentProviderId
-     * @param adminEntity
+     * 查询可以匹配的服务商
+     * @param serviceProviderName
+     * @param page
      * @return
      */
-    R updateRevokeAgentProvider(Long agentProviderId,AdminEntity adminEntity);
+    R<IPage<AgentMainServiceProviderVO>> queryAgentMainServiceProvider(String serviceProviderName, IPage<AgentMainServiceProviderVO> page);
+
+    /**
+     * 添加匹配服务商
+     * @param serviceProviderIds
+     * @param agentMainId
+     * @return
+     */
+    R addAgentMainServiceProvider(String serviceProviderIds, Long agentMainId,AdminEntity adminEntity);
 }
 

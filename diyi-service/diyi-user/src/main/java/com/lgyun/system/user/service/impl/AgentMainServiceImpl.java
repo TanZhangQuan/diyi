@@ -6,25 +6,27 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
+import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.admin.AddAdminAgentMainDTO;
 import com.lgyun.system.user.dto.admin.AddOrUpdateAgentMainContactDTO;
 import com.lgyun.system.user.dto.admin.QueryAgentMainDTO;
 import com.lgyun.system.user.dto.admin.UpdateAgentMainDTO;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.AgentMainMapper;
+import com.lgyun.system.user.mapper.AgentProviderMapper;
+import com.lgyun.system.user.mapper.ServiceProviderMapper;
 import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
-import com.lgyun.system.user.vo.admin.AdminAgentMainServiceProviderListVO;
 import com.lgyun.system.user.vo.admin.AdminAgentMainVO;
-import com.lgyun.system.user.vo.admin.AgentMainTransactionVO;
+import com.lgyun.system.user.vo.admin.AgentMainServiceProviderVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 渠道商信息表 Service 实现
@@ -41,7 +43,8 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
     private IUserService userService;
     private IAgreementService agreementService;
     private IAgentProviderService agentProviderService;
-    private IServiceProviderMakerService serviceProviderMakerService;
+    private ServiceProviderMapper serviceProviderMapper;
+    private AgentProviderMapper agentProviderMapper;
 
     @Override
     public Integer findCountByEnterpriseName(String enterpriseName, Long enterpriseId) {
@@ -261,40 +264,67 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
         return R.success("编辑商户成功");
     }
 
-    @Override
-    public R<AgentMainTransactionVO> transactionByAgentMainId(Long agentMainId) {
-        AgentMainEntity agentMainEntity = getById(agentMainId);
-
-        if (agentMainEntity == null) {
-            return R.fail("商户不存在");
-        }
-        AgentMainTransactionVO agentMainTransactionVO = baseMapper.getTransactionByAgentMainId(agentMainId);
-        return R.data(agentMainTransactionVO);
-    }
-
-    @Override
-    public R<IPage<AdminAgentMainServiceProviderListVO>> getCooperativeServiceProvider(Long agentMainId, Query query) {
-
-
-
-
-        return null;
-    }
 
     @Override
     public R updateOpenAgentProvider(Long agentProviderId, AdminEntity adminEntity) {
-
-        return null;
+        AgentProviderEntity agentProviderEntity=agentProviderService.getById(agentProviderId);
+        if ((CooperateStatus.SERVICEPROVIDEROFFTHESHELF).equals(agentProviderEntity.getCooperateStatus())){
+            return R.fail("服务商已下架不能进行操作");
+        }
+        agentProviderEntity.setCreateUser(adminEntity.getUserId());
+        agentProviderEntity.setCreateTime(new Date());
+        agentProviderEntity.setId(agentProviderId);
+        agentProviderEntity.setStartDatetime(new Date());
+        agentProviderEntity.setCooperateStatus(CooperateStatus.COOPERATING);
+        agentProviderService.updateById(agentProviderEntity);
+        return R.success("操作成功！");
     }
 
     @Override
     public R updateCloseAgentProvider(Long agentProviderId, AdminEntity adminEntity) {
-        return null;
+        AgentProviderEntity agentProviderEntity=agentProviderService.getById(agentProviderId);
+        if ((CooperateStatus.SERVICEPROVIDEROFFTHESHELF).equals(agentProviderEntity.getCooperateStatus())){
+            return R.fail("服务商已下架不能进行操作");
+        }
+        agentProviderEntity.setCreateUser(adminEntity.getUserId());
+        agentProviderEntity.setCreateTime(new Date());
+        agentProviderEntity.setId(agentProviderId);
+        agentProviderEntity.setStopDatetime(new Date());
+        agentProviderEntity.setCooperateStatus(CooperateStatus.COOPERATESTOP);
+        agentProviderService.updateById(agentProviderEntity);
+        return R.success("操作成功！");
+    }
+
+    /**
+     * 查询匹配的服务商
+     *
+     * @param serviceProviderName
+     * @param page
+     * @return
+     */
+    @Override
+    public R<IPage<AgentMainServiceProviderVO>> queryAgentMainServiceProvider(String serviceProviderName, IPage<AgentMainServiceProviderVO> page) {
+        return R.data(page.setRecords(baseMapper.queryAgentMainServiceProvider(serviceProviderName, page)));
     }
 
     @Override
-    public R updateRevokeAgentProvider(Long agentProviderId, AdminEntity adminEntity) {
-        return null;
+    public R addAgentMainServiceProvider(String serviceProviderIds, Long agentMainId, AdminEntity adminEntity) {
+        List<Long> longs = Func.toLongList(serviceProviderIds);
+        for (Long id : longs) {
+            ServiceProviderEntity serviceProviderEntity = serviceProviderMapper.selectById(id);
+            if (serviceProviderEntity == null) {
+                break;
+            }
+            AgentProviderEntity entity = new AgentProviderEntity();
+            entity.setServiceProviderId(id);
+            entity.setAgentMainId(agentMainId);
+            entity.setCooperateStatus(CooperateStatus.COOPERATING);
+            entity.setStartDatetime(new Date());
+            entity.setCreateUser(adminEntity.getUserId());
+            entity.setCreateTime(new Date());
+            agentProviderMapper.insert(entity);
+        }
+        return R.success("添加匹配服务商成功！");
     }
 
 

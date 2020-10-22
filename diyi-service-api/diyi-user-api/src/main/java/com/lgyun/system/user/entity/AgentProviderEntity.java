@@ -1,6 +1,7 @@
 package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -52,7 +53,7 @@ public class AgentProviderEntity extends BaseEntity {
     /**
      * 合作状态：合作中，停止合作；首次关联时默认为合作中
      */
-    private String cooperateStatus;
+    private CooperateStatus cooperateStatus;
 
     /**
      * 合作日期

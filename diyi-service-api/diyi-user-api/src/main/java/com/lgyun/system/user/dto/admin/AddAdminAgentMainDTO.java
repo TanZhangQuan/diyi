@@ -5,6 +5,7 @@ import com.lgyun.common.enumeration.PositionName;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -67,7 +68,7 @@ public class AddAdminAgentMainDTO implements Serializable {
     @NotBlank(message = "营销人员不能为空")
     private Long salerId;
 
-    @NotBlank(message = "运营人员不能为空")
+    @NotNull(message = "运营人员不能为空")
     private Long runnerId;
 
     /**
@@ -93,7 +94,7 @@ public class AddAdminAgentMainDTO implements Serializable {
     /**
      * 联系人1邮箱
      */
-    @NotBlank(message = "请输入联系人1邮箱")
+    @Email(message = "请输入联系人1邮箱")
     private String contact1Mail;
 
     /**
@@ -119,7 +120,7 @@ public class AddAdminAgentMainDTO implements Serializable {
     /**
      * 联系人2邮箱
      */
-    @NotBlank(message = "请输入联系人2邮箱")
+    @Email(message = "请输入联系人2邮箱")
     private String contact2Mail;
 
     /**
@@ -172,14 +173,13 @@ public class AddAdminAgentMainDTO implements Serializable {
     @NotBlank(message = "用户名不能为空")
     private String enUserName;
 
-
+    /**
+     * 密码
+     */
     @NotBlank(message = "请输入密码")
     @Length(min = 6, max = 18, message = "请输入长度为6-18位新密码")
-    private String enUserPwd1;
+    private String enUserPwd;
 
-    @NotBlank(message = "请输入密码")
-    @Length(min = 6, max = 18, message = "请输入长度为6-18位新密码")
-    private String enUserPwd2;
 
     /**
      * 账户状态
