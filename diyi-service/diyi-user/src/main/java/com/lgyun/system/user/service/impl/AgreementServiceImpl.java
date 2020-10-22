@@ -495,7 +495,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     public R saveAdminAgreementId(Long agreementId, String agreementUrl) {
         AgreementEntity agreementEntity = getById(agreementId);
         if(null == agreementEntity){
-            return R.fail("合同Id有误");
+            return R.fail("合同不存在");
         }
         agreementEntity.setPaperAgreementUrl(agreementUrl);
         saveOrUpdate(agreementEntity);

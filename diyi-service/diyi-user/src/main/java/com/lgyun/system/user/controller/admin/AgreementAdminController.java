@@ -31,21 +31,20 @@ public class AgreementAdminController {
     private IAgreementService iAgreementService;
     private IMakerService makerService;
 
-
-    @GetMapping("/query-maker-agreement-state")
+    @GetMapping("/query-maker-agreement-states")
     @ApiOperation(value = "平台查询创客合同的签署状态", notes = "平台查询创客合同的签署状态")
-    public R queryMakerAgreementState(BladeUser bladeUser,Query query,String makerName) {
+    public R queryMakerAgreementStates(BladeUser bladeUser, Query query, String makerName) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return iAgreementService.queryMakerAgreementState(makerName,Condition.getPage(query.setDescs("create_time")));
+        return iAgreementService.queryMakerAgreementState(makerName, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-maker-join-or-power-agreement")
-    @ApiOperation(value = "平台通过创客ID查询加盟合同或者授权协议", notes = "平台通过创客id查询加盟合同或者授权协议")
+    @ApiOperation(value = "平台通过创客查询加盟合同或者授权协议", notes = "平台通过创客查询加盟合同或者授权协议")
     public R queryMakerJoinOrPowerAgreement(Long makerId, AgreementType agreementType, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
@@ -56,9 +55,9 @@ public class AgreementAdminController {
         return iAgreementService.findAdminMakerId(makerId, agreementType);
     }
 
-    @GetMapping("/query-maker-id-apply-short-video")
-    @ApiOperation(value = "平台通过创客id查询授权视频", notes = "平台通过创客id查询授权视频")
-    public R findMakerIdApplyShortVideo(Long makerId, BladeUser bladeUser) {
+    @GetMapping("/query-maker-apply-short-video")
+    @ApiOperation(value = "平台通过创客查询授权视频", notes = "平台通过创客查询授权视频")
+    public R findMakerApplyShortVideo(Long makerId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -68,9 +67,10 @@ public class AgreementAdminController {
         return R.data(makerService.getById(makerId));
     }
 
-    @PostMapping("/save-admin-maker-video")
+    @PostMapping("/create-maker-video")
     @ApiOperation(value = "平台端添加创客授权视频", notes = "平台端添加创客授权视频")
-    public R saveAdminMakerVideo(@ApiParam(value = "创客id") @RequestParam(required = false) Long makerId, @ApiParam(value = "创客视频Url") @RequestParam(required = false) String videoUrl, BladeUser bladeUser) {
+    public R createMakerVideo(@ApiParam(value = "创客") @NotNull(message = "请选择创客") @RequestParam(required = false) Long makerId,
+                              @ApiParam(value = "创客视频") @NotBlank(message = "请上传创客视频") @RequestParam(required = false) String videoUrl, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -80,33 +80,33 @@ public class AgreementAdminController {
         return makerService.saveAdminMakerVideo(makerId, videoUrl);
     }
 
-    @GetMapping("/query-maker-id-supplement")
-    @ApiOperation(value = "平台通过创客id查询创客和商户的补充协议", notes = "平台通过创客id查询创客和商户的补充协议")
-    public R queryMakerIdSupplement(Long makerId,Query query,BladeUser bladeUser) {
+    @GetMapping("/query-maker-to-enterprise-supplement-list")
+    @ApiOperation(value = "平台通过创客查询创客和商户的补充协议", notes = "平台通过创客查询创客和商户的补充协议")
+    public R queryMakerToEnterpriseSupplementList(Long makerId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return R.data(iAgreementService.queryMakerIdSupplement(makerId,Condition.getPage(query.setDescs("create_time"))));
+        return R.data(iAgreementService.queryMakerIdSupplement(makerId, Condition.getPage(query.setDescs("create_time"))));
     }
 
-    @GetMapping("/query-enterprise-agreement-state")
+    @GetMapping("/query-enterprise-agreement-states")
     @ApiOperation(value = "平台查询商户合同的签署状态", notes = "平台查询商户合同的签署状态")
-    public R queryEnterpriseAgreementState(BladeUser bladeUser,Query query,String enterpriseName) {
+    public R queryEnterpriseAgreementStates(BladeUser bladeUser, Query query, String enterpriseName) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return iAgreementService.queryEnterpriseAgreementState(enterpriseName,Condition.getPage(query.setDescs("create_time")));
+        return iAgreementService.queryEnterpriseAgreementState(enterpriseName, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @GetMapping("/query-enterprise-id-agreement")
-    @ApiOperation(value = "平台根据商户id查询商户加盟合同、授权协议或价格协议", notes = "平台根据商户id查询商户加盟合同、授权协议或价格协议")
-    public R queryAdminEnterpriseId(Long enterpriseId, AgreementType agreementType, BladeUser bladeUser) {
+    @GetMapping("/query-enterprise-agreement")
+    @ApiOperation(value = "平台根据商户查询商户加盟合同、授权协议或价格协议", notes = "平台根据商户查询商户加盟合同、授权协议或价格协议")
+    public R queryEnterpriseAgreement(Long enterpriseId, AgreementType agreementType, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -116,9 +116,9 @@ public class AgreementAdminController {
         return iAgreementService.queryAdminEnterpriseId(enterpriseId, agreementType);
     }
 
-    @GetMapping("/query-enterprise-id-supplement")
-    @ApiOperation(value = "平台根据商户id查询商户和创客的补充协议", notes = "平台根据商户id查询商户和创客的补充协议")
-    public R queryEnterpriseIdSupplement(Long enterpriseId, Query query, BladeUser bladeUser) {
+    @GetMapping("/query-enterprise-to-maker-supplement-list")
+    @ApiOperation(value = "平台根据商户查询商户和创客的补充协议", notes = "平台根据商户查询商户和创客的补充协议")
+    public R queryEnterpriseToMakerSupplementList(Long enterpriseId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -129,9 +129,9 @@ public class AgreementAdminController {
     }
 
 
-    @GetMapping("/query-enter-id-service-supplement")
-    @ApiOperation(value = "平台根据商户id查询合作商户和服务商补充协议", notes = "平台根据商户id查询合作商户和服务商补充协议")
-    public R queryEnterIdServiceSupplement(Long enterpriseId, Query query, BladeUser bladeUser) {
+    @GetMapping("/query-enterprise-to-service-provider-supplement-list")
+    @ApiOperation(value = "平台根据商户查询合作商户和服务商补充协议", notes = "平台根据商户查询合作商户和服务商补充协议")
+    public R queryEnterpriseToServiceProviderSupplementList(Long enterpriseId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -142,20 +142,21 @@ public class AgreementAdminController {
     }
 
 
-    @GetMapping("/query-enter-id-promise")
+    @GetMapping("/query-enterprise-promise-list")
     @ApiOperation(value = "平台根据商户id查询商户承诺函", notes = "平台根据商户id查询商户承诺函")
-    public R queryEnterIdPromise(Long enterpriseId, Query query, BladeUser bladeUser) {
+    public R queryEnterprisePromiseList(Long enterpriseId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
+
         return iAgreementService.queryEnterIdPromise(enterpriseId, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @GetMapping("/query-admin-ser-id-agreement")
-    @ApiOperation(value = "平台根据服务商id查询服务商加盟合同", notes = "平台根据服务商id查询服务商加盟合同")
-    public R findAdminSerIdAgreement(Long serviceProviderId, AgreementType agreementType, BladeUser bladeUser) {
+    @GetMapping("/query-service-provider-join-agreement")
+    @ApiOperation(value = "平台根据服务商查询服务商加盟合同", notes = "平台根据服务商查询服务商加盟合同")
+    public R queryServiceProviderJoinAgreement(Long serviceProviderId, AgreementType agreementType, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -165,53 +166,48 @@ public class AgreementAdminController {
         return iAgreementService.findAdminSerIdAgreement(serviceProviderId, agreementType);
     }
 
-    @GetMapping("/query-service-id-enter-supplement")
+    @GetMapping("/query-service-provider-to-enterprise-supplement-list")
     @ApiOperation(value = "平台根据服务商id查询合作服务商和商户补充协议", notes = "平台根据服务商id查询合作服务商和商户补充协议")
-    public R queryServiceIdEnterSupplement(Long serviceProviderId, Query query, BladeUser bladeUser) {
+    public R queryServiceProviderToEnterpriseSupplementList(Long serviceProviderId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
+
         return iAgreementService.queryServiceIdEnterSupplement(serviceProviderId, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @PostMapping("/save-admin-agreement-id")
-    @ApiOperation(value = "根据合同id修改合同路径", notes = "根据合同id修改合同路径")
-    public R saveAdminAgreementId(Long agreementId,String agreementUrl,BladeUser bladeUser) {
+    @PostMapping("/update-paper-agreement-url")
+    @ApiOperation(value = "根据合同修改合同路径", notes = "根据合同修改合同路径")
+    public R updatePaperAgreementUrl(Long agreementId, String agreementUrl, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
-        return iAgreementService.saveAdminAgreementId(agreementId,agreementUrl);
+
+        return iAgreementService.saveAdminAgreementId(agreementId, agreementUrl);
     }
 
-
-    @PostMapping("/save-admin-agreement")
+    @PostMapping("/create-agreement")
     @ApiOperation(value = "平台端添加合同", notes = "平台端添加合同")
-    public R saveAdminAgreement(@ApiParam(value = "创客名字")@RequestParam(required = false) Long makerId,
-                                @ApiParam(value = "商户名字")@RequestParam(required = false) Long enterpriseId,
-                                @ApiParam(value = "服务商名字")@RequestParam(required = false) Long serviceProviderId,
-                                @ApiParam(value = "对象id") Long objectId,
-                                @ApiParam(value = "对象类型") ObjectType objectType,
-                                @ApiParam(value = "1：代表合同，2授权") Integer contractType,
-                                @ApiParam(value = "合同类别") AgreementType agreementType,
-                                @ApiParam(value = "合同类别") String paperAgreementUrl,
-                                BladeUser bladeUser) {
+    public R createAgreement(@ApiParam(value = "创客名字") @RequestParam(required = false) Long makerId, @ApiParam(value = "商户名字") @RequestParam(required = false) Long enterpriseId,
+                                @ApiParam(value = "服务商名字") @RequestParam(required = false) Long serviceProviderId, @ApiParam(value = "对象id") Long objectId,
+                                @ApiParam(value = "对象类型") ObjectType objectType, @ApiParam(value = "1：代表合同，2授权") Integer contractType,
+                                @ApiParam(value = "合同类别") AgreementType agreementType, @ApiParam(value = "合同类别") String paperAgreementUrl, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return iAgreementService.saveAdminAgreement(makerId, enterpriseId,serviceProviderId, objectId, objectType, contractType, agreementType, paperAgreementUrl);
+        return iAgreementService.saveAdminAgreement(makerId, enterpriseId, serviceProviderId, objectId, objectType, contractType, agreementType, paperAgreementUrl);
     }
 
-
-    @GetMapping("/query-admin-maker-all")
+    @GetMapping("/query-maker-list")
     @ApiOperation(value = "平台查所有创客", notes = "平台查所有创客")
-    public R queryAdminMakerAll(Query query, BladeUser bladeUser) {
+    public R queryMakerList(Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -220,10 +216,9 @@ public class AgreementAdminController {
         return iAgreementService.queryAdminMakerAll(Condition.getPage(query.setDescs("create_time")));
     }
 
-
-    @GetMapping("/query-admin-enterprise-all")
+    @GetMapping("/query-enterprise-list")
     @ApiOperation(value = "平台查所有商户", notes = "平台查所有商户")
-    public R queryAdminEnterpriseAll(Query query, BladeUser bladeUser) {
+    public R queryEnterpriseList(Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -232,9 +227,9 @@ public class AgreementAdminController {
         return iAgreementService.queryAdminEnterpriseAll(Condition.getPage(query.setDescs("create_time")));
     }
 
-    @GetMapping("/query-admin-service-all")
+    @GetMapping("/query-service-provider-list")
     @ApiOperation(value = "平台查所有服务商", notes = "平台查所有服务商")
-    public R queryAdminServiceAll(Query query, BladeUser bladeUser) {
+    public R queryServiceProviderList(Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
