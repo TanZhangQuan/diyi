@@ -94,7 +94,7 @@ public class AgreementAdminController {
 
     @GetMapping("/query-enterprise-agreement-states")
     @ApiOperation(value = "平台查询商户合同的签署状态", notes = "平台查询商户合同的签署状态")
-    public R queryEnterpriseAgreementStates(BladeUser bladeUser, Query query, String enterpriseName) {
+    public R queryEnterpriseAgreementStates(BladeUser bladeUser,Query query,@RequestParam(required = false) String enterpriseName) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -153,6 +153,19 @@ public class AgreementAdminController {
 
         return iAgreementService.queryEnterIdPromise(enterpriseId, Condition.getPage(query.setDescs("create_time")));
     }
+
+    @GetMapping("/query-service-agreement-state")
+    @ApiOperation(value = "平台查询服务商合同的签署状态", notes = "平台查询服务商合同的签署状态")
+    public R queryServiceAgreementState(BladeUser bladeUser,Query query) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return iAgreementService.queryServiceAgreementState(Condition.getPage(query.setDescs("create_time")));
+    }
+
 
     @GetMapping("/query-service-provider-join-agreement")
     @ApiOperation(value = "平台根据服务商查询服务商加盟合同", notes = "平台根据服务商查询服务商加盟合同")

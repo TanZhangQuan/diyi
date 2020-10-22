@@ -285,6 +285,11 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
     R queryEnterIdPromise(Long enterpriseId,IPage<AgreementServiceVO> page);
 
     /**
+     *平台查询服务商合同的签署状态
+     */
+    R queryServiceAgreementState(IPage<AgreementServiceStateAdminVO> page);
+
+    /**
      * 平台根据服务商id查询合作服务商和商户补充协议
      */
     R queryServiceIdEnterSupplement(Long serviceProviderId,IPage<AgreementServiceVO> page);
