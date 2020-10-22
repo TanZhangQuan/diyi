@@ -7,16 +7,18 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Data
-@ApiModel(description = "添加税务局")
+@ApiModel(description = "添加相关局")
 public class AddRelBureauDTO {
     /**
-     * 局类型，0，税务局；1，市场监督管理局；2，产业园区；3，支付机构
+     * 局类型，TAXBUREAU，税务局；MARSUPANDADM，市场监督管理局；INDUSTRIALPARKS，产业园区；PAYINGAGENCY，支付机构
      */
     @ApiModelProperty("局类型")
+    @NotNull(message = "相关局类型不能为空！")
     private BureauType bureauType;
 
     /**
@@ -24,7 +26,7 @@ public class AddRelBureauDTO {
      */
     @ApiModelProperty("用户名")
     @NotBlank(message = "用户名不能为空！")
-    private String relBuserUame;
+    private String relBuserName;
 
     /**
      * 密码

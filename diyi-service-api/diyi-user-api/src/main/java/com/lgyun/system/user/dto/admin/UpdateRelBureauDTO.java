@@ -100,7 +100,7 @@ public class UpdateRelBureauDTO {
      */
     @ApiModelProperty("用户名")
     @NotBlank(message = "用户名不能为空！")
-    private String relBuserUame;
+    private String relBuserName;
 
     @ApiModelProperty("密码")
     private String passWord;

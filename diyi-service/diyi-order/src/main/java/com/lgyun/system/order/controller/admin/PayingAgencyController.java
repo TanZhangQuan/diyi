@@ -20,17 +20,18 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.NotNull;
 
 @RestController
-@RequestMapping("/admin/tax-bureau")
+@RequestMapping("/admin/paying-agency")
 @Validated
 @AllArgsConstructor
-@Api(value = "平台端---税局管理", tags = "平台端---税局管理")
-public class TaxBureauController {
+@Api(value = "平台端---支付机构管理", tags = "平台端---支付机构管理")
+public class PayingAgencyController {
+
     private IPayEnterpriseService payEnterpriseService;
     private IUserClient userClient;
 
     @PostMapping("/transaction-by-bureau-service-provider")
-    @ApiOperation(value = "查询当前税局所有匹配的服务商交易情况数据", notes = "查询当前税局所有匹配的服务商交易情况数据")
-    public R transactionByBureauServiceProvider(@ApiParam("税局ID") @NotNull(message = "税局ID不能为空！") @RequestParam(required = false) Long bureauId, BladeUser bladeUser) {
+    @ApiOperation(value = "查询当前支付机构所有匹配的服务商交易情况数据", notes = "查询当前支付机构所有匹配的服务商交易情况数据")
+    public R transactionByBureauServiceProvider(@ApiParam("支付机构ID") @NotNull(message = "支付机构ID不能为空！") @RequestParam(required = false) Long bureauId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -41,13 +42,14 @@ public class TaxBureauController {
 
 
     @PostMapping("/transaction-by-bureau-service-provider-info")
-    @ApiOperation(value = "税局查询匹配的服务商基本信息及交易金额", notes = "税局查询匹配的服务商基本信息及交易金额")
-    public R transactionByBureauServiceProviderInfo(@ApiParam("税局ID") @NotNull(message = "税局ID不能为空！") @RequestParam(required = false) Long bureauId, Query query, BladeUser bladeUser) {
+    @ApiOperation(value = "查询支付机构匹配的服务商基本信息及交易金额", notes = "查询支付机构匹配的服务商基本信息及交易金额")
+    public R transactionByBureauServiceProviderInfo(@ApiParam("支付机构ID") @NotNull(message = "支付机构ID不能为空！") @RequestParam(required = false) Long bureauId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
-        return payEnterpriseService.transactionByBureauServiceProviderInfo(bureauId,Condition.getPage(query.setDescs("create_time")));
+        return payEnterpriseService.transactionByBureauServiceProviderInfo(bureauId, Condition.getPage(query.setDescs("create_time")));
     }
+
 }
