@@ -397,7 +397,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
             agreementEntity.setPartnerId(objectId);
         }
         agreementEntity.setPaperAgreementUrl(paperAgreementUrl);
-        agreementEntity.setFirstSideSignPerson("地衣平台");
+        agreementEntity.setFirstSideSignPerson("地衣众包平台");
         agreementEntity.setSecondSideSignPerson(name);
         save(agreementEntity);
         return R.success("操作成功");
