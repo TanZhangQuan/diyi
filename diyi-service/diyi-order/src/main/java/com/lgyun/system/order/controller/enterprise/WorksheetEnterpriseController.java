@@ -22,7 +22,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 /**
- * 工单
+ * 商户端---工单管理模块相关接口
  *
  * @author jun
  * @since 2020-07-07 14:40:21
@@ -31,7 +31,7 @@ import java.math.BigDecimal;
 @RequestMapping("/enterprise/worksheet")
 @Validated
 @AllArgsConstructor
-@Api(value = "商户端---工单相关接口(管理端)", tags = "商户端---工单相关接口(管理端)")
+@Api(value = "商户端---工单管理模块相关接口", tags = "商户端---工单管理模块相关接口")
 public class WorksheetEnterpriseController {
 
     private IWorksheetService worksheetService;
@@ -50,18 +50,6 @@ public class WorksheetEnterpriseController {
         releaseWorksheetDTO.setEnterpriseId(enterpriseWorkerEntity.getEnterpriseId());
 
         return worksheetService.releaseWorksheet(releaseWorksheetDTO);
-    }
-
-    @GetMapping("getMakerName")
-    @ApiOperation(value = "通过创客名字查询", notes = "通过创客名字查询")
-    public R getMakerName(Query query, @RequestParam(required = false) String makerName, BladeUser bladeUser) {
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return iUserClient.getMakerName(query.getCurrent(), query.getSize(), makerName);
     }
 
     @GetMapping("getEnterpriseWorksheet")

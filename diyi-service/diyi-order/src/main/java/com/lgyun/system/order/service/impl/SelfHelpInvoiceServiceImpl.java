@@ -271,14 +271,14 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         switch (invoicePeopleType) {
 
             case INDIVIDUALENTERPRISE:
-                IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.individualEnterpriseFindById(allKindEnterpriseId);
+                IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.queryIndividualEnterpriseById(allKindEnterpriseId);
                 if (individualEnterpriseEntity != null) {
                     bizType = individualEnterpriseEntity.getBizType();
                 }
                 break;
 
             case INDIVIDUALBUSINESS:
-                IndividualBusinessEntity individualBusinessEntity = iUserClient.individualBusinessById(allKindEnterpriseId);
+                IndividualBusinessEntity individualBusinessEntity = iUserClient.queryIndividualBusinessById(allKindEnterpriseId);
                 if (individualBusinessEntity != null) {
                     bizType = individualBusinessEntity.getBizType();
                 }
@@ -303,10 +303,12 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
 
     @Override
     public R findDetailCrowdSourcing(Long selfHelpInvoiceId) {
-        Map map = new HashMap();
+        //查询众包详情
         SelfHelpInvoiceCrowdSourcingVO detailCrowdSourcing = baseMapper.findDetailCrowdSourcing(selfHelpInvoiceId);
+        Map map = new HashMap();
         map.put("detailCrowdSourcing", detailCrowdSourcing);
         KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
+        //查询快递
         String orderTracesByJson = "";
         try {
             orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(detailCrowdSourcing.getExpressCompanyName(), detailCrowdSourcing.getExpressSheetNo());

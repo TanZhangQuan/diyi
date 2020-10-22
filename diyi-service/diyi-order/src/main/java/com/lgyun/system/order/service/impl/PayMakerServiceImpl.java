@@ -100,7 +100,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
                 continue;
             }
 
-            MakerEntity makerEntity = iUserClient.makerFindByIdcardNo(payEnterpriseExcel.getMakerIdCardNo());
+            MakerEntity makerEntity = iUserClient.queryMakerByIdcardNo(payEnterpriseExcel.getMakerIdCardNo());
             if (makerEntity == null) {
                 log.error("创客不存在");
                 continue;
@@ -182,7 +182,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
                         continue;
                     }
 
-                    IndividualBusinessEntity individualBusinessEntity = iUserClient.findByIbtaxNoBusiness(payEnterpriseExcel.getIndividualBusinessIbtaxNo());
+                    IndividualBusinessEntity individualBusinessEntity = iUserClient.queryIndividualBusinessByIbtaxNo(payEnterpriseExcel.getIndividualBusinessIbtaxNo());
                     if (individualBusinessEntity == null) {
                         log.error("个体户不存在");
                         continue;
@@ -223,7 +223,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
                         continue;
                     }
 
-                    IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.findByIbtaxNoEnterprise(payEnterpriseExcel.getIndividualEnterpriseIbtaxNo());
+                    IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.queryIndividualEnterpriseByIbtaxNo(payEnterpriseExcel.getIndividualEnterpriseIbtaxNo());
                     if (individualEnterpriseEntity == null) {
                         log.error("个独不存在");
                         continue;

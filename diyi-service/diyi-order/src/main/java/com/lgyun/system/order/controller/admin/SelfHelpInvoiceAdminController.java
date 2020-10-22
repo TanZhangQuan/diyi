@@ -25,7 +25,7 @@ import javax.validation.Valid;
  * @since 2020-07-08 14:32:47
  */
 @RestController
-@RequestMapping("/admin/selfhelpinvoice")
+@RequestMapping("/admin/self-help-invoice")
 @Validated
 @AllArgsConstructor
 @Api(value = "平台端---自助开票管理模块相关接口", tags = "平台端---自助开票管理模块相关接口")
@@ -34,13 +34,10 @@ public class SelfHelpInvoiceAdminController {
     private IUserClient userClient;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
 
-    @GetMapping("/getMakerTypeSelfHelpInvoice")
-    @ApiOperation(value = "平台跟据创客身份查询自助开票", notes = "平台跟据创客身份查询自助开票")
-    public R getMakerTypeSelfHelpInvoice(@ApiParam(value = "商户") @RequestParam(required = false) String enterpriseName,
-                                         @ApiParam(value = "开始时间") @RequestParam(required = false) String startTime,
-                                         @ApiParam(value = "结束时间") @RequestParam(required = false) String endTime,
-                                         @ApiParam(value = "创客身份") MakerType makerType,
-                                         Query query, BladeUser bladeUser) {
+    @GetMapping("/query-self-help-invoice-list")
+    @ApiOperation(value = "查询自助开票", notes = "查询自助开票")
+    public R querySelfHelpInvoiceList(@ApiParam(value = "商户") @RequestParam(required = false) String enterpriseName, @ApiParam(value = "开始时间") @RequestParam(required = false) String startTime,
+                                      @ApiParam(value = "结束时间") @RequestParam(required = false) String endTime, @ApiParam(value = "创客身份") MakerType makerType, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -50,9 +47,9 @@ public class SelfHelpInvoiceAdminController {
         return selfHelpInvoiceService.getAdminMakerTypeSelfHelpInvoice(enterpriseName, startTime, endTime, makerType, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @GetMapping("/getMakerTypeSelfHelpInvoiceDetails")
-    @ApiOperation(value = "平台跟据创客身份查询自助开票详情", notes = "平台跟据创客身份查询自助开票详情")
-    public R getMakerTypeSelfHelpInvoiceDetails(Long selfHelpInvoiceId, BladeUser bladeUser) {
+    @GetMapping("/query-self-help-invoice-detail")
+    @ApiOperation(value = "查询自助开票详情", notes = "查询自助开票详情")
+    public R querySelfHelpInvoiceDetail(Long selfHelpInvoiceId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -62,9 +59,9 @@ public class SelfHelpInvoiceAdminController {
         return selfHelpInvoiceService.getMakerTypeSelfHelpInvoiceDetails(selfHelpInvoiceId);
     }
 
-    @PostMapping("/toExamineSelfHelpInvoice")
-    @ApiOperation(value = "平台审核自助开票", notes = "平台审核自助开票")
-    public R toExamineSelfHelpInvoice(@Valid @RequestBody ToExamineSelfHelpInvoiceDTO toExamineSelfHelpInvoiceDto, BladeUser bladeUser) {
+    @PostMapping("/audit-self-help-invoice")
+    @ApiOperation(value = "审核自助开票", notes = "审核自助开票")
+    public R auditSelfHelpInvoice(@Valid @RequestBody ToExamineSelfHelpInvoiceDTO toExamineSelfHelpInvoiceDto, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -74,9 +71,9 @@ public class SelfHelpInvoiceAdminController {
         return selfHelpInvoiceService.toExamineSelfHelpInvoice(toExamineSelfHelpInvoiceDto);
     }
 
-    @PostMapping("/matchServiceProvider")
-    @ApiOperation(value = "平台上传支付回单和匹配服务商", notes = "平台上传支付回单和匹配服务商")
-    public R matchServiceProvider(Long selfHelpInvoiceId, Long selfHelpInvoiceFeeId, Long serviceProviderId, String payCertificate, BladeUser bladeUser) {
+    @PostMapping("/upload-pay-receipt-and-match-service-provider")
+    @ApiOperation(value = "上传支付回单和匹配服务商", notes = "上传支付回单和匹配服务商")
+    public R uploadPayReceiptAndMatchServiceProvider(Long selfHelpInvoiceId, Long selfHelpInvoiceFeeId, Long serviceProviderId, String payCertificate, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -86,9 +83,9 @@ public class SelfHelpInvoiceAdminController {
         return selfHelpInvoiceService.matchServiceProvider(selfHelpInvoiceId, selfHelpInvoiceFeeId, serviceProviderId, payCertificate);
     }
 
-    @PostMapping("/uploadAdminExpress")
-    @ApiOperation(value = "平台上传快递", notes = "平台上传快递")
-    public R uploadAdminExpress(Long selfHelpInvoiceId, Long serviceProviderId, String expressNo, String expressCompanyName, BladeUser bladeUser) {
+    @PostMapping("/upload-express")
+    @ApiOperation(value = "上传快递", notes = "上传快递")
+    public R uploadExpress(Long selfHelpInvoiceId, Long serviceProviderId, String expressNo, String expressCompanyName, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -98,9 +95,9 @@ public class SelfHelpInvoiceAdminController {
         return selfHelpInvoiceService.uploadAdminExpress(selfHelpInvoiceId, serviceProviderId, expressNo, expressCompanyName);
     }
 
-    @PostMapping("/uploadAdminInvoice")
-    @ApiOperation(value = "平台上传发票", notes = "平台上传发票")
-    public R uploadAdminInvoice(Long selfHelpInvoiceApplyProviderDetailId, String invoiceScanPictures, String taxScanPictures, BladeUser bladeUser) {
+    @PostMapping("/upload-invoice")
+    @ApiOperation(value = "上传发票", notes = "上传发票")
+    public R uploadInvoice(Long selfHelpInvoiceApplyProviderDetailId, String invoiceScanPictures, String taxScanPictures, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

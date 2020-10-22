@@ -32,9 +32,9 @@ public class RealNameAuthenticationMakerController {
 
     private IMakerService makerService;
 
-    @GetMapping("/get-real-name-authentication-states")
+    @GetMapping("/query-real-name-authentication-states")
     @ApiOperation(value = "查询当前创客所有实名认证状态", notes = "查询当前创客所有实名认证状态")
-    public R getRealNameAuthenticationStates(BladeUser bladeUser) {
+    public R queryRealNameAuthenticationStates(BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = makerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {

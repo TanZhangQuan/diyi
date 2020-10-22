@@ -16,7 +16,6 @@ import com.lgyun.system.order.excel.InvoiceListExcel;
 import com.lgyun.system.order.excel.InvoiceListListener;
 import com.lgyun.system.order.service.*;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
-import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
@@ -43,7 +42,7 @@ import java.io.InputStream;
  * @time 17:37.
  */
 @RestController
-@RequestMapping("/enterprise/enterpriseSelfhelpinvoice")
+@RequestMapping("/enterprise/self-help-invoice")
 @Validated
 @AllArgsConstructor
 @Api(value = "商户端---自助开票相关接口(管理端)", tags = "商户端---自助开票相关接口(管理端)")
@@ -247,7 +246,7 @@ public class SelfHelpInvoiceEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return addressService.findAddressMakerId(query.getCurrent(), query.getCurrent(), enterpriseWorkerEntity.getEnterpriseId(), ObjectType.ENTERPRISEPEOPLE, null);
+        return addressService.findAddressMakerId(enterpriseWorkerEntity.getEnterpriseId(), ObjectType.ENTERPRISEPEOPLE, null, query);
     }
 
     @GetMapping("/getInvoiceType")
@@ -340,20 +339,7 @@ public class SelfHelpInvoiceEnterpriseController {
             return result;
         }
 
-        return R.data(RealnameVerifyUtil.idCardOCR(infoImg));
-    }
-
-    @GetMapping("/find_enterprise_by_maker_id")
-    @ApiOperation(value = "根据创客ID查询商户", notes = "根据创客ID查询商户")
-    public R findEnterpriseByMakerId(Query query, BladeUser bladeUser) {
-        //查询当前创客
-        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        MakerEntity makerEntity = result.getData();
-
-        return iUserClient.findEnterpriseByMakerId(query.getCurrent(), query.getSize(), makerEntity.getId());
+        return R.data(RealnameVerifyUtil.idcardOCR(infoImg));
     }
 
     @PostMapping("/audit1")

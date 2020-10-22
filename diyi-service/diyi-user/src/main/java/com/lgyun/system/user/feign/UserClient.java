@@ -1,18 +1,12 @@
 package com.lgyun.system.user.feign;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.common.tool.RedisUtil;
-import com.lgyun.core.mp.support.Condition;
-import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.service.*;
-import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
-import com.lgyun.system.user.vo.MakerWorksheetVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,55 +36,74 @@ public class UserClient implements IUserClient {
     private IMakerService iMakerService;
     private IEnterpriseWorkerService iEnterpriseWorkerService;
     private IServiceProviderService iServiceProviderService;
-    private RedisUtil redisUtil;
 
     @Override
-    public UserInfo userInfoFindByUserIdAndUserType(Long userId, UserType userType) {
-        return iUserService.userInfoFindByUserIdAndUserType(userId, userType);
+    public UserInfo queryUserInfoByUserId(Long userId, UserType userType) {
+        return iUserService.queryUserInfoByUserId(userId, userType);
     }
 
     @Override
-    public UserInfo userInfoFindByPhoneAndUserType(String phone, UserType userType) {
-        return iUserService.userInfoFindByPhoneAndUserType(phone, userType);
+    public UserInfo queryUserInfoByPhone(String phone, UserType userType) {
+        return iUserService.queryUserInfoByPhone(phone, userType);
     }
 
     @Override
-    public UserInfo userInfoByAccountAndUserType(String account, UserType userType) {
-        return iUserService.userInfoByAccountAndUserType(account, userType);
+    public UserInfo queryUserInfoByAccount(String account, UserType userType) {
+        return iUserService.queryUserInfoByAccount(account, userType);
     }
 
     @Override
-    public MakerEntity makerFindById(Long makerId) {
+    public R<AdminEntity> currentAdmin(BladeUser bladeUser) {
+        return iAdminService.currentAdmin(bladeUser);
+    }
+
+    @Override
+    public R<MakerEntity> currentMaker(BladeUser bladeUser) {
+        return iMakerService.currentMaker(bladeUser);
+    }
+
+    @Override
+    public R<EnterpriseWorkerEntity> currentEnterpriseWorker(BladeUser bladeUser) {
+        return iEnterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+    }
+
+    @Override
+    public R<ServiceProviderWorkerEntity> currentServiceProviderWorker(BladeUser bladeUser) {
+        return iServiceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+    }
+
+    @Override
+    public MakerEntity queryMakerById(Long makerId) {
         return iMakerService.getById(makerId);
     }
 
     @Override
-    public MakerEntity makerFindByIdcardNo(String idcardNo) {
+    public MakerEntity queryMakerByIdcardNo(String idcardNo) {
         return iMakerService.findByIdcardNo(idcardNo);
     }
 
     @Override
-    public MakerEntity makerFindByPhoneNumber(String phoneNumber) {
+    public MakerEntity queryMakerByPhoneNumber(String phoneNumber) {
         return iMakerService.findByPhoneNumber(phoneNumber);
     }
 
     @Override
-    public Integer adminCountFindByPhoneNumber(String phoneNumber) {
+    public Integer queryAdminCountByPhoneNumber(String phoneNumber) {
         return iAdminService.findCountByPhoneNumber(phoneNumber);
     }
 
     @Override
-    public Integer makerCountFindByPhoneNumber(String phoneNumber) {
+    public Integer queryMakerCountByPhoneNumber(String phoneNumber) {
         return iMakerService.findCountByPhoneNumber(phoneNumber);
     }
 
     @Override
-    public Integer enterpriseWorkerCountFindByPhoneNumber(String phoneNumber) {
+    public Integer queryEnterpriseWorkerCountByPhoneNumber(String phoneNumber) {
         return iEnterpriseWorkerService.findCountByPhoneNumber(phoneNumber);
     }
 
     @Override
-    public Integer serviceProviderWorkerCountFindByPhoneNumber(String phoneNumber) {
+    public Integer queryServiceProviderWorkerCountByPhoneNumber(String phoneNumber) {
         return iServiceProviderWorkerService.findCountByPhoneNumber(phoneNumber);
     }
 
@@ -404,96 +417,63 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public List<IndividualEnterpriseEntity> individualEnterpriseFindByMakerId(Long makerId) {
-        return iIndividualEnterpriseService.findMakerId(makerId);
-    }
-
-    @Override
-    public List<IndividualBusinessEntity> individualBusinessByMakerId(Long makerId) {
-        return iIndividualBusinessService.findMakerId(makerId);
-    }
-
-    @Override
-    public R<IPage<EnterprisesIdNameListVO>> findEnterpriseByMakerId(Integer current, Integer size, Long makerId) {
-        Query query = new Query();
-        query.setCurrent(current);
-        query.setSize(size);
-        return iMakerEnterpriseService.findEnterpriseIdNameByMakerId(Condition.getPage(query.setDescs("create_time")), makerId);
-    }
-
-    @Override
-    public IndividualEnterpriseEntity individualEnterpriseFindById(Long individualEnterpriseId) {
+    public IndividualEnterpriseEntity queryIndividualEnterpriseById(Long individualEnterpriseId) {
         return iIndividualEnterpriseService.getById(individualEnterpriseId);
     }
 
     @Override
-    public IndividualBusinessEntity individualBusinessById(Long individualBusinessId) {
+    public IndividualBusinessEntity queryIndividualBusinessById(Long individualBusinessId) {
         return iIndividualBusinessService.getById(individualBusinessId);
     }
 
     @Override
-    public EnterpriseEntity getEnterpriseById(Long enterpriseId) {
+    public EnterpriseEntity queryEnterpriseById(Long enterpriseId) {
         return iEnterpriseService.getById(enterpriseId);
     }
 
     @Override
-    public R<IPage<MakerWorksheetVO>> getMakerName(Integer current, Integer size, String makerName) {
-        return iMakerService.getMakerName(current, size, makerName);
-    }
-
-    @Override
-    public R<AdminEntity> currentAdmin(BladeUser bladeUser) {
-        return iAdminService.currentAdmin(bladeUser);
-    }
-
-    @Override
-    public R<MakerEntity> currentMaker(BladeUser bladeUser) {
-        return iMakerService.currentMaker(bladeUser);
-    }
-
-    @Override
-    public R<EnterpriseWorkerEntity> currentEnterpriseWorker(BladeUser bladeUser) {
-        return iEnterpriseWorkerService.currentEnterpriseWorker(bladeUser);
-    }
-
-    @Override
-    public R<ServiceProviderWorkerEntity> currentServiceProviderWorker(BladeUser bladeUser) {
-        return iServiceProviderWorkerService.currentServiceProviderWorker(bladeUser);
-    }
-
-    @Override
-    public EnterpriseServiceProviderEntity findByEnterpriseIdServiceProviderId(Long enterpriseId, Long serviceProviderId) {
+    public EnterpriseServiceProviderEntity queryEnterpriseToServiceProvider(Long enterpriseId, Long serviceProviderId) {
         return iEnterpriseServiceProviderService.findByEnterpriseIdServiceProviderId(enterpriseId, serviceProviderId);
     }
 
     @Override
-    public IndividualBusinessEntity findByMakerIdAndIbtaxNoBusiness(Long makerId, String ibtaxNo) {
+    public List<IndividualEnterpriseEntity> queryIndividualEnterpriseFindByMakerId(Long makerId) {
+        return iIndividualEnterpriseService.findMakerId(makerId);
+    }
+
+    @Override
+    public List<IndividualBusinessEntity> queryIndividualBusinessByMakerId(Long makerId) {
+        return iIndividualBusinessService.findMakerId(makerId);
+    }
+
+    @Override
+    public IndividualBusinessEntity queryIndividualBusinessByMakerIdAndIbtaxNo(Long makerId, String ibtaxNo) {
         return iIndividualBusinessService.findByMakerIdAndIbtaxNo(makerId, ibtaxNo);
     }
 
     @Override
-    public IndividualEnterpriseEntity findByMakerIdAndIbtaxNoEnterprise(Long makerId, String ibtaxNo) {
+    public IndividualEnterpriseEntity queryIndividualEnterpriseByMakerIdAndIbtaxNo(Long makerId, String ibtaxNo) {
         return iIndividualEnterpriseService.findByMakerIdAndIbtaxNo(makerId, ibtaxNo);
     }
 
 
     @Override
-    public IndividualBusinessEntity findByIbtaxNoBusiness(String ibtaxNo) {
+    public IndividualBusinessEntity queryIndividualBusinessByIbtaxNo(String ibtaxNo) {
         return iIndividualBusinessService.findByIbtaxNo(ibtaxNo);
     }
 
     @Override
-    public IndividualEnterpriseEntity findByIbtaxNoEnterprise(String ibtaxNo) {
+    public IndividualEnterpriseEntity queryIndividualEnterpriseByIbtaxNo(String ibtaxNo) {
         return iIndividualEnterpriseService.findByIbtaxNo(ibtaxNo);
     }
 
     @Override
-    public MakerEntity makerAdd(String name, String idcardNo, String phoneNumber, Long enterpriseId) {
+    public MakerEntity createMaker(String name, String idcardNo, String phoneNumber, Long enterpriseId) {
         return iMakerService.makerSave(phoneNumber, name, idcardNo, "", "", "", enterpriseId);
     }
 
     @Override
-    public void makerEnterpriseAdd(Long enterpriseId, Long makerId) {
+    public void createMakerToEnterpriseRelevance(Long enterpriseId, Long makerId) {
         iMakerEnterpriseService.makerEnterpriseEntitySave(enterpriseId, makerId);
     }
 

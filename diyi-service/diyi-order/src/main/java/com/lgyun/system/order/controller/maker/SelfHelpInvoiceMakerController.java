@@ -40,40 +40,28 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
- *创客端---自助开票相关接口
+ * 创客端---自助开票管理模块相关接口
+ *
  * @author jun
  * @since 2020-07-08 14:32:47
  */
 @RestController
-@RequestMapping("/maker/selfhelpinvoice")
+@RequestMapping("/maker/self-help-invoice")
 @Validated
 @AllArgsConstructor
-@Api(value = "创客端---自助开票相关接口", tags = "创客端---自助开票相关接口")
+@Api(value = "创客端---自助开票管理模块相关接口", tags = "创客端---自助开票管理模块相关接口")
 public class SelfHelpInvoiceMakerController {
 
+    private IUserClient iUserClient;
     private ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
     private IAddressService addressService;
     private IDictClient iDictClient;
-    private IUserClient iUserClient;
     private ISelfHelpInvoiceAccountService selfHelpInvoiceAccountService;
     private ISelfHelpInvoiceFeeService selfHelpInvoiceFeeService;
 
-    @GetMapping("/findEnterpriseByMakerId")
-    @ApiOperation(value = "根据创客ID查询商户", notes = "根据创客ID查询商户")
-    public R findEnterpriseByMakerId(Query query, BladeUser bladeUser) {
-        //查询当前创客
-        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        MakerEntity makerEntity = result.getData();
-
-        return iUserClient.findEnterpriseByMakerId(query.getCurrent(), query.getSize(), makerEntity.getId());
-    }
-
-    @PostMapping("/saveAddress")
+    @PostMapping("/create-address")
     @ApiOperation(value = "新建收货地址", notes = "新建收货地址")
-    public R saveAddress(@Valid @RequestBody AddressDTO addressDto, BladeUser bladeUser) {
+    public R createAddress(@Valid @RequestBody AddressDTO addressDto, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -112,7 +100,7 @@ public class SelfHelpInvoiceMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return addressService.findAddressMakerId(query.getCurrent(), query.getCurrent(), makerEntity.getId(), ObjectType.MAKERPEOPLE, null);
+        return addressService.findAddressMakerId(makerEntity.getId(), ObjectType.MAKERPEOPLE, null, query);
     }
 
     @GetMapping("/getInvoiceType")
@@ -203,7 +191,7 @@ public class SelfHelpInvoiceMakerController {
     @GetMapping("/identificationCard")
     @ApiOperation(value = "识别身份证", notes = "识别身份证")
     public R identificationCard(String infoImg) throws Exception {
-        return R.data(RealnameVerifyUtil.idCardOCR(infoImg));
+        return R.data(RealnameVerifyUtil.idcardOCR(infoImg));
     }
 
     @GetMapping("/judgeMakerAatural")
@@ -217,14 +205,14 @@ public class SelfHelpInvoiceMakerController {
         MakerEntity makerEntity = result.getData();
 
         if (MakerType.INDIVIDUALENTERPRISE.equals(makerType)) {
-            List<IndividualEnterpriseEntity> individualEnterpriseEntities = iUserClient.individualEnterpriseFindByMakerId(makerEntity.getId());
+            List<IndividualEnterpriseEntity> individualEnterpriseEntities = iUserClient.queryIndividualEnterpriseFindByMakerId(makerEntity.getId());
             if (null == individualEnterpriseEntities || individualEnterpriseEntities.size() <= 0) {
                 return R.fail("对不起，您还不符合个独开票的资质");
             }
         }
 
         if (MakerType.INDIVIDUALBUSINESS.equals(makerType)) {
-            List<IndividualBusinessEntity> individualBusinessEntities = iUserClient.individualBusinessByMakerId(makerEntity.getId());
+            List<IndividualBusinessEntity> individualBusinessEntities = iUserClient.queryIndividualBusinessByMakerId(makerEntity.getId());
             if (null == individualBusinessEntities || individualBusinessEntities.size() <= 0) {
                 return R.fail("对不起，您还不符合个体开票的资质");
             }

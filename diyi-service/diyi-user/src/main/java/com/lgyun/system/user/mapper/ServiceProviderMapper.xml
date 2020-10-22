@@ -45,7 +45,7 @@
         <result property="serviceProviderId" column="service_provider_id"/>
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="legalPersonName" column="legal_person_name"/>
-        <result property="legalPersonIdCard" column="legal_person_id_card"/>
+        <result property="legalPersonIdCard" column="legal_person_idcard"/>
         <result property="socialCreditNo" column="social_credit_no"/>
         <result property="bizLicenceUrl" column="biz_licence_url"/>
         <result property="serviceProviderUrl" column="service_provider_url"/>
@@ -89,9 +89,9 @@
 
     <select id="queryServiceProviderListAdmin" resultMap="serviceProviderListVO">
         SELECT t1.id AS service_provider_id, t1.service_provider_name, t1.contact1_name, t1.contact1_phone, t1.service_provider_state, t1.create_time,
-        (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL OR paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_aggrement_url) FROM diyi_agreement
+        (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL OR paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url) FROM diyi_agreement
         WHERE is_deleted = 0 AND agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' AND sign_state = 'SIGNED' AND service_provider_id = t1.id) AS join_contract,
-        (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL OR paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_aggrement_url) FROM diyi_agreement
+        (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL OR paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url) FROM diyi_agreement
         WHERE is_deleted = 0 AND agreement_type = 'OTHERAGREEMENT' AND audit_state = 'APPROVED' AND service_provider_id = t1.id) AS commitment_letter
         FROM diyi_service_provider t1 WHERE t1.is_deleted = 0
         <if test="param1.serviceProviderId != null">
@@ -109,13 +109,13 @@
     </select>
 
     <select id="queryServiceProviderDetailServiceProvider" resultMap="serviceProviderDetailServiceProviderVO">
-        SELECT t1.id AS service_provider_id, t1.service_provider_name, t1.legal_person_name, t1.legal_person_id_card, t1.social_credit_no, t1.biz_licence_url,
+        SELECT t1.id AS service_provider_id, t1.service_provider_name, t1.legal_person_name, t1.legal_person_idcard, t1.social_credit_no, t1.biz_licence_url,
         t1.service_provider_url, t1.business_pattern, t1.service_price, t1.saler_id, t1.runner_id, t1.contact1_name, t1.contact1_position,
         t1.contact1_phone, t1.contact1_mail, t1.contact2_name, t1.contact2_position, t1.contact2_phone, t1.contact2_mail, t1.invoice_enterprise_name,
         t1.invoice_tax_no, t1.invoice_address, t1.invoice_tel_no, t1.invoice_bank_name, t1.invoice_account_name, t1.invoice_account,
-        (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_aggrement_url)
+        (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url)
         FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' AND sign_state = 'SIGNED' AND service_provider_id = t1.id) AS join_contract,
-        (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_aggrement_url) FROM diyi_agreement
+        (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url) FROM diyi_agreement
         WHERE is_deleted = 0 AND agreement_type = 'OTHERAGREEMENT' AND audit_state = 'APPROVED' AND service_provider_id = t1.id) AS commitment_letter FROM diyi_service_provider t1
         WHERE t1.is_deleted = 0 AND t1.id = #{param1}
     </select>

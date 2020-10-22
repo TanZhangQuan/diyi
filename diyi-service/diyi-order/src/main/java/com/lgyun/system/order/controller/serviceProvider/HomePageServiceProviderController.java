@@ -32,9 +32,9 @@ public class HomePageServiceProviderController {
     private IPayEnterpriseService payEnterpriseService;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
 
-    @GetMapping("/transaction-data")
+    @GetMapping("/query-transaction-data")
     @ApiOperation(value = "查询当前服务商首页交易情况数据", notes = "查询当前服务商首页交易情况数据")
-    public R transactionData(BladeUser bladeUser) {
+    public R queryTransactionData(BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {

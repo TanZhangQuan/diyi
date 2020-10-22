@@ -59,7 +59,7 @@ public class AgreementMakerWebVO implements Serializable {
     /**
      * 在线合同
      */
-    private String onlineAggrementUrl;
+    private String onlineAgreementUrl;
 
     /**
      * 纸质合同

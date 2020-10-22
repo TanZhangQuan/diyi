@@ -62,32 +62,32 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         if (!WorkSheetMode.GRABBING.equals(releaseWorksheetDTO.getWorksheetMode()) && StringUtil.isBlank(releaseWorksheetDTO.getMakerIds())) {
             return R.fail("创客的ids不能为空");
         }
-        if(releaseWorksheetDTO.getWorksheetMode().equals("DISPATCH") && releaseWorksheetDTO.getUppersonNum() != 0 && releaseWorksheetDTO.getMakerIds().split(",").length != releaseWorksheetDTO.getUppersonNum()){
-            return R.fail("工单创建失败，上限人数为"+releaseWorksheetDTO.getUppersonNum()+",创客数为"+releaseWorksheetDTO.getMakerIds().split(",").length);
+        if (releaseWorksheetDTO.getWorksheetMode().equals("DISPATCH") && releaseWorksheetDTO.getUppersonNum() != 0 && releaseWorksheetDTO.getMakerIds().split(",").length != releaseWorksheetDTO.getUppersonNum()) {
+            return R.fail("工单创建失败，上限人数为" + releaseWorksheetDTO.getUppersonNum() + ",创客数为" + releaseWorksheetDTO.getMakerIds().split(",").length);
         }
-        if(releaseWorksheetDTO.getWorksheetMode().equals("BLEND") && releaseWorksheetDTO.getUppersonNum() != 0 && releaseWorksheetDTO.getMakerIds().split(",").length < releaseWorksheetDTO.getUppersonNum()){
-            return R.fail("工单创建失败，上限人数为"+releaseWorksheetDTO.getUppersonNum()+",创客数为"+releaseWorksheetDTO.getMakerIds().split(",").length);
+        if (releaseWorksheetDTO.getWorksheetMode().equals("BLEND") && releaseWorksheetDTO.getUppersonNum() != 0 && releaseWorksheetDTO.getMakerIds().split(",").length < releaseWorksheetDTO.getUppersonNum()) {
+            return R.fail("工单创建失败，上限人数为" + releaseWorksheetDTO.getUppersonNum() + ",创客数为" + releaseWorksheetDTO.getMakerIds().split(",").length);
         }
         String makerIds = releaseWorksheetDTO.getMakerIds();
         String[] split = makerIds.split(",");
         Set<String> sameSet = new HashSet<>();
-        for(String element:split) {
+        for (String element : split) {
             sameSet.add(element);
         }
-        if(sameSet.size() != split.length){
+        if (sameSet.size() != split.length) {
             return R.fail("有存在相同的指定创客！！");
         }
         BeanUtil.copy(releaseWorksheetDTO, worksheetEntity);
-        if(null == releaseWorksheetDTO.getUppersonNum()){
+        if (null == releaseWorksheetDTO.getUppersonNum()) {
             worksheetEntity.setUppersonNum(0);
         }
-        if(null == releaseWorksheetDTO.getWorkDays()){
+        if (null == releaseWorksheetDTO.getWorkDays()) {
             worksheetEntity.setWorkDays(0);
         }
-        if(null == releaseWorksheetDTO.getWorksheetFeeLow()){
+        if (null == releaseWorksheetDTO.getWorksheetFeeLow()) {
             worksheetEntity.setWorksheetFeeLow(new BigDecimal("0"));
         }
-        if(null == releaseWorksheetDTO.getWorksheetFeeHigh()){
+        if (null == releaseWorksheetDTO.getWorksheetFeeHigh()) {
             worksheetEntity.setWorksheetFeeHigh(new BigDecimal("0"));
         }
         worksheetEntity.setWorksheetNo(UUID.randomUUID().toString());
@@ -96,7 +96,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             for (int i = 0; i < split.length; i++) {
                 WorksheetMakerEntity worksheetMakerEntity = new WorksheetMakerEntity();
                 worksheetMakerEntity.setMakerId(Long.parseLong(split[i]));
-                MakerEntity makerEntity = iUserClient.makerFindById(Long.parseLong(split[i]));
+                MakerEntity makerEntity = iUserClient.queryMakerById(Long.parseLong(split[i]));
                 worksheetMakerEntity.setMakerName(makerEntity.getName());
                 worksheetMakerEntity.setWorksheetId(worksheetEntity.getId());
                 worksheetMakerEntity.setGetType(GetType.GETDISPATCH);
@@ -122,7 +122,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         if (null == worksheetEntity) {
             return R.fail("没有此工单");
         }
-        MakerEntity makerEntity = iUserClient.makerFindById(makerId);
+        MakerEntity makerEntity = iUserClient.queryMakerById(makerId);
         if (null == worksheetEntity) {
             return R.fail("没有此创客");
         }
@@ -141,14 +141,13 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     public R<IPage<WorksheetXiaoVO>> findXiaoPage(IPage<WorksheetXiaoVO> page, Integer worksheetState, Long makerId) {
         if (worksheetState == 1) {
             return R.data(page.setRecords(baseMapper.findXiaoPage(page, makerId)));
-        }
-        if (worksheetState == 2) {
+        } else if (worksheetState == 2) {
             return R.data(page.setRecords(baseMapper.findXiaoPage2(page, makerId)));
-        }
-        if (worksheetState == 3) {
+        } else if (worksheetState == 3) {
             return R.data(page.setRecords(baseMapper.findXiaoPage3(page, makerId)));
+        } else {
+            return R.fail("失败");
         }
-        return R.fail("失败");
     }
 
     @Override
@@ -179,7 +178,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
                 worksheetMakerDetailsVO.setRealNameAuthentication(CertificationState.CERTIFIED);
             }
         }
-        map.put("worksheetMakerDetails",worksheetMakerDetails);
+        map.put("worksheetMakerDetails", worksheetMakerDetails);
         return R.data(map);
     }
 
@@ -204,7 +203,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     public R kickOut(Long worksheetId, Long makerId) {
         WorksheetMakerEntity worksheetMakerEntity = worksheetMakerService.getmakerIdAndWorksheetId(worksheetId, makerId);
         if (null == worksheetMakerEntity) {
-           return R.fail("创客没有抢单记录");
+            return R.fail("创客没有抢单记录");
         }
         removeById(worksheetMakerEntity.getId());
         return R.success("移除成功");
@@ -268,7 +267,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         if (variable != 1 && variable != 2) {
             return R.fail("参数有误");
         }
-        for(int i= 0;i<split.length;i++){
+        for (int i = 0; i < split.length; i++) {
             WorksheetEntity worksheetEntity = getById(split[i]);
             if (1 == variable) {
                 worksheetEntity.setWorksheetState(WorksheetState.CLOSED);
@@ -285,7 +284,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     @Transactional
     public R deleteWorksheetList(String worksheetIds) {
         String[] split = worksheetIds.split(",");
-        for(int i= 0;i<split.length;i++){
+        for (int i = 0; i < split.length; i++) {
             WorksheetEntity worksheetEntity = getById(split[i]);
             removeById(worksheetEntity.getId());
         }
@@ -295,12 +294,12 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     @Override
     public R wholeWorksheetCheck(Long worksheetId) {
         WorksheetEntity byId = getById(worksheetId);
-        if(!WorksheetState.CHECKACCEPT.equals(byId.getWorksheetState())){
+        if (!WorksheetState.CHECKACCEPT.equals(byId.getWorksheetState())) {
             return R.fail("工单状态不对应");
         }
         List<WorksheetMakerDetailsVO> worksheetMakerDetails = worksheetMakerService.getWorksheetMakerDetails(worksheetId);
-        for (WorksheetMakerDetailsVO worksheetMakerDetailsVO: worksheetMakerDetails) {
-            if(!(WorksheetMakerState.VALIDATION.equals(worksheetMakerDetailsVO.getWorksheetMakerState()) || WorksheetMakerState.FAILED.equals(worksheetMakerDetailsVO.getWorksheetMakerState()))){
+        for (WorksheetMakerDetailsVO worksheetMakerDetailsVO : worksheetMakerDetails) {
+            if (!(WorksheetMakerState.VALIDATION.equals(worksheetMakerDetailsVO.getWorksheetMakerState()) || WorksheetMakerState.FAILED.equals(worksheetMakerDetailsVO.getWorksheetMakerState()))) {
                 return R.fail("请全部验收后再确认验收");
             }
         }
@@ -312,7 +311,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     }
 
     public synchronized R<String> orderGrabbing(WorksheetEntity worksheetEntity, MakerEntity makerEntity, int worksheetCount) {
-        if(!(makerEntity.getCertificationState().equals("已认证") && makerEntity.getEmpowerSignState().equals("SIGNED") && makerEntity.getJoinSignState().equals("SIGNED"))){
+        if (!(makerEntity.getCertificationState().equals("已认证") && makerEntity.getEmpowerSignState().equals("SIGNED") && makerEntity.getJoinSignState().equals("SIGNED"))) {
             return R.fail("请先完成认证，在抢单");
         }
         if (worksheetCount == worksheetEntity.getUppersonNum() && worksheetEntity.getUppersonNum() != 0) {
@@ -325,11 +324,11 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             }
             return R.fail("工单已抢完");
         }
-        List<IndividualBusinessEntity> individualBusinessEntities = iUserClient.individualBusinessByMakerId(makerEntity.getId());
+        List<IndividualBusinessEntity> individualBusinessEntities = iUserClient.queryIndividualBusinessByMakerId(makerEntity.getId());
         if ((null == individualBusinessEntities || individualBusinessEntities.size() <= 0) && worksheetEntity.getMakerType().equals(MakerType.INDIVIDUALBUSINESS)) {
             return R.fail("创客身份不符-个体");
         }
-        List<IndividualEnterpriseEntity> individualEnterpriseEntities = iUserClient.individualEnterpriseFindByMakerId(makerEntity.getId());
+        List<IndividualEnterpriseEntity> individualEnterpriseEntities = iUserClient.queryIndividualEnterpriseFindByMakerId(makerEntity.getId());
         if ((null == individualEnterpriseEntities || individualEnterpriseEntities.size() <= 0) && worksheetEntity.getMakerType().equals(MakerType.INDIVIDUALENTERPRISE)) {
             return R.fail("创客身份不符-个独");
         }
@@ -342,7 +341,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         worksheetMakerEntity.setArrangePerson("qiangdan");
         worksheetMakerEntity.setArrangeDate(new Date());
         worksheetMakerService.save(worksheetMakerEntity);
-        iUserClient.makerEnterpriseAdd(worksheetEntity.getEnterpriseId(),makerEntity.getId());
+        iUserClient.createMakerToEnterpriseRelevance(worksheetEntity.getEnterpriseId(), makerEntity.getId());
         return R.success("抢单成功");
     }
 }

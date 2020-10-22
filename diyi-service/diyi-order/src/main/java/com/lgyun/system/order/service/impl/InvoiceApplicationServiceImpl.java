@@ -50,7 +50,7 @@ public class InvoiceApplicationServiceImpl extends BaseServiceImpl<InvoiceApplic
         InvoiceApplicationEntity invoiceApplicationEntity = new InvoiceApplicationEntity();
         invoiceApplicationEntity.setApplicationDesc(contractApplyInvoiceDto.getApplicationDesc());
         invoiceApplicationEntity.setVoiceTotalAmount(contractApplyInvoiceDto.getVoiceTotalAmount());
-        invoiceApplicationEntity.setApplicationPerson(iUserClient.getEnterpriseById(enterpriseId).getEnterpriseName());
+        invoiceApplicationEntity.setApplicationPerson(iUserClient.queryEnterpriseById(enterpriseId).getEnterpriseName());
         invoiceApplicationEntity.setInvoiceCatalogId(contractApplyInvoiceDto.getInvoiceCatalogId());
         invoiceApplicationEntity.setApplicationDate(new Date());
         save(invoiceApplicationEntity);

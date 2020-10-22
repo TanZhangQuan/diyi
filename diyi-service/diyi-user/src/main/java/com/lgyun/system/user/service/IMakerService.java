@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IdcardOcrSaveDTO;
 import com.lgyun.system.user.dto.MakerAddDTO;
 import com.lgyun.system.user.entity.MakerEntity;
@@ -224,12 +225,11 @@ public interface IMakerService extends IService<MakerEntity> {
     /**
      * 根据创客姓名分页查询
      *
-     * @param current
-     * @param size
+     * @param query
      * @param makerName
      * @return
      */
-    R<IPage<MakerWorksheetVO>> getMakerName(Integer current, Integer size, String makerName);
+    R<IPage<MakerWorksheetVO>> getMakerName(Query query, String makerName);
 
     /**
      * 查询当前创客所有实名认证状态
@@ -280,7 +280,13 @@ public interface IMakerService extends IService<MakerEntity> {
      * @param videoUrl
      * @return
      */
-    R saveAdminMakerVideo(Long makerId,String videoUrl);
+    R saveAdminMakerVideo(Long makerId, String videoUrl);
+
+
+    /**
+     * 查询所有创客
+     */
+    R getMakerAll(IPage<MakerEntity> page);
 
 }
 

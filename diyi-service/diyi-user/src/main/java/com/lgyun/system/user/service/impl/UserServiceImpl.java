@@ -49,7 +49,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
     }
 
     @Override
-    public UserInfo userInfoFindByUserIdAndUserType(Long userId, UserType userType) {
+    public UserInfo queryUserInfoByUserId(Long userId, UserType userType) {
         User user = baseMapper.selectById(userId);
         if (user == null) {
             return null;
@@ -68,7 +68,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
     }
 
     @Override
-    public UserInfo userInfoFindByPhoneAndUserType(String phone, UserType userType) {
+    public UserInfo queryUserInfoByPhone(String phone, UserType userType) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(User::getPhone, phone)
                 .eq(User::getUserType, userType);
@@ -92,7 +92,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
     }
 
     @Override
-    public UserInfo userInfoByAccountAndUserType(String account, UserType userType) {
+    public UserInfo queryUserInfoByAccount(String account, UserType userType) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(User::getAccount, account)
                 .eq(User::getUserType, userType);

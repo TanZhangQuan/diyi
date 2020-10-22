@@ -335,4 +335,11 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         return R.fail("更改商户状态成功");
     }
 
+    @Override
+    public R getServiceAll(IPage<ServiceProviderEntity> page) {
+        QueryWrapper<ServiceProviderEntity> queryWrapper = new QueryWrapper<>();
+        IPage<ServiceProviderEntity> serviceProviderEntityIPage = baseMapper.selectPage(page, queryWrapper);
+        return R.data(serviceProviderEntityIPage);
+    }
+
 }

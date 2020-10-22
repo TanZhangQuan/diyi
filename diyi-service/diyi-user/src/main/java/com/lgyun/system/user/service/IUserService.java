@@ -32,7 +32,7 @@ public interface IUserService extends BaseService<User> {
      * @param userType
      * @return
      */
-    UserInfo userInfoFindByUserIdAndUserType(Long userId, UserType userType);
+    UserInfo queryUserInfoByUserId(Long userId, UserType userType);
 
     /**
      * 用户信息
@@ -41,7 +41,7 @@ public interface IUserService extends BaseService<User> {
      * @param userType
      * @return
      */
-    UserInfo userInfoFindByPhoneAndUserType(String phone, UserType userType);
+    UserInfo queryUserInfoByPhone(String phone, UserType userType);
 
     /**
      * 用户信息
@@ -50,7 +50,7 @@ public interface IUserService extends BaseService<User> {
      * @param userType
      * @return
      */
-    UserInfo userInfoByAccountAndUserType(String account, UserType userType);
+    UserInfo queryUserInfoByAccount(String account, UserType userType);
 
     /**
      * 给用户设置角色
