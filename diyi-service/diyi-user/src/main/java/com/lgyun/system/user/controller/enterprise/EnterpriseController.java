@@ -12,12 +12,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-/**
- * 商户基本信息 控制器
- *
- * @author tzq
- * @since 2020-06-26 17:21:05
- */
 @RestController
 @RequestMapping("/enterprise")
 @Validated

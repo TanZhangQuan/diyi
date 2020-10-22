@@ -23,13 +23,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-/**
- * 服务商端---发票和完税证明管理模块相关接口
- *
- * @author tzq
- * @date 2020/7/22.
- * @time 16:24.
- */
 @RestController
 @RequestMapping("/service-provider/invoice-tax")
 @Validated
@@ -157,7 +150,7 @@ public class InvoiceTaxServiceProviderController {
     }
 
     @GetMapping("/query-all-open-invoice-list")
-    @ApiOperation(value = "查询汇总代开的发票", notes = "查询汇总代开的发票")
+    @ApiOperation(value = "查询已汇总代开的发票", notes = "查询已汇总代开的发票")
     public R queryAllOpenInvoiceList(@RequestParam(required = false) String enterpriseName, @RequestParam(required = false) String startTime,
                                      @RequestParam(required = false) String endTime, Query query, BladeUser bladeUser) {
 
@@ -172,7 +165,7 @@ public class InvoiceTaxServiceProviderController {
     }
 
     @GetMapping("/query-all-open-invoice-detail")
-    @ApiOperation(value = "查询汇总代开的发票详情", notes = "查询汇总代开的发票详情")
+    @ApiOperation(value = "查询已汇总代开的发票详情", notes = "查询已汇总代开的发票详情")
     public R queryAllOpenInvoiceDetail(@ApiParam(value = "商户支付清单", required = true) @NotNull(message = "请选择商户支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
@@ -184,7 +177,7 @@ public class InvoiceTaxServiceProviderController {
     }
 
     @GetMapping("/query-single-open-invoice-list")
-    @ApiOperation(value = "查询门征单开的发票", notes = "查询门征单开的发票")
+    @ApiOperation(value = "查询已门征单开的发票", notes = "查询已门征单开的发票")
     public R querySingleOpenInvoiceList(@RequestParam(required = false) String enterpriseName, @RequestParam(required = false) String startTime,
                                         @RequestParam(required = false) String endTime, Query query, BladeUser bladeUser) {
         //查询当前服务商员工
@@ -199,7 +192,7 @@ public class InvoiceTaxServiceProviderController {
 
 
     @GetMapping("/query-single-open-invoice-detail")
-    @ApiOperation(value = "查询门征单开的发票详情", notes = "查询门征单开的发票详情")
+    @ApiOperation(value = "查询已门征单开的发票详情", notes = "查询已门征单开的发票详情")
     public R querySingleOpenInvoiceDetail(@ApiParam(value = "商户支付清单", required = true) @NotNull(message = "请选择商户支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);

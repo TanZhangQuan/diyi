@@ -37,17 +37,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * User 控制器
- *
- * @author tzq
- * @since 2020/6/6 22:13
- */
 @RestController
 @RequestMapping("/web/user")
 @AllArgsConstructor
 @Validated
-@Api(value = "平台端-管理员登录模块相关接口", tags = "平台端-管理员登录模块相关接口")
+@Api(value = "平台端-管理员管理模块相关接口", tags = "平台端-管理员管理模块相关接口")
 public class UserController {
 
     private IUserService userService;

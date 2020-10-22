@@ -16,12 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-/**
- * 控制器
- *
- * @author tzq
- * @since 2020-07-25 14:38:06
- */
 @RestController
 @RequestMapping("/service-provider/")
 @Validated

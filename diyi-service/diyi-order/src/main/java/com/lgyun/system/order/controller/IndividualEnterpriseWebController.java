@@ -17,12 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
 
-/**
- * 控制器
- *
- * @author tzq
- * @since 2020-07-02 17:44:02
- */
 @RestController
 @RequestMapping("/web/individual-enterprise")
 @Validated

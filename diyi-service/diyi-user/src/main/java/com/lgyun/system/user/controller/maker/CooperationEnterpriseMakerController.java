@@ -15,12 +15,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * 创客端---关联商户管理模块相关接口
- *
- * @author tzq
- * @since 2020-06-26 17:21:05
- */
 @RestController
 @RequestMapping("/maker/cooperation-enterprise")
 @Validated

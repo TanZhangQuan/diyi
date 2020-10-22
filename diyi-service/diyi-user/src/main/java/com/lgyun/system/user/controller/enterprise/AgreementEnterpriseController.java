@@ -17,13 +17,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * 商户端---合同管理模块相关接口
- *
- * @author .
- * @date 2020/8/15.
- * @time 9:52.
- */
 @RestController
 @RequestMapping("/enterprise/agreement")
 @Validated

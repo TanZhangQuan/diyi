@@ -18,11 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 
-/**
- * 创客端---抢/派工单管理模块相关接口
- *
- * @since 2020-07-07 14:40:21
- */
 @RestController
 @RequestMapping("/maker/worksheet")
 @Validated

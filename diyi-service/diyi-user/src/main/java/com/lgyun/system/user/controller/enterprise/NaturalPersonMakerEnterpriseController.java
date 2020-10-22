@@ -29,12 +29,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Set;
 
-/**
- * 商户端---自然人创客管理模块相关接口
- *
- * @author tzq
- * @date 2020-09-9
- */
 @RestController
 @RequestMapping("/enterprise/natural-person-maker")
 @Validated

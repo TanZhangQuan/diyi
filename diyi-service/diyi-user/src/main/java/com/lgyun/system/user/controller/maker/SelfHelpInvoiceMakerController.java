@@ -15,12 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * 创客端---自助开票管理模块相关接口
- *
- * @author jun
- * @since 2020-07-08 14:32:47
- */
 @RestController
 @RequestMapping("/maker/self-help-invoice")
 @Validated

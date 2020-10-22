@@ -20,12 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * 创客端---合同管理模块相关接口
- *
- * @author tzq
- * @since 2020-06-26 17:21:06
- */
 @RestController
 @RequestMapping("/maker/agreement")
 @Validated

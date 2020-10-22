@@ -13,13 +13,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * 服务商端---合同管理模块相关接口
- *
- * @author tzq
- * @date 2020/9/2.
- * @time 10:05.
- */
 @RestController
 @RequestMapping("/service-provider/agreement")
 @Validated

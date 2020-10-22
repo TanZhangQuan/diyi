@@ -26,12 +26,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-/**
- * 平台端---支付管理模块相关接口
- *
- * @author tzq
- * @since 2020-09-9 20:01:13
- */
 @RestController
 @RequestMapping("/admin/payment")
 @Validated
@@ -44,9 +38,9 @@ public class PaymentAdminController {
     private IAcceptPaysheetService acceptPaysheetService;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
 
-    @GetMapping("/query-pay-enterprise-list-by-enterprise")
+    @GetMapping("/query-total-list-by-enterprise-id")
     @ApiOperation(value = "根据商户查询总包", notes = "根据商户查询总包")
-    public R queryPayEnterpriseListByEnterprise(@ApiParam(value = "商户编号", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, PayEnterpriseDTO payEnterpriseDto, Query query, BladeUser bladeUser) {
+    public R queryTotalListByEnterpriseId(@ApiParam(value = "商户编号", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, PayEnterpriseDTO payEnterpriseDto, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -56,9 +50,9 @@ public class PaymentAdminController {
         return payEnterpriseService.getPayEnterpriseList(enterpriseId, null, payEnterpriseDto, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @GetMapping("/query-pay-enterprise-list-by-service-provider")
+    @GetMapping("/query-total-list-by-service-provider-id")
     @ApiOperation(value = "根据服务商查询总包", notes = "根据服务商查询总包")
-    public R queryPayEnterpriseListByServiceProvider(@ApiParam(value = "服务商编号", required = true) @NotNull(message = "请输入服务商编号") @RequestParam(required = false) Long serviceProviderId, PayEnterpriseDTO payEnterpriseDto, Query query, BladeUser bladeUser) {
+    public R queryTotalByServiceProviderId(@ApiParam(value = "服务商编号", required = true) @NotNull(message = "请输入服务商编号") @RequestParam(required = false) Long serviceProviderId, PayEnterpriseDTO payEnterpriseDto, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -68,9 +62,9 @@ public class PaymentAdminController {
         return payEnterpriseService.getPayEnterpriseList(null, serviceProviderId, payEnterpriseDto, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @PostMapping("/upload-pay-enterprise-by-enterprise")
+    @PostMapping("/upload-pay-enterprise")
     @ApiOperation(value = "选择商户上传总包支付清单", notes = "选择商户上传总包支付清单")
-    public R uploadPayEnterpriseByEnterprise(@ApiParam(value = "商户编号", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, @Valid @RequestBody PayEnterpriseUploadDTO payEnterpriseUploadDto, BladeUser bladeUser) throws Exception {
+    public R uploadPayEnterprise(@ApiParam(value = "商户编号", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, @Valid @RequestBody PayEnterpriseUploadDTO payEnterpriseUploadDto, BladeUser bladeUser) throws Exception {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -80,9 +74,9 @@ public class PaymentAdminController {
         return payEnterpriseService.upload(payEnterpriseUploadDto, enterpriseId);
     }
 
-    @GetMapping("/query-pay-maker-list-by-pay-enterprise")
+    @GetMapping("/query-sub-list")
     @ApiOperation(value = "根据总包查询分包", notes = "根据总包查询分包")
-    public R queryPayMakerListByPayEnterprise(@ApiParam(value = "总包编号", required = true) @NotNull(message = "请输入总包编号") @RequestParam(required = false) Long payEnterpriseId, Query query, BladeUser bladeUser) {
+    public R querySubList(@ApiParam(value = "总包编号", required = true) @NotNull(message = "请输入总包编号") @RequestParam(required = false) Long payEnterpriseId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -92,9 +86,9 @@ public class PaymentAdminController {
         return payEnterpriseService.getPayMakerListByPayEnterprise(payEnterpriseId, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @PostMapping("/upload-accept-paysheet-by-enterprise")
+    @PostMapping("/upload-accept-paysheet")
     @ApiOperation(value = "上传交付支付验收单", notes = "上传交付支付验收单")
-    public R uploadAcceptPaysheetByEnterprise(@Valid @RequestBody AcceptPaysheetSaveDTO acceptPaysheetSaveDto, BladeUser bladeUser) {
+    public R uploadAcceptPaysheet(@Valid @RequestBody AcceptPaysheetSaveDTO acceptPaysheetSaveDto, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -105,9 +99,9 @@ public class PaymentAdminController {
         return acceptPaysheetService.upload(acceptPaysheetSaveDto, null, "平台上传", adminEntity.getName());
     }
 
-    @GetMapping("/query-self-helf-invoice-list")
+    @GetMapping("/query-crowd-list")
     @ApiOperation(value = "根据商户查询众包/众采", notes = "根据商户查询众包/众采")
-    public R getSelfHelfInvoiceList(@ApiParam(value = "商户编号", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId,
+    public R queryCrowdList(@ApiParam(value = "商户编号", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId,
                                     @ApiParam(value = "创客类型", required = true) @NotNull(message = "请选择创客类型") @RequestParam(required = false) InvoicePeopleType invoicePeopleType,
                                     SelfHelpInvoicesByEnterpriseDTO selfHelpInvoicesByEnterpriseDto, Query query, BladeUser bladeUser) {
         //查询当前管理员
@@ -119,9 +113,9 @@ public class PaymentAdminController {
         return selfHelpInvoiceService.getSelfHelfInvoicesByEnterprise(enterpriseId, invoicePeopleType, selfHelpInvoicesByEnterpriseDto, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @PostMapping("/pay-enterprise-audit")
+    @PostMapping("/audit-pay-enterprise")
     @ApiOperation(value = "总包审核", notes = "总包审核")
-    public R payEnterpriseAudit(@ApiParam(value = "服务商编号", required = true) @NotNull(message = "请输入服务商编号") @RequestParam(required = false) Long serviceProviderId,
+    public R auditPayEnterprise(@ApiParam(value = "服务商编号", required = true) @NotNull(message = "请输入服务商编号") @RequestParam(required = false) Long serviceProviderId,
                                 @ApiParam(value = "总包编号", required = true) @NotNull(message = "请输入总包编号") @RequestParam(required = false) Long payEnterpriseId,
                                 @ApiParam(value = "支付清单审核状态", required = true) @NotNull(message = "请选择支付清单审核状态") @RequestParam(required = false) PayEnterpriseAuditState auditState,
                                 MakerInvoiceType makerInvoiceType, BladeUser bladeUser) {

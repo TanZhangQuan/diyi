@@ -16,12 +16,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-/**
- * 控制器
- *
- * @author tzq
- * @since 2020-07-02 17:44:02
- */
 @RestController
 @RequestMapping("/web/individual-enterprise")
 @Validated

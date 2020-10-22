@@ -34,13 +34,6 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * 商户自助开票相关接口
- *
- * @author tzq
- * @date 2020/7/30.
- * @time 17:37.
- */
 @RestController
 @RequestMapping("/enterprise/self-help-invoice")
 @Validated

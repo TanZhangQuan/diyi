@@ -17,12 +17,6 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 商户联系人相关接口 控制器
- *
- * @author tzq
- * @since 2020/8/19 11:37
- */
 @RestController
 @RequestMapping("/enterprise/contact")
 @AllArgsConstructor

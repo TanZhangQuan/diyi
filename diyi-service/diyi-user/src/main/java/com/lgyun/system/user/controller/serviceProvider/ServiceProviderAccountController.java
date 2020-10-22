@@ -20,12 +20,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * 服务商账号 控制器
- *
- * @author liangfeihu
- * @since 2020/9/19 16:25
- */
 @RestController
 @RequestMapping("/service-provider/account")
 @Validated

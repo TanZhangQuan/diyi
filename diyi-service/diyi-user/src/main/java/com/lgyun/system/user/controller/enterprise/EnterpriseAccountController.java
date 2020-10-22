@@ -19,12 +19,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * 商户主子账号相关接口 控制器
- *
- * @author tzq
- * @since 2020/8/24 11:37
- */
 @RestController
 @RequestMapping("/enterprise/account")
 @AllArgsConstructor

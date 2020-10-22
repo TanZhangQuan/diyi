@@ -29,7 +29,7 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/admin/tax-bureau")
 @Validated
 @AllArgsConstructor
-@Api(value = "平台端---税局管理", tags = "平台端---税局管理")
+@Api(value = "平台端---税局管理模块相关接口", tags = "平台端---税局管理模块相关接口")
 public class TaxBureauController {
     private IRelBureauService bureauService;
     private IRelBureauNoticeService bureauNoticeService;

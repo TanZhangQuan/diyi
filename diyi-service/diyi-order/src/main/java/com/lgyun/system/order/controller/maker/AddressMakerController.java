@@ -18,12 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-/**
- * 创客端---收件地址表相关接口
- *
- * @author liangfeihu
- * @since 2020-08-31 14:48:05
- */
 @RestController
 @RequestMapping("/maker/address")
 @Validated

@@ -21,13 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-/**
- * 商户端---发票/税票管理模块相关接口
- *
- * @author tzq
- * @date 2020/7/22.
- * @time 16:24.
- */
 @RestController
 @RequestMapping("/enterprise/invoice-tax")
 @Validated

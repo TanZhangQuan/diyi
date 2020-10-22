@@ -15,12 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * 创客端---发票和完税证明管理模块相关接口
- * @author tzq
- * @date 2020/7/22.
- * @time 16:24.
- */
 @RestController
 @RequestMapping("/maker/invoice-tax")
 @Validated

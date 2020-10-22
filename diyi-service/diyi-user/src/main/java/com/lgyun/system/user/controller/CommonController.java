@@ -15,12 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
 
-/**
- * 公用文件上传接口
- *
- * @author tzq
- * @since 2020/8/18 23:04
- */
 @RestController
 @RequestMapping("/common")
 @Validated

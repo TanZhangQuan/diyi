@@ -39,12 +39,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-/**
- * 创客端---自助开票管理模块相关接口
- *
- * @author jun
- * @since 2020-07-08 14:32:47
- */
 @RestController
 @RequestMapping("/maker/self-help-invoice")
 @Validated

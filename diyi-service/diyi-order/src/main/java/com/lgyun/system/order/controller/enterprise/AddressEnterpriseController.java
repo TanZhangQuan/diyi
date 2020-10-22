@@ -16,12 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-/**
- * 商户端---交付支付验收单管理模块相关接口
- *
- * @author liangfeihu
- * @since 2020/8/20 17:42
- */
 @Validated
 @RestController
 @RequestMapping("/enterprise/address")

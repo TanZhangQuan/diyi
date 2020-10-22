@@ -17,12 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-/**
- * 服务商端---定期申报管理模块相关接口
- *
- * @author tzq
- * @since 2020-08-12 14:47:56
- */
 @RestController
 @RequestMapping("/service-provider/enterprise-report")
 @Validated

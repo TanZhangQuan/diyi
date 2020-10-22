@@ -27,13 +27,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-/**
- * 服务商端---自助开票管理模块相关接口
- *
- * @author tzq
- * @date 2020/7/30.
- * @time 17:37.
- */
 @RestController
 @RequestMapping("/service-provider/self-help-invoice")
 @Validated
