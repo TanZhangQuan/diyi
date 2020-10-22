@@ -13,7 +13,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/xjw?useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/diyi?useUnicode=true&characterEncoding=UTF-8
     #： 修改为自己的同户名、密码
     username: root
     password: 123456
