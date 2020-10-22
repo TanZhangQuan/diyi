@@ -180,5 +180,10 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      */
     R<EnterpriseIdNameListVO> queryEnterpriseIdAndName(Long enterpriseId);
 
+    /**
+     * 查询所有商户
+     */
+    R getEnterpriseAll(IPage<EnterpriseEntity> page);
+
 }
 

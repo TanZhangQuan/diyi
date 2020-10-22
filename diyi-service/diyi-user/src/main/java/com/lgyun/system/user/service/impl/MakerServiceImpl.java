@@ -20,7 +20,10 @@ import com.lgyun.system.user.excel.MakerExcel;
 import com.lgyun.system.user.mapper.MakerMapper;
 import com.lgyun.system.user.oss.AliyunOssService;
 import com.lgyun.system.user.service.*;
-import com.lgyun.system.user.vo.*;
+import com.lgyun.system.user.vo.EnterpriseMakerDetailVO;
+import com.lgyun.system.user.vo.IdcardOcrVO;
+import com.lgyun.system.user.vo.MakerRealNameAuthenticationStateVO;
+import com.lgyun.system.user.vo.MakerWorksheetVO;
 import com.lgyun.system.user.vo.maker.MakerDetailVO;
 import com.lgyun.system.user.vo.maker.MakerInfoVO;
 import lombok.AllArgsConstructor;
@@ -689,6 +692,13 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         makerEntity.setVideoAuditDate(new Date());
         saveOrUpdate(makerEntity);
         return R.success("上传视频成功");
+    }
+
+    @Override
+    public R getMakerAll(IPage<MakerEntity> page) {
+        QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
+        IPage<MakerEntity> makerEntityIPage = baseMapper.selectPage(page, queryWrapper);
+        return R.data(makerEntityIPage);
     }
 
 }
