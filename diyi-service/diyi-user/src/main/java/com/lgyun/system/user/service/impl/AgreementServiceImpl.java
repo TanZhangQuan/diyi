@@ -65,6 +65,10 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     @Lazy
     private IEnterpriseService enterpriseService;
 
+    @Autowired
+    @Lazy
+    private IAgentMainService agentMainService;
+
     @Override
     public AgreementEntity findSuccessAgreement(Long enterpriseId, Long serviceProviderId, AgreementType agreementType, AuditState auditState, SignState signState) {
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
@@ -516,4 +520,5 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     public R queryAdminServiceAll(IPage<ServiceProviderEntity> page) {
         return serviceProviderService.getServiceAll(page);
     }
+
 }

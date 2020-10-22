@@ -3,7 +3,6 @@ package com.lgyun.system.user.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.CreateType;
-import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,10 +10,10 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- * 渠道商表 Entity
+ * 渠道商信息表 Entity
  *
- * @author tzq
- * @since 2020-09-11 17:33:26
+ * @author liangfeihu
+ * @since 2020-10-20 18:25:03
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -25,17 +24,27 @@ public class AgentMainEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 渠道商账户状态
+     * 用户名
      */
-    private AccountState agentMainState = AccountState.NORMAL;
+    private String enUserName;
 
     /**
-     * 渠道商名称
+     * 密码
      */
-    private String agentMainName;
+    private String enUserPwd;
 
     /**
-     * 法人代表名称
+     * 渠道商账户状态1，正常状态；2，冻结状态；3，非法状态。管理后台手工调整。只有正常状态才能接单和众包服务。默认为正常状态
+     */
+    private AccountState agentState= AccountState.NORMAL;
+
+    /**
+     * 客户名称
+     */
+    private String enterpriseName;
+
+    /**
+     * 法人
      */
     private String legalPersonName;
 
@@ -50,14 +59,14 @@ public class AgentMainEntity extends BaseEntity {
     private String socialCreditNo;
 
     /**
-     * 营业执照正本
+     * 营业执照副本
      */
     private String bizLicenceUrl;
 
     /**
-     * 商户网址
+     * 企业网址
      */
-    private String agentMainUrl;
+    private String enterpriseUrl;
 
     /**
      * 办公地址(快递地址）
@@ -115,14 +124,14 @@ public class AgentMainEntity extends BaseEntity {
     private String coProductDesc;
 
     /**
-     * 联系人1姓名（一般为老板/财务负责人）
+     * 联系人1姓名
      */
     private String contact1Name;
 
     /**
      * 联系人1职位
      */
-    private PositionName contact1Position;
+    private String contact1Position;
 
     /**
      * 联系人1电话手机（必填）
@@ -142,7 +151,7 @@ public class AgentMainEntity extends BaseEntity {
     /**
      * 联系人2职位
      */
-    private PositionName contact2Position;
+    private String contact2Position;
 
     /**
      * 联系人2电话手机（必填）
@@ -160,9 +169,9 @@ public class AgentMainEntity extends BaseEntity {
     private String specDemmand;
 
     /**
-     * 创建类型：平台创建，自注册
+     * 创建方式1:平台创建，2:自注册
      */
-    private CreateType createType;
+    private CreateType createType=CreateType.PLATFORMCREATE;
 
     /**
      * 营销人员
@@ -173,15 +182,5 @@ public class AgentMainEntity extends BaseEntity {
      * 运营人员
      */
     private Long runnerId;
-
-    /**
-     * 行业分类
-     */
-    private String industryType;
-
-    /**
-     * 主营业务描述
-     */
-    private String mainBusinessDesc;
 
 }

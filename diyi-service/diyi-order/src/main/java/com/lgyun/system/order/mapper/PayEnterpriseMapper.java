@@ -8,6 +8,9 @@ import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.order.vo.admin.TransactionByBureauServiceProviderInfoVO;
 import com.lgyun.system.user.vo.TransactionVO;
+import com.lgyun.system.user.vo.admin.AdminAgentMainServiceProviderListVO;
+import com.lgyun.system.user.vo.admin.AgentMainTransactionVO;
+import com.lgyun.system.user.vo.admin.PartnerServiceProviderListVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -281,5 +284,33 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * @return
      */
     List<TransactionByBureauServiceProviderInfoVO> transactionByBureauServiceProviderInfo(@Param("bureauId") Long bureauId, IPage<TransactionByBureauServiceProviderInfoVO> page);
+
+
+    /**
+     * 查询渠道商下服务商流水信息
+     * @param agentMainId
+     * @return
+     */
+    AgentMainTransactionVO getTransactionByAgentMainId(Long agentMainId);
+
+    /**
+     * 渠道商查询匹配好的服务商
+     * @param agentMainId
+     * @return
+     */
+    List<AdminAgentMainServiceProviderListVO> getAgentMainServiceProviderList(Long agentMainId,IPage<AdminAgentMainServiceProviderListVO> page);
+
+
+    /**
+     * 合伙人查询流水信息
+     * @return
+     */
+    AgentMainTransactionVO getAllTransaction();
+
+    /**
+     * 查询合伙人可有用的服务商
+     * @return
+     */
+    List<PartnerServiceProviderListVO> getPartnerAllServiceProvider(IPage<PartnerServiceProviderListVO> page);
 }
 
