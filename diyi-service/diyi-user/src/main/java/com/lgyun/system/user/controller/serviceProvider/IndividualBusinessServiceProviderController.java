@@ -1,6 +1,7 @@
 package com.lgyun.system.user.controller.serviceProvider;
 
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.BodyType;
 import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
@@ -8,6 +9,7 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDTO;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
+import com.lgyun.system.user.service.IEnterpriseReportService;
 import com.lgyun.system.user.service.IIndividualBusinessService;
 import com.lgyun.system.user.service.IServiceProviderWorkerService;
 import io.swagger.annotations.*;
@@ -27,6 +29,7 @@ public class IndividualBusinessServiceProviderController {
 
     private IServiceProviderWorkerService serviceProviderWorkerService;
     private IIndividualBusinessService individualBusinessService;
+    private IEnterpriseReportService enterpriseReportService;
 
     @GetMapping("/query-individual-business-list")
     @ApiOperation(value = "查询当前服务商关联的所有个体户", notes = "查询当前服务商关联的所有个体户")
@@ -69,7 +72,7 @@ public class IndividualBusinessServiceProviderController {
     @GetMapping("/query-enterprise-report-list")
     @ApiOperation(value = "查询个体户年审信息", notes = "查询个体户年审信息")
     public R queryEnterpriseReportList(Query query, @ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
-        return individualBusinessService.queryEnterpriseReports(query, individualBusinessId);
+        return enterpriseReportService.findByBodyTypeAndBodyId(BodyType.INDIVIDUALBUSINESS, individualBusinessId, query);
     }
 
 }

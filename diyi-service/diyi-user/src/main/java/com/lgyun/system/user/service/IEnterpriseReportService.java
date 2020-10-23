@@ -23,12 +23,12 @@ public interface IEnterpriseReportService extends BaseService<EnterpriseReportEn
     /**
      * 根据申报主体类别，申报主体ID查询年审信息
      *
-     * @param query
      * @param mainBodyType
      * @param mainBodyId
+     * @param query
      * @return
      */
-    R<IPage<EnterpriseReportsVO>> findByBodyTypeAndBodyId(Query query, BodyType mainBodyType, Long mainBodyId);
+    R<IPage<EnterpriseReportsVO>> findByBodyTypeAndBodyId(BodyType mainBodyType, Long mainBodyId, Query query);
 
     /**
      * 根据申报主体类别，申报主体ID查询申报结果文件资料

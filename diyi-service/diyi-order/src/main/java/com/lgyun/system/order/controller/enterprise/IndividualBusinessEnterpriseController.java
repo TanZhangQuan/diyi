@@ -22,7 +22,7 @@ import javax.validation.constraints.NotNull;
 @Validated
 @AllArgsConstructor
 @Api(value = "商户端---个体户管理模块相关接口", tags = "商户端---个体户管理模块相关接口")
-public class IndividualBusinessServiceProviderController {
+public class IndividualBusinessEnterpriseController {
 
     private ISelfHelpInvoiceService selfHelpInvoiceService;
 

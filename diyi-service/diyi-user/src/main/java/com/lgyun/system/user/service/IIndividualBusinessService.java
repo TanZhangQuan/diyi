@@ -4,13 +4,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDTO;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDTO;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDTO;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.MakerEntity;
-import com.lgyun.system.user.vo.EnterpriseReportsVO;
 import com.lgyun.system.user.vo.enterprise.IndividualBusinessDetailEnterpriseVO;
 import com.lgyun.system.user.vo.maker.IndividualBusinessDetailMakerVO;
 import com.lgyun.system.user.vo.maker.IndividualBusinessListVO;
@@ -96,15 +94,6 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
      * @return
      */
     IndividualBusinessEntity findByIbtaxNo(String ibtaxNo);
-
-    /**
-     * 查询个体户年审信息
-     *
-     * @param query
-     * @param individualBusinessId
-     * @return
-     */
-    R<IPage<EnterpriseReportsVO>> queryEnterpriseReports(Query query, Long individualBusinessId);
 
     /**
      * 修改个体户状态

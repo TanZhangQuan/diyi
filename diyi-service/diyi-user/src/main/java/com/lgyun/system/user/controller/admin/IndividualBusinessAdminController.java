@@ -51,14 +51,14 @@ public class IndividualBusinessAdminController {
 
     @GetMapping("/query-enterprise-report-list")
     @ApiOperation(value = "查询个体户年审信息", notes = "查询个体户年审信息")
-    public R queryEnterpriseReportList(Query query, @ApiParam(value = "个体户", required = true) @NotNull(message = "请选择个体户") @RequestParam(required = false) Long individualBusinessId, BladeUser bladeUser) {
+    public R queryEnterpriseReportList(@ApiParam(value = "个体户", required = true) @NotNull(message = "请选择个体户") @RequestParam(required = false) Long individualBusinessId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return enterpriseReportService.findByBodyTypeAndBodyId(query, BodyType.INDIVIDUALBUSINESS, individualBusinessId);
+        return enterpriseReportService.findByBodyTypeAndBodyId(BodyType.INDIVIDUALBUSINESS, individualBusinessId, query);
     }
 
     @PostMapping("/create-individual-business")
@@ -77,12 +77,6 @@ public class IndividualBusinessAdminController {
     @ApiOperation(value = "修改个体户", notes = "修改个体户")
     public R updateIndividualBusiness(@Valid @RequestBody IndividualBusinessEntity individualBusiness) {
         return R.status(individualBusinessService.updateById(individualBusiness));
-    }
-
-    @GetMapping("/query-enterprise-report-list")
-    @ApiOperation(value = "查询个体户年审信息", notes = "查询个体户年审信息")
-    public R queryEnterpriseReportList(Query query, @ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
-        return individualBusinessService.queryEnterpriseReports(query, individualBusinessId);
     }
 
 }

@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-;
-
 /**
  * User Feign接口类
  *

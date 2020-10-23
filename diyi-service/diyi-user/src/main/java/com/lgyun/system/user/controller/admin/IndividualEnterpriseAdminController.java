@@ -58,7 +58,7 @@ public class IndividualEnterpriseAdminController {
             return result;
         }
 
-        return enterpriseReportService.findByBodyTypeAndBodyId(query, BodyType.INDIVIDUALENTERPRISE, individualEnterpriseId);
+        return enterpriseReportService.findByBodyTypeAndBodyId(BodyType.INDIVIDUALENTERPRISE, individualEnterpriseId, query);
     }
 
     @PostMapping("/create-individual-enterprise")
@@ -77,12 +77,6 @@ public class IndividualEnterpriseAdminController {
     @ApiOperation(value = "修改个独信息", notes = "修改个独信息")
     public R updateIndividualEnterprise(@Valid @RequestBody IndividualEnterpriseEntity individualEnterprise) {
         return R.status(individualEnterpriseService.updateById(individualEnterprise));
-    }
-
-    @GetMapping("/query-enterprise-report-list")
-    @ApiOperation(value = "查询个独年审信息", notes = "查询个独年审信息")
-    public R queryEnterpriseReportList(Query query, @ApiParam(value = "个独ID", required = true) @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
-        return individualEnterpriseService.queryEnterpriseReports(query, individualEnterpriseId);
     }
 
 }

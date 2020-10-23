@@ -65,9 +65,9 @@ public class NaturalPersonMakerServiceProviderController {
         return enterpriseServiceProviderService.getEnterpriseByServiceProvider(Condition.getPage(query.setDescs("create_time")), serviceProviderWorkerEntity.getServiceProviderId(), keyword);
     }
 
-    @GetMapping("/query-relevance-maker-list")
+    @GetMapping("/query-relevance-maker-list-by-enterprise-id")
     @ApiOperation(value = "根据商户查询所有关联创客", notes = "根据商户查询所有关联创客")
-    public R queryRelevanceMakerList(@ApiParam(value = "商户编号", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, String keyword, Query query) {
+    public R queryRelevanceMakerListByEnterpriseId(@ApiParam(value = "商户编号", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, String keyword, Query query) {
         return makerEnterpriseService.getEnterpriseMakerList(Condition.getPage(query.setDescs("create_time")), enterpriseId, RelationshipType.RELEVANCE, null, keyword);
     }
 
