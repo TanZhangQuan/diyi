@@ -3,9 +3,12 @@ package com.lgyun.system.user.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.BureauServiceProviderStatus;
+import com.lgyun.common.enumeration.BureauType;
 import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.tool.Func;
+import com.lgyun.system.user.entity.RelBureauEntity;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
+import com.lgyun.system.user.mapper.RelBureauMapper;
 import com.lgyun.system.user.mapper.ServiceProviderMapper;
 import com.lgyun.system.user.vo.admin.RelBureauServiceProviderVO;
 import lombok.AllArgsConstructor;
@@ -36,6 +39,7 @@ import java.util.List;
 public class RelBureauServiceProviderServiceImpl extends BaseServiceImpl<RelBureauServiceProviderMapper, RelBureauServiceProviderEntity> implements IRelBureauServiceProviderService {
 
     private ServiceProviderMapper serviceProviderMapper;
+    private RelBureauMapper relBureauMapper;
 
     /**
      * 查询匹配的服务商
@@ -45,8 +49,8 @@ public class RelBureauServiceProviderServiceImpl extends BaseServiceImpl<RelBure
      * @return
      */
     @Override
-    public R<IPage<RelBureauServiceProviderVO>> queryRelBureauServiceProvider(String serviceProviderName, IPage<RelBureauServiceProviderVO> page) {
-        return R.data(page.setRecords(baseMapper.queryRelBureauServiceProvider(serviceProviderName, page)));
+    public R<IPage<RelBureauServiceProviderVO>> queryRelBureauServiceProvider(String serviceProviderName, BureauType bureauType, IPage<RelBureauServiceProviderVO> page) {
+        return R.data(page.setRecords(baseMapper.queryRelBureauServiceProvider(serviceProviderName, bureauType, page)));
     }
 
     /**
@@ -59,6 +63,10 @@ public class RelBureauServiceProviderServiceImpl extends BaseServiceImpl<RelBure
     @Override
     @Transactional(rollbackFor = Exception.class)
     public R addRelBureauServiceProvider(String serviceProviderIds, Long bureauId) {
+        RelBureauEntity relBureauEntity = relBureauMapper.selectById(bureauId);
+        if (relBureauEntity == null) {
+            return R.fail("您输入的相关局不存在！");
+        }
         List<Long> longs = Func.toLongList(serviceProviderIds);
         for (Long id : longs) {
             ServiceProviderEntity serviceProviderEntity = serviceProviderMapper.selectById(id);
@@ -68,6 +76,7 @@ public class RelBureauServiceProviderServiceImpl extends BaseServiceImpl<RelBure
             RelBureauServiceProviderEntity entity = new RelBureauServiceProviderEntity();
             entity.setServiceProviderId(id);
             entity.setRelBureauId(bureauId);
+            entity.setBureauType(relBureauEntity.getBureauType());
             entity.setBureauServiceProviderStatus(BureauServiceProviderStatus.OPEN);
             this.save(entity);
         }

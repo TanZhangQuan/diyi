@@ -29,7 +29,7 @@ public class RelBureauFilesReadEntity extends BaseEntity {
     /**
      * 阅读服务商
      */
-    private String readServicer;
+    private Long readServicer;
 
     /**
      * 阅读人

@@ -100,7 +100,7 @@ public class MarketSupervisionBureauController {
         if (!(result.isSuccess())) {
             return result;
         }
-        return bureauServiceProviderService.queryRelBureauServiceProvider(serviceProviderName, Condition.getPage(query.setDescs("create_time")));
+        return bureauServiceProviderService.queryRelBureauServiceProvider(serviceProviderName, BureauType.MARSUPANDADM,Condition.getPage(query.setDescs("create_time")));
     }
 
     @PostMapping("/add-market-supervision-bureau-service-provider")

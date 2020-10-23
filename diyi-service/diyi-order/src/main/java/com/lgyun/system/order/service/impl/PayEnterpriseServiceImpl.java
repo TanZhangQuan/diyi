@@ -633,7 +633,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     /**
-     *查询当前税务局管理所有匹配的服务商交易情况数据
+     *查询当前相关局所有匹配的服务商交易情况数据
      * @param bureauId
      * @return
      */
@@ -643,7 +643,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     /**
-     * 相关局查询匹配的服务商基本信息及交易金额
+     * 查询相关局匹配的服务商基本信息及交易金额
      * @param bureauId
      * @param page
      * @return
