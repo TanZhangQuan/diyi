@@ -53,13 +53,13 @@ public class AgentPersonServiceImpl extends BaseServiceImpl<AgentPersonMapper, A
 
         //判断渠道商联系人1是否已存在
         AgentPersonEntity oldAgentPersonEntity1 = findByPhoneNumber(addOrUpdateAgentMainContactDTO.getContact1Phone());
-        if (oldAgentPersonEntity1 != null && !(oldAgentPersonEntity1.getAgentMainId().equals(addOrUpdateAgentMainContactDTO.getEnterpriseId()))) {
+        if (oldAgentPersonEntity1 != null && !(oldAgentPersonEntity1.getAgentMainId().equals(addOrUpdateAgentMainContactDTO.getAgentMainId()))) {
             return R.fail("联系人1电话/手机：" + addOrUpdateAgentMainContactDTO.getContact1Phone() + "已存在");
         }
 
         //判断渠道商联系人2是否已存在
         AgentPersonEntity oldAgentPersonEntity2 = findByPhoneNumber(addOrUpdateAgentMainContactDTO.getContact2Phone());
-        if (oldAgentPersonEntity2 != null && !(oldAgentPersonEntity2.getAgentMainId().equals(addOrUpdateAgentMainContactDTO.getEnterpriseId()))) {
+        if (oldAgentPersonEntity2 != null && !(oldAgentPersonEntity2.getAgentMainId().equals(addOrUpdateAgentMainContactDTO.getAgentMainId()))) {
             return R.fail("联系人2电话/手机：" + addOrUpdateAgentMainContactDTO.getContact2Phone() + "已存在");
         }
 
@@ -79,7 +79,7 @@ public class AgentPersonServiceImpl extends BaseServiceImpl<AgentPersonMapper, A
             userService.save(user);
 
             oldAgentPersonEntity1 = new AgentPersonEntity();
-            oldAgentPersonEntity1.setAgentMainId(addOrUpdateAgentMainContactDTO.getEnterpriseId());
+            oldAgentPersonEntity1.setAgentMainId(addOrUpdateAgentMainContactDTO.getAgentMainId());
             oldAgentPersonEntity1.setWorkerId(user.getId());
             oldAgentPersonEntity1.setWorkerName(addOrUpdateAgentMainContactDTO.getContact1Name());
             oldAgentPersonEntity1.setPositionName(addOrUpdateAgentMainContactDTO.getContact1Position());
@@ -105,7 +105,7 @@ public class AgentPersonServiceImpl extends BaseServiceImpl<AgentPersonMapper, A
             userService.save(user);
 
             oldAgentPersonEntity2 = new AgentPersonEntity();
-            oldAgentPersonEntity2.setAgentMainId(addOrUpdateAgentMainContactDTO.getEnterpriseId());
+            oldAgentPersonEntity2.setAgentMainId(addOrUpdateAgentMainContactDTO.getAgentMainId());
             oldAgentPersonEntity2.setWorkerId(user.getId());
             oldAgentPersonEntity2.setWorkerName(addOrUpdateAgentMainContactDTO.getContact2Name());
             oldAgentPersonEntity2.setPositionName(addOrUpdateAgentMainContactDTO.getContact2Position());

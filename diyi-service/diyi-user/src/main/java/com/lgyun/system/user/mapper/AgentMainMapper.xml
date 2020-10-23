@@ -46,7 +46,7 @@
                 SELECT
 
                 IF (
-                    a.sign_type = 'ELEUNILATERALPOWER',
+                    a.sign_type = 'PLATFORMAGREEMENT',
                     a.online_aggrement_url,
                     a.paper_agreement_url
                 )
@@ -54,7 +54,7 @@
                     diyi_agreement AS a
                 WHERE
                     a.agent_id = am.id
-                AND a.agreement_type = 'OTHERAGREEMENT'
+                AND a.agreement_type = 'SERVICEPROVIDERPROMISE'
             ) AS channel_commitment_letter,
             am.agent_state,
             am.create_time
