@@ -46,7 +46,7 @@ public class WorksheetEntity extends BaseEntity {
     /**
      * 上限人数
      */
-    private Integer uppersonNum;
+    private Integer upPersonNum;
 
     /**
      * 工作天数
