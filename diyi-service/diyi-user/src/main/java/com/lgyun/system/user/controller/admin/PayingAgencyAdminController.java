@@ -101,7 +101,7 @@ public class PayingAgencyAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        return bureauServiceProviderService.queryRelBureauServiceProvider(serviceProviderName, Condition.getPage(query.setDescs("create_time")));
+        return bureauServiceProviderService.queryRelBureauServiceProvider(serviceProviderName, BureauType.PAYINGAGENCY, Condition.getPage(query.setDescs("create_time")));
     }
 
     @PostMapping("/add-paying-agency-service-provider")

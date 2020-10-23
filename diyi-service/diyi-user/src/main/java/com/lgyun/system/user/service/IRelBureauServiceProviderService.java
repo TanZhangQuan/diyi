@@ -3,6 +3,7 @@ package com.lgyun.system.user.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.BureauServiceProviderStatus;
+import com.lgyun.common.enumeration.BureauType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.RelBureauServiceProviderEntity;
 import com.lgyun.system.user.vo.admin.RelBureauServiceProviderVO;
@@ -22,7 +23,7 @@ public interface IRelBureauServiceProviderService extends BaseService<RelBureauS
      * @param page
      * @return
      */
-    R<IPage<RelBureauServiceProviderVO>> queryRelBureauServiceProvider(String serviceProviderName, IPage<RelBureauServiceProviderVO> page);
+    R<IPage<RelBureauServiceProviderVO>> queryRelBureauServiceProvider(String serviceProviderName, BureauType bureauType, IPage<RelBureauServiceProviderVO> page);
 
     /**
      * 添加匹配服务商
