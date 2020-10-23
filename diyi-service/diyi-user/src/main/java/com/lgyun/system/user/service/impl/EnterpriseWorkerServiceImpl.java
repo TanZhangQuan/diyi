@@ -9,6 +9,7 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.BeanServiceUtil;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.system.dto.GrantDTO;
 import com.lgyun.system.feign.ISysClient;
 import com.lgyun.system.user.dto.enterprise.AddOrUpdateEnterpriseContactDTO;
 import com.lgyun.system.user.entity.EnterpriseEntity;
@@ -21,7 +22,6 @@ import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.user.vo.EnterpriseWorkerVO;
 import com.lgyun.system.user.vo.admin.EnterpriseWorkerListVO;
-import com.lgyun.system.dto.GrantDTO;
 import com.lgyun.system.user.vo.enterprise.EnterpriseWorkerDetailVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Service 实现
@@ -209,7 +208,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
 
             BeanUtils.copyProperties(request, entity, BeanServiceUtil.getNullPropertyNames(request));
             if (request.getMenuNameList() != null && request.getMenuNameList().size() > 0) {
-                String collect = request.getMenuNameList().stream().collect(Collectors.joining(", "));
+                String collect = String.join(", ", request.getMenuNameList());
                 entity.setMenus(collect);
             }
             if (StringUtils.isNotBlank(request.getEmployeePwd())) {
@@ -259,9 +258,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
             grantDTO.setAccountId(request.getId());
             List<String> menuIds = request.getMenuIds();
             List<Long> menuList = new ArrayList<>();
-            menuIds.stream().forEach(menu -> {
-                menuList.add(Long.valueOf(menu));
-            });
+            menuIds.forEach(menu -> menuList.add(Long.valueOf(menu)));
             grantDTO.setMenuIds(menuList);
 
             grantDTO.setUserId(bladeUser.getUserId());

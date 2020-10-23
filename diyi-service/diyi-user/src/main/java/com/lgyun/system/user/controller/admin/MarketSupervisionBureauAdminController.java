@@ -48,7 +48,6 @@ public class MarketSupervisionBureauAdminController {
         return bureauService.QueryRelBureau(queryRelBureauListDTO, Condition.getPage(query.setAscs("create_time")), BureauType.MARSUPANDADM);
     }
 
-
     @PostMapping("/add-market-supervision-bureau")
     @ApiOperation(value = "添加市场监督管理局", notes = "添加市场监督管理局")
     public R addMarketSupervisionBureau(@Valid @RequestBody AddRelBureauDTO addRelBureauDto, BladeUser bladeUser) {

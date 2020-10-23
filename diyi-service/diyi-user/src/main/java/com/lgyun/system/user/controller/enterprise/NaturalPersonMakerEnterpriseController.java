@@ -66,9 +66,9 @@ public class NaturalPersonMakerEnterpriseController {
         return makerService.makerAdd(makerAddDto, enterpriseWorkerEntity.getEnterpriseId());
     }
 
-    @PostMapping("/import-makers")
+    @PostMapping("/import-maker-list")
     @ApiOperation(value = "导入创客", notes = "导入创客")
-    public R importMakers(@ApiParam(value = "文件") @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file, BladeUser bladeUser) throws IOException {
+    public R importMakerList(@ApiParam(value = "文件") @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file, BladeUser bladeUser) throws IOException {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
