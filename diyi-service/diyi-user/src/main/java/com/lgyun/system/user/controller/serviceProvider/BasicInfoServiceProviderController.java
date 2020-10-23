@@ -16,25 +16,19 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-/**
- * 控制器
- *
- * @author tzq
- * @since 2020-07-25 14:38:06
- */
 @RestController
-@RequestMapping("/service-provider/")
+@RequestMapping("/service-provider/basic-info")
 @Validated
 @AllArgsConstructor
-@Api(value = "服务商相关接口", tags = "服务商相关接口")
-public class ServiceProviderController {
+@Api(value = "服务商端---服务商基本信息管理模块相关接口", tags = "服务商端---服务商基本信息管理模块相关接口")
+public class BasicInfoServiceProviderController {
 
-    private IServiceProviderService serviceProviderService;
     private IServiceProviderWorkerService serviceProviderWorkerService;
+    private IServiceProviderService serviceProviderService;
 
-    @GetMapping("/get_bank_card")
+    @GetMapping("/query-bank-card")
     @ApiOperation(value = "查询当前服务商银行卡信息", notes = "查询当前服务商银行卡信息")
-    public R getBankCard(BladeUser bladeUser) {
+    public R queryBankCard(BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -45,7 +39,7 @@ public class ServiceProviderController {
         return serviceProviderService.getBankCard(serviceProviderWorkerEntity.getServiceProviderId());
     }
 
-    @PostMapping("/add_or_update_bank_card")
+    @PostMapping("/add-or-update-bank-card")
     @ApiOperation(value = "新增或修改当前服务商银行卡信息", notes = "新增或修改当前服务商银行卡信息")
     public R addOrUpdateBankCard(@Valid @RequestBody ServiceProviderBankCardDTO serviceProviderBankCardDto, BladeUser bladeUser) {
         //查询当前服务商员工
@@ -58,9 +52,9 @@ public class ServiceProviderController {
         return serviceProviderService.addOrUpdateBankCard(serviceProviderBankCardDto, serviceProviderWorkerEntity.getServiceProviderId());
     }
 
-    @GetMapping("/get_contact_person")
+    @GetMapping("/query-contact-person")
     @ApiOperation(value = "查询当前服务商联系人信息", notes = "查询当前服务商联系人信息")
-    public R getContactPerson(BladeUser bladeUser) {
+    public R queryContactPerson(BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -71,7 +65,7 @@ public class ServiceProviderController {
         return serviceProviderService.getContactPerson(serviceProviderWorkerEntity.getServiceProviderId());
     }
 
-    @PostMapping("/add_or_update_contact_person")
+    @PostMapping("/add-or-update-contact-person")
     @ApiOperation(value = "新增或修改当前服务商联系人信息", notes = "新增或修改当前服务商联系人信息")
     public R addOrUpdateContactPerson(@Valid @RequestBody ServiceProviderContactPersonDTO serviceProviderContactPersonDto, BladeUser bladeUser) {
         //查询当前服务商员工
@@ -84,9 +78,9 @@ public class ServiceProviderController {
         return serviceProviderService.addOrUpdateContactPerson(serviceProviderContactPersonDto, serviceProviderWorkerEntity.getServiceProviderId());
     }
 
-    @GetMapping("/get_invoice")
+    @GetMapping("/query-invoice")
     @ApiOperation(value = "查询当前服务商开票信息", notes = "查询当前服务商开票信息")
-    public R getInvoice(BladeUser bladeUser) {
+    public R queryInvoice(BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -97,7 +91,7 @@ public class ServiceProviderController {
         return serviceProviderService.getInvoice(serviceProviderWorkerEntity.getServiceProviderId());
     }
 
-    @PostMapping("/add_or_update_invoice")
+    @PostMapping("/add-or-update-invoice")
     @ApiOperation(value = "新增或修改当前服务商开票信息", notes = "新增或修改当前服务商开票信息")
     public R addOrUpdateInvoice(@Valid @RequestBody ServiceProviderInvoiceDTO serviceProviderInvoiceDto, BladeUser bladeUser) {
         //查询当前服务商员工

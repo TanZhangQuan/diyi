@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-;
-
 /**
  * User Feign接口类
  *
@@ -250,7 +248,7 @@ public interface IUserClient {
      * @param makerId
      * @return
      */
-    @GetMapping(API_PREFIX + "/individualEnterprise/find-by-maker-id")
+    @GetMapping(API_PREFIX + "/query-individual-enterprise/find-by-maker-id")
     List<IndividualEnterpriseEntity> queryIndividualEnterpriseFindByMakerId(@RequestParam("makerId") Long makerId);
 
     /**

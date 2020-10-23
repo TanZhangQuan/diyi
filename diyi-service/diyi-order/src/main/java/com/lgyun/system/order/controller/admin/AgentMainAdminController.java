@@ -20,17 +20,18 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.NotNull;
 
 @RestController
-@RequestMapping("/admin/agentMain")
+@RequestMapping("/admin/agent-main")
 @Validated
 @AllArgsConstructor
 @Api(value = "平台端---渠道管理模块相关接口", tags = "平台端---渠道管理模块相关接口")
 public class AgentMainAdminController {
-    private IPayEnterpriseService payEnterpriseService;
-    private IUserClient userClient;
 
-    @GetMapping("/agent-main-transaction")
+    private IUserClient userClient;
+    private IPayEnterpriseService payEnterpriseService;
+
+    @GetMapping("/query-agent-main-transaction")
     @ApiOperation(value = "查询渠道商交易数据", notes = "查询渠道商交易数据")
-    public R transactionByEnterprise(@ApiParam(value = "渠道商ID", required = true) @NotNull(message = "请输入渠道商编号") @RequestParam(required = false) Long agentMainId, BladeUser bladeUser) {
+    public R queryAgentMainTransaction(@ApiParam(value = "渠道商ID", required = true) @NotNull(message = "请输入渠道商编号") @RequestParam(required = false) Long agentMainId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -47,7 +48,7 @@ public class AgentMainAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        return payEnterpriseService.getCooperativeServiceProvider(Condition.getPage(query.setDescs("create_time")),agentMainId);
+        return payEnterpriseService.getCooperativeServiceProvider(Condition.getPage(query.setDescs("create_time")), agentMainId);
     }
 
 

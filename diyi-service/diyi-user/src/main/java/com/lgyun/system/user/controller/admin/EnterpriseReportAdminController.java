@@ -19,12 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-/**
- * 平台端---定期申报管理模块相关接口
- *
- * @author tzq
- * @since 2020-08-12 14:47:56
- */
 @Slf4j
 @RestController
 @RequestMapping("/admin/enterprise-report")
@@ -36,9 +30,9 @@ public class EnterpriseReportAdminController {
     private IAdminService adminService;
     private IEnterpriseReportService enterpriseReportService;
 
-    @GetMapping("/query-admin-enterprise-report-all")
+    @GetMapping("/query-enterprise-report-all")
     @ApiOperation(value = "平台查询所有服务商税务申报或工商申报", notes = "平台查询所有服务商税务申报或工商申报")
-    public R findAdminEnterpriseReportAll(@ApiParam(value = "服务商名字") @RequestParam(required = false) String serviceProviderName,
+    public R queryEnterpriseReportAll(@ApiParam(value = "服务商名字") @RequestParam(required = false) String serviceProviderName,
                                           @ApiParam(value = "申报主题") @RequestParam(required = false) ReportTheme reportTheme,
                                           String startTime, String endTime, Query query, BladeUser bladeUser) {
         //查询当前管理员
@@ -50,9 +44,9 @@ public class EnterpriseReportAdminController {
         return enterpriseReportService.findAdminEnterpriseReportAll(serviceProviderName, reportTheme, startTime, endTime, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @GetMapping("/query-admin-enterprise-report")
+    @GetMapping("/query-enterprise-report-list")
     @ApiOperation(value = "平台根据服务商查询税务申报或工商申报", notes = "平台根据服务商查询税务申报或工商申报")
-    public R findAdminEnterpriseReport(Long serviceProviderId, ReportTheme reportTheme, Query query, BladeUser bladeUser) {
+    public R queryEnterpriseReportList(Long serviceProviderId, ReportTheme reportTheme, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -62,9 +56,9 @@ public class EnterpriseReportAdminController {
         return enterpriseReportService.findAdminEnterpriseReport(serviceProviderId, reportTheme, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @GetMapping("/query-admin-enterprise-report-detail")
+    @GetMapping("/query-enterprise-report-detail")
     @ApiOperation(value = "平台查询税务申报或工商申报详情", notes = "平台查询税务申报或工商申报详情")
-    public R findAdminEnterpriseReportDetail(Long enterpriseReportId, BladeUser bladeUser) {
+    public R queryEnterpriseReportDetail(Long enterpriseReportId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -74,9 +68,9 @@ public class EnterpriseReportAdminController {
         return enterpriseReportService.findAdminEnterpriseReportDetail(enterpriseReportId);
     }
 
-    @PostMapping("/save-admin-enterprise-report")
+    @PostMapping("/create-enterprise-report")
     @ApiOperation(value = "平台保存税务申报或工商申报", notes = "平台保存税务申报或工商申报")
-    public R saveAdminEnterpriseReport(@Valid @RequestBody AdminEnterpriseReportDTO adminEnterpriseReportDTO, BladeUser bladeUser) {
+    public R createEnterpriseReport(@Valid @RequestBody AdminEnterpriseReportDTO adminEnterpriseReportDTO, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -86,9 +80,9 @@ public class EnterpriseReportAdminController {
         return enterpriseReportService.saveAdminEnterpriseReport(adminEnterpriseReportDTO);
     }
 
-    @PostMapping("/to-examine-admin-enterprise-report")
+    @PostMapping("/audit-enterprise-report")
     @ApiOperation(value = "平台审核税务申报或工商申报", notes = "平台审核税务申报或工商申报")
-    public R toExamineAdminEnterpriseReport(Long enterpriseReportId, @ApiParam("1审核通过，2审核不通过") Integer toExamine, BladeUser bladeUser) {
+    public R auditEnterpriseReport(Long enterpriseReportId, @ApiParam("1审核通过，2审核不通过") Integer toExamine, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

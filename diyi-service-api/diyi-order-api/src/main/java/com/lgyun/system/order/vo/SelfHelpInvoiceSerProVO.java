@@ -25,11 +25,6 @@ public class SelfHelpInvoiceSerProVO implements Serializable {
     private Long id;
 
     /**
-     * 自助开票状态
-     */
-    private SelfHelpInvoiceApplyState currentState;
-
-    /**
      * 购买方
      */
     private String enterpriseName;
@@ -43,6 +38,11 @@ public class SelfHelpInvoiceSerProVO implements Serializable {
      * 税票扫描件（多张）
      */
     private String taxScanPictures;
+
+    /**
+     * 自助开票状态
+     */
+    private SelfHelpInvoiceApplyState currentState;
 
     /**
      * 创建时间

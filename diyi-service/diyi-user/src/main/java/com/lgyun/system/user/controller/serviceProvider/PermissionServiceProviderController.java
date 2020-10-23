@@ -5,10 +5,10 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.feign.ISysClient;
+import com.lgyun.system.user.dto.serviceProvider.ServiceAccountDTO;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.service.IServiceProviderWorkerService;
 import com.lgyun.system.user.vo.ServiceProviderWorkerVO;
-import com.lgyun.system.user.dto.serviceProvider.ServiceAccountDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -20,25 +20,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * 服务商账号 控制器
- *
- * @author liangfeihu
- * @since 2020/9/19 16:25
- */
 @RestController
-@RequestMapping("/service-provider/account")
+@RequestMapping("/service-provider/permission")
 @Validated
 @AllArgsConstructor
-@Api(value = "服务商账号相关接口(管理端)", tags = "服务商账号相关接口(管理端)")
-public class ServiceProviderAccountController {
+@Api(value = "服务商端---权限管理模块相关接口", tags = "服务商端---权限管理模块相关接口")
+public class PermissionServiceProviderController {
 
-    private ISysClient sysClient;
     private IServiceProviderWorkerService serviceProviderWorkerService;
+    private ISysClient sysClient;
 
-    @GetMapping("/list")
+    @GetMapping("/query-child-account-list")
     @ApiOperation(value = "查询服务商所有主子账号详情", notes = "查询服务商所有主子账号详情")
-    public R listDetail(BladeUser bladeUser) {
+    public R queryChildAccountList(BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -51,7 +45,7 @@ public class ServiceProviderAccountController {
         List<ServiceProviderWorkerEntity> list = serviceProviderWorkerService.list(queryWrapper);
 
         List<ServiceProviderWorkerVO> responseList = new ArrayList<>();
-        list.stream().forEach(entity -> {
+        list.forEach(entity -> {
             ServiceProviderWorkerVO response = new ServiceProviderWorkerVO();
             BeanUtils.copyProperties(entity, response);
             response.setWorkerSexDesc(entity.getWorkerSex().getDesc());
@@ -67,9 +61,9 @@ public class ServiceProviderAccountController {
         return R.data(responseList);
     }
 
-    @GetMapping("/detail")
+    @GetMapping("/query-account-detail")
     @ApiOperation(value = "查询服务商账号详情", notes = "查询服务商账号详情")
-    public R oneDetail(@RequestParam("accountId") Long accountId, BladeUser bladeUser) {
+    public R queryAccountDetail(@RequestParam("accountId") Long accountId, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -96,9 +90,9 @@ public class ServiceProviderAccountController {
         return R.data(response);
     }
 
-    @PostMapping("/operate")
+    @PostMapping("/operate-child-account")
     @ApiOperation(value = "删除、停用 服务商主子账号", notes = "删除、停用 服务商主子账号")
-    public R operateEnterpriseWorker(@RequestBody ServiceAccountDTO request, BladeUser bladeUser) {
+    public R operateChildAccount(@RequestBody ServiceAccountDTO request, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -125,9 +119,9 @@ public class ServiceProviderAccountController {
         return R.success("操作成功");
     }
 
-    @PostMapping("/save")
+    @PostMapping("/update-child-account")
     @ApiOperation(value = "新增、更新(编辑)服务商主子账号", notes = "新增、更新(编辑)服务商主子账号")
-    public R updateEnterpriseWorker(@RequestBody ServiceProviderWorkerVO request, BladeUser bladeUser) {
+    public R updateChildAccount(@RequestBody ServiceProviderWorkerVO request, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {

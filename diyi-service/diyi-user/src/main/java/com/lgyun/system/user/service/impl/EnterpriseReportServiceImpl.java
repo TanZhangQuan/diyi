@@ -40,7 +40,7 @@ public class EnterpriseReportServiceImpl extends BaseServiceImpl<EnterpriseRepor
     private IServiceProviderService serviceProviderService;
 
     @Override
-    public R<IPage<EnterpriseReportsVO>> findByBodyTypeAndBodyId(Query query, BodyType mainBodyType, Long mainBodyId) {
+    public R<IPage<EnterpriseReportsVO>> findByBodyTypeAndBodyId(BodyType mainBodyType, Long mainBodyId, Query query) {
 
         QueryWrapper<EnterpriseReportEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(EnterpriseReportEntity::getMainBodyType, mainBodyType)

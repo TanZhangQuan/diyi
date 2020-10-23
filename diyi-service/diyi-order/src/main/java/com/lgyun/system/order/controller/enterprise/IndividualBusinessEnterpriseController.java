@@ -1,4 +1,4 @@
-package com.lgyun.system.order.controller;
+package com.lgyun.system.order.controller.enterprise;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.InvoicePeopleType;
@@ -17,30 +17,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
 
-/**
- * 控制器
- *
- * @author tzq
- * @since 2020-07-02 17:44:02
- */
 @RestController
-@RequestMapping("/web/individual-business")
+@RequestMapping("/enterprise/individual-business")
 @Validated
 @AllArgsConstructor
-@Api(value = "个体户相关接口(管理端)", tags = "个体户相关接口(管理端)")
-public class IndividualBusinessWebController {
+@Api(value = "商户端---个体户管理模块相关接口", tags = "商户端---个体户管理模块相关接口")
+public class IndividualBusinessEnterpriseController {
 
     private ISelfHelpInvoiceService selfHelpInvoiceService;
 
-    @GetMapping("/self-help-invoice-statistics")
+    @GetMapping("/query-invoice-number-and-money")
     @ApiOperation(value = "查询个体户开票次数，月度开票金额，年度开票金额和总开票金额", notes = "查询个体户开票次数，月度开票金额，年度开票金额和总开票金额")
-    public R selfHelpInvoiceStatistics(@ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
+    public R queryInvoiceNumberAndMoney(@ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
         return selfHelpInvoiceService.selfHelpInvoiceStatistics(individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
     }
 
-    @GetMapping("/self-help-invoice-list")
+    @GetMapping("/query-invoice-list")
     @ApiOperation(value = "查询个体户开票记录", notes = "查询个体户开票记录")
-    public R selfHelpInvoiceList(Query query, @ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
+    public R queryInvoiceList(@ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId, Query query) {
         return selfHelpInvoiceService.selfHelpInvoiceList(Condition.getPage(query.setDescs("create_time")), individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
     }
 

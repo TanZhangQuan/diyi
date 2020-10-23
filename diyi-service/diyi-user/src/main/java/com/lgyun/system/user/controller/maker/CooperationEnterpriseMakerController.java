@@ -15,12 +15,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * 创客端---关联商户管理模块相关接口
- *
- * @author tzq
- * @since 2020-06-26 17:21:05
- */
 @RestController
 @RequestMapping("/maker/cooperation-enterprise")
 @Validated
@@ -28,9 +22,9 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "创客端---关联商户管理模块相关接口", tags = "创客端---关联商户管理模块相关接口")
 public class CooperationEnterpriseMakerController {
 
+    private IMakerService makerService;
     private IMakerEnterpriseService makerEnterpriseService;
-    private IEnterpriseService iEnterpriseService;
-    private IMakerService iMakerService;
+    private IEnterpriseService enterpriseService;
 
     @GetMapping("/query-enterprise-detail")
     @ApiImplicitParams({
@@ -39,20 +33,20 @@ public class CooperationEnterpriseMakerController {
     @ApiOperation(value = "查询商户详情", notes = "查询商户详情")
     public R queryEnterpriseDetail(Long enterpriseId, BladeUser bladeUser) {
         //查询当前创客
-        R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
+        R<MakerEntity> result = makerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
         MakerEntity makerEntity = result.getData();
 
-        return iEnterpriseService.getEnterpriseId(enterpriseId, makerEntity.getId());
+        return enterpriseService.getEnterpriseId(enterpriseId, makerEntity.getId());
     }
 
     @GetMapping("/query-maker-to-enterprise-transaction")
     @ApiOperation(value = "查询关联商户和创客的明细", notes = "查询关联商户和创客的明细")
     public R queryMakerToEnterpriseTransaction(Long enterpriseId, WorkSheetType workSheetType, Query query, BladeUser bladeUser) {
         //查询当前创客
-        R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
+        R<MakerEntity> result = makerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -68,7 +62,7 @@ public class CooperationEnterpriseMakerController {
     @ApiOperation(value = "查询关联商户和关注商户", notes = "查询关联商户和关注商户")
     public R queryRelevanceOrAttentionEnterpriseList(BladeUser bladeUser, RelationshipType relationshipType, Query query) {
         //查询当前创客
-        R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
+        R<MakerEntity> result = makerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -77,19 +71,19 @@ public class CooperationEnterpriseMakerController {
         return makerEnterpriseService.selectMakerEnterprisePage(Condition.getPage(query.setDescs("create_time")), makerEntity.getId(), relationshipType);
     }
 
-    @GetMapping("/query-enterprise-by-enterprise-name")
+    @GetMapping("/query-enterprise")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "enterpriseName", value = "商户名字", paramType = "query", dataType = "string")
     })
-    @ApiOperation(value = "通过商户名字查询", notes = "通过商户名字查询")
-    public R queryEnterpriseByEnterpriseName(@ApiParam(value = "商户名字") @RequestParam(required = false) String enterpriseName, BladeUser bladeUser) {
+    @ApiOperation(value = "通过商户名字查询商户", notes = "通过商户名字查询商户")
+    public R queryEnterprise(@ApiParam(value = "商户名字") @RequestParam(required = false) String enterpriseName, BladeUser bladeUser) {
         //查询当前创客
-        R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
+        R<MakerEntity> result = makerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return iEnterpriseService.getEnterpriseName(enterpriseName);
+        return enterpriseService.getEnterpriseName(enterpriseName);
     }
 
     @PostMapping("/add-or-cancel-follow")
@@ -100,7 +94,7 @@ public class CooperationEnterpriseMakerController {
     @ApiOperation(value = "添加关注或取消关注", notes = "添加关注或取消关注")
     public R addOrCancelFollow(Long enterpriseId, BladeUser bladeUser, Integer attribute) {
         //查询当前创客
-        R<MakerEntity> result = iMakerService.currentMaker(bladeUser);
+        R<MakerEntity> result = makerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }

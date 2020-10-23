@@ -21,12 +21,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
-/**
- * 商户端---工单管理模块相关接口
- *
- * @author jun
- * @since 2020-07-07 14:40:21
- */
 @RestController
 @RequestMapping("/enterprise/worksheet")
 @Validated
@@ -34,15 +28,15 @@ import java.math.BigDecimal;
 @Api(value = "商户端---工单管理模块相关接口", tags = "商户端---工单管理模块相关接口")
 public class WorksheetEnterpriseController {
 
+    private IUserClient userClient;
     private IWorksheetService worksheetService;
     private IWorksheetMakerService worksheetMakerService;
-    private IUserClient iUserClient;
 
-    @PostMapping("/releaseWorksheet")
+    @PostMapping("/create-worksheet")
     @ApiOperation(value = "发布工单", notes = "发布工单")
-    public R releaseWorksheet(@Valid @RequestBody ReleaseWorksheetDTO releaseWorksheetDTO, BladeUser bladeUser) {
+    public R createWorksheet(@Valid @RequestBody ReleaseWorksheetDTO releaseWorksheetDTO, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -52,16 +46,13 @@ public class WorksheetEnterpriseController {
         return worksheetService.releaseWorksheet(releaseWorksheetDTO);
     }
 
-    @GetMapping("getEnterpriseWorksheet")
-    @ApiOperation(value = "根据工单状态和商户id查询", notes = "根据工单状态和商户id查询")
-    public R getEnterpriseWorksheet(Query query, BladeUser bladeUser,
-                                    @NotNull(message = "请输入工单的状态") @RequestParam(required = false) WorksheetState worksheetState,
-                                    @RequestParam(required = false) String worksheetNo,
-                                    @RequestParam(required = false) String worksheetName,
-                                    @RequestParam(required = false) String startTime,
-                                    @RequestParam(required = false) String endTime) {
+    @GetMapping("query-worksheet-list")
+    @ApiOperation(value = "查询工单", notes = "查询工单")
+    public R queryWorksheetList(@ApiParam(value = "工单状态") @NotNull(message = "请选择工单状态") @RequestParam(required = false) WorksheetState worksheetState,
+                                @RequestParam(required = false) String worksheetNo, @RequestParam(required = false) String worksheetName,
+                                @RequestParam(required = false) String startTime, @RequestParam(required = false) String endTime, Query query, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -69,11 +60,11 @@ public class WorksheetEnterpriseController {
         return worksheetService.getEnterpriseWorksheet(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), worksheetState, worksheetNo, worksheetName, startTime, endTime);
     }
 
-    @PostMapping("deleteWorksheet")
-    @ApiOperation(value = "删除", notes = "删除")
-    public R deleteWorksheet(@NotNull(message = "请输入工单的id") @RequestParam(required = false) Long worksheetId, BladeUser bladeUser) {
+    @PostMapping("delete-worksheet")
+    @ApiOperation(value = "删除工单", notes = "删除工单")
+    public R deleteWorksheet(@NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -82,11 +73,11 @@ public class WorksheetEnterpriseController {
         return R.success("删除成功");
     }
 
-    @GetMapping("getWorksheetWebDetails")
+    @GetMapping("query-worksheet-detail")
     @ApiOperation(value = "查询工单详情", notes = "查询工单详情")
-    public R getWorksheetWebDetails(Query query, @NotNull(message = "请输入工单的id") @RequestParam(required = false) Long worksheetId, BladeUser bladeUser) {
+    public R queryWorksheetDetail(@NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId, Query query, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -94,12 +85,12 @@ public class WorksheetEnterpriseController {
         return worksheetService.getWorksheetWebDetails(Condition.getPage(query.setDescs("create_time")), worksheetId);
     }
 
-    @PostMapping("/kickOut")
+    @PostMapping("/kick-out-maker")
     @ApiOperation(value = "工单踢出创客", notes = "工单踢出创客")
-    public R kickOut(@NotNull(message = "请输入工单的id") @RequestParam(required = false) Long worksheetId,
-                     @NotNull(message = "请输入创客id") @RequestParam(required = false) Long makerId, BladeUser bladeUser) {
+    public R kickOutMaker(@NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId,
+                     @NotNull(message = "请输入创客") @RequestParam(required = false) Long makerId, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -107,12 +98,12 @@ public class WorksheetEnterpriseController {
         return worksheetService.kickOut(worksheetId, makerId);
     }
 
-    @PostMapping("/closeOrOpen")
+    @PostMapping("/close-or-open-worksheet")
     @ApiOperation(value = "开单或关单", notes = "开单或关单")
-    public R closeOrOpen(@ApiParam(value = "工单ID", required = true) @NotNull(message = "请输入工单编号") @RequestParam(required = false) Long worksheetId,
+    public R closeOrOpenWorksheet(@ApiParam(value = "工单", required = true) @NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId,
                          @ApiParam(value = "1代表关闭，2开启", required = true) @NotNull(message = "请输入1代表关闭，2开启") @RequestParam(required = false) Integer variable, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -120,14 +111,12 @@ public class WorksheetEnterpriseController {
         return worksheetService.closeOrOpen(worksheetId, variable);
     }
 
-    @PostMapping("/checkAchievement")
+    @PostMapping("/check-achievement")
     @ApiOperation(value = "验收工作成果", notes = "验收工作成果")
-    public R checkAchievement(@NotNull(message = "请输入id") @RequestParam(required = false) Long worksheetMakerId,
-                              @NotNull(message = "请输入验证金额") @RequestParam(required = false) BigDecimal checkMoney,
-                              @NotNull(message = "请输入验收的结果") @RequestParam(required = false) Boolean bool,
-                              BladeUser bladeUser) {
+    public R checkAchievement(@NotNull(message = "请输入id") @RequestParam(required = false) Long worksheetMakerId, @NotNull(message = "请输入验证金额") @RequestParam(required = false) BigDecimal checkMoney,
+                              @NotNull(message = "请输入验收的结果") @RequestParam(required = false) Boolean bool, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -135,12 +124,12 @@ public class WorksheetEnterpriseController {
         return worksheetMakerService.checkAchievement(worksheetMakerId, checkMoney, enterpriseWorkerEntity.getEnterpriseId(), bool);
     }
 
-    @PostMapping("/closeOrOpenList")
+    @PostMapping("/close-or-open-worksheet-list")
     @ApiOperation(value = "批量开启或关闭工单", notes = "批量开启或关闭工单")
-    public R closeOrOpenAll(@NotNull(message = "请输入工单的id") @RequestParam(required = false) String worksheetIds,
+    public R closeOrOpenWorksheetList(@NotNull(message = "请选择工单") @RequestParam(required = false) String worksheetIds,
                             @ApiParam(value = "1代表关闭，2开启", required = true) @NotNull(message = "请输入1代表关闭，2开启") @RequestParam(required = false) Integer variable, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -148,11 +137,11 @@ public class WorksheetEnterpriseController {
         return worksheetService.closeOrOpenList(worksheetIds, variable);
     }
 
-    @PostMapping("/deleteWorksheetList")
+    @PostMapping("/delete-worksheet-list")
     @ApiOperation(value = "批量删除工单", notes = "批量删除工单")
-    public R deleteWorksheetList(@NotNull(message = "请输入工单的id") @RequestParam(required = false) String worksheetIds, BladeUser bladeUser) {
+    public R deleteWorksheetList(@NotNull(message = "请选择工单") @RequestParam(required = false) String worksheetIds, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -160,24 +149,23 @@ public class WorksheetEnterpriseController {
         return worksheetService.deleteWorksheetList(worksheetIds);
     }
 
-    @PostMapping("/wholeWorksheetCheck")
+    @PostMapping("/check-whole-worksheet")
     @ApiOperation(value = "整体验收工单", notes = "整体验收工单")
-    public R wholeWorksheetCheck(@NotNull(message = "请输入工单的id") @RequestParam(required = false) Long worksheetId, BladeUser bladeUser) {
+    public R checkWholeWorksheet(@NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
         return worksheetService.wholeWorksheetCheck(worksheetId);
-
     }
 
-    @GetMapping("/get_enterprise_worksheet_details")
-    @ApiOperation(value = "根据创客ID查询工单(商户)", notes = "根据创客ID查询工单(商户)")
-    public R getEnterpriseWorksheetDetails(@ApiParam(value = "创客ID") @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId, Query query, BladeUser bladeUser) {
+    @GetMapping("/query-worksheet-list-by-maker-id")
+    @ApiOperation(value = "根据创客查询工单", notes = "根据创客查询工单")
+    public R queryWorksheetListByMakerId(@ApiParam(value = "创客ID") @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId, Query query, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }

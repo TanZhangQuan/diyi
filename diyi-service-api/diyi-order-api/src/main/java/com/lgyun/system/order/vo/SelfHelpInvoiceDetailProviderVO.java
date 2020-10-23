@@ -2,7 +2,6 @@ package com.lgyun.system.order.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -33,7 +32,7 @@ public class SelfHelpInvoiceDetailProviderVO implements Serializable {
     private String idcardNo;
 
     /**
-     * 创客或非创客开票人身份证号码
+     * 创客或非创客开票人手机号
      */
     private String phoneNumber;
 

@@ -596,7 +596,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             R.fail("视频连接不能为空");
         }
         makerEntity.setApplyShortVideo(applyShortVideo);
-        saveOrUpdate(makerEntity);
+        updateById(makerEntity);
         return R.success("成功");
     }
 

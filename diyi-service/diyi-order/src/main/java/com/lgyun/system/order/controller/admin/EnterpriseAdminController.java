@@ -22,12 +22,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-/**
- * 平台端---商户管理模块相关接口
- *
- * @author tzq
- * @date 2020-09-9
- */
 @RestController
 @RequestMapping("/admin/enterprise")
 @Validated
@@ -76,9 +70,9 @@ public class EnterpriseAdminController {
         return R.status(addressService.removeByIds(Func.toLongList(ids)));
     }
 
-    @GetMapping("/enterprise-transaction")
+    @GetMapping("/query-enterprise-transaction")
     @ApiOperation(value = "查询商户交易数据", notes = "查询商户交易数据")
-    public R transactionByEnterprise(@ApiParam(value = "商户ID", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, BladeUser bladeUser) {
+    public R queryEnterpriseTransaction(@ApiParam(value = "商户ID", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

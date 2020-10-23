@@ -16,13 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-/**
- * 创客端---实名认证管理模块相关接口
- *
- * @author tzq
- * @date 2020/9/9.
- * @time 10:17.
- */
 @RestController
 @RequestMapping("/maker/real-name-authentication")
 @Validated

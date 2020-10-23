@@ -30,11 +30,4 @@ public class ServiceProviderMakerServiceImpl extends BaseServiceImpl<ServiceProv
         return R.data(page.setRecords(baseMapper.getServiceProviderMakers(serviceProviderId, keyword, page)));
     }
 
-    @Override
-    public Integer getMakerCount(List<Long> serviceProviderIds) {
-        QueryWrapper<ServiceProviderMakerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("is_deleted", 0).in("service_provider_id", serviceProviderIds);
-        Integer makerCount = baseMapper.selectCount(queryWrapper);
-        return makerCount;
-    }
 }

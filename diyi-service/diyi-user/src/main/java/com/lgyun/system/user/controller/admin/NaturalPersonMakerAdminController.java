@@ -30,12 +30,6 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * 平台端---自然人创客管理模块相关接口
- *
- * @author tzq
- * @date 2020-09-9
- */
 @RestController
 @RequestMapping("/admin/natural-person-maker")
 @Validated
@@ -73,9 +67,9 @@ public class NaturalPersonMakerAdminController {
         return makerService.makerAdd(makerAddDto, enterpriseId);
     }
 
-    @PostMapping("import-maker")
+    @PostMapping("import-maker-list")
     @ApiOperation(value = "导入创客", notes = "导入创客")
-    public R importUser(@ApiParam(value = "商户编号", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
+    public R importMakerList(@ApiParam(value = "商户编号", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
                         @ApiParam(value = "Excel文件", required = true) @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file, BladeUser bladeUser) throws IOException {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);

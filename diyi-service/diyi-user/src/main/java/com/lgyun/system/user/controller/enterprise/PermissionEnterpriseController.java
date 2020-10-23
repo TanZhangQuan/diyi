@@ -13,30 +13,26 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * 商户主子账号相关接口 控制器
- *
- * @author tzq
- * @since 2020/8/24 11:37
- */
 @RestController
-@RequestMapping("/enterprise/account")
+@RequestMapping("/enterprise/permission")
+@Validated
 @AllArgsConstructor
-@Api(value = "商户主子账号相关接口", tags = "商户主子账号相关接")
-public class EnterpriseAccountController {
+@Api(value = "商户端---权限管理模块相关接口", tags = "商户端---权限管理模块相关接口")
+public class PermissionEnterpriseController {
 
     private IEnterpriseWorkerService enterpriseWorkerService;
     private ISysClient sysClient;
 
-    @GetMapping("/list")
+    @GetMapping("/query-child-account-list")
     @ApiOperation(value = "查询商户所有主子账号详情", notes = "查询商户所有主子账号详情")
-    public R listDetail(BladeUser bladeUser) {
+    public R queryChildAccountList(BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -49,7 +45,7 @@ public class EnterpriseAccountController {
         List<EnterpriseWorkerEntity> list = enterpriseWorkerService.list(queryWrapper);
 
         List<EnterpriseWorkerVO> responseList = new ArrayList<>();
-        list.stream().forEach(entity -> {
+        list.forEach(entity -> {
             EnterpriseWorkerVO response = new EnterpriseWorkerVO();
             BeanUtils.copyProperties(entity, response);
             response.setWorkerSexDesc(entity.getWorkerSex().getDesc());
@@ -65,9 +61,9 @@ public class EnterpriseAccountController {
         return R.data(responseList);
     }
 
-    @GetMapping("/detail")
+    @GetMapping("/query-account-detail")
     @ApiOperation(value = "查询商户账号详情", notes = "查询商户账号详情")
-    public R oneDetail(@RequestParam("accountId") Long accountId, BladeUser bladeUser) {
+    public R queryAccountDetail(@RequestParam("accountId") Long accountId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -94,9 +90,9 @@ public class EnterpriseAccountController {
         return R.data(response);
     }
 
-    @PostMapping("/operate")
+    @PostMapping("/operate-child-account")
     @ApiOperation(value = "删除、停用 商户主子账号", notes = "删除、停用 商户主子账号")
-    public R operateEnterpriseWorker(@RequestBody OperateEnterpriseWorkerDTO request, BladeUser bladeUser) {
+    public R operateChildAccount(@RequestBody OperateEnterpriseWorkerDTO request, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -124,9 +120,9 @@ public class EnterpriseAccountController {
         return R.success("操作成功");
     }
 
-    @PostMapping("/save")
+    @PostMapping("/update-child-account")
     @ApiOperation(value = "新增、更新(编辑)商户主子账号", notes = "新增、更新(编辑)商户主子账号")
-    public R updateEnterpriseWorker(@RequestBody EnterpriseWorkerVO request, BladeUser bladeUser) {
+    public R updateChildAccount(@RequestBody EnterpriseWorkerVO request, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {

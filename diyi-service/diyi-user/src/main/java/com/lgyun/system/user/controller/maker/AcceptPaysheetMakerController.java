@@ -15,13 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * 创客端---交付支付验收单管理模块相关接口
- *
- * @author tzq
- * @date 2020/9/9.
- * @time 10:17.
- */
 @RestController
 @RequestMapping("/maker/accept-paysheet")
 @Validated

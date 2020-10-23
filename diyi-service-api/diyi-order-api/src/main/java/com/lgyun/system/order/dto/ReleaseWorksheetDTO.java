@@ -34,7 +34,7 @@ public class ReleaseWorksheetDTO implements Serializable {
     /**
      * 上限人数
      */
-    private Integer uppersonNum;
+    private Integer upPersonNum;
 
     /**
      * 工作天数

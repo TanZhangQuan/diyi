@@ -29,16 +29,17 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/admin/paying-agency")
 @Validated
 @AllArgsConstructor
-@Api(value = "平台端---支付机构管理", tags = "平台端---支付机构管理")
-public class PayingAgencyController {
+@Api(value = "平台端---支付机构管理模块相关接口", tags = "平台端---支付机构管理模块相关接口")
+public class PayingAgencyAdminController {
+
+    private IAdminService adminService;
     private IRelBureauService bureauService;
     private IRelBureauNoticeService bureauNoticeService;
-    private IAdminService adminService;
     private IRelBureauServiceProviderService bureauServiceProviderService;
 
     @PostMapping("/query-paying-agency")
     @ApiOperation(value = "查询支付机构", notes = "查询支付机构")
-    public R getPayingAgency(@RequestBody(required = false) QueryRelBureauListDTO queryRelBureauListDTO, Query query, BladeUser bladeUser) {
+    public R queryPayingAgency(@RequestBody(required = false) QueryRelBureauListDTO queryRelBureauListDTO, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

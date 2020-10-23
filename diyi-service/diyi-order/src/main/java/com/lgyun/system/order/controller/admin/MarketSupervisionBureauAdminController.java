@@ -23,10 +23,11 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/admin/market-supervision-bureau")
 @Validated
 @AllArgsConstructor
-@Api(value = "平台端---市场监督管理局管理", tags = "平台端---市场监督管理局管理")
-public class MarketSupervisionBureauController {
-    private IPayEnterpriseService payEnterpriseService;
+@Api(value = "平台端---市场监督管理局管理模块相关接口", tags = "平台端---市场监督管理局管理模块相关接口")
+public class MarketSupervisionBureauAdminController {
+
     private IUserClient userClient;
+    private IPayEnterpriseService payEnterpriseService;
 
     @PostMapping("/transaction-by-bureau-service-provider")
     @ApiOperation(value = "查询当前市场监督管理局所有匹配的服务商交易情况数据", notes = "查询当前市场监督管理局所有匹配的服务商交易情况数据")

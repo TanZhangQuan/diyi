@@ -20,34 +20,37 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.NotNull;
 
 @RestController
-@RequestMapping("/admin/industrial-parks-bureau")
+@RequestMapping("/admin/tax-bureau")
 @Validated
 @AllArgsConstructor
-@Api(value = "平台端---在线经济产业园区管理", tags = "平台端---在线经济产业园区管理")
-public class IndustrialParksController {
-    private IPayEnterpriseService payEnterpriseService;
+@Api(value = "平台端---税局管理模块相关接口", tags = "平台端---税局管理模块相关接口")
+public class TaxBureauAdminController {
+
     private IUserClient userClient;
+    private IPayEnterpriseService payEnterpriseService;
 
     @PostMapping("/transaction-by-bureau-service-provider")
-    @ApiOperation(value = "查询当前产业园区所有匹配的服务商交易情况数据", notes = "查询当前产业园区所有匹配的服务商交易情况数据")
-    public R transactionByBureauServiceProvider(@ApiParam("产业园区ID") @NotNull(message = "产业园区ID不能为空！") @RequestParam(required = false) Long bureauId, BladeUser bladeUser) {
+    @ApiOperation(value = "查询当前税局所有匹配的服务商交易情况数据", notes = "查询当前税局所有匹配的服务商交易情况数据")
+    public R transactionByBureauServiceProvider(@ApiParam("税局ID") @NotNull(message = "税局ID不能为空！") @RequestParam(required = false) Long bureauId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
+
         return payEnterpriseService.transactionByBureauServiceProvider(bureauId);
     }
 
 
     @PostMapping("/transaction-by-bureau-service-provider-info")
-    @ApiOperation(value = "查询产业园区匹配的服务商基本信息及交易金额", notes = "查询产业园区匹配的服务商基本信息及交易金额")
-    public R transactionByBureauServiceProviderInfo(@ApiParam("产业园区ID") @NotNull(message = "产业园区ID不能为空！") @RequestParam(required = false) Long bureauId, Query query, BladeUser bladeUser) {
+    @ApiOperation(value = "税局查询匹配的服务商基本信息及交易金额", notes = "税局查询匹配的服务商基本信息及交易金额")
+    public R transactionByBureauServiceProviderInfo(@ApiParam("税局ID") @NotNull(message = "税局ID不能为空！") @RequestParam(required = false) Long bureauId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
+
         return payEnterpriseService.transactionByBureauServiceProviderInfo(bureauId, Condition.getPage(query.setDescs("create_time")));
     }
 }

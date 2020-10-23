@@ -62,11 +62,11 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         if (!WorkSheetMode.GRABBING.equals(releaseWorksheetDTO.getWorksheetMode()) && StringUtil.isBlank(releaseWorksheetDTO.getMakerIds())) {
             return R.fail("创客的ids不能为空");
         }
-        if (releaseWorksheetDTO.getWorksheetMode().equals("DISPATCH") && releaseWorksheetDTO.getUppersonNum() != 0 && releaseWorksheetDTO.getMakerIds().split(",").length != releaseWorksheetDTO.getUppersonNum()) {
-            return R.fail("工单创建失败，上限人数为" + releaseWorksheetDTO.getUppersonNum() + ",创客数为" + releaseWorksheetDTO.getMakerIds().split(",").length);
+        if (releaseWorksheetDTO.getWorksheetMode().equals("DISPATCH") && releaseWorksheetDTO.getUpPersonNum() != 0 && releaseWorksheetDTO.getMakerIds().split(",").length != releaseWorksheetDTO.getUpPersonNum()) {
+            return R.fail("工单创建失败，上限人数为" + releaseWorksheetDTO.getUpPersonNum() + ",创客数为" + releaseWorksheetDTO.getMakerIds().split(",").length);
         }
-        if (releaseWorksheetDTO.getWorksheetMode().equals("BLEND") && releaseWorksheetDTO.getUppersonNum() != 0 && releaseWorksheetDTO.getMakerIds().split(",").length < releaseWorksheetDTO.getUppersonNum()) {
-            return R.fail("工单创建失败，上限人数为" + releaseWorksheetDTO.getUppersonNum() + ",创客数为" + releaseWorksheetDTO.getMakerIds().split(",").length);
+        if (releaseWorksheetDTO.getWorksheetMode().equals("BLEND") && releaseWorksheetDTO.getUpPersonNum() != 0 && releaseWorksheetDTO.getMakerIds().split(",").length < releaseWorksheetDTO.getUpPersonNum()) {
+            return R.fail("工单创建失败，上限人数为" + releaseWorksheetDTO.getUpPersonNum() + ",创客数为" + releaseWorksheetDTO.getMakerIds().split(",").length);
         }
         String makerIds = releaseWorksheetDTO.getMakerIds();
         String[] split = makerIds.split(",");
@@ -78,8 +78,8 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             return R.fail("有存在相同的指定创客！！");
         }
         BeanUtil.copy(releaseWorksheetDTO, worksheetEntity);
-        if (null == releaseWorksheetDTO.getUppersonNum()) {
-            worksheetEntity.setUppersonNum(0);
+        if (null == releaseWorksheetDTO.getUpPersonNum()) {
+            worksheetEntity.setUpPersonNum(0);
         }
         if (null == releaseWorksheetDTO.getWorkDays()) {
             worksheetEntity.setWorkDays(0);
@@ -314,7 +314,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         if (!(makerEntity.getCertificationState().equals("已认证") && makerEntity.getEmpowerSignState().equals("SIGNED") && makerEntity.getJoinSignState().equals("SIGNED"))) {
             return R.fail("请先完成认证，在抢单");
         }
-        if (worksheetCount == worksheetEntity.getUppersonNum() && worksheetEntity.getUppersonNum() != 0) {
+        if (worksheetCount == worksheetEntity.getUpPersonNum() && worksheetEntity.getUpPersonNum() != 0) {
             if (worksheetEntity.getWorksheetState().equals(WorksheetState.PUBLISHING)) {
                 worksheetEntity.setWorksheetState(WorksheetState.CLOSED);
                 worksheetEntity.setCloseDesc("2");

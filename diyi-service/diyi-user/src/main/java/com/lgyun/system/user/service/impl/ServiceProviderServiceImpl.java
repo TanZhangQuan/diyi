@@ -7,8 +7,6 @@ import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.core.mp.support.Condition;
-import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.ServiceProviderBankCardDTO;
 import com.lgyun.system.user.dto.ServiceProviderContactPersonDTO;
 import com.lgyun.system.user.dto.ServiceProviderInvoiceDTO;
@@ -19,7 +17,6 @@ import com.lgyun.system.user.dto.serviceProvider.AddOrUpdateServiceProviderConta
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.ServiceProviderMapper;
 import com.lgyun.system.user.service.*;
-import com.lgyun.system.user.vo.EnterprisesVO;
 import com.lgyun.system.user.vo.ServiceProviderBankCardVO;
 import com.lgyun.system.user.vo.ServiceProviderContactPersonVO;
 import com.lgyun.system.user.vo.ServiceProviderInvoiceVO;
@@ -44,7 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderMapper, ServiceProviderEntity> implements IServiceProviderService {
 
-    private final IEnterpriseServiceProviderService enterpriseProviderService;
+    private final IEnterpriseServiceProviderService enterpriseServiceProviderService;
     private final IUserService userService;
 
     @Autowired
@@ -69,11 +66,6 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         queryWrapper.lambda().eq(ServiceProviderEntity::getSocialCreditNo, socialCreditNo)
                 .ne(serviceProviderId != null, ServiceProviderEntity::getId, serviceProviderId);
         return baseMapper.selectCount(queryWrapper);
-    }
-
-    @Override
-    public R<IPage<EnterprisesVO>> getEnterpriseByServiceProvider(Query query, Long serviceProviderId, String keyword) {
-        return enterpriseProviderService.getEnterpriseByServiceProvider(Condition.getPage(query.setDescs("create_time")), serviceProviderId, keyword);
     }
 
     @Override

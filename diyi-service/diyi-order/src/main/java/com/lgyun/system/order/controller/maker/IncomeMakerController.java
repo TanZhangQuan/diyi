@@ -22,13 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
 
-/**
- * 创客端---收入管理模块相关接口
- *
- * @author tzq
- * @date 2020/9/9.
- * @time 10:17.
- */
 @RestController
 @RequestMapping("/maker/income")
 @Validated
@@ -36,7 +29,7 @@ import javax.validation.constraints.NotNull;
 @Api(value = "创客端---收入管理模块相关接口", tags = "创客端---收入管理模块相关接口")
 public class IncomeMakerController {
 
-    private IUserClient iUserClient;
+    private IUserClient userClient;
     private IPayMakerService payMakerService;
     private ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
 
@@ -46,7 +39,7 @@ public class IncomeMakerController {
                                           @ApiParam(value = "年份", required = true) @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
                                           @ApiParam(value = "月份") @RequestParam(required = false) Long month, BladeUser bladeUser) {
         //查询当前创客
-        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -61,7 +54,7 @@ public class IncomeMakerController {
                                        @ApiParam(value = "年份", required = true) @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
                                        @ApiParam(value = "月份") @RequestParam(required = false) Long month, BladeUser bladeUser) {
         //查询当前创客
-        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -74,7 +67,7 @@ public class IncomeMakerController {
     @ApiOperation(value = "根据创客类型查询当前创客总包+分包的每年收入", notes = "根据创客类型查询当前创客总包+分包的每年收入")
     public R queryEveryYearTotalSubIncome(@ApiParam(value = "创客类型", required = true) @NotNull(message = "请选择创客类型") @RequestParam(required = false) MakerType makerType, BladeUser bladeUser) {
         //查询当前创客
-        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -87,7 +80,7 @@ public class IncomeMakerController {
     @ApiOperation(value = "根据开票人身份类别查询当前创客众包的每年收入", notes = "根据开票人身份类别查询当前创客众包的每年收入")
     public R queryEveryYearCrowdIncome(@ApiParam(value = "开票人身份类别", required = true) @NotNull(message = "请选择开票人身份类别") @RequestParam(required = false) InvoicePeopleType invoicePeopleType, BladeUser bladeUser) {
         //查询当前创客
-        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -101,7 +94,7 @@ public class IncomeMakerController {
     public R queryEveryMonthTotalSubIncome(@ApiParam(value = "创客类型", required = true) @NotNull(message = "请选择创客类型") @RequestParam(required = false) MakerType makerType,
                                            @ApiParam(value = "年份", required = true) @NotNull(message = "请选择年份") @RequestParam(required = false) Long year, BladeUser bladeUser) {
         //查询当前创客
-        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -115,7 +108,7 @@ public class IncomeMakerController {
     public R queryEveryMonthCrowdIncome(@ApiParam(value = "开票人身份类别", required = true) @NotNull(message = "请选择开票人身份类别") @RequestParam(required = false) InvoicePeopleType invoicePeopleType,
                                         @ApiParam(value = "年份", required = true) @NotNull(message = "请选择年份") @RequestParam(required = false) Long year, BladeUser bladeUser) {
         //查询当前创客
-        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -127,10 +120,10 @@ public class IncomeMakerController {
     @GetMapping("/query-maker-to-enterprise-total-sub-income")
     @ApiOperation(value = "根据创客类型，年份，月份（可选）查询创客对应商户总包+分包的收入金额", notes = "根据创客类型，年份，月份（可选）查询创客对应商户总包+分包的收入金额")
     public R queryMakerToEnterpriseTotalSubIncome(@ApiParam(value = "创客类型", required = true) @NotNull(message = "请选择创客类型") @RequestParam(required = false) MakerType makerType,
-                                             @ApiParam(value = "年份", required = true) @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
-                                             @ApiParam(value = "月份") @RequestParam(required = false) Long month, Query query, BladeUser bladeUser) {
+                                                  @ApiParam(value = "年份", required = true) @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
+                                                  @ApiParam(value = "月份") @RequestParam(required = false) Long month, Query query, BladeUser bladeUser) {
         //查询当前创客
-        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -142,10 +135,10 @@ public class IncomeMakerController {
     @GetMapping("/query-maker-to-enterprise-crowd-income")
     @ApiOperation(value = "根据开票人身份类别，年份，月份（可选）查询创客对应商户众包的收入金额", notes = "根据开票人身份类别，年份，月份（可选）查询创客对应商户众包的收入金额")
     public R queryMakerToEnterpriseCrowdIncome(@ApiParam(value = "开票人身份类别", required = true) @NotNull(message = "请选择开票人身份类别") @RequestParam(required = false) InvoicePeopleType invoicePeopleType,
-                                             @ApiParam(value = "年份", required = true) @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
-                                             @ApiParam(value = "月份") @RequestParam(required = false) Long month, Query query, BladeUser bladeUser) {
+                                               @ApiParam(value = "年份", required = true) @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
+                                               @ApiParam(value = "月份") @RequestParam(required = false) Long month, Query query, BladeUser bladeUser) {
         //查询当前创客
-        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -157,11 +150,11 @@ public class IncomeMakerController {
     @GetMapping("/query-total-sub-income-detail")
     @ApiOperation(value = "根据创客类型，年份，月份，商户编号（可选）查询总包+分包收入明细", notes = "根据创客类型，年份，月份，商户编号（可选）查询总包+分包收入明细")
     public R queryTotalSubIncomeDetail(@ApiParam(value = "创客类型", required = true) @NotNull(message = "请选择创客类型") @RequestParam(required = false) MakerType makerType,
-                               @ApiParam(value = "年份", required = true) @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
-                               @ApiParam(value = "月份", required = true) @NotNull(message = "请选择月份") @RequestParam(required = false) Long month,
-                               @ApiParam(value = "商户编号") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
+                                       @ApiParam(value = "年份", required = true) @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
+                                       @ApiParam(value = "月份", required = true) @NotNull(message = "请选择月份") @RequestParam(required = false) Long month,
+                                       @ApiParam(value = "商户编号") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
         //查询当前创客
-        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -173,11 +166,11 @@ public class IncomeMakerController {
     @GetMapping("/query-crowd-income-detail")
     @ApiOperation(value = "根据开票人身份类别，年份，月份，商户编号（可选）查询众包收入明细", notes = "根据开票人身份类别，年份，月份，商户编号（可选）查询众包收入明细")
     public R queryCrowdIncomeDetail(@ApiParam(value = "开票人身份类别", required = true) @NotNull(message = "请选择开票人身份类别") @RequestParam(required = false) InvoicePeopleType invoicePeopleType,
-                               @ApiParam(value = "年份", required = true) @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
-                               @ApiParam(value = "月份", required = true) @NotNull(message = "请选择月份") @RequestParam(required = false) Long month,
-                               @ApiParam(value = "商户编号") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
+                                    @ApiParam(value = "年份", required = true) @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
+                                    @ApiParam(value = "月份", required = true) @NotNull(message = "请选择月份") @RequestParam(required = false) Long month,
+                                    @ApiParam(value = "商户编号") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
         //查询当前创客
-        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -189,11 +182,11 @@ public class IncomeMakerController {
     @GetMapping("/query-total-sub-detail-all-income")
     @ApiOperation(value = "根据创客类型，年份，月份，商户编号（可选）查询总包+分包明细的总收入", notes = "根据创客类型，年份，月份，商户编号（可选）查询总包+分包明细的总收入")
     public R queryTotalSubDetailAllIncome(@ApiParam(value = "创客类型", required = true) @NotNull(message = "请选择创客类型") @RequestParam(required = false) MakerType makerType,
-                                  @ApiParam(value = "年份", required = true) @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
-                                  @ApiParam(value = "月份", required = true) @NotNull(message = "请选择月份") @RequestParam(required = false) Long month,
-                                  @ApiParam(value = "商户编号") @RequestParam(required = false) Long enterpriseId, BladeUser bladeUser) {
+                                          @ApiParam(value = "年份", required = true) @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
+                                          @ApiParam(value = "月份", required = true) @NotNull(message = "请选择月份") @RequestParam(required = false) Long month,
+                                          @ApiParam(value = "商户编号") @RequestParam(required = false) Long enterpriseId, BladeUser bladeUser) {
         //查询当前创客
-        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -205,11 +198,11 @@ public class IncomeMakerController {
     @GetMapping("/query-crowd-detail-all-income")
     @ApiOperation(value = "根据开票人身份类别，年份，月份，商户编号（可选）查询众包明细的总收入", notes = "根据开票人身份类别，年份，月份，商户编号（可选）查询众包明细的总收入")
     public R queryCrowdDetailAllIncome(@ApiParam(value = "开票人身份类别", required = true) @NotNull(message = "请选择开票人身份类别") @RequestParam(required = false) InvoicePeopleType invoicePeopleType,
-                                  @ApiParam(value = "年份", required = true) @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
-                                  @ApiParam(value = "月份", required = true) @NotNull(message = "请选择月份") @RequestParam(required = false) Long month,
-                                  @ApiParam(value = "商户编号") @RequestParam(required = false) Long enterpriseId, BladeUser bladeUser) {
+                                       @ApiParam(value = "年份", required = true) @NotNull(message = "请选择年份") @RequestParam(required = false) Long year,
+                                       @ApiParam(value = "月份", required = true) @NotNull(message = "请选择月份") @RequestParam(required = false) Long month,
+                                       @ApiParam(value = "商户编号") @RequestParam(required = false) Long enterpriseId, BladeUser bladeUser) {
         //查询当前创客
-        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }

@@ -8,6 +8,7 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDTO;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDTO;
 import com.lgyun.system.user.entity.AdminEntity;
+import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.service.IAdminService;
 import com.lgyun.system.user.service.IEnterpriseReportService;
 import com.lgyun.system.user.service.IIndividualEnterpriseService;
@@ -19,12 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-/**
- * 平台端---个独管理模块相关接口
- *
- * @author tzq
- * @date 2020-09-9
- */
 @RestController
 @RequestMapping("/admin/individual-enterprise")
 @Validated
@@ -63,7 +58,7 @@ public class IndividualEnterpriseAdminController {
             return result;
         }
 
-        return enterpriseReportService.findByBodyTypeAndBodyId(query, BodyType.INDIVIDUALENTERPRISE, individualEnterpriseId);
+        return enterpriseReportService.findByBodyTypeAndBodyId(BodyType.INDIVIDUALENTERPRISE, individualEnterpriseId, query);
     }
 
     @PostMapping("/create-individual-enterprise")
@@ -76,6 +71,12 @@ public class IndividualEnterpriseAdminController {
         }
 
         return individualEnterpriseService.createIndividualEnterprise(individualBusinessEnterpriseWebAddDto, null);
+    }
+
+    @PostMapping("/update-individual-enterprise")
+    @ApiOperation(value = "修改个独信息", notes = "修改个独信息")
+    public R updateIndividualEnterprise(@Valid @RequestBody IndividualEnterpriseEntity individualEnterprise) {
+        return R.status(individualEnterpriseService.updateById(individualEnterprise));
     }
 
 }

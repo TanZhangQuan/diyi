@@ -21,12 +21,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-/**
- * 平台端---服务商管理模块相关接口
- *
- * @author tzq
- * @date 2020-09-9
- */
 @RestController
 @RequestMapping("/admin/service-provider")
 @Validated
@@ -64,7 +58,7 @@ public class ServiceProviderAdminController {
 
     @PostMapping("/remove-address")
     @ApiOperation(value = "删除收货地址", notes = "删除收货地址")
-    public R removeAddress(@ApiParam(value = "收货地址ID集合", required = true) @NotBlank(message = "请选择要删除的收货地址") @RequestParam(required = false) String ids, BladeUser bladeUser) {
+    public R removeAddress(@ApiParam(value = "收货地址集合", required = true) @NotBlank(message = "请选择要删除的收货地址") @RequestParam(required = false) String ids, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

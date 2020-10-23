@@ -116,12 +116,14 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     public AgreementWebVO findByEnterpriseAndType(Long enterpriseId, AgreementType agreementType,SignType signType) {
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(AgreementEntity::getEnterpriseId, enterpriseId)
-                .eq(AgreementEntity::getAgreementType, agreementType)
-                .eq(AgreementEntity::getSignType, signType);
+                .eq(AgreementEntity::getAgreementType, agreementType);
         AgreementEntity agreementEntity = baseMapper.selectOne(queryWrapper);
         EnterpriseEntity byId = enterpriseService.getById(enterpriseId);
-        AgreementWebVO agreementWebVO = BeanUtil.copy(agreementEntity, AgreementWebVO.class);
-        agreementWebVO.setEnterpriseName(byId.getEnterpriseName());
+        AgreementWebVO agreementWebVO = null;
+        if(null != byId && null != agreementEntity){
+            agreementWebVO = BeanUtil.copy(agreementEntity, AgreementWebVO.class);
+            agreementWebVO.setEnterpriseName(byId.getEnterpriseName());
+        }
         return agreementWebVO;
     }
 
@@ -491,6 +493,11 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
+    public R queryServiceAgreementState(IPage<AgreementServiceStateAdminVO> page) {
+        return R.data(page.setRecords(baseMapper.queryServiceAgreementState(page)));
+    }
+
+    @Override
     public R queryServiceIdEnterSupplement(Long serviceProviderId, IPage<AgreementServiceVO> page) {
         return R.data(page.setRecords(baseMapper.queryEnterIdServiceSupplement(null,serviceProviderId, page)));
     }
@@ -499,7 +506,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     public R saveAdminAgreementId(Long agreementId, String agreementUrl) {
         AgreementEntity agreementEntity = getById(agreementId);
         if(null == agreementEntity){
-            return R.fail("合同Id有误");
+            return R.fail("合同不存在");
         }
         agreementEntity.setPaperAgreementUrl(agreementUrl);
         saveOrUpdate(agreementEntity);
