@@ -25,6 +25,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Api(value = "平台端---税局管理模块相关接口", tags = "平台端---税局管理模块相关接口")
 public class TaxBureauAdminController {
+
     private IPayEnterpriseService payEnterpriseService;
     private IUserClient userClient;
 
@@ -36,6 +37,7 @@ public class TaxBureauAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
+
         return payEnterpriseService.transactionByBureauServiceProvider(bureauId);
     }
 
@@ -48,6 +50,7 @@ public class TaxBureauAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        return payEnterpriseService.transactionByBureauServiceProviderInfo(bureauId,Condition.getPage(query.setDescs("create_time")));
+
+        return payEnterpriseService.transactionByBureauServiceProviderInfo(bureauId, Condition.getPage(query.setDescs("create_time")));
     }
 }

@@ -25,6 +25,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Api(value = "平台端---市场监督管理局管理", tags = "平台端---市场监督管理局管理")
 public class MarketSupervisionBureauAdminController {
+
     private IPayEnterpriseService payEnterpriseService;
     private IUserClient userClient;
 

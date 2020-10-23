@@ -34,7 +34,7 @@ public class InvoiceTaxAdminController {
     @GetMapping("/query-total-invoice-list")
     @ApiOperation(value = "查询总包发票", notes = "查询总包发票")
     public R queryTotalInvoiceList(@RequestParam(required = false) String enterpriseName, @RequestParam(required = false) String startTime,
-                                    @RequestParam(required = false) String endTime, @RequestParam InvoiceState companyInvoiceState, Query query, BladeUser bladeUser) {
+                                   @RequestParam(required = false) String endTime, @RequestParam InvoiceState companyInvoiceState, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -58,8 +58,9 @@ public class InvoiceTaxAdminController {
 
     @PostMapping("/create-total-invoice")
     @ApiOperation(value = "总包开票", notes = "总包开票")
-    public R createTotalInvoice(Long payEnterpriseId, Long applicationId, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName,
-                                     String invoiceDesc, BladeUser bladeUser) {
+    public R createTotalInvoice(Long payEnterpriseId, Long applicationId, String companyInvoiceUrl,
+                                String expressSheetNo, String expressCompanyName,
+                                String invoiceDesc, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -72,7 +73,7 @@ public class InvoiceTaxAdminController {
     @GetMapping("/query-unopen-sub-invoice-list")
     @ApiOperation(value = "查询未开票分包发票", notes = "查询未开票分包发票")
     public R queryUnopenSubInvoiceList(@RequestParam(required = false) String enterpriseName, @RequestParam(required = false) String startTime,
-                                   @RequestParam(required = false) String endTime, Query query, BladeUser bladeUser) {
+                                       @RequestParam(required = false) String endTime, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -110,12 +111,12 @@ public class InvoiceTaxAdminController {
     @PostMapping("/create-all-open-invoice")
     @ApiOperation(value = "汇总代开开票", notes = "汇总代开开票")
     public R createAllOpenInvoice(@ApiParam(value = "商户支付清单") @NotNull(message = "请选择商户支付清单") @RequestParam(required = false) Long payEnterpriseId,
-                                @ApiParam(value = "发票代码") @NotBlank(message = "请输入发票代码") String invoiceTypeNo,
-                                @ApiParam(value = "发票号码") @NotBlank(message = "请输入发票号码") String invoiceSerialNo,
-                                @ApiParam(value = "货物或应税劳务、服务名称") @NotBlank(message = "请输入货物或应税劳务、服务名称") String invoiceCategory,
-                                @ApiParam(value = "汇总代开发票URL") @NotBlank(message = "请上传汇总代开发票") String companyInvoiceUrl,
-                                @ApiParam(value = "总完税证明URL") @NotBlank(message = "请上传总完税证明") String makerTaxUrl,
-                                @ApiParam(value = "清单式完税凭证URL") @NotBlank(message = "请上传清单式完税凭证") String makerTaxListUrl, BladeUser bladeUser) {
+                                  @ApiParam(value = "发票代码") @NotBlank(message = "请输入发票代码") String invoiceTypeNo,
+                                  @ApiParam(value = "发票号码") @NotBlank(message = "请输入发票号码") String invoiceSerialNo,
+                                  @ApiParam(value = "货物或应税劳务、服务名称") @NotBlank(message = "请输入货物或应税劳务、服务名称") String invoiceCategory,
+                                  @ApiParam(value = "汇总代开发票URL") @NotBlank(message = "请上传汇总代开发票") String companyInvoiceUrl,
+                                  @ApiParam(value = "总完税证明URL") @NotBlank(message = "请上传总完税证明") String makerTaxUrl,
+                                  @ApiParam(value = "清单式完税凭证URL") @NotBlank(message = "请上传清单式完税凭证") String makerTaxListUrl, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -140,7 +141,7 @@ public class InvoiceTaxAdminController {
     @PostMapping("/create-single-open-invoice")
     @ApiOperation(value = "门征单开发票开票", notes = "门征单开发票开票")
     public R createSingleOpenInvoice(@ApiParam(value = "商户支付清单", required = true) @NotNull(message = "请选择商户支付清单") @RequestParam(required = false) Long payEnterpriseId,
-                                   @ApiParam(value = "创客支付明细", required = true) @NotBlank(message = "请输入创客支付明细") @RequestParam(required = false) String payMakers, BladeUser bladeUser) {
+                                     @ApiParam(value = "创客支付明细", required = true) @NotBlank(message = "请输入创客支付明细") @RequestParam(required = false) String payMakers, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -153,7 +154,7 @@ public class InvoiceTaxAdminController {
     @GetMapping("/query-all-open-invoice-list")
     @ApiOperation(value = "查询已汇总代开的发票", notes = "查询已汇总代开的发票")
     public R queryAllOpenInvoiceList(@RequestParam(required = false) String enterpriseName, @RequestParam(required = false) String startTime,
-                               @RequestParam(required = false) String endTime, Query query, BladeUser bladeUser) {
+                                     @RequestParam(required = false) String endTime, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -178,7 +179,7 @@ public class InvoiceTaxAdminController {
     @GetMapping("/query-single-open-invoice-list")
     @ApiOperation(value = "查询已门征单开的发票", notes = "查询已门征单开的发票")
     public R querySingleOpenInvoiceList(@RequestParam(required = false) String enterpriseName, @RequestParam(required = false) String startTime,
-                                  @RequestParam(required = false) String endTime, Query query, BladeUser bladeUser) {
+                                        @RequestParam(required = false) String endTime, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -205,7 +206,7 @@ public class InvoiceTaxAdminController {
     @GetMapping("/query-crowd-invoice-list")
     @ApiOperation(value = "查询众包发票", notes = "查询众包发票")
     public R queryCrowdInvoiceList(@RequestParam(required = false) String enterpriseName, @RequestParam(required = false) String startTime, @RequestParam(required = false) String endTime,
-                                 SelfHelpInvoiceSpApplyState selfHelpInvoiceSpApplyState, Query query, BladeUser bladeUser) {
+                                   SelfHelpInvoiceSpApplyState selfHelpInvoiceSpApplyState, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
