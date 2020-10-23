@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "平台端---合伙人管理模块相关接口", tags = "平台端---合伙人管理模块相关接口")
 public class PartnerAdminController {
 
-    private IPayEnterpriseService payEnterpriseService;
     private IUserClient userClient;
+    private IPayEnterpriseService payEnterpriseService;
 
     @GetMapping("/all-transaction")
     @ApiOperation(value = "查询合伙人交易数据", notes = "查询合伙人交易数据")

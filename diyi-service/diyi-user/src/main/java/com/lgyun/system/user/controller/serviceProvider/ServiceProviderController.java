@@ -23,8 +23,8 @@ import javax.validation.Valid;
 @Api(value = "服务商相关接口", tags = "服务商相关接口")
 public class ServiceProviderController {
 
-    private IServiceProviderService serviceProviderService;
     private IServiceProviderWorkerService serviceProviderWorkerService;
+    private IServiceProviderService serviceProviderService;
 
     @GetMapping("/query-bank-card")
     @ApiOperation(value = "查询当前服务商银行卡信息", notes = "查询当前服务商银行卡信息")

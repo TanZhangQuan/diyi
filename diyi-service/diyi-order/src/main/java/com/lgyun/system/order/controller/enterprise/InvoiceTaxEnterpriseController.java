@@ -25,13 +25,13 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/enterprise/invoice-tax")
 @Validated
 @AllArgsConstructor
-@Api(value = "商户端---商户发票和完税证明接口", tags = "商户端---商户发票和完税证明接口")
+@Api(value = "商户端---发票/完税证明管理模块相关接口", tags = "商户端---发票/完税证明管理模块相关接口")
 public class InvoiceTaxEnterpriseController {
 
+    private IUserClient userClient;
     private IPayEnterpriseService payEnterpriseService;
     private IEnterpriseServiceProviderInvoiceCatalogsService enterpriseProviderInvoiceCatalogsService;
     private IInvoiceApplicationService invoiceApplicationService;
-    private IUserClient iUserClient;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
 
     @GetMapping("/query-total-invoice-list")
@@ -41,7 +41,7 @@ public class InvoiceTaxEnterpriseController {
                                           Query query, BladeUser bladeUser) {
 
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -54,7 +54,7 @@ public class InvoiceTaxEnterpriseController {
     @ApiOperation(value = "取消申请", notes = "取消申请")
     public R cancelApply(Long applicationId, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -66,7 +66,7 @@ public class InvoiceTaxEnterpriseController {
     @ApiOperation(value = "查看总包发票详情", notes = "查看总包发票详情")
     public R queryTotalInvoiceDetail(Long payEnterpriseId, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -77,7 +77,7 @@ public class InvoiceTaxEnterpriseController {
     @ApiOperation(value = "根据商户查询支付清单", notes = "根据商户查询支付清单")
     public R queryPayEnterpriseList(@RequestParam(required = false) String serviceProviderName, Query query, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -90,7 +90,7 @@ public class InvoiceTaxEnterpriseController {
     @ApiOperation(value = "查询开票类目", notes = "查询开票类目")
     public R queryInvoiceCatalogsList(@ApiParam(value = "服务商") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId, Query query, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -103,7 +103,7 @@ public class InvoiceTaxEnterpriseController {
     @ApiOperation(value = "申请总包发票", notes = "申请总包发票")
     public R applyTotalInvoice(@Valid @RequestBody ContractApplyInvoiceDTO contractApplyInvoiceDto, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -116,7 +116,7 @@ public class InvoiceTaxEnterpriseController {
     @ApiOperation(value = "根据商户查询汇总代开分包列表", notes = "根据商户查询汇总代开分包列表")
     public R queryAllOpenSubList(@RequestParam(required = false) String serviceProviderName, Query query, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -129,7 +129,7 @@ public class InvoiceTaxEnterpriseController {
     @ApiOperation(value = "根据商户查询汇总代开分包详情", notes = "根据商户查询汇总代开分包详情")
     public R queryAllOpenSubDetail(Long makerTotalInvoiceId, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -141,7 +141,7 @@ public class InvoiceTaxEnterpriseController {
     @ApiOperation(value = "根据商户查询门征单开分包列表", notes = "根据商户查询门征单开分包列表")
     public R querySingleOpenSubList(@RequestParam(required = false) String serviceProviderName, Query query, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -154,7 +154,7 @@ public class InvoiceTaxEnterpriseController {
     @ApiOperation(value = "根据商户查询门征单开分包详情", notes = "根据商户查询门征单开分包详情")
     public R querySingleOpenSubDetail(Long makerInvoiceId, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -166,7 +166,7 @@ public class InvoiceTaxEnterpriseController {
     @ApiOperation(value = "根据商户查询众包/众采", notes = "根据商户查询众包/众采")
     public R queryCrowdList(@RequestParam(required = false) String serviceProviderName, Query query, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -179,7 +179,7 @@ public class InvoiceTaxEnterpriseController {
     @ApiOperation(value = "查询众包/众采详情", notes = "查询众包/众采详情")
     public R queryCrowdDetail(Long selfHelpInvoiceId, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }

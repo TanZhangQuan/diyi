@@ -25,8 +25,9 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Api(value = "平台端---渠道管理模块相关接口", tags = "平台端---渠道管理模块相关接口")
 public class AgentMainAdminController {
-    private IPayEnterpriseService payEnterpriseService;
+
     private IUserClient userClient;
+    private IPayEnterpriseService payEnterpriseService;
 
     @GetMapping("/query-agent-main-transaction")
     @ApiOperation(value = "查询渠道商交易数据", notes = "查询渠道商交易数据")

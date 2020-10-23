@@ -28,15 +28,15 @@ import java.math.BigDecimal;
 @Api(value = "商户端---工单管理模块相关接口", tags = "商户端---工单管理模块相关接口")
 public class WorksheetEnterpriseController {
 
+    private IUserClient userClient;
     private IWorksheetService worksheetService;
     private IWorksheetMakerService worksheetMakerService;
-    private IUserClient iUserClient;
 
     @PostMapping("/create-worksheet")
     @ApiOperation(value = "发布工单", notes = "发布工单")
     public R createWorksheet(@Valid @RequestBody ReleaseWorksheetDTO releaseWorksheetDTO, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -52,7 +52,7 @@ public class WorksheetEnterpriseController {
                                 @RequestParam(required = false) String worksheetNo, @RequestParam(required = false) String worksheetName,
                                 @RequestParam(required = false) String startTime, @RequestParam(required = false) String endTime, Query query, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -64,7 +64,7 @@ public class WorksheetEnterpriseController {
     @ApiOperation(value = "删除工单", notes = "删除工单")
     public R deleteWorksheet(@NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -77,7 +77,7 @@ public class WorksheetEnterpriseController {
     @ApiOperation(value = "查询工单详情", notes = "查询工单详情")
     public R queryWorksheetDetail(@NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId, Query query, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -90,7 +90,7 @@ public class WorksheetEnterpriseController {
     public R kickOutMaker(@NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId,
                      @NotNull(message = "请输入创客") @RequestParam(required = false) Long makerId, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -103,7 +103,7 @@ public class WorksheetEnterpriseController {
     public R closeOrOpenWorksheet(@ApiParam(value = "工单", required = true) @NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId,
                          @ApiParam(value = "1代表关闭，2开启", required = true) @NotNull(message = "请输入1代表关闭，2开启") @RequestParam(required = false) Integer variable, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -116,7 +116,7 @@ public class WorksheetEnterpriseController {
     public R checkAchievement(@NotNull(message = "请输入id") @RequestParam(required = false) Long worksheetMakerId, @NotNull(message = "请输入验证金额") @RequestParam(required = false) BigDecimal checkMoney,
                               @NotNull(message = "请输入验收的结果") @RequestParam(required = false) Boolean bool, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -129,7 +129,7 @@ public class WorksheetEnterpriseController {
     public R closeOrOpenWorksheetList(@NotNull(message = "请选择工单") @RequestParam(required = false) String worksheetIds,
                             @ApiParam(value = "1代表关闭，2开启", required = true) @NotNull(message = "请输入1代表关闭，2开启") @RequestParam(required = false) Integer variable, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -141,7 +141,7 @@ public class WorksheetEnterpriseController {
     @ApiOperation(value = "批量删除工单", notes = "批量删除工单")
     public R deleteWorksheetList(@NotNull(message = "请选择工单") @RequestParam(required = false) String worksheetIds, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -153,7 +153,7 @@ public class WorksheetEnterpriseController {
     @ApiOperation(value = "整体验收工单", notes = "整体验收工单")
     public R checkWholeWorksheet(@NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -165,7 +165,7 @@ public class WorksheetEnterpriseController {
     @ApiOperation(value = "根据创客查询工单", notes = "根据创客查询工单")
     public R queryWorksheetListByMakerId(@ApiParam(value = "创客ID") @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId, Query query, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }

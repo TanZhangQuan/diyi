@@ -26,8 +26,8 @@ import javax.validation.constraints.NotNull;
 @Api(value = "平台端---税局管理模块相关接口", tags = "平台端---税局管理模块相关接口")
 public class TaxBureauAdminController {
 
-    private IPayEnterpriseService payEnterpriseService;
     private IUserClient userClient;
+    private IPayEnterpriseService payEnterpriseService;
 
     @PostMapping("/transaction-by-bureau-service-provider")
     @ApiOperation(value = "查询当前税局所有匹配的服务商交易情况数据", notes = "查询当前税局所有匹配的服务商交易情况数据")

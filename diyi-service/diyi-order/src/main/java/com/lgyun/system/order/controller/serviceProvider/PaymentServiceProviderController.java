@@ -24,21 +24,14 @@ import javax.validation.constraints.NotNull;
 @Api(value = "服务商端---支付管理模块相关接口", tags = "服务商端---支付管理模块相关接口")
 public class PaymentServiceProviderController {
 
-    private IUserClient iUserClient;
+    private IUserClient userClient;
     private IPayEnterpriseService payEnterpriseService;
 
     @GetMapping("/query-pay-enterprise-list")
     @ApiOperation(value = "查询当前服务商所有总包支付清单", notes = "查询当前服务商所有总包支付清单")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "payEnterpriseId", value = "总包支付清单ID", paramType = "query", dataType = "long"),
-            @ApiImplicitParam(name = "enterpriseName", value = "商户名称", paramType = "query", dataType = "string"),
-            @ApiImplicitParam(name = "payEnterpriseAuditState", value = "审核状态", paramType = "query", dataType = "string"),
-            @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
-            @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
-    })
     public R queryPayEnterpriseList(PayEnterpriseDTO payEnterpriseDto, Query query, BladeUser bladeUser) {
         //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -53,13 +46,38 @@ public class PaymentServiceProviderController {
                                 @ApiParam(value = "支付清单审核状态", required = true) @NotNull(message = "请选择支付清单审核状态") @RequestParam(required = false) PayEnterpriseAuditState auditState,
                                 MakerInvoiceType makerInvoiceType, BladeUser bladeUser) {
         //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
         return payEnterpriseService.audit(payEnterpriseId, serviceProviderWorkerEntity.getServiceProviderId(), auditState, makerInvoiceType);
+    }
+
+    @GetMapping("/query-pay-maker-list")
+    @ApiOperation(value = "根据支付清单查询创客支付明细", notes = "根据支付清单查询创客支付明细")
+    public R queryPayMakerList(@ApiParam(value = "支付清单", required = true) @NotNull(message = "请选择支付清单") @RequestParam(required = false) Long payEnterpriseId, Query query, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return payEnterpriseService.getPayMakerListByPayEnterprise(payEnterpriseId, Condition.getPage(query.setDescs("create_time")));
+    }
+
+    @GetMapping("/query-pay-enterprise-list-by-enterprise-id")
+    @ApiOperation(value = "根据当前服务商，商户查询总包支付清单", notes = "根据当前服务商，商户查询总包支付清单")
+    public R queryPayEnterpriseListByEnterpriseId(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, PayEnterpriseDTO payEnterpriseDto, Query query, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+        return payEnterpriseService.getPayEnterprisesByEnterprisesServiceProvider(enterpriseId, serviceProviderWorkerEntity.getServiceProviderId(), payEnterpriseDto, Condition.getPage(query.setDescs("create_time")));
     }
 
 }

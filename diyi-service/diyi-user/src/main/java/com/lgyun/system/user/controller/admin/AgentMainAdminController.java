@@ -33,6 +33,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Api(value = "平台端---渠道管理模块相关接口", tags = "平台端---渠道管理模块相关接口")
 public class AgentMainAdminController {
+
     private IAdminService adminService;
     private IAgentMainService agentMainService;
 

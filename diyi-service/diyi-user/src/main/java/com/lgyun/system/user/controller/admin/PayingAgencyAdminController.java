@@ -31,9 +31,10 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Api(value = "平台端---支付机构管理", tags = "平台端---支付机构管理")
 public class PayingAgencyAdminController {
+
+    private IAdminService adminService;
     private IRelBureauService bureauService;
     private IRelBureauNoticeService bureauNoticeService;
-    private IAdminService adminService;
     private IRelBureauServiceProviderService bureauServiceProviderService;
 
     @PostMapping("/query-paying-agency")

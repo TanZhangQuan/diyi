@@ -25,8 +25,9 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Api(value = "平台端---在线经济产业园区管理模块相关接口", tags = "平台端---在线经济产业园区管理模块相关接口")
 public class IndustrialParksAdminController {
-    private IPayEnterpriseService payEnterpriseService;
+
     private IUserClient userClient;
+    private IPayEnterpriseService payEnterpriseService;
 
     @PostMapping("/transaction-by-bureau-service-provider")
     @ApiOperation(value = "查询当前产业园区所有匹配的服务商交易情况数据", notes = "查询当前产业园区所有匹配的服务商交易情况数据")

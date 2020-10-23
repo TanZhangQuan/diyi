@@ -26,7 +26,7 @@ import javax.validation.constraints.NotNull;
 public class IndividualEnterpriseMakerController {
 
     private IUserClient userClient;
-    private ISelfHelpInvoiceService iSelfHelpInvoiceService;
+    private ISelfHelpInvoiceService selfHelpInvoiceService;
 
     @GetMapping("/query-month-and-year-invoice-money")
     @ApiOperation(value = "查询个独月度开票金额和年度开票金额", notes = "查询个独月度开票金额和年度开票金额")
@@ -37,7 +37,7 @@ public class IndividualEnterpriseMakerController {
             return result;
         }
 
-        return iSelfHelpInvoiceService.yearMonthMoney(individualEnterpriseId, InvoicePeopleType.INDIVIDUALENTERPRISE);
+        return selfHelpInvoiceService.yearMonthMoney(individualEnterpriseId, InvoicePeopleType.INDIVIDUALENTERPRISE);
     }
 
 }

@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "商户端---合同管理模块相关接口", tags = "商户端---合同管理模块相关接口")
 public class AgreementEnterpriseController {
 
+    private IEnterpriseWorkerService enterpriseWorkerService;
     private IAgreementService agreementService;
     private IMakerEnterpriseService makerEnterpriseService;
-    private IEnterpriseWorkerService enterpriseWorkerService;
 
     @GetMapping("/query-enterprise-join-contract")
     @ApiOperation(value = "根据商户查询商户的加盟合同", notes = "根据商户查询商户的加盟合同")

@@ -29,11 +29,12 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/admin/market-supervision-bureau")
 @Validated
 @AllArgsConstructor
-@Api(value = "平台端---市场监督管理局管理", tags = "平台端---市场监督管理局管理")
+@Api(value = "平台端---市场监督管理局管理模块相关接口", tags = "平台端---市场监督管理局管理模块相关接口")
 public class MarketSupervisionBureauAdminController {
+
+    private IAdminService adminService;
     private IRelBureauService bureauService;
     private IRelBureauNoticeService bureauNoticeService;
-    private IAdminService adminService;
     private IRelBureauServiceProviderService bureauServiceProviderService;
 
     @PostMapping("/query-market-supervision-bureau-list")

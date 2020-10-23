@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "商户端---合同管理模块相关接口", tags = "商户端---合同管理模块相关接口")
 public class AgreementEnterpriseController {
 
-
     private IUserClient userClient;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
 

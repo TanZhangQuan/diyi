@@ -27,7 +27,7 @@ import javax.validation.constraints.NotNull;
 @Api(value = "商户端---交付支付验收单管理模块相关接口", tags = "商户端---交付支付验收单管理模块相关接口")
 public class AcceptPaysheetEnterpriseController {
 
-    private IUserClient iUserClient;
+    private IUserClient userClient;
     private IAcceptPaysheetService acceptPaysheetService;
     private IPayEnterpriseService payEnterpriseService;
 
@@ -35,7 +35,7 @@ public class AcceptPaysheetEnterpriseController {
     @ApiOperation(value = "查询当前商户所有总包交付支付验收单", notes = "查询当前商户所有总包交付支付验收单")
     public R queryAcceptPaysheetList(AcceptPayListDTO acceptPayListDto, Query query, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -48,7 +48,7 @@ public class AcceptPaysheetEnterpriseController {
     @ApiOperation(value = "上传总包交付支付验收单", notes = "上传总包交付支付验收单")
     public R uploadAcceptPaysheet(@Valid @RequestBody AcceptPaysheetSaveDTO acceptPaysheetSaveDto, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -61,7 +61,7 @@ public class AcceptPaysheetEnterpriseController {
     @ApiOperation(value = "查询当前商户所有总包支付清单", notes = "查询当前商户所有总包支付清单")
     public R queryPayEnterpriseList(PayEnterpriseDTO payEnterpriseDto, Query query, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -74,7 +74,7 @@ public class AcceptPaysheetEnterpriseController {
     @ApiOperation(value = "根据支付清单查询支付清单关联工单的创客", notes = "根据支付清单查询支付清单关联工单的创客")
     public R queryMakerListByPayEnterpriseId(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, Query query, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -86,7 +86,7 @@ public class AcceptPaysheetEnterpriseController {
     @ApiOperation(value = "删除总包交付支付验收单", notes = "删除总包交付支付验收单")
     public R removeAcceptPaysheet(@ApiParam(value = "主键集合", required = true) @RequestParam String ids, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -98,7 +98,7 @@ public class AcceptPaysheetEnterpriseController {
     @ApiOperation(value = "根据总包交付支付验收单查询关联创客", notes = "根据总包交付支付验收单查询关联创客")
     public R queryMakerListByAcceptPaysheetId(@ApiParam(value = "总包交付支付验收单") @NotNull(message = "请选择总包交付支付验收单") @RequestParam(required = false) Long acceptPaysheetId, Query query, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }

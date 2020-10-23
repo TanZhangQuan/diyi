@@ -31,9 +31,10 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Api(value = "平台端---在线经济产业园区管理", tags = "平台端---在线经济产业园区管理")
 public class IndustrialParksAdminController {
+
+    private IAdminService adminService;
     private IRelBureauService bureauService;
     private IRelBureauNoticeService bureauNoticeService;
-    private IAdminService adminService;
     private IRelBureauServiceProviderService bureauServiceProviderService;
 
     @PostMapping("/query-industrial-park-list")

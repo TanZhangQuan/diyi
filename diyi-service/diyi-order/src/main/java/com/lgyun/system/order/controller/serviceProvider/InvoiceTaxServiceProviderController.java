@@ -27,11 +27,11 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/service-provider/invoice-tax")
 @Validated
 @AllArgsConstructor
-@Api(value = "服务商端---发票和完税证明管理模块相关接口", tags = "服务商端---发票和完税证明管理模块相关接口")
+@Api(value = "服务商端---发票/完税证明管理模块相关接口", tags = "服务商端---发票/完税证明管理模块相关接口")
 public class InvoiceTaxServiceProviderController {
 
+    private IUserClient userClient;
     private IPayEnterpriseService payEnterpriseService;
-    private IUserClient iUserClient;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
 
     @GetMapping("/query-total-invoice")
@@ -39,7 +39,7 @@ public class InvoiceTaxServiceProviderController {
     public R queryTotalInvoice(@RequestParam(required = false) String enterpriseName, @RequestParam(required = false) String startTime,
                                @RequestParam(required = false) String endTime, @RequestParam InvoiceState companyInvoiceState, Query query, BladeUser bladeUser) {
         //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -52,7 +52,7 @@ public class InvoiceTaxServiceProviderController {
     @ApiOperation(value = "查询总包发票详情", notes = "查询总包发票详情")
     public R queryTotalInvoiceDetail(BladeUser bladeUser, Long payEnterpriseId) {
         //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -64,7 +64,7 @@ public class InvoiceTaxServiceProviderController {
     @ApiOperation(value = "总包开票", notes = "总包开票")
     public R createTotalInvoice(@Valid @RequestBody LumpSumInvoiceDTO lumpSumInvoiceDto, BladeUser bladeUser) {
         //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -78,7 +78,7 @@ public class InvoiceTaxServiceProviderController {
     public R queryUnopenSubInvoiceList(@RequestParam(required = false) String enterpriseName, @RequestParam(required = false) String startTime,
                                        @RequestParam(required = false) String endTime, Query query, BladeUser bladeUser) {
         //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -91,7 +91,7 @@ public class InvoiceTaxServiceProviderController {
     @ApiOperation(value = "查看未开票分包发票详情", notes = "查看未开票分包发票详情")
     public R queryUnopenSubInvoiceDetail(@ApiParam(value = "商户支付清单Id", required = true) @NotNull(message = "请输入商户支付清单Id") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
         //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -103,7 +103,7 @@ public class InvoiceTaxServiceProviderController {
     @ApiOperation(value = "申请汇总代开发票", notes = "申请汇总代开发票")
     public R applyAllOpenInvoice(@ApiParam(value = "商户支付清单Id", required = true) @NotNull(message = "请输入商户支付清单Id") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
         //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -115,7 +115,7 @@ public class InvoiceTaxServiceProviderController {
     @ApiOperation(value = "汇总代开开票", notes = "汇总代开开票")
     public R createAllOpenInvoice(@Valid @RequestBody SummaryInvoiceDTO summaryInvoiceDto, BladeUser bladeUser) {
         //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -128,7 +128,7 @@ public class InvoiceTaxServiceProviderController {
     @ApiOperation(value = "申请门征单开发票", notes = "申请门征单开发票")
     public R applySignOpenInvoice(@ApiParam(value = "商户支付清单Id", required = true) @NotNull(message = "请输入商户支付清单Id") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
         //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -140,7 +140,7 @@ public class InvoiceTaxServiceProviderController {
     @ApiOperation(value = "门征单开发票开票", notes = "门征单开发票开票")
     public R createSingleOpenInvoice(@Valid @RequestBody ReleaseWorksheetDTO releaseWorksheetDto, BladeUser bladeUser) {
         //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -155,7 +155,7 @@ public class InvoiceTaxServiceProviderController {
                                      @RequestParam(required = false) String endTime, Query query, BladeUser bladeUser) {
 
         //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -168,7 +168,7 @@ public class InvoiceTaxServiceProviderController {
     @ApiOperation(value = "查询已汇总代开的发票详情", notes = "查询已汇总代开的发票详情")
     public R queryAllOpenInvoiceDetail(@ApiParam(value = "商户支付清单", required = true) @NotNull(message = "请选择商户支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
         //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -181,7 +181,7 @@ public class InvoiceTaxServiceProviderController {
     public R querySingleOpenInvoiceList(@RequestParam(required = false) String enterpriseName, @RequestParam(required = false) String startTime,
                                         @RequestParam(required = false) String endTime, Query query, BladeUser bladeUser) {
         //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -195,7 +195,7 @@ public class InvoiceTaxServiceProviderController {
     @ApiOperation(value = "查询已门征单开的发票详情", notes = "查询已门征单开的发票详情")
     public R querySingleOpenInvoiceDetail(@ApiParam(value = "商户支付清单", required = true) @NotNull(message = "请选择商户支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
         //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -208,7 +208,7 @@ public class InvoiceTaxServiceProviderController {
     public R queryCrowdInvoiceList(@RequestParam(required = false) String enterpriseName, @RequestParam(required = false) String startTime,
                                    @RequestParam(required = false) String endTime, SelfHelpInvoiceSpApplyState selfHelpInvoiceSpApplyState, Query query, BladeUser bladeUser) {
         //获取当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -221,7 +221,7 @@ public class InvoiceTaxServiceProviderController {
     @ApiOperation(value = "查询众包发票详情", notes = "查询众包发票详情")
     public R queryCrowdInvoiceDetail(Long providerSelfHelpInvoiceId, BladeUser bladeUser) {
         //获取当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -233,7 +233,7 @@ public class InvoiceTaxServiceProviderController {
     @ApiOperation(value = "众包发票开票", notes = "众包发票开票")
     public R createCrowdInvoice(String serviceProviderName, Long providerSelfHelpInvoiceId, String expressNo, String expressCompanyName, String invoiceScanPictures, String taxScanPictures, BladeUser bladeUser) {
         //获取当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }

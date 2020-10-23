@@ -27,8 +27,8 @@ import java.util.List;
 @Api(value = "服务商账号相关接口(管理端)", tags = "服务商账号相关接口(管理端)")
 public class ServiceProviderAccountController {
 
-    private ISysClient sysClient;
     private IServiceProviderWorkerService serviceProviderWorkerService;
+    private ISysClient sysClient;
 
     @GetMapping("/list")
     @ApiOperation(value = "查询服务商所有主子账号详情", notes = "查询服务商所有主子账号详情")

@@ -42,11 +42,11 @@ import java.io.InputStream;
 @Api(value = "商户端---自助开票管理模块相关接口", tags = "商户端---自助开票管理模块相关接口")
 public class SelfHelpInvoiceEnterpriseController {
 
+    private IUserClient userClient;
     private ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
     private IAddressService addressService;
-    private IDictClient iDictClient;
-    private IUserClient iUserClient;
+    private IDictClient dictClient;
     private ISelfHelpInvoiceAccountService selfHelpInvoiceAccountService;
     private ISelfHelpInvoiceFeeService selfHelpInvoiceFeeService;
 
@@ -54,7 +54,7 @@ public class SelfHelpInvoiceEnterpriseController {
     @ApiOperation(value = "查询当前商户所有自助开票记录", notes = "查询当前商户所有自助开票记录")
     public R querySelfHelfInvoicesList(@ApiParam(value = "创客类型", required = true) @NotNull(message = "请选择创客类型") @RequestParam(required = false) InvoicePeopleType invoicePeopleType, SelfHelpInvoicesByEnterpriseDTO selfHelpInvoicesByEnterpriseDto, Query query, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -67,7 +67,7 @@ public class SelfHelpInvoiceEnterpriseController {
     @ApiOperation(value = "查询当前商户某条自助开票记录详情", notes = "查询当前商户某条自助开票记录详情")
     public R querySelfHelfInvoicesDetail(@ApiParam(value = "自助开票ID", required = true) @NotNull(message = "请输入自助开票编号") @RequestParam(required = false) Long selfHelpInvoiceId, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -80,7 +80,7 @@ public class SelfHelpInvoiceEnterpriseController {
     @ApiOperation(value = "查询当前商户某条自助开票记录的所有自助开票明细", notes = "查询当前商户某条自助开票记录的所有自助开票明细")
     public R querySelfHelfInvoicesDetailList(@ApiParam(value = "自助开票ID", required = true) @NotNull(message = "请输入自助开票编号") @RequestParam(required = false) Long selfHelpInvoiceId, Query query, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -92,7 +92,7 @@ public class SelfHelpInvoiceEnterpriseController {
     @ApiOperation(value = "查询当前商户某条自助开票记录的所有快递信息", notes = "查询当前商户某条自助开票记录的所有快递信息")
     public R querySelfHelfInvoiceExpressList(@ApiParam(value = "自助开票ID", required = true) @NotNull(message = "请输入自助开票编号") @RequestParam(required = false) Long selfHelpInvoiceId, Query query, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -102,10 +102,10 @@ public class SelfHelpInvoiceEnterpriseController {
     }
 
     @PostMapping("/create-address")
-    @ApiOperation(value = "新建收货地址", notes = "新建收货地址")
+    @ApiOperation(value = "新建或修改收货地址", notes = "新建或修改收货地址")
     public R createAddress(@Valid @RequestBody AddressDTO addressDto, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -114,65 +114,29 @@ public class SelfHelpInvoiceEnterpriseController {
         return addressService.addOrUpdateAddress(addressDto, enterpriseWorkerEntity.getEnterpriseId(), ObjectType.ENTERPRISEPEOPLE);
     }
 
-    @GetMapping("/query-address-detail")
-    @ApiOperation(value = "查询地址详情", notes = "查询地址详情")
-    public R queryAddressDetail(Long addressId, BladeUser bladeUser) {
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return addressService.getAddressById(addressId);
-    }
-
-    @PostMapping("/update-address")
-    @ApiOperation(value = "编辑地址", notes = "编辑地址")
-    public R updateAddress(@Valid @RequestBody AddressDTO addressDto, BladeUser bladeUser) {
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return addressService.updateAddress(addressDto);
-    }
-
-    @PostMapping("/delete-address")
-    @ApiOperation(value = "删除地址", notes = "删除地址")
-    public R deleteAddress(Long addressId, BladeUser bladeUser) {
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return addressService.deleteAddress(addressId);
-    }
-
     @GetMapping("/query-address-list")
     @ApiOperation(value = "查询收货地址", notes = "查询收货地址")
     public R queryAddressList(Query query, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return addressService.findAddressMakerId(enterpriseWorkerEntity.getEnterpriseId(), ObjectType.ENTERPRISEPEOPLE, null, query);
+        return addressService.queryAddressList(ObjectType.ENTERPRISEPEOPLE, enterpriseWorkerEntity.getEnterpriseId(), Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-invoice-type")
     @ApiOperation(value = "开票类目", notes = "开票类目")
     public R queryInvoiceType(BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return iDictClient.getList("tax_category");
+        return dictClient.getList("tax_category");
     }
 
     @PostMapping("/upload-deliver-sheet")
@@ -180,7 +144,7 @@ public class SelfHelpInvoiceEnterpriseController {
     public R uploadDeliverSheet(@NotNull(message = "请输入自助开票明细编号") @RequestParam(required = false) Long selfHelpInvoiceDetailId,
                                    @NotBlank(message = "请上传交付支付验收单") @RequestParam(required = false) String deliverSheetUrl, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -193,7 +157,7 @@ public class SelfHelpInvoiceEnterpriseController {
     public R submitSelfHelpInvoice(@ApiParam(value = "文件") @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file,
                                       @Valid @RequestBody SelfHelpInvoiceDTO selfHelpInvoiceDto, BladeUser bladeUser) throws IOException {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -224,7 +188,7 @@ public class SelfHelpInvoiceEnterpriseController {
     @ApiOperation(value = "立即支付", notes = "立即支付")
     public R immediatePaymentWeb(BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -236,7 +200,7 @@ public class SelfHelpInvoiceEnterpriseController {
     @ApiOperation(value = "确认支付", notes = "确认支付")
     public R confirmPaymentWeb(@Valid @RequestBody ConfirmPaymentDTO confirmPaymentDto, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -248,7 +212,7 @@ public class SelfHelpInvoiceEnterpriseController {
     @ApiOperation(value = "身份证识别", notes = "身份证识别")
     public R idcardOcr(String infoImg, BladeUser bladeUser) throws Exception {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }

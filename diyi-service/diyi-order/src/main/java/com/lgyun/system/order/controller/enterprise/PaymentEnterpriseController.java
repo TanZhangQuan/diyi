@@ -27,15 +27,15 @@ import javax.validation.constraints.NotNull;
 @Api(value = "商户端---支付管理模块相关接口", tags = "商户端---支付管理模块相关接口")
 public class PaymentEnterpriseController {
 
-    private IUserClient iUserClient;
+    private IUserClient userClient;
     private IPayEnterpriseService payEnterpriseService;
     private IAcceptPaysheetService acceptPaysheetService;
 
     @PostMapping("/upload-charge-list")
     @ApiOperation(value = "上传总包支付清单", notes = "上传总包支付清单")
-    public R upload(@Valid @RequestBody PayEnterpriseUploadDTO payEnterpriseUploadDto, BladeUser bladeUser) throws Exception {
+    public R uploadChargeList(@Valid @RequestBody PayEnterpriseUploadDTO payEnterpriseUploadDto, BladeUser bladeUser) throws Exception {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -44,15 +44,15 @@ public class PaymentEnterpriseController {
         return payEnterpriseService.upload(payEnterpriseUploadDto, enterpriseWorkerEntity.getEnterpriseId());
     }
 
-    @GetMapping("/query-worksheet-list-by-enterprise-id")
+    @GetMapping("/query-finished-worksheet-list")
     @ApiOperation(value = "查询当前商户所有已完毕的总包+分包类型的工单", notes = "查询当前商户所有已完毕的总包+分包类型的工单")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "worksheetNo", value = "工单编号", paramType = "query", dataType = "string"),
             @ApiImplicitParam(name = "worksheetName", value = "工单名称", paramType = "query", dataType = "string")
     })
-    public R queryWorksheetListByEnterpriseId(String worksheetNo, String worksheetName, Query query, BladeUser bladeUser) {
+    public R queryFinishedWorksheetList(String worksheetNo, String worksheetName, Query query, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -65,7 +65,7 @@ public class PaymentEnterpriseController {
     @ApiOperation(value = "查询当前商户所有总包支付清单", notes = "查询当前商户所有总包支付清单")
     public R queryPayEnterpriseList(PayEnterpriseDTO payEnterpriseDto, Query query, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -78,7 +78,7 @@ public class PaymentEnterpriseController {
     @ApiOperation(value = "根据支付清单ID查询创客支付明细", notes = "根据支付清单ID查询创客支付明细")
     public R queryPayMakerList(@ApiParam(value = "支付清单编号", required = true) @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, Query query, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -90,7 +90,7 @@ public class PaymentEnterpriseController {
     @ApiOperation(value = "当前商户提交支付清单", notes = "当前商户提交支付清单")
     public R submitPayEnterprise(@ApiParam(value = "支付清单编号", required = true) @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -103,7 +103,7 @@ public class PaymentEnterpriseController {
     @ApiOperation(value = "上传总包交付支付验收单", notes = "上传总包交付支付验收单")
     public R uploadAcceptPaysheet(@Valid @RequestBody AcceptPaysheetSaveDTO acceptPaysheetSaveDto, BladeUser bladeUser) {
         //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = iUserClient.currentEnterpriseWorker(bladeUser);
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }

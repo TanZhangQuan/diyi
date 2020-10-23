@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "服务商端---首页管理模块相关接口", tags = "服务商端---首页管理模块相关接口")
 public class HomePageServiceProviderController {
 
-    private IUserClient iUserClient;
+    private IUserClient userClient;
     private IPayEnterpriseService payEnterpriseService;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
 
@@ -29,7 +29,7 @@ public class HomePageServiceProviderController {
     @ApiOperation(value = "查询当前服务商首页交易情况数据", notes = "查询当前服务商首页交易情况数据")
     public R queryTransactionData(BladeUser bladeUser) {
         //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -42,7 +42,7 @@ public class HomePageServiceProviderController {
     @ApiOperation(value = "查询当前服务商总包+分包今日流水", notes = "查询当前服务商总包+分包今日流水")
     public R queryTotalSubDayTrade(BladeUser bladeUser) {
         //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -55,7 +55,7 @@ public class HomePageServiceProviderController {
     @ApiOperation(value = "查询当前服务商总包+分包本周流水", notes = "查询当前服务商总包+分包本周流水")
     public R queryTotalSubWeekTrade(BladeUser bladeUser) {
         //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -68,7 +68,7 @@ public class HomePageServiceProviderController {
     @ApiOperation(value = "查询当前服务商总包+分包本月流水", notes = "查询当前服务商总包+分包本月流水")
     public R queryTotalSubMonthTrade(BladeUser bladeUser) {
         //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -81,7 +81,7 @@ public class HomePageServiceProviderController {
     @ApiOperation(value = "查询当前服务商总包+分包全年流水", notes = "查询当前服务商总包+分包全年流水")
     public R queryTotalSubYearTrade(BladeUser bladeUser) {
         //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -94,7 +94,7 @@ public class HomePageServiceProviderController {
     @ApiOperation(value = "查询当前服务商众包包今日流水", notes = "查询当前服务商众包包今日流水")
     public R queryCrowdDayTrade(BladeUser bladeUser) {
         //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -107,7 +107,7 @@ public class HomePageServiceProviderController {
     @ApiOperation(value = "查询当前服务商众包包本周流水", notes = "查询当前服务商众包包本周流水")
     public R queryCrowdWeekTrade(BladeUser bladeUser) {
         //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -120,7 +120,7 @@ public class HomePageServiceProviderController {
     @ApiOperation(value = "查询当前服务商众包/众采本月流水", notes = "查询当前服务商众包/众采本月流水")
     public R queryCrowdMonthTrade(BladeUser bladeUser) {
         //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -133,7 +133,7 @@ public class HomePageServiceProviderController {
     @ApiOperation(value = "查询当前服务商众包/众采年流水", notes = "查询当前服务商众包/众采年流水")
     public R queryCrowdYearTrade(BladeUser bladeUser) {
         //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = iUserClient.currentServiceProviderWorker(bladeUser);
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }

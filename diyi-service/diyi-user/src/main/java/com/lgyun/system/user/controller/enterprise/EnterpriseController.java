@@ -19,8 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Api(value = "商户基本信息相关接口", tags = "商户基本信息相关接口")
 public class EnterpriseController {
 
-    private IEnterpriseService enterpriseService;
     private IEnterpriseWorkerService enterpriseWorkerService;
+    private IEnterpriseService enterpriseService;
 
     @GetMapping("/basicInfo")
     @ApiOperation(value = "查询商户基本信息", notes = "查询商户基本信息")

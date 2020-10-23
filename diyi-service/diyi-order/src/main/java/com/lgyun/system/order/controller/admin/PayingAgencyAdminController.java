@@ -26,8 +26,8 @@ import javax.validation.constraints.NotNull;
 @Api(value = "平台端---支付机构管理模块相关接口", tags = "平台端---支付机构管理模块相关接口")
 public class PayingAgencyAdminController {
 
-    private IPayEnterpriseService payEnterpriseService;
     private IUserClient userClient;
+    private IPayEnterpriseService payEnterpriseService;
 
     @PostMapping("/transaction-by-bureau-service-provider")
     @ApiOperation(value = "查询当前支付机构所有匹配的服务商交易情况数据", notes = "查询当前支付机构所有匹配的服务商交易情况数据")
