@@ -14,6 +14,9 @@ import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.order.vo.admin.TransactionByBureauServiceProviderInfoVO;
 import com.lgyun.system.user.vo.TransactionVO;
+import com.lgyun.system.user.vo.admin.AdminAgentMainServiceProviderListVO;
+import com.lgyun.system.user.vo.admin.AgentMainTransactionVO;
+import com.lgyun.system.user.vo.admin.PartnerServiceProviderListVO;
 
 /**
  * Service 接口
@@ -361,5 +364,36 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @return
      */
     R<IPage<TransactionByBureauServiceProviderInfoVO>> transactionByBureauServiceProviderInfo(Long bureauId, IPage<TransactionByBureauServiceProviderInfoVO> page);
+
+
+
+    /**
+     * 查询渠道商交易情况数据
+     *
+     * @param agentMainId
+     * @return
+     */
+    R<AgentMainTransactionVO> transactionByAgentMainId(Long agentMainId);
+
+    /**
+     * 查询匹配好的服务商
+     *
+     * @param agentMainId
+     * @param page
+     * @return
+     */
+    R<IPage<AdminAgentMainServiceProviderListVO>> getCooperativeServiceProvider(IPage<AdminAgentMainServiceProviderListVO> page,Long agentMainId);
+
+    /**
+     * 合伙人流水信息
+     * @return
+     */
+    R<AgentMainTransactionVO> allTransaction();
+
+    /**
+     * 合伙人可以看所有的服务商
+     * @return
+     */
+    R<IPage<PartnerServiceProviderListVO>> getPartnerAllServiceProvider(IPage<PartnerServiceProviderListVO> page);
 }
 

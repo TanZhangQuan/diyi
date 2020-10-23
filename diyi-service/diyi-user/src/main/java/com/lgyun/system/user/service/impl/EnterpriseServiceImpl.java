@@ -8,8 +8,6 @@ import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.core.mp.support.Condition;
-import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.admin.*;
 import com.lgyun.system.user.dto.enterprise.AddOrUpdateEnterpriseContactDTO;
 import com.lgyun.system.user.entity.*;
@@ -19,7 +17,6 @@ import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.EnterpriseIdNameListVO;
 import com.lgyun.system.user.vo.EnterprisesDetailVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
-import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
 import com.lgyun.system.user.vo.admin.*;
 import com.lgyun.system.user.vo.enterprise.EnterpriseVO;
 import lombok.AllArgsConstructor;
@@ -99,11 +96,6 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             makerEnterpriseRelationVO.setRelationshipType(RelationshipType.RELEVANCE);
             return R.data(makerEnterpriseRelationVO);
         }
-    }
-
-    @Override
-    public R<IPage<ServiceProviderIdNameListVO>> getServiceProviders(Query query, Long enterpriseId) {
-        return enterpriseProviderService.getServiceProviderByEnterpriseId(Condition.getPage(query.setDescs("create_time")), enterpriseId, null);
     }
 
     /**

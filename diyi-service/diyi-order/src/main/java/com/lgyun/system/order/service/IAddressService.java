@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.AddressDTO;
 import com.lgyun.system.order.entity.AddressEntity;
 import com.lgyun.system.order.vo.admin.AddressListVO;
@@ -27,31 +26,12 @@ public interface IAddressService extends BaseService<AddressEntity> {
     R<String> addOrUpdateAddress(AddressDTO addressDto, Long objectId, ObjectType objectType);
 
     /**
-     * 查询收货地址
-     *
-     * @param objectId
-     * @param objectType
-     * @param addressId
-     * @param query
-     * @return
-     */
-    R<IPage<AddressEntity>> findAddressMakerId(Long objectId, ObjectType objectType, Long addressId, Query query);
-
-    /**
      * 地址详情接口
      *
      * @param addressId
      * @return
      */
     R<AddressEntity> getAddressById(Long addressId);
-
-    /**
-     * 地址编辑接口
-     *
-     * @param addressDto
-     * @return
-     */
-    R<String> updateAddress(AddressDTO addressDto);
 
     /**
      * 地址删除接口
@@ -70,6 +50,16 @@ public interface IAddressService extends BaseService<AddressEntity> {
      * @return
      */
     R<IPage<AddressListVO>> queryAddressList(ObjectType objectType, Long objectId, IPage<AddressListVO> page);
+
+    /**
+     * 设置默认地址
+     *
+     * @param objectId
+     * @param objectType
+     * @param addressId
+     * @return
+     */
+    R<String> setDefaultAddress(Long objectId, ObjectType objectType, Long addressId);
 
 }
 

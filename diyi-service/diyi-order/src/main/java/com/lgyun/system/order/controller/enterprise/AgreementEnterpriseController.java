@@ -15,20 +15,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * 商户端---合同管理模块相关接口
- *
- * @author .
- * @date 2020/8/15.
- * @time 9:52.
- */
 @RestController
 @RequestMapping("/enterprise/agreement")
 @Validated
 @AllArgsConstructor
 @Api(value = "商户端---合同管理模块相关接口", tags = "商户端---合同管理模块相关接口")
 public class AgreementEnterpriseController {
-
 
     private IUserClient userClient;
     private ISelfHelpInvoiceService selfHelpInvoiceService;

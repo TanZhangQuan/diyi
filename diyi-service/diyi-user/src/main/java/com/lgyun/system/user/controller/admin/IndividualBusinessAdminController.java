@@ -8,6 +8,7 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDTO;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDTO;
 import com.lgyun.system.user.entity.AdminEntity;
+import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.service.IAdminService;
 import com.lgyun.system.user.service.IEnterpriseReportService;
 import com.lgyun.system.user.service.IIndividualBusinessService;
@@ -19,12 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-/**
- * 平台端---个体户管理模块相关接口
- *
- * @author tzq
- * @date 2020-09-9
- */
 @RestController
 @RequestMapping("/admin/individual-business")
 @Validated
@@ -56,14 +51,14 @@ public class IndividualBusinessAdminController {
 
     @GetMapping("/query-enterprise-report-list")
     @ApiOperation(value = "查询个体户年审信息", notes = "查询个体户年审信息")
-    public R queryEnterpriseReportList(Query query, @ApiParam(value = "个体户", required = true) @NotNull(message = "请选择个体户") @RequestParam(required = false) Long individualBusinessId, BladeUser bladeUser) {
+    public R queryEnterpriseReportList(@ApiParam(value = "个体户", required = true) @NotNull(message = "请选择个体户") @RequestParam(required = false) Long individualBusinessId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return enterpriseReportService.findByBodyTypeAndBodyId(query, BodyType.INDIVIDUALBUSINESS, individualBusinessId);
+        return enterpriseReportService.findByBodyTypeAndBodyId(BodyType.INDIVIDUALBUSINESS, individualBusinessId, query);
     }
 
     @PostMapping("/create-individual-business")
@@ -76,6 +71,12 @@ public class IndividualBusinessAdminController {
         }
 
         return individualBusinessService.createIndividualBusiness(individualBusinessEnterpriseWebAddDto, null);
+    }
+
+    @PostMapping("/update-individual-business")
+    @ApiOperation(value = "修改个体户", notes = "修改个体户")
+    public R updateIndividualBusiness(@Valid @RequestBody IndividualBusinessEntity individualBusiness) {
+        return R.status(individualBusinessService.updateById(individualBusiness));
     }
 
 }

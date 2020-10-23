@@ -1,12 +1,15 @@
 package com.lgyun.system.user.controller.serviceProvider;
 
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.BodyType;
 import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDTO;
+import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
+import com.lgyun.system.user.service.IEnterpriseReportService;
 import com.lgyun.system.user.service.IIndividualBusinessService;
 import com.lgyun.system.user.service.IServiceProviderWorkerService;
 import io.swagger.annotations.*;
@@ -14,14 +17,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-/**
- * 服务商端---个体户管理模块相关接口
- *
- * @author tzq
- * @date 2020-09-9
- */
 @RestController
 @RequestMapping("/service-provider/individual-business")
 @Validated
@@ -31,6 +29,7 @@ public class IndividualBusinessServiceProviderController {
 
     private IServiceProviderWorkerService serviceProviderWorkerService;
     private IIndividualBusinessService individualBusinessService;
+    private IEnterpriseReportService enterpriseReportService;
 
     @GetMapping("/query-individual-business-list")
     @ApiOperation(value = "查询当前服务商关联的所有个体户", notes = "查询当前服务商关联的所有个体户")
@@ -62,6 +61,18 @@ public class IndividualBusinessServiceProviderController {
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
         return individualBusinessService.updateIbstate(serviceProviderWorkerEntity.getServiceProviderId(), individualBusinessId, ibstate);
+    }
+
+    @PostMapping("/update-individual-business")
+    @ApiOperation(value = "修改个体户", notes = "修改个体户")
+    public R updateIndividualBusiness(@Valid @RequestBody IndividualBusinessEntity individualBusiness) {
+        return R.status(individualBusinessService.updateById(individualBusiness));
+    }
+
+    @GetMapping("/query-enterprise-report-list")
+    @ApiOperation(value = "查询个体户年审信息", notes = "查询个体户年审信息")
+    public R queryEnterpriseReportList(Query query, @ApiParam(value = "个体户ID") @NotNull(message = "请输入个体户编号") @RequestParam(required = false) Long individualBusinessId) {
+        return enterpriseReportService.findByBodyTypeAndBodyId(BodyType.INDIVIDUALBUSINESS, individualBusinessId, query);
     }
 
 }

@@ -13,13 +13,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * 服务商端---合同管理模块相关接口
- *
- * @author tzq
- * @date 2020/9/2.
- * @time 10:05.
- */
 @RestController
 @RequestMapping("/service-provider/agreement")
 @Validated
@@ -28,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 public class AgreementServiceProviderController {
 
     private IServiceProviderWorkerService serviceProviderWorkerService;
-    private IAgreementService iAgreementService;
+    private IAgreementService agreementService;
 
     @GetMapping("/query-serive-agreement")
     @ApiOperation(value = "查询服务商加盟平台合同", notes = "查询服务商加盟平台合同")
@@ -40,7 +33,7 @@ public class AgreementServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return iAgreementService.findSeriveAgreement(agreementNo, serviceProviderWorkerEntity.getServiceProviderId());
+        return agreementService.findSeriveAgreement(agreementNo, serviceProviderWorkerEntity.getServiceProviderId());
     }
 
     @GetMapping("/query-enterprise-agreement")
@@ -53,7 +46,7 @@ public class AgreementServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return iAgreementService.findEnterpriseAgreement(agreementNo, serviceProviderWorkerEntity.getServiceProviderId(), enterpriseName, Condition.getPage(query.setDescs("create_time")));
+        return agreementService.findEnterpriseAgreement(agreementNo, serviceProviderWorkerEntity.getServiceProviderId(), enterpriseName, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-enterprise-promise")
@@ -66,7 +59,7 @@ public class AgreementServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return iAgreementService.findEnterprisePromise(agreementNo, serviceProviderWorkerEntity.getServiceProviderId(), enterpriseName, Condition.getPage(query.setDescs("create_time")));
+        return agreementService.findEnterprisePromise(agreementNo, serviceProviderWorkerEntity.getServiceProviderId(), enterpriseName, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-enterprise-supplement")
@@ -79,7 +72,7 @@ public class AgreementServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return iAgreementService.findEnterpriseSupplement(agreementNo, serviceProviderWorkerEntity.getServiceProviderId(), enterpriseName, Condition.getPage(query.setDescs("create_time")));
+        return agreementService.findEnterpriseSupplement(agreementNo, serviceProviderWorkerEntity.getServiceProviderId(), enterpriseName, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-maker-join-contract")
@@ -92,7 +85,7 @@ public class AgreementServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return iAgreementService.findMakerAgreement(agreementNo, serviceProviderWorkerEntity.getServiceProviderId(), makerName, Condition.getPage(query.setDescs("create_time")));
+        return agreementService.findMakerAgreement(agreementNo, serviceProviderWorkerEntity.getServiceProviderId(), makerName, Condition.getPage(query.setDescs("create_time")));
     }
 
     @PostMapping("/upload-supplement")
@@ -105,7 +98,7 @@ public class AgreementServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return iAgreementService.uploadSupplement(contractUrl, serviceProviderWorkerEntity.getServiceProviderId(), enterpriseId);
+        return agreementService.uploadSupplement(contractUrl, serviceProviderWorkerEntity.getServiceProviderId(), enterpriseId);
     }
 
     @GetMapping("/query-relevance-enterprise-list")
@@ -118,7 +111,7 @@ public class AgreementServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return iAgreementService.getRelationEnterprise(query, serviceProviderWorkerEntity.getServiceProviderId());
+        return agreementService.getRelationEnterprise(query, serviceProviderWorkerEntity.getServiceProviderId());
     }
 
 }

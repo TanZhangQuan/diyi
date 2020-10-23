@@ -22,18 +22,18 @@ import javax.validation.constraints.NotNull;
 @Api(value = "公用接口", tags = "公用接口")
 public class CommonController {
 
-    private ICommonService iCommonService;
+    private ICommonService commonService;
 
     @PostMapping("/oss-image-upload")
     @ApiOperation(value = "上传文件", notes = "上传文件")
     public R ossFileUpload(@ApiParam(value = "文件", required = true) @NotNull(message = "请选择上传文件") @RequestParam(required = false) MultipartFile file) throws Exception {
-        return iCommonService.ossImageUpload(file);
+        return commonService.ossImageUpload(file);
     }
 
     @PostMapping("/oss-excel-upload")
     @ApiOperation(value = "上传Excel文件", notes = "上传Excel文件")
     public R ossExcelUpload(@ApiParam(value = "文件", required = true) @NotNull(message = "请选择上传Excel文件") @RequestParam(required = false) MultipartFile file) throws Exception {
-        return iCommonService.ossExcelUpload(file);
+        return commonService.ossExcelUpload(file);
     }
 
 }

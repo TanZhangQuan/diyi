@@ -23,12 +23,12 @@ public class AddressEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 对象id
+     * 对象ID
      */
     private Long objectId;
 
     /**
-     * 对象身份1、创客本人2、商户人员3、服务商人员4、相关局人员5、渠道商人员6、合伙人本人
+     * 对象身份  1创客本人 2商户人员 3服务商人员 4相关局人员 5渠道商人员 6合伙人本人
      */
     private ObjectType objectType;
 

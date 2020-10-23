@@ -65,6 +65,10 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     @Lazy
     private IEnterpriseService enterpriseService;
 
+    @Autowired
+    @Lazy
+    private IAgentMainService agentMainService;
+
     @Override
     public AgreementEntity findSuccessAgreement(Long enterpriseId, Long serviceProviderId, AgreementType agreementType, AuditState auditState, SignState signState) {
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
@@ -112,12 +116,14 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     public AgreementWebVO findByEnterpriseAndType(Long enterpriseId, AgreementType agreementType,SignType signType) {
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(AgreementEntity::getEnterpriseId, enterpriseId)
-                .eq(AgreementEntity::getAgreementType, agreementType)
-                .eq(AgreementEntity::getSignType, signType);
+                .eq(AgreementEntity::getAgreementType, agreementType);
         AgreementEntity agreementEntity = baseMapper.selectOne(queryWrapper);
         EnterpriseEntity byId = enterpriseService.getById(enterpriseId);
-        AgreementWebVO agreementWebVO = BeanUtil.copy(agreementEntity, AgreementWebVO.class);
-        agreementWebVO.setEnterpriseName(byId.getEnterpriseName());
+        AgreementWebVO agreementWebVO = null;
+        if(null != byId && null != agreementEntity){
+            agreementWebVO = BeanUtil.copy(agreementEntity, AgreementWebVO.class);
+            agreementWebVO.setEnterpriseName(byId.getEnterpriseName());
+        }
         return agreementWebVO;
     }
 
@@ -366,8 +372,34 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
-    public R saveAdminAgreement(Long makerId, Long enterpriseId,Long serviceProviderId, Long objectId, ObjectType objectType, Integer contractType, AgreementType agreementType, String paperAgreementUrl) {
-        AgreementEntity agreementEntity = new AgreementEntity();
+    public R saveAdminAgreement(Long makerId, Long enterpriseId,Long serviceProviderId, Long objectId, ObjectType objectType, AgreementType agreementType, String paperAgreementUrl) {
+        AgreementEntity agreementEntity = null;
+        if(AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType) || AgreementType.SERENTSUPPLEMENTARYAGREEMENT.equals(agreementType) || AgreementType.ENTERPRISEPROMISE.equals(agreementType)){
+            agreementEntity = new AgreementEntity();
+        }else{
+             if(ObjectType.MAKERPEOPLE.equals(objectType)){
+                 QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
+                 queryWrapper.lambda().eq(AgreementEntity::getMakerId, objectId)
+                         .eq(AgreementEntity::getAgreementType, agreementType);
+                 agreementEntity = baseMapper.selectOne(queryWrapper);
+             }
+             if(ObjectType.SERVICEPEOPLE.equals(objectType)){
+                QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
+                queryWrapper.lambda().eq(AgreementEntity::getServiceProviderId, objectId)
+                        .eq(AgreementEntity::getAgreementType, agreementType);
+                agreementEntity = baseMapper.selectOne(queryWrapper);
+            }
+            if(ObjectType.ENTERPRISEPEOPLE.equals(objectType)){
+                QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
+                queryWrapper.lambda().eq(AgreementEntity::getEnterpriseId, objectId)
+                        .eq(AgreementEntity::getAgreementType, agreementType);
+                agreementEntity = baseMapper.selectOne(queryWrapper);
+            }
+        }
+        if(null == agreementEntity){
+            agreementEntity = new AgreementEntity();
+        }
+
         agreementEntity.setAgreementType(agreementType);
         agreementEntity.setSignType(SignType.PAPERAGREEMENT);
         agreementEntity.setSignState(SignState.SIGNED);
@@ -408,7 +440,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
             agreementEntity.setSecondSideSignPerson("");
         }
 
-        save(agreementEntity);
+        saveOrUpdate(agreementEntity);
         return R.success("操作成功");
     }
 
@@ -463,6 +495,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
 
     @Override
     public R queryMakerIdSupplement(Long makerId, IPage<AgreementMakerEnterAdminVO> page) {
+        System.out.println("777");
         return R.data(page.setRecords(baseMapper.queryMakerIdSupplement(makerId,null,page)));
     }
 
@@ -487,6 +520,11 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
+    public R queryServiceAgreementState(IPage<AgreementServiceStateAdminVO> page) {
+        return R.data(page.setRecords(baseMapper.queryServiceAgreementState(page)));
+    }
+
+    @Override
     public R queryServiceIdEnterSupplement(Long serviceProviderId, IPage<AgreementServiceVO> page) {
         return R.data(page.setRecords(baseMapper.queryEnterIdServiceSupplement(null,serviceProviderId, page)));
     }
@@ -495,7 +533,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     public R saveAdminAgreementId(Long agreementId, String agreementUrl) {
         AgreementEntity agreementEntity = getById(agreementId);
         if(null == agreementEntity){
-            return R.fail("合同Id有误");
+            return R.fail("合同不存在");
         }
         agreementEntity.setPaperAgreementUrl(agreementUrl);
         saveOrUpdate(agreementEntity);
@@ -516,4 +554,5 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     public R queryAdminServiceAll(IPage<ServiceProviderEntity> page) {
         return serviceProviderService.getServiceAll(page);
     }
+
 }

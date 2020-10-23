@@ -15,12 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * 商户端---工单管理模块相关接口
- *
- * @author jun
- * @since 2020-07-07 14:40:21
- */
 @RestController
 @RequestMapping("/enterprise/worksheet")
 @Validated

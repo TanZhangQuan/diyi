@@ -95,5 +95,10 @@ public interface AgreementMapper extends BaseMapper<AgreementEntity> {
      * 平台根据商户id查询商户承诺函
      */
     List<AgreementServiceVO> queryEnterIdPromise(Long enterpriseId, IPage<AgreementServiceVO> page);
+
+    /**
+     *平台查询服务商合同的签署状态
+     */
+    List<AgreementServiceStateAdminVO> queryServiceAgreementState(IPage<AgreementServiceStateAdminVO> page);
 }
 

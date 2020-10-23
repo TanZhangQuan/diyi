@@ -7,11 +7,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 /**
  * 合伙人-商户关联表 Entity
  *
- * @author tzq
- * @since 2020-09-11 17:33:26
+ * @author liangfeihu
+ * @since 2020-10-20 18:25:03
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -30,6 +32,11 @@ public class PartnerEnterpriseEntity extends BaseEntity {
      * 商户ID
      */
     private Long enterpriseId;
+
+    /**
+     * 分配时间
+     */
+    private Date matchDate;
 
     /**
      * 分配人员

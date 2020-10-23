@@ -208,7 +208,7 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
      * 平台端添加合同
      *
      */
-    R saveAdminAgreement(Long makerId, Long enterpriseId,Long serviceProviderId, Long objectId, ObjectType objectType, Integer contractType, AgreementType agreementType, String paperAgreementUrl);
+    R saveAdminAgreement(Long makerId, Long enterpriseId,Long serviceProviderId, Long objectId, ObjectType objectType, AgreementType agreementType, String paperAgreementUrl);
 
     /**
      * 平台根据商户id查询商户加盟合同、授权协议或价格协议
@@ -283,6 +283,11 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
      * 平台根据商户id查询商户承诺函
      */
     R queryEnterIdPromise(Long enterpriseId,IPage<AgreementServiceVO> page);
+
+    /**
+     *平台查询服务商合同的签署状态
+     */
+    R queryServiceAgreementState(IPage<AgreementServiceStateAdminVO> page);
 
     /**
      * 平台根据服务商id查询合作服务商和商户补充协议

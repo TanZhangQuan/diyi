@@ -415,32 +415,30 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     @Override
     @Transactional
     public R savePortalSignInvoice(String serviceProviderName,Long providerSelfHelpInvoiceId,String expressNo, String expressCompanyName, String invoiceScanPictures, String taxScanPictures) {
-        SelfHelpInvoiceSpDetailEntity byId = selfHelpInvoiceSpDetailService.getById(providerSelfHelpInvoiceId);
-        if(null != byId){
-            return R.fail("数据错误！！！");
+        SelfHelpInvoiceSpDetailEntity selfHelpInvoiceSpDetailEntity = selfHelpInvoiceSpDetailService.getById(providerSelfHelpInvoiceId);
+        if(null != selfHelpInvoiceSpDetailEntity){
+            return R.fail("数据错误");
         }
-        byId.setInvoiceScanPictures(invoiceScanPictures);
-        byId.setTaxScanPictures(taxScanPictures);
-        byId.setInvoiceOperatePerson(serviceProviderName);
-        selfHelpInvoiceSpDetailService.saveOrUpdate(byId);
+        selfHelpInvoiceSpDetailEntity.setInvoiceScanPictures(invoiceScanPictures);
+        selfHelpInvoiceSpDetailEntity.setTaxScanPictures(taxScanPictures);
+        selfHelpInvoiceSpDetailEntity.setInvoiceOperatePerson(serviceProviderName);
+        selfHelpInvoiceSpDetailService.saveOrUpdate(selfHelpInvoiceSpDetailEntity);
 
         SelfHelpInvoiceExpressEntity selfHelpInvoiceExpressEntity = new SelfHelpInvoiceExpressEntity();
-        selfHelpInvoiceExpressEntity.setSelfHelpInvoiceApplyProviderId(byId.getSelfHelpInvoiceApplyProviderId());
+        selfHelpInvoiceExpressEntity.setSelfHelpInvoiceApplyProviderId(selfHelpInvoiceSpDetailEntity.getSelfHelpInvoiceApplyProviderId());
         selfHelpInvoiceExpressEntity.setExpressNo(expressNo);
         selfHelpInvoiceExpressEntity.setExpressCompanyName(expressCompanyName);
         selfHelpInvoiceExpressEntity.setOperatePerson(serviceProviderName);
         selfHelpInvoiceExpressEntity.setExpressUpdatePersonTel(serviceProviderName);
         selfHelpInvoiceExpressService.save(selfHelpInvoiceExpressEntity);
 
-
-
         //更新明细里面的数据
-        SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = selfHelpInvoiceDetailService.getById(byId.getSelfHelpInvoiceDetailId());
+        SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = selfHelpInvoiceDetailService.getById(selfHelpInvoiceSpDetailEntity.getSelfHelpInvoiceDetailId());
         selfHelpInvoiceDetailEntity.setInvoicePrintState(InvoicePrintState.INVOICESUCCESS);
         selfHelpInvoiceDetailService.saveOrUpdate(selfHelpInvoiceDetailEntity);
         if(selfHelpInvoiceDetailService.getSelfHelpInvoiceDetails(selfHelpInvoiceDetailEntity.getSelfHelpInvoiceId(),selfHelpInvoiceDetailEntity.getId())){
             //更新主表的发票状态
-            SelfHelpInvoiceSpEntity selfHelpInvoiceSpEntity = selfHelpInvoiceSpService.getById(byId.getSelfHelpInvoiceApplyProviderId());
+            SelfHelpInvoiceSpEntity selfHelpInvoiceSpEntity = selfHelpInvoiceSpService.getById(selfHelpInvoiceSpDetailEntity.getSelfHelpInvoiceApplyProviderId());
             selfHelpInvoiceSpEntity.setApplyState(SelfHelpInvoiceSpApplyState.INVOICED);
             selfHelpInvoiceSpService.saveOrUpdate(selfHelpInvoiceSpEntity);
 

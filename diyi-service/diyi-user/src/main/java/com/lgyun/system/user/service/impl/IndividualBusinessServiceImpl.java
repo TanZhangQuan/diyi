@@ -4,11 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.BizType;
-import com.lgyun.common.enumeration.BodyType;
 import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.VerifyStatus;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDTO;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDTO;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDTO;
@@ -18,7 +16,6 @@ import com.lgyun.system.user.mapper.IndividualBusinessMapper;
 import com.lgyun.system.user.service.IEnterpriseReportService;
 import com.lgyun.system.user.service.IIndividualBusinessService;
 import com.lgyun.system.user.service.IMakerService;
-import com.lgyun.system.user.vo.EnterpriseReportsVO;
 import com.lgyun.system.user.vo.enterprise.IndividualBusinessDetailEnterpriseVO;
 import com.lgyun.system.user.vo.maker.IndividualBusinessDetailMakerVO;
 import com.lgyun.system.user.vo.maker.IndividualBusinessListVO;
@@ -138,11 +135,6 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
         QueryWrapper<IndividualBusinessEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(IndividualBusinessEntity::getIbtaxNo, ibtaxNo);
         return baseMapper.selectOne(queryWrapper);
-    }
-
-    @Override
-    public R<IPage<EnterpriseReportsVO>> queryEnterpriseReports(Query query, Long individualBusinessId) {
-        return enterpriseReportService.findByBodyTypeAndBodyId(query, BodyType.INDIVIDUALBUSINESS, individualBusinessId);
     }
 
     @Override

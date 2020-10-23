@@ -7,6 +7,7 @@ import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.RealnameVerifyUtil;
+import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.dto.DictDTO;
 import com.lgyun.system.entity.Dict;
@@ -39,12 +40,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-/**
- * 创客端---自助开票管理模块相关接口
- *
- * @author jun
- * @since 2020-07-08 14:32:47
- */
 @RestController
 @RequestMapping("/maker/self-help-invoice")
 @Validated
@@ -52,18 +47,18 @@ import java.util.List;
 @Api(value = "创客端---自助开票管理模块相关接口", tags = "创客端---自助开票管理模块相关接口")
 public class SelfHelpInvoiceMakerController {
 
-    private IUserClient iUserClient;
+    private IUserClient userClient;
     private ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
     private IAddressService addressService;
-    private IDictClient iDictClient;
+    private IDictClient dictClient;
     private ISelfHelpInvoiceAccountService selfHelpInvoiceAccountService;
     private ISelfHelpInvoiceFeeService selfHelpInvoiceFeeService;
 
     @PostMapping("/create-address")
-    @ApiOperation(value = "新建收货地址", notes = "新建收货地址")
+    @ApiOperation(value = "新建或修改收货地址", notes = "新建或修改收货地址")
     public R createAddress(@Valid @RequestBody AddressDTO addressDto, BladeUser bladeUser) {
         //查询当前创客
-        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -72,60 +67,59 @@ public class SelfHelpInvoiceMakerController {
         return addressService.addOrUpdateAddress(addressDto, makerEntity.getId(), ObjectType.MAKERPEOPLE);
     }
 
-    @GetMapping("/getAddressById")
-    @ApiOperation(value = "地址详情接口", notes = "地址详情接口")
-    public R getAddressById(Long addressId) {
-        return addressService.getAddressById(addressId);
-    }
-
-    @PostMapping("/updateAddress")
-    @ApiOperation(value = "地址编辑接口", notes = "地址编辑接口")
-    public R updateAddress(@Valid @RequestBody AddressDTO addressDto) {
-        return addressService.updateAddress(addressDto);
-    }
-
-    @PostMapping("/deleteAddress")
-    @ApiOperation(value = "地址删除接口", notes = "地址删除接口")
-    public R deleteAddress(Long addressId) {
-        return addressService.deleteAddress(addressId);
-    }
-
-    @GetMapping("/findAddressMakerId")
+    @GetMapping("/query-address-list")
     @ApiOperation(value = "查询收货地址", notes = "查询收货地址")
-    public R findAddressMakerId(Query query, BladeUser bladeUser) {
+    public R queryAddressList(Query query, BladeUser bladeUser) {
         //查询当前创客
-        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
         MakerEntity makerEntity = result.getData();
 
-        return addressService.findAddressMakerId(makerEntity.getId(), ObjectType.MAKERPEOPLE, null, query);
+        return addressService.queryAddressList(ObjectType.MAKERPEOPLE, makerEntity.getId(), Condition.getPage(query.setDescs("create_time")));
     }
 
-    @GetMapping("/getInvoiceType")
+    @GetMapping("/query-invoice-type")
     @ApiOperation(value = "开票类目", notes = "开票类目")
-    public R getInvoiceType() {
-        return iDictClient.getList("tax_category");
+    public R queryInvoiceType(BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return dictClient.getList("tax_category");
     }
 
-    @GetMapping("/getInvoiceTypeDetails")
-    @ApiOperation(value = "开票类目-详情", notes = "开票类目-详情")
-    public R getInvoiceTypeDetails(Long parentId) {
-        return iDictClient.getParentList(parentId);
+    @GetMapping("/query-invoice-type-detail")
+    @ApiOperation(value = "开票类目详情", notes = "开票类目详情")
+    public R queryInvoiceTypeDetail(Long parentId, BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return dictClient.getParentList(parentId);
     }
 
-    @PostMapping("/saveInvoiceTypeDetails")
+    @PostMapping("/create-invoice-type")
     @ApiOperation(value = "新建开票类目", notes = "新建开票类目")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "dictType", value = "1代表一级类目，2二级类目", paramType = "query", dataType = "int"),
     })
-    public R saveInvoiceTypeDetails(@RequestParam String dictValue, @RequestParam Integer dictType, @RequestParam(required = false) Long parentId) {
+    public R createInvoiceType(@RequestParam String dictValue, @RequestParam Integer dictType, @RequestParam(required = false) Long parentId, BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
 
         if (dictType != 1 && dictType != 2) {
             R.fail("参数错误");
         }
-        Dict data = iDictClient.getDict("tax_category");
+        Dict data = dictClient.getDict("tax_category");
         if (null == data) {
             R.fail("添加失败缺少开票类目");
         }
@@ -144,16 +138,16 @@ public class SelfHelpInvoiceMakerController {
             dictDTO.setSort(0);
         }
 
-        return iDictClient.saveDict(dictDTO);
+        return dictClient.saveDict(dictDTO);
     }
 
-    @PostMapping("/submitSelfHelpInvoice")
+    @PostMapping("/submit-self-help-invoice")
     @ApiOperation(value = "创客提交自助开票", notes = "创客提交自助开票")
     @Transactional(rollbackFor = Exception.class)
     public R submitSelfHelpInvoice(@ApiParam(value = "文件", required = true) @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file,
                                    @Valid @RequestBody SelfHelpInvoiceDTO selfHelpInvoiceDto, BladeUser bladeUser) throws IOException {
         //查询当前创客
-        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -176,43 +170,61 @@ public class SelfHelpInvoiceMakerController {
         return R.success("申请成功");
     }
 
-    @GetMapping("/immediatePayment")
+    @GetMapping("/immediate-payment")
     @ApiOperation(value = "立即支付", notes = "立即支付")
-    public R immediatePayment() {
+    public R immediatePayment(BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
         return R.data(selfHelpInvoiceAccountService.immediatePayment());
     }
 
-    @PostMapping("/confirmPayment")
+    @PostMapping("/confirm-payment")
     @ApiOperation(value = "确认支付", notes = "确认支付")
-    public R confirmPayment(@Valid @RequestBody ConfirmPaymentDTO confirmPaymentDto) {
+    public R confirmPayment(@Valid @RequestBody ConfirmPaymentDTO confirmPaymentDto, BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
         return R.data(selfHelpInvoiceFeeService.confirmPayment(confirmPaymentDto));
     }
 
-    @GetMapping("/identificationCard")
+    @GetMapping("/idcard-ocr")
     @ApiOperation(value = "识别身份证", notes = "识别身份证")
-    public R identificationCard(String infoImg) throws Exception {
+    public R idcardOcr(String infoImg, BladeUser bladeUser) throws Exception {
+        //查询当前创客
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
         return R.data(RealnameVerifyUtil.idcardOCR(infoImg));
     }
 
-    @GetMapping("/judgeMakerAatural")
+    @GetMapping("/judge-maker-aatural")
     @ApiOperation(value = "判断创客资质", notes = "判断创客资质")
     public R judgeMakerAatural(MakerType makerType, BladeUser bladeUser) {
         //查询当前创客
-        R<MakerEntity> result = iUserClient.currentMaker(bladeUser);
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
         MakerEntity makerEntity = result.getData();
 
         if (MakerType.INDIVIDUALENTERPRISE.equals(makerType)) {
-            List<IndividualEnterpriseEntity> individualEnterpriseEntities = iUserClient.queryIndividualEnterpriseFindByMakerId(makerEntity.getId());
+            List<IndividualEnterpriseEntity> individualEnterpriseEntities = userClient.queryIndividualEnterpriseFindByMakerId(makerEntity.getId());
             if (null == individualEnterpriseEntities || individualEnterpriseEntities.size() <= 0) {
                 return R.fail("对不起，您还不符合个独开票的资质");
             }
         }
 
         if (MakerType.INDIVIDUALBUSINESS.equals(makerType)) {
-            List<IndividualBusinessEntity> individualBusinessEntities = iUserClient.queryIndividualBusinessByMakerId(makerEntity.getId());
+            List<IndividualBusinessEntity> individualBusinessEntities = userClient.queryIndividualBusinessByMakerId(makerEntity.getId());
             if (null == individualBusinessEntities || individualBusinessEntities.size() <= 0) {
                 return R.fail("对不起，您还不符合个体开票的资质");
             }

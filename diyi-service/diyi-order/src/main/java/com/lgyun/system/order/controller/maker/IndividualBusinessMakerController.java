@@ -18,13 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
 
-/**
- * 创客端---个体户管理模块相关接口
- *
- * @author tzq
- * @date 2020/9/9.
- * @time 10:17.
- */
 @RestController
 @RequestMapping("/maker/individual-business")
 @Validated
@@ -33,7 +26,7 @@ import javax.validation.constraints.NotNull;
 public class IndividualBusinessMakerController {
 
     private IUserClient userClient;
-    private ISelfHelpInvoiceService iSelfHelpInvoiceService;
+    private ISelfHelpInvoiceService selfHelpInvoiceService;
 
     @GetMapping("/query-month-and-year-invoice-money")
     @ApiOperation(value = "查询个体户月度开票金额和年度开票金额", notes = "查询个体户月度开票金额和年度开票金额")
@@ -44,7 +37,7 @@ public class IndividualBusinessMakerController {
             return result;
         }
 
-        return iSelfHelpInvoiceService.yearMonthMoney(individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
+        return selfHelpInvoiceService.yearMonthMoney(individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
     }
 
 }

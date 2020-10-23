@@ -1,7 +1,9 @@
 package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.lgyun.common.enumeration.*;
+import com.lgyun.common.enumeration.AccountState;
+import com.lgyun.common.enumeration.IdcardVerifyType;
+import com.lgyun.common.enumeration.VerifyStatus;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,8 +15,8 @@ import java.util.Date;
 /**
  * 合伙人信息表 Entity
  *
- * @author tzq
- * @since 2020-09-11 17:33:26
+ * @author liangfeihu
+ * @since 2020-10-20 18:25:03
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -24,10 +26,6 @@ import java.util.Date;
 public class PartnerEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 管理者ID
-     */
-    private Long userId;
 
     /**
      * 介绍合伙人ID
@@ -37,7 +35,7 @@ public class PartnerEntity extends BaseEntity {
     /**
      * 微信open_id
      */
-    private String openid;
+    private String openId;
 
     /**
      * 微信session_key
@@ -45,14 +43,14 @@ public class PartnerEntity extends BaseEntity {
     private String sessionKey;
 
     /**
+     * 微信昵称
+     */
+    private String weChatNickname;
+
+    /**
      * 微信关联日期
      */
     private Date relDate;
-
-    /**
-     * 到期日期
-     */
-    private Date dueDate;
 
     /**
      * 姓名
@@ -65,19 +63,9 @@ public class PartnerEntity extends BaseEntity {
     private String avatar;
 
     /**
-     * 认证状态
-     */
-    private CertificationState certificationState = CertificationState.UNCERTIFIED;
-
-    /**
-     * 加盟协议状态
-     */
-    private SignState joinSignState = SignState.UNSIGN;
-
-    /**
      * 账户状态
      */
-    private AccountState partnerState = AccountState.NORMAL;
+    private AccountState partnerState=AccountState.NORMAL;
 
     /**
      * 政治面貌
@@ -92,7 +80,7 @@ public class PartnerEntity extends BaseEntity {
     /**
      * 文化程度
      */
-    private String levelofedu;
+    private String leveloedu;
 
     /**
      * 电子邮箱
@@ -102,7 +90,12 @@ public class PartnerEntity extends BaseEntity {
     /**
      * 身份证号码
      */
-    private String idcardNo;
+    private String idCardNo;
+
+    /**
+     * 到期日期
+     */
+    private Date dueDate;
 
     /**
      * 手机号码
@@ -137,12 +130,12 @@ public class PartnerEntity extends BaseEntity {
     /**
      * 身份证正面图
      */
-    private String idcardPic;
+    private String idCardPic;
 
     /**
      * 身份证反面图
      */
-    private String idcardPicBack;
+    private String idCardPicBack;
 
     /**
      * 正面自拍照
@@ -152,67 +145,37 @@ public class PartnerEntity extends BaseEntity {
     /**
      * 身份证复印件图
      */
-    private String idcardCopy;
+    private String idCardCopy;
 
     /**
      * 手持证件反面照
      */
-    private String idcardBackHand;
+    private String idCardBackHand;
 
     /**
      * 手持证件正面照
      */
-    private String idcardHand;
+    private String idCardHand;
 
     /**
-     * 身份证验证状态：未验证，验证通过，验证未通过
-     */
-    private VerifyStatus idcardVerifyStatus = VerifyStatus.TOVERIFY;
-
-    /**
-     * 身份证验证日期时间
-     */
-    private Date idcardVerifyDate;
-
-    /**
-     * 人脸验证状态：未验证，验证通过，验证未通过
-     */
-    private VerifyStatus faceVerifyStatus = VerifyStatus.TOVERIFY;
-
-    /**
-     * 人脸验证日期时间
-     */
-    private Date faceVerifyDate;
-
-    /**
-     * 银行卡验证状态：未验证，验证通过，验证未通过
-     */
-    private VerifyStatus bankCardVerifyStatus = VerifyStatus.TOVERIFY;
-
-    /**
-     * 银行卡验证日期时间
-     */
-    private Date bankCardVerifyDate;
-
-    /**
-     * 手机号码验证状态：未验证，验证通过，验证未通过
-     */
-    private VerifyStatus phoneNumberVerifyStatus = VerifyStatus.TOVERIFY;
-
-    /**
-     * 手机号码验证日期时间
-     */
-    private Date phoneNumberVerifyDate;
-
-    /**
-     * 验证图片
+     * 刷脸截图
      */
     private String picVerify;
 
     /**
+     * 身份证验证状态：未验证，验证通过，验证未通过
+     */
+    private VerifyStatus idCardVerifyStatus=VerifyStatus.TOVERIFY;
+
+    /**
+     * 身份证验证日期时间
+     */
+    private Date idCardVerifyDate;
+
+    /**
      * 身份证验证类型：系统验证，手工验证
      */
-    private IdcardVerifyType idcardVerifyType;
+    private IdcardVerifyType idCardVerifyType;
 
     /**
      * 手工验证人

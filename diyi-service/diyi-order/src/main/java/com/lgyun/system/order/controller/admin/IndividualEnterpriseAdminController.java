@@ -20,12 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
 
-/**
- * 平台端---个独管理模块相关接口
- *
- * @author tzq
- * @date 2020-09-9
- */
 @RestController
 @RequestMapping("/admin/individual-enterprise")
 @Validated
@@ -36,9 +30,9 @@ public class IndividualEnterpriseAdminController {
     private IUserClient userClient;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
 
-    @GetMapping("/query-self-help-invoice-statistics")
+    @GetMapping("/query-invoice-number-and-money")
     @ApiOperation(value = "查询个独开票次数，月度开票金额，年度开票金额和总开票金额", notes = "查询个独开票次数，月度开票金额，年度开票金额和总开票金额")
-    public R querySelfHelpInvoiceStatistics(@ApiParam(value = "个独ID") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId, BladeUser bladeUser) {
+    public R queryInvoiceNumberAndMoney(@ApiParam(value = "个独ID") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -48,9 +42,9 @@ public class IndividualEnterpriseAdminController {
         return selfHelpInvoiceService.selfHelpInvoiceStatistics(individualEnterpriseId, InvoicePeopleType.INDIVIDUALENTERPRISE);
     }
 
-    @GetMapping("/query-self-help-invoice-list")
+    @GetMapping("/query-invoice-list")
     @ApiOperation(value = "查询个独开票记录", notes = "查询个独开票记录")
-    public R querySelfHelpInvoiceList(Query query, @ApiParam(value = "个独ID") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId, BladeUser bladeUser) {
+    public R queryInvoiceList(@ApiParam(value = "个独ID") @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
