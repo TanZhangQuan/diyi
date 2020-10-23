@@ -64,11 +64,11 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
     public R addPartner(AddPartnerDTO addPartnerDTO, AdminEntity adminEntity) {
         Integer count = baseMapper.selectCount(new QueryWrapper<PartnerEntity>().eq("id_card_no", addPartnerDTO.getIdCardNo()));
         if (count > 0) {
-            R.fail("你的身份证" + addPartnerDTO.getIdCardNo() + "已经创建合伙人了");
+            R.fail("你的身份证" + addPartnerDTO.getIdCardNo() + "已经创建合伙人了！");
         }
         count = baseMapper.selectCount(new QueryWrapper<PartnerEntity>().eq("phone_number", addPartnerDTO.getPhoneNumber()).eq("phone_number2", addPartnerDTO.getPhoneNumber()));
         if (count > 0) {
-            R.fail("你的手机号" + addPartnerDTO.getPhoneNumber() + "已经创建合伙人了");
+            R.fail("你的手机号" + addPartnerDTO.getPhoneNumber() + "已经创建合伙人了！");
         }
         PartnerEntity partnerEntity = new PartnerEntity();
         BeanUtil.copy(addPartnerDTO, partnerEntity);
@@ -77,20 +77,20 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
         partnerEntity.setCreateTime(new Date());
         partnerEntity.setPartnerState(AccountState.NORMAL);
         save(partnerEntity);
-        return R.fail("合伙人创建成功");
+        return R.fail("合伙人创建成功！");
     }
 
     @Override
     public R updatePartner(UpdatePartnerDTO updatePartnerDTO, AdminEntity adminEntity) {
         PartnerEntity partnerEntity = baseMapper.selectById(updatePartnerDTO.getPartnerId());
         if (partnerEntity == null) {
-            R.fail("不存在该合伙人");
+            R.fail("不存在该合伙人！");
         }
         BeanUtil.copy(updatePartnerDTO, partnerEntity);
         partnerEntity.setCreateTime(new Date());
         partnerEntity.setCreateUser(adminEntity.getUserId());
         updateById(partnerEntity);
-        return R.fail("合伙人修改成功");
+        return R.fail("合伙人修改成功！");
     }
 
 
