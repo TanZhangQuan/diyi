@@ -82,7 +82,7 @@ public class NaturalPersonMakerAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        
+
         return makerService.importMaker(importMakerDTO);
     }
 
