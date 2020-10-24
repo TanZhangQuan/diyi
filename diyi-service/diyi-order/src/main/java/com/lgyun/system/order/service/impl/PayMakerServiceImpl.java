@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
+import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
@@ -18,6 +19,7 @@ import com.lgyun.system.order.service.IMakerInvoiceService;
 import com.lgyun.system.order.service.IMakerTaxRecordService;
 import com.lgyun.system.order.service.IPayMakerService;
 import com.lgyun.system.order.vo.*;
+import com.lgyun.system.order.vo.maker.IndividualYearMonthVO;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
@@ -153,9 +155,9 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
                 continue;
             }
 
-            //个体户或个独名称
-            String individualName = null;
-            BigDecimal enterpriseBusinessAnnualFee = null;
+            //个体户或个独ID
+            Long individualId = null;
+            BigDecimal enterpriseBusinessAnnualFee = BigDecimal.ZERO;
             switch (payEnterpriseEntity.getMakerType()) {
 
                 case NATURALPERSON:
@@ -203,7 +205,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
                         continue;
                     }
 
-                    individualName = payEnterpriseExcel.getIndividualBusinessName();
+                    individualId = individualBusinessEntity.getId();
                     enterpriseBusinessAnnualFee = payEnterpriseExcel.getIndividualBusinessAnnualFee();
                     break;
 
@@ -244,7 +246,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
                         continue;
                     }
 
-                    individualName = payEnterpriseExcel.getIndividualEnterpriseName();
+                    individualId = individualEnterpriseEntity.getId();
                     enterpriseBusinessAnnualFee = payEnterpriseExcel.getIndividualEnterpriseAnnualFee();
                     break;
 
@@ -258,14 +260,14 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
             payMakerEntity.setPayEnterpriseId(payEnterpriseEntity.getId());
             payMakerEntity.setMakerId(makerEntity.getId());
             payMakerEntity.setMakerType(payEnterpriseEntity.getMakerType());
-            payMakerEntity.setIndividualName(individualName == null ? "" : individualName);
+            payMakerEntity.setIndividualId(individualId);
             payMakerEntity.setTotalFee(payEnterpriseExcel.getTotalFee());
             payMakerEntity.setMakerNetIncome(payEnterpriseExcel.getMakerNetIncome());
             payMakerEntity.setMakerTaxFee(payEnterpriseExcel.getMakerTaxFee());
             payMakerEntity.setMakerNeIncome(payEnterpriseExcel.getMakerNeIncome());
             payMakerEntity.setServiceRate(payEnterpriseExcel.getServiceRate());
-            payMakerEntity.setEnterpriseBusinessAnnualFee(enterpriseBusinessAnnualFee == null ? BigDecimal.ZERO : enterpriseBusinessAnnualFee);
-            payMakerEntity.setAuditFee((payEnterpriseExcel.getAuditFee() == null) ? BigDecimal.ZERO : payEnterpriseExcel.getAuditFee());
+            payMakerEntity.setEnterpriseBusinessAnnualFee(enterpriseBusinessAnnualFee);
+            payMakerEntity.setAuditFee(payEnterpriseExcel.getAuditFee());
             payMakerEntity.setPayFee(payEnterpriseExcel.getPayFee());
             payMakerEntity.setPayMemo(payEnterpriseExcel.getNote());
             save(payMakerEntity);
@@ -304,6 +306,11 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
             payMakerVOList.add(payMakerVO);
         }
         return payMakerVOList;
+    }
+
+    @Override
+    public R<IndividualYearMonthVO> yearMonthMoney(Long allKindEnterpriseId, InvoicePeopleType invoicePeopleType) {
+        return R.data(baseMapper.yearMonthMoney(allKindEnterpriseId, invoicePeopleType));
     }
 
 }

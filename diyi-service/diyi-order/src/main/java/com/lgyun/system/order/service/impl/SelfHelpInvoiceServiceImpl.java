@@ -20,7 +20,6 @@ import com.lgyun.system.order.vo.*;
 import com.lgyun.system.order.vo.admin.SelfHelpInvoiceAdminDetailVO;
 import com.lgyun.system.order.vo.admin.SelfHelpInvoiceAdminVO;
 import com.lgyun.system.order.vo.admin.SelfHelpInvoiceDetailAdminVO;
-import com.lgyun.system.order.vo.maker.SelfHelpInvoiceYearMonthVO;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
@@ -251,11 +250,6 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         selfHelpInvoiceExpressByEnterpriseProviderVO.setExpressMessage(expressMessage);
 
         return R.data(selfHelpInvoiceExpressByEnterpriseProviderVO);
-    }
-
-    @Override
-    public R<SelfHelpInvoiceYearMonthVO> yearMonthMoney(Long allKindEnterpriseId, InvoicePeopleType invoicePeopleType) {
-        return R.data(baseMapper.yearMonthMoney(allKindEnterpriseId, invoicePeopleType));
     }
 
     @Override
