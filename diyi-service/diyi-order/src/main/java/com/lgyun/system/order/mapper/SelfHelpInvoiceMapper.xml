@@ -467,7 +467,7 @@
         IFNULL(SUM(IF(MONTH(create_time) = 7, total_pay_provider_fee, 0)), 0) AS jul_income, IFNULL(SUM(IF(MONTH(create_time) = 8, total_pay_provider_fee, 0)), 0) AS aug_income,
         IFNULL(SUM(IF(MONTH(create_time) = 9, total_pay_provider_fee, 0)), 0) AS sep_income, IFNULL(SUM(IF(MONTH(create_time) = 10, total_pay_provider_fee, 0)), 0) AS oct_income,
         IFNULL(SUM(IF(MONTH(create_time) = 11, total_pay_provider_fee, 0)), 0) AS nov_income, IFNULL(SUM(IF(MONTH(create_time) = 12, total_pay_provider_fee, 0)), 0) AS dec_income
-        FROM diyi_self_help_invoice WHERE is_deleted = 0 AND current_state != 'REJECTED' AND YEAR(create_time) = YEAR(NOW()) AND enterprise_id = #{param1}
+        FROM diyi_self_help_invoice WHERE is_deleted = 0 AND (current_state = 'PAID' AND current_state = 'INVOICED') AND YEAR(create_time) = YEAR(NOW()) AND enterprise_id = #{param1}
     </select>
 
     <select id="queryCrowdYearTradeByServiceProvider" resultMap="yearTradeVO">
@@ -498,7 +498,7 @@
         IF(DAY(LAST_DAY(NOW())) >= 29, IFNULL(SUM(IF(DAY(create_time) = 29, total_pay_provider_fee, 0)), 0), NULL) AS twenty_nine_day_income,
         IF(DAY(LAST_DAY(NOW())) >= 30, IFNULL(SUM(IF(DAY(create_time) = 30, total_pay_provider_fee, 0)), 0), NULL) AS thirty_day_income,
 		IF(DAY(LAST_DAY(NOW())) >= 31, IFNULL(SUM(IF(DAY(create_time) = 31, total_pay_provider_fee, 0)), 0), NULL) AS thirty_one_day_income
-        FROM diyi_self_help_invoice WHERE is_deleted = 0 AND current_state != 'REJECTED'
+        FROM diyi_self_help_invoice WHERE is_deleted = 0 AND (current_state = 'PAID' AND current_state = 'INVOICED')
         AND YEAR(create_time) = YEAR(NOW()) AND MONTH(create_time) = MONTH(NOW()) AND enterprise_id = #{param1}
     </select>
 
@@ -529,7 +529,7 @@
         IFNULL(SUM(IF(WEEKDAY(create_time) = 2, total_pay_provider_fee, 0)), 0) AS wed_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 3, total_pay_provider_fee, 0)), 0) AS thu_income,
         IFNULL(SUM(IF(WEEKDAY(create_time) = 4, total_pay_provider_fee, 0)), 0) AS fri_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 5, total_pay_provider_fee, 0)), 0) AS sat_income,
         IFNULL(SUM(IF(WEEKDAY(create_time) = 6, total_pay_provider_fee, 0)), 0) AS sun_income
-        FROM diyi_self_help_invoice WHERE is_deleted = 0 AND current_state != 'REJECTED' AND WEEK(create_time) = WEEK(NOW()) AND enterprise_id = #{param1}
+        FROM diyi_self_help_invoice WHERE is_deleted = 0 AND (current_state = 'PAID' AND current_state = 'INVOICED') AND WEEK(create_time) = WEEK(NOW()) AND enterprise_id = #{param1}
     </select>
 
     <select id="queryCrowdWeekTradeByServiceProvider" resultMap="weekTradeVO">
@@ -553,7 +553,7 @@
         IFNULL(SUM(IF(HOUR(create_time) = 19, total_pay_provider_fee, 0)), 0) AS nineteen_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 20, total_pay_provider_fee, 0)), 0) AS twenty_hour_income,
         IFNULL(SUM(IF(HOUR(create_time) = 21, total_pay_provider_fee, 0)), 0) AS twenty_one_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 22, total_pay_provider_fee, 0)), 0) AS twenty_two_hour_income,
         IFNULL(SUM(IF(HOUR(create_time) = 23, total_pay_provider_fee, 0)), 0) AS twenty_three_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 0, total_pay_provider_fee, 0)), 0) AS twenty_four_hour_income
-        FROM diyi_self_help_invoice WHERE is_deleted = 0 AND current_state != 'REJECTED' AND DATE(create_time) = DATE(NOW()) AND enterprise_id = #{param1}
+        FROM diyi_self_help_invoice WHERE is_deleted = 0 AND (current_state = 'PAID' AND current_state = 'INVOICED') AND DATE(create_time) = DATE(NOW()) AND enterprise_id = #{param1}
     </select>
 
     <select id="queryCrowdDayTradeByServiceProvider" resultMap="dayTradeVO">

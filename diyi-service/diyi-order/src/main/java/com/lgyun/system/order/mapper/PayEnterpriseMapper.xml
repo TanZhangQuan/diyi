@@ -510,25 +510,22 @@
     </select>
 
     <select id="transactionByEnterprise" resultMap="transactionVO">
-        SELECT t1.month_pay AS total_sub_month_pay, t1.year_pay AS total_sub_year_pay, t1.all_pay AS total_sub_all_pay,
-        t2.month_pay AS crowd_month_pay, t2.year_pay AS crowd_year_pay, t2.all_pay AS crowd_all_pay,
-        (SELECT COUNT(DISTINCT id) FROM diyi_maker_enterprise WHERE enterprise_id = #{param1}) AS maker_num,
-        (SELECT COUNT(id) FROM diyi_enterprise_service_provider WHERE enterprise_id = #{param1}) AS enterprise_num FROM
-        (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, pay_to_platform_amount, 0)), 0) AS month_pay,
-        IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, pay_to_platform_amount, 0)), 0) AS year_pay,
-        IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay FROM diyi_pay_enterprise WHERE is_deleted = 0 AND
-        (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND enterprise_id = #{param1}) t1,
-        (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, total_pay_provider_fee, 0)), 0) AS month_pay,
-        IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, total_pay_provider_fee, 0)), 0) AS year_pay,
-        IFNULL(SUM(total_pay_provider_fee), 0) AS all_pay FROM diyi_self_help_invoice WHERE is_deleted = 0
-        AND current_state != 'REJECTED' AND apply_enterprise_id = #{param1}) t2
+        SELECT t1.month_pay AS total_sub_month_pay, t1.year_pay AS total_sub_year_pay, t1.all_pay AS total_sub_all_pay, t2.month_pay AS crowd_month_pay,
+        t2.year_pay AS crowd_year_pay, t2.all_pay AS crowd_all_pay, (SELECT COUNT(DISTINCT id) FROM diyi_maker_enterprise WHERE is_deleted = 0
+        AND relationship_type != 'NORELATION' AND enterprise_id = #{param1}) AS maker_num, (SELECT COUNT(id) FROM diyi_enterprise_service_provider WHERE is_deleted = 0
+        AND cooperate_status = 'COOPERATING' AND enterprise_id = #{param1}) AS enterprise_num FROM (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30,
+        pay_to_platform_amount, 0)), 0) AS month_pay, IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, pay_to_platform_amount, 0)), 0) AS year_pay,
+        IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay FROM diyi_pay_enterprise WHERE is_deleted = 0 AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY')
+        AND enterprise_id = #{param1}) t1, (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, total_pay_provider_fee, 0)), 0) AS month_pay,
+        IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, total_pay_provider_fee, 0)), 0) AS year_pay, IFNULL(SUM(total_pay_provider_fee), 0) AS all_pay
+        FROM diyi_self_help_invoice WHERE is_deleted = 0 AND (current_state = 'PAID' AND current_state = 'INVOICED') AND apply_enterprise_id = #{param1}) t2
     </select>
 
     <select id="transactionByServiceProvider" resultMap="transactionVO">
         SELECT t1.month_pay AS total_sub_month_pay, t1.year_pay AS total_sub_year_pay, t1.all_pay AS total_sub_all_pay,
         t2.month_pay AS crowd_month_pay, t2.year_pay AS crowd_year_pay, t2.all_pay AS crowd_all_pay,
-        (SELECT COUNT(DISTINCT id) FROM diyi_service_provider_maker WHERE service_provider_id = #{param1}) AS maker_num,
-        (SELECT COUNT(id) FROM diyi_enterprise_service_provider WHERE service_provider_id = #{param1}) AS enterprise_num FROM
+        (SELECT COUNT(DISTINCT id) FROM diyi_service_provider_maker WHERE is_deleted = 0 AND service_provider_id = #{param1}) AS maker_num,
+        (SELECT COUNT(id) FROM diyi_enterprise_service_provider WHERE is_deleted = 0 AND cooperate_status = 'COOPERATING' AND service_provider_id = #{param1}) AS enterprise_num FROM
         (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, pay_to_platform_amount, 0)), 0) AS month_pay,
         IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, pay_to_platform_amount, 0)), 0) AS year_pay,
         IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay FROM diyi_pay_enterprise WHERE is_deleted = 0 AND
