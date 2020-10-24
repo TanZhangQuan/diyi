@@ -18,13 +18,14 @@ import java.util.List;
 public interface IEnterpriseServiceProviderService extends BaseService<EnterpriseServiceProviderEntity> {
 
     /**
-     * 查询所有的服务商
+     * 查询服务商编号和名称
      *
-     * @param page
      * @param enterpriseId
+     * @param serviceProviderName
+     * @param page
      * @return
      */
-    R<IPage<ServiceProviderIdNameListVO>> getServiceProviderByEnterpriseId(IPage<ServiceProviderIdNameListVO> page, Long enterpriseId, String serviceProviderName);
+    R<IPage<ServiceProviderIdNameListVO>> queryServiceProviderIdAndNameList(Long enterpriseId, String serviceProviderName, IPage<ServiceProviderIdNameListVO> page);
 
     /**
      * 根据商户ID, 服务商ID查询关联
@@ -66,13 +67,13 @@ public interface IEnterpriseServiceProviderService extends BaseService<Enterpris
     R<IPage<EnterprisesByProviderVO>> getEnterprtisesByServiceProviderId(Long serviceProviderId, String keyWord, IPage<EnterprisesByProviderVO> page);
 
     /**
-     * 查询当前服务商合作商户
+     * 查询商户编号和名称
      *
      * @param page
      * @param serviceProviderId
      * @return
      */
-    R<IPage<EnterpriseIdNameListVO>> getEnterprisesByServiceProvider(IPage<EnterpriseIdNameListVO> page, Long serviceProviderId);
+    R<IPage<EnterpriseIdNameListVO>> queryEnterpriseIdAndNameList(Long serviceProviderId, String enterpriseName, IPage<EnterpriseIdNameListVO> page);
 
     /**
      * 商户匹配服务商

@@ -57,15 +57,6 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
     List<ServiceProviderListPaymentVO> queryServiceProviderListPayment(QueryServiceProviderListPaymentDTO queryServiceProviderListPaymentDTO, IPage<ServiceProviderListPaymentVO> page);
 
     /**
-     * 查询所有商户的编号名称
-     *
-     * @param enterpriseName
-     * @param page
-     * @return
-     */
-    List<EnterpriseIdNameListVO> queryEnterpriseListNaturalPersonMaker(String enterpriseName, IPage<EnterpriseIdNameListVO> page);
-
-    /**
      * 商户管理模块查询所有商户
      *
      * @param queryEnterpriseListDTO

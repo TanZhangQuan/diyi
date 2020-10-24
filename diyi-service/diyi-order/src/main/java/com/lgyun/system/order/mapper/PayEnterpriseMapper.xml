@@ -363,10 +363,10 @@
             AND t1.pay_enterprise_audit_state = #{param3.payEnterpriseAuditState}
         </if>
         <if test="param3.serviceProviderName != null and param3.serviceProviderName.trim() != ''">
-            AND t3.service_provider_name like concat('%', #{param3.serviceProviderName}, '%')
+            AND t3.service_provider_name LIKE concat('%', #{param3.serviceProviderName}, '%')
         </if>
         <if test="param3.enterpriseName != null and param3.enterpriseName.trim() != ''">
-            AND t2.enterprise_name like concat('%', #{param3.enterpriseName}, '%')
+            AND t2.enterprise_name LIKE concat('%', #{param3.enterpriseName}, '%')
         </if>
         <if test="param3.beginDate != null">
             AND DATEDIFF(t1.create_time, #{param3.beginDate}) <![CDATA[ >= ]]> 0
@@ -393,10 +393,10 @@
             AND t1.id = #{param3.payEnterpriseMakerId}
         </if>
         <if test="param3.serviceProviderName != null and param3.serviceProviderName.trim() != ''">
-            AND t3.service_provider_name like concat('%', #{param3.serviceProviderName}, '%')
+            AND t3.service_provider_name LIKE concat('%', #{param3.serviceProviderName}, '%')
         </if>
         <if test="param3.enterpriseName != null and param3.enterpriseName.trim() != ''">
-            AND t2.enterprise_name like concat('%', #{param3.enterpriseName}, '%')
+            AND t2.enterprise_name LIKE concat('%', #{param3.enterpriseName}, '%')
         </if>
         <if test="param3.beginDate != null">
             AND DATEDIFF(t1.create_time, #{param3.beginDate}) <![CDATA[ >= ]]> 0
@@ -427,10 +427,10 @@
         WHERE pipl.is_deleted = 0 AND pe.is_deleted = 0 AND pi.is_deleted = 0 AND pil.is_deleted = 0 AND e.is_deleted =
         0 AND sp.is_deleted = 0 and pe.enterprise_id = #{param5}
         <if test="param1 != null and param1 != ''">
-            AND pil.invoice_serial_no like concat('%', #{param1}, '%')
+            AND pil.invoice_serial_no LIKE concat('%', #{param1}, '%')
         </if>
         <if test="param2 != null and param2 != ''">
-            AND sp.service_provider_name like concat('%', #{param2}, '%')
+            AND sp.service_provider_name LIKE concat('%', #{param2}, '%')
         </if>
         <if test="param3 != null and param3 != ''">
             AND DATEDIFF(pe.create_time, #{param3}) <![CDATA[ >= ]]> 0
@@ -457,7 +457,7 @@
         diyi_platform_invoice_pay_list pl on pl.pay_enterprise_id = pe.id
         where pe.company_invoice_state != 'OPENED' and pe.enterprise_id = #{param1}
         <if test="param2 != null and param2 != ''">
-            AND sp.service_provider_name like concat('%', #{param2}, '%')
+            AND sp.service_provider_name LIKE concat('%', #{param2}, '%')
         </if>
     </select>
 
@@ -469,7 +469,7 @@
         ON mt.pay_enterprise_id = pe.id INNER JOIN diyi_service_provider sp ON sp.id = pe.service_provider_id
         where pe.is_deleted= 0 and mt.is_deleted = 0 and sp.is_deleted = 0 and pe.enterprise_id = #{param1}
         <if test="param2 != null and param2 != ''">
-            AND sp.service_provider_name like concat('%', #{param2}, '%')
+            AND sp.service_provider_name LIKE concat('%', #{param2}, '%')
         </if>
     </select>
 
@@ -485,7 +485,7 @@
         WHERE pe.is_deleted = 0 AND pm.is_deleted = 0 AND mi.is_deleted = 0 AND sp.is_deleted = 0 and pe.enterprise_id =
         #{param1}
         <if test="param2 != null and param2 != ''">
-            AND sp.service_provider_name like concat('%', #{param2}, '%')
+            AND sp.service_provider_name LIKE concat('%', #{param2}, '%')
         </if>
     </select>
 
@@ -660,7 +660,7 @@
             AND pe.service_provider_id = #{param1}
         </if>
         <if test="param2 !=null and param2 != ''">
-            AND e.enterprise_name like concat('%', #{param2}, '%')
+            AND e.enterprise_name LIKE concat('%', #{param2}, '%')
         </if>
         <if test="param3 !=null and param3 != ''">
             AND pe.create_time > #{param3}
@@ -684,7 +684,7 @@
             and pe.service_provider_id = #{param1}
         </if>
         <if test="param2 !=null and param2 != ''">
-            AND e.enterprise_name like concat('%', #{param2}, '%')
+            AND e.enterprise_name LIKE concat('%', #{param2}, '%')
         </if>
         <if test="param3 !=null and param3 != ''">
             AND pe.create_time > #{param3}
@@ -709,7 +709,7 @@
             AND pe.service_provider_id = #{param1}
         </if>
         <if test="param2 !=null and param2 != ''">
-            AND e.enterprise_name like concat('%', #{param2}, '%')
+            AND e.enterprise_name LIKE concat('%', #{param2}, '%')
         </if>
         <if test="param3 !=null and param3 != ''">
             AND pe.create_time > #{param3}
@@ -730,7 +730,7 @@
             AND pe.service_provider_id = #{param1}
         </if>
         <if test="param2 !=null and param2 != ''">
-            AND e.enterprise_name like concat('%', #{param2}, '%')
+            AND e.enterprise_name LIKE concat('%', #{param2}, '%')
         </if>
         <if test="param3 !=null and param3 != ''">
             AND pe.create_time > #{param3}

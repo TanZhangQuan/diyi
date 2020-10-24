@@ -18,13 +18,13 @@ import java.util.List;
 public interface EnterpriseServiceProviderMapper extends BaseMapper<EnterpriseServiceProviderEntity> {
 
     /**
-     * 根据商户ID查询所有合作的服务商
+     * 查询服务商编号和名称
      *
      * @param enterpriseId
      * @param page
      * @return
      */
-    List<ServiceProviderIdNameListVO> getServiceProviderByEnterpriseId(Long enterpriseId, String serviceProviderName, IPage<ServiceProviderIdNameListVO> page);
+    List<ServiceProviderIdNameListVO> queryServiceProviderIdAndNameList(Long enterpriseId, String serviceProviderName, IPage<ServiceProviderIdNameListVO> page);
 
     /**
      * 查询服务商关联的所有商户
@@ -57,12 +57,13 @@ public interface EnterpriseServiceProviderMapper extends BaseMapper<EnterpriseSe
     List<EnterprisesByProviderVO> getEnterprtisesByServiceProviderId(Long serviceProviderId, String keyWord, IPage<EnterprisesByProviderVO> page);
 
     /**
-     * 查询当前服务商合作商户
+     * 查询商户编号和名称
      *
      * @param serviceProviderId
+     * @param enterpriseName
      * @param page
      * @return
      */
-    List<EnterpriseIdNameListVO> getEnterprisesByServiceProvider(Long serviceProviderId, IPage<EnterpriseIdNameListVO> page);
+    List<EnterpriseIdNameListVO> queryEnterpriseIdAndNameList(Long serviceProviderId, String enterpriseName, IPage<EnterpriseIdNameListVO> page);
 }
 

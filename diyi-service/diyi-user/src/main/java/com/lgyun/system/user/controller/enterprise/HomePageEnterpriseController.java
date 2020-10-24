@@ -8,8 +8,6 @@ import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.service.IEnterpriseServiceProviderService;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -40,12 +38,9 @@ public class HomePageEnterpriseController {
         return enterpriseWorkerService.queryEnterpriseWorkerDetail(enterpriseWorkerEntity.getId());
     }
 
-    @GetMapping("/query-service-provider-list")
+    @GetMapping("/query-service-provider-id-and-name-list")
     @ApiOperation(value = "查询当前商户关联服务商", notes = "查询当前商户关联服务商")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "serviceProviderName", value = "服务商名称", paramType = "query", dataType = "string")
-    })
-    public R queryServiceProviderList(String serviceProviderName, Query query, BladeUser bladeUser) {
+    public R queryServiceProviderIdAndNameList(Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -53,7 +48,7 @@ public class HomePageEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return enterpriseServiceProviderService.getServiceProviderByEnterpriseId(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), serviceProviderName);
+        return enterpriseServiceProviderService.queryServiceProviderIdAndNameList(enterpriseWorkerEntity.getEnterpriseId(), null, Condition.getPage(query.setDescs("create_time")));
     }
 
 }

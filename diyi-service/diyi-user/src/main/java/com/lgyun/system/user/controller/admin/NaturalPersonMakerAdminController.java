@@ -11,10 +11,7 @@ import com.lgyun.system.user.dto.MakerAddDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.excel.MakerExcel;
 import com.lgyun.system.user.excel.MakerImportListener;
-import com.lgyun.system.user.service.IAdminService;
-import com.lgyun.system.user.service.IEnterpriseService;
-import com.lgyun.system.user.service.IMakerEnterpriseService;
-import com.lgyun.system.user.service.IMakerService;
+import com.lgyun.system.user.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -40,7 +37,7 @@ public class NaturalPersonMakerAdminController {
     private IAdminService adminService;
     private IMakerEnterpriseService makerEnterpriseService;
     private IMakerService makerService;
-    private IEnterpriseService enterpriseService;
+    private IEnterpriseServiceProviderService enterpriseServiceProviderService;
 
     @GetMapping("/query-enterprise-id-and-name-list")
     @ApiOperation(value = "查询所有商户的编号名称", notes = "查询所有商户的编号名称")
@@ -51,13 +48,13 @@ public class NaturalPersonMakerAdminController {
             return result;
         }
 
-        return enterpriseService.queryEnterpriseListNaturalPersonMaker(enterpriseName, Condition.getPage(query.setDescs("create_time")));
+        return enterpriseServiceProviderService.queryEnterpriseIdAndNameList(null, enterpriseName, Condition.getPage(query.setDescs("create_time")));
     }
 
     @PostMapping("/create-maker")
     @ApiOperation(value = "新增单个创客", notes = "新增单个创客")
     public R createMaker(@ApiParam(value = "商户编号", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
-                       @Valid @RequestBody MakerAddDTO makerAddDto, BladeUser bladeUser) {
+                         @Valid @RequestBody MakerAddDTO makerAddDto, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -70,7 +67,7 @@ public class NaturalPersonMakerAdminController {
     @PostMapping("import-maker-list")
     @ApiOperation(value = "导入创客", notes = "导入创客")
     public R importMakerList(@ApiParam(value = "商户编号", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
-                        @ApiParam(value = "Excel文件", required = true) @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file, BladeUser bladeUser) throws IOException {
+                             @ApiParam(value = "Excel文件", required = true) @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file, BladeUser bladeUser) throws IOException {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

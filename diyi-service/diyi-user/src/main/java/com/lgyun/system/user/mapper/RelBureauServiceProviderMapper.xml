@@ -17,7 +17,7 @@
         AND service_provider_state = 'NORMAL'
         AND bureau_type = #{bureauType}
         <if test="serviceProviderName != null and serviceProviderName != ''">
-            AND service_provider_name like CONCTA('%',#{serviceProviderName},'%')
+            AND service_provider_name LIKE CONCTA('%',#{serviceProviderName},'%')
         </if>
     </select>
 

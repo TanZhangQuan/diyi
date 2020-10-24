@@ -336,7 +336,7 @@
             AND t1.id = #{param3.selfHelpInvoiceId}
         </if>
         <if test="param3.invoicePeopleName != null and param3.invoicePeopleName != ''">
-            AND t3.invoice_people_name like concat('%', #{param3.invoicePeopleName}, '%')
+            AND t3.invoice_people_name LIKE concat('%', #{param3.invoicePeopleName}, '%')
         </if>
         <if test="param3.beginDate != null">
             AND DATEDIFF(t1.create_time, #{param3.beginDate}) <![CDATA[ >= ]]> 0
@@ -388,10 +388,10 @@
         </if>
         WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t3.service_provider_id = #{param1} AND t1.invoice_people_type = #{param2} AND t3.apply_state = #{param3}
         <if test="param4.enterpriseName != null and param4.enterpriseName != ''">
-            AND t2.enterprise_name like concat('%', #{param4.enterpriseName}, '%')
+            AND t2.enterprise_name LIKE concat('%', #{param4.enterpriseName}, '%')
         </if>
         <if test="param4.invoicePeopleName != null and param4.invoicePeopleName != ''">
-            AND t5.invoice_people_name like concat('%', #{param4.invoicePeopleName}, '%')
+            AND t5.invoice_people_name LIKE concat('%', #{param4.invoicePeopleName}, '%')
         </if>
         <if test="param4.beginDate != null">
             AND DATEDIFF(t1.create_time, #{param4.beginDate}) <![CDATA[ >= ]]> 0
@@ -445,7 +445,7 @@
         INNER JOIN diyi_service_provider sp ON sp.id = ss.service_provider_id LEFT JOIN diyi_self_help_invoice_express k ON k.self_help_invoice_apply_provider_id = ss.id
         WHERE si.is_deleted = 0 AND sa.is_deleted = 0 AND sd.is_deleted = 0 AND ss.is_deleted = 0 AND ssd.is_deleted = 0 AND e.is_deleted = 0 and e.id =#{param1}
         <if test="param2 != null and param2 != ''">
-            AND sp.service_provider_name like concat('%', #{param2}, '%')
+            AND sp.service_provider_name LIKE concat('%', #{param2}, '%')
         </if>
     </select>
 
@@ -578,7 +578,7 @@
             AND ss.service_provider_id =#{param1}
         </if>
         <if test="param2 != null and param2 != ''">
-            AND e.enterprise_name like concat('%', #{param2}, '%')
+            AND e.enterprise_name LIKE concat('%', #{param2}, '%')
         </if>
         <if test="param3 !=null and param3 != ''">
             AND si.create_time > #{param3}
@@ -596,7 +596,7 @@
     <select id="getAdminMakerTypeSelfHelpInvoice" resultMap="selfHelpInvoiceAdminMap">
         SELECT a.id AS self_help_invoice_id, b.id AS self_help_invoice_apply_id, a.enterprise_id, c.enterprise_name, a.list_file, a.pay_type, ( SELECT SUM(charge_money_num) FROM diyi_self_help_invoice_detail v WHERE v.self_help_invoice_id = a.id ) AS total_charge_money_num, a.current_state, a.create_time FROM diyi_self_help_invoice a INNER JOIN diyi_self_help_invoice_apply b ON a.id = b.self_help_invoice_id INNER JOIN diyi_enterprise c ON c.id = a.enterprise_id WHERE b.apply_state != 'REJECTED'
         <if test="param1 != null and param1 != ''">
-            AND c.enterprise_name like concat('%', #{param1}, '%')
+            AND c.enterprise_name LIKE concat('%', #{param1}, '%')
         </if>
         <if test="param2 !=null and param2 != ''">
             AND a.create_time > #{param2}
