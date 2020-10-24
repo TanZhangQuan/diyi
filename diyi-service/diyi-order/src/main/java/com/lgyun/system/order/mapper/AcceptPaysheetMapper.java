@@ -5,15 +5,15 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.order.dto.AcceptPayListDTO;
 import com.lgyun.system.order.entity.AcceptPaysheetEntity;
 import com.lgyun.system.order.vo.AcceptPayListVO;
-import com.lgyun.system.order.vo.AcceptPaysheetByEnterpriseListVO;
-import com.lgyun.system.order.vo.AcceptPaysheetWorksheetVO;
+import com.lgyun.system.order.vo.AcceptPaysheetAndCsList;
+import com.lgyun.system.order.vo.AcceptPaysheetDetailVO;
 import com.lgyun.system.order.vo.PayEnterpriseMakerDetailListVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 /**
- *  Mapper
+ * Mapper
  *
  * @author liangfeihu
  * @since 2020-07-17 14:38:25
@@ -22,23 +22,42 @@ import java.util.List;
 public interface AcceptPaysheetMapper extends BaseMapper<AcceptPaysheetEntity> {
 
     /**
-     * 查询创客对应某商户的所有交付支付验收单
+     * 查询总包+分包交付支付验收单
      *
      * @param enterpriseId
      * @param makerId
      * @param page
      * @return
      */
-    List<AcceptPaysheetByEnterpriseListVO> getAcceptPaysheetsByEnterprise(Long enterpriseId ,Long makerId, IPage<AcceptPaysheetByEnterpriseListVO> page);
+    List<AcceptPaysheetAndCsList> queryTotalSubAcceptPaysheetList(Long enterpriseId, Long makerId, IPage<AcceptPaysheetAndCsList> page);
 
     /**
-     * 根据ID查询交付支付验收单
+     * 查询总包+分包交付支付验收单详情
      *
      * @param makerId
      * @param acceptPaysheetId
      * @return
      */
-    AcceptPaysheetWorksheetVO getAcceptPaysheetWorksheet(Long makerId, Long acceptPaysheetId);
+    AcceptPaysheetDetailVO queryTotalSubAcceptPaysheetDetail(Long makerId, Long acceptPaysheetId);
+
+    /**
+     * 查询众包交付支付验收单
+     *
+     * @param enterpriseId
+     * @param makerId
+     * @param page
+     * @return
+     */
+    List<AcceptPaysheetAndCsList> queryCrowdAcceptPaysheetList(Long enterpriseId, Long makerId, IPage<AcceptPaysheetAndCsList> page);
+
+    /**
+     * 查询众包交付支付验收单详情
+     *
+     * @param makerId
+     * @param acceptPaysheetId
+     * @return
+     */
+    AcceptPaysheetDetailVO queryCrowdAcceptPaysheetDetail(Long makerId, Long acceptPaysheetId);
 
     /**
      * 查询当前商户所有总包交付支付验收单

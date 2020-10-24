@@ -12,11 +12,9 @@ import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.mapper.AcceptPaysheetMapper;
 import com.lgyun.system.order.service.IAcceptPaysheetService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
-import com.lgyun.system.order.service.IWorksheetMakerService;
-import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.order.vo.AcceptPayListVO;
-import com.lgyun.system.order.vo.AcceptPaysheetByEnterpriseListVO;
-import com.lgyun.system.order.vo.AcceptPaysheetWorksheetVO;
+import com.lgyun.system.order.vo.AcceptPaysheetAndCsList;
+import com.lgyun.system.order.vo.AcceptPaysheetDetailVO;
 import com.lgyun.system.order.vo.PayEnterpriseMakerDetailListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,17 +33,25 @@ import org.springframework.transaction.annotation.Transactional;
 public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMapper, AcceptPaysheetEntity> implements IAcceptPaysheetService {
 
     private IPayEnterpriseService payEnterpriseService;
-    private IWorksheetMakerService worksheetMakerService;
-    private IWorksheetService worksheetService;
 
     @Override
-    public R<IPage<AcceptPaysheetByEnterpriseListVO>> getAcceptPaysheetsByEnterprise(IPage<AcceptPaysheetByEnterpriseListVO> page, Long enterpriseId, Long makerId) {
-        return R.data(page.setRecords(baseMapper.getAcceptPaysheetsByEnterprise(enterpriseId, makerId, page)));
+    public R<IPage<AcceptPaysheetAndCsList>> queryTotalSubAcceptPaysheetList(Long enterpriseId, Long makerId, IPage<AcceptPaysheetAndCsList> page) {
+        return R.data(page.setRecords(baseMapper.queryTotalSubAcceptPaysheetList(enterpriseId, makerId, page)));
     }
 
     @Override
-    public R<AcceptPaysheetWorksheetVO> getAcceptPaysheetWorksheet(Long makerId, Long acceptPaysheetId) {
-        return R.data(baseMapper.getAcceptPaysheetWorksheet(makerId, acceptPaysheetId));
+    public R<AcceptPaysheetDetailVO> queryTotalSubAcceptPaysheetDetail(Long makerId, Long acceptPaysheetId) {
+        return R.data(baseMapper.queryTotalSubAcceptPaysheetDetail(makerId, acceptPaysheetId));
+    }
+
+    @Override
+    public R<IPage<AcceptPaysheetAndCsList>> queryCrowdAcceptPaysheetList(Long enterpriseId, Long makerId, IPage<AcceptPaysheetAndCsList> page) {
+        return R.data(page.setRecords(baseMapper.queryCrowdAcceptPaysheetList(enterpriseId, makerId, page)));
+    }
+
+    @Override
+    public R<AcceptPaysheetDetailVO> queryCrowdAcceptPaysheetDetail(Long makerId, Long acceptPaysheetId) {
+        return R.data(baseMapper.queryCrowdAcceptPaysheetDetail(makerId, acceptPaysheetId));
     }
 
     @Override
@@ -65,7 +71,7 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
         }
 
         //根据支付清单ID, 创客ID查询交付支付验收单
-        AcceptPaysheetEntity oldAcceptPaysheetEntity = getAcceptPaysheet(acceptPaysheetSaveDto.getPayEnterpriseId(), acceptPaysheetSaveDto.getMakerId());
+        AcceptPaysheetEntity oldAcceptPaysheetEntity = getAcceptPaysheet(acceptPaysheetSaveDto.getPayEnterpriseId(), acceptPaysheetSaveDto.getPayMakerId());
         if (oldAcceptPaysheetEntity != null) {
             return R.fail("已存在相同交付支付验收单");
         }
@@ -74,11 +80,11 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
         AcceptPaysheetEntity acceptPaysheetEntity = new AcceptPaysheetEntity();
         if (AcceptPaysheetType.SINGLE.equals(acceptPaysheetSaveDto.getAcceptPaysheetType())) {
 
-            if (acceptPaysheetSaveDto.getMakerId() == null) {
+            if (acceptPaysheetSaveDto.getPayMakerId() == null) {
                 return R.fail("单个上传交付支付验收单需要选择创客");
             }
 
-            acceptPaysheetEntity.setMakerId(acceptPaysheetSaveDto.getMakerId());
+            acceptPaysheetEntity.setPayMakerId(acceptPaysheetSaveDto.getPayMakerId());
         }
 
         acceptPaysheetEntity.setServiceTimeStart(acceptPaysheetSaveDto.getServiceTimeStart());
@@ -112,15 +118,15 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
     }
 
     @Override
-    public AcceptPaysheetEntity getAcceptPaysheet(Long payEnterpriseId, Long makerId) {
+    public AcceptPaysheetEntity getAcceptPaysheet(Long payEnterpriseId, Long payMakerId) {
 
         QueryWrapper<AcceptPaysheetEntity> queryWrapper = new QueryWrapper<>();
-        if (makerId != null) {
+        if (payMakerId != null) {
             queryWrapper.lambda().eq(AcceptPaysheetEntity::getPayEnterpriseId, payEnterpriseId)
-                    .eq(AcceptPaysheetEntity::getMakerId, makerId);
+                    .eq(AcceptPaysheetEntity::getPayMakerId, payMakerId);
         } else {
             queryWrapper.lambda().eq(AcceptPaysheetEntity::getPayEnterpriseId, payEnterpriseId)
-                    .isNull(true, AcceptPaysheetEntity::getMakerId);
+                    .isNull(true, AcceptPaysheetEntity::getPayMakerId);
         }
 
         return baseMapper.selectOne(queryWrapper);

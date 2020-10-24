@@ -29,9 +29,9 @@ public class AcceptPaysheetMakerController {
     private IUserClient userClient;
     private IAcceptPaysheetService acceptPaysheetService;
 
-    @GetMapping("/query-maker-to-enterprise-accept-paysheet-list")
-    @ApiOperation(value = "查询创客对应某商户的所有总包交付支付验收单", notes = "查询创客对应某商户的所有总包交付支付验收单")
-    public R queryMakerToEnterpriseAcceptPaysheetList(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
+    @GetMapping("/query-total-sub-accept-paysheet-list")
+    @ApiOperation(value = "查询总包+分包交付支付验收单", notes = "查询总包+分包交付支付验收单")
+    public R queryTotalSubAcceptPaysheetList(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -39,12 +39,12 @@ public class AcceptPaysheetMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return acceptPaysheetService.getAcceptPaysheetsByEnterprise(Condition.getPage(query.setDescs("create_time")), enterpriseId, makerEntity.getId());
+        return acceptPaysheetService.queryTotalSubAcceptPaysheetList(enterpriseId, makerEntity.getId(), Condition.getPage(query.setDescs("create_time")));
     }
 
-    @GetMapping("/query-accept-paysheet-detail")
-    @ApiOperation(value = "根据ID查询总包交付支付验收单", notes = "根据ID查询总包交付支付验收单")
-    public R queryAcceptPaysheetDetail(@ApiParam(value = "总包交付支付验收单ID", required = true) @NotNull(message = "请输入总包交付支付验收单编号") @RequestParam(required = false) Long acceptPaysheetId, BladeUser bladeUser) {
+    @GetMapping("/query-total-sub-accept-paysheet-detail")
+    @ApiOperation(value = "查询总包+分包交付支付验收单详情", notes = "查询总包+分包交付支付验收单详情")
+    public R queryTotalSubAcceptPaysheetDetail(@ApiParam(value = "总包+分包交付支付验收单", required = true) @NotNull(message = "请选择总包+分包交付支付验收单") @RequestParam(required = false) Long acceptPaysheetId, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -52,7 +52,33 @@ public class AcceptPaysheetMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return acceptPaysheetService.getAcceptPaysheetWorksheet(makerEntity.getId(), acceptPaysheetId);
+        return acceptPaysheetService.queryTotalSubAcceptPaysheetDetail(makerEntity.getId(), acceptPaysheetId);
+    }
+
+    @GetMapping("/query-crowd-accept-paysheet-list")
+    @ApiOperation(value = "查询众包交付支付验收单", notes = "查询众包交付支付验收单")
+    public R queryCrowdAcceptPaysheetList(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        MakerEntity makerEntity = result.getData();
+
+        return acceptPaysheetService.queryCrowdAcceptPaysheetList(enterpriseId, makerEntity.getId(), Condition.getPage(query.setDescs("create_time")));
+    }
+
+    @GetMapping("/query-crowd-accept-paysheet-detail")
+    @ApiOperation(value = "查询众包交付支付验收单详情", notes = "查询众包交付支付验收单详情")
+    public R queryCrowdAcceptPaysheetDetail(@ApiParam(value = "众包交付支付验收单", required = true) @NotNull(message = "请选择众包交付支付验收单") @RequestParam(required = false) Long acceptPaysheetId, BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        MakerEntity makerEntity = result.getData();
+
+        return acceptPaysheetService.queryCrowdAcceptPaysheetDetail(makerEntity.getId(), acceptPaysheetId);
     }
 
 }

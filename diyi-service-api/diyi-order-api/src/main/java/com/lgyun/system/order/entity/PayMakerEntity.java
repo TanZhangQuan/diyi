@@ -38,14 +38,14 @@ public class PayMakerEntity extends BaseEntity {
     private Long makerId;
 
     /**
-     * 创客身份，自然人，个体户，个独。
+     * 创客身份: 自然人，个体户，个独。
      */
     private MakerType makerType;
 
     /**
-     * 个体户/个独名称
+     * 个体户/个独ID
      */
-    private String individualName;
+    private Long individualId;
 
     /**
      * 创客到手=服务外包费-创客税费=服务外包费*服务税费率

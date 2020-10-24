@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  * @since 2020/6/6 00:28
  */
 @Data
-public class SelfHelpInvoiceYearMonthVO implements Serializable {
+public class IndividualYearMonthVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**

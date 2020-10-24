@@ -46,6 +46,11 @@
         <result property="checkDate" column="check_date"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.order.vo.maker.IndividualYearMonthVO" id="selfHelpInvoiceYearMonthVO">
+        <result property="monthMoney" column="month_money"/>
+        <result property="yearMoney" column="year_money"/>
+    </resultMap>
+
     <select id="getEnterpriseNumIncome" resultMap="makerEnterpriseNumIncomeVO">
         SELECT enterprise_num, (month_income1 + month_income2) AS month_income, (year_income1 + year_income2) AS year_income, (all_income1 + all_income2) AS all_income
         FROM (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), platform_pay_ok_datetime) <![CDATA[ < ]]> 30, maker_net_income, 0)), 0) AS month_income1, IFNULL(SUM(IF(DATEDIFF(NOW(), platform_pay_ok_datetime) <![CDATA[ < ]]> 365, maker_net_income, 0)), 0) AS year_income1,
@@ -109,6 +114,15 @@
         <if test="param5 != null">
             AND t2.enterprise_id = #{param5}
         </if>
+    </select>
+
+    <select id="yearMonthMoney" resultMap="selfHelpInvoiceYearMonthVO">
+        SELECT t1.month_money + t2.month_money AS month_money, t1.year_money + t2.year_money AS year_money FROM (SELECT IFNULL(SUM(IF(MONTH(platform_pay_ok_datetime) =
+        MONTH(NOW()), total_fee, 0)), 0) AS month_money, IFNULL(SUM(IF(YEAR(platform_pay_ok_datetime) = YEAR(NOW()), total_fee, 0)), 0) AS year_money
+        FROM diyi_pay_maker WHERE is_deleted = 0 AND (pay_state = 'PLATFORMPAID' OR pay_state = 'CONFIRMPAID')  AND individual_id = #{param1}
+        AND maker_type = #{param2}) t1, (SELECT IFNULL(SUM(IF(MONTH(create_time) = MONTH(NOW()), charge_money_num, 0)), 0) AS month_money,
+        IFNULL(SUM(IF(YEAR(create_time) = YEAR(NOW()), charge_money_num, 0)), 0) AS year_money FROM diyi_self_help_invoice_detail WHERE is_deleted = 0
+        AND invoice_print_state = 'INVOICESUCCESS' AND all_kind_enterprise_id = #{param1} AND invoice_people_type = #{param2}) t2
     </select>
 
 </mapper>

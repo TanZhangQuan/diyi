@@ -3,7 +3,6 @@ package com.lgyun.system.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.BizType;
 import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.VerifyStatus;
 import com.lgyun.core.mp.base.BaseServiceImpl;
@@ -99,11 +98,6 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
         MakerEntity makerEntity = makerService.makerSave(individualBusinessEnterpriseWebAddDto.getPhone(), individualBusinessEnterpriseWebAddDto.getName(),
                 individualBusinessEnterpriseWebAddDto.getIdcardNo(), individualBusinessEnterpriseWebAddDto.getIdcardPic(), individualBusinessEnterpriseWebAddDto.getIdcardPicBack(),
                 individualBusinessEnterpriseWebAddDto.getIdcardHand(), individualBusinessEnterpriseWebAddDto.getIdcardBackHand(), enterpriseId);
-
-        //判断税种
-        if (BizType.TAXPAYER.equals(individualBusinessEnterpriseWebAddDto.getBizType())) {
-            return R.fail("个独税种不存在一般纳税人");
-        }
 
         //新建个独
         IndividualEnterpriseEntity individualEnterpriseEntity = new IndividualEnterpriseEntity();

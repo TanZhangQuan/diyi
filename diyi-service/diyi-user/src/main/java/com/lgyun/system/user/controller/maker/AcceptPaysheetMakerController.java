@@ -25,9 +25,9 @@ public class AcceptPaysheetMakerController {
     private IMakerService makerService;
     private IMakerEnterpriseService makerEnterpriseService;
 
-    @GetMapping("/query-enterprise-list")
-    @ApiOperation(value = "查询创客所有总包交付支付验收单的商户", notes = "查询创客所有总包交付支付验收单的商户")
-    public R queryEnterpriseList(Query query, BladeUser bladeUser) {
+    @GetMapping("/query-relevance-enterprise-list")
+    @ApiOperation(value = "查询创客关联的所有商户", notes = "查询创客关联的所有商户")
+    public R queryRelevanceEnterpriseList(Query query, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = makerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -35,7 +35,7 @@ public class AcceptPaysheetMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return makerEnterpriseService.getEnterprisesByWorksheet(Condition.getPage(query.setDescs("create_time")), makerEntity.getId());
+        return makerEnterpriseService.queryRelevanceEnterpriseIdAndNameList(makerEntity.getId(), Condition.getPage(query.setDescs("create_time")));
     }
 
 }

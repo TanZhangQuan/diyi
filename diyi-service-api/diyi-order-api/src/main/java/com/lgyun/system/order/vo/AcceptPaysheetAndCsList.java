@@ -3,7 +3,6 @@ package com.lgyun.system.order.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -16,11 +15,11 @@ import java.util.Date;
  * @time 20:04.
  */
 @Data
-public class AcceptPaysheetByEnterpriseListVO implements Serializable {
+public class AcceptPaysheetAndCsList implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 交付支付验收单ID
+     * 总包+分包/众包交付支付验收单ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
@@ -33,18 +32,18 @@ public class AcceptPaysheetByEnterpriseListVO implements Serializable {
     /**
      * 支付总额
      */
-    private BigDecimal payToPlatformAmount;
+    private BigDecimal payAmount;
 
     /**
-     * 发布时间
+     * 服务开始日期
      */
     @JsonFormat(pattern = "MM-dd", timezone = "GMT+8")
-    private Date createTime;
+    private Date serviceTimeStart;
 
     /**
-     * 关单时间
+     * 服务结束日期
      */
     @JsonFormat(pattern = "MM-dd", timezone = "GMT+8")
-    private Date closeWorksheetDate;
+    private Date serviceTimeEnd;
 
 }

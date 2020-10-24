@@ -42,7 +42,7 @@ public class IndividualEnterpriseEntity extends BaseEntity {
     private BizType bizType;
 
     /**
-     * 个体户名称
+     * 个独名称
      */
     private String ibname;
 
@@ -117,7 +117,7 @@ public class IndividualEnterpriseEntity extends BaseEntity {
     private String businessLicenceCopyUrl;
 
     /**
-     * 个体户状态：1，工商注册中；2，银行开户中；,3，税务登记中；4，运营中；10，已注销
+     * 个独状态：1，工商注册中；2，银行开户中；,3，税务登记中；4，运营中；10，已注销
      */
     private Ibstate ibstate = Ibstate.BUSINESSREGISTERING;
 

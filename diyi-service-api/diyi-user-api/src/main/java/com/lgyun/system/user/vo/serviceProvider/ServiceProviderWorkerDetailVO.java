@@ -18,7 +18,7 @@ public class ServiceProviderWorkerDetailVO implements Serializable {
     /**
      * 服务商名称
      */
-    private Long serviceProviderName;
+    private String serviceProviderName;
 
     /**
      * 头像

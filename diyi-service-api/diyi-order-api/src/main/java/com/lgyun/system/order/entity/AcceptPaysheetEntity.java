@@ -30,6 +30,16 @@ public class AcceptPaysheetEntity extends BaseEntity {
     private Long payEnterpriseId;
 
     /**
+     * 交付支付验收单类型：清单式，单人单张
+     */
+    private AcceptPaysheetType acceptPaysheetType;
+
+    /**
+     * 创客支付明细ID
+     */
+    private Long payMakerId;
+
+    /**
      * 服务开始日期
      */
     private Date serviceTimeStart;
@@ -38,16 +48,6 @@ public class AcceptPaysheetEntity extends BaseEntity {
      * 服务结束日期
      */
     private Date serviceTimeEnd;
-
-    /**
-     * 交付支付验收单类型：清单式，单人单张
-     */
-    private AcceptPaysheetType acceptPaysheetType;
-
-    /**
-     * 创客ID
-     */
-    private Long makerId;
 
     /**
      * 上传来源
