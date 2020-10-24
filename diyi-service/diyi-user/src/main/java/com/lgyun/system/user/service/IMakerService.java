@@ -8,14 +8,18 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IdcardOcrSaveDTO;
 import com.lgyun.system.user.dto.MakerAddDTO;
+import com.lgyun.system.user.dto.admin.ImportMakerDTO;
 import com.lgyun.system.user.entity.MakerEntity;
-import com.lgyun.system.user.excel.MakerExcel;
-import com.lgyun.system.user.vo.*;
+import com.lgyun.system.user.vo.EnterpriseMakerDetailVO;
+import com.lgyun.system.user.vo.IdcardOcrVO;
+import com.lgyun.system.user.vo.MakerRealNameAuthenticationStateVO;
+import com.lgyun.system.user.vo.MakerWorksheetVO;
 import com.lgyun.system.user.vo.maker.MakerDetailVO;
 import com.lgyun.system.user.vo.maker.MakerInfoVO;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import java.io.IOException;
 
 /**
  * Service 接口
@@ -242,10 +246,9 @@ public interface IMakerService extends IService<MakerEntity> {
     /**
      * 导入创客数据
      *
-     * @param list
-     * @param enterpriseId
+     * @param importMakerDTO
      */
-    void importMaker(List<MakerExcel> list, Long enterpriseId);
+    R importMaker(ImportMakerDTO importMakerDTO);
 
     /**
      * 新增单个创客
@@ -288,5 +291,13 @@ public interface IMakerService extends IService<MakerEntity> {
      */
     R getMakerAll(IPage<MakerEntity> page);
 
+    /**
+     * 读取Excel表获取创客列表
+     *
+     * @param file
+     * @return
+     * @throws IOException
+     */
+    R readExcelGetMakerList(MultipartFile file) throws IOException;
 }
 
