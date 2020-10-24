@@ -69,7 +69,7 @@
     </resultMap>
 
     <select id="selectMakerEnterprisePage" resultMap="makerEnterpriseRelationMap">
-        SELECT e.enterprise_name, e.shop_user_name, e.legal_person_name, e.legal_person_idcard, e.contact1_position, e.contact1_phone, e.social_credit_no,
+        SELECT e.enterprise_name, e.shop_user_name, e.legal_person_name, e.legal_person_id_card as legal_person_idcard, e.contact1_position, e.contact1_phone, e.social_credit_no,
         e.biz_licence_url, e.id as enterprise_id,me.relationship_type FROM diyi_maker_enterprise me INNER JOIN diyi_enterprise e ON me.enterprise_id = e.id
         WHERE me.is_deleted = 0 and e.is_deleted = 0 and me.maker_id = #{param1} AND me.relationship_type = #{param2} and me.cooperate_status = 'COOPERATING'
     </select>
@@ -136,7 +136,7 @@
     <select id="getMakerDetailed" resultMap="makerEnterpriseDetailYearMonthVO">
         SELECT pm.maker_net_income check_money, pm.total_fee income, e.enterprise_name, pm.create_time AS check_date FROM diyi_maker_enterprise me
         INNER JOIN diyi_pay_enterprise pe ON me.enterprise_id = pe.enterprise_id INNER JOIN diyi_enterprise e ON e.id = me.enterprise_id INNER JOIN diyi_pay_maker pm
-        ON pm.pay_enterprise_id = pe.id WHERE pe.pay_state = 'CONFIRMPAY' pm.maker_id =#{param1} AND me.enterprise_id =#{param2}
+        ON pm.pay_enterprise_id = pe.id WHERE pe.pay_state = 'CONFIRMPAY' and pm.maker_id =#{param1} AND me.enterprise_id =#{param2}
     </select>
 
     <select id="getMakerCrowdDetailed" resultMap="makerEnterpriseDetailYearMonthVO">
