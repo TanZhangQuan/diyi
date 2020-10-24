@@ -1,22 +1,20 @@
 package com.lgyun.system.user.controller.enterprise;
 
-import com.alibaba.excel.EasyExcel;
-import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.MakerAddDTO;
+import com.lgyun.system.user.dto.admin.ImportMakerDTO;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
-import com.lgyun.system.user.excel.MakerExcel;
-import com.lgyun.system.user.excel.MakerImportListener;
-import com.lgyun.system.user.service.*;
+import com.lgyun.system.user.service.IEnterpriseWorkerService;
+import com.lgyun.system.user.service.IMakerEnterpriseService;
+import com.lgyun.system.user.service.IMakerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,9 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Set;
 
 @RestController
@@ -66,33 +62,26 @@ public class NaturalPersonMakerEnterpriseController {
         return makerService.makerAdd(makerAddDto, enterpriseWorkerEntity.getEnterpriseId());
     }
 
-    @PostMapping("/import-maker-list")
-    @ApiOperation(value = "导入创客", notes = "导入创客")
-    public R importMakerList(@ApiParam(value = "文件") @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file, BladeUser bladeUser) throws IOException {
+    @PostMapping("read-excel-get-maker-list")
+    @ApiOperation(value = "读取Excel表获取导入的创客列表", notes = "读取Excel表获取导入的创客列表")
+    public R readExcelGetMakerList(@ApiParam(value = "Excel文件", required = true) @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file, BladeUser bladeUser) throws IOException {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
-        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+        return makerService.readExcelGetMakerList(file);
+    }
 
-        //判断文件内容是否为空
-        if (file.isEmpty()) {
-            return R.fail("Excel文件不能为空");
+    @PostMapping("import-maker-list")
+    @ApiOperation(value = "导入创客", notes = "导入创客")
+    public R importMakerList(@Valid @RequestBody ImportMakerDTO importMakerDTO, BladeUser bladeUser) throws IOException {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
         }
-
-        // 查询上传文件的后缀
-        String suffix = file.getOriginalFilename();
-        if ((!StringUtils.endsWithIgnoreCase(suffix, ".xls") && !StringUtils.endsWithIgnoreCase(suffix, ".xlsx"))) {
-            return R.fail("请选择Excel文件");
-        }
-
-        MakerImportListener makerImportListener = new MakerImportListener(makerService, enterpriseWorkerEntity.getEnterpriseId());
-        InputStream inputStream = new BufferedInputStream(file.getInputStream());
-        ExcelReaderBuilder builder = EasyExcel.read(inputStream, MakerExcel.class, makerImportListener);
-        builder.doReadAll();
-
-        return R.success("操作成功");
+        return makerService.importMaker(importMakerDTO);
     }
 
     @GetMapping("/query-maker-detail")
@@ -111,8 +100,8 @@ public class NaturalPersonMakerEnterpriseController {
     @PostMapping("/cancel-relevance-maker-list")
     @ApiOperation(value = "批量取消创客关联或关注", notes = "批量取消创客关联或关注")
     public R cancelRelevanceMakerList(@ApiParam(value = "创客") @NotEmpty(message = "请选择要取消关联的创客") @RequestParam(required = false) Set<Long> makerIds,
-                                   @ApiParam(value = "创客商户关系") @NotNull(message = "请选择创客商户关系") @RequestParam(required = false) RelationshipType relationshipType,
-                                   BladeUser bladeUser) {
+                                      @ApiParam(value = "创客商户关系") @NotNull(message = "请选择创客商户关系") @RequestParam(required = false) RelationshipType relationshipType,
+                                      BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {

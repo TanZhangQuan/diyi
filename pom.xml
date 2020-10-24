@@ -31,6 +31,8 @@
         <spring.boot.version>2.2.6.RELEASE</spring.boot.version>
         <spring.cloud.version>Hoxton.SR3</spring.cloud.version>
         <spring.platform.version>Cairo-SR8</spring.platform.version>
+        <easypoi.version>4.2.0</easypoi.version>
+        <poi.vresion>4.1.2</poi.vresion>
 
     </properties>
 
@@ -68,6 +70,31 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>cn.afterturn</groupId>
+                <artifactId>easypoi-spring-boot-starter</artifactId>
+                <version>${easypoi.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi</artifactId>
+                <version>${poi.vresion}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi.vresion}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml-schemas</artifactId>
+                <version>${poi.vresion}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
