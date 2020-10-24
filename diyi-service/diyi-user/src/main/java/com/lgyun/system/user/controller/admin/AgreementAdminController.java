@@ -205,17 +205,17 @@ public class AgreementAdminController {
 
     @PostMapping("/create-agreement")
     @ApiOperation(value = "平台端添加合同", notes = "平台端添加合同")
-    public R createAgreement(@ApiParam(value = "创客名字") @RequestParam(required = false) Long makerId, @ApiParam(value = "商户名字") @RequestParam(required = false) Long enterpriseId,
-                                @ApiParam(value = "服务商名字") @RequestParam(required = false) Long serviceProviderId, @ApiParam(value = "对象id") Long objectId,
-                                @ApiParam(value = "对象类型") ObjectType objectType, @ApiParam(value = "1：代表合同，2授权") Integer contractType,
-                                @ApiParam(value = "合同类别") AgreementType agreementType, @ApiParam(value = "合同类别") String paperAgreementUrl, BladeUser bladeUser) {
+    public R createAgreement(@RequestParam(required = false) Long makerId,
+                             @RequestParam(required = false) Long enterpriseId,
+                             @RequestParam(required = false) Long serviceProviderId,
+                             Long objectId, ObjectType objectType, AgreementType agreementType,String paperAgreementUrl, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return agreementService.saveAdminAgreement(makerId, enterpriseId, serviceProviderId, objectId, objectType, contractType, agreementType, paperAgreementUrl);
+        return agreementService.saveAdminAgreement(makerId, enterpriseId, serviceProviderId, objectId, objectType, agreementType, paperAgreementUrl);
     }
 
     @GetMapping("/query-maker-list")

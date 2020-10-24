@@ -12,7 +12,7 @@ import com.lgyun.system.user.vo.admin.RelBureauNoticeVO;
 import com.lgyun.system.user.vo.admin.RelBureauVO;
 
 /**
- * 税务局管理表 Service 接口
+ * 相关局管理表 Service 接口
  *
  * @author liangfeihu
  * @since 2020-10-20 18:47:56
@@ -20,7 +20,7 @@ import com.lgyun.system.user.vo.admin.RelBureauVO;
 public interface IRelBureauService extends BaseService<RelBureauEntity> {
 
     /**
-     * 添加税局
+     * 添加相关局
      *
      * @param addRelBureauDto
      * @return
@@ -28,7 +28,7 @@ public interface IRelBureauService extends BaseService<RelBureauEntity> {
     R addRelBureau(AddRelBureauDTO addRelBureauDto);
 
     /**
-     * 查询税局
+     * 查询相关局
      *
      * @param queryRelBureauListDTO
      * @param page
@@ -38,7 +38,7 @@ public interface IRelBureauService extends BaseService<RelBureauEntity> {
     R<IPage<RelBureauVO>> QueryRelBureau(QueryRelBureauListDTO queryRelBureauListDTO, IPage<RelBureauVO> page, BureauType bureauType);
 
     /**
-     * 查询税局信息
+     * 查询相关局信息
      *
      * @param bureauId
      * @return
@@ -46,7 +46,7 @@ public interface IRelBureauService extends BaseService<RelBureauEntity> {
     R<RelBureauEntity> queryRelBureauInfo(Long bureauId);
 
     /**
-     * 编辑税局
+     * 编辑相关局
      *
      * @param updateRelBureauDTO
      * @return
