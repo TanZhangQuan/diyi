@@ -101,7 +101,7 @@
     </resultMap>
 
     <select id="getEnterpriseName" resultMap="makerEnterpriseRelationVO">
-       SELECT id AS enterprise_id, enterprise_name, shop_user_name, legal_person_name, legal_person_idcard, contact1_position, contact1_name, contact1_phone,
+       SELECT id AS enterprise_id, enterprise_name, shop_user_name, legal_person_name, legal_person_id_card as legal_person_idcard, contact1_position, contact1_name, contact1_phone,
        social_credit_no, biz_licence_url, shop_id, contact1_name FROM diyi_enterprise t1 WHERE is_deleted = 0 AND enterprise_name = #{param1}
     </select>
 
