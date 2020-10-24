@@ -4,11 +4,14 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
+import com.lgyun.common.exception.CustomException;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.vo.SelfHelpInvoiceDetailProviderVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceSerProVO;
+import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.mapper.MakerEnterpriseMapper;
+import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
@@ -17,6 +20,8 @@ import com.lgyun.system.user.vo.RelMakerListVO;
 import com.lgyun.system.user.vo.maker.MakerEnterpriseDetailYearMonthVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,11 +37,18 @@ import java.util.Set;
  */
 @Slf4j
 @Service
-@AllArgsConstructor
 public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseMapper, MakerEnterpriseEntity> implements IMakerEnterpriseService {
+
+    @Autowired
+    @Lazy
+    private IEnterpriseService enterpriseService;
 
     @Override
     public void makerEnterpriseEntitySave(Long enterpriseId, Long makerId) {
+        int i = enterpriseService.count(new QueryWrapper<EnterpriseEntity>().lambda().eq(EnterpriseEntity::getId, enterpriseId));
+        if (i == 0) {
+            throw new CustomException("商户不存在！");
+        }
         MakerEnterpriseEntity makerEnterpriseEntity = getEnterpriseIdAndMakerId(enterpriseId, makerId);
         if (makerEnterpriseEntity != null) {
             if (!(RelationshipType.RELEVANCE.equals(makerEnterpriseEntity.getRelationshipType()) && CooperateStatus.COOPERATING.equals(makerEnterpriseEntity.getCooperateStatus()))) {
@@ -44,7 +56,6 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
                 makerEnterpriseEntity.setFirstCooperation(false);
                 makerEnterpriseEntity.setRelMemo("关联");
                 makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATING);
-
                 updateById(makerEnterpriseEntity);
                 return;
             } else {
@@ -220,11 +231,11 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
-    public R<IPage<MakerEnterpriseDetailYearMonthVO>> getMakerDetailed(IPage<MakerEnterpriseDetailYearMonthVO> page, Long makerId, Long enterpriseId,WorkSheetType workSheetType) {
-            if(workSheetType.equals(WorkSheetType.CROWDSOURCED)){
-               return R.data(page.setRecords(baseMapper.getMakerCrowdDetailed(makerId,enterpriseId,page)));
-            }
-        return R.data(page.setRecords(baseMapper.getMakerDetailed(makerId,enterpriseId,page)));
+    public R<IPage<MakerEnterpriseDetailYearMonthVO>> getMakerDetailed(IPage<MakerEnterpriseDetailYearMonthVO> page, Long makerId, Long enterpriseId, WorkSheetType workSheetType) {
+        if (workSheetType.equals(WorkSheetType.CROWDSOURCED)) {
+            return R.data(page.setRecords(baseMapper.getMakerCrowdDetailed(makerId, enterpriseId, page)));
+        }
+        return R.data(page.setRecords(baseMapper.getMakerDetailed(makerId, enterpriseId, page)));
     }
 
     @Override

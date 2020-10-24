@@ -7,15 +7,20 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.RealnameVerifyConstant;
 import com.lgyun.common.enumeration.*;
+import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.*;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IdcardOcrSaveDTO;
 import com.lgyun.system.user.dto.MakerAddDTO;
+import com.lgyun.system.user.dto.admin.ImportMakerDTO;
+import com.lgyun.system.user.dto.admin.ImportMakerListDTO;
+import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.entity.OnlineAgreementTemplateEntity;
 import com.lgyun.system.user.entity.User;
+import com.lgyun.system.user.excel.ExcelUtils;
 import com.lgyun.system.user.excel.MakerExcel;
 import com.lgyun.system.user.mapper.MakerMapper;
 import com.lgyun.system.user.oss.AliyunOssService;
@@ -32,8 +37,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -56,6 +64,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     private SmsUtil smsUtil;
     private IOnlineAgreementNeedSignService onlineAgreementNeedSignService;
     private IOnlineAgreementTemplateService onlineAgreementTemplateService;
+    private IEnterpriseService enterpriseService;
 
     @Override
     public R<MakerEntity> currentMaker(BladeUser bladeUser) {
@@ -640,17 +649,27 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void importMaker(List<MakerExcel> list, Long enterpriseId) {
-        list.forEach(makerExcel -> {
+    public R importMaker(ImportMakerDTO importMakerDTO) {
+        Long enterpriseId = importMakerDTO.getEnterpriseId();
+        int i = enterpriseService.count(new QueryWrapper<EnterpriseEntity>().lambda().eq(EnterpriseEntity::getId, enterpriseId));
+        if (i == 0) {
+            throw new CustomException("商户不存在！");
+        }
+        List<ImportMakerListDTO> importMakerDTOS = new ArrayList<>();
+        importMakerDTO.getImportMakerDTOS().forEach(makerExcel -> {
             try {
                 //新建创客
                 makerSave(makerExcel.getPhoneNumber(), makerExcel.getName(), makerExcel.getIdcardNo(), makerExcel.getBankCardNo(),
                         makerExcel.getBankName(), makerExcel.getBankCardNo(), enterpriseId);
             } catch (Exception e) {
+                importMakerDTOS.add(makerExcel);
                 log.error("新建创客异常", e);
             }
-
         });
+        if (Func.isEmpty(importMakerDTOS)) {
+            return R.success("操作成功！");
+        }
+        return R.data(importMakerDTOS);
     }
 
     @Override
@@ -699,6 +718,21 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
         IPage<MakerEntity> makerEntityIPage = baseMapper.selectPage(page, queryWrapper);
         return R.data(makerEntityIPage);
+    }
+
+    @Override
+    public R readExcelGetMakerList(MultipartFile file) throws IOException {
+        //判断文件内容是否为空
+        if (file.isEmpty()) {
+            return R.fail("Excel文件不能为空");
+        }
+        // 查询上传文件的后缀
+        String suffix = file.getOriginalFilename();
+        if ((!org.springframework.util.StringUtils.endsWithIgnoreCase(suffix, ".xls") && !org.springframework.util.StringUtils.endsWithIgnoreCase(suffix, ".xlsx"))) {
+            return R.fail("请选择Excel文件");
+        }
+        List<MakerExcel> makerExcels = ExcelUtils.importExcel(file, 0, 1, MakerExcel.class);
+        return R.data(makerExcels);
     }
 
 }
