@@ -46,21 +46,13 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
     R<IPage<MakerEnterpriseRelationVO>> selectMakerEnterprisePage(IPage<MakerEnterpriseRelationVO> page, Long makerId, RelationshipType relationshipType);
 
     /**
-     * 查询创客所有交付支付验收单的商户
-     * @param page
-     * @param makerId
-     * @return
-     */
-    R<IPage<EnterprisesIdNameListVO>> getEnterprisesByWorksheet(IPage<EnterprisesIdNameListVO> page, Long makerId);
-
-    /**
-     * 根据创客查询关联商户
+     * 查询创客关联商户的编号名称
      *
-     * @param makerId
      * @param page
+     * @param makerId
      * @return
      */
-    R<IPage<EnterprisesIdNameListVO>> findEnterpriseIdNameByMakerId(Long makerId, IPage<EnterprisesIdNameListVO> page);
+    R<IPage<EnterprisesIdNameListVO>> queryRelevanceEnterpriseIdAndNameList(Long makerId, IPage<EnterprisesIdNameListVO> page);
 
     /**
      * 添加和取消关注 relationshipType = 1,取消 2添加
@@ -156,7 +148,7 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
     R<IPage<SelfHelpInvoiceDetailProviderVO>> getSelfHelpInvoiceDetails(IPage<SelfHelpInvoiceDetailProviderVO> page, Long selfHelpvoiceId);
 
     /**
-     *查询关联商户和创客的明细
+     * 查询关联商户和创客的明细
      */
     R<IPage<MakerEnterpriseDetailYearMonthVO>> getMakerDetailed(IPage<MakerEnterpriseDetailYearMonthVO> page, Long makerId, Long enterpriseId, WorkSheetType workSheetType);
 

@@ -22,10 +22,10 @@ DROP TABLE IF EXISTS `diyi_accept_paysheet`;
 CREATE TABLE `diyi_accept_paysheet` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `pay_enterprise_id` bigint(50) NOT NULL COMMENT '支付清单ID',
+  `accept_paysheet_type` varchar(50) NOT NULL COMMENT '交付支付验收单类型：清单式，单人单张',
+  `pay_maker_id` bigint(50) DEFAULT NULL COMMENT '创客支付明细ID',
   `service_time_start` datetime NOT NULL COMMENT '服务开始日期',
   `service_time_end` datetime NOT NULL COMMENT '服务结束日期',
-  `accept_paysheet_type` varchar(50) NOT NULL COMMENT '交付支付验收单类型：清单式，单人单张',
-  `maker_id` bigint(50) DEFAULT NULL COMMENT '创客ID',
   `upload_source` varchar(50) NOT NULL COMMENT '上传来源',
   `upload_person` varchar(50) NOT NULL COMMENT '上传人员',
   `accept_paysheet_url` varchar(500) NOT NULL COMMENT '验收单URL',

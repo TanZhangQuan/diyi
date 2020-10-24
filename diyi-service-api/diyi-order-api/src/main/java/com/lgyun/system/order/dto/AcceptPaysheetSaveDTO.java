@@ -21,15 +21,15 @@ public class AcceptPaysheetSaveDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 总包编号
+     * 支付清单ID
      */
-    @NotNull(message = "请选择总包编号")
+    @NotNull(message = "请选择支付清单")
     private Long payEnterpriseId;
 
     /**
-     * 创客ID
+     * 创客支付明细ID
      */
-    private Long makerId;
+    private Long payMakerId;
 
     /**
      * 交付支付验收单类型：清单式，单人单张
