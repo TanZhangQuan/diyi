@@ -79,10 +79,29 @@
         <result property="invoiceSerialNo" column="invoice_serial_no"/>
         <result property="companyInvoiceUrl" column="company_invoice_url"/>
         <result property="makerTaxUrl" column="maker_tax_url"/>
-        <result property="companyInvoiceState" column="company_invoice_state"/>
+        <result property="subcontractingInvoiceState" column="subcontracting_invoice_state"/>
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="invoicePrintDate" column="invoice_print_date"/>
     </resultMap>
+
+    <resultMap id="EnterpriseSubcontractSummaryDetailMap" type="com.lgyun.system.order.vo.EnterpriseSubcontractInvoiceVO">
+        <result property="payEnterpriseId" column="pay_enterprise_id"/>
+        <result property="serviceProviderId" column="service_provider_id"/>
+        <result property="makerTotalInvoiceId" column="maker_total_invoice_id"/>
+        <result property="invoiceSerialNo" column="invoice_serial_no"/>
+        <result property="companyInvoiceUrl" column="company_invoice_url"/>
+        <result property="makerTaxUrl" column="maker_tax_url"/>
+        <result property="subcontractingInvoiceState" column="subcontracting_invoice_state"/>
+        <result property="serviceProviderName" column="service_provider_name"/>
+        <result property="invoicePrintDate" column="invoice_print_date"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="chargeListUrl" column="charge_list_url"/>
+        <result property="worksheetId" column="worksheet_id"/>
+        <result property="companyVoiceUploadDatetime" column="company_voice_upload_datetime"/>
+        <result property="acceptPaysheetUrl" column="accept_paysheet_url"/>
+        <result property="acceptPaysheetId" column="accept_paysheet_id"/>
+    </resultMap>
+
 
     <resultMap id="EnterpriseSubcontractPortalMap" type="com.lgyun.system.order.vo.EnterpriseSubcontractPortalVO">
         <result property="payEnterpriseId" column="pay_enterprise_id"/>
@@ -98,6 +117,25 @@
         <result property="invoicePrintDate" column="invoice_print_date"/>
     </resultMap>
 
+    <resultMap id="EnterpriseSubcontractPortalDetailMap" type="com.lgyun.system.order.vo.EnterpriseSubcontractPortalVO">
+        <result property="payEnterpriseId" column="pay_enterprise_id"/>
+        <result property="serviceProviderId" column="service_provider_id"/>
+        <result property="payMakerId" column="pay_maker_id"/>
+        <result property="makerInvoiceId" column="maker_invoice_id"/>
+        <result property="makerTaxRecordId" column="maker_tax_record_id"/>
+        <result property="voiceSerialNo" column="voice_serial_no"/>
+        <result property="makerVoiceUrl" column="maker_voice_url"/>
+        <result property="makerTaxUrl" column="maker_tax_url"/>
+        <result property="companyInvoiceState" column="company_invoice_state"/>
+        <result property="serviceProviderName" column="service_provider_name"/>
+        <result property="invoicePrintDate" column="invoice_print_date"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="chargeListUrl" column="charge_list_url"/>
+        <result property="worksheetId" column="worksheet_id"/>
+        <result property="acceptPaysheetUrl" column="accept_paysheet_url"/>
+        <result property="acceptPaysheetId" column="accept_paysheet_id"/>
+    </resultMap>
+
     <resultMap type="com.lgyun.system.order.vo.PayMakerListVO" id="payMakerListVO">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
@@ -108,6 +146,8 @@
         <result property="payFee" column="pay_fee"/>
         <result property="totalFee" column="total_fee"/>
         <result property="serviceRate" column="service_rate"/>
+        <result property="makerVoiceUrl" column="maker_voice_url"/>
+        <result property="makerTaxUrl" column="maker_tax_url"/>
     </resultMap>
 
     <resultMap type="com.lgyun.system.user.vo.TransactionVO" id="transactionVO">
@@ -316,6 +356,36 @@
         <result column="create_time" property="createTime"/>
     </resultMap>
 
+    <resultMap id="totalInvoiceListEnterVOMap" type="com.lgyun.system.order.vo.TotalInvoiceListEnterVO">
+        <result column="platform_invoice_pay_list_id" property="platformInvoicePayListId"/>
+        <result column="invoice_print_id" property="invoicePrintId"/>
+        <result column="invoice_application_pay_list_id" property="invoiceApplicationPayListId"/>
+        <result column="invoice_application_id" property="invoiceApplicationId"/>
+        <result column="enterprise_name" property="enterpriseName"/>
+        <result column="service_provider_name" property="serviceProviderName"/>
+        <result column="company_invoice_state" property="companyInvoiceState"/>
+        <result column="application_state" property="applicationState"/>
+        <result column="create_time" property="createTime"/>
+        <result column="apply_state" property="applyState"/>
+        <result column="company_invoice_state" property="companyInvoiceState"/>
+        <result column="application_state" property="applicationState"/>
+    </resultMap>
+
+
+    <resultMap id="relationEnterpriseServiceVOMap" type="com.lgyun.system.order.vo.RelationEnterpriseServiceVO">
+        <result column="service_provider_id" property="serviceProviderId"/>
+        <result column="service_provider_name" property="serviceProviderName"/>
+        <result column="cooperate_status" property="cooperateStatus"/>
+    </resultMap>
+
+
+    <resultMap id="enterpriseServicePayListVOMap" type="com.lgyun.system.order.vo.EnterpriseServicePayListVO">
+        <result column="pay_enterprise_id" property="payEnterpriseId"/>
+        <result column="service_provider_name" property="serviceProviderName"/>
+        <result column="createTime" property="createTime"/>
+        <result column="charge_list_url" property="chargeListUrl"/>
+    </resultMap>
+
     <select id="getEnterpriseAll" resultMap="InvoiceEnterpriseVOMap">
         SELECT e.id AS enterprise_id, pe.id AS pay_enterprise_id, pm.id AS pay_maker_id, e.enterprise_name AS enterprise_name FROM diyi_enterprise e
         INNER JOIN diyi_pay_enterprise pe ON e.id = pe.enterprise_id INNER JOIN diyi_pay_maker pm ON pm.pay_enterprise_id = pe.id
@@ -464,10 +534,10 @@
     <select id="findEnterpriseSubcontractSummary" resultMap="EnterpriseSubcontractSummaryMap">
         SELECT pe.id AS pay_enterprise_id, mt.id AS maker_total_invoice_id, sp.id AS service_provider_id,
         mt.invoice_serial_no, mt.company_invoice_url,
-        mt.maker_tax_url, pe.company_invoice_state, sp.service_provider_name, pe.invoice_print_date FROM
+        mt.maker_tax_url, pe.subcontracting_invoice_state, sp.service_provider_name, pe.invoice_print_date FROM
         diyi_pay_enterprise pe INNER JOIN diyi_maker_total_invoice mt
         ON mt.pay_enterprise_id = pe.id INNER JOIN diyi_service_provider sp ON sp.id = pe.service_provider_id
-        where pe.is_deleted= 0 and mt.is_deleted = 0 and sp.is_deleted = 0 and pe.enterprise_id = #{param1}
+        where pe.is_deleted= 0 and mt.is_deleted = 0 and sp.is_deleted = 0 and pe.subcontracting_invoice_state = 'OPENED' and pe.enterprise_id = #{param1}
         <if test="param2 != null and param2 != ''">
             AND sp.service_provider_name LIKE concat('%', #{param2}, '%')
         </if>
@@ -489,24 +559,17 @@
         </if>
     </select>
 
-    <select id="findDetailSummary" resultMap="EnterpriseSubcontractSummaryMap">
-        SELECT pe.id AS pay_enterprise_id, mt.id AS maker_total_invoice_id, sp.id AS service_provider_id, mt.invoice_serial_no, mt.company_invoice_url,
-        mt.maker_tax_url, pe.company_invoice_state, sp.service_provider_name, pe.invoice_print_date FROM diyi_pay_enterprise pe INNER JOIN diyi_maker_total_invoice
-        mt ON mt.pay_enterprise_id = pe.id INNER JOIN diyi_service_provider sp ON sp.id = pe.service_provider_id
-        where pe.is_deleted= 0 and mt.is_deleted = 0 and sp.is_deleted = 0 and mt.id = #{param1}
+    <select id="findDetailSummary" resultMap="EnterpriseSubcontractSummaryDetailMap">
+        SELECT pe.id AS pay_enterprise_id, mt.id AS maker_total_invoice_id, sp.id AS service_provider_id, mt.invoice_serial_no, mt.company_invoice_url, mt.maker_tax_url, pe.subcontracting_invoice_state, sp.service_provider_name, pe.invoice_print_date, e.enterprise_name, pe.charge_list_url, pe.worksheet_id, mt.company_voice_upload_datetime, ap.accept_paysheet_url FROM diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON pe.enterprise_id = e.id INNER JOIN diyi_maker_total_invoice mt ON mt.pay_enterprise_id = pe.id INNER JOIN diyi_service_provider sp ON sp.id = pe.service_provider_id INNER JOIN diyi_accept_paysheet ap ON ap.pay_enterprise_id = pe.id AND ap.accept_paysheet_type = 'MANY'
+         where pe.is_deleted= 0 and mt.is_deleted = 0 and sp.is_deleted = 0 and mt.id = #{param1}
     </select>
 
-    <select id="findDetailSubcontractPortal" resultMap="EnterpriseSubcontractPortalMap">
-        SELECT pe.id AS pay_enterprise_id,sp.id as service_provider_id, pm.id AS pay_maker_id, mi.id AS maker_invoice_id, mtr.id AS maker_tax_record_id,
-        mi.voice_serial_no, mi.maker_voice_url, mtr.maker_tax_url, pe.company_invoice_state, sp.service_provider_name, pe.invoice_print_date
-        FROM diyi_pay_enterprise pe INNER JOIN diyi_pay_maker pm ON pm.pay_enterprise_id = pe.id INNER JOIN diyi_maker_invoice mi ON mi.pay_maker_id = pm.id
-        INNER JOIN diyi_service_provider sp ON pe.service_provider_id = sp.id LEFT JOIN diyi_maker_tax_record mtr ON pm.id = mtr.pay_maker_id AND mtr.is_deleted = 0
-        WHERE pe.is_deleted = 0 AND pm.is_deleted = 0 AND mi.is_deleted = 0 AND sp.is_deleted = 0 and mi.id = #{param1}
+    <select id="findDetailSubcontractPortal" resultMap="EnterpriseSubcontractPortalDetailMap">
+        SELECT pe.id AS pay_enterprise_id, sp.id AS service_provider_id, pm.id AS pay_maker_id, mi.id AS maker_invoice_id, mtr.id AS maker_tax_record_id, mi.voice_serial_no, mi.maker_voice_url, mtr.maker_tax_url, pe.company_invoice_state, sp.service_provider_name, pe.invoice_print_date, e.enterprise_name, pe.charge_list_url, pe.worksheet_id, ap.accept_paysheet_url FROM diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON e.id = pe.enterprise_id INNER JOIN diyi_pay_maker pm ON pm.pay_enterprise_id = pe.id INNER JOIN diyi_maker_invoice mi ON mi.pay_maker_id = pm.id INNER JOIN diyi_service_provider sp ON pe.service_provider_id = sp.id INNER JOIN diyi_accept_paysheet ap ON ap.pay_enterprise_id = pe.id AND ap.accept_paysheet_type = 'MANY' LEFT JOIN diyi_maker_tax_record mtr ON pm.id = mtr.pay_maker_id AND mtr.is_deleted = 0 WHERE pe.is_deleted = 0 AND pm.is_deleted = 0 AND mi.is_deleted = 0 AND sp.is_deleted = 0 and mi.id = #{param1}
     </select>
 
     <select id="getPayMakerListByPayEnterprise" resultMap="payMakerListVO">
-        SELECT t2.id, t2.name, t2.idcard_no, t1.maker_net_income, t1.maker_tax_fee, t1.audit_fee, t1.pay_fee, t1.total_fee, t1.service_rate
-        FROM diyi_pay_maker t1 LEFT JOIN diyi_maker t2 ON t1.maker_id = t2.id AND t2.is_deleted = 0 WHERE t1.is_deleted = 0 AND t1.pay_enterprise_id = #{param1}
+        SELECT t2.id, t2. NAME, t2.idcard_no, t1.maker_net_income, t1.maker_tax_fee, t1.audit_fee, t1.pay_fee, t1.total_fee, t1.service_rate, mi.maker_voice_url, mt.maker_tax_url FROM diyi_pay_maker t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id INNER JOIN diyi_maker_invoice mi ON mi.pay_maker_id = t1.id LEFT JOIN diyi_maker_tax_record mt ON mt.pay_maker_id = t1.id AND t2.is_deleted = 0 WHERE t1.is_deleted = 0 AND t1.pay_enterprise_id = #{param1}
     </select>
 
     <select id="transactionByEnterprise" resultMap="transactionVO">
@@ -1027,5 +1090,28 @@
         GROUP BY service_provider_id) many
         ON total.service_provider_id = many.service_provider_id)) t2
         ON t1.id = t2.service_provider_id
+    </select>
+
+    <select id="queryTotalInvoiceListEnterprise" resultMap="totalInvoiceListEnterVOMap">
+        SELECT * FROM ( SELECT a.id AS invoice_application_pay_list_id, b.id AS invoice_application_id, 0 AS platform_invoice_pay_list_id, 0 AS invoice_print_id, d.enterprise_name, e.service_provider_name, b.application_state, 0 AS company_invoice_state, b.create_time, 1 AS apply_state FROM diyi_INVOICE_APPLICATION_PAY_LIST a INNER JOIN diyi_INVOICE_APPLICATION b ON b.id = a.application_id INNER JOIN diyi_pay_enterprise c ON c.id = a.pay_enterprise_id INNER JOIN diyi_enterprise d ON d.id = c.enterprise_id INNER JOIN diyi_service_provider e ON e.id = c.service_provider_id WHERE d.id = #{param1}
+        GROUP BY b.create_time UNION ALL SELECT a.id AS platform_invoice_pay_list_id, b.id AS invoice_print_id, 0 AS invoice_application_pay_list_id, 0 AS invoice_application_id, d.enterprise_name, e.service_provider_name, c.company_invoice_state, 0 AS application_state, b.create_time, 0 AS apply_state FROM diyi_platform_invoice_pay_list a INNER JOIN diyi_platform_invoice b ON a.invoice_print_id = b.id INNER JOIN diyi_pay_enterprise c ON c.id = a.pay_enterprise_id INNER JOIN diyi_enterprise d ON d.id = c.enterprise_id INNER JOIN diyi_service_provider e ON e.id = c.service_provider_id WHERE d.id = #{param1}
+        GROUP BY b.create_time ) AS tmp where 1=1
+<!--        <if test="param2 !=null and param2 != ''">-->
+<!--             AND enterprise_name like concat('%', #{param2}, '%')-->
+<!--        </if>-->
+        <if test="param2 !=null and param2 != ''">
+            AND service_provider_name like concat('%', #{param2}, '%')
+        </if>
+    </select>
+
+    <select id="queryRelationEnterpriseService" resultMap="relationEnterpriseServiceVOMap">
+        SELECT a.service_provider_id, b.service_provider_name, a.cooperate_status FROM diyi_enterprise_service_provider a INNER JOIN diyi_service_provider b ON a.service_provider_id = b.id WHERE cooperate_status = 'COOPERATING' AND a.enterprise_id = #{param1}
+        <if test="param2 !=null and param2 != ''">
+             AND b.service_provider_name like concat('%', #{param2}, '%')
+        </if>
+    </select>
+
+    <select id="queryEnterpriseServicePayList" resultMap="enterpriseServicePayListVOMap">
+        SELECT a.id pay_enterprise_id, y.service_provider_name, a.create_time, a.charge_list_url FROM diyi_pay_enterprise a INNER JOIN diyi_service_provider y ON a.service_provider_id = y.id WHERE a.service_provider_id = #{param2} AND a.enterprise_id = #{param1} AND a.company_invoice_state = 'UNOPEN' AND a.id NOT IN ( SELECT d.pay_enterprise_id FROM diyi_invoice_application c INNER JOIN diyi_invoice_application_pay_list d ON c.id = d.application_id WHERE c.application_state NOT IN ( 'APPLYING', 'ISSUEDINFULL', 'PARTIALLYISSUED' ));
     </select>
 </mapper>
