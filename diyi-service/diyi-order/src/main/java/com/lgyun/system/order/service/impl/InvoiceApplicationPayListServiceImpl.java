@@ -1,5 +1,6 @@
 package com.lgyun.system.order.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.system.order.vo.ApplicationVO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,5 +26,13 @@ public class InvoiceApplicationPayListServiceImpl extends BaseServiceImpl<Invoic
     @Override
     public List<ApplicationVO> findApplication(Long payEnterpriseId) {
         return baseMapper.findApplication(payEnterpriseId);
+    }
+
+    @Override
+    public List<InvoiceApplicationPayListEntity> getApplicationId(Long applicationId) {
+        QueryWrapper<InvoiceApplicationPayListEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(InvoiceApplicationPayListEntity::getApplicationId, applicationId);
+        List<InvoiceApplicationPayListEntity> invoiceApplicationPayListEntityList = baseMapper.selectList(queryWrapper);
+        return invoiceApplicationPayListEntityList;
     }
 }

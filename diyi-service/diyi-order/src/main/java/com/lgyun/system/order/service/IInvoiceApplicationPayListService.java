@@ -18,5 +18,12 @@ public interface IInvoiceApplicationPayListService extends BaseService<InvoiceAp
      *
      */
     List<ApplicationVO> findApplication(Long payEnterpriseId);
+
+    /**
+     * 根据总包开票申请ID查询
+     */
+    List<InvoiceApplicationPayListEntity> getApplicationId(Long applicationId);
+
+
 }
 

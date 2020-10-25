@@ -3,6 +3,8 @@ package com.lgyun.system.order.service;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.entity.PlatformInvoiceListEntity;
 
+import java.util.List;
+
 /**
  * 记录服务商开具给商户的总包发票 Service 接口
  *
@@ -11,5 +13,6 @@ import com.lgyun.system.order.entity.PlatformInvoiceListEntity;
  */
 public interface IPlatformInvoiceListService extends BaseService<PlatformInvoiceListEntity> {
 
+    List<PlatformInvoiceListEntity> findInvoicePrintId(Long invoicePrintId);
 }
 
