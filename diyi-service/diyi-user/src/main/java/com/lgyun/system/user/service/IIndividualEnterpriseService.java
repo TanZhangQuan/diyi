@@ -9,7 +9,7 @@ import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDTO;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDTO;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
-import com.lgyun.system.user.vo.enterprise.IndividualEnterpriseDetailEnterpriseVO;
+import com.lgyun.system.user.vo.enterprise.IndividualBusinessEnterpriseListVO;
 import com.lgyun.system.user.vo.maker.IndividualEnterpriseDetailMakerVO;
 import com.lgyun.system.user.vo.maker.IndividualEnterpriseListVO;
 
@@ -67,7 +67,7 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
      * @param individualBusinessEnterpriseDto
      * @return
      */
-    R<IPage<IndividualEnterpriseDetailEnterpriseVO>> getIndividualEnterpriseList(IPage<IndividualEnterpriseDetailEnterpriseVO> page, Long enterpriseId, Long serviceProviderId, IndividualBusinessEnterpriseDTO individualBusinessEnterpriseDto);
+    R<IPage<IndividualBusinessEnterpriseListVO>> getIndividualEnterpriseList(IPage<IndividualBusinessEnterpriseListVO> page, Long enterpriseId, Long serviceProviderId, IndividualBusinessEnterpriseDTO individualBusinessEnterpriseDto);
 
     /**
      * 创建个独

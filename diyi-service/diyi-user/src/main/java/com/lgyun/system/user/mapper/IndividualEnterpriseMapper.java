@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDTO;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
-import com.lgyun.system.user.vo.enterprise.IndividualEnterpriseDetailEnterpriseVO;
+import com.lgyun.system.user.vo.enterprise.IndividualBusinessEnterpriseListVO;
 import com.lgyun.system.user.vo.maker.IndividualEnterpriseDetailMakerVO;
 import com.lgyun.system.user.vo.maker.IndividualEnterpriseListVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -25,6 +25,6 @@ public interface IndividualEnterpriseMapper extends BaseMapper<IndividualEnterpr
 
     IndividualEnterpriseDetailMakerVO findById(Long individualEnterpriseId);
 
-    List<IndividualEnterpriseDetailEnterpriseVO> getIndividualEnterpriseList(Long enterpriseId, Long serviceProviderId, IndividualBusinessEnterpriseDTO individualBusinessEnterpriseDto, IPage<IndividualEnterpriseDetailEnterpriseVO> page);
+    List<IndividualBusinessEnterpriseListVO> getIndividualEnterpriseList(Long enterpriseId, Long serviceProviderId, IndividualBusinessEnterpriseDTO individualBusinessEnterpriseDto, IPage<IndividualBusinessEnterpriseListVO> page);
 }
 

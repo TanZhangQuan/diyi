@@ -23,7 +23,7 @@
         <result property="businessLicenceUrl" column="business_licence_url"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.enterprise.IndividualBusinessDetailEnterpriseVO" id="individualBusinessDetailEnterpriseVO">
+    <resultMap type="com.lgyun.system.user.vo.enterprise.IndividualBusinessEnterpriseListVO" id="individualBusinessDetailEnterpriseVO">
         <result property="id" column="id"/>
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="ibname" column="ibname"/>

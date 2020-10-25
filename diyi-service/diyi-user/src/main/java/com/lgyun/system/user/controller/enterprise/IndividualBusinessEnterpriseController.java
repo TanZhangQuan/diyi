@@ -33,12 +33,6 @@ public class IndividualBusinessEnterpriseController {
 
     @GetMapping("/query-individual-business-list")
     @ApiOperation(value = "查询当前商户的关联创客的所有个体户", notes = "查询当前商户的所有关联创客的所有个体户")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "individualBusinessEnterpriseId", value = "个体户编号", paramType = "query", dataType = "long"),
-            @ApiImplicitParam(name = "ibname", value = "个体户名称", paramType = "query", dataType = "string"),
-            @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
-            @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
-    })
     public R queryIndividualBusinessList(IndividualBusinessEnterpriseDTO individualBusinessEnterpriseDto, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);

@@ -207,7 +207,7 @@ public class InvoiceTaxServiceProviderController {
     @ApiOperation(value = "查询众包发票", notes = "查询众包发票")
     public R queryCrowdInvoiceList(@RequestParam(required = false) String enterpriseName, @RequestParam(required = false) String startTime,
                                    @RequestParam(required = false) String endTime, SelfHelpInvoiceSpApplyState selfHelpInvoiceSpApplyState, Query query, BladeUser bladeUser) {
-        //获取当前服务商员工
+        //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
@@ -220,7 +220,7 @@ public class InvoiceTaxServiceProviderController {
     @GetMapping("/query-crowd-invoice-detail")
     @ApiOperation(value = "查询众包发票详情", notes = "查询众包发票详情")
     public R queryCrowdInvoiceDetail(Long providerSelfHelpInvoiceId, BladeUser bladeUser) {
-        //获取当前服务商员工
+        //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
@@ -232,7 +232,7 @@ public class InvoiceTaxServiceProviderController {
     @PostMapping("/create-crowd-invoice")
     @ApiOperation(value = "众包发票开票", notes = "众包发票开票")
     public R createCrowdInvoice(String serviceProviderName, Long providerSelfHelpInvoiceId, String expressNo, String expressCompanyName, String invoiceScanPictures, String taxScanPictures, BladeUser bladeUser) {
-        //获取当前服务商员工
+        //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;

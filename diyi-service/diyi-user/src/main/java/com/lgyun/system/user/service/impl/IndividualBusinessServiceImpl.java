@@ -16,7 +16,7 @@ import com.lgyun.system.user.mapper.IndividualBusinessMapper;
 import com.lgyun.system.user.service.IEnterpriseReportService;
 import com.lgyun.system.user.service.IIndividualBusinessService;
 import com.lgyun.system.user.service.IMakerService;
-import com.lgyun.system.user.vo.enterprise.IndividualBusinessDetailEnterpriseVO;
+import com.lgyun.system.user.vo.enterprise.IndividualBusinessEnterpriseListVO;
 import com.lgyun.system.user.vo.maker.IndividualBusinessDetailMakerVO;
 import com.lgyun.system.user.vo.maker.IndividualBusinessListVO;
 import lombok.AllArgsConstructor;
@@ -83,7 +83,7 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
     }
 
     @Override
-    public R<IPage<IndividualBusinessDetailEnterpriseVO>> getIndividualBusinessList(IPage<IndividualBusinessDetailEnterpriseVO> page, Long enterpriseId, Long serviceProviderId, IndividualBusinessEnterpriseDTO individualBusinessEnterpriseDto) {
+    public R<IPage<IndividualBusinessEnterpriseListVO>> getIndividualBusinessList(IPage<IndividualBusinessEnterpriseListVO> page, Long enterpriseId, Long serviceProviderId, IndividualBusinessEnterpriseDTO individualBusinessEnterpriseDto) {
 
         if (individualBusinessEnterpriseDto.getBeginDate() != null && individualBusinessEnterpriseDto.getEndDate() != null) {
             if (individualBusinessEnterpriseDto.getBeginDate().after(individualBusinessEnterpriseDto.getEndDate())) {

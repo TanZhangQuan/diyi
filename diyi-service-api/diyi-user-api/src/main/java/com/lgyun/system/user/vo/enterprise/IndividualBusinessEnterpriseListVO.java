@@ -18,11 +18,11 @@ import java.util.Date;
  * @since 2020/6/6 00:28
  */
 @Data
-public class IndividualBusinessDetailEnterpriseVO implements Serializable {
+public class IndividualBusinessEnterpriseListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 个体户ID
+     * 个体户/个独ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
@@ -33,7 +33,7 @@ public class IndividualBusinessDetailEnterpriseVO implements Serializable {
     private String serviceProviderName;
 
     /**
-     * 个体户名称
+     * 个体户/个独名称
      */
     private String ibname;
 
