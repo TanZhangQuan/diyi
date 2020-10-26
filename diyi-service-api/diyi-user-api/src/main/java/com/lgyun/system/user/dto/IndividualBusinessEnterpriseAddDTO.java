@@ -21,12 +21,6 @@ public class IndividualBusinessEnterpriseAddDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 税种
-     */
-    @NotNull(message = "请选择税种")
-    private BizType bizType;
-
-    /**
      * 注册资金
      */
     @NotNull(message = "请输入注册资金")
@@ -43,6 +37,12 @@ public class IndividualBusinessEnterpriseAddDTO implements Serializable {
      */
     @NotBlank(message = "请输入经营范围")
     private String bizScope;
+
+    /**
+     * 税种
+     */
+    @NotNull(message = "请选择税种")
+    private BizType bizType;
 
     /**
      * 注册时候选名称

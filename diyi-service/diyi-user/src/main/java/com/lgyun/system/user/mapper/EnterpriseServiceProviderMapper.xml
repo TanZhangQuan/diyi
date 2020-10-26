@@ -37,17 +37,17 @@
         <result property="enterpriseName" column="enterprise_name"/>
     </resultMap>
 
-    <select id="getServiceProviderByEnterpriseId" resultMap="serviceProviderIdNameListVO">
+    <select id="queryServiceProviderIdAndNameList" resultMap="serviceProviderIdNameListVO">
         SELECT t1.id AS service_provider_id, t1.service_provider_name FROM diyi_service_provider t1
         <if test="param1 != null">
-            INNER JOIN diyi_enterprise_service_provider t2 ON t1.id = t2.service_provider_id AND t2.is_deleted = 0
+            INNER JOIN diyi_enterprise_service_provider t2 ON t1.id = t2.service_provider_id
         </if>
         WHERE t1.is_deleted = 0 AND t1.service_provider_state = 'NORMAL'
         <if test="param1 != null">
-            AND t2.enterprise_id = #{param1}
+            AND t2.is_deleted = 0 AND t2.cooperate_status = 'COOPERATING' AND t2.enterprise_id = #{param1}
         </if>
         <if test="param2 != null and param2.trim() != ''">
-            AND t1.service_provider_name like concat('%', #{param2}, '%')
+            AND t1.service_provider_name LIKE concat('%', #{param2}, '%')
         </if>
     </select>
 
@@ -56,8 +56,8 @@
         t1.is_deleted = 0 AND t2.is_deleted = 0 AND t2.enterprise_id = t4.id) AS maker_num FROM diyi_enterprise_service_provider t3 INNER JOIN diyi_enterprise t4
         ON t3.enterprise_id = t4.id WHERE t3.is_deleted = 0 AND t4.is_deleted = 0 AND t3.service_provider_id = #{param1}
         <if test="param2 != null and param2.trim() != ''">
-            AND (t4.id like concat('%', #{param2}, '%')
-            OR t4.enterprise_name like concat('%', #{param2}, '%'))
+            AND (t4.id LIKE concat('%', #{param2}, '%')
+            OR t4.enterprise_name LIKE concat('%', #{param2}, '%'))
         </if>
     </select>
 
@@ -72,7 +72,7 @@
         LEFT JOIN diyi_self_help_invoice_sp t5 ON t5.is_deleted = 0 AND t4.id = t5.self_help_invoice_id AND (t5.apply_state = 'SUBMITTED' OR t5.apply_state = 'INVOICED')
         AND t5.service_provider_id = t1.service_provider_id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.enterprise_id = #{param1}
         <if test="param2 != null and param2.trim() != ''">
-        AND t2.service_provider_name like concat('%', #{param2}, '%')
+        AND t2.service_provider_name LIKE concat('%', #{param2}, '%')
         </if>
     </select>
 
@@ -87,13 +87,23 @@
         LEFT JOIN diyi_self_help_invoice_sp t5 ON t5.is_deleted = 0 AND t4.id = t5.self_help_invoice_id AND (t5.apply_state = 'SUBMITTED' OR t5.apply_state = 'INVOICED')
         AND t5.service_provider_id = t1.service_provider_id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.service_provider_id = #{param1}
         <if test="param2 != null and param2.trim() != ''">
-        AND t2.enterprise_name like concat('%', #{param2}, '%')
+        AND t2.enterprise_name LIKE concat('%', #{param2}, '%')
         </if>
     </select>
 
-    <select id="getEnterprisesByServiceProvider" resultMap="enterpriseIdNameListVO">
-        SELECT t1.enterprise_id, t2.enterprise_name FROM diyi_enterprise_service_provider t1 INNER JOIN diyi_enterprise t2
-        ON t1.enterprise_id = t2.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t2.enterprise_state = 'NORMAL' AND t1.service_provider_id = #{param1}
+    <select id="queryEnterpriseIdAndNameList" resultMap="enterpriseIdNameListVO">
+        SELECT t1.id AS enterprise_id, t1.enterprise_name FROM diyi_enterprise t1
+        <if test="param1 != null">
+            INNER JOIN diyi_enterprise_service_provider t2 ON t1.id = t2.enterprise_id
+        </if>
+        WHERE t1.is_deleted = 0 AND t1.enterprise_state = 'NORMAL'
+        <if test="param1 != null">
+            AND t2.is_deleted = 0 AND t2.cooperate_status = 'COOPERATING' AND t2.service_provider_id = #{param1}
+
+        </if>
+        <if test="param2 != null and param2.trim() != ''">
+            AND t1.enterprise_name like concat('%', #{param2}, '%')
+        </if>
     </select>
 
 </mapper>

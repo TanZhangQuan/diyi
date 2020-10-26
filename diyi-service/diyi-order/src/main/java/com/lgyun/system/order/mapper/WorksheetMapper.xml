@@ -90,10 +90,10 @@
          ws.worksheet_fee_high, ws.create_time,ws.maker_type,ws.worksheet_state FROM diyi_worksheet ws INNER JOIN diyi_enterprise e ON e.id = ws.enterprise_id
          WHERE ws.is_deleted = 0 AND e.is_deleted = 0 AND e.id = #{param1} AND ws.worksheet_state = #{param2} and e.is_deleted = 0 and ws.is_deleted = 0
          <if test="param3 != null and param3 != ''">
-             and ws.worksheet_no like concat('%', #{param3}, '%')
+             and ws.worksheet_no LIKE concat('%', #{param3}, '%')
          </if>
          <if test="param4 != null and param4 != ''">
-             and ws.worksheet_name like concat('%', #{param4}, '%')
+             and ws.worksheet_name LIKE concat('%', #{param4}, '%')
          </if>
         <if test="param5 != null and param5 != ''">
             and ws.create_time &gt; #{param5}
@@ -107,10 +107,10 @@
         SELECT id, worksheet_no, worksheet_name, create_time FROM diyi_worksheet WHERE is_deleted = 0 AND worksheet_state = 'FINISHED'
         AND enterprise_id = #{param1} AND worksheet_type = #{param2}
         <if test="param3 != null and param3 != ''">
-            AND worksheet_no like concat('%', #{param3}, '%')
+            AND worksheet_no LIKE concat('%', #{param3}, '%')
         </if>
         <if test="param4 != null and param4 != ''">
-            AND worksheet_name like concat('%', #{param4}, '%')
+            AND worksheet_name LIKE concat('%', #{param4}, '%')
         </if>
     </select>
 </mapper>

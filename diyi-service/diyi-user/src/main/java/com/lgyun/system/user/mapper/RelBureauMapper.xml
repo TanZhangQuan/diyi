@@ -22,7 +22,7 @@
             is_deleted = 0
             AND bureau_type = #{bureauType}
             <if test="query.bureauId != null and query.bureauId != ''">
-                AND id LIKE CONSCT('%',#{query.bureauId},'%')
+                AND id = #{query.bureauId}
             </if>
             <if test="query.relBureauName != null and query.relBureauName != ''">
                 AND rel_bureau_name LIKE CONSCT('%',#{query.relBureauName},'%')

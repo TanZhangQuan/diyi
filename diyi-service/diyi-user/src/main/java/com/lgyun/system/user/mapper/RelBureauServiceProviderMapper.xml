@@ -13,9 +13,11 @@
         SELECT id,service_provider_name FROM diyi_service_provider
         WHERE id NOT IN
         (SELECT service_provider_id FROM diyi_rel_bureau_service_provider)
+        AND is_delete = 0
         AND service_provider_state = 'NORMAL'
+        AND bureau_type = #{bureauType}
         <if test="serviceProviderName != null and serviceProviderName != ''">
-            AND service_provider_name like CONCTA('%',#{serviceProviderName},'%')
+            AND service_provider_name LIKE CONCTA('%',#{serviceProviderName},'%')
         </if>
     </select>
 

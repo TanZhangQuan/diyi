@@ -98,7 +98,7 @@
             AND t1.id = #{param1.serviceProviderId}
         </if>
         <if test="param1.serviceProviderName != null and param1.serviceProviderName.trim() != ''">
-            AND t1.service_provider_name like concat('%', #{param1.serviceProviderName}, '%')
+            AND t1.service_provider_name LIKE concat('%', #{param1.serviceProviderName}, '%')
         </if>
         <if test="param1.beginDate != null">
             AND DATEDIFF(t1.create_time, #{param1.beginDate}) <![CDATA[ >= ]]> 0

@@ -1,7 +1,6 @@
 package com.lgyun.system.order.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.lgyun.common.enumeration.AcceptPaysheetType;
 import com.lgyun.common.enumeration.WorkSheetMode;
 import com.lgyun.common.enumeration.WorkSheetType;
 import lombok.Data;
@@ -16,13 +15,8 @@ import java.util.Date;
  * @time 20:04.
  */
 @Data
-public class AcceptPaysheetWorksheetVO implements Serializable {
+public class AcceptPaysheetDetailVO implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 交付支付验收单类型：清单式，单人单张
-     */
-    private AcceptPaysheetType acceptPaysheetType;
 
     /**
      * 商户名称
@@ -35,16 +29,16 @@ public class AcceptPaysheetWorksheetVO implements Serializable {
     private BigDecimal payToPlatformAmount;
 
     /**
-     * 发布时间
+     * 服务开始日期
      */
     @JsonFormat(pattern = "MM-dd", timezone = "GMT+8")
-    private Date createTime;
+    private Date serviceTimeStart;
 
     /**
-     * 关单时间
+     * 服务结束日期
      */
     @JsonFormat(pattern = "MM-dd", timezone = "GMT+8")
-    private Date closeWorksheetDate;
+    private Date serviceTimeEnd;
 
     /**
      * 验收单URL
@@ -70,7 +64,7 @@ public class AcceptPaysheetWorksheetVO implements Serializable {
      * 发布时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date createTime2;
+    private Date createTime;
 
     /**
      * 工单编号

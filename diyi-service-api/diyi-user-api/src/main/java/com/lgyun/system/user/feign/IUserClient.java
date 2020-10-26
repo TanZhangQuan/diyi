@@ -320,4 +320,15 @@ public interface IUserClient {
     @PostMapping(API_PREFIX + "/create-maker-to-enterprise-relevance")
     void createMakerToEnterpriseRelevance(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("makerId") Long makerId);
 
+
+    /**
+     * 根据服务商Id查询服务商
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/query-service_provider-by-id")
+    ServiceProviderEntity queryServiceProviderById(@RequestParam("serviceProviderId") Long serviceProviderId);
+
+
 }

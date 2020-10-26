@@ -100,15 +100,6 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
     R<IPage<ServiceProviderListPaymentVO>> queryServiceProviderListPayment(QueryServiceProviderListPaymentDTO queryServiceProviderListPaymentDTO, IPage<ServiceProviderListPaymentVO> page);
 
     /**
-     * 查询所有商户的编号名称
-     *
-     * @param enterpriseName
-     * @param page
-     * @return
-     */
-    R<IPage<EnterpriseIdNameListVO>> queryEnterpriseListNaturalPersonMaker(String enterpriseName, IPage<EnterpriseIdNameListVO> page);
-
-    /**
      * 添加商户
      *
      * @param addEnterpriseDTO

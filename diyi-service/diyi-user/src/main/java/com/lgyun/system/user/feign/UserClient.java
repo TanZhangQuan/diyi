@@ -477,4 +477,9 @@ public class UserClient implements IUserClient {
         iMakerEnterpriseService.makerEnterpriseEntitySave(enterpriseId, makerId);
     }
 
+    @Override
+    public ServiceProviderEntity queryServiceProviderById(Long serviceProviderId) {
+        return iServiceProviderService.getById(serviceProviderId);
+    }
+
 }

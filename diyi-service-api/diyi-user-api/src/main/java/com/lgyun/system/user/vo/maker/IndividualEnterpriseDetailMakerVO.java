@@ -1,7 +1,5 @@
 package com.lgyun.system.user.vo.maker;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.BizType;
 import lombok.Data;
 
@@ -17,12 +15,6 @@ import java.math.BigDecimal;
 @Data
 public class IndividualEnterpriseDetailMakerVO implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 个独ID
-     */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
 
     /**
      * 个独名称

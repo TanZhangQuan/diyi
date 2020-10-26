@@ -11,20 +11,21 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Data
-@ApiModel(description = "添加税务局")
+@ApiModel(description = "编辑相关局")
 public class UpdateRelBureauDTO {
 
     /**
      * 税务局Id
      */
-    @NotNull(message = "税务局Id不能为空！")
-    @ApiModelProperty("税务局Id")
+    @NotNull(message = "相关局Id不能为空！")
+    @ApiModelProperty("相关局Id")
     private Long bureauId;
 
     /**
      * 税务局名称
      */
-    @ApiModelProperty("税务局名称")
+    @ApiModelProperty("相关局名称")
+    @NotBlank(message = "名称不能为空！")
     private String relBureauName;
 
     /**

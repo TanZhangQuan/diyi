@@ -154,11 +154,6 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     @Override
-    public R<IPage<EnterpriseIdNameListVO>> queryEnterpriseListNaturalPersonMaker(String enterpriseName, IPage<EnterpriseIdNameListVO> page) {
-        return R.data(page.setRecords(baseMapper.queryEnterpriseListNaturalPersonMaker(enterpriseName, page)));
-    }
-
-    @Override
     @Transactional(rollbackFor = Exception.class)
     public R<String> createEnterprise(AddEnterpriseDTO addEnterpriseDTO, AdminEntity adminEntity) {
 

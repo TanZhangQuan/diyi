@@ -31,14 +31,16 @@ public class AddRelBureauDTO {
     /**
      * 密码
      */
-    @NotBlank(message = "登录密码不能为空！")
     @ApiModelProperty("密码")
+    @NotBlank(message = "登录密码不能为空！")
+    @Length(min = 6, max = 18, message = "请输入6-18位的密码！")
     private String relBpwd;
 
     /**
      * 税务局名称
      */
-    @ApiModelProperty("税务局名称")
+    @ApiModelProperty("相关局名称")
+    @NotBlank(message = "名称不能为空！")
     private String relBureauName;
 
     /**

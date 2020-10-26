@@ -95,13 +95,8 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.EnterpriseIdNameListVO" id="enterpriseIdNameListVO">
-        <result property="enterpriseId" column="enterprise_id"/>
-        <result property="enterpriseName" column="enterprise_name"/>
-    </resultMap>
-
     <select id="getEnterpriseName" resultMap="makerEnterpriseRelationVO">
-       SELECT id AS enterprise_id, enterprise_name, shop_user_name, legal_person_name, legal_person_idcard, contact1_position, contact1_name, contact1_phone,
+       SELECT id AS enterprise_id, enterprise_name, shop_user_name, legal_person_name, legal_person_id_card as legal_person_idcard, contact1_position, contact1_name, contact1_phone,
        social_credit_no, biz_licence_url, shop_id, contact1_name FROM diyi_enterprise t1 WHERE is_deleted = 0 AND enterprise_name = #{param1}
     </select>
 
@@ -116,10 +111,10 @@
         AND agreement_type = 'ENTERPRISEPOWERATTORNEY' AND sign_state = 'SIGNED' AND enterprise_id = t1.id) > 0, TRUE, FALSE) AS bool_sign_agreement
         FROM diyi_enterprise t1 WHERE is_deleted = 0
         <if test="param1.enterpriseId != null">
-            AND t1.id like concat('%', #{param1.enterpriseId}, '%')
+            AND t1.id LIKE concat('%', #{param1.enterpriseId}, '%')
         </if>
         <if test="param1.enterpriseName != null and param1.enterpriseName.trim() != ''">
-            AND t1.enterprise_name like concat('%', #{param1.enterpriseName}, '%')
+            AND t1.enterprise_name LIKE concat('%', #{param1.enterpriseName}, '%')
         </if>
     </select>
 
@@ -127,15 +122,11 @@
         SELECT t1.id AS service_provider_id, t1.service_provider_name, IF((SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'SERVICEPROVIDERJOINAGREEMENT'
         AND sign_state = 'SIGNED' AND enterprise_id = t1.id) > 0, TRUE, FALSE) AS bool_sign_contract FROM diyi_service_provider t1 WHERE is_deleted = 0
         <if test="param1.serviceProviderId != null">
-            AND t1.id like concat('%', #{param1.serviceProviderId}, '%')
+            AND t1.id LIKE concat('%', #{param1.serviceProviderId}, '%')
         </if>
         <if test="param1.serviceProviderName != null and param1.serviceProviderName.trim() != ''">
-            AND t1.service_provider_name like concat('%', #{param1.serviceProviderName}, '%')
+            AND t1.service_provider_name LIKE concat('%', #{param1.serviceProviderName}, '%')
         </if>
-    </select>
-
-    <select id="queryEnterpriseListNaturalPersonMaker" resultMap="enterpriseIdNameListVO">
-        SELECT id AS enterprise_id, enterprise_name FROM diyi_enterprise WHERE is_deleted = 0
     </select>
 
     <select id="queryEnterpriseListEnterprise" resultMap="enterpriseListEnterpriseVO">
@@ -149,7 +140,7 @@
             AND t1.id = #{param1.enterpriseId}
         </if>
         <if test="param1.enterpriseName != null and param1.enterpriseName.trim() != ''">
-            AND t1.enterprise_name like concat('%', #{param1.enterpriseName}, '%')
+            AND t1.enterprise_name LIKE concat('%', #{param1.enterpriseName}, '%')
         </if>
         <if test="param1.beginDate != null">
             AND DATEDIFF(t1.create_time, #{param1.beginDate}) <![CDATA[ >= ]]> 0

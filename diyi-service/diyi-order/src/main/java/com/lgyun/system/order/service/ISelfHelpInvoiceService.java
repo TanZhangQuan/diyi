@@ -14,7 +14,6 @@ import com.lgyun.system.order.dto.admin.ToExamineSelfHelpInvoiceDTO;
 import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.order.vo.admin.SelfHelpInvoiceAdminVO;
-import com.lgyun.system.order.vo.maker.SelfHelpInvoiceYearMonthVO;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 
 /**
@@ -130,16 +129,6 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      * @return
      */
     R<IPage<SelfHelpInvoiceListVO>> selfHelpInvoiceList(IPage<SelfHelpInvoiceListVO> page, Long businessEnterpriseId, InvoicePeopleType invoicePeopleType);
-
-
-    /**
-     * 查询月度开票金额和年度开票金额
-     *
-     * @param individualBusinessId
-     * @param invoicePeopleType
-     * @return
-     */
-    R<SelfHelpInvoiceYearMonthVO> yearMonthMoney(Long individualBusinessId, InvoicePeopleType invoicePeopleType);
 
     /**
      * 根据商户查询众包/众采

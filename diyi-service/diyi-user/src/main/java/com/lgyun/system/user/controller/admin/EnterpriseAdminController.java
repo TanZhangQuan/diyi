@@ -114,16 +114,16 @@ public class EnterpriseAdminController {
         return enterpriseService.updateEnterpriseState(enterpriseId, enterpriseState);
     }
 
-    @GetMapping("/query-service-provider-id-name-list")
+    @GetMapping("/query-service-provider-id-and-name-list")
     @ApiOperation(value = "查询所有服务商", notes = "查询所有服务商")
-    public R queryServiceProviderIdNameList(@ApiParam(value = "商户名称") @RequestParam(required = false) String serviceProviderName, Query query, BladeUser bladeUser) {
+    public R queryServiceProviderIdAndNameList(@ApiParam(value = "商户名称") @RequestParam(required = false) String serviceProviderName, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return enterpriseProviderService.getServiceProviderByEnterpriseId(Condition.getPage(query.setDescs("create_time")), null, serviceProviderName);
+        return enterpriseProviderService.queryServiceProviderIdAndNameList(null, serviceProviderName, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-enterprise-id-and-name-list")

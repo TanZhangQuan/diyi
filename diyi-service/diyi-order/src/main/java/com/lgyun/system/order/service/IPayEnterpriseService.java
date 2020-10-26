@@ -144,12 +144,12 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     /**
      * 查询详情接口-汇总
      */
-    R findDetailSummary(Long makerTotalInvoiceId);
+    R findDetailSummary(Long makerTotalInvoiceId,Query query);
 
     /**
      * 查询详情接口-门征
      */
-    R findDetailSubcontractPortal(Long makerInvoiceId);
+    R findDetailSubcontractPortal(Long makerInvoiceId,Query query);
 
     /**
      * 根据支付清单ID查询创客支付明细
@@ -351,14 +351,14 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R getServicePortalSignInvoiceDetails(Long payEnterpriseId);
 
     /**
-     * 查询相关局的所有匹配服务商交易情况数据
+     * 查询当前相关局所有匹配的服务商交易情况数据
      * @param bureauId
      * @return
      */
     R<TransactionVO> transactionByBureauServiceProvider(Long bureauId);
 
     /**
-     * 相关局查询所有匹配服务商基本信息及交易金额
+     * 查询相关局匹配的服务商基本信息及交易金额
      * @param bureauId
      * @param page
      * @return
@@ -395,5 +395,31 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @return
      */
     R<IPage<PartnerServiceProviderListVO>> getPartnerAllServiceProvider(IPage<PartnerServiceProviderListVO> page);
+
+    /**
+     * 商户端根据商户id查询总包
+     */
+    R queryTotalInvoiceListEnterprise(Long enterpriseId,String serviceProviderName,IPage<TotalInvoiceListEnterVO> page);
+
+    /**
+     *商户端根据商户id查询总包申请的详情商户支付清单
+     */
+    R queryTotalInvoiceListEnterpriseApplyDetails(Long invoiceApplicationId,Long enterpriseId);
+
+    /**
+     * 商户端根据商户id查询总包开票的详情商户支付清单
+     */
+    R queryTotalInvoiceListEnterpriseInvoiceDetails(Long invoicePrintId,Long enterpriseId);
+
+    /**
+     * 查询和商户关联的服务商
+     */
+    R queryRelationEnterpriseService(Long enterpriseId,String serviceProviderName,IPage<RelationEnterpriseServiceVO> page);
+
+    /**
+     * 根据商户和服务商查询支付清单
+     */
+    R queryEnterpriseServicePayList(Long enterpriseId,Long serviceProviderId,IPage<EnterpriseServicePayListVO> page);
+
 }
 

@@ -39,8 +39,8 @@ public class EnterpriseServiceProviderServiceImpl extends BaseServiceImpl<Enterp
     private IServiceProviderService serviceProviderService;
 
     @Override
-    public R<IPage<ServiceProviderIdNameListVO>> getServiceProviderByEnterpriseId(IPage<ServiceProviderIdNameListVO> page, Long enterpriseId, String serviceProviderName) {
-        return R.data(page.setRecords(baseMapper.getServiceProviderByEnterpriseId(enterpriseId, serviceProviderName, page)));
+    public R<IPage<ServiceProviderIdNameListVO>> queryServiceProviderIdAndNameList(Long enterpriseId, String serviceProviderName, IPage<ServiceProviderIdNameListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryServiceProviderIdAndNameList(enterpriseId, serviceProviderName, page)));
     }
 
     @Override
@@ -68,8 +68,8 @@ public class EnterpriseServiceProviderServiceImpl extends BaseServiceImpl<Enterp
     }
 
     @Override
-    public R<IPage<EnterpriseIdNameListVO>> getEnterprisesByServiceProvider(IPage<EnterpriseIdNameListVO> page, Long serviceProviderId) {
-        return R.data(page.setRecords(baseMapper.getEnterprisesByServiceProvider(serviceProviderId, page)));
+    public R<IPage<EnterpriseIdNameListVO>> queryEnterpriseIdAndNameList(Long serviceProviderId, String enterpriseName, IPage<EnterpriseIdNameListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryEnterpriseIdAndNameList(serviceProviderId, enterpriseName, page)));
     }
 
     @Override

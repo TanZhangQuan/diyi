@@ -3,7 +3,7 @@ package com.lgyun.system.order.controller.maker;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.system.order.service.ISelfHelpInvoiceService;
+import com.lgyun.system.order.service.IPayMakerService;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
@@ -26,7 +26,7 @@ import javax.validation.constraints.NotNull;
 public class IndividualEnterpriseMakerController {
 
     private IUserClient userClient;
-    private ISelfHelpInvoiceService selfHelpInvoiceService;
+    private IPayMakerService payMakerService;
 
     @GetMapping("/query-month-and-year-invoice-money")
     @ApiOperation(value = "查询个独月度开票金额和年度开票金额", notes = "查询个独月度开票金额和年度开票金额")
@@ -37,7 +37,7 @@ public class IndividualEnterpriseMakerController {
             return result;
         }
 
-        return selfHelpInvoiceService.yearMonthMoney(individualEnterpriseId, InvoicePeopleType.INDIVIDUALENTERPRISE);
+        return payMakerService.yearMonthMoney(individualEnterpriseId, InvoicePeopleType.INDIVIDUALENTERPRISE);
     }
 
 }

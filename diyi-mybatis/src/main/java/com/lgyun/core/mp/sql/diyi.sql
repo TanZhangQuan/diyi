@@ -22,10 +22,10 @@ DROP TABLE IF EXISTS `diyi_accept_paysheet`;
 CREATE TABLE `diyi_accept_paysheet` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `pay_enterprise_id` bigint(50) NOT NULL COMMENT '支付清单ID',
+  `accept_paysheet_type` varchar(50) NOT NULL COMMENT '交付支付验收单类型：清单式，单人单张',
+  `pay_maker_id` bigint(50) DEFAULT NULL COMMENT '创客支付明细ID',
   `service_time_start` datetime NOT NULL COMMENT '服务开始日期',
   `service_time_end` datetime NOT NULL COMMENT '服务结束日期',
-  `accept_paysheet_type` varchar(50) NOT NULL COMMENT '交付支付验收单类型：清单式，单人单张',
-  `maker_id` bigint(50) DEFAULT NULL COMMENT '创客ID',
   `upload_source` varchar(50) NOT NULL COMMENT '上传来源',
   `upload_person` varchar(50) NOT NULL COMMENT '上传人员',
   `accept_paysheet_url` varchar(500) NOT NULL COMMENT '验收单URL',
@@ -642,7 +642,7 @@ CREATE TABLE `diyi_individual_enterprise` (
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
   `service_provider_id` bigint(50) DEFAULT NULL COMMENT '服务商ID',
   `biz_type` varchar(50) NOT NULL COMMENT '个独税种：小规模，一般纳税人',
-  `ibname` varchar(50) NOT NULL DEFAULT '' COMMENT '个体户名称',
+  `ibname` varchar(50) NOT NULL DEFAULT '' COMMENT '个独名称',
   `ibtax_no` varchar(50) NOT NULL DEFAULT '' COMMENT '统一社会信用代码',
   `build_date_time` datetime DEFAULT NULL COMMENT '营业执照的注册日期',
   `biz_park` varchar(100) NOT NULL DEFAULT '' COMMENT '园区',
@@ -657,7 +657,7 @@ CREATE TABLE `diyi_individual_enterprise` (
   `net_business_address` varchar(100) NOT NULL DEFAULT '' COMMENT '网络经营场所',
   `business_licence_url` varchar(500) NOT NULL DEFAULT '' COMMENT '营业执照正本',
   `business_licence_copy_url` varchar(500) NOT NULL DEFAULT '' COMMENT '营业执照副本',
-  `ibstate` varchar(50) NOT NULL COMMENT '个体户状态：注册中，税务登记中，运营中，已注销',
+  `ibstate` varchar(50) NOT NULL COMMENT '个独状态：注册中，税务登记中，运营中，已注销',
   `submit_date_time` datetime DEFAULT NULL COMMENT '提交日期',
   `registered_date` datetime DEFAULT NULL COMMENT '注册日期',
   `tax_register_date_time` datetime DEFAULT NULL COMMENT '税务登记日期',
@@ -1131,8 +1131,8 @@ CREATE TABLE `diyi_pay` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `order_id` bigint(50) NOT NULL COMMENT '订单ID',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
-  `maker_type` varchar(50) NOT NULL COMMENT '创客类别：自然人，个体户',
-  `individual_name` varchar(50) NOT NULL COMMENT '个体户名称',
+  `maker_type` varchar(50) NOT NULL COMMENT '创客类别：自然人，个体户， 个独',
+  `individual_id` varchar(50) NOT NULL COMMENT '个体户/个独ID',
   `maker_neIncome` decimal(12,2) NOT NULL COMMENT '创客到手外包费',
   `maker_tax_fee` decimal(12,2) NOT NULL COMMENT '创客税费',
   `company_manage_fee` decimal(12,2) NOT NULL COMMENT '商户管理服务费',
@@ -1264,7 +1264,7 @@ CREATE TABLE `diyi_pay_maker` (
   `pay_enterprise_id` bigint(50) NOT NULL COMMENT '支付清单ID',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
   `maker_type` varchar(50) NOT NULL COMMENT '创客身份，自然人，个体户，个独',
-  `Individual_name` varchar(500) DEFAULT NULL COMMENT '个体户/个独名称',
+  `individual_id` varchar(50) DEFAULT NULL COMMENT '个体户/个独ID',
   `total_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '商户总支付额价税合计=服务外包费+身份验证费/个体户年费+第三方支付手续费',
   `maker_net_income` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '创客到手=服务外包费-创客税费=服务外包费*服务税费率',
   `maker_tax_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '服务税费=服务外包费*服务税费率',
@@ -1536,15 +1536,11 @@ CREATE TABLE `diyi_rel_bureau` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`rel_buser_name`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='税务局管理表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='相关局管理表';
 
 -- ----------------------------
 -- Records of diyi_rel_bureau
 -- ----------------------------
-INSERT INTO `diyi_rel_bureau` VALUES ('1318554939474038786', 'TAXBUREAU', '', 'ergozi', 'adcd7048512e64b48da55b027577886ee5a36350', '白云区税局', '广州市白云区xx街道xx小区30栋2233市', 'baidu.com', '二狗子', '科员', '15243556311', '15243556777', '15243556777', '二狗子', '15243556666', '李四', '15243556312', '1123598821738675271', '2020-10-20 22:09:30', '1123598821738675271', '2020-10-21 10:21:12', '1', '0');
-INSERT INTO `diyi_rel_bureau` VALUES ('1319094787624648705', 'MARSUPANDADM', '', 'wangxiaoer', 'adcd7048512e64b48da55b027577886ee5a36350', '广州市荔湾区市场监督管理局', '广州市荔湾区xx街道xx小区xx栋2233室', 'baidu.com', '王小二', '科员', '17777777777', '17373671811', '1717171717', '王大狗', '15555558888', '王二狗', '1888888888888', '1123598821738675271', '2020-10-22 09:54:40', '1123598821738675271', '2020-10-22 10:04:26', '1', '0');
-INSERT INTO `diyi_rel_bureau` VALUES ('1319165398522761217', 'INDUSTRIALPARKS', '', 'zhaoliu', 'adcd7048512e64b48da55b027577886ee5a36350', '广州市海珠区产业园区', '广州市海珠区xx街道xx小区22栋33室', 'baidu.com', '赵六', '科员', '15577777777', '17373671811', 'zhaoliu', '赵大', '15555558888', '赵二', '18866667777', '1123598821738675271', '2020-10-22 14:35:15', '1123598821738675271', '2020-10-22 14:38:21', '1', '0');
-INSERT INTO `diyi_rel_bureau` VALUES ('1319195820325576706', 'PAYINGAGENCY', '', 'gebilaowang', 'adcd7048512e64b48da55b027577886ee5a36350', '连连支付', '广州市越秀区xx街道xx小区22栋33室', 'baidu.com', '隔壁老王', '科员', '15577777777', '17373671811', 'gebilaowang', '王大', '15555558888', '王小二', '18866667777', '1123598821738675271', '2020-10-22 16:36:08', '1123598821738675271', '2020-10-22 16:41:00', '1', '0');
 
 -- ----------------------------
 -- Table structure for `diyi_rel_bureau_contract`
@@ -1607,7 +1603,7 @@ DROP TABLE IF EXISTS `diyi_rel_bureau_files_read`;
 CREATE TABLE `diyi_rel_bureau_files_read` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `files_id` bigint(50) NOT NULL COMMENT '通知ID',
-  `read_servicer` varchar(50) DEFAULT '' COMMENT '阅读服务商',
+  `read_servicer` bigint(50) NOT NULL  COMMENT '阅读服务商',
   `reader` varchar(500) DEFAULT '' COMMENT '阅读人',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
@@ -1660,7 +1656,7 @@ DROP TABLE IF EXISTS `diyi_rel_bureau_notice_read`;
 CREATE TABLE `diyi_rel_bureau_notice_read` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `notice_id` bigint(50) NOT NULL COMMENT '通知ID',
-  `read_servicer` varchar(50) DEFAULT '' COMMENT '阅读服务商',
+  `read_servicer` bigint(50) NOT NULL COMMENT '阅读服务商',
   `reader` varchar(500) DEFAULT '' COMMENT '阅读人',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
@@ -1683,8 +1679,9 @@ DROP TABLE IF EXISTS `diyi_rel_bureau_service_provider`;
 CREATE TABLE `diyi_rel_bureau_service_provider` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `rel_bureau_id` bigint(50) NOT NULL COMMENT '相关局编号',
+  `bureau_type` varchar(50) NOT NULL COMMENT '相关局的类型',
   `service_provider_id` bigint(50) NOT NULL COMMENT '服务商编号，一个服务商只能属于一个税局监管',
-  `bureau_service_provider_status` varchar(50) NOT NULL DEFAULT '''''' COMMENT '状态',
+  `bureau_service_provider_status` varchar(50) NOT NULL DEFAULT '' COMMENT '状态',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
@@ -1692,13 +1689,12 @@ CREATE TABLE `diyi_rel_bureau_service_provider` (
   `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`service_provider_id`) USING BTREE
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`service_provider_id`,`bureau_type`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='相关局与服务商关联表';
 
 -- ----------------------------
 -- Records of diyi_rel_bureau_service_provider
 -- ----------------------------
-INSERT INTO `diyi_rel_bureau_service_provider` VALUES ('1319198518059909121', '1319195820325576706', '1292662449439494141', 'OPEN', '1123598821738675271', '2020-10-22 16:46:51', '1123598821738675271', '2020-10-22 16:50:51', '1', '0');
 
 -- ----------------------------
 -- Table structure for `diyi_self_help_invoice`

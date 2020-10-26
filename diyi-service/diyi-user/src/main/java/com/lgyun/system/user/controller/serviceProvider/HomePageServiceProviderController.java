@@ -38,9 +38,9 @@ public class HomePageServiceProviderController {
         return serviceProviderWorkerService.queryServiceProviderWorkerDetail(serviceProviderWorkerEntity.getId());
     }
 
-    @GetMapping("/query-enterprise-list")
+    @GetMapping("/query-enterprise-id-and-name-list")
     @ApiOperation(value = "查询当前服务商合作商户", notes = "查询当前服务商合作商户")
-    public R queryEnterpriseList(Query query, BladeUser bladeUser) {
+    public R queryEnterpriseIdAndNameList(Query query, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -48,7 +48,7 @@ public class HomePageServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return enterpriseProviderService.getEnterprisesByServiceProvider(Condition.getPage(query.setDescs("create_time")), serviceProviderWorkerEntity.getServiceProviderId());
+        return enterpriseProviderService.queryEnterpriseIdAndNameList(serviceProviderWorkerEntity.getServiceProviderId(), null, Condition.getPage(query.setDescs("create_time")));
     }
 
 }

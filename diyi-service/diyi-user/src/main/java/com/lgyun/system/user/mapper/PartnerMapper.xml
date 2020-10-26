@@ -44,7 +44,7 @@
             and p.id = #{param1.agentMainId}
         </if>
         <if test="param1.enterpriseName != null and param1.enterpriseName.trim() != ''">
-            AND p.enterprise_name like concat('%', #{param1.enterpriseName}, '%')
+            AND p.enterprise_name LIKE concat('%', #{param1.enterpriseName}, '%')
         </if>
         <if test="param1.beginDate != null">
             AND DATEDIFF(p.create_time, #{param1.beginDate}) <![CDATA[ >= ]]> 0
