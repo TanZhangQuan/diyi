@@ -1,4 +1,4 @@
-package com.lgyun.system.order.vo;
+package com.lgyun.system.order.vo.maker;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -13,7 +13,7 @@ import java.util.Date;
  * @time 20:04.
  */
 @Data
-public class AcceptPaysheetCsDetailVO implements Serializable {
+public class AcceptPaysheetCsDetailMakerVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**

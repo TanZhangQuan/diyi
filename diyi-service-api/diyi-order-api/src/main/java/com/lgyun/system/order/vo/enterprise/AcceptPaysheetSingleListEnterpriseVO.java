@@ -1,4 +1,4 @@
-package com.lgyun.system.order.vo;
+package com.lgyun.system.order.vo.enterprise;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -14,24 +14,14 @@ import java.util.Date;
  * @time 14:36.
  */
 @Data
-public class AcceptPayListVO implements Serializable {
+public class AcceptPaysheetSingleListEnterpriseVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 交付支付清单编号
+     * 总包+分包交付支付验收单ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
-
-    /**
-     * 商户名称
-     */
-    private String enterpriseName;
-
-    /**
-     * 服务商名称
-     */
-    private String serviceProviderName;
 
     /**
      * 支付清单URL
@@ -39,14 +29,14 @@ public class AcceptPayListVO implements Serializable {
     private String chargeListUrl;
 
     /**
-     * 创客名称(多个逗号隔开)
+     * 创客名称
      */
-    private String makerNames;
+    private String name;
 
     /**
      * 工单编号
      */
-    private String worksheetNo;
+    private String worksheetId;
 
     /**
      * 开始时间

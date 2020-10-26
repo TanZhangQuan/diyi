@@ -3,4 +3,103 @@
 
 <mapper namespace="com.lgyun.system.order.mapper.AcceptPaysheetCsMapper">
 
+    <resultMap type="com.lgyun.system.order.vo.maker.AcceptPaysheetAndCsListMakerVO" id="acceptPaysheetAndCsListMakerVO">
+        <result property="id" column="id"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="payAmount" column="pay_amount"/>
+        <result property="serviceTimeStart" column="service_time_start"/>
+        <result property="serviceTimeEnd" column="service_time_end"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.maker.AcceptPaysheetCsDetailMakerVO" id="acceptPaysheetCsDetailVO">
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="totalPayProviderFee" column="total_pay_provider_fee"/>
+        <result property="serviceTimeStart" column="service_time_start"/>
+        <result property="serviceTimeEnd" column="service_time_end"/>
+        <result property="acceptPaysheetCsUrl" column="accept_paysheet_cs_url"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.enterprise.AcceptPaysheetCsListEnterpriseVO" id="acceptPaysheetCsListEnterpriseVO">
+        <result property="id" column="id"/>
+        <result property="selfHelpInvoiceId" column="self-help-invoice-id"/>
+        <result property="selfHelpInvoiceDetailId" column="self-help-invoice-detailId"/>
+        <result property="listFile" column="list_file"/>
+        <result property="names" column="names"/>
+        <result property="serviceTimeStart" column="service_time_start"/>
+        <result property="serviceTimeEnd" column="service_time_end"/>
+        <result property="acceptPaysheetCsUrl" column="accept_paysheet_cs_url"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.enterprise.AcceptPaysheetCsDetailEnterpriseVO" id="acceptPaysheetCsDetailEnterpriseVO">
+        <result property="id" column="id"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="serviceProviderName" column="service_provider_name"/>
+        <result property="serviceTimeStart" column="service_time_start"/>
+        <result property="serviceTimeEnd" column="service_time_end"/>
+        <result property="listFile" column="list_file"/>
+        <result property="acceptPaysheetCsUrl" column="accept_paysheet_cs_url"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.enterprise.AcceptPaysheetCsSingleListEnterpriseVO" id="acceptPaysheetCsSingleListEnterpriseVO">
+        <result property="id" column="id"/>
+        <result property="listFile" column="list_file"/>
+        <result property="name" column="name"/>
+        <result property="worksheetId" column="worksheet_id"/>
+        <result property="serviceTimeStart" column="service_time_start"/>
+        <result property="serviceTimeEnd" column="service_time_end"/>
+        <result property="acceptPaysheetCsUrl" column="accept_paysheet_cs_url"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <select id="queryCrowdAcceptPaysheetListMaker" resultMap="acceptPaysheetAndCsListMakerVO">
+        SELECT t1.id, t3.enterprise_name, t2.total_pay_provider_fee AS pay_amount, t1.service_time_start, t1.service_time_end FROM diyi_accept_paysheet_cs t1
+        INNER JOIN diyi_self_help_invoice t2 ON t1.self_help_invoice_id = t2.id INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id WHERE t1.is_deleted = 0
+        AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t3.id = #{param1} AND ((t1.accept_paysheet_type = 'MANY') OR (t1.accept_paysheet_type = 'SINGLE' AND
+        (SELECT t4.maker_id FROM diyi_self_help_invoice_detail t4 WHERE t4.is_deleted = 0 AND t1.self_help_invoice_detail_id = t4.id) = #{param2}))
+    </select>
+
+    <select id="queryCrowdAcceptPaysheetDetailMaker" resultMap="acceptPaysheetCsDetailVO">
+        SELECT t3.enterprise_name, t2.total_pay_provider_fee, t1.service_time_start, t1.service_time_end, IF(t1.accept_paysheet_type = 'SINGLE' AND t4.maker_id = #{param1},
+        t1.accept_paysheet_cs_url, NULL) AS accept_paysheet_cs_url FROM diyi_accept_paysheet_cs t1 INNER JOIN diyi_self_help_invoice t2 ON t1.self_help_invoice_id = t2.id
+        INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id LEFT JOIN diyi_self_help_invoice_detail t4 ON t1.self_help_invoice_detail_id = t4.id AND t4.is_deleted = 0
+        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t1.id = #{param2}
+    </select>
+
+    <select id="queryCrowdAcceptPaysheetListEnterprise" resultMap="acceptPaysheetCsListEnterpriseVO">
+        SELECT * FROM (SELECT t1.id, t1.self_help_invoice_id, t1.self_help_invoice_detail_id, t2.list_file,
+        (SELECT GROUP_CONCAT(t4.name, t3.invoice_people_name) FROM diyi_self_help_invoice_detail t3 LEFT JOIN diyi_maker t4 ON t3.maker_id = t4.id AND t4.is_deleted = 0
+        WHERE t3.is_deleted = 0 AND IF(t1.accept_paysheet_cs_type = 'SINGLE', t3.id = t1.self_help_invoice_detail_id, t3.id IN (SELECT self_help_invoice_detail_id
+        FROM diyi_accept_paysheet_cs WHERE is_deleted = 0 AND self_help_invoice_id = t1.self_help_invoice_id))) AS names, t1.service_time_start, t1.service_time_end,
+        t1.accept_paysheet_cs_url, t1.create_time FROM diyi_accept_paysheet_cs t1 INNER JOIN diyi_self_help_invoice t2 ON t1.self_help_invoice_id = t2.id
+        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t2.enterprise_id = #{param1}) temp WHERE 1=1
+        <if test="param2.name != null and param2.name.trim() != ''">
+            AND temp.names LIKE concat('%', #{param2.name}, '%')
+        </if>
+        <if test="param2.beginDate != null">
+            AND DATEDIFF(temp.create_time, #{param2.beginDate}) <![CDATA[ >= ]]> 0
+        </if>
+        <if test="param2.endDate != null">
+            AND DATEDIFF(temp.create_time, #{param2.endDate}) <![CDATA[ <= ]]> 0
+        </if>
+    </select>
+
+    <select id="queryCrowdAcceptPaysheetDetailEnterprise" resultMap="acceptPaysheetCsDetailEnterpriseVO">
+        SELECT t1.id, t3.enterprise_name, t5.service_provider_name, t1.service_time_start, t1.service_time_end, t2.list_file, t1.accept_paysheet_cs_url, t1.create_time
+        FROM diyi_accept_paysheet_cs t1 INNER JOIN diyi_self_help_invoice t2 ON t1.self_help_invoice_id = t2.id INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id
+        LEFT JOIN diyi_self_help_invoice_sp t4 ON t2.id = t4.self_help_invoice_id AND t4.is_deleted = 0 LEFT JOIN diyi_service_provider t5 ON t4.service_provider_id = t5.id
+        AND t5.is_deleted = 0 WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t1.id = #{param1}
+    </select>
+
+    <select id="queryCrowdAcceptPaysheetSingleList" resultMap="acceptPaysheetCsSingleListEnterpriseVO">
+        SELECT t1.id, t2.list_file, IF(t4.name = NULL OR t4.name = '', t3.invoice_people_name, t4.name) AS name, t1.service_time_start, t1.service_time_end,
+        t1.accept_paysheet_cs_url, t1.create_time FROM diyi_accept_paysheet_cs t1 INNER JOIN diyi_self_help_invoice t2 ON t1.self_help_invoice_id = t2.id
+        INNER JOIN diyi_self_help_invoice_detail t3 ON t1.self_help_invoice_detail_id = t3.id LEFT JOIN diyi_maker t4 ON t3.maker_id = t4.id AND t4.is_deleted = 0
+        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t1.accept_paysheet_cs_type = 'SINGLE' AND t1.self_help_invoice_id = #{param1}
+        <if test="param2 != null">
+            AND t1.self_help_invoice_detail_id = #{param2}
+        </if>
+    </select>
+
 </mapper>

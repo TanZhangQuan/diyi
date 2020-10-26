@@ -2,22 +2,24 @@ package com.lgyun.system.order.controller.enterprise;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.AcceptPayListDTO;
-import com.lgyun.system.order.dto.AcceptPaysheetSaveDTO;
-import com.lgyun.system.order.dto.PayEnterpriseDTO;
+import com.lgyun.system.order.dto.AcceptSheetAndCsListDTO;
+import com.lgyun.system.order.service.IAcceptPaysheetCsService;
 import com.lgyun.system.order.service.IAcceptPaysheetService;
-import com.lgyun.system.order.service.IPayEnterpriseService;
+import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @RestController
@@ -29,11 +31,12 @@ public class AcceptPaysheetEnterpriseController {
 
     private IUserClient userClient;
     private IAcceptPaysheetService acceptPaysheetService;
-    private IPayEnterpriseService payEnterpriseService;
+    private IAcceptPaysheetCsService acceptPaysheetCsService;
+    private IWorksheetService worksheetService;
 
-    @GetMapping("/query-accept-paysheet-list")
-    @ApiOperation(value = "查询当前商户所有总包交付支付验收单", notes = "查询当前商户所有总包交付支付验收单")
-    public R queryAcceptPaysheetList(AcceptPayListDTO acceptPayListDto, Query query, BladeUser bladeUser) {
+    @GetMapping("/query-total-sub-accept-paysheet-list")
+    @ApiOperation(value = "查询当前商户所有总包+分包交付支付验收单", notes = "查询当前商户所有总包+分包交付支付验收单")
+    public R queryTotalSubAcceptPaysheetList(AcceptSheetAndCsListDTO acceptSheetAndCsListDto, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -41,12 +44,36 @@ public class AcceptPaysheetEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return acceptPaysheetService.getAcceptPaySheetsByEnterprise(enterpriseWorkerEntity.getEnterpriseId(), acceptPayListDto, Condition.getPage(query.setDescs("create_time")));
+        return acceptPaysheetService.queryTotalSubAcceptPaysheetListEnterprise(enterpriseWorkerEntity.getEnterpriseId(), acceptSheetAndCsListDto, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @PostMapping("/upload-accept-paysheet")
-    @ApiOperation(value = "上传总包交付支付验收单", notes = "上传总包交付支付验收单")
-    public R uploadAcceptPaysheet(@Valid @RequestBody AcceptPaysheetSaveDTO acceptPaysheetSaveDto, BladeUser bladeUser) {
+    @GetMapping("/query-total-sub-accept-paysheet-detail")
+    @ApiOperation(value = "查询当前商户所有总包+分包交付支付验收单明细", notes = "查询当前商户所有总包+分包交付支付验收单明细")
+    public R queryTotalSubAcceptPaysheetDetail(@ApiParam(value = "总包+分包交付支付验收单") @NotNull(message = "请选择总包+分包交付支付验收单") @RequestParam(required = false) Long acceptPaysheetId, BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return acceptPaysheetService.queryTotalSubAcceptPaysheetDetailEnterprise(acceptPaysheetId);
+    }
+
+    @GetMapping("/query-total-sub-accept-paysheet-single-list")
+    @ApiOperation(value = "查询单人单张的总包+分包交付支付验收单", notes = "查询单人单张的总包+分包交付支付验收单")
+    public R queryTotalSubAcceptPaysheetSingleList(@ApiParam(value = "商户支付清单") @NotNull(message = "请选择商户支付清单") @RequestParam(required = false) Long payEnterpriseId, Long payMakerId, Query query, BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return acceptPaysheetService.queryTotalSubAcceptPaysheetSingleList(payEnterpriseId, payMakerId, Condition.getPage(query.setDescs("create_time")));
+    }
+
+    @GetMapping("/query-crowd-accept-paysheet-list")
+    @ApiOperation(value = "查询当前商户所有众包交付支付验收单", notes = "查询当前商户所有众包交付支付验收单")
+    public R queryCrowdAcceptPaysheetList(AcceptSheetAndCsListDTO acceptSheetAndCsListDto, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -54,56 +81,43 @@ public class AcceptPaysheetEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return acceptPaysheetService.upload(acceptPaysheetSaveDto, enterpriseWorkerEntity.getEnterpriseId(), "商户上传", enterpriseWorkerEntity.getWorkerName());
+        return acceptPaysheetCsService.queryCrowdAcceptPaysheetListEnterprise(enterpriseWorkerEntity.getEnterpriseId(), acceptSheetAndCsListDto, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @GetMapping("/query-pay-enterprise-list")
-    @ApiOperation(value = "查询当前商户所有总包支付清单", notes = "查询当前商户所有总包支付清单")
-    public R queryPayEnterpriseList(PayEnterpriseDTO payEnterpriseDto, Query query, BladeUser bladeUser) {
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-        return payEnterpriseService.getPayEnterpriseList(enterpriseWorkerEntity.getEnterpriseId(), null, payEnterpriseDto, Condition.getPage(query.setDescs("create_time")));
-    }
-
-    @GetMapping("/query-maker-list-by-pay-enterprise-id")
-    @ApiOperation(value = "根据支付清单查询支付清单关联工单的创客", notes = "根据支付清单查询支付清单关联工单的创客")
-    public R queryMakerListByPayEnterpriseId(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, Query query, BladeUser bladeUser) {
+    @GetMapping("/query-crowd-accept-paysheet-detail")
+    @ApiOperation(value = "查询众包交付支付验收单明细", notes = "查询众包交付支付验收单明细")
+    public R queryCrowdAcceptPaysheetDetail(@ApiParam(value = "众包交付支付验收单") @NotNull(message = "请选择众包交付支付验收单") @RequestParam(required = false) Long acceptPaysheetCsId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return payEnterpriseService.getMakers(payEnterpriseId, Condition.getPage(query.setDescs("create_time")));
+        return acceptPaysheetCsService.queryCrowdAcceptPaysheetDetailEnterprise(acceptPaysheetCsId);
     }
 
-    @PostMapping("/remove-accept-paysheet")
-    @ApiOperation(value = "删除总包交付支付验收单", notes = "删除总包交付支付验收单")
-    public R removeAcceptPaysheet(@ApiParam(value = "主键集合", required = true) @RequestParam String ids, BladeUser bladeUser) {
+    @GetMapping("/query-crowd-accept-paysheet-single-list")
+    @ApiOperation(value = "查询单人单张的众包交付支付验收单", notes = "查询单人单张的众包交付支付验收单")
+    public R queryCrowdAcceptPaysheetSingleList(@ApiParam(value = "自助开票") @NotNull(message = "请选择自主开票") @RequestParam(required = false) Long selfHelpInvoiceId, Long selfHelpInvoiceDetailId, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return R.status(acceptPaysheetService.removeByIds(Func.toLongList(ids)));
+        return acceptPaysheetCsService.queryCrowdAcceptPaysheetSingleList(selfHelpInvoiceId, selfHelpInvoiceDetailId, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @GetMapping("/query-maker-list-by-accept-paysheet-id")
-    @ApiOperation(value = "根据总包交付支付验收单查询关联创客", notes = "根据总包交付支付验收单查询关联创客")
-    public R queryMakerListByAcceptPaysheetId(@ApiParam(value = "总包交付支付验收单") @NotNull(message = "请选择总包交付支付验收单") @RequestParam(required = false) Long acceptPaysheetId, Query query, BladeUser bladeUser) {
+    @GetMapping("/query-worksheet-detail")
+    @ApiOperation(value = "查询工单详情", notes = "查询工单详情")
+    public R queryTotalSubAcceptPaysheetList(@ApiParam(value = "工单", required = true) @NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return acceptPaysheetService.getMakerList(acceptPaysheetId, Condition.getPage(query.setDescs("create_time")));
+        return worksheetService.getByWorksheetId(worksheetId);
     }
 
 }

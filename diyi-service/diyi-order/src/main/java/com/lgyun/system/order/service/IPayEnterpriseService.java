@@ -274,11 +274,12 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @param page
      * @return
      */
-    R getServiceLumpSumInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, InvoiceState companyInvoiceState,IPage<InvoiceServiceLumpVO> page);
+    R getServiceLumpSumInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, InvoiceState companyInvoiceState, IPage<InvoiceServiceLumpVO> page);
 
 
     /**
      * 服务商查询总包发票详情
+     *
      * @param payEnterpriseId
      * @return
      */
@@ -286,6 +287,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
 
     /**
      * 服务商总包开票
+     *
      * @param serviceProviderId
      * @param payEnterpriseId
      * @param applicationId
@@ -294,10 +296,11 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @param expressCompanyName
      * @return
      */
-    R saveServiceLumpSumInvoice(Long serviceProviderId,Long payEnterpriseId,String serviceProviderName,Long applicationId,String companyInvoiceUrl,String expressSheetNo,String expressCompanyName,String invoiceDesc);
+    R saveServiceLumpSumInvoice(Long serviceProviderId, Long payEnterpriseId, String serviceProviderName, Long applicationId, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc);
 
     /**
      * 服务商查询未开票分包发票
+     *
      * @param serviceProviderId
      * @param enterpriseName
      * @param startTime
@@ -305,11 +308,12 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @param page
      * @return
      */
-    R getSubcontractInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime,IPage<InvoiceServiceSubVO> page);
+    R getSubcontractInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, IPage<InvoiceServiceSubVO> page);
 
 
     /**
      * 服务商查看未开票分包发票详情
+     *
      * @param payEnterpriseId
      * @return
      */
@@ -318,7 +322,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     /**
      * 服务商汇总代开开票
      */
-    R saveSummaryInvoice(Long serviceProviderId,Long payEnterpriseId,String serviceProviderName,String invoiceTypeNo,String invoiceSerialNo,String invoiceCategory,String companyInvoiceUrl,String makerTaxUrl,String makerTaxListUrl);
+    R saveSummaryInvoice(Long serviceProviderId, Long payEnterpriseId, String serviceProviderName, String invoiceTypeNo, String invoiceSerialNo, String invoiceCategory, String companyInvoiceUrl, String makerTaxUrl, String makerTaxListUrl);
 
     /**
      * 服务商申请门征单开发票
@@ -328,12 +332,12 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     /**
      * 服务商门征单开发票开票
      */
-    R savePortalSignInvoice(Long serviceProviderId,Long payEnterpriseId,String payMakers,String serviceProviderName);
+    R savePortalSignInvoice(Long serviceProviderId, Long payEnterpriseId, String payMakers, String serviceProviderName);
 
     /**
      * 服务商查询已开票的汇总代开发票
      */
-    R getServiceSummaryInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime,IPage<InvoiceServiceSubVO> page);
+    R getServiceSummaryInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, IPage<InvoiceServiceSubVO> page);
 
     /**
      * 服务商查询已开票的汇总代开发票详情
@@ -343,7 +347,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     /**
      * 服务商查询已门征单开的发票
      */
-    R getServicePortalSignInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime,IPage<InvoiceServiceSubVO> page);
+    R getServicePortalSignInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, IPage<InvoiceServiceSubVO> page);
 
     /**
      * 服务商查询已门征单开的发票详情
@@ -352,6 +356,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
 
     /**
      * 查询当前相关局所有匹配的服务商交易情况数据
+     *
      * @param bureauId
      * @return
      */
@@ -359,12 +364,12 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
 
     /**
      * 查询相关局匹配的服务商基本信息及交易金额
+     *
      * @param bureauId
      * @param page
      * @return
      */
     R<IPage<TransactionByBureauServiceProviderInfoVO>> transactionByBureauServiceProviderInfo(Long bureauId, IPage<TransactionByBureauServiceProviderInfoVO> page);
-
 
 
     /**
@@ -382,18 +387,21 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @param page
      * @return
      */
-    R<IPage<AdminAgentMainServiceProviderListVO>> getCooperativeServiceProvider(IPage<AdminAgentMainServiceProviderListVO> page,Long agentMainId);
+    R<IPage<AdminAgentMainServiceProviderListVO>> getCooperativeServiceProvider(IPage<AdminAgentMainServiceProviderListVO> page, Long agentMainId);
 
     /**
      * 合伙人流水信息
+     *
      * @return
      */
     R<AgentMainTransactionVO> allTransaction();
 
     /**
      * 合伙人可以看所有的服务商
+     *
      * @return
      */
     R<IPage<PartnerServiceProviderListVO>> getPartnerAllServiceProvider(IPage<PartnerServiceProviderListVO> page);
+
 }
 

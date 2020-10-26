@@ -131,4 +131,5 @@ public class PayMakerEntity extends BaseEntity {
      * 创客发票类目:默认取订单中的默认信息，可更改，根据具体业务开，如*现代服务*市场推广费
      */
     private String makerInvoiceCategory;
+
 }

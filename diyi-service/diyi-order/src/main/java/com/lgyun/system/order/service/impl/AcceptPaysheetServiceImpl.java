@@ -5,16 +5,18 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AcceptPaysheetType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.order.dto.AcceptPayListDTO;
+import com.lgyun.system.order.dto.AcceptSheetAndCsListDTO;
 import com.lgyun.system.order.dto.AcceptPaysheetSaveDTO;
 import com.lgyun.system.order.entity.AcceptPaysheetEntity;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.mapper.AcceptPaysheetMapper;
 import com.lgyun.system.order.service.IAcceptPaysheetService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
-import com.lgyun.system.order.vo.AcceptPayListVO;
-import com.lgyun.system.order.vo.AcceptPaysheetAndCsList;
-import com.lgyun.system.order.vo.AcceptPaysheetDetailVO;
+import com.lgyun.system.order.vo.enterprise.AcceptPaysheetListEnterpriseVO;
+import com.lgyun.system.order.vo.enterprise.AcceptPaysheetDetailEnterpriseVO;
+import com.lgyun.system.order.vo.enterprise.AcceptPaysheetSingleListEnterpriseVO;
+import com.lgyun.system.order.vo.maker.AcceptPaysheetAndCsListMakerVO;
+import com.lgyun.system.order.vo.maker.AcceptPaysheetDetailMakerVO;
 import com.lgyun.system.order.vo.PayEnterpriseMakerDetailListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,23 +37,13 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
     private IPayEnterpriseService payEnterpriseService;
 
     @Override
-    public R<IPage<AcceptPaysheetAndCsList>> queryTotalSubAcceptPaysheetList(Long enterpriseId, Long makerId, IPage<AcceptPaysheetAndCsList> page) {
-        return R.data(page.setRecords(baseMapper.queryTotalSubAcceptPaysheetList(enterpriseId, makerId, page)));
+    public R<IPage<AcceptPaysheetAndCsListMakerVO>> queryTotalSubAcceptPaysheetListMaker(Long enterpriseId, Long makerId, IPage<AcceptPaysheetAndCsListMakerVO> page) {
+        return R.data(page.setRecords(baseMapper.queryTotalSubAcceptPaysheetListMaker(enterpriseId, makerId, page)));
     }
 
     @Override
-    public R<AcceptPaysheetDetailVO> queryTotalSubAcceptPaysheetDetail(Long makerId, Long acceptPaysheetId) {
-        return R.data(baseMapper.queryTotalSubAcceptPaysheetDetail(makerId, acceptPaysheetId));
-    }
-
-    @Override
-    public R<IPage<AcceptPaysheetAndCsList>> queryCrowdAcceptPaysheetList(Long enterpriseId, Long makerId, IPage<AcceptPaysheetAndCsList> page) {
-        return R.data(page.setRecords(baseMapper.queryCrowdAcceptPaysheetList(enterpriseId, makerId, page)));
-    }
-
-    @Override
-    public R<AcceptPaysheetDetailVO> queryCrowdAcceptPaysheetDetail(Long makerId, Long acceptPaysheetId) {
-        return R.data(baseMapper.queryCrowdAcceptPaysheetDetail(makerId, acceptPaysheetId));
+    public R<AcceptPaysheetDetailMakerVO> queryTotalSubAcceptPaysheetDetailMaker(Long makerId, Long acceptPaysheetId) {
+        return R.data(baseMapper.queryTotalSubAcceptPaysheetDetailMaker(makerId, acceptPaysheetId));
     }
 
     @Override
@@ -101,15 +93,25 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
     }
 
     @Override
-    public R<IPage<AcceptPayListVO>> getAcceptPaySheetsByEnterprise(Long enterpriseId, AcceptPayListDTO acceptPayListDto, IPage<AcceptPayListVO> page) {
+    public R<IPage<AcceptPaysheetListEnterpriseVO>> queryTotalSubAcceptPaysheetListEnterprise(Long enterpriseId, AcceptSheetAndCsListDTO acceptSheetAndCsListDto, IPage<AcceptPaysheetListEnterpriseVO> page) {
 
-        if (acceptPayListDto.getBeginDate() != null && acceptPayListDto.getEndDate() != null) {
-            if (acceptPayListDto.getBeginDate().after(acceptPayListDto.getEndDate())) {
+        if (acceptSheetAndCsListDto.getBeginDate() != null && acceptSheetAndCsListDto.getEndDate() != null) {
+            if (acceptSheetAndCsListDto.getBeginDate().after(acceptSheetAndCsListDto.getEndDate())) {
                 return R.fail("开始时间不能大于结束时间");
             }
         }
 
-        return R.data(page.setRecords(baseMapper.getAcceptPaySheetsByEnterprise(enterpriseId, acceptPayListDto, page)));
+        return R.data(page.setRecords(baseMapper.queryTotalSubAcceptPaysheetListEnterprise(enterpriseId, acceptSheetAndCsListDto, page)));
+    }
+
+    @Override
+    public R<AcceptPaysheetDetailEnterpriseVO> queryTotalSubAcceptPaysheetDetailEnterprise(Long acceptPaysheetId) {
+        return R.data(baseMapper.queryTotalSubAcceptPaysheetDetailEnterprise(acceptPaysheetId));
+    }
+
+    @Override
+    public R<IPage<AcceptPaysheetSingleListEnterpriseVO>> queryTotalSubAcceptPaysheetSingleList(Long payEnterpriseId, Long payMakerId, IPage<AcceptPaysheetSingleListEnterpriseVO> page) {
+        return R.data(page.setRecords(baseMapper.queryTotalSubAcceptPaysheetSingleList(payEnterpriseId, payMakerId, page)));
     }
 
     @Override

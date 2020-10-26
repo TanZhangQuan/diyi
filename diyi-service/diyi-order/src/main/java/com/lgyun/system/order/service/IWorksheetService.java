@@ -35,7 +35,7 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      * @param makerId
      * @return
      */
-    R orderGrabbing(Long worksheetId, Long makerId);
+    R<String> orderGrabbing(Long worksheetId, Long makerId);
 
     /**
      * 小程序查询工单
@@ -116,7 +116,7 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      * @param worksheetId
      * @return
      */
-    R<WorksheetNoIdVO> getByWorksheetId(String worksheetId);
+    R<WorksheetNoIdVO> getByWorksheetId(Long worksheetId);
 
     /**
      * 批量开启或关闭工单

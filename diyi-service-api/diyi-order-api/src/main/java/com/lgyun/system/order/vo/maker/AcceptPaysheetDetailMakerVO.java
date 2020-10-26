@@ -1,4 +1,4 @@
-package com.lgyun.system.order.vo;
+package com.lgyun.system.order.vo.maker;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lgyun.common.enumeration.WorkSheetMode;
@@ -15,7 +15,7 @@ import java.util.Date;
  * @time 20:04.
  */
 @Data
-public class AcceptPaysheetDetailVO implements Serializable {
+public class AcceptPaysheetDetailMakerVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**

@@ -247,7 +247,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     }
 
     @Override
-    public R<WorksheetNoIdVO> getByWorksheetId(String worksheetId) {
+    public R<WorksheetNoIdVO> getByWorksheetId(Long worksheetId) {
 
         QueryWrapper<WorksheetEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(WorksheetEntity::getId, worksheetId);

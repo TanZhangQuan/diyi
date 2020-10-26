@@ -14,18 +14,13 @@ import java.util.Date;
  * @time 16:27.
  */
 @Data
-public class AcceptPayListDTO implements Serializable {
+public class AcceptSheetAndCsListDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 交付支付验收单ID
+     * 创客/开票人名称
      */
-    private Long acceptPayId;
-
-    /**
-     * 创客名称
-     */
-    private String makerName;
+    private String name;
 
     /**
      * 交付支付验收单开始时间

@@ -52,14 +52,14 @@ CREATE TABLE `diyi_accept_paysheet` (
 DROP TABLE IF EXISTS `diyi_accept_paysheet_cs`;
 CREATE TABLE `diyi_accept_paysheet_cs` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `self_help_invoice_id` bigint(50) NOT NULL COMMENT '自助开票Id',
-  `accept_paysheet_type` varchar(50) NOT NULL COMMENT '交付支付验收单类型：清单式，单人单张',
-  `self_help_invoice_detail_id` bigint(50) DEFAULT NULL COMMENT '自助开票明细Id',
+  `self_help_invoice_id` bigint(50) NOT NULL COMMENT '自助开票ID',
+  `accept_paysheet_cs_type` varchar(50) NOT NULL COMMENT '交付支付验收单类型：清单式，单人单张',
+  `self_help_invoice_detail_id` bigint(50) DEFAULT NULL COMMENT '自助开票明细ID',
   `service_time_start` datetime DEFAULT NULL COMMENT '服务开始日期',
   `service_time_end` datetime DEFAULT NULL COMMENT '服务结束日期',
   `upload_source` varchar(50) NOT NULL COMMENT '上传来源',
   `upload_person` varchar(50) NOT NULL COMMENT '上传人员',
-  `accept_paysheet_url` varchar(500) NOT NULL COMMENT '验收单URL',
+  `accept_paysheet_cs_url` varchar(500) NOT NULL COMMENT '验收单URL',
   `confirm_date` datetime DEFAULT NULL COMMENT '验收单验收日期',
   `confirm_person` varchar(50) NOT NULL DEFAULT '' COMMENT '验收人员',
   `confirm_desc` varchar(500) NOT NULL DEFAULT '' COMMENT '验收说明',
@@ -83,7 +83,7 @@ CREATE TABLE `diyi_accept_paysheet_cs` (
 DROP TABLE IF EXISTS `diyi_address`;
 CREATE TABLE `diyi_address` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `object_id` bigint(50) NOT NULL COMMENT '对象Id',
+  `object_id` bigint(50) NOT NULL COMMENT '对象ID',
   `object_type` varchar(20) NOT NULL COMMENT '对象身份1、创客本人2、商户人员3、服务商人员4、相关局人员5、渠道商人员6、合伙人本人',
   `address_name` varchar(50) NOT NULL COMMENT '收件人',
   `address_phone` varchar(50) NOT NULL COMMENT '手机号码',
@@ -265,7 +265,7 @@ DROP TABLE IF EXISTS `diyi_deliver_material`;
 CREATE TABLE `diyi_agent_provider` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `agent_main_id` bigint(50) NOT NULL COMMENT '渠道商ID',
-  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商id',
+  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
 	`match_date` datetime NOT NULL COMMENT '分配日期',
   `match_person` varchar(50) NOT NULL COMMENT '分配人员',
   `match_desc` varchar(500) NOT NULL COMMENT '分配说明',

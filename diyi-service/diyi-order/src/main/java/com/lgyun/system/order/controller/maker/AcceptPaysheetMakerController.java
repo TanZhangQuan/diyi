@@ -4,6 +4,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
+import com.lgyun.system.order.service.IAcceptPaysheetCsService;
 import com.lgyun.system.order.service.IAcceptPaysheetService;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
@@ -28,6 +29,7 @@ public class AcceptPaysheetMakerController {
 
     private IUserClient userClient;
     private IAcceptPaysheetService acceptPaysheetService;
+    private IAcceptPaysheetCsService acceptPaysheetCsService;
 
     @GetMapping("/query-total-sub-accept-paysheet-list")
     @ApiOperation(value = "查询总包+分包交付支付验收单", notes = "查询总包+分包交付支付验收单")
@@ -39,7 +41,7 @@ public class AcceptPaysheetMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return acceptPaysheetService.queryTotalSubAcceptPaysheetList(enterpriseId, makerEntity.getId(), Condition.getPage(query.setDescs("create_time")));
+        return acceptPaysheetService.queryTotalSubAcceptPaysheetListMaker(enterpriseId, makerEntity.getId(), Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-total-sub-accept-paysheet-detail")
@@ -52,7 +54,7 @@ public class AcceptPaysheetMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return acceptPaysheetService.queryTotalSubAcceptPaysheetDetail(makerEntity.getId(), acceptPaysheetId);
+        return acceptPaysheetService.queryTotalSubAcceptPaysheetDetailMaker(makerEntity.getId(), acceptPaysheetId);
     }
 
     @GetMapping("/query-crowd-accept-paysheet-list")
@@ -65,7 +67,7 @@ public class AcceptPaysheetMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return acceptPaysheetService.queryCrowdAcceptPaysheetList(enterpriseId, makerEntity.getId(), Condition.getPage(query.setDescs("create_time")));
+        return acceptPaysheetCsService.queryCrowdAcceptPaysheetListMaker(enterpriseId, makerEntity.getId(), Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-crowd-accept-paysheet-detail")
@@ -78,7 +80,7 @@ public class AcceptPaysheetMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return acceptPaysheetService.queryCrowdAcceptPaysheetDetail(makerEntity.getId(), acceptPaysheetId);
+        return acceptPaysheetCsService.queryCrowdAcceptPaysheetDetailMaker(makerEntity.getId(), acceptPaysheetId);
     }
 
 }

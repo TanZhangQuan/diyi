@@ -3,7 +3,7 @@
 
 <mapper namespace="com.lgyun.system.order.mapper.AcceptPaysheetMapper">
 
-    <resultMap type="com.lgyun.system.order.vo.AcceptPaysheetAndCsList" id="acceptPaysheetAndCsList">
+    <resultMap type="com.lgyun.system.order.vo.maker.AcceptPaysheetAndCsListMakerVO" id="acceptPaysheetAndCsListMakerVO">
         <result property="id" column="id"/>
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="payAmount" column="pay_amount"/>
@@ -11,7 +11,7 @@
         <result property="serviceTimeEnd" column="service_time_end"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.order.vo.AcceptPaysheetDetailVO" id="acceptPaysheetDetailVO">
+    <resultMap type="com.lgyun.system.order.vo.maker.AcceptPaysheetDetailMakerVO" id="acceptPaysheetDetailVO">
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="payToPlatformAmount" column="pay_to_platform_amount"/>
         <result property="serviceTimeStart" column="service_time_start"/>
@@ -27,21 +27,36 @@
         <result property="achievementFiles" column="achievement_files"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.order.vo.AcceptPaysheetCsDetailVO" id="acceptPaysheetCsDetailVO">
-        <result property="enterpriseName" column="enterprise_name"/>
-        <result property="totalPayProviderFee" column="total_pay_provider_fee"/>
+    <resultMap type="com.lgyun.system.order.vo.enterprise.AcceptPaysheetListEnterpriseVO" id="acceptPaysheetAndCsListEnterpriseVO">
+        <result property="id" column="id"/>
+        <result property="payEnterpriseId" column="pay_enterprise_id"/>
+        <result property="payMakerId" column="pay_maker_id"/>
+        <result property="chargeListUrl" column="charge_list_url"/>
+        <result property="names" column="names"/>
+        <result property="worksheetId" column="worksheet_id"/>
         <result property="serviceTimeStart" column="service_time_start"/>
         <result property="serviceTimeEnd" column="service_time_end"/>
         <result property="acceptPaysheetUrl" column="accept_paysheet_url"/>
+        <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.order.vo.AcceptPayListVO" id="acceptPayListVO">
+    <resultMap type="com.lgyun.system.order.vo.enterprise.AcceptPaysheetDetailEnterpriseVO" id="acceptPaysheetDetailEnterpriseVO">
         <result property="id" column="id"/>
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="serviceProviderName" column="service_provider_name"/>
+        <result property="serviceTimeStart" column="service_time_start"/>
+        <result property="serviceTimeEnd" column="service_time_end"/>
+        <result property="worksheetId" column="worksheet_id"/>
         <result property="chargeListUrl" column="charge_list_url"/>
-        <result property="makerNames" column="maker_names"/>
-        <result property="worksheetNo" column="worksheet_no"/>
+        <result property="acceptPaysheetUrl" column="accept_paysheet_url"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.enterprise.AcceptPaysheetSingleListEnterpriseVO" id="acceptPaysheetSingleListEnterpriseVO">
+        <result property="id" column="id"/>
+        <result property="chargeListUrl" column="charge_list_url"/>
+        <result property="name" column="name"/>
+        <result property="worksheetId" column="worksheet_id"/>
         <result property="serviceTimeStart" column="service_time_start"/>
         <result property="serviceTimeEnd" column="service_time_end"/>
         <result property="acceptPaysheetUrl" column="accept_paysheet_url"/>
@@ -61,14 +76,14 @@
         <result property="acceptPaysheetUrl" column="accept_paysheet_url"/>
     </resultMap>
 
-    <select id="queryTotalSubAcceptPaysheetList" resultMap="acceptPaysheetAndCsList">
+    <select id="queryTotalSubAcceptPaysheetListMaker" resultMap="acceptPaysheetAndCsListMakerVO">
         SELECT t1.id, t3.enterprise_name, t2.pay_to_platform_amount AS pay_amount, t1.service_time_start, t1.service_time_end FROM diyi_accept_paysheet t1
         INNER JOIN diyi_pay_enterprise t2 ON t1.pay_enterprise_id = t2.id INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id WHERE t1.is_deleted = 0
         AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t3.id = #{param1} AND ((t1.accept_paysheet_type = 'MANY') OR (t1.accept_paysheet_type = 'SINGLE' AND
         (SELECT t4.maker_id FROM diyi_pay_maker t4 WHERE t4.is_deleted = 0 AND t1.pay_maker_id = t4.id) = #{param2}))
     </select>
 
-    <select id="queryTotalSubAcceptPaysheetDetail" resultMap="acceptPaysheetDetailVO">
+    <select id="queryTotalSubAcceptPaysheetDetailMaker" resultMap="acceptPaysheetDetailVO">
         SELECT t3.enterprise_name, t2.pay_to_platform_amount, t1.service_time_start, t1.service_time_end, IF(t1.accept_paysheet_type = 'SINGLE' AND t4.maker_id = #{param1},
         t1.accept_paysheet_url, NULL) AS accept_paysheet_url, t5.worksheet_name, t5.worksheet_type, t5.worksheet_mode, t5.create_time, t5.worksheet_no, t6.check_money,
         t6.achievement_desc, t6.achievement_files FROM diyi_accept_paysheet t1 INNER JOIN diyi_pay_enterprise t2 ON t1.pay_enterprise_id = t2.id
@@ -77,39 +92,38 @@
         WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t1.id = #{param2}
     </select>
 
-    <select id="queryCrowdAcceptPaysheetList" resultMap="acceptPaysheetAndCsList">
-        SELECT t1.id, t3.enterprise_name, t2.total_pay_provider_fee AS pay_amount, t1.service_time_start, t1.service_time_end FROM diyi_accept_paysheet_cs t1
-        INNER JOIN diyi_self_help_invoice t2 ON t1.self_help_invoice_id = t2.id INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id WHERE t1.is_deleted = 0
-        AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t3.id = #{param1} AND ((t1.accept_paysheet_type = 'MANY') OR (t1.accept_paysheet_type = 'SINGLE' AND
-        (SELECT t4.maker_id FROM diyi_self_help_invoice_detail t4 WHERE t4.is_deleted = 0 AND t1.self_help_invoice_detail_id = t4.id) = #{param2}))
-    </select>
-
-    <select id="queryCrowdAcceptPaysheetDetail" resultMap="acceptPaysheetCsDetailVO">
-        SELECT t3.enterprise_name, t2.total_pay_provider_fee, t1.service_time_start, t1.service_time_end, IF(t1.accept_paysheet_type = 'SINGLE' AND t4.maker_id = #{param1},
-        t1.accept_paysheet_url, NULL) AS accept_paysheet_url FROM diyi_accept_paysheet_cs t1 INNER JOIN diyi_self_help_invoice t2 ON t1.self_help_invoice_id = t2.id
-        INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id LEFT JOIN diyi_self_help_invoice_detail t4 ON t1.self_help_invoice_detail_id = t4.id AND t4.is_deleted = 0
-        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t1.id = #{param2}
-    </select>
-
-    <select id="getAcceptPaySheetsByEnterprise" resultMap="acceptPayListVO">
-        SELECT * FROM (SELECT t3.id, t4.charge_list_url, t5.enterprise_name, t6.service_provider_name, t3.service_time_start, t3.service_time_end, t7.worksheet_no, t3.accept_paysheet_url, t3.create_time,
-        IF(t3.accept_paysheet_type = 'SINGLE', (SELECT name FROM diyi_maker WHERE is_deleted = 0 AND id = t3.maker_id), (SELECT GROUP_CONCAT(t2.name)
-        FROM diyi_worksheet_maker t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.worksheet_id = t4.worksheet_id)) AS maker_names
-        FROM diyi_accept_paysheet t3 INNER JOIN diyi_pay_enterprise t4 ON t3.pay_enterprise_id = t4.id INNER JOIN diyi_enterprise t5 ON t4.enterprise_id = t5.id
-        INNER JOIN diyi_service_provider t6 ON t4.service_provider_id = t6.id LEFT JOIN diyi_worksheet t7 ON t4.worksheet_id = t7.id AND t7.is_deleted = 0
-        WHERE t3.is_deleted = 0 AND t4.is_deleted = 0 AND t5.is_deleted = 0 AND t6.is_deleted = 0
-        <if test="param2.acceptPayId != null">
-            AND t3.id = #{param2.acceptPayId}
+    <select id="queryTotalSubAcceptPaysheetListEnterprise" resultMap="acceptPaysheetAndCsListEnterpriseVO">
+        SELECT * FROM (SELECT t1.id, t1.pay_enterprise_id, t1.pay_maker_id, t2.charge_list_url, t1.service_time_start, t1.service_time_end, t2.worksheet_id,
+        t1.accept_paysheet_url, t1.create_time, (SELECT GROUP_CONCAT(t4.name) FROM diyi_pay_maker t3 INNER JOIN diyi_maker t4 ON t3.maker_id = t4.id
+        WHERE t3.is_deleted = 0 AND t4.is_deleted = 0 AND IF(t1.accept_paysheet_type = 'SINGLE', t3.id = t1.pay_maker_id, t3.id IN (SELECT pay_maker_id
+        FROM diyi_accept_paysheet WHERE is_deleted = 0 AND pay_enterprise_id = t1.pay_enterprise_id))) AS names FROM diyi_accept_paysheet t1
+        INNER JOIN diyi_pay_enterprise t2 ON t1.pay_enterprise_id = t2.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0
+        AND t2.enterprise_id = #{param1}) temp WHERE 1=1
+        <if test="param2.name != null and param2.name.trim() != ''">
+            AND temp.names LIKE concat('%', #{param2.name}, '%')
         </if>
         <if test="param2.beginDate != null">
-            AND DATEDIFF(t1.create_time, #{param2.beginDate}) <![CDATA[ >= ]]> 0
+            AND DATEDIFF(temp.create_time, #{param2.beginDate}) <![CDATA[ >= ]]> 0
         </if>
         <if test="param2.endDate != null">
-            AND DATEDIFF(t1.create_time, #{param2.endDate}) <![CDATA[ <= ]]> 0
+            AND DATEDIFF(temp.create_time, #{param2.endDate}) <![CDATA[ <= ]]> 0
         </if>
-        AND t4.enterprise_id = #{param1}) temp WHERE 1=1
-        <if test="param2.makerName != null and param2.makerName.trim() != ''">
-            AND temp.maker_names LIKE concat('%', #{param2.makerName}, '%')
+    </select>
+
+    <select id="queryTotalSubAcceptPaysheetDetailEnterprise" resultMap="acceptPaysheetDetailEnterpriseVO">
+        SELECT t1.id, t3.enterprise_name, t4.service_provider_name, t1.service_time_start, t1.service_time_end, t2.worksheet_id, t2.charge_list_url,
+        t1.accept_paysheet_url, create_time FROM diyi_accept_paysheet t1 INNER JOIN diyi_pay_enterprise t2 ON t1.pay_enterprise_id = t2.id INNER JOIN
+        diyi_enterprise t3 ON t2.enterprise_id = t3.id INNER JOIN diyi_service_provider t4 ON t2.service_provider_id = t4.id WHERE t1.is_deleted = 0
+        AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t4.is_deleted = 0 AND t1.id = #{param1}
+    </select>
+
+    <select id="queryTotalSubAcceptPaysheetSingleList" resultMap="acceptPaysheetSingleListEnterpriseVO">
+        SELECT t1.id, t2.charge_list_url, t4.name, t2.worksheet_id, t1.service_time_start, t1.service_time_end, t1.accept_paysheet_url, t1.create_time
+        FROM diyi_accept_paysheet t1 INNER JOIN diyi_pay_enterprise t2 ON t1.pay_enterprise_id = t2.id INNER JOIN diyi_pay_maker t3 ON t1.pay_maker_id = t3.id
+        INNER JOIN diyi_maker t4 ON t3.maker_id = t4.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t4.is_deleted = 0
+        AND t1.accept_paysheet_type = 'SINGLE' AND t1.pay_enterprise_id = #{param1}
+        <if test="param2 != null">
+            AND t1.pay_maker_id = #{param2}
         </if>
     </select>
 

@@ -32,7 +32,7 @@ public class AcceptPaysheetCsEntity extends BaseEntity {
     /**
      * 交付支付验收单类型：清单式，单人单张
      */
-    private AcceptPaysheetType acceptPaysheetType;
+    private AcceptPaysheetType acceptPaysheetCsType;
 
     /**
      * 自助开票明细Id
@@ -62,7 +62,7 @@ public class AcceptPaysheetCsEntity extends BaseEntity {
     /**
      * 验收单URL
      */
-    private String acceptPaysheetUrl;
+    private String acceptPaysheetCsUrl;
 
     /**
      * 验收单验收日期

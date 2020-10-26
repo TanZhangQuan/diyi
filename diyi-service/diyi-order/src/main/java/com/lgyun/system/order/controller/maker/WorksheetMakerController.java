@@ -107,7 +107,7 @@ public class WorksheetMakerController {
 
     @GetMapping("/query-worksheet-list-by-worksheet-id")
     @ApiOperation(value = "根据工单ID查询工单", notes = "根据工单ID查询工单")
-    public R queryWorksheetListByWorksheetId(String worksheetId, BladeUser bladeUser) {
+    public R queryWorksheetListByWorksheetId(Long worksheetId, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
