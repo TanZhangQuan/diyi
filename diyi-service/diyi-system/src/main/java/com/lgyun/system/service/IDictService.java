@@ -55,6 +55,8 @@ public interface IDictService extends IService<Dict> {
 	boolean submit(Dict dict);
 
 
+	void saveList();
+
 	/**
 	 * 查询字典表
 	 *

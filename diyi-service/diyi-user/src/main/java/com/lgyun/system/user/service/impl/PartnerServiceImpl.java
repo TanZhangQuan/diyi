@@ -37,7 +37,7 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
     public R<IPage<PartnerVO>> getPartnerList(IPage<PartnerVO> page, QueryPartnerDTO queryPartnerDTO) {
         if (queryPartnerDTO.getBeginDate() != null && queryPartnerDTO.getEndDate() != null) {
             if (queryPartnerDTO.getBeginDate().after(queryPartnerDTO.getEndDate())) {
-                return R.fail("开始时间不能大于结束时间");
+                return R.fail("开始时间不能大于结束时间！");
             }
         }
         return R.data(page.setRecords(baseMapper.getPartnerList(queryPartnerDTO, page)));

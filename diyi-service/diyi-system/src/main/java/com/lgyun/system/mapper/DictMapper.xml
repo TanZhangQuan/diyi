@@ -9,6 +9,7 @@
         <result column="code" property="code"/>
         <result column="dict_key" property="dictKey"/>
         <result column="dict_value" property="dictValue"/>
+        <result column="describe" property="describes"/>
         <result column="sort" property="sort"/>
         <result column="remark" property="remark"/>
         <result column="is_deleted" property="isDeleted"/>

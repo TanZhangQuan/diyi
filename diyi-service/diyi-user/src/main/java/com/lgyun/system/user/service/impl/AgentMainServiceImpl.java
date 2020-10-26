@@ -47,18 +47,18 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
     private AgentProviderMapper agentProviderMapper;
 
     @Override
-    public Integer findCountByEnterpriseName(String enterpriseName, Long enterpriseId) {
+    public Integer findCountByEnterpriseName(String enterpriseName, Long agentMainId) {
         QueryWrapper<AgentMainEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(AgentMainEntity::getEnterpriseName, enterpriseName)
-                .ne(enterpriseId != null, AgentMainEntity::getId, enterpriseId);
+                .ne(agentMainId != null, AgentMainEntity::getId, agentMainId);
         return baseMapper.selectCount(queryWrapper);
     }
 
     @Override
-    public Integer findCountBySocialCreditNo(String socialCreditNo, Long enterpriseId) {
+    public Integer findCountBySocialCreditNo(String socialCreditNo, Long agentMainId) {
         QueryWrapper<AgentMainEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(AgentMainEntity::getSocialCreditNo, socialCreditNo)
-                .ne(enterpriseId != null, AgentMainEntity::getId, enterpriseId);
+                .ne(agentMainId != null, AgentMainEntity::getId, agentMainId);
         return baseMapper.selectCount(queryWrapper);
     }
 
