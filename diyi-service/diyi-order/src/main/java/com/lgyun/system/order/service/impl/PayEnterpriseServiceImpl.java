@@ -20,7 +20,9 @@ import com.lgyun.system.order.mapper.PayEnterpriseMapper;
 import com.lgyun.system.order.service.*;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.order.vo.admin.TransactionByBureauServiceProviderInfoVO;
+import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.EnterpriseServiceProviderEntity;
+import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import com.lgyun.system.user.vo.TransactionVO;
 import com.lgyun.system.user.vo.admin.AdminAgentMainServiceProviderListVO;
@@ -62,6 +64,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     private IMakerInvoiceService makerInvoiceService;
     private IMakerTaxRecordService makerTaxRecordService;
     private IPlatformInvoiceListService platformInvoiceListService;
+    private IInvoiceApplicationPayListService invoiceApplicationPayListService;
 
     @Override
     public R<IPage<InvoiceEnterpriseVO>> getEnterpriseAll(Long makerId, IPage<InvoiceEnterpriseVO> page) {
@@ -237,7 +240,6 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         if (null == invoiceApplicationEntity) {
             return R.fail("申请不存在");
         }
-
         invoiceApplicationEntity.setApplicationState(ApplicationState.CANCELLED);
         invoiceApplicationService.saveOrUpdate(invoiceApplicationEntity);
         return R.success("取消成功");
@@ -282,26 +284,21 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R findDetailSummary(Long makerTotalInvoiceId) {
+    public R findDetailSummary(Long makerTotalInvoiceId,Query query) {
         Map map = new HashMap();
         EnterpriseSubcontractInvoiceVO detailSummary = baseMapper.findDetailSummary(makerTotalInvoiceId);
         map.put("enterpriseSubcontractInvoiceVO", detailSummary);
         PayEnterpriseEntity byId = getById(detailSummary.getPayEnterpriseId());
         if (null == byId) {
-            R.fail("数据错误");
+           return R.fail("数据错误");
         }
-        Long worksheetId = byId.getWorksheetId();
-        if (null != worksheetId) {
-            List<WorksheetMakerDetailsVO> worksheetMakerDetails = worksheetMakerService.getWorksheetMakerDetails(worksheetId);
-            map.put("worksheetMakerDetails", worksheetMakerDetails);
-        } else {
-            map.put("makers", "");
-        }
+        List<PayMakerListVO> PayMakerListVOs = baseMapper.getPayMakerListByPayEnterprise(byId.getId(), Condition.getPage(query.setDescs("create_time")));
+        map.put("payMakerListVOs", PayMakerListVOs);
         return R.data(map);
     }
 
     @Override
-    public R findDetailSubcontractPortal(Long makerInvoiceId) {
+    public R findDetailSubcontractPortal(Long makerInvoiceId,Query query) {
         EnterpriseSubcontractPortalVO detailSummary = baseMapper.findDetailSubcontractPortal(makerInvoiceId);
         Map map = new HashMap();
         map.put("EnterpriseSubcontractPortalVO", detailSummary);
@@ -309,13 +306,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         if (null == byId) {
             R.fail("数据错误");
         }
-        Long worksheetId = byId.getWorksheetId();
-        if (null != worksheetId) {
-            List<WorksheetMakerDetailsVO> worksheetMakerDetails = worksheetMakerService.getWorksheetMakerDetails(worksheetId);
-            map.put("worksheetMakerDetails", worksheetMakerDetails);
-        } else {
-            map.put("makers", "");
-        }
+        List<PayMakerListVO> PayMakerListVOs = baseMapper.getPayMakerListByPayEnterprise(byId.getId(), Condition.getPage(query.setDescs("create_time")));
+        map.put("payMakerListVOs", PayMakerListVOs);
         return R.data(map);
     }
 
@@ -675,6 +667,109 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     @Override
     public R<IPage<PartnerServiceProviderListVO>> getPartnerAllServiceProvider(IPage<PartnerServiceProviderListVO> page) {
         return R.data(page.setRecords(baseMapper.getPartnerAllServiceProvider(page)));
+    }
+
+    @Override
+    public R queryTotalInvoiceListEnterprise(Long enterpriseId,String serviceProviderName,IPage<TotalInvoiceListEnterVO> page) {
+        return R.data(page.setRecords(baseMapper.queryTotalInvoiceListEnterprise(enterpriseId,serviceProviderName,page)));
+    }
+
+    @Override
+    public R queryTotalInvoiceListEnterpriseApplyDetails(Long invoiceApplicationId,Long enterpriseId) {
+        Map map = new HashMap();
+        EnterpriseEntity enterpriseEntity = userClient.queryEnterpriseById(enterpriseId);
+        List<InvoiceApplicationPayListEntity> applicationList = invoiceApplicationPayListService.getApplicationId(invoiceApplicationId);
+
+        InvoiceApplicationEntity invoiceApplicationEntity = invoiceApplicationService.getById(invoiceApplicationId);
+        if(null == applicationList || null == invoiceApplicationEntity){
+            return R.fail("参数有误");
+        }
+        String payEnterpriseIds = "";
+        String enterprisePayReceiptUrl = "";
+        String worksheetIds = "";
+        Long serviceProviderId = null;
+        for (InvoiceApplicationPayListEntity invoiceApplicationPayListEntity : applicationList) {
+            Long payEnterpriseId = invoiceApplicationPayListEntity.getPayEnterpriseId();
+            payEnterpriseIds +=payEnterpriseId+",";
+            enterprisePayReceiptUrl += payEnterpriseReceiptService.findEnterprisePayReceiptUrl(payEnterpriseId);
+            PayEnterpriseEntity byId = getById(payEnterpriseId);
+            serviceProviderId = byId.getServiceProviderId();
+            if(null!= byId && null != byId.getWorksheetId()){
+                worksheetIds += byId.getWorksheetId() + ",";
+            }
+        }
+        ServiceProviderEntity serviceProviderEntity = userClient.queryServiceProviderById(serviceProviderId);
+        map.put("enterpriseName",enterpriseEntity.getEnterpriseName());
+        map.put("serviceProviderName",serviceProviderEntity.getServiceProviderName());
+        map.put("invoiceApplicationId",invoiceApplicationId);
+        map.put("enterpriseId",enterpriseId);
+        map.put("payEnterpriseIds",payEnterpriseIds);
+        map.put("enterprisePayReceiptUrl",enterprisePayReceiptUrl);
+        map.put("worksheetIds",worksheetIds);
+        map.put("applicationState",invoiceApplicationEntity.getApplicationState());
+        map.put("companyInvoiceURL","");
+        map.put("invoiceCreateTiem","");
+        map.put("enterprisePayReceiptUrl",enterprisePayReceiptUrl);
+        map.put("orderTracesByJson","");
+        return R.data(map);
+    }
+
+    @Override
+    public R queryTotalInvoiceListEnterpriseInvoiceDetails(Long invoicePrintId, Long enterpriseId) {
+        Map map = new HashMap();
+        EnterpriseEntity enterpriseEntity = userClient.queryEnterpriseById(enterpriseId);
+        List<PlatformInvoicePayListEntity> invoicePrintIdList = platformInvoicePayListService.findInvoicePrintId(invoicePrintId);
+        PlatformInvoiceEntity platformInvoiceEntity = platformInvoiceService.getById(invoicePrintId);
+        String payEnterpriseIds = "";
+        String enterprisePayReceiptUrl = "";
+        String worksheetIds = "";
+        Long serviceProviderId = null;
+        for (PlatformInvoicePayListEntity platformInvoicePayListEntity : invoicePrintIdList) {
+            Long payEnterpriseId = platformInvoicePayListEntity.getPayEnterpriseId();
+            payEnterpriseIds +=payEnterpriseId+",";
+            enterprisePayReceiptUrl += payEnterpriseReceiptService.findEnterprisePayReceiptUrl(payEnterpriseId);
+            PayEnterpriseEntity byId = getById(payEnterpriseId);
+            serviceProviderId = byId.getServiceProviderId();
+            if(null!= byId && null != byId.getWorksheetId()){
+                worksheetIds += byId.getWorksheetId() + ",";
+            }
+        }
+        ServiceProviderEntity serviceProviderEntity = userClient.queryServiceProviderById(serviceProviderId);
+        map.put("enterpriseName",enterpriseEntity.getEnterpriseName());
+        map.put("serviceProviderName",serviceProviderEntity.getServiceProviderName());
+        map.put("invoiceApplicationId",enterpriseId);
+        map.put("enterpriseId",enterpriseId);
+        map.put("payEnterpriseIds",payEnterpriseIds);
+        map.put("enterprisePayReceiptUrl",enterprisePayReceiptUrl);
+        map.put("worksheetIds",worksheetIds);
+        map.put("applicationState",ApplicationState.ISSUEDINFULL);
+        List<PlatformInvoiceListEntity> platformInvoiceListEntitys = platformInvoiceListService.findInvoicePrintId(invoicePrintId);
+        String companyInvoiceURLs = "";
+        for (PlatformInvoiceListEntity platformInvoiceListEntity : platformInvoiceListEntitys) {
+            companyInvoiceURLs += platformInvoiceListEntity.getCompanyInvoiceUrl();
+        }
+        map.put("companyInvoiceURL",companyInvoiceURLs);
+        map.put("invoiceCreateTiem",platformInvoiceEntity.getCreateTime());
+        map.put("enterprisePayReceiptUrl",enterprisePayReceiptUrl);
+        KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
+        String orderTracesByJson = "";
+        try{
+            orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(platformInvoiceEntity.getExpressCompanyName(), platformInvoiceEntity.getExpressSheetNo());
+        }catch (Exception e){
+            log.error(e.getMessage(), e);
+        }
+        map.put("orderTracesByJson",orderTracesByJson);
+        return R.data(map);
+    }
+
+    @Override
+    public R queryRelationEnterpriseService(Long enterpriseId, String serviceProviderName, IPage<RelationEnterpriseServiceVO> page) {
+        return R.data(page.setRecords(baseMapper.queryRelationEnterpriseService(enterpriseId,serviceProviderName,page)));
+    }
+
+    @Override
+    public R queryEnterpriseServicePayList(Long enterpriseId, Long serviceProviderId,IPage<EnterpriseServicePayListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryEnterpriseServicePayList(enterpriseId,serviceProviderId,page)));
     }
 
 }

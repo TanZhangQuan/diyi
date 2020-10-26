@@ -312,5 +312,17 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * @return
      */
     List<PartnerServiceProviderListVO> getPartnerAllServiceProvider(IPage<PartnerServiceProviderListVO> page);
+
+    List<TotalInvoiceListEnterVO> queryTotalInvoiceListEnterprise(Long enterpriseId,String serviceProviderName,IPage<TotalInvoiceListEnterVO> page);
+
+    /**
+     * 查询和商户关联的服务商
+     */
+    List<RelationEnterpriseServiceVO> queryRelationEnterpriseService(Long enterpriseId, String serviceProviderName, IPage<RelationEnterpriseServiceVO> page);
+
+    /**
+     *根据商户和服务商查询支付清单
+     */
+    List<EnterpriseServicePayListVO> queryEnterpriseServicePayList(Long enterpriseId, Long serviceProviderId,IPage<EnterpriseServicePayListVO> page);
 }
 

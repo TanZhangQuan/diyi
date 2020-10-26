@@ -24,8 +24,8 @@ public class AddOrUpdateAgentMainContactDTO implements Serializable {
     /**
      * 商户编号
      */
-    @NotNull(message = "请输入商户编号")
-    private Long enterpriseId;
+    @NotNull(message = "请输入渠道商编号")
+    private Long agentMainId;
 
     /**
      * 联系人1姓名

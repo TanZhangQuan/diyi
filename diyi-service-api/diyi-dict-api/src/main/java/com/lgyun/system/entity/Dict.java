@@ -55,4 +55,9 @@ public class Dict extends BaseEntity {
     @ApiModelProperty(value = "字典备注")
     private String remark;
 
+    /**
+     * 对应描述
+     */
+    @ApiModelProperty(value = "对应描述")
+    private String describes;
 }

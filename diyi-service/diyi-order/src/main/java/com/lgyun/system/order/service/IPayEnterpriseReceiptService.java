@@ -3,8 +3,6 @@ package com.lgyun.system.order.service;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.entity.PayEnterpriseReceiptEntity;
 
-import java.util.List;
-
 /**
  *  Service 接口
  *
@@ -17,5 +15,7 @@ public interface IPayEnterpriseReceiptService extends BaseService<PayEnterpriseR
      * 根据支付清单id查询
      */
     String findEnterprisePayReceiptUrl(Long payEnterpriseId);
+
+
 }
 

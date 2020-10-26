@@ -2,6 +2,8 @@ package com.lgyun.system.user.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.AccountState;
+import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.dto.admin.AddAdminAgentMainDTO;
 import com.lgyun.system.user.dto.admin.QueryAgentMainDTO;
@@ -70,23 +72,7 @@ public interface IAgentMainService extends BaseService<AgentMainEntity> {
      * @param agentMainId
      * @return
      */
-    R updateIllegal(Long agentMainId, AdminEntity adminEntity);
-
-    /**
-     * 冻结
-     *
-     * @param agentMainId
-     * @return
-     */
-    R updateFreeze(Long agentMainId, AdminEntity adminEntity);
-
-    /**
-     * 正常
-     *
-     * @param agentMainId
-     * @return
-     */
-    R updateNormal(Long agentMainId, AdminEntity adminEntity);
+    R updateIllegal(Long agentMainId, AccountState accountState, AdminEntity adminEntity);
 
     /**
      * 添加渠道商信息
@@ -108,22 +94,16 @@ public interface IAgentMainService extends BaseService<AgentMainEntity> {
 
     /**
      * 开启
+     *
      * @param agentProviderId
      * @param adminEntity
      * @return
      */
-    R updateOpenAgentProvider(Long agentProviderId,AdminEntity adminEntity);
-
-    /**
-     * 关闭
-     * @param agentProviderId
-     * @param adminEntity
-     * @return
-     */
-    R updateCloseAgentProvider(Long agentProviderId,AdminEntity adminEntity);
+    R updateAgentProvider(Long agentProviderId, CooperateStatus cooperateStatus, AdminEntity adminEntity);
 
     /**
      * 查询可以匹配的服务商
+     *
      * @param serviceProviderName
      * @param page
      * @return
@@ -132,10 +112,11 @@ public interface IAgentMainService extends BaseService<AgentMainEntity> {
 
     /**
      * 添加匹配服务商
+     *
      * @param serviceProviderIds
      * @param agentMainId
      * @return
      */
-    R addAgentMainServiceProvider(String serviceProviderIds, Long agentMainId,AdminEntity adminEntity);
+    R addAgentMainServiceProvider(String serviceProviderIds, Long agentMainId, AdminEntity adminEntity);
 }
 

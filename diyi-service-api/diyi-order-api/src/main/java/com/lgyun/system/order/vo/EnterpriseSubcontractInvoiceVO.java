@@ -2,6 +2,7 @@ package com.lgyun.system.order.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.InvoiceState;
 import lombok.Data;
 
 /**
@@ -51,7 +52,7 @@ public class EnterpriseSubcontractInvoiceVO {
     /**
      * 开票状态
      */
-    private String companyInvoiceState;
+    private InvoiceState subcontractingInvoiceState;
 
     /**
      * 服务商名字
@@ -59,7 +60,34 @@ public class EnterpriseSubcontractInvoiceVO {
     private String serviceProviderName;
 
     /**
-     * 开票日期
+     * 申请日期
      */
     private String invoicePrintDate;
+
+    /**
+     * 商户名称
+     */
+    private String enterpriseName;
+    /**
+     * 商户支付清单url
+     */
+    private String chargeListUrl;
+    /**
+     * 工单号
+     */
+    private String worksheetId;
+    /**
+     * 开票日期
+     */
+    private String companyVoiceUploadDatetime;
+    /**
+     * 交付支付验收单
+     */
+    private String acceptPaysheetUrl;
+
+    /**
+     * 交付支付验收单Id
+     */
+    @JsonSerialize(using = ToStringSerializer.class)
+    private String acceptPaysheetId;
 }

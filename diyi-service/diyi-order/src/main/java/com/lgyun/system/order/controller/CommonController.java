@@ -36,4 +36,10 @@ public class CommonController {
         return commonService.ossExcelUpload(file);
     }
 
+    @PostMapping("/query-dict-list")
+    @ApiOperation(value = "根据字典code查询字典数据", notes = "根据字典code查询字典数据")
+    public R ossExcelUpload(@ApiParam(value = "字典code", required = true) @NotNull(message = "请选择字典code") String code) {
+        return commonService.getDictList(code);
+    }
+
 }

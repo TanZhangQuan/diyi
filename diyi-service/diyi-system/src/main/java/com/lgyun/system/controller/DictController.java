@@ -84,4 +84,10 @@ public class DictController extends BladeController {
 		return R.data(tree);
 	}
 
+//	@GetMapping("/add-list")
+//	@ApiOperation(value = "查询字典", notes = "查询字典")
+//	public String dictionary() {
+//		dictService.saveList();
+//		return "cg";
+//	}
 }

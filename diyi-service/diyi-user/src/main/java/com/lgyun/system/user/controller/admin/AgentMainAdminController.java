@@ -2,6 +2,8 @@ package com.lgyun.system.user.controller.admin;
 
 
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.AccountState;
+import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
@@ -17,7 +19,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -55,48 +56,16 @@ public class AgentMainAdminController {
     }
 
     @PostMapping("/modify-illegal")
-    @ApiOperation(value = "非法", notes = "非法")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "agentMainId", value = "渠道商编号", paramType = "query", dataType = "long")
-    })
-    public R modifyIllegal(@NotBlank(message = "请选择渠道商") Long agentMainId, BladeUser bladeUser) {
+    @ApiOperation(value = "修改渠道商状态", notes = "修改渠道商状态")
+    public R modifyIllegal(@NotNull(message = "请选择渠道商")@RequestParam(required = false) Long agentMainId,
+                           @NotNull(message = "请选择渠道商状态")@RequestParam(required = false) AccountState accountState, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
         AdminEntity adminEntity = result.getData();
-        return agentMainService.updateIllegal(agentMainId, adminEntity);
-    }
-
-    @PostMapping("/modify-freeze")
-    @ApiOperation(value = "冻结", notes = "冻结")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "agentMainId", value = "渠道商编号", paramType = "query", dataType = "long")
-    })
-    public R modifyFreeze(@NotBlank(message = "请选择渠道商") Long agentMainId, BladeUser bladeUser) {
-        //查询当前管理员
-        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        AdminEntity adminEntity = result.getData();
-        return agentMainService.updateFreeze(agentMainId, adminEntity);
-    }
-
-    @PostMapping("/modify-normal")
-    @ApiOperation(value = "正常", notes = "正常")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "agentMainId", value = "渠道商编号", paramType = "query", dataType = "long")
-    })
-    public R modifyNormal(@NotBlank(message = "请选择渠道商") Long agentMainId, BladeUser bladeUser) {
-        //查询当前管理员
-        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        AdminEntity adminEntity = result.getData();
-        return agentMainService.updateNormal(agentMainId, adminEntity);
+        return agentMainService.updateIllegal(agentMainId, accountState, adminEntity);
     }
 
     @PostMapping("/create-agent-main")
@@ -123,39 +92,22 @@ public class AgentMainAdminController {
         return agentMainService.updateAgentMain(updateAgentMainDTO, adminEntity);
     }
 
-    @PostMapping("/modify-open-cooperation")
-    @ApiOperation(value = "开启合作", notes = "开启合作")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "agentProviderId", value = "渠道商&服务商编号", paramType = "query", dataType = "long")
-    })
-    public R modifyOpenCooperation(@NotBlank(message = "请选择服务商") Long agentProviderId, BladeUser bladeUser) {
+    @PostMapping("/modify-cooperation")
+    @ApiOperation(value = "开启关闭合作", notes = "开启关闭合作")
+    public R modifyOpenCooperation(@ApiParam("渠道商Id")@NotNull(message = "请选择渠道商") @RequestParam(required = false) Long agentProviderId,
+                                   @ApiParam("渠道商合作状态") @NotNull(message = "请输入合作状态") @RequestParam(required = false) CooperateStatus cooperateStatus, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
         AdminEntity adminEntity = result.getData();
-        return agentMainService.updateOpenAgentProvider(agentProviderId,adminEntity);
-    }
-
-    @PostMapping("/modify-suspend-cooperation")
-    @ApiOperation(value = "暂停合作合作", notes = "暂停合作合作")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "agentProviderId", value = "渠道商&服务商编号", paramType = "query", dataType = "long")
-    })
-    public R modifySuspendCooperation(@NotBlank(message = "请选择服务商") Long agentProviderId, BladeUser bladeUser) {
-        //查询当前管理员
-        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        AdminEntity adminEntity = result.getData();
-        return agentMainService.updateCloseAgentProvider(agentProviderId,adminEntity);
+        return agentMainService.updateAgentProvider(agentProviderId, cooperateStatus, adminEntity);
     }
 
     @GetMapping("/query-agent-main-service-provider")
     @ApiOperation(value = "查询可以匹配的服务商", notes = "查询可以匹配的服务商")
-    public R queryTaxBureauServiceProvider(@ApiParam("服务商名称") @RequestParam(required = false) String serviceProviderName, Query query, BladeUser bladeUser){
+    public R queryTaxBureauServiceProvider(@ApiParam("服务商名称") @RequestParam(required = false) String serviceProviderName, Query query, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -166,14 +118,14 @@ public class AgentMainAdminController {
 
     @PostMapping("/add-agent-main-service-provider")
     @ApiOperation(value = "给渠道商添加匹配服务商", notes = "给渠道商添加匹配服务商")
-    public R addAgentMainServiceProvider(@ApiParam("服务商ID字符集，每个ID直接用英文逗号隔开") @NotBlank(message = "请选择匹配的服务商！") @RequestParam(required = false) String serviceProviderIds,
-                                         @ApiParam("渠道商ID") @NotNull(message = "渠道商ID不能为空！！") @RequestParam(required = false) Long agentMainId, BladeUser bladeUser){
+    public R addAgentMainServiceProvider(@ApiParam("服务商ID字符集，每个ID直接用英文逗号隔开") @NotNull(message = "请选择匹配的服务商！") @RequestParam(required = false) String serviceProviderIds,
+                                         @ApiParam("渠道商ID") @NotNull(message = "渠道商ID不能为空！！") @RequestParam(required = false) Long agentMainId, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
         AdminEntity adminEntity = result.getData();
-        return agentMainService.addAgentMainServiceProvider(serviceProviderIds,agentMainId,adminEntity);
+        return agentMainService.addAgentMainServiceProvider(serviceProviderIds, agentMainId, adminEntity);
     }
 }

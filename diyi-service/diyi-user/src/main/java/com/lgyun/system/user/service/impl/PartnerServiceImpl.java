@@ -33,9 +33,20 @@ import java.util.Date;
 public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEntity> implements IPartnerService {
 
 
-    public Boolean updateAgentState(Long agentMainId, AccountState accountState, Long updateUser) {
-        PartnerEntity partnerEntity = baseMapper.selectById(agentMainId);
-        partnerEntity.setUpdateUser(updateUser);
+    @Override
+    public R<IPage<PartnerVO>> getPartnerList(IPage<PartnerVO> page, QueryPartnerDTO queryPartnerDTO) {
+        if (queryPartnerDTO.getBeginDate() != null && queryPartnerDTO.getEndDate() != null) {
+            if (queryPartnerDTO.getBeginDate().after(queryPartnerDTO.getEndDate())) {
+                return R.fail("开始时间不能大于结束时间！");
+            }
+        }
+        return R.data(page.setRecords(baseMapper.getPartnerList(queryPartnerDTO, page)));
+    }
+
+    @Override
+    public R updateIllegal(Long partnerId, AccountState accountState,AdminEntity adminEntity) {
+        PartnerEntity partnerEntity = baseMapper.selectById(partnerId);
+        partnerEntity.setUpdateUser(adminEntity.getUserId());
         partnerEntity.setUpdateTime(new Date());
         if (AccountState.NORMAL.equals(accountState)) {
             partnerEntity.setPartnerState(AccountState.NORMAL);
@@ -44,38 +55,20 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
         } else {
             partnerEntity.setPartnerState(AccountState.ILLEGAL);
         }
-        return updateById(partnerEntity);
+        this.updateById(partnerEntity);
+        return null;
     }
 
-    @Override
-    public R<IPage<PartnerVO>> getPartnerList(IPage<PartnerVO> page, QueryPartnerDTO queryPartnerDTO) {
-        return R.data(page.setRecords(baseMapper.getPartnerList(queryPartnerDTO, page)));
-    }
-
-    @Override
-    public R updateIllegal(Long agentMainId, AdminEntity adminEntity) {
-        return R.status(updateAgentState(agentMainId, AccountState.ILLEGAL, adminEntity.getUserId()));
-    }
-
-    @Override
-    public R updateFreeze(Long agentMainId, AdminEntity adminEntity) {
-        return R.status(updateAgentState(agentMainId, AccountState.FREEZE, adminEntity.getUserId()));
-    }
-
-    @Override
-    public R updateNormal(Long agentMainId, AdminEntity adminEntity) {
-        return R.status(updateAgentState(agentMainId, AccountState.NORMAL, adminEntity.getUserId()));
-    }
 
     @Override
     public R addPartner(AddPartnerDTO addPartnerDTO, AdminEntity adminEntity) {
         Integer count = baseMapper.selectCount(new QueryWrapper<PartnerEntity>().eq("id_card_no", addPartnerDTO.getIdCardNo()));
         if (count > 0) {
-            R.fail("已经存在" + addPartnerDTO.getIdCardNo() + "身份证创建的合伙人了");
+            R.fail("你的身份证" + addPartnerDTO.getIdCardNo() + "已经创建合伙人了！");
         }
         count = baseMapper.selectCount(new QueryWrapper<PartnerEntity>().eq("phone_number", addPartnerDTO.getPhoneNumber()).eq("phone_number2", addPartnerDTO.getPhoneNumber()));
         if (count > 0) {
-            R.fail("已经存在" + addPartnerDTO.getPhoneNumber() + "手机号创建的合伙人了");
+            R.fail("你的手机号" + addPartnerDTO.getPhoneNumber() + "已经创建合伙人了！");
         }
         PartnerEntity partnerEntity = new PartnerEntity();
         BeanUtil.copy(addPartnerDTO, partnerEntity);
@@ -84,20 +77,20 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
         partnerEntity.setCreateTime(new Date());
         partnerEntity.setPartnerState(AccountState.NORMAL);
         save(partnerEntity);
-        return R.fail("合伙人创建成功");
+        return R.fail("合伙人创建成功！");
     }
 
     @Override
     public R updatePartner(UpdatePartnerDTO updatePartnerDTO, AdminEntity adminEntity) {
         PartnerEntity partnerEntity = baseMapper.selectById(updatePartnerDTO.getPartnerId());
         if (partnerEntity == null) {
-            R.fail("不存在该合伙人");
+            R.fail("不存在该合伙人！");
         }
-        BeanUtil.copy(updatePartnerDTO,partnerEntity);
+        BeanUtil.copy(updatePartnerDTO, partnerEntity);
         partnerEntity.setCreateTime(new Date());
         partnerEntity.setCreateUser(adminEntity.getUserId());
         updateById(partnerEntity);
-        return R.fail("合伙人修改成功");
+        return R.fail("合伙人修改成功！");
     }
 
 
