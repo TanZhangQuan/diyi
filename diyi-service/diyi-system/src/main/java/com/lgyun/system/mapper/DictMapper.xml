@@ -9,6 +9,7 @@
         <result column="code" property="code"/>
         <result column="dict_key" property="dictKey"/>
         <result column="dict_value" property="dictValue"/>
+        <result column="describes" property="describes"/>
         <result column="sort" property="sort"/>
         <result column="remark" property="remark"/>
         <result column="is_deleted" property="isDeleted"/>
@@ -25,7 +26,7 @@
     <!-- 通用查询结果列 -->
     <sql id="baseColumnList">
         select
-        id, parent_id, code, dict_key, dict_value, sort, remark, is_deleted
+        id,parent_id,code, dict_key, dict_value,describes ,sort, remark, is_deleted
     </sql>
 
     <select id="selectDictPage" resultMap="dictResultMap">
@@ -46,17 +47,17 @@
     </select>-->
 
     <select id="getList" resultMap="dictResultMap">
-        select id,parent_id,code, dict_key, dict_value, sort, remark from sys_dict where code = #{param1} and dict_key >= 0 and is_deleted = 0
+        select id,parent_id,code, dict_key, dict_value,describes ,sort, remark from sys_dict where code = #{param1} and dict_key >= 0 and is_deleted = 0
     </select>
 
     <select id="tree" resultMap="treeNodeResultMap">
         select id, parent_id, dict_value as title, id as 'value', id as 'key' from sys_dict where is_deleted = 0
     </select>
     <select id="getParentList" resultMap="dictResultMap">
-        SELECT id,parent_id,CODE, dict_key, dict_value, sort, remark FROM sys_dict WHERE parent_id = #{parentId} and dict_key >= 0 and is_deleted = 0
+        SELECT id,parent_id,code, dict_key, dict_value,describes ,sort, remark FROM sys_dict WHERE parent_id = #{parentId} and dict_key >= 0 and is_deleted = 0
     </select>
 
     <select id="getDict" resultMap="dictResultMap">
-        select id,parent_id,code, dict_key, dict_value, sort, remark from sys_dict where code = #{param1} and dict_key = -1 and is_deleted = 0
+        select id,parent_id,code, dict_key, dict_value,describes ,sort, remark from sys_dict where code = #{param1} and dict_key = -1 and is_deleted = 0
     </select>
 </mapper>

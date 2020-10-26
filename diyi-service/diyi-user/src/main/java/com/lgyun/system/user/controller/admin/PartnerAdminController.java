@@ -1,6 +1,7 @@
 package com.lgyun.system.user.controller.admin;
 
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
@@ -19,7 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * 平台端---合伙人管理模块相关接口
@@ -56,48 +57,16 @@ public class PartnerAdminController {
     }
 
     @PostMapping("/modify-illegal")
-    @ApiOperation(value = "非法", notes = "非法")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "partnerId", value = "合伙人编号", paramType = "query", dataType = "long")
-    })
-    public R modifyIllegal(@NotBlank(message = "请选择合伙人") Long partnerId, BladeUser bladeUser) {
+    @ApiOperation(value = "修改合伙人状态", notes = "修改合伙人状态")
+    public R modifyIllegal(@NotNull(message = "请选择合伙人")@RequestParam(required = false) Long partnerId,
+                           @NotNull(message = "请选择合伙人状态") @RequestParam(required = false) AccountState accountState, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
         AdminEntity adminEntity = result.getData();
-        return partnerService.updateIllegal(partnerId, adminEntity);
-    }
-
-    @PostMapping("/modify-freeze")
-    @ApiOperation(value = "冻结", notes = "冻结")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "partnerId", value = "合伙人编号", paramType = "query", dataType = "long")
-    })
-    public R modifyFreeze(@NotBlank(message = "请选择合伙人") Long partnerId, BladeUser bladeUser) {
-        //查询当前管理员
-        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        AdminEntity adminEntity = result.getData();
-        return partnerService.updateFreeze(partnerId, adminEntity);
-    }
-
-    @PostMapping("/modify-normal")
-    @ApiOperation(value = "正常", notes = "正常")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "partnerId", value = "合伙人编号", paramType = "query", dataType = "long")
-    })
-    public R modifyNormal(@NotBlank(message = "请选择合伙人") Long partnerId, BladeUser bladeUser) {
-        //查询当前管理员
-        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        AdminEntity adminEntity = result.getData();
-        return partnerService.updateNormal(partnerId, adminEntity);
+        return partnerService.updateIllegal(partnerId, accountState, adminEntity);
     }
 
     @PostMapping("/create-partner")

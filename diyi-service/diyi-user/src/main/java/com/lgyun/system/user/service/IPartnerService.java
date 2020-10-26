@@ -2,6 +2,7 @@ package com.lgyun.system.user.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.dto.admin.AddPartnerDTO;
 import com.lgyun.system.user.dto.admin.QueryPartnerDTO;
@@ -28,29 +29,12 @@ public interface IPartnerService extends BaseService<PartnerEntity> {
     R<IPage<PartnerVO>> getPartnerList(IPage<PartnerVO> page, QueryPartnerDTO queryPartnerDTO);
 
     /**
-     * 非法
+     * 修改合伙人状态
      *
      * @param partnerId
      * @return
      */
-    R updateIllegal(Long partnerId, AdminEntity adminEntity);
-
-    /**
-     * 冻结
-     *
-     * @param partnerId
-     * @return
-     */
-    R updateFreeze(Long partnerId, AdminEntity adminEntity);
-
-    /**
-     * 正常
-     *
-     * @param partnerId
-     * @return
-     */
-    R updateNormal(Long partnerId, AdminEntity adminEntity);
-
+    R updateIllegal(Long partnerId, AccountState accountState, AdminEntity adminEntity);
 
     /**
      * 添加合伙人
