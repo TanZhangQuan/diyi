@@ -120,9 +120,9 @@ public class IndividualBusinessEntity extends BaseEntity {
     private String businessLicenceCopyUrl;
 
     /**
-     * 个体户状态：注册中，税务登记中，运营中，已注销
+     * 个体户状态
      */
-    private Ibstate ibstate = Ibstate.BUSINESSREGISTERING;
+    private Ibstate ibstate;
 
     /**
      * 提交日期

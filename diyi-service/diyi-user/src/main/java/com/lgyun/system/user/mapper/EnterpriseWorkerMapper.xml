@@ -3,14 +3,14 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.EnterpriseWorkerMapper">
 
-    <resultMap type="com.lgyun.system.user.vo.enterprise.EnterpriseWorkerDetailVO" id="enterpriseWorkerDetailVO">
+    <resultMap type="com.lgyun.system.user.vo.EnterpriseWorkerDetailVO" id="enterpriseWorkerDetailVO">
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="avatar" column="avatar"/>
         <result property="workerName" column="worker_name"/>
         <result property="positionName" column="position_name"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.admin.EnterpriseWorkerListVO" id="enterpriseWorkerListVO">
+    <resultMap type="com.lgyun.system.user.vo.EnterpriseWorkerListVO" id="enterpriseWorkerListVO">
         <result property="enterpriseWorkerId" column="enterprise_worker_id"/>
         <result property="workerName" column="worker_name"/>
         <result property="phoneNumber" column="phone_number"/>

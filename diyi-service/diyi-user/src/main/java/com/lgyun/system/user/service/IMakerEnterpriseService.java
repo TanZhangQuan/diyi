@@ -13,7 +13,7 @@ import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.MakerEnterpriseWebVO;
 import com.lgyun.system.user.vo.RelMakerListVO;
-import com.lgyun.system.user.vo.maker.MakerEnterpriseDetailYearMonthVO;
+import com.lgyun.system.user.vo.MakerEnterpriseDetailYearMonthVO;
 
 import java.util.List;
 import java.util.Set;
@@ -81,7 +81,7 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
      * @param relationshipType
      * @return
      */
-    MakerEnterpriseEntity getEnterpriseIdAndMakerIdAndRelationshipType(Long enterpriseId, Long makerId, RelationshipType relationshipType);
+    int getEnterpriseIdAndMakerIdAndRelationshipType(Long enterpriseId, Long makerId, RelationshipType relationshipType);
 
     /**
      * 根据条件查询所有创客

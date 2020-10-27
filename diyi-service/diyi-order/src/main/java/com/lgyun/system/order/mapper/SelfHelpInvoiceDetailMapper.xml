@@ -39,7 +39,7 @@
         <result property="checkDate" column="check_date"/>
     </resultMap>
 
-    <resultMap id="SelfHelpInvoiceDetailAdminMap" type="com.lgyun.system.order.vo.admin.SelfHelpInvoiceDetailAdminVO">
+    <resultMap id="SelfHelpInvoiceDetailAdminMap" type="com.lgyun.system.order.vo.SelfHelpInvoiceDetailAdminVO">
         <result property="selfHelpInvoiceId" column="self_help_invoice_id"/>
         <result property="selfHelpInvoiceDetailId" column="self_help_invoice_detail_id"/>
         <result property="selfHelpInvoiceApplyProviderId" column="self_help_invoice_apply_provider_id"/>

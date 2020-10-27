@@ -275,7 +275,7 @@
         <result property="expressCompanyName" column="express_company_name"/>
     </resultMap>
 
-    <resultMap id="selfHelpInvoiceAdminMap" type="com.lgyun.system.order.vo.admin.SelfHelpInvoiceAdminVO">
+    <resultMap id="selfHelpInvoiceAdminMap" type="com.lgyun.system.order.vo.SelfHelpInvoiceAdminVO">
         <result property="selfHelpInvoiceId" column="self_help_invoice_id"/>
         <result property="selfHelpInvoiceApplyId" column="self_help_invoice_apply_id"/>
         <result property="enterpriseId" column="enterprise_id"/>
@@ -287,7 +287,7 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <resultMap id="selfHelpInvoiceAdminDetailMap" type="com.lgyun.system.order.vo.admin.SelfHelpInvoiceAdminDetailVO">
+    <resultMap id="selfHelpInvoiceAdminDetailMap" type="com.lgyun.system.order.vo.SelfHelpInvoiceAdminDetailVO">
         <result property="selfHelpInvoiceId" column="self_help_invoice_id"/>
         <result property="enterpriseId" column="enterprise_id"/>
         <result property="enterpriseName" column="enterprise_name"/>

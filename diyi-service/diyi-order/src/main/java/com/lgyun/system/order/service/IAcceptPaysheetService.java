@@ -7,11 +7,11 @@ import com.lgyun.system.order.dto.AcceptSheetAndCsListDTO;
 import com.lgyun.system.order.dto.AcceptPaysheetSaveDTO;
 import com.lgyun.system.order.entity.AcceptPaysheetEntity;
 import com.lgyun.system.order.vo.PayEnterpriseMakerDetailListVO;
-import com.lgyun.system.order.vo.enterprise.AcceptPaysheetListEnterpriseVO;
-import com.lgyun.system.order.vo.enterprise.AcceptPaysheetDetailEnterpriseVO;
-import com.lgyun.system.order.vo.enterprise.AcceptPaysheetSingleListEnterpriseVO;
-import com.lgyun.system.order.vo.maker.AcceptPaysheetAndCsListMakerVO;
-import com.lgyun.system.order.vo.maker.AcceptPaysheetDetailMakerVO;
+import com.lgyun.system.order.vo.AcceptPaysheetListEnterpriseVO;
+import com.lgyun.system.order.vo.AcceptPaysheetDetailEnterpriseVO;
+import com.lgyun.system.order.vo.AcceptPaysheetSingleListEnterpriseVO;
+import com.lgyun.system.order.vo.AcceptPaysheetAndCsListMakerVO;
+import com.lgyun.system.order.vo.AcceptPaysheetDetailMakerVO;
 
 /**
  * Service 接口

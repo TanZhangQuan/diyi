@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.MaterialState;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.dto.admin.AddAdminCenterMaterialDTO;
-import com.lgyun.system.user.dto.admin.UpdateAdminCenterMaterialDTO;
+import com.lgyun.system.user.dto.AddAdminCenterMaterialDTO;
+import com.lgyun.system.user.dto.UpdateAdminCenterMaterialDTO;
 import com.lgyun.system.user.entity.AdminCenterMaterialEntity;
-import com.lgyun.system.user.vo.admin.AdminCenterMaterialListVO;
+import com.lgyun.system.user.vo.AdminCenterMaterialListVO;
 
 /**
  * 综合业务资料表 Service 接口

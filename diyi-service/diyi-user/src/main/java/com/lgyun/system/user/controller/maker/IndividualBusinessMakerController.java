@@ -5,7 +5,7 @@ import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDTO;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddMakerDTO;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.IIndividualBusinessService;
 import com.lgyun.system.user.service.IMakerService;
@@ -39,7 +39,7 @@ public class IndividualBusinessMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return individualBusinessService.listByMaker(Condition.getPage(query.setDescs("create_time")), makerEntity.getId(), ibstate);
+        return individualBusinessService.queryIndividualBusinessListMaker(Condition.getPage(query.setDescs("create_time")), makerEntity.getId(), ibstate);
     }
 
     @GetMapping("/query-individual-business-detail")
@@ -51,7 +51,7 @@ public class IndividualBusinessMakerController {
             return result;
         }
 
-        return individualBusinessService.findById(individualBusinessId);
+        return individualBusinessService.queryIndividualBusinessDetailMaker(individualBusinessId);
     }
 
     @GetMapping("/query-idcard-info")
@@ -68,8 +68,8 @@ public class IndividualBusinessMakerController {
     }
 
     @PostMapping("/create-individual-business")
-    @ApiOperation(value = "新增个体户", notes = "新增个体户")
-    public R createIndividualBusiness(@Valid @RequestBody IndividualBusinessEnterpriseAddDTO individualBusinessEnterpriseAddDto, BladeUser bladeUser) {
+    @ApiOperation(value = "创建个体户", notes = "创建个体户")
+    public R createIndividualBusiness(@Valid @RequestBody IndividualBusinessEnterpriseAddMakerDTO individualBusinessEnterpriseAddMakerDto, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = makerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -77,7 +77,7 @@ public class IndividualBusinessMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return individualBusinessService.save(individualBusinessEnterpriseAddDto, makerEntity);
+        return individualBusinessService.createIndividualBusinessMaker(individualBusinessEnterpriseAddMakerDto, makerEntity);
     }
 
 }

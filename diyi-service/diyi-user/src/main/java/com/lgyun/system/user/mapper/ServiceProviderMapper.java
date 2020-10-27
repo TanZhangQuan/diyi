@@ -2,13 +2,13 @@ package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.system.user.dto.admin.QueryServiceProviderListDTO;
+import com.lgyun.system.user.dto.QueryServiceProviderListDTO;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.vo.ServiceProviderBankCardVO;
 import com.lgyun.system.user.vo.ServiceProviderContactPersonVO;
 import com.lgyun.system.user.vo.ServiceProviderInvoiceVO;
-import com.lgyun.system.user.vo.admin.ServiceProviderDetailServiceProviderVO;
-import com.lgyun.system.user.vo.admin.ServiceProviderListVO;
+import com.lgyun.system.user.vo.ServiceProviderDetailServiceProviderVO;
+import com.lgyun.system.user.vo.ServiceProviderListVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

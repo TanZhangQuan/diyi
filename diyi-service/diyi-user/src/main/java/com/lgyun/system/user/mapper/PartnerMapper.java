@@ -1,10 +1,10 @@
 package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.system.user.dto.admin.QueryPartnerDTO;
+import com.lgyun.system.user.dto.QueryPartnerDTO;
 import com.lgyun.system.user.entity.PartnerEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.lgyun.system.user.vo.admin.PartnerVO;
+import com.lgyun.system.user.vo.PartnerVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

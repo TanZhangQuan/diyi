@@ -11,7 +11,7 @@ import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.MakerEnterpriseWebVO;
 import com.lgyun.system.user.vo.RelMakerListVO;
-import com.lgyun.system.user.vo.maker.MakerEnterpriseDetailYearMonthVO;
+import com.lgyun.system.user.vo.MakerEnterpriseDetailYearMonthVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

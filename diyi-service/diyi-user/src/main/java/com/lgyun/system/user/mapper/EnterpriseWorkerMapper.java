@@ -3,8 +3,8 @@ package com.lgyun.system.user.mapper;
 import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.lgyun.system.user.vo.admin.EnterpriseWorkerListVO;
-import com.lgyun.system.user.vo.enterprise.EnterpriseWorkerDetailVO;
+import com.lgyun.system.user.vo.EnterpriseWorkerListVO;
+import com.lgyun.system.user.vo.EnterpriseWorkerDetailVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

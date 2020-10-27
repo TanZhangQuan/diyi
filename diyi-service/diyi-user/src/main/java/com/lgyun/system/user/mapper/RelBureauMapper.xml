@@ -3,7 +3,7 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.RelBureauMapper">
 
-    <resultMap id="RelBureauVOResultMap" type="com.lgyun.system.user.vo.admin.RelBureauVO">
+    <resultMap id="RelBureauVOResultMap" type="com.lgyun.system.user.vo.RelBureauVO">
         <id column="id" property="bureauId"/>
         <result column="rel_bureau_name" property="relBureauName"/>
         <result column="contact_person" property="contactPerson"/>

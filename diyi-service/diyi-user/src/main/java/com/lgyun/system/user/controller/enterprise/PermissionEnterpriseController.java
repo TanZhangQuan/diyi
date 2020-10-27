@@ -5,7 +5,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.feign.ISysClient;
-import com.lgyun.system.user.dto.enterprise.OperateEnterpriseWorkerDTO;
+import com.lgyun.system.user.dto.OperateEnterpriseWorkerDTO;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.vo.EnterpriseWorkerVO;

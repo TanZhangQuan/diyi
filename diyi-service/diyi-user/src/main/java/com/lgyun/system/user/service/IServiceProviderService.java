@@ -7,16 +7,16 @@ import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.dto.ServiceProviderBankCardDTO;
 import com.lgyun.system.user.dto.ServiceProviderContactPersonDTO;
 import com.lgyun.system.user.dto.ServiceProviderInvoiceDTO;
-import com.lgyun.system.user.dto.admin.AddServiceProviderDTO;
-import com.lgyun.system.user.dto.admin.QueryServiceProviderListDTO;
-import com.lgyun.system.user.dto.admin.UpdateServiceProviderDTO;
+import com.lgyun.system.user.dto.AddServiceProviderDTO;
+import com.lgyun.system.user.dto.QueryServiceProviderListDTO;
+import com.lgyun.system.user.dto.UpdateServiceProviderDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.vo.ServiceProviderBankCardVO;
 import com.lgyun.system.user.vo.ServiceProviderContactPersonVO;
 import com.lgyun.system.user.vo.ServiceProviderInvoiceVO;
-import com.lgyun.system.user.vo.admin.ServiceProviderDetailServiceProviderVO;
-import com.lgyun.system.user.vo.admin.ServiceProviderListVO;
+import com.lgyun.system.user.vo.ServiceProviderDetailServiceProviderVO;
+import com.lgyun.system.user.vo.ServiceProviderListVO;
 
 /**
  * Service 接口

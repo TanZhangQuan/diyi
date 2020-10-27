@@ -19,7 +19,7 @@ import com.lgyun.system.order.service.IMakerInvoiceService;
 import com.lgyun.system.order.service.IMakerTaxRecordService;
 import com.lgyun.system.order.service.IPayMakerService;
 import com.lgyun.system.order.vo.*;
-import com.lgyun.system.order.vo.maker.IndividualYearMonthVO;
+import com.lgyun.system.order.vo.IndividualYearMonthVO;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;

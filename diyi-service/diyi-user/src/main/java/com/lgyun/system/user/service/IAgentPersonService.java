@@ -2,7 +2,7 @@ package com.lgyun.system.user.service;
 
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.dto.admin.AddOrUpdateAgentMainContactDTO;
+import com.lgyun.system.user.dto.AddOrUpdateAgentMainContactDTO;
 import com.lgyun.system.user.entity.AgentPersonEntity;
 
 /**

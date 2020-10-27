@@ -3,7 +3,7 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.AgentMainMapper">
 
-    <resultMap id="AgentMainVO" type="com.lgyun.system.user.vo.admin.AdminAgentMainVO">
+    <resultMap id="AgentMainVO" type="com.lgyun.system.user.vo.AdminAgentMainVO">
         <id column="id" property="agentMainId"/>
         <result column="enterprise_name" property="enterpriseName"/>
         <result column="contact1_name" property="contact1Name"/>
@@ -14,7 +14,7 @@
         <result column="create_time" property="createTime"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.admin.AdminAgentMainServiceProviderListVO" id="adminAgentMainServiceProviderListVO">
+    <resultMap type="com.lgyun.system.user.vo.AdminAgentMainServiceProviderListVO" id="adminAgentMainServiceProviderListVO">
         <result property="serviceProviderId" column="service_provider_id"/>
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="amount" column="amount"/>
@@ -82,7 +82,7 @@
 
     </select>
     <select id="queryAgentMainServiceProvider"
-            resultType="com.lgyun.system.user.vo.admin.AgentMainServiceProviderVO">
+            resultType="com.lgyun.system.user.vo.AgentMainServiceProviderVO">
         SELECT id,service_provider_name FROM diyi_service_provider
         WHERE id NOT IN
         (SELECT service_provider_id FROM diyi_agent_provider)

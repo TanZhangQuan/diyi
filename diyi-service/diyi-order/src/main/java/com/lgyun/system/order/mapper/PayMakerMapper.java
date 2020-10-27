@@ -6,7 +6,7 @@ import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.system.order.entity.PayMakerEntity;
 import com.lgyun.system.order.vo.*;
-import com.lgyun.system.order.vo.maker.IndividualYearMonthVO;
+import com.lgyun.system.order.vo.IndividualYearMonthVO;
 import com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO;
 import org.apache.ibatis.annotations.Mapper;
 

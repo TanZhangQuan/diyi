@@ -1,22 +1,15 @@
 package com.lgyun.system.user.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.tool.BeanUtil;
-import com.lgyun.system.user.vo.admin.RelBureauNoticeVO;
+import com.lgyun.system.user.vo.RelBureauNoticeVO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.lgyun.system.user.mapper.RelBureauNoticeMapper;
 import com.lgyun.system.user.entity.RelBureauNoticeEntity;
 import com.lgyun.system.user.service.IRelBureauNoticeService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 相关局通知管理表 Service 实现

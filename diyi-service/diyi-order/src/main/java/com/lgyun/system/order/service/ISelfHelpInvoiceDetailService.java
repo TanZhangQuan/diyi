@@ -7,7 +7,7 @@ import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.entity.SelfHelpInvoiceDetailEntity;
 import com.lgyun.system.order.excel.InvoiceListExcel;
 import com.lgyun.system.order.vo.*;
-import com.lgyun.system.order.vo.admin.SelfHelpInvoiceDetailAdminVO;
+import com.lgyun.system.order.vo.SelfHelpInvoiceDetailAdminVO;
 
 import java.math.BigDecimal;
 import java.util.List;

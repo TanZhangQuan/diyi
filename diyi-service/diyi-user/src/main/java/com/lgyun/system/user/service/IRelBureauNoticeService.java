@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.RelBureauNoticeEntity;
-import com.lgyun.system.user.vo.admin.RelBureauNoticeVO;
+import com.lgyun.system.user.vo.RelBureauNoticeVO;
 
 /**
  * 相关局通知管理表 Service 接口

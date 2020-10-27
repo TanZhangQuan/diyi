@@ -4,12 +4,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.dto.admin.AddPartnerDTO;
-import com.lgyun.system.user.dto.admin.QueryPartnerDTO;
-import com.lgyun.system.user.dto.admin.UpdatePartnerDTO;
+import com.lgyun.system.user.dto.AddPartnerDTO;
+import com.lgyun.system.user.dto.QueryPartnerDTO;
+import com.lgyun.system.user.dto.UpdatePartnerDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.PartnerEntity;
-import com.lgyun.system.user.vo.admin.PartnerVO;
+import com.lgyun.system.user.vo.PartnerVO;
 
 /**
  * 合伙人信息表 Service 接口

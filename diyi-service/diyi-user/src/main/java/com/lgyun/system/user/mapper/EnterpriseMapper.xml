@@ -29,21 +29,21 @@
         <result property="enterpriseState" column="enterprise_state"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.admin.EnterpriseListPaymentVO" id="enterpriseListPaymentVO">
+    <resultMap type="com.lgyun.system.user.vo.EnterpriseListPaymentVO" id="enterpriseListPaymentVO">
         <result property="enterpriseId" column="enterprise_id"/>
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="boolSignContract" column="bool_sign_contract"/>
         <result property="boolSignAgreement" column="bool_sign_agreement"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.admin.ServiceProviderListPaymentVO" id="serviceProviderListPaymentVO">
+    <resultMap type="com.lgyun.system.user.vo.ServiceProviderListPaymentVO" id="serviceProviderListPaymentVO">
         <result property="serviceProviderId" column="service_provider_id"/>
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="boolSignContract" column="bool_sign_contract"/>
         <result property="boolSignAgreement" column="bool_sign_agreement"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.admin.EnterpriseListEnterpriseVO" id="enterpriseListEnterpriseVO">
+    <resultMap type="com.lgyun.system.user.vo.EnterpriseListEnterpriseVO" id="enterpriseListEnterpriseVO">
         <result property="enterpriseId" column="enterprise_id"/>
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="contact1Name" column="contact1_name"/>
@@ -54,7 +54,7 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.admin.EnterpriseDetailEnterpriseVO" id="enterpriseDetailEnterpriseVO">
+    <resultMap type="com.lgyun.system.user.vo.EnterpriseDetailEnterpriseVO" id="enterpriseDetailEnterpriseVO">
         <result property="enterpriseId" column="enterprise_id"/>
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="legalPersonName" column="legal_person_name"/>
@@ -86,7 +86,7 @@
         <result property="invoiceAccount" column="invoice_account"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.admin.CooperationServiceProviderListVO" id="cooperationServiceProviderListVO">
+    <resultMap type="com.lgyun.system.user.vo.CooperationServiceProviderListVO" id="cooperationServiceProviderListVO">
         <result property="serviceProviderId" column="service_provider_id"/>
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="totalSubAmount" column="total_sub_amount"/>

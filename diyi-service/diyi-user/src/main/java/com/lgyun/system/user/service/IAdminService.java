@@ -4,7 +4,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.AdminEntity;
-import com.lgyun.system.user.vo.admin.AdminDetailVO;
+import com.lgyun.system.user.vo.AdminDetailVO;
 
 /**
  * 平台管理员信息表 Service 接口

@@ -46,7 +46,7 @@
         <result property="checkDate" column="check_date"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.order.vo.maker.IndividualYearMonthVO" id="selfHelpInvoiceYearMonthVO">
+    <resultMap type="com.lgyun.system.order.vo.IndividualYearMonthVO" id="selfHelpInvoiceYearMonthVO">
         <result property="monthMoney" column="month_money"/>
         <result property="yearMoney" column="year_money"/>
     </resultMap>

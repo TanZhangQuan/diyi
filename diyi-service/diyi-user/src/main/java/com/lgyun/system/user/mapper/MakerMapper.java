@@ -1,11 +1,16 @@
 package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lgyun.system.user.dto.MakerListIndividualDTO;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.vo.EnterpriseMakerDetailVO;
-import com.lgyun.system.user.vo.maker.MakerDetailVO;
-import com.lgyun.system.user.vo.maker.MakerInfoVO;
+import com.lgyun.system.user.vo.MakerDetailVO;
+import com.lgyun.system.user.vo.MakerInfoVO;
+import com.lgyun.system.user.vo.MakerListIndividualVO;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * Mapper
@@ -39,7 +44,16 @@ public interface MakerMapper extends BaseMapper<MakerEntity> {
      * @param makerId
      * @return
      */
-    EnterpriseMakerDetailVO getMakerDetailById(Long enterpriseId,Long makerId);
+    EnterpriseMakerDetailVO getMakerDetailById(Long enterpriseId, Long makerId);
 
+    /**
+     * 查询商户关联的创客
+     *
+     * @param enterpriseId
+     * @param makerListIndividualDTO
+     * @param page
+     * @return
+     */
+    List<MakerListIndividualVO> queryMakerListIndividual(Long enterpriseId, MakerListIndividualDTO makerListIndividualDTO, IPage<MakerListIndividualVO> page);
 }
 

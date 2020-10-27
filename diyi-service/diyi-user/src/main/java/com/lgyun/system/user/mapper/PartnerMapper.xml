@@ -3,7 +3,7 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.PartnerMapper">
 
-    <resultMap id="partnerVO" type="com.lgyun.system.user.vo.admin.PartnerVO">
+    <resultMap id="partnerVO" type="com.lgyun.system.user.vo.PartnerVO">
         <id property="partnerId" column="id"/>
         <result property="name" column="name"/>
         <result property="phoneNumber" column="phone_number"/>

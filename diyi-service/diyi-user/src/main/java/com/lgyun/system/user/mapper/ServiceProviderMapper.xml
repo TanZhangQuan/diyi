@@ -30,7 +30,7 @@
         <result property="invoiceAccount" column="invoice_account"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.admin.ServiceProviderListVO" id="serviceProviderListVO">
+    <resultMap type="com.lgyun.system.user.vo.ServiceProviderListVO" id="serviceProviderListVO">
         <result property="serviceProviderId" column="service_provider_id"/>
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="contact1Name" column="contact1_name"/>
@@ -41,7 +41,7 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.admin.ServiceProviderDetailServiceProviderVO" id="serviceProviderDetailServiceProviderVO">
+    <resultMap type="com.lgyun.system.user.vo.ServiceProviderDetailServiceProviderVO" id="serviceProviderDetailServiceProviderVO">
         <result property="serviceProviderId" column="service_provider_id"/>
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="legalPersonName" column="legal_person_name"/>

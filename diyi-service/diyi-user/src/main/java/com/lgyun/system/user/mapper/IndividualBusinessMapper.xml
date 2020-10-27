@@ -3,13 +3,13 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.IndividualBusinessMapper">
 
-    <resultMap type="com.lgyun.system.user.vo.maker.IndividualBusinessListVO" id="individualBusinessListVO">
+    <resultMap type="com.lgyun.system.user.vo.IndividualBusinessEnterpriseListMakerVO" id="individualBusinessEnterpriseListMakerVO">
         <result property="id" column="id"/>
         <result property="ibname" column="ibname"/>
         <result property="candidatedNames" column="candidated_names"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.maker.IndividualBusinessDetailMakerVO" id="individualBusinessDetailMakerVO">
+    <resultMap type="com.lgyun.system.user.vo.IndividualBusinessEnterpriseDetailMakerVO" id="individualBusinessDetailMakerVO">
         <result property="id" column="id"/>
         <result property="ibname" column="ibname"/>
         <result property="candidatedNames" column="candidated_names"/>
@@ -23,7 +23,7 @@
         <result property="businessLicenceUrl" column="business_licence_url"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.enterprise.IndividualBusinessEnterpriseListVO" id="individualBusinessDetailEnterpriseVO">
+    <resultMap type="com.lgyun.system.user.vo.IndividualBusinessEnterpriseListVO" id="individualBusinessEnterpriseListVO">
         <result property="id" column="id"/>
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="ibname" column="ibname"/>
@@ -37,41 +37,92 @@
         <result property="registeredMoney" column="registered_money"/>
         <result property="businessLicenceUrl" column="business_licence_url"/>
         <result property="ibstate" column="ibstate"/>
-        <result property="createTime" column="create_time"/>
+        <result property="registeredDate" column="registered_date"/>
     </resultMap>
 
-    <select id="listByMaker" resultMap="individualBusinessListVO">
-        SELECT id, ibname, candidated_names FROM diyi_individual_business WHERE is_deleted = 0 AND maker_id = #{param1}
-        <if test="param2 != null">
-            AND ibstate = #{param2}
-        </if>
+    <resultMap type="com.lgyun.system.user.vo.IndividualBusinessEnterpriseDetailVO" id="individualBusinessEnterpriseDetailVO">
+        <result property="id" column="id"/>
+        <result property="ibname" column="ibname"/>
+        <result property="candidatedNames" column="candidated_names"/>
+        <result property="ibtaxNo" column="ibtax_no"/>
+        <result property="mainIndustry" column="main_industry"/>
+        <result property="bizScope" column="biz_scope"/>
+        <result property="bizType" column="biz_type"/>
+        <result property="bizName" column="biz_name"/>
+        <result property="registeredMoney" column="registered_money"/>
+        <result property="businessLicenceUrl" column="business_licence_url"/>
+        <result property="ibstate" column="ibstate"/>
+        <result property="registeredDate" column="registered_date"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.user.vo.IndividualBusinessEnterpriseUpdateDetailVO" id="individualBusinessEnterpriseUpdateDetailVO">
+        <result property="id" column="id"/>
+        <result property="makerId" column="maker_id"/>
+        <result property="candidatedNames" column="candidated_names"/>
+        <result property="mainIndustry" column="main_industry"/>
+        <result property="bizScope" column="biz_scope"/>
+        <result property="bizType" column="biz_type"/>
+        <result property="registeredMoney" column="registered_money"/>
+        <result property="contactName" column="contact_name"/>
+        <result property="contactPhone" column="contact_phone"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.user.vo.IndividualBusinessEnterpriseUpdateDetailServiceProviderVO" id="individualBusinessEnterpriseUpdateDetailServiceProviderVO">
+        <result property="id" column="id"/>
+        <result property="bizType" column="biz_type"/>
+        <result property="ibname" column="ibname"/>
+        <result property="ibtaxNo" column="ibtax_no"/>
+        <result property="buildDateTime" column="build_date_time"/>
+        <result property="bizPark" column="biz_park"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="area" column="area"/>
+        <result property="registeredMoney" column="registered_money"/>
+        <result property="businessAddress" column="business_address"/>
+        <result property="mainIndustry" column="main_industry"/>
+        <result property="bizScope" column="biz_scope"/>
+        <result property="candidatedNames" column="candidated_names"/>
+        <result property="netBusinessAddress" column="net_business_address"/>
+        <result property="businessLicenceUrl" column="business_licence_url"/>
+        <result property="businessLicenceCopyUrl" column="business_licence_copy_url"/>
+        <result property="ibstate" column="ibstate"/>
+        <result property="submitDateTime" column="submit_date_time"/>
+        <result property="registeredDate" column="registered_date"/>
+        <result property="taxRegisterDateTime" column="tax_register_date_time"/>
+        <result property="contactName" column="contact_name"/>
+        <result property="contactPhone" column="contact_phone"/>
+        <result property="serviceRate" column="service_rate"/>
+    </resultMap>
+
+    <select id="queryIndividualBusinessListMaker" resultMap="individualBusinessEnterpriseListMakerVO">
+        SELECT id, ibname, candidated_names FROM diyi_individual_business WHERE is_deleted = 0 AND maker_id = #{param1} AND ibstate = #{param2}
     </select>
 
-    <select id="findById" resultMap="individualBusinessDetailMakerVO">
+    <select id="queryIndividualBusinessDetailMaker" resultMap="individualBusinessDetailMakerVO">
         SELECT t1.ibname, t1.candidated_names, t1.ibtax_no, t1.biz_park, t1.main_industry, t1.biz_scope, t1.biz_type, t2.name AS biz_name,
         t1.registered_money, t1.business_licence_url FROM diyi_individual_business t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id
         WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.id = #{param1}
     </select>
 
-    <select id="getIndividualBusinessList" resultMap="individualBusinessDetailEnterpriseVO">
-        SELECT t1.id, t3.service_provider_name, t1.ibname, t1.ibtax_no, t1.main_industry, t1.biz_scope, t1.biz_type, t2.name AS biz_name, t2.idcard_no AS bizIdcardNo,
-        t1.registered_money, t1.business_licence_url, t1.ibstate, t1.create_time FROM diyi_individual_business t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id
+    <select id="queryIndividualBusinessList" resultMap="individualBusinessEnterpriseListVO">
+        SELECT t1.id, t3.service_provider_name, t1.ibname, t1.candidated_names, t1.ibtax_no, t1.main_industry, t1.biz_scope, t1.biz_type, t2.name AS biz_name,
+        t1.registered_money, t1.business_licence_url, t1.ibstate, t1.registered_date FROM diyi_individual_business t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id
         INNER JOIN diyi_service_provider t3 ON t1.service_provider_id = t3.id
         <if test="param1 != null">
-            INNER JOIN diyi_maker_enterprise t4 ON t2.id = t4.maker_id AND t4.is_deleted = 0
+            INNER JOIN diyi_maker_enterprise t4 ON t1.maker_id = t4.maker_id AND t4.is_deleted = 0
         </if>
         WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0
         <if test="param1 != null">
             AND t4.enterprise_id = #{param1}
         </if>
         <if test="param2 != null">
-            AND t3.id = #{param2}
-        </if>
-        <if test="param3.individualBusinessEnterpriseId != null">
-            AND t1.id LIKE concat('%', #{param3.individualBusinessEnterpriseId}, '%')
+            AND t1.service_provider_id = #{param2}
         </if>
         <if test="param3.ibname != null and param3.ibname.trim() != ''">
-            AND t1.ibname LIKE concat('%', #{param3.ibname}, '%')
+            AND (t1.ibname LIKE concat('%', #{param3.ibname}, '%') OR t1.candidated_names LIKE concat('%', #{param3.ibname}, '%'))
+        </if>
+        <if test="param3.ibstate != null">
+            AND t1.ibstate = #{param3.ibname}
         </if>
         <if test="param3.beginDate != null">
             AND DATEDIFF(t1.create_time, #{param3.beginDate}) <![CDATA[ >= ]]> 0
@@ -79,6 +130,24 @@
         <if test="param3.endDate != null">
             AND DATEDIFF(t1.create_time, #{param3.endDate}) <![CDATA[ <= ]]> 0
         </if>
+    </select>
+
+    <select id="queryIndividualBusinessDetail" resultMap="individualBusinessEnterpriseDetailVO">
+        SELECT t1.id, t1.ibname, t1.candidated_names, t1.ibtax_no, t1.main_industry, t1.biz_scope, t1.biz_type, t2.name AS biz_name, t1.registered_money,
+        t1.business_licence_url, t1.ibstate, t1.registered_date FROM diyi_individual_business t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id
+        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.id = #{param1}
+    </select>
+
+    <select id="queryUpdateIndividualBusinessDetail" resultMap="individualBusinessEnterpriseUpdateDetailVO">
+        SELECT t1.id, t2.id AS maker_id, t1.ibname, t1.candidated_names, t1.main_industry, t1.biz_scope, t1.biz_type, t1.registered_money, t1.contact_name,
+        t1.contact_phone FROM diyi_individual_business t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0
+        AND t1.id = #{param1}
+    </select>
+
+    <select id="queryUpdateIndividualBusinessDetailServiceProvider" resultMap="individualBusinessEnterpriseUpdateDetailServiceProviderVO">
+        SELECT id, biz_type, ibname, ibtax_no, build_date_time, biz_park, province, city, area, registered_money, business_address, main_industry, biz_scope,
+        candidated_names, net_business_address, business_licence_url, business_licence_copy_url, ibstate, submit_date_time, registered_date, tax_register_date_time,
+        contact_name, contact_phone, service_rate FROM diyi_individual_business WHERE is_deleted = 0 AND id = #{param1}
     </select>
 
 </mapper>

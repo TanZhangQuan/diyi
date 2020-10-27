@@ -3,7 +3,7 @@ package com.lgyun.system.user.mapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.user.entity.RelBureauNoticeEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.lgyun.system.user.vo.admin.RelBureauNoticeVO;
+import com.lgyun.system.user.vo.RelBureauNoticeVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

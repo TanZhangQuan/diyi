@@ -320,7 +320,7 @@
     </resultMap>
 
 
-    <resultMap type="com.lgyun.system.order.vo.admin.TransactionByBureauServiceProviderInfoVO" id="transactionByBureauServiceProviderInfoVO">
+    <resultMap type="com.lgyun.system.order.vo.TransactionByBureauServiceProviderInfoVO" id="transactionByBureauServiceProviderInfoVO">
         <result column="id" property="serviceProviderId" />
         <result column="bureau_service_provider_id" property="bureauServiceProviderId" />
         <result column="service_provider_name" property="serviceProviderName" />
@@ -329,7 +329,7 @@
         <result column="create_time" property="createTime" />
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.admin.AgentMainTransactionVO" id="agentMainTransactionVO">
+    <resultMap type="com.lgyun.system.user.vo.AgentMainTransactionVO" id="agentMainTransactionVO">
         <result property="totalSubMonthPay" column="total_sub_month_pay"/>
         <result property="totalSubYearPay" column="total_sub_year_pay"/>
         <result property="totalSubAllPay" column="total_sub_all_pay"/>
@@ -340,7 +340,7 @@
         <result property="serviceProviderNum" column="service_provider_num"/>
     </resultMap>
 
-    <resultMap id="adminAgentMainServiceProviderListVO" type="com.lgyun.system.user.vo.admin.AdminAgentMainServiceProviderListVO">
+    <resultMap id="adminAgentMainServiceProviderListVO" type="com.lgyun.system.user.vo.AdminAgentMainServiceProviderListVO">
         <id column="id" property="id"/>
         <result column="service_provider_id" property="serviceProviderId"/>
         <result column="service_provider_name" property="serviceProviderName"/>
@@ -349,7 +349,7 @@
         <result column="start_datetime" property="startDatetime"/>
     </resultMap>
 
-    <resultMap id="partnerServiceProviderListVO" type="com.lgyun.system.user.vo.admin.PartnerServiceProviderListVO">
+    <resultMap id="partnerServiceProviderListVO" type="com.lgyun.system.user.vo.PartnerServiceProviderListVO">
         <result column="service_provider_id" property="serviceProviderId"/>
         <result column="service_provider_name" property="serviceProviderName"/>
         <result column="amount" property="amount"/>

@@ -18,7 +18,7 @@ import com.lgyun.system.order.service.ISelfHelpInvoiceDetailService;
 import com.lgyun.system.order.service.ISelfHelpInvoicePersonService;
 import com.lgyun.system.order.service.ISelfHelpInvoiceService;
 import com.lgyun.system.order.vo.*;
-import com.lgyun.system.order.vo.admin.SelfHelpInvoiceDetailAdminVO;
+import com.lgyun.system.order.vo.SelfHelpInvoiceDetailAdminVO;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;

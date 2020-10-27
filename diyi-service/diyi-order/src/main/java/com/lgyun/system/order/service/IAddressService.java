@@ -6,7 +6,7 @@ import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.dto.AddressDTO;
 import com.lgyun.system.order.entity.AddressEntity;
-import com.lgyun.system.order.vo.admin.AddressListVO;
+import com.lgyun.system.order.vo.AddressListVO;
 
 /**
  * Service 接口

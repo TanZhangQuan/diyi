@@ -7,15 +7,11 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IdcardOcrSaveDTO;
+import com.lgyun.system.user.dto.ImportMakerDTO;
 import com.lgyun.system.user.dto.MakerAddDTO;
-import com.lgyun.system.user.dto.admin.ImportMakerDTO;
+import com.lgyun.system.user.dto.MakerListIndividualDTO;
 import com.lgyun.system.user.entity.MakerEntity;
-import com.lgyun.system.user.vo.EnterpriseMakerDetailVO;
-import com.lgyun.system.user.vo.IdcardOcrVO;
-import com.lgyun.system.user.vo.MakerRealNameAuthenticationStateVO;
-import com.lgyun.system.user.vo.MakerWorksheetVO;
-import com.lgyun.system.user.vo.maker.MakerDetailVO;
-import com.lgyun.system.user.vo.maker.MakerInfoVO;
+import com.lgyun.system.user.vo.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -52,21 +48,6 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      */
     R<MakerDetailVO> queryCurrentMakerDetail(Long makerId);
-
-    /**
-     * 新建创客
-     *
-     * @param purePhoneNumber
-     * @param name
-     * @param idcardNo
-     * @param idcardPic
-     * @param idcardPicBack
-     * @param idcardHand
-     * @param idcardBackHand
-     * @param enterpriseId
-     * @return
-     */
-    MakerEntity makerSave(String purePhoneNumber, String name, String idcardNo, String idcardPic, String idcardPicBack, String idcardHand, String idcardBackHand, Long enterpriseId);
 
     /**
      * 新建创客
@@ -153,7 +134,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      * @throws Exception
      */
-    R faceOcr(MakerEntity makerEntity) throws Exception;
+    R<String> faceOcr(MakerEntity makerEntity) throws Exception;
 
     /**
      * 活体认证异步回调
@@ -171,7 +152,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      * @throws Exception
      */
-    R mobileOcr(MakerEntity makerEntity) throws Exception;
+    R<String> mobileOcr(MakerEntity makerEntity) throws Exception;
 
     /**
      * 手机号实名认证异步回调
@@ -190,7 +171,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      * @throws Exception
      */
-    R bankCardOcr(String bankCardNo, MakerEntity makerEntity) throws Exception;
+    R<String> bankCardOcr(String bankCardNo, MakerEntity makerEntity) throws Exception;
 
     /**
      * 银行卡实名认证异步回调
@@ -248,7 +229,7 @@ public interface IMakerService extends IService<MakerEntity> {
      *
      * @param importMakerDTO
      */
-    R importMaker(ImportMakerDTO importMakerDTO);
+    R<String> importMaker(ImportMakerDTO importMakerDTO);
 
     /**
      * 新增单个创客
@@ -283,7 +264,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * @param videoUrl
      * @return
      */
-    R saveAdminMakerVideo(Long makerId, String videoUrl);
+    R<String> saveAdminMakerVideo(Long makerId, String videoUrl);
 
 
     /**
@@ -299,5 +280,15 @@ public interface IMakerService extends IService<MakerEntity> {
      * @throws IOException
      */
     R readExcelGetMakerList(MultipartFile file) throws IOException;
+
+    /**
+     * 查询商户关联的创客
+     *
+     * @param enterpriseId
+     * @param makerListIndividualDTO
+     * @param page
+     * @return
+     */
+    R<IPage<MakerListIndividualVO>> queryMakerListIndividual(Long enterpriseId, MakerListIndividualDTO makerListIndividualDTO, IPage<MakerListIndividualVO> page);
 }
 

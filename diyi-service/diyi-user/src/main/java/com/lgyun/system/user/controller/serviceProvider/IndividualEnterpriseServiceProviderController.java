@@ -2,12 +2,11 @@ package com.lgyun.system.user.controller.serviceProvider;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.BodyType;
-import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDTO;
-import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseListDTO;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseUpdateServiceProviderDTO;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.service.IEnterpriseReportService;
 import com.lgyun.system.user.service.IIndividualEnterpriseService;
@@ -39,7 +38,7 @@ public class IndividualEnterpriseServiceProviderController {
             @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
     })
-    public R queryIndividualEnterpriseList(IndividualBusinessEnterpriseDTO individualBusinessEnterpriseDto, Query query, BladeUser bladeUser) {
+    public R queryIndividualEnterpriseList(IndividualBusinessEnterpriseListDTO individualBusinessEnterpriseListDto, Query query, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -47,12 +46,36 @@ public class IndividualEnterpriseServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return individualEnterpriseService.getIndividualEnterpriseList(Condition.getPage(query.setDescs("create_time")), null, serviceProviderWorkerEntity.getServiceProviderId(), individualBusinessEnterpriseDto);
+        return individualEnterpriseService.queryIndividualEnterpriseList(Condition.getPage(query.setDescs("create_time")), null, serviceProviderWorkerEntity.getServiceProviderId(), individualBusinessEnterpriseListDto);
     }
 
-    @PostMapping("/update-ibstate")
-    @ApiOperation(value = "修改个独状态", notes = "修改个独状态")
-    public R updateIbstate(@ApiParam(value = "个独ID", required = true) @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId, @ApiParam(value = "个独状态") @NotNull(message = "请选择个独状态") @RequestParam(required = false) Ibstate ibstate, BladeUser bladeUser) {
+    @GetMapping("/query-individual-business-detail")
+    @ApiOperation(value = "查询个独详情", notes = "查询个独详情")
+    public R queryIndividualBusinessDetail(@ApiParam(value = "个独") @NotNull(message = "请选择个独") @RequestParam(required = false) Long individualEnterpriseId, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return individualEnterpriseService.queryIndividualEnterpriseDetail(individualEnterpriseId);
+    }
+
+    @GetMapping("/query-update-individual-business-detail")
+    @ApiOperation(value = "查询编辑个独详情", notes = "查询编辑个独详情")
+    public R queryUpdateIndividualBusinessDetail(@ApiParam(value = "个独") @NotNull(message = "请选择个独") @RequestParam(required = false) Long individualEnterpriseId, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return individualEnterpriseService.queryUpdateIndividualEnterpriseDetailServiceProvider(individualEnterpriseId);
+    }
+
+    @PostMapping("/cancel-individual-enterprise")
+    @ApiOperation(value = "注销个独", notes = "注销个独")
+    public R cancelIndividualEnterprise(@ApiParam(value = "个独", required = true) @NotNull(message = "请选择个独") @RequestParam(required = false) Long individualEnterpriseId, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -60,18 +83,31 @@ public class IndividualEnterpriseServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return individualEnterpriseService.updateIbstate(serviceProviderWorkerEntity.getServiceProviderId(), individualEnterpriseId, ibstate);
+        return individualEnterpriseService.cancelIndividualEnterprise(serviceProviderWorkerEntity.getServiceProviderId(), individualEnterpriseId);
     }
 
     @PostMapping("/update-individual-enterprise")
-    @ApiOperation(value = "修改个独信息", notes = "修改个独信息")
-    public R updateIndividualEnterprise(@Valid @RequestBody IndividualEnterpriseEntity individualEnterprise) {
-        return R.status(individualEnterpriseService.updateById(individualEnterprise));
+    @ApiOperation(value = "编辑个独", notes = "编辑个独")
+    public R updateIndividualEnterprise(@Valid @RequestBody IndividualBusinessEnterpriseUpdateServiceProviderDTO individualBusinessEnterpriseUpdateServiceProviderDTO, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+        return individualEnterpriseService.updateIndividualEnterpriseServiceProvider(individualBusinessEnterpriseUpdateServiceProviderDTO, serviceProviderWorkerEntity.getServiceProviderId());
     }
 
     @GetMapping("/query-enterprise-report-list")
     @ApiOperation(value = "查询个独年审信息", notes = "查询个独年审信息")
-    public R queryEnterpriseReportList(Query query, @ApiParam(value = "个独ID", required = true) @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
+    public R queryEnterpriseReportList(@ApiParam(value = "个独", required = true) @NotNull(message = "请选择个独") @RequestParam(required = false) Long individualEnterpriseId, Query query, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
         return enterpriseReportService.findByBodyTypeAndBodyId(BodyType.INDIVIDUALENTERPRISE, individualEnterpriseId, query);
     }
 

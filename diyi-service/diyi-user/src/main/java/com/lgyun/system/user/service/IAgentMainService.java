@@ -5,14 +5,14 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.dto.admin.AddAdminAgentMainDTO;
-import com.lgyun.system.user.dto.admin.QueryAgentMainDTO;
-import com.lgyun.system.user.dto.admin.UpdateAgentMainDTO;
+import com.lgyun.system.user.dto.AddAdminAgentMainDTO;
+import com.lgyun.system.user.dto.QueryAgentMainDTO;
+import com.lgyun.system.user.dto.UpdateAgentMainDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.AgentMainEntity;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
-import com.lgyun.system.user.vo.admin.AdminAgentMainVO;
-import com.lgyun.system.user.vo.admin.AgentMainServiceProviderVO;
+import com.lgyun.system.user.vo.AdminAgentMainVO;
+import com.lgyun.system.user.vo.AgentMainServiceProviderVO;
 
 /**
  * 渠道商信息表 Service 接口

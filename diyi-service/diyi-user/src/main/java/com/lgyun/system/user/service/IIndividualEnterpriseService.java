@@ -4,14 +4,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDTO;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDTO;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDTO;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddMakerDTO;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddOrUpdateDTO;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseListDTO;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseUpdateServiceProviderDTO;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
-import com.lgyun.system.user.vo.enterprise.IndividualBusinessEnterpriseListVO;
-import com.lgyun.system.user.vo.maker.IndividualEnterpriseDetailMakerVO;
-import com.lgyun.system.user.vo.maker.IndividualEnterpriseListVO;
+import com.lgyun.system.user.vo.*;
 
 import java.util.List;
 
@@ -26,11 +25,11 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
     /**
      * 新增个独
      *
-     * @param individualBusinessEnterpriseAddDto
+     * @param individualBusinessEnterpriseAddMakerDto
      * @param makerEntity
      * @return
      */
-    R<String> save(IndividualBusinessEnterpriseAddDTO individualBusinessEnterpriseAddDto, MakerEntity makerEntity);
+    R<String> createIndividualEnterpriseMaker(IndividualBusinessEnterpriseAddMakerDTO individualBusinessEnterpriseAddMakerDto, MakerEntity makerEntity);
 
     /**
      * 通过创客id查询个独
@@ -48,7 +47,7 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
      * @param ibstate
      * @return
      */
-    R<IPage<IndividualEnterpriseListVO>> listByMaker(IPage<IndividualEnterpriseListVO> page, Long makerId, Ibstate ibstate);
+    R<IPage<IndividualBusinessEnterpriseListMakerVO>> queryIndividualBusinessListMaker(IPage<IndividualBusinessEnterpriseListMakerVO> page, Long makerId, Ibstate ibstate);
 
     /**
      * 根据ID查询个独详情
@@ -56,7 +55,16 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
      * @param individualEnterpriseId
      * @return
      */
-    R<IndividualEnterpriseDetailMakerVO> findById(Long individualEnterpriseId);
+    R<IndividualBusinessEnterpriseDetailMakerVO> queryIndividualEnterpriseDetailMaker(Long individualEnterpriseId);
+
+    /**
+     * 添加/编辑个独
+     *
+     * @param individualBusinessEnterpriseAddOrUpdateDto
+     * @param enterpriseId
+     * @return
+     */
+    R<String> addOrUpdateIndividualEnterprise(IndividualBusinessEnterpriseAddOrUpdateDTO individualBusinessEnterpriseAddOrUpdateDto, Long enterpriseId);
 
     /**
      * 查询当前商户的所有关联创客的个独
@@ -64,19 +72,34 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
      * @param page
      * @param enterpriseId
      * @param serviceProviderId
-     * @param individualBusinessEnterpriseDto
+     * @param individualBusinessEnterpriseListDto
      * @return
      */
-    R<IPage<IndividualBusinessEnterpriseListVO>> getIndividualEnterpriseList(IPage<IndividualBusinessEnterpriseListVO> page, Long enterpriseId, Long serviceProviderId, IndividualBusinessEnterpriseDTO individualBusinessEnterpriseDto);
+    R<IPage<IndividualBusinessEnterpriseListVO>> queryIndividualEnterpriseList(IPage<IndividualBusinessEnterpriseListVO> page, Long enterpriseId, Long serviceProviderId, IndividualBusinessEnterpriseListDTO individualBusinessEnterpriseListDto);
 
     /**
-     * 创建个独
+     * 查询个独详情
      *
-     * @param individualBusinessEnterpriseWebAddDto
-     * @param enterpriseId
+     * @param individualEnterpriseId
      * @return
      */
-    R<String> createIndividualEnterprise(IndividualBusinessEnterpriseWebAddDTO individualBusinessEnterpriseWebAddDto, Long enterpriseId);
+    R<IndividualBusinessEnterpriseDetailVO> queryIndividualEnterpriseDetail(Long individualEnterpriseId);
+
+    /**
+     * 查询编辑个独详情
+     *
+     * @param individualEnterpriseId
+     * @return
+     */
+    R<IndividualBusinessEnterpriseUpdateDetailVO> queryUpdateIndividualEnterpriseDetail(Long individualEnterpriseId);
+
+    /**
+     * 查询编辑个独详情
+     *
+     * @param individualEnterpriseId
+     * @return
+     */
+    R<IndividualBusinessEnterpriseUpdateDetailServiceProviderVO> queryUpdateIndividualEnterpriseDetailServiceProvider(Long individualEnterpriseId);
 
     /**
      * 根据创客ID, 统一社会信用代码查询个独
@@ -87,24 +110,54 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
      */
     IndividualEnterpriseEntity findByMakerIdAndIbtaxNo(Long makerId, String ibtaxNo);
 
+    /**
+     * 根据个独名称查询个独
+     *
+     * @param ibname
+     * @return
+     */
+    IndividualEnterpriseEntity queryIndividualEnterpriseByIbname(String ibname);
 
     /**
-     * 统一社会信用代码查询个独
+     * 根据统一社会信用代码查询个独
      *
      * @param ibtaxNo
      * @return
      */
-    IndividualEnterpriseEntity findByIbtaxNo(String ibtaxNo);
+    IndividualEnterpriseEntity queryIndividualEnterpriseByIbtaxNo(String ibtaxNo);
+    
+    /**
+     * 根据个独名称查询个独
+     *
+     * @param ibname
+     * @return
+     */
+    int queryCountByIbname(String ibname);
 
     /**
-     * 修改个独状态
+     * 根据统一社会信用代码查询个独
+     *
+     * @param ibtaxNo
+     * @return
+     */
+    int queryCountByIbtaxNo(String ibtaxNo);
+
+    /**
+     * 注销个独
      *
      * @param serviceProviderId
      * @param individualEnterpriseId
-     * @param ibstate
      * @return
      */
-    R<String> updateIbstate(Long serviceProviderId, Long individualEnterpriseId, Ibstate ibstate);
+    R<String> cancelIndividualEnterprise(Long serviceProviderId, Long individualEnterpriseId);
 
+    /**
+     * 修改个独
+     *
+     * @param individualBusinessEnterpriseUpdateServiceProviderDTO
+     * @param serviceProviderId
+     * @return
+     */
+    R<String> updateIndividualEnterpriseServiceProvider(IndividualBusinessEnterpriseUpdateServiceProviderDTO individualBusinessEnterpriseUpdateServiceProviderDTO, Long serviceProviderId);
 }
 

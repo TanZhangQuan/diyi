@@ -6,7 +6,7 @@ import com.lgyun.common.enumeration.BureauServiceProviderStatus;
 import com.lgyun.common.enumeration.BureauType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.RelBureauServiceProviderEntity;
-import com.lgyun.system.user.vo.admin.RelBureauServiceProviderVO;
+import com.lgyun.system.user.vo.RelBureauServiceProviderVO;
 
 /**
  * 相关局与服务商关联表 Service 接口

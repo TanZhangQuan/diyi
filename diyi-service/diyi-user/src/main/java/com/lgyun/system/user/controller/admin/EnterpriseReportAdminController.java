@@ -5,7 +5,7 @@ import com.lgyun.common.enumeration.ReportTheme;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.admin.AdminEnterpriseReportDTO;
+import com.lgyun.system.user.dto.AdminEnterpriseReportDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.service.IAdminService;
 import com.lgyun.system.user.service.IEnterpriseReportService;

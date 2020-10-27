@@ -3,9 +3,9 @@ package com.lgyun.system.user.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.dto.admin.AddOrUpdateServiceProviderCertDTO;
+import com.lgyun.system.user.dto.AddOrUpdateServiceProviderCertDTO;
 import com.lgyun.system.user.entity.ServiceProviderCertEntity;
-import com.lgyun.system.user.vo.admin.ServiceProviderCertListVO;
+import com.lgyun.system.user.vo.ServiceProviderCertListVO;
 
 /**
  * 服务商资格信息表 Service 接口

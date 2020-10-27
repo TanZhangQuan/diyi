@@ -61,7 +61,7 @@
         <result property="bankNo" column="bank_no"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.maker.MakerEnterpriseDetailYearMonthVO" id="makerEnterpriseDetailYearMonthVO">
+    <resultMap type="com.lgyun.system.user.vo.MakerEnterpriseDetailYearMonthVO" id="makerEnterpriseDetailYearMonthVO">
         <result property="income" column="income"/>
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="checkMoney" column="check_money"/>

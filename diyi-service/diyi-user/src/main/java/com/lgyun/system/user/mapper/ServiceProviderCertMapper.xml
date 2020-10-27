@@ -3,7 +3,7 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.ServiceProviderCertMapper">
 
-    <resultMap type="com.lgyun.system.user.vo.admin.ServiceProviderCertListVO" id="serviceProviderCertListVO">
+    <resultMap type="com.lgyun.system.user.vo.ServiceProviderCertListVO" id="serviceProviderCertListVO">
         <result property="serviceProviderCertId" column="service_provider_cert_id"/>
         <result property="certificateType" column="certificate_type"/>
         <result property="certificateName" column="certificate_name"/>

@@ -3,7 +3,7 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.RelBureauServiceProviderMapper">
 
-    <resultMap id="relBureauServiceProviderVO" type="com.lgyun.system.user.vo.admin.RelBureauServiceProviderVO">
+    <resultMap id="relBureauServiceProviderVO" type="com.lgyun.system.user.vo.RelBureauServiceProviderVO">
         <id column="id" property="serviceProviderId" />
         <result column="service_provider_name" property="serviceProviderName" />
     </resultMap>

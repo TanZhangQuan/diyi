@@ -4,14 +4,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.dto.admin.*;
+import com.lgyun.system.user.dto.*;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.EnterpriseEntity;
-import com.lgyun.system.user.vo.EnterpriseIdNameListVO;
-import com.lgyun.system.user.vo.EnterprisesDetailVO;
-import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
-import com.lgyun.system.user.vo.admin.*;
-import com.lgyun.system.user.vo.enterprise.EnterpriseVO;
+import com.lgyun.system.user.vo.*;
+import com.lgyun.system.user.vo.EnterpriseVO;
 import org.springframework.web.multipart.MultipartFile;
 
 /**

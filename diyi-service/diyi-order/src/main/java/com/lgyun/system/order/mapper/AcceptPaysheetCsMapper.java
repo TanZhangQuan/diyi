@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.order.dto.AcceptSheetAndCsListDTO;
 import com.lgyun.system.order.entity.AcceptPaysheetCsEntity;
-import com.lgyun.system.order.vo.enterprise.AcceptPaysheetCsDetailEnterpriseVO;
-import com.lgyun.system.order.vo.enterprise.AcceptPaysheetCsListEnterpriseVO;
-import com.lgyun.system.order.vo.enterprise.AcceptPaysheetCsSingleListEnterpriseVO;
-import com.lgyun.system.order.vo.maker.AcceptPaysheetAndCsListMakerVO;
-import com.lgyun.system.order.vo.maker.AcceptPaysheetDetailMakerVO;
+import com.lgyun.system.order.vo.AcceptPaysheetCsDetailEnterpriseVO;
+import com.lgyun.system.order.vo.AcceptPaysheetCsListEnterpriseVO;
+import com.lgyun.system.order.vo.AcceptPaysheetCsSingleListEnterpriseVO;
+import com.lgyun.system.order.vo.AcceptPaysheetAndCsListMakerVO;
+import com.lgyun.system.order.vo.AcceptPaysheetDetailMakerVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

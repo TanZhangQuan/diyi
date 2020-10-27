@@ -5,13 +5,14 @@ import com.lgyun.common.enumeration.BodyType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDTO;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDTO;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddOrUpdateDTO;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseListDTO;
+import com.lgyun.system.user.dto.MakerListIndividualDTO;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
-import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.service.IEnterpriseReportService;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.service.IIndividualEnterpriseService;
+import com.lgyun.system.user.service.IMakerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -32,10 +33,37 @@ public class IndividualEnterpriseEnterpriseController {
     private IEnterpriseWorkerService enterpriseWorkerService;
     private IIndividualEnterpriseService individualEnterpriseService;
     private IEnterpriseReportService enterpriseReportService;
+    private IMakerService makerService;
+
+    @GetMapping("/query-maker-list")
+    @ApiOperation(value = "查询当前商户关联的创客", notes = "查询当前商户关联的创客")
+    public R queryMakerList(MakerListIndividualDTO makerListIndividualDTO, Query query, BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+        return makerService.queryMakerListIndividual(enterpriseWorkerEntity.getEnterpriseId(), makerListIndividualDTO, Condition.getPage(query.setDescs("create_time")));
+    }
+
+    @PostMapping("/add-or-update-individual-enterprise")
+    @ApiOperation(value = "添加/编辑个独", notes = "添加/编辑个独")
+    public R addOrUpdateIndividualEnterprise(@Valid @RequestBody IndividualBusinessEnterpriseAddOrUpdateDTO individualBusinessEnterpriseAddOrUpdateDto, BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+        return individualEnterpriseService.addOrUpdateIndividualEnterprise(individualBusinessEnterpriseAddOrUpdateDto, enterpriseWorkerEntity.getEnterpriseId());
+    }
 
     @GetMapping("/query-individual-enterprise-list")
     @ApiOperation(value = "查询当前商户的所有关联创客的所有个独", notes = "查询当前商户的所有关联创客的所有个独")
-    public R queryIndividualEnterpriseList(IndividualBusinessEnterpriseDTO individualBusinessEnterpriseDto, Query query, BladeUser bladeUser) {
+    public R queryIndividualEnterpriseList(IndividualBusinessEnterpriseListDTO individualBusinessEnterpriseListDto, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -43,31 +71,42 @@ public class IndividualEnterpriseEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return individualEnterpriseService.getIndividualEnterpriseList(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), null, individualBusinessEnterpriseDto);
+        return individualEnterpriseService.queryIndividualEnterpriseList(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), null, individualBusinessEnterpriseListDto);
     }
 
-    @PostMapping("/create-individual-enterprise")
-    @ApiOperation(value = "创建个独", notes = "创建个独")
-    public R createIndividualEnterprise(@Valid @RequestBody IndividualBusinessEnterpriseWebAddDTO individualBusinessEnterpriseWebAddDto, BladeUser bladeUser) {
+    @GetMapping("/query-individual-business-detail")
+    @ApiOperation(value = "查询个独详情", notes = "查询个独详情")
+    public R queryIndividualBusinessDetail(@ApiParam(value = "个独") @NotNull(message = "请选择个独") @RequestParam(required = false) Long individualEnterpriseId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
-        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return individualEnterpriseService.createIndividualEnterprise(individualBusinessEnterpriseWebAddDto, enterpriseWorkerEntity.getEnterpriseId());
+        return individualEnterpriseService.queryIndividualEnterpriseDetail(individualEnterpriseId);
     }
 
-    @PostMapping("/update-individual-enterprise")
-    @ApiOperation(value = "修改个独信息", notes = "修改个独信息")
-    public R updateIndividualEnterprise(@Valid @RequestBody IndividualEnterpriseEntity individualEnterprise) {
-        return R.status(individualEnterpriseService.updateById(individualEnterprise));
-    }
+    @GetMapping("/query-update-individual-business-detail")
+    @ApiOperation(value = "查询编辑个独详情", notes = "查询编辑个独详情")
+    public R queryUpdateIndividualBusinessDetail(@ApiParam(value = "个独") @NotNull(message = "请选择个独") @RequestParam(required = false) Long individualEnterpriseId, BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
 
+        return individualEnterpriseService.queryUpdateIndividualEnterpriseDetail(individualEnterpriseId);
+    }
+    
     @GetMapping("/query-enterprise-report-list")
     @ApiOperation(value = "查询个独年审信息", notes = "查询个独年审信息")
-    public R queryEnterpriseReportList(Query query, @ApiParam(value = "个独ID", required = true) @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId) {
+    public R queryEnterpriseReportList(@ApiParam(value = "个独", required = true) @NotNull(message = "请选择个独") @RequestParam(required = false) Long individualEnterpriseId, Query query, BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
         return enterpriseReportService.findByBodyTypeAndBodyId(BodyType.INDIVIDUALENTERPRISE, individualEnterpriseId, query);
     }
 

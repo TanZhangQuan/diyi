@@ -9,7 +9,7 @@ import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.entity.PayMakerEntity;
 import com.lgyun.system.order.excel.PayEnterpriseExcel;
 import com.lgyun.system.order.vo.*;
-import com.lgyun.system.order.vo.maker.IndividualYearMonthVO;
+import com.lgyun.system.order.vo.IndividualYearMonthVO;
 import com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO;
 
 import java.math.BigDecimal;

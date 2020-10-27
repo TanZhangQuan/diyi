@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.system.order.entity.AddressEntity;
-import com.lgyun.system.order.vo.admin.AddressListVO;
+import com.lgyun.system.order.vo.AddressListVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

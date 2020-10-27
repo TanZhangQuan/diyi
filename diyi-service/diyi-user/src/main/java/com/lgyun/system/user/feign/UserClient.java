@@ -443,7 +443,7 @@ public class UserClient implements IUserClient {
 
     @Override
     public List<IndividualBusinessEntity> queryIndividualBusinessByMakerId(Long makerId) {
-        return iIndividualBusinessService.findMakerId(makerId);
+        return iIndividualBusinessService.queryIndividualBusinessByMakerId(makerId);
     }
 
     @Override
@@ -459,12 +459,12 @@ public class UserClient implements IUserClient {
 
     @Override
     public IndividualBusinessEntity queryIndividualBusinessByIbtaxNo(String ibtaxNo) {
-        return iIndividualBusinessService.findByIbtaxNo(ibtaxNo);
+        return iIndividualBusinessService.queryIndividualBusinessByIbtaxNo(ibtaxNo);
     }
 
     @Override
     public IndividualEnterpriseEntity queryIndividualEnterpriseByIbtaxNo(String ibtaxNo) {
-        return iIndividualEnterpriseService.findByIbtaxNo(ibtaxNo);
+        return iIndividualEnterpriseService.queryIndividualEnterpriseByIbtaxNo(ibtaxNo);
     }
 
     @Override

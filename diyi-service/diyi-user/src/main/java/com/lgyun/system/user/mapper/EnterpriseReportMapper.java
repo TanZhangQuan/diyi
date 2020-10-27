@@ -5,8 +5,8 @@ import com.lgyun.common.enumeration.BodyType;
 import com.lgyun.common.enumeration.ReportTheme;
 import com.lgyun.system.user.entity.EnterpriseReportEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.lgyun.system.user.vo.admin.AdminEnterpriseReportAllVO;
-import com.lgyun.system.user.vo.admin.AdminEnterpriseReportVO;
+import com.lgyun.system.user.vo.AdminEnterpriseReportAllVO;
+import com.lgyun.system.user.vo.AdminEnterpriseReportVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

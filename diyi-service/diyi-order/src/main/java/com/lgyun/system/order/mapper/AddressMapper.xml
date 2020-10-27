@@ -3,7 +3,7 @@
 
 <mapper namespace="com.lgyun.system.order.mapper.AddressMapper">
 
-    <resultMap type="com.lgyun.system.order.vo.admin.AddressListVO" id="addressListVO">
+    <resultMap type="com.lgyun.system.order.vo.AddressListVO" id="addressListVO">
         <result property="addressId" column="address_id"/>
         <result property="addressName" column="address_name"/>
         <result property="addressPhone" column="address_phone"/>

@@ -6,11 +6,11 @@ import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.system.order.dto.PayEnterpriseDTO;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.*;
-import com.lgyun.system.order.vo.admin.TransactionByBureauServiceProviderInfoVO;
+import com.lgyun.system.order.vo.TransactionByBureauServiceProviderInfoVO;
 import com.lgyun.system.user.vo.TransactionVO;
-import com.lgyun.system.user.vo.admin.AdminAgentMainServiceProviderListVO;
-import com.lgyun.system.user.vo.admin.AgentMainTransactionVO;
-import com.lgyun.system.user.vo.admin.PartnerServiceProviderListVO;
+import com.lgyun.system.user.vo.AdminAgentMainServiceProviderListVO;
+import com.lgyun.system.user.vo.AgentMainTransactionVO;
+import com.lgyun.system.user.vo.PartnerServiceProviderListVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

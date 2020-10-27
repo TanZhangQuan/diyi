@@ -9,7 +9,7 @@ import com.lgyun.system.order.dto.AddressDTO;
 import com.lgyun.system.order.entity.AddressEntity;
 import com.lgyun.system.order.mapper.AddressMapper;
 import com.lgyun.system.order.service.IAddressService;
-import com.lgyun.system.order.vo.admin.AddressListVO;
+import com.lgyun.system.order.vo.AddressListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;

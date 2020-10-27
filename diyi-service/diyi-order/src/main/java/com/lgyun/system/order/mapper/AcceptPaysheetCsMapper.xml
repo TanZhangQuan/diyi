@@ -3,7 +3,7 @@
 
 <mapper namespace="com.lgyun.system.order.mapper.AcceptPaysheetCsMapper">
 
-    <resultMap type="com.lgyun.system.order.vo.maker.AcceptPaysheetAndCsListMakerVO" id="acceptPaysheetAndCsListMakerVO">
+    <resultMap type="com.lgyun.system.order.vo.AcceptPaysheetAndCsListMakerVO" id="acceptPaysheetAndCsListMakerVO">
         <result property="id" column="id"/>
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="payAmount" column="pay_amount"/>
@@ -11,7 +11,7 @@
         <result property="serviceTimeEnd" column="service_time_end"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.order.vo.maker.AcceptPaysheetCsDetailMakerVO" id="acceptPaysheetCsDetailVO">
+    <resultMap type="com.lgyun.system.order.vo.AcceptPaysheetCsDetailMakerVO" id="acceptPaysheetCsDetailVO">
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="totalPayProviderFee" column="total_pay_provider_fee"/>
         <result property="serviceTimeStart" column="service_time_start"/>
@@ -19,7 +19,7 @@
         <result property="acceptPaysheetCsUrl" column="accept_paysheet_cs_url"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.order.vo.enterprise.AcceptPaysheetCsListEnterpriseVO" id="acceptPaysheetCsListEnterpriseVO">
+    <resultMap type="com.lgyun.system.order.vo.AcceptPaysheetCsListEnterpriseVO" id="acceptPaysheetCsListEnterpriseVO">
         <result property="id" column="id"/>
         <result property="selfHelpInvoiceId" column="self-help-invoice-id"/>
         <result property="selfHelpInvoiceDetailId" column="self-help-invoice-detailId"/>
@@ -31,7 +31,7 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.order.vo.enterprise.AcceptPaysheetCsDetailEnterpriseVO" id="acceptPaysheetCsDetailEnterpriseVO">
+    <resultMap type="com.lgyun.system.order.vo.AcceptPaysheetCsDetailEnterpriseVO" id="acceptPaysheetCsDetailEnterpriseVO">
         <result property="id" column="id"/>
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="serviceProviderName" column="service_provider_name"/>
@@ -42,7 +42,7 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.order.vo.enterprise.AcceptPaysheetCsSingleListEnterpriseVO" id="acceptPaysheetCsSingleListEnterpriseVO">
+    <resultMap type="com.lgyun.system.order.vo.AcceptPaysheetCsSingleListEnterpriseVO" id="acceptPaysheetCsSingleListEnterpriseVO">
         <result property="id" column="id"/>
         <result property="listFile" column="list_file"/>
         <result property="name" column="name"/>

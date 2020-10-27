@@ -3,7 +3,7 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.RelBureauNoticeMapper">
 
-    <resultMap id="RelBureauNoticeVOResultMap" type="com.lgyun.system.user.vo.admin.RelBureauNoticeVO">
+    <resultMap id="RelBureauNoticeVOResultMap" type="com.lgyun.system.user.vo.RelBureauNoticeVO">
         <result column="notice_title" property="noticeTitle" />
         <result column="notice_desc" property="noticeDesc" />
         <result column="publish_datetime" property="publishDatetime" />

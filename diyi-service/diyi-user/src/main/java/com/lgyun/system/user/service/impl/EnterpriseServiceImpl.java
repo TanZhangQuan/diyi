@@ -8,17 +8,14 @@ import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.user.dto.admin.*;
-import com.lgyun.system.user.dto.enterprise.AddOrUpdateEnterpriseContactDTO;
+import com.lgyun.system.user.dto.*;
+import com.lgyun.system.user.dto.AddOrUpdateEnterpriseContactDTO;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.EnterpriseMapper;
 import com.lgyun.system.user.oss.AliyunOssService;
 import com.lgyun.system.user.service.*;
-import com.lgyun.system.user.vo.EnterpriseIdNameListVO;
-import com.lgyun.system.user.vo.EnterprisesDetailVO;
-import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
-import com.lgyun.system.user.vo.admin.*;
-import com.lgyun.system.user.vo.enterprise.EnterpriseVO;
+import com.lgyun.system.user.vo.*;
+import com.lgyun.system.user.vo.EnterpriseVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -67,8 +64,8 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
 
     @Override
     public R<MakerEnterpriseRelationVO> getEnterpriseId(Long enterpriseId, Long makerId) {
-        MakerEnterpriseEntity enterpriseIdAndMakerIdLian = makerEnterpriseService.getEnterpriseIdAndMakerIdAndRelationshipType(enterpriseId, makerId, RelationshipType.RELEVANCE);
-        MakerEnterpriseEntity enterpriseIdAndMakerIdZhu = makerEnterpriseService.getEnterpriseIdAndMakerIdAndRelationshipType(enterpriseId, makerId, RelationshipType.ATTENTION);
+        int relevanceNum = makerEnterpriseService.getEnterpriseIdAndMakerIdAndRelationshipType(enterpriseId, makerId, RelationshipType.RELEVANCE);
+        int attentionNum = makerEnterpriseService.getEnterpriseIdAndMakerIdAndRelationshipType(enterpriseId, makerId, RelationshipType.ATTENTION);
         QueryWrapper<EnterpriseEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(EnterpriseEntity::getId, enterpriseId);
 
@@ -79,8 +76,8 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
 
         MakerEnterpriseRelationVO makerEnterpriseRelationVO = BeanUtil.copy(enterpriseEntity, MakerEnterpriseRelationVO.class);
 
-        if ((null == enterpriseIdAndMakerIdLian && null != enterpriseIdAndMakerIdZhu) || (null == enterpriseIdAndMakerIdLian && null == enterpriseIdAndMakerIdZhu)) {
-            makerEnterpriseRelationVO.setContact1Phone( makerEnterpriseRelationVO.getContact1Phone().replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2"));
+        if ((0 == relevanceNum && 0 < attentionNum) || (0 == relevanceNum && 0 == attentionNum)) {
+            makerEnterpriseRelationVO.setContact1Phone(makerEnterpriseRelationVO.getContact1Phone().replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2"));
             makerEnterpriseRelationVO.setBizLicenceUrl("*");
             makerEnterpriseRelationVO.setLegalPersonName("***");
             makerEnterpriseRelationVO.setLegalPersonIdCard("*********");
@@ -89,7 +86,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             makerEnterpriseRelationVO.setShopUserName("*****");
             makerEnterpriseRelationVO.setRelationshipType(RelationshipType.ATTENTION);
             return R.data(makerEnterpriseRelationVO);
-        } else if (null != enterpriseIdAndMakerIdLian && null == enterpriseIdAndMakerIdZhu) {
+        } else if (0 < relevanceNum && 0 == attentionNum) {
             makerEnterpriseRelationVO.setRelationshipType(RelationshipType.RELEVANCE);
             return R.data(makerEnterpriseRelationVO);
         } else {

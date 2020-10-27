@@ -4,11 +4,11 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.dto.enterprise.AddOrUpdateEnterpriseContactDTO;
+import com.lgyun.system.user.dto.AddOrUpdateEnterpriseContactDTO;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.vo.EnterpriseWorkerVO;
-import com.lgyun.system.user.vo.admin.EnterpriseWorkerListVO;
-import com.lgyun.system.user.vo.enterprise.EnterpriseWorkerDetailVO;
+import com.lgyun.system.user.vo.EnterpriseWorkerListVO;
+import com.lgyun.system.user.vo.EnterpriseWorkerDetailVO;
 
 import java.util.List;
 

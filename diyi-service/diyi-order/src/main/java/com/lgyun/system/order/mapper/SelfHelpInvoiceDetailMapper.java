@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.system.order.entity.SelfHelpInvoiceDetailEntity;
 import com.lgyun.system.order.vo.*;
-import com.lgyun.system.order.vo.admin.SelfHelpInvoiceDetailAdminVO;
+import com.lgyun.system.order.vo.SelfHelpInvoiceDetailAdminVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.math.BigDecimal;

@@ -3,27 +3,29 @@ package com.lgyun.system.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.BizType;
 import com.lgyun.common.enumeration.Ibstate;
+import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.common.enumeration.VerifyStatus;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDTO;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDTO;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDTO;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddMakerDTO;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddOrUpdateDTO;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseListDTO;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseUpdateServiceProviderDTO;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.mapper.IndividualBusinessMapper;
-import com.lgyun.system.user.service.IEnterpriseReportService;
 import com.lgyun.system.user.service.IIndividualBusinessService;
+import com.lgyun.system.user.service.IMakerEnterpriseService;
 import com.lgyun.system.user.service.IMakerService;
-import com.lgyun.system.user.vo.enterprise.IndividualBusinessEnterpriseListVO;
-import com.lgyun.system.user.vo.maker.IndividualBusinessDetailMakerVO;
-import com.lgyun.system.user.vo.maker.IndividualBusinessListVO;
+import com.lgyun.system.user.vo.*;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,89 +39,110 @@ import java.util.List;
 public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBusinessMapper, IndividualBusinessEntity> implements IIndividualBusinessService {
 
     private IMakerService makerService;
-    private IEnterpriseReportService enterpriseReportService;
+    private IMakerEnterpriseService makerEnterpriseService;
 
     @Override
-    public R<String> save(IndividualBusinessEnterpriseAddDTO individualBusinessEnterpriseAddDto, MakerEntity makerEntity) {
+    public R<String> createIndividualBusinessMaker(IndividualBusinessEnterpriseAddMakerDTO individualBusinessEnterpriseAddMakerDto, MakerEntity makerEntity) {
 
-        //查看创客是否已经身份证实名认证
-        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
-            return R.fail("请先进行身份证实名认证");
-        }
-
-        //查看创客是否已经活体认证
-        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus()))) {
-            return R.fail("请先进行活体认证");
-        }
-
-        //判断税种
-        if (BizType.TAXPAYER.equals(individualBusinessEnterpriseAddDto.getBizType())) {
-            return R.fail("个体户税种不存在一般纳税人");
+        //查看创客是否认证
+        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getPhoneNumberVerifyStatus()))) {
+            return R.fail("创客未实名认证");
         }
 
         IndividualBusinessEntity individualBusinessEntity = new IndividualBusinessEntity();
-        BeanUtils.copyProperties(individualBusinessEnterpriseAddDto, individualBusinessEntity);
+        BeanUtils.copyProperties(individualBusinessEnterpriseAddMakerDto, individualBusinessEntity);
         individualBusinessEntity.setMakerId(makerEntity.getId());
         save(individualBusinessEntity);
 
-        return R.success("个体户新增成功");
+        return R.success("创建个体户成功");
     }
 
     @Override
-    public List<IndividualBusinessEntity> findMakerId(Long makerId) {
+    public List<IndividualBusinessEntity> queryIndividualBusinessByMakerId(Long makerId) {
         QueryWrapper<IndividualBusinessEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(IndividualBusinessEntity::getMakerId, makerId);
         return baseMapper.selectList(queryWrapper);
     }
 
     @Override
-    public R<IPage<IndividualBusinessListVO>> listByMaker(IPage<IndividualBusinessListVO> page, Long makerId, Ibstate ibstate) {
-        return R.data(page.setRecords(baseMapper.listByMaker(makerId, ibstate, page)));
+    public R<IPage<IndividualBusinessEnterpriseListMakerVO>> queryIndividualBusinessListMaker(IPage<IndividualBusinessEnterpriseListMakerVO> page, Long makerId, Ibstate ibstate) {
+        return R.data(page.setRecords(baseMapper.queryIndividualBusinessListMaker(makerId, ibstate, page)));
     }
 
     @Override
-    public R<IndividualBusinessDetailMakerVO> findById(Long individualBusinessId) {
-        return R.data(baseMapper.findById(individualBusinessId));
+    public R<IndividualBusinessEnterpriseDetailMakerVO> queryIndividualBusinessDetailMaker(Long individualBusinessId) {
+        return R.data(baseMapper.queryIndividualBusinessDetailMaker(individualBusinessId));
     }
 
     @Override
-    public R<IPage<IndividualBusinessEnterpriseListVO>> getIndividualBusinessList(IPage<IndividualBusinessEnterpriseListVO> page, Long enterpriseId, Long serviceProviderId, IndividualBusinessEnterpriseDTO individualBusinessEnterpriseDto) {
+    public R<IPage<IndividualBusinessEnterpriseListVO>> queryIndividualBusinessList(Long enterpriseId, Long serviceProviderId, IndividualBusinessEnterpriseListDTO individualBusinessEnterpriseListDto, IPage<IndividualBusinessEnterpriseListVO> page) {
 
-        if (individualBusinessEnterpriseDto.getBeginDate() != null && individualBusinessEnterpriseDto.getEndDate() != null) {
-            if (individualBusinessEnterpriseDto.getBeginDate().after(individualBusinessEnterpriseDto.getEndDate())) {
+        if (individualBusinessEnterpriseListDto.getBeginDate() != null && individualBusinessEnterpriseListDto.getEndDate() != null) {
+            if (individualBusinessEnterpriseListDto.getBeginDate().after(individualBusinessEnterpriseListDto.getEndDate())) {
                 return R.fail("开始时间不能大于结束时间");
             }
         }
 
-        return R.data(page.setRecords(baseMapper.getIndividualBusinessList(enterpriseId, serviceProviderId, individualBusinessEnterpriseDto, page)));
+        return R.data(page.setRecords(baseMapper.queryIndividualBusinessList(enterpriseId, serviceProviderId, individualBusinessEnterpriseListDto, page)));
+    }
+
+    @Override
+    public R<IndividualBusinessEnterpriseDetailVO> queryIndividualBusinessDetail(Long individualBusinessId) {
+        return R.data(baseMapper.queryIndividualBusinessDetail(individualBusinessId));
+    }
+
+    @Override
+    public R<IndividualBusinessEnterpriseUpdateDetailVO> queryUpdateIndividualBusinessDetail(Long individualBusinessId) {
+        return R.data(baseMapper.queryUpdateIndividualBusinessDetail(individualBusinessId));
+    }
+
+    @Override
+    public R<IndividualBusinessEnterpriseUpdateDetailServiceProviderVO> queryUpdateIndividualBusinessDetailServiceProvider(Long individualBusinessId) {
+        return R.data(baseMapper.queryUpdateIndividualBusinessDetailServiceProvider(individualBusinessId));
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> createIndividualBusiness(IndividualBusinessEnterpriseWebAddDTO individualBusinessEnterpriseWebAddDto, Long enterpriseId) {
-        //新建创客
-        MakerEntity makerEntity = makerService.makerSave(individualBusinessEnterpriseWebAddDto.getPhone(), individualBusinessEnterpriseWebAddDto.getName(),
-                individualBusinessEnterpriseWebAddDto.getIdcardNo(), individualBusinessEnterpriseWebAddDto.getIdcardPic(), individualBusinessEnterpriseWebAddDto.getIdcardPicBack(),
-                individualBusinessEnterpriseWebAddDto.getIdcardHand(), individualBusinessEnterpriseWebAddDto.getIdcardBackHand(), enterpriseId);
+    public R<String> addOrUpdateIndividualBusiness(IndividualBusinessEnterpriseAddOrUpdateDTO individualBusinessEnterpriseAddOrUpdateDto, Long enterpriseId) {
 
-        //判断税种
-        if (BizType.TAXPAYER.equals(individualBusinessEnterpriseWebAddDto.getBizType())) {
-            return R.fail("个体户税种不存在一般纳税人");
+        MakerEntity makerEntity = makerService.getById(individualBusinessEnterpriseAddOrUpdateDto.getMakerId());
+        if (makerEntity == null) {
+            return R.fail("创客不存在");
         }
 
-        //新建个体户
-        IndividualBusinessEntity individualBusinessEntity = new IndividualBusinessEntity();
-        individualBusinessEntity.setCandidatedNames(individualBusinessEnterpriseWebAddDto.getCandidatedNames());
-        individualBusinessEntity.setMainIndustry(individualBusinessEnterpriseWebAddDto.getMainIndustry());
-        individualBusinessEntity.setBizScope(individualBusinessEnterpriseWebAddDto.getBizScope());
-        individualBusinessEntity.setBizType(individualBusinessEnterpriseWebAddDto.getBizType());
-        individualBusinessEntity.setRegisteredMoney(individualBusinessEnterpriseWebAddDto.getRegisteredMoney());
-        individualBusinessEntity.setMakerId(makerEntity.getId());
-        individualBusinessEntity.setContactName(individualBusinessEnterpriseWebAddDto.getContactName());
-        individualBusinessEntity.setContactPhone(individualBusinessEnterpriseWebAddDto.getContactPhone());
-        save(individualBusinessEntity);
+        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getPhoneNumberVerifyStatus()))) {
+            return R.fail("创客未实名认证");
+        }
 
-        return R.success("个体户新增成功");
+        if (enterpriseId != null) {
+            int relevanceNum = makerEnterpriseService.getEnterpriseIdAndMakerIdAndRelationshipType(individualBusinessEnterpriseAddOrUpdateDto.getMakerId(), enterpriseId, RelationshipType.RELEVANCE);
+            if (relevanceNum <= 0) {
+                return R.fail("创客商户不存在关联关系");
+            }
+        }
+
+        IndividualBusinessEntity individualBusinessEntity;
+        if (individualBusinessEnterpriseAddOrUpdateDto.getIndividualId() == null) {
+            //新建个体户
+            individualBusinessEntity = new IndividualBusinessEntity();
+
+        } else {
+            individualBusinessEntity = getById(individualBusinessEnterpriseAddOrUpdateDto.getIndividualId());
+            if (individualBusinessEntity == null) {
+                return R.fail("个体户不存在");
+            }
+
+            if (Ibstate.OPERATING.equals(individualBusinessEntity.getIbstate())) {
+                return R.fail("运营中个体户不可编辑");
+            }
+
+        }
+
+        BeanUtils.copyProperties(individualBusinessEnterpriseAddOrUpdateDto, individualBusinessEntity);
+        saveOrUpdate(individualBusinessEntity);
+
+        return R.success("操作成功");
+
     }
 
     @Override
@@ -131,14 +154,36 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
     }
 
     @Override
-    public IndividualBusinessEntity findByIbtaxNo(String ibtaxNo) {
+    public IndividualBusinessEntity queryIndividualBusinessByIbname(String ibname) {
+        QueryWrapper<IndividualBusinessEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(IndividualBusinessEntity::getIbname, ibname);
+        return baseMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public IndividualBusinessEntity queryIndividualBusinessByIbtaxNo(String ibtaxNo) {
         QueryWrapper<IndividualBusinessEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(IndividualBusinessEntity::getIbtaxNo, ibtaxNo);
         return baseMapper.selectOne(queryWrapper);
     }
 
+
     @Override
-    public R<String> updateIbstate(Long serviceProviderId, Long individualBusinessId, Ibstate ibstate) {
+    public int queryCountByIbname(String ibname) {
+        QueryWrapper<IndividualBusinessEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(IndividualBusinessEntity::getIbname, ibname);
+        return baseMapper.selectCount(queryWrapper);
+    }
+
+    @Override
+    public int queryCountByIbtaxNo(String ibtaxNo) {
+        QueryWrapper<IndividualBusinessEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(IndividualBusinessEntity::getIbtaxNo, ibtaxNo);
+        return baseMapper.selectCount(queryWrapper);
+    }
+
+    @Override
+    public R<String> cancelIndividualBusiness(Long serviceProviderId, Long individualBusinessId) {
 
         IndividualBusinessEntity individualBusinessEntity = getById(individualBusinessId);
         if (individualBusinessEntity == null) {
@@ -149,12 +194,128 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
             return R.fail("个体户不属于当前服务商");
         }
 
-        if (!(Ibstate.CANCELLED.equals(individualBusinessEntity.getIbstate()))) {
-            individualBusinessEntity.setIbstate(Ibstate.CANCELLED);
-            updateById(individualBusinessEntity);
+        individualBusinessEntity.setIbstate(Ibstate.CANCELLED);
+        individualBusinessEntity.setLogoutDateTime(new Date());
+        updateById(individualBusinessEntity);
+
+        return R.success("注销成功");
+    }
+
+    @Override
+    public R<String> updateIndividualBusinessServiceProvider(IndividualBusinessEnterpriseUpdateServiceProviderDTO individualBusinessEnterpriseUpdateServiceProviderDTO, Long serviceProviderId) {
+
+        IndividualBusinessEntity individualBusinessEntity = getById(individualBusinessEnterpriseUpdateServiceProviderDTO.getId());
+        if (individualBusinessEntity == null) {
+            return R.fail("个体户不存在");
         }
 
-        return R.success("操作成功");
+        if (!(serviceProviderId.equals(individualBusinessEntity.getServiceProviderId()))) {
+            return R.fail("个体户不属于当前服务商");
+        }
+
+        if (Ibstate.OPERATING.equals(individualBusinessEntity.getIbstate())) {
+            return R.fail("运营中个体户不可编辑");
+        }
+
+        if (StringUtils.isNotBlank(individualBusinessEnterpriseUpdateServiceProviderDTO.getIbname())) {
+            int ibnameNum = queryCountByIbname(individualBusinessEnterpriseUpdateServiceProviderDTO.getIbname());
+            if (ibnameNum > 0) {
+                return R.fail("个体户名称已存在");
+            }
+        }
+
+        if (StringUtils.isNotBlank(individualBusinessEnterpriseUpdateServiceProviderDTO.getIbtaxNo())) {
+            int ibtaxNoNum = queryCountByIbtaxNo(individualBusinessEnterpriseUpdateServiceProviderDTO.getIbtaxNo());
+            if (ibtaxNoNum > 0) {
+                return R.fail("个体户统一社会信用代码已存在");
+            }
+        }
+
+        if (Ibstate.OPERATING.equals(individualBusinessEnterpriseUpdateServiceProviderDTO.getIbstate())) {
+            if (StringUtils.isBlank(individualBusinessEnterpriseUpdateServiceProviderDTO.getIbname())) {
+                return R.fail("请输入个体户名称");
+            }
+
+            if (StringUtils.isBlank(individualBusinessEnterpriseUpdateServiceProviderDTO.getIbtaxNo())) {
+                return R.fail("请输入统一社会信用代码");
+            }
+
+            if (individualBusinessEnterpriseUpdateServiceProviderDTO.getBuildDateTime() == null) {
+                return R.fail("请选择营业执照的注册日期");
+            }
+
+            if (StringUtils.isBlank(individualBusinessEnterpriseUpdateServiceProviderDTO.getBizPark())) {
+                return R.fail("请输入园区");
+            }
+
+            if (StringUtils.isBlank(individualBusinessEnterpriseUpdateServiceProviderDTO.getProvince())) {
+                return R.fail("请选择省/直辖市");
+            }
+
+            if (StringUtils.isBlank(individualBusinessEnterpriseUpdateServiceProviderDTO.getCity())) {
+                return R.fail("请选择市");
+            }
+
+            if (StringUtils.isBlank(individualBusinessEnterpriseUpdateServiceProviderDTO.getArea())) {
+                return R.fail("请选择区/县");
+            }
+
+            if (StringUtils.isBlank(individualBusinessEnterpriseUpdateServiceProviderDTO.getBusinessAddress())) {
+                return R.fail("请输入经营场所");
+            }
+
+            if (StringUtils.isBlank(individualBusinessEnterpriseUpdateServiceProviderDTO.getMainIndustry())) {
+                return R.fail("请选择行业类型");
+            }
+
+            if (StringUtils.isBlank(individualBusinessEnterpriseUpdateServiceProviderDTO.getBizScope())) {
+                return R.fail("请选择经营范围");
+            }
+
+            if (StringUtils.isBlank(individualBusinessEnterpriseUpdateServiceProviderDTO.getNetBusinessAddress())) {
+                return R.fail("请输入网络经营场所");
+            }
+
+            if (StringUtils.isBlank(individualBusinessEnterpriseUpdateServiceProviderDTO.getBusinessLicenceUrl())) {
+                return R.fail("请上传营业执照正本");
+            }
+
+            if (StringUtils.isBlank(individualBusinessEnterpriseUpdateServiceProviderDTO.getBusinessLicenceCopyUrl())) {
+                return R.fail("请上传营业执照副本");
+            }
+
+            if (individualBusinessEnterpriseUpdateServiceProviderDTO.getSubmitDateTime() == null) {
+                return R.fail("请选择提交日期");
+            }
+
+            if (individualBusinessEnterpriseUpdateServiceProviderDTO.getRegisteredDate() == null) {
+                return R.fail("请选择注册日期");
+            }
+
+            if (individualBusinessEnterpriseUpdateServiceProviderDTO.getTaxRegisterDateTime() == null) {
+                return R.fail("请选择税务登记日期");
+            }
+
+            if (individualBusinessEnterpriseUpdateServiceProviderDTO.getBuildDateTime() == null) {
+                return R.fail("请选择营业执照的注册日期");
+            }
+
+            BigDecimal serviceRate = individualBusinessEnterpriseUpdateServiceProviderDTO.getServiceRate();
+            if (serviceRate == null) {
+                return R.fail("请输入服务费率");
+            } else if (serviceRate.compareTo(BigDecimal.ZERO) < 0) {
+                return R.fail("服务费率不能小于0");
+            } else if (serviceRate.compareTo(BigDecimal.valueOf(100)) > 0) {
+                return R.fail("服务费率不能大于100");
+            }
+
+        }
+        
+        BeanUtils.copyProperties(individualBusinessEnterpriseUpdateServiceProviderDTO, individualBusinessEntity);
+        updateById(individualBusinessEntity);
+
+        return R.success("编辑成功");
+
     }
 
 }

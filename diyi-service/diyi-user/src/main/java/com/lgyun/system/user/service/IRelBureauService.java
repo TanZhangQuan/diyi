@@ -4,12 +4,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.BureauType;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.dto.admin.AddRelBureauDTO;
-import com.lgyun.system.user.dto.admin.QueryRelBureauListDTO;
-import com.lgyun.system.user.dto.admin.UpdateRelBureauDTO;
+import com.lgyun.system.user.dto.AddRelBureauDTO;
+import com.lgyun.system.user.dto.QueryRelBureauListDTO;
+import com.lgyun.system.user.dto.UpdateRelBureauDTO;
 import com.lgyun.system.user.entity.RelBureauEntity;
-import com.lgyun.system.user.vo.admin.RelBureauNoticeVO;
-import com.lgyun.system.user.vo.admin.RelBureauVO;
+import com.lgyun.system.user.vo.RelBureauVO;
 
 /**
  * 相关局管理表 Service 接口

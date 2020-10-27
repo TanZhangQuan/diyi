@@ -5,7 +5,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.user.dto.admin.AddOrUpdateAgentMainContactDTO;
+import com.lgyun.system.user.dto.AddOrUpdateAgentMainContactDTO;
 import com.lgyun.system.user.entity.AgentPersonEntity;
 import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.mapper.AgentPersonMapper;

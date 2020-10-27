@@ -9,8 +9,8 @@ import com.lgyun.system.order.dto.SelfHelpInvoiceDetailsByServiceProviderDTO;
 import com.lgyun.system.order.dto.SelfHelpInvoicesByEnterpriseDTO;
 import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
 import com.lgyun.system.order.vo.*;
-import com.lgyun.system.order.vo.admin.SelfHelpInvoiceAdminDetailVO;
-import com.lgyun.system.order.vo.admin.SelfHelpInvoiceAdminVO;
+import com.lgyun.system.order.vo.SelfHelpInvoiceAdminDetailVO;
+import com.lgyun.system.order.vo.SelfHelpInvoiceAdminVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

@@ -8,7 +8,7 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.admin.*;
+import com.lgyun.system.user.dto.*;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.service.*;
 import io.swagger.annotations.Api;

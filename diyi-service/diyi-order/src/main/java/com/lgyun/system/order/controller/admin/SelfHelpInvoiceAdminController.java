@@ -5,7 +5,7 @@ import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.admin.ToExamineSelfHelpInvoiceDTO;
+import com.lgyun.system.order.dto.ToExamineSelfHelpInvoiceDTO;
 import com.lgyun.system.order.service.ISelfHelpInvoiceService;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.feign.IUserClient;

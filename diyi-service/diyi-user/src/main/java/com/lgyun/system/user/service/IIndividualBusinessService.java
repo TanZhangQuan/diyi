@@ -4,14 +4,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDTO;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseDTO;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseWebAddDTO;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddMakerDTO;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddOrUpdateDTO;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseListDTO;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseUpdateServiceProviderDTO;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.MakerEntity;
-import com.lgyun.system.user.vo.enterprise.IndividualBusinessEnterpriseListVO;
-import com.lgyun.system.user.vo.maker.IndividualBusinessDetailMakerVO;
-import com.lgyun.system.user.vo.maker.IndividualBusinessListVO;
+import com.lgyun.system.user.vo.*;
 
 import java.util.List;
 
@@ -26,11 +25,11 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
     /**
      * 新增个体户
      *
-     * @param individualBusinessEnterpriseAddDto
+     * @param individualBusinessEnterpriseAddMakerDto
      * @param makerEntity
      * @return
      */
-    R<String> save(IndividualBusinessEnterpriseAddDTO individualBusinessEnterpriseAddDto, MakerEntity makerEntity);
+    R<String> createIndividualBusinessMaker(IndividualBusinessEnterpriseAddMakerDTO individualBusinessEnterpriseAddMakerDto, MakerEntity makerEntity);
 
     /**
      * 通过创客id查询个体户
@@ -38,7 +37,7 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
      * @param makerId
      * @return
      */
-    List<IndividualBusinessEntity> findMakerId(Long makerId);
+    List<IndividualBusinessEntity> queryIndividualBusinessByMakerId(Long makerId);
 
     /**
      * 查询当前创客的所有个体户
@@ -48,7 +47,7 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
      * @param ibstate
      * @return
      */
-    R<IPage<IndividualBusinessListVO>> listByMaker(IPage<IndividualBusinessListVO> page, Long makerId, Ibstate ibstate);
+    R<IPage<IndividualBusinessEnterpriseListMakerVO>> queryIndividualBusinessListMaker(IPage<IndividualBusinessEnterpriseListMakerVO> page, Long makerId, Ibstate ibstate);
 
     /**
      * 根据ID查询个体户详情
@@ -56,7 +55,16 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
      * @param individualBusinessId
      * @return
      */
-    R<IndividualBusinessDetailMakerVO> findById(Long individualBusinessId);
+    R<IndividualBusinessEnterpriseDetailMakerVO> queryIndividualBusinessDetailMaker(Long individualBusinessId);
+
+    /**
+     * 添加/编辑个体户
+     *
+     * @param individualBusinessEnterpriseAddOrUpdateDto
+     * @param enterpriseId
+     * @return
+     */
+    R<String> addOrUpdateIndividualBusiness(IndividualBusinessEnterpriseAddOrUpdateDTO individualBusinessEnterpriseAddOrUpdateDto, Long enterpriseId);
 
     /**
      * 查询当前商户的所有关联创客的个体户
@@ -64,19 +72,34 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
      * @param page
      * @param enterpriseId
      * @param serviceProviderId
-     * @param individualBusinessEnterpriseDto
+     * @param individualBusinessEnterpriseListDto
      * @return
      */
-    R<IPage<IndividualBusinessEnterpriseListVO>> getIndividualBusinessList(IPage<IndividualBusinessEnterpriseListVO> page, Long enterpriseId, Long serviceProviderId, IndividualBusinessEnterpriseDTO individualBusinessEnterpriseDto);
+    R<IPage<IndividualBusinessEnterpriseListVO>> queryIndividualBusinessList(Long enterpriseId, Long serviceProviderId, IndividualBusinessEnterpriseListDTO individualBusinessEnterpriseListDto, IPage<IndividualBusinessEnterpriseListVO> page);
 
     /**
-     * 创建个体户
+     * 查询个体户详情
      *
-     * @param individualBusinessEnterpriseWebAddDto
-     * @param enterpriseId
+     * @param individualBusinessId
      * @return
      */
-    R<String> createIndividualBusiness(IndividualBusinessEnterpriseWebAddDTO individualBusinessEnterpriseWebAddDto, Long enterpriseId);
+    R<IndividualBusinessEnterpriseDetailVO> queryIndividualBusinessDetail(Long individualBusinessId);
+
+    /**
+     * 查询编辑个体户详情
+     *
+     * @param individualBusinessId
+     * @return
+     */
+    R<IndividualBusinessEnterpriseUpdateDetailVO> queryUpdateIndividualBusinessDetail(Long individualBusinessId);
+
+    /**
+     * 查询编辑个体户详情
+     *
+     * @param individualBusinessId
+     * @return
+     */
+    R<IndividualBusinessEnterpriseUpdateDetailServiceProviderVO> queryUpdateIndividualBusinessDetailServiceProvider(Long individualBusinessId);
 
     /**
      * 根据创客ID, 统一社会信用代码查询个体户
@@ -88,21 +111,53 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
     IndividualBusinessEntity findByMakerIdAndIbtaxNo(Long makerId, String ibtaxNo);
 
     /**
-     * 统一社会信用代码查询个体户
+     * 根据个体户名称查询个体户
+     *
+     * @param ibname
+     * @return
+     */
+    IndividualBusinessEntity queryIndividualBusinessByIbname(String ibname);
+
+    /**
+     * 根据统一社会信用代码查询个体户
      *
      * @param ibtaxNo
      * @return
      */
-    IndividualBusinessEntity findByIbtaxNo(String ibtaxNo);
+    IndividualBusinessEntity queryIndividualBusinessByIbtaxNo(String ibtaxNo);
 
     /**
-     * 修改个体户状态
+     * 根据个体户名称查询个体户
+     *
+     * @param ibname
+     * @return
+     */
+    int queryCountByIbname(String ibname);
+
+    /**
+     * 根据统一社会信用代码查询个体户
+     *
+     * @param ibtaxNo
+     * @return
+     */
+    int queryCountByIbtaxNo(String ibtaxNo);
+
+    /**
+     * 注销个体户
      *
      * @param serviceProviderId
      * @param individualBusinessId
-     * @param ibstate
      * @return
      */
-    R<String> updateIbstate(Long serviceProviderId, Long individualBusinessId, Ibstate ibstate);
+    R<String> cancelIndividualBusiness(Long serviceProviderId, Long individualBusinessId);
+
+    /**
+     * 修改个体户
+     *
+     * @param individualBusinessEnterpriseUpdateServiceProviderDTO
+     * @param serviceProviderId
+     * @return
+     */
+    R<String> updateIndividualBusinessServiceProvider(IndividualBusinessEnterpriseUpdateServiceProviderDTO individualBusinessEnterpriseUpdateServiceProviderDTO, Long serviceProviderId);
 }
 

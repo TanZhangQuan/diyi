@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.enumeration.BureauType;
 import com.lgyun.system.user.entity.RelBureauServiceProviderEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.lgyun.system.user.vo.admin.RelBureauServiceProviderVO;
+import com.lgyun.system.user.vo.RelBureauServiceProviderVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

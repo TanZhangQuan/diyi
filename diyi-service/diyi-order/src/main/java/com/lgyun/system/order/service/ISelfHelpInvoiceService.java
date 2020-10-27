@@ -10,10 +10,10 @@ import com.lgyun.system.order.dto.SelfHelpInvoiceDetailInvoiceTaxDTO;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDetailsByServiceProviderDTO;
 import com.lgyun.system.order.dto.SelfHelpInvoiceExpressDTO;
 import com.lgyun.system.order.dto.SelfHelpInvoicesByEnterpriseDTO;
-import com.lgyun.system.order.dto.admin.ToExamineSelfHelpInvoiceDTO;
+import com.lgyun.system.order.dto.ToExamineSelfHelpInvoiceDTO;
 import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
 import com.lgyun.system.order.vo.*;
-import com.lgyun.system.order.vo.admin.SelfHelpInvoiceAdminVO;
+import com.lgyun.system.order.vo.SelfHelpInvoiceAdminVO;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 
 /**

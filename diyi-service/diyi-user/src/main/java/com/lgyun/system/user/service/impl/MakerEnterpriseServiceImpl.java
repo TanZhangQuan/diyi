@@ -17,8 +17,7 @@ import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.MakerEnterpriseWebVO;
 import com.lgyun.system.user.vo.RelMakerListVO;
-import com.lgyun.system.user.vo.maker.MakerEnterpriseDetailYearMonthVO;
-import lombok.AllArgsConstructor;
+import com.lgyun.system.user.vo.MakerEnterpriseDetailYearMonthVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -94,7 +93,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
         MakerEnterpriseEntity makerEnterpriseEntity = baseMapper.selectOne(queryWrapper);
 
         if (attribute == 1 && null == makerEnterpriseEntity) {
-            return R.fail("取消成功1");
+            return R.fail("取消成功");
         }
         if (null == makerEnterpriseEntity) {
             makerEnterpriseEntity = new MakerEnterpriseEntity();
@@ -121,13 +120,12 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
-    public MakerEnterpriseEntity getEnterpriseIdAndMakerIdAndRelationshipType(Long enterpriseId, Long makerId, RelationshipType relationshipType) {
+    public int getEnterpriseIdAndMakerIdAndRelationshipType(Long enterpriseId, Long makerId, RelationshipType relationshipType) {
         QueryWrapper<MakerEnterpriseEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(MakerEnterpriseEntity::getMakerId, makerId)
                 .eq(MakerEnterpriseEntity::getEnterpriseId, enterpriseId)
-                .eq(MakerEnterpriseEntity::getRelationshipType, relationshipType)
-                .eq(MakerEnterpriseEntity::getCooperateStatus, CooperateStatus.COOPERATING);
-        return baseMapper.selectOne(queryWrapper);
+                .eq(MakerEnterpriseEntity::getRelationshipType, relationshipType);
+        return baseMapper.selectCount(queryWrapper);
     }
 
     @Override

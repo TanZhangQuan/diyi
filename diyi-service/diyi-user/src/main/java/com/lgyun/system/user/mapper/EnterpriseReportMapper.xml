@@ -8,14 +8,14 @@
        OR report_state = 'EDITDECLARESUCCESS') AND main_body_type = #{param1} AND main_body_id = #{param2}
     </select>
 
-    <resultMap id="adminEnterpriseReportAllVO" type="com.lgyun.system.user.vo.admin.AdminEnterpriseReportAllVO">
+    <resultMap id="adminEnterpriseReportAllVO" type="com.lgyun.system.user.vo.AdminEnterpriseReportAllVO">
         <result property="enterpriseReportId" column="enterprise_report_id"/>
         <result property="serviceProviderId" column="service_provider_id"/>
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="applyCount" column="apply_count"/>
     </resultMap>
 
-    <resultMap id="queryAdminEnterpriseReportMap" type="com.lgyun.system.user.vo.admin.AdminEnterpriseReportVO">
+    <resultMap id="queryAdminEnterpriseReportMap" type="com.lgyun.system.user.vo.AdminEnterpriseReportVO">
         <result property="id" column="enterpriseReportId"/>
         <result property="serviceProviderId" column="service_provider_id"/>
         <result property="mainBodyType" column="main_body_type"/>

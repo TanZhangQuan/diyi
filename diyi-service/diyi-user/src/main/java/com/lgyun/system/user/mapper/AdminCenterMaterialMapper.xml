@@ -3,7 +3,7 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.AdminCenterMaterialMapper">
 
-    <resultMap id="adminCenterMaterialListVO" type="com.lgyun.system.user.vo.admin.AdminCenterMaterialListVO">
+    <resultMap id="adminCenterMaterialListVO" type="com.lgyun.system.user.vo.AdminCenterMaterialListVO">
         <result property="adminCenterMaterialId" column="admin_center_material_id"/>
         <result property="materialName" column="material_name"/>
         <result property="materialDesc" column="material_desc"/>

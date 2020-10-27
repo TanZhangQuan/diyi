@@ -32,7 +32,7 @@ public class IndividualEnterpriseEnterpriseController {
 
     @GetMapping("/query-invoice-number-and-money")
     @ApiOperation(value = "查询个独开票次数，月度开票金额，年度开票金额和总开票金额", notes = "查询个独开票次数，月度开票金额，年度开票金额和总开票金额")
-    public R queryInvoiceNumberAndMoney(@ApiParam(value = "个独ID", required = true) @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId, BladeUser bladeUser) {
+    public R queryInvoiceNumberAndMoney(@ApiParam(value = "个独", required = true) @NotNull(message = "请选择个独") @RequestParam(required = false) Long individualEnterpriseId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -44,7 +44,7 @@ public class IndividualEnterpriseEnterpriseController {
 
     @GetMapping("/query-invoice-list")
     @ApiOperation(value = "查询个独开票记录", notes = "查询个独开票记录")
-    public R queryInvoiceList(@ApiParam(value = "个独ID", required = true) @NotNull(message = "请输入个独编号") @RequestParam(required = false) Long individualEnterpriseId, Query query, BladeUser bladeUser) {
+    public R queryInvoiceList(@ApiParam(value = "个独", required = true) @NotNull(message = "请选择个独") @RequestParam(required = false) Long individualEnterpriseId, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {

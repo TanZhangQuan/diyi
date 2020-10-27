@@ -12,10 +12,7 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.*;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.IdcardOcrSaveDTO;
-import com.lgyun.system.user.dto.MakerAddDTO;
-import com.lgyun.system.user.dto.admin.ImportMakerDTO;
-import com.lgyun.system.user.dto.admin.ImportMakerListDTO;
+import com.lgyun.system.user.dto.*;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.entity.OnlineAgreementTemplateEntity;
@@ -25,12 +22,7 @@ import com.lgyun.system.user.excel.MakerExcel;
 import com.lgyun.system.user.mapper.MakerMapper;
 import com.lgyun.system.user.oss.AliyunOssService;
 import com.lgyun.system.user.service.*;
-import com.lgyun.system.user.vo.EnterpriseMakerDetailVO;
-import com.lgyun.system.user.vo.IdcardOcrVO;
-import com.lgyun.system.user.vo.MakerRealNameAuthenticationStateVO;
-import com.lgyun.system.user.vo.MakerWorksheetVO;
-import com.lgyun.system.user.vo.maker.MakerDetailVO;
-import com.lgyun.system.user.vo.maker.MakerInfoVO;
+import com.lgyun.system.user.vo.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -97,26 +89,19 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public MakerEntity makerSave(String purePhoneNumber, String name, String idcardNo, String idcardPic, String idcardPicBack, String idcardHand, String idcardBackHand, Long enterpriseId) {
-        return makerSave("", "", purePhoneNumber, "", name, idcardNo, "", "", "", idcardPic, idcardPicBack, idcardHand, idcardBackHand, enterpriseId);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
     public MakerEntity makerSave(String openid, String sessionKey, String purePhoneNumber, String loginPwd) {
-        return makerSave(openid, sessionKey, purePhoneNumber, loginPwd, "", "", "", "", "", "", "", "", "", null);
+        return makerSave(openid, sessionKey, purePhoneNumber, loginPwd, "", "", "", "", "", null);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public MakerEntity makerSave(String purePhoneNumber, String name, String idcardNo, String bankCardNo, String bankName, String subBankName, Long enterpriseId) {
-        return makerSave("", "", purePhoneNumber, "", name, idcardNo, bankCardNo, bankName, subBankName, "", "", "", "", enterpriseId);
+        return makerSave("", "", purePhoneNumber, "", name, idcardNo, bankCardNo, bankName, subBankName, enterpriseId);
     }
 
     @Transactional(rollbackFor = Exception.class)
     public MakerEntity makerSave(String openid, String sessionKey, String purePhoneNumber, String loginPwd, String name,
-                                 String idcardNo, String bankCardNo, String bankName, String subBankName, String idcardPic,
-                                 String idcardPicBack, String idcardHand, String idcardBackHand, Long enterpriseId) {
+                                 String idcardNo, String bankCardNo, String bankName, String subBankName, Long enterpriseId) {
 
         MakerEntity makerEntity;
         MakerEntity makerEntityPhoneNumber = findByPhoneNumber(purePhoneNumber);
@@ -150,10 +135,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             makerEntity.setBankCardNo(bankCardNo);
             makerEntity.setBankName(bankName);
             makerEntity.setSubBankName(subBankName);
-            makerEntity.setIdcardPic(idcardPic);
-            makerEntity.setIdcardPicBack(idcardPicBack);
-            makerEntity.setIdcardHand(idcardHand);
-            makerEntity.setIdcardBackHand(idcardBackHand);
             save(makerEntity);
 
             //新建创客添加加盟合同需要签署的模板
@@ -175,10 +156,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
                 makerEntityPhoneNumber.setBankCardNo(bankCardNo);
                 makerEntityPhoneNumber.setBankName(bankName);
                 makerEntityPhoneNumber.setSubBankName(subBankName);
-                makerEntityPhoneNumber.setIdcardPic(idcardPic);
-                makerEntityPhoneNumber.setIdcardPicBack(idcardPicBack);
-                makerEntityPhoneNumber.setIdcardHand(idcardHand);
-                makerEntityPhoneNumber.setIdcardBackHand(idcardBackHand);
                 updateById(makerEntityPhoneNumber);
             } else {
                 if (!(VerifyStatus.VERIFYPASS.equals(makerEntityPhoneNumber.getBankCardVerifyStatus()))) {
@@ -198,10 +175,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
                 makerEntityIdcardNo.setBankCardNo(bankCardNo);
                 makerEntityIdcardNo.setBankName(bankName);
                 makerEntityIdcardNo.setSubBankName(subBankName);
-                makerEntityIdcardNo.setIdcardPic(idcardPic);
-                makerEntityIdcardNo.setIdcardPicBack(idcardPicBack);
-                makerEntityIdcardNo.setIdcardHand(idcardHand);
-                makerEntityIdcardNo.setIdcardBackHand(idcardBackHand);
                 updateById(makerEntityIdcardNo);
             } else {
                 if (!(VerifyStatus.VERIFYPASS.equals(makerEntityIdcardNo.getBankCardVerifyStatus()))) {
@@ -733,6 +706,11 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         }
         List<MakerExcel> makerExcels = ExcelUtils.importExcel(file, 0, 1, MakerExcel.class);
         return R.data(makerExcels);
+    }
+
+    @Override
+    public R<IPage<MakerListIndividualVO>> queryMakerListIndividual(Long enterpriseId, MakerListIndividualDTO makerListIndividualDTO, IPage<MakerListIndividualVO> page) {
+        return R.data(page.setRecords(baseMapper.queryMakerListIndividual(enterpriseId, makerListIndividualDTO, page)));
     }
 
 }

@@ -5,7 +5,7 @@ import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddDTO;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddMakerDTO;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.IIndividualEnterpriseService;
 import com.lgyun.system.user.service.IMakerService;
@@ -39,7 +39,7 @@ public class IndividualEnterpriseMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return individualEnterpriseService.listByMaker(Condition.getPage(query.setDescs("create_time")), makerEntity.getId(), ibstate);
+        return individualEnterpriseService.queryIndividualBusinessListMaker(Condition.getPage(query.setDescs("create_time")), makerEntity.getId(), ibstate);
     }
 
     @GetMapping("/query-individual-enterprise-detail")
@@ -51,7 +51,7 @@ public class IndividualEnterpriseMakerController {
             return result;
         }
 
-        return individualEnterpriseService.findById(individualEnterpriseId);
+        return individualEnterpriseService.queryIndividualEnterpriseDetailMaker(individualEnterpriseId);
     }
 
     @GetMapping("/query-idcard-info")
@@ -68,8 +68,8 @@ public class IndividualEnterpriseMakerController {
     }
 
     @PostMapping("/create-individual-enterprise")
-    @ApiOperation(value = "新增个独", notes = "新增个独")
-    public R createIndividualEnterprise(@Valid @RequestBody IndividualBusinessEnterpriseAddDTO individualBusinessEnterpriseAddDto, BladeUser bladeUser) {
+    @ApiOperation(value = "创建个独", notes = "创建个独")
+    public R createIndividualEnterprise(@Valid @RequestBody IndividualBusinessEnterpriseAddMakerDTO individualBusinessEnterpriseAddMakerDto, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = makerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -77,7 +77,7 @@ public class IndividualEnterpriseMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return individualEnterpriseService.save(individualBusinessEnterpriseAddDto, makerEntity);
+        return individualEnterpriseService.createIndividualEnterpriseMaker(individualBusinessEnterpriseAddMakerDto, makerEntity);
     }
 
 }

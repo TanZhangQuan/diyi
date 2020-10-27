@@ -6,7 +6,7 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.MakerAddDTO;
-import com.lgyun.system.user.dto.admin.ImportMakerDTO;
+import com.lgyun.system.user.dto.ImportMakerDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.service.IAdminService;
 import com.lgyun.system.user.service.IEnterpriseServiceProviderService;
@@ -76,7 +76,7 @@ public class NaturalPersonMakerAdminController {
 
     @PostMapping("import-maker-list")
     @ApiOperation(value = "导入创客", notes = "导入创客")
-    public R importMakerList(@Valid @RequestBody ImportMakerDTO importMakerDTO, BladeUser bladeUser) throws IOException {
+    public R importMakerList(@Valid @RequestBody ImportMakerDTO importMakerDTO, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

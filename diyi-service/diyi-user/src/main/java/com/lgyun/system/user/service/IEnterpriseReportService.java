@@ -6,11 +6,11 @@ import com.lgyun.common.enumeration.BodyType;
 import com.lgyun.common.enumeration.ReportTheme;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.admin.AdminEnterpriseReportDTO;
+import com.lgyun.system.user.dto.AdminEnterpriseReportDTO;
 import com.lgyun.system.user.entity.EnterpriseReportEntity;
 import com.lgyun.system.user.vo.EnterpriseReportsVO;
-import com.lgyun.system.user.vo.admin.AdminEnterpriseReportAllVO;
-import com.lgyun.system.user.vo.admin.AdminEnterpriseReportVO;
+import com.lgyun.system.user.vo.AdminEnterpriseReportAllVO;
+import com.lgyun.system.user.vo.AdminEnterpriseReportVO;
 
 /**
  * 年度申报管理表 Service 接口

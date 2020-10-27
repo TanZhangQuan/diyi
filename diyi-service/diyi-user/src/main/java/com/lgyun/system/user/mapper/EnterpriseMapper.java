@@ -2,14 +2,11 @@ package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.system.user.dto.admin.QueryEnterpriseListDTO;
-import com.lgyun.system.user.dto.admin.QueryEnterpriseListPaymentDTO;
-import com.lgyun.system.user.dto.admin.QueryServiceProviderListPaymentDTO;
+import com.lgyun.system.user.dto.QueryEnterpriseListDTO;
+import com.lgyun.system.user.dto.QueryEnterpriseListPaymentDTO;
+import com.lgyun.system.user.dto.QueryServiceProviderListPaymentDTO;
 import com.lgyun.system.user.entity.EnterpriseEntity;
-import com.lgyun.system.user.vo.EnterpriseIdNameListVO;
-import com.lgyun.system.user.vo.EnterprisesDetailVO;
-import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
-import com.lgyun.system.user.vo.admin.*;
+import com.lgyun.system.user.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
