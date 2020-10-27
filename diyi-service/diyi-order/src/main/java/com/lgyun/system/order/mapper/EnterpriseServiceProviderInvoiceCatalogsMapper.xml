@@ -9,7 +9,7 @@
     </resultMap>
 
     <select id="queryInvoiceCatalogsList" resultMap="enterpriseServiceProviderInvoiceCatalogsVO">
-         SELECT id, invoice_catalog_name FROM diyi_enterprise_provider_invoice_catalogs WHERE is_deleted = 0 AND service_provider_id = #{param1} AND enterprise_id =#{param2}
+         SELECT id, invoice_catalog_name FROM diyi_enterprise_service_provider_invoice_catalogs WHERE is_deleted = 0 AND service_provider_id = #{param1} AND enterprise_id =#{param2}
     </select>
 
 </mapper>

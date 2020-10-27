@@ -39,7 +39,7 @@ CREATE TABLE `diyi_accept_paysheet` (
   `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`pay_enterprise_id`,`maker_id`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`pay_enterprise_id`,`pay_maker_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='总包交付支付验收单表';
 
 -- ----------------------------
