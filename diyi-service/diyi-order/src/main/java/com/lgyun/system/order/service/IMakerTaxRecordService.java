@@ -11,5 +11,9 @@ import com.lgyun.system.order.entity.MakerTaxRecordEntity;
  */
 public interface IMakerTaxRecordService extends BaseService<MakerTaxRecordEntity> {
 
+    /**
+     *
+     */
+    MakerTaxRecordEntity findPayMakerId(Long payMakerId);
 }
 

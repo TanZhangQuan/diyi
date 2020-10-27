@@ -13,21 +13,21 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.PayEnterpriseDTO;
 import com.lgyun.system.order.dto.PayEnterpriseUploadDTO;
+import com.lgyun.system.order.dto.SummaryInvoiceDTO;
 import com.lgyun.system.order.entity.*;
 import com.lgyun.system.order.excel.PayEnterpriseExcel;
 import com.lgyun.system.order.excel.PayEnterpriseImportListener;
 import com.lgyun.system.order.mapper.PayEnterpriseMapper;
 import com.lgyun.system.order.service.*;
 import com.lgyun.system.order.vo.*;
-import com.lgyun.system.order.vo.TransactionByBureauServiceProviderInfoVO;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.EnterpriseServiceProviderEntity;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.feign.IUserClient;
-import com.lgyun.system.user.vo.TransactionVO;
 import com.lgyun.system.user.vo.AdminAgentMainServiceProviderListVO;
 import com.lgyun.system.user.vo.AgentMainTransactionVO;
 import com.lgyun.system.user.vo.PartnerServiceProviderListVO;
+import com.lgyun.system.user.vo.TransactionVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -39,6 +39,7 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -56,7 +57,6 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     private IWorksheetService worksheetService;
     private IUserClient userClient;
     private IInvoiceApplicationService invoiceApplicationService;
-    private IWorksheetMakerService worksheetMakerService;
     private IPayMakerService payMakerService;
     private IPlatformInvoiceService platformInvoiceService;
     private IPlatformInvoicePayListService platformInvoicePayListService;
@@ -418,19 +418,110 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
     @Override
     public R getServiceLumpSumInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime,InvoiceState companyInvoiceState, IPage<InvoiceServiceLumpVO> page) {
-        return R.data(page.setRecords(baseMapper.getServiceLumpSumInvoice(serviceProviderId,enterpriseName,startTime,endTime,companyInvoiceState,page)));
+        switch (companyInvoiceState) {
+            case UNOPEN:
+                return R.data(page.setRecords(baseMapper.getServiceLumpSumInvoice(serviceProviderId, enterpriseName, startTime, endTime, page)));
+            case OPENED:
+                return R.data(page.setRecords(baseMapper.getServiceOpenedLumpSumInvoice(serviceProviderId, enterpriseName, startTime, endTime, page)));
+            default:
+                return R.fail("参数错误");
+        }
+    }
+
+    @Override
+    public R queryOpenedTotalInvoiceDetail(Long invoicePrintId) {
+        List<PlatformInvoicePayListEntity> platformInvoicePayListEntities = platformInvoicePayListService.findInvoicePrintId(invoicePrintId);
+
+        Map map = new HashMap();
+        List<InvoiceServiceLumpDetailsVO> lumpSumInvoiceDetails= new ArrayList<>();
+        for(PlatformInvoicePayListEntity platformInvoicePayListEntity : platformInvoicePayListEntities){
+            lumpSumInvoiceDetails.add(baseMapper.getServiceLumpSumInvoiceDetails(platformInvoicePayListEntity.getPayEnterpriseId()));
+        }
+        if(lumpSumInvoiceDetails.size() > 0){
+            map.put("lumpSumInvoiceDetails",lumpSumInvoiceDetails);
+        }else{
+            return R.fail("商户支付清单不存在！！！");
+        }
+        String enterprisePayReceiptUrl = "";
+        for(PlatformInvoicePayListEntity platformInvoicePayListEntity : platformInvoicePayListEntities){
+            enterprisePayReceiptUrl += payEnterpriseReceiptService.findEnterprisePayReceiptUrl(platformInvoicePayListEntity.getPayEnterpriseId());
+        }
+        lumpSumInvoiceDetails.get(0).setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
+        String expressCompanyName = lumpSumInvoiceDetails.get(0).getExpressCompanyName();
+        String expressSheetNo = lumpSumInvoiceDetails.get(0).getExpressSheetNo();
+        KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
+        String orderTracesByJson = "";
+        try {
+            if (!StringUtil.isBlank(expressCompanyName) && !StringUtil.isBlank(expressSheetNo)) {
+                orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(expressCompanyName, expressSheetNo);
+                map.put("orderTracesByJson",orderTracesByJson);
+            }else{
+                map.put("orderTracesByJson","");
+            }
+        } catch (Exception e) {
+            log.error("查询物流错误", e);
+        }
+        return R.data(map);
+
     }
 
     @Override
     public R getServiceLumpSumInvoiceDetails(Long payEnterpriseId) {
         Map map = new HashMap();
-        List<InvoiceServiceLumpDetailsVO> lumpSumInvoiceDetails = baseMapper.getServiceLumpSumInvoiceDetails(payEnterpriseId);
-        if(lumpSumInvoiceDetails.size() > 0){
-            map.put("lumpSumInvoiceDetails",lumpSumInvoiceDetails.get(0));
-        }else{
-            R.fail("商户支付清单不存在！！！");
-        }
+        InvoiceServiceLumpDetailsVO lumpSumInvoiceDetails = baseMapper.getServiceLumpSumInvoiceDetails(payEnterpriseId);
         String enterprisePayReceiptUrl = payEnterpriseReceiptService.findEnterprisePayReceiptUrl(payEnterpriseId);
+        lumpSumInvoiceDetails.setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
+
+        String expressCompanyName = lumpSumInvoiceDetails.getExpressCompanyName();
+        String expressSheetNo = lumpSumInvoiceDetails.getExpressSheetNo();
+        KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
+        String orderTracesByJson = "";
+        try {
+            if (!StringUtil.isBlank(expressCompanyName) && !StringUtil.isBlank(expressSheetNo)) {
+                orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(expressCompanyName, expressSheetNo);
+                map.put("orderTracesByJson",orderTracesByJson);
+            }else{
+                map.put("orderTracesByJson","");
+            }
+        } catch (Exception e) {
+            log.error("查询物流错误", e);
+        }
+        map.put("lumpSumInvoiceDetails",lumpSumInvoiceDetails);
+        return R.data(map);
+    }
+
+    @Override
+    public R queryTotalMergeInvoice(String payEnterpriseIds) {
+        Map map = new HashMap();
+        String[] split = payEnterpriseIds.split(",");
+        if(split.length <=0 ){
+            return R.fail("参数有误");
+        }
+        PayEnterpriseEntity byId = getById(Long.parseLong(split[0]));
+        for(int i = 1;i < split.length; i++){
+            PayEnterpriseEntity byId1 = getById(Long.parseLong(split[i]));
+            Long enterpriseId = byId.getEnterpriseId();
+            Long enterpriseId1 = byId1.getEnterpriseId();
+            if((!byId.getEnterpriseId().equals(byId1.getEnterpriseId())) || (!byId.getServiceProviderId().equals(byId1.getServiceProviderId()))){
+                return R.fail("请选择的服务商和商户相同的支付清单合并开票");
+            }
+//            if(byId.getEnterpriseId() != byId1.getEnterpriseId() || byId.getServiceProviderId() != byId1.getServiceProviderId()){
+//                return R.fail("请选择的服务商和商户相同的支付清单合并开票");
+//            }
+        }
+        List<InvoiceServiceLumpDetailsVO> lumpSumInvoiceDetails= new ArrayList<>();
+        for(int i = 0;i < split.length; i++){
+            lumpSumInvoiceDetails.add(baseMapper.getServiceLumpSumInvoiceDetails(Long.parseLong(split[i])));
+        }
+        if(lumpSumInvoiceDetails.size() > 0){
+            map.put("lumpSumInvoiceDetails",lumpSumInvoiceDetails);
+        }else{
+            return R.fail("商户支付清单不存在！！！");
+        }
+        String enterprisePayReceiptUrl = "";
+        for(int i = 0;i < split.length; i++){
+            enterprisePayReceiptUrl += payEnterpriseReceiptService.findEnterprisePayReceiptUrl(Long.parseLong(split[0]));
+        }
         lumpSumInvoiceDetails.get(0).setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
         String expressCompanyName = lumpSumInvoiceDetails.get(0).getExpressCompanyName();
         String expressSheetNo = lumpSumInvoiceDetails.get(0).getExpressSheetNo();
@@ -450,13 +541,48 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
+    public R queryTotalApplyInvoice(Long invoiceApplicationId) {
+        List<InvoiceApplicationPayListEntity> invoiceApplicationPayListEntityList = invoiceApplicationPayListService.getApplicationId(invoiceApplicationId);
+        Map map = new HashMap();
+        List<InvoiceServiceLumpDetailsVO> lumpSumInvoiceDetails= new ArrayList<>();
+        for(InvoiceApplicationPayListEntity invoiceApplicationPayListEntity : invoiceApplicationPayListEntityList){
+            lumpSumInvoiceDetails.add(baseMapper.getServiceLumpSumInvoiceDetails(invoiceApplicationPayListEntity.getPayEnterpriseId()));
+        }
+        if(lumpSumInvoiceDetails.size() > 0){
+            map.put("lumpSumInvoiceDetails",lumpSumInvoiceDetails);
+        }else{
+            return R.fail("商户支付清单不存在！！！");
+        }
+        String enterprisePayReceiptUrl = "";
+        for(InvoiceApplicationPayListEntity invoiceApplicationPayListEntity : invoiceApplicationPayListEntityList){
+            enterprisePayReceiptUrl += payEnterpriseReceiptService.findEnterprisePayReceiptUrl(invoiceApplicationPayListEntity.getPayEnterpriseId());
+        }
+        lumpSumInvoiceDetails.get(0).setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
+        String expressCompanyName = lumpSumInvoiceDetails.get(0).getExpressCompanyName();
+        String expressSheetNo = lumpSumInvoiceDetails.get(0).getExpressSheetNo();
+        KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
+        String orderTracesByJson = "";
+        try {
+            if (!StringUtil.isBlank(expressCompanyName) && !StringUtil.isBlank(expressSheetNo)) {
+                orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(expressCompanyName, expressSheetNo);
+                map.put("orderTracesByJson",orderTracesByJson);
+            }else{
+                map.put("orderTracesByJson","");
+            }
+        } catch (Exception e) {
+            log.error("查询物流错误", e);
+        }
+        return R.data(map);
+
+    }
+
+    @Override
     @Transactional
-    public R saveServiceLumpSumInvoice(Long serviceProviderId, Long payEnterpriseId,String serviceProviderName, Long applicationId, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName,String invoiceDesc) {
+    public R saveServiceLumpSumInvoice(Long serviceProviderId, Long payEnterpriseId,String serviceProviderName, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName,String invoiceDesc) {
         PayEnterpriseEntity byId = getById(payEnterpriseId);
         //EnterpriseEntity enterpriseById = userClient.getEnterpriseById(byId.getEnterpriseId());
 
         PlatformInvoiceEntity platformInvoiceEntity = new PlatformInvoiceEntity();
-        platformInvoiceEntity.setApplicationId(applicationId);
         platformInvoiceEntity.setInvoicePrintDate(new Date());
         //价税合计
         platformInvoiceEntity.setInvoiceTotalAmount(new BigDecimal("0"));
@@ -501,6 +627,133 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         //更新商户支付清单的总包开票状态
         byId.setCompanyInvoiceState(InvoiceState.OPENED);
         saveOrUpdate(byId);
+        return R.success("操作成功");
+    }
+
+    @Override
+    public R saveServiceLumpSumMergeInvoice(Long serviceProviderId, String payEnterpriseIds, String serviceProviderName, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc) {
+        //EnterpriseEntity enterpriseById = userClient.getEnterpriseById(byId.getEnterpriseId());
+        String[] split = payEnterpriseIds.split(",");
+        if(split.length <= 0){
+            return R.fail("参数有误");
+        }
+        PlatformInvoiceEntity platformInvoiceEntity = new PlatformInvoiceEntity();
+        platformInvoiceEntity.setInvoicePrintDate(new Date());
+        //价税合计
+        platformInvoiceEntity.setInvoiceTotalAmount(new BigDecimal("0"));
+        platformInvoiceEntity.setInvoiceNumbers(1);
+        if(null == serviceProviderName){
+            platformInvoiceEntity.setInvoicePrintPerson("平台");
+        }else{
+            platformInvoiceEntity.setInvoicePrintPerson(serviceProviderName);
+        }
+
+        platformInvoiceEntity.setExpressSheetNo(expressSheetNo);
+        platformInvoiceEntity.setExpressCompanyName(expressCompanyName);
+        platformInvoiceEntity.setInvoiceDesc(invoiceDesc);
+        platformInvoiceService.save(platformInvoiceEntity);
+
+        PlatformInvoicePayListEntity platformInvoicePayListEntity = new PlatformInvoicePayListEntity();
+        for(int i = 0;i < split.length; i++){
+            platformInvoicePayListEntity.setPayEnterpriseId(Long.parseLong(split[1]));
+            platformInvoicePayListEntity.setInvoicePrintId(platformInvoiceEntity.getId());
+            platformInvoicePayListService.save(platformInvoicePayListEntity);
+        }
+
+        PlatformInvoiceListEntity platformInvoiceListEntity = new PlatformInvoiceListEntity();
+        platformInvoiceListEntity.setInvoicePrintId(platformInvoiceEntity.getId());
+        //发票代码
+        platformInvoiceListEntity.setInvoiceTypeNo(UUID.randomUUID().toString());
+        //发票号码
+        platformInvoiceListEntity.setInvoiceSerialNo(UUID.randomUUID().toString());
+        platformInvoiceListEntity.setInvoiceDatetime(new Date());
+        //价税合计
+        platformInvoiceListEntity.setTotalAmount(new BigDecimal("0"));
+        //金额合计
+        platformInvoiceListEntity.setSalesAmount(new BigDecimal("0"));
+        //税额合计
+        platformInvoiceListEntity.setTaxAmount(new BigDecimal("0"));
+        if(null == serviceProviderName){
+            platformInvoiceListEntity.setInvoicePerson("平台");
+        }else{
+            platformInvoiceListEntity.setInvoicePerson(serviceProviderName);
+        }
+        //销售方名称
+        platformInvoiceListEntity.setSaleCompany("商户");
+        platformInvoiceListEntity.setCompanyInvoiceUrl(companyInvoiceUrl);
+        platformInvoiceListEntity.setCompanyVoiceUploadDatetime(new Date());
+        platformInvoiceListService.save(platformInvoiceListEntity);
+        //更新商户支付清单的总包开票状态
+        for(int i = 0 ; i < split.length; i++){
+            PayEnterpriseEntity byId = getById(Long.parseLong(split[i]));
+            byId.setCompanyInvoiceState(InvoiceState.OPENED);
+            saveOrUpdate(byId);
+        }
+        return R.success("操作成功");
+
+    }
+
+    @Override
+    public R createTotalApplyInvoice(Long serviceProviderId, String serviceProviderName, Long applicationId, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc) {
+
+        //EnterpriseEntity enterpriseById = userClient.getEnterpriseById(byId.getEnterpriseId());
+        List<InvoiceApplicationPayListEntity> invoiceApplicationPayListEntityList = invoiceApplicationPayListService.getApplicationId(applicationId);
+        if(invoiceApplicationPayListEntityList.size() <= 0){
+            return R.fail("参数有误");
+        }
+        PlatformInvoiceEntity platformInvoiceEntity = new PlatformInvoiceEntity();
+        platformInvoiceEntity.setApplicationId(applicationId);
+        platformInvoiceEntity.setInvoicePrintDate(new Date());
+        //价税合计
+        platformInvoiceEntity.setInvoiceTotalAmount(new BigDecimal("0"));
+        platformInvoiceEntity.setInvoiceNumbers(1);
+        if(null == serviceProviderName){
+            platformInvoiceEntity.setInvoicePrintPerson("平台");
+        }else{
+            platformInvoiceEntity.setInvoicePrintPerson(serviceProviderName);
+        }
+
+        platformInvoiceEntity.setExpressSheetNo(expressSheetNo);
+        platformInvoiceEntity.setExpressCompanyName(expressCompanyName);
+        platformInvoiceEntity.setInvoiceDesc(invoiceDesc);
+        platformInvoiceService.save(platformInvoiceEntity);
+
+        PlatformInvoicePayListEntity platformInvoicePayListEntity = new PlatformInvoicePayListEntity();
+        for(InvoiceApplicationPayListEntity invoiceApplicationPayListEntity : invoiceApplicationPayListEntityList){
+            platformInvoicePayListEntity.setPayEnterpriseId(invoiceApplicationPayListEntity.getPayEnterpriseId());
+            platformInvoicePayListEntity.setInvoicePrintId(platformInvoiceEntity.getId());
+            platformInvoicePayListService.save(platformInvoicePayListEntity);
+        }
+
+        PlatformInvoiceListEntity platformInvoiceListEntity = new PlatformInvoiceListEntity();
+        platformInvoiceListEntity.setInvoicePrintId(platformInvoiceEntity.getId());
+        //发票代码
+        platformInvoiceListEntity.setInvoiceTypeNo(UUID.randomUUID().toString());
+        //发票号码
+        platformInvoiceListEntity.setInvoiceSerialNo(UUID.randomUUID().toString());
+        platformInvoiceListEntity.setInvoiceDatetime(new Date());
+        //价税合计
+        platformInvoiceListEntity.setTotalAmount(new BigDecimal("0"));
+        //金额合计
+        platformInvoiceListEntity.setSalesAmount(new BigDecimal("0"));
+        //税额合计
+        platformInvoiceListEntity.setTaxAmount(new BigDecimal("0"));
+        if(null == serviceProviderName){
+            platformInvoiceListEntity.setInvoicePerson("平台");
+        }else{
+            platformInvoiceListEntity.setInvoicePerson(serviceProviderName);
+        }
+        //销售方名称
+        platformInvoiceListEntity.setSaleCompany("商户");
+        platformInvoiceListEntity.setCompanyInvoiceUrl(companyInvoiceUrl);
+        platformInvoiceListEntity.setCompanyVoiceUploadDatetime(new Date());
+        platformInvoiceListService.save(platformInvoiceListEntity);
+        //更新商户支付清单的总包开票状态
+        for(InvoiceApplicationPayListEntity invoiceApplicationPayListEntity : invoiceApplicationPayListEntityList){
+            PayEnterpriseEntity byId = getById(invoiceApplicationPayListEntity.getPayEnterpriseId());
+            byId.setCompanyInvoiceState(InvoiceState.OPENED);
+            saveOrUpdate(byId);
+        }
         return R.success("操作成功");
     }
 
@@ -770,6 +1023,185 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     @Override
     public R queryEnterpriseServicePayList(Long enterpriseId, Long serviceProviderId,IPage<EnterpriseServicePayListVO> page) {
         return R.data(page.setRecords(baseMapper.queryEnterpriseServicePayList(enterpriseId,serviceProviderId,page)));
+    }
+
+    @Override
+    public R findServiceSubcontractSummary(Long serviceProviderId, String enterpriseName, InvoiceState companyInvoiceState, IPage<EnterpriseSubcontractInvoiceVO> page) {
+        return R.data(page.setRecords(baseMapper.findServiceSubcontractSummary(serviceProviderId,enterpriseName,companyInvoiceState,page)));
+    }
+
+    @Override
+    public R createSummaryAgencyInvoice(SummaryInvoiceDTO summaryInvoiceDTO) {
+        String payEnterpriseIds = summaryInvoiceDTO.getPayEnterpriseIds();
+        String[] split = payEnterpriseIds.split(",");
+        if(split.length <= 0){
+            return R.fail("参数格式错误！！");
+        }
+        BigDecimal payToPlatformAmount = BigDecimal.ZERO;
+        List<PayEnterpriseEntity> payEnterpriseEntities = new ArrayList<>();
+        for(int i = 0;i < split.length; i++){
+            PayEnterpriseEntity payEnterpriseEntity = getById(Long.parseLong(split[i]));
+            if(null == payEnterpriseEntity){
+                return R.fail("商户支付清单id有误！！");
+            }
+            payEnterpriseEntities.add(payEnterpriseEntity);
+        }
+
+        for(int i = 0;i < split.length; i++){
+            MakerTotalInvoiceEntity makerTotalInvoiceEntity = makerTotalInvoiceService.findPayEnterpriseId(Long.parseLong(split[i]));
+            if(null == makerTotalInvoiceEntity){
+                makerTotalInvoiceEntity = new MakerTotalInvoiceEntity();
+            }
+            makerTotalInvoiceEntity.setPayEnterpriseId(Long.parseLong(split[i]));
+            makerTotalInvoiceEntity.setTaxAmount(payToPlatformAmount);
+            makerTotalInvoiceEntity.setInvoiceTypeNo(summaryInvoiceDTO.getInvoiceTypeNo());
+            makerTotalInvoiceEntity.setInvoiceSerialNo(summaryInvoiceDTO.getInvoiceSerialNo());
+            makerTotalInvoiceEntity.setInvoiceDatetime(summaryInvoiceDTO.getInvoiceDatetime());
+            makerTotalInvoiceEntity.setInvoiceCategory(summaryInvoiceDTO.getInvoiceCategory());
+            makerTotalInvoiceEntity.setTotalAmount(new BigDecimal("0"));
+            makerTotalInvoiceEntity.setInvoicePerson("");
+            makerTotalInvoiceEntity.setSalesAmount(new BigDecimal("0"));
+            makerTotalInvoiceEntity.setSaleCompany(summaryInvoiceDTO.getSaleCompany());
+            makerTotalInvoiceEntity.setCompanyInvoiceUrl(summaryInvoiceDTO.getCompanyInvoiceUrl());
+            makerTotalInvoiceEntity.setMakerTaxUrl(summaryInvoiceDTO.getMakerTaxUrl());
+            makerTotalInvoiceEntity.setMakerTaxListUrl(summaryInvoiceDTO.getMakerTaxListUrl());
+            makerTotalInvoiceEntity.setCompanyVoiceUploadDatetime(new Date());
+            makerTotalInvoiceService.saveOrUpdate(makerTotalInvoiceEntity);
+        }
+        for (PayEnterpriseEntity payEnterpriseEntity : payEnterpriseEntities){
+            payEnterpriseEntity.setSubcontractingInvoiceState(InvoiceState.OPENED);
+            saveOrUpdate(payEnterpriseEntity);
+        }
+        return R.success("汇总开票成功");
+    }
+
+    @Override
+    public R findServiceDetailSummary(String payEnterpriseIds) {
+        Map map = new HashMap();
+        String[] split = payEnterpriseIds.split(",");
+        if(split.length <= 0){
+            return R.fail("参数错误！");
+        }
+        List<InvoiceServiceDetailSummaryVO> invoiceServiceDetailSummaryVOS = new ArrayList<>();
+        for(int i = 0;i < split.length; i ++){
+            InvoiceServiceDetailSummaryVO invoiceServiceDetailSummaryVO = baseMapper.findServiceDetailSummary(Long.parseLong(split[i]));
+            String enterprisePayReceiptUrl = payEnterpriseReceiptService.findEnterprisePayReceiptUrl(Long.parseLong(split[i]));
+            invoiceServiceDetailSummaryVO.setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
+            invoiceServiceDetailSummaryVOS.add(invoiceServiceDetailSummaryVO);
+        }
+
+
+        map.put("invoiceServiceDetailSummaryVO",invoiceServiceDetailSummaryVOS);
+        List<PayMakerListVO> PayMakerListVOs = baseMapper.getPayMakerLists(payEnterpriseIds);
+        map.put("payMakerListVOs", PayMakerListVOs);
+        return R.data(map);
+    }
+
+    @Override
+    public R createDoorSignInvoice(String payEnterpriseIds, String doorSignInvoiceJson, String doorSignTaxInvoiceJson){
+        String[] split = payEnterpriseIds.split(",");
+        if(split.length <= 0){
+            return R.fail("参数错误！");
+        }
+        BigDecimal payToPlatformAmount = BigDecimal.ZERO;
+        List<PayEnterpriseEntity> payEnterpriseEntities = new ArrayList<>();
+        for(int i = 0;i < split.length; i++){
+            PayEnterpriseEntity payEnterpriseEntity = getById(Long.parseLong(split[i]));
+            if(null == payEnterpriseEntity){
+                return R.fail("商户支付清单id有误！！");
+            }
+            payEnterpriseEntities.add(payEnterpriseEntity);
+            payToPlatformAmount = payToPlatformAmount.add(payEnterpriseEntity.getPayToPlatformAmount());
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//注意月份是MM
+        JSONArray doorSignInvoiceJsonArray = new JSONArray(doorSignInvoiceJson);
+        JSONArray doorSignTaxInvoiceJsonArray = new JSONArray(doorSignTaxInvoiceJson);
+        for(int i =0 ;i<doorSignInvoiceJsonArray.length();i++){
+            String payMakerId =doorSignInvoiceJsonArray.getJSONObject(i).get("payMakerId").toString();
+            String voiceTypeNo =doorSignInvoiceJsonArray.getJSONObject(i).get("voiceTypeNo").toString();
+            String voiceSerialNo =doorSignInvoiceJsonArray.getJSONObject(i).get("voiceSerialNo").toString();
+            String makerVoiceGetDateTime =doorSignInvoiceJsonArray.getJSONObject(i).get("makerVoiceGetDateTime").toString();
+            String voiceCategory =doorSignInvoiceJsonArray.getJSONObject(i).get("voiceCategory").toString();
+            String taxAmount =doorSignInvoiceJsonArray.getJSONObject(i).get("taxAmount").toString();
+            String salesAmount =doorSignInvoiceJsonArray.getJSONObject(i).get("salesAmount").toString();
+            String voicePerson =doorSignInvoiceJsonArray.getJSONObject(i).get("voicePerson").toString();
+            String saleCompany =doorSignInvoiceJsonArray.getJSONObject(i).get("saleCompany").toString();
+            String helpMakeOrganationName =doorSignInvoiceJsonArray.getJSONObject(i).get("helpMakeOrganationName").toString();
+            String helpMakeCompany =doorSignInvoiceJsonArray.getJSONObject(i).get("helpMakeCompany").toString();
+            String helpMakeTaxNo =doorSignInvoiceJsonArray.getJSONObject(i).get("helpMakeTaxNo").toString();
+            String makerVoiceUrl =doorSignInvoiceJsonArray.getJSONObject(i).get("makerVoiceUrl").toString();
+            Date parse = null;
+            try{
+                 parse = simpleDateFormat.parse(makerVoiceGetDateTime);
+            }catch (Exception e){
+                parse = new Date();
+            }
+            MakerInvoiceEntity makerInvoiceEntity = makerInvoiceService.findPayMakerId(Long.parseLong(payMakerId));
+            if(null == makerInvoiceEntity){
+                makerInvoiceEntity = new MakerInvoiceEntity(Long.parseLong(payMakerId),voiceTypeNo,voiceSerialNo,parse,voiceCategory,new BigDecimal(taxAmount),new BigDecimal(salesAmount),payToPlatformAmount,voicePerson,saleCompany,helpMakeOrganationName,helpMakeCompany,helpMakeTaxNo,makerVoiceUrl,new Date());
+            }else {
+                makerInvoiceEntity.setVoiceTypeNo(voiceTypeNo);
+                makerInvoiceEntity.setVoiceSerialNo(voiceSerialNo);
+                makerInvoiceEntity.setMakerVoiceGetDateTime(parse);
+                makerInvoiceEntity.setVoiceCategory(voiceCategory);
+                makerInvoiceEntity.setTaxAmount(new BigDecimal(taxAmount));
+                makerInvoiceEntity.setSalesAmount(new BigDecimal(salesAmount));
+                makerInvoiceEntity.setTotalAmount(payToPlatformAmount);
+                makerInvoiceEntity.setVoicePerson(voicePerson);
+                makerInvoiceEntity.setSaleCompany(saleCompany);
+                makerInvoiceEntity.setHelpMakeOrganationName(helpMakeOrganationName);
+                makerInvoiceEntity.setHelpMakeCompany(helpMakeCompany);
+                makerInvoiceEntity.setHelpMakeTaxNo(helpMakeTaxNo);
+                makerInvoiceEntity.setMakerVoiceUrl(makerVoiceUrl);
+                makerInvoiceEntity.setMakerVoiceUploadDateTime(new Date());
+            }
+            makerInvoiceService.saveOrUpdate(makerInvoiceEntity);
+        }
+
+        for (int i =0 ;i < doorSignTaxInvoiceJsonArray.length();i++){
+            String payMakerId = doorSignInvoiceJsonArray.getJSONObject(i).get("payMakerId").toString();
+            String voiceTypeNo = doorSignInvoiceJsonArray.getJSONObject(i).get("voiceTypeNo").toString();
+            String voiceSerialNo = doorSignInvoiceJsonArray.getJSONObject(i).get("voiceSerialNo").toString();
+            String makerTaxAmount = doorSignInvoiceJsonArray.getJSONObject(i).get("makerTaxAmount").toString();
+            String salesAmount = doorSignInvoiceJsonArray.getJSONObject(i).get("salesAmount").toString();
+            String taxAmount = doorSignInvoiceJsonArray.getJSONObject(i).get("taxAmount").toString();
+            String voicePerson = doorSignInvoiceJsonArray.getJSONObject(i).get("voicePerson").toString();
+            String saleCompany = doorSignInvoiceJsonArray.getJSONObject(i).get("saleCompany").toString();
+            String helpMakeOrganationName = doorSignInvoiceJsonArray.getJSONObject(i).get("helpMakeOrganationName").toString();
+            String makerTaxUrl = doorSignInvoiceJsonArray.getJSONObject(i).get("makerTaxUrl").toString();
+            String makerTaxGetDatetime = doorSignInvoiceJsonArray.getJSONObject(i).get("makerTaxGetDatetime").toString();
+            Date parse = null;
+            try{
+                parse = simpleDateFormat.parse(makerTaxGetDatetime);
+            }catch (Exception e){
+                parse = new Date();
+            }
+            MakerTaxRecordEntity makerTaxRecordEntity = makerTaxRecordService.findPayMakerId(Long.parseLong(payMakerId));
+            if(null == makerTaxRecordEntity){
+                makerTaxRecordEntity = new MakerTaxRecordEntity(Long.parseLong(payMakerId),voiceTypeNo,voiceSerialNo,new BigDecimal(makerTaxAmount),
+                        payToPlatformAmount,new BigDecimal(salesAmount),new BigDecimal(taxAmount),voicePerson,
+                        saleCompany,helpMakeOrganationName,makerTaxUrl,parse,new Date());
+            }else {
+                makerTaxRecordEntity.setVoiceTypeNo(voiceTypeNo);
+                makerTaxRecordEntity.setVoiceSerialNo(voiceSerialNo);
+                makerTaxRecordEntity.setMakerTaxAmount(new BigDecimal(makerTaxAmount));
+                makerTaxRecordEntity.setTotalAmount(payToPlatformAmount);
+                makerTaxRecordEntity.setSalesamount(new BigDecimal(salesAmount));
+                makerTaxRecordEntity.setTaxAmount(new BigDecimal(taxAmount));
+                makerTaxRecordEntity.setVoicePerson(voicePerson);
+                makerTaxRecordEntity.setSaleCompany(saleCompany);
+                makerTaxRecordEntity.setHelpMakeOrganationName(helpMakeOrganationName);
+                makerTaxRecordEntity.setMakerTaxUrl(makerTaxUrl);
+                makerTaxRecordEntity.setMakerTaxGetDatetime(parse);
+                makerTaxRecordEntity.setMakerTaxUploadDatetime(new Date());
+            }
+            makerTaxRecordService.saveOrUpdate(makerTaxRecordEntity);
+        }
+        for (PayEnterpriseEntity payEnterpriseEntity : payEnterpriseEntities){
+            payEnterpriseEntity.setSubcontractingInvoiceState(InvoiceState.OPENED);
+            saveOrUpdate(payEnterpriseEntity);
+        }
+        return R.success("门征单开成功");
     }
 
 }

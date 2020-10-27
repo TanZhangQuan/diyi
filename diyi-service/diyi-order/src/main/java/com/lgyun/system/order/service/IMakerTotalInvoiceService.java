@@ -17,5 +17,10 @@ public interface IMakerTotalInvoiceService extends BaseService<MakerTotalInvoice
      */
     MakerTotalInvoiceVO getPayEnterpriseId(Long payEnterpriseId);
 
+
+    /**
+     * 根据商户清单id查询汇总代开的发票
+     */
+    MakerTotalInvoiceEntity findPayEnterpriseId(Long payEnterpriseId);
 }
 
