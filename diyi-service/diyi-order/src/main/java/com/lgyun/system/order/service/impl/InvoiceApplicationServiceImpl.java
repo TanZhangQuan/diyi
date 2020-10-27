@@ -38,13 +38,22 @@ public class InvoiceApplicationServiceImpl extends BaseServiceImpl<InvoiceApplic
     public R contractApplyInvoice(ContractApplyInvoiceDTO contractApplyInvoiceDto, Long enterpriseId, IPayEnterpriseService payEnterpriseService) {
         String payEnterpriseIds = contractApplyInvoiceDto.getPayEnterpriseIds();
         String[] split = payEnterpriseIds.split(",");
+        if(split.length <=0 ){
+            return R.fail("参数有误");
+        }
         for(int i = 0;i < split.length; i++){
             List<ApplicationVO> application = iInvoiceApplicationPayListService.findApplication(Long.parseLong(split[i]));
             if(application.size() > 0){
                 return R.fail("申请记录已存在，请耐心等候！！！");
             }
         }
-
+        PayEnterpriseEntity payEnterpriseEntity = payEnterpriseService.getById(Long.parseLong(split[0]));
+        for(int i = 1;i < split.length; i++){
+            PayEnterpriseEntity byId1 = payEnterpriseService.getById(Long.parseLong(split[i]));
+            if(payEnterpriseEntity.getEnterpriseId() != byId1.getEnterpriseId() || payEnterpriseEntity.getServiceProviderId() != byId1.getServiceProviderId()){
+                return R.fail("请选择的服务商和商户相同的支付清单合并开票");
+            }
+        }
         InvoiceApplicationEntity invoiceApplicationEntity = new InvoiceApplicationEntity();
         invoiceApplicationEntity.setApplicationDesc(contractApplyInvoiceDto.getApplicationDesc());
         invoiceApplicationEntity.setApplicationPerson(iUserClient.queryEnterpriseById(enterpriseId).getEnterpriseName());

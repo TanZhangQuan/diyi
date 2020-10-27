@@ -2,8 +2,6 @@ package com.lgyun.system.order.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.lgyun.common.enumeration.InvoiceState;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -19,55 +17,50 @@ public class InvoiceServiceLumpVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 支付清单id
+     * 总包申请和支付清单表id
      */
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long payEnterpriseId;
-
-    /**
-     * 商户id
-     */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long enterpriseId;
-
+    private Long invoiceApplicationPayListId;
     /**
      * 总包申请id
      */
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long applicationId;
-
+    private Long invoiceApplicationId;
+    /**
+     * 支付清单id
+     */
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long payEnterpriseId;
     /**
      * 商户名称
      */
     private String enterpriseName;
-
     /**
-     * 清单url
+     * 服务商名称
      */
-    private String chargeListUrl;
-
+    private String serviceProviderName;
     /**
-     * 是否有支付回单
+     * 总包申请状态
      */
-    private String isPayEnterpriseReceipt;
-
+    private String applicationState;
     /**
-     * 是否申请
+     *总包开票状态
      */
-    private String isApplication;
-
-    /**
-     * 开票状态
-     */
-    private InvoiceState companyInvoiceState;
-
-    /**
-     * 开票说明:一个支付清单，可能多张发票，一张发票可能多个支付清单
-     */
-    private String invoiceDemondDesc;
-
+    private String companyInvoiceState;
     /**
      * 创建时间
      */
     private String createTime;
+    /**
+     * 开票说明:一个支付清单，可能多张发票，一张发票可能多个支付清单
+     */
+    private String applicationDesc;
+    /**
+     * 0 未申请，1已申请
+     */
+    private String applyState;
+    /**
+     * 总包id
+     */
+    private Long invoicePrintId;
 }
