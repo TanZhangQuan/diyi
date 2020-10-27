@@ -3,7 +3,6 @@ package com.lgyun.system.order.dto;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -12,13 +11,13 @@ import java.io.Serializable;
  * @time 16:07.
  */
 @Data
-public class LumpSumInvoiceDTO implements Serializable {
+public class LumpSumMergeInvoiceDTO implements Serializable {
 
     /**
      * 商户支付清单Id
      */
-    @NotNull(message = "支付清单id不能为空")
-    private Long payEnterpriseId;
+    @NotBlank(message = "支付清单id不能为空")
+    private String payEnterpriseIds;
 
     /**
      *服务商名字
@@ -26,6 +25,10 @@ public class LumpSumInvoiceDTO implements Serializable {
     @NotBlank(message = "请输入服务商名字")
     private String serviceProviderName;
 
+    /**
+     *总包申请id
+     */
+    private Long applicationId;
 
     /**
      *发票url
@@ -50,8 +53,5 @@ public class LumpSumInvoiceDTO implements Serializable {
      */
     private String invoiceDesc;
 
-    /**
-     *
-     */
     private Long serviceProviderId;
 }

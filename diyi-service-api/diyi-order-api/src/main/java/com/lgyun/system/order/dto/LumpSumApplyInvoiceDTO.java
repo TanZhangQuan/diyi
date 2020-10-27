@@ -12,13 +12,7 @@ import java.io.Serializable;
  * @time 16:07.
  */
 @Data
-public class LumpSumInvoiceDTO implements Serializable {
-
-    /**
-     * 商户支付清单Id
-     */
-    @NotNull(message = "支付清单id不能为空")
-    private Long payEnterpriseId;
+public class LumpSumApplyInvoiceDTO implements Serializable {
 
     /**
      *服务商名字
@@ -26,6 +20,11 @@ public class LumpSumInvoiceDTO implements Serializable {
     @NotBlank(message = "请输入服务商名字")
     private String serviceProviderName;
 
+    /**
+     *总包申请id
+     */
+    @NotNull(message = "总包申请id不能为空")
+    private Long applicationId;
 
     /**
      *发票url
@@ -50,8 +49,5 @@ public class LumpSumInvoiceDTO implements Serializable {
      */
     private String invoiceDesc;
 
-    /**
-     *
-     */
     private Long serviceProviderId;
 }

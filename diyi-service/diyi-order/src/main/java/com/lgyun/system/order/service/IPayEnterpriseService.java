@@ -10,6 +10,7 @@ import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.PayEnterpriseDTO;
 import com.lgyun.system.order.dto.PayEnterpriseUploadDTO;
+import com.lgyun.system.order.dto.SummaryInvoiceDTO;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.order.vo.TransactionByBureauServiceProviderInfoVO;
@@ -264,7 +265,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
 
 
     /**
-     * 服务商查询总包发票
+     * 服务商查询总包发票列表
      *
      * @param serviceProviderId
      * @param enterpriseName
@@ -278,26 +279,54 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
 
 
     /**
-     * 服务商查询总包发票详情
-     *
+     *服务商查询已开总包发票详情
+     */
+    R queryOpenedTotalInvoiceDetail(Long invoicePrintId);
+    /**
+     * 服务商查询未开总包发票详情
      * @param payEnterpriseId
      * @return
      */
     R getServiceLumpSumInvoiceDetails(Long payEnterpriseId);
 
     /**
+     * 服务商总包合并开票
+     * @param payEnterpriseIds
+     * @return
+     */
+    R queryTotalMergeInvoice(String payEnterpriseIds);
+
+    /**
+     * 服务商根据总包申请开票
+     * @param invoiceApplicationId
+     * @return
+     */
+    R queryTotalApplyInvoice(Long invoiceApplicationId);
+
+    /**
      * 服务商总包开票
      *
      * @param serviceProviderId
      * @param payEnterpriseId
-     * @param applicationId
      * @param companyInvoiceUrl
      * @param expressSheetNo
      * @param expressCompanyName
      * @return
      */
-    R saveServiceLumpSumInvoice(Long serviceProviderId, Long payEnterpriseId, String serviceProviderName, Long applicationId, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc);
+    R saveServiceLumpSumInvoice(Long serviceProviderId,Long payEnterpriseId,String serviceProviderName,String companyInvoiceUrl,String expressSheetNo,String expressCompanyName,String invoiceDesc);
 
+
+    /**
+     *服务商合并开票
+     */
+    R saveServiceLumpSumMergeInvoice(Long serviceProviderId,String payEnterpriseIds,String serviceProviderName,String companyInvoiceUrl,String expressSheetNo,String expressCompanyName,String invoiceDesc);
+
+
+    /**
+     *服务商总包根据申请开票
+     * @return
+     */
+    R createTotalApplyInvoice(Long serviceProviderId,String serviceProviderName,Long applicationId,String companyInvoiceUrl,String expressSheetNo,String expressCompanyName,String invoiceDesc);
     /**
      * 服务商查询未开票分包发票
      *
@@ -426,6 +455,28 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * 根据商户和服务商查询支付清单
      */
     R queryEnterpriseServicePayList(Long enterpriseId,Long serviceProviderId,IPage<EnterpriseServicePayListVO> page);
+
+
+    /**
+     * 根据服务商查询汇总代开分包列表
+     */
+    R findServiceSubcontractSummary(Long serviceProviderId, String enterpriseName,InvoiceState companyInvoiceState,IPage<EnterpriseSubcontractInvoiceVO> page);
+
+    /**
+     *服务商汇总代开发票
+     */
+    R createSummaryAgencyInvoice(SummaryInvoiceDTO summaryInvoiceDTO);
+
+    /**
+     *服务商根据商户支付清单查询分包详情
+     */
+    R findServiceDetailSummary(String payEnterpriseIds);
+
+
+    /**
+     *服务商门征发票
+     */
+    R createDoorSignInvoice(String payEnterpriseIds,String doorSignInvoiceJson,String doorSignTaxInvoiceJson);
 
 }
 
