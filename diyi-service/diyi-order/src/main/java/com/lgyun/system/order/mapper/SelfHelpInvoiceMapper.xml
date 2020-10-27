@@ -422,10 +422,13 @@
     </select>
 
     <select id="selfHelpInvoiceStatistics" resultMap="selfHelpInvoiceStatisticsVO">
-        SELECT COUNT(id) AS num, IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, charge_money_num, 0)), 0) AS month_money,
-        IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, charge_money_num, 0)), 0) AS year_money,
-        IFNULL(SUM(charge_money_num), 0) AS all_money FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND invoice_print_state = 'INVOICESUCCESS'
-        AND individual_id = #{param1} AND maker_type = #{param2}
+        SELECT t1.num + t2.num AS num, t1.month_money + t2.month_money AS month_money, t1.year_money + t2.year_money AS year_money, t1.all_money + t2.all_money AS all_money
+        FROM (SELECT COUNT(id) AS num, IFNULL(SUM(IF(DATEDIFF(NOW(), platform_pay_ok_datetime) <![CDATA[ < ]]> 30, total_fee, 0)), 0) AS month_money, IFNULL(SUM(IF(DATEDIFF(NOW(),
+        platform_pay_ok_datetime) <![CDATA[ < ]]> 365, total_fee, 0)), 0) AS year_money, IFNULL(SUM(total_fee), 0) AS all_money FROM diyi_pay_maker WHERE is_deleted = 0
+        AND (pay_state = 'PLATFORMPAID' OR pay_state = 'CONFIRMPAID')  AND individual_id = #{param1} AND maker_type = #{param2}) t1,
+        (SELECT COUNT(id) AS num, IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, charge_money_num, 0)), 0) AS month_money,
+        IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, charge_money_num, 0)), 0) AS year_money, IFNULL(SUM(charge_money_num), 0) AS all_money
+        FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND invoice_print_state = 'INVOICESUCCESS' AND individual_id = #{param1} AND maker_type = #{param2}) t2
     </select>
 
     <select id="selfHelpInvoiceList" resultMap="selfHelpInvoiceListVO">
