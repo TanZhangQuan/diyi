@@ -48,8 +48,7 @@ public class PermissionServiceProviderController {
         list.forEach(entity -> {
             ServiceProviderWorkerVO response = new ServiceProviderWorkerVO();
             BeanUtils.copyProperties(entity, response);
-            response.setWorkerSexDesc(entity.getWorkerSex().getDesc());
-            response.setWorkerSexValue(entity.getWorkerSex().getValue());
+            response.setWorkerSex(entity.getWorkerSex());
             response.setAccountStateValue(entity.getServiceProviderWorkerState().getValue());
             response.setAccountStateDesc(entity.getServiceProviderWorkerState().getDesc());
             response.setPositionNameValue(entity.getPositionName().getValue());
@@ -77,8 +76,7 @@ public class PermissionServiceProviderController {
 
         ServiceProviderWorkerVO response = new ServiceProviderWorkerVO();
         BeanUtils.copyProperties(entity, response);
-        response.setWorkerSexDesc(entity.getWorkerSex().getDesc());
-        response.setWorkerSexValue(entity.getWorkerSex().getValue());
+        response.setWorkerSex(entity.getWorkerSex());
         response.setAccountStateValue(entity.getServiceProviderWorkerState().getValue());
         response.setAccountStateDesc(entity.getServiceProviderWorkerState().getDesc());
         response.setPositionNameValue(entity.getPositionName().getValue());

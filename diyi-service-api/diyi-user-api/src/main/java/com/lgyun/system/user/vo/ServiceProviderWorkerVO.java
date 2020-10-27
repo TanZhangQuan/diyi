@@ -33,14 +33,9 @@ public class ServiceProviderWorkerVO extends ServiceProviderWorkerEntity {
     private String accountStateDesc;
 
     /**
-     * 员工性别value
+     * 员工性别
      */
-    private String workerSexValue;
-
-    /**
-     * 员工性别描述
-     */
-    private String workerSexDesc;
+    private String workerSex;
 
     /**
      * 岗位value

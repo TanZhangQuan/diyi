@@ -52,7 +52,6 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
             onlineSignPicEntity.setObjectId(ObjectId);
             onlineSignPicEntity.setSignPic(signPic);
             onlineSignPicEntity.setSignDatetime(new Date());
-            onlineSignPicEntity.setWorkerSex(ObjectId);
             save(onlineSignPicEntity);
         }
         OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = onlineAgreementTemplateService.getById(onlineAgreementTemplateId);

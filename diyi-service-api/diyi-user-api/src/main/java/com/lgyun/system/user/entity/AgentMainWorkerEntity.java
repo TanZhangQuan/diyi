@@ -2,7 +2,6 @@ package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.common.enumeration.AccountState;
-import com.lgyun.common.enumeration.Gender;
 import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -52,7 +51,7 @@ public class AgentMainWorkerEntity extends BaseEntity {
     /**
      * 性别
      */
-    private Gender workerSex;
+    private String workerSex;
 
     /**
      * 岗位性质

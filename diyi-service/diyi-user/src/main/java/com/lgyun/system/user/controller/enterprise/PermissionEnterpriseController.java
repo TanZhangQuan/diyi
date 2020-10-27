@@ -48,8 +48,7 @@ public class PermissionEnterpriseController {
         list.forEach(entity -> {
             EnterpriseWorkerVO response = new EnterpriseWorkerVO();
             BeanUtils.copyProperties(entity, response);
-            response.setWorkerSexDesc(entity.getWorkerSex().getDesc());
-            response.setWorkerSexValue(entity.getWorkerSex().getValue());
+            response.setWorkerSex(entity.getWorkerSex());
             response.setAccountStateValue(entity.getEnterpriseWorkerState().getValue());
             response.setAccountStateDesc(entity.getEnterpriseWorkerState().getDesc());
             response.setPositionNameValue(entity.getPositionName().getValue());
@@ -77,8 +76,7 @@ public class PermissionEnterpriseController {
 
         EnterpriseWorkerVO response = new EnterpriseWorkerVO();
         BeanUtils.copyProperties(entity, response);
-        response.setWorkerSexDesc(entity.getWorkerSex().getDesc());
-        response.setWorkerSexValue(entity.getWorkerSex().getValue());
+        response.setWorkerSex(entity.getWorkerSex());
         response.setAccountStateValue(entity.getEnterpriseWorkerState().getValue());
         response.setAccountStateDesc(entity.getEnterpriseWorkerState().getDesc());
         response.setPositionNameValue(entity.getPositionName().getValue());

@@ -1,15 +1,10 @@
 package com.lgyun.system.user.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.common.enumeration.ObjectType;
-import io.swagger.annotations.ApiModelProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import com.lgyun.core.mp.base.BaseEntity;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
@@ -38,11 +33,6 @@ public class OnlineSignPicEntity extends BaseEntity {
      * 对象身份ID
      */
     private Long objectId;
-
-    /**
-     * 相关人员ID 创客/合伙人，就取创客/合伙人ID，其余取相关工作人员ID
-     */
-    private Long workerSex;
 
     /**
      * 签字笔迹URL
