@@ -5,61 +5,60 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
- * @author tzq
- * @date 2020/9/16.
- * @time 15:51.
+ * @author jun.
+ * @date 2020/10/27.
+ * @time 14:31.
  */
 @Data
 public class SummaryInvoiceDTO implements Serializable {
 
     /**
-     * 商户支付清单Id
+     * 商户清单id，多个用逗号隔开
      */
-    @NotNull(message = "请输入商户支付清单Id")
-    private Long payEnterpriseId;
-
+    @NotBlank(message = "请输入商户清单id")
+    private String payEnterpriseIds;
     /**
-     * 服务商名字
-     */
-    @NotBlank(message = "请输入服务商名字")
-    private String serviceProviderName;
-
-    /**
-     * 发票代码
+     *发票代码
      */
     @NotBlank(message = "请输入发票代码")
     private String invoiceTypeNo;
-
     /**
-     * 发票号码
+     *发票号码
      */
     @NotBlank(message = "请输入发票号码")
     private String invoiceSerialNo;
+    /**
+     * 开票日期
+     */
+    @NotNull(message = "请输入开票日期")
+    private Date invoiceDatetime;
 
     /**
-     * 货物或应税劳务、服务名称
+     *货物或应税劳务、服务名称
      */
     @NotBlank(message = "请输入货物或应税劳务、服务名称")
     private String invoiceCategory;
-
     /**
-     * 汇总代开发票URL
+     *发票url
      */
-    @NotBlank(message = "请输入汇总代开发票URL")
+    @NotNull(message = "请输入发票url")
     private String companyInvoiceUrl;
-
     /**
      * 总完税证明URL
      */
-    @NotBlank(message = "请输入总完税证明URL")
+    @NotNull(message = "请输入总完税证明URL")
     private String makerTaxUrl;
 
     /**
      * 清单式完税凭证URL
      */
-    @NotBlank(message = "请输入清单式完税凭证URL")
     private String makerTaxListUrl;
 
+    /**
+     *
+     */
+    private String saleCompany;
 }

@@ -215,7 +215,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     DayTradeVO queryTotalSubDayTradeByServiceProvider(Long serviceProviderId);
 
     /**
-     * 服务商查询总包发票
+     * 服务商查询未开总包发票
      *
      * @param serviceProviderId
      * @param enterpriseName
@@ -224,8 +224,13 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * @param page
      * @return
      */
-    List<InvoiceServiceLumpVO> getServiceLumpSumInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, InvoiceState companyInvoiceState, IPage<InvoiceServiceLumpVO> page);
+    List<InvoiceServiceLumpVO> getServiceLumpSumInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, IPage<InvoiceServiceLumpVO> page);
 
+
+    /**
+     * 服务商查询已开总包发票
+     */
+    List<InvoiceServiceLumpVO> getServiceOpenedLumpSumInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, IPage<InvoiceServiceLumpVO> page);
 
     /**
      * 服务商查询总包发票详情
@@ -233,7 +238,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * @param payEnterpriseId
      * @return
      */
-    List<InvoiceServiceLumpDetailsVO> getServiceLumpSumInvoiceDetails(Long payEnterpriseId);
+    InvoiceServiceLumpDetailsVO getServiceLumpSumInvoiceDetails(Long payEnterpriseId);
 
 
     /**
@@ -324,5 +329,21 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      *根据商户和服务商查询支付清单
      */
     List<EnterpriseServicePayListVO> queryEnterpriseServicePayList(Long enterpriseId, Long serviceProviderId,IPage<EnterpriseServicePayListVO> page);
+
+    /**
+     * 根据服务商查询汇总代开分包列表
+     */
+    List<EnterpriseSubcontractInvoiceVO> findServiceSubcontractSummary(Long serviceProviderId, String enterpriseName, InvoiceState companyInvoiceState, IPage<EnterpriseSubcontractInvoiceVO> page);
+
+
+    /**
+     * 根据支付清单id查询汇总代开的详情
+     */
+    InvoiceServiceDetailSummaryVO findServiceDetailSummary(Long payEnterpriseId);
+
+    /**
+     *
+     */
+    List<PayMakerListVO> getPayMakerLists(String payEnterpriseIds);
 }
 
