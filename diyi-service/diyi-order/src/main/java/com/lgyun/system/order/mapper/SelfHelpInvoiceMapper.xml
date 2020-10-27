@@ -331,7 +331,7 @@
         <if test="param3.invoicePeopleName != null and param3.invoicePeopleName != ''">
             INNER JOIN diyi_self_help_invoice_detail t3 ON t3.is_deleted = 0 AND t1.id = t3.self_help_invoice_id
         </if>
-        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.enterprise_id = #{param1} AND t1.invoice_people_type = #{param2}
+        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.enterprise_id = #{param1} AND t1.maker_type = #{param2}
         <if test="param3.selfHelpInvoiceId != null">
             AND t1.id = #{param3.selfHelpInvoiceId}
         </if>
@@ -386,7 +386,7 @@
         <if test="param4.invoicePeopleName != null and param4.invoicePeopleName != ''">
             INNER JOIN diyi_self_help_invoice_detail t5 ON t5.is_deleted = 0 AND t1.id = t5.self_help_invoice_id
         </if>
-        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t3.service_provider_id = #{param1} AND t1.invoice_people_type = #{param2} AND t3.apply_state = #{param3}
+        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t3.service_provider_id = #{param1} AND t1.maker_type = #{param2} AND t3.apply_state = #{param3}
         <if test="param4.enterpriseName != null and param4.enterpriseName != ''">
             AND t2.enterprise_name LIKE concat('%', #{param4.enterpriseName}, '%')
         </if>
@@ -425,14 +425,14 @@
         SELECT COUNT(id) AS num, IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, charge_money_num, 0)), 0) AS month_money,
         IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, charge_money_num, 0)), 0) AS year_money,
         IFNULL(SUM(charge_money_num), 0) AS all_money FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND invoice_print_state = 'INVOICESUCCESS'
-        AND all_kind_enterprise_id = #{param1} AND invoice_people_type = #{param2}
+        AND individual_id = #{param1} AND maker_type = #{param2}
     </select>
 
     <select id="selfHelpInvoiceList" resultMap="selfHelpInvoiceListVO">
         SELECT t1.id, t3.enterprise_name, t1.invoice_type, t1.invoice_print_state, t1.charge_money_num, t1.flow_contract_url,
         t1.business_contract_url, t1.create_time FROM diyi_self_help_invoice_detail t1 INNER JOIN diyi_self_help_invoice t2 ON t1.self_help_invoice_id = t2.id
         INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0
-        AND t1.all_kind_enterprise_id = #{param1} AND t1.invoice_people_type = #{param2}
+        AND t1.individual_id = #{param1} AND t1.maker_type = #{param2}
     </select>
 
     <select id="findEnterpriseCrowdSourcing" resultMap="EnterpriseCrowdSourcingVOMap">
@@ -604,7 +604,7 @@
         <if test="param3 !=null and param3 != ''">
             AND a.create_time &lt; #{param3}
         </if>
-        and invoice_people_type = #{param4}
+        and maker_type = #{param4}
     </select>
 
     <select id="getMakerTypeSelfHelpInvoiceDetails" resultMap="selfHelpInvoiceAdminDetailMap">

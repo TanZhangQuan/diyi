@@ -54,33 +54,33 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
     private ISelfHelpInvoiceApplyService selfHelpInvoiceApplyService;
 
     @Override
-    public R<AllIncomeYearMonthVO> queryCrowdNumAndAllIncome(InvoicePeopleType invoicePeopleType, Long makerId, Long year, Long month) {
-        return R.data(baseMapper.queryCrowdNumAndAllIncome(invoicePeopleType, makerId, year, month));
+    public R<AllIncomeYearMonthVO> queryCrowdNumAndAllIncome(MakerType makerType, Long makerId, Long year, Long month) {
+        return R.data(baseMapper.queryCrowdNumAndAllIncome(makerType, makerId, year, month));
     }
 
     @Override
-    public R<IncomeYearVO> queryEveryYearCrowdIncome(InvoicePeopleType invoicePeopleType, Long makerId) {
-        return R.data(baseMapper.queryEveryYearCrowdIncome(invoicePeopleType, makerId));
+    public R<IncomeYearVO> queryEveryYearCrowdIncome(MakerType makerType, Long makerId) {
+        return R.data(baseMapper.queryEveryYearCrowdIncome(makerType, makerId));
     }
 
     @Override
-    public R<YearTradeVO> queryEveryMonthCrowdIncome(InvoicePeopleType invoicePeopleType, Long makerId, Long year) {
-        return R.data(baseMapper.queryEveryMonthCrowdIncome(invoicePeopleType, makerId, year));
+    public R<YearTradeVO> queryEveryMonthCrowdIncome(MakerType makerType, Long makerId, Long year) {
+        return R.data(baseMapper.queryEveryMonthCrowdIncome(makerType, makerId, year));
     }
 
     @Override
-    public R<IPage<AllIncomeYearMonthEnterpriseVO>> queryMakerToEnterpriseCrowdIncome(InvoicePeopleType invoicePeopleType, Long makerId, Long year, Long month, IPage<AllIncomeYearMonthEnterpriseVO> page) {
-        return R.data(page.setRecords(baseMapper.queryMakerToEnterpriseCrowdIncome(invoicePeopleType, makerId, year, month, page)));
+    public R<IPage<AllIncomeYearMonthEnterpriseVO>> queryMakerToEnterpriseCrowdIncome(MakerType makerType, Long makerId, Long year, Long month, IPage<AllIncomeYearMonthEnterpriseVO> page) {
+        return R.data(page.setRecords(baseMapper.queryMakerToEnterpriseCrowdIncome(makerType, makerId, year, month, page)));
     }
 
     @Override
-    public R<IPage<IncomeDetailYearMonthVO>> queryCrowdIncomeDetail(InvoicePeopleType invoicePeopleType, Long makerId, Long year, Long month, Long enterpriseId, IPage<IncomeDetailYearMonthVO> page) {
-        return R.data(page.setRecords(baseMapper.queryCrowdIncomeDetail(invoicePeopleType, makerId, year, month, enterpriseId, page)));
+    public R<IPage<IncomeDetailYearMonthVO>> queryCrowdIncomeDetail(MakerType makerType, Long makerId, Long year, Long month, Long enterpriseId, IPage<IncomeDetailYearMonthVO> page) {
+        return R.data(page.setRecords(baseMapper.queryCrowdIncomeDetail(makerType, makerId, year, month, enterpriseId, page)));
     }
 
     @Override
-    public R<BigDecimal> queryCrowdDetailAllIncome(InvoicePeopleType invoicePeopleType, Long makerId, Long year, Long month, Long enterpriseId) {
-        return R.data(baseMapper.queryCrowdDetailAllIncome(invoicePeopleType, makerId, year, month, enterpriseId));
+    public R<BigDecimal> queryCrowdDetailAllIncome(MakerType makerType, Long makerId, Long year, Long month, Long enterpriseId) {
+        return R.data(baseMapper.queryCrowdDetailAllIncome(makerType, makerId, year, month, enterpriseId));
     }
 
     @Override
@@ -108,7 +108,7 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
             selfHelpInvoiceEntity.setApplyEnterpriseId(selfHelpInvoiceDto.getObjectId());
         }
         selfHelpInvoiceEntity.setCurrentState(SelfHelpInvoiceApplyState.AUDITING);
-        selfHelpInvoiceEntity.setInvoicePeopleType(selfHelpInvoiceDto.getInvoiceIdentityType());
+        selfHelpInvoiceEntity.setMakerType(selfHelpInvoiceDto.getMakerType());
         selfHelpInvoiceEntity.setListFile(selfHelpInvoiceDto.getListFile());
         selfHelpInvoiceEntity.setTotalPayProviderFee(selfHelpInvoiceDto.getChargeMoneyNum());
         selfHelpInvoiceEntity.setAddressId(selfHelpInvoiceDto.getAddressId());
@@ -171,9 +171,9 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
         for (InvoiceListExcel invoiceListExcel: list) {
             SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = new SelfHelpInvoiceDetailEntity();
             selfHelpInvoiceDetailEntity.setSelfHelpInvoiceId(selfHelpInvoiceEntity.getId());
-            InvoicePeopleType invoicePeopleType = selfHelpInvoiceDto.getInvoiceIdentityType();
+            MakerType makerType = selfHelpInvoiceDto.getMakerType();
             ;
-            if (invoicePeopleType.equals(InvoicePeopleType.NATURALPERSON)) {
+            if (makerType.equals(MakerType.NATURALPERSON)) {
                 MakerEntity makerEntity = userClient.queryMakerByPhoneNumber(invoiceListExcel.getPhoneNumber());
                 if (null != makerEntity && !selfHelpInvoiceDto.getObjectId().equals(makerEntity.getId())) {
                     continue;
@@ -192,26 +192,26 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
                     }
                     selfHelpInvoiceDetailEntity.setNoneMakerInvoicePersonId(selfHelpInvoicePersonEntity.getId());
                 }
-                selfHelpInvoiceDetailEntity.setInvoicePeopleType(InvoicePeopleType.NATURALPERSON);
+                selfHelpInvoiceDetailEntity.setMakerType(MakerType.NATURALPERSON);
                 selfHelpInvoiceDetailEntity.setInvoicePeopleName(invoiceListExcel.getInvoicePeopleName());
             }
-            if (invoicePeopleType.equals(InvoicePeopleType.INDIVIDUALBUSINESS)) {
+            if (makerType.equals(MakerType.INDIVIDUALBUSINESS)) {
                 IndividualBusinessEntity byMakerIdAndIbtaxNoBusiness = userClient.queryIndividualBusinessByMakerIdAndIbtaxNo(selfHelpInvoiceDto.getObjectId(), invoiceListExcel.getIbtaxNo());
                 if (null == byMakerIdAndIbtaxNoBusiness) {
                     continue;
                 }
-                selfHelpInvoiceDetailEntity.setInvoicePeopleType(InvoicePeopleType.INDIVIDUALBUSINESS);
+                selfHelpInvoiceDetailEntity.setMakerType(MakerType.INDIVIDUALBUSINESS);
                 selfHelpInvoiceDetailEntity.setInvoicePeopleName(invoiceListExcel.getInvoicePeopleName());
-                selfHelpInvoiceDetailEntity.setAllKindEnterpriseId(byMakerIdAndIbtaxNoBusiness.getId());
+                selfHelpInvoiceDetailEntity.setIndividualId(byMakerIdAndIbtaxNoBusiness.getId());
             }
-            if (invoicePeopleType.equals(InvoicePeopleType.INDIVIDUALENTERPRISE)) {
+            if (makerType.equals(MakerType.INDIVIDUALENTERPRISE)) {
                 IndividualEnterpriseEntity byMakerIdAndIbtaxNoEnterprise = userClient.queryIndividualEnterpriseByMakerIdAndIbtaxNo(selfHelpInvoiceDto.getObjectId(), invoiceListExcel.getIbtaxNo());
                 if (null == byMakerIdAndIbtaxNoEnterprise) {
                     continue;
                 }
-                selfHelpInvoiceDetailEntity.setInvoicePeopleType(InvoicePeopleType.INDIVIDUALENTERPRISE);
+                selfHelpInvoiceDetailEntity.setMakerType(MakerType.INDIVIDUALENTERPRISE);
                 selfHelpInvoiceDetailEntity.setInvoicePeopleName(invoiceListExcel.getInvoicePeopleName());
-                selfHelpInvoiceDetailEntity.setAllKindEnterpriseId(byMakerIdAndIbtaxNoEnterprise.getId());
+                selfHelpInvoiceDetailEntity.setIndividualId(byMakerIdAndIbtaxNoEnterprise.getId());
             }
             selfHelpInvoiceDetailEntity.setInvoiceType(selfHelpInvoiceDto.getInvoiceType());
             selfHelpInvoiceDetailEntity.setChargeMoneyNum(selfHelpInvoiceDto.getChargeMoneyNum());
@@ -227,8 +227,8 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
         for (InvoiceListExcel invoiceListExcel : list) {
             SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = new SelfHelpInvoiceDetailEntity();
             selfHelpInvoiceDetailEntity.setSelfHelpInvoiceId(selfHelpInvoiceEntity.getId());
-            InvoicePeopleType invoicePeopleType = selfHelpInvoiceDto.getInvoiceIdentityType();
-            if (invoicePeopleType.equals(InvoicePeopleType.NATURALPERSON)) {
+            MakerType makerType = selfHelpInvoiceDto.getMakerType();
+            if (makerType.equals(MakerType.NATURALPERSON)) {
                 MakerEntity makerEntity = userClient.queryMakerByPhoneNumber(invoiceListExcel.getPhoneNumber());
                 if (null == makerEntity) {
                     MakerEntity makerEntity1 = userClient.createMaker(invoiceListExcel.getInvoicePeopleName(), invoiceListExcel.getIdcardNo(), invoiceListExcel.getPhoneNumber(), selfHelpInvoiceDto.getObjectId());
@@ -237,26 +237,26 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
                     userClient.createMakerToEnterpriseRelevance(selfHelpInvoiceDto.getObjectId(), makerEntity.getId());
                     selfHelpInvoiceDetailEntity.setMakerId(makerEntity.getId());
                 }
-                selfHelpInvoiceDetailEntity.setInvoicePeopleType(InvoicePeopleType.NATURALPERSON);
+                selfHelpInvoiceDetailEntity.setMakerType(MakerType.NATURALPERSON);
                 selfHelpInvoiceDetailEntity.setInvoicePeopleName(invoiceListExcel.getInvoicePeopleName());
             }
-            if (invoicePeopleType.equals(InvoicePeopleType.INDIVIDUALBUSINESS)) {
+            if (makerType.equals(MakerType.INDIVIDUALBUSINESS)) {
                 IndividualBusinessEntity byMakerIdAndIbtaxNoBusiness = userClient.queryIndividualBusinessByIbtaxNo(invoiceListExcel.getIbtaxNo());
                 if (null == byMakerIdAndIbtaxNoBusiness) {
                     continue;
                 }
-                selfHelpInvoiceDetailEntity.setInvoicePeopleType(InvoicePeopleType.INDIVIDUALBUSINESS);
+                selfHelpInvoiceDetailEntity.setMakerType(MakerType.INDIVIDUALBUSINESS);
                 selfHelpInvoiceDetailEntity.setInvoicePeopleName(invoiceListExcel.getInvoicePeopleName());
-                selfHelpInvoiceDetailEntity.setAllKindEnterpriseId(byMakerIdAndIbtaxNoBusiness.getId());
+                selfHelpInvoiceDetailEntity.setIndividualId(byMakerIdAndIbtaxNoBusiness.getId());
             }
-            if (invoicePeopleType.equals(InvoicePeopleType.INDIVIDUALENTERPRISE)) {
+            if (makerType.equals(MakerType.INDIVIDUALENTERPRISE)) {
                 IndividualEnterpriseEntity byMakerIdAndIbtaxNoEnterprise = userClient.queryIndividualEnterpriseByIbtaxNo(invoiceListExcel.getIbtaxNo());
                 if (null == byMakerIdAndIbtaxNoEnterprise) {
                     continue;
                 }
-                selfHelpInvoiceDetailEntity.setInvoicePeopleType(InvoicePeopleType.INDIVIDUALENTERPRISE);
+                selfHelpInvoiceDetailEntity.setMakerType(MakerType.INDIVIDUALENTERPRISE);
                 selfHelpInvoiceDetailEntity.setInvoicePeopleName(invoiceListExcel.getInvoicePeopleName());
-                selfHelpInvoiceDetailEntity.setAllKindEnterpriseId(byMakerIdAndIbtaxNoEnterprise.getId());
+                selfHelpInvoiceDetailEntity.setIndividualId(byMakerIdAndIbtaxNoEnterprise.getId());
             }
             selfHelpInvoiceDetailEntity.setInvoiceType(selfHelpInvoiceDto.getInvoiceType());
             selfHelpInvoiceDetailEntity.setChargeMoneyNum(selfHelpInvoiceDto.getChargeMoneyNum());

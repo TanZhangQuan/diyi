@@ -38,7 +38,7 @@ public class PayMakerEntity extends BaseEntity {
     private Long makerId;
 
     /**
-     * 创客身份: 自然人，个体户，个独。
+     * 创客身份: 自然人，个体户，个独
      */
     private MakerType makerType;
 

@@ -2,14 +2,12 @@ package com.lgyun.system.order.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.InvoicePeopleType;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.entity.PayMakerEntity;
 import com.lgyun.system.order.excel.PayEnterpriseExcel;
 import com.lgyun.system.order.vo.*;
-import com.lgyun.system.order.vo.IndividualYearMonthVO;
 import com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO;
 
 import java.math.BigDecimal;
@@ -126,9 +124,9 @@ public interface IPayMakerService extends BaseService<PayMakerEntity> {
      * 查询个体户/个独月度开票金额和年度开票金额
      *
      * @param individualBusinessId
-     * @param invoicePeopleType
+     * @param makerType
      * @return
      */
-    R<IndividualYearMonthVO> yearMonthMoney(Long individualBusinessId, InvoicePeopleType invoicePeopleType);
+    R<IndividualYearMonthVO> yearMonthMoney(Long individualBusinessId, MakerType makerType);
 }
 

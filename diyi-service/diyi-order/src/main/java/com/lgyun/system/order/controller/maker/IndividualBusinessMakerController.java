@@ -1,7 +1,7 @@
 package com.lgyun.system.order.controller.maker;
 
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.InvoicePeopleType;
+import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.order.service.IPayMakerService;
 import com.lgyun.system.user.entity.MakerEntity;
@@ -37,7 +37,7 @@ public class IndividualBusinessMakerController {
             return result;
         }
 
-        return payMakerService.yearMonthMoney(individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
+        return payMakerService.yearMonthMoney(individualBusinessId, MakerType.INDIVIDUALBUSINESS);
     }
 
 }

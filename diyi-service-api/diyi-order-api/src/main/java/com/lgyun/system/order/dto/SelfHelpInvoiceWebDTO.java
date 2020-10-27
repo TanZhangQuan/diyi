@@ -1,6 +1,6 @@
 package com.lgyun.system.order.dto;
 
-import com.lgyun.common.enumeration.InvoicePeopleType;
+import com.lgyun.common.enumeration.MakerType;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -53,7 +53,7 @@ public class SelfHelpInvoiceWebDTO implements Serializable {
     /**
      * 开票人的身份
      */
-    private InvoicePeopleType invoicePeopleType;
+    private MakerType makerType;
 
     /**
      * 申请商户ID

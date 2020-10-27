@@ -1,7 +1,7 @@
 package com.lgyun.system.order.controller.enterprise;
 
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.InvoicePeopleType;
+import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
@@ -39,7 +39,7 @@ public class IndividualBusinessEnterpriseController {
             return result;
         }
 
-        return selfHelpInvoiceService.selfHelpInvoiceStatistics(individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
+        return selfHelpInvoiceService.selfHelpInvoiceStatistics(individualBusinessId, MakerType.INDIVIDUALBUSINESS);
     }
 
     @GetMapping("/query-invoice-list")
@@ -51,7 +51,7 @@ public class IndividualBusinessEnterpriseController {
             return result;
         }
 
-        return selfHelpInvoiceService.selfHelpInvoiceList(Condition.getPage(query.setDescs("create_time")), individualBusinessId, InvoicePeopleType.INDIVIDUALBUSINESS);
+        return selfHelpInvoiceService.selfHelpInvoiceList(Condition.getPage(query.setDescs("create_time")), individualBusinessId, MakerType.INDIVIDUALBUSINESS);
     }
 
 }

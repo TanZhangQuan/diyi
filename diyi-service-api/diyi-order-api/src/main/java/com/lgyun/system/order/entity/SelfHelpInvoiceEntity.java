@@ -2,7 +2,7 @@ package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.common.enumeration.CrowdSourcingPayType;
-import com.lgyun.common.enumeration.InvoicePeopleType;
+import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.SelfHelpInvoiceApplyState;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -68,9 +68,9 @@ public class SelfHelpInvoiceEntity extends BaseEntity {
     private Long originalSelfHelpId;
 
     /**
-     * 开票人身份类别 1，自然人；2，个体户；3，个独；4，合伙企业；5，有限公司
+     * 开票人身份类别
      */
-    private InvoicePeopleType invoicePeopleType;
+    private MakerType makerType;
 
     /**
      * 开票清单文件

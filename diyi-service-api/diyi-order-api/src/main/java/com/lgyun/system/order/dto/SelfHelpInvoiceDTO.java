@@ -1,6 +1,6 @@
 package com.lgyun.system.order.dto;
 
-import com.lgyun.common.enumeration.InvoicePeopleType;
+import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.ObjectType;
 import lombok.Data;
 
@@ -25,10 +25,10 @@ public class SelfHelpInvoiceDTO implements Serializable {
     private Long enterpriseId;
 
     /**
-     * 开票选择的身份
+     * 开票人身份
      */
-    @NotBlank(message = "开票选择的身份不能为空")
-    private InvoicePeopleType invoiceIdentityType;
+    @NotBlank(message = "请选择开票人身份")
+    private MakerType makerType;
 
     /**
      * 开票类目
