@@ -2,7 +2,6 @@ package com.lgyun.system.user.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.CertificationState;
 import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.core.mp.base.BaseService;
@@ -10,10 +9,9 @@ import com.lgyun.system.order.vo.SelfHelpInvoiceDetailProviderVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceSerProVO;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
+import com.lgyun.system.user.vo.MakerEnterpriseDetailYearMonthVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.MakerEnterpriseWebVO;
-import com.lgyun.system.user.vo.RelMakerListVO;
-import com.lgyun.system.user.vo.MakerEnterpriseDetailYearMonthVO;
 
 import java.util.List;
 import java.util.Set;
@@ -71,7 +69,7 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
      * @param makerId
      * @return
      */
-    MakerEnterpriseEntity getEnterpriseIdAndMakerId(Long enterpriseId, Long makerId);
+    MakerEnterpriseEntity queryMakerEnterprise(Long enterpriseId, Long makerId);
 
     /**
      * 通过商户id，创客id，关系查询
@@ -84,35 +82,22 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
     int getEnterpriseIdAndMakerIdAndRelationshipType(Long enterpriseId, Long makerId, RelationshipType relationshipType);
 
     /**
-     * 根据条件查询所有创客
-     *
-     * @param page
-     * @param enterpriseId
-     * @param relationshipType
-     * @param certificationState
-     * @param keyword
-     * @return
-     */
-    R<IPage<RelMakerListVO>> getEnterpriseMakerList(IPage<RelMakerListVO> page, Long enterpriseId, RelationshipType relationshipType, CertificationState certificationState, String keyword);
-
-    /**
      * 批量关联创客
      *
      * @param makerIds
      * @param enterpriseId
      * @return
      */
-    R<String> relMakers(Set<Long> makerIds, Long enterpriseId);
+    R<String> relevanceMakerList(Set<Long> makerIds, Long enterpriseId);
 
     /**
      * 批量取消创客关联或关注
      *
      * @param makerIds
-     * @param relationshipType
      * @param enterpriseId
      * @return
      */
-    R<String> cancelRelMakers(Set<Long> makerIds, RelationshipType relationshipType, Long enterpriseId);
+    R<String> cancelRelevanceOrAttentionMakerList(Set<Long> makerIds, Long enterpriseId);
 
     /**
      * 查询当前服务商的自助开票

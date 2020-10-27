@@ -2,12 +2,11 @@ package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lgyun.common.enumeration.CertificationState;
+import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.system.user.dto.MakerListIndividualDTO;
 import com.lgyun.system.user.entity.MakerEntity;
-import com.lgyun.system.user.vo.EnterpriseMakerDetailVO;
-import com.lgyun.system.user.vo.MakerDetailVO;
-import com.lgyun.system.user.vo.MakerInfoVO;
-import com.lgyun.system.user.vo.MakerListIndividualVO;
+import com.lgyun.system.user.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -40,11 +39,10 @@ public interface MakerMapper extends BaseMapper<MakerEntity> {
     /**
      * 根据创客ID查询创客详情
      *
-     * @param enterpriseId
      * @param makerId
      * @return
      */
-    EnterpriseMakerDetailVO getMakerDetailById(Long enterpriseId, Long makerId);
+    EnterpriseMakerDetailVO queryMakerDetail(Long makerId);
 
     /**
      * 查询商户关联的创客
@@ -55,5 +53,19 @@ public interface MakerMapper extends BaseMapper<MakerEntity> {
      * @return
      */
     List<MakerListIndividualVO> queryMakerListIndividual(Long enterpriseId, MakerListIndividualDTO makerListIndividualDTO, IPage<MakerListIndividualVO> page);
+
+    /**
+     * 根据条件查询所有创客
+     *
+     * @param enterpriseId
+     * @param serviceProviderId
+     * @param relationshipType
+     * @param certificationState
+     * @param keyword
+     * @param page
+     * @return
+     */
+    List<MakerListVO> queryMakerList(Long enterpriseId, Long serviceProviderId, RelationshipType relationshipType, CertificationState certificationState, String keyword, IPage<MakerListVO> page);
+
 }
 

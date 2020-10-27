@@ -7,7 +7,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 @Data
-@ApiModel(description = "创客信息")
+@ApiModel(description = "导入创客参数")
 public class ImportMakerListDTO {
 
     @ApiModelProperty(value = "创客姓名", notes = "创客姓名")
@@ -30,5 +30,4 @@ public class ImportMakerListDTO {
 
     @ApiModelProperty(value = "卡号", notes = "卡号")
     private String bankCardNo;
-
 }

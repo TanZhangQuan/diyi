@@ -25,17 +25,13 @@ import javax.validation.constraints.NotNull;
 public class NaturalPersonMakerServiceProviderController {
 
     private IServiceProviderWorkerService serviceProviderWorkerService;
-    private IServiceProviderMakerService serviceProviderMakerService;
     private IEnterpriseServiceProviderService enterpriseServiceProviderService;
     private IMakerService makerService;
     private IMakerEnterpriseService makerEnterpriseService;
 
     @GetMapping("/query-relevance-maker-list")
     @ApiOperation(value = "查询当前服务商的所有关联创客", notes = "查询当前服务商的所有关联创客")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "搜索关键字(创客编号，姓名，手机号)", value = "搜索关键字(创客编号，姓名，手机号)", paramType = "query", dataType = "string"),
-    })
-    public R queryRelevanceMakerList(String keyword, Query query, BladeUser bladeUser) {
+    public R queryRelevanceMakerList(@ApiParam(value = "搜索创客关键字：请输入创客编号/姓名/手机号") @RequestParam(required = false) String keyword, Query query, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -43,13 +39,19 @@ public class NaturalPersonMakerServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return serviceProviderMakerService.getServiceProviderMakers(Condition.getPage(query.setDescs("create_time")), serviceProviderWorkerEntity.getServiceProviderId(), keyword);
+        return makerService.queryMakerList(null, serviceProviderWorkerEntity.getServiceProviderId(), null, null, keyword, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-maker-detail")
     @ApiOperation(value = "查询创客详情", notes = "查询创客详情")
-    public R queryMakerDetail(@ApiParam(value = "创客ID", required = true) @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId) {
-        return makerService.getMakerDetailById(null, makerId);
+    public R queryMakerDetail(@ApiParam(value = "创客ID", required = true) @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return makerService.queryMakerDetail(makerId);
     }
 
     @GetMapping("/query-relevance-enterprise-list")
@@ -67,8 +69,15 @@ public class NaturalPersonMakerServiceProviderController {
 
     @GetMapping("/query-relevance-maker-list-by-enterprise-id")
     @ApiOperation(value = "根据商户查询所有关联创客", notes = "根据商户查询所有关联创客")
-    public R queryRelevanceMakerListByEnterpriseId(@ApiParam(value = "商户编号", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, String keyword, Query query) {
-        return makerEnterpriseService.getEnterpriseMakerList(Condition.getPage(query.setDescs("create_time")), enterpriseId, RelationshipType.RELEVANCE, null, keyword);
+    public R queryRelevanceMakerListByEnterpriseId(@ApiParam(value = "商户编号", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId,
+                                                   @ApiParam(value = "搜索创客关键字：请输入创客编号/姓名/手机号") @RequestParam(required = false) String keyword, Query query, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return makerService.queryMakerList(enterpriseId, null, RelationshipType.RELEVANCE, null, keyword, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-self-help-invoice-list")

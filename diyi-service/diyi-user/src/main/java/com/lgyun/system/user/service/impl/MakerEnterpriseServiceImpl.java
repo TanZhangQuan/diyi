@@ -8,16 +8,15 @@ import com.lgyun.common.exception.CustomException;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.vo.SelfHelpInvoiceDetailProviderVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceSerProVO;
-import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.mapper.MakerEnterpriseMapper;
 import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
+import com.lgyun.system.user.service.IMakerService;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
+import com.lgyun.system.user.vo.MakerEnterpriseDetailYearMonthVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.MakerEnterpriseWebVO;
-import com.lgyun.system.user.vo.RelMakerListVO;
-import com.lgyun.system.user.vo.MakerEnterpriseDetailYearMonthVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -42,19 +41,31 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     @Lazy
     private IEnterpriseService enterpriseService;
 
+    @Autowired
+    @Lazy
+    private IMakerService makerService;
+
     @Override
     public void makerEnterpriseEntitySave(Long enterpriseId, Long makerId) {
-        int i = enterpriseService.count(new QueryWrapper<EnterpriseEntity>().lambda().eq(EnterpriseEntity::getId, enterpriseId));
-        if (i == 0) {
-            throw new CustomException("商户不存在！");
+
+        int enterpriseNum = enterpriseService.queryCountById(enterpriseId);
+        if (enterpriseNum <= 0) {
+            throw new CustomException("商户不存在");
         }
-        MakerEnterpriseEntity makerEnterpriseEntity = getEnterpriseIdAndMakerId(enterpriseId, makerId);
+
+        int makerNum = makerService.queryCountById(makerId);
+        if (makerNum <= 0) {
+            throw new CustomException("创客不存在");
+        }
+
+        MakerEnterpriseEntity makerEnterpriseEntity = queryMakerEnterprise(enterpriseId, makerId);
         if (makerEnterpriseEntity != null) {
-            if (!(RelationshipType.RELEVANCE.equals(makerEnterpriseEntity.getRelationshipType()) && CooperateStatus.COOPERATING.equals(makerEnterpriseEntity.getCooperateStatus()))) {
+            if (!(RelationshipType.RELEVANCE.equals(makerEnterpriseEntity.getRelationshipType()))) {
                 makerEnterpriseEntity.setRelationshipType(RelationshipType.RELEVANCE);
+                makerEnterpriseEntity.setRelType(EnterpriseMakerRelType.ENTERPRISEREL);
+                makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATING);
                 makerEnterpriseEntity.setFirstCooperation(false);
                 makerEnterpriseEntity.setRelMemo("关联");
-                makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATING);
                 updateById(makerEnterpriseEntity);
                 return;
             } else {
@@ -70,7 +81,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
         makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATING);
         makerEnterpriseEntity.setCooperationStartTime(new Date());
         makerEnterpriseEntity.setFirstCooperation(true);
-        makerEnterpriseEntity.setRelMemo("关联");
+        makerEnterpriseEntity.setRelMemo("首次关联");
         save(makerEnterpriseEntity);
     }
 
@@ -112,7 +123,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
-    public MakerEnterpriseEntity getEnterpriseIdAndMakerId(Long enterpriseId, Long makerId) {
+    public MakerEnterpriseEntity queryMakerEnterprise(Long enterpriseId, Long makerId) {
         QueryWrapper<MakerEnterpriseEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(MakerEnterpriseEntity::getMakerId, makerId)
                 .eq(MakerEnterpriseEntity::getEnterpriseId, enterpriseId);
@@ -129,13 +140,8 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
-    public R<IPage<RelMakerListVO>> getEnterpriseMakerList(IPage<RelMakerListVO> page, Long enterpriseId, RelationshipType relationshipType, CertificationState certificationState, String keyword) {
-        return R.data(page.setRecords(baseMapper.getEnterpriseMakerList(enterpriseId, relationshipType, certificationState, keyword, page)));
-    }
-
-    @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> relMakers(Set<Long> makerIds, Long enterpriseId) {
+    public R<String> relevanceMakerList(Set<Long> makerIds, Long enterpriseId) {
 
         makerIds.forEach(makerId -> {
             try {
@@ -150,50 +156,22 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
-    public R<String> cancelRelMakers(Set<Long> makerIds, RelationshipType relationshipType, Long enterpriseId) {
-
-        switch (relationshipType) {
-
-            case ATTENTION:
-                //取消创客关注
-                makerIds.forEach(makerId -> {
-                    try {
-                        MakerEnterpriseEntity makerEnterpriseEntity = getEnterpriseIdAndMakerId(enterpriseId, makerId);
-                        if (makerEnterpriseEntity != null) {
-                            if (RelationshipType.ATTENTION.equals(makerEnterpriseEntity.getRelationshipType())) {
-                                makerEnterpriseEntity.setRelationshipType(RelationshipType.NORELATION);
-                                makerEnterpriseEntity.setRelMemo("");
-                                updateById(makerEnterpriseEntity);
-                            }
-                        }
-                    } catch (Exception e) {
-                        log.error("取消创客关注异常", e);
-                    }
-                });
-                break;
-
-            case RELEVANCE:
-                //取消创客关联
-                makerIds.forEach(makerId -> {
-                    try {
-                        MakerEnterpriseEntity makerEnterpriseEntity = getEnterpriseIdAndMakerId(enterpriseId, makerId);
-                        if (makerEnterpriseEntity != null) {
-                            if (RelationshipType.RELEVANCE.equals(makerEnterpriseEntity.getRelationshipType()) && CooperateStatus.COOPERATING.equals(makerEnterpriseEntity.getCooperateStatus())) {
-                                makerEnterpriseEntity.setRelationshipType(RelationshipType.NORELATION);
-                                makerEnterpriseEntity.setRelMemo("");
-                                makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATESTOP);
-                                updateById(makerEnterpriseEntity);
-                            }
-                        }
-                    } catch (Exception e) {
-                        log.error("取消创客关联异常", e);
-                    }
-                });
-                break;
-
-            default:
-                return R.fail("创客商户关系有误");
-        }
+    public R<String> cancelRelevanceOrAttentionMakerList(Set<Long> makerIds, Long enterpriseId) {
+        //取消创客关联或关注
+        makerIds.forEach(makerId -> {
+            try {
+                MakerEnterpriseEntity makerEnterpriseEntity = queryMakerEnterprise(enterpriseId, makerId);
+                if (makerEnterpriseEntity != null) {
+                    makerEnterpriseEntity.setRelationshipType(RelationshipType.NORELATION);
+                    makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATESTOP);
+                    makerEnterpriseEntity.setCooperationEndTime(new Date());
+                    makerEnterpriseEntity.setRelMemo("取消关联关注");
+                    updateById(makerEnterpriseEntity);
+                }
+            } catch (Exception e) {
+                log.error("取消创客关联关注异常", e);
+            }
+        });
 
         return R.success("操作成功");
     }

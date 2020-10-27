@@ -36,13 +36,19 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
 
     private AliyunOssService ossService;
     private IMakerEnterpriseService makerEnterpriseService;
-    private IEnterpriseServiceProviderService enterpriseProviderService;
     private IAgreementService agreementService;
     private IEnterpriseWorkerService enterpriseWorkerService;
     private IUserService userService;
 
     @Override
-    public Integer findCountByEnterpriseName(String enterpriseName, Long enterpriseId) {
+    public int queryCountById(Long id) {
+        QueryWrapper<EnterpriseEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(EnterpriseEntity::getId, id);
+        return baseMapper.selectCount(queryWrapper);
+    }
+
+    @Override
+    public int queryCountByEnterpriseName(String enterpriseName, Long enterpriseId) {
         QueryWrapper<EnterpriseEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(EnterpriseEntity::getEnterpriseName, enterpriseName)
                 .ne(enterpriseId != null, EnterpriseEntity::getId, enterpriseId);
@@ -50,7 +56,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     @Override
-    public Integer findCountBySocialCreditNo(String socialCreditNo, Long enterpriseId) {
+    public int queryCountBySocialCreditNo(String socialCreditNo, Long enterpriseId) {
         QueryWrapper<EnterpriseEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(EnterpriseEntity::getSocialCreditNo, socialCreditNo)
                 .ne(enterpriseId != null, EnterpriseEntity::getId, enterpriseId);
@@ -160,14 +166,14 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         }
 
         //判断商户名称是否已存在
-        Integer countByEnterpriseName = findCountByEnterpriseName(addEnterpriseDTO.getEnterpriseName(), null);
-        if (countByEnterpriseName != null) {
-            return R.fail("名称已存在");
+        int countByEnterpriseName = queryCountByEnterpriseName(addEnterpriseDTO.getEnterpriseName(), null);
+        if (countByEnterpriseName > 0) {
+            return R.fail("商户名称已存在");
         }
 
         //判断社会信用代码是否已存在
-        Integer countBySocialCreditNo = findCountBySocialCreditNo(addEnterpriseDTO.getSocialCreditNo(), null);
-        if (countBySocialCreditNo != null) {
+        int countBySocialCreditNo = queryCountBySocialCreditNo(addEnterpriseDTO.getSocialCreditNo(), null);
+        if (countBySocialCreditNo > 0) {
             return R.fail("统一社会信用代码已存在");
         }
 
@@ -270,13 +276,13 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         }
 
         //判断商户名称是否已存在
-        Integer countByEnterpriseName = findCountByEnterpriseName(updateEnterpriseDTO.getEnterpriseName(), enterpriseEntity.getId());
+        Integer countByEnterpriseName = queryCountByEnterpriseName(updateEnterpriseDTO.getEnterpriseName(), enterpriseEntity.getId());
         if (countByEnterpriseName > 0) {
             return R.fail("商户名称已存在");
         }
 
         //判断社会信用代码是否已存在
-        Integer countBySocialCreditNo = findCountBySocialCreditNo(updateEnterpriseDTO.getSocialCreditNo(), enterpriseEntity.getId());
+        Integer countBySocialCreditNo = queryCountBySocialCreditNo(updateEnterpriseDTO.getSocialCreditNo(), enterpriseEntity.getId());
         if (countBySocialCreditNo > 0) {
             return R.fail("统一社会信用代码已存在");
         }

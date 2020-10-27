@@ -4,18 +4,22 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.CertificationState;
+import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.IdcardOcrSaveDTO;
-import com.lgyun.system.user.dto.ImportMakerDTO;
+import com.lgyun.system.user.dto.ImportMakerListDTO;
 import com.lgyun.system.user.dto.MakerAddDTO;
 import com.lgyun.system.user.dto.MakerListIndividualDTO;
 import com.lgyun.system.user.entity.MakerEntity;
+import com.lgyun.system.user.excel.MakerExcel;
 import com.lgyun.system.user.vo.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Service 接口
@@ -24,6 +28,14 @@ import java.io.IOException;
  * @since 2020-06-26 17:21:06
  */
 public interface IMakerService extends IService<MakerEntity> {
+
+    /**
+     * 根据ID查询创客
+     *
+     * @param id
+     * @return
+     */
+    int queryCountById(Long id);
 
     /**
      * 查询当前创客
@@ -227,9 +239,11 @@ public interface IMakerService extends IService<MakerEntity> {
     /**
      * 导入创客数据
      *
-     * @param importMakerDTO
+     * @param importMakerListDTOList
+     * @param enterpriseId
+     * @return
      */
-    R<String> importMaker(ImportMakerDTO importMakerDTO);
+    R<String> importMaker(List<ImportMakerListDTO> importMakerListDTOList, Long enterpriseId);
 
     /**
      * 新增单个创客
@@ -251,11 +265,10 @@ public interface IMakerService extends IService<MakerEntity> {
     /**
      * 根据创客ID查询创客详情
      *
-     * @param enterpriseId
      * @param makerId
      * @return
      */
-    R<EnterpriseMakerDetailVO> getMakerDetailById(Long enterpriseId, Long makerId);
+    R<EnterpriseMakerDetailVO> queryMakerDetail(Long makerId);
 
     /**
      * 平台端上传创客授权视频
@@ -279,7 +292,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      * @throws IOException
      */
-    R readExcelGetMakerList(MultipartFile file) throws IOException;
+    R<List<MakerExcel>> readMakerListExcel(MultipartFile file) throws IOException;
 
     /**
      * 查询商户关联的创客
@@ -290,5 +303,19 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      */
     R<IPage<MakerListIndividualVO>> queryMakerListIndividual(Long enterpriseId, MakerListIndividualDTO makerListIndividualDTO, IPage<MakerListIndividualVO> page);
+
+    /**
+     * 根据条件查询所有创客
+     *
+     * @param enterpriseId
+     * @param serviceProviderId
+     * @param relationshipType
+     * @param certificationState
+     * @param keyword
+     * @param page
+     * @return
+     */
+    R<IPage<MakerListVO>> queryMakerList(Long enterpriseId, Long serviceProviderId, RelationshipType relationshipType, CertificationState certificationState, String keyword, IPage<MakerListVO> page);
+
 }
 

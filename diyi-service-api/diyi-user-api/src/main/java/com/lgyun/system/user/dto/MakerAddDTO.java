@@ -53,7 +53,7 @@ public class MakerAddDTO implements Serializable {
     private String subBankName;
 
     /**
-     * 新密码
+     * 登陆密码
      */
     private String password;
 

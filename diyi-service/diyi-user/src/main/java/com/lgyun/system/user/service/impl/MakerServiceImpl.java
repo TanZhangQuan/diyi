@@ -7,13 +7,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.RealnameVerifyConstant;
 import com.lgyun.common.enumeration.*;
-import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.*;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.*;
-import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.entity.OnlineAgreementTemplateEntity;
 import com.lgyun.system.user.entity.User;
@@ -56,7 +54,13 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     private SmsUtil smsUtil;
     private IOnlineAgreementNeedSignService onlineAgreementNeedSignService;
     private IOnlineAgreementTemplateService onlineAgreementTemplateService;
-    private IEnterpriseService enterpriseService;
+
+    @Override
+    public int queryCountById(Long id) {
+        QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(MakerEntity::getId, id);
+        return baseMapper.selectCount(queryWrapper);
+    }
 
     @Override
     public R<MakerEntity> currentMaker(BladeUser bladeUser) {
@@ -622,36 +626,28 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R importMaker(ImportMakerDTO importMakerDTO) {
-        Long enterpriseId = importMakerDTO.getEnterpriseId();
-        int i = enterpriseService.count(new QueryWrapper<EnterpriseEntity>().lambda().eq(EnterpriseEntity::getId, enterpriseId));
-        if (i == 0) {
-            throw new CustomException("商户不存在！");
-        }
+    public R importMaker(List<ImportMakerListDTO> importMakerListDTOList, Long enterpriseId) {
+
         List<ImportMakerListDTO> importMakerDTOS = new ArrayList<>();
-        importMakerDTO.getImportMakerDTOS().forEach(makerExcel -> {
+        importMakerListDTOList.forEach(importMakerListDTO -> {
             try {
                 //新建创客
-                makerSave(makerExcel.getPhoneNumber(), makerExcel.getName(), makerExcel.getIdcardNo(), makerExcel.getBankCardNo(),
-                        makerExcel.getBankName(), makerExcel.getBankCardNo(), enterpriseId);
+                makerSave(importMakerListDTO.getPhoneNumber(), importMakerListDTO.getName(), importMakerListDTO.getIdcardNo(), importMakerListDTO.getBankCardNo(),
+                        importMakerListDTO.getBankName(), importMakerListDTO.getBankCardNo(), enterpriseId);
             } catch (Exception e) {
-                importMakerDTOS.add(makerExcel);
+                importMakerDTOS.add(importMakerListDTO);
                 log.error("新建创客异常", e);
             }
         });
-        if (Func.isEmpty(importMakerDTOS)) {
-            return R.success("操作成功！");
-        }
-        return R.data(importMakerDTOS);
+
+        return R.data(importMakerDTOS, "导入成功");
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public R<String> makerAdd(MakerAddDTO makerAddDto, Long enterpriseId) {
         //新建创客
-        makerSave(makerAddDto.getPhoneNumber(), makerAddDto.getName(), makerAddDto.getIdcardNo(), makerAddDto.getBankCardNo(),
-                makerAddDto.getBankName(), makerAddDto.getBankCardNo(), enterpriseId);
-
+        makerSave(makerAddDto.getPhoneNumber(), makerAddDto.getName(), makerAddDto.getIdcardNo(), makerAddDto.getBankCardNo(), makerAddDto.getBankName(), makerAddDto.getBankCardNo(), enterpriseId);
         return R.success("添加成功");
     }
 
@@ -669,8 +665,8 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R<EnterpriseMakerDetailVO> getMakerDetailById(Long enterpriseId, Long makerId) {
-        return R.data(baseMapper.getMakerDetailById(enterpriseId, makerId));
+    public R<EnterpriseMakerDetailVO> queryMakerDetail(Long makerId) {
+        return R.data(baseMapper.queryMakerDetail(makerId));
     }
 
     @Override
@@ -694,7 +690,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R readExcelGetMakerList(MultipartFile file) throws IOException {
+    public R<List<MakerExcel>> readMakerListExcel(MultipartFile file) throws IOException {
         //判断文件内容是否为空
         if (file.isEmpty()) {
             return R.fail("Excel文件不能为空");
@@ -704,13 +700,19 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         if ((!org.springframework.util.StringUtils.endsWithIgnoreCase(suffix, ".xls") && !org.springframework.util.StringUtils.endsWithIgnoreCase(suffix, ".xlsx"))) {
             return R.fail("请选择Excel文件");
         }
-        List<MakerExcel> makerExcels = ExcelUtils.importExcel(file, 0, 1, MakerExcel.class);
-        return R.data(makerExcels);
+
+        List<MakerExcel> makerExcelList = ExcelUtils.importExcel(file, 0, 1, MakerExcel.class);
+        return R.data(makerExcelList);
     }
 
     @Override
     public R<IPage<MakerListIndividualVO>> queryMakerListIndividual(Long enterpriseId, MakerListIndividualDTO makerListIndividualDTO, IPage<MakerListIndividualVO> page) {
         return R.data(page.setRecords(baseMapper.queryMakerListIndividual(enterpriseId, makerListIndividualDTO, page)));
+    }
+
+    @Override
+    public R<IPage<MakerListVO>> queryMakerList(Long enterpriseId, Long serviceProviderId, RelationshipType relationshipType, CertificationState certificationState, String keyword, IPage<MakerListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryMakerList(enterpriseId, serviceProviderId, relationshipType, certificationState, keyword, page)));
     }
 
 }

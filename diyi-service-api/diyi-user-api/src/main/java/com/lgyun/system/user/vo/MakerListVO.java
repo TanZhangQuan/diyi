@@ -7,13 +7,13 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 关注商户创客VO
+ * 创客列表VO
  *
  * @author tzq
  * @since 2020/6/6 00:28
  */
 @Data
-public class RelMakerListVO implements Serializable {
+public class MakerListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**

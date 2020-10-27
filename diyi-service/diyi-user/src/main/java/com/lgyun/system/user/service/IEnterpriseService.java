@@ -20,13 +20,21 @@ import org.springframework.web.multipart.MultipartFile;
 public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
 
     /**
+     * 根据ID查询商户是否存在
+     *
+     * @param id
+     * @return
+     */
+    int queryCountById(Long id);
+
+    /**
      * 查询商户名字是否已存在
      *
      * @param enterpriseName
      * @param enterpriseId
      * @return
      */
-    Integer findCountByEnterpriseName(String enterpriseName, Long enterpriseId);
+    int queryCountByEnterpriseName(String enterpriseName, Long enterpriseId);
 
     /**
      * 查询统一社会信用代码是否已存在
@@ -35,7 +43,7 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * @param enterpriseId
      * @return
      */
-    Integer findCountBySocialCreditNo(String socialCreditNo, Long enterpriseId);
+    int queryCountBySocialCreditNo(String socialCreditNo, Long enterpriseId);
 
     /**
      * 通过商户名字查询

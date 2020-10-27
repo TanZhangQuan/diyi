@@ -60,13 +60,13 @@
     </resultMap>
 
     <resultMap type="com.lgyun.system.user.vo.EnterpriseMakerDetailVO" id="enterpriseMakerDetailVO">
+        <result property="id" column="id"/>
         <result property="avatar" column="avatar"/>
         <result property="name" column="name"/>
         <result property="certificationState" column="certification_state"/>
         <result property="selfDesc" column="self_desc"/>
         <result property="orderNum" column="order_num"/>
         <result property="income" column="income"/>
-        <result property="id" column="id"/>
         <result property="idcardNo" column="idcard_no"/>
         <result property="phoneNumber" column="phone_number"/>
         <result property="bankCardNo" column="bank_card_no"/>
@@ -90,6 +90,18 @@
         <result property="idcardBackHand" column="idcard_back_hand"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.user.vo.MakerListVO" id="makerListVO">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="idcardNo" column="idcard_no"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="bankCardNo" column="bank_card_no"/>
+        <result property="boolRealNameVerify" column="bool_real_name_verify"/>
+        <result property="boolSign" column="bool_sign"/>
+        <result property="boolIndividualBusiness" column="bool_individual_business"/>
+        <result property="boolIndividualEnterprise" column="bool_individual_enterprise"/>
+    </resultMap>
+
     <select id="queryMakerInfo" resultMap="makerInfoVO">
         SELECT avatar, name, certification_state, self_desc FROM diyi_maker WHERE is_deleted = 0 AND id = #{param1}
     </select>
@@ -103,30 +115,24 @@
         video_audit_date, video_audit_person_id FROM diyi_maker WHERE is_deleted = 0 AND id = #{param1}
     </select>
 
-    <select id="getMakerDetailById" resultMap="enterpriseMakerDetailVO">
+    <select id="queryMakerDetail" resultMap="enterpriseMakerDetailVO">
         SELECT t5.id, t5.avatar, t5.name, t5.certification_state, t5.self_desc, t5.idcard_no, t5.phone_number, t5.bank_card_no, t5.bank_name, t5.create_time, t5.maker_state,
         (SELECT COUNT(t2.id) FROM diyi_worksheet t1 INNER JOIN diyi_worksheet_maker t2 ON t1.id = t2.worksheet_id
         WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t2.worksheet_maker_state = 'VALIDATION'
-        <if test="param1 != null">
-        AND t1.enterprise_id = #{param1}
-        </if>
         AND t2.maker_id = t5.id) AS order_num,
         (SELECT IFNULL(SUM(t4.check_money), 0) FROM diyi_worksheet t3 INNER JOIN diyi_worksheet_maker t4 ON t3.id = t4.worksheet_id
         WHERE t3.is_deleted = 0 AND t4.is_deleted = 0 AND t4.worksheet_maker_state = 'VALIDATION'
-        <if test="param1 != null">
-        AND t3.enterprise_id = #{param1}
-        </if>
         AND t4.maker_id = t5.id) AS income,
         IF(t5.bank_card_verify_status = 'VERIFYPASS', TRUE, FALSE) AS bool_real_name_verify,
         (SELECT CASE sign_type WHEN 'PAPERAGREEMENT' THEN paper_agreement_url WHEN 'PLATFORMAGREEMENT' THEN online_agreement_url WHEN 'THIRDAGREEMENT' THEN third_online_agreement_url WHEN 'UNILATERALPOWER' THEN paper_agreement_url
-        WHEN 'ELEUNILATERALPOWER' THEN online_agreement_url ELSE NULL END FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t5.id AND sign_state = 'SIGNED' AND agreement_type = 1) AS platform_join_contract,
+        WHEN 'ELEUNILATERALPOWER' THEN online_agreement_url ELSE NULL END FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t5.id AND sign_state = 'SIGNED' AND agreement_type = 'MAKERJOINAGREEMENT') AS platform_join_contract,
         (SELECT CASE sign_type WHEN 'PAPERAGREEMENT' THEN paper_agreement_url WHEN 'PLATFORMAGREEMENT' THEN online_agreement_url WHEN 'THIRDAGREEMENT' THEN third_online_agreement_url WHEN 'UNILATERALPOWER' THEN paper_agreement_url
-        WHEN 'ELEUNILATERALPOWER' THEN online_agreement_url ELSE NULL END FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t5.id AND sign_state = 'SIGNED' AND agreement_type = 10) AS enterprise_business_agreement,
+        WHEN 'ELEUNILATERALPOWER' THEN online_agreement_url ELSE NULL END FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t5.id AND sign_state = 'SIGNED' AND agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT') AS enterprise_business_agreement,
         (SELECT CASE sign_type WHEN 'PAPERAGREEMENT' THEN paper_agreement_url WHEN 'PLATFORMAGREEMENT' THEN online_agreement_url WHEN 'THIRDAGREEMENT' THEN third_online_agreement_url WHEN 'UNILATERALPOWER' THEN paper_agreement_url
-        WHEN 'ELEUNILATERALPOWER' THEN online_agreement_url ELSE NULL END FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t5.id AND sign_state = 'SIGNED' AND agreement_type = 9) AS license_agreement,
+        WHEN 'ELEUNILATERALPOWER' THEN online_agreement_url ELSE NULL END FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t5.id AND sign_state = 'SIGNED' AND agreement_type = 'MAKERPOWERATTORNEY') AS license_agreement,
         (SELECT CASE sign_type WHEN 'PAPERAGREEMENT' THEN paper_agreement_url WHEN 'PLATFORMAGREEMENT' THEN online_agreement_url WHEN 'THIRDAGREEMENT' THEN third_online_agreement_url WHEN 'UNILATERALPOWER' THEN paper_agreement_url
-        WHEN 'ELEUNILATERALPOWER' THEN online_agreement_url ELSE NULL END FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t5.id AND sign_state = 'SIGNED' AND agreement_type = 12) AS separate_agreement
-        FROM diyi_maker t5 WHERE t5.is_deleted = 0 AND t5.id = #{param2}
+        WHEN 'ELEUNILATERALPOWER' THEN online_agreement_url ELSE NULL END FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t5.id AND sign_state = 'SIGNED' AND agreement_type = 'MAKERTAXPOWERATTORNEY') AS separate_agreement
+        FROM diyi_maker t5 WHERE t5.is_deleted = 0 AND t5.id = #{param1}
     </select>
 
     <select id="queryMakerListIndividual" resultMap="makerListIndividualVO">
@@ -146,6 +152,44 @@
         </if>
         <if test="param2.idcardNo != null and param2.idcardNo.trim() != ''">
             AND t1.idcard_no LIKE concat('%', #{param2.idcardNo}, '%')
+        </if>
+    </select>
+
+    <select id="queryMakerList" resultMap="makerListVO">
+        SELECT
+        <if test="param2 != null">
+            DISTINCT
+        </if>
+        t1.id, t1.name, t1.idcard_no, t1.phone_number, t1.bank_card_no,
+        IF(t1.bank_card_verify_status = 'VERIFYPASS', TRUE, FALSE) AS bool_real_name_verify,
+        IF((SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t1.id AND sign_state = 'SIGNED' AND agreement_type = 'MAKERJOINAGREEMENT') > 0
+        AND (SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t1.id AND sign_state = 'SIGNED' AND agreement_type = 'MAKERPOWERATTORNEY') > 0, TRUE, FALSE) AS bool_sign,
+        IF((SELECT COUNT(id) FROM diyi_individual_business WHERE is_deleted = 0 AND maker_id = t1.id AND ibstate = 'OPERATING') > 0, TRUE, FALSE) AS bool_individual_business,
+        IF((SELECT COUNT(id) FROM diyi_individual_enterprise WHERE is_deleted = 0 AND maker_id = t1.id AND ibstate = 'OPERATING') > 0, TRUE, FALSE) AS bool_individual_enterprise
+        FROM diyi_maker t1
+        <if test="param1 != null">
+            INNER JOIN diyi_maker_enterprise t2 ON t1.id = t2.maker_id AND t2.is_deleted = 0
+        </if>
+        <if test="param2 != null">
+            INNER JOIN diyi_service_provider_maker t3 ON t1.id = t3.maker_id AND t3.is_deleted = 0
+        </if>
+        WHERE t1.is_deleted = 0
+        <if test="param1 != null">
+            AND t2.enterprise_id = #{param1}
+        </if>
+        <if test="param2 != null">
+            AND t3.service_provider_id = #{param2}
+        </if>
+        <if test="param3 != null">
+            AND t2.relationship_type = #{param3}
+        </if>
+        <if test="param4 != null">
+            AND t1.certification_state = #{param4}
+        </if>
+        <if test="param5 != null and param5.trim() != ''">
+            AND (t1.idcard_no LIKE concat('%', #{param5}, '%')
+            OR t1.name LIKE concat('%', #{param5}, '%')
+            OR t1.phone_number LIKE concat('%', #{param5}, '%'))
         </if>
     </select>
 

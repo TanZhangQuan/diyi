@@ -2,16 +2,14 @@ package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.common.enumeration.CertificationState;
 import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.system.order.vo.SelfHelpInvoiceDetailProviderVO;
 import com.lgyun.system.order.vo.SelfHelpInvoiceSerProVO;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
+import com.lgyun.system.user.vo.MakerEnterpriseDetailYearMonthVO;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.MakerEnterpriseWebVO;
-import com.lgyun.system.user.vo.RelMakerListVO;
-import com.lgyun.system.user.vo.MakerEnterpriseDetailYearMonthVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -34,18 +32,6 @@ public interface MakerEnterpriseMapper extends BaseMapper<MakerEnterpriseEntity>
      * @return
      */
     List<MakerEnterpriseRelationVO> selectMakerEnterprisePage(Long makerId, RelationshipType relationshipType, IPage<MakerEnterpriseRelationVO> page);
-
-    /**
-     * 根据条件查询所有创客
-     *
-     * @param enterpriseId
-     * @param relationshipType
-     * @param certificationState
-     * @param keyword
-     * @param page
-     * @return
-     */
-    List<RelMakerListVO> getEnterpriseMakerList(Long enterpriseId, RelationshipType relationshipType, CertificationState certificationState, String keyword, IPage<RelMakerListVO> page);
 
     /**
      * 查询创客关联商户的编号名称

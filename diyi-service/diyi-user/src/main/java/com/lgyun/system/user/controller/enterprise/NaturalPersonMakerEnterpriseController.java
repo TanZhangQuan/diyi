@@ -6,7 +6,7 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.MakerAddDTO;
-import com.lgyun.system.user.dto.ImportMakerDTO;
+import com.lgyun.system.user.dto.ImportMakerListDTO;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
@@ -23,6 +23,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -38,7 +39,8 @@ public class NaturalPersonMakerEnterpriseController {
 
     @GetMapping("/query-relevance-maker-list")
     @ApiOperation(value = "查询当前商户的所有关联或关注创客", notes = "查询当前商户的所有关联或关注创客")
-    public R queryRelevanceMakerList(String keyword, @ApiParam(value = "创客商户关系") @NotNull(message = "请选择创客商户关系") @RequestParam(required = false) RelationshipType relationshipType, Query query, BladeUser bladeUser) {
+    public R queryRelevanceMakerList(@ApiParam(value = "创客商户关系") @NotNull(message = "请选择创客商户关系") @RequestParam(required = false) RelationshipType relationshipType,
+                                     @ApiParam(value = "搜索创客关键字：请输入创客编号/姓名/手机号") @RequestParam(required = false) String keyword, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -46,7 +48,7 @@ public class NaturalPersonMakerEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return makerEnterpriseService.getEnterpriseMakerList(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), relationshipType, null, keyword);
+        return makerService.queryMakerList(enterpriseWorkerEntity.getEnterpriseId(), null, relationshipType, null, keyword, Condition.getPage(query.setDescs("create_time")));
     }
 
     @PostMapping("/create-maker")
@@ -62,26 +64,29 @@ public class NaturalPersonMakerEnterpriseController {
         return makerService.makerAdd(makerAddDto, enterpriseWorkerEntity.getEnterpriseId());
     }
 
-    @PostMapping("read-excel-get-maker-list")
+    @PostMapping("read-maker-list-excel")
     @ApiOperation(value = "读取Excel表获取导入的创客列表", notes = "读取Excel表获取导入的创客列表")
-    public R readExcelGetMakerList(@ApiParam(value = "Excel文件", required = true) @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file, BladeUser bladeUser) throws IOException {
+    public R readMakerListExcel(@ApiParam(value = "Excel文件", required = true) @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file, BladeUser bladeUser) throws IOException {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
-        return makerService.readExcelGetMakerList(file);
+
+        return makerService.readMakerListExcel(file);
     }
 
     @PostMapping("import-maker-list")
     @ApiOperation(value = "导入创客", notes = "导入创客")
-    public R importMakerList(@Valid @RequestBody ImportMakerDTO importMakerDTO, BladeUser bladeUser) throws IOException {
+    public R importMakerList(@Valid @RequestBody List<ImportMakerListDTO> importMakerListDTOList, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
-        return makerService.importMaker(importMakerDTO);
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+        return makerService.importMaker(importMakerListDTOList, enterpriseWorkerEntity.getEnterpriseId());
     }
 
     @GetMapping("/query-maker-detail")
@@ -92,16 +97,13 @@ public class NaturalPersonMakerEnterpriseController {
         if (!(result.isSuccess())) {
             return result;
         }
-        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return makerService.getMakerDetailById(enterpriseWorkerEntity.getEnterpriseId(), makerId);
+        return makerService.queryMakerDetail(makerId);
     }
 
-    @PostMapping("/cancel-relevance-maker-list")
+    @PostMapping("/cancel-relevance-or-attention-maker-list")
     @ApiOperation(value = "批量取消创客关联或关注", notes = "批量取消创客关联或关注")
-    public R cancelRelevanceMakerList(@ApiParam(value = "创客") @NotEmpty(message = "请选择要取消关联的创客") @RequestParam(required = false) Set<Long> makerIds,
-                                      @ApiParam(value = "创客商户关系") @NotNull(message = "请选择创客商户关系") @RequestParam(required = false) RelationshipType relationshipType,
-                                      BladeUser bladeUser) {
+    public R cancelRelevanceOrAttentionMakerList(@ApiParam(value = "创客") @NotEmpty(message = "请选择要取消关联的创客") @RequestParam(required = false) Set<Long> makerIds, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -109,7 +111,7 @@ public class NaturalPersonMakerEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return makerEnterpriseService.cancelRelMakers(makerIds, relationshipType, enterpriseWorkerEntity.getEnterpriseId());
+        return makerEnterpriseService.cancelRelevanceOrAttentionMakerList(makerIds, enterpriseWorkerEntity.getEnterpriseId());
     }
 
     @PostMapping("/relevance-maker-list")
@@ -122,7 +124,7 @@ public class NaturalPersonMakerEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return makerEnterpriseService.relMakers(makerIds, enterpriseWorkerEntity.getEnterpriseId());
+        return makerEnterpriseService.relevanceMakerList(makerIds, enterpriseWorkerEntity.getEnterpriseId());
     }
 
 }
