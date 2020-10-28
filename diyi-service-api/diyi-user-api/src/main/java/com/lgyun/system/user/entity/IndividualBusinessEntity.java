@@ -122,7 +122,7 @@ public class IndividualBusinessEntity extends BaseEntity {
     /**
      * 个体户状态
      */
-    private Ibstate ibstate;
+    private Ibstate ibstate = Ibstate.EDITING;
 
     /**
      * 提交日期
