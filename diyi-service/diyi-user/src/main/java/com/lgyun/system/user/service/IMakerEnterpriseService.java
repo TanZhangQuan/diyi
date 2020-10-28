@@ -5,8 +5,6 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.order.vo.SelfHelpInvoiceDetailProviderVO;
-import com.lgyun.system.order.vo.SelfHelpInvoiceSerProVO;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
 import com.lgyun.system.user.vo.MakerEnterpriseDetailYearMonthVO;
@@ -100,16 +98,6 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
     R<String> cancelRelevanceOrAttentionMakerList(Set<Long> makerIds, Long enterpriseId);
 
     /**
-     * 查询当前服务商的自助开票
-     *
-     * @param page
-     * @param keyword
-     * @param serviceProviderId
-     * @return
-     */
-    R<IPage<SelfHelpInvoiceSerProVO>> getSelfHelpInvoiceByServiceProviderId(IPage<SelfHelpInvoiceSerProVO> page, String keyword, Long serviceProviderId);
-
-    /**
      * 根据商户id查询所有关联的创客
      */
     List<MakerEnterpriseEntity> getEnterpriseId(Long enterpriseId);
@@ -124,16 +112,13 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
     R<IPage<MakerEnterpriseWebVO>> selectEnterpriseMaker(IPage<MakerEnterpriseWebVO> page, Long enterpriseId);
 
     /**
-     * 根据当前服务商和自助开票ID查询自助开票详情
+     * 查询关联商户和创客的明细
      *
      * @param page
-     * @param selfHelpvoiceId
+     * @param makerId
+     * @param enterpriseId
+     * @param workSheetType
      * @return
-     */
-    R<IPage<SelfHelpInvoiceDetailProviderVO>> getSelfHelpInvoiceDetails(IPage<SelfHelpInvoiceDetailProviderVO> page, Long selfHelpvoiceId);
-
-    /**
-     * 查询关联商户和创客的明细
      */
     R<IPage<MakerEnterpriseDetailYearMonthVO>> getMakerDetailed(IPage<MakerEnterpriseDetailYearMonthVO> page, Long makerId, Long enterpriseId, WorkSheetType workSheetType);
 

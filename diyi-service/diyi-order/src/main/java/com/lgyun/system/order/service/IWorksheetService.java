@@ -83,12 +83,12 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
     /**
      * 根据创客查询工单详情
      *
-     * @param page
      * @param enterpriseId
      * @param makerId
+     * @param page
      * @return
      */
-    R<IPage<EnterpriseWorksheetDetailVO>> getWorksheetDetailsByMaker(IPage<EnterpriseWorksheetDetailVO> page, Long enterpriseId, Long makerId);
+    R<IPage<EnterpriseWorksheetDetailVO>> getWorksheetDetailsByMaker(Long enterpriseId, Long makerId, IPage<EnterpriseWorksheetDetailVO> page);
 
     /**
      * 查询当前商户所有已完毕的类型工单
@@ -120,14 +120,16 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
 
     /**
      * 批量开启或关闭工单
+     *
      * @param worksheetIds
      * @param variable
      * @return
      */
-    R closeOrOpenList(String worksheetIds,Integer variable);
+    R closeOrOpenList(String worksheetIds, Integer variable);
 
     /**
      * 批量删除工单
+     *
      * @param worksheetIds
      * @return
      */
@@ -135,6 +137,7 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
 
     /**
      * 整体验收工单
+     *
      * @param worksheetId
      * @return
      */

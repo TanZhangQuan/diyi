@@ -171,6 +171,6 @@ public class WorksheetEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return worksheetService.getWorksheetDetailsByMaker(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), makerId);
+        return worksheetService.getWorksheetDetailsByMaker(enterpriseWorkerEntity.getEnterpriseId(), makerId, Condition.getPage(query.setDescs("create_time")));
     }
 }

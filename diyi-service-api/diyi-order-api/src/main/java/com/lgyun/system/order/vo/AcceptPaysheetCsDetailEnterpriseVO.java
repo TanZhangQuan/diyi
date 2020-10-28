@@ -18,7 +18,7 @@ public class AcceptPaysheetCsDetailEnterpriseVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 众包交付支付清单ID
+     * 众包交付支付验收单ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;

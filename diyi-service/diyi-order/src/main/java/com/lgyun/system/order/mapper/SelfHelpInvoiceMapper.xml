@@ -321,6 +321,23 @@
         <result property="selfHelpInvoiceFeeId" column="self_help_invoice_fee_id"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.order.vo.SelfHelpInvoiceSerProVO" id="selfHelpInvoiceSerProVO">
+        <result property="id" column="id"/>
+        <result property="currentState" column="current_state"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="invoiceScanPictures" column="invoice_scan_pictures"/>
+        <result property="taxScanPictures" column="tax_scan_pictures"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.SelfHelpInvoiceDetailProviderVO" id="selfHelpInvoiceDetailProviderVO">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="idcardNo" column="idcard_no"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="bankNo" column="bank_no"/>
+    </resultMap>
+
     <select id="getSelfHelfInvoicesByEnterprise" resultMap="selfHelpInvoiceListByEnterpriseVO">
         SELECT t1.id, t2.enterprise_name, t1.list_file, t1.pay_type, t1.total_pay_provider_fee, t1.current_state, t1.create_time,
         (SELECT GROUP_CONCAT(invoice_type) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS invoice_types,
@@ -611,6 +628,32 @@
     </select>
 
     <select id="getMakerTypeSelfHelpInvoiceDetails" resultMap="selfHelpInvoiceAdminDetailMap">
-            SELECT a.id AS self_help_invoice_id, a.enterprise_id, c.enterprise_name, c.invoice_tax_no, c.invoice_address, c.invoice_tel_no, c.invoice_bank_name, c.invoice_account, a.list_file, a.pay_type, ( SELECT SUM(charge_money_num) FROM diyi_self_help_invoice_detail v WHERE v.self_help_invoice_id = a.id ) AS total_charge_money_num, a.total_pay_provider_fee, a.service_and_tax_money, a.service_fee, a.service_rate, a.service_tax, a.service_invoice_fee, a.idendity_confirm_fee, a.current_state, a.create_time, n.address_name, n.address_phone, n.area, n.city, n.detailed_address, n.province,p.id as self_help_invoice_fee_id, p.account_name, p.account_no, p.account_bank, p.basic_account_bank FROM diyi_self_help_invoice a INNER JOIN diyi_enterprise c ON c.id = a.enterprise_id INNER JOIN diyi_address n ON n.id = a.address_id LEFT JOIN diyi_self_help_invoice_fee m ON m.self_help_invoice_id = a.id LEFT JOIN diyi_self_help_invoice_account p ON p.id = m.hand_pay_account_id WHERE a.id =#{param1}
+            SELECT a.id AS self_help_invoice_id, a.enterprise_id, c.enterprise_name, c.invoice_tax_no, c.invoice_address, c.invoice_tel_no, c.invoice_bank_name,
+            c.invoice_account, a.list_file, a.pay_type, ( SELECT SUM(charge_money_num) FROM diyi_self_help_invoice_detail v WHERE v.self_help_invoice_id = a.id )
+            AS total_charge_money_num, a.total_pay_provider_fee, a.service_and_tax_money, a.service_fee, a.service_rate, a.service_tax, a.service_invoice_fee,
+            a.idendity_confirm_fee, a.current_state, a.create_time, n.address_name, n.address_phone, n.area, n.city, n.detailed_address, n.province,
+            p.id as self_help_invoice_fee_id, p.account_name, p.account_no, p.account_bank, p.basic_account_bank FROM diyi_self_help_invoice a
+            INNER JOIN diyi_enterprise c ON c.id = a.enterprise_id INNER JOIN diyi_address n ON n.id = a.address_id LEFT JOIN diyi_self_help_invoice_fee m
+            ON m.self_help_invoice_id = a.id LEFT JOIN diyi_self_help_invoice_account p ON p.id = m.hand_pay_account_id WHERE a.id =#{param1}
     </select>
+
+    <select id="querySelfHelpInvoiceList" resultMap="selfHelpInvoiceSerProVO">
+        SELECT t1.id, t1.current_state, t3.enterprise_name, t4.invoice_scan_pictures, t4.tax_scan_pictures, t1.create_time FROM diyi_self_help_invoice t1
+        INNER JOIN diyi_self_help_invoice_sp t2 ON t1.id = t2.self_help_invoice_id INNER JOIN diyi_enterprise t3 ON t1.enterprise_id = t3.id
+        LEFT JOIN diyi_self_help_invoice_sp_detail t4 ON t2.id = t4.self_help_invoice_apply_provider_id AND t4.is_deleted = 0
+        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t2.service_provider_id = #{param1}
+        <if test="param2 != null and param2.trim() != ''">
+            AND t3.enterprise_name LIKE concat('%', #{param2}, '%')
+        </if>
+    </select>
+
+    <select id="querySelfHelpInvoicePeopleList" resultMap="selfHelpInvoiceDetailProviderVO">
+        SELECT IF(t2.maker_id IS NOT NULL, (SELECT id FROM diyi_maker WHERE id = t2.maker_id), (SELECT id FROM diyi_self_help_invoice_person WHERE id = t2.id)) AS id,
+        IF(t2.maker_id IS NOT NULL, (SELECT name FROM diyi_maker WHERE id = t2.maker_id), (SELECT idcard_name FROM diyi_self_help_invoice_person WHERE id = t2.id)) AS name,
+        IF(t2.maker_id IS NOT NULL, (SELECT idcard_no FROM diyi_maker WHERE id = t2.maker_id), (SELECT idcard_no FROM diyi_self_help_invoice_person WHERE id = t2.id)) AS idcard_no,
+        IF(t2.maker_id IS NOT NULL, (SELECT phone_number FROM diyi_maker WHERE id = t2.maker_id), (SELECT phone_number FROM diyi_self_help_invoice_person WHERE id = t2.id)) AS phone_number,
+        IF(t2.maker_id IS NOT NULL, (SELECT bank_card_no FROM diyi_maker WHERE id = t2.maker_id), '') AS bank_no
+        FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_detail t2 ON t1.id = t2.self_help_invoice_id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.id = #{param1}
+    </select>
+
 </mapper>

@@ -90,7 +90,13 @@ public class WorksheetMakerController {
     @GetMapping("/query-worksheet-list-by-maker-id")
     @ApiOperation(value = "根据创客查询工单", notes = "根据创客ID查询工单")
     public R queryWorksheetListByMakerId(@ApiParam(value = "创客ID", required = true) @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId, Query query, BladeUser bladeUser) {
-        return worksheetService.getWorksheetDetailsByMaker(Condition.getPage(query.setDescs("create_time")), null, makerId);
+        //查询当前创客
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return worksheetService.getWorksheetDetailsByMaker(null, makerId, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-worksheet-list-by-worksheet-no")

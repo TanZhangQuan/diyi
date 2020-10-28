@@ -9,7 +9,6 @@ import com.lgyun.system.user.dto.ImportMakerListDTO;
 import com.lgyun.system.user.dto.MakerAddDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.service.IAdminService;
-import com.lgyun.system.user.service.IEnterpriseServiceProviderService;
 import com.lgyun.system.user.service.IMakerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,7 +32,6 @@ public class NaturalPersonMakerAdminController {
 
     private IAdminService adminService;
     private IMakerService makerService;
-    private IEnterpriseServiceProviderService enterpriseServiceProviderService;
 
     @GetMapping("/query-maker-list")
     @ApiOperation(value = "查询所有创客", notes = "查询所有创客")
@@ -94,18 +92,6 @@ public class NaturalPersonMakerAdminController {
         }
 
         return makerService.queryMakerDetail(makerId);
-    }
-
-    @GetMapping("/query-enterprise-id-and-name-list")
-    @ApiOperation(value = "查询所有商户的编号名称", notes = "查询所有商户的编号名称")
-    public R queryEnterpriseIdAndNameList(@ApiParam(value = "商户名称") @RequestParam(required = false) String enterpriseName, Query query, BladeUser bladeUser) {
-        //查询当前管理员
-        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return enterpriseServiceProviderService.queryEnterpriseIdAndNameList(null, enterpriseName, Condition.getPage(query.setDescs("create_time")));
     }
 
 }

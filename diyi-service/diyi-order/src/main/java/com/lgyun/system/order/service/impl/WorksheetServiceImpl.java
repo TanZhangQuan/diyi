@@ -224,7 +224,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     }
 
     @Override
-    public R<IPage<EnterpriseWorksheetDetailVO>> getWorksheetDetailsByMaker(IPage<EnterpriseWorksheetDetailVO> page, Long enterpriseId, Long makerId) {
+    public R<IPage<EnterpriseWorksheetDetailVO>> getWorksheetDetailsByMaker(Long enterpriseId, Long makerId, IPage<EnterpriseWorksheetDetailVO> page) {
         return R.data(page.setRecords(baseMapper.getWorksheetDetailsByMaker(enterpriseId, makerId, page)));
     }
 

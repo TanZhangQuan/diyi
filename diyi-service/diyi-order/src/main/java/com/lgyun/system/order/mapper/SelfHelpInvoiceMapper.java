@@ -211,5 +211,25 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
      *平台跟据创客身份查询自助开票详情
      */
     SelfHelpInvoiceAdminDetailVO getMakerTypeSelfHelpInvoiceDetails(Long selfHelpInvoiceId);
+
+    /**
+     * 查询当前服务商的自助开票
+     *
+     * @param serviceProviderId
+     * @param keyword
+     * @param page
+     * @return
+     */
+    List<SelfHelpInvoiceSerProVO> querySelfHelpInvoiceList(Long serviceProviderId, String keyword, IPage<SelfHelpInvoiceSerProVO> page);
+
+    /**
+     * 根据当前服务商和自助开票ID查询自助开票详情
+     *
+     * @param selfHelpvoiceId
+     * @param page
+     * @return
+     */
+    List<SelfHelpInvoiceDetailProviderVO> querySelfHelpInvoicePeopleList(Long selfHelpvoiceId, IPage<SelfHelpInvoiceDetailProviderVO> page);
+
 }
 

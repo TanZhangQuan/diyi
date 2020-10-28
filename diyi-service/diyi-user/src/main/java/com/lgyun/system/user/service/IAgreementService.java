@@ -160,11 +160,6 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
     R uploadSupplement(String contractUrl, Long serviceProviderId, Long enterpriseId);
 
     /**
-     * 根据服务商id查询有关联的商户
-     */
-    R getRelationEnterprise(Query query, Long serviceProviderId);
-
-    /**
      * 查询创客加盟平台合同
      */
     R findMakerAgreement(String agreementNo, Long serviceProviderId, String makerName, IPage<AgreementServiceVO> page);

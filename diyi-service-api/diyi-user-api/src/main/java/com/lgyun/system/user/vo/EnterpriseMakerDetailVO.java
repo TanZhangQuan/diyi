@@ -88,19 +88,9 @@ public class EnterpriseMakerDetailVO implements Serializable {
     private String platformJoinContract;
 
     /**
-     * 与商户的业务协议
-     */
-    private String enterpriseBusinessAgreement;
-
-    /**
      * 授权委托书
      */
     private String licenseAgreement;
-
-    /**
-     * 独立委托书
-     */
-    private String separateAgreement;
 
     /**
      * 注册日期

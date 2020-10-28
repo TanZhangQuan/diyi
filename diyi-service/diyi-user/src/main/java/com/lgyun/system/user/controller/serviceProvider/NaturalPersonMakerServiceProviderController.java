@@ -56,7 +56,7 @@ public class NaturalPersonMakerServiceProviderController {
 
     @GetMapping("/query-relevance-enterprise-list")
     @ApiOperation(value = "查询服务商关联的所有商户", notes = "查询服务商关联的所有商户")
-    public R queryRelevanceEnterpriseList(String keyword, Query query, BladeUser bladeUser) {
+    public R queryRelevanceEnterpriseList(@ApiParam(value = "商户名称") @RequestParam(required = false) String keyword, Query query, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -64,7 +64,7 @@ public class NaturalPersonMakerServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return enterpriseServiceProviderService.getEnterpriseByServiceProvider(Condition.getPage(query.setDescs("create_time")), serviceProviderWorkerEntity.getServiceProviderId(), keyword);
+        return enterpriseServiceProviderService.queryRelevanceEnterpriseList(serviceProviderWorkerEntity.getServiceProviderId(), keyword, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-relevance-maker-list-by-enterprise-id")
@@ -78,25 +78,6 @@ public class NaturalPersonMakerServiceProviderController {
         }
 
         return makerService.queryMakerList(enterpriseId, null, RelationshipType.RELEVANCE, null, keyword, Condition.getPage(query.setDescs("create_time")));
-    }
-
-    @GetMapping("/query-self-help-invoice-list")
-    @ApiOperation(value = "查询当前服务商的自助开票", notes = "查询当前服务商的自助开票")
-    public R querySelfHelpInvoiceList(String keyword, Query query, BladeUser bladeUser) {
-        //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
-
-        return makerEnterpriseService.getSelfHelpInvoiceByServiceProviderId(Condition.getPage(query.setDescs("create_time")), keyword, serviceProviderWorkerEntity.getServiceProviderId());
-    }
-
-    @GetMapping("/query-self-help-invoice-detail")
-    @ApiOperation(value = "根据自助开票查询自助开票详情", notes = "根据自助开票查询自助开票详情")
-    public R querySelfHelpInvoiceDetail(@ApiParam(value = "自助开票编号", required = true) @NotNull(message = "请输入自助开票编号") @RequestParam(required = false) Long selfHelpvoiceId, Query query) {
-        return makerEnterpriseService.getSelfHelpInvoiceDetails(Condition.getPage(query.setDescs("create_time")), selfHelpvoiceId);
     }
 
 }

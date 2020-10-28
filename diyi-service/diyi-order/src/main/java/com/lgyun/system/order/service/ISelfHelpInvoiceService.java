@@ -309,5 +309,25 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      * @return
      */
     R uploadAdminInvoice(Long selfHelpInvoiceApplyProviderDetailId, String invoiceScanPictures, String taxScanPictures);
+
+    /**
+     * 查询当前服务商的自助开票
+     *
+     * @param page
+     * @param keyword
+     * @param serviceProviderId
+     * @return
+     */
+    R<IPage<SelfHelpInvoiceSerProVO>> querySelfHelpInvoiceList(Long serviceProviderId, String keyword, IPage<SelfHelpInvoiceSerProVO> page);
+
+    /**
+     * 根据当前服务商和自助开票ID查询自助开票详情
+     *
+     * @param page
+     * @param selfHelpvoiceId
+     * @return
+     */
+    R<IPage<SelfHelpInvoiceDetailProviderVO>> querySelfHelpInvoicePeopleList(Long selfHelpvoiceId, IPage<SelfHelpInvoiceDetailProviderVO> page);
+
 }
 

@@ -581,5 +581,14 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         return R.success("上传成功");
     }
 
+    @Override
+    public R<IPage<SelfHelpInvoiceSerProVO>> querySelfHelpInvoiceList(Long serviceProviderId, String keyword, IPage<SelfHelpInvoiceSerProVO> page) {
+        return R.data(page.setRecords(baseMapper.querySelfHelpInvoiceList(serviceProviderId, keyword, page)));
+    }
+
+    @Override
+    public R<IPage<SelfHelpInvoiceDetailProviderVO>> querySelfHelpInvoicePeopleList(Long selfHelpvoiceId, IPage<SelfHelpInvoiceDetailProviderVO> page) {
+        return R.data(page.setRecords(baseMapper.querySelfHelpInvoicePeopleList(selfHelpvoiceId, page)));
+    }
 
 }

@@ -6,6 +6,7 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.service.IAgreementService;
+import com.lgyun.system.user.service.IEnterpriseServiceProviderService;
 import com.lgyun.system.user.service.IServiceProviderWorkerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,6 +23,7 @@ public class AgreementServiceProviderController {
 
     private IServiceProviderWorkerService serviceProviderWorkerService;
     private IAgreementService agreementService;
+    private IEnterpriseServiceProviderService enterpriseServiceProviderService;
 
     @GetMapping("/query-serive-agreement")
     @ApiOperation(value = "查询服务商加盟平台合同", notes = "查询服务商加盟平台合同")
@@ -111,7 +113,7 @@ public class AgreementServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return agreementService.getRelationEnterprise(query, serviceProviderWorkerEntity.getServiceProviderId());
+        return enterpriseServiceProviderService.queryRelevanceEnterpriseList(serviceProviderWorkerEntity.getServiceProviderId(), null, Condition.getPage(query.setDescs("create_time")));
     }
 
 }

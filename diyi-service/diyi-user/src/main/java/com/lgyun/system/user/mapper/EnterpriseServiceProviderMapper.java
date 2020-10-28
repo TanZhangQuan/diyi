@@ -34,7 +34,7 @@ public interface EnterpriseServiceProviderMapper extends BaseMapper<EnterpriseSe
      * @param page
      * @return
      */
-    List<EnterprisesVO> getEnterpriseByServiceProvider(Long serviceProviderId, String keyword, IPage<EnterprisesVO> page);
+    List<EnterprisesVO> queryRelevanceEnterpriseList(Long serviceProviderId, String keyword, IPage<EnterprisesVO> page);
 
     /**
      * 查询当前商户合作服务商

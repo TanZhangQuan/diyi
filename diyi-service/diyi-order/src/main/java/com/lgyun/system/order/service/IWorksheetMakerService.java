@@ -65,7 +65,6 @@ public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity
      */
     IPage<WorksheetMakerDetailsVO> getWorksheetMakerDetails(Long worksheetId, IPage<WorksheetMakerDetailsVO> page);
 
-
     /**
      * 查询创客有没有抢单
      *
