@@ -75,7 +75,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R<String> submit(Long payEnterpriseId, Long enterpriseId);
 
     /**
-     * 根据条件查询所有总包支付清单
+     * 根据条件查询所有商户支付清单
      *
      * @param enterpriseId
      * @param payEnterpriseDto

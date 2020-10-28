@@ -17,6 +17,7 @@ import com.lgyun.system.user.mapper.IndividualBusinessMapper;
 import com.lgyun.system.user.service.IIndividualBusinessService;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
 import com.lgyun.system.user.service.IMakerService;
+import com.lgyun.system.user.service.IServiceProviderService;
 import com.lgyun.system.user.vo.*;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -40,6 +41,7 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
 
     private IMakerService makerService;
     private IMakerEnterpriseService makerEnterpriseService;
+    private IServiceProviderService serviceProviderService;
 
     @Override
     public R<String> createIndividualBusinessMaker(IndividualBusinessEnterpriseAddMakerDTO individualBusinessEnterpriseAddMakerDto, MakerEntity makerEntity) {
@@ -167,6 +169,12 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
         return baseMapper.selectOne(queryWrapper);
     }
 
+    @Override
+    public int queryCountById(Long individualBusinessId) {
+        QueryWrapper<IndividualBusinessEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(IndividualBusinessEntity::getId, individualBusinessId);
+        return baseMapper.selectCount(queryWrapper);
+    }
 
     @Override
     public int queryCountByIbname(String ibname) {
@@ -310,12 +318,35 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
             }
 
         }
-        
+
         BeanUtils.copyProperties(individualBusinessEnterpriseUpdateServiceProviderDTO, individualBusinessEntity);
         updateById(individualBusinessEntity);
 
         return R.success("编辑成功");
 
+    }
+
+    @Override
+    public R<String> mateServiceProvider(Long serviceProviderId, Long individualBusinessId) {
+
+        int serviceProviderNum = serviceProviderService.queryCountById(serviceProviderId);
+        if (serviceProviderNum <= 0) {
+            return R.fail("服务商不存在");
+        }
+
+        IndividualBusinessEntity individualBusinessEntity = getById(individualBusinessId);
+        if (individualBusinessEntity == null) {
+            return R.fail("个体户不存在");
+        }
+
+        if (!(Ibstate.EDITING.equals(individualBusinessEntity.getIbstate()))) {
+            return R.fail("非编辑状态个体户，不可匹配服务商");
+        }
+
+        individualBusinessEntity.setServiceProviderId(serviceProviderId);
+        updateById(individualBusinessEntity);
+
+        return R.success("匹配服务商成功");
     }
 
 }

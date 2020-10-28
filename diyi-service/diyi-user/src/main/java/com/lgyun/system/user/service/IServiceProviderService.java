@@ -27,13 +27,21 @@ import com.lgyun.system.user.vo.ServiceProviderListVO;
 public interface IServiceProviderService extends BaseService<ServiceProviderEntity> {
 
     /**
+     * 查询服务商是否已存在
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    int queryCountById(Long serviceProviderId);
+
+    /**
      * 查询服务商名字是否已存在
      *
      * @param serviceProviderName
      * @param serviceProviderId
      * @return
      */
-    Integer findCountByServiceProviderName(String serviceProviderName, Long serviceProviderId);
+    int queryCountByServiceProviderName(String serviceProviderName, Long serviceProviderId);
 
     /**
      * 查询统一社会信用代码是否已存在
@@ -42,7 +50,7 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
      * @param serviceProviderId
      * @return
      */
-    Integer findCountBySocialCreditNo(String socialCreditNo, Long serviceProviderId);
+    int queryCountBySocialCreditNo(String socialCreditNo, Long serviceProviderId);
 
     /**
      * 查询当前服务商银行卡信息
@@ -141,6 +149,9 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
 
     /**
      * 查询所有服务商
+     *
+     * @param page
+     * @return
      */
     R getServiceAll(IPage<ServiceProviderEntity> page);
 

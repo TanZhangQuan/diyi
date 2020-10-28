@@ -22,7 +22,7 @@ public class PayEnterpriseMakersListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 总包编号
+     * 商户支付清单ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long payEnterpriseId;
@@ -50,7 +50,7 @@ public class PayEnterpriseMakersListVO implements Serializable {
     /**
      * 工单编号
      */
-    private String worksheetNo;
+    private String worksheetId;
 
     /**
      * 交付支付验收单URL(多张逗号隔开)

@@ -19,11 +19,6 @@ public class PayEnterpriseDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 总包ID
-     */
-    private Long payEnterpriseId;
-
-    /**
      * 服务商名称
      */
     private String serviceProviderName;
@@ -34,7 +29,7 @@ public class PayEnterpriseDTO implements Serializable {
     private String enterpriseName;
 
     /**
-     * 总包审核状态
+     * 商户支付清单状态
      */
     private PayEnterpriseAuditState payEnterpriseAuditState;
 

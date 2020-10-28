@@ -1,5 +1,7 @@
 package com.lgyun.system.user.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -16,6 +18,7 @@ public class MakerListIndividualVO implements Serializable {
     /**
      * 创客ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     /**

@@ -127,6 +127,14 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
     IndividualBusinessEntity queryIndividualBusinessByIbtaxNo(String ibtaxNo);
 
     /**
+     * 根据个体户ID查询个体户
+     *
+     * @param individualBusinessId
+     * @return
+     */
+    int queryCountById(Long individualBusinessId);
+
+    /**
      * 根据个体户名称查询个体户
      *
      * @param ibname
@@ -159,5 +167,15 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
      * @return
      */
     R<String> updateIndividualBusinessServiceProvider(IndividualBusinessEnterpriseUpdateServiceProviderDTO individualBusinessEnterpriseUpdateServiceProviderDTO, Long serviceProviderId);
+
+    /**
+     * 匹配服务商
+     *
+     * @param serviceProviderId
+     * @param individualBusinessId
+     * @return
+     */
+    R<String> mateServiceProvider(Long serviceProviderId, Long individualBusinessId);
+
 }
 

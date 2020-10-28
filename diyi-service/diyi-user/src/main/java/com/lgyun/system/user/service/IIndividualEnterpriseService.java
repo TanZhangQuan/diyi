@@ -159,5 +159,15 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
      * @return
      */
     R<String> updateIndividualEnterpriseServiceProvider(IndividualBusinessEnterpriseUpdateServiceProviderDTO individualBusinessEnterpriseUpdateServiceProviderDTO, Long serviceProviderId);
+
+    /**
+     * 匹配服务商
+     *
+     * @param serviceProviderId
+     * @param individualEnterpriseId
+     * @return
+     */
+    R<String> mateServiceProvider(Long serviceProviderId, Long individualEnterpriseId);
+
 }
 

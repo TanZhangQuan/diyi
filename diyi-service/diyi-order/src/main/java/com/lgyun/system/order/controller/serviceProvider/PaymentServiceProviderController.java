@@ -28,7 +28,7 @@ public class PaymentServiceProviderController {
     private IPayEnterpriseService payEnterpriseService;
 
     @GetMapping("/query-pay-enterprise-list")
-    @ApiOperation(value = "查询当前服务商所有总包支付清单", notes = "查询当前服务商所有总包支付清单")
+    @ApiOperation(value = "查询当前服务商所有商户支付清单", notes = "查询当前服务商所有商户支付清单")
     public R queryPayEnterpriseList(PayEnterpriseDTO payEnterpriseDto, Query query, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);

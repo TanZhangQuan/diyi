@@ -38,9 +38,9 @@ public class PaymentAdminController {
     private IAcceptPaysheetService acceptPaysheetService;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
 
-    @GetMapping("/query-total-list-by-enterprise-id")
-    @ApiOperation(value = "根据商户查询总包", notes = "根据商户查询总包")
-    public R queryTotalListByEnterpriseId(@ApiParam(value = "商户编号", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, PayEnterpriseDTO payEnterpriseDto, Query query, BladeUser bladeUser) {
+    @GetMapping("/query-pay-enterprise-list")
+    @ApiOperation(value = "查询商户支付清单", notes = "查询商户支付清单")
+    public R queryPayEnterpriseList(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, PayEnterpriseDTO payEnterpriseDto, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

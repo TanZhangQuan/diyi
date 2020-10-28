@@ -9,10 +9,7 @@ import com.lgyun.system.user.dto.IndividualBusinessEnterpriseAddOrUpdateDTO;
 import com.lgyun.system.user.dto.IndividualBusinessEnterpriseListDTO;
 import com.lgyun.system.user.dto.MakerListIndividualDTO;
 import com.lgyun.system.user.entity.AdminEntity;
-import com.lgyun.system.user.service.IAdminService;
-import com.lgyun.system.user.service.IEnterpriseReportService;
-import com.lgyun.system.user.service.IIndividualBusinessService;
-import com.lgyun.system.user.service.IMakerService;
+import com.lgyun.system.user.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -34,6 +31,7 @@ public class IndividualBusinessAdminController {
     private IIndividualBusinessService individualBusinessService;
     private IEnterpriseReportService enterpriseReportService;
     private IMakerService makerService;
+    private IEnterpriseServiceProviderService enterpriseServiceProviderService;
 
     @GetMapping("/query-maker-list")
     @ApiOperation(value = "查询创客", notes = "查询创客")
@@ -105,6 +103,31 @@ public class IndividualBusinessAdminController {
         }
 
         return enterpriseReportService.findByBodyTypeAndBodyId(BodyType.INDIVIDUALBUSINESS, individualBusinessId, query);
+    }
+
+    @GetMapping("/query-service-provider-id-and-name-list")
+    @ApiOperation(value = "查询服务商", notes = "查询服务商")
+    public R queryServiceProviderIdAndNameList(@ApiParam(value = "服务商名称") @RequestParam(required = false) String serviceProviderName, Query query, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return enterpriseServiceProviderService.queryServiceProviderIdAndNameList(null, serviceProviderName, Condition.getPage(query.setDescs("create_time")));
+    }
+
+    @PostMapping("/mate-service-provider")
+    @ApiOperation(value = "匹配服务商", notes = "匹配服务商")
+    public R mateServiceProvider(@ApiParam(value = "服务商") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
+                                 @ApiParam(value = "个体户") @NotNull(message = "请选择个体户") @RequestParam(required = false) Long individualBusinessId, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return individualBusinessService.mateServiceProvider(serviceProviderId, individualBusinessId);
     }
 
 }

@@ -41,7 +41,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderMapper, ServiceProviderEntity> implements IServiceProviderService {
 
-    private final IEnterpriseServiceProviderService enterpriseServiceProviderService;
     private final IUserService userService;
 
     @Autowired
@@ -53,7 +52,14 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
     private IAgreementService agreementService;
 
     @Override
-    public Integer findCountByServiceProviderName(String serviceProviderName, Long serviceProviderId) {
+    public int queryCountById(Long serviceProviderId) {
+        QueryWrapper<ServiceProviderEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(ServiceProviderEntity::getId, serviceProviderId);
+        return baseMapper.selectCount(queryWrapper);
+    }
+
+    @Override
+    public int queryCountByServiceProviderName(String serviceProviderName, Long serviceProviderId) {
         QueryWrapper<ServiceProviderEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(ServiceProviderEntity::getServiceProviderName, serviceProviderName)
                 .ne(serviceProviderId != null, ServiceProviderEntity::getId, serviceProviderId);
@@ -61,7 +67,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
     }
 
     @Override
-    public Integer findCountBySocialCreditNo(String socialCreditNo, Long serviceProviderId) {
+    public int queryCountBySocialCreditNo(String socialCreditNo, Long serviceProviderId) {
         QueryWrapper<ServiceProviderEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(ServiceProviderEntity::getSocialCreditNo, socialCreditNo)
                 .ne(serviceProviderId != null, ServiceProviderEntity::getId, serviceProviderId);
@@ -145,13 +151,13 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         }
 
         //判断服务商名称是否已存在
-        Integer countByServiceProviderName = findCountByServiceProviderName(addServiceProviderDTO.getServiceProviderName(), null);
+        int countByServiceProviderName = queryCountByServiceProviderName(addServiceProviderDTO.getServiceProviderName(), null);
         if (countByServiceProviderName > 0) {
             return R.fail("名称已存在");
         }
 
         //判断社会信用代码是否已存在
-        Integer countBySocialCreditNo = findCountBySocialCreditNo(addServiceProviderDTO.getSocialCreditNo(), null);
+        int countBySocialCreditNo = queryCountBySocialCreditNo(addServiceProviderDTO.getSocialCreditNo(), null);
         if (countBySocialCreditNo > 0) {
             return R.fail("统一社会信用代码已存在");
         }
@@ -244,13 +250,13 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         }
 
         //判断商户名称是否已存在
-        Integer countByServiceProviderName = findCountByServiceProviderName(updateServiceProviderDTO.getServiceProviderName(), serviceProviderEntity.getId());
+        int countByServiceProviderName = queryCountByServiceProviderName(updateServiceProviderDTO.getServiceProviderName(), serviceProviderEntity.getId());
         if (countByServiceProviderName > 0) {
             return R.fail("商户名称已存在");
         }
 
         //判断社会信用代码是否已存在
-        Integer countBySocialCreditNo = findCountBySocialCreditNo(updateServiceProviderDTO.getSocialCreditNo(), serviceProviderEntity.getId());
+        int countBySocialCreditNo = queryCountBySocialCreditNo(updateServiceProviderDTO.getSocialCreditNo(), serviceProviderEntity.getId());
         if (countBySocialCreditNo > 0) {
             return R.fail("统一社会信用代码已存在");
         }

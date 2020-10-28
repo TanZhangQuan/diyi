@@ -17,6 +17,7 @@ import com.lgyun.system.user.mapper.IndividualEnterpriseMapper;
 import com.lgyun.system.user.service.IIndividualEnterpriseService;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
 import com.lgyun.system.user.service.IMakerService;
+import com.lgyun.system.user.service.IServiceProviderService;
 import com.lgyun.system.user.vo.*;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -40,6 +41,7 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
 
     private IMakerService makerService;
     private IMakerEnterpriseService makerEnterpriseService;
+    private IServiceProviderService serviceProviderService;
 
     @Override
     public R<String> createIndividualEnterpriseMaker(IndividualBusinessEnterpriseAddMakerDTO individualBusinessEnterpriseAddMakerDto, MakerEntity makerEntity) {
@@ -312,6 +314,29 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
         updateById(individualEnterpriseEntity);
 
         return R.success("编辑成功");
+    }
+
+    @Override
+    public R<String> mateServiceProvider(Long serviceProviderId, Long individualEnterpriseId) {
+
+        int serviceProviderNum = serviceProviderService.queryCountById(serviceProviderId);
+        if (serviceProviderNum <= 0) {
+            return R.fail("服务商不存在");
+        }
+
+        IndividualEnterpriseEntity individualEnterpriseEntity = getById(individualEnterpriseId);
+        if (individualEnterpriseEntity == null) {
+            return R.fail("个独不存在");
+        }
+
+        if (!(Ibstate.EDITING.equals(individualEnterpriseEntity.getIbstate()))) {
+            return R.fail("非编辑状态个独，不可匹配服务商");
+        }
+
+        individualEnterpriseEntity.setServiceProviderId(serviceProviderId);
+        updateById(individualEnterpriseEntity);
+
+        return R.success("匹配服务商成功");
     }
 
 }
