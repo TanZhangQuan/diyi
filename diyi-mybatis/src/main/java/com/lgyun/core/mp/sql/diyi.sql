@@ -2137,7 +2137,7 @@ CREATE TABLE `diyi_worksheet` (
   `enterprise_id` bigint(50) NOT NULL COMMENT '商户ID',
   `worksheet_no` varchar(50) NOT NULL COMMENT '工单编号',
   `worksheet_name` varchar(50) NOT NULL COMMENT '工单名称',
-  `upPerson_num` int(10) DEFAULT '0' COMMENT '上线人数',
+  `up_person_num` int(10) DEFAULT '0' COMMENT '上线人数',
   `work_days` int(10) DEFAULT NULL COMMENT '工作天数',
   `worksheet_fee_low` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '最低费用',
   `worksheet_fee_high` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '最高费用',
