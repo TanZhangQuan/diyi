@@ -65,4 +65,39 @@ public class IndividualBusinessEnterpriseUpdateDetailVO implements Serializable 
      */
     private String contactPhone;
 
+    /**
+     * 创客姓名
+     */
+    private String name;
+
+    /**
+     * 创客手机号码
+     */
+    private String phoneNumber;
+
+    /**
+     * 创客身份证号码
+     */
+    private String idcardNo;
+
+    /**
+     * 创客身份证正面图
+     */
+    private String idcardPic;
+
+    /**
+     * 创客身份证反面图
+     */
+    private String idcardPicBack;
+
+    /**
+     * 创客手持证件正面照
+     */
+    private String idcardHand;
+
+    /**
+     * 创客手持证件反面照
+     */
+    private String idcardBackHand;
+
 }
