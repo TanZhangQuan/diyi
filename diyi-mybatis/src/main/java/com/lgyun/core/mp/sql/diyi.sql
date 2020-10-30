@@ -84,7 +84,7 @@ DROP TABLE IF EXISTS `diyi_accept_paysheet_cs_list`;
 CREATE TABLE `diyi_accept_paysheet_cs_list` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `accept_paysheet_cs_id` bigint(50) NOT NULL COMMENT '总包交付支付验收单ID',
-  `self_help_invoice_detail_id` varchar(500) NOT NULL COMMENT '自主开票明细ID',
+  `self_help_invoice_detail_id` bigint(50) NOT NULL COMMENT '自主开票明细ID',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
@@ -106,7 +106,7 @@ DROP TABLE IF EXISTS `diyi_accept_paysheet_pay_list`;
 CREATE TABLE `diyi_accept_paysheet_pay_list` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `accept_paysheet_id` bigint(50) NOT NULL COMMENT '总包交付支付验收单ID',
-  `pay_maker_id` varchar(500) NOT NULL COMMENT '创客支付明细ID',
+  `pay_maker_id` bigint(50) NOT NULL COMMENT '创客支付明细ID',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
