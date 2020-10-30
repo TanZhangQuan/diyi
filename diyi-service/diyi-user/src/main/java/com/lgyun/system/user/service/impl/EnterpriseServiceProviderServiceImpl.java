@@ -83,7 +83,7 @@ public class EnterpriseServiceProviderServiceImpl extends BaseServiceImpl<Enterp
     }
 
     @Override
-    public R<String> relevanceEnterpriseServiceProvider(Long enterpriseId, List<Long> serviceProviderIdList, AdminEntity adminEntity) {
+    public R<String> relevanceEnterpriseServiceProvider(Long enterpriseId, List<Long> serviceProviderIdList, String matchDesc, AdminEntity adminEntity) {
 
         EnterpriseEntity enterpriseEntity = enterpriseService.getById(enterpriseId);
         if (enterpriseEntity == null) {
@@ -105,17 +105,17 @@ public class EnterpriseServiceProviderServiceImpl extends BaseServiceImpl<Enterp
                 enterpriseServiceProviderEntity.setServiceProviderId(serviceProviderId);
                 enterpriseServiceProviderEntity.setCooperateStatus(CooperateStatus.COOPERATING);
                 enterpriseServiceProviderEntity.setMatchPerson(adminEntity.getName());
-                enterpriseServiceProviderEntity.setMatchDesc("平台匹配服务商给商户");
+                enterpriseServiceProviderEntity.setMatchDesc(matchDesc);
                 save(enterpriseServiceProviderEntity);
             } else {
-                if (CooperateStatus.COOPERATESTOP.equals(enterpriseServiceProviderEntity.getCooperateStatus())) {
+                if (!(CooperateStatus.COOPERATING.equals(enterpriseServiceProviderEntity.getCooperateStatus()))) {
                     enterpriseServiceProviderEntity.setCooperateStatus(CooperateStatus.COOPERATING);
                     updateById(enterpriseServiceProviderEntity);
                 }
             }
         }
 
-        return R.success("商户匹配服务商成功");
+        return R.success("匹配服务商成功");
     }
 
 }

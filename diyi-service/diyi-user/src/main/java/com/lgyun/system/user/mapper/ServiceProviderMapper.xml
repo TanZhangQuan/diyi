@@ -95,9 +95,9 @@
 
     <select id="queryServiceProviderListAdmin" resultMap="serviceProviderListVO">
         SELECT t1.id AS service_provider_id, t1.service_provider_name, t1.contact1_name, t1.contact1_phone, t1.service_provider_state, t1.create_time,
-        (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL OR paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url) FROM diyi_agreement
+        (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url) FROM diyi_agreement
         WHERE is_deleted = 0 AND agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' AND sign_state = 'SIGNED' AND service_provider_id = t1.id) AS join_contract,
-        (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL OR paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url) FROM diyi_agreement
+        (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url) FROM diyi_agreement
         WHERE is_deleted = 0 AND agreement_type = 'OTHERAGREEMENT' AND audit_state = 'APPROVED' AND service_provider_id = t1.id) AS commitment_letter
         FROM diyi_service_provider t1 WHERE t1.is_deleted = 0
         <if test="param1.serviceProviderId != null">

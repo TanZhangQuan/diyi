@@ -78,7 +78,7 @@ public class EnterpriseAdminController {
 
     @GetMapping("/query-enterprise-detail")
     @ApiOperation(value = "查询商户基本信息", notes = "查询商户基本信息")
-    public R queryEnterpriseDetail(@ApiParam(value = "商户ID", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, BladeUser bladeUser) {
+    public R queryEnterpriseDetail(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -90,7 +90,7 @@ public class EnterpriseAdminController {
 
     @GetMapping("/query-enterprise-worker-list")
     @ApiOperation(value = "查询商户员工", notes = "查询商户员工")
-    public R queryEnterpriseWorkerList(@ApiParam(value = "商户ID", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId,
+    public R queryEnterpriseWorkerList(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
                                        @ApiParam(value = "岗位性质", required = true) @NotNull(message = "请选择岗位性质") @RequestParam(required = false) PositionName positionName, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
@@ -103,7 +103,7 @@ public class EnterpriseAdminController {
 
     @PostMapping("/update-enterprise-state")
     @ApiOperation(value = "更改商户状态", notes = "更改商户状态")
-    public R updateEnterpriseState(@ApiParam(value = "商户ID", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId,
+    public R updateEnterpriseState(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
                                    @ApiParam(value = "商户状态", required = true) @NotNull(message = "请选择商户状态") @RequestParam(required = false) AccountState enterpriseState, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
@@ -116,7 +116,7 @@ public class EnterpriseAdminController {
 
     @GetMapping("/query-service-provider-id-and-name-list")
     @ApiOperation(value = "查询所有服务商", notes = "查询所有服务商")
-    public R queryServiceProviderIdAndNameList(@ApiParam(value = "商户名称") @RequestParam(required = false) String serviceProviderName, Query query, BladeUser bladeUser) {
+    public R queryServiceProviderIdAndNameList(@ApiParam(value = "服务商名称") @RequestParam(required = false) String serviceProviderName, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -126,22 +126,11 @@ public class EnterpriseAdminController {
         return enterpriseProviderService.queryServiceProviderIdAndNameList(null, serviceProviderName, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @GetMapping("/query-enterprise-id-and-name-list")
-    @ApiOperation(value = "查询商户编号名称", notes = "查询商户编号名称")
-    public R queryEnterpriseIdAndNameList(@ApiParam(value = "商户ID", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, BladeUser bladeUser) {
-        //查询当前管理员
-        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return enterpriseService.queryEnterpriseIdAndName(enterpriseId);
-    }
-
-    @PostMapping("/relevance-enterprise-service-provider")
+    @PostMapping("/match-service-provider")
     @ApiOperation(value = "商户匹配服务商", notes = "商户匹配服务商")
-    public R relevanceEnterpriseServiceProvider(@ApiParam(value = "商户ID", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId,
-                                                @ApiParam(value = "服务商ID集合", required = true) @NotEmpty(message = "请选择服务商") @RequestParam(required = false) List<Long> serviceProviderIdList, BladeUser bladeUser) {
+    public R matchServiceProvider(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
+                                  @ApiParam(value = "服务商集合", required = true) @NotEmpty(message = "请选择服务商") @RequestParam(required = false) List<Long> serviceProviderIdList,
+                                  @ApiParam(value = "分配说明") @RequestParam(required = false) String matchDesc, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -149,12 +138,12 @@ public class EnterpriseAdminController {
         }
         AdminEntity adminEntity = result.getData();
 
-        return enterpriseProviderService.relevanceEnterpriseServiceProvider(enterpriseId, serviceProviderIdList, adminEntity);
+        return enterpriseProviderService.relevanceEnterpriseServiceProvider(enterpriseId, serviceProviderIdList, matchDesc, adminEntity);
     }
 
     @GetMapping("/query-cooperation-service-provider-list")
     @ApiOperation(value = "查询商户合作服务商", notes = "查询商户合作服务商")
-    public R queryCooperationServiceProviderList(@ApiParam(value = "商户ID", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
+    public R queryCooperationServiceProviderList(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

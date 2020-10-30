@@ -225,37 +225,26 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         enterpriseWorkerEntity.setAdminPower(true);
         enterpriseWorkerService.save(enterpriseWorkerEntity);
 
-        //上传加盟合同
+        //上传商户加盟合同
         AgreementEntity agreementEntity = new AgreementEntity();
         agreementEntity.setAgreementType(AgreementType.ENTERPRISEJOINAGREEMENT);
         agreementEntity.setSignType(SignType.PAPERAGREEMENT);
         agreementEntity.setSignState(SignState.SIGNED);
         agreementEntity.setPaperAgreementUrl(addEnterpriseDTO.getJoinContract());
-        agreementEntity.setFirstSideSignPerson(adminEntity.getName());
+        agreementEntity.setFirstSideSignPerson("地衣众包平台");
         agreementEntity.setEnterpriseId(enterpriseEntity.getId());
-        agreementEntity.setSecondSideSignPerson(enterpriseEntity.getContact1Name());
+        agreementEntity.setSecondSideSignPerson(enterpriseEntity.getEnterpriseName());
         agreementService.save(agreementEntity);
-
-        //上传加盟价格协议
-        AgreementEntity agreement = new AgreementEntity();
-        agreementEntity.setAgreementType(AgreementType.ENTERPRISEPRICEAGREEMENT);
-        agreementEntity.setSignType(SignType.PAPERAGREEMENT);
-        agreementEntity.setSignState(SignState.SIGNED);
-        agreementEntity.setPaperAgreementUrl(addEnterpriseDTO.getPriceAgreement());
-        agreementEntity.setFirstSideSignPerson(adminEntity.getName());
-        agreementEntity.setEnterpriseId(enterpriseEntity.getId());
-        agreementEntity.setSecondSideSignPerson(enterpriseEntity.getContact1Name());
-        agreementService.save(agreement);
 
         //上传商户承诺函
         agreementEntity = new AgreementEntity();
-        agreementEntity.setAgreementType(AgreementType.OTHERAGREEMENT);
+        agreementEntity.setAgreementType(AgreementType.ENTERPRISEPROMISE);
         agreementEntity.setSignType(SignType.PAPERAGREEMENT);
         agreementEntity.setAuditState(AuditState.APPROVED);
         agreementEntity.setPaperAgreementUrl(addEnterpriseDTO.getCommitmentLetter());
-        agreementEntity.setFirstSideSignPerson(adminEntity.getName());
+        agreementEntity.setFirstSideSignPerson("地衣众包平台");
         agreementEntity.setEnterpriseId(enterpriseEntity.getId());
-        agreementEntity.setSecondSideSignPerson(enterpriseEntity.getContact1Name());
+        agreementEntity.setSecondSideSignPerson(enterpriseEntity.getEnterpriseName());
         agreementService.save(agreementEntity);
 
         return R.success("添加商户成功");
@@ -367,11 +356,6 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     @Override
     public R<IPage<CooperationServiceProviderListVO>> queryCooperationServiceProviderList(Long enterpriseId, IPage<CooperationServiceProviderListVO> page) {
         return R.data(page.setRecords(baseMapper.queryCooperationServiceProviderList(enterpriseId, page)));
-    }
-
-    @Override
-    public R<EnterpriseIdNameListVO> queryEnterpriseIdAndName(Long enterpriseId) {
-        return R.data(baseMapper.queryEnterpriseIdAndName(enterpriseId));
     }
 
     @Override

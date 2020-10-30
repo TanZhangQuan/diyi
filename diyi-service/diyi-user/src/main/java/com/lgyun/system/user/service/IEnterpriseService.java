@@ -150,14 +150,6 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
     R<IPage<CooperationServiceProviderListVO>> queryCooperationServiceProviderList(Long enterpriseId, IPage<CooperationServiceProviderListVO> page);
 
     /**
-     * 查询商户编号名称
-     *
-     * @param enterpriseId
-     * @return
-     */
-    R<EnterpriseIdNameListVO> queryEnterpriseIdAndName(Long enterpriseId);
-
-    /**
      * 查询所有商户
      */
     R getEnterpriseAll(IPage<EnterpriseEntity> page);

@@ -17,11 +17,6 @@ public class QueryEnterpriseListDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 商户编号
-     */
-    private Long enterpriseId;
-
-    /**
      * 商户名称
      */
     private String enterpriseName;

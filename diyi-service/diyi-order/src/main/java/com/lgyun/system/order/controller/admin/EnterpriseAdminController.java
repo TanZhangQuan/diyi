@@ -35,7 +35,7 @@ public class EnterpriseAdminController {
 
     @GetMapping("/query-address-list")
     @ApiOperation(value = "查询商户所有收货地址信息", notes = "查询商户所有收货地址信息")
-    public R queryAddressList(@ApiParam(value = "商户ID") @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
+    public R queryAddressList(@ApiParam(value = "商户") @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -60,7 +60,7 @@ public class EnterpriseAdminController {
 
     @PostMapping("/remove-address")
     @ApiOperation(value = "删除收货地址", notes = "删除收货地址")
-    public R removeAddress(@ApiParam(value = "收货地址ID集合", required = true) @NotBlank(message = "请选择要删除的收货地址") @RequestParam(required = false) String ids, BladeUser bladeUser) {
+    public R removeAddress(@ApiParam(value = "收货地址集合", required = true) @NotBlank(message = "请选择要删除的收货地址") @RequestParam(required = false) String ids, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -72,7 +72,7 @@ public class EnterpriseAdminController {
 
     @GetMapping("/query-enterprise-transaction")
     @ApiOperation(value = "查询商户交易数据", notes = "查询商户交易数据")
-    public R queryEnterpriseTransaction(@ApiParam(value = "商户ID", required = true) @NotNull(message = "请输入商户编号") @RequestParam(required = false) Long enterpriseId, BladeUser bladeUser) {
+    public R queryEnterpriseTransaction(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

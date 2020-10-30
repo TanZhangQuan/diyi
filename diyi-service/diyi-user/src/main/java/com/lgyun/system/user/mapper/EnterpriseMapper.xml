@@ -37,12 +37,12 @@
     </resultMap>
 
     <resultMap type="com.lgyun.system.user.vo.EnterpriseListEnterpriseVO" id="enterpriseListEnterpriseVO">
-        <result property="enterpriseId" column="enterprise_id"/>
+        <result property="id" column="id"/>
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="contact1Name" column="contact1_name"/>
         <result property="contact1Phone" column="contact1_phone"/>
         <result property="joinContract" column="join_contract"/>
-        <result property="commitmentLetter" column="commitment_letter"/>
+        <result property="commitmentLetters" column="commitment_letters"/>
         <result property="enterpriseState" column="enterprise_state"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
@@ -80,17 +80,11 @@
     </resultMap>
 
     <resultMap type="com.lgyun.system.user.vo.CooperationServiceProviderListVO" id="cooperationServiceProviderListVO">
-        <result property="serviceProviderId" column="service_provider_id"/>
+        <result property="id" column="id"/>
         <result property="serviceProviderName" column="service_provider_name"/>
-        <result property="totalSubAmount" column="total_sub_amount"/>
-        <result property="crowdAmount" column="crowd_amount"/>
+        <result property="transactionAmount" column="transaction_amount"/>
         <result property="cooperateStatus" column="cooperate_status"/>
-        <result property="createTime" column="create_time"/>
-    </resultMap>
-
-    <resultMap type="com.lgyun.system.user.vo.EnterpriseIdNameListVO" id="enterpriseIdNameListVO">
-        <result property="enterpriseId" column="enterprise_id"/>
-        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="cooperationCreateTime" column="cooperation_create_time"/>
     </resultMap>
 
     <select id="getEnterpriseName" resultMap="makerEnterpriseRelationVO">
@@ -114,15 +108,12 @@
     </select>
 
     <select id="queryEnterpriseListEnterprise" resultMap="enterpriseListEnterpriseVO">
-        SELECT t1.id AS enterprise_id, t1.enterprise_name, t1.contact1_name, t1.contact1_phone, t1.enterprise_state, t1.create_time,
+        SELECT t1.id, t1.enterprise_name, t1.contact1_name, t1.contact1_phone, t1.enterprise_state, t1.create_time,
         (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url)
         FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'ENTERPRISEJOINAGREEMENT' AND sign_state = 'SIGNED'
-        AND enterprise_id = t1.id) AS join_contract, (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL AND paper_agreement_url <![CDATA[ <> ]]> '',
-        paper_agreement_url, online_agreement_url) FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'OTHERAGREEMENT'
-        AND audit_state = 'APPROVED' AND enterprise_id = t1.id) AS commitment_letter FROM diyi_enterprise t1 WHERE t1.is_deleted = 0
-        <if test="param1.enterpriseId != null">
-            AND t1.id = #{param1.enterpriseId}
-        </if>
+        AND enterprise_id = t1.id) AS join_contract, (SELECT GROUP_CONCAT(IF(paper_agreement_url <![CDATA[ <> ]]> NULL AND paper_agreement_url <![CDATA[ <> ]]> '',
+        paper_agreement_url, online_agreement_url)) FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'ENTERPRISEPROMISE'
+        AND audit_state = 'APPROVED' AND enterprise_id = t1.id) AS commitment_letters FROM diyi_enterprise t1 WHERE t1.is_deleted = 0
         <if test="param1.enterpriseName != null and param1.enterpriseName.trim() != ''">
             AND t1.enterprise_name LIKE concat('%', #{param1.enterpriseName}, '%')
         </if>
@@ -147,17 +138,12 @@
     </select>
 
     <select id="queryCooperationServiceProviderList" resultMap="cooperationServiceProviderListVO">
-        SELECT t3.id AS service_provider_id, t3.service_provider_name, t4.cooperate_status, t4.create_time,
-        (SELECT IFNULL(SUM(pay_to_platform_amount), 0) FROM diyi_pay_enterprise WHERE is_deleted = 0 AND
-        (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND enterprise_id = t4.enterprise_id AND service_provider_id = t3.id) AS total_sub_amount,
-        (SELECT IFNULL(SUM(t2.charge_money_num), 0) FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_sp t2 WHERE t1.is_deleted = 0
-        AND t2.is_deleted = 0 AND (t2.apply_state = 'SUBMITTED' OR t2.apply_state = 'INVOICED') AND t1.apply_enterprise_id = t4.enterprise_id
-        AND t2.service_provider_id = t3.id) AS crowd_amount FROM diyi_service_provider t3 INNER JOIN diyi_enterprise_service_provider t4
-        ON t3.id = t4.service_provider_id WHERE t3.is_deleted = 0 AND t4.is_deleted = 0 AND t4.enterprise_id = #{param1}
-    </select>
-
-    <select id="queryEnterpriseIdAndName" resultMap="enterpriseIdNameListVO">
-        SELECT id AS enterprise_id, enterprise_name FROM diyi_enterprise WHERE is_deleted = 0 AND id = #{param1}
+        SELECT t3.id, t3.service_provider_name, t4.cooperate_status, t4.create_time, (SELECT IFNULL(SUM(pay_to_platform_amount), 0) FROM diyi_pay_enterprise
+        WHERE is_deleted = 0 AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND enterprise_id = t4.enterprise_id
+        AND service_provider_id = t3.id) + (SELECT IFNULL(SUM(t2.charge_money_num), 0) FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_sp t2
+        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND (t2.apply_state = 'SUBMITTED' OR t2.apply_state = 'INVOICED') AND t1.apply_enterprise_id = t4.enterprise_id
+        AND t2.service_provider_id = t3.id) AS transaction_amount FROM diyi_service_provider t3 INNER JOIN diyi_enterprise_service_provider t4
+        ON t3.id = t4.service_provider_id WHERE t3.is_deleted = 0 AND t4.is_deleted = 0 t4.enterprise_id = #{param1}
     </select>
 
 </mapper>

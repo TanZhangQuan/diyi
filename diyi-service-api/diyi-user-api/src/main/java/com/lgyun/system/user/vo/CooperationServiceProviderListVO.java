@@ -21,10 +21,10 @@ public class CooperationServiceProviderListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 服务商编号
+     * 服务商ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long serviceProviderId;
+    private Long id;
 
     /**
      * 服务商名称
@@ -32,14 +32,9 @@ public class CooperationServiceProviderListVO implements Serializable {
     private String serviceProviderName;
 
     /**
-     * 总包交易金额
+     * 交易金额
      */
-    private BigDecimal totalSubAmount;
-
-    /**
-     * 众包交易金额
-     */
-    private BigDecimal crowdAmount;
+    private BigDecimal transactionAmount;
 
     /**
      * 状态
@@ -50,6 +45,6 @@ public class CooperationServiceProviderListVO implements Serializable {
      * 匹配时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date createTime;
+    private Date cooperationCreateTime;
 
 }

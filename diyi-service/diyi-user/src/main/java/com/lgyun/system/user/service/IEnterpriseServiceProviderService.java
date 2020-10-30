@@ -90,9 +90,11 @@ public interface IEnterpriseServiceProviderService extends BaseService<Enterpris
      *
      * @param enterpriseId
      * @param serviceProviderIdList
+     * @param matchDesc
      * @param adminEntity
      * @return
      */
-    R<String> relevanceEnterpriseServiceProvider(Long enterpriseId, List<Long> serviceProviderIdList, AdminEntity adminEntity);
+    R<String> relevanceEnterpriseServiceProvider(Long enterpriseId, List<Long> serviceProviderIdList, String matchDesc, AdminEntity adminEntity);
+
 }
 

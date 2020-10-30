@@ -23,7 +23,7 @@ public class EnterpriseListEnterpriseVO implements Serializable {
      * 商户编号
      */
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long enterpriseId;
+    private Long id;
 
     /**
      * 商户名称
@@ -46,9 +46,9 @@ public class EnterpriseListEnterpriseVO implements Serializable {
     private String joinContract;
 
     /**
-     * 商户承诺函
+     * 商户承诺函(可能多张)
      */
-    private String commitmentLetter;
+    private String commitmentLetters;
 
     /**
      * 状态
