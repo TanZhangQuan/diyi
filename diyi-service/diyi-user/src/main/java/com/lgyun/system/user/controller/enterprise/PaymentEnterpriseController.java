@@ -9,6 +9,7 @@ import com.lgyun.system.user.service.IEnterpriseServiceProviderService;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +28,7 @@ public class PaymentEnterpriseController {
 
     @GetMapping("/query-service-provider-id-and-name-list")
     @ApiOperation(value = "查询商户合作服务商", notes = "查询商户合作服务商")
-    public R queryServiceProviderIdAndNameList(Query query, BladeUser bladeUser) {
+    public R queryServiceProviderIdAndNameList(@ApiParam(value = "服务商名称") String serviceProviderName, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -35,7 +36,7 @@ public class PaymentEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return enterpriseProviderService.queryServiceProviderIdAndNameList(enterpriseWorkerEntity.getEnterpriseId(), null, Condition.getPage(query.setDescs("create_time")));
+        return enterpriseProviderService.queryServiceProviderIdAndNameList(enterpriseWorkerEntity.getEnterpriseId(), serviceProviderName, Condition.getPage(query.setDescs("create_time")));
     }
 
 }

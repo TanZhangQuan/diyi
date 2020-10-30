@@ -2,6 +2,7 @@ package com.lgyun.system.user.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.EnterpriseServiceProviderEntity;
@@ -26,6 +27,15 @@ public interface IEnterpriseServiceProviderService extends BaseService<Enterpris
      * @return
      */
     R<IPage<ServiceProviderIdNameListVO>> queryServiceProviderIdAndNameList(Long enterpriseId, String serviceProviderName, IPage<ServiceProviderIdNameListVO> page);
+
+    /**
+     * 根据商户ID, 服务商ID查询关联
+     *
+     * @param enterpriseId
+     * @param serviceProviderId
+     * @return
+     */
+    int queryCountByEnterpriseIdAndServiceProviderId(Long enterpriseId, Long serviceProviderId, CooperateStatus cooperateStatus);
 
     /**
      * 根据商户ID, 服务商ID查询关联

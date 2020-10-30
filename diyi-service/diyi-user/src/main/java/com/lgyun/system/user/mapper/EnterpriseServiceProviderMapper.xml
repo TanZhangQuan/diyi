@@ -4,7 +4,7 @@
 <mapper namespace="com.lgyun.system.user.mapper.EnterpriseServiceProviderMapper">
 
     <resultMap type="com.lgyun.system.user.vo.ServiceProviderIdNameListVO" id="serviceProviderIdNameListVO">
-        <result property="serviceProviderId" column="service_provider_id"/>
+        <result property="id" column="id"/>
         <result property="serviceProviderName" column="service_provider_name"/>
     </resultMap>
 
@@ -38,7 +38,7 @@
     </resultMap>
 
     <select id="queryServiceProviderIdAndNameList" resultMap="serviceProviderIdNameListVO">
-        SELECT t1.id AS service_provider_id, t1.service_provider_name FROM diyi_service_provider t1
+        SELECT t1.id, t1.service_provider_name FROM diyi_service_provider t1
         <if test="param1 != null">
             INNER JOIN diyi_enterprise_service_provider t2 ON t1.id = t2.service_provider_id
         </if>

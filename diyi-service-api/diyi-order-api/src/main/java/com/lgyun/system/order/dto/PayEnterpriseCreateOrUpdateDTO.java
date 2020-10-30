@@ -18,8 +18,13 @@ import java.math.BigDecimal;
  * @time 16:27.
  */
 @Data
-public class PayEnterpriseUploadDTO implements Serializable {
+public class PayEnterpriseCreateOrUpdateDTO implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 商户支付清单ID
+     */
+    private Long payenterpriseId;
 
     /**
      * 服务商ID
@@ -125,6 +130,6 @@ public class PayEnterpriseUploadDTO implements Serializable {
      * 支付回单(多张)
      */
     @NotBlank(message = "请上传支付回单")
-    private String payReceiptUrls;
+    private String enterprisePayReceiptUrls;
 
 }

@@ -2,7 +2,7 @@ package com.lgyun.system.order.excel;
 
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
-import com.lgyun.system.order.entity.PayEnterpriseEntity;
+import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.system.order.service.IPayMakerService;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -33,14 +33,19 @@ public class PayEnterpriseImportListener extends AnalysisEventListener<PayEnterp
     private List<PayEnterpriseExcel> list = new ArrayList<>();
 
     /**
-     * 创客service
+     * 创客支付明细service
      */
     private final IPayMakerService iPayMakerService;
 
     /**
      * 总包支付清单ID
      */
-   private final PayEnterpriseEntity payEnterpriseEntity;
+   private final Long payEnterpriseId;
+
+    /**
+     * 创客类型
+     */
+    private final MakerType makerType;
 
     @Override
     public void invoke(PayEnterpriseExcel data, AnalysisContext context) {
@@ -49,7 +54,7 @@ public class PayEnterpriseImportListener extends AnalysisEventListener<PayEnterp
         // 达到BATCH_COUNT，则调用importer方法入库，防止数据几万条数据在内存，容易OOM
         if (list.size() >= batchCount) {
             // 调用importer方法
-            iPayMakerService.importMaker(list, payEnterpriseEntity);
+            iPayMakerService.importPayMakerList(list, payEnterpriseId, makerType);
             // 存储完成清理list
             list.clear();
         }
@@ -58,7 +63,7 @@ public class PayEnterpriseImportListener extends AnalysisEventListener<PayEnterp
     @Override
     public void doAfterAllAnalysed(AnalysisContext analysisContext) {
         // 调用importer方法
-        iPayMakerService.importMaker(list, payEnterpriseEntity);
+        iPayMakerService.importPayMakerList(list, payEnterpriseId, makerType);
         // 存储完成清理list
         list.clear();
     }

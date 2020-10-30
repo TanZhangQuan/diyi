@@ -3,7 +3,6 @@ package com.lgyun.system.order.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -15,7 +14,7 @@ import java.util.Date;
  * @time 15:53.
  */
 @Data
-public class WorksheetByEnterpriseVO implements Serializable {
+public class WorksheetListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**

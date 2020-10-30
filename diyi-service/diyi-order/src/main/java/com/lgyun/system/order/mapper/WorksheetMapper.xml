@@ -37,7 +37,7 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <resultMap id="worksheetByEnterpriseVO" type="com.lgyun.system.order.vo.WorksheetByEnterpriseVO">
+    <resultMap id="worksheetListVO" type="com.lgyun.system.order.vo.WorksheetListVO">
         <result property="id" column="id"/>
         <result property="worksheetNo" column="worksheet_no"/>
         <result property="worksheetName" column="worksheet_name"/>
@@ -102,14 +102,19 @@
         </if>
     </select>
 
-    <select id="getWorksheetByEnterpriseId" resultMap="worksheetByEnterpriseVO">
-        SELECT id, worksheet_no, worksheet_name, create_time FROM diyi_worksheet WHERE is_deleted = 0 AND worksheet_state = 'FINISHED'
-        AND enterprise_id = #{param1} AND worksheet_type = #{param2}
-        <if test="param3 != null and param3 != ''">
-            AND worksheet_no LIKE concat('%', #{param3}, '%')
+    <select id="queryWorksheetListByEnterprise" resultMap="worksheetListVO">
+        SELECT id, worksheet_no, worksheet_name, create_time FROM diyi_worksheet WHERE is_deleted = 0 AND enterprise_id = #{param1}
+        <if test="param2.worksheetNo != null and param2.worksheetNo != ''">
+            AND worksheet_no LIKE concat('%', #{param2.worksheetNo}, '%')
         </if>
-        <if test="param4 != null and param4 != ''">
-            AND worksheet_name LIKE concat('%', #{param4}, '%')
+        <if test="param2.worksheetName != null and param2.worksheetName != ''">
+            AND worksheet_name LIKE concat('%', #{param2.worksheetName}, '%')
+        </if>
+        <if test="param2.workSheetType != null">
+            AND work_sheet_type = #{param2.workSheetType}
+        </if>
+        <if test="param2.worksheetState != null">
+            AND worksheet_state = #{param2.worksheetState}
         </if>
     </select>
 </mapper>

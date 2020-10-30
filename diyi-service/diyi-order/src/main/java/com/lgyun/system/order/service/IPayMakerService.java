@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.entity.PayMakerEntity;
 import com.lgyun.system.order.excel.PayEnterpriseExcel;
 import com.lgyun.system.order.vo.*;
@@ -116,9 +115,10 @@ public interface IPayMakerService extends BaseService<PayMakerEntity> {
      * 根据总包支付清单生成分包
      *
      * @param list
-     * @param payEnterpriseEntity
+     * @param payEnterpriseId
+     * @param makerType
      */
-    void importMaker(List<PayEnterpriseExcel> list, PayEnterpriseEntity payEnterpriseEntity);
+    void importPayMakerList(List<PayEnterpriseExcel> list, Long payEnterpriseId, MakerType makerType);
 
     /**
      * 查询个体户/个独月度开票金额和年度开票金额
@@ -128,5 +128,14 @@ public interface IPayMakerService extends BaseService<PayMakerEntity> {
      * @return
      */
     R<IndividualYearMonthVO> yearMonthMoney(Long individualBusinessId, MakerType makerType);
+
+    /**
+     * 删除创客支付明细
+     *
+     * @param payEnterpriseId
+     * @return
+     */
+    void deleteByPayEnterpriseId(Long payEnterpriseId);
+
 }
 

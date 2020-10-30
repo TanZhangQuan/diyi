@@ -2,6 +2,7 @@ package com.lgyun.system.user.feign;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
+import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
@@ -239,8 +240,8 @@ public interface IUserClient {
      * @param serviceProviderId
      * @return
      */
-    @PostMapping(API_PREFIX + "/query-enterprise-to-service-provider")
-    EnterpriseServiceProviderEntity queryEnterpriseToServiceProvider(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("serviceProviderId") Long serviceProviderId);
+    @PostMapping(API_PREFIX + "/query-count-by-enterprise-id-and-service-provider-id")
+    int queryCountByEnterpriseIdAndServiceProviderId(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("serviceProviderId") Long serviceProviderId, CooperateStatus cooperateStatus);
 
     /**
      * 查询个独信息

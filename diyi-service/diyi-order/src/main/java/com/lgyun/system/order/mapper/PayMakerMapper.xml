@@ -125,4 +125,8 @@
         AND invoice_print_state = 'INVOICESUCCESS' AND individual_id = #{param1} AND maker_type = #{param2}) t2
     </select>
 
+    <select id="deleteByPayEnterpriseId">
+        DELETE FROM diyi_pay_maker WHERE pay_enterprise_id = #{param1}
+    </select>
+
 </mapper>

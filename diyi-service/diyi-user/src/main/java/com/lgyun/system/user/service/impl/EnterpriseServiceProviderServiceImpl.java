@@ -44,6 +44,16 @@ public class EnterpriseServiceProviderServiceImpl extends BaseServiceImpl<Enterp
     }
 
     @Override
+    public int queryCountByEnterpriseIdAndServiceProviderId(Long enterpriseId, Long serviceProviderId, CooperateStatus cooperateStatus) {
+        QueryWrapper<EnterpriseServiceProviderEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(EnterpriseServiceProviderEntity::getEnterpriseId, enterpriseId)
+                .eq(EnterpriseServiceProviderEntity::getServiceProviderId, serviceProviderId)
+                .eq(cooperateStatus != null, EnterpriseServiceProviderEntity::getCooperateStatus, cooperateStatus);
+
+        return baseMapper.selectCount(queryWrapper);
+    }
+
+    @Override
     public EnterpriseServiceProviderEntity findByEnterpriseIdServiceProviderId(Long enterpriseId, Long serviceProviderId) {
         QueryWrapper<EnterpriseServiceProviderEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(EnterpriseServiceProviderEntity::getEnterpriseId, enterpriseId).

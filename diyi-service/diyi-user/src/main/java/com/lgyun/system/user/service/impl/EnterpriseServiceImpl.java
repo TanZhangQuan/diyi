@@ -147,13 +147,8 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     @Override
-    public R<IPage<EnterpriseListPaymentVO>> queryEnterpriseListPayment(QueryEnterpriseListPaymentDTO queryEnterpriseListPaymentDTO, IPage<EnterpriseListPaymentVO> page) {
-        return R.data(page.setRecords(baseMapper.queryEnterpriseListPayment(queryEnterpriseListPaymentDTO, page)));
-    }
-
-    @Override
-    public R<IPage<ServiceProviderListPaymentVO>> queryServiceProviderListPayment(QueryServiceProviderListPaymentDTO queryServiceProviderListPaymentDTO, IPage<ServiceProviderListPaymentVO> page) {
-        return R.data(page.setRecords(baseMapper.queryServiceProviderListPayment(queryServiceProviderListPaymentDTO, page)));
+    public R<IPage<EnterpriseListPaymentVO>> queryEnterpriseListPayment(String enterpriseName, IPage<EnterpriseListPaymentVO> page) {
+        return R.data(page.setRecords(baseMapper.queryEnterpriseListPayment(enterpriseName, page)));
     }
 
     @Override

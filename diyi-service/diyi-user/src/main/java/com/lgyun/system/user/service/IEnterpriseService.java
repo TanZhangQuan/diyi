@@ -90,19 +90,11 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
     /**
      * 支付管理模块查询所有商户
      *
+     * @param enterpriseName
      * @param page
      * @return
      */
-    R<IPage<EnterpriseListPaymentVO>> queryEnterpriseListPayment(QueryEnterpriseListPaymentDTO queryEnterpriseListPaymentDTO, IPage<EnterpriseListPaymentVO> page);
-
-    /**
-     * 支付管理模块查询所有服务商
-     *
-     * @param queryServiceProviderListPaymentDTO
-     * @param page
-     * @return
-     */
-    R<IPage<ServiceProviderListPaymentVO>> queryServiceProviderListPayment(QueryServiceProviderListPaymentDTO queryServiceProviderListPaymentDTO, IPage<ServiceProviderListPaymentVO> page);
+    R<IPage<EnterpriseListPaymentVO>> queryEnterpriseListPayment(String enterpriseName, IPage<EnterpriseListPaymentVO> page);
 
     /**
      * 添加商户

@@ -5,19 +5,17 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.common.enumeration.MakerInvoiceType;
 import com.lgyun.common.enumeration.PayEnterpriseAuditState;
-import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.PayEnterpriseDTO;
-import com.lgyun.system.order.dto.PayEnterpriseUploadDTO;
+import com.lgyun.system.order.dto.PayEnterpriseCreateOrUpdateDTO;
 import com.lgyun.system.order.dto.SummaryInvoiceDTO;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.*;
-import com.lgyun.system.order.vo.TransactionByBureauServiceProviderInfoVO;
-import com.lgyun.system.user.vo.TransactionVO;
 import com.lgyun.system.user.vo.AdminAgentMainServiceProviderListVO;
 import com.lgyun.system.user.vo.AgentMainTransactionVO;
 import com.lgyun.system.user.vo.PartnerServiceProviderListVO;
+import com.lgyun.system.user.vo.TransactionVO;
 
 /**
  * Service 接口
@@ -57,13 +55,13 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R<InvoiceEnterpriseVO> getEnterpriseMakerIdDetail(Long makerId, Long enterpriseId, Long payMakerId);
 
     /**
-     * 当前商户上传总包支付清单
+     * 上传或编辑总包支付清单
      *
-     * @param payEnterpriseUploadDto
+     * @param payEnterpriseCreateOrUpdateDto
      * @param enterpriseId
      * @return
      */
-    R<String> upload(PayEnterpriseUploadDTO payEnterpriseUploadDto, Long enterpriseId) throws Exception;
+    R<String> createOrUpdatePayEnterprise(PayEnterpriseCreateOrUpdateDTO payEnterpriseCreateOrUpdateDto, Long enterpriseId) throws Exception;
 
     /**
      * 提交支付清单
@@ -82,7 +80,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @param page
      * @return
      */
-    R<IPage<PayEnterpriseMakersListVO>> getPayEnterpriseList(Long enterpriseId, Long serviceProviderId, PayEnterpriseDTO payEnterpriseDto, IPage<PayEnterpriseMakersListVO> page);
+    R<IPage<PayEnterpriseListVO>> getPayEnterpriseList(Long enterpriseId, Long serviceProviderId, PayEnterpriseDTO payEnterpriseDto, IPage<PayEnterpriseListVO> page);
 
     /**
      * 根据支付清单ID查询支付清单关联工单的创客
@@ -121,18 +119,6 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R findEnterprisePaymentList(Long enterpriseId, String serviceProviderName, IPage<EnterprisePaymentListVO> page);
 
     /**
-     * 查询当前商户所有已完毕的总包+分包类型的工单
-     *
-     * @param query
-     * @param enterpriseId
-     * @param subpackage
-     * @param worksheetNo
-     * @param worksheetName
-     * @return
-     */
-    R<IPage<WorksheetByEnterpriseVO>> getWorksheetByEnterpriseId(Query query, Long enterpriseId, WorkSheetType subpackage, String worksheetNo, String worksheetName);
-
-    /**
      * 根据商户查询分包列表-汇总
      */
     R findEnterpriseSubcontractSummary(Long enterpriseId, String serviceProviderName, IPage<EnterpriseSubcontractInvoiceVO> page);
@@ -145,12 +131,12 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     /**
      * 查询详情接口-汇总
      */
-    R findDetailSummary(Long makerTotalInvoiceId,Query query);
+    R findDetailSummary(Long makerTotalInvoiceId, Query query);
 
     /**
      * 查询详情接口-门征
      */
-    R findDetailSubcontractPortal(Long makerInvoiceId,Query query);
+    R findDetailSubcontractPortal(Long makerInvoiceId, Query query);
 
     /**
      * 根据支付清单ID查询创客支付明细
@@ -171,17 +157,6 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @return
      */
     R<String> audit(Long payEnterpriseId, Long serviceProviderId, PayEnterpriseAuditState auditState, MakerInvoiceType makerInvoiceType);
-
-    /**
-     * 根据当前服务商，商户ID查询总包支付清单
-     *
-     * @param enterpriseId
-     * @param serviceProviderId
-     * @param payEnterpriseDto
-     * @param page
-     * @return
-     */
-    R<IPage<PayEnterpriseMakersListVO>> getPayEnterprisesByEnterprisesServiceProvider(Long enterpriseId, Long serviceProviderId, PayEnterpriseDTO payEnterpriseDto, IPage<PayEnterpriseMakersListVO> page);
 
     /**
      * 查询当前商户首页交易情况数据
@@ -279,11 +254,13 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
 
 
     /**
-     *服务商查询已开总包发票详情
+     * 服务商查询已开总包发票详情
      */
     R queryOpenedTotalInvoiceDetail(Long invoicePrintId);
+
     /**
      * 服务商查询未开总包发票详情
+     *
      * @param payEnterpriseId
      * @return
      */
@@ -291,6 +268,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
 
     /**
      * 服务商总包合并开票
+     *
      * @param payEnterpriseIds
      * @return
      */
@@ -298,6 +276,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
 
     /**
      * 服务商根据总包申请开票
+     *
      * @param invoiceApplicationId
      * @return
      */
@@ -313,20 +292,22 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @param expressCompanyName
      * @return
      */
-    R saveServiceLumpSumInvoice(Long serviceProviderId,Long payEnterpriseId,String serviceProviderName,String companyInvoiceUrl,String expressSheetNo,String expressCompanyName,String invoiceDesc);
+    R saveServiceLumpSumInvoice(Long serviceProviderId, Long payEnterpriseId, String serviceProviderName, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc);
 
 
     /**
-     *服务商合并开票
+     * 服务商合并开票
      */
-    R saveServiceLumpSumMergeInvoice(Long serviceProviderId,String payEnterpriseIds,String serviceProviderName,String companyInvoiceUrl,String expressSheetNo,String expressCompanyName,String invoiceDesc);
+    R saveServiceLumpSumMergeInvoice(Long serviceProviderId, String payEnterpriseIds, String serviceProviderName, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc);
 
 
     /**
-     *服务商总包根据申请开票
+     * 服务商总包根据申请开票
+     *
      * @return
      */
-    R createTotalApplyInvoice(Long serviceProviderId,String serviceProviderName,Long applicationId,String companyInvoiceUrl,String expressSheetNo,String expressCompanyName,String invoiceDesc);
+    R createTotalApplyInvoice(Long serviceProviderId, String serviceProviderName, Long applicationId, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc);
+
     /**
      * 服务商查询未开票分包发票
      *
@@ -434,49 +415,66 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     /**
      * 商户端根据商户id查询总包
      */
-    R queryTotalInvoiceListEnterprise(Long enterpriseId,String serviceProviderName,IPage<TotalInvoiceListEnterVO> page);
+    R queryTotalInvoiceListEnterprise(Long enterpriseId, String serviceProviderName, IPage<TotalInvoiceListEnterVO> page);
 
     /**
-     *商户端根据商户id查询总包申请的详情商户支付清单
+     * 商户端根据商户id查询总包申请的详情商户支付清单
      */
-    R queryTotalInvoiceListEnterpriseApplyDetails(Long invoiceApplicationId,Long enterpriseId);
+    R queryTotalInvoiceListEnterpriseApplyDetails(Long invoiceApplicationId, Long enterpriseId);
 
     /**
      * 商户端根据商户id查询总包开票的详情商户支付清单
      */
-    R queryTotalInvoiceListEnterpriseInvoiceDetails(Long invoicePrintId,Long enterpriseId);
+    R queryTotalInvoiceListEnterpriseInvoiceDetails(Long invoicePrintId, Long enterpriseId);
 
     /**
      * 查询和商户关联的服务商
      */
-    R queryRelationEnterpriseService(Long enterpriseId,String serviceProviderName,IPage<RelationEnterpriseServiceVO> page);
+    R queryRelationEnterpriseService(Long enterpriseId, String serviceProviderName, IPage<RelationEnterpriseServiceVO> page);
 
     /**
      * 根据商户和服务商查询支付清单
      */
-    R queryEnterpriseServicePayList(Long enterpriseId,Long serviceProviderId,IPage<EnterpriseServicePayListVO> page);
+    R queryEnterpriseServicePayList(Long enterpriseId, Long serviceProviderId, IPage<EnterpriseServicePayListVO> page);
 
 
     /**
      * 根据服务商查询汇总代开分包列表
      */
-    R findServiceSubcontractSummary(Long serviceProviderId, String enterpriseName,InvoiceState companyInvoiceState,IPage<EnterpriseSubcontractInvoiceVO> page);
+    R findServiceSubcontractSummary(Long serviceProviderId, String enterpriseName, InvoiceState companyInvoiceState, IPage<EnterpriseSubcontractInvoiceVO> page);
 
     /**
-     *服务商汇总代开发票
+     * 服务商汇总代开发票
      */
     R createSummaryAgencyInvoice(SummaryInvoiceDTO summaryInvoiceDTO);
 
     /**
-     *服务商根据商户支付清单查询分包详情
+     * 服务商根据商户支付清单查询分包详情
      */
     R findServiceDetailSummary(String payEnterpriseIds);
 
 
     /**
-     *服务商门征发票
+     * 服务商门征发票
      */
-    R createDoorSignInvoice(String payEnterpriseIds,String doorSignInvoiceJson,String doorSignTaxInvoiceJson);
+    R createDoorSignInvoice(String payEnterpriseIds, String doorSignInvoiceJson, String doorSignTaxInvoiceJson);
+
+
+    /**
+     * 查询总包支付清单详情
+     *
+     * @param payEnterpriseId
+     * @return
+     */
+    R<PayEnterpriseDetailVO> queryPayEnterpriseDetail(Long payEnterpriseId);
+
+    /**
+     * 查询编辑总包支付清单详情
+     *
+     * @param payEnterpriseId
+     * @return
+     */
+    R<PayEnterpriseUpdateDetailVO> queryUpdatePayEnterpriseDetail(Long payEnterpriseId);
 
 }
 

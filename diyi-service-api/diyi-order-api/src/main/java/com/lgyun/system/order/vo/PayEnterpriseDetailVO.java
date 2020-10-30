@@ -3,9 +3,10 @@ package com.lgyun.system.order.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.lgyun.common.enumeration.EnterprisePayState;
 import com.lgyun.common.enumeration.InvoiceState;
+import com.lgyun.common.enumeration.MakerInvoiceType;
 import com.lgyun.common.enumeration.PayEnterpriseAuditState;
+import com.lgyun.common.enumeration.PayEnterprisePayState;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -18,14 +19,14 @@ import java.util.Date;
  * @time 14:36.
  */
 @Data
-public class PayEnterpriseMakersListVO implements Serializable {
+public class PayEnterpriseDetailVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 商户支付清单ID
+     * 总包支付清单ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long payEnterpriseId;
+    private Long id;
 
     /**
      * 商户名称
@@ -43,7 +44,7 @@ public class PayEnterpriseMakersListVO implements Serializable {
     private String chargeListUrl;
 
     /**
-     * 总包支付回单图片URL地址(多张逗号隔开)
+     * 总包支付回单图片(多张逗号隔开)
      */
     private String enterprisePayReceiptUrls;
 
@@ -53,29 +54,14 @@ public class PayEnterpriseMakersListVO implements Serializable {
     private String worksheetId;
 
     /**
-     * 交付支付验收单URL(多张逗号隔开)
+     * 总包+分包交付支付验收单
      */
-    private String acceptPaysheetUrls;
-
-    /**
-     * 分包支付回单图片URL地址(多张逗号隔开)
-     */
-    private String makerPayReceiptUrls;
-
-    /**
-     * 支付状态
-     */
-    private EnterprisePayState payState;
+    private String acceptPaysheetUrl;
 
     /**
      * 审核状态
      */
     private PayEnterpriseAuditState auditState;
-
-    /**
-     * 开票状态
-     */
-    private InvoiceState companyInvoiceState;
 
     /**
      * 创建时间
@@ -84,7 +70,27 @@ public class PayEnterpriseMakersListVO implements Serializable {
     private Date createTime;
 
     /**
-     * 支付总额
+     * 创客发票开票类别
+     */
+    private MakerInvoiceType makerInvoiceType;
+
+    /**
+     * 支付状态
+     */
+    private PayEnterprisePayState payState;
+
+    /**
+     * 总包开票状态：未开，已开
+     */
+    private InvoiceState companyInvoiceState;
+
+    /**
+     * 分包开票状态：未开，已开
+     */
+    private InvoiceState subcontractingInvoiceState;
+
+    /**
+     * 企业总支付额价税合计总额
      */
     private BigDecimal payToPlatformAmount;
 

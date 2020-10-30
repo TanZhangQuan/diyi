@@ -1,6 +1,7 @@
 package com.lgyun.system.user.feign;
 
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
@@ -124,8 +125,8 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public EnterpriseServiceProviderEntity queryEnterpriseToServiceProvider(Long enterpriseId, Long serviceProviderId) {
-        return null;
+    public int queryCountByEnterpriseIdAndServiceProviderId(Long enterpriseId, Long serviceProviderId, CooperateStatus cooperateStatus) {
+        return 0;
     }
 
     @Override

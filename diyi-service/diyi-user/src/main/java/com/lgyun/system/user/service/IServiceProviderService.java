@@ -12,11 +12,7 @@ import com.lgyun.system.user.dto.QueryServiceProviderListDTO;
 import com.lgyun.system.user.dto.UpdateServiceProviderDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
-import com.lgyun.system.user.vo.ServiceProviderBankCardVO;
-import com.lgyun.system.user.vo.ServiceProviderContactPersonVO;
-import com.lgyun.system.user.vo.ServiceProviderInvoiceVO;
-import com.lgyun.system.user.vo.ServiceProviderDetailServiceProviderVO;
-import com.lgyun.system.user.vo.ServiceProviderListVO;
+import com.lgyun.system.user.vo.*;
 
 /**
  * Service 接口
@@ -146,6 +142,15 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
      * @return
      */
     R<String> updateServiceProviderState(Long serviceProviderId, AccountState serviceProviderState);
+
+    /**
+     * 支付管理模块查询所有服务商
+     *
+     * @param serviceProviderName
+     * @param page
+     * @return
+     */
+    R<IPage<ServiceProviderListPaymentVO>> queryServiceProviderListPayment(String serviceProviderName, IPage<ServiceProviderListPaymentVO> page);
 
     /**
      * 查询所有服务商

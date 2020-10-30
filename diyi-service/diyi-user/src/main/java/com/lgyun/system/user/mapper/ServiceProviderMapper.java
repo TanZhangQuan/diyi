@@ -4,11 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.user.dto.QueryServiceProviderListDTO;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
-import com.lgyun.system.user.vo.ServiceProviderBankCardVO;
-import com.lgyun.system.user.vo.ServiceProviderContactPersonVO;
-import com.lgyun.system.user.vo.ServiceProviderInvoiceVO;
-import com.lgyun.system.user.vo.ServiceProviderDetailServiceProviderVO;
-import com.lgyun.system.user.vo.ServiceProviderListVO;
+import com.lgyun.system.user.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -62,5 +58,15 @@ public interface ServiceProviderMapper extends BaseMapper<ServiceProviderEntity>
      * @return
      */
     ServiceProviderDetailServiceProviderVO queryServiceProviderDetailServiceProvider(Long serviceProviderId);
+
+    /**
+     * 支付管理模块查询所有服务商
+     *
+     * @param serviceProviderName
+     * @param page
+     * @return
+     */
+    List<ServiceProviderListPaymentVO> queryServiceProviderListPayment(String serviceProviderName, IPage<ServiceProviderListPaymentVO> page);
+
 }
 

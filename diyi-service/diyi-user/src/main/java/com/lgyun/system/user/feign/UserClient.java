@@ -2,6 +2,7 @@ package com.lgyun.system.user.feign;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
+import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
@@ -432,8 +433,8 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public EnterpriseServiceProviderEntity queryEnterpriseToServiceProvider(Long enterpriseId, Long serviceProviderId) {
-        return iEnterpriseServiceProviderService.findByEnterpriseIdServiceProviderId(enterpriseId, serviceProviderId);
+    public int queryCountByEnterpriseIdAndServiceProviderId(Long enterpriseId, Long serviceProviderId, CooperateStatus cooperateStatus) {
+        return iEnterpriseServiceProviderService.queryCountByEnterpriseIdAndServiceProviderId(enterpriseId, serviceProviderId, cooperateStatus);
     }
 
     @Override

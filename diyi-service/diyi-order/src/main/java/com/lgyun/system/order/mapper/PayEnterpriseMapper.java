@@ -63,7 +63,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * @param page
      * @return
      */
-    List<PayEnterpriseMakersListVO> getPayEnterpriseList(Long enterpriseId, Long serviceProviderId, PayEnterpriseDTO payEnterpriseDto, IPage<PayEnterpriseMakersListVO> page);
+    List<PayEnterpriseListVO> getPayEnterpriseList(Long enterpriseId, Long serviceProviderId, PayEnterpriseDTO payEnterpriseDto, IPage<PayEnterpriseListVO> page);
 
     /**
      * 根据支付清单ID查询支付清单关联工单的创客
@@ -121,18 +121,16 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * @param page
      * @return
      */
-    List<PayMakerListVO> getPayMakerListByPayEnterprise(Long payEnterpriseId, IPage<PayMakerListVO> page);
+    List<PayMakerListInvoiceVO> queryPayMakerListInvoice(Long payEnterpriseId, IPage<PayMakerListVO> page);
 
     /**
-     * 根据当前服务商，商户ID查询总包支付清单
+     * 根据支付清单ID查询创客支付明细
      *
-     * @param enterpriseId
-     * @param serviceProviderId
-     * @param payEnterpriseDto
+     * @param payEnterpriseId
      * @param page
      * @return
      */
-    List<PayEnterpriseMakersListVO> getPayEnterprisesByEnterprisesServiceProvider(Long enterpriseId, Long serviceProviderId, PayEnterpriseDTO payEnterpriseDto, IPage<PayEnterpriseMakersListVO> page);
+    List<PayMakerListVO> getPayMakerListByPayEnterprise(Long payEnterpriseId, IPage<PayMakerListVO> page);
 
     /**
      * 查询当前商户首页交易情况数据
@@ -293,6 +291,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
 
     /**
      * 查询渠道商下服务商流水信息
+     *
      * @param agentMainId
      * @return
      */
@@ -300,25 +299,28 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
 
     /**
      * 渠道商查询匹配好的服务商
+     *
      * @param agentMainId
      * @return
      */
-    List<AdminAgentMainServiceProviderListVO> getAgentMainServiceProviderList(Long agentMainId,IPage<AdminAgentMainServiceProviderListVO> page);
+    List<AdminAgentMainServiceProviderListVO> getAgentMainServiceProviderList(Long agentMainId, IPage<AdminAgentMainServiceProviderListVO> page);
 
 
     /**
      * 合伙人查询流水信息
+     *
      * @return
      */
     AgentMainTransactionVO getAllTransaction();
 
     /**
      * 查询合伙人可有用的服务商
+     *
      * @return
      */
     List<PartnerServiceProviderListVO> getPartnerAllServiceProvider(IPage<PartnerServiceProviderListVO> page);
 
-    List<TotalInvoiceListEnterVO> queryTotalInvoiceListEnterprise(Long enterpriseId,String serviceProviderName,IPage<TotalInvoiceListEnterVO> page);
+    List<TotalInvoiceListEnterVO> queryTotalInvoiceListEnterprise(Long enterpriseId, String serviceProviderName, IPage<TotalInvoiceListEnterVO> page);
 
     /**
      * 查询和商户关联的服务商
@@ -326,9 +328,9 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     List<RelationEnterpriseServiceVO> queryRelationEnterpriseService(Long enterpriseId, String serviceProviderName, IPage<RelationEnterpriseServiceVO> page);
 
     /**
-     *根据商户和服务商查询支付清单
+     * 根据商户和服务商查询支付清单
      */
-    List<EnterpriseServicePayListVO> queryEnterpriseServicePayList(Long enterpriseId, Long serviceProviderId,IPage<EnterpriseServicePayListVO> page);
+    List<EnterpriseServicePayListVO> queryEnterpriseServicePayList(Long enterpriseId, Long serviceProviderId, IPage<EnterpriseServicePayListVO> page);
 
     /**
      * 根据服务商查询汇总代开分包列表
@@ -345,5 +347,22 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      *
      */
     List<PayMakerListVO> getPayMakerLists(String payEnterpriseIds);
+
+    /**
+     * 查询总包支付清单详情
+     *
+     * @param payEnterpriseId
+     * @return
+     */
+    PayEnterpriseDetailVO queryPayEnterpriseDetail(Long payEnterpriseId);
+
+    /**
+     * 查询编辑总包支付清单详情
+     *
+     * @param payEnterpriseId
+     * @return
+     */
+    PayEnterpriseUpdateDetailVO queryUpdatePayEnterpriseDetail(Long payEnterpriseId);
+
 }
 

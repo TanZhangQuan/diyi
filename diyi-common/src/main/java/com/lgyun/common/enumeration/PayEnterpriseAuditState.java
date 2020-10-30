@@ -11,10 +11,10 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum PayEnterpriseAuditState {
-    EDITING("EDITING", "编辑中"),
-    SUBMITED("SUBMITED", "已提交"),
-    APPROVED("APPROVED", "审核通过"),
-    REJECTED("REJECTED", "已驳回");
+    EDITING("EDITING", "商户编辑中"),
+    SUBMITED("SUBMITED", "商户已提交"),
+    APPROVED("APPROVED", "服务商/管理中心审核通过"),
+    REJECTED("REJECTED", "服务商/管理中心已驳回");
 
     private final String value;
     private final String desc;

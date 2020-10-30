@@ -3,8 +3,6 @@ package com.lgyun.system.user.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.user.dto.QueryEnterpriseListDTO;
-import com.lgyun.system.user.dto.QueryEnterpriseListPaymentDTO;
-import com.lgyun.system.user.dto.QueryServiceProviderListPaymentDTO;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.vo.*;
 import org.apache.ibatis.annotations.Mapper;
@@ -37,21 +35,13 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
     EnterprisesDetailVO getEnterpriseDetailById(Long enterpriseId);
 
     /**
-     * 查询所有商户
+     * 支付管理模块查询所有商户
      *
+     * @param enterpriseName
      * @param page
      * @return
      */
-    List<EnterpriseListPaymentVO> queryEnterpriseListPayment(QueryEnterpriseListPaymentDTO queryEnterpriseListPaymentDTO, IPage<EnterpriseListPaymentVO> page);
-
-    /**
-     * 查询所有服务商
-     *
-     * @param queryServiceProviderListPaymentDTO
-     * @param page
-     * @return
-     */
-    List<ServiceProviderListPaymentVO> queryServiceProviderListPayment(QueryServiceProviderListPaymentDTO queryServiceProviderListPaymentDTO, IPage<ServiceProviderListPaymentVO> page);
+    List<EnterpriseListPaymentVO> queryEnterpriseListPayment(String enterpriseName, IPage<EnterpriseListPaymentVO> page);
 
     /**
      * 商户管理模块查询所有商户

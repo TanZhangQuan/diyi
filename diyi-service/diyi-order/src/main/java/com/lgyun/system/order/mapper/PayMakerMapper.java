@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
- *  Mapper
+ * Mapper
  *
  * @author jun
  * @since 2020-07-18 20:49:13
@@ -103,6 +103,13 @@ public interface PayMakerMapper extends BaseMapper<PayMakerEntity> {
      * @return
      */
     IndividualYearMonthVO yearMonthMoney(Long individualId, MakerType makerType);
+
+    /**
+     * 删除创客支付明细
+     *
+     * @param payEnterpriseId
+     */
+    void deleteByPayEnterpriseId(Long payEnterpriseId);
 
 }
 

@@ -8,6 +8,7 @@ import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.dto.ReleaseWorksheetDTO;
+import com.lgyun.system.order.dto.WorksheetFinishedListDTO;
 import com.lgyun.system.order.entity.WorksheetEntity;
 import com.lgyun.system.order.entity.WorksheetMakerEntity;
 import com.lgyun.system.order.mapper.WorksheetMapper;
@@ -229,8 +230,8 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     }
 
     @Override
-    public R<IPage<WorksheetByEnterpriseVO>> getWorksheetByEnterpriseId(Long enterpriseId, WorkSheetType workSheetType, String worksheetNo, String worksheetName, IPage<WorksheetByEnterpriseVO> page) {
-        return R.data(page.setRecords(baseMapper.getWorksheetByEnterpriseId(enterpriseId, workSheetType, worksheetNo, worksheetName, page)));
+    public R<IPage<WorksheetListVO>> queryWorksheetListByEnterprise(Long enterpriseId, WorksheetFinishedListDTO worksheetFinishedListDTO, IPage<WorksheetListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryWorksheetListByEnterprise(enterpriseId, worksheetFinishedListDTO, page)));
     }
 
     @Override

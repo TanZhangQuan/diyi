@@ -17,11 +17,7 @@ import com.lgyun.system.user.dto.AddOrUpdateServiceProviderContactDTO;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.ServiceProviderMapper;
 import com.lgyun.system.user.service.*;
-import com.lgyun.system.user.vo.ServiceProviderBankCardVO;
-import com.lgyun.system.user.vo.ServiceProviderContactPersonVO;
-import com.lgyun.system.user.vo.ServiceProviderInvoiceVO;
-import com.lgyun.system.user.vo.ServiceProviderDetailServiceProviderVO;
-import com.lgyun.system.user.vo.ServiceProviderListVO;
+import com.lgyun.system.user.vo.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -331,6 +327,11 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         }
 
         return R.fail("更改商户状态成功");
+    }
+
+    @Override
+    public R<IPage<ServiceProviderListPaymentVO>> queryServiceProviderListPayment(String serviceProviderName, IPage<ServiceProviderListPaymentVO> page) {
+        return R.data(page.setRecords(baseMapper.queryServiceProviderListPayment(serviceProviderName, page)));
     }
 
     @Override

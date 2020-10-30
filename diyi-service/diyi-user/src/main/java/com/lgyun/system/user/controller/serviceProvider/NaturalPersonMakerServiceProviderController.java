@@ -27,7 +27,6 @@ public class NaturalPersonMakerServiceProviderController {
     private IServiceProviderWorkerService serviceProviderWorkerService;
     private IEnterpriseServiceProviderService enterpriseServiceProviderService;
     private IMakerService makerService;
-    private IMakerEnterpriseService makerEnterpriseService;
 
     @GetMapping("/query-relevance-maker-list")
     @ApiOperation(value = "查询当前服务商的所有关联创客", notes = "查询当前服务商的所有关联创客")

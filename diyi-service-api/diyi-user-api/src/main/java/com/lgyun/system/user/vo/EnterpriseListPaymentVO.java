@@ -17,10 +17,10 @@ public class EnterpriseListPaymentVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
      /**
-     * 商户编号
+     * 商户ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long enterpriseId;
+    private Long id;
 
      /**
      * 商户名称

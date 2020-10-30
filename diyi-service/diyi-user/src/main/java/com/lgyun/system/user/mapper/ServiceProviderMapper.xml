@@ -73,6 +73,12 @@
         <result property="invoiceAccount" column="invoice_account"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.user.vo.ServiceProviderListPaymentVO" id="serviceProviderListPaymentVO">
+        <result property="id" column="id"/>
+        <result property="serviceProviderName" column="service_provider_name"/>
+        <result property="boolSignContract" column="bool_sign_contract"/>
+    </resultMap>
+
     <select id="getBankCard" resultMap="serviceProviderBankCardVO">
         SELECT invoice_account, invoice_account_name, invoice_bank_name FROM diyi_service_provider WHERE is_deleted = 0 AND id = #{param1} LIMIT 1
     </select>
@@ -118,6 +124,14 @@
         (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url) FROM diyi_agreement
         WHERE is_deleted = 0 AND agreement_type = 'OTHERAGREEMENT' AND audit_state = 'APPROVED' AND service_provider_id = t1.id) AS commitment_letter FROM diyi_service_provider t1
         WHERE t1.is_deleted = 0 AND t1.id = #{param1}
+    </select>
+
+    <select id="queryServiceProviderListPayment" resultMap="serviceProviderListPaymentVO">
+        SELECT t1.id, t1.service_provider_name, IF((SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'SERVICEPROVIDERJOINAGREEMENT'
+        AND sign_state = 'SIGNED' AND enterprise_id = t1.id) > 0, TRUE, FALSE) AS bool_sign_contract FROM diyi_service_provider t1 WHERE is_deleted = 0
+        <if test="param1 != null and param1.trim() != ''">
+            AND t1.service_provider_name LIKE concat('%', #{param1}, '%')
+        </if>
     </select>
 
 </mapper>

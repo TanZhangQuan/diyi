@@ -1,18 +1,21 @@
 package com.lgyun.system.order.controller.enterprise;
 
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.AcceptPaysheetSaveDTO;
+import com.lgyun.system.order.dto.PayEnterpriseCreateOrUpdateDTO;
 import com.lgyun.system.order.dto.PayEnterpriseDTO;
-import com.lgyun.system.order.dto.PayEnterpriseUploadDTO;
+import com.lgyun.system.order.dto.WorksheetFinishedListDTO;
 import com.lgyun.system.order.service.IAcceptPaysheetService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
+import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -30,9 +33,36 @@ public class PaymentEnterpriseController {
     private IUserClient userClient;
     private IPayEnterpriseService payEnterpriseService;
     private IAcceptPaysheetService acceptPaysheetService;
+    private IWorksheetService worksheetService;
+
+    @GetMapping("/query-finished-worksheet-list")
+    @ApiOperation(value = "查询当前商户所有已完毕的总包+分包类型的工单", notes = "查询当前商户所有已完毕的总包+分包类型的工单")
+    public R queryFinishedWorksheetList(WorksheetFinishedListDTO worksheetFinishedListDTO, Query query, BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+        return worksheetService.queryWorksheetListByEnterprise(enterpriseWorkerEntity.getEnterpriseId(), worksheetFinishedListDTO, Condition.getPage(query.setDescs("create_time")));
+    }
+
+    @PostMapping("/create-or-update-pay-enterprise")
+    @ApiOperation(value = "上传或编辑总包支付清单", notes = "上传或编辑总包支付清单")
+    public R createOrUpdatePayEnterprise(@Valid @RequestBody PayEnterpriseCreateOrUpdateDTO payEnterpriseCreateOrUpdateDto, BladeUser bladeUser) throws Exception {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+        return payEnterpriseService.createOrUpdatePayEnterprise(payEnterpriseCreateOrUpdateDto, enterpriseWorkerEntity.getEnterpriseId());
+    }
 
     @GetMapping("/query-pay-enterprise-list")
-    @ApiOperation(value = "查询当前商户所有商户支付清单", notes = "查询当前商户所有商户支付清单")
+    @ApiOperation(value = "查询当前商户所有总包+分包-总包支付", notes = "查询当前商户所有总包+分包-总包支付")
     public R queryPayEnterpriseList(PayEnterpriseDTO payEnterpriseDto, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
@@ -44,9 +74,45 @@ public class PaymentEnterpriseController {
         return payEnterpriseService.getPayEnterpriseList(enterpriseWorkerEntity.getEnterpriseId(), null, payEnterpriseDto, Condition.getPage(query.setDescs("create_time")));
     }
 
+    @GetMapping("/query-pay-enterprise-detail")
+    @ApiOperation(value = "查询总包支付清单详情", notes = "查询总包支付清单详情")
+    public R queryPayEnterpriseDetail(@ApiParam(value = "支付清单", required = true) @NotNull(message = "请选择总包支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return payEnterpriseService.queryPayEnterpriseDetail(payEnterpriseId);
+    }
+
+    @GetMapping("/query-update-pay-enterprise-detail")
+    @ApiOperation(value = "查询编辑总包支付清单详情", notes = "查询编辑总包支付清单详情")
+    public R queryUpdatePayEnterpriseDetail(@ApiParam(value = "支付清单", required = true) @NotNull(message = "请选择总包支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return payEnterpriseService.queryUpdatePayEnterpriseDetail(payEnterpriseId);
+    }
+
+    @GetMapping("/query-worksheet-detail")
+    @ApiOperation(value = "查询工单详情", notes = "查询工单详情")
+    public R queryTotalSubAcceptPaysheetList(@ApiParam(value = "工单", required = true) @NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId, BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return worksheetService.getByWorksheetId(worksheetId);
+    }
+
     @GetMapping("/query-pay-maker-list")
-    @ApiOperation(value = "根据支付清单ID查询创客支付明细", notes = "根据支付清单ID查询创客支付明细")
-    public R queryPayMakerList(@ApiParam(value = "支付清单编号", required = true) @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, Query query, BladeUser bladeUser) {
+    @ApiOperation(value = "根据支付清单查询创客支付明细", notes = "根据支付清单查询创客支付明细")
+    public R queryPayMakerList(@ApiParam(value = "支付清单", required = true) @NotNull(message = "请选择总包支付清单") @RequestParam(required = false) Long payEnterpriseId, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -56,39 +122,9 @@ public class PaymentEnterpriseController {
         return payEnterpriseService.getPayMakerListByPayEnterprise(payEnterpriseId, Condition.getPage(query.setDescs("create_time")));
     }
 
-    @PostMapping("/upload-charge-list")
-    @ApiOperation(value = "上传总包支付清单", notes = "上传总包支付清单")
-    public R uploadChargeList(@Valid @RequestBody PayEnterpriseUploadDTO payEnterpriseUploadDto, BladeUser bladeUser) throws Exception {
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-        return payEnterpriseService.upload(payEnterpriseUploadDto, enterpriseWorkerEntity.getEnterpriseId());
-    }
-
-    @GetMapping("/query-finished-worksheet-list")
-    @ApiOperation(value = "查询当前商户所有已完毕的总包+分包类型的工单", notes = "查询当前商户所有已完毕的总包+分包类型的工单")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "worksheetNo", value = "工单编号", paramType = "query", dataType = "string"),
-            @ApiImplicitParam(name = "worksheetName", value = "工单名称", paramType = "query", dataType = "string")
-    })
-    public R queryFinishedWorksheetList(String worksheetNo, String worksheetName, Query query, BladeUser bladeUser) {
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-        return payEnterpriseService.getWorksheetByEnterpriseId(query, enterpriseWorkerEntity.getEnterpriseId(), WorkSheetType.SUBPACKAGE, worksheetNo, worksheetName);
-    }
-
     @PostMapping("/submit-pay-enterprise")
     @ApiOperation(value = "当前商户提交支付清单", notes = "当前商户提交支付清单")
-    public R submitPayEnterprise(@ApiParam(value = "支付清单编号", required = true) @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
+    public R submitPayEnterprise(@ApiParam(value = "总包支付清单", required = true) @NotNull(message = "请选择总包支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {

@@ -2,7 +2,7 @@ package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.common.enumeration.InvoiceState;
-import com.lgyun.common.enumeration.MakerPayState;
+import com.lgyun.common.enumeration.PayMakerPayState;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -88,9 +88,9 @@ public class PayMakerEntity extends BaseEntity {
     private BigDecimal totalFee;
 
     /**
-     * 1：待支付；2:企业已申请支付；3：企业已支付；4：平台已支付；5：已确认收款
+     * 支付状态
      */
-    private MakerPayState payState = MakerPayState.TOPAY;
+    private PayMakerPayState payState = PayMakerPayState.ENTERPRISEPAID;
 
     /**
      * 企业申请支付日期时间

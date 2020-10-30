@@ -16,11 +16,11 @@ import java.math.BigDecimal;
 public class PayEnterpriseExcel implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @ColumnWidth(50)
+    @ColumnWidth(20)
     @ExcelProperty("创客姓名")
     private String makerName;
 
-    @ColumnWidth(50)
+    @ColumnWidth(20)
     @ExcelProperty("创客身份证号")
     private String makerIdCardNo;
 

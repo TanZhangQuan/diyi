@@ -10,7 +10,6 @@ import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.MakerInvoiceEntity;
 import com.lgyun.system.order.entity.MakerTaxRecordEntity;
-import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.entity.PayMakerEntity;
 import com.lgyun.system.order.excel.PayEnterpriseExcel;
 import com.lgyun.system.order.mapper.PayMakerMapper;
@@ -26,11 +25,13 @@ import com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -85,7 +86,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void importMaker(List<PayEnterpriseExcel> list, PayEnterpriseEntity payEnterpriseEntity) {
+    public void importPayMakerList(List<PayEnterpriseExcel> list, Long payEnterpriseId, MakerType makerType) {
 
         for (PayEnterpriseExcel payEnterpriseExcel : list) {
             log.info(String.valueOf(payEnterpriseExcel));
@@ -106,13 +107,6 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
                 continue;
             }
 
-            int payMakerNum = baseMapper.selectCount(Wrappers.<PayMakerEntity>query().lambda().eq(PayMakerEntity::getPayEnterpriseId, payEnterpriseEntity.getId())
-                    .eq(PayMakerEntity::getMakerId, makerEntity.getId()));
-            if (payMakerNum > 0) {
-                log.error("分包已存在");
-                continue;
-            }
-
             if (StringUtils.isBlank(makerEntity.getName())) {
                 log.error("创客姓名为空");
                 continue;
@@ -120,6 +114,12 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
 
             if (!(makerEntity.getName().equals(payEnterpriseExcel.getMakerName()))) {
                 log.error("创客姓名和Excel创客姓名不一致");
+                continue;
+            }
+
+            int payMakerNum = baseMapper.selectCount(Wrappers.<PayMakerEntity>query().lambda().eq(PayMakerEntity::getPayEnterpriseId, payEnterpriseId).eq(PayMakerEntity::getMakerId, makerEntity.getId()));
+            if (payMakerNum > 0) {
+                log.error("分包已存在");
                 continue;
             }
 
@@ -156,7 +156,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
             //个体户或个独ID
             Long individualId = null;
             BigDecimal enterpriseBusinessAnnualFee = BigDecimal.ZERO;
-            switch (payEnterpriseEntity.getMakerType()) {
+            switch (makerType) {
 
                 case NATURALPERSON:
                     if (payEnterpriseExcel.getAuditFee() == null) {
@@ -255,19 +255,14 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
 
             //创建分包支付
             PayMakerEntity payMakerEntity = new PayMakerEntity();
-            payMakerEntity.setPayEnterpriseId(payEnterpriseEntity.getId());
+            payMakerEntity.setPayEnterpriseId(payEnterpriseId);
             payMakerEntity.setMakerId(makerEntity.getId());
-            payMakerEntity.setMakerType(payEnterpriseEntity.getMakerType());
+            payMakerEntity.setMakerType(makerType);
             payMakerEntity.setIndividualId(individualId);
-            payMakerEntity.setTotalFee(payEnterpriseExcel.getTotalFee());
-            payMakerEntity.setMakerNetIncome(payEnterpriseExcel.getMakerNetIncome());
-            payMakerEntity.setMakerTaxFee(payEnterpriseExcel.getMakerTaxFee());
-            payMakerEntity.setMakerNeIncome(payEnterpriseExcel.getMakerNeIncome());
-            payMakerEntity.setServiceRate(payEnterpriseExcel.getServiceRate());
             payMakerEntity.setEnterpriseBusinessAnnualFee(enterpriseBusinessAnnualFee);
-            payMakerEntity.setAuditFee(payEnterpriseExcel.getAuditFee());
-            payMakerEntity.setPayFee(payEnterpriseExcel.getPayFee());
-            payMakerEntity.setPayMemo(payEnterpriseExcel.getNote());
+            payMakerEntity.setCompanyApplyDatetime(new Date());
+            payMakerEntity.setCompanyPayOkDatetime(new Date());
+            BeanUtils.copyProperties(payEnterpriseExcel, payMakerEntity);
             save(payMakerEntity);
 
         }
@@ -309,6 +304,11 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
     @Override
     public R<IndividualYearMonthVO> yearMonthMoney(Long individualId, MakerType makerType) {
         return R.data(baseMapper.yearMonthMoney(individualId, makerType));
+    }
+
+    @Override
+    public void deleteByPayEnterpriseId(Long payEnterpriseId) {
+        baseMapper.deleteByPayEnterpriseId(payEnterpriseId);
     }
 
 }

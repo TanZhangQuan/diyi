@@ -3,10 +3,10 @@ package com.lgyun.system.order.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.WorkSheetType;
 import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.dto.ReleaseWorksheetDTO;
+import com.lgyun.system.order.dto.WorksheetFinishedListDTO;
 import com.lgyun.system.order.entity.WorksheetEntity;
 import com.lgyun.system.order.vo.*;
 
@@ -94,13 +94,11 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      * 查询当前商户所有已完毕的类型工单
      *
      * @param enterpriseId
-     * @param workSheetType
-     * @param worksheetNo
-     * @param worksheetName
+     * @param worksheetFinishedListDTO
      * @param page
      * @return
      */
-    R<IPage<WorksheetByEnterpriseVO>> getWorksheetByEnterpriseId(Long enterpriseId, WorkSheetType workSheetType, String worksheetNo, String worksheetName, IPage<WorksheetByEnterpriseVO> page);
+    R<IPage<WorksheetListVO>> queryWorksheetListByEnterprise(Long enterpriseId, WorksheetFinishedListDTO worksheetFinishedListDTO, IPage<WorksheetListVO> page);
 
     /**
      * 根据工单编号查询工单

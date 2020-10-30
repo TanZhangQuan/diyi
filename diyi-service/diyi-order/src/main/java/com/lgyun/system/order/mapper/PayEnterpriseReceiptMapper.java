@@ -13,5 +13,12 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface PayEnterpriseReceiptMapper extends BaseMapper<PayEnterpriseReceiptEntity> {
 
+    /**
+     * 删除总包支付回单
+     *
+     * @param payEnterpriseId
+     */
+    void deleteByPayEnterpriseId(Long payEnterpriseId);
+
 }
 

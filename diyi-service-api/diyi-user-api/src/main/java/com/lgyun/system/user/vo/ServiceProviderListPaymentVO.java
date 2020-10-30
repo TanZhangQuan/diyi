@@ -20,7 +20,7 @@ public class ServiceProviderListPaymentVO implements Serializable {
      * 服务商编号
      */
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long serviceProviderId;
+    private Long id;
 
     /**
      * 服务商名称

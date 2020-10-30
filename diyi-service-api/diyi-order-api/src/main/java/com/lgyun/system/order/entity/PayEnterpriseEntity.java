@@ -46,7 +46,7 @@ public class PayEnterpriseEntity extends BaseEntity {
     private MakerType makerType;
 
     /**
-     * 创客发票开票类别: 自然人汇总代开；自然人门征单开；个体户税局代开；个体户自开；个独自开
+     * 分包开票类别
      */
     private MakerInvoiceType makerInvoiceType;
 
@@ -111,9 +111,9 @@ public class PayEnterpriseEntity extends BaseEntity {
     private PayEnterpriseAuditState auditState = PayEnterpriseAuditState.EDITING;
 
     /**
-     * 支付给平台状态：待支付，已支付，已确认收款
+     * 支付状态
      */
-    private EnterprisePayState payState = EnterprisePayState.TOPAY;
+    private PayEnterprisePayState payState = PayEnterprisePayState.PAYED;
 
     /**
      * 支付确认日期时间
@@ -136,9 +136,10 @@ public class PayEnterpriseEntity extends BaseEntity {
     private InvoiceState companyInvoiceState = InvoiceState.UNOPEN;
 
     /**
-     *分包开票状态：未开，已开
+     * 分包开票状态：未开，已开
      */
     private InvoiceState subcontractingInvoiceState = InvoiceState.UNOPEN;
+
     /**
      * 开票日期
      */
@@ -148,5 +149,15 @@ public class PayEnterpriseEntity extends BaseEntity {
      * 开票要求说明
      */
     private String invoiceDemondDesc;
+
+    /**
+     * 集合完税凭证
+     */
+    private String totalPayTaxSheet;
+
+    /**
+     * 集合完税清单
+     */
+    private String totalPayTaxList;
 
 }

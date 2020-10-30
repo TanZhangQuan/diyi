@@ -36,4 +36,10 @@ public class PayEnterpriseReceiptServiceImpl extends BaseServiceImpl<PayEnterpri
         }
         return enterprisePayReceiptUrls.toString();
     }
+
+    @Override
+    public void deleteByPayEnterpriseId(Long payEnterpriseId) {
+        baseMapper.deleteByPayEnterpriseId(payEnterpriseId);
+    }
+
 }
