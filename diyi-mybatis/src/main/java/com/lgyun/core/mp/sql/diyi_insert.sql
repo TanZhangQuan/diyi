@@ -208,3 +208,9 @@ INSERT INTO `sys_role` VALUES ('1123598816738675202', '000000', '0', '用户', '
 
 ###租户数据
 INSERT INTO `sys_tenant` VALUES ('1123598820738675201', '000000', '管理组', 'admin', '666666', '管理组', null, '2019-01-01 00:00:39', null, '2019-01-01 00:00:39', '1', '0');
+
+###平台在线协议模板数据
+INSERT INTO `diyi_online_agreement_template` VALUES ('1295994352201988840', 'MAKERPOWERATTORNEY', 'APPLICATION', 'OPEN', 'http://cashbus-ddh.oss-cn-beijing.aliyuncs.com/upload/20200820/cd6dc0e812464f6fbbfbd282f5046ed4.pdf', '创客', '2020-10-28 11:06:45', null, null, '', 'AUTHORIZATION', '2', null, '2020-10-28 11:07:35', null, '2020-10-28 11:07:38', '1', '0');
+INSERT INTO `diyi_online_agreement_template` VALUES ('1295994358513819658', 'ENTERPRISEJOINAGREEMENT', 'APPLICATION', 'OPEN', 'http://cashbus-ddh.oss-cn-beijing.aliyuncs.com/upload/20200820/cd6dc0e812464f6fbbfbd282f5046ed4.pdf', '大哥', '2020-08-20 14:38:12', null, null, '', 'AUTHORIZATION', '2', null, '2020-08-20 14:40:02', null, '2020-08-20 14:40:05', '1', '0');
+INSERT INTO `diyi_online_agreement_template` VALUES ('1295994358601988833', 'SERVICEPROVIDERJOINAGREEMENT', 'APPLICATION', 'OPEN', 'http://cashbus-ddh.oss-cn-beijing.aliyuncs.com/upload/20200820/cd6dc0e812464f6fbbfbd282f5046ed4.pdf', '商户', '2020-08-20 15:23:28', null, null, '', 'AUTHORIZATION', '2', null, '2020-08-20 15:23:38', null, '2020-08-20 15:23:40', '1', '0');
+INSERT INTO `diyi_online_agreement_template` VALUES ('1295994358801988836', 'MAKERJOINAGREEMENT', 'APPLICATION', 'OPEN', 'http://cashbus-ddh.oss-cn-beijing.aliyuncs.com/upload/20200820/cd6dc0e812464f6fbbfbd282f5046ed4.pdf', '创客', '2020-08-20 15:49:23', null, null, '', 'CONTRACT', '2', null, '2020-08-20 15:49:56', null, '2020-08-20 15:49:58', '1', '0');
