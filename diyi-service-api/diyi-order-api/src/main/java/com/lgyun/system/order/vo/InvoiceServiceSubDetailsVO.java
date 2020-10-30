@@ -45,24 +45,14 @@ public class InvoiceServiceSubDetailsVO implements Serializable {
     private String invoiceTaxNo;
 
     /**
-     * 地址
+     * 开票资料-地址和电话
      */
-    private String invoiceAddress;
+    private String invoiceAddressPhone;
 
     /**
-     * 公司电话
+     * 开票资料-开户银行和账号
      */
-    private String invoiceTelNo;
-
-    /**
-     * 开票银行
-     */
-    private String invoiceBankName;
-
-    /**
-     * 开票银行账户
-     */
-    private String invoiceAccountName;
+    private String invoiceBankNameAccount;
 
     /**
      * 服务商名字

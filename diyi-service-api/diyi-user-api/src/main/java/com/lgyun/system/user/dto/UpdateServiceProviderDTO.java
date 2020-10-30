@@ -161,33 +161,15 @@ public class UpdateServiceProviderDTO implements Serializable {
     private String invoiceTaxNo;
 
     /**
-     * 地址
+     * 开票资料-地址和电话
      */
-    @NotBlank(message = "请输入地址")
-    private String invoiceAddress;
+    @NotBlank(message = "请输入开票地址和电话")
+    private String invoiceAddressPhone;
 
     /**
-     * 电话
+     * 开票资料-开户银行和账号
      */
-    @NotBlank(message = "请输入电话")
-    private String invoiceTelNo;
-
-    /**
-     * 开户银行
-     */
-    @NotBlank(message = "请输入开户银行")
-    private String invoiceBankName;
-
-    /**
-     * 账户名
-     */
-    @NotBlank(message = "请输入账户名")
-    private String invoiceAccountName;
-
-    /**
-     * 账号
-     */
-    @NotBlank(message = "请输入账号")
-    private String invoiceAccount;
+    @NotBlank(message = "请输入开票开户银行和账号")
+    private String invoiceBankNameAccount;
 
 }

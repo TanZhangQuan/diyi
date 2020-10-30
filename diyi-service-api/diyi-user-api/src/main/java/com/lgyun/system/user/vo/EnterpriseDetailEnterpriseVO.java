@@ -141,28 +141,13 @@ public class EnterpriseDetailEnterpriseVO implements Serializable {
     private String invoiceTaxNo;
 
     /**
-     * 地址
+     * 开票资料-地址和电话
      */
-    private String invoiceAddress;
+    private String invoiceAddressPhone;
 
     /**
-     * 电话
+     * 开票资料-开户银行和账号
      */
-    private String invoiceTelNo;
-
-    /**
-     * 开户银行
-     */
-    private String invoiceBankName;
-
-    /**
-     * 账户名
-     */
-    private String invoiceAccountName;
-
-    /**
-     * 账号
-     */
-    private String invoiceAccount;
+    private String invoiceBankNameAccount;
 
 }

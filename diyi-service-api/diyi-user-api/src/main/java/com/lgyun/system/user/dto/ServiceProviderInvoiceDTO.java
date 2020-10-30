@@ -2,6 +2,7 @@ package com.lgyun.system.user.dto;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -25,28 +26,15 @@ public class ServiceProviderInvoiceDTO implements Serializable {
     private String invoiceTaxNo;
 
     /**
-     * 开票资料-地址
+     * 开票资料-地址和电话
      */
-    private String invoiceAddress;
+    @NotBlank(message = "请输入开票地址和电话")
+    private String invoiceAddressPhone;
 
     /**
-     * 开票资料-电话
+     * 开票资料-开户银行和账号
      */
-    private String invoiceTelNo;
-
-    /**
-     * 开票资料-开户银行
-     */
-    private String invoiceBankName;
-
-    /**
-     * 开票资料-账户名
-     */
-    private String invoiceAccountName;
-
-    /**
-     * 开票资料-账号
-     */
-    private String invoiceAccount;
+    @NotBlank(message = "请输入开票开户银行和账号")
+    private String invoiceBankNameAccount;
 
 }

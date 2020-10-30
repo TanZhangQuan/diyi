@@ -134,36 +134,16 @@ public class UpdateAgentMainDTO implements Serializable {
     private String invoiceTaxNo;
 
     /**
-     * 开票资料-地址
+     * 开票资料-地址和电话
      */
-    @NotBlank(message = "开票地址")
-    private String invoiceAddress;
+    @NotBlank(message = "请输入开票地址和电话")
+    private String invoiceAddressPhone;
 
     /**
-     * 开票资料-电话
+     * 开票资料-开户银行和账号
      */
-    @NotBlank(message = "开票电话")
-    @Length(min = 11, max = 11, message = "请输入11位的开票电话/手机")
-    @Pattern(regexp = "[0-9]*", message = "请输入有效的开票电话/手机")
-    private String invoiceTelNo;
-
-    /**
-     * 开票资料-开户银行
-     */
-    @NotBlank(message = "开票开户银行")
-    private String invoiceBankName;
-
-    /**
-     * 开票资料-账户名
-     */
-    @NotBlank(message = "开票账户名")
-    private String invoiceAccountName;
-
-    /**
-     * 开票资料-账号
-     */
-    @NotBlank(message = "开票账号")
-    private String invoiceAccount;
+    @NotBlank(message = "请输入开票开户银行和账号")
+    private String invoiceBankNameAccount;
 
     /**
      * 用户名

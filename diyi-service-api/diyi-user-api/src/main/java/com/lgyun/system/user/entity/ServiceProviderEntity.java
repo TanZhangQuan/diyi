@@ -90,29 +90,14 @@ public class ServiceProviderEntity extends BaseEntity {
     private String invoiceTaxNo;
 
     /**
-     * 开票资料-地址
+     * 开票资料-地址和电话
      */
-    private String invoiceAddress;
+    private String invoiceAddressPhone;
 
     /**
-     * 开票资料-电话
+     * 开票资料-开户银行和账号
      */
-    private String invoiceTelNo;
-
-    /**
-     * 开票资料-开户银行
-     */
-    private String invoiceBankName;
-
-    /**
-     * 开票资料-账户名
-     */
-    private String invoiceAccountName;
-
-    /**
-     * 开票资料-账号
-     */
-    private String invoiceAccount;
+    private String invoiceBankNameAccount;
 
     /**
      * 业务外包产品范围：自然人众包，自然人纵波+分包，个体户众包，个体户总包+分包，个独，有限公司

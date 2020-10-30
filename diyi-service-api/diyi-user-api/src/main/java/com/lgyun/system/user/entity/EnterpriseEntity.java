@@ -91,29 +91,14 @@ public class EnterpriseEntity extends BaseEntity {
     private String invoiceTaxNo;
 
     /**
-     * 开票资料-地址
+     * 开票资料-地址和电话
      */
-    private String invoiceAddress;
+    private String invoiceAddressPhone;
 
     /**
-     * 开票资料-电话
+     * 开票资料-开户银行和账号
      */
-    private String invoiceTelNo;
-
-    /**
-     * 开票资料-开户银行
-     */
-    private String invoiceBankName;
-
-    /**
-     * 开票资料-账户名
-     */
-    private String invoiceAccountName;
-
-    /**
-     * 开票资料-账号
-     */
-    private String invoiceAccount;
+    private String invoiceBankNameAccount;
 
     /**
      * 业务外包模式：自然人众包（3%普票），自然人总包+分包（6%专票），个体户众包（3%专票），个体户总包+分包（6%专票），个体户众包（3%普票）

@@ -23,11 +23,8 @@
     <resultMap type="com.lgyun.system.user.vo.ServiceProviderInvoiceVO" id="serviceProviderInvoiceVO">
         <result property="invoiceEnterpriseName" column="invoice_enterprise_name"/>
         <result property="invoiceTaxNo" column="invoice_tax_no"/>
-        <result property="invoiceAddress" column="invoice_address"/>
-        <result property="invoiceTelNo" column="invoice_tel_no"/>
-        <result property="invoiceBankName" column="invoice_bank_name"/>
-        <result property="invoiceAccountName" column="invoice_account_name"/>
-        <result property="invoiceAccount" column="invoice_account"/>
+        <result property="invoiceAddressPhone" column="invoice_address_phone"/>
+        <result property="invoiceBankNameAccount" column="invoice_bank_name_account"/>
     </resultMap>
 
     <resultMap type="com.lgyun.system.user.vo.ServiceProviderListVO" id="serviceProviderListVO">
@@ -66,11 +63,8 @@
         <result property="contact2Mail" column="contact2_mail"/>
         <result property="invoiceEnterpriseName" column="invoice_enterprise_name"/>
         <result property="invoiceTaxNo" column="invoice_tax_no"/>
-        <result property="invoiceAddress" column="invoice_address"/>
-        <result property="invoiceTelNo" column="invoice_tel_no"/>
-        <result property="invoiceBankName" column="invoice_bank_name"/>
-        <result property="invoiceAccountName" column="invoice_account_name"/>
-        <result property="invoiceAccount" column="invoice_account"/>
+        <result property="invoiceAddressPhone" column="invoice_address_phone"/>
+        <result property="invoiceBankNameAccount" column="invoice_bank_name_account"/>
     </resultMap>
 
     <resultMap type="com.lgyun.system.user.vo.ServiceProviderListPaymentVO" id="serviceProviderListPaymentVO">
@@ -89,8 +83,8 @@
     </select>
 
     <select id="getInvoice" resultMap="serviceProviderInvoiceVO">
-        SELECT invoice_enterprise_name, invoice_tax_no, invoice_address, invoice_tel_no, invoice_bank_name, invoice_account_name, invoice_account
-        FROM diyi_service_provider WHERE is_deleted = 0 AND id = #{param1} LIMIT 1
+        SELECT invoice_enterprise_name, invoice_tax_no, invoice_address_phone, invoice_bank_name_account FROM diyi_service_provider WHERE is_deleted = 0
+        AND id = #{param1} LIMIT 1
     </select>
 
     <select id="queryServiceProviderListAdmin" resultMap="serviceProviderListVO">
@@ -118,7 +112,7 @@
         SELECT t1.id AS service_provider_id, t1.service_provider_name, t1.legal_person_name, t1.legal_person_idcard, t1.social_credit_no, t1.biz_licence_url,
         t1.service_provider_url, t1.business_pattern, t1.service_price, t1.saler_id, t1.runner_id, t1.contact1_name, t1.contact1_position,
         t1.contact1_phone, t1.contact1_mail, t1.contact2_name, t1.contact2_position, t1.contact2_phone, t1.contact2_mail, t1.invoice_enterprise_name,
-        t1.invoice_tax_no, t1.invoice_address, t1.invoice_tel_no, t1.invoice_bank_name, t1.invoice_account_name, t1.invoice_account,
+        t1.invoice_tax_no, t1.invoice_address_phone, t1.invoice_bank_name_account,
         (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url)
         FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' AND sign_state = 'SIGNED' AND service_provider_id = t1.id) AS join_contract,
         (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url) FROM diyi_agreement

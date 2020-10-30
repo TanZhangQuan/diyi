@@ -94,29 +94,14 @@ public class AgentMainEntity extends BaseEntity {
     private String invoiceTaxNo;
 
     /**
-     * 开票资料-地址
+     * 开票资料-地址和电话
      */
-    private String invoiceAddress;
+    private String invoiceAddressPhone;
 
     /**
-     * 开票资料-电话
+     * 开票资料-开户银行和账号
      */
-    private String invoiceTelNo;
-
-    /**
-     * 开票资料-开户银行
-     */
-    private String invoiceBankName;
-
-    /**
-     * 开票资料-账户名
-     */
-    private String invoiceAccountName;
-
-    /**
-     * 开票资料-账号
-     */
-    private String invoiceAccount;
+    private String invoiceBankNameAccount;
 
     /**
      * 合作产品说明
