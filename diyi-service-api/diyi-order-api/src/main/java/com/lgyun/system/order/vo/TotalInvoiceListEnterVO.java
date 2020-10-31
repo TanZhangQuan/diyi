@@ -1,6 +1,8 @@
 package com.lgyun.system.order.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -18,18 +20,22 @@ public class TotalInvoiceListEnterVO implements Serializable {
     /**
      * 记录服务商开具给商户的总包发票关联的支付清单id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long platformInvoicePayListId;
     /**
      * 总包发票信息：记录服务商开具给商户的总包发票，一次开票可能多个清单一起 id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long invoicePrintId;
     /**
      * 总包开票申请关联的支付清单 id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long invoiceApplicationPayListId;
     /**
      * 开票申请：记录商户的总包开票申请 id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long invoiceApplicationId;
     /**
      * 商户名称

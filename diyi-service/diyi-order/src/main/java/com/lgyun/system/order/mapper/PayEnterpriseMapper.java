@@ -320,7 +320,10 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      */
     List<PartnerServiceProviderListVO> getPartnerAllServiceProvider(IPage<PartnerServiceProviderListVO> page);
 
-    List<TotalInvoiceListEnterVO> queryTotalInvoiceListEnterprise(Long enterpriseId, String serviceProviderName, IPage<TotalInvoiceListEnterVO> page);
+    /**
+     * 商户端根据商户id查询总包
+     */
+    List<TotalInvoiceListEnterVO> queryTotalInvoiceListEnterprise(Long enterpriseId,String serviceProviderName,IPage<TotalInvoiceListEnterVO> page);
 
     /**
      * 查询和商户关联的服务商
