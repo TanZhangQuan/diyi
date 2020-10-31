@@ -28,24 +28,6 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
     int queryCountById(Long id);
 
     /**
-     * 查询商户名字是否已存在
-     *
-     * @param enterpriseName
-     * @param enterpriseId
-     * @return
-     */
-    int queryCountByEnterpriseName(String enterpriseName, Long enterpriseId);
-
-    /**
-     * 查询统一社会信用代码是否已存在
-     *
-     * @param socialCreditNo
-     * @param enterpriseId
-     * @return
-     */
-    int queryCountBySocialCreditNo(String socialCreditNo, Long enterpriseId);
-
-    /**
      * 通过商户名字查询
      *
      * @param enterpriseName
@@ -115,12 +97,12 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
     R<IPage<EnterpriseListEnterpriseVO>> queryEnterpriseListEnterprise(QueryEnterpriseListDTO queryEnterpriseListDTO, IPage<EnterpriseListEnterpriseVO> page);
 
     /**
-     * 商户管理模块查询商户基本信息
+     * 查询编辑商户详情
      *
      * @param enterpriseId
      * @return
      */
-    R<EnterpriseDetailEnterpriseVO> queryEnterpriseDetailEnterprise(Long enterpriseId);
+    R<EnterpriseUpdateDetailVO> queryEnterpriseUpdateDetail(Long enterpriseId);
 
     /**
      * 更改商户状态

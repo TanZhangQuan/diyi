@@ -123,8 +123,8 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
     }
 
     @Override
-    public R<ServiceProviderDetailServiceProviderVO> queryServiceProviderDetailServiceProvider(Long serviceProviderId) {
-        return R.data(baseMapper.queryServiceProviderDetailServiceProvider(serviceProviderId));
+    public R<ServiceProviderUpdateDetailVO> queryServiceProviderUpdateDetail(Long serviceProviderId) {
+        return R.data(baseMapper.queryServiceProviderUpdateDetail(serviceProviderId));
     }
 
     @Override
@@ -145,14 +145,14 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
             }
 
             //判断服务商名称是否已存在
-            int ServiceProviderNum = count(Wrappers.<ServiceProviderEntity>query().lambda().eq(ServiceProviderEntity::getServiceProviderName, addOrUpdateServiceProviderDTO.getServiceProviderName()));
-            if (ServiceProviderNum > 0) {
+            int serviceProviderNum = count(Wrappers.<ServiceProviderEntity>query().lambda().eq(ServiceProviderEntity::getServiceProviderName, addOrUpdateServiceProviderDTO.getServiceProviderName()));
+            if (serviceProviderNum > 0) {
                 return R.fail("服务商名称已存在");
             }
 
             //判断社会信用代码是否已存在
-            ServiceProviderNum = count(Wrappers.<ServiceProviderEntity>query().lambda().eq(ServiceProviderEntity::getSocialCreditNo, addOrUpdateServiceProviderDTO.getSocialCreditNo()));
-            if (ServiceProviderNum > 0) {
+            serviceProviderNum = count(Wrappers.<ServiceProviderEntity>query().lambda().eq(ServiceProviderEntity::getSocialCreditNo, addOrUpdateServiceProviderDTO.getSocialCreditNo()));
+            if (serviceProviderNum > 0) {
                 return R.fail("服务商统一社会信用代码已存在");
             }
 
@@ -166,7 +166,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
                 return R.fail("已存在相同手机号的管理员");
             }
 
-            //新建商户
+            //新建服务商
             ServiceProviderEntity serviceProviderEntity = new ServiceProviderEntity();
             serviceProviderEntity.setRunnerId(adminEntity.getId());
             serviceProviderEntity.setSalerId(adminEntity.getId());
@@ -174,7 +174,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
             BeanUtil.copy(addOrUpdateServiceProviderDTO, serviceProviderEntity);
             save(serviceProviderEntity);
 
-            //新建联系人员工
+            //新建服务商员工
             User user = new User();
             user.setUserType(UserType.SERVICEPROVIDER);
             user.setAccount(addOrUpdateServiceProviderDTO.getPhoneNumber());
@@ -194,11 +194,14 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
             agreementEntity.setAgreementType(AgreementType.SERVICEPROVIDERJOINAGREEMENT);
             agreementEntity.setSignType(SignType.PAPERAGREEMENT);
             agreementEntity.setSignState(SignState.SIGNED);
+            agreementEntity.setAuditState(AuditState.APPROVED);
             agreementEntity.setFirstSideSignPerson("地衣众包平台");
             agreementEntity.setPaperAgreementUrl(addOrUpdateServiceProviderDTO.getJoinContract());
             agreementEntity.setServiceProviderId(serviceProviderEntity.getId());
             agreementEntity.setSecondSideSignPerson(serviceProviderEntity.getServiceProviderName());
             agreementService.save(agreementEntity);
+
+            return R.success("新建服务商成功");
 
         } else {
 
@@ -215,18 +218,18 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
             }
 
             //判断服务商名称是否已存在
-            int ServiceProviderNum = count(Wrappers.<ServiceProviderEntity>query().lambda()
+            int serviceProviderNum = count(Wrappers.<ServiceProviderEntity>query().lambda()
                     .eq(ServiceProviderEntity::getServiceProviderName, addOrUpdateServiceProviderDTO.getServiceProviderName())
-                    .ne(ServiceProviderEntity::getId, addOrUpdateServiceProviderDTO.getServiceProviderId()));
-            if (ServiceProviderNum > 0) {
+                    .ne(ServiceProviderEntity::getId, serviceProviderEntity.getId()));
+            if (serviceProviderNum > 0) {
                 return R.fail("服务商名称已存在");
             }
 
             //判断社会信用代码是否已存在
-            ServiceProviderNum = count(Wrappers.<ServiceProviderEntity>query().lambda()
+            serviceProviderNum = count(Wrappers.<ServiceProviderEntity>query().lambda()
                     .eq(ServiceProviderEntity::getSocialCreditNo, addOrUpdateServiceProviderDTO.getSocialCreditNo())
                     .ne(ServiceProviderEntity::getId, serviceProviderEntity.getId()));
-            if (ServiceProviderNum > 0) {
+            if (serviceProviderNum > 0) {
                 return R.fail("服务商统一社会信用代码已存在");
             }
 
@@ -249,18 +252,21 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
                 return R.fail("已存在相同手机号的管理员");
             }
 
+            //编辑服务商员工
             serviceProviderWorkerEntity.setEmployeeUserName(addOrUpdateServiceProviderDTO.getEmployeeUserName());
             serviceProviderWorkerEntity.setPhoneNumber(addOrUpdateServiceProviderDTO.getPhoneNumber());
+            serviceProviderWorkerEntity.setWorkerName(addOrUpdateServiceProviderDTO.getWorkerName());
             if (StringUtils.isNotBlank(addOrUpdateServiceProviderDTO.getEmployeePwd())) {
                 serviceProviderWorkerEntity.setEmployeePwd(DigestUtil.encrypt(addOrUpdateServiceProviderDTO.getEmployeePwd()));
             }
             serviceProviderWorkerService.updateById(serviceProviderWorkerEntity);
 
-            //上传或修改加盟合同
+            //上传加盟合同
             AgreementEntity agreementEntity = agreementService.getOne(Wrappers.<AgreementEntity>query().lambda()
                     .eq(AgreementEntity::getServiceProviderId, serviceProviderEntity.getId())
                     .eq(AgreementEntity::getAgreementType, AgreementType.SERVICEPROVIDERJOINAGREEMENT)
-                    .eq(AgreementEntity::getSignState, SignState.SIGNED));
+                    .eq(AgreementEntity::getSignState, SignState.SIGNED)
+                    .eq(AgreementEntity::getAuditState, AuditState.APPROVED));
 
             agreementEntity.setPaperAgreementUrl(addOrUpdateServiceProviderDTO.getJoinContract());
             agreementService.updateById(agreementEntity);
@@ -268,9 +274,10 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
             BeanUtil.copy(addOrUpdateServiceProviderDTO, serviceProviderEntity);
             updateById(serviceProviderEntity);
 
+            return R.success("编辑服务商成功");
+
         }
 
-        return R.success("操作成功");
     }
 
     @Override
@@ -286,7 +293,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
             save(serviceProviderEntity);
         }
 
-        return R.fail("更改商户状态成功");
+        return R.fail("更改服务商状态成功");
     }
 
     @Override

@@ -362,7 +362,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * @param payEnterpriseId
      * @return
      */
-    PayEnterpriseUpdateDetailVO queryUpdatePayEnterpriseDetail(Long payEnterpriseId);
+    PayEnterpriseUpdateDetailVO queryPayEnterpriseUpdateDetail(Long payEnterpriseId);
 
 }
 

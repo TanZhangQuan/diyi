@@ -2,6 +2,7 @@ package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
@@ -232,24 +233,17 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
             if (!(result.isSuccess())) {
                 return result;
             }
-            //上传或修改加盟合同
-            AgreementEntity agreementEntity = agreementService.findSuccessAgreement(agentMainEntity.getId(), null, AgreementType.AGENTMAINJOINAGREEMENT, null, SignState.SIGNED);
-            if (agreementEntity != null) {
-                agreementEntity.setPaperAgreementUrl(addOrUpdateAgentMainDTO.getJoinContract());
-                agreementService.updateById(agreementEntity);
-            } else {
-                agreementEntity = new AgreementEntity();
-                agreementEntity.setAgreementType(AgreementType.AGENTMAINJOINAGREEMENT);
-                agreementEntity.setSignType(SignType.PAPERAGREEMENT);
-                agreementEntity.setSignState(SignState.SIGNED);
-                agreementEntity.setPaperAgreementUrl(addOrUpdateAgentMainDTO.getJoinContract());
-                agreementEntity.setFirstSideSignPerson(adminEntity.getName());
-                agreementEntity.setEnterpriseId(agentMainEntity.getId());
-                agreementEntity.setSecondSideSignPerson(agentMainEntity.getContact1Name());
-                agreementService.save(agreementEntity);
-            }
 
-            //上传或修改渠道商承诺函
+            //上传加盟合同
+            AgreementEntity agreementEntity = agreementService.getOne(Wrappers.<AgreementEntity>query().lambda()
+                    .eq(AgreementEntity::getAgentMainId, agentMainEntity.getId())
+                    .eq(AgreementEntity::getAgreementType, AgreementType.AGENTMAINJOINAGREEMENT)
+                    .eq(AgreementEntity::getSignState, SignState.SIGNED));
+
+            agreementEntity.setPaperAgreementUrl(addOrUpdateAgentMainDTO.getJoinContract());
+            agreementService.updateById(agreementEntity);
+
+            //上传渠道商承诺函
             agreementEntity = agreementService.findSuccessAgreement(agentMainEntity.getId(), null, AgreementType.AGENTMAINERPROMISE, AuditState.APPROVED, null);
             if (agreementEntity != null) {
                 agreementEntity.setPaperAgreementUrl(addOrUpdateAgentMainDTO.getCommitmentLetters());

@@ -90,7 +90,7 @@ public class PartnerEntity extends BaseEntity {
     /**
      * 身份证号码
      */
-    private String idCardNo;
+    private String idcardNo;
 
     /**
      * 到期日期
@@ -125,12 +125,12 @@ public class PartnerEntity extends BaseEntity {
     /**
      * 身份证正面图
      */
-    private String idCardPic;
+    private String idcardPic;
 
     /**
      * 身份证反面图
      */
-    private String idCardPicBack;
+    private String idcardPicBack;
 
     /**
      * 正面自拍照
@@ -140,17 +140,17 @@ public class PartnerEntity extends BaseEntity {
     /**
      * 身份证复印件图
      */
-    private String idCardCopy;
+    private String idcardCopy;
 
     /**
      * 手持证件反面照
      */
-    private String idCardBackHand;
+    private String idcardBackHand;
 
     /**
      * 手持证件正面照
      */
-    private String idCardHand;
+    private String idcardHand;
 
     /**
      * 刷脸截图
@@ -160,17 +160,17 @@ public class PartnerEntity extends BaseEntity {
     /**
      * 身份证验证状态：未验证，验证通过，验证未通过
      */
-    private VerifyStatus idCardVerifyStatus=VerifyStatus.TOVERIFY;
+    private VerifyStatus idcardVerifyStatus=VerifyStatus.TOVERIFY;
 
     /**
      * 身份证验证日期时间
      */
-    private Date idCardVerifyDate;
+    private Date idcardVerifyDate;
 
     /**
      * 身份证验证类型：系统验证，手工验证
      */
-    private IdcardVerifyType idCardVerifyType;
+    private IdcardVerifyType idcardVerifyType;
 
     /**
      * 手工验证人

@@ -48,6 +48,18 @@ public class ServiceProviderAdminController {
         return serviceProviderService.createOrUpdateServiceProvider(addOrUpdateServiceProviderDTO, adminEntity);
     }
 
+    @GetMapping("/query-service-provider-update-detail")
+    @ApiOperation(value = "查询编辑服务商详情", notes = "查询编辑服务商详情")
+    public R queryServiceProviderUpdateDetail(@ApiParam(value = "服务商") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return serviceProviderService.queryServiceProviderUpdateDetail(serviceProviderId);
+    }
+
     @GetMapping("/query-service-provider-list")
     @ApiOperation(value = "查询所有服务商", notes = "查询所有服务商")
     public R queryServiceProviderList(QueryServiceProviderListDTO queryServiceProviderListDTO, Query query, BladeUser bladeUser) {
@@ -71,18 +83,6 @@ public class ServiceProviderAdminController {
         }
 
         return serviceProviderService.updateServiceProviderState(serviceProviderId, serviceProviderState);
-    }
-
-    @GetMapping("/query-service-provider-detail")
-    @ApiOperation(value = "查询服务商基本信息", notes = "查询服务商基本信息")
-    public R queryServiceProviderDetail(@ApiParam(value = "服务商") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId, BladeUser bladeUser) {
-        //查询当前管理员
-        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return serviceProviderService.queryServiceProviderDetailServiceProvider(serviceProviderId);
     }
 
     @GetMapping("/query-service-provider-cert-list")

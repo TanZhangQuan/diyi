@@ -546,4 +546,9 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         return serviceProviderService.getServiceAll(page);
     }
 
+    @Override
+    public void deleteByEnterprise(Long enterpriseId, AgreementType agreementType) {
+        baseMapper.deleteByEnterprise(enterpriseId, agreementType);
+    }
+
 }

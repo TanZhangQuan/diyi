@@ -53,12 +53,12 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
     List<EnterpriseListEnterpriseVO> queryEnterpriseListEnterprise(QueryEnterpriseListDTO queryEnterpriseListDTO, IPage<EnterpriseListEnterpriseVO> page);
 
     /**
-     * 商户管理模块查询商户基本信息
+     * 查询编辑商户详情
      *
      * @param enterpriseId
      * @return
      */
-    EnterpriseDetailEnterpriseVO queryEnterpriseDetailEnterprise(Long enterpriseId);
+    EnterpriseUpdateDetailVO queryEnterpriseUpdateDetail(Long enterpriseId);
 
     /**
      * 查询商户合作服务商

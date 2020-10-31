@@ -40,7 +40,7 @@ public class AddOrUpdateServiceProviderDTO implements Serializable {
      * 法人身份证
      */
     @NotBlank(message = "请输入法人身份证")
-    private String legalPersonIdCard;
+    private String legalPersonIdcard;
 
     /**
      * 统一社会信用代码

@@ -32,7 +32,7 @@
                 WHERE
                     partner_id = p.id
                 AND agreement_type = 'PARTNERJOINAGREEMENT'
-                AND sign_state = 'SIGNED'
+                AND sign_state = 'SIGNED' AND audit_state = 'APPROVED'
             ) AS is_sign,
             p.partner_state,
             p.create_time

@@ -4,11 +4,10 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.dto.AddOrUpdateEnterpriseContactDTO;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
-import com.lgyun.system.user.vo.EnterpriseWorkerVO;
-import com.lgyun.system.user.vo.EnterpriseWorkerListVO;
 import com.lgyun.system.user.vo.EnterpriseWorkerDetailVO;
+import com.lgyun.system.user.vo.EnterpriseWorkerListVO;
+import com.lgyun.system.user.vo.EnterpriseWorkerVO;
 
 import java.util.List;
 
@@ -67,15 +66,6 @@ public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEn
      * @return
      */
     EnterpriseWorkerEntity findByUserId(Long userId);
-
-    /**
-     * 添加或修改商户联系人
-     *
-     * @param addOrUpdateEnterpriseContactDto
-     * @param enterpriseWorkerId
-     * @return
-     */
-    R<String> addOrUpdateEnterpriseContact(AddOrUpdateEnterpriseContactDTO addOrUpdateEnterpriseContactDto, Long enterpriseWorkerId);
 
     /**
      * 新增或更新商户账号信息，含认证授权

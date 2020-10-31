@@ -90,12 +90,12 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
     R<IPage<ServiceProviderListVO>> queryServiceProviderListAdmin(QueryServiceProviderListDTO queryServiceProviderListDTO, IPage<ServiceProviderListVO> page);
 
     /**
-     * 查询服务商基本信息
+     * 查询编辑服务商详情
      *
      * @param serviceProviderId
      * @return
      */
-    R<ServiceProviderDetailServiceProviderVO> queryServiceProviderDetailServiceProvider(Long serviceProviderId);
+    R<ServiceProviderUpdateDetailVO> queryServiceProviderUpdateDetail(Long serviceProviderId);
 
     /**
      * 添加服务商

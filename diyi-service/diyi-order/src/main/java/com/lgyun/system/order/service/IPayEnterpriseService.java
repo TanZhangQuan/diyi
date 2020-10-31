@@ -474,7 +474,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @param payEnterpriseId
      * @return
      */
-    R<PayEnterpriseUpdateDetailVO> queryUpdatePayEnterpriseDetail(Long payEnterpriseId);
+    R<PayEnterpriseUpdateDetailVO> queryPayEnterpriseUpdateDetail(Long payEnterpriseId);
 
 }
 

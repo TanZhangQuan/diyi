@@ -22,7 +22,7 @@ public class PayEnterpriseExcel implements Serializable {
 
     @ColumnWidth(20)
     @ExcelProperty("创客身份证号")
-    private String makerIdCardNo;
+    private String makerIdcardNo;
 
     @ColumnWidth(50)
     @ExcelProperty("个体户名称")

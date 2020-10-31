@@ -201,9 +201,8 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
 
     /**
      * 平台端添加合同
-     *
      */
-    R saveAdminAgreement(Long makerId, Long enterpriseId,Long serviceProviderId, Long objectId, ObjectType objectType, AgreementType agreementType, String paperAgreementUrl);
+    R saveAdminAgreement(Long makerId, Long enterpriseId, Long serviceProviderId, Long objectId, ObjectType objectType, AgreementType agreementType, String paperAgreementUrl);
 
     /**
      * 平台根据商户id查询商户加盟合同、授权协议或价格协议
@@ -251,48 +250,48 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
     /**
      * 平台查询创客合同的签署状态
      */
-    R queryMakerAgreementState(String makerName,IPage<AgreementMakerStateAdminVO> page);
+    R queryMakerAgreementState(String makerName, IPage<AgreementMakerStateAdminVO> page);
 
     /**
      * 平台通过创客id查询创客和商户的补充协议
      */
-    R queryMakerIdSupplement(Long makerId,IPage<AgreementMakerEnterAdminVO> page);
+    R queryMakerIdSupplement(Long makerId, IPage<AgreementMakerEnterAdminVO> page);
 
     /**
      * 平台查询商户合同的签署状态
      */
-    R queryEnterpriseAgreementState(String enterpriseName,IPage<AgreementMakerStateAdminVO> page);
+    R queryEnterpriseAgreementState(String enterpriseName, IPage<AgreementMakerStateAdminVO> page);
 
 
     /**
-     *平台根据商户id查询商户和创客的补充协议
+     * 平台根据商户id查询商户和创客的补充协议
      */
-    R queryEnterpriseIdSupplement(Long enterpriseId,IPage<AgreementMakerEnterAdminVO> page);
+    R queryEnterpriseIdSupplement(Long enterpriseId, IPage<AgreementMakerEnterAdminVO> page);
 
     /**
      * 平台根据商户id查询合作商户和服务商补充协议
      */
-    R queryEnterIdServiceSupplement(Long enterpriseId,IPage<AgreementServiceVO> page);
+    R queryEnterIdServiceSupplement(Long enterpriseId, IPage<AgreementServiceVO> page);
 
     /**
      * 平台根据商户id查询商户承诺函
      */
-    R queryEnterIdPromise(Long enterpriseId,IPage<AgreementServiceVO> page);
+    R queryEnterIdPromise(Long enterpriseId, IPage<AgreementServiceVO> page);
 
     /**
-     *平台查询服务商合同的签署状态
+     * 平台查询服务商合同的签署状态
      */
     R queryServiceAgreementState(IPage<AgreementServiceStateAdminVO> page);
 
     /**
      * 平台根据服务商id查询合作服务商和商户补充协议
      */
-    R queryServiceIdEnterSupplement(Long serviceProviderId,IPage<AgreementServiceVO> page);
+    R queryServiceIdEnterSupplement(Long serviceProviderId, IPage<AgreementServiceVO> page);
 
     /**
      * 根据合同id修改合同路径
      */
-    R saveAdminAgreementId(Long agreementId,String agreementUrl);
+    R saveAdminAgreementId(Long agreementId, String agreementUrl);
 
     /**
      * 平台查所有创客
@@ -308,6 +307,14 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
      * 平台查所有服务商
      */
     R queryAdminServiceAll(IPage<ServiceProviderEntity> page);
+
+    /**
+     * 删除商户合同
+     *
+     * @param enterpriseId
+     * @param agreementType
+     */
+    void deleteByEnterprise(Long enterpriseId, AgreementType agreementType);
 
 }
 

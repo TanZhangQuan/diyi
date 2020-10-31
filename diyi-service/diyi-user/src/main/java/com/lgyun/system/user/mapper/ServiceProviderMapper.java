@@ -52,12 +52,12 @@ public interface ServiceProviderMapper extends BaseMapper<ServiceProviderEntity>
     List<ServiceProviderListVO> queryServiceProviderListAdmin(QueryServiceProviderListDTO queryServiceProviderListDTO, IPage<ServiceProviderListVO> page);
 
     /**
-     * 查询服务商基本信息
+     * 查询编辑服务商详情
      *
      * @param serviceProviderId
      * @return
      */
-    ServiceProviderDetailServiceProviderVO queryServiceProviderDetailServiceProvider(Long serviceProviderId);
+    ServiceProviderUpdateDetailVO queryServiceProviderUpdateDetail(Long serviceProviderId);
 
     /**
      * 支付管理模块查询所有服务商

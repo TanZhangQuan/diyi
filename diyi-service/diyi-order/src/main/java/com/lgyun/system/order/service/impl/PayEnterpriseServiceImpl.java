@@ -1201,8 +1201,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R<PayEnterpriseUpdateDetailVO> queryUpdatePayEnterpriseDetail(Long payEnterpriseId) {
-        return R.data(baseMapper.queryUpdatePayEnterpriseDetail(payEnterpriseId));
+    public R<PayEnterpriseUpdateDetailVO> queryPayEnterpriseUpdateDetail(Long payEnterpriseId) {
+        return R.data(baseMapper.queryPayEnterpriseUpdateDetail(payEnterpriseId));
     }
 
 }

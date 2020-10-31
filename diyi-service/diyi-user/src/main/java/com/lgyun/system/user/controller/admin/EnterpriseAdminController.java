@@ -51,6 +51,18 @@ public class EnterpriseAdminController {
         return enterpriseService.createOrUpdateEnterprise(addOrUpdateEnterpriseDTO, adminEntity);
     }
 
+    @GetMapping("/query-enterprise-update-detail")
+    @ApiOperation(value = "查询编辑商户详情", notes = "查询编辑商户详情")
+    public R queryEnterpriseUpdateDetail(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return enterpriseService.queryEnterpriseUpdateDetail(enterpriseId);
+    }
+
     @GetMapping("/query-enterprise-list")
     @ApiOperation(value = "查询所有商户", notes = "查询所有商户")
     public R queryEnterpriseList(QueryEnterpriseListDTO queryEnterpriseListDTO, Query query, BladeUser bladeUser) {
@@ -74,18 +86,6 @@ public class EnterpriseAdminController {
         }
 
         return enterpriseService.updateEnterpriseState(enterpriseId, enterpriseState);
-    }
-
-    @GetMapping("/query-enterprise-detail")
-    @ApiOperation(value = "查询商户基本信息", notes = "查询商户基本信息")
-    public R queryEnterpriseDetail(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, BladeUser bladeUser) {
-        //查询当前管理员
-        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return enterpriseService.queryEnterpriseDetailEnterprise(enterpriseId);
     }
 
     @GetMapping("/query-enterprise-worker-list")

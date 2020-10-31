@@ -37,17 +37,15 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.ServiceProviderDetailServiceProviderVO" id="serviceProviderDetailServiceProviderVO">
-        <result property="serviceProviderId" column="service_provider_id"/>
+    <resultMap type="com.lgyun.system.user.vo.ServiceProviderUpdateDetailVO" id="serviceProviderUpdateDetailVO">
+        <result property="id" column="id"/>
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="legalPersonName" column="legal_person_name"/>
-        <result property="legalPersonIdCard" column="legal_person_idcard"/>
+        <result property="legalPersonIdcard" column="legal_person_idcard"/>
         <result property="socialCreditNo" column="social_credit_no"/>
         <result property="bizLicenceUrl" column="biz_licence_url"/>
         <result property="serviceProviderUrl" column="service_provider_url"/>
-        <result property="inviteNo" column="invite_no"/>
         <result property="joinContract" column="join_contract"/>
-        <result property="commitmentLetter" column="commitment_letter"/>
         <result property="businessPattern" column="business_pattern"/>
         <result property="servicePrice" column="service_price"/>
         <result property="salerId" column="saler_id"/>
@@ -64,6 +62,9 @@
         <result property="invoiceTaxNo" column="invoice_tax_no"/>
         <result property="invoiceAddressPhone" column="invoice_address_phone"/>
         <result property="invoiceBankNameAccount" column="invoice_bank_name_account"/>
+        <result property="employeeUserName" column="employee_user_name"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="workerName" column="worker_name"/>
     </resultMap>
 
     <resultMap type="com.lgyun.system.user.vo.ServiceProviderListPaymentVO" id="serviceProviderListPaymentVO">
@@ -89,7 +90,7 @@
     <select id="queryServiceProviderListAdmin" resultMap="serviceProviderListVO">
         SELECT t1.id, t1.service_provider_name, t1.contact1_name, t1.contact1_phone, t1.service_provider_state, t1.create_time,
         (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url) FROM diyi_agreement
-        WHERE is_deleted = 0 AND agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' AND sign_state = 'SIGNED' AND service_provider_id = t1.id) AS join_contract
+        WHERE is_deleted = 0 AND agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND service_provider_id = t1.id) AS join_contract
         FROM diyi_service_provider t1 WHERE t1.is_deleted = 0
         <if test="param1.serviceProviderName != null and param1.serviceProviderName.trim() != ''">
             AND t1.service_provider_name LIKE concat('%', #{param1.serviceProviderName}, '%')
@@ -102,21 +103,21 @@
         </if>
     </select>
 
-    <select id="queryServiceProviderDetailServiceProvider" resultMap="serviceProviderDetailServiceProviderVO">
-        SELECT t1.id AS service_provider_id, t1.service_provider_name, t1.legal_person_name, t1.legal_person_idcard, t1.social_credit_no, t1.biz_licence_url,
-        t1.service_provider_url, t1.business_pattern, t1.service_price, t1.saler_id, t1.runner_id, t1.contact1_name, t1.contact1_position,
-        t1.contact1_phone, t1.contact1_mail, t1.contact2_name, t1.contact2_position, t1.contact2_phone, t1.contact2_mail, t1.invoice_enterprise_name,
-        t1.invoice_tax_no, t1.invoice_address_phone, t1.invoice_bank_name_account,
-        (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url)
-        FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' AND sign_state = 'SIGNED' AND service_provider_id = t1.id) AS join_contract,
-        (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url) FROM diyi_agreement
-        WHERE is_deleted = 0 AND agreement_type = 'OTHERAGREEMENT' AND audit_state = 'APPROVED' AND service_provider_id = t1.id) AS commitment_letter FROM diyi_service_provider t1
-        WHERE t1.is_deleted = 0 AND t1.id = #{param1}
+    <select id="queryServiceProviderUpdateDetail" resultMap="serviceProviderUpdateDetailVO">
+        SELECT t1.id, t1.service_provider_name, t1.legal_person_name, t1.legal_person_idcard, t1.social_credit_no, t1.biz_licence_url, t1.service_provider_url,
+        t1.business_pattern, t1.service_price, t1.contact1_name, t1.contact1_position, t1.contact1_phone, t1.contact1_mail, t1.contact2_name, t1.contact2_position,
+        t1.contact2_phone, t1.contact2_mail, t1.invoice_enterprise_name, t1.invoice_tax_no, t1.invoice_address_phone, t1.invoice_bank_name_account, t2.employee_user_name,
+        t2.phone_number, t2.worker_name, (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url)
+        FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED'
+        AND service_provider_id = t1.id) AS join_contract, (SELECT GROUP_CONCAT(IF(paper_agreement_url <![CDATA[ <> ]]> NULL AND paper_agreement_url <![CDATA[ <> ]]> '',
+        paper_agreement_url, online_agreement_url)) FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'OTHERAGREEMENT' AND sign_state = 'SIGNED'
+        AND audit_state = 'APPROVED' AND service_provider_id = t1.id) AS commitment_letters FROM diyi_service_provider t1 INNER JOIN diyi_service_provider_worker t2
+        ON t1.id = t2.service_provider_id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t2.up_level_id IS NULL AND t1.id = #{param1}
     </select>
 
     <select id="queryServiceProviderListPayment" resultMap="serviceProviderListPaymentVO">
         SELECT t1.id, t1.service_provider_name, IF((SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'SERVICEPROVIDERJOINAGREEMENT'
-        AND sign_state = 'SIGNED' AND enterprise_id = t1.id) > 0, TRUE, FALSE) AS bool_sign_contract FROM diyi_service_provider t1 WHERE is_deleted = 0
+        AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND enterprise_id = t1.id) > 0, TRUE, FALSE) AS bool_sign_contract FROM diyi_service_provider t1 WHERE is_deleted = 0
         <if test="param1 != null and param1.trim() != ''">
             AND t1.service_provider_name LIKE concat('%', #{param1}, '%')
         </if>

@@ -2,6 +2,7 @@ package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.exception.CustomException;
@@ -9,7 +10,6 @@ import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.dto.AddOrUpdateEnterpriseDTO;
-import com.lgyun.system.user.dto.AddOrUpdateEnterpriseContactDTO;
 import com.lgyun.system.user.dto.QueryEnterpriseListDTO;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.EnterpriseMapper;
@@ -49,22 +49,6 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     @Override
-    public int queryCountByEnterpriseName(String enterpriseName, Long enterpriseId) {
-        QueryWrapper<EnterpriseEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(EnterpriseEntity::getEnterpriseName, enterpriseName)
-                .ne(enterpriseId != null, EnterpriseEntity::getId, enterpriseId);
-        return baseMapper.selectCount(queryWrapper);
-    }
-
-    @Override
-    public int queryCountBySocialCreditNo(String socialCreditNo, Long enterpriseId) {
-        QueryWrapper<EnterpriseEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(EnterpriseEntity::getSocialCreditNo, socialCreditNo)
-                .ne(enterpriseId != null, EnterpriseEntity::getId, enterpriseId);
-        return baseMapper.selectCount(queryWrapper);
-    }
-
-    @Override
     public R<MakerEnterpriseRelationVO> getEnterpriseName(String enterpriseName) {
         return R.data(baseMapper.getEnterpriseName(enterpriseName));
     }
@@ -87,7 +71,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             makerEnterpriseRelationVO.setContact1Phone(makerEnterpriseRelationVO.getContact1Phone().replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2"));
             makerEnterpriseRelationVO.setBizLicenceUrl("*");
             makerEnterpriseRelationVO.setLegalPersonName("***");
-            makerEnterpriseRelationVO.setLegalPersonIdCard("*********");
+            makerEnterpriseRelationVO.setLegalPersonIdcard("*********");
             makerEnterpriseRelationVO.setSocialCreditNo("*******");
             makerEnterpriseRelationVO.setContact1Position(null);
             makerEnterpriseRelationVO.setShopUserName("*****");
@@ -158,76 +142,60 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
 
         if (addOrUpdateEnterpriseDTO.getEnterpriseId() == null) {
 
-            //判断商户联系人是否相同
-            if (addOrUpdateEnterpriseDTO.getContact1Phone().equals(addOrUpdateEnterpriseDTO.getContact2Phone())) {
-                return R.fail("联系人1电话/手机和联系人2电话/手机不能一致");
+            if (StringUtils.isBlank(addOrUpdateEnterpriseDTO.getEmployeePwd())) {
+                return R.fail("请输入密码");
+            } else {
+
+                if (addOrUpdateEnterpriseDTO.getEmployeePwd().length() <= 6 || addOrUpdateEnterpriseDTO.getEmployeePwd().length() >= 18) {
+                    return R.fail("请输入长度为6-18位的密码");
+                }
+
+                addOrUpdateEnterpriseDTO.setEmployeePwd(DigestUtil.encrypt(addOrUpdateEnterpriseDTO.getEmployeePwd()));
             }
 
             //判断商户名称是否已存在
-            int countByEnterpriseName = queryCountByEnterpriseName(addOrUpdateEnterpriseDTO.getEnterpriseName(), null);
-            if (countByEnterpriseName > 0) {
+            int enterpriseNum = count(Wrappers.<EnterpriseEntity>query().lambda().eq(EnterpriseEntity::getEnterpriseName, addOrUpdateEnterpriseDTO.getEnterpriseName()));
+            if (enterpriseNum > 0) {
                 return R.fail("商户名称已存在");
             }
 
             //判断社会信用代码是否已存在
-            int countBySocialCreditNo = queryCountBySocialCreditNo(addOrUpdateEnterpriseDTO.getSocialCreditNo(), null);
-            if (countBySocialCreditNo > 0) {
-                return R.fail("统一社会信用代码已存在");
+            enterpriseNum = count(Wrappers.<EnterpriseEntity>query().lambda().eq(EnterpriseEntity::getSocialCreditNo, addOrUpdateEnterpriseDTO.getSocialCreditNo()));
+            if (enterpriseNum > 0) {
+                return R.fail("商户统一社会信用代码已存在");
             }
 
-            //判断商户联系人1是否已存在
-            Integer countByPhoneNumber1 = enterpriseWorkerService.findCountByPhoneNumber(addOrUpdateEnterpriseDTO.getContact1Phone());
-            if (countByPhoneNumber1 > 0) {
-                return R.fail("联系人1电话/手机：" + addOrUpdateEnterpriseDTO.getContact1Phone() + "已存在");
+            int serviceProviderWorkerNum = enterpriseWorkerService.count(Wrappers.<EnterpriseWorkerEntity>query().lambda().eq(EnterpriseWorkerEntity::getEmployeeUserName, addOrUpdateEnterpriseDTO.getEmployeeUserName()));
+            if (serviceProviderWorkerNum > 0) {
+                return R.fail("已存在相同用户名的管理员");
             }
 
-            //判断商户联系人2是否已存在
-            Integer countByPhoneNumber2 = enterpriseWorkerService.findCountByPhoneNumber(addOrUpdateEnterpriseDTO.getContact2Phone());
-            if (countByPhoneNumber2 > 0) {
-                return R.fail("联系人2电话/手机：" + addOrUpdateEnterpriseDTO.getContact2Phone() + "已存在");
+            serviceProviderWorkerNum = enterpriseWorkerService.count(Wrappers.<EnterpriseWorkerEntity>query().lambda().eq(EnterpriseWorkerEntity::getPhoneNumber, addOrUpdateEnterpriseDTO.getPhoneNumber()));
+            if (serviceProviderWorkerNum > 0) {
+                return R.fail("已存在相同手机号的管理员");
             }
+
 
             EnterpriseEntity enterpriseEntity = new EnterpriseEntity();
             enterpriseEntity.setRunnerId(adminEntity.getId());
             enterpriseEntity.setSalerId(adminEntity.getId());
-            BeanUtil.copy(addOrUpdateEnterpriseDTO, enterpriseEntity);
             enterpriseEntity.setCreateType(CreateType.PLATFORMCREATE);
+            BeanUtil.copy(addOrUpdateEnterpriseDTO, enterpriseEntity);
             save(enterpriseEntity);
 
-            //新建联系人员工1
+            //新建联系人员工
             User user = new User();
             user.setUserType(UserType.ENTERPRISE);
-            user.setAccount(addOrUpdateEnterpriseDTO.getContact1Phone());
-            user.setPhone(addOrUpdateEnterpriseDTO.getContact1Phone());
+            user.setAccount(addOrUpdateEnterpriseDTO.getPhoneNumber());
+            user.setPhone(addOrUpdateEnterpriseDTO.getPhoneNumber());
             userService.save(user);
 
             EnterpriseWorkerEntity enterpriseWorkerEntity = new EnterpriseWorkerEntity();
             enterpriseWorkerEntity.setEnterpriseId(enterpriseEntity.getId());
             enterpriseWorkerEntity.setUserId(user.getId());
-            enterpriseWorkerEntity.setWorkerName(addOrUpdateEnterpriseDTO.getContact1Name());
-            enterpriseWorkerEntity.setPositionName(addOrUpdateEnterpriseDTO.getContact1Position());
-            enterpriseWorkerEntity.setPhoneNumber(addOrUpdateEnterpriseDTO.getContact1Phone());
-            enterpriseWorkerEntity.setEmployeeUserName(addOrUpdateEnterpriseDTO.getContact1Phone());
-            enterpriseWorkerEntity.setEmployeePwd(DigestUtil.encrypt("123456"));
+            enterpriseWorkerEntity.setPositionName(PositionName.MANAGEMENT);
             enterpriseWorkerEntity.setAdminPower(true);
-            enterpriseWorkerService.save(enterpriseWorkerEntity);
-
-            //新建联系人员工2
-            user = new User();
-            user.setUserType(UserType.ENTERPRISE);
-            user.setAccount(addOrUpdateEnterpriseDTO.getContact2Phone());
-            user.setPhone(addOrUpdateEnterpriseDTO.getContact2Phone());
-            userService.save(user);
-
-            enterpriseWorkerEntity = new EnterpriseWorkerEntity();
-            enterpriseWorkerEntity.setEnterpriseId(enterpriseEntity.getId());
-            enterpriseWorkerEntity.setUserId(user.getId());
-            enterpriseWorkerEntity.setWorkerName(addOrUpdateEnterpriseDTO.getContact2Name());
-            enterpriseWorkerEntity.setPositionName(addOrUpdateEnterpriseDTO.getContact2Position());
-            enterpriseWorkerEntity.setPhoneNumber(addOrUpdateEnterpriseDTO.getContact2Phone());
-            enterpriseWorkerEntity.setEmployeeUserName(addOrUpdateEnterpriseDTO.getContact2Phone());
-            enterpriseWorkerEntity.setEmployeePwd(DigestUtil.encrypt("123456"));
-            enterpriseWorkerEntity.setAdminPower(true);
+            BeanUtil.copy(addOrUpdateEnterpriseDTO, enterpriseWorkerEntity);
             enterpriseWorkerService.save(enterpriseWorkerEntity);
 
             //上传商户加盟合同
@@ -235,6 +203,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             agreementEntity.setAgreementType(AgreementType.ENTERPRISEJOINAGREEMENT);
             agreementEntity.setSignType(SignType.PAPERAGREEMENT);
             agreementEntity.setSignState(SignState.SIGNED);
+            agreementEntity.setAuditState(AuditState.APPROVED);
             agreementEntity.setPaperAgreementUrl(addOrUpdateEnterpriseDTO.getJoinContract());
             agreementEntity.setFirstSideSignPerson("地衣众包平台");
             agreementEntity.setEnterpriseId(enterpriseEntity.getId());
@@ -248,6 +217,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
                     agreementEntity = new AgreementEntity();
                     agreementEntity.setAgreementType(AgreementType.ENTERPRISEPROMISE);
                     agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+                    agreementEntity.setSignState(SignState.SIGNED);
                     agreementEntity.setAuditState(AuditState.APPROVED);
                     agreementEntity.setPaperAgreementUrl(split[i]);
                     agreementEntity.setFirstSideSignPerson("地衣众包平台");
@@ -256,8 +226,16 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
                     agreementService.save(agreementEntity);
                 }
             }
-            
+
+            return R.success("新建商户成功");
+
         } else {
+
+            if (StringUtils.isNotBlank(addOrUpdateEnterpriseDTO.getEmployeePwd())) {
+                if (addOrUpdateEnterpriseDTO.getEmployeePwd().length() <= 6 || addOrUpdateEnterpriseDTO.getEmployeePwd().length() >= 18) {
+                    return R.fail("请输入长度为6-18位的密码");
+                }
+            }
 
             EnterpriseEntity enterpriseEntity = getById(addOrUpdateEnterpriseDTO.getEnterpriseId());
             if (enterpriseEntity == null) {
@@ -265,56 +243,86 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             }
 
             //判断商户名称是否已存在
-            Integer countByEnterpriseName = queryCountByEnterpriseName(addOrUpdateEnterpriseDTO.getEnterpriseName(), enterpriseEntity.getId());
-            if (countByEnterpriseName > 0) {
+            int enterpriseNum = count(Wrappers.<EnterpriseEntity>query().lambda()
+                    .eq(EnterpriseEntity::getEnterpriseName, addOrUpdateEnterpriseDTO.getEnterpriseName())
+                    .ne(EnterpriseEntity::getId, enterpriseEntity.getId()));
+            if (enterpriseNum > 0) {
                 return R.fail("商户名称已存在");
             }
 
             //判断社会信用代码是否已存在
-            Integer countBySocialCreditNo = queryCountBySocialCreditNo(addOrUpdateEnterpriseDTO.getSocialCreditNo(), enterpriseEntity.getId());
-            if (countBySocialCreditNo > 0) {
-                return R.fail("统一社会信用代码已存在");
+            enterpriseNum = count(Wrappers.<EnterpriseEntity>query().lambda()
+                    .eq(EnterpriseEntity::getSocialCreditNo, addOrUpdateEnterpriseDTO.getSocialCreditNo())
+                    .ne(EnterpriseEntity::getId, enterpriseEntity.getId()));
+            if (enterpriseNum > 0) {
+                return R.fail("商户统一社会信用代码已存在");
             }
 
-            //根据联系人生成商户员工
-            AddOrUpdateEnterpriseContactDTO addOrUpdateEnterpriseContactDto = new AddOrUpdateEnterpriseContactDTO();
-            addOrUpdateEnterpriseContactDto.setEnterpriseId(enterpriseEntity.getId());
-            addOrUpdateEnterpriseContactDto.setContact1Name(addOrUpdateEnterpriseDTO.getContact1Name());
-            addOrUpdateEnterpriseContactDto.setContact1Position(addOrUpdateEnterpriseDTO.getContact1Position());
-            addOrUpdateEnterpriseContactDto.setContact1Phone(addOrUpdateEnterpriseDTO.getContact1Phone());
-            addOrUpdateEnterpriseContactDto.setContact1Mail(addOrUpdateEnterpriseDTO.getContact1Mail());
-            addOrUpdateEnterpriseContactDto.setContact2Name(addOrUpdateEnterpriseDTO.getContact2Name());
-            addOrUpdateEnterpriseContactDto.setContact2Position(addOrUpdateEnterpriseDTO.getContact2Position());
-            addOrUpdateEnterpriseContactDto.setContact2Phone(addOrUpdateEnterpriseDTO.getContact2Phone());
-            addOrUpdateEnterpriseContactDto.setContact2Mail(addOrUpdateEnterpriseDTO.getContact2Mail());
-            R<String> result = enterpriseWorkerService.addOrUpdateEnterpriseContact(addOrUpdateEnterpriseContactDto, null);
-            if (!(result.isSuccess())) {
-                return result;
+            //查询商户管理员
+            EnterpriseWorkerEntity enterpriseWorkerEntity = enterpriseWorkerService.getOne(Wrappers.<EnterpriseWorkerEntity>query().lambda()
+                    .eq(EnterpriseWorkerEntity::getEnterpriseId, enterpriseEntity.getId())
+                    .eq(EnterpriseWorkerEntity::getUpLevelId, null));
+
+            int enterpriseWorkerNum = enterpriseWorkerService.count(Wrappers.<EnterpriseWorkerEntity>query().lambda()
+                    .eq(EnterpriseWorkerEntity::getEmployeeUserName, addOrUpdateEnterpriseDTO.getEmployeeUserName())
+                    .ne(EnterpriseWorkerEntity::getId, enterpriseWorkerEntity.getId()));
+            if (enterpriseWorkerNum > 0) {
+                return R.fail("已存在相同用户名的管理员");
             }
 
-            //上传或修改加盟合同
-            AgreementEntity agreementEntity = agreementService.findSuccessAgreement(enterpriseEntity.getId(), null, AgreementType.ENTERPRISEJOINAGREEMENT, null, SignState.SIGNED);
-            if (agreementEntity != null) {
-                agreementEntity.setPaperAgreementUrl(addOrUpdateEnterpriseDTO.getJoinContract());
-                agreementService.updateById(agreementEntity);
-            } else {
-                agreementEntity = new AgreementEntity();
-                agreementEntity.setAgreementType(AgreementType.ENTERPRISEJOINAGREEMENT);
-                agreementEntity.setSignType(SignType.PAPERAGREEMENT);
-                agreementEntity.setSignState(SignState.SIGNED);
-                agreementEntity.setPaperAgreementUrl(addOrUpdateEnterpriseDTO.getJoinContract());
-                agreementEntity.setFirstSideSignPerson(adminEntity.getName());
-                agreementEntity.setEnterpriseId(enterpriseEntity.getId());
-                agreementEntity.setSecondSideSignPerson(enterpriseEntity.getContact1Name());
-                agreementService.save(agreementEntity);
+            enterpriseWorkerNum = enterpriseWorkerService.count(Wrappers.<EnterpriseWorkerEntity>query().lambda()
+                    .eq(EnterpriseWorkerEntity::getPhoneNumber, addOrUpdateEnterpriseDTO.getPhoneNumber())
+                    .ne(EnterpriseWorkerEntity::getId, enterpriseWorkerEntity.getId()));
+            if (enterpriseWorkerNum > 0) {
+                return R.fail("已存在相同手机号的管理员");
+            }
+
+            //编辑商户员工
+            enterpriseWorkerEntity.setEmployeeUserName(addOrUpdateEnterpriseDTO.getEmployeeUserName());
+            enterpriseWorkerEntity.setPhoneNumber(addOrUpdateEnterpriseDTO.getPhoneNumber());
+            enterpriseWorkerEntity.setWorkerName(addOrUpdateEnterpriseDTO.getWorkerName());
+            if (StringUtils.isNotBlank(addOrUpdateEnterpriseDTO.getEmployeePwd())) {
+                enterpriseWorkerEntity.setEmployeePwd(DigestUtil.encrypt(addOrUpdateEnterpriseDTO.getEmployeePwd()));
+            }
+            enterpriseWorkerService.updateById(enterpriseWorkerEntity);
+
+            //上传加盟合同
+            AgreementEntity agreementEntity = agreementService.getOne(Wrappers.<AgreementEntity>query().lambda()
+                    .eq(AgreementEntity::getEnterpriseId, enterpriseEntity.getId())
+                    .eq(AgreementEntity::getAgreementType, AgreementType.ENTERPRISEJOINAGREEMENT)
+                    .eq(AgreementEntity::getSignState, SignState.SIGNED)
+                    .eq(AgreementEntity::getAuditState, AuditState.APPROVED));
+
+            agreementEntity.setPaperAgreementUrl(addOrUpdateEnterpriseDTO.getJoinContract());
+            agreementService.updateById(agreementEntity);
+
+            //删除已上传的商户承诺函
+            agreementService.deleteByEnterprise(enterpriseEntity.getId(), AgreementType.ENTERPRISEPROMISE);
+
+            //上传商户承诺函
+            String[] split = addOrUpdateEnterpriseDTO.getCommitmentLetters().split(",");
+            for (int i = 0; i < split.length; i++) {
+                if (StringUtils.isNotBlank(split[i])) {
+                    agreementEntity = new AgreementEntity();
+                    agreementEntity.setAgreementType(AgreementType.ENTERPRISEPROMISE);
+                    agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+                    agreementEntity.setSignState(SignState.SIGNED);
+                    agreementEntity.setAuditState(AuditState.APPROVED);
+                    agreementEntity.setPaperAgreementUrl(split[i]);
+                    agreementEntity.setFirstSideSignPerson("地衣众包平台");
+                    agreementEntity.setEnterpriseId(enterpriseEntity.getId());
+                    agreementEntity.setSecondSideSignPerson(enterpriseEntity.getEnterpriseName());
+                    agreementService.save(agreementEntity);
+                }
             }
 
             BeanUtil.copy(addOrUpdateEnterpriseDTO, enterpriseEntity);
             updateById(enterpriseEntity);
-            
+
+            return R.success("编辑商户成功");
+
         }
 
-        return R.success("操作成功");
     }
 
     @Override
@@ -330,8 +338,8 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     @Override
-    public R<EnterpriseDetailEnterpriseVO> queryEnterpriseDetailEnterprise(Long enterpriseId) {
-        return R.data(baseMapper.queryEnterpriseDetailEnterprise(enterpriseId));
+    public R<EnterpriseUpdateDetailVO> queryEnterpriseUpdateDetail(Long enterpriseId) {
+        return R.data(baseMapper.queryEnterpriseUpdateDetail(enterpriseId));
     }
 
     @Override

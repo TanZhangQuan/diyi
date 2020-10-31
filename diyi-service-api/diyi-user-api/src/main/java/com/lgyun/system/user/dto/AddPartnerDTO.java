@@ -30,7 +30,7 @@ public class AddPartnerDTO implements Serializable {
      * 身份证号码
      */
     @NotBlank(message = "合伙人身份证号码不能为空")
-    private String idCardNo;
+    private String idcardNo;
 
     /**
      * 手机号码

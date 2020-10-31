@@ -72,9 +72,6 @@ public class CooperationEnterpriseMakerController {
     }
 
     @GetMapping("/query-enterprise")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "enterpriseName", value = "商户名字", paramType = "query", dataType = "string")
-    })
     @ApiOperation(value = "通过商户名字查询商户", notes = "通过商户名字查询商户")
     public R queryEnterprise(@ApiParam(value = "商户名字") @RequestParam(required = false) String enterpriseName, BladeUser bladeUser) {
         //查询当前创客

@@ -10,25 +10,25 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * 平台端---商户管理---商户详情vo
+ * 平台端---服务商管理---服务商详情vo
  *
  * @author tzq
  * @date 2020/9/9
  */
 @Data
-public class EnterpriseDetailEnterpriseVO implements Serializable {
+public class ServiceProviderUpdateDetailVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 商户编号
+     * 服务商ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long enterpriseId;
+    private Long id;
 
     /**
-     * 商户名称
+     * 服务商名称
      */
-    private String enterpriseName;
+    private String serviceProviderName;
 
     /**
      * 法人
@@ -38,7 +38,7 @@ public class EnterpriseDetailEnterpriseVO implements Serializable {
     /**
      * 法人身份证
      */
-    private String legalPersonIdCard;
+    private String legalPersonIdcard;
 
     /**
      * 统一社会信用代码
@@ -53,22 +53,12 @@ public class EnterpriseDetailEnterpriseVO implements Serializable {
     /**
      * 企业网址
      */
-    private String enterpriseUrl;
-
-    /**
-     * 创客加入邀请码
-     */
-    private String inviteNo;
+    private String serviceProviderUrl;
 
     /**
      * 加盟合同
      */
     private String joinContract;
-
-    /**
-     * 商户承诺函
-     */
-    private String commitmentLetter;
 
     /**
      * 业务外包模式
@@ -79,16 +69,6 @@ public class EnterpriseDetailEnterpriseVO implements Serializable {
      * 综合税费率
      */
     private BigDecimal servicePrice;
-
-    /**
-     * 营销人员
-     */
-    private Long salerId;
-
-    /**
-     * 运营人员
-     */
-    private Long runnerId;
 
     /**
      * 联系人1姓名
@@ -149,5 +129,20 @@ public class EnterpriseDetailEnterpriseVO implements Serializable {
      * 开票资料-开户银行和账号
      */
     private String invoiceBankNameAccount;
+
+    /**
+     * 用户名
+     */
+    private String employeeUserName;
+
+    /**
+     * 手机号码
+     */
+    private String phoneNumber;
+
+    /**
+     * 姓名
+     */
+    private String workerName;
 
 }

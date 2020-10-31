@@ -20,7 +20,8 @@
         </if>
     </select>
 
-    <select id="removeById" resultType="java.lang.Integer" >
-        DELETE FROM diyi_rel_bureau_service_provider WHERE id = #{bureauServiceProviderId}
+    <select id="removeById">
+        DELETE FROM diyi_rel_bureau_service_provider WHERE id = #{param1}
     </select>
+
 </mapper>

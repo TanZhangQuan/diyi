@@ -35,7 +35,7 @@ public class MakerEnterpriseRelationVO implements Serializable {
     /**
      * 法人身份证
      */
-    private String legalPersonIdCard;
+    private String legalPersonIdcard;
 
     /**
      * 联系人职位

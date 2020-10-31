@@ -505,8 +505,8 @@
 
     <select id="getMakers" resultMap="payEnterpriseMakerListVO">
         SELECT t3.id, t3.name, IF(t3.bank_card_verify_status = 'VERIFYPASS', TRUE, FALSE) AS bool_real_name_verify,
-        IF((SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t3.id AND sign_state = 'SIGNED' AND agreement_type = 'MAKERJOINAGREEMENT') > 0
-        AND (SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t3.id AND sign_state = 'SIGNED' AND agreement_type = 'MAKERPOWERATTORNEY') > 0, TRUE, FALSE) AS bool_sign
+        IF((SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t3.id AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND agreement_type = 'MAKERJOINAGREEMENT') > 0
+        AND (SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t3.id AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND agreement_type = 'MAKERPOWERATTORNEY') > 0, TRUE, FALSE) AS bool_sign
         FROM diyi_pay_enterprise t1 INNER JOIN diyi_worksheet_maker t2 ON t1.worksheet_id = t2.worksheet_id INNER JOIN diyi_maker t3 ON t2.maker_id = t3.id
         WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t1.id = #{param1}
     </select>
@@ -1129,7 +1129,7 @@
         WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 t1.id = #{param1}
     </select>
 
-    <select id="queryUpdatePayEnterpriseDetail" resultMap="payEnterpriseUpdateDetailVO">
+    <select id="queryPayEnterpriseUpdateDetail" resultMap="payEnterpriseUpdateDetailVO">
         SELECT t1.id, t2.id AS service_provider_id, t2.service_provider_name, t1.maker_type, t1.charge_list_url, t1.worksheet_id, t3.worksheet_no, t3.worksheet_name,
         t3.create_time AS worksheet_create_time, t1.pay_to_platform_amount, t1.total_tax_fee, t1.total_maker_net_income, t1.service_rate, t1.sourcing_amount, t1.enterprise_business_annual_fee,
         t1.identify_fee, t1.service_fee, t1.maker_num, t1.pay_memo, (SELECT GROUP_CONCAT(enterprise_pay_receipt_url) FROM diyi_pay_enterprise_receipt WHERE is_deleted = 0

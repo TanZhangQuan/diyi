@@ -96,12 +96,12 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
                 continue;
             }
 
-            if (StringUtils.isBlank(payEnterpriseExcel.getMakerIdCardNo())) {
+            if (StringUtils.isBlank(payEnterpriseExcel.getMakerIdcardNo())) {
                 log.error("缺少创客身份证号数据");
                 continue;
             }
 
-            MakerEntity makerEntity = iUserClient.queryMakerByIdcardNo(payEnterpriseExcel.getMakerIdCardNo());
+            MakerEntity makerEntity = iUserClient.queryMakerByIdcardNo(payEnterpriseExcel.getMakerIdcardNo());
             if (makerEntity == null) {
                 log.error("创客不存在");
                 continue;

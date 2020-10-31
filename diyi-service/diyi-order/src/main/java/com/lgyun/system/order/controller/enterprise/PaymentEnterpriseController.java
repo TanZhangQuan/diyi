@@ -86,16 +86,16 @@ public class PaymentEnterpriseController {
         return payEnterpriseService.queryPayEnterpriseDetail(payEnterpriseId);
     }
 
-    @GetMapping("/query-update-pay-enterprise-detail")
+    @GetMapping("/query-pay-enterprise-update-detail")
     @ApiOperation(value = "查询编辑总包支付清单详情", notes = "查询编辑总包支付清单详情")
-    public R queryUpdatePayEnterpriseDetail(@ApiParam(value = "支付清单", required = true) @NotNull(message = "请选择总包支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
+    public R queryPayEnterpriseUpdateDetail(@ApiParam(value = "支付清单", required = true) @NotNull(message = "请选择总包支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return payEnterpriseService.queryUpdatePayEnterpriseDetail(payEnterpriseId);
+        return payEnterpriseService.queryPayEnterpriseUpdateDetail(payEnterpriseId);
     }
 
     @GetMapping("/query-worksheet-detail")

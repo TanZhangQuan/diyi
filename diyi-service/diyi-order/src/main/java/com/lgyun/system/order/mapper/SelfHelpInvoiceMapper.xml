@@ -58,7 +58,7 @@
         <result property="makerIdcardNo" column="maker_idcard_no"/>
         <result property="makerPhoneNumber" column="maker_phone_number"/>
         <result property="invoicePeopleName" column="invoice_people_name"/>
-        <result property="invoicePeopleIdCardNo" column="invoice_people_idcard_no"/>
+        <result property="invoicePeopleIdcardNo" column="invoice_people_idcard_no"/>
         <result property="invoicePeoplePhoneNumber" column="invoice_people_phone_number"/>
     </resultMap>
 

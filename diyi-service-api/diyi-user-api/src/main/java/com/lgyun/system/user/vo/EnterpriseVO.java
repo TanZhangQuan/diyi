@@ -27,7 +27,7 @@ public class EnterpriseVO implements Serializable {
     /**
      * 法人身份证
      */
-    private String legalPersonIdCard;
+    private String legalPersonIdcard;
 
     /**
      * 企业网址

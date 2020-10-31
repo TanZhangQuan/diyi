@@ -41,7 +41,7 @@ public class AddOrUpdateAgentMainDTO implements Serializable {
      * 法人身份证
      */
     @NotBlank(message = "法人身份证不能为空")
-    private String legalPersonIdCard;
+    private String legalPersonIdcard;
 
     /**
      * 社会信誉代码

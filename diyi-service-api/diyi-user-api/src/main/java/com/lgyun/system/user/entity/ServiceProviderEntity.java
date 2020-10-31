@@ -42,7 +42,7 @@ public class ServiceProviderEntity extends BaseEntity {
     /**
      * 法人身份证
      */
-    private String legalPersonIdCard;
+    private String legalPersonIdcard;
 
     /**
      * 统一社会信用代码

@@ -40,7 +40,7 @@ public class AddOrUpdateEnterpriseDTO implements Serializable {
      * 法人身份证
      */
     @NotBlank(message = "请输入法人身份证")
-    private String legalPersonIdCard;
+    private String legalPersonIdcard;
 
     /**
      * 统一社会信用代码
@@ -160,5 +160,28 @@ public class AddOrUpdateEnterpriseDTO implements Serializable {
      */
     @NotBlank(message = "请输入开票开户银行和账号")
     private String invoiceBankNameAccount;
+
+    /**
+     * 用户名
+     */
+    @NotBlank(message = "请输入用户名")
+    private String employeeUserName;
+
+    /**
+     * 手机号码
+     */
+    @NotBlank(message = "请输入手机号码")
+    private String phoneNumber;
+
+    /**
+     * 姓名
+     */
+    @NotBlank(message = "请输入姓名")
+    private String workerName;
+
+    /**
+     * 密码
+     */
+    private String employeePwd;
 
 }
