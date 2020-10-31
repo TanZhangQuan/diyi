@@ -1,51 +1,57 @@
 package com.lgyun.system.user.dto;
 
-import com.lgyun.common.enumeration.AccountState;
+import com.lgyun.common.enumeration.BusinessPattern;
 import com.lgyun.common.enumeration.PositionName;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
- * 平台端---渠道商管理---创建渠道商信息DTO
+ * 平台端---商户管理---创建商户DTO
  *
- * @author xjw
+ * @author tzq
  * @date 2020-09-9
  */
 @Data
-public class AddAdminAgentMainDTO implements Serializable {
+public class AddOrUpdateEnterpriseDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 渠道商名称
+     * 商户ID
      */
-    @NotBlank(message = "渠道名称不能为空")
+    private String enterpriseId;
+
+    /**
+     * 商户名称
+     */
+    @NotBlank(message = "请输入商户名称")
     private String enterpriseName;
 
     /**
      * 法人
      */
-    @NotBlank(message = "法人不能为空")
+    @NotBlank(message = "请输入法人")
     private String legalPersonName;
 
     /**
      * 法人身份证
      */
-    @NotBlank(message = "法人身份证不能为空")
+    @NotBlank(message = "请输入法人身份证")
     private String legalPersonIdCard;
 
     /**
-     * 社会信誉代码
+     * 统一社会信用代码
      */
-    @NotBlank(message = "社会信誉代码不能为空")
+    @NotBlank(message = "请输入统一社会信用代码")
     private String socialCreditNo;
 
-    @NotBlank(message = "营业执照不能为空")
+    /**
+     * 营业执照
+     */
+    @NotBlank(message = "请上传营业执照")
     private String bizLicenceUrl;
 
     /**
@@ -60,16 +66,24 @@ public class AddAdminAgentMainDTO implements Serializable {
     private String joinContract;
 
     /**
-     * 商户承诺函
+     * 商户承诺函(可能多张)
      */
     @NotBlank(message = "请上传商户承诺函")
-    private String commitmentLetter;
+    private String commitmentLetters;
 
-    @NotBlank(message = "营销人员不能为空")
-    private Long salerId;
+    /**
+     * 业务外包模式
+     */
+    @NotNull(message = "请选择业务外包模式")
+    private BusinessPattern businessPattern;
 
-    @NotNull(message = "运营人员不能为空")
-    private Long runnerId;
+    /**
+     * 综合税费率
+     */
+    @NotNull(message = "请输入综合税费率")
+    @Min(value = 0, message = "综合税费率不能小于0")
+    @Max(value = 100, message = "综合税费率不能大于100")
+    private BigDecimal servicePrice;
 
     /**
      * 联系人1姓名
@@ -94,7 +108,7 @@ public class AddAdminAgentMainDTO implements Serializable {
     /**
      * 联系人1邮箱
      */
-    @Email(message = "请输入联系人1邮箱")
+    @NotBlank(message = "请输入联系人1邮箱")
     private String contact1Mail;
 
     /**
@@ -120,19 +134,19 @@ public class AddAdminAgentMainDTO implements Serializable {
     /**
      * 联系人2邮箱
      */
-    @Email(message = "请输入联系人2邮箱")
+    @NotBlank(message = "请输入联系人2邮箱")
     private String contact2Mail;
 
     /**
-     * 开票资料-公司名称
+     * 公司名称
      */
-    @NotBlank(message = "请输入开票公司名称")
+    @NotBlank(message = "请输入公司名称")
     private String invoiceEnterpriseName;
 
     /**
-     * 开票资料-税号
+     * 纳税识别号
      */
-    @NotBlank(message = "请输入开票税号")
+    @NotBlank(message = "请输入纳税识别号")
     private String invoiceTaxNo;
 
     /**
@@ -147,22 +161,4 @@ public class AddAdminAgentMainDTO implements Serializable {
     @NotBlank(message = "请输入开票开户银行和账号")
     private String invoiceBankNameAccount;
 
-    /**
-     * 用户名
-     */
-    @NotBlank(message = "用户名不能为空")
-    private String enUserName;
-
-    /**
-     * 密码
-     */
-    @NotBlank(message = "请输入密码")
-    @Length(min = 6, max = 18, message = "请输入长度为6-18位新密码")
-    private String enUserPwd;
-
-
-    /**
-     * 账户状态
-     */
-    private AccountState agentState = AccountState.NORMAL;
 }

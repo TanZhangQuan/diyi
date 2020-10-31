@@ -110,11 +110,6 @@ public class MakerEntity extends BaseEntity {
     private String phoneNumber;
 
     /**
-     * 手机号码2
-     */
-    private String phoneNumber2;
-
-    /**
      * 登录密码
      */
     private String loginPwd;

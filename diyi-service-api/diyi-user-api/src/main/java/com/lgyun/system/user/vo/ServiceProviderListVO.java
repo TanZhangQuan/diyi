@@ -23,7 +23,7 @@ public class ServiceProviderListVO implements Serializable {
      * 服务商编号
      */
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long serviceProviderId;
+    private Long id;
 
     /**
      * 服务商名称
@@ -44,11 +44,6 @@ public class ServiceProviderListVO implements Serializable {
      * 加盟合同
      */
     private String joinContract;
-
-    /**
-     * 商户承诺函
-     */
-    private String commitmentLetter;
 
     /**
      * 状态

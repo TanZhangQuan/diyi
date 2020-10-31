@@ -10,9 +10,8 @@ import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.dto.ServiceProviderBankCardDTO;
 import com.lgyun.system.user.dto.ServiceProviderContactPersonDTO;
 import com.lgyun.system.user.dto.ServiceProviderInvoiceDTO;
-import com.lgyun.system.user.dto.AddServiceProviderDTO;
+import com.lgyun.system.user.dto.AddOrUpdateServiceProviderDTO;
 import com.lgyun.system.user.dto.QueryServiceProviderListDTO;
-import com.lgyun.system.user.dto.UpdateServiceProviderDTO;
 import com.lgyun.system.user.dto.AddOrUpdateServiceProviderContactDTO;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.ServiceProviderMapper;
@@ -129,6 +128,13 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
 
     @Override
     public R<IPage<ServiceProviderListVO>> queryServiceProviderListAdmin(QueryServiceProviderListDTO queryServiceProviderListDTO, IPage<ServiceProviderListVO> page) {
+
+        if (queryServiceProviderListDTO.getBeginDate() != null && queryServiceProviderListDTO.getEndDate() != null) {
+            if (queryServiceProviderListDTO.getBeginDate().after(queryServiceProviderListDTO.getEndDate())) {
+                return R.fail("开始时间不能大于结束时间");
+            }
+        }
+
         return R.data(page.setRecords(baseMapper.queryServiceProviderListAdmin(queryServiceProviderListDTO, page)));
     }
 
@@ -139,178 +145,179 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> createServiceProvider(AddServiceProviderDTO addServiceProviderDTO, AdminEntity adminEntity) {
+    public R<String> createOrUpdateServiceProvider(AddOrUpdateServiceProviderDTO addOrUpdateServiceProviderDTO, AdminEntity adminEntity) {
 
-        //判断服务商联系人是否已存在
-        if (addServiceProviderDTO.getContact1Phone().equals(addServiceProviderDTO.getContact2Phone())) {
-            return R.fail("联系人1电话/手机和联系人2电话/手机不能一致");
-        }
+        if (addOrUpdateServiceProviderDTO.getServiceProviderId() == null) {
 
-        //判断服务商名称是否已存在
-        int countByServiceProviderName = queryCountByServiceProviderName(addServiceProviderDTO.getServiceProviderName(), null);
-        if (countByServiceProviderName > 0) {
-            return R.fail("名称已存在");
-        }
+            //判断服务商联系人是否已存在
+            if (addOrUpdateServiceProviderDTO.getContact1Phone().equals(addOrUpdateServiceProviderDTO.getContact2Phone())) {
+                return R.fail("联系人1电话/手机和联系人2电话/手机不能一致");
+            }
 
-        //判断社会信用代码是否已存在
-        int countBySocialCreditNo = queryCountBySocialCreditNo(addServiceProviderDTO.getSocialCreditNo(), null);
-        if (countBySocialCreditNo > 0) {
-            return R.fail("统一社会信用代码已存在");
-        }
+            //判断服务商名称是否已存在
+            int countByServiceProviderName = queryCountByServiceProviderName(addOrUpdateServiceProviderDTO.getServiceProviderName(), null);
+            if (countByServiceProviderName > 0) {
+                return R.fail("名称已存在");
+            }
 
-        //判断服务商联系人1是否已存在
-        ServiceProviderWorkerEntity serviceProviderWorkerEntity = serviceProviderWorkerService.findByPhoneNumber(addServiceProviderDTO.getContact1Phone());
-        if (serviceProviderWorkerEntity != null) {
-            return R.fail("联系人1电话/手机：" + addServiceProviderDTO.getContact1Phone() + "已存在");
-        }
+            //判断社会信用代码是否已存在
+            int countBySocialCreditNo = queryCountBySocialCreditNo(addOrUpdateServiceProviderDTO.getSocialCreditNo(), null);
+            if (countBySocialCreditNo > 0) {
+                return R.fail("统一社会信用代码已存在");
+            }
 
-        //判断服务商联系人2是否已存在
-        serviceProviderWorkerEntity = serviceProviderWorkerService.findByPhoneNumber(addServiceProviderDTO.getContact2Phone());
-        if (serviceProviderWorkerEntity != null) {
-            return R.fail("联系人2电话/手机：" + addServiceProviderDTO.getContact2Phone() + "已存在");
-        }
+            //判断服务商联系人1是否已存在
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = serviceProviderWorkerService.findByPhoneNumber(addOrUpdateServiceProviderDTO.getContact1Phone());
+            if (serviceProviderWorkerEntity != null) {
+                return R.fail("联系人1电话/手机：" + addOrUpdateServiceProviderDTO.getContact1Phone() + "已存在");
+            }
 
-        ServiceProviderEntity serviceProviderEntity = new ServiceProviderEntity();
-        BeanUtil.copy(addServiceProviderDTO, serviceProviderEntity);
-        serviceProviderEntity.setCreateType(CreateType.PLATFORMCREATE);
-        save(serviceProviderEntity);
+            //判断服务商联系人2是否已存在
+            serviceProviderWorkerEntity = serviceProviderWorkerService.findByPhoneNumber(addOrUpdateServiceProviderDTO.getContact2Phone());
+            if (serviceProviderWorkerEntity != null) {
+                return R.fail("联系人2电话/手机：" + addOrUpdateServiceProviderDTO.getContact2Phone() + "已存在");
+            }
 
-        //新建联系人员工1
-        User user1 = new User();
-        user1.setUserType(UserType.SERVICEPROVIDER);
-        user1.setAccount(addServiceProviderDTO.getContact1Phone());
-        user1.setPhone(addServiceProviderDTO.getContact1Phone());
-        userService.save(user1);
+            ServiceProviderEntity serviceProviderEntity = new ServiceProviderEntity();
+            serviceProviderEntity.setRunnerId(adminEntity.getId());
+            serviceProviderEntity.setSalerId(adminEntity.getId());
+            BeanUtil.copy(addOrUpdateServiceProviderDTO, serviceProviderEntity);
+            serviceProviderEntity.setCreateType(CreateType.PLATFORMCREATE);
+            save(serviceProviderEntity);
 
-        serviceProviderWorkerEntity = new ServiceProviderWorkerEntity();
-        serviceProviderWorkerEntity.setServiceProviderId(serviceProviderEntity.getId());
-        serviceProviderWorkerEntity.setUserId(user1.getId());
-        serviceProviderWorkerEntity.setWorkerName(addServiceProviderDTO.getContact1Name());
-        serviceProviderWorkerEntity.setPositionName(addServiceProviderDTO.getContact1Position());
-        serviceProviderWorkerEntity.setPhoneNumber(addServiceProviderDTO.getContact1Phone());
-        serviceProviderWorkerEntity.setEmployeeUserName(addServiceProviderDTO.getContact1Phone());
-        serviceProviderWorkerEntity.setEmployeePwd(DigestUtil.encrypt("123456"));
-        serviceProviderWorkerEntity.setAdminPower(true);
-        serviceProviderWorkerService.save(serviceProviderWorkerEntity);
+            //新建联系人员工1
+            User user1 = new User();
+            user1.setUserType(UserType.SERVICEPROVIDER);
+            user1.setAccount(addOrUpdateServiceProviderDTO.getContact1Phone());
+            user1.setPhone(addOrUpdateServiceProviderDTO.getContact1Phone());
+            userService.save(user1);
 
-        //新建联系人员工2
-        user1 = new User();
-        user1.setUserType(UserType.SERVICEPROVIDER);
-        user1.setAccount(addServiceProviderDTO.getContact2Phone());
-        user1.setPhone(addServiceProviderDTO.getContact2Phone());
-        userService.save(user1);
+            serviceProviderWorkerEntity = new ServiceProviderWorkerEntity();
+            serviceProviderWorkerEntity.setServiceProviderId(serviceProviderEntity.getId());
+            serviceProviderWorkerEntity.setUserId(user1.getId());
+            serviceProviderWorkerEntity.setWorkerName(addOrUpdateServiceProviderDTO.getContact1Name());
+            serviceProviderWorkerEntity.setPositionName(addOrUpdateServiceProviderDTO.getContact1Position());
+            serviceProviderWorkerEntity.setPhoneNumber(addOrUpdateServiceProviderDTO.getContact1Phone());
+            serviceProviderWorkerEntity.setEmployeeUserName(addOrUpdateServiceProviderDTO.getContact1Phone());
+            serviceProviderWorkerEntity.setEmployeePwd(DigestUtil.encrypt("123456"));
+            serviceProviderWorkerEntity.setAdminPower(true);
+            serviceProviderWorkerService.save(serviceProviderWorkerEntity);
 
-        serviceProviderWorkerEntity = new ServiceProviderWorkerEntity();
-        serviceProviderWorkerEntity.setServiceProviderId(serviceProviderEntity.getId());
-        serviceProviderWorkerEntity.setUserId(user1.getId());
-        serviceProviderWorkerEntity.setWorkerName(addServiceProviderDTO.getContact2Name());
-        serviceProviderWorkerEntity.setPositionName(addServiceProviderDTO.getContact2Position());
-        serviceProviderWorkerEntity.setPhoneNumber(addServiceProviderDTO.getContact2Phone());
-        serviceProviderWorkerEntity.setEmployeeUserName(addServiceProviderDTO.getContact2Phone());
-        serviceProviderWorkerEntity.setEmployeePwd(DigestUtil.encrypt("123456"));
-        serviceProviderWorkerEntity.setAdminPower(true);
-        serviceProviderWorkerService.save(serviceProviderWorkerEntity);
+            //新建联系人员工2
+            user1 = new User();
+            user1.setUserType(UserType.SERVICEPROVIDER);
+            user1.setAccount(addOrUpdateServiceProviderDTO.getContact2Phone());
+            user1.setPhone(addOrUpdateServiceProviderDTO.getContact2Phone());
+            userService.save(user1);
 
-        //上传加盟合同
-        AgreementEntity agreementEntity = new AgreementEntity();
-        agreementEntity.setAgreementType(AgreementType.SERVICEPROVIDERJOINAGREEMENT);
-        agreementEntity.setSignType(SignType.PAPERAGREEMENT);
-        agreementEntity.setSignState(SignState.SIGNED);
-        agreementEntity.setPaperAgreementUrl(addServiceProviderDTO.getJoinContract());
-        agreementEntity.setFirstSideSignPerson(adminEntity.getName());
-        agreementEntity.setServiceProviderId(serviceProviderEntity.getId());
-        agreementEntity.setSecondSideSignPerson(serviceProviderEntity.getContact1Name());
-        agreementService.save(agreementEntity);
+            serviceProviderWorkerEntity = new ServiceProviderWorkerEntity();
+            serviceProviderWorkerEntity.setServiceProviderId(serviceProviderEntity.getId());
+            serviceProviderWorkerEntity.setUserId(user1.getId());
+            serviceProviderWorkerEntity.setWorkerName(addOrUpdateServiceProviderDTO.getContact2Name());
+            serviceProviderWorkerEntity.setPositionName(addOrUpdateServiceProviderDTO.getContact2Position());
+            serviceProviderWorkerEntity.setPhoneNumber(addOrUpdateServiceProviderDTO.getContact2Phone());
+            serviceProviderWorkerEntity.setEmployeeUserName(addOrUpdateServiceProviderDTO.getContact2Phone());
+            serviceProviderWorkerEntity.setEmployeePwd(DigestUtil.encrypt("123456"));
+            serviceProviderWorkerEntity.setAdminPower(true);
+            serviceProviderWorkerService.save(serviceProviderWorkerEntity);
 
-        //上传服务商承诺函
-        agreementEntity = new AgreementEntity();
-        agreementEntity.setAgreementType(AgreementType.OTHERAGREEMENT);
-        agreementEntity.setSignType(SignType.PAPERAGREEMENT);
-        agreementEntity.setAuditState(AuditState.APPROVED);
-        agreementEntity.setPaperAgreementUrl(addServiceProviderDTO.getCommitmentLetter());
-        agreementEntity.setFirstSideSignPerson(adminEntity.getName());
-        agreementEntity.setServiceProviderId(serviceProviderEntity.getId());
-        agreementEntity.setSecondSideSignPerson(serviceProviderEntity.getContact1Name());
-        agreementService.save(agreementEntity);
-
-        return R.success("添加服务商成功");
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public R<String> updateServiceProvider(UpdateServiceProviderDTO updateServiceProviderDTO, AdminEntity adminEntity) {
-
-        ServiceProviderEntity serviceProviderEntity = getById(updateServiceProviderDTO.getServiceProviderId());
-        if (serviceProviderEntity == null) {
-            return R.fail("服务商不存在");
-        }
-
-        //判断商户名称是否已存在
-        int countByServiceProviderName = queryCountByServiceProviderName(updateServiceProviderDTO.getServiceProviderName(), serviceProviderEntity.getId());
-        if (countByServiceProviderName > 0) {
-            return R.fail("商户名称已存在");
-        }
-
-        //判断社会信用代码是否已存在
-        int countBySocialCreditNo = queryCountBySocialCreditNo(updateServiceProviderDTO.getSocialCreditNo(), serviceProviderEntity.getId());
-        if (countBySocialCreditNo > 0) {
-            return R.fail("统一社会信用代码已存在");
-        }
-
-        //根据联系人生成商户员工
-        AddOrUpdateServiceProviderContactDTO addOrUpdateServiceProviderContactDto = new AddOrUpdateServiceProviderContactDTO();
-        addOrUpdateServiceProviderContactDto.setServiceProviderId(serviceProviderEntity.getId());
-        addOrUpdateServiceProviderContactDto.setContact1Name(updateServiceProviderDTO.getContact1Name());
-        addOrUpdateServiceProviderContactDto.setContact1Position(updateServiceProviderDTO.getContact1Position());
-        addOrUpdateServiceProviderContactDto.setContact1Phone(updateServiceProviderDTO.getContact1Phone());
-        addOrUpdateServiceProviderContactDto.setContact1Mail(updateServiceProviderDTO.getContact1Mail());
-        addOrUpdateServiceProviderContactDto.setContact2Name(updateServiceProviderDTO.getContact2Name());
-        addOrUpdateServiceProviderContactDto.setContact2Position(updateServiceProviderDTO.getContact2Position());
-        addOrUpdateServiceProviderContactDto.setContact2Phone(updateServiceProviderDTO.getContact2Phone());
-        addOrUpdateServiceProviderContactDto.setContact2Mail(updateServiceProviderDTO.getContact2Mail());
-        R<String> result = serviceProviderWorkerService.addOrUpdateServiceProviderContact(addOrUpdateServiceProviderContactDto, null);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        //上传或修改加盟合同
-        AgreementEntity agreementEntity = agreementService.findSuccessAgreement(null, serviceProviderEntity.getId(), AgreementType.ENTERPRISEJOINAGREEMENT, null, SignState.SIGNED);
-        if (agreementEntity != null) {
-            agreementEntity.setPaperAgreementUrl(updateServiceProviderDTO.getJoinContract());
-            agreementService.updateById(agreementEntity);
-        } else {
-            agreementEntity = new AgreementEntity();
-            agreementEntity.setAgreementType(AgreementType.ENTERPRISEPROMISE);
+            //上传加盟合同
+            AgreementEntity agreementEntity = new AgreementEntity();
+            agreementEntity.setAgreementType(AgreementType.SERVICEPROVIDERJOINAGREEMENT);
             agreementEntity.setSignType(SignType.PAPERAGREEMENT);
             agreementEntity.setSignState(SignState.SIGNED);
-            agreementEntity.setPaperAgreementUrl(updateServiceProviderDTO.getJoinContract());
+            agreementEntity.setPaperAgreementUrl(addOrUpdateServiceProviderDTO.getJoinContract());
             agreementEntity.setFirstSideSignPerson(adminEntity.getName());
             agreementEntity.setServiceProviderId(serviceProviderEntity.getId());
             agreementEntity.setSecondSideSignPerson(serviceProviderEntity.getContact1Name());
             agreementService.save(agreementEntity);
-        }
 
-        //上传或修改商户承诺函
-        agreementEntity = agreementService.findSuccessAgreement(null, serviceProviderEntity.getId(), AgreementType.OTHERAGREEMENT, AuditState.APPROVED, null);
-        if (agreementEntity != null) {
-            agreementEntity.setPaperAgreementUrl(updateServiceProviderDTO.getCommitmentLetter());
-            agreementService.updateById(agreementEntity);
-        } else {
+            //上传服务商承诺函
             agreementEntity = new AgreementEntity();
             agreementEntity.setAgreementType(AgreementType.OTHERAGREEMENT);
             agreementEntity.setSignType(SignType.PAPERAGREEMENT);
             agreementEntity.setAuditState(AuditState.APPROVED);
-            agreementEntity.setPaperAgreementUrl(updateServiceProviderDTO.getCommitmentLetter());
+            agreementEntity.setPaperAgreementUrl(addOrUpdateServiceProviderDTO.getCommitmentLetter());
             agreementEntity.setFirstSideSignPerson(adminEntity.getName());
             agreementEntity.setServiceProviderId(serviceProviderEntity.getId());
             agreementEntity.setSecondSideSignPerson(serviceProviderEntity.getContact1Name());
             agreementService.save(agreementEntity);
+            
+        } else {
+
+            ServiceProviderEntity serviceProviderEntity = getById(addOrUpdateServiceProviderDTO.getServiceProviderId());
+            if (serviceProviderEntity == null) {
+                return R.fail("服务商不存在");
+            }
+
+            //判断商户名称是否已存在
+            int countByServiceProviderName = queryCountByServiceProviderName(addOrUpdateServiceProviderDTO.getServiceProviderName(), serviceProviderEntity.getId());
+            if (countByServiceProviderName > 0) {
+                return R.fail("商户名称已存在");
+            }
+
+            //判断社会信用代码是否已存在
+            int countBySocialCreditNo = queryCountBySocialCreditNo(addOrUpdateServiceProviderDTO.getSocialCreditNo(), serviceProviderEntity.getId());
+            if (countBySocialCreditNo > 0) {
+                return R.fail("统一社会信用代码已存在");
+            }
+
+            //根据联系人生成商户员工
+            AddOrUpdateServiceProviderContactDTO addOrUpdateServiceProviderContactDto = new AddOrUpdateServiceProviderContactDTO();
+            addOrUpdateServiceProviderContactDto.setServiceProviderId(serviceProviderEntity.getId());
+            addOrUpdateServiceProviderContactDto.setContact1Name(addOrUpdateServiceProviderDTO.getContact1Name());
+            addOrUpdateServiceProviderContactDto.setContact1Position(addOrUpdateServiceProviderDTO.getContact1Position());
+            addOrUpdateServiceProviderContactDto.setContact1Phone(addOrUpdateServiceProviderDTO.getContact1Phone());
+            addOrUpdateServiceProviderContactDto.setContact1Mail(addOrUpdateServiceProviderDTO.getContact1Mail());
+            addOrUpdateServiceProviderContactDto.setContact2Name(addOrUpdateServiceProviderDTO.getContact2Name());
+            addOrUpdateServiceProviderContactDto.setContact2Position(addOrUpdateServiceProviderDTO.getContact2Position());
+            addOrUpdateServiceProviderContactDto.setContact2Phone(addOrUpdateServiceProviderDTO.getContact2Phone());
+            addOrUpdateServiceProviderContactDto.setContact2Mail(addOrUpdateServiceProviderDTO.getContact2Mail());
+            R<String> result = serviceProviderWorkerService.addOrUpdateServiceProviderContact(addOrUpdateServiceProviderContactDto, null);
+            if (!(result.isSuccess())) {
+                return result;
+            }
+
+            //上传或修改加盟合同
+            AgreementEntity agreementEntity = agreementService.findSuccessAgreement(null, serviceProviderEntity.getId(), AgreementType.ENTERPRISEJOINAGREEMENT, null, SignState.SIGNED);
+            if (agreementEntity != null) {
+                agreementEntity.setPaperAgreementUrl(addOrUpdateServiceProviderDTO.getJoinContract());
+                agreementService.updateById(agreementEntity);
+            } else {
+                agreementEntity = new AgreementEntity();
+                agreementEntity.setAgreementType(AgreementType.ENTERPRISEPROMISE);
+                agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+                agreementEntity.setSignState(SignState.SIGNED);
+                agreementEntity.setPaperAgreementUrl(addOrUpdateServiceProviderDTO.getJoinContract());
+                agreementEntity.setFirstSideSignPerson(adminEntity.getName());
+                agreementEntity.setServiceProviderId(serviceProviderEntity.getId());
+                agreementEntity.setSecondSideSignPerson(serviceProviderEntity.getContact1Name());
+                agreementService.save(agreementEntity);
+            }
+
+            //上传或修改商户承诺函
+            agreementEntity = agreementService.findSuccessAgreement(null, serviceProviderEntity.getId(), AgreementType.OTHERAGREEMENT, AuditState.APPROVED, null);
+            if (agreementEntity != null) {
+                agreementEntity.setPaperAgreementUrl(addOrUpdateServiceProviderDTO.getCommitmentLetter());
+                agreementService.updateById(agreementEntity);
+            } else {
+                agreementEntity = new AgreementEntity();
+                agreementEntity.setAgreementType(AgreementType.OTHERAGREEMENT);
+                agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+                agreementEntity.setAuditState(AuditState.APPROVED);
+                agreementEntity.setPaperAgreementUrl(addOrUpdateServiceProviderDTO.getCommitmentLetter());
+                agreementEntity.setFirstSideSignPerson(adminEntity.getName());
+                agreementEntity.setServiceProviderId(serviceProviderEntity.getId());
+                agreementEntity.setSecondSideSignPerson(serviceProviderEntity.getContact1Name());
+                agreementService.save(agreementEntity);
+            }
+
+            BeanUtil.copy(addOrUpdateServiceProviderDTO, serviceProviderEntity);
+            updateById(serviceProviderEntity);
+            
         }
-
-        BeanUtil.copy(updateServiceProviderDTO, serviceProviderEntity);
-        updateById(serviceProviderEntity);
-
-        return R.success("编辑商户成功");
+        
+        return R.success("操作成功");
     }
 
     @Override

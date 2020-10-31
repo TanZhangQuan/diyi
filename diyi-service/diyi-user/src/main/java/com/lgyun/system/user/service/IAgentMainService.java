@@ -5,9 +5,8 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.dto.AddAdminAgentMainDTO;
+import com.lgyun.system.user.dto.AddOrUpdateAgentMainDTO;
 import com.lgyun.system.user.dto.QueryAgentMainDTO;
-import com.lgyun.system.user.dto.UpdateAgentMainDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.AgentMainEntity;
 import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
@@ -25,11 +24,11 @@ public interface IAgentMainService extends BaseService<AgentMainEntity> {
     /**
      * 查询商户名字是否已存在
      *
-     * @param enterpriseName
+     * @param agentMainName
      * @param enterpriseId
      * @return
      */
-    Integer findCountByEnterpriseName(String enterpriseName, Long enterpriseId);
+    Integer findCountByAgentMainName(String agentMainName, Long enterpriseId);
 
     /**
      * 查询统一社会信用代码是否已存在
@@ -75,22 +74,13 @@ public interface IAgentMainService extends BaseService<AgentMainEntity> {
     R updateIllegal(Long agentMainId, AccountState accountState, AdminEntity adminEntity);
 
     /**
-     * 添加渠道商信息
+     * 添加或编辑渠道商
      *
-     * @param addAdminAgentMainDTO
+     * @param addOrUpdateAgentMainDTO
      * @param adminEntity
      * @return
      */
-    R createAgentMain(AddAdminAgentMainDTO addAdminAgentMainDTO, AdminEntity adminEntity);
-
-    /**
-     * 编辑渠道商信息
-     *
-     * @param updateAgentMainDTO
-     * @param adminEntity
-     * @return
-     */
-    R updateAgentMain(UpdateAgentMainDTO updateAgentMainDTO, AdminEntity adminEntity);
+    R<String> createOrUpdateAgentMain(AddOrUpdateAgentMainDTO addOrUpdateAgentMainDTO, AdminEntity adminEntity);
 
     /**
      * 开启

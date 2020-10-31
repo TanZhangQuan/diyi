@@ -240,8 +240,6 @@ CREATE TABLE `diyi_agent_enterprise` (
 DROP TABLE IF EXISTS `diyi_agent_main`;
 CREATE TABLE `diyi_agent_main` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `en_user_name` varchar(50) NOT NULL COMMENT '用户名',
-  `en_user_pwd` varchar(100) NOT NULL COMMENT '密码',
   `agent_state` varchar(50) NOT NULL COMMENT '渠道商账户状态1，正常状态；2，冻结状态；3，非法状态。管理后台手工调整。只有正常状态才能接单和众包服务。默认为正常状态',
   `enterprise_name` varchar(100) NOT NULL COMMENT '客户名称',
   `legal_person_name` varchar(50) NOT NULL COMMENT '法人',
@@ -257,12 +255,12 @@ CREATE TABLE `diyi_agent_main` (
   `invoice_address_phone` varchar(100) NOT NULL COMMENT '开票资料-地址和电话',
   `invoice_bank_name_account` varchar(50) NOT NULL COMMENT '开票资料-开户银行和账号',
   `co_product_desc` varchar(50) NOT NULL COMMENT '合作产品说明',
-  `contact1_name` varchar(50) NOT NULL COMMENT '联系人1姓名',
-  `contact1_position` varchar(50) NOT NULL COMMENT '联系人1职位',
+  `contact1_name` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人1姓名',
+  `contact1_position` varchar(50) DEFAULT NULL COMMENT '联系人1职位',
   `contact1_phone` varchar(50) NOT NULL COMMENT '联系人1电话手机（必填）',
   `contact1_mail` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人1邮箱',
-  `contact2_name` varchar(50) NOT NULL COMMENT '联系人2姓名',
-  `contact2_position` varchar(50) NOT NULL COMMENT '联系人2职位',
+  `contact2_name` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人2姓名',
+  `contact2_position` varchar(50) DEFAULT NULL COMMENT '联系人2职位',
   `contact2_phone` varchar(50) NOT NULL COMMENT '联系人2电话手机（必填）',
   `contact2_mail` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人2邮箱',
   `spec_demmand` varchar(50) NOT NULL DEFAULT '' COMMENT '特殊需求',
@@ -277,9 +275,7 @@ CREATE TABLE `diyi_agent_main` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`en_user_name`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`social_credit_no`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`contact1_phone`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k4` (`contact2_phone`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`social_credit_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='渠道商信息表';
 
 -- ----------------------------
@@ -441,12 +437,12 @@ CREATE TABLE `diyi_enterprise` (
   `business_pattern` varchar(50) NOT NULL COMMENT '业务外包模式：自然人众包（3%普票），自然人总包+分包（6%专票），个体户众包（3%专票），个体户总包+分包（6%专票），个体户众包（3%普票）',
   `crowd_source_pay_path` varchar(50) DEFAULT NULL COMMENT '众包支付通路：通联支付代发，招商银行代发，系统集成代发，平台代收代付，平台预存支付',
   `service_price` decimal(5,2) NOT NULL COMMENT '综合税费率（默认9%）',
-  `contact1_name` varchar(50) NOT NULL COMMENT '联系人1姓名（一般为老板/财务负责人）',
-  `contact1_position` varchar(50) NOT NULL COMMENT '联系人1职位',
+  `contact1_name` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人1姓名（一般为老板/财务负责人）',
+  `contact1_position` varchar(50) DEFAULT NULL COMMENT '联系人1职位',
   `contact1_phone` varchar(50) NOT NULL COMMENT '联系人1电话手机（必填）',
   `contact1_mail` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人1邮箱',
-  `contact2_name` varchar(50) NOT NULL COMMENT '联系人2姓名',
-  `contact2_position` varchar(50) NOT NULL COMMENT '联系人2职位',
+  `contact2_name` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人2姓名',
+  `contact2_position` varchar(50) DEFAULT NULL COMMENT '联系人2职位',
   `contact2_phone` varchar(50) NOT NULL COMMENT '联系人2电话手机（必填）',
   `contact2_mail` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人2邮箱',
   `spec_demmand` varchar(500) NOT NULL DEFAULT '' COMMENT '特殊需求',
@@ -467,9 +463,7 @@ CREATE TABLE `diyi_enterprise` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`invite_no`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`enterprise_name`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`social_credit_no`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k4` (`contact1_phone`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k5` (`contact2_phone`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`social_credit_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商户表';
 
 -- ----------------------------
@@ -2024,12 +2018,12 @@ CREATE TABLE `diyi_service_provider` (
   `business_pattern` varchar(50) NOT NULL COMMENT '业务外包产品范围：自然人众包，自然人纵波+分包，个体户众包，个体户总包+分包，个独，有限公司',
   `crowd_source_pay_path` varchar(50) NOT NULL COMMENT '众包支付通路：连连支付，银行支付',
   `service_price` decimal(5,2) NOT NULL COMMENT '综合税费率（默认9%）',
-  `contact1_name` varchar(50) NOT NULL COMMENT '联系人1姓名（一般为老板/财务负责人）',
-  `contact1_position` varchar(50) NOT NULL COMMENT '联系人1职位',
+  `contact1_name` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人1姓名（一般为老板/财务负责人）',
+  `contact1_position` varchar(50) DEFAULT NULL COMMENT '联系人1职位',
   `contact1_phone` varchar(50) NOT NULL COMMENT '联系人1电话手机（必填）',
   `contact1_mail` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人1邮箱',
-  `contact2_name` varchar(50) NOT NULL COMMENT '联系人2姓名',
-  `contact2_position` varchar(50) NOT NULL COMMENT '联系人2职位',
+  `contact2_name` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人2姓名',
+  `contact2_position` varchar(50) DEFAULT NULL COMMENT '联系人2职位',
   `contact2_phone` varchar(50) NOT NULL COMMENT '联系人2电话手机（必填）',
   `contact2_mail` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人2邮箱',
   `spec_demmand` varchar(500) NOT NULL DEFAULT '' COMMENT '特殊需求',
@@ -2045,9 +2039,7 @@ CREATE TABLE `diyi_service_provider` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`service_provider_name`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`social_credit_no`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`contact1_phone`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k4` (`contact2_phone`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`social_credit_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商的基本信息表';
 
 -- ----------------------------

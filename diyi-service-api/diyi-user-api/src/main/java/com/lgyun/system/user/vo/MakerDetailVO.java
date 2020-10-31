@@ -89,11 +89,6 @@ public class MakerDetailVO implements Serializable {
     private String phoneNumber;
 
     /**
-     * 手机号码2
-     */
-    private String phoneNumber2;
-
-    /**
      * 银行卡号
      */
     private String bankCardNo;

@@ -17,14 +17,9 @@ import java.util.Date;
 public class QueryAgentMainDTO implements Serializable {
 
     /**
-     * 渠道ID
-     */
-    private Long agentMainId;
-
-    /**
      * 渠道名称
      */
-    private String enterpriseName;
+    private String agentMainName;
 
     /**
      * 渠道创建开始时间

@@ -24,24 +24,14 @@ public class AgentMainEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 用户名
-     */
-    private String enUserName;
-
-    /**
-     * 密码
-     */
-    private String enUserPwd;
-
-    /**
      * 渠道商账户状态1，正常状态；2，冻结状态；3，非法状态。管理后台手工调整。只有正常状态才能接单和众包服务。默认为正常状态
      */
-    private AccountState agentState= AccountState.NORMAL;
+    private AccountState agentState = AccountState.NORMAL;
 
     /**
      * 客户名称
      */
-    private String enterpriseName;
+    private String agentMainName;
 
     /**
      * 法人
@@ -156,7 +146,7 @@ public class AgentMainEntity extends BaseEntity {
     /**
      * 创建方式1:平台创建，2:自注册
      */
-    private CreateType createType=CreateType.PLATFORMCREATE;
+    private CreateType createType = CreateType.PLATFORMCREATE;
 
     /**
      * 营销人员

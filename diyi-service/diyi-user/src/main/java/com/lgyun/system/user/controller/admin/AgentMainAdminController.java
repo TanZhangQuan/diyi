@@ -7,13 +7,14 @@ import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.AddAdminAgentMainDTO;
+import com.lgyun.system.user.dto.AddOrUpdateAgentMainDTO;
 import com.lgyun.system.user.dto.QueryAgentMainDTO;
-import com.lgyun.system.user.dto.UpdateAgentMainDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.service.IAdminService;
 import com.lgyun.system.user.service.IAgentMainService;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -38,20 +39,28 @@ public class AgentMainAdminController {
     private IAdminService adminService;
     private IAgentMainService agentMainService;
 
+    @PostMapping("/create-or-update-agent-main")
+    @ApiOperation(value = "添加或编辑渠道商", notes = "添加或编辑渠道商")
+    public R createOrUpdateAgentMain(@Valid @RequestBody AddOrUpdateAgentMainDTO addOrUpdateAgentMainDTO, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        AdminEntity adminEntity = result.getData();
+
+        return agentMainService.createOrUpdateAgentMain(addOrUpdateAgentMainDTO, adminEntity);
+    }
+
     @GetMapping("/query-agent-main-list")
     @ApiOperation(value = "查询所有渠道商", notes = "查询所有个渠道商")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "agentMainId", value = "渠道商编号", paramType = "query", dataType = "long"),
-            @ApiImplicitParam(name = "enterpriseName", value = "渠道商名称", paramType = "query", dataType = "string"),
-            @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
-            @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")
-    })
     public R queryAgentMainList(QueryAgentMainDTO queryAgentMainDTO, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
+
         return agentMainService.getAgentMainList(Condition.getPage(query.setDescs("create_time")), queryAgentMainDTO);
     }
 
@@ -65,31 +74,8 @@ public class AgentMainAdminController {
             return result;
         }
         AdminEntity adminEntity = result.getData();
+
         return agentMainService.updateIllegal(agentMainId, accountState, adminEntity);
-    }
-
-    @PostMapping("/create-agent-main")
-    @ApiOperation(value = "添加渠道商信息", notes = "添加渠道商信息")
-    public R createAgentMain(@Valid @RequestBody AddAdminAgentMainDTO addAdminAgentMainDTO, BladeUser bladeUser) {
-        //查询当前管理员
-        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        AdminEntity adminEntity = result.getData();
-        return agentMainService.createAgentMain(addAdminAgentMainDTO, adminEntity);
-    }
-
-    @PostMapping("/modify-agent-main")
-    @ApiOperation(value = "编辑渠道商信息", notes = "编辑渠道商信息")
-    public R modifyAgentMain(@Valid @RequestBody UpdateAgentMainDTO updateAgentMainDTO, BladeUser bladeUser) {
-        //查询当前管理员
-        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        AdminEntity adminEntity = result.getData();
-        return agentMainService.updateAgentMain(updateAgentMainDTO, adminEntity);
     }
 
     @PostMapping("/modify-cooperation")
@@ -102,6 +88,7 @@ public class AgentMainAdminController {
             return result;
         }
         AdminEntity adminEntity = result.getData();
+
         return agentMainService.updateAgentProvider(agentProviderId, cooperateStatus, adminEntity);
     }
 
@@ -113,6 +100,7 @@ public class AgentMainAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
+
         return agentMainService.queryAgentMainServiceProvider(serviceProviderName, Condition.getPage(query.setDescs("create_time")));
     }
 
@@ -126,6 +114,7 @@ public class AgentMainAdminController {
             return result;
         }
         AdminEntity adminEntity = result.getData();
+
         return agentMainService.addAgentMainServiceProvider(serviceProviderIds, agentMainId, adminEntity);
     }
 }

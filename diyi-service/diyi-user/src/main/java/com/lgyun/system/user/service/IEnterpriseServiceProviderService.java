@@ -96,5 +96,15 @@ public interface IEnterpriseServiceProviderService extends BaseService<Enterpris
      */
     R<String> relevanceEnterpriseServiceProvider(Long enterpriseId, List<Long> serviceProviderIdList, String matchDesc, AdminEntity adminEntity);
 
+    /**
+     * 更改商户服务商合作关系
+     *
+     * @param enterpriseId
+     * @param serviceProviderId
+     * @param cooperateStatus
+     * @return
+     */
+    R<String> updateCooperationStatus(Long enterpriseId, Long serviceProviderId, CooperateStatus cooperateStatus);
+
 }
 

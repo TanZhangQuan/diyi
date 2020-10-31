@@ -118,4 +118,30 @@ public class EnterpriseServiceProviderServiceImpl extends BaseServiceImpl<Enterp
         return R.success("匹配服务商成功");
     }
 
+    @Override
+    public R<String> updateCooperationStatus(Long enterpriseId, Long serviceProviderId, CooperateStatus cooperateStatus) {
+
+        int enterpriseNum = enterpriseService.queryCountById(enterpriseId);
+        if (enterpriseNum <= 0) {
+            return R.fail("商户不存在");
+        }
+
+        int serviceProviderNum = serviceProviderService.queryCountById(serviceProviderId);
+        if (serviceProviderNum <= 0) {
+            return R.fail("服务商不存在");
+        }
+
+        EnterpriseServiceProviderEntity enterpriseServiceProviderEntity = findByEnterpriseIdServiceProviderId(enterpriseId, serviceProviderId);
+        if (enterpriseServiceProviderEntity == null) {
+            return R.fail("商户服务商不存在合作关系");
+        }
+
+        if (!(enterpriseServiceProviderEntity.getCooperateStatus().equals(cooperateStatus))){
+            enterpriseServiceProviderEntity.setCooperateStatus(cooperateStatus);
+            updateById(enterpriseServiceProviderEntity);
+        }
+
+        return R.success("操作成功");
+    }
+
 }

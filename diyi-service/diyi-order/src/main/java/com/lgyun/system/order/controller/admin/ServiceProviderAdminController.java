@@ -33,7 +33,7 @@ public class ServiceProviderAdminController {
 
     @GetMapping("/query-address-list")
     @ApiOperation(value = "查询服务商所有收货地址信息", notes = "查询服务商所有收货地址信息")
-    public R queryAddressList(@ApiParam(value = "服务商ID") @NotNull(message = "请输入服务商编号") @RequestParam(required = false) Long serviceProviderId, Query query, BladeUser bladeUser) {
+    public R queryAddressList(@ApiParam(value = "服务商") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

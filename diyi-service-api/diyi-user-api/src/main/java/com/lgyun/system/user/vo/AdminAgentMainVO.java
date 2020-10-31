@@ -15,12 +15,15 @@ import java.util.Date;
 public class AdminAgentMainVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 渠道商ID
+     */
     private Long agentMainId;
 
     /**
      * 渠道商名称
      */
-    private String enterpriseName;
+    private String agentMainName;
 
     /**
      * 联系人1名称

@@ -33,7 +33,6 @@
         <result property="contact1Name" column="contact1_name"/>
         <result property="contact1Phone" column="contact1_phone"/>
         <result property="joinContract" column="join_contract"/>
-        <result property="commitmentLetter" column="commitment_letter"/>
         <result property="serviceProviderState" column="service_provider_state"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
@@ -88,15 +87,10 @@
     </select>
 
     <select id="queryServiceProviderListAdmin" resultMap="serviceProviderListVO">
-        SELECT t1.id AS service_provider_id, t1.service_provider_name, t1.contact1_name, t1.contact1_phone, t1.service_provider_state, t1.create_time,
+        SELECT t1.id, t1.service_provider_name, t1.contact1_name, t1.contact1_phone, t1.service_provider_state, t1.create_time,
         (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url) FROM diyi_agreement
-        WHERE is_deleted = 0 AND agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' AND sign_state = 'SIGNED' AND service_provider_id = t1.id) AS join_contract,
-        (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url) FROM diyi_agreement
-        WHERE is_deleted = 0 AND agreement_type = 'OTHERAGREEMENT' AND audit_state = 'APPROVED' AND service_provider_id = t1.id) AS commitment_letter
+        WHERE is_deleted = 0 AND agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' AND sign_state = 'SIGNED' AND service_provider_id = t1.id) AS join_contract
         FROM diyi_service_provider t1 WHERE t1.is_deleted = 0
-        <if test="param1.serviceProviderId != null">
-            AND t1.id = #{param1.serviceProviderId}
-        </if>
         <if test="param1.serviceProviderName != null and param1.serviceProviderName.trim() != ''">
             AND t1.service_provider_name LIKE concat('%', #{param1.serviceProviderName}, '%')
         </if>

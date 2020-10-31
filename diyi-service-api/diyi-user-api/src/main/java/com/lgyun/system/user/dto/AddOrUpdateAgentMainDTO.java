@@ -1,111 +1,82 @@
 package com.lgyun.system.user.dto;
 
-import com.lgyun.common.enumeration.BusinessPattern;
+import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.PositionName;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 /**
- * 平台端---服务商管理---编辑服务商DTO
+ * 平台端---渠道商管理---创建渠道商信息DTO
  *
- * @author tzq
+ * @author xjw
  * @date 2020-09-9
  */
 @Data
-public class UpdateServiceProviderDTO implements Serializable {
+public class AddOrUpdateAgentMainDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 服务商编号
+     * 渠道商ID
      */
-    @NotBlank(message = "请输入服务商编号")
-    private Long serviceProviderId;
+    private String agentMainId;
 
     /**
-     * 服务商名称
+     * 渠道商名称
      */
-    @NotBlank(message = "请输入服务商名称")
-    private String serviceProviderName;
+    @NotBlank(message = "渠道名称不能为空")
+    private String agentMainName;
 
     /**
      * 法人
      */
-    @NotBlank(message = "请输入法人")
+    @NotBlank(message = "法人不能为空")
     private String legalPersonName;
 
     /**
      * 法人身份证
      */
-    @NotBlank(message = "请输入法人身份证")
+    @NotBlank(message = "法人身份证不能为空")
     private String legalPersonIdCard;
 
     /**
-     * 统一社会信用代码
+     * 社会信誉代码
      */
-    @NotBlank(message = "请输入统一社会信用代码")
+    @NotBlank(message = "社会信誉代码不能为空")
     private String socialCreditNo;
 
-    /**
-     * 营业执照
-     */
-    @NotBlank(message = "请上传营业执照")
+    @NotBlank(message = "营业执照不能为空")
     private String bizLicenceUrl;
 
     /**
      * 企业网址
      */
-    private String serviceProviderUrl;
+    private String enterpriseUrl;
 
     /**
      * 加盟合同
      */
-    @NotBlank(message = "请上传加盟合同")
+    @NotBlank(message = "请上传渠道商加盟合同")
     private String joinContract;
 
     /**
-     * 商户承诺函
+     * 承诺函
      */
-    @NotBlank(message = "请上传商户承诺函")
-    private String commitmentLetter;
-
-    /**
-     * 业务外包模式
-     */
-    @NotNull(message = "请选择业务外包模式")
-    private BusinessPattern businessPattern;
-
-    /**
-     * 综合税费率
-     */
-    @NotNull(message = "请输入综合税费率")
-    @Min(value = 0, message = "综合税费率不能小于0")
-    @Max(value = 100, message = "综合税费率不能大于100")
-    private BigDecimal servicePrice;
-
-    /**
-     * 营销人员
-     */
-    private Long salerId;
-
-    /**
-     * 运营人员
-     */
-    private Long runnerId;
+    @NotBlank(message = "请上传渠道商承诺函")
+    private String commitmentLetters;
 
     /**
      * 联系人1姓名
      */
-    @NotBlank(message = "请输入联系人1姓名")
     private String contact1Name;
 
     /**
      * 联系人1职位
      */
-    @NotNull(message = "请输入联系人1职位")
     private PositionName contact1Position;
 
     /**
@@ -119,19 +90,16 @@ public class UpdateServiceProviderDTO implements Serializable {
     /**
      * 联系人1邮箱
      */
-    @NotBlank(message = "请输入联系人1邮箱")
     private String contact1Mail;
 
     /**
      * 联系人2姓名
      */
-    @NotBlank(message = "请输入联系人2姓名")
     private String contact2Name;
 
     /**
      * 联系人2职位
      */
-    @NotNull(message = "请输入联系人2职位")
     private PositionName contact2Position;
 
     /**
@@ -145,19 +113,18 @@ public class UpdateServiceProviderDTO implements Serializable {
     /**
      * 联系人2邮箱
      */
-    @NotBlank(message = "请输入联系人2邮箱")
     private String contact2Mail;
 
     /**
-     * 公司名称
+     * 开票资料-公司名称
      */
-    @NotBlank(message = "请输入公司名称")
+    @NotBlank(message = "请输入开票公司名称")
     private String invoiceEnterpriseName;
 
     /**
-     * 纳税识别号
+     * 开票资料-税号
      */
-    @NotBlank(message = "请输入纳税识别号")
+    @NotBlank(message = "请输入开票税号")
     private String invoiceTaxNo;
 
     /**
@@ -172,4 +139,22 @@ public class UpdateServiceProviderDTO implements Serializable {
     @NotBlank(message = "请输入开票开户银行和账号")
     private String invoiceBankNameAccount;
 
+    /**
+     * 用户名
+     */
+    @NotBlank(message = "用户名不能为空")
+    private String enUserName;
+
+    /**
+     * 密码
+     */
+    @NotBlank(message = "请输入密码")
+    @Length(min = 6, max = 18, message = "请输入长度为6-18位新密码")
+    private String enUserPwd;
+
+    /**
+     * 账户状态
+     */
+    @NotNull(message = "请选择账户状态")
+    private AccountState agentState;
 }

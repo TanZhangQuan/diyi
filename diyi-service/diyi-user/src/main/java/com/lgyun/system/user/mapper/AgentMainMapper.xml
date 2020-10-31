@@ -5,7 +5,7 @@
 
     <resultMap id="AgentMainVO" type="com.lgyun.system.user.vo.AdminAgentMainVO">
         <id column="id" property="agentMainId"/>
-        <result column="enterprise_name" property="enterpriseName"/>
+        <result column="agent_main_name" property="agentMainName"/>
         <result column="contact1_name" property="contact1Name"/>
         <result column="contact1_phone" property="contact1Phone"/>
         <result column="franchise_contract" property="franchiseContract"/>
@@ -25,7 +25,7 @@
     <select id="getAgentMainList" resultMap="AgentMainVO">
                 SELECT
             am.id,
-            am.enterprise_name,
+            am.agent_main_name,
             am.contact1_name,
             am.contact1_phone,
             (
@@ -40,7 +40,7 @@
                     diyi_agreement AS a
                 WHERE
                     a.agent_id = am.id
-                AND a.agreement_type = 'AGENTJOINAGREEMENT'
+                AND a.agreement_type = 'AGENTMAINJOINAGREEMENT'
             ) AS franchise_contract,
             (
                 SELECT
@@ -54,7 +54,7 @@
                     diyi_agreement AS a
                 WHERE
                     a.agent_id = am.id
-                AND a.agreement_type = 'SERVICEPROVIDERPROMISE'
+                AND a.agreement_type = 'AGENTMAINERPROMISE'
             ) AS channel_commitment_letter,
             am.agent_state,
             am.create_time
@@ -62,11 +62,8 @@
             diyi_agent_main AS am
                 WHERE
                 am.is_deleted=0
-                <if test="param1.agentMainId != null and param1.agentMainId != ''">
-                    and am.id = #{param1.agentMainId}
-                </if>
-                <if test="param1.enterpriseName != null and param1.enterpriseName.trim() != ''">
-                    AND am.enterprise_name LIKE concat('%', #{param1.enterpriseName}, '%')
+                <if test="param1.agentMainName != null and param1.agentMainName.trim() != ''">
+                    AND am.agent_main_name LIKE concat('%', #{param1.agentMainName}, '%')
                 </if>
                 <if test="param1.beginDate != null">
                     AND DATEDIFF(am.create_time, #{param1.beginDate}) <![CDATA[ >= ]]> 0

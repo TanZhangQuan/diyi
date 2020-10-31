@@ -10,26 +10,25 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * 平台端---商户管理---编辑商户DTO
+ * 平台端---服务商管理---创建服务商DTO
  *
  * @author tzq
  * @date 2020-09-9
  */
 @Data
-public class UpdateEnterpriseDTO implements Serializable {
+public class AddOrUpdateServiceProviderDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 商户编号
+     * 服务商ID
      */
-    @NotNull(message = "请输入商户编号")
-    private Long enterpriseId;
+    private String serviceProviderId;
 
     /**
-     * 商户名称
+     * 服务商名称
      */
-    @NotBlank(message = "请输入商户名称")
-    private String enterpriseName;
+    @NotBlank(message = "请输入服务商名称")
+    private String serviceProviderName;
 
     /**
      * 法人
@@ -58,7 +57,7 @@ public class UpdateEnterpriseDTO implements Serializable {
     /**
      * 企业网址
      */
-    private String enterpriseUrl;
+    private String serviceProviderUrl;
 
     /**
      * 加盟合同
@@ -85,16 +84,6 @@ public class UpdateEnterpriseDTO implements Serializable {
     @Min(value = 0, message = "综合税费率不能小于0")
     @Max(value = 100, message = "综合税费率不能大于100")
     private BigDecimal servicePrice;
-
-    /**
-     * 营销人员
-     */
-    private Long salerId;
-
-    /**
-     * 运营人员
-     */
-    private Long runnerId;
 
     /**
      * 联系人1姓名

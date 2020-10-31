@@ -25,7 +25,6 @@
         <result property="idcardNo" column="idcard_no"/>
         <result property="dueDate" column="due_date"/>
         <result property="phoneNumber" column="phone_number"/>
-        <result property="phoneNumber2" column="phone_number2"/>
         <result property="bankCardNo" column="bank_card_no"/>
         <result property="bankName" column="bank_name"/>
         <result property="subBankName" column="sub_bank_name"/>
@@ -107,7 +106,7 @@
 
     <select id="queryCurrentMakerDetail" resultMap="makerDetailVO">
         SELECT rel_date, name, avatar, certification_state, empower_sign_state, join_sign_state, maker_state, politic_state, nationality, levelofedu,
-        email_address, idcard_no, due_date, phone_number, phone_number2, bank_card_no, bank_name, sub_bank_name, idcard_pic, idcard_pic_back,
+        email_address, idcard_no, due_date, phone_number, bank_card_no, bank_name, sub_bank_name, idcard_pic, idcard_pic_back,
         self_pic, idcard_copy, idcard_hand, idcard_back_hand, pic_verify, idcard_verify_status, idcard_verify_date, face_verify_status, face_verify_date,
         bank_card_verify_status, bank_card_verify_date, phone_number_verify_status, phone_number_verify_date, idcard_verify_type, manual_verify_name,
         manual_verify_desc, run_address, house_address, living_address, self_desc, shop_url, shop_user_name, apply_short_video, video_audit,

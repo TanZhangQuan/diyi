@@ -62,14 +62,17 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
 
     @Override
     public R addPartner(AddPartnerDTO addPartnerDTO, AdminEntity adminEntity) {
+
         Integer count = baseMapper.selectCount(new QueryWrapper<PartnerEntity>().eq("id_card_no", addPartnerDTO.getIdCardNo()));
         if (count > 0) {
             R.fail("你的身份证" + addPartnerDTO.getIdCardNo() + "已经创建合伙人了！");
         }
-        count = baseMapper.selectCount(new QueryWrapper<PartnerEntity>().eq("phone_number", addPartnerDTO.getPhoneNumber()).eq("phone_number2", addPartnerDTO.getPhoneNumber()));
+
+        count = baseMapper.selectCount(new QueryWrapper<PartnerEntity>().eq("phone_number", addPartnerDTO.getPhoneNumber()));
         if (count > 0) {
             R.fail("你的手机号" + addPartnerDTO.getPhoneNumber() + "已经创建合伙人了！");
         }
+
         PartnerEntity partnerEntity = new PartnerEntity();
         BeanUtil.copy(addPartnerDTO, partnerEntity);
         partnerEntity.setLoginPwd(DigestUtil.encrypt(addPartnerDTO.getLoginPwd()));

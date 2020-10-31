@@ -2,13 +2,13 @@ package com.lgyun.system.user.controller.admin;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
+import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.AddEnterpriseDTO;
+import com.lgyun.system.user.dto.AddOrUpdateEnterpriseDTO;
 import com.lgyun.system.user.dto.QueryEnterpriseListDTO;
-import com.lgyun.system.user.dto.UpdateEnterpriseDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.service.IAdminService;
 import com.lgyun.system.user.service.IEnterpriseService;
@@ -38,9 +38,9 @@ public class EnterpriseAdminController {
     private IEnterpriseServiceProviderService enterpriseProviderService;
     private IEnterpriseWorkerService enterpriseWorkerService;
 
-    @PostMapping("/create-enterprise")
-    @ApiOperation(value = "添加商户", notes = "添加商户")
-    public R createEnterprise(@Valid @RequestBody AddEnterpriseDTO addEnterpriseDTO, BladeUser bladeUser) {
+    @PostMapping("/create-or-update-enterprise")
+    @ApiOperation(value = "添加或编辑商户", notes = "添加或编辑商户")
+    public R createOrUpdateEnterprise(@Valid @RequestBody AddOrUpdateEnterpriseDTO addOrUpdateEnterpriseDTO, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -48,20 +48,7 @@ public class EnterpriseAdminController {
         }
         AdminEntity adminEntity = result.getData();
 
-        return enterpriseService.createEnterprise(addEnterpriseDTO, adminEntity);
-    }
-
-    @PostMapping("/update-enterprise")
-    @ApiOperation(value = "修改商户", notes = "修改商户")
-    public R updateEnterprise(@Valid @RequestBody UpdateEnterpriseDTO updateEnterpriseDTO, BladeUser bladeUser) {
-        //查询当前管理员
-        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        AdminEntity adminEntity = result.getData();
-
-        return enterpriseService.updateEnterprise(updateEnterpriseDTO, adminEntity);
+        return enterpriseService.createOrUpdateEnterprise(addOrUpdateEnterpriseDTO, adminEntity);
     }
 
     @GetMapping("/query-enterprise-list")
@@ -74,6 +61,19 @@ public class EnterpriseAdminController {
         }
 
         return enterpriseService.queryEnterpriseListEnterprise(queryEnterpriseListDTO, Condition.getPage(query.setDescs("create_time")));
+    }
+
+    @PostMapping("/update-enterprise-state")
+    @ApiOperation(value = "更改商户状态", notes = "更改商户状态")
+    public R updateEnterpriseState(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
+                                   @ApiParam(value = "商户状态", required = true) @NotNull(message = "请选择商户状态") @RequestParam(required = false) AccountState enterpriseState, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return enterpriseService.updateEnterpriseState(enterpriseId, enterpriseState);
     }
 
     @GetMapping("/query-enterprise-detail")
@@ -99,19 +99,6 @@ public class EnterpriseAdminController {
         }
 
         return enterpriseWorkerService.queryEnterpriseWorkerList(enterpriseId, positionName);
-    }
-
-    @PostMapping("/update-enterprise-state")
-    @ApiOperation(value = "更改商户状态", notes = "更改商户状态")
-    public R updateEnterpriseState(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
-                                   @ApiParam(value = "商户状态", required = true) @NotNull(message = "请选择商户状态") @RequestParam(required = false) AccountState enterpriseState, BladeUser bladeUser) {
-        //查询当前管理员
-        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return enterpriseService.updateEnterpriseState(enterpriseId, enterpriseState);
     }
 
     @GetMapping("/query-service-provider-id-and-name-list")
@@ -151,6 +138,20 @@ public class EnterpriseAdminController {
         }
 
         return enterpriseService.queryCooperationServiceProviderList(enterpriseId, Condition.getPage(query.setDescs("create_time")));
+    }
+
+    @PostMapping("/update-cooperation-status")
+    @ApiOperation(value = "更改商户服务商合作关系", notes = "更改商户服务商合作关系")
+    public R updateCooperationStatus(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
+                                     @ApiParam(value = "服务商", required = true) @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
+                                     @ApiParam(value = "合作状态", required = true) @NotNull(message = "请选择合作状态") @RequestParam(required = false) CooperateStatus cooperateStatus, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return enterpriseProviderService.updateCooperationStatus(enterpriseId, serviceProviderId, cooperateStatus);
     }
 
 }

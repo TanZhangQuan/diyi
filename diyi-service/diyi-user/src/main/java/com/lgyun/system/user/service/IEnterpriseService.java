@@ -99,20 +99,11 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
     /**
      * 添加商户
      *
-     * @param addEnterpriseDTO
+     * @param addOrUpdateEnterpriseDTO
      * @param adminEntity
      * @return
      */
-    R<String> createEnterprise(AddEnterpriseDTO addEnterpriseDTO, AdminEntity adminEntity);
-
-    /**
-     * 编辑商户
-     *
-     * @param updateEnterpriseDTO
-     * @param adminEntity
-     * @return
-     */
-    R<String> updateEnterprise(UpdateEnterpriseDTO updateEnterpriseDTO, AdminEntity adminEntity);
+    R<String> createOrUpdateEnterprise(AddOrUpdateEnterpriseDTO addOrUpdateEnterpriseDTO, AdminEntity adminEntity);
 
     /**
      * 商户管理模块查询所有商户
@@ -151,6 +142,9 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
 
     /**
      * 查询所有商户
+     *
+     * @param page
+     * @return
      */
     R getEnterpriseAll(IPage<EnterpriseEntity> page);
 

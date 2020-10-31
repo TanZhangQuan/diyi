@@ -417,7 +417,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
                 agreementEntity.setEnterpriseId(enterpriseId);
             }
         } else if (ObjectType.CHANNELPEOPLE.equals(objectType)) {
-            agreementEntity.setAgentId(objectId);
+            agreementEntity.setAgentMainId(objectId);
         } else if (ObjectType.RELEVANTPEOPLE.equals(objectType)) {
             agreementEntity.setRelBureauId(objectId);
         } else if (ObjectType.PARTNERSHIPPEOPLE.equals(objectType)) {

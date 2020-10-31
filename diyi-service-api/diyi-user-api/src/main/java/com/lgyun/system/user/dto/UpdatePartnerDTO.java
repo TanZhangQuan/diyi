@@ -95,11 +95,6 @@ public class UpdatePartnerDTO  implements Serializable {
     private String phoneNumber;
 
     /**
-     * 手机号码2
-     */
-    private String phoneNumber2;
-
-    /**
      * 登录密码
      */
     private String loginPwd;

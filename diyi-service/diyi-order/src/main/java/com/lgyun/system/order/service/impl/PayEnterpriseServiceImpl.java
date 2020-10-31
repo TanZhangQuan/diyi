@@ -895,8 +895,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
     @Override
     public R<AgentMainTransactionVO> transactionByAgentMainId(Long agentMainId) {
-        AgentMainTransactionVO agentMainTransactionVO = baseMapper.getTransactionByAgentMainId(agentMainId);
-        return R.data(agentMainTransactionVO);
+        return R.data(baseMapper.getTransactionByAgentMainId(agentMainId));
     }
 
     @Override

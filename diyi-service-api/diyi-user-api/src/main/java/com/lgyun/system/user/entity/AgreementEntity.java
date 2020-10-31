@@ -78,7 +78,7 @@ public class AgreementEntity extends BaseEntity {
     /**
      * 渠道商ID
      */
-    private Long agentId;
+    private Long agentMainId;
 
     /**
      * 合伙人ID
