@@ -32,13 +32,14 @@ public class RelBureauServiceImpl extends BaseServiceImpl<RelBureauMapper, RelBu
 
     /**
      * 添加相关局管理
+     *
      * @param addRelBureauDto
      * @return
      */
     @Override
     public R addRelBureau(AddRelBureauDTO addRelBureauDto) {
         RelBureauEntity relBureauEntity = new RelBureauEntity();
-        BeanUtils.copyProperties(addRelBureauDto,relBureauEntity);
+        BeanUtils.copyProperties(addRelBureauDto, relBureauEntity);
         relBureauEntity.setRelBpwd(DigestUtil.encrypt(relBureauEntity.getRelBpwd()));
         boolean flag = this.save(relBureauEntity);
         if (flag) {
@@ -49,6 +50,7 @@ public class RelBureauServiceImpl extends BaseServiceImpl<RelBureauMapper, RelBu
 
     /**
      * 查询相关局管理
+     *
      * @param queryRelBureauListDTO
      * @param page
      * @return
@@ -58,11 +60,12 @@ public class RelBureauServiceImpl extends BaseServiceImpl<RelBureauMapper, RelBu
         if (queryRelBureauListDTO.getBeginDate().after(queryRelBureauListDTO.getEndDate())) {
             return R.fail("开始时间不能大于结束时间！");
         }
-        return R.data(page.setRecords(baseMapper.QueryRelBureau(queryRelBureauListDTO,page, bureauType)));
+        return R.data(page.setRecords(baseMapper.QueryRelBureau(queryRelBureauListDTO, page, bureauType)));
     }
 
     /**
      * 根据ID查询相关局管理的信息
+     *
      * @param bureauId
      * @return
      */
@@ -75,6 +78,7 @@ public class RelBureauServiceImpl extends BaseServiceImpl<RelBureauMapper, RelBu
 
     /**
      * 编辑相关局管理的信息
+     *
      * @param updateRelBureauDTO
      * @return
      */
@@ -82,29 +86,14 @@ public class RelBureauServiceImpl extends BaseServiceImpl<RelBureauMapper, RelBu
     public R updateBureau(UpdateRelBureauDTO updateRelBureauDTO) {
         RelBureauEntity relBureauEntity = this.getById(updateRelBureauDTO.getBureauId());
         if (relBureauEntity == null) {
-            return R.fail("您编辑的内容不存在！");
+            return R.fail("您编辑的内容不存在");
         }
-        BeanUtil.copyProperties(updateRelBureauDTO,relBureauEntity);
+        BeanUtil.copyProperties(updateRelBureauDTO, relBureauEntity);
         if (!StringUtils.isBlank(updateRelBureauDTO.getPassWord())) {
-            if (updateRelBureauDTO.getPassWord().length() <6 || updateRelBureauDTO.getPassWord().length() > 18) {
+            if (updateRelBureauDTO.getPassWord().length() < 6 || updateRelBureauDTO.getPassWord().length() > 18) {
                 return R.fail("请输入6-18位的密码！");
             }
-            if (!updateRelBureauDTO.getPassWord().equals(updateRelBureauDTO.getConfirmPassword())) {
-                log.error("输入的2次密码不一样");
-                return R.fail("您输入的2次密码不一样，请重新输入！");
-            }
-            relBureauEntity.setRelBpwd(DigestUtil.encrypt(updateRelBureauDTO.getConfirmPassword()));
-        }
-        if (!StringUtils.isBlank(updateRelBureauDTO.getConfirmPassword())) {
-            if (updateRelBureauDTO.getConfirmPassword().length() <6 || updateRelBureauDTO.getConfirmPassword().length() > 18) {
-                return R.fail("请输入6-18位的密码！");
-            }
-            if (!updateRelBureauDTO.getConfirmPassword().equals(updateRelBureauDTO.getPassWord())) {
-                log.error("输入的2次密码不一样");
-                return R.fail("你输入的2次密码不一样，请重新输入！");
-            }
-            relBureauEntity.setRelBpwd(DigestUtil.encrypt(updateRelBureauDTO.getConfirmPassword()));
-
+            relBureauEntity.setRelBpwd(DigestUtil.encrypt(updateRelBureauDTO.getPassWord()));
         }
         boolean flag = this.updateById(relBureauEntity);
         if (flag) {

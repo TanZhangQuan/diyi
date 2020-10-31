@@ -230,7 +230,7 @@ public class ExcelUtils {
         try {
             return ExcelImportUtil.importExcel(new File(filePath), pojoClass, params);
         } catch (NoSuchElementException e) {
-            throw new IOException("模板不能为空");
+            throw new IOException("导入Excel异常");
         } catch (Exception e) {
             throw new IOException(e.getMessage());
         }
@@ -308,7 +308,7 @@ public class ExcelUtils {
         try {
             return ExcelImportUtil.importExcel(inputStream, pojoClass, params);
         } catch (NoSuchElementException e) {
-            throw new IOException("excel文件不能为空");
+            throw new IOException("导入excel文件异常");
         } catch (Exception e) {
             throw new IOException(e.getMessage());
         }

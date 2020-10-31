@@ -30,24 +30,6 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
     int queryCountById(Long serviceProviderId);
 
     /**
-     * 查询服务商名字是否已存在
-     *
-     * @param serviceProviderName
-     * @param serviceProviderId
-     * @return
-     */
-    int queryCountByServiceProviderName(String serviceProviderName, Long serviceProviderId);
-
-    /**
-     * 查询统一社会信用代码是否已存在
-     *
-     * @param socialCreditNo
-     * @param serviceProviderId
-     * @return
-     */
-    int queryCountBySocialCreditNo(String socialCreditNo, Long serviceProviderId);
-
-    /**
      * 查询当前服务商银行卡信息
      *
      * @param serviceProviderId

@@ -48,7 +48,7 @@ public class AgreementEntity extends BaseEntity {
     /**
      * 协议编号
      */
-    private String agreementNo = String.valueOf(UUID.randomUUID());
+    private String agreementNo = UUID.randomUUID().toString().replace("-", "");
 
     /**
      * 顺序号

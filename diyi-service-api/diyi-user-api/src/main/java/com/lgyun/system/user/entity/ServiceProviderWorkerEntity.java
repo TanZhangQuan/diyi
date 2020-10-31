@@ -41,7 +41,7 @@ public class ServiceProviderWorkerEntity extends BaseEntity {
     /**
      * 服务商员工账户状态
      */
-    private AccountState serviceProviderWorkerState;
+    private AccountState serviceProviderWorkerState = AccountState.NORMAL;
 
     /**
      * 姓名
@@ -81,7 +81,7 @@ public class ServiceProviderWorkerEntity extends BaseEntity {
     /**
      * 管理员特性
      */
-    private Boolean adminPower = false;
+    private Boolean adminPower;
 
     /**
      * 拥有的菜单名字

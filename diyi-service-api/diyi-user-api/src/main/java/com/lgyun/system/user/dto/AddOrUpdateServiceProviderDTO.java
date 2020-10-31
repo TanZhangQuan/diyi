@@ -66,12 +66,6 @@ public class AddOrUpdateServiceProviderDTO implements Serializable {
     private String joinContract;
 
     /**
-     * 商户承诺函
-     */
-    @NotBlank(message = "请上传商户承诺函")
-    private String commitmentLetter;
-
-    /**
      * 业务外包模式
      */
     @NotNull(message = "请选择业务外包模式")
@@ -160,5 +154,28 @@ public class AddOrUpdateServiceProviderDTO implements Serializable {
      */
     @NotBlank(message = "请输入开票开户银行和账号")
     private String invoiceBankNameAccount;
+
+    /**
+     * 用户名
+     */
+    @NotBlank(message = "请输入用户名")
+    private String employeeUserName;
+
+    /**
+     * 手机号码
+     */
+    @NotBlank(message = "请输入手机号码")
+    private String phoneNumber;
+
+    /**
+     * 姓名
+     */
+    @NotBlank(message = "请输入姓名")
+    private String workerName;
+
+    /**
+     * 密码
+     */
+    private String employeePwd;
 
 }

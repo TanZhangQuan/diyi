@@ -4,11 +4,10 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.dto.AddOrUpdateServiceProviderContactDTO;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
-import com.lgyun.system.user.vo.ServiceProviderWorkerVO;
-import com.lgyun.system.user.vo.ServiceProviderWorkerListVO;
 import com.lgyun.system.user.vo.ServiceProviderWorkerDetailVO;
+import com.lgyun.system.user.vo.ServiceProviderWorkerListVO;
+import com.lgyun.system.user.vo.ServiceProviderWorkerVO;
 
 import java.util.List;
 
@@ -67,15 +66,6 @@ public interface IServiceProviderWorkerService extends BaseService<ServiceProvid
      * @return
      */
     ServiceProviderWorkerEntity findByUserId(Long userId);
-
-    /**
-     * 添加或修改服务商联系人
-     *
-     * @param addOrUpdateServiceProviderContactDto
-     * @param serviceProviderWorkerId
-     * @return
-     */
-    R<String> addOrUpdateServiceProviderContact(AddOrUpdateServiceProviderContactDTO addOrUpdateServiceProviderContactDto, Long serviceProviderWorkerId);
 
     /**
      * 查询服务商员工

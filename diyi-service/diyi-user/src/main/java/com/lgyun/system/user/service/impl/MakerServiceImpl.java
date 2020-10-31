@@ -579,7 +579,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     @Override
     public R<String> uploadMakerVideo(MakerEntity makerEntity, String applyShortVideo) {
         if (StringUtil.isBlank(applyShortVideo)) {
-            R.fail("视频连接不能为空");
+            R.fail("请选择视频");
         }
         makerEntity.setApplyShortVideo(applyShortVideo);
         updateById(makerEntity);
@@ -693,7 +693,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     public R<List<MakerExcel>> readMakerListExcel(MultipartFile file) throws IOException {
         //判断文件内容是否为空
         if (file.isEmpty()) {
-            return R.fail("Excel文件不能为空");
+            return R.fail("Excel文件内容为空");
         }
         // 查询上传文件的后缀
         String suffix = file.getOriginalFilename();

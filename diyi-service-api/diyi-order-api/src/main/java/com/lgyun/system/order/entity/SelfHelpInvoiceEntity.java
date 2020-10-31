@@ -143,7 +143,7 @@ public class SelfHelpInvoiceEntity extends BaseEntity {
     private Date confirmPriceDatetime;
 
     /**
-     * 扩展支付税费发票，多张间用“；”隔开。服务商开具
+     * 扩展支付税费发票
      */
     private String extendPayInvoices;
 

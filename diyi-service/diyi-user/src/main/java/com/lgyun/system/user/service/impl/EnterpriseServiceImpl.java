@@ -128,7 +128,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
 
         //判断文件内容是否为空
         if (file.isEmpty()) {
-            throw new CustomException("上传文件不能为空");
+            throw new CustomException("上传文件内容为空");
         }
         // 查询上传文件的后缀
         String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));

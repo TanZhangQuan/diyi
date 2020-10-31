@@ -32,7 +32,7 @@ public class CommonServiceImpl implements ICommonService {
 
         //判断文件内容是否为空
         if (file.isEmpty()) {
-            return R.fail("上传文件不能为空");
+            return R.fail("上传文件内容为空");
         }
 
         // 查询上传文件的后缀
@@ -50,7 +50,7 @@ public class CommonServiceImpl implements ICommonService {
 
         //判断文件内容是否为空
         if (file.isEmpty()) {
-            return R.fail("上传文件不能为空");
+            return R.fail("上传文件内容为空");
         }
 
         // 查询上传文件的后缀

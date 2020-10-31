@@ -65,10 +65,6 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     @Lazy
     private IEnterpriseService enterpriseService;
 
-    @Autowired
-    @Lazy
-    private IAgentMainService agentMainService;
-
     @Override
     public AgreementEntity findSuccessAgreement(Long enterpriseId, Long serviceProviderId, AgreementType agreementType, AuditState auditState, SignState signState) {
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
@@ -221,7 +217,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     @Transactional
     public R saveOnlineAgreement(Long enterpriseId, String paperAgreementURL, Boolean boolAllMakers, String makerIds, Integer templateCount, AgreementType agreementType, IMakerEnterpriseService makerEnterpriseService) throws Exception {
         if (boolAllMakers && StringUtil.isBlank(makerIds)) {
-            return R.fail("创客id不能为空");
+            return R.fail("请选择创客");
         }
         EnterpriseEntity byId = enterpriseService.getById(enterpriseId);
         PDFUtil pdfUtil = new PDFUtil();
