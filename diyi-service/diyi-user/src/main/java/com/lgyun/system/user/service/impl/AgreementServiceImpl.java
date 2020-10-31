@@ -318,6 +318,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         AgreementEntity agreementEntity = new AgreementEntity();
         agreementEntity.setAgreementType(AgreementType.SERENTSUPPLEMENTARYAGREEMENT);
         agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+        agreementEntity.setSignState(SignState.SIGNED);
         agreementEntity.setEnterpriseId(enterpriseId);
         agreementEntity.setServiceProviderId(serviceProviderId);
         agreementEntity.setPaperAgreementUrl(contractUrl);
@@ -397,7 +398,6 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
 
         agreementEntity.setAgreementType(agreementType);
         agreementEntity.setSignType(SignType.PAPERAGREEMENT);
-        agreementEntity.setSignState(SignState.SIGNED);
         if (ObjectType.MAKERPEOPLE.equals(objectType)) {
             agreementEntity.setMakerId(objectId);
             if (AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType)) {
@@ -434,7 +434,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
             agreementEntity.setFirstSideSignPerson("地衣众包平台");
             agreementEntity.setSecondSideSignPerson("");
         }
-
+        agreementEntity.setSignState(SignState.SIGNED);
         saveOrUpdate(agreementEntity);
         return R.success("操作成功");
     }

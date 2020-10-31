@@ -3,7 +3,6 @@ package com.lgyun.system.order.vo;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.InvoiceState;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -69,24 +68,19 @@ public class InvoiceServiceLumpDetailsVO implements Serializable {
     private String invoiceTaxNo;
 
     /**
-     * 地址
+     * 开票资料-地址和电话
      */
-    private String invoiceAddress;
+    private String invoiceAddressPhone;
 
     /**
-     * 公司电话
+     * 开票资料-开户银行和账号
      */
-    private String invoiceTelNo;
+    private String invoiceBankNameAccount;
 
     /**
-     * 开票银行
+     * 开票资料-公司名称
      */
-    private String invoiceBankName;
-
-    /**
-     * 开票银行账户
-     */
-    private String invoiceAccountName;
+    private String invoiceEnterpriseName;
 
     /**
      * 服务商名字

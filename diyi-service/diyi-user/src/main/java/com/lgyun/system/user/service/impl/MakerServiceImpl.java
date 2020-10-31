@@ -581,6 +581,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         if (StringUtil.isBlank(applyShortVideo)) {
             R.fail("视频连接不能为空");
         }
+        makerEntity.setVideoAudit(VideoAudit.AUDITPASS);
         makerEntity.setApplyShortVideo(applyShortVideo);
         updateById(makerEntity);
         return R.success("成功");
