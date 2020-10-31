@@ -62,5 +62,6 @@ public class InvoiceServiceLumpVO implements Serializable {
     /**
      * 总包id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long invoicePrintId;
 }

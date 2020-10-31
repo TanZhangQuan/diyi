@@ -305,7 +305,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         map.put("EnterpriseSubcontractPortalVO", detailSummary);
         PayEnterpriseEntity byId = getById(detailSummary.getPayEnterpriseId());
         if (null == byId) {
-            R.fail("数据错误");
+            return R.fail("数据错误");
         }
         List<PayMakerListInvoiceVO> PayMakerListVOs = baseMapper.queryPayMakerListInvoice(byId.getId(), Condition.getPage(query.setDescs("create_time")));
         map.put("payMakerListVOs", PayMakerListVOs);

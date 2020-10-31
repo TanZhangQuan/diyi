@@ -56,7 +56,7 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
         }
         OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = onlineAgreementTemplateService.getById(onlineAgreementTemplateId);
         if (null == onlineAgreementTemplateEntity) {
-            R.fail("协议模板id有误");
+           return R.fail("协议模板id有误");
         }
         PDFUtil pdfUtil = new PDFUtil();
         try {
@@ -67,7 +67,7 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
             fileInputStream.close();
             file.delete();
             OnlineAgreementNeedSignEntity onlineAgreementNeedSignEntity = onlineAgreementNeedSignService.getById(onlineAgreementNeedSignId);
-            onlineAgreementNeedSignEntity.setSignState(SignState.SIGNING);
+            onlineAgreementNeedSignEntity.setSignState(SignState.SIGNED);
             onlineAgreementNeedSignService.saveOrUpdate(onlineAgreementNeedSignEntity);
             //稍后添加
             MakerEntity makerEntity = makerService.getById(ObjectId);

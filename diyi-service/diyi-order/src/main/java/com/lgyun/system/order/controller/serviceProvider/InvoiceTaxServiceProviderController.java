@@ -11,7 +11,6 @@ import com.lgyun.system.order.dto.LumpSumMergeInvoiceDTO;
 import com.lgyun.system.order.dto.SummaryInvoiceDTO;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.service.ISelfHelpInvoiceService;
-import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -268,24 +267,24 @@ public class InvoiceTaxServiceProviderController {
     @ApiOperation(value = "服务商查询总包发票列表", notes = "服务商查询总包发票列表")
     public R queryTotalInvoice(@RequestParam(required = false) String enterpriseName, @RequestParam(required = false) String startTime,
                                @RequestParam(required = false) String endTime, @RequestParam InvoiceState companyInvoiceState, Query query, BladeUser bladeUser) {
-        //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+//        //查询当前服务商员工
+//        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
+//        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return payEnterpriseService.getServiceLumpSumInvoice(serviceProviderWorkerEntity.getServiceProviderId(), enterpriseName, startTime, endTime, companyInvoiceState, Condition.getPage(query.setDescs("create_time")));
+        return payEnterpriseService.getServiceLumpSumInvoice(1292662449439494141L, enterpriseName, startTime, endTime, companyInvoiceState, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-total-opened-invoice-detail")
     @ApiOperation(value = "服务商查询已开总包发票详情", notes = "服务商查询已开总包发票详情")
     public R queryOpenedTotalInvoiceDetail(BladeUser bladeUser, Long invoicePrintId) {
-        //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
+//        //查询当前服务商员工
+//        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
 
         return payEnterpriseService.queryOpenedTotalInvoiceDetail(invoicePrintId);
     }
@@ -296,11 +295,11 @@ public class InvoiceTaxServiceProviderController {
     @GetMapping("/query-total-invoice-detail")
     @ApiOperation(value = "服务商查询未开总包发票详情", notes = "服务商查询未开总包发票详情")
     public R queryTotalInvoiceDetail(BladeUser bladeUser, Long payEnterpriseId) {
-        //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
+//        //查询当前服务商员工
+//        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
 
         return payEnterpriseService.getServiceLumpSumInvoiceDetails(payEnterpriseId);
     }
@@ -308,11 +307,11 @@ public class InvoiceTaxServiceProviderController {
     @GetMapping("/query-total-merge-invoice")
     @ApiOperation(value = "服务商总包合并开票", notes = "服务商总包合并开票")
     public R queryTotalMergeInvoice(BladeUser bladeUser, String payEnterpriseIds) {
-        //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
+//        //查询当前服务商员工
+//        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
 
         return payEnterpriseService.queryTotalMergeInvoice(payEnterpriseIds);
     }
@@ -320,11 +319,11 @@ public class InvoiceTaxServiceProviderController {
     @GetMapping("/query-total-apply-invoice")
     @ApiOperation(value = "服务商根据总包申请开票", notes = "服务商根据总包申请开票")
     public R queryTotalApplyInvoice(BladeUser bladeUser, Long invoiceApplicationId) {
-        //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
+//        //查询当前服务商员工
+//        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
 
         return payEnterpriseService.queryTotalApplyInvoice(invoiceApplicationId);
     }
@@ -332,77 +331,77 @@ public class InvoiceTaxServiceProviderController {
     @PostMapping("/create-total-invoice")
     @ApiOperation(value = "总包开票", notes = "总包开票")
     public R createTotalInvoice(@Valid @RequestBody LumpSumInvoiceDTO lumpSumInvoiceDto, BladeUser bladeUser) {
-        //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+//        //查询当前服务商员工
+//        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
+//        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return payEnterpriseService.saveServiceLumpSumInvoice(serviceProviderWorkerEntity.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc());
+        return payEnterpriseService.saveServiceLumpSumInvoice(1292662449439494141L, lumpSumInvoiceDto.getPayEnterpriseId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc());
     }
 
 
     @PostMapping("/create-total-merge-invoice")
     @ApiOperation(value = "服务商总包合并开票", notes = "服务商总包合并开票")
     public R createTotalMergeInvoice(@Valid @RequestBody LumpSumMergeInvoiceDTO lumpSumInvoiceDto, BladeUser bladeUser) {
-        //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+//        //查询当前服务商员工
+//        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
+//        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return payEnterpriseService.saveServiceLumpSumMergeInvoice(serviceProviderWorkerEntity.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseIds(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc());
+        return payEnterpriseService.saveServiceLumpSumMergeInvoice(1292662449439494141L, lumpSumInvoiceDto.getPayEnterpriseIds(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc());
     }
 
 
     @PostMapping("/create-total-apply-invoice")
     @ApiOperation(value = "服务商总包根据申请开票", notes = "服务商总包根据申请开票")
     public R createTotalApplyInvoice(@Valid @RequestBody LumpSumApplyInvoiceDTO lumpSumInvoiceDto, BladeUser bladeUser) {
-        //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+//        //查询当前服务商员工
+//        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
+//        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return payEnterpriseService.createTotalApplyInvoice(serviceProviderWorkerEntity.getServiceProviderId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getApplicationId(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc());
+        return payEnterpriseService.createTotalApplyInvoice(1292662449439494141L, lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getApplicationId(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc());
     }
 
 
     @GetMapping("/query-all-sub-list")
     @ApiOperation(value = "根据服务商查询分包列表", notes = "根据服务商查询分包列表")
     public R queryAllOpenSubList(@RequestParam(required = false) String enterprise_name,@RequestParam InvoiceState companyInvoiceState, Query query, BladeUser bladeUser) {
-        //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+//        //查询当前服务商员工
+//        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
+//        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return payEnterpriseService.findServiceSubcontractSummary(serviceProviderWorkerEntity.getServiceProviderId(), enterprise_name, companyInvoiceState,Condition.getPage(query.setDescs("create_time")));
+        return payEnterpriseService.findServiceSubcontractSummary(1292662449439494141L, enterprise_name, companyInvoiceState,Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-all-sub-detail")
     @ApiOperation(value = "服务商根据商户支付清单查询分包详情", notes = "服务商根据商户支付清单查询分包详情")
     public R queryAllOpenSubDetail(String payEnterpriseIds, BladeUser bladeUser) {
-        //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
+//        //查询当前服务商员工
+//        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
         return payEnterpriseService.findServiceDetailSummary(payEnterpriseIds);
     }
 
     @PostMapping("/create-summary-agency-invoice")
     @ApiOperation(value = "服务商汇总代开发票", notes = "服务商汇总代开发票")
     public R createSummaryAgencyInvoice(@Valid @RequestBody SummaryInvoiceDTO summaryInvoiceDTO, BladeUser bladeUser) {
-        //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
+//        //查询当前服务商员工
+//        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
         return payEnterpriseService.createSummaryAgencyInvoice(summaryInvoiceDTO);
     }
 
@@ -410,11 +409,11 @@ public class InvoiceTaxServiceProviderController {
     @PostMapping("/create-door-sign-invoice")
     @ApiOperation(value = "服务商门征发票", notes = "服务商门征发票")
     public R createDoorSignInvoice(String payEnterpriseIds,String doorSignInvoiceJson,String doorSignTaxInvoiceJson, BladeUser bladeUser) {
-        //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
+//        //查询当前服务商员工
+//        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
         return payEnterpriseService.createDoorSignInvoice( payEnterpriseIds, doorSignInvoiceJson, doorSignTaxInvoiceJson);
     }
 
@@ -422,11 +421,11 @@ public class InvoiceTaxServiceProviderController {
     @GetMapping("/query-single-open-invoice-detail")
     @ApiOperation(value = "查询已门征单开的发票详情", notes = "查询已门征单开的发票详情")
     public R querySingleOpenInvoiceDetail(@ApiParam(value = "商户支付清单", required = true) @NotNull(message = "请选择商户支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
-        //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
+//        //查询当前服务商员工
+//        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
 
         return payEnterpriseService.getServicePortalSignInvoiceDetails(payEnterpriseId);
     }

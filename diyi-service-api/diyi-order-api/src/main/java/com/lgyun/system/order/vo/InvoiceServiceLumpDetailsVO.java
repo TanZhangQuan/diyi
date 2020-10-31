@@ -79,6 +79,11 @@ public class InvoiceServiceLumpDetailsVO implements Serializable {
     private String invoiceBankNameAccount;
 
     /**
+     * 开票资料-公司名称
+     */
+    private String invoiceEnterpriseName;
+
+    /**
      * 服务商名字
      */
     private String serviceProviderName;
