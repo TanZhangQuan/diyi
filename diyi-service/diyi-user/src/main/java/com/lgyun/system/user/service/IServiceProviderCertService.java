@@ -6,6 +6,7 @@ import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.dto.AddOrUpdateServiceProviderCertDTO;
 import com.lgyun.system.user.entity.ServiceProviderCertEntity;
 import com.lgyun.system.user.vo.ServiceProviderCertListVO;
+import com.lgyun.system.user.vo.ServiceProviderCertUpdateDetailVO;
 
 /**
  * 服务商资格信息表 Service 接口
@@ -27,9 +28,18 @@ public interface IServiceProviderCertService extends BaseService<ServiceProvider
     /**
      * 添加或修改服务商资格信息
      *
+     * @param serviceProviderId
      * @param addOrUpdateServiceProviderCertDTO
      * @return
      */
-    R<String> addOrUpdateServiceProviderCert(AddOrUpdateServiceProviderCertDTO addOrUpdateServiceProviderCertDTO);
+    R<String> addOrUpdateServiceProviderCert(Long serviceProviderId, AddOrUpdateServiceProviderCertDTO addOrUpdateServiceProviderCertDTO);
+
+    /**
+     * 查询编辑服务商资格信息
+     *
+     * @param serviceProviderCertId
+     * @return
+     */
+    R<ServiceProviderCertUpdateDetailVO> queryServiceProviderCertUpdateDetail(Long serviceProviderCertId);
 }
 

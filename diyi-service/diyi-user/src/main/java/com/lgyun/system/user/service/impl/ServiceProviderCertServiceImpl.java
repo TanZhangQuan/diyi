@@ -10,6 +10,7 @@ import com.lgyun.system.user.mapper.ServiceProviderCertMapper;
 import com.lgyun.system.user.service.IServiceProviderCertService;
 import com.lgyun.system.user.service.IServiceProviderService;
 import com.lgyun.system.user.vo.ServiceProviderCertListVO;
+import com.lgyun.system.user.vo.ServiceProviderCertUpdateDetailVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class ServiceProviderCertServiceImpl extends BaseServiceImpl<ServiceProvi
     }
 
     @Override
-    public R<String> addOrUpdateServiceProviderCert(AddOrUpdateServiceProviderCertDTO addOrUpdateServiceProviderCertDTO) {
+    public R<String> addOrUpdateServiceProviderCert(Long serviceProviderId, AddOrUpdateServiceProviderCertDTO addOrUpdateServiceProviderCertDTO) {
 
         ServiceProviderCertEntity serviceProviderCertEntity;
         if (addOrUpdateServiceProviderCertDTO.getServiceProviderCertId() != null) {
@@ -49,13 +50,11 @@ public class ServiceProviderCertServiceImpl extends BaseServiceImpl<ServiceProvi
             serviceProviderCertEntity.setCertificateMainUrl(addOrUpdateServiceProviderCertDTO.getCertificateMainUrl());
             updateById(serviceProviderCertEntity);
 
+            return R.success("编辑服务商资格成功");
+
         } else {
 
-            if (addOrUpdateServiceProviderCertDTO.getServiceProviderId() == null) {
-                return R.fail("请输入服务商编号");
-            }
-
-            ServiceProviderEntity serviceProviderEntity = serviceProviderService.getById(addOrUpdateServiceProviderCertDTO.getServiceProviderId());
+            ServiceProviderEntity serviceProviderEntity = serviceProviderService.getById(serviceProviderId);
             if (serviceProviderEntity == null) {
                 return R.fail("服务商不存在");
             }
@@ -67,8 +66,14 @@ public class ServiceProviderCertServiceImpl extends BaseServiceImpl<ServiceProvi
             serviceProviderCertEntity.setCertificateDesc(addOrUpdateServiceProviderCertDTO.getCertificateDesc());
             serviceProviderCertEntity.setCertificateMainUrl(addOrUpdateServiceProviderCertDTO.getCertificateMainUrl());
             save(serviceProviderCertEntity);
+
+            return R.success("新建服务商资格成功");
         }
 
-        return R.success("操作成功");
+    }
+
+    @Override
+    public R<ServiceProviderCertUpdateDetailVO> queryServiceProviderCertUpdateDetail(Long serviceProviderCertId) {
+        return R.data(baseMapper.queryServiceProviderCertUpdateDetail(serviceProviderCertId));
     }
 }

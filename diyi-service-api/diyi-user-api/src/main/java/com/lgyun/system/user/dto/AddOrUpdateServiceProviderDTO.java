@@ -22,7 +22,7 @@ public class AddOrUpdateServiceProviderDTO implements Serializable {
     /**
      * 服务商ID
      */
-    private String serviceProviderId;
+    private Long serviceProviderId;
 
     /**
      * 服务商名称

@@ -28,7 +28,7 @@ public class AdminCenterMaterialEntity extends BaseEntity {
     /**
      * 相关服务商
      */
-    private Long serviceProviderId;
+    private Long relServiceProviderId;
 
     /**
      * 业务资料名称
@@ -63,6 +63,6 @@ public class AdminCenterMaterialEntity extends BaseEntity {
     /**
      * 状态
      */
-    private MaterialState materialState;
+    private MaterialState materialState = MaterialState.USEING;
 
 }

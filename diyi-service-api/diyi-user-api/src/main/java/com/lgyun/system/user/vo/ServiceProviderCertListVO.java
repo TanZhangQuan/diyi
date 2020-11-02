@@ -18,10 +18,10 @@ public class ServiceProviderCertListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 服务商资格信息编号
+     * 服务商资格信息ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long serviceProviderCertId;
+    private Long id;
 
     /**
      * 类别

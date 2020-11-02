@@ -189,7 +189,7 @@ CREATE TABLE `diyi_admin` (
 DROP TABLE IF EXISTS `diyi_admin_center_material`;
 CREATE TABLE `diyi_admin_center_material` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `service_provider_id` bigint(50) DEFAULT NULL COMMENT '相关服务商',
+  `rel_service_provider_id` bigint(50) NOT NULL COMMENT '相关服务商',
   `material_name` varchar(50) NOT NULL COMMENT '业务资料名称',
   `material_belong` varchar(50) NOT NULL COMMENT '文档归属',
   `material_type` varchar(50) NOT NULL COMMENT '文档属性',

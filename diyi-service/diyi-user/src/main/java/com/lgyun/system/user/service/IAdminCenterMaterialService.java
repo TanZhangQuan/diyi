@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.MaterialState;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.dto.AddAdminCenterMaterialDTO;
-import com.lgyun.system.user.dto.UpdateAdminCenterMaterialDTO;
+import com.lgyun.system.user.dto.AddOrUpdateAdminCenterMaterialDTO;
 import com.lgyun.system.user.entity.AdminCenterMaterialEntity;
 import com.lgyun.system.user.vo.AdminCenterMaterialListVO;
+import com.lgyun.system.user.vo.AdminCenterMaterialUpdateDetailVO;
 
 /**
  * 综合业务资料表 Service 接口
@@ -36,19 +36,20 @@ public interface IAdminCenterMaterialService extends BaseService<AdminCenterMate
     R<String> updateAdminCenterMaterialState(Long adminCenterMaterialId, MaterialState materialState);
 
     /**
-     * 创建服务商综合业务资料
+     * 创建或编辑服务商综合业务资料
      *
-     * @param addAdminCenterMaterialDTO
+     * @param serviceProviderId
+     * @param addOrUpdateAdminCenterMaterialDTO
      * @return
      */
-    R<String> addAdminCenterMaterial(AddAdminCenterMaterialDTO addAdminCenterMaterialDTO);
+    R<String> addOrUpdateAdminCenterMaterial(Long serviceProviderId, AddOrUpdateAdminCenterMaterialDTO addOrUpdateAdminCenterMaterialDTO);
 
     /**
-     * 编辑服务商综合业务资料
+     * 查询编辑服务商综合业务资料(模板管理)详情
      *
-     * @param updateAdminCenterMaterialDTO
+     * @param adminCenterMaterialId
      * @return
      */
-    R<String> updateAdminCenterMaterial(UpdateAdminCenterMaterialDTO updateAdminCenterMaterialDTO);
+    R<AdminCenterMaterialUpdateDetailVO> queryAdminCenterMaterialUpdateDetail(Long adminCenterMaterialId);
 }
 

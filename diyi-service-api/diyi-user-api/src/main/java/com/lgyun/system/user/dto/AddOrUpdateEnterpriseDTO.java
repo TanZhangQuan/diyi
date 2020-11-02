@@ -22,7 +22,7 @@ public class AddOrUpdateEnterpriseDTO implements Serializable {
     /**
      * 商户ID
      */
-    private String enterpriseId;
+    private Long enterpriseId;
 
     /**
      * 商户名称

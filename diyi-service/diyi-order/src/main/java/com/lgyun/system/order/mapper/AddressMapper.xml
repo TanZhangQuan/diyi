@@ -4,7 +4,7 @@
 <mapper namespace="com.lgyun.system.order.mapper.AddressMapper">
 
     <resultMap type="com.lgyun.system.order.vo.AddressListVO" id="addressListVO">
-        <result property="addressId" column="address_id"/>
+        <result property="id" column="id"/>
         <result property="addressName" column="address_name"/>
         <result property="addressPhone" column="address_phone"/>
         <result property="province" column="province"/>
@@ -34,10 +34,6 @@
     <select id="queryAddressUpdateDetail" resultMap="addressUpdateDetailVO">
         SELECT id, address_name, address_phone, province, city, area, detailed_address, is_default
         FROM diyi_address WHERE is_deleted = 0 AND id = #{param1}
-    </select>
-
-    <select id="deleteAddress">
-        DELETE FROM diyi_address WHERE id = #{param1}
     </select>
 
 </mapper>

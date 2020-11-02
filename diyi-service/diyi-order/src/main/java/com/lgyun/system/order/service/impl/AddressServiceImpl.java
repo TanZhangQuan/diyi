@@ -107,10 +107,13 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
             AddressEntity newDefaultAddressEntity = addressEntityList.get(0);
             newDefaultAddressEntity.setIsDefault(true);
             updateById(newDefaultAddressEntity);
+
+            addressEntity.setIsDefault(false);
+            updateById(addressEntity);
         }
 
         //删除收货地址
-        baseMapper.deleteAddress(addressId);
+        removeById(addressId);
 
         return R.success("删除收货地址成功");
     }

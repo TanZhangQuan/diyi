@@ -109,9 +109,7 @@
         t1.contact2_phone, t1.contact2_mail, t1.invoice_enterprise_name, t1.invoice_tax_no, t1.invoice_address_phone, t1.invoice_bank_name_account, t2.employee_user_name,
         t2.phone_number, t2.worker_name, (SELECT IF(paper_agreement_url <![CDATA[ <> ]]> NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url)
         FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED'
-        AND service_provider_id = t1.id) AS join_contract, (SELECT GROUP_CONCAT(IF(paper_agreement_url <![CDATA[ <> ]]> NULL AND paper_agreement_url <![CDATA[ <> ]]> '',
-        paper_agreement_url, online_agreement_url)) FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'OTHERAGREEMENT' AND sign_state = 'SIGNED'
-        AND audit_state = 'APPROVED' AND service_provider_id = t1.id) AS commitment_letters FROM diyi_service_provider t1 INNER JOIN diyi_service_provider_worker t2
+        AND service_provider_id = t1.id) AS join_contract FROM diyi_service_provider t1 INNER JOIN diyi_service_provider_worker t2
         ON t1.id = t2.service_provider_id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t2.up_level_id IS NULL AND t1.id = #{param1}
     </select>
 

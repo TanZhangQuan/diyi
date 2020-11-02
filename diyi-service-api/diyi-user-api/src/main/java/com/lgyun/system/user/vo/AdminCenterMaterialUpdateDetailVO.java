@@ -2,7 +2,6 @@ package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.lgyun.common.enumeration.MaterialState;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -14,7 +13,7 @@ import java.io.Serializable;
  * @date 2020/9/9
  */
 @Data
-public class AdminCenterMaterialListVO implements Serializable {
+public class AdminCenterMaterialUpdateDetailVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -37,10 +36,5 @@ public class AdminCenterMaterialListVO implements Serializable {
      * 模板
      */
     private String materialUrl;
-
-    /**
-     * 状态
-     */
-    private MaterialState materialState;
 
 }

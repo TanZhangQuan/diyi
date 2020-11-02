@@ -106,8 +106,8 @@ public class IndustrialParksAdminController {
 
     @PostMapping("/add-industrial-parks-service-provider")
     @ApiOperation(value = "添加匹配服务商", notes = "添加匹配服务商")
-    public R addRelBureauServiceProvider(@ApiParam("产业园区ID不能为空") @NotNull(message = "产业园区ID不能为空") @RequestParam(required = false) Long bureauId,
-                                         @ApiParam("服务商ID字符集，ID直接用逗号隔开") @NotBlank(message = "匹配服务商不能为空！") @RequestParam(required = false) String serviceProviderIds, BladeUser bladeUser) {
+    public R addRelBureauServiceProvider(@ApiParam("产业园区") @NotNull(message = "请选择产业园区") @RequestParam(required = false) Long bureauId,
+                                         @ApiParam("服务商集合") @NotBlank(message = "匹配服务商不能为空") @RequestParam(required = false) String serviceProviderIds, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
