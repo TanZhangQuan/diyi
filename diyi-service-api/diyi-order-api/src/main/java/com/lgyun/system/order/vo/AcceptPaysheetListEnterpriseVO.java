@@ -24,18 +24,6 @@ public class AcceptPaysheetListEnterpriseVO implements Serializable {
     private Long id;
 
     /**
-     * 支付清单ID
-     */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long payEnterpriseId;
-
-    /**
-     * 创客支付明细ID
-     */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long payMakerId;
-
-    /**
      * 支付清单URL
      */
     private String chargeListUrl;

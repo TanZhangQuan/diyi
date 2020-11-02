@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -14,46 +15,44 @@ import java.util.Date;
  * @time 14:36.
  */
 @Data
-public class AcceptPaysheetSingleListEnterpriseVO implements Serializable {
+public class AcceptPaysheetCsSelfHelpInvoiceDetailListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 总包+分包交付支付验收单ID
+     * 自主开票明细ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     /**
-     * 支付清单URL
-     */
-    private String chargeListUrl;
-
-    /**
-     * 创客名称
+     * 创客/开票人姓名
      */
     private String name;
 
     /**
-     * 工单编号
+     * 增值税税率
      */
-    private String worksheetId;
+    private BigDecimal valueAddedTaxRate;
 
     /**
-     * 开始时间
+     * 价税合计额
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date serviceTimeStart;
+    private BigDecimal chargeMoneyNum;
 
     /**
-     * 结束时间
+     * 开票手续费
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date serviceTimeEnd;
+    private BigDecimal serviceInvoiceFee;
 
     /**
-     * 验收单URL
+     * 身份验证费
      */
-    private String acceptPaysheetUrl;
+    private BigDecimal idendityConfirmFee;
+
+    /**
+     * 需支付服务商税费=价税合计额*服务税费率+开票手续费+身份验证费
+     */
+    private BigDecimal payProviderFee;
 
     /**
      * 创建时间

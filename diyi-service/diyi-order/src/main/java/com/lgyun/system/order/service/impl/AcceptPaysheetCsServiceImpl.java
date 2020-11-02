@@ -7,10 +7,9 @@ import com.lgyun.system.order.dto.AcceptSheetAndCsListDTO;
 import com.lgyun.system.order.entity.AcceptPaysheetCsEntity;
 import com.lgyun.system.order.mapper.AcceptPaysheetCsMapper;
 import com.lgyun.system.order.service.IAcceptPaysheetCsService;
+import com.lgyun.system.order.vo.AcceptPaysheetAndCsListMakerVO;
 import com.lgyun.system.order.vo.AcceptPaysheetCsDetailEnterpriseVO;
 import com.lgyun.system.order.vo.AcceptPaysheetCsListEnterpriseVO;
-import com.lgyun.system.order.vo.AcceptPaysheetCsSingleListEnterpriseVO;
-import com.lgyun.system.order.vo.AcceptPaysheetAndCsListMakerVO;
 import com.lgyun.system.order.vo.AcceptPaysheetDetailMakerVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,11 +51,6 @@ public class AcceptPaysheetCsServiceImpl extends BaseServiceImpl<AcceptPaysheetC
     @Override
     public R<AcceptPaysheetCsDetailEnterpriseVO> queryCrowdAcceptPaysheetDetailEnterprise(Long acceptPaysheetCsId) {
         return R.data(baseMapper.queryCrowdAcceptPaysheetDetailEnterprise(acceptPaysheetCsId));
-    }
-
-    @Override
-    public R<IPage<AcceptPaysheetCsSingleListEnterpriseVO>> queryCrowdAcceptPaysheetSingleList(Long selfHelpInvoiceId, Long selfHelpInvoiceDetailId, IPage<AcceptPaysheetCsSingleListEnterpriseVO> page) {
-        return R.data(page.setRecords(baseMapper.queryCrowdAcceptPaysheetSingleList(selfHelpInvoiceId, selfHelpInvoiceDetailId, page)));
     }
     
 }

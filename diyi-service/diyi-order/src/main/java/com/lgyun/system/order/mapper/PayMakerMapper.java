@@ -111,5 +111,13 @@ public interface PayMakerMapper extends BaseMapper<PayMakerEntity> {
      */
     void deleteByPayEnterpriseId(Long payEnterpriseId);
 
+    /**
+     * 查询总包+分包交付支付验收单的创客支付明细
+     *
+     * @param acceptPaysheetId
+     * @param page
+     * @return
+     */
+    List<AcceptPaysheetPayMakerListVO> queryTotalSubAcceptPaysheetPayMakerList(Long acceptPaysheetId, IPage<AcceptPaysheetPayMakerListVO> page);
 }
 

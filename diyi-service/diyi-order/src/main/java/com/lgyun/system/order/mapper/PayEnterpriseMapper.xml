@@ -614,10 +614,10 @@
     </select>
 
     <select id="getPayMakerListByPayEnterprise" resultMap="payMakerListVO">
-        SELECT t2.id, t2.name, t2.idcard_no, t1.maker_net_income, t1.maker_tax_fee, t1.audit_fee, t1.pay_fee, t1.total_fee, t1.service_rate,
+        SELECT t1.id, t2.name, t2.idcard_no, t1.maker_net_income, t1.maker_tax_fee, t1.audit_fee, t1.pay_fee, t1.total_fee, t1.service_rate,
         IF(((SELECT COUNT(id) FROM diyi_accept_paysheet WHERE is_deleted = 0 AND pay_maker_id = t1.id) > 0 OR (SELECT COUNT(id) FROM diyi_accept_paysheet_list
         WHERE is_deleted = 0 AND pay_maker_id = t1.id) > 0), TRUE, FALSE) AS is_accept_sheet
-        FROM diyi_pay_maker t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id WHERE t1.is_deleted = 0 AND t1.pay_enterprise_id = #{param1}
+        FROM diyi_pay_maker t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.pay_enterprise_id = #{param1}
     </select>
 
     <select id="transactionByEnterprise" resultMap="transactionVO">

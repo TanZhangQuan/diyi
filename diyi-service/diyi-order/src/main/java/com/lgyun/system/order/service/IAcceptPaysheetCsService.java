@@ -5,10 +5,9 @@ import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.dto.AcceptSheetAndCsListDTO;
 import com.lgyun.system.order.entity.AcceptPaysheetCsEntity;
+import com.lgyun.system.order.vo.AcceptPaysheetAndCsListMakerVO;
 import com.lgyun.system.order.vo.AcceptPaysheetCsDetailEnterpriseVO;
 import com.lgyun.system.order.vo.AcceptPaysheetCsListEnterpriseVO;
-import com.lgyun.system.order.vo.AcceptPaysheetCsSingleListEnterpriseVO;
-import com.lgyun.system.order.vo.AcceptPaysheetAndCsListMakerVO;
 import com.lgyun.system.order.vo.AcceptPaysheetDetailMakerVO;
 
 /**
@@ -49,23 +48,12 @@ public interface IAcceptPaysheetCsService extends BaseService<AcceptPaysheetCsEn
     R<IPage<AcceptPaysheetCsListEnterpriseVO>> queryCrowdAcceptPaysheetListEnterprise(Long enterpriseId, AcceptSheetAndCsListDTO acceptSheetAndCsListDto, IPage<AcceptPaysheetCsListEnterpriseVO> page);
 
     /**
-     * 查询众包交付支付验收单明细
+     * 查询众包交付支付验收单详情
      *
      * @param acceptPaysheetCsId
      * @return
      */
     R<AcceptPaysheetCsDetailEnterpriseVO> queryCrowdAcceptPaysheetDetailEnterprise(Long acceptPaysheetCsId);
-
-    /**
-     * 查询单人单张的众包交付支付验收单
-     *
-     * @param selfHelpInvoiceId
-     * @param selfHelpInvoiceDetailId
-     * @param page
-     * @return
-     */
-    R<IPage<AcceptPaysheetCsSingleListEnterpriseVO>> queryCrowdAcceptPaysheetSingleList(Long selfHelpInvoiceId, Long selfHelpInvoiceDetailId, IPage<AcceptPaysheetCsSingleListEnterpriseVO> page);
-
 
 }
 

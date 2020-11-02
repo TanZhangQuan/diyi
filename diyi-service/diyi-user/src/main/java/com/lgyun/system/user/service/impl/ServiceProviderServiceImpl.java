@@ -290,7 +290,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
 
         if (!(serviceProviderState.equals(serviceProviderEntity.getServiceProviderState()))) {
             serviceProviderEntity.setServiceProviderState(serviceProviderState);
-            save(serviceProviderEntity);
+            updateById(serviceProviderEntity);
         }
 
         return R.fail("更改服务商状态成功");

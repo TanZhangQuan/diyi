@@ -24,18 +24,6 @@ public class AcceptPaysheetCsListEnterpriseVO implements Serializable {
     private Long id;
 
     /**
-     * 自主开票ID
-     */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long selfHelpInvoiceId;
-
-    /**
-     * 自主开票明细ID
-     */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long selfHelpInvoiceDetailId;
-
-    /**
      * 开票清单URL
      */
     private String listFile;

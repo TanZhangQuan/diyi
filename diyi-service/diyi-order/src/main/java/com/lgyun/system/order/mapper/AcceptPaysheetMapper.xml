@@ -29,8 +29,6 @@
 
     <resultMap type="com.lgyun.system.order.vo.AcceptPaysheetListEnterpriseVO" id="acceptPaysheetAndCsListEnterpriseVO">
         <result property="id" column="id"/>
-        <result property="payEnterpriseId" column="pay_enterprise_id"/>
-        <result property="payMakerId" column="pay_maker_id"/>
         <result property="chargeListUrl" column="charge_list_url"/>
         <result property="names" column="names"/>
         <result property="worksheetId" column="worksheet_id"/>
@@ -93,12 +91,12 @@
     </select>
 
     <select id="queryTotalSubAcceptPaysheetListEnterprise" resultMap="acceptPaysheetAndCsListEnterpriseVO">
-        SELECT * FROM (SELECT t1.id, t1.pay_enterprise_id, t1.pay_maker_id, t2.charge_list_url, t1.service_time_start, t1.service_time_end, t2.worksheet_id,
-        t1.accept_paysheet_url, t1.create_time, (SELECT GROUP_CONCAT(t4.name) FROM diyi_pay_maker t3 INNER JOIN diyi_maker t4 ON t3.maker_id = t4.id
-        WHERE t3.is_deleted = 0 AND t4.is_deleted = 0 AND IF(t1.accept_paysheet_type = 'SINGLE', t3.id = t1.pay_maker_id, t3.id IN (SELECT pay_maker_id
-        FROM diyi_accept_paysheet WHERE is_deleted = 0 AND pay_enterprise_id = t1.pay_enterprise_id))) AS names FROM diyi_accept_paysheet t1
-        INNER JOIN diyi_pay_enterprise t2 ON t1.pay_enterprise_id = t2.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0
-        AND t2.enterprise_id = #{param1}) temp WHERE 1=1
+        SELECT * FROM (SELECT t1.id, t2.charge_list_url, t1.service_time_start, t1.service_time_end, t2.worksheet_id, t1.accept_paysheet_url, t1.create_time,
+        IF(t1.accept_paysheet_type = 'SINGLE', (SELECT t3.name FROM diyi_maker t3 INNER JOIN diyi_pay_maker t4 ON t3.id = t4.maker_id WHERE t3.is_deleted = 0
+        AND t4.is_deleted = 0 AND t4.id = t1.pay_maker_id), (SELECT GROUP_CONCAT(t5.name) FROM diyi_maker t5 INNER JOIN diyi_pay_maker t6 ON t5.id = t6.maker_id
+        INNER JOIN diyi_accept_paysheet_list t7 ON t6.id = t7.pay_maker_id WHERE t5.is_deleted = 0 AND t6.is_deleted = 0 AND t7.is_deleted = 0
+        AND t7.accept_paysheet_id = t1.id)) AS names FROM diyi_accept_paysheet t1 INNER JOIN diyi_pay_enterprise t2 ON t1.pay_enterprise_id = t2.id
+        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t2.enterprise_id = #{param1}) temp WHERE 1=1
         <if test="param2.name != null and param2.name.trim() != ''">
             AND temp.names LIKE concat('%', #{param2.name}, '%')
         </if>
@@ -115,16 +113,6 @@
         t1.accept_paysheet_url, t1.create_time FROM diyi_accept_paysheet t1 INNER JOIN diyi_pay_enterprise t2 ON t1.pay_enterprise_id = t2.id INNER JOIN
         diyi_enterprise t3 ON t2.enterprise_id = t3.id INNER JOIN diyi_service_provider t4 ON t2.service_provider_id = t4.id WHERE t1.is_deleted = 0
         AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t4.is_deleted = 0 AND t1.id = #{param1}
-    </select>
-
-    <select id="queryTotalSubAcceptPaysheetSingleList" resultMap="acceptPaysheetSingleListEnterpriseVO">
-        SELECT t1.id, t2.charge_list_url, t4.name, t2.worksheet_id, t1.service_time_start, t1.service_time_end, t1.accept_paysheet_url, t1.create_time
-        FROM diyi_accept_paysheet t1 INNER JOIN diyi_pay_enterprise t2 ON t1.pay_enterprise_id = t2.id INNER JOIN diyi_pay_maker t3 ON t1.pay_maker_id = t3.id
-        INNER JOIN diyi_maker t4 ON t3.maker_id = t4.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t4.is_deleted = 0
-        AND t1.accept_paysheet_type = 'SINGLE' AND t1.pay_enterprise_id = #{param1}
-        <if test="param2 != null">
-            AND t1.pay_maker_id = #{param2}
-        </if>
     </select>
 
     <select id="getMakerList" resultMap="payEnterpriseMakerDetailListVO">

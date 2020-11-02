@@ -311,4 +311,9 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
         baseMapper.deleteByPayEnterpriseId(payEnterpriseId);
     }
 
+    @Override
+    public R<IPage<AcceptPaysheetPayMakerListVO>> queryTotalSubAcceptPaysheetPayMakerList(Long acceptPaysheetId, IPage<AcceptPaysheetPayMakerListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryTotalSubAcceptPaysheetPayMakerList(acceptPaysheetId, page)));
+    }
+
 }

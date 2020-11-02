@@ -352,7 +352,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
 
         if (!(enterpriseEntity.getEnterpriseState().equals(enterpriseState))) {
             enterpriseEntity.setEnterpriseState(enterpriseState);
-            save(enterpriseEntity);
+            updateById(enterpriseEntity);
         }
 
         return R.fail("操作成功");

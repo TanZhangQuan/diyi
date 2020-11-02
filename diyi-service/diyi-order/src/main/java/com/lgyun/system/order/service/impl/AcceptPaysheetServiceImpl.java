@@ -16,9 +16,11 @@ import com.lgyun.system.order.service.IAcceptPaysheetService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.feign.IUserClient;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,12 +34,15 @@ import java.util.List;
  */
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMapper, AcceptPaysheetEntity> implements IAcceptPaysheetService {
 
+    private final IUserClient userClient;
+    private final IAcceptPaysheetListService acceptPaysheetPayListService;
+
+    @Autowired
+    @Lazy
     private IPayEnterpriseService payEnterpriseService;
-    private IAcceptPaysheetListService acceptPaysheetPayListService;
-    private IUserClient userClient;
 
     @Override
     public R<IPage<AcceptPaysheetAndCsListMakerVO>> queryTotalSubAcceptPaysheetListMaker(Long enterpriseId, Long makerId, IPage<AcceptPaysheetAndCsListMakerVO> page) {
@@ -133,11 +138,6 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
     }
 
     @Override
-    public R<IPage<AcceptPaysheetSingleListEnterpriseVO>> queryTotalSubAcceptPaysheetSingleList(Long payEnterpriseId, Long payMakerId, IPage<AcceptPaysheetSingleListEnterpriseVO> page) {
-        return R.data(page.setRecords(baseMapper.queryTotalSubAcceptPaysheetSingleList(payEnterpriseId, payMakerId, page)));
-    }
-
-    @Override
     public R<IPage<PayEnterpriseMakerDetailListVO>> getMakerList(Long acceptPaysheetId, IPage<PayEnterpriseMakerDetailListVO> page) {
         return R.data(page.setRecords(baseMapper.getMakerList(acceptPaysheetId, page)));
     }
@@ -161,7 +161,7 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
 
         //删除清单式子表记录
         if (!(acceptPaysheetIdList.isEmpty())) {
-            acceptPaysheetIdList.forEach(acceptPaysheetId -> acceptPaysheetPayListService.deleteAcceptPaysheetList(acceptPaysheetId));
+            acceptPaysheetIdList.forEach(acceptPaysheetPayListService::deleteAcceptPaysheetList);
         }
 
     }

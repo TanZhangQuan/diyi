@@ -88,5 +88,14 @@ public interface SelfHelpInvoiceDetailMapper extends BaseMapper<SelfHelpInvoiceD
     BigDecimal queryCrowdDetailAllIncome(MakerType makerType, Long makerId, Long year, Long month, Long enterpriseId);
 
     List<SelfHelpInvoiceDetailAdminVO> getSelfHelpInvoiceIdAll(Long selfHelpInvoiceId);
+
+    /**
+     * 查询众包交付支付验收单的自主开票明细
+     *
+     * @param acceptPaysheetCsId
+     * @param page
+     * @return
+     */
+    List<AcceptPaysheetCsSelfHelpInvoiceDetailListVO> queryCrowdAcceptPaysheetSelfHelpInvoiceDetailList(Long acceptPaysheetCsId, IPage<AcceptPaysheetCsSelfHelpInvoiceDetailListVO> page);
 }
 

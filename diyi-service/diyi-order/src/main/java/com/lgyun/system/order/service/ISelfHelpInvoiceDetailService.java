@@ -109,5 +109,14 @@ public interface ISelfHelpInvoiceDetailService extends BaseService<SelfHelpInvoi
     List<SelfHelpInvoiceDetailVO> getSelfHelpInvoiceId(Long selfHelpInvoiceId);
 
     List<SelfHelpInvoiceDetailAdminVO> getSelfHelpInvoiceIdAll(Long selfHelpInvoiceId);
+
+    /**
+     * 查询众包交付支付验收单的自主开票明细
+     *
+     * @param acceptPaysheetCsId
+     * @param page
+     * @return
+     */
+    R<IPage<AcceptPaysheetCsSelfHelpInvoiceDetailListVO>> queryCrowdAcceptPaysheetSelfHelpInvoiceDetailList(Long acceptPaysheetCsId, IPage<AcceptPaysheetCsSelfHelpInvoiceDetailListVO> page);
 }
 

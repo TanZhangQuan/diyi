@@ -5,9 +5,7 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.AcceptSheetAndCsListDTO;
-import com.lgyun.system.order.service.IAcceptPaysheetCsService;
-import com.lgyun.system.order.service.IAcceptPaysheetService;
-import com.lgyun.system.order.service.IWorksheetService;
+import com.lgyun.system.order.service.*;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
@@ -33,6 +31,8 @@ public class AcceptPaysheetEnterpriseController {
     private IAcceptPaysheetService acceptPaysheetService;
     private IAcceptPaysheetCsService acceptPaysheetCsService;
     private IWorksheetService worksheetService;
+    private IPayMakerService payMakerService;
+    private ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
 
     @GetMapping("/query-total-sub-accept-paysheet-list")
     @ApiOperation(value = "查询当前商户所有总包+分包交付支付验收单", notes = "查询当前商户所有总包+分包交付支付验收单")
@@ -48,7 +48,7 @@ public class AcceptPaysheetEnterpriseController {
     }
 
     @GetMapping("/query-total-sub-accept-paysheet-detail")
-    @ApiOperation(value = "查询当前商户所有总包+分包交付支付验收单明细", notes = "查询当前商户所有总包+分包交付支付验收单明细")
+    @ApiOperation(value = "查询当前商户所有总包+分包交付支付验收单详情", notes = "查询当前商户所有总包+分包交付支付验收单详情")
     public R queryTotalSubAcceptPaysheetDetail(@ApiParam(value = "总包+分包交付支付验收单") @NotNull(message = "请选择总包+分包交付支付验收单") @RequestParam(required = false) Long acceptPaysheetId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
@@ -59,16 +59,16 @@ public class AcceptPaysheetEnterpriseController {
         return acceptPaysheetService.queryTotalSubAcceptPaysheetDetailEnterprise(acceptPaysheetId);
     }
 
-    @GetMapping("/query-total-sub-accept-paysheet-single-list")
-    @ApiOperation(value = "查询单人单张的总包+分包交付支付验收单", notes = "查询单人单张的总包+分包交付支付验收单")
-    public R queryTotalSubAcceptPaysheetSingleList(@ApiParam(value = "商户支付清单") @NotNull(message = "请选择商户支付清单") @RequestParam(required = false) Long payEnterpriseId, Long payMakerId, Query query, BladeUser bladeUser) {
+    @GetMapping("/query-total-sub-accept-paysheet-pay-maker-list")
+    @ApiOperation(value = "查询总包+分包交付支付验收单的创客支付明细", notes = "查询总包+分包交付支付验收单的创客支付明细")
+    public R queryTotalSubAcceptPaysheetPayMakerList(@ApiParam(value = "总包+分包交付支付验收单") @NotNull(message = "请选择总包+分包交付支付验收单") @RequestParam(required = false) Long acceptPaysheetId, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return acceptPaysheetService.queryTotalSubAcceptPaysheetSingleList(payEnterpriseId, payMakerId, Condition.getPage(query.setDescs("create_time")));
+        return payMakerService.queryTotalSubAcceptPaysheetPayMakerList(acceptPaysheetId, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-crowd-accept-paysheet-list")
@@ -85,7 +85,7 @@ public class AcceptPaysheetEnterpriseController {
     }
 
     @GetMapping("/query-crowd-accept-paysheet-detail")
-    @ApiOperation(value = "查询众包交付支付验收单明细", notes = "查询众包交付支付验收单明细")
+    @ApiOperation(value = "查询众包交付支付验收单详情", notes = "查询众包交付支付验收单详情")
     public R queryCrowdAcceptPaysheetDetail(@ApiParam(value = "众包交付支付验收单") @NotNull(message = "请选择众包交付支付验收单") @RequestParam(required = false) Long acceptPaysheetCsId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
@@ -96,16 +96,16 @@ public class AcceptPaysheetEnterpriseController {
         return acceptPaysheetCsService.queryCrowdAcceptPaysheetDetailEnterprise(acceptPaysheetCsId);
     }
 
-    @GetMapping("/query-crowd-accept-paysheet-single-list")
-    @ApiOperation(value = "查询单人单张的众包交付支付验收单", notes = "查询单人单张的众包交付支付验收单")
-    public R queryCrowdAcceptPaysheetSingleList(@ApiParam(value = "自助开票") @NotNull(message = "请选择自主开票") @RequestParam(required = false) Long selfHelpInvoiceId, Long selfHelpInvoiceDetailId, Query query, BladeUser bladeUser) {
+    @GetMapping("/query-crowd-accept-paysheet-self-help-invoice-detail-list")
+    @ApiOperation(value = "查询众包交付支付验收单的自主开票明细", notes = "查询众包交付支付验收单的自主开票明细")
+    public R queryCrowdAcceptPaysheetSelfHelpInvoiceDetailList(@ApiParam(value = "众包交付支付验收单") @NotNull(message = "请选择众包交付支付验收单") @RequestParam(required = false) Long acceptPaysheetCsId, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return acceptPaysheetCsService.queryCrowdAcceptPaysheetSingleList(selfHelpInvoiceId, selfHelpInvoiceDetailId, Condition.getPage(query.setDescs("create_time")));
+        return selfHelpInvoiceDetailService.queryCrowdAcceptPaysheetSelfHelpInvoiceDetailList(acceptPaysheetCsId, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-worksheet-detail")
