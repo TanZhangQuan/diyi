@@ -43,13 +43,14 @@ public interface IAcceptPaysheetService extends BaseService<AcceptPaysheetEntity
     /**
      * 上传交付支付验收单
      *
-     * @param acceptPaysheetSaveDto
      * @param enterpriseId
+     * @param serviceProviderId
+     * @param acceptPaysheetSaveDto
      * @param uploadSource
      * @param uploadPerson
      * @return
      */
-    R<String> upload(AcceptPaysheetSaveDTO acceptPaysheetSaveDto, Long enterpriseId, String uploadSource, String uploadPerson);
+    R<String> uploadAcceptPaysheet(Long enterpriseId, Long serviceProviderId, AcceptPaysheetSaveDTO acceptPaysheetSaveDto, String uploadSource, String uploadPerson);
 
     /**
      * 查询当前商户所有总包+分包交付支付验收单
@@ -89,13 +90,19 @@ public interface IAcceptPaysheetService extends BaseService<AcceptPaysheetEntity
     R<IPage<PayEnterpriseMakerDetailListVO>> getMakerList(Long acceptPaysheetId, IPage<PayEnterpriseMakerDetailListVO> page);
 
     /**
-     * 根据支付清单ID, 创客ID查询交付支付验收单
+     * 查询创客支付明细是否已开交付支付验收单
      *
-     * @param payEnterpriseId
-     * @param makerId
+     * @param payMakerId
      * @return
      */
-    AcceptPaysheetEntity getAcceptPaysheet(Long payEnterpriseId, Long makerId);
+    boolean isAcceptPaysheet(Long payMakerId);
+
+    /**
+     * 删除交付支付验收单
+     *
+     * @param payEnterpriseId
+     */
+    void deleteAcceptPaysheet(Long payEnterpriseId);
 
 }
 

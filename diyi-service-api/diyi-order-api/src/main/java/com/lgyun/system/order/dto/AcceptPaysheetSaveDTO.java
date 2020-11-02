@@ -8,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 上传交付支付验收单
@@ -27,7 +28,12 @@ public class AcceptPaysheetSaveDTO implements Serializable {
     private Long payEnterpriseId;
 
     /**
-     * 创客支付明细ID
+     * 清单式创客支付明细ID集合
+     */
+    private List<Long> payMakerIdList;
+
+    /**
+     * 单人单张创客支付明细ID
      */
     private Long payMakerId;
 

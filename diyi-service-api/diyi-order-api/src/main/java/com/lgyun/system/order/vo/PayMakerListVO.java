@@ -23,12 +23,6 @@ public class PayMakerListVO implements Serializable {
     private Long id;
 
     /**
-     * 创客ID
-     */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long makerId;
-
-    /**
      * 姓名
      */
     private String name;
@@ -67,5 +61,10 @@ public class PayMakerListVO implements Serializable {
      * 综合税费率
      */
     private BigDecimal serviceRate;
+
+    /**
+     * 是否已开交付支付验收单
+     */
+    private boolean isAcceptSheet;
 
 }

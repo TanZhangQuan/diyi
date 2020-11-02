@@ -3,7 +3,6 @@ package com.lgyun.system.order.service.impl;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.KdniaoTrackQueryUtil;
@@ -11,8 +10,8 @@ import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.PayEnterpriseDTO;
 import com.lgyun.system.order.dto.PayEnterpriseCreateOrUpdateDTO;
+import com.lgyun.system.order.dto.PayEnterpriseDTO;
 import com.lgyun.system.order.dto.SummaryInvoiceDTO;
 import com.lgyun.system.order.entity.*;
 import com.lgyun.system.order.excel.PayEnterpriseExcel;
@@ -65,6 +64,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     private IMakerTaxRecordService makerTaxRecordService;
     private IPlatformInvoiceListService platformInvoiceListService;
     private IInvoiceApplicationPayListService invoiceApplicationPayListService;
+    private IAcceptPaysheetService acceptPaysheetService;
 
     @Override
     public R<IPage<InvoiceEnterpriseVO>> getEnterpriseAll(Long makerId, IPage<InvoiceEnterpriseVO> page) {
@@ -147,18 +147,18 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
                 return R.fail("非编辑或已驳回状态的总包支付清单不可修改");
             }
 
-            //删除旧的分包
-            payMakerService.deleteByPayEnterpriseId(payEnterpriseEntity.getId());
+            //总包支付清单修改处理
+            if (!(payEnterpriseCreateOrUpdateDto.getChargeListUrl().equals(payEnterpriseEntity.getChargeListUrl()))) {
 
-            //删除旧的总包支付回单
-            payEnterpriseReceiptService.deleteByPayEnterpriseId(payEnterpriseEntity.getId());
+                //删除旧的分包
+                payMakerService.deleteByPayEnterpriseId(payEnterpriseEntity.getId());
 
-            //删除旧的总包支付回单
-            payEnterpriseReceiptService.deleteByPayEnterpriseId(payEnterpriseEntity.getId());
+                //删除旧的总包支付回单
+                payEnterpriseReceiptService.deleteByPayEnterpriseId(payEnterpriseEntity.getId());
 
-            //删除旧的总包支付回单
-            payEnterpriseReceiptService.deleteByPayEnterpriseId(payEnterpriseEntity.getId());
-
+                //删除旧的总包交付支付验收单
+                acceptPaysheetService.deleteAcceptPaysheet(payEnterpriseEntity.getId());
+            }
         }
 
         payEnterpriseEntity.setPayConfirmDateTime(new Date());
@@ -190,21 +190,15 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
         PayEnterpriseEntity payEnterpriseEntity = getById(payEnterpriseId);
         if (payEnterpriseEntity == null) {
-            return R.fail("总包支付不存在");
+            return R.fail("总包支付清单不存在");
         }
 
         if (!(payEnterpriseEntity.getEnterpriseId().equals(enterpriseId))) {
-            return R.fail("总包支付不属于当前商户");
+            return R.fail("总包支付清单不属于当前商户");
         }
 
         if (!(PayEnterpriseAuditState.EDITING.equals(payEnterpriseEntity.getAuditState())) && !(PayEnterpriseAuditState.REJECTED.equals(payEnterpriseEntity.getAuditState()))) {
             return R.fail("非编辑中或已驳回状态的总包支付清单不可提交");
-        }
-
-        //查询是否上传支付回单
-        int PayEnterpriseReceiptNum = payEnterpriseReceiptService.count(Wrappers.<PayEnterpriseReceiptEntity>query().lambda().eq(PayEnterpriseReceiptEntity::getPayEnterpriseId, payEnterpriseId));
-        if (PayEnterpriseReceiptNum <= 0) {
-            return R.fail("请上传支付回单");
         }
 
         payEnterpriseEntity.setAuditState(PayEnterpriseAuditState.SUBMITED);
@@ -328,23 +322,23 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
         PayEnterpriseEntity payEnterpriseEntity = getById(payEnterpriseId);
         if (payEnterpriseEntity == null) {
-            return R.fail("总包不存在");
+            return R.fail("总包支付清单不存在");
         }
 
         if (!(payEnterpriseEntity.getServiceProviderId().equals(serviceProviderId))) {
-            return R.fail("总包不属于当前服务商");
+            return R.fail("总包支付清单不属于当前服务商");
         }
 
         if (!(PayEnterprisePayState.PAYED.equals(payEnterpriseEntity.getPayState()))) {
-            return R.fail("总包支付状态有误");
+            return R.fail("总包支付清单的支付状态有误");
         }
 
         if (!(PayEnterpriseAuditState.SUBMITED.equals(payEnterpriseEntity.getAuditState()))) {
-            return R.fail("总包审核状态有误");
+            return R.fail("总包支付清单的审核状态有误");
         }
 
         if (!(PayEnterpriseAuditState.APPROVED.equals(auditState)) && !(PayEnterpriseAuditState.REJECTED.equals(auditState))) {
-            return R.fail("审核状态有误");
+            return R.fail("审核状态只能选择通过或者驳回");
         }
 
         if (PayEnterpriseAuditState.APPROVED.equals(auditState)) {

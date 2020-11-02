@@ -79,5 +79,18 @@ public interface AcceptPaysheetMapper extends BaseMapper<AcceptPaysheetEntity> {
      */
     List<PayEnterpriseMakerDetailListVO> getMakerList(Long acceptPaysheetId, IPage<PayEnterpriseMakerDetailListVO> page);
 
+    /**
+     * 查询总包支付清单的交付支付验收单关联记录ID
+     *
+     * @param payEnterpriseId
+     */
+    List<Long> queryAcceptPaysheetIdList(Long payEnterpriseId);
+
+    /**
+     * 删除交付支付验收单
+     *
+     * @param payEnterpriseId
+     */
+    void deleteAcceptPaysheet(Long payEnterpriseId);
 }
 

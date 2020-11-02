@@ -1,27 +1,28 @@
 package com.lgyun.system.order.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AcceptPaysheetType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.order.dto.AcceptSheetAndCsListDTO;
 import com.lgyun.system.order.dto.AcceptPaysheetSaveDTO;
+import com.lgyun.system.order.dto.AcceptSheetAndCsListDTO;
 import com.lgyun.system.order.entity.AcceptPaysheetEntity;
+import com.lgyun.system.order.entity.AcceptPaysheetListEntity;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.mapper.AcceptPaysheetMapper;
+import com.lgyun.system.order.service.IAcceptPaysheetListService;
 import com.lgyun.system.order.service.IAcceptPaysheetService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
-import com.lgyun.system.order.vo.AcceptPaysheetListEnterpriseVO;
-import com.lgyun.system.order.vo.AcceptPaysheetDetailEnterpriseVO;
-import com.lgyun.system.order.vo.AcceptPaysheetSingleListEnterpriseVO;
-import com.lgyun.system.order.vo.AcceptPaysheetAndCsListMakerVO;
-import com.lgyun.system.order.vo.AcceptPaysheetDetailMakerVO;
-import com.lgyun.system.order.vo.PayEnterpriseMakerDetailListVO;
+import com.lgyun.system.order.vo.*;
+import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Service 实现
@@ -35,6 +36,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMapper, AcceptPaysheetEntity> implements IAcceptPaysheetService {
 
     private IPayEnterpriseService payEnterpriseService;
+    private IAcceptPaysheetListService acceptPaysheetPayListService;
+    private IUserClient userClient;
 
     @Override
     public R<IPage<AcceptPaysheetAndCsListMakerVO>> queryTotalSubAcceptPaysheetListMaker(Long enterpriseId, Long makerId, IPage<AcceptPaysheetAndCsListMakerVO> page) {
@@ -48,48 +51,68 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
 
     @Override
     @Transactional
-    public R<String> upload(AcceptPaysheetSaveDTO acceptPaysheetSaveDto, Long enterpriseId, String uploadSource, String uploadPerson) {
+    public R<String> uploadAcceptPaysheet(Long enterpriseId, Long serviceProviderId, AcceptPaysheetSaveDTO acceptPaysheetSaveDto, String uploadSource, String uploadPerson) {
 
         //判断支付清单是否存在
         PayEnterpriseEntity payEnterpriseEntity = payEnterpriseService.getById(acceptPaysheetSaveDto.getPayEnterpriseId());
         if (payEnterpriseEntity == null) {
-            return R.fail("支付清单不存在");
+            return R.fail("总包支付清单不存在");
         }
 
         if (enterpriseId != null) {
             if (!(payEnterpriseEntity.getEnterpriseId().equals(enterpriseId))) {
-                return R.fail("支付清单不属于当前商户");
+                return R.fail("总包支付清单不属于当前商户");
             }
         }
 
-        //根据支付清单ID, 创客ID查询交付支付验收单
-        AcceptPaysheetEntity oldAcceptPaysheetEntity = getAcceptPaysheet(acceptPaysheetSaveDto.getPayEnterpriseId(), acceptPaysheetSaveDto.getPayMakerId());
-        if (oldAcceptPaysheetEntity != null) {
-            return R.fail("已存在相同交付支付验收单");
+        if (serviceProviderId != null) {
+            if (!(payEnterpriseEntity.getServiceProviderId().equals(serviceProviderId))) {
+                return R.fail("总包支付清单不属于当前服务商");
+            }
         }
 
         //保存交付支付验收单
-        AcceptPaysheetEntity acceptPaysheetEntity = new AcceptPaysheetEntity();
         if (AcceptPaysheetType.SINGLE.equals(acceptPaysheetSaveDto.getAcceptPaysheetType())) {
-
             if (acceptPaysheetSaveDto.getPayMakerId() == null) {
-                return R.fail("单个上传交付支付验收单需要选择创客");
+                return R.fail("请选择分包");
             }
-
-            acceptPaysheetEntity.setPayMakerId(acceptPaysheetSaveDto.getPayMakerId());
+        } else {
+            if (acceptPaysheetSaveDto.getPayMakerIdList().isEmpty()) {
+                return R.fail("请选择分包");
+            }
         }
 
-        acceptPaysheetEntity.setServiceTimeStart(acceptPaysheetSaveDto.getServiceTimeStart());
-        acceptPaysheetEntity.setServiceTimeEnd(acceptPaysheetSaveDto.getServiceTimeEnd());
-        acceptPaysheetEntity.setPayEnterpriseId(acceptPaysheetSaveDto.getPayEnterpriseId());
-        acceptPaysheetEntity.setAcceptPaysheetType(acceptPaysheetSaveDto.getAcceptPaysheetType());
+        //判断创客支付明细是否已开交付支付验收单
+        if (AcceptPaysheetType.SINGLE.equals(acceptPaysheetSaveDto.getAcceptPaysheetType())) {
+            if (isAcceptPaysheet(acceptPaysheetSaveDto.getPayMakerId())) {
+                String makerName = userClient.queryMakerName(acceptPaysheetSaveDto.getPayMakerId());
+                return R.fail("创客" + makerName + "已开交付支付验收单");
+            }
+        } else {
+            for (Long payMakerId : acceptPaysheetSaveDto.getPayMakerIdList()) {
+                if (isAcceptPaysheet(payMakerId)) {
+                    String makerName = userClient.queryMakerName(acceptPaysheetSaveDto.getPayMakerId());
+                    return R.fail("创客" + makerName + "已开交付支付验收单");
+                }
+            }
+        }
+
+        AcceptPaysheetEntity acceptPaysheetEntity = new AcceptPaysheetEntity();
         acceptPaysheetEntity.setUploadSource(uploadSource);
         acceptPaysheetEntity.setUploadPerson(uploadPerson);
-        acceptPaysheetEntity.setAcceptPaysheetUrl(acceptPaysheetSaveDto.getAcceptPaysheetUrl());
-
+        BeanUtils.copyProperties(acceptPaysheetSaveDto, acceptPaysheetEntity);
         save(acceptPaysheetEntity);
 
-        return R.success("上传成功");
+        if (AcceptPaysheetType.MANY.equals(acceptPaysheetSaveDto.getAcceptPaysheetType())) {
+            acceptPaysheetSaveDto.getPayMakerIdList().forEach(payMakerId -> {
+                AcceptPaysheetListEntity acceptPaysheetListEntity = new AcceptPaysheetListEntity();
+                acceptPaysheetListEntity.setAcceptPaysheetId(acceptPaysheetEntity.getId());
+                acceptPaysheetListEntity.setPayMakerId(payMakerId);
+                acceptPaysheetPayListService.save(acceptPaysheetListEntity);
+            });
+        }
+
+        return R.success("上传交付支付验收单成功");
     }
 
     @Override
@@ -120,18 +143,27 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
     }
 
     @Override
-    public AcceptPaysheetEntity getAcceptPaysheet(Long payEnterpriseId, Long payMakerId) {
+    public boolean isAcceptPaysheet(Long payMakerId) {
 
-        QueryWrapper<AcceptPaysheetEntity> queryWrapper = new QueryWrapper<>();
-        if (payMakerId != null) {
-            queryWrapper.lambda().eq(AcceptPaysheetEntity::getPayEnterpriseId, payEnterpriseId)
-                    .eq(AcceptPaysheetEntity::getPayMakerId, payMakerId);
-        } else {
-            queryWrapper.lambda().eq(AcceptPaysheetEntity::getPayEnterpriseId, payEnterpriseId)
-                    .isNull(true, AcceptPaysheetEntity::getPayMakerId);
+        int acceptPaysheetNum = count(Wrappers.<AcceptPaysheetEntity>query().lambda().eq(AcceptPaysheetEntity::getPayMakerId, payMakerId));
+        int acceptPaysheetListNum = acceptPaysheetPayListService.count(Wrappers.<AcceptPaysheetListEntity>query().lambda().eq(AcceptPaysheetListEntity::getPayMakerId, payMakerId));
+
+        return (acceptPaysheetNum + acceptPaysheetListNum) > 0;
+    }
+
+    @Override
+    public void deleteAcceptPaysheet(Long payEnterpriseId) {
+
+        List<Long> acceptPaysheetIdList = baseMapper.queryAcceptPaysheetIdList(payEnterpriseId);
+
+        //删除交付支付验收单记录
+        baseMapper.deleteAcceptPaysheet(payEnterpriseId);
+
+        //删除清单式子表记录
+        if (!(acceptPaysheetIdList.isEmpty())) {
+            acceptPaysheetIdList.forEach(acceptPaysheetId -> acceptPaysheetPayListService.deleteAcceptPaysheetList(acceptPaysheetId));
         }
 
-        return baseMapper.selectOne(queryWrapper);
     }
 
 }

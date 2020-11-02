@@ -100,10 +100,10 @@ CREATE TABLE `diyi_accept_paysheet_cs_list` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `diyi_accept_paysheet_pay_list`
+-- Table structure for `diyi_accept_paysheet_list`
 -- ----------------------------
-DROP TABLE IF EXISTS `diyi_accept_paysheet_pay_list`;
-CREATE TABLE `diyi_accept_paysheet_pay_list` (
+DROP TABLE IF EXISTS `diyi_accept_paysheet_list`;
+CREATE TABLE `diyi_accept_paysheet_list` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `accept_paysheet_id` bigint(50) NOT NULL COMMENT '总包交付支付验收单ID',
   `pay_maker_id` bigint(50) NOT NULL COMMENT '创客支付明细ID',
@@ -118,7 +118,7 @@ CREATE TABLE `diyi_accept_paysheet_pay_list` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='众包交付支付验收单清单表';
 
 -- ----------------------------
--- Records of diyi_accept_paysheet_pay_list
+-- Records of diyi_accept_paysheet_list
 -- ----------------------------
 
 -- ----------------------------

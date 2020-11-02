@@ -156,6 +156,7 @@
         <result property="payFee" column="pay_fee"/>
         <result property="totalFee" column="total_fee"/>
         <result property="serviceRate" column="service_rate"/>
+        <result property="isAcceptSheet" column="is_accept_sheet"/>
     </resultMap>
 
     <resultMap type="com.lgyun.system.user.vo.TransactionVO" id="transactionVO">
@@ -416,7 +417,7 @@
         <result property="chargeListUrl" column="charge_list_url"/>
         <result property="enterprisePayReceiptUrls" column="enterprise_pay_receipt_urls"/>
         <result property="worksheetId" column="worksheet_id"/>
-        <result property="acceptPaysheetUrl" column="accept_paysheet_url"/>
+        <result property="acceptPaysheetUrls" column="accept_paysheet_urls"/>
         <result property="auditState" column="audit_state"/>
         <result property="createTime" column="create_time"/>
         <result property="makerInvoiceType" column="maker_invoice_type"/>
@@ -613,7 +614,9 @@
     </select>
 
     <select id="getPayMakerListByPayEnterprise" resultMap="payMakerListVO">
-        SELECT t2.id, t2.name, t2.idcard_no, t1.maker_net_income, t1.maker_tax_fee, t1.audit_fee, t1.pay_fee, t1.total_fee, t1.service_rate
+        SELECT t2.id, t2.name, t2.idcard_no, t1.maker_net_income, t1.maker_tax_fee, t1.audit_fee, t1.pay_fee, t1.total_fee, t1.service_rate,
+        IF(((SELECT COUNT(id) FROM diyi_accept_paysheet WHERE is_deleted = 0 AND pay_maker_id = t1.id) > 0 OR (SELECT COUNT(id) FROM diyi_accept_paysheet_list
+        WHERE is_deleted = 0 AND pay_maker_id = t1.id) > 0), TRUE, FALSE) AS is_accept_sheet
         FROM diyi_pay_maker t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id WHERE t1.is_deleted = 0 AND t1.pay_enterprise_id = #{param1}
     </select>
 
@@ -1113,7 +1116,7 @@
     <select id="queryPayEnterpriseDetail" resultMap="payEnterpriseDetailVO">
         SELECT t1.id, t2.enterprise_name, t3.service_provider_name, t1.charge_list_url, t1.worksheet_id, t1.audit_state, t1.create_time, t1.maker_invoice_type,
         t1.pay_state, t1.company_invoice_state, t1.subcontracting_invoice_state, t1.pay_to_platform_amount, (SELECT GROUP_CONCAT(enterprise_pay_receipt_url)
-        FROM diyi_pay_enterprise_receipt WHERE is_deleted = 0 AND pay_enterprise_id = t1.id) AS enterprise_pay_receipt_urls, (SELECT accept_paysheet_url
+        FROM diyi_pay_enterprise_receipt WHERE is_deleted = 0 AND pay_enterprise_id = t1.id) AS enterprise_pay_receipt_urls, (SELECT GROUP_CONCAT(accept_paysheet_url)
         FROM diyi_accept_paysheet WHERE is_deleted = 0 AND accept_paysheet_type = 'MANY' AND pay_enterprise_id = t1.id) AS accept_paysheet_url
         FROM diyi_pay_enterprise t1 INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id INNER JOIN diyi_service_provider t3 ON t1.service_provider_id = t3.id
         WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 t1.id = #{param1}

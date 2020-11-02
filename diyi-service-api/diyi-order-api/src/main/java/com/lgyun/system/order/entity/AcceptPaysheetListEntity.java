@@ -17,8 +17,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("diyi_accept_paysheet_pay_list")
-public class AcceptPaysheetPayListEntity extends BaseEntity {
+@TableName("diyi_accept_paysheet_list")
+public class AcceptPaysheetListEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -29,6 +29,6 @@ public class AcceptPaysheetPayListEntity extends BaseEntity {
     /**
      * 创客支付明细ID
      */
-    private String payMakerId;
+    private Long payMakerId;
 
 }

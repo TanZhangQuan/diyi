@@ -18,11 +18,6 @@ public class SelfHelpInvoicesByEnterpriseDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 自助开票编号
-     */
-    private Long selfHelpInvoiceId;
-
-    /**
      * 开票人姓名
      */
     private String invoicePeopleName;

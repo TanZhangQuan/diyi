@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.lgyun.system.order.mapper.AcceptPaysheetPayListMapper">
+<mapper namespace="com.lgyun.system.order.mapper.AcceptPaysheetListMapper">
+
+    <select id="deleteAcceptPaysheetList">
+        DELETE FROM diyi_accept_paysheet_list WHERE accept_paysheet_id = #{param1}
+    </select>
 
 </mapper>

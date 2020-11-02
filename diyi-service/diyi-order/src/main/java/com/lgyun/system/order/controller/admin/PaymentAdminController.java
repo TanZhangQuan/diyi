@@ -2,13 +2,17 @@ package com.lgyun.system.order.controller.admin;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.MakerInvoiceType;
-import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.PayEnterpriseAuditState;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.*;
-import com.lgyun.system.order.service.*;
+import com.lgyun.system.order.dto.AcceptPaysheetSaveDTO;
+import com.lgyun.system.order.dto.PayEnterpriseCreateOrUpdateDTO;
+import com.lgyun.system.order.dto.PayEnterpriseDTO;
+import com.lgyun.system.order.dto.WorksheetFinishedListDTO;
+import com.lgyun.system.order.service.IAcceptPaysheetService;
+import com.lgyun.system.order.service.IPayEnterpriseService;
+import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
@@ -32,7 +36,6 @@ public class PaymentAdminController {
     private IUserClient userClient;
     private IPayEnterpriseService payEnterpriseService;
     private IAcceptPaysheetService acceptPaysheetService;
-    private ISelfHelpInvoiceService selfHelpInvoiceService;
     private IWorksheetService worksheetService;
 
     @GetMapping("/query-finished-worksheet-list")
@@ -61,7 +64,7 @@ public class PaymentAdminController {
     }
 
     @GetMapping("/query-pay-enterprise-list-by-enterprise")
-    @ApiOperation(value = "查询商户所有总包", notes = "查询商户所有总包+分包")
+    @ApiOperation(value = "查询商户所有总包支付清单", notes = "查询商户所有总包支付清单")
     public R queryPayEnterpriseListByEnterprise(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, PayEnterpriseDTO payEnterpriseDto, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
@@ -73,7 +76,7 @@ public class PaymentAdminController {
     }
 
     @GetMapping("/query-pay-enterprise-list-by-service-provider")
-    @ApiOperation(value = "查询服务商所有总包+分包-总包支付", notes = "查询服务商所有总包+分包-总包支付")
+    @ApiOperation(value = "查询服务商所有总包支付清单", notes = "查询服务商所有总包支付清单")
     public R queryPayEnterpriseListByServiceProvider(@ApiParam(value = "服务商", required = true) @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId, PayEnterpriseDTO payEnterpriseDto, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
@@ -142,21 +145,7 @@ public class PaymentAdminController {
         }
         AdminEntity adminEntity = result.getData();
 
-        return acceptPaysheetService.upload(acceptPaysheetSaveDto, null, "平台上传", adminEntity.getName());
-    }
-
-    @GetMapping("/query-crowd-list")
-    @ApiOperation(value = "根据商户查询众包/众采", notes = "根据商户查询众包/众采")
-    public R queryCrowdList(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
-                            @ApiParam(value = "创客类型", required = true) @NotNull(message = "请选择创客类型") @RequestParam(required = false) MakerType makerType,
-                            SelfHelpInvoicesByEnterpriseDTO selfHelpInvoicesByEnterpriseDto, Query query, BladeUser bladeUser) {
-        //查询当前管理员
-        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return selfHelpInvoiceService.getSelfHelfInvoicesByEnterprise(enterpriseId, makerType, selfHelpInvoicesByEnterpriseDto, Condition.getPage(query.setDescs("create_time")));
+        return acceptPaysheetService.uploadAcceptPaysheet(null, null, acceptPaysheetSaveDto, "平台上传", adminEntity.getName());
     }
 
     @PostMapping("/audit-pay-enterprise")

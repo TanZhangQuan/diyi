@@ -55,6 +55,11 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
+    public String queryMakerName(Long payMakerId) {
+        return null;
+    }
+
+    @Override
     public MakerEntity queryMakerById(Long makerId) {
         return null;
     }
