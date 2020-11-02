@@ -3,7 +3,6 @@ package com.lgyun.system.user.controller.admin;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.MaterialState;
-import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
@@ -31,7 +30,6 @@ public class ServiceProviderAdminController {
 
     private IAdminService adminService;
     private IServiceProviderService serviceProviderService;
-    private IServiceProviderWorkerService serviceProviderWorkerService;
     private IServiceProviderCertService serviceProviderCertService;
     private IAdminCenterMaterialService adminCenterMaterialService;
 
@@ -180,19 +178,6 @@ public class ServiceProviderAdminController {
         }
 
         return R.status(serviceProviderCertService.removeByIds(Func.toLongList(ids)));
-    }
-
-    @GetMapping("/query-service-provider-worker-list")
-    @ApiOperation(value = "查询服务商员工", notes = "查询服务商员工")
-    public R queryServiceProviderWorkerList(@ApiParam(value = "服务商") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
-                                            @ApiParam(value = "岗位性质") @NotNull(message = "请选择岗位性质") @RequestParam(required = false) PositionName positionName, BladeUser bladeUser) {
-        //查询当前管理员
-        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return serviceProviderWorkerService.queryServiceProviderWorkerList(serviceProviderId, positionName);
     }
 
 }

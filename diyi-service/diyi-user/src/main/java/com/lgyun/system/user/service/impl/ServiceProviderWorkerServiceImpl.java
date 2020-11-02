@@ -11,7 +11,6 @@ import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.dto.GrantDTO;
 import com.lgyun.system.feign.ISysClient;
-import com.lgyun.system.user.dto.AddOrUpdateServiceProviderContactDTO;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.entity.User;
@@ -21,7 +20,6 @@ import com.lgyun.system.user.service.IServiceProviderService;
 import com.lgyun.system.user.service.IServiceProviderWorkerService;
 import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.user.vo.ServiceProviderWorkerVO;
-import com.lgyun.system.user.vo.ServiceProviderWorkerListVO;
 import com.lgyun.system.user.vo.ServiceProviderWorkerDetailVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -109,11 +107,6 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
         QueryWrapper<ServiceProviderWorkerEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(ServiceProviderWorkerEntity::getUserId, userId);
         return baseMapper.selectOne(queryWrapper);
-    }
-
-    @Override
-    public R<List<ServiceProviderWorkerListVO>> queryServiceProviderWorkerList(Long serviceProviderId, PositionName positionName) {
-        return R.data(baseMapper.queryServiceProviderWorkerList(serviceProviderId, positionName));
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.lgyun.system.user.controller.admin;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.CooperateStatus;
-import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
@@ -13,7 +12,6 @@ import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.service.IAdminService;
 import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IEnterpriseServiceProviderService;
-import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -36,7 +34,6 @@ public class EnterpriseAdminController {
     private IAdminService adminService;
     private IEnterpriseService enterpriseService;
     private IEnterpriseServiceProviderService enterpriseProviderService;
-    private IEnterpriseWorkerService enterpriseWorkerService;
 
     @PostMapping("/create-or-update-enterprise")
     @ApiOperation(value = "添加或编辑商户", notes = "添加或编辑商户")
@@ -86,19 +83,6 @@ public class EnterpriseAdminController {
         }
 
         return enterpriseService.updateEnterpriseState(enterpriseId, enterpriseState);
-    }
-
-    @GetMapping("/query-enterprise-worker-list")
-    @ApiOperation(value = "查询商户员工", notes = "查询商户员工")
-    public R queryEnterpriseWorkerList(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
-                                       @ApiParam(value = "岗位性质", required = true) @NotNull(message = "请选择岗位性质") @RequestParam(required = false) PositionName positionName, BladeUser bladeUser) {
-        //查询当前管理员
-        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return enterpriseWorkerService.queryEnterpriseWorkerList(enterpriseId, positionName);
     }
 
     @GetMapping("/query-service-provider-id-and-name-list")

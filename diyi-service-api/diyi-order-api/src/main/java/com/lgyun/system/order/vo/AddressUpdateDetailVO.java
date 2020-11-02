@@ -1,12 +1,10 @@
 package com.lgyun.system.order.vo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author tzq.
@@ -14,7 +12,7 @@ import java.util.Date;
  * @time 20:04.
  */
 @Data
-public class AddressListVO implements Serializable {
+public class AddressUpdateDetailVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -57,11 +55,5 @@ public class AddressListVO implements Serializable {
      * 是否默认
      */
     private Boolean isDefault;
-
-    /**
-     * 创建时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date createTime;
 
 }

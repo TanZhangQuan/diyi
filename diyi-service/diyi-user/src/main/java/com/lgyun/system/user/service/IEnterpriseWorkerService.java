@@ -1,15 +1,11 @@
 package com.lgyun.system.user.service;
 
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.vo.EnterpriseWorkerDetailVO;
-import com.lgyun.system.user.vo.EnterpriseWorkerListVO;
 import com.lgyun.system.user.vo.EnterpriseWorkerVO;
-
-import java.util.List;
 
 /**
  * 商户员工(联系人) Service 接口
@@ -76,15 +72,6 @@ public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEn
      * @return
      */
     R<String> saveEnterpriseAccount(EnterpriseWorkerVO request, EnterpriseWorkerEntity enterpriseWorkerEntity, BladeUser bladeUser);
-
-    /**
-     * 商户管理模块查询商户员工
-     *
-     * @param enterpriseId
-     * @param positionName
-     * @return
-     */
-    R<List<EnterpriseWorkerListVO>> queryEnterpriseWorkerList(Long enterpriseId, PositionName positionName);
 
 }
 

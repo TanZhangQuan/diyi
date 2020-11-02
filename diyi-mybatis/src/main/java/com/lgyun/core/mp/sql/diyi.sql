@@ -241,7 +241,7 @@ DROP TABLE IF EXISTS `diyi_agent_main`;
 CREATE TABLE `diyi_agent_main` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `agent_state` varchar(50) NOT NULL COMMENT '渠道商账户状态1，正常状态；2，冻结状态；3，非法状态。管理后台手工调整。只有正常状态才能接单和众包服务。默认为正常状态',
-  `enterprise_name` varchar(100) NOT NULL COMMENT '客户名称',
+  `agent_main_name` varchar(100) NOT NULL COMMENT '客户名称',
   `legal_person_name` varchar(50) NOT NULL COMMENT '法人',
   `legal_person_idcard` varchar(50) NOT NULL COMMENT '法人身份证',
   `social_credit_no` varchar(100) NOT NULL COMMENT '统一社会信用代码',
@@ -274,7 +274,7 @@ CREATE TABLE `diyi_agent_main` (
   `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`en_user_name`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`agent_main_name`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`social_credit_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='渠道商信息表';
 

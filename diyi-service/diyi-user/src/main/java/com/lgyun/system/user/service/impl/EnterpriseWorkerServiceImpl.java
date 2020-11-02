@@ -11,7 +11,6 @@ import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.dto.GrantDTO;
 import com.lgyun.system.feign.ISysClient;
-import com.lgyun.system.user.dto.AddOrUpdateEnterpriseContactDTO;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.User;
@@ -21,7 +20,6 @@ import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.user.vo.EnterpriseWorkerVO;
-import com.lgyun.system.user.vo.EnterpriseWorkerListVO;
 import com.lgyun.system.user.vo.EnterpriseWorkerDetailVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -190,11 +188,6 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
         }
 
         return R.success("OK");
-    }
-
-    @Override
-    public R<List<EnterpriseWorkerListVO>> queryEnterpriseWorkerList(Long enterpriseId, PositionName positionName) {
-        return R.data(baseMapper.queryEnterpriseWorkerList(enterpriseId, positionName));
     }
 
 }
