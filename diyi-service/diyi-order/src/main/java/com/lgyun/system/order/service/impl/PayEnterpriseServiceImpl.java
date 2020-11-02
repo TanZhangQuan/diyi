@@ -150,7 +150,13 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             //删除旧的分包
             payMakerService.deleteByPayEnterpriseId(payEnterpriseEntity.getId());
 
-            //删除旧的支付回单
+            //删除旧的总包支付回单
+            payEnterpriseReceiptService.deleteByPayEnterpriseId(payEnterpriseEntity.getId());
+
+            //删除旧的总包支付回单
+            payEnterpriseReceiptService.deleteByPayEnterpriseId(payEnterpriseEntity.getId());
+
+            //删除旧的总包支付回单
             payEnterpriseReceiptService.deleteByPayEnterpriseId(payEnterpriseEntity.getId());
 
         }

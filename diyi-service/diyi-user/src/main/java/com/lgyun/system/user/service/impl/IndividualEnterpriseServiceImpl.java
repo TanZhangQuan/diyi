@@ -116,7 +116,7 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
         }
 
         if (enterpriseId != null) {
-            int relevanceNum = makerEnterpriseService.getEnterpriseIdAndMakerIdAndRelationshipType(individualBusinessEnterpriseAddOrUpdateDto.getMakerId(), enterpriseId, RelationshipType.RELEVANCE);
+            int relevanceNum = makerEnterpriseService.queryMakerEnterpriseNum(enterpriseId, individualBusinessEnterpriseAddOrUpdateDto.getMakerId(), RelationshipType.RELEVANCE);
             if (relevanceNum <= 0) {
                 return R.fail("创客商户不存在关联关系");
             }

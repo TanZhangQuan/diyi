@@ -77,7 +77,7 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
      * @param relationshipType
      * @return
      */
-    int getEnterpriseIdAndMakerIdAndRelationshipType(Long enterpriseId, Long makerId, RelationshipType relationshipType);
+    int queryMakerEnterpriseNum(Long enterpriseId, Long makerId, RelationshipType relationshipType);
 
     /**
      * 批量关联创客

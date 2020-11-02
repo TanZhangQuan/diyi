@@ -55,8 +55,8 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
 
     @Override
     public R<MakerEnterpriseRelationVO> getEnterpriseId(Long enterpriseId, Long makerId) {
-        int relevanceNum = makerEnterpriseService.getEnterpriseIdAndMakerIdAndRelationshipType(enterpriseId, makerId, RelationshipType.RELEVANCE);
-        int attentionNum = makerEnterpriseService.getEnterpriseIdAndMakerIdAndRelationshipType(enterpriseId, makerId, RelationshipType.ATTENTION);
+        int relevanceNum = makerEnterpriseService.queryMakerEnterpriseNum(enterpriseId, makerId, RelationshipType.RELEVANCE);
+        int attentionNum = makerEnterpriseService.queryMakerEnterpriseNum(enterpriseId, makerId, RelationshipType.ATTENTION);
         QueryWrapper<EnterpriseEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(EnterpriseEntity::getId, enterpriseId);
 

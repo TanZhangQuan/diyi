@@ -61,7 +61,7 @@ public class PaymentAdminController {
     }
 
     @GetMapping("/query-pay-enterprise-list-by-enterprise")
-    @ApiOperation(value = "查询商户所有总包+分包-总包支付", notes = "查询商户所有总包+分包-总包支付")
+    @ApiOperation(value = "查询商户所有总包", notes = "查询商户所有总包+分包")
     public R queryPayEnterpriseListByEnterprise(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, PayEnterpriseDTO payEnterpriseDto, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);

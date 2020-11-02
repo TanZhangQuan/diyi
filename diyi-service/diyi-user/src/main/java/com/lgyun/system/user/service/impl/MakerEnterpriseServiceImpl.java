@@ -129,10 +129,10 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
-    public int getEnterpriseIdAndMakerIdAndRelationshipType(Long enterpriseId, Long makerId, RelationshipType relationshipType) {
+    public int queryMakerEnterpriseNum(Long enterpriseId, Long makerId, RelationshipType relationshipType) {
         QueryWrapper<MakerEnterpriseEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(MakerEnterpriseEntity::getMakerId, makerId)
-                .eq(MakerEnterpriseEntity::getEnterpriseId, enterpriseId)
+        queryWrapper.lambda().eq(MakerEnterpriseEntity::getEnterpriseId, enterpriseId)
+                .eq(MakerEnterpriseEntity::getMakerId, makerId)
                 .eq(MakerEnterpriseEntity::getRelationshipType, relationshipType);
         return baseMapper.selectCount(queryWrapper);
     }
