@@ -104,12 +104,11 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
             //移除要删除的收货地址
             addressEntityList.remove(addressEntity);
 
-            AddressEntity newDefaultAddressEntity = addressEntityList.get(0);
-            newDefaultAddressEntity.setIsDefault(true);
-            updateById(newDefaultAddressEntity);
-
-            addressEntity.setIsDefault(false);
-            updateById(addressEntity);
+            if (!(addressEntityList.isEmpty())){
+                AddressEntity newDefaultAddressEntity = addressEntityList.get(0);
+                newDefaultAddressEntity.setIsDefault(true);
+                updateById(newDefaultAddressEntity);
+            }
         }
 
         //删除收货地址
