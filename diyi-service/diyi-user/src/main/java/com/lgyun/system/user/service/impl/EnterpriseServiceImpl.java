@@ -354,7 +354,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             updateById(enterpriseEntity);
         }
 
-        return R.fail("操作成功");
+        return R.success("操作成功");
     }
 
     @Override
