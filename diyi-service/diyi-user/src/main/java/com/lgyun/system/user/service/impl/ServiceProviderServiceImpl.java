@@ -274,7 +274,6 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
             updateById(serviceProviderEntity);
 
             return R.success("编辑服务商成功");
-
         }
 
     }
@@ -292,7 +291,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
             updateById(serviceProviderEntity);
         }
 
-        return R.fail("更改服务商状态成功");
+        return R.success("更改服务商状态成功");
     }
 
     @Override
