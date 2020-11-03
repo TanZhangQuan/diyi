@@ -78,6 +78,11 @@ public class EnterpriseMakerDetailVO implements Serializable {
     private String bankName;
 
     /**
+     * 声明短视频
+     */
+    private String applyShortVideo;
+
+    /**
      * 是否实名
      */
     private Boolean boolRealNameVerify;
