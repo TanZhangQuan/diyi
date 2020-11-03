@@ -38,12 +38,12 @@ public class AgreementEntity extends BaseEntity {
     /**
      * 审核状态
      */
-    private AuditState auditState;
+    private AuditState auditState = AuditState.EDITING;
 
     /**
      * 签署状态
      */
-    private SignState signState;
+    private SignState signState = SignState.UNSIGN;
 
     /**
      * 协议编号
