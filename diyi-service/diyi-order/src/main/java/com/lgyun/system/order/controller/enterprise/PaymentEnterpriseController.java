@@ -1,11 +1,13 @@
 package com.lgyun.system.order.controller.enterprise;
 
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.*;
+import com.lgyun.system.order.dto.AcceptPaysheetSaveDTO;
+import com.lgyun.system.order.dto.PayEnterpriseCreateOrUpdateDTO;
+import com.lgyun.system.order.dto.PayEnterpriseDTO;
+import com.lgyun.system.order.dto.WorksheetFinishedListDTO;
 import com.lgyun.system.order.service.IAcceptPaysheetService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.service.ISelfHelpInvoiceService;
@@ -146,20 +148,6 @@ public class PaymentEnterpriseController {
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
         return acceptPaysheetService.uploadAcceptPaysheet(enterpriseWorkerEntity.getEnterpriseId(), null, acceptPaysheetSaveDto, "商户上传", enterpriseWorkerEntity.getWorkerName());
-    }
-
-    @GetMapping("/query-self-helf-invoice-list")
-    @ApiOperation(value = "根据商户查询众包/众采", notes = "根据商户查询众包/众采")
-    public R querySelfHelfInvoiceList(@ApiParam(value = "创客类型", required = true) @NotNull(message = "请选择创客类型") @RequestParam(required = false) MakerType makerType,
-                                      SelfHelpInvoicesByEnterpriseDTO selfHelpInvoicesByEnterpriseDto, Query query, BladeUser bladeUser) {
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-        return selfHelpInvoiceService.getSelfHelfInvoicesByEnterprise(enterpriseWorkerEntity.getEnterpriseId(), makerType, selfHelpInvoicesByEnterpriseDto, Condition.getPage(query.setDescs("create_time")));
     }
 
 }
