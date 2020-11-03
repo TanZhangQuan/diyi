@@ -151,14 +151,15 @@ public class ServiceProviderAdminController {
 
     @PostMapping("/add-or-update-admin-center-material")
     @ApiOperation(value = "创建或编辑服务商综合业务资料(模板管理)", notes = "创建或编辑服务商综合业务资料(模板管理)")
-    public R addOrUpdateAdminCenterMaterial(@Valid @RequestBody AddOrUpdateAdminCenterMaterialDTO addOrUpdateAdminCenterMaterialDTO, BladeUser bladeUser) {
+    public R addOrUpdateAdminCenterMaterial(@ApiParam(value = "服务商") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
+                                            @Valid @RequestBody AddOrUpdateAdminCenterMaterialDTO addOrUpdateAdminCenterMaterialDTO, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return adminCenterMaterialService.addOrUpdateAdminCenterMaterial(1323517607043919873L, addOrUpdateAdminCenterMaterialDTO);
+        return adminCenterMaterialService.addOrUpdateAdminCenterMaterial(serviceProviderId, addOrUpdateAdminCenterMaterialDTO);
     }
 
     @GetMapping("/query-admin-center-material-update-detail")
