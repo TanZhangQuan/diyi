@@ -9,7 +9,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 /**
  * Entity
@@ -33,7 +32,7 @@ public class EnterpriseEntity extends BaseEntity {
     /**
      * 创客加入邀请码
      */
-    private String inviteNo = String.valueOf(UUID.randomUUID());
+    private String inviteNo;
 
     /**
      * 商户名称

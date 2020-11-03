@@ -175,11 +175,11 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
                 return R.fail("已存在相同手机号的管理员");
             }
 
-
             EnterpriseEntity enterpriseEntity = new EnterpriseEntity();
             enterpriseEntity.setRunnerId(adminEntity.getId());
             enterpriseEntity.setSalerId(adminEntity.getId());
             enterpriseEntity.setCreateType(CreateType.PLATFORMCREATE);
+            enterpriseEntity.setInviteNo(addOrUpdateEnterpriseDTO.getPhoneNumber());
             BeanUtil.copy(addOrUpdateEnterpriseDTO, enterpriseEntity);
             save(enterpriseEntity);
 
