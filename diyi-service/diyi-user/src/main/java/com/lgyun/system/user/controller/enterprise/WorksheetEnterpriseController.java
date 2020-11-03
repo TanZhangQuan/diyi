@@ -1,13 +1,16 @@
 package com.lgyun.system.user.controller.enterprise;
 
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.common.secure.BladeUser;
+import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.service.IMakerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,16 +28,17 @@ public class WorksheetEnterpriseController {
     private IEnterpriseWorkerService enterpriseWorkerService;
     private IMakerService makerService;
 
-    @GetMapping("query-maker-list")
+    @GetMapping("/query-maker-list")
     @ApiOperation(value = "查询创客", notes = "查询创客")
-    public R queryMakerList(@RequestParam(required = false) String makerName, Query query, BladeUser bladeUser) {
+    public R queryMakerList(@ApiParam(value = "搜索创客关键字：请输入创客编号/姓名/手机号") @RequestParam(required = false) String keyword, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return makerService.getMakerName(query, makerName);
+        return makerService.queryMakerList(enterpriseWorkerEntity.getEnterpriseId(), null, RelationshipType.RELEVANCE, null, keyword, Condition.getPage(query.setDescs("create_time")));
     }
 
 }

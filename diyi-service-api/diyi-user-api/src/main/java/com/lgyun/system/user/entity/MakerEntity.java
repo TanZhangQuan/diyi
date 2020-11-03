@@ -60,6 +60,11 @@ public class MakerEntity extends BaseEntity {
     private CertificationState certificationState = CertificationState.UNCERTIFIED;
 
     /**
+     * 认证时间
+     */
+    private Date certificationDate;
+
+    /**
      * 授权合同签署状态
      */
     private SignState empowerSignState = SignState.UNSIGN;
