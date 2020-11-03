@@ -191,11 +191,11 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             userService.save(user);
 
             EnterpriseWorkerEntity enterpriseWorkerEntity = new EnterpriseWorkerEntity();
-            enterpriseWorkerEntity.setEnterpriseId(enterpriseEntity.getId());
             enterpriseWorkerEntity.setUserId(user.getId());
             enterpriseWorkerEntity.setPositionName(PositionName.MANAGEMENT);
             enterpriseWorkerEntity.setAdminPower(true);
             BeanUtil.copy(addOrUpdateEnterpriseDTO, enterpriseWorkerEntity);
+            enterpriseWorkerEntity.setEnterpriseId(enterpriseEntity.getId());
             enterpriseWorkerService.save(enterpriseWorkerEntity);
 
             //上传商户加盟合同
@@ -231,15 +231,24 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
 
         } else {
 
+            EnterpriseEntity enterpriseEntity = getById(addOrUpdateEnterpriseDTO.getEnterpriseId());
+            if (enterpriseEntity == null) {
+                return R.fail("商户不存在");
+            }
+
+            //查询商户管理员
+            EnterpriseWorkerEntity enterpriseWorkerEntity = enterpriseWorkerService.getOne(Wrappers.<EnterpriseWorkerEntity>query().lambda()
+                    .eq(EnterpriseWorkerEntity::getEnterpriseId, enterpriseEntity.getId())
+                    .eq(EnterpriseWorkerEntity::getUpLevelId, null));
+
             if (StringUtils.isNotBlank(addOrUpdateEnterpriseDTO.getEmployeePwd())) {
                 if (addOrUpdateEnterpriseDTO.getEmployeePwd().length() <= 6 || addOrUpdateEnterpriseDTO.getEmployeePwd().length() >= 18) {
                     return R.fail("请输入长度为6-18位的密码");
                 }
-            }
 
-            EnterpriseEntity enterpriseEntity = getById(addOrUpdateEnterpriseDTO.getEnterpriseId());
-            if (enterpriseEntity == null) {
-                return R.fail("商户不存在");
+                addOrUpdateEnterpriseDTO.setEmployeePwd(DigestUtil.encrypt(addOrUpdateEnterpriseDTO.getEmployeePwd()));
+            } else {
+                addOrUpdateEnterpriseDTO.setEmployeePwd(enterpriseWorkerEntity.getEmployeePwd());
             }
 
             //判断商户名称是否已存在
@@ -258,11 +267,6 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
                 return R.fail("商户统一社会信用代码已存在");
             }
 
-            //查询商户管理员
-            EnterpriseWorkerEntity enterpriseWorkerEntity = enterpriseWorkerService.getOne(Wrappers.<EnterpriseWorkerEntity>query().lambda()
-                    .eq(EnterpriseWorkerEntity::getEnterpriseId, enterpriseEntity.getId())
-                    .eq(EnterpriseWorkerEntity::getUpLevelId, null));
-
             int enterpriseWorkerNum = enterpriseWorkerService.count(Wrappers.<EnterpriseWorkerEntity>query().lambda()
                     .eq(EnterpriseWorkerEntity::getEmployeeUserName, addOrUpdateEnterpriseDTO.getEmployeeUserName())
                     .ne(EnterpriseWorkerEntity::getId, enterpriseWorkerEntity.getId()));
@@ -278,12 +282,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             }
 
             //编辑商户员工
-            enterpriseWorkerEntity.setEmployeeUserName(addOrUpdateEnterpriseDTO.getEmployeeUserName());
-            enterpriseWorkerEntity.setPhoneNumber(addOrUpdateEnterpriseDTO.getPhoneNumber());
-            enterpriseWorkerEntity.setWorkerName(addOrUpdateEnterpriseDTO.getWorkerName());
-            if (StringUtils.isNotBlank(addOrUpdateEnterpriseDTO.getEmployeePwd())) {
-                enterpriseWorkerEntity.setEmployeePwd(DigestUtil.encrypt(addOrUpdateEnterpriseDTO.getEmployeePwd()));
-            }
+            BeanUtil.copy(addOrUpdateEnterpriseDTO, enterpriseWorkerEntity);
             enterpriseWorkerService.updateById(enterpriseWorkerEntity);
 
             //上传加盟合同

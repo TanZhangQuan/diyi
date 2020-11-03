@@ -182,11 +182,11 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
             userService.save(user);
 
             ServiceProviderWorkerEntity serviceProviderWorkerEntity = new ServiceProviderWorkerEntity();
-            serviceProviderWorkerEntity.setServiceProviderId(serviceProviderEntity.getId());
             serviceProviderWorkerEntity.setUserId(user.getId());
             serviceProviderWorkerEntity.setPositionName(PositionName.MANAGEMENT);
             serviceProviderWorkerEntity.setAdminPower(true);
             BeanUtil.copy(addOrUpdateServiceProviderDTO, serviceProviderWorkerEntity);
+            serviceProviderWorkerEntity.setServiceProviderId(serviceProviderEntity.getId());
             serviceProviderWorkerService.save(serviceProviderWorkerEntity);
 
             //上传加盟合同
@@ -205,16 +205,25 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
 
         } else {
 
-            if (StringUtils.isNotBlank(addOrUpdateServiceProviderDTO.getEmployeePwd())) {
-                if (addOrUpdateServiceProviderDTO.getEmployeePwd().length() <= 6 || addOrUpdateServiceProviderDTO.getEmployeePwd().length() >= 18) {
-                    return R.fail("请输入长度为6-18位的密码");
-                }
-            }
-
             //查询服务商
             ServiceProviderEntity serviceProviderEntity = getById(addOrUpdateServiceProviderDTO.getServiceProviderId());
             if (serviceProviderEntity == null) {
                 return R.fail("服务商不存在");
+            }
+
+            //查询服务商管理员
+            ServiceProviderWorkerEntity serviceProviderWorkerEntity = serviceProviderWorkerService.getOne(Wrappers.<ServiceProviderWorkerEntity>query().lambda()
+                    .eq(ServiceProviderWorkerEntity::getServiceProviderId, serviceProviderEntity.getId())
+                    .eq(ServiceProviderWorkerEntity::getUpLevelId, null));
+
+            if (StringUtils.isNotBlank(addOrUpdateServiceProviderDTO.getEmployeePwd())) {
+                if (addOrUpdateServiceProviderDTO.getEmployeePwd().length() <= 6 || addOrUpdateServiceProviderDTO.getEmployeePwd().length() >= 18) {
+                    return R.fail("请输入长度为6-18位的密码");
+                }
+
+                addOrUpdateServiceProviderDTO.setEmployeePwd(DigestUtil.encrypt(addOrUpdateServiceProviderDTO.getEmployeePwd()));
+            } else {
+                addOrUpdateServiceProviderDTO.setEmployeePwd(serviceProviderWorkerEntity.getEmployeePwd());
             }
 
             //判断服务商名称是否已存在
@@ -233,11 +242,6 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
                 return R.fail("服务商统一社会信用代码已存在");
             }
 
-            //查询服务商管理员
-            ServiceProviderWorkerEntity serviceProviderWorkerEntity = serviceProviderWorkerService.getOne(Wrappers.<ServiceProviderWorkerEntity>query().lambda()
-                    .eq(ServiceProviderWorkerEntity::getServiceProviderId, serviceProviderEntity.getId())
-                    .eq(ServiceProviderWorkerEntity::getUpLevelId, null));
-
             int serviceProviderWorkerNum = serviceProviderWorkerService.count(Wrappers.<ServiceProviderWorkerEntity>query().lambda()
                     .eq(ServiceProviderWorkerEntity::getEmployeeUserName, addOrUpdateServiceProviderDTO.getEmployeeUserName())
                     .ne(ServiceProviderWorkerEntity::getId, serviceProviderWorkerEntity.getId()));
@@ -253,12 +257,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
             }
 
             //编辑服务商员工
-            serviceProviderWorkerEntity.setEmployeeUserName(addOrUpdateServiceProviderDTO.getEmployeeUserName());
-            serviceProviderWorkerEntity.setPhoneNumber(addOrUpdateServiceProviderDTO.getPhoneNumber());
-            serviceProviderWorkerEntity.setWorkerName(addOrUpdateServiceProviderDTO.getWorkerName());
-            if (StringUtils.isNotBlank(addOrUpdateServiceProviderDTO.getEmployeePwd())) {
-                serviceProviderWorkerEntity.setEmployeePwd(DigestUtil.encrypt(addOrUpdateServiceProviderDTO.getEmployeePwd()));
-            }
+            BeanUtil.copy(addOrUpdateServiceProviderDTO, serviceProviderWorkerEntity);
             serviceProviderWorkerService.updateById(serviceProviderWorkerEntity);
 
             //上传加盟合同
