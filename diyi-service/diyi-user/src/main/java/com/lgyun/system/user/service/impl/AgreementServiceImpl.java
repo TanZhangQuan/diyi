@@ -368,11 +368,11 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     @Override
     public R saveAdminAgreement(Long makerId, Long enterpriseId, Long serviceProviderId, Long objectId, ObjectType objectType, AgreementType agreementType, String paperAgreementUrl) {
         AgreementEntity agreementEntity = null;
-        if(ObjectType.MAKERPEOPLE.equals(objectType) && AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType) && makerEnterpriseService.getEnterpriseIdAndMakerIdAndRelationshipType(enterpriseId, objectId, RelationshipType.RELEVANCE) <= 0){
+        if(ObjectType.MAKERPEOPLE.equals(objectType) && AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType) && makerEnterpriseService.queryMakerEnterpriseNum(enterpriseId, objectId, RelationshipType.RELEVANCE) <= 0){
             return R.fail("创客和商户没有关联关系，不能添加商户和创客的补充协议");
         }
 
-        if(ObjectType.ENTERPRISEPEOPLE.equals(objectType) && AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType) && makerEnterpriseService.getEnterpriseIdAndMakerIdAndRelationshipType(objectId, makerId, RelationshipType.RELEVANCE) <= 0){
+        if(ObjectType.ENTERPRISEPEOPLE.equals(objectType) && AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType) && makerEnterpriseService.queryMakerEnterpriseNum(objectId, makerId, RelationshipType.RELEVANCE) <= 0){
             return R.fail("商户和创客没有关联关系，不能添加创客和商户的补充协议");
         }
 
