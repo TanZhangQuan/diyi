@@ -358,11 +358,6 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     @Override
-    public R<IPage<CooperationServiceProviderListVO>> queryCooperationServiceProviderList(Long enterpriseId, IPage<CooperationServiceProviderListVO> page) {
-        return R.data(page.setRecords(baseMapper.queryCooperationServiceProviderList(enterpriseId, page)));
-    }
-
-    @Override
     public R getEnterpriseAll(Long enterpriseId,String enterpriseName,IPage<EnterpriseEntity> page) {
         QueryWrapper<EnterpriseEntity> queryWrapper = new QueryWrapper<>();
         if(StringUtils.isNotEmpty(enterpriseName) && null != enterpriseId){

@@ -32,19 +32,24 @@ public class CooperationServiceProviderListVO implements Serializable {
     private String serviceProviderName;
 
     /**
-     * 交易金额
+     * 合作次数
      */
-    private BigDecimal transactionAmount;
+    private Integer cooperationNum;
 
     /**
-     * 状态
+     * 合作金额
+     */
+    private BigDecimal cooperationMoney;
+
+    /**
+     * 合作状态
      */
     private CooperateStatus cooperateStatus;
 
     /**
-     * 匹配时间
+     * 开始合作时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date cooperationCreateTime;
+    private Date createTime;
 
 }

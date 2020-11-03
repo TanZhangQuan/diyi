@@ -62,7 +62,7 @@ public interface IEnterpriseServiceProviderService extends BaseService<Enterpris
      * @param page
      * @return
      */
-    R<IPage<ServiceProvidersVO>> getServiceProvidersByEnterpriseId(Long enterpriseId, String keyWord, IPage<ServiceProvidersVO> page);
+    R<IPage<CooperationServiceProviderListVO>> getServiceProvidersByEnterpriseId(Long enterpriseId, String keyWord, IPage<CooperationServiceProviderListVO> page);
 
     /**
      * 查询当前服务商合作商户

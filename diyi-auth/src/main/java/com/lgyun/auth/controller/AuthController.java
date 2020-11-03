@@ -48,7 +48,7 @@ public class AuthController {
     @PostMapping("/refresh-token")
     @ApiOperation(value = "刷新令牌", notes = "刷新令牌")
     public R refreshToken(@ApiParam(value = "令牌", required = true) @NotBlank(message = "请输入令牌") @RequestParam(required = false) String refreshToken,
-                                    @ApiParam(value = "用户类型", required = true) @NotBlank(message = "请选择用户类型") @RequestParam(required = false) UserType userType) {
+                          @ApiParam(value = "用户类型", required = true) @NotBlank(message = "请选择用户类型") @RequestParam(required = false) UserType userType) {
         return authService.refreshToken(refreshToken, userType);
     }
 

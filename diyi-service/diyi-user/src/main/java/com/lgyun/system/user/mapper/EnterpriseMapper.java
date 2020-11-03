@@ -60,14 +60,5 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
      */
     EnterpriseUpdateDetailVO queryEnterpriseUpdateDetail(Long enterpriseId);
 
-    /**
-     * 查询商户合作服务商
-     *
-     * @param enterpriseId
-     * @param page
-     * @return
-     */
-    List<CooperationServiceProviderListVO> queryCooperationServiceProviderList(Long enterpriseId, IPage<CooperationServiceProviderListVO> page);
-
 }
 

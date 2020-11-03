@@ -114,15 +114,6 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
     R<String> updateEnterpriseState(Long enterpriseId, AccountState enterpriseState);
 
     /**
-     * 查询商户合作服务商
-     *
-     * @param enterpriseId
-     * @param page
-     * @return
-     */
-    R<IPage<CooperationServiceProviderListVO>> queryCooperationServiceProviderList(Long enterpriseId, IPage<CooperationServiceProviderListVO> page);
-
-    /**
      * 查询所有商户
      *
      * @param page

@@ -76,14 +76,6 @@
         <result property="workerName" column="worker_name"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.CooperationServiceProviderListVO" id="cooperationServiceProviderListVO">
-        <result property="id" column="id"/>
-        <result property="serviceProviderName" column="service_provider_name"/>
-        <result property="transactionAmount" column="transaction_amount"/>
-        <result property="cooperateStatus" column="cooperate_status"/>
-        <result property="cooperationCreateTime" column="cooperation_create_time"/>
-    </resultMap>
-
     <select id="getEnterpriseName" resultMap="makerEnterpriseRelationVO">
        SELECT id AS enterprise_id, enterprise_name, shop_user_name, legal_person_name, legal_person_idcard as legal_person_idcard, contact1_position, contact1_name, contact1_phone,
        social_credit_no, biz_licence_url, shop_id, contact1_name FROM diyi_enterprise t1 WHERE is_deleted = 0 AND enterprise_name = #{param1}
@@ -132,15 +124,6 @@
         FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'ENTERPRISEPROMISE' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND enterprise_id = t1.id) AS commitment_letters
         FROM diyi_enterprise t1 INNER JOIN diyi_enterprise_worker t2 ON t1.id = t2.enterprise_id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0
         AND t2.up_level_id IS NULL AND t1.id = #{param1}
-    </select>
-
-    <select id="queryCooperationServiceProviderList" resultMap="cooperationServiceProviderListVO">
-        SELECT t3.id, t3.service_provider_name, t4.cooperate_status, t4.create_time, (SELECT IFNULL(SUM(pay_to_platform_amount), 0) FROM diyi_pay_enterprise
-        WHERE is_deleted = 0 AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND enterprise_id = t4.enterprise_id
-        AND service_provider_id = t3.id) + (SELECT IFNULL(SUM(t2.charge_money_num), 0) FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_sp t2
-        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND (t2.apply_state = 'SUBMITTED' OR t2.apply_state = 'INVOICED') AND t1.apply_enterprise_id = t4.enterprise_id
-        AND t2.service_provider_id = t3.id) AS transaction_amount FROM diyi_service_provider t3 INNER JOIN diyi_enterprise_service_provider t4
-        ON t3.id = t4.service_provider_id WHERE t3.is_deleted = 0 AND t4.is_deleted = 0 AND t4.enterprise_id = #{param1}
     </select>
 
 </mapper>

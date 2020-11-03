@@ -119,7 +119,7 @@ public class EnterpriseAdminController {
             return result;
         }
 
-        return enterpriseService.queryCooperationServiceProviderList(enterpriseId, Condition.getPage(query.setDescs("create_time")));
+        return enterpriseProviderService.getServiceProvidersByEnterpriseId(enterpriseId, null, Condition.getPage(query.setDescs("create_time")));
     }
 
     @PostMapping("/update-cooperation-status")

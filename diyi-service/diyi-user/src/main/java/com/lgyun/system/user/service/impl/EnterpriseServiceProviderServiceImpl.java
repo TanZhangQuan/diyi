@@ -69,7 +69,7 @@ public class EnterpriseServiceProviderServiceImpl extends BaseServiceImpl<Enterp
     }
 
     @Override
-    public R<IPage<ServiceProvidersVO>> getServiceProvidersByEnterpriseId(Long enterpriseId, String keyWord, IPage<ServiceProvidersVO> page) {
+    public R<IPage<CooperationServiceProviderListVO>> getServiceProvidersByEnterpriseId(Long enterpriseId, String keyWord, IPage<CooperationServiceProviderListVO> page) {
         return R.data(page.setRecords(baseMapper.getServiceProvidersByEnterpriseId(enterpriseId, keyWord, page)));
     }
 
