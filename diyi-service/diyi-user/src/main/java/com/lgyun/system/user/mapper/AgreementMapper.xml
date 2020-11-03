@@ -91,6 +91,8 @@
         <result property="makerJoinAgreement" column="maker_join_agreement"/>
         <result property="entMakSupplementaryAgreement" column="ent_mak_supplementary_agreement"/>
         <result property="makerPowerAttorney" column="maker_power_attorney"/>
+        <result property="makerState" column="maker_state"/>
+        <result property="avatar" column="avatar"/>
     </resultMap>
 
     <resultMap id="agreementEnterpriseStateAdminVOMap" type="com.lgyun.system.user.vo.AgreementEnterpriseStateAdminVO">
@@ -101,6 +103,7 @@
         <result property="entMakSupplementaryAgreement" column="ent_mak_supplementary_agreement"/>
         <result property="serEntSupplementaryAgreement" column="ser_ent_supplementary_agreement"/>
         <result property="enterprisePromise" column="enterprise_promise"/>
+        <result property="enterpriseState" column="enterprise_state"/>
     </resultMap>
 
     <resultMap id="agreementServiceStateAdminVOMap" type="com.lgyun.system.user.vo.AgreementServiceStateAdminVO">
@@ -108,6 +111,7 @@
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="serviceProviderJoinAgreement" column="service_provider_join_agreement"/>
         <result property="serEntSupplementaryAgreement" column="ser_ent_supplementary_agreement"/>
+        <result property="serviceProviderState" column="service_provider_state"/>
     </resultMap>
 
     <select id="selectServiceAgreement" resultMap="agreementWebVOMap">
@@ -237,7 +241,7 @@
     </select>
 
     <select id="queryMakerAgreementState" resultMap="agreementMakerStateAdminVOMap">
-        SELECT m.id maker_id, m.certification_state, m.name, m.video_audit, ( SELECT IF (COUNT(*) > 0, 1, 0) FROM diyi_agreement a WHERE a.maker_id = m.id AND a.agreement_type = 'MAKERJOINAGREEMENT' ) AS maker_join_agreement, ( SELECT COUNT(*) FROM diyi_agreement a WHERE a.maker_id = m.id AND a.agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' ) AS ent_mak_supplementary_agreement, ( SELECT IF (COUNT(*) > 0, 1, 0) FROM diyi_agreement a WHERE a.maker_id = m.id AND a.agreement_type = 'MAKERPOWERATTORNEY' ) AS maker_power_attorney FROM diyi_maker m
+        SELECT m.id maker_id,m.avatar,m.maker_state, m.certification_state, m.name, m.video_audit, ( SELECT IF (COUNT(*) > 0, 1, 0) FROM diyi_agreement a WHERE a.maker_id = m.id AND a.agreement_type = 'MAKERJOINAGREEMENT' ) AS maker_join_agreement, ( SELECT COUNT(*) FROM diyi_agreement a WHERE a.maker_id = m.id AND a.agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' ) AS ent_mak_supplementary_agreement, ( SELECT IF (COUNT(*) > 0, 1, 0) FROM diyi_agreement a WHERE a.maker_id = m.id AND a.agreement_type = 'MAKERPOWERATTORNEY' ) AS maker_power_attorney FROM diyi_maker m
         where 1=1
         <if test="param1 != null and param1 !=''">
             and m.name LIKE concat('%', #{param1}, '%')
@@ -258,7 +262,7 @@
     </select>
 
     <select id="queryEnterpriseAgreementState" resultMap="agreementEnterpriseStateAdminVOMap">
-        SELECT e.id AS enterprise_id, e.enterprise_name, ( SELECT IF (count(*) > 0, 1, 0) FROM diyi_agreement a WHERE a.enterprise_id = e.id AND a.agreement_type = 'ENTERPRISEJOINAGREEMENT' ) AS enterprise_join_agreement, ( SELECT IF (count(*) > 0, 1, 0) FROM diyi_agreement a WHERE a.enterprise_id = e.id AND a.agreement_type = 'ENTERPRISEPRICEAGREEMENT' ) AS enterprise_price_agreement, ( SELECT count(*) FROM diyi_agreement a WHERE a.enterprise_id = e.id AND a.agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' ) AS ent_mak_supplementary_agreement, ( SELECT count(*) FROM diyi_agreement a WHERE a.enterprise_id = e.id AND a.agreement_type = 'SERENTSUPPLEMENTARYAGREEMENT' ) AS ser_ent_supplementary_agreement, ( SELECT IF (count(*) > 0, 1, 0) FROM diyi_agreement a WHERE a.enterprise_id = e.id AND a.agreement_type = 'ENTERPRISEPROMISE' ) AS enterprise_promise FROM diyi_enterprise e
+        SELECT e.id AS enterprise_id,e.enterprise_state, e.enterprise_name, ( SELECT IF (count(*) > 0, 1, 0) FROM diyi_agreement a WHERE a.enterprise_id = e.id AND a.agreement_type = 'ENTERPRISEJOINAGREEMENT' ) AS enterprise_join_agreement, ( SELECT IF (count(*) > 0, 1, 0) FROM diyi_agreement a WHERE a.enterprise_id = e.id AND a.agreement_type = 'ENTERPRISEPRICEAGREEMENT' ) AS enterprise_price_agreement, ( SELECT count(*) FROM diyi_agreement a WHERE a.enterprise_id = e.id AND a.agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' ) AS ent_mak_supplementary_agreement, ( SELECT count(*) FROM diyi_agreement a WHERE a.enterprise_id = e.id AND a.agreement_type = 'SERENTSUPPLEMENTARYAGREEMENT' ) AS ser_ent_supplementary_agreement, ( SELECT IF (count(*) > 0, 1, 0) FROM diyi_agreement a WHERE a.enterprise_id = e.id AND a.agreement_type = 'ENTERPRISEPROMISE' ) AS enterprise_promise FROM diyi_enterprise e
         where 1=1
         <if test="param1 != null and param1 !=''">
             and e.enterprise_name LIKE concat('%', #{param1}, '%')
@@ -284,7 +288,11 @@
     </select>
 
     <select id="queryServiceAgreementState" resultMap="agreementServiceStateAdminVOMap">
-        SELECT s.id service_provider_id, s.service_provider_name, ( SELECT IF (count(*) > 0, 1, 0) FROM diyi_agreement a WHERE a.service_provider_id = s.id AND a.agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' ) AS service_provider_join_agreement, ( SELECT count(*) FROM diyi_agreement a WHERE a.service_provider_id = s.id AND a.agreement_type = 'SERENTSUPPLEMENTARYAGREEMENT' ) AS ser_ent_supplementary_agreement FROM diyi_service_provider s
+        SELECT s.id service_provider_id,s.service_provider_state, s.service_provider_name, ( SELECT IF (count(*) > 0, 1, 0) FROM diyi_agreement a WHERE a.service_provider_id = s.id AND a.agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' ) AS service_provider_join_agreement, ( SELECT count(*) FROM diyi_agreement a WHERE a.service_provider_id = s.id AND a.agreement_type = 'SERENTSUPPLEMENTARYAGREEMENT' ) AS ser_ent_supplementary_agreement FROM diyi_service_provider s
+        where 1=1
+        <if test="param1 != null and param1 !=''">
+             and s.service_provider_name LIKE concat('%', #{param1}, '%')
+        </if>
     </select>
 
     <select id="deleteByEnterprise">

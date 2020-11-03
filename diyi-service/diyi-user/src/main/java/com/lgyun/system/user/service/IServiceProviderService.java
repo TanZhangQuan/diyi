@@ -130,7 +130,7 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
      * @param page
      * @return
      */
-    R getServiceAll(IPage<ServiceProviderEntity> page);
+    R getServiceAll(Long serviceProviderId,String serviceProviderName,IPage<ServiceProviderEntity> page);
 
 }
 

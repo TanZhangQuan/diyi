@@ -128,7 +128,7 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * @param page
      * @return
      */
-    R getEnterpriseAll(IPage<EnterpriseEntity> page);
+    R getEnterpriseAll(Long enterpriseId,String enterpriseName,IPage<EnterpriseEntity> page);
 
 }
 

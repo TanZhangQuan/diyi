@@ -156,14 +156,14 @@ public class AgreementAdminController {
 
     @GetMapping("/query-service-agreement-state")
     @ApiOperation(value = "平台查询服务商合同的签署状态", notes = "平台查询服务商合同的签署状态")
-    public R queryServiceAgreementState(BladeUser bladeUser,Query query) {
+    public R queryServiceAgreementState(BladeUser bladeUser,Query query,String serviceProviderName) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return agreementService.queryServiceAgreementState(Condition.getPage(query.setDescs("create_time")));
+        return agreementService.queryServiceAgreementState(serviceProviderName,Condition.getPage(query.setDescs("create_time")));
     }
 
 
@@ -220,34 +220,34 @@ public class AgreementAdminController {
 
     @GetMapping("/query-maker-list")
     @ApiOperation(value = "平台查所有创客", notes = "平台查所有创客")
-    public R queryMakerList(Query query, BladeUser bladeUser) {
+    public R queryMakerList(Query query, BladeUser bladeUser,@RequestParam(required = false) Long makerId,@RequestParam(required = false) String makerName) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
-        return agreementService.queryAdminMakerAll(Condition.getPage(query.setDescs("create_time")));
+        return agreementService.queryAdminMakerAll(makerId,makerName,Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-enterprise-list")
     @ApiOperation(value = "平台查所有商户", notes = "平台查所有商户")
-    public R queryEnterpriseList(Query query, BladeUser bladeUser) {
+    public R queryEnterpriseList(Query query, BladeUser bladeUser,@RequestParam(required = false) Long enterpriseId,@RequestParam(required = false) String enterpriseName) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
-        return agreementService.queryAdminEnterpriseAll(Condition.getPage(query.setDescs("create_time")));
+        return agreementService.queryAdminEnterpriseAll(enterpriseId,enterpriseName,Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-service-provider-list")
     @ApiOperation(value = "平台查所有服务商", notes = "平台查所有服务商")
-    public R queryServiceProviderList(Query query, BladeUser bladeUser) {
+    public R queryServiceProviderList(Query query, BladeUser bladeUser,@RequestParam(required = false) Long serviceProviderId,@RequestParam(required = false) String serviceProviderName) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
-        return agreementService.queryAdminServiceAll(Condition.getPage(query.setDescs("create_time")));
+        return agreementService.queryAdminServiceAll(serviceProviderId,serviceProviderName,Condition.getPage(query.setDescs("create_time")));
     }
 }

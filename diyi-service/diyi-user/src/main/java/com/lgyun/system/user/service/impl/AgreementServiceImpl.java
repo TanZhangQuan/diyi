@@ -45,6 +45,8 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     private final IOnlineAgreementNeedSignService onlineAgreementNeedSignService;
     private final IEnterpriseServiceProviderService enterpriseServiceProviderService;
 
+    private final IMakerEnterpriseService makerEnterpriseService;
+
     @Autowired
     @Lazy
     private IOnlineSignPicService onlineSignPicService;
@@ -366,6 +368,22 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     @Override
     public R saveAdminAgreement(Long makerId, Long enterpriseId, Long serviceProviderId, Long objectId, ObjectType objectType, AgreementType agreementType, String paperAgreementUrl) {
         AgreementEntity agreementEntity = null;
+        if(ObjectType.MAKERPEOPLE.equals(objectType) && AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType) && makerEnterpriseService.queryMakerEnterpriseNum(enterpriseId, objectId, RelationshipType.RELEVANCE) <= 0){
+            return R.fail("创客和商户没有关联关系，不能添加商户和创客的补充协议");
+        }
+
+        if(ObjectType.ENTERPRISEPEOPLE.equals(objectType) && AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType) && makerEnterpriseService.queryMakerEnterpriseNum(objectId, makerId, RelationshipType.RELEVANCE) <= 0){
+            return R.fail("商户和创客没有关联关系，不能添加创客和商户的补充协议");
+        }
+
+        if(ObjectType.ENTERPRISEPEOPLE.equals(objectType) && AgreementType.SERENTSUPPLEMENTARYAGREEMENT.equals(agreementType) && enterpriseServiceProviderService.findByEnterpriseIdServiceProviderId(objectId,serviceProviderId) == null){
+            return R.fail("商户和服务商没有关联关系，不能添加商户和服务商的补充协议");
+        }
+
+        if(ObjectType.SERVICEPEOPLE.equals(objectType) && AgreementType.SERENTSUPPLEMENTARYAGREEMENT.equals(agreementType) && enterpriseServiceProviderService.findByEnterpriseIdServiceProviderId(enterpriseId,objectId) == null){
+            return R.fail("服务商和商户没有关联关系，不能添加服务商和商户的补充协议");
+        }
+
         if (AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType) || AgreementType.SERENTSUPPLEMENTARYAGREEMENT.equals(agreementType) || AgreementType.ENTERPRISEPROMISE.equals(agreementType)) {
             agreementEntity = new AgreementEntity();
         } else {
@@ -491,7 +509,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
-    public R queryEnterpriseAgreementState(String enterpriseName, IPage<AgreementMakerStateAdminVO> page) {
+    public R queryEnterpriseAgreementState(String enterpriseName, IPage<AgreementEnterpriseStateAdminVO> page) {
         return R.data(page.setRecords(baseMapper.queryEnterpriseAgreementState(enterpriseName, page)));
     }
 
@@ -511,8 +529,8 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
-    public R queryServiceAgreementState(IPage<AgreementServiceStateAdminVO> page) {
-        return R.data(page.setRecords(baseMapper.queryServiceAgreementState(page)));
+    public R queryServiceAgreementState(String serviceProviderName,IPage<AgreementServiceStateAdminVO> page) {
+        return R.data(page.setRecords(baseMapper.queryServiceAgreementState(serviceProviderName,page)));
     }
 
     @Override
@@ -532,18 +550,18 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
-    public R queryAdminMakerAll(IPage<MakerEntity> page) {
-        return makerService.getMakerAll(page);
+    public R queryAdminMakerAll(Long makerId,String makerName,IPage<MakerEntity> page) {
+        return makerService.getMakerAll( makerId, makerName,page);
     }
 
     @Override
-    public R queryAdminEnterpriseAll(IPage<EnterpriseEntity> page) {
-        return enterpriseService.getEnterpriseAll(page);
+    public R queryAdminEnterpriseAll(Long enterpriseId,String enterpriseName,IPage<EnterpriseEntity> page) {
+        return enterpriseService.getEnterpriseAll( enterpriseId, enterpriseName,page);
     }
 
     @Override
-    public R queryAdminServiceAll(IPage<ServiceProviderEntity> page) {
-        return serviceProviderService.getServiceAll(page);
+    public R queryAdminServiceAll(Long serviceProviderId,String serviceProviderName,IPage<ServiceProviderEntity> page) {
+        return serviceProviderService.getServiceAll( serviceProviderId, serviceProviderName,page);
     }
 
     @Override
