@@ -84,7 +84,7 @@ public interface AgreementMapper extends BaseMapper<AgreementEntity> {
     /**
      * 平台查询商户合同的签署状态
      */
-    List<AgreementMakerStateAdminVO> queryEnterpriseAgreementState(String enterpriseName, IPage<AgreementMakerStateAdminVO> page);
+    List<AgreementEnterpriseStateAdminVO> queryEnterpriseAgreementState(String enterpriseName, IPage<AgreementEnterpriseStateAdminVO> page);
 
     /**
      * 平台根据商户id查询合作商户和服务商补充协议
@@ -99,7 +99,7 @@ public interface AgreementMapper extends BaseMapper<AgreementEntity> {
     /**
      * 平台查询服务商合同的签署状态
      */
-    List<AgreementServiceStateAdminVO> queryServiceAgreementState(IPage<AgreementServiceStateAdminVO> page);
+    List<AgreementServiceStateAdminVO> queryServiceAgreementState(String serviceProviderName,IPage<AgreementServiceStateAdminVO> page);
 
     /**
      * 删除商户合同

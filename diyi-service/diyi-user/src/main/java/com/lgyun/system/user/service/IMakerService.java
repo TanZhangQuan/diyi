@@ -283,7 +283,7 @@ public interface IMakerService extends IService<MakerEntity> {
     /**
      * 查询所有创客
      */
-    R getMakerAll(IPage<MakerEntity> page);
+    R getMakerAll(Long makerId,String makerName,IPage<MakerEntity> page);
 
     /**
      * 读取Excel表获取创客列表

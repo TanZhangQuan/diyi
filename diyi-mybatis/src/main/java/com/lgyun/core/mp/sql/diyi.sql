@@ -360,7 +360,7 @@ CREATE TABLE `diyi_agreement` (
   `enterprise_id` bigint(50) DEFAULT NULL COMMENT '商户ID',
   `service_provider_id` bigint(50) DEFAULT NULL COMMENT '服务商ID',
   `rel_bureau_id` bigint(50) DEFAULT NULL COMMENT '相关局ID',
-  `agent_id` bigint(50) DEFAULT NULL COMMENT '渠道商ID',
+  `agent_main_id` bigint(50) DEFAULT NULL COMMENT '渠道商ID',
   `partner_id` bigint(50) DEFAULT NULL COMMENT '合伙人ID',
   `online_agreement_template_id` bigint(50) DEFAULT NULL COMMENT '平台在线协议模板ID',
   `online_agreement_url` varchar(500) DEFAULT NULL COMMENT '在线协议URL',

@@ -300,8 +300,18 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
     }
 
     @Override
-    public R getServiceAll(IPage<ServiceProviderEntity> page) {
+    public R getServiceAll(Long serviceProviderId,String serviceProviderName,IPage<ServiceProviderEntity> page) {
         QueryWrapper<ServiceProviderEntity> queryWrapper = new QueryWrapper<>();
+        if(null != serviceProviderId && StringUtils.isNotEmpty(serviceProviderName)){
+            queryWrapper.lambda().eq(ServiceProviderEntity::getId,serviceProviderId)
+                    .like(ServiceProviderEntity::getServiceProviderName,serviceProviderName);
+        }
+        if(null != serviceProviderId && StringUtils.isEmpty(serviceProviderName)){
+            queryWrapper.lambda().eq(ServiceProviderEntity::getId,serviceProviderId);
+        }
+        if(StringUtils.isNotEmpty(serviceProviderName) && null == serviceProviderId){
+            queryWrapper.lambda().like(ServiceProviderEntity::getServiceProviderName,serviceProviderName);
+        }
         IPage<ServiceProviderEntity> serviceProviderEntityIPage = baseMapper.selectPage(page, queryWrapper);
         return R.data(serviceProviderEntityIPage);
     }
