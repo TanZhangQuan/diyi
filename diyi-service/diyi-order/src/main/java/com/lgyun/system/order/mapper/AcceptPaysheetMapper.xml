@@ -50,17 +50,6 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.order.vo.AcceptPaysheetSingleListEnterpriseVO" id="acceptPaysheetSingleListEnterpriseVO">
-        <result property="id" column="id"/>
-        <result property="chargeListUrl" column="charge_list_url"/>
-        <result property="name" column="name"/>
-        <result property="worksheetId" column="worksheet_id"/>
-        <result property="serviceTimeStart" column="service_time_start"/>
-        <result property="serviceTimeEnd" column="service_time_end"/>
-        <result property="acceptPaysheetUrl" column="accept_paysheet_url"/>
-        <result property="createTime" column="create_time"/>
-    </resultMap>
-
     <resultMap type="com.lgyun.system.order.vo.PayEnterpriseMakerDetailListVO" id="payEnterpriseMakerDetailListVO">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
