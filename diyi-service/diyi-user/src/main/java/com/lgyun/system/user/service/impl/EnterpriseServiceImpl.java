@@ -239,7 +239,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             //查询商户管理员
             EnterpriseWorkerEntity enterpriseWorkerEntity = enterpriseWorkerService.getOne(Wrappers.<EnterpriseWorkerEntity>query().lambda()
                     .eq(EnterpriseWorkerEntity::getEnterpriseId, enterpriseEntity.getId())
-                    .eq(EnterpriseWorkerEntity::getUpLevelId, null));
+                    .isNull(EnterpriseWorkerEntity::getUpLevelId));
 
             if (StringUtils.isNotBlank(addOrUpdateEnterpriseDTO.getEmployeePwd())) {
                 if (addOrUpdateEnterpriseDTO.getEmployeePwd().length() <= 6 || addOrUpdateEnterpriseDTO.getEmployeePwd().length() >= 18) {

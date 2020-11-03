@@ -214,7 +214,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
             //查询服务商管理员
             ServiceProviderWorkerEntity serviceProviderWorkerEntity = serviceProviderWorkerService.getOne(Wrappers.<ServiceProviderWorkerEntity>query().lambda()
                     .eq(ServiceProviderWorkerEntity::getServiceProviderId, serviceProviderEntity.getId())
-                    .eq(ServiceProviderWorkerEntity::getUpLevelId, null));
+                    .isNull(ServiceProviderWorkerEntity::getUpLevelId));
 
             if (StringUtils.isNotBlank(addOrUpdateServiceProviderDTO.getEmployeePwd())) {
                 if (addOrUpdateServiceProviderDTO.getEmployeePwd().length() <= 6 || addOrUpdateServiceProviderDTO.getEmployeePwd().length() >= 18) {
