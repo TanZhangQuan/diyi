@@ -8,8 +8,6 @@ import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.EnterpriseServiceProviderEntity;
 import com.lgyun.system.user.vo.*;
 
-import java.util.List;
-
 /**
  *  Service 接口
  *
@@ -89,12 +87,12 @@ public interface IEnterpriseServiceProviderService extends BaseService<Enterpris
      * 商户匹配服务商
      *
      * @param enterpriseId
-     * @param serviceProviderIdList
+     * @param serviceProviderId
      * @param matchDesc
      * @param adminEntity
      * @return
      */
-    R<String> relevanceEnterpriseServiceProvider(Long enterpriseId, List<Long> serviceProviderIdList, String matchDesc, AdminEntity adminEntity);
+    R<String> relevanceEnterpriseServiceProvider(Long enterpriseId, Long serviceProviderId, String matchDesc, AdminEntity adminEntity);
 
     /**
      * 更改商户服务商合作关系

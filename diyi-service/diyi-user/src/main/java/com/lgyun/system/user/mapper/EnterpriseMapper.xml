@@ -140,7 +140,7 @@
         AND service_provider_id = t3.id) + (SELECT IFNULL(SUM(t2.charge_money_num), 0) FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_sp t2
         WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND (t2.apply_state = 'SUBMITTED' OR t2.apply_state = 'INVOICED') AND t1.apply_enterprise_id = t4.enterprise_id
         AND t2.service_provider_id = t3.id) AS transaction_amount FROM diyi_service_provider t3 INNER JOIN diyi_enterprise_service_provider t4
-        ON t3.id = t4.service_provider_id WHERE t3.is_deleted = 0 AND t4.is_deleted = 0 t4.enterprise_id = #{param1}
+        ON t3.id = t4.service_provider_id WHERE t3.is_deleted = 0 AND t4.is_deleted = 0 AND t4.enterprise_id = #{param1}
     </select>
 
 </mapper>

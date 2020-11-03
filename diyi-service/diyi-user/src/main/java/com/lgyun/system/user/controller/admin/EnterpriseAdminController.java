@@ -100,7 +100,7 @@ public class EnterpriseAdminController {
     @PostMapping("/match-service-provider")
     @ApiOperation(value = "商户匹配服务商", notes = "商户匹配服务商")
     public R matchServiceProvider(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
-                                  @ApiParam(value = "服务商集合", required = true) @NotEmpty(message = "请选择服务商") @RequestParam(required = false) List<Long> serviceProviderIdList,
+                                  @ApiParam(value = "服务商", required = true) @NotEmpty(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
                                   @ApiParam(value = "分配说明") @RequestParam(required = false) String matchDesc, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
@@ -109,7 +109,7 @@ public class EnterpriseAdminController {
         }
         AdminEntity adminEntity = result.getData();
 
-        return enterpriseProviderService.relevanceEnterpriseServiceProvider(enterpriseId, serviceProviderIdList, matchDesc, adminEntity);
+        return enterpriseProviderService.relevanceEnterpriseServiceProvider(enterpriseId, serviceProviderId, matchDesc, adminEntity);
     }
 
     @GetMapping("/query-cooperation-service-provider-list")
