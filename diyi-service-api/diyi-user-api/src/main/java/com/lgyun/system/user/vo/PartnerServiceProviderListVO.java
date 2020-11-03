@@ -1,5 +1,6 @@
 package com.lgyun.system.user.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -33,5 +34,6 @@ public class PartnerServiceProviderListVO implements Serializable {
     /**
      * 服务商创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 }

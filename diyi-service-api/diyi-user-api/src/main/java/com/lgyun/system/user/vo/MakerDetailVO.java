@@ -21,6 +21,7 @@ public class MakerDetailVO implements Serializable {
     /**
      * 微信关联日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date relDate;
 
     /**
@@ -81,6 +82,7 @@ public class MakerDetailVO implements Serializable {
     /**
      * 到期日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date dueDate;
 
     /**
@@ -146,6 +148,7 @@ public class MakerDetailVO implements Serializable {
     /**
      * 身份证验证日期时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date idcardVerifyDate;
 
     /**
@@ -156,6 +159,7 @@ public class MakerDetailVO implements Serializable {
     /**
      * 人脸验证日期时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date faceVerifyDate;
 
     /**
@@ -166,6 +170,7 @@ public class MakerDetailVO implements Serializable {
     /**
      * 银行卡验证日期时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date bankCardVerifyDate;
 
     /**
@@ -176,6 +181,7 @@ public class MakerDetailVO implements Serializable {
     /**
      * 手机号码验证日期时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date phoneNumberVerifyDate;
 
     /**

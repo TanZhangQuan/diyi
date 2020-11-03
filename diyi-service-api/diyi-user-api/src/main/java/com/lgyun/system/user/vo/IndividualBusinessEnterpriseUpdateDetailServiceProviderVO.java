@@ -1,5 +1,6 @@
 package com.lgyun.system.user.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.BizType;
@@ -44,6 +45,7 @@ public class IndividualBusinessEnterpriseUpdateDetailServiceProviderVO implement
     /**
      * 营业执照的注册日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date buildDateTime;
 
     /**
@@ -114,16 +116,19 @@ public class IndividualBusinessEnterpriseUpdateDetailServiceProviderVO implement
     /**
      * 提交日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date submitDateTime;
 
     /**
      * 注册日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date registeredDate;
 
     /**
      * 税务登记日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date taxRegisterDateTime;
 
     /**

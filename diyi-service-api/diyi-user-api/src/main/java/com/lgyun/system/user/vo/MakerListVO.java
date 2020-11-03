@@ -1,10 +1,12 @@
 package com.lgyun.system.user.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 创客列表VO
@@ -61,5 +63,17 @@ public class MakerListVO implements Serializable {
      * 是否个独
      */
     private boolean boolIndividualEnterprise;
+
+    /**
+     * 认证时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date certificationDate;
+
+    /**
+     * 创建时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date createTime;
 
 }

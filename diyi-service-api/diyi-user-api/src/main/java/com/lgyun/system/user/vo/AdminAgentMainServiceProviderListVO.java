@@ -1,5 +1,6 @@
 package com.lgyun.system.user.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lgyun.common.enumeration.CooperateStatus;
 import lombok.Data;
 
@@ -44,5 +45,6 @@ public class AdminAgentMainServiceProviderListVO implements Serializable {
     /**
      * 匹配时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date startDatetime;
 }

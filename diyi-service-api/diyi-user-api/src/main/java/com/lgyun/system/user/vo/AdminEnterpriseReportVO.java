@@ -1,5 +1,6 @@
 package com.lgyun.system.user.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lgyun.common.enumeration.BodyType;
 import com.lgyun.common.enumeration.ReportState;
 import com.lgyun.common.enumeration.ReportTheme;
@@ -58,11 +59,13 @@ public class AdminEnterpriseReportVO implements Serializable {
     /**
      * 申报截止日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date reportDeadDate;
 
     /**
      * 申报完成日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date reportCompleteDate;
 
     /**

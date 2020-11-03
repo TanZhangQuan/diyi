@@ -47,10 +47,10 @@ public class MakerWorksheetVO implements Serializable {
     /**
      * 实名认证
      */
-    private CertificationState realNameAuthentication = CertificationState.UNCERTIFIED;
+    private CertificationState realNameAuthentication;
 
     /**
      * 协议状态
      */
-    private CertificationState protocolAuthentication = CertificationState.UNCERTIFIED;
+    private CertificationState protocolAuthentication;
 }

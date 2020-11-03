@@ -1,5 +1,6 @@
 package com.lgyun.system.user.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.SignState;
 import com.lgyun.common.enumeration.VerifyStatus;
@@ -48,5 +49,6 @@ public class PartnerVO implements Serializable {
     /**
      * 创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 }

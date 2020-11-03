@@ -1,5 +1,6 @@
 package com.lgyun.system.user.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lgyun.common.enumeration.AccountState;
 import lombok.Data;
 
@@ -53,5 +54,6 @@ public class AdminAgentMainVO implements Serializable {
     /**
      * 创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 }
