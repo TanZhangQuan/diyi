@@ -2,6 +2,7 @@ package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.AccountState;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -44,4 +45,9 @@ public class AgreementEnterpriseStateAdminVO implements Serializable {
      *商户承诺函
      */
     private Integer enterprisePromise;
+
+    /**
+     * 商户状态
+     */
+    private AccountState enterpriseState;
 }

@@ -2,6 +2,7 @@ package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.VideoAudit;
 import lombok.Data;
 
@@ -45,4 +46,14 @@ public class AgreementMakerStateAdminVO implements Serializable {
      * 授权协议 1 是已授权 0未授权
      */
     private Integer makerPowerAttorney;
+
+    /**
+     * 头像
+     */
+    private String avatar;
+
+    /**
+     * 账户状态
+     */
+    private AccountState makerState;
 }

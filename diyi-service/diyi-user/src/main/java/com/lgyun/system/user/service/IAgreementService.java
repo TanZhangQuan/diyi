@@ -260,7 +260,7 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
     /**
      * 平台查询商户合同的签署状态
      */
-    R queryEnterpriseAgreementState(String enterpriseName, IPage<AgreementMakerStateAdminVO> page);
+    R queryEnterpriseAgreementState(String enterpriseName, IPage<AgreementEnterpriseStateAdminVO> page);
 
 
     /**
@@ -281,7 +281,7 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
     /**
      * 平台查询服务商合同的签署状态
      */
-    R queryServiceAgreementState(IPage<AgreementServiceStateAdminVO> page);
+    R queryServiceAgreementState(String serviceProviderName,IPage<AgreementServiceStateAdminVO> page);
 
     /**
      * 平台根据服务商id查询合作服务商和商户补充协议
@@ -296,17 +296,17 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
     /**
      * 平台查所有创客
      */
-    R queryAdminMakerAll(IPage<MakerEntity> page);
+    R queryAdminMakerAll(Long makerId,String makerName,IPage<MakerEntity> page);
 
     /**
      * 平台查所有商户
      */
-    R queryAdminEnterpriseAll(IPage<EnterpriseEntity> page);
+    R queryAdminEnterpriseAll(Long enterpriseId,String enterpriseName,IPage<EnterpriseEntity> page);
 
     /**
      * 平台查所有服务商
      */
-    R queryAdminServiceAll(IPage<ServiceProviderEntity> page);
+    R queryAdminServiceAll(Long serviceProviderId,String serviceProviderName,IPage<ServiceProviderEntity> page);
 
     /**
      * 删除商户合同

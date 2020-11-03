@@ -11,7 +11,10 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.*;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.*;
+import com.lgyun.system.user.dto.IdcardOcrSaveDTO;
+import com.lgyun.system.user.dto.ImportMakerListDTO;
+import com.lgyun.system.user.dto.MakerAddDTO;
+import com.lgyun.system.user.dto.MakerListIndividualDTO;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.entity.OnlineAgreementTemplateEntity;
 import com.lgyun.system.user.entity.User;
@@ -684,9 +687,20 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R getMakerAll(IPage<MakerEntity> page) {
+    public R getMakerAll(Long makerId,String makerName,IPage<MakerEntity> page) {
         QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
+        if(makerId != null && StringUtils.isNotEmpty(makerName)){
+            queryWrapper.lambda().eq(MakerEntity::getId, makerId)
+                    .like(MakerEntity::getName, makerName);
+        }
+        if(makerId != null && StringUtils.isEmpty(makerName)){
+            queryWrapper.lambda().eq(MakerEntity::getId, makerId);
+        }
+        if(StringUtils.isNotEmpty(makerName) && makerId == null){
+            queryWrapper.lambda().like(MakerEntity::getName, makerName);
+        }
         IPage<MakerEntity> makerEntityIPage = baseMapper.selectPage(page, queryWrapper);
+
         return R.data(makerEntityIPage);
     }
 
