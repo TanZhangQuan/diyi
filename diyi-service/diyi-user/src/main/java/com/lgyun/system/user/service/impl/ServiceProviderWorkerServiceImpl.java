@@ -3,7 +3,6 @@ package com.lgyun.system.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
-import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.BeanServiceUtil;
@@ -19,8 +18,8 @@ import com.lgyun.system.user.mapper.ServiceProviderWorkerMapper;
 import com.lgyun.system.user.service.IServiceProviderService;
 import com.lgyun.system.user.service.IServiceProviderWorkerService;
 import com.lgyun.system.user.service.IUserService;
-import com.lgyun.system.user.vo.ServiceProviderWorkerVO;
 import com.lgyun.system.user.vo.ServiceProviderWorkerDetailVO;
+import com.lgyun.system.user.vo.ServiceProviderWorkerVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -96,7 +95,7 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
     }
 
     @Override
-    public Integer findCountByPhoneNumber(String phoneNumber) {
+    public int findCountByPhoneNumber(String phoneNumber) {
         QueryWrapper<ServiceProviderWorkerEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(ServiceProviderWorkerEntity::getPhoneNumber, phoneNumber);
         return baseMapper.selectCount(queryWrapper);

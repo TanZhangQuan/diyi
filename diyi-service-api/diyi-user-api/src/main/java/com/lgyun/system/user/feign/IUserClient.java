@@ -131,13 +131,23 @@ public interface IUserClient {
     MakerEntity queryMakerByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
 
     /**
+     * 查询创客商户是否关联
+     *
+     * @param makerId
+     * @param enterpriseId
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/query-maker-enterprise-relevance-count")
+    int queryMakerEnterpriseRelevanceCount(@RequestParam("makerId") Long makerId, @RequestParam("enterpriseId") Long enterpriseId);
+
+    /**
      * 根据手机号查询管理员数量
      *
      * @param phoneNumber
      * @return
      */
     @GetMapping(API_PREFIX + "/query-admin-count-by-phone-number")
-    Integer queryAdminCountByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
+    int queryAdminCountByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
 
     /**
      * 根据手机号查询创客数量
@@ -146,7 +156,7 @@ public interface IUserClient {
      * @return
      */
     @GetMapping(API_PREFIX + "/query-maker-count-by-phone-number")
-    Integer queryMakerCountByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
+    int queryMakerCountByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
 
     /**
      * 根据手机号查询商户员工数量
@@ -155,7 +165,7 @@ public interface IUserClient {
      * @return
      */
     @GetMapping(API_PREFIX + "/query-enterprise-worker-count-by-phone-number")
-    Integer queryEnterpriseWorkerCountByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
+    int queryEnterpriseWorkerCountByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
 
     /**
      * 根据手机号查询服务商员工数量
@@ -164,7 +174,7 @@ public interface IUserClient {
      * @return
      */
     @GetMapping(API_PREFIX + "/query-service-provider-worker-count-by-phone-number")
-    Integer queryServiceProviderWorkerCountByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
+    int queryServiceProviderWorkerCountByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
 
     /**
      * 管理员处理

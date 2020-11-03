@@ -45,7 +45,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMakerEntity> implements IPayMakerService {
 
-    private IUserClient iUserClient;
+    private IUserClient userClient;
     private IMakerInvoiceService makerInvoiceService;
     private IMakerTaxRecordService makerTaxRecordService;
 
@@ -86,7 +86,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void importPayMakerList(List<PayEnterpriseExcel> list, Long payEnterpriseId, MakerType makerType) {
+    public void importPayMakerList(List<PayEnterpriseExcel> list, Long payEnterpriseId, MakerType makerType, Long enterpriseId) {
 
         for (PayEnterpriseExcel payEnterpriseExcel : list) {
             log.info(String.valueOf(payEnterpriseExcel));
@@ -101,9 +101,15 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
                 continue;
             }
 
-            MakerEntity makerEntity = iUserClient.queryMakerByIdcardNo(payEnterpriseExcel.getMakerIdcardNo());
+            MakerEntity makerEntity = userClient.queryMakerByIdcardNo(payEnterpriseExcel.getMakerIdcardNo());
             if (makerEntity == null) {
                 log.error("创客不存在");
+                continue;
+            }
+
+            int makerEnterpriseNum = userClient.queryMakerEnterpriseRelevanceCount(makerEntity.getId(), enterpriseId);
+            if (makerEnterpriseNum <= 0) {
+                log.error("创客商户不存在关联关系");
                 continue;
             }
 
@@ -182,7 +188,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
                         continue;
                     }
 
-                    IndividualBusinessEntity individualBusinessEntity = iUserClient.queryIndividualBusinessByIbtaxNo(payEnterpriseExcel.getIndividualBusinessIbtaxNo());
+                    IndividualBusinessEntity individualBusinessEntity = userClient.queryIndividualBusinessByIbtaxNo(payEnterpriseExcel.getIndividualBusinessIbtaxNo());
                     if (individualBusinessEntity == null) {
                         log.error("个体户不存在");
                         continue;
@@ -223,7 +229,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
                         continue;
                     }
 
-                    IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.queryIndividualEnterpriseByIbtaxNo(payEnterpriseExcel.getIndividualEnterpriseIbtaxNo());
+                    IndividualEnterpriseEntity individualEnterpriseEntity = userClient.queryIndividualEnterpriseByIbtaxNo(payEnterpriseExcel.getIndividualEnterpriseIbtaxNo());
                     if (individualEnterpriseEntity == null) {
                         log.error("个独不存在");
                         continue;

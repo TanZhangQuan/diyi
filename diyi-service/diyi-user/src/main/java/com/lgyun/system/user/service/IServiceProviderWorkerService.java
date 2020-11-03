@@ -53,7 +53,7 @@ public interface IServiceProviderWorkerService extends BaseService<ServiceProvid
      * @param phoneNumber
      * @return
      */
-    Integer findCountByPhoneNumber(String phoneNumber);
+    int findCountByPhoneNumber(String phoneNumber);
 
     /**
      * 根据userId查询服务商员工

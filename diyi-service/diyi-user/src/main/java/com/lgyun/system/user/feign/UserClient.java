@@ -1,10 +1,7 @@
 package com.lgyun.system.user.feign;
 
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.AccountState;
-import com.lgyun.common.enumeration.CooperateStatus;
-import com.lgyun.common.enumeration.GrantType;
-import com.lgyun.common.enumeration.UserType;
+import com.lgyun.common.enumeration.*;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.service.*;
@@ -26,91 +23,96 @@ import java.util.List;
 @AllArgsConstructor
 public class UserClient implements IUserClient {
 
-    private IUserService iUserService;
-    private IEnterpriseService iEnterpriseService;
-    private IMakerEnterpriseService iMakerEnterpriseService;
-    private IIndividualEnterpriseService iIndividualEnterpriseService;
-    private IIndividualBusinessService iIndividualBusinessService;
-    private IEnterpriseServiceProviderService iEnterpriseServiceProviderService;
-    private IServiceProviderWorkerService iServiceProviderWorkerService;
-    private IAdminService iAdminService;
-    private IMakerService iMakerService;
-    private IEnterpriseWorkerService iEnterpriseWorkerService;
-    private IServiceProviderService iServiceProviderService;
+    private IUserService userService;
+    private IEnterpriseService enterpriseService;
+    private IMakerEnterpriseService makerEnterpriseService;
+    private IIndividualEnterpriseService individualEnterpriseService;
+    private IIndividualBusinessService individualBusinessService;
+    private IEnterpriseServiceProviderService enterpriseServiceProviderService;
+    private IServiceProviderWorkerService serviceProviderWorkerService;
+    private IAdminService adminService;
+    private IMakerService makerService;
+    private IEnterpriseWorkerService enterpriseWorkerService;
+    private IServiceProviderService serviceProviderService;
 
     @Override
     public UserInfo queryUserInfoByUserId(Long userId, UserType userType) {
-        return iUserService.queryUserInfoByUserId(userId, userType);
+        return userService.queryUserInfoByUserId(userId, userType);
     }
 
     @Override
     public UserInfo queryUserInfoByPhone(String phone, UserType userType) {
-        return iUserService.queryUserInfoByPhone(phone, userType);
+        return userService.queryUserInfoByPhone(phone, userType);
     }
 
     @Override
     public UserInfo queryUserInfoByAccount(String account, UserType userType) {
-        return iUserService.queryUserInfoByAccount(account, userType);
+        return userService.queryUserInfoByAccount(account, userType);
     }
 
     @Override
     public R<AdminEntity> currentAdmin(BladeUser bladeUser) {
-        return iAdminService.currentAdmin(bladeUser);
+        return adminService.currentAdmin(bladeUser);
     }
 
     @Override
     public R<MakerEntity> currentMaker(BladeUser bladeUser) {
-        return iMakerService.currentMaker(bladeUser);
+        return makerService.currentMaker(bladeUser);
     }
 
     @Override
     public R<EnterpriseWorkerEntity> currentEnterpriseWorker(BladeUser bladeUser) {
-        return iEnterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+        return enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
     }
 
     @Override
     public R<ServiceProviderWorkerEntity> currentServiceProviderWorker(BladeUser bladeUser) {
-        return iServiceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+        return serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
     }
 
     @Override
     public String queryMakerName(Long payMakerId) {
-        return iMakerService.queryMakerName(payMakerId);
+        return makerService.queryMakerName(payMakerId);
     }
 
     @Override
     public MakerEntity queryMakerById(Long makerId) {
-        return iMakerService.getById(makerId);
+        return makerService.getById(makerId);
     }
 
     @Override
     public MakerEntity queryMakerByIdcardNo(String idcardNo) {
-        return iMakerService.findByIdcardNo(idcardNo);
+        return makerService.findByIdcardNo(idcardNo);
     }
 
     @Override
     public MakerEntity queryMakerByPhoneNumber(String phoneNumber) {
-        return iMakerService.findByPhoneNumber(phoneNumber);
+        return makerService.findByPhoneNumber(phoneNumber);
     }
 
     @Override
-    public Integer queryAdminCountByPhoneNumber(String phoneNumber) {
-        return iAdminService.findCountByPhoneNumber(phoneNumber);
+    public int queryMakerEnterpriseRelevanceCount(Long makerId, Long enterpriseId) {
+        return makerEnterpriseService.queryMakerEnterpriseNum(makerId, enterpriseId, RelationshipType.RELEVANCE);
     }
 
     @Override
-    public Integer queryMakerCountByPhoneNumber(String phoneNumber) {
-        return iMakerService.findCountByPhoneNumber(phoneNumber);
+    public int queryAdminCountByPhoneNumber(String phoneNumber) {
+        return adminService.findCountByPhoneNumber(phoneNumber);
     }
 
     @Override
-    public Integer queryEnterpriseWorkerCountByPhoneNumber(String phoneNumber) {
-        return iEnterpriseWorkerService.findCountByPhoneNumber(phoneNumber);
+    public int queryMakerCountByPhoneNumber(String phoneNumber) {
+        return makerService.findCountByPhoneNumber(phoneNumber);
     }
 
     @Override
-    public Integer queryServiceProviderWorkerCountByPhoneNumber(String phoneNumber) {
-        return iServiceProviderWorkerService.findCountByPhoneNumber(phoneNumber);
+    public int queryEnterpriseWorkerCountByPhoneNumber(String phoneNumber) {
+        return enterpriseWorkerService.findCountByPhoneNumber(phoneNumber);
+    }
+
+    @Override
+    public int queryServiceProviderWorkerCountByPhoneNumber(String phoneNumber) {
+        return serviceProviderWorkerService.findCountByPhoneNumber(phoneNumber);
     }
 
     @Override
@@ -121,7 +123,7 @@ public class UserClient implements IUserClient {
 
             case PASSWORD:
                 //根据账号密码查询管理员
-                adminEntity = iAdminService.findByUserNameAndLoginPwd(userName, password);
+                adminEntity = adminService.findByUserNameAndLoginPwd(userName, password);
                 if (adminEntity == null) {
                     return R.fail("账号或密码错误");
                 }
@@ -134,7 +136,7 @@ public class UserClient implements IUserClient {
 
             case MOBILE:
                 //根据手机号查询管理员
-                adminEntity = iAdminService.findByPhoneNumber(phoneNumber);
+                adminEntity = adminService.findByPhoneNumber(phoneNumber);
                 if (adminEntity == null) {
                     return R.fail("手机号未注册");
                 }
@@ -147,7 +149,7 @@ public class UserClient implements IUserClient {
 
             case UPDATEPASSWORD:
                 //修改管理员密码
-                adminEntity = iAdminService.findByPhoneNumber(phoneNumber);
+                adminEntity = adminService.findByPhoneNumber(phoneNumber);
                 if (adminEntity == null) {
                     return R.fail("手机号未注册");
                 }
@@ -157,7 +159,7 @@ public class UserClient implements IUserClient {
                 }
 
                 adminEntity.setLoginPwd(password);
-                iAdminService.updateById(adminEntity);
+                adminService.updateById(adminEntity);
 
                 break;
 
@@ -177,30 +179,30 @@ public class UserClient implements IUserClient {
 
             case WECHAT:
                 //根据手机号查询创客
-                makerEntity = iMakerService.findByPhoneNumber(phoneNumber);
+                makerEntity = makerService.findByPhoneNumber(phoneNumber);
                 if (makerEntity != null) {
 
                     if (!(AccountState.NORMAL.equals(makerEntity.getMakerState()))) {
                         return R.fail("账号状态非正常，请联系客服");
                     }
 
-                    iMakerService.makerUpdate(makerEntity, openid, sessionKey);
+                    makerService.makerUpdate(makerEntity, openid, sessionKey);
                 } else {
-                    iMakerService.makerSave(openid, sessionKey, phoneNumber, password);
+                    makerService.makerSave(openid, sessionKey, phoneNumber, password);
                 }
 
                 break;
 
             case PASSWORD:
                 //根据账号密码查询创客
-                makerEntity = iMakerService.findByPhoneNumberAndLoginPwd(phoneNumber, password);
+                makerEntity = makerService.findByPhoneNumberAndLoginPwd(phoneNumber, password);
                 if (makerEntity != null) {
 
                     if (!(AccountState.NORMAL.equals(makerEntity.getMakerState()))) {
                         return R.fail("账号状态非正常，请联系客服");
                     }
 
-                    iMakerService.makerUpdate(makerEntity, openid, sessionKey);
+                    makerService.makerUpdate(makerEntity, openid, sessionKey);
                 } else {
                     return R.fail("账号或密码错误");
                 }
@@ -209,14 +211,14 @@ public class UserClient implements IUserClient {
 
             case MOBILE:
                 //根据手机号查询创客
-                makerEntity = iMakerService.findByPhoneNumber(phoneNumber);
+                makerEntity = makerService.findByPhoneNumber(phoneNumber);
                 if (makerEntity != null) {
 
                     if (!(AccountState.NORMAL.equals(makerEntity.getMakerState()))) {
                         return R.fail("账号状态非正常，请联系客服");
                     }
 
-                    iMakerService.makerUpdate(makerEntity, openid, sessionKey);
+                    makerService.makerUpdate(makerEntity, openid, sessionKey);
                 } else {
                     return R.fail("手机号未注册");
                 }
@@ -225,18 +227,18 @@ public class UserClient implements IUserClient {
 
             case REGISTER:
                 //根据手机号查询创客
-                makerEntity = iMakerService.findByPhoneNumber(phoneNumber);
+                makerEntity = makerService.findByPhoneNumber(phoneNumber);
                 if (makerEntity != null) {
                     return R.fail("手机号已注册");
                 } else {
-                    iMakerService.makerSave(openid, sessionKey, phoneNumber, password);
+                    makerService.makerSave(openid, sessionKey, phoneNumber, password);
                 }
 
                 break;
 
             case UPDATEPASSWORD:
                 //根据手机号查询创客
-                makerEntity = iMakerService.findByPhoneNumber(phoneNumber);
+                makerEntity = makerService.findByPhoneNumber(phoneNumber);
                 if (makerEntity == null) {
                     return R.fail("手机号未注册");
                 }
@@ -246,7 +248,7 @@ public class UserClient implements IUserClient {
                 }
 
                 makerEntity.setLoginPwd(password);
-                iMakerService.updateById(makerEntity);
+                makerService.updateById(makerEntity);
 
                 break;
 
@@ -266,7 +268,7 @@ public class UserClient implements IUserClient {
 
             case PASSWORD:
                 //根据账号密码查询商户员工
-                enterpriseWorkerEntity = iEnterpriseWorkerService.findByEmployeeUserNameAndEmployeePwd(employeeUserName, password);
+                enterpriseWorkerEntity = enterpriseWorkerService.findByEmployeeUserNameAndEmployeePwd(employeeUserName, password);
                 if (enterpriseWorkerEntity == null) {
                     return R.fail("账号或密码错误");
                 }
@@ -275,7 +277,7 @@ public class UserClient implements IUserClient {
                     return R.fail("账号状态非正常，请联系客服");
                 }
 
-                enterpriseEntity = iEnterpriseService.getById(enterpriseWorkerEntity.getEnterpriseId());
+                enterpriseEntity = enterpriseService.getById(enterpriseWorkerEntity.getEnterpriseId());
                 if (enterpriseEntity == null) {
                     return R.fail("商户不存在");
                 }
@@ -288,7 +290,7 @@ public class UserClient implements IUserClient {
 
             case MOBILE:
                 //根据手机号查询商户员工
-                enterpriseWorkerEntity = iEnterpriseWorkerService.findByPhoneNumber(phoneNumber);
+                enterpriseWorkerEntity = enterpriseWorkerService.findByPhoneNumber(phoneNumber);
                 if (enterpriseWorkerEntity == null) {
                     return R.fail("账号或密码错误");
                 }
@@ -297,7 +299,7 @@ public class UserClient implements IUserClient {
                     return R.fail("账号状态非正常，请联系客服");
                 }
 
-                enterpriseEntity = iEnterpriseService.getById(enterpriseWorkerEntity.getEnterpriseId());
+                enterpriseEntity = enterpriseService.getById(enterpriseWorkerEntity.getEnterpriseId());
                 if (enterpriseEntity == null) {
                     return R.fail("商户不存在");
                 }
@@ -310,7 +312,7 @@ public class UserClient implements IUserClient {
 
             case UPDATEPASSWORD:
                 //根据手机号查询商户员工
-                enterpriseWorkerEntity = iEnterpriseWorkerService.findByPhoneNumber(phoneNumber);
+                enterpriseWorkerEntity = enterpriseWorkerService.findByPhoneNumber(phoneNumber);
                 if (enterpriseWorkerEntity == null) {
                     return R.fail("手机号未注册");
                 }
@@ -319,7 +321,7 @@ public class UserClient implements IUserClient {
                     return R.fail("账号状态非正常，请联系客服");
                 }
 
-                enterpriseEntity = iEnterpriseService.getById(enterpriseWorkerEntity.getEnterpriseId());
+                enterpriseEntity = enterpriseService.getById(enterpriseWorkerEntity.getEnterpriseId());
                 if (enterpriseEntity == null) {
                     return R.fail("商户不存在");
                 }
@@ -329,7 +331,7 @@ public class UserClient implements IUserClient {
                 }
 
                 enterpriseWorkerEntity.setEmployeePwd(password);
-                iEnterpriseWorkerService.updateById(enterpriseWorkerEntity);
+                enterpriseWorkerService.updateById(enterpriseWorkerEntity);
 
                 break;
 
@@ -349,7 +351,7 @@ public class UserClient implements IUserClient {
 
             case PASSWORD:
                 //根据账号密码查询服务商
-                serviceProviderWorkerEntity = iServiceProviderWorkerService.findByEmployeeUserNameAndEmployeePwd(employeeUserName, password);
+                serviceProviderWorkerEntity = serviceProviderWorkerService.findByEmployeeUserNameAndEmployeePwd(employeeUserName, password);
                 if (serviceProviderWorkerEntity == null) {
                     return R.fail("账号或密码错误");
                 }
@@ -358,7 +360,7 @@ public class UserClient implements IUserClient {
                     return R.fail("账号状态非正常，请联系客服");
                 }
 
-                serviceProviderEntity = iServiceProviderService.getById(serviceProviderWorkerEntity.getServiceProviderId());
+                serviceProviderEntity = serviceProviderService.getById(serviceProviderWorkerEntity.getServiceProviderId());
                 if (serviceProviderEntity == null) {
                     return R.fail("服务商不存在");
                 }
@@ -371,7 +373,7 @@ public class UserClient implements IUserClient {
 
             case MOBILE:
                 //根据手机号查询服务商
-                serviceProviderWorkerEntity = iServiceProviderWorkerService.findByPhoneNumber(phoneNumber);
+                serviceProviderWorkerEntity = serviceProviderWorkerService.findByPhoneNumber(phoneNumber);
                 if (serviceProviderWorkerEntity == null) {
                     return R.fail("手机号未注册");
                 }
@@ -380,7 +382,7 @@ public class UserClient implements IUserClient {
                     return R.fail("账号状态非正常，请联系客服");
                 }
 
-                serviceProviderEntity = iServiceProviderService.getById(serviceProviderWorkerEntity.getServiceProviderId());
+                serviceProviderEntity = serviceProviderService.getById(serviceProviderWorkerEntity.getServiceProviderId());
                 if (serviceProviderEntity == null) {
                     return R.fail("服务商不存在");
                 }
@@ -392,7 +394,7 @@ public class UserClient implements IUserClient {
                 break;
 
             case UPDATEPASSWORD:
-                serviceProviderWorkerEntity = iServiceProviderWorkerService.findByPhoneNumber(phoneNumber);
+                serviceProviderWorkerEntity = serviceProviderWorkerService.findByPhoneNumber(phoneNumber);
                 if (serviceProviderWorkerEntity == null) {
                     return R.fail("手机号未注册");
                 }
@@ -401,7 +403,7 @@ public class UserClient implements IUserClient {
                     return R.fail("账号状态非正常，请联系客服");
                 }
 
-                serviceProviderEntity = iServiceProviderService.getById(serviceProviderWorkerEntity.getServiceProviderId());
+                serviceProviderEntity = serviceProviderService.getById(serviceProviderWorkerEntity.getServiceProviderId());
                 if (serviceProviderEntity == null) {
                     return R.fail("服务商不存在");
                 }
@@ -411,7 +413,7 @@ public class UserClient implements IUserClient {
                 }
 
                 serviceProviderWorkerEntity.setEmployeePwd(password);
-                iServiceProviderWorkerService.updateById(serviceProviderWorkerEntity);
+                serviceProviderWorkerService.updateById(serviceProviderWorkerEntity);
 
                 break;
 
@@ -424,68 +426,68 @@ public class UserClient implements IUserClient {
 
     @Override
     public IndividualEnterpriseEntity queryIndividualEnterpriseById(Long individualEnterpriseId) {
-        return iIndividualEnterpriseService.getById(individualEnterpriseId);
+        return individualEnterpriseService.getById(individualEnterpriseId);
     }
 
     @Override
     public IndividualBusinessEntity queryIndividualBusinessById(Long individualBusinessId) {
-        return iIndividualBusinessService.getById(individualBusinessId);
+        return individualBusinessService.getById(individualBusinessId);
     }
 
     @Override
     public EnterpriseEntity queryEnterpriseById(Long enterpriseId) {
-        return iEnterpriseService.getById(enterpriseId);
+        return enterpriseService.getById(enterpriseId);
     }
 
     @Override
     public int queryCountByEnterpriseIdAndServiceProviderId(Long enterpriseId, Long serviceProviderId, CooperateStatus cooperateStatus) {
-        return iEnterpriseServiceProviderService.queryCountByEnterpriseIdAndServiceProviderId(enterpriseId, serviceProviderId, cooperateStatus);
+        return enterpriseServiceProviderService.queryCountByEnterpriseIdAndServiceProviderId(enterpriseId, serviceProviderId, cooperateStatus);
     }
 
     @Override
     public List<IndividualEnterpriseEntity> queryIndividualEnterpriseFindByMakerId(Long makerId) {
-        return iIndividualEnterpriseService.findMakerId(makerId);
+        return individualEnterpriseService.findMakerId(makerId);
     }
 
     @Override
     public List<IndividualBusinessEntity> queryIndividualBusinessByMakerId(Long makerId) {
-        return iIndividualBusinessService.queryIndividualBusinessByMakerId(makerId);
+        return individualBusinessService.queryIndividualBusinessByMakerId(makerId);
     }
 
     @Override
     public IndividualBusinessEntity queryIndividualBusinessByMakerIdAndIbtaxNo(Long makerId, String ibtaxNo) {
-        return iIndividualBusinessService.findByMakerIdAndIbtaxNo(makerId, ibtaxNo);
+        return individualBusinessService.findByMakerIdAndIbtaxNo(makerId, ibtaxNo);
     }
 
     @Override
     public IndividualEnterpriseEntity queryIndividualEnterpriseByMakerIdAndIbtaxNo(Long makerId, String ibtaxNo) {
-        return iIndividualEnterpriseService.findByMakerIdAndIbtaxNo(makerId, ibtaxNo);
+        return individualEnterpriseService.findByMakerIdAndIbtaxNo(makerId, ibtaxNo);
     }
 
 
     @Override
     public IndividualBusinessEntity queryIndividualBusinessByIbtaxNo(String ibtaxNo) {
-        return iIndividualBusinessService.queryIndividualBusinessByIbtaxNo(ibtaxNo);
+        return individualBusinessService.queryIndividualBusinessByIbtaxNo(ibtaxNo);
     }
 
     @Override
     public IndividualEnterpriseEntity queryIndividualEnterpriseByIbtaxNo(String ibtaxNo) {
-        return iIndividualEnterpriseService.queryIndividualEnterpriseByIbtaxNo(ibtaxNo);
+        return individualEnterpriseService.queryIndividualEnterpriseByIbtaxNo(ibtaxNo);
     }
 
     @Override
     public MakerEntity createMaker(String name, String idcardNo, String phoneNumber, Long enterpriseId) {
-        return iMakerService.makerSave(phoneNumber, name, idcardNo, "", "", "", enterpriseId);
+        return makerService.makerSave(phoneNumber, name, idcardNo, "", "", "", enterpriseId);
     }
 
     @Override
     public void createMakerToEnterpriseRelevance(Long enterpriseId, Long makerId) {
-        iMakerEnterpriseService.makerEnterpriseEntitySave(enterpriseId, makerId);
+        makerEnterpriseService.makerEnterpriseEntitySave(enterpriseId, makerId);
     }
 
     @Override
     public ServiceProviderEntity queryServiceProviderById(Long serviceProviderId) {
-        return iServiceProviderService.getById(serviceProviderId);
+        return serviceProviderService.getById(serviceProviderId);
     }
 
 }

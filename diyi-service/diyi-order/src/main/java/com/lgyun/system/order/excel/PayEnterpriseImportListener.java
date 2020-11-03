@@ -47,6 +47,11 @@ public class PayEnterpriseImportListener extends AnalysisEventListener<PayEnterp
      */
     private final MakerType makerType;
 
+    /**
+     * 商户ID
+     */
+    private final Long enterpriseId;
+
     @Override
     public void invoke(PayEnterpriseExcel data, AnalysisContext context) {
         list.add(data);
@@ -54,7 +59,7 @@ public class PayEnterpriseImportListener extends AnalysisEventListener<PayEnterp
         // 达到BATCH_COUNT，则调用importer方法入库，防止数据几万条数据在内存，容易OOM
         if (list.size() >= batchCount) {
             // 调用importer方法
-            iPayMakerService.importPayMakerList(list, payEnterpriseId, makerType);
+            iPayMakerService.importPayMakerList(list, payEnterpriseId, makerType, enterpriseId);
             // 存储完成清理list
             list.clear();
         }
@@ -63,7 +68,7 @@ public class PayEnterpriseImportListener extends AnalysisEventListener<PayEnterp
     @Override
     public void doAfterAllAnalysed(AnalysisContext analysisContext) {
         // 调用importer方法
-        iPayMakerService.importPayMakerList(list, payEnterpriseId, makerType);
+        iPayMakerService.importPayMakerList(list, payEnterpriseId, makerType, enterpriseId);
         // 存储完成清理list
         list.clear();
     }

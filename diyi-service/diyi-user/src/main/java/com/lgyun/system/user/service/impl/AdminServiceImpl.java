@@ -56,7 +56,7 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
     }
 
     @Override
-    public Integer findCountByPhoneNumber(String phoneNumber) {
+    public int findCountByPhoneNumber(String phoneNumber) {
         QueryWrapper<AdminEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(AdminEntity::getPhoneNumber, phoneNumber);
         return baseMapper.selectCount(queryWrapper);

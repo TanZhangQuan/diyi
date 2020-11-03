@@ -75,23 +75,28 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public Integer queryAdminCountByPhoneNumber(String phoneNumber) {
-        return null;
+    public int queryMakerEnterpriseRelevanceCount(Long makerId, Long enterpriseId) {
+        return 0;
     }
 
     @Override
-    public Integer queryMakerCountByPhoneNumber(String phoneNumber) {
-        return null;
+    public int queryAdminCountByPhoneNumber(String phoneNumber) {
+        return 0;
     }
 
     @Override
-    public Integer queryEnterpriseWorkerCountByPhoneNumber(String phoneNumber) {
-        return null;
+    public int queryMakerCountByPhoneNumber(String phoneNumber) {
+        return 0;
     }
 
     @Override
-    public Integer queryServiceProviderWorkerCountByPhoneNumber(String phoneNumber) {
-        return null;
+    public int queryEnterpriseWorkerCountByPhoneNumber(String phoneNumber) {
+        return 0;
+    }
+
+    @Override
+    public int queryServiceProviderWorkerCountByPhoneNumber(String phoneNumber) {
+        return 0;
     }
 
     @Override

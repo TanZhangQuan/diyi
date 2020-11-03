@@ -109,7 +109,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * @param phoneNumber
      * @return
      */
-    Integer findCountByPhoneNumber(String phoneNumber);
+    int findCountByPhoneNumber(String phoneNumber);
 
     /**
      * 根据手机号码密码查询创客

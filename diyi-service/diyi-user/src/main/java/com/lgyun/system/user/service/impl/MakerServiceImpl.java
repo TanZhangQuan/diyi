@@ -219,7 +219,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public Integer findCountByPhoneNumber(String phoneNumber) {
+    public int findCountByPhoneNumber(String phoneNumber) {
         QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(MakerEntity::getPhoneNumber, phoneNumber);
         return baseMapper.selectCount(queryWrapper);

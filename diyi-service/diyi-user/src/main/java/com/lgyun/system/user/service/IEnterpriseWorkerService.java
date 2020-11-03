@@ -53,7 +53,7 @@ public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEn
      * @param phoneNumber
      * @return
      */
-    Integer findCountByPhoneNumber(String phoneNumber);
+    int findCountByPhoneNumber(String phoneNumber);
 
     /**
      * 根据userId查找商户员工

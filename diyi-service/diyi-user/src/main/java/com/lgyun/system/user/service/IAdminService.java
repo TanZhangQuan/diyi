@@ -44,7 +44,7 @@ public interface IAdminService extends BaseService<AdminEntity> {
      * @param phoneNumber
      * @return
      */
-    Integer findCountByPhoneNumber(String phoneNumber);
+    int findCountByPhoneNumber(String phoneNumber);
 
     /**
      * 根据手机号查询管理员
