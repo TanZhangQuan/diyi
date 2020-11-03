@@ -20,9 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @RestController
 @RequestMapping("/admin/enterprise")
@@ -100,7 +98,7 @@ public class EnterpriseAdminController {
     @PostMapping("/match-service-provider")
     @ApiOperation(value = "商户匹配服务商", notes = "商户匹配服务商")
     public R matchServiceProvider(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
-                                  @ApiParam(value = "服务商", required = true) @NotEmpty(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
+                                  @ApiParam(value = "服务商", required = true) @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
                                   @ApiParam(value = "分配说明") @RequestParam(required = false) String matchDesc, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
