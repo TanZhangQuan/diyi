@@ -312,7 +312,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     }
 
     public synchronized R<String> orderGrabbing(WorksheetEntity worksheetEntity, MakerEntity makerEntity, int worksheetCount) {
-        if (!(makerEntity.getCertificationState().equals("CERTIFIED") && makerEntity.getEmpowerSignState().equals("SIGNED") && makerEntity.getJoinSignState().equals("SIGNED"))) {
+        if (!(makerEntity.getCertificationState().equals(CertificationState.CERTIFIED))) {
             return R.fail("请先完成认证，在抢单");
         }
         if (worksheetCount == worksheetEntity.getUpPersonNum() && worksheetEntity.getUpPersonNum() != 0) {
