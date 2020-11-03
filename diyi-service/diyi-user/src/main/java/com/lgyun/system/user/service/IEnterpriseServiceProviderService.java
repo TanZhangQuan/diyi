@@ -19,7 +19,7 @@ import java.util.List;
 public interface IEnterpriseServiceProviderService extends BaseService<EnterpriseServiceProviderEntity> {
 
     /**
-     * 查询服务商编号和名称
+     * 查询服务商编号名称
      *
      * @param enterpriseId
      * @param serviceProviderName

@@ -86,7 +86,7 @@ public class EnterpriseAdminController {
     }
 
     @GetMapping("/query-service-provider-id-and-name-list")
-    @ApiOperation(value = "查询所有服务商", notes = "查询所有服务商")
+    @ApiOperation(value = "查询所有服务商编号姓名", notes = "查询所有服务商编号姓名")
     public R queryServiceProviderIdAndNameList(@ApiParam(value = "服务商名称") @RequestParam(required = false) String serviceProviderName, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
