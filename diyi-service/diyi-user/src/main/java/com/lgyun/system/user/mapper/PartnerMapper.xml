@@ -21,7 +21,6 @@
             p.idcard_verify_status as is_auth,
             (
                 SELECT
-
                 IF (
                     sign_type = 'PAPERAGREEMENT',
                     paper_agreement_url,

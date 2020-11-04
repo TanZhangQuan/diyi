@@ -121,7 +121,7 @@
         t5.create_time, t5.maker_state, (SELECT COUNT(t2.id) FROM diyi_worksheet t1 INNER JOIN diyi_worksheet_maker t2 ON t1.id = t2.worksheet_id WHERE t1.is_deleted = 0
         AND t2.is_deleted = 0 AND t2.worksheet_maker_state = 'VALIDATION' AND t2.maker_id = t5.id) AS order_num, (SELECT IFNULL(SUM(t4.check_money), 0)
         FROM diyi_worksheet t3 INNER JOIN diyi_worksheet_maker t4 ON t3.id = t4.worksheet_id WHERE t3.is_deleted = 0 AND t4.is_deleted = 0
-        AND t4.worksheet_maker_state = 'VALIDATION' AND t4.maker_id = t5.id) AS income, IF(t5.bank_card_verify_status = 'VERIFYPASS', TRUE, FALSE) AS bool_real_name_verify,
+        AND t4.worksheet_maker_state = 'VALIDATION' AND t4.maker_id = t5.id) AS income, IF(t5.idcard_verify_status = 'VERIFYPASS', TRUE, FALSE) AS bool_real_name_verify,
         (SELECT IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url) FROM diyi_agreement
         WHERE is_deleted = 0 AND maker_id = t5.id AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND agreement_type = 'MAKERJOINAGREEMENT') AS platform_join_contract,
         (SELECT IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url) FROM diyi_agreement
@@ -155,7 +155,7 @@
             DISTINCT
         </if>
         t1.id, t1.name, t1.idcard_no, t1.phone_number, t1.bank_card_no, t1.certification_date, t1.create_time,
-        IF(t1.bank_card_verify_status = 'VERIFYPASS', TRUE, FALSE) AS bool_real_name_verify,
+        IF(t1.idcard_verify_status = 'VERIFYPASS', TRUE, FALSE) AS bool_real_name_verify,
         IF((SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t1.id AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND agreement_type = 'MAKERJOINAGREEMENT') > 0
         AND (SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t1.id AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND agreement_type = 'MAKERPOWERATTORNEY') > 0, TRUE, FALSE) AS bool_sign,
         IF((SELECT COUNT(id) FROM diyi_individual_business WHERE is_deleted = 0 AND maker_id = t1.id AND ibstate = 'OPERATING') > 0, TRUE, FALSE) AS bool_individual_business,
