@@ -85,6 +85,10 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
             if (acceptPaysheetSaveDto.getPayMakerIdList().isEmpty()) {
                 return R.fail("请选择分包");
             }
+
+            if (acceptPaysheetSaveDto.getPayMakerIdList().size() < 2) {
+                return R.fail("请选择两个以上分包");
+            }
         }
 
         //判断创客支付明细是否已开交付支付验收单

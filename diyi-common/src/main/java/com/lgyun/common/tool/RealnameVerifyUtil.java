@@ -82,23 +82,6 @@ public class RealnameVerifyUtil {
     }
 
     /**
-     * 身份证实名认证
-     */
-    public static JSONObject idcardOCR(String infoImg) throws Exception {
-
-        //在线图片转换成base64字符串
-        String idcardPicBase64 = Base64Util.imageToBase64ByOnline(infoImg);
-
-        //构建请求Body体
-        JSONObject reqBodyObj = new JSONObject();
-        reqBodyObj.put("infoImg", idcardPicBase64);
-
-        //发送POST请求
-        JSONObject resultJson = realnameVerifyOCR(RealnameVerifyConstant.IDCARDOCRURL, reqBodyObj, HttpMethod.POST);
-        return resultJson;
-    }
-
-    /**
      * 查询认证信息
      */
     public static JSONObject detail(String flowId) throws Exception {

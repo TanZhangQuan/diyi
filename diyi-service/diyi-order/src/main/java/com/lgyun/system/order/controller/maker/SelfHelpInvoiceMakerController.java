@@ -3,10 +3,11 @@ package com.lgyun.system.order.controller.maker;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.IdcardSide;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.common.tool.RealnameVerifyUtil;
+import com.lgyun.common.tool.IdcardUtil;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.dto.DictDTO;
@@ -203,7 +204,7 @@ public class SelfHelpInvoiceMakerController {
             return result;
         }
 
-        return R.data(RealnameVerifyUtil.idcardOCR(infoImg));
+        return R.data(IdcardUtil.idcardOCR(infoImg, IdcardSide.FRONT));
     }
 
     @GetMapping("/judge-maker-aatural")

@@ -381,8 +381,8 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
-    public R getServiceCrowdSour(Long serviceProviderId, String enterpriseName,String startTime,String endTime,SelfHelpInvoiceSpApplyState selfHelpInvoiceSpApplyState,IPage<SelfHelpInvoiceCrowdSourcingVO> page) {
-        return R.data(page.setRecords(baseMapper.getServiceCrowdSour(serviceProviderId,enterpriseName,startTime,endTime,selfHelpInvoiceSpApplyState,page)));
+    public R getServiceCrowdSour(Long serviceProviderId, String enterpriseName, String startTime, String endTime, SelfHelpInvoiceSpApplyState selfHelpInvoiceSpApplyState, IPage<SelfHelpInvoiceCrowdSourcingVO> page) {
+        return R.data(page.setRecords(baseMapper.getServiceCrowdSour(serviceProviderId, enterpriseName, startTime, endTime, selfHelpInvoiceSpApplyState, page)));
     }
 
     @Override
@@ -390,27 +390,27 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         Map map = new HashMap();
 
         ServiceCrowdSourcingDetailVO serviceCrowdSourDetails = baseMapper.getServiceCrowdSourDetails(providerSelfHelpInvoiceId);
-        map.put("serviceCrowdSourDetails",serviceCrowdSourDetails);
-        try{
-            if(StringUtil.isNotBlank(serviceCrowdSourDetails.getExpressNo()) && StringUtil.isNotBlank(serviceCrowdSourDetails.getExpressCompanyName())){
+        map.put("serviceCrowdSourDetails", serviceCrowdSourDetails);
+        try {
+            if (StringUtil.isNotBlank(serviceCrowdSourDetails.getExpressNo()) && StringUtil.isNotBlank(serviceCrowdSourDetails.getExpressCompanyName())) {
                 KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
                 String orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(serviceCrowdSourDetails.getExpressCompanyName(), serviceCrowdSourDetails.getExpressNo());
-                map.put("orderTracesByJson",orderTracesByJson);
-            }else{
-                map.put("orderTracesByJson","");
+                map.put("orderTracesByJson", orderTracesByJson);
+            } else {
+                map.put("orderTracesByJson", "");
             }
-        }catch (Exception e){
-            log.error("快鸟接口出错！！！",e);
-            map.put("orderTracesByJson","");
+        } catch (Exception e) {
+            log.error("快鸟接口出错！！！", e);
+            map.put("orderTracesByJson", "");
         }
         return R.data(map);
     }
 
     @Override
     @Transactional
-    public R savePortalSignInvoice(String serviceProviderName,Long providerSelfHelpInvoiceId,String expressNo, String expressCompanyName, String invoiceScanPictures, String taxScanPictures) {
+    public R savePortalSignInvoice(String serviceProviderName, Long providerSelfHelpInvoiceId, String expressNo, String expressCompanyName, String invoiceScanPictures, String taxScanPictures) {
         SelfHelpInvoiceSpDetailEntity selfHelpInvoiceSpDetailEntity = selfHelpInvoiceSpDetailService.getById(providerSelfHelpInvoiceId);
-        if(null != selfHelpInvoiceSpDetailEntity){
+        if (null != selfHelpInvoiceSpDetailEntity) {
             return R.fail("数据错误");
         }
         selfHelpInvoiceSpDetailEntity.setInvoiceScanPictures(invoiceScanPictures);
@@ -430,7 +430,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = selfHelpInvoiceDetailService.getById(selfHelpInvoiceSpDetailEntity.getSelfHelpInvoiceDetailId());
         selfHelpInvoiceDetailEntity.setInvoicePrintState(InvoicePrintState.INVOICESUCCESS);
         selfHelpInvoiceDetailService.saveOrUpdate(selfHelpInvoiceDetailEntity);
-        if(selfHelpInvoiceDetailService.getSelfHelpInvoiceDetails(selfHelpInvoiceDetailEntity.getSelfHelpInvoiceId(),selfHelpInvoiceDetailEntity.getId())){
+        if (selfHelpInvoiceDetailService.getSelfHelpInvoiceDetails(selfHelpInvoiceDetailEntity.getSelfHelpInvoiceId(), selfHelpInvoiceDetailEntity.getId())) {
             //更新主表的发票状态
             SelfHelpInvoiceSpEntity selfHelpInvoiceSpEntity = selfHelpInvoiceSpService.getById(selfHelpInvoiceSpDetailEntity.getSelfHelpInvoiceApplyProviderId());
             selfHelpInvoiceSpEntity.setApplyState(SelfHelpInvoiceSpApplyState.INVOICED);
@@ -444,29 +444,29 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
-    public R getAdminMakerTypeSelfHelpInvoice(String enterpriseName, String startTime, String endTime,MakerType makerType, IPage<SelfHelpInvoiceAdminVO> page) {
-        return R.data(page.setRecords(baseMapper.getAdminMakerTypeSelfHelpInvoice(enterpriseName,startTime,endTime,makerType,page)));
+    public R getAdminMakerTypeSelfHelpInvoice(String enterpriseName, String startTime, String endTime, MakerType makerType, IPage<SelfHelpInvoiceAdminVO> page) {
+        return R.data(page.setRecords(baseMapper.getAdminMakerTypeSelfHelpInvoice(enterpriseName, startTime, endTime, makerType, page)));
     }
 
     @Override
     public R getMakerTypeSelfHelpInvoiceDetails(Long selfHelpInvoiceId) {
         Map map = new HashMap();
         SelfHelpInvoiceAdminDetailVO makerTypeSelfHelpInvoiceDetails = baseMapper.getMakerTypeSelfHelpInvoiceDetails(selfHelpInvoiceId);
-        List<SelfHelpInvoiceDetailAdminVO> selfHelpInvoiceDetailAdminVOS= selfHelpInvoiceDetailService.getSelfHelpInvoiceIdAll(selfHelpInvoiceId);
-        map.put("makerTypeSelfHelpInvoiceDetails",makerTypeSelfHelpInvoiceDetails);
-        map.put("selfHelpInvoiceDetailAdminVOS",selfHelpInvoiceDetailAdminVOS);
+        List<SelfHelpInvoiceDetailAdminVO> selfHelpInvoiceDetailAdminVOS = selfHelpInvoiceDetailService.getSelfHelpInvoiceIdAll(selfHelpInvoiceId);
+        map.put("makerTypeSelfHelpInvoiceDetails", makerTypeSelfHelpInvoiceDetails);
+        map.put("selfHelpInvoiceDetailAdminVOS", selfHelpInvoiceDetailAdminVOS);
         String orderTracesByJson = "";
-        if(selfHelpInvoiceDetailAdminVOS.size() > 0){
+        if (selfHelpInvoiceDetailAdminVOS.size() > 0) {
             String expressCompanyName = selfHelpInvoiceDetailAdminVOS.get(0).getExpressCompanyName();
             String expressNo = selfHelpInvoiceDetailAdminVOS.get(0).getExpressNo();
             try {
                 KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
                 orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(expressCompanyName, expressNo);
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
         }
-        map.put("orderTracesByJson",orderTracesByJson);
+        map.put("orderTracesByJson", orderTracesByJson);
         return R.data(map);
     }
 
@@ -474,7 +474,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     @Transactional
     public R toExamineSelfHelpInvoice(ToExamineSelfHelpInvoiceDTO toExamineSelfHelpInvoiceDto) {
         SelfHelpInvoiceEntity selfHelpInvoiceEntity = getById(toExamineSelfHelpInvoiceDto.getSelfHelpInvoiceId());
-        if(null == selfHelpInvoiceEntity){
+        if (null == selfHelpInvoiceEntity) {
             return R.fail("没有此数据");
         }
         selfHelpInvoiceEntity.setTotlChargeMoneyNum(new BigDecimal(toExamineSelfHelpInvoiceDto.getTotlChargeMoneyNum()));
@@ -488,7 +488,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         selfHelpInvoiceEntity.setCurrentState(SelfHelpInvoiceApplyState.TOPAY);
         saveOrUpdate(selfHelpInvoiceEntity);
         List<SelfHelpInvoiceDetailVO> selfHelpInvoiceId = selfHelpInvoiceDetailService.getSelfHelpInvoiceId(toExamineSelfHelpInvoiceDto.getSelfHelpInvoiceId());
-        for (SelfHelpInvoiceDetailVO selfHelpInvoiceDetailVO: selfHelpInvoiceId){
+        for (SelfHelpInvoiceDetailVO selfHelpInvoiceDetailVO : selfHelpInvoiceId) {
             SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = BeanUtil.copy(selfHelpInvoiceDetailVO, SelfHelpInvoiceDetailEntity.class);
             BigDecimal subtract = new BigDecimal(toExamineSelfHelpInvoiceDto.getServiceRate()).subtract(selfHelpInvoiceDetailEntity.getChargeMoneyNum());
             selfHelpInvoiceDetailEntity.setPayProviderFee(subtract);
@@ -516,12 +516,12 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
-    public R matchServiceProvider(Long selfHelpInvoiceId,Long selfHelpInvoiceFeeId, Long serviceProviderId, String payCertificate) {
+    public R matchServiceProvider(Long selfHelpInvoiceId, Long selfHelpInvoiceFeeId, Long serviceProviderId, String payCertificate) {
         SelfHelpInvoiceEntity selfHelpInvoiceEntity = getById(serviceProviderId);
-        if(null == selfHelpInvoiceEntity){
+        if (null == selfHelpInvoiceEntity) {
             return R.fail("没有此数据");
         }
-        if(selfHelpInvoiceEntity.getCurrentState().equals("TOPAY")){
+        if (selfHelpInvoiceEntity.getCurrentState().equals("TOPAY")) {
             return R.fail("自助开票状态错误");
         }
         SelfHelpInvoiceFeeEntity selfHelpInvoiceFeeEntity = selfHelpInvoiceFeeService.getById(selfHelpInvoiceFeeId);
@@ -545,7 +545,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         selfHelpInvoiceSpEntity.setAddressType(AddressType.TOCUSTOMER);
         selfHelpInvoiceSpService.save(selfHelpInvoiceSpEntity);
         List<SelfHelpInvoiceDetailVO> selfHelpInvoiceIds = selfHelpInvoiceDetailService.getSelfHelpInvoiceId(selfHelpInvoiceId);
-        for (SelfHelpInvoiceDetailVO selfHelpInvoiceDetailVO: selfHelpInvoiceIds){
+        for (SelfHelpInvoiceDetailVO selfHelpInvoiceDetailVO : selfHelpInvoiceIds) {
             SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = BeanUtil.copy(selfHelpInvoiceDetailVO, SelfHelpInvoiceDetailEntity.class);
             SelfHelpInvoiceSpDetailEntity selfHelpInvoiceSpDetailEntity = new SelfHelpInvoiceSpDetailEntity();
             selfHelpInvoiceSpDetailEntity.setSelfHelpInvoiceApplyProviderId(selfHelpInvoiceSpEntity.getId());
@@ -557,7 +557,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
-    public R uploadAdminExpress(Long selfHelpInvoiceId, Long serviceProviderId,String expressNo, String expressCompanyName) {
+    public R uploadAdminExpress(Long selfHelpInvoiceId, Long serviceProviderId, String expressNo, String expressCompanyName) {
         SelfHelpInvoiceSpEntity selfHelpInvoiceSpEntity = selfHelpInvoiceSpService.findByServiceProviderIdAndSelfHelpInvoiceId(selfHelpInvoiceId, serviceProviderId);
         if (null == selfHelpInvoiceSpEntity || !selfHelpInvoiceSpEntity.getApplyState().equals("INVOICED")) {
             return R.data("数据错误！");
@@ -571,6 +571,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         selfHelpInvoiceExpressService.save(selfHelpInvoiceExpressEntity);
         return R.success("成功");
     }
+
     @Override
     public R uploadAdminInvoice(Long selfHelpInvoiceApplyProviderDetailId, String invoiceScanPictures, String taxScanPictures) {
         SelfHelpInvoiceSpDetailEntity selfHelpInvoiceSpDetailEntity = selfHelpInvoiceSpDetailService.getById(selfHelpInvoiceApplyProviderDetailId);

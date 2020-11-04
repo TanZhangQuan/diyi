@@ -10,7 +10,6 @@ import com.lgyun.system.order.dto.PayEnterpriseDTO;
 import com.lgyun.system.order.dto.WorksheetFinishedListDTO;
 import com.lgyun.system.order.service.IAcceptPaysheetService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
-import com.lgyun.system.order.service.ISelfHelpInvoiceService;
 import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
@@ -35,7 +34,6 @@ public class PaymentEnterpriseController {
     private IPayEnterpriseService payEnterpriseService;
     private IAcceptPaysheetService acceptPaysheetService;
     private IWorksheetService worksheetService;
-    private ISelfHelpInvoiceService selfHelpInvoiceService;
 
     @GetMapping("/query-finished-worksheet-list")
     @ApiOperation(value = "查询当前商户所有已完毕的总包+分包类型的工单", notes = "查询当前商户所有已完毕的总包+分包类型的工单")

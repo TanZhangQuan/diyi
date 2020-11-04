@@ -3,10 +3,11 @@ package com.lgyun.system.order.controller.enterprise;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.IdcardSide;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.common.tool.RealnameVerifyUtil;
+import com.lgyun.common.tool.IdcardUtil;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.feign.IDictClient;
@@ -142,7 +143,7 @@ public class SelfHelpInvoiceEnterpriseController {
     @PostMapping("/upload-deliver-sheet")
     @ApiOperation(value = "上传交付支付验收单", notes = "上传交付支付验收单")
     public R uploadDeliverSheet(@NotNull(message = "请输入自助开票明细编号") @RequestParam(required = false) Long selfHelpInvoiceDetailId,
-                                   @NotBlank(message = "请上传交付支付验收单") @RequestParam(required = false) String deliverSheetUrl, BladeUser bladeUser) {
+                                @NotBlank(message = "请上传交付支付验收单") @RequestParam(required = false) String deliverSheetUrl, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -155,7 +156,7 @@ public class SelfHelpInvoiceEnterpriseController {
     @PostMapping("/submit-self-help-invoice")
     @ApiOperation(value = "当前商户提交自助开票", notes = "商户提交自助开票")
     public R submitSelfHelpInvoice(@ApiParam(value = "文件") @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file,
-                                      @Valid @RequestBody SelfHelpInvoiceDTO selfHelpInvoiceDto, BladeUser bladeUser) throws IOException {
+                                   @Valid @RequestBody SelfHelpInvoiceDTO selfHelpInvoiceDto, BladeUser bladeUser) throws IOException {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -217,7 +218,7 @@ public class SelfHelpInvoiceEnterpriseController {
             return result;
         }
 
-        return R.data(RealnameVerifyUtil.idcardOCR(infoImg));
+        return R.data(IdcardUtil.idcardOCR(infoImg, IdcardSide.FRONT));
     }
 
 }

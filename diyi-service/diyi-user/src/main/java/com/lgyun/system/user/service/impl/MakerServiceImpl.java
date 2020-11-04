@@ -34,10 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -242,18 +239,15 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         }
 
         //身份证实名认证
-        JSONObject jsonObject = RealnameVerifyUtil.idcardOCR(idcardPic);
-        if (jsonObject == null) {
+        Map<String, String> idCardInfo = IdcardUtil.idcardOCR(idcardPic, IdcardSide.FRONT);
+        if (idCardInfo.isEmpty()) {
             return R.fail("身份证实名认证失败");
         }
 
         //查询姓名和身份证号码
-        String name = jsonObject.getString("name");
-        String idNo = jsonObject.getString("idNo");
-
         JSONObject result = new JSONObject();
-        result.put("name", name);
-        result.put("idNo", idNo);
+        result.put("name", idCardInfo.get("name"));
+        result.put("idNo", idCardInfo.get("idCard"));
 
         return R.data(result);
     }
@@ -687,16 +681,16 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R getMakerAll(Long makerId,String makerName,IPage<MakerEntity> page) {
+    public R getMakerAll(Long makerId, String makerName, IPage<MakerEntity> page) {
         QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
-        if(makerId != null && StringUtils.isNotEmpty(makerName)){
+        if (makerId != null && StringUtils.isNotEmpty(makerName)) {
             queryWrapper.lambda().eq(MakerEntity::getId, makerId)
                     .like(MakerEntity::getName, makerName);
         }
-        if(makerId != null && StringUtils.isEmpty(makerName)){
+        if (makerId != null && StringUtils.isEmpty(makerName)) {
             queryWrapper.lambda().eq(MakerEntity::getId, makerId);
         }
-        if(StringUtils.isNotEmpty(makerName) && makerId == null){
+        if (StringUtils.isNotEmpty(makerName) && makerId == null) {
             queryWrapper.lambda().like(MakerEntity::getName, makerName);
         }
         IPage<MakerEntity> makerEntityIPage = baseMapper.selectPage(page, queryWrapper);
