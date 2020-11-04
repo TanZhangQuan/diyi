@@ -5,10 +5,7 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.ContractApplyInvoiceDTO;
-import com.lgyun.system.order.service.IEnterpriseServiceProviderInvoiceCatalogsService;
-import com.lgyun.system.order.service.IInvoiceApplicationService;
-import com.lgyun.system.order.service.IPayEnterpriseService;
-import com.lgyun.system.order.service.ISelfHelpInvoiceService;
+import com.lgyun.system.order.service.*;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
@@ -33,6 +30,8 @@ public class InvoiceTaxEnterpriseController {
     private IEnterpriseServiceProviderInvoiceCatalogsService enterpriseProviderInvoiceCatalogsService;
     private IInvoiceApplicationService invoiceApplicationService;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
+
+    private IWorksheetService worksheetService;
 
 //    @GetMapping("/query-total-invoice-list")
 //    @ApiOperation(value = "根据商户查询总包发票", notes = "根据商户查询总包发票")
@@ -238,14 +237,14 @@ public class InvoiceTaxEnterpriseController {
 
     @GetMapping("/query-all-open-sub-detail")
     @ApiOperation(value = "根据商户查询汇总代开分包详情", notes = "根据商户查询汇总代开分包详情")
-    public R queryAllOpenSubDetail(Long makerTotalInvoiceId, BladeUser bladeUser,Query query) {
+    public R queryAllOpenSubDetail(Long makerTotalInvoiceId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return payEnterpriseService.findDetailSummary(makerTotalInvoiceId,query);
+        return payEnterpriseService.findDetailSummary(makerTotalInvoiceId);
     }
 
     @GetMapping("/query-single-open-sub-list")
@@ -264,13 +263,38 @@ public class InvoiceTaxEnterpriseController {
 
     @GetMapping("/query-single-open-sub-detail")
     @ApiOperation(value = "根据商户查询门征单开分包详情", notes = "根据商户查询门征单开分包详情")
-    public R querySingleOpenSubDetail(@ApiParam(value = "门征发票id") @NotNull(message = "门征发票id不能为空") @RequestParam(required = false)Long makerInvoiceId, BladeUser bladeUser,Query query) {
+    public R querySingleOpenSubDetail(@ApiParam(value = "门征发票id") @NotNull(message = "门征发票id不能为空") @RequestParam(required = false)Long makerInvoiceId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return payEnterpriseService.findDetailSubcontractPortal(makerInvoiceId,query);
+        return payEnterpriseService.findDetailSubcontractPortal(makerInvoiceId);
+    }
+
+
+    @GetMapping("query-worksheet-detail")
+    @ApiOperation(value = "查询工单详情", notes = "查询工单详情")
+    public R queryWorksheetDetail(@NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId, Query query, BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return worksheetService.getWorksheetWebDetails(Condition.getPage(query.setDescs("create_time")), worksheetId);
+    }
+
+    @GetMapping("/query-pay-enterprise-detail")
+    @ApiOperation(value = "查询总包支付清单详情", notes = "查询总包支付清单详情")
+    public R queryPayEnterpriseDetail(@ApiParam(value = "支付清单", required = true) @NotNull(message = "请选择总包支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return payEnterpriseService.queryPayEnterpriseDetail(payEnterpriseId);
     }
 }

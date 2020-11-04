@@ -89,5 +89,10 @@ public interface IAcceptPaysheetService extends BaseService<AcceptPaysheetEntity
      */
     void deleteAcceptPaysheet(Long payEnterpriseId);
 
+    /**
+     * 跟支付清单查询所有的支付交付验收单
+     */
+    String findPayEnterpriseAll(String payEnterpriseIds);
+
 }
 
