@@ -3,6 +3,7 @@ package com.lgyun.system.user.dto;
 import com.lgyun.common.enumeration.BodyType;
 import com.lgyun.common.enumeration.ReportTheme;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -62,11 +63,13 @@ public class AdminEnterpriseReportDTO implements Serializable {
     /**
      * 申报截止日期
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date reportDeadDate;
 
     /**
      * 申报完成日期
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date reportCompleteDate;
 
     /**

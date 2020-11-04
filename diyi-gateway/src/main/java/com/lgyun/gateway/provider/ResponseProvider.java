@@ -42,7 +42,7 @@ public class ResponseProvider {
 	}
 
 	/**
-	 * 服务器异常
+	 * 服务器繁忙
 	 *
 	 * @param message 信息
 	 * @return

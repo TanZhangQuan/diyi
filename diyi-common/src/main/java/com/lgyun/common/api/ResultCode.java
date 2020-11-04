@@ -56,9 +56,9 @@ public enum ResultCode implements IResultCode {
     REQ_REJECT(HttpServletResponse.SC_FORBIDDEN, "请求被拒绝"),
 
     /**
-     * 服务器异常
+     * 服务器繁忙
      */
-    INTERNAL_SERVER_ERROR(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "服务器异常"),
+    INTERNAL_SERVER_ERROR(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "服务器繁忙"),
 
     /**
      * 缺少必要的请求参数

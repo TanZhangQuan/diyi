@@ -2,6 +2,7 @@ package com.lgyun.system.user.dto;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -61,6 +62,9 @@ public class AddressDTO {
     @NotBlank(message = "是否默认")
     private Integer isDefault;
 
-
+    /**
+     * 创建时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 }

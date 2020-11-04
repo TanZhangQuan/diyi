@@ -1,6 +1,7 @@
 package com.lgyun.system.order.dto;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -34,6 +35,7 @@ public class SummaryInvoiceDTO implements Serializable {
      * 开票日期
      */
     @NotNull(message = "请输入开票日期")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date invoiceDatetime;
 
     /**

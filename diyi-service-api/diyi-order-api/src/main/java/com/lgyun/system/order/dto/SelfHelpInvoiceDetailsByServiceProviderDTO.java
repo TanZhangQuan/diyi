@@ -1,6 +1,7 @@
 package com.lgyun.system.order.dto;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -16,24 +17,26 @@ import java.util.Date;
 public class SelfHelpInvoiceDetailsByServiceProviderDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-     /**
+    /**
      * 商户名称
      */
     private String enterpriseName;
 
-     /**
+    /**
      * 开票人姓名
      */
     private String invoicePeopleName;
 
-     /**
+    /**
      * 自助开票开始时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date beginDate;
 
-     /**
+    /**
      * 自助开票结束时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endDate;
 
 }

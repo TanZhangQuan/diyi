@@ -40,7 +40,7 @@ public class BaseExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public R exceptionHandler(Exception e) {
         log.error(String.valueOf(e));
-        return R.fail("服务器异常, 操作失败");
+        return R.fail("服务器繁忙, 操作失败");
     }
 
 }

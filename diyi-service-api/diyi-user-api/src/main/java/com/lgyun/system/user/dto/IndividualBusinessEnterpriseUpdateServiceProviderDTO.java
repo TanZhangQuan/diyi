@@ -3,6 +3,7 @@ package com.lgyun.system.user.dto;
 import com.lgyun.common.enumeration.BizType;
 import com.lgyun.common.enumeration.Ibstate;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -46,6 +47,7 @@ public class IndividualBusinessEnterpriseUpdateServiceProviderDTO implements Ser
     /**
      * 营业执照的注册日期
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date buildDateTime;
 
     /**
@@ -122,16 +124,19 @@ public class IndividualBusinessEnterpriseUpdateServiceProviderDTO implements Ser
     /**
      * 提交日期
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date submitDateTime;
 
     /**
      * 注册日期
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date registeredDate;
 
     /**
      * 税务登记日期
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date taxRegisterDateTime;
 
     /**

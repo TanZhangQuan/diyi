@@ -4,13 +4,14 @@ import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.IdcardVerifyType;
 import com.lgyun.common.enumeration.VerifyStatus;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class UpdatePartnerDTO  implements Serializable {
+public class UpdatePartnerDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -42,6 +43,7 @@ public class UpdatePartnerDTO  implements Serializable {
     /**
      * 微信关联日期
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date relDate;
 
     /**
@@ -57,7 +59,7 @@ public class UpdatePartnerDTO  implements Serializable {
     /**
      * 账户状态
      */
-    private AccountState partnerState=AccountState.NORMAL;
+    private AccountState partnerState = AccountState.NORMAL;
 
     /**
      * 政治面貌
@@ -87,6 +89,7 @@ public class UpdatePartnerDTO  implements Serializable {
     /**
      * 到期日期
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date dueDate;
 
     /**
@@ -157,6 +160,7 @@ public class UpdatePartnerDTO  implements Serializable {
     /**
      * 身份证验证日期时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date idcardVerifyDate;
 
     /**
