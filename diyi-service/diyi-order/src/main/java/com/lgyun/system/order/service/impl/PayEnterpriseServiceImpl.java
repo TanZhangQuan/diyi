@@ -288,16 +288,19 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     public R findDetailSummary(Long makerTotalInvoiceId) {
         Map map = new HashMap();
         EnterpriseSubcontractInvoiceVO detailSummary = baseMapper.findDetailSummary(makerTotalInvoiceId);
-        map.put("enterpriseSubcontractInvoiceVO", detailSummary);
         PayEnterpriseEntity byId = getById(detailSummary.getPayEnterpriseId());
+        String enterprisePayReceiptUrl = payEnterpriseReceiptService.findEnterprisePayReceiptUrl(byId.getId());
+        detailSummary.setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
         if (null == byId) {
             return R.fail("数据错误");
         }
+        map.put("enterpriseSubcontractInvoiceVO", detailSummary);
         Query query = new Query();
         query.setCurrent(1);
         query.setSize(100);
         List<PayMakerListInvoiceVO> PayMakerListVOs = baseMapper.queryPayMakerListInvoice(byId.getId(), Condition.getPage(query.setDescs("create_time")));
         map.put("payMakerListVOs", PayMakerListVOs);
+
         return R.data(map);
     }
 
@@ -305,11 +308,13 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     public R findDetailSubcontractPortal(Long makerInvoiceId) {
         EnterpriseSubcontractPortalVO detailSummary = baseMapper.findDetailSubcontractPortal(makerInvoiceId);
         Map map = new HashMap();
-        map.put("EnterpriseSubcontractPortalVO", detailSummary);
         PayEnterpriseEntity byId = getById(detailSummary.getPayEnterpriseId());
         if (null == byId) {
             return R.fail("数据错误");
         }
+        String enterprisePayReceiptUrl = payEnterpriseReceiptService.findEnterprisePayReceiptUrl(byId.getId());
+        detailSummary.setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
+        map.put("EnterpriseSubcontractPortalVO", detailSummary);
         Query query = new Query();
         query.setSize(100);
         query.setCurrent(1);
