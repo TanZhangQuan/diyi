@@ -75,7 +75,7 @@ public class BasicInfoEnterpriseController {
             EnterpriseContactVO response = new EnterpriseContactVO();
             BeanUtils.copyProperties(entity, response);
             response.setWorkerSex(entity.getWorkerSex());
-            response.setCreateTime(entity.getCreateTime().getTime());
+            response.setCreateTime(entity.getCreateTime());
             response.setEnterpriseWorkerState(entity.getEnterpriseWorkerState().getValue());
             response.setPositionName(entity.getPositionName().getDesc());
 
