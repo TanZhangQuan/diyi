@@ -3,6 +3,7 @@ package com.lgyun.system.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.BizType;
 import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.common.enumeration.VerifyStatus;
@@ -45,6 +46,11 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
 
     @Override
     public R<String> createIndividualBusinessMaker(IndividualBusinessEnterpriseAddMakerDTO individualBusinessEnterpriseAddMakerDto, MakerEntity makerEntity) {
+
+        //判断税种
+        if (BizType.TAXPAYER.equals(individualBusinessEnterpriseAddMakerDto.getBizType())) {
+            return R.fail("个体户税种不存在一般纳税人");
+        }
 
         //查看创客是否认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
@@ -106,6 +112,11 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
     @Override
     @Transactional(rollbackFor = Exception.class)
     public R<String> addOrUpdateIndividualBusiness(IndividualBusinessEnterpriseAddOrUpdateDTO individualBusinessEnterpriseAddOrUpdateDto, Long enterpriseId) {
+
+        //判断税种
+        if (BizType.TAXPAYER.equals(individualBusinessEnterpriseAddOrUpdateDto.getBizType())) {
+            return R.fail("个体户税种不存在一般纳税人");
+        }
 
         MakerEntity makerEntity = makerService.getById(individualBusinessEnterpriseAddOrUpdateDto.getMakerId());
         if (makerEntity == null) {
@@ -211,6 +222,11 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
 
     @Override
     public R<String> updateIndividualBusinessServiceProvider(IndividualBusinessEnterpriseUpdateServiceProviderDTO individualBusinessEnterpriseUpdateServiceProviderDTO, Long serviceProviderId) {
+
+        //判断税种
+        if (BizType.TAXPAYER.equals(individualBusinessEnterpriseUpdateServiceProviderDTO.getBizType())) {
+            return R.fail("个体户税种不存在一般纳税人");
+        }
 
         IndividualBusinessEntity individualBusinessEntity = getById(individualBusinessEnterpriseUpdateServiceProviderDTO.getId());
         if (individualBusinessEntity == null) {
