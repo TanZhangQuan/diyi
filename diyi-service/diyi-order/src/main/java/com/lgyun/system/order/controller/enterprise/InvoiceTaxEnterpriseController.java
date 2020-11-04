@@ -137,13 +137,13 @@ public class InvoiceTaxEnterpriseController {
     @GetMapping("/query-total-invoice-list-enterprise")
     @ApiOperation(value = "商户端根据商户id查询总包", notes = "商户端根据商户id查询总包")
     public R queryTotalInvoiceListEnterprise(BladeUser bladeUser,Query query,@RequestParam(required = false) String serviceProviderName) {
-//        //查询当前商户员工
-//        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
-//        if (!(result.isSuccess())) {
-//            return result;
-//        }
-//        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-        return payEnterpriseService.queryTotalInvoiceListEnterprise(1123598821738675208L,serviceProviderName,Condition.getPage(query.setDescs("create_time")));
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+        return payEnterpriseService.queryTotalInvoiceListEnterprise(enterpriseWorkerEntity.getEnterpriseId(),serviceProviderName,Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-total-invoice-list-enterprise-apply-details")
