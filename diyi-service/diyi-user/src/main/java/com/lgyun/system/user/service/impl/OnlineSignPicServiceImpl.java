@@ -88,16 +88,16 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
             MakerEntity makerEntity = makerService.getById(ObjectId);
             if(onlineAgreementTemplateEntity.getAgreementType().equals(AgreementType.MAKERJOINAGREEMENT)){
                 makerEntity.setJoinSignState(SignState.SIGNED);
-                if(makerEntity.getEmpowerSignState().equals(SignState.SIGNED) && makerEntity.getBankCardVerifyStatus().equals(VerifyStatus.VERIFYPASS)){
-                    makerEntity.setCertificationDate(new Date());
+                if(makerEntity.getEmpowerSignState().equals(SignState.SIGNED) && makerEntity.getIdcardVerifyStatus().equals(VerifyStatus.VERIFYPASS)){
                     makerEntity.setCertificationState(CertificationState.CERTIFIED);
+                    makerEntity.setCertificationDate(new Date());
                 }
             }
             if(onlineAgreementTemplateEntity.getAgreementType().equals(AgreementType.MAKERPOWERATTORNEY)){
                 makerEntity.setEmpowerSignState(SignState.SIGNED);
-                if(makerEntity.getJoinSignState().equals(SignState.SIGNED) && makerEntity.getBankCardVerifyStatus().equals(VerifyStatus.VERIFYPASS)){
-                    makerEntity.setCertificationDate(new Date());
+                if(makerEntity.getJoinSignState().equals(SignState.SIGNED) && makerEntity.getIdcardVerifyStatus().equals(VerifyStatus.VERIFYPASS)){
                     makerEntity.setCertificationState(CertificationState.CERTIFIED);
+                    makerEntity.setCertificationDate(new Date());
                 }
             }
            makerService.saveOrUpdate(makerEntity);

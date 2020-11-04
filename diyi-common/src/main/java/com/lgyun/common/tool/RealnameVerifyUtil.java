@@ -112,6 +112,36 @@ public class RealnameVerifyUtil {
     }
 
     /**
+     * 手机号验证
+     */
+    public static R<JSONObject> mobileVerify(String idNo, String name, String mobileNo) throws Exception {
+
+        //构建请求Body体
+        JSONObject reqBodyObj = new JSONObject();
+        reqBodyObj.put("idNo", idNo);
+        reqBodyObj.put("name", name);
+        reqBodyObj.put("mobileNo", mobileNo);
+
+        //发送POST请求
+        return realnameVerifyOCR(RealnameVerifyConstant.MOBILEVERIFYURL, reqBodyObj, HttpMethod.POST);
+    }
+
+    /**
+     * 银行卡验证
+     */
+    public static R<JSONObject> bankcardVerify(String idNo, String name, String cardNo) throws Exception {
+
+        //构建请求Body体
+        JSONObject reqBodyObj = new JSONObject();
+        reqBodyObj.put("idNo", idNo);
+        reqBodyObj.put("name", name);
+        reqBodyObj.put("cardNo", cardNo);
+
+        //发送POST请求
+        return realnameVerifyOCR(RealnameVerifyConstant.BANKCARDVERIFYURL, reqBodyObj, HttpMethod.POST);
+    }
+
+    /**
      * 查询认证信息
      */
     public static R<JSONObject> detail(String flowId) throws Exception {
@@ -126,7 +156,7 @@ public class RealnameVerifyUtil {
     /**
      * 活体认证
      */
-    public static R<JSONObject> faceOCR(Long contextId, String name, String certNo) throws Exception {
+    public static R<JSONObject> faceOCR(String contextId, String name, String certNo) throws Exception {
 
         //指定页面显示认证方式
         List<String> availableAuthTypes = new ArrayList<>();
@@ -134,8 +164,8 @@ public class RealnameVerifyUtil {
 
         //业务方交互上下文信息
         ContextInfo contextInfo = new ContextInfo();
-        contextInfo.setContextId(String.valueOf(contextId));
-        contextInfo.setNotifyUrl(RealnameVerifyConstant.FACEOCRNOTIFYURL);
+        contextInfo.setContextId(contextId);
+        contextInfo.setNotifyUrl(RealnameVerifyConstant.FACEVERIFYURL);
 
         //个人基本信息
         IndivInfo indivInfo = new IndivInfo();
@@ -147,84 +177,16 @@ public class RealnameVerifyUtil {
         ConfigParams configParams = new ConfigParams();
         configParams.setIndivUneditableInfo(indivUneditableInfo);
 
-        //活体认证请求
-        return faceBankCardMobileOCR("PSN_FACEAUTH_BYURL", availableAuthTypes, contextInfo, indivInfo, configParams);
-
-    }
-
-    /**
-     * 手机号实名认证
-     */
-    public static R<JSONObject> mobileOCR(Long contextId, String name, String certNo, String mobileNo) throws Exception {
-
-        //指定页面显示认证方式
-        List<String> availableAuthTypes = new ArrayList<>();
-        availableAuthTypes.add("PSN_TELECOM_AUTHCODE");
-
-        //业务方交互上下文信息
-        ContextInfo contextInfo = new ContextInfo();
-        contextInfo.setContextId(String.valueOf(contextId));
-        contextInfo.setNotifyUrl(RealnameVerifyConstant.MOBILEOCRNOTIFYURL);
-
-        //个人基本信息
-        IndivInfo indivInfo = new IndivInfo();
-        indivInfo.setName(name);
-        indivInfo.setCertNo(certNo);
-        indivInfo.setMobileNo(mobileNo);
-
-        //认证配置信息
-        String[] indivUneditableInfo = new String[]{"name", "certNo", "mobileNo"};
-        ConfigParams configParams = new ConfigParams();
-        configParams.setIndivUneditableInfo(indivUneditableInfo);
-
-        //手机号实名认证请求
-        return faceBankCardMobileOCR("PSN_TELECOM_AUTHCODE", availableAuthTypes, contextInfo, indivInfo, configParams);
-    }
-
-    /**
-     * 银行卡实名认证
-     */
-    public static R<JSONObject> bankCardOCR(Long contextId, String name, String certNo, String bankCardNo, String mobileNo) throws Exception {
-
-        //指定页面显示认证方式
-        List<String> availableAuthTypes = new ArrayList<>();
-        availableAuthTypes.add("PSN_BANK4_AUTHCODE");
-
-        //业务方交互上下文信息
-        ContextInfo contextInfo = new ContextInfo();
-        contextInfo.setContextId(String.valueOf(contextId));
-        contextInfo.setNotifyUrl(RealnameVerifyConstant.BANKCARDOCRNOTIFYURL);
-
-        //个人基本信息
-        IndivInfo indivInfo = new IndivInfo();
-        indivInfo.setName(name);
-        indivInfo.setCertNo(certNo);
-        indivInfo.setBankCardNo(bankCardNo);
-        indivInfo.setMobileNo(mobileNo);
-
-        //认证配置信息
-        String[] indivUneditableInfo = new String[]{"name", "certNo", "mobileNo", "bankCardNo"};
-        ConfigParams configParams = new ConfigParams();
-        configParams.setIndivUneditableInfo(indivUneditableInfo);
-
-        //银行卡实名认证请求
-        return faceBankCardMobileOCR("PSN_BANK4_AUTHCODE", availableAuthTypes, contextInfo, indivInfo, configParams);
-    }
-
-    /**
-     * 活体认证、银行卡认证以及手机认证
-     */
-    public static R<JSONObject> faceBankCardMobileOCR(String authType, List<String> availableAuthTypes, ContextInfo contextInfo, IndivInfo indivInfo, ConfigParams configParams) throws Exception {
-
         //构建请求Body体
         JSONObject reqBodyObj = new JSONObject();
-        reqBodyObj.put("authType", authType);
+        reqBodyObj.put("authType", "PSN_FACEAUTH_BYURL");
         reqBodyObj.put("availableAuthTypes", availableAuthTypes);
         reqBodyObj.put("contextInfo", contextInfo);
         reqBodyObj.put("indivInfo", indivInfo);
         reqBodyObj.put("configParams", configParams);
 
-        return realnameVerifyOCR(RealnameVerifyConstant.FACEBANKCARDMOBILEOCROCRURL, reqBodyObj, HttpMethod.POST);
+        //活体认证请求
+        return realnameVerifyOCR(RealnameVerifyConstant.FACEVERIFYNOTIFYURL, reqBodyObj, HttpMethod.POST);
     }
 
     /**

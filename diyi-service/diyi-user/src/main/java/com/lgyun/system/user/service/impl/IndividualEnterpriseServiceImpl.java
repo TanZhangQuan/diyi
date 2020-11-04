@@ -46,8 +46,8 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
     @Override
     public R<String> createIndividualEnterpriseMaker(IndividualBusinessEnterpriseAddMakerDTO individualBusinessEnterpriseAddMakerDto, MakerEntity makerEntity) {
 
-        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getPhoneNumberVerifyStatus()))) {
-            return R.fail("创客未实名认证");
+        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
+            return R.fail("创客未身份证认证");
         }
 
         IndividualEnterpriseEntity individualEnterpriseEntity = new IndividualEnterpriseEntity();
@@ -111,8 +111,8 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
             return R.fail("创客不存在");
         }
 
-        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getPhoneNumberVerifyStatus()))) {
-            return R.fail("创客未实名认证");
+        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
+            return R.fail("创客未身份证认证");
         }
 
         if (enterpriseId != null) {

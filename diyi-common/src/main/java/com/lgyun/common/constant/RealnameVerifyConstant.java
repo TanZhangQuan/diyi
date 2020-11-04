@@ -18,16 +18,16 @@ public interface RealnameVerifyConstant {
     //身份证验证请求url
     String IDCARDVERIFYURL = "/v2/identity/verify/individual/base";
 
-    //活体认证、银行卡认证以及手机认证请求url
-    String FACEBANKCARDMOBILEOCROCRURL = "/v2/identity/auth/web/indivAuthUrl";
+    //手机号验证请求url
+    String MOBILEVERIFYURL = "/v2/identity/verify/individual/telecom3Factors";
+
+    //银行卡验证请求url
+    String BANKCARDVERIFYURL = "/v2/identity/verify/individual/bank3Factors";
+
+    //活体认证请求url
+    String FACEVERIFYURL = "/v2/identity/auth/web/indivAuthUrl";
 
     //活体认证回调url
-    String FACEOCRNOTIFYURL = "https://wxtest.diyicr.com/diyi-user/maker/real-name-authentication/face-ocr-notify";
-
-    //手机认证回调url
-    String MOBILEOCRNOTIFYURL = "https://wxtest.diyicr.com/diyi-user/maker/real-name-authentication/mobile-ocr-notify";
-
-    //银行卡认证回调url
-    String BANKCARDOCRNOTIFYURL = "https://wxtest.diyicr.com/diyi-user/maker/real-name-authentication/bank-card-ocr-notify";
+    String FACEVERIFYNOTIFYURL = "https://wxtest.diyicr.com/diyi-user/maker/real-name-authentication/face-ocr-notify";
 
 }

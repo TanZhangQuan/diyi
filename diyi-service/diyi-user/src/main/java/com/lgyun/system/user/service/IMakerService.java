@@ -121,7 +121,15 @@ public interface IMakerService extends IService<MakerEntity> {
     MakerEntity findByPhoneNumberAndLoginPwd(String phoneNumber, String loginPwd);
 
     /**
-     * 身份证实名认证
+     * 查询当前创客身份证实名认证的照片
+     *
+     * @param makerEntity
+     * @return
+     */
+    R<IdcardOcrVO> queryIdcardOcr(MakerEntity makerEntity);
+
+    /**
+     * 身份证信息获取
      *
      * @param idcardPic
      * @param makerEntity
@@ -131,13 +139,32 @@ public interface IMakerService extends IService<MakerEntity> {
     R<JSONObject> idcardOcr(String idcardPic, MakerEntity makerEntity) throws Exception;
 
     /**
-     * 身份证实名认证
+     * 身份证认证
      *
      * @param idcardVerifyDTO
      * @param makerEntity
      * @return
      */
     R idcardVerify(IdcardVerifyDTO idcardVerifyDTO, MakerEntity makerEntity) throws Exception;
+
+    /**
+     * 手机号认证
+     *
+     * @param makerEntity
+     * @return
+     * @throws Exception
+     */
+    R<String> mobileVerify(MakerEntity makerEntity) throws Exception;
+
+    /**
+     * 银行卡认证
+     *
+     * @param bankCardNo
+     * @param makerEntity
+     * @return
+     * @throws Exception
+     */
+    R<String> bankCardVerify(String bankCardNo, MakerEntity makerEntity) throws Exception;
 
     /**
      * 活体认证
@@ -156,51 +183,6 @@ public interface IMakerService extends IService<MakerEntity> {
      * @throws Exception
      */
     R faceOcrNotify(HttpServletRequest request) throws Exception;
-
-    /**
-     * 手机号实名认证
-     *
-     * @param makerEntity
-     * @return
-     * @throws Exception
-     */
-    R<String> mobileOcr(MakerEntity makerEntity) throws Exception;
-
-    /**
-     * 手机号实名认证异步回调
-     *
-     * @param request
-     * @return
-     * @throws Exception
-     */
-    R<String> mobileOcrNotify(HttpServletRequest request) throws Exception;
-
-    /**
-     * 银行卡实名认证
-     *
-     * @param bankCardNo
-     * @param makerEntity
-     * @return
-     * @throws Exception
-     */
-    R<String> bankCardOcr(String bankCardNo, MakerEntity makerEntity) throws Exception;
-
-    /**
-     * 银行卡实名认证异步回调
-     *
-     * @param request
-     * @return
-     * @throws Exception
-     */
-    R bankCardOcrNotify(HttpServletRequest request) throws Exception;
-
-    /**
-     * 查询当前创客身份证实名认证的照片
-     *
-     * @param makerEntity
-     * @return
-     */
-    R<IdcardOcrVO> queryIdcardOcr(MakerEntity makerEntity);
 
     /**
      * 根据userId查询创客

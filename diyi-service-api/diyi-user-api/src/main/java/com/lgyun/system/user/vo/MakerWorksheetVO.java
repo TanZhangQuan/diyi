@@ -30,7 +30,7 @@ public class MakerWorksheetVO implements Serializable {
     private String name;
 
     /**
-     * 实名认证
+     * 银行卡实名认证状态
      */
     private VerifyStatus bankCardVerifyStatus;
 
@@ -45,7 +45,7 @@ public class MakerWorksheetVO implements Serializable {
     private SignState joinSignState;
 
     /**
-     * 实名认证
+     * 认证
      */
     private CertificationState realNameAuthentication;
 

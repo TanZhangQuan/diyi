@@ -34,7 +34,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -231,11 +234,31 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
+    public R<IdcardOcrVO> queryIdcardOcr(MakerEntity makerEntity) {
+
+        //查看创客是否已经身份证认证
+        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
+            return R.fail("未进行身份证认证");
+        }
+
+        IdcardOcrVO idcardOcrVO = new IdcardOcrVO();
+        idcardOcrVO.setIdcardPic(makerEntity.getIdcardPic());
+        idcardOcrVO.setIdcardPicBack(makerEntity.getIdcardPicBack());
+        idcardOcrVO.setName(makerEntity.getName());
+        idcardOcrVO.setIdNo(makerEntity.getIdcardNo());
+        idcardOcrVO.setIdcardHand(makerEntity.getIdcardHand());
+        idcardOcrVO.setIdcardBackHand(makerEntity.getIdcardBackHand());
+
+        return R.data(idcardOcrVO);
+
+    }
+
+    @Override
     public R<JSONObject> idcardOcr(String idcardPic, MakerEntity makerEntity) throws Exception {
 
-        //查看创客是否已经身份证实名认证
+        //查看创客是否已经身份证认证
         if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus())) {
-            return R.fail("身份证已实名认证");
+            return R.fail("身份证已认证");
         }
 
         //身份证信息获取
@@ -261,9 +284,9 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     @Override
     public R idcardVerify(IdcardVerifyDTO idcardVerifyDTO, MakerEntity makerEntity) throws Exception {
 
-        //查看创客是否已经身份证实名认证
+        //查看创客是否已经身份证认证
         if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus())) {
-            return R.fail("身份证已实名认证");
+            return R.fail("身份证已认证");
         }
 
         //身份证信息获取
@@ -289,7 +312,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return R.fail("身份证号码已被使用");
         }
 
-        //身份证实名认证
+        //身份证认证
         R<JSONObject> verifyResult = RealnameVerifyUtil.idcardVerify(idNo, name);
         log.info("身份证信息获取请求返回参数", verifyResult);
         if (!(verifyResult.isSuccess())) {
@@ -300,6 +323,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         if (CertificationState.UNCERTIFIED.equals(makerEntity.getCertificationState()) && SignState.SIGNED.equals(makerEntity.getJoinSignState())
                 && SignState.SIGNED.equals(makerEntity.getEmpowerSignState())) {
             makerEntity.setCertificationState(CertificationState.CERTIFIED);
+            makerEntity.setCertificationDate(new Date());
         }
 
         makerEntity.setIdcardNo(idNo);
@@ -310,15 +334,68 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         makerEntity.setIdcardVerifyDate(new Date());
         updateById(makerEntity);
 
-        return R.success("身份证实名认证成功");
+        return R.success("身份证认证成功");
+    }
+
+    @Override
+    public R mobileVerify(MakerEntity makerEntity) throws Exception {
+
+        //查看创客是否已经手机号认证
+        if (VerifyStatus.VERIFYPASS.equals(makerEntity.getPhoneNumberVerifyStatus())) {
+            return R.fail("手机号已认证");
+        }
+
+        //查看创客是否已经身份证认证
+        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
+            return R.fail("请先进行身份证认证");
+        }
+
+        R<JSONObject> result = RealnameVerifyUtil.mobileVerify(makerEntity.getIdcardNo(), makerEntity.getName(), makerEntity.getPhoneNumber());
+        log.info("手机号认证请求返回参数", result);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        makerEntity.setPhoneNumberVerifyStatus(VerifyStatus.VERIFYPASS);
+        makerEntity.setPhoneNumberVerifyDate(new Date());
+        updateById(makerEntity);
+
+        return R.success("手机号认证成功");
+    }
+
+    @Override
+    public R bankCardVerify(String bankCardNo, MakerEntity makerEntity) throws Exception {
+
+        //查看创客是否已经活体认证
+        if (VerifyStatus.VERIFYPASS.equals(makerEntity.getBankCardVerifyStatus())) {
+            return R.fail("银行卡已认证");
+        }
+
+        //查看创客是否已经身份证认证
+        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
+            return R.fail("请先进行身份证认证");
+        }
+
+        R<JSONObject> result = RealnameVerifyUtil.bankcardVerify(makerEntity.getIdcardNo(), makerEntity.getName(), bankCardNo);
+        log.info("银行卡认证请求返回参数", result);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        makerEntity.setBankCardNo(bankCardNo);
+        makerEntity.setBankCardVerifyStatus(VerifyStatus.VERIFYPASS);
+        makerEntity.setBankCardVerifyDate(new Date());
+        updateById(makerEntity);
+
+        return R.success("银行卡认证成功");
     }
 
     @Override
     public R faceOcr(MakerEntity makerEntity) throws Exception {
 
-        //查看创客是否已经身份证实名认证
+        //查看创客是否已经身份证认证
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
-            return R.fail("请先进行身份证实名认证");
+            return R.fail("请先进行身份证认证");
         }
 
         //查看创客是否已经活体认证
@@ -326,7 +403,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return R.fail("已活体认证");
         }
 
-        R<JSONObject> result = RealnameVerifyUtil.faceOCR(makerEntity.getId(), makerEntity.getName(), makerEntity.getIdcardNo());
+        R<JSONObject> result = RealnameVerifyUtil.faceOCR(String.valueOf(makerEntity.getId()), makerEntity.getName(), makerEntity.getIdcardNo());
         log.info("活体认证请求返回参数", result);
         if (!(result.isSuccess())) {
             return result;
@@ -406,197 +483,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         }
 
         return R.fail("活体认证回调处理失败");
-    }
-
-    @Override
-    public R mobileOcr(MakerEntity makerEntity) throws Exception {
-
-        //查看创客是否已经身份证实名认证
-        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
-            return R.fail("请先进行身份证实名认证");
-        }
-
-        //查看创客是否已经活体认证
-        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus()))) {
-            return R.fail("请先进行活体认证");
-        }
-
-        //查看创客是否已经手机号实名认证
-        if (VerifyStatus.VERIFYPASS.equals(makerEntity.getPhoneNumberVerifyStatus())) {
-            return R.fail("手机号已实名认证");
-        }
-
-        R<JSONObject> result = RealnameVerifyUtil.mobileOCR(makerEntity.getId(), makerEntity.getName(), makerEntity.getIdcardNo(), makerEntity.getPhoneNumber());
-        log.info("手机号实名认证请求返回参数", result);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        //手机号实名认证URL
-        JSONObject jsonObject = result.getData();
-        String shortLink = jsonObject.getString("shortLink");
-
-        return R.data(shortLink);
-    }
-
-    @Override
-    public R<String> mobileOcrNotify(HttpServletRequest request) {
-
-        try {
-            //查询body的数据进行验签
-            String rbody = RealnameVerifyUtil.getRequestBody(request, "UTF-8");
-            boolean res = RealnameVerifyUtil.checkPass(request, rbody, RealnameVerifyConstant.APPKEY);
-            if (!res) {
-                return R.fail("验签失败");
-            }
-
-            // 业务逻辑处理 ****************************
-            //回调参数转json
-            JSONObject jsonObject = JSONObject.parseObject(rbody);
-            log.info("手机号实名认证异步通知回调参数", jsonObject);
-            boolean boolSuccess = jsonObject.getBooleanValue("success");
-            if (!boolSuccess) {
-                return R.fail("手机号实名认证失败");
-            }
-
-            Long makerId = jsonObject.getLong("contextId");
-            MakerEntity makerEntity = getById(makerId);
-            if (makerEntity == null) {
-                log.info("创客不存在");
-                return R.fail("手机号实名认证回调处理失败");
-            }
-
-            //查看创客手机号是否已经实名认证
-            if (VerifyStatus.VERIFYPASS.equals(makerEntity.getPhoneNumberVerifyStatus())) {
-                return R.success("手机号已实名认证");
-            }
-
-            makerEntity.setPhoneNumberVerifyStatus(VerifyStatus.VERIFYPASS);
-            makerEntity.setPhoneNumberVerifyDate(new Date());
-            updateById(makerEntity);
-
-            return R.success("手机号实名认证成功");
-
-        } catch (Exception e) {
-            log.error("手机号实名认证异步回调处理异常", e);
-        }
-
-        return R.fail("手机号实名认证回调处理失败");
-    }
-
-    @Override
-    public R bankCardOcr(String bankCardNo, MakerEntity makerEntity) throws Exception {
-
-        //查看创客是否已经身份证实名认证
-        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
-            return R.fail("请先进行身份证实名认证");
-        }
-
-        //查看创客是否已经活体认证
-        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus()))) {
-            return R.fail("请先进行活体认证");
-        }
-
-        //查看创客是否已经手机号实名认证
-        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getPhoneNumberVerifyStatus()))) {
-            return R.fail("请先进行手机号实名认证");
-        }
-
-        //查看创客是否已经活体认证
-        if (VerifyStatus.VERIFYPASS.equals(makerEntity.getBankCardVerifyStatus())) {
-            return R.fail("银行卡已实名认证");
-        }
-
-        R<JSONObject> result = RealnameVerifyUtil.bankCardOCR(makerEntity.getId(), makerEntity.getName(), makerEntity.getIdcardNo(), bankCardNo, makerEntity.getPhoneNumber());
-        log.info("银行卡实名认证请求返回参数", result);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        //银行卡实名认证URL
-        JSONObject jsonObject = result.getData();
-        String shortLink = jsonObject.getString("shortLink");
-
-        return R.data(shortLink);
-    }
-
-    @Override
-    public R bankCardOcrNotify(HttpServletRequest request) {
-
-        try {
-            //查询body的数据进行验签
-            String rbody = RealnameVerifyUtil.getRequestBody(request, "UTF-8");
-            boolean res = RealnameVerifyUtil.checkPass(request, rbody, RealnameVerifyConstant.APPKEY);
-            if (!res) {
-                return R.fail("验签失败");
-            }
-
-            // 业务逻辑处理 ****************************
-            //回调参数转json
-            JSONObject jsonObject = JSONObject.parseObject(rbody);
-            log.info("银行卡实名认证异步通知回调参数", jsonObject);
-            boolean boolSuccess = jsonObject.getBooleanValue("success");
-            if (!boolSuccess) {
-                return R.fail("银行卡实名认证失败");
-            }
-
-            Long makerId = jsonObject.getLong("contextId");
-            MakerEntity makerEntity = getById(makerId);
-            if (makerEntity == null) {
-                log.info("创客不存在");
-                return R.fail("银行卡实名认证回调处理失败");
-            }
-
-            //查看创客银行卡是否已实名认证
-            if (VerifyStatus.VERIFYPASS.equals(makerEntity.getBankCardVerifyStatus())) {
-                return R.success("银行卡已实名认证");
-            }
-
-            //查询认证信息
-            //查询认证信息
-            R<JSONObject> detailResult = RealnameVerifyUtil.detail(jsonObject.getString("flowId"));
-            log.info("查询认证信息请求返回参数", detailResult);
-            if (!(detailResult.isSuccess())) {
-                return detailResult;
-            }
-
-            //查询个人信息
-            JSONObject indivInfo = detailResult.getData().getJSONObject("indivInfo");
-            //查询银行卡号
-            String bankCardNo = indivInfo.getString("bankCardNo");
-
-            makerEntity.setBankCardNo(bankCardNo);
-            makerEntity.setBankCardVerifyStatus(VerifyStatus.VERIFYPASS);
-            makerEntity.setBankCardVerifyDate(new Date());
-            updateById(makerEntity);
-
-            return R.success("银行卡实名认证成功");
-
-        } catch (Exception e) {
-            log.error("银行卡实名认证异步回调处理异常", e);
-        }
-
-        return R.fail("银行卡实名认证回调处理失败");
-    }
-
-    @Override
-    public R<IdcardOcrVO> queryIdcardOcr(MakerEntity makerEntity) {
-
-        //查看创客是否已经身份证实名认证
-        if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
-            return R.fail("未进行身份证实名认证");
-        }
-
-        IdcardOcrVO idcardOcrVO = new IdcardOcrVO();
-        idcardOcrVO.setIdcardPic(makerEntity.getIdcardPic());
-        idcardOcrVO.setIdcardPicBack(makerEntity.getIdcardPicBack());
-        idcardOcrVO.setName(makerEntity.getName());
-        idcardOcrVO.setIdNo(makerEntity.getIdcardNo());
-        idcardOcrVO.setIdcardHand(makerEntity.getIdcardHand());
-        idcardOcrVO.setIdcardBackHand(makerEntity.getIdcardBackHand());
-
-        return R.data(idcardOcrVO);
-
     }
 
     @Override
