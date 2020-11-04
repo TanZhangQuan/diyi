@@ -1119,7 +1119,7 @@
         FROM diyi_pay_enterprise_receipt WHERE is_deleted = 0 AND pay_enterprise_id = t1.id) AS enterprise_pay_receipt_urls, (SELECT GROUP_CONCAT(accept_paysheet_url)
         FROM diyi_accept_paysheet WHERE is_deleted = 0 AND accept_paysheet_type = 'MANY' AND pay_enterprise_id = t1.id) AS accept_paysheet_url
         FROM diyi_pay_enterprise t1 INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id INNER JOIN diyi_service_provider t3 ON t1.service_provider_id = t3.id
-        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 t1.id = #{param1}
+        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 and t1.id = #{param1}
     </select>
 
     <select id="queryPayEnterpriseUpdateDetail" resultMap="payEnterpriseUpdateDetailVO">

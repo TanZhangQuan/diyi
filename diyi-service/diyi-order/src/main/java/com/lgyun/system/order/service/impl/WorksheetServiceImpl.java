@@ -164,6 +164,9 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     @Override
     public R getWorksheetWebDetails(IPage<WorksheetMakerDetailsVO> page, Long worksheetId) {
         WorksheetEntity worksheetEntity = getById(worksheetId);
+        if(null == worksheetEntity){
+            return R.fail("没有此工单");
+        }
         WorksheetXiaoVO worksheetXiaoVo = BeanUtil.copy(worksheetEntity, WorksheetXiaoVO.class);
         worksheetXiaoVo.setWorksheetId(worksheetId);
         Map map = new HashMap();
