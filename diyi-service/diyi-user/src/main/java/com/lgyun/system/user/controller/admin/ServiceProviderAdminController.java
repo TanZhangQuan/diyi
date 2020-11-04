@@ -23,7 +23,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @RestController
@@ -127,7 +126,7 @@ public class ServiceProviderAdminController {
 
     @PostMapping("/remove-service-provider-cert-list")
     @ApiOperation(value = "删除服务商资格信息", notes = "删除服务商资格信息")
-    public R removeServiceProviderCertList(@ApiParam(value = "服务商资格信息", required = true) @NotBlank(message = "请选择要删除的服务商资格信息") @RequestParam(required = false) Long serviceProviderCertId, BladeUser bladeUser) {
+    public R removeServiceProviderCertList(@ApiParam(value = "服务商资格信息", required = true) @NotNull(message = "请选择要删除的服务商资格信息") @RequestParam(required = false) Long serviceProviderCertId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -176,7 +175,7 @@ public class ServiceProviderAdminController {
 
     @PostMapping("/remove-admin-center-material")
     @ApiOperation(value = "删除服务商综合业务资料(模板管理)", notes = "删除服务商综合业务资料(模板管理)")
-    public R queryAdminCenterMaterialList(@ApiParam(value = "综合业务资料", required = true) @NotBlank(message = "请选择要删除的综合业务资料") @RequestParam(required = false) Long adminCenterMaterialId, BladeUser bladeUser) {
+    public R queryAdminCenterMaterialList(@ApiParam(value = "综合业务资料", required = true) @NotNull(message = "请选择要删除的综合业务资料") @RequestParam(required = false) Long adminCenterMaterialId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -188,8 +187,8 @@ public class ServiceProviderAdminController {
 
     @PostMapping("/update-admin-center-material-state")
     @ApiOperation(value = "更改服务商综合业务资料(模板管理)状态", notes = "更改服务商综合业务资料(模板管理)状态")
-    public R updateAdminCenterMaterialState(@ApiParam(value = "综合业务资料", required = true) @NotBlank(message = "请选择综合业务资料") @RequestParam(required = false) Long adminCenterMaterialId,
-                                            @ApiParam(value = "综合业务资料状态", required = true) @NotBlank(message = "请选择综合业务资料状态") @RequestParam(required = false) MaterialState materialState, BladeUser bladeUser) {
+    public R updateAdminCenterMaterialState(@ApiParam(value = "综合业务资料", required = true) @NotNull(message = "请选择综合业务资料") @RequestParam(required = false) Long adminCenterMaterialId,
+                                            @ApiParam(value = "综合业务资料状态", required = true) @NotNull(message = "请选择综合业务资料状态") @RequestParam(required = false) MaterialState materialState, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

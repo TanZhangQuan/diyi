@@ -3,10 +3,10 @@ package com.lgyun.common.constant;
 public interface RealnameVerifyConstant {
 
     //实名认证应用id
-    String APPID = "7438808738";
+    String APPID = "4438778216";
 
     //实名认证密钥
-    String APPKEY = "7b0622dd4177498906f539960ba00afd";
+    String APPKEY = "aa9194b8dff42ad45f7dc864ca3dc281";
 
     //实名认证请求域名
     String HOST = "https://smlopenapi.esign.cn";
