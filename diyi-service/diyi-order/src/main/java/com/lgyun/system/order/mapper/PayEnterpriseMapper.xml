@@ -367,7 +367,7 @@
         <result column="platform_invoice_pay_list_id" property="platformInvoicePayListId"/>
         <result column="invoice_print_id" property="invoicePrintId"/>
         <result column="invoice_application_pay_list_id" property="invoiceApplicationPayListId"/>
-        <result column="invoice_application_id" property="invoiceApplicationId"/>
+        <result column="application_id" property="applicationId"/>
         <result column="enterprise_name" property="enterpriseName"/>
         <result column="service_provider_name" property="serviceProviderName"/>
         <result column="company_invoice_state" property="companyInvoiceState"/>
@@ -1014,7 +1014,7 @@
     </select>
 
     <select id="queryTotalInvoiceListEnterprise" resultMap="totalInvoiceListEnterVOMap">
-        SELECT * FROM ( SELECT a.id AS invoice_application_pay_list_id, b.id AS invoice_application_id, 0 AS platform_invoice_pay_list_id, 0 AS invoice_print_id,
+        SELECT * FROM ( SELECT a.id AS invoice_application_pay_list_id, b.id AS application_id, 0 AS platform_invoice_pay_list_id, 0 AS invoice_print_id,
         d.enterprise_name, e.service_provider_name, b.application_state, 0 AS company_invoice_state, b.create_time, 1 AS apply_state
         FROM diyi_INVOICE_APPLICATION_PAY_LIST a INNER JOIN diyi_INVOICE_APPLICATION b ON b.id = a.application_id INNER JOIN diyi_pay_enterprise c
         ON c.id = a.pay_enterprise_id INNER JOIN diyi_enterprise d ON d.id = c.enterprise_id INNER JOIN diyi_service_provider e ON e.id = c.service_provider_id
