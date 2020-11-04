@@ -2,7 +2,7 @@ package com.lgyun.system.user.controller.maker;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.system.user.dto.IdcardOcrSaveDTO;
+import com.lgyun.system.user.dto.IdcardVerifyDTO;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.IMakerService;
 import io.swagger.annotations.Api;
@@ -51,9 +51,9 @@ public class RealNameAuthenticationMakerController {
         return makerService.idcardOcr(idcardPic, makerEntity);
     }
 
-    @PostMapping("/idcard-ocr-save")
-    @ApiOperation(value = "身份证实名认证信息保存", notes = "身份证实名认证信息保存")
-    public R idcardOcrSave(@Valid @RequestBody IdcardOcrSaveDTO idcardOcrSaveDTO, BladeUser bladeUser) {
+    @PostMapping("/idcard-verify")
+    @ApiOperation(value = "身份证实名认证", notes = "身份证实名认证")
+    public R idcardVerify(@Valid @RequestBody IdcardVerifyDTO idcardVerifyDTO, BladeUser bladeUser) throws Exception {
         //查询当前创客
         R<MakerEntity> result = makerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -61,7 +61,7 @@ public class RealNameAuthenticationMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return makerService.idcardOcrSave(idcardOcrSaveDTO, makerEntity);
+        return makerService.idcardVerify(idcardVerifyDTO, makerEntity);
     }
 
     @GetMapping("/query-idcard-info")

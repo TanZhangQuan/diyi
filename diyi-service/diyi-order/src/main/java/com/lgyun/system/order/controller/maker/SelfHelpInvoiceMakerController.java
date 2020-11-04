@@ -3,11 +3,9 @@ package com.lgyun.system.order.controller.maker;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.IdcardSide;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.common.tool.IdcardUtil;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.dto.DictDTO;
@@ -193,18 +191,6 @@ public class SelfHelpInvoiceMakerController {
         }
 
         return R.data(selfHelpInvoiceFeeService.confirmPayment(confirmPaymentDto));
-    }
-
-    @GetMapping("/idcard-ocr")
-    @ApiOperation(value = "识别身份证", notes = "识别身份证")
-    public R idcardOcr(String infoImg, BladeUser bladeUser) throws Exception {
-        //查询当前创客
-        R<MakerEntity> result = userClient.currentMaker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return R.data(IdcardUtil.idcardOCR(infoImg, IdcardSide.FRONT));
     }
 
     @GetMapping("/judge-maker-aatural")

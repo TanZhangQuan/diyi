@@ -82,9 +82,39 @@ public class RealnameVerifyUtil {
     }
 
     /**
+     * 身份证识别信息
+     */
+    public static R<JSONObject> idcardOCR(String infoImg) throws Exception {
+
+        //在线图片转换成base64字符串
+        String idcardPicBase64 = Base64Util.imageToBase64ByOnline(infoImg);
+
+        //构建请求Body体
+        JSONObject reqBodyObj = new JSONObject();
+        reqBodyObj.put("infoImg", idcardPicBase64);
+
+        //发送POST请求
+        return realnameVerifyOCR(RealnameVerifyConstant.IDCARDOCRURL, reqBodyObj, HttpMethod.POST);
+    }
+
+    /**
+     * 身份证验证
+     */
+    public static R<JSONObject> idcardVerify(String idNo, String name) throws Exception {
+
+        //构建请求Body体
+        JSONObject reqBodyObj = new JSONObject();
+        reqBodyObj.put("idNo", idNo);
+        reqBodyObj.put("name", name);
+
+        //发送POST请求
+        return realnameVerifyOCR(RealnameVerifyConstant.IDCARDVERIFYURL, reqBodyObj, HttpMethod.POST);
+    }
+
+    /**
      * 查询认证信息
      */
-    public static JSONObject detail(String flowId) throws Exception {
+    public static R<JSONObject> detail(String flowId) throws Exception {
 
         //构建URL
         String detailUrl = "/v2/identity/auth/api/common/" + flowId + "/detail";
@@ -194,19 +224,13 @@ public class RealnameVerifyUtil {
         reqBodyObj.put("indivInfo", indivInfo);
         reqBodyObj.put("configParams", configParams);
 
-        //发送POST请求
-        JSONObject resultJson = realnameVerifyOCR(RealnameVerifyConstant.FACEBANKCARDMOBILEOCROCRURL, reqBodyObj, HttpMethod.POST);
-        if (resultJson == null) {
-            return R.fail("实名认证失败");
-        }
-
-        return R.data(resultJson);
+        return realnameVerifyOCR(RealnameVerifyConstant.FACEBANKCARDMOBILEOCROCRURL, reqBodyObj, HttpMethod.POST);
     }
 
     /**
      * 实名认证签名请求封装
      */
-    public static JSONObject realnameVerifyOCR(String OcrApi, JSONObject reqBodyObj, HttpMethod httpMethod) throws Exception {
+    public static R<JSONObject> realnameVerifyOCR(String OcrApi, JSONObject reqBodyObj, HttpMethod httpMethod) throws Exception {
         //接口请求地址
         String OcrUrl = RealnameVerifyConstant.HOST + OcrApi;
 
@@ -251,7 +275,7 @@ public class RealnameVerifyUtil {
 
         //发送POST请求
         String result;
-        switch (httpMethod){
+        switch (httpMethod) {
 
             case POST:
                 result = HttpUtil.sendPOST(OcrUrl, reqBodyData, header, "UTF-8");
@@ -268,7 +292,7 @@ public class RealnameVerifyUtil {
         }
 
         JSONObject resultJson = JSONObject.parseObject(result);
-        if (resultJson == null){
+        if (resultJson == null) {
             return null;
         }
 
@@ -276,13 +300,13 @@ public class RealnameVerifyUtil {
         if (code != 0) {
             String msg = resultJson.getString("message");
             log.error("实名认证失败：" + msg);
-            return null;
+            return R.fail(msg);
         }
 
         JSONObject data = resultJson.getJSONObject("data");
         log.info("请求返回信息： " + resultJson.toString());
 
-        return data;
+        return R.data(data);
     }
 
     public static boolean checkPass(HttpServletRequest request, String rbody, String appSecret) throws Exception {

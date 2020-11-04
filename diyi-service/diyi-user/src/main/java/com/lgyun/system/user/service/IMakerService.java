@@ -8,7 +8,7 @@ import com.lgyun.common.enumeration.CertificationState;
 import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.IdcardOcrSaveDTO;
+import com.lgyun.system.user.dto.IdcardVerifyDTO;
 import com.lgyun.system.user.dto.ImportMakerListDTO;
 import com.lgyun.system.user.dto.MakerAddDTO;
 import com.lgyun.system.user.dto.MakerListIndividualDTO;
@@ -131,13 +131,13 @@ public interface IMakerService extends IService<MakerEntity> {
     R<JSONObject> idcardOcr(String idcardPic, MakerEntity makerEntity) throws Exception;
 
     /**
-     * 身份证实名认证信息保存
+     * 身份证实名认证
      *
-     * @param idcardOcrSaveDTO
+     * @param idcardVerifyDTO
      * @param makerEntity
      * @return
      */
-    R<String> idcardOcrSave(IdcardOcrSaveDTO idcardOcrSaveDTO, MakerEntity makerEntity);
+    R idcardVerify(IdcardVerifyDTO idcardVerifyDTO, MakerEntity makerEntity) throws Exception;
 
     /**
      * 活体认证
@@ -155,7 +155,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      * @throws Exception
      */
-    R<String> faceOcrNotify(HttpServletRequest request) throws Exception;
+    R faceOcrNotify(HttpServletRequest request) throws Exception;
 
     /**
      * 手机号实名认证
@@ -192,7 +192,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      * @throws Exception
      */
-    R<String> bankCardOcrNotify(HttpServletRequest request) throws Exception;
+    R bankCardOcrNotify(HttpServletRequest request) throws Exception;
 
     /**
      * 查询当前创客身份证实名认证的照片
@@ -283,7 +283,7 @@ public interface IMakerService extends IService<MakerEntity> {
     /**
      * 查询所有创客
      */
-    R getMakerAll(Long makerId,String makerName,IPage<MakerEntity> page);
+    R getMakerAll(Long makerId, String makerName, IPage<MakerEntity> page);
 
     /**
      * 读取Excel表获取创客列表

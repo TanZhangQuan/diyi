@@ -3,11 +3,9 @@ package com.lgyun.system.order.controller.enterprise;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.IdcardSide;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.common.tool.IdcardUtil;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.feign.IDictClient;
@@ -207,18 +205,6 @@ public class SelfHelpInvoiceEnterpriseController {
         }
 
         return R.data(selfHelpInvoiceFeeService.confirmPayment(confirmPaymentDto));
-    }
-
-    @GetMapping("/idcard-ocr")
-    @ApiOperation(value = "身份证识别", notes = "身份证识别")
-    public R idcardOcr(String infoImg, BladeUser bladeUser) throws Exception {
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return R.data(IdcardUtil.idcardOCR(infoImg, IdcardSide.FRONT));
     }
 
 }

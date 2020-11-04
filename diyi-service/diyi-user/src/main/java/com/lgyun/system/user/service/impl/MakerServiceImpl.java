@@ -11,7 +11,7 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.*;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.IdcardOcrSaveDTO;
+import com.lgyun.system.user.dto.IdcardVerifyDTO;
 import com.lgyun.system.user.dto.ImportMakerListDTO;
 import com.lgyun.system.user.dto.MakerAddDTO;
 import com.lgyun.system.user.dto.MakerListIndividualDTO;
@@ -238,42 +238,79 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return R.fail("身份证已实名认证");
         }
 
-        //身份证实名认证
-        Map<String, String> idCardInfo = IdcardUtil.idcardOCR(idcardPic, IdcardSide.FRONT);
-        if (idCardInfo.isEmpty()) {
-            return R.fail("身份证实名认证失败");
+        //身份证信息获取
+        R<JSONObject> result = RealnameVerifyUtil.idcardOCR(idcardPic);
+        log.info("身份证信息获取请求返回参数", result);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        JSONObject jsonObject = result.getData();
+        if (StringUtils.isBlank(jsonObject.getString("name")) || StringUtils.isBlank(jsonObject.getString("idNo"))) {
+            return R.fail("身份证识别信息缺失");
         }
 
         //查询姓名和身份证号码
-        JSONObject result = new JSONObject();
-        result.put("name", idCardInfo.get("name"));
-        result.put("idNo", idCardInfo.get("idCard"));
+        JSONObject returnResult = new JSONObject();
+        returnResult.put("name", jsonObject.getString("name"));
+        returnResult.put("idNo", jsonObject.getString("idNo"));
 
-        return R.data(result);
+        return R.data(returnResult);
     }
 
     @Override
-    public R<String> idcardOcrSave(IdcardOcrSaveDTO idcardOcrSaveDTO, MakerEntity makerEntity) {
+    public R idcardVerify(IdcardVerifyDTO idcardVerifyDTO, MakerEntity makerEntity) throws Exception {
 
         //查看创客是否已经身份证实名认证
         if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus())) {
             return R.fail("身份证已实名认证");
         }
 
+        //身份证信息获取
+        R<JSONObject> OcrResult = RealnameVerifyUtil.idcardOCR(idcardVerifyDTO.getIdcardPic());
+        log.info("身份证识别信息请求返回参数", OcrResult);
+        if (!(OcrResult.isSuccess())) {
+            return OcrResult;
+        }
+
+        JSONObject jsonObject = OcrResult.getData();
+        if (StringUtils.isBlank(jsonObject.getString("name")) || StringUtils.isBlank(jsonObject.getString("idNo"))) {
+            return R.fail("身份证识别信息缺失");
+        }
+
+        //身份证号码
+        String idNo = jsonObject.getString("idNo");
+        //真实姓名
+        String name = jsonObject.getString("name");
+
         //查询身份证号码是否已被使用
-        MakerEntity makerEntityIdcardNo = findByIdcardNo(idcardOcrSaveDTO.getIdcardNo());
+        MakerEntity makerEntityIdcardNo = findByIdcardNo(idNo);
         if (makerEntityIdcardNo != null) {
             return R.fail("身份证号码已被使用");
         }
 
-        BeanUtils.copyProperties(idcardOcrSaveDTO, makerEntity);
+        //身份证实名认证
+        R<JSONObject> verifyResult = RealnameVerifyUtil.idcardVerify(idNo, name);
+        log.info("身份证信息获取请求返回参数", verifyResult);
+        if (!(verifyResult.isSuccess())) {
+            return verifyResult;
+        }
+
+        //判断是否已认证
+        if (CertificationState.UNCERTIFIED.equals(makerEntity.getCertificationState()) && SignState.SIGNED.equals(makerEntity.getJoinSignState())
+                && SignState.SIGNED.equals(makerEntity.getEmpowerSignState())) {
+            makerEntity.setCertificationState(CertificationState.CERTIFIED);
+        }
+
+        makerEntity.setIdcardNo(idNo);
+        makerEntity.setName(name);
+        BeanUtils.copyProperties(idcardVerifyDTO, makerEntity);
         makerEntity.setIdcardVerifyStatus(VerifyStatus.VERIFYPASS);
         makerEntity.setIdcardVerifyType(IdcardVerifyType.SYSTEMVERIFY);
         makerEntity.setIdcardVerifyDate(new Date());
-
         updateById(makerEntity);
 
-        return R.success("身份证实名认证信息保存成功");
+        return R.success("身份证实名认证成功");
     }
 
     @Override
@@ -307,7 +344,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R<String> faceOcrNotify(HttpServletRequest request) {
+    public R faceOcrNotify(HttpServletRequest request) {
 
         try {
             //查询body的数据进行验签
@@ -339,13 +376,14 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             }
 
             //查询认证信息
-            JSONObject detail = RealnameVerifyUtil.detail(jsonObject.getString("flowId"));
-            if (detail == null) {
-                return R.fail("查询认证信息失败");
+            R<JSONObject> detailResult = RealnameVerifyUtil.detail(jsonObject.getString("flowId"));
+            log.info("查询认证信息请求返回参数", detailResult);
+            if (!(detailResult.isSuccess())) {
+                return detailResult;
             }
 
             //查询个人信息
-            JSONObject indivInfo = detail.getJSONObject("indivInfo");
+            JSONObject indivInfo = detailResult.getData().getJSONObject("indivInfo");
             //人脸截图base64请求地址
             String facePhotoUrl = indivInfo.getString("facePhotoUrl");
             if (StringUtils.isNotBlank(facePhotoUrl)) {
@@ -483,7 +521,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R<String> bankCardOcrNotify(HttpServletRequest request) {
+    public R bankCardOcrNotify(HttpServletRequest request) {
 
         try {
             //查询body的数据进行验签
@@ -515,26 +553,21 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             }
 
             //查询认证信息
-            JSONObject detail = RealnameVerifyUtil.detail(jsonObject.getString("flowId"));
-            if (detail == null) {
-                return R.fail("查询认证信息失败");
+            //查询认证信息
+            R<JSONObject> detailResult = RealnameVerifyUtil.detail(jsonObject.getString("flowId"));
+            log.info("查询认证信息请求返回参数", detailResult);
+            if (!(detailResult.isSuccess())) {
+                return detailResult;
             }
 
             //查询个人信息
-            JSONObject indivInfo = detail.getJSONObject("indivInfo");
+            JSONObject indivInfo = detailResult.getData().getJSONObject("indivInfo");
             //查询银行卡号
             String bankCardNo = indivInfo.getString("bankCardNo");
 
             makerEntity.setBankCardNo(bankCardNo);
             makerEntity.setBankCardVerifyStatus(VerifyStatus.VERIFYPASS);
             makerEntity.setBankCardVerifyDate(new Date());
-
-            //判断是否已认证
-            if (CertificationState.UNCERTIFIED.equals(makerEntity.getCertificationState()) && SignState.SIGNED.equals(makerEntity.getJoinSignState())
-                    && SignState.SIGNED.equals(makerEntity.getEmpowerSignState())) {
-                makerEntity.setCertificationState(CertificationState.CERTIFIED);
-            }
-
             updateById(makerEntity);
 
             return R.success("银行卡实名认证成功");

@@ -2,15 +2,6 @@ package com.lgyun.common.constant;
 
 public interface RealnameVerifyConstant {
 
-    //百度身份证OCR的请求地址
-    String BAIDUOCRURL = "https://aip.baidubce.com/rest/2.0/ocr/v1/idcard";
-
-    //百度身份证OCR的API Key
-    String BAIDUOCRAPIKEY = "eLl37gBIFrwG5brOvo2Agpw3";
-
-    //百度身份证OCR请求地址
-    String BAIDUOCRSECRETKEY = "iQRvEGVOGdvYbm7COBPVa7a56SOxvVCZ";
-
     //实名认证应用id
     String APPID = "4438778216";
 
@@ -20,6 +11,12 @@ public interface RealnameVerifyConstant {
     //实名认证请求域名
     String HOST = "https://smlopenapi.esign.cn";
 //    String HOST = "https://openapi.esign.cn";
+
+    //身份证识别信息请求url
+    String IDCARDOCRURL = "/v2/identity/auth/api/ocr/idcard";
+
+    //身份证验证请求url
+    String IDCARDVERIFYURL = "/v2/identity/verify/individual/base";
 
     //活体认证、银行卡认证以及手机认证请求url
     String FACEBANKCARDMOBILEOCROCRURL = "/v2/identity/auth/web/indivAuthUrl";

@@ -122,7 +122,7 @@ public class SqlLogInterceptor implements Interceptor {
         MetaObject metaObject = SystemMetaObject.forObject(target);
         MappedStatement ms = (MappedStatement) metaObject.getValue("delegate.mappedStatement");
         // 打印 sql
-        log.error(
+        log.info(
                 StringUtil.format(
                         "\n==============  Sql Start  ==============" +
                                 "\nExecute ID  ：{}" +

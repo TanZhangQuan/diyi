@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @date 2020.06.27
  */
 @Data
-public class IdcardOcrSaveDTO implements Serializable {
+public class IdcardVerifyDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -26,18 +26,6 @@ public class IdcardOcrSaveDTO implements Serializable {
      */
     @NotBlank(message = "请上传身份证反面图")
     private String idcardPicBack;
-
-    /**
-     * 姓名
-     */
-    @NotBlank(message = "请输入姓名")
-    private String name;
-
-    /**
-     * 身份证号码
-     */
-    @NotBlank(message = "请输入身份证号码")
-    private String idcardNo;
 
     /**
      * 手持证件正面照
