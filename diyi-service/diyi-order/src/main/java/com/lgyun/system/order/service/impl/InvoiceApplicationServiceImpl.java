@@ -63,13 +63,15 @@ public class InvoiceApplicationServiceImpl extends BaseServiceImpl<InvoiceApplic
         for(int i = 0;i < split.length; i++){
             PayEnterpriseEntity byId = payEnterpriseService.getById(Long.parseLong(split[i]));
             voiceTotalAmount = voiceTotalAmount.subtract(byId.getTotalMakerNetIncome());
+        }
+        invoiceApplicationEntity.setVoiceTotalAmount(voiceTotalAmount);
+        save(invoiceApplicationEntity);
+        for(int i = 0;i < split.length; i++){
             InvoiceApplicationPayListEntity invoiceApplicationPayListEntity = new InvoiceApplicationPayListEntity();
             invoiceApplicationPayListEntity.setPayEnterpriseId(Long.parseLong(split[i]));
             invoiceApplicationPayListEntity.setApplicationId(invoiceApplicationEntity.getId());
             iInvoiceApplicationPayListService.save(invoiceApplicationPayListEntity);
         }
-        invoiceApplicationEntity.setVoiceTotalAmount(voiceTotalAmount);
-        save(invoiceApplicationEntity);
         return R.success("申请成功");
     }
 }

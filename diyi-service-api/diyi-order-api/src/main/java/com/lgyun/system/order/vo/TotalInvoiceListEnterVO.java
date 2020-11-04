@@ -36,7 +36,7 @@ public class TotalInvoiceListEnterVO implements Serializable {
      * 开票申请：记录商户的总包开票申请 id
      */
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long invoiceApplicationId;
+    private Long applicationId;
     /**
      * 商户名称
      */

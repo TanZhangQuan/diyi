@@ -90,4 +90,9 @@ public class EnterpriseSubcontractInvoiceVO {
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private String acceptPaysheetId;
+
+    /**
+     * 支付回单
+     */
+    private String enterprisePayReceiptUrl;
 }
