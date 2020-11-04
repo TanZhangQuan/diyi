@@ -1,6 +1,8 @@
 package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.DateUtil;
 import lombok.Data;
@@ -248,6 +250,7 @@ public class MakerDetailVO implements Serializable {
     /**
      * 审核人员
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long videoAuditPersonId;
 
 }

@@ -1,6 +1,8 @@
 package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -19,6 +21,7 @@ public class PartnerServiceProviderListVO implements Serializable {
     /**
      * 服务商Id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long serviceProviderId;
 
     /**

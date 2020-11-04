@@ -1,7 +1,6 @@
 package com.lgyun.system.order.vo;
 
 import com.lgyun.system.order.entity.SelfHelpInvoiceAccountEntity;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

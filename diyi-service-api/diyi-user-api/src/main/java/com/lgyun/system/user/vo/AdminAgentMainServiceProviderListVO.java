@@ -1,6 +1,8 @@
 package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.CooperateStatus;
 import lombok.Data;
 
@@ -18,13 +20,15 @@ public class AdminAgentMainServiceProviderListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 主键id
+     * 渠道服务商关联ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     /**
      * 服务商Id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long serviceProviderId;
 
     /**

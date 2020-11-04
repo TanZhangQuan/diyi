@@ -1,8 +1,10 @@
 package com.lgyun.system.user.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * EnterpriseContactVO
@@ -47,7 +49,8 @@ public class EnterpriseContactVO implements Serializable {
     /**
      * 创建时间
      */
-    private Long createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date createTime;
 
     /**
      * 记录状态[0-非正常 1-正常]

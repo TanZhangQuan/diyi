@@ -2,7 +2,6 @@ package com.lgyun.system.order.dto;
 
 import com.lgyun.common.enumeration.PayEnterpriseAuditState;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -36,13 +35,11 @@ public class PayEnterpriseDTO implements Serializable {
     /**
      * 上传支付清单开始时间
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date beginDate;
 
     /**
      * 上传支付清单结束时间
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endDate;
 
 }

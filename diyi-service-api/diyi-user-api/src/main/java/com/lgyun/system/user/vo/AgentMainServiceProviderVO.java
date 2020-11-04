@@ -1,16 +1,22 @@
 package com.lgyun.system.user.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
 @ApiModel(description = "可以匹配的服务商信息")
 public class AgentMainServiceProviderVO {
 
-    @ApiModelProperty("服务商ID")
+    /**
+     * 服务商ID
+     */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long serviceProviderId;
 
-    @ApiModelProperty("服务商名称")
+    /**
+     * 服务商名称
+     */
     private String serviceProviderName;
 }

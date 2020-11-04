@@ -1,6 +1,8 @@
 package com.lgyun.system.order.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.MakerType;
 import lombok.Data;
 
@@ -20,11 +22,13 @@ public class PayEnterpriseUpdateDetailVO implements Serializable {
     /**
      * 商户支付清单ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     /**
      * 服务商ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long serviceProviderId;
 
     /**
@@ -45,6 +49,7 @@ public class PayEnterpriseUpdateDetailVO implements Serializable {
     /**
      * 工单ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long worksheetId;
 
     /**

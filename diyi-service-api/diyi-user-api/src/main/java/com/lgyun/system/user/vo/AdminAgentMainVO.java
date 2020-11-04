@@ -1,6 +1,8 @@
 package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.AccountState;
 import lombok.Data;
 
@@ -19,6 +21,7 @@ public class AdminAgentMainVO implements Serializable {
     /**
      * 渠道商ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long agentMainId;
 
     /**

@@ -1,6 +1,8 @@
 package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.BodyType;
 import com.lgyun.common.enumeration.ReportState;
 import com.lgyun.common.enumeration.ReportTheme;
@@ -19,11 +21,16 @@ import java.util.Date;
 public class AdminEnterpriseReportVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 申报ID
+     */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseReportId;
 
     /**
      * 服务商ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long serviceProviderId;
 
     /**
@@ -34,6 +41,7 @@ public class AdminEnterpriseReportVO implements Serializable {
     /**
      * 申报主体ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long mainBodyId;
 
     /**

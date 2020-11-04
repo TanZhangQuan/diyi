@@ -1,6 +1,5 @@
 package com.lgyun.system.user.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -62,6 +61,6 @@ public class AddressDTO {
     @NotBlank(message = "是否默认")
     private Integer isDefault;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+
     private Date createTime;
 }

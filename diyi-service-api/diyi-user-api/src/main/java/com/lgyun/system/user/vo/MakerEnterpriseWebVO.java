@@ -1,8 +1,9 @@
 package com.lgyun.system.user.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.CertificationState;
 import com.lgyun.common.enumeration.SignState;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -19,16 +20,19 @@ public class MakerEnterpriseWebVO implements Serializable {
     /**
      * 商户id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
 
     /**
      * 创客和商户关联的Id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long makerEnterpriseId;
 
     /**
      * 创客id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long makerId;
 
     /**

@@ -2,7 +2,6 @@ package com.lgyun.system.order.dto;
 
 import com.lgyun.common.enumeration.AcceptPaysheetType;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -46,14 +45,12 @@ public class AcceptPaysheetSaveDTO implements Serializable {
     /**
      * 交付支付验收单服务开始时间
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @NotNull(message = "请选择服务开始时间")
     private Date serviceTimeStart;
 
     /**
      * 交付支付验收单服务结束时间
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @NotNull(message = "请选择服务结束时间")
     private Date serviceTimeEnd;
 

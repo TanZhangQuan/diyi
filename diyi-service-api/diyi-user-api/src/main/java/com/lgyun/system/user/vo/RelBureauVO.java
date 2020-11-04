@@ -1,5 +1,8 @@
 package com.lgyun.system.user.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -13,6 +16,7 @@ public class RelBureauVO implements Serializable {
     /**
      * 税务局ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long bureauId;
 
     /**
