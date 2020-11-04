@@ -539,6 +539,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             if (CertificationState.UNCERTIFIED.equals(makerEntity.getCertificationState()) && SignState.SIGNED.equals(makerEntity.getJoinSignState())
                     && SignState.SIGNED.equals(makerEntity.getEmpowerSignState())) {
                 makerEntity.setCertificationState(CertificationState.CERTIFIED);
+                makerEntity.setCertificationDate(new Date());
             }
 
             updateById(makerEntity);

@@ -1,5 +1,6 @@
 package com.lgyun.system.order.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
@@ -164,6 +165,21 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
             acceptPaysheetIdList.forEach(acceptPaysheetPayListService::deleteAcceptPaysheetList);
         }
 
+    }
+
+    @Override
+    public String findPayEnterpriseAll(String payEnterpriseIds) {
+        QueryWrapper<AcceptPaysheetEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().in(AcceptPaysheetEntity::getPayEnterpriseId,payEnterpriseIds);
+        List<AcceptPaysheetEntity> makerInvoiceEntities = baseMapper.selectList(queryWrapper);
+        if(makerInvoiceEntities.size() <= 0){
+            return "";
+        }
+        String acceptPaysheetUrl = "";
+        for (AcceptPaysheetEntity acceptPaysheetEntity : makerInvoiceEntities){
+            acceptPaysheetUrl = acceptPaysheetEntity.getAcceptPaysheetUrl()+',';
+        }
+        return acceptPaysheetUrl;
     }
 
 }

@@ -2,9 +2,7 @@ package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.ObjectType;
-import com.lgyun.common.enumeration.SignState;
-import com.lgyun.common.enumeration.SignType;
+import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.PDFUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.*;
@@ -85,6 +83,24 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
         } catch (Exception e) {
             e.printStackTrace();
             return R.fail("签名失败");
+        }
+        if(ObjectType.MAKERPEOPLE.equals(objectType)){
+            MakerEntity makerEntity = makerService.getById(ObjectId);
+            if(onlineAgreementTemplateEntity.getAgreementType().equals(AgreementType.MAKERJOINAGREEMENT)){
+                makerEntity.setJoinSignState(SignState.SIGNED);
+                if(makerEntity.getEmpowerSignState().equals(SignState.SIGNED) && makerEntity.getBankCardVerifyStatus().equals(VerifyStatus.VERIFYPASS)){
+                    makerEntity.setCertificationDate(new Date());
+                    makerEntity.setCertificationState(CertificationState.CERTIFIED);
+                }
+            }
+            if(onlineAgreementTemplateEntity.getAgreementType().equals(AgreementType.MAKERPOWERATTORNEY)){
+                makerEntity.setEmpowerSignState(SignState.SIGNED);
+                if(makerEntity.getJoinSignState().equals(SignState.SIGNED) && makerEntity.getBankCardVerifyStatus().equals(VerifyStatus.VERIFYPASS)){
+                    makerEntity.setCertificationDate(new Date());
+                    makerEntity.setCertificationState(CertificationState.CERTIFIED);
+                }
+            }
+           makerService.saveOrUpdate(makerEntity);
         }
         return R.success("保存成功");
     }

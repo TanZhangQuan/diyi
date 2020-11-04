@@ -6,9 +6,8 @@ import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.common.enumeration.MakerInvoiceType;
 import com.lgyun.common.enumeration.PayEnterpriseAuditState;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.PayEnterpriseDTO;
 import com.lgyun.system.order.dto.PayEnterpriseCreateOrUpdateDTO;
+import com.lgyun.system.order.dto.PayEnterpriseDTO;
 import com.lgyun.system.order.dto.SummaryInvoiceDTO;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.*;
@@ -131,12 +130,12 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     /**
      * 查询详情接口-汇总
      */
-    R findDetailSummary(Long makerTotalInvoiceId, Query query);
+    R findDetailSummary(Long makerTotalInvoiceId);
 
     /**
      * 查询详情接口-门征
      */
-    R findDetailSubcontractPortal(Long makerInvoiceId, Query query);
+    R findDetailSubcontractPortal(Long makerInvoiceId);
 
     /**
      * 根据支付清单ID查询创客支付明细
