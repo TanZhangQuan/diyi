@@ -799,6 +799,7 @@ CREATE TABLE `diyi_maker` (
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '姓名',
   `avatar` varchar(500) NOT NULL DEFAULT '' COMMENT '头像',
   `certification_state` varchar(50) NOT NULL COMMENT '认证状态',
+  `certification_date` datetime DEFAULT NULL COMMENT '认证时间',
   `empower_sign_state` varchar(50) NOT NULL COMMENT '授权协议状态',
   `join_sign_state` varchar(50) DEFAULT NULL COMMENT '加盟协议状态',
   `maker_state` varchar(50) NOT NULL COMMENT '账户状态',

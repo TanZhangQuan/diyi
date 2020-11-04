@@ -100,6 +100,7 @@
         <if test="param6 != null and param6 != ''">
             and ws.create_time  &lt; #{param6}
         </if>
+         ORDER BY create_time desc
     </select>
 
     <select id="queryWorksheetListByEnterprise" resultMap="worksheetListVO">

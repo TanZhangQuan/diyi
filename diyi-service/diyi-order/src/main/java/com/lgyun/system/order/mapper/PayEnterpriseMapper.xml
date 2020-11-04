@@ -1044,7 +1044,7 @@
         SELECT a.id pay_enterprise_id, y.service_provider_name, a.create_time, a.charge_list_url FROM diyi_pay_enterprise a INNER JOIN diyi_service_provider y
         ON a.service_provider_id = y.id WHERE a.service_provider_id = #{param2} AND a.enterprise_id = #{param1} AND a.company_invoice_state = 'UNOPEN' AND a.id
         NOT IN ( SELECT d.pay_enterprise_id FROM diyi_invoice_application c INNER JOIN diyi_invoice_application_pay_list d ON c.id = d.application_id
-        WHERE c.application_state NOT IN ( 'APPLYING', 'ISSUEDINFULL', 'PARTIALLYISSUED' ));
+        WHERE c.application_state NOT IN ( 'APPLYING', 'ISSUEDINFULL', 'PARTIALLYISSUED' ))
     </select>
 
 

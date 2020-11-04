@@ -285,7 +285,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R findDetailSummary(Long makerTotalInvoiceId, Query query) {
+    public R findDetailSummary(Long makerTotalInvoiceId) {
         Map map = new HashMap();
         EnterpriseSubcontractInvoiceVO detailSummary = baseMapper.findDetailSummary(makerTotalInvoiceId);
         map.put("enterpriseSubcontractInvoiceVO", detailSummary);
@@ -293,13 +293,16 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         if (null == byId) {
             return R.fail("数据错误");
         }
+        Query query = new Query();
+        query.setCurrent(1);
+        query.setSize(100);
         List<PayMakerListInvoiceVO> PayMakerListVOs = baseMapper.queryPayMakerListInvoice(byId.getId(), Condition.getPage(query.setDescs("create_time")));
         map.put("payMakerListVOs", PayMakerListVOs);
         return R.data(map);
     }
 
     @Override
-    public R findDetailSubcontractPortal(Long makerInvoiceId, Query query) {
+    public R findDetailSubcontractPortal(Long makerInvoiceId) {
         EnterpriseSubcontractPortalVO detailSummary = baseMapper.findDetailSubcontractPortal(makerInvoiceId);
         Map map = new HashMap();
         map.put("EnterpriseSubcontractPortalVO", detailSummary);
@@ -307,6 +310,9 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         if (null == byId) {
             return R.fail("数据错误");
         }
+        Query query = new Query();
+        query.setSize(100);
+        query.setCurrent(1);
         List<PayMakerListInvoiceVO> PayMakerListVOs = baseMapper.queryPayMakerListInvoice(byId.getId(), Condition.getPage(query.setDescs("create_time")));
         map.put("payMakerListVOs", PayMakerListVOs);
         return R.data(map);
@@ -942,6 +948,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
                 worksheetIds += byId.getWorksheetId() + ",";
             }
         }
+        String acceptPaysheetUrls = acceptPaysheetService.findPayEnterpriseAll(payEnterpriseIds);
         ServiceProviderEntity serviceProviderEntity = userClient.queryServiceProviderById(serviceProviderId);
         map.put("enterpriseName", enterpriseEntity.getEnterpriseName());
         map.put("serviceProviderName", serviceProviderEntity.getServiceProviderName());
@@ -953,7 +960,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         map.put("applicationState", invoiceApplicationEntity.getApplicationState());
         map.put("companyInvoiceURL", "");
         map.put("invoiceCreateTiem", "");
-        map.put("enterprisePayReceiptUrl", enterprisePayReceiptUrl);
+        map.put("acceptPaysheetUrls", acceptPaysheetUrls);
         map.put("orderTracesByJson", "");
         return R.data(map);
     }
@@ -981,12 +988,14 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         ServiceProviderEntity serviceProviderEntity = userClient.queryServiceProviderById(serviceProviderId);
         map.put("enterpriseName", enterpriseEntity.getEnterpriseName());
         map.put("serviceProviderName", serviceProviderEntity.getServiceProviderName());
-        map.put("invoiceApplicationId", enterpriseId);
+        map.put("invoiceApplicationId", "");
         map.put("enterpriseId", enterpriseId);
         map.put("payEnterpriseIds", payEnterpriseIds);
         map.put("enterprisePayReceiptUrl", enterprisePayReceiptUrl);
         map.put("worksheetIds", worksheetIds);
         map.put("applicationState", ApplicationState.ISSUEDINFULL);
+        String acceptPaysheetUrls = acceptPaysheetService.findPayEnterpriseAll(payEnterpriseIds);
+        map.put("acceptPaysheetUrls", acceptPaysheetUrls);
         List<PlatformInvoiceListEntity> platformInvoiceListEntitys = platformInvoiceListService.findInvoicePrintId(invoicePrintId);
         String companyInvoiceURLs = "";
         for (PlatformInvoiceListEntity platformInvoiceListEntity : platformInvoiceListEntitys) {
@@ -994,7 +1003,6 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         }
         map.put("companyInvoiceURL", companyInvoiceURLs);
         map.put("invoiceCreateTiem", platformInvoiceEntity.getCreateTime());
-        map.put("enterprisePayReceiptUrl", enterprisePayReceiptUrl);
         KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
         String orderTracesByJson = "";
         try {
