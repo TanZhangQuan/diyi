@@ -1053,7 +1053,7 @@
         e.service_provider_name, b.application_state, 0 AS company_invoice_state, b.create_time, b.application_desc, 1 AS apply_state,0 as invoice_print_id
         FROM diyi_INVOICE_APPLICATION_PAY_LIST a INNER JOIN diyi_INVOICE_APPLICATION b ON b.id = a.application_id INNER JOIN diyi_pay_enterprise c
         ON c.id = a.pay_enterprise_id INNER JOIN diyi_enterprise d ON d.id = c.enterprise_id INNER JOIN diyi_service_provider e ON e.id = c.service_provider_id
-        WHERE1 =1
+        WHERE 1=1
         <if test="param1 != null">
             and e.id = #{param1}
         </if>
