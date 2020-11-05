@@ -477,6 +477,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     public R getServiceLumpSumInvoiceDetails(Long payEnterpriseId) {
         Map map = new HashMap();
         InvoiceServiceLumpDetailsVO lumpSumInvoiceDetails = baseMapper.getServiceLumpSumInvoiceDetails(payEnterpriseId);
+        List<InvoiceServiceLumpDetailsVO> lumpSumInvoiceDetail = new ArrayList<>();
         String enterprisePayReceiptUrl = payEnterpriseReceiptService.findEnterprisePayReceiptUrl(payEnterpriseId);
         lumpSumInvoiceDetails.setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
 
@@ -494,7 +495,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         } catch (Exception e) {
             log.error("查询物流错误", e);
         }
-        map.put("lumpSumInvoiceDetails", lumpSumInvoiceDetails);
+        lumpSumInvoiceDetail.add(lumpSumInvoiceDetails);
+        map.put("lumpSumInvoiceDetails", lumpSumInvoiceDetail);
         return R.data(map);
     }
 
