@@ -177,7 +177,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
             //新建服务商员工
             User user = new User();
             user.setUserType(UserType.SERVICEPROVIDER);
-            user.setAccount(addOrUpdateServiceProviderDTO.getPhoneNumber());
+            user.setAccount(addOrUpdateServiceProviderDTO.getEmployeeUserName());
             user.setPhone(addOrUpdateServiceProviderDTO.getPhoneNumber());
             userService.save(user);
 

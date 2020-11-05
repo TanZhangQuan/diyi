@@ -6,8 +6,8 @@ import com.lgyun.system.order.dto.AcceptSheetAndCsListDTO;
 import com.lgyun.system.order.entity.AcceptPaysheetCsEntity;
 import com.lgyun.system.order.vo.AcceptPaysheetAndCsListMakerVO;
 import com.lgyun.system.order.vo.AcceptPaysheetCsDetailEnterpriseVO;
+import com.lgyun.system.order.vo.AcceptPaysheetCsDetailMakerVO;
 import com.lgyun.system.order.vo.AcceptPaysheetCsListEnterpriseVO;
-import com.lgyun.system.order.vo.AcceptPaysheetDetailMakerVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -38,7 +38,7 @@ public interface AcceptPaysheetCsMapper extends BaseMapper<AcceptPaysheetCsEntit
      * @param acceptPaysheetId
      * @return
      */
-    AcceptPaysheetDetailMakerVO queryCrowdAcceptPaysheetDetailMaker(Long makerId, Long acceptPaysheetId);
+    AcceptPaysheetCsDetailMakerVO queryCrowdAcceptPaysheetDetailMaker(Long makerId, Long acceptPaysheetId);
 
     /**
      * 查询当前商户所有众包交付支付验收单

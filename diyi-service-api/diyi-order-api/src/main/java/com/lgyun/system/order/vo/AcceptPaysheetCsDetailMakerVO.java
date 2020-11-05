@@ -41,6 +41,6 @@ public class AcceptPaysheetCsDetailMakerVO implements Serializable {
     /**
      * 验收单URL
      */
-    private String acceptPaysheetUrl;
+    private String acceptPaysheetCsUrl;
 
 }

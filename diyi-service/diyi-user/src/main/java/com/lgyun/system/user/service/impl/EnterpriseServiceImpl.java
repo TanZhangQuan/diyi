@@ -186,7 +186,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             //新建联系人员工
             User user = new User();
             user.setUserType(UserType.ENTERPRISE);
-            user.setAccount(addOrUpdateEnterpriseDTO.getPhoneNumber());
+            user.setAccount(addOrUpdateEnterpriseDTO.getEmployeeUserName());
             user.setPhone(addOrUpdateEnterpriseDTO.getPhoneNumber());
             userService.save(user);
 

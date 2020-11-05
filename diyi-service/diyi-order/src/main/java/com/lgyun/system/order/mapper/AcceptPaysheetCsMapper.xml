@@ -41,17 +41,19 @@
     </resultMap>
 
     <select id="queryCrowdAcceptPaysheetListMaker" resultMap="acceptPaysheetAndCsListMakerVO">
-        SELECT t1.id, t3.enterprise_name, t2.total_pay_provider_fee AS pay_amount, t1.service_time_start, t1.service_time_end FROM diyi_accept_paysheet_cs t1
-        INNER JOIN diyi_self_help_invoice t2 ON t1.self_help_invoice_id = t2.id INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id WHERE t1.is_deleted = 0
-        AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t3.id = #{param1} AND ((t1.accept_paysheet_type = 'MANY') OR (t1.accept_paysheet_type = 'SINGLE' AND
-        (SELECT t4.maker_id FROM diyi_self_help_invoice_detail t4 WHERE t4.is_deleted = 0 AND t1.self_help_invoice_detail_id = t4.id) = #{param2}))
+        SELECT t1.id, t3.enterprise_name, (SELECT charge_money_num FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.self_help_invoice_id
+        AND maker_id = #{param2}) AS pay_amount, t1.service_time_start, t1.service_time_end FROM diyi_accept_paysheet_cs t1 INNER JOIN diyi_self_help_invoice t2
+        ON t1.self_help_invoice_id = t2.id INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0
+        AND t2.enterprise_id = #{param1} AND #{param2} IN (IF(t1.accept_paysheet_cs_type = 'SINGLE', (SELECT maker_id FROM diyi_self_help_invoice_detail WHERE is_deleted = 0
+        AND id = t1.self_help_invoice_detail_id), (SELECT GROUP_CONCAT(maker_id) FROM diyi_self_help_invoice_detail t3 INNER JOIN diyi_accept_paysheet_cs_list t4
+        ON t3.id = t4.self_help_invoice_detail_id WHERE t3.is_deleted = 0 AND t4.is_deleted = 0 AND t4.accept_paysheet_cs_id = t1.id)))
     </select>
 
     <select id="queryCrowdAcceptPaysheetDetailMaker" resultMap="acceptPaysheetCsDetailVO">
-        SELECT t3.enterprise_name, t2.total_pay_provider_fee, t1.service_time_start, t1.service_time_end, IF(t1.accept_paysheet_type = 'SINGLE' AND t4.maker_id = #{param1},
+        SELECT t3.enterprise_name, (SELECT charge_money_num FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.self_help_invoice_id
+        AND maker_id = #{param1}) AS pay_to_platform_amount, t1.service_time_start, t1.service_time_end, IF(t1.accept_paysheet_cs_type = 'SINGLE',
         t1.accept_paysheet_cs_url, NULL) AS accept_paysheet_cs_url FROM diyi_accept_paysheet_cs t1 INNER JOIN diyi_self_help_invoice t2 ON t1.self_help_invoice_id = t2.id
-        INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id LEFT JOIN diyi_self_help_invoice_detail t4 ON t1.self_help_invoice_detail_id = t4.id AND t4.is_deleted = 0
-        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t1.id = #{param2}
+        INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t1.id = #{param2}
     </select>
 
     <select id="queryCrowdAcceptPaysheetListEnterprise" resultMap="acceptPaysheetCsListEnterpriseVO">
