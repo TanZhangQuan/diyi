@@ -90,6 +90,13 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     @Override
     @Transactional(rollbackFor = Exception.class)
     public R<String> createOrUpdatePayEnterprise(PayEnterpriseCreateOrUpdateDTO payEnterpriseCreateOrUpdateDto, Long enterpriseId) throws Exception {
+        //判断创客类型
+        if (MakerType.NATURALPERSON.equals(payEnterpriseCreateOrUpdateDto.getMakerType())) {
+            payEnterpriseCreateOrUpdateDto.setEnterpriseBusinessAnnualFee(BigDecimal.ZERO);
+        } else {
+            payEnterpriseCreateOrUpdateDto.setIdentifyFee(BigDecimal.ZERO);
+        }
+
         //判断服务商和商户是否关联
         int CooperateNum = userClient.queryCountByEnterpriseIdAndServiceProviderId(enterpriseId, payEnterpriseCreateOrUpdateDto.getServiceProviderId(), CooperateStatus.COOPERATING);
         if (CooperateNum <= 0) {

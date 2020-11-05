@@ -6,6 +6,7 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.service.IAcceptPaysheetCsService;
 import com.lgyun.system.order.service.IAcceptPaysheetService;
+import com.lgyun.system.order.service.IPayMakerService;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
@@ -13,10 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 
@@ -30,6 +28,7 @@ public class AcceptPaysheetMakerController {
     private IUserClient userClient;
     private IAcceptPaysheetService acceptPaysheetService;
     private IAcceptPaysheetCsService acceptPaysheetCsService;
+    private IPayMakerService payMakerService;
 
     @GetMapping("/query-total-sub-accept-paysheet-list")
     @ApiOperation(value = "查询总包+分包交付支付验收单", notes = "查询总包+分包交付支付验收单")
@@ -55,6 +54,19 @@ public class AcceptPaysheetMakerController {
         MakerEntity makerEntity = result.getData();
 
         return acceptPaysheetService.queryTotalSubAcceptPaysheetDetailMaker(makerEntity.getId(), acceptPaysheetId);
+    }
+
+    @PostMapping("/confirm-pay-maker")
+    @ApiOperation(value = "确认收款", notes = "确认收款")
+    public R confirmPayMaker(@ApiParam(value = "创客支付明细", required = true) @NotNull(message = "请选择创客支付明细") @RequestParam(required = false) Long payMakerId, BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = userClient.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        MakerEntity makerEntity = result.getData();
+
+        return payMakerService.confirmPayMaker(makerEntity.getId(), payMakerId);
     }
 
     @GetMapping("/query-crowd-accept-paysheet-list")

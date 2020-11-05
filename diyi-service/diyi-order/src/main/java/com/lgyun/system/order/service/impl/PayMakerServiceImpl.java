@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.MakerType;
+import com.lgyun.common.enumeration.PayMakerPayState;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.MakerInvoiceEntity;
@@ -320,6 +321,40 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
     @Override
     public R<IPage<AcceptPaysheetPayMakerListVO>> queryTotalSubAcceptPaysheetPayMakerList(Long acceptPaysheetId, IPage<AcceptPaysheetPayMakerListVO> page) {
         return R.data(page.setRecords(baseMapper.queryTotalSubAcceptPaysheetPayMakerList(acceptPaysheetId, page)));
+    }
+
+    @Override
+    public R<String> confirmPayMaker(Long makerId, Long payMakerId) {
+
+        PayMakerEntity payMakerEntity = getById(payMakerId);
+        if (payMakerEntity == null) {
+            return R.fail("创客支付明细不存在");
+        }
+
+        if (payMakerEntity.getMakerId().equals(makerId)) {
+            return R.fail("创客支付明细不属于当前创客");
+        }
+
+        if (!(payMakerEntity.getPayState().equals(PayMakerPayState.PLATFORMPAID))) {
+            return R.fail("服务商未支付，不可确认收款");
+        }
+
+        if (payMakerEntity.getPayState().equals(PayMakerPayState.CONFIRMPAID)) {
+            return R.fail("创客已确认收款");
+        }
+
+        //确认收款
+        payMakerEntity.setPayState(PayMakerPayState.CONFIRMPAID);
+        payMakerEntity.setMakerConfirmDatetime(new Date());
+        updateById(payMakerEntity);
+
+        //判断是否所有分包已确认收款
+        List<PayMakerEntity> payMakerEntityList = list(Wrappers.<PayMakerEntity>query().lambda()
+                .eq(PayMakerEntity::getPayEnterpriseId, payMakerEntity.getPayEnterpriseId())
+                .eq(PayMakerEntity::getIsDeleted, 0));
+
+        return null;
+
     }
 
 }
