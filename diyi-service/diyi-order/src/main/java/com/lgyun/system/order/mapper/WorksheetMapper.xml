@@ -114,6 +114,9 @@
         <if test="param2.workSheetType != null">
             AND work_sheet_type = #{param2.workSheetType}
         </if>
+        <if test="param2.makerType != null">
+            AND maker_type = #{param2.makerType}
+        </if>
         <if test="param2.worksheetState != null">
             AND worksheet_state = #{param2.worksheetState}
         </if>

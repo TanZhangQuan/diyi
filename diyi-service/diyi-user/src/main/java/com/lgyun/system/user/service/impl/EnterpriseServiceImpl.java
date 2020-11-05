@@ -146,7 +146,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
                 return R.fail("请输入密码");
             } else {
 
-                if (addOrUpdateEnterpriseDTO.getEmployeePwd().length() <= 6 || addOrUpdateEnterpriseDTO.getEmployeePwd().length() >= 18) {
+                if (addOrUpdateEnterpriseDTO.getEmployeePwd().length() < 6 || addOrUpdateEnterpriseDTO.getEmployeePwd().length() > 18) {
                     return R.fail("请输入长度为6-18位的密码");
                 }
 
@@ -242,7 +242,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
                     .isNull(EnterpriseWorkerEntity::getUpLevelId));
 
             if (StringUtils.isNotBlank(addOrUpdateEnterpriseDTO.getEmployeePwd())) {
-                if (addOrUpdateEnterpriseDTO.getEmployeePwd().length() <= 6 || addOrUpdateEnterpriseDTO.getEmployeePwd().length() >= 18) {
+                if (addOrUpdateEnterpriseDTO.getEmployeePwd().length() < 6 || addOrUpdateEnterpriseDTO.getEmployeePwd().length() > 18) {
                     return R.fail("请输入长度为6-18位的密码");
                 }
 
