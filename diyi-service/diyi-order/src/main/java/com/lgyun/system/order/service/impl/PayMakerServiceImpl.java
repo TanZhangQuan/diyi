@@ -6,16 +6,19 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.MakerType;
+import com.lgyun.common.enumeration.PayEnterprisePayState;
 import com.lgyun.common.enumeration.PayMakerPayState;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.MakerInvoiceEntity;
 import com.lgyun.system.order.entity.MakerTaxRecordEntity;
+import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.entity.PayMakerEntity;
 import com.lgyun.system.order.excel.PayEnterpriseExcel;
 import com.lgyun.system.order.mapper.PayMakerMapper;
 import com.lgyun.system.order.service.IMakerInvoiceService;
 import com.lgyun.system.order.service.IMakerTaxRecordService;
+import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.service.IPayMakerService;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
@@ -23,10 +26,12 @@ import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,12 +48,16 @@ import java.util.List;
  */
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMakerEntity> implements IPayMakerService {
 
-    private IUserClient userClient;
-    private IMakerInvoiceService makerInvoiceService;
-    private IMakerTaxRecordService makerTaxRecordService;
+    private final IUserClient userClient;
+    private final IMakerInvoiceService makerInvoiceService;
+    private final IMakerTaxRecordService makerTaxRecordService;
+
+    @Autowired
+    @Lazy
+    private IPayEnterpriseService payEnterpriseService;
 
     @Override
     public R<MakerEnterpriseNumIncomeVO> getEnterpriseNumIncome(Long makerId) {
@@ -349,12 +358,22 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
         updateById(payMakerEntity);
 
         //判断是否所有分包已确认收款
-        List<PayMakerEntity> payMakerEntityList = list(Wrappers.<PayMakerEntity>query().lambda()
+        int payMakerNum = count(Wrappers.<PayMakerEntity>query().lambda()
                 .eq(PayMakerEntity::getPayEnterpriseId, payMakerEntity.getPayEnterpriseId())
                 .eq(PayMakerEntity::getIsDeleted, 0));
 
-        return null;
+        int confirmpaidPayMakerNum = count(Wrappers.<PayMakerEntity>query().lambda()
+                .eq(PayMakerEntity::getPayEnterpriseId, payMakerEntity.getPayEnterpriseId())
+                .eq(PayMakerEntity::getPayState, PayMakerPayState.CONFIRMPAID)
+                .eq(PayMakerEntity::getIsDeleted, 0));
 
+        if (payMakerNum == confirmpaidPayMakerNum) {
+            PayEnterpriseEntity payEnterpriseEntity = payEnterpriseService.getById(payMakerEntity.getPayEnterpriseId());
+            payEnterpriseEntity.setPayState(PayEnterprisePayState.CONFIRMPAY);
+            payEnterpriseService.updateById(payEnterpriseEntity);
+        }
+
+        return R.success("确认收款成功");
     }
 
 }
