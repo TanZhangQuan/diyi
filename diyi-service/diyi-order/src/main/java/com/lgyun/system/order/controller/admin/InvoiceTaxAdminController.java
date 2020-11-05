@@ -244,16 +244,19 @@ public class InvoiceTaxAdminController {
 //    }
 
 
+
+
+
     @GetMapping("/query-total-invoice")
     @ApiOperation(value = "平台查询总包发票列表", notes = "平台查询总包发票列表")
-    public R queryTotalInvoice(@RequestParam(required = false) String enterpriseName, @RequestParam(required = false) String startTime,
+    public R queryTotalInvoice(@RequestParam(required = false) String enterpriseName,@ApiParam(value = "服务商ID", required = true)@NotNull(message = "服务商id不能为空")@RequestParam(required = false) Long serviceProviderId, @RequestParam(required = false) String startTime,
                                @RequestParam(required = false) String endTime, @RequestParam InvoiceState companyInvoiceState, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
-        return payEnterpriseService.getServiceLumpSumInvoice(null, enterpriseName, startTime, endTime, companyInvoiceState, Condition.getPage(query.setDescs("create_time")));
+        return payEnterpriseService.getServiceLumpSumInvoice(serviceProviderId, enterpriseName, startTime, endTime, companyInvoiceState, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-total-opened-invoice-detail")
@@ -345,7 +348,8 @@ public class InvoiceTaxAdminController {
 
     @GetMapping("/query-all-sub-list")
     @ApiOperation(value = "根据平台查询汇总代开分包列表", notes = "根据平台查询汇总代开分包列表")
-    public R queryAllOpenSubList(@RequestParam(required = false) String enterprise_name,@RequestParam InvoiceState companyInvoiceState,Long serviceProviderId, Query query, BladeUser bladeUser) {
+    public R queryAllOpenSubList(@RequestParam(required = false) String enterprise_name,@RequestParam InvoiceState companyInvoiceState,
+                                 @ApiParam(value = "服务商ID", required = true)@NotNull(message = "服务商id不能为空")@RequestParam(required = false) Long serviceProviderId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

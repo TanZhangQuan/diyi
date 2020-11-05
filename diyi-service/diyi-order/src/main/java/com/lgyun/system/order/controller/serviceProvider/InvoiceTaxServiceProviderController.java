@@ -10,7 +10,8 @@ import com.lgyun.system.order.dto.LumpSumInvoiceDTO;
 import com.lgyun.system.order.dto.LumpSumMergeInvoiceDTO;
 import com.lgyun.system.order.dto.SummaryInvoiceDTO;
 import com.lgyun.system.order.service.IPayEnterpriseService;
-import com.lgyun.system.order.service.ISelfHelpInvoiceService;
+import com.lgyun.system.order.service.IWorksheetService;
+import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
@@ -32,7 +33,7 @@ public class InvoiceTaxServiceProviderController {
 
     private IUserClient userClient;
     private IPayEnterpriseService payEnterpriseService;
-    private ISelfHelpInvoiceService selfHelpInvoiceService;
+    private IWorksheetService worksheetService;
 
 
 //    @GetMapping("/query-total-invoice")
@@ -371,6 +372,9 @@ public class InvoiceTaxServiceProviderController {
     }
 
 
+
+
+
     @GetMapping("/query-all-sub-list")
     @ApiOperation(value = "根据服务商查询分包列表", notes = "根据服务商查询分包列表")
     public R queryAllOpenSubList(@RequestParam(required = false) String enterprise_name,@RequestParam InvoiceState companyInvoiceState, Query query, BladeUser bladeUser) {
@@ -429,6 +433,31 @@ public class InvoiceTaxServiceProviderController {
         }
 
         return payEnterpriseService.getServicePortalSignInvoiceDetails(payEnterpriseId);
+    }
+
+
+    @GetMapping("query-worksheet-detail")
+    @ApiOperation(value = "查询工单详情", notes = "查询工单详情")
+    public R queryWorksheetDetail(@NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId, Query query, BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return worksheetService.getWorksheetWebDetails(Condition.getPage(query.setDescs("create_time")), worksheetId);
+    }
+
+    @GetMapping("/query-pay-enterprise-detail")
+    @ApiOperation(value = "查询总包支付清单详情", notes = "查询总包支付清单详情")
+    public R queryPayEnterpriseDetail(@ApiParam(value = "支付清单", required = true) @NotNull(message = "请选择总包支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return payEnterpriseService.queryPayEnterpriseDetail(payEnterpriseId);
     }
 
 //    @GetMapping("/query-crowd-invoice-list")
