@@ -1102,7 +1102,7 @@
     </select>
 
     <select id="findServiceDetailSummary" resultMap="InvoiceServiceDetailSummaryVO">
-        SELECT a.id AS pay_enterprise_id, b.id AS enterprise_id, a.pay_to_platform_amount, b.enterprise_name, b.invoice_tax_no, b.invoice_address, b.invoice_tel_no, b.invoice_bank_name, b.invoice_account_name, c.service_provider_name, a.charge_list_url, a.worksheet_id, a.subcontracting_invoice_state, a.create_time, e.company_invoice_url, e.maker_tax_url,a.maker_invoice_type FROM diyi_pay_enterprise a INNER JOIN diyi_enterprise b ON a.enterprise_id = b.id INNER JOIN diyi_service_provider c ON c.id = a.service_provider_id LEFT JOIN diyi_maker_total_invoice e ON e.pay_enterprise_id = a.id WHERE a.id =  #{param1}
+        SELECT a.id AS pay_enterprise_id, b.id AS enterprise_id, a.pay_to_platform_amount, b.enterprise_name, b.invoice_tax_no, b.invoice_address_phone, b.invoice_bank_name_account, c.service_provider_name, a.charge_list_url, a.worksheet_id, a.subcontracting_invoice_state, a.create_time, e.company_invoice_url, e.maker_tax_url, a.maker_invoice_type FROM diyi_pay_enterprise a INNER JOIN diyi_enterprise b ON a.enterprise_id = b.id INNER JOIN diyi_service_provider c ON c.id = a.service_provider_id LEFT JOIN diyi_maker_total_invoice e ON e.pay_enterprise_id = a.id WHERE a.id = #{param1}
     </select>
 
     <select id="getPayMakerLists" resultMap="payMakerListInvoiceVO">
