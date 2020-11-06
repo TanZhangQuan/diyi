@@ -45,7 +45,7 @@ public class MakerTotalInvoiceServiceImpl extends BaseServiceImpl<MakerTotalInvo
         QueryWrapper<MakerTotalInvoiceEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(MakerTotalInvoiceEntity::getPayEnterpriseId,payEnterpriseId);
         List<MakerTotalInvoiceEntity> makerTotalInvoiceEntitie = baseMapper.selectList(queryWrapper);
-        if(makerTotalInvoiceEntitie.size() < 0){
+        if(null == makerTotalInvoiceEntitie || makerTotalInvoiceEntitie.size() <= 0){
             return null;
         }
         return makerTotalInvoiceEntitie.get(0);
