@@ -60,7 +60,7 @@ public class SummaryInvoiceDTO implements Serializable {
     private String makerTaxListUrl;
 
     /**
-     *
+     *销售方
      */
     private String saleCompany;
 }
