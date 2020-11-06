@@ -1098,10 +1098,7 @@
     </select>
 
     <select id="findServiceSubcontractSummary" resultMap="EnterpriseSubcontractSummaryMap">
-        SELECT pe.id AS pay_enterprise_id, mt.id AS maker_total_invoice_id, sp.id AS service_provider_id, mt.invoice_serial_no, mt.company_invoice_url,
-        mt.maker_tax_url, pe.subcontracting_invoice_state, sp.service_provider_name, pe.invoice_print_date FROM diyi_pay_enterprise pe left JOIN diyi_maker_total_invoice mt
-        ON mt.pay_enterprise_id = pe.id INNER JOIN diyi_service_provider sp ON sp.id = pe.service_provider_id INNER JOIN diyi_enterprise e on e.id = pe.enterprise_id
-        where pe.is_deleted= 0 and mt.is_deleted = 0 and sp.is_deleted = 0 and sp.id = #{param1} and pe.subcontracting_invoice_state = #{param3}
+        SELECT pe.id AS pay_enterprise_id, mt.id AS maker_total_invoice_id, sp.id AS service_provider_id, mt.invoice_serial_no, mt.company_invoice_url, mt.maker_tax_url, pe.subcontracting_invoice_state, sp.service_provider_name, pe.invoice_print_date FROM diyi_pay_enterprise pe INNER JOIN diyi_service_provider sp ON sp.id = pe.service_provider_id INNER JOIN diyi_enterprise e ON e.id = pe.enterprise_id LEFT JOIN diyi_maker_total_invoice mt ON mt.pay_enterprise_id = pe.id AND mt.is_deleted = 0 WHERE pe.is_deleted = 0 AND sp.is_deleted = 0 AND sp.id = #{param1} and pe.subcontracting_invoice_state = #{param3}
         <if test="param2 !=null and param2 != ''">
             AND e.enterprise_name LIKE concat('%', #{param2}, '%')
         </if>
