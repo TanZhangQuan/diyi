@@ -150,7 +150,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
             //新建管理员
             User user = new User();
             user.setUserType(UserType.ENTERPRISE);
-            user.setAccount(request.getPhoneNumber());
+            user.setAccount(request.getEmployeeUserName());
             user.setPhone(request.getPhoneNumber());
             userService.save(user);
 

@@ -50,4 +50,22 @@ public class LumpSumApplyInvoiceDTO implements Serializable {
     private String invoiceDesc;
 
     private Long serviceProviderId;
+
+    /**
+     * 发票代码
+     */
+    @NotBlank(message = "请输入发票代码")
+    private String invoiceTypeNo;
+
+    /**
+     *发票号码
+     */
+    @NotBlank(message = "请输入发票号码")
+    private String invoiceSerialNo;
+
+    /**
+     *货物或应税劳务、服务名称,发票类
+     */
+    @NotBlank(message = "请输入发票分类")
+    private String invoiceCategory;
 }

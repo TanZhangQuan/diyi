@@ -53,15 +53,6 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
     R<EnterpriseVO> getBasicEnterpriseResponse(Long enterpriseId);
 
     /**
-     * 上传商户营业执照
-     *
-     * @param enterpriseId
-     * @param file
-     * @return
-     */
-    void uploadEnterpriseLicence(Long enterpriseId, MultipartFile file) throws Exception;
-
-    /**
      * 根据商户ID查询商户详情
      *
      * @param enterpriseId
@@ -119,7 +110,40 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * @param page
      * @return
      */
-    R getEnterpriseAll(Long enterpriseId,String enterpriseName,IPage<EnterpriseEntity> page);
+    R getEnterpriseAll(Long enterpriseId, String enterpriseName, IPage<EnterpriseEntity> page);
 
+    /**
+     * 修改当前商户的企业网址
+     *
+     * @param enterpriseId
+     * @param enterpriseUrl
+     * @return
+     */
+    R updateBasicEnterpriseResponse(Long enterpriseId, String enterpriseUrl);
+
+    /**
+     * 查询当前商户的联系人
+     *
+     * @param enterpriseId
+     * @return
+     */
+    R<ContactsInfoVO> currentDetail(Long enterpriseId);
+
+    /**
+     * 修改当前商户的联系人
+     *
+     * @param enterpriseId
+     * @param contactsInfoDTO
+     * @return
+     */
+    R updateContacts(Long enterpriseId, ContactsInfoDTO contactsInfoDTO);
+
+    /**
+     * 查询当前商户的开票信息
+     *
+     * @param enterpriseId
+     * @return
+     */
+    R<EnterpriseInvoiceVO> queryEnterpriseInvoice(Long enterpriseId);
 }
 

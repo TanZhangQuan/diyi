@@ -4,28 +4,20 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 /**
  * @author .
- * @date 2020/9/16.
- * @time 16:07.
+ * @date 2020/11/6.
+ * @time 14:43.
  */
 @Data
-public class LumpSumInvoiceDTO implements Serializable {
+public class LumpInvoiceDTO {
 
     /**
-     * 商户支付清单Id
+     *总包id
      */
-    @NotNull(message = "支付清单id不能为空")
-    private Long payEnterpriseId;
-
-    /**
-     *服务商名字
-     */
-    @NotBlank(message = "请输入服务商名字")
-    private String serviceProviderName;
-
+    @NotNull(message = "总包id不能为空")
+    private Long invoicePrintId;
 
     /**
      *发票url
@@ -50,6 +42,8 @@ public class LumpSumInvoiceDTO implements Serializable {
      */
     private String invoiceDesc;
 
+    private Long serviceProviderId;
+
     /**
      * 发票代码
      */
@@ -67,9 +61,4 @@ public class LumpSumInvoiceDTO implements Serializable {
      */
     @NotBlank(message = "请输入发票分类")
     private String invoiceCategory;
-
-    /**
-     *
-     */
-    private Long serviceProviderId;
 }

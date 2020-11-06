@@ -316,7 +316,7 @@ public class InvoiceTaxAdminController {
             return result;
         }
 
-        return payEnterpriseService.saveServiceLumpSumInvoice(lumpSumInvoiceDto.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc());
+        return payEnterpriseService.saveServiceLumpSumInvoice(lumpSumInvoiceDto.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),lumpSumInvoiceDto.getInvoiceTypeNo(),lumpSumInvoiceDto.getInvoiceSerialNo(),lumpSumInvoiceDto.getInvoiceCategory());
     }
 
 
@@ -328,8 +328,7 @@ public class InvoiceTaxAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-
-        return payEnterpriseService.saveServiceLumpSumMergeInvoice(lumpSumInvoiceDto.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseIds(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc());
+        return payEnterpriseService.saveServiceLumpSumMergeInvoice(lumpSumInvoiceDto.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseIds(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),lumpSumInvoiceDto.getInvoiceTypeNo(),lumpSumInvoiceDto.getInvoiceSerialNo(),lumpSumInvoiceDto.getInvoiceCategory());
     }
 
 
@@ -342,7 +341,7 @@ public class InvoiceTaxAdminController {
             return result;
         }
 
-        return payEnterpriseService.createTotalApplyInvoice(lumpSumInvoiceDto.getServiceProviderId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getApplicationId(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc());
+        return payEnterpriseService.createTotalApplyInvoice(lumpSumInvoiceDto.getServiceProviderId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getApplicationId(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),lumpSumInvoiceDto.getInvoiceTypeNo(),lumpSumInvoiceDto.getInvoiceSerialNo(),lumpSumInvoiceDto.getInvoiceCategory());
     }
 
 
@@ -407,5 +406,8 @@ public class InvoiceTaxAdminController {
         }
         return payEnterpriseService.getServicePortalSignInvoiceDetails(payEnterpriseId);
     }
+
+
+
 
 }

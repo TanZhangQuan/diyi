@@ -5,10 +5,7 @@ import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.LumpSumApplyInvoiceDTO;
-import com.lgyun.system.order.dto.LumpSumInvoiceDTO;
-import com.lgyun.system.order.dto.LumpSumMergeInvoiceDTO;
-import com.lgyun.system.order.dto.SummaryInvoiceDTO;
+import com.lgyun.system.order.dto.*;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
@@ -340,7 +337,7 @@ public class InvoiceTaxServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return payEnterpriseService.saveServiceLumpSumInvoice(serviceProviderWorkerEntity.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc());
+        return payEnterpriseService.saveServiceLumpSumInvoice(serviceProviderWorkerEntity.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),lumpSumInvoiceDto.getInvoiceTypeNo(),lumpSumInvoiceDto.getInvoiceSerialNo(),lumpSumInvoiceDto.getInvoiceCategory());
     }
 
 
@@ -354,7 +351,7 @@ public class InvoiceTaxServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return payEnterpriseService.saveServiceLumpSumMergeInvoice(serviceProviderWorkerEntity.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseIds(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc());
+        return payEnterpriseService.saveServiceLumpSumMergeInvoice(serviceProviderWorkerEntity.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseIds(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),lumpSumInvoiceDto.getInvoiceTypeNo(),lumpSumInvoiceDto.getInvoiceSerialNo(),lumpSumInvoiceDto.getInvoiceCategory());
     }
 
 
@@ -368,10 +365,22 @@ public class InvoiceTaxServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return payEnterpriseService.createTotalApplyInvoice(serviceProviderWorkerEntity.getServiceProviderId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getApplicationId(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc());
+        return payEnterpriseService.createTotalApplyInvoice(serviceProviderWorkerEntity.getServiceProviderId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getApplicationId(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),lumpSumInvoiceDto.getInvoiceTypeNo(),lumpSumInvoiceDto.getInvoiceSerialNo(),lumpSumInvoiceDto.getInvoiceCategory());
     }
 
 
+    @PostMapping("/update-total-invoice")
+    @ApiOperation(value = "服务商根据总包开票id修改总包发票", notes = "服务商根据总包开票id修改总包发票")
+    public R updateTotalInvoice(@Valid @RequestBody LumpInvoiceDTO lumpInvoiceDTO, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+        lumpInvoiceDTO.setServiceProviderId(serviceProviderWorkerEntity.getServiceProviderId());
+        return payEnterpriseService.updateTotalInvoice(lumpInvoiceDTO);
+    }
 
 
 
