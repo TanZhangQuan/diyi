@@ -65,6 +65,6 @@ public class PayMakerListVO implements Serializable {
     /**
      * 是否已开交付支付验收单
      */
-    private boolean isAcceptSheet;
+    private boolean boolAcceptSheet;
 
 }
