@@ -14,5 +14,6 @@ import java.util.List;
 public interface IPlatformInvoiceListService extends BaseService<PlatformInvoiceListEntity> {
 
     List<PlatformInvoiceListEntity> findInvoicePrintId(Long invoicePrintId);
+
 }
 
