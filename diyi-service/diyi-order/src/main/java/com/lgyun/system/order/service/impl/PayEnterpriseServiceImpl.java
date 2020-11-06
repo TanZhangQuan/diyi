@@ -647,6 +647,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
+    @Transactional
     public R saveServiceLumpSumMergeInvoice(Long serviceProviderId, String payEnterpriseIds, String serviceProviderName, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc,String invoiceTypeNo,String invoiceSerialNo,String invoiceCategory) {
         String[] split = payEnterpriseIds.split(",");
         if (split.length <= 0) {
@@ -676,8 +677,9 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         platformInvoiceEntity.setInvoiceDesc(invoiceDesc);
         platformInvoiceService.save(platformInvoiceEntity);
 
-        PlatformInvoicePayListEntity platformInvoicePayListEntity = new PlatformInvoicePayListEntity();
+
         for (int i = 0; i < split.length; i++) {
+            PlatformInvoicePayListEntity platformInvoicePayListEntity = new PlatformInvoicePayListEntity();
             platformInvoicePayListEntity.setPayEnterpriseId(Long.parseLong(split[i]));
             platformInvoicePayListEntity.setInvoicePrintId(platformInvoiceEntity.getId());
             platformInvoicePayListService.save(platformInvoicePayListEntity);
@@ -718,6 +720,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
+    @Transactional
     public R createTotalApplyInvoice(Long serviceProviderId, String serviceProviderName, Long applicationId, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc,String invoiceTypeNo,String invoiceSerialNo,String invoiceCategory) {
         List<InvoiceApplicationPayListEntity> invoiceApplicationPayListEntityList = invoiceApplicationPayListService.getApplicationId(applicationId);
         if (invoiceApplicationPayListEntityList.size() <= 0) {
@@ -1082,6 +1085,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
+    @Transactional
     public R createSummaryAgencyInvoice(SummaryInvoiceDTO summaryInvoiceDTO) {
         String payEnterpriseIds = summaryInvoiceDTO.getPayEnterpriseIds();
         String[] split = payEnterpriseIds.split(",");
@@ -1149,6 +1153,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
+    @Transactional
     public R createDoorSignInvoice(String payEnterpriseIds, String doorSignInvoiceJson, String doorSignTaxInvoiceJson) {
         String[] split = payEnterpriseIds.split(",");
         if (split.length <= 0) {
