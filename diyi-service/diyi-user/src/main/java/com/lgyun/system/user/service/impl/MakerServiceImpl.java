@@ -308,7 +308,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
         //查询身份证号码是否已被使用
         MakerEntity makerEntityIdcardNo = findByIdcardNo(idNo);
-        if (makerEntityIdcardNo != null) {
+        if (makerEntityIdcardNo != null && !(makerEntityIdcardNo.getId().equals(makerEntity.getId()))) {
             return R.fail("身份证号码已被使用");
         }
 
