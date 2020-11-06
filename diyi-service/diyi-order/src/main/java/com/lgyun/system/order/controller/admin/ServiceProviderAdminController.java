@@ -7,6 +7,7 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.AddressDTO;
 import com.lgyun.system.order.service.IAddressService;
+import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
@@ -28,6 +29,7 @@ public class ServiceProviderAdminController {
 
     private IUserClient userClient;
     private IAddressService addressService;
+    private IPayEnterpriseService payEnterpriseService;
 
     @GetMapping("/query-address-list")
     @ApiOperation(value = "查询服务商所有收货地址信息", notes = "查询服务商所有收货地址信息")
@@ -76,6 +78,18 @@ public class ServiceProviderAdminController {
         }
 
         return addressService.deleteAddress(addressId);
+    }
+
+    @GetMapping("/query-enterprise-transaction")
+    @ApiOperation(value = "查询服务商交易数据", notes = "查询服务商交易数据")
+    public R queryEnterpriseTransaction(@ApiParam(value = "服务商", required = true) @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return payEnterpriseService.transactionByServiceProvider(serviceProviderId);
     }
 
 }

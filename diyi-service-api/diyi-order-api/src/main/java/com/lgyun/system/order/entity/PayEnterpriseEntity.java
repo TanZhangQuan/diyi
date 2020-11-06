@@ -121,7 +121,7 @@ public class PayEnterpriseEntity extends BaseEntity {
     private Date payConfirmDateTime;
 
     /**
-     * 确认回款日期时间
+     * 确认到款日期时间
      */
     private Date confirmDateTime;
 

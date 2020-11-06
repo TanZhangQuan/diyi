@@ -5,10 +5,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.dto.AcceptSheetAndCsListDTO;
 import com.lgyun.system.order.entity.AcceptPaysheetCsEntity;
-import com.lgyun.system.order.vo.AcceptPaysheetAndCsListMakerVO;
-import com.lgyun.system.order.vo.AcceptPaysheetCsDetailEnterpriseVO;
-import com.lgyun.system.order.vo.AcceptPaysheetCsListEnterpriseVO;
-import com.lgyun.system.order.vo.AcceptPaysheetDetailMakerVO;
+import com.lgyun.system.order.vo.*;
 
 /**
  * 众包交付支付验收单表 Service 接口
@@ -35,7 +32,7 @@ public interface IAcceptPaysheetCsService extends BaseService<AcceptPaysheetCsEn
      * @param acceptPaysheetId
      * @return
      */
-    R<AcceptPaysheetDetailMakerVO> queryCrowdAcceptPaysheetDetailMaker(Long makerId, Long acceptPaysheetId);
+    R<AcceptPaysheetCsDetailMakerVO> queryCrowdAcceptPaysheetDetailMaker(Long makerId, Long acceptPaysheetId);
 
     /**
      * 查询当前商户所有众包交付支付验收单

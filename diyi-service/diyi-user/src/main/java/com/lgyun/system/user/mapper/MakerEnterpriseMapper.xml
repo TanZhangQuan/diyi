@@ -60,7 +60,7 @@
     <select id="getMakerDetailed" resultMap="makerEnterpriseDetailYearMonthVO">
         SELECT pm.maker_net_income check_money, pm.total_fee income, e.enterprise_name, pm.create_time AS check_date FROM diyi_maker_enterprise me
         INNER JOIN diyi_pay_enterprise pe ON me.enterprise_id = pe.enterprise_id INNER JOIN diyi_enterprise e ON e.id = me.enterprise_id INNER JOIN diyi_pay_maker pm
-        ON pm.pay_enterprise_id = pe.id WHERE pe.pay_state = 'CONFIRMPAY' and pm.maker_id =#{param1} AND me.enterprise_id =#{param2}
+        ON pm.pay_enterprise_id = pe.id WHERE (pe.pay_state = 'PAYED' OR pe.pay_state = 'CONFIRMPAY') and pm.maker_id =#{param1} AND me.enterprise_id =#{param2}
     </select>
 
     <select id="getMakerCrowdDetailed" resultMap="makerEnterpriseDetailYearMonthVO">

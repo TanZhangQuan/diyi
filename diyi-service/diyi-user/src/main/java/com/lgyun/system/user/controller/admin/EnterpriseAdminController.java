@@ -112,14 +112,15 @@ public class EnterpriseAdminController {
 
     @GetMapping("/query-cooperation-service-provider-list")
     @ApiOperation(value = "查询商户合作服务商", notes = "查询商户合作服务商")
-    public R queryCooperationServiceProviderList(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
+    public R queryCooperationServiceProviderList(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
+                                                 @ApiParam(value = "商户名称", required = true) @RequestParam(required = false) String enterpriseName, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return enterpriseProviderService.getServiceProvidersByEnterpriseId(enterpriseId, null, Condition.getPage(query.setDescs("create_time")));
+        return enterpriseProviderService.getServiceProvidersByEnterpriseId(enterpriseId, enterpriseName, Condition.getPage(query.setDescs("create_time")));
     }
 
     @PostMapping("/update-cooperation-status")

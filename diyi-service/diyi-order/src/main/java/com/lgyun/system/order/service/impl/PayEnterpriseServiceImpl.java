@@ -90,6 +90,13 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     @Override
     @Transactional(rollbackFor = Exception.class)
     public R<String> createOrUpdatePayEnterprise(PayEnterpriseCreateOrUpdateDTO payEnterpriseCreateOrUpdateDto, Long enterpriseId) throws Exception {
+        //判断创客类型
+        if (MakerType.NATURALPERSON.equals(payEnterpriseCreateOrUpdateDto.getMakerType())) {
+            payEnterpriseCreateOrUpdateDto.setEnterpriseBusinessAnnualFee(BigDecimal.ZERO);
+        } else {
+            payEnterpriseCreateOrUpdateDto.setIdentifyFee(BigDecimal.ZERO);
+        }
+
         //判断服务商和商户是否关联
         int CooperateNum = userClient.queryCountByEnterpriseIdAndServiceProviderId(enterpriseId, payEnterpriseCreateOrUpdateDto.getServiceProviderId(), CooperateStatus.COOPERATING);
         if (CooperateNum <= 0) {
@@ -470,6 +477,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     public R getServiceLumpSumInvoiceDetails(Long payEnterpriseId) {
         Map map = new HashMap();
         InvoiceServiceLumpDetailsVO lumpSumInvoiceDetails = baseMapper.getServiceLumpSumInvoiceDetails(payEnterpriseId);
+        List<InvoiceServiceLumpDetailsVO> lumpSumInvoiceDetail = new ArrayList<>();
         String enterprisePayReceiptUrl = payEnterpriseReceiptService.findEnterprisePayReceiptUrl(payEnterpriseId);
         lumpSumInvoiceDetails.setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
 
@@ -487,7 +495,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         } catch (Exception e) {
             log.error("查询物流错误", e);
         }
-        map.put("lumpSumInvoiceDetails", lumpSumInvoiceDetails);
+        lumpSumInvoiceDetail.add(lumpSumInvoiceDetails);
+        map.put("lumpSumInvoiceDetails", lumpSumInvoiceDetail);
         return R.data(map);
     }
 

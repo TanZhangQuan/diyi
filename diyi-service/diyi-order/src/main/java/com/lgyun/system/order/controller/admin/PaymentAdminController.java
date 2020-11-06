@@ -14,7 +14,6 @@ import com.lgyun.system.order.service.IAcceptPaysheetService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.user.entity.AdminEntity;
-import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,15 +39,14 @@ public class PaymentAdminController {
 
     @GetMapping("/query-finished-worksheet-list")
     @ApiOperation(value = "查询商户所有已完毕的总包+分包类型的工单", notes = "查询商户所有已完毕的总包+分包类型的工单")
-    public R queryFinishedWorksheetList(WorksheetFinishedListDTO worksheetFinishedListDTO, Query query, BladeUser bladeUser) {
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
+    public R queryFinishedWorksheetList(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, WorksheetFinishedListDTO worksheetFinishedListDTO, Query query, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
-        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return worksheetService.queryWorksheetListByEnterprise(enterpriseWorkerEntity.getEnterpriseId(), worksheetFinishedListDTO, Condition.getPage(query.setDescs("create_time")));
+        return worksheetService.queryWorksheetListByEnterprise(enterpriseId, worksheetFinishedListDTO, Condition.getPage(query.setDescs("create_time")));
     }
 
     @PostMapping("/create-or-update-pay-enterprise")

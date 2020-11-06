@@ -58,7 +58,6 @@
             <artifactId>easypoi-spring-boot-starter</artifactId>
         </dependency>
 
-
         <!--Zipkin-->
         <!--<dependency>
             <groupId>org.springframework.cloud</groupId>

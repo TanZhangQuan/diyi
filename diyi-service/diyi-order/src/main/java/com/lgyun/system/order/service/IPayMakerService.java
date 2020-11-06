@@ -145,5 +145,15 @@ public interface IPayMakerService extends BaseService<PayMakerEntity> {
      * @return
      */
     R<IPage<AcceptPaysheetPayMakerListVO>> queryTotalSubAcceptPaysheetPayMakerList(Long acceptPaysheetId, IPage<AcceptPaysheetPayMakerListVO> page);
+
+    /**
+     * 确认创客支付明细
+     *
+     * @param makerId
+     * @param payMakerId
+     * @return
+     */
+    R<String> confirmPayMaker(Long makerId, Long payMakerId);
+
 }
 

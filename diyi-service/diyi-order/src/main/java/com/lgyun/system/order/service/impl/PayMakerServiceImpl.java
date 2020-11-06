@@ -6,15 +6,20 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.MakerType;
+import com.lgyun.common.enumeration.PayEnterprisePayState;
+import com.lgyun.common.enumeration.PayMakerPayState;
+import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.MakerInvoiceEntity;
 import com.lgyun.system.order.entity.MakerTaxRecordEntity;
+import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.entity.PayMakerEntity;
 import com.lgyun.system.order.excel.PayEnterpriseExcel;
 import com.lgyun.system.order.mapper.PayMakerMapper;
 import com.lgyun.system.order.service.IMakerInvoiceService;
 import com.lgyun.system.order.service.IMakerTaxRecordService;
+import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.service.IPayMakerService;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
@@ -22,10 +27,12 @@ import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,12 +49,16 @@ import java.util.List;
  */
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMakerEntity> implements IPayMakerService {
 
-    private IUserClient userClient;
-    private IMakerInvoiceService makerInvoiceService;
-    private IMakerTaxRecordService makerTaxRecordService;
+    private final IUserClient userClient;
+    private final IMakerInvoiceService makerInvoiceService;
+    private final IMakerTaxRecordService makerTaxRecordService;
+
+    @Autowired
+    @Lazy
+    private IPayEnterpriseService payEnterpriseService;
 
     @Override
     public R<MakerEnterpriseNumIncomeVO> getEnterpriseNumIncome(Long makerId) {
@@ -88,75 +99,67 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
     @Transactional(rollbackFor = Exception.class)
     public void importPayMakerList(List<PayEnterpriseExcel> list, Long payEnterpriseId, MakerType makerType, Long enterpriseId) {
 
-        for (PayEnterpriseExcel payEnterpriseExcel : list) {
+        if (list.isEmpty()) {
+            throw new CustomException("Excel内容不能为空");
+        }
+
+        for (int i = 0; i < list.size(); i++) {
+            PayEnterpriseExcel payEnterpriseExcel = list.get(i);
             log.info(String.valueOf(payEnterpriseExcel));
 
             if (StringUtils.isBlank(payEnterpriseExcel.getMakerName())) {
-                log.error("缺少创客姓名数据");
-                continue;
+                throw new CustomException("第" + i + 2 + "条数据缺少创客姓名");
             }
 
             if (StringUtils.isBlank(payEnterpriseExcel.getMakerIdcardNo())) {
-                log.error("缺少创客身份证号数据");
-                continue;
+                throw new CustomException("第" + i + 2 + "条数据缺少创客身份证号");
             }
 
             MakerEntity makerEntity = userClient.queryMakerByIdcardNo(payEnterpriseExcel.getMakerIdcardNo());
             if (makerEntity == null) {
-                log.error("创客不存在");
-                continue;
+                throw new CustomException("第" + i + 2 + "条数据身份证号码为" + payEnterpriseExcel.getMakerIdcardNo() + "的创客不存在");
             }
 
             int makerEnterpriseNum = userClient.queryMakerEnterpriseRelevanceCount(makerEntity.getId(), enterpriseId);
             if (makerEnterpriseNum <= 0) {
-                log.error("创客商户不存在关联关系");
-                continue;
+                throw new CustomException("第" + i + 2 + "条数据身份证号码为" + payEnterpriseExcel.getMakerIdcardNo() + "的创客与商户不存在关联关系");
             }
 
             if (StringUtils.isBlank(makerEntity.getName())) {
-                log.error("创客姓名为空");
-                continue;
+                throw new CustomException("第" + i + 2 + "条数据的创客姓名为空");
             }
 
             if (!(makerEntity.getName().equals(payEnterpriseExcel.getMakerName()))) {
-                log.error("创客姓名和Excel创客姓名不一致");
-                continue;
+                throw new CustomException("第" + i + 2 + "条数据的Excel创客姓名和系统创客姓名不一致");
             }
 
             int payMakerNum = baseMapper.selectCount(Wrappers.<PayMakerEntity>query().lambda().eq(PayMakerEntity::getPayEnterpriseId, payEnterpriseId).eq(PayMakerEntity::getMakerId, makerEntity.getId()));
             if (payMakerNum > 0) {
-                log.error("分包已存在");
-                continue;
+                throw new CustomException("第" + i + 2 + "条数据的分包已存在");
             }
 
             if (payEnterpriseExcel.getMakerNetIncome() == null) {
-                log.error("缺少创客到手数据");
-                continue;
+                throw new CustomException("第" + i + 2 + "条数据缺少创客到手数据");
             }
 
             if (payEnterpriseExcel.getServiceRate() == null) {
-                log.error("缺少服务税费率数据");
-                continue;
+                throw new CustomException("第" + i + 2 + "条数据缺少服务税费率数据");
             }
 
             if (payEnterpriseExcel.getMakerTaxFee() == null) {
-                log.error("缺少服务税费数据");
-                continue;
+                throw new CustomException("第" + i + 2 + "条数据缺少服务税费数据");
             }
 
             if (payEnterpriseExcel.getMakerNeIncome() == null) {
-                log.error("缺少服务外包费数据");
-                continue;
+                throw new CustomException("第" + i + 2 + "条数据缺少服务外包费数据");
             }
 
             if (payEnterpriseExcel.getPayFee() == null) {
-                log.error("缺少第三方支付手续费数据");
-                continue;
+                throw new CustomException("第" + i + 2 + "条数据缺少第三方支付手续费数据");
             }
 
             if (payEnterpriseExcel.getTotalFee() == null) {
-                log.error("缺少价税合计企业总支付额数据");
-                continue;
+                throw new CustomException("第" + i + 2 + "条数据缺少价税合计企业总支付额数据");
             }
 
             //个体户或个独ID
@@ -166,47 +169,39 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
 
                 case NATURALPERSON:
                     if (payEnterpriseExcel.getAuditFee() == null) {
-                        log.error("缺少创客首次身份验证费数据");
-                        continue;
+                        throw new CustomException("第" + i + 2 + "条数据缺少创客首次身份验证费数据");
                     }
 
                     break;
 
                 case INDIVIDUALBUSINESS:
                     if (StringUtils.isBlank(payEnterpriseExcel.getIndividualBusinessName())) {
-                        log.error("缺少个体户名称数据");
-                        continue;
+                        throw new CustomException("第" + i + 2 + "条数据缺少个体户名称数据");
                     }
 
                     if (StringUtils.isBlank(payEnterpriseExcel.getIndividualBusinessIbtaxNo())) {
-                        log.error("缺少个体户统一社会信用代码数据");
-                        continue;
+                        throw new CustomException("第" + i + 2 + "条数据缺少个体户统一社会信用代码数据");
                     }
 
                     if (payEnterpriseExcel.getIndividualBusinessAnnualFee() == null) {
-                        log.error("缺少个体户年费数据");
-                        continue;
+                        throw new CustomException("第" + i + 2 + "条数据缺少个体户年费数据");
                     }
 
                     IndividualBusinessEntity individualBusinessEntity = userClient.queryIndividualBusinessByIbtaxNo(payEnterpriseExcel.getIndividualBusinessIbtaxNo());
                     if (individualBusinessEntity == null) {
-                        log.error("个体户不存在");
-                        continue;
+                        throw new CustomException("第" + i + 2 + "条数据的个体户不存在");
                     }
 
                     if (!(individualBusinessEntity.getMakerId().equals(makerEntity.getId()))) {
-                        log.error("个体户不属于创客");
-                        continue;
+                        throw new CustomException("第" + i + 2 + "条数据的个体户不属于创客");
                     }
 
                     if (!(individualBusinessEntity.getIbname().equals(payEnterpriseExcel.getIndividualBusinessName()))) {
-                        log.error("个体户名称和Excel个体户名称不一致");
-                        continue;
+                        throw new CustomException("第" + i + 2 + "条数据的Excel个体户名称和系统个体户名称不一致");
                     }
 
                     if (!(Ibstate.OPERATING.equals(individualBusinessEntity.getIbstate()))) {
-                        log.error("个体户状态非营运中");
-                        continue;
+                        throw new CustomException("第" + i + 2 + "条数据的个体户状态非营运中");
                     }
 
                     individualId = individualBusinessEntity.getId();
@@ -215,39 +210,32 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
 
                 case INDIVIDUALENTERPRISE:
                     if (StringUtils.isBlank(payEnterpriseExcel.getIndividualEnterpriseName())) {
-                        log.error("缺少个独名称数据");
-                        continue;
+                        throw new CustomException("第" + i + 2 + "条数据缺少个独名称数据");
                     }
 
                     if (StringUtils.isBlank(payEnterpriseExcel.getIndividualEnterpriseIbtaxNo())) {
-                        log.error("缺少个独统一社会信用代码数据");
-                        continue;
+                        throw new CustomException("第" + i + 2 + "条数据缺少个独统一社会信用代码数据");
                     }
 
                     if (payEnterpriseExcel.getIndividualEnterpriseAnnualFee() == null) {
-                        log.error("缺少个独年费数据");
-                        continue;
+                        throw new CustomException("第" + i + 2 + "条数据缺少个独年费数据");
                     }
 
                     IndividualEnterpriseEntity individualEnterpriseEntity = userClient.queryIndividualEnterpriseByIbtaxNo(payEnterpriseExcel.getIndividualEnterpriseIbtaxNo());
                     if (individualEnterpriseEntity == null) {
-                        log.error("个独不存在");
-                        continue;
+                        throw new CustomException("第" + i + 2 + "条数据的个独不存在");
                     }
 
                     if (!(individualEnterpriseEntity.getMakerId().equals(makerEntity.getId()))) {
-                        log.error("个独不属于创客");
-                        continue;
+                        throw new CustomException("第" + i + 2 + "条数据的个独不属于创客");
                     }
 
                     if (!(individualEnterpriseEntity.getIbname().equals(payEnterpriseExcel.getIndividualEnterpriseName()))) {
-                        log.error("个独名称和Excel个独名称不一致");
-                        continue;
+                        throw new CustomException("第" + i + 2 + "条数据的Excel个独名称和系统个独名称不一致");
                     }
 
                     if (!(Ibstate.OPERATING.equals(individualEnterpriseEntity.getIbstate()))) {
-                        log.error("个独状态非营运中");
-                        continue;
+                        throw new CustomException("第" + i + 2 + "条数据的个独状态非营运中");
                     }
 
                     individualId = individualEnterpriseEntity.getId();
@@ -255,8 +243,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
                     break;
 
                 default:
-                    log.error("支付清单创客类型有误");
-                    continue;
+                    throw new CustomException("支付清单创客类型有误");
             }
 
             //创建分包支付
@@ -270,7 +257,6 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
             payMakerEntity.setCompanyPayOkDatetime(new Date());
             BeanUtils.copyProperties(payEnterpriseExcel, payMakerEntity);
             save(payMakerEntity);
-
         }
     }
 
@@ -320,6 +306,50 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
     @Override
     public R<IPage<AcceptPaysheetPayMakerListVO>> queryTotalSubAcceptPaysheetPayMakerList(Long acceptPaysheetId, IPage<AcceptPaysheetPayMakerListVO> page) {
         return R.data(page.setRecords(baseMapper.queryTotalSubAcceptPaysheetPayMakerList(acceptPaysheetId, page)));
+    }
+
+    @Override
+    public R<String> confirmPayMaker(Long makerId, Long payMakerId) {
+
+        PayMakerEntity payMakerEntity = getById(payMakerId);
+        if (payMakerEntity == null) {
+            return R.fail("创客支付明细不存在");
+        }
+
+        if (payMakerEntity.getMakerId().equals(makerId)) {
+            return R.fail("创客支付明细不属于当前创客");
+        }
+
+        if (!(payMakerEntity.getPayState().equals(PayMakerPayState.PLATFORMPAID))) {
+            return R.fail("服务商未支付，不可确认收款");
+        }
+
+        if (payMakerEntity.getPayState().equals(PayMakerPayState.CONFIRMPAID)) {
+            return R.fail("创客已确认收款");
+        }
+
+        //确认收款
+        payMakerEntity.setPayState(PayMakerPayState.CONFIRMPAID);
+        payMakerEntity.setMakerConfirmDatetime(new Date());
+        updateById(payMakerEntity);
+
+        //判断是否所有分包已确认收款
+        int payMakerNum = count(Wrappers.<PayMakerEntity>query().lambda()
+                .eq(PayMakerEntity::getPayEnterpriseId, payMakerEntity.getPayEnterpriseId())
+                .eq(PayMakerEntity::getIsDeleted, 0));
+
+        int confirmpaidPayMakerNum = count(Wrappers.<PayMakerEntity>query().lambda()
+                .eq(PayMakerEntity::getPayEnterpriseId, payMakerEntity.getPayEnterpriseId())
+                .eq(PayMakerEntity::getPayState, PayMakerPayState.CONFIRMPAID)
+                .eq(PayMakerEntity::getIsDeleted, 0));
+
+        if (payMakerNum == confirmpaidPayMakerNum) {
+            PayEnterpriseEntity payEnterpriseEntity = payEnterpriseService.getById(payMakerEntity.getPayEnterpriseId());
+            payEnterpriseEntity.setPayState(PayEnterprisePayState.CONFIRMPAY);
+            payEnterpriseService.updateById(payEnterpriseEntity);
+        }
+
+        return R.success("确认收款成功");
     }
 
 }

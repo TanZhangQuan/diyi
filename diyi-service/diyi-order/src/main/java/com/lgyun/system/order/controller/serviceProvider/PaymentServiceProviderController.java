@@ -10,7 +10,6 @@ import com.lgyun.system.order.dto.AcceptPaysheetSaveDTO;
 import com.lgyun.system.order.dto.PayEnterpriseDTO;
 import com.lgyun.system.order.service.IAcceptPaysheetService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
-import com.lgyun.system.order.service.ISelfHelpInvoiceService;
 import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
@@ -34,7 +33,6 @@ public class PaymentServiceProviderController {
     private IUserClient userClient;
     private IPayEnterpriseService payEnterpriseService;
     private IWorksheetService worksheetService;
-    private ISelfHelpInvoiceService selfHelpInvoiceService;
     private IAcceptPaysheetService acceptPaysheetService;
 
     @GetMapping("/query-pay-enterprise-list")

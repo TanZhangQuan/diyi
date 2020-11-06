@@ -137,7 +137,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
                 return R.fail("请输入密码");
             } else {
 
-                if (addOrUpdateServiceProviderDTO.getEmployeePwd().length() <= 6 || addOrUpdateServiceProviderDTO.getEmployeePwd().length() >= 18) {
+                if (addOrUpdateServiceProviderDTO.getEmployeePwd().length() < 6 || addOrUpdateServiceProviderDTO.getEmployeePwd().length() > 18) {
                     return R.fail("请输入长度为6-18位的密码");
                 }
 
@@ -177,7 +177,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
             //新建服务商员工
             User user = new User();
             user.setUserType(UserType.SERVICEPROVIDER);
-            user.setAccount(addOrUpdateServiceProviderDTO.getPhoneNumber());
+            user.setAccount(addOrUpdateServiceProviderDTO.getEmployeeUserName());
             user.setPhone(addOrUpdateServiceProviderDTO.getPhoneNumber());
             userService.save(user);
 
@@ -217,7 +217,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
                     .isNull(ServiceProviderWorkerEntity::getUpLevelId));
 
             if (StringUtils.isNotBlank(addOrUpdateServiceProviderDTO.getEmployeePwd())) {
-                if (addOrUpdateServiceProviderDTO.getEmployeePwd().length() <= 6 || addOrUpdateServiceProviderDTO.getEmployeePwd().length() >= 18) {
+                if (addOrUpdateServiceProviderDTO.getEmployeePwd().length() < 6 || addOrUpdateServiceProviderDTO.getEmployeePwd().length() > 18) {
                     return R.fail("请输入长度为6-18位的密码");
                 }
 

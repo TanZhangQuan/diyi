@@ -1,6 +1,8 @@
 package com.lgyun.system.order.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.WorkSheetMode;
 import com.lgyun.common.enumeration.WorkSheetType;
 import lombok.Data;
@@ -19,6 +21,12 @@ public class AcceptPaysheetDetailMakerVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 创客支付明细ID
+     */
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long id;
+
+    /**
      * 商户名称
      */
     private String enterpriseName;
@@ -26,7 +34,7 @@ public class AcceptPaysheetDetailMakerVO implements Serializable {
     /**
      * 支付总额
      */
-    private BigDecimal payToPlatformAmount;
+    private BigDecimal makerNetIncome;
 
     /**
      * 服务开始日期
