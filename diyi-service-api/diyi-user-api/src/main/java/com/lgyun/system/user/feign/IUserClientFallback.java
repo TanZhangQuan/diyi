@@ -75,7 +75,7 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public int queryMakerEnterpriseRelevanceCount(Long makerId, Long enterpriseId) {
+    public int queryMakerEnterpriseRelevanceCount(Long enterpriseId, Long makerId) {
         return 0;
     }
 

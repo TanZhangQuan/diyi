@@ -120,17 +120,17 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
                 throw new CustomException("第" + i + 2 + "条数据身份证号码为" + payEnterpriseExcel.getMakerIdcardNo() + "的创客不存在");
             }
 
-            int makerEnterpriseNum = userClient.queryMakerEnterpriseRelevanceCount(makerEntity.getId(), enterpriseId);
-            if (makerEnterpriseNum <= 0) {
-                throw new CustomException("第" + i + 2 + "条数据身份证号码为" + payEnterpriseExcel.getMakerIdcardNo() + "的创客与商户不存在关联关系");
-            }
-
             if (StringUtils.isBlank(makerEntity.getName())) {
-                throw new CustomException("第" + i + 2 + "条数据的创客姓名为空");
+                throw new CustomException("第" + i + 2 + "条数据的系统创客姓名为空");
             }
 
             if (!(makerEntity.getName().equals(payEnterpriseExcel.getMakerName()))) {
                 throw new CustomException("第" + i + 2 + "条数据的Excel创客姓名和系统创客姓名不一致");
+            }
+
+            int makerEnterpriseNum = userClient.queryMakerEnterpriseRelevanceCount(enterpriseId, makerEntity.getId());
+            if (makerEnterpriseNum <= 0) {
+                throw new CustomException("第" + i + 2 + "条数据身份证号码为" + payEnterpriseExcel.getMakerIdcardNo() + "的创客与商户不存在关联关系");
             }
 
             int payMakerNum = baseMapper.selectCount(Wrappers.<PayMakerEntity>query().lambda().eq(PayMakerEntity::getPayEnterpriseId, payEnterpriseId).eq(PayMakerEntity::getMakerId, makerEntity.getId()));

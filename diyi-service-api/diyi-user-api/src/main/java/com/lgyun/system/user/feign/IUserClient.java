@@ -138,7 +138,7 @@ public interface IUserClient {
      * @return
      */
     @GetMapping(API_PREFIX + "/query-maker-enterprise-relevance-count")
-    int queryMakerEnterpriseRelevanceCount(@RequestParam("makerId") Long makerId, @RequestParam("enterpriseId") Long enterpriseId);
+    int queryMakerEnterpriseRelevanceCount(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("makerId") Long makerId);
 
     /**
      * 根据手机号查询管理员数量

@@ -91,8 +91,8 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public int queryMakerEnterpriseRelevanceCount(Long makerId, Long enterpriseId) {
-        return makerEnterpriseService.queryMakerEnterpriseNum(makerId, enterpriseId, RelationshipType.RELEVANCE);
+    public int queryMakerEnterpriseRelevanceCount(Long enterpriseId, Long makerId) {
+        return makerEnterpriseService.queryMakerEnterpriseNum(enterpriseId, makerId, RelationshipType.RELEVANCE);
     }
 
     @Override
