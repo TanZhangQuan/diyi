@@ -6,6 +6,7 @@ import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.common.enumeration.MakerInvoiceType;
 import com.lgyun.common.enumeration.PayEnterpriseAuditState;
 import com.lgyun.core.mp.base.BaseService;
+import com.lgyun.system.order.dto.LumpInvoiceDTO;
 import com.lgyun.system.order.dto.PayEnterpriseCreateOrUpdateDTO;
 import com.lgyun.system.order.dto.PayEnterpriseDTO;
 import com.lgyun.system.order.dto.SummaryInvoiceDTO;
@@ -306,6 +307,12 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @return
      */
     R createTotalApplyInvoice(Long serviceProviderId, String serviceProviderName, Long applicationId, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc,String invoiceTypeNo,String invoiceSerialNo,String invoiceCategory);
+
+    /**
+     * 服务商根据总包开票id修改总包发票
+     * @return
+     */
+    R updateTotalInvoice(LumpInvoiceDTO lumpInvoiceDTO);
 
     /**
      * 服务商查询未开票分包发票

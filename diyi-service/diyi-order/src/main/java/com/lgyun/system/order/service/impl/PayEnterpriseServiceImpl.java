@@ -10,6 +10,7 @@ import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
+import com.lgyun.system.order.dto.LumpInvoiceDTO;
 import com.lgyun.system.order.dto.PayEnterpriseCreateOrUpdateDTO;
 import com.lgyun.system.order.dto.PayEnterpriseDTO;
 import com.lgyun.system.order.dto.SummaryInvoiceDTO;
@@ -783,6 +784,23 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             PayEnterpriseEntity byId = getById(invoiceApplicationPayListEntity.getPayEnterpriseId());
             byId.setCompanyInvoiceState(InvoiceState.OPENED);
             saveOrUpdate(byId);
+        }
+        return R.success("操作成功");
+    }
+
+    @Override
+    public R updateTotalInvoice(LumpInvoiceDTO lumpInvoiceDTO) {
+        PlatformInvoiceEntity byId = platformInvoiceService.getById(lumpInvoiceDTO.getInvoicePrintId());
+        byId.setExpressCompanyName(lumpInvoiceDTO.getExpressCompanyName());
+        byId.setExpressSheetNo(lumpInvoiceDTO.getExpressSheetNo());
+        platformInvoiceService.saveOrUpdate(byId);
+        List<PlatformInvoiceListEntity> invoicePrintId = platformInvoiceListService.findInvoicePrintId(lumpInvoiceDTO.getInvoicePrintId());
+        for (PlatformInvoiceListEntity platformInvoiceListEntity : invoicePrintId){
+            platformInvoiceListEntity.setInvoiceCategory(lumpInvoiceDTO.getInvoiceCategory());
+            platformInvoiceListEntity.setCompanyInvoiceUrl(lumpInvoiceDTO.getCompanyInvoiceUrl());
+            platformInvoiceListEntity.setInvoiceTypeNo(lumpInvoiceDTO.getInvoiceTypeNo());
+            platformInvoiceListEntity.setInvoiceSerialNo(lumpInvoiceDTO.getInvoiceSerialNo());
+            platformInvoiceListService.saveOrUpdate(platformInvoiceListEntity);
         }
         return R.success("操作成功");
     }
