@@ -18,7 +18,7 @@ import com.lgyun.system.user.dto.MakerListIndividualDTO;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.entity.OnlineAgreementTemplateEntity;
 import com.lgyun.system.user.entity.User;
-import com.lgyun.system.user.excel.ExcelUtils;
+import com.lgyun.common.tool.ExcelUtils;
 import com.lgyun.system.user.excel.MakerExcel;
 import com.lgyun.system.user.mapper.MakerMapper;
 import com.lgyun.system.user.oss.AliyunOssService;
@@ -625,7 +625,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         }
         // 查询上传文件的后缀
         String suffix = file.getOriginalFilename();
-        if ((!org.springframework.util.StringUtils.endsWithIgnoreCase(suffix, ".xls") && !org.springframework.util.StringUtils.endsWithIgnoreCase(suffix, ".xlsx"))) {
+        if ((!StringUtils.endsWithIgnoreCase(suffix, ".xls") && !StringUtils.endsWithIgnoreCase(suffix, ".xlsx"))) {
             return R.fail("请选择Excel文件");
         }
 

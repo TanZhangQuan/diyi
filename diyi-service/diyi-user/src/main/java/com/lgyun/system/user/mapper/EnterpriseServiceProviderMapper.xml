@@ -62,15 +62,16 @@
     </select>
 
     <select id="getServiceProvidersByEnterpriseId" resultMap="cooperationServiceProviderListVO">
-        SELECT t2.id, t2.service_provider_name, t1.cooperate_status, t1.create_time,
-        (SELECT COUNT(id) FROM diyi_pay_enterprise WHERE id = t3.id) + (SELECT COUNT(id) FROM diyi_self_help_invoice_sp WHERE id = t5.id) AS cooperation_num,
-        (SELECT IFNULL(SUM(pay_to_platform_amount), 0) FROM diyi_pay_enterprise WHERE id = t3.id) +
-        (SELECT IFNULL(SUM(charge_money_num), 0) FROM diyi_self_help_invoice_sp WHERE id = t5.id) AS cooperation_money
-        FROM diyi_enterprise_service_provider t1 INNER JOIN diyi_service_provider t2 ON t1.service_provider_id = t2.id
-        LEFT JOIN diyi_pay_enterprise t3 ON t3.is_deleted = 0 AND t3.enterprise_id = t1.enterprise_id AND t3.service_provider_id = t1.service_provider_id
-        AND (t3.pay_state = 'PAYED' OR t3.pay_state = 'CONFIRMPAY') LEFT JOIN diyi_self_help_invoice t4 ON t4.is_deleted = 0 AND t4.enterprise_id = t1.enterprise_id
-        LEFT JOIN diyi_self_help_invoice_sp t5 ON t5.is_deleted = 0 AND t4.id = t5.self_help_invoice_id AND (t5.apply_state = 'SUBMITTED' OR t5.apply_state = 'INVOICED')
-        AND t5.service_provider_id = t1.service_provider_id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.enterprise_id = #{param1}
+        SELECT t2.id, t2.service_provider_name, t1.cooperate_status, t1.create_time, (SELECT COUNT(id) FROM diyi_pay_enterprise WHERE is_deleted = 0
+        AND enterprise_id = t1.enterprise_id AND service_provider_id = t1.service_provider_id AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY')) +
+        (SELECT COUNT(t4.id) FROM diyi_self_help_invoice t3 INNER JOIN diyi_self_help_invoice_sp t4 ON t3.id = t4.self_help_invoice_id WHERE t3.is_deleted = 0
+        AND t4.is_deleted = 0 AND t3.enterprise_id = t1.enterprise_id AND t4.service_provider_id = t1.service_provider_id AND (t4.apply_state = 'SUBMITTED'
+        OR t4.apply_state = 'INVOICED')) AS cooperation_num, (SELECT IFNULL(SUM(pay_to_platform_amount), 0) FROM diyi_pay_enterprise WHERE is_deleted = 0
+        AND enterprise_id = t1.enterprise_id AND service_provider_id = t1.service_provider_id AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY')) +
+        (SELECT IFNULL(SUM(t6.charge_money_num), 0) FROM diyi_self_help_invoice t5 INNER JOIN diyi_self_help_invoice_sp t6 ON t5.id = t6.self_help_invoice_id
+        WHERE t5.is_deleted = 0 AND t6.is_deleted = 0 AND t5.enterprise_id = t1.enterprise_id AND t6.service_provider_id = t1.service_provider_id
+        AND (t6.apply_state = 'SUBMITTED' OR t6.apply_state = 'INVOICED')) AS cooperation_money FROM diyi_enterprise_service_provider t1
+        INNER JOIN diyi_service_provider t2 ON t1.service_provider_id = t2.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.enterprise_id = #{param1}
         <if test="param2 != null and param2.trim() != ''">
         AND t2.service_provider_name LIKE concat('%', #{param2}, '%')
         </if>
