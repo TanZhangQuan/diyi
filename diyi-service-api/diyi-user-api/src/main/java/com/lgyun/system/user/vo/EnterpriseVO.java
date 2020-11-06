@@ -29,10 +29,6 @@ public class EnterpriseVO implements Serializable {
      */
     private String legalPersonIdcard;
 
-    /**
-     * 企业网址
-     */
-    private String enterpriseUrl;
 
     /**
      * 统一社会信用代码
@@ -44,19 +40,9 @@ public class EnterpriseVO implements Serializable {
      */
     private String bizLicenceUrl;
 
-    /**
-     * 办公地址(快递地址）
-     */
-    private String workingAddress;
 
     /**
-     * 行业分类
+     * 企业网址
      */
-    private String industryType;
-
-    /**
-     * 主营业务描述
-     */
-    private String mainBusinessDesc;
-
+    private String enterpriseUrl;
 }

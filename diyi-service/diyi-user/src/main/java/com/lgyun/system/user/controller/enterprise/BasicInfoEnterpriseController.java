@@ -3,12 +3,14 @@ package com.lgyun.system.user.controller.enterprise;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
+import com.lgyun.system.user.dto.ContactsInfoDTO;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.vo.EnterpriseContactVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.validation.annotation.Validated;
@@ -41,9 +43,9 @@ public class BasicInfoEnterpriseController {
         return enterpriseService.getBasicEnterpriseResponse(enterpriseWorkerEntity.getEnterpriseId());
     }
 
-    @PostMapping("/upload-licence")
-    @ApiOperation(value = "上传营业执照", notes = "上传营业执照")
-    public R licenceImageUpload(@RequestParam("file") MultipartFile file, BladeUser bladeUser) throws Exception {
+    @PostMapping("/update-enterprise-info")
+    @ApiOperation(value = "修改商户基本信息", notes = "修改商户基本信息")
+    public R updateBasicInfo(BladeUser bladeUser, @ApiParam("企业网址") @RequestParam(required = false) String enterpriseUrl) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -51,13 +53,12 @@ public class BasicInfoEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        enterpriseService.uploadEnterpriseLicence(enterpriseWorkerEntity.getEnterpriseId(), file);
-
-        return R.success("上传成功");
+        return enterpriseService.updateBasicEnterpriseResponse(enterpriseWorkerEntity.getEnterpriseId(), enterpriseUrl);
     }
 
+
     @GetMapping("/query-contact")
-    @ApiOperation(value = "查询当前商户所有联系人详情", notes = "查询当前商户所有联系人详情")
+    @ApiOperation(value = "查询当前商户所有联系人", notes = "查询当前商户所有联系人")
     public R currentDetail(BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
@@ -65,24 +66,31 @@ public class BasicInfoEnterpriseController {
             return result;
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+        return enterpriseService.currentDetail(enterpriseWorkerEntity.getEnterpriseId());
+    }
 
-        QueryWrapper<EnterpriseWorkerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(EnterpriseWorkerEntity::getEnterpriseId, enterpriseWorkerEntity.getEnterpriseId());
-        List<EnterpriseWorkerEntity> list = enterpriseWorkerService.list(queryWrapper);
+    @PostMapping("/update-contact")
+    @ApiOperation(value = "修改当前商户联系人", notes = "修改当前商户联系人")
+    public R updateContacts(BladeUser bladeUser, @RequestBody ContactsInfoDTO contactsInfoDTO) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+        return enterpriseService.updateContacts(enterpriseWorkerEntity.getEnterpriseId(),contactsInfoDTO);
+    }
 
-        List<EnterpriseContactVO> responseList = new ArrayList<>();
-        list.forEach(entity -> {
-            EnterpriseContactVO response = new EnterpriseContactVO();
-            BeanUtils.copyProperties(entity, response);
-            response.setWorkerSex(entity.getWorkerSex());
-            response.setCreateTime(entity.getCreateTime());
-            response.setEnterpriseWorkerState(entity.getEnterpriseWorkerState().getValue());
-            response.setPositionName(entity.getPositionName().getDesc());
-
-            responseList.add(response);
-        });
-
-        return R.data(responseList);
+    @GetMapping("/query-invoice")
+    @ApiOperation(value = "查询当前商户的开票信息", notes = "查询当前商户的开票信息")
+    public R queryeInvoice(BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+        return enterpriseService.queryEnterpriseInvoice(enterpriseWorkerEntity.getEnterpriseId());
     }
 
 }

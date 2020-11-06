@@ -10,6 +10,7 @@ import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.dto.AddOrUpdateEnterpriseDTO;
+import com.lgyun.system.user.dto.ContactsInfoDTO;
 import com.lgyun.system.user.dto.QueryEnterpriseListDTO;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.EnterpriseMapper;
@@ -98,32 +99,6 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         EnterpriseVO enterpriseVO = new EnterpriseVO();
         BeanUtils.copyProperties(enterpriseEntity, enterpriseVO);
         return R.data(enterpriseVO);
-    }
-
-    /**
-     * 上传商户营业执照
-     *
-     * @param enterpriseId
-     * @param file
-     * @return
-     */
-    @Override
-    public void uploadEnterpriseLicence(Long enterpriseId, MultipartFile file) throws Exception {
-
-        //判断文件内容是否为空
-        if (file.isEmpty()) {
-            throw new CustomException("上传文件内容为空");
-        }
-        // 查询上传文件的后缀
-        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-        // 上传文件中
-        String url = ossService.uploadSuffix(file.getBytes(), suffix);
-
-        EnterpriseEntity enterpriseEntity = getById(enterpriseId);
-        log.info("[uploadEnterpriseLicence]enterpriseId={} url={}", enterpriseEntity.getId(), url);
-        // 更新营业执照
-        enterpriseEntity.setBizLicenceUrl(url);
-        this.save(enterpriseEntity);
     }
 
     @Override
@@ -358,20 +333,64 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     @Override
-    public R getEnterpriseAll(Long enterpriseId,String enterpriseName,IPage<EnterpriseEntity> page) {
+    public R getEnterpriseAll(Long enterpriseId, String enterpriseName, IPage<EnterpriseEntity> page) {
         QueryWrapper<EnterpriseEntity> queryWrapper = new QueryWrapper<>();
-        if(StringUtils.isNotEmpty(enterpriseName) && null != enterpriseId){
-            queryWrapper.lambda().eq(EnterpriseEntity::getId,enterpriseId)
-                    .like(EnterpriseEntity::getEnterpriseName,enterpriseName);
+        if (StringUtils.isNotEmpty(enterpriseName) && null != enterpriseId) {
+            queryWrapper.lambda().eq(EnterpriseEntity::getId, enterpriseId)
+                    .like(EnterpriseEntity::getEnterpriseName, enterpriseName);
         }
-        if(null != enterpriseId && StringUtils.isEmpty(enterpriseName)){
-            queryWrapper.lambda().eq(EnterpriseEntity::getId,enterpriseId);
+        if (null != enterpriseId && StringUtils.isEmpty(enterpriseName)) {
+            queryWrapper.lambda().eq(EnterpriseEntity::getId, enterpriseId);
         }
-        if(StringUtils.isNotEmpty(enterpriseName) && null == enterpriseId){
-            queryWrapper.lambda().eq(EnterpriseEntity::getEnterpriseName,enterpriseName);
+        if (StringUtils.isNotEmpty(enterpriseName) && null == enterpriseId) {
+            queryWrapper.lambda().eq(EnterpriseEntity::getEnterpriseName, enterpriseName);
         }
         IPage<EnterpriseEntity> enterpriseEntityIPage = baseMapper.selectPage(page, queryWrapper);
         return R.data(enterpriseEntityIPage);
     }
 
+    @Override
+    public R updateBasicEnterpriseResponse(Long enterpriseId, String enterpriseUrl) {
+        EnterpriseEntity enterpriseEntity = this.getById(enterpriseId);
+        if (enterpriseEntity == null) {
+            return R.fail("您编辑的商户不存在！");
+        }
+        enterpriseEntity.setEnterpriseUrl(enterpriseUrl);
+        this.updateById(enterpriseEntity);
+        return R.success("编辑成功！");
+    }
+
+    @Override
+    public R<ContactsInfoVO> currentDetail(Long enterpriseId) {
+        EnterpriseEntity enterpriseEntity = this.getById(enterpriseId);
+        if (enterpriseEntity == null) {
+            return R.fail("您查询的商户不存在！");
+        }
+        ContactsInfoVO contactsInfoVO = new ContactsInfoVO();
+        BeanUtil.copyProperties(enterpriseEntity, contactsInfoVO);
+        return R.data(contactsInfoVO);
+    }
+
+    @Override
+    public R updateContacts(Long enterpriseId, ContactsInfoDTO contactsInfoDTO) {
+        EnterpriseEntity enterpriseEntity = this.getById(enterpriseId);
+        if (enterpriseEntity == null) {
+            return R.fail("您编辑的商户不存在！");
+        }
+        BeanUtil.copyProperties(contactsInfoDTO, enterpriseEntity);
+        log.info(enterpriseEntity.toString());
+        this.updateById(enterpriseEntity);
+        return R.success("编辑成功！");
+    }
+
+    @Override
+    public R<EnterpriseInvoiceVO> queryEnterpriseInvoice(Long enterpriseId) {
+        EnterpriseEntity enterpriseEntity = this.getById(enterpriseId);
+        if (enterpriseEntity == null) {
+            return R.fail("您查询的商户不存在！");
+        }
+        EnterpriseInvoiceVO enterpriseInvoiceVO = new EnterpriseInvoiceVO();
+        BeanUtil.copyProperties(enterpriseEntity, enterpriseInvoiceVO);
+        return R.data(enterpriseInvoiceVO);
+    }
 }
