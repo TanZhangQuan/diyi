@@ -67,12 +67,5 @@ public interface MakerMapper extends BaseMapper<MakerEntity> {
      */
     List<MakerListVO> queryMakerList(Long enterpriseId, Long serviceProviderId, RelationshipType relationshipType, CertificationState certificationState, String keyword, IPage<MakerListVO> page);
 
-    /**
-     * 根据创客支付明细查询创客名称
-     *
-     * @param payMakerId
-     * @return
-     */
-    String queryMakerName(Long payMakerId);
 }
 

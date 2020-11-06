@@ -95,15 +95,6 @@ public interface IUserClient {
     R<ServiceProviderWorkerEntity> currentServiceProviderWorker(@RequestBody BladeUser bladeUser);
 
     /**
-     * 根据创客支付明细查询创客名称
-     *
-     * @param payMakerId
-     * @return
-     */
-    @GetMapping(API_PREFIX + "/query-maker-name")
-    String queryMakerName(@RequestParam("payMakerId") Long payMakerId);
-
-    /**
      * 根据创客id查询创客信息
      *
      * @param makerId

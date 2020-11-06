@@ -643,9 +643,4 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         return R.data(page.setRecords(baseMapper.queryMakerList(enterpriseId, serviceProviderId, relationshipType, certificationState, keyword, page)));
     }
 
-    @Override
-    public String queryMakerName(Long payMakerId) {
-        return baseMapper.queryMakerName(payMakerId);
-    }
-
 }

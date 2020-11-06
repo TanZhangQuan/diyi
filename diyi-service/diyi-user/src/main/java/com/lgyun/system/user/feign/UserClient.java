@@ -71,11 +71,6 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public String queryMakerName(Long payMakerId) {
-        return makerService.queryMakerName(payMakerId);
-    }
-
-    @Override
     public MakerEntity queryMakerById(Long makerId) {
         return makerService.getById(makerId);
     }
