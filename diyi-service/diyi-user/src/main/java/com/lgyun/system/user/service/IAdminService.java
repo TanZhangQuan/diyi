@@ -5,6 +5,9 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.vo.AdminDetailVO;
+import com.lgyun.system.user.vo.AdminVO;
+
+import java.util.List;
 
 /**
  * 平台管理员信息表 Service 接口
@@ -63,5 +66,20 @@ public interface IAdminService extends BaseService<AdminEntity> {
      */
     AdminEntity findByUserNameAndLoginPwd(String userName, String loginPwd);
 
+    /**
+     * 查询当前管理员的所有主子账号
+     *
+     * @param id
+     * @return
+     */
+    R<List<AdminVO>> queryChildAccountList(Long id);
+
+    /**
+     * 查询管理员账号详情
+     *
+     * @param accountId
+     * @return
+     */
+    R<AdminVO> queryAccountDetail(Long accountId);
 }
 

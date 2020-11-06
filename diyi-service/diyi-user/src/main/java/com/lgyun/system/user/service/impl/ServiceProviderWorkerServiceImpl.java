@@ -146,7 +146,7 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
             //新建管理员
             User user = new User();
             user.setUserType(UserType.SERVICEPROVIDER);
-            user.setAccount(request.getPhoneNumber());
+            user.setAccount(request.getEmployeeUserName());
             user.setPhone(request.getPhoneNumber());
             userService.save(user);
 
