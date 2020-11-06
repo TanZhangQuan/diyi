@@ -172,4 +172,9 @@ public class InvoiceServiceLumpDetailsVO implements Serializable {
      *货物或应税劳务、服务名称,发票类
      */
     private String invoiceCategory;
+
+    /**
+     * 开票说明
+     */
+    private String invoiceDesc;
 }
