@@ -11,10 +11,7 @@ import com.lgyun.system.user.dto.AddOrUpdateServiceProviderCertDTO;
 import com.lgyun.system.user.dto.AddOrUpdateServiceProviderDTO;
 import com.lgyun.system.user.dto.QueryServiceProviderListDTO;
 import com.lgyun.system.user.entity.AdminEntity;
-import com.lgyun.system.user.service.IAdminCenterMaterialService;
-import com.lgyun.system.user.service.IAdminService;
-import com.lgyun.system.user.service.IServiceProviderCertService;
-import com.lgyun.system.user.service.IServiceProviderService;
+import com.lgyun.system.user.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -36,6 +33,7 @@ public class ServiceProviderAdminController {
     private IServiceProviderService serviceProviderService;
     private IServiceProviderCertService serviceProviderCertService;
     private IAdminCenterMaterialService adminCenterMaterialService;
+    private IEnterpriseServiceProviderService enterpriseProviderService;
 
     @PostMapping("/create-or-update-service-provider")
     @ApiOperation(value = "添加或编辑服务商", notes = "添加或编辑服务商")
@@ -85,6 +83,46 @@ public class ServiceProviderAdminController {
         }
 
         return serviceProviderService.updateServiceProviderState(serviceProviderId, serviceProviderState);
+    }
+
+    @GetMapping("/query-enterprise-id-and-name-list")
+    @ApiOperation(value = "查询所有商户编号姓名", notes = "查询所有商户编号姓名")
+    public R queryEnterpriseIdAndNameList(@ApiParam(value = "商户名称") @RequestParam(required = false) String enterpriseName, Query query, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return enterpriseProviderService.queryEnterpriseIdAndNameList(null, enterpriseName, Condition.getPage(query.setDescs("create_time")));
+    }
+
+    @PostMapping("/match-enterprise")
+    @ApiOperation(value = "服务商匹配商户", notes = "服务商匹配商户")
+    public R matchServiceProvider(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
+                                  @ApiParam(value = "服务商", required = true) @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
+                                  @ApiParam(value = "分配说明") @RequestParam(required = false) String matchDesc, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        AdminEntity adminEntity = result.getData();
+
+        return enterpriseProviderService.relevanceEnterpriseServiceProvider(enterpriseId, serviceProviderId, matchDesc, adminEntity);
+    }
+
+    @GetMapping("/query-cooperation-enterprise-list")
+    @ApiOperation(value = "查询当前服务商合作商户", notes = "查询当前服务商合作商户")
+    public R queryCooperationEnterpriseList(@ApiParam(value = "服务商", required = true) @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
+                                            @ApiParam(value = "服务商名称", required = true) @RequestParam(required = false) String serviceProviderName, Query query, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return enterpriseProviderService.getEnterprtisesByServiceProviderId(serviceProviderId, serviceProviderName, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-service-provider-cert-list")
