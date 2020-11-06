@@ -30,13 +30,13 @@ public class SelfHelpInvoiceDetailsByServiceProviderDTO implements Serializable 
     /**
      * 自助开票开始时间
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date beginDate;
 
     /**
      * 自助开票结束时间
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 
 }
