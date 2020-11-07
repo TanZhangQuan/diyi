@@ -12,4 +12,11 @@ import java.io.Serializable;
 @Data
 public class DoorSignInvoiceDTO implements Serializable {
 
+    /**
+     * 支付清单ids，可以多个
+     */
+    String payEnterpriseIds;
+
+    
+    String doorSignInvoiceJson;
 }
