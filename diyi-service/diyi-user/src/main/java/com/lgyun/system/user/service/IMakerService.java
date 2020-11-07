@@ -8,10 +8,7 @@ import com.lgyun.common.enumeration.CertificationState;
 import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.IdcardVerifyDTO;
-import com.lgyun.system.user.dto.ImportMakerListDTO;
-import com.lgyun.system.user.dto.MakerAddDTO;
-import com.lgyun.system.user.dto.MakerListIndividualDTO;
+import com.lgyun.system.user.dto.*;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.excel.MakerExcel;
 import com.lgyun.system.user.vo.*;
@@ -32,10 +29,10 @@ public interface IMakerService extends IService<MakerEntity> {
     /**
      * 根据ID查询创客
      *
-     * @param id
+     * @param makerId
      * @return
      */
-    int queryCountById(Long id);
+    int queryCountById(Long makerId);
 
     /**
      * 查询当前创客
@@ -60,6 +57,15 @@ public interface IMakerService extends IService<MakerEntity> {
      * @return
      */
     R<MakerDetailVO> queryCurrentMakerDetail(Long makerId);
+
+    /**
+     * 修改创客详情
+     *
+     * @param updateMakerDeatilDTO
+     * @param makerEntity
+     * @return
+     */
+    R<String> updateMakerDetail(UpdateMakerDeatilDTO updateMakerDeatilDTO, MakerEntity makerEntity);
 
     /**
      * 新建创客

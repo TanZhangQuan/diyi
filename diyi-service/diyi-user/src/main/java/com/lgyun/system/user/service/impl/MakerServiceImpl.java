@@ -3,6 +3,7 @@ package com.lgyun.system.user.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.RealnameVerifyConstant;
@@ -11,10 +12,7 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.*;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.IdcardVerifyDTO;
-import com.lgyun.system.user.dto.ImportMakerListDTO;
-import com.lgyun.system.user.dto.MakerAddDTO;
-import com.lgyun.system.user.dto.MakerListIndividualDTO;
+import com.lgyun.system.user.dto.*;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.entity.OnlineAgreementTemplateEntity;
 import com.lgyun.system.user.entity.User;
@@ -59,9 +57,9 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     private IOnlineAgreementTemplateService onlineAgreementTemplateService;
 
     @Override
-    public int queryCountById(Long id) {
+    public int queryCountById(Long makerId) {
         QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(MakerEntity::getId, id);
+        queryWrapper.lambda().eq(MakerEntity::getId, makerId);
         return baseMapper.selectCount(queryWrapper);
     }
 
@@ -92,6 +90,31 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     @Override
     public R<MakerDetailVO> queryCurrentMakerDetail(Long makerId) {
         return R.data(baseMapper.queryCurrentMakerDetail(makerId));
+    }
+
+    @Override
+    public R<String> updateMakerDetail(UpdateMakerDeatilDTO updateMakerDeatilDTO, MakerEntity makerEntity) {
+
+        if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus())) {
+            updateMakerDeatilDTO.setName(makerEntity.getName());
+            updateMakerDeatilDTO.setIdcardNo(makerEntity.getIdcardNo());
+        } else {
+            if (StringUtils.isNotBlank(updateMakerDeatilDTO.getIdcardNo()) && !(updateMakerDeatilDTO.getIdcardNo().equals(makerEntity.getIdcardNo()))) {
+                int idcardNoMakerNum = count(Wrappers.<MakerEntity>query().lambda().eq(MakerEntity::getIdcardNo, updateMakerDeatilDTO.getIdcardNo()));
+                if (idcardNoMakerNum > 0) {
+                    return R.fail("身份证号码已存在");
+                }
+            }
+        }
+
+        if (VerifyStatus.VERIFYPASS.equals(makerEntity.getBankCardVerifyStatus())) {
+            updateMakerDeatilDTO.setBankCardNo(makerEntity.getBankCardNo());
+        }
+
+        BeanUtils.copyProperties(updateMakerDeatilDTO, makerEntity);
+        updateById(makerEntity);
+
+        return R.success("编辑成功");
     }
 
     @Override
