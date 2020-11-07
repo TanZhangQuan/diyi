@@ -3,4 +3,8 @@
 
 <mapper namespace="com.lgyun.system.order.mapper.PayMakerReceiptMapper">
 
+    <select id="deleteByPayEnterpriseId">
+        DELETE FROM diyi_pay_maker_receipt WHERE pay_maker_id = #{param1}
+    </select>
+
 </mapper>
