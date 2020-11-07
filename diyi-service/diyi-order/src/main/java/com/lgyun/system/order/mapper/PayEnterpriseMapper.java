@@ -349,7 +349,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     /**
      *
      */
-    List<PayMakerListVO> getPayMakerLists(String payEnterpriseIds);
+    List<PayMakerListInvoiceVO> getPayMakerLists(String payEnterpriseIds);
 
     /**
      * 查询总包支付清单详情

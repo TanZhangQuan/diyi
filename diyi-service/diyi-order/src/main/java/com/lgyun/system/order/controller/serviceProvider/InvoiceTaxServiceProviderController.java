@@ -8,7 +8,6 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.*;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.service.IWorksheetService;
-import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
@@ -432,24 +431,24 @@ public class InvoiceTaxServiceProviderController {
     }
 
 
-    @GetMapping("/query-single-open-invoice-detail")
-    @ApiOperation(value = "查询已门征单开的发票详情", notes = "查询已门征单开的发票详情")
-    public R querySingleOpenInvoiceDetail(@ApiParam(value = "商户支付清单", required = true) @NotNull(message = "请选择商户支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
-        //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return payEnterpriseService.getServicePortalSignInvoiceDetails(payEnterpriseId);
-    }
+//    @GetMapping("/query-single-open-invoice-detail")
+//    @ApiOperation(value = "查询已门征单开的发票详情", notes = "查询已门征单开的发票详情")
+//    public R querySingleOpenInvoiceDetail(@ApiParam(value = "商户支付清单", required = true) @NotNull(message = "请选择商户支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
+////        //查询当前服务商员工
+////        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+////        if (!(result.isSuccess())) {
+////            return result;
+////        }
+//
+//        return payEnterpriseService.getServicePortalSignInvoiceDetails(payEnterpriseId);
+//    }
 
 
     @GetMapping("query-worksheet-detail")
     @ApiOperation(value = "查询工单详情", notes = "查询工单详情")
     public R queryWorksheetDetail(@NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId, Query query, BladeUser bladeUser) {
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -460,8 +459,8 @@ public class InvoiceTaxServiceProviderController {
     @GetMapping("/query-pay-enterprise-detail")
     @ApiOperation(value = "查询总包支付清单详情", notes = "查询总包支付清单详情")
     public R queryPayEnterpriseDetail(@ApiParam(value = "支付清单", required = true) @NotNull(message = "请选择总包支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
