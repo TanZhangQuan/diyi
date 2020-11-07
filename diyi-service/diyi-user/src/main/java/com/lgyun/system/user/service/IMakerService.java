@@ -68,6 +68,15 @@ public interface IMakerService extends IService<MakerEntity> {
     R<String> updateMakerDetail(UpdateMakerDeatilDTO updateMakerDeatilDTO, MakerEntity makerEntity);
 
     /**
+     * 修改手机号码
+     *
+     * @param updateMakerPhoneNumberDTO
+     * @param makerEntity
+     * @return
+     */
+    R<String> updatePhoneNumber(UpdateMakerPhoneNumberDTO updateMakerPhoneNumberDTO, MakerEntity makerEntity);
+
+    /**
      * 新建创客
      *
      * @param openid

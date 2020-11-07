@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.RealnameVerifyConstant;
+import com.lgyun.common.constant.SmsConstant;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.*;
@@ -49,10 +50,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> implements IMakerService {
 
-    private AliyunOssService ossService;
     private IUserService iUserService;
-    private IMakerEnterpriseService makerEnterpriseService;
     private SmsUtil smsUtil;
+    private RedisUtil redisUtil;
+    private AliyunOssService ossService;
+    private IMakerEnterpriseService makerEnterpriseService;
     private IOnlineAgreementNeedSignService onlineAgreementNeedSignService;
     private IOnlineAgreementTemplateService onlineAgreementTemplateService;
 
@@ -115,6 +117,31 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         updateById(makerEntity);
 
         return R.success("编辑成功");
+    }
+
+    @Override
+    public R<String> updatePhoneNumber(UpdateMakerPhoneNumberDTO updateMakerPhoneNumberDTO, MakerEntity makerEntity) {
+
+        if (updateMakerPhoneNumberDTO.getMobile().equals(makerEntity.getPhoneNumber())) {
+            return R.fail("该手机号与当前创客手机号一致");
+        }
+
+        //查询手机号
+        String mobile = updateMakerPhoneNumberDTO.getMobile();
+        //查询缓存短信验证码
+        String key = SmsConstant.AVAILABLE_TIME + mobile + "_" + UserType.MAKER + "_" + CodeType.UPDATEPHONE;
+        String redisCode = (String) redisUtil.get(key);
+        //判断验证码
+        if (!StringUtil.equalsIgnoreCase(redisCode, updateMakerPhoneNumberDTO.getSmsCode())) {
+            return R.fail("短信验证码不正确");
+        }
+
+        makerEntity.setPhoneNumber(updateMakerPhoneNumberDTO.getMobile());
+        makerEntity.setPhoneNumberVerifyStatus(VerifyStatus.TOVERIFY);
+        makerEntity.setPhoneNumberVerifyDate(null);
+        updateById(makerEntity);
+
+        return R.success("更改手机号成功");
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.lgyun.system.user.controller.maker;
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.dto.UpdateMakerDeatilDTO;
+import com.lgyun.system.user.dto.UpdateMakerPhoneNumberDTO;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.IMakerService;
 import io.swagger.annotations.Api;
@@ -59,6 +60,19 @@ public class HomePageMakerController {
         MakerEntity makerEntity = result.getData();
 
         return makerService.updateMakerDetail(updateMakerDeatilDTO, makerEntity);
+    }
+
+    @PostMapping("/update-phone-number")
+    @ApiOperation(value = "修改手机号码", notes = "修改手机号码")
+    public R updatePhoneNumber(@Valid @RequestBody UpdateMakerPhoneNumberDTO updateMakerPhoneNumberDTO, BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = makerService.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        MakerEntity makerEntity = result.getData();
+
+        return makerService.updatePhoneNumber(updateMakerPhoneNumberDTO, makerEntity);
     }
 
 }
