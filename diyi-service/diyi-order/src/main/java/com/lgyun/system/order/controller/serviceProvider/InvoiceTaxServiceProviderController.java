@@ -399,11 +399,11 @@ public class InvoiceTaxServiceProviderController {
     @GetMapping("/query-all-sub-detail")
     @ApiOperation(value = "服务商根据商户支付清单查询分包详情", notes = "服务商根据商户支付清单查询分包详情")
     public R queryAllOpenSubDetail(String payEnterpriseIds, BladeUser bladeUser) {
-        //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
+//        //查询当前服务商员工
+//        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
         return payEnterpriseService.findServiceDetailSummary(payEnterpriseIds);
     }
 
