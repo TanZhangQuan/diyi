@@ -27,7 +27,7 @@ public class MakerInvoiceServiceImpl extends BaseServiceImpl<MakerInvoiceMapper,
         QueryWrapper<MakerInvoiceEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(MakerInvoiceEntity::getPayMakerId,payMakerId);
         List<MakerInvoiceEntity> makerInvoiceEntities = baseMapper.selectList(queryWrapper);
-        if(makerInvoiceEntities.size() < 0){
+        if(makerInvoiceEntities.size() <= 0){
             return null;
         }
         return makerInvoiceEntities.get(0);

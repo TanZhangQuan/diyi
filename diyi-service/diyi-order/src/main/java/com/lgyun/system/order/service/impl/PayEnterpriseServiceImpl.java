@@ -1176,17 +1176,19 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             MakerInvoiceEntity makerInvoiceEntity = makerInvoiceService.findPayMakerId(Long.parseLong(payMakerId));
             if (null == makerInvoiceEntity) {
                 makerInvoiceEntity = new MakerInvoiceEntity();
-            } else {
-                makerInvoiceEntity.setMakerVoiceUrl(makerVoiceUrl);
-                makerInvoiceEntity.setMakerVoiceUploadDateTime(new Date());
+                makerInvoiceEntity.setPayMakerId(Long.parseLong(payMakerId));
             }
+            makerInvoiceEntity.setMakerVoiceUrl(makerVoiceUrl);
+            makerInvoiceEntity.setMakerVoiceUploadDateTime(new Date());
+
             MakerTaxRecordEntity makerTaxRecordEntity = makerTaxRecordService.findPayMakerId(Long.parseLong(payMakerId));
             if (null == makerTaxRecordEntity) {
                 makerTaxRecordEntity = new MakerTaxRecordEntity();
-            } else {
-                makerTaxRecordEntity.setMakerTaxUrl(makerTaxUrl);
-                makerTaxRecordEntity.setMakerTaxUploadDatetime(new Date());
+                makerTaxRecordEntity.setPayMakerId(Long.parseLong(payMakerId));
             }
+            makerTaxRecordEntity.setMakerTaxUrl(makerTaxUrl);
+            makerTaxRecordEntity.setMakerTaxUploadDatetime(new Date());
+
             makerTaxRecordService.saveOrUpdate(makerTaxRecordEntity);
             makerInvoiceService.saveOrUpdate(makerInvoiceEntity);
         }
