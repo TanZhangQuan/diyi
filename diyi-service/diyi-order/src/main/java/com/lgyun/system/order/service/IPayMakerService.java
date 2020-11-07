@@ -155,5 +155,12 @@ public interface IPayMakerService extends BaseService<PayMakerEntity> {
      */
     R<String> confirmPayMaker(Long makerId, Long payMakerId);
 
+    /**
+     * 根据商户明细id
+     * @param payEnterpriseIds
+     * @return
+     */
+    Integer getPayMakerCount(String payEnterpriseIds);
+
 }
 

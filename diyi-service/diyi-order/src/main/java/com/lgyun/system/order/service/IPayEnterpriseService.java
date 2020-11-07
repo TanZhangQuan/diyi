@@ -6,10 +6,7 @@ import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.common.enumeration.MakerInvoiceType;
 import com.lgyun.common.enumeration.PayEnterpriseAuditState;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.order.dto.LumpInvoiceDTO;
-import com.lgyun.system.order.dto.PayEnterpriseCreateOrUpdateDTO;
-import com.lgyun.system.order.dto.PayEnterpriseDTO;
-import com.lgyun.system.order.dto.SummaryInvoiceDTO;
+import com.lgyun.system.order.dto.*;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.vo.AdminAgentMainServiceProviderListVO;
@@ -463,7 +460,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     /**
      * 服务商门征发票
      */
-    R createDoorSignInvoice(String payEnterpriseIds, String doorSignInvoiceJson);
+    R createDoorSignInvoice(DoorSignInvoiceDTO doorSignInvoiceDTO);
 
 
     /**

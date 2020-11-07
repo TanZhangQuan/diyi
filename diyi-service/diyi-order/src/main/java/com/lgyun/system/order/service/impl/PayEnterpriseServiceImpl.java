@@ -10,10 +10,7 @@ import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.LumpInvoiceDTO;
-import com.lgyun.system.order.dto.PayEnterpriseCreateOrUpdateDTO;
-import com.lgyun.system.order.dto.PayEnterpriseDTO;
-import com.lgyun.system.order.dto.SummaryInvoiceDTO;
+import com.lgyun.system.order.dto.*;
 import com.lgyun.system.order.entity.*;
 import com.lgyun.system.order.excel.PayEnterpriseExcel;
 import com.lgyun.system.order.excel.PayEnterpriseImportListener;
@@ -1153,7 +1150,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
     @Override
     @Transactional
-    public R createDoorSignInvoice(String payEnterpriseIds, String doorSignInvoiceJson) {
+    public R createDoorSignInvoice(DoorSignInvoiceDTO doorSignInvoiceDTO) {
+        String payEnterpriseIds = doorSignInvoiceDTO.getPayEnterpriseIds();
         String[] split = payEnterpriseIds.split(",");
         if (split.length <= 0) {
             return R.fail("参数错误！");
@@ -1168,7 +1166,9 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             payEnterpriseEntities.add(payEnterpriseEntity);
             payToPlatformAmount = payToPlatformAmount.add(payEnterpriseEntity.getPayToPlatformAmount());
         }
-        JSONArray doorSignInvoiceJsonArray = new JSONArray(doorSignInvoiceJson);
+        Integer payMakerCount = payMakerService.getPayMakerCount(payEnterpriseIds);
+
+        JSONArray doorSignInvoiceJsonArray = new JSONArray(doorSignInvoiceDTO.getDoorSignInvoiceJson());
         for (int i = 0; i < doorSignInvoiceJsonArray.length(); i++) {
             String payMakerId = doorSignInvoiceJsonArray.getJSONObject(i).get("payMakerId").toString();
             String makerVoiceUrl = doorSignInvoiceJsonArray.getJSONObject(i).get("makerVoiceUrl").toString();
@@ -1190,10 +1190,11 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             makerTaxRecordService.saveOrUpdate(makerTaxRecordEntity);
             makerInvoiceService.saveOrUpdate(makerInvoiceEntity);
         }
-
-        for (PayEnterpriseEntity payEnterpriseEntity : payEnterpriseEntities) {
-            payEnterpriseEntity.setSubcontractingInvoiceState(InvoiceState.OPENED);
-            saveOrUpdate(payEnterpriseEntity);
+        if(payMakerCount == doorSignInvoiceJsonArray.length()){
+            for (PayEnterpriseEntity payEnterpriseEntity : payEnterpriseEntities) {
+                payEnterpriseEntity.setSubcontractingInvoiceState(InvoiceState.OPENED);
+                saveOrUpdate(payEnterpriseEntity);
+            }
         }
         return R.success("门征单开成功");
     }
