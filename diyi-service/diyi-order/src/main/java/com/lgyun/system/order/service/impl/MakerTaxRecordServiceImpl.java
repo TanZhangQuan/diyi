@@ -27,7 +27,7 @@ public class MakerTaxRecordServiceImpl extends BaseServiceImpl<MakerTaxRecordMap
         QueryWrapper<MakerTaxRecordEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(MakerTaxRecordEntity::getPayMakerId,payMakerId);
         List<MakerTaxRecordEntity> makerTaxRecordEntities = baseMapper.selectList(queryWrapper);
-        if(makerTaxRecordEntities.size() < 0 ){
+        if(makerTaxRecordEntities.size() <= 0 ){
             return null;
         }
         return makerTaxRecordEntities.get(0);
