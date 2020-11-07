@@ -340,13 +340,11 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
 
         //判断是否所有分包已确认收款
         int payMakerNum = count(Wrappers.<PayMakerEntity>query().lambda()
-                .eq(PayMakerEntity::getPayEnterpriseId, payMakerEntity.getPayEnterpriseId())
-                .eq(PayMakerEntity::getIsDeleted, 0));
+                .eq(PayMakerEntity::getPayEnterpriseId, payMakerEntity.getPayEnterpriseId()));
 
         int confirmpaidPayMakerNum = count(Wrappers.<PayMakerEntity>query().lambda()
                 .eq(PayMakerEntity::getPayEnterpriseId, payMakerEntity.getPayEnterpriseId())
-                .eq(PayMakerEntity::getPayState, PayMakerPayState.CONFIRMPAID)
-                .eq(PayMakerEntity::getIsDeleted, 0));
+                .eq(PayMakerEntity::getPayState, PayMakerPayState.CONFIRMPAID));
 
         if (payMakerNum == confirmpaidPayMakerNum) {
             PayEnterpriseEntity payEnterpriseEntity = payEnterpriseService.getById(payMakerEntity.getPayEnterpriseId());
