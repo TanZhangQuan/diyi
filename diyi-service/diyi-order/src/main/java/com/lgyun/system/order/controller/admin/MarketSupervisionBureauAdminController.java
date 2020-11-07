@@ -31,7 +31,7 @@ public class MarketSupervisionBureauAdminController {
 
     @PostMapping("/transaction-by-bureau-service-provider")
     @ApiOperation(value = "查询当前市场监督管理局所有匹配的服务商交易情况数据", notes = "查询当前市场监督管理局所有匹配的服务商交易情况数据")
-    public R transactionByBureauServiceProvider(@ApiParam("市场监督管理局ID") @NotNull(message = "市场监督管理局ID不能为空！") @RequestParam(required = false) Long bureauId, BladeUser bladeUser) {
+    public R transactionByBureauServiceProvider(@ApiParam("市场监督管理局") @NotNull(message = "请选择市场监督管理局") @RequestParam(required = false) Long bureauId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -43,7 +43,7 @@ public class MarketSupervisionBureauAdminController {
 
     @PostMapping("/transaction-by-bureau-service-provider-info")
     @ApiOperation(value = "查询市场监督管理局匹配的服务商基本信息及交易金额", notes = "查询市场监督管理局匹配的服务商基本信息及交易金额")
-    public R transactionByBureauServiceProviderInfo(@ApiParam("市场监督管理局ID") @NotNull(message = "市场监督管理局ID不能为空！") @RequestParam(required = false) Long bureauId, Query query, BladeUser bladeUser) {
+    public R transactionByBureauServiceProviderInfo(@ApiParam("市场监督管理局") @NotNull(message = "请选择市场监督管理局") @RequestParam(required = false) Long bureauId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

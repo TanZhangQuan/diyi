@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
-import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
@@ -23,7 +22,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Service 实现
@@ -353,18 +351,18 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     public R updateBasicEnterpriseResponse(Long enterpriseId, String enterpriseUrl) {
         EnterpriseEntity enterpriseEntity = this.getById(enterpriseId);
         if (enterpriseEntity == null) {
-            return R.fail("您编辑的商户不存在！");
+            return R.fail("您编辑的商户不存在");
         }
         enterpriseEntity.setEnterpriseUrl(enterpriseUrl);
         this.updateById(enterpriseEntity);
-        return R.success("编辑成功！");
+        return R.success("编辑成功");
     }
 
     @Override
     public R<ContactsInfoVO> currentDetail(Long enterpriseId) {
         EnterpriseEntity enterpriseEntity = this.getById(enterpriseId);
         if (enterpriseEntity == null) {
-            return R.fail("您查询的商户不存在！");
+            return R.fail("您查询的商户不存在");
         }
         ContactsInfoVO contactsInfoVO = new ContactsInfoVO();
         BeanUtil.copyProperties(enterpriseEntity, contactsInfoVO);
@@ -375,19 +373,19 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     public R updateContacts(Long enterpriseId, ContactsInfoDTO contactsInfoDTO) {
         EnterpriseEntity enterpriseEntity = this.getById(enterpriseId);
         if (enterpriseEntity == null) {
-            return R.fail("您编辑的商户不存在！");
+            return R.fail("您编辑的商户不存在");
         }
         BeanUtil.copyProperties(contactsInfoDTO, enterpriseEntity);
         log.info(enterpriseEntity.toString());
         this.updateById(enterpriseEntity);
-        return R.success("编辑成功！");
+        return R.success("编辑成功");
     }
 
     @Override
     public R<EnterpriseInvoiceVO> queryEnterpriseInvoice(Long enterpriseId) {
         EnterpriseEntity enterpriseEntity = this.getById(enterpriseId);
         if (enterpriseEntity == null) {
-            return R.fail("您查询的商户不存在！");
+            return R.fail("您查询的商户不存在");
         }
         EnterpriseInvoiceVO enterpriseInvoiceVO = new EnterpriseInvoiceVO();
         BeanUtil.copyProperties(enterpriseEntity, enterpriseInvoiceVO);

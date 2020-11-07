@@ -445,7 +445,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         if (lumpSumInvoiceDetails.size() > 0) {
             map.put("lumpSumInvoiceDetails", lumpSumInvoiceDetails);
         } else {
-            return R.fail("商户支付清单不存在！！！");
+            return R.fail("商户支付清单不存在");
         }
         String enterprisePayReceiptUrl = "";
         for (PlatformInvoicePayListEntity platformInvoicePayListEntity : platformInvoicePayListEntities) {
@@ -523,7 +523,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         if (lumpSumInvoiceDetails.size() > 0) {
             map.put("lumpSumInvoiceDetails", lumpSumInvoiceDetails);
         } else {
-            return R.fail("商户支付清单不存在！！！");
+            return R.fail("商户支付清单不存在");
         }
         String enterprisePayReceiptUrl = "";
         for (int i = 0; i < split.length; i++) {
@@ -558,7 +558,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         if (lumpSumInvoiceDetails.size() > 0) {
             map.put("lumpSumInvoiceDetails", lumpSumInvoiceDetails);
         } else {
-            return R.fail("商户支付清单不存在！！！");
+            return R.fail("商户支付清单不存在");
         }
         String enterprisePayReceiptUrl = "";
         for (InvoiceApplicationPayListEntity invoiceApplicationPayListEntity : invoiceApplicationPayListEntityList) {
@@ -1086,14 +1086,14 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         String payEnterpriseIds = summaryInvoiceDTO.getPayEnterpriseIds();
         String[] split = payEnterpriseIds.split(",");
         if (split.length <= 0) {
-            return R.fail("参数格式错误！！");
+            return R.fail("参数格式错误");
         }
         BigDecimal payToPlatformAmount = BigDecimal.ZERO;
         List<PayEnterpriseEntity> payEnterpriseEntities = new ArrayList<>();
         for (int i = 0; i < split.length; i++) {
             PayEnterpriseEntity payEnterpriseEntity = getById(Long.parseLong(split[i]));
             if (null == payEnterpriseEntity) {
-                return R.fail("商户支付清单id有误！！");
+                return R.fail("商户支付清单不存在");
             }
             payEnterpriseEntities.add(payEnterpriseEntity);
         }
@@ -1131,13 +1131,13 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         Map map = new HashMap();
         String[] split = payEnterpriseIds.split(",");
         if (split.length <= 0) {
-            return R.fail("参数错误！");
+            return R.fail("参数错误");
         }
         PayEnterpriseEntity payEnterpriseEntity = getById(Long.parseLong(split[0]));
         for (int i = 1; i < split.length; i++) {
             PayEnterpriseEntity byId = getById(Long.parseLong(split[i]));
             if(!payEnterpriseEntity.getMakerInvoiceType().equals(byId.getMakerInvoiceType())){
-                return R.fail("请选择相同的开票方式！");
+                return R.fail("请选择相同的开票方式");
             }
         }
         List<InvoiceServiceDetailSummaryVO> invoiceServiceDetailSummaryVOS = new ArrayList<>();
@@ -1159,14 +1159,14 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         String payEnterpriseIds = doorSignInvoiceDTO.getPayEnterpriseIds();
         String[] split = payEnterpriseIds.split(",");
         if (split.length <= 0) {
-            return R.fail("参数错误！");
+            return R.fail("参数错误");
         }
         BigDecimal payToPlatformAmount = BigDecimal.ZERO;
         List<PayEnterpriseEntity> payEnterpriseEntities = new ArrayList<>();
         for (int i = 0; i < split.length; i++) {
             PayEnterpriseEntity payEnterpriseEntity = getById(Long.parseLong(split[i]));
             if (null == payEnterpriseEntity) {
-                return R.fail("商户支付清单id有误！！");
+                return R.fail("商户支付清单不存在");
             }
             payEnterpriseEntities.add(payEnterpriseEntity);
             payToPlatformAmount = payToPlatformAmount.add(payEnterpriseEntity.getPayToPlatformAmount());

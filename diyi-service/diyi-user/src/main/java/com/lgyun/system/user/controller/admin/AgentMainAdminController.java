@@ -106,8 +106,8 @@ public class AgentMainAdminController {
 
     @PostMapping("/add-agent-main-service-provider")
     @ApiOperation(value = "给渠道商添加匹配服务商", notes = "给渠道商添加匹配服务商")
-    public R addAgentMainServiceProvider(@ApiParam("服务商ID字符集，每个ID直接用英文逗号隔开") @NotNull(message = "请选择匹配的服务商！") @RequestParam(required = false) String serviceProviderIds,
-                                         @ApiParam("渠道商ID") @NotNull(message = "渠道商ID不能为空！！") @RequestParam(required = false) Long agentMainId, BladeUser bladeUser) {
+    public R addAgentMainServiceProvider(@ApiParam("服务商集合") @NotNull(message = "请选择匹配的服务商") @RequestParam(required = false) String serviceProviderIds,
+                                         @ApiParam("渠道商") @NotNull(message = "请选择渠道商") @RequestParam(required = false) Long agentMainId, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

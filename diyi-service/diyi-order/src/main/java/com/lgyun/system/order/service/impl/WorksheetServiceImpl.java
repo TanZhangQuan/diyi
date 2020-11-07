@@ -75,7 +75,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             sameSet.add(element);
         }
         if (sameSet.size() != split.length) {
-            return R.fail("有存在相同的指定创客！！");
+            return R.fail("有存在相同的指定创客");
         }
         BeanUtil.copy(releaseWorksheetDTO, worksheetEntity);
         if (null == releaseWorksheetDTO.getUpPersonNum()) {

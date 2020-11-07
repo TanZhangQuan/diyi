@@ -1,7 +1,7 @@
 # diyi-cr
 
 #### 介绍
-零工云公司旗下地衣众包项目！
+零工云公司旗下地衣众包项目
 
 # DIYI-CR 微服务开发平台
 * 采用前后端分离的模式，前端开源框架：[Saber](https://gitee.com/smallc/Saber) (基于 Vue、Element-UI)。

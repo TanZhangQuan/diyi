@@ -57,16 +57,16 @@ public class RelBureauServiceProviderServiceImpl extends BaseServiceImpl<RelBure
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R addRelBureauServiceProvider(String serviceProviderIds, Long bureauId) {
+    public R<String> addRelBureauServiceProvider(String serviceProviderIds, Long bureauId) {
         RelBureauEntity relBureauEntity = relBureauMapper.selectById(bureauId);
         if (relBureauEntity == null) {
-            return R.fail("您输入的相关局不存在！");
+            return R.fail("税务局不存在");
         }
         List<Long> longs = Func.toLongList(serviceProviderIds);
         for (Long id : longs) {
             ServiceProviderEntity serviceProviderEntity = serviceProviderMapper.selectById(id);
             if (serviceProviderEntity == null) {
-                throw new CustomException("服务商不存在！");
+                throw new CustomException("服务商不存在");
             }
             RelBureauServiceProviderEntity entity = new RelBureauServiceProviderEntity();
             entity.setServiceProviderId(id);
@@ -75,7 +75,7 @@ public class RelBureauServiceProviderServiceImpl extends BaseServiceImpl<RelBure
             entity.setBureauServiceProviderStatus(BureauServiceProviderStatus.OPEN);
             this.save(entity);
         }
-        return R.success("添加匹配服务商成功！");
+        return R.success("添加匹配服务商成功");
     }
 
     /**
@@ -86,15 +86,17 @@ public class RelBureauServiceProviderServiceImpl extends BaseServiceImpl<RelBure
      * @return
      */
     @Override
-    public R updateBureauServiceProvider(Long bureauServiceProviderId, BureauServiceProviderStatus bureauServiceProviderStatus) {
+    public R<String> updateBureauServiceProvider(Long bureauServiceProviderId, BureauServiceProviderStatus bureauServiceProviderStatus) {
         RelBureauServiceProviderEntity entity = this.getById(bureauServiceProviderId);
         if (entity == null) {
             return R.fail("你输入的匹配服务商不存在");
         }
+
         entity.setId(bureauServiceProviderId);
         entity.setBureauServiceProviderStatus(bureauServiceProviderStatus);
         this.updateById(entity);
-        return R.success("操作成功！");
+
+        return R.success("操作成功");
     }
 
     /**
@@ -104,12 +106,15 @@ public class RelBureauServiceProviderServiceImpl extends BaseServiceImpl<RelBure
      * @return
      */
     @Override
-    public R deleteBureauServiceProvider(Long bureauServiceProviderId) {
+    public R<String> deleteBureauServiceProvider(Long bureauServiceProviderId) {
+
         RelBureauServiceProviderEntity relBureauServiceProviderEntity = this.getById(bureauServiceProviderId);
         if (relBureauServiceProviderEntity == null) {
             return R.fail("你输入匹配服务商不存在");
         }
+
         baseMapper.removeById(bureauServiceProviderId);
-        return R.success("撤销成功！");
+
+        return R.success("撤销成功");
     }
 }

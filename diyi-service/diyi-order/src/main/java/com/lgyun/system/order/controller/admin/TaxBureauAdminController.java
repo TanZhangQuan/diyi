@@ -31,7 +31,7 @@ public class TaxBureauAdminController {
 
     @PostMapping("/transaction-by-bureau-service-provider")
     @ApiOperation(value = "查询当前税局所有匹配的服务商交易情况数据", notes = "查询当前税局所有匹配的服务商交易情况数据")
-    public R transactionByBureauServiceProvider(@ApiParam("税局ID") @NotNull(message = "税局ID不能为空！") @RequestParam(required = false) Long bureauId, BladeUser bladeUser) {
+    public R transactionByBureauServiceProvider(@ApiParam("税局") @NotNull(message = "请选择税局") @RequestParam(required = false) Long bureauId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -44,7 +44,7 @@ public class TaxBureauAdminController {
 
     @PostMapping("/transaction-by-bureau-service-provider-info")
     @ApiOperation(value = "税局查询匹配的服务商基本信息及交易金额", notes = "税局查询匹配的服务商基本信息及交易金额")
-    public R transactionByBureauServiceProviderInfo(@ApiParam("税局ID") @NotNull(message = "税局ID不能为空！") @RequestParam(required = false) Long bureauId, Query query, BladeUser bladeUser) {
+    public R transactionByBureauServiceProviderInfo(@ApiParam("税局") @NotNull(message = "请选择税局") @RequestParam(required = false) Long bureauId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

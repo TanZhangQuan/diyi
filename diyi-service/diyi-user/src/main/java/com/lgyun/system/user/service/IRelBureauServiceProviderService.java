@@ -32,7 +32,7 @@ public interface IRelBureauServiceProviderService extends BaseService<RelBureauS
      * @param bureauId
      * @return
      */
-    R addRelBureauServiceProvider(String serviceProviderIds, Long bureauId);
+    R<String> addRelBureauServiceProvider(String serviceProviderIds, Long bureauId);
 
     /**
      * 开启或关闭匹配服务商
@@ -41,7 +41,7 @@ public interface IRelBureauServiceProviderService extends BaseService<RelBureauS
      * @param bureauServiceProviderStatus
      * @return
      */
-    R updateBureauServiceProvider(Long bureauServiceProviderId, BureauServiceProviderStatus bureauServiceProviderStatus);
+    R<String> updateBureauServiceProvider(Long bureauServiceProviderId, BureauServiceProviderStatus bureauServiceProviderStatus);
 
     /**
      * 撤销服务商
@@ -49,6 +49,7 @@ public interface IRelBureauServiceProviderService extends BaseService<RelBureauS
      * @param bureauServiceProviderId
      * @return
      */
-    R deleteBureauServiceProvider(Long bureauServiceProviderId);
+    R<String> deleteBureauServiceProvider(Long bureauServiceProviderId);
+
 }
 

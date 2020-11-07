@@ -62,7 +62,7 @@ public class WorksheetEnterpriseController {
 
     @PostMapping("delete-worksheet")
     @ApiOperation(value = "删除工单", notes = "删除工单")
-    public R deleteWorksheet(@NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId, BladeUser bladeUser) {
+    public R deleteWorksheet(@ApiParam(value = "工单") @NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {

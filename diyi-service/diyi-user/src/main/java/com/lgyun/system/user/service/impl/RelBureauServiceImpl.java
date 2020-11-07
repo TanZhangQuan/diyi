@@ -43,9 +43,9 @@ public class RelBureauServiceImpl extends BaseServiceImpl<RelBureauMapper, RelBu
         relBureauEntity.setRelBpwd(DigestUtil.encrypt(relBureauEntity.getRelBpwd()));
         boolean flag = this.save(relBureauEntity);
         if (flag) {
-            return R.success("添加成功！");
+            return R.success("添加成功");
         }
-        return R.fail("添加失败！");
+        return R.fail("添加失败");
     }
 
     /**
@@ -58,7 +58,7 @@ public class RelBureauServiceImpl extends BaseServiceImpl<RelBureauMapper, RelBu
     @Override
     public R<IPage<RelBureauVO>> QueryRelBureau(QueryRelBureauListDTO queryRelBureauListDTO, IPage<RelBureauVO> page, BureauType bureauType) {
         if (queryRelBureauListDTO.getBeginDate().after(queryRelBureauListDTO.getEndDate())) {
-            return R.fail("开始时间不能大于结束时间！");
+            return R.fail("开始时间不能大于结束时间");
         }
         return R.data(page.setRecords(baseMapper.QueryRelBureau(queryRelBureauListDTO, page, bureauType)));
     }
@@ -91,14 +91,14 @@ public class RelBureauServiceImpl extends BaseServiceImpl<RelBureauMapper, RelBu
         BeanUtil.copyProperties(updateRelBureauDTO, relBureauEntity);
         if (!StringUtils.isBlank(updateRelBureauDTO.getPassWord())) {
             if (updateRelBureauDTO.getPassWord().length() < 6 || updateRelBureauDTO.getPassWord().length() > 18) {
-                return R.fail("请输入6-18位的密码！");
+                return R.fail("请输入6-18位的密码");
             }
             relBureauEntity.setRelBpwd(DigestUtil.encrypt(updateRelBureauDTO.getPassWord()));
         }
         boolean flag = this.updateById(relBureauEntity);
         if (flag) {
-            return R.success("编辑成功！");
+            return R.success("编辑成功");
         }
-        return R.fail("编辑失败！");
+        return R.fail("编辑失败");
     }
 }
