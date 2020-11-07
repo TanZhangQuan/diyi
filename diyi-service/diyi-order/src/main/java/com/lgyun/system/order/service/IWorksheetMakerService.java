@@ -74,5 +74,10 @@ public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity
      * @return
      */
     List<WorksheetMakerDetailsVO> getWorksheetMakerDetails(Long worksheetId);
+
+//    /**
+//     * 查询工单已抢的数量
+//     */
+//    Integer
 }
 
