@@ -1148,7 +1148,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             invoiceServiceDetailSummaryVOS.add(invoiceServiceDetailSummaryVO);
         }
         map.put("invoiceServiceDetailSummaryVO", invoiceServiceDetailSummaryVOS);
-        List<PayMakerListInvoiceVO> payMakerLists = baseMapper.getPayMakerLists(payEnterpriseIds);
+        List<PayMakerListsVO> payMakerLists = baseMapper.getPayMakerLists(payEnterpriseIds);
         map.put("payMakerListVOs", payMakerLists);
         return R.data(map);
     }
