@@ -34,7 +34,7 @@ public class InvoiceApplicationServiceImpl extends BaseServiceImpl<InvoiceApplic
     private IUserClient iUserClient;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public R contractApplyInvoice(ContractApplyInvoiceDTO contractApplyInvoiceDto, Long enterpriseId, IPayEnterpriseService payEnterpriseService) {
         String payEnterpriseIds = contractApplyInvoiceDto.getPayEnterpriseIds();
         String[] split = payEnterpriseIds.split(",");

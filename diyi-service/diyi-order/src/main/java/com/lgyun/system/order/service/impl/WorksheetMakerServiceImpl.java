@@ -38,7 +38,7 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
     private IUserClient iUserClient;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public R<String> submitAchievement(WorksheetMakerEntity worksheetMakerEntity, String achievementDesc, String achievementFiles,IWorksheetService worksheetService) {
         if (null == worksheetMakerEntity || null == achievementFiles || "" == achievementFiles) {
             return R.fail("提交失败");

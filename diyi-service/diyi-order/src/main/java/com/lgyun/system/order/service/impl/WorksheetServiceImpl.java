@@ -41,7 +41,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     private IUserClient iUserClient;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public R<String> releaseWorksheet(ReleaseWorksheetDTO releaseWorksheetDTO) {
         WorksheetEntity worksheetEntity = new WorksheetEntity();
         if (StringUtil.isBlank(releaseWorksheetDTO.getWorksheetName())) {
@@ -239,7 +239,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public R closeOrOpenList(String worksheetIds, Integer variable) {
         String[] split = worksheetIds.split(",");
         if (variable != 1 && variable != 2) {
@@ -259,7 +259,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public R deleteWorksheetList(String worksheetIds) {
         String[] split = worksheetIds.split(",");
         for (int i = 0; i < split.length; i++) {
@@ -288,7 +288,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         return R.success("操作成功");
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public synchronized R<String> orderGrabbing(Long worksheetId, Long makerId) {
 
         WorksheetEntity worksheetEntity = getById(worksheetId);

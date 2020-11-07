@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class SelfHelpInvoiceFeeServiceImpl extends BaseServiceImpl<SelfHelpInvoiceFeeMapper, SelfHelpInvoiceFeeEntity> implements ISelfHelpInvoiceFeeService {
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public R<String> confirmPayment(ConfirmPaymentDTO confirmPaymentDto) {
         if(null == confirmPaymentDto.getHandPayId()){
             R.fail("参数错误");

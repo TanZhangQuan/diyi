@@ -95,7 +95,7 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void importSelfHelpInvoiceDetail(List<InvoiceListExcel> list) {
         //保存自助开票主表数据
         SelfHelpInvoiceDTO selfHelpInvoiceDto = list.get(0).getSelfHelpInvoiceDto();

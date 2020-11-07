@@ -216,7 +216,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public R saveOnlineAgreement(Long enterpriseId, String paperAgreementURL, Boolean boolAllMakers, String makerIds, Integer templateCount, AgreementType agreementType, IMakerEnterpriseService makerEnterpriseService) throws Exception {
         if (boolAllMakers && StringUtil.isBlank(makerIds)) {
             return R.fail("请选择创客");
@@ -305,7 +305,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public R uploadSupplement(String contractUrl, Long serviceProviderId, Long enterpriseId) {
 
         if (StringUtil.isBlank(contractUrl)) {

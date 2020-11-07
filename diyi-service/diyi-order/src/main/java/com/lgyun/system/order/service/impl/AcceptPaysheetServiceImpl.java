@@ -56,7 +56,7 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public R<String> uploadAcceptPaysheet(Long enterpriseId, Long serviceProviderId, AcceptPaysheetSaveDTO acceptPaysheetSaveDto, String uploadSource, String uploadPerson) {
 
         //判断支付清单是否存在
@@ -155,6 +155,7 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteAcceptPaysheet(Long payEnterpriseId) {
 
         List<Long> acceptPaysheetIdList = baseMapper.queryAcceptPaysheetIdList(payEnterpriseId);
