@@ -477,12 +477,11 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         List<InvoiceServiceLumpDetailsVO> lumpSumInvoiceDetail = new ArrayList<>();
         String enterprisePayReceiptUrl = payEnterpriseReceiptService.findEnterprisePayReceiptUrl(payEnterpriseId);
         lumpSumInvoiceDetails.setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
-
-        String expressCompanyName = lumpSumInvoiceDetails.getExpressCompanyName();
-        String expressSheetNo = lumpSumInvoiceDetails.getExpressSheetNo();
         KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
         String orderTracesByJson = "";
         try {
+            String expressCompanyName = lumpSumInvoiceDetails.getExpressCompanyName();
+            String expressSheetNo = lumpSumInvoiceDetails.getExpressSheetNo();
             if (!StringUtil.isBlank(expressCompanyName) && !StringUtil.isBlank(expressSheetNo)) {
                 orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(expressCompanyName, expressSheetNo);
                 map.put("orderTracesByJson", orderTracesByJson);
@@ -1176,26 +1175,33 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         JSONArray doorSignInvoiceJsonArray = new JSONArray(doorSignInvoiceDTO.getDoorSignInvoiceJson());
         for (int i = 0; i < doorSignInvoiceJsonArray.length(); i++) {
             String payMakerId = doorSignInvoiceJsonArray.getJSONObject(i).get("payMakerId").toString();
+            PayMakerEntity payMakerEntity = payMakerService.getById(payMakerId);
             String makerVoiceUrl = doorSignInvoiceJsonArray.getJSONObject(i).get("makerVoiceUrl").toString();
             String makerTaxUrl = doorSignInvoiceJsonArray.getJSONObject(i).get("makerTaxUrl").toString();
             MakerInvoiceEntity makerInvoiceEntity = makerInvoiceService.findPayMakerId(Long.parseLong(payMakerId));
+            if(("").equals(makerVoiceUrl)){
+                return R.fail("请上传发票！！！");
+            }
             if (null == makerInvoiceEntity) {
                 makerInvoiceEntity = new MakerInvoiceEntity();
                 makerInvoiceEntity.setPayMakerId(Long.parseLong(payMakerId));
             }
             makerInvoiceEntity.setMakerVoiceUrl(makerVoiceUrl);
             makerInvoiceEntity.setMakerVoiceUploadDateTime(new Date());
-
-            MakerTaxRecordEntity makerTaxRecordEntity = makerTaxRecordService.findPayMakerId(Long.parseLong(payMakerId));
-            if (null == makerTaxRecordEntity) {
-                makerTaxRecordEntity = new MakerTaxRecordEntity();
-                makerTaxRecordEntity.setPayMakerId(Long.parseLong(payMakerId));
-            }
-            makerTaxRecordEntity.setMakerTaxUrl(makerTaxUrl);
-            makerTaxRecordEntity.setMakerTaxUploadDatetime(new Date());
-
-            makerTaxRecordService.saveOrUpdate(makerTaxRecordEntity);
             makerInvoiceService.saveOrUpdate(makerInvoiceEntity);
+            payMakerEntity.setMakerInvoiceState(InvoiceState.OPENED);
+            if(("").equals(makerTaxUrl)){
+                MakerTaxRecordEntity makerTaxRecordEntity = makerTaxRecordService.findPayMakerId(Long.parseLong(payMakerId));
+                if (null == makerTaxRecordEntity) {
+                    makerTaxRecordEntity = new MakerTaxRecordEntity();
+                    makerTaxRecordEntity.setPayMakerId(Long.parseLong(payMakerId));
+                }
+                makerTaxRecordEntity.setMakerTaxUrl(makerTaxUrl);
+                makerTaxRecordEntity.setMakerTaxUploadDatetime(new Date());
+                payMakerEntity.setMakerTaxState(InvoiceState.OPENED);
+                makerTaxRecordService.saveOrUpdate(makerTaxRecordEntity);
+            }
+            payMakerService.saveOrUpdate(payMakerEntity);
         }
         if(payMakerCount == doorSignInvoiceJsonArray.length()){
             for (PayEnterpriseEntity payEnterpriseEntity : payEnterpriseEntities) {
