@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-
 /**
  * User Feign接口类
  *
@@ -259,8 +257,8 @@ public interface IUserClient {
      * @param makerId
      * @return
      */
-    @GetMapping(API_PREFIX + "/query-individual-enterprise/find-by-maker-id")
-    List<IndividualEnterpriseEntity> queryIndividualEnterpriseFindByMakerId(@RequestParam("makerId") Long makerId);
+    @GetMapping(API_PREFIX + "/query-individual-enterprise-num-by-maker-id")
+    int queryIndividualEnterpriseNumByMakerId(@RequestParam("makerId") Long makerId);
 
     /**
      * 查询个体信息
@@ -268,8 +266,8 @@ public interface IUserClient {
      * @param makerId
      * @return
      */
-    @GetMapping(API_PREFIX + "/query-individual-business-by-maker-id")
-    List<IndividualBusinessEntity> queryIndividualBusinessByMakerId(@RequestParam("makerId") Long makerId);
+    @GetMapping(API_PREFIX + "/query-individual-business-num-by-maker-id")
+    int queryIndividualBusinessNumByMakerId(@RequestParam("makerId") Long makerId);
 
     /**
      * 根据创客, 统一社会信用代码查询个独

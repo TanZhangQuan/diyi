@@ -10,8 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 /**
  * 用户服务Feign实现类
  *
@@ -440,13 +438,13 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public List<IndividualEnterpriseEntity> queryIndividualEnterpriseFindByMakerId(Long makerId) {
-        return individualEnterpriseService.findMakerId(makerId);
+    public int queryIndividualEnterpriseNumByMakerId(Long makerId) {
+        return individualEnterpriseService.queryIndividualEnterpriseNumByMakerId(makerId);
     }
 
     @Override
-    public List<IndividualBusinessEntity> queryIndividualBusinessByMakerId(Long makerId) {
-        return individualBusinessService.queryIndividualBusinessByMakerId(makerId);
+    public int queryIndividualBusinessNumByMakerId(Long makerId) {
+        return individualBusinessService.queryIndividualBusinessNumByMakerId(makerId);
     }
 
     @Override

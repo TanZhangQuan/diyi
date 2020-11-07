@@ -19,14 +19,6 @@ import java.util.List;
 public interface WorksheetMakerMapper extends BaseMapper<WorksheetMakerEntity> {
 
     /**
-     * 根据工单id查询抢单条数
-     *
-     * @param worksheetId
-     * @return
-     */
-    int getWorksheetCount(Long worksheetId);
-
-    /**
      * 根据工单id查询所有的创客明细
      *
      * @param worksheetId

@@ -30,10 +30,6 @@
         <result property="checkMoney" column="check_money"/>
     </resultMap>
 
-    <select id="getWorksheetCount" resultType="int">
-        select count(*) as counts from diyi_worksheet_maker where worksheet_id=#{worksheetId} and is_deleted = 0
-    </select>
-
     <select id="getWorksheetMakerDetails" resultMap="worksheetMakerDetailsVOMap">
         SELECT wm.id,m.name,m.idcard_no,m.phone_number,m.bank_card_no,m.idcard_verify_status,m.face_verify_status,m.bank_card_verify_status,
         m.phone_number_verify_status,m.video_audit,m.empower_sign_state,m.join_sign_state, wm.worksheet_maker_state, wm.achievement_desc,

@@ -19,14 +19,6 @@ import java.util.List;
 public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity> {
 
     /**
-     * 根据工单id查询抢单条数
-     *
-     * @param worksheetId
-     * @return
-     */
-    int getWorksheetCount(Long worksheetId);
-
-    /**
      * 提交工作成果
      *
      * @param worksheetMakerEntity
@@ -46,15 +38,6 @@ public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity
      * @return
      */
     R<String> checkAchievement(Long worksheetMakerId, BigDecimal checkMoney, Long enterpriseId, Boolean bool);
-
-    /**
-     * 查询创客有没有抢单
-     *
-     * @param makerId
-     * @param worksheetId
-     * @return
-     */
-    Boolean isMakerId(Long makerId, Long worksheetId);
 
     /**
      * 根据工单id查询所有的创客明细

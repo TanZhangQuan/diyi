@@ -69,7 +69,7 @@ public class WorksheetMakerController {
         WorksheetMakerEntity worksheetMakerEntity = worksheetMakerService.getById(worksheetMakerId);
         WorksheetEntity worksheetEntity = worksheetService.getById(worksheetMakerEntity.getWorksheetId());
         if (!(worksheetEntity.getWorksheetState().equals(WorksheetState.CLOSED) || worksheetEntity.getWorksheetState().equals(WorksheetState.CHECKACCEPT))) {
-            return R.fail("工单暂时不能提交工作成果，稍后再试");
+            return R.fail("商户未关单，暂不能提交工作成果");
         }
 
         return worksheetMakerService.submitAchievement(worksheetMakerEntity, achievementDesc, achievementFiles, worksheetService);

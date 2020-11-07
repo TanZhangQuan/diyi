@@ -20,8 +20,6 @@ import com.lgyun.system.order.service.IAddressService;
 import com.lgyun.system.order.service.ISelfHelpInvoiceAccountService;
 import com.lgyun.system.order.service.ISelfHelpInvoiceDetailService;
 import com.lgyun.system.order.service.ISelfHelpInvoiceFeeService;
-import com.lgyun.system.user.entity.IndividualBusinessEntity;
-import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.*;
@@ -37,7 +35,6 @@ import javax.validation.constraints.NotNull;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 @RestController
 @RequestMapping("/maker/self-help-invoice")
@@ -204,15 +201,15 @@ public class SelfHelpInvoiceMakerController {
         MakerEntity makerEntity = result.getData();
 
         if (MakerType.INDIVIDUALENTERPRISE.equals(makerType)) {
-            List<IndividualEnterpriseEntity> individualEnterpriseEntities = userClient.queryIndividualEnterpriseFindByMakerId(makerEntity.getId());
-            if (null == individualEnterpriseEntities || individualEnterpriseEntities.size() <= 0) {
+            int individualEnterpriseEntities = userClient.queryIndividualEnterpriseNumByMakerId(makerEntity.getId());
+            if (individualEnterpriseEntities <= 0) {
                 return R.fail("对不起，您还不符合个独开票的资质");
             }
         }
 
         if (MakerType.INDIVIDUALBUSINESS.equals(makerType)) {
-            List<IndividualBusinessEntity> individualBusinessEntities = userClient.queryIndividualBusinessByMakerId(makerEntity.getId());
-            if (null == individualBusinessEntities || individualBusinessEntities.size() <= 0) {
+            int individualBusinessEntities = userClient.queryIndividualBusinessNumByMakerId(makerEntity.getId());
+            if (individualBusinessEntities <= 0) {
                 return R.fail("对不起，您还不符合个体开票的资质");
             }
         }

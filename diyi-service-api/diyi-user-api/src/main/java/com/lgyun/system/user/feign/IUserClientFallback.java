@@ -8,8 +8,6 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.entity.*;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 /**
  * Feign失败配置
  *
@@ -135,13 +133,13 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public List<IndividualEnterpriseEntity> queryIndividualEnterpriseFindByMakerId(Long makerId) {
-        return null;
+    public int queryIndividualEnterpriseNumByMakerId(Long makerId) {
+        return 0;
     }
 
     @Override
-    public List<IndividualBusinessEntity> queryIndividualBusinessByMakerId(Long makerId) {
-        return null;
+    public int queryIndividualBusinessNumByMakerId(Long makerId) {
+        return 0;
     }
 
     @Override
