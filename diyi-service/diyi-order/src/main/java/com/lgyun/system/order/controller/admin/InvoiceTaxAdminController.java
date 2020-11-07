@@ -5,10 +5,7 @@ import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.LumpSumApplyInvoiceDTO;
-import com.lgyun.system.order.dto.LumpSumInvoiceDTO;
-import com.lgyun.system.order.dto.LumpSumMergeInvoiceDTO;
-import com.lgyun.system.order.dto.SummaryInvoiceDTO;
+import com.lgyun.system.order.dto.*;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.service.ISelfHelpInvoiceService;
 import com.lgyun.system.user.entity.AdminEntity;
@@ -385,14 +382,14 @@ public class InvoiceTaxAdminController {
 
     @PostMapping("/create-door-sign-invoice")
     @ApiOperation(value = "平台门征发票", notes = "平台门征发票")
-    public R createDoorSignInvoice(String payEnterpriseIds,String doorSignInvoiceJson, BladeUser bladeUser) {
+    public R createDoorSignInvoice(@Valid @RequestBody DoorSignInvoiceDTO doorSignInvoiceDTO, BladeUser bladeUser) {
        //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return payEnterpriseService.createDoorSignInvoice( payEnterpriseIds, doorSignInvoiceJson);
+        return payEnterpriseService.createDoorSignInvoice(doorSignInvoiceDTO);
     }
 
 
