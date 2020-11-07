@@ -325,11 +325,6 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             return R.fail("此工单，你已经抢过了");
         }
 
-        log.info("创客信息" + makerEntity.getCertificationState() + "," + makerEntity.getCertificationState().equals(CertificationState.CERTIFIED));
-        if (!(makerEntity.getCertificationState().equals(CertificationState.CERTIFIED))) {
-            return R.fail("请先完成认证后再抢单");
-        }
-
         int individualBusinessEntities = iUserClient.queryIndividualBusinessNumByMakerId(makerEntity.getId());
         if (individualBusinessEntities <= 0 && worksheetEntity.getMakerType().equals(MakerType.INDIVIDUALBUSINESS)) {
             return R.fail("创客身份不符-个体");
