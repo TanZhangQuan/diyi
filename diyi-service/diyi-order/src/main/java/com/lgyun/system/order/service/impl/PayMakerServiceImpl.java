@@ -4,10 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.Ibstate;
-import com.lgyun.common.enumeration.MakerType;
-import com.lgyun.common.enumeration.PayEnterprisePayState;
-import com.lgyun.common.enumeration.PayMakerPayState;
+import com.lgyun.common.enumeration.*;
 import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
@@ -117,7 +114,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
 
             MakerEntity makerEntity = userClient.queryMakerByIdcardNo(payEnterpriseExcel.getMakerIdcardNo());
             if (makerEntity == null) {
-                throw new CustomException("第" + i + 2 + "条数据身份证号码为" + payEnterpriseExcel.getMakerIdcardNo() + "的创客不存在");
+                throw new CustomException("第" + i + 2 + "条数据身份证号码为" + payEnterpriseExcel.getMakerIdcardNo() + "的系统创客不存在");
             }
 
             if (StringUtils.isBlank(makerEntity.getName())) {
@@ -126,6 +123,14 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
 
             if (!(makerEntity.getName().equals(payEnterpriseExcel.getMakerName()))) {
                 throw new CustomException("第" + i + 2 + "条数据的Excel创客姓名和系统创客姓名不一致");
+            }
+
+            if (!(SignState.SIGNED.equals(makerEntity.getJoinSignState()))) {
+                throw new CustomException("第" + i + 2 + "条数据的创客未签署加盟合同");
+            }
+
+            if (!(SignState.SIGNED.equals(makerEntity.getEmpowerSignState()))) {
+                throw new CustomException("第" + i + 2 + "条数据的创客未签署授权协议");
             }
 
             int makerEnterpriseNum = userClient.queryMakerEnterpriseRelevanceCount(enterpriseId, makerEntity.getId());
