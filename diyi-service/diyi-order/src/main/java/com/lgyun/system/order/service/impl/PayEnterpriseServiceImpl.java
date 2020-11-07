@@ -1133,6 +1133,13 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         if (split.length <= 0) {
             return R.fail("参数错误！");
         }
+        PayEnterpriseEntity payEnterpriseEntity = getById(Long.parseLong(split[0]));
+        for (int i = 1; i < split.length; i++) {
+            PayEnterpriseEntity byId = getById(Long.parseLong(split[i]));
+            if(!payEnterpriseEntity.getMakerInvoiceType().equals(byId.getMakerInvoiceType())){
+                return R.fail("请选择相同的开票方式！");
+            }
+        }
         List<InvoiceServiceDetailSummaryVO> invoiceServiceDetailSummaryVOS = new ArrayList<>();
         for (int i = 0; i < split.length; i++) {
             InvoiceServiceDetailSummaryVO invoiceServiceDetailSummaryVO = baseMapper.findServiceDetailSummary(Long.parseLong(split[i]));
@@ -1140,11 +1147,9 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             invoiceServiceDetailSummaryVO.setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
             invoiceServiceDetailSummaryVOS.add(invoiceServiceDetailSummaryVO);
         }
-
-
         map.put("invoiceServiceDetailSummaryVO", invoiceServiceDetailSummaryVOS);
-        List<PayMakerListVO> PayMakerListVOs = baseMapper.getPayMakerLists(payEnterpriseIds);
-        map.put("payMakerListVOs", PayMakerListVOs);
+        List<PayMakerListInvoiceVO> payMakerLists = baseMapper.getPayMakerLists(payEnterpriseIds);
+        map.put("payMakerListVOs", payMakerLists);
         return R.data(map);
     }
 
