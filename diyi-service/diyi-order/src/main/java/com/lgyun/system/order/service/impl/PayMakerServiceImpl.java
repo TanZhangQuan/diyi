@@ -357,4 +357,11 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
         return R.success("确认收款成功");
     }
 
+    @Override
+    public Integer getPayMakerCount(String payEnterpriseIds) {
+        QueryWrapper<PayMakerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().in(PayMakerEntity::getPayEnterpriseId, payEnterpriseIds);
+        return baseMapper.selectCount(queryWrapper);
+    }
+
 }
