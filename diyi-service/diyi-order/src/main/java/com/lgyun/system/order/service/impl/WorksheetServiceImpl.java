@@ -176,11 +176,14 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
 
     @Override
     public R kickOut(Long worksheetId, Long makerId) {
+
         WorksheetMakerEntity worksheetMakerEntity = worksheetMakerService.getmakerIdAndWorksheetId(worksheetId, makerId);
         if (null == worksheetMakerEntity) {
             return R.fail("创客没有抢单记录");
         }
+
         removeById(worksheetMakerEntity.getId());
+
         return R.success("移除成功");
     }
 

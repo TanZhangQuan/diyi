@@ -88,8 +88,8 @@ public class WorksheetMakerController {
     }
 
     @GetMapping("/query-worksheet-list-by-maker-id")
-    @ApiOperation(value = "根据创客查询工单", notes = "根据创客ID查询工单")
-    public R queryWorksheetListByMakerId(@ApiParam(value = "创客ID", required = true) @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId, Query query, BladeUser bladeUser) {
+    @ApiOperation(value = "根据创客查询工单", notes = "根据创客查询工单")
+    public R queryWorksheetListByMakerId(@ApiParam(value = "创客", required = true) @NotNull(message = "请选择创客") @RequestParam(required = false) Long makerId, Query query, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
