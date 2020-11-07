@@ -463,7 +463,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     /**
      * 服务商门征发票
      */
-    R createDoorSignInvoice(String payEnterpriseIds, String doorSignInvoiceJson, String doorSignTaxInvoiceJson);
+    R createDoorSignInvoice(String payEnterpriseIds, String doorSignInvoiceJson);
 
 
     /**

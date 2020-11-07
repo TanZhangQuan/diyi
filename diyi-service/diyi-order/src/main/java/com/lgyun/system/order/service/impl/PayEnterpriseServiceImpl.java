@@ -39,7 +39,6 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -1154,7 +1153,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
     @Override
     @Transactional
-    public R createDoorSignInvoice(String payEnterpriseIds, String doorSignInvoiceJson, String doorSignTaxInvoiceJson) {
+    public R createDoorSignInvoice(String payEnterpriseIds, String doorSignInvoiceJson) {
         String[] split = payEnterpriseIds.split(",");
         if (split.length <= 0) {
             return R.fail("参数错误！");
@@ -1169,90 +1168,29 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             payEnterpriseEntities.add(payEnterpriseEntity);
             payToPlatformAmount = payToPlatformAmount.add(payEnterpriseEntity.getPayToPlatformAmount());
         }
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//注意月份是MM
         JSONArray doorSignInvoiceJsonArray = new JSONArray(doorSignInvoiceJson);
-        JSONArray doorSignTaxInvoiceJsonArray = new JSONArray(doorSignTaxInvoiceJson);
         for (int i = 0; i < doorSignInvoiceJsonArray.length(); i++) {
             String payMakerId = doorSignInvoiceJsonArray.getJSONObject(i).get("payMakerId").toString();
-            String voiceTypeNo = doorSignInvoiceJsonArray.getJSONObject(i).get("voiceTypeNo").toString();
-            String voiceSerialNo = doorSignInvoiceJsonArray.getJSONObject(i).get("voiceSerialNo").toString();
-            String makerVoiceGetDateTime = doorSignInvoiceJsonArray.getJSONObject(i).get("makerVoiceGetDateTime").toString();
-            String voiceCategory = doorSignInvoiceJsonArray.getJSONObject(i).get("voiceCategory").toString();
-            String taxAmount = doorSignInvoiceJsonArray.getJSONObject(i).get("taxAmount").toString();
-            String salesAmount = doorSignInvoiceJsonArray.getJSONObject(i).get("salesAmount").toString();
-            String voicePerson = doorSignInvoiceJsonArray.getJSONObject(i).get("voicePerson").toString();
-            String saleCompany = doorSignInvoiceJsonArray.getJSONObject(i).get("saleCompany").toString();
-            String helpMakeOrganationName = doorSignInvoiceJsonArray.getJSONObject(i).get("helpMakeOrganationName").toString();
-            String helpMakeCompany = doorSignInvoiceJsonArray.getJSONObject(i).get("helpMakeCompany").toString();
-            String helpMakeTaxNo = doorSignInvoiceJsonArray.getJSONObject(i).get("helpMakeTaxNo").toString();
             String makerVoiceUrl = doorSignInvoiceJsonArray.getJSONObject(i).get("makerVoiceUrl").toString();
-            Date parse = null;
-            try {
-                parse = simpleDateFormat.parse(makerVoiceGetDateTime);
-            } catch (Exception e) {
-                parse = new Date();
-            }
+            String makerTaxUrl = doorSignInvoiceJsonArray.getJSONObject(i).get("makerTaxUrl").toString();
             MakerInvoiceEntity makerInvoiceEntity = makerInvoiceService.findPayMakerId(Long.parseLong(payMakerId));
             if (null == makerInvoiceEntity) {
-                makerInvoiceEntity = new MakerInvoiceEntity(Long.parseLong(payMakerId), voiceTypeNo, voiceSerialNo, parse, voiceCategory, new BigDecimal(taxAmount), new BigDecimal(salesAmount), payToPlatformAmount, voicePerson, saleCompany, helpMakeOrganationName, helpMakeCompany, helpMakeTaxNo, makerVoiceUrl, new Date());
+                makerInvoiceEntity = new MakerInvoiceEntity();
             } else {
-                makerInvoiceEntity.setVoiceTypeNo(voiceTypeNo);
-                makerInvoiceEntity.setVoiceSerialNo(voiceSerialNo);
-                makerInvoiceEntity.setMakerVoiceGetDateTime(parse);
-                makerInvoiceEntity.setVoiceCategory(voiceCategory);
-                makerInvoiceEntity.setTaxAmount(new BigDecimal(taxAmount));
-                makerInvoiceEntity.setSalesAmount(new BigDecimal(salesAmount));
-                makerInvoiceEntity.setTotalAmount(payToPlatformAmount);
-                makerInvoiceEntity.setVoicePerson(voicePerson);
-                makerInvoiceEntity.setSaleCompany(saleCompany);
-                makerInvoiceEntity.setHelpMakeOrganationName(helpMakeOrganationName);
-                makerInvoiceEntity.setHelpMakeCompany(helpMakeCompany);
-                makerInvoiceEntity.setHelpMakeTaxNo(helpMakeTaxNo);
                 makerInvoiceEntity.setMakerVoiceUrl(makerVoiceUrl);
                 makerInvoiceEntity.setMakerVoiceUploadDateTime(new Date());
             }
-            makerInvoiceService.saveOrUpdate(makerInvoiceEntity);
-        }
-
-        for (int i = 0; i < doorSignTaxInvoiceJsonArray.length(); i++) {
-            String payMakerId = doorSignInvoiceJsonArray.getJSONObject(i).get("payMakerId").toString();
-            String voiceTypeNo = doorSignInvoiceJsonArray.getJSONObject(i).get("voiceTypeNo").toString();
-            String voiceSerialNo = doorSignInvoiceJsonArray.getJSONObject(i).get("voiceSerialNo").toString();
-            String makerTaxAmount = doorSignInvoiceJsonArray.getJSONObject(i).get("makerTaxAmount").toString();
-            String salesAmount = doorSignInvoiceJsonArray.getJSONObject(i).get("salesAmount").toString();
-            String taxAmount = doorSignInvoiceJsonArray.getJSONObject(i).get("taxAmount").toString();
-            String voicePerson = doorSignInvoiceJsonArray.getJSONObject(i).get("voicePerson").toString();
-            String saleCompany = doorSignInvoiceJsonArray.getJSONObject(i).get("saleCompany").toString();
-            String helpMakeOrganationName = doorSignInvoiceJsonArray.getJSONObject(i).get("helpMakeOrganationName").toString();
-            String makerTaxUrl = doorSignInvoiceJsonArray.getJSONObject(i).get("makerTaxUrl").toString();
-            String makerTaxGetDatetime = doorSignInvoiceJsonArray.getJSONObject(i).get("makerTaxGetDatetime").toString();
-            Date parse = null;
-            try {
-                parse = simpleDateFormat.parse(makerTaxGetDatetime);
-            } catch (Exception e) {
-                parse = new Date();
-            }
             MakerTaxRecordEntity makerTaxRecordEntity = makerTaxRecordService.findPayMakerId(Long.parseLong(payMakerId));
             if (null == makerTaxRecordEntity) {
-                makerTaxRecordEntity = new MakerTaxRecordEntity(Long.parseLong(payMakerId), voiceTypeNo, voiceSerialNo, new BigDecimal(makerTaxAmount),
-                        payToPlatformAmount, new BigDecimal(salesAmount), new BigDecimal(taxAmount), voicePerson,
-                        saleCompany, helpMakeOrganationName, makerTaxUrl, parse, new Date());
+                makerTaxRecordEntity = new MakerTaxRecordEntity();
             } else {
-                makerTaxRecordEntity.setVoiceTypeNo(voiceTypeNo);
-                makerTaxRecordEntity.setVoiceSerialNo(voiceSerialNo);
-                makerTaxRecordEntity.setMakerTaxAmount(new BigDecimal(makerTaxAmount));
-                makerTaxRecordEntity.setTotalAmount(payToPlatformAmount);
-                makerTaxRecordEntity.setSalesamount(new BigDecimal(salesAmount));
-                makerTaxRecordEntity.setTaxAmount(new BigDecimal(taxAmount));
-                makerTaxRecordEntity.setVoicePerson(voicePerson);
-                makerTaxRecordEntity.setSaleCompany(saleCompany);
-                makerTaxRecordEntity.setHelpMakeOrganationName(helpMakeOrganationName);
                 makerTaxRecordEntity.setMakerTaxUrl(makerTaxUrl);
-                makerTaxRecordEntity.setMakerTaxGetDatetime(parse);
                 makerTaxRecordEntity.setMakerTaxUploadDatetime(new Date());
             }
             makerTaxRecordService.saveOrUpdate(makerTaxRecordEntity);
+            makerInvoiceService.saveOrUpdate(makerInvoiceEntity);
         }
+
         for (PayEnterpriseEntity payEnterpriseEntity : payEnterpriseEntities) {
             payEnterpriseEntity.setSubcontractingInvoiceState(InvoiceState.OPENED);
             saveOrUpdate(payEnterpriseEntity);

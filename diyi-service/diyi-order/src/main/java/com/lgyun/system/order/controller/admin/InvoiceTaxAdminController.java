@@ -385,14 +385,14 @@ public class InvoiceTaxAdminController {
 
     @PostMapping("/create-door-sign-invoice")
     @ApiOperation(value = "平台门征发票", notes = "平台门征发票")
-    public R createDoorSignInvoice(String payEnterpriseIds,String doorSignInvoiceJson,String doorSignTaxInvoiceJson, BladeUser bladeUser) {
+    public R createDoorSignInvoice(String payEnterpriseIds,String doorSignInvoiceJson, BladeUser bladeUser) {
        //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return payEnterpriseService.createDoorSignInvoice( payEnterpriseIds, doorSignInvoiceJson, doorSignTaxInvoiceJson);
+        return payEnterpriseService.createDoorSignInvoice( payEnterpriseIds, doorSignInvoiceJson);
     }
 
 
