@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.*;
+import com.lgyun.common.enumeration.Ibstate;
+import com.lgyun.common.enumeration.MakerType;
+import com.lgyun.common.enumeration.PayEnterprisePayState;
+import com.lgyun.common.enumeration.PayMakerPayState;
 import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
@@ -100,7 +103,37 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
             throw new CustomException("Excel内容不能为空");
         }
 
+        //企业总支付额价税合计总额=服务外包费总额+身份验证费总额/个体户年费总额+第三方支付手续费总额
+        BigDecimal payToPlatformAmount = BigDecimal.ZERO;
+
+        //服务税费总额=服务外包费总额*服务税费率
+        BigDecimal totalTaxFee = BigDecimal.ZERO;
+
+        //创客到手总额
+        BigDecimal totalMakerNetIncome = BigDecimal.ZERO;
+
+        //服务税费率
+        BigDecimal serviceRate = BigDecimal.ZERO;
+
+        //服务外包费总额
+        BigDecimal sourcingAmount = BigDecimal.ZERO;
+
+        //企业年费总额，个体户，个独，有限公司都有年费，自然人没有年费
+        BigDecimal enterpriseBusinessAnnualFee = BigDecimal.ZERO;
+
+        //身份验证费总额
+        BigDecimal identifyFee = BigDecimal.ZERO;
+
+        //第三方支付手续费总额
+        BigDecimal serviceFee = BigDecimal.ZERO;
+
+        //创客数
+        Integer makerNum = list.size();
+
+        //企业年费总额，个体户，个独，有限公司都有年费，自然人没有年费
+        BigDecimal singleEnterpriseBusinessAnnualFee = BigDecimal.ZERO;
         for (int i = 0; i < list.size(); i++) {
+            //获取Excel数据
             PayEnterpriseExcel payEnterpriseExcel = list.get(i);
             log.info(String.valueOf(payEnterpriseExcel));
 
@@ -151,6 +184,15 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
                 throw new CustomException("第" + i + 2 + "条数据缺少服务税费率数据");
             }
 
+            //获取服务税费率
+            if (i == 0) {
+                serviceRate = payEnterpriseExcel.getServiceRate();
+            } else {
+                if (serviceRate.compareTo(payEnterpriseExcel.getServiceRate()) != 0) {
+                    throw new CustomException("第" + i + 2 + "条数据服务税费率不一致");
+                }
+            }
+
             if (payEnterpriseExcel.getMakerTaxFee() == null) {
                 throw new CustomException("第" + i + 2 + "条数据缺少服务税费数据");
             }
@@ -169,13 +211,15 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
 
             //个体户或个独ID
             Long individualId = null;
-            BigDecimal enterpriseBusinessAnnualFee = BigDecimal.ZERO;
             switch (makerType) {
 
                 case NATURALPERSON:
                     if (payEnterpriseExcel.getAuditFee() == null) {
                         throw new CustomException("第" + i + 2 + "条数据缺少创客首次身份验证费数据");
                     }
+
+                    //总创客首次身份验证费
+                    identifyFee = identifyFee.add(payEnterpriseExcel.getAuditFee());
 
                     break;
 
@@ -209,8 +253,10 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
                         throw new CustomException("第" + i + 2 + "条数据的个体户状态非营运中");
                     }
 
+                    //个体户编号
                     individualId = individualBusinessEntity.getId();
-                    enterpriseBusinessAnnualFee = payEnterpriseExcel.getIndividualBusinessAnnualFee();
+                    //单个个体户年费
+                    singleEnterpriseBusinessAnnualFee = payEnterpriseExcel.getIndividualBusinessAnnualFee();
                     break;
 
                 case INDIVIDUALENTERPRISE:
@@ -243,8 +289,10 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
                         throw new CustomException("第" + i + 2 + "条数据的个独状态非营运中");
                     }
 
+                    //个独编号
                     individualId = individualEnterpriseEntity.getId();
-                    enterpriseBusinessAnnualFee = payEnterpriseExcel.getIndividualEnterpriseAnnualFee();
+                    //单个个独年费
+                    singleEnterpriseBusinessAnnualFee = payEnterpriseExcel.getIndividualEnterpriseAnnualFee();
                     break;
 
                 default:
@@ -257,12 +305,43 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
             payMakerEntity.setMakerId(makerEntity.getId());
             payMakerEntity.setMakerType(makerType);
             payMakerEntity.setIndividualId(individualId);
-            payMakerEntity.setEnterpriseBusinessAnnualFee(enterpriseBusinessAnnualFee);
+            payMakerEntity.setEnterpriseBusinessAnnualFee(singleEnterpriseBusinessAnnualFee);
             payMakerEntity.setCompanyApplyDatetime(new Date());
             payMakerEntity.setCompanyPayOkDatetime(new Date());
             BeanUtils.copyProperties(payEnterpriseExcel, payMakerEntity);
             save(payMakerEntity);
+
+            //企业总支付额价税合计总额=服务外包费总额+身份验证费总额/个体户年费总额+第三方支付手续费总额
+            payToPlatformAmount = payToPlatformAmount.add(payEnterpriseExcel.getTotalFee());
+
+            //服务税费总额=服务外包费总额*服务税费率
+            totalTaxFee = totalTaxFee.add(payEnterpriseExcel.getMakerTaxFee());
+
+            //创客到手总额
+            totalMakerNetIncome = totalMakerNetIncome.add(payEnterpriseExcel.getMakerNetIncome());
+
+            //服务外包费总额
+            sourcingAmount = sourcingAmount.add(payEnterpriseExcel.getMakerNeIncome());
+
+            //企业年费总额，个体户，个独，有限公司都有年费，自然人没有年费
+            enterpriseBusinessAnnualFee = enterpriseBusinessAnnualFee.add(singleEnterpriseBusinessAnnualFee);
+
+            //第三方支付手续费总额
+            serviceFee = serviceFee.add(payEnterpriseExcel.getPayFee());
         }
+
+        //编辑支付清单
+        PayEnterpriseEntity payEnterpriseEntity =  payEnterpriseService.getById(payEnterpriseId);
+        payEnterpriseEntity.setPayToPlatformAmount(payToPlatformAmount);
+        payEnterpriseEntity.setTotalTaxFee(totalTaxFee);
+        payEnterpriseEntity.setTotalMakerNetIncome(totalMakerNetIncome);
+        payEnterpriseEntity.setServiceRate(serviceRate);
+        payEnterpriseEntity.setSourcingAmount(sourcingAmount);
+        payEnterpriseEntity.setEnterpriseBusinessAnnualFee(enterpriseBusinessAnnualFee);
+        payEnterpriseEntity.setIdentifyFee(identifyFee);
+        payEnterpriseEntity.setServiceFee(serviceFee);
+        payEnterpriseEntity.setMakerNum(makerNum);
+        payEnterpriseService.updateById(payEnterpriseEntity);
     }
 
     @Override
