@@ -40,7 +40,7 @@ public class AgreementAdminController {
             return result;
         }
 
-        return agreementService.queryMakerAgreementState(makerName, Condition.getPage(query.setDescs("create_time")));
+        return agreementService.queryMakerAgreementState(makerName, Condition.getPage(query.setDescs("m.create_time")));
     }
 
     @GetMapping("/query-maker-join-or-power-agreement")
@@ -89,7 +89,7 @@ public class AgreementAdminController {
             return result;
         }
 
-        return R.data(agreementService.queryMakerIdSupplement(makerId, Condition.getPage(query.setDescs("create_time"))));
+        return R.data(agreementService.queryMakerIdSupplement(makerId, Condition.getPage(query.setDescs("a.create_time"))));
     }
 
     @GetMapping("/query-enterprise-agreement-states")
@@ -101,7 +101,7 @@ public class AgreementAdminController {
             return result;
         }
 
-        return agreementService.queryEnterpriseAgreementState(enterpriseName, Condition.getPage(query.setDescs("create_time")));
+        return agreementService.queryEnterpriseAgreementState(enterpriseName, Condition.getPage(query.setDescs("e.create_time")));
     }
 
     @GetMapping("/query-enterprise-agreement")
@@ -125,7 +125,7 @@ public class AgreementAdminController {
             return result;
         }
 
-        return agreementService.queryEnterpriseIdSupplement(enterpriseId, Condition.getPage(query.setDescs("create_time")));
+        return agreementService.queryEnterpriseIdSupplement(enterpriseId, Condition.getPage(query.setDescs("a.create_time")));
     }
 
 
@@ -138,7 +138,7 @@ public class AgreementAdminController {
             return result;
         }
 
-        return agreementService.queryEnterIdServiceSupplement(enterpriseId, Condition.getPage(query.setDescs("create_time")));
+        return agreementService.queryEnterIdServiceSupplement(enterpriseId, Condition.getPage(query.setDescs("a.create_time")));
     }
 
 
@@ -151,7 +151,7 @@ public class AgreementAdminController {
             return result;
         }
 
-        return agreementService.queryEnterIdPromise(enterpriseId, Condition.getPage(query.setDescs("create_time")));
+        return agreementService.queryEnterIdPromise(enterpriseId, Condition.getPage(query.setDescs("a.create_time")));
     }
 
     @GetMapping("/query-service-agreement-state")
@@ -163,7 +163,7 @@ public class AgreementAdminController {
             return result;
         }
 
-        return agreementService.queryServiceAgreementState(serviceProviderName,Condition.getPage(query.setDescs("create_time")));
+        return agreementService.queryServiceAgreementState(serviceProviderName,Condition.getPage(query.setDescs("s.create_time")));
     }
 
 
@@ -188,7 +188,7 @@ public class AgreementAdminController {
             return result;
         }
 
-        return agreementService.queryServiceIdEnterSupplement(serviceProviderId, Condition.getPage(query.setDescs("create_time")));
+        return agreementService.queryServiceIdEnterSupplement(serviceProviderId, Condition.getPage(query.setDescs("a.create_time")));
     }
 
     @PostMapping("/update-paper-agreement-url")

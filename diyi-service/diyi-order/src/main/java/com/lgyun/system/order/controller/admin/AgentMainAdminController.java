@@ -48,7 +48,7 @@ public class AgentMainAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        return payEnterpriseService.getCooperativeServiceProvider(Condition.getPage(query.setDescs("create_time")), agentMainId);
+        return payEnterpriseService.getCooperativeServiceProvider(Condition.getPage(query.setDescs("t1.create_time")), agentMainId);
     }
 
 

@@ -70,7 +70,7 @@ public class PaymentAdminController {
             return result;
         }
 
-        return payEnterpriseService.getPayEnterpriseList(enterpriseId, null, payEnterpriseDto, Condition.getPage(query.setDescs("create_time")));
+        return payEnterpriseService.getPayEnterpriseList(enterpriseId, null, payEnterpriseDto, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-pay-enterprise-list-by-service-provider")
@@ -82,7 +82,7 @@ public class PaymentAdminController {
             return result;
         }
 
-        return payEnterpriseService.getPayEnterpriseList(null, serviceProviderId, payEnterpriseDto, Condition.getPage(query.setDescs("create_time")));
+        return payEnterpriseService.getPayEnterpriseList(null, serviceProviderId, payEnterpriseDto, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-pay-enterprise-detail")
@@ -130,7 +130,7 @@ public class PaymentAdminController {
             return result;
         }
 
-        return payEnterpriseService.getPayMakerListByPayEnterprise(payEnterpriseId, Condition.getPage(query.setDescs("create_time")));
+        return payEnterpriseService.getPayMakerListByPayEnterprise(payEnterpriseId, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/upload-accept-paysheet")

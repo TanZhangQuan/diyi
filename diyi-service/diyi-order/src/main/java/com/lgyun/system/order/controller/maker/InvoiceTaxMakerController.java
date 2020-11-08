@@ -35,7 +35,7 @@ public class InvoiceTaxMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return payEnterpriseService.getEnterpriseAll(makerEntity.getId(), Condition.getPage(query.setDescs("create_time")));
+        return payEnterpriseService.getEnterpriseAll(makerEntity.getId(), Condition.getPage(query.setDescs("e.create_time")));
     }
 
     @GetMapping("/query-invoice-list")
@@ -48,7 +48,7 @@ public class InvoiceTaxMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return payEnterpriseService.getEnterpriseMakerIdAll(makerEntity.getId(), enterpriseId, Condition.getPage(query.setDescs("create_time")));
+        return payEnterpriseService.getEnterpriseMakerIdAll(makerEntity.getId(), enterpriseId, Condition.getPage(query.setDescs("pe.create_time")));
     }
 
     @GetMapping("/query-invoice-detail")

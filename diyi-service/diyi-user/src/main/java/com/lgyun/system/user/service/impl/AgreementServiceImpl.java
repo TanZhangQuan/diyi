@@ -417,7 +417,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
 
     @Override
     public R getRelationServiceProvider(Query query, Long enterpriseId, String keyWord) {
-        return enterpriseServiceProviderService.getServiceProvidersByEnterpriseId(enterpriseId, keyWord, Condition.getPage(query.setDescs("create_time")));
+        return enterpriseServiceProviderService.getServiceProvidersByEnterpriseId(enterpriseId, keyWord, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @Override
@@ -437,7 +437,6 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
 
     @Override
     public R queryMakerIdSupplement(Long makerId, IPage<AgreementMakerEnterAdminVO> page) {
-        System.out.println("777");
         return R.data(page.setRecords(baseMapper.queryMakerIdSupplement(makerId, null, page)));
     }
 

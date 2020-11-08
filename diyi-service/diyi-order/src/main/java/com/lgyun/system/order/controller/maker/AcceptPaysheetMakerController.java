@@ -40,7 +40,7 @@ public class AcceptPaysheetMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return acceptPaysheetService.queryTotalSubAcceptPaysheetListMaker(enterpriseId, makerEntity.getId(), Condition.getPage(query.setDescs("create_time")));
+        return acceptPaysheetService.queryTotalSubAcceptPaysheetListMaker(enterpriseId, makerEntity.getId(), Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-total-sub-accept-paysheet-detail")
@@ -79,7 +79,7 @@ public class AcceptPaysheetMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return acceptPaysheetCsService.queryCrowdAcceptPaysheetListMaker(enterpriseId, makerEntity.getId(), Condition.getPage(query.setDescs("create_time")));
+        return acceptPaysheetCsService.queryCrowdAcceptPaysheetListMaker(enterpriseId, makerEntity.getId(), Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-crowd-accept-paysheet-detail")

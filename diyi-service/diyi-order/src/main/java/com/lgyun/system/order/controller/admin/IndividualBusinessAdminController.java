@@ -51,7 +51,7 @@ public class IndividualBusinessAdminController {
             return result;
         }
 
-        return selfHelpInvoiceService.selfHelpInvoiceList(Condition.getPage(query.setDescs("create_time")), individualBusinessId, MakerType.INDIVIDUALBUSINESS);
+        return selfHelpInvoiceService.selfHelpInvoiceList(Condition.getPage(query.setDescs("t1.create_time")), individualBusinessId, MakerType.INDIVIDUALBUSINESS);
     }
 
 }

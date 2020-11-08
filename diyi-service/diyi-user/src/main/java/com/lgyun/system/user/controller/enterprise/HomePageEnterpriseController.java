@@ -48,7 +48,7 @@ public class HomePageEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return enterpriseServiceProviderService.queryServiceProviderIdAndNameList(enterpriseWorkerEntity.getEnterpriseId(), null, Condition.getPage(query.setDescs("create_time")));
+        return enterpriseServiceProviderService.queryServiceProviderIdAndNameList(enterpriseWorkerEntity.getEnterpriseId(), null, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
 }

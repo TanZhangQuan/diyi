@@ -43,7 +43,7 @@ public class NaturalPersonMakerAdminController {
             return result;
         }
 
-        return makerService.queryMakerList(null, null, null, certificationState, keyword, Condition.getPage(query.setDescs("create_time")));
+        return makerService.queryMakerList(null, null, null, certificationState, keyword, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/create-maker")

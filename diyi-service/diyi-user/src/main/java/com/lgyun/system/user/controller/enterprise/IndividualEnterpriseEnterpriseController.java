@@ -45,7 +45,7 @@ public class IndividualEnterpriseEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return makerService.queryMakerListIndividual(enterpriseWorkerEntity.getEnterpriseId(), makerListIndividualDTO, Condition.getPage(query.setDescs("create_time")));
+        return makerService.queryMakerListIndividual(enterpriseWorkerEntity.getEnterpriseId(), makerListIndividualDTO, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/add-or-update-individual-enterprise")
@@ -71,7 +71,7 @@ public class IndividualEnterpriseEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return individualEnterpriseService.queryIndividualEnterpriseList(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), null, individualBusinessEnterpriseListDto);
+        return individualEnterpriseService.queryIndividualEnterpriseList(Condition.getPage(query.setDescs("t1.create_time")), enterpriseWorkerEntity.getEnterpriseId(), null, individualBusinessEnterpriseListDto);
     }
 
     @GetMapping("/query-individual-business-detail")
@@ -97,7 +97,7 @@ public class IndividualEnterpriseEnterpriseController {
 
         return individualEnterpriseService.queryUpdateIndividualEnterpriseDetail(individualEnterpriseId);
     }
-    
+
     @GetMapping("/query-enterprise-report-list")
     @ApiOperation(value = "查询个独年审信息", notes = "查询个独年审信息")
     public R queryEnterpriseReportList(@ApiParam(value = "个独", required = true) @NotNull(message = "请选择个独") @RequestParam(required = false) Long individualEnterpriseId, Query query, BladeUser bladeUser) {

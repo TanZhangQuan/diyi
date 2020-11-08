@@ -81,7 +81,7 @@ public class EnterpriseAdminController {
             return result;
         }
 
-        return enterpriseService.queryEnterpriseListEnterprise(queryEnterpriseListDTO, Condition.getPage(query.setDescs("create_time")));
+        return enterpriseService.queryEnterpriseListEnterprise(queryEnterpriseListDTO, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/update-enterprise-state")
@@ -106,7 +106,7 @@ public class EnterpriseAdminController {
             return result;
         }
 
-        return enterpriseProviderService.queryServiceProviderIdAndNameList(null, serviceProviderName, Condition.getPage(query.setDescs("create_time")));
+        return enterpriseProviderService.queryServiceProviderIdAndNameList(null, serviceProviderName, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/match-service-provider")
@@ -134,7 +134,7 @@ public class EnterpriseAdminController {
             return result;
         }
 
-        return enterpriseProviderService.getServiceProvidersByEnterpriseId(enterpriseId, enterpriseName, Condition.getPage(query.setDescs("create_time")));
+        return enterpriseProviderService.getServiceProvidersByEnterpriseId(enterpriseId, enterpriseName, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/update-cooperation-status")

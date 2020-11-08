@@ -2,7 +2,6 @@ package com.lgyun.system.order.controller.maker;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.MakerType;
-import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
@@ -129,7 +128,7 @@ public class IncomeMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return payMakerService.queryMakerToEnterpriseTotalSubIncome(makerType, makerEntity.getId(), year, month, Condition.getPage(query.setDescs("create_time")));
+        return payMakerService.queryMakerToEnterpriseTotalSubIncome(makerType, makerEntity.getId(), year, month, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-maker-to-enterprise-crowd-income")
@@ -144,7 +143,7 @@ public class IncomeMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return selfHelpInvoiceDetailService.queryMakerToEnterpriseCrowdIncome(makerType, makerEntity.getId(), year, month, Condition.getPage(query.setDescs("create_time")));
+        return selfHelpInvoiceDetailService.queryMakerToEnterpriseCrowdIncome(makerType, makerEntity.getId(), year, month, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-total-sub-income-detail")
@@ -160,7 +159,7 @@ public class IncomeMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return payMakerService.queryTotalSubIncomeDetail(makerType, makerEntity.getId(), year, month, enterpriseId, Condition.getPage(query.setDescs("create_time")));
+        return payMakerService.queryTotalSubIncomeDetail(makerType, makerEntity.getId(), year, month, enterpriseId, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-crowd-income-detail")
@@ -176,7 +175,7 @@ public class IncomeMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return selfHelpInvoiceDetailService.queryCrowdIncomeDetail(makerType, makerEntity.getId(), year, month, enterpriseId, Condition.getPage(query.setDescs("create_time")));
+        return selfHelpInvoiceDetailService.queryCrowdIncomeDetail(makerType, makerEntity.getId(), year, month, enterpriseId, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-total-sub-detail-all-income")

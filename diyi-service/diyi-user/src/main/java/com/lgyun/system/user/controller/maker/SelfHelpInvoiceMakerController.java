@@ -35,7 +35,7 @@ public class SelfHelpInvoiceMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return makerEnterpriseService.queryRelevanceEnterpriseIdAndNameList(makerEntity.getId(), Condition.getPage(query.setDescs("create_time")));
+        return makerEnterpriseService.queryRelevanceEnterpriseIdAndNameList(makerEntity.getId(), Condition.getPage(query.setDescs("t1.create_time")));
     }
 
 }

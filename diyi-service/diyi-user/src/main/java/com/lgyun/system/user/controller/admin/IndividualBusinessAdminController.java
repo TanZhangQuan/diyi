@@ -42,7 +42,7 @@ public class IndividualBusinessAdminController {
             return result;
         }
 
-        return makerService.queryMakerListIndividual(null, makerListIndividualDTO, Condition.getPage(query.setDescs("create_time")));
+        return makerService.queryMakerListIndividual(null, makerListIndividualDTO, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/add-or-update-individual-business")
@@ -114,7 +114,7 @@ public class IndividualBusinessAdminController {
             return result;
         }
 
-        return enterpriseServiceProviderService.queryServiceProviderIdAndNameList(null, serviceProviderName, Condition.getPage(query.setDescs("create_time")));
+        return enterpriseServiceProviderService.queryServiceProviderIdAndNameList(null, serviceProviderName, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/mate-service-provider")

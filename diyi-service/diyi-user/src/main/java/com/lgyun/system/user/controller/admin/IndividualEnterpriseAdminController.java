@@ -40,7 +40,7 @@ public class IndividualEnterpriseAdminController {
             return result;
         }
 
-        return makerService.queryMakerListIndividual(null, makerListIndividualDTO, Condition.getPage(query.setDescs("create_time")));
+        return makerService.queryMakerListIndividual(null, makerListIndividualDTO, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/add-or-update-individual-enterprise")
@@ -70,7 +70,7 @@ public class IndividualEnterpriseAdminController {
             return result;
         }
 
-        return individualEnterpriseService.queryIndividualEnterpriseList(Condition.getPage(query.setDescs("create_time")), null, null, individualBusinessEnterpriseListDto);
+        return individualEnterpriseService.queryIndividualEnterpriseList(Condition.getPage(query.setDescs("t1.create_time")), null, null, individualBusinessEnterpriseListDto);
     }
 
     @GetMapping("/query-individual-business-detail")
@@ -118,7 +118,7 @@ public class IndividualEnterpriseAdminController {
             return result;
         }
 
-        return enterpriseServiceProviderService.queryServiceProviderIdAndNameList(null, serviceProviderName, Condition.getPage(query.setDescs("create_time")));
+        return enterpriseServiceProviderService.queryServiceProviderIdAndNameList(null, serviceProviderName, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/mate-service-provider")
