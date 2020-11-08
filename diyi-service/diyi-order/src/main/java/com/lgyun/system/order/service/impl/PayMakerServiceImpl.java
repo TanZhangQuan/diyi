@@ -132,82 +132,82 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
 
         //企业年费总额，个体户，个独，有限公司都有年费，自然人没有年费
         BigDecimal singleEnterpriseBusinessAnnualFee = BigDecimal.ZERO;
-        for (int i = 0; i < list.size(); i++) {
+        for (int i = 1; i <= list.size(); i++) {
             //获取Excel数据
-            PayEnterpriseExcel payEnterpriseExcel = list.get(i);
+            PayEnterpriseExcel payEnterpriseExcel = list.get(i-1);
             log.info(String.valueOf(payEnterpriseExcel));
 
             if (StringUtils.isBlank(payEnterpriseExcel.getMakerName())) {
-                throw new CustomException("第" + i + 2 + "条数据缺少创客姓名");
+                throw new CustomException("第" + i + "条数据缺少创客姓名");
             }
 
             if (StringUtils.isBlank(payEnterpriseExcel.getMakerIdcardNo())) {
-                throw new CustomException("第" + i + 2 + "条数据缺少创客身份证号");
+                throw new CustomException("第" + i + "条数据缺少创客身份证号");
             }
 
             MakerEntity makerEntity = userClient.queryMakerByIdcardNo(payEnterpriseExcel.getMakerIdcardNo());
             if (makerEntity == null) {
-                throw new CustomException("第" + i + 2 + "条数据身份证号码为" + payEnterpriseExcel.getMakerIdcardNo() + "的系统创客不存在");
+                throw new CustomException("第" + i + "条数据身份证号码为" + payEnterpriseExcel.getMakerIdcardNo() + "的系统创客不存在");
             }
 
             if (StringUtils.isBlank(makerEntity.getName())) {
-                throw new CustomException("第" + i + 2 + "条数据的系统创客姓名为空");
+                throw new CustomException("第" + i + "条数据的系统创客姓名为空");
             }
 
             if (!(makerEntity.getName().equals(payEnterpriseExcel.getMakerName()))) {
-                throw new CustomException("第" + i + 2 + "条数据的Excel创客姓名和系统创客姓名不一致");
+                throw new CustomException("第" + i + "条数据的Excel创客姓名和系统创客姓名不一致");
             }
 
 //            if (!(SignState.SIGNED.equals(makerEntity.getJoinSignState()))) {
-//                throw new CustomException("第" + i + 2 + "条数据的创客未签署加盟合同");
+//                throw new CustomException("第" + i  + "条数据的创客未签署加盟合同");
 //            }
 
 //            int entMakSupplementaryAgreementNum = userClient.queryEntMakSupplementaryAgreementNum(makerEntity.getId(), enterpriseId);
 //            if (entMakSupplementaryAgreementNum <= 0) {
-//                throw new CustomException("第" + i + 2 + "条数据的创客未签署商户-创客补充协议");
+//                throw new CustomException("第" + i  + "条数据的创客未签署商户-创客补充协议");
 //            }
 
             int makerEnterpriseNum = userClient.queryMakerEnterpriseRelevanceCount(enterpriseId, makerEntity.getId());
             if (makerEnterpriseNum <= 0) {
-                throw new CustomException("第" + i + 2 + "条数据身份证号码为" + payEnterpriseExcel.getMakerIdcardNo() + "的创客与商户不存在关联关系");
+                throw new CustomException("第" + i + "条数据身份证号码为" + payEnterpriseExcel.getMakerIdcardNo() + "的创客与商户不存在关联关系");
             }
 
             int payMakerNum = baseMapper.selectCount(Wrappers.<PayMakerEntity>query().lambda().eq(PayMakerEntity::getPayEnterpriseId, payEnterpriseId).eq(PayMakerEntity::getMakerId, makerEntity.getId()));
             if (payMakerNum > 0) {
-                throw new CustomException("第" + i + 2 + "条数据的分包已存在");
+                throw new CustomException("第" + i + "条数据的分包已存在");
             }
 
             if (payEnterpriseExcel.getMakerNetIncome() == null) {
-                throw new CustomException("第" + i + 2 + "条数据缺少创客到手数据");
+                throw new CustomException("第" + i + "条数据缺少创客到手数据");
             }
 
             if (payEnterpriseExcel.getServiceRate() == null) {
-                throw new CustomException("第" + i + 2 + "条数据缺少服务税费率数据");
+                throw new CustomException("第" + i + "条数据缺少服务税费率数据");
             }
 
             //获取服务税费率
-            if (i == 0) {
+            if (i == 1) {
                 serviceRate = payEnterpriseExcel.getServiceRate();
             } else {
                 if (serviceRate.compareTo(payEnterpriseExcel.getServiceRate()) != 0) {
-                    throw new CustomException("第" + i + 2 + "条数据服务税费率不一致");
+                    throw new CustomException("第" + i + "条数据服务税费率不一致");
                 }
             }
 
             if (payEnterpriseExcel.getMakerTaxFee() == null) {
-                throw new CustomException("第" + i + 2 + "条数据缺少服务税费数据");
+                throw new CustomException("第" + i + "条数据缺少服务税费数据");
             }
 
             if (payEnterpriseExcel.getMakerNeIncome() == null) {
-                throw new CustomException("第" + i + 2 + "条数据缺少服务外包费数据");
+                throw new CustomException("第" + i + "条数据缺少服务外包费数据");
             }
 
             if (payEnterpriseExcel.getPayFee() == null) {
-                throw new CustomException("第" + i + 2 + "条数据缺少第三方支付手续费数据");
+                throw new CustomException("第" + i + "条数据缺少第三方支付手续费数据");
             }
 
             if (payEnterpriseExcel.getTotalFee() == null) {
-                throw new CustomException("第" + i + 2 + "条数据缺少价税合计企业总支付额数据");
+                throw new CustomException("第" + i + "条数据缺少价税合计企业总支付额数据");
             }
 
             //个体户或个独ID
@@ -216,7 +216,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
 
                 case NATURALPERSON:
                     if (payEnterpriseExcel.getAuditFee() == null) {
-                        throw new CustomException("第" + i + 2 + "条数据缺少创客首次身份验证费数据");
+                        throw new CustomException("第" + i + "条数据缺少创客首次身份验证费数据");
                     }
 
                     //总创客首次身份验证费
@@ -226,32 +226,32 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
 
                 case INDIVIDUALBUSINESS:
                     if (StringUtils.isBlank(payEnterpriseExcel.getIndividualBusinessName())) {
-                        throw new CustomException("第" + i + 2 + "条数据缺少个体户名称数据");
+                        throw new CustomException("第" + i + "条数据缺少个体户名称数据");
                     }
 
                     if (StringUtils.isBlank(payEnterpriseExcel.getIndividualBusinessIbtaxNo())) {
-                        throw new CustomException("第" + i + 2 + "条数据缺少个体户统一社会信用代码数据");
+                        throw new CustomException("第" + i + "条数据缺少个体户统一社会信用代码数据");
                     }
 
                     if (payEnterpriseExcel.getIndividualBusinessAnnualFee() == null) {
-                        throw new CustomException("第" + i + 2 + "条数据缺少个体户年费数据");
+                        throw new CustomException("第" + i + "条数据缺少个体户年费数据");
                     }
 
                     IndividualBusinessEntity individualBusinessEntity = userClient.queryIndividualBusinessByIbtaxNo(payEnterpriseExcel.getIndividualBusinessIbtaxNo());
                     if (individualBusinessEntity == null) {
-                        throw new CustomException("第" + i + 2 + "条数据的个体户不存在");
+                        throw new CustomException("第" + i + "条数据的个体户不存在");
                     }
 
                     if (!(individualBusinessEntity.getMakerId().equals(makerEntity.getId()))) {
-                        throw new CustomException("第" + i + 2 + "条数据的个体户不属于创客");
+                        throw new CustomException("第" + i + "条数据的个体户不属于创客");
                     }
 
                     if (!(individualBusinessEntity.getIbname().equals(payEnterpriseExcel.getIndividualBusinessName()))) {
-                        throw new CustomException("第" + i + 2 + "条数据的Excel个体户名称和系统个体户名称不一致");
+                        throw new CustomException("第" + i + "条数据的Excel个体户名称和系统个体户名称不一致");
                     }
 
                     if (!(Ibstate.OPERATING.equals(individualBusinessEntity.getIbstate()))) {
-                        throw new CustomException("第" + i + 2 + "条数据的个体户状态非营运中");
+                        throw new CustomException("第" + i + "条数据的个体户状态非营运中");
                     }
 
                     //个体户编号
@@ -262,32 +262,32 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
 
                 case INDIVIDUALENTERPRISE:
                     if (StringUtils.isBlank(payEnterpriseExcel.getIndividualEnterpriseName())) {
-                        throw new CustomException("第" + i + 2 + "条数据缺少个独名称数据");
+                        throw new CustomException("第" + i + "条数据缺少个独名称数据");
                     }
 
                     if (StringUtils.isBlank(payEnterpriseExcel.getIndividualEnterpriseIbtaxNo())) {
-                        throw new CustomException("第" + i + 2 + "条数据缺少个独统一社会信用代码数据");
+                        throw new CustomException("第" + i + "条数据缺少个独统一社会信用代码数据");
                     }
 
                     if (payEnterpriseExcel.getIndividualEnterpriseAnnualFee() == null) {
-                        throw new CustomException("第" + i + 2 + "条数据缺少个独年费数据");
+                        throw new CustomException("第" + i + "条数据缺少个独年费数据");
                     }
 
                     IndividualEnterpriseEntity individualEnterpriseEntity = userClient.queryIndividualEnterpriseByIbtaxNo(payEnterpriseExcel.getIndividualEnterpriseIbtaxNo());
                     if (individualEnterpriseEntity == null) {
-                        throw new CustomException("第" + i + 2 + "条数据的个独不存在");
+                        throw new CustomException("第" + i + "条数据的个独不存在");
                     }
 
                     if (!(individualEnterpriseEntity.getMakerId().equals(makerEntity.getId()))) {
-                        throw new CustomException("第" + i + 2 + "条数据的个独不属于创客");
+                        throw new CustomException("第" + i + "条数据的个独不属于创客");
                     }
 
                     if (!(individualEnterpriseEntity.getIbname().equals(payEnterpriseExcel.getIndividualEnterpriseName()))) {
-                        throw new CustomException("第" + i + 2 + "条数据的Excel个独名称和系统个独名称不一致");
+                        throw new CustomException("第" + i + "条数据的Excel个独名称和系统个独名称不一致");
                     }
 
                     if (!(Ibstate.OPERATING.equals(individualEnterpriseEntity.getIbstate()))) {
-                        throw new CustomException("第" + i + 2 + "条数据的个独状态非营运中");
+                        throw new CustomException("第" + i + "条数据的个独状态非营运中");
                     }
 
                     //个独编号
