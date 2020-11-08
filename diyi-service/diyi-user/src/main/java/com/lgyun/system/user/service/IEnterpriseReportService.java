@@ -68,7 +68,7 @@ public interface IEnterpriseReportService extends BaseService<EnterpriseReportEn
     /**
      * 根据服务商id查询税务申报或工商申报
      */
-    R findServiceEnterpriseReport(Long serviceProviderId,ReportTheme reportTheme,String startTime,String endTime,IPage<AdminEnterpriseReportAllVO> page);
+    R findServiceEnterpriseReport(Long serviceProviderId,ReportTheme reportTheme,String startTime,String endTime,IPage<AdminEnterpriseReportVO> page);
 
 
     /**

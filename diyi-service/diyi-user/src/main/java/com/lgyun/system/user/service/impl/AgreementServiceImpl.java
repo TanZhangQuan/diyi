@@ -12,7 +12,6 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.AgreementMapper;
-import com.lgyun.system.user.oss.AliyunOssService;
 import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.*;
 import lombok.RequiredArgsConstructor;
@@ -41,14 +40,6 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     private final IEnterpriseServiceProviderService enterpriseServiceProviderService;
 
     private final IMakerEnterpriseService makerEnterpriseService;
-
-    @Autowired
-    @Lazy
-    private IOnlineSignPicService onlineSignPicService;
-
-    @Autowired
-    @Lazy
-    private AliyunOssService ossService;
 
     @Autowired
     @Lazy
