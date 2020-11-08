@@ -51,7 +51,7 @@ public class AdminVO implements Serializable {
     /**
      * 是否为主账号（为true时为主账号）
      */
-    private Boolean master;
+    private Boolean master = false;
 
     /**
      * 拥有的菜单名称
