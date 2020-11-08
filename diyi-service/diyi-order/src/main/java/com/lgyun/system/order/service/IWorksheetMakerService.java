@@ -75,9 +75,9 @@ public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity
      */
     List<WorksheetMakerDetailsVO> getWorksheetMakerDetails(Long worksheetId);
 
-//    /**
-//     * 查询工单已抢的数量
-//     */
-//    Integer
+    /**
+     * 查询工单已抢的数量
+     */
+    Integer getOrderGrabbingCount(Long worksheetId);
 }
 

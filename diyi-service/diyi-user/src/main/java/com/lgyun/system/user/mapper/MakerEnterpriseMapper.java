@@ -47,7 +47,7 @@ public interface MakerEnterpriseMapper extends BaseMapper<MakerEnterpriseEntity>
      * @param page
      * @return
      */
-    List<MakerEnterpriseWebVO> selectEnterpriseMaker( Long enterpriseId,IPage<MakerEnterpriseWebVO> page);
+    List<MakerEnterpriseWebVO> selectEnterpriseMaker( Long enterpriseId,String makerName,IPage<MakerEnterpriseWebVO> page);
 
     /**
      *查询关联商户和创客的明细总包

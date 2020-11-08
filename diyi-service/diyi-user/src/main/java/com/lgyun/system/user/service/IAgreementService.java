@@ -78,11 +78,10 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
      * @param enterpriseId
      * @param serviceProviderName
      * @param agreementNo
-     * @param signType
      * @param agreementType
      * @return
      */
-    IPage<AgreementWebVO> selectServiceAgreement(IPage<AgreementWebVO> page, Long enterpriseId, String serviceProviderName, String agreementNo, SignType signType, AgreementType agreementType);
+    IPage<AgreementWebVO> selectServiceAgreement(IPage<AgreementWebVO> page, Long enterpriseId, String serviceProviderName, String agreementNo, AgreementType agreementType);
 
     /**
      * 查询商户关联服务商的补充协议
@@ -134,19 +133,16 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
     R selectEnterpriseMakerAgreement(IPage<AgreementMakerWebVO> page, Long enterpriseId);
 
     /**
-     * 发布在线签署的协议
+     * 发布商户和创客的补充协议
      *
      * @param enterpriseId
      * @param paperAgreementURL
-     * @param boolAllMakers
      * @param makerIds
-     * @param templateCount
      * @param agreementType
-     * @param makerEnterpriseService
      * @return
      * @throws Exception
      */
-    R saveOnlineAgreement(Long enterpriseId, String paperAgreementURL, Boolean boolAllMakers, String makerIds, Integer templateCount, AgreementType agreementType, IMakerEnterpriseService makerEnterpriseService) throws Exception;
+    R saveEntMakAgreement(Long enterpriseId, String paperAgreementURL, String makerIds, AgreementType agreementType) throws Exception;
 
 
     /**
