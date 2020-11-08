@@ -52,7 +52,7 @@ public class CooperationEnterpriseMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return makerEnterpriseService.getMakerDetailed(Condition.getPage(query.setDescs("create_time")), makerEntity.getId(), enterpriseId, workSheetType);
+        return makerEnterpriseService.getMakerDetailed(Condition.getPage(query.setDescs("pm.create_time")), makerEntity.getId(), enterpriseId, workSheetType);
     }
 
     @GetMapping("/query-relevance-or-attention-enterprise-list")
@@ -68,7 +68,7 @@ public class CooperationEnterpriseMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return makerEnterpriseService.selectMakerEnterprisePage(Condition.getPage(query.setDescs("create_time")), makerEntity.getId(), relationshipType);
+        return makerEnterpriseService.selectMakerEnterprisePage(Condition.getPage(query.setDescs("me.create_time")), makerEntity.getId(), relationshipType);
     }
 
     @GetMapping("/query-enterprise")

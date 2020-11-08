@@ -52,7 +52,7 @@ public class WorksheetMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return worksheetService.findXiaoPage(Condition.getPage(query.setDescs("create_time")), worksheetState, makerEntity.getId());
+        return worksheetService.findXiaoPage(Condition.getPage(query.setDescs("ws.create_time")), worksheetState, makerEntity.getId());
     }
 
     @PostMapping("/submit-achievement")
@@ -96,7 +96,7 @@ public class WorksheetMakerController {
             return result;
         }
 
-        return worksheetService.getWorksheetDetailsByMaker(null, makerId, Condition.getPage(query.setDescs("create_time")));
+        return worksheetService.getWorksheetDetailsByMaker(null, makerId, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-worksheet-list-by-worksheet-no")
@@ -122,17 +122,4 @@ public class WorksheetMakerController {
 
         return worksheetService.getByWorksheetId(worksheetId);
     }
-
-    @GetMapping("/query-worksheet-list-pay-enterprise-id")
-    @ApiOperation(value = "根据支付清单查询创客工单关联", notes = "根据支付清单查询创客工单关联")
-    public R queryWorksheetListPayEnterpriseId(@ApiParam(value = "支付清单编号") @NotNull(message = "请输入支付清单编号") @RequestParam(required = false) Long payEnterpriseId, Query query, BladeUser bladeUser) {
-        //查询当前创客
-        R<MakerEntity> result = userClient.currentMaker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return worksheetMakerService.getByPayEnterpriseId(payEnterpriseId, Condition.getPage(query.setDescs("create_time")));
-    }
-
 }

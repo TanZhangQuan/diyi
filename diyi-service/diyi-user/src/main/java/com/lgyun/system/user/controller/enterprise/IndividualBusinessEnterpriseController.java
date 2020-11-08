@@ -45,7 +45,7 @@ public class IndividualBusinessEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return makerService.queryMakerListIndividual(enterpriseWorkerEntity.getEnterpriseId(), makerListIndividualDTO, Condition.getPage(query.setDescs("create_time")));
+        return makerService.queryMakerListIndividual(enterpriseWorkerEntity.getEnterpriseId(), makerListIndividualDTO, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/add-or-update-individual-business")
@@ -71,7 +71,7 @@ public class IndividualBusinessEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return individualBusinessService.queryIndividualBusinessList(enterpriseWorkerEntity.getEnterpriseId(), null, individualBusinessEnterpriseListDto, Condition.getPage(query.setDescs("create_time")));
+        return individualBusinessService.queryIndividualBusinessList(enterpriseWorkerEntity.getEnterpriseId(), null, individualBusinessEnterpriseListDto, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-individual-business-detail")

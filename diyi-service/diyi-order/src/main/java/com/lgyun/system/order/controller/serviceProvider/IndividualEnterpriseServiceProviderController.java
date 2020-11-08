@@ -35,7 +35,7 @@ public class IndividualEnterpriseServiceProviderController {
     @GetMapping("/query-invoice-list")
     @ApiOperation(value = "查询个独开票记录", notes = "查询个独开票记录")
     public R queryInvoiceList(Query query, @ApiParam(value = "个独", required = true) @NotNull(message = "请选择个独") @RequestParam(required = false) Long individualEnterpriseId) {
-        return selfHelpInvoiceService.selfHelpInvoiceList(Condition.getPage(query.setDescs("create_time")), individualEnterpriseId, MakerType.INDIVIDUALENTERPRISE);
+        return selfHelpInvoiceService.selfHelpInvoiceList(Condition.getPage(query.setDescs("t1.create_time")), individualEnterpriseId, MakerType.INDIVIDUALENTERPRISE);
     }
 
 }

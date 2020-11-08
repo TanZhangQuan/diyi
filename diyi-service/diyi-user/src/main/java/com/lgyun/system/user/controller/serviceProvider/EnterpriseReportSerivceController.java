@@ -41,7 +41,7 @@ public class EnterpriseReportSerivceController {
             return result;
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
-        return enterpriseReportService.findServiceEnterpriseReport(serviceProviderWorkerEntity.getServiceProviderId(),reportTheme, startTime, endTime, Condition.getPage(query.setDescs("create_time")));
+        return enterpriseReportService.findServiceEnterpriseReport(serviceProviderWorkerEntity.getServiceProviderId(),reportTheme, startTime, endTime, Condition.getPage(query.setDescs("b.create_time")));
     }
 
     @GetMapping("/query-enterprise-report-detail")
@@ -80,7 +80,7 @@ public class EnterpriseReportSerivceController {
             return result;
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
-        return individualBusinessService.queryIndividualBusinessList(null, serviceProviderWorkerEntity.getServiceProviderId(), new IndividualBusinessEnterpriseListDTO(), Condition.getPage(query.setDescs("create_time")));
+        return individualBusinessService.queryIndividualBusinessList(null, serviceProviderWorkerEntity.getServiceProviderId(), new IndividualBusinessEnterpriseListDTO(), Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-individual-enterprise-list")
@@ -92,6 +92,6 @@ public class EnterpriseReportSerivceController {
             return result;
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
-        return individualEnterpriseService.queryIndividualEnterpriseList(Condition.getPage(query.setDescs("create_time")), null, serviceProviderWorkerEntity.getServiceProviderId(), new IndividualBusinessEnterpriseListDTO());
+        return individualEnterpriseService.queryIndividualEnterpriseList(Condition.getPage(query.setDescs("t1.create_time")), null, serviceProviderWorkerEntity.getServiceProviderId(), new IndividualBusinessEnterpriseListDTO());
     }
 }

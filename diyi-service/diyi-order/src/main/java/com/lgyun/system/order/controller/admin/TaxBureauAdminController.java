@@ -51,6 +51,6 @@ public class TaxBureauAdminController {
             return result;
         }
 
-        return payEnterpriseService.transactionByBureauServiceProviderInfo(bureauId, Condition.getPage(query.setDescs("create_time")));
+        return payEnterpriseService.transactionByBureauServiceProviderInfo(bureauId, Condition.getPage(query.setDescs("t1.create_time")));
     }
 }

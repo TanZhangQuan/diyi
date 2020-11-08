@@ -44,7 +44,7 @@ public class AcceptPaysheetEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return acceptPaysheetService.queryTotalSubAcceptPaysheetListEnterprise(enterpriseWorkerEntity.getEnterpriseId(), acceptSheetAndCsListDto, Condition.getPage(query.setDescs("create_time")));
+        return acceptPaysheetService.queryTotalSubAcceptPaysheetListEnterprise(enterpriseWorkerEntity.getEnterpriseId(), acceptSheetAndCsListDto, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-total-sub-accept-paysheet-detail")
@@ -68,7 +68,7 @@ public class AcceptPaysheetEnterpriseController {
             return result;
         }
 
-        return payMakerService.queryTotalSubAcceptPaysheetPayMakerList(acceptPaysheetId, Condition.getPage(query.setDescs("create_time")));
+        return payMakerService.queryTotalSubAcceptPaysheetPayMakerList(acceptPaysheetId, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-crowd-accept-paysheet-list")
@@ -81,7 +81,7 @@ public class AcceptPaysheetEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return acceptPaysheetCsService.queryCrowdAcceptPaysheetListEnterprise(enterpriseWorkerEntity.getEnterpriseId(), acceptSheetAndCsListDto, Condition.getPage(query.setDescs("create_time")));
+        return acceptPaysheetCsService.queryCrowdAcceptPaysheetListEnterprise(enterpriseWorkerEntity.getEnterpriseId(), acceptSheetAndCsListDto, Condition.getPage(query.setDescs("temp.create_time")));
     }
 
     @GetMapping("/query-crowd-accept-paysheet-detail")
@@ -105,7 +105,7 @@ public class AcceptPaysheetEnterpriseController {
             return result;
         }
 
-        return selfHelpInvoiceDetailService.queryCrowdAcceptPaysheetSelfHelpInvoiceDetailList(acceptPaysheetCsId, Condition.getPage(query.setDescs("create_time")));
+        return selfHelpInvoiceDetailService.queryCrowdAcceptPaysheetSelfHelpInvoiceDetailList(acceptPaysheetCsId, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-worksheet-detail")

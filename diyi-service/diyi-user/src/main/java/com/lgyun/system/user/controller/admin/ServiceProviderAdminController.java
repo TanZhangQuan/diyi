@@ -79,7 +79,7 @@ public class ServiceProviderAdminController {
             return result;
         }
 
-        return serviceProviderService.queryServiceProviderListAdmin(queryServiceProviderListDTO, Condition.getPage(query.setDescs("create_time")));
+        return serviceProviderService.queryServiceProviderListAdmin(queryServiceProviderListDTO, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/update-service-provider-state")
@@ -104,7 +104,7 @@ public class ServiceProviderAdminController {
             return result;
         }
 
-        return enterpriseProviderService.queryEnterpriseIdAndNameList(null, enterpriseName, Condition.getPage(query.setDescs("create_time")));
+        return enterpriseProviderService.queryEnterpriseIdAndNameList(null, enterpriseName, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/match-enterprise")
@@ -132,7 +132,7 @@ public class ServiceProviderAdminController {
             return result;
         }
 
-        return enterpriseProviderService.getEnterprtisesByServiceProviderId(serviceProviderId, serviceProviderName, Condition.getPage(query.setDescs("create_time")));
+        return enterpriseProviderService.getEnterprtisesByServiceProviderId(serviceProviderId, serviceProviderName, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-service-provider-cert-list")

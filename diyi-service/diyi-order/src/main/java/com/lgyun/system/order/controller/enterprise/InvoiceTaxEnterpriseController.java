@@ -193,7 +193,7 @@ public class InvoiceTaxEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return enterpriseProviderInvoiceCatalogsService.queryInvoiceCatalogsList(serviceProviderId,enterpriseWorkerEntity.getEnterpriseId(), Condition.getPage(query.setDescs("create_time")));
+        return enterpriseProviderInvoiceCatalogsService.queryInvoiceCatalogsList(serviceProviderId,enterpriseWorkerEntity.getEnterpriseId(), Condition.getPage(query.setDescs("id")));
     }
 
     @GetMapping("/query-relation-enterprise-service")
@@ -206,7 +206,7 @@ public class InvoiceTaxEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return payEnterpriseService.queryRelationEnterpriseService(enterpriseWorkerEntity.getEnterpriseId(),serviceProviderName,Condition.getPage(query.setDescs("create_time")));
+        return payEnterpriseService.queryRelationEnterpriseService(enterpriseWorkerEntity.getEnterpriseId(),serviceProviderName,Condition.getPage(query.setDescs("a.create_time")));
     }
 
     @GetMapping("/query-enterprise-service-pay-list")
@@ -219,7 +219,7 @@ public class InvoiceTaxEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return payEnterpriseService.queryEnterpriseServicePayList(enterpriseWorkerEntity.getEnterpriseId(),serviceProviderId,Condition.getPage(query.setDescs("create_time")));
+        return payEnterpriseService.queryEnterpriseServicePayList(enterpriseWorkerEntity.getEnterpriseId(),serviceProviderId,Condition.getPage(query.setDescs("a.create_time")));
     }
 
     @GetMapping("/query-all-open-sub-list")
@@ -232,7 +232,7 @@ public class InvoiceTaxEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return payEnterpriseService.findEnterpriseSubcontractSummary(enterpriseWorkerEntity.getEnterpriseId(), serviceProviderName, Condition.getPage(query.setDescs("create_time")));
+        return payEnterpriseService.findEnterpriseSubcontractSummary(enterpriseWorkerEntity.getEnterpriseId(), serviceProviderName, Condition.getPage(query.setDescs("pe.create_time")));
     }
 
     @GetMapping("/query-all-open-sub-detail")
@@ -257,7 +257,7 @@ public class InvoiceTaxEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return payEnterpriseService.findEnterpriseSubcontractPortal(enterpriseWorkerEntity.getEnterpriseId(), serviceProviderName, Condition.getPage(query.setDescs("create_time")));
+        return payEnterpriseService.findEnterpriseSubcontractPortal(enterpriseWorkerEntity.getEnterpriseId(), serviceProviderName, Condition.getPage(query.setDescs("pe.create_time")));
     }
 
 
@@ -283,7 +283,7 @@ public class InvoiceTaxEnterpriseController {
             return result;
         }
 
-        return worksheetService.getWorksheetWebDetails(Condition.getPage(query.setDescs("create_time")), worksheetId);
+        return worksheetService.getWorksheetWebDetails(Condition.getPage(query.setDescs("wm.create_time")), worksheetId);
     }
 
     @GetMapping("/query-pay-enterprise-detail")

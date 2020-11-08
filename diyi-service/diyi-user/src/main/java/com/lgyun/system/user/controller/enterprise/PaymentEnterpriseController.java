@@ -36,7 +36,7 @@ public class PaymentEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return enterpriseProviderService.queryServiceProviderIdAndNameList(enterpriseWorkerEntity.getEnterpriseId(), serviceProviderName, Condition.getPage(query.setDescs("create_time")));
+        return enterpriseProviderService.queryServiceProviderIdAndNameList(enterpriseWorkerEntity.getEnterpriseId(), serviceProviderName, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
 }

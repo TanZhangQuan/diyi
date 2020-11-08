@@ -35,7 +35,7 @@ public class AgreementEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return selfHelpInvoiceService.findEnterpriseCrowdSourcing(enterpriseWorkerEntity.getEnterpriseId(), "", Condition.getPage(query.setDescs("create_time")));
+        return selfHelpInvoiceService.findEnterpriseCrowdSourcing(enterpriseWorkerEntity.getEnterpriseId(), "", Condition.getPage(query.setDescs("si.create_time")));
     }
 
     @GetMapping("/query-crowd-contract-detail")

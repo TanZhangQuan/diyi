@@ -46,7 +46,7 @@ public class IndividualEnterpriseServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return individualEnterpriseService.queryIndividualEnterpriseList(Condition.getPage(query.setDescs("create_time")), null, serviceProviderWorkerEntity.getServiceProviderId(), individualBusinessEnterpriseListDto);
+        return individualEnterpriseService.queryIndividualEnterpriseList(Condition.getPage(query.setDescs("t1.create_time")), null, serviceProviderWorkerEntity.getServiceProviderId(), individualBusinessEnterpriseListDto);
     }
 
     @GetMapping("/query-individual-business-detail")

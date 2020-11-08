@@ -89,7 +89,7 @@ public class AgreementEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return R.data(agreementService.selectServiceAgreement(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), serviceProviderName, agreementNo, AgreementType.SERVICEPROVIDERJOINAGREEMENT));
+        return R.data(agreementService.selectServiceAgreement(Condition.getPage(query.setDescs("a.create_time")), enterpriseWorkerEntity.getEnterpriseId(), serviceProviderName, agreementNo, AgreementType.SERVICEPROVIDERJOINAGREEMENT));
     }
 
     @GetMapping("/query-service-provider-supplementary-agreement")
@@ -102,7 +102,7 @@ public class AgreementEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return R.data(agreementService.selectServiceSupplementaryAgreement(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), serviceProviderName, agreementNo, AgreementType.SERENTSUPPLEMENTARYAGREEMENT));
+        return R.data(agreementService.selectServiceSupplementaryAgreement(Condition.getPage(query.setDescs("a.create_time")), enterpriseWorkerEntity.getEnterpriseId(), serviceProviderName, agreementNo, AgreementType.SERENTSUPPLEMENTARYAGREEMENT));
     }
 
     @PostMapping("/upload-supplementary-agreement")
@@ -128,7 +128,7 @@ public class AgreementEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return agreementService.selectMakerAgreement(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId());
+        return agreementService.selectMakerAgreement(Condition.getPage(query.setDescs("a.create_time")), enterpriseWorkerEntity.getEnterpriseId());
     }
 
     @PostMapping("/upload-enterprise-to-maker-supplementary-agreement")
@@ -154,7 +154,7 @@ public class AgreementEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return agreementService.selectEnterpriseMakerAgreement(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId());
+        return agreementService.selectEnterpriseMakerAgreement(Condition.getPage(query.setDescs("a.create_time")), enterpriseWorkerEntity.getEnterpriseId());
     }
 
     @PostMapping("/save-ent-mak-supplementary-agreement")

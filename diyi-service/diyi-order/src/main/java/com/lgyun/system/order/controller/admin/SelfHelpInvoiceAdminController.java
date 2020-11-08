@@ -38,7 +38,7 @@ public class SelfHelpInvoiceAdminController {
             return result;
         }
 
-        return selfHelpInvoiceService.getAdminMakerTypeSelfHelpInvoice(enterpriseName, startTime, endTime, makerType, Condition.getPage(query.setDescs("create_time")));
+        return selfHelpInvoiceService.getAdminMakerTypeSelfHelpInvoice(enterpriseName, startTime, endTime, makerType, Condition.getPage(query.setDescs("a.create_time")));
     }
 
     @GetMapping("/query-self-help-invoice-detail")
