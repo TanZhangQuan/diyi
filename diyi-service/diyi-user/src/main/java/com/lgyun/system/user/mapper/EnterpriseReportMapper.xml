@@ -16,7 +16,7 @@
     </resultMap>
 
     <resultMap id="queryAdminEnterpriseReportMap" type="com.lgyun.system.user.vo.AdminEnterpriseReportVO">
-        <result property="id" column="enterpriseReportId"/>
+        <result property="enterpriseReportId" column="id"/>
         <result property="serviceProviderId" column="service_provider_id"/>
         <result property="mainBodyType" column="main_body_type"/>
         <result property="mainBodyId" column="main_body_id"/>
