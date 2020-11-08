@@ -62,7 +62,7 @@ public class IndustrialParksAdminController {
 
     @GetMapping("/query-industrial-parks-info")
     @ApiOperation(value = "查询产业园区信息", notes = "查询产业园区信息")
-    public R queryIndustrialParksInfo(@ApiParam("产业园区Id") @NotNull(message = "产业园区Id不能为空！") @RequestParam(required = false) Long bureauId, BladeUser bladeUser) {
+    public R queryIndustrialParksInfo(@ApiParam("产业园区") @NotNull(message = "请选择产业园区") @RequestParam(required = false) Long bureauId, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -84,7 +84,7 @@ public class IndustrialParksAdminController {
 
     @GetMapping("/query-industrial-parks-notice")
     @ApiOperation(value = "查询产业园区通知", notes = "查询产业园区通知")
-    public R queryIndustrialParksNotice(@ApiParam("产业园区Id") @NotNull(message = "产业园区Id不能为空！") @RequestParam(required = false) Long bureauId, Query query, BladeUser bladeUser) {
+    public R queryIndustrialParksNotice(@ApiParam("产业园区") @NotNull(message = "请选择产业园区") @RequestParam(required = false) Long bureauId, Query query, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

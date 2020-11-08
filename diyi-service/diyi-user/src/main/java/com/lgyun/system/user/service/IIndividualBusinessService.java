@@ -12,8 +12,6 @@ import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.vo.*;
 
-import java.util.List;
-
 /**
  * Service 接口
  *
@@ -37,7 +35,7 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
      * @param makerId
      * @return
      */
-    List<IndividualBusinessEntity> queryIndividualBusinessByMakerId(Long makerId);
+    int queryIndividualBusinessNumByMakerId(Long makerId);
 
     /**
      * 查询当前创客的所有个体户

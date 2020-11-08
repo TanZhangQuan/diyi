@@ -56,12 +56,12 @@ public interface WorksheetMapper extends BaseMapper<WorksheetEntity> {
     WorksheetXiaoVO getWorksheetDetails(Long worksheetMakerId);
 
     /**
-     *根据工单状态和商户id查询
+     *根据工单状态和商户查询
      */
     List<WorksheetXiaoVO> getEnterpriseWorksheet(Long enterpriseId, WorksheetState worksheetState, String worksheetNo, String worksheetName, String startTime, String endTime, IPage<WorksheetXiaoVO> page);
 
     /**
-     * 根据创客ID查询工单
+     * 根据创客查询工单
      *
      * @param enterpriseId
      * @param makerId

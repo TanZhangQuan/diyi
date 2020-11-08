@@ -3,6 +3,7 @@ package com.lgyun.system.order.vo;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.InvoiceState;
+import com.lgyun.common.enumeration.MakerInvoiceType;
 import lombok.Data;
 
 /**
@@ -95,4 +96,9 @@ public class EnterpriseSubcontractInvoiceVO {
      * 支付回单
      */
     private String enterprisePayReceiptUrl;
+
+    /**
+     * 创客发票开票类别: 自然人汇总代开；自然人门征单开；个体户税局代开；个体户自开；个独自开
+     */
+    private MakerInvoiceType makerInvoiceType;
 }

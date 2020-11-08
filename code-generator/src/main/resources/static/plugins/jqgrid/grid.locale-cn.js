@@ -87,9 +87,9 @@
                 integer: "请输入有效整数",
                 date: "请输入有效时间",
                 url: "无效网址。前缀必须为 ('http://' 或 'https://')",
-                nodefined: " 未定义！",
-                novalue: " 需要返回值！",
-                customarray: "自定义函数需要返回数组！",
+                nodefined: " 未定义",
+                novalue: " 需要返回值",
+                customarray: "自定义函数需要返回数组",
                 customfcheck: "必须有自定义函数!"
             }
         },
@@ -133,7 +133,7 @@
             errcap: "错误",
             nourl: "没有设置url",
             norecords: "没有要处理的记录",
-            model: "colNames 和 colModel 长度不等！"
+            model: "colNames 和 colModel 长度不等"
         },
         formatter: {
             integer: {thousandsSeparator: ",", defaultValue: '0'},

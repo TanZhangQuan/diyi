@@ -3,18 +3,17 @@ package com.lgyun.system.user.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.RealnameVerifyConstant;
+import com.lgyun.common.constant.SmsConstant;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.*;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.IdcardVerifyDTO;
-import com.lgyun.system.user.dto.ImportMakerListDTO;
-import com.lgyun.system.user.dto.MakerAddDTO;
-import com.lgyun.system.user.dto.MakerListIndividualDTO;
+import com.lgyun.system.user.dto.*;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.entity.OnlineAgreementTemplateEntity;
 import com.lgyun.system.user.entity.User;
@@ -51,17 +50,18 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> implements IMakerService {
 
-    private AliyunOssService ossService;
     private IUserService iUserService;
-    private IMakerEnterpriseService makerEnterpriseService;
     private SmsUtil smsUtil;
+    private RedisUtil redisUtil;
+    private AliyunOssService ossService;
+    private IMakerEnterpriseService makerEnterpriseService;
     private IOnlineAgreementNeedSignService onlineAgreementNeedSignService;
     private IOnlineAgreementTemplateService onlineAgreementTemplateService;
 
     @Override
-    public int queryCountById(Long id) {
+    public int queryCountById(Long makerId) {
         QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(MakerEntity::getId, id);
+        queryWrapper.lambda().eq(MakerEntity::getId, makerId);
         return baseMapper.selectCount(queryWrapper);
     }
 
@@ -92,6 +92,56 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     @Override
     public R<MakerDetailVO> queryCurrentMakerDetail(Long makerId) {
         return R.data(baseMapper.queryCurrentMakerDetail(makerId));
+    }
+
+    @Override
+    public R<String> updateMakerDetail(UpdateMakerDeatilDTO updateMakerDeatilDTO, MakerEntity makerEntity) {
+
+        if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus())) {
+            updateMakerDeatilDTO.setName(makerEntity.getName());
+            updateMakerDeatilDTO.setIdcardNo(makerEntity.getIdcardNo());
+        } else {
+            if (StringUtils.isNotBlank(updateMakerDeatilDTO.getIdcardNo()) && !(updateMakerDeatilDTO.getIdcardNo().equals(makerEntity.getIdcardNo()))) {
+                int idcardNoMakerNum = count(Wrappers.<MakerEntity>query().lambda().eq(MakerEntity::getIdcardNo, updateMakerDeatilDTO.getIdcardNo()));
+                if (idcardNoMakerNum > 0) {
+                    return R.fail("身份证号码已存在");
+                }
+            }
+        }
+
+        if (VerifyStatus.VERIFYPASS.equals(makerEntity.getBankCardVerifyStatus())) {
+            updateMakerDeatilDTO.setBankCardNo(makerEntity.getBankCardNo());
+        }
+
+        BeanUtils.copyProperties(updateMakerDeatilDTO, makerEntity);
+        updateById(makerEntity);
+
+        return R.success("编辑成功");
+    }
+
+    @Override
+    public R<String> updatePhoneNumber(UpdateMakerPhoneNumberDTO updateMakerPhoneNumberDTO, MakerEntity makerEntity) {
+
+        if (updateMakerPhoneNumberDTO.getMobile().equals(makerEntity.getPhoneNumber())) {
+            return R.fail("该手机号与当前创客手机号一致");
+        }
+
+        //查询手机号
+        String mobile = updateMakerPhoneNumberDTO.getMobile();
+        //查询缓存短信验证码
+        String key = SmsConstant.AVAILABLE_TIME + mobile + "_" + UserType.MAKER + "_" + CodeType.UPDATEPHONE;
+        String redisCode = (String) redisUtil.get(key);
+        //判断验证码
+        if (!StringUtil.equalsIgnoreCase(redisCode, updateMakerPhoneNumberDTO.getSmsCode())) {
+            return R.fail("短信验证码不正确");
+        }
+
+        makerEntity.setPhoneNumber(updateMakerPhoneNumberDTO.getMobile());
+        makerEntity.setPhoneNumberVerifyStatus(VerifyStatus.TOVERIFY);
+        makerEntity.setPhoneNumberVerifyDate(null);
+        updateById(makerEntity);
+
+        return R.success("更改手机号成功");
     }
 
     @Override
@@ -308,7 +358,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
         //查询身份证号码是否已被使用
         MakerEntity makerEntityIdcardNo = findByIdcardNo(idNo);
-        if (makerEntityIdcardNo != null) {
+        if (makerEntityIdcardNo != null && !(makerEntityIdcardNo.getId().equals(makerEntity.getId()))) {
             return R.fail("身份证号码已被使用");
         }
 
@@ -641,11 +691,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     @Override
     public R<IPage<MakerListVO>> queryMakerList(Long enterpriseId, Long serviceProviderId, RelationshipType relationshipType, CertificationState certificationState, String keyword, IPage<MakerListVO> page) {
         return R.data(page.setRecords(baseMapper.queryMakerList(enterpriseId, serviceProviderId, relationshipType, certificationState, keyword, page)));
-    }
-
-    @Override
-    public String queryMakerName(Long payMakerId) {
-        return baseMapper.queryMakerName(payMakerId);
     }
 
 }

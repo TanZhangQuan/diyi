@@ -894,20 +894,20 @@ DROP TABLE IF EXISTS `diyi_maker_invoice`;
 CREATE TABLE `diyi_maker_invoice` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `pay_maker_id` bigint(50) NOT NULL COMMENT '创客支付ID',
-  `voice_type_no` varchar(50) NOT NULL COMMENT '发票代码',
-  `voice_serial_no` varchar(50) NOT NULL COMMENT '发票号码',
-  `maker_voice_get_date_time` datetime NOT NULL COMMENT '发票开具日期',
-  `voice_category` varchar(50) NOT NULL COMMENT '货物或应税劳务、服务名称',
-  `total_amount` decimal(12,2) NOT NULL COMMENT '价税合计',
-  `sales_amount` decimal(12,2) NOT NULL COMMENT '金额合计',
-  `tax_amount` decimal(12,2) NOT NULL COMMENT '税额合计',
-  `voice_person` varchar(50) NOT NULL DEFAULT '' COMMENT '开票人',
-  `sale_company` varchar(50) NOT NULL DEFAULT '' COMMENT '销售方名称',
-  `help_make_organation_name` varchar(50) NOT NULL COMMENT '代开机关名称',
-  `help_make_company` varchar(50) NOT NULL COMMENT '代开商户名称',
-  `help_make_tax_no` varchar(50) NOT NULL COMMENT '代开商户税号',
+  `voice_type_no` varchar(50) DEFAULT NULL COMMENT '发票代码',
+  `voice_serial_no` varchar(50) DEFAULT NULL COMMENT '发票号码',
+  `maker_voice_get_date_time` datetime DEFAULT NULL COMMENT '发票开具日期',
+  `voice_category` varchar(50) DEFAULT NULL COMMENT '货物或应税劳务、服务名称',
+  `total_amount` decimal(12,2) DEFAULT NULL COMMENT '价税合计',
+  `sales_amount` decimal(12,2) DEFAULT NULL COMMENT '金额合计',
+  `tax_amount` decimal(12,2) DEFAULT NULL COMMENT '税额合计',
+  `voice_person` varchar(50) DEFAULT '' COMMENT '开票人',
+  `sale_company` varchar(50) DEFAULT '' COMMENT '销售方名称',
+  `help_make_organation_name` varchar(50) DEFAULT NULL COMMENT '代开机关名称',
+  `help_make_company` varchar(50) DEFAULT NULL COMMENT '代开商户名称',
+  `help_make_tax_no` varchar(50) DEFAULT NULL COMMENT '代开商户税号',
   `maker_voice_url` varchar(500) NOT NULL COMMENT '发票URL',
-  `maker_voice_upload_date_time` datetime NOT NULL COMMENT '发票上传日期',
+  `maker_voice_upload_date_time` datetime DEFAULT NULL COMMENT '发票上传日期',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
@@ -916,6 +916,8 @@ CREATE TABLE `diyi_maker_invoice` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='创客门征单开发票信息表';
+
+
 
 -- ----------------------------
 -- Records of diyi_maker_invoice
@@ -948,6 +950,8 @@ CREATE TABLE `diyi_maker_tax_record` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='创客单张完税证明信息表';
+
+
 
 -- ----------------------------
 -- Records of diyi_maker_tax_record
@@ -1077,8 +1081,6 @@ CREATE TABLE `diyi_partner` (
   `due_date` datetime DEFAULT NULL COMMENT '到期日期',
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '姓名',
   `avatar` varchar(500) NOT NULL DEFAULT '' COMMENT '头像',
-  `certification_state` varchar(50) NOT NULL COMMENT '认证状态',
-  `join_sign_state` varchar(50) DEFAULT NULL COMMENT '加盟协议状态',
   `partner_state` varchar(50) NOT NULL COMMENT '账户状态',
   `politic_state` varchar(50) NOT NULL DEFAULT '' COMMENT '政治面貌',
   `nationality` varchar(50) NOT NULL DEFAULT '' COMMENT '民族',
@@ -2163,7 +2165,7 @@ CREATE TABLE `diyi_worksheet` (
   `enterprise_id` bigint(50) NOT NULL COMMENT '商户ID',
   `worksheet_no` varchar(50) NOT NULL COMMENT '工单编号',
   `worksheet_name` varchar(50) NOT NULL COMMENT '工单名称',
-  `up_person_num` int(10) DEFAULT '0' COMMENT '上线人数',
+  `up_person_num` int(10) NOT NULL DEFAULT '0' COMMENT '上限人数',
   `work_days` int(10) DEFAULT NULL COMMENT '工作天数',
   `worksheet_fee_low` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '最低费用',
   `worksheet_fee_high` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '最高费用',

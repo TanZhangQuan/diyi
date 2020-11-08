@@ -103,7 +103,7 @@ public class NaturalPersonMakerEnterpriseController {
 
     @PostMapping("/cancel-relevance-or-attention-maker-list")
     @ApiOperation(value = "批量取消创客关联或关注", notes = "批量取消创客关联或关注")
-    public R cancelRelevanceOrAttentionMakerList(@ApiParam(value = "创客") @NotEmpty(message = "请选择要取消关联的创客") @RequestParam(required = false) Set<Long> makerIds, BladeUser bladeUser) {
+    public R cancelRelevanceOrAttentionMakerList(@ApiParam(value = "创客") @NotEmpty(message = "请选择要取消关联或关注的创客") @RequestParam(required = false) Set<Long> makerIds, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {

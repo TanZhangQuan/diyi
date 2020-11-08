@@ -2,6 +2,7 @@ package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.RelationshipType;
@@ -27,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Service 实现
@@ -59,10 +59,8 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
     }
 
     @Override
-    public List<IndividualEnterpriseEntity> findMakerId(Long makerId) {
-        QueryWrapper<IndividualEnterpriseEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(IndividualEnterpriseEntity::getMakerId, makerId);
-        return baseMapper.selectList(queryWrapper);
+    public int queryIndividualEnterpriseNumByMakerId(Long makerId) {
+        return count(Wrappers.<IndividualEnterpriseEntity>query().lambda().eq(IndividualEnterpriseEntity::getMakerId, makerId));
     }
 
     @Override

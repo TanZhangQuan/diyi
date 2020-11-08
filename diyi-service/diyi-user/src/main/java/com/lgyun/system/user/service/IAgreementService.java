@@ -316,5 +316,14 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
      */
     void deleteByEnterprise(Long enterpriseId, AgreementType agreementType);
 
+    /**
+     * 查询已签署已审核通过的商户-创客补充协议
+     *
+     * @param makerId
+     * @param enterpriseId
+     * @return
+     */
+    int queryEntMakSupplementaryAgreementNum(Long makerId, Long enterpriseId);
+
 }
 

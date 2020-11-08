@@ -16,26 +16,26 @@ public class AddRelBureauDTO {
     /**
      * 类型，TAXBUREAU，税务局；MARSUPANDADM，市场监督管理局；INDUSTRIALPARKS，产业园区；PAYINGAGENCY，支付机构
      */
-    @NotNull(message = "相关局类型不能为空！")
+    @NotNull(message = "请选择类型")
     private BureauType bureauType;
 
     /**
      * 用户名
      */
-    @NotBlank(message = "用户名不能为空！")
+    @NotBlank(message = "请输入用户名")
     private String relBuserName;
 
     /**
      * 密码
      */
-    @NotBlank(message = "登录密码不能为空！")
-    @Length(min = 6, max = 18, message = "请输入长度为6-18位的密码！")
+    @NotBlank(message = "请输入密码")
+    @Length(min = 6, max = 18, message = "请输入长度为6-18位的密码")
     private String relBpwd;
 
     /**
      * 税务局名称
      */
-    @NotBlank(message = "名称不能为空！")
+    @NotBlank(message = "请输入税务局名称")
     private String relBureauName;
 
     /**

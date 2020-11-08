@@ -37,7 +37,7 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
     private IAgreementService agreementService;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public R<String> saveOnlineSignPic(Long ObjectId, ObjectType objectType, String signPic, Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId) {
         QueryWrapper<OnlineSignPicEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(OnlineSignPicEntity::getObjectId, ObjectId)

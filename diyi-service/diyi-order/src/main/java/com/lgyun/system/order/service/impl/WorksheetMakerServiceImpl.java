@@ -38,12 +38,7 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
     private IUserClient iUserClient;
 
     @Override
-    public int getWorksheetCount(Long worksheetId) {
-        return baseMapper.getWorksheetCount(worksheetId);
-    }
-
-    @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public R<String> submitAchievement(WorksheetMakerEntity worksheetMakerEntity, String achievementDesc, String achievementFiles,IWorksheetService worksheetService) {
         if (null == worksheetMakerEntity || null == achievementFiles || "" == achievementFiles) {
             return R.fail("提交失败");
@@ -120,18 +115,4 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
         return baseMapper.getWorksheetMakerDetails(worksheetId);
     }
 
-    @Override
-    public Boolean isMakerId(Long makerId, Long worksheetId) {
-
-        boolean bool = true;
-        QueryWrapper<WorksheetMakerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(WorksheetMakerEntity::getMakerId, makerId)
-                .eq(WorksheetMakerEntity::getWorksheetId, worksheetId);
-
-        WorksheetMakerEntity worksheetMakerEntity = baseMapper.selectOne(queryWrapper);
-        if (null != worksheetMakerEntity) {
-            bool = false;
-        }
-        return bool;
-    }
 }

@@ -45,6 +45,7 @@ public class TaxBureauAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
+
         return bureauService.QueryRelBureau(queryRelBureauListDTO, Condition.getPage(query.setAscs("create_time")), BureauType.TAXBUREAU);
     }
 
@@ -57,17 +58,19 @@ public class TaxBureauAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
+
         return bureauService.addRelBureau(addRelBureauDto);
     }
 
     @GetMapping("/query-tax-bureau-info")
     @ApiOperation(value = "查询税局信息", notes = "查询税局信息")
-    public R queryTaxBureauInfo(@ApiParam("税局Id") @NotNull(message = "税局Id不能为空！") @RequestParam(required = false) Long bureauId, BladeUser bladeUser) {
+    public R queryTaxBureauInfo(@ApiParam("税局") @NotNull(message = "请选择税务局") @RequestParam(required = false) Long bureauId, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
+
         return bureauService.queryRelBureauInfo(bureauId);
     }
 
@@ -79,17 +82,19 @@ public class TaxBureauAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
+
         return bureauService.updateBureau(updateRelBureauDTO);
     }
 
     @GetMapping("/query-tax-bureau-notice")
     @ApiOperation(value = "查询税局通知", notes = "查询税局通知")
-    public R queryTaxBureauNotice(@ApiParam("税局Id") @NotNull(message = "税局Id不能为空！") @RequestParam(required = false) Long bureauId, Query query, BladeUser bladeUser) {
+    public R queryTaxBureauNotice(@ApiParam("税局") @NotNull(message = "请选择支付机构") @RequestParam(required = false) Long bureauId, Query query, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
+
         return bureauNoticeService.queryBureauNotice(bureauId, Condition.getPage(query.setDescs("create_time")));
     }
 
@@ -101,18 +106,20 @@ public class TaxBureauAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
+
         return bureauServiceProviderService.queryRelBureauServiceProvider(serviceProviderName, BureauType.TAXBUREAU,Condition.getPage(query.setDescs("create_time")));
     }
 
     @PostMapping("/add-tax-bureau-service-provider")
     @ApiOperation(value = "添加匹配服务商", notes = "添加匹配服务商")
-    public R addRelBureauServiceProvider(@ApiParam("税局ID不能为空") @NotNull(message = "税局ID不能为空") @RequestParam(required = false) Long bureauId,
-                                         @ApiParam("服务商ID字符集，ID直接用逗号隔开") @NotBlank(message = "匹配服务商不能为空！") @RequestParam(required = false) String serviceProviderIds, BladeUser bladeUser) {
+    public R addRelBureauServiceProvider(@ApiParam("税局不能为空") @NotNull(message = "请选择支付机构") @RequestParam(required = false) Long bureauId,
+                                         @ApiParam("服务商集合") @NotBlank(message = "请选择要匹配的服务商") @RequestParam(required = false) String serviceProviderIds, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
+
         return bureauServiceProviderService.addRelBureauServiceProvider(serviceProviderIds, bureauId);
     }
 
@@ -124,6 +131,7 @@ public class TaxBureauAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
+
         return bureauServiceProviderService.updateBureauServiceProvider(bureauServiceProviderId, bureauServiceProviderStatus);
     }
 
@@ -135,6 +143,7 @@ public class TaxBureauAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
+
         return bureauServiceProviderService.deleteBureauServiceProvider(bureauServiceProviderId);
     }
 }

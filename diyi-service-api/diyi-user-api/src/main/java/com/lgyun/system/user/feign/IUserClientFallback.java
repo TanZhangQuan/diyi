@@ -8,8 +8,6 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.entity.*;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 /**
  * Feign失败配置
  *
@@ -55,11 +53,6 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public String queryMakerName(Long payMakerId) {
-        return null;
-    }
-
-    @Override
     public MakerEntity queryMakerById(Long makerId) {
         return null;
     }
@@ -75,7 +68,7 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public int queryMakerEnterpriseRelevanceCount(Long makerId, Long enterpriseId) {
+    public int queryMakerEnterpriseRelevanceCount(Long enterpriseId, Long makerId) {
         return 0;
     }
 
@@ -140,13 +133,13 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public List<IndividualEnterpriseEntity> queryIndividualEnterpriseFindByMakerId(Long makerId) {
-        return null;
+    public int queryIndividualEnterpriseNumByMakerId(Long makerId) {
+        return 0;
     }
 
     @Override
-    public List<IndividualBusinessEntity> queryIndividualBusinessByMakerId(Long makerId) {
-        return null;
+    public int queryIndividualBusinessNumByMakerId(Long makerId) {
+        return 0;
     }
 
     @Override
@@ -182,6 +175,11 @@ public class IUserClientFallback implements IUserClient {
     @Override
     public ServiceProviderEntity queryServiceProviderById(Long serviceProviderId) {
         return null;
+    }
+
+    @Override
+    public int queryEntMakSupplementaryAgreementNum(Long makerId, Long enterpriseId) {
+        return 0;
     }
 
 }

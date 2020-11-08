@@ -10,8 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 /**
  * 用户服务Feign实现类
  *
@@ -34,6 +32,7 @@ public class UserClient implements IUserClient {
     private IMakerService makerService;
     private IEnterpriseWorkerService enterpriseWorkerService;
     private IServiceProviderService serviceProviderService;
+    private IAgreementService agreementService;
 
     @Override
     public UserInfo queryUserInfoByUserId(Long userId, UserType userType) {
@@ -71,11 +70,6 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public String queryMakerName(Long payMakerId) {
-        return makerService.queryMakerName(payMakerId);
-    }
-
-    @Override
     public MakerEntity queryMakerById(Long makerId) {
         return makerService.getById(makerId);
     }
@@ -91,8 +85,8 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public int queryMakerEnterpriseRelevanceCount(Long makerId, Long enterpriseId) {
-        return makerEnterpriseService.queryMakerEnterpriseNum(makerId, enterpriseId, RelationshipType.RELEVANCE);
+    public int queryMakerEnterpriseRelevanceCount(Long enterpriseId, Long makerId) {
+        return makerEnterpriseService.queryMakerEnterpriseNum(enterpriseId, makerId, RelationshipType.RELEVANCE);
     }
 
     @Override
@@ -445,13 +439,13 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public List<IndividualEnterpriseEntity> queryIndividualEnterpriseFindByMakerId(Long makerId) {
-        return individualEnterpriseService.findMakerId(makerId);
+    public int queryIndividualEnterpriseNumByMakerId(Long makerId) {
+        return individualEnterpriseService.queryIndividualEnterpriseNumByMakerId(makerId);
     }
 
     @Override
-    public List<IndividualBusinessEntity> queryIndividualBusinessByMakerId(Long makerId) {
-        return individualBusinessService.queryIndividualBusinessByMakerId(makerId);
+    public int queryIndividualBusinessNumByMakerId(Long makerId) {
+        return individualBusinessService.queryIndividualBusinessNumByMakerId(makerId);
     }
 
     @Override
@@ -488,6 +482,11 @@ public class UserClient implements IUserClient {
     @Override
     public ServiceProviderEntity queryServiceProviderById(Long serviceProviderId) {
         return serviceProviderService.getById(serviceProviderId);
+    }
+
+    @Override
+    public int queryEntMakSupplementaryAgreementNum(Long makerId, Long enterpriseId) {
+        return agreementService.queryEntMakSupplementaryAgreementNum(makerId, enterpriseId);
     }
 
 }

@@ -5,13 +5,9 @@ import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.LumpSumApplyInvoiceDTO;
-import com.lgyun.system.order.dto.LumpSumInvoiceDTO;
-import com.lgyun.system.order.dto.LumpSumMergeInvoiceDTO;
-import com.lgyun.system.order.dto.SummaryInvoiceDTO;
+import com.lgyun.system.order.dto.*;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.service.IWorksheetService;
-import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
@@ -340,7 +336,7 @@ public class InvoiceTaxServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return payEnterpriseService.saveServiceLumpSumInvoice(serviceProviderWorkerEntity.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc());
+        return payEnterpriseService.saveServiceLumpSumInvoice(serviceProviderWorkerEntity.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),lumpSumInvoiceDto.getInvoiceTypeNo(),lumpSumInvoiceDto.getInvoiceSerialNo(),lumpSumInvoiceDto.getInvoiceCategory());
     }
 
 
@@ -354,7 +350,7 @@ public class InvoiceTaxServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return payEnterpriseService.saveServiceLumpSumMergeInvoice(serviceProviderWorkerEntity.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseIds(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc());
+        return payEnterpriseService.saveServiceLumpSumMergeInvoice(serviceProviderWorkerEntity.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseIds(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),lumpSumInvoiceDto.getInvoiceTypeNo(),lumpSumInvoiceDto.getInvoiceSerialNo(),lumpSumInvoiceDto.getInvoiceCategory());
     }
 
 
@@ -368,10 +364,22 @@ public class InvoiceTaxServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return payEnterpriseService.createTotalApplyInvoice(serviceProviderWorkerEntity.getServiceProviderId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getApplicationId(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc());
+        return payEnterpriseService.createTotalApplyInvoice(serviceProviderWorkerEntity.getServiceProviderId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getApplicationId(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),lumpSumInvoiceDto.getInvoiceTypeNo(),lumpSumInvoiceDto.getInvoiceSerialNo(),lumpSumInvoiceDto.getInvoiceCategory());
     }
 
 
+    @PostMapping("/update-total-invoice")
+    @ApiOperation(value = "服务商根据总包开票id修改总包发票", notes = "服务商根据总包开票id修改总包发票")
+    public R updateTotalInvoice(@Valid @RequestBody LumpInvoiceDTO lumpInvoiceDTO, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+        lumpInvoiceDTO.setServiceProviderId(serviceProviderWorkerEntity.getServiceProviderId());
+        return payEnterpriseService.updateTotalInvoice(lumpInvoiceDTO);
+    }
 
 
 
@@ -413,34 +421,34 @@ public class InvoiceTaxServiceProviderController {
 
     @PostMapping("/create-door-sign-invoice")
     @ApiOperation(value = "服务商门征发票", notes = "服务商门征发票")
-    public R createDoorSignInvoice(String payEnterpriseIds,String doorSignInvoiceJson,String doorSignTaxInvoiceJson, BladeUser bladeUser) {
+    public R createDoorSignInvoice(@Valid @RequestBody DoorSignInvoiceDTO doorSignInvoiceDTO,  BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
-        return payEnterpriseService.createDoorSignInvoice( payEnterpriseIds, doorSignInvoiceJson, doorSignTaxInvoiceJson);
+        return payEnterpriseService.createDoorSignInvoice( doorSignInvoiceDTO);
     }
 
 
-    @GetMapping("/query-single-open-invoice-detail")
-    @ApiOperation(value = "查询已门征单开的发票详情", notes = "查询已门征单开的发票详情")
-    public R querySingleOpenInvoiceDetail(@ApiParam(value = "商户支付清单", required = true) @NotNull(message = "请选择商户支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
-        //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return payEnterpriseService.getServicePortalSignInvoiceDetails(payEnterpriseId);
-    }
+//    @GetMapping("/query-single-open-invoice-detail")
+//    @ApiOperation(value = "查询已门征单开的发票详情", notes = "查询已门征单开的发票详情")
+//    public R querySingleOpenInvoiceDetail(@ApiParam(value = "商户支付清单", required = true) @NotNull(message = "请选择商户支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
+////        //查询当前服务商员工
+////        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+////        if (!(result.isSuccess())) {
+////            return result;
+////        }
+//
+//        return payEnterpriseService.getServicePortalSignInvoiceDetails(payEnterpriseId);
+//    }
 
 
     @GetMapping("query-worksheet-detail")
     @ApiOperation(value = "查询工单详情", notes = "查询工单详情")
     public R queryWorksheetDetail(@NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId, Query query, BladeUser bladeUser) {
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -451,8 +459,8 @@ public class InvoiceTaxServiceProviderController {
     @GetMapping("/query-pay-enterprise-detail")
     @ApiOperation(value = "查询总包支付清单详情", notes = "查询总包支付清单详情")
     public R queryPayEnterpriseDetail(@ApiParam(value = "支付清单", required = true) @NotNull(message = "请选择总包支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }

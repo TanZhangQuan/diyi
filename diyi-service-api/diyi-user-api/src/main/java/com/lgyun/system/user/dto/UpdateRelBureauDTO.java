@@ -15,13 +15,13 @@ public class UpdateRelBureauDTO {
     /**
      * 税务局Id
      */
-    @NotNull(message = "相关局Id不能为空！")
+    @NotNull(message = "请选择税务局")
     private Long bureauId;
 
     /**
      * 税务局名称
      */
-    @NotBlank(message = "名称不能为空！")
+    @NotBlank(message = "请输入税务局名称")
     private String relBureauName;
 
     /**
@@ -85,7 +85,7 @@ public class UpdateRelBureauDTO {
     /**
      * 用户名
      */
-    @NotBlank(message = "用户名不能为空！")
+    @NotBlank(message = "请输入用户名")
     private String relBuserName;
 
     /**

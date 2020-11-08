@@ -2,6 +2,7 @@ package com.lgyun.system.order.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
@@ -15,8 +16,6 @@ import com.lgyun.system.order.mapper.WorksheetMapper;
 import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.order.vo.*;
-import com.lgyun.system.user.entity.IndividualBusinessEntity;
-import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
@@ -42,7 +41,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     private IUserClient iUserClient;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public R<String> releaseWorksheet(ReleaseWorksheetDTO releaseWorksheetDTO) {
         WorksheetEntity worksheetEntity = new WorksheetEntity();
         if (StringUtil.isBlank(releaseWorksheetDTO.getWorksheetName())) {
@@ -76,7 +75,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             sameSet.add(element);
         }
         if (sameSet.size() != split.length) {
-            return R.fail("有存在相同的指定创客！！");
+            return R.fail("有存在相同的指定创客");
         }
         BeanUtil.copy(releaseWorksheetDTO, worksheetEntity);
         if (null == releaseWorksheetDTO.getUpPersonNum()) {
@@ -111,34 +110,6 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     }
 
     @Override
-    @Transactional
-    public R<String> orderGrabbing(Long worksheetId, Long makerId) {
-        if (null == worksheetId || null == makerId) {
-            return R.fail("参数错误");
-        }
-        WorksheetEntity worksheetEntity = getById(worksheetId);
-        if (worksheetEntity.getWorksheetMode().equals(WorkSheetMode.DISPATCH)) {
-            return R.fail("该工单不支持抢单");
-        }
-        if (null == worksheetEntity) {
-            return R.fail("没有此工单");
-        }
-        MakerEntity makerEntity = iUserClient.queryMakerById(makerId);
-        if (null == worksheetEntity) {
-            return R.fail("没有此创客");
-        }
-        if (!worksheetEntity.getWorksheetState().equals(WorksheetState.PUBLISHING)) {
-            return R.fail("暂停抢单");
-        }
-        int worksheetCount = worksheetMakerService.getWorksheetCount(worksheetEntity.getId());
-        Boolean bool = worksheetMakerService.isMakerId(makerId, worksheetId);
-        if (!bool) {
-            return R.fail("此工单，你已经抢过了");
-        }
-        return orderGrabbing(worksheetEntity, makerEntity, worksheetCount);
-    }
-
-    @Override
     public R<IPage<WorksheetXiaoVO>> findXiaoPage(IPage<WorksheetXiaoVO> page, Integer worksheetState, Long makerId) {
         if (worksheetState == 1) {
             return R.data(page.setRecords(baseMapper.findXiaoPage(page, makerId)));
@@ -164,7 +135,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     @Override
     public R getWorksheetWebDetails(IPage<WorksheetMakerDetailsVO> page, Long worksheetId) {
         WorksheetEntity worksheetEntity = getById(worksheetId);
-        if(null == worksheetEntity){
+        if (null == worksheetEntity) {
             return R.fail("没有此工单");
         }
         WorksheetXiaoVO worksheetXiaoVo = BeanUtil.copy(worksheetEntity, WorksheetXiaoVO.class);
@@ -197,6 +168,10 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             saveOrUpdate(worksheetEntity);
             return R.success("关闭成功");
         } else {
+//            worksheetMakerService.
+//            if(){
+//
+//            }
             worksheetEntity.setWorksheetState(WorksheetState.PUBLISHING);
             saveOrUpdate(worksheetEntity);
             return R.success("开启成功");
@@ -205,11 +180,14 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
 
     @Override
     public R kickOut(Long worksheetId, Long makerId) {
+
         WorksheetMakerEntity worksheetMakerEntity = worksheetMakerService.getmakerIdAndWorksheetId(worksheetId, makerId);
         if (null == worksheetMakerEntity) {
             return R.fail("创客没有抢单记录");
         }
+
         removeById(worksheetMakerEntity.getId());
+
         return R.success("移除成功");
     }
 
@@ -265,7 +243,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public R closeOrOpenList(String worksheetIds, Integer variable) {
         String[] split = worksheetIds.split(",");
         if (variable != 1 && variable != 2) {
@@ -285,7 +263,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public R deleteWorksheetList(String worksheetIds) {
         String[] split = worksheetIds.split(",");
         for (int i = 0; i < split.length; i++) {
@@ -314,39 +292,69 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         return R.success("操作成功");
     }
 
-    public synchronized R<String> orderGrabbing(WorksheetEntity worksheetEntity, MakerEntity makerEntity, int worksheetCount) {
-        log.info("创客信息" + makerEntity.getCertificationState() + "," + makerEntity.getCertificationState().equals(CertificationState.CERTIFIED));
-        if (!(makerEntity.getCertificationState().equals(CertificationState.CERTIFIED))) {
-            return R.fail("请先完成认证，在抢单");
+    @Transactional(rollbackFor = Exception.class)
+    public synchronized R<String> orderGrabbing(Long worksheetId, Long makerId) {
+
+        WorksheetEntity worksheetEntity = getById(worksheetId);
+        if (null == worksheetEntity) {
+            return R.fail("工单不存在");
         }
-        if (worksheetCount == worksheetEntity.getUpPersonNum() && worksheetEntity.getUpPersonNum() != 0) {
-            if (worksheetEntity.getWorksheetState().equals(WorksheetState.PUBLISHING)) {
-                worksheetEntity.setWorksheetState(WorksheetState.CLOSED);
-                worksheetEntity.setCloseDesc("2");
-                worksheetEntity.setCloseWorksheetDate(new Date());
-                worksheetEntity.setClosePerson("系统");
-                saveOrUpdate(worksheetEntity);
-            }
+
+        if (WorkSheetMode.DISPATCH.equals(worksheetEntity.getWorksheetMode())) {
+            return R.fail("工单不支持抢单");
+        }
+
+        MakerEntity makerEntity = iUserClient.queryMakerById(makerId);
+        if (null == makerEntity) {
+            return R.fail("创客不存在");
+        }
+
+        if (!WorksheetState.PUBLISHING.equals(worksheetEntity.getWorksheetState())) {
+            return R.fail("非发布中工单，不可抢单");
+        }
+
+        int worksheetMakerCount = worksheetMakerService.count(Wrappers.<WorksheetMakerEntity>query().lambda().eq(WorksheetMakerEntity::getWorksheetId, worksheetEntity.getId()));
+        if (worksheetMakerCount >= worksheetEntity.getUpPersonNum()) {
             return R.fail("工单已抢完");
         }
-        List<IndividualBusinessEntity> individualBusinessEntities = iUserClient.queryIndividualBusinessByMakerId(makerEntity.getId());
-        if ((null == individualBusinessEntities || individualBusinessEntities.size() <= 0) && worksheetEntity.getMakerType().equals(MakerType.INDIVIDUALBUSINESS)) {
+
+        int worksheetMakerNum = worksheetMakerService.count(Wrappers.<WorksheetMakerEntity>query().lambda()
+                .eq(WorksheetMakerEntity::getMakerId, makerEntity.getId())
+                .eq(WorksheetMakerEntity::getWorksheetId, worksheetEntity.getId()));
+        if (worksheetMakerNum > 0) {
+            return R.fail("此工单，你已经抢过了");
+        }
+
+        int individualBusinessEntities = iUserClient.queryIndividualBusinessNumByMakerId(makerEntity.getId());
+        if (individualBusinessEntities <= 0 && worksheetEntity.getMakerType().equals(MakerType.INDIVIDUALBUSINESS)) {
             return R.fail("创客身份不符-个体");
         }
-        List<IndividualEnterpriseEntity> individualEnterpriseEntities = iUserClient.queryIndividualEnterpriseFindByMakerId(makerEntity.getId());
-        if ((null == individualEnterpriseEntities || individualEnterpriseEntities.size() <= 0) && worksheetEntity.getMakerType().equals(MakerType.INDIVIDUALENTERPRISE)) {
+
+        int individualEnterpriseEntities = iUserClient.queryIndividualEnterpriseNumByMakerId(makerEntity.getId());
+        if (individualEnterpriseEntities <= 0 && worksheetEntity.getMakerType().equals(MakerType.INDIVIDUALENTERPRISE)) {
             return R.fail("创客身份不符-个独");
         }
+
         WorksheetMakerEntity worksheetMakerEntity = new WorksheetMakerEntity();
         worksheetMakerEntity.setMakerId(makerEntity.getId());
         worksheetMakerEntity.setWorksheetId(worksheetEntity.getId());
         worksheetMakerEntity.setGetType(GetType.GETGRABBING);
         worksheetMakerEntity.setGetOrderDate(new Date());
         worksheetMakerEntity.setMakerName(makerEntity.getName());
-        worksheetMakerEntity.setArrangePerson("qiangdan");
-        worksheetMakerEntity.setArrangeDate(new Date());
         worksheetMakerService.save(worksheetMakerEntity);
+
+        //商户创客关联
         iUserClient.createMakerToEnterpriseRelevance(worksheetEntity.getEnterpriseId(), makerEntity.getId());
+
+        //判断是否关单
+        if (worksheetMakerCount + 1 >= worksheetEntity.getUpPersonNum() && WorksheetState.PUBLISHING.equals(worksheetEntity.getWorksheetState())) {
+            worksheetEntity.setWorksheetState(WorksheetState.CLOSED);
+            worksheetEntity.setCloseDesc("自动关单");
+            worksheetEntity.setCloseWorksheetDate(new Date());
+            worksheetEntity.setClosePerson("系统");
+            updateById(worksheetEntity);
+        }
+
         return R.success("抢单成功");
     }
 }

@@ -13,7 +13,7 @@ import java.math.BigDecimal;
  * @time 14:36.
  */
 @Data
-public class PayMakerListVO implements Serializable {
+public class PayMakerListServiceProviderVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -66,5 +66,10 @@ public class PayMakerListVO implements Serializable {
      * 是否已开交付支付验收单
      */
     private boolean boolAcceptSheet;
+
+    /**
+     * 支付回单
+     */
+    private String makerPayReceiptUrls;
 
 }

@@ -13,5 +13,12 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface PayMakerReceiptMapper extends BaseMapper<PayMakerReceiptEntity> {
 
+    /**
+     * 删除分包支付回单
+     *
+     * @param payMakerId
+     * @return
+     */
+    void deleteByPayMakerId(Long payMakerId);
 }
 

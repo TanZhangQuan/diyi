@@ -288,7 +288,7 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
             agentProviderEntity.setCooperateStatus(CooperateStatus.COOPERATESTOP);
         }
         agentProviderService.updateById(agentProviderEntity);
-        return R.success("操作成功！");
+        return R.success("操作成功");
     }
 
 
@@ -314,7 +314,7 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
             entity.setCreateTime(new Date());
             agentProviderMapper.insert(entity);
         }
-        return R.success("添加匹配服务商成功！");
+        return R.success("添加匹配服务商成功");
     }
 
 }

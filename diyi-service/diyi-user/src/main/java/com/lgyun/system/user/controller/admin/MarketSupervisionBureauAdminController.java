@@ -61,7 +61,7 @@ public class MarketSupervisionBureauAdminController {
 
     @GetMapping("/query-market-supervision-bureau-info")
     @ApiOperation(value = "查询市场监督管理局信息", notes = "查询市场监督管理局信息")
-    public R queryMarketSupervisionBureauInfo(@ApiParam("市场监督管理局Id") @NotNull(message = "市场监督管理局Id不能为空！") @RequestParam(required = false) Long bureauId, BladeUser bladeUser) {
+    public R queryMarketSupervisionBureauInfo(@ApiParam("市场监督管理局") @NotNull(message = "请选择市场监督管理局") @RequestParam(required = false) Long bureauId, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -83,7 +83,7 @@ public class MarketSupervisionBureauAdminController {
 
     @GetMapping("/query-market-supervision-bureau-notice")
     @ApiOperation(value = "查询市场监督管理局通知", notes = "查询市场监督管理局通知")
-    public R queryMarketSupervisionBureauNotice(@ApiParam("市场监督管理局Id") @NotNull(message = "市场监督管理局Id不能为空！") @RequestParam(required = false) Long bureauId, Query query, BladeUser bladeUser) {
+    public R queryMarketSupervisionBureauNotice(@ApiParam("市场监督管理局") @NotNull(message = "请选择市场监督管理局") @RequestParam(required = false) Long bureauId, Query query, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -106,7 +106,7 @@ public class MarketSupervisionBureauAdminController {
     @PostMapping("/add-market-supervision-bureau-service-provider")
     @ApiOperation(value = "添加匹配服务商", notes = "添加匹配服务商")
     public R addRelBureauServiceProvider(@ApiParam("市场监督管理局ID不能为空") @NotNull(message = "市场监督管理局ID不能为空") @RequestParam(required = false) Long bureauId,
-                                         @ApiParam("服务商ID字符集，ID直接用逗号隔开") @NotBlank(message = "匹配服务商不能为空！") @RequestParam(required = false) String serviceProviderIds, BladeUser bladeUser) {
+                                         @ApiParam("服务商ID字符集，ID直接用逗号隔开") @NotBlank(message = "匹配服务商不能为空") @RequestParam(required = false) String serviceProviderIds, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -117,7 +117,7 @@ public class MarketSupervisionBureauAdminController {
 
     @PostMapping("/update-market-supervision-bureau-service-provider")
     @ApiOperation(value = "开启或关闭匹配服务商", notes = "开启或关闭匹配服务商")
-    public R updateBureauServiceProvider(@ApiParam("匹配的ID") @NotNull(message = "匹配的ID不能为空") @RequestParam(required = false) Long bureauServiceProviderId, @NotNull(message = "状态不能为空！") BureauServiceProviderStatus bureauServiceProviderStatus, BladeUser bladeUser) {
+    public R updateBureauServiceProvider(@ApiParam("匹配的ID") @NotNull(message = "匹配的ID不能为空") @RequestParam(required = false) Long bureauServiceProviderId, @NotNull(message = "请选择状态") BureauServiceProviderStatus bureauServiceProviderStatus, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

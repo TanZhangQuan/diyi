@@ -130,7 +130,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * @param page
      * @return
      */
-    List<PayMakerListVO> getPayMakerListByPayEnterprise(Long payEnterpriseId, IPage<PayMakerListVO> page);
+    List<PayMakerListServiceProviderVO> getPayMakerListByPayEnterprise(Long payEnterpriseId, IPage<PayMakerListServiceProviderVO> page);
 
     /**
      * 查询当前商户首页交易情况数据
@@ -349,7 +349,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     /**
      *
      */
-    List<PayMakerListVO> getPayMakerLists(String payEnterpriseIds);
+    List<PayMakerListsVO> getPayMakerLists(String payEnterpriseIds);
 
     /**
      * 查询总包支付清单详情

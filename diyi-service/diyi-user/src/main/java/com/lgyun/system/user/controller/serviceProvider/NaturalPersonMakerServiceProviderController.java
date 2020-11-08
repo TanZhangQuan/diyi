@@ -43,7 +43,7 @@ public class NaturalPersonMakerServiceProviderController {
 
     @GetMapping("/query-maker-detail")
     @ApiOperation(value = "查询创客详情", notes = "查询创客详情")
-    public R queryMakerDetail(@ApiParam(value = "创客ID", required = true) @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId, BladeUser bladeUser) {
+    public R queryMakerDetail(@ApiParam(value = "创客", required = true) @NotNull(message = "请选择创客") @RequestParam(required = false) Long makerId, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {

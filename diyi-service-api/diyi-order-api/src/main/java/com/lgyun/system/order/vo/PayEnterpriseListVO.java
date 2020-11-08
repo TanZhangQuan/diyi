@@ -52,7 +52,7 @@ public class PayEnterpriseListVO implements Serializable {
     /**
      * 总包+分包交付支付验收单
      */
-    private String acceptPaysheetUrl;
+    private String acceptPaysheetUrls;
 
     /**
      * 审核状态

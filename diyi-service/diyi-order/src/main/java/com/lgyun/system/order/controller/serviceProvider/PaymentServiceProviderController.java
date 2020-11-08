@@ -10,6 +10,7 @@ import com.lgyun.system.order.dto.AcceptPaysheetSaveDTO;
 import com.lgyun.system.order.dto.PayEnterpriseDTO;
 import com.lgyun.system.order.service.IAcceptPaysheetService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
+import com.lgyun.system.order.service.IPayMakerReceiptService;
 import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
@@ -21,6 +22,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @RestController
@@ -34,6 +36,7 @@ public class PaymentServiceProviderController {
     private IPayEnterpriseService payEnterpriseService;
     private IWorksheetService worksheetService;
     private IAcceptPaysheetService acceptPaysheetService;
+    private IPayMakerReceiptService payMakerReceiptService;
 
     @GetMapping("/query-pay-enterprise-list")
     @ApiOperation(value = "查询当前服务商所有总包支付清单", notes = "查询当前服务商所有总包支付清单")
@@ -110,6 +113,20 @@ public class PaymentServiceProviderController {
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
         return acceptPaysheetService.uploadAcceptPaysheet(null, serviceProviderWorkerEntity.getServiceProviderId(), acceptPaysheetSaveDto, "服务商上传", serviceProviderWorkerEntity.getWorkerName());
+    }
+
+    @PostMapping("/upload-pay-maker-receipt")
+    @ApiOperation(value = "上传支付回单", notes = "上传支付回单")
+    public R uploadPayMakerReceipt(@ApiParam(value = "支付清单明细", required = true) @NotNull(message = "请选择支付清单明细") @RequestParam(required = false) Long payMakerId,
+                                   @ApiParam(value = "支付回单", required = true) @NotBlank(message = "请上传支付回单") @RequestParam(required = false) String makerPayReceiptUrls, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+        return payMakerReceiptService.uploadPayMakerReceipt(serviceProviderWorkerEntity.getServiceProviderId(), payMakerId, makerPayReceiptUrls);
     }
 
 }

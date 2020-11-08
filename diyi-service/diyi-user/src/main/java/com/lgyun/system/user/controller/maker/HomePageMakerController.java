@@ -2,15 +2,17 @@ package com.lgyun.system.user.controller.maker;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
+import com.lgyun.system.user.dto.UpdateMakerDeatilDTO;
+import com.lgyun.system.user.dto.UpdateMakerPhoneNumberDTO;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.IMakerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/maker/home-page")
@@ -45,6 +47,32 @@ public class HomePageMakerController {
         MakerEntity makerEntity = result.getData();
 
         return makerService.queryCurrentMakerDetail(makerEntity.getId());
+    }
+
+    @PostMapping("/update-maker-detail")
+    @ApiOperation(value = "修改创客详情", notes = "修改创客详情")
+    public R updateMakerDetail(@Valid @RequestBody UpdateMakerDeatilDTO updateMakerDeatilDTO, BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = makerService.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        MakerEntity makerEntity = result.getData();
+
+        return makerService.updateMakerDetail(updateMakerDeatilDTO, makerEntity);
+    }
+
+    @PostMapping("/update-phone-number")
+    @ApiOperation(value = "修改手机号码", notes = "修改手机号码")
+    public R updatePhoneNumber(@Valid @RequestBody UpdateMakerPhoneNumberDTO updateMakerPhoneNumberDTO, BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = makerService.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        MakerEntity makerEntity = result.getData();
+
+        return makerService.updatePhoneNumber(updateMakerPhoneNumberDTO, makerEntity);
     }
 
 }

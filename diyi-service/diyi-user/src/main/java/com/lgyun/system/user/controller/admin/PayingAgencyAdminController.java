@@ -62,7 +62,7 @@ public class PayingAgencyAdminController {
 
     @GetMapping("/query-paying-agency-info")
     @ApiOperation(value = "查询支付机构信息", notes = "查询支付机构信息")
-    public R queryPayingAgencyInfo(@ApiParam("支付机构Id") @NotNull(message = "支付机构Id不能为空！") @RequestParam(required = false) Long bureauId, BladeUser bladeUser) {
+    public R queryPayingAgencyInfo(@ApiParam("支付机构") @NotNull(message = "请选择支付机构") @RequestParam(required = false) Long bureauId, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -84,7 +84,7 @@ public class PayingAgencyAdminController {
 
     @GetMapping("/query-paying-agency-notice")
     @ApiOperation(value = "查询支付机构通知", notes = "查询支付机构通知")
-    public R queryPayingAgencyNotice(@ApiParam("支付机构Id") @NotNull(message = "支付机构Id不能为空！") @RequestParam(required = false) Long bureauId, Query query, BladeUser bladeUser) {
+    public R queryPayingAgencyNotice(@ApiParam("支付机构") @NotNull(message = "请选择支付机构") @RequestParam(required = false) Long bureauId, Query query, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -106,8 +106,8 @@ public class PayingAgencyAdminController {
 
     @PostMapping("/add-paying-agency-service-provider")
     @ApiOperation(value = "添加匹配服务商", notes = "添加匹配服务商")
-    public R addRelBureauServiceProvider(@ApiParam("支付机构ID不能为空") @NotNull(message = "支付机构ID不能为空") @RequestParam(required = false) Long bureauId,
-                                         @ApiParam("服务商ID字符集，ID直接用逗号隔开") @NotBlank(message = "匹配服务商不能为空！") @RequestParam(required = false) String serviceProviderIds, BladeUser bladeUser) {
+    public R addRelBureauServiceProvider(@ApiParam("支付机构不能为空") @NotNull(message = "请选择支付机构") @RequestParam(required = false) Long bureauId,
+                                         @ApiParam("服务商集合") @NotBlank(message = "请选择要匹配的服务商") @RequestParam(required = false) String serviceProviderIds, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

@@ -37,7 +37,7 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
     public R<IPage<PartnerVO>> getPartnerList(IPage<PartnerVO> page, QueryPartnerDTO queryPartnerDTO) {
         if (queryPartnerDTO.getBeginDate() != null && queryPartnerDTO.getEndDate() != null) {
             if (queryPartnerDTO.getBeginDate().after(queryPartnerDTO.getEndDate())) {
-                return R.fail("开始时间不能大于结束时间！");
+                return R.fail("开始时间不能大于结束时间");
             }
         }
         return R.data(page.setRecords(baseMapper.getPartnerList(queryPartnerDTO, page)));
@@ -65,12 +65,12 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
 
         Integer count = baseMapper.selectCount(new QueryWrapper<PartnerEntity>().eq("idcard_no", addPartnerDTO.getIdcardNo()));
         if (count > 0) {
-            R.fail("你的身份证" + addPartnerDTO.getIdcardNo() + "已经创建合伙人了！");
+            R.fail("你的身份证" + addPartnerDTO.getIdcardNo() + "已经创建合伙人了");
         }
 
         count = baseMapper.selectCount(new QueryWrapper<PartnerEntity>().eq("phone_number", addPartnerDTO.getPhoneNumber()));
         if (count > 0) {
-            R.fail("你的手机号" + addPartnerDTO.getPhoneNumber() + "已经创建合伙人了！");
+            R.fail("你的手机号" + addPartnerDTO.getPhoneNumber() + "已经创建合伙人了");
         }
 
         PartnerEntity partnerEntity = new PartnerEntity();
@@ -80,20 +80,20 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
         partnerEntity.setCreateTime(new Date());
         partnerEntity.setPartnerState(AccountState.NORMAL);
         save(partnerEntity);
-        return R.fail("合伙人创建成功！");
+        return R.fail("合伙人创建成功");
     }
 
     @Override
     public R updatePartner(UpdatePartnerDTO updatePartnerDTO, AdminEntity adminEntity) {
         PartnerEntity partnerEntity = baseMapper.selectById(updatePartnerDTO.getPartnerId());
         if (partnerEntity == null) {
-            R.fail("不存在该合伙人！");
+            R.fail("不存在该合伙人");
         }
         BeanUtil.copy(updatePartnerDTO, partnerEntity);
         partnerEntity.setCreateTime(new Date());
         partnerEntity.setCreateUser(adminEntity.getUserId());
         updateById(partnerEntity);
-        return R.fail("合伙人修改成功！");
+        return R.fail("合伙人修改成功");
     }
 
 

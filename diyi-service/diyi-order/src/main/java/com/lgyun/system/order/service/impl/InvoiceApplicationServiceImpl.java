@@ -34,7 +34,7 @@ public class InvoiceApplicationServiceImpl extends BaseServiceImpl<InvoiceApplic
     private IUserClient iUserClient;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public R contractApplyInvoice(ContractApplyInvoiceDTO contractApplyInvoiceDto, Long enterpriseId, IPayEnterpriseService payEnterpriseService) {
         String payEnterpriseIds = contractApplyInvoiceDto.getPayEnterpriseIds();
         String[] split = payEnterpriseIds.split(",");
@@ -44,7 +44,7 @@ public class InvoiceApplicationServiceImpl extends BaseServiceImpl<InvoiceApplic
         for(int i = 0;i < split.length; i++){
             List<ApplicationVO> application = iInvoiceApplicationPayListService.findApplication(Long.parseLong(split[i]));
             if(application.size() > 0){
-                return R.fail("申请记录已存在，请耐心等候！！！");
+                return R.fail("申请记录已存在，请耐心等候");
             }
         }
         PayEnterpriseEntity payEnterpriseEntity = payEnterpriseService.getById(Long.parseLong(split[0]));

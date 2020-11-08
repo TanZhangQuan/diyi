@@ -2,9 +2,7 @@ package com.lgyun.system.user.feign;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
-import com.lgyun.common.enumeration.CooperateStatus;
-import com.lgyun.common.enumeration.GrantType;
-import com.lgyun.common.enumeration.UserType;
+import com.lgyun.common.enumeration.*;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.entity.*;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -12,8 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.List;
 
 /**
  * User Feign接口类
@@ -95,15 +91,6 @@ public interface IUserClient {
     R<ServiceProviderWorkerEntity> currentServiceProviderWorker(@RequestBody BladeUser bladeUser);
 
     /**
-     * 根据创客支付明细查询创客名称
-     *
-     * @param payMakerId
-     * @return
-     */
-    @GetMapping(API_PREFIX + "/query-maker-name")
-    String queryMakerName(@RequestParam("payMakerId") Long payMakerId);
-
-    /**
      * 根据创客id查询创客信息
      *
      * @param makerId
@@ -138,7 +125,7 @@ public interface IUserClient {
      * @return
      */
     @GetMapping(API_PREFIX + "/query-maker-enterprise-relevance-count")
-    int queryMakerEnterpriseRelevanceCount(@RequestParam("makerId") Long makerId, @RequestParam("enterpriseId") Long enterpriseId);
+    int queryMakerEnterpriseRelevanceCount(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("makerId") Long makerId);
 
     /**
      * 根据手机号查询管理员数量
@@ -268,8 +255,8 @@ public interface IUserClient {
      * @param makerId
      * @return
      */
-    @GetMapping(API_PREFIX + "/query-individual-enterprise/find-by-maker-id")
-    List<IndividualEnterpriseEntity> queryIndividualEnterpriseFindByMakerId(@RequestParam("makerId") Long makerId);
+    @GetMapping(API_PREFIX + "/query-individual-enterprise-num-by-maker-id")
+    int queryIndividualEnterpriseNumByMakerId(@RequestParam("makerId") Long makerId);
 
     /**
      * 查询个体信息
@@ -277,8 +264,8 @@ public interface IUserClient {
      * @param makerId
      * @return
      */
-    @GetMapping(API_PREFIX + "/query-individual-business-by-maker-id")
-    List<IndividualBusinessEntity> queryIndividualBusinessByMakerId(@RequestParam("makerId") Long makerId);
+    @GetMapping(API_PREFIX + "/query-individual-business-num-by-maker-id")
+    int queryIndividualBusinessNumByMakerId(@RequestParam("makerId") Long makerId);
 
     /**
      * 根据创客, 统一社会信用代码查询个独
@@ -340,7 +327,6 @@ public interface IUserClient {
     @PostMapping(API_PREFIX + "/create-maker-to-enterprise-relevance")
     void createMakerToEnterpriseRelevance(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("makerId") Long makerId);
 
-
     /**
      * 根据服务商Id查询服务商
      *
@@ -350,5 +336,14 @@ public interface IUserClient {
     @GetMapping(API_PREFIX + "/query-service_provider-by-id")
     ServiceProviderEntity queryServiceProviderById(@RequestParam("serviceProviderId") Long serviceProviderId);
 
+    /**
+     * 查询已签署已审核通过的商户-创客补充协议
+     *
+     * @param makerId
+     * @param enterpriseId
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/query-agreement-num")
+    int queryEntMakSupplementaryAgreementNum (@RequestParam("makerId") Long makerId, @RequestParam("enterpriseId") Long enterpriseId);
 
 }

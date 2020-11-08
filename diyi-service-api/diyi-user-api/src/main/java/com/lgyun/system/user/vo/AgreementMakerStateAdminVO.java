@@ -22,26 +22,32 @@ public class AgreementMakerStateAdminVO implements Serializable {
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long makerId;
+
     /**
      * 认证状态
      */
     private String certificationState;
+
     /**
      * 姓名
      */
     private String name;
+
     /**
      * 视频
      */
     private VideoAudit videoAudit;
+
     /**
      * 加盟状态  1 是已加盟 0未加盟
      */
     private Integer makerJoinAgreement;
+
     /**
      * 补充协议 数量
      */
     private Integer entMakSupplementaryAgreement;
+
     /**
      * 授权协议 1 是已授权 0未授权
      */

@@ -13,14 +13,20 @@ import java.math.BigDecimal;
  * @time 14:36.
  */
 @Data
-public class PayMakerListVO implements Serializable {
+public class PayMakerListsVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
      * 创客支付明细ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
+    private Long payMakerId;
+
+    /**
+     * 创客ID
+     */
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long makerId;
 
     /**
      * 姓名
@@ -63,8 +69,14 @@ public class PayMakerListVO implements Serializable {
     private BigDecimal serviceRate;
 
     /**
-     * 是否已开交付支付验收单
+     * 发票URL
      */
-    private boolean boolAcceptSheet;
+    private String makerVoiceUrl;
+
+    /**
+     * 完税证明url
+     */
+    private String makerTaxUrl;
+
 
 }

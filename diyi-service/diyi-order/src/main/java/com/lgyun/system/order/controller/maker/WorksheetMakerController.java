@@ -69,7 +69,7 @@ public class WorksheetMakerController {
         WorksheetMakerEntity worksheetMakerEntity = worksheetMakerService.getById(worksheetMakerId);
         WorksheetEntity worksheetEntity = worksheetService.getById(worksheetMakerEntity.getWorksheetId());
         if (!(worksheetEntity.getWorksheetState().equals(WorksheetState.CLOSED) || worksheetEntity.getWorksheetState().equals(WorksheetState.CHECKACCEPT))) {
-            return R.fail("工单暂时不能提交工作成果，稍后再试");
+            return R.fail("商户未关单，暂不能提交工作成果");
         }
 
         return worksheetMakerService.submitAchievement(worksheetMakerEntity, achievementDesc, achievementFiles, worksheetService);
@@ -88,8 +88,8 @@ public class WorksheetMakerController {
     }
 
     @GetMapping("/query-worksheet-list-by-maker-id")
-    @ApiOperation(value = "根据创客查询工单", notes = "根据创客ID查询工单")
-    public R queryWorksheetListByMakerId(@ApiParam(value = "创客ID", required = true) @NotNull(message = "请输入创客编号") @RequestParam(required = false) Long makerId, Query query, BladeUser bladeUser) {
+    @ApiOperation(value = "根据创客查询工单", notes = "根据创客查询工单")
+    public R queryWorksheetListByMakerId(@ApiParam(value = "创客", required = true) @NotNull(message = "请选择创客") @RequestParam(required = false) Long makerId, Query query, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {

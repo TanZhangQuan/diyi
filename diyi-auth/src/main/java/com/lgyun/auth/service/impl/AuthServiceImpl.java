@@ -154,6 +154,8 @@ public class AuthServiceImpl implements IAuthService {
                     return R.fail("用户类型有误");
             }
 
+        } else if (CodeType.UPDATEPHONE.equals(codeType)) {
+
         } else {
             return R.fail("验证码类型有误");
         }

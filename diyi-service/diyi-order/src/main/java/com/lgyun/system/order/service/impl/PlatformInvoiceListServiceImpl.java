@@ -28,4 +28,5 @@ public class PlatformInvoiceListServiceImpl extends BaseServiceImpl<PlatformInvo
         queryWrapper.lambda().eq(PlatformInvoiceListEntity::getInvoicePrintId, invoicePrintId);
         return baseMapper.selectList(queryWrapper);
     }
+
 }

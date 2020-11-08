@@ -31,7 +31,7 @@ public class IndustrialParksAdminController {
 
     @PostMapping("/transaction-by-bureau-service-provider")
     @ApiOperation(value = "查询当前产业园区所有匹配的服务商交易情况数据", notes = "查询当前产业园区所有匹配的服务商交易情况数据")
-    public R transactionByBureauServiceProvider(@ApiParam("产业园区ID") @NotNull(message = "产业园区ID不能为空！") @RequestParam(required = false) Long bureauId, BladeUser bladeUser) {
+    public R transactionByBureauServiceProvider(@ApiParam("产业园区") @NotNull(message = "请选择产业园区") @RequestParam(required = false) Long bureauId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -43,7 +43,7 @@ public class IndustrialParksAdminController {
 
     @PostMapping("/transaction-by-bureau-service-provider-info")
     @ApiOperation(value = "查询产业园区匹配的服务商基本信息及交易金额", notes = "查询产业园区匹配的服务商基本信息及交易金额")
-    public R transactionByBureauServiceProviderInfo(@ApiParam("产业园区ID") @NotNull(message = "产业园区ID不能为空！") @RequestParam(required = false) Long bureauId, Query query, BladeUser bladeUser) {
+    public R transactionByBureauServiceProviderInfo(@ApiParam("产业园区") @NotNull(message = "请选择产业园区") @RequestParam(required = false) Long bureauId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
