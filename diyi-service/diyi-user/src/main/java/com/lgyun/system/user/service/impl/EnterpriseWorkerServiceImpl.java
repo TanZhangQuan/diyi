@@ -191,7 +191,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
             }
             enterpriseWorkerVO.setMenuName(menuNames);
             enterpriseWorkerVO.setPositionName(enterpriseWorkerEntity.getPositionName().getDesc());
-            enterpriseWorkerVO.setAccountState(enterpriseWorkerEntity.getEnterpriseWorkerState().getDesc());
+            enterpriseWorkerVO.setAccountState(enterpriseWorkerEntity.getEnterpriseWorkerState());
             enterpriseWorkerVO.setEnterpriseName(enterpriseWorkerEntity.getWorkerName());
             enterpriseWorkerVO.setEnterpriseWorkerId(enterpriseWorkerEntity.getId());
             if (id.equals(enterpriseWorkerEntity.getId())) {
@@ -343,7 +343,8 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
         }
         switch (childAccountType) {
             case DELETE:
-                this.removeRole(workerEntity.getId());
+                this.removeRole(workerEntity.getRoleId());
+                userService.removeById(workerEntity.getId());
                 break;
             case STARTUSING:
                 workerEntity.setEnterpriseWorkerState(AccountState.NORMAL);

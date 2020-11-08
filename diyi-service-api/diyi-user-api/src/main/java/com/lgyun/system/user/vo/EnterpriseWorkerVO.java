@@ -2,10 +2,9 @@ package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
+import com.lgyun.common.enumeration.AccountState;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.List;
@@ -61,7 +60,7 @@ public class EnterpriseWorkerVO implements Serializable {
      * 账户状态
      */
     @ApiModelProperty("账户状态")
-    private String accountState;
+    private AccountState accountState;
 
     /**
      * 是否为主账号（为true时为主账号）

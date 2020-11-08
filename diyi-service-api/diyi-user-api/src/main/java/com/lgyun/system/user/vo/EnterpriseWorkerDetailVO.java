@@ -35,4 +35,8 @@ public class EnterpriseWorkerDetailVO implements Serializable {
      */
     private PositionName positionName;
 
+    /**
+     * 权限管理
+     */
+    private Boolean superAdmin;
 }

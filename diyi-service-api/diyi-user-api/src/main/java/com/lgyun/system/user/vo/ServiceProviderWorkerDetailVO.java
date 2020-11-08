@@ -35,4 +35,10 @@ public class ServiceProviderWorkerDetailVO implements Serializable {
      */
     private PositionName positionName;
 
+    /**
+     * 管理员权限
+     */
+    private Boolean superAdmin;
+
+
 }
