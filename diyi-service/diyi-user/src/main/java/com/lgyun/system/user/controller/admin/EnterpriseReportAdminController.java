@@ -6,9 +6,12 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.AdminEnterpriseReportDTO;
+import com.lgyun.system.user.dto.IndividualBusinessEnterpriseListDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.service.IAdminService;
 import com.lgyun.system.user.service.IEnterpriseReportService;
+import com.lgyun.system.user.service.IIndividualBusinessService;
+import com.lgyun.system.user.service.IIndividualEnterpriseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -29,6 +32,8 @@ public class EnterpriseReportAdminController {
 
     private IAdminService adminService;
     private IEnterpriseReportService enterpriseReportService;
+    private IIndividualBusinessService individualBusinessService;
+    private IIndividualEnterpriseService individualEnterpriseService;
 
     @GetMapping("/query-enterprise-report-all")
     @ApiOperation(value = "平台查询所有服务商税务申报或工商申报", notes = "平台查询所有服务商税务申报或工商申报")
@@ -90,5 +95,27 @@ public class EnterpriseReportAdminController {
         }
 
         return enterpriseReportService.toExamineAdminEnterpriseReport(enterpriseReportId, toExamine);
+    }
+
+    @GetMapping("/query-individual-business-list")
+    @ApiOperation(value = "查询所有个体户", notes = "查询所有个体户")
+    public R queryIndividualBusinessList(Query query, BladeUser bladeUser,Long serviceProviderId) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        return individualBusinessService.queryIndividualBusinessList(null, serviceProviderId, new IndividualBusinessEnterpriseListDTO(), Condition.getPage(query.setDescs("create_time")));
+    }
+
+    @GetMapping("/query-individual-enterprise-list")
+    @ApiOperation(value = "查询所有个独", notes = "查询所有个独")
+    public R queryIndividualEnterpriseList(Query query, BladeUser bladeUser,Long serviceProviderId) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        return individualEnterpriseService.queryIndividualEnterpriseList(Condition.getPage(query.setDescs("create_time")), null, serviceProviderId, new IndividualBusinessEnterpriseListDTO());
     }
 }
