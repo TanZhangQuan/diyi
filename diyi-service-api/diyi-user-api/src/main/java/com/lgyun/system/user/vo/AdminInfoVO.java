@@ -4,15 +4,14 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.List;
 
 @Data
-public class AdminVO implements Serializable {
+public class AdminInfoVO implements Serializable {
 
     /**
      * 账号ID
      */
-    private Long id;
+    private String id;
 
     /**
      * 姓名
@@ -40,20 +39,9 @@ public class AdminVO implements Serializable {
 
 
     /**
-     * 管理员账户状态
+     * 拥有的角色ID
      */
-    @ApiModelProperty("管理员账户状态")
-    private String adminState;
-
-    /**
-     * 是否为主账号（为true时为主账号）
-     */
-    private Boolean master;
-
-    /**
-     * 拥有的菜单名称
-     */
-    @ApiModelProperty("拥有的菜单名称集合")
-    private List<String> menuNames;
+    @ApiModelProperty("角色ID(当查询自己时角色显示为空切不可编辑)")
+    private Long roleId;
 
 }

@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lgyun.common.enumeration.UserType;
-import com.lgyun.common.node.ForestNodeManager;
-import com.lgyun.common.node.INode;
 import com.lgyun.common.node.TreeNode;
 import lombok.AllArgsConstructor;
 import com.lgyun.common.constant.BladeConstant;
@@ -43,7 +41,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 	}
 
 	@Override
-	public List<MenuVO> routes(String roleId) {
+	public List<MenuVO> routes(String roleId, UserType userType) {
 		List<Menu> allMenus = baseMapper.allMenu(UserType.ENTERPRISE.getValue());
 		List<Menu> roleMenus = baseMapper.roleMenu(Func.toLongList(roleId));
 		List<Menu> routes = new LinkedList<>(roleMenus);
@@ -70,8 +68,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 	}
 
 	@Override
-	public List<TreeNode> tree(String menuType) {
-		return ForestNodeMerger.merge(baseMapper.tree(menuType));
+	public List<TreeNode> tree(String menuType, Long roleId, Boolean superAdmin) {
+		if (superAdmin) {
+			return ForestNodeMerger.merge(baseMapper.tree(menuType));
+		}
+		return ForestNodeMerger.merge(baseMapper.treeByRoleId(menuType,roleId));
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.node.TreeNode;
 import com.lgyun.system.entity.Menu;
 import com.lgyun.system.service.IMenuService;
+import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
@@ -89,7 +90,7 @@ public class MenuController extends BladeController {
 		}
 		EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-		List<MenuVO> list = menuService.routes(enterpriseWorkerEntity.getId().toString());
+		List<MenuVO> list = menuService.routes(enterpriseWorkerEntity.getId().toString(), UserType.ENTERPRISE);
 		return R.data(list);
 	}
 
@@ -104,7 +105,22 @@ public class MenuController extends BladeController {
 		}
 		ServiceProviderWorkerEntity data = result.getData();
 
-		List<MenuVO> list = menuService.routes(data.getId().toString());
+		List<MenuVO> list = menuService.routes(data.getId().toString(), UserType.SERVICEPROVIDER);
+		return R.data(list);
+	}
+
+	@GetMapping("/routes/admin")
+	@ApiOperation(value = "前端菜单数据", notes = "前端菜单数据")
+	public R<List<MenuVO>> routesAdmin(BladeUser user) {
+		log.info("[routes]user info = {}", JSONObject.toJSONString(user));
+		//查询当前创客
+		R<AdminEntity> result = userClient.currentAdmin(user);
+		if (!(result.isSuccess())) {
+			return R.fail("当前登录用户失效");
+		}
+		AdminEntity data = result.getData();
+
+		List<MenuVO> list = menuService.routes(data.getId().toString(), UserType.ADMIN);
 		return R.data(list);
 	}
 
@@ -123,7 +139,8 @@ public class MenuController extends BladeController {
 		if (!(result.isSuccess())) {
 			return R.fail("当前登录用户失效");
 		}
-		List<TreeNode> tree = menuService.tree(UserType.ENTERPRISE.getValue());
+		EnterpriseWorkerEntity data = result.getData();
+		List<TreeNode> tree = menuService.tree(UserType.ENTERPRISE.getValue(),data.getRoleId(),data.getSuperAdmin());
 		return R.data(tree);
 	}
 
@@ -135,8 +152,21 @@ public class MenuController extends BladeController {
 		if (!(result.isSuccess())) {
 			return R.fail("当前登录用户失效");
 		}
+		ServiceProviderWorkerEntity data = result.getData();
+		List<TreeNode> tree = menuService.tree(UserType.SERVICEPROVIDER.getValue(), data.getRoleId(), data.getSuperAdmin());
+		return R.data(tree);
+	}
 
-		List<TreeNode> tree = menuService.tree(UserType.SERVICEPROVIDER.getValue());
+	@GetMapping("/tree/admin")
+	@ApiOperation(value = "树形结构", notes = "树形结构")
+	public R<List<TreeNode>> treeAdmin(BladeUser user) {
+		//查询当前创客
+		R<AdminEntity> result = userClient.currentAdmin(user);
+		if (!(result.isSuccess())) {
+			return R.fail("当前登录用户失效");
+		}
+		AdminEntity data = result.getData();
+		List<TreeNode> tree = menuService.tree(UserType.SERVICEPROVIDER.getValue(), data.getRoleId(), data.getSuperAdmin());
 		return R.data(tree);
 	}
 

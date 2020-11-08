@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import sun.rmi.runtime.Log;
 
 /**
  * 平台管理员信息表 Entity
@@ -74,13 +75,17 @@ public class AdminEntity extends BaseEntity {
     private String loginPwd;
 
     /**
-     * 管理员特性
+     * 拥有的角色ID
      */
-    private Boolean adminPower = false;
+    private Long roleId;
 
     /**
-     * 拥有的菜单名字
+     * 管理员权限特性(为true时拥有全部权限)
      */
-    private String menus;
+    private Boolean superAdmin = false;
 
+    /**
+     * 管理员特性（为true时可以创建子账号）
+     */
+    private Boolean adminPower = false;
 }

@@ -1,11 +1,18 @@
 package com.lgyun.system.user.service;
 
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.ChildAccountType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseService;
+import com.lgyun.system.dto.RoleMenusDTO;
+import com.lgyun.system.user.dto.ChildAccountDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.vo.AdminDetailVO;
+import com.lgyun.system.user.vo.AdminInfoVO;
 import com.lgyun.system.user.vo.AdminVO;
+import com.lgyun.system.vo.RoleMenuInfoVo;
+import com.lgyun.system.vo.RoleMenusVO;
+import com.lgyun.system.vo.RolesVO;
 
 import java.util.List;
 
@@ -80,6 +87,62 @@ public interface IAdminService extends BaseService<AdminEntity> {
      * @param accountId
      * @return
      */
-    R<AdminVO> queryAccountDetail(Long accountId);
+    R<AdminInfoVO> queryAccountDetail(Long id, Long accountId);
+
+    /**
+     * 创建或修改角色及角色拥有的权限
+     *
+     * @param roleMenusDTO
+     * @param id
+     * @return
+     */
+    R createOrUpdateRoleMenus(RoleMenusDTO roleMenusDTO, Long id);
+
+    /**
+     * 查询当前管理人员所创建的角色
+     *
+     * @param id
+     * @return
+     */
+    R<List<RolesVO>> queryRole(Long id);
+
+
+    /**
+     * 创建或修改子账号及子账号的角色分配
+     *
+     * @param childAccountDTO
+     * @param id
+     * @return
+     */
+    R createOrUpdateChildAccount(ChildAccountDTO childAccountDTO, Long id);
+
+    /**
+     * 停用、删除、启用子账号
+     * @param childAccountId
+     * @param childAccountType
+     * @return
+     */
+    R operateChildAccount(Long childAccountId, ChildAccountType childAccountType, Long id);
+
+    /**
+     * 查询当前管理人员的角色列表
+     * @param id
+     * @return
+     */
+    R<List<RoleMenusVO>> queryRoleList(Long id);
+
+    /**
+     * 删除角色
+     * @param roleId
+     * @return
+     */
+    R removeRole(Long roleId);
+
+    /**
+     * 查询角色的详情
+     * @param roleId
+     * @return
+     */
+    R<RoleMenuInfoVo> queryRoleInfo(Long roleId);
 }
 

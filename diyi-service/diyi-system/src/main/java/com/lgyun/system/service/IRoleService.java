@@ -1,9 +1,9 @@
 package com.lgyun.system.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.lgyun.system.entity.Role;
+import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.dto.GrantDTO;
+import com.lgyun.system.entity.Role;
 import com.lgyun.system.vo.RoleVO;
 
 import javax.validation.constraints.NotEmpty;
@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author liangfeihu
  */
-public interface IRoleService extends IService<Role> {
+public interface IRoleService extends BaseService<Role> {
 
 	/**
 	 * 自定义分页

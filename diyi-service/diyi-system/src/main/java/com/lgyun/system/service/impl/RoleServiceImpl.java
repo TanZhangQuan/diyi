@@ -2,22 +2,22 @@ package com.lgyun.system.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lgyun.common.constant.BladeConstant;
-import com.lgyun.common.tool.DateUtil;
-import com.lgyun.system.dto.GrantDTO;
-import lombok.AllArgsConstructor;
 import com.lgyun.common.constant.RoleConstant;
 import com.lgyun.common.node.ForestNodeMerger;
 import com.lgyun.common.tool.CollectionUtil;
+import com.lgyun.common.tool.DateUtil;
 import com.lgyun.common.tool.Func;
 import com.lgyun.common.tool.SecureUtil;
+import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.system.dto.GrantDTO;
 import com.lgyun.system.entity.Role;
 import com.lgyun.system.entity.RoleMenu;
 import com.lgyun.system.mapper.RoleMapper;
 import com.lgyun.system.service.IRoleMenuService;
 import com.lgyun.system.service.IRoleService;
 import com.lgyun.system.vo.RoleVO;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 @Service
 @Validated
 @AllArgsConstructor
-public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRoleService {
+public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role> implements IRoleService {
 
 	IRoleMenuService roleMenuService;
 

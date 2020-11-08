@@ -1,8 +1,6 @@
 package com.lgyun.system.user.vo;
 
-import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,7 +12,7 @@ import java.util.List;
  * @since 2020/6/6 00:28
  */
 @Data
-public class ServiceProviderWorkerVO implements Serializable {
+public class ServiceProviderWorkerInfoVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -44,18 +42,8 @@ public class ServiceProviderWorkerVO implements Serializable {
     private String employeeUserName;
 
     /**
-     * 菜单名称集合
+     * 角色ID
      */
-    private List<String> menuNames;
-
-    /**
-     * 账户状态描述
-     */
-    private String accountState;
-
-    /**
-     * 是否是主账号
-     */
-    private Boolean master = false;
+    private Long roleId;
 
 }

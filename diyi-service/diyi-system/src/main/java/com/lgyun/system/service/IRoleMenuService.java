@@ -1,6 +1,6 @@
 package com.lgyun.system.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.entity.RoleMenu;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author liangfeihu
  */
-public interface IRoleMenuService extends IService<RoleMenu> {
+public interface IRoleMenuService extends BaseService<RoleMenu> {
 
     List<String> getUserMenus(Long roleId);
 }

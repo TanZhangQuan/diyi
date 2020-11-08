@@ -84,8 +84,13 @@ public class ServiceProviderWorkerEntity extends BaseEntity {
     private Boolean adminPower;
 
     /**
-     * 拥有的菜单名字
+     * 是否拥有全部权限
      */
-    private String menus;
+    private Boolean superAdmin;
+
+    /**
+     * 角色ID
+     */
+    private Long roleId;
 
 }
