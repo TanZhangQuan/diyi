@@ -2051,6 +2051,27 @@ CREATE TABLE `diyi_service_provider` (
 -- ----------------------------
 -- Records of diyi_service_provider
 -- ----------------------------
+CREATE TABLE `diyi_service_provider_account` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
+  `account_type` varchar(50) NOT NULL COMMENT '账户类型：银行账户；第三方支付账户；个人账户；其他',
+  `account_name` varchar(100) NOT NULL COMMENT '账户名称',
+  `account_no` varchar(50) NOT NULL COMMENT '银行账号',
+  `account_bank` varchar(100) NOT NULL COMMENT '开户银行',
+  `basic_account_bank` varchar(100) NOT NULL DEFAULT '' COMMENT '基本存款账号，对公账号才需要',
+  `maker_safe_account` varchar(100) NOT NULL DEFAULT '' COMMENT '个人创客到手业务外包费账户',
+  `provider_tax_and_fee_account` varchar(100) NOT NULL DEFAULT '' COMMENT '服务税费账户',
+  `is_default` bit(1) NOT NULL COMMENT '是否默认',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`service_provider_id`,`account_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商收款账户信息表';
+
 
 -- ----------------------------
 -- Table structure for `diyi_service_provider_cert`
