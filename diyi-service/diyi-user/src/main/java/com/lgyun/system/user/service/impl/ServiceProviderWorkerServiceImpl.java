@@ -116,6 +116,7 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
         queryWrapper.lambda().eq(ServiceProviderWorkerEntity::getUserId, userId);
         return baseMapper.selectOne(queryWrapper);
     }
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public R createOrUpdateRoleMenus(RoleMenusDTO roleMenusDTO, Long id) {
@@ -147,10 +148,13 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
 
     @Override
     public R<RoleMenuInfoVo> queryRoleInfo(Long roleId) {
-        List<String> menuIds = sysClient.getMenuIds(roleId);
         Role role = sysClient.getRole(roleId);
+        if (role == null) {
+            return R.fail("您输入的角色ID不存在！");
+        }
+        List<String> menuIds = sysClient.getMenuIds(roleId);
         RoleMenuInfoVo roleMenuInfoVo = new RoleMenuInfoVo();
-        BeanUtils.copyProperties(role,roleMenuInfoVo);
+        BeanUtils.copyProperties(role, roleMenuInfoVo);
         roleMenuInfoVo.setMenuIds(menuIds);
         roleMenuInfoVo.setRoleId(role.getId());
         return R.data(roleMenuInfoVo);

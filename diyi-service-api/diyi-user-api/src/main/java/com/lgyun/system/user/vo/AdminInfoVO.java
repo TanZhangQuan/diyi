@@ -1,5 +1,7 @@
 package com.lgyun.system.user.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -11,6 +13,7 @@ public class AdminInfoVO implements Serializable {
     /**
      * 账号ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private String id;
 
     /**

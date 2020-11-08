@@ -253,7 +253,7 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
             if (StringUtils.isBlank(childAccountDTO.getPassWord())) {
                 throw new CustomException("初始密码不能为空！");
             }
-            if (childAccountDTO.getPassWord().length() >= 6 && childAccountDTO.getPassWord().length() <= 18) {
+            if (!(childAccountDTO.getPassWord().length() >= 6 && childAccountDTO.getPassWord().length() <= 18)) {
                 throw new CustomException("请输入6-18位的密码！");
             }
             String encrypt = DigestUtil.encrypt(childAccountDTO.getPassWord());
@@ -317,8 +317,11 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
 
     @Override
     public R<RoleMenuInfoVo> queryRoleInfo(Long roleId) {
-        List<String> menuIds = sysClient.getMenuIds(roleId);
         Role role = sysClient.getRole(roleId);
+        if (role == null) {
+            return R.fail("您输入的角色ID不存在！");
+        }
+        List<String> menuIds = sysClient.getMenuIds(roleId);
         RoleMenuInfoVo roleMenuInfoVo = new RoleMenuInfoVo();
         BeanUtils.copyProperties(role,roleMenuInfoVo);
         roleMenuInfoVo.setMenuIds(menuIds);
