@@ -35,6 +35,8 @@ public interface MenuMapper extends BaseMapper<Menu> {
 	 */
 	List<TreeNode> tree(String menuType);
 
+	List<TreeNode> treeByRoleId(String menuType, Long RoleId);
+
 	/**
 	 * 授权树形结构
 	 *

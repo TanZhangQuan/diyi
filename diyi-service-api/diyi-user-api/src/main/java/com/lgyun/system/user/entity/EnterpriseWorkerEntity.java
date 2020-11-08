@@ -81,11 +81,16 @@ public class EnterpriseWorkerEntity extends BaseEntity {
     /**
      * 管理员特性
      */
+    private Boolean superAdmin = false;
+
+    /**
+     * 管理员特性
+     */
     private Boolean adminPower = false;
 
     /**
-     * 拥有的菜单名字
+     * 拥有的角色ID
      */
-    private String menus;
+    private Long roleId;
 
 }

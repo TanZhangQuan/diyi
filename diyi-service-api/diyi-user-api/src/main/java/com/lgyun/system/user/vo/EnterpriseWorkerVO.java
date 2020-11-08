@@ -1,9 +1,11 @@
 package com.lgyun.system.user.vo;
 
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -13,48 +15,55 @@ import java.util.List;
  * @since 2020/6/6 00:28
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class EnterpriseWorkerVO extends EnterpriseWorkerEntity {
+public class EnterpriseWorkerVO implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 商户ID
+     */
+    @ApiModelProperty("商户员工ID（编辑时用来用来查询账户详情）")
+    private Long enterpriseWorkerId;
 
     /**
      * 商户名称
      */
+    @ApiModelProperty("商户名称")
     private String enterpriseName;
 
     /**
-     * 账户状态value
+     * 岗位
      */
-    private String accountStateValue;
+    @ApiModelProperty("岗位")
+    private String positionName;
 
     /**
-     * 账户状态描述
+     * 手机号码
      */
-    private String accountStateDesc;
+    @ApiModelProperty("手机号码")
+    private String phoneNumber;
 
     /**
-     * 员工性别
+     * 用户名
      */
-    private String workerSex;
+    @ApiModelProperty("用户名")
+    private String employeeUserName;
 
     /**
-     * 岗位value
+     * 拥有的菜单名称集合
      */
-    private String positionNameValue;
+    @ApiModelProperty("拥有的菜单名称集合(权限)")
+    private List<String> menuName;
 
     /**
-     * 岗位描述
+     * 账户状态
      */
-    private String positionNameDesc;
+    @ApiModelProperty("账户状态")
+    private String accountState;
 
     /**
-     * 菜单集合,勾选菜单title集合
+     * 是否为主账号（为true时为主账号）
      */
-    private List<String> menuNameList;
-
-    /**
-     * 菜单集合,勾选菜单Id集合
-     */
-    private List<String> menuIds;
+    @ApiModelProperty("是否为主账号（为true时为主账号）")
+    private Boolean master = false;
 
 }

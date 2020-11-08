@@ -2,6 +2,7 @@ package com.lgyun.system.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.node.TreeNode;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.support.Kv;
@@ -32,7 +33,7 @@ public interface IMenuService extends IService<Menu> {
 	 * @param roleId
 	 * @return
 	 */
-	List<MenuVO> routes(String roleId);
+	List<MenuVO> routes(String roleId, UserType userType);
 
 	/**
 	 * 按钮树形结构
@@ -46,9 +47,11 @@ public interface IMenuService extends IService<Menu> {
 	 * 树形结构
 	 *
      * @param menuType
+	 * @param roleId
+	 * @param superAdmin
 	 * @return
 	 */
-	List<TreeNode> tree(String menuType);
+	List<TreeNode> tree(String menuType, Long roleId, Boolean superAdmin);
 
 	/**
 	 * 授权树形结构

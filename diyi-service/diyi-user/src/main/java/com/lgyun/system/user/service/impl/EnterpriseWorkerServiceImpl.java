@@ -3,23 +3,30 @@ package com.lgyun.system.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
+import com.lgyun.common.enumeration.ChildAccountType;
+import com.lgyun.common.enumeration.MenuType;
 import com.lgyun.common.enumeration.UserType;
+import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.common.tool.BeanServiceUtil;
+import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.dto.GrantDTO;
+import com.lgyun.system.dto.RoleMenusDTO;
+import com.lgyun.system.entity.Role;
 import com.lgyun.system.feign.ISysClient;
+import com.lgyun.system.user.dto.ChildAccountDTO;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.User;
-import com.lgyun.system.user.entity.UserInfo;
 import com.lgyun.system.user.mapper.EnterpriseWorkerMapper;
 import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.user.vo.EnterpriseWorkerDetailVO;
+import com.lgyun.system.user.vo.EnterpriseWorkerInfoVO;
 import com.lgyun.system.user.vo.EnterpriseWorkerVO;
+import com.lgyun.system.vo.RoleMenuInfoVo;
+import com.lgyun.system.vo.RolesVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -30,6 +37,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -114,79 +122,238 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> saveEnterpriseAccount(EnterpriseWorkerVO request, EnterpriseWorkerEntity enterpriseWorkerEntity, BladeUser bladeUser) {
-        User userLogin = userService.getById(bladeUser.getUserId());
-        if (request.getId() != null) {
-            // 更新账号
-            EnterpriseWorkerEntity entity = this.getById(request.getId());
-            if (entity == null) {
-                return R.fail("没有此账号");
-            }
-
-            BeanUtils.copyProperties(request, entity, BeanServiceUtil.getNullPropertyNames(request));
-            if (request.getMenuNameList() != null && request.getMenuNameList().size() > 0) {
-                String collect = String.join(", ", request.getMenuNameList());
-                entity.setMenus(collect);
-            }
-            if (StringUtils.isNotBlank(request.getEmployeePwd())) {
-                String encrypt = DigestUtil.encrypt(request.getEmployeePwd());
-                entity.setEmployeePwd(encrypt);
-                userLogin.setAccount(entity.getPhoneNumber());
-            }
-
-            userService.updateById(userLogin);
-            this.updateById(entity);
-        } else {
-            // 新增账号
-            Integer countByPhoneNumber = this.findCountByPhoneNumber(request.getPhoneNumber());
-            if (countByPhoneNumber > 0) {
-                return R.fail("该手机号已经注册过");
-            }
-
-            UserInfo userInfo = userService.queryUserInfoByPhone(request.getPhoneNumber(), UserType.ENTERPRISE);
-            if (userInfo != null) {
-                return R.fail("该手机号已经注册过");
-            }
-            //新建管理员
-            User user = new User();
-            user.setUserType(UserType.ENTERPRISE);
-            user.setAccount(request.getEmployeeUserName());
-            user.setPhone(request.getPhoneNumber());
-            userService.save(user);
-
-            EnterpriseWorkerEntity entity = new EnterpriseWorkerEntity();
-            BeanUtils.copyProperties(request, entity, BeanServiceUtil.getNullPropertyNames(request));
-            if (request.getMenuNameList() != null && request.getMenuNameList().size() > 0) {
-                String collect = String.join(", ", request.getMenuNameList());
-                entity.setMenus(collect);
-            }
-            entity.setUserId(user.getId());
-            entity.setEnterpriseId(enterpriseWorkerEntity.getEnterpriseId());
-            entity.setUpLevelId(enterpriseWorkerEntity.getId());
-            if (StringUtils.isNotBlank(request.getEmployeePwd())) {
-                entity.setEmployeePwd(DigestUtil.encrypt(request.getEmployeePwd()));
-            }
-
-            this.save(entity);
-            request.setId(entity.getId());
-        }
-        if (request.getMenuIds() != null && request.getMenuIds().size() > 0) {
-            GrantDTO grantDTO = new GrantDTO();
-            grantDTO.setAccountId(request.getId());
-            List<String> menuIds = request.getMenuIds();
-            List<Long> menuList = new ArrayList<>();
-            menuIds.forEach(menu -> menuList.add(Long.valueOf(menu)));
-            grantDTO.setMenuIds(menuList);
-
-            grantDTO.setUserId(bladeUser.getUserId());
-
-            R grant = sysClient.grantFeign(grantDTO);
-            if (!grant.isSuccess()) {
-                return R.fail("新增、更新商户账号失败");
+    public R createOrUpdateRoleMenus(RoleMenusDTO roleMenusDTO, Long id) {
+        EnterpriseWorkerEntity enterpriseWorkerEntity = this.getById(id);
+        if (!enterpriseWorkerEntity.getSuperAdmin()) {
+            if (!sysClient.getMenuIds(enterpriseWorkerEntity.getRoleId()).contains(Arrays.asList(roleMenusDTO.getMenus()))) {
+                return R.fail("只能分配您拥有的菜单！");
             }
         }
-
-        return R.success("OK");
+        if (roleMenusDTO.getRoleId() != null && roleMenusDTO.getRoleId() != 0) {
+            int count = this.count(new QueryWrapper<EnterpriseWorkerEntity>().lambda().eq(EnterpriseWorkerEntity::getRoleId, roleMenusDTO.getRoleId()));
+            if (count > 0) {
+                R.fail("您编辑的角色现在赋予给了子账号，请收回后在编辑！");
+            }
+            sysClient.removeRoleMenu(roleMenusDTO.getMenus());
+        }
+        roleMenusDTO.setUserType(UserType.ENTERPRISE);
+        R result = sysClient.createOrUpdateRoleMenus(roleMenusDTO, id);
+        if (result.isSuccess()) {
+            return R.success("操作成功！");
+        }
+        return R.fail("操作失败！");
     }
 
+    @Override
+    public R queryRoleList(Long id) {
+        return sysClient.getRoleMenusList(id);
+    }
+
+    @Override
+    public R<RoleMenuInfoVo> queryRoleInfo(Long roleId) {
+        List<String> menuIds = sysClient.getMenuIds(roleId);
+        Role role = sysClient.getRole(roleId);
+        RoleMenuInfoVo roleMenuInfoVo = new RoleMenuInfoVo();
+        BeanUtils.copyProperties(role,roleMenuInfoVo);
+        roleMenuInfoVo.setMenuIds(menuIds);
+        roleMenuInfoVo.setRoleId(role.getId());
+        return R.data(roleMenuInfoVo);
+    }
+
+    @Override
+    public R removeRole(Long roleId) {
+        int count = this.count(new QueryWrapper<EnterpriseWorkerEntity>().lambda().eq(EnterpriseWorkerEntity::getRoleId, roleId));
+        if (count > 0) {
+            return R.fail("您删除的角色现在赋予给了子账号，请收回后在删除！");
+        }
+        return sysClient.removeRole(roleId);
+    }
+
+    @Override
+    public R<List<RolesVO>> queryRole(Long id) {
+        return R.data(sysClient.getRoles(id, UserType.ENTERPRISE));
+    }
+
+    @Override
+    public R<List<EnterpriseWorkerVO>> queryChildAccountList(Long id) {
+        List<EnterpriseWorkerEntity> list = this.list(new QueryWrapper<EnterpriseWorkerEntity>().lambda().eq(EnterpriseWorkerEntity::getId, id).or().eq(EnterpriseWorkerEntity::getUpLevelId, id));
+        List<EnterpriseWorkerVO> enterpriseWorkerVOS = new ArrayList<>();
+        list.forEach(enterpriseWorkerEntity -> {
+            EnterpriseWorkerVO enterpriseWorkerVO = new EnterpriseWorkerVO();
+            BeanUtil.copyProperties(enterpriseWorkerEntity, enterpriseWorkerVO);
+            List<String> menuNames = null;
+            if (enterpriseWorkerEntity.getSuperAdmin()) {
+                menuNames = sysClient.getMenuNamesAll(MenuType.ENTERPRISE);
+            } else {
+                menuNames = sysClient.getMenuNames(enterpriseWorkerEntity.getRoleId());
+            }
+            enterpriseWorkerVO.setMenuName(menuNames);
+            enterpriseWorkerVO.setPositionName(enterpriseWorkerEntity.getPositionName().getDesc());
+            enterpriseWorkerVO.setAccountState(enterpriseWorkerEntity.getEnterpriseWorkerState().getDesc());
+            enterpriseWorkerVO.setEnterpriseName(enterpriseWorkerEntity.getWorkerName());
+            enterpriseWorkerVO.setEnterpriseWorkerId(enterpriseWorkerEntity.getId());
+            if (id.equals(enterpriseWorkerEntity.getId())) {
+                enterpriseWorkerVO.setMaster(true);
+            }
+            enterpriseWorkerVOS.add(enterpriseWorkerVO);
+        });
+        return R.data(enterpriseWorkerVOS);
+    }
+
+    @Override
+    public R<EnterpriseWorkerInfoVO> queryAccountDetail(Long id, Long accountId) {
+        List<EnterpriseWorkerEntity> list = this.list(new QueryWrapper<EnterpriseWorkerEntity>().lambda().eq(EnterpriseWorkerEntity::getUpLevelId, id));
+        List<Long> subIds = new ArrayList<>();
+        list.forEach(enterpriseWorkerEntity -> {
+            subIds.add(enterpriseWorkerEntity.getId());
+        });
+        subIds.add(id);
+        if (!subIds.contains(accountId)) {
+            return R.fail("您只能查看您的信息及您下属的信息！");
+        }
+        EnterpriseWorkerEntity subEnterpriseWorkerEntity = this.getById(accountId);
+        if (subEnterpriseWorkerEntity == null) {
+            R.fail("您查看的用户不存在！");
+        }
+        EnterpriseWorkerInfoVO enterpriseWorkerInfoVO = new EnterpriseWorkerInfoVO();
+        BeanUtil.copyProperties(subEnterpriseWorkerEntity, enterpriseWorkerInfoVO);
+        enterpriseWorkerInfoVO.setPositionName(subEnterpriseWorkerEntity.getPositionName().getDesc());
+        enterpriseWorkerInfoVO.setEnterpriseName(subEnterpriseWorkerEntity.getWorkerName());
+        enterpriseWorkerInfoVO.setEnterpriseWorkerId(subEnterpriseWorkerEntity.getId());
+        return R.data(enterpriseWorkerInfoVO);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public R createOrUpdateChildAccount(ChildAccountDTO childAccountDTO, EnterpriseWorkerEntity enterpriseWorkerEntity) {
+        if (childAccountDTO.getChildAccountId() != null && childAccountDTO.getChildAccountId() != 0) {
+            if (childAccountDTO.getChildAccountId() == enterpriseWorkerEntity.getId()) {
+                return R.fail("您不能编辑您自己！");
+            }
+            EnterpriseWorkerEntity workerEntity = this.getById(childAccountDTO.getChildAccountId());
+            if (workerEntity == null) {
+                return R.fail("您编辑的用户不存在！");
+            }
+            /**
+             * 修改用户名时判断是否唯一
+             */
+            if (!childAccountDTO.getUserName().equals(workerEntity.getEmployeeUserName())) {
+                int userNameCount = this.count(new QueryWrapper<EnterpriseWorkerEntity>().lambda().eq(EnterpriseWorkerEntity::getEmployeeUserName, childAccountDTO.getUserName()));
+                if (userNameCount > 0) {
+                    return R.fail("用户名已存在！");
+                }
+            }
+            /**
+             * 修改手机号码时判断是否唯一
+             */
+            if (!childAccountDTO.getPhoneNumber().equals(workerEntity.getPhoneNumber())) {
+                int phoneNumberCount = this.count(new QueryWrapper<EnterpriseWorkerEntity>().lambda().eq(EnterpriseWorkerEntity::getPhoneNumber, childAccountDTO.getPhoneNumber()));
+                if (phoneNumberCount > 0) {
+                    return R.fail("手机号码已存在！");
+                }
+            }
+            workerEntity.setWorkerName(childAccountDTO.getName());
+            workerEntity.setPositionName(childAccountDTO.getPositionName());
+            workerEntity.setPhoneNumber(childAccountDTO.getPhoneNumber());
+            workerEntity.setEmployeeUserName(childAccountDTO.getUserName());
+            workerEntity.setRoleId(childAccountDTO.getRoleId());
+            workerEntity.setEnterpriseId(enterpriseWorkerEntity.getEnterpriseId());
+            workerEntity.setAdminPower(childAccountDTO.getAdminPower());
+            workerEntity.setSuperAdmin(false);
+            if (!StringUtils.isBlank(childAccountDTO.getPassWord())) {
+                String encrypt = DigestUtil.encrypt(childAccountDTO.getPassWord());
+                workerEntity.setEmployeePwd(encrypt);
+            }
+            /**
+             * 修改管理员表
+             */
+            this.updateById(workerEntity);
+
+            /**
+             * 修改用户表
+             */
+            User user = userService.getById(workerEntity.getUserId());
+            if (user == null) {
+                throw new CustomException("修改的账号异常！");
+            }
+            user.setAccount(childAccountDTO.getUserName());
+            user.setPhone(childAccountDTO.getPhoneNumber());
+            user.setRoleId(childAccountDTO.getRoleId().toString());
+            userService.updateById(user);
+        } else {
+            int userNameCount = this.count(new QueryWrapper<EnterpriseWorkerEntity>().lambda().eq(EnterpriseWorkerEntity::getEmployeeUserName, childAccountDTO.getUserName()));
+            if (userNameCount > 0) {
+                return R.fail("用户名已存在！");
+            }
+            int phoneNumberCount = this.count(new QueryWrapper<EnterpriseWorkerEntity>().lambda().eq(EnterpriseWorkerEntity::getPhoneNumber, childAccountDTO.getPhoneNumber()));
+            if (phoneNumberCount > 0) {
+                return R.fail("手机号码已存在！");
+            }
+            User user = new User();
+            user.setUserType(UserType.ENTERPRISE);
+            user.setRoleId(childAccountDTO.getRoleId().toString());
+            user.setPhone(childAccountDTO.getPhoneNumber());
+            user.setAccount(childAccountDTO.getUserName());
+            userService.save(user);
+
+            EnterpriseWorkerEntity childAccount = new EnterpriseWorkerEntity();
+            childAccount.setWorkerName(childAccountDTO.getName());
+            childAccount.setPositionName(childAccountDTO.getPositionName());
+            childAccount.setPhoneNumber(childAccountDTO.getPhoneNumber());
+            childAccount.setEmployeeUserName(childAccountDTO.getUserName());
+            childAccount.setRoleId(childAccountDTO.getRoleId());
+            childAccount.setEnterpriseId(enterpriseWorkerEntity.getEnterpriseId());
+            childAccount.setAdminPower(childAccountDTO.getAdminPower());
+            childAccount.setUpLevelId(enterpriseWorkerEntity.getId());
+            childAccount.setSuperAdmin(false);
+            if (StringUtils.isBlank(childAccountDTO.getPassWord())) {
+                throw new CustomException("初始密码不能为空！");
+            }
+            if (!(childAccountDTO.getPassWord().length() >= 6 && childAccountDTO.getPassWord().length() <= 18)) {
+                throw new CustomException("请输入6-18位的密码！");
+            }
+            String encrypt = DigestUtil.encrypt(childAccountDTO.getPassWord());
+            childAccount.setEmployeePwd(encrypt);
+            childAccount.setUserId(user.getId());
+            this.save(childAccount);
+        }
+        return R.success("操作成功！");
+    }
+
+    @Override
+    public R operateChildAccount(Long childAccountId, ChildAccountType childAccountType, Long id) {
+        if (id == childAccountId) {
+            return R.fail("您不能删除、停用、启用您自己的账号！");
+        }
+        List<EnterpriseWorkerEntity> list = this.list(new QueryWrapper<EnterpriseWorkerEntity>().lambda().eq(EnterpriseWorkerEntity::getUpLevelId, id));
+        List<Long> subIds = new ArrayList<>();
+        list.forEach(enterpriseWorkerEntity -> {
+            subIds.add(enterpriseWorkerEntity.getId());
+        });
+
+        if (!subIds.contains(childAccountId)) {
+            return R.fail("您只能操作您创建的子账号！");
+        }
+
+        EnterpriseWorkerEntity workerEntity = this.getById(childAccountId);
+        if (workerEntity == null) {
+            return R.fail("您操作的用户不存在！");
+        }
+        switch (childAccountType) {
+            case DELETE:
+                this.removeRole(workerEntity.getId());
+                break;
+            case STARTUSING:
+                workerEntity.setEnterpriseWorkerState(AccountState.NORMAL);
+                this.updateById(workerEntity);
+                break;
+            case BLOCKUP:
+                workerEntity.setEnterpriseWorkerState(AccountState.FREEZE);
+                this.updateById(workerEntity);
+                break;
+            default:
+                break;
+        }
+        return R.success("操作成功！");
+    }
 }
