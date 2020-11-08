@@ -35,7 +35,7 @@ public class Condition {
 
         String descStr = SqlKeyword.filter(query.getDescs());
         list.add(OrderItem.desc(descStr));
-        page.setOrders(list);
+//        page.setOrders(list);
         return page;
     }
 
