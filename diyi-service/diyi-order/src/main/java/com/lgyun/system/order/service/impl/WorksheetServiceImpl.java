@@ -168,10 +168,10 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             saveOrUpdate(worksheetEntity);
             return R.success("关闭成功");
         } else {
-//            worksheetMakerService.
-//            if(){
-//
-//            }
+            Integer orderGrabbingCount = worksheetMakerService.getOrderGrabbingCount(worksheetId);
+            if(orderGrabbingCount >= worksheetEntity.getUpPersonNum()){
+                return R.fail("开始失败，抢单人数到达上限！！");
+            }
             worksheetEntity.setWorksheetState(WorksheetState.PUBLISHING);
             saveOrUpdate(worksheetEntity);
             return R.success("开启成功");
