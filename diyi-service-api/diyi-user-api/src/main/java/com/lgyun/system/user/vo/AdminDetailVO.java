@@ -30,4 +30,9 @@ public class AdminDetailVO implements Serializable {
      */
     private PositionName positionName;
 
+    /**
+     * 管理员权限
+     */
+    private Boolean superAdmin = false;
+
 }

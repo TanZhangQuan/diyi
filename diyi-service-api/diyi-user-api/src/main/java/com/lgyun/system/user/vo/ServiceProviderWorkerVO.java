@@ -2,9 +2,8 @@ package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
+import com.lgyun.common.enumeration.AccountState;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.List;
@@ -54,7 +53,7 @@ public class ServiceProviderWorkerVO implements Serializable {
     /**
      * 账户状态描述
      */
-    private String accountState;
+    private AccountState accountState;
 
     /**
      * 是否是主账号

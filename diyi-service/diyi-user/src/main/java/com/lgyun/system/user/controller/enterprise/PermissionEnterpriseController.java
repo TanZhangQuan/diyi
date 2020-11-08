@@ -6,7 +6,6 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.dto.RoleMenusDTO;
 import com.lgyun.system.user.dto.ChildAccountDTO;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
-import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

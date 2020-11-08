@@ -10,7 +10,6 @@ import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
-import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.dto.RoleMenusDTO;
 import com.lgyun.system.entity.Role;
@@ -120,7 +119,7 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
             }
             adminVO.setMenuNames(menuNames);
             adminVO.setPositionName(adminEntity.getPositionName().getDesc());
-            adminVO.setAdminState(adminEntity.getAdminState().getDesc());
+            adminVO.setAdminState(adminEntity.getAdminState());
             if (id.equals(adminEntity.getId())) {
                 adminVO.setMaster(true);
             }
@@ -264,6 +263,7 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R operateChildAccount(Long childAccountId, ChildAccountType childAccountType, Long id) {
         if (id == childAccountId) {
             return R.fail("您不能删除、停用、启用您自己的账号！");
@@ -284,7 +284,8 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
         }
         switch (childAccountType) {
             case DELETE:
-                this.removeRole(adminEntity.getId());
+                this.removeRole(adminEntity.getRoleId());
+                userService.removeById(adminEntity.getId());
                 break;
             case STARTUSING:
                 adminEntity.setAdminState(AccountState.NORMAL);
