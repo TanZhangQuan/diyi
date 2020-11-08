@@ -13,10 +13,7 @@ import com.lgyun.system.order.feign.IOrderClient;
 import com.lgyun.system.user.dto.*;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.ServiceProviderMapper;
-import com.lgyun.system.user.service.IAgreementService;
-import com.lgyun.system.user.service.IServiceProviderService;
-import com.lgyun.system.user.service.IServiceProviderWorkerService;
-import com.lgyun.system.user.service.IUserService;
+import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +38,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
 
     private final IUserService userService;
     private final IOrderClient orderClient;
+    private final IServiceProviderAccountService serviceProviderAccountService;
 
     @Autowired
     @Lazy
@@ -164,6 +162,14 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         serviceProviderEntity.setCreateType(CreateType.PLATFORMCREATE);
         BeanUtil.copy(addServiceProviderDTO, serviceProviderEntity);
         save(serviceProviderEntity);
+
+        //保存服务商收款账户信息
+        ServiceProviderAccountEntity serviceProviderAccountEntity = new ServiceProviderAccountEntity();
+        serviceProviderAccountEntity.setServiceProviderId(serviceProviderEntity.getId());
+        serviceProviderAccountEntity.setAccountType(AccountType.BANK);
+        serviceProviderAccountEntity.setIsDefault(true);
+        BeanUtils.copyProperties(addServiceProviderDTO, serviceProviderAccountEntity);
+        serviceProviderAccountService.save(serviceProviderAccountEntity);
 
         //上传加盟合同
         AgreementEntity agreementEntity = new AgreementEntity();

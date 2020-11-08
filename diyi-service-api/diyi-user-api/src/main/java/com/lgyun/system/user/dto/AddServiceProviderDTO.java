@@ -75,6 +75,24 @@ public class AddServiceProviderDTO implements Serializable {
     private BigDecimal servicePrice;
 
     /**
+     * 收款单位名称
+     */
+    @NotBlank(message = "请输入收款单位名称")
+    private String accountName;
+
+    /**
+     * 收款单位账号
+     */
+    @NotBlank(message = "请输入收款单位账号")
+    private String accountNo;
+
+    /**
+     * 收款单位开户银行名称
+     */
+    @NotBlank(message = "请输入收款单位开户银行名称")
+    private String accountBank;
+
+    /**
      * 联系人1姓名
      */
     @NotBlank(message = "请输入联系人1姓名")
