@@ -163,7 +163,6 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
             if (count > 0) {
                 R.fail("您编辑的角色现在赋予给了子账号，请收回后在编辑！");
             }
-            sysClient.removeRoleMenu(roleMenusDTO.getMenus());
         }
         roleMenusDTO.setUserType(UserType.ADMIN);
         R result = sysClient.createOrUpdateRoleMenus(roleMenusDTO, id);
