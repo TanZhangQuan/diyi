@@ -442,4 +442,9 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
         return baseMapper.selectCount(queryWrapper);
     }
 
+    @Override
+    public R<IPage<PayMakerListMakerVO>> queryPayMakerListByMaker(Long makerId, IPage<PayMakerListMakerVO> page) {
+        return R.data(page.setRecords(baseMapper.queryPayMakerListByMaker(makerId, page)));
+    }
+
 }

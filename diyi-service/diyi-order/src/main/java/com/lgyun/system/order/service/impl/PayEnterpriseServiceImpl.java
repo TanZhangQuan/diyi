@@ -322,7 +322,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R<IPage<PayMakerListServiceProviderVO>> getPayMakerListByPayEnterprise(Long payEnterpriseId, IPage<PayMakerListServiceProviderVO> page) {
+    public R<IPage<PayMakerListWebVO>> getPayMakerListByPayEnterprise(Long payEnterpriseId, IPage<PayMakerListWebVO> page) {
         return R.data(page.setRecords(baseMapper.getPayMakerListByPayEnterprise(payEnterpriseId, page)));
     }
 
@@ -1141,7 +1141,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             invoiceServiceDetailSummaryVOS.add(invoiceServiceDetailSummaryVO);
         }
         map.put("invoiceServiceDetailSummaryVO", invoiceServiceDetailSummaryVOS);
-        List<PayMakerListsVO> payMakerLists = baseMapper.getPayMakerLists(payEnterpriseIds);
+        List<PayMakerListServiceProviderVO> payMakerLists = baseMapper.getPayMakerLists(payEnterpriseIds);
         map.put("payMakerListVOs", payMakerLists);
         return R.data(map);
     }

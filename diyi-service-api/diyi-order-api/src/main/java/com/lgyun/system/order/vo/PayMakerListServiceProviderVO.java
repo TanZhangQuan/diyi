@@ -20,7 +20,13 @@ public class PayMakerListServiceProviderVO implements Serializable {
      * 创客支付明细ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
+    private Long payMakerId;
+
+    /**
+     * 创客ID
+     */
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long makerId;
 
     /**
      * 姓名
@@ -63,13 +69,13 @@ public class PayMakerListServiceProviderVO implements Serializable {
     private BigDecimal serviceRate;
 
     /**
-     * 是否已开交付支付验收单
+     * 发票URL
      */
-    private boolean boolAcceptSheet;
+    private String makerVoiceUrl;
 
     /**
-     * 支付回单
+     * 完税证明url
      */
-    private String makerPayReceiptUrls;
+    private String makerTaxUrl;
 
 }

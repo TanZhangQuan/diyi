@@ -157,10 +157,19 @@ public interface IPayMakerService extends BaseService<PayMakerEntity> {
 
     /**
      * 根据商户明细id
+     *
      * @param payEnterpriseIds
      * @return
      */
     Integer getPayMakerCount(String payEnterpriseIds);
 
+    /**
+     * 查询创客的支付明细
+     *
+     * @param makerId
+     * @param page
+     * @return
+     */
+    R<IPage<PayMakerListMakerVO>> queryPayMakerListByMaker(Long makerId, IPage<PayMakerListMakerVO> page);
 }
 

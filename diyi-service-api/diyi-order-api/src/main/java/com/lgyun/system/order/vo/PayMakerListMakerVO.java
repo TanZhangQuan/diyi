@@ -1,11 +1,15 @@
 package com.lgyun.system.order.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.MakerType;
+import com.lgyun.common.enumeration.PayMakerPayState;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * @author tzq
@@ -13,30 +17,19 @@ import java.math.BigDecimal;
  * @time 14:36.
  */
 @Data
-public class PayMakerListsVO implements Serializable {
+public class PayMakerListMakerVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
      * 创客支付明细ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long payMakerId;
+    private Long id;
 
     /**
-     * 创客ID
+     * 创客身份
      */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long makerId;
-
-    /**
-     * 姓名
-     */
-    private String name;
-
-    /**
-     * 身份证号码
-     */
-    private String idcardNo;
+    private MakerType makerType;
 
     /**
      * 到手服务费
@@ -69,14 +62,14 @@ public class PayMakerListsVO implements Serializable {
     private BigDecimal serviceRate;
 
     /**
-     * 发票URL
+     * 支付状态
      */
-    private String makerVoiceUrl;
+    private PayMakerPayState payState;
 
     /**
-     * 完税证明url
+     * 创建时间
      */
-    private String makerTaxUrl;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date createTime;
 
 }

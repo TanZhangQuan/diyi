@@ -119,5 +119,14 @@ public interface PayMakerMapper extends BaseMapper<PayMakerEntity> {
      * @return
      */
     List<AcceptPaysheetPayMakerListVO> queryTotalSubAcceptPaysheetPayMakerList(Long acceptPaysheetId, IPage<AcceptPaysheetPayMakerListVO> page);
+
+    /**
+     * 查询创客的支付明细
+     *
+     * @param makerId
+     * @param page
+     * @return
+     */
+    List<PayMakerListMakerVO> queryPayMakerListByMaker(Long makerId, IPage<PayMakerListMakerVO> page);
 }
 

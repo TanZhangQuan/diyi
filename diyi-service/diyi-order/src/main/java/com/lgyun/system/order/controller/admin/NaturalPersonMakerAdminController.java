@@ -4,6 +4,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
+import com.lgyun.system.order.service.IPayMakerService;
 import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.feign.IUserClient;
@@ -28,6 +29,7 @@ public class NaturalPersonMakerAdminController {
 
     private IUserClient userClient;
     private IWorksheetService worksheetService;
+    private IPayMakerService payMakerService;
 
     @GetMapping("/query-worksheet-list")
     @ApiOperation(value = "查询工单", notes = "查询工单")
@@ -39,6 +41,18 @@ public class NaturalPersonMakerAdminController {
         }
 
         return worksheetService.getWorksheetDetailsByMaker(null, makerId, Condition.getPage(query.setDescs("create_time")));
+    }
+
+    @GetMapping("/query-pay-maker-list")
+    @ApiOperation(value = "查询创客支付明细", notes = "查询创客支付明细")
+    public R queryPayMakerList(@ApiParam(value = "创客") @NotNull(message = "请选择创客") @RequestParam(required = false) Long makerId, Query query, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return payMakerService.queryPayMakerListByMaker(makerId, Condition.getPage(query.setDescs("create_time")));
     }
 
 }

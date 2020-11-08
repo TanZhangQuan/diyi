@@ -51,7 +51,7 @@ public class PayMakerReceiptServiceImpl extends BaseServiceImpl<PayMakerReceiptM
             return R.fail("支付清单不属于服务商");
         }
 
-        if (PayEnterpriseAuditState.APPROVED.equals(payEnterpriseEntity.getAuditState())){
+        if (!(PayEnterpriseAuditState.APPROVED.equals(payEnterpriseEntity.getAuditState()))){
             return R.fail("支付清单未通过，不可上传明细回单");
         }
 
