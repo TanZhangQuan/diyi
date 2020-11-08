@@ -104,4 +104,9 @@ public class AdminEnterpriseReportVO implements Serializable {
      * 主体名字
      */
     private String mainBodyName;
+
+    /**
+     * 提交时间
+     */
+    private String submitDateTime;
 }
