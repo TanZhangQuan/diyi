@@ -156,8 +156,7 @@
         </if>
         t1.id, t1.name, t1.idcard_no, t1.phone_number, t1.bank_card_no, t1.certification_date, t1.create_time,
         IF(t1.idcard_verify_status = 'VERIFYPASS', TRUE, FALSE) AS bool_real_name_verify,
-        IF((SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t1.id AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND agreement_type = 'MAKERJOINAGREEMENT') > 0
-        AND (SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t1.id AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND agreement_type = 'MAKERPOWERATTORNEY') > 0, TRUE, FALSE) AS bool_sign,
+        IF((SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t1.id AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND agreement_type = 'MAKERJOINAGREEMENT') > 0, TRUE, FALSE) AS bool_sign,
         IF((SELECT COUNT(id) FROM diyi_individual_business WHERE is_deleted = 0 AND maker_id = t1.id AND ibstate = 'OPERATING') > 0, TRUE, FALSE) AS bool_individual_business,
         IF((SELECT COUNT(id) FROM diyi_individual_enterprise WHERE is_deleted = 0 AND maker_id = t1.id AND ibstate = 'OPERATING') > 0, TRUE, FALSE) AS bool_individual_enterprise
         FROM diyi_maker t1

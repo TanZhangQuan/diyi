@@ -352,7 +352,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     @Override
     public R<AgreementEntity> findAdminMakerId(Long makerId, AgreementType agreementType) {
         if (!(AgreementType.MAKERJOINAGREEMENT.equals(agreementType) || AgreementType.MAKERPOWERATTORNEY.equals(agreementType))) {
-            return R.fail("合同协议类别错误!!!");
+            return R.fail("合同协议类别错误");
         }
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(AgreementEntity::getMakerId, makerId)
