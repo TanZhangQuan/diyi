@@ -1,5 +1,7 @@
 package com.lgyun.system.user.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,6 +22,7 @@ public class ServiceProviderWorkerVO implements Serializable {
     /**
      * 服务商ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     /**

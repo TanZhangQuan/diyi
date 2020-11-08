@@ -1,5 +1,7 @@
 package com.lgyun.system.user.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -21,6 +23,7 @@ public class EnterpriseWorkerVO implements Serializable {
     /**
      * 商户ID
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     @ApiModelProperty("商户员工ID（编辑时用来用来查询账户详情）")
     private Long enterpriseWorkerId;
 

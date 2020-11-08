@@ -1,5 +1,7 @@
 package com.lgyun.system.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -13,6 +15,7 @@ public class RoleMenusVO {
      * 角色ID
      */
     @ApiModelProperty("角色ID")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long roleId;
 
     /**

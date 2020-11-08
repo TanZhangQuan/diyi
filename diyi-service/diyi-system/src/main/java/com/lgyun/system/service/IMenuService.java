@@ -31,9 +31,10 @@ public interface IMenuService extends IService<Menu> {
 	 * 菜单树形结构
 	 *
 	 * @param roleId
+	 * @param superAdmin
 	 * @return
 	 */
-	List<MenuVO> routes(String roleId, UserType userType);
+	List<MenuVO> routes(String roleId, UserType userType, Boolean superAdmin);
 
 	/**
 	 * 按钮树形结构

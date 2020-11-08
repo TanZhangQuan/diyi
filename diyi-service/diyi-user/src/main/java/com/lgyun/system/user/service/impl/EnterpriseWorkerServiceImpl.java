@@ -151,8 +151,11 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
 
     @Override
     public R<RoleMenuInfoVo> queryRoleInfo(Long roleId) {
-        List<String> menuIds = sysClient.getMenuIds(roleId);
         Role role = sysClient.getRole(roleId);
+        if (role == null) {
+            return R.fail("您输入的角色ID不存在！");
+        }
+        List<String> menuIds = sysClient.getMenuIds(roleId);
         RoleMenuInfoVo roleMenuInfoVo = new RoleMenuInfoVo();
         BeanUtils.copyProperties(role,roleMenuInfoVo);
         roleMenuInfoVo.setMenuIds(menuIds);
