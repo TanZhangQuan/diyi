@@ -59,7 +59,7 @@ public class SelfHelpInvoiceEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return selfHelpInvoiceService.getSelfHelfInvoicesByEnterprise(enterpriseWorkerEntity.getEnterpriseId(), makerType, selfHelpInvoicesByEnterpriseDto, Condition.getPage(query.setDescs("create_time")));
+        return selfHelpInvoiceService.getSelfHelfInvoicesByEnterprise(enterpriseWorkerEntity.getEnterpriseId(), makerType, selfHelpInvoicesByEnterpriseDto, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-self-helf-invoices-detail")
@@ -84,7 +84,7 @@ public class SelfHelpInvoiceEnterpriseController {
             return result;
         }
 
-        return selfHelpInvoiceService.getSelfHelfInvoiceDetailListBySelfHelfInvoice(selfHelpInvoiceId, Condition.getPage(query.setDescs("create_time")));
+        return selfHelpInvoiceService.getSelfHelfInvoiceDetailListBySelfHelfInvoice(selfHelpInvoiceId, Condition.getPage(query.setDescs("t2.create_time")));
     }
 
     @GetMapping("/query-self-helf-invoice-express-list")
@@ -97,7 +97,7 @@ public class SelfHelpInvoiceEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return selfHelpInvoiceService.getSelfHelfInvoiceExpressBySelfHelfInvoiceAndEnterprise(enterpriseWorkerEntity.getEnterpriseId(), selfHelpInvoiceId, Condition.getPage(query.setDescs("create_time")));
+        return selfHelpInvoiceService.getSelfHelfInvoiceExpressBySelfHelfInvoiceAndEnterprise(enterpriseWorkerEntity.getEnterpriseId(), selfHelpInvoiceId, Condition.getPage(query.setDescs("t3.create_time")));
     }
 
     @PostMapping("/create-address")

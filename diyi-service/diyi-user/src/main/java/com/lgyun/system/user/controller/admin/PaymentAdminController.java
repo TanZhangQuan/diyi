@@ -42,7 +42,7 @@ public class PaymentAdminController {
             return result;
         }
 
-        return enterpriseService.queryEnterpriseListPayment(enterpriseName, Condition.getPage(query.setDescs("create_time")));
+        return enterpriseService.queryEnterpriseListPayment(enterpriseName, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-service-provider-list")
@@ -54,7 +54,7 @@ public class PaymentAdminController {
             return result;
         }
 
-        return serviceProviderService.queryServiceProviderListPayment(serviceProviderName, Condition.getPage(query.setDescs("create_time")));
+        return serviceProviderService.queryServiceProviderListPayment(serviceProviderName, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-service-provider-id-and-name-list")
@@ -66,7 +66,7 @@ public class PaymentAdminController {
             return result;
         }
 
-        return enterpriseServiceProviderService.queryServiceProviderIdAndNameList(enterpriseId, serviceProviderName, Condition.getPage(query.setDescs("create_time")));
+        return enterpriseServiceProviderService.queryServiceProviderIdAndNameList(enterpriseId, serviceProviderName, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
 }

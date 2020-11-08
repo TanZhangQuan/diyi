@@ -42,7 +42,7 @@ public class IndividualBusinessServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return individualBusinessService.queryIndividualBusinessList(null, serviceProviderWorkerEntity.getServiceProviderId(), individualBusinessEnterpriseListDto, Condition.getPage(query.setDescs("create_time")));
+        return individualBusinessService.queryIndividualBusinessList(null, serviceProviderWorkerEntity.getServiceProviderId(), individualBusinessEnterpriseListDto, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-individual-business-detail")

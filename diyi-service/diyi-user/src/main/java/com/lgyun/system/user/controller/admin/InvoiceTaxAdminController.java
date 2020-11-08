@@ -39,6 +39,6 @@ public class InvoiceTaxAdminController {
             return result;
         }
 
-        return agreementService.queryServiceAgreementState(serviceProviderName, Condition.getPage(query.setDescs("create_time")));
+        return agreementService.queryServiceAgreementState(serviceProviderName, Condition.getPage(query.setDescs("s.create_time")));
     }
 }

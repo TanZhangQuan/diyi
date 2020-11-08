@@ -61,7 +61,7 @@ public class AgentMainAdminController {
             return result;
         }
 
-        return agentMainService.getAgentMainList(Condition.getPage(query.setDescs("create_time")), queryAgentMainDTO);
+        return agentMainService.getAgentMainList(Condition.getPage(query.setDescs("am.create_time")), queryAgentMainDTO);
     }
 
     @PostMapping("/modify-illegal")

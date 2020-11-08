@@ -393,7 +393,7 @@ public class InvoiceTaxServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return payEnterpriseService.findServiceSubcontractSummary(serviceProviderWorkerEntity.getServiceProviderId(), enterprise_name, companyInvoiceState,Condition.getPage(query.setDescs("create_time")));
+        return payEnterpriseService.findServiceSubcontractSummary(serviceProviderWorkerEntity.getServiceProviderId(), enterprise_name, companyInvoiceState,Condition.getPage(query.setDescs("pe.create_time")));
     }
 
     @GetMapping("/query-all-sub-detail")
@@ -453,7 +453,7 @@ public class InvoiceTaxServiceProviderController {
             return result;
         }
 
-        return worksheetService.getWorksheetWebDetails(Condition.getPage(query.setDescs("create_time")), worksheetId);
+        return worksheetService.getWorksheetWebDetails(Condition.getPage(query.setDescs("wm.create_time")), worksheetId);
     }
 
     @GetMapping("/query-pay-enterprise-detail")

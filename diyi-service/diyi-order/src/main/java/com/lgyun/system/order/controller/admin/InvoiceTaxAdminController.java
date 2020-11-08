@@ -352,7 +352,7 @@ public class InvoiceTaxAdminController {
             return result;
         }
 
-        return payEnterpriseService.findServiceSubcontractSummary(serviceProviderId, enterprise_name, companyInvoiceState,Condition.getPage(query.setDescs("create_time")));
+        return payEnterpriseService.findServiceSubcontractSummary(serviceProviderId, enterprise_name, companyInvoiceState,Condition.getPage(query.setDescs("pe.create_time")));
     }
 
     @GetMapping("/query-all-sub-detail")
@@ -398,7 +398,7 @@ public class InvoiceTaxAdminController {
             return result;
         }
 
-        return worksheetService.getWorksheetWebDetails(Condition.getPage(query.setDescs("create_time")), worksheetId);
+        return worksheetService.getWorksheetWebDetails(Condition.getPage(query.setDescs("wm.create_time")), worksheetId);
     }
 
     @GetMapping("/query-pay-enterprise-detail")

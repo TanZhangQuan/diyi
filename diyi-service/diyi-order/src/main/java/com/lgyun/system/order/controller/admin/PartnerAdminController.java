@@ -45,6 +45,6 @@ public class PartnerAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        return payEnterpriseService.getPartnerAllServiceProvider(Condition.getPage(query.setDescs("create_time")));
+        return payEnterpriseService.getPartnerAllServiceProvider(Condition.getPage(query.setDescs("t1.create_time")));
     }
 }

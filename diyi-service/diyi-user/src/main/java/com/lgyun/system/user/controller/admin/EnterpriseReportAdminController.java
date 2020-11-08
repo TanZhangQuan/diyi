@@ -46,7 +46,7 @@ public class EnterpriseReportAdminController {
             return result;
         }
 
-        return enterpriseReportService.findAdminEnterpriseReportAll(serviceProviderName, reportTheme, startTime, endTime, Condition.getPage(query.setDescs("create_time")));
+        return enterpriseReportService.findAdminEnterpriseReportAll(serviceProviderName, reportTheme, startTime, endTime, Condition.getPage(query.setDescs("b.create_time")));
     }
 
     @GetMapping("/query-enterprise-report-list")
@@ -58,7 +58,7 @@ public class EnterpriseReportAdminController {
             return result;
         }
 
-        return enterpriseReportService.findAdminEnterpriseReport(serviceProviderId, reportTheme, Condition.getPage(query.setDescs("create_time")));
+        return enterpriseReportService.findAdminEnterpriseReport(serviceProviderId, reportTheme, Condition.getPage(query.setDescs("b.create_time")));
     }
 
     @GetMapping("/query-enterprise-report-detail")
@@ -105,7 +105,7 @@ public class EnterpriseReportAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        return individualBusinessService.queryIndividualBusinessList(null, serviceProviderId, new IndividualBusinessEnterpriseListDTO(), Condition.getPage(query.setDescs("create_time")));
+        return individualBusinessService.queryIndividualBusinessList(null, serviceProviderId, new IndividualBusinessEnterpriseListDTO(), Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-individual-enterprise-list")
@@ -116,6 +116,6 @@ public class EnterpriseReportAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        return individualEnterpriseService.queryIndividualEnterpriseList(Condition.getPage(query.setDescs("create_time")), null, serviceProviderId, new IndividualBusinessEnterpriseListDTO());
+        return individualEnterpriseService.queryIndividualEnterpriseList(Condition.getPage(query.setDescs("t1.create_time")), null, serviceProviderId, new IndividualBusinessEnterpriseListDTO());
     }
 }

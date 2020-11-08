@@ -48,7 +48,7 @@ public class AgreementServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return agreementService.findEnterpriseAgreement(agreementNo, serviceProviderWorkerEntity.getServiceProviderId(), enterpriseName, Condition.getPage(query.setDescs("create_time")));
+        return agreementService.findEnterpriseAgreement(agreementNo, serviceProviderWorkerEntity.getServiceProviderId(), enterpriseName, Condition.getPage(query.setDescs("a.create_time")));
     }
 
     @GetMapping("/query-enterprise-promise")
@@ -61,7 +61,7 @@ public class AgreementServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return agreementService.findEnterprisePromise(agreementNo, serviceProviderWorkerEntity.getServiceProviderId(), enterpriseName, Condition.getPage(query.setDescs("create_time")));
+        return agreementService.findEnterprisePromise(agreementNo, serviceProviderWorkerEntity.getServiceProviderId(), enterpriseName, Condition.getPage(query.setDescs("a.create_time")));
     }
 
     @GetMapping("/query-enterprise-supplement")
@@ -74,7 +74,7 @@ public class AgreementServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return agreementService.findEnterpriseSupplement(agreementNo, serviceProviderWorkerEntity.getServiceProviderId(), enterpriseName, Condition.getPage(query.setDescs("create_time")));
+        return agreementService.findEnterpriseSupplement(agreementNo, serviceProviderWorkerEntity.getServiceProviderId(), enterpriseName, Condition.getPage(query.setDescs("a.create_time")));
     }
 
     @GetMapping("/query-maker-join-contract")
@@ -87,7 +87,7 @@ public class AgreementServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return agreementService.findMakerAgreement(agreementNo, serviceProviderWorkerEntity.getServiceProviderId(), makerName, Condition.getPage(query.setDescs("create_time")));
+        return agreementService.findMakerAgreement(agreementNo, serviceProviderWorkerEntity.getServiceProviderId(), makerName, Condition.getPage(query.setDescs("a.create_time")));
     }
 
     @PostMapping("/upload-supplement")
@@ -113,7 +113,7 @@ public class AgreementServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return enterpriseServiceProviderService.queryRelevanceEnterpriseList(serviceProviderWorkerEntity.getServiceProviderId(), null, Condition.getPage(query.setDescs("create_time")));
+        return enterpriseServiceProviderService.queryRelevanceEnterpriseList(serviceProviderWorkerEntity.getServiceProviderId(), null, Condition.getPage(query.setDescs("t3.create_time")));
     }
 
 }

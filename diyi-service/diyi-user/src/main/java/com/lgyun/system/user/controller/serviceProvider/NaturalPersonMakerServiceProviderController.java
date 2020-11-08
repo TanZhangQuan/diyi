@@ -38,7 +38,7 @@ public class NaturalPersonMakerServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return makerService.queryMakerList(null, serviceProviderWorkerEntity.getServiceProviderId(), null, null, keyword, Condition.getPage(query.setDescs("create_time")));
+        return makerService.queryMakerList(null, serviceProviderWorkerEntity.getServiceProviderId(), null, null, keyword, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-maker-detail")
@@ -63,7 +63,7 @@ public class NaturalPersonMakerServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return enterpriseServiceProviderService.queryRelevanceEnterpriseList(serviceProviderWorkerEntity.getServiceProviderId(), keyword, Condition.getPage(query.setDescs("create_time")));
+        return enterpriseServiceProviderService.queryRelevanceEnterpriseList(serviceProviderWorkerEntity.getServiceProviderId(), keyword, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-relevance-maker-list-by-enterprise-id")
@@ -76,7 +76,7 @@ public class NaturalPersonMakerServiceProviderController {
             return result;
         }
 
-        return makerService.queryMakerList(enterpriseId, null, RelationshipType.RELEVANCE, null, keyword, Condition.getPage(query.setDescs("create_time")));
+        return makerService.queryMakerList(enterpriseId, null, RelationshipType.RELEVANCE, null, keyword, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
 }

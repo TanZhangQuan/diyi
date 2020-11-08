@@ -43,7 +43,7 @@ public class NaturalPersonMakerServiceProviderController {
             return result;
         }
 
-        return worksheetService.getWorksheetDetailsByMaker(null, makerId, Condition.getPage(query.setDescs("create_time")));
+        return worksheetService.getWorksheetDetailsByMaker(null, makerId, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-pay-maker-list")
@@ -68,7 +68,7 @@ public class NaturalPersonMakerServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return selfHelpInvoiceService.querySelfHelpInvoiceList(serviceProviderWorkerEntity.getServiceProviderId(), keyword, Condition.getPage(query.setDescs("create_time")));
+        return selfHelpInvoiceService.querySelfHelpInvoiceList(serviceProviderWorkerEntity.getServiceProviderId(), keyword, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-self-help-invoice-people-list")
@@ -80,7 +80,7 @@ public class NaturalPersonMakerServiceProviderController {
             return result;
         }
 
-        return selfHelpInvoiceService.querySelfHelpInvoicePeopleList(selfHelpvoiceId, Condition.getPage(query.setDescs("create_time")));
+        return selfHelpInvoiceService.querySelfHelpInvoicePeopleList(selfHelpvoiceId, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
 }

@@ -40,7 +40,7 @@ public class NaturalPersonMakerAdminController {
             return result;
         }
 
-        return worksheetService.getWorksheetDetailsByMaker(null, makerId, Condition.getPage(query.setDescs("create_time")));
+        return worksheetService.getWorksheetDetailsByMaker(null, makerId, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-pay-maker-list")

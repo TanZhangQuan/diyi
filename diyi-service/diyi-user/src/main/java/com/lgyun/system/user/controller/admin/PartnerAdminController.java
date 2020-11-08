@@ -53,7 +53,7 @@ public class PartnerAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        return partnerService.getPartnerList(Condition.getPage(query.setDescs("create_time")), queryPartnerDTO);
+        return partnerService.getPartnerList(Condition.getPage(query.setDescs("p.create_time")), queryPartnerDTO);
     }
 
     @PostMapping("/modify-illegal")
