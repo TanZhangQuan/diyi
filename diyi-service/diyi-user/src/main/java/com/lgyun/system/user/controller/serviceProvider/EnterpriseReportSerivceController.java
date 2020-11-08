@@ -64,7 +64,8 @@ public class EnterpriseReportSerivceController {
         if (!(result.isSuccess())) {
             return result;
         }
-
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+        adminEnterpriseReportDTO.setServiceProviderId(serviceProviderWorkerEntity.getServiceProviderId());
         return enterpriseReportService.saveServiceEnterpriseReport(adminEnterpriseReportDTO);
     }
 

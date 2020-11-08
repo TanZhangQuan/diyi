@@ -23,7 +23,6 @@ public class AdminEnterpriseReportDTO implements Serializable {
     /**
      * 服务商ID
      */
-    @NotNull(message = "服务商ID不能为空")
     private Long serviceProviderId;
 
     /**
