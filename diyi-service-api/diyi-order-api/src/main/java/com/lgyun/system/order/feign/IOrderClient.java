@@ -4,6 +4,7 @@ import com.lgyun.common.constant.AppConstant;
 import com.lgyun.system.order.entity.AddressEntity;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * Order Feign接口类
@@ -24,5 +25,5 @@ public interface IOrderClient {
      * @param addressEntity
      */
     @PostMapping(API_PREFIX + "/create-address")
-    void createAddress(AddressEntity addressEntity);
+    void createAddress(@RequestBody AddressEntity addressEntity);
 }
