@@ -10,20 +10,20 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * 平台端---商户管理---创建商户DTO
+ * 平台端---服务商管理---创建服务商DTO
  *
  * @author tzq
  * @date 2020-09-9
  */
 @Data
-public class AddEnterpriseDTO implements Serializable {
+public class AddServiceProviderDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 商户名称
+     * 服务商名称
      */
-    @NotBlank(message = "请输入商户名称")
-    private String enterpriseName;
+    @NotBlank(message = "请输入服务商名称")
+    private String serviceProviderName;
 
     /**
      * 法人
@@ -52,19 +52,13 @@ public class AddEnterpriseDTO implements Serializable {
     /**
      * 企业网址
      */
-    private String enterpriseUrl;
+    private String serviceProviderUrl;
 
     /**
      * 加盟合同
      */
     @NotBlank(message = "请上传加盟合同")
     private String joinContract;
-
-    /**
-     * 商户承诺函(可能多张)
-     */
-    @NotBlank(message = "请上传商户承诺函")
-    private String commitmentLetters;
 
     /**
      * 业务外包模式
@@ -157,13 +151,13 @@ public class AddEnterpriseDTO implements Serializable {
     private String invoiceBankNameAccount;
 
     /**
-     * 收件人姓名
+     * 收件人
      */
-    @NotBlank(message = "请输入收件人姓名")
+    @NotBlank(message = "请输入收件人")
     private String addressName;
 
     /**
-     * 手机号码
+     * 收件人手机号码
      */
     @NotBlank(message = "请输入收件人手机号")
     @Length(min = 11, max = 11, message = "请输入11位的收件人手机号")
@@ -191,7 +185,7 @@ public class AddEnterpriseDTO implements Serializable {
     /**
      * 详细地址
      */
-    @NotBlank(message = "请填写详细地址")
+    @NotBlank(message = "请输入详细地址")
     private String detailedAddress;
 
     /**

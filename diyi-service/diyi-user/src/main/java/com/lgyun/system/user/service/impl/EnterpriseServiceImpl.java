@@ -36,11 +36,11 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, EnterpriseEntity> implements IEnterpriseService {
 
-    private IOrderClient orderClient;
+    private IEnterpriseWorkerService enterpriseWorkerService;
     private IUserService userService;
     private IMakerEnterpriseService makerEnterpriseService;
     private IAgreementService agreementService;
-    private IEnterpriseWorkerService enterpriseWorkerService;
+    private IOrderClient orderClient;
 
     @Override
     public int queryCountById(Long id) {
@@ -174,6 +174,14 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             }
         }
 
+        //保存收货地址
+        AddressEntity addressEntity = new AddressEntity();
+        addressEntity.setObjectId(enterpriseEntity.getId());
+        addressEntity.setObjectType(ObjectType.ENTERPRISEPEOPLE);
+        addressEntity.setIsDefault(true);
+        BeanUtils.copyProperties(addEnterpriseDTO, addressEntity);
+        orderClient.createAddress(addressEntity);
+
         //新建联系人员工
         User user = new User();
         user.setUserType(UserType.ENTERPRISE);
@@ -191,14 +199,6 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         BeanUtil.copy(addEnterpriseDTO, enterpriseWorkerEntity);
         enterpriseWorkerEntity.setEnterpriseId(enterpriseEntity.getId());
         enterpriseWorkerService.save(enterpriseWorkerEntity);
-
-        //保存收货地址
-        AddressEntity addressEntity = new AddressEntity();
-        addressEntity.setObjectId(enterpriseEntity.getId());
-        addressEntity.setObjectType(ObjectType.ENTERPRISEPEOPLE);
-        addressEntity.setIsDefault(true);
-        BeanUtils.copyProperties(addEnterpriseDTO, addressEntity);
-        orderClient.createAddress(addressEntity);
 
         return R.success("新建商户成功");
     }
@@ -261,10 +261,6 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             return R.fail("已存在相同手机号的管理员");
         }
 
-        //编辑商户
-        BeanUtil.copy(updateEnterpriseDTO, enterpriseEntity);
-        updateById(enterpriseEntity);
-
         //上传加盟合同
         AgreementEntity agreementEntity = agreementService.getOne(Wrappers.<AgreementEntity>query().lambda()
                 .eq(AgreementEntity::getEnterpriseId, enterpriseEntity.getId())
@@ -275,6 +271,10 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         if (agreementEntity == null) {
             return R.fail("商户加盟合同不存在");
         }
+
+        //编辑商户
+        BeanUtil.copy(updateEnterpriseDTO, enterpriseEntity);
+        updateById(enterpriseEntity);
 
         agreementEntity.setPaperAgreementUrl(updateEnterpriseDTO.getJoinContract());
         agreementService.updateById(agreementEntity);

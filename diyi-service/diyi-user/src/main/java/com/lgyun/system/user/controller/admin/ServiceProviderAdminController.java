@@ -6,10 +6,7 @@ import com.lgyun.common.enumeration.MaterialState;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.AddOrUpdateAdminCenterMaterialDTO;
-import com.lgyun.system.user.dto.AddOrUpdateServiceProviderCertDTO;
-import com.lgyun.system.user.dto.AddOrUpdateServiceProviderDTO;
-import com.lgyun.system.user.dto.QueryServiceProviderListDTO;
+import com.lgyun.system.user.dto.*;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.service.*;
 import io.swagger.annotations.Api;
@@ -35,9 +32,9 @@ public class ServiceProviderAdminController {
     private IAdminCenterMaterialService adminCenterMaterialService;
     private IEnterpriseServiceProviderService enterpriseProviderService;
 
-    @PostMapping("/create-or-update-service-provider")
-    @ApiOperation(value = "添加或编辑服务商", notes = "添加或编辑服务商")
-    public R createOrUpdateServiceProvider(@Valid @RequestBody AddOrUpdateServiceProviderDTO addOrUpdateServiceProviderDTO, BladeUser bladeUser) {
+    @PostMapping("/create-service-provider")
+    @ApiOperation(value = "添加服务商", notes = "添加服务商")
+    public R createServiceProvider(@Valid @RequestBody AddServiceProviderDTO addServiceProviderDTO, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -45,7 +42,20 @@ public class ServiceProviderAdminController {
         }
         AdminEntity adminEntity = result.getData();
 
-        return serviceProviderService.createOrUpdateServiceProvider(addOrUpdateServiceProviderDTO, adminEntity);
+        return serviceProviderService.createServiceProvider(addServiceProviderDTO, adminEntity);
+    }
+
+    @PostMapping("/update-service-provider")
+    @ApiOperation(value = "编辑服务商", notes = "编辑服务商")
+    public R updateServiceProvider(@Valid @RequestBody UpdateServiceProviderDTO updateServiceProviderDTO, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        AdminEntity adminEntity = result.getData();
+
+        return serviceProviderService.updateServiceProvider(updateServiceProviderDTO, adminEntity);
     }
 
     @GetMapping("/query-service-provider-update-detail")

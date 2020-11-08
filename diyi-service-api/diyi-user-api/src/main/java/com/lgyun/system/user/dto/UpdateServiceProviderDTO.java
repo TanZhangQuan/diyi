@@ -10,18 +10,19 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * 平台端---服务商管理---创建服务商DTO
+ * 平台端---服务商管理---编辑服务商DTO
  *
  * @author tzq
  * @date 2020-09-9
  */
 @Data
-public class AddOrUpdateServiceProviderDTO implements Serializable {
+public class UpdateServiceProviderDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
      * 服务商ID
      */
+    @NotNull(message = "请选择服务商")
     private Long serviceProviderId;
 
     /**

@@ -4,11 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.dto.ServiceProviderBankCardDTO;
-import com.lgyun.system.user.dto.ServiceProviderContactPersonDTO;
-import com.lgyun.system.user.dto.ServiceProviderInvoiceDTO;
-import com.lgyun.system.user.dto.AddOrUpdateServiceProviderDTO;
-import com.lgyun.system.user.dto.QueryServiceProviderListDTO;
+import com.lgyun.system.user.dto.*;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.vo.*;
@@ -100,11 +96,20 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
     /**
      * 添加服务商
      *
-     * @param addOrUpdateServiceProviderDTO
+     * @param addServiceProviderDTO
      * @param adminEntity
      * @return
      */
-    R<String> createOrUpdateServiceProvider(AddOrUpdateServiceProviderDTO addOrUpdateServiceProviderDTO, AdminEntity adminEntity);
+    R<String> createServiceProvider(AddServiceProviderDTO addServiceProviderDTO, AdminEntity adminEntity);
+
+    /**
+     * 编辑服务商
+     *
+     * @param updateServiceProviderDTO
+     * @param adminEntity
+     * @return
+     */
+    R<String> updateServiceProvider(UpdateServiceProviderDTO updateServiceProviderDTO, AdminEntity adminEntity);
 
     /**
      * 更改服务商状态
