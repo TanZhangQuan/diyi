@@ -2,9 +2,7 @@ package com.lgyun.system.user.feign;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
-import com.lgyun.common.enumeration.CooperateStatus;
-import com.lgyun.common.enumeration.GrantType;
-import com.lgyun.common.enumeration.UserType;
+import com.lgyun.common.enumeration.*;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.entity.*;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -329,7 +327,6 @@ public interface IUserClient {
     @PostMapping(API_PREFIX + "/create-maker-to-enterprise-relevance")
     void createMakerToEnterpriseRelevance(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("makerId") Long makerId);
 
-
     /**
      * 根据服务商Id查询服务商
      *
@@ -339,5 +336,14 @@ public interface IUserClient {
     @GetMapping(API_PREFIX + "/query-service_provider-by-id")
     ServiceProviderEntity queryServiceProviderById(@RequestParam("serviceProviderId") Long serviceProviderId);
 
+    /**
+     * 查询已签署已审核通过的商户-创客补充协议
+     *
+     * @param makerId
+     * @param enterpriseId
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/query-agreement-num")
+    int queryEntMakSupplementaryAgreementNum (@RequestParam("makerId") Long makerId, @RequestParam("enterpriseId") Long enterpriseId);
 
 }

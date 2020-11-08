@@ -2,6 +2,7 @@ package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
@@ -368,19 +369,19 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     @Override
     public R saveAdminAgreement(Long makerId, Long enterpriseId, Long serviceProviderId, Long objectId, ObjectType objectType, AgreementType agreementType, String paperAgreementUrl) {
         AgreementEntity agreementEntity = null;
-        if(ObjectType.MAKERPEOPLE.equals(objectType) && AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType) && makerEnterpriseService.queryMakerEnterpriseNum(enterpriseId, objectId, RelationshipType.RELEVANCE) <= 0){
+        if (ObjectType.MAKERPEOPLE.equals(objectType) && AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType) && makerEnterpriseService.queryMakerEnterpriseNum(enterpriseId, objectId, RelationshipType.RELEVANCE) <= 0) {
             return R.fail("创客和商户没有关联关系，不能添加商户和创客的补充协议");
         }
 
-        if(ObjectType.ENTERPRISEPEOPLE.equals(objectType) && AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType) && makerEnterpriseService.queryMakerEnterpriseNum(objectId, makerId, RelationshipType.RELEVANCE) <= 0){
+        if (ObjectType.ENTERPRISEPEOPLE.equals(objectType) && AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType) && makerEnterpriseService.queryMakerEnterpriseNum(objectId, makerId, RelationshipType.RELEVANCE) <= 0) {
             return R.fail("商户和创客没有关联关系，不能添加创客和商户的补充协议");
         }
 
-        if(ObjectType.ENTERPRISEPEOPLE.equals(objectType) && AgreementType.SERENTSUPPLEMENTARYAGREEMENT.equals(agreementType) && enterpriseServiceProviderService.findByEnterpriseIdServiceProviderId(objectId,serviceProviderId) == null){
+        if (ObjectType.ENTERPRISEPEOPLE.equals(objectType) && AgreementType.SERENTSUPPLEMENTARYAGREEMENT.equals(agreementType) && enterpriseServiceProviderService.findByEnterpriseIdServiceProviderId(objectId, serviceProviderId) == null) {
             return R.fail("商户和服务商没有关联关系，不能添加商户和服务商的补充协议");
         }
 
-        if(ObjectType.SERVICEPEOPLE.equals(objectType) && AgreementType.SERENTSUPPLEMENTARYAGREEMENT.equals(agreementType) && enterpriseServiceProviderService.findByEnterpriseIdServiceProviderId(enterpriseId,objectId) == null){
+        if (ObjectType.SERVICEPEOPLE.equals(objectType) && AgreementType.SERENTSUPPLEMENTARYAGREEMENT.equals(agreementType) && enterpriseServiceProviderService.findByEnterpriseIdServiceProviderId(enterpriseId, objectId) == null) {
             return R.fail("服务商和商户没有关联关系，不能添加服务商和商户的补充协议");
         }
 
@@ -529,8 +530,8 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
-    public R queryServiceAgreementState(String serviceProviderName,IPage<AgreementServiceStateAdminVO> page) {
-        return R.data(page.setRecords(baseMapper.queryServiceAgreementState(serviceProviderName,page)));
+    public R queryServiceAgreementState(String serviceProviderName, IPage<AgreementServiceStateAdminVO> page) {
+        return R.data(page.setRecords(baseMapper.queryServiceAgreementState(serviceProviderName, page)));
     }
 
     @Override
@@ -550,23 +551,33 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
-    public R queryAdminMakerAll(Long makerId,String makerName,IPage<MakerEntity> page) {
-        return makerService.getMakerAll( makerId, makerName,page);
+    public R queryAdminMakerAll(Long makerId, String makerName, IPage<MakerEntity> page) {
+        return makerService.getMakerAll(makerId, makerName, page);
     }
 
     @Override
-    public R queryAdminEnterpriseAll(Long enterpriseId,String enterpriseName,IPage<EnterpriseEntity> page) {
-        return enterpriseService.getEnterpriseAll( enterpriseId, enterpriseName,page);
+    public R queryAdminEnterpriseAll(Long enterpriseId, String enterpriseName, IPage<EnterpriseEntity> page) {
+        return enterpriseService.getEnterpriseAll(enterpriseId, enterpriseName, page);
     }
 
     @Override
-    public R queryAdminServiceAll(Long serviceProviderId,String serviceProviderName,IPage<ServiceProviderEntity> page) {
-        return serviceProviderService.getServiceAll( serviceProviderId, serviceProviderName,page);
+    public R queryAdminServiceAll(Long serviceProviderId, String serviceProviderName, IPage<ServiceProviderEntity> page) {
+        return serviceProviderService.getServiceAll(serviceProviderId, serviceProviderName, page);
     }
 
     @Override
     public void deleteByEnterprise(Long enterpriseId, AgreementType agreementType) {
         baseMapper.deleteByEnterprise(enterpriseId, agreementType);
+    }
+
+    @Override
+    public int queryEntMakSupplementaryAgreementNum(Long makerId, Long enterpriseId) {
+
+        return count(Wrappers.<AgreementEntity>query().lambda().eq(AgreementEntity::getMakerId, makerId)
+                .eq(AgreementEntity::getEnterpriseId, enterpriseId)
+                .eq(AgreementEntity::getAgreementType, AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT)
+                .eq(AgreementEntity::getSignState, SignState.SIGNED)
+                .eq(AgreementEntity::getAuditState, AuditState.APPROVED));
     }
 
 }

@@ -161,9 +161,10 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
 //            if (!(SignState.SIGNED.equals(makerEntity.getJoinSignState()))) {
 //                throw new CustomException("第" + i + 2 + "条数据的创客未签署加盟合同");
 //            }
-//
-//            if (!(SignState.SIGNED.equals(makerEntity.getEmpowerSignState()))) {
-//                throw new CustomException("第" + i + 2 + "条数据的创客未签署授权协议");
+
+//            int entMakSupplementaryAgreementNum = userClient.queryEntMakSupplementaryAgreementNum(makerEntity.getId(), enterpriseId);
+//            if (entMakSupplementaryAgreementNum <= 0) {
+//                throw new CustomException("第" + i + 2 + "条数据的创客未签署商户-创客补充协议");
 //            }
 
             int makerEnterpriseNum = userClient.queryMakerEnterpriseRelevanceCount(enterpriseId, makerEntity.getId());
@@ -331,7 +332,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
         }
 
         //编辑支付清单
-        PayEnterpriseEntity payEnterpriseEntity =  payEnterpriseService.getById(payEnterpriseId);
+        PayEnterpriseEntity payEnterpriseEntity = payEnterpriseService.getById(payEnterpriseId);
         payEnterpriseEntity.setPayToPlatformAmount(payToPlatformAmount);
         payEnterpriseEntity.setTotalTaxFee(totalTaxFee);
         payEnterpriseEntity.setTotalMakerNetIncome(totalMakerNetIncome);

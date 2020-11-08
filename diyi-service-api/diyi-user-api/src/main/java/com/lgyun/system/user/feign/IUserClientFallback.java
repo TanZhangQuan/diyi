@@ -177,4 +177,9 @@ public class IUserClientFallback implements IUserClient {
         return null;
     }
 
+    @Override
+    public int queryEntMakSupplementaryAgreementNum(Long makerId, Long enterpriseId) {
+        return 0;
+    }
+
 }

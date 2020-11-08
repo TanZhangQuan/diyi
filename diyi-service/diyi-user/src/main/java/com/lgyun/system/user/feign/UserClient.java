@@ -32,6 +32,7 @@ public class UserClient implements IUserClient {
     private IMakerService makerService;
     private IEnterpriseWorkerService enterpriseWorkerService;
     private IServiceProviderService serviceProviderService;
+    private IAgreementService agreementService;
 
     @Override
     public UserInfo queryUserInfoByUserId(Long userId, UserType userType) {
@@ -481,6 +482,11 @@ public class UserClient implements IUserClient {
     @Override
     public ServiceProviderEntity queryServiceProviderById(Long serviceProviderId) {
         return serviceProviderService.getById(serviceProviderId);
+    }
+
+    @Override
+    public int queryEntMakSupplementaryAgreementNum(Long makerId, Long enterpriseId) {
+        return agreementService.queryEntMakSupplementaryAgreementNum(makerId, enterpriseId);
     }
 
 }
