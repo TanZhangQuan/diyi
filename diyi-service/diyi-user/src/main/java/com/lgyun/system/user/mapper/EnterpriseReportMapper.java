@@ -48,6 +48,6 @@ public interface EnterpriseReportMapper extends BaseMapper<EnterpriseReportEntit
     /**
      *根据服务商id查询税务申报或工商申报
      */
-    List<AdminEnterpriseReportAllVO> findServiceEnterpriseReport(Long serviceProviderId, ReportTheme reportTheme, String startTime, String endTime, IPage<AdminEnterpriseReportAllVO> page);
+    List<AdminEnterpriseReportVO> findServiceEnterpriseReport(Long serviceProviderId, ReportTheme reportTheme, String startTime, String endTime, IPage<AdminEnterpriseReportVO> page);
 }
 

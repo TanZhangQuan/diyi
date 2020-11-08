@@ -127,7 +127,7 @@ public class EnterpriseReportServiceImpl extends BaseServiceImpl<EnterpriseRepor
     }
 
     @Override
-    public R findServiceEnterpriseReport(Long serviceProviderId, ReportTheme reportTheme, String startTime, String endTime, IPage<AdminEnterpriseReportAllVO> page) {
+    public R findServiceEnterpriseReport(Long serviceProviderId, ReportTheme reportTheme, String startTime, String endTime, IPage<AdminEnterpriseReportVO> page) {
         return R.data(page.setRecords(baseMapper.findServiceEnterpriseReport(serviceProviderId, reportTheme, startTime, endTime, page)));
     }
 
