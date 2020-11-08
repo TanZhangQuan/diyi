@@ -194,6 +194,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         EnterpriseEntity byId = enterpriseService.getById(enterpriseId);
         AgreementEntity agreementEntity = new AgreementEntity();
         agreementEntity.setAgreementType(AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT);
+        agreementEntity.setSignState(SignState.SIGNED);
         agreementEntity.setSignType(SignType.PAPERAGREEMENT);
         agreementEntity.setEnterpriseId(enterpriseId);
         agreementEntity.setPaperAgreementUrl(paperAgreementURL);
