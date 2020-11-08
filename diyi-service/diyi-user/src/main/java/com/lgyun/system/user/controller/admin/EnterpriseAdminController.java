@@ -6,8 +6,9 @@ import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.AddOrUpdateEnterpriseDTO;
+import com.lgyun.system.user.dto.AddEnterpriseDTO;
 import com.lgyun.system.user.dto.QueryEnterpriseListDTO;
+import com.lgyun.system.user.dto.UpdateEnterpriseDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.service.IAdminService;
 import com.lgyun.system.user.service.IEnterpriseService;
@@ -33,9 +34,9 @@ public class EnterpriseAdminController {
     private IEnterpriseService enterpriseService;
     private IEnterpriseServiceProviderService enterpriseProviderService;
 
-    @PostMapping("/create-or-update-enterprise")
-    @ApiOperation(value = "添加或编辑商户", notes = "添加或编辑商户")
-    public R createOrUpdateEnterprise(@Valid @RequestBody AddOrUpdateEnterpriseDTO addOrUpdateEnterpriseDTO, BladeUser bladeUser) {
+    @PostMapping("/create-enterprise")
+    @ApiOperation(value = "添加商户", notes = "添加商户")
+    public R createEnterprise(@Valid @RequestBody AddEnterpriseDTO addEnterpriseDTO, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -43,7 +44,20 @@ public class EnterpriseAdminController {
         }
         AdminEntity adminEntity = result.getData();
 
-        return enterpriseService.createOrUpdateEnterprise(addOrUpdateEnterpriseDTO, adminEntity);
+        return enterpriseService.createEnterprise(addEnterpriseDTO, adminEntity);
+    }
+
+    @PostMapping("/update-enterprise")
+    @ApiOperation(value = "编辑商户", notes = "编辑商户")
+    public R updateEnterprise(@Valid @RequestBody UpdateEnterpriseDTO updateEnterpriseDTO, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        AdminEntity adminEntity = result.getData();
+
+        return enterpriseService.updateEnterprise(updateEnterpriseDTO, adminEntity);
     }
 
     @GetMapping("/query-enterprise-update-detail")

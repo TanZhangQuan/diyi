@@ -1,5 +1,7 @@
 package com.lgyun.system.order.feign;
 
+import com.lgyun.common.exception.CustomException;
+import com.lgyun.system.order.entity.AddressEntity;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,4 +13,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class IOrderClientFallback implements IOrderClient {
 
+    @Override
+    public void createAddress(AddressEntity addressEntity) {
+        throw new CustomException("网络繁忙，请稍后尝试");
+    }
 }

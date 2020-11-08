@@ -10,18 +10,19 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * 平台端---商户管理---创建商户DTO
+ * 平台端---商户管理---编辑商户DTO
  *
  * @author tzq
  * @date 2020-09-9
  */
 @Data
-public class AddOrUpdateEnterpriseDTO implements Serializable {
+public class UpdateEnterpriseDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
      * 商户ID
      */
+    @NotNull(message = "请选择商户")
     private Long enterpriseId;
 
     /**

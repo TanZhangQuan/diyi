@@ -60,7 +60,7 @@ public interface IUserClient {
      * @param bladeUser
      * @return
      */
-    @PostMapping(API_PREFIX + "/current-admin")
+    @GetMapping(API_PREFIX + "/current-admin")
     R<AdminEntity> currentAdmin(@RequestBody BladeUser bladeUser);
 
     /**
@@ -69,7 +69,7 @@ public interface IUserClient {
      * @param bladeUser
      * @return
      */
-    @PostMapping(API_PREFIX + "/current-maker")
+    @GetMapping(API_PREFIX + "/current-maker")
     R<MakerEntity> currentMaker(@RequestBody BladeUser bladeUser);
 
     /**
@@ -78,7 +78,7 @@ public interface IUserClient {
      * @param bladeUser
      * @return
      */
-    @PostMapping(API_PREFIX + "/current-enterprise-worker")
+    @GetMapping(API_PREFIX + "/current-enterprise-worker")
     R<EnterpriseWorkerEntity> currentEnterpriseWorker(@RequestBody BladeUser bladeUser);
 
     /**
@@ -87,7 +87,7 @@ public interface IUserClient {
      * @param bladeUser
      * @return
      */
-    @PostMapping(API_PREFIX + "/current-service-provider-worker")
+    @GetMapping(API_PREFIX + "/current-service-provider-worker")
     R<ServiceProviderWorkerEntity> currentServiceProviderWorker(@RequestBody BladeUser bladeUser);
 
     /**
@@ -246,7 +246,7 @@ public interface IUserClient {
      * @param serviceProviderId
      * @return
      */
-    @PostMapping(API_PREFIX + "/query-count-by-enterprise-id-and-service-provider-id")
+    @GetMapping(API_PREFIX + "/query-count-by-enterprise-id-and-service-provider-id")
     int queryCountByEnterpriseIdAndServiceProviderId(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("serviceProviderId") Long serviceProviderId, CooperateStatus cooperateStatus);
 
     /**

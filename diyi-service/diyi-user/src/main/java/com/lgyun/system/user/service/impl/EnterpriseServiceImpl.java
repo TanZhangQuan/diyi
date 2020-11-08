@@ -8,12 +8,14 @@ import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.user.dto.AddOrUpdateEnterpriseDTO;
+import com.lgyun.system.order.entity.AddressEntity;
+import com.lgyun.system.order.feign.IOrderClient;
+import com.lgyun.system.user.dto.AddEnterpriseDTO;
 import com.lgyun.system.user.dto.ContactsInfoDTO;
 import com.lgyun.system.user.dto.QueryEnterpriseListDTO;
+import com.lgyun.system.user.dto.UpdateEnterpriseDTO;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.EnterpriseMapper;
-import com.lgyun.system.user.oss.AliyunOssService;
 import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.*;
 import lombok.AllArgsConstructor;
@@ -34,11 +36,11 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, EnterpriseEntity> implements IEnterpriseService {
 
-    private AliyunOssService ossService;
+    private IOrderClient orderClient;
+    private IUserService userService;
     private IMakerEnterpriseService makerEnterpriseService;
     private IAgreementService agreementService;
     private IEnterpriseWorkerService enterpriseWorkerService;
-    private IUserService userService;
 
     @Override
     public int queryCountById(Long id) {
@@ -111,190 +113,197 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> createOrUpdateEnterprise(AddOrUpdateEnterpriseDTO addOrUpdateEnterpriseDTO, AdminEntity adminEntity) {
+    public R<String> createEnterprise(AddEnterpriseDTO addEnterpriseDTO, AdminEntity adminEntity) {
 
-        if (addOrUpdateEnterpriseDTO.getEnterpriseId() == null) {
-
-            if (StringUtils.isBlank(addOrUpdateEnterpriseDTO.getEmployeePwd())) {
-                return R.fail("请输入密码");
-            } else {
-
-                if (addOrUpdateEnterpriseDTO.getEmployeePwd().length() < 6 || addOrUpdateEnterpriseDTO.getEmployeePwd().length() > 18) {
-                    return R.fail("请输入长度为6-18位的密码");
-                }
-
-                addOrUpdateEnterpriseDTO.setEmployeePwd(DigestUtil.encrypt(addOrUpdateEnterpriseDTO.getEmployeePwd()));
-            }
-
-            //判断商户名称是否已存在
-            int enterpriseNum = count(Wrappers.<EnterpriseEntity>query().lambda().eq(EnterpriseEntity::getEnterpriseName, addOrUpdateEnterpriseDTO.getEnterpriseName()));
-            if (enterpriseNum > 0) {
-                return R.fail("商户名称已存在");
-            }
-
-            //判断社会信用代码是否已存在
-            enterpriseNum = count(Wrappers.<EnterpriseEntity>query().lambda().eq(EnterpriseEntity::getSocialCreditNo, addOrUpdateEnterpriseDTO.getSocialCreditNo()));
-            if (enterpriseNum > 0) {
-                return R.fail("商户统一社会信用代码已存在");
-            }
-
-            int serviceProviderWorkerNum = enterpriseWorkerService.count(Wrappers.<EnterpriseWorkerEntity>query().lambda().eq(EnterpriseWorkerEntity::getEmployeeUserName, addOrUpdateEnterpriseDTO.getEmployeeUserName()));
-            if (serviceProviderWorkerNum > 0) {
-                return R.fail("已存在相同用户名的管理员");
-            }
-
-            serviceProviderWorkerNum = enterpriseWorkerService.count(Wrappers.<EnterpriseWorkerEntity>query().lambda().eq(EnterpriseWorkerEntity::getPhoneNumber, addOrUpdateEnterpriseDTO.getPhoneNumber()));
-            if (serviceProviderWorkerNum > 0) {
-                return R.fail("已存在相同手机号的管理员");
-            }
-
-            EnterpriseEntity enterpriseEntity = new EnterpriseEntity();
-            enterpriseEntity.setRunnerId(adminEntity.getId());
-            enterpriseEntity.setSalerId(adminEntity.getId());
-            enterpriseEntity.setCreateType(CreateType.PLATFORMCREATE);
-            enterpriseEntity.setInviteNo(addOrUpdateEnterpriseDTO.getPhoneNumber());
-            BeanUtil.copy(addOrUpdateEnterpriseDTO, enterpriseEntity);
-            save(enterpriseEntity);
-
-            //新建联系人员工
-            User user = new User();
-            user.setUserType(UserType.ENTERPRISE);
-            user.setAccount(addOrUpdateEnterpriseDTO.getEmployeeUserName());
-            user.setPhone(addOrUpdateEnterpriseDTO.getPhoneNumber());
-            userService.save(user);
-
-            EnterpriseWorkerEntity enterpriseWorkerEntity = new EnterpriseWorkerEntity();
-            enterpriseWorkerEntity.setUserId(user.getId());
-            enterpriseWorkerEntity.setPositionName(PositionName.MANAGEMENT);
-            enterpriseWorkerEntity.setAdminPower(true);
-            BeanUtil.copy(addOrUpdateEnterpriseDTO, enterpriseWorkerEntity);
-            enterpriseWorkerEntity.setEnterpriseId(enterpriseEntity.getId());
-            enterpriseWorkerService.save(enterpriseWorkerEntity);
-
-            //上传商户加盟合同
-            AgreementEntity agreementEntity = new AgreementEntity();
-            agreementEntity.setAgreementType(AgreementType.ENTERPRISEJOINAGREEMENT);
-            agreementEntity.setSignType(SignType.PAPERAGREEMENT);
-            agreementEntity.setSignState(SignState.SIGNED);
-            agreementEntity.setAuditState(AuditState.APPROVED);
-            agreementEntity.setPaperAgreementUrl(addOrUpdateEnterpriseDTO.getJoinContract());
-            agreementEntity.setFirstSideSignPerson("地衣众包平台");
-            agreementEntity.setEnterpriseId(enterpriseEntity.getId());
-            agreementEntity.setSecondSideSignPerson(enterpriseEntity.getEnterpriseName());
-            agreementService.save(agreementEntity);
-
-            //上传商户承诺函
-            String[] split = addOrUpdateEnterpriseDTO.getCommitmentLetters().split(",");
-            for (int i = 0; i < split.length; i++) {
-                if (StringUtils.isNotBlank(split[i])) {
-                    agreementEntity = new AgreementEntity();
-                    agreementEntity.setAgreementType(AgreementType.ENTERPRISEPROMISE);
-                    agreementEntity.setSignType(SignType.PAPERAGREEMENT);
-                    agreementEntity.setSignState(SignState.SIGNED);
-                    agreementEntity.setAuditState(AuditState.APPROVED);
-                    agreementEntity.setPaperAgreementUrl(split[i]);
-                    agreementEntity.setFirstSideSignPerson("地衣众包平台");
-                    agreementEntity.setEnterpriseId(enterpriseEntity.getId());
-                    agreementEntity.setSecondSideSignPerson(enterpriseEntity.getEnterpriseName());
-                    agreementService.save(agreementEntity);
-                }
-            }
-
-            return R.success("新建商户成功");
-
-        } else {
-
-            EnterpriseEntity enterpriseEntity = getById(addOrUpdateEnterpriseDTO.getEnterpriseId());
-            if (enterpriseEntity == null) {
-                return R.fail("商户不存在");
-            }
-
-            //查询商户管理员
-            EnterpriseWorkerEntity enterpriseWorkerEntity = enterpriseWorkerService.getOne(Wrappers.<EnterpriseWorkerEntity>query().lambda()
-                    .eq(EnterpriseWorkerEntity::getEnterpriseId, enterpriseEntity.getId())
-                    .isNull(EnterpriseWorkerEntity::getUpLevelId));
-
-            if (StringUtils.isNotBlank(addOrUpdateEnterpriseDTO.getEmployeePwd())) {
-                if (addOrUpdateEnterpriseDTO.getEmployeePwd().length() < 6 || addOrUpdateEnterpriseDTO.getEmployeePwd().length() > 18) {
-                    return R.fail("请输入长度为6-18位的密码");
-                }
-
-                addOrUpdateEnterpriseDTO.setEmployeePwd(DigestUtil.encrypt(addOrUpdateEnterpriseDTO.getEmployeePwd()));
-            } else {
-                addOrUpdateEnterpriseDTO.setEmployeePwd(enterpriseWorkerEntity.getEmployeePwd());
-            }
-
-            //判断商户名称是否已存在
-            int enterpriseNum = count(Wrappers.<EnterpriseEntity>query().lambda()
-                    .eq(EnterpriseEntity::getEnterpriseName, addOrUpdateEnterpriseDTO.getEnterpriseName())
-                    .ne(EnterpriseEntity::getId, enterpriseEntity.getId()));
-            if (enterpriseNum > 0) {
-                return R.fail("商户名称已存在");
-            }
-
-            //判断社会信用代码是否已存在
-            enterpriseNum = count(Wrappers.<EnterpriseEntity>query().lambda()
-                    .eq(EnterpriseEntity::getSocialCreditNo, addOrUpdateEnterpriseDTO.getSocialCreditNo())
-                    .ne(EnterpriseEntity::getId, enterpriseEntity.getId()));
-            if (enterpriseNum > 0) {
-                return R.fail("商户统一社会信用代码已存在");
-            }
-
-            int enterpriseWorkerNum = enterpriseWorkerService.count(Wrappers.<EnterpriseWorkerEntity>query().lambda()
-                    .eq(EnterpriseWorkerEntity::getEmployeeUserName, addOrUpdateEnterpriseDTO.getEmployeeUserName())
-                    .ne(EnterpriseWorkerEntity::getId, enterpriseWorkerEntity.getId()));
-            if (enterpriseWorkerNum > 0) {
-                return R.fail("已存在相同用户名的管理员");
-            }
-
-            enterpriseWorkerNum = enterpriseWorkerService.count(Wrappers.<EnterpriseWorkerEntity>query().lambda()
-                    .eq(EnterpriseWorkerEntity::getPhoneNumber, addOrUpdateEnterpriseDTO.getPhoneNumber())
-                    .ne(EnterpriseWorkerEntity::getId, enterpriseWorkerEntity.getId()));
-            if (enterpriseWorkerNum > 0) {
-                return R.fail("已存在相同手机号的管理员");
-            }
-
-            //编辑商户员工
-            BeanUtil.copy(addOrUpdateEnterpriseDTO, enterpriseWorkerEntity);
-            enterpriseWorkerService.updateById(enterpriseWorkerEntity);
-
-            //上传加盟合同
-            AgreementEntity agreementEntity = agreementService.getOne(Wrappers.<AgreementEntity>query().lambda()
-                    .eq(AgreementEntity::getEnterpriseId, enterpriseEntity.getId())
-                    .eq(AgreementEntity::getAgreementType, AgreementType.ENTERPRISEJOINAGREEMENT)
-                    .eq(AgreementEntity::getSignState, SignState.SIGNED)
-                    .eq(AgreementEntity::getAuditState, AuditState.APPROVED));
-
-            agreementEntity.setPaperAgreementUrl(addOrUpdateEnterpriseDTO.getJoinContract());
-            agreementService.updateById(agreementEntity);
-
-            //删除已上传的商户承诺函
-            agreementService.deleteByEnterprise(enterpriseEntity.getId(), AgreementType.ENTERPRISEPROMISE);
-
-            //上传商户承诺函
-            String[] split = addOrUpdateEnterpriseDTO.getCommitmentLetters().split(",");
-            for (int i = 0; i < split.length; i++) {
-                if (StringUtils.isNotBlank(split[i])) {
-                    agreementEntity = new AgreementEntity();
-                    agreementEntity.setAgreementType(AgreementType.ENTERPRISEPROMISE);
-                    agreementEntity.setSignType(SignType.PAPERAGREEMENT);
-                    agreementEntity.setSignState(SignState.SIGNED);
-                    agreementEntity.setAuditState(AuditState.APPROVED);
-                    agreementEntity.setPaperAgreementUrl(split[i]);
-                    agreementEntity.setFirstSideSignPerson("地衣众包平台");
-                    agreementEntity.setEnterpriseId(enterpriseEntity.getId());
-                    agreementEntity.setSecondSideSignPerson(enterpriseEntity.getEnterpriseName());
-                    agreementService.save(agreementEntity);
-                }
-            }
-
-            BeanUtil.copy(addOrUpdateEnterpriseDTO, enterpriseEntity);
-            updateById(enterpriseEntity);
-
-            return R.success("编辑商户成功");
-
+        //判断商户名称是否已存在
+        int enterpriseNum = count(Wrappers.<EnterpriseEntity>query().lambda().eq(EnterpriseEntity::getEnterpriseName, addEnterpriseDTO.getEnterpriseName()));
+        if (enterpriseNum > 0) {
+            return R.fail("商户名称已存在");
         }
 
+        //判断社会信用代码是否已存在
+        enterpriseNum = count(Wrappers.<EnterpriseEntity>query().lambda().eq(EnterpriseEntity::getSocialCreditNo, addEnterpriseDTO.getSocialCreditNo()));
+        if (enterpriseNum > 0) {
+            return R.fail("商户统一社会信用代码已存在");
+        }
+
+        int serviceProviderWorkerNum = enterpriseWorkerService.count(Wrappers.<EnterpriseWorkerEntity>query().lambda().eq(EnterpriseWorkerEntity::getEmployeeUserName, addEnterpriseDTO.getEmployeeUserName()));
+        if (serviceProviderWorkerNum > 0) {
+            return R.fail("已存在相同用户名的管理员");
+        }
+
+        serviceProviderWorkerNum = enterpriseWorkerService.count(Wrappers.<EnterpriseWorkerEntity>query().lambda().eq(EnterpriseWorkerEntity::getPhoneNumber, addEnterpriseDTO.getPhoneNumber()));
+        if (serviceProviderWorkerNum > 0) {
+            return R.fail("已存在相同手机号的管理员");
+        }
+
+        EnterpriseEntity enterpriseEntity = new EnterpriseEntity();
+        enterpriseEntity.setRunnerId(adminEntity.getId());
+        enterpriseEntity.setSalerId(adminEntity.getId());
+        enterpriseEntity.setCreateType(CreateType.PLATFORMCREATE);
+        enterpriseEntity.setInviteNo(addEnterpriseDTO.getPhoneNumber());
+        BeanUtil.copy(addEnterpriseDTO, enterpriseEntity);
+        save(enterpriseEntity);
+
+        //上传商户加盟合同
+        AgreementEntity agreementEntity = new AgreementEntity();
+        agreementEntity.setAgreementType(AgreementType.ENTERPRISEJOINAGREEMENT);
+        agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+        agreementEntity.setSignState(SignState.SIGNED);
+        agreementEntity.setAuditState(AuditState.APPROVED);
+        agreementEntity.setPaperAgreementUrl(addEnterpriseDTO.getJoinContract());
+        agreementEntity.setFirstSideSignPerson("地衣众包平台");
+        agreementEntity.setEnterpriseId(enterpriseEntity.getId());
+        agreementEntity.setSecondSideSignPerson(enterpriseEntity.getEnterpriseName());
+        agreementService.save(agreementEntity);
+
+        //上传商户承诺函
+        String[] split = addEnterpriseDTO.getCommitmentLetters().split(",");
+        for (int i = 0; i < split.length; i++) {
+            if (StringUtils.isNotBlank(split[i])) {
+                agreementEntity = new AgreementEntity();
+                agreementEntity.setAgreementType(AgreementType.ENTERPRISEPROMISE);
+                agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+                agreementEntity.setSignState(SignState.SIGNED);
+                agreementEntity.setAuditState(AuditState.APPROVED);
+                agreementEntity.setPaperAgreementUrl(split[i]);
+                agreementEntity.setFirstSideSignPerson("地衣众包平台");
+                agreementEntity.setEnterpriseId(enterpriseEntity.getId());
+                agreementEntity.setSecondSideSignPerson(enterpriseEntity.getEnterpriseName());
+                agreementService.save(agreementEntity);
+            }
+        }
+
+        //新建联系人员工
+        User user = new User();
+        user.setUserType(UserType.ENTERPRISE);
+        user.setAccount(addEnterpriseDTO.getEmployeeUserName());
+        user.setPhone(addEnterpriseDTO.getPhoneNumber());
+        userService.save(user);
+
+        //密码加密
+        addEnterpriseDTO.setEmployeePwd(DigestUtil.encrypt(addEnterpriseDTO.getEmployeePwd()));
+
+        EnterpriseWorkerEntity enterpriseWorkerEntity = new EnterpriseWorkerEntity();
+        enterpriseWorkerEntity.setUserId(user.getId());
+        enterpriseWorkerEntity.setPositionName(PositionName.MANAGEMENT);
+        enterpriseWorkerEntity.setAdminPower(true);
+        BeanUtil.copy(addEnterpriseDTO, enterpriseWorkerEntity);
+        enterpriseWorkerEntity.setEnterpriseId(enterpriseEntity.getId());
+        enterpriseWorkerService.save(enterpriseWorkerEntity);
+
+        //保存收货地址
+        AddressEntity addressEntity = new AddressEntity();
+        addressEntity.setObjectId(enterpriseEntity.getId());
+        addressEntity.setObjectType(ObjectType.ENTERPRISEPEOPLE);
+        addressEntity.setIsDefault(true);
+        BeanUtils.copyProperties(addEnterpriseDTO, addressEntity);
+        orderClient.createAddress(addressEntity);
+
+        return R.success("新建商户成功");
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public R<String> updateEnterprise(UpdateEnterpriseDTO updateEnterpriseDTO, AdminEntity adminEntity) {
+
+        EnterpriseEntity enterpriseEntity = getById(updateEnterpriseDTO.getEnterpriseId());
+        if (enterpriseEntity == null) {
+            return R.fail("商户不存在");
+        }
+
+        //查询商户管理员
+        EnterpriseWorkerEntity enterpriseWorkerEntity = enterpriseWorkerService.getOne(Wrappers.<EnterpriseWorkerEntity>query().lambda()
+                .eq(EnterpriseWorkerEntity::getEnterpriseId, enterpriseEntity.getId())
+                .isNull(EnterpriseWorkerEntity::getUpLevelId));
+
+        if (enterpriseWorkerEntity == null) {
+            return R.fail("商户管理员不存在");
+        }
+
+        if (StringUtils.isNotBlank(updateEnterpriseDTO.getEmployeePwd())) {
+            if (updateEnterpriseDTO.getEmployeePwd().length() < 6 || updateEnterpriseDTO.getEmployeePwd().length() > 18) {
+                return R.fail("请输入长度为6-18位的密码");
+            }
+
+            updateEnterpriseDTO.setEmployeePwd(DigestUtil.encrypt(updateEnterpriseDTO.getEmployeePwd()));
+        } else {
+            updateEnterpriseDTO.setEmployeePwd(enterpriseWorkerEntity.getEmployeePwd());
+        }
+
+        //判断商户名称是否已存在
+        int enterpriseNum = count(Wrappers.<EnterpriseEntity>query().lambda()
+                .eq(EnterpriseEntity::getEnterpriseName, updateEnterpriseDTO.getEnterpriseName())
+                .ne(EnterpriseEntity::getId, enterpriseEntity.getId()));
+        if (enterpriseNum > 0) {
+            return R.fail("商户名称已存在");
+        }
+
+        //判断社会信用代码是否已存在
+        enterpriseNum = count(Wrappers.<EnterpriseEntity>query().lambda()
+                .eq(EnterpriseEntity::getSocialCreditNo, updateEnterpriseDTO.getSocialCreditNo())
+                .ne(EnterpriseEntity::getId, enterpriseEntity.getId()));
+        if (enterpriseNum > 0) {
+            return R.fail("商户统一社会信用代码已存在");
+        }
+
+        int enterpriseWorkerNum = enterpriseWorkerService.count(Wrappers.<EnterpriseWorkerEntity>query().lambda()
+                .eq(EnterpriseWorkerEntity::getEmployeeUserName, updateEnterpriseDTO.getEmployeeUserName())
+                .ne(EnterpriseWorkerEntity::getId, enterpriseWorkerEntity.getId()));
+        if (enterpriseWorkerNum > 0) {
+            return R.fail("已存在相同用户名的管理员");
+        }
+
+        enterpriseWorkerNum = enterpriseWorkerService.count(Wrappers.<EnterpriseWorkerEntity>query().lambda()
+                .eq(EnterpriseWorkerEntity::getPhoneNumber, updateEnterpriseDTO.getPhoneNumber())
+                .ne(EnterpriseWorkerEntity::getId, enterpriseWorkerEntity.getId()));
+        if (enterpriseWorkerNum > 0) {
+            return R.fail("已存在相同手机号的管理员");
+        }
+
+        //编辑商户
+        BeanUtil.copy(updateEnterpriseDTO, enterpriseEntity);
+        updateById(enterpriseEntity);
+
+        //上传加盟合同
+        AgreementEntity agreementEntity = agreementService.getOne(Wrappers.<AgreementEntity>query().lambda()
+                .eq(AgreementEntity::getEnterpriseId, enterpriseEntity.getId())
+                .eq(AgreementEntity::getAgreementType, AgreementType.ENTERPRISEJOINAGREEMENT)
+                .eq(AgreementEntity::getSignState, SignState.SIGNED)
+                .eq(AgreementEntity::getAuditState, AuditState.APPROVED));
+
+        if (agreementEntity == null) {
+            return R.fail("商户加盟合同不存在");
+        }
+
+        agreementEntity.setPaperAgreementUrl(updateEnterpriseDTO.getJoinContract());
+        agreementService.updateById(agreementEntity);
+
+        //删除已上传的商户承诺函
+        agreementService.deleteByEnterprise(enterpriseEntity.getId(), AgreementType.ENTERPRISEPROMISE);
+
+        //上传商户承诺函
+        String[] split = updateEnterpriseDTO.getCommitmentLetters().split(",");
+        for (int i = 0; i < split.length; i++) {
+            if (StringUtils.isNotBlank(split[i])) {
+                agreementEntity = new AgreementEntity();
+                agreementEntity.setAgreementType(AgreementType.ENTERPRISEPROMISE);
+                agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+                agreementEntity.setSignState(SignState.SIGNED);
+                agreementEntity.setAuditState(AuditState.APPROVED);
+                agreementEntity.setPaperAgreementUrl(split[i]);
+                agreementEntity.setFirstSideSignPerson("地衣众包平台");
+                agreementEntity.setEnterpriseId(enterpriseEntity.getId());
+                agreementEntity.setSecondSideSignPerson(enterpriseEntity.getEnterpriseName());
+                agreementService.save(agreementEntity);
+            }
+        }
+
+        //编辑商户员工
+        BeanUtil.copy(updateEnterpriseDTO, enterpriseWorkerEntity);
+        enterpriseWorkerService.updateById(enterpriseWorkerEntity);
+
+        return R.success("编辑商户成功");
     }
 
     @Override

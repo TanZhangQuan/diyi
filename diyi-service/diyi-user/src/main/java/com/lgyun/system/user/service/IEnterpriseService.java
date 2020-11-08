@@ -4,12 +4,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.dto.*;
+import com.lgyun.system.user.dto.AddEnterpriseDTO;
+import com.lgyun.system.user.dto.UpdateEnterpriseDTO;
+import com.lgyun.system.user.dto.ContactsInfoDTO;
+import com.lgyun.system.user.dto.QueryEnterpriseListDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.vo.*;
-import com.lgyun.system.user.vo.EnterpriseVO;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 商户信息 Service 接口
@@ -72,11 +73,20 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
     /**
      * 添加商户
      *
-     * @param addOrUpdateEnterpriseDTO
+     * @param addEnterpriseDTO
      * @param adminEntity
      * @return
      */
-    R<String> createOrUpdateEnterprise(AddOrUpdateEnterpriseDTO addOrUpdateEnterpriseDTO, AdminEntity adminEntity);
+    R<String> createEnterprise(AddEnterpriseDTO addEnterpriseDTO, AdminEntity adminEntity);
+
+    /**
+     * 编辑商户
+     *
+     * @param updateEnterpriseDTO
+     * @param adminEntity
+     * @return
+     */
+    R<String> updateEnterprise(UpdateEnterpriseDTO updateEnterpriseDTO, AdminEntity adminEntity);
 
     /**
      * 商户管理模块查询所有商户

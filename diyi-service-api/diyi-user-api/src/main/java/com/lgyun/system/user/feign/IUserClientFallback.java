@@ -4,6 +4,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
+import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.entity.*;
 import org.springframework.stereotype.Component;
@@ -19,17 +20,17 @@ public class IUserClientFallback implements IUserClient {
 
     @Override
     public UserInfo queryUserInfoByUserId(Long userId, UserType userType) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public UserInfo queryUserInfoByPhone(String phone, UserType userType) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public UserInfo queryUserInfoByAccount(String account, UserType userType) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
@@ -54,132 +55,132 @@ public class IUserClientFallback implements IUserClient {
 
     @Override
     public MakerEntity queryMakerById(Long makerId) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public MakerEntity queryMakerByIdcardNo(String idcardNo) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public MakerEntity queryMakerByPhoneNumber(String phoneNumber) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public int queryMakerEnterpriseRelevanceCount(Long enterpriseId, Long makerId) {
-        return 0;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public int queryAdminCountByPhoneNumber(String phoneNumber) {
-        return 0;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public int queryMakerCountByPhoneNumber(String phoneNumber) {
-        return 0;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public int queryEnterpriseWorkerCountByPhoneNumber(String phoneNumber) {
-        return 0;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public int queryServiceProviderWorkerCountByPhoneNumber(String phoneNumber) {
-        return 0;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public R<String> adminDeal(String phoneNumber, String userName, String password, GrantType grantType) {
-        return R.fail("网络繁忙，请稍后尝试");
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public R<String> makerDeal(String openid, String sessionKey, String phoneNumber, String password, GrantType grantType) {
-        return R.fail("网络繁忙，请稍后尝试");
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public R<String> enterpriseWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
-        return R.fail("网络繁忙，请稍后尝试");
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public R<String> serviceProviderWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
-        return R.fail("网络繁忙，请稍后尝试");
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public IndividualEnterpriseEntity queryIndividualEnterpriseById(Long individualEnterpriseId) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public IndividualBusinessEntity queryIndividualBusinessById(Long individualBusinessId) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public EnterpriseEntity queryEnterpriseById(Long enterpriseId) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public int queryCountByEnterpriseIdAndServiceProviderId(Long enterpriseId, Long serviceProviderId, CooperateStatus cooperateStatus) {
-        return 0;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public int queryIndividualEnterpriseNumByMakerId(Long makerId) {
-        return 0;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public int queryIndividualBusinessNumByMakerId(Long makerId) {
-        return 0;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public IndividualBusinessEntity queryIndividualBusinessByMakerIdAndIbtaxNo(Long makerId, String ibtaxNo) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public IndividualEnterpriseEntity queryIndividualEnterpriseByMakerIdAndIbtaxNo(Long makerId, String ibtaxNo) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public IndividualBusinessEntity queryIndividualBusinessByIbtaxNo(String ibtaxNo) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public IndividualEnterpriseEntity queryIndividualEnterpriseByIbtaxNo(String ibtaxNo) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public MakerEntity createMaker(String name, String idcardNo, String phoneNumber, Long enterpriseId) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public void createMakerToEnterpriseRelevance(Long enterpriseId, Long makerId) {
-
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public ServiceProviderEntity queryServiceProviderById(Long serviceProviderId) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public int queryEntMakSupplementaryAgreementNum(Long makerId, Long enterpriseId) {
-        return 0;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
 }
