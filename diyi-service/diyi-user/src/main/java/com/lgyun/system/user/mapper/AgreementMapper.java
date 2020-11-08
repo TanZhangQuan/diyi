@@ -3,7 +3,6 @@ package com.lgyun.system.user.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.enumeration.AgreementType;
-import com.lgyun.common.enumeration.SignType;
 import com.lgyun.system.user.entity.AgreementEntity;
 import com.lgyun.system.user.vo.*;
 import org.apache.ibatis.annotations.Mapper;
@@ -23,7 +22,7 @@ public interface AgreementMapper extends BaseMapper<AgreementEntity> {
     /**
      * 查询商户关联服务商的加盟合同
      */
-    List<AgreementWebVO> selectServiceAgreement(Long enterpriseId, String serviceProviderName, String agreementNo, SignType signType, AgreementType agreementType, IPage<AgreementWebVO> page);
+    List<AgreementWebVO> selectServiceAgreement(Long enterpriseId, String serviceProviderName, String agreementNo, AgreementType agreementType, IPage<AgreementWebVO> page);
 
 
     List<AgreementWebVO> selectServiceSupplementaryAgreement(Long enterpriseId, String serviceProviderName, String agreementNo, AgreementType agreementType, IPage<AgreementWebVO> page);

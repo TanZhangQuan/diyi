@@ -55,6 +55,9 @@
         k. NAME FROM diyi_maker_enterprise m INNER JOIN diyi_enterprise e ON m.enterprise_id = e.id INNER JOIN diyi_maker k ON k.id = m.maker_id
         WHERE m.relationship_type = 'RELEVANCE' AND m.cooperate_status = 'COOPERATING' AND m.is_deleted = 0 AND e.is_deleted = 0 AND k.is_deleted = 0
         AND m.enterprise_id = #{param1}
+        <if test="param2 != null and param2.trim() != ''">
+            AND k.name LIKE concat('%', #{param2}, '%')
+        </if>
     </select>
 
     <select id="getMakerDetailed" resultMap="makerEnterpriseDetailYearMonthVO">

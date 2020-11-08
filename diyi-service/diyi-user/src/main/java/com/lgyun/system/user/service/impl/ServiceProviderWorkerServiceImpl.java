@@ -15,7 +15,6 @@ import com.lgyun.system.dto.RoleMenusDTO;
 import com.lgyun.system.entity.Role;
 import com.lgyun.system.feign.ISysClient;
 import com.lgyun.system.user.dto.ChildAccountDTO;
-import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.entity.User;
@@ -23,7 +22,6 @@ import com.lgyun.system.user.mapper.ServiceProviderWorkerMapper;
 import com.lgyun.system.user.service.IServiceProviderService;
 import com.lgyun.system.user.service.IServiceProviderWorkerService;
 import com.lgyun.system.user.service.IUserService;
-import com.lgyun.system.user.vo.EnterpriseWorkerInfoVO;
 import com.lgyun.system.user.vo.ServiceProviderWorkerDetailVO;
 import com.lgyun.system.user.vo.ServiceProviderWorkerInfoVO;
 import com.lgyun.system.user.vo.ServiceProviderWorkerVO;
@@ -131,7 +129,6 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
             if (count > 0) {
                 R.fail("您编辑的角色现在赋予给了子账号，请收回后在编辑！");
             }
-            sysClient.removeRoleMenu(roleMenusDTO.getMenus());
         }
         roleMenusDTO.setUserType(UserType.ENTERPRISE);
         R result = sysClient.createOrUpdateRoleMenus(roleMenusDTO, id);
@@ -189,7 +186,7 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
             }
             serviceProviderWorkerVO.setMenuNames(menuNames);
             serviceProviderWorkerVO.setPositionName(serviceProviderWorkerEntity.getPositionName().getDesc());
-            serviceProviderWorkerVO.setAccountState(serviceProviderWorkerEntity.getServiceProviderWorkerState().getDesc());
+            serviceProviderWorkerVO.setAccountState(serviceProviderWorkerEntity.getServiceProviderWorkerState());
             serviceProviderWorkerVO.setEnterpriseName(serviceProviderWorkerEntity.getWorkerName());
             if (id.equals(serviceProviderWorkerEntity.getId())) {
                 serviceProviderWorkerVO.setMaster(true);
@@ -338,7 +335,8 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
         }
         switch (childAccountType) {
             case DELETE:
-                this.removeRole(workerEntity.getId());
+                this.removeRole(workerEntity.getRoleId());
+                userService.removeById(workerEntity.getId());
                 break;
             case STARTUSING:
                 workerEntity.setServiceProviderWorkerState(AccountState.NORMAL);

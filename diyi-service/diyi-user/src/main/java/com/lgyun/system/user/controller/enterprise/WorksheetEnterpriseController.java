@@ -1,7 +1,6 @@
 package com.lgyun.system.user.controller.enterprise;
 
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
@@ -38,7 +37,7 @@ public class WorksheetEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return makerService.queryMakerList(enterpriseWorkerEntity.getEnterpriseId(), null, RelationshipType.RELEVANCE, null, keyword, Condition.getPage(query.setDescs("create_time")));
+        return makerService.queryMakerList(null, null, null, null, keyword, Condition.getPage(query.setDescs("create_time")));
     }
 
 }

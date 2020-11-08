@@ -8,10 +8,11 @@
         <result property="avatar" column="avatar"/>
         <result property="workerName" column="worker_name"/>
         <result property="positionName" column="position_name"/>
+        <result property="superAdmin" column="super_admin"/>
     </resultMap>
 
     <select id="queryEnterpriseWorkerDetail" resultMap="enterpriseWorkerDetailVO">
-        SELECT t2.enterprise_name, t1.avatar, t1.worker_name, t1.position_name FROM diyi_enterprise_worker t1 INNER JOIN diyi_enterprise t2
+        SELECT t2.enterprise_name, t1.avatar, t1.worker_name, t1.position_name, t1.super_admin FROM diyi_enterprise_worker t1 INNER JOIN diyi_enterprise t2
         ON t1.enterprise_id = t2.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.id = #{param1}
     </select>
 

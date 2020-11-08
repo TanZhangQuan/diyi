@@ -134,7 +134,6 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
             if (count > 0) {
                 R.fail("您编辑的角色现在赋予给了子账号，请收回后在编辑！");
             }
-            sysClient.removeRoleMenu(roleMenusDTO.getMenus());
         }
         roleMenusDTO.setUserType(UserType.ENTERPRISE);
         R result = sysClient.createOrUpdateRoleMenus(roleMenusDTO, id);
@@ -192,7 +191,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
             }
             enterpriseWorkerVO.setMenuName(menuNames);
             enterpriseWorkerVO.setPositionName(enterpriseWorkerEntity.getPositionName().getDesc());
-            enterpriseWorkerVO.setAccountState(enterpriseWorkerEntity.getEnterpriseWorkerState().getDesc());
+            enterpriseWorkerVO.setAccountState(enterpriseWorkerEntity.getEnterpriseWorkerState());
             enterpriseWorkerVO.setEnterpriseName(enterpriseWorkerEntity.getWorkerName());
             enterpriseWorkerVO.setEnterpriseWorkerId(enterpriseWorkerEntity.getId());
             if (id.equals(enterpriseWorkerEntity.getId())) {
@@ -344,7 +343,8 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
         }
         switch (childAccountType) {
             case DELETE:
-                this.removeRole(workerEntity.getId());
+                this.removeRole(workerEntity.getRoleId());
+                userService.removeById(workerEntity.getId());
                 break;
             case STARTUSING:
                 workerEntity.setEnterpriseWorkerState(AccountState.NORMAL);

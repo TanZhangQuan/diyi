@@ -109,7 +109,7 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
      * @param enterpriseId
      * @return
      */
-    R<IPage<MakerEnterpriseWebVO>> selectEnterpriseMaker(IPage<MakerEnterpriseWebVO> page, Long enterpriseId);
+    R<IPage<MakerEnterpriseWebVO>> selectEnterpriseMaker(IPage<MakerEnterpriseWebVO> page, Long enterpriseId,String makerName);
 
     /**
      * 查询关联商户和创客的明细

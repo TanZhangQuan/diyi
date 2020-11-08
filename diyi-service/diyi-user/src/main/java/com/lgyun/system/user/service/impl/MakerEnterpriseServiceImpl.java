@@ -184,10 +184,10 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
-    public R<IPage<MakerEnterpriseWebVO>> selectEnterpriseMaker(IPage<MakerEnterpriseWebVO> page, Long enterpriseId) {
-        List<MakerEnterpriseWebVO> makerEnterpriseWebVOS = baseMapper.selectEnterpriseMaker(enterpriseId, page);
+    public R<IPage<MakerEnterpriseWebVO>> selectEnterpriseMaker(IPage<MakerEnterpriseWebVO> page, Long enterpriseId,String makerName) {
+        List<MakerEnterpriseWebVO> makerEnterpriseWebVOS = baseMapper.selectEnterpriseMaker(enterpriseId,makerName, page);
         for (MakerEnterpriseWebVO makerEnterpriseWebVO : makerEnterpriseWebVOS) {
-            if (SignState.SIGNED.equals(makerEnterpriseWebVO.getEmpowerSignState()) && SignState.SIGNED.equals(makerEnterpriseWebVO.getJoinSignState())) {
+            if (SignState.SIGNED.equals(makerEnterpriseWebVO.getJoinSignState())) {
                 makerEnterpriseWebVO.setProtocolAuthentication(CertificationState.CERTIFIED);
             }
         }

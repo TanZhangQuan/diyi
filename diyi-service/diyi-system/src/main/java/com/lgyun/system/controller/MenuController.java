@@ -166,7 +166,7 @@ public class MenuController extends BladeController {
             return R.fail("当前登录用户失效");
         }
         AdminEntity data = result.getData();
-        List<TreeNode> tree = menuService.tree(UserType.SERVICEPROVIDER.getValue(), data.getRoleId(), data.getSuperAdmin());
+        List<TreeNode> tree = menuService.tree(UserType.ADMIN.getValue(), data.getRoleId(), data.getSuperAdmin());
         return R.data(tree);
     }
 

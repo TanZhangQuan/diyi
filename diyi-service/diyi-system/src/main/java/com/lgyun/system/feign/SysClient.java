@@ -125,7 +125,7 @@ public class SysClient implements ISysClient {
         Role role = null;
         if (roleMenusDTO.getRoleId() != null && roleMenusDTO.getRoleId() != 0) {
             role = roleService.getById(roleMenusDTO.getRoleId());
-            roleMenuService.removeById(new QueryWrapper<RoleMenu>().lambda().eq(RoleMenu::getRoleId, role.getId()));
+            roleMenuService.remove(new QueryWrapper<RoleMenu>().lambda().eq(RoleMenu::getRoleId, role.getId()));
         } else {
             role = new Role();
         }

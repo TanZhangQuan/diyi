@@ -7,10 +7,11 @@
         <result property="avatar" column="avatar"/>
         <result property="name" column="name"/>
         <result property="positionName" column="position_name"/>
+        <result property="superAdmin" column="super_admin"/>
     </resultMap>
 
     <select id="queryAdminDetail" resultMap="adminDetailVO">
-        SELECT avatar, name, position_name FROM diyi_admin WHERE is_deleted = 0 AND id = #{param1}
+        SELECT avatar, name, position_name, super_admin FROM diyi_admin WHERE is_deleted = 0 AND id = #{param1}
     </select>
 
 </mapper>
