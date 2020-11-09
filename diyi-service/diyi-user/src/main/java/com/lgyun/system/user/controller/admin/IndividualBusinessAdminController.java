@@ -66,7 +66,7 @@ public class IndividualBusinessAdminController {
             return result;
         }
 
-        return individualBusinessService.queryIndividualBusinessList(null, null, individualBusinessEnterpriseListDto, Condition.getPage(query.setDescs("create_time")));
+        return individualBusinessService.queryIndividualBusinessList(null, null, individualBusinessEnterpriseListDto, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-individual-business-detail")
