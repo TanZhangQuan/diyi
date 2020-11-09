@@ -16,7 +16,7 @@
     <select id="getOnlineAgreementNeedSign" resultMap="onlineAgreementNeedSignVOMap">
         SELECT dn.id AS online_agreement_need_sign_id, dt.id AS online_agreement_template_id, dt.agreement_type, dt.agreement_template, dt.template_type,
         dn.sign_state, dt.template_state, a.online_agreement_url FROM diyi_online_agreement_need_sign dn INNER JOIN diyi_online_agreement_template dt
-        ON dn.online_agreement_template_id = dt.id LEFT JOIN diyi_agreement a ON a.online_agreement_template_id = dt.id WHERE dn.is_deleted = 0 AND dt.is_deleted = 0
+        ON dn.online_agreement_template_id = dt.id LEFT JOIN diyi_agreement a ON a.online_agreement_template_id = dt.id and a.maker_id = dn.object_id WHERE dn.is_deleted = 0 AND dt.is_deleted = 0
         AND dt.template_state = 'APPLICATION' AND dn.object_type = 'MAKERPEOPLE' and dn.object_id =#{param1} and dt.template_type = #{param2}
     </select>
 

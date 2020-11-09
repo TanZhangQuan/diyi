@@ -322,6 +322,10 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
                 queryWrapper.lambda().eq(AgreementEntity::getMakerId, objectId)
                         .eq(AgreementEntity::getAgreementType, agreementType);
                 agreementEntity = baseMapper.selectOne(queryWrapper);
+                OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = iOnlineAgreementTemplateService.findTemplateType(agreementType);
+                if(null != onlineAgreementTemplateEntity){
+                    agreementEntity.setOnlineAgreementTemplateId(onlineAgreementTemplateEntity.getId());
+                }
             }
             if (ObjectType.SERVICEPEOPLE.equals(objectType)) {
                 QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
