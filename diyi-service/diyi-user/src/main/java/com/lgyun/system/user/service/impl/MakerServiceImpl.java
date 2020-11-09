@@ -693,4 +693,9 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         return R.data(page.setRecords(baseMapper.queryMakerList(enterpriseId, serviceProviderId, relationshipType, certificationState, keyword, page)));
     }
 
+    @Override
+    public R queryWorkMakerList(IPage<MakerListVO> page, Long enterpriseId, String makerName) {
+        return R.data(page.setRecords(baseMapper.queryWorkMakerList(enterpriseId, makerName,page)));
+    }
+
 }
