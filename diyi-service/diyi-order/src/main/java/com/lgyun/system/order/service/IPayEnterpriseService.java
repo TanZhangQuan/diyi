@@ -479,5 +479,11 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      */
     R<PayEnterpriseUpdateDetailVO> queryPayEnterpriseUpdateDetail(Long payEnterpriseId);
 
+
+    /**
+     *根据支付清单id查询支付明细
+     */
+    R queryPayEnterpriseMakerList(Long payEnterpriseId);
+
 }
 
