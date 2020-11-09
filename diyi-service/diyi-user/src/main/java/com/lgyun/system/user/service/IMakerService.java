@@ -314,5 +314,10 @@ public interface IMakerService extends IService<MakerEntity> {
      */
     R<IPage<MakerListVO>> queryMakerList(Long enterpriseId, Long serviceProviderId, RelationshipType relationshipType, CertificationState certificationState, String keyword, IPage<MakerListVO> page);
 
+
+    /**
+     * 工单查询所有创客
+     */
+    R queryWorkMakerList(IPage<MakerListVO> page,Long enterpriseId,String makerName);
 }
 

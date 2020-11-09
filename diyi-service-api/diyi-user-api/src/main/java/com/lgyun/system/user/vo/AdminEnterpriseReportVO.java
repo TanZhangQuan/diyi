@@ -1,12 +1,12 @@
 package com.lgyun.system.user.vo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.BodyType;
 import com.lgyun.common.enumeration.ReportState;
 import com.lgyun.common.enumeration.ReportTheme;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -67,13 +67,13 @@ public class AdminEnterpriseReportVO implements Serializable {
     /**
      * 申报截止日期
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date reportDeadDate;
 
     /**
      * 申报完成日期
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date reportCompleteDate;
 
     /**

@@ -3,6 +3,7 @@ package com.lgyun.system.user.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.VideoAudit;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -75,5 +76,15 @@ public class MakerListVO implements Serializable {
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
+
+    /**
+     * 视频状态
+     */
+    private VideoAudit videoAudit;
+
+    /**
+     * 是否有商户和创客的补充协议
+     */
+    private boolean boolSupplementSign;
 
 }

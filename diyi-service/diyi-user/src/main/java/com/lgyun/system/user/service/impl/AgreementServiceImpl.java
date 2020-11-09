@@ -210,7 +210,6 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         }
         EnterpriseEntity byId = enterpriseService.getById(enterpriseId);
         String[] split = makerIds.split(",");
-        Set<Long> set = new HashSet<>();
         for (int i = 0; i < split.length; i++) {
             AgreementEntity agreementEntity = new AgreementEntity();
             agreementEntity.setAgreementType(agreementType);
@@ -226,9 +225,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
             MakerEntity makerEntity = makerService.getById(Long.parseLong(split[i]));
             agreementEntity.setSecondSideSignPerson(makerEntity.getName());
             agreementService.save(agreementEntity);
-            set.add(Long.parseLong(split[i]));
         }
-        makerEnterpriseService.relevanceMakerList(set,enterpriseId);
         return R.success("上传成功");
     }
 
