@@ -8,7 +8,7 @@
         <result property="name" column="name"/>
         <result property="idcardNo" column="idcard_no"/>
         <result property="phoneNumber" column="phone_number"/>
-        <result property="bankCardNo" column="bankCard_no"/>
+        <result property="bankCardNo" column="bank_card_no"/>
         <result property="idcardVerifyStatus" column="idcard_verify_status"/>
         <result property="faceVerifyStatus" column="face_verify_status"/>
         <result property="bankCardVerifyStatus" column="bank_card_verify_status"/>

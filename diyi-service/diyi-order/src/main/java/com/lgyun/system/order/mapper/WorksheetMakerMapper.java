@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.order.entity.WorksheetMakerEntity;
 import com.lgyun.system.order.vo.WorksheetMakerDetailsVO;
-import com.lgyun.system.order.vo.WorksheetMakerListVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -26,15 +25,6 @@ public interface WorksheetMakerMapper extends BaseMapper<WorksheetMakerEntity> {
      * @return
      */
     List<WorksheetMakerDetailsVO> getWorksheetMakerDetails(Long worksheetId,IPage<WorksheetMakerDetailsVO> page);
-
-    /**
-     * 根据支付清单ID查询创客工单关联
-     *
-     * @param payEnterpriseId
-     * @param page
-     * @return
-     */
-    List<WorksheetMakerListVO> getByPayEnterpriseId(Long payEnterpriseId, IPage<WorksheetMakerListVO> page);
 
 
     /**

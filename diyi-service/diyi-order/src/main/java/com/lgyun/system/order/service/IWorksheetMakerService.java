@@ -5,7 +5,6 @@ import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.entity.WorksheetMakerEntity;
 import com.lgyun.system.order.vo.WorksheetMakerDetailsVO;
-import com.lgyun.system.order.vo.WorksheetMakerListVO;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -56,15 +55,6 @@ public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity
      * @return
      */
     WorksheetMakerEntity getmakerIdAndWorksheetId(Long makerId, Long worksheetId);
-
-    /**
-     * 根据支付清单ID查询创客工单关联
-     *
-     * @param payEnterpriseId
-     * @param page
-     * @return
-     */
-    R<IPage<WorksheetMakerListVO>> getByPayEnterpriseId(Long payEnterpriseId, IPage<WorksheetMakerListVO> page);
 
 
     /**
