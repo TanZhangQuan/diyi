@@ -309,6 +309,10 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             return R.fail("创客不存在");
         }
 
+        if(StringUtil.isBlank(makerEntity.getIdcardNo())){
+            return R.fail("请上传身份证后重试!!");
+        }
+
         if (!WorksheetState.PUBLISHING.equals(worksheetEntity.getWorksheetState())) {
             return R.fail("非发布中工单，不可抢单");
         }

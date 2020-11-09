@@ -414,4 +414,19 @@ public class InvoiceTaxAdminController {
     }
 
 
+    /**
+     * 根据支付清单id查询支付明细
+     */
+    @GetMapping("/query-pay-enterprise-maker-list")
+    @ApiOperation(value = "根据支付清单id查询支付明细", notes = "根据支付清单id查询支付明细")
+    public R queryPayEnterpriseMakerList(@ApiParam(value = "支付清单", required = true) @NotNull(message = "请选择总包支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return payEnterpriseService.queryPayEnterpriseMakerList(payEnterpriseId);
+    }
+
 }

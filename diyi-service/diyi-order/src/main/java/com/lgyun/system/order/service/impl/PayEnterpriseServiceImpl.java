@@ -1216,4 +1216,9 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         return R.data(baseMapper.queryPayEnterpriseUpdateDetail(payEnterpriseId));
     }
 
+    @Override
+    public R queryPayEnterpriseMakerList(Long payEnterpriseId) {
+        return R.data(baseMapper.getPayMakerLists(payEnterpriseId+""));
+    }
+
 }
