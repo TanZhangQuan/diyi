@@ -3,9 +3,7 @@ package com.lgyun.system.order.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.lgyun.common.enumeration.MakerType;
-import com.lgyun.common.enumeration.WorkSheetMode;
-import com.lgyun.common.enumeration.WorkSheetType;
+import com.lgyun.common.enumeration.*;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -51,6 +49,16 @@ public class EnterpriseWorksheetDetailVO implements Serializable {
      * 模式，派单、抢单、混合（默认：混合型）
      */
     private WorkSheetMode worksheetMode;
+
+    /**
+     * 获得方式：1,抢单获得；2，派单获得
+     */
+    private GetType getType;
+
+    /**
+     * 工单创客的状态：1待提交，2待验证，3验证通过，4验证失败
+     */
+    private WorksheetMakerState worksheetMakerState;
 
     /**
      * 工作成果附件

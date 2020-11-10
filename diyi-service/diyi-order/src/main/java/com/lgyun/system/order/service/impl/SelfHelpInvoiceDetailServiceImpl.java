@@ -172,6 +172,11 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
         return R.data(page.setRecords(baseMapper.queryCrowdAcceptPaysheetSelfHelpInvoiceDetailList(acceptPaysheetCsId, page)));
     }
 
+    @Override
+    public R<IPage<SelfHelpInvoiceListMakerVO>> querySelfHelpInvoiceDetailListByMaker(Long makerId, IPage<SelfHelpInvoiceListMakerVO> page) {
+        return R.data(page.setRecords(baseMapper.querySelfHelpInvoiceDetailListByMaker(makerId, page)));
+    }
+
     private void makerSelfHelpInvoice(List<InvoiceListExcel> list, SelfHelpInvoiceDTO selfHelpInvoiceDto, SelfHelpInvoiceEntity selfHelpInvoiceEntity){
         for (InvoiceListExcel invoiceListExcel: list) {
             SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = new SelfHelpInvoiceDetailEntity();

@@ -5,9 +5,9 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.service.IPayMakerService;
+import com.lgyun.system.order.service.ISelfHelpInvoiceDetailService;
 import com.lgyun.system.order.service.ISelfHelpInvoiceService;
 import com.lgyun.system.order.service.IWorksheetService;
-import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
@@ -33,6 +33,7 @@ public class NaturalPersonMakerServiceProviderController {
     private IWorksheetService worksheetService;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
     private IPayMakerService payMakerService;
+    private ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
 
     @GetMapping("/query-worksheet-list")
     @ApiOperation(value = "查询工单", notes = "查询工单")
@@ -49,13 +50,25 @@ public class NaturalPersonMakerServiceProviderController {
     @GetMapping("/query-pay-maker-list")
     @ApiOperation(value = "查询创客支付明细", notes = "查询创客支付明细")
     public R queryPayMakerList(@ApiParam(value = "创客") @NotNull(message = "请选择创客") @RequestParam(required = false) Long makerId, Query query, BladeUser bladeUser) {
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
         return payMakerService.queryPayMakerListByMaker(makerId, Condition.getPage(query.setDescs("create_time")));
+    }
+
+    @GetMapping("/query-self-help-invoice-detail-list")
+    @ApiOperation(value = "查询创客自主开票明细", notes = "查询创客自主开票明细")
+    public R querySelfHelpInvoiceDetailList(@ApiParam(value = "创客") @NotNull(message = "请选择创客") @RequestParam(required = false) Long makerId, Query query, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return selfHelpInvoiceDetailService.querySelfHelpInvoiceDetailListByMaker(makerId, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-self-help-invoice-list")

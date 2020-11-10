@@ -5,6 +5,7 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.service.IPayMakerService;
+import com.lgyun.system.order.service.ISelfHelpInvoiceDetailService;
 import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.feign.IUserClient;
@@ -30,6 +31,7 @@ public class NaturalPersonMakerAdminController {
     private IUserClient userClient;
     private IWorksheetService worksheetService;
     private IPayMakerService payMakerService;
+    private ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
 
     @GetMapping("/query-worksheet-list")
     @ApiOperation(value = "查询工单", notes = "查询工单")
@@ -53,6 +55,18 @@ public class NaturalPersonMakerAdminController {
         }
 
         return payMakerService.queryPayMakerListByMaker(makerId, Condition.getPage(query.setDescs("create_time")));
+    }
+
+    @GetMapping("/query-self-help-invoice-detail-list")
+    @ApiOperation(value = "查询创客自主开票明细", notes = "查询创客自主开票明细")
+    public R querySelfHelpInvoiceDetailList(@ApiParam(value = "创客") @NotNull(message = "请选择创客") @RequestParam(required = false) Long makerId, Query query, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return selfHelpInvoiceDetailService.querySelfHelpInvoiceDetailListByMaker(makerId, Condition.getPage(query.setDescs("create_time")));
     }
 
 }

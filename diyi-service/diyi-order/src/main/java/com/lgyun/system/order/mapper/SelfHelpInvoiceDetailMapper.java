@@ -97,5 +97,14 @@ public interface SelfHelpInvoiceDetailMapper extends BaseMapper<SelfHelpInvoiceD
      * @return
      */
     List<AcceptPaysheetCsSelfHelpInvoiceDetailListVO> queryCrowdAcceptPaysheetSelfHelpInvoiceDetailList(Long acceptPaysheetCsId, IPage<AcceptPaysheetCsSelfHelpInvoiceDetailListVO> page);
+
+    /**
+     * 查询创客自主开票明细
+     *
+     * @param makerId
+     * @param page
+     * @return
+     */
+    List<SelfHelpInvoiceListMakerVO> querySelfHelpInvoiceDetailListByMaker(Long makerId, IPage<SelfHelpInvoiceListMakerVO> page);
 }
 
