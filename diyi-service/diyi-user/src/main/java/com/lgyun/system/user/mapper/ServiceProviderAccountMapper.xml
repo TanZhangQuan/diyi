@@ -3,4 +3,21 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.ServiceProviderAccountMapper">
 
+    <resultMap type="com.lgyun.system.user.vo.ServiceProviderAccountListVO" id="serviceProviderAccountListVO">
+        <result property="id" column="id"/>
+        <result property="accountType" column="account_type"/>
+        <result property="accountName" column="account_name"/>
+        <result property="accountNo" column="account_no"/>
+        <result property="accountBank" column="account_bank"/>
+        <result property="isDefault" column="is_default"/>
+    </resultMap>
+
+    <select id="queryServiceProviderWorkerDetail" resultMap="serviceProviderAccountListVO">
+        SELECT id, account_type, account_name, account_no, account_bank, is_default FROM diyi_service_provider_account WHERE is_deleted = 0 AND service_provider_id = #{param1}
+    </select>
+
+    <select id="queryServiceProviderAccountUpdateDetail" resultMap="serviceProviderAccountListVO">
+        SELECT id, account_type, account_name, account_no, account_bank, is_default FROM diyi_service_provider_account WHERE is_deleted = 0 AND id = #{param1}
+    </select>
+
 </mapper>

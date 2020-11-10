@@ -29,6 +29,7 @@ public class ServiceProviderAdminController {
     private IAdminService adminService;
     private IServiceProviderService serviceProviderService;
     private IServiceProviderCertService serviceProviderCertService;
+    private IServiceProviderAccountService serviceProviderAccountService;
     private IAdminCenterMaterialService adminCenterMaterialService;
     private IEnterpriseServiceProviderService enterpriseProviderService;
 
@@ -162,7 +163,7 @@ public class ServiceProviderAdminController {
 
     @GetMapping("/query-service-provider-cert-update-detail")
     @ApiOperation(value = "查询编辑服务商资格信息", notes = "查询编辑服务商资格信息")
-    public R queryServiceProviderCertUpdateDetail(@ApiParam(value = "服务商资格") @NotNull(message = "请选择服务商资格") @RequestParam(required = false) Long serviceProviderCertId, Query query, BladeUser bladeUser) {
+    public R queryServiceProviderCertUpdateDetail(@ApiParam(value = "服务商资格") @NotNull(message = "请选择服务商资格") @RequestParam(required = false) Long serviceProviderCertId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -182,6 +183,55 @@ public class ServiceProviderAdminController {
         }
 
         return R.status(serviceProviderCertService.removeById(serviceProviderCertId));
+    }
+
+    @GetMapping("/query-service-provider-account-list")
+    @ApiOperation(value = "查询服务商收款账户信息", notes = "查询服务商收款账户信息")
+    public R queryServiceProviderAccountList(@ApiParam(value = "服务商") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId, Query query, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return serviceProviderAccountService.queryServiceProviderAccountList(serviceProviderId, Condition.getPage(query.setDescs("create_time")));
+    }
+
+    @PostMapping("/add-or-update-service-provider-account")
+    @ApiOperation(value = "添加或修改服务商收款账户信息", notes = "添加或修改服务商收款账户信息")
+    public R addOrUpdateServiceProviderAccount(@ApiParam(value = "服务商") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
+                                               @Valid @RequestBody AddOrUpdateServiceProviderAccountDTO addOrUpdateServiceProviderAccountDTO, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return serviceProviderAccountService.addOrUpdateServiceProviderAccount(serviceProviderId, addOrUpdateServiceProviderAccountDTO);
+    }
+
+    @GetMapping("/query-service-provider-account-update-detail")
+    @ApiOperation(value = "查询编辑服务商收款账户信息", notes = "查询编辑服务商收款账户信息")
+    public R queryServiceProviderAccountUpdateDetail(@ApiParam(value = "服务商收款账户信息") @NotNull(message = "请选择服务商收款账户信息") @RequestParam(required = false) Long serviceProviderAccounttId, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return serviceProviderAccountService.queryServiceProviderAccountUpdateDetail(serviceProviderAccounttId);
+    }
+
+    @PostMapping("/remove-service-provider-account-list")
+    @ApiOperation(value = "删除服务商收款账户信息", notes = "删除服务商收款账户信息")
+    public R removeServiceProviderAccountList(@ApiParam(value = "服务商收款账户信息", required = true) @NotNull(message = "请选择要删除的服务商收款账户信息") @RequestParam(required = false) Long serviceProviderAccounttId, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return R.status(serviceProviderAccountService.removeById(serviceProviderAccounttId));
     }
 
     @GetMapping("/query-admin-center-material-list")
