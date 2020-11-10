@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2020-10-29 19:53:23
+Date: 2020-11-10 10:14:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -919,8 +919,6 @@ CREATE TABLE `diyi_maker_invoice` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='创客门征单开发票信息表';
 
-
-
 -- ----------------------------
 -- Records of diyi_maker_invoice
 -- ----------------------------
@@ -952,8 +950,6 @@ CREATE TABLE `diyi_maker_tax_record` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='创客单张完税证明信息表';
-
-
 
 -- ----------------------------
 -- Records of diyi_maker_tax_record
@@ -2016,7 +2012,7 @@ CREATE TABLE `diyi_service_provider` (
   `service_provider_url` varchar(500) NOT NULL COMMENT '商户网址',
   `working_address` varchar(100) NOT NULL DEFAULT '' COMMENT '办公地址(快递地址）',
   `working_rel_name` varchar(50) NOT NULL DEFAULT '' COMMENT '收发票/税票快递【到付】联系人姓名',
-  `working_rel_phone` varchar(50) NOT NULL DEFAULT ''  COMMENT '收发票/税票快递【到付】联系人手机号',
+  `working_rel_phone` varchar(50) NOT NULL DEFAULT '' COMMENT '收发票/税票快递【到付】联系人手机号',
   `invoice_enterprise_name` varchar(50) NOT NULL COMMENT '开票资料-公司名称',
   `invoice_tax_no` varchar(50) NOT NULL COMMENT '开票资料-税号',
   `invoice_address_phone` varchar(100) NOT NULL COMMENT '开票资料-地址和电话',
@@ -2051,6 +2047,11 @@ CREATE TABLE `diyi_service_provider` (
 -- ----------------------------
 -- Records of diyi_service_provider
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for `diyi_service_provider_account`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_service_provider_account`;
 CREATE TABLE `diyi_service_provider_account` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
@@ -2072,6 +2073,9 @@ CREATE TABLE `diyi_service_provider_account` (
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`service_provider_id`,`account_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商收款账户信息表';
 
+-- ----------------------------
+-- Records of diyi_service_provider_account
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `diyi_service_provider_cert`
