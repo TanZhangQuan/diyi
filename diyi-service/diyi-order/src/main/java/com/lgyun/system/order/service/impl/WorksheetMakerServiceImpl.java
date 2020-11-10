@@ -12,7 +12,6 @@ import com.lgyun.system.order.mapper.WorksheetMakerMapper;
 import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.order.vo.WorksheetMakerDetailsVO;
-import com.lgyun.system.order.vo.WorksheetMakerListVO;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
@@ -103,11 +102,6 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
                 .eq(WorksheetMakerEntity::getWorksheetId, worksheetId);
 
         return baseMapper.selectOne(queryWrapper);
-    }
-
-    @Override
-    public R<IPage<WorksheetMakerListVO>> getByPayEnterpriseId(Long payEnterpriseId, IPage<WorksheetMakerListVO> page) {
-        return R.data(page.setRecords(baseMapper.getByPayEnterpriseId(payEnterpriseId, page)));
     }
 
     @Override

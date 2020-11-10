@@ -180,7 +180,7 @@ public class AgreementEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return makerEnterpriseService.selectEnterpriseMaker(Condition.getPage(query.setDescs("create_time")), enterpriseWorkerEntity.getEnterpriseId(), makerName);
+        return makerEnterpriseService.selectEnterpriseMaker(Condition.getPage(query.setDescs("m.create_time")), enterpriseWorkerEntity.getEnterpriseId(), makerName);
     }
 
 //    @PostMapping("/create-online-agreement")

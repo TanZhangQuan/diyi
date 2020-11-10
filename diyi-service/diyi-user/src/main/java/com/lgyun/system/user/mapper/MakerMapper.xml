@@ -103,6 +103,22 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.user.vo.MakerListVO" id="makerWorkListVO">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="idcardNo" column="idcard_no"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="bankCardNo" column="bank_card_no"/>
+        <result property="boolRealNameVerify" column="bool_real_name_verify"/>
+        <result property="boolSign" column="bool_sign"/>
+        <result property="boolIndividualBusiness" column="bool_individual_business"/>
+        <result property="boolIndividualEnterprise" column="bool_individual_enterprise"/>
+        <result property="certificationDate" column="certification_date"/>
+        <result property="createTime" column="create_time"/>
+        <result property="videoAudit" column="video_audit"/>
+        <result property="boolSupplementSign" column="bool_supplement_sign"/>
+    </resultMap>
+
     <select id="queryMakerInfo" resultMap="makerInfoVO">
         SELECT avatar, name, certification_state, self_desc FROM diyi_maker WHERE is_deleted = 0 AND id = #{param1}
     </select>
@@ -183,6 +199,15 @@
             AND (t1.idcard_no LIKE concat('%', #{param5}, '%')
             OR t1.name LIKE concat('%', #{param5}, '%')
             OR t1.phone_number LIKE concat('%', #{param5}, '%'))
+        </if>
+    </select>
+
+
+    <select id="queryWorkMakerList" resultMap="makerWorkListVO">
+        SELECT t1.id, t1.name, t1.idcard_no, t1.phone_number, t1.bank_card_no, t1.certification_date, t1.create_time, t1.video_audit, IF ( t1.idcard_verify_status = 'VERIFYPASS', TRUE, FALSE ) AS bool_real_name_verify, IF (( SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t1.id AND sign_state = 'SIGNED' AND agreement_type = 'MAKERJOINAGREEMENT' ) > 0, TRUE, FALSE ) AS bool_sign, IF (( SELECT COUNT(id) FROM diyi_individual_business WHERE is_deleted = 0 AND maker_id = t1.id AND ibstate = 'OPERATING' ) > 0, TRUE, FALSE ) AS bool_individual_business, IF (( SELECT COUNT(id) FROM diyi_individual_enterprise WHERE is_deleted = 0 AND maker_id = t1.id AND ibstate = 'OPERATING' ) > 0, TRUE, FALSE ) AS bool_individual_enterprise, IF (( SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t1.id AND sign_state = 'SIGNED' AND agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' AND enterprise_id = #{param1} ) > 0, TRUE, FALSE ) AS bool_supplement_sign FROM diyi_maker t1
+         where 1=1
+        <if test="param2 != null and param2.trim() != ''">
+            and t1.name LIKE concat('%', #{param2}, '%')
         </if>
     </select>
 
