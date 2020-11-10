@@ -55,7 +55,7 @@
         <result property="applyShortVideo" column="apply_short_video"/>
         <result property="videoAudit" column="video_audit"/>
         <result property="videoAuditDate" column="video_audit_date"/>
-        <result property="videoAuditPersonId" column="video_audit_person_id"/>
+        <result property="videoAuditPersonName" column="video_audit_person_name"/>
     </resultMap>
 
     <resultMap type="com.lgyun.system.user.vo.MakerDetailWebVO" id="makerDetailWebVO">
@@ -133,7 +133,8 @@
         self_pic, idcard_copy, idcard_hand, idcard_back_hand, pic_verify, idcard_verify_status, idcard_verify_date, face_verify_status, face_verify_date,
         bank_card_verify_status, bank_card_verify_date, phone_number_verify_status, phone_number_verify_date, idcard_verify_type, manual_verify_name,
         manual_verify_desc, run_address, house_address, living_address, self_desc, shop_url, shop_user_name, apply_short_video, video_audit,
-        video_audit_date, video_audit_person_id FROM diyi_maker WHERE is_deleted = 0 AND id = #{param1}
+        video_audit_date, (SELECT t1.name FROM diyi_admin t1 WHERE t1.is_deleted = 0 AND t1.id = video_audit_person_id) AS video_audit_person_name FROM diyi_maker
+        WHERE is_deleted = 0 AND id = #{param1}
     </select>
 
     <select id="queryMakerDetail" resultMap="makerDetailWebVO">
