@@ -141,11 +141,6 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
     }
 
     @Override
-    public R<IPage<PayEnterpriseMakerDetailListVO>> getMakerList(Long acceptPaysheetId, IPage<PayEnterpriseMakerDetailListVO> page) {
-        return R.data(page.setRecords(baseMapper.getMakerList(acceptPaysheetId, page)));
-    }
-
-    @Override
     public boolean isAcceptPaysheet(Long payMakerId) {
 
         int acceptPaysheetNum = count(Wrappers.<AcceptPaysheetEntity>query().lambda().eq(AcceptPaysheetEntity::getPayMakerId, payMakerId));

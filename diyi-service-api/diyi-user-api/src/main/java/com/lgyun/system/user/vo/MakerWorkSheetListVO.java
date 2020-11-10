@@ -1,13 +1,13 @@
 package com.lgyun.system.user.vo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.SignState;
+import com.lgyun.common.enumeration.VerifyStatus;
 import com.lgyun.common.enumeration.VideoAudit;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 创客列表VO
@@ -16,7 +16,7 @@ import java.util.Date;
  * @since 2020/6/6 00:28
  */
 @Data
-public class MakerListVO implements Serializable {
+public class MakerWorkSheetListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -41,41 +41,34 @@ public class MakerListVO implements Serializable {
     private String phoneNumber;
 
     /**
-     * 银行卡号
+     * 身份证验证状态：未验证，验证通过，验证未通过
      */
-    private String bankCardNo;
+    private VerifyStatus idcardVerifyStatus;
 
     /**
-     * 是否实名
+     * 人脸验证状态：未验证，验证通过，验证未通过
      */
-    private boolean boolRealNameVerify;
+    private VerifyStatus faceVerifyStatus;
 
     /**
-     * 是否已签协议
+     * 银行卡验证状态：未验证，验证通过，验证未通过
      */
-    private boolean boolSign;
+    private VerifyStatus bankCardVerifyStatus;
 
     /**
-     * 是否个体户
+     * 手机号码验证状态：未验证，验证通过，验证未通过
      */
-    private boolean boolIndividualBusiness;
+    private VerifyStatus phoneNumberVerifyStatus;
 
     /**
-     * 是否个独
+     * 授权合同签署状态
      */
-    private boolean boolIndividualEnterprise;
+    private SignState empowerSignState;
 
     /**
-     * 认证时间
+     * 加盟合同签署状态
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date certificationDate;
-
-    /**
-     * 创建时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date createTime;
+    private SignState joinSignState;
 
     /**
      * 视频状态

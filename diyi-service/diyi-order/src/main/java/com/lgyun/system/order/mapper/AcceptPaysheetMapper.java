@@ -56,15 +56,6 @@ public interface AcceptPaysheetMapper extends BaseMapper<AcceptPaysheetEntity> {
     AcceptPaysheetDetailEnterpriseVO queryTotalSubAcceptPaysheetDetailEnterprise(Long acceptPaysheetId);
 
     /**
-     * 根据总包总包交付支付验收单ID查询关联创客
-     *
-     * @param acceptPaysheetId
-     * @param page
-     * @return
-     */
-    List<PayEnterpriseMakerDetailListVO> getMakerList(Long acceptPaysheetId, IPage<PayEnterpriseMakerDetailListVO> page);
-
-    /**
      * 查询总包支付清单的交付支付验收单关联记录ID
      *
      * @param payEnterpriseId

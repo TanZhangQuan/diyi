@@ -42,7 +42,7 @@ public interface MakerMapper extends BaseMapper<MakerEntity> {
      * @param makerId
      * @return
      */
-    EnterpriseMakerDetailVO queryMakerDetail(Long makerId);
+    MakerDetailWebVO queryMakerDetail(Long makerId);
 
     /**
      * 查询商户关联的创客
@@ -65,7 +65,7 @@ public interface MakerMapper extends BaseMapper<MakerEntity> {
      * @param page
      * @return
      */
-    List<MakerListVO> queryMakerList(Long enterpriseId, Long serviceProviderId, RelationshipType relationshipType, CertificationState certificationState, String keyword, IPage<MakerListVO> page);
+    List<MakerListWebVO> queryMakerList(Long enterpriseId, Long serviceProviderId, RelationshipType relationshipType, CertificationState certificationState, String keyword, IPage<MakerListWebVO> page);
 
     /**
      * 工单查询所有创客
@@ -74,7 +74,7 @@ public interface MakerMapper extends BaseMapper<MakerEntity> {
      * @param page
      * @return
      */
-    List<MakerListVO> queryWorkMakerList(Long enterpriseId, String makerName,IPage<MakerListVO> page);
+    List<MakerWorkSheetListVO> queryWorkMakerList(Long enterpriseId, String makerName,IPage<MakerWorkSheetListVO> page);
 
 }
 

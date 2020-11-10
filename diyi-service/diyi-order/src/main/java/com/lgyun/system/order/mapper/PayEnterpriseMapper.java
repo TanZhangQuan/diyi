@@ -66,15 +66,6 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     List<PayEnterpriseListVO> getPayEnterpriseList(Long enterpriseId, Long serviceProviderId, PayEnterpriseDTO payEnterpriseDto, IPage<PayEnterpriseListVO> page);
 
     /**
-     * 根据支付清单ID查询支付清单关联工单的创客
-     *
-     * @param payEnterpriseId
-     * @param page
-     * @return
-     */
-    List<PayEnterpriseMakerListVO> getMakers(Long payEnterpriseId, IPage<PayEnterpriseMakerListVO> page);
-
-    /**
      * 根据商户查询总包发票
      *
      * @param enterpriseId

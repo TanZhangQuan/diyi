@@ -37,7 +37,7 @@ public class WorksheetEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return makerService.queryWorkMakerList(Condition.getPage(query.setDescs("t1.create_time")),enterpriseWorkerEntity.getEnterpriseId(), makerName);
+        return makerService.queryWorkMakerList(enterpriseWorkerEntity.getEnterpriseId(), makerName, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
 }

@@ -265,7 +265,7 @@ public interface IMakerService extends IService<MakerEntity> {
      * @param makerId
      * @return
      */
-    R<EnterpriseMakerDetailVO> queryMakerDetail(Long makerId);
+    R<MakerDetailWebVO> queryMakerDetail(Long makerId);
 
     /**
      * 平台端上传创客授权视频
@@ -312,12 +312,12 @@ public interface IMakerService extends IService<MakerEntity> {
      * @param page
      * @return
      */
-    R<IPage<MakerListVO>> queryMakerList(Long enterpriseId, Long serviceProviderId, RelationshipType relationshipType, CertificationState certificationState, String keyword, IPage<MakerListVO> page);
+    R<IPage<MakerListWebVO>> queryMakerList(Long enterpriseId, Long serviceProviderId, RelationshipType relationshipType, CertificationState certificationState, String keyword, IPage<MakerListWebVO> page);
 
 
     /**
      * 工单查询所有创客
      */
-    R queryWorkMakerList(IPage<MakerListVO> page,Long enterpriseId,String makerName);
+    R<IPage<MakerWorkSheetListVO>> queryWorkMakerList(Long enterpriseId, String makerName, IPage<MakerWorkSheetListVO> page);
 }
 

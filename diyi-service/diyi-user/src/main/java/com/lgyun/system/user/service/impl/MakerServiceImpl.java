@@ -632,7 +632,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R<EnterpriseMakerDetailVO> queryMakerDetail(Long makerId) {
+    public R<MakerDetailWebVO> queryMakerDetail(Long makerId) {
         return R.data(baseMapper.queryMakerDetail(makerId));
     }
 
@@ -689,13 +689,13 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R<IPage<MakerListVO>> queryMakerList(Long enterpriseId, Long serviceProviderId, RelationshipType relationshipType, CertificationState certificationState, String keyword, IPage<MakerListVO> page) {
+    public R<IPage<MakerListWebVO>> queryMakerList(Long enterpriseId, Long serviceProviderId, RelationshipType relationshipType, CertificationState certificationState, String keyword, IPage<MakerListWebVO> page) {
         return R.data(page.setRecords(baseMapper.queryMakerList(enterpriseId, serviceProviderId, relationshipType, certificationState, keyword, page)));
     }
 
     @Override
-    public R queryWorkMakerList(IPage<MakerListVO> page, Long enterpriseId, String makerName) {
-        return R.data(page.setRecords(baseMapper.queryWorkMakerList(enterpriseId, makerName,page)));
+    public R<IPage<MakerWorkSheetListVO>> queryWorkMakerList(Long enterpriseId, String makerName, IPage<MakerWorkSheetListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryWorkMakerList(enterpriseId, makerName, page)));
     }
 
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.CertificationState;
+import com.lgyun.common.enumeration.VerifyStatus;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -18,7 +19,7 @@ import java.util.Date;
  * @since 2020/6/6 00:28
  */
 @Data
-public class EnterpriseMakerDetailVO implements Serializable {
+public class MakerDetailWebVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -73,29 +74,39 @@ public class EnterpriseMakerDetailVO implements Serializable {
     private String bankCardNo;
 
     /**
-     * 开户银行
+     * 开户支行
      */
-    private String bankName;
+    private String subBankName;
 
     /**
-     * 声明短视频
+     * 身份证验证状态：未验证，验证通过，验证未通过
      */
-    private String applyShortVideo;
+    private VerifyStatus idcardVerifyStatus;
 
     /**
-     * 是否实名
+     * 人脸验证状态：未验证，验证通过，验证未通过
      */
-    private Boolean boolRealNameVerify;
+    private VerifyStatus faceVerifyStatus;
+
+    /**
+     * 银行卡验证状态：未验证，验证通过，验证未通过
+     */
+    private VerifyStatus bankCardVerifyStatus;
+
+    /**
+     * 手机号码验证状态：未验证，验证通过，验证未通过
+     */
+    private VerifyStatus phoneNumberVerifyStatus;
 
     /**
      * 平台加盟合同
      */
-    private String platformJoinContract;
+    private String makerJoinAgreement;
 
     /**
      * 授权委托书
      */
-    private String licenseAgreement;
+    private String makerPowerAttorney;
 
     /**
      * 注册日期

@@ -434,7 +434,7 @@
         AND (pay_state = 'PLATFORMPAID' OR pay_state = 'CONFIRMPAID')  AND individual_id = #{param1} AND maker_type = #{param2}) t1,
         (SELECT COUNT(id) AS num, IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, charge_money_num, 0)), 0) AS month_money,
         IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, charge_money_num, 0)), 0) AS year_money, IFNULL(SUM(charge_money_num), 0) AS all_money
-        FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND invoice_print_state = 'INVOICESUCCESS' AND individual_id = #{param1} AND maker_type = #{param2}) t2
+        FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND (invoice_print_state = 'INVOICEING' OR invoice_print_state = 'INVOICESUCCESS') AND individual_id = #{param1} AND maker_type = #{param2}) t2
     </select>
 
     <select id="selfHelpInvoiceList" resultMap="selfHelpInvoiceListVO">
