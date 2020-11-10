@@ -44,7 +44,7 @@ public class AcceptPaysheetEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return acceptPaysheetService.queryTotalSubAcceptPaysheetListEnterprise(enterpriseWorkerEntity.getEnterpriseId(), acceptSheetAndCsListDto, Condition.getPage(query.setDescs("t1.create_time")));
+        return acceptPaysheetService.queryTotalSubAcceptPaysheetListEnterprise(enterpriseWorkerEntity.getEnterpriseId(), acceptSheetAndCsListDto, Condition.getPage(query.setDescs("temp.create_time")));
     }
 
     @GetMapping("/query-total-sub-accept-paysheet-detail")
