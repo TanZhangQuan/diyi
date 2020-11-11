@@ -1,5 +1,6 @@
 package com.lgyun.system.order.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
@@ -8,18 +9,11 @@ import com.lgyun.common.tool.CollectionUtil;
 import com.lgyun.common.tool.KdniaoTrackQueryUtil;
 import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.order.dto.SelfHelpInvoiceDetailInvoiceTaxDTO;
-import com.lgyun.system.order.dto.SelfHelpInvoiceDetailsByServiceProviderDTO;
-import com.lgyun.system.order.dto.SelfHelpInvoiceExpressDTO;
-import com.lgyun.system.order.dto.SelfHelpInvoicesByEnterpriseDTO;
-import com.lgyun.system.order.dto.ToExamineSelfHelpInvoiceDTO;
+import com.lgyun.system.order.dto.*;
 import com.lgyun.system.order.entity.*;
 import com.lgyun.system.order.mapper.SelfHelpInvoiceMapper;
 import com.lgyun.system.order.service.*;
 import com.lgyun.system.order.vo.*;
-import com.lgyun.system.order.vo.SelfHelpInvoiceAdminDetailVO;
-import com.lgyun.system.order.vo.SelfHelpInvoiceAdminVO;
-import com.lgyun.system.order.vo.SelfHelpInvoiceDetailAdminVO;
 import com.lgyun.system.user.entity.IndividualBusinessEntity;
 import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
@@ -27,7 +21,6 @@ import com.lgyun.system.user.feign.IUserClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -110,10 +103,10 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             if (StringUtils.isNotBlank(selfHelpInvoiceExpressByEnterpriseVO.getExpressCompanyName()) && StringUtils.isNotBlank(selfHelpInvoiceExpressByEnterpriseVO.getExpressNo())) {
                 try {
                     expressMessage = kdniaoTrackQueryUtil.getOrderTracesByJson(selfHelpInvoiceExpressByEnterpriseVO.getExpressCompanyName(), selfHelpInvoiceExpressByEnterpriseVO.getExpressNo());
-                    JSONObject jsonArray = new JSONObject(expressMessage);
-                    Boolean success = (Boolean) jsonArray.get("Success");
+                    Map<String,Object> maps = (Map) JSON.parse(expressMessage);
+                    Boolean success = (Boolean) maps.get("Success");
                     if(success){
-                        selfHelpInvoiceExpressByEnterpriseVO.setExpressMessage(jsonArray.get("Traces"));
+                        selfHelpInvoiceExpressByEnterpriseVO.setExpressMessage(maps.get("Traces"));
                     }else{
                         selfHelpInvoiceExpressByEnterpriseVO.setExpressMessage("");
                     }
@@ -249,10 +242,10 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         if (StringUtils.isNotBlank(selfHelpInvoiceExpressByEnterpriseProviderVO.getExpressCompanyName()) && StringUtils.isNotBlank(selfHelpInvoiceExpressByEnterpriseProviderVO.getExpressNo())) {
             try {
                 expressMessage = kdniaoTrackQueryUtil.getOrderTracesByJson(selfHelpInvoiceExpressByEnterpriseProviderVO.getExpressCompanyName(), selfHelpInvoiceExpressByEnterpriseProviderVO.getExpressNo());
-                JSONObject jsonArray = new JSONObject(expressMessage);
-                Boolean success = (Boolean) jsonArray.get("Success");
+                Map<String,Object> maps = (Map) JSON.parse(expressMessage);
+                Boolean success = (Boolean) maps.get("Success");
                 if(success){
-                    selfHelpInvoiceExpressByEnterpriseProviderVO.setExpressMessage(jsonArray.get("Traces"));
+                    selfHelpInvoiceExpressByEnterpriseProviderVO.setExpressMessage(maps.get("Traces"));
                 }else{
                     selfHelpInvoiceExpressByEnterpriseProviderVO.setExpressMessage("");
                 }
@@ -317,10 +310,10 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         String orderTracesByJson = "";
         try {
             orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(detailCrowdSourcing.getExpressCompanyName(), detailCrowdSourcing.getExpressSheetNo());
-            JSONObject jsonArray = new JSONObject(orderTracesByJson);
-            Boolean success = (Boolean) jsonArray.get("Success");
+            Map<String,Object> maps = (Map) JSON.parse(orderTracesByJson);
+            Boolean success = (Boolean) maps.get("Success");
             if(success){
-                map.put("orderTracesByJson", jsonArray.get("Traces"));
+                map.put("orderTracesByJson", maps.get("Traces"));
             }else{
                 map.put("orderTracesByJson", "");
             }
@@ -413,10 +406,10 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             if (StringUtil.isNotBlank(serviceCrowdSourDetails.getExpressNo()) && StringUtil.isNotBlank(serviceCrowdSourDetails.getExpressCompanyName())) {
                 KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
                 String orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(serviceCrowdSourDetails.getExpressCompanyName(), serviceCrowdSourDetails.getExpressNo());
-                JSONObject jsonArray = new JSONObject(orderTracesByJson);
-                Boolean success = (Boolean) jsonArray.get("Success");
+                Map<String,Object> maps = (Map) JSON.parse(orderTracesByJson);
+                Boolean success = (Boolean) maps.get("Success");
                 if(success){
-                    map.put("orderTracesByJson", jsonArray.get("Traces"));
+                    map.put("orderTracesByJson", maps.get("Traces"));
                 }else{
                     map.put("orderTracesByJson", "");
                 }
@@ -486,10 +479,10 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             try {
                 KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
                 orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(expressCompanyName, expressNo);
-                JSONObject jsonArray = new JSONObject(orderTracesByJson);
-                Boolean success = (Boolean) jsonArray.get("Success");
+                Map<String,Object> maps = (Map) JSON.parse(orderTracesByJson);
+                Boolean success = (Boolean) maps.get("Success");
                 if(success){
-                    map.put("orderTracesByJson", jsonArray.get("Traces"));
+                    map.put("orderTracesByJson", maps.get("Traces"));
                 }else{
                     map.put("orderTracesByJson", "");
                 }
