@@ -30,6 +30,6 @@ public class SelfHelpInvoiceExpressByEnterpriseProviderVO implements Serializabl
     /**
      * 快递信息
      */
-    private String expressMessage;
+    private Object expressMessage;
 
 }
