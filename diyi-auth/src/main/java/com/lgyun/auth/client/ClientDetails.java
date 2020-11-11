@@ -17,6 +17,7 @@ public class ClientDetails implements IClientDetails {
      */
     @ApiModelProperty(value = "客户端id")
     private String clientId;
+
     /**
      * 客户端密钥
      */
@@ -28,6 +29,7 @@ public class ClientDetails implements IClientDetails {
      */
     @ApiModelProperty(value = "令牌过期秒数")
     private Integer accessTokenValidity;
+
     /**
      * 刷新令牌过期秒数
      */
