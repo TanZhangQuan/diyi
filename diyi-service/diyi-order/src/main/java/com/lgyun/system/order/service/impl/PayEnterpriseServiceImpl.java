@@ -28,6 +28,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -249,7 +250,11 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
         try {
             String orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(payEnterpriseDetails.getExpressCompanyName(), payEnterpriseDetails.getExpressSheetNo());
-            payEnterpriseDetails.setKOrderTracesByJson(orderTracesByJson);
+            JSONObject jsonArray = new JSONObject(orderTracesByJson);
+            Boolean success = (Boolean) jsonArray.get("Success");
+            if(success){
+                payEnterpriseDetails.setKOrderTracesByJson(jsonArray.get("Traces"));
+            }
         } catch (Exception e) {
             log.info("快鸟接口访问失败");
         }
@@ -448,7 +453,13 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         try {
             if (!StringUtil.isBlank(expressCompanyName) && !StringUtil.isBlank(expressSheetNo)) {
                 orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(expressCompanyName, expressSheetNo);
-                map.put("orderTracesByJson", orderTracesByJson);
+                JSONObject jsonArray = new JSONObject(orderTracesByJson);
+                Boolean success = (Boolean) jsonArray.get("Success");
+                if(success){
+                    map.put("orderTracesByJson", jsonArray.get("Traces"));
+                }else{
+                    map.put("orderTracesByJson", "");
+                }
             } else {
                 map.put("orderTracesByJson", "");
             }
@@ -473,7 +484,13 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             String expressSheetNo = lumpSumInvoiceDetails.getExpressSheetNo();
             if (!StringUtil.isBlank(expressCompanyName) && !StringUtil.isBlank(expressSheetNo)) {
                 orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(expressCompanyName, expressSheetNo);
-                map.put("orderTracesByJson", orderTracesByJson);
+                JSONObject jsonArray = new JSONObject(orderTracesByJson);
+                Boolean success = (Boolean) jsonArray.get("Success");
+                if(success){
+                    map.put("orderTracesByJson", jsonArray.get("Traces"));
+                }else{
+                    map.put("orderTracesByJson", "");
+                }
             } else {
                 map.put("orderTracesByJson", "");
             }
@@ -525,7 +542,13 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         try {
             if (!StringUtil.isBlank(expressCompanyName) && !StringUtil.isBlank(expressSheetNo)) {
                 orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(expressCompanyName, expressSheetNo);
-                map.put("orderTracesByJson", orderTracesByJson);
+                JSONObject jsonArray = new JSONObject(orderTracesByJson);
+                Boolean success = (Boolean) jsonArray.get("Success");
+                if(success){
+                    map.put("orderTracesByJson", jsonArray.get("Traces"));
+                }else{
+                    map.put("orderTracesByJson", "");
+                }
             } else {
                 map.put("orderTracesByJson", "");
             }
@@ -560,7 +583,13 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         try {
             if (!StringUtil.isBlank(expressCompanyName) && !StringUtil.isBlank(expressSheetNo)) {
                 orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(expressCompanyName, expressSheetNo);
-                map.put("orderTracesByJson", orderTracesByJson);
+                JSONObject jsonArray = new JSONObject(orderTracesByJson);
+                Boolean success = (Boolean) jsonArray.get("Success");
+                if(success){
+                    map.put("orderTracesByJson", jsonArray.get("Traces"));
+                }else{
+                    map.put("orderTracesByJson", "");
+                }
             } else {
                 map.put("orderTracesByJson", "");
             }
@@ -1046,10 +1075,16 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         String orderTracesByJson = "";
         try {
             orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(platformInvoiceEntity.getExpressCompanyName(), platformInvoiceEntity.getExpressSheetNo());
+            JSONObject jsonArray = new JSONObject(orderTracesByJson);
+            Boolean success = (Boolean) jsonArray.get("Success");
+            if(success){
+                map.put("orderTracesByJson", jsonArray.get("Traces"));
+            }else{
+                map.put("orderTracesByJson", "");
+            }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
-        map.put("orderTracesByJson", orderTracesByJson);
         return R.data(map);
     }
 
