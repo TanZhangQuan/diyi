@@ -170,7 +170,7 @@
         SELECT a.id AS agreement_id,m.name as maker_name, s.id AS service_provider_id, a.agreement_no, a.sign_type, a.agreement_type,
         s.service_provider_name, a.online_agreement_url, a.paper_agreement_url, a.create_time, a.sign_state FROM diyi_agreement a INNER JOIN diyi_maker m
         ON a.maker_id = m.id INNER JOIN diyi_service_provider_maker pa ON pa.maker_id = m.id INNER JOIN diyi_service_provider s ON pa.service_provider_id = s.id
-        WHERE a.agreement_type = 'SERVICEPROVIDERJOINAGREEMENT'
+        WHERE a.agreement_type = 'MAKERJOINAGREEMENT'
         <if test="param1 != null and param1 !=''">
             and a.agreement_no LIKE concat('%', #{param1}, '%')
         </if>

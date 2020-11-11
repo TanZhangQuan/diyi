@@ -594,7 +594,7 @@
         mt.maker_tax_url, pe.subcontracting_invoice_state, sp.service_provider_name, pe.invoice_print_date, e.enterprise_name, pe.charge_list_url, pe.worksheet_id,
         mt.company_voice_upload_datetime, ap.accept_paysheet_url FROM diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON pe.enterprise_id = e.id
         INNER JOIN diyi_maker_total_invoice mt ON mt.pay_enterprise_id = pe.id INNER JOIN diyi_service_provider sp ON sp.id = pe.service_provider_id
-        INNER JOIN diyi_accept_paysheet ap ON ap.pay_enterprise_id = pe.id AND ap.accept_paysheet_type = 'MANY'
+        LEFT JOIN diyi_accept_paysheet ap ON ap.pay_enterprise_id = pe.id AND ap.accept_paysheet_type = 'MANY'
          where pe.is_deleted= 0 and mt.is_deleted = 0 and sp.is_deleted = 0 and mt.id = #{param1}
     </select>
 
@@ -603,7 +603,7 @@
         mi.voice_serial_no, mi.maker_voice_url, mtr.maker_tax_url, pe.company_invoice_state, sp.service_provider_name, pe.invoice_print_date, e.enterprise_name,
         pe.charge_list_url, pe.worksheet_id, ap.accept_paysheet_url FROM diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON e.id = pe.enterprise_id
         INNER JOIN diyi_pay_maker pm ON pm.pay_enterprise_id = pe.id INNER JOIN diyi_maker_invoice mi ON mi.pay_maker_id = pm.id INNER JOIN diyi_service_provider sp
-        ON pe.service_provider_id = sp.id INNER JOIN diyi_accept_paysheet ap ON ap.pay_enterprise_id = pe.id AND ap.accept_paysheet_type = 'MANY'
+        ON pe.service_provider_id = sp.id LEFT JOIN diyi_accept_paysheet ap ON ap.pay_enterprise_id = pe.id AND ap.accept_paysheet_type = 'MANY'
         LEFT JOIN diyi_maker_tax_record mtr ON pm.id = mtr.pay_maker_id AND mtr.is_deleted = 0 WHERE pe.is_deleted = 0 AND pm.is_deleted = 0 AND mi.is_deleted = 0
         AND sp.is_deleted = 0 and mi.id = #{param1}
     </select>
