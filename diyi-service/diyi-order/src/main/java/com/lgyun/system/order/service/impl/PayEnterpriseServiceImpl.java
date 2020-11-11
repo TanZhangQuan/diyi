@@ -316,7 +316,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         Query query = new Query();
         query.setSize(100);
         query.setCurrent(1);
-        List<PayMakerListInvoiceVO> PayMakerListVOs = baseMapper.queryPayMakerListInvoice(byId.getId(), Condition.getPage(query.setDescs("create_time")));
+        List<PayMakerListInvoiceVO> PayMakerListVOs = baseMapper.queryPayMakerListInvoice(byId.getId(), Condition.getPage(query.setDescs("t1.create_time")));
         map.put("payMakerListVOs", PayMakerListVOs);
         return R.data(map);
     }
