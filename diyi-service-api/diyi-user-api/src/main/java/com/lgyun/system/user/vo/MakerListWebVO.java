@@ -77,16 +77,6 @@ public class MakerListWebVO implements Serializable {
     private SignState joinSignState;
 
     /**
-     * 是否个体户
-     */
-    private boolean boolIndividualBusiness;
-
-    /**
-     * 是否个独
-     */
-    private boolean boolIndividualEnterprise;
-
-    /**
      * 创建时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
