@@ -1214,7 +1214,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             makerInvoiceEntity.setMakerVoiceUploadDateTime(new Date());
             makerInvoiceService.saveOrUpdate(makerInvoiceEntity);
             payMakerEntity.setMakerInvoiceState(InvoiceState.OPENED);
-            if(("").equals(makerTaxUrl)){
+            if(!("").equals(makerTaxUrl)){
                 MakerTaxRecordEntity makerTaxRecordEntity = makerTaxRecordService.findPayMakerId(Long.parseLong(payMakerId));
                 if (null == makerTaxRecordEntity) {
                     makerTaxRecordEntity = new MakerTaxRecordEntity();
