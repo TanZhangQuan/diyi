@@ -165,7 +165,7 @@ public class RealnameVerifyUtil {
         //业务方交互上下文信息
         ContextInfo contextInfo = new ContextInfo();
         contextInfo.setContextId(contextId);
-        contextInfo.setNotifyUrl(RealnameVerifyConstant.FACEVERIFYURL);
+        contextInfo.setNotifyUrl(RealnameVerifyConstant.FACEVERIFYNOTIFYURL);
 
         //个人基本信息
         IndivInfo indivInfo = new IndivInfo();
@@ -186,7 +186,7 @@ public class RealnameVerifyUtil {
         reqBodyObj.put("configParams", configParams);
 
         //活体认证请求
-        return realnameVerifyOCR(RealnameVerifyConstant.FACEVERIFYNOTIFYURL, reqBodyObj, HttpMethod.POST);
+        return realnameVerifyOCR(RealnameVerifyConstant.FACEVERIFYURL, reqBodyObj, HttpMethod.POST);
     }
 
     /**
