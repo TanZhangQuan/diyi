@@ -1064,23 +1064,23 @@
         <if test="param1 != null">
             AND a.service_provider_id = #{param1}
         </if>
-        ) AS tmp where 1=1
+        ) AS tmp where 1 = 1
         <if test="param2 !=null and param2 != ''">
-            AND enterprise_name LIKE concat('%', #{param2}, '%')
+            AND tmp.enterprise_name LIKE concat('%', #{param2}, '%')
         </if>
         <if test="param3 !=null and param3 != ''">
-            AND create_time > #{param3}
+            AND tmp.create_time > #{param3}
         </if>
         <if test="param4 !=null and param4 != ''">
-            AND create_time &lt; #{param4}
+            AND tmp.create_time &lt; #{param4}
         </if>
     </select>
 
     <select id="getServiceOpenedLumpSumInvoice" resultMap="invoiceServiceLumpMap">
-        SELECT 0 AS invoice_application_pay_list_id, 0 AS invoice_application_id, a.id AS pay_enterprise_id, b.enterprise_name, c.service_provider_name,
-        0 AS application_state, a.company_invoice_state, a.create_time, '' AS application_desc, 0 AS apply_state, d.invoice_print_id FROM diyi_pay_enterprise a
-        INNER JOIN diyi_enterprise b ON b.id = a.enterprise_id INNER JOIN diyi_service_provider c ON c.id = a.service_provider_id
-        INNER JOIN diyi_platform_invoice_pay_list d ON d.pay_enterprise_id = a.id WHERE a.company_invoice_state = 'OPENED'
+        SELECT 0 AS invoice_application_pay_list_id, 0 AS invoice_application_id, tmp.id AS pay_enterprise_id, b.enterprise_name, c.service_provider_name,
+        0 AS application_state, tmp.company_invoice_state, tmp.create_time, '' AS application_desc, 0 AS apply_state, d.invoice_print_id FROM diyi_pay_enterprise tmp
+        INNER JOIN diyi_enterprise b ON b.id = tmp.enterprise_id INNER JOIN diyi_service_provider c ON c.id = tmp.service_provider_id
+        INNER JOIN diyi_platform_invoice_pay_list d ON d.pay_enterprise_id = tmp.id WHERE tmp.company_invoice_state = 'OPENED'
         <if test="param1">
             and c.id = #{param1}
         </if>
@@ -1088,10 +1088,10 @@
             AND b.enterprise_name LIKE concat('%', #{param2}, '%')
         </if>
         <if test="param3 !=null and param3 != ''">
-            AND create_time > #{param3}
+            AND tmp.create_time > #{param3}
         </if>
         <if test="param4 !=null and param4 != ''">
-            AND create_time &lt; #{param4}
+            AND tmp.create_time &lt; #{param4}
         </if>
     </select>
 
