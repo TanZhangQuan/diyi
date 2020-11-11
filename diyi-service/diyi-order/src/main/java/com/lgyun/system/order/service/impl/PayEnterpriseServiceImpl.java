@@ -1081,6 +1081,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             map.put("province","");
             map.put("detailedAddress","");
         }
+        map.put("expressSheetNo",platformInvoiceEntity.getExpressSheetNo());
+        map.put("expressCompanyName",platformInvoiceEntity.getExpressCompanyName());
         map.put("invoiceAddressPhone",enterpriseEntity.getInvoiceAddressPhone());
         map.put("invoiceEnterpriseName",enterpriseEntity.getInvoiceEnterpriseName());
         List<PlatformInvoiceListEntity> platformInvoiceListEntitys = platformInvoiceListService.findInvoicePrintId(invoicePrintId);
