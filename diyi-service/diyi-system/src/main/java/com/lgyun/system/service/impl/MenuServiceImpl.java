@@ -2,15 +2,14 @@ package com.lgyun.system.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.lgyun.common.enumeration.UserType;
-import com.lgyun.common.node.TreeNode;
-import lombok.AllArgsConstructor;
 import com.lgyun.common.constant.BladeConstant;
+import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.node.ForestNodeMerger;
+import com.lgyun.common.node.TreeNode;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.support.Kv;
 import com.lgyun.common.tool.Func;
+import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.dto.MenuDTO;
 import com.lgyun.system.entity.Menu;
 import com.lgyun.system.entity.RoleMenu;
@@ -19,6 +18,7 @@ import com.lgyun.system.service.IMenuService;
 import com.lgyun.system.service.IRoleMenuService;
 import com.lgyun.system.vo.MenuVO;
 import com.lgyun.system.wrapper.MenuWrapper;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IMenuService {
+public class MenuServiceImpl extends BaseServiceImpl<MenuMapper, Menu> implements IMenuService {
 
     IRoleMenuService roleMenuService;
 
@@ -43,7 +43,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
     @Override
     public List<MenuVO> routes(String roleId, UserType userType, Boolean superAdmin) {
         List<Menu> allMenus = baseMapper.allMenu(userType.getValue());
-        List<Menu> roleMenus = null;
+        List<Menu> roleMenus;
         if (superAdmin) {
             roleMenus = allMenus;
         } else {

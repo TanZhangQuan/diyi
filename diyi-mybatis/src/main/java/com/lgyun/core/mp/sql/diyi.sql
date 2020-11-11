@@ -2369,12 +2369,11 @@ CREATE TABLE `sys_dept` (
 DROP TABLE IF EXISTS `sys_dict`;
 CREATE TABLE `sys_dict` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `parent_id` bigint(50) DEFAULT '0' COMMENT '父主键',
-  `code` varchar(255) NOT NULL DEFAULT '' COMMENT '字典码',
-  `dict_key` int(2) DEFAULT NULL COMMENT '字典值',
-  `dict_value` varchar(255) NOT NULL DEFAULT '' COMMENT '字典名称',
-  `sort` int(11) DEFAULT NULL COMMENT '排序',
-  `describes` varchar(1000) DEFAULT NULL COMMENT '对应描述,对应父级id比如为开票类目就为具体服务内容',
+  `parent_id` bigint(50) NOT NULL DEFAULT '0' COMMENT '父主键',
+  `code` varchar(50) NOT NULL COMMENT '字典码',
+  `dict_key` varchar(50) NOT NULL COMMENT '字典值',
+  `dict_value` varchar(100) NOT NULL COMMENT '字典名称',
+  `sort` int(3) NOT NULL DEFAULT '0' COMMENT '排序',
   `remark` varchar(1000) NOT NULL DEFAULT '' COMMENT '字典备注',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
@@ -2382,7 +2381,8 @@ CREATE TABLE `sys_dict` (
   `update_time` datetime NOT NULL COMMENT '修改时间',
   `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`code`,`dict_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='字典表';
 
 -- ----------------------------

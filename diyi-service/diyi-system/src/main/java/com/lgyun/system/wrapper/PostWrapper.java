@@ -29,7 +29,7 @@ public class PostWrapper extends BaseEntityWrapper<Post, PostVO> {
 	@Override
 	public PostVO entityVO(Post post) {
 		PostVO postVO = Objects.requireNonNull(BeanUtil.copy(post, PostVO.class));
-		String categoryName = dictService.getValue("post_category", post.getCategory());
+		String categoryName = dictService.queryDictValue("post_category", String.valueOf(post.getCategory()));
 		postVO.setCategoryName(categoryName);
 		return postVO;
 	}

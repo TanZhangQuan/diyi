@@ -8,8 +8,6 @@ import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.dto.DictDTO;
-import com.lgyun.system.entity.Dict;
 import com.lgyun.system.feign.IDictClient;
 import com.lgyun.system.order.dto.AddressDTO;
 import com.lgyun.system.order.dto.ConfirmPaymentDTO;
@@ -22,7 +20,9 @@ import com.lgyun.system.order.service.ISelfHelpInvoiceDetailService;
 import com.lgyun.system.order.service.ISelfHelpInvoiceFeeService;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -74,67 +74,6 @@ public class SelfHelpInvoiceMakerController {
         MakerEntity makerEntity = result.getData();
 
         return addressService.queryAddressList(ObjectType.MAKERPEOPLE, makerEntity.getId(), Condition.getPage(query.setDescs("create_time")));
-    }
-
-    @GetMapping("/query-invoice-type")
-    @ApiOperation(value = "开票类目", notes = "开票类目")
-    public R queryInvoiceType(BladeUser bladeUser) {
-        //查询当前创客
-        R<MakerEntity> result = userClient.currentMaker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return dictClient.getList("tax_category");
-    }
-
-    @GetMapping("/query-invoice-type-detail")
-    @ApiOperation(value = "开票类目详情", notes = "开票类目详情")
-    public R queryInvoiceTypeDetail(Long parentId, BladeUser bladeUser) {
-        //查询当前创客
-        R<MakerEntity> result = userClient.currentMaker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return dictClient.getParentList(parentId);
-    }
-
-    @PostMapping("/create-invoice-type")
-    @ApiOperation(value = "新建开票类目", notes = "新建开票类目")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "dictType", value = "1代表一级类目，2二级类目", paramType = "query", dataType = "int"),
-    })
-    public R createInvoiceType(@RequestParam String dictValue, @RequestParam Integer dictType, @RequestParam(required = false) Long parentId, BladeUser bladeUser) {
-        //查询当前创客
-        R<MakerEntity> result = userClient.currentMaker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        if (dictType != 1 && dictType != 2) {
-            R.fail("参数错误");
-        }
-        Dict data = dictClient.getDict("tax_category");
-        if (null == data) {
-            R.fail("添加失败缺少开票类目");
-        }
-        DictDTO dictDTO = new DictDTO();
-        if (dictType == 1) {
-            dictDTO.setCode("tax_category");
-            dictDTO.setDictKey(1);
-            dictDTO.setDictValue(dictValue);
-            dictDTO.setParentId(data.getId());
-            dictDTO.setSort(0);
-        } else {
-            dictDTO.setCode("tax_category_details");
-            dictDTO.setDictKey(2);
-            dictDTO.setDictValue(dictValue);
-            dictDTO.setParentId(parentId);
-            dictDTO.setSort(0);
-        }
-
-        return dictClient.saveDict(dictDTO);
     }
 
     @PostMapping("/submit-self-help-invoice")

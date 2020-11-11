@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.node.INode;
-import com.lgyun.system.entity.Dict;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +16,9 @@ import java.util.List;
  * @since 2020/6/6 19:18
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class DictVO extends Dict implements INode {
+public class DictVO implements INode {
 	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 主键ID
 	 */
@@ -32,6 +30,21 @@ public class DictVO extends Dict implements INode {
 	 */
 	@JsonSerialize(using = ToStringSerializer.class)
 	private Long parentId;
+
+	/**
+	 * 上级字典
+	 */
+	private String dictValue;
+
+	/**
+	 * 排序
+	 */
+	private Integer sort;
+
+	/**
+	 * 字典备注
+	 */
+	private String remark;
 
 	/**
 	 * 子孙节点
@@ -46,9 +59,4 @@ public class DictVO extends Dict implements INode {
 		}
 		return this.children;
 	}
-
-	/**
-	 * 上级字典
-	 */
-	private String parentName;
 }

@@ -2,11 +2,11 @@ package com.lgyun.system.user.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CertificationState;
 import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.common.secure.BladeUser;
+import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.*;
 import com.lgyun.system.user.entity.MakerEntity;
@@ -24,7 +24,7 @@ import java.util.List;
  * @author tzq
  * @since 2020-06-26 17:21:06
  */
-public interface IMakerService extends IService<MakerEntity> {
+public interface IMakerService extends BaseService<MakerEntity> {
 
     /**
      * 根据ID查询创客

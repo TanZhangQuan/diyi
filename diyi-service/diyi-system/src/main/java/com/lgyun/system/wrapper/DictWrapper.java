@@ -35,10 +35,10 @@ public class DictWrapper extends BaseEntityWrapper<Dict, DictVO> {
     public DictVO entityVO(Dict dict) {
         DictVO dictVO = BeanUtil.copy(dict, DictVO.class);
         if (Func.equals(dict.getParentId(), CommonConstant.TOP_PARENT_ID)) {
-            dictVO.setParentName(CommonConstant.TOP_PARENT_NAME);
+            dictVO.setDictValue(CommonConstant.TOP_PARENT_NAME);
         } else {
             Dict parent = dictService.getById(dict.getParentId());
-            dictVO.setParentName(parent.getDictValue());
+            dictVO.setDictValue(parent.getDictValue());
         }
         return dictVO;
     }

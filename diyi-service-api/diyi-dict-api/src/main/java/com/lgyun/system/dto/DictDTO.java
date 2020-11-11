@@ -3,7 +3,6 @@ package com.lgyun.system.dto;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -17,9 +16,13 @@ public class DictDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 主键
+     */
+    private Long dictId;
+
+    /**
      * 父主键
      */
-    @NotNull(message = "请输入父主键")
     private Long parentId;
 
     /**
@@ -31,8 +34,8 @@ public class DictDTO implements Serializable {
     /**
      * 字典值
      */
-    @NotNull(message = "请输入字典值")
-    private Integer dictKey;
+    @NotBlank(message = "请输入字典值")
+    private String dictKey;
 
     /**
      * 字典名称
@@ -43,6 +46,10 @@ public class DictDTO implements Serializable {
     /**
      * 排序
      */
-    @NotNull(message = "请输入排序")
     private Integer sort;
+
+    /**
+     * 字典备注
+     */
+    private String remark;
 }
