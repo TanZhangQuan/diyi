@@ -109,5 +109,5 @@ public class EnterpriseLumpSumInvoiceVO {
     /**
      * 快鸟快递
      */
-    private String KOrderTracesByJson;
+    private Object KOrderTracesByJson;
 }

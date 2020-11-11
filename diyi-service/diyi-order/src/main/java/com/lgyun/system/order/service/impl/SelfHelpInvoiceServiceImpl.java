@@ -27,6 +27,7 @@ import com.lgyun.system.user.feign.IUserClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -109,12 +110,18 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             if (StringUtils.isNotBlank(selfHelpInvoiceExpressByEnterpriseVO.getExpressCompanyName()) && StringUtils.isNotBlank(selfHelpInvoiceExpressByEnterpriseVO.getExpressNo())) {
                 try {
                     expressMessage = kdniaoTrackQueryUtil.getOrderTracesByJson(selfHelpInvoiceExpressByEnterpriseVO.getExpressCompanyName(), selfHelpInvoiceExpressByEnterpriseVO.getExpressNo());
+                    JSONObject jsonArray = new JSONObject(expressMessage);
+                    Boolean success = (Boolean) jsonArray.get("Success");
+                    if(success){
+                        selfHelpInvoiceExpressByEnterpriseVO.setExpressMessage(jsonArray.get("Traces"));
+                    }else{
+                        selfHelpInvoiceExpressByEnterpriseVO.setExpressMessage("");
+                    }
                 } catch (Exception e) {
                     log.error("查询快递异常", e);
                 }
             }
 
-            selfHelpInvoiceExpressByEnterpriseVO.setExpressMessage(expressMessage);
         }
 
         return R.data(page.setRecords(selfHelpInvoiceExpressByEnterpriseVOList));
@@ -242,13 +249,17 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         if (StringUtils.isNotBlank(selfHelpInvoiceExpressByEnterpriseProviderVO.getExpressCompanyName()) && StringUtils.isNotBlank(selfHelpInvoiceExpressByEnterpriseProviderVO.getExpressNo())) {
             try {
                 expressMessage = kdniaoTrackQueryUtil.getOrderTracesByJson(selfHelpInvoiceExpressByEnterpriseProviderVO.getExpressCompanyName(), selfHelpInvoiceExpressByEnterpriseProviderVO.getExpressNo());
+                JSONObject jsonArray = new JSONObject(expressMessage);
+                Boolean success = (Boolean) jsonArray.get("Success");
+                if(success){
+                    selfHelpInvoiceExpressByEnterpriseProviderVO.setExpressMessage(jsonArray.get("Traces"));
+                }else{
+                    selfHelpInvoiceExpressByEnterpriseProviderVO.setExpressMessage("");
+                }
             } catch (Exception e) {
                 log.error("查询快递异常", e);
             }
         }
-
-        selfHelpInvoiceExpressByEnterpriseProviderVO.setExpressMessage(expressMessage);
-
         return R.data(selfHelpInvoiceExpressByEnterpriseProviderVO);
     }
 
@@ -306,10 +317,17 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         String orderTracesByJson = "";
         try {
             orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(detailCrowdSourcing.getExpressCompanyName(), detailCrowdSourcing.getExpressSheetNo());
+            JSONObject jsonArray = new JSONObject(orderTracesByJson);
+            Boolean success = (Boolean) jsonArray.get("Success");
+            if(success){
+                map.put("orderTracesByJson", jsonArray.get("Traces"));
+            }else{
+                map.put("orderTracesByJson", "");
+            }
         } catch (Exception e) {
             log.info("快鸟接口访问失败");
+            map.put("orderTracesByJson", "");
         }
-        map.put("orderTracesByJson", orderTracesByJson);
         return R.data(map);
     }
 
@@ -395,7 +413,13 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             if (StringUtil.isNotBlank(serviceCrowdSourDetails.getExpressNo()) && StringUtil.isNotBlank(serviceCrowdSourDetails.getExpressCompanyName())) {
                 KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
                 String orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(serviceCrowdSourDetails.getExpressCompanyName(), serviceCrowdSourDetails.getExpressNo());
-                map.put("orderTracesByJson", orderTracesByJson);
+                JSONObject jsonArray = new JSONObject(orderTracesByJson);
+                Boolean success = (Boolean) jsonArray.get("Success");
+                if(success){
+                    map.put("orderTracesByJson", jsonArray.get("Traces"));
+                }else{
+                    map.put("orderTracesByJson", "");
+                }
             } else {
                 map.put("orderTracesByJson", "");
             }
@@ -462,11 +486,17 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             try {
                 KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
                 orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(expressCompanyName, expressNo);
+                JSONObject jsonArray = new JSONObject(orderTracesByJson);
+                Boolean success = (Boolean) jsonArray.get("Success");
+                if(success){
+                    map.put("orderTracesByJson", jsonArray.get("Traces"));
+                }else{
+                    map.put("orderTracesByJson", "");
+                }
             } catch (Exception e) {
-
+                map.put("orderTracesByJson", orderTracesByJson);
             }
         }
-        map.put("orderTracesByJson", orderTracesByJson);
         return R.data(map);
     }
 
