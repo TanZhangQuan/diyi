@@ -45,22 +45,22 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     public R<String> releaseWorksheet(ReleaseWorksheetDTO releaseWorksheetDTO) {
         WorksheetEntity worksheetEntity = new WorksheetEntity();
         if (StringUtil.isBlank(releaseWorksheetDTO.getWorksheetName())) {
-            return R.fail("工单名称不能为空");
+            return R.fail("请输入工单名称");
         }
         if (null == releaseWorksheetDTO.getEnterpriseId()) {
-            return R.fail("企业不能为空");
+            return R.fail("请选择商户");
         }
         if (null == releaseWorksheetDTO.getMakerType()) {
-            return R.fail("创客类型不能为空");
+            return R.fail("请选择创客类型");
         }
         if (null == releaseWorksheetDTO.getWorksheetType()) {
-            return R.fail("工单类型不能为空");
+            return R.fail("请选择工单类型");
         }
         if (null == releaseWorksheetDTO.getWorksheetMode()) {
-            return R.fail("工单模式不能为空");
+            return R.fail("请选择工单模式");
         }
         if (!WorkSheetMode.GRABBING.equals(releaseWorksheetDTO.getWorksheetMode()) && StringUtil.isBlank(releaseWorksheetDTO.getMakerIds())) {
-            return R.fail("创客的ids不能为空");
+            return R.fail("请选择创客");
         }
         if (releaseWorksheetDTO.getWorksheetMode().equals("DISPATCH") && releaseWorksheetDTO.getUpPersonNum() != 0 && releaseWorksheetDTO.getMakerIds().split(",").length != releaseWorksheetDTO.getUpPersonNum()) {
             return R.fail("工单创建失败，上限人数为" + releaseWorksheetDTO.getUpPersonNum() + ",创客数为" + releaseWorksheetDTO.getMakerIds().split(",").length);
@@ -101,11 +101,12 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
                 worksheetMakerEntity.setWorksheetId(worksheetEntity.getId());
                 worksheetMakerEntity.setGetType(GetType.GETDISPATCH);
                 worksheetMakerEntity.setGetOrderDate(new Date());
-                worksheetMakerEntity.setArrangePerson("xitong");
+                worksheetMakerEntity.setArrangePerson("系统");
                 worksheetMakerEntity.setArrangeDate(new Date());
                 worksheetMakerService.save(worksheetMakerEntity);
             }
         }
+
         return R.success("发布成功");
     }
 
@@ -169,7 +170,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             return R.success("关闭成功");
         } else {
             Integer orderGrabbingCount = worksheetMakerService.getOrderGrabbingCount(worksheetId);
-            if(orderGrabbingCount >= worksheetEntity.getUpPersonNum()){
+            if (orderGrabbingCount >= worksheetEntity.getUpPersonNum()) {
                 return R.fail("开始失败，抢单人数到达上限！！");
             }
             worksheetEntity.setWorksheetState(WorksheetState.PUBLISHING);
@@ -309,7 +310,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             return R.fail("创客不存在");
         }
 
-        if(StringUtil.isBlank(makerEntity.getIdcardNo())){
+        if (StringUtil.isBlank(makerEntity.getIdcardNo())) {
             return R.fail("请上传身份证后重试!!");
         }
 

@@ -628,7 +628,7 @@
         AND relationship_type != 'NORELATION' AND enterprise_id = #{param1}) AS maker_num, (SELECT COUNT(id) FROM diyi_enterprise_service_provider WHERE is_deleted = 0
         AND cooperate_status = 'COOPERATING' AND enterprise_id = #{param1}) AS service_provider_num FROM (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30,
         pay_to_platform_amount, 0)), 0) AS month_pay, IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, pay_to_platform_amount, 0)), 0) AS year_pay,
-        IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay FROM diyi_pay_enterprise WHERE is_deleted = 0 AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY')
+        IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay FROM diyi_pay_enterprise WHERE is_deleted = 0 AND audit_state = 'APPROVED'
         AND enterprise_id = #{param1}) t1, (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, total_pay_provider_fee, 0)), 0) AS month_pay,
         IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, total_pay_provider_fee, 0)), 0) AS year_pay, IFNULL(SUM(total_pay_provider_fee), 0) AS all_pay
         FROM diyi_self_help_invoice WHERE is_deleted = 0 AND (current_state = 'PAID' AND current_state = 'INVOICED') AND apply_enterprise_id = #{param1}) t2
@@ -642,7 +642,7 @@
         AS enterprise_num FROM (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, pay_to_platform_amount, 0)), 0) AS month_pay,
         IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, pay_to_platform_amount, 0)), 0) AS year_pay,
         IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay FROM diyi_pay_enterprise WHERE is_deleted = 0 AND
-        (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND service_provider_id = #{param1}) t1,
+        audit_state = 'APPROVED' AND service_provider_id = #{param1}) t1,
         (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, charge_money_num, 0)), 0) AS month_pay,
         IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, charge_money_num, 0)), 0) AS year_pay,
         IFNULL(SUM(charge_money_num), 0) AS all_pay FROM diyi_self_help_invoice_sp WHERE is_deleted = 0
@@ -656,7 +656,7 @@
         IFNULL(SUM(IF(MONTH(create_time) = 7, pay_to_platform_amount, 0)), 0) AS jul_income, IFNULL(SUM(IF(MONTH(create_time) = 8, pay_to_platform_amount, 0)), 0) AS aug_income,
         IFNULL(SUM(IF(MONTH(create_time) = 9, pay_to_platform_amount, 0)), 0) AS sep_income, IFNULL(SUM(IF(MONTH(create_time) = 10, pay_to_platform_amount, 0)), 0) AS oct_income,
         IFNULL(SUM(IF(MONTH(create_time) = 11, pay_to_platform_amount, 0)), 0) AS nov_income, IFNULL(SUM(IF(MONTH(create_time) = 12, pay_to_platform_amount, 0)), 0) AS dec_income
-        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND YEAR(create_time) = YEAR(NOW()) AND enterprise_id = #{param1}
+        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND audit_state = 'APPROVED' AND YEAR(create_time) = YEAR(NOW()) AND enterprise_id = #{param1}
     </select>
 
     <select id="queryTotalSubYearTradeByServiceProvider" resultMap="yearTradeVO">
@@ -666,7 +666,7 @@
         IFNULL(SUM(IF(MONTH(create_time) = 7, pay_to_platform_amount, 0)), 0) AS jul_income, IFNULL(SUM(IF(MONTH(create_time) = 8, pay_to_platform_amount, 0)), 0) AS aug_income,
         IFNULL(SUM(IF(MONTH(create_time) = 9, pay_to_platform_amount, 0)), 0) AS sep_income, IFNULL(SUM(IF(MONTH(create_time) = 10, pay_to_platform_amount, 0)), 0) AS oct_income,
         IFNULL(SUM(IF(MONTH(create_time) = 11, pay_to_platform_amount, 0)), 0) AS nov_income, IFNULL(SUM(IF(MONTH(create_time) = 12, pay_to_platform_amount, 0)), 0) AS dec_income
-        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND YEAR(create_time) = YEAR(NOW()) AND service_provider_id = #{param1}
+        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND audit_state = 'APPROVED' AND YEAR(create_time) = YEAR(NOW()) AND service_provider_id = #{param1}
     </select>
 
     <select id="queryTotalSubMonthTradeByEnterprise" resultMap="monthTradeVO">
@@ -687,7 +687,7 @@
         IF(DAY(LAST_DAY(NOW())) >= 29, IFNULL(SUM(IF(DAY(create_time) = 29, pay_to_platform_amount, 0)), 0), NULL) AS twenty_nine_day_income,
         IF(DAY(LAST_DAY(NOW())) >= 30, IFNULL(SUM(IF(DAY(create_time) = 30, pay_to_platform_amount, 0)), 0), NULL) AS thirty_day_income,
 		IF(DAY(LAST_DAY(NOW())) >= 31, IFNULL(SUM(IF(DAY(create_time) = 31, pay_to_platform_amount, 0)), 0), NULL) AS thirty_one_day_income
-        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND YEAR(create_time) = YEAR(NOW())
+        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND audit_state = 'APPROVED' AND YEAR(create_time) = YEAR(NOW())
 		AND MONTH(create_time) = MONTH(NOW()) AND enterprise_id = #{param1}
     </select>
 
@@ -709,7 +709,7 @@
         IF(DAY(LAST_DAY(NOW())) >= 29, IFNULL(SUM(IF(DAY(create_time) = 29, pay_to_platform_amount, 0)), 0), NULL) AS twenty_nine_day_income,
         IF(DAY(LAST_DAY(NOW())) >= 30, IFNULL(SUM(IF(DAY(create_time) = 30, pay_to_platform_amount, 0)), 0), NULL) AS thirty_day_income,
 		IF(DAY(LAST_DAY(NOW())) >= 31, IFNULL(SUM(IF(DAY(create_time) = 31, pay_to_platform_amount, 0)), 0), NULL) AS thirty_one_day_income
-        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND YEAR(create_time) = YEAR(NOW())
+        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND audit_state = 'APPROVED' AND YEAR(create_time) = YEAR(NOW())
 		AND MONTH(create_time) = MONTH(NOW()) AND service_provider_id = #{param1}
     </select>
 
@@ -718,7 +718,7 @@
         IFNULL(SUM(IF(WEEKDAY(create_time) = 2, pay_to_platform_amount, 0)), 0) AS wed_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 3, pay_to_platform_amount, 0)), 0) AS thu_income,
         IFNULL(SUM(IF(WEEKDAY(create_time) = 4, pay_to_platform_amount, 0)), 0) AS fri_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 5, pay_to_platform_amount, 0)), 0) AS sat_income,
         IFNULL(SUM(IF(WEEKDAY(create_time) = 6, pay_to_platform_amount, 0)), 0) AS sun_income
-        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND WEEK(create_time) = WEEK(NOW()) AND enterprise_id = #{param1}
+        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND audit_state = 'APPROVED' AND WEEK(create_time) = WEEK(NOW()) AND enterprise_id = #{param1}
     </select>
 
     <select id="queryTotalSubWeekTradeByServiceProvider" resultMap="weekTradeVO">
@@ -726,7 +726,7 @@
         IFNULL(SUM(IF(WEEKDAY(create_time) = 2, pay_to_platform_amount, 0)), 0) AS wed_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 3, pay_to_platform_amount, 0)), 0) AS thu_income,
         IFNULL(SUM(IF(WEEKDAY(create_time) = 4, pay_to_platform_amount, 0)), 0) AS fri_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 5, pay_to_platform_amount, 0)), 0) AS sat_income,
         IFNULL(SUM(IF(WEEKDAY(create_time) = 6, pay_to_platform_amount, 0)), 0) AS sun_income
-        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND WEEK(create_time) = WEEK(NOW()) AND service_provider_id = #{param1}
+        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND audit_state = 'APPROVED' AND WEEK(create_time) = WEEK(NOW()) AND service_provider_id = #{param1}
     </select>
 
     <select id="queryTotalSubDayTradeByEnterprise" resultMap="dayTradeVO">
@@ -742,7 +742,7 @@
         IFNULL(SUM(IF(HOUR(create_time) = 19, pay_to_platform_amount, 0)), 0) AS nineteen_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 20, pay_to_platform_amount, 0)), 0) AS twenty_hour_income,
         IFNULL(SUM(IF(HOUR(create_time) = 21, pay_to_platform_amount, 0)), 0) AS twenty_one_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 22, pay_to_platform_amount, 0)), 0) AS twenty_two_hour_income,
         IFNULL(SUM(IF(HOUR(create_time) = 23, pay_to_platform_amount, 0)), 0) AS twenty_three_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 0, pay_to_platform_amount, 0)), 0) AS twenty_four_hour_income
-        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND DATE(create_time) = DATE(NOW()) AND enterprise_id = #{param1}
+        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND audit_state = 'APPROVED' AND DATE(create_time) = DATE(NOW()) AND enterprise_id = #{param1}
     </select>
 
     <select id="queryTotalSubDayTradeByServiceProvider" resultMap="dayTradeVO">
@@ -758,7 +758,7 @@
         IFNULL(SUM(IF(HOUR(create_time) = 19, pay_to_platform_amount, 0)), 0) AS nineteen_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 20, pay_to_platform_amount, 0)), 0) AS twenty_hour_income,
         IFNULL(SUM(IF(HOUR(create_time) = 21, pay_to_platform_amount, 0)), 0) AS twenty_one_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 22, pay_to_platform_amount, 0)), 0) AS twenty_two_hour_income,
         IFNULL(SUM(IF(HOUR(create_time) = 23, pay_to_platform_amount, 0)), 0) AS twenty_three_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 0, pay_to_platform_amount, 0)), 0) AS twenty_four_hour_income
-        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND DATE(create_time) = DATE(NOW()) AND service_provider_id = #{param1}
+        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND audit_state = 'APPROVED' AND DATE(create_time) = DATE(NOW()) AND service_provider_id = #{param1}
     </select>
 
     <select id="getServiceLumpSumInvoiceDetails" resultMap="InvoiceServiceLumpDetailsMap">
@@ -849,7 +849,7 @@
         IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) &lt;= 365, pay_to_platform_amount, 0)), 0) AS year_pay,
         IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay
         FROM diyi_pay_enterprise WHERE is_deleted = 0
-        AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY')
+        AND audit_state = 'APPROVED'
         AND service_provider_id IN
         (SELECT service_provider_id FROM diyi_rel_bureau_service_provider WHERE rel_bureau_id = #{bureauId})) t1,
         (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) &lt;= 30, charge_money_num, 0)), 0) AS month_pay,
@@ -871,7 +871,7 @@
         (SELECT IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay,
         service_provider_id
         FROM diyi_pay_enterprise WHERE is_deleted = 0
-        AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY')
+        AND audit_state = 'APPROVED'
         GROUP BY service_provider_id) total
         LEFT JOIN
         (SELECT IFNULL(SUM(charge_money_num), 0) AS all_pay ,
@@ -887,7 +887,7 @@
         (SELECT IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay,
         service_provider_id
         FROM diyi_pay_enterprise WHERE is_deleted = 0
-        AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY')
+        AND audit_state = 'APPROVED'
         GROUP BY service_provider_id) total
         RIGHT JOIN
         (SELECT IFNULL(SUM(charge_money_num), 0) AS all_pay ,
@@ -910,7 +910,7 @@
         IN ( SELECT service_provider_id FROM diyi_agent_provider WHERE is_deleted = 0 AND agent_main_id = #{param1})) AS maker_num FROM
         (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, pay_to_platform_amount, 0 )), 0 ) AS month_pay, IFNULL( SUM( IF ( DATEDIFF(NOW(),
         create_time) <![CDATA[ < ]]> 365, pay_to_platform_amount, 0 )), 0 ) AS year_pay, IFNULL( SUM(pay_to_platform_amount), 0 ) AS all_pay FROM diyi_pay_enterprise
-        WHERE is_deleted = 0 AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY') AND service_provider_id IN ( SELECT service_provider_id FROM diyi_agent_provider WHERE is_deleted = 0
+        WHERE is_deleted = 0 AND audit_state = 'APPROVED' AND service_provider_id IN ( SELECT service_provider_id FROM diyi_agent_provider WHERE is_deleted = 0
         AND agent_main_id = #{param1} )) t1, ( SELECT IFNULL( SUM( IF ( DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, charge_money_num, 0 )), 0 )
         AS month_pay, IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, charge_money_num, 0 )), 0 ) AS year_pay, IFNULL(SUM(charge_money_num), 0)
         AS all_pay FROM diyi_self_help_invoice_sp WHERE is_deleted = 0 AND ( apply_state = 'SUBMITTED' OR apply_state = 'INVOICED' ) AND service_provider_id
@@ -924,7 +924,7 @@
         (SELECT IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay,
         service_provider_id
         FROM diyi_pay_enterprise WHERE is_deleted = 0
-        AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY')
+        AND audit_state = 'APPROVED'
         GROUP BY service_provider_id) total
         LEFT JOIN
         (SELECT IFNULL(SUM(charge_money_num), 0) AS all_pay ,
@@ -940,7 +940,7 @@
         (SELECT IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay,
         service_provider_id
         FROM diyi_pay_enterprise WHERE is_deleted = 0
-        AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY')
+        AND audit_state = 'APPROVED'
         GROUP BY service_provider_id) total
         RIGHT JOIN
         (SELECT IFNULL(SUM(charge_money_num), 0) AS all_pay ,
@@ -970,7 +970,7 @@
         IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, pay_to_platform_amount, 0)), 0) AS year_pay,
         IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay
         FROM diyi_pay_enterprise WHERE is_deleted = 0
-        AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY')) t1,
+        AND audit_state = 'APPROVED') t1,
         (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, charge_money_num, 0)), 0) AS month_pay,
         IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, charge_money_num, 0)), 0) AS year_pay,
         IFNULL(SUM(charge_money_num), 0) AS all_pay
@@ -987,7 +987,7 @@
         (SELECT IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay,
         service_provider_id
         FROM diyi_pay_enterprise WHERE is_deleted = 0
-        AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY')
+        AND audit_state = 'APPROVED'
         GROUP BY service_provider_id) total
         LEFT JOIN
         (SELECT IFNULL(SUM(charge_money_num), 0) AS all_pay ,
@@ -1003,7 +1003,7 @@
         (SELECT IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay,
         service_provider_id
         FROM diyi_pay_enterprise WHERE is_deleted = 0
-        AND (pay_state = 'PAYED' OR pay_state = 'CONFIRMPAY')
+        AND audit_state = 'APPROVED'
         GROUP BY service_provider_id) total
         RIGHT JOIN
         (SELECT IFNULL(SUM(charge_money_num), 0) AS all_pay ,
