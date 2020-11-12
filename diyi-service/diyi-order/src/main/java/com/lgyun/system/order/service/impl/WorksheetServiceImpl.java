@@ -252,6 +252,9 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         }
         for (int i = 0; i < split.length; i++) {
             WorksheetEntity worksheetEntity = getById(split[i]);
+            if (WorksheetState.CHECKACCEPT.equals(worksheetEntity.getWorksheetState())) {
+                return R.fail("验收中的订单，不能删除和重新开启！");
+            }
             if (1 == variable) {
                 worksheetEntity.setWorksheetState(WorksheetState.CLOSED);
                 saveOrUpdate(worksheetEntity);
