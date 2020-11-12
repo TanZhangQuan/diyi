@@ -12,7 +12,7 @@
     <select id="queryRelBureauServiceProvider" resultMap="relBureauServiceProviderVO">
         SELECT id,service_provider_name FROM diyi_service_provider
         WHERE id NOT IN
-        (SELECT service_provider_id FROM diyi_rel_bureau_service_provider)
+        (SELECT GROUP_CONCAT(service_provider_id) FROM diyi_rel_bureau_service_provider)
         AND is_delete = 0
         AND bureau_type = #{bureauType}
         <if test="serviceProviderName != null and serviceProviderName != ''">

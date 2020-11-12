@@ -49,7 +49,7 @@
     <select id="findXiaoPage" resultMap="worksheetXiaoVO">
         SELECT ws.id AS worksheet_id, ws.enterprise_id, e.enterprise_name, ws.worksheet_mode, ws.worksheet_name, ws.worksheet_type, ws.up_person_num,
         ws.worksheet_no, ws.work_days, ws.worksheet_fee_low, ws.worksheet_fee_high, ws.create_time,ws.maker_type,ws.worksheet_state FROM diyi_worksheet ws INNER JOIN diyi_enterprise e
-        ON e.id = ws.enterprise_id WHERE ws.is_deleted = 0 AND e.is_deleted = 0 AND ws.id NOT IN ( SELECT wm.worksheet_id FROM diyi_worksheet_maker wm
+        ON e.id = ws.enterprise_id WHERE ws.is_deleted = 0 AND e.is_deleted = 0 AND ws.id NOT IN ( SELECT GROUP_CONCAT(wm.worksheet_id) FROM diyi_worksheet_maker wm
         WHERE wm.is_deleted = 0 AND wm.maker_id = #{param2} ) AND ws.worksheet_state = 'PUBLISHING' AND ws.worksheet_mode != 'DISPATCH'
     </select>
 

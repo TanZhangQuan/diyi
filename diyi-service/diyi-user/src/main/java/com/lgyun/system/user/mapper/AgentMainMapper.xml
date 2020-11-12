@@ -73,16 +73,15 @@
                 </if>
     </select>
 
-
-
     <select id="getAgentMainServiceProviderList" resultMap="adminAgentMainServiceProviderListVO">
 
     </select>
+
     <select id="queryAgentMainServiceProvider"
             resultType="com.lgyun.system.user.vo.AgentMainServiceProviderVO">
         SELECT id,service_provider_name FROM diyi_service_provider
         WHERE id NOT IN
-        (SELECT service_provider_id FROM diyi_agent_provider) AND is_deleted=0
+        (SELECT GROUP_CONCAT(service_provider_id) FROM diyi_agent_provider) AND is_deleted=0
         <if test="serviceProviderName != null and serviceProviderName != ''">
             AND service_provider_name LIKE CONCTA('%',#{param1},'%')
         </if>
