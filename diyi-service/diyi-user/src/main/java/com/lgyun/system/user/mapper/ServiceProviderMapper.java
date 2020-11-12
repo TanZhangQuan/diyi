@@ -19,14 +19,6 @@ import java.util.List;
 public interface ServiceProviderMapper extends BaseMapper<ServiceProviderEntity> {
 
     /**
-     * 查询当前服务商银行卡信息
-     *
-     * @param serviceProviderId
-     * @return
-     */
-    ServiceProviderBankCardVO getBankCard(Long serviceProviderId);
-
-    /**
      * 查询当前服务商联系人信息
      *
      * @param serviceProviderId

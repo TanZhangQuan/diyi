@@ -2,18 +2,23 @@ package com.lgyun.system.user.controller.serviceProvider;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.system.user.dto.ServiceProviderBankCardDTO;
+import com.lgyun.core.mp.support.Condition;
+import com.lgyun.core.mp.support.Query;
+import com.lgyun.system.user.dto.AddOrUpdateServiceProviderAccountDTO;
 import com.lgyun.system.user.dto.ServiceProviderContactPersonDTO;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
+import com.lgyun.system.user.service.IServiceProviderAccountService;
 import com.lgyun.system.user.service.IServiceProviderService;
 import com.lgyun.system.user.service.IServiceProviderWorkerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @RestController
 @RequestMapping("/service-provider/basic-info")
@@ -24,10 +29,11 @@ public class BasicInfoServiceProviderController {
 
     private IServiceProviderWorkerService serviceProviderWorkerService;
     private IServiceProviderService serviceProviderService;
+    private IServiceProviderAccountService serviceProviderAccountService;
 
-    @GetMapping("/query-account-list")
-    @ApiOperation(value = "查询当前服务商银行卡信息", notes = "查询当前服务商银行卡信息")
-    public R queryAccountList(BladeUser bladeUser) {
+    @GetMapping("/query-service-provider-account-list")
+    @ApiOperation(value = "查询服务商收款账户信息", notes = "查询服务商收款账户信息")
+    public R queryServiceProviderAccountList(Query query, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -35,12 +41,12 @@ public class BasicInfoServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return serviceProviderService.getBankCard(serviceProviderWorkerEntity.getServiceProviderId());
+        return serviceProviderAccountService.queryServiceProviderAccountList(serviceProviderWorkerEntity.getServiceProviderId(), Condition.getPage(query.setDescs("create_time")));
     }
 
-    @PostMapping("/add-or-update-bank-card")
-    @ApiOperation(value = "新增或修改当前服务商银行卡信息", notes = "新增或修改当前服务商银行卡信息")
-    public R addOrUpdateBankCard(@Valid @RequestBody ServiceProviderBankCardDTO serviceProviderBankCardDto, BladeUser bladeUser) {
+    @PostMapping("/add-or-update-service-provider-account")
+    @ApiOperation(value = "添加或修改服务商收款账户信息", notes = "添加或修改服务商收款账户信息")
+    public R addOrUpdateServiceProviderAccount(@Valid @RequestBody AddOrUpdateServiceProviderAccountDTO addOrUpdateServiceProviderAccountDTO, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -48,7 +54,31 @@ public class BasicInfoServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return serviceProviderService.addOrUpdateBankCard(serviceProviderBankCardDto, serviceProviderWorkerEntity.getServiceProviderId());
+        return serviceProviderAccountService.addOrUpdateServiceProviderAccount(serviceProviderWorkerEntity.getServiceProviderId(), addOrUpdateServiceProviderAccountDTO);
+    }
+
+    @GetMapping("/query-service-provider-account-update-detail")
+    @ApiOperation(value = "查询编辑服务商收款账户信息", notes = "查询编辑服务商收款账户信息")
+    public R queryServiceProviderAccountUpdateDetail(@ApiParam(value = "服务商收款账户信息") @NotNull(message = "请选择服务商收款账户信息") @RequestParam(required = false) Long serviceProviderAccounttId, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return serviceProviderAccountService.queryServiceProviderAccountUpdateDetail(serviceProviderAccounttId);
+    }
+
+    @PostMapping("/remove-service-provider-account")
+    @ApiOperation(value = "删除服务商收款账户信息", notes = "删除服务商收款账户信息")
+    public R removeServiceProviderAccountList(@ApiParam(value = "服务商收款账户信息", required = true) @NotNull(message = "请选择要删除的服务商收款账户信息") @RequestParam(required = false) Long serviceProviderAccounttId, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return R.status(serviceProviderAccountService.removeById(serviceProviderAccounttId));
     }
 
     @GetMapping("/query-contact-person")

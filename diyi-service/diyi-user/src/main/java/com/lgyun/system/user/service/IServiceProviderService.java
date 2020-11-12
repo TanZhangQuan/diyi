@@ -26,23 +26,6 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
     int queryCountById(Long serviceProviderId);
 
     /**
-     * 查询当前服务商银行卡信息
-     *
-     * @param serviceProviderId
-     * @return
-     */
-    R<ServiceProviderBankCardVO> getBankCard(Long serviceProviderId);
-
-    /**
-     * 新增或修改当前服务商银行卡信息
-     *
-     * @param serviceProviderBankCardDto
-     * @param serviceProviderId
-     * @return
-     */
-    R<String> addOrUpdateBankCard(ServiceProviderBankCardDTO serviceProviderBankCardDto, Long serviceProviderId);
-
-    /**
      * 查询当前服务商联系人信息
      *
      * @param serviceProviderId

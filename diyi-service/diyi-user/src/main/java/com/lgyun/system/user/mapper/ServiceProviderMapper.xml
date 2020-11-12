@@ -3,12 +3,6 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.ServiceProviderMapper">
 
-    <resultMap type="com.lgyun.system.user.vo.ServiceProviderBankCardVO" id="serviceProviderBankCardVO">
-        <result property="invoiceAccount" column="invoice_account"/>
-        <result property="invoiceBankName" column="invoice_bank_name"/>
-        <result property="invoiceAccountName" column="invoice_account_name"/>
-    </resultMap>
-
     <resultMap type="com.lgyun.system.user.vo.ServiceProviderContactPersonVO" id="serviceProviderContactPersonVO">
         <result property="contact1Name" column="contact1_name"/>
         <result property="contact1Position" column="contact1_position"/>
@@ -72,10 +66,6 @@
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="boolSignContract" column="bool_sign_contract"/>
     </resultMap>
-
-    <select id="getBankCard" resultMap="serviceProviderBankCardVO">
-        SELECT invoice_account, invoice_account_name, invoice_bank_name FROM diyi_service_provider WHERE is_deleted = 0 AND id = #{param1} LIMIT 1
-    </select>
 
     <select id="getContactPerson" resultMap="serviceProviderContactPersonVO">
         SELECT contact1_name, contact1_position, contact1_phone, contact1_mail, contact2_name, contact2_position, contact2_phone, contact2_mail

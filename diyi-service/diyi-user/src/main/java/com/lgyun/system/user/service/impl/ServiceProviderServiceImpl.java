@@ -56,25 +56,6 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
     }
 
     @Override
-    public R<ServiceProviderBankCardVO> getBankCard(Long serviceProviderId) {
-        return R.data(baseMapper.getBankCard(serviceProviderId));
-    }
-
-    @Override
-    public R<String> addOrUpdateBankCard(ServiceProviderBankCardDTO serviceProviderBankCardDto, Long serviceProviderId) {
-
-        ServiceProviderEntity serviceProviderWorkerEntity = getById(serviceProviderId);
-        if (serviceProviderWorkerEntity == null) {
-            return R.fail("服务商不存在");
-        }
-
-        BeanUtils.copyProperties(serviceProviderBankCardDto, serviceProviderWorkerEntity);
-        updateById(serviceProviderWorkerEntity);
-
-        return R.success("操作成功");
-    }
-
-    @Override
     public R<ServiceProviderContactPersonVO> getContactPerson(Long serviceProviderId) {
         return R.data(baseMapper.getContactPerson(serviceProviderId));
     }
