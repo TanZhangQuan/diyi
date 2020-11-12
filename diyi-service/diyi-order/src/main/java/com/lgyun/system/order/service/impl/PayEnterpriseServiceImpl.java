@@ -809,8 +809,6 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         for (PlatformInvoiceListEntity platformInvoiceListEntity : invoicePrintId){
             platformInvoiceListEntity.setInvoiceCategory(lumpInvoiceDTO.getInvoiceCategory());
             platformInvoiceListEntity.setCompanyInvoiceUrl(lumpInvoiceDTO.getCompanyInvoiceUrl());
-            platformInvoiceListEntity.setInvoiceTypeNo(lumpInvoiceDTO.getInvoiceTypeNo());
-            platformInvoiceListEntity.setInvoiceSerialNo(lumpInvoiceDTO.getInvoiceSerialNo());
             platformInvoiceListService.saveOrUpdate(platformInvoiceListEntity);
         }
         return R.success("操作成功");
