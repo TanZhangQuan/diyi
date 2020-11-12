@@ -5,7 +5,7 @@ import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.AddressDTO;
+import com.lgyun.system.order.dto.AddOrUpdateAddressDTO;
 import com.lgyun.system.order.service.IAddressService;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
@@ -31,7 +31,7 @@ public class BasicInfoEnterpriseController {
 
     @PostMapping("/create-address")
     @ApiOperation(value = "新建或修改收货地址", notes = "新建或修改收货地址")
-    public R createAddress(@Valid @RequestBody AddressDTO addressDto, BladeUser bladeUser) {
+    public R createAddress(@Valid @RequestBody AddOrUpdateAddressDTO addOrUpdateAddressDto, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -39,7 +39,7 @@ public class BasicInfoEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return addressService.addOrUpdateAddress(addressDto, enterpriseWorkerEntity.getEnterpriseId(), ObjectType.ENTERPRISEPEOPLE);
+        return addressService.addOrUpdateAddress(addOrUpdateAddressDto, enterpriseWorkerEntity.getEnterpriseId(), ObjectType.ENTERPRISEPEOPLE);
     }
 
     @PostMapping("/set-default-address")

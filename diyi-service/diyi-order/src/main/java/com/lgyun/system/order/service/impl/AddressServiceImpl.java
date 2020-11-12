@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.order.dto.AddressDTO;
+import com.lgyun.system.order.dto.AddOrUpdateAddressDTO;
 import com.lgyun.system.order.entity.AddressEntity;
 import com.lgyun.system.order.mapper.AddressMapper;
 import com.lgyun.system.order.service.IAddressService;
@@ -33,7 +33,7 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> addOrUpdateAddress(AddressDTO addressDto, Long objectId, ObjectType objectType) {
+    public R<String> addOrUpdateAddress(AddOrUpdateAddressDTO addOrUpdateAddressDto, Long objectId, ObjectType objectType) {
 
         //查询默认地址
         AddressEntity defaultAddressEntity = getOne(Wrappers.<AddressEntity>query().lambda().eq(AddressEntity::getObjectId, objectId)
@@ -41,8 +41,8 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
                 .eq(AddressEntity::getIsDefault, true));
 
         AddressEntity addressEntity;
-        if (addressDto.getAddressId() != null) {
-            addressEntity = getById(addressDto.getAddressId());
+        if (addOrUpdateAddressDto.getAddressId() != null) {
+            addressEntity = getById(addOrUpdateAddressDto.getAddressId());
             if (addressEntity == null) {
                 return R.fail("收货地址不存在");
             }
@@ -51,10 +51,10 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
                 return R.fail("收货地址不属于当前用户");
             }
 
-            if (defaultAddressEntity.getId().equals(addressDto.getAddressId())) {
-                addressDto.setIsDefault(true);
+            if (defaultAddressEntity.getId().equals(addOrUpdateAddressDto.getAddressId())) {
+                addOrUpdateAddressDto.setIsDefault(true);
             } else {
-                if (addressDto.getIsDefault()) {
+                if (addOrUpdateAddressDto.getIsDefault()) {
                     defaultAddressEntity.setIsDefault(false);
                     updateById(defaultAddressEntity);
                 }
@@ -63,10 +63,10 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
         } else {
 
             if (defaultAddressEntity == null) {
-                addressDto.setIsDefault(true);
+                addOrUpdateAddressDto.setIsDefault(true);
             }
 
-            if (defaultAddressEntity != null && addressDto.getIsDefault()) {
+            if (defaultAddressEntity != null && addOrUpdateAddressDto.getIsDefault()) {
                 defaultAddressEntity.setIsDefault(false);
                 updateById(defaultAddressEntity);
             }
@@ -76,7 +76,7 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
             addressEntity.setObjectType(objectType);
         }
 
-        BeanUtils.copyProperties(addressDto, addressEntity);
+        BeanUtils.copyProperties(addOrUpdateAddressDto, addressEntity);
         saveOrUpdate(addressEntity);
 
         return R.success("操作成功");

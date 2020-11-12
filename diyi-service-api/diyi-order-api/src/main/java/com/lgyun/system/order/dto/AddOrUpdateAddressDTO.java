@@ -16,7 +16,7 @@ import java.io.Serializable;
  * @time 16:27.
  */
 @Data
-public class AddressDTO implements Serializable {
+public class AddOrUpdateAddressDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**

@@ -9,7 +9,7 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.feign.IDictClient;
-import com.lgyun.system.order.dto.AddressDTO;
+import com.lgyun.system.order.dto.AddOrUpdateAddressDTO;
 import com.lgyun.system.order.dto.ConfirmPaymentDTO;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDTO;
 import com.lgyun.system.order.excel.InvoiceListExcel;
@@ -52,7 +52,7 @@ public class SelfHelpInvoiceMakerController {
 
     @PostMapping("/create-address")
     @ApiOperation(value = "新建或修改收货地址", notes = "新建或修改收货地址")
-    public R createAddress(@Valid @RequestBody AddressDTO addressDto, BladeUser bladeUser) {
+    public R createAddress(@Valid @RequestBody AddOrUpdateAddressDTO addOrUpdateAddressDto, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -60,7 +60,7 @@ public class SelfHelpInvoiceMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return addressService.addOrUpdateAddress(addressDto, makerEntity.getId(), ObjectType.MAKERPEOPLE);
+        return addressService.addOrUpdateAddress(addOrUpdateAddressDto, makerEntity.getId(), ObjectType.MAKERPEOPLE);
     }
 
     @GetMapping("/query-address-list")
