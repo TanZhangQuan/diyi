@@ -93,6 +93,9 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         if (null == releaseWorksheetDTO.getWorksheetFeeHigh()) {
             worksheetEntity.setWorksheetFeeHigh(new BigDecimal("0"));
         }
+        if(releaseWorksheetDTO.getUpPersonNum() != 0 && releaseWorksheetDTO.getUpPersonNum() == split.length){
+            worksheetEntity.setWorksheetState(WorksheetState.CLOSED);
+        }
         worksheetEntity.setWorksheetNo(UUID.randomUUID().toString());
         save(worksheetEntity);
         if (WorkSheetMode.BLEND.equals(releaseWorksheetDTO.getWorksheetMode()) || WorkSheetMode.DISPATCH.equals(releaseWorksheetDTO.getWorksheetMode())) {
