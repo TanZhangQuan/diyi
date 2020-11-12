@@ -52,8 +52,11 @@ INSERT INTO `sys_menu` VALUES ('1123598815738675250', '1123598815738675248', 'Ba
 INSERT INTO `sys_menu` VALUES ('1123598815738675251', '1123598815738675248', 'BaseInvoice', '四大开票信息维护', 'menu', '/base/invoice', '', '3', '1', '0', '1', '','SERVICEPROVIDER', null, NOW(), null, NOW(), '1', '0');
 INSERT INTO `sys_menu` VALUES ('1123598815738675252', '1123598815738675248', 'BaseAddress', '三大快递信息维护', 'menu', '/base/address', '', '4', '1', '0', '1', '','SERVICEPROVIDER', null, NOW(), null, NOW(), '1', '0');
 
-###权限管理13
-INSERT INTO `sys_menu` VALUES ('1123598815738675253',                 '0', 'AuthIndex', '权限管理', 'menu', '/auth/index', 'auth', '11', '1', '0', '1', '', 'SERVICEPROVIDER', null, NOW(), null, NOW(), '1', '0');
+###权限管理11
+INSERT INTO `sys_menu` VALUES ('1123598815738675253',                 '0', 'Auth', '权限管理', 'menu', '/auth', 'auth', '11', '1', '0', '1', '', 'SERVICEPROVIDER', null, NOW(), null, NOW(), '1', '0');
+INSERT INTO `sys_menu` VALUES ('1123598815738675254',                 '1123598815738675253', 'AuthIndex', '账号管理', 'menu', '/auth/index', '', '1', '1', '0', '1', '', 'SERVICEPROVIDER', null, NOW(), null, NOW(), '1', '0');
+INSERT INTO `sys_menu` VALUES ('1123598815738675255',                 '1123598815738675253', 'AuthRole', '角色管理', 'menu', '/auth/role', '', '2', '1', '0', '1', '', 'SERVICEPROVIDER', null, NOW(), null, NOW(), '1', '0');
+
 
 
 

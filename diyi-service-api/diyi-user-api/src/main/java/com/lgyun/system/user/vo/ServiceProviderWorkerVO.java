@@ -3,6 +3,7 @@ package com.lgyun.system.user.vo;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.AccountState;
+import com.lgyun.common.enumeration.PositionName;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -32,7 +33,7 @@ public class ServiceProviderWorkerVO implements Serializable {
     /**
      * 岗位
      */
-    private String positionName;
+    private PositionName positionName;
 
 
     /**
