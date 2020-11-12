@@ -3,7 +3,7 @@ package com.lgyun.system.order.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.order.entity.EnterpriseServiceProviderInvoiceCatalogsEntity;
+import com.lgyun.system.order.entity.EnterpriseProviderInvoiceCatalogsEntity;
 import com.lgyun.system.order.vo.EnterpriseServiceProviderInvoiceCatalogsVO;
 
 /**
@@ -12,7 +12,7 @@ import com.lgyun.system.order.vo.EnterpriseServiceProviderInvoiceCatalogsVO;
  * @author liangfeihu
  * @since 2020-08-11 16:00:00
  */
-public interface IEnterpriseServiceProviderInvoiceCatalogsService extends BaseService<EnterpriseServiceProviderInvoiceCatalogsEntity> {
+public interface IEnterpriseServiceProviderInvoiceCatalogsService extends BaseService<EnterpriseProviderInvoiceCatalogsEntity> {
 
     /**
      * 查询开票类目

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.mapper.EnterpriseServiceProviderInvoiceCatalogsMapper;
-import com.lgyun.system.order.entity.EnterpriseServiceProviderInvoiceCatalogsEntity;
+import com.lgyun.system.order.entity.EnterpriseProviderInvoiceCatalogsEntity;
 import com.lgyun.system.order.service.IEnterpriseServiceProviderInvoiceCatalogsService;
 
 /**
@@ -20,7 +20,7 @@ import com.lgyun.system.order.service.IEnterpriseServiceProviderInvoiceCatalogsS
 @Slf4j
 @Service
 @AllArgsConstructor
-public class EnterpriseServiceProviderInvoiceCatalogsServiceImpl extends BaseServiceImpl<EnterpriseServiceProviderInvoiceCatalogsMapper, EnterpriseServiceProviderInvoiceCatalogsEntity> implements IEnterpriseServiceProviderInvoiceCatalogsService {
+public class EnterpriseServiceProviderInvoiceCatalogsServiceImpl extends BaseServiceImpl<EnterpriseServiceProviderInvoiceCatalogsMapper, EnterpriseProviderInvoiceCatalogsEntity> implements IEnterpriseServiceProviderInvoiceCatalogsService {
 
     @Override
     public R<IPage<EnterpriseServiceProviderInvoiceCatalogsVO>> queryInvoiceCatalogsList(Long serviceProviderId, Long enterpriseId, IPage<EnterpriseServiceProviderInvoiceCatalogsVO> page) {

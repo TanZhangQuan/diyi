@@ -1,7 +1,7 @@
 package com.lgyun.system.order.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.system.order.entity.EnterpriseServiceProviderInvoiceCatalogsEntity;
+import com.lgyun.system.order.entity.EnterpriseProviderInvoiceCatalogsEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lgyun.system.order.vo.EnterpriseServiceProviderInvoiceCatalogsVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -15,7 +15,7 @@ import java.util.List;
  * @since 2020-08-11 16:00:00
  */
 @Mapper
-public interface EnterpriseServiceProviderInvoiceCatalogsMapper extends BaseMapper<EnterpriseServiceProviderInvoiceCatalogsEntity> {
+public interface EnterpriseServiceProviderInvoiceCatalogsMapper extends BaseMapper<EnterpriseProviderInvoiceCatalogsEntity> {
 
     /**
      * 查询开票类目
