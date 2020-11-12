@@ -272,7 +272,7 @@ public class InvoiceTaxServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return payEnterpriseService.getServiceLumpSumInvoice(serviceProviderWorkerEntity.getServiceProviderId(), enterpriseName, startTime, endTime, companyInvoiceState, Condition.getPage(query.setDescs("tmp.create_time")));
+        return payEnterpriseService.getServiceLumpSumInvoice(serviceProviderWorkerEntity.getServiceProviderId(), enterpriseName, startTime, endTime, companyInvoiceState, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-total-opened-invoice-detail")
@@ -284,23 +284,23 @@ public class InvoiceTaxServiceProviderController {
             return result;
         }
 
-        return payEnterpriseService.queryOpenedTotalInvoiceDetail(invoicePrintId);
+        return payEnterpriseService.queryTotalInvoiceListEnterpriseInvoiceDetails(invoicePrintId);
     }
 
 
 
 
-    @GetMapping("/query-total-invoice-detail")
-    @ApiOperation(value = "服务商查询未开总包发票详情", notes = "服务商查询未开总包发票详情")
-    public R queryTotalInvoiceDetail(BladeUser bladeUser, Long payEnterpriseId) {
-        //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return payEnterpriseService.getServiceLumpSumInvoiceDetails(payEnterpriseId);
-    }
+//    @GetMapping("/query-total-invoice-detail")
+//    @ApiOperation(value = "服务商查询未开总包发票详情", notes = "服务商查询未开总包发票详情")
+//    public R queryTotalInvoiceDetail(BladeUser bladeUser, Long payEnterpriseId) {
+//        //查询当前服务商员工
+//        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
+//
+//        return payEnterpriseService.getServiceLumpSumInvoiceDetails(payEnterpriseId);
+//    }
 
     @GetMapping("/query-total-merge-invoice")
     @ApiOperation(value = "服务商总包合并开票", notes = "服务商总包合并开票")
@@ -323,21 +323,21 @@ public class InvoiceTaxServiceProviderController {
             return result;
         }
 
-        return payEnterpriseService.queryTotalApplyInvoice(invoiceApplicationId);
+        return payEnterpriseService.queryTotalInvoiceListEnterpriseApplyDetails(invoiceApplicationId);
     }
 
-    @PostMapping("/create-total-invoice")
-    @ApiOperation(value = "总包开票", notes = "总包开票")
-    public R createTotalInvoice(@Valid @RequestBody LumpSumInvoiceDTO lumpSumInvoiceDto, BladeUser bladeUser) {
-        //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
-
-        return payEnterpriseService.saveServiceLumpSumInvoice(serviceProviderWorkerEntity.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),lumpSumInvoiceDto.getInvoiceTypeNo(),lumpSumInvoiceDto.getInvoiceSerialNo(),lumpSumInvoiceDto.getInvoiceCategory());
-    }
+//    @PostMapping("/create-total-invoice")
+//    @ApiOperation(value = "总包开票", notes = "总包开票")
+//    public R createTotalInvoice(@Valid @RequestBody LumpSumInvoiceDTO lumpSumInvoiceDto, BladeUser bladeUser) {
+//        //查询当前服务商员工
+//        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
+//        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+//
+//        return payEnterpriseService.saveServiceLumpSumInvoice(serviceProviderWorkerEntity.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),lumpSumInvoiceDto.getInvoiceTypeNo(),lumpSumInvoiceDto.getInvoiceSerialNo(),lumpSumInvoiceDto.getInvoiceCategory());
+//    }
 
 
     @PostMapping("/create-total-merge-invoice")
@@ -350,7 +350,7 @@ public class InvoiceTaxServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return payEnterpriseService.saveServiceLumpSumMergeInvoice(serviceProviderWorkerEntity.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseIds(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),lumpSumInvoiceDto.getInvoiceTypeNo(),lumpSumInvoiceDto.getInvoiceSerialNo(),lumpSumInvoiceDto.getInvoiceCategory());
+        return payEnterpriseService.saveServiceLumpSumMergeInvoice(serviceProviderWorkerEntity.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseIds(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),lumpSumInvoiceDto.getInvoiceTypeNo(),lumpSumInvoiceDto.getInvoiceSerialNo(),lumpSumInvoiceDto.getInvoiceCategory(),lumpSumInvoiceDto.getInvoiceMode(),lumpSumInvoiceDto.getPartInvoiceAmount());
     }
 
 
@@ -364,7 +364,7 @@ public class InvoiceTaxServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return payEnterpriseService.createTotalApplyInvoice(serviceProviderWorkerEntity.getServiceProviderId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getApplicationId(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),lumpSumInvoiceDto.getInvoiceTypeNo(),lumpSumInvoiceDto.getInvoiceSerialNo(),lumpSumInvoiceDto.getInvoiceCategory());
+        return payEnterpriseService.createTotalApplyInvoice(serviceProviderWorkerEntity.getServiceProviderId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getApplicationId(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),lumpSumInvoiceDto.getInvoiceTypeNo(),lumpSumInvoiceDto.getInvoiceSerialNo(),lumpSumInvoiceDto.getInvoiceCategory(),lumpSumInvoiceDto.getInvoiceMode(),lumpSumInvoiceDto.getPartInvoiceAmount());
     }
 
 

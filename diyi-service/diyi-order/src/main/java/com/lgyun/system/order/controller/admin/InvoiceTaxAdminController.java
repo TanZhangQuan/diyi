@@ -264,20 +264,20 @@ public class InvoiceTaxAdminController {
             return result;
         }
 
-        return payEnterpriseService.queryOpenedTotalInvoiceDetail(invoicePrintId);
+        return payEnterpriseService.queryTotalInvoiceListEnterpriseInvoiceDetails(invoicePrintId);
     }
 
-    @GetMapping("/query-total-invoice-detail")
-    @ApiOperation(value = "平台查询未开总包发票详情", notes = "平台查询未开总包发票详情")
-    public R queryTotalInvoiceDetail(BladeUser bladeUser, Long payEnterpriseId) {
-        //查询当前管理员
-        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return payEnterpriseService.getServiceLumpSumInvoiceDetails(payEnterpriseId);
-    }
+//    @GetMapping("/query-total-invoice-detail")
+//    @ApiOperation(value = "平台查询未开总包发票详情", notes = "平台查询未开总包发票详情")
+//    public R queryTotalInvoiceDetail(BladeUser bladeUser, Long payEnterpriseId) {
+//        //查询当前管理员
+//        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
+//
+//        return payEnterpriseService.getServiceLumpSumInvoiceDetails(payEnterpriseId);
+//    }
 
     @GetMapping("/query-total-merge-invoice")
     @ApiOperation(value = "平台总包合并开票", notes = "平台总包合并开票")
@@ -300,20 +300,20 @@ public class InvoiceTaxAdminController {
             return result;
         }
 
-        return payEnterpriseService.queryTotalApplyInvoice(invoiceApplicationId);
+        return payEnterpriseService.queryTotalInvoiceListEnterpriseApplyDetails(invoiceApplicationId);
     }
 
-    @PostMapping("/create-total-invoice")
-    @ApiOperation(value = "总包开票", notes = "总包开票")
-    public R createTotalInvoice(@Valid @RequestBody LumpSumInvoiceDTO lumpSumInvoiceDto, BladeUser bladeUser) {
-        //查询当前管理员
-        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return payEnterpriseService.saveServiceLumpSumInvoice(lumpSumInvoiceDto.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),lumpSumInvoiceDto.getInvoiceTypeNo(),lumpSumInvoiceDto.getInvoiceSerialNo(),lumpSumInvoiceDto.getInvoiceCategory());
-    }
+//    @PostMapping("/create-total-invoice")
+//    @ApiOperation(value = "总包开票", notes = "总包开票")
+//    public R createTotalInvoice(@Valid @RequestBody LumpSumInvoiceDTO lumpSumInvoiceDto, BladeUser bladeUser) {
+//        //查询当前管理员
+//        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
+//
+//        return payEnterpriseService.saveServiceLumpSumInvoice(lumpSumInvoiceDto.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),lumpSumInvoiceDto.getInvoiceTypeNo(),lumpSumInvoiceDto.getInvoiceSerialNo(),lumpSumInvoiceDto.getInvoiceCategory());
+//    }
 
 
     @PostMapping("/create-total-merge-invoice")
@@ -324,7 +324,7 @@ public class InvoiceTaxAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        return payEnterpriseService.saveServiceLumpSumMergeInvoice(lumpSumInvoiceDto.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseIds(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),lumpSumInvoiceDto.getInvoiceTypeNo(),lumpSumInvoiceDto.getInvoiceSerialNo(),lumpSumInvoiceDto.getInvoiceCategory());
+        return payEnterpriseService.saveServiceLumpSumMergeInvoice(lumpSumInvoiceDto.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseIds(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),lumpSumInvoiceDto.getInvoiceTypeNo(),lumpSumInvoiceDto.getInvoiceSerialNo(),lumpSumInvoiceDto.getInvoiceCategory(),lumpSumInvoiceDto.getInvoiceMode(),lumpSumInvoiceDto.getPartInvoiceAmount());
     }
 
 
@@ -337,7 +337,18 @@ public class InvoiceTaxAdminController {
             return result;
         }
 
-        return payEnterpriseService.createTotalApplyInvoice(lumpSumInvoiceDto.getServiceProviderId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getApplicationId(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),lumpSumInvoiceDto.getInvoiceTypeNo(),lumpSumInvoiceDto.getInvoiceSerialNo(),lumpSumInvoiceDto.getInvoiceCategory());
+        return payEnterpriseService.createTotalApplyInvoice(lumpSumInvoiceDto.getServiceProviderId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getApplicationId(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),lumpSumInvoiceDto.getInvoiceTypeNo(),lumpSumInvoiceDto.getInvoiceSerialNo(),lumpSumInvoiceDto.getInvoiceCategory(),lumpSumInvoiceDto.getInvoiceMode(),lumpSumInvoiceDto.getPartInvoiceAmount());
+    }
+
+    @PostMapping("/update-total-invoice")
+    @ApiOperation(value = "服务商根据总包开票id修改总包发票", notes = "服务商根据总包开票id修改总包发票")
+    public R updateTotalInvoice(@Valid @RequestBody LumpInvoiceDTO lumpInvoiceDTO, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        return payEnterpriseService.updateTotalInvoice(lumpInvoiceDTO);
     }
 
 

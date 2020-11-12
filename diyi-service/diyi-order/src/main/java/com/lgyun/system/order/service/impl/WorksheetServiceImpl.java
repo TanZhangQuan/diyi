@@ -50,6 +50,9 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         if (null == releaseWorksheetDTO.getEnterpriseId()) {
             return R.fail("请选择商户");
         }
+        if(!(releaseWorksheetDTO.getWorksheetFeeHigh().compareTo(BigDecimal.ZERO) == 0) && releaseWorksheetDTO.getWorksheetFeeHigh().compareTo(releaseWorksheetDTO.getWorksheetFeeLow()) < 1){
+            return R.fail("最高费用不能比最低费用低");
+        }
         if (null == releaseWorksheetDTO.getMakerType()) {
             return R.fail("请选择创客类型");
         }

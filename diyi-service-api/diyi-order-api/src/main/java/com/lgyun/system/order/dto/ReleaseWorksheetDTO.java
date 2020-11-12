@@ -5,6 +5,7 @@ import com.lgyun.common.enumeration.WorkSheetMode;
 import com.lgyun.common.enumeration.WorkSheetType;
 import lombok.Data;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -34,22 +35,26 @@ public class ReleaseWorksheetDTO implements Serializable {
     /**
      * 上限人数
      */
-    private Integer upPersonNum;
+    @Min(0)
+    private Integer upPersonNum = 0;
 
     /**
      * 工作天数
      */
-    private Integer workDays;
+    @Min(0)
+    private Integer workDays = 0;
 
     /**
      * 最低费用
      */
-    private BigDecimal worksheetFeeLow;
+    @Min(0)
+    private BigDecimal worksheetFeeLow = BigDecimal.ZERO;
 
     /**
      * 最高费用
      */
-    private BigDecimal worksheetFeeHigh;
+    @Min(0)
+    private BigDecimal worksheetFeeHigh = BigDecimal.ZERO;
 
     /**
      * 类型，总包+分包，众包/众采

@@ -1378,6 +1378,7 @@ CREATE TABLE `diyi_platform_invoice` (
   `application_id` bigint(50) NOT NULL COMMENT '总包开票申请ID',
   `invoice_print_date` datetime NOT NULL COMMENT '开票日期',
   `invoice_total_amount` decimal(12,2) NOT NULL COMMENT '开票总额',
+   `opened_invoice_total_amount` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '已开总额',
   `invoice_numbers` int(11) NOT NULL COMMENT '发票张数',
   `invoice_print_person` varchar(50) NOT NULL COMMENT '开票人',
   `express_sheet_no` varchar(50) NOT NULL COMMENT '快递单号',

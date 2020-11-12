@@ -1,15 +1,10 @@
 package com.lgyun.system.order.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModelProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.lgyun.core.mp.base.BaseEntity;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
@@ -43,6 +38,11 @@ public class PlatformInvoiceEntity extends BaseEntity {
      * 开票总额
      */
     private BigDecimal invoiceTotalAmount;
+
+    /**
+     * 已开票总额
+     */
+    private BigDecimal openedInvoiceTotalAmount;
 
     /**
      * 发票张数
