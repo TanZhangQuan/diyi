@@ -34,7 +34,6 @@ public class AddServiceProviderDTO implements Serializable {
     /**
      * 法人身份证
      */
-    @NotBlank(message = "请输入法人身份证")
     private String legalPersonIdcard;
 
     /**
