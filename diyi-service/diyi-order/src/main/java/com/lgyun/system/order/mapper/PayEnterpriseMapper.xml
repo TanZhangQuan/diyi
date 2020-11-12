@@ -289,7 +289,7 @@
         <result property="invoiceDetailId" column="invoice_detail_id"/>
         <result property="payToPlatformAmount" column="pay_to_platform_amount"/>
         <result property="invoiceCatalogName" column="invoice_catalog_name"/>
-        <result property="enterpriseName" column="enterprise_bame"/>
+        <result property="enterpriseName" column="enterprise_name"/>
         <result property="invoiceTaxNo" column="invoice_tax_no"/>
         <result property="invoiceEnterpriseName" column="invoice_enterprise_name"/>
         <result property="invoiceAddressPhone" column="invoice_address_phone"/>
@@ -329,7 +329,7 @@
         <result property="payEnterpriseId" column="pay_enterprise_id"/>
         <result property="enterpriseId" column="enterprise_id"/>
         <result property="payToPlatformAmount" column="pay_to_platform_amount"/>
-        <result property="enterpriseName" column="enterprise_bame"/>
+        <result property="enterpriseName" column="enterprise_name"/>
         <result property="invoiceTaxNo" column="invoice_tax_no"/>
         <result property="invoiceAddressPhone" column="invoice_address_phone"/>
         <result property="invoiceBankNameAccount" column="invoice_bank_name_account"/>
@@ -373,7 +373,7 @@
     <resultMap id="partnerServiceProviderListVO" type="com.lgyun.system.user.vo.PartnerServiceProviderListVO">
         <result column="service_provider_id" property="serviceProviderId"/>
         <result column="service_provider_name" property="serviceProviderName"/>
-        <result column="amount" property="amount"/>
+        <result column="total_money" property="amount"/>
         <result column="create_time" property="createTime"/>
     </resultMap>
 
@@ -390,6 +390,7 @@
         <result column="apply_state" property="applyState"/>
         <result column="company_invoice_state" property="companyInvoiceState"/>
         <result column="application_state" property="applicationState"/>
+        <result column="pay_to_platform_amount" property="payToPlatformAmount"/>
     </resultMap>
 
 
@@ -402,7 +403,7 @@
     <resultMap id="enterpriseServicePayListVOMap" type="com.lgyun.system.order.vo.EnterpriseServicePayListVO">
         <result column="pay_enterprise_id" property="payEnterpriseId"/>
         <result column="service_provider_name" property="serviceProviderName"/>
-        <result column="createTime" property="createTime"/>
+        <result column="create_time" property="createTime"/>
         <result column="charge_list_url" property="chargeListUrl"/>
     </resultMap>
 
@@ -462,6 +463,88 @@
         <result property="makerNum" column="maker_num"/>
         <result property="payMemo" column="pay_memo"/>
         <result property="enterprisePayReceiptUrls" column="enterprise_pay_receipt_urls"/>
+    </resultMap>
+
+
+    <resultMap type="com.lgyun.system.order.vo.EnterpriseApplyDetailVO" id="enterpriseApplyDetailVoMap">
+        <result property="invoiceApplicationId" column="invoice_application_id"/>
+        <result property="payEnterpriseId" column="pay_enterprise_id"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="chargeListUrl" column="charge_list_url"/>
+        <result property="enterprisePayReceiptUrl" column="enterprise_pay_receipt_url"/>
+        <result property="worksheetId" column="worksheet_id"/>
+        <result property="acceptPaysheetUrl" column="accept_paysheet_url"/>
+        <result property="applyState" column="apply_state"/>
+        <result property="applicationDesc" column="application_desc"/>
+        <result property="invoiceCatalogName" column="invoice_catalog_name"/>
+        <result property="payToPlatformAmount" column="pay_to_platform_amount"/>
+        <result property="serviceProviderName" column="service_provider_name"/>
+        <result property="applicationState" column="application_state"/>
+        <result property="createTime" column="create_time"/>
+        <result property="invoiceEnterpriseName" column="invoice_enterprise_name"/>
+        <result property="invoiceTaxNo" column="invoice_tax_no"/>
+        <result property="invoiceAddressPhone" column="invoice_address_phone"/>
+        <result property="invoiceBankNameAccount" column="invoice_bank_name_account"/>
+        <result property="addressName" column="address_name"/>
+        <result property="addressPhone" column="address_phone"/>
+        <result property="area" column="area"/>
+        <result property="city" column="city"/>
+        <result property="province" column="province"/>
+        <result property="detailedAddress" column="detailed_address"/>
+    </resultMap>
+
+
+     <resultMap type="com.lgyun.system.order.vo.EnterpriseInvoiceDetailVO" id="enterpriseInvoiceDetailVoMap">
+        <result property="invoicePrintId" column="invoice_print_id"/>
+        <result property="payEnterpriseId" column="pay_enterprise_id"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="chargeListUrl" column="charge_list_url"/>
+        <result property="enterprisePayReceiptUrl" column="enterprise_pay_receipt_url"/>
+        <result property="worksheetId" column="worksheet_id"/>
+        <result property="acceptPaysheetUrl" column="accept_paysheet_url"/>
+        <result property="applyState" column="apply_state"/>
+        <result property="invoiceDesc" column="invoice_desc"/>
+        <result property="invoiceCategory" column="invoice_category"/>
+        <result property="payToPlatformAmount" column="pay_to_platform_amount"/>
+        <result property="serviceProviderName" column="service_provider_name"/>
+        <result property="companyInvoiceState" column="company_invoice_state"/>
+        <result property="createTime" column="create_time"/>
+        <result property="invoiceEnterpriseName" column="invoice_enterprise_name"/>
+        <result property="invoiceTaxNo" column="invoice_tax_no"/>
+        <result property="invoiceAddressPhone" column="invoice_address_phone"/>
+        <result property="invoiceBankNameAccount" column="invoice_bank_name_account"/>
+        <result property="addressName" column="address_name"/>
+        <result property="addressPhone" column="address_phone"/>
+        <result property="area" column="area"/>
+        <result property="city" column="city"/>
+        <result property="province" column="province"/>
+        <result property="detailedAddress" column="detailed_address"/>
+         <result property="companyInvoiceUrl" column="company_invoice_url"/>
+        <result property="expressSheetNo" column="express_sheet_no"/>
+        <result property="expressCompanyName" column="express_company_name"/>
+    </resultMap>
+
+     <resultMap type="com.lgyun.system.order.vo.TotalMergeInvoiceVO" id="totalMergeInvoiceVoMap">
+        <result property="payEnterpriseId" column="pay_enterprise_id"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="chargeListUrl" column="charge_list_url"/>
+        <result property="enterprisePayReceiptUrl" column="enterprise_pay_receipt_url"/>
+        <result property="worksheetId" column="worksheet_id"/>
+        <result property="acceptPaysheetUrl" column="accept_paysheet_url"/>
+        <result property="payToPlatformAmount" column="pay_to_platform_amount"/>
+        <result property="serviceProviderName" column="service_provider_name"/>
+        <result property="companyInvoiceState" column="company_invoice_state"/>
+        <result property="createTime" column="create_time"/>
+        <result property="invoiceEnterpriseName" column="invoice_enterprise_name"/>
+        <result property="invoiceTaxNo" column="invoice_tax_no"/>
+        <result property="invoiceAddressPhone" column="invoice_address_phone"/>
+        <result property="invoiceBankNameAccount" column="invoice_bank_name_account"/>
+        <result property="addressName" column="address_name"/>
+        <result property="addressPhone" column="address_phone"/>
+        <result property="area" column="area"/>
+        <result property="city" column="city"/>
+        <result property="province" column="province"/>
+        <result property="detailedAddress" column="detailed_address"/>
     </resultMap>
 
     <select id="getEnterpriseAll" resultMap="InvoiceEnterpriseVOMap">
@@ -567,7 +650,7 @@
     </select>
 
     <select id="findEnterpriseSubcontractSummary" resultMap="EnterpriseSubcontractSummaryMap">
-        SELECT pe.id AS pay_enterprise_id, mt.id AS maker_total_invoice_id, sp.id AS service_provider_id, mt.invoice_serial_no, mt.company_invoice_url, mt.maker_tax_url, pe.subcontracting_invoice_state, sp.service_provider_name, pe.invoice_print_date, e.enterprise_name FROM diyi_pay_enterprise pe INNER JOIN diyi_maker_total_invoice mt ON mt.pay_enterprise_id = pe.id INNER JOIN diyi_service_provider sp ON sp.id = pe.service_provider_id INNER JOIN diyi_enterprise e ON pe.enterprise_id = e.id WHERE pe.is_deleted = 0 AND mt.is_deleted = 0 AND sp.is_deleted = 0 AND pe.subcontracting_invoice_state = 'OPENED' and pe.enterprise_id = #{param1}
+        SELECT pe.id AS pay_enterprise_id, mt.id AS maker_total_invoice_id, sp.id AS service_provider_id, mt.invoice_serial_no, mt.company_invoice_url, mt.maker_tax_url, pe.subcontracting_invoice_state, sp.service_provider_name, mt.create_time as invoice_print_date, e.enterprise_name FROM diyi_pay_enterprise pe INNER JOIN diyi_maker_total_invoice mt ON mt.pay_enterprise_id = pe.id INNER JOIN diyi_service_provider sp ON sp.id = pe.service_provider_id INNER JOIN diyi_enterprise e ON pe.enterprise_id = e.id WHERE pe.is_deleted = 0 AND mt.is_deleted = 0 AND sp.is_deleted = 0 AND pe.subcontracting_invoice_state = 'OPENED' and pe.enterprise_id = #{param1}
         <if test="param2 != null and param2 != ''">
             AND sp.service_provider_name LIKE concat('%', #{param2}, '%')
         </if>
@@ -592,7 +675,7 @@
     <select id="findDetailSummary" resultMap="EnterpriseSubcontractSummaryDetailMap">
         SELECT pe.id AS pay_enterprise_id, mt.id AS maker_total_invoice_id, sp.id AS service_provider_id, mt.invoice_serial_no, mt.company_invoice_url,
         mt.maker_tax_url, pe.subcontracting_invoice_state, sp.service_provider_name, pe.invoice_print_date, e.enterprise_name, pe.charge_list_url, pe.worksheet_id,
-        mt.company_voice_upload_datetime, ap.accept_paysheet_url FROM diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON pe.enterprise_id = e.id
+        mt.company_voice_upload_datetime, ap.accept_paysheet_url,ap.id as accept_paysheet_id FROM diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON pe.enterprise_id = e.id
         INNER JOIN diyi_maker_total_invoice mt ON mt.pay_enterprise_id = pe.id INNER JOIN diyi_service_provider sp ON sp.id = pe.service_provider_id
         LEFT JOIN diyi_accept_paysheet ap ON ap.pay_enterprise_id = pe.id AND ap.accept_paysheet_type = 'MANY'
          where pe.is_deleted= 0 and mt.is_deleted = 0 and sp.is_deleted = 0 and mt.id = #{param1}
@@ -601,7 +684,7 @@
     <select id="findDetailSubcontractPortal" resultMap="EnterpriseSubcontractPortalDetailMap">
         SELECT pe.id AS pay_enterprise_id, sp.id AS service_provider_id, pm.id AS pay_maker_id, mi.id AS maker_invoice_id, mtr.id AS maker_tax_record_id,
         mi.voice_serial_no, mi.maker_voice_url, mtr.maker_tax_url, pe.company_invoice_state, sp.service_provider_name, pe.invoice_print_date, e.enterprise_name,
-        pe.charge_list_url, pe.worksheet_id, ap.accept_paysheet_url FROM diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON e.id = pe.enterprise_id
+        pe.charge_list_url, pe.worksheet_id, ap.accept_paysheet_url,ap.id as accept_paysheet_id FROM diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON e.id = pe.enterprise_id
         INNER JOIN diyi_pay_maker pm ON pm.pay_enterprise_id = pe.id INNER JOIN diyi_maker_invoice mi ON mi.pay_maker_id = pm.id INNER JOIN diyi_service_provider sp
         ON pe.service_provider_id = sp.id LEFT JOIN diyi_accept_paysheet ap ON ap.pay_enterprise_id = pe.id AND ap.accept_paysheet_type = 'MANY'
         LEFT JOIN diyi_maker_tax_record mtr ON pm.id = mtr.pay_maker_id AND mtr.is_deleted = 0 WHERE pe.is_deleted = 0 AND pm.is_deleted = 0 AND mi.is_deleted = 0
@@ -864,7 +947,7 @@
 
     <!--查询相关局匹配的服务商基本信息及交易金额-->
     <select id="transactionByBureauServiceProviderInfo" resultMap="transactionByBureauServiceProviderInfoVO">
-        SELECT t1.id,t1.service_provider_name,t2.total_money,t3.bureau_service_provider_status,t3.create_time,t3.id as 'bureau_service_provider_id'
+        SELECT t1.id,t1.service_provider_name,t2.total_money,t3.bureau_service_provider_status,t3.create_time,t3.id as bureau_service_provider_id
         FROM diyi_service_provider t1 JOIN (
         (SELECT (IFNULL(total.all_pay,0) + IFNULL(many.all_pay,0)) as 'total_money',
         total.service_provider_id FROM
@@ -982,7 +1065,7 @@
     <select id="getPartnerAllServiceProvider" resultMap="partnerServiceProviderListVO">
         SELECT t1.id as service_provider_id,t1.service_provider_name,t2.total_money,t1.create_time
         FROM diyi_service_provider t1 JOIN (
-        (SELECT (IFNULL(total.all_pay,0) + IFNULL(many.all_pay,0)) as 'total_money',
+        (SELECT (IFNULL(total.all_pay,0) + IFNULL(many.all_pay,0)) as total_money,
         total.service_provider_id FROM
         (SELECT IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay,
         service_provider_id
@@ -998,7 +1081,7 @@
         GROUP BY service_provider_id) many
         ON total.service_provider_id = many.service_provider_id)
         UNION
-        (SELECT (IFNULL(total.all_pay,0) + IFNULL(many.all_pay,0)) as 'total_money',
+        (SELECT (IFNULL(total.all_pay,0) + IFNULL(many.all_pay,0)) as total_money,
         many.service_provider_id FROM
         (SELECT IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay,
         service_provider_id
@@ -1017,16 +1100,8 @@
     </select>
 
     <select id="queryTotalInvoiceListEnterprise" resultMap="totalInvoiceListEnterVOMap">
-        SELECT * FROM ( SELECT a.id AS invoice_application_pay_list_id, b.id AS application_id, 0 AS platform_invoice_pay_list_id, 0 AS invoice_print_id,
-        d.enterprise_name, e.service_provider_name, b.application_state, 0 AS company_invoice_state, b.create_time, 1 AS apply_state
-        FROM diyi_INVOICE_APPLICATION_PAY_LIST a INNER JOIN diyi_INVOICE_APPLICATION b ON b.id = a.application_id INNER JOIN diyi_pay_enterprise c
-        ON c.id = a.pay_enterprise_id INNER JOIN diyi_enterprise d ON d.id = c.enterprise_id INNER JOIN diyi_service_provider e ON e.id = c.service_provider_id
-        WHERE d.id = #{param1} AND b.application_state IN ('APPLYING', 'ISSUEDINFULL', 'PARTIALLYISSUED' ) and c.audit_state = 'APPROVED' GROUP BY b.create_time UNION ALL
-        SELECT 0 AS invoice_application_pay_list_id, 0 AS invoice_application_id, a.id AS platform_invoice_pay_list_id, b.id AS invoice_print_id, d.enterprise_name,
-        e.service_provider_name, 0 AS application_state, c.company_invoice_state, b.create_time, 0 AS apply_state FROM diyi_platform_invoice_pay_list a
-        INNER JOIN diyi_platform_invoice b ON a.invoice_print_id = b.id INNER JOIN diyi_pay_enterprise c ON c.id = a.pay_enterprise_id INNER JOIN diyi_enterprise d
-        ON d.id = c.enterprise_id INNER JOIN diyi_service_provider e ON e.id = c.service_provider_id WHERE d.id = #{param1} and c.company_invoice_state = 'OPENED' and c.audit_state = 'APPROVED'
-        GROUP BY b.create_time ) AS tmp WHERE 1 = 1
+        SELECT * FROM ( SELECT a.id AS invoice_application_pay_list_id, b.id AS application_id, 0 AS platform_invoice_pay_list_id, 0 AS invoice_print_id, d.enterprise_name, e.service_provider_name, b.application_state, 0 AS company_invoice_state, b.create_time, 1 AS apply_state, ( SELECT sum(pay_to_platform_amount) FROM diyi_invoice_application t1 INNER JOIN diyi_invoice_application_pay_list t2 ON t1.id = t2.application_id INNER JOIN diyi_pay_enterprise t3 ON t3.id = t2.pay_enterprise_id WHERE t1.id = b.id ) AS pay_to_platform_amount FROM diyi_INVOICE_APPLICATION_PAY_LIST a INNER JOIN diyi_INVOICE_APPLICATION b ON b.id = a.application_id INNER JOIN diyi_pay_enterprise c ON c.id = a.pay_enterprise_id INNER JOIN diyi_enterprise d ON d.id = c.enterprise_id INNER JOIN diyi_service_provider e ON e.id = c.service_provider_id WHERE d.id = #{param1}
+            AND b.application_state IN ( 'APPLYING', 'ISSUEDINFULL', 'PARTIALLYISSUED' ) AND c.audit_state = 'APPROVED' UNION ALL SELECT 0 AS invoice_application_pay_list_id, 0 AS invoice_application_id, a.id AS platform_invoice_pay_list_id, b.id AS invoice_print_id, d.enterprise_name, e.service_provider_name, 0 AS application_state, c.company_invoice_state, b.create_time, 0 AS apply_state, ( SELECT sum(pay_to_platform_amount) FROM diyi_platform_invoice t1 INNER JOIN diyi_platform_invoice_pay_list t2 ON t1.id = t2.invoice_print_id INNER JOIN diyi_pay_enterprise t3 ON t3.id = t2.pay_enterprise_id WHERE t1.id = b.id ) AS pay_to_platform_amount FROM diyi_platform_invoice_pay_list a INNER JOIN diyi_platform_invoice b ON a.invoice_print_id = b.id INNER JOIN diyi_pay_enterprise c ON c.id = a.pay_enterprise_id INNER JOIN diyi_enterprise d ON d.id = c.enterprise_id INNER JOIN diyi_service_provider e ON e.id = c.service_provider_id WHERE d.id = #{param1} AND c.company_invoice_state = 'OPENED' AND c.audit_state = 'APPROVED' ) AS tmp WHERE 1 = 1
 <!--        <if test="param2 !=null and param2 != ''">-->
 <!--             AND enterprise_name like concat('%', #{param2}, '%')-->
 <!--        </if>-->
@@ -1108,7 +1183,7 @@
     </select>
 
     <select id="getPayMakerLists" resultMap="payMakerListsVO">
-        SELECT t1.id AS pay_maker_id, t2.id AS maker_id, t2. NAME, t2.idcard_no, t1.maker_net_income, t1.maker_tax_fee, t1.audit_fee, t1.pay_fee, t1.total_fee, t1.service_rate, mi.maker_voice_url, mt.maker_tax_url FROM diyi_pay_maker t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id LEFT JOIN diyi_maker_invoice mi ON mi.pay_maker_id = t1.id LEFT JOIN diyi_maker_tax_record mt ON mt.pay_maker_id = t1.id AND t2.is_deleted = 0 WHERE t1.is_deleted = 0 AND t1.pay_enterprise_id in (#{param1})
+        SELECT t1.id AS pay_maker_id, t2.id AS maker_id, t2.name, t2.idcard_no, t1.maker_net_income, t1.maker_tax_fee, t1.audit_fee, t1.pay_fee, t1.total_fee, t1.service_rate, mi.maker_voice_url, mt.maker_tax_url FROM diyi_pay_maker t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id LEFT JOIN diyi_maker_invoice mi ON mi.pay_maker_id = t1.id LEFT JOIN diyi_maker_tax_record mt ON mt.pay_maker_id = t1.id AND t2.is_deleted = 0 WHERE t1.is_deleted = 0 AND t1.pay_enterprise_id in (#{param1})
     </select>
 
     <select id="queryPayEnterpriseDetail" resultMap="payEnterpriseDetailVO">
@@ -1128,4 +1203,18 @@
         LEFT JOIN diyi_worksheet t3 ON t1.worksheet_id = t3.id AND t3.is_deleted = 0 WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.id = #{param1}
     </select>
 
+
+
+    <select id="queryTotalInvoiceListEnterpriseApplyDetails" resultMap="enterpriseApplyDetailVoMap">
+        SELECT t1.id AS invoice_application_id, t3.id AS pay_enterprise_id, t4.enterprise_name, t3.charge_list_url, ( SELECT GROUP_CONCAT( per.enterprise_pay_receipt_url ) FROM diyi_pay_enterprise_receipt per WHERE t3.id = per.pay_enterprise_id ) AS enterprise_pay_receipt_url, t3.worksheet_id, ( SELECT GROUP_CONCAT(ap.accept_paysheet_url) FROM diyi_accept_paysheet ap WHERE accept_paysheet_type = 'MANY' AND ap.pay_enterprise_id = t3.id ) AS accept_paysheet_url, 1 AS apply_state, t1.application_desc, ( SELECT invoice_catalog_name FROM diyi_enterprise_service_provider_invoice_catalogs esp WHERE t1.invoice_catalog_id = esp.id ) AS invoice_catalog_name, t3.pay_to_platform_amount, t5.service_provider_name, t1.application_state, t1.create_time, t4.invoice_enterprise_name, t4.invoice_tax_no, t4.invoice_address_phone, t4.invoice_bank_name_account, t6.address_name, t6.address_phone, t6.area, t6.city, t6.province, t6.detailed_address FROM diyi_invoice_application t1 INNER JOIN diyi_invoice_application_pay_list t2 ON t2.application_id = t1.id INNER JOIN diyi_pay_enterprise t3 ON t3.id = t2.pay_enterprise_id INNER JOIN diyi_enterprise t4 ON t4.id = t3.enterprise_id INNER JOIN diyi_service_provider t5 ON t5.id = t3.service_provider_id INNER JOIN diyi_address t6 ON t6.id = t4.id AND t6.object_type = 'ENTERPRISEPEOPLE' AND t6.is_default = 1 AND t6.is_deleted = 0 WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t4.is_deleted = 0 AND t5.is_deleted = 0 and t1.id = #{param1}
+    </select>
+
+    <select id="queryTotalInvoiceListEnterpriseInvoiceDetails" resultMap="enterpriseInvoiceDetailVoMap">
+        SELECT t1.id AS invoice_print_id, t3.id AS pay_enterprise_id, t4.enterprise_name, t3.charge_list_url, ( SELECT GROUP_CONCAT( per.enterprise_pay_receipt_url ) FROM diyi_pay_enterprise_receipt per WHERE t3.id = per.pay_enterprise_id ) AS enterprise_pay_receipt_url, t3.worksheet_id, ( SELECT GROUP_CONCAT(ap.accept_paysheet_url) FROM diyi_accept_paysheet ap WHERE accept_paysheet_type = 'MANY' AND ap.pay_enterprise_id = t3.id ) AS accept_paysheet_url, ( IF ( t1.application_id IS NULL, 0, 1 )) AS apply_state, t1.invoice_desc, ( SELECT invoice_category FROM diyi_platform_invoice_list esp WHERE t1.id = esp.invoice_print_id ) AS invoice_category, t3.pay_to_platform_amount, t5.service_provider_name, t3.company_invoice_state, t1.create_time, t4.invoice_enterprise_name, t4.invoice_tax_no, t4.invoice_address_phone, t4.invoice_bank_name_account, t6.address_name, t6.address_phone, t6.area, t6.city, t6.province, t6.detailed_address, ( SELECT GROUP_CONCAT(company_invoice_url) FROM diyi_platform_invoice_list pli WHERE pli.invoice_print_id = t1.id ) AS company_invoice_url, t1.express_sheet_no, t1.express_company_name FROM diyi_platform_invoice t1 INNER JOIN diyi_platform_invoice_pay_list t2 ON t1.id = t2.invoice_print_id INNER JOIN diyi_pay_enterprise t3 ON t3.id = t2.pay_enterprise_id INNER JOIN diyi_enterprise t4 ON t4.id = t3.enterprise_id INNER JOIN diyi_service_provider t5 ON t5.id = t3.service_provider_id INNER JOIN diyi_address t6 ON t6.id = t4.id AND t6.object_type = 'ENTERPRISEPEOPLE' AND t6.is_default = 1 AND t6.is_deleted = 0 WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t4.is_deleted = 0 AND t5.is_deleted = 0 AND t1.id = #{param1}
+    </select>
+
+    <select id="queryTotalMergeInvoice" resultMap="totalMergeInvoiceVoMap">
+        SELECT t3.id AS pay_enterprise_id, t4.enterprise_name, t3.charge_list_url, ( SELECT GROUP_CONCAT( per.enterprise_pay_receipt_url ) FROM diyi_pay_enterprise_receipt per WHERE t3.id = per.pay_enterprise_id ) AS enterprise_pay_receipt_url, t3.worksheet_id, ( SELECT GROUP_CONCAT(ap.accept_paysheet_url) FROM diyi_accept_paysheet ap WHERE accept_paysheet_type = 'MANY' AND ap.pay_enterprise_id = t3.id ) AS accept_paysheet_url, t3.pay_to_platform_amount, t5.service_provider_name, t4.invoice_enterprise_name, t4.invoice_tax_no, t4.invoice_address_phone, t4.invoice_bank_name_account, t6.address_name, t6.address_phone, t6.area, t6.city, t6.province, t6.detailed_address, t3.company_invoice_state, t3.create_time FROM diyi_pay_enterprise t3 INNER JOIN diyi_enterprise t4 ON t4.id = t3.enterprise_id INNER JOIN diyi_service_provider t5 ON t5.id = t3.service_provider_id INNER JOIN diyi_address t6 ON t6.id = t4.id AND t6.object_type = 'ENTERPRISEPEOPLE' AND t6.is_default = 1 AND t6.is_deleted = 0 WHERE t3.is_deleted = 0 AND t4.is_deleted = 0 AND t5.is_deleted = 0 AND t3.id IN (#{param1})
+    </select>
 </mapper>
+

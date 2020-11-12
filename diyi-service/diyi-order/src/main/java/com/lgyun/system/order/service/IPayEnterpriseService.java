@@ -2,6 +2,7 @@ package com.lgyun.system.order.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.InvoiceMode;
 import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.common.enumeration.MakerInvoiceType;
 import com.lgyun.common.enumeration.PayEnterpriseAuditState;
@@ -13,6 +14,8 @@ import com.lgyun.system.user.vo.AdminAgentMainServiceProviderListVO;
 import com.lgyun.system.user.vo.AgentMainTransactionVO;
 import com.lgyun.system.user.vo.PartnerServiceProviderListVO;
 import com.lgyun.system.user.vo.TransactionVO;
+
+import java.math.BigDecimal;
 
 /**
  * Service 接口
@@ -286,7 +289,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     /**
      * 服务商合并开票
      */
-    R saveServiceLumpSumMergeInvoice(Long serviceProviderId, String payEnterpriseIds, String serviceProviderName, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc,String invoiceTypeNo,String invoiceSerialNo,String invoiceCategory);
+    R saveServiceLumpSumMergeInvoice(Long serviceProviderId, String payEnterpriseIds, String serviceProviderName, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc,String invoiceTypeNo,String invoiceSerialNo,String invoiceCategory, InvoiceMode invoiceMode, BigDecimal partInvoiceAmount);
 
 
     /**
@@ -294,7 +297,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      *
      * @return
      */
-    R createTotalApplyInvoice(Long serviceProviderId, String serviceProviderName, Long applicationId, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc,String invoiceTypeNo,String invoiceSerialNo,String invoiceCategory);
+    R createTotalApplyInvoice(Long serviceProviderId, String serviceProviderName, Long applicationId, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc, String invoiceTypeNo, String invoiceSerialNo, String invoiceCategory, InvoiceMode invoiceMode, BigDecimal partInvoiceAmount);
 
     /**
      * 服务商根据总包开票id修改总包发票
@@ -414,12 +417,12 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     /**
      * 商户端根据商户id查询总包申请的详情商户支付清单
      */
-    R queryTotalInvoiceListEnterpriseApplyDetails(Long invoiceApplicationId, Long enterpriseId);
+    R queryTotalInvoiceListEnterpriseApplyDetails(Long invoiceApplicationId);
 
     /**
      * 商户端根据商户id查询总包开票的详情商户支付清单
      */
-    R queryTotalInvoiceListEnterpriseInvoiceDetails(Long invoicePrintId, Long enterpriseId);
+    R queryTotalInvoiceListEnterpriseInvoiceDetails(Long invoicePrintId);
 
     /**
      * 查询和商户关联的服务商
