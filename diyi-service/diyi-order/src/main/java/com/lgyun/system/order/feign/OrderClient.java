@@ -1,7 +1,9 @@
 package com.lgyun.system.order.feign;
 
 import com.lgyun.system.order.entity.AddressEntity;
+import com.lgyun.system.order.entity.ServiceProviderInvoiceCatalogsEntity;
 import com.lgyun.system.order.service.IAddressService;
+import com.lgyun.system.order.service.IServiceProviderInvoiceCatalogsService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,9 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderClient implements IOrderClient {
 
     private IAddressService addressService;
+    private IServiceProviderInvoiceCatalogsService serviceProviderInvoiceCatalogsService;
 
     @Override
     public void createAddress(AddressEntity addressEntity) {
         addressService.save(addressEntity);
+    }
+
+    @Override
+    public void createServiceProviderInvoiceCatalogs(ServiceProviderInvoiceCatalogsEntity serviceProviderInvoiceCatalogsEntity) {
+        serviceProviderInvoiceCatalogsService.save(serviceProviderInvoiceCatalogsEntity);
     }
 }

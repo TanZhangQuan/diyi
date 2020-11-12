@@ -4,11 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.CustomConstant;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.AddressEntity;
+import com.lgyun.system.order.entity.ServiceProviderInvoiceCatalogsEntity;
 import com.lgyun.system.order.feign.IOrderClient;
 import com.lgyun.system.user.dto.*;
 import com.lgyun.system.user.entity.*;
@@ -175,6 +177,19 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         BeanUtil.copy(addServiceProviderDTO, serviceProviderWorkerEntity);
         serviceProviderWorkerEntity.setServiceProviderId(serviceProviderEntity.getId());
         serviceProviderWorkerService.save(serviceProviderWorkerEntity);
+
+        //创建默认类目:平台服务费
+        ServiceProviderInvoiceCatalogsEntity platformInvoiceCatalogs = new ServiceProviderInvoiceCatalogsEntity();
+        platformInvoiceCatalogs.setServiceProviderId(serviceProviderEntity.getId());
+        platformInvoiceCatalogs.setApplyScope(ApplyScope.TOTAL);
+        platformInvoiceCatalogs.setInvoiceCatalogName(CustomConstant.PLATFORM_SERVICE_FEE);
+        orderClient.createServiceProviderInvoiceCatalogs(platformInvoiceCatalogs);
+        //创建默认类目:服务费
+        ServiceProviderInvoiceCatalogsEntity serviceInvoiceCatalogs = new ServiceProviderInvoiceCatalogsEntity();
+        serviceInvoiceCatalogs.setServiceProviderId(serviceProviderEntity.getId());
+        serviceInvoiceCatalogs.setApplyScope(ApplyScope.TOTAL);
+        serviceInvoiceCatalogs.setInvoiceCatalogName(CustomConstant.SERVICE_FEE);
+        orderClient.createServiceProviderInvoiceCatalogs(serviceInvoiceCatalogs);
 
         return R.success("新建服务商成功");
     }
