@@ -130,8 +130,7 @@ public class InvoiceTaxEnterpriseController {
         if (!(result.isSuccess())) {
             return result;
         }
-        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-        return payEnterpriseService.queryTotalInvoiceListEnterpriseApplyDetails(invoiceApplicationId, enterpriseWorkerEntity.getEnterpriseId());
+        return payEnterpriseService.queryTotalInvoiceListEnterpriseApplyDetails(invoiceApplicationId);
     }
 
     @GetMapping("/query-total-invoice-list-enterprise-invoice-details")
@@ -142,8 +141,7 @@ public class InvoiceTaxEnterpriseController {
         if (!(result.isSuccess())) {
             return result;
         }
-        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-        return payEnterpriseService.queryTotalInvoiceListEnterpriseInvoiceDetails(invoicePrintId, enterpriseWorkerEntity.getEnterpriseId());
+        return payEnterpriseService.queryTotalInvoiceListEnterpriseInvoiceDetails(invoicePrintId);
     }
 
     @PostMapping("/apply-total-invoice")

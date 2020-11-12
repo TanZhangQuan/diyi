@@ -150,7 +150,7 @@
     </select>
 
     <select id="selectEnterpriseMakerAgreement" resultMap="EnterpriseMakerAgreementVOMap">
-        SELECT a.id AS agreement_id, e.enterprise_name, e.id AS enterprise_id, a.agreement_no, m. NAME, a.sign_type, a.paper_agreement_url, a.online_agreement_url,
+        SELECT a.id AS agreement_id, e.enterprise_name, e.id AS enterprise_id, a.agreement_no, m.name, a.sign_type, a.paper_agreement_url, a.online_agreement_url,
         a.sign_state, a.create_time FROM diyi_agreement a INNER JOIN diyi_enterprise e ON a.enterprise_id = e.id LEFT JOIN diyi_maker m ON m.id = a.maker_id
         AND m.is_deleted = 0 WHERE a.is_deleted = 0 AND e.is_deleted = 0 AND a.agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' AND a.enterprise_id = #{param1}
     </select>

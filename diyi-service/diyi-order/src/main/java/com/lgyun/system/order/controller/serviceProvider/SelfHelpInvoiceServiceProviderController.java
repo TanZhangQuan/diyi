@@ -6,7 +6,6 @@ import com.lgyun.common.enumeration.SelfHelpInvoiceSpApplyState;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.feign.IDictClient;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDetailInvoiceTaxDTO;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDetailsByServiceProviderDTO;
 import com.lgyun.system.order.dto.SelfHelpInvoiceExpressDTO;
@@ -35,7 +34,6 @@ public class SelfHelpInvoiceServiceProviderController {
     private IUserClient userClient;
     private ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
-    private IDictClient dictClient;
 
     @GetMapping("/query-self-helf-invoice-list")
     @ApiOperation(value = "查询当前服务商所有自助开票记录", notes = "查询当前服务商所有自助开票记录")

@@ -3,9 +3,11 @@ package com.lgyun.system.order.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.ApplicationState;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -52,7 +54,7 @@ public class TotalInvoiceListEnterVO implements Serializable {
     /**
      *处理状态 1,申请中；2，已拒绝；3，已全额开具；4，已部分开具,5,已取消    applyState = 1 的时候看
      */
-    private String applicationState;
+    private ApplicationState applicationState;
     /**
      * 创建时间
      */
@@ -62,4 +64,9 @@ public class TotalInvoiceListEnterVO implements Serializable {
      * 申请状态 0 没有申请，1 申请中
      */
     private String applyState;
+
+    /**
+     * 价税合计额
+     */
+    private BigDecimal payToPlatformAmount;
 }

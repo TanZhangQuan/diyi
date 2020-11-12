@@ -50,6 +50,9 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         if (null == releaseWorksheetDTO.getEnterpriseId()) {
             return R.fail("请选择商户");
         }
+        if(!(releaseWorksheetDTO.getWorksheetFeeHigh().compareTo(BigDecimal.ZERO) == 0) && releaseWorksheetDTO.getWorksheetFeeHigh().compareTo(releaseWorksheetDTO.getWorksheetFeeLow()) < 1){
+            return R.fail("最高费用不能比最低费用低");
+        }
         if (null == releaseWorksheetDTO.getMakerType()) {
             return R.fail("请选择创客类型");
         }
@@ -252,6 +255,9 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         }
         for (int i = 0; i < split.length; i++) {
             WorksheetEntity worksheetEntity = getById(split[i]);
+            if (WorksheetState.CHECKACCEPT.equals(worksheetEntity.getWorksheetState())) {
+                return R.fail("验收中的订单，不能删除和重新开启！");
+            }
             if (1 == variable) {
                 worksheetEntity.setWorksheetState(WorksheetState.CLOSED);
                 saveOrUpdate(worksheetEntity);
