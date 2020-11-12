@@ -20,7 +20,7 @@
         <result property="contact2Mail" column="contact2_mail"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.ServiceProviderInvoiceVO" id="serviceProviderInvoiceVO">
+    <resultMap type="com.lgyun.system.user.vo.InvoiceVO" id="serviceProviderInvoiceVO">
         <result property="invoiceEnterpriseName" column="invoice_enterprise_name"/>
         <result property="invoiceTaxNo" column="invoice_tax_no"/>
         <result property="invoiceAddressPhone" column="invoice_address_phone"/>

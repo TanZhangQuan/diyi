@@ -4,7 +4,6 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.dto.ServiceProviderBankCardDTO;
 import com.lgyun.system.user.dto.ServiceProviderContactPersonDTO;
-import com.lgyun.system.user.dto.ServiceProviderInvoiceDTO;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.service.IServiceProviderService;
 import com.lgyun.system.user.service.IServiceProviderWorkerService;
@@ -26,9 +25,9 @@ public class BasicInfoServiceProviderController {
     private IServiceProviderWorkerService serviceProviderWorkerService;
     private IServiceProviderService serviceProviderService;
 
-    @GetMapping("/query-bank-card")
+    @GetMapping("/query-account-list")
     @ApiOperation(value = "查询当前服务商银行卡信息", notes = "查询当前服务商银行卡信息")
-    public R queryBankCard(BladeUser bladeUser) {
+    public R queryAccountList(BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -65,9 +64,9 @@ public class BasicInfoServiceProviderController {
         return serviceProviderService.getContactPerson(serviceProviderWorkerEntity.getServiceProviderId());
     }
 
-    @PostMapping("/add-or-update-contact-person")
-    @ApiOperation(value = "新增或修改当前服务商联系人信息", notes = "新增或修改当前服务商联系人信息")
-    public R addOrUpdateContactPerson(@Valid @RequestBody ServiceProviderContactPersonDTO serviceProviderContactPersonDto, BladeUser bladeUser) {
+    @PostMapping("/update-contact-person")
+    @ApiOperation(value = "修改当前服务商联系人信息", notes = "修改当前服务商联系人信息")
+    public R updateContactPerson(@Valid @RequestBody ServiceProviderContactPersonDTO serviceProviderContactPersonDto, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -89,19 +88,6 @@ public class BasicInfoServiceProviderController {
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
         return serviceProviderService.getInvoice(serviceProviderWorkerEntity.getServiceProviderId());
-    }
-
-    @PostMapping("/add-or-update-invoice")
-    @ApiOperation(value = "新增或修改当前服务商开票信息", notes = "新增或修改当前服务商开票信息")
-    public R addOrUpdateInvoice(@Valid @RequestBody ServiceProviderInvoiceDTO serviceProviderInvoiceDto, BladeUser bladeUser) {
-        //查询当前服务商员工
-        R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
-
-        return serviceProviderService.addOrUpdateInvoice(serviceProviderInvoiceDto, serviceProviderWorkerEntity.getServiceProviderId());
     }
 
 }

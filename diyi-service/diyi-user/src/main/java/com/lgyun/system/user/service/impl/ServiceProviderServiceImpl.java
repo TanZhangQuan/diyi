@@ -94,22 +94,8 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
     }
 
     @Override
-    public R<ServiceProviderInvoiceVO> getInvoice(Long serviceProviderId) {
+    public R<InvoiceVO> getInvoice(Long serviceProviderId) {
         return R.data(baseMapper.getInvoice(serviceProviderId));
-    }
-
-    @Override
-    public R<String> addOrUpdateInvoice(ServiceProviderInvoiceDTO serviceProviderInvoiceDto, Long serviceProviderId) {
-
-        ServiceProviderEntity serviceProviderWorkerEntity = getById(serviceProviderId);
-        if (serviceProviderWorkerEntity == null) {
-            return R.fail("服务商不存在");
-        }
-
-        BeanUtils.copyProperties(serviceProviderInvoiceDto, serviceProviderWorkerEntity);
-        updateById(serviceProviderWorkerEntity);
-
-        return R.success("操作成功");
     }
 
     @Override

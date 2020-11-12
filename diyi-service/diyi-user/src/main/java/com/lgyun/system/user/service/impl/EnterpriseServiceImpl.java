@@ -87,18 +87,9 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         }
     }
 
-    /**
-     * 查询商户基本信息
-     *
-     * @param enterpriseId
-     * @return
-     */
     @Override
-    public R<EnterpriseVO> getBasicEnterpriseResponse(Long enterpriseId) {
-        EnterpriseEntity enterpriseEntity = getById(enterpriseId);
-        EnterpriseVO enterpriseVO = new EnterpriseVO();
-        BeanUtils.copyProperties(enterpriseEntity, enterpriseVO);
-        return R.data(enterpriseVO);
+    public R<EnterpriseInfoVO> queryEnterpriseInfo(Long enterpriseId) {
+        return R.data(baseMapper.queryEnterpriseInfo(enterpriseId));
     }
 
     @Override
@@ -357,47 +348,37 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     @Override
-    public R updateBasicEnterpriseResponse(Long enterpriseId, String enterpriseUrl) {
+    public R<String> updateEnterpriseUrl(Long enterpriseId, String enterpriseUrl) {
+
         EnterpriseEntity enterpriseEntity = this.getById(enterpriseId);
         if (enterpriseEntity == null) {
-            return R.fail("您编辑的商户不存在");
+            return R.fail("商户不存在");
         }
+
         enterpriseEntity.setEnterpriseUrl(enterpriseUrl);
         this.updateById(enterpriseEntity);
         return R.success("编辑成功");
     }
 
     @Override
-    public R<ContactsInfoVO> currentDetail(Long enterpriseId) {
-        EnterpriseEntity enterpriseEntity = this.getById(enterpriseId);
-        if (enterpriseEntity == null) {
-            return R.fail("您查询的商户不存在");
-        }
-        ContactsInfoVO contactsInfoVO = new ContactsInfoVO();
-        BeanUtil.copyProperties(enterpriseEntity, contactsInfoVO);
-        return R.data(contactsInfoVO);
+    public R<ContactsInfoVO> queryContact(Long enterpriseId) {
+        return R.data(baseMapper.queryContact(enterpriseId));
     }
 
     @Override
-    public R updateContacts(Long enterpriseId, ContactsInfoDTO contactsInfoDTO) {
-        EnterpriseEntity enterpriseEntity = this.getById(enterpriseId);
+    public R<String> updateContacts(Long enterpriseId, ContactsInfoDTO contactsInfoDTO) {
+        EnterpriseEntity enterpriseEntity = getById(enterpriseId);
         if (enterpriseEntity == null) {
-            return R.fail("您编辑的商户不存在");
+            return R.fail("商户不存在");
         }
+
         BeanUtil.copyProperties(contactsInfoDTO, enterpriseEntity);
-        log.info(enterpriseEntity.toString());
-        this.updateById(enterpriseEntity);
+        updateById(enterpriseEntity);
         return R.success("编辑成功");
     }
 
     @Override
-    public R<EnterpriseInvoiceVO> queryEnterpriseInvoice(Long enterpriseId) {
-        EnterpriseEntity enterpriseEntity = this.getById(enterpriseId);
-        if (enterpriseEntity == null) {
-            return R.fail("您查询的商户不存在");
-        }
-        EnterpriseInvoiceVO enterpriseInvoiceVO = new EnterpriseInvoiceVO();
-        BeanUtil.copyProperties(enterpriseEntity, enterpriseInvoiceVO);
-        return R.data(enterpriseInvoiceVO);
+    public R<InvoiceVO> queryeInvoice(Long enterpriseId) {
+        return R.data(baseMapper.queryeInvoice(enterpriseId));
     }
 }

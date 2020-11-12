@@ -1,18 +1,26 @@
 package com.lgyun.system.user.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 
 import java.io.Serializable;
 
 /**
- * EnterpriseVO
+ * EnterpriseInfoVO
  *
  * @author liangfeihu
  * @since 2020/8/18 22:40
  */
 @Data
-public class EnterpriseVO implements Serializable {
+public class EnterpriseInfoVO implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 商户ID
+     */
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long id;
 
     /**
      * 商户名称
@@ -29,7 +37,6 @@ public class EnterpriseVO implements Serializable {
      */
     private String legalPersonIdcard;
 
-
     /**
      * 统一社会信用代码
      */
@@ -39,7 +46,6 @@ public class EnterpriseVO implements Serializable {
      * 营业执照图片地址
      */
     private String bizLicenceUrl;
-
 
     /**
      * 企业网址

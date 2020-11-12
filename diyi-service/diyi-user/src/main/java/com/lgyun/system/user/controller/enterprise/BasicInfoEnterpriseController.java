@@ -1,24 +1,17 @@
 package com.lgyun.system.user.controller.enterprise;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.dto.ContactsInfoDTO;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
-import com.lgyun.system.user.vo.EnterpriseContactVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/enterprise/basic-info")
@@ -32,7 +25,7 @@ public class BasicInfoEnterpriseController {
 
     @GetMapping("/query-enterprise-info")
     @ApiOperation(value = "查询商户基本信息", notes = "查询商户基本信息")
-    public R basicInfo(BladeUser bladeUser) {
+    public R queryEnterpriseInfo(BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -40,12 +33,12 @@ public class BasicInfoEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return enterpriseService.getBasicEnterpriseResponse(enterpriseWorkerEntity.getEnterpriseId());
+        return enterpriseService.queryEnterpriseInfo(enterpriseWorkerEntity.getEnterpriseId());
     }
 
     @PostMapping("/update-enterprise-info")
     @ApiOperation(value = "修改商户基本信息", notes = "修改商户基本信息")
-    public R updateBasicInfo(BladeUser bladeUser, @ApiParam("企业网址") @RequestParam(required = false) String enterpriseUrl) {
+    public R updateBasicInfo(@ApiParam("企业网址") @RequestParam(required = false) String enterpriseUrl, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -53,20 +46,19 @@ public class BasicInfoEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return enterpriseService.updateBasicEnterpriseResponse(enterpriseWorkerEntity.getEnterpriseId(), enterpriseUrl);
+        return enterpriseService.updateEnterpriseUrl(enterpriseWorkerEntity.getEnterpriseId(), enterpriseUrl);
     }
-
 
     @GetMapping("/query-contact")
     @ApiOperation(value = "查询当前商户所有联系人", notes = "查询当前商户所有联系人")
-    public R currentDetail(BladeUser bladeUser) {
+    public R queryContact(BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-        return enterpriseService.currentDetail(enterpriseWorkerEntity.getEnterpriseId());
+        return enterpriseService.queryContact(enterpriseWorkerEntity.getEnterpriseId());
     }
 
     @PostMapping("/update-contact")
@@ -90,7 +82,7 @@ public class BasicInfoEnterpriseController {
             return result;
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-        return enterpriseService.queryEnterpriseInvoice(enterpriseWorkerEntity.getEnterpriseId());
+        return enterpriseService.queryeInvoice(enterpriseWorkerEntity.getEnterpriseId());
     }
 
 }

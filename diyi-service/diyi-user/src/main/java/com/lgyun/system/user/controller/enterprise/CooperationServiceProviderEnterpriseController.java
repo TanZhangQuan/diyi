@@ -7,6 +7,7 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.service.IEnterpriseServiceProviderService;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
+import com.lgyun.system.user.service.IServiceProviderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,7 @@ public class CooperationServiceProviderEnterpriseController {
 
     private IEnterpriseWorkerService enterpriseWorkerService;
     private IEnterpriseServiceProviderService enterpriseProviderService;
+    private IServiceProviderService serviceProviderService;
 
     @GetMapping("/query-cooperation-service-provider-list")
     @ApiOperation(value = "查询当前商户合作服务商", notes = "查询当前商户合作服务商")
@@ -37,5 +39,17 @@ public class CooperationServiceProviderEnterpriseController {
 
         return enterpriseProviderService.getServiceProvidersByEnterpriseId(enterpriseWorkerEntity.getEnterpriseId(), keyWord, Condition.getPage(query.setDescs("t1.create_time")));
     }
+
+//    @GetMapping("/query-enterprise-detail")
+//    @ApiOperation(value = "查询服务商详情", notes = "查询服务商详情")
+//    public R queryEnterpriseDetail(@ApiParam(value = "服务商", required = true) @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId, BladeUser bladeUser) {
+//        //查询当前商户员工
+//        R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
+//
+//        return serviceProviderService.getEnterpriseDetailById(serviceProviderId);
+//    }
 
 }

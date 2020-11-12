@@ -60,5 +60,28 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
      */
     EnterpriseUpdateDetailVO queryEnterpriseUpdateDetail(Long enterpriseId);
 
+    /**
+     * 查询商户基本信息
+     *
+     * @param enterpriseId
+     * @return
+     */
+    EnterpriseInfoVO queryEnterpriseInfo(Long enterpriseId);
+
+    /**
+     * 查询商户的联系人
+     *
+     * @param enterpriseId
+     * @return
+     */
+    ContactsInfoVO queryContact(Long enterpriseId);
+
+    /**
+     *
+     *
+     * @param enterpriseId
+     * @return
+     */
+    InvoiceVO queryeInvoice(Long enterpriseId);
 }
 

@@ -40,7 +40,7 @@ public interface ServiceProviderMapper extends BaseMapper<ServiceProviderEntity>
      * @param serviceProviderId
      * @return
      */
-    ServiceProviderInvoiceVO getInvoice(Long serviceProviderId);
+    InvoiceVO getInvoice(Long serviceProviderId);
 
     /**
      * 查询所有服务商

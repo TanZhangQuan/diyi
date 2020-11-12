@@ -1,5 +1,7 @@
 package com.lgyun.system.user.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.PositionName;
 import lombok.Data;
 
@@ -8,6 +10,13 @@ import lombok.Data;
  */
 @Data
 public class ContactsInfoVO {
+
+    /**
+     * 商户ID
+     */
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long id;
+
     /**
      * 联系人1姓名
      */

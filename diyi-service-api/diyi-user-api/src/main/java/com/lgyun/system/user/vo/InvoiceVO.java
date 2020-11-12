@@ -1,19 +1,25 @@
-package com.lgyun.system.user.dto;
+package com.lgyun.system.user.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
- * @author tzq
- * @Description
- * @return
- * @date 2020.06.27
+ * @author .
+ * @date 2020/7/28.
+ * @time 14:55.
  */
 @Data
-public class ServiceProviderInvoiceDTO implements Serializable {
+public class InvoiceVO implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 商户/服务商ID
+     */
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long id;
 
     /**
      * 开票资料-公司名称
@@ -28,13 +34,11 @@ public class ServiceProviderInvoiceDTO implements Serializable {
     /**
      * 开票资料-地址和电话
      */
-    @NotBlank(message = "请输入开票地址和电话")
     private String invoiceAddressPhone;
 
     /**
      * 开票资料-开户银行和账号
      */
-    @NotBlank(message = "请输入开票开户银行和账号")
     private String invoiceBankNameAccount;
 
 }

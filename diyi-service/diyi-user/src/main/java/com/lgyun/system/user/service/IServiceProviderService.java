@@ -65,16 +65,7 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
      * @param serviceProviderId
      * @return
      */
-    R<ServiceProviderInvoiceVO> getInvoice(Long serviceProviderId);
-
-    /**
-     * 新增或修改当前服务商开票信息
-     *
-     * @param serviceProviderInvoiceDto
-     * @param serviceProviderId
-     * @return
-     */
-    R<String> addOrUpdateInvoice(ServiceProviderInvoiceDTO serviceProviderInvoiceDto, Long serviceProviderId);
+    R<InvoiceVO> getInvoice(Long serviceProviderId);
 
     /**
      * 查询所有服务商

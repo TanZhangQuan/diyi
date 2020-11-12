@@ -51,7 +51,7 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * @param enterpriseId
      * @return
      */
-    R<EnterpriseVO> getBasicEnterpriseResponse(Long enterpriseId);
+    R<EnterpriseInfoVO> queryEnterpriseInfo(Long enterpriseId);
 
     /**
      * 根据商户ID查询商户详情
@@ -123,37 +123,37 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
     R getEnterpriseAll(Long enterpriseId, String enterpriseName, IPage<EnterpriseEntity> page);
 
     /**
-     * 修改当前商户的企业网址
+     * 修改商户的企业网址
      *
      * @param enterpriseId
      * @param enterpriseUrl
      * @return
      */
-    R updateBasicEnterpriseResponse(Long enterpriseId, String enterpriseUrl);
+    R<String> updateEnterpriseUrl(Long enterpriseId, String enterpriseUrl);
 
     /**
-     * 查询当前商户的联系人
+     * 查询商户的联系人
      *
      * @param enterpriseId
      * @return
      */
-    R<ContactsInfoVO> currentDetail(Long enterpriseId);
+    R<ContactsInfoVO> queryContact(Long enterpriseId);
 
     /**
-     * 修改当前商户的联系人
+     * 修改商户的联系人
      *
      * @param enterpriseId
      * @param contactsInfoDTO
      * @return
      */
-    R updateContacts(Long enterpriseId, ContactsInfoDTO contactsInfoDTO);
+    R<String> updateContacts(Long enterpriseId, ContactsInfoDTO contactsInfoDTO);
 
     /**
-     * 查询当前商户的开票信息
+     * 查询商户的开票信息
      *
      * @param enterpriseId
      * @return
      */
-    R<EnterpriseInvoiceVO> queryEnterpriseInvoice(Long enterpriseId);
+    R<InvoiceVO> queryeInvoice(Long enterpriseId);
 }
 
