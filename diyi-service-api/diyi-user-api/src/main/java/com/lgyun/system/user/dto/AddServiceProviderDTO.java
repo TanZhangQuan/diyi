@@ -1,13 +1,13 @@
 package com.lgyun.system.user.dto;
 
-import com.lgyun.common.enumeration.BusinessPattern;
 import com.lgyun.common.enumeration.PositionName;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 /**
  * 平台端---服务商管理---创建服务商DTO
@@ -59,20 +59,6 @@ public class AddServiceProviderDTO implements Serializable {
      */
     @NotBlank(message = "请上传加盟合同")
     private String joinContract;
-
-    /**
-     * 业务外包模式
-     */
-    @NotNull(message = "请选择业务外包模式")
-    private BusinessPattern businessPattern;
-
-    /**
-     * 综合税费率
-     */
-    @NotNull(message = "请输入综合税费率")
-    @Min(value = 0, message = "综合税费率不能小于0")
-    @Max(value = 100, message = "综合税费率不能大于100")
-    private BigDecimal servicePrice;
 
     /**
      * 收款单位名称
