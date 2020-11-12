@@ -138,7 +138,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
                 return R.fail("总包支付清单不存在");
             }
 
-            if (payEnterpriseEntity.getEnterpriseId().equals(enterpriseId)) {
+            if (!(payEnterpriseEntity.getEnterpriseId().equals(enterpriseId))) {
                 return R.fail("总包支付清单不属于商户");
             }
 

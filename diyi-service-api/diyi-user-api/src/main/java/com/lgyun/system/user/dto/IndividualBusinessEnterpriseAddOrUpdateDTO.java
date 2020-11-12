@@ -4,9 +4,7 @@ import com.lgyun.common.enumeration.BizType;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -58,6 +56,7 @@ public class IndividualBusinessEnterpriseAddOrUpdateDTO implements Serializable 
      * 注册资金
      */
     @NotNull(message = "请输入注册资金")
+    @Min(value = 1,message = "注册资本不能小于1")
     private BigDecimal registeredMoney;
 
     /**
