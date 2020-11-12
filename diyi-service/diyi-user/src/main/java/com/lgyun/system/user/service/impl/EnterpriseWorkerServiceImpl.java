@@ -190,7 +190,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
                 menuNames = sysClient.getMenuNames(enterpriseWorkerEntity.getRoleId());
             }
             enterpriseWorkerVO.setMenuName(menuNames);
-            enterpriseWorkerVO.setPositionName(enterpriseWorkerEntity.getPositionName().getDesc());
+            enterpriseWorkerVO.setPositionName(enterpriseWorkerEntity.getPositionName());
             enterpriseWorkerVO.setAccountState(enterpriseWorkerEntity.getEnterpriseWorkerState());
             enterpriseWorkerVO.setEnterpriseName(enterpriseWorkerEntity.getWorkerName());
             enterpriseWorkerVO.setEnterpriseWorkerId(enterpriseWorkerEntity.getId());
@@ -219,7 +219,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
         }
         EnterpriseWorkerInfoVO enterpriseWorkerInfoVO = new EnterpriseWorkerInfoVO();
         BeanUtil.copyProperties(subEnterpriseWorkerEntity, enterpriseWorkerInfoVO);
-        enterpriseWorkerInfoVO.setPositionName(subEnterpriseWorkerEntity.getPositionName().getDesc());
+        enterpriseWorkerInfoVO.setPositionName(subEnterpriseWorkerEntity.getPositionName());
         enterpriseWorkerInfoVO.setEnterpriseName(subEnterpriseWorkerEntity.getWorkerName());
         enterpriseWorkerInfoVO.setEnterpriseWorkerId(subEnterpriseWorkerEntity.getId());
         return R.data(enterpriseWorkerInfoVO);

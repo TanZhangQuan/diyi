@@ -67,9 +67,9 @@ INSERT INTO `sys_menu` VALUES ('1123598815738675149', '1123598815738675147', 'Sh
 INSERT INTO `sys_menu` VALUES ('1123598815738675150', '1123598815738675147', 'ShopTax',      '开票信息', 'menu', '/shop/tax',     '', '3', '1', '0', '1', '','ENTERPRISE', null, NOW(), null, NOW(), '1', '0');
 INSERT INTO `sys_menu` VALUES ('1123598815738675151', '1123598815738675147', 'Address',      '快递信息', 'menu', '/address/index','', '4', '1', '0', '1', '', 'ENTERPRISE', null, NOW(), null, NOW(), '1', '0');
 ###权限管理13
-INSERT INTO `sys_menu` VALUES ('1123598815738675152',                 '0', 'AuthIndex', '权限管理', 'menu', '/auth/index', 'auth', '13', '1', '0', '1', '', 'ENTERPRISE', null, NOW(), null, NOW(), '1', '0');
-
-
+INSERT INTO `sys_menu` VALUES ('1123598815738675152',                 '0', 'Auth', '权限管理', 'menu', '/auth', 'auth', '13', '1', '0', '1', '', 'ENTERPRISE', null, NOW(), null, NOW(), '1', '0');
+INSERT INTO `sys_menu` VALUES ('1123598815738675153',                 '1123598815738675152', 'AuthIndex', '账号管理', 'menu', '/auth/index', '', '1', '1', '0', '1', '', 'ENTERPRISE', null, NOW(), null, NOW(), '1', '0');
+INSERT INTO `sys_menu` VALUES ('1123598815738675154',                 '1123598815738675152', 'AuthRole', '角色管理', 'menu', '/auth/role', '', '2', '1', '0', '1', '', 'ENTERPRISE', null, NOW(), null, NOW(), '1', '0');
 
 
 

@@ -2,6 +2,7 @@ package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.PositionName;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -35,7 +36,7 @@ public class EnterpriseWorkerInfoVO implements Serializable {
      * 岗位
      */
     @ApiModelProperty("岗位")
-    private String positionName;
+    private PositionName positionName;
 
     /**
      * 手机号码
@@ -54,6 +55,11 @@ public class EnterpriseWorkerInfoVO implements Serializable {
      */
     @ApiModelProperty("拥有的角色ID(用来显示下拉框默认值)")
     private Long roleId;
+
+    /**
+     * 创建字子账号的权限
+     */
+    private Boolean adminPower;
 
 
 }
