@@ -133,7 +133,7 @@ public class PayEnterpriseEntity extends BaseEntity {
     /**
      * 总包开票状态：未开，已开
      */
-    private InvoiceState companyInvoiceState = InvoiceState.UNOPEN;
+    private CompanyInvoiceState companyInvoiceState = CompanyInvoiceState.UNOPEN;
 
     /**
      * 分包开票状态：未开，已开

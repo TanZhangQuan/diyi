@@ -6,11 +6,7 @@ import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.system.order.dto.PayEnterpriseDTO;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.*;
-import com.lgyun.system.order.vo.TransactionByBureauServiceProviderInfoVO;
-import com.lgyun.system.user.vo.TransactionVO;
-import com.lgyun.system.user.vo.AdminAgentMainServiceProviderListVO;
-import com.lgyun.system.user.vo.AgentMainTransactionVO;
-import com.lgyun.system.user.vo.PartnerServiceProviderListVO;
+import com.lgyun.system.user.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -357,6 +353,25 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * @return
      */
     PayEnterpriseUpdateDetailVO queryPayEnterpriseUpdateDetail(Long payEnterpriseId);
+
+    /**
+     * 商户端根据商户id查询总包申请的详情商户支付清单
+     * @param invoiceApplicationId
+     * @return
+     */
+    List<EnterpriseApplyDetailVO> queryTotalInvoiceListEnterpriseApplyDetails(Long invoiceApplicationId);
+
+    /**
+     *商户端根据商户id查询总包开票的详情商户支付清单
+     */
+    List<EnterpriseInvoiceDetailVO> queryTotalInvoiceListEnterpriseInvoiceDetails(Long invoicePrintId);
+
+    /**
+     * 总包合并开票详情
+     * @param payEnterpriseIds
+     * @return
+     */
+    List<TotalMergeInvoiceVO> queryTotalMergeInvoice(String payEnterpriseIds);
 
 }
 

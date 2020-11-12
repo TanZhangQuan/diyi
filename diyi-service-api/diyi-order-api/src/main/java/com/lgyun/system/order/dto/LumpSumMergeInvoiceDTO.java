@@ -1,9 +1,11 @@
 package com.lgyun.system.order.dto;
 
+import com.lgyun.common.enumeration.InvoiceMode;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * @author .
@@ -24,11 +26,6 @@ public class LumpSumMergeInvoiceDTO implements Serializable {
      */
     @NotBlank(message = "请输入服务商名字")
     private String serviceProviderName;
-
-    /**
-     *总包申请id
-     */
-    private Long applicationId;
 
     /**
      *发票url
@@ -72,4 +69,15 @@ public class LumpSumMergeInvoiceDTO implements Serializable {
      */
     @NotBlank(message = "请输入发票分类")
     private String invoiceCategory;
+
+    /**
+     * 开票方式
+     */
+    @NotBlank(message = "请选择开票方式")
+    private InvoiceMode invoiceMode;
+
+    /**
+     * 部分开票金额
+     */
+    private BigDecimal partInvoiceAmount;
 }

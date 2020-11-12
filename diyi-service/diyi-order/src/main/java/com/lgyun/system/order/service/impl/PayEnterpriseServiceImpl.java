@@ -18,8 +18,6 @@ import com.lgyun.system.order.excel.PayEnterpriseImportListener;
 import com.lgyun.system.order.mapper.PayEnterpriseMapper;
 import com.lgyun.system.order.service.*;
 import com.lgyun.system.order.vo.*;
-import com.lgyun.system.user.entity.EnterpriseEntity;
-import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import com.lgyun.system.user.vo.AdminAgentMainServiceProviderListVO;
 import com.lgyun.system.user.vo.AgentMainTransactionVO;
@@ -296,7 +294,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         Query query = new Query();
         query.setCurrent(1);
         query.setSize(100);
-        List<PayMakerListInvoiceVO> PayMakerListVOs = baseMapper.queryPayMakerListInvoice(byId.getId(), Condition.getPage(query.setDescs("create_time")));
+        List<PayMakerListInvoiceVO> PayMakerListVOs = baseMapper.queryPayMakerListInvoice(byId.getId(), Condition.getPage(query.setDescs("t1.create_time")));
         map.put("payMakerListVOs", PayMakerListVOs);
 
         return R.data(map);
@@ -504,58 +502,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
     @Override
     public R queryTotalMergeInvoice(String payEnterpriseIds) {
-        Map map = new HashMap();
-        String[] split = payEnterpriseIds.split(",");
-        if (split.length <= 0) {
-            return R.fail("参数有误");
-        }
-        PayEnterpriseEntity byId = getById(Long.parseLong(split[0]));
-        for (int i = 1; i < split.length; i++) {
-            PayEnterpriseEntity byId1 = getById(Long.parseLong(split[i]));
-            Long enterpriseId = byId.getEnterpriseId();
-            Long enterpriseId1 = byId1.getEnterpriseId();
-            if ((!byId.getEnterpriseId().equals(byId1.getEnterpriseId())) || (!byId.getServiceProviderId().equals(byId1.getServiceProviderId()))) {
-                return R.fail("请选择的服务商和商户相同的支付清单合并开票");
-            }
-//            if(byId.getEnterpriseId() != byId1.getEnterpriseId() || byId.getServiceProviderId() != byId1.getServiceProviderId()){
-//                return R.fail("请选择的服务商和商户相同的支付清单合并开票");
-//            }
-        }
-        List<InvoiceServiceLumpDetailsVO> lumpSumInvoiceDetails = new ArrayList<>();
-        for (int i = 0; i < split.length; i++) {
-            lumpSumInvoiceDetails.add(baseMapper.getServiceLumpSumInvoiceDetails(Long.parseLong(split[i])));
-        }
-        if (lumpSumInvoiceDetails.size() > 0) {
-            map.put("lumpSumInvoiceDetails", lumpSumInvoiceDetails);
-        } else {
-            return R.fail("商户支付清单不存在");
-        }
-        String enterprisePayReceiptUrl = "";
-        for (int i = 0; i < split.length; i++) {
-            enterprisePayReceiptUrl += payEnterpriseReceiptService.findEnterprisePayReceiptUrl(Long.parseLong(split[0]));
-        }
-        lumpSumInvoiceDetails.get(0).setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
-        String expressCompanyName = lumpSumInvoiceDetails.get(0).getExpressCompanyName();
-        String expressSheetNo = lumpSumInvoiceDetails.get(0).getExpressSheetNo();
-        KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
-        String orderTracesByJson = "";
-        try {
-            if (!StringUtil.isBlank(expressCompanyName) && !StringUtil.isBlank(expressSheetNo)) {
-                orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(expressCompanyName, expressSheetNo);
-                Map<String,Object> maps = (Map) JSON.parse(orderTracesByJson);
-                Boolean success = (Boolean) maps.get("Success");
-                if(success){
-                    map.put("orderTracesByJson", maps.get("Traces"));
-                }else{
-                    map.put("orderTracesByJson", "");
-                }
-            } else {
-                map.put("orderTracesByJson", "");
-            }
-        } catch (Exception e) {
-            log.error("查询物流错误", e);
-        }
-        return R.data(map);
+        return R.data(baseMapper.queryTotalMergeInvoice(payEnterpriseIds));
     }
 
     @Override
@@ -654,14 +601,17 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         platformInvoiceListEntity.setCompanyVoiceUploadDatetime(new Date());
         platformInvoiceListService.save(platformInvoiceListEntity);
         //更新商户支付清单的总包开票状态
-        byId.setCompanyInvoiceState(InvoiceState.OPENED);
+        byId.setCompanyInvoiceState(CompanyInvoiceState.OPENED);
         saveOrUpdate(byId);
         return R.success("操作成功");
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R saveServiceLumpSumMergeInvoice(Long serviceProviderId, String payEnterpriseIds, String serviceProviderName, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc,String invoiceTypeNo,String invoiceSerialNo,String invoiceCategory) {
+    public R saveServiceLumpSumMergeInvoice(Long serviceProviderId, String payEnterpriseIds, String serviceProviderName, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc,String invoiceTypeNo,String invoiceSerialNo,String invoiceCategory,InvoiceMode invoiceMode, BigDecimal partInvoiceAmount) {
+        if(InvoiceMode.PARTIALLYISSUED.equals(invoiceMode) && partInvoiceAmount.compareTo(BigDecimal.ZERO) == 0){
+            return R.fail("请输入部分开票的金额！！！");
+        }
         String[] split = payEnterpriseIds.split(",");
         if (split.length <= 0) {
             return R.fail("参数有误");
@@ -725,7 +675,11 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         //更新商户支付清单的总包开票状态
         for (int i = 0; i < split.length; i++) {
             PayEnterpriseEntity byId = getById(Long.parseLong(split[i]));
-            byId.setCompanyInvoiceState(InvoiceState.OPENED);
+            if(InvoiceMode.PARTIALLYISSUED.equals(invoiceMode)){
+                byId.setCompanyInvoiceState(CompanyInvoiceState.PARTIALLYISSUED);
+            }else{
+                byId.setCompanyInvoiceState(CompanyInvoiceState.OPENED);
+            }
             saveOrUpdate(byId);
         }
         return R.success("操作成功");
@@ -734,7 +688,10 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R createTotalApplyInvoice(Long serviceProviderId, String serviceProviderName, Long applicationId, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc,String invoiceTypeNo,String invoiceSerialNo,String invoiceCategory) {
+    public R createTotalApplyInvoice(Long serviceProviderId, String serviceProviderName, Long applicationId, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc,String invoiceTypeNo,String invoiceSerialNo,String invoiceCategory, InvoiceMode invoiceMode, BigDecimal partInvoiceAmount) {
+        if(InvoiceMode.PARTIALLYISSUED.equals(invoiceMode) && partInvoiceAmount.compareTo(BigDecimal.ZERO) == 0){
+            return R.fail("请输入部分开票的金额！！！");
+        }
         List<InvoiceApplicationPayListEntity> invoiceApplicationPayListEntityList = invoiceApplicationPayListService.getApplicationId(applicationId);
         if (invoiceApplicationPayListEntityList.size() <= 0) {
             return R.fail("参数有误");
@@ -752,6 +709,9 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         platformInvoiceEntity.setInvoicePrintDate(new Date());
         //价税合计
         platformInvoiceEntity.setInvoiceTotalAmount(invoiceTotalAmount);
+        if(InvoiceMode.PARTIALLYISSUED.equals(invoiceMode)){
+            platformInvoiceEntity.setOpenedInvoiceTotalAmount(partInvoiceAmount);
+        }
         platformInvoiceEntity.setInvoiceNumbers(1);
         if (null == serviceProviderName) {
             platformInvoiceEntity.setInvoicePrintPerson("地衣众包平台");
@@ -797,16 +757,51 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         platformInvoiceListService.save(platformInvoiceListEntity);
         //更新商户支付清单的总包开票状态
         for (InvoiceApplicationPayListEntity invoiceApplicationPayListEntity : invoiceApplicationPayListEntityList) {
-            PayEnterpriseEntity byId = getById(invoiceApplicationPayListEntity.getPayEnterpriseId());
-            byId.setCompanyInvoiceState(InvoiceState.OPENED);
-            saveOrUpdate(byId);
+            PayEnterpriseEntity payEnterpriseEntity = getById(invoiceApplicationPayListEntity.getPayEnterpriseId());
+            InvoiceApplicationEntity invoiceApplicationEntity = invoiceApplicationService.getById(invoiceApplicationPayListEntity.getApplicationId());
+            if(InvoiceMode.PARTIALLYISSUED.equals(invoiceMode)){
+                payEnterpriseEntity.setCompanyInvoiceState(CompanyInvoiceState.PARTIALLYISSUED);
+                invoiceApplicationEntity.setApplicationState(ApplicationState.PARTIALLYISSUED);
+            }else{
+                payEnterpriseEntity.setCompanyInvoiceState(CompanyInvoiceState.OPENED);
+                invoiceApplicationEntity.setApplicationState(ApplicationState.ISSUEDINFULL);
+            }
+            saveOrUpdate(payEnterpriseEntity);
+            invoiceApplicationService.saveOrUpdate(invoiceApplicationEntity);
         }
         return R.success("操作成功");
     }
 
     @Override
     public R updateTotalInvoice(LumpInvoiceDTO lumpInvoiceDTO) {
+        if(InvoiceMode.PARTIALLYISSUED.equals(lumpInvoiceDTO.getInvoiceMode()) && lumpInvoiceDTO.getPartInvoiceAmount().compareTo(BigDecimal.ZERO) == 0){
+            return R.fail("请输入部分开票的金额！！！");
+        }
+
         PlatformInvoiceEntity byId = platformInvoiceService.getById(lumpInvoiceDTO.getInvoicePrintId());
+        if(InvoiceMode.PARTIALLYISSUED.equals(lumpInvoiceDTO.getInvoiceMode())){
+            BigDecimal openedInvoiceTotalAmount = byId.getOpenedInvoiceTotalAmount();
+            BigDecimal add = openedInvoiceTotalAmount.add(lumpInvoiceDTO.getPartInvoiceAmount());
+            List<PlatformInvoicePayListEntity> platformInvoicePayListEntities = platformInvoicePayListService.findInvoicePrintId(lumpInvoiceDTO.getInvoicePrintId());
+            if(add.compareTo(byId.getInvoiceTotalAmount()) == 0){
+                byId.setOpenedInvoiceTotalAmount(byId.getInvoiceTotalAmount());
+                for(PlatformInvoicePayListEntity platformInvoicePayListEntity : platformInvoicePayListEntities){
+                    PayEnterpriseEntity payEnterpriseEntity = getById(platformInvoicePayListEntity.getPayEnterpriseId());
+                    payEnterpriseEntity.setCompanyInvoiceState(CompanyInvoiceState.OPENED);
+                    saveOrUpdate(payEnterpriseEntity);
+                }
+            }
+            if(add.compareTo(byId.getInvoiceTotalAmount()) == 1){
+                return R.fail("部分开票金额有误！！！");
+            }
+        }else {
+            List<PlatformInvoicePayListEntity> platformInvoicePayListEntities = platformInvoicePayListService.findInvoicePrintId(lumpInvoiceDTO.getInvoicePrintId());
+            for(PlatformInvoicePayListEntity platformInvoicePayListEntity : platformInvoicePayListEntities){
+                PayEnterpriseEntity payEnterpriseEntity = getById(platformInvoicePayListEntity.getPayEnterpriseId());
+                payEnterpriseEntity.setCompanyInvoiceState(CompanyInvoiceState.OPENED);
+                saveOrUpdate(payEnterpriseEntity);
+            }
+        }
         byId.setExpressCompanyName(lumpInvoiceDTO.getExpressCompanyName());
         byId.setExpressSheetNo(lumpInvoiceDTO.getExpressSheetNo());
         platformInvoiceService.saveOrUpdate(byId);
@@ -993,98 +988,34 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R queryTotalInvoiceListEnterpriseApplyDetails(Long invoiceApplicationId, Long enterpriseId) {
-        Map map = new HashMap();
-        EnterpriseEntity enterpriseEntity = userClient.queryEnterpriseById(enterpriseId);
-        List<InvoiceApplicationPayListEntity> applicationList = invoiceApplicationPayListService.getApplicationId(invoiceApplicationId);
-
-        InvoiceApplicationEntity invoiceApplicationEntity = invoiceApplicationService.getById(invoiceApplicationId);
-        if (null == applicationList || null == invoiceApplicationEntity) {
-            return R.fail("参数有误");
-        }
-        String payEnterpriseIds = "";
-        String enterprisePayReceiptUrl = "";
-        String worksheetIds = "";
-        Long serviceProviderId = null;
-        for (InvoiceApplicationPayListEntity invoiceApplicationPayListEntity : applicationList) {
-            Long payEnterpriseId = invoiceApplicationPayListEntity.getPayEnterpriseId();
-            payEnterpriseIds += payEnterpriseId + ",";
-            enterprisePayReceiptUrl += payEnterpriseReceiptService.findEnterprisePayReceiptUrl(payEnterpriseId);
-            PayEnterpriseEntity byId = getById(payEnterpriseId);
-            serviceProviderId = byId.getServiceProviderId();
-            if (null != byId && null != byId.getWorksheetId()) {
-                worksheetIds += byId.getWorksheetId() + ",";
-            }
-        }
-        String acceptPaysheetUrls = acceptPaysheetService.findPayEnterpriseAll(payEnterpriseIds);
-        ServiceProviderEntity serviceProviderEntity = userClient.queryServiceProviderById(serviceProviderId);
-        map.put("enterpriseName", enterpriseEntity.getEnterpriseName());
-        map.put("serviceProviderName", serviceProviderEntity.getServiceProviderName());
-        map.put("invoiceApplicationId", invoiceApplicationId);
-        map.put("enterpriseId", enterpriseId);
-        map.put("payEnterpriseIds", payEnterpriseIds);
-        map.put("enterprisePayReceiptUrl", enterprisePayReceiptUrl);
-        map.put("worksheetIds", worksheetIds);
-        map.put("applicationState", invoiceApplicationEntity.getApplicationState());
-        map.put("companyInvoiceURL", "");
-        map.put("invoiceCreateTiem", "");
-        map.put("acceptPaysheetUrls", acceptPaysheetUrls);
-        map.put("orderTracesByJson", "");
-        return R.data(map);
+    public R queryTotalInvoiceListEnterpriseApplyDetails(Long invoiceApplicationId) {
+        return R.data(baseMapper.queryTotalInvoiceListEnterpriseApplyDetails(invoiceApplicationId));
     }
 
     @Override
-    public R queryTotalInvoiceListEnterpriseInvoiceDetails(Long invoicePrintId, Long enterpriseId) {
+    public R queryTotalInvoiceListEnterpriseInvoiceDetails(Long invoicePrintId) {
         Map map = new HashMap();
-        EnterpriseEntity enterpriseEntity = userClient.queryEnterpriseById(enterpriseId);
-        List<PlatformInvoicePayListEntity> invoicePrintIdList = platformInvoicePayListService.findInvoicePrintId(invoicePrintId);
-        PlatformInvoiceEntity platformInvoiceEntity = platformInvoiceService.getById(invoicePrintId);
-        String payEnterpriseIds = "";
-        String enterprisePayReceiptUrl = "";
-        String worksheetIds = "";
-        Long serviceProviderId = null;
-        for (PlatformInvoicePayListEntity platformInvoicePayListEntity : invoicePrintIdList) {
-            Long payEnterpriseId = platformInvoicePayListEntity.getPayEnterpriseId();
-            payEnterpriseIds += payEnterpriseId + ",";
-            enterprisePayReceiptUrl += payEnterpriseReceiptService.findEnterprisePayReceiptUrl(payEnterpriseId);
-            PayEnterpriseEntity byId = getById(payEnterpriseId);
-            serviceProviderId = byId.getServiceProviderId();
-            if (null != byId && null != byId.getWorksheetId()) {
-                worksheetIds += byId.getWorksheetId() + ",";
-            }
-        }
-        ServiceProviderEntity serviceProviderEntity = userClient.queryServiceProviderById(serviceProviderId);
-        map.put("enterpriseName", enterpriseEntity.getEnterpriseName());
-        map.put("serviceProviderName", serviceProviderEntity.getServiceProviderName());
-        map.put("invoiceApplicationId", "");
-        map.put("enterpriseId", enterpriseId);
-        map.put("payEnterpriseIds", payEnterpriseIds);
-        map.put("enterprisePayReceiptUrl", enterprisePayReceiptUrl);
-        map.put("worksheetIds", worksheetIds);
-        map.put("applicationState", ApplicationState.ISSUEDINFULL);
-        String acceptPaysheetUrls = acceptPaysheetService.findPayEnterpriseAll(payEnterpriseIds);
-        map.put("acceptPaysheetUrls", acceptPaysheetUrls);
-        List<PlatformInvoiceListEntity> platformInvoiceListEntitys = platformInvoiceListService.findInvoicePrintId(invoicePrintId);
-        String companyInvoiceURLs = "";
-        for (PlatformInvoiceListEntity platformInvoiceListEntity : platformInvoiceListEntitys) {
-            companyInvoiceURLs += platformInvoiceListEntity.getCompanyInvoiceUrl();
-        }
-        map.put("companyInvoiceURL", companyInvoiceURLs);
-        map.put("invoiceCreateTiem", platformInvoiceEntity.getCreateTime());
-        KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
         String orderTracesByJson = "";
-        try {
-            orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(platformInvoiceEntity.getExpressCompanyName(), platformInvoiceEntity.getExpressSheetNo());
-            Map<String,Object> maps = (Map) JSON.parse(orderTracesByJson);
-            Boolean success = (Boolean) maps.get("Success");
-            if(success){
-                map.put("orderTracesByJson", maps.get("Traces"));
-            }else{
-                map.put("orderTracesByJson", "");
+        List<EnterpriseInvoiceDetailVO> enterpriseInvoiceDetails = baseMapper.queryTotalInvoiceListEnterpriseInvoiceDetails(invoicePrintId);
+        if(null != enterpriseInvoiceDetails && enterpriseInvoiceDetails.size() > 0){
+            String expressCompanyName = enterpriseInvoiceDetails.get(0).getExpressCompanyName();
+            String expressSheetNo = enterpriseInvoiceDetails.get(0).getExpressSheetNo();
+            KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
+
+            try{
+                String result = kdniaoTrackQueryUtil.getOrderTracesByJson(expressCompanyName, expressSheetNo);
+                Map<String,Object> maps = (Map) JSON.parse(result);
+                Boolean success = (Boolean) maps.get("Success");
+                if(success){
+                    orderTracesByJson =   maps.get("Traces").toString();
+                }
+            }catch (Exception e){
+                log.info(e.getMessage());
             }
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
         }
+
+        map.put("orderTracesByJson",orderTracesByJson);
+        map.put("enterpriseInvoiceDetails",enterpriseInvoiceDetails);
         return R.data(map);
     }
 
