@@ -150,6 +150,7 @@ public class EnterpriseReportServiceImpl extends BaseServiceImpl<EnterpriseRepor
             enterpriseReportEntity.setReportQuater(adminEnterpriseReportDTO.getReportQuater());
             enterpriseReportEntity.setReportDeadDate(adminEnterpriseReportDTO.getReportDeadDate());
             enterpriseReportEntity.setReportGuardName(adminEnterpriseReportDTO.getReportGuardName());
+            enterpriseReportEntity.setReportResultFiles(adminEnterpriseReportDTO.getReportResultFiles());
             saveOrUpdate(enterpriseReportEntity);
         }
         return R.success("操作成功");
