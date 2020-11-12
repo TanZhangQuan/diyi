@@ -126,18 +126,6 @@ public class SelfHelpInvoiceEnterpriseController {
         return addressService.queryAddressList(ObjectType.ENTERPRISEPEOPLE, enterpriseWorkerEntity.getEnterpriseId(), Condition.getPage(query.setDescs("create_time")));
     }
 
-    @GetMapping("/query-invoice-type")
-    @ApiOperation(value = "开票类目", notes = "开票类目")
-    public R queryInvoiceType(BladeUser bladeUser) {
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return dictClient.getList("tax_category");
-    }
-
     @PostMapping("/upload-deliver-sheet")
     @ApiOperation(value = "上传交付支付验收单", notes = "上传交付支付验收单")
     public R uploadDeliverSheet(@NotNull(message = "请输入自助开票明细编号") @RequestParam(required = false) Long selfHelpInvoiceDetailId,

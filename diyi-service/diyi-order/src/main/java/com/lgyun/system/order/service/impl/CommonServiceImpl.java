@@ -63,12 +63,4 @@ public class CommonServiceImpl implements ICommonService {
         return R.data(url);
     }
 
-    @Override
-    public R<List<Dict>> getDictList(String code) {
-        if (code.isEmpty()) {
-            return R.fail("请先输入需要查询的code");
-        }
-        return dictClient.getList(code);
-    }
-
 }

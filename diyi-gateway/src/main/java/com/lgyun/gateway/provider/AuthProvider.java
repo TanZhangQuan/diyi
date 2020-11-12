@@ -31,13 +31,8 @@ public class AuthProvider {
         defaultSkipUrl.add("/storage/deduct/**");
         defaultSkipUrl.add("/error/**");
         defaultSkipUrl.add("/assets/**");
-        defaultSkipUrl.add("/maker/face_ocr_notify");
-        defaultSkipUrl.add("/maker/mobile_ocr_notify");
-        defaultSkipUrl.add("/maker/bank_card_ocr_notify");
-        defaultSkipUrl.add("/maker/update-password");
-        defaultSkipUrl.add("/web/enterprise_worker/update-password");
-        defaultSkipUrl.add("/web/service_provider_worker/update-password");
-        defaultSkipUrl.add("/web/user/update-password");
+        //自定义
+        defaultSkipUrl.add("/maker/real-name-authentication/face-ocr-notify");
     }
 
     /**

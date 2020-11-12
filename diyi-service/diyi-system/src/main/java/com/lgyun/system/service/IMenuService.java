@@ -1,11 +1,11 @@
 package com.lgyun.system.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.node.TreeNode;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.support.Kv;
+import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.entity.Menu;
 import com.lgyun.system.vo.MenuVO;
 
@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author liangfeihu
  */
-public interface IMenuService extends IService<Menu> {
+public interface IMenuService extends BaseService<Menu> {
 
 	/**
 	 * 自定义分页

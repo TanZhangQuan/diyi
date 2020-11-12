@@ -296,7 +296,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
 
     @Override
     public R saveAdminAgreement(Long makerId, Long enterpriseId, Long serviceProviderId, Long objectId, ObjectType objectType, AgreementType agreementType, String paperAgreementUrl) {
-        AgreementEntity agreementEntity = null;
+
         if (ObjectType.MAKERPEOPLE.equals(objectType) && AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType) && makerEnterpriseService.queryMakerEnterpriseNum(enterpriseId, objectId, RelationshipType.RELEVANCE) <= 0) {
             return R.fail("创客和商户没有关联关系，不能添加商户和创客的补充协议");
         }
@@ -313,6 +313,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
             return R.fail("服务商和商户没有关联关系，不能添加服务商和商户的补充协议");
         }
 
+        AgreementEntity agreementEntity = null;
         if (AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType) || AgreementType.SERENTSUPPLEMENTARYAGREEMENT.equals(agreementType) || AgreementType.ENTERPRISEPROMISE.equals(agreementType)) {
             agreementEntity = new AgreementEntity();
         } else {
@@ -321,24 +322,33 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
                 queryWrapper.lambda().eq(AgreementEntity::getMakerId, objectId)
                         .eq(AgreementEntity::getAgreementType, agreementType);
                 agreementEntity = baseMapper.selectOne(queryWrapper);
+
+                if (agreementEntity == null) {
+                    agreementEntity = new AgreementEntity();
+                }
+
                 OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = iOnlineAgreementTemplateService.findTemplateType(agreementType);
-                if(null != onlineAgreementTemplateEntity){
+                if (null != onlineAgreementTemplateEntity) {
                     agreementEntity.setOnlineAgreementTemplateId(onlineAgreementTemplateEntity.getId());
                 }
             }
+
             if (ObjectType.SERVICEPEOPLE.equals(objectType)) {
                 QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
                 queryWrapper.lambda().eq(AgreementEntity::getServiceProviderId, objectId)
                         .eq(AgreementEntity::getAgreementType, agreementType);
                 agreementEntity = baseMapper.selectOne(queryWrapper);
             }
+
             if (ObjectType.ENTERPRISEPEOPLE.equals(objectType)) {
                 QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
                 queryWrapper.lambda().eq(AgreementEntity::getEnterpriseId, objectId)
                         .eq(AgreementEntity::getAgreementType, agreementType);
                 agreementEntity = baseMapper.selectOne(queryWrapper);
             }
+
         }
+
         if (null == agreementEntity) {
             agreementEntity = new AgreementEntity();
         }

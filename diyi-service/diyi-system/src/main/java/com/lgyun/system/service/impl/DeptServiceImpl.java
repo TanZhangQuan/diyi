@@ -2,9 +2,9 @@ package com.lgyun.system.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lgyun.common.node.ForestNodeMerger;
 import com.lgyun.common.tool.Func;
+import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.entity.Dept;
 import com.lgyun.system.mapper.DeptMapper;
 import com.lgyun.system.service.IDeptService;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * @author liangfeihu
  */
 @Service
-public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements IDeptService {
+public class DeptServiceImpl extends BaseServiceImpl<DeptMapper, Dept> implements IDeptService {
 
 	@Override
 	public IPage<DeptVO> selectDeptPage(IPage<DeptVO> page, DeptVO dept) {

@@ -2,15 +2,9 @@ package com.lgyun.system.feign;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.AppConstant;
-import com.lgyun.system.dto.DictDTO;
-import com.lgyun.system.entity.Dict;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.List;
 
 /**
  * Feign接口类
@@ -34,36 +28,6 @@ public interface IDictClient {
      * @return
      */
     @GetMapping(API_PREFIX + "/getValue")
-    R<String> getValue(@RequestParam("code") String code, @RequestParam("dictKey") Integer dictKey);
+    R<String> getValue(@RequestParam("code") String code, @RequestParam("dictKey") String dictKey);
 
-    /**
-     * 查询字典表
-     *
-     * @param code 字典编号
-     * @return
-     */
-    @GetMapping(API_PREFIX + "/getList")
-    R<List<Dict>> getList(@RequestParam("code") String code);
-
-
-    /**
-     * 查询字典表
-     *
-     * @param parentId
-     * @return
-     */
-    @GetMapping(API_PREFIX + "/getParentList")
-    R<List<Dict>> getParentList(@RequestParam("parentId") Long parentId);
-
-    /**
-     * 保存字典
-     */
-    @PostMapping(API_PREFIX + "/save_dict")
-    R saveDict(@RequestBody DictDTO dictDTO);
-
-    /**
-     * 查询字典
-     */
-    @GetMapping(API_PREFIX + "/getDict")
-    Dict getDict(@RequestParam("code") String code);
 }

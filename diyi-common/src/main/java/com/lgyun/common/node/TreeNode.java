@@ -13,7 +13,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class TreeNode extends BaseNode {
-
     private static final long serialVersionUID = 1L;
 
     private String title;

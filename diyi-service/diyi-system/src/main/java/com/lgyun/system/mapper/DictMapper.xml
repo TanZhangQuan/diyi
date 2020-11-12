@@ -2,62 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lgyun.system.mapper.DictMapper">
 
-    <!-- 通用查询映射结果 -->
-    <resultMap id="dictResultMap" type="com.lgyun.system.entity.Dict">
+    <resultMap id="treeNodeResultMap" type="com.lgyun.system.vo.DictVO">
         <id column="id" property="id"/>
         <result column="parent_id" property="parentId"/>
-        <result column="code" property="code"/>
-        <result column="dict_key" property="dictKey"/>
         <result column="dict_value" property="dictValue"/>
-        <result column="describes" property="describes"/>
         <result column="sort" property="sort"/>
         <result column="remark" property="remark"/>
-        <result column="is_deleted" property="isDeleted"/>
     </resultMap>
 
-    <resultMap id="treeNodeResultMap" type="com.lgyun.common.node.TreeNode">
-        <id column="id" property="id"/>
-        <result column="parent_id" property="parentId"/>
-        <result column="title" property="title"/>
-        <result column="value" property="value"/>
-        <result column="key" property="key"/>
-    </resultMap>
-
-    <!-- 通用查询结果列 -->
-    <sql id="baseColumnList">
-        select
-        id,parent_id,code, dict_key, dict_value,describes ,sort, remark, is_deleted
-    </sql>
-
-    <select id="selectDictPage" resultMap="dictResultMap">
-        select * from sys_dict where is_deleted = 0
+    <select id="queryDictTree" resultMap="treeNodeResultMap">
+        SELECT id, parent_id, dict_value, sort, remark FROM sys_dict WHERE is_deleted = 0
+        <if test="param1 != null">
+            AND code = #{param1}
+        </if>
+        ORDER BY sort ASC
     </select>
 
-    <select id="getValue" resultType="java.lang.String">
-        select
-            dict_value
-        from sys_dict where code = #{param1} and dict_key = #{param2} and is_deleted = 0 limit 1
+    <select id="queryDictValue" resultType="java.lang.String">
+        SELECT dict_value FROM sys_dict WHERE code = #{param1} AND dict_key = #{param2} AND is_deleted = 0 limit 1
     </select>
 
-    <!-- oracle 版本 -->
-    <!--<select id="getValue" resultType="java.lang.String">
-        select
-            dict_value
-        from sys_dict where code = #{param1, jdbcType=VARCHAR} and dict_key = #{param2} and dict_value >= 0 rownum 1
-    </select>-->
-
-    <select id="getList" resultMap="dictResultMap">
-        select id,parent_id,code, dict_key, dict_value,describes ,sort, remark from sys_dict where code = #{param1} and dict_key >= 0 and is_deleted = 0
-    </select>
-
-    <select id="tree" resultMap="treeNodeResultMap">
-        select id, parent_id, dict_value as title, id as 'value', id as 'key' from sys_dict where is_deleted = 0
-    </select>
-    <select id="getParentList" resultMap="dictResultMap">
-        SELECT id,parent_id,code, dict_key, dict_value,describes ,sort, remark FROM sys_dict WHERE parent_id = #{parentId} and dict_key >= 0 and is_deleted = 0
-    </select>
-
-    <select id="getDict" resultMap="dictResultMap">
-        select id,parent_id,code, dict_key, dict_value,describes ,sort, remark from sys_dict where code = #{param1} and dict_key = -1 and is_deleted = 0
-    </select>
 </mapper>

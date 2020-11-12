@@ -1,29 +1,20 @@
 package com.lgyun.system.controller;
 
 
-import com.lgyun.system.service.IDictService;
-import com.lgyun.system.wrapper.DictWrapper;
-import io.swagger.annotations.*;
-
-import lombok.AllArgsConstructor;
 import com.lgyun.common.api.R;
 import com.lgyun.common.ctrl.BladeController;
-import com.lgyun.common.node.INode;
-import com.lgyun.common.tool.Func;
-import com.lgyun.core.mp.support.Condition;
-
-import com.lgyun.system.entity.Dict;
+import com.lgyun.system.dto.DictDTO;
+import com.lgyun.system.service.IDictService;
 import com.lgyun.system.vo.DictVO;
-import org.springframework.cache.annotation.CacheEvict;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
-import java.util.Map;
-
-import static com.lgyun.common.cache.CacheNames.DICT_LIST;
-import static com.lgyun.common.cache.CacheNames.DICT_VALUE;
 
 /**
  * 控制器
@@ -36,58 +27,27 @@ import static com.lgyun.common.cache.CacheNames.DICT_VALUE;
 @Api(value = "字典", tags = "字典")
 public class DictController extends BladeController {
 
-	private IDictService dictService;
+    private IDictService dictService;
 
-	@GetMapping("/detail")
-	@ApiOperation(value = "详情", notes = "传入dict")
-	public R<DictVO> detail(Dict dict) {
-		Dict detail = dictService.getOne(Condition.getQueryWrapper(dict));
-		return R.data(DictWrapper.build().entityVO(detail));
-	}
+    @GetMapping("/query-dict-tree")
+    @ApiOperation(value = "查询字典树", notes = "查询字典树")
+    public R<List<DictVO>> tree(@ApiParam(value = "字典码") @NotBlank(message = "请输入字典码") @RequestParam(required = false) String code) {
+        return dictService.queryDictTree(code);
+    }
 
-	@GetMapping("/list")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name = "code", value = "字典编号", paramType = "query", dataType = "string"),
-		@ApiImplicitParam(name = "dictValue", value = "字典名称", paramType = "query", dataType = "string")
-	})
-	@ApiOperation(value = "列表", notes = "传入dict")
-	public R<List<INode>> list(@ApiIgnore @RequestParam Map<String, Object> dict) {
-		@SuppressWarnings("unchecked")
-		List<Dict> list = dictService.list(Condition.getQueryWrapper(dict, Dict.class).lambda().orderByAsc(Dict::getSort));
-		return R.data(DictWrapper.build().listNodeVO(list));
-	}
+    @PostMapping("/add-or-update-dict")
+    @ApiOperation(value = "新增或修改字典", notes = "新增或修改字典")
+    public R addOrUpdateDict(@Valid @RequestBody DictDTO dictDTO) {
+        return dictService.addOrUpdateDict(dictDTO);
+    }
 
-	@GetMapping("/tree")
-	@ApiOperation(value = "树形结构", notes = "树形结构")
-	public R<List<DictVO>> tree() {
-		List<DictVO> tree = dictService.tree();
-		return R.data(tree);
-	}
+    @GetMapping("/query-dict-value")
+    @ApiOperation(value = "查询字典名称", notes = "查询字典名称")
+    public R queryDictValue(@ApiParam(value = "字典码") @NotBlank(message = "请输入字典码") @RequestParam(required = false) String code,
+                            @ApiParam(value = "字典值") @NotBlank(message = "请输入字典值") @RequestParam(required = false) String dictKey) {
 
-	@PostMapping("/submit")
-	@ApiOperation(value = "新增或修改", notes = "传入dict")
-	public R submit(@Valid @RequestBody Dict dict) {
-		return R.status(dictService.submit(dict));
-	}
+        String dictValue = dictService.queryDictValue(code, dictKey);
+        return R.data(dictValue);
+    }
 
-	@PostMapping("/remove")
-	@CacheEvict(cacheNames = {DICT_LIST, DICT_VALUE}, allEntries = true)
-	@ApiOperation(value = "删除", notes = "传入ids")
-	public R remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
-		return R.status(dictService.removeByIds(Func.toLongList(ids)));
-	}
-
-	@GetMapping("/dictionary")
-	@ApiOperation(value = "查询字典", notes = "查询字典")
-	public R<List<Dict>> dictionary(String code) {
-		List<Dict> tree = dictService.getList(code);
-		return R.data(tree);
-	}
-
-//	@GetMapping("/add-list")
-//	@ApiOperation(value = "查询字典", notes = "查询字典")
-//	public String dictionary() {
-//		dictService.saveList();
-//		return "cg";
-//	}
 }

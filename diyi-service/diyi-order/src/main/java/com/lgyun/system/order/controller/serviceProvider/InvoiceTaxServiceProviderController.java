@@ -272,7 +272,7 @@ public class InvoiceTaxServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return payEnterpriseService.getServiceLumpSumInvoice(serviceProviderWorkerEntity.getServiceProviderId(), enterpriseName, startTime, endTime, companyInvoiceState, Condition.getPage(query.setDescs("create_time")));
+        return payEnterpriseService.getServiceLumpSumInvoice(serviceProviderWorkerEntity.getServiceProviderId(), enterpriseName, startTime, endTime, companyInvoiceState, Condition.getPage(query.setDescs("tmp.create_time")));
     }
 
     @GetMapping("/query-total-opened-invoice-detail")

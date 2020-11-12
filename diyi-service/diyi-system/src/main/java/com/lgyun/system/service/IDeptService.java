@@ -1,7 +1,7 @@
 package com.lgyun.system.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.entity.Dept;
 import com.lgyun.system.vo.DeptVO;
 
@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author liangfeihu
  */
-public interface IDeptService extends IService<Dept> {
+public interface IDeptService extends BaseService<Dept> {
 
 	/**
 	 * 自定义分页

@@ -63,7 +63,6 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     private IPlatformInvoiceListService platformInvoiceListService;
     private IInvoiceApplicationPayListService invoiceApplicationPayListService;
     private IAcceptPaysheetService acceptPaysheetService;
-    private IAddressService addressService;
 
     @Override
     public R<IPage<InvoiceEnterpriseVO>> getEnterpriseAll(Long makerId, IPage<InvoiceEnterpriseVO> page) {
@@ -317,7 +316,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         Query query = new Query();
         query.setSize(100);
         query.setCurrent(1);
-        List<PayMakerListInvoiceVO> PayMakerListVOs = baseMapper.queryPayMakerListInvoice(byId.getId(), Condition.getPage(query.setDescs("create_time")));
+        List<PayMakerListInvoiceVO> PayMakerListVOs = baseMapper.queryPayMakerListInvoice(byId.getId(), Condition.getPage(query.setDescs("t1.create_time")));
         map.put("payMakerListVOs", PayMakerListVOs);
         return R.data(map);
     }
@@ -1065,26 +1064,6 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         map.put("applicationState", ApplicationState.ISSUEDINFULL);
         String acceptPaysheetUrls = acceptPaysheetService.findPayEnterpriseAll(payEnterpriseIds);
         map.put("acceptPaysheetUrls", acceptPaysheetUrls);
-        AddressEntity addressEntity = addressService.queryAddress(ObjectType.ENTERPRISEPEOPLE, enterpriseId);
-        if(null != addressEntity){
-            map.put("addressName",addressEntity.getAddressName());
-            map.put("addressPhone",addressEntity.getAddressPhone());
-            map.put("area",addressEntity.getArea());
-            map.put("city",addressEntity.getCity());
-            map.put("province",addressEntity.getProvince());
-            map.put("detailedAddress",addressEntity.getDetailedAddress());
-        }else {
-            map.put("addressName","");
-            map.put("addressPhone","");
-            map.put("area","");
-            map.put("city","");
-            map.put("province","");
-            map.put("detailedAddress","");
-        }
-        map.put("expressSheetNo",platformInvoiceEntity.getExpressSheetNo());
-        map.put("expressCompanyName",platformInvoiceEntity.getExpressCompanyName());
-        map.put("invoiceAddressPhone",enterpriseEntity.getInvoiceAddressPhone());
-        map.put("invoiceEnterpriseName",enterpriseEntity.getInvoiceEnterpriseName());
         List<PlatformInvoiceListEntity> platformInvoiceListEntitys = platformInvoiceListService.findInvoicePrintId(invoicePrintId);
         String companyInvoiceURLs = "";
         for (PlatformInvoiceListEntity platformInvoiceListEntity : platformInvoiceListEntitys) {
@@ -1235,7 +1214,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             makerInvoiceEntity.setMakerVoiceUploadDateTime(new Date());
             makerInvoiceService.saveOrUpdate(makerInvoiceEntity);
             payMakerEntity.setMakerInvoiceState(InvoiceState.OPENED);
-            if(("").equals(makerTaxUrl)){
+            if(!("").equals(makerTaxUrl)){
                 MakerTaxRecordEntity makerTaxRecordEntity = makerTaxRecordService.findPayMakerId(Long.parseLong(payMakerId));
                 if (null == makerTaxRecordEntity) {
                     makerTaxRecordEntity = new MakerTaxRecordEntity();
