@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @time 16:16.
  */
 @Data
-public class EnterpriseServiceProviderInvoiceCatalogsVO implements Serializable {
+public class EnterpriseProviderInvoiceCatalogsVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**

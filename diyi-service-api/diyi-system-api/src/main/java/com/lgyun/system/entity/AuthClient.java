@@ -74,6 +74,6 @@ public class AuthClient extends BaseEntity {
     /**
      * 自动授权
      */
-    private String autoapprove;
+    private String autoApprove;
 
 }

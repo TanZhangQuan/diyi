@@ -27,7 +27,7 @@ public class InvoiceTaxEnterpriseController {
 
     private IUserClient userClient;
     private IPayEnterpriseService payEnterpriseService;
-    private IEnterpriseServiceProviderInvoiceCatalogsService enterpriseProviderInvoiceCatalogsService;
+    private IEnterpriseProviderInvoiceCatalogsService enterpriseProviderInvoiceCatalogsService;
     private IInvoiceApplicationService invoiceApplicationService;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
 
@@ -169,7 +169,7 @@ public class InvoiceTaxEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return enterpriseProviderInvoiceCatalogsService.queryInvoiceCatalogsList(serviceProviderId, enterpriseWorkerEntity.getEnterpriseId(), Condition.getPage(query.setDescs("id")));
+        return enterpriseProviderInvoiceCatalogsService.queryInvoiceCatalogsList(serviceProviderId, enterpriseWorkerEntity.getEnterpriseId(), Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-relation-enterprise-service")

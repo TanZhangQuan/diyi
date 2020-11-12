@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.lgyun.system.order.mapper.EnterpriseServiceProviderInvoiceCatalogsMapper">
+<mapper namespace="com.lgyun.system.order.mapper.EnterpriseProviderInvoiceCatalogsMapper">
 
-    <resultMap id="enterpriseServiceProviderInvoiceCatalogsVO" type="com.lgyun.system.order.vo.EnterpriseServiceProviderInvoiceCatalogsVO">
+    <resultMap id="enterpriseProviderInvoiceCatalogsVO" type="com.lgyun.system.order.vo.EnterpriseProviderInvoiceCatalogsVO">
         <result property="id" column="id"/>
         <result property="invoiceCatalogName" column="invoice_catalog_name"/>
     </resultMap>
 
-    <select id="queryInvoiceCatalogsList" resultMap="enterpriseServiceProviderInvoiceCatalogsVO">
+    <select id="queryInvoiceCatalogsList" resultMap="enterpriseProviderInvoiceCatalogsVO">
          SELECT id, invoice_catalog_name FROM diyi_enterprise_provider_invoice_catalogs WHERE is_deleted = 0 AND service_provider_id = #{param1} AND enterprise_id =#{param2}
     </select>
 
