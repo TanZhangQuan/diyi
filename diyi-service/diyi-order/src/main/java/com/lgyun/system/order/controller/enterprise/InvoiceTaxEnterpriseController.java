@@ -84,12 +84,6 @@ public class InvoiceTaxEnterpriseController {
 //        return payEnterpriseService.findEnterprisePaymentList(enterpriseWorkerEntity.getEnterpriseId(), serviceProviderName, Condition.getPage(query.setDescs("create_time")));
 //    }
 
-
-
-
-
-
-
 //    @GetMapping("/query-crowd-list")
 //    @ApiOperation(value = "根据商户查询众包/众采", notes = "根据商户查询众包/众采")
 //    public R queryCrowdList(@RequestParam(required = false) String serviceProviderName, Query query, BladeUser bladeUser) {
@@ -116,58 +110,40 @@ public class InvoiceTaxEnterpriseController {
 //    }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @GetMapping("/query-total-invoice-list-enterprise")
     @ApiOperation(value = "商户端根据商户id查询总包", notes = "商户端根据商户id查询总包")
-    public R queryTotalInvoiceListEnterprise(BladeUser bladeUser,Query query,@RequestParam(required = false) String serviceProviderName) {
+    public R queryTotalInvoiceListEnterprise(BladeUser bladeUser, Query query, @RequestParam(required = false) String serviceProviderName) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-        return payEnterpriseService.queryTotalInvoiceListEnterprise(enterpriseWorkerEntity.getEnterpriseId(),serviceProviderName,Condition.getPage(query.setDescs("create_time")));
+        return payEnterpriseService.queryTotalInvoiceListEnterprise(enterpriseWorkerEntity.getEnterpriseId(), serviceProviderName, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-total-invoice-list-enterprise-apply-details")
     @ApiOperation(value = "商户端根据商户id查询总包申请的详情商户支付清单", notes = "商户端根据商户id查询总包申请的详情商户支付清单")
-    public R queryTotalInvoiceListEnterpriseApplyDetails(BladeUser bladeUser,@ApiParam(value = "总包申请id")@NotNull(message = "总包申请id不能为空") @RequestParam(required = false)Long invoiceApplicationId) {
+    public R queryTotalInvoiceListEnterpriseApplyDetails(BladeUser bladeUser, @ApiParam(value = "总包申请id") @NotNull(message = "总包申请id不能为空") @RequestParam(required = false) Long invoiceApplicationId) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-        return payEnterpriseService.queryTotalInvoiceListEnterpriseApplyDetails(invoiceApplicationId,enterpriseWorkerEntity.getEnterpriseId());
+        return payEnterpriseService.queryTotalInvoiceListEnterpriseApplyDetails(invoiceApplicationId, enterpriseWorkerEntity.getEnterpriseId());
     }
 
     @GetMapping("/query-total-invoice-list-enterprise-invoice-details")
     @ApiOperation(value = "商户端根据商户id查询总包开票的详情商户支付清单", notes = "商户端根据商户id查询总包开票的详情商户支付清单")
-    public R queryTotalInvoiceListEnterpriseInvoiceDetails(BladeUser bladeUser,@ApiParam(value = "总包id")@NotNull(message = "总包id不能为空") @RequestParam(required = false)Long invoicePrintId) {
+    public R queryTotalInvoiceListEnterpriseInvoiceDetails(BladeUser bladeUser, @ApiParam(value = "总包id") @NotNull(message = "总包id不能为空") @RequestParam(required = false) Long invoicePrintId) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-        return payEnterpriseService.queryTotalInvoiceListEnterpriseInvoiceDetails(invoicePrintId,enterpriseWorkerEntity.getEnterpriseId());
+        return payEnterpriseService.queryTotalInvoiceListEnterpriseInvoiceDetails(invoicePrintId, enterpriseWorkerEntity.getEnterpriseId());
     }
 
     @PostMapping("/apply-total-invoice")
@@ -193,12 +169,12 @@ public class InvoiceTaxEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return enterpriseProviderInvoiceCatalogsService.queryInvoiceCatalogsList(serviceProviderId,enterpriseWorkerEntity.getEnterpriseId(), Condition.getPage(query.setDescs("id")));
+        return enterpriseProviderInvoiceCatalogsService.queryInvoiceCatalogsList(serviceProviderId, enterpriseWorkerEntity.getEnterpriseId(), Condition.getPage(query.setDescs("id")));
     }
 
     @GetMapping("/query-relation-enterprise-service")
     @ApiOperation(value = "查询和商户关联的服务商", notes = "查询和商户关联的服务商")
-    public R queryRelationEnterpriseService(Query query, BladeUser bladeUser,@RequestParam(required = false) String serviceProviderName) {
+    public R queryRelationEnterpriseService(Query query, BladeUser bladeUser, @RequestParam(required = false) String serviceProviderName) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -206,12 +182,12 @@ public class InvoiceTaxEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return payEnterpriseService.queryRelationEnterpriseService(enterpriseWorkerEntity.getEnterpriseId(),serviceProviderName,Condition.getPage(query.setDescs("a.create_time")));
+        return payEnterpriseService.queryRelationEnterpriseService(enterpriseWorkerEntity.getEnterpriseId(), serviceProviderName, Condition.getPage(query.setDescs("a.create_time")));
     }
 
     @GetMapping("/query-enterprise-service-pay-list")
     @ApiOperation(value = "根据商户和服务商查询支付清单", notes = "根据商户和服务商查询支付清单")
-    public R queryEnterpriseServicePayList(Query query,BladeUser bladeUser,@ApiParam(value = "服务商") @NotNull(message = "请选择服务商") @RequestParam(required = false)Long serviceProviderId) {
+    public R queryEnterpriseServicePayList(Query query, BladeUser bladeUser, @ApiParam(value = "服务商") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -219,7 +195,7 @@ public class InvoiceTaxEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return payEnterpriseService.queryEnterpriseServicePayList(enterpriseWorkerEntity.getEnterpriseId(),serviceProviderId,Condition.getPage(query.setDescs("a.create_time")));
+        return payEnterpriseService.queryEnterpriseServicePayList(enterpriseWorkerEntity.getEnterpriseId(), serviceProviderId, Condition.getPage(query.setDescs("a.create_time")));
     }
 
     @GetMapping("/query-all-open-sub-list")
@@ -263,7 +239,7 @@ public class InvoiceTaxEnterpriseController {
 
     @GetMapping("/query-single-open-sub-detail")
     @ApiOperation(value = "根据商户查询门征单开分包详情", notes = "根据商户查询门征单开分包详情")
-    public R querySingleOpenSubDetail(@ApiParam(value = "门征发票id") @NotNull(message = "门征发票id不能为空") @RequestParam(required = false)Long makerInvoiceId, BladeUser bladeUser) {
+    public R querySingleOpenSubDetail(@ApiParam(value = "门征发票id") @NotNull(message = "门征发票id不能为空") @RequestParam(required = false) Long makerInvoiceId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
