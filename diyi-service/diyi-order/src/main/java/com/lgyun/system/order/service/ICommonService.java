@@ -18,14 +18,6 @@ public interface ICommonService {
      * @return
      * @throws Exception
      */
-    R<String> ossImageUpload(MultipartFile file) throws Exception;
-
-    /**
-     * 上传Excel文件
-     *
-     * @param file
-     * @return
-     */
-    R<String> ossExcelUpload(MultipartFile file) throws Exception;
+    R<String> ossImageUpload(MultipartFile file, String suffix) throws Exception;
 
 }

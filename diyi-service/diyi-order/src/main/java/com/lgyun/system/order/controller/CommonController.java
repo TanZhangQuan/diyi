@@ -24,16 +24,11 @@ public class CommonController {
 
     private ICommonService commonService;
 
-    @PostMapping("/oss-image-upload")
+    @PostMapping("/oss-file-upload")
     @ApiOperation(value = "上传文件", notes = "上传文件")
-    public R ossFileUpload(@ApiParam(value = "文件", required = true) @NotNull(message = "请选择上传文件") @RequestParam(required = false) MultipartFile file) throws Exception {
-        return commonService.ossImageUpload(file);
-    }
-
-    @PostMapping("/oss-excel-upload")
-    @ApiOperation(value = "上传Excel文件", notes = "上传Excel文件")
-    public R ossExcelUpload(@ApiParam(value = "文件", required = true) @NotNull(message = "请选择上传Excel文件") @RequestParam(required = false) MultipartFile file) throws Exception {
-        return commonService.ossExcelUpload(file);
+    public R ossFileUpload(@ApiParam(value = "文件", required = true) @NotNull(message = "请选择上传文件") @RequestParam(required = false) MultipartFile file,
+                           @ApiParam(value = "文件类型") @RequestParam(required = false) String suffix) throws Exception {
+        return commonService.ossImageUpload(file, suffix);
     }
 
 }

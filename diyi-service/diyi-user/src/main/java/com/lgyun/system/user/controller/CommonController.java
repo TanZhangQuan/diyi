@@ -30,10 +30,4 @@ public class CommonController {
         return commonService.ossImageUpload(file);
     }
 
-    @PostMapping("/oss-excel-upload")
-    @ApiOperation(value = "上传Excel文件", notes = "上传Excel文件")
-    public R ossExcelUpload(@ApiParam(value = "文件") @NotNull(message = "请选择上传Excel文件") @RequestParam(required = false) MultipartFile file) throws Exception {
-        return commonService.ossExcelUpload(file);
-    }
-
 }

@@ -4,10 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.Ibstate;
-import com.lgyun.common.enumeration.MakerType;
-import com.lgyun.common.enumeration.PayEnterprisePayState;
-import com.lgyun.common.enumeration.PayMakerPayState;
+import com.lgyun.common.enumeration.*;
 import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
@@ -158,14 +155,14 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
                 throw new CustomException("第" + i + "条数据的Excel创客姓名和系统创客姓名不一致");
             }
 
-//            if (!(SignState.SIGNED.equals(makerEntity.getJoinSignState()))) {
-//                throw new CustomException("第" + i  + "条数据的创客未签署加盟合同");
-//            }
+            if (!(SignState.SIGNED.equals(makerEntity.getJoinSignState()))) {
+                throw new CustomException("第" + i  + "条数据的创客未签署加盟合同");
+            }
 
-//            int entMakSupplementaryAgreementNum = userClient.queryEntMakSupplementaryAgreementNum(makerEntity.getId(), enterpriseId);
-//            if (entMakSupplementaryAgreementNum <= 0) {
-//                throw new CustomException("第" + i  + "条数据的创客未签署商户-创客补充协议");
-//            }
+            int entMakSupplementaryAgreementNum = userClient.queryEntMakSupplementaryAgreementNum(makerEntity.getId(), enterpriseId);
+            if (entMakSupplementaryAgreementNum <= 0) {
+                throw new CustomException("第" + i  + "条数据的创客未签署商户-创客补充协议");
+            }
 
             int makerEnterpriseNum = userClient.queryMakerEnterpriseRelevanceCount(enterpriseId, makerEntity.getId());
             if (makerEnterpriseNum <= 0) {
