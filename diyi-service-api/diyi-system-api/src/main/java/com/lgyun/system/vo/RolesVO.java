@@ -12,8 +12,8 @@ import java.io.Serializable;
 @ApiModel("角色信息（以下拉框形式显示,为空时表示没有创建角色,提醒用户去创建角色）")
 public class RolesVO implements Serializable {
 
-    @JsonSerialize(using = ToStringSerializer.class)
     @ApiModelProperty("角色ID")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     @ApiModelProperty("角色名称")

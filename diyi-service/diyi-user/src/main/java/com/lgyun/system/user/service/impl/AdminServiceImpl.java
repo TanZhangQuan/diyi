@@ -118,7 +118,7 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
                 menuNames = sysClient.getMenuNames(adminEntity.getRoleId());
             }
             adminVO.setMenuNames(menuNames);
-            adminVO.setPositionName(adminEntity.getPositionName().getDesc());
+            adminVO.setPositionName(adminEntity.getPositionName());
             adminVO.setAdminState(adminEntity.getAdminState());
             if (id.equals(adminEntity.getId())) {
                 adminVO.setMaster(true);
@@ -145,7 +145,7 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
         }
         AdminInfoVO adminInfoVO = new AdminInfoVO();
         BeanUtil.copyProperties(subAdminEntity, adminInfoVO);
-        adminInfoVO.setPositionName(subAdminEntity.getPositionName().getDesc());
+        adminInfoVO.setPositionName(subAdminEntity.getPositionName());
         return R.data(adminInfoVO);
     }
 

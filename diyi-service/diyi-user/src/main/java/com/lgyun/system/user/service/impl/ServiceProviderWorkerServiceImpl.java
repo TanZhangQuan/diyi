@@ -130,7 +130,7 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
                 R.fail("您编辑的角色现在赋予给了子账号，请收回后在编辑！");
             }
         }
-        roleMenusDTO.setUserType(UserType.ENTERPRISE);
+        roleMenusDTO.setUserType(UserType.SERVICEPROVIDER);
         R result = sysClient.createOrUpdateRoleMenus(roleMenusDTO, id);
         if (result.isSuccess()) {
             return R.success("操作成功！");
@@ -185,7 +185,7 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
                 menuNames = sysClient.getMenuNames(serviceProviderWorkerEntity.getRoleId());
             }
             serviceProviderWorkerVO.setMenuNames(menuNames);
-            serviceProviderWorkerVO.setPositionName(serviceProviderWorkerEntity.getPositionName().getDesc());
+            serviceProviderWorkerVO.setPositionName(serviceProviderWorkerEntity.getPositionName());
             serviceProviderWorkerVO.setAccountState(serviceProviderWorkerEntity.getServiceProviderWorkerState());
             serviceProviderWorkerVO.setEnterpriseName(serviceProviderWorkerEntity.getWorkerName());
             if (id.equals(serviceProviderWorkerEntity.getId())) {
@@ -213,8 +213,9 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
         }
         ServiceProviderWorkerInfoVO serviceProviderWorkerInfoVO = new ServiceProviderWorkerInfoVO();
         BeanUtil.copyProperties(subServiceProviderWorkerEntity, serviceProviderWorkerInfoVO);
-        serviceProviderWorkerInfoVO.setPositionName(subServiceProviderWorkerEntity.getPositionName().getDesc());
+        serviceProviderWorkerInfoVO.setPositionName(subServiceProviderWorkerEntity.getPositionName());
         serviceProviderWorkerInfoVO.setEnterpriseName(subServiceProviderWorkerEntity.getWorkerName());
+        serviceProviderWorkerInfoVO.setAdminPower(subServiceProviderWorkerEntity.getAdminPower());
         return R.data(serviceProviderWorkerInfoVO);
     }
 
