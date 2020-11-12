@@ -350,7 +350,7 @@ public class InvoiceTaxServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return payEnterpriseService.saveServiceLumpSumMergeInvoice(serviceProviderWorkerEntity.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseIds(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),lumpSumInvoiceDto.getInvoiceTypeNo(),lumpSumInvoiceDto.getInvoiceSerialNo(),lumpSumInvoiceDto.getInvoiceCategory(),lumpSumInvoiceDto.getInvoiceMode(),lumpSumInvoiceDto.getPartInvoiceAmount());
+        return payEnterpriseService.saveServiceLumpSumMergeInvoice(serviceProviderWorkerEntity.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseIds(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),null,null,lumpSumInvoiceDto.getInvoiceCategory(),lumpSumInvoiceDto.getInvoiceMode(),lumpSumInvoiceDto.getPartInvoiceAmount());
     }
 
 
@@ -364,7 +364,7 @@ public class InvoiceTaxServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return payEnterpriseService.createTotalApplyInvoice(serviceProviderWorkerEntity.getServiceProviderId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getApplicationId(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),lumpSumInvoiceDto.getInvoiceTypeNo(),lumpSumInvoiceDto.getInvoiceSerialNo(),lumpSumInvoiceDto.getInvoiceCategory(),lumpSumInvoiceDto.getInvoiceMode(),lumpSumInvoiceDto.getPartInvoiceAmount());
+        return payEnterpriseService.createTotalApplyInvoice(serviceProviderWorkerEntity.getServiceProviderId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getApplicationId(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),null,null,lumpSumInvoiceDto.getInvoiceCategory(),lumpSumInvoiceDto.getInvoiceMode(),lumpSumInvoiceDto.getPartInvoiceAmount());
     }
 
 
