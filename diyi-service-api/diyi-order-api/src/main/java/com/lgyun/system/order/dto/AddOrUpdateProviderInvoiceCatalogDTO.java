@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * 地址
+ * 服务商发票类目
  *
  * @author tzq
  * @date 2020/7/8.
@@ -17,6 +17,11 @@ import java.io.Serializable;
 @Data
 public class AddOrUpdateProviderInvoiceCatalogDTO implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 服务商发票类目ID
+     */
+    private Long invoiceCatalogId;
 
     /**
      * 应用范围
@@ -29,5 +34,15 @@ public class AddOrUpdateProviderInvoiceCatalogDTO implements Serializable {
      */
     @NotBlank(message = "请输入发票类目名称")
     private String invoiceCatalogName;
+
+    /**
+     * 设置人员
+     */
+    private String setPerson;
+
+    /**
+     * 设置说明
+     */
+    private String setDesc;
 
 }

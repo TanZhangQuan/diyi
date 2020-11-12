@@ -3,11 +3,9 @@ package com.lgyun.system.user.vo;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.PositionName;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * 视图实体类
@@ -23,37 +21,31 @@ public class EnterpriseWorkerInfoVO implements Serializable {
      * 商户ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
-    @ApiModelProperty("商户员工ID（编辑时用）")
     private Long enterpriseWorkerId;
 
     /**
      * 商户名称
      */
-    @ApiModelProperty("商户名称")
     private String enterpriseName;
 
     /**
      * 岗位
      */
-    @ApiModelProperty("岗位")
     private PositionName positionName;
 
     /**
      * 手机号码
      */
-    @ApiModelProperty("手机号码")
     private String phoneNumber;
 
     /**
      * 用户名
      */
-    @ApiModelProperty("用户名")
     private String employeeUserName;
 
     /**
      * 拥有的角色ID
      */
-    @ApiModelProperty("拥有的角色ID(用来显示下拉框默认值)")
     private Long roleId;
 
     /**

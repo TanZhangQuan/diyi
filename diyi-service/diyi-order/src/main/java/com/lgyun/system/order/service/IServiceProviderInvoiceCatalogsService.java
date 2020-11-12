@@ -16,10 +16,30 @@ import com.lgyun.system.order.vo.ProviderInvoiceCatalogUpdateDetailVO;
  */
 public interface IServiceProviderInvoiceCatalogsService extends BaseService<ServiceProviderInvoiceCatalogsEntity> {
 
+    /**
+     * 查询服务商所有开票类目
+     *
+     * @param serviceProviderId
+     * @param page
+     * @return
+     */
     R<IPage<ProviderInvoiceCatalogListVO>> queryInvoiceCatalogList(Long serviceProviderId, IPage<ProviderInvoiceCatalogListVO> page);
 
+    /**
+     * 查询编辑开票类目详情
+     *
+     * @param invoiceCatalogId
+     * @return
+     */
     R<ProviderInvoiceCatalogUpdateDetailVO> queryInvoiceCatalogUpdateDetail(Long invoiceCatalogId);
 
+    /**
+     * 添加/编辑开票类目
+     *
+     * @param addOrUpdateProviderInvoiceCatalogDTO
+     * @param serviceProviderId
+     * @return
+     */
     R<String> addOrUpdateInvoiceCatalog(AddOrUpdateProviderInvoiceCatalogDTO addOrUpdateProviderInvoiceCatalogDTO, Long serviceProviderId);
 
 }

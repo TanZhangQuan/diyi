@@ -3,7 +3,6 @@ package com.lgyun.system.user.vo;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.PositionName;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -18,35 +17,30 @@ public class AdminInfoVO implements Serializable {
     private String id;
 
     /**
+     * 角色ID
+     */
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long roleId;
+
+    /**
      * 姓名
      */
-    @ApiModelProperty("姓名")
     private String name;
 
     /**
      * 岗位性质
      */
-    @ApiModelProperty("岗位性质")
     private PositionName positionName;
 
     /**
      * 手机号码
      */
-    @ApiModelProperty("手机号码")
     private String phoneNumber;
 
     /**
      * 用户名
      */
-    @ApiModelProperty("用户名")
     private String userName;
-
-
-    /**
-     * 拥有的角色ID
-     */
-    @ApiModelProperty("角色ID(当查询自己时角色显示为空切不可编辑)")
-    private Long roleId;
 
     /**
      *  创建子账号的权限
