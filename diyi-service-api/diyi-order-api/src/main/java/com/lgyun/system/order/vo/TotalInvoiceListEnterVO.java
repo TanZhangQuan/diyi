@@ -3,7 +3,6 @@ package com.lgyun.system.order.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.lgyun.common.enumeration.ApplicationState;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -54,7 +53,7 @@ public class TotalInvoiceListEnterVO implements Serializable {
     /**
      *处理状态 1,申请中；2，已拒绝；3，已全额开具；4，已部分开具,5,已取消    applyState = 1 的时候看
      */
-    private ApplicationState applicationState;
+    private String applicationState;
     /**
      * 创建时间
      */
