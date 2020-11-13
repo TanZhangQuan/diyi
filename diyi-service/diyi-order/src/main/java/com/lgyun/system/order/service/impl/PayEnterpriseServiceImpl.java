@@ -1005,14 +1005,15 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
                 Map<String,Object> maps = (Map) JSON.parse(result);
                 Boolean success = (Boolean) maps.get("Success");
                 if(success){
-                    orderTracesByJson =   maps.get("Traces").toString();
+                    map.put("orderTracesByJson",maps.get("Traces"));
+                }else{
+                    map.put("orderTracesByJson","");
                 }
             }catch (Exception e){
+                map.put("orderTracesByJson","");
                 log.info(e.getMessage());
             }
         }
-
-        map.put("orderTracesByJson",orderTracesByJson);
         map.put("enterpriseInvoiceDetails",enterpriseInvoiceDetails);
         return R.data(map);
     }
