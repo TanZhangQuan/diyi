@@ -87,15 +87,14 @@ public class WorksheetEnterpriseController {
 
     @PostMapping("/kick-out-maker")
     @ApiOperation(value = "工单踢出创客", notes = "工单踢出创客")
-    public R kickOutMaker(@NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId,
-                          @NotNull(message = "请输入创客") @RequestParam(required = false) Long makerId, BladeUser bladeUser) {
+    public R kickOutMaker(@NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetMakerId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return worksheetService.kickOut(worksheetId, makerId);
+        return worksheetService.kickOut(worksheetMakerId);
     }
 
     @PostMapping("/close-or-open-worksheet")
