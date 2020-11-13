@@ -65,6 +65,6 @@ public class EnterpriseMakerAgreementVO implements Serializable {
     /**
      * 创建时间
      */
-    @JsonFormat(pattern = "MM-dd", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date createTime;
 }
