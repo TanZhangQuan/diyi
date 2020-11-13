@@ -6,7 +6,6 @@ import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.dto.AddOrUpdateProviderInvoiceCatalogDTO;
 import com.lgyun.system.order.entity.ServiceProviderInvoiceCatalogsEntity;
 import com.lgyun.system.order.vo.ProviderInvoiceCatalogListVO;
-import com.lgyun.system.order.vo.ProviderInvoiceCatalogUpdateDetailVO;
 
 /**
  * 商户-服务商开票类目表 Service 接口
@@ -31,7 +30,7 @@ public interface IServiceProviderInvoiceCatalogsService extends BaseService<Serv
      * @param invoiceCatalogId
      * @return
      */
-    R<ProviderInvoiceCatalogUpdateDetailVO> queryInvoiceCatalogUpdateDetail(Long invoiceCatalogId);
+    R<ProviderInvoiceCatalogListVO> queryInvoiceCatalogUpdateDetail(Long invoiceCatalogId);
 
     /**
      * 添加/编辑开票类目

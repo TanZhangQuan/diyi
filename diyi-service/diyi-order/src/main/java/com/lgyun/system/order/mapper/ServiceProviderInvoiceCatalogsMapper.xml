@@ -12,21 +12,12 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.order.vo.ProviderInvoiceCatalogUpdateDetailVO" id="providerInvoiceCatalogUpdateDetailVO">
-        <result property="id" column="id"/>
-        <result property="applyScope" column="apply_scope"/>
-        <result property="invoiceCatalogName" column="invoice_catalog_name"/>
-        <result property="setPerson" column="set_person"/>
-        <result property="setDesc" column="set_desc"/>
-        <result property="createTime" column="create_time"/>
-    </resultMap>
-
     <select id="queryInvoiceCatalogList" resultMap="providerInvoiceCatalogListVO">
         SELECT id, apply_scope, invoice_catalog_name, set_person, set_desc, create_time FROM diyi_service_provider_invoice_catalogs
         WHERE is_deleted = 0 AND service_provider_id = #{param1}
     </select>
 
-    <select id="queryInvoiceCatalogUpdateDetail" resultMap="providerInvoiceCatalogUpdateDetailVO">
+    <select id="queryInvoiceCatalogUpdateDetail" resultMap="providerInvoiceCatalogListVO">
         SELECT id, apply_scope, invoice_catalog_name, set_person, set_desc, create_time FROM diyi_service_provider_invoice_catalogs
         WHERE is_deleted = 0 AND id = #{param1}
     </select>

@@ -12,7 +12,7 @@
         <result property="isDefault" column="is_default"/>
     </resultMap>
 
-    <select id="queryServiceProviderWorkerDetail" resultMap="serviceProviderAccountListVO">
+    <select id="queryServiceProviderAccountList" resultMap="serviceProviderAccountListVO">
         SELECT id, account_type, account_name, account_no, account_bank, is_default FROM diyi_service_provider_account WHERE is_deleted = 0 AND service_provider_id = #{param1}
     </select>
 

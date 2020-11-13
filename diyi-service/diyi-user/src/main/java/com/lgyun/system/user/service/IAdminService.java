@@ -10,7 +10,7 @@ import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.vo.AdminDetailVO;
 import com.lgyun.system.user.vo.AdminInfoVO;
 import com.lgyun.system.user.vo.AdminVO;
-import com.lgyun.system.vo.RoleMenuInfoVo;
+import com.lgyun.system.vo.RoleMenuInfoVO;
 import com.lgyun.system.vo.RoleMenusVO;
 import com.lgyun.system.vo.RolesVO;
 
@@ -143,6 +143,6 @@ public interface IAdminService extends BaseService<AdminEntity> {
      * @param roleId
      * @return
      */
-    R<RoleMenuInfoVo> queryRoleInfo(Long roleId);
+    R<RoleMenuInfoVO> queryRoleInfo(Long roleId);
 }
 

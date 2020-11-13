@@ -24,6 +24,12 @@ public class EnterpriseWorkerInfoVO implements Serializable {
     private Long enterpriseWorkerId;
 
     /**
+     * 拥有的角色ID
+     */
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long roleId;
+
+    /**
      * 商户名称
      */
     private String enterpriseName;
@@ -42,11 +48,6 @@ public class EnterpriseWorkerInfoVO implements Serializable {
      * 用户名
      */
     private String employeeUserName;
-
-    /**
-     * 拥有的角色ID
-     */
-    private Long roleId;
 
     /**
      * 创建字子账号的权限
