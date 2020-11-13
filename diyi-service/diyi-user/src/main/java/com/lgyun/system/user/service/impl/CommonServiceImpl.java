@@ -33,7 +33,7 @@ public class CommonServiceImpl implements ICommonService {
         }
 
         // 查询上传文件的后缀
-        String fileSuffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")).replace(".", "");
+        String fileSuffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
 
         //文件类型拆分
         if (StringUtils.isNotBlank(suffix)) {
@@ -46,7 +46,7 @@ public class CommonServiceImpl implements ICommonService {
             }
 
             if (!(suffixList.isEmpty())) {
-                if (!(suffixList.contains(fileSuffix))) {
+                if (!(suffixList.contains(fileSuffix.replace(".", "")))) {
                     return R.fail("文件类型有误");
                 }
             }

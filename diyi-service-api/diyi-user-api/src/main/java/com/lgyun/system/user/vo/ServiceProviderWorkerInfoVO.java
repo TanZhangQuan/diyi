@@ -6,7 +6,6 @@ import com.lgyun.common.enumeration.PositionName;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * 视图实体类
@@ -23,6 +22,12 @@ public class ServiceProviderWorkerInfoVO implements Serializable {
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
+
+    /**
+     * 角色ID
+     */
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long roleId;
 
     /**
      * 商户名称
@@ -44,11 +49,6 @@ public class ServiceProviderWorkerInfoVO implements Serializable {
      * 用户名
      */
     private String employeeUserName;
-
-    /**
-     * 角色ID
-     */
-    private Long roleId;
 
     /**
      * 建立子账号权限

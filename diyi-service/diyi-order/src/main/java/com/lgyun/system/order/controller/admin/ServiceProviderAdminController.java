@@ -5,9 +5,11 @@ import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.AddressDTO;
+import com.lgyun.system.order.dto.AddOrUpdateAddressDTO;
+import com.lgyun.system.order.dto.AddOrUpdateProviderInvoiceCatalogDTO;
 import com.lgyun.system.order.service.IAddressService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
+import com.lgyun.system.order.service.IServiceProviderInvoiceCatalogsService;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
@@ -30,6 +32,7 @@ public class ServiceProviderAdminController {
     private IUserClient userClient;
     private IAddressService addressService;
     private IPayEnterpriseService payEnterpriseService;
+    private IServiceProviderInvoiceCatalogsService serviceProviderInvoiceCatalogsService;
 
     @GetMapping("/query-address-list")
     @ApiOperation(value = "查询服务商所有收货地址信息", notes = "查询服务商所有收货地址信息")
@@ -58,14 +61,14 @@ public class ServiceProviderAdminController {
     @PostMapping("/add-or-update-address")
     @ApiOperation(value = "添加/编辑收货地址", notes = "添加/编辑收货地址")
     public R addOrUpdateAddress(@ApiParam(value = "服务商编号") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
-                                @Valid @RequestBody AddressDTO addressDto, BladeUser bladeUser) {
+                                @Valid @RequestBody AddOrUpdateAddressDTO addOrUpdateAddressDto, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return addressService.addOrUpdateAddress(addressDto, serviceProviderId, ObjectType.SERVICEPEOPLE);
+        return addressService.addOrUpdateAddress(addOrUpdateAddressDto, serviceProviderId, ObjectType.SERVICEPEOPLE);
     }
 
     @PostMapping("/delete-address")
@@ -78,6 +81,55 @@ public class ServiceProviderAdminController {
         }
 
         return addressService.deleteAddress(addressId);
+    }
+
+    @GetMapping("/query-invoice-catalog-list")
+    @ApiOperation(value = "查询服务商所有开票类目", notes = "查询服务商所有开票类目")
+    public R queryInvoiceCatalogList(@ApiParam(value = "服务商") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId, Query query, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return serviceProviderInvoiceCatalogsService.queryInvoiceCatalogList(serviceProviderId, Condition.getPage(query.setDescs("create_time")));
+    }
+
+    @GetMapping("/query-invoice-catalog-update-detail")
+    @ApiOperation(value = "查询编辑开票类目详情", notes = "查询编辑开票类目详情")
+    public R queryInvoiceCatalogUpdateDetail(@ApiParam(value = "开票类目") @NotNull(message = "请选择开票类目") @RequestParam(required = false) Long invoiceCatalogId, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return serviceProviderInvoiceCatalogsService.queryInvoiceCatalogUpdateDetail(invoiceCatalogId);
+    }
+
+    @PostMapping("/add-or-update-invoice-catalog")
+    @ApiOperation(value = "添加/编辑开票类目", notes = "添加/编辑开票类目")
+    public R addOrUpdateInvoiceCatalog(@ApiParam(value = "服务商编号") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
+                                       @Valid @RequestBody AddOrUpdateProviderInvoiceCatalogDTO addOrUpdateProviderInvoiceCatalogDTO, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return serviceProviderInvoiceCatalogsService.addOrUpdateInvoiceCatalog(addOrUpdateProviderInvoiceCatalogDTO, serviceProviderId);
+    }
+
+    @PostMapping("/delete-invoice-catalog")
+    @ApiOperation(value = "删除开票类目", notes = "删除开票类目")
+    public R deleteInvoiceCatalog(@ApiParam(value = "开票类目", required = true) @NotNull(message = "请选择要删除的开票类目") @RequestParam(required = false) Long invoiceCatalogId, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return R.status(serviceProviderInvoiceCatalogsService.removeById(invoiceCatalogId));
     }
 
     @GetMapping("/query-enterprise-transaction")

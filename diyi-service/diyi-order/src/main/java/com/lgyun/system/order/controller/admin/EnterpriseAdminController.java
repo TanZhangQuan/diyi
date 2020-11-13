@@ -5,7 +5,7 @@ import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.AddressDTO;
+import com.lgyun.system.order.dto.AddOrUpdateAddressDTO;
 import com.lgyun.system.order.service.IAddressService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.user.entity.AdminEntity;
@@ -58,14 +58,14 @@ public class EnterpriseAdminController {
     @PostMapping("/add-or-update-address")
     @ApiOperation(value = "添加/编辑收货地址", notes = "添加/编辑收货地址")
     public R addOrUpdateAddress(@ApiParam(value = "商户编号") @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
-                                @Valid @RequestBody AddressDTO addressDto, BladeUser bladeUser) {
+                                @Valid @RequestBody AddOrUpdateAddressDTO addOrUpdateAddressDto, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return addressService.addOrUpdateAddress(addressDto, enterpriseId, ObjectType.ENTERPRISEPEOPLE);
+        return addressService.addOrUpdateAddress(addOrUpdateAddressDto, enterpriseId, ObjectType.ENTERPRISEPEOPLE);
     }
 
     @PostMapping("/delete-address")

@@ -6,7 +6,7 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.AddressDTO;
+import com.lgyun.system.order.dto.AddOrUpdateAddressDTO;
 import com.lgyun.system.order.service.IAddressService;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
@@ -32,7 +32,7 @@ public class BasicInfoServiceProviderController {
 
     @PostMapping("/add-or-update-address")
     @ApiOperation(value = "新建或修改收货地址", notes = "新建或修改收货地址")
-    public R addOrUpdateAddress(@Valid @RequestBody AddressDTO addressDto, BladeUser bladeUser) {
+    public R addOrUpdateAddress(@Valid @RequestBody AddOrUpdateAddressDTO addOrUpdateAddressDto, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -40,7 +40,7 @@ public class BasicInfoServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return addressService.addOrUpdateAddress(addressDto, serviceProviderWorkerEntity.getServiceProviderId(), ObjectType.SERVICEPEOPLE);
+        return addressService.addOrUpdateAddress(addOrUpdateAddressDto, serviceProviderWorkerEntity.getServiceProviderId(), ObjectType.SERVICEPEOPLE);
     }
 
     @PostMapping("/set-default-address")
