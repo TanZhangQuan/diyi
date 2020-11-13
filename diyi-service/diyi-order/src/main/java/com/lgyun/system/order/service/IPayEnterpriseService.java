@@ -2,10 +2,7 @@ package com.lgyun.system.order.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.InvoiceMode;
-import com.lgyun.common.enumeration.InvoiceState;
-import com.lgyun.common.enumeration.MakerInvoiceType;
-import com.lgyun.common.enumeration.PayEnterpriseAuditState;
+import com.lgyun.common.enumeration.*;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.dto.*;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
@@ -241,7 +238,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @param page
      * @return
      */
-    R getServiceLumpSumInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, InvoiceState companyInvoiceState, IPage<InvoiceServiceLumpVO> page);
+    R getServiceLumpSumInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, CompanyInvoiceState companyInvoiceState, IPage<InvoiceServiceLumpVO> page);
 
 
     /**
@@ -438,7 +435,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     /**
      * 根据服务商查询汇总代开分包列表
      */
-    R findServiceSubcontractSummary(Long serviceProviderId, String enterpriseName, InvoiceState companyInvoiceState, IPage<EnterpriseSubcontractInvoiceVO> page);
+    R findServiceSubcontractSummary(Long serviceProviderId, String enterpriseName, CompanyInvoiceState companyInvoiceState, IPage<EnterpriseSubcontractInvoiceVO> page);
 
     /**
      * 服务商汇总代开发票

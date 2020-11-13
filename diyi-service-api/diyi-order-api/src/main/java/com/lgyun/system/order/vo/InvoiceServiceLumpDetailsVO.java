@@ -2,7 +2,7 @@ package com.lgyun.system.order.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.lgyun.common.enumeration.InvoiceState;
+import com.lgyun.common.enumeration.CompanyInvoiceState;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -101,7 +101,7 @@ public class InvoiceServiceLumpDetailsVO implements Serializable {
     /**
      * 开票状态
      */
-    private InvoiceState companyInvoiceState;
+    private CompanyInvoiceState companyInvoiceState;
 
     /**
      * 创建时间

@@ -2,11 +2,14 @@ package com.lgyun.system.order.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.common.enumeration.InvoiceState;
+import com.lgyun.common.enumeration.CompanyInvoiceState;
 import com.lgyun.system.order.dto.PayEnterpriseDTO;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.*;
-import com.lgyun.system.user.vo.*;
+import com.lgyun.system.user.vo.AdminAgentMainServiceProviderListVO;
+import com.lgyun.system.user.vo.AgentMainTransactionVO;
+import com.lgyun.system.user.vo.PartnerServiceProviderListVO;
+import com.lgyun.system.user.vo.TransactionVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -325,7 +328,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     /**
      * 根据服务商查询汇总代开分包列表
      */
-    List<EnterpriseSubcontractInvoiceVO> findServiceSubcontractSummary(Long serviceProviderId, String enterpriseName, InvoiceState companyInvoiceState, IPage<EnterpriseSubcontractInvoiceVO> page);
+    List<EnterpriseSubcontractInvoiceVO> findServiceSubcontractSummary(Long serviceProviderId, String enterpriseName, CompanyInvoiceState companyInvoiceState, IPage<EnterpriseSubcontractInvoiceVO> page);
 
 
     /**

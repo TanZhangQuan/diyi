@@ -3,10 +3,7 @@ package com.lgyun.system.order.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.lgyun.common.enumeration.InvoiceState;
-import com.lgyun.common.enumeration.MakerInvoiceType;
-import com.lgyun.common.enumeration.PayEnterpriseAuditState;
-import com.lgyun.common.enumeration.PayEnterprisePayState;
+import com.lgyun.common.enumeration.*;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -82,7 +79,7 @@ public class PayEnterpriseDetailVO implements Serializable {
     /**
      * 总包开票状态：未开，已开
      */
-    private InvoiceState companyInvoiceState;
+    private CompanyInvoiceState companyInvoiceState;
 
     /**
      * 分包开票状态：未开，已开

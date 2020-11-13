@@ -1,7 +1,7 @@
 package com.lgyun.system.order.controller.admin;
 
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.InvoiceState;
+import com.lgyun.common.enumeration.CompanyInvoiceState;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
@@ -33,7 +33,7 @@ public class InvoiceTaxAdminController {
 //    @GetMapping("/query-total-invoice-list")
 //    @ApiOperation(value = "查询总包发票", notes = "查询总包发票")
 //    public R queryTotalInvoiceList(@RequestParam(required = false) String enterpriseName, @RequestParam(required = false) String startTime,
-//                                   @RequestParam(required = false) String endTime, @RequestParam InvoiceState companyInvoiceState, Query query, BladeUser bladeUser) {
+//                                   @RequestParam(required = false) String endTime, @RequestParam CompanyInvoiceState companyInvoiceState, Query query, BladeUser bladeUser) {
 //        //查询当前管理员
 //        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
 //        if (!(result.isSuccess())) {
@@ -245,8 +245,8 @@ public class InvoiceTaxAdminController {
 
     @GetMapping("/query-total-invoice")
     @ApiOperation(value = "平台查询总包发票列表", notes = "平台查询总包发票列表")
-    public R queryTotalInvoice(@RequestParam(required = false) String enterpriseName,@ApiParam(value = "服务商ID", required = true)@NotNull(message = "服务商id不能为空")@RequestParam(required = false) Long serviceProviderId, @RequestParam(required = false) String startTime,
-                               @RequestParam(required = false) String endTime, @RequestParam InvoiceState companyInvoiceState, Query query, BladeUser bladeUser) {
+    public R queryTotalInvoice(@RequestParam(required = false) String enterpriseName, @ApiParam(value = "服务商ID", required = true)@NotNull(message = "服务商id不能为空")@RequestParam(required = false) Long serviceProviderId, @RequestParam(required = false) String startTime,
+                               @RequestParam(required = false) String endTime, @RequestParam CompanyInvoiceState companyInvoiceState, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -355,7 +355,7 @@ public class InvoiceTaxAdminController {
     @GetMapping("/query-all-sub-list")
     @ApiOperation(value = "根据服务商查询分包列表", notes = "根据服务商查询分包列表")
     public R queryAllOpenSubList(@RequestParam(required = false) String enterprise_name,
-                                 @RequestParam InvoiceState companyInvoiceState, Query query, BladeUser bladeUser,
+                                 @RequestParam CompanyInvoiceState companyInvoiceState, Query query, BladeUser bladeUser,
                                  @ApiParam(value = "服务商ID", required = true)@NotNull(message = "服务商id不能为空")@RequestParam(required = false) Long serviceProviderId) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);

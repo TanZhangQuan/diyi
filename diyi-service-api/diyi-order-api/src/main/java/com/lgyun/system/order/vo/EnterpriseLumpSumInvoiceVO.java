@@ -3,6 +3,7 @@ package com.lgyun.system.order.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.CompanyInvoiceState;
 import com.lgyun.common.enumeration.InvoiceState;
 import lombok.Data;
 
@@ -83,7 +84,7 @@ public class EnterpriseLumpSumInvoiceVO {
      *
      * 开票状态
      */
-    private InvoiceState companyInvoiceState;
+    private CompanyInvoiceState companyInvoiceState;
 
     /**
      * 开票日期
