@@ -393,6 +393,17 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         }
         agreementEntity.setSignState(SignState.SIGNED);
         saveOrUpdate(agreementEntity);
+
+        if(AgreementType.MAKERJOINAGREEMENT.equals(agreementType) || AgreementType.MAKERPOWERATTORNEY.equals(agreementType)){
+            MakerEntity makerServiceById = makerService.getById(objectId);
+            if(AgreementType.MAKERJOINAGREEMENT.equals(agreementType)){
+                makerServiceById.setEmpowerSignState(SignState.SIGNED);
+            }
+            if(AgreementType.MAKERPOWERATTORNEY.equals(agreementType)){
+                makerServiceById.setJoinSignState(SignState.SIGNED);
+            }
+            makerService.saveOrUpdate(makerServiceById);
+        }
         return R.success("操作成功");
     }
 
