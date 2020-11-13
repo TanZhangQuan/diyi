@@ -133,22 +133,6 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
     int queryCountById(Long individualBusinessId);
 
     /**
-     * 根据个体户名称查询个体户
-     *
-     * @param ibname
-     * @return
-     */
-    int queryCountByIbname(String ibname);
-
-    /**
-     * 根据统一社会信用代码查询个体户
-     *
-     * @param ibtaxNo
-     * @return
-     */
-    int queryCountByIbtaxNo(String ibtaxNo);
-
-    /**
      * 注销个体户
      *
      * @param serviceProviderId

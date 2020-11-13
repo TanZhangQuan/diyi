@@ -1,5 +1,6 @@
 package com.lgyun.system.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.IdcardVerifyType;
 import com.lgyun.common.enumeration.VerifyStatus;
@@ -43,6 +44,7 @@ public class UpdatePartnerDTO implements Serializable {
     /**
      * 微信关联日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date relDate;
 
@@ -89,6 +91,7 @@ public class UpdatePartnerDTO implements Serializable {
     /**
      * 到期日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date dueDate;
 
@@ -160,6 +163,7 @@ public class UpdatePartnerDTO implements Serializable {
     /**
      * 身份证验证日期时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date idcardVerifyDate;
 

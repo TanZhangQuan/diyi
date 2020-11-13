@@ -1,5 +1,6 @@
 package com.lgyun.system.order.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lgyun.common.enumeration.PayEnterpriseAuditState;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -36,12 +37,14 @@ public class PayEnterpriseDTO implements Serializable {
     /**
      * 上传支付清单开始时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date beginDate;
 
     /**
      * 上传支付清单结束时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 

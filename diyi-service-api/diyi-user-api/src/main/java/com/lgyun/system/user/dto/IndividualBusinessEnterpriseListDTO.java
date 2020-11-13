@@ -1,5 +1,6 @@
 package com.lgyun.system.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lgyun.common.enumeration.Ibstate;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -30,12 +31,14 @@ public class IndividualBusinessEnterpriseListDTO implements Serializable {
     /**
      * 个体户或个独或个独注册开始时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date beginDate;
 
     /**
      * 个体户或个独注册结束时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 

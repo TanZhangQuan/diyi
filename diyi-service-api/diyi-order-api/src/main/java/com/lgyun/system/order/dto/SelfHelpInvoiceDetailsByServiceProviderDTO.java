@@ -1,5 +1,6 @@
 package com.lgyun.system.order.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -30,12 +31,14 @@ public class SelfHelpInvoiceDetailsByServiceProviderDTO implements Serializable 
     /**
      * 自助开票开始时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date beginDate;
 
     /**
      * 自助开票结束时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 

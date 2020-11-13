@@ -1,5 +1,6 @@
 package com.lgyun.system.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lgyun.common.enumeration.BizType;
 import com.lgyun.common.enumeration.Ibstate;
 import lombok.Data;
@@ -26,7 +27,7 @@ public class IndividualBusinessEnterpriseUpdateServiceProviderDTO implements Ser
      * 个体户/个独ID
      */
     @NotNull(message = "请选择个体户/个独")
-    private Long id;
+    private Long individualId;
 
     /**
      * 核定税种
@@ -47,6 +48,7 @@ public class IndividualBusinessEnterpriseUpdateServiceProviderDTO implements Ser
     /**
      * 营业执照的注册日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date buildDateTime;
 
@@ -124,18 +126,21 @@ public class IndividualBusinessEnterpriseUpdateServiceProviderDTO implements Ser
     /**
      * 提交日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date submitDateTime;
 
     /**
      * 注册日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date registeredDate;
 
     /**
      * 税务登记日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date taxRegisterDateTime;
 

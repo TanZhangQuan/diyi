@@ -166,20 +166,6 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
     }
 
     @Override
-    public int queryCountByIbname(String ibname) {
-        QueryWrapper<IndividualEnterpriseEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(IndividualEnterpriseEntity::getIbname, ibname);
-        return baseMapper.selectCount(queryWrapper);
-    }
-
-    @Override
-    public int queryCountByIbtaxNo(String ibtaxNo) {
-        QueryWrapper<IndividualEnterpriseEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(IndividualEnterpriseEntity::getIbtaxNo, ibtaxNo);
-        return baseMapper.selectCount(queryWrapper);
-    }
-
-    @Override
     public R<String> cancelIndividualEnterprise(Long serviceProviderId, Long individualEnterpriseId) {
 
         IndividualEnterpriseEntity individualEnterpriseEntity = getById(individualEnterpriseId);
@@ -201,7 +187,7 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
     @Override
     public R<String> updateIndividualEnterpriseServiceProvider(IndividualBusinessEnterpriseUpdateServiceProviderDTO individualBusinessEnterpriseUpdateServiceProviderDTO, Long serviceProviderId) {
 
-        IndividualEnterpriseEntity individualEnterpriseEntity = getById(individualBusinessEnterpriseUpdateServiceProviderDTO.getId());
+        IndividualEnterpriseEntity individualEnterpriseEntity = getById(individualBusinessEnterpriseUpdateServiceProviderDTO.getIndividualId());
         if (individualEnterpriseEntity == null) {
             return R.fail("个独不存在");
         }
@@ -215,14 +201,18 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
         }
 
         if (StringUtils.isNotBlank(individualBusinessEnterpriseUpdateServiceProviderDTO.getIbname())) {
-            int ibnameNum = queryCountByIbname(individualBusinessEnterpriseUpdateServiceProviderDTO.getIbname());
+            int ibnameNum = count(Wrappers.<IndividualEnterpriseEntity>query().lambda()
+                    .eq(IndividualEnterpriseEntity::getIbname, individualBusinessEnterpriseUpdateServiceProviderDTO.getIbname())
+                    .ne(IndividualEnterpriseEntity::getId, individualBusinessEnterpriseUpdateServiceProviderDTO.getIndividualId()));
             if (ibnameNum > 0) {
                 return R.fail("个独名称已存在");
             }
         }
 
         if (StringUtils.isNotBlank(individualBusinessEnterpriseUpdateServiceProviderDTO.getIbtaxNo())) {
-            int ibtaxNoNum = queryCountByIbtaxNo(individualBusinessEnterpriseUpdateServiceProviderDTO.getIbtaxNo());
+            int ibtaxNoNum = count(Wrappers.<IndividualEnterpriseEntity>query().lambda()
+                    .eq(IndividualEnterpriseEntity::getIbtaxNo, individualBusinessEnterpriseUpdateServiceProviderDTO.getIbtaxNo())
+                    .ne(IndividualEnterpriseEntity::getId, individualBusinessEnterpriseUpdateServiceProviderDTO.getIndividualId()));
             if (ibtaxNoNum > 0) {
                 return R.fail("个独统一社会信用代码已存在");
             }

@@ -1,5 +1,6 @@
 package com.lgyun.system.order.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -25,12 +26,14 @@ public class AcceptSheetAndCsListDTO implements Serializable {
     /**
      * 交付支付验收单开始时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date beginDate;
 
     /**
      * 交付支付验收单结束时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 

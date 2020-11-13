@@ -1,5 +1,6 @@
 package com.lgyun.system.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -24,12 +25,14 @@ public class QueryEnterpriseListDTO implements Serializable {
     /**
      * 商户创建开始时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date beginDate;
 
     /**
      * 商户创建结束时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 

@@ -125,22 +125,6 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
     IndividualEnterpriseEntity queryIndividualEnterpriseByIbtaxNo(String ibtaxNo);
 
     /**
-     * 根据个独名称查询个独
-     *
-     * @param ibname
-     * @return
-     */
-    int queryCountByIbname(String ibname);
-
-    /**
-     * 根据统一社会信用代码查询个独
-     *
-     * @param ibtaxNo
-     * @return
-     */
-    int queryCountByIbtaxNo(String ibtaxNo);
-
-    /**
      * 注销个独
      *
      * @param serviceProviderId
