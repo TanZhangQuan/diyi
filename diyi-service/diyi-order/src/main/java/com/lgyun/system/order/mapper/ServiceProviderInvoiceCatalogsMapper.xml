@@ -22,4 +22,8 @@
         WHERE is_deleted = 0 AND id = #{param1}
     </select>
 
+    <select id="queryProviderInvoiceCatalogNameList" resultType="java.lang.String">
+        SELECT GROUP_CONCAT(invoice_catalog_name) FROM diyi_service_provider_invoice_catalogs WHERE is_deleted = 0 AND service_provider_id = #{param1} AND apply_scope = #{param2}
+    </select>
+
 </mapper>

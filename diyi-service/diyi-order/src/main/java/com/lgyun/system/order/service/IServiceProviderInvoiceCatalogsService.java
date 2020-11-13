@@ -2,6 +2,7 @@ package com.lgyun.system.order.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.ApplyScope;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.dto.AddOrUpdateProviderInvoiceCatalogDTO;
 import com.lgyun.system.order.entity.ServiceProviderInvoiceCatalogsEntity;
@@ -41,6 +42,14 @@ public interface IServiceProviderInvoiceCatalogsService extends BaseService<Serv
      * @return
      */
     R<String> addOrUpdateInvoiceCatalog(AddOrUpdateProviderInvoiceCatalogDTO addOrUpdateProviderInvoiceCatalogDTO, Long serviceProviderId, String name);
+
+    /**
+     * 查询服务商开票范围内所有开票类目名称
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    R<String> queryProviderInvoiceCatalogNameList(Long serviceProviderId, ApplyScope applyScope);
 
 }
 

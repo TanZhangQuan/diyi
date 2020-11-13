@@ -2,6 +2,7 @@ package com.lgyun.system.order.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lgyun.common.enumeration.ApplyScope;
 import com.lgyun.system.order.entity.ServiceProviderInvoiceCatalogsEntity;
 import com.lgyun.system.order.vo.ProviderInvoiceCatalogListVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -33,5 +34,14 @@ public interface ServiceProviderInvoiceCatalogsMapper extends BaseMapper<Service
      * @return
      */
     ProviderInvoiceCatalogListVO queryInvoiceCatalogUpdateDetail(Long invoiceCatalogId);
+
+    /**
+     * 查询服务商开票范围内所有开票类目名称
+     *
+     * @param serviceProviderId
+     * @param applyScope
+     * @return
+     */
+    String queryProviderInvoiceCatalogNameList(Long serviceProviderId, ApplyScope applyScope);
 }
 
