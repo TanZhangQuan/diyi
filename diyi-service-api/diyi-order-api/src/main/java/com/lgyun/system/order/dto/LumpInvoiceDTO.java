@@ -55,7 +55,7 @@ public class LumpInvoiceDTO {
     /**
      * 开票方式
      */
-    @NotBlank(message = "请选择开票方式")
+    @NotNull(message = "请选择开票方式")
     private InvoiceMode invoiceMode;
 
     /**

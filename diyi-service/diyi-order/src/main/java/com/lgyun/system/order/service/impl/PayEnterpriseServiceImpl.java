@@ -628,6 +628,10 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         platformInvoiceEntity.setInvoicePrintDate(new Date());
         //价税合计
         platformInvoiceEntity.setInvoiceTotalAmount(invoiceTotalAmount);
+        if(InvoiceMode.PARTIALLYISSUED.equals(invoiceMode)){
+            platformInvoiceEntity.setOpenedInvoiceTotalAmount(partInvoiceAmount);
+        }
+
         platformInvoiceEntity.setInvoiceNumbers(1);
         if (null == serviceProviderName) {
             platformInvoiceEntity.setInvoicePrintPerson("地衣众包平台");
@@ -993,7 +997,6 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     @Override
     public R queryTotalInvoiceListEnterpriseInvoiceDetails(Long invoicePrintId) {
         Map map = new HashMap();
-        String orderTracesByJson = "";
         List<EnterpriseInvoiceDetailVO> enterpriseInvoiceDetails = baseMapper.queryTotalInvoiceListEnterpriseInvoiceDetails(invoicePrintId);
         if(null != enterpriseInvoiceDetails && enterpriseInvoiceDetails.size() > 0){
             String expressCompanyName = enterpriseInvoiceDetails.get(0).getExpressCompanyName();
