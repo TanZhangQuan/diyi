@@ -189,11 +189,11 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         for (int i = 0; i < makerIdList.size(); i++) {
             MakerEntity makerEntity = makerService.getById(makerIdList.get(i));
             if (makerEntity != null) {
-                AgreementEntity agreementEntity;
-                agreementEntity = this.getOne(new QueryWrapper<AgreementEntity>().lambda().eq(AgreementEntity::getAgreementType, AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT).eq(AgreementEntity::getEnterpriseId, enterpriseEntity.getId()).eq(AgreementEntity::getMakerId, makerEntity.getId()));
-                if (agreementEntity == null) {
-                    agreementEntity = new AgreementEntity();
-                }
+                AgreementEntity agreementEntity = new AgreementEntity();
+//                agreementEntity = this.getOne(new QueryWrapper<AgreementEntity>().lambda().eq(AgreementEntity::getAgreementType, AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT).eq(AgreementEntity::getEnterpriseId, enterpriseEntity.getId()).eq(AgreementEntity::getMakerId, makerEntity.getId()));
+//                if (agreementEntity == null) {
+//                    agreementEntity = new AgreementEntity();
+//                }
                 agreementEntity.setAgreementType(AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT);
                 agreementEntity.setSignState(SignState.SIGNED);
                 agreementEntity.setSignType(SignType.PAPERAGREEMENT);
