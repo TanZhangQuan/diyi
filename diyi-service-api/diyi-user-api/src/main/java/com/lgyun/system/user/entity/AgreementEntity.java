@@ -38,7 +38,7 @@ public class AgreementEntity extends BaseEntity {
     /**
      * 审核状态
      */
-    private AuditState auditState = AuditState.EDITING;
+    private AuditState auditState = AuditState.APPROVED;
 
     /**
      * 签署状态
