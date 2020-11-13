@@ -15,7 +15,6 @@ import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.AgreementMapper;
 import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.*;
-import io.lettuce.core.output.ReplayOutput;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -315,23 +314,6 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
 
     @Override
     public R saveAdminAgreement(Long makerId, Long enterpriseId, Long serviceProviderId, Long objectId, ObjectType objectType, AgreementType agreementType, String paperAgreementUrl) {
-
-        if (ObjectType.MAKERPEOPLE.equals(objectType) && AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType) && makerEnterpriseService.queryMakerEnterpriseNum(enterpriseId, objectId, RelationshipType.RELEVANCE) <= 0) {
-            return R.fail("创客和商户没有关联关系，不能添加商户和创客的补充协议");
-        }
-
-        if (ObjectType.ENTERPRISEPEOPLE.equals(objectType) && AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType) && makerEnterpriseService.queryMakerEnterpriseNum(objectId, makerId, RelationshipType.RELEVANCE) <= 0) {
-            return R.fail("商户和创客没有关联关系，不能添加创客和商户的补充协议");
-        }
-
-        if (ObjectType.ENTERPRISEPEOPLE.equals(objectType) && AgreementType.SERENTSUPPLEMENTARYAGREEMENT.equals(agreementType) && enterpriseServiceProviderService.findByEnterpriseIdServiceProviderId(objectId, serviceProviderId) == null) {
-            return R.fail("商户和服务商没有关联关系，不能添加商户和服务商的补充协议");
-        }
-
-        if (ObjectType.SERVICEPEOPLE.equals(objectType) && AgreementType.SERENTSUPPLEMENTARYAGREEMENT.equals(agreementType) && enterpriseServiceProviderService.findByEnterpriseIdServiceProviderId(enterpriseId, objectId) == null) {
-            return R.fail("服务商和商户没有关联关系，不能添加服务商和商户的补充协议");
-        }
-
         AgreementEntity agreementEntity = null;
         if (AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType) || AgreementType.SERENTSUPPLEMENTARYAGREEMENT.equals(agreementType) || AgreementType.ENTERPRISEPROMISE.equals(agreementType)) {
             agreementEntity = new AgreementEntity();
@@ -412,7 +394,6 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         }
         agreementEntity.setSignState(SignState.SIGNED);
         saveOrUpdate(agreementEntity);
-
         if(AgreementType.MAKERJOINAGREEMENT.equals(agreementType) || AgreementType.MAKERPOWERATTORNEY.equals(agreementType)){
             MakerEntity makerServiceById = makerService.getById(objectId);
             if(AgreementType.MAKERJOINAGREEMENT.equals(agreementType)){
@@ -423,6 +404,16 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
             }
             makerService.saveOrUpdate(makerServiceById);
         }
+
+        if(AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType)){
+            if(ObjectType.MAKERPEOPLE.equals(objectType)){
+                makerEnterpriseService.makerEnterpriseEntitySave(enterpriseId,objectId);
+            }
+            if(ObjectType.ENTERPRISEPEOPLE.equals(objectType)){
+                makerEnterpriseService.makerEnterpriseEntitySave(objectId,makerId);
+            }
+        }
+
         return R.success("操作成功");
     }
 
