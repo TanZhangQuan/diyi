@@ -35,7 +35,7 @@ public class ServiceProviderInvoiceCatalogsServiceImpl extends BaseServiceImpl<S
     }
 
     @Override
-    public R<String> addOrUpdateInvoiceCatalog(AddOrUpdateProviderInvoiceCatalogDTO addOrUpdateProviderInvoiceCatalogDTO, Long serviceProviderId) {
+    public R<String> addOrUpdateInvoiceCatalog(AddOrUpdateProviderInvoiceCatalogDTO addOrUpdateProviderInvoiceCatalogDTO, Long serviceProviderId, String name) {
 
         ServiceProviderInvoiceCatalogsEntity serviceProviderInvoiceCatalogsEntity;
         if (addOrUpdateProviderInvoiceCatalogDTO.getInvoiceCatalogId() != null) {
@@ -48,6 +48,7 @@ public class ServiceProviderInvoiceCatalogsServiceImpl extends BaseServiceImpl<S
                 return R.fail("服务商开票类目不属于服务商");
             }
 
+            serviceProviderInvoiceCatalogsEntity.setSetPerson(name);
             BeanUtils.copyProperties(addOrUpdateProviderInvoiceCatalogDTO, serviceProviderInvoiceCatalogsEntity);
             updateById(serviceProviderInvoiceCatalogsEntity);
 
@@ -57,7 +58,7 @@ public class ServiceProviderInvoiceCatalogsServiceImpl extends BaseServiceImpl<S
 
             serviceProviderInvoiceCatalogsEntity = new ServiceProviderInvoiceCatalogsEntity();
             serviceProviderInvoiceCatalogsEntity.setServiceProviderId(serviceProviderId);
-
+            serviceProviderInvoiceCatalogsEntity.setSetPerson(name);
             BeanUtils.copyProperties(addOrUpdateProviderInvoiceCatalogDTO, serviceProviderInvoiceCatalogsEntity);
             save(serviceProviderInvoiceCatalogsEntity);
 

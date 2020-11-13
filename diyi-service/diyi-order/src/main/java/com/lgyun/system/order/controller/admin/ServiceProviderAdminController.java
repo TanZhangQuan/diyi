@@ -116,8 +116,9 @@ public class ServiceProviderAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
+        AdminEntity adminEntity = result.getData();
 
-        return serviceProviderInvoiceCatalogsService.addOrUpdateInvoiceCatalog(addOrUpdateProviderInvoiceCatalogDTO, serviceProviderId);
+        return serviceProviderInvoiceCatalogsService.addOrUpdateInvoiceCatalog(addOrUpdateProviderInvoiceCatalogDTO, serviceProviderId, adminEntity.getName());
     }
 
     @PostMapping("/delete-invoice-catalog")

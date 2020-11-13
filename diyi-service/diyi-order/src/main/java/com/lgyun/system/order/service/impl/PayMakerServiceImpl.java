@@ -402,7 +402,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
             return R.fail("创客支付明细不存在");
         }
 
-        if (payMakerEntity.getMakerId().equals(makerId)) {
+        if (!(payMakerEntity.getMakerId().equals(makerId))) {
             return R.fail("创客支付明细不属于当前创客");
         }
 

@@ -131,7 +131,7 @@ public class BasicInfoServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return serviceProviderInvoiceCatalogsService.addOrUpdateInvoiceCatalog(addOrUpdateProviderInvoiceCatalogDTO, serviceProviderWorkerEntity.getServiceProviderId());
+        return serviceProviderInvoiceCatalogsService.addOrUpdateInvoiceCatalog(addOrUpdateProviderInvoiceCatalogDTO, serviceProviderWorkerEntity.getServiceProviderId(), serviceProviderWorkerEntity.getWorkerName());
     }
 
     @PostMapping("/delete-invoice-catalog")
