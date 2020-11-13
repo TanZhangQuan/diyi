@@ -89,7 +89,7 @@ public class AgreementAdminController {
             return result;
         }
 
-        return R.data(agreementService.queryMakerIdSupplement(makerId, Condition.getPage(query.setDescs("a.create_time"))));
+        return agreementService.queryMakerIdSupplement(makerId, Condition.getPage(query.setDescs("a.create_time")));
     }
 
     @GetMapping("/query-enterprise-agreement-states")
