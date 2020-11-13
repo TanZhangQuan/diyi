@@ -75,7 +75,7 @@ public class PayMakerReceiptServiceImpl extends BaseServiceImpl<PayMakerReceiptM
         //编辑支付明细的支付状态
         if (!(PayMakerPayState.PLATFORMPAID.equals(payEnterpriseEntity.getPayState()))){
             payMakerEntity.setPayState(PayMakerPayState.PLATFORMPAID);
-            payMakerService.save(payMakerEntity);
+            payMakerService.updateById(payMakerEntity);
         }
 
         return R.success("上传支付回单成功");
