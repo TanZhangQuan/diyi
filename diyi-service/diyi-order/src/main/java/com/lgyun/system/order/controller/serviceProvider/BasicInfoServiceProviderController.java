@@ -7,7 +7,9 @@ import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.AddOrUpdateAddressDTO;
+import com.lgyun.system.order.dto.AddOrUpdateProviderInvoiceCatalogDTO;
 import com.lgyun.system.order.service.IAddressService;
+import com.lgyun.system.order.service.IServiceProviderInvoiceCatalogsService;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
@@ -29,6 +31,7 @@ public class BasicInfoServiceProviderController {
 
     private IUserClient userClient;
     private IAddressService addressService;
+    private IServiceProviderInvoiceCatalogsService serviceProviderInvoiceCatalogsService;
 
     @PostMapping("/add-or-update-address")
     @ApiOperation(value = "新建或修改收货地址", notes = "新建或修改收货地址")
@@ -91,6 +94,56 @@ public class BasicInfoServiceProviderController {
         }
 
         return R.status(addressService.removeByIds(Func.toLongList(ids)));
+    }
+
+    @GetMapping("/query-invoice-catalog-list")
+    @ApiOperation(value = "查询服务商所有开票类目", notes = "查询服务商所有开票类目")
+    public R queryInvoiceCatalogList(Query query, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+        return serviceProviderInvoiceCatalogsService.queryInvoiceCatalogList(serviceProviderWorkerEntity.getServiceProviderId(), Condition.getPage(query.setDescs("create_time")));
+    }
+
+    @GetMapping("/query-invoice-catalog-update-detail")
+    @ApiOperation(value = "查询编辑开票类目详情", notes = "查询编辑开票类目详情")
+    public R queryInvoiceCatalogUpdateDetail(@ApiParam(value = "开票类目") @NotNull(message = "请选择开票类目") @RequestParam(required = false) Long invoiceCatalogId, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return serviceProviderInvoiceCatalogsService.queryInvoiceCatalogUpdateDetail(invoiceCatalogId);
+    }
+
+    @PostMapping("/add-or-update-invoice-catalog")
+    @ApiOperation(value = "添加/编辑开票类目", notes = "添加/编辑开票类目")
+    public R addOrUpdateInvoiceCatalog(@Valid @RequestBody AddOrUpdateProviderInvoiceCatalogDTO addOrUpdateProviderInvoiceCatalogDTO, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+        return serviceProviderInvoiceCatalogsService.addOrUpdateInvoiceCatalog(addOrUpdateProviderInvoiceCatalogDTO, serviceProviderWorkerEntity.getServiceProviderId());
+    }
+
+    @PostMapping("/delete-invoice-catalog")
+    @ApiOperation(value = "删除开票类目", notes = "删除开票类目")
+    public R deleteInvoiceCatalog(@ApiParam(value = "开票类目", required = true) @NotNull(message = "请选择要删除的开票类目") @RequestParam(required = false) Long invoiceCatalogId, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return R.status(serviceProviderInvoiceCatalogsService.removeById(invoiceCatalogId));
     }
 
 }

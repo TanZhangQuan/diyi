@@ -52,7 +52,9 @@ public class ServiceProviderInvoiceCatalogsServiceImpl extends BaseServiceImpl<S
             updateById(serviceProviderInvoiceCatalogsEntity);
 
             return R.success("编辑服务商开票类目成功");
+
         } else {
+
             serviceProviderInvoiceCatalogsEntity = new ServiceProviderInvoiceCatalogsEntity();
             serviceProviderInvoiceCatalogsEntity.setServiceProviderId(serviceProviderId);
 
