@@ -3,9 +3,13 @@ package com.lgyun.system.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.CustomConstant;
 import com.lgyun.common.enumeration.CooperateStatus;
+import com.lgyun.common.enumeration.InvoiceDemand;
+import com.lgyun.common.enumeration.SetType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.EnterpriseProviderInvoiceCatalogsEntity;
+import com.lgyun.system.order.feign.IOrderClient;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.EnterpriseServiceProviderEntity;
@@ -31,6 +35,8 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class EnterpriseServiceProviderServiceImpl extends BaseServiceImpl<EnterpriseServiceProviderMapper, EnterpriseServiceProviderEntity> implements IEnterpriseServiceProviderService {
+
+    private final IOrderClient orderClient;
 
     @Autowired
     @Lazy
@@ -107,9 +113,23 @@ public class EnterpriseServiceProviderServiceImpl extends BaseServiceImpl<Enterp
             enterpriseServiceProviderEntity.setMatchDesc(matchDesc);
             save(enterpriseServiceProviderEntity);
 
-            //创建默认开票类目
-            EnterpriseProviderInvoiceCatalogsEntity enterpriseProviderInvoiceCatalogsEntity = new EnterpriseProviderInvoiceCatalogsEntity();
+            //创建默认开票类目：平台服务费
+            EnterpriseProviderInvoiceCatalogsEntity platformEnterpriseProviderInvoiceCatalogs = new EnterpriseProviderInvoiceCatalogsEntity();
+            platformEnterpriseProviderInvoiceCatalogs.setEnterpriseId(enterpriseId);
+            platformEnterpriseProviderInvoiceCatalogs.setServiceProviderId(serviceProviderId);
+            platformEnterpriseProviderInvoiceCatalogs.setInvoiceCatalogName(CustomConstant.PLATFORM_SERVICE_FEE);
+            platformEnterpriseProviderInvoiceCatalogs.setInvoiceDemand(InvoiceDemand.ACCUMULATION);
+            platformEnterpriseProviderInvoiceCatalogs.setSetType(SetType.SYSTEM);
+            orderClient.createEnterpriseProviderInvoiceCatalogs(platformEnterpriseProviderInvoiceCatalogs);
 
+            //创建默认开票类目：服务费
+            EnterpriseProviderInvoiceCatalogsEntity serviceEnterpriseProviderInvoiceCatalogs = new EnterpriseProviderInvoiceCatalogsEntity();
+            serviceEnterpriseProviderInvoiceCatalogs.setEnterpriseId(enterpriseId);
+            serviceEnterpriseProviderInvoiceCatalogs.setServiceProviderId(serviceProviderId);
+            serviceEnterpriseProviderInvoiceCatalogs.setInvoiceCatalogName(CustomConstant.SERVICE_FEE);
+            serviceEnterpriseProviderInvoiceCatalogs.setInvoiceDemand(InvoiceDemand.ACCUMULATION);
+            serviceEnterpriseProviderInvoiceCatalogs.setSetType(SetType.SYSTEM);
+            orderClient.createEnterpriseProviderInvoiceCatalogs(serviceEnterpriseProviderInvoiceCatalogs);
 
         } else {
             if (!(CooperateStatus.COOPERATING.equals(enterpriseServiceProviderEntity.getCooperateStatus()))) {
