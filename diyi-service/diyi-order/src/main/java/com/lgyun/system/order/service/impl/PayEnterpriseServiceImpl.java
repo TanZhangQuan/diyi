@@ -140,7 +140,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
                 return R.fail("总包支付清单不属于商户");
             }
 
-            if (!(PayEnterpriseAuditState.SUBMITED.equals(payEnterpriseEntity.getAuditState())) && !(PayEnterpriseAuditState.REJECTED.equals(payEnterpriseEntity.getAuditState()))) {
+            if (!(PayEnterpriseAuditState.EDITING.equals(payEnterpriseEntity.getAuditState())) && !(PayEnterpriseAuditState.REJECTED.equals(payEnterpriseEntity.getAuditState()))) {
                 return R.fail("非编辑或已驳回状态的总包支付清单不可修改");
             }
 
