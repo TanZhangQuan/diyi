@@ -97,12 +97,15 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     public R<String> addOrCancelfollow(Long enterpriseId, Long makerId, Integer attribute) {
         QueryWrapper<MakerEnterpriseEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(MakerEnterpriseEntity::getMakerId, makerId)
-                .eq(MakerEnterpriseEntity::getEnterpriseId, enterpriseId)
-                .eq(MakerEnterpriseEntity::getRelationshipType, 1);
+                .eq(MakerEnterpriseEntity::getEnterpriseId, enterpriseId);
         MakerEnterpriseEntity makerEnterpriseEntity = baseMapper.selectOne(queryWrapper);
 
         if (attribute == 1 && null == makerEnterpriseEntity) {
             return R.fail("取消成功");
+        }
+        if(attribute == 1){
+            removeById(makerEnterpriseEntity.getId());
+            return R.success("取消成功");
         }
         if (null == makerEnterpriseEntity) {
             makerEnterpriseEntity = new MakerEnterpriseEntity();
@@ -114,6 +117,9 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
             makerEnterpriseEntity.setCooperationStartTime(new Date());
             makerEnterpriseEntity.setFirstCooperation(true);
             makerEnterpriseEntity.setRelMemo("关注");
+        }else{
+            makerEnterpriseEntity.setRelationshipType(RelationshipType.ATTENTION);
+            makerEnterpriseEntity.setIsDeleted(0);
         }
         saveOrUpdate(makerEnterpriseEntity);
 

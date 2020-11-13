@@ -128,6 +128,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         agreementEntity.setAgreementType(AgreementType.ENTERPRISEPROMISE);
         agreementEntity.setSignType(SignType.PAPERAGREEMENT);
         agreementEntity.setSignState(SignState.SIGNING);
+        agreementEntity.setAuditState(AuditState.APPROVED);
         agreementEntity.setEnterpriseId(enterpriseId);
         agreementEntity.setPaperAgreementUrl(paperAgreementURL);
         agreementEntity.setFirstSideSignPerson("地衣众包平台");
@@ -196,6 +197,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
                 agreementEntity.setAgreementType(AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT);
                 agreementEntity.setSignState(SignState.SIGNED);
                 agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+                agreementEntity.setAuditState(AuditState.APPROVED);
                 agreementEntity.setEnterpriseId(enterpriseId);
                 agreementEntity.setPaperAgreementUrl(paperAgreementURL);
                 agreementEntity.setSecondSideSignPerson(enterpriseEntity.getEnterpriseName());
