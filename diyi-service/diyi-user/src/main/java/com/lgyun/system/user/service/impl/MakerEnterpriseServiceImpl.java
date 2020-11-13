@@ -104,7 +104,8 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
             return R.fail("取消成功");
         }
         if(attribute == 1){
-            removeById(makerEnterpriseEntity.getId());
+            makerEnterpriseEntity.setRelationshipType(RelationshipType.NORELATION);
+            saveOrUpdate(makerEnterpriseEntity);
             return R.success("取消成功");
         }
         if (null == makerEnterpriseEntity) {
