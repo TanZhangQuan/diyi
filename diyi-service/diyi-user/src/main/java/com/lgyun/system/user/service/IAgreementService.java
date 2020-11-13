@@ -119,9 +119,10 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
      *
      * @param enterpriseId
      * @param paperAgreementURL
+     * @param makerIds
      * @return
      */
-    R saveEnterpriseMakerAgreement(Long enterpriseId, String paperAgreementURL);
+    R saveEnterpriseMakerAgreement(Long enterpriseId, String paperAgreementURL, String makerIds);
 
     /**
      * 商户和创客的补充协议

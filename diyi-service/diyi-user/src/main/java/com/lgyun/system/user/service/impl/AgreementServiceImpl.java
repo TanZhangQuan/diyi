@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
+import com.lgyun.common.tool.Func;
 import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Condition;
@@ -14,6 +15,7 @@ import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.AgreementMapper;
 import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.*;
+import io.lettuce.core.output.ReplayOutput;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -177,22 +179,39 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
-    public R saveEnterpriseMakerAgreement(Long enterpriseId, String paperAgreementURL) {
-        if (StringUtil.isBlank(paperAgreementURL)) {
-            return R.fail("参数错误");
+    public R saveEnterpriseMakerAgreement(Long enterpriseId, String paperAgreementURL, String makerIds) {
+        EnterpriseEntity enterpriseEntity = enterpriseService.getById(enterpriseId);
+        if (enterpriseEntity == null) {
+            return R.fail("商户不存在！");
         }
-        EnterpriseEntity byId = enterpriseService.getById(enterpriseId);
-        AgreementEntity agreementEntity = new AgreementEntity();
-        agreementEntity.setAgreementType(AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT);
-        agreementEntity.setSignState(SignState.SIGNED);
-        agreementEntity.setSignType(SignType.PAPERAGREEMENT);
-        agreementEntity.setEnterpriseId(enterpriseId);
-        agreementEntity.setPaperAgreementUrl(paperAgreementURL);
-        agreementEntity.setSecondSideSignPerson(byId.getEnterpriseName());
-        agreementEntity.setUploadDatetime(new Date());
-        agreementEntity.setFirstSideSignPerson(byId.getEnterpriseName());
-        agreementEntity.setUploadPerson(byId.getEnterpriseName());
-        save(agreementEntity);
+        List<Long> makerIdList = Func.toLongList(makerIds);
+        List<String> error = new ArrayList<>();
+        for (int i = 0; i < makerIdList.size(); i++) {
+            MakerEntity makerEntity = makerService.getById(makerIdList.get(i));
+            if (makerEntity != null) {
+                AgreementEntity agreementEntity;
+                agreementEntity = this.getOne(new QueryWrapper<AgreementEntity>().lambda().eq(AgreementEntity::getAgreementType, AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT).eq(AgreementEntity::getEnterpriseId, enterpriseEntity.getId()).eq(AgreementEntity::getMakerId, makerEntity.getId()));
+                if (agreementEntity == null) {
+                    agreementEntity = new AgreementEntity();
+                }
+                agreementEntity.setAgreementType(AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT);
+                agreementEntity.setSignState(SignState.SIGNED);
+                agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+                agreementEntity.setEnterpriseId(enterpriseId);
+                agreementEntity.setPaperAgreementUrl(paperAgreementURL);
+                agreementEntity.setSecondSideSignPerson(enterpriseEntity.getEnterpriseName());
+                agreementEntity.setUploadDatetime(new Date());
+                agreementEntity.setFirstSideSignPerson(makerEntity.getName());
+                agreementEntity.setUploadPerson(enterpriseEntity.getEnterpriseName());
+                agreementEntity.setMakerId(makerEntity.getId());
+                this.saveOrUpdate(agreementEntity);
+            } else {
+                error.add("您选择的第" + (i + 1) + "个创客不存在，与他签署的《" + AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.getDesc() + "》失败！");
+            }
+        }
+        if (error.size() > 0) {
+            return R.data(error);
+        }
         return R.success("上传成功");
     }
 
@@ -393,6 +412,17 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         }
         agreementEntity.setSignState(SignState.SIGNED);
         saveOrUpdate(agreementEntity);
+
+        if(AgreementType.MAKERJOINAGREEMENT.equals(agreementType) || AgreementType.MAKERPOWERATTORNEY.equals(agreementType)){
+            MakerEntity makerServiceById = makerService.getById(objectId);
+            if(AgreementType.MAKERJOINAGREEMENT.equals(agreementType)){
+                makerServiceById.setEmpowerSignState(SignState.SIGNED);
+            }
+            if(AgreementType.MAKERPOWERATTORNEY.equals(agreementType)){
+                makerServiceById.setJoinSignState(SignState.SIGNED);
+            }
+            makerService.saveOrUpdate(makerServiceById);
+        }
         return R.success("操作成功");
     }
 
