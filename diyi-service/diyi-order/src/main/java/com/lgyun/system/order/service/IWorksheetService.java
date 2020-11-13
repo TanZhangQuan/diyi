@@ -73,7 +73,7 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
     /**
      * 踢出创客
      */
-    R kickOut(Long worksheetId, Long makerId);
+    R kickOut(Long worksheetMakerId);
 
     /**
      * 验收
