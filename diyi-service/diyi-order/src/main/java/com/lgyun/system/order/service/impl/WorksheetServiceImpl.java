@@ -50,7 +50,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         if (null == releaseWorksheetDTO.getEnterpriseId()) {
             return R.fail("请选择商户");
         }
-        if(!(releaseWorksheetDTO.getWorksheetFeeHigh().compareTo(BigDecimal.ZERO) == 0) && releaseWorksheetDTO.getWorksheetFeeHigh().compareTo(releaseWorksheetDTO.getWorksheetFeeLow()) < 1){
+        if(!(releaseWorksheetDTO.getWorksheetFeeHigh().compareTo(BigDecimal.ZERO) == 0 && releaseWorksheetDTO.getWorksheetFeeLow().compareTo(BigDecimal.ZERO) == 0) && releaseWorksheetDTO.getWorksheetFeeHigh().compareTo(releaseWorksheetDTO.getWorksheetFeeLow()) < 1){
             return R.fail("最高费用不能比最低费用低");
         }
         if (null == releaseWorksheetDTO.getMakerType()) {
@@ -93,7 +93,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         if (null == releaseWorksheetDTO.getWorksheetFeeHigh()) {
             worksheetEntity.setWorksheetFeeHigh(new BigDecimal("0"));
         }
-        if(releaseWorksheetDTO.getUpPersonNum() != 0 && releaseWorksheetDTO.getUpPersonNum() == split.length){
+        if((WorkSheetMode.BLEND.equals(releaseWorksheetDTO.getWorksheetMode()) || WorkSheetMode.DISPATCH.equals(releaseWorksheetDTO.getWorksheetMode())) && releaseWorksheetDTO.getUpPersonNum() != 0 && releaseWorksheetDTO.getUpPersonNum() == split.length){
             worksheetEntity.setWorksheetState(WorksheetState.CLOSED);
         }
         worksheetEntity.setWorksheetNo(UUID.randomUUID().toString());

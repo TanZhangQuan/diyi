@@ -249,16 +249,13 @@
     </select>
 
     <select id="queryMakerIdSupplement" resultMap="agreementMakerEnterAdminMap">
-        SELECT a.id AS agreement_id,a.agreement_no, me.maker_id, me.enterprise_id, m. NAME AS maker_name, e.enterprise_name, a.online_agreement_url,
-                a.paper_agreement_url, a.create_time FROM diyi_agreement a INNER JOIN diyi_maker_enterprise me ON me.enterprise_id = a.enterprise_id
-                INNER JOIN diyi_maker m ON m.id = me.maker_id INNER JOIN diyi_enterprise e ON e.id = me.enterprise_id
-                WHERE a.agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED'
-                <if test="param1 != null">
-                     and me.maker_id = #{param1}
-                </if>
-                <if test="param2 != null">
-                    and me.enterprise_id = #{param2}
-                </if>
+        SELECT a.id AS agreement_id, a.agreement_no, a.maker_id, a.enterprise_id, m. NAME AS maker_name, e.enterprise_name, a.online_agreement_url, a.paper_agreement_url, a.create_time FROM diyi_agreement a INNER JOIN diyi_maker m ON m.id = a.maker_id INNER JOIN diyi_enterprise e ON e.id = a.enterprise_id WHERE a.agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED'
+            <if test="param1 != null">
+                 and a.maker_id = #{param1}
+            </if>
+            <if test="param2 != null">
+                and a.enterprise_id = #{param2}
+            </if>
     </select>
 
     <select id="queryEnterpriseAgreementState" resultMap="agreementEnterpriseStateAdminVOMap">
@@ -270,10 +267,7 @@
     </select>
 
     <select id="queryEnterIdServiceSupplement" resultMap="agreementServiceVOMap">
-        SELECT a.id AS agreement_id, s.id AS service_provider_id,e.enterprise_name, a.agreement_no, a.sign_type, a.agreement_type, s.service_provider_name,0 as maker_name,
-        a.online_agreement_url, a.paper_agreement_url, a.create_time, a.sign_state FROM diyi_agreement a INNER JOIN diyi_enterprise e
-        ON a.enterprise_id = e.id INNER JOIN diyi_enterprise_service_provider ep ON ep.enterprise_id = e.id INNER JOIN diyi_service_provider s
-        ON ep.service_provider_id = s.id WHERE a.agreement_type = 'SERENTSUPPLEMENTARYAGREEMENT'
+        SELECT a.id AS agreement_id, s.id AS service_provider_id, e.enterprise_name, a.agreement_no, a.sign_type, a.agreement_type, s.service_provider_name, 0 AS maker_name, a.online_agreement_url, a.paper_agreement_url, a.create_time, a.sign_state, e.id FROM diyi_agreement a INNER JOIN diyi_enterprise e ON a.enterprise_id = e.id INNER JOIN diyi_service_provider s ON s.id = a.service_provider_id WHERE a.agreement_type = 'SERENTSUPPLEMENTARYAGREEMENT'
         <if test="param1 != null">
             AND e.id = #{param1}
         </if>

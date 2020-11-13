@@ -35,25 +35,25 @@ public class ReleaseWorksheetDTO implements Serializable {
     /**
      * 上限人数
      */
-    @Min(0)
+    @Min(value = 0,message = "上限人数不能小于0")
     private Integer upPersonNum = 0;
 
     /**
      * 工作天数
      */
-    @Min(0)
+    @Min(value = 0,message = "工作天数不能小于0")
     private Integer workDays = 0;
 
     /**
      * 最低费用
      */
-    @Min(0)
+    @Min(value = 0,message = "最低费用不能小于0")
     private BigDecimal worksheetFeeLow = BigDecimal.ZERO;
 
     /**
      * 最高费用
      */
-    @Min(0)
+    @Min(value = 0,message = "最高费用不能小于0")
     private BigDecimal worksheetFeeHigh = BigDecimal.ZERO;
 
     /**
