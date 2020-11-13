@@ -25,7 +25,7 @@ import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.user.vo.EnterpriseWorkerDetailVO;
 import com.lgyun.system.user.vo.EnterpriseWorkerInfoVO;
 import com.lgyun.system.user.vo.EnterpriseWorkerVO;
-import com.lgyun.system.vo.RoleMenuInfoVo;
+import com.lgyun.system.vo.RoleMenuInfoVO;
 import com.lgyun.system.vo.RolesVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -149,13 +149,13 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
     }
 
     @Override
-    public R<RoleMenuInfoVo> queryRoleInfo(Long roleId) {
+    public R<RoleMenuInfoVO> queryRoleInfo(Long roleId) {
         Role role = sysClient.getRole(roleId);
         if (role == null) {
             return R.fail("您输入的角色ID不存在！");
         }
         List<String> menuIds = sysClient.getMenuIds(roleId);
-        RoleMenuInfoVo roleMenuInfoVo = new RoleMenuInfoVo();
+        RoleMenuInfoVO roleMenuInfoVo = new RoleMenuInfoVO();
         BeanUtils.copyProperties(role,roleMenuInfoVo);
         roleMenuInfoVo.setMenuIds(menuIds);
         roleMenuInfoVo.setRoleId(role.getId());
@@ -309,7 +309,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
             childAccount.setUpLevelId(enterpriseWorkerEntity.getId());
             childAccount.setSuperAdmin(false);
             if (StringUtils.isBlank(childAccountDTO.getPassWord())) {
-                throw new CustomException("初始密码不能为空！");
+                throw new CustomException("请输入初始密码");
             }
             if (!(childAccountDTO.getPassWord().length() >= 6 && childAccountDTO.getPassWord().length() <= 18)) {
                 throw new CustomException("请输入6-18位的密码！");

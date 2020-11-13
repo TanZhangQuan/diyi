@@ -10,7 +10,7 @@ import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.vo.EnterpriseWorkerDetailVO;
 import com.lgyun.system.user.vo.EnterpriseWorkerInfoVO;
 import com.lgyun.system.user.vo.EnterpriseWorkerVO;
-import com.lgyun.system.vo.RoleMenuInfoVo;
+import com.lgyun.system.vo.RoleMenuInfoVO;
 import com.lgyun.system.vo.RoleMenusVO;
 import com.lgyun.system.vo.RolesVO;
 
@@ -94,7 +94,7 @@ public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEn
      * @param roleId
      * @return
      */
-    R<RoleMenuInfoVo> queryRoleInfo(Long roleId);
+    R<RoleMenuInfoVO> queryRoleInfo(Long roleId);
 
     /**
      * 删除角色

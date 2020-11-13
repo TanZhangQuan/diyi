@@ -98,7 +98,7 @@ public class PermissionServiceProviderController {
 
     @GetMapping("/query-account-detail")
     @ApiOperation(value = "子账号管理---查询商户人员的账号详情", notes = "子账号管理---查询商户人员的账号详情")
-    public R queryAccountDetail(@NotNull(message = "子账号ID不能为空") @RequestParam("accountId") Long accountId, BladeUser bladeUser) {
+    public R queryAccountDetail(@NotNull(message = "请选择子账号") @RequestParam("accountId") Long accountId, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -126,7 +126,7 @@ public class PermissionServiceProviderController {
 
     @PostMapping("/operate-child-account")
     @ApiOperation(value = "子账号管理---删除、停用、启用子账号", notes = "子账号管理---删除、停用、启用子账号")
-    public R operateChildAccount(@NotNull(message = "子账号ID不能为空！") @RequestParam(required = false) Long childAccountId, ChildAccountType childAccountType, BladeUser bladeUser) {
+    public R operateChildAccount(@NotNull(message = "请选择子账号") @RequestParam(required = false) Long childAccountId, ChildAccountType childAccountType, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {

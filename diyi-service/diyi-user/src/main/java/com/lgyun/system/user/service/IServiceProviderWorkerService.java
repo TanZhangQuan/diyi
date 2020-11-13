@@ -10,7 +10,7 @@ import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.vo.ServiceProviderWorkerDetailVO;
 import com.lgyun.system.user.vo.ServiceProviderWorkerInfoVO;
 import com.lgyun.system.user.vo.ServiceProviderWorkerVO;
-import com.lgyun.system.vo.RoleMenuInfoVo;
+import com.lgyun.system.vo.RoleMenuInfoVO;
 import com.lgyun.system.vo.RoleMenusVO;
 import com.lgyun.system.vo.RolesVO;
 
@@ -94,7 +94,7 @@ public interface IServiceProviderWorkerService extends BaseService<ServiceProvid
      * @param roleId
      * @return
      */
-    R<RoleMenuInfoVo> queryRoleInfo(Long roleId);
+    R<RoleMenuInfoVO> queryRoleInfo(Long roleId);
 
     /**
      * 删除角色

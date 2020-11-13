@@ -8,7 +8,6 @@ import com.lgyun.system.order.entity.ServiceProviderInvoiceCatalogsEntity;
 import com.lgyun.system.order.mapper.ServiceProviderInvoiceCatalogsMapper;
 import com.lgyun.system.order.service.IServiceProviderInvoiceCatalogsService;
 import com.lgyun.system.order.vo.ProviderInvoiceCatalogListVO;
-import com.lgyun.system.order.vo.ProviderInvoiceCatalogUpdateDetailVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -31,7 +30,7 @@ public class ServiceProviderInvoiceCatalogsServiceImpl extends BaseServiceImpl<S
     }
 
     @Override
-    public R<ProviderInvoiceCatalogUpdateDetailVO> queryInvoiceCatalogUpdateDetail(Long invoiceCatalogId) {
+    public R<ProviderInvoiceCatalogListVO> queryInvoiceCatalogUpdateDetail(Long invoiceCatalogId) {
         return R.data(baseMapper.queryInvoiceCatalogUpdateDetail(invoiceCatalogId));
     }
 

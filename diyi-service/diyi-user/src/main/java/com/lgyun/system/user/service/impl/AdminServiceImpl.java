@@ -23,7 +23,7 @@ import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.user.vo.AdminDetailVO;
 import com.lgyun.system.user.vo.AdminInfoVO;
 import com.lgyun.system.user.vo.AdminVO;
-import com.lgyun.system.vo.RoleMenuInfoVo;
+import com.lgyun.system.vo.RoleMenuInfoVO;
 import com.lgyun.system.vo.RoleMenusVO;
 import com.lgyun.system.vo.RolesVO;
 import lombok.AllArgsConstructor;
@@ -249,7 +249,7 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
             childAccount.setSuperAdmin(false);
             childAccount.setAdminState(AccountState.NORMAL);
             if (StringUtils.isBlank(childAccountDTO.getPassWord())) {
-                throw new CustomException("初始密码不能为空！");
+                throw new CustomException("请输入初始密码");
             }
             if (!(childAccountDTO.getPassWord().length() >= 6 && childAccountDTO.getPassWord().length() <= 18)) {
                 throw new CustomException("请输入6-18位的密码！");
@@ -316,13 +316,13 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
     }
 
     @Override
-    public R<RoleMenuInfoVo> queryRoleInfo(Long roleId) {
+    public R<RoleMenuInfoVO> queryRoleInfo(Long roleId) {
         Role role = sysClient.getRole(roleId);
         if (role == null) {
             return R.fail("您输入的角色ID不存在！");
         }
         List<String> menuIds = sysClient.getMenuIds(roleId);
-        RoleMenuInfoVo roleMenuInfoVo = new RoleMenuInfoVo();
+        RoleMenuInfoVO roleMenuInfoVo = new RoleMenuInfoVO();
         BeanUtils.copyProperties(role,roleMenuInfoVo);
         roleMenuInfoVo.setMenuIds(menuIds);
         roleMenuInfoVo.setRoleId(role.getId());

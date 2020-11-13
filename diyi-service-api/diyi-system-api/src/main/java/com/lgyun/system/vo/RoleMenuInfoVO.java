@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class RoleMenuInfoVo {
+public class RoleMenuInfoVO {
     /**
      * 角色ID
      */

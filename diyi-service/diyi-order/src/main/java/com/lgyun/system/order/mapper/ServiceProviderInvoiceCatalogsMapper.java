@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.order.entity.ServiceProviderInvoiceCatalogsEntity;
 import com.lgyun.system.order.vo.ProviderInvoiceCatalogListVO;
-import com.lgyun.system.order.vo.ProviderInvoiceCatalogUpdateDetailVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -33,6 +32,6 @@ public interface ServiceProviderInvoiceCatalogsMapper extends BaseMapper<Service
      * @param invoiceCatalogId
      * @return
      */
-    ProviderInvoiceCatalogUpdateDetailVO queryInvoiceCatalogUpdateDetail(Long invoiceCatalogId);
+    ProviderInvoiceCatalogListVO queryInvoiceCatalogUpdateDetail(Long invoiceCatalogId);
 }
 

@@ -18,20 +18,20 @@ public class ContractApplyInvoiceDTO implements Serializable {
     /**
      * 服务商id
      */
-    @NotNull(message = "服务商id不能为空")
+    @NotNull(message = "请选择服务商")
     private Long serviceProviderId;
 
     /**
      * 支付清单id
      */
-    @NotBlank(message = "支付清单id不能为空")
+    @NotBlank(message = "请选择支付清单")
     private String payEnterpriseIds;
 
 
     /**
      * 开票类目Id
      */
-    @NotNull(message = "开票类目Id不能为空")
+    @NotNull(message = "请选择开票类目")
     private Long invoiceCatalogId;
 
     /**
