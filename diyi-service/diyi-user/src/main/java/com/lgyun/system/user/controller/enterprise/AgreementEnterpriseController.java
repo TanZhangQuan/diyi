@@ -16,6 +16,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotBlank;
+
 @RestController
 @RequestMapping("/enterprise/agreement")
 @Validated
@@ -133,7 +135,7 @@ public class AgreementEnterpriseController {
 
     @PostMapping("/upload-enterprise-to-maker-supplementary-agreement")
     @ApiOperation(value = "商户上传商户和创客的补充协议", notes = "商户上传商户和创客的补充协议")
-    public R saveEnterpriseToMakerAgreement(BladeUser bladeUser, String paperAgreementURL) {
+    public R saveEnterpriseToMakerAgreement(BladeUser bladeUser, @NotBlank(message = "商户和创客的补充协议不能为空！") @RequestParam(required = false) String paperAgreementURL, @NotBlank(message = "选择的创客不能为空！") @RequestParam(required = false) String makerIds) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -141,7 +143,7 @@ public class AgreementEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return agreementService.saveEnterpriseMakerAgreement(enterpriseWorkerEntity.getEnterpriseId(), paperAgreementURL);
+        return agreementService.saveEnterpriseMakerAgreement(enterpriseWorkerEntity.getEnterpriseId(), paperAgreementURL, makerIds);
     }
 
     @GetMapping("/query-enterprise-maker-supplementary-agreement")
@@ -167,12 +169,12 @@ public class AgreementEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return agreementService.saveEntMakAgreement(enterpriseWorkerEntity.getEnterpriseId(), paperAgreementURL,makerIds, AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT);
+        return agreementService.saveEntMakAgreement(enterpriseWorkerEntity.getEnterpriseId(), paperAgreementURL, makerIds, AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT);
     }
 
     @GetMapping("/query-enterprise-maker")
     @ApiOperation(value = "根据商户查询关联的创客", notes = "根据商户查询关联的创客")
-    public R selectEnterpriseMaker(Query query, BladeUser bladeUser,@RequestParam(required = false) String makerName) {
+    public R selectEnterpriseMaker(Query query, BladeUser bladeUser, @RequestParam(required = false) String makerName) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
