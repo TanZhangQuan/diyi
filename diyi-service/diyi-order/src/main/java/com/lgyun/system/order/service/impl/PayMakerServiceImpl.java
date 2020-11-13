@@ -151,6 +151,10 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
                 throw new CustomException("第" + i + "条数据的系统创客姓名为空");
             }
 
+            if (StringUtils.isBlank(makerEntity.getIdcardNo())) {
+                throw new CustomException("第" + i + "条数据的系统创客身份证号码为空");
+            }
+
             if (!(makerEntity.getName().equals(payEnterpriseExcel.getMakerName()))) {
                 throw new CustomException("第" + i + "条数据的Excel创客姓名和系统创客姓名不一致");
             }
