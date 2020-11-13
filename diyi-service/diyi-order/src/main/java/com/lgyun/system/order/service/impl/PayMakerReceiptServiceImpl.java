@@ -2,6 +2,7 @@ package com.lgyun.system.order.service.impl;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.PayEnterpriseAuditState;
+import com.lgyun.common.enumeration.PayMakerPayState;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.entity.PayMakerEntity;
@@ -14,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service 实现
@@ -35,6 +37,7 @@ public class PayMakerReceiptServiceImpl extends BaseServiceImpl<PayMakerReceiptM
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> uploadPayMakerReceipt(Long serviceProviderId, Long payMakerId, String makerPayReceiptUrls) {
 
         PayMakerEntity payMakerEntity = payMakerService.getById(payMakerId);
@@ -52,7 +55,7 @@ public class PayMakerReceiptServiceImpl extends BaseServiceImpl<PayMakerReceiptM
         }
 
         if (!(PayEnterpriseAuditState.APPROVED.equals(payEnterpriseEntity.getAuditState()))){
-            return R.fail("支付清单未通过，不可上传明细回单");
+            return R.fail("支付清单未审核通过，不可上传支付回单");
         }
 
         //删除旧的分包支付回单
@@ -67,6 +70,12 @@ public class PayMakerReceiptServiceImpl extends BaseServiceImpl<PayMakerReceiptM
                 payMakerReceiptEntity.setMakerPayReceiptUrl(split[i]);
                 save(payMakerReceiptEntity);
             }
+        }
+
+        //编辑支付明细的支付状态
+        if (!(PayMakerPayState.PLATFORMPAID.equals(payEnterpriseEntity.getPayState()))){
+            payMakerEntity.setPayState(PayMakerPayState.PLATFORMPAID);
+            payMakerService.save(payMakerEntity);
         }
 
         return R.success("上传支付回单成功");
