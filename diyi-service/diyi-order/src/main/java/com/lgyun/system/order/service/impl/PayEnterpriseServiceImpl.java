@@ -783,6 +783,9 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         }
 
         PlatformInvoiceEntity byId = platformInvoiceService.getById(lumpInvoiceDTO.getInvoicePrintId());
+        Long applicationId = byId.getApplicationId();//申请请表改金额
+
+
         if(InvoiceMode.PARTIALLYISSUED.equals(lumpInvoiceDTO.getInvoiceMode())){
             BigDecimal openedInvoiceTotalAmount = byId.getOpenedInvoiceTotalAmount();
             BigDecimal add = openedInvoiceTotalAmount.add(lumpInvoiceDTO.getPartInvoiceAmount());
@@ -1044,12 +1047,17 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         if (split.length <= 0) {
             return R.fail("参数格式错误");
         }
+        PayEnterpriseEntity byId = getById(Long.parseLong(split[0]));
         BigDecimal payToPlatformAmount = BigDecimal.ZERO;
         List<PayEnterpriseEntity> payEnterpriseEntities = new ArrayList<>();
-        for (int i = 0; i < split.length; i++) {
+        payEnterpriseEntities.add(byId);
+        for (int i = 1; i < split.length; i++) {
             PayEnterpriseEntity payEnterpriseEntity = getById(Long.parseLong(split[i]));
             if (null == payEnterpriseEntity) {
                 return R.fail("商户支付清单不存在");
+            }
+            if(!(byId.getMakerInvoiceType().equals(payEnterpriseEntity.getMakerInvoiceType()))){
+                return R.fail("请选择相同分包开票类别进行开票");
             }
             payEnterpriseEntities.add(payEnterpriseEntity);
         }
