@@ -53,7 +53,7 @@ public class LumpSumInvoiceDTO implements Serializable {
     /**
      *货物或应税劳务、服务名称,发票类
      */
-    @NotBlank(message = "请输入发票分类")
+    @NotNull(message = "请选择开票方式")
     private String invoiceCategory;
 
     /**
