@@ -395,6 +395,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> confirmPayMaker(Long makerId, Long payMakerId) {
 
         PayMakerEntity payMakerEntity = getById(payMakerId);
@@ -430,6 +431,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
         if (payMakerNum == confirmpaidPayMakerNum) {
             PayEnterpriseEntity payEnterpriseEntity = payEnterpriseService.getById(payMakerEntity.getPayEnterpriseId());
             payEnterpriseEntity.setPayState(PayEnterprisePayState.CONFIRMPAY);
+            payEnterpriseEntity.setConfirmDateTime(new Date());
             payEnterpriseService.updateById(payEnterpriseEntity);
         }
 

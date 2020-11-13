@@ -325,7 +325,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R<String> audit(Long payEnterpriseId, Long serviceProviderId, PayEnterpriseAuditState auditState, MakerInvoiceType makerInvoiceType) {
+    public R<String> audit(Long payEnterpriseId, Long serviceProviderId, Long serviceProviderWorkerId, PayEnterpriseAuditState auditState, MakerInvoiceType makerInvoiceType) {
 
         PayEnterpriseEntity payEnterpriseEntity = getById(payEnterpriseId);
         if (payEnterpriseEntity == null) {
@@ -354,7 +354,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             }
 
             payEnterpriseEntity.setMakerInvoiceType(makerInvoiceType);
-            payEnterpriseEntity.setPayState(PayEnterprisePayState.CONFIRMPAY);
+            payEnterpriseEntity.setEmployeeId(serviceProviderWorkerId);
         }
 
         payEnterpriseEntity.setAuditState(auditState);

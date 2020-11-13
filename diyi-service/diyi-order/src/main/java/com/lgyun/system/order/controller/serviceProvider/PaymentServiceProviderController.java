@@ -99,7 +99,7 @@ public class PaymentServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return payEnterpriseService.audit(payEnterpriseId, serviceProviderWorkerEntity.getServiceProviderId(), auditState, makerInvoiceType);
+        return payEnterpriseService.audit(payEnterpriseId, serviceProviderWorkerEntity.getServiceProviderId(), serviceProviderWorkerEntity.getId(), auditState, makerInvoiceType);
     }
 
     @PostMapping("/upload-accept-paysheet")
