@@ -4,6 +4,7 @@ import com.lgyun.common.enumeration.InvoiceMode;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -61,7 +62,7 @@ public class LumpSumMergeInvoiceDTO implements Serializable {
     /**
      * 开票方式
      */
-    @NotBlank(message = "请选择开票方式")
+    @NotNull(message = "请选择开票方式")
     private InvoiceMode invoiceMode;
 
     /**
