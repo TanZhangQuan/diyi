@@ -131,7 +131,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
         BigDecimal singleEnterpriseBusinessAnnualFee = BigDecimal.ZERO;
         for (int i = 1; i <= list.size(); i++) {
             //获取Excel数据
-            PayEnterpriseExcel payEnterpriseExcel = list.get(i-1);
+            PayEnterpriseExcel payEnterpriseExcel = list.get(i - 1);
             log.info(String.valueOf(payEnterpriseExcel));
 
             if (StringUtils.isBlank(payEnterpriseExcel.getMakerName())) {
@@ -160,12 +160,12 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
             }
 
             if (!(SignState.SIGNED.equals(makerEntity.getJoinSignState()))) {
-                throw new CustomException("第" + i  + "条数据的创客未签署加盟合同");
+                throw new CustomException("第" + i + "条数据的创客未签署加盟合同");
             }
 
             int entMakSupplementaryAgreementNum = userClient.queryEntMakSupplementaryAgreementNum(makerEntity.getId(), enterpriseId);
             if (entMakSupplementaryAgreementNum <= 0) {
-                throw new CustomException("第" + i  + "条数据的创客未签署商户-创客补充协议");
+                throw new CustomException("第" + i + "条数据的创客未签署商户-创客补充协议");
             }
 
             int makerEnterpriseNum = userClient.queryMakerEnterpriseRelevanceCount(enterpriseId, makerEntity.getId());
@@ -406,12 +406,12 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
             return R.fail("创客支付明细不属于当前创客");
         }
 
-        if (!(payMakerEntity.getPayState().equals(PayMakerPayState.PLATFORMPAID))) {
-            return R.fail("服务商未支付，不可确认收款");
-        }
-
         if (payMakerEntity.getPayState().equals(PayMakerPayState.CONFIRMPAID)) {
             return R.fail("创客已确认收款");
+        }
+
+        if (!(payMakerEntity.getPayState().equals(PayMakerPayState.PLATFORMPAID))) {
+            return R.fail("服务商未支付，不可确认收款");
         }
 
         //确认收款
