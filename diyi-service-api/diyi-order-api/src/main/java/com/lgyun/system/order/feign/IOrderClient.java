@@ -42,5 +42,6 @@ public interface IOrderClient {
      *
      * @param enterpriseProviderInvoiceCatalogsEntity
      */
-    void createEnterpriseProviderInvoiceCatalogs(EnterpriseProviderInvoiceCatalogsEntity enterpriseProviderInvoiceCatalogsEntity);
+    @PostMapping(API_PREFIX + "/create-enterprise-provider-invoice-catalogs")
+    void createEnterpriseProviderInvoiceCatalogs(@RequestBody EnterpriseProviderInvoiceCatalogsEntity enterpriseProviderInvoiceCatalogsEntity);
 }
