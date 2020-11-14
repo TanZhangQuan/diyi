@@ -76,7 +76,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             makerEnterpriseRelationVO.setSocialCreditNo("*******");
             makerEnterpriseRelationVO.setContact1Position(null);
             makerEnterpriseRelationVO.setShopUserName("*****");
-            makerEnterpriseRelationVO.setRelationshipType(RelationshipType.NORELATION);
+            makerEnterpriseRelationVO.setRelationshipType(RelationshipType.ATTENTION);
             return R.data(makerEnterpriseRelationVO);
         } else if (0 < relevanceNum && 0 == attentionNum) {
             makerEnterpriseRelationVO.setRelationshipType(RelationshipType.RELEVANCE);
