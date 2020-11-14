@@ -163,4 +163,4 @@ INSERT INTO `diyi_online_agreement_template` VALUES ('1295994358801988836', 'MAK
 INSERT INTO `diyi_admin` VALUES ('1123598821738675888', '1123598821738675271', '', 'NORMAL', '超级管理员', '男', 'MANAGEMENT', '15622190791', null, 'superAdmin', '10470c3b4b1fed12c3baac014be15fac67c6e815', '0', '', '', null, '2020-09-19 17:31:39', null, '2020-09-19 17:31:37', '1', '0');
 
 ###超级管理员User
-INSERT INTO `sys_user` VALUES ('1123598821738675271', 'ADMIN', 'superAdmin', '15622190791', '', '', '', null, '2020-08-08 09:29:02', null, '2020-08-08 09:29:10', '1', '0');
+INSERT INTO `sys_user` VALUES ('1123598821738675271', '000000', 'ADMIN', 'superAdmin', '15622190791', '', '', '', null, '2020-08-08 09:29:02', null, '2020-08-08 09:29:10', '1', '0');
