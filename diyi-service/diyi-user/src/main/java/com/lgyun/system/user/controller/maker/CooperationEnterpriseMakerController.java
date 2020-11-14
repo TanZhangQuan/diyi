@@ -28,7 +28,7 @@ public class CooperationEnterpriseMakerController {
 
     @GetMapping("/query-enterprise-detail")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "enterpriseId", value = "商户ID", paramType = "query", dataType = "long"),
+            @ApiImplicitParam(name = "enterpriseId", value = "商户", paramType = "query", dataType = "long"),
     })
     @ApiOperation(value = "查询商户详情", notes = "查询商户详情")
     public R queryEnterpriseDetail(Long enterpriseId, BladeUser bladeUser) {
