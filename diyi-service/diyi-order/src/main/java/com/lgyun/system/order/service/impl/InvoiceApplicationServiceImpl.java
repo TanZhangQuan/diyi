@@ -50,7 +50,7 @@ public class InvoiceApplicationServiceImpl extends BaseServiceImpl<InvoiceApplic
         PayEnterpriseEntity payEnterpriseEntity = payEnterpriseService.getById(Long.parseLong(split[0]));
         for(int i = 1;i < split.length; i++){
             PayEnterpriseEntity byId1 = payEnterpriseService.getById(Long.parseLong(split[i]));
-            if(payEnterpriseEntity.getEnterpriseId() != byId1.getEnterpriseId() || payEnterpriseEntity.getServiceProviderId() != byId1.getServiceProviderId()){
+            if((payEnterpriseEntity.getEnterpriseId() != byId1.getEnterpriseId()) || (payEnterpriseEntity.getServiceProviderId() != byId1.getServiceProviderId())){
                 return R.fail("请选择的服务商和商户相同的支付清单合并开票");
             }
         }
