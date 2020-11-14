@@ -67,8 +67,17 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         }
 
         MakerEnterpriseRelationVO makerEnterpriseRelationVO = BeanUtil.copy(enterpriseEntity, MakerEnterpriseRelationVO.class);
-
-        if ((0 == relevanceNum && 0 < attentionNum) || (0 == relevanceNum && 0 == attentionNum)) {
+        if((0 == relevanceNum && 0 == attentionNum)){
+            makerEnterpriseRelationVO.setContact1Phone(makerEnterpriseRelationVO.getContact1Phone().replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2"));
+            makerEnterpriseRelationVO.setBizLicenceUrl("*");
+            makerEnterpriseRelationVO.setLegalPersonName("***");
+            makerEnterpriseRelationVO.setLegalPersonIdcard("*********");
+            makerEnterpriseRelationVO.setSocialCreditNo("*******");
+            makerEnterpriseRelationVO.setContact1Position(null);
+            makerEnterpriseRelationVO.setShopUserName("*****");
+            makerEnterpriseRelationVO.setRelationshipType(RelationshipType.NORELATION);
+            return R.data(makerEnterpriseRelationVO);
+        } else if ((0 == relevanceNum && 0 < attentionNum)) {
             makerEnterpriseRelationVO.setContact1Phone(makerEnterpriseRelationVO.getContact1Phone().replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2"));
             makerEnterpriseRelationVO.setBizLicenceUrl("*");
             makerEnterpriseRelationVO.setLegalPersonName("***");
