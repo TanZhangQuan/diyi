@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2020-11-12 17:31:32
+Date: 2020-11-14 11:14:56
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -165,8 +165,8 @@ CREATE TABLE `diyi_admin` (
   `up_level_id` bigint(50) DEFAULT NULL COMMENT '上级主管',
   `user_name` varchar(50) NOT NULL COMMENT '用户名',
   `login_pwd` varchar(100) NOT NULL COMMENT '密码',
-  `role_id` bigint(50) NOT NULL DEFAULT '0' COMMENT '角色ID',
-  `super_admin` bit(1) NOT NULL DEFAULT b'1' COMMENT '管理员权限',
+  `role_id` bigint(50) DEFAULT NULL COMMENT '角色ID',
+  `super_admin` bit(1) NOT NULL COMMENT '管理员权限',
   `admin_power` bit(1) NOT NULL COMMENT '管理员特性',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
@@ -1379,7 +1379,7 @@ CREATE TABLE `diyi_platform_invoice` (
   `application_id` bigint(50) NOT NULL COMMENT '总包开票申请ID',
   `invoice_print_date` datetime NOT NULL COMMENT '开票日期',
   `invoice_total_amount` decimal(12,2) NOT NULL COMMENT '开票总额',
-   `opened_invoice_total_amount` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '已开总额',
+  `opened_invoice_total_amount` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '已开总额',
   `invoice_numbers` int(11) NOT NULL COMMENT '发票张数',
   `invoice_print_person` varchar(50) NOT NULL COMMENT '开票人',
   `express_sheet_no` varchar(50) NOT NULL COMMENT '快递单号',

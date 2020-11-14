@@ -103,9 +103,9 @@ public class MenuController extends BladeController {
         if (!(result.isSuccess())) {
             return R.fail("当前登录用户失效");
         }
-        ServiceProviderWorkerEntity data = result.getData();
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        List<MenuVO> list = menuService.routes(data.getRoleId().toString(), UserType.SERVICEPROVIDER, data.getSuperAdmin());
+        List<MenuVO> list = menuService.routes(String.valueOf(serviceProviderWorkerEntity.getRoleId()), UserType.SERVICEPROVIDER, serviceProviderWorkerEntity.getSuperAdmin());
         return R.data(list);
     }
 
@@ -118,9 +118,9 @@ public class MenuController extends BladeController {
         if (!(result.isSuccess())) {
             return R.fail("当前登录用户失效");
         }
-        AdminEntity data = result.getData();
+        AdminEntity adminEntity = result.getData();
 
-        List<MenuVO> list = menuService.routes(data.getRoleId().toString(), UserType.ADMIN, data.getSuperAdmin());
+        List<MenuVO> list = menuService.routes(String.valueOf(adminEntity.getRoleId()), UserType.ADMIN, adminEntity.getSuperAdmin());
         return R.data(list);
     }
 

@@ -3,11 +3,6 @@ INSERT INTO `sys_client` VALUES ('1123598811738675201', 'sword', 'sword_secret',
 INSERT INTO `sys_client` VALUES ('1123598811738675202', 'saber', 'saber_secret', '', 'all', 'refresh_token,password,authorization_code', 'http://localhost:8080', '', '604800', '604800', '', '', null, '2019-03-24 10:42:29', null, '2019-03-24 10:42:32', '1', '0');
 INSERT INTO `sys_client` VALUES ('1123598811738675203', 'app', 'app_secret', '', 'all', 'refresh_token,password,authorization_code', 'http://localhost:8000', '', '604800', '604800', '', '', null, '2019-03-24 10:42:29', null, '2019-03-24 10:42:32', '1', '0');
 
-###部门数据
-INSERT INTO `sys_dept` VALUES ('1123598813738675201', '000000', '0', '刀锋科技', '江苏刀锋科技有限公司', '1', '', null, '2019-03-24 10:40:55', null, '2019-03-24 10:40:59', '1', '0');
-INSERT INTO `sys_dept` VALUES ('1123598813738675202', '000000', '1123598813738675201', '常州刀锋', '常州刀锋科技有限公司', '1', '', null, '2019-03-24 10:40:55', null, '2019-03-24 10:40:59', '1', '0');
-INSERT INTO `sys_dept` VALUES ('1123598813738675203', '000000', '1123598813738675201', '苏州刀锋', '苏州刀锋科技有限公司', '1', '', null, '2019-03-24 10:40:55', null, '2019-03-24 10:40:59', '1', '0');
-
 ###字典数据
 INSERT INTO `sys_dict` VALUES ('1123598814738777240', '0', 'nation', 'nation', '民族类型', '0', '', null, '2020-10-24 16:30:05', null, '2020-10-24 16:30:07', '1', '0');
 INSERT INTO `sys_dict` VALUES ('1319920145530535937', '1123598814738777240', 'nation', 'han', '汉族', '1', '', null, '2020-10-24 16:34:21', null, '2020-10-24 16:34:21', '1', '0');
@@ -158,29 +153,14 @@ INSERT INTO `sys_dict` VALUES ('1326463070508331009', '1326462184365142018', 'cu
 INSERT INTO `sys_dict` VALUES ('1326463308258258946', '1326462184365142018', 'culture', 'master', '硕士', '6', '', null, '2020-11-11 17:54:32', null, '2020-11-11 17:54:32', '1', '0');
 INSERT INTO `sys_dict` VALUES ('1326463448612253698', '1326462184365142018', 'culture', 'doctor', '博士', '7', '', null, '2020-11-11 17:55:05', null, '2020-11-11 17:55:05', '1', '0');
 
-###参数数据
-INSERT INTO `sys_param` VALUES ('1123598819738675201', '是否开启注册功能', 'account.registerUser', 'true', '开启注册', null, '2018-12-28 12:19:01', null, '2018-12-28 12:19:01', '1', '0');
-INSERT INTO `sys_param` VALUES ('1123598819738675202', '账号初始密码', 'account.initPassword', '123456', '初始密码', null, '2018-12-28 12:19:01', null, '2018-12-28 12:19:01', '1', '0');
-
-###岗位数据
-INSERT INTO `sys_post` VALUES ('1123598817738675201', '000000', '1', 'ceo', '首席执行官', '1', '总经理', null, '2019-03-24 10:40:55', null, '2019-03-24 10:40:59', '1', '0');
-INSERT INTO `sys_post` VALUES ('1123598817738675202', '000000', '1', 'coo', '首席运营官', '2', '常务总经理', null, '2019-03-24 10:40:55', null, '2019-03-24 10:40:59', '1', '0');
-INSERT INTO `sys_post` VALUES ('1123598817738675203', '000000', '1', 'cfo', '首席财务官', '3', '财务总经理', null, '2019-03-24 10:40:55', null, '2019-03-24 10:40:59', '1', '0');
-INSERT INTO `sys_post` VALUES ('1123598817738675204', '000000', '1', 'cto', '首席技术官', '4', '技术总监', null, '2019-03-24 10:40:55', null, '2019-03-24 10:40:59', '1', '0');
-INSERT INTO `sys_post` VALUES ('1123598817738675205', '000000', '1', 'cio', '首席信息官', '5', '信息总监', null, '2019-03-24 10:40:55', null, '2019-03-24 10:40:59', '1', '0');
-INSERT INTO `sys_post` VALUES ('1123598817738675206', '000000', '2', 'pm', '技术经理', '6', '研发和产品是永远的朋友', null, '2019-03-24 10:40:55', null, '2019-03-24 10:40:59', '1', '0');
-INSERT INTO `sys_post` VALUES ('1123598817738675207', '000000', '2', 'hrm', '人力经理', '7', '人力资源部门工作管理者', null, '2019-03-24 10:40:55', null, '2019-03-24 10:40:59', '1', '0');
-INSERT INTO `sys_post` VALUES ('1123598817738675208', '000000', '3', 'staff', '普通员工', '8', '普通员工', null, '2019-03-24 10:40:55', null, '2019-03-24 10:40:59', '1', '0');
-
-###角色数据
-INSERT INTO `sys_role` VALUES ('1123598816738675201', '000000', '0', '超级管理员', '1', 'administrator', null, '2019-03-24 10:40:55', null, '2019-03-24 10:40:59', '1', '0');
-INSERT INTO `sys_role` VALUES ('1123598816738675202', '000000', '0', '用户', '2', 'user', null, '2019-03-24 10:40:55', null, '2019-03-24 10:40:59', '1', '0');
-
-###租户数据
-INSERT INTO `sys_tenant` VALUES ('1123598820738675201', '000000', '管理组', 'admin', '666666', '管理组', null, '2019-01-01 00:00:39', null, '2019-01-01 00:00:39', '1', '0');
-
 ###平台在线协议模板数据
 INSERT INTO `diyi_online_agreement_template` VALUES ('1295994352201988840', 'MAKERPOWERATTORNEY', 'APPLICATION', 'OPEN', 'http://cashbus-ddh.oss-cn-beijing.aliyuncs.com/upload/20200820/cd6dc0e812464f6fbbfbd282f5046ed4.pdf', '创客', '2020-10-28 11:06:45', null, null, '', 'AUTHORIZATION', '2', null, '2020-10-28 11:07:35', null, '2020-10-28 11:07:38', '1', '0');
 INSERT INTO `diyi_online_agreement_template` VALUES ('1295994358513819658', 'ENTERPRISEJOINAGREEMENT', 'APPLICATION', 'OPEN', 'http://cashbus-ddh.oss-cn-beijing.aliyuncs.com/upload/20200820/cd6dc0e812464f6fbbfbd282f5046ed4.pdf', '大哥', '2020-08-20 14:38:12', null, null, '', 'AUTHORIZATION', '2', null, '2020-08-20 14:40:02', null, '2020-08-20 14:40:05', '1', '0');
 INSERT INTO `diyi_online_agreement_template` VALUES ('1295994358601988833', 'SERVICEPROVIDERJOINAGREEMENT', 'APPLICATION', 'OPEN', 'http://cashbus-ddh.oss-cn-beijing.aliyuncs.com/upload/20200820/cd6dc0e812464f6fbbfbd282f5046ed4.pdf', '商户', '2020-08-20 15:23:28', null, null, '', 'AUTHORIZATION', '2', null, '2020-08-20 15:23:38', null, '2020-08-20 15:23:40', '1', '0');
 INSERT INTO `diyi_online_agreement_template` VALUES ('1295994358801988836', 'MAKERJOINAGREEMENT', 'APPLICATION', 'OPEN', 'http://cashbus-ddh.oss-cn-beijing.aliyuncs.com/upload/20200820/cd6dc0e812464f6fbbfbd282f5046ed4.pdf', '创客', '2020-08-20 15:49:23', null, null, '', 'CONTRACT', '2', null, '2020-08-20 15:49:56', null, '2020-08-20 15:49:58', '1', '0');
+
+###超级管理员
+INSERT INTO `diyi_admin` VALUES ('1123598821738675888', '1123598821738675271', '', 'NORMAL', '超级管理员', '男', 'MANAGEMENT', '15622190791', null, 'superAdmin', '10470c3b4b1fed12c3baac014be15fac67c6e815', '0', '', '', null, '2020-09-19 17:31:39', null, '2020-09-19 17:31:37', '1', '0');
+
+###超级管理员User
+INSERT INTO `sys_user` VALUES ('1123598821738675271', 'ADMIN', 'superAdmin', '15622190791', '', '', '', null, '2020-08-08 09:29:02', null, '2020-08-08 09:29:10', '1', '0');

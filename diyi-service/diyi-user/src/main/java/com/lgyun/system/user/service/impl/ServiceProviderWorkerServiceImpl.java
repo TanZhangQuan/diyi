@@ -178,7 +178,7 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
         list.forEach(serviceProviderWorkerEntity -> {
             ServiceProviderWorkerVO serviceProviderWorkerVO = new ServiceProviderWorkerVO();
             BeanUtil.copyProperties(serviceProviderWorkerEntity, serviceProviderWorkerVO);
-            List<String> menuNames = null;
+            List<String> menuNames;
             if (serviceProviderWorkerEntity.getSuperAdmin()) {
                 menuNames = sysClient.getMenuNamesAll(MenuType.SERVICEPROVIDER);
             } else {
@@ -222,6 +222,7 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
     @Override
     @Transactional(rollbackFor = Exception.class)
     public R createOrUpdateChildAccount(ChildAccountDTO childAccountDTO, ServiceProviderWorkerEntity serviceProviderWorkerEntity) {
+
         if (childAccountDTO.getChildAccountId() != null && childAccountDTO.getChildAccountId() != 0) {
             if (childAccountDTO.getChildAccountId() == serviceProviderWorkerEntity.getId()) {
                 return R.fail("您不能编辑您自己！");
@@ -271,10 +272,12 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
             if (user == null) {
                 throw new CustomException("修改的账号异常！");
             }
+
             user.setAccount(childAccountDTO.getUserName());
             user.setPhone(childAccountDTO.getPhoneNumber());
             user.setRoleId(childAccountDTO.getRoleId().toString());
             userService.updateById(user);
+
         } else {
             int userNameCount = this.count(new QueryWrapper<ServiceProviderWorkerEntity>().lambda().eq(ServiceProviderWorkerEntity::getEmployeeUserName, childAccountDTO.getUserName()));
             if (userNameCount > 0) {

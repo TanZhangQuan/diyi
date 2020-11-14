@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import sun.rmi.runtime.Log;
 
 /**
  * 平台管理员信息表 Entity

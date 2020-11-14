@@ -116,7 +116,7 @@ public class PermissionAdminController {
             return result;
         }
         AdminEntity adminEntity = result.getData();
-        if (!adminEntity.getAdminPower()) {
+        if (!(adminEntity.getAdminPower())) {
             return R.fail("您没有权限创建子账号！");
         }
         return adminService.createOrUpdateChildAccount(childAccountDTO, adminEntity.getId());

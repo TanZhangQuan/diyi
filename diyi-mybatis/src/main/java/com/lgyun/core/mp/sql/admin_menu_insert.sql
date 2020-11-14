@@ -35,21 +35,3 @@ INSERT INTO `sys_menu` VALUES ('1123598815738675370',                   '0', 'In
 INSERT INTO `sys_menu` VALUES ('1123598815738675380',                 '0', 'Auth', '权限管理', 'menu', '/auth', 'auth', '9', '1', '0', '1', '', 'ADMIN', null, NOW(), null, NOW(), '1', '0');
 INSERT INTO `sys_menu` VALUES ('1123598815738675381',                 '1123598815738675380', 'AuthIndex', '账号管理', 'menu', '/auth/index', '', '1', '1', '0', '1', '', 'ADMIN', null, NOW(), null, NOW(), '1', '0');
 INSERT INTO `sys_menu` VALUES ('1123598815738675382',                 '1123598815738675380', 'AuthRole', '角色管理', 'menu', '/auth/role', '', '2', '1', '0', '1', '', 'ADMIN', null, NOW(), null, NOW(), '1', '0');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

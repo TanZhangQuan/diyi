@@ -6,20 +6,19 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
-import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.user.dto.AddOrUpdateAgentMainDTO;
 import com.lgyun.system.user.dto.AddOrUpdateAgentMainContactDTO;
+import com.lgyun.system.user.dto.AddOrUpdateAgentMainDTO;
 import com.lgyun.system.user.dto.QueryAgentMainDTO;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.AgentMainMapper;
 import com.lgyun.system.user.mapper.AgentProviderMapper;
 import com.lgyun.system.user.mapper.ServiceProviderMapper;
 import com.lgyun.system.user.service.*;
-import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.AdminAgentMainVO;
 import com.lgyun.system.user.vo.AgentMainServiceProviderVO;
+import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -121,57 +120,10 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
                 return R.fail("统一社会信用代码已存在");
             }
 
-            //判断渠道商联系人1是否已存在
-            Integer countByPhoneNumber1 = agentPersonService.findCountByPhoneNumber(addOrUpdateAgentMainDTO.getContact1Phone());
-            if (countByPhoneNumber1 > 0) {
-                return R.fail("联系人1电话/手机：" + addOrUpdateAgentMainDTO.getContact1Phone() + "已存在");
-            }
-
-            //判断渠道商联系人2是否已存在
-            Integer countByPhoneNumber2 = agentPersonService.findCountByPhoneNumber(addOrUpdateAgentMainDTO.getContact2Phone());
-            if (countByPhoneNumber2 > 0) {
-                return R.fail("联系人2电话/手机：" + addOrUpdateAgentMainDTO.getContact2Phone() + "已存在");
-            }
             AgentMainEntity agentMainEntity = new AgentMainEntity();
             BeanUtil.copy(addOrUpdateAgentMainDTO, agentMainEntity);
             agentMainEntity.setCreateType(CreateType.PLATFORMCREATE);
             save(agentMainEntity);
-
-            //新建联系人员工1
-            User user = new User();
-            user.setUserType(UserType.AGENTMAIN);
-            user.setAccount(addOrUpdateAgentMainDTO.getContact1Phone());
-            user.setPhone(addOrUpdateAgentMainDTO.getContact1Phone());
-            userService.save(user);
-
-            AgentPersonEntity agentPersonEntity = new AgentPersonEntity();
-            agentPersonEntity.setAgentMainId(agentMainEntity.getId());
-            agentPersonEntity.setWorkerId(user.getId());
-            agentPersonEntity.setWorkerName(addOrUpdateAgentMainDTO.getContact1Name());
-            agentPersonEntity.setPositionName(addOrUpdateAgentMainDTO.getContact1Position());
-            agentPersonEntity.setPhoneNumber(addOrUpdateAgentMainDTO.getContact1Phone());
-            agentPersonEntity.setEmployeeUserName(addOrUpdateAgentMainDTO.getContact1Phone());
-            agentPersonEntity.setEmployeePwd(DigestUtil.encrypt("123456"));
-            agentPersonEntity.setAdminPower(true);
-            agentPersonService.save(agentPersonEntity);
-
-            //新建联系人员工2
-            user = new User();
-            user.setUserType(UserType.AGENTMAIN);
-            user.setAccount(addOrUpdateAgentMainDTO.getContact2Phone());
-            user.setPhone(addOrUpdateAgentMainDTO.getContact2Phone());
-            userService.save(user);
-
-            agentPersonEntity = new AgentPersonEntity();
-            agentPersonEntity.setAgentMainId(agentMainEntity.getId());
-            agentPersonEntity.setWorkerId(user.getId());
-            agentPersonEntity.setWorkerName(addOrUpdateAgentMainDTO.getContact2Name());
-            agentPersonEntity.setPositionName(addOrUpdateAgentMainDTO.getContact2Position());
-            agentPersonEntity.setPhoneNumber(addOrUpdateAgentMainDTO.getContact2Phone());
-            agentPersonEntity.setEmployeeUserName(addOrUpdateAgentMainDTO.getContact2Phone());
-            agentPersonEntity.setEmployeePwd(DigestUtil.encrypt("123456"));
-            agentPersonEntity.setAdminPower(true);
-            agentPersonService.save(agentPersonEntity);
 
             //上传加盟合同
             AgreementEntity agreementEntity = new AgreementEntity();
@@ -229,10 +181,6 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
             addOrUpdateAgentMainContactDto.setContact2Position(addOrUpdateAgentMainDTO.getContact2Position());
             addOrUpdateAgentMainContactDto.setContact2Phone(addOrUpdateAgentMainDTO.getContact2Phone());
             addOrUpdateAgentMainContactDto.setContact2Mail(addOrUpdateAgentMainDTO.getContact2Mail());
-            R<String> result = agentPersonService.addOrUpdateEnterpriseContact(addOrUpdateAgentMainContactDto, null);
-            if (!(result.isSuccess())) {
-                return result;
-            }
 
             //上传加盟合同
             AgreementEntity agreementEntity = agreementService.getOne(Wrappers.<AgreementEntity>query().lambda()
