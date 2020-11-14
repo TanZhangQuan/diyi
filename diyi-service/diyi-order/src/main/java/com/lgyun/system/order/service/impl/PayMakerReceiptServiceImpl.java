@@ -17,6 +17,8 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
 /**
  * Service 实现
  *
@@ -75,6 +77,7 @@ public class PayMakerReceiptServiceImpl extends BaseServiceImpl<PayMakerReceiptM
         //编辑支付明细的支付状态
         if (!(PayMakerPayState.PLATFORMPAID.equals(payEnterpriseEntity.getPayState()))){
             payMakerEntity.setPayState(PayMakerPayState.PLATFORMPAID);
+            payMakerEntity.setPlatformPayOkDatetime(new Date());
             payMakerService.updateById(payMakerEntity);
         }
 
