@@ -54,8 +54,8 @@ public class AgreementMakerController {
         if (!(result.isSuccess())) {
             return result;
         }
-
-        return R.data(agreementService.findByEnterpriseId(enterpriseId));
+        MakerEntity makerEntity = result.getData();
+        return R.data(agreementService.findByEnterpriseId(enterpriseId,makerEntity.getId()));
     }
 
     @GetMapping("/query-online-agreement-url")
