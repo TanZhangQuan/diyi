@@ -734,8 +734,9 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         platformInvoiceEntity.setInvoiceDesc(invoiceDesc);
         platformInvoiceService.save(platformInvoiceEntity);
 
-        PlatformInvoicePayListEntity platformInvoicePayListEntity = new PlatformInvoicePayListEntity();
+
         for (int i =0 ; i < invoiceApplicationPayListEntityList.size(); i++ ) {
+            PlatformInvoicePayListEntity platformInvoicePayListEntity = new PlatformInvoicePayListEntity();
             platformInvoicePayListEntity.setPayEnterpriseId(invoiceApplicationPayListEntityList.get(i).getPayEnterpriseId());
             platformInvoicePayListEntity.setInvoicePrintId(platformInvoiceEntity.getId());
             platformInvoicePayListService.save(platformInvoicePayListEntity);
