@@ -1,13 +1,10 @@
 package com.lgyun.system.order.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author jun.
@@ -22,19 +19,6 @@ public class SummaryInvoiceDTO implements Serializable {
      */
     @NotBlank(message = "请输入商户清单id")
     private String payEnterpriseIds;
-    /**
-     * 开票日期
-     */
-    @NotNull(message = "请输入开票日期")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date invoiceDatetime;
-
-    /**
-     *货物或应税劳务、服务名称
-     */
-    @NotBlank(message = "请输入货物或应税劳务、服务名称")
-    private String invoiceCategory;
     /**
      *发票url
      */
@@ -51,8 +35,4 @@ public class SummaryInvoiceDTO implements Serializable {
      */
     private String makerTaxListUrl;
 
-    /**
-     *销售方
-     */
-    private String saleCompany;
 }

@@ -734,9 +734,10 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         platformInvoiceEntity.setInvoiceDesc(invoiceDesc);
         platformInvoiceService.save(platformInvoiceEntity);
 
-        PlatformInvoicePayListEntity platformInvoicePayListEntity = new PlatformInvoicePayListEntity();
-        for (InvoiceApplicationPayListEntity invoiceApplicationPayListEntity : invoiceApplicationPayListEntityList) {
-            platformInvoicePayListEntity.setPayEnterpriseId(invoiceApplicationPayListEntity.getPayEnterpriseId());
+
+        for (int i =0 ; i < invoiceApplicationPayListEntityList.size(); i++ ) {
+            PlatformInvoicePayListEntity platformInvoicePayListEntity = new PlatformInvoicePayListEntity();
+            platformInvoicePayListEntity.setPayEnterpriseId(invoiceApplicationPayListEntityList.get(i).getPayEnterpriseId());
             platformInvoicePayListEntity.setInvoicePrintId(platformInvoiceEntity.getId());
             platformInvoicePayListService.save(platformInvoicePayListEntity);
         }
@@ -1077,12 +1078,9 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             }
             makerTotalInvoiceEntity.setPayEnterpriseId(Long.parseLong(split[i]));
             makerTotalInvoiceEntity.setTaxAmount(payToPlatformAmount);
-            makerTotalInvoiceEntity.setInvoiceDatetime(summaryInvoiceDTO.getInvoiceDatetime());
-            makerTotalInvoiceEntity.setInvoiceCategory(summaryInvoiceDTO.getInvoiceCategory());
             makerTotalInvoiceEntity.setTotalAmount(new BigDecimal("0"));
             makerTotalInvoiceEntity.setInvoicePerson("");
             makerTotalInvoiceEntity.setSalesAmount(new BigDecimal("0"));
-            makerTotalInvoiceEntity.setSaleCompany(summaryInvoiceDTO.getSaleCompany());
             makerTotalInvoiceEntity.setCompanyInvoiceUrl(summaryInvoiceDTO.getCompanyInvoiceUrl());
             makerTotalInvoiceEntity.setMakerTaxUrl(summaryInvoiceDTO.getMakerTaxUrl());
             makerTotalInvoiceEntity.setMakerTaxListUrl(summaryInvoiceDTO.getMakerTaxListUrl());
