@@ -1077,12 +1077,9 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             }
             makerTotalInvoiceEntity.setPayEnterpriseId(Long.parseLong(split[i]));
             makerTotalInvoiceEntity.setTaxAmount(payToPlatformAmount);
-            makerTotalInvoiceEntity.setInvoiceDatetime(summaryInvoiceDTO.getInvoiceDatetime());
-            makerTotalInvoiceEntity.setInvoiceCategory(summaryInvoiceDTO.getInvoiceCategory());
             makerTotalInvoiceEntity.setTotalAmount(new BigDecimal("0"));
             makerTotalInvoiceEntity.setInvoicePerson("");
             makerTotalInvoiceEntity.setSalesAmount(new BigDecimal("0"));
-            makerTotalInvoiceEntity.setSaleCompany(summaryInvoiceDTO.getSaleCompany());
             makerTotalInvoiceEntity.setCompanyInvoiceUrl(summaryInvoiceDTO.getCompanyInvoiceUrl());
             makerTotalInvoiceEntity.setMakerTaxUrl(summaryInvoiceDTO.getMakerTaxUrl());
             makerTotalInvoiceEntity.setMakerTaxListUrl(summaryInvoiceDTO.getMakerTaxListUrl());
