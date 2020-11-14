@@ -41,8 +41,9 @@ public class NaturalPersonMakerEnterpriseController {
         if (!(result.isSuccess())) {
             return result;
         }
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return worksheetService.getWorksheetDetailsByMaker(null, makerId, Condition.getPage(query.setDescs("t1.create_time")));
+        return worksheetService.getWorksheetDetailsByMaker(enterpriseWorkerEntity.getEnterpriseId(), makerId, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-pay-maker-list")
