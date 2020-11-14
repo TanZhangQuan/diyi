@@ -268,4 +268,16 @@ public class KdniaoTrackQueryUtil {
         }
         return sb.toString();
     }
+
+    public static void main(String[] args) {
+        KdniaoTrackQueryUtil k = new KdniaoTrackQueryUtil();
+        try{
+            String s = k.getOrderTracesByJson("韵达速递", "4309918451566");
+            System.out.println(s.toString());
+
+        }catch (Exception e){
+
+        }
+
+    }
 }
