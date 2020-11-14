@@ -625,7 +625,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             invoiceTotalAmount = byId.getPayToPlatformAmount().add(invoiceTotalAmount);
         }
         if(InvoiceMode.PARTIALLYISSUED.equals(invoiceMode) && partInvoiceAmount.compareTo(invoiceTotalAmount) > -1){
-            return R.fail("部分开票的金额不能大于价税合计额！！！");
+            return R.fail("部分开票的金额不能大于等于价税合计额！！！");
         }
         PlatformInvoiceEntity platformInvoiceEntity = new PlatformInvoiceEntity();
         platformInvoiceEntity.setInvoicePrintDate(new Date());
@@ -712,7 +712,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             invoiceTotalAmount = byId.getPayToPlatformAmount().add(invoiceTotalAmount);
         }
         if(InvoiceMode.PARTIALLYISSUED.equals(invoiceMode) && partInvoiceAmount.compareTo(invoiceTotalAmount) > -1){
-            return R.fail("部分开票的金额不能大于价税合计额！！！");
+            return R.fail("部分开票的金额不能大于等于价税合计额！！！");
         }
         PlatformInvoiceEntity platformInvoiceEntity = new PlatformInvoiceEntity();
         platformInvoiceEntity.setApplicationId(applicationId);

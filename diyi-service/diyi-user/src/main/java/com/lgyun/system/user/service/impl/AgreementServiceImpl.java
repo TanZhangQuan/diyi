@@ -90,9 +90,11 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
-    public List<AgreementEntity> findByEnterpriseId(Long enterpriseId) {
+    public List<AgreementEntity> findByEnterpriseId(Long enterpriseId,Long makerId) {
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(AgreementEntity::getEnterpriseId, enterpriseId);
+        queryWrapper.lambda().eq(AgreementEntity::getEnterpriseId, enterpriseId)
+        .eq(AgreementEntity::getAgreementType,AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT)
+        .eq(AgreementEntity::getMakerId,makerId);
         return baseMapper.selectList(queryWrapper);
     }
 
