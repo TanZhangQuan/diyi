@@ -71,7 +71,7 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
     }
 
     @Override
-    public R<IPage<IndividualBusinessEnterpriseListMakerVO>> queryIndividualBusinessListMaker(IPage<IndividualBusinessEnterpriseListMakerVO> page, Long makerId, Ibstate ibstate) {
+    public R<IPage<IndividualBusinessEnterpriseListMakerVO>> queryIndividualBusinessListMaker(Long makerId, Ibstate ibstate, IPage<IndividualBusinessEnterpriseListMakerVO> page) {
         return R.data(page.setRecords(baseMapper.queryIndividualBusinessListMaker(makerId, ibstate, page)));
     }
 

@@ -39,7 +39,7 @@ public class IndividualBusinessMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return individualBusinessService.queryIndividualBusinessListMaker(Condition.getPage(query.setDescs("t1.create_time")), makerEntity.getId(), ibstate);
+        return individualBusinessService.queryIndividualBusinessListMaker(makerEntity.getId(), ibstate, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-individual-business-detail")
