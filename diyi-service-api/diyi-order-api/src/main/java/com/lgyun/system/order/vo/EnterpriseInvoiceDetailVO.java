@@ -6,6 +6,7 @@ import com.lgyun.common.enumeration.CompanyInvoiceState;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * @author .
@@ -129,4 +130,9 @@ public class EnterpriseInvoiceDetailVO implements Serializable {
      * 快递公司
      */
     private String expressCompanyName;
+
+    /**
+     * 已开金额
+     */
+    private BigDecimal openedInvoiceTotalAmount;
 }
