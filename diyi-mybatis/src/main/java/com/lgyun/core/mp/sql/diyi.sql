@@ -685,7 +685,7 @@ CREATE TABLE `diyi_individual_enterprise` (
   `registered_money` decimal(12,2) NOT NULL COMMENT '注册资金',
   `business_address` varchar(100) NOT NULL DEFAULT '' COMMENT '经营场所',
   `main_industry` varchar(50) NOT NULL COMMENT '主要行业',
-  `biz_scope` varchar(100) NOT NULL COMMENT '经营范围',
+  `biz_scope` varchar(500) NOT NULL COMMENT '经营范围',
   `candidated_names` varchar(500) NOT NULL COMMENT '注册时候选名称',
   `net_business_address` varchar(100) NOT NULL DEFAULT '' COMMENT '网络经营场所',
   `business_licence_url` varchar(500) NOT NULL DEFAULT '' COMMENT '营业执照正本',
