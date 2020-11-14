@@ -50,7 +50,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         if (null == releaseWorksheetDTO.getEnterpriseId()) {
             return R.fail("请选择商户");
         }
-        if(!(releaseWorksheetDTO.getWorksheetFeeHigh().compareTo(BigDecimal.ZERO) == 0 && releaseWorksheetDTO.getWorksheetFeeLow().compareTo(BigDecimal.ZERO) == 0) && releaseWorksheetDTO.getWorksheetFeeHigh().compareTo(releaseWorksheetDTO.getWorksheetFeeLow()) < 1){
+        if(!(releaseWorksheetDTO.getWorksheetFeeHigh().compareTo(BigDecimal.ZERO) == 0 && releaseWorksheetDTO.getWorksheetFeeLow().compareTo(BigDecimal.ZERO) == 1) && releaseWorksheetDTO.getWorksheetFeeHigh().compareTo(releaseWorksheetDTO.getWorksheetFeeLow()) < 1){
             return R.fail("最高费用不能比最低费用低");
         }
         if (null == releaseWorksheetDTO.getMakerType()) {
@@ -191,9 +191,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         if (null == worksheetMakerEntity) {
             return R.fail("创客没有抢单记录");
         }
-
-        worksheetMakerEntity.setIsDeleted(1);
-        worksheetMakerService.saveOrUpdate(worksheetMakerEntity);
+        worksheetMakerService.removeById(worksheetMakerEntity);
         return R.success("移除成功");
     }
 
