@@ -624,6 +624,9 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             }
             invoiceTotalAmount = byId.getPayToPlatformAmount().add(invoiceTotalAmount);
         }
+        if(InvoiceMode.PARTIALLYISSUED.equals(invoiceMode) && partInvoiceAmount.compareTo(invoiceTotalAmount) > -1){
+            return R.fail("部分开票的金额不能大于价税合计额！！！");
+        }
         PlatformInvoiceEntity platformInvoiceEntity = new PlatformInvoiceEntity();
         platformInvoiceEntity.setInvoicePrintDate(new Date());
         //价税合计
@@ -655,9 +658,9 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         PlatformInvoiceListEntity platformInvoiceListEntity = new PlatformInvoiceListEntity();
         platformInvoiceListEntity.setInvoicePrintId(platformInvoiceEntity.getId());
         //发票代码
-        platformInvoiceListEntity.setInvoiceTypeNo(invoiceTypeNo);
+        //platformInvoiceListEntity.setInvoiceTypeNo(invoiceTypeNo);
         //发票号码
-        platformInvoiceListEntity.setInvoiceSerialNo(invoiceSerialNo);
+        //platformInvoiceListEntity.setInvoiceSerialNo(invoiceSerialNo);
         platformInvoiceListEntity.setInvoiceCategory(invoiceCategory);
         platformInvoiceListEntity.setInvoiceDatetime(new Date());
         //价税合计
@@ -672,7 +675,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             platformInvoiceListEntity.setInvoicePerson(serviceProviderName);
         }
         //销售方名称
-        platformInvoiceListEntity.setSaleCompany(null == serviceProviderName ? "" : serviceProviderName);
+        //platformInvoiceListEntity.setSaleCompany(null == serviceProviderName ? "" : serviceProviderName);
         platformInvoiceListEntity.setCompanyInvoiceUrl(companyInvoiceUrl);
         platformInvoiceListEntity.setCompanyVoiceUploadDatetime(new Date());
         platformInvoiceListService.save(platformInvoiceListEntity);
@@ -707,6 +710,9 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
                 return R.fail("不能重复开票");
             }
             invoiceTotalAmount = byId.getPayToPlatformAmount().add(invoiceTotalAmount);
+        }
+        if(InvoiceMode.PARTIALLYISSUED.equals(invoiceMode) && partInvoiceAmount.compareTo(invoiceTotalAmount) > -1){
+            return R.fail("部分开票的金额不能大于价税合计额！！！");
         }
         PlatformInvoiceEntity platformInvoiceEntity = new PlatformInvoiceEntity();
         platformInvoiceEntity.setApplicationId(applicationId);
@@ -783,9 +789,6 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         }
 
         PlatformInvoiceEntity byId = platformInvoiceService.getById(lumpInvoiceDTO.getInvoicePrintId());
-        Long applicationId = byId.getApplicationId();//申请请表改金额
-
-
         if(InvoiceMode.PARTIALLYISSUED.equals(lumpInvoiceDTO.getInvoiceMode())){
             BigDecimal openedInvoiceTotalAmount = byId.getOpenedInvoiceTotalAmount();
             BigDecimal add = openedInvoiceTotalAmount.add(lumpInvoiceDTO.getPartInvoiceAmount());
@@ -795,6 +798,11 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
                 for(PlatformInvoicePayListEntity platformInvoicePayListEntity : platformInvoicePayListEntities){
                     PayEnterpriseEntity payEnterpriseEntity = getById(platformInvoicePayListEntity.getPayEnterpriseId());
                     payEnterpriseEntity.setCompanyInvoiceState(CompanyInvoiceState.OPENED);
+                    InvoiceApplicationEntity invoiceApplicationEntity = invoiceApplicationService.getById(byId.getApplicationId());
+                    if(null != invoiceApplicationEntity){
+                        invoiceApplicationEntity.setApplicationState(ApplicationState.ISSUEDINFULL);
+                        invoiceApplicationService.saveOrUpdate(invoiceApplicationEntity);
+                    }
                     saveOrUpdate(payEnterpriseEntity);
                 }
             }
@@ -1069,8 +1077,6 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             }
             makerTotalInvoiceEntity.setPayEnterpriseId(Long.parseLong(split[i]));
             makerTotalInvoiceEntity.setTaxAmount(payToPlatformAmount);
-            makerTotalInvoiceEntity.setInvoiceTypeNo(summaryInvoiceDTO.getInvoiceTypeNo());
-            makerTotalInvoiceEntity.setInvoiceSerialNo(summaryInvoiceDTO.getInvoiceSerialNo());
             makerTotalInvoiceEntity.setInvoiceDatetime(summaryInvoiceDTO.getInvoiceDatetime());
             makerTotalInvoiceEntity.setInvoiceCategory(summaryInvoiceDTO.getInvoiceCategory());
             makerTotalInvoiceEntity.setTotalAmount(new BigDecimal("0"));

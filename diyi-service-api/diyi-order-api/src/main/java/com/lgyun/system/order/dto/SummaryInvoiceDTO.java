@@ -23,16 +23,6 @@ public class SummaryInvoiceDTO implements Serializable {
     @NotBlank(message = "请输入商户清单id")
     private String payEnterpriseIds;
     /**
-     *发票代码
-     */
-    @NotBlank(message = "请输入发票代码")
-    private String invoiceTypeNo;
-    /**
-     *发票号码
-     */
-    @NotBlank(message = "请输入发票号码")
-    private String invoiceSerialNo;
-    /**
      * 开票日期
      */
     @NotNull(message = "请输入开票日期")
