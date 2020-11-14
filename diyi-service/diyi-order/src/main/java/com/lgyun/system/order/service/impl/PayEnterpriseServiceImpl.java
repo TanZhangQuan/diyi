@@ -108,7 +108,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
                 return R.fail("工单未完毕");
             }
 
-            if (!(WorkSheetType.SUBPACKAGE.equals(worksheetEntity.getWorksheetType()))) {
+            if (!(WorksheetType.SUBPACKAGE.equals(worksheetEntity.getWorksheetType()))) {
                 return R.fail("工单类型有误");
             }
 

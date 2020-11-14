@@ -75,12 +75,12 @@ public class WorksheetXiaoVO implements Serializable {
     /**
      * 类型，总包+分包，众包/众采
      */
-    private WorkSheetType worksheetType;
+    private WorksheetType worksheetType;
 
     /**
      * 模式，派单、抢单、混合（默认：混合型）
      */
-    private WorkSheetMode worksheetMode;
+    private WorksheetMode worksheetMode;
 
     /**
      * 发布时间

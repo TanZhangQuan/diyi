@@ -62,7 +62,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         if (null == releaseWorksheetDTO.getWorksheetMode()) {
             return R.fail("请选择工单模式");
         }
-        if (!WorkSheetMode.GRABBING.equals(releaseWorksheetDTO.getWorksheetMode()) && StringUtil.isBlank(releaseWorksheetDTO.getMakerIds())) {
+        if (!WorksheetMode.GRABBING.equals(releaseWorksheetDTO.getWorksheetMode()) && StringUtil.isBlank(releaseWorksheetDTO.getMakerIds())) {
             return R.fail("请选择创客");
         }
         if (releaseWorksheetDTO.getWorksheetMode().equals("DISPATCH") && releaseWorksheetDTO.getUpPersonNum() != 0 && releaseWorksheetDTO.getMakerIds().split(",").length != releaseWorksheetDTO.getUpPersonNum()) {
@@ -93,12 +93,12 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         if (null == releaseWorksheetDTO.getWorksheetFeeHigh()) {
             worksheetEntity.setWorksheetFeeHigh(new BigDecimal("0"));
         }
-        if((WorkSheetMode.BLEND.equals(releaseWorksheetDTO.getWorksheetMode()) || WorkSheetMode.DISPATCH.equals(releaseWorksheetDTO.getWorksheetMode())) && releaseWorksheetDTO.getUpPersonNum() != 0 && releaseWorksheetDTO.getUpPersonNum() == split.length){
+        if((WorksheetMode.BLEND.equals(releaseWorksheetDTO.getWorksheetMode()) || WorksheetMode.DISPATCH.equals(releaseWorksheetDTO.getWorksheetMode())) && releaseWorksheetDTO.getUpPersonNum() != 0 && releaseWorksheetDTO.getUpPersonNum() == split.length){
             worksheetEntity.setWorksheetState(WorksheetState.CLOSED);
         }
         worksheetEntity.setWorksheetNo(UUID.randomUUID().toString());
         save(worksheetEntity);
-        if (WorkSheetMode.BLEND.equals(releaseWorksheetDTO.getWorksheetMode()) || WorkSheetMode.DISPATCH.equals(releaseWorksheetDTO.getWorksheetMode())) {
+        if (WorksheetMode.BLEND.equals(releaseWorksheetDTO.getWorksheetMode()) || WorksheetMode.DISPATCH.equals(releaseWorksheetDTO.getWorksheetMode())) {
             for (int i = 0; i < split.length; i++) {
                 WorksheetMakerEntity worksheetMakerEntity = new WorksheetMakerEntity();
                 worksheetMakerEntity.setMakerId(Long.parseLong(split[i]));
@@ -309,7 +309,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             return R.fail("工单不存在");
         }
 
-        if (WorkSheetMode.DISPATCH.equals(worksheetEntity.getWorksheetMode())) {
+        if (WorksheetMode.DISPATCH.equals(worksheetEntity.getWorksheetMode())) {
             return R.fail("工单不支持抢单");
         }
 

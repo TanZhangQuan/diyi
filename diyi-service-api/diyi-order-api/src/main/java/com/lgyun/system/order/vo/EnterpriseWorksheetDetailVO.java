@@ -38,7 +38,7 @@ public class EnterpriseWorksheetDetailVO implements Serializable {
     /**
      * 类型，总包+分包，众包/众采
      */
-    private WorkSheetType worksheetType;
+    private WorksheetType worksheetType;
 
     /**
      * 创客身份
@@ -48,7 +48,7 @@ public class EnterpriseWorksheetDetailVO implements Serializable {
     /**
      * 模式，派单、抢单、混合（默认：混合型）
      */
-    private WorkSheetMode worksheetMode;
+    private WorksheetMode worksheetMode;
 
     /**
      * 获得方式：1,抢单获得；2，派单获得

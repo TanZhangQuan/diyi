@@ -202,8 +202,8 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
-    public R<IPage<MakerEnterpriseDetailYearMonthVO>> getMakerDetailed(IPage<MakerEnterpriseDetailYearMonthVO> page, Long makerId, Long enterpriseId, WorkSheetType workSheetType) {
-        if (workSheetType.equals(WorkSheetType.CROWDSOURCED)) {
+    public R<IPage<MakerEnterpriseDetailYearMonthVO>> getMakerDetailed(IPage<MakerEnterpriseDetailYearMonthVO> page, Long makerId, Long enterpriseId, WorksheetType worksheetType) {
+        if (worksheetType.equals(WorksheetType.CROWDSOURCED)) {
             return R.data(page.setRecords(baseMapper.getMakerCrowdDetailed(makerId, enterpriseId, page)));
         }
         return R.data(page.setRecords(baseMapper.getMakerDetailed(makerId, enterpriseId, page)));

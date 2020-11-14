@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.PayMakerPayState;
-import com.lgyun.common.enumeration.WorkSheetMode;
-import com.lgyun.common.enumeration.WorkSheetType;
+import com.lgyun.common.enumeration.WorksheetMode;
+import com.lgyun.common.enumeration.WorksheetType;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -67,12 +67,12 @@ public class AcceptPaysheetDetailMakerVO implements Serializable {
     /**
      * 类型
      */
-    private WorkSheetType worksheetType;
+    private WorksheetType worksheetType;
 
     /**
      * 模式
      */
-    private WorkSheetMode worksheetMode;
+    private WorksheetMode worksheetMode;
 
     /**
      * 发布时间

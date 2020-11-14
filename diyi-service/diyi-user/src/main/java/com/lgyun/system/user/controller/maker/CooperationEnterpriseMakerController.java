@@ -2,7 +2,7 @@ package com.lgyun.system.user.controller.maker;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.RelationshipType;
-import com.lgyun.common.enumeration.WorkSheetType;
+import com.lgyun.common.enumeration.WorksheetType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
@@ -44,7 +44,7 @@ public class CooperationEnterpriseMakerController {
 
     @GetMapping("/query-maker-to-enterprise-transaction")
     @ApiOperation(value = "查询关联商户和创客的明细", notes = "查询关联商户和创客的明细")
-    public R queryMakerToEnterpriseTransaction(Long enterpriseId, WorkSheetType workSheetType, Query query, BladeUser bladeUser) {
+    public R queryMakerToEnterpriseTransaction(Long enterpriseId, WorksheetType worksheetType, Query query, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = makerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -52,7 +52,7 @@ public class CooperationEnterpriseMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return makerEnterpriseService.getMakerDetailed(Condition.getPage(query.setDescs("pm.create_time")), makerEntity.getId(), enterpriseId, workSheetType);
+        return makerEnterpriseService.getMakerDetailed(Condition.getPage(query.setDescs("pm.create_time")), makerEntity.getId(), enterpriseId, worksheetType);
     }
 
     @GetMapping("/query-relevance-or-attention-enterprise-list")

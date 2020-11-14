@@ -3,7 +3,7 @@ package com.lgyun.system.user.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.RelationshipType;
-import com.lgyun.common.enumeration.WorkSheetType;
+import com.lgyun.common.enumeration.WorksheetType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.MakerEnterpriseEntity;
 import com.lgyun.system.user.vo.EnterprisesIdNameListVO;
@@ -117,10 +117,10 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
      * @param page
      * @param makerId
      * @param enterpriseId
-     * @param workSheetType
+     * @param worksheetType
      * @return
      */
-    R<IPage<MakerEnterpriseDetailYearMonthVO>> getMakerDetailed(IPage<MakerEnterpriseDetailYearMonthVO> page, Long makerId, Long enterpriseId, WorkSheetType workSheetType);
+    R<IPage<MakerEnterpriseDetailYearMonthVO>> getMakerDetailed(IPage<MakerEnterpriseDetailYearMonthVO> page, Long makerId, Long enterpriseId, WorksheetType worksheetType);
 
 }
 

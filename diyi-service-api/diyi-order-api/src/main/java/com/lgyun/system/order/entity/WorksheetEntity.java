@@ -2,8 +2,8 @@ package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.common.enumeration.MakerType;
-import com.lgyun.common.enumeration.WorkSheetMode;
-import com.lgyun.common.enumeration.WorkSheetType;
+import com.lgyun.common.enumeration.WorksheetMode;
+import com.lgyun.common.enumeration.WorksheetType;
 import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -66,12 +66,12 @@ public class WorksheetEntity extends BaseEntity {
     /**
      * 类型，总包+分包，众包/众采
      */
-    private WorkSheetType worksheetType;
+    private WorksheetType worksheetType;
 
     /**
      * 模式，派单、抢单、混合（默认：混合型）
      */
-    private WorkSheetMode worksheetMode;
+    private WorksheetMode worksheetMode;
 
     /**
      * 创客身份，自然人，个体户，个独。如果是个体户/个独，则抢单或派单时需要指定相关个体户/个独，如果只有一个则不用指定。

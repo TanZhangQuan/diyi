@@ -4,16 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 类型，总包+分包，众包/众采
+ * 模式，派单、抢单、混合（默认：混合型）
  * @author tzq
  * @date 2020/7/7.
  * @time 15:11.
  */
 @Getter
 @AllArgsConstructor
-public enum WorkSheetType {
-    SUBPACKAGE("SUBPACKAGE", "总包+分包"),
-    CROWDSOURCED("CROWDSOURCED", "众包/众采");
+public enum WorksheetMode {
+    DISPATCH("DISPATCH", "派单"),
+    GRABBING("GRABBING", "抢单"),
+    BLEND("BLEND", "混合");
 
     private final String value;
     private final String desc;
