@@ -101,7 +101,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
         MakerEnterpriseEntity makerEnterpriseEntity = baseMapper.selectOne(queryWrapper);
 
         if (attribute == 1 && null == makerEnterpriseEntity) {
-            return R.fail("取消成功");
+            return R.success("取消成功");
         }
         if(attribute == 1){
             makerEnterpriseEntity.setRelationshipType(RelationshipType.NORELATION);
@@ -204,7 +204,8 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     @Override
     public R<IPage<MakerEnterpriseDetailYearMonthVO>> getMakerDetailed(IPage<MakerEnterpriseDetailYearMonthVO> page, Long makerId, Long enterpriseId, WorkSheetType workSheetType) {
         if (workSheetType.equals(WorkSheetType.CROWDSOURCED)) {
-            return R.data(page.setRecords(baseMapper.getMakerCrowdDetailed(makerId, enterpriseId, page)));
+            //return R.data(page.setRecords(baseMapper.getMakerCrowdDetailed(makerId, enterpriseId, page)));
+            return R.success("成功");
         }
         return R.data(page.setRecords(baseMapper.getMakerDetailed(makerId, enterpriseId, page)));
     }
