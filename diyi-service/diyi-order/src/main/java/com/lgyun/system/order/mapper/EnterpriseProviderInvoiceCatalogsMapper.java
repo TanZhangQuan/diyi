@@ -3,6 +3,7 @@ package com.lgyun.system.order.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.order.entity.EnterpriseProviderInvoiceCatalogsEntity;
+import com.lgyun.system.order.vo.EnterpriseProviderInvoiceCatalogListVO;
 import com.lgyun.system.order.vo.EnterpriseProviderInvoiceCatalogsVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -26,5 +27,23 @@ public interface EnterpriseProviderInvoiceCatalogsMapper extends BaseMapper<Ente
      * @return
      */
     List<EnterpriseProviderInvoiceCatalogsVO> queryInvoiceCatalogsList(Long serviceProviderId, Long enterpriseId, IPage<EnterpriseProviderInvoiceCatalogsVO> page);
+
+    /**
+     * 查询商户-服务商所有开票类目
+     *
+     * @param serviceProviderId
+     * @param enterpriseId
+     * @param page
+     * @return
+     */
+    List<EnterpriseProviderInvoiceCatalogListVO> queryEnterpriseProviderInvoiceCatalogList(Long serviceProviderId, Long enterpriseId, IPage<EnterpriseProviderInvoiceCatalogListVO> page);
+
+    /**
+     * 查询编辑商户-服务商开票类目详情
+     *
+     * @param enterpriseProviderInvoiceCatalogId
+     * @return
+     */
+    EnterpriseProviderInvoiceCatalogListVO queryEnterpriseProviderInvoiceCatalogUpdateDetail(Long enterpriseProviderInvoiceCatalogId);
 }
 

@@ -1,13 +1,16 @@
 package com.lgyun.system.order.controller.admin;
 
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.ApplyScope;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.AddOrUpdateAddressDTO;
+import com.lgyun.system.order.dto.AddOrUpdateEnterpriseProviderInvoiceCatalogDTO;
 import com.lgyun.system.order.dto.AddOrUpdateProviderInvoiceCatalogDTO;
 import com.lgyun.system.order.service.IAddressService;
+import com.lgyun.system.order.service.IEnterpriseProviderInvoiceCatalogsService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.service.IServiceProviderInvoiceCatalogsService;
 import com.lgyun.system.user.entity.AdminEntity;
@@ -33,6 +36,7 @@ public class ServiceProviderAdminController {
     private IAddressService addressService;
     private IPayEnterpriseService payEnterpriseService;
     private IServiceProviderInvoiceCatalogsService serviceProviderInvoiceCatalogsService;
+    private IEnterpriseProviderInvoiceCatalogsService enterpriseProviderInvoiceCatalogsService;
 
     @GetMapping("/query-address-list")
     @ApiOperation(value = "查询服务商所有收货地址信息", notes = "查询服务商所有收货地址信息")
@@ -96,8 +100,8 @@ public class ServiceProviderAdminController {
     }
 
     @GetMapping("/query-invoice-catalog-update-detail")
-    @ApiOperation(value = "查询编辑开票类目详情", notes = "查询编辑开票类目详情")
-    public R queryInvoiceCatalogUpdateDetail(@ApiParam(value = "开票类目") @NotNull(message = "请选择开票类目") @RequestParam(required = false) Long invoiceCatalogId, BladeUser bladeUser) {
+    @ApiOperation(value = "查询编辑服务商开票类目详情", notes = "查询编辑服务商开票类目详情")
+    public R queryInvoiceCatalogUpdateDetail(@ApiParam(value = "服务商开票类目") @NotNull(message = "请选择服务商开票类目") @RequestParam(required = false) Long invoiceCatalogId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -108,8 +112,8 @@ public class ServiceProviderAdminController {
     }
 
     @PostMapping("/add-or-update-invoice-catalog")
-    @ApiOperation(value = "添加/编辑开票类目", notes = "添加/编辑开票类目")
-    public R addOrUpdateInvoiceCatalog(@ApiParam(value = "服务商编号") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
+    @ApiOperation(value = "添加/编辑服务商开票类目", notes = "添加/编辑服务商开票类目")
+    public R addOrUpdateInvoiceCatalog(@ApiParam(value = "服务商") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
                                        @Valid @RequestBody AddOrUpdateProviderInvoiceCatalogDTO addOrUpdateProviderInvoiceCatalogDTO, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
@@ -122,8 +126,8 @@ public class ServiceProviderAdminController {
     }
 
     @PostMapping("/delete-invoice-catalog")
-    @ApiOperation(value = "删除开票类目", notes = "删除开票类目")
-    public R deleteInvoiceCatalog(@ApiParam(value = "开票类目", required = true) @NotNull(message = "请选择要删除的开票类目") @RequestParam(required = false) Long invoiceCatalogId, BladeUser bladeUser) {
+    @ApiOperation(value = "删除服务商开票类目", notes = "删除服务商开票类目")
+    public R deleteInvoiceCatalog(@ApiParam(value = "服务商开票类目", required = true) @NotNull(message = "请选择要删除的服务商开票类目") @RequestParam(required = false) Long invoiceCatalogId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -143,6 +147,71 @@ public class ServiceProviderAdminController {
         }
 
         return payEnterpriseService.transactionByServiceProvider(serviceProviderId);
+    }
+
+    @GetMapping("/query-service-provider-invoice-catalogs")
+    @ApiOperation(value = "查询服务商开票类目", notes = "查询服务商开票类目")
+    public R queryServiceProviderInvoiceCatalogs(@ApiParam(value = "服务商") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
+                                                 @ApiParam(value = "服务商开票类目应用范围") @NotNull(message = "请选择服务商开票类目应用范围") @RequestParam(required = false) ApplyScope applyScope, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return serviceProviderInvoiceCatalogsService.queryProviderInvoiceCatalogNameList(serviceProviderId, applyScope);
+    }
+
+    @GetMapping("/query-enterprise-provider-invoice-catalog-list")
+    @ApiOperation(value = "查询商户-服务商所有开票类目", notes = "查询商户-服务商所有开票类目")
+    public R queryEnterpriseProviderInvoiceCatalogList(@ApiParam(value = "服务商") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
+                                                       @ApiParam(value = "商户") @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return enterpriseProviderInvoiceCatalogsService.queryEnterpriseProviderInvoiceCatalogList(serviceProviderId, enterpriseId, Condition.getPage(query.setDescs("create_time")));
+    }
+
+    @GetMapping("/query-enterprise-provider-invoice-catalog-update-detail")
+    @ApiOperation(value = "查询编辑商户-服务商开票类目详情", notes = "查询编辑商户-服务商开票类目详情")
+    public R queryEnterpriseProviderInvoiceCatalogUpdateDetail(@ApiParam(value = "商户-服务商开票类目") @NotNull(message = "请选择商户-服务商开票类目") @RequestParam(required = false) Long enterpriseProviderInvoiceCatalogId, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return enterpriseProviderInvoiceCatalogsService.queryEnterpriseProviderInvoiceCatalogUpdateDetail(enterpriseProviderInvoiceCatalogId);
+    }
+
+    @PostMapping("/add-or-update-enterprise-provider-invoice-catalog")
+    @ApiOperation(value = "添加/编辑商户-服务商开票类目", notes = "添加/编辑商户-服务商开票类目")
+    public R addOrUpdateEnterpriseProviderInvoiceCatalog(@ApiParam(value = "服务商") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
+                                                         @ApiParam(value = "商户") @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
+                                                         @Valid @RequestBody AddOrUpdateEnterpriseProviderInvoiceCatalogDTO addOrUpdateEnterpriseProviderInvoiceCatalogDTO, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        AdminEntity adminEntity = result.getData();
+
+        return enterpriseProviderInvoiceCatalogsService.addOrUpdateEnterpriseProviderInvoiceCatalog(addOrUpdateEnterpriseProviderInvoiceCatalogDTO, serviceProviderId, enterpriseId, adminEntity.getName());
+    }
+
+    @PostMapping("/delete-enterprise-provider-invoice-catalog")
+    @ApiOperation(value = "删除商户-服务商开票类目", notes = "删除商户-服务商开票类目")
+    public R deleteEnterpriseProviderInvoiceCatalog(@ApiParam(value = "开票类目", required = true) @NotNull(message = "请选择要删除的开票类目") @RequestParam(required = false) Long invoiceCatalogId, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return R.status(enterpriseProviderInvoiceCatalogsService.removeById(invoiceCatalogId));
     }
 
 }

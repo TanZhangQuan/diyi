@@ -179,11 +179,23 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
             }
 
             if (payEnterpriseExcel.getMakerNetIncome() == null) {
-                throw new CustomException("第" + i + "条数据缺少创客到手数据");
+                throw new CustomException("第" + i + "条数据缺少创客到手金额");
+            }
+
+            if (BigDecimal.ZERO.compareTo(payEnterpriseExcel.getMakerNetIncome()) >= 0) {
+                throw new CustomException("第" + i + "条数据的创客到手金额小于等于0");
             }
 
             if (payEnterpriseExcel.getServiceRate() == null) {
-                throw new CustomException("第" + i + "条数据缺少服务税费率数据");
+                throw new CustomException("第" + i + "条数据缺少服务税费率");
+            }
+
+            if (BigDecimal.ZERO.compareTo(payEnterpriseExcel.getServiceRate()) > 0) {
+                throw new CustomException("第" + i + "条数据的服务税费率小于0");
+            }
+
+            if (BigDecimal.valueOf(100).compareTo(payEnterpriseExcel.getServiceRate()) < 0) {
+                throw new CustomException("第" + i + "条数据的服务税费率大于100");
             }
 
             //获取服务税费率
@@ -196,19 +208,46 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
             }
 
             if (payEnterpriseExcel.getMakerTaxFee() == null) {
-                throw new CustomException("第" + i + "条数据缺少服务税费数据");
+                throw new CustomException("第" + i + "条数据缺少服务税费");
+            }
+
+            if (BigDecimal.ZERO.compareTo(payEnterpriseExcel.getMakerTaxFee()) > 0) {
+                throw new CustomException("第" + i + "条数据的服务税费小于0");
             }
 
             if (payEnterpriseExcel.getMakerNeIncome() == null) {
-                throw new CustomException("第" + i + "条数据缺少服务外包费数据");
+                throw new CustomException("第" + i + "条数据缺少服务外包费");
+            }
+
+            if (BigDecimal.ZERO.compareTo(payEnterpriseExcel.getMakerNeIncome()) >= 0) {
+                throw new CustomException("第" + i + "条数据的服务外包费小于等于0");
             }
 
             if (payEnterpriseExcel.getPayFee() == null) {
-                throw new CustomException("第" + i + "条数据缺少第三方支付手续费数据");
+                throw new CustomException("第" + i + "条数据缺少第三方支付手续费");
+            }
+
+            if (BigDecimal.ZERO.compareTo(payEnterpriseExcel.getPayFee()) > 0) {
+                throw new CustomException("第" + i + "条数据的第三方支付手续费小于0");
             }
 
             if (payEnterpriseExcel.getTotalFee() == null) {
-                throw new CustomException("第" + i + "条数据缺少价税合计企业总支付额数据");
+                throw new CustomException("第" + i + "条数据缺少价税合计企业总支付额");
+            }
+
+            if (BigDecimal.ZERO.compareTo(payEnterpriseExcel.getTotalFee()) >= 0) {
+                throw new CustomException("第" + i + "条数据的价税合计企业总支付额小于等于0");
+            }
+
+            //计算金额是否正确
+            //服务税费=服务外包费*服务税费率
+            if (payEnterpriseExcel.getMakerTaxFee().compareTo((payEnterpriseExcel.getMakerNeIncome().multiply(payEnterpriseExcel.getServiceRate().divide(BigDecimal.valueOf(100)))).setScale(2, BigDecimal.ROUND_HALF_UP)) != 0) {
+                throw new CustomException("第" + i + "条数据的服务税费不正确(服务税费=服务外包费*服务税费率)");
+            }
+
+            //创客到手=服务外包费-服务税费
+            if (payEnterpriseExcel.getMakerNetIncome().compareTo(payEnterpriseExcel.getMakerNeIncome().subtract(payEnterpriseExcel.getMakerTaxFee())) != 0) {
+                throw new CustomException("第" + i + "条数据的创客到手金额不正确(创客到手=服务外包费-服务税费)");
             }
 
             //个体户或个独ID
@@ -217,25 +256,43 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
 
                 case NATURALPERSON:
                     if (payEnterpriseExcel.getAuditFee() == null) {
-                        throw new CustomException("第" + i + "条数据缺少创客首次身份验证费数据");
+                        throw new CustomException("第" + i + "条数据缺少创客首次身份验证费");
                     }
 
-                    //总创客首次身份验证费
+                    if (BigDecimal.ZERO.compareTo(payEnterpriseExcel.getAuditFee()) > 0) {
+                        throw new CustomException("第" + i + "条数据的创客首次身份验证费小于0");
+                    }
+
+                    //价税合计企业总支付额=服务外包费+身份验证费/企业年费+第三方支付手续费
+                    if (payEnterpriseExcel.getTotalFee().compareTo(payEnterpriseExcel.getMakerNeIncome().add(payEnterpriseExcel.getAuditFee()).add(payEnterpriseExcel.getPayFee())) != 0) {
+                        throw new CustomException("第" + i + "条数据的价税合计企业总支付额不正确(价税合计企业总支付额=服务外包费+创客首次身份验证费+第三方支付手续费)");
+                    }
+
+                    //企业总支付额价税合计
                     identifyFee = identifyFee.add(payEnterpriseExcel.getAuditFee());
 
                     break;
 
                 case INDIVIDUALBUSINESS:
                     if (StringUtils.isBlank(payEnterpriseExcel.getIndividualBusinessName())) {
-                        throw new CustomException("第" + i + "条数据缺少个体户名称数据");
+                        throw new CustomException("第" + i + "条数据缺少个体户名称");
                     }
 
                     if (StringUtils.isBlank(payEnterpriseExcel.getIndividualBusinessIbtaxNo())) {
-                        throw new CustomException("第" + i + "条数据缺少个体户统一社会信用代码数据");
+                        throw new CustomException("第" + i + "条数据缺少个体户统一社会信用代码");
                     }
 
                     if (payEnterpriseExcel.getIndividualBusinessAnnualFee() == null) {
-                        throw new CustomException("第" + i + "条数据缺少个体户年费数据");
+                        throw new CustomException("第" + i + "条数据缺少个体户年费");
+                    }
+
+                    if (BigDecimal.ZERO.compareTo(payEnterpriseExcel.getIndividualBusinessAnnualFee()) > 0) {
+                        throw new CustomException("第" + i + "条数据的个体户年费小于0");
+                    }
+
+                    //价税合计企业总支付额=服务外包费+身份验证费/企业年费+第三方支付手续费
+                    if (payEnterpriseExcel.getTotalFee().compareTo(payEnterpriseExcel.getMakerNeIncome().add(payEnterpriseExcel.getIndividualBusinessAnnualFee()).add(payEnterpriseExcel.getPayFee())) != 0) {
+                        throw new CustomException("第" + i + "条数据的价税合计企业总支付额不正确(价税合计企业总支付额=服务外包费+个体户年费+第三方支付手续费)");
                     }
 
                     IndividualBusinessEntity individualBusinessEntity = userClient.queryIndividualBusinessByIbtaxNo(payEnterpriseExcel.getIndividualBusinessIbtaxNo());
@@ -263,15 +320,24 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
 
                 case INDIVIDUALENTERPRISE:
                     if (StringUtils.isBlank(payEnterpriseExcel.getIndividualEnterpriseName())) {
-                        throw new CustomException("第" + i + "条数据缺少个独名称数据");
+                        throw new CustomException("第" + i + "条数据缺少个独名称");
                     }
 
                     if (StringUtils.isBlank(payEnterpriseExcel.getIndividualEnterpriseIbtaxNo())) {
-                        throw new CustomException("第" + i + "条数据缺少个独统一社会信用代码数据");
+                        throw new CustomException("第" + i + "条数据缺少个独统一社会信用代码");
                     }
 
                     if (payEnterpriseExcel.getIndividualEnterpriseAnnualFee() == null) {
-                        throw new CustomException("第" + i + "条数据缺少个独年费数据");
+                        throw new CustomException("第" + i + "条数据缺少个独年费");
+                    }
+
+                    if (BigDecimal.ZERO.compareTo(payEnterpriseExcel.getIndividualEnterpriseAnnualFee()) > 0) {
+                        throw new CustomException("第" + i + "条数据的个独年费小于0");
+                    }
+
+                    //价税合计企业总支付额=服务外包费+身份验证费/企业年费+第三方支付手续费
+                    if (payEnterpriseExcel.getTotalFee().compareTo(payEnterpriseExcel.getMakerNeIncome().add(payEnterpriseExcel.getIndividualEnterpriseAnnualFee()).add(payEnterpriseExcel.getPayFee())) != 0) {
+                        throw new CustomException("第" + i + "条数据的价税合计企业总支付额不正确(价税合计企业总支付额=服务外包费+个独年费+第三方支付手续费)");
                     }
 
                     IndividualEnterpriseEntity individualEnterpriseEntity = userClient.queryIndividualEnterpriseByIbtaxNo(payEnterpriseExcel.getIndividualEnterpriseIbtaxNo());

@@ -158,7 +158,7 @@ public class InvoiceTaxEnterpriseController {
     }
 
     @GetMapping("/query-invoice-catalogs-list")
-    @ApiOperation(value = "查询开票类目", notes = "查询开票类目")
+    @ApiOperation(value = "查询商户-服务商开票类目", notes = "查询商户-服务商开票类目")
     public R queryInvoiceCatalogsList(@ApiParam(value = "服务商") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
