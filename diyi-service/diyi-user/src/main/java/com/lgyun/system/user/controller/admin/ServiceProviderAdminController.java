@@ -2,6 +2,7 @@ package com.lgyun.system.user.controller.admin;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
+import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.enumeration.MaterialState;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
@@ -134,6 +135,20 @@ public class ServiceProviderAdminController {
         }
 
         return enterpriseProviderService.getEnterprtisesByServiceProviderId(serviceProviderId, serviceProviderName, Condition.getPage(query.setDescs("t1.create_time")));
+    }
+
+    @PostMapping("/update-cooperation-status")
+    @ApiOperation(value = "更改商户服务商合作关系", notes = "更改商户服务商合作关系")
+    public R updateCooperationStatus(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
+                                     @ApiParam(value = "服务商", required = true) @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
+                                     @ApiParam(value = "合作状态", required = true) @NotNull(message = "请选择合作状态") @RequestParam(required = false) CooperateStatus cooperateStatus, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return enterpriseProviderService.updateCooperationStatus(enterpriseId, serviceProviderId, cooperateStatus);
     }
 
     @GetMapping("/query-service-provider-cert-list")
