@@ -248,9 +248,9 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
         try {
             String orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(payEnterpriseDetails.getExpressCompanyName(), payEnterpriseDetails.getExpressSheetNo());
-            Map<String,Object> maps = (Map) JSON.parse(orderTracesByJson);
+            Map<String, Object> maps = (Map) JSON.parse(orderTracesByJson);
             Boolean success = (Boolean) maps.get("Success");
-            if(success){
+            if (success) {
                 payEnterpriseDetails.setKOrderTracesByJson(maps.get("Traces"));
             }
         } catch (Exception e) {
@@ -451,11 +451,11 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         try {
             if (!StringUtil.isBlank(expressCompanyName) && !StringUtil.isBlank(expressSheetNo)) {
                 orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(expressCompanyName, expressSheetNo);
-                Map<String,Object> maps = (Map) JSON.parse(orderTracesByJson);
+                Map<String, Object> maps = (Map) JSON.parse(orderTracesByJson);
                 Boolean success = (Boolean) maps.get("Success");
-                if(success){
+                if (success) {
                     map.put("orderTracesByJson", maps.get("Traces"));
-                }else{
+                } else {
                     map.put("orderTracesByJson", "");
                 }
             } else {
@@ -482,11 +482,11 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             String expressSheetNo = lumpSumInvoiceDetails.getExpressSheetNo();
             if (!StringUtil.isBlank(expressCompanyName) && !StringUtil.isBlank(expressSheetNo)) {
                 orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(expressCompanyName, expressSheetNo);
-                Map<String,Object> maps = (Map) JSON.parse(orderTracesByJson);
+                Map<String, Object> maps = (Map) JSON.parse(orderTracesByJson);
                 Boolean success = (Boolean) maps.get("Success");
-                if(success){
+                if (success) {
                     map.put("orderTracesByJson", maps.get("Traces"));
-                }else{
+                } else {
                     map.put("orderTracesByJson", "");
                 }
             } else {
@@ -530,11 +530,11 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         try {
             if (!StringUtil.isBlank(expressCompanyName) && !StringUtil.isBlank(expressSheetNo)) {
                 orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(expressCompanyName, expressSheetNo);
-                Map<String,Object> maps = (Map) JSON.parse(orderTracesByJson);
+                Map<String, Object> maps = (Map) JSON.parse(orderTracesByJson);
                 Boolean success = (Boolean) maps.get("Success");
-                if(success){
+                if (success) {
                     map.put("orderTracesByJson", maps.get("Traces"));
-                }else{
+                } else {
                     map.put("orderTracesByJson", "");
                 }
             } else {
@@ -549,11 +549,11 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R saveServiceLumpSumInvoice(Long serviceProviderId, Long payEnterpriseId, String serviceProviderName, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc,String invoiceTypeNo,String invoiceSerialNo,String invoiceCategory) {
+    public R saveServiceLumpSumInvoice(Long serviceProviderId, Long payEnterpriseId, String serviceProviderName, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc, String invoiceTypeNo, String invoiceSerialNo, String invoiceCategory) {
 
         PayEnterpriseEntity byId = getById(payEnterpriseId);
         //EnterpriseEntity enterpriseById = userClient.getEnterpriseById(byId.getEnterpriseId());
-        if(InvoiceState.OPENED.equals(byId.getCompanyInvoiceState())){
+        if (InvoiceState.OPENED.equals(byId.getCompanyInvoiceState())) {
             return R.fail("不能重复开票");
         }
 
@@ -608,8 +608,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R saveServiceLumpSumMergeInvoice(Long serviceProviderId, String payEnterpriseIds, String serviceProviderName, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc,String invoiceTypeNo,String invoiceSerialNo,String invoiceCategory,InvoiceMode invoiceMode, BigDecimal partInvoiceAmount) {
-        if(InvoiceMode.PARTIALLYISSUED.equals(invoiceMode) && partInvoiceAmount.compareTo(BigDecimal.ZERO) == 0){
+    public R saveServiceLumpSumMergeInvoice(Long serviceProviderId, String payEnterpriseIds, String serviceProviderName, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc, String invoiceTypeNo, String invoiceSerialNo, String invoiceCategory, InvoiceMode invoiceMode, BigDecimal partInvoiceAmount) {
+        if (InvoiceMode.PARTIALLYISSUED.equals(invoiceMode) && partInvoiceAmount.compareTo(BigDecimal.ZERO) == 0) {
             return R.fail("请输入部分开票的金额！！！");
         }
         String[] split = payEnterpriseIds.split(",");
@@ -619,19 +619,19 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         BigDecimal invoiceTotalAmount = BigDecimal.ZERO;
         for (int i = 0; i < split.length; i++) {
             PayEnterpriseEntity byId = getById(Long.parseLong(split[i]));
-            if(InvoiceState.OPENED.equals(byId.getCompanyInvoiceState())){
+            if (InvoiceState.OPENED.equals(byId.getCompanyInvoiceState())) {
                 return R.fail("不能重复开票");
             }
             invoiceTotalAmount = byId.getPayToPlatformAmount().add(invoiceTotalAmount);
         }
-        if(InvoiceMode.PARTIALLYISSUED.equals(invoiceMode) && partInvoiceAmount.compareTo(invoiceTotalAmount) > -1){
+        if (InvoiceMode.PARTIALLYISSUED.equals(invoiceMode) && partInvoiceAmount.compareTo(invoiceTotalAmount) > -1) {
             return R.fail("部分开票的金额不能大于等于价税合计额！！！");
         }
         PlatformInvoiceEntity platformInvoiceEntity = new PlatformInvoiceEntity();
         platformInvoiceEntity.setInvoicePrintDate(new Date());
         //价税合计
         platformInvoiceEntity.setInvoiceTotalAmount(invoiceTotalAmount);
-        if(InvoiceMode.PARTIALLYISSUED.equals(invoiceMode)){
+        if (InvoiceMode.PARTIALLYISSUED.equals(invoiceMode)) {
             platformInvoiceEntity.setOpenedInvoiceTotalAmount(partInvoiceAmount);
         }
 
@@ -682,9 +682,9 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         //更新商户支付清单的总包开票状态
         for (int i = 0; i < split.length; i++) {
             PayEnterpriseEntity byId = getById(Long.parseLong(split[i]));
-            if(InvoiceMode.PARTIALLYISSUED.equals(invoiceMode)){
+            if (InvoiceMode.PARTIALLYISSUED.equals(invoiceMode)) {
                 byId.setCompanyInvoiceState(CompanyInvoiceState.PARTIALLYISSUED);
-            }else{
+            } else {
                 byId.setCompanyInvoiceState(CompanyInvoiceState.OPENED);
             }
             saveOrUpdate(byId);
@@ -695,8 +695,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R createTotalApplyInvoice(Long serviceProviderId, String serviceProviderName, Long applicationId, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc,String invoiceTypeNo,String invoiceSerialNo,String invoiceCategory, InvoiceMode invoiceMode, BigDecimal partInvoiceAmount) {
-        if(InvoiceMode.PARTIALLYISSUED.equals(invoiceMode) && partInvoiceAmount.compareTo(BigDecimal.ZERO) == 0){
+    public R createTotalApplyInvoice(Long serviceProviderId, String serviceProviderName, Long applicationId, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc, String invoiceTypeNo, String invoiceSerialNo, String invoiceCategory, InvoiceMode invoiceMode, BigDecimal partInvoiceAmount) {
+        if (InvoiceMode.PARTIALLYISSUED.equals(invoiceMode) && partInvoiceAmount.compareTo(BigDecimal.ZERO) == 0) {
             return R.fail("请输入部分开票的金额！！！");
         }
         List<InvoiceApplicationPayListEntity> invoiceApplicationPayListEntityList = invoiceApplicationPayListService.getApplicationId(applicationId);
@@ -706,12 +706,12 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         BigDecimal invoiceTotalAmount = BigDecimal.ZERO;
         for (InvoiceApplicationPayListEntity invoiceApplicationPayListEntity : invoiceApplicationPayListEntityList) {
             PayEnterpriseEntity byId = getById(invoiceApplicationPayListEntity.getPayEnterpriseId());
-            if(InvoiceState.OPENED.equals(byId.getCompanyInvoiceState())){
+            if (InvoiceState.OPENED.equals(byId.getCompanyInvoiceState())) {
                 return R.fail("不能重复开票");
             }
             invoiceTotalAmount = byId.getPayToPlatformAmount().add(invoiceTotalAmount);
         }
-        if(InvoiceMode.PARTIALLYISSUED.equals(invoiceMode) && partInvoiceAmount.compareTo(invoiceTotalAmount) > -1){
+        if (InvoiceMode.PARTIALLYISSUED.equals(invoiceMode) && partInvoiceAmount.compareTo(invoiceTotalAmount) > -1) {
             return R.fail("部分开票的金额不能大于等于价税合计额！！！");
         }
         PlatformInvoiceEntity platformInvoiceEntity = new PlatformInvoiceEntity();
@@ -719,7 +719,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         platformInvoiceEntity.setInvoicePrintDate(new Date());
         //价税合计
         platformInvoiceEntity.setInvoiceTotalAmount(invoiceTotalAmount);
-        if(InvoiceMode.PARTIALLYISSUED.equals(invoiceMode)){
+        if (InvoiceMode.PARTIALLYISSUED.equals(invoiceMode)) {
             platformInvoiceEntity.setOpenedInvoiceTotalAmount(partInvoiceAmount);
         }
         platformInvoiceEntity.setInvoiceNumbers(1);
@@ -769,10 +769,10 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         for (InvoiceApplicationPayListEntity invoiceApplicationPayListEntity : invoiceApplicationPayListEntityList) {
             PayEnterpriseEntity payEnterpriseEntity = getById(invoiceApplicationPayListEntity.getPayEnterpriseId());
             InvoiceApplicationEntity invoiceApplicationEntity = invoiceApplicationService.getById(invoiceApplicationPayListEntity.getApplicationId());
-            if(InvoiceMode.PARTIALLYISSUED.equals(invoiceMode)){
+            if (InvoiceMode.PARTIALLYISSUED.equals(invoiceMode)) {
                 payEnterpriseEntity.setCompanyInvoiceState(CompanyInvoiceState.PARTIALLYISSUED);
                 invoiceApplicationEntity.setApplicationState(ApplicationState.PARTIALLYISSUED);
-            }else{
+            } else {
                 payEnterpriseEntity.setCompanyInvoiceState(CompanyInvoiceState.OPENED);
                 invoiceApplicationEntity.setApplicationState(ApplicationState.ISSUEDINFULL);
             }
@@ -784,34 +784,34 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
     @Override
     public R updateTotalInvoice(LumpInvoiceDTO lumpInvoiceDTO) {
-        if(InvoiceMode.PARTIALLYISSUED.equals(lumpInvoiceDTO.getInvoiceMode()) && lumpInvoiceDTO.getPartInvoiceAmount().compareTo(BigDecimal.ZERO) == 0){
+        if (InvoiceMode.PARTIALLYISSUED.equals(lumpInvoiceDTO.getInvoiceMode()) && lumpInvoiceDTO.getPartInvoiceAmount().compareTo(BigDecimal.ZERO) == 0) {
             return R.fail("请输入部分开票的金额！！！");
         }
 
         PlatformInvoiceEntity byId = platformInvoiceService.getById(lumpInvoiceDTO.getInvoicePrintId());
-        if(InvoiceMode.PARTIALLYISSUED.equals(lumpInvoiceDTO.getInvoiceMode())){
+        if (InvoiceMode.PARTIALLYISSUED.equals(lumpInvoiceDTO.getInvoiceMode())) {
             BigDecimal openedInvoiceTotalAmount = byId.getOpenedInvoiceTotalAmount();
             BigDecimal add = openedInvoiceTotalAmount.add(lumpInvoiceDTO.getPartInvoiceAmount());
             List<PlatformInvoicePayListEntity> platformInvoicePayListEntities = platformInvoicePayListService.findInvoicePrintId(lumpInvoiceDTO.getInvoicePrintId());
-            if(add.compareTo(byId.getInvoiceTotalAmount()) == 0){
+            if (add.compareTo(byId.getInvoiceTotalAmount()) == 0) {
                 byId.setOpenedInvoiceTotalAmount(byId.getInvoiceTotalAmount());
-                for(PlatformInvoicePayListEntity platformInvoicePayListEntity : platformInvoicePayListEntities){
+                for (PlatformInvoicePayListEntity platformInvoicePayListEntity : platformInvoicePayListEntities) {
                     PayEnterpriseEntity payEnterpriseEntity = getById(platformInvoicePayListEntity.getPayEnterpriseId());
                     payEnterpriseEntity.setCompanyInvoiceState(CompanyInvoiceState.OPENED);
                     InvoiceApplicationEntity invoiceApplicationEntity = invoiceApplicationService.getById(byId.getApplicationId());
-                    if(null != invoiceApplicationEntity){
+                    if (null != invoiceApplicationEntity) {
                         invoiceApplicationEntity.setApplicationState(ApplicationState.ISSUEDINFULL);
                         invoiceApplicationService.saveOrUpdate(invoiceApplicationEntity);
                     }
                     saveOrUpdate(payEnterpriseEntity);
                 }
             }
-            if(add.compareTo(byId.getInvoiceTotalAmount()) == 1){
+            if (add.compareTo(byId.getInvoiceTotalAmount()) == 1) {
                 return R.fail("部分开票金额有误！！！");
             }
-        }else {
+        } else {
             List<PlatformInvoicePayListEntity> platformInvoicePayListEntities = platformInvoicePayListService.findInvoicePrintId(lumpInvoiceDTO.getInvoicePrintId());
-            for(PlatformInvoicePayListEntity platformInvoicePayListEntity : platformInvoicePayListEntities){
+            for (PlatformInvoicePayListEntity platformInvoicePayListEntity : platformInvoicePayListEntities) {
                 PayEnterpriseEntity payEnterpriseEntity = getById(platformInvoicePayListEntity.getPayEnterpriseId());
                 payEnterpriseEntity.setCompanyInvoiceState(CompanyInvoiceState.OPENED);
                 saveOrUpdate(payEnterpriseEntity);
@@ -821,7 +821,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         byId.setExpressSheetNo(lumpInvoiceDTO.getExpressSheetNo());
         platformInvoiceService.saveOrUpdate(byId);
         List<PlatformInvoiceListEntity> invoicePrintId = platformInvoiceListService.findInvoicePrintId(lumpInvoiceDTO.getInvoicePrintId());
-        for (PlatformInvoiceListEntity platformInvoiceListEntity : invoicePrintId){
+        for (PlatformInvoiceListEntity platformInvoiceListEntity : invoicePrintId) {
             platformInvoiceListEntity.setInvoiceCategory(lumpInvoiceDTO.getInvoiceCategory());
             platformInvoiceListEntity.setCompanyInvoiceUrl(lumpInvoiceDTO.getCompanyInvoiceUrl());
             platformInvoiceListService.saveOrUpdate(platformInvoiceListEntity);
@@ -1009,26 +1009,26 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     public R queryTotalInvoiceListEnterpriseInvoiceDetails(Long invoicePrintId) {
         Map map = new HashMap();
         List<EnterpriseInvoiceDetailVO> enterpriseInvoiceDetails = baseMapper.queryTotalInvoiceListEnterpriseInvoiceDetails(invoicePrintId);
-        if(null != enterpriseInvoiceDetails && enterpriseInvoiceDetails.size() > 0){
+        if (null != enterpriseInvoiceDetails && enterpriseInvoiceDetails.size() > 0) {
             String expressCompanyName = enterpriseInvoiceDetails.get(0).getExpressCompanyName();
             String expressSheetNo = enterpriseInvoiceDetails.get(0).getExpressSheetNo();
             KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
 
-            try{
+            try {
                 String result = kdniaoTrackQueryUtil.getOrderTracesByJson(expressCompanyName, expressSheetNo);
-                Map<String,Object> maps = (Map) JSON.parse(result);
+                Map<String, Object> maps = (Map) JSON.parse(result);
                 Boolean success = (Boolean) maps.get("Success");
-                if(success){
-                    map.put("orderTracesByJson",maps.get("Traces"));
-                }else{
-                    map.put("orderTracesByJson","");
+                if (success) {
+                    map.put("orderTracesByJson", maps.get("Traces"));
+                } else {
+                    map.put("orderTracesByJson", "");
                 }
-            }catch (Exception e){
-                map.put("orderTracesByJson","");
+            } catch (Exception e) {
+                map.put("orderTracesByJson", "");
                 log.info(e.getMessage());
             }
         }
-        map.put("enterpriseInvoiceDetails",enterpriseInvoiceDetails);
+        map.put("enterpriseInvoiceDetails", enterpriseInvoiceDetails);
         return R.data(map);
     }
 
@@ -1064,7 +1064,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             if (null == payEnterpriseEntity) {
                 return R.fail("商户支付清单不存在");
             }
-            if(!(byId.getMakerInvoiceType().equals(payEnterpriseEntity.getMakerInvoiceType()))){
+            if (!(byId.getMakerInvoiceType().equals(payEnterpriseEntity.getMakerInvoiceType()))) {
                 return R.fail("请选择相同分包开票类别进行开票");
             }
             payEnterpriseEntities.add(payEnterpriseEntity);
@@ -1106,7 +1106,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         PayEnterpriseEntity payEnterpriseEntity = getById(Long.parseLong(split[0]));
         for (int i = 1; i < split.length; i++) {
             PayEnterpriseEntity byId = getById(Long.parseLong(split[i]));
-            if(!payEnterpriseEntity.getMakerInvoiceType().equals(byId.getMakerInvoiceType())){
+            if (!payEnterpriseEntity.getMakerInvoiceType().equals(byId.getMakerInvoiceType())) {
                 return R.fail("请选择相同的开票方式");
             }
         }
@@ -1150,7 +1150,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             String makerVoiceUrl = doorSignInvoiceJsonArray.getJSONObject(i).get("makerVoiceUrl").toString();
             String makerTaxUrl = doorSignInvoiceJsonArray.getJSONObject(i).get("makerTaxUrl").toString();
             MakerInvoiceEntity makerInvoiceEntity = makerInvoiceService.findPayMakerId(Long.parseLong(payMakerId));
-            if(("").equals(makerVoiceUrl)){
+            if (("").equals(makerVoiceUrl)) {
                 return R.fail("请上传发票！！！");
             }
             if (null == makerInvoiceEntity) {
@@ -1161,7 +1161,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             makerInvoiceEntity.setMakerVoiceUploadDateTime(new Date());
             makerInvoiceService.saveOrUpdate(makerInvoiceEntity);
             payMakerEntity.setMakerInvoiceState(InvoiceState.OPENED);
-            if(!("").equals(makerTaxUrl)){
+            if (!("").equals(makerTaxUrl)) {
                 MakerTaxRecordEntity makerTaxRecordEntity = makerTaxRecordService.findPayMakerId(Long.parseLong(payMakerId));
                 if (null == makerTaxRecordEntity) {
                     makerTaxRecordEntity = new MakerTaxRecordEntity();
@@ -1174,7 +1174,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             }
             payMakerService.saveOrUpdate(payMakerEntity);
         }
-        if(payMakerCount == doorSignInvoiceJsonArray.length()){
+        if (payMakerCount == doorSignInvoiceJsonArray.length()) {
             for (PayEnterpriseEntity payEnterpriseEntity : payEnterpriseEntities) {
                 payEnterpriseEntity.setSubcontractingInvoiceState(InvoiceState.OPENED);
                 saveOrUpdate(payEnterpriseEntity);
@@ -1195,7 +1195,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
     @Override
     public R queryPayEnterpriseMakerList(Long payEnterpriseId) {
-        return R.data(baseMapper.getPayMakerLists(payEnterpriseId+""));
+        return R.data(baseMapper.getPayMakerLists(payEnterpriseId + ""));
     }
 
 }
