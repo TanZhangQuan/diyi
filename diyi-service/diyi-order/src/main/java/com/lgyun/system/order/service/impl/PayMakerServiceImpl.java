@@ -131,7 +131,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
         BigDecimal singleEnterpriseBusinessAnnualFee = BigDecimal.ZERO;
         for (int i = 1; i <= list.size(); i++) {
             //获取Excel数据
-            PayEnterpriseExcel payEnterpriseExcel = list.get(i-1);
+            PayEnterpriseExcel payEnterpriseExcel = list.get(i - 1);
             log.info(String.valueOf(payEnterpriseExcel));
 
             if (StringUtils.isBlank(payEnterpriseExcel.getMakerName())) {
@@ -151,17 +151,21 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
                 throw new CustomException("第" + i + "条数据的系统创客姓名为空");
             }
 
+            if (StringUtils.isBlank(makerEntity.getIdcardNo())) {
+                throw new CustomException("第" + i + "条数据的系统创客身份证号码为空");
+            }
+
             if (!(makerEntity.getName().equals(payEnterpriseExcel.getMakerName()))) {
                 throw new CustomException("第" + i + "条数据的Excel创客姓名和系统创客姓名不一致");
             }
 
             if (!(SignState.SIGNED.equals(makerEntity.getJoinSignState()))) {
-                throw new CustomException("第" + i  + "条数据的创客未签署加盟合同");
+                throw new CustomException("第" + i + "条数据的创客未签署加盟合同");
             }
 
             int entMakSupplementaryAgreementNum = userClient.queryEntMakSupplementaryAgreementNum(makerEntity.getId(), enterpriseId);
             if (entMakSupplementaryAgreementNum <= 0) {
-                throw new CustomException("第" + i  + "条数据的创客未签署商户-创客补充协议");
+                throw new CustomException("第" + i + "条数据的创客未签署商户-创客补充协议");
             }
 
             int makerEnterpriseNum = userClient.queryMakerEnterpriseRelevanceCount(enterpriseId, makerEntity.getId());
@@ -391,6 +395,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> confirmPayMaker(Long makerId, Long payMakerId) {
 
         PayMakerEntity payMakerEntity = getById(payMakerId);
@@ -398,16 +403,16 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
             return R.fail("创客支付明细不存在");
         }
 
-        if (payMakerEntity.getMakerId().equals(makerId)) {
+        if (!(payMakerEntity.getMakerId().equals(makerId))) {
             return R.fail("创客支付明细不属于当前创客");
-        }
-
-        if (!(payMakerEntity.getPayState().equals(PayMakerPayState.PLATFORMPAID))) {
-            return R.fail("服务商未支付，不可确认收款");
         }
 
         if (payMakerEntity.getPayState().equals(PayMakerPayState.CONFIRMPAID)) {
             return R.fail("创客已确认收款");
+        }
+
+        if (!(payMakerEntity.getPayState().equals(PayMakerPayState.PLATFORMPAID))) {
+            return R.fail("服务商未支付，不可确认收款");
         }
 
         //确认收款
@@ -426,6 +431,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
         if (payMakerNum == confirmpaidPayMakerNum) {
             PayEnterpriseEntity payEnterpriseEntity = payEnterpriseService.getById(payMakerEntity.getPayEnterpriseId());
             payEnterpriseEntity.setPayState(PayEnterprisePayState.CONFIRMPAY);
+            payEnterpriseEntity.setConfirmDateTime(new Date());
             payEnterpriseService.updateById(payEnterpriseEntity);
         }
 

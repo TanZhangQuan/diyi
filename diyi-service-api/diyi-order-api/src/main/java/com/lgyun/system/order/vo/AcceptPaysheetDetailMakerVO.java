@@ -3,6 +3,7 @@ package com.lgyun.system.order.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.PayMakerPayState;
 import com.lgyun.common.enumeration.WorkSheetMode;
 import com.lgyun.common.enumeration.WorkSheetType;
 import lombok.Data;
@@ -37,15 +38,20 @@ public class AcceptPaysheetDetailMakerVO implements Serializable {
     private BigDecimal makerNetIncome;
 
     /**
+     * 支付状态
+     */
+    private PayMakerPayState payState;
+
+    /**
      * 服务开始日期
      */
-    @JsonFormat(pattern = "MM-dd", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date serviceTimeStart;
 
     /**
      * 服务结束日期
      */
-    @JsonFormat(pattern = "MM-dd", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date serviceTimeEnd;
 
     /**

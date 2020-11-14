@@ -140,7 +140,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
                 return R.fail("总包支付清单不属于商户");
             }
 
-            if (!(PayEnterpriseAuditState.SUBMITED.equals(payEnterpriseEntity.getAuditState())) && !(PayEnterpriseAuditState.REJECTED.equals(payEnterpriseEntity.getAuditState()))) {
+            if (!(PayEnterpriseAuditState.EDITING.equals(payEnterpriseEntity.getAuditState())) && !(PayEnterpriseAuditState.REJECTED.equals(payEnterpriseEntity.getAuditState()))) {
                 return R.fail("非编辑或已驳回状态的总包支付清单不可修改");
             }
 
@@ -325,7 +325,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R<String> audit(Long payEnterpriseId, Long serviceProviderId, PayEnterpriseAuditState auditState, MakerInvoiceType makerInvoiceType) {
+    public R<String> audit(Long payEnterpriseId, Long serviceProviderId, Long serviceProviderWorkerId, PayEnterpriseAuditState auditState, MakerInvoiceType makerInvoiceType) {
 
         PayEnterpriseEntity payEnterpriseEntity = getById(payEnterpriseId);
         if (payEnterpriseEntity == null) {
@@ -354,7 +354,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             }
 
             payEnterpriseEntity.setMakerInvoiceType(makerInvoiceType);
-            payEnterpriseEntity.setPayState(PayEnterprisePayState.CONFIRMPAY);
+            payEnterpriseEntity.setEmployeeId(serviceProviderWorkerId);
         }
 
         payEnterpriseEntity.setAuditState(auditState);

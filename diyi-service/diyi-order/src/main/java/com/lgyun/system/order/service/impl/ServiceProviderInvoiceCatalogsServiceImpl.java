@@ -2,6 +2,7 @@ package com.lgyun.system.order.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.ApplyScope;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.dto.AddOrUpdateProviderInvoiceCatalogDTO;
 import com.lgyun.system.order.entity.ServiceProviderInvoiceCatalogsEntity;
@@ -35,7 +36,7 @@ public class ServiceProviderInvoiceCatalogsServiceImpl extends BaseServiceImpl<S
     }
 
     @Override
-    public R<String> addOrUpdateInvoiceCatalog(AddOrUpdateProviderInvoiceCatalogDTO addOrUpdateProviderInvoiceCatalogDTO, Long serviceProviderId) {
+    public R<String> addOrUpdateInvoiceCatalog(AddOrUpdateProviderInvoiceCatalogDTO addOrUpdateProviderInvoiceCatalogDTO, Long serviceProviderId, String name) {
 
         ServiceProviderInvoiceCatalogsEntity serviceProviderInvoiceCatalogsEntity;
         if (addOrUpdateProviderInvoiceCatalogDTO.getInvoiceCatalogId() != null) {
@@ -48,6 +49,7 @@ public class ServiceProviderInvoiceCatalogsServiceImpl extends BaseServiceImpl<S
                 return R.fail("服务商开票类目不属于服务商");
             }
 
+            serviceProviderInvoiceCatalogsEntity.setSetPerson(name);
             BeanUtils.copyProperties(addOrUpdateProviderInvoiceCatalogDTO, serviceProviderInvoiceCatalogsEntity);
             updateById(serviceProviderInvoiceCatalogsEntity);
 
@@ -57,12 +59,17 @@ public class ServiceProviderInvoiceCatalogsServiceImpl extends BaseServiceImpl<S
 
             serviceProviderInvoiceCatalogsEntity = new ServiceProviderInvoiceCatalogsEntity();
             serviceProviderInvoiceCatalogsEntity.setServiceProviderId(serviceProviderId);
-
+            serviceProviderInvoiceCatalogsEntity.setSetPerson(name);
             BeanUtils.copyProperties(addOrUpdateProviderInvoiceCatalogDTO, serviceProviderInvoiceCatalogsEntity);
             save(serviceProviderInvoiceCatalogsEntity);
 
             return R.success("新建服务商开票类目成功");
         }
 
+    }
+
+    @Override
+    public R<String> queryProviderInvoiceCatalogNameList(Long serviceProviderId, ApplyScope applyScope) {
+        return R.data(baseMapper.queryProviderInvoiceCatalogNameList(serviceProviderId, applyScope));
     }
 }

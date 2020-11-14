@@ -140,11 +140,12 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      *
      * @param payEnterpriseId
      * @param serviceProviderId
+     * @param serviceProviderWorkerId
      * @param auditState
      * @param makerInvoiceType
      * @return
      */
-    R<String> audit(Long payEnterpriseId, Long serviceProviderId, PayEnterpriseAuditState auditState, MakerInvoiceType makerInvoiceType);
+    R<String> audit(Long payEnterpriseId, Long serviceProviderId, Long serviceProviderWorkerId, PayEnterpriseAuditState auditState, MakerInvoiceType makerInvoiceType);
 
     /**
      * 查询当前商户首页交易情况数据

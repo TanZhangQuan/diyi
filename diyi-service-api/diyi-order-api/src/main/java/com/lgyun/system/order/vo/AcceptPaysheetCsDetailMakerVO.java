@@ -37,13 +37,13 @@ public class AcceptPaysheetCsDetailMakerVO implements Serializable {
     /**
      * 服务开始日期
      */
-    @JsonFormat(pattern = "MM-dd", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date serviceTimeStart;
 
     /**
      * 服务结束日期
      */
-    @JsonFormat(pattern = "MM-dd", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date serviceTimeEnd;
 
     /**

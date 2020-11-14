@@ -36,11 +36,6 @@ public class AddOrUpdateProviderInvoiceCatalogDTO implements Serializable {
     private String invoiceCatalogName;
 
     /**
-     * 设置人员
-     */
-    private String setPerson;
-
-    /**
      * 设置说明
      */
     private String setDesc;

@@ -158,7 +158,7 @@ public class PaymentAdminController {
             return result;
         }
 
-        return payEnterpriseService.audit(payEnterpriseId, serviceProviderId, auditState, makerInvoiceType);
+        return payEnterpriseService.audit(payEnterpriseId, serviceProviderId, null, auditState, makerInvoiceType);
     }
 
 }

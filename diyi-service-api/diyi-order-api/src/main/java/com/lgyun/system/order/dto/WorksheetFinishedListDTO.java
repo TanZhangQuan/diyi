@@ -31,7 +31,7 @@ public class WorksheetFinishedListDTO implements Serializable {
     /**
      * 工单类型
      */
-    private WorkSheetType workSheetType;
+    private WorkSheetType worksheetType;
 
     /**
      * 创客类型

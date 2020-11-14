@@ -113,7 +113,7 @@
             AND worksheet_name LIKE concat('%', #{param2.worksheetName}, '%')
         </if>
         <if test="param2.workSheetType != null">
-            AND work_sheet_type = #{param2.workSheetType}
+            AND worksheet_type = #{param2.workSheetType}
         </if>
         <if test="param2.makerType != null">
             AND maker_type = #{param2.makerType}

@@ -184,6 +184,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         platformInvoiceCatalogs.setApplyScope(ApplyScope.TOTAL);
         platformInvoiceCatalogs.setInvoiceCatalogName(CustomConstant.PLATFORM_SERVICE_FEE);
         orderClient.createServiceProviderInvoiceCatalogs(platformInvoiceCatalogs);
+
         //创建默认类目:服务费
         ServiceProviderInvoiceCatalogsEntity serviceInvoiceCatalogs = new ServiceProviderInvoiceCatalogsEntity();
         serviceInvoiceCatalogs.setServiceProviderId(serviceProviderEntity.getId());
