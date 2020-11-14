@@ -126,14 +126,14 @@ public class EnterpriseAdminController {
 
     @GetMapping("/query-enterprise-provider-invoice-catalog-update-detail")
     @ApiOperation(value = "查询编辑商户-服务商开票类目详情", notes = "查询编辑商户-服务商开票类目详情")
-    public R queryEnterpriseProviderInvoiceCatalogUpdateDetail(@ApiParam(value = "商户-服务商开票类目") @NotNull(message = "请选择商户-服务商开票类目") @RequestParam(required = false) Long invoiceCatalogId, BladeUser bladeUser) {
+    public R queryEnterpriseProviderInvoiceCatalogUpdateDetail(@ApiParam(value = "商户-服务商开票类目") @NotNull(message = "请选择商户-服务商开票类目") @RequestParam(required = false) Long enterpriseProviderInvoiceCatalogId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return enterpriseProviderInvoiceCatalogsService.queryEnterpriseProviderInvoiceCatalogUpdateDetail(invoiceCatalogId);
+        return enterpriseProviderInvoiceCatalogsService.queryEnterpriseProviderInvoiceCatalogUpdateDetail(enterpriseProviderInvoiceCatalogId);
     }
 
     @PostMapping("/add-or-update-enterprise-provider-invoice-catalog")
@@ -153,14 +153,14 @@ public class EnterpriseAdminController {
 
     @PostMapping("/delete-enterprise-provider-invoice-catalog")
     @ApiOperation(value = "删除商户-服务商开票类目", notes = "删除商户-服务商开票类目")
-    public R deleteEnterpriseProviderInvoiceCatalog(@ApiParam(value = "开票类目", required = true) @NotNull(message = "请选择要删除的开票类目") @RequestParam(required = false) Long invoiceCatalogId, BladeUser bladeUser) {
+    public R deleteEnterpriseProviderInvoiceCatalog(@ApiParam(value = "开票类目", required = true) @NotNull(message = "请选择要删除的开票类目") @RequestParam(required = false) Long enterpriseProviderInvoiceCatalogId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return R.status(enterpriseProviderInvoiceCatalogsService.removeById(invoiceCatalogId));
+        return R.status(enterpriseProviderInvoiceCatalogsService.removeById(enterpriseProviderInvoiceCatalogId));
     }
 
 }

@@ -204,14 +204,14 @@ public class ServiceProviderAdminController {
 
     @PostMapping("/delete-enterprise-provider-invoice-catalog")
     @ApiOperation(value = "删除商户-服务商开票类目", notes = "删除商户-服务商开票类目")
-    public R deleteEnterpriseProviderInvoiceCatalog(@ApiParam(value = "开票类目", required = true) @NotNull(message = "请选择要删除的开票类目") @RequestParam(required = false) Long invoiceCatalogId, BladeUser bladeUser) {
+    public R deleteEnterpriseProviderInvoiceCatalog(@ApiParam(value = "开票类目", required = true) @NotNull(message = "请选择要删除的开票类目") @RequestParam(required = false) Long enterpriseProviderInvoiceCatalogId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return R.status(enterpriseProviderInvoiceCatalogsService.removeById(invoiceCatalogId));
+        return R.status(enterpriseProviderInvoiceCatalogsService.removeById(enterpriseProviderInvoiceCatalogId));
     }
 
 }
