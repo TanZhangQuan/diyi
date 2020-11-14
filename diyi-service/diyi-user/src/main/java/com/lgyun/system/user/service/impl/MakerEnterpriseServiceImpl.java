@@ -105,6 +105,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
         }
         if(attribute == 1){
             makerEnterpriseEntity.setRelationshipType(RelationshipType.NORELATION);
+            
             saveOrUpdate(makerEnterpriseEntity);
             return R.success("取消成功");
         }
