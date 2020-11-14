@@ -50,7 +50,7 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
      * @param enterpriseId
      * @return
      */
-    List<AgreementEntity> findByEnterpriseId(Long enterpriseId);
+    List<AgreementEntity> findByEnterpriseId(Long enterpriseId,Long makerId);
 
     /**
      * 根据商户和合同类型找合同

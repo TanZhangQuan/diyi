@@ -16,6 +16,7 @@ import com.lgyun.system.order.mapper.WorksheetMapper;
 import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.order.vo.*;
+import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
@@ -49,6 +50,10 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         }
         if (null == releaseWorksheetDTO.getEnterpriseId()) {
             return R.fail("请选择商户");
+        }
+        EnterpriseEntity enterpriseEntity = iUserClient.queryEnterpriseById(releaseWorksheetDTO.getEnterpriseId());
+        if(!AccountState.NORMAL.equals(enterpriseEntity.getEnterpriseState())){
+            return R.fail("商户被冻结，请联系管理员！！");
         }
         if(!(releaseWorksheetDTO.getWorksheetFeeHigh().compareTo(BigDecimal.ZERO) == 0 && releaseWorksheetDTO.getWorksheetFeeLow().compareTo(BigDecimal.ZERO) == 1) && releaseWorksheetDTO.getWorksheetFeeHigh().compareTo(releaseWorksheetDTO.getWorksheetFeeLow()) < 1){
             return R.fail("最高费用不能比最低费用低");
