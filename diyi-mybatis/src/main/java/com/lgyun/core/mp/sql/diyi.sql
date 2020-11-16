@@ -931,18 +931,18 @@ DROP TABLE IF EXISTS `diyi_maker_tax_record`;
 CREATE TABLE `diyi_maker_tax_record` (
   `id` bigint(50) NOT NULL COMMENT '唯一性控制',
   `pay_maker_id` bigint(50) NOT NULL COMMENT '创客支付ID',
-  `voice_type_no` varchar(100) NOT NULL COMMENT '票证代码',
-  `voice_serial_no` varchar(100) NOT NULL COMMENT '票证号码',
-  `maker_tax_amount` decimal(5,2) NOT NULL COMMENT '总税金',
-  `total_amount` decimal(5,2) NOT NULL COMMENT '价税合计',
-  `sales_amount` decimal(5,2) NOT NULL COMMENT '金额合计',
-  `tax_amount` decimal(5,2) NOT NULL COMMENT '税额合计',
-  `voice_person` varchar(100) NOT NULL COMMENT '开票人',
-  `sale_company` varchar(100) NOT NULL COMMENT '销售机关',
-  `help_make_organation_name` varchar(100) NOT NULL COMMENT '代开机关名称',
-  `maker_tax_url` varchar(300) NOT NULL COMMENT '完税证明url',
+  `voice_type_no` varchar(100) DEFAULT NULL COMMENT '票证代码',
+  `voice_serial_no` varchar(100) DEFAULT NULL COMMENT '票证号码',
+  `maker_tax_amount` decimal(5,2) DEFAULT NULL COMMENT '总税金',
+  `total_amount` decimal(5,2) DEFAULT NULL COMMENT '价税合计',
+  `sales_amount` decimal(5,2) DEFAULT NULL COMMENT '金额合计',
+  `tax_amount` decimal(5,2) DEFAULT NULL COMMENT '税额合计',
+  `voice_person` varchar(100) DEFAULT NULL COMMENT '开票人',
+  `sale_company` varchar(100) DEFAULT NULL COMMENT '销售机关',
+  `help_make_organation_name` varchar(100) DEFAULT NULL COMMENT '代开机关名称',
+  `maker_tax_url` varchar(300) DEFAULT NULL COMMENT '完税证明url',
   `maker_tax_get_datetime` datetime NOT NULL COMMENT '完税证明开具日期',
-  `maker_tax_upload_datetime` datetime NOT NULL COMMENT '完税证明上传日期',
+  `maker_tax_upload_datetime` datetime DEFAULT NULL COMMENT '完税证明上传日期',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
@@ -951,6 +951,7 @@ CREATE TABLE `diyi_maker_tax_record` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='创客单张完税证明信息表';
+
 
 -- ----------------------------
 -- Records of diyi_maker_tax_record
@@ -963,19 +964,19 @@ DROP TABLE IF EXISTS `diyi_maker_total_invoice`;
 CREATE TABLE `diyi_maker_total_invoice` (
   `id` bigint(50) NOT NULL,
   `pay_enterprise_id` bigint(50) NOT NULL COMMENT '支付清单ID',
-  `invoice_type_no` varchar(100) NOT NULL COMMENT '发票代码',
-  `invoice_serial_no` varchar(100) NOT NULL COMMENT '发票号码',
-  `invoice_datetime` datetime NOT NULL COMMENT '开票日期',
-  `invoice_category` varchar(100) NOT NULL COMMENT '货物或应税劳务、服务名称',
-  `total_amount` decimal(5,2) NOT NULL,
-  `sales_amount` decimal(5,2) NOT NULL COMMENT '金额合计',
-  `tax_amount` decimal(5,2) NOT NULL COMMENT '税额合计',
-  `invoice_person` varchar(5) NOT NULL COMMENT '开票人',
-  `sale_company` varchar(100) NOT NULL COMMENT '销售方名称',
+  `invoice_type_no` varchar(100) DEFAULT NULL COMMENT '发票代码',
+  `invoice_serial_no` varchar(100) DEFAULT NULL COMMENT '发票号码',
+  `invoice_datetime` datetime DEFAULT NULL COMMENT '开票日期',
+  `invoice_category` varchar(100) DEFAULT NULL COMMENT '货物或应税劳务、服务名称',
+  `total_amount` decimal(5,2) DEFAULT NULL,
+  `sales_amount` decimal(5,2) DEFAULT NULL COMMENT '金额合计',
+  `tax_amount` decimal(5,2) DEFAULT NULL COMMENT '税额合计',
+  `invoice_person` varchar(5) DEFAULT NULL COMMENT '开票人',
+  `sale_company` varchar(100) DEFAULT NULL COMMENT '销售方名称',
   `company_invoice_url` varchar(500) NOT NULL COMMENT '总包发票URL',
-  `company_voice_upload_datetime` datetime NOT NULL COMMENT '发票上传日期',
+  `company_voice_upload_datetime` datetime DEFAULT NULL COMMENT '发票上传日期',
   `maker_tax_url` varchar(500) NOT NULL COMMENT '总完税证明URL',
-  `maker_tax_list_url` varchar(500) NOT NULL COMMENT '清单式完税凭证URL',
+  `maker_tax_list_url` varchar(500) DEFAULT NULL COMMENT '清单式完税凭证URL',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
@@ -1376,7 +1377,7 @@ CREATE TABLE `diyi_pay_receipt` (
 DROP TABLE IF EXISTS `diyi_platform_invoice`;
 CREATE TABLE `diyi_platform_invoice` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `application_id` bigint(50) NOT NULL COMMENT '总包开票申请ID',
+  `application_id` bigint(50) DEFAULT NULL COMMENT '总包开票申请ID',
   `invoice_print_date` datetime NOT NULL COMMENT '开票日期',
   `invoice_total_amount` decimal(12,2) NOT NULL COMMENT '开票总额',
   `opened_invoice_total_amount` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '已开总额',
@@ -1386,8 +1387,7 @@ CREATE TABLE `diyi_platform_invoice` (
   `express_company_name` varchar(50) DEFAULT NULL COMMENT '快递公司',
   `express_update_datetime` datetime DEFAULT NULL COMMENT '快递更新日期',
   `express_update_person` datetime DEFAULT NULL COMMENT '快递更新人员',
-  `express_update_person_tel` varchar(50) NOT NULL COMMENT '快递更新人员电话',
-  `express_update_personTel` varchar(50) NOT NULL COMMENT '快递更新人员电话',
+  `express_update_person_tel` varchar(50) DEFAULT NULL COMMENT '快递更新人员电话',
   `invoice_desc` varchar(50) NOT NULL COMMENT '开票说明',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
@@ -1409,16 +1409,16 @@ DROP TABLE IF EXISTS `diyi_platform_invoice_list`;
 CREATE TABLE `diyi_platform_invoice_list` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `invoice_print_id` bigint(50) NOT NULL COMMENT '开票ID',
-  `invoice_type_no` varchar(100) NOT NULL COMMENT '发票代码',
-  `invoice_serial_no` varchar(100) NOT NULL COMMENT '发票号码',
+  `invoice_type_no` varchar(100) DEFAULT NULL COMMENT '发票代码',
+  `invoice_serial_no` varchar(100) DEFAULT NULL COMMENT '发票号码',
   `invoice_datetime` datetime NOT NULL COMMENT '开票日期',
-  `invoice_category` varchar(400) NOT NULL COMMENT '货物或应税劳务、服务名称',
-  `total_amount` decimal(12,2) NOT NULL COMMENT '价税合计',
-  `sales_amount` decimal(12,2) NOT NULL COMMENT '金额合计',
-  `tax_amount` decimal(12,2) NOT NULL COMMENT '税额合计',
-  `invoice_person` varchar(100) NOT NULL COMMENT '开票人',
-  `sale_company` varchar(100) NOT NULL COMMENT '销售方名称',
-  `company_invoice_url` varchar(500) NOT NULL COMMENT '总包发票URL',
+  `invoice_category` varchar(400) DEFAULT NULL COMMENT '货物或应税劳务、服务名称',
+  `total_amount` decimal(12,2) DEFAULT NULL COMMENT '价税合计',
+  `sales_amount` decimal(12,2) DEFAULT NULL COMMENT '金额合计',
+  `tax_amount` decimal(12,2) DEFAULT NULL COMMENT '税额合计',
+  `invoice_person` varchar(100) DEFAULT NULL COMMENT '开票人',
+  `sale_company` varchar(100) DEFAULT NULL COMMENT '销售方名称',
+  `company_invoice_url` varchar(500) DEFAULT NULL COMMENT '总包发票URL',
   `company_voice_upload_datetime` datetime NOT NULL COMMENT '发票上传日期',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
@@ -1428,6 +1428,7 @@ CREATE TABLE `diyi_platform_invoice_list` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='记录服务商开具给商户的总包发票';
+
 
 -- ----------------------------
 -- Records of diyi_platform_invoice_list
