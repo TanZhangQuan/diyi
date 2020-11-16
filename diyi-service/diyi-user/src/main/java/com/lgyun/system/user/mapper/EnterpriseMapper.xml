@@ -57,8 +57,6 @@
         <result property="enterpriseUrl" column="enterprise_url"/>
         <result property="joinContract" column="join_contract"/>
         <result property="commitmentLetters" column="commitment_letters"/>
-        <result property="businessPattern" column="business_pattern"/>
-        <result property="servicePrice" column="service_price"/>
         <result property="contact1Name" column="contact1_name"/>
         <result property="contact1Position" column="contact1_position"/>
         <result property="contact1Phone" column="contact1_phone"/>
@@ -145,8 +143,8 @@
     </select>
 
     <select id="queryEnterpriseUpdateDetail" resultMap="enterpriseUpdateDetailVO">
-        SELECT t1.id, t1.enterprise_name, t1.legal_person_name, t1.legal_person_idcard, t1.social_credit_no, t1.biz_licence_url, t1.enterprise_url, t1.business_pattern,
-        t1.service_price, t1.contact1_name, t1.contact1_position, t1.contact1_phone, t1.contact1_mail, t1.contact2_name, t1.contact2_position, t1.contact2_phone,
+        SELECT t1.id, t1.enterprise_name, t1.legal_person_name, t1.legal_person_idcard, t1.social_credit_no, t1.biz_licence_url, t1.enterprise_url,
+        t1.contact1_name, t1.contact1_position, t1.contact1_phone, t1.contact1_mail, t1.contact2_name, t1.contact2_position, t1.contact2_phone,
         t1.contact2_mail, t1.invoice_enterprise_name, t1.invoice_tax_no, t1.invoice_address_phone, t1.invoice_bank_name_account, t2.employee_user_name, t2.phone_number,
         t2.worker_name, (SELECT IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url)
         FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'ENTERPRISEJOINAGREEMENT' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND enterprise_id = t1.id) AS join_contract,
