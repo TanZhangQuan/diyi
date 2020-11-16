@@ -138,8 +138,6 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         }
 
         EnterpriseEntity enterpriseEntity = new EnterpriseEntity();
-        enterpriseEntity.setRunnerId(adminEntity.getId());
-        enterpriseEntity.setSalerId(adminEntity.getId());
         enterpriseEntity.setCreateType(CreateType.PLATFORMCREATE);
         enterpriseEntity.setInviteNo(addEnterpriseDTO.getPhoneNumber());
         BeanUtil.copy(addEnterpriseDTO, enterpriseEntity);

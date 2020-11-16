@@ -126,8 +126,6 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
 
         //新建服务商
         ServiceProviderEntity serviceProviderEntity = new ServiceProviderEntity();
-        serviceProviderEntity.setRunnerId(adminEntity.getId());
-        serviceProviderEntity.setSalerId(adminEntity.getId());
         serviceProviderEntity.setCreateType(CreateType.PLATFORMCREATE);
         BeanUtil.copy(addServiceProviderDTO, serviceProviderEntity);
         save(serviceProviderEntity);

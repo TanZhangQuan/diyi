@@ -40,8 +40,6 @@
         <result property="bizLicenceUrl" column="biz_licence_url"/>
         <result property="serviceProviderUrl" column="service_provider_url"/>
         <result property="joinContract" column="join_contract"/>
-        <result property="salerId" column="saler_id"/>
-        <result property="runnerId" column="runner_id"/>
         <result property="contact1Name" column="contact1_name"/>
         <result property="contact1Position" column="contact1_position"/>
         <result property="contact1Phone" column="contact1_phone"/>
