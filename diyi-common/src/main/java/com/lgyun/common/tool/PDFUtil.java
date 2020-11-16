@@ -19,11 +19,10 @@ import java.util.UUID;
  * @time 17:54.
  */
 public class PDFUtil {
-
     /**
      * 添加图片
      */
-    public Map addPdf(String pdfUrl, Integer pageSize, String signPic) throws Exception {
+    public Map addPdf(String pdfUrl, Integer pageSize, String signPic,float xCoordinate,float yCoordinate) throws Exception {
         InputStream input = getImgFromUrl(pdfUrl);
         // 生成的文件路径
         String UUIDStr = UUID.randomUUID().toString();
@@ -35,8 +34,8 @@ public class PDFUtil {
         PdfStamper stamper = new PdfStamper(reader, fileOutputStream);
         Document document = new Document();
         // 通过域名查询所在页和坐标，左下角为起点
-        float x = document.getPageSize().getWidth() - 440;
-        float y = document.getPageSize().getHeight() - 480;
+        float x = document.getPageSize().getWidth() - xCoordinate;
+        float y = document.getPageSize().getHeight() - yCoordinate;
         // 读图片
         Image image = Image.getInstance(signPic);
         // 查询操作的页面

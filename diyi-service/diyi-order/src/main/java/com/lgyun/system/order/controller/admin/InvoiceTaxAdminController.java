@@ -3,9 +3,11 @@ package com.lgyun.system.order.controller.admin;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CompanyInvoiceState;
 import com.lgyun.common.secure.BladeUser;
+import com.lgyun.common.tool.PDFUtil;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.*;
+import com.lgyun.system.order.oss.AliyunOssService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.user.entity.AdminEntity;
@@ -19,6 +21,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/admin/invoice-tax")
@@ -424,20 +429,31 @@ public class InvoiceTaxAdminController {
         return payEnterpriseService.queryPayEnterpriseDetail(payEnterpriseId);
     }
 
-
+    private AliyunOssService ossService;
     /**
      * 根据支付清单id查询支付明细
      */
     @GetMapping("/query-pay-enterprise-maker-list")
     @ApiOperation(value = "根据支付清单id查询支付明细", notes = "根据支付清单id查询支付明细")
     public R queryPayEnterpriseMakerList(@ApiParam(value = "支付清单", required = true) @NotNull(message = "请选择总包支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
-        //查询当前管理员
-        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
+//        //查询当前管理员
+//        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
+//
+//        return payEnterpriseService.queryPayEnterpriseMakerList(payEnterpriseId);
+        PDFUtil pdfUtil = new PDFUtil();
+        try{
+            Map map = pdfUtil.addPdf("http://diyi-cr.oss-cn-shanghai.aliyuncs.com/upload/20201116/aaaa01a45aec4683986ecc9eab094e2e.pdf", 1, "http://diyi-cr.oss-cn-shanghai.aliyuncs.com/upload/20201116/4daee94e5d8a4cdbbbd7295d9a95a11c.png",490,600);
+            FileInputStream fileInputStream = (FileInputStream) map.get("fileInputStream");
+            File file = (File) map.get("htmlFile");
+            String pdf = ossService.uploadSuffix(fileInputStream, ".pdf");
+            return R.success(pdf);
+        }catch (Exception e){
 
-        return payEnterpriseService.queryPayEnterpriseMakerList(payEnterpriseId);
+        }
+        return R.success("sad");
     }
 
 }
