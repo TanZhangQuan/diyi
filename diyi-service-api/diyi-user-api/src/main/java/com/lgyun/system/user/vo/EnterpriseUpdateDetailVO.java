@@ -2,12 +2,10 @@ package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.lgyun.common.enumeration.BusinessPattern;
 import com.lgyun.common.enumeration.PositionName;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 /**
  * 平台端---商户管理---商户详情vo
@@ -64,16 +62,6 @@ public class EnterpriseUpdateDetailVO implements Serializable {
      * 商户承诺函(可能多张)
      */
     private String commitmentLetters;
-
-    /**
-     * 业务外包模式
-     */
-    private BusinessPattern businessPattern;
-
-    /**
-     * 综合税费率
-     */
-    private BigDecimal servicePrice;
 
     /**
      * 联系人1姓名

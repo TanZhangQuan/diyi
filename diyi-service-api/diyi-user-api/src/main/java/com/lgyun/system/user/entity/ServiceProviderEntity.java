@@ -1,14 +1,14 @@
 package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.lgyun.common.enumeration.*;
+import com.lgyun.common.enumeration.AccountState;
+import com.lgyun.common.enumeration.CreateType;
+import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
 
 /**
  * Entity
@@ -98,21 +98,6 @@ public class ServiceProviderEntity extends BaseEntity {
      * 开票资料-开户银行和账号
      */
     private String invoiceBankNameAccount;
-
-    /**
-     * 业务外包产品范围：自然人众包，自然人纵波+分包，个体户众包，个体户总包+分包，个独，有限公司
-     */
-    private BusinessPattern businessPattern;
-
-    /**
-     * 众包支付通路：连连支付，银行支付
-     */
-    private CrowdSourcePayPath crowdSourcePayPath;
-
-    /**
-     * 综合税费率（默认9%）
-     */
-    private BigDecimal servicePrice;
 
     /**
      * 联系人1姓名（一般为老板/财务负责人）
