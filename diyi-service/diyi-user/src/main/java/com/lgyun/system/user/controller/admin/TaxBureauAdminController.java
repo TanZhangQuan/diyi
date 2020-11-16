@@ -107,7 +107,7 @@ public class TaxBureauAdminController {
             return result;
         }
 
-        return bureauServiceProviderService.queryRelBureauServiceProvider(serviceProviderName, BureauType.TAXBUREAU,Condition.getPage(query.setDescs("create_time")));
+        return bureauServiceProviderService.queryRelBureauServiceProvider(serviceProviderName, BureauType.TAXBUREAU,Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/add-tax-bureau-service-provider")

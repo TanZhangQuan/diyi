@@ -139,7 +139,7 @@
         <if test="param3 != null and param3 != ''">
             and a.agreement_no LIKE concat('%', #{param3}, '%')
         </if>
-        and a.sign_type in ('PLATFORMAGREEMENT','PAPERAGREEMENT') AND a.agreement_type =#{param4}
+        and (a.sign_type ='PLATFORMAGREEMENT' OR a.sign_type = 'PAPERAGREEMENT') AND a.agreement_type =#{param4}
     </select>
 
     <select id="selectMakerAgreement" resultMap="AgreementMakerWebVOMap">

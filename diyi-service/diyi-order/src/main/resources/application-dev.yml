@@ -6,13 +6,3 @@ spring:
     url: jdbc:mysql://localhost:3306/diyi?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&tinyInt1isBit=false&allowMultiQueries=true&serverTimezone=GMT%2B8
     username: root
     password: 123456
-
-# 阿里云OSS云存储配置
-aliyun:
-  oss:
-    domain: http://diyi-cr.oss-cn-shanghai.aliyuncs.com
-    endPoint: http://oss-cn-shanghai.aliyuncs.com
-    bucketName: diyi-cr
-    accessKeyId: LTAI4GDMovvBWMpWk2VTDBpq
-    accessKeySecret: yO6t0rEOSxTr4tPSZ4w1ZxMy1n0Hmf
-    prefix: upload

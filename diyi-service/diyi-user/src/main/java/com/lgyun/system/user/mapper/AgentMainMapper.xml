@@ -77,11 +77,9 @@
 
     </select>
 
-    <select id="queryAgentMainServiceProvider"
-            resultType="com.lgyun.system.user.vo.AgentMainServiceProviderVO">
-        SELECT id,service_provider_name FROM diyi_service_provider
-        WHERE id NOT IN
-        (SELECT GROUP_CONCAT(service_provider_id) FROM diyi_agent_provider) AND is_deleted=0
+    <select id="queryAgentMainServiceProvider" resultType="com.lgyun.system.user.vo.AgentMainServiceProviderVO">
+        SELECT t1.id, t1.service_provider_name FROM diyi_service_provider t1 WHERE t1.is_deleted = 0 AND NOT EXISTS
+        (SELECT id FROM diyi_agent_provider WHERE is_deleted = 0 AND service_provider_id = t1.id)
         <if test="serviceProviderName != null and serviceProviderName != ''">
             AND service_provider_name LIKE CONCTA('%',#{param1},'%')
         </if>
