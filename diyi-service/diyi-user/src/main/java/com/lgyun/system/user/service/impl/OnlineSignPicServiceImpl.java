@@ -58,7 +58,7 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
         }
         PDFUtil pdfUtil = new PDFUtil();
         try {
-            Map map = pdfUtil.addPdf(onlineAgreementTemplateEntity.getAgreementTemplate(), onlineAgreementTemplateEntity.getTemplateCount(), signPic);
+            Map map = pdfUtil.addPdf(onlineAgreementTemplateEntity.getAgreementTemplate(), onlineAgreementTemplateEntity.getTemplateCount(), signPic,onlineAgreementTemplateEntity.getXCoordinate(),onlineAgreementTemplateEntity.getYCoordinate());
             FileInputStream fileInputStream = (FileInputStream) map.get("fileInputStream");
             File file = (File) map.get("htmlFile");
             String pdf = ossService.uploadSuffix(fileInputStream, ".pdf");

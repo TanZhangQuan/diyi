@@ -81,4 +81,13 @@ public class OnlineAgreementTemplateEntity extends BaseEntity {
      * 模板类型
      */
     private TemplateType templateType;
+    /**
+     * x坐标
+     */
+    private Float xCoordinate;
+
+    /**
+     * y坐标
+     */
+    private Float yCoordinate;
 }
