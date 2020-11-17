@@ -48,6 +48,18 @@ public class PaymentEnterpriseController {
         return worksheetService.queryWorksheetListByEnterprise(enterpriseWorkerEntity.getEnterpriseId(), worksheetFinishedListDTO, Condition.getPage(query.setDescs("create_time")));
     }
 
+    @PostMapping("read-pay-enterprise-excel")
+    @ApiOperation(value = "总包支付清单Excel文件读取", notes = "总包支付清单Excel文件读取")
+    public R readPayEnterpriseExcel(@ApiParam(value = "总包支付清单", required = true) @NotNull(message = "请上传总包支付清单") @RequestParam(required = false) String chargeListUrl, BladeUser bladeUser) throws Exception {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return payEnterpriseService.readPayEnterpriseExcel(chargeListUrl);
+    }
+
     @PostMapping("/create-or-update-pay-enterprise")
     @ApiOperation(value = "上传或编辑总包支付清单", notes = "上传或编辑总包支付清单")
     public R createOrUpdatePayEnterprise(@Valid @RequestBody PayEnterpriseCreateOrUpdateDTO payEnterpriseCreateOrUpdateDto, BladeUser bladeUser) throws Exception {

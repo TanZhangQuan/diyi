@@ -65,7 +65,7 @@ public class NaturalPersonMakerEnterpriseController {
     }
 
     @PostMapping("read-maker-list-excel")
-    @ApiOperation(value = "读取Excel表获取导入的创客列表", notes = "读取Excel表获取导入的创客列表")
+    @ApiOperation(value = "导入创客Excel文件读取", notes = "导入创客Excel文件读取")
     public R readMakerListExcel(@ApiParam(value = "Excel文件", required = true) @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file, BladeUser bladeUser) throws IOException {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);

@@ -1,6 +1,8 @@
 package com.lgyun.system.order.service.impl;
 
 import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.EasyExcelFactory;
+import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -15,6 +17,7 @@ import com.lgyun.system.order.dto.*;
 import com.lgyun.system.order.entity.*;
 import com.lgyun.system.order.excel.PayEnterpriseExcel;
 import com.lgyun.system.order.excel.PayEnterpriseImportListener;
+import com.lgyun.system.order.excel.PayEnterpriseReadListener;
 import com.lgyun.system.order.mapper.PayEnterpriseMapper;
 import com.lgyun.system.order.service.*;
 import com.lgyun.system.order.vo.*;
@@ -84,6 +87,20 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
+    public R<List<PayEnterpriseExcel>> readPayEnterpriseExcel(String chargeListUrl) throws Exception {
+
+        InputStream inputStream = new URL(chargeListUrl).openStream();
+        //根据总包支付清单生成分包
+        PayEnterpriseReadListener payEnterpriseReadListener = new PayEnterpriseReadListener();
+        ExcelReader excelReader = EasyExcelFactory.read(inputStream, PayEnterpriseExcel.class, payEnterpriseReadListener).headRowNumber(1).build();
+        excelReader.readAll();
+        List<PayEnterpriseExcel> payEnterpriseExcelList = payEnterpriseReadListener.getList();
+        excelReader.finish();
+
+        return R.data(payEnterpriseExcelList);
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public R<String> createOrUpdatePayEnterprise(PayEnterpriseCreateOrUpdateDTO payEnterpriseCreateOrUpdateDto, Long enterpriseId) throws Exception {
 
@@ -115,14 +132,6 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             if (!(payEnterpriseCreateOrUpdateDto.getMakerType().equals(worksheetEntity.getMakerType()))) {
                 return R.fail("选择的创客类型与工单创客类型不一致");
             }
-        }
-
-        String path = payEnterpriseCreateOrUpdateDto.getChargeListUrl();
-        String type = path.substring(path.lastIndexOf(".") + 1);
-        //根据文件后缀（xls/xlsx）进行判断
-        InputStream input = new URL(path).openStream();
-        if (!("xls".equals(type)) && !("xlsx".equals(type))) {
-            return R.fail("支付清单文件类型有误");
         }
 
         //判断新建还是编辑
@@ -164,6 +173,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
         //根据总包支付清单生成分包
         PayEnterpriseImportListener payEnterpriseImportListener = new PayEnterpriseImportListener(payMakerService, payEnterpriseEntity.getId(), payEnterpriseEntity.getMakerType(), enterpriseId);
+        InputStream input = new URL(payEnterpriseCreateOrUpdateDto.getChargeListUrl()).openStream();
         InputStream inputStream = new BufferedInputStream(input);
         ExcelReaderBuilder builder = EasyExcel.read(inputStream, PayEnterpriseExcel.class, payEnterpriseImportListener);
         builder.doReadAll();
@@ -735,7 +745,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         platformInvoiceService.save(platformInvoiceEntity);
 
 
-        for (int i =0 ; i < invoiceApplicationPayListEntityList.size(); i++ ) {
+        for (int i = 0; i < invoiceApplicationPayListEntityList.size(); i++) {
             PlatformInvoicePayListEntity platformInvoicePayListEntity = new PlatformInvoicePayListEntity();
             platformInvoicePayListEntity.setPayEnterpriseId(invoiceApplicationPayListEntityList.get(i).getPayEnterpriseId());
             platformInvoicePayListEntity.setInvoicePrintId(platformInvoiceEntity.getId());

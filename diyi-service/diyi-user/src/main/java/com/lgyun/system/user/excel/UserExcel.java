@@ -3,8 +3,6 @@ package com.lgyun.system.user.excel;
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
-import com.alibaba.excel.annotation.write.style.ContentRowHeight;
-import com.alibaba.excel.annotation.write.style.HeadRowHeight;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -17,17 +15,12 @@ import java.util.Date;
  * @since 2020/6/6 22:12
  */
 @Data
-@ColumnWidth(25)
-@HeadRowHeight(20)
-@ContentRowHeight(18)
 public class UserExcel implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @ColumnWidth(15)
     @ExcelProperty("租户编号")
     private String tenantId;
 
-    @ColumnWidth(15)
     @ExcelProperty("账户")
     private String account;
 

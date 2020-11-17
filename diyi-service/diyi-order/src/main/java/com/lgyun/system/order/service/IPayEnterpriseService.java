@@ -2,10 +2,14 @@ package com.lgyun.system.order.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.*;
+import com.lgyun.common.enumeration.CompanyInvoiceState;
+import com.lgyun.common.enumeration.InvoiceMode;
+import com.lgyun.common.enumeration.MakerInvoiceType;
+import com.lgyun.common.enumeration.PayEnterpriseAuditState;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.dto.*;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
+import com.lgyun.system.order.excel.PayEnterpriseExcel;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.vo.AdminAgentMainServiceProviderListVO;
 import com.lgyun.system.user.vo.AgentMainTransactionVO;
@@ -13,6 +17,7 @@ import com.lgyun.system.user.vo.PartnerServiceProviderListVO;
 import com.lgyun.system.user.vo.TransactionVO;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Service 接口
@@ -50,6 +55,14 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @return
      */
     R<InvoiceEnterpriseVO> getEnterpriseMakerIdDetail(Long makerId, Long enterpriseId, Long payMakerId);
+
+    /**
+     * 总包支付清单Excel文件读取
+     *
+     * @param chargeListUrl
+     * @return
+     */
+    R<List<PayEnterpriseExcel>> readPayEnterpriseExcel(String chargeListUrl) throws Exception;
 
     /**
      * 上传或编辑总包支付清单
@@ -281,13 +294,13 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @param expressCompanyName
      * @return
      */
-    R saveServiceLumpSumInvoice(Long serviceProviderId, Long payEnterpriseId, String serviceProviderName, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc,String invoiceTypeNo,String invoiceSerialNo,String invoiceCategory);
+    R saveServiceLumpSumInvoice(Long serviceProviderId, Long payEnterpriseId, String serviceProviderName, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc, String invoiceTypeNo, String invoiceSerialNo, String invoiceCategory);
 
 
     /**
      * 服务商合并开票
      */
-    R saveServiceLumpSumMergeInvoice(Long serviceProviderId, String payEnterpriseIds, String serviceProviderName, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc,String invoiceTypeNo,String invoiceSerialNo,String invoiceCategory, InvoiceMode invoiceMode, BigDecimal partInvoiceAmount);
+    R saveServiceLumpSumMergeInvoice(Long serviceProviderId, String payEnterpriseIds, String serviceProviderName, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc, String invoiceTypeNo, String invoiceSerialNo, String invoiceCategory, InvoiceMode invoiceMode, BigDecimal partInvoiceAmount);
 
 
     /**
@@ -299,6 +312,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
 
     /**
      * 服务商根据总包开票id修改总包发票
+     *
      * @return
      */
     R updateTotalInvoice(LumpInvoiceDTO lumpInvoiceDTO);
@@ -471,9 +485,11 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      */
     R<PayEnterpriseUpdateDetailVO> queryPayEnterpriseUpdateDetail(Long payEnterpriseId);
 
-
     /**
-     *根据支付清单id查询支付明细
+     * 根据支付清单查询支付明细
+     *
+     * @param payEnterpriseId
+     * @return
      */
     R queryPayEnterpriseMakerList(Long payEnterpriseId);
 

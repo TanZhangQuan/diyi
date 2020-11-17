@@ -3,11 +3,9 @@ package com.lgyun.system.order.controller.admin;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CompanyInvoiceState;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.common.tool.PDFUtil;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.*;
-import com.lgyun.system.order.oss.AliyunOssService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.user.entity.AdminEntity;
@@ -21,9 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/admin/invoice-tax")
@@ -245,12 +240,9 @@ public class InvoiceTaxAdminController {
 //    }
 
 
-
-
-
     @GetMapping("/query-total-invoice")
     @ApiOperation(value = "平台查询总包发票列表", notes = "平台查询总包发票列表")
-    public R queryTotalInvoice(@RequestParam(required = false) String enterpriseName, @ApiParam(value = "服务商ID", required = true)@NotNull(message = "服务商id不能为空")@RequestParam(required = false) Long serviceProviderId, @RequestParam(required = false) String startTime,
+    public R queryTotalInvoice(@RequestParam(required = false) String enterpriseName, @ApiParam(value = "服务商", required = true) @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId, @RequestParam(required = false) String startTime,
                                @RequestParam(required = false) String endTime, @RequestParam CompanyInvoiceState companyInvoiceState, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
@@ -299,7 +291,7 @@ public class InvoiceTaxAdminController {
     @GetMapping("/query-total-apply-invoice")
     @ApiOperation(value = "平台根据总包申请开票", notes = "平台根据总包申请开票")
     public R queryTotalApplyInvoice(BladeUser bladeUser, Long invoiceApplicationId) {
-       //查询当前管理员
+        //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
@@ -324,25 +316,25 @@ public class InvoiceTaxAdminController {
     @PostMapping("/create-total-merge-invoice")
     @ApiOperation(value = "平台总包合并开票", notes = "平台总包合并开票")
     public R createTotalMergeInvoice(@Valid @RequestBody LumpSumMergeInvoiceDTO lumpSumInvoiceDto, BladeUser bladeUser) {
-       //查询当前管理员
+        //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
-        return payEnterpriseService.saveServiceLumpSumMergeInvoice(lumpSumInvoiceDto.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseIds(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),null,null,lumpSumInvoiceDto.getInvoiceCategory(),lumpSumInvoiceDto.getInvoiceMode(),lumpSumInvoiceDto.getPartInvoiceAmount());
+        return payEnterpriseService.saveServiceLumpSumMergeInvoice(lumpSumInvoiceDto.getServiceProviderId(), lumpSumInvoiceDto.getPayEnterpriseIds(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(), null, null, lumpSumInvoiceDto.getInvoiceCategory(), lumpSumInvoiceDto.getInvoiceMode(), lumpSumInvoiceDto.getPartInvoiceAmount());
     }
 
 
     @PostMapping("/create-total-apply-invoice")
     @ApiOperation(value = "平台总包根据申请开票", notes = "平台总包根据申请开票")
     public R createTotalApplyInvoice(@Valid @RequestBody LumpSumApplyInvoiceDTO lumpSumInvoiceDto, BladeUser bladeUser) {
-       //查询当前管理员
+        //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return payEnterpriseService.createTotalApplyInvoice(lumpSumInvoiceDto.getServiceProviderId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getApplicationId(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(),null,null,lumpSumInvoiceDto.getInvoiceCategory(),lumpSumInvoiceDto.getInvoiceMode(),lumpSumInvoiceDto.getPartInvoiceAmount());
+        return payEnterpriseService.createTotalApplyInvoice(lumpSumInvoiceDto.getServiceProviderId(), lumpSumInvoiceDto.getServiceProviderName(), lumpSumInvoiceDto.getApplicationId(), lumpSumInvoiceDto.getCompanyInvoiceUrl(), lumpSumInvoiceDto.getExpressSheetNo(), lumpSumInvoiceDto.getExpressCompanyName(), lumpSumInvoiceDto.getInvoiceDesc(), null, null, lumpSumInvoiceDto.getInvoiceCategory(), lumpSumInvoiceDto.getInvoiceMode(), lumpSumInvoiceDto.getPartInvoiceAmount());
     }
 
     @PostMapping("/update-total-invoice")
@@ -361,14 +353,14 @@ public class InvoiceTaxAdminController {
     @ApiOperation(value = "根据服务商查询分包列表", notes = "根据服务商查询分包列表")
     public R queryAllOpenSubList(@RequestParam(required = false) String enterprise_name,
                                  @RequestParam CompanyInvoiceState companyInvoiceState, Query query, BladeUser bladeUser,
-                                 @ApiParam(value = "服务商ID", required = true)@NotNull(message = "服务商id不能为空")@RequestParam(required = false) Long serviceProviderId) {
+                                 @ApiParam(value = "服务商ID", required = true) @NotNull(message = "服务商id不能为空") @RequestParam(required = false) Long serviceProviderId) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return payEnterpriseService.findServiceSubcontractSummary(serviceProviderId, enterprise_name, companyInvoiceState,Condition.getPage(query.setDescs("pe.create_time")));
+        return payEnterpriseService.findServiceSubcontractSummary(serviceProviderId, enterprise_name, companyInvoiceState, Condition.getPage(query.setDescs("pe.create_time")));
     }
 
     @GetMapping("/query-all-sub-detail")
@@ -396,13 +388,13 @@ public class InvoiceTaxAdminController {
 
     @PostMapping("/create-door-sign-invoice")
     @ApiOperation(value = "服务商门征发票", notes = "服务商门征发票")
-    public R createDoorSignInvoice(@Valid @RequestBody DoorSignInvoiceDTO doorSignInvoiceDTO,  BladeUser bladeUser) {
+    public R createDoorSignInvoice(@Valid @RequestBody DoorSignInvoiceDTO doorSignInvoiceDTO, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
-        return payEnterpriseService.createDoorSignInvoice( doorSignInvoiceDTO);
+        return payEnterpriseService.createDoorSignInvoice(doorSignInvoiceDTO);
     }
 
     @GetMapping("query-worksheet-detail")
@@ -429,31 +421,16 @@ public class InvoiceTaxAdminController {
         return payEnterpriseService.queryPayEnterpriseDetail(payEnterpriseId);
     }
 
-    private AliyunOssService ossService;
-    /**
-     * 根据支付清单id查询支付明细
-     */
     @GetMapping("/query-pay-enterprise-maker-list")
-    @ApiOperation(value = "根据支付清单id查询支付明细", notes = "根据支付清单id查询支付明细")
+    @ApiOperation(value = "根据支付清单查询支付明细", notes = "根据支付清单查询支付明细")
     public R queryPayEnterpriseMakerList(@ApiParam(value = "支付清单", required = true) @NotNull(message = "请选择总包支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
-//        //查询当前管理员
-//        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
-//        if (!(result.isSuccess())) {
-//            return result;
-//        }
-//
-//        return payEnterpriseService.queryPayEnterpriseMakerList(payEnterpriseId);
-        PDFUtil pdfUtil = new PDFUtil();
-        try{
-            Map map = pdfUtil.addPdf("http://diyi-cr.oss-cn-shanghai.aliyuncs.com/upload/20201116/aaaa01a45aec4683986ecc9eab094e2e.pdf", 1, "http://diyi-cr.oss-cn-shanghai.aliyuncs.com/upload/20201116/4daee94e5d8a4cdbbbd7295d9a95a11c.png",490,600);
-            FileInputStream fileInputStream = (FileInputStream) map.get("fileInputStream");
-            File file = (File) map.get("htmlFile");
-            String pdf = ossService.uploadSuffix(fileInputStream, ".pdf");
-            return R.success(pdf);
-        }catch (Exception e){
-
+        //查询当前管理员
+        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
         }
-        return R.success("sad");
+
+        return payEnterpriseService.queryPayEnterpriseMakerList(payEnterpriseId);
     }
 
 }

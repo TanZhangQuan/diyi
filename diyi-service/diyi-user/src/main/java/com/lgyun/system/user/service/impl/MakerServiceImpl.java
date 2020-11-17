@@ -1,5 +1,7 @@
 package com.lgyun.system.user.service.impl;
 
+import com.alibaba.excel.EasyExcelFactory;
+import com.alibaba.excel.ExcelReader;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -17,8 +19,8 @@ import com.lgyun.system.user.dto.*;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.entity.OnlineAgreementTemplateEntity;
 import com.lgyun.system.user.entity.User;
-import com.lgyun.system.user.excel.ExcelUtils;
 import com.lgyun.system.user.excel.MakerExcel;
+import com.lgyun.system.user.excel.MakerReadListener;
 import com.lgyun.system.user.mapper.MakerMapper;
 import com.lgyun.system.user.oss.AliyunOssService;
 import com.lgyun.system.user.service.*;
@@ -33,6 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -671,15 +674,25 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     public R<List<MakerExcel>> readMakerListExcel(MultipartFile file) throws IOException {
         //判断文件内容是否为空
         if (file.isEmpty()) {
-            return R.fail("Excel文件内容为空");
+            return R.fail("文件内容为空");
         }
+
         // 查询上传文件的后缀
         String suffix = file.getOriginalFilename();
         if ((!StringUtils.endsWithIgnoreCase(suffix, ".xls") && !StringUtils.endsWithIgnoreCase(suffix, ".xlsx"))) {
             return R.fail("请选择Excel文件");
         }
 
-        List<MakerExcel> makerExcelList = ExcelUtils.importExcel(file, 0, 1, MakerExcel.class);
+        //MultipartFile转InputStream
+        InputStream inputStream = file.getInputStream();
+
+        //根据总包支付清单生成分包
+        MakerReadListener makerReadListener = new MakerReadListener();
+        ExcelReader excelReader = EasyExcelFactory.read(inputStream, MakerExcel.class, makerReadListener).headRowNumber(1).build();
+        excelReader.readAll();
+        List<MakerExcel> makerExcelList = makerReadListener.getList();
+        excelReader.finish();
+
         return R.data(makerExcelList);
     }
 

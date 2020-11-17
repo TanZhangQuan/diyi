@@ -36,9 +36,9 @@ public class PayEnterpriseCreateOrUpdateDTO implements Serializable {
     private MakerType makerType;
 
     /**
-     * 支付清单URL
+     * 总包支付清单
      */
-    @NotBlank(message = "请上传支付清单")
+    @NotBlank(message = "请上传总包支付清单")
     private String chargeListUrl;
 
     /**
