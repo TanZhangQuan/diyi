@@ -1,4 +1,4 @@
-package com.lgyun.system.order.timer;
+package com.lgyun.system.order.quratz;
 
 import org.quartz.CronTrigger;
 import org.springframework.context.annotation.Bean;
@@ -29,8 +29,8 @@ public class QuratzConfig {
     CronTriggerFactoryBean cronTriggerFactoryBean() {
         CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
         bean.setJobDetail(job().getObject());//可以对应不同的Job，一个job可以被多个trigger关联，但是一个trigger只能关联一个job
-//        bean.setCronExpression("0 0 1 * * ?");//corn表达式,每天凌晨1点执行一次
-        bean.setCronExpression("*/5 * * * * ?");//corn表达式,每5秒执行一次
+        bean.setCronExpression("0 0 1 * * ?");//corn表达式,每天凌晨1点执行一次
+//        bean.setCronExpression("*/5 * * * * ?");//corn表达式,每5秒执行一次
         return bean;
     }
 
