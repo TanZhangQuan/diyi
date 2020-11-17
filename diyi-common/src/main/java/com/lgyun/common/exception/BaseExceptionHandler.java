@@ -40,7 +40,7 @@ public class BaseExceptionHandler {
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public R exceptionHandler(MaxUploadSizeExceededException e) {
         log.error("接收文件异常：" + e);
-        return R.fail("文件过大");
+        return R.fail("文件过大(最大20MB)");
     }
 
     //处理非以上异常问题
