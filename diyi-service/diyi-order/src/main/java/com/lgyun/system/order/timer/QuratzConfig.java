@@ -4,7 +4,7 @@ import org.quartz.CronTrigger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
-import org.springframework.scheduling.quartz.JobDetailFactoryBean;
+import org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 /**
@@ -13,25 +13,24 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
  * @time 15:24.
  */
 @Configuration
-public class TimerUtil {
+public class QuratzConfig {
 
     //Job  编辑任务
     @Bean
-    JobDetailFactoryBean job() {
-        JobDetailFactoryBean bean = new JobDetailFactoryBean();
-        bean.setJobClass(ConfirmPayMakerJob.class);//类要继承QuartzJobBean
-        bean.setDurability(true);
+    MethodInvokingJobDetailFactoryBean job() {
+        MethodInvokingJobDetailFactoryBean bean = new MethodInvokingJobDetailFactoryBean();
+        bean.setTargetBeanName("quratzJob");//类的bean名称
+        bean.setTargetMethod("confirmPayMaker");//不能使用重写的方法
         return bean;
     }
-
 
     //Trigger  创建定时器
     @Bean
     CronTriggerFactoryBean cronTriggerFactoryBean() {
         CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
         bean.setJobDetail(job().getObject());//可以对应不同的Job，一个job可以被多个trigger关联，但是一个trigger只能关联一个job
-        //bean.setCronExpression("59 59 23 * * ?");//corn表达式,每5秒执行一次
-        bean.setCronExpression("* * * * * ?");//corn表达式,每5秒执行一次
+//        bean.setCronExpression("0 0 1 * * ?");//corn表达式,每天凌晨1点执行一次
+        bean.setCronExpression("*/5 * * * * ?");//corn表达式,每5秒执行一次
         return bean;
     }
 

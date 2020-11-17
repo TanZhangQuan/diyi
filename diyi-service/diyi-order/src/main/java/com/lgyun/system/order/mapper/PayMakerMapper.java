@@ -130,10 +130,10 @@ public interface PayMakerMapper extends BaseMapper<PayMakerEntity> {
     List<PayMakerListMakerVO> queryPayMakerListByMaker(Long makerId, IPage<PayMakerListMakerVO> page);
 
     /**
+     * 查询创客超时未确认创客支付明细
      *
-     * @param days
      * @return
      */
-    List<ExceedPayMakerListVO> queryExceedPayMakerList(int days);
+    List<TimeoutPayMakerListVO> queryTimeoutPayMakerList();
 }
 

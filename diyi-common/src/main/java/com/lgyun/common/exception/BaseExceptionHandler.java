@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import javax.validation.ConstraintViolationException;
 
@@ -32,14 +33,20 @@ public class BaseExceptionHandler {
     //处理自定义异常CustomException
     @ExceptionHandler(CustomException.class)
     public R exceptionHandler(CustomException e) {
-        log.error(String.valueOf(e));
         return R.fail(e.getResultCode(), e.getMessage());
+    }
+
+    //处理异常MaxUploadSizeExceededException
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public R exceptionHandler(MaxUploadSizeExceededException e) {
+        log.error("接收文件异常：" + e);
+        return R.fail("文件过大");
     }
 
     //处理非以上异常问题
     @ExceptionHandler(value = Exception.class)
     public R exceptionHandler(Exception e) {
-        log.error(String.valueOf(e));
+        log.error("服务器繁忙, 操作失败：" + e);
         return R.fail("服务器繁忙, 操作失败");
     }
 

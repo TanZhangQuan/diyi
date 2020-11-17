@@ -173,8 +173,10 @@ public interface IPayMakerService extends BaseService<PayMakerEntity> {
     R<IPage<PayMakerListMakerVO>> queryPayMakerListByMaker(Long makerId, IPage<PayMakerListMakerVO> page);
 
     /**
-     * 查询大于七天的没验收的单子
+     * 查询创客超时未确认创客支付明细
+     *
+     * @return
      */
-    List<ExceedPayMakerListVO>  queryExceedPayMakerList(int days);
+    List<TimeoutPayMakerListVO> queryTimeoutPayMakerList();
 }
 

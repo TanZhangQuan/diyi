@@ -12,25 +12,19 @@ import java.io.Serializable;
  * @time 18:03.
  */
 @Data
-public class ExceedPayMakerListVO implements Serializable {
+public class TimeoutPayMakerListVO implements Serializable {
     private static final long serialVersionUID = 1L;
+
     /**
-     * 交付支付验收单Id
-     */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long acceptPaysheetId;
-    /**
-     * 支付明细id
+     * 创客支付明细ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long payMakerId;
+
     /**
-     * 创客id
+     * 创客ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long makerId;
-    /**
-     * 天数
-     */
-    private Integer days;
+
 }

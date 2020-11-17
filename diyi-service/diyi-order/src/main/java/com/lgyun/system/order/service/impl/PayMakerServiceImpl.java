@@ -481,14 +481,10 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
             return R.fail("服务商未支付，不可确认收款");
         }
 
-        //确认收款
-        payMakerEntity.setPayState(PayMakerPayState.CONFIRMPAID);
-        payMakerEntity.setMakerConfirmDatetime(new Date());
-        updateById(payMakerEntity);
-
         //判断是否所有分包已确认收款
         int payMakerNum = count(Wrappers.<PayMakerEntity>query().lambda()
-                .eq(PayMakerEntity::getPayEnterpriseId, payMakerEntity.getPayEnterpriseId()));
+                .eq(PayMakerEntity::getPayEnterpriseId, payMakerEntity.getPayEnterpriseId())
+                .ne(PayMakerEntity::getId, payMakerEntity.getId()));
 
         int confirmpaidPayMakerNum = count(Wrappers.<PayMakerEntity>query().lambda()
                 .eq(PayMakerEntity::getPayEnterpriseId, payMakerEntity.getPayEnterpriseId())
@@ -500,6 +496,11 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
             payEnterpriseEntity.setConfirmDateTime(new Date());
             payEnterpriseService.updateById(payEnterpriseEntity);
         }
+
+        //确认收款
+        payMakerEntity.setPayState(PayMakerPayState.CONFIRMPAID);
+        payMakerEntity.setMakerConfirmDatetime(new Date());
+        updateById(payMakerEntity);
 
         return R.success("确认收款成功");
     }
@@ -517,8 +518,8 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
     }
 
     @Override
-    public List<ExceedPayMakerListVO> queryExceedPayMakerList(int days) {
-        return baseMapper.queryExceedPayMakerList(days);
+    public List<TimeoutPayMakerListVO> queryTimeoutPayMakerList() {
+        return baseMapper.queryTimeoutPayMakerList();
     }
 
 }

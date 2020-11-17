@@ -28,6 +28,7 @@ public class CommonController {
     @ApiOperation(value = "上传文件", notes = "上传文件")
     public R ossFileUpload(@ApiParam(value = "文件", required = true) @NotNull(message = "请选择上传文件") @RequestParam(required = false) MultipartFile file,
                            @ApiParam(value = "文件类型") @RequestParam(required = false) String suffix) throws Exception {
+
         return commonService.ossImageUpload(file, suffix);
     }
 
