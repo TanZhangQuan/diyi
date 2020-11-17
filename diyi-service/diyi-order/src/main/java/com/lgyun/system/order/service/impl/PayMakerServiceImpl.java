@@ -516,4 +516,9 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
         return R.data(page.setRecords(baseMapper.queryPayMakerListByMaker(makerId, page)));
     }
 
+    @Override
+    public List<ExceedPayMakerListVO> queryExceedPayMakerList(int days) {
+        return baseMapper.queryExceedPayMakerList(days);
+    }
+
 }
