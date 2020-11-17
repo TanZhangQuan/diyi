@@ -128,5 +128,12 @@ public interface PayMakerMapper extends BaseMapper<PayMakerEntity> {
      * @return
      */
     List<PayMakerListMakerVO> queryPayMakerListByMaker(Long makerId, IPage<PayMakerListMakerVO> page);
+
+    /**
+     *
+     * @param days
+     * @return
+     */
+    List<ExceedPayMakerListVO> queryExceedPayMakerList(int days);
 }
 

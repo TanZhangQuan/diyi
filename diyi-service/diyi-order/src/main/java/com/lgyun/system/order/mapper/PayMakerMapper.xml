@@ -81,6 +81,13 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.order.vo.ExceedPayMakerListVO" id="exceedPayMakerListVOMap">
+        <result property="acceptPaysheetId" column="accept_paysheet_id"/>
+        <result property="payMakerId" column="pay_maker_id"/>
+        <result property="makerId" column="maker_id"/>
+        <result property="days" column="days"/>
+    </resultMap>
+
     <select id="getEnterpriseNumIncome" resultMap="makerEnterpriseNumIncomeVO">
         SELECT enterprise_num, (month_income1 + month_income2) AS month_income, (year_income1 + year_income2) AS year_income, (all_income1 + all_income2) AS all_income
         FROM (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), platform_pay_ok_datetime) <![CDATA[ < ]]> 30, maker_net_income, 0)), 0) AS month_income1, IFNULL(SUM(IF(DATEDIFF(NOW(), platform_pay_ok_datetime) <![CDATA[ < ]]> 365, maker_net_income, 0)), 0) AS year_income1,
@@ -171,6 +178,10 @@
         maker_tax_state, maker_invoice_state, create_time, IF(maker_type = 'NATURALPERSON', '', IF(maker_type = 'INDIVIDUALENTERPRISE', (SELECT ibname FROM diyi_individual_enterprise
         WHERE is_deleted = 0 AND id = individual_id), (SELECT ibname FROM diyi_individual_business WHERE is_deleted = 0 AND id = individual_id))) AS individualName
         FROM diyi_pay_maker WHERE is_deleted = 0 AND maker_id = #{param1}
+    </select>
+
+    <select id="queryExceedPayMakerList" resultMap="exceedPayMakerListVOMap">
+        SELECT t1.id AS accept_paysheet_id, t2.id AS pay_maker_id, t2.maker_id, DATEDIFF(NOW(), t1.create_time) AS days FROM diyi_accept_paysheet t1 INNER JOIN diyi_pay_maker t2 ON t1.pay_maker_id = t2.id WHERE t2.pay_state = 'PLATFORMPAID' AND DATEDIFF(NOW(), t1.create_time) >=  #{param1}
     </select>
 
 </mapper>
