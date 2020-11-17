@@ -34,7 +34,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URL;
@@ -173,8 +172,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
         //根据总包支付清单生成分包
         PayEnterpriseImportListener payEnterpriseImportListener = new PayEnterpriseImportListener(payMakerService, payEnterpriseEntity.getId(), payEnterpriseEntity.getMakerType(), enterpriseId);
-        InputStream input = new URL(payEnterpriseCreateOrUpdateDto.getChargeListUrl()).openStream();
-        InputStream inputStream = new BufferedInputStream(input);
+        InputStream inputStream = new URL(payEnterpriseCreateOrUpdateDto.getChargeListUrl()).openStream();
         ExcelReaderBuilder builder = EasyExcel.read(inputStream, PayEnterpriseExcel.class, payEnterpriseImportListener);
         builder.doReadAll();
 
