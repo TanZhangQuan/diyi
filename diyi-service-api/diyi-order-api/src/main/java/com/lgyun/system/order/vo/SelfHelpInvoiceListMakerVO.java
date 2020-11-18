@@ -32,14 +32,9 @@ public class SelfHelpInvoiceListMakerVO implements Serializable {
     private MakerType makerType;
 
     /**
-     * 个体户/个独ID
+     * 个体户/个独名称
      */
     private String individualName;
-
-    /**
-     * 开票状态：待申请；申请中；开票中；已开票；开票失败
-     */
-    private InvoicePrintState invoicePrintState;
 
     /**
      * 开票类目
@@ -70,6 +65,11 @@ public class SelfHelpInvoiceListMakerVO implements Serializable {
      * 需支付服务商税费=价税合计额*服务税费率+开票手续费+身份验证费
      */
     private BigDecimal payProviderFee;
+
+    /**
+     * 开票状态：待申请；申请中；开票中；已开票；开票失败
+     */
+    private InvoicePrintState invoicePrintState;
 
     /**
      * 创建时间
