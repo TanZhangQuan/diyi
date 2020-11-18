@@ -45,10 +45,8 @@ public class KdniaoTrackQueryUtil {
         String result = sendPost(KuaiDiNiaoConstant.REQURL, params);
 
         //根据公司业务处理返回的信息......
-
         return result;
     }
-
 
     public String getExpressCode(String expressName) {
         String expressCode;
