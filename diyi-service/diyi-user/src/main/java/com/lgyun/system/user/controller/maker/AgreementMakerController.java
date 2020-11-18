@@ -137,4 +137,19 @@ public class AgreementMakerController {
 
         return R.data(makerEntity);
     }
+
+    /**
+     * 下载创客视频文档
+     */
+    @PostMapping("/download-document")
+    @ApiOperation(value = "下载创客视频文档", notes = "下载创客视频文档")
+    public R downloadDocument(BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = makerService.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        MakerEntity makerEntity = result.getData();
+        return  makerService.downloadDocument(makerEntity.getId());
+    }
 }

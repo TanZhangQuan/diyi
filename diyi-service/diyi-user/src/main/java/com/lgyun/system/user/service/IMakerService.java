@@ -319,5 +319,13 @@ public interface IMakerService extends BaseService<MakerEntity> {
      * 工单查询所有创客
      */
     R<IPage<MakerWorkSheetListVO>> queryWorkMakerList(Long enterpriseId, String makerName, IPage<MakerWorkSheetListVO> page);
+
+
+    /**
+     * 下载创客视频文档
+     * @param makerId
+     * @return
+     */
+    R downloadDocument(Long makerId);
 }
 

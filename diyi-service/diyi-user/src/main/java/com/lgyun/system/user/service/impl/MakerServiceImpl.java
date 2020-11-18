@@ -34,12 +34,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -198,13 +197,13 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             save(makerEntity);
 
             //新建创客添加加盟合同需要签署的模板
-            OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = onlineAgreementTemplateService.findTemplateType(AgreementType.MAKERJOINAGREEMENT);
+            OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = onlineAgreementTemplateService.findTemplateType(AgreementType.MAKERJOINAGREEMENT,0);
             if (onlineAgreementTemplateEntity != null) {
                 onlineAgreementNeedSignService.OnlineAgreementNeedSignAdd(onlineAgreementTemplateEntity.getId(), ObjectType.MAKERPEOPLE, SignPower.PARTYB, makerEntity.getId());
             }
 
             //新建创客授权协议需要签署的模板
-            onlineAgreementTemplateEntity = onlineAgreementTemplateService.findTemplateType(AgreementType.MAKERPOWERATTORNEY);
+            onlineAgreementTemplateEntity = onlineAgreementTemplateService.findTemplateType(AgreementType.MAKERPOWERATTORNEY,0);
             if (onlineAgreementTemplateEntity != null) {
                 onlineAgreementNeedSignService.OnlineAgreementNeedSignAdd(onlineAgreementTemplateEntity.getId(), ObjectType.MAKERPEOPLE, SignPower.PARTYB, makerEntity.getId());
             }
@@ -709,6 +708,25 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     @Override
     public R<IPage<MakerWorkSheetListVO>> queryWorkMakerList(Long enterpriseId, String makerName, IPage<MakerWorkSheetListVO> page) {
         return R.data(page.setRecords(baseMapper.queryWorkMakerList(enterpriseId, makerName, page)));
+    }
+
+    @Override
+    public R downloadDocument(Long makerId) {
+        MakerEntity byId = getById(makerId);
+        WordExportTest test = new WordExportTest();
+        OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = onlineAgreementTemplateService.findTemplateType(AgreementType.OTHERAGREEMENT,1);
+        String doc = "";
+        try{
+            Map map = test.testWrite(byId.getName(),onlineAgreementTemplateEntity.getAgreementTemplate(),byId.getIdcardNo());
+            FileInputStream fileInputStream = (FileInputStream) map.get("fileInputStream");
+            File file = (File) map.get("htmlFile");
+            doc = ossService.uploadSuffix(fileInputStream, ".doc");
+            fileInputStream.close();
+            file.delete();
+        }catch (Exception e){
+            return R.fail("下载失败");
+        }
+        return  R.data(doc);
     }
 
 }

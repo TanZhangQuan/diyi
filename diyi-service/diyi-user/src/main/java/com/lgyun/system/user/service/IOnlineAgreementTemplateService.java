@@ -15,7 +15,7 @@ public interface IOnlineAgreementTemplateService extends BaseService<OnlineAgree
     /**
      * 通过协议类别查询
      */
-    OnlineAgreementTemplateEntity findTemplateType(AgreementType agreementType);
+    OnlineAgreementTemplateEntity findTemplateType(AgreementType agreementType,Integer boolAllMakers);
 
 }
 
