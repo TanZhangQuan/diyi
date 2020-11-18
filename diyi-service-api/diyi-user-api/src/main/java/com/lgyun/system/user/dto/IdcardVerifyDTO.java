@@ -30,13 +30,13 @@ public class IdcardVerifyDTO implements Serializable {
     /**
      * 手持证件正面照
      */
-    @NotBlank(message = "请上传手持证件正面照")
+//    @NotBlank(message = "请上传手持证件正面照")
     private String idcardHand;
 
     /**
      * 手持证件反面照
      */
-    @NotBlank(message = "请上传手持证件反面照")
+//    @NotBlank(message = "请上传手持证件反面照")
     private String idcardBackHand;
 
 }
