@@ -8,6 +8,7 @@ import com.lgyun.common.constant.CustomConstant;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
+import com.lgyun.common.tool.SnowflakeIdWorker;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.AddressEntity;
 import com.lgyun.system.order.entity.ServiceProviderInvoiceCatalogsEntity;
@@ -142,6 +143,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         AgreementEntity agreementEntity = new AgreementEntity();
         agreementEntity.setAgreementType(AgreementType.SERVICEPROVIDERJOINAGREEMENT);
         agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+        agreementEntity.setAgreementNo(SnowflakeIdWorker.getSerialNumber());
         agreementEntity.setSignState(SignState.SIGNED);
         agreementEntity.setAuditState(AuditState.APPROVED);
         agreementEntity.setFirstSideSignPerson("地衣众包平台");

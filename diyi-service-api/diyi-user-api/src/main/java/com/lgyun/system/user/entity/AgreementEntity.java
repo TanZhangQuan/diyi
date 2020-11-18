@@ -9,7 +9,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Entity
@@ -48,7 +47,7 @@ public class AgreementEntity extends BaseEntity {
     /**
      * 协议编号
      */
-    private String agreementNo = UUID.randomUUID().toString().replace("-", "");
+    private String agreementNo;
 
     /**
      * 顺序号

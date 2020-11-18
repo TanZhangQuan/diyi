@@ -7,6 +7,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.Func;
+import com.lgyun.common.tool.SnowflakeIdWorker;
 import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.core.mp.support.Condition;
@@ -37,7 +38,6 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
 
     private final IOnlineAgreementTemplateService iOnlineAgreementTemplateService;
     private final IServiceProviderService serviceProviderService;
-    private final IOnlineAgreementNeedSignService onlineAgreementNeedSignService;
     private final IEnterpriseServiceProviderService enterpriseServiceProviderService;
 
     private final IMakerEnterpriseService makerEnterpriseService;
@@ -129,6 +129,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         AgreementEntity agreementEntity = new AgreementEntity();
         agreementEntity.setAgreementType(AgreementType.ENTERPRISEPROMISE);
         agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+        agreementEntity.setAgreementNo(SnowflakeIdWorker.getSerialNumber());
         agreementEntity.setSignState(SignState.SIGNING);
         agreementEntity.setAuditState(AuditState.APPROVED);
         agreementEntity.setEnterpriseId(enterpriseId);
@@ -164,6 +165,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         AgreementEntity agreementEntity = new AgreementEntity();
         agreementEntity.setAgreementType(AgreementType.SERENTSUPPLEMENTARYAGREEMENT);
         agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+        agreementEntity.setAgreementNo(SnowflakeIdWorker.getSerialNumber());
         agreementEntity.setEnterpriseId(enterpriseId);
         agreementEntity.setServiceProviderId(serviceProviderId);
         agreementEntity.setPaperAgreementUrl(paperAgreementURL);
@@ -195,6 +197,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
                 agreementEntity.setAgreementType(AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT);
                 agreementEntity.setSignState(SignState.SIGNED);
                 agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+                agreementEntity.setAgreementNo(SnowflakeIdWorker.getSerialNumber());
                 agreementEntity.setAuditState(AuditState.APPROVED);
                 agreementEntity.setEnterpriseId(enterpriseId);
                 agreementEntity.setPaperAgreementUrl(paperAgreementURL);
@@ -231,6 +234,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
             AgreementEntity agreementEntity = new AgreementEntity();
             agreementEntity.setAgreementType(agreementType);
             agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+            agreementEntity.setAgreementNo(SnowflakeIdWorker.getSerialNumber());
             agreementEntity.setAuditState(AuditState.APPROVED);
             agreementEntity.setSignState(SignState.SIGNED);
             agreementEntity.setMakerId(Long.parseLong(split[i]));
@@ -263,6 +267,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         AgreementEntity agreementEntity = new AgreementEntity();
         agreementEntity.setAgreementType(AgreementType.SERENTSUPPLEMENTARYAGREEMENT);
         agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+        agreementEntity.setAgreementNo(SnowflakeIdWorker.getSerialNumber());
         agreementEntity.setSignState(SignState.SIGNED);
         agreementEntity.setEnterpriseId(enterpriseId);
         agreementEntity.setServiceProviderId(serviceProviderId);
@@ -356,6 +361,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
 
         agreementEntity.setAgreementType(agreementType);
         agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+        agreementEntity.setAgreementNo(SnowflakeIdWorker.getSerialNumber());
         if (ObjectType.MAKERPEOPLE.equals(objectType)) {
             agreementEntity.setMakerId(objectId);
             if (AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType)) {

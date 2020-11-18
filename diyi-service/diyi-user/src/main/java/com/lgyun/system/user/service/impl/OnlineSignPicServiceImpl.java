@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.PDFUtil;
+import com.lgyun.common.tool.SnowflakeIdWorker;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.OnlineSignPicMapper;
@@ -72,6 +73,7 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
             AgreementEntity agreementEntity = new AgreementEntity();
             agreementEntity.setAgreementType(onlineAgreementTemplateEntity.getAgreementType());
             agreementEntity.setSignType(SignType.PLATFORMAGREEMENT);
+            agreementEntity.setAgreementNo(SnowflakeIdWorker.getSerialNumber());
             agreementEntity.setMakerId(ObjectId);
             agreementEntity.setOnlineAgreementTemplateId(onlineAgreementTemplateId);
             agreementEntity.setOnlineAgreementUrl(pdf);

@@ -7,6 +7,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
+import com.lgyun.common.tool.SnowflakeIdWorker;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.AddressEntity;
 import com.lgyun.system.order.feign.IOrderClient;
@@ -147,6 +148,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         AgreementEntity agreementEntity = new AgreementEntity();
         agreementEntity.setAgreementType(AgreementType.ENTERPRISEJOINAGREEMENT);
         agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+        agreementEntity.setAgreementNo(SnowflakeIdWorker.getSerialNumber());
         agreementEntity.setSignState(SignState.SIGNED);
         agreementEntity.setAuditState(AuditState.APPROVED);
         agreementEntity.setPaperAgreementUrl(addEnterpriseDTO.getJoinContract());
@@ -162,6 +164,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
                 agreementEntity = new AgreementEntity();
                 agreementEntity.setAgreementType(AgreementType.ENTERPRISEPROMISE);
                 agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+                agreementEntity.setAgreementNo(SnowflakeIdWorker.getSerialNumber());
                 agreementEntity.setSignState(SignState.SIGNED);
                 agreementEntity.setAuditState(AuditState.APPROVED);
                 agreementEntity.setPaperAgreementUrl(split[i]);
@@ -287,6 +290,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
                 agreementEntity = new AgreementEntity();
                 agreementEntity.setAgreementType(AgreementType.ENTERPRISEPROMISE);
                 agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+                agreementEntity.setAgreementNo(SnowflakeIdWorker.getSerialNumber());
                 agreementEntity.setSignState(SignState.SIGNED);
                 agreementEntity.setAuditState(AuditState.APPROVED);
                 agreementEntity.setPaperAgreementUrl(split[i]);
