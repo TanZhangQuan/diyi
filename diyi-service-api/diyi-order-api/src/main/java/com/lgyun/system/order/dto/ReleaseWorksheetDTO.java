@@ -48,14 +48,16 @@ public class ReleaseWorksheetDTO implements Serializable {
     /**
      * 最低费用
      */
+    @NotNull(message = "请输入最低费用")
     @Min(value = 0,message = "最低费用不能小于0")
-    private BigDecimal worksheetFeeLow = BigDecimal.ZERO;
+    private BigDecimal worksheetFeeLow;
 
     /**
      * 最高费用
      */
+    @NotNull(message = "请输入最高费用")
     @Min(value = 0,message = "最高费用不能小于0")
-    private BigDecimal worksheetFeeHigh = BigDecimal.ZERO;
+    private BigDecimal worksheetFeeHigh;
 
     /**
      * 类型，总包+分包，众包/众采

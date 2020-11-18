@@ -7,6 +7,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.Func;
+import com.lgyun.common.tool.SnowflakeIdWorker;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.dto.AddOrUpdateAgentMainContactDTO;
 import com.lgyun.system.user.dto.AddOrUpdateAgentMainDTO;
@@ -39,8 +40,6 @@ import java.util.List;
 @AllArgsConstructor
 public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, AgentMainEntity> implements IAgentMainService {
 
-    private IAgentPersonService agentPersonService;
-    private IUserService userService;
     private IAgreementService agreementService;
     private IAgentProviderService agentProviderService;
     private ServiceProviderMapper serviceProviderMapper;
@@ -129,6 +128,7 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
             AgreementEntity agreementEntity = new AgreementEntity();
             agreementEntity.setAgreementType(AgreementType.AGENTMAINJOINAGREEMENT);
             agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+            agreementEntity.setAgreementNo(SnowflakeIdWorker.getSerialNumber());
             agreementEntity.setSignState(SignState.SIGNED);
             agreementEntity.setPaperAgreementUrl(addOrUpdateAgentMainDTO.getJoinContract());
             agreementEntity.setFirstSideSignPerson(adminEntity.getName());
@@ -143,6 +143,7 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
                     agreementEntity = new AgreementEntity();
                     agreementEntity.setAgreementType(AgreementType.AGENTMAINERPROMISE);
                     agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+                    agreementEntity.setAgreementNo(SnowflakeIdWorker.getSerialNumber());
                     agreementEntity.setAuditState(AuditState.APPROVED);
                     agreementEntity.setPaperAgreementUrl(split[i]);
                     agreementEntity.setFirstSideSignPerson("地衣众包平台");
@@ -200,6 +201,7 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
                 agreementEntity = new AgreementEntity();
                 agreementEntity.setAgreementType(AgreementType.AGENTMAINERPROMISE);
                 agreementEntity.setSignType(SignType.PAPERAGREEMENT);
+                agreementEntity.setAgreementNo(SnowflakeIdWorker.getSerialNumber());
                 agreementEntity.setAuditState(AuditState.APPROVED);
                 agreementEntity.setPaperAgreementUrl(addOrUpdateAgentMainDTO.getCommitmentLetters());
                 agreementEntity.setFirstSideSignPerson(adminEntity.getName());
