@@ -24,11 +24,12 @@ import org.springframework.stereotype.Service;
 public class OnlineAgreementTemplateServiceImpl extends BaseServiceImpl<OnlineAgreementTemplateMapper, OnlineAgreementTemplateEntity> implements IOnlineAgreementTemplateService {
 
     @Override
-    public OnlineAgreementTemplateEntity findTemplateType(AgreementType agreementType) {
+    public OnlineAgreementTemplateEntity findTemplateType(AgreementType agreementType,Integer boolAllMakers) {
         QueryWrapper<OnlineAgreementTemplateEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(OnlineAgreementTemplateEntity::getAgreementType, agreementType)
                 .eq(OnlineAgreementTemplateEntity::getTemplateSignState, TemplateSignState.OPEN)
-                .eq(OnlineAgreementTemplateEntity::getTemplateState, TemplateState.APPLICATION);
+                .eq(OnlineAgreementTemplateEntity::getTemplateState, TemplateState.APPLICATION)
+                .eq(OnlineAgreementTemplateEntity::getBoolAllMakers,boolAllMakers);
         return baseMapper.selectOne(queryWrapper);
     }
 }

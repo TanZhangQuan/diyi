@@ -328,7 +328,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
                     agreementEntity = new AgreementEntity();
                 }
 
-                OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = iOnlineAgreementTemplateService.findTemplateType(agreementType);
+                OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = iOnlineAgreementTemplateService.findTemplateType(agreementType,0);
                 if (null != onlineAgreementTemplateEntity) {
                     agreementEntity.setOnlineAgreementTemplateId(onlineAgreementTemplateEntity.getId());
                 }
