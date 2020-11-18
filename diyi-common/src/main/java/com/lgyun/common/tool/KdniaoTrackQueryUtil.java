@@ -1,5 +1,7 @@
 package com.lgyun.common.tool;
 
+import com.lgyun.common.constant.KuaiDiNiaoConstant;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -23,13 +25,6 @@ import java.util.Map;
 
 public class KdniaoTrackQueryUtil {
 
-    //电商ID
-    private String EBusinessID = "1613650";
-    //电商加密私钥，快递鸟提供，注意保管，不要泄漏
-    private String AppKey = "a24f5b98-9d7a-4ef9-8672-8cdc3587fed1";
-    //请求url
-    private String ReqURL = "http://api.kdniao.com/Ebusiness/EbusinessOrderHandle.aspx";
-
     /**
      * Json方式 查询订单物流轨迹
      *
@@ -41,13 +36,13 @@ public class KdniaoTrackQueryUtil {
 
         Map<String, String> params = new HashMap<>();
         params.put("RequestData", urlEncoder(requestData, "UTF-8"));
-        params.put("EBusinessID", EBusinessID);
+        params.put("EBusinessID", KuaiDiNiaoConstant.EBUSINESSID);
         params.put("RequestType", "1002");
-        String dataSign = encrypt(requestData, AppKey, "UTF-8");
+        String dataSign = encrypt(requestData, KuaiDiNiaoConstant.APPKEY, "UTF-8");
         params.put("DataSign", urlEncoder(dataSign, "UTF-8"));
         params.put("DataType", "2");
 
-        String result = sendPost(ReqURL, params);
+        String result = sendPost(KuaiDiNiaoConstant.REQURL, params);
 
         //根据公司业务处理返回的信息......
 
@@ -269,15 +264,4 @@ public class KdniaoTrackQueryUtil {
         return sb.toString();
     }
 
-    public static void main(String[] args) {
-        KdniaoTrackQueryUtil k = new KdniaoTrackQueryUtil();
-        try{
-            String s = k.getOrderTracesByJson("韵达速递", "4309918451566");
-            System.out.println(s.toString());
-
-        }catch (Exception e){
-
-        }
-
-    }
 }
