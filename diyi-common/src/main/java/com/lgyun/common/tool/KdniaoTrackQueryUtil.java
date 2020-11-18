@@ -220,8 +220,7 @@ public class KdniaoTrackQueryUtil {
         }
         return result.toString();
     }
-
-
+    
     private static char[] base64EncodeChars = new char[]{
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
             'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
