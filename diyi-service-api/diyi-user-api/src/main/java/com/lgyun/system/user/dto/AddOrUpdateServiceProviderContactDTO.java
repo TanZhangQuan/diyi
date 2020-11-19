@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -51,6 +52,7 @@ public class AddOrUpdateServiceProviderContactDTO implements Serializable {
      * 联系人1邮箱
      */
     @NotBlank(message = "请输入联系人1邮箱")
+    @Email(message = "请输入正确的联系人1邮箱")
     private String contact1Mail;
 
     /**
@@ -77,6 +79,7 @@ public class AddOrUpdateServiceProviderContactDTO implements Serializable {
      * 联系人2邮箱
      */
     @NotBlank(message = "请输入联系人2邮箱")
+    @Email(message = "请输入正确的联系人2邮箱")
     private String contact2Mail;
 
 }

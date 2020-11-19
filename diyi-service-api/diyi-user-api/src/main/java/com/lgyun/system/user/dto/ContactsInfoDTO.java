@@ -4,6 +4,7 @@ import com.lgyun.common.enumeration.PositionName;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
@@ -36,6 +37,7 @@ public class ContactsInfoDTO {
      * 联系人1邮箱
      */
     @NotBlank(message = "请输入联系人1邮箱")
+    @Email(message = "请输入正确的联系人1邮箱")
     private String contact1Mail;
 
     /**
@@ -62,6 +64,7 @@ public class ContactsInfoDTO {
      * 联系人2邮箱
      */
     @NotBlank(message = "请输入联系人2邮箱")
+    @Email(message = "请输入正确的联系人2邮箱")
     private String contact2Mail;
 
 }
