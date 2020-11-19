@@ -197,13 +197,13 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             save(makerEntity);
 
             //新建创客添加加盟合同需要签署的模板
-            OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = onlineAgreementTemplateService.findTemplateType(AgreementType.MAKERJOINAGREEMENT,0);
+            OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = onlineAgreementTemplateService.findTemplateType(AgreementType.MAKERJOINAGREEMENT, 0);
             if (onlineAgreementTemplateEntity != null) {
                 onlineAgreementNeedSignService.OnlineAgreementNeedSignAdd(onlineAgreementTemplateEntity.getId(), ObjectType.MAKERPEOPLE, SignPower.PARTYB, makerEntity.getId());
             }
 
             //新建创客授权协议需要签署的模板
-            onlineAgreementTemplateEntity = onlineAgreementTemplateService.findTemplateType(AgreementType.MAKERPOWERATTORNEY,0);
+            onlineAgreementTemplateEntity = onlineAgreementTemplateService.findTemplateType(AgreementType.MAKERPOWERATTORNEY, 0);
             if (onlineAgreementTemplateEntity != null) {
                 onlineAgreementNeedSignService.OnlineAgreementNeedSignAdd(onlineAgreementTemplateEntity.getId(), ObjectType.MAKERPEOPLE, SignPower.PARTYB, makerEntity.getId());
             }
@@ -714,19 +714,19 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     public R<String> downloadDocument(Long makerId) {
         MakerEntity byId = getById(makerId);
         WordExportTest test = new WordExportTest();
-        OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = onlineAgreementTemplateService.findTemplateType(AgreementType.OTHERAGREEMENT,1);
+        OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = onlineAgreementTemplateService.findTemplateType(AgreementType.OTHERAGREEMENT, 1);
         String doc;
-        try{
-            Map map = test.testWrite(byId.getName(),onlineAgreementTemplateEntity.getAgreementTemplate(),byId.getIdcardNo());
+        try {
+            Map map = test.testWrite(byId.getName(), onlineAgreementTemplateEntity.getAgreementTemplate(), byId.getIdcardNo());
             FileInputStream fileInputStream = (FileInputStream) map.get("fileInputStream");
             File file = (File) map.get("htmlFile");
             doc = ossService.uploadSuffix(fileInputStream, ".doc");
             fileInputStream.close();
             file.delete();
-        }catch (Exception e){
+        } catch (Exception e) {
             return R.fail("下载失败");
         }
-        return  R.data(doc);
+        return R.data(doc);
     }
 
 }
