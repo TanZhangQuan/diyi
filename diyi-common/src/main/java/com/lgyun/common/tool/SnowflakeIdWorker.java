@@ -1,13 +1,15 @@
 package com.lgyun.common.tool;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Slf4j
 public class SnowflakeIdWorker {
 
-    @Autowired
-    private RedisUtil redisUtil;
+    private static RedisUtil redisUtil;
+
+    static {
+        redisUtil = SpringUtil.getBean(RedisUtil.class);
+    }
 
     // ==============================Fields==================
 
