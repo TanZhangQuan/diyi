@@ -159,7 +159,7 @@ INSERT INTO `diyi_online_agreement_template` VALUES ('1295994358801988836', 'MAK
 INSERT INTO `diyi_online_agreement_template` VALUES ('1295994358801988838', 'OTHERAGREEMENT', 'APPLICATION', 'OPEN', 'https://diyi-cr.oss-cn-shanghai.aliyuncs.com/upload/20201118/8ad63b7934144fdd893d56883cc8b307.doc', '创客授权视频文档', '2020-08-20 15:49:23', null, null, 1, 'CONTRACT', '0', '0', '0', null, '2020-08-20 15:49:56', null, '2020-08-20 15:49:58', '1', '0');
 
 ###超级管理员
-INSERT INTO `diyi_admin` VALUES ('1123598821738675888', '1123598821738675271', '', 'NORMAL', '超级管理员', '男', 'MANAGEMENT', '15622190791', null, 'superAdmin', '10470c3b4b1fed12c3baac014be15fac67c6e815', '0', '', '', null, '2020-09-19 17:31:39', null, '2020-09-19 17:31:37', '1', '0');
+INSERT INTO `diyi_admin` VALUES ('1123598821738675888', '1123598821738675271', '', 'NORMAL', '超级管理员', '男', 'MANAGEMENT', '15622190791', null, 'superAdmin', '781edd3abbb61942bb988cbaaea94eb6d5cbf2cf', '0', '', '', null, '2020-09-19 17:31:39', null, '2020-09-19 17:31:37', '1', '0');
 
 ###超级管理员User
 INSERT INTO `sys_user` VALUES ('1123598821738675271', '000000', 'ADMIN', 'superAdmin', '15622190791', '', '', '', null, '2020-08-08 09:29:02', null, '2020-08-08 09:29:10', '1', '0');
