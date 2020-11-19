@@ -126,7 +126,7 @@ DROP TABLE IF EXISTS `diyi_address`;
 CREATE TABLE `diyi_address` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `object_id` bigint(50) NOT NULL COMMENT '对象ID',
-  `object_type` varchar(20) NOT NULL COMMENT '对象身份1、创客本人2、商户人员3、服务商人员4、相关局人员5、渠道商人员6、合伙人本人',
+  `object_type` varchar(50) NOT NULL COMMENT '对象身份1、创客本人2、商户人员3、服务商人员4、相关局人员5、渠道商人员6、合伙人本人',
   `address_name` varchar(50) NOT NULL COMMENT '收件人',
   `address_phone` varchar(50) NOT NULL COMMENT '手机号码',
   `province` varchar(50) NOT NULL COMMENT '省',
