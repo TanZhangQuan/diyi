@@ -711,11 +711,11 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R downloadDocument(Long makerId) {
+    public R<String> downloadDocument(Long makerId) {
         MakerEntity byId = getById(makerId);
         WordExportTest test = new WordExportTest();
         OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = onlineAgreementTemplateService.findTemplateType(AgreementType.OTHERAGREEMENT,1);
-        String doc = "";
+        String doc;
         try{
             Map map = test.testWrite(byId.getName(),onlineAgreementTemplateEntity.getAgreementTemplate(),byId.getIdcardNo());
             FileInputStream fileInputStream = (FileInputStream) map.get("fileInputStream");

@@ -26,10 +26,10 @@ import com.lgyun.system.user.vo.AdminAgentMainServiceProviderListVO;
 import com.lgyun.system.user.vo.AgentMainTransactionVO;
 import com.lgyun.system.user.vo.PartnerServiceProviderListVO;
 import com.lgyun.system.user.vo.TransactionVO;
+import fr.opensagres.xdocreport.document.json.JSONArray;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.json.JSONArray;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -891,8 +891,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     @Override
     @Transactional(rollbackFor = Exception.class)
     public R savePortalSignInvoice(Long serviceProviderId, Long payEnterpriseId, String payMakers, String serviceProviderName) {
-        JSONArray payMakerArray;
-        payMakerArray = new JSONArray(payMakers);
+        JSONArray payMakerArray = new JSONArray(payMakers);
         for (int i = 0; i < payMakerArray.length(); i++) {
             String voiceTypeNo = payMakerArray.getJSONObject(i).get("voiceTypeNo").toString();
             String voiceSerialNo = payMakerArray.getJSONObject(i).get("voiceSerialNo").toString();

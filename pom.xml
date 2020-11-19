@@ -21,7 +21,9 @@
         <swagger.models.version>1.5.21</swagger.models.version>
         <mybatis.plus.version>3.3.1</mybatis.plus.version>
         <captcha.version>1.6.2</captcha.version>
-        <easyexcel.version>2.1.6</easyexcel.version>
+        <oss.version>3.11.1</oss.version>
+        <easyexcel.version>2.2.6</easyexcel.version>
+        <quartz.version>2.3.5.RELEASE</quartz.version>
         <alibaba.cloud.version>2.2.1.RELEASE</alibaba.cloud.version>
         <spring.boot.admin.version>2.2.2</spring.boot.admin.version>
         <spring.boot.version>2.2.6.RELEASE</spring.boot.version>

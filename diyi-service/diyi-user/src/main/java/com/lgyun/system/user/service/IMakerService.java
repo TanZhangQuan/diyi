@@ -326,6 +326,6 @@ public interface IMakerService extends BaseService<MakerEntity> {
      * @param makerId
      * @return
      */
-    R downloadDocument(Long makerId);
+    R<String> downloadDocument(Long makerId);
 }
 
