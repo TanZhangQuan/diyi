@@ -3,6 +3,7 @@ package com.lgyun.system.user.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
+import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.dto.AddPartnerDTO;
 import com.lgyun.system.user.dto.QueryPartnerDTO;
@@ -18,6 +19,22 @@ import com.lgyun.system.user.vo.PartnerVO;
  * @since 2020-10-20 18:25:03
  */
 public interface IPartnerService extends BaseService<PartnerEntity> {
+
+    /**
+     * 查询当前合伙人
+     *
+     * @param bladeUser
+     * @return
+     */
+    R<PartnerEntity> currentPartner(BladeUser bladeUser);
+
+    /**
+     * 根据userId查询合伙人
+     *
+     * @param userId
+     * @return
+     */
+    PartnerEntity findByUserId(Long userId);
 
     /**
      * 新建合伙人

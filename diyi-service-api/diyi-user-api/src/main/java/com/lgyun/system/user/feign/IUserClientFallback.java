@@ -45,6 +45,11 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
+    public R<PartnerEntity> currentPartner(BladeUser bladeUser) {
+        throw new CustomException("网络繁忙，请稍后尝试");
+    }
+
+    @Override
     public R<EnterpriseWorkerEntity> currentEnterpriseWorker(BladeUser bladeUser) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }

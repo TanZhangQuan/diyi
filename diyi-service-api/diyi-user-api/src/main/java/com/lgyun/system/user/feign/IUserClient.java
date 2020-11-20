@@ -73,6 +73,15 @@ public interface IUserClient {
     R<MakerEntity> currentMaker(@RequestBody BladeUser bladeUser);
 
     /**
+     * 查询当前合伙人
+     *
+     * @param bladeUser
+     * @return
+     */
+    @PostMapping(API_PREFIX + "/current-partner")
+    R<PartnerEntity> currentPartner(BladeUser bladeUser);
+
+    /**
      * 查询当前商户员工
      *
      * @param bladeUser
@@ -265,7 +274,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/rel-bureau-deal")
-    R<String> relBureauDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("employeeUserName") String employeeUserName, @RequestParam("password") String password, @RequestParam("relBureauType") RelBureauType relBureauType,  @RequestParam("grantType") GrantType grantType);
+    R<String> relBureauDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("employeeUserName") String employeeUserName, @RequestParam("password") String password, @RequestParam("relBureauType") RelBureauType relBureauType, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 查询个独信息
@@ -399,6 +408,6 @@ public interface IUserClient {
      * @return
      */
     @GetMapping(API_PREFIX + "/query-agreement-num")
-    int queryEntMakSupplementaryAgreementNum (@RequestParam("makerId") Long makerId, @RequestParam("enterpriseId") Long enterpriseId);
+    int queryEntMakSupplementaryAgreementNum(@RequestParam("makerId") Long makerId, @RequestParam("enterpriseId") Long enterpriseId);
 
 }

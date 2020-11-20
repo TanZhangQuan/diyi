@@ -64,6 +64,11 @@ public class UserClient implements IUserClient {
     }
 
     @Override
+    public R<PartnerEntity> currentPartner(BladeUser bladeUser) {
+        return partnerService.currentPartner(bladeUser);
+    }
+
+    @Override
     public R<EnterpriseWorkerEntity> currentEnterpriseWorker(BladeUser bladeUser) {
         return enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
     }

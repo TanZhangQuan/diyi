@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
+import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.common.tool.StringUtil;
@@ -41,6 +42,32 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
     private IUserService userService;
     private IOnlineAgreementNeedSignService onlineAgreementNeedSignService;
     private IOnlineAgreementTemplateService onlineAgreementTemplateService;
+
+    @Override
+    public R<PartnerEntity> currentPartner(BladeUser bladeUser) {
+
+        if (bladeUser == null || bladeUser.getUserId() == null) {
+            return R.fail("用户未登录");
+        }
+
+        PartnerEntity partnerEntity = findByUserId(bladeUser.getUserId());
+        if (partnerEntity == null) {
+            return R.fail("合伙人不存在");
+        }
+
+        if (!(AccountState.NORMAL.equals(partnerEntity.getPartnerState()))) {
+            return R.fail("账号状态非正常，请联系客服");
+        }
+
+        return R.data(partnerEntity);
+    }
+
+    @Override
+    public PartnerEntity findByUserId(Long userId) {
+        QueryWrapper<PartnerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(PartnerEntity::getUserId, userId);
+        return baseMapper.selectOne(queryWrapper);
+    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
