@@ -12,5 +12,5 @@ import java.util.List;
  */
 public interface IRoleMenuService extends BaseService<RoleMenu> {
 
-    List<String> getUserMenus(Long roleId);
+    List<String> queryMenusByRole(Long roleId);
 }

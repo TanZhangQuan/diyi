@@ -3,14 +3,13 @@ package com.lgyun.system.feign;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.MenuType;
 import com.lgyun.common.enumeration.UserType;
+import com.lgyun.system.dto.GrantDTO;
 import com.lgyun.system.dto.RoleMenusDTO;
 import com.lgyun.system.entity.Dept;
 import com.lgyun.system.entity.Role;
-import com.lgyun.system.dto.GrantDTO;
 import com.lgyun.system.vo.RoleMenusVO;
 import com.lgyun.system.vo.RolesVO;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -100,7 +99,7 @@ public class ISysClientFallback implements ISysClient {
      * @return
      */
     @Override
-    public List<String> getMenuIds(Long roleId) {
+    public List<String> queryMenusByRole(Long roleId) {
         return null;
     }
 

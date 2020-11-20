@@ -150,15 +150,15 @@ public class SysClient implements ISysClient {
      * @return
      */
     @Override
-    public List<String> getMenuIds(Long roleId) {
-        return roleMenuService.getUserMenus(roleId);
+    public List<String> queryMenusByRole(Long roleId) {
+        return roleMenuService.queryMenusByRole(roleId);
     }
 
     @Override
     @GetMapping(API_PREFIX + "/menu-names")
     public List<String> getMenuNames(Long roleId) {
         List<String> menuNames = new ArrayList<>();
-        List<String> menuIds = this.getMenuIds(roleId);
+        List<String> menuIds = this.queryMenusByRole(roleId);
         if (menuIds == null || menuIds.size() <= 0) {
             return menuNames;
         }

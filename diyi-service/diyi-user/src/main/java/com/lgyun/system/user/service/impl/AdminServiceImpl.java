@@ -150,21 +150,20 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
     }
 
     @Override
-    public R createOrUpdateRoleMenus(RoleMenusDTO roleMenusDTO, Long id) {
-        AdminEntity adminEntity = this.getById(id);
+    public R<String> createOrUpdateRoleMenus(RoleMenusDTO roleMenusDTO, AdminEntity adminEntity) {
         if (!adminEntity.getSuperAdmin()) {
-            if (!sysClient.getMenuIds(adminEntity.getRoleId()).contains(Arrays.asList(roleMenusDTO.getMenus()))) {
+            if (!sysClient.queryMenusByRole(adminEntity.getRoleId()).contains(Arrays.asList(StringUtils.split(roleMenusDTO.getMenus(), ",")))) {
                 return R.fail("只能分配您拥有的菜单！");
             }
         }
         if (roleMenusDTO.getRoleId() != null && roleMenusDTO.getRoleId() != 0) {
             int count = this.count(new QueryWrapper<AdminEntity>().lambda().eq(AdminEntity::getRoleId, roleMenusDTO.getRoleId()));
             if (count > 0) {
-                R.fail("您编辑的角色现在赋予给了子账号，请收回后在编辑！");
+                R.fail("您编辑的角色现在赋予给了子账号，请收回后再编辑！");
             }
         }
         roleMenusDTO.setUserType(UserType.ADMIN);
-        R result = sysClient.createOrUpdateRoleMenus(roleMenusDTO, id);
+        R result = sysClient.createOrUpdateRoleMenus(roleMenusDTO, adminEntity.getId());
         if (result.isSuccess()) {
             return R.success("操作成功！");
         }
@@ -321,7 +320,7 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
         if (role == null) {
             return R.fail("您输入的角色ID不存在！");
         }
-        List<String> menuIds = sysClient.getMenuIds(roleId);
+        List<String> menuIds = sysClient.queryMenusByRole(roleId);
         RoleMenuInfoVO roleMenuInfoVo = new RoleMenuInfoVO();
         BeanUtils.copyProperties(role,roleMenuInfoVo);
         roleMenuInfoVo.setMenuIds(menuIds);

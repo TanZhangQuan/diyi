@@ -18,13 +18,13 @@ public class RoleMenusDTO {
     /**
      * 角色名
      */
-    @NotBlank(message = "角色名不能为空！")
+    @NotBlank(message = "请输入角色名")
     private String roleName;
 
     /**
      * 角色别名
      */
-    @NotBlank(message = "角色别名不能为空！")
+    @NotBlank(message = "请输入角色别名")
     private String roleAlias;
 
     /**

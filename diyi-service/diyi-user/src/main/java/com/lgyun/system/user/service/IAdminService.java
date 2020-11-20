@@ -93,10 +93,10 @@ public interface IAdminService extends BaseService<AdminEntity> {
      * 创建或修改角色及角色拥有的权限
      *
      * @param roleMenusDTO
-     * @param id
+     * @param adminEntity
      * @return
      */
-    R createOrUpdateRoleMenus(RoleMenusDTO roleMenusDTO, Long id);
+    R<String> createOrUpdateRoleMenus(RoleMenusDTO roleMenusDTO, AdminEntity adminEntity);
 
     /**
      * 查询当前管理人员所创建的角色
@@ -118,6 +118,7 @@ public interface IAdminService extends BaseService<AdminEntity> {
 
     /**
      * 停用、删除、启用子账号
+     *
      * @param childAccountId
      * @param childAccountType
      * @return
@@ -126,6 +127,7 @@ public interface IAdminService extends BaseService<AdminEntity> {
 
     /**
      * 查询当前管理人员的角色列表
+     *
      * @param id
      * @return
      */
@@ -133,6 +135,7 @@ public interface IAdminService extends BaseService<AdminEntity> {
 
     /**
      * 删除角色
+     *
      * @param roleId
      * @return
      */
@@ -140,6 +143,7 @@ public interface IAdminService extends BaseService<AdminEntity> {
 
     /**
      * 查询角色的详情
+     *
      * @param roleId
      * @return
      */

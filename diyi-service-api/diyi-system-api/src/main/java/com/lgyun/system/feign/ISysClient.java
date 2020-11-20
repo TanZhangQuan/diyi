@@ -160,8 +160,8 @@ public interface ISysClient {
      * @param roleId 主键
      * @return
      */
-    @GetMapping(API_PREFIX + "/menus")
-    List<String> getMenuIds(@RequestParam("roleId") Long roleId);
+    @GetMapping(API_PREFIX + "/query-menus-by-role")
+    List<String> queryMenusByRole(@RequestParam("roleId") Long roleId);
 
     /**
      * 查询菜单名称

@@ -34,7 +34,8 @@ public class PermissionAdminController {
             return result;
         }
         AdminEntity adminEntity = result.getData();
-        return adminService.createOrUpdateRoleMenus(roleMenusDTO, adminEntity.getId());
+
+        return adminService.createOrUpdateRoleMenus(roleMenusDTO, adminEntity);
     }
 
     @GetMapping("/query-role-list")
