@@ -35,7 +35,8 @@ public class PermissionServiceProviderController {
             return result;
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
-        return serviceProviderWorkerService.createOrUpdateRoleMenus(roleMenusDTO, serviceProviderWorkerEntity.getId());
+
+        return serviceProviderWorkerService.createOrUpdateRoleMenus(roleMenusDTO, serviceProviderWorkerEntity);
     }
 
     @GetMapping("/query-role-list")

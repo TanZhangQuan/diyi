@@ -122,11 +122,10 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R createOrUpdateRoleMenus(RoleMenusDTO roleMenusDTO, Long id) {
-        EnterpriseWorkerEntity enterpriseWorkerEntity = this.getById(id);
+    public R createOrUpdateRoleMenus(RoleMenusDTO roleMenusDTO, EnterpriseWorkerEntity enterpriseWorkerEntity) {
         if (!enterpriseWorkerEntity.getSuperAdmin()) {
-            if (!sysClient.queryMenusByRole(enterpriseWorkerEntity.getRoleId()).contains(Arrays.asList(roleMenusDTO.getMenus()))) {
-                return R.fail("只能分配您拥有的菜单！");
+            if (!sysClient.queryMenusByRole(enterpriseWorkerEntity.getRoleId()).containsAll(Arrays.asList(roleMenusDTO.getMenus()))) {
+                return R.fail("只能分配您拥有的菜单");
             }
         }
         if (roleMenusDTO.getRoleId() != null && roleMenusDTO.getRoleId() != 0) {
@@ -136,7 +135,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
             }
         }
         roleMenusDTO.setUserType(UserType.ENTERPRISE);
-        R result = sysClient.createOrUpdateRoleMenus(roleMenusDTO, id);
+        R result = sysClient.createOrUpdateRoleMenus(roleMenusDTO, enterpriseWorkerEntity.getId());
         if (result.isSuccess()) {
             return R.success("操作成功！");
         }

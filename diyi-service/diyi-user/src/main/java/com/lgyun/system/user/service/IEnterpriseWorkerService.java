@@ -76,10 +76,10 @@ public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEn
      * 创建或修改角色及角色拥有的权限
      *
      * @param roleMenusDTO
-     * @param id
+     * @param enterpriseWorkerEntity
      * @return
      */
-    R createOrUpdateRoleMenus(RoleMenusDTO roleMenusDTO, Long id);
+    R<String> createOrUpdateRoleMenus(RoleMenusDTO roleMenusDTO, EnterpriseWorkerEntity enterpriseWorkerEntity);
 
     /**
      * 查询商户人员所创建的角色

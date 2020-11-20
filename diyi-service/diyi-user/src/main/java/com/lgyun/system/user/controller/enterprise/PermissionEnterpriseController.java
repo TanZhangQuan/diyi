@@ -35,7 +35,8 @@ public class PermissionEnterpriseController {
             return result;
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-        return enterpriseWorkerService.createOrUpdateRoleMenus(roleMenusDTO, enterpriseWorkerEntity.getId());
+
+        return enterpriseWorkerService.createOrUpdateRoleMenus(roleMenusDTO, enterpriseWorkerEntity);
     }
 
     @GetMapping("/query-role-list")

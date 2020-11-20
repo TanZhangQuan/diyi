@@ -76,10 +76,10 @@ public interface IServiceProviderWorkerService extends BaseService<ServiceProvid
      * 创建或修改角色及角色拥有的权限
      *
      * @param roleMenusDTO
-     * @param id
+     * @param serviceProviderWorkerEntity
      * @return
      */
-    R createOrUpdateRoleMenus(RoleMenusDTO roleMenusDTO, Long id);
+    R<String> createOrUpdateRoleMenus(RoleMenusDTO roleMenusDTO, ServiceProviderWorkerEntity serviceProviderWorkerEntity);
 
     /**
      * 查询商户人员所创建的角色

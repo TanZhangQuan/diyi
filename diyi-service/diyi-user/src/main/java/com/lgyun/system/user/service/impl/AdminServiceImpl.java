@@ -152,8 +152,8 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
     @Override
     public R<String> createOrUpdateRoleMenus(RoleMenusDTO roleMenusDTO, AdminEntity adminEntity) {
         if (!adminEntity.getSuperAdmin()) {
-            if (!sysClient.queryMenusByRole(adminEntity.getRoleId()).contains(Arrays.asList(StringUtils.split(roleMenusDTO.getMenus(), ",")))) {
-                return R.fail("只能分配您拥有的菜单！");
+            if (!sysClient.queryMenusByRole(adminEntity.getRoleId()).containsAll(Arrays.asList(StringUtils.split(roleMenusDTO.getMenus(), ",")))) {
+                return R.fail("只能分配您拥有的菜单");
             }
         }
         if (roleMenusDTO.getRoleId() != null && roleMenusDTO.getRoleId() != 0) {
