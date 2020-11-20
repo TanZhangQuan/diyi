@@ -18,6 +18,6 @@ public class RoleMenuServiceImpl extends BaseServiceImpl<RoleMenuMapper, RoleMen
 
     @Override
     public List<String> queryMenusByRole(Long roleId) {
-        return this.baseMapper.getUserMenus(roleId);
+        return this.baseMapper.queryMenusByRole(roleId);
     }
 }
