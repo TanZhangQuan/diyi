@@ -3,8 +3,6 @@ server:
   port: 8102
 
 spring:
-  profiles:
-    active: prod
   application:
     name: diyi-user
 
