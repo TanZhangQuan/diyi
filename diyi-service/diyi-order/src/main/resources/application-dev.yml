@@ -3,6 +3,6 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/diyi_cr_test?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&tinyInt1isBit=false&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&serverTimezone=GMT%2B8
-    username: root
-    password: 123456
+    url: jdbc:mysql://rm-uf65f090ew6554178do.mysql.rds.aliyuncs.com/diyi_cr_test?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&tinyInt1isBit=false&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&serverTimezone=GMT%2B8
+    username: diyi_cr_20200714
+    password: A#9JJu6Hv8
