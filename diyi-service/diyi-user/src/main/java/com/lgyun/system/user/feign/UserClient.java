@@ -24,6 +24,7 @@ public class UserClient implements IUserClient {
     private IUserService userService;
     private IAdminService adminService;
     private IMakerService makerService;
+    private IPartnerService partnerService;
     private IAgreementService agreementService;
     private IEnterpriseService enterpriseService;
     private IMakerEnterpriseService makerEnterpriseService;
@@ -250,6 +251,95 @@ public class UserClient implements IUserClient {
 
                 makerEntity.setLoginPwd(password);
                 makerService.updateById(makerEntity);
+
+                break;
+
+            default:
+                return R.fail("授权类型有误");
+        }
+
+        return R.success("操作成功");
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public R<String> partnerDeal(String openid, String sessionKey, String phoneNumber, String password, GrantType grantType) {
+
+        PartnerEntity partnerEntity;
+        switch (grantType) {
+
+            case WECHAT:
+                //根据手机号查询合伙人
+                partnerEntity = partnerService.findByPhoneNumber(phoneNumber);
+                if (partnerEntity != null) {
+
+                    if (!(AccountState.NORMAL.equals(partnerEntity.getPartnerState()))) {
+                        return R.fail("账号状态非正常，请联系客服");
+                    }
+
+                    partnerService.partnerUpdate(partnerEntity, openid, sessionKey);
+                } else {
+                    partnerService.partnerSave(openid, sessionKey, phoneNumber, password);
+                }
+
+                break;
+
+            case PASSWORD:
+                //根据账号密码查询合伙人
+                partnerEntity = partnerService.findByPhoneNumberAndLoginPwd(phoneNumber, password);
+                if (partnerEntity != null) {
+
+                    if (!(AccountState.NORMAL.equals(partnerEntity.getPartnerState()))) {
+                        return R.fail("账号状态非正常，请联系客服");
+                    }
+
+                    partnerService.partnerUpdate(partnerEntity, openid, sessionKey);
+                } else {
+                    return R.fail("账号或密码错误");
+                }
+
+                break;
+
+            case MOBILE:
+                //根据手机号查询合伙人
+                partnerEntity = partnerService.findByPhoneNumber(phoneNumber);
+                if (partnerEntity != null) {
+
+                    if (!(AccountState.NORMAL.equals(partnerEntity.getPartnerState()))) {
+                        return R.fail("账号状态非正常，请联系客服");
+                    }
+
+                    partnerService.partnerUpdate(partnerEntity, openid, sessionKey);
+                } else {
+                    return R.fail("手机号未注册");
+                }
+
+                break;
+
+            case REGISTER:
+                //根据手机号查询合伙人
+                partnerEntity = partnerService.findByPhoneNumber(phoneNumber);
+                if (partnerEntity != null) {
+                    return R.fail("手机号已注册");
+                } else {
+                    partnerService.partnerSave(openid, sessionKey, phoneNumber, password);
+                }
+
+                break;
+
+            case UPDATEPASSWORD:
+                //根据手机号查询合伙人
+                partnerEntity = partnerService.findByPhoneNumber(phoneNumber);
+                if (partnerEntity == null) {
+                    return R.fail("手机号未注册");
+                }
+
+                if (!(AccountState.NORMAL.equals(partnerEntity.getPartnerState()))) {
+                    return R.fail("账号状态非正常，请联系客服");
+                }
+
+                partnerEntity.setLoginPwd(password);
+                partnerService.updateById(partnerEntity);
 
                 break;
 

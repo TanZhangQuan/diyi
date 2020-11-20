@@ -45,34 +45,52 @@ public class AuthServiceImpl implements IAuthService {
     @Transactional(rollbackFor = Exception.class)
     public R wechatlogin(WechatLoginDTO wechatLoginDto) throws Exception {
 
-        if (wechatLoginDto.getUserType() == UserType.MAKER) {
-            //微信授权
-            R<JSONObject> result = wechatUtil.authorization(wechatLoginDto.getWechatCode(), wechatLoginDto.getIv(), wechatLoginDto.getEncryptedData());
-            if (!(result.isSuccess())) {
-                return result;
-            }
-            JSONObject jsonObject = result.getData();
-            String openid = jsonObject.getString("openid");
-            String sessionKey = jsonObject.getString("sessionKey");
-            String purePhoneNumber = jsonObject.getString("purePhoneNumber");
-            // 创客处理
-            R<String> res = userClient.makerDeal(openid, sessionKey, purePhoneNumber, "", GrantType.WECHAT);
-            if (!(res.isSuccess())) {
-                return res;
-            }
-
-            UserInfo userInfo = userClient.queryUserInfoByPhone(purePhoneNumber, wechatLoginDto.getUserType());
-            if (userInfo == null) {
-                return R.fail("登录失败");
-            }
-
-            //创建认证token
-            AuthInfo authInfo = tokenUtil.createAuthInfo(userInfo);
-
-            return R.data(authInfo, "登录成功");
-        } else {
-            return R.fail("用户类型有误");
+        //微信授权
+        R<JSONObject> result = wechatUtil.authorization(wechatLoginDto.getWechatCode(), wechatLoginDto.getIv(), wechatLoginDto.getEncryptedData());
+        if (!(result.isSuccess())) {
+            return result;
         }
+        JSONObject jsonObject = result.getData();
+        String openid = jsonObject.getString("openid");
+        String sessionKey = jsonObject.getString("sessionKey");
+        String purePhoneNumber = jsonObject.getString("purePhoneNumber");
+
+        R<String> res;
+        switch (wechatLoginDto.getUserType()) {
+
+            case MAKER:
+
+                // 创客处理
+                res = userClient.makerDeal(openid, sessionKey, purePhoneNumber, "", GrantType.WECHAT);
+                if (!(res.isSuccess())) {
+                    return res;
+                }
+
+                break;
+
+            case PARTNER:
+
+                // 合伙人处理
+                res = userClient.partnerDeal(openid, sessionKey, purePhoneNumber, "", GrantType.WECHAT);
+                if (!(res.isSuccess())) {
+                    return res;
+                }
+
+                break;
+
+            default:
+                return R.fail("用户类型有误");
+        }
+
+        UserInfo userInfo = userClient.queryUserInfoByPhone(purePhoneNumber, wechatLoginDto.getUserType());
+        if (userInfo == null) {
+            return R.fail("登录失败");
+        }
+
+        //创建认证token
+        AuthInfo authInfo = tokenUtil.createAuthInfo(userInfo);
+
+        return R.data(authInfo, "登录成功");
     }
 
     @Override
@@ -186,6 +204,11 @@ public class AuthServiceImpl implements IAuthService {
         //查询用户类型
         UserType userType = mobileLoginDto.getUserType();
         R<String> res;
+        String wechatCode;
+        R<JSONObject> result;
+        JSONObject jsonObject;
+        String openid;
+        String sessionKey;
         switch (userType) {
 
             case ADMIN:
@@ -198,20 +221,41 @@ public class AuthServiceImpl implements IAuthService {
 
             case MAKER:
                 // 微信授权码
-                String wechatCode = mobileLoginDto.getWechatCode();
+                wechatCode = mobileLoginDto.getWechatCode();
                 if (StringUtils.isBlank(wechatCode)) {
                     return R.fail("请输入微信授权码");
                 }
                 // 微信授权
-                R<JSONObject> result = wechatUtil.authorization(wechatCode);
+                result = wechatUtil.authorization(wechatCode);
                 if (!(result.isSuccess())) {
                     return result;
                 }
-                JSONObject jsonObject = result.getData();
-                String openid = jsonObject.getString("openid");
-                String sessionKey = jsonObject.getString("sessionKey");
+                jsonObject = result.getData();
+                openid = jsonObject.getString("openid");
+                sessionKey = jsonObject.getString("sessionKey");
                 // 创客处理
                 res = userClient.makerDeal(openid, sessionKey, mobile, "", GrantType.MOBILE);
+                if (!(res.isSuccess())) {
+                    return res;
+                }
+                break;
+
+            case PARTNER:
+                // 微信授权码
+                wechatCode = mobileLoginDto.getWechatCode();
+                if (StringUtils.isBlank(wechatCode)) {
+                    return R.fail("请输入微信授权码");
+                }
+                // 微信授权
+                result = wechatUtil.authorization(wechatCode);
+                if (!(result.isSuccess())) {
+                    return result;
+                }
+                jsonObject = result.getData();
+                openid = jsonObject.getString("openid");
+                sessionKey = jsonObject.getString("sessionKey");
+                // 合伙人处理
+                res = userClient.partnerDeal(openid, sessionKey, mobile, "", GrantType.MOBILE);
                 if (!(res.isSuccess())) {
                     return res;
                 }
@@ -271,6 +315,11 @@ public class AuthServiceImpl implements IAuthService {
         UserType userType = passwordLoginDto.getUserType();
 
         R<String> res;
+        String wechatCode;
+        R<JSONObject> result;
+        JSONObject jsonObject;
+        String openid;
+        String sessionKey;
         switch (userType) {
 
             case ADMIN:
@@ -283,22 +332,45 @@ public class AuthServiceImpl implements IAuthService {
 
             case MAKER:
                 // 查询微信授权码
-                String wechatCode = passwordLoginDto.getWechatCode();
+                wechatCode = passwordLoginDto.getWechatCode();
                 if (StringUtils.isBlank(wechatCode)) {
                     return R.fail("请输入微信授权码");
                 }
 
                 //微信授权
-                R<JSONObject> result = wechatUtil.authorization(wechatCode);
+                result = wechatUtil.authorization(wechatCode);
                 if (!(result.isSuccess())) {
                     return result;
                 }
-                JSONObject jsonObject = result.getData();
-                String openid = jsonObject.getString("openid");
-                String sessionKey = jsonObject.getString("sessionKey");
+                jsonObject = result.getData();
+                openid = jsonObject.getString("openid");
+                sessionKey = jsonObject.getString("sessionKey");
 
                 //创客处理
                 res = userClient.makerDeal(openid, sessionKey, account, encrypt, GrantType.PASSWORD);
+                if (!(res.isSuccess())) {
+                    return res;
+                }
+                break;
+
+            case PARTNER:
+                // 查询微信授权码
+                wechatCode = passwordLoginDto.getWechatCode();
+                if (StringUtils.isBlank(wechatCode)) {
+                    return R.fail("请输入微信授权码");
+                }
+
+                //微信授权
+                result = wechatUtil.authorization(wechatCode);
+                if (!(result.isSuccess())) {
+                    return result;
+                }
+                jsonObject = result.getData();
+                openid = jsonObject.getString("openid");
+                sessionKey = jsonObject.getString("sessionKey");
+
+                //创客处理
+                res = userClient.partnerDeal(openid, sessionKey, account, encrypt, GrantType.PASSWORD);
                 if (!(res.isSuccess())) {
                     return res;
                 }
@@ -383,20 +455,39 @@ public class AuthServiceImpl implements IAuthService {
             return R.fail(TokenUtil.SMS_CAPTCHA_NOT_CORRECT);
         }
 
-        if (userType == UserType.MAKER) {
-            // 创客处理
-            R<String> res = userClient.makerDeal("", "", mobile, DigestUtil.encrypt(password), GrantType.REGISTER);
-            if (!(res.isSuccess())) {
-                return res;
-            }
+        R<String> res;
+        switch (userType) {
 
-            //删除缓存短信验证码
-            redisUtil.del(key);
+            case MAKER:
 
-            return R.success("注册成功");
-        } else {
-            return R.fail("用户类型有误");
+                // 创客处理
+                res = userClient.makerDeal("", "", mobile, DigestUtil.encrypt(password), GrantType.REGISTER);
+                if (!(res.isSuccess())) {
+                    return res;
+                }
+
+                //删除缓存短信验证码
+                redisUtil.del(key);
+
+                return R.success("注册成功");
+
+            case PARTNER:
+
+                // 创客处理
+                res = userClient.partnerDeal("", "", mobile, DigestUtil.encrypt(password), GrantType.REGISTER);
+                if (!(res.isSuccess())) {
+                    return res;
+                }
+
+                //删除缓存短信验证码
+                redisUtil.del(key);
+
+                return R.success("注册成功");
+
+            default:
+                return R.fail("用户类型有误");
         }
+
     }
 
     @Override
@@ -431,6 +522,14 @@ public class AuthServiceImpl implements IAuthService {
             case MAKER:
                 //创客处理
                 res = userClient.makerDeal("", "", mobile, newPassword, GrantType.UPDATEPASSWORD);
+                if (!(res.isSuccess())) {
+                    return res;
+                }
+                break;
+
+            case PARTNER:
+                //合伙人处理
+                res = userClient.partnerDeal("", "", mobile, newPassword, GrantType.UPDATEPASSWORD);
                 if (!(res.isSuccess())) {
                     return res;
                 }

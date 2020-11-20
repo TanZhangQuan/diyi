@@ -52,7 +52,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> implements IMakerService {
 
-    private IUserService iUserService;
+    private IUserService userService;
     private SmsUtil smsUtil;
     private RedisUtil redisUtil;
     private AliyunOssService ossService;
@@ -171,7 +171,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             user.setUserType(UserType.MAKER);
             user.setAccount(purePhoneNumber);
             user.setPhone(purePhoneNumber);
-            iUserService.save(user);
+            userService.save(user);
 
             //新建创客
             makerEntity = new MakerEntity();
@@ -622,11 +622,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
     @Override
     public MakerEntity findByIdcardNo(String idcardNo) {
-
-        if (StringUtil.isBlank(idcardNo)) {
-            return null;
-        }
-
         QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(MakerEntity::getIdcardNo, idcardNo);
 

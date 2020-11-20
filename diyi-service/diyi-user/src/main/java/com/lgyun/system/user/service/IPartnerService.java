@@ -20,6 +20,63 @@ import com.lgyun.system.user.vo.PartnerVO;
 public interface IPartnerService extends BaseService<PartnerEntity> {
 
     /**
+     * 新建合伙人
+     *
+     * @param openid
+     * @param sessionKey
+     * @param phoneNumber
+     * @param password
+     */
+    PartnerEntity partnerSave(String openid, String sessionKey, String phoneNumber, String password);
+
+    /**
+     * 新建合伙人
+     *
+     * @param purePhoneNumber
+     * @param name
+     * @param idcardNo
+     * @param bankCardNo
+     * @param bankName
+     * @param subBankName
+     * @return
+     */
+    PartnerEntity partnerSave(String purePhoneNumber, String loginPwd, String name, String idcardNo, String bankCardNo, String bankName, String subBankName, Long introducePartnerId);
+
+    /**
+     * 根据手机号查询合伙人
+     *
+     * @param phoneNumber
+     * @return
+     */
+    PartnerEntity findByPhoneNumber(String phoneNumber);
+
+    /**
+     * 根据身份证号查找合伙人
+     *
+     * @param idcardNo
+     * @return
+     */
+    PartnerEntity findByIdcardNo(String idcardNo);
+
+    /**
+     * 修改创客微信信息
+     *
+     * @param partnerEntity
+     * @param openid
+     * @param sessionKey
+     */
+    void partnerUpdate(PartnerEntity partnerEntity, String openid, String sessionKey);
+
+    /**
+     * 根据账号密码查询合伙人
+     *
+     * @param phoneNumber
+     * @param password
+     * @return
+     */
+    PartnerEntity findByPhoneNumberAndLoginPwd(String phoneNumber, String password);
+
+    /**
      * 平台查询所有合伙人
      *
      * @param page
@@ -53,5 +110,6 @@ public interface IPartnerService extends BaseService<PartnerEntity> {
      * @return
      */
     R updatePartner(UpdatePartnerDTO updatePartnerDTO, AdminEntity adminEntity);
+
 }
 

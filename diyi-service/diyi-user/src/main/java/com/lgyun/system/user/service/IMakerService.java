@@ -102,7 +102,7 @@ public interface IMakerService extends BaseService<MakerEntity> {
     MakerEntity makerSave(String purePhoneNumber, String name, String idcardNo, String bankCardNo, String bankName, String subBankName, Long enterpriseId);
 
     /**
-     * 修改创客
+     * 修改创客微信信息
      *
      * @param makerEntity
      * @param openid

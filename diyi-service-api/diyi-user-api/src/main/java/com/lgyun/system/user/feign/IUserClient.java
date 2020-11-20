@@ -198,6 +198,19 @@ public interface IUserClient {
     R<String> makerDeal(@RequestParam("openid") String openid, @RequestParam("sessionKey") String sessionKey, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
 
     /**
+     * 合伙人处理
+     *
+     * @param openid
+     * @param sessionKey
+     * @param phoneNumber
+     * @param password
+     * @param grantType
+     * @return
+     */
+    @PostMapping(API_PREFIX + "/partner-deal")
+    R<String> partnerDeal(@RequestParam("openid") String openid, @RequestParam("sessionKey") String sessionKey, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
+
+    /**
      * 商户处理
      *
      * @param phoneNumber

@@ -18,49 +18,50 @@ public class AddPartnerDTO implements Serializable {
     /**
      * 介绍合伙人ID
      */
-    private Long introducePartnerID;
+    private Long introducePartnerId;
 
     /**
      * 合伙人姓名
      */
-    @NotBlank(message = "合伙人姓名不能为空")
+    @NotBlank(message = "请输入合伙人姓名")
     private String name;
 
     /**
      * 身份证号码
      */
-    @NotBlank(message = "合伙人身份证号码不能为空")
+    @NotBlank(message = "请输入合伙人身份证号码")
     private String idcardNo;
 
     /**
      * 手机号码
      */
-    @NotBlank(message = "合伙人手机号码不能为空")
-    @Length(min = 11, max = 11, message = "请输入11位的联系人1电话/手机")
-    @Pattern(regexp = "[0-9]*", message = "请输入有效的联系人1电话/手机")
+    @NotBlank(message = "请输入合伙人手机号码")
+    @Length(min = 11, max = 11, message = "请输入11位的合伙人手机号码")
+    @Pattern(regexp = "[0-9]*", message = "请输入有效的合伙人手机号码")
     private String phoneNumber;
 
     /**
      * 银行卡号
      */
-    @NotBlank(message = "合伙人银行卡号不能为空")
+    @NotBlank(message = "请输入合伙人银行卡号")
     private String bankCardNo;
 
     /**
      * 开户银行
      */
-    @NotBlank(message = "合伙人开户银行不能为空")
+    @NotBlank(message = "请输入合伙人开户银行")
     private String bankName;
 
     /**
      * 开户支行
      */
-    @NotBlank(message = "合伙人开户支行不能为空")
+    @NotBlank(message = "请输入合伙人开户支行")
     private String subBankName;
 
     /**
      * 登陆密码
      */
     @NotBlank(message = "请输入初始密码")
+    @Length(min = 6, max = 18, message = "请输入长度为6-18位的初始密码")
     private String loginPwd;
 }

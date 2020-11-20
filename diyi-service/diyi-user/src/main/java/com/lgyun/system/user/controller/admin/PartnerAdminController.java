@@ -53,12 +53,13 @@ public class PartnerAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
+
         return partnerService.getPartnerList(Condition.getPage(query.setDescs("p.create_time")), queryPartnerDTO);
     }
 
     @PostMapping("/modify-illegal")
     @ApiOperation(value = "修改合伙人状态", notes = "修改合伙人状态")
-    public R modifyIllegal(@NotNull(message = "请选择合伙人")@RequestParam(required = false) Long partnerId,
+    public R modifyIllegal(@NotNull(message = "请选择合伙人") @RequestParam(required = false) Long partnerId,
                            @NotNull(message = "请选择合伙人状态") @RequestParam(required = false) AccountState accountState, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
@@ -66,6 +67,7 @@ public class PartnerAdminController {
             return result;
         }
         AdminEntity adminEntity = result.getData();
+
         return partnerService.updateIllegal(partnerId, accountState, adminEntity);
     }
 
@@ -78,6 +80,7 @@ public class PartnerAdminController {
             return result;
         }
         AdminEntity adminEntity = result.getData();
+
         return partnerService.addPartner(addPartnerDTO, adminEntity);
     }
 
@@ -90,6 +93,7 @@ public class PartnerAdminController {
             return result;
         }
         AdminEntity adminEntity = result.getData();
+
         return partnerService.updatePartner(updatePartnerDTO, adminEntity);
     }
 

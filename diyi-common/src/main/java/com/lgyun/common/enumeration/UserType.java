@@ -15,7 +15,8 @@ public enum UserType {
     MAKER("MAKER", "创客"),
     ENTERPRISE("ENTERPRISE", "商户"),
     SERVICEPROVIDER("SERVICEPROVIDER", "服务商"),
-    AGENTMAIN("AGENTMAIN","渠道商");
+    AGENTMAIN("AGENTMAIN","渠道商"),
+    PARTNER("PARTNER", "合伙人");
 
     private final String value;
     private final String desc;

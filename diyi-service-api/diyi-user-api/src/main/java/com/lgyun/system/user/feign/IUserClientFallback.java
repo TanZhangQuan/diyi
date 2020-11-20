@@ -109,6 +109,11 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
+    public R<String> partnerDeal(String openid, String sessionKey, String phoneNumber, String password, GrantType grantType) {
+        throw new CustomException("网络繁忙，请稍后尝试");
+    }
+
+    @Override
     public R<String> enterpriseWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
