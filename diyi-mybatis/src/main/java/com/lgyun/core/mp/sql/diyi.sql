@@ -288,12 +288,13 @@ CREATE TABLE `diyi_agent_main` (
 -- ----------------------------
 -- Table structure for `diyi_agent_person`
 -- ----------------------------
-DROP TABLE IF EXISTS `diyi_agent_person`;
-CREATE TABLE `diyi_agent_person` (
+DROP TABLE IF EXISTS `diyi_agent_main_worker`;
+CREATE TABLE `diyi_agent_main_worker` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `agent_main_id` bigint(50) NOT NULL COMMENT '渠道商ID',
-  `worker_id` bigint(50) NOT NULL COMMENT '工作人员ID',
+  `user_id` bigint(50) NOT NULL COMMENT '管理者ID',
   `avatar` varchar(500) NOT NULL DEFAULT '' COMMENT '头像',
+  `agent_main_worker_state` varchar(50) NOT NULL COMMENT '商户员工账户状态',
   `worker_name` varchar(50) NOT NULL COMMENT '姓名',
   `worker_sex` varchar(50) NOT NULL DEFAULT '' COMMENT '性别',
   `position_name` varchar(50) NOT NULL COMMENT '岗位性质',
@@ -301,7 +302,9 @@ CREATE TABLE `diyi_agent_person` (
   `up_level_id` bigint(50) DEFAULT NULL COMMENT '上级主管',
   `employee_user_name` varchar(50) NOT NULL COMMENT '用户名',
   `employee_pwd` varchar(100) NOT NULL COMMENT '密码',
-  `admin_power` varchar(50) NOT NULL COMMENT '管理员特性',
+  `role_id` bigint(50) NOT NULL COMMENT '角色ID',
+  `super_admin` bit(1) NOT NULL COMMENT '管理员权限',
+  `admin_power` bit(1) NOT NULL COMMENT '管理员特性',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
@@ -311,8 +314,8 @@ CREATE TABLE `diyi_agent_person` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`phone_number`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`employee_user_name`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`worker_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='渠道商人员表';
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='渠道商员工表';
 
 -- ----------------------------
 -- Records of diyi_agent_person
