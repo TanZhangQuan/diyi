@@ -120,7 +120,7 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
     public R createOrUpdateRoleMenus(RoleMenusDTO roleMenusDTO, Long id) {
         ServiceProviderWorkerEntity enterpriseWorkerEntity = this.getById(id);
         if (!enterpriseWorkerEntity.getSuperAdmin()) {
-            if (!sysClient.getMenuIds(enterpriseWorkerEntity.getRoleId()).contains(Arrays.asList(roleMenusDTO.getMenus()))) {
+            if (!sysClient.queryMenusByRole(enterpriseWorkerEntity.getRoleId()).contains(Arrays.asList(roleMenusDTO.getMenus()))) {
                 return R.fail("只能分配您拥有的菜单！");
             }
         }
@@ -149,7 +149,7 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
         if (role == null) {
             return R.fail("您输入的角色ID不存在！");
         }
-        List<String> menuIds = sysClient.getMenuIds(roleId);
+        List<String> menuIds = sysClient.queryMenusByRole(roleId);
         RoleMenuInfoVO roleMenuInfoVo = new RoleMenuInfoVO();
         BeanUtils.copyProperties(role, roleMenuInfoVo);
         roleMenuInfoVo.setMenuIds(menuIds);
