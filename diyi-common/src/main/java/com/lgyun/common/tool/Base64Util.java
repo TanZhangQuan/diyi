@@ -8,7 +8,7 @@ import java.net.URL;
 /**
  * Base64工具
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/5 18:00
  */
 public class Base64Util extends org.springframework.util.Base64Utils {

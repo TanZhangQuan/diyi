@@ -7,7 +7,7 @@ import com.lgyun.common.api.ResultCode;
 /**
  * Secure异常
  *
- * @author liangfeihu
+ * @author tzq
  */
 public class CustomException extends RuntimeException {
 	private static final long serialVersionUID = 2359767895161832954L;

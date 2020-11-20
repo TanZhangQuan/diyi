@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 /**
  * 项目启动器，搞定环境变量问题
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/3 18:56
  */
 @Slf4j

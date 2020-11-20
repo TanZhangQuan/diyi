@@ -13,7 +13,7 @@ import java.util.Date;
 /**
  * 记录服务商开具给商户的总包发票 Entity
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-08-11 14:25:28
  */
 @Data

@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 /**
  * 服务商开票类目表 Service 实现
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-11-12 17:54:16
  */
 @Slf4j

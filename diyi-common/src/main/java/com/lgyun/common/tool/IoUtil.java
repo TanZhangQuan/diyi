@@ -10,7 +10,7 @@ import java.io.OutputStream;
 /**
  * IoUtil
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/5 17:55
  */
 public class IoUtil extends org.springframework.util.StreamUtils {

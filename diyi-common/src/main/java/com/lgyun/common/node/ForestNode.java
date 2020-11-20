@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 /**
  * 森林节点类
  *
- * @author liangfeihu
+ * @author tzq
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

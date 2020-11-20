@@ -3,7 +3,7 @@ package com.lgyun.common.tenant;
 /**
  * 租户id生成器
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/5 17:43
  */
 public interface TenantId {

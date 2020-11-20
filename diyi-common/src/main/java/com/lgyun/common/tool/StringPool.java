@@ -3,7 +3,7 @@ package com.lgyun.common.tool;
 /**
  * 静态 String 池
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/5 17:51
  */
 public interface StringPool {

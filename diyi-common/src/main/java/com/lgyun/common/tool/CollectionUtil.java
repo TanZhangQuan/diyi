@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * 集合工具类
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/5 17:54
  */
 public class CollectionUtil extends CollectionUtils {

@@ -18,7 +18,7 @@ import org.springframework.web.reactive.function.server.RouterFunctions;
 /**
  * 路由配置信息
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/2 23:24
  */
 @Slf4j

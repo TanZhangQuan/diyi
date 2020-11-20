@@ -3,7 +3,7 @@ package com.lgyun.common.support;
 /**
  * 图片操作类
  *
- * @author liangfeihu
+ * @author tzq
  */
 public class ImagePosition {
 

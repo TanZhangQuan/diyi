@@ -3,7 +3,7 @@ package com.lgyun.generator.entity;
 /**
  * 列的属性
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2018/6/22 11:10.
  */
 public class ColumnEntity {

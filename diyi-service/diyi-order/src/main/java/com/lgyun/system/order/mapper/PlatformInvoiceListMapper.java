@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * 记录服务商开具给商户的总包发票 Mapper
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-08-11 14:25:28
  */
 @Mapper

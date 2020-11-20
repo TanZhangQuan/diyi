@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * Feign接口类
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/6 19:19
  */
 @FeignClient(

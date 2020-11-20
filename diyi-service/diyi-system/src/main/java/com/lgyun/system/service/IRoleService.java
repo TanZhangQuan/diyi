@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 服务类
  *
- * @author liangfeihu
+ * @author tzq
  */
 public interface IRoleService extends BaseService<Role> {
 

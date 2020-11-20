@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * swagger配置
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/6 00:01
  */
 @Configuration

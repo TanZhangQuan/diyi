@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 /**
  * 众包交付支付验收单清单表 Entity
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-10-29 19:55:38
  */
 @Data

@@ -3,7 +3,7 @@ package com.lgyun.common.constant;
 /**
  * WechatConstant
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/2 23:32
  */
 public interface KuaiDiNiaoConstant {

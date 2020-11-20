@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 /**
  * 角色菜单对应关系 实体类
  *
- * @author liangfeihu
+ * @author tzq
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

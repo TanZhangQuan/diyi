@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 /**
  * 租户基础实体类
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/6 00:39
  */
 @Data

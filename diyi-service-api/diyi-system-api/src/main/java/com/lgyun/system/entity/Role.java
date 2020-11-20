@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 /**
  * 系统角色 实体类
  *
- * @author liangfeihu
+ * @author tzq
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

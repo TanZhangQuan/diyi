@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * 菜单数据传输对象实体类
  *
- * @author liangfeihu
+ * @author tzq
  */
 @Data
 public class MenuDTO implements Serializable {

@@ -13,7 +13,7 @@ import java.util.Date;
 /**
  * 总包+分包交付支付验收单表 Entity
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-07-17 14:38:25
  */
 @Data

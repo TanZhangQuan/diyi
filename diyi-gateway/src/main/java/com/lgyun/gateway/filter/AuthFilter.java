@@ -26,7 +26,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * 鉴权认证
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/2 23:25
  */
 @Slf4j

@@ -3,7 +3,7 @@ package com.lgyun.common.constant;
 /**
  * sentinel配置.
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/3 18:58
  */
 public interface SentinelConstant {

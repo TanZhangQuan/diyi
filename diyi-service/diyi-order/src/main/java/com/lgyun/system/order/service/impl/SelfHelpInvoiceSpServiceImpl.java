@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 /**
  * 自助开票-服务商：记录自助开票主表的提交给不同服务商的 Service 实现
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-08-19 16:10:30
  */
 @Slf4j

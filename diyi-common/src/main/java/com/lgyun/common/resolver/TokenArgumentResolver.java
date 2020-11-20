@@ -12,7 +12,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 /**
  * Token转化BladeUser
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/5 18:28
  */
 @Slf4j

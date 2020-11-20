@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 /**
  * 异常处理器
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2018/6/23 18:15.
  */
 @RestControllerAdvice

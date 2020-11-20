@@ -9,7 +9,7 @@ import com.lgyun.common.tool.StringUtil;
 /**
  * 权限判断
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/5 18:55
  */
 public class AuthFun {

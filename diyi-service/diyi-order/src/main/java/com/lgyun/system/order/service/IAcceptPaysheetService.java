@@ -11,7 +11,7 @@ import com.lgyun.system.order.vo.*;
 /**
  * Service 接口
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-07-17 14:38:25
  */
 public interface IAcceptPaysheetService extends BaseService<AcceptPaysheetEntity> {

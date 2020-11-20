@@ -12,7 +12,7 @@ import org.springframework.util.StringUtils;
 /**
  * 项目启动事件通知
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/3 19:01
  */
 @Slf4j

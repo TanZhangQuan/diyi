@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * 多租户配置类
  *
- * @author liangfeihu
+ * @author tzq
  */
 @Configuration
 @AllArgsConstructor

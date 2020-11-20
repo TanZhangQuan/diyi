@@ -16,7 +16,7 @@ import com.lgyun.system.user.vo.AgentMainServiceProviderVO;
 /**
  * 渠道商信息表 Service 接口
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-10-20 18:25:03
  */
 public interface IAgentMainService extends BaseService<AgentMainEntity> {

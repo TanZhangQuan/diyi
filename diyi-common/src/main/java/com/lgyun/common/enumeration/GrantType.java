@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * 授权类型枚举
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/6 01:04
  */
 @Getter

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 /**
  * 系统部门 实体类
  *
- * @author liangfeihu
+ * @author tzq
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

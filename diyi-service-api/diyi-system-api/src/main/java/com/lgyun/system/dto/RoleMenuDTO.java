@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 /**
  * 角色菜单 数据传输对象实体类
  *
- * @author liangfeihu
+ * @author tzq
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

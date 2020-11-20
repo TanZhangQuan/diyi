@@ -3,7 +3,7 @@ package com.lgyun.common.constant;
 /**
  * 系统常量
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/5 18:47
  */
 public interface BladeConstant {

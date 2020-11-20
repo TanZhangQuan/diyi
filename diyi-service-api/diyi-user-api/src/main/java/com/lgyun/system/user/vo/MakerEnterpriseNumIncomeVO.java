@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 /**
  * 创客关联商户数和收入情况VO
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/6 00:28
  */
 @Data

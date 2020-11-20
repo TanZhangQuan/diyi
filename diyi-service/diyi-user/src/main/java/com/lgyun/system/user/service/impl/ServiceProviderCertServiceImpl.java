@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 /**
  * 服务商资格信息表 Service 实现
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-09-17 10:58:41
  */
 @Slf4j

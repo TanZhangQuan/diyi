@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 授权请求
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/8/24 18:19
  */
 @Data

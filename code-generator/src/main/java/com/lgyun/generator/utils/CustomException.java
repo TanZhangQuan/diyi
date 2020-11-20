@@ -3,7 +3,7 @@ package com.lgyun.generator.utils;
 /**
  * 自定义异常
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2018/6/20 18:15.
  */
 public class CustomException extends RuntimeException {

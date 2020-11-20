@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 /**
  * 岗位表 服务实现类
  *
- * @author liangfeihu
+ * @author tzq
  */
 @Service
 public class PostServiceImpl extends BaseServiceImpl<PostMapper, Post> implements IPostService {

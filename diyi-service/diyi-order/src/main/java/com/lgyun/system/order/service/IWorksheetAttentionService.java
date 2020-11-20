@@ -6,7 +6,7 @@ import com.lgyun.system.order.entity.WorksheetAttentionEntity;
 /**
  *  Service 接口
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-06-26 17:21:06
  */
 public interface IWorksheetAttentionService extends BaseService<WorksheetAttentionEntity> {

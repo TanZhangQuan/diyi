@@ -26,7 +26,7 @@ import static com.lgyun.common.constant.TokenConstant.CLIENT_ID;
 /**
  * 认证工具类
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/6 00:21
  */
 @Component

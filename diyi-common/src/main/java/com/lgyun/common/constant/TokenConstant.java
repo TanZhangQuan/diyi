@@ -3,7 +3,7 @@ package com.lgyun.common.constant;
 /**
  * TokenConstant
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/2 23:18
  */
 public interface TokenConstant {

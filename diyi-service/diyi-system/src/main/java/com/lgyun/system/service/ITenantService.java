@@ -7,7 +7,7 @@ import com.lgyun.system.entity.Tenant;
 /**
  * 服务类
  *
- * @author liangfeihu
+ * @author tzq
  */
 public interface ITenantService extends BaseService<Tenant> {
 

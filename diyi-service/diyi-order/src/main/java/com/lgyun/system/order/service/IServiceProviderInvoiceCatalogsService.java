@@ -11,7 +11,7 @@ import com.lgyun.system.order.vo.ProviderInvoiceCatalogListVO;
 /**
  * 商户-服务商开票类目表 Service 接口
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-11-12 17:54:16
  */
 public interface IServiceProviderInvoiceCatalogsService extends BaseService<ServiceProviderInvoiceCatalogsEntity> {

@@ -29,7 +29,7 @@ import java.util.function.Supplier;
 /**
  * 工具包集合，只做简单的调用，不删除原有工具类
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/5 17:53
  */
 public class Func {

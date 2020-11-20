@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 /**
  * 服务商收款账户信息表 Entity
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-11-08 20:57:37
  */
 @Data

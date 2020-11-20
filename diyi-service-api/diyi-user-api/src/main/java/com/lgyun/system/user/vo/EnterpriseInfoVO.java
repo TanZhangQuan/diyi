@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * EnterpriseInfoVO
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/8/18 22:40
  */
 @Data

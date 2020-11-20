@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Mapper 接口
  *
- * @author liangfeihu
+ * @author tzq
  */
 public interface RoleMenuMapper extends BaseMapper<RoleMenu> {
 

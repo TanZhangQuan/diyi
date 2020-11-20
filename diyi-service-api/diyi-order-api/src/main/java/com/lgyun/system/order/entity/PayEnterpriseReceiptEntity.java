@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 /**
  * Entity
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-07-17 20:01:13
  */
 @Data

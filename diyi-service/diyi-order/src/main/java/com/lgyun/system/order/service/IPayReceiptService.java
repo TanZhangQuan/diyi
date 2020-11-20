@@ -6,7 +6,7 @@ import com.lgyun.system.order.entity.PayReceiptEntity;
 /**
  *  Service 接口
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-07-25 14:38:06
  */
 public interface IPayReceiptService extends BaseService<PayReceiptEntity> {

@@ -9,7 +9,7 @@ import java.util.List;
  * 基础业务接口
  *
  * @param <T>
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/6 00:41
  */
 public interface BaseService<T> extends IService<T> {

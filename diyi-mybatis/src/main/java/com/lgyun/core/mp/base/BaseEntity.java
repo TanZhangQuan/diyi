@@ -15,7 +15,7 @@ import java.util.Date;
 /**
  * 基础实体类
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/6 00:40
  */
 @Data

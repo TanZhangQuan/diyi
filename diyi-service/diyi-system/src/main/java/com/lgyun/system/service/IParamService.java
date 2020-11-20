@@ -8,7 +8,7 @@ import com.lgyun.system.vo.ParamVO;
 /**
  * 服务类
  *
- * @author liangfeihu
+ * @author tzq
  */
 public interface IParamService extends BaseService<Param> {
 

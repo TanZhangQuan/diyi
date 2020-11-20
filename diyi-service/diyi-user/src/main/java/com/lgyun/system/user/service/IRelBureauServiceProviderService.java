@@ -11,7 +11,7 @@ import com.lgyun.system.user.vo.RelBureauServiceProviderVO;
 /**
  * 相关局与服务商关联表 Service 接口
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-10-20 18:47:56
  */
 public interface IRelBureauServiceProviderService extends BaseService<RelBureauServiceProviderEntity> {

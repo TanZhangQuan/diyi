@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * 平台管理员信息表 Service 接口
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-09-19 15:02:12
  */
 public interface IAdminService extends BaseService<AdminEntity> {

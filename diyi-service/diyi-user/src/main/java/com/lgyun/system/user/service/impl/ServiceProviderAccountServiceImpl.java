@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 /**
  * 服务商收款账户信息表 Service 实现
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-11-08 20:57:37
  */
 @Slf4j

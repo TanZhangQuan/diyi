@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * UserDTO
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/6 22:12
  */
 @Data

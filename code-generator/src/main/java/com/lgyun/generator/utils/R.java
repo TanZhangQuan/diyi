@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * 返回数据
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2018/4/23 18:14.
  */
 public class R extends HashMap<String, Object> {

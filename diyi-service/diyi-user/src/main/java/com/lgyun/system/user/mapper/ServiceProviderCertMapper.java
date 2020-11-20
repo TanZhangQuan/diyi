@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 服务商资格信息表 Mapper
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-09-17 10:58:41
  */
 @Mapper

@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 /**
  * 树型节点类
  *
- * @author liangfeihu
+ * @author tzq
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

@@ -13,7 +13,7 @@ import com.lgyun.system.order.service.ISelfHelpInvoiceApplyService;
 /**
  * 自助开票申请：记录自助开票主表的申请记录情况 Service 实现
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-08-08 10:36:37
  */
 @Slf4j

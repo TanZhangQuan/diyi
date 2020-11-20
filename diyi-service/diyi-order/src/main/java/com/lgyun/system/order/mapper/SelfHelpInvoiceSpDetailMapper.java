@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * 服务商开票明细：是从自助开票明细中选择过来的，信息是一致的 Mapper
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-08-19 16:10:30
  */
 @Mapper

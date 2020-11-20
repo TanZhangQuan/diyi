@@ -5,7 +5,7 @@ import java.lang.annotation.*;
 /**
  * 权限注解 用于检查权限 规定访问权限
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/5 18:51
  */
 @Target({ElementType.METHOD, ElementType.TYPE})

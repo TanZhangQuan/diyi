@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 /**
  * 相关局合作协议表 Entity
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-10-20 18:47:56
  */
 @Data

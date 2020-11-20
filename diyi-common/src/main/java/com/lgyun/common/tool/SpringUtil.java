@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 /**
  * spring 工具类
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/5 19:08
  */
 @Slf4j

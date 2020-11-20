@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Service 接口
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-07-17 20:01:13
  */
 public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> {

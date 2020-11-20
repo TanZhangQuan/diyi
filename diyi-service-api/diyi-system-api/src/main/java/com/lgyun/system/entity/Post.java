@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 /**
  * 岗位表 实体类
  *
- * @author liangfeihu
+ * @author tzq
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

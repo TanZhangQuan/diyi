@@ -7,7 +7,7 @@ import lombok.Data;
 /**
  * 实体类
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/6 19:21
  */
 @Data

@@ -5,7 +5,7 @@ import java.io.OutputStream;
 /**
  * A factory for creating MultiOutputStream objects.
  *
- * @author liangfeihu
+ * @author tzq
  */
 public interface IMultiOutputStream {
 

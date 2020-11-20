@@ -8,7 +8,7 @@ import org.springframework.util.unit.DataSize;
 import javax.servlet.MultipartConfigElement;
 
 /**
- * Created by liangfeihu on 2018/7/26.
+ * Created by tzq on 2018/7/26.
  */
 @Configuration
 public class MultipartConfig {

@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by Blade.
  *
- * @author liangfeihu
+ * @author tzq
  */
 public interface INode extends Serializable {
 

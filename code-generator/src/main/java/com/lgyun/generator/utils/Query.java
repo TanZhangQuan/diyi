@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * 查询参数
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2018/4/21 18:14.
  */
 public class Query extends LinkedHashMap<String, Object> {

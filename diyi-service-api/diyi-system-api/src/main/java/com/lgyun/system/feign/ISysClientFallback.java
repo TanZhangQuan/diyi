@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * 系统服务模块 Feign失败配置
  *
- * @author liangfeihu
+ * @author tzq
  */
 @Component
 public class ISysClientFallback implements ISysClient {

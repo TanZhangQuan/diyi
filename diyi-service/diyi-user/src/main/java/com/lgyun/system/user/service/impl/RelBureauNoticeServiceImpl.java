@@ -14,7 +14,7 @@ import com.lgyun.system.user.service.IRelBureauNoticeService;
 /**
  * 相关局通知管理表 Service 实现
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-10-20 18:47:56
  */
 @Slf4j

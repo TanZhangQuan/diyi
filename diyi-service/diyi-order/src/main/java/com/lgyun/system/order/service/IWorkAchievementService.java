@@ -6,7 +6,7 @@ import com.lgyun.system.order.entity.WorkAchievementEntity;
 /**
  *  Service 接口
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-07-25 14:38:06
  */
 public interface IWorkAchievementService extends BaseService<WorkAchievementEntity> {

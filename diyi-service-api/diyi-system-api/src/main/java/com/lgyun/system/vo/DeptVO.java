@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * 部门 视图实体类
  *
- * @author liangfeihu
+ * @author tzq
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

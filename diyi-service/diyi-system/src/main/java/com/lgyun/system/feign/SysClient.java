@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * 系统服务Feign实现类
  *
- * @author liangfeihu
+ * @author tzq
  */
 @ApiIgnore
 @RestController

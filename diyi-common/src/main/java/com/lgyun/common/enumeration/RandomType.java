@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * 生成的随机数类型
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/5 17:49
  */
 @Getter

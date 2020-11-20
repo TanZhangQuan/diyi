@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 /**
  * 税务局管理表 Entity
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-10-20 18:47:56
  */
 @Data

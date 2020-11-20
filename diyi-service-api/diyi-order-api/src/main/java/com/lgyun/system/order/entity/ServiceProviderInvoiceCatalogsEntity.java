@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 /**
  * 商户-服务商开票类目表 Entity
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-11-12 17:54:16
  */
 @Data

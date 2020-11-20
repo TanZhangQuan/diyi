@@ -11,7 +11,7 @@ import com.lgyun.system.user.vo.ServiceProviderCertUpdateDetailVO;
 /**
  * 服务商资格信息表 Service 接口
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-09-17 10:58:41
  */
 public interface IServiceProviderCertService extends BaseService<ServiceProviderCertEntity> {

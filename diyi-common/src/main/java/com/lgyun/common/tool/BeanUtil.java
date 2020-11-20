@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * 实体工具类
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/5 18:00
  */
 public class BeanUtil extends org.springframework.beans.BeanUtils {

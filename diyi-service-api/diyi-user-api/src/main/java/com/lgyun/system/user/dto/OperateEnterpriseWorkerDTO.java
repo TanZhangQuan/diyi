@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * OperateEnterpriseWorkerDTO
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/8/24 11:40
  */
 @Data

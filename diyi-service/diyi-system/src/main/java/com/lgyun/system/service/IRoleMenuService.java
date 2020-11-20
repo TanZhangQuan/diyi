@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 服务类
  *
- * @author liangfeihu
+ * @author tzq
  */
 public interface IRoleMenuService extends BaseService<RoleMenu> {
 

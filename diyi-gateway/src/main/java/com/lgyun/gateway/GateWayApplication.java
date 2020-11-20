@@ -9,7 +9,7 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 /**
  * 网关项目服务器
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/2 23:07
  */
 @Slf4j

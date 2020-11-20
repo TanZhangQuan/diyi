@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 /**
  * 视图包装基类
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/6 00:43
  */
 public abstract class BaseEntityWrapper<E, V> {

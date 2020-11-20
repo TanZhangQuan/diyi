@@ -6,7 +6,7 @@ import org.springframework.core.Ordered;
 /**
  * launcher 扩展 用于一些组件发现
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/3 00:00
  */
 public interface LauncherService extends Ordered, Comparable<LauncherService>  {

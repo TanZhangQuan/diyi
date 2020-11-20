@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * 数据传输对象实体类
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/6 19:24
  */
 @Data

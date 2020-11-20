@@ -10,7 +10,7 @@ import com.lgyun.system.order.vo.*;
 /**
  * 众包交付支付验收单表 Service 接口
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-08-05 10:43:29
  */
 public interface IAcceptPaysheetCsService extends BaseService<AcceptPaysheetCsEntity> {

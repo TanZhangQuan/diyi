@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * TokenInfo
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/5 19:00
  */
 @Data

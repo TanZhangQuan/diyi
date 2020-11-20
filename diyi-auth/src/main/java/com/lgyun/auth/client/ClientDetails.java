@@ -6,7 +6,7 @@ import lombok.Data;
 /**
  * 客户端详情
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/5 19:04
  */
 @Data

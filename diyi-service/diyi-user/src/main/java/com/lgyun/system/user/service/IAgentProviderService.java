@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 渠道商服务商表 Service 接口
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-10-20 18:25:03
  */
 public interface IAgentProviderService extends BaseService<AgentProviderEntity> {

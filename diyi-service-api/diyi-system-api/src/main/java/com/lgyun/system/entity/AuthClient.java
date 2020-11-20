@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 /**
  * 系统客户端 实体类
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2019-03-24
  */
 @Data

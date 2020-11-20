@@ -13,7 +13,7 @@ import java.util.Date;
 /**
  * 相关局通知管理表 Entity
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-10-20 18:47:56
  */
 @Data

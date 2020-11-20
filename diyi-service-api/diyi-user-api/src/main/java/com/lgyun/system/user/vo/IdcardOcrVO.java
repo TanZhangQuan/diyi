@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * 身份证识别返回对象
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/6 00:28
  */
 @Data

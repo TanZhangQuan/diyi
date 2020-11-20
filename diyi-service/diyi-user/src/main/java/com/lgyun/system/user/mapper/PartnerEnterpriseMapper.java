@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * 合伙人-商户关联表 Mapper
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-10-20 18:25:03
  */
 @Mapper

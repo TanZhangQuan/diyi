@@ -12,7 +12,7 @@ import java.util.Date;
 /**
  * 合伙人-商户关联表 Entity
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-10-20 18:25:03
  */
 @Data

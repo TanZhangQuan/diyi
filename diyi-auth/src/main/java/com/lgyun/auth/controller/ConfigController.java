@@ -18,7 +18,7 @@ import java.util.Map;
  * 配置中心 Nacos API测试
  * 只需添加注解 @RefreshScope
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/28 15:16
  */
 @ApiIgnore

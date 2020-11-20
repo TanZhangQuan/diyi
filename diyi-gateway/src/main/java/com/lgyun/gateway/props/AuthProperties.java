@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 权限过滤, 可根据配置中心动态配置
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/2 23:30
  */
 @Data

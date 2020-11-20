@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 配置中心 Nacos API测试
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/28 15:16
  */
 @RefreshScope

@@ -15,7 +15,7 @@ import java.util.Date;
 /**
  * 商户端创客详情VO
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/6 00:28
  */
 @Data

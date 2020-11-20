@@ -3,7 +3,7 @@ package com.lgyun.common.constant;
 /**
  * 系统默认角色
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/5 18:48
  */
 public interface RoleConstant {

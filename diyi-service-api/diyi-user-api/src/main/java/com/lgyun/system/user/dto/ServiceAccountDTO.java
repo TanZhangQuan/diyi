@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * ServiceAccountDTO
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/9/19 16:40
  */
 @Data

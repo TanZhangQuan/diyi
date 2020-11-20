@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * 渠道商信息表 Service 实现
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-10-20 18:25:03
  */
 @Slf4j

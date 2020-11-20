@@ -7,7 +7,7 @@ import com.lgyun.system.entity.Role;
 /**
  * 角色数据传输对象实体类
  *
- * @author liangfeihu
+ * @author tzq
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

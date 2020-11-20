@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 岗位表 服务类
  *
- * @author liangfeihu
+ * @author tzq
  */
 public interface IPostService extends BaseService<Post> {
 

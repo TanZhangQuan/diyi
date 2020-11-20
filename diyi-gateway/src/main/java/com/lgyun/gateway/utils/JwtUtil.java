@@ -10,7 +10,7 @@ import java.util.Base64;
 /**
  * JwtUtil
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/2 23:16
  */
 public class JwtUtil {

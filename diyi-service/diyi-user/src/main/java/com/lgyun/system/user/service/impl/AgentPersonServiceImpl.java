@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 /**
  * 渠道商人员表 Service 实现
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-10-20 18:25:03
  */
 @Slf4j

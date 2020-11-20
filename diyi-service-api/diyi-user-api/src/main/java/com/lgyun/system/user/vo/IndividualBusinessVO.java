@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 /**
  * 视图实体类
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/6 00:28
  */
 @Data

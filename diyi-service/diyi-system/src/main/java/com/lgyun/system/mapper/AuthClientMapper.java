@@ -6,7 +6,7 @@ import com.lgyun.system.entity.AuthClient;
 /**
  * Mapper 接口
  *
- * @author liangfeihu
+ * @author tzq
  */
 public interface AuthClientMapper extends BaseMapper<AuthClient> {
 

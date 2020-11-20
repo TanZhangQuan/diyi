@@ -9,7 +9,7 @@ import com.lgyun.system.user.vo.RelBureauNoticeVO;
 /**
  * 相关局通知管理表 Service 接口
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-10-20 18:47:56
  */
 public interface IRelBureauNoticeService extends BaseService<RelBureauNoticeEntity> {

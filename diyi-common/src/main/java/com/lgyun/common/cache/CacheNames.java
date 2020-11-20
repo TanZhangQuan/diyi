@@ -3,7 +3,7 @@ package com.lgyun.common.cache;
 /**
  * 缓存名
  *
- * @author liangfeihu
+ * @author tzq
  */
 public interface CacheNames {
 

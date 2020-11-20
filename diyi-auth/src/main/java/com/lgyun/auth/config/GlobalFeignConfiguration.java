@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * feign 日志
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/7/16 23:35
  */
 @Configuration

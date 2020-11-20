@@ -10,7 +10,7 @@ import springfox.documentation.annotations.ApiIgnore;
 /**
  * 字典服务Feign实现类
  *
- * @author liangfeihu
+ * @author tzq
  */
 @ApiIgnore
 @RestController

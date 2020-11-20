@@ -13,7 +13,7 @@ import java.util.Objects;
 /**
  * Secure工具类
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/5 18:57
  */
 public class SecureUtil {

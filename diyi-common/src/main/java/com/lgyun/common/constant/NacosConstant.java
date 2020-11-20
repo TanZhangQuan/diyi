@@ -3,7 +3,7 @@ package com.lgyun.common.constant;
 /**
  * Nacos常量.
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/3 18:58
  */
 public interface NacosConstant {

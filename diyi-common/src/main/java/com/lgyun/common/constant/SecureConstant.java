@@ -3,7 +3,7 @@ package com.lgyun.common.constant;
 /**
  * 授权校验常量
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/5 18:39
  */
 public interface SecureConstant {

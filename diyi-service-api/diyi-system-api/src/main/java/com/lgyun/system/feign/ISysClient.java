@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * 系统服务模块 Feign接口类
  *
- * @author liangfeihu
+ * @author tzq
  */
 @FeignClient(
         value = AppConstant.APPLICATION_SYSTEM_NAME,

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 /**
  * 服务实现类
  *
- * @author liangfeihu
+ * @author tzq
  */
 @Service
 public class ParamServiceImpl extends BaseServiceImpl<ParamMapper, Param> implements IParamService {

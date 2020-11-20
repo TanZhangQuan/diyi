@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * 配置文件
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/5 23:30
  */
 @ConfigurationProperties("blade")

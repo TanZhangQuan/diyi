@@ -6,7 +6,7 @@ import com.lgyun.system.entity.AuthClient;
 /**
  *  服务类
  *
- * @author liangfeihu
+ * @author tzq
  */
 public interface IAuthClientService extends BaseService<AuthClient> {
 

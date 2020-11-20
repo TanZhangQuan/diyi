@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * 业务代码接口
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/5 18:41
  */
 public interface IResultCode extends Serializable {

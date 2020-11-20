@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 鉴权配置, 配置系统放行API
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/2 23:34
  */
 public class AuthProvider {

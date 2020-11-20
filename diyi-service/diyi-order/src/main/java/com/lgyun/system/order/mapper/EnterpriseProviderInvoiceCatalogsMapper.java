@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 商户-服务商开票类目：记录商户在特定服务商的开票类目 Mapper
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-08-11 16:00:00
  */
 @Mapper

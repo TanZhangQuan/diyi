@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * 异常处理配置类
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/2 23:22
  */
 @Configuration

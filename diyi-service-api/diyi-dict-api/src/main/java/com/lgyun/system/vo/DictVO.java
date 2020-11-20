@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 视图实体类
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/6 19:18
  */
 @Data

@@ -31,7 +31,7 @@ import java.time.Duration;
 /**
  * RedisTemplate 配置
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/27 21:57
  */
 @Slf4j

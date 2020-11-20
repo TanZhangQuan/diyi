@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * 定义常用的 sql关键字
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/6 00:50
  */
 public class SqlKeyword {

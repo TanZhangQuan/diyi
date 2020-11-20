@@ -7,7 +7,7 @@ import com.lgyun.system.order.entity.PayMakerReceiptEntity;
 /**
  * Service 接口
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-08-04 14:20:06
  */
 public interface IPayMakerReceiptService extends BaseService<PayMakerReceiptEntity> {

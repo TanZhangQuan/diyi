@@ -22,7 +22,7 @@ import javax.validation.Valid;
 /**
  *  应用管理控制器
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/6 23:26
  */
 @RestController

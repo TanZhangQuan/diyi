@@ -1,23 +1,16 @@
 package com.lgyun.system.order.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModelProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.lgyun.core.mp.base.BaseEntity;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
 
 /**
  * 总包开票申请关联的支付清单 Entity
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-08-11 16:00:00
  */
 @Data

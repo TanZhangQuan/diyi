@@ -14,7 +14,7 @@ import java.util.Objects;
  * 将redis key序列化为字符串
  * spring cache中的简单基本类型直接使用 StringRedisSerializer 会有问题
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/27 21:56
  */
 public class RedisKeySerializer implements RedisSerializer<Object> {

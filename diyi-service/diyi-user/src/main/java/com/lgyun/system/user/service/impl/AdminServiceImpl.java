@@ -40,7 +40,7 @@ import java.util.List;
 /**
  * 平台管理员信息表 Service 实现
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-09-19 15:02:12
  */
 @Slf4j

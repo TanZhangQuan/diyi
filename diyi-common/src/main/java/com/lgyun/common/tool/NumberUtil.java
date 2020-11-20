@@ -5,7 +5,7 @@ import org.springframework.lang.Nullable;
 /**
  * 数字类型工具类
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020/6/5 17:54
  */
 public class NumberUtil extends org.springframework.util.NumberUtils {

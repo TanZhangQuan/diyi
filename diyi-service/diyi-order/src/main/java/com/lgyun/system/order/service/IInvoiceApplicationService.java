@@ -8,7 +8,7 @@ import com.lgyun.system.order.entity.InvoiceApplicationEntity;
 /**
  * 开票申请：记录商户的总包开票申请 Service 接口
  *
- * @author liangfeihu
+ * @author tzq
  * @since 2020-08-11 16:00:00
  */
 public interface IInvoiceApplicationService extends BaseService<InvoiceApplicationEntity> {

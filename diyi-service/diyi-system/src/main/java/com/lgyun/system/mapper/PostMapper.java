@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 岗位表 Mapper 接口
  *
- * @author liangfeihu
+ * @author tzq
  */
 public interface PostMapper extends BaseMapper<Post> {
 
