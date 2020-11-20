@@ -3,6 +3,7 @@ package com.lgyun.system.feign;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.MenuType;
 import com.lgyun.common.enumeration.UserType;
+import com.lgyun.common.exception.CustomException;
 import com.lgyun.system.dto.GrantDTO;
 import com.lgyun.system.dto.RoleMenusDTO;
 import com.lgyun.system.entity.Dept;
@@ -23,113 +24,101 @@ public class ISysClientFallback implements ISysClient {
 
     @Override
     public Dept getDept(Long id) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public String getDeptName(Long id) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public String getDeptIds(String tenantId, String deptNames) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public List<String> getDeptNames(String deptIds) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public String getPostIds(String tenantId, String postNames) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public List<String> getPostNames(String postIds) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public Role getRole(Long id) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public String getRoleIds(String tenantId, String roleNames) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public String getRoleName(Long id) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public List<String> getRoleNames(String roleIds) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public String getRoleAlias(Long id) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
-    /**
-     * 授权接口
-     *
-     * @param request
-     * @return
-     */
     @Override
     public R grantFeign(GrantDTO request) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public R createOrUpdateRoleMenus(RoleMenusDTO roleMenusDTO, Long account) {
-        return R.fail("操作失败！");
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
-    /**
-     * 查询权限
-     *
-     * @param roleId 主键
-     * @return
-     */
     @Override
     public List<String> queryMenusByRole(Long roleId) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public List<String> getMenuNames(Long roleId) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public List<String> getMenuNamesAll(MenuType menuType) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public List<RolesVO> getRoles(Long id, UserType userType) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public R<List<RoleMenusVO>> getRoleMenusList(Long id) {
-        return null;
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public R removeRole(Long roleId) {
-        return R.fail("删除失败！");
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public R removeRoleMenu(String menus) {
-        return R.fail("删除失败！");
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 }
