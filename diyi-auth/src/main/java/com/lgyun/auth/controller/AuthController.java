@@ -58,12 +58,6 @@ public class AuthController {
         return authService.register(registerDto);
     }
 
-    @GetMapping("/captcha")
-    @ApiOperation(value = "生成图形验证码", notes = "生成图形验证码")
-    public R captcha() {
-        return authService.captcha();
-    }
-
     @PostMapping("/update-password")
     @ApiOperation(value = "修改密码", notes = "修改密码")
     public R updatePassword(@Valid @RequestBody UpdatePasswordDTO updatePasswordDto) {

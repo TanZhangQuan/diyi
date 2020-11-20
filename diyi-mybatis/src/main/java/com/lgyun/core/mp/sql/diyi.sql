@@ -240,7 +240,7 @@ CREATE TABLE `diyi_agent_enterprise` (
 DROP TABLE IF EXISTS `diyi_agent_main`;
 CREATE TABLE `diyi_agent_main` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `agent_state` varchar(50) NOT NULL COMMENT '渠道商账户状态1，正常状态；2，冻结状态；3，非法状态。管理后台手工调整。只有正常状态才能接单和众包服务。默认为正常状态',
+  `agent_main_state` varchar(50) NOT NULL COMMENT '渠道商账户状态1，正常状态；2，冻结状态；3，非法状态。管理后台手工调整。只有正常状态才能接单和众包服务。默认为正常状态',
   `agent_main_name` varchar(50) NOT NULL COMMENT '渠道商名称',
   `legal_person_name` varchar(50) NOT NULL COMMENT '法人',
   `legal_person_idcard` varchar(50) NOT NULL DEFAULT '' COMMENT '法人身份证',

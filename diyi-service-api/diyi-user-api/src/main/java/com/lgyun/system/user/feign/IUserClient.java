@@ -164,6 +164,15 @@ public interface IUserClient {
     int queryServiceProviderWorkerCountByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
 
     /**
+     * 根据手机号查询服务商员工数量
+     *
+     * @param phoneNumber
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/query-agent-main-worker-count-by-phone-number")
+    int queryAgentMainWorkerCountByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
+
+    /**
      * 管理员处理
      *
      * @param phoneNumber
@@ -211,6 +220,18 @@ public interface IUserClient {
      */
     @PostMapping(API_PREFIX + "/service-provider-worker-deal")
     R<String> serviceProviderWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("employeeUserName") String employeeUserName, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
+
+    /**
+     * 服务商处理
+     *
+     * @param phoneNumber
+     * @param employeeUserName
+     * @param password
+     * @param grantType
+     * @return
+     */
+    @PostMapping(API_PREFIX + "/agent-main-worker-deal")
+    R<String> agentMainWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("employeeUserName") String employeeUserName, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 查询个独信息

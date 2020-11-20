@@ -27,11 +27,4 @@ public interface CommonConstant {
 	 */
 	String TOP_PARENT_NAME = "顶级";
 
-	/**
-	 * 管理员账号密码登录是否开启图形验证码
-	 */
-	boolean BOOL_GRAPH_CODE = false;
-
-
-
 }

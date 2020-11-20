@@ -11,5 +11,29 @@ import com.lgyun.system.user.entity.AgentMainWorkerEntity;
  */
 public interface IAgentMainWorkerService extends BaseService<AgentMainWorkerEntity> {
 
+    /**
+     * 根据手机号码查询渠道商员工是否存在
+     *
+     * @param phoneNumber
+     * @return
+     */
+    int findCountByPhoneNumber(String phoneNumber);
+
+    /**
+     * 根据账号密码查询渠道商员工
+     *
+     * @param employeeUserName
+     * @param password
+     * @return
+     */
+    AgentMainWorkerEntity findByEmployeeUserNameAndEmployeePwd(String employeeUserName, String password);
+
+    /**
+     * 根据手机号码查询渠道商员工
+     *
+     * @param phoneNumber
+     * @return
+     */
+    AgentMainWorkerEntity findByPhoneNumber(String phoneNumber);
 }
 

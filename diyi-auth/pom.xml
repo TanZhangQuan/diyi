@@ -77,12 +77,6 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
             <version>${alibaba.cloud.version}</version>
         </dependency>
-        <!-- Captcha -->
-        <dependency>
-            <groupId>com.github.whvcse</groupId>
-            <artifactId>easy-captcha</artifactId>
-            <version>${captcha.version}</version>
-        </dependency>
         <!-- MySQL -->
         <dependency>
             <groupId>mysql</groupId>

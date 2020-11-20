@@ -27,7 +27,7 @@ public class AgentMainEntity extends BaseEntity {
     /**
      * 渠道商账户状态1，正常状态；2，冻结状态；3，非法状态。管理后台手工调整。只有正常状态才能接单和众包服务。默认为正常状态
      */
-    private AccountState agentState = AccountState.NORMAL;
+    private AccountState agentMainState = AccountState.NORMAL;
 
     /**
      * 渠道商名称

@@ -94,6 +94,11 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
+    public int queryAgentMainWorkerCountByPhoneNumber(String phoneNumber) {
+        throw new CustomException("网络繁忙，请稍后尝试");
+    }
+
+    @Override
     public R<String> adminDeal(String phoneNumber, String userName, String password, GrantType grantType) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
@@ -110,6 +115,11 @@ public class IUserClientFallback implements IUserClient {
 
     @Override
     public R<String> serviceProviderWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
+        throw new CustomException("网络繁忙，请稍后尝试");
+    }
+
+    @Override
+    public R<String> agentMainWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 

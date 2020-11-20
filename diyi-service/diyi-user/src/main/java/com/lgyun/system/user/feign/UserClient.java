@@ -22,17 +22,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserClient implements IUserClient {
 
     private IUserService userService;
+    private IAdminService adminService;
+    private IMakerService makerService;
+    private IAgreementService agreementService;
     private IEnterpriseService enterpriseService;
     private IMakerEnterpriseService makerEnterpriseService;
     private IIndividualEnterpriseService individualEnterpriseService;
     private IIndividualBusinessService individualBusinessService;
     private IEnterpriseServiceProviderService enterpriseServiceProviderService;
     private IServiceProviderWorkerService serviceProviderWorkerService;
-    private IAdminService adminService;
-    private IMakerService makerService;
+    private IAgentMainWorkerService agentMainWorkerService;
     private IEnterpriseWorkerService enterpriseWorkerService;
     private IServiceProviderService serviceProviderService;
-    private IAgreementService agreementService;
+    private IAgentMainService agentMainService;
 
     @Override
     public UserInfo queryUserInfoByUserId(Long userId, UserType userType) {
@@ -107,6 +109,11 @@ public class UserClient implements IUserClient {
     @Override
     public int queryServiceProviderWorkerCountByPhoneNumber(String phoneNumber) {
         return serviceProviderWorkerService.findCountByPhoneNumber(phoneNumber);
+    }
+
+    @Override
+    public int queryAgentMainWorkerCountByPhoneNumber(String phoneNumber) {
+        return agentMainWorkerService.findCountByPhoneNumber(phoneNumber);
     }
 
     @Override
@@ -344,7 +351,7 @@ public class UserClient implements IUserClient {
         switch (grantType) {
 
             case PASSWORD:
-                //根据账号密码查询服务商
+                //根据账号密码查询服务商员工
                 serviceProviderWorkerEntity = serviceProviderWorkerService.findByEmployeeUserNameAndEmployeePwd(employeeUserName, password);
                 if (serviceProviderWorkerEntity == null) {
                     return R.fail("账号或密码错误");
@@ -366,7 +373,7 @@ public class UserClient implements IUserClient {
                 break;
 
             case MOBILE:
-                //根据手机号查询服务商
+                //根据手机号查询服务商员工
                 serviceProviderWorkerEntity = serviceProviderWorkerService.findByPhoneNumber(phoneNumber);
                 if (serviceProviderWorkerEntity == null) {
                     return R.fail("手机号未注册");
@@ -388,6 +395,7 @@ public class UserClient implements IUserClient {
                 break;
 
             case UPDATEPASSWORD:
+                //根据手机号查询服务商员工
                 serviceProviderWorkerEntity = serviceProviderWorkerService.findByPhoneNumber(phoneNumber);
                 if (serviceProviderWorkerEntity == null) {
                     return R.fail("手机号未注册");
@@ -408,6 +416,89 @@ public class UserClient implements IUserClient {
 
                 serviceProviderWorkerEntity.setEmployeePwd(password);
                 serviceProviderWorkerService.updateById(serviceProviderWorkerEntity);
+
+                break;
+
+            default:
+                return R.fail("授权类型有误");
+        }
+
+        return R.success("操作成功");
+    }
+
+    @Override
+    public R<String> agentMainWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
+
+        AgentMainWorkerEntity agentMainWorkerEntity;
+        AgentMainEntity agentMainEntity;
+        switch (grantType) {
+
+            case PASSWORD:
+                //根据账号密码查询渠道商员工
+                agentMainWorkerEntity = agentMainWorkerService.findByEmployeeUserNameAndEmployeePwd(employeeUserName, password);
+                if (agentMainWorkerEntity == null) {
+                    return R.fail("账号或密码错误");
+                }
+
+                if (!(AccountState.NORMAL.equals(agentMainWorkerEntity.getAgentMainWorkerState()))) {
+                    return R.fail("账号状态非正常，请联系客服");
+                }
+
+                agentMainEntity = agentMainService.getById(agentMainWorkerEntity.getAgentMainId());
+                if (agentMainEntity == null) {
+                    return R.fail("渠道商不存在");
+                }
+
+                if (!(AccountState.NORMAL.equals(agentMainEntity.getAgentMainState()))) {
+                    return R.fail("渠道商状态非正常，请联系客服");
+                }
+
+                break;
+
+            case MOBILE:
+                //根据账号密码查询渠道商员工
+                agentMainWorkerEntity = agentMainWorkerService.findByPhoneNumber(phoneNumber);
+                if (agentMainWorkerEntity == null) {
+                    return R.fail("手机号未注册");
+                }
+
+                if (!(AccountState.NORMAL.equals(agentMainWorkerEntity.getAgentMainWorkerState()))) {
+                    return R.fail("账号状态非正常，请联系客服");
+                }
+
+                agentMainEntity = agentMainService.getById(agentMainWorkerEntity.getAgentMainId());
+                if (agentMainEntity == null) {
+                    return R.fail("渠道商不存在");
+                }
+
+                if (!(AccountState.NORMAL.equals(agentMainEntity.getAgentMainState()))) {
+                    return R.fail("渠道商状态非正常，请联系客服");
+                }
+
+                break;
+
+            case UPDATEPASSWORD:
+                //根据账号密码查询渠道商员工
+                agentMainWorkerEntity = agentMainWorkerService.findByPhoneNumber(phoneNumber);
+                if (agentMainWorkerEntity == null) {
+                    return R.fail("手机号未注册");
+                }
+
+                if (!(AccountState.NORMAL.equals(agentMainWorkerEntity.getAgentMainWorkerState()))) {
+                    return R.fail("账号状态非正常，请联系客服");
+                }
+
+                agentMainEntity = agentMainService.getById(agentMainWorkerEntity.getAgentMainId());
+                if (agentMainEntity == null) {
+                    return R.fail("渠道商不存在");
+                }
+
+                if (!(AccountState.NORMAL.equals(agentMainEntity.getAgentMainState()))) {
+                    return R.fail("渠道商状态非正常，请联系客服");
+                }
+
+                agentMainWorkerEntity.setEmployeePwd(password);
+                agentMainWorkerService.updateById(agentMainWorkerEntity);
 
                 break;
 

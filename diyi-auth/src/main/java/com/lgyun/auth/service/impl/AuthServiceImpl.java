@@ -6,18 +6,15 @@ import com.lgyun.auth.service.IAuthService;
 import com.lgyun.auth.utils.TokenUtil;
 import com.lgyun.auth.utils.WechatUtil;
 import com.lgyun.common.api.R;
-import com.lgyun.common.cache.CacheNames;
 import com.lgyun.common.constant.SmsConstant;
 import com.lgyun.common.constant.TokenConstant;
 import com.lgyun.common.enumeration.CodeType;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.AuthInfo;
-import com.lgyun.common.support.Kv;
 import com.lgyun.common.tool.*;
 import com.lgyun.system.user.entity.UserInfo;
 import com.lgyun.system.user.feign.IUserClient;
-import com.wf.captcha.SpecCaptcha;
 import io.jsonwebtoken.Claims;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,8 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Service 实现
@@ -118,6 +113,12 @@ public class AuthServiceImpl implements IAuthService {
                     }
                     break;
 
+                case AGENTMAIN:
+                    if (userClient.queryAgentMainWorkerCountByPhoneNumber(mobile) <= 0) {
+                        return R.fail("手机号未注册");
+                    }
+                    break;
+
                 default:
                     return R.fail("用户类型有误");
             }
@@ -150,12 +151,18 @@ public class AuthServiceImpl implements IAuthService {
                     }
                     break;
 
+                case AGENTMAIN:
+                    if (userClient.queryAgentMainWorkerCountByPhoneNumber(mobile) > 0) {
+                        return R.fail("手机号已注册");
+                    }
+                    break;
+
                 default:
                     return R.fail("用户类型有误");
             }
 
         } else if (CodeType.UPDATEPHONE.equals(codeType)) {
-
+            return smsUtil.sendCode(mobile, userType, codeType);
         } else {
             return R.fail("验证码类型有误");
         }
@@ -226,6 +233,14 @@ public class AuthServiceImpl implements IAuthService {
                 }
                 break;
 
+            case AGENTMAIN:
+                // 服务商处理
+                res = userClient.agentMainWorkerDeal(mobile, "", "", GrantType.MOBILE);
+                if (!(res.isSuccess())) {
+                    return res;
+                }
+                break;
+
             default:
                 return R.fail("用户类型有误");
         }
@@ -259,19 +274,6 @@ public class AuthServiceImpl implements IAuthService {
         switch (userType) {
 
             case ADMIN:
-                //判断是否跑图形验证码
-//                if (CommonConstant.BOOL_GRAPH_CODE) {
-//                    HttpServletRequest request = WebUtil.getRequest();
-//                    String key = request.getHeader(TokenUtil.CAPTCHA_HEADER_KEY);
-//                    String code = request.getHeader(TokenUtil.CAPTCHA_HEADER_CODE);
-//                    // 查询验证码
-//                    String redisCode = String.valueOf(redisUtil.get(CacheNames.CAPTCHA_KEY + key));
-//                    // 判断验证码
-//                    if (code == null || !StringUtil.equalsIgnoreCase(redisCode, code)) {
-//                        return R.fail(TokenUtil.CAPTCHA_NOT_CORRECT);
-//                    }
-//                }
-
                 //管理员处理
                 res = userClient.adminDeal("", account, encrypt, GrantType.PASSWORD);
                 if (!(res.isSuccess())) {
@@ -303,7 +305,7 @@ public class AuthServiceImpl implements IAuthService {
                 break;
 
             case ENTERPRISE:
-                //商户处理
+                //商户员工处理
                 res = userClient.enterpriseWorkerDeal("", account, encrypt, GrantType.PASSWORD);
                 if (!(res.isSuccess())) {
                     return res;
@@ -311,8 +313,16 @@ public class AuthServiceImpl implements IAuthService {
                 break;
 
             case SERVICEPROVIDER:
-                //服务商处理
+                //服务商员工处理
                 res = userClient.serviceProviderWorkerDeal("", account, encrypt, GrantType.PASSWORD);
+                if (!(res.isSuccess())) {
+                    return res;
+                }
+                break;
+
+            case AGENTMAIN:
+                //渠道商员工处理
+                res = userClient.agentMainWorkerDeal("", account, encrypt, GrantType.PASSWORD);
                 if (!(res.isSuccess())) {
                     return res;
                 }
@@ -390,17 +400,6 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    public R<Kv> captcha() {
-        SpecCaptcha specCaptcha = new SpecCaptcha(130, 48, 5);
-        String verCode = specCaptcha.text().toLowerCase();
-        String key = UUID.randomUUID().toString();
-        // 存入redis并设置过期时间为30分钟
-        redisUtil.set(CacheNames.CAPTCHA_KEY + key, verCode, 5, TimeUnit.MINUTES);
-        // 将key和base64返回给前端
-        return R.data(Kv.init().set("key", key).set("image", specCaptcha.toBase64()));
-    }
-
-    @Override
     public R<String> updatePassword(UpdatePasswordDTO updatePasswordDto) {
         //用户类型
         UserType userType = updatePasswordDto.getUserType();
@@ -448,6 +447,14 @@ public class AuthServiceImpl implements IAuthService {
             case SERVICEPROVIDER:
                 //服务商处理
                 res = userClient.serviceProviderWorkerDeal(mobile, "", newPassword, GrantType.UPDATEPASSWORD);
+                if (!(res.isSuccess())) {
+                    return res;
+                }
+                break;
+
+            case AGENTMAIN:
+                //服务商处理
+                res = userClient.agentMainWorkerDeal(mobile, "", newPassword, GrantType.UPDATEPASSWORD);
                 if (!(res.isSuccess())) {
                     return res;
                 }

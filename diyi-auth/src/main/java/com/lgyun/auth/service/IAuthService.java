@@ -4,7 +4,6 @@ import com.lgyun.auth.dto.*;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.AuthInfo;
-import com.lgyun.common.support.Kv;
 
 /**
  * Service 接口
@@ -64,13 +63,6 @@ public interface IAuthService {
      * @throws Exception
      */
     R<String> register(RegisterDTO registerDto);
-
-    /**
-     * 生成图形验证码
-     *
-     * @return
-     */
-    R<Kv> captcha();
 
     /**
      * 修改密码
