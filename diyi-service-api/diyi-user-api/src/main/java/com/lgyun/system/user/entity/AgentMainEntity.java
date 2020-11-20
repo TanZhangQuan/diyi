@@ -3,6 +3,7 @@ package com.lgyun.system.user.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.CreateType;
+import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
  * 渠道商信息表 Entity
  *
  * @author tzq
- * @since 2020-10-20 18:25:03
+ * @since 2020-11-20 15:16:03
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -29,7 +30,7 @@ public class AgentMainEntity extends BaseEntity {
     private AccountState agentState = AccountState.NORMAL;
 
     /**
-     * 客户名称
+     * 渠道商名称
      */
     private String agentMainName;
 
@@ -49,9 +50,14 @@ public class AgentMainEntity extends BaseEntity {
     private String socialCreditNo;
 
     /**
-     * 营业执照副本
+     * 营业执照正本
      */
     private String bizLicenceUrl;
+
+    /**
+     * 营业执照副本
+     */
+    private String bizLicenceCopyUrl;
 
     /**
      * 企业网址
@@ -106,7 +112,7 @@ public class AgentMainEntity extends BaseEntity {
     /**
      * 联系人1职位
      */
-    private String contact1Position;
+    private PositionName contact1Position;
 
     /**
      * 联系人1电话手机（必填）
@@ -126,7 +132,7 @@ public class AgentMainEntity extends BaseEntity {
     /**
      * 联系人2职位
      */
-    private String contact2Position;
+    private PositionName contact2Position;
 
     /**
      * 联系人2电话手机（必填）
@@ -146,7 +152,7 @@ public class AgentMainEntity extends BaseEntity {
     /**
      * 创建方式1:平台创建，2:自注册
      */
-    private CreateType createType = CreateType.PLATFORMCREATE;
+    private CreateType createType;
 
     /**
      * 营销人员
@@ -157,5 +163,15 @@ public class AgentMainEntity extends BaseEntity {
      * 运营人员
      */
     private Long runnerId;
+
+    /**
+     * 行业分类
+     */
+    private String industryType;
+
+    /**
+     * 主营业务描述
+     */
+    private String mainBusinessDesc;
 
 }

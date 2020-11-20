@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
  * 渠道商员工表 Entity
  *
  * @author tzq
- * @since 2020-09-11 17:33:26
+ * @since 2020-11-20 15:16:03
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -34,12 +34,17 @@ public class AgentMainWorkerEntity extends BaseEntity {
     private Long userId;
 
     /**
+     * 角色ID
+     */
+    private Long roleId;
+
+    /**
      * 头像
      */
     private String avatar;
 
     /**
-     * 渠道商员工账户状态
+     * 商户员工账户状态
      */
     private AccountState agentMainWorkerState = AccountState.NORMAL;
 
@@ -79,13 +84,13 @@ public class AgentMainWorkerEntity extends BaseEntity {
     private String employeePwd;
 
     /**
-     * 管理员特性
+     * 管理员权限
      */
-    private Boolean adminPower = false;
+    private Boolean superAdmin;
 
     /**
-     * 拥有的菜单名字
+     * 管理员特性
      */
-    private String menus;
+    private Boolean adminPower;
 
 }

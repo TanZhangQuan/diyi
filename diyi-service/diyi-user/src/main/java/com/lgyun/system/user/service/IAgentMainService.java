@@ -9,9 +9,9 @@ import com.lgyun.system.user.dto.AddOrUpdateAgentMainDTO;
 import com.lgyun.system.user.dto.QueryAgentMainDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.AgentMainEntity;
-import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 import com.lgyun.system.user.vo.AdminAgentMainVO;
 import com.lgyun.system.user.vo.AgentMainServiceProviderVO;
+import com.lgyun.system.user.vo.MakerEnterpriseRelationVO;
 
 /**
  * 渠道商信息表 Service 接口

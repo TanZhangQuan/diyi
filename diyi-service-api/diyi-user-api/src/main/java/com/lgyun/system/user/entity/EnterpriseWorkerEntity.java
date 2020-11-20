@@ -34,6 +34,11 @@ public class EnterpriseWorkerEntity extends BaseEntity {
     private Long userId;
 
     /**
+     * 拥有的角色ID
+     */
+    private Long roleId;
+
+    /**
      * 头像
      */
     private String avatar;
@@ -87,10 +92,5 @@ public class EnterpriseWorkerEntity extends BaseEntity {
      * 管理员特性
      */
     private Boolean adminPower = false;
-
-    /**
-     * 拥有的角色ID
-     */
-    private Long roleId;
 
 }

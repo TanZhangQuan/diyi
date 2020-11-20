@@ -34,6 +34,11 @@ public class ServiceProviderWorkerEntity extends BaseEntity {
     private Long userId;
 
     /**
+     * 角色ID
+     */
+    private Long roleId;
+
+    /**
      * 头像
      */
     private String avatar;
@@ -87,10 +92,5 @@ public class ServiceProviderWorkerEntity extends BaseEntity {
      * 是否拥有全部权限
      */
     private Boolean superAdmin;
-
-    /**
-     * 角色ID
-     */
-    private Long roleId;
 
 }

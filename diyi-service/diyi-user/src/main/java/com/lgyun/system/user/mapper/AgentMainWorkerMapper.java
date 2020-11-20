@@ -1,7 +1,7 @@
 package com.lgyun.system.user.mapper;
 
-import com.lgyun.system.user.entity.AgentMainWorkerEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.lgyun.system.user.entity.AgentMainWorkerEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
