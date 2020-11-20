@@ -75,7 +75,7 @@ public class AddEnterpriseDTO implements Serializable {
     /**
      * 联系人1职位
      */
-    @NotNull(message = "请输入联系人1职位")
+    @NotNull(message = "请选择联系人1职位")
     private PositionName contact1Position;
 
     /**
@@ -102,7 +102,7 @@ public class AddEnterpriseDTO implements Serializable {
     /**
      * 联系人2职位
      */
-    @NotNull(message = "请输入联系人2职位")
+    @NotNull(message = "请选择联系人2职位")
     private PositionName contact2Position;
 
     /**
