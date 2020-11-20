@@ -2477,7 +2477,7 @@ CREATE TABLE `sys_post` (
   `post_code` varchar(50) NOT NULL DEFAULT '' COMMENT '岗位编号',
   `post_name` varchar(50) NOT NULL DEFAULT '' COMMENT '岗位名称',
   `sort` int(3) DEFAULT NULL COMMENT '岗位排序',
-  `remark` varchar() NOT NULL DEFAULT '' COMMENT '岗位描述',
+  `remark` varchar(100) NOT NULL DEFAULT '' COMMENT '岗位描述',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
