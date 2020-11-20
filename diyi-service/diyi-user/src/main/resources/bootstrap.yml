@@ -3,6 +3,8 @@ server:
   port: 8102
 
 spring:
+  profiles:
+    active: prod
   application:
     name: diyi-user
 
@@ -11,5 +13,12 @@ logging:
     com.alibaba.nacos: error
   file:
     name: diyi-user.log
+
+feign:
+  client:
+    config:
+      # feign全局日志级别
+      default:
+        loggerLevel: full
 
 
