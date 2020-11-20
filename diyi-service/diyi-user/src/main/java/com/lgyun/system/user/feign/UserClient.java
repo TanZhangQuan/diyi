@@ -36,6 +36,7 @@ public class UserClient implements IUserClient {
     private IEnterpriseWorkerService enterpriseWorkerService;
     private IServiceProviderService serviceProviderService;
     private IAgentMainService agentMainService;
+    private IRelBureauService relBureauService;
 
     @Override
     public UserInfo queryUserInfoByUserId(Long userId, UserType userType) {
@@ -589,6 +590,32 @@ public class UserClient implements IUserClient {
 
                 agentMainWorkerEntity.setEmployeePwd(password);
                 agentMainWorkerService.updateById(agentMainWorkerEntity);
+
+                break;
+
+            default:
+                return R.fail("授权类型有误");
+        }
+
+        return R.success("操作成功");
+    }
+
+    @Override
+    public R<String> relBureauDeal(String phoneNumber, String employeeUserName, String password, RelBureauType relBureauType, GrantType grantType) {
+
+        RelBureauEntity relBureauEntity;
+        switch (grantType) {
+
+            case PASSWORD:
+                //根据账号密码查询相关局
+                relBureauEntity = relBureauService.findByEmployeeUserNameAndEmployeePwd(employeeUserName, password, relBureauType);
+                if (relBureauEntity == null) {
+                    return R.fail("账号或密码错误");
+                }
+
+                if (!(AccountState.NORMAL.equals(relBureauEntity.getRelBureauState()))) {
+                    return R.fail("账号状态非正常，请联系客服");
+                }
 
                 break;
 

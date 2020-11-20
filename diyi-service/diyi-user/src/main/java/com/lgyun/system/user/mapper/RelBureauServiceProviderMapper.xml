@@ -11,7 +11,7 @@
     <!--查询可以匹配的服务商-->
     <select id="queryRelBureauServiceProvider" resultMap="relBureauServiceProviderVO">
         SELECT t1.id, t1.service_provider_name FROM diyi_service_provider t1 WHERE t1.is_delete = 0 AND NOT EXISTS (SELECT id FROM diyi_rel_bureau_service_provider
-        WHERE is_deleted = 0 AND service_provider_id = t1.id) AND t1.bureau_type = #{bureauType}
+        WHERE is_deleted = 0 AND service_provider_id = t1.id) AND t1.bureau_type = #{relBureauType}
         <if test="serviceProviderName != null and serviceProviderName != ''">
             AND t1.service_provider_name LIKE CONCTA('%',#{serviceProviderName},'%')
         </if>

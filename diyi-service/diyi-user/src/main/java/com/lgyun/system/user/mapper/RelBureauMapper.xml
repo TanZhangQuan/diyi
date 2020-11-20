@@ -20,7 +20,7 @@
         FROM diyi_rel_bureau
         <where>
             is_deleted = 0
-            AND bureau_type = #{bureauType}
+            AND bureau_type = #{relBureauType}
             <if test="query.bureauId != null and query.bureauId != ''">
                 AND id = #{query.bureauId}
             </if>

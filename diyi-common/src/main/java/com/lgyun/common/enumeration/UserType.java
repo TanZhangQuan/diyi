@@ -16,7 +16,11 @@ public enum UserType {
     ENTERPRISE("ENTERPRISE", "商户"),
     SERVICEPROVIDER("SERVICEPROVIDER", "服务商"),
     AGENTMAIN("AGENTMAIN","渠道商"),
-    PARTNER("PARTNER", "合伙人");
+    PARTNER("PARTNER", "合伙人"),
+    TAXBUREAU("TAXBUREAU","税务局"),
+    MARSUPANDADM("MARSUPANDADM","市场监督管理局"),
+    INDUSTRIALPARKS("INDUSTRIALPARKS","产业园区"),
+    PAYINGAGENCY("PAYINGAGENCY","支付机构");
 
     private final String value;
     private final String desc;

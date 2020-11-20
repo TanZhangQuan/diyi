@@ -1,7 +1,9 @@
 package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.lgyun.common.enumeration.BureauType;
+import com.lgyun.common.enumeration.AccountState;
+import com.lgyun.common.enumeration.PositionName;
+import com.lgyun.common.enumeration.RelBureauType;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,10 +11,10 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- * 税务局管理表 Entity
+ * 相关局管理表 Entity
  *
  * @author tzq
- * @since 2020-10-20 18:47:56
+ * @since 2020-11-20 19:42:23
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -21,10 +23,21 @@ import lombok.NoArgsConstructor;
 @TableName("diyi_rel_bureau")
 public class RelBureauEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 管理者ID
+     */
+    private Long userId;
+
+    /**
+     * 相关局账户状态
+     */
+    private AccountState relBureauState = AccountState.NORMAL;
+
     /**
      * 0，税务局；1，市场监督管理局；2，产业园区；3，支付机构
      */
-    private BureauType bureauType;
+    private RelBureauType relBureauType;
 
     /**
      * 头像
@@ -34,12 +47,12 @@ public class RelBureauEntity extends BaseEntity {
     /**
      * 用户名
      */
-    private String relBuserName;
+    private String relBureauUserName;
 
     /**
      * 密码
      */
-    private String relBpwd;
+    private String relBureauPwd;
 
     /**
      * 税务局名称
@@ -57,29 +70,29 @@ public class RelBureauEntity extends BaseEntity {
     private String relBureauWebsite;
 
     /**
-     * 联系人
+     * 联系人姓名
      */
-    private String contactPerson;
+    private String contactName;
 
     /**
      * 联系人职位
      */
-    private String contactPosition;
+    private PositionName contactPosition;
 
     /**
-     * 联系电话
+     * 联系人电话手机（必填）
      */
-    private String telPhoneNo;
+    private String contactPhone;
 
     /**
-     * 联系手机
+     * 联系人邮箱
      */
-    private String mobileNo;
+    private String contactMail;
 
     /**
-     * 联系微信
+     * 联系人微信
      */
-    private String wechatNo;
+    private String contactWechat;
 
     /**
      * 局长姓名
@@ -100,4 +113,5 @@ public class RelBureauEntity extends BaseEntity {
      * 副局长联系电话
      */
     private String viceDirectorPhone;
+
 }

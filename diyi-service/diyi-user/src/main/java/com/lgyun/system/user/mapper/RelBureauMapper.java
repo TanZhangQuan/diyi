@@ -1,7 +1,7 @@
 package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.common.enumeration.BureauType;
+import com.lgyun.common.enumeration.RelBureauType;
 import com.lgyun.system.user.dto.QueryRelBureauListDTO;
 import com.lgyun.system.user.entity.RelBureauEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -20,6 +20,6 @@ import java.util.List;
 @Mapper
 public interface RelBureauMapper extends BaseMapper<RelBureauEntity> {
 
-    List<RelBureauVO> QueryRelBureau(@Param("query") QueryRelBureauListDTO queryRelBureauListDTO, IPage<RelBureauVO> page, @Param("bureauType") BureauType bureauType);
+    List<RelBureauVO> QueryRelBureau(@Param("query") QueryRelBureauListDTO queryRelBureauListDTO, IPage<RelBureauVO> page, @Param("relBureauType") RelBureauType relBureauType);
 }
 

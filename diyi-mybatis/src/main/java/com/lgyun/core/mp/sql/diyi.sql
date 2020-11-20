@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2020-11-14 11:14:56
+Date: 2020-11-20 19:07:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -286,7 +286,7 @@ CREATE TABLE `diyi_agent_main` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `diyi_agent_person`
+-- Table structure for `diyi_agent_main_worker`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_agent_main_worker`;
 CREATE TABLE `diyi_agent_main_worker` (
@@ -318,7 +318,7 @@ CREATE TABLE `diyi_agent_main_worker` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='渠道商员工表';
 
 -- ----------------------------
--- Records of diyi_agent_person
+-- Records of diyi_agent_main_worker
 -- ----------------------------
 
 -- ----------------------------
@@ -952,7 +952,6 @@ CREATE TABLE `diyi_maker_tax_record` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='创客单张完税证明信息表';
 
-
 -- ----------------------------
 -- Records of diyi_maker_tax_record
 -- ----------------------------
@@ -1434,7 +1433,6 @@ CREATE TABLE `diyi_platform_invoice_list` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='记录服务商开具给商户的总包发票';
 
-
 -- ----------------------------
 -- Records of diyi_platform_invoice_list
 -- ----------------------------
@@ -1550,22 +1548,24 @@ CREATE TABLE `diyi_regular_declare` (
 DROP TABLE IF EXISTS `diyi_rel_bureau`;
 CREATE TABLE `diyi_rel_bureau` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `bureau_type` varchar(50) NOT NULL COMMENT '0，税务局；1，市场监督管理局；2，产业园区；3，支付机构',
-  `avatar` varchar(500) DEFAULT '' COMMENT '头像',
-  `rel_buser_name` varchar(50) DEFAULT '' COMMENT '用户名',
-  `rel_bpwd` varchar(50) DEFAULT '' COMMENT '密码',
-  `rel_bureau_name` varchar(50) DEFAULT '' COMMENT '税务局名称',
-  `rel_bureau_address` varchar(100) DEFAULT '' COMMENT '地址',
-  `rel_bureau_website` varchar(500) DEFAULT '' COMMENT '网址',
-  `contact_person` varchar(50) DEFAULT '' COMMENT '联系人',
-  `contact_position` varchar(50) DEFAULT '' COMMENT '联系人职位',
-  `tel_phone_no` varchar(50) DEFAULT '' COMMENT '联系电话',
-  `mobile_no` varchar(50) DEFAULT '' COMMENT '联系手机',
-  `wechat_no` varchar(50) DEFAULT '' COMMENT '联系微信',
-  `director_name` varchar(50) DEFAULT '' COMMENT '局长姓名',
-  `director_phone` varchar(50) DEFAULT '' COMMENT '局长联系电话',
-  `vice_director_name` varchar(50) DEFAULT '' COMMENT '副局长姓名',
-  `vice_director_phone` varchar(50) DEFAULT '' COMMENT '副局长联系电话',
+  `user_id` bigint(50) NOT NULL COMMENT '管理者ID',
+  `rel_bureau_state` varchar(50) NOT NULL COMMENT '相关局账户状态',
+  `rel_bureau_type` varchar(50) NOT NULL COMMENT '0，税务局；1，市场监督管理局；2，产业园区；3，支付机构',
+  `avatar` varchar(500) NOT NULL DEFAULT '' COMMENT '头像',
+  `rel_bureau_user_name` varchar(50) NOT NULL COMMENT '用户名',
+  `rel_bureau_pwd` varchar(100) NOT NULL COMMENT '密码',
+  `rel_bureau_name` varchar(50) NOT NULL COMMENT '税务局名称',
+  `rel_bureau_address` varchar(100) NOT NULL COMMENT '地址',
+  `rel_bureau_website` varchar(500) NOT NULL COMMENT '网址',
+  `contact_name` varchar(50) NOT NULL COMMENT '联系人姓名',
+  `contact_position` varchar(50) NOT NULL COMMENT '联系人职位',
+  `contact_phone` varchar(50) NOT NULL COMMENT '联系人电话手机（必填）',
+  `contact_mail` varchar(50) NOT NULL COMMENT '联系人邮箱',
+  `contact_wechat` varchar(50) NOT NULL COMMENT '联系人微信',
+  `director_name` varchar(50) NOT NULL COMMENT '局长姓名',
+  `director_phone` varchar(50) NOT NULL COMMENT '局长联系电话',
+  `vice_director_name` varchar(50) NOT NULL COMMENT '副局长姓名',
+  `vice_director_phone` varchar(50) NOT NULL COMMENT '副局长联系电话',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
@@ -1573,7 +1573,7 @@ CREATE TABLE `diyi_rel_bureau` (
   `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`rel_buser_name`) USING BTREE
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`rel_bureau_type`,`rel_bureau_user_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='相关局管理表';
 
 -- ----------------------------

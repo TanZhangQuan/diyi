@@ -10,6 +10,7 @@ import com.lgyun.common.constant.SmsConstant;
 import com.lgyun.common.constant.TokenConstant;
 import com.lgyun.common.enumeration.CodeType;
 import com.lgyun.common.enumeration.GrantType;
+import com.lgyun.common.enumeration.RelBureauType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.AuthInfo;
 import com.lgyun.common.tool.*;
@@ -395,6 +396,38 @@ public class AuthServiceImpl implements IAuthService {
             case AGENTMAIN:
                 //渠道商员工处理
                 res = userClient.agentMainWorkerDeal("", account, encrypt, GrantType.PASSWORD);
+                if (!(res.isSuccess())) {
+                    return res;
+                }
+                break;
+
+            case TAXBUREAU:
+                //税务局处理
+                res = userClient.relBureauDeal("", account, encrypt, RelBureauType.TAXBUREAU, GrantType.PASSWORD);
+                if (!(res.isSuccess())) {
+                    return res;
+                }
+                break;
+
+            case MARSUPANDADM:
+                //市场监督管理局处理
+                res = userClient.relBureauDeal("", account, encrypt, RelBureauType.MARSUPANDADM, GrantType.PASSWORD);
+                if (!(res.isSuccess())) {
+                    return res;
+                }
+                break;
+
+            case INDUSTRIALPARKS:
+                //产业园区处理
+                res = userClient.relBureauDeal("", account, encrypt, RelBureauType.INDUSTRIALPARKS, GrantType.PASSWORD);
+                if (!(res.isSuccess())) {
+                    return res;
+                }
+                break;
+
+            case PAYINGAGENCY:
+                //支付机构处理
+                res = userClient.relBureauDeal("", account, encrypt, RelBureauType.PAYINGAGENCY, GrantType.PASSWORD);
                 if (!(res.isSuccess())) {
                     return res;
                 }

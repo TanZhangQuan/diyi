@@ -3,7 +3,7 @@ package com.lgyun.system.user.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.BureauServiceProviderStatus;
-import com.lgyun.common.enumeration.BureauType;
+import com.lgyun.common.enumeration.RelBureauType;
 import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.tool.Func;
 import com.lgyun.system.user.entity.RelBureauEntity;
@@ -44,8 +44,8 @@ public class RelBureauServiceProviderServiceImpl extends BaseServiceImpl<RelBure
      * @return
      */
     @Override
-    public R<IPage<RelBureauServiceProviderVO>> queryRelBureauServiceProvider(String serviceProviderName, BureauType bureauType, IPage<RelBureauServiceProviderVO> page) {
-        return R.data(page.setRecords(baseMapper.queryRelBureauServiceProvider(serviceProviderName, bureauType, page)));
+    public R<IPage<RelBureauServiceProviderVO>> queryRelBureauServiceProvider(String serviceProviderName, RelBureauType relBureauType, IPage<RelBureauServiceProviderVO> page) {
+        return R.data(page.setRecords(baseMapper.queryRelBureauServiceProvider(serviceProviderName, relBureauType, page)));
     }
 
     /**
@@ -71,7 +71,7 @@ public class RelBureauServiceProviderServiceImpl extends BaseServiceImpl<RelBure
             RelBureauServiceProviderEntity entity = new RelBureauServiceProviderEntity();
             entity.setServiceProviderId(id);
             entity.setRelBureauId(bureauId);
-            entity.setBureauType(relBureauEntity.getBureauType());
+            entity.setRelBureauType(relBureauEntity.getRelBureauType());
             entity.setBureauServiceProviderStatus(BureauServiceProviderStatus.OPEN);
             this.save(entity);
         }

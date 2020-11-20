@@ -2,7 +2,7 @@ package com.lgyun.system.user.controller.admin;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.BureauServiceProviderStatus;
-import com.lgyun.common.enumeration.BureauType;
+import com.lgyun.common.enumeration.RelBureauType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
@@ -46,7 +46,7 @@ public class TaxBureauAdminController {
             return result;
         }
 
-        return bureauService.QueryRelBureau(queryRelBureauListDTO, Condition.getPage(query.setAscs("create_time")), BureauType.TAXBUREAU);
+        return bureauService.QueryRelBureau(queryRelBureauListDTO, Condition.getPage(query.setAscs("create_time")), RelBureauType.TAXBUREAU);
     }
 
 
@@ -107,7 +107,7 @@ public class TaxBureauAdminController {
             return result;
         }
 
-        return bureauServiceProviderService.queryRelBureauServiceProvider(serviceProviderName, BureauType.TAXBUREAU,Condition.getPage(query.setDescs("t1.create_time")));
+        return bureauServiceProviderService.queryRelBureauServiceProvider(serviceProviderName, RelBureauType.TAXBUREAU,Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/add-tax-bureau-service-provider")

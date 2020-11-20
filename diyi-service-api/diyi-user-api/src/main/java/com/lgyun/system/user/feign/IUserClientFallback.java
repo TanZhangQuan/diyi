@@ -3,6 +3,7 @@ package com.lgyun.system.user.feign;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.enumeration.GrantType;
+import com.lgyun.common.enumeration.RelBureauType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.secure.BladeUser;
@@ -125,6 +126,11 @@ public class IUserClientFallback implements IUserClient {
 
     @Override
     public R<String> agentMainWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
+        throw new CustomException("网络繁忙，请稍后尝试");
+    }
+
+    @Override
+    public R<String> relBureauDeal(String phoneNumber, String employeeUserName, String password, RelBureauType relBureauType, GrantType grantType) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 

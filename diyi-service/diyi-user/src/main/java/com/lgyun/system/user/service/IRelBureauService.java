@@ -2,7 +2,7 @@ package com.lgyun.system.user.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.BureauType;
+import com.lgyun.common.enumeration.RelBureauType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.dto.AddRelBureauDTO;
 import com.lgyun.system.user.dto.QueryRelBureauListDTO;
@@ -19,6 +19,16 @@ import com.lgyun.system.user.vo.RelBureauVO;
 public interface IRelBureauService extends BaseService<RelBureauEntity> {
 
     /**
+     * 根据账号密码查询相关局
+     *
+     * @param relBureauUserName
+     * @param relBureauPwd
+     * @param relBureauType
+     * @return
+     */
+    RelBureauEntity findByEmployeeUserNameAndEmployeePwd(String relBureauUserName, String relBureauPwd, RelBureauType relBureauType);
+
+    /**
      * 添加相关局
      *
      * @param addRelBureauDto
@@ -31,10 +41,10 @@ public interface IRelBureauService extends BaseService<RelBureauEntity> {
      *
      * @param queryRelBureauListDTO
      * @param page
-     * @param bureauType
+     * @param relBureauType
      * @return
      */
-    R<IPage<RelBureauVO>> QueryRelBureau(QueryRelBureauListDTO queryRelBureauListDTO, IPage<RelBureauVO> page, BureauType bureauType);
+    R<IPage<RelBureauVO>> QueryRelBureau(QueryRelBureauListDTO queryRelBureauListDTO, IPage<RelBureauVO> page, RelBureauType relBureauType);
 
     /**
      * 查询相关局信息
@@ -51,5 +61,6 @@ public interface IRelBureauService extends BaseService<RelBureauEntity> {
      * @return
      */
     R updateBureau(UpdateRelBureauDTO updateRelBureauDTO);
+
 }
 

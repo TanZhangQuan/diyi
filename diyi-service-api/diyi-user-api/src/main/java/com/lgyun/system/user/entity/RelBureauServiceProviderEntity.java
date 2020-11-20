@@ -2,7 +2,7 @@ package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.common.enumeration.BureauServiceProviderStatus;
-import com.lgyun.common.enumeration.BureauType;
+import com.lgyun.common.enumeration.RelBureauType;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,7 +31,7 @@ public class RelBureauServiceProviderEntity extends BaseEntity {
     /**
      * 相关局的类型
      */
-    private BureauType bureauType;
+    private RelBureauType relBureauType;
 
     /**
      * 服务商编号，一个服务商只能属于一个税局监管

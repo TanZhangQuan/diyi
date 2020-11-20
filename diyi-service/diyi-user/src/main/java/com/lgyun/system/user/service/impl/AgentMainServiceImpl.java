@@ -89,11 +89,11 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
         agentMainEntity.setUpdateUser(adminEntity.getUserId());
         agentMainEntity.setUpdateTime(new Date());
         if (AccountState.NORMAL.equals(accountState)) {
-            agentMainEntity.setAgentState(AccountState.NORMAL);
+            agentMainEntity.setAgentMainState(AccountState.NORMAL);
         } else if (AccountState.FREEZE.equals(accountState)) {
-            agentMainEntity.setAgentState(AccountState.FREEZE);
+            agentMainEntity.setAgentMainState(AccountState.FREEZE);
         } else {
-            agentMainEntity.setAgentState(AccountState.ILLEGAL);
+            agentMainEntity.setAgentMainState(AccountState.ILLEGAL);
         }
         this.updateById(agentMainEntity);
         return R.success("修改成功");

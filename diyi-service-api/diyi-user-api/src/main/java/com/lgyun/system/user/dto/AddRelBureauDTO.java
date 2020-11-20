@@ -1,6 +1,6 @@
 package com.lgyun.system.user.dto;
 
-import com.lgyun.common.enumeration.BureauType;
+import com.lgyun.common.enumeration.RelBureauType;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -17,7 +17,7 @@ public class AddRelBureauDTO {
      * 类型，TAXBUREAU，税务局；MARSUPANDADM，市场监督管理局；INDUSTRIALPARKS，产业园区；PAYINGAGENCY，支付机构
      */
     @NotNull(message = "请选择类型")
-    private BureauType bureauType;
+    private RelBureauType relBureauType;
 
     /**
      * 用户名

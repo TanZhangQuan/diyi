@@ -247,6 +247,18 @@ public interface IUserClient {
     R<String> agentMainWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("employeeUserName") String employeeUserName, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
 
     /**
+     * 相关局处理
+     *
+     * @param phoneNumber
+     * @param employeeUserName
+     * @param password
+     * @param grantType
+     * @return
+     */
+    @PostMapping(API_PREFIX + "/rel-bureau-deal")
+    R<String> relBureauDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("employeeUserName") String employeeUserName, @RequestParam("password") String password, @RequestParam("relBureauType") RelBureauType relBureauType,  @RequestParam("grantType") GrantType grantType);
+
+    /**
      * 查询个独信息
      *
      * @param individualEnterpriseId
