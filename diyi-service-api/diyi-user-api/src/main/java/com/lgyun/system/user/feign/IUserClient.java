@@ -73,7 +73,7 @@ public interface IUserClient {
     R<MakerEntity> currentMaker(@RequestBody BladeUser bladeUser);
 
     /**
-     * 查询当前商户
+     * 查询当前商户员工
      *
      * @param bladeUser
      * @return
@@ -82,13 +82,22 @@ public interface IUserClient {
     R<EnterpriseWorkerEntity> currentEnterpriseWorker(@RequestBody BladeUser bladeUser);
 
     /**
-     * 查询当前服务商
+     * 查询当前服务商员工
      *
      * @param bladeUser
      * @return
      */
     @PostMapping(API_PREFIX + "/current-service-provider-worker")
     R<ServiceProviderWorkerEntity> currentServiceProviderWorker(@RequestBody BladeUser bladeUser);
+
+    /**
+     * 查询当前渠道商员工
+     *
+     * @param bladeUser
+     * @return
+     */
+    @PostMapping(API_PREFIX + "/current-agent-main-worker")
+    R<AgentMainWorkerEntity> currentAgentMainWorker(@RequestBody BladeUser bladeUser);
 
     /**
      * 根据创客id查询创客信息

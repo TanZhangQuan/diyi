@@ -36,22 +36,27 @@ public class IUserClientFallback implements IUserClient {
 
     @Override
     public R<AdminEntity> currentAdmin(BladeUser bladeUser) {
-        return R.fail("网络繁忙，请稍后尝试");
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public R<MakerEntity> currentMaker(BladeUser bladeUser) {
-        return R.fail("网络繁忙，请稍后尝试");
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public R<EnterpriseWorkerEntity> currentEnterpriseWorker(BladeUser bladeUser) {
-        return R.fail("网络繁忙，请稍后尝试");
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
     public R<ServiceProviderWorkerEntity> currentServiceProviderWorker(BladeUser bladeUser) {
-        return R.fail("网络繁忙，请稍后尝试");
+        throw new CustomException("网络繁忙，请稍后尝试");
+    }
+
+    @Override
+    public R<AgentMainWorkerEntity> currentAgentMainWorker(BladeUser bladeUser) {
+        throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override

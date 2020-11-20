@@ -74,6 +74,11 @@ public class UserClient implements IUserClient {
     }
 
     @Override
+    public R<AgentMainWorkerEntity> currentAgentMainWorker(BladeUser bladeUser) {
+        return agentMainWorkerService.currentAgentMainWorker(bladeUser);
+    }
+
+    @Override
     public MakerEntity queryMakerById(Long makerId) {
         return makerService.getById(makerId);
     }
