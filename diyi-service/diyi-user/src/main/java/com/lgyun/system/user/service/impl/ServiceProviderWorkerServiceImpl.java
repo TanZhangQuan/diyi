@@ -50,7 +50,7 @@ import java.util.List;
 public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServiceProviderWorkerMapper, ServiceProviderWorkerEntity> implements IServiceProviderWorkerService {
 
     private IUserService userService;
-    private IServiceProviderService iServiceProviderService;
+    private IServiceProviderService serviceProviderService;
     private ISysClient sysClient;
 
     @Override
@@ -69,7 +69,7 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
             return R.fail("账号状态非正常，请联系客服");
         }
 
-        ServiceProviderEntity serviceProviderEntity = iServiceProviderService.getById(serviceProviderWorkerEntity.getServiceProviderId());
+        ServiceProviderEntity serviceProviderEntity = serviceProviderService.getById(serviceProviderWorkerEntity.getServiceProviderId());
         if (serviceProviderEntity == null) {
             return R.fail("服务商不存在");
         }

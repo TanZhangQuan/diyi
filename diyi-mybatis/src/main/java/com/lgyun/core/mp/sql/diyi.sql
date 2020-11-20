@@ -1573,6 +1573,7 @@ CREATE TABLE `diyi_rel_bureau` (
   `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`user_id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`rel_bureau_type`,`rel_bureau_user_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='相关局管理表';
 

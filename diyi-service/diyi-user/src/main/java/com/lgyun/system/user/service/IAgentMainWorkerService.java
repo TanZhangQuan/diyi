@@ -1,5 +1,7 @@
 package com.lgyun.system.user.service;
 
+import com.lgyun.common.api.R;
+import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.AgentMainWorkerEntity;
 
@@ -11,6 +13,22 @@ import com.lgyun.system.user.entity.AgentMainWorkerEntity;
  */
 public interface IAgentMainWorkerService extends BaseService<AgentMainWorkerEntity> {
 
+    /**
+     * 查询当前渠道商员工
+     *
+     * @param bladeUser
+     * @return
+     */
+    R<AgentMainWorkerEntity> currentAgentMainWorker(BladeUser bladeUser);
+
+    /**
+     * 根据userId查询渠道商员工
+     *
+     * @param userId
+     * @return
+     */
+    AgentMainWorkerEntity findByUserId(Long userId);
+    
     /**
      * 根据手机号码查询渠道商员工是否存在
      *
