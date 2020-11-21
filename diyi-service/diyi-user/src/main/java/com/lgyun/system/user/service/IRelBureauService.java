@@ -3,6 +3,7 @@ package com.lgyun.system.user.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.RelBureauType;
+import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.dto.AddRelBureauDTO;
 import com.lgyun.system.user.dto.QueryRelBureauListDTO;
@@ -17,6 +18,22 @@ import com.lgyun.system.user.vo.RelBureauVO;
  * @since 2020-10-20 18:47:56
  */
 public interface IRelBureauService extends BaseService<RelBureauEntity> {
+
+    /**
+     * 查询当前相关局
+     *
+     * @param bladeUser
+     * @return
+     */
+    R<RelBureauEntity> currentRelBureau(BladeUser bladeUser);
+
+    /**
+     * 根据userId查询相关局
+     *
+     * @param userId
+     * @return
+     */
+    RelBureauEntity findByUserId(Long userId);
 
     /**
      * 根据账号密码查询相关局

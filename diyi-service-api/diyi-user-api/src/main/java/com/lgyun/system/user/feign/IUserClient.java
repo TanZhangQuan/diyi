@@ -82,6 +82,15 @@ public interface IUserClient {
     R<PartnerEntity> currentPartner(BladeUser bladeUser);
 
     /**
+     * 查询当前相关局
+     *
+     * @param bladeUser
+     * @return
+     */
+    @PostMapping(API_PREFIX + "/current-rel-bureau")
+    R<RelBureauEntity> currentRelBureau(BladeUser bladeUser);
+
+    /**
      * 查询当前商户员工
      *
      * @param bladeUser

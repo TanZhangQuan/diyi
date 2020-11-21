@@ -3,7 +3,9 @@ package com.lgyun.system.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.RelBureauType;
+import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
@@ -30,6 +32,31 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class RelBureauServiceImpl extends BaseServiceImpl<RelBureauMapper, RelBureauEntity> implements IRelBureauService {
+
+    @Override
+    public R<RelBureauEntity> currentRelBureau(BladeUser bladeUser) {
+        if (bladeUser == null || bladeUser.getUserId() == null) {
+            return R.fail("用户未登录");
+        }
+
+        RelBureauEntity relBureauEntity = findByUserId(bladeUser.getUserId());
+        if (relBureauEntity == null) {
+            return R.fail("相关局不存在");
+        }
+
+        if (!(AccountState.NORMAL.equals(relBureauEntity.getRelBureauState()))) {
+            return R.fail("账号状态非正常，请联系客服");
+        }
+
+        return R.data(relBureauEntity);
+    }
+
+    @Override
+    public RelBureauEntity findByUserId(Long userId) {
+        QueryWrapper<RelBureauEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(RelBureauEntity::getUserId, userId);
+        return baseMapper.selectOne(queryWrapper);
+    }
 
     @Override
     public RelBureauEntity findByEmployeeUserNameAndEmployeePwd(String relBureauUserName, String relBureauPwd, RelBureauType relBureauType) {
