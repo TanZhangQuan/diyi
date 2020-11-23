@@ -6,7 +6,6 @@
     <resultMap type="com.lgyun.system.user.vo.CooperationEnterprisesListVO" id="cooperationEnterprisesListVO">
         <result property="id" column="id"/>
         <result property="enterpriseName" column="enterprise_name"/>
-        <result property="cooperationNum" column="cooperation_num"/>
         <result property="cooperationMoney" column="cooperation_money"/>
         <result property="cooperateType" column="cooperate_type"/>
         <result property="cooperateStatus" column="cooperate_status"/>

@@ -42,7 +42,7 @@ public class CooperationEnterprisesListVO implements Serializable {
     private BigDecimal cooperationMoney;
 
     /**
-     * 合作状态
+     * 合作类型
      */
     private CooperateType cooperateType;
 
