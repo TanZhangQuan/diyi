@@ -182,7 +182,7 @@ public class SysClient implements ISysClient {
 
     @Override
     @PostMapping(API_PREFIX + "/roles")
-    public List<RolesVO> getRoles(@NotBlank(message = "用户ID不能为空！") @RequestParam("id") Long id, @RequestBody UserType userType) {
+    public List<RolesVO> getRoles(@NotBlank(message = "请选择用户") @RequestParam("id") Long id, @RequestBody UserType userType) {
         List<Role> list = roleService.list(new QueryWrapper<Role>().lambda().eq(Role::getUserType, userType).eq(Role::getAccount, id));
         List<RolesVO> rolesVOS = new ArrayList<>();
         list.forEach(role -> {

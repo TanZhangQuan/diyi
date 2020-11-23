@@ -17,22 +17,23 @@ public class ChildAccountDTO {
      * 子账号ID
      */
     private Long childAccountId;
+
     /**
      * 姓名
      */
-    @NotBlank(message = "姓名不能为空！")
+    @NotBlank(message = "请输入要姓名")
     private String name;
 
     /**
      * 岗位性质
      */
-    @NotNull(message = "岗位性质不能为空！")
+    @NotNull(message = "请选择岗位性质")
     private PositionName positionName;
 
     /**
      * 手机号码
      */
-    @NotBlank(message = "手机号码不能为空！")
+    @NotBlank(message = "请输入手机号码")
     @Length(min = 11, max = 11, message = "请输入11位手机号")
     @Pattern(regexp = "[0-9]*", message = "请输入有效的手机号码")
     private String phoneNumber;
@@ -40,7 +41,7 @@ public class ChildAccountDTO {
     /**
      * 用户名
      */
-    @NotBlank(message = "用户名不能为空！")
+    @NotBlank(message = "请输入用户名")
     private String userName;
 
     /**
@@ -51,13 +52,13 @@ public class ChildAccountDTO {
     /**
      * 拥有的角色ID
      */
-    @NotNull(message = "角色ID不能为空！")
+    @NotNull(message = "请选择角色")
     private Long roleId;
 
     /**
      * 是否有建立子账号的权限（为true是有权限创建）
      */
-    @NotNull(message = "建立子账号的权限不能为空！")
+    @NotNull(message = "请选择是否有建立子账号的权限")
     private Boolean adminPower;
 
 }

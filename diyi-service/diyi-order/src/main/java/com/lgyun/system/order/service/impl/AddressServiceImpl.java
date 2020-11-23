@@ -104,7 +104,7 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
             //移除要删除的收货地址
             addressEntityList.remove(addressEntity);
 
-            if (!(addressEntityList.isEmpty())){
+            if (!(addressEntityList.isEmpty())) {
                 AddressEntity newDefaultAddressEntity = addressEntityList.get(0);
                 newDefaultAddressEntity.setIsDefault(true);
                 updateById(newDefaultAddressEntity);
@@ -170,7 +170,7 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
         QueryWrapper<AddressEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(AddressEntity::getObjectId, objectId)
                 .eq(AddressEntity::getObjectType, objectType)
-                .eq(AddressEntity::getIsDefault,1);
+                .eq(AddressEntity::getIsDefault, 1);
         return baseMapper.selectList(queryWrapper).get(0);
 
     }

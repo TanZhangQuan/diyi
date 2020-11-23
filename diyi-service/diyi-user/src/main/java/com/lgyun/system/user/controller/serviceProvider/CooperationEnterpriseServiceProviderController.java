@@ -28,12 +28,12 @@ import javax.validation.constraints.NotNull;
 public class CooperationEnterpriseServiceProviderController {
 
     private IServiceProviderWorkerService serviceProviderWorkerService;
-    private IEnterpriseServiceProviderService enterpriseProviderService;
+    private IEnterpriseServiceProviderService enterpriseServiceProviderService;
     private IEnterpriseService enterpriseService;
 
     @GetMapping("/query-cooperation-enterprise-list")
     @ApiOperation(value = "查询当前服务商合作商户", notes = "查询当前服务商合作商户")
-    public R queryCooperationEnterpriseList(String keyWord, Query query, BladeUser bladeUser) {
+    public R queryCooperationEnterpriseList(String enterpriseName, Query query, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -41,7 +41,7 @@ public class CooperationEnterpriseServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return enterpriseProviderService.getEnterprtisesByServiceProviderId(serviceProviderWorkerEntity.getServiceProviderId(), keyWord, Condition.getPage(query.setDescs("t1.create_time")));
+        return enterpriseServiceProviderService.queryCooperationEnterpriseList(serviceProviderWorkerEntity.getServiceProviderId(), enterpriseName, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-enterprise-detail")

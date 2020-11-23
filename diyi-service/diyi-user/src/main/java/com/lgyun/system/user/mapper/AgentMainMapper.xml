@@ -3,85 +3,72 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.AgentMainMapper">
 
-    <resultMap id="AgentMainVO" type="com.lgyun.system.user.vo.AdminAgentMainVO">
-        <id column="id" property="agentMainId"/>
-        <result column="agent_main_name" property="agentMainName"/>
-        <result column="contact1_name" property="contact1Name"/>
-        <result column="contact1_phone" property="contact1Phone"/>
-        <result column="franchise_contract" property="franchiseContract"/>
-        <result column="channel_commitment_letter" property="channelCommitmentLetter"/>
-        <result column="status" property="agentState" javaType="com.lgyun.common.enumeration.AccountState"/>
-        <result column="create_time" property="createTime"/>
+    <resultMap type="com.lgyun.system.user.vo.AgentMainListAdminVO" id="agentMainListAdminVO">
+        <result property="agentMainId" column="agent_main_id"/>
+        <result property="agentMainName" column="agent_main_name"/>
+        <result property="contact1Name" column="contact1_name"/>
+        <result property="contact1Phone" column="contact1_phone"/>
+        <result property="joinContract" column="join_contract"/>
+        <result property="commitmentLetters" column="commitment_letters"/>
+        <result property="agentMainState" column="agent_main_state"/>
+        <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.AdminAgentMainServiceProviderListVO" id="adminAgentMainServiceProviderListVO">
-        <result property="serviceProviderId" column="service_provider_id"/>
-        <result property="serviceProviderName" column="service_provider_name"/>
-        <result property="amount" column="amount"/>
-        <result property="cooperateStatus" column="cooperate_status"/>
-        <result property="startDatetime" column="start_datetime"/>
+    <resultMap type="com.lgyun.system.user.vo.AgentMainUpdateDetailVO" id="agentMainUpdateDetailVO">
+        <result property="id" column="id"/>
+        <result property="agentMainName" column="agent_main_name"/>
+        <result property="legalPersonName" column="legal_person_name"/>
+        <result property="legalPersonIdcard" column="legal_person_idcard"/>
+        <result property="socialCreditNo" column="social_credit_no"/>
+        <result property="bizLicenceUrl" column="biz_licence_url"/>
+        <result property="enterpriseUrl" column="enterprise_url"/>
+        <result property="joinContract" column="join_contract"/>
+        <result property="commitmentLetters" column="commitment_letters"/>
+        <result property="contact1Name" column="contact1_name"/>
+        <result property="contact1Position" column="contact1_position"/>
+        <result property="contact1Phone" column="contact1_phone"/>
+        <result property="contact1Mail" column="contact1_mail"/>
+        <result property="contact2Name" column="contact2_name"/>
+        <result property="contact2Position" column="contact2_position"/>
+        <result property="contact2Phone" column="contact2_phone"/>
+        <result property="contact2Mail" column="contact2_mail"/>
+        <result property="invoiceEnterpriseName" column="invoice_enterprise_name"/>
+        <result property="invoiceTaxNo" column="invoice_tax_no"/>
+        <result property="invoiceAddressPhone" column="invoice_address_phone"/>
+        <result property="invoiceBankNameAccount" column="invoice_bank_name_account"/>
+        <result property="employeeUserName" column="employee_user_name"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="workerName" column="worker_name"/>
     </resultMap>
 
-    <select id="getAgentMainList" resultMap="AgentMainVO">
-                SELECT
-            am.id,
-            am.agent_main_name,
-            am.contact1_name,
-            am.contact1_phone,
-            (
-                SELECT
-
-                IF (
-                    a.sign_type = 'PLATFORMAGREEMENT',
-                    a.online_aggrement_url,
-                    a.paper_agreement_url
-                )
-                FROM
-                    diyi_agreement AS a
-                WHERE
-                    a.agent_id = am.id
-                AND a.agreement_type = 'AGENTMAINJOINAGREEMENT'
-            ) AS franchise_contract,
-            (
-                SELECT
-
-                IF (
-                    a.sign_type = 'PLATFORMAGREEMENT',
-                    a.online_aggrement_url,
-                    a.paper_agreement_url
-                )
-                FROM
-                    diyi_agreement AS a
-                WHERE
-                    a.agent_id = am.id
-                AND a.agreement_type = 'AGENTMAINERPROMISE'
-            ) AS channel_commitment_letter,
-            am.agent_state,
-            am.create_time
-        FROM
-            diyi_agent_main AS am
-                WHERE
-                am.is_deleted=0
-                <if test="param1.agentMainName != null and param1.agentMainName.trim() != ''">
-                    AND am.agent_main_name LIKE concat('%', #{param1.agentMainName}, '%')
-                </if>
-                <if test="param1.beginDate != null">
-                    AND DATEDIFF(am.create_time, #{param1.beginDate}) <![CDATA[ >= ]]> 0
-                </if>
-                <if test="param1.endDate != null">
-                    AND DATEDIFF(am.create_time, #{param1.endDate}) <![CDATA[ <= ]]> 0
-                </if>
-    </select>
-
-    <select id="getAgentMainServiceProviderList" resultMap="adminAgentMainServiceProviderListVO">
-
-    </select>
-
-    <select id="queryAgentMainServiceProvider" resultType="com.lgyun.system.user.vo.AgentMainServiceProviderVO">
-        SELECT t1.id, t1.service_provider_name FROM diyi_service_provider t1 WHERE t1.is_deleted = 0 AND NOT EXISTS
-        (SELECT id FROM diyi_agent_provider WHERE is_deleted = 0 AND service_provider_id = t1.id)
-        <if test="serviceProviderName != null and serviceProviderName != ''">
-            AND service_provider_name LIKE CONCTA('%',#{param1},'%')
+    <select id="getAgentMainListAdmin" resultMap="agentMainListAdminVO">
+        SELECT t1.id, t1.agent_main_name, t1.contact1_name, t1.contact1_phone, t1.agent_main_state, t1.create_time,
+        (SELECT IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url)
+        FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'AGENTMAINJOINAGREEMENT' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED'
+        AND agent_main_id = t1.id) AS join_contract, (SELECT GROUP_CONCAT(IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '',
+        paper_agreement_url, online_agreement_url)) FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'AGENTMAINERPROMISE'
+        AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND agent_main_id = t1.id) AS commitment_letters FROM diyi_agent_main t1 WHERE t1.is_deleted = 0
+        <if test="param1.agentMainName != null and param1.agentMainName.trim() != ''">
+            AND t1.agent_main_name LIKE concat('%', #{param1.agentMainName}, '%')
+        </if>
+        <if test="param1.beginDate != null">
+            AND DATEDIFF(t1.create_time, #{param1.beginDate}) <![CDATA[ >= ]]> 0
+        </if>
+        <if test="param1.endDate != null">
+            AND DATEDIFF(t1.create_time, #{param1.endDate}) <![CDATA[ <= ]]> 0
         </if>
     </select>
+
+    <select id="queryAgentMainUpdateDetail" resultMap="agentMainUpdateDetailVO">
+        SELECT t1.id, t1.agent_main_name, t1.legal_person_name, t1.legal_person_idcard, t1.social_credit_no, t1.biz_licence_url, t1.enterprise_url,
+        t1.contact1_name, t1.contact1_position, t1.contact1_phone, t1.contact1_mail, t1.contact2_name, t1.contact2_position, t1.contact2_phone,
+        t1.contact2_mail, t1.invoice_enterprise_name, t1.invoice_tax_no, t1.invoice_address_phone, t1.invoice_bank_name_account, t2.employee_user_name, t2.phone_number,
+        t2.worker_name, (SELECT IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url)
+        FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'AGENTMAINJOINAGREEMENT' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND agent_main_id = t1.id) AS join_contract,
+        (SELECT GROUP_CONCAT(IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url))
+        FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'AGENTMAINERPROMISE' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND agent_main_id = t1.id) AS commitment_letters
+        FROM diyi_agent_main t1 INNER JOIN diyi_agent_main_worker t2 ON t1.id = t2.agent_main_id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0
+        AND t2.up_level_id IS NULL AND t1.id = #{param1}
+    </select>
+
 </mapper>

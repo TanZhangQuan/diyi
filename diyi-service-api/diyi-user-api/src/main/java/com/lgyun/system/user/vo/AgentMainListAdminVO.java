@@ -10,28 +10,27 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 平台端---服务商管理---服务商列表vo
- *
- * @author tzq
- * @date 2020/9/9
+ * @author .
+ * @date 2020/10/20.
+ * @time 16:34.
  */
 @Data
-public class ServiceProviderListVO implements Serializable {
+public class AgentMainListAdminVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 服务商编号
+     * 渠道商ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
+    private Long agentMainId;
 
     /**
-     * 服务商名称
+     * 渠道商名称
      */
-    private String serviceProviderName;
+    private String agentMainName;
 
     /**
-     * 联系人
+     * 联系人名称
      */
     private String contact1Name;
 
@@ -46,9 +45,14 @@ public class ServiceProviderListVO implements Serializable {
     private String joinContract;
 
     /**
+     * 商户承诺函(可能多张)
+     */
+    private String commitmentLetters;
+
+    /**
      * 状态
      */
-    private AccountState serviceProviderState;
+    private AccountState agentMainState;
 
     /**
      * 创建时间

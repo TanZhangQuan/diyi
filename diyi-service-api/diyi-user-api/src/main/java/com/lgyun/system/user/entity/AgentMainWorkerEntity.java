@@ -86,11 +86,11 @@ public class AgentMainWorkerEntity extends BaseEntity {
     /**
      * 管理员权限
      */
-    private Boolean superAdmin;
+    private Boolean superAdmin = false;
 
     /**
      * 管理员特性
      */
-    private Boolean adminPower;
+    private Boolean adminPower = false;
 
 }

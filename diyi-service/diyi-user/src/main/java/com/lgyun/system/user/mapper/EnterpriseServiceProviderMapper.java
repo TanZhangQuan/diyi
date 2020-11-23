@@ -18,15 +18,6 @@ import java.util.List;
 public interface EnterpriseServiceProviderMapper extends BaseMapper<EnterpriseServiceProviderEntity> {
 
     /**
-     * 查询服务商编号和名称
-     *
-     * @param enterpriseId
-     * @param page
-     * @return
-     */
-    List<ServiceProviderIdNameListVO> queryServiceProviderIdAndNameList(Long enterpriseId, String serviceProviderName, IPage<ServiceProviderIdNameListVO> page);
-
-    /**
      * 查询服务商关联的所有商户
      *
      * @param serviceProviderId
@@ -40,30 +31,21 @@ public interface EnterpriseServiceProviderMapper extends BaseMapper<EnterpriseSe
      * 查询当前商户合作服务商
      *
      * @param enterpriseId
-     * @param keyWord
+     * @param serviceProviderName
      * @param page
      * @return
      */
-    List<CooperationServiceProviderListVO> getServiceProvidersByEnterpriseId(Long enterpriseId, String keyWord, IPage<CooperationServiceProviderListVO> page);
+    List<CooperationServiceProviderListVO> queryCooperationServiceProviderList(Long enterpriseId, String serviceProviderName, IPage<CooperationServiceProviderListVO> page);
 
     /**
      * 查询当前商户合作服务商
-     *
-     * @param serviceProviderId
-     * @param keyWord
-     * @param page
-     * @return
-     */
-    List<EnterprisesByProviderVO> getEnterprtisesByServiceProviderId(Long serviceProviderId, String keyWord, IPage<EnterprisesByProviderVO> page);
-
-    /**
-     * 查询商户编号和名称
      *
      * @param serviceProviderId
      * @param enterpriseName
      * @param page
      * @return
      */
-    List<EnterpriseIdNameListVO> queryEnterpriseIdAndNameList(Long serviceProviderId, String enterpriseName, IPage<EnterpriseIdNameListVO> page);
+    List<CooperationEnterprisesListVO> queryCooperationEnterpriseList(Long serviceProviderId, String enterpriseName, IPage<CooperationEnterprisesListVO> page);
+
 }
 

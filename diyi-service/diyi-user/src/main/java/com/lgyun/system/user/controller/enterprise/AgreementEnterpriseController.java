@@ -8,6 +8,7 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.service.IAgreementService;
+import com.lgyun.system.user.service.IEnterpriseServiceProviderService;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
 import io.swagger.annotations.Api;
@@ -25,9 +26,10 @@ import javax.validation.constraints.NotBlank;
 @Api(value = "商户端---合同管理模块相关接口", tags = "商户端---合同管理模块相关接口")
 public class AgreementEnterpriseController {
 
-    private IEnterpriseWorkerService enterpriseWorkerService;
     private IAgreementService agreementService;
     private IMakerEnterpriseService makerEnterpriseService;
+    private IEnterpriseWorkerService enterpriseWorkerService;
+    private IEnterpriseServiceProviderService enterpriseServiceProviderService;
 
     @GetMapping("/query-enterprise-join-contract")
     @ApiOperation(value = "根据商户查询商户的加盟合同", notes = "根据商户查询商户的加盟合同")
@@ -135,7 +137,7 @@ public class AgreementEnterpriseController {
 
     @PostMapping("/upload-enterprise-to-maker-supplementary-agreement")
     @ApiOperation(value = "商户上传商户和创客的补充协议", notes = "商户上传商户和创客的补充协议")
-    public R saveEnterpriseToMakerAgreement(BladeUser bladeUser, @NotBlank(message = "商户和创客的补充协议不能为空！") @RequestParam(required = false) String paperAgreementURL, @NotBlank(message = "选择的创客不能为空！") @RequestParam(required = false) String makerIds) {
+    public R saveEnterpriseToMakerAgreement(BladeUser bladeUser, @NotBlank(message = "请选择商户和创客的补充协议") @RequestParam(required = false) String paperAgreementURL, @NotBlank(message = "选择的创客") @RequestParam(required = false) String makerIds) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -200,7 +202,7 @@ public class AgreementEnterpriseController {
 
     @GetMapping("/query-relevance-service-provider-list")
     @ApiOperation(value = "根据商户查询有关联的服务商", notes = "根据商户查询有关联的服务商")
-    public R queryRelevanceServiceProviderList(String keyWord, Query query, BladeUser bladeUser) {
+    public R queryRelevanceServiceProviderList(String serviceProviderName, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -208,6 +210,6 @@ public class AgreementEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return agreementService.getRelationServiceProvider(query, enterpriseWorkerEntity.getEnterpriseId(), keyWord);
+        return enterpriseServiceProviderService.queryCooperationServiceProviderList(enterpriseWorkerEntity.getEnterpriseId(), serviceProviderName, Condition.getPage(query.setDescs("t1.create_time")));
     }
 }

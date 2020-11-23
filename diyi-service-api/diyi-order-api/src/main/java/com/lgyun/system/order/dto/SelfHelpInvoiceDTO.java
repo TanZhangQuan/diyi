@@ -21,7 +21,7 @@ public class SelfHelpInvoiceDTO implements Serializable {
     /**
      * 购买方
      */
-    @NotNull(message = "购买方Id不能为空")
+    @NotNull(message = "请选择购买方")
     private Long enterpriseId;
 
     /**
@@ -33,60 +33,60 @@ public class SelfHelpInvoiceDTO implements Serializable {
     /**
      * 开票类目
      */
-    @NotBlank(message = "开票类目不能为空")
+    @NotBlank(message = "请选择开票类目")
     private String invoiceType;
 
     /**
      * 开票清单文件
      */
-    @NotBlank(message = "开票清单文件不能为空")
+    @NotBlank(message = "请上传开票清单文件")
     private String listFile;
 
     /**
      * 价税合计额
      */
-    @NotNull(message = "价税合计额不能为空")
+    @NotNull(message = "请输入价税合计额")
     private BigDecimal chargeMoneyNum;
 
     /**
      * 收件地址
      */
-    @NotNull(message = "收件地址不能为空")
+    @NotNull(message = "请输入收件地址")
     private Long addressId;
 
     /**
      * 流水凭证
      */
-    @NotBlank(message = "流水凭证不能为空")
+    @NotBlank(message = "请上传流水凭证")
     private String flowContractUrl;
 
     /**
      * 业务合同
      */
-    @NotBlank(message = "业务合同不能为空")
+    @NotBlank(message = "请上传业务合同")
     private String businessContractUrl;
 
     /**
      * 交付支付验收单URL
      */
-    @NotBlank(message = "交付支付验收单URL不能为空")
+    @NotBlank(message = "请上传交付支付验收单")
     private String deliverSheetUrl;
 
     /**
      * 账户余额url
      */
-    @NotBlank(message = "账户余额url不能为空")
+    @NotBlank(message = "请上传账户余额")
     private String accountBalanceUrl;
 
     /**
      * 申请人Id
      */
-    @NotNull(message = "申请人创客的Id不能为空")
+    @NotNull(message = "请选择申请人创客")
     private Long objectId;
 
     /**
      * 申请人的身份
      */
-    @NotNull(message = "申请人的身份不能为空")
+    @NotNull(message = "请选择申请人的身份")
     private ObjectType objectType;
 }

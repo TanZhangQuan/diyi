@@ -52,7 +52,7 @@ public class PermissionAdminController {
 
     @GetMapping("/query-role-Info")
     @ApiOperation(value = "角色管理---查询角色详情", notes = "角色管理---查询角色详情")
-    public R queryRoleInfo(@NotNull(message = "角色ID不能为空！") @RequestParam(required = false) Long roleId, BladeUser bladeUser) {
+    public R queryRoleInfo(@NotNull(message = "请选择角色") @RequestParam(required = false) Long roleId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -63,7 +63,7 @@ public class PermissionAdminController {
 
     @GetMapping("/remove-role")
     @ApiOperation(value = "角色管理---删除角色", notes = "角色管理---删除角色")
-    public R removeRole(@NotNull(message = "删除的角色不能为空！") @RequestParam(required = false) Long roleId, BladeUser bladeUser) {
+    public R removeRole(@NotNull(message = "请选择要删除的角色") @RequestParam(required = false) Long roleId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -86,7 +86,7 @@ public class PermissionAdminController {
 
     @GetMapping("/query-account-detail")
     @ApiOperation(value = "子账号管理---查询管理员的账号详情", notes = "子账号管理---查询商户账号详情")
-    public R queryAccountDetail(@NotNull(message = "子账号ID不能为空！") @RequestParam("accountId") Long accountId, BladeUser bladeUser) {
+    public R queryAccountDetail(@NotNull(message = "请选择子账号") @RequestParam("accountId") Long accountId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -125,7 +125,7 @@ public class PermissionAdminController {
 
     @PostMapping("/operate-child-account")
     @ApiOperation(value = "子账号管理---删除、停用、启用子账号", notes = "子账号管理---删除、停用、启用子账号")
-    public R operateChildAccount(@NotNull(message = "子账号ID不能为空！") @RequestParam(required = false) Long childAccountId, ChildAccountType childAccountType, BladeUser bladeUser) {
+    public R operateChildAccount(@NotNull(message = "请选择子账号") @RequestParam(required = false) Long childAccountId, ChildAccountType childAccountType, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

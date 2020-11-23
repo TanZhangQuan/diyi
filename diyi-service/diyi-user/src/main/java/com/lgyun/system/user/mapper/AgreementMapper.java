@@ -108,5 +108,12 @@ public interface AgreementMapper extends BaseMapper<AgreementEntity> {
      */
     void deleteByEnterprise(Long enterpriseId, AgreementType agreementType);
 
+    /**
+     * 删除渠道商合同
+     *
+     * @param agentMainId
+     * @param agreementType
+     */
+    void deleteByAgentMain(Long agentMainId, AgreementType agreementType);
 }
 

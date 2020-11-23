@@ -10,8 +10,6 @@ import com.lgyun.common.tool.Func;
 import com.lgyun.common.tool.SnowflakeIdWorker;
 import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.core.mp.support.Condition;
-import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.AgreementMapper;
 import com.lgyun.system.user.service.*;
@@ -37,9 +35,7 @@ import java.util.*;
 public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, AgreementEntity> implements IAgreementService {
 
     private final IOnlineAgreementTemplateService iOnlineAgreementTemplateService;
-    private final IServiceProviderService serviceProviderService;
     private final IEnterpriseServiceProviderService enterpriseServiceProviderService;
-
     private final IMakerEnterpriseService makerEnterpriseService;
 
     @Autowired
@@ -53,6 +49,10 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     @Autowired
     @Lazy
     private IEnterpriseService enterpriseService;
+
+    @Autowired
+    @Lazy
+    private IServiceProviderService serviceProviderService;
 
     @Override
     public AgreementEntity findSuccessAgreement(Long enterpriseId, Long serviceProviderId, AgreementType agreementType, AuditState auditState, SignState signState) {
@@ -380,11 +380,11 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
             if (AgreementType.SERENTSUPPLEMENTARYAGREEMENT.equals(agreementType)) {
                 agreementEntity.setEnterpriseId(enterpriseId);
             }
-        } else if (ObjectType.CHANNELPEOPLE.equals(objectType)) {
+        } else if (ObjectType.AGENTMAINPEOPLE.equals(objectType)) {
             agreementEntity.setAgentMainId(objectId);
-        } else if (ObjectType.RELEVANTPEOPLE.equals(objectType)) {
+        } else if (ObjectType.RELBUREAUPEOPLE.equals(objectType)) {
             agreementEntity.setRelBureauId(objectId);
-        } else if (ObjectType.PARTNERSHIPPEOPLE.equals(objectType)) {
+        } else if (ObjectType.PARTNERPEOPLE.equals(objectType)) {
             agreementEntity.setPartnerId(objectId);
         }
         agreementEntity.setPaperAgreementUrl(paperAgreementUrl);
@@ -450,11 +450,6 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
                 .eq(AgreementEntity::getAgreementType, agreementType);
         AgreementEntity agreementEntity = baseMapper.selectOne(queryWrapper);
         return R.data(agreementEntity);
-    }
-
-    @Override
-    public R getRelationServiceProvider(Query query, Long enterpriseId, String keyWord) {
-        return enterpriseServiceProviderService.getServiceProvidersByEnterpriseId(enterpriseId, keyWord, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @Override
@@ -536,6 +531,11 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     @Override
     public void deleteByEnterprise(Long enterpriseId, AgreementType agreementType) {
         baseMapper.deleteByEnterprise(enterpriseId, agreementType);
+    }
+
+    @Override
+    public void deleteByAgentMain(Long agentMainId, AgreementType agreementType) {
+        baseMapper.deleteByAgentMain(agentMainId, agreementType);
     }
 
     @Override

@@ -11,8 +11,6 @@ import com.lgyun.system.order.dto.*;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.excel.PayEnterpriseExcel;
 import com.lgyun.system.order.vo.*;
-import com.lgyun.system.user.vo.AdminAgentMainServiceProviderListVO;
-import com.lgyun.system.user.vo.AgentMainTransactionVO;
 import com.lgyun.system.user.vo.PartnerServiceProviderListVO;
 import com.lgyun.system.user.vo.TransactionVO;
 
@@ -177,6 +175,22 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R<TransactionVO> transactionByServiceProvider(Long serviceProviderId);
 
     /**
+     * 查询渠道商-商户交易数据
+     *
+     * @param agentMainId
+     * @return
+     */
+    R<TransactionVO> queryAgentMainEnterpriseTransaction(Long agentMainId);
+
+    /**
+     * 查询渠道商-服务商交易数据
+     *
+     * @param agentMainId
+     * @return
+     */
+    R<TransactionVO> queryAgentMainServiceProviderTransaction(Long agentMainId);
+
+    /**
      * 查询当前商户总包+分包全年流水
      *
      * @param enterpriseId
@@ -239,7 +253,6 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @return
      */
     R<DayTradeVO> queryTotalSubDayTradeByServiceProvider(Long serviceProviderId);
-
 
     /**
      * 服务商查询总包发票列表
@@ -391,28 +404,11 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R<IPage<TransactionByBureauServiceProviderInfoVO>> transactionByBureauServiceProviderInfo(Long bureauId, IPage<TransactionByBureauServiceProviderInfoVO> page);
 
     /**
-     * 查询渠道商交易情况数据
-     *
-     * @param agentMainId
-     * @return
-     */
-    R<AgentMainTransactionVO> transactionByAgentMainId(Long agentMainId);
-
-    /**
-     * 查询匹配好的服务商
-     *
-     * @param agentMainId
-     * @param page
-     * @return
-     */
-    R<IPage<AdminAgentMainServiceProviderListVO>> getCooperativeServiceProvider(IPage<AdminAgentMainServiceProviderListVO> page, Long agentMainId);
-
-    /**
      * 合伙人流水信息
      *
      * @return
      */
-    R<AgentMainTransactionVO> allTransaction();
+    R<TransactionVO> allTransaction();
 
     /**
      * 合伙人可以看所有的服务商

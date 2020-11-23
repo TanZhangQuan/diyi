@@ -53,7 +53,7 @@ public class PermissionServiceProviderController {
 
     @GetMapping("/query-role-Info")
     @ApiOperation(value = "角色管理---查询角色详情", notes = "角色管理---查询角色详情")
-    public R queryRoleInfo(@NotNull(message = "角色ID不能为空！") @RequestParam(required = false) Long roleId, BladeUser bladeUser) {
+    public R queryRoleInfo(@NotNull(message = "请选择角色") @RequestParam(required = false) Long roleId, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -64,7 +64,7 @@ public class PermissionServiceProviderController {
 
     @GetMapping("/remove-role")
     @ApiOperation(value = "角色管理---删除角色", notes = "角色管理---删除角色")
-    public R removeRole(@NotNull(message = "删除的角色不能为空！") @RequestParam(required = false) Long roleId, BladeUser bladeUser) {
+    public R removeRole(@NotNull(message = "请选择要删除的角色") @RequestParam(required = false) Long roleId, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {

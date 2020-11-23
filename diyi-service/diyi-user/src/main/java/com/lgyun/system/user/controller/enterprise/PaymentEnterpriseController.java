@@ -5,8 +5,8 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
-import com.lgyun.system.user.service.IEnterpriseServiceProviderService;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
+import com.lgyun.system.user.service.IServiceProviderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PaymentEnterpriseController {
 
     private IEnterpriseWorkerService enterpriseWorkerService;
-    private IEnterpriseServiceProviderService enterpriseProviderService;
+    private IServiceProviderService serviceProviderService;
 
     @GetMapping("/query-service-provider-id-and-name-list")
     @ApiOperation(value = "查询商户合作服务商", notes = "查询商户合作服务商")
@@ -36,7 +36,7 @@ public class PaymentEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return enterpriseProviderService.queryServiceProviderIdAndNameList(enterpriseWorkerEntity.getEnterpriseId(), serviceProviderName, Condition.getPage(query.setDescs("t1.create_time")));
+        return serviceProviderService.queryServiceProviderIdAndNameList(enterpriseWorkerEntity.getEnterpriseId(), serviceProviderName, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
 }

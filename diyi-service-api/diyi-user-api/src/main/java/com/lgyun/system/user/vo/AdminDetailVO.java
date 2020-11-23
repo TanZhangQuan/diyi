@@ -33,6 +33,6 @@ public class AdminDetailVO implements Serializable {
     /**
      * 管理员权限
      */
-    private Boolean superAdmin = false;
+    private Boolean superAdmin;
 
 }

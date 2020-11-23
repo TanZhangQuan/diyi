@@ -5,8 +5,8 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
-import com.lgyun.system.user.service.IEnterpriseServiceProviderService;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
+import com.lgyun.system.user.service.IServiceProviderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomePageEnterpriseController {
 
     private IEnterpriseWorkerService enterpriseWorkerService;
-    private IEnterpriseServiceProviderService enterpriseServiceProviderService;
+    private IServiceProviderService serviceProviderService;
 
     @GetMapping("/query-current-enterprise-detail")
     @ApiOperation(value = "查询当前商户员工详情", notes = "查询当前商户员工详情")
@@ -48,7 +48,7 @@ public class HomePageEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return enterpriseServiceProviderService.queryServiceProviderIdAndNameList(enterpriseWorkerEntity.getEnterpriseId(), null, Condition.getPage(query.setDescs("t1.create_time")));
+        return serviceProviderService.queryServiceProviderIdAndNameList(enterpriseWorkerEntity.getEnterpriseId(), null, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
 }

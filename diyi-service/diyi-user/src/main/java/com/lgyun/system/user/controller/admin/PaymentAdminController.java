@@ -7,7 +7,6 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.service.IAdminService;
 import com.lgyun.system.user.service.IEnterpriseService;
-import com.lgyun.system.user.service.IEnterpriseServiceProviderService;
 import com.lgyun.system.user.service.IServiceProviderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,7 +30,6 @@ public class PaymentAdminController {
     private IAdminService adminService;
     private IEnterpriseService enterpriseService;
     private IServiceProviderService serviceProviderService;
-    private IEnterpriseServiceProviderService enterpriseServiceProviderService;
 
     @GetMapping("/query-enterprise-list")
     @ApiOperation(value = "查询所有商户", notes = "查询所有商户")
@@ -66,7 +64,7 @@ public class PaymentAdminController {
             return result;
         }
 
-        return enterpriseServiceProviderService.queryServiceProviderIdAndNameList(enterpriseId, serviceProviderName, Condition.getPage(query.setDescs("t1.create_time")));
+        return serviceProviderService.queryServiceProviderIdAndNameList(enterpriseId, serviceProviderName, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
 }

@@ -16,15 +16,15 @@ import java.math.BigDecimal;
 public class LumpInvoiceDTO {
 
     /**
-     *总包id
+     *总包ID
      */
-    @NotNull(message = "总包id不能为空")
+    @NotNull(message = "请选择总包")
     private Long invoicePrintId;
 
     /**
-     *发票url
+     *发票
      */
-    @NotBlank(message = "请输入发票url")
+    @NotBlank(message = "请输入发票")
     private String companyInvoiceUrl;
 
     /**
@@ -44,6 +44,9 @@ public class LumpInvoiceDTO {
      */
     private String invoiceDesc;
 
+    /**
+     * 服务商
+     */
     private Long serviceProviderId;
 
     /**

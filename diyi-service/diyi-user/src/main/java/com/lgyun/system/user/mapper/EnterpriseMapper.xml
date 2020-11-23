@@ -36,7 +36,7 @@
         <result property="boolSignAgreement" column="bool_sign_agreement"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.EnterpriseListEnterpriseVO" id="enterpriseListEnterpriseVO">
+    <resultMap type="com.lgyun.system.user.vo.EnterpriseListAdminVO" id="">
         <result property="id" column="id"/>
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="contact1Name" column="contact1_name"/>
@@ -104,6 +104,11 @@
         <result property="invoiceBankNameAccount" column="invoice_bank_name_account"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.user.vo.EnterpriseIdNameListVO" id="enterpriseIdNameListVO">
+        <result property="enterpriseId" column="enterprise_id"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+    </resultMap>
+
     <select id="getEnterpriseName" resultMap="makerEnterpriseRelationVO">
        SELECT id AS enterprise_id, enterprise_name, shop_user_name, legal_person_name, legal_person_idcard as legal_person_idcard, contact1_position, contact1_name, contact1_phone,
        social_credit_no, biz_licence_url, shop_id, contact1_name FROM diyi_enterprise t1 WHERE is_deleted = 0 AND enterprise_name = #{param1}
@@ -124,7 +129,7 @@
         </if>
     </select>
 
-    <select id="queryEnterpriseListEnterprise" resultMap="enterpriseListEnterpriseVO">
+    <select id="queryEnterpriseListAdmin" resultMap="enterpriseListAdminVO">
         SELECT t1.id, t1.enterprise_name, t1.contact1_name, t1.contact1_phone, t1.enterprise_state, t1.create_time,
         (SELECT IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url)
         FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'ENTERPRISEJOINAGREEMENT' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED'
@@ -164,6 +169,20 @@
 
     <select id="queryeInvoice" resultMap="invoiceVO">
         SELECT id, invoice_enterprise_name, invoice_tax_no, invoice_address_phone, invoice_bank_name_account FROM diyi_enterprise WHERE is_deleted = 0 AND id = #{param1}
+    </select>
+
+    <select id="queryEnterpriseIdAndNameList" resultMap="enterpriseIdNameListVO">
+        SELECT t1.id AS enterprise_id, t1.enterprise_name FROM diyi_enterprise t1
+        <if test="param1 != null">
+            INNER JOIN diyi_enterprise_service_provider t2 ON t1.id = t2.enterprise_id
+        </if>
+        WHERE t1.is_deleted = 0
+        <if test="param1 != null">
+            AND t2.is_deleted = 0 AND t2.cooperate_status = 'COOPERATING' AND t2.service_provider_id = #{param1}
+        </if>
+        <if test="param2 != null and param2.trim() != ''">
+            AND t1.enterprise_name like concat('%', #{param2}, '%')
+        </if>
     </select>
 
 </mapper>

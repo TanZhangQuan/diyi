@@ -26,10 +26,10 @@ import javax.validation.constraints.NotNull;
 public class IndividualEnterpriseAdminController {
 
     private IAdminService adminService;
+    private IMakerService makerService;
     private IIndividualEnterpriseService individualEnterpriseService;
     private IEnterpriseReportService enterpriseReportService;
-    private IMakerService makerService;
-    private IEnterpriseServiceProviderService enterpriseServiceProviderService;
+    private IServiceProviderService serviceProviderService;
 
     @GetMapping("/query-maker-list")
     @ApiOperation(value = "查询创客", notes = "查询创客")
@@ -118,7 +118,7 @@ public class IndividualEnterpriseAdminController {
             return result;
         }
 
-        return enterpriseServiceProviderService.queryServiceProviderIdAndNameList(null, serviceProviderName, Condition.getPage(query.setDescs("t1.create_time")));
+        return serviceProviderService.queryServiceProviderIdAndNameList(null, serviceProviderName, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/mate-service-provider")

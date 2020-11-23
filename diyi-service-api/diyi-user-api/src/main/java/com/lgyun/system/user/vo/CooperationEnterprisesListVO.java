@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.CooperateStatus;
+import com.lgyun.common.enumeration.CooperateType;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,35 +12,39 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * @author xjw
- * @date 2020/10/20.
- * @time 16:34.
+ * @author .
+ * @date 2020/7/28.
+ * @time 14:55.
  */
 @Data
-public class AdminAgentMainServiceProviderListVO implements Serializable {
+public class CooperationEnterprisesListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 渠道服务商关联ID
+     * 商户ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     /**
-     * 服务商Id
+     * 商户名称
      */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long serviceProviderId;
+    private String enterpriseName;
 
     /**
-     * 服务商名称
+     * 合作次数
      */
-    private String serviceProviderName;
+    private Integer cooperationNum;
 
     /**
-     * 交易金额
+     * 合作金额
      */
-    private BigDecimal amount;
+    private BigDecimal cooperationMoney;
+
+    /**
+     * 合作状态
+     */
+    private CooperateType cooperateType;
 
     /**
      * 合作状态
@@ -47,8 +52,9 @@ public class AdminAgentMainServiceProviderListVO implements Serializable {
     private CooperateStatus cooperateStatus;
 
     /**
-     * 匹配时间
+     * 开始合作时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date startDatetime;
+    private Date createTime;
+
 }

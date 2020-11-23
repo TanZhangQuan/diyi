@@ -20,7 +20,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("diyi_agent_provider")
+@TableName("diyi_agent_main_service_provider")
 public class AgentProviderEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 

@@ -10,8 +10,10 @@ import com.lgyun.system.user.entity.AgentMainWorkerEntity;
 import com.lgyun.system.user.mapper.AgentMainWorkerMapper;
 import com.lgyun.system.user.service.IAgentMainService;
 import com.lgyun.system.user.service.IAgentMainWorkerService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,9 +24,11 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AgentMainWorkerServiceImpl extends BaseServiceImpl<AgentMainWorkerMapper, AgentMainWorkerEntity> implements IAgentMainWorkerService {
 
+    @Autowired
+    @Lazy
     private IAgentMainService agentMainService;
 
     @Override

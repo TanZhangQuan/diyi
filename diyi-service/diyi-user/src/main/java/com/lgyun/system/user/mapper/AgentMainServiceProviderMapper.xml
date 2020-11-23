@@ -3,4 +3,23 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.AgentMainServiceProviderMapper">
 
+    <resultMap type="com.lgyun.system.user.vo.CooperationServiceProviderListVO" id="cooperationServiceProviderListVO">
+        <result property="id" column="id"/>
+        <result property="serviceProviderName" column="service_provider_name"/>
+        <result property="cooperationMoney" column="cooperation_money"/>
+        <result property="cooperateStatus" column="cooperate_status"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <select id="queryCooperationServiceProviderList" resultMap="cooperationServiceProviderListVO">
+        SELECT t2.id, t2.service_provider_name, t1.cooperate_status, t1.create_time, (SELECT IFNULL(SUM(pay_to_platform_amount), 0) FROM diyi_pay_enterprise WHERE
+        is_deleted = 0 AND service_provider_id = t1.service_provider_id AND audit_state = 'APPROVED') + (SELECT IFNULL(SUM(charge_money_num), 0)
+        FROM diyi_self_help_invoice_sp WHERE is_deleted = 0 AND service_provider_id = t1.service_provider_id AND (apply_state = 'SUBMITTED' OR apply_state = 'INVOICED'))
+        AS cooperation_money FROM diyi_agent_main_service_provider t1 INNER JOIN diyi_service_provider t2 ON t1.service_provider_id = t2.id WHERE t1.is_deleted = 0
+        AND t2.is_deleted = 0 AND t1.agent_main_id = #{param1}
+        <if test="param2 != null and param2.trim() != ''">
+            AND t2.service_provider_name LIKE concat('%', #{param2}, '%')
+        </if>
+    </select>
+
 </mapper>

@@ -28,11 +28,12 @@ import javax.validation.constraints.NotNull;
 public class ServiceProviderAdminController {
 
     private IAdminService adminService;
+    private IEnterpriseService enterpriseService;
     private IServiceProviderService serviceProviderService;
     private IServiceProviderCertService serviceProviderCertService;
     private IServiceProviderAccountService serviceProviderAccountService;
     private IAdminCenterMaterialService adminCenterMaterialService;
-    private IEnterpriseServiceProviderService enterpriseProviderService;
+    private IEnterpriseServiceProviderService enterpriseServiceProviderService;
 
     @PostMapping("/create-service-provider")
     @ApiOperation(value = "添加服务商", notes = "添加服务商")
@@ -106,7 +107,7 @@ public class ServiceProviderAdminController {
             return result;
         }
 
-        return enterpriseProviderService.queryEnterpriseIdAndNameList(null, enterpriseName, Condition.getPage(query.setDescs("t1.create_time")));
+        return enterpriseService.queryEnterpriseIdAndNameList(null, enterpriseName, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/match-enterprise")
@@ -121,20 +122,20 @@ public class ServiceProviderAdminController {
         }
         AdminEntity adminEntity = result.getData();
 
-        return enterpriseProviderService.relevanceEnterpriseServiceProvider(enterpriseId, serviceProviderId, matchDesc, adminEntity);
+        return enterpriseServiceProviderService.relevanceEnterpriseServiceProvider(enterpriseId, serviceProviderId, matchDesc, adminEntity);
     }
 
     @GetMapping("/query-cooperation-enterprise-list")
     @ApiOperation(value = "查询当前服务商合作商户", notes = "查询当前服务商合作商户")
     public R queryCooperationEnterpriseList(@ApiParam(value = "服务商", required = true) @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
-                                            @ApiParam(value = "服务商名称", required = true) @RequestParam(required = false) String serviceProviderName, Query query, BladeUser bladeUser) {
+                                            @ApiParam(value = "商户名称", required = true) @RequestParam(required = false) String enterpriseName, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return enterpriseProviderService.getEnterprtisesByServiceProviderId(serviceProviderId, serviceProviderName, Condition.getPage(query.setDescs("t1.create_time")));
+        return enterpriseServiceProviderService.queryCooperationEnterpriseList(serviceProviderId, enterpriseName, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/update-cooperation-status")
@@ -148,7 +149,7 @@ public class ServiceProviderAdminController {
             return result;
         }
 
-        return enterpriseProviderService.updateCooperationStatus(enterpriseId, serviceProviderId, cooperateStatus);
+        return enterpriseServiceProviderService.updateCooperationStatus(enterpriseId, serviceProviderId, cooperateStatus);
     }
 
     @GetMapping("/query-service-provider-cert-list")

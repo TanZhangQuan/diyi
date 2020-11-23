@@ -30,7 +30,7 @@ public class RoleMenusDTO {
     /**
      * 菜单ID字符集（ID之间用英文逗号隔开）
      */
-    @NotBlank(message = "菜单ID字符集不能为空！")
+    @NotBlank(message = "请选择菜单")
     private String menus;
 
     /**

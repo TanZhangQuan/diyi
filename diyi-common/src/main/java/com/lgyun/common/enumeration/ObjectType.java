@@ -15,9 +15,9 @@ public enum ObjectType {
     MAKERPEOPLE("MAKERPEOPLE", "创客本人"),
     ENTERPRISEPEOPLE("ENTERPRISEPEOPLE", "商户人员"),
     SERVICEPEOPLE("SERVICEPEOPLE", "服务商人员"),
-    RELEVANTPEOPLE("RELEVANTPEOPLE", "相关局人员"),
-    CHANNELPEOPLE("CHANNELPEOPLE", "渠道商人员"),
-    PARTNERSHIPPEOPLE("PARTNERSHIPPEOPLE", "合伙人本人");
+    RELBUREAUPEOPLE("RELBUREAUPEOPLE", "相关局人员"),
+    AGENTMAINPEOPLE("AGENTMAINPEOPLE", "渠道商人员"),
+    PARTNERPEOPLE("PARTNERPEOPLE", "合伙人人员");
 
     private final String value;
     private final String desc;

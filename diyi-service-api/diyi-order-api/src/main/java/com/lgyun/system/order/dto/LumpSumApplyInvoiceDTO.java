@@ -25,13 +25,13 @@ public class LumpSumApplyInvoiceDTO implements Serializable {
     /**
      *总包申请id
      */
-    @NotNull(message = "总包申请id不能为空")
+    @NotNull(message = "请选择总包申请")
     private Long applicationId;
 
     /**
-     *发票url
+     *发票
      */
-    @NotBlank(message = "请输入发票url")
+    @NotBlank(message = "请上传发票")
     private String companyInvoiceUrl;
 
     /**
@@ -51,6 +51,9 @@ public class LumpSumApplyInvoiceDTO implements Serializable {
      */
     private String invoiceDesc;
 
+    /**
+     * 服务商
+     */
     private Long serviceProviderId;
 
     /**

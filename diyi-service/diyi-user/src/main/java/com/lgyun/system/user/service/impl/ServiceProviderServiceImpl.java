@@ -13,17 +13,18 @@ import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.AddressEntity;
 import com.lgyun.system.order.entity.ServiceProviderInvoiceCatalogsEntity;
 import com.lgyun.system.order.feign.IOrderClient;
-import com.lgyun.system.user.dto.*;
+import com.lgyun.system.user.dto.AddServiceProviderDTO;
+import com.lgyun.system.user.dto.QueryServiceProviderListDTO;
+import com.lgyun.system.user.dto.ServiceProviderContactPersonDTO;
+import com.lgyun.system.user.dto.UpdateServiceProviderDTO;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.ServiceProviderMapper;
 import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.*;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,21 +36,14 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Slf4j
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderMapper, ServiceProviderEntity> implements IServiceProviderService {
 
-
-    private final IUserService userService;
-    private final IOrderClient orderClient;
-    private final IServiceProviderAccountService serviceProviderAccountService;
-
-    @Autowired
-    @Lazy
-    private IServiceProviderWorkerService serviceProviderWorkerService;
-
-    @Autowired
-    @Lazy
+    private IUserService userService;
+    private IOrderClient orderClient;
     private IAgreementService agreementService;
+    private IServiceProviderAccountService serviceProviderAccountService;
+    private IServiceProviderWorkerService serviceProviderWorkerService;
 
     @Override
     public int queryCountById(Long serviceProviderId) {
@@ -83,7 +77,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
     }
 
     @Override
-    public R<IPage<ServiceProviderListVO>> queryServiceProviderListAdmin(QueryServiceProviderListDTO queryServiceProviderListDTO, IPage<ServiceProviderListVO> page) {
+    public R<IPage<ServiceProviderListAdminVO>> queryServiceProviderListAdmin(QueryServiceProviderListDTO queryServiceProviderListDTO, IPage<ServiceProviderListAdminVO> page) {
 
         if (queryServiceProviderListDTO.getBeginDate() != null && queryServiceProviderListDTO.getEndDate() != null) {
             if (queryServiceProviderListDTO.getBeginDate().after(queryServiceProviderListDTO.getEndDate())) {
@@ -310,6 +304,11 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         }
         IPage<ServiceProviderEntity> serviceProviderEntityIPage = baseMapper.selectPage(page, queryWrapper);
         return R.data(serviceProviderEntityIPage);
+    }
+
+    @Override
+    public R<IPage<ServiceProviderIdNameListVO>> queryServiceProviderIdAndNameList(Long enterpriseId, String serviceProviderName, IPage<ServiceProviderIdNameListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryServiceProviderIdAndNameList(enterpriseId, serviceProviderName, page)));
     }
 
 }

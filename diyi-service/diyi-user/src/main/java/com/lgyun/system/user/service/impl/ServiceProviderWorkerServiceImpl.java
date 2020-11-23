@@ -27,10 +27,12 @@ import com.lgyun.system.user.vo.ServiceProviderWorkerInfoVO;
 import com.lgyun.system.user.vo.ServiceProviderWorkerVO;
 import com.lgyun.system.vo.RoleMenuInfoVO;
 import com.lgyun.system.vo.RolesVO;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,12 +48,15 @@ import java.util.List;
  */
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServiceProviderWorkerMapper, ServiceProviderWorkerEntity> implements IServiceProviderWorkerService {
 
-    private IUserService userService;
+    private final IUserService userService;
+    private final ISysClient sysClient;
+
+    @Autowired
+    @Lazy
     private IServiceProviderService serviceProviderService;
-    private ISysClient sysClient;
 
     @Override
     public R<ServiceProviderWorkerEntity> currentServiceProviderWorker(BladeUser bladeUser) {

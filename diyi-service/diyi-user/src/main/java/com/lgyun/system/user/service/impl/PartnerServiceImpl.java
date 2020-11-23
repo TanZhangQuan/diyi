@@ -123,7 +123,7 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
             //新建合伙人添加加盟合同需要签署的模板
             OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = onlineAgreementTemplateService.findTemplateType(AgreementType.PARTNERJOINAGREEMENT, 0);
             if (onlineAgreementTemplateEntity != null) {
-                onlineAgreementNeedSignService.OnlineAgreementNeedSignAdd(onlineAgreementTemplateEntity.getId(), ObjectType.PARTNERSHIPPEOPLE, SignPower.PARTYB, partnerEntity.getId());
+                onlineAgreementNeedSignService.OnlineAgreementNeedSignAdd(onlineAgreementTemplateEntity.getId(), ObjectType.PARTNERPEOPLE, SignPower.PARTYB, partnerEntity.getId());
             }
 
         } else if (partnerEntityPhoneNumber != null && partnerEntityIdcardNo == null) {

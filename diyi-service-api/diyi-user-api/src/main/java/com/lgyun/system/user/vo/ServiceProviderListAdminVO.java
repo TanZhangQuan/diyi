@@ -3,50 +3,55 @@ package com.lgyun.system.user.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.lgyun.common.enumeration.CooperateStatus;
+import com.lgyun.common.enumeration.AccountState;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * @author .
- * @date 2020/7/28.
- * @time 14:55.
+ * 平台端---服务商管理---服务商列表vo
+ *
+ * @author tzq
+ * @date 2020/9/9
  */
 @Data
-public class EnterprisesByProviderVO implements Serializable {
+public class ServiceProviderListAdminVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 商户ID
+     * 服务商编号
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     /**
-     * 商户名称
+     * 服务商名称
      */
-    private String enterpriseName;
+    private String serviceProviderName;
 
     /**
-     * 合作次数
+     * 联系人
      */
-    private Integer cooperationNum;
+    private String contact1Name;
 
     /**
-     * 合作金额
+     * 联系人电话
      */
-    private BigDecimal cooperationMoney;
+    private String contact1Phone;
 
     /**
-     * 合作状态
+     * 加盟合同
      */
-    private CooperateStatus cooperateStatus;
+    private String joinContract;
 
     /**
-     * 开始合作时间
+     * 状态
+     */
+    private AccountState serviceProviderState;
+
+    /**
+     * 创建时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;

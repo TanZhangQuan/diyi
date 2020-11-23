@@ -4,9 +4,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.user.dto.QueryAgentMainDTO;
 import com.lgyun.system.user.entity.AgentMainEntity;
-import com.lgyun.system.user.vo.AdminAgentMainServiceProviderListVO;
-import com.lgyun.system.user.vo.AdminAgentMainVO;
-import com.lgyun.system.user.vo.AgentMainServiceProviderVO;
+import com.lgyun.system.user.vo.AgentMainListAdminVO;
+import com.lgyun.system.user.vo.AgentMainUpdateDetailVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -20,11 +19,22 @@ import java.util.List;
 @Mapper
 public interface AgentMainMapper extends BaseMapper<AgentMainEntity> {
 
-    List<AdminAgentMainVO> getAgentMainList(QueryAgentMainDTO queryAgentMainDTO, IPage<AdminAgentMainVO> page);
+    /**
+     * 查询所有渠道商列表
+     *
+     * @param queryAgentMainDTO
+     * @param page
+     * @return
+     */
+    List<AgentMainListAdminVO> getAgentMainListAdmin(QueryAgentMainDTO queryAgentMainDTO, IPage<AgentMainListAdminVO> page);
 
+    /**
+     * 查询编辑渠道商详情
+     *
+     * @param agentMainId
+     * @return
+     */
+    AgentMainUpdateDetailVO queryAgentMainUpdateDetail(Long agentMainId);
 
-    List<AdminAgentMainServiceProviderListVO> getAgentMainServiceProviderList(Long agentMainId);
-
-    List<AgentMainServiceProviderVO> queryAgentMainServiceProvider(String serviceProviderName, IPage<AgentMainServiceProviderVO> page);
 }
 

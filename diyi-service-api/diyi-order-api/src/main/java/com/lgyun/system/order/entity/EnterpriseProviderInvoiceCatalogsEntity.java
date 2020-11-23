@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("diyi_enterprise_provider_invoice_catalogs")
+@TableName("diyi_enterprise_service_provider_invoice_catalogs")
 public class EnterpriseProviderInvoiceCatalogsEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 

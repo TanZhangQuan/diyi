@@ -105,8 +105,8 @@ public class MarketSupervisionBureauAdminController {
 
     @PostMapping("/add-market-supervision-bureau-service-provider")
     @ApiOperation(value = "添加匹配服务商", notes = "添加匹配服务商")
-    public R addRelBureauServiceProvider(@ApiParam("市场监督管理局ID不能为空") @NotNull(message = "市场监督管理局ID不能为空") @RequestParam(required = false) Long bureauId,
-                                         @ApiParam("服务商ID字符集，ID直接用逗号隔开") @NotBlank(message = "匹配服务商不能为空") @RequestParam(required = false) String serviceProviderIds, BladeUser bladeUser) {
+    public R addRelBureauServiceProvider(@ApiParam("相关局") @NotNull(message = "请选择相关局") @RequestParam(required = false) Long bureauId,
+                                         @ApiParam("服务商") @NotBlank(message = "请选择匹配的服务商") @RequestParam(required = false) String serviceProviderIds, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

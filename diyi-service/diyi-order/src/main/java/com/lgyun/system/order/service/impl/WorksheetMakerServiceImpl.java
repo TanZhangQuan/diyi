@@ -65,7 +65,7 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
             return R.fail("数据不存在");
         }
         if(null == checkMoney){
-            return R.fail("验收金额不能为空");
+            return R.fail("验收金额为空");
         }
         if(!(WorksheetMakerState.VERIFIED.equals(worksheetMakerEntity.getWorksheetMakerState()) || WorksheetMakerState.SUBMITTED.equals(worksheetMakerEntity.getWorksheetMakerState()) || WorksheetMakerState.VALIDATION.equals(worksheetMakerEntity.getWorksheetMakerState()))){
             return R.fail("状态不对");

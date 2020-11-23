@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.AgreementEntity;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
@@ -226,16 +225,6 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
     R findAdminSerIdAgreement(Long serviceProviderId, AgreementType agreementType);
 
     /**
-     * 根据商户id查询有关联的服务商
-     *
-     * @param query
-     * @param enterpriseId
-     * @param keyWord
-     * @return
-     */
-    R getRelationServiceProvider(Query query, Long enterpriseId, String keyWord);
-
-    /**
      * 查看在线协议URL
      *
      * @param agreementId
@@ -312,6 +301,14 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
      * @param agreementType
      */
     void deleteByEnterprise(Long enterpriseId, AgreementType agreementType);
+
+    /**
+     * 删除渠道商合同
+     *
+     * @param agentMainId
+     * @param agreementType
+     */
+    void deleteByAgentMain(Long agentMainId, AgreementType agreementType);
 
     /**
      * 查询已签署已审核通过的商户-创客补充协议

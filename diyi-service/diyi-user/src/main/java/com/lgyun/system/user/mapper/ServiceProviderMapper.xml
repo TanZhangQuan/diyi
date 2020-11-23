@@ -21,7 +21,7 @@
         <result property="invoiceBankNameAccount" column="invoice_bank_name_account"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.ServiceProviderListVO" id="serviceProviderListVO">
+    <resultMap type="com.lgyun.system.user.vo.ServiceProviderListAdminVO" id="serviceProviderListAdminVO">
         <result property="serviceProviderId" column="service_provider_id"/>
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="contact1Name" column="contact1_name"/>
@@ -63,6 +63,11 @@
         <result property="boolSignContract" column="bool_sign_contract"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.user.vo.ServiceProviderIdNameListVO" id="serviceProviderIdNameListVO">
+        <result property="id" column="id"/>
+        <result property="serviceProviderName" column="service_provider_name"/>
+    </resultMap>
+
     <select id="getContactPerson" resultMap="serviceProviderContactPersonVO">
         SELECT contact1_name, contact1_position, contact1_phone, contact1_mail, contact2_name, contact2_position, contact2_phone, contact2_mail
         FROM diyi_service_provider WHERE is_deleted = 0 AND id = #{param1} LIMIT 1
@@ -73,7 +78,7 @@
         AND id = #{param1} LIMIT 1
     </select>
 
-    <select id="queryServiceProviderListAdmin" resultMap="serviceProviderListVO">
+    <select id="queryServiceProviderListAdmin" resultMap="serviceProviderListAdminVO">
         SELECT t1.id, t1.service_provider_name, t1.contact1_name, t1.contact1_phone, t1.service_provider_state, t1.create_time,
         (SELECT IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url) FROM diyi_agreement
         WHERE is_deleted = 0 AND agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND service_provider_id = t1.id) AS join_contract
@@ -104,6 +109,20 @@
         AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND enterprise_id = t1.id) > 0, TRUE, FALSE) AS bool_sign_contract FROM diyi_service_provider t1 WHERE is_deleted = 0
         <if test="param1 != null and param1.trim() != ''">
             AND t1.service_provider_name LIKE concat('%', #{param1}, '%')
+        </if>
+    </select>
+
+    <select id="queryServiceProviderIdAndNameList" resultMap="serviceProviderIdNameListVO">
+        SELECT t1.id, t1.service_provider_name FROM diyi_service_provider t1
+        <if test="param1 != null">
+            INNER JOIN diyi_enterprise_service_provider t2 ON t1.id = t2.service_provider_id
+        </if>
+        WHERE t1.is_deleted = 0
+        <if test="param1 != null">
+            AND t2.is_deleted = 0 AND t2.cooperate_status = 'COOPERATING' AND t2.enterprise_id = #{param1}
+        </if>
+        <if test="param2 != null and param2.trim() != ''">
+            AND t1.service_provider_name LIKE concat('%', #{param2}, '%')
         </if>
     </select>
 

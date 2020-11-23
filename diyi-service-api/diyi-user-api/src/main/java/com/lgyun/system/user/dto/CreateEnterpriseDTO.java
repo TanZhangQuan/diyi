@@ -11,20 +11,14 @@ import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 /**
- * 平台端---商户管理---编辑商户DTO
+ * 平台端---商户管理---创建商户DTO
  *
  * @author tzq
  * @date 2020-09-9
  */
 @Data
-public class UpdateEnterpriseDTO implements Serializable {
+public class CreateEnterpriseDTO implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 商户ID
-     */
-    @NotNull(message = "请选择商户")
-    private Long enterpriseId;
 
     /**
      * 商户名称
@@ -151,6 +145,44 @@ public class UpdateEnterpriseDTO implements Serializable {
     private String invoiceBankNameAccount;
 
     /**
+     * 收件人姓名
+     */
+    @NotBlank(message = "请输入收件人姓名")
+    private String addressName;
+
+    /**
+     * 收件人手机号
+     */
+    @NotBlank(message = "请输入收件人手机号")
+    @Length(min = 11, max = 11, message = "请输入11位的收件人手机号")
+    @Pattern(regexp = "[0-9]*", message = "请输入有效的收件人手机号")
+    private String addressPhone;
+
+    /**
+     * 省
+     */
+    @NotBlank(message = "请选择省份")
+    private String province;
+
+    /**
+     * 市
+     */
+    @NotBlank(message = "请选择市")
+    private String city;
+
+    /**
+     * 区
+     */
+    @NotBlank(message = "请选择区")
+    private String area;
+
+    /**
+     * 详细地址
+     */
+    @NotBlank(message = "请填写详细地址")
+    private String detailedAddress;
+
+    /**
      * 用户名
      */
     @NotBlank(message = "请输入用户名")
@@ -171,6 +203,7 @@ public class UpdateEnterpriseDTO implements Serializable {
     /**
      * 密码
      */
+    @NotBlank(message = "请输入密码")
+    @Length(min = 6, max = 18, message = "请输入长度为6-18位的密码")
     private String employeePwd;
-
 }

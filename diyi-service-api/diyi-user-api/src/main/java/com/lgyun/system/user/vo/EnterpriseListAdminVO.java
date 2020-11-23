@@ -16,7 +16,7 @@ import java.util.Date;
  * @date 2020/9/9
  */
 @Data
-public class EnterpriseListEnterpriseVO implements Serializable {
+public class EnterpriseListAdminVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**

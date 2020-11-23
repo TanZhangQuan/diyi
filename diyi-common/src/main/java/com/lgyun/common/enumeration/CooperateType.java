@@ -4,13 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 合作状态
+ * 合作类型
  */
 @Getter
 @AllArgsConstructor
-public enum CooperateStatus {
-    COOPERATING("COOPERATING", "合作中"),
-    COOPERATESTOP("COOPERATESTOP", "停止合作");
+public enum CooperateType {
+    ALLOCATION("ALLOCATION", "分配"),
+    CREATE("CREATE", "创建");
 
     private final String value;
     private final String desc;

@@ -29,7 +29,7 @@ public class CommonServiceImpl implements ICommonService {
     public R<String> ossImageUpload(MultipartFile file, String suffix) throws Exception {
 
         if (file.isEmpty()) {
-            return R.fail("上传文件不能为空");
+            return R.fail("上传文件为空");
         }
 
         // 查询上传文件的后缀

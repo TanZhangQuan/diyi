@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.dto.AddEnterpriseDTO;
+import com.lgyun.system.user.dto.CreateEnterpriseDTO;
 import com.lgyun.system.user.dto.UpdateEnterpriseDTO;
 import com.lgyun.system.user.dto.ContactsInfoDTO;
 import com.lgyun.system.user.dto.QueryEnterpriseListDTO;
@@ -23,10 +23,10 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
     /**
      * 根据ID查询商户是否存在
      *
-     * @param id
+     * @param enterpriseId
      * @return
      */
-    int queryCountById(Long id);
+    int queryCountById(Long enterpriseId);
 
     /**
      * 通过商户名字查询
@@ -73,11 +73,11 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
     /**
      * 添加商户
      *
-     * @param addEnterpriseDTO
+     * @param createEnterpriseDTO
      * @param adminEntity
      * @return
      */
-    R<String> createEnterprise(AddEnterpriseDTO addEnterpriseDTO, AdminEntity adminEntity);
+    R<String> createEnterprise(CreateEnterpriseDTO createEnterpriseDTO, AdminEntity adminEntity);
 
     /**
      * 编辑商户
@@ -95,7 +95,7 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * @param page
      * @return
      */
-    R<IPage<EnterpriseListEnterpriseVO>> queryEnterpriseListEnterprise(QueryEnterpriseListDTO queryEnterpriseListDTO, IPage<EnterpriseListEnterpriseVO> page);
+    R<IPage<EnterpriseListAdminVO>> queryEnterpriseListAdmin(QueryEnterpriseListDTO queryEnterpriseListDTO, IPage<EnterpriseListAdminVO> page);
 
     /**
      * 查询编辑商户详情
@@ -155,5 +155,14 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * @return
      */
     R<InvoiceVO> queryeInvoice(Long enterpriseId);
+
+    /**
+     * 查询商户编号和名称
+     *
+     * @param page
+     * @param serviceProviderId
+     * @return
+     */
+    R<IPage<EnterpriseIdNameListVO>> queryEnterpriseIdAndNameList(Long serviceProviderId, String enterpriseName, IPage<EnterpriseIdNameListVO> page);
 }
 

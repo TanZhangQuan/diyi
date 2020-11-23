@@ -6,8 +6,6 @@ import com.lgyun.common.enumeration.CompanyInvoiceState;
 import com.lgyun.system.order.dto.PayEnterpriseDTO;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.*;
-import com.lgyun.system.user.vo.AdminAgentMainServiceProviderListVO;
-import com.lgyun.system.user.vo.AgentMainTransactionVO;
 import com.lgyun.system.user.vo.PartnerServiceProviderListVO;
 import com.lgyun.system.user.vo.TransactionVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -137,6 +135,22 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * @return
      */
     TransactionVO transactionByServiceProvider(Long serviceProviderId);
+
+    /**
+     * 查询渠道商-商户交易数据
+     *
+     * @param agentMainId
+     * @return
+     */
+    TransactionVO queryAgentMainEnterpriseTransaction(Long agentMainId);
+
+    /**
+     * 查询渠道商-服务商交易数据
+     *
+     * @param agentMainId
+     * @return
+     */
+    TransactionVO queryAgentMainServiceProviderTransaction(Long agentMainId);
 
     /**
      * 查询当前商户总包+分包全年流水
@@ -278,30 +292,12 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      */
     List<TransactionByBureauServiceProviderInfoVO> transactionByBureauServiceProviderInfo(@Param("bureauId") Long bureauId, IPage<TransactionByBureauServiceProviderInfoVO> page);
 
-
-    /**
-     * 查询渠道商下服务商流水信息
-     *
-     * @param agentMainId
-     * @return
-     */
-    AgentMainTransactionVO getTransactionByAgentMainId(Long agentMainId);
-
-    /**
-     * 渠道商查询匹配好的服务商
-     *
-     * @param agentMainId
-     * @return
-     */
-    List<AdminAgentMainServiceProviderListVO> getAgentMainServiceProviderList(Long agentMainId, IPage<AdminAgentMainServiceProviderListVO> page);
-
-
     /**
      * 合伙人查询流水信息
      *
      * @return
      */
-    AgentMainTransactionVO getAllTransaction();
+    TransactionVO getAllTransaction();
 
     /**
      * 查询合伙人可有用的服务商

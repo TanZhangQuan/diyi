@@ -29,25 +29,25 @@ public class AdminEnterpriseReportDTO implements Serializable {
     /**
      * 申报主体类别
      */
-    @NotNull(message = "申报主体类别不能为空")
+    @NotNull(message = "请选择申报主体类别")
     private BodyType mainBodyType;
 
     /**
      * 申报主体ID
      */
-    @NotNull(message = "申报主体ID不能为空")
+    @NotNull(message = "请选择申报主体")
     private Long mainBodyId;
 
     /**
      * 申报主题
      */
-    @NotNull(message = "申报主题不能为空")
+    @NotNull(message = "请输入申报主题")
     private ReportTheme reportTheme;
 
     /**
      * 申报年度
      */
-    @NotNull(message = "申报年度不能为空")
+    @NotNull(message = "请输入申报年度")
     private Integer reportYear;
 
     /**

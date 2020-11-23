@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomePageServiceProviderController {
 
     private IServiceProviderWorkerService serviceProviderWorkerService;
-    private IEnterpriseServiceProviderService enterpriseProviderService;
+    private IEnterpriseServiceProviderService enterpriseServiceProviderService;
 
     @GetMapping("/query-current-service-provider-detail")
     @ApiOperation(value = "查询当前服务商员工详情", notes = "查询当前服务商员工详情")
@@ -48,7 +48,7 @@ public class HomePageServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return enterpriseProviderService.queryEnterpriseIdAndNameList(serviceProviderWorkerEntity.getServiceProviderId(), null, Condition.getPage(query.setDescs("t1.create_time")));
+        return enterpriseServiceProviderService.queryCooperationEnterpriseList(serviceProviderWorkerEntity.getServiceProviderId(), null, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
 }

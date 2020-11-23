@@ -124,7 +124,7 @@ public class InvoiceTaxEnterpriseController {
 
     @GetMapping("/query-total-invoice-list-enterprise-apply-details")
     @ApiOperation(value = "商户端根据商户id查询总包申请的详情商户支付清单", notes = "商户端根据商户id查询总包申请的详情商户支付清单")
-    public R queryTotalInvoiceListEnterpriseApplyDetails(BladeUser bladeUser, @ApiParam(value = "总包申请id") @NotNull(message = "总包申请id不能为空") @RequestParam(required = false) Long invoiceApplicationId) {
+    public R queryTotalInvoiceListEnterpriseApplyDetails(BladeUser bladeUser, @ApiParam(value = "总包申请") @NotNull(message = "请选择总包申请") @RequestParam(required = false) Long invoiceApplicationId) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -135,7 +135,7 @@ public class InvoiceTaxEnterpriseController {
 
     @GetMapping("/query-total-invoice-list-enterprise-invoice-details")
     @ApiOperation(value = "商户端根据商户id查询总包开票的详情商户支付清单", notes = "商户端根据商户id查询总包开票的详情商户支付清单")
-    public R queryTotalInvoiceListEnterpriseInvoiceDetails(BladeUser bladeUser, @ApiParam(value = "总包id") @NotNull(message = "总包id不能为空") @RequestParam(required = false) Long invoicePrintId) {
+    public R queryTotalInvoiceListEnterpriseInvoiceDetails(BladeUser bladeUser, @ApiParam(value = "总包") @NotNull(message = "请选择总包") @RequestParam(required = false) Long invoicePrintId) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -237,7 +237,7 @@ public class InvoiceTaxEnterpriseController {
 
     @GetMapping("/query-single-open-sub-detail")
     @ApiOperation(value = "根据商户查询门征单开分包详情", notes = "根据商户查询门征单开分包详情")
-    public R querySingleOpenSubDetail(@ApiParam(value = "门征发票id") @NotNull(message = "门征发票id不能为空") @RequestParam(required = false) Long makerInvoiceId, BladeUser bladeUser) {
+    public R querySingleOpenSubDetail(@ApiParam(value = "门征发票") @NotNull(message = "请选择门征发票") @RequestParam(required = false) Long makerInvoiceId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {

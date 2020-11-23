@@ -112,7 +112,7 @@ public class TaxBureauAdminController {
 
     @PostMapping("/add-tax-bureau-service-provider")
     @ApiOperation(value = "添加匹配服务商", notes = "添加匹配服务商")
-    public R addRelBureauServiceProvider(@ApiParam("税局不能为空") @NotNull(message = "请选择支付机构") @RequestParam(required = false) Long bureauId,
+    public R addRelBureauServiceProvider(@ApiParam("相关局") @NotNull(message = "请选择相关局") @RequestParam(required = false) Long bureauId,
                                          @ApiParam("服务商集合") @NotBlank(message = "请选择要匹配的服务商") @RequestParam(required = false) String serviceProviderIds, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);

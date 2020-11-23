@@ -1,10 +1,10 @@
 package com.lgyun.system.user.dto;
 
-import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.PositionName;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -17,39 +17,36 @@ import java.io.Serializable;
  * @date 2020-09-9
  */
 @Data
-public class AddOrUpdateAgentMainDTO implements Serializable {
+public class CreateAgentMainDTO implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 渠道商ID
-     */
-    private String agentMainId;
 
     /**
      * 渠道商名称
      */
-    @NotBlank(message = "渠道名称不能为空")
+    @NotBlank(message = "请输入渠道商名称")
     private String agentMainName;
 
     /**
      * 法人
      */
-    @NotBlank(message = "法人不能为空")
+    @NotBlank(message = "请输入法人")
     private String legalPersonName;
 
     /**
      * 法人身份证
      */
-    @NotBlank(message = "法人身份证不能为空")
     private String legalPersonIdcard;
 
     /**
-     * 社会信誉代码
+     * 社会信用代码
      */
-    @NotBlank(message = "社会信誉代码不能为空")
+    @NotBlank(message = "请输入社会信用代码")
     private String socialCreditNo;
 
-    @NotBlank(message = "营业执照不能为空")
+    /**
+     * 营业执照
+     */
+    @NotBlank(message = "请上传营业执照")
     private String bizLicenceUrl;
 
     /**
@@ -58,13 +55,13 @@ public class AddOrUpdateAgentMainDTO implements Serializable {
     private String enterpriseUrl;
 
     /**
-     * 加盟合同
+     * 渠道商加盟合同
      */
     @NotBlank(message = "请上传渠道商加盟合同")
     private String joinContract;
 
     /**
-     * 承诺函
+     * 渠道商承诺函(可能多张)
      */
     @NotBlank(message = "请上传渠道商承诺函")
     private String commitmentLetters;
@@ -72,11 +69,13 @@ public class AddOrUpdateAgentMainDTO implements Serializable {
     /**
      * 联系人1姓名
      */
+    @NotBlank(message = "请输入联系人1姓名")
     private String contact1Name;
 
     /**
      * 联系人1职位
      */
+    @NotNull(message = "请选择联系人1职位")
     private PositionName contact1Position;
 
     /**
@@ -90,16 +89,20 @@ public class AddOrUpdateAgentMainDTO implements Serializable {
     /**
      * 联系人1邮箱
      */
+    @NotBlank(message = "请输入联系人1邮箱")
+    @Email(message = "请输入正确的联系人1邮箱")
     private String contact1Mail;
 
     /**
      * 联系人2姓名
      */
+    @NotBlank(message = "请输入联系人2姓名")
     private String contact2Name;
 
     /**
      * 联系人2职位
      */
+    @NotNull(message = "请选择联系人2职位")
     private PositionName contact2Position;
 
     /**
@@ -113,6 +116,8 @@ public class AddOrUpdateAgentMainDTO implements Serializable {
     /**
      * 联系人2邮箱
      */
+    @NotBlank(message = "请输入联系人2邮箱")
+    @Email(message = "请输入正确的联系人2邮箱")
     private String contact2Mail;
 
     /**
@@ -140,21 +145,65 @@ public class AddOrUpdateAgentMainDTO implements Serializable {
     private String invoiceBankNameAccount;
 
     /**
+     * 收件人姓名
+     */
+    @NotBlank(message = "请输入收件人姓名")
+    private String addressName;
+
+    /**
+     * 收件人手机号
+     */
+    @NotBlank(message = "请输入收件人手机号")
+    @Length(min = 11, max = 11, message = "请输入11位的收件人手机号")
+    @Pattern(regexp = "[0-9]*", message = "请输入有效的收件人手机号")
+    private String addressPhone;
+
+    /**
+     * 省
+     */
+    @NotBlank(message = "请选择省份")
+    private String province;
+
+    /**
+     * 市
+     */
+    @NotBlank(message = "请选择市")
+    private String city;
+
+    /**
+     * 区
+     */
+    @NotBlank(message = "请选择区")
+    private String area;
+
+    /**
+     * 详细地址
+     */
+    @NotBlank(message = "请填写详细地址")
+    private String detailedAddress;
+
+    /**
      * 用户名
      */
-    @NotBlank(message = "用户名不能为空")
-    private String enUserName;
+    @NotBlank(message = "请输入用户名")
+    private String employeeUserName;
+
+    /**
+     * 手机号码
+     */
+    @NotBlank(message = "请输入手机号码")
+    private String phoneNumber;
+
+    /**
+     * 姓名
+     */
+    @NotBlank(message = "请输入姓名")
+    private String workerName;
 
     /**
      * 密码
      */
     @NotBlank(message = "请输入密码")
-    @Length(min = 6, max = 18, message = "请输入长度为6-18位新密码")
-    private String enUserPwd;
-
-    /**
-     * 账户状态
-     */
-    @NotNull(message = "请选择账户状态")
-    private AccountState agentState;
+    @Length(min = 6, max = 18, message = "请输入长度为6-18位的密码")
+    private String employeePwd;
 }

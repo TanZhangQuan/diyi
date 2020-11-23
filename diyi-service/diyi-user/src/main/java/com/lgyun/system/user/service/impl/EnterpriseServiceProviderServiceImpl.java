@@ -47,11 +47,6 @@ public class EnterpriseServiceProviderServiceImpl extends BaseServiceImpl<Enterp
     private IServiceProviderService serviceProviderService;
 
     @Override
-    public R<IPage<ServiceProviderIdNameListVO>> queryServiceProviderIdAndNameList(Long enterpriseId, String serviceProviderName, IPage<ServiceProviderIdNameListVO> page) {
-        return R.data(page.setRecords(baseMapper.queryServiceProviderIdAndNameList(enterpriseId, serviceProviderName, page)));
-    }
-
-    @Override
     public int queryCountByEnterpriseIdAndServiceProviderId(Long enterpriseId, Long serviceProviderId, CooperateStatus cooperateStatus) {
         QueryWrapper<EnterpriseServiceProviderEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(EnterpriseServiceProviderEntity::getEnterpriseId, enterpriseId)
@@ -62,7 +57,7 @@ public class EnterpriseServiceProviderServiceImpl extends BaseServiceImpl<Enterp
     }
 
     @Override
-    public EnterpriseServiceProviderEntity findByEnterpriseIdServiceProviderId(Long enterpriseId, Long serviceProviderId) {
+    public EnterpriseServiceProviderEntity findByEnterpriseAndServiceProvider(Long enterpriseId, Long serviceProviderId) {
         QueryWrapper<EnterpriseServiceProviderEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(EnterpriseServiceProviderEntity::getEnterpriseId, enterpriseId).
                 eq(EnterpriseServiceProviderEntity::getServiceProviderId, serviceProviderId);
@@ -76,18 +71,13 @@ public class EnterpriseServiceProviderServiceImpl extends BaseServiceImpl<Enterp
     }
 
     @Override
-    public R<IPage<CooperationServiceProviderListVO>> getServiceProvidersByEnterpriseId(Long enterpriseId, String keyWord, IPage<CooperationServiceProviderListVO> page) {
-        return R.data(page.setRecords(baseMapper.getServiceProvidersByEnterpriseId(enterpriseId, keyWord, page)));
+    public R<IPage<CooperationServiceProviderListVO>> queryCooperationServiceProviderList(Long enterpriseId, String serviceProviderName, IPage<CooperationServiceProviderListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryCooperationServiceProviderList(enterpriseId, serviceProviderName, page)));
     }
 
     @Override
-    public R<IPage<EnterprisesByProviderVO>> getEnterprtisesByServiceProviderId(Long serviceProviderId, String keyWord, IPage<EnterprisesByProviderVO> page) {
-        return R.data(page.setRecords(baseMapper.getEnterprtisesByServiceProviderId(serviceProviderId, keyWord, page)));
-    }
-
-    @Override
-    public R<IPage<EnterpriseIdNameListVO>> queryEnterpriseIdAndNameList(Long serviceProviderId, String enterpriseName, IPage<EnterpriseIdNameListVO> page) {
-        return R.data(page.setRecords(baseMapper.queryEnterpriseIdAndNameList(serviceProviderId, enterpriseName, page)));
+    public R<IPage<CooperationEnterprisesListVO>> queryCooperationEnterpriseList(Long serviceProviderId, String enterpriseName, IPage<CooperationEnterprisesListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryCooperationEnterpriseList(serviceProviderId, enterpriseName, page)));
     }
 
     @Override
@@ -103,7 +93,7 @@ public class EnterpriseServiceProviderServiceImpl extends BaseServiceImpl<Enterp
             return R.fail("服务商不存在");
         }
 
-        EnterpriseServiceProviderEntity enterpriseServiceProviderEntity = findByEnterpriseIdServiceProviderId(enterpriseId, serviceProviderId);
+        EnterpriseServiceProviderEntity enterpriseServiceProviderEntity = findByEnterpriseAndServiceProvider(enterpriseId, serviceProviderId);
         if (enterpriseServiceProviderEntity == null) {
             enterpriseServiceProviderEntity = new EnterpriseServiceProviderEntity();
             enterpriseServiceProviderEntity.setEnterpriseId(enterpriseId);
@@ -154,7 +144,7 @@ public class EnterpriseServiceProviderServiceImpl extends BaseServiceImpl<Enterp
             return R.fail("服务商不存在");
         }
 
-        EnterpriseServiceProviderEntity enterpriseServiceProviderEntity = findByEnterpriseIdServiceProviderId(enterpriseId, serviceProviderId);
+        EnterpriseServiceProviderEntity enterpriseServiceProviderEntity = findByEnterpriseAndServiceProvider(enterpriseId, serviceProviderId);
         if (enterpriseServiceProviderEntity == null) {
             return R.fail("商户服务商不存在合作关系");
         }

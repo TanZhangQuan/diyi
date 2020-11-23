@@ -353,7 +353,7 @@ public class InvoiceTaxAdminController {
     @ApiOperation(value = "根据服务商查询分包列表", notes = "根据服务商查询分包列表")
     public R queryAllOpenSubList(@RequestParam(required = false) String enterprise_name,
                                  @RequestParam CompanyInvoiceState companyInvoiceState, Query query, BladeUser bladeUser,
-                                 @ApiParam(value = "服务商ID", required = true) @NotNull(message = "服务商id不能为空") @RequestParam(required = false) Long serviceProviderId) {
+                                 @ApiParam(value = "服务商", required = true) @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

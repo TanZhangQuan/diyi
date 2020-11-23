@@ -11,7 +11,7 @@ import com.lgyun.common.tool.SnowflakeIdWorker;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.AddressEntity;
 import com.lgyun.system.order.feign.IOrderClient;
-import com.lgyun.system.user.dto.AddEnterpriseDTO;
+import com.lgyun.system.user.dto.CreateEnterpriseDTO;
 import com.lgyun.system.user.dto.ContactsInfoDTO;
 import com.lgyun.system.user.dto.QueryEnterpriseListDTO;
 import com.lgyun.system.user.dto.UpdateEnterpriseDTO;
@@ -37,16 +37,16 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, EnterpriseEntity> implements IEnterpriseService {
 
-    private IEnterpriseWorkerService enterpriseWorkerService;
-    private IUserService userService;
-    private IMakerEnterpriseService makerEnterpriseService;
-    private IAgreementService agreementService;
     private IOrderClient orderClient;
+    private IUserService userService;
+    private IAgreementService agreementService;
+    private IEnterpriseWorkerService enterpriseWorkerService;
+    private IMakerEnterpriseService makerEnterpriseService;
 
     @Override
-    public int queryCountById(Long id) {
+    public int queryCountById(Long enterpriseId) {
         QueryWrapper<EnterpriseEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(EnterpriseEntity::getId, id);
+        queryWrapper.lambda().eq(EnterpriseEntity::getId, enterpriseId);
         return baseMapper.selectCount(queryWrapper);
     }
 
@@ -114,34 +114,34 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> createEnterprise(AddEnterpriseDTO addEnterpriseDTO, AdminEntity adminEntity) {
+    public R<String> createEnterprise(CreateEnterpriseDTO createEnterpriseDTO, AdminEntity adminEntity) {
 
         //判断商户名称是否已存在
-        int enterpriseNum = count(Wrappers.<EnterpriseEntity>query().lambda().eq(EnterpriseEntity::getEnterpriseName, addEnterpriseDTO.getEnterpriseName()));
+        int enterpriseNum = count(Wrappers.<EnterpriseEntity>query().lambda().eq(EnterpriseEntity::getEnterpriseName, createEnterpriseDTO.getEnterpriseName()));
         if (enterpriseNum > 0) {
             return R.fail("商户名称已存在");
         }
 
         //判断社会信用代码是否已存在
-        enterpriseNum = count(Wrappers.<EnterpriseEntity>query().lambda().eq(EnterpriseEntity::getSocialCreditNo, addEnterpriseDTO.getSocialCreditNo()));
+        enterpriseNum = count(Wrappers.<EnterpriseEntity>query().lambda().eq(EnterpriseEntity::getSocialCreditNo, createEnterpriseDTO.getSocialCreditNo()));
         if (enterpriseNum > 0) {
             return R.fail("商户统一社会信用代码已存在");
         }
 
-        int serviceProviderWorkerNum = enterpriseWorkerService.count(Wrappers.<EnterpriseWorkerEntity>query().lambda().eq(EnterpriseWorkerEntity::getEmployeeUserName, addEnterpriseDTO.getEmployeeUserName()));
+        int serviceProviderWorkerNum = enterpriseWorkerService.count(Wrappers.<EnterpriseWorkerEntity>query().lambda().eq(EnterpriseWorkerEntity::getEmployeeUserName, createEnterpriseDTO.getEmployeeUserName()));
         if (serviceProviderWorkerNum > 0) {
             return R.fail("已存在相同用户名的管理员");
         }
 
-        serviceProviderWorkerNum = enterpriseWorkerService.count(Wrappers.<EnterpriseWorkerEntity>query().lambda().eq(EnterpriseWorkerEntity::getPhoneNumber, addEnterpriseDTO.getPhoneNumber()));
+        serviceProviderWorkerNum = enterpriseWorkerService.count(Wrappers.<EnterpriseWorkerEntity>query().lambda().eq(EnterpriseWorkerEntity::getPhoneNumber, createEnterpriseDTO.getPhoneNumber()));
         if (serviceProviderWorkerNum > 0) {
             return R.fail("已存在相同手机号的管理员");
         }
 
         EnterpriseEntity enterpriseEntity = new EnterpriseEntity();
         enterpriseEntity.setCreateType(CreateType.PLATFORMCREATE);
-        enterpriseEntity.setInviteNo(addEnterpriseDTO.getPhoneNumber());
-        BeanUtil.copy(addEnterpriseDTO, enterpriseEntity);
+        enterpriseEntity.setInviteNo(createEnterpriseDTO.getPhoneNumber());
+        BeanUtil.copy(createEnterpriseDTO, enterpriseEntity);
         save(enterpriseEntity);
 
         //上传商户加盟合同
@@ -151,14 +151,14 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         agreementEntity.setAgreementNo(SnowflakeIdWorker.getSerialNumber());
         agreementEntity.setSignState(SignState.SIGNED);
         agreementEntity.setAuditState(AuditState.APPROVED);
-        agreementEntity.setPaperAgreementUrl(addEnterpriseDTO.getJoinContract());
+        agreementEntity.setPaperAgreementUrl(createEnterpriseDTO.getJoinContract());
         agreementEntity.setFirstSideSignPerson("地衣众包平台");
         agreementEntity.setEnterpriseId(enterpriseEntity.getId());
         agreementEntity.setSecondSideSignPerson(enterpriseEntity.getEnterpriseName());
         agreementService.save(agreementEntity);
 
         //上传商户承诺函
-        String[] split = addEnterpriseDTO.getCommitmentLetters().split(",");
+        String[] split = createEnterpriseDTO.getCommitmentLetters().split(",");
         for (int i = 0; i < split.length; i++) {
             if (StringUtils.isNotBlank(split[i])) {
                 agreementEntity = new AgreementEntity();
@@ -180,24 +180,24 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         addressEntity.setObjectId(enterpriseEntity.getId());
         addressEntity.setObjectType(ObjectType.ENTERPRISEPEOPLE);
         addressEntity.setIsDefault(true);
-        BeanUtils.copyProperties(addEnterpriseDTO, addressEntity);
+        BeanUtils.copyProperties(createEnterpriseDTO, addressEntity);
         orderClient.createAddress(addressEntity);
 
         //新建联系人员工
         User user = new User();
         user.setUserType(UserType.ENTERPRISE);
-        user.setAccount(addEnterpriseDTO.getEmployeeUserName());
-        user.setPhone(addEnterpriseDTO.getPhoneNumber());
+        user.setAccount(createEnterpriseDTO.getEmployeeUserName());
+        user.setPhone(createEnterpriseDTO.getPhoneNumber());
         userService.save(user);
 
         //密码加密
-        addEnterpriseDTO.setEmployeePwd(DigestUtil.encrypt(addEnterpriseDTO.getEmployeePwd()));
+        createEnterpriseDTO.setEmployeePwd(DigestUtil.encrypt(createEnterpriseDTO.getEmployeePwd()));
 
         EnterpriseWorkerEntity enterpriseWorkerEntity = new EnterpriseWorkerEntity();
         enterpriseWorkerEntity.setUserId(user.getId());
         enterpriseWorkerEntity.setPositionName(PositionName.MANAGEMENT);
         enterpriseWorkerEntity.setAdminPower(true);
-        BeanUtil.copy(addEnterpriseDTO, enterpriseWorkerEntity);
+        BeanUtil.copy(createEnterpriseDTO, enterpriseWorkerEntity);
         enterpriseWorkerEntity.setEnterpriseId(enterpriseEntity.getId());
         enterpriseWorkerService.save(enterpriseWorkerEntity);
 
@@ -309,7 +309,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     @Override
-    public R<IPage<EnterpriseListEnterpriseVO>> queryEnterpriseListEnterprise(QueryEnterpriseListDTO queryEnterpriseListDTO, IPage<EnterpriseListEnterpriseVO> page) {
+    public R<IPage<EnterpriseListAdminVO>> queryEnterpriseListAdmin(QueryEnterpriseListDTO queryEnterpriseListDTO, IPage<EnterpriseListAdminVO> page) {
 
         if (queryEnterpriseListDTO.getBeginDate() != null && queryEnterpriseListDTO.getEndDate() != null) {
             if (queryEnterpriseListDTO.getBeginDate().after(queryEnterpriseListDTO.getEndDate())) {
@@ -317,7 +317,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             }
         }
 
-        return R.data(page.setRecords(baseMapper.queryEnterpriseListEnterprise(queryEnterpriseListDTO, page)));
+        return R.data(page.setRecords(baseMapper.queryEnterpriseListAdmin(queryEnterpriseListDTO, page)));
     }
 
     @Override
@@ -391,5 +391,10 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     @Override
     public R<InvoiceVO> queryeInvoice(Long enterpriseId) {
         return R.data(baseMapper.queryeInvoice(enterpriseId));
+    }
+
+    @Override
+    public R<IPage<EnterpriseIdNameListVO>> queryEnterpriseIdAndNameList(Long serviceProviderId, String enterpriseName, IPage<EnterpriseIdNameListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryEnterpriseIdAndNameList(serviceProviderId, enterpriseName, page)));
     }
 }

@@ -293,4 +293,8 @@
         DELETE FROM diyi_agreement WHERE enterprise_id = #{param1} AND agreement_type = #{param2}
     </select>
 
+    <select id="deleteByAgentMain">
+        DELETE FROM diyi_agreement WHERE agent_main_id = #{param1} AND agreement_type = #{param2}
+    </select>
+
 </mapper>

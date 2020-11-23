@@ -12,19 +12,19 @@ public class ImportMakerListDTO {
     /**
      * 创客姓名
      */
-    @NotBlank(message = "创客姓名不能为空")
+    @NotBlank(message = "请输入创客姓名")
     private String name;
 
     /**
      * 身份证号码
      */
-    @NotBlank(message = "身份证号码不能为空")
+    @NotBlank(message = "请输入身份证号码")
     private String idcardNo;
 
     /**
      * 手机号码
      */
-    @NotBlank(message = "手机号码不能为空")
+    @NotBlank(message = "请输入手机号码")
     private String phoneNumber;
 
     /**

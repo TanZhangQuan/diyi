@@ -19,7 +19,7 @@ public class LumpSumMergeInvoiceDTO implements Serializable {
     /**
      * 商户支付清单Id
      */
-    @NotBlank(message = "支付清单id不能为空")
+    @NotBlank(message = "请选择支付清单")
     private String payEnterpriseIds;
 
     /**
@@ -29,9 +29,9 @@ public class LumpSumMergeInvoiceDTO implements Serializable {
     private String serviceProviderName;
 
     /**
-     *发票url
+     *发票
      */
-    @NotBlank(message = "请输入发票url")
+    @NotBlank(message = "请上传发票")
     private String companyInvoiceUrl;
 
     /**

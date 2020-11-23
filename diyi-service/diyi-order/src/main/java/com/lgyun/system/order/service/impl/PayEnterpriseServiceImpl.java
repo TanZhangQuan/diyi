@@ -22,8 +22,6 @@ import com.lgyun.system.order.mapper.PayEnterpriseMapper;
 import com.lgyun.system.order.service.*;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.feign.IUserClient;
-import com.lgyun.system.user.vo.AdminAgentMainServiceProviderListVO;
-import com.lgyun.system.user.vo.AgentMainTransactionVO;
 import com.lgyun.system.user.vo.PartnerServiceProviderListVO;
 import com.lgyun.system.user.vo.TransactionVO;
 import fr.opensagres.xdocreport.document.json.JSONArray;
@@ -379,6 +377,16 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     @Override
     public R<TransactionVO> transactionByServiceProvider(Long serviceProviderId) {
         return R.data(baseMapper.transactionByServiceProvider(serviceProviderId));
+    }
+
+    @Override
+    public R<TransactionVO> queryAgentMainEnterpriseTransaction(Long agentMainId) {
+        return R.data(baseMapper.queryAgentMainEnterpriseTransaction(agentMainId));
+    }
+
+    @Override
+    public R<TransactionVO> queryAgentMainServiceProviderTransaction(Long agentMainId) {
+        return R.data(baseMapper.queryAgentMainServiceProviderTransaction(agentMainId));
     }
 
     @Override
@@ -984,17 +992,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R<AgentMainTransactionVO> transactionByAgentMainId(Long agentMainId) {
-        return R.data(baseMapper.getTransactionByAgentMainId(agentMainId));
-    }
-
-    @Override
-    public R<IPage<AdminAgentMainServiceProviderListVO>> getCooperativeServiceProvider(IPage<AdminAgentMainServiceProviderListVO> page, Long agentMainId) {
-        return R.data(page.setRecords(baseMapper.getAgentMainServiceProviderList(agentMainId, page)));
-    }
-
-    @Override
-    public R<AgentMainTransactionVO> allTransaction() {
+    public R<TransactionVO> allTransaction() {
         return R.data(baseMapper.getAllTransaction());
     }
 
