@@ -6,11 +6,10 @@ import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.dto.AddPartnerDTO;
-import com.lgyun.system.user.dto.QueryPartnerDTO;
-import com.lgyun.system.user.dto.UpdatePartnerDTO;
-import com.lgyun.system.user.entity.AdminEntity;
+import com.lgyun.system.user.dto.PartnerListDTO;
 import com.lgyun.system.user.entity.PartnerEntity;
-import com.lgyun.system.user.vo.PartnerVO;
+import com.lgyun.system.user.vo.PartnerInfoVO;
+import com.lgyun.system.user.vo.PartnerListVO;
 
 /**
  * 合伙人信息表 Service 接口
@@ -97,36 +96,42 @@ public interface IPartnerService extends BaseService<PartnerEntity> {
      * 平台查询所有合伙人
      *
      * @param page
-     * @param queryPartnerDTO
+     * @param partnerListDTO
      * @return
      */
-    R<IPage<PartnerVO>> getPartnerList(IPage<PartnerVO> page, QueryPartnerDTO queryPartnerDTO);
+    R<IPage<PartnerListVO>> queryPartnerList(PartnerListDTO partnerListDTO, IPage<PartnerListVO> page);
 
     /**
      * 修改合伙人状态
      *
      * @param partnerId
+     * @param partnerState
      * @return
      */
-    R updateIllegal(Long partnerId, AccountState accountState, AdminEntity adminEntity);
+    R<String> updatePartnerState(Long partnerId, AccountState partnerState);
 
     /**
      * 添加合伙人
      *
      * @param addPartnerDTO
-     * @param adminEntity
      * @return
      */
-    R addPartner(AddPartnerDTO addPartnerDTO, AdminEntity adminEntity);
+    R<String> createPartner(AddPartnerDTO addPartnerDTO);
 
     /**
-     * 编辑合伙人信息
+     * 查询合伙人基本信息
      *
-     * @param updatePartnerDTO
-     * @param adminEntity
+     * @param partnerId
      * @return
      */
-    R updatePartner(UpdatePartnerDTO updatePartnerDTO, AdminEntity adminEntity);
+    R<PartnerInfoVO> queryPartnerInfo(Long partnerId);
 
+    /**
+     * 根据ID查询合伙人
+     *
+     * @param partnerId
+     * @return
+     */
+    int queryCountById(Long partnerId);
 }
 

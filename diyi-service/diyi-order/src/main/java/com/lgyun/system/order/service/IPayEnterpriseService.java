@@ -11,7 +11,6 @@ import com.lgyun.system.order.dto.*;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.excel.PayEnterpriseExcel;
 import com.lgyun.system.order.vo.*;
-import com.lgyun.system.user.vo.PartnerServiceProviderListVO;
 import com.lgyun.system.user.vo.TransactionVO;
 
 import java.math.BigDecimal;
@@ -404,18 +403,12 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R<IPage<TransactionByBureauServiceProviderInfoVO>> transactionByBureauServiceProviderInfo(Long bureauId, IPage<TransactionByBureauServiceProviderInfoVO> page);
 
     /**
-     * 合伙人流水信息
+     * 查询合伙人交易数据
      *
+     * @param partnerId
      * @return
      */
-    R<TransactionVO> allTransaction();
-
-    /**
-     * 合伙人可以看所有的服务商
-     *
-     * @return
-     */
-    R<IPage<PartnerServiceProviderListVO>> getPartnerAllServiceProvider(IPage<PartnerServiceProviderListVO> page);
+    R<TransactionVO> queryPartnerTransaction(Long partnerId);
 
     /**
      * 商户端根据商户id查询总包

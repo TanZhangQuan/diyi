@@ -1,19 +1,19 @@
 package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.lgyun.common.enumeration.CooperateStatus;
+import com.lgyun.common.enumeration.CooperateType;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 /**
  * 合伙人-商户关联表 Entity
  *
  * @author tzq
- * @since 2020-10-20 18:25:03
+ * @since 2020-11-23 17:38:39
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -34,18 +34,23 @@ public class PartnerEnterpriseEntity extends BaseEntity {
     private Long enterpriseId;
 
     /**
-     * 分配时间
+     * 合作关系
      */
-    private Date matchDate;
+    private CooperateType cooperateType;
 
     /**
-     * 分配人员
+     * 合作状态：合作中，停止合作；首次关联时默认为合作中
      */
-    private String matchPerson;
+    private CooperateStatus cooperateStatus;
 
     /**
-     * 分配说明
+     * 操作人员
      */
-    private String matchDesc;
+    private String operatePerson;
+
+    /**
+     * 操作说明
+     */
+    private String operateDesc;
 
 }

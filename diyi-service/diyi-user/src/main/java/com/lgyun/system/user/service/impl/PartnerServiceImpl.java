@@ -5,20 +5,21 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.dto.AddPartnerDTO;
-import com.lgyun.system.user.dto.QueryPartnerDTO;
-import com.lgyun.system.user.dto.UpdatePartnerDTO;
-import com.lgyun.system.user.entity.*;
+import com.lgyun.system.user.dto.PartnerListDTO;
+import com.lgyun.system.user.entity.OnlineAgreementTemplateEntity;
+import com.lgyun.system.user.entity.PartnerEntity;
+import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.mapper.PartnerMapper;
 import com.lgyun.system.user.service.IOnlineAgreementNeedSignService;
 import com.lgyun.system.user.service.IOnlineAgreementTemplateService;
 import com.lgyun.system.user.service.IPartnerService;
 import com.lgyun.system.user.service.IUserService;
-import com.lgyun.system.user.vo.PartnerVO;
+import com.lgyun.system.user.vo.PartnerInfoVO;
+import com.lgyun.system.user.vo.PartnerListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -201,53 +202,62 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
     }
 
     @Override
-    public R<IPage<PartnerVO>> getPartnerList(IPage<PartnerVO> page, QueryPartnerDTO queryPartnerDTO) {
-        if (queryPartnerDTO.getBeginDate() != null && queryPartnerDTO.getEndDate() != null) {
-            if (queryPartnerDTO.getBeginDate().after(queryPartnerDTO.getEndDate())) {
+    public R<IPage<PartnerListVO>> queryPartnerList(PartnerListDTO partnerListDTO, IPage<PartnerListVO> page) {
+
+        if (partnerListDTO.getBeginDate() != null && partnerListDTO.getEndDate() != null) {
+            if (partnerListDTO.getBeginDate().after(partnerListDTO.getEndDate())) {
                 return R.fail("开始时间不能大于结束时间");
             }
         }
-        return R.data(page.setRecords(baseMapper.getPartnerList(queryPartnerDTO, page)));
+
+        return R.data(page.setRecords(baseMapper.queryPartnerList(partnerListDTO, page)));
     }
 
     @Override
-    public R updateIllegal(Long partnerId, AccountState accountState, AdminEntity adminEntity) {
-        PartnerEntity partnerEntity = baseMapper.selectById(partnerId);
-        partnerEntity.setUpdateUser(adminEntity.getUserId());
-        partnerEntity.setUpdateTime(new Date());
-        if (AccountState.NORMAL.equals(accountState)) {
-            partnerEntity.setPartnerState(AccountState.NORMAL);
-        } else if (AccountState.FREEZE.equals(accountState)) {
-            partnerEntity.setPartnerState(AccountState.FREEZE);
-        } else {
-            partnerEntity.setPartnerState(AccountState.ILLEGAL);
+    public R updatePartnerState(Long partnerId, AccountState partnerState) {
+
+        PartnerEntity partnerEntity = getById(partnerId);
+        if (partnerEntity == null) {
+            return R.fail("合伙人不存在");
         }
-        this.updateById(partnerEntity);
-        return null;
+
+        if (!(partnerEntity.getPartnerState().equals(partnerState))) {
+            partnerEntity.setPartnerState(partnerState);
+            updateById(partnerEntity);
+        }
+
+        return R.success("操作成功");
     }
 
-
     @Override
-    public R addPartner(AddPartnerDTO addPartnerDTO, AdminEntity adminEntity) {
+    public R createPartner(AddPartnerDTO addPartnerDTO) {
+
+        Long introducePartnerId = null;
+        if (StringUtils.isNotBlank(addPartnerDTO.getIntroducePartnerPhone())) {
+            PartnerEntity partnerEntity = findByPhoneNumber(addPartnerDTO.getIntroducePartnerPhone());
+            if (partnerEntity == null) {
+                return R.fail("介绍合伙人不存在");
+            }
+
+            introducePartnerId = partnerEntity.getId();
+        }
 
         partnerSave(addPartnerDTO.getPhoneNumber(), DigestUtil.encrypt(addPartnerDTO.getLoginPwd()), addPartnerDTO.getName(), addPartnerDTO.getIdcardNo(), addPartnerDTO.getBankCardNo(),
-                addPartnerDTO.getBankName(), addPartnerDTO.getSubBankName(), addPartnerDTO.getIntroducePartnerId());
+                addPartnerDTO.getBankName(), addPartnerDTO.getSubBankName(), introducePartnerId);
 
-        return R.fail("合伙人创建成功");
+        return R.fail("创建合伙人成功");
     }
 
     @Override
-    public R updatePartner(UpdatePartnerDTO updatePartnerDTO, AdminEntity adminEntity) {
-        PartnerEntity partnerEntity = baseMapper.selectById(updatePartnerDTO.getPartnerId());
-        if (partnerEntity == null) {
-            R.fail("不存在该合伙人");
-        }
-        BeanUtil.copy(updatePartnerDTO, partnerEntity);
-        partnerEntity.setCreateTime(new Date());
-        partnerEntity.setCreateUser(adminEntity.getUserId());
-        updateById(partnerEntity);
-        return R.fail("合伙人修改成功");
+    public R<PartnerInfoVO> queryPartnerInfo(Long partnerId) {
+        return R.data(baseMapper.queryPartnerInfo(partnerId));
     }
 
+    @Override
+    public int queryCountById(Long partnerId) {
+        QueryWrapper<PartnerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(PartnerEntity::getId, partnerId);
+        return baseMapper.selectCount(queryWrapper);
+    }
 
 }

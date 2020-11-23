@@ -1,9 +1,17 @@
 package com.lgyun.system.user.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.CooperateStatus;
+import com.lgyun.common.enumeration.CooperateType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.user.entity.PartnerEnterpriseEntity;
+import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.PartnerEnterpriseMapper;
+import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IPartnerEnterpriseService;
+import com.lgyun.system.user.service.IPartnerService;
+import com.lgyun.system.user.vo.CooperationEnterprisesListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,4 +27,83 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class PartnerEnterpriseServiceImpl extends BaseServiceImpl<PartnerEnterpriseMapper, PartnerEnterpriseEntity> implements IPartnerEnterpriseService {
 
+    private IPartnerService partnerService;
+    private IEnterpriseService enterpriseService;
+
+    @Override
+    public R<String> relevancePartnerEnterprise(Long partnerId, Long enterpriseId, String matchDesc, AdminEntity adminEntity) {
+
+        PartnerEntity partnerEntity = partnerService.getById(partnerId);
+        if (partnerEntity == null) {
+            return R.fail("合伙人不存在");
+        }
+
+        EnterpriseEntity enterpriseEntity = enterpriseService.getById(enterpriseId);
+        if (enterpriseEntity == null) {
+            return R.fail("商户不存在");
+        }
+
+        PartnerEnterpriseEntity partnerEnterpriseEntity = queryByPartnerAndEnterprise(partnerId, enterpriseId);
+        if (partnerEnterpriseEntity == null) {
+            partnerEnterpriseEntity = new PartnerEnterpriseEntity();
+            partnerEnterpriseEntity.setPartnerId(partnerId);
+            partnerEnterpriseEntity.setEnterpriseId(enterpriseId);
+            partnerEnterpriseEntity.setCooperateType(CooperateType.ALLOCATION);
+            partnerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATING);
+            partnerEnterpriseEntity.setOperatePerson(adminEntity.getName());
+            partnerEnterpriseEntity.setOperateDesc(matchDesc);
+            save(partnerEnterpriseEntity);
+
+        } else {
+            if (!(CooperateStatus.COOPERATING.equals(partnerEnterpriseEntity.getCooperateStatus()))) {
+                partnerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATING);
+                updateById(partnerEnterpriseEntity);
+            }
+        }
+
+        return R.success("匹配商户成功");
+    }
+
+    @Override
+    public PartnerEnterpriseEntity queryByPartnerAndEnterprise(Long partnerId, Long enterpriseId) {
+        QueryWrapper<PartnerEnterpriseEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(PartnerEnterpriseEntity::getPartnerId, partnerId).
+                eq(PartnerEnterpriseEntity::getEnterpriseId, enterpriseId);
+
+        return baseMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public R<IPage<CooperationEnterprisesListVO>> queryCooperationEnterpriseList(Long partnerId, String enterpriseName, IPage<CooperationEnterprisesListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryCooperationEnterpriseList(partnerId, enterpriseName, page)));
+    }
+
+    @Override
+    public R updateCooperationStatus(Long partnerId, Long enterpriseId, CooperateStatus cooperateStatus) {
+        int partnerNum = partnerService.queryCountById(partnerId);
+        if (partnerNum <= 0) {
+            return R.fail("合伙人不存在");
+        }
+
+        int enterpriseNum = enterpriseService.queryCountById(enterpriseId);
+        if (enterpriseNum <= 0) {
+            return R.fail("商户不存在");
+        }
+
+        PartnerEnterpriseEntity partnerEnterpriseEntity = queryByPartnerAndEnterprise(partnerId, enterpriseId);
+        if (partnerEnterpriseEntity == null) {
+            return R.fail("商户服务商不存在合作关系");
+        }
+
+        if (CooperateType.CREATE.equals(partnerEnterpriseEntity.getCooperateType())) {
+            return R.fail("合伙人-商户为创建关系，不可更改");
+        }
+
+        if (!(partnerEnterpriseEntity.getCooperateStatus().equals(cooperateStatus))) {
+            partnerEnterpriseEntity.setCooperateStatus(cooperateStatus);
+            updateById(partnerEnterpriseEntity);
+        }
+
+        return R.success("操作成功");
+    }
 }

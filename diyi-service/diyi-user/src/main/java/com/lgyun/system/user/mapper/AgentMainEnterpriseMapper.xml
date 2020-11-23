@@ -3,7 +3,7 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.AgentMainEnterpriseMapper">
 
-    <resultMap type="com.lgyun.system.user.vo.CooperationEnterprisesListVO" id="enterprisesByProviderVO">
+    <resultMap type="com.lgyun.system.user.vo.CooperationEnterprisesListVO" id="ooperationEnterprisesListVO">
         <result property="id" column="id"/>
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="cooperationNum" column="cooperation_num"/>

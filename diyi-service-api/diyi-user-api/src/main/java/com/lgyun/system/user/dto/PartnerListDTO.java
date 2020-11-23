@@ -14,28 +14,23 @@ import java.util.Date;
  * @date 2020-10-21
  */
 @Data
-public class QueryPartnerDTO implements Serializable {
+public class PartnerListDTO implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 合伙人编号
-     */
-    private Long partnerId;
 
     /**
      * 合伙人名称
      */
-    private String name;
+    private String partnerName;
 
     /**
-     * 合伙人创建开始时间
+     * 创建开始时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date beginDate;
 
     /**
-     * 合伙人创建结束时间
+     * 创建结束时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")

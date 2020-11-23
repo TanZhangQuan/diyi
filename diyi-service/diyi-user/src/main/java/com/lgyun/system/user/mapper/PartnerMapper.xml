@@ -3,53 +3,43 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.PartnerMapper">
 
-    <resultMap id="partnerVO" type="com.lgyun.system.user.vo.PartnerVO">
-        <id property="partnerId" column="id"/>
+    <resultMap type="com.lgyun.system.user.vo.MakerListWebVO" id="makerListWebVO">
+        <result property="id" column="id"/>
         <result property="name" column="name"/>
+        <result property="idcardNo" column="idcard_no"/>
         <result property="phoneNumber" column="phone_number"/>
-        <result property="isAuth" column="is_auth"/>
-        <result property="isSign" column="is_sign"/>
-        <result property="partnerState" column="partner_state"/>
+        <result property="bankCardNo" column="bank_card_no"/>
+        <result property="idcardVerifyStatus" column="idcard_verify_status"/>
+        <result property="faceVerifyStatus" column="face_verify_status"/>
+        <result property="bankCardVerifyStatus" column="bank_card_verify_status"/>
+        <result property="phoneNumberVerifyStatus" column="phone_number_verify_status"/>
+        <result property="joinSignState" column="join_sign_state"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <select id="getPartnerList" resultMap="partnerVO">
-        SELECT
-            p.id,
-            p.`name`,
-            p.phone_number,
-            p.idcard_verify_status as is_auth,
-            (
-                SELECT
-                IF (
-                    sign_type = 'PAPERAGREEMENT',
-                    paper_agreement_url,
-                    third_online_agreement_url
-                )
-                FROM
-                    diyi_agreement
-                WHERE
-                    partner_id = p.id
-                AND agreement_type = 'PARTNERJOINAGREEMENT'
-                AND sign_state = 'SIGNED' AND audit_state = 'APPROVED'
-            ) AS is_sign,
-            p.partner_state,
-            p.create_time
-        FROM
-            diyi_partner p
-        WHERE
-            p.is_deleted = 0
-        <if test="param1.agentMainId != null and param1.agentMainId != ''">
-            and p.id = #{param1.agentMainId}
-        </if>
-        <if test="param1.enterpriseName != null and param1.enterpriseName.trim() != ''">
-            AND p.enterprise_name LIKE concat('%', #{param1.enterpriseName}, '%')
+    <resultMap type="com.lgyun.system.user.vo.PartnerInfoVO" id="partnerInfoVO">
+        <result property="avatar" column="avatar"/>
+        <result property="name" column="name"/>
+        <result property="certificationState" column="certification_state"/>
+        <result property="selfDesc" column="self_desc"/>
+    </resultMap>
+
+    <select id="queryMakerList" resultMap="makerListWebVO">
+        SELECT id, name, idcard_no, phone_number, bank_card_no, idcard_verify_status, face_verify_status, bank_card_verify_status,
+        phone_number_verify_status, join_sign_state, create_time FROM diyi_partner WHERE is_deleted = 0
+        <if test="param1.partnerName != null and param1.partnerName != ''">
+            AND name LIKE concat('%', #{param1.partnerName}, '%')
         </if>
         <if test="param1.beginDate != null">
-            AND DATEDIFF(p.create_time, #{param1.beginDate}) <![CDATA[ >= ]]> 0
+            AND DATEDIFF(create_time, #{param1.beginDate}) <![CDATA[ >= ]]> 0
         </if>
         <if test="param1.endDate != null">
-            AND DATEDIFF(p.create_time, #{param1.endDate}) <![CDATA[ <= ]]> 0
+            AND DATEDIFF(create_time, #{param1.endDate}) <![CDATA[ <= ]]> 0
         </if>
     </select>
+
+    <select id="queryPartnerInfo" resultMap="partnerInfoVO">
+        SELECT avatar, name, certification_state, self_desc FROM diyi_partner WHERE is_deleted = 0 AND id = #{param1}
+    </select>
+
 </mapper>

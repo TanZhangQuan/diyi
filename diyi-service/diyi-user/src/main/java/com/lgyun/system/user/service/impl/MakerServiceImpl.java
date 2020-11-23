@@ -617,7 +617,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     public R<String> makerAdd(MakerAddDTO makerAddDto, Long enterpriseId) {
         //新建创客
         makerSave(makerAddDto.getPhoneNumber(), makerAddDto.getName(), makerAddDto.getIdcardNo(), makerAddDto.getBankCardNo(), makerAddDto.getBankName(), makerAddDto.getBankCardNo(), enterpriseId);
-        return R.success("添加成功");
+        return R.success("新建创客成功");
     }
 
     @Override

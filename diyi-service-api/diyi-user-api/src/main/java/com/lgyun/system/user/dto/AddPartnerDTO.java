@@ -16,9 +16,11 @@ public class AddPartnerDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 介绍合伙人ID
+     * 介绍合伙人手机号
      */
-    private Long introducePartnerId;
+    @Length(min = 11, max = 11, message = "请输入11位的收件人手机号")
+    @Pattern(regexp = "[0-9]*", message = "请输入有效的收件人手机号")
+    private String introducePartnerPhone;
 
     /**
      * 合伙人姓名
@@ -43,25 +45,22 @@ public class AddPartnerDTO implements Serializable {
     /**
      * 银行卡号
      */
-    @NotBlank(message = "请输入合伙人银行卡号")
     private String bankCardNo;
 
     /**
      * 开户银行
      */
-    @NotBlank(message = "请输入合伙人开户银行")
     private String bankName;
 
     /**
      * 开户支行
      */
-    @NotBlank(message = "请输入合伙人开户支行")
     private String subBankName;
 
     /**
      * 登陆密码
      */
-    @NotBlank(message = "请输入初始密码")
-    @Length(min = 6, max = 18, message = "请输入长度为6-18位的初始密码")
+    @NotBlank(message = "请输入登陆密码")
+    @Length(min = 6, max = 18, message = "请输入长度为6-18位的登陆密码")
     private String loginPwd;
 }

@@ -32,7 +32,6 @@ public class AgentMainEnterpriseServiceImpl extends BaseServiceImpl<AgentMainEnt
 
     @Override
     public R<String> relevanceAgentMainEnterprise(Long agentMainId, Long enterpriseId, String matchDesc, AdminEntity adminEntity) {
-
         AgentMainEntity agentMainEntity = agentMainService.getById(agentMainId);
         if (agentMainEntity == null) {
             return R.fail("渠道商不存在");
@@ -80,14 +79,13 @@ public class AgentMainEnterpriseServiceImpl extends BaseServiceImpl<AgentMainEnt
 
     @Override
     public R<String> updateCooperationStatus(Long agentMainId, Long enterpriseId, CooperateStatus cooperateStatus) {
-
         int agentMainNum = agentMainService.queryCountById(agentMainId);
         if (agentMainNum <= 0) {
             return R.fail("渠道商不存在");
         }
 
-        int serviceProviderNum = enterpriseService.queryCountById(enterpriseId);
-        if (serviceProviderNum <= 0) {
+        int enterpriseNum = enterpriseService.queryCountById(enterpriseId);
+        if (enterpriseNum <= 0) {
             return R.fail("商户不存在");
         }
 

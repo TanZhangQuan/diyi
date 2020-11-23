@@ -22,7 +22,6 @@ import com.lgyun.system.order.mapper.PayEnterpriseMapper;
 import com.lgyun.system.order.service.*;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.feign.IUserClient;
-import com.lgyun.system.user.vo.PartnerServiceProviderListVO;
 import com.lgyun.system.user.vo.TransactionVO;
 import fr.opensagres.xdocreport.document.json.JSONArray;
 import lombok.AllArgsConstructor;
@@ -992,13 +991,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R<TransactionVO> allTransaction() {
-        return R.data(baseMapper.getAllTransaction());
-    }
-
-    @Override
-    public R<IPage<PartnerServiceProviderListVO>> getPartnerAllServiceProvider(IPage<PartnerServiceProviderListVO> page) {
-        return R.data(page.setRecords(baseMapper.getPartnerAllServiceProvider(page)));
+    public R<TransactionVO> queryPartnerTransaction(Long partnerId) {
+        return R.data(baseMapper.queryPartnerTransaction(partnerId));
     }
 
     @Override

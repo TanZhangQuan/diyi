@@ -6,10 +6,8 @@ import com.lgyun.common.enumeration.CompanyInvoiceState;
 import com.lgyun.system.order.dto.PayEnterpriseDTO;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.*;
-import com.lgyun.system.user.vo.PartnerServiceProviderListVO;
 import com.lgyun.system.user.vo.TransactionVO;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -153,6 +151,14 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     TransactionVO queryAgentMainServiceProviderTransaction(Long agentMainId);
 
     /**
+     * 查询合伙人交易数据
+     *
+     * @param partnerId
+     * @return
+     */
+    TransactionVO queryPartnerTransaction(Long partnerId);
+
+    /**
      * 查询当前商户总包+分包全年流水
      *
      * @param enterpriseId
@@ -281,7 +287,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * @param bureauId
      * @return
      */
-    TransactionVO transactionByBureauServiceProvider(@Param("bureauId") Long bureauId);
+    TransactionVO transactionByBureauServiceProvider(Long bureauId);
 
     /**
      * 相关局查询匹配的服务商基本信息及交易金额
@@ -290,26 +296,12 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * @param page
      * @return
      */
-    List<TransactionByBureauServiceProviderInfoVO> transactionByBureauServiceProviderInfo(@Param("bureauId") Long bureauId, IPage<TransactionByBureauServiceProviderInfoVO> page);
-
-    /**
-     * 合伙人查询流水信息
-     *
-     * @return
-     */
-    TransactionVO getAllTransaction();
-
-    /**
-     * 查询合伙人可有用的服务商
-     *
-     * @return
-     */
-    List<PartnerServiceProviderListVO> getPartnerAllServiceProvider(IPage<PartnerServiceProviderListVO> page);
+    List<TransactionByBureauServiceProviderInfoVO> transactionByBureauServiceProviderInfo(Long bureauId, IPage<TransactionByBureauServiceProviderInfoVO> page);
 
     /**
      * 商户端根据商户id查询总包
      */
-    List<TotalInvoiceListEnterVO> queryTotalInvoiceListEnterprise(Long enterpriseId,String serviceProviderName,IPage<TotalInvoiceListEnterVO> page);
+    List<TotalInvoiceListEnterVO> queryTotalInvoiceListEnterprise(Long enterpriseId, String serviceProviderName, IPage<TotalInvoiceListEnterVO> page);
 
     /**
      * 查询和商户关联的服务商
@@ -355,18 +347,20 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
 
     /**
      * 商户端根据商户id查询总包申请的详情商户支付清单
+     *
      * @param invoiceApplicationId
      * @return
      */
     List<EnterpriseApplyDetailVO> queryTotalInvoiceListEnterpriseApplyDetails(Long invoiceApplicationId);
 
     /**
-     *商户端根据商户id查询总包开票的详情商户支付清单
+     * 商户端根据商户id查询总包开票的详情商户支付清单
      */
     List<EnterpriseInvoiceDetailVO> queryTotalInvoiceListEnterpriseInvoiceDetails(Long invoicePrintId);
 
     /**
      * 总包合并开票详情
+     *
      * @param payEnterpriseIds
      * @return
      */
