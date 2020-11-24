@@ -14,7 +14,7 @@ import java.util.Date;
  * @time 17:40.
  */
 @Data
-public class QueryAgentMainDTO implements Serializable {
+public class AgentMainListDTO implements Serializable {
 
     /**
      * 渠道名称

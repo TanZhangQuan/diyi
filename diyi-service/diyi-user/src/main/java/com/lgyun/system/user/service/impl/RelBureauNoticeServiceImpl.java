@@ -2,7 +2,8 @@ package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.system.user.vo.RelBureauNoticeVO;
+import com.lgyun.common.enumeration.NoticeState;
+import com.lgyun.system.user.vo.RelBureauNoticeListVO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
@@ -22,14 +23,31 @@ import com.lgyun.system.user.service.IRelBureauNoticeService;
 @AllArgsConstructor
 public class RelBureauNoticeServiceImpl extends BaseServiceImpl<RelBureauNoticeMapper, RelBureauNoticeEntity> implements IRelBureauNoticeService {
 
-    /**
-     * 分页查询税务局管理的通知
-     * @param bureauId
-     * @param page
-     * @return
-     */
     @Override
-    public R<IPage<RelBureauNoticeVO>> queryBureauNotice(Long bureauId, IPage<RelBureauNoticeVO> page) {
-        return R.data(page.setRecords(baseMapper.queryTaxBureauNotice(bureauId, page)));
+    public R<IPage<RelBureauNoticeListVO>> queryBureauNoticeList(Long relBureauId, NoticeState noticeState, IPage<RelBureauNoticeListVO> page) {
+
+        if (!(NoticeState.PUBLISHED.equals(noticeState)) && !(NoticeState.HAVEREAD.equals(noticeState))) {
+            return R.fail("请选择已发布或已阅读状态");
+        }
+
+        return R.data(page.setRecords(baseMapper.queryBureauNoticeList(relBureauId, noticeState, page)));
+    }
+
+    @Override
+    public R<String> updateRelBureauNoticeState(Long relBureauNoticeId) {
+
+        RelBureauNoticeEntity relBureauNoticeEntity = getById(relBureauNoticeId);
+        if (relBureauNoticeEntity == null) {
+            return R.fail("相关局通知不存在");
+        }
+
+        if (!(NoticeState.PUBLISHED.equals(relBureauNoticeEntity.getNoticeState()))) {
+            return R.fail("相关局通知状态有误");
+        }
+
+        relBureauNoticeEntity.setNoticeState(NoticeState.HAVEREAD);
+        updateById(relBureauNoticeEntity);
+
+        return R.success("操作成功");
     }
 }

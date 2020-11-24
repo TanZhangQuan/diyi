@@ -5,7 +5,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.dto.CreateAgentMainDTO;
-import com.lgyun.system.user.dto.QueryAgentMainDTO;
+import com.lgyun.system.user.dto.AgentMainListDTO;
 import com.lgyun.system.user.dto.UpdateAgentMainDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.AgentMainEntity;
@@ -32,10 +32,10 @@ public interface IAgentMainService extends BaseService<AgentMainEntity> {
      * 查询所有渠道商列表
      *
      * @param page
-     * @param queryAgentMainDTO
+     * @param agentMainListDTO
      * @return
      */
-    R<IPage<AgentMainListAdminVO>> getAgentMainListAdmin(QueryAgentMainDTO queryAgentMainDTO, IPage<AgentMainListAdminVO> page);
+    R<IPage<AgentMainListAdminVO>> getAgentMainListAdmin(AgentMainListDTO agentMainListDTO, IPage<AgentMainListAdminVO> page);
 
     /**
      * 更改渠道商状态

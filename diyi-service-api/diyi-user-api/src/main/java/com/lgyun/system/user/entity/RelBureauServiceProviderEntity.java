@@ -1,7 +1,7 @@
 package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.lgyun.common.enumeration.BureauServiceProviderStatus;
+import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.enumeration.RelBureauType;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -29,18 +29,28 @@ public class RelBureauServiceProviderEntity extends BaseEntity {
     private Long relBureauId;
 
     /**
+     * 服务商编号，一个服务商只能属于一个税务局监管
+     */
+    private Long serviceProviderId;
+
+    /**
      * 相关局的类型
      */
     private RelBureauType relBureauType;
 
     /**
-     * 服务商编号，一个服务商只能属于一个税局监管
+     * 关联状态
      */
-    private Long serviceProviderId;
+    private CooperateStatus cooperateStatus = CooperateStatus.COOPERATING;
 
     /**
-     * 相关局匹配的服务商状态
+     * 分配人员
      */
-    BureauServiceProviderStatus bureauServiceProviderStatus;
+    private String matchPerson;
+
+    /**
+     * 分配说明
+     */
+    private String matchDesc;
 
 }

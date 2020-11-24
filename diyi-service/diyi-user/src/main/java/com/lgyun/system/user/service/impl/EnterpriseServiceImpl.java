@@ -13,7 +13,7 @@ import com.lgyun.system.order.entity.AddressEntity;
 import com.lgyun.system.order.feign.IOrderClient;
 import com.lgyun.system.user.dto.CreateEnterpriseDTO;
 import com.lgyun.system.user.dto.ContactsInfoDTO;
-import com.lgyun.system.user.dto.QueryEnterpriseListDTO;
+import com.lgyun.system.user.dto.EnterpriseListDTO;
 import com.lgyun.system.user.dto.UpdateEnterpriseDTO;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.EnterpriseMapper;
@@ -309,15 +309,15 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     @Override
-    public R<IPage<EnterpriseListAdminVO>> queryEnterpriseListAdmin(QueryEnterpriseListDTO queryEnterpriseListDTO, IPage<EnterpriseListAdminVO> page) {
+    public R<IPage<EnterpriseListAdminVO>> queryEnterpriseListAdmin(EnterpriseListDTO enterpriseListDTO, IPage<EnterpriseListAdminVO> page) {
 
-        if (queryEnterpriseListDTO.getBeginDate() != null && queryEnterpriseListDTO.getEndDate() != null) {
-            if (queryEnterpriseListDTO.getBeginDate().after(queryEnterpriseListDTO.getEndDate())) {
+        if (enterpriseListDTO.getBeginDate() != null && enterpriseListDTO.getEndDate() != null) {
+            if (enterpriseListDTO.getBeginDate().after(enterpriseListDTO.getEndDate())) {
                 return R.fail("开始时间不能大于结束时间");
             }
         }
 
-        return R.data(page.setRecords(baseMapper.queryEnterpriseListAdmin(queryEnterpriseListDTO, page)));
+        return R.data(page.setRecords(baseMapper.queryEnterpriseListAdmin(enterpriseListDTO, page)));
     }
 
     @Override

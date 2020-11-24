@@ -5,11 +5,12 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.RelBureauType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.dto.AddRelBureauDTO;
-import com.lgyun.system.user.dto.QueryRelBureauListDTO;
-import com.lgyun.system.user.dto.UpdateRelBureauDTO;
+import com.lgyun.system.user.dto.AddOrUpdateRelBureauDTO;
+import com.lgyun.system.user.dto.RelBureauListDTO;
 import com.lgyun.system.user.entity.RelBureauEntity;
-import com.lgyun.system.user.vo.RelBureauVO;
+import com.lgyun.system.user.vo.RelBureauInfoVO;
+import com.lgyun.system.user.vo.RelBureauListVO;
+import com.lgyun.system.user.vo.RelBureauUpdateDetailVO;
 
 /**
  * 相关局管理表 Service 接口
@@ -48,36 +49,53 @@ public interface IRelBureauService extends BaseService<RelBureauEntity> {
     /**
      * 添加相关局
      *
-     * @param addRelBureauDto
+     * @param addOrUpdateRelBureauDto
      * @return
      */
-    R addRelBureau(AddRelBureauDTO addRelBureauDto);
+    R<String> addOrUpdateRelBureau(AddOrUpdateRelBureauDTO addOrUpdateRelBureauDto);
+
+    /**
+     * 查询相关局编辑详情
+     *
+     * @param relBureauId
+     * @return
+     */
+    R<RelBureauUpdateDetailVO> queryRelBureauUpdateDetail(Long relBureauId);
+
+    /**
+     * 根据相关局类型，用户名查询相关局
+     *
+     * @param relBureauType
+     * @param relBureauUserName
+     * @param relBureauId
+     * @return
+     */
+    int queryRelBureauByTypeAndUserNameNum(RelBureauType relBureauType, String relBureauUserName, Long relBureauId);
 
     /**
      * 查询相关局
      *
-     * @param queryRelBureauListDTO
+     * @param relBureauListDTO
      * @param page
      * @param relBureauType
      * @return
      */
-    R<IPage<RelBureauVO>> QueryRelBureau(QueryRelBureauListDTO queryRelBureauListDTO, IPage<RelBureauVO> page, RelBureauType relBureauType);
+    R<IPage<RelBureauListVO>> queryRelBureauList(RelBureauType relBureauType, RelBureauListDTO relBureauListDTO, IPage<RelBureauListVO> page);
 
     /**
-     * 查询相关局信息
+     * 查询相关局基础信息
      *
-     * @param bureauId
+     * @param relBureauId
      * @return
      */
-    R<RelBureauEntity> queryRelBureauInfo(Long bureauId);
+    R<RelBureauInfoVO> queryRelBureauInfo(Long relBureauId);
 
     /**
-     * 编辑相关局
+     * 查询相关局
      *
-     * @param updateRelBureauDTO
+     * @param relBureauId
      * @return
      */
-    R updateBureau(UpdateRelBureauDTO updateRelBureauDTO);
-
+    int queryCountById(Long relBureauId);
 }
 

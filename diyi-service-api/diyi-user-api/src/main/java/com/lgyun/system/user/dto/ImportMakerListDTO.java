@@ -1,12 +1,10 @@
 package com.lgyun.system.user.dto;
 
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
 @Data
-@ApiModel(description = "导入创客参数")
 public class ImportMakerListDTO {
 
     /**

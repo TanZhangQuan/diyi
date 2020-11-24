@@ -2,7 +2,7 @@ package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.system.user.dto.QueryAgentMainDTO;
+import com.lgyun.system.user.dto.AgentMainListDTO;
 import com.lgyun.system.user.entity.AgentMainEntity;
 import com.lgyun.system.user.vo.AgentMainListAdminVO;
 import com.lgyun.system.user.vo.AgentMainUpdateDetailVO;
@@ -22,11 +22,11 @@ public interface AgentMainMapper extends BaseMapper<AgentMainEntity> {
     /**
      * 查询所有渠道商列表
      *
-     * @param queryAgentMainDTO
+     * @param agentMainListDTO
      * @param page
      * @return
      */
-    List<AgentMainListAdminVO> getAgentMainListAdmin(QueryAgentMainDTO queryAgentMainDTO, IPage<AgentMainListAdminVO> page);
+    List<AgentMainListAdminVO> getAgentMainListAdmin(AgentMainListDTO agentMainListDTO, IPage<AgentMainListAdminVO> page);
 
     /**
      * 查询编辑渠道商详情

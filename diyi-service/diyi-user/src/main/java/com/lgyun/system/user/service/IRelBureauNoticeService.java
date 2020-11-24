@@ -2,9 +2,10 @@ package com.lgyun.system.user.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.NoticeState;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.RelBureauNoticeEntity;
-import com.lgyun.system.user.vo.RelBureauNoticeVO;
+import com.lgyun.system.user.vo.RelBureauNoticeListVO;
 
 /**
  * 相关局通知管理表 Service 接口
@@ -14,6 +15,22 @@ import com.lgyun.system.user.vo.RelBureauNoticeVO;
  */
 public interface IRelBureauNoticeService extends BaseService<RelBureauNoticeEntity> {
 
-    R<IPage<RelBureauNoticeVO>> queryBureauNotice(Long bureauId, IPage<RelBureauNoticeVO> page);
+    /**
+     * 查询相关局通知
+     *
+     * @param relBureauId
+     * @param noticeState
+     * @param page
+     * @return
+     */
+    R<IPage<RelBureauNoticeListVO>> queryBureauNoticeList(Long relBureauId, NoticeState noticeState, IPage<RelBureauNoticeListVO> page);
+
+    /**
+     * 更改相关局通知状态
+     *
+     * @param relBureauNoticeId
+     * @return
+     */
+    R<String> updateRelBureauNoticeState(Long relBureauNoticeId);
 }
 

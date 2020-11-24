@@ -5,17 +5,20 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.RelBureauType;
+import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
-import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.user.dto.AddRelBureauDTO;
-import com.lgyun.system.user.dto.QueryRelBureauListDTO;
-import com.lgyun.system.user.dto.UpdateRelBureauDTO;
+import com.lgyun.system.user.dto.AddOrUpdateRelBureauDTO;
+import com.lgyun.system.user.dto.RelBureauListDTO;
 import com.lgyun.system.user.entity.RelBureauEntity;
+import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.mapper.RelBureauMapper;
 import com.lgyun.system.user.service.IRelBureauService;
-import com.lgyun.system.user.vo.RelBureauVO;
+import com.lgyun.system.user.service.IUserService;
+import com.lgyun.system.user.vo.RelBureauInfoVO;
+import com.lgyun.system.user.vo.RelBureauListVO;
+import com.lgyun.system.user.vo.RelBureauUpdateDetailVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -32,6 +35,8 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class RelBureauServiceImpl extends BaseServiceImpl<RelBureauMapper, RelBureauEntity> implements IRelBureauService {
+
+    private IUserService userService;
 
     @Override
     public R<RelBureauEntity> currentRelBureau(BladeUser bladeUser) {
@@ -68,49 +73,130 @@ public class RelBureauServiceImpl extends BaseServiceImpl<RelBureauMapper, RelBu
     }
 
     @Override
-    public R addRelBureau(AddRelBureauDTO addRelBureauDto) {
-        RelBureauEntity relBureauEntity = new RelBureauEntity();
-        BeanUtils.copyProperties(addRelBureauDto, relBureauEntity);
-        relBureauEntity.setRelBureauPwd(DigestUtil.encrypt(relBureauEntity.getRelBureauPwd()));
-        boolean flag = this.save(relBureauEntity);
-        if (flag) {
-            return R.success("添加成功");
-        }
-        return R.fail("添加失败");
-    }
+    public R addOrUpdateRelBureau(AddOrUpdateRelBureauDTO addOrUpdateRelBureauDto) {
 
-    @Override
-    public R<IPage<RelBureauVO>> QueryRelBureau(QueryRelBureauListDTO queryRelBureauListDTO, IPage<RelBureauVO> page, RelBureauType relBureauType) {
-        if (queryRelBureauListDTO.getBeginDate().after(queryRelBureauListDTO.getEndDate())) {
-            return R.fail("开始时间不能大于结束时间");
-        }
-        return R.data(page.setRecords(baseMapper.QueryRelBureau(queryRelBureauListDTO, page, relBureauType)));
-    }
+        RelBureauEntity relBureauEntity;
+        if (addOrUpdateRelBureauDto.getRelBureauId() != null) {
 
-    @Override
-    public R<RelBureauEntity> queryRelBureauInfo(Long bureauId) {
-        RelBureauEntity relBureauEntity = baseMapper.selectById(bureauId);
-        relBureauEntity.setRelBureauPwd("");
-        return R.data(relBureauEntity);
-    }
-
-    @Override
-    public R updateBureau(UpdateRelBureauDTO updateRelBureauDTO) {
-        RelBureauEntity relBureauEntity = this.getById(updateRelBureauDTO.getBureauId());
-        if (relBureauEntity == null) {
-            return R.fail("您编辑的内容不存在");
-        }
-        BeanUtil.copyProperties(updateRelBureauDTO, relBureauEntity);
-        if (!StringUtils.isBlank(updateRelBureauDTO.getPassWord())) {
-            if (updateRelBureauDTO.getPassWord().length() < 6 || updateRelBureauDTO.getPassWord().length() > 18) {
-                return R.fail("请输入6-18位的密码");
+            relBureauEntity = getById(addOrUpdateRelBureauDto.getRelBureauId());
+            if (relBureauEntity == null) {
+                return R.fail("相关局不存在");
             }
-            relBureauEntity.setRelBureauPwd(DigestUtil.encrypt(updateRelBureauDTO.getPassWord()));
+
+            if (StringUtils.isNotBlank(addOrUpdateRelBureauDto.getRelBureauPwd())) {
+                if (addOrUpdateRelBureauDto.getRelBureauPwd().length() < 6 || addOrUpdateRelBureauDto.getRelBureauPwd().length() > 18) {
+                    return R.fail("请输入长度为6-18位的密码");
+                }
+
+                addOrUpdateRelBureauDto.setRelBureauPwd(DigestUtil.encrypt(addOrUpdateRelBureauDto.getRelBureauPwd()));
+            } else {
+                addOrUpdateRelBureauDto.setRelBureauPwd(relBureauEntity.getRelBureauPwd());
+            }
+
+            int oldRelBureauNum = queryRelBureauByTypeAndUserNameNum(addOrUpdateRelBureauDto.getRelBureauType(), addOrUpdateRelBureauDto.getRelBureauUserName(), relBureauEntity.getId());
+            if (oldRelBureauNum > 0) {
+                return R.fail("已存在相同账号");
+            }
+
+        } else {
+
+            relBureauEntity = new RelBureauEntity();
+
+            if (StringUtils.isBlank(addOrUpdateRelBureauDto.getRelBureauPwd())) {
+                return R.fail("请输入密码");
+            }
+
+            if (addOrUpdateRelBureauDto.getRelBureauPwd().length() < 6 || addOrUpdateRelBureauDto.getRelBureauPwd().length() > 18) {
+                return R.fail("请输入长度为6-18位的密码");
+            }
+
+            addOrUpdateRelBureauDto.setRelBureauPwd(DigestUtil.encrypt(addOrUpdateRelBureauDto.getRelBureauPwd()));
+
+            int oldRelBureauNum = queryRelBureauByTypeAndUserNameNum(addOrUpdateRelBureauDto.getRelBureauType(), addOrUpdateRelBureauDto.getRelBureauUserName(), null);
+            if (oldRelBureauNum > 0) {
+                return R.fail("已存在相同账号");
+            }
+
+            UserType userType;
+            switch (addOrUpdateRelBureauDto.getRelBureauType()) {
+
+                case TAXBUREAU:
+
+                    userType = UserType.TAXBUREAU;
+                    break;
+
+                case PAYMENTAGENCY:
+
+                    userType = UserType.PAYMENTAGENCY;
+                    break;
+
+                case INDUSTRIALPARKS:
+
+                    userType = UserType.INDUSTRIALPARKS;
+                    break;
+
+                case MARKETSUPERVISION:
+
+                    userType = UserType.MARKETSUPERVISION;
+                    break;
+
+                default:
+                    return R.fail("相关局类型有误");
+            }
+
+            //新建相关局员工
+            User user = new User();
+            user.setUserType(userType);
+            user.setAccount(addOrUpdateRelBureauDto.getRelBureauUserName());
+            user.setPhone(addOrUpdateRelBureauDto.getRelBureauUserName());
+            userService.save(user);
+
         }
-        boolean flag = this.updateById(relBureauEntity);
-        if (flag) {
-            return R.success("编辑成功");
-        }
-        return R.fail("编辑失败");
+
+        BeanUtils.copyProperties(addOrUpdateRelBureauDto, relBureauEntity);
+        saveOrUpdate(relBureauEntity);
+
+        return R.success("操作成功");
     }
+
+    @Override
+    public R<RelBureauUpdateDetailVO> queryRelBureauUpdateDetail(Long relBureauId) {
+        return R.data(baseMapper.queryRelBureauUpdateDetail(relBureauId));
+    }
+
+    @Override
+    public int queryRelBureauByTypeAndUserNameNum(RelBureauType relBureauType, String relBureauUserName, Long relBureauId) {
+        QueryWrapper<RelBureauEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(RelBureauEntity::getRelBureauType, relBureauType)
+                .eq(RelBureauEntity::getRelBureauUserName, relBureauUserName)
+                .ne(relBureauId != null, RelBureauEntity::getId, relBureauId);
+
+        return baseMapper.selectCount(queryWrapper);
+    }
+
+    @Override
+    public R<IPage<RelBureauListVO>> queryRelBureauList(RelBureauType relBureauType, RelBureauListDTO relBureauListDTO, IPage<RelBureauListVO> page) {
+
+        if (relBureauListDTO.getBeginDate() != null && relBureauListDTO.getEndDate() != null) {
+            if (relBureauListDTO.getBeginDate().after(relBureauListDTO.getEndDate())) {
+                return R.fail("开始时间不能大于结束时间");
+            }
+        }
+
+        return R.data(page.setRecords(baseMapper.queryRelBureauList(relBureauType, relBureauListDTO, page)));
+    }
+
+    @Override
+    public R<RelBureauInfoVO> queryRelBureauInfo(Long relBureauId) {
+        return R.data(baseMapper.queryRelBureauInfo(relBureauId));
+    }
+
+    @Override
+    public int queryCountById(Long relBureauId) {
+        QueryWrapper<RelBureauEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(RelBureauEntity::getId, relBureauId);
+
+        return baseMapper.selectCount(queryWrapper);
+    }
+
 }

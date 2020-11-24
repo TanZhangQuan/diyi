@@ -3,39 +3,45 @@ package com.lgyun.system.user.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import io.swagger.annotations.ApiModel;
+import com.lgyun.common.enumeration.AccountState;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
-@ApiModel(description = "税务局展示")
-public class RelBureauVO implements Serializable {
+public class RelBureauListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 税务局ID
+     * 相关局ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long bureauId;
+    private Long id;
 
     /**
-     * 税务局名称
+     * 相关局名称
      */
     private String relBureauName;
 
     /**
-     * 税务局联系人
+     * 相关局联系人
      */
-    private String contactPerson;
+    private String contactName;
 
     /**
-     * 税务局联系电话
+     * 相关局联系电话
      */
-    private String telPhoneNo;
+    private String contactPhone;
+
+    /**
+     * 相关局账户状态
+     */
+    private AccountState relBureauState;
 
     /**
      * 创建时间
      */
-    private String createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date createTime;
 }

@@ -1,9 +1,7 @@
 package com.lgyun.system.dto;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,7 +13,6 @@ import java.util.List;
  * @since 2020/8/24 18:19
  */
 @Data
-@NoArgsConstructor
 public class GrantDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 

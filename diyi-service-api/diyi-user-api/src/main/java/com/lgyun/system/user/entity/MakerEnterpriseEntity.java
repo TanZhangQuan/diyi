@@ -57,7 +57,7 @@ public class MakerEnterpriseEntity extends BaseEntity {
     /**
      * 合作状态：合作中，停止合作；首次关联时默认为合作中
      */
-    private CooperateStatus cooperateStatus;
+    private CooperateStatus cooperateStatus = CooperateStatus.COOPERATING;
 
     /**
      * 创客第一次合作

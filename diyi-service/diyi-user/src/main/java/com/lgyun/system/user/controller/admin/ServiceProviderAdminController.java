@@ -75,14 +75,14 @@ public class ServiceProviderAdminController {
 
     @GetMapping("/query-service-provider-list")
     @ApiOperation(value = "查询所有服务商", notes = "查询所有服务商")
-    public R queryServiceProviderList(QueryServiceProviderListDTO queryServiceProviderListDTO, Query query, BladeUser bladeUser) {
+    public R queryServiceProviderList(ServiceProviderListDTO serviceProviderListDTO, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return serviceProviderService.queryServiceProviderListAdmin(queryServiceProviderListDTO, Condition.getPage(query.setDescs("t1.create_time")));
+        return serviceProviderService.queryServiceProviderListAdmin(serviceProviderListDTO, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/update-service-provider-state")

@@ -48,7 +48,6 @@ public class AgentMainEnterpriseServiceImpl extends BaseServiceImpl<AgentMainEnt
             agentMainEnterpriseEntity.setAgentMainId(agentMainId);
             agentMainEnterpriseEntity.setEnterpriseId(enterpriseId);
             agentMainEnterpriseEntity.setCooperateType(CooperateType.ALLOCATION);
-            agentMainEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATING);
             agentMainEnterpriseEntity.setOperatePerson(adminEntity.getName());
             agentMainEnterpriseEntity.setOperateDesc(matchDesc);
             save(agentMainEnterpriseEntity);

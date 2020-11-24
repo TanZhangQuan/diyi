@@ -7,7 +7,7 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.CreateEnterpriseDTO;
-import com.lgyun.system.user.dto.QueryEnterpriseListDTO;
+import com.lgyun.system.user.dto.EnterpriseListDTO;
 import com.lgyun.system.user.dto.UpdateEnterpriseDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.service.IAdminService;
@@ -76,14 +76,14 @@ public class EnterpriseAdminController {
 
     @GetMapping("/query-enterprise-list")
     @ApiOperation(value = "查询所有商户", notes = "查询所有商户")
-    public R queryEnterpriseList(QueryEnterpriseListDTO queryEnterpriseListDTO, Query query, BladeUser bladeUser) {
+    public R queryEnterpriseList(EnterpriseListDTO enterpriseListDTO, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return enterpriseService.queryEnterpriseListAdmin(queryEnterpriseListDTO, Condition.getPage(query.setDescs("t1.create_time")));
+        return enterpriseService.queryEnterpriseListAdmin(enterpriseListDTO, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/update-enterprise-state")

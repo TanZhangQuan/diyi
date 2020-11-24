@@ -409,9 +409,9 @@ public class AuthServiceImpl implements IAuthService {
                 }
                 break;
 
-            case MARSUPANDADM:
+            case MARKETSUPERVISION:
                 //市场监督管理局处理
-                res = userClient.relBureauDeal("", account, encrypt, RelBureauType.MARSUPANDADM, GrantType.PASSWORD);
+                res = userClient.relBureauDeal("", account, encrypt, RelBureauType.MARKETSUPERVISION, GrantType.PASSWORD);
                 if (!(res.isSuccess())) {
                     return res;
                 }
@@ -425,9 +425,9 @@ public class AuthServiceImpl implements IAuthService {
                 }
                 break;
 
-            case PAYINGAGENCY:
+            case PAYMENTAGENCY:
                 //支付机构处理
-                res = userClient.relBureauDeal("", account, encrypt, RelBureauType.PAYINGAGENCY, GrantType.PASSWORD);
+                res = userClient.relBureauDeal("", account, encrypt, RelBureauType.PAYMENTAGENCY, GrantType.PASSWORD);
                 if (!(res.isSuccess())) {
                     return res;
                 }

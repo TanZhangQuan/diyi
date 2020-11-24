@@ -2,7 +2,7 @@ package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.system.user.dto.QueryServiceProviderListDTO;
+import com.lgyun.system.user.dto.ServiceProviderListDTO;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.vo.*;
 import org.apache.ibatis.annotations.Mapper;
@@ -37,11 +37,11 @@ public interface ServiceProviderMapper extends BaseMapper<ServiceProviderEntity>
     /**
      * 查询所有服务商
      *
-     * @param queryServiceProviderListDTO
+     * @param serviceProviderListDTO
      * @param page
      * @return
      */
-    List<ServiceProviderListAdminVO> queryServiceProviderListAdmin(QueryServiceProviderListDTO queryServiceProviderListDTO, IPage<ServiceProviderListAdminVO> page);
+    List<ServiceProviderListAdminVO> queryServiceProviderListAdmin(ServiceProviderListDTO serviceProviderListDTO, IPage<ServiceProviderListAdminVO> page);
 
     /**
      * 查询编辑服务商详情

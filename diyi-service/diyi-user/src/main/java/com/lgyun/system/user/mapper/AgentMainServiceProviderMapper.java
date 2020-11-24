@@ -20,11 +20,11 @@ public interface AgentMainServiceProviderMapper extends BaseMapper<AgentMainServ
     /**
      * 查询渠道商合作服务商
      *
-     * @param enterpriseId
+     * @param agentMainId
      * @param serviceProviderName
      * @param page
      * @return
      */
-    List<CooperationServiceProviderListVO> queryCooperationServiceProviderList(Long enterpriseId, String serviceProviderName, IPage<CooperationServiceProviderListVO> page);
+    List<CooperationServiceProviderListVO> queryCooperationServiceProviderList(Long agentMainId, String serviceProviderName, IPage<CooperationServiceProviderListVO> page);
 }
 

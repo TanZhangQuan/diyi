@@ -1,7 +1,6 @@
 package com.lgyun.system.user.dto;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -12,7 +11,6 @@ import java.io.Serializable;
  * @since 2020/8/24 11:40
  */
 @Data
-@NoArgsConstructor
 public class OperateEnterpriseWorkerDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 

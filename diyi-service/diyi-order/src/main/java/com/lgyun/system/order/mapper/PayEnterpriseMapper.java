@@ -151,6 +151,14 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     TransactionVO queryAgentMainServiceProviderTransaction(Long agentMainId);
 
     /**
+     * 查询相关局-服务商交易情况数据
+     *
+     * @param relBureauId
+     * @return
+     */
+    TransactionVO queryRelBureauServiceProviderTransaction(Long relBureauId);
+
+    /**
      * 查询合伙人交易数据
      *
      * @param partnerId
@@ -280,23 +288,6 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * 服务商查询已开票的门征代开发票
      */
     List<InvoiceServiceSubVO> getServicePortalSignInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, IPage<InvoiceServiceSubVO> page);
-
-    /**
-     * 查询当前税务局管理所有匹配的服务商交易情况数据
-     *
-     * @param bureauId
-     * @return
-     */
-    TransactionVO transactionByBureauServiceProvider(Long bureauId);
-
-    /**
-     * 相关局查询匹配的服务商基本信息及交易金额
-     *
-     * @param bureauId
-     * @param page
-     * @return
-     */
-    List<TransactionByBureauServiceProviderInfoVO> transactionByBureauServiceProviderInfo(Long bureauId, IPage<TransactionByBureauServiceProviderInfoVO> page);
 
     /**
      * 商户端根据商户id查询总包

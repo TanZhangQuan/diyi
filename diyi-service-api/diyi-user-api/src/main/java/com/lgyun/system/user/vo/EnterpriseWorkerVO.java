@@ -58,6 +58,6 @@ public class EnterpriseWorkerVO implements Serializable {
     /**
      * 是否为主账号（为true时为主账号）
      */
-    private Boolean master = false;
+    private Boolean master;
 
 }

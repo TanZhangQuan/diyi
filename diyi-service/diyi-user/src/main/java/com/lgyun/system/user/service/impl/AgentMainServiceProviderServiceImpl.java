@@ -47,7 +47,6 @@ public class AgentMainServiceProviderServiceImpl extends BaseServiceImpl<AgentMa
             agentMainServiceProviderEntity = new AgentMainServiceProviderEntity();
             agentMainServiceProviderEntity.setAgentMainId(agentMainId);
             agentMainServiceProviderEntity.setServiceProviderId(serviceProviderId);
-            agentMainServiceProviderEntity.setCooperateStatus(CooperateStatus.COOPERATING);
             agentMainServiceProviderEntity.setMatchPerson(adminEntity.getName());
             agentMainServiceProviderEntity.setMatchDesc(matchDesc);
             save(agentMainServiceProviderEntity);
@@ -71,8 +70,8 @@ public class AgentMainServiceProviderServiceImpl extends BaseServiceImpl<AgentMa
     }
 
     @Override
-    public R<IPage<CooperationServiceProviderListVO>> queryCooperationServiceProviderList(Long enterpriseId, String serviceProviderName, IPage<CooperationServiceProviderListVO> page) {
-        return R.data(page.setRecords(baseMapper.queryCooperationServiceProviderList(enterpriseId, serviceProviderName, page)));
+    public R<IPage<CooperationServiceProviderListVO>> queryCooperationServiceProviderList(Long agentMainId, String serviceProviderName, IPage<CooperationServiceProviderListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryCooperationServiceProviderList(agentMainId, serviceProviderName, page)));
     }
 
     @Override

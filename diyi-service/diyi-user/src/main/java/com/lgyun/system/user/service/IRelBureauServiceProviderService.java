@@ -2,11 +2,12 @@ package com.lgyun.system.user.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.BureauServiceProviderStatus;
+import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.enumeration.RelBureauType;
 import com.lgyun.core.mp.base.BaseService;
+import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.RelBureauServiceProviderEntity;
-import com.lgyun.system.user.vo.RelBureauServiceProviderVO;
+import com.lgyun.system.user.vo.CooperationServiceProviderListVO;
 
 /**
  * 相关局与服务商关联表 Service 接口
@@ -17,39 +18,52 @@ import com.lgyun.system.user.vo.RelBureauServiceProviderVO;
 public interface IRelBureauServiceProviderService extends BaseService<RelBureauServiceProviderEntity> {
 
     /**
-     * 查询匹配的服务商
+     * 相关局匹配服务商
      *
+     * @param relBureauId
+     * @param serviceProviderId
+     * @param matchDesc
+     * @param adminEntity
+     * @return
+     */
+    R<String> relevanceRelBureauServiceProvider(Long relBureauId, Long serviceProviderId, String matchDesc, AdminEntity adminEntity);
+
+    /**
+     * 查询相关局-服务商关联
+     *
+     * @param relBureauId
+     * @param serviceProviderId
+     * @return
+     */
+    RelBureauServiceProviderEntity queryByAgentMainAndServiceProvider(Long relBureauId, Long serviceProviderId);
+
+    /**
+     * 查询相关局-服务商关联数
+     *
+     * @param relBureauType
+     * @param serviceProviderId
+     * @return
+     */
+    int queryRelBureauServiceProviderNum(RelBureauType relBureauType, Long serviceProviderId);
+
+    /**
+     * 查询相关局合作服务商
+     *
+     * @param relBureauId
      * @param serviceProviderName
      * @param page
      * @return
      */
-    R<IPage<RelBureauServiceProviderVO>> queryRelBureauServiceProvider(String serviceProviderName, RelBureauType relBureauType, IPage<RelBureauServiceProviderVO> page);
+    R<IPage<CooperationServiceProviderListVO>> queryCooperationServiceProviderList(Long relBureauId, String serviceProviderName, IPage<CooperationServiceProviderListVO> page);
 
     /**
-     * 添加匹配服务商
+     * 更改相关局-服务商合作关系
      *
-     * @param serviceProviderIds
-     * @param bureauId
+     * @param relBureauId
+     * @param serviceProviderId
+     * @param cooperateStatus
      * @return
      */
-    R<String> addRelBureauServiceProvider(String serviceProviderIds, Long bureauId);
-
-    /**
-     * 开启或关闭匹配服务商
-     *
-     * @param bureauServiceProviderId
-     * @param bureauServiceProviderStatus
-     * @return
-     */
-    R<String> updateBureauServiceProvider(Long bureauServiceProviderId, BureauServiceProviderStatus bureauServiceProviderStatus);
-
-    /**
-     * 撤销服务商
-     *
-     * @param bureauServiceProviderId
-     * @return
-     */
-    R<String> deleteBureauServiceProvider(Long bureauServiceProviderId);
-
+    R<String> updateCooperationStatus(Long relBureauId, Long serviceProviderId, CooperateStatus cooperateStatus);
 }
 

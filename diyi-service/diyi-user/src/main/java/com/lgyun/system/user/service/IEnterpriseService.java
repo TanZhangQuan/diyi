@@ -7,7 +7,7 @@ import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.dto.CreateEnterpriseDTO;
 import com.lgyun.system.user.dto.UpdateEnterpriseDTO;
 import com.lgyun.system.user.dto.ContactsInfoDTO;
-import com.lgyun.system.user.dto.QueryEnterpriseListDTO;
+import com.lgyun.system.user.dto.EnterpriseListDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.vo.*;
@@ -91,11 +91,11 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
     /**
      * 商户管理模块查询所有商户
      *
-     * @param queryEnterpriseListDTO
+     * @param enterpriseListDTO
      * @param page
      * @return
      */
-    R<IPage<EnterpriseListAdminVO>> queryEnterpriseListAdmin(QueryEnterpriseListDTO queryEnterpriseListDTO, IPage<EnterpriseListAdminVO> page);
+    R<IPage<EnterpriseListAdminVO>> queryEnterpriseListAdmin(EnterpriseListDTO enterpriseListDTO, IPage<EnterpriseListAdminVO> page);
 
     /**
      * 查询编辑商户详情

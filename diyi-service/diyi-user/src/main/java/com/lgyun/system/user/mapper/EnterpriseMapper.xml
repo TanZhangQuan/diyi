@@ -36,7 +36,7 @@
         <result property="boolSignAgreement" column="bool_sign_agreement"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.EnterpriseListAdminVO" id="">
+    <resultMap type="com.lgyun.system.user.vo.EnterpriseListAdminVO" id="enterpriseListAdminVO">
         <result property="id" column="id"/>
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="contact1Name" column="contact1_name"/>

@@ -8,7 +8,6 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-@ApiModel("角色信息（以下拉框形式显示,为空时表示没有创建角色,提醒用户去创建角色）")
 public class RolesVO implements Serializable {
 
     /**

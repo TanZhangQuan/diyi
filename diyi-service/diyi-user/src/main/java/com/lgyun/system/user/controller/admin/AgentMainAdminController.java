@@ -8,7 +8,7 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.CreateAgentMainDTO;
-import com.lgyun.system.user.dto.QueryAgentMainDTO;
+import com.lgyun.system.user.dto.AgentMainListDTO;
 import com.lgyun.system.user.dto.UpdateAgentMainDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.service.*;
@@ -83,14 +83,14 @@ public class AgentMainAdminController {
 
     @GetMapping("/query-agent-main-list")
     @ApiOperation(value = "查询所有渠道商", notes = "查询所有个渠道商")
-    public R queryAgentMainList(QueryAgentMainDTO queryAgentMainDTO, Query query, BladeUser bladeUser) {
+    public R queryAgentMainList(AgentMainListDTO agentMainListDTO, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return agentMainService.getAgentMainListAdmin(queryAgentMainDTO, Condition.getPage(query.setDescs("t1.create_time")));
+        return agentMainService.getAgentMainListAdmin(agentMainListDTO, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/update-agent-main-state")
@@ -135,7 +135,7 @@ public class AgentMainAdminController {
 
     @GetMapping("/query-cooperation-service-provider-list")
     @ApiOperation(value = "查询渠道商合作服务商", notes = "查询渠道商合作服务商")
-    public R queryCooperationServiceProviderList(@ApiParam(value = "渠道商", required = true) @NotNull(message = "请选择渠道商") @RequestParam(required = false) Long enterpriseId,
+    public R queryCooperationServiceProviderList(@ApiParam(value = "渠道商", required = true) @NotNull(message = "请选择渠道商") @RequestParam(required = false) Long agentMainId,
                                                  @ApiParam(value = "服务商名称", required = true) @RequestParam(required = false) String serviceProviderName, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
@@ -143,7 +143,7 @@ public class AgentMainAdminController {
             return result;
         }
 
-        return agentMainServiceProviderService.queryCooperationServiceProviderList(enterpriseId, serviceProviderName, Condition.getPage(query.setDescs("t1.create_time")));
+        return agentMainServiceProviderService.queryCooperationServiceProviderList(agentMainId, serviceProviderName, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/update-agent-main-service-provider-cooperation-status")

@@ -49,7 +49,6 @@ public class PartnerEnterpriseServiceImpl extends BaseServiceImpl<PartnerEnterpr
             partnerEnterpriseEntity.setPartnerId(partnerId);
             partnerEnterpriseEntity.setEnterpriseId(enterpriseId);
             partnerEnterpriseEntity.setCooperateType(CooperateType.ALLOCATION);
-            partnerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATING);
             partnerEnterpriseEntity.setOperatePerson(adminEntity.getName());
             partnerEnterpriseEntity.setOperateDesc(matchDesc);
             save(partnerEnterpriseEntity);

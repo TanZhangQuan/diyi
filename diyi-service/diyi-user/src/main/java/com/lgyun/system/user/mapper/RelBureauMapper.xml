@@ -3,36 +3,66 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.RelBureauMapper">
 
-    <resultMap id="RelBureauVOResultMap" type="com.lgyun.system.user.vo.RelBureauVO">
-        <id column="id" property="bureauId"/>
-        <result column="rel_bureau_name" property="relBureauName"/>
-        <result column="contact_person" property="contactPerson"/>
-        <result column="tel_phone_no" property="telPhoneNo"/>
-        <result column="create_time" property="createTime"/>
+    <resultMap type="com.lgyun.system.user.vo.RelBureauListVO" id="relBureauListVO">
+        <result property="id" column="id"/>
+        <result property="relBureauName" column="rel_bureau_name"/>
+        <result property="contactName" column="contact_name"/>
+        <result property="contactPhone" column="contact_phone"/>
+        <result property="relBureauState" column="rel_bureau_state"/>
+        <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <select id="QueryRelBureau" resultMap="RelBureauVOResultMap">
-        SELECT id,
-        rel_bureau_name,
-        contact_person,
-        tel_phone_no,
-        create_time
-        FROM diyi_rel_bureau
-        <where>
-            is_deleted = 0
-            AND bureau_type = #{relBureauType}
-            <if test="query.bureauId != null and query.bureauId != ''">
-                AND id = #{query.bureauId}
-            </if>
-            <if test="query.relBureauName != null and query.relBureauName != ''">
-                AND rel_bureau_name LIKE CONSCT('%',#{query.relBureauName},'%')
-            </if>
-            <if test="query.beginDate != null">
-                AND DATEDIFF(create_time,#{query.beginDate}) &gt;= 0
-            </if>
-            <if test="query.endDate != null">
-                AND DATEDIFF(create_time,#{query.endDate}) &lt;= 0
-            </if>
-        </where>
+    <resultMap type="com.lgyun.system.user.vo.RelBureauUpdateDetailVO" id="relBureauUpdateDetailVO">
+        <result property="id" column="id"/>
+        <result property="relBureauType" column="rel_bureau_type"/>
+        <result property="relBureauName" column="rel_bureau_name"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="area" column="area"/>
+        <result property="detailedAddress" column="detailed_address"/>
+        <result property="relBureauWebsite" column="rel_bureau_website"/>
+        <result property="contactName" column="contact_name"/>
+        <result property="contactPosition" column="contact_position"/>
+        <result property="contactPhone" column="contact_phone"/>
+        <result property="contactMail" column="contact_mail"/>
+        <result property="contactWechat" column="contact_wechat"/>
+        <result property="directorName" column="director_name"/>
+        <result property="directorPhone" column="director_phone"/>
+        <result property="viceDirectorName" column="vice_director_name"/>
+        <result property="viceDirectorPhone" column="vice_director_phone"/>
+        <result property="relBureauUserName" column="rel_bureau_user_name"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.user.vo.RelBureauInfoVO" id="relBureauInfoVO">
+        <result property="id" column="id"/>
+        <result property="relBureauType" column="rel_bureau_type"/>
+        <result property="avatar" column="avatar"/>
+        <result property="relBureauName" column="rel_bureau_name"/>
+    </resultMap>
+
+    <select id="queryRelBureauList" resultMap="relBureauListVO">
+        SELECT id, rel_bureau_name, contact_name, contact_phone, rel_bureau_state, create_time FROM diyi_rel_bureau WHERE is_deleted = 0
+        AND rel_bureau_type = #{param1}
+        <if test="param2.relBureauName != null and param2.relBureauName.trim() != ''">
+            AND rel_bureau_name LIKE concat('%', #{param2.relBureauName}, '%')
+        </if>
+        <if test="param2.beginDate != null">
+            AND DATEDIFF(create_time, #{param2.beginDate}) <![CDATA[ >= ]]> 0
+        </if>
+        <if test="param2.endDate != null">
+            AND DATEDIFF(create_time, #{param2.endDate}) <![CDATA[ <= ]]> 0
+        </if>
+
     </select>
+
+    <select id="queryRelBureauUpdateDetail" resultMap="relBureauUpdateDetailVO">
+        SELECT id, rel_bureau_type, rel_bureau_name, province, city, area, detailed_address, rel_bureau_website, contact_name, contact_position, contact_phone,
+        contact_mail, contact_wechat, director_name, director_phone, vice_director_name, vice_director_phone, rel_bureau_user_name FROM diyi_rel_bureau
+        WHERE is_deleted = 0 AND id = #{param1}
+    </select>
+
+    <select id="queryRelBureauInfo" resultMap="relBureauInfoVO">
+        SELECT id, rel_bureau_type, avatar, rel_bureau_name FROM diyi_rel_bureau WHERE is_deleted = 0 AND id = #{param1}
+    </select>
+
 </mapper>

@@ -76,7 +76,6 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
         makerEnterpriseEntity.setEnterpriseId(enterpriseId);
         makerEnterpriseEntity.setRelationshipType(RelationshipType.RELEVANCE);
         makerEnterpriseEntity.setRelType(EnterpriseMakerRelType.ENTERPRISEREL);
-        makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATING);
         makerEnterpriseEntity.setCooperationStartTime(new Date());
         makerEnterpriseEntity.setFirstCooperation(true);
         makerEnterpriseEntity.setRelMemo("首次关联");
@@ -115,7 +114,6 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
             makerEnterpriseEntity.setEnterpriseId(enterpriseId);
             makerEnterpriseEntity.setRelationshipType(RelationshipType.ATTENTION);
             makerEnterpriseEntity.setRelType(EnterpriseMakerRelType.MAKERREL);
-            makerEnterpriseEntity.setCooperateStatus(CooperateStatus.COOPERATING);
             makerEnterpriseEntity.setCooperationStartTime(new Date());
             makerEnterpriseEntity.setFirstCooperation(true);
             makerEnterpriseEntity.setRelMemo("关注");

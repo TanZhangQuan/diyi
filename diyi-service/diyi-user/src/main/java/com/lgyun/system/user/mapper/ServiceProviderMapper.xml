@@ -22,7 +22,7 @@
     </resultMap>
 
     <resultMap type="com.lgyun.system.user.vo.ServiceProviderListAdminVO" id="serviceProviderListAdminVO">
-        <result property="serviceProviderId" column="service_provider_id"/>
+        <result property="id" column="id"/>
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="contact1Name" column="contact1_name"/>
         <result property="contact1Phone" column="contact1_phone"/>

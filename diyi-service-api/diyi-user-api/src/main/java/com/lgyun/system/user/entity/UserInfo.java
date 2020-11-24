@@ -13,7 +13,6 @@ import java.util.List;
  * @since 2020/6/6 00:57
  */
 @Data
-@ApiModel(description = "用户信息")
 public class UserInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 

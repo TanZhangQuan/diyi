@@ -14,7 +14,7 @@ import com.lgyun.system.order.entity.AddressEntity;
 import com.lgyun.system.order.entity.ServiceProviderInvoiceCatalogsEntity;
 import com.lgyun.system.order.feign.IOrderClient;
 import com.lgyun.system.user.dto.AddServiceProviderDTO;
-import com.lgyun.system.user.dto.QueryServiceProviderListDTO;
+import com.lgyun.system.user.dto.ServiceProviderListDTO;
 import com.lgyun.system.user.dto.ServiceProviderContactPersonDTO;
 import com.lgyun.system.user.dto.UpdateServiceProviderDTO;
 import com.lgyun.system.user.entity.*;
@@ -77,15 +77,15 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
     }
 
     @Override
-    public R<IPage<ServiceProviderListAdminVO>> queryServiceProviderListAdmin(QueryServiceProviderListDTO queryServiceProviderListDTO, IPage<ServiceProviderListAdminVO> page) {
+    public R<IPage<ServiceProviderListAdminVO>> queryServiceProviderListAdmin(ServiceProviderListDTO serviceProviderListDTO, IPage<ServiceProviderListAdminVO> page) {
 
-        if (queryServiceProviderListDTO.getBeginDate() != null && queryServiceProviderListDTO.getEndDate() != null) {
-            if (queryServiceProviderListDTO.getBeginDate().after(queryServiceProviderListDTO.getEndDate())) {
+        if (serviceProviderListDTO.getBeginDate() != null && serviceProviderListDTO.getEndDate() != null) {
+            if (serviceProviderListDTO.getBeginDate().after(serviceProviderListDTO.getEndDate())) {
                 return R.fail("开始时间不能大于结束时间");
             }
         }
 
-        return R.data(page.setRecords(baseMapper.queryServiceProviderListAdmin(queryServiceProviderListDTO, page)));
+        return R.data(page.setRecords(baseMapper.queryServiceProviderListAdmin(serviceProviderListDTO, page)));
     }
 
     @Override

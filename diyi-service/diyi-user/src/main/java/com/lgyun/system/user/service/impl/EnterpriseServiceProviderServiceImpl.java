@@ -98,7 +98,6 @@ public class EnterpriseServiceProviderServiceImpl extends BaseServiceImpl<Enterp
             enterpriseServiceProviderEntity = new EnterpriseServiceProviderEntity();
             enterpriseServiceProviderEntity.setEnterpriseId(enterpriseId);
             enterpriseServiceProviderEntity.setServiceProviderId(serviceProviderId);
-            enterpriseServiceProviderEntity.setCooperateStatus(CooperateStatus.COOPERATING);
             enterpriseServiceProviderEntity.setMatchPerson(adminEntity.getName());
             enterpriseServiceProviderEntity.setMatchDesc(matchDesc);
             save(enterpriseServiceProviderEntity);

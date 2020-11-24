@@ -33,6 +33,11 @@ public class AgentMainServiceProviderEntity extends BaseEntity {
     private Long serviceProviderId;
 
     /**
+     * 合作状态：合作中，停止合作；首次关联时默认为合作中
+     */
+    private CooperateStatus cooperateStatus = CooperateStatus.COOPERATING;
+
+    /**
      * 分配人员
      */
     private String matchPerson;
@@ -41,10 +46,5 @@ public class AgentMainServiceProviderEntity extends BaseEntity {
      * 分配说明
      */
     private String matchDesc;
-
-    /**
-     * 合作状态：合作中，停止合作；首次关联时默认为合作中
-     */
-    private CooperateStatus cooperateStatus = CooperateStatus.COOPERATING;
 
 }

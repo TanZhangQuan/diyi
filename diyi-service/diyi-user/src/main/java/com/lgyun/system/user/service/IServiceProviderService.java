@@ -53,11 +53,11 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
     /**
      * 查询所有服务商
      *
-     * @param queryServiceProviderListDTO
+     * @param serviceProviderListDTO
      * @param page
      * @return
      */
-    R<IPage<ServiceProviderListAdminVO>> queryServiceProviderListAdmin(QueryServiceProviderListDTO queryServiceProviderListDTO, IPage<ServiceProviderListAdminVO> page);
+    R<IPage<ServiceProviderListAdminVO>> queryServiceProviderListAdmin(ServiceProviderListDTO serviceProviderListDTO, IPage<ServiceProviderListAdminVO> page);
 
     /**
      * 查询编辑服务商详情

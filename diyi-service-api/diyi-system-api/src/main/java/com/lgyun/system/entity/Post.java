@@ -2,7 +2,6 @@ package com.lgyun.system.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.core.mp.base.TenantEntity;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,31 +23,26 @@ public class Post extends TenantEntity {
     /**
      * 类型
      */
-    @ApiModelProperty(value = "类型")
     private Integer category;
 
     /**
      * 岗位编号
      */
-    @ApiModelProperty(value = "岗位编号")
     private String postCode;
 
     /**
      * 岗位名称
      */
-    @ApiModelProperty(value = "岗位名称")
     private String postName;
 
     /**
      * 岗位排序
      */
-    @ApiModelProperty(value = "岗位排序")
     private Integer sort;
 
     /**
      * 岗位描述
      */
-    @ApiModelProperty(value = "岗位描述")
     private String remark;
 
 }

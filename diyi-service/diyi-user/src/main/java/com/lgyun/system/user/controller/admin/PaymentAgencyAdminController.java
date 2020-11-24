@@ -22,11 +22,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @RestController
-@RequestMapping("/admin/market-supervision")
+@RequestMapping("/admin/payment-agency")
 @Validated
 @AllArgsConstructor
-@Api(value = "平台端---市场监督管理局管理模块相关接口", tags = "平台端---市场监督管理局管理模块相关接口")
-public class MarketSupervisionBureauAdminController {
+@Api(value = "平台端---支付机构管理模块相关接口", tags = "平台端---支付机构管理模块相关接口")
+public class PaymentAgencyAdminController {
 
     private IAdminService adminService;
     private IRelBureauService relBureauService;
@@ -34,21 +34,21 @@ public class MarketSupervisionBureauAdminController {
     private IRelBureauNoticeService relBureauNoticeService;
     private IRelBureauServiceProviderService relBureauServiceProviderService;
 
-    @GetMapping("/query-market-supervision-list")
-    @ApiOperation(value = "查询市场监督管理局", notes = "查询市场监督管理局")
-    public R queryMarketSupervisionBureauList(RelBureauListDTO relBureauListDTO, Query query, BladeUser bladeUser) {
+    @GetMapping("/query-payment-agency-list")
+    @ApiOperation(value = "查询支付机构", notes = "查询支付机构")
+    public R queryPaymentAgencyList(RelBureauListDTO relBureauListDTO, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return relBureauService.queryRelBureauList(RelBureauType.MARKETSUPERVISION, relBureauListDTO, Condition.getPage(query.setAscs("create_time")));
+        return relBureauService.queryRelBureauList(RelBureauType.PAYMENTAGENCY, relBureauListDTO,  Condition.getPage(query.setAscs("create_time")));
     }
 
-    @PostMapping("/add-or-update-market-supervision")
-    @ApiOperation(value = "添加/编辑市场监督管理局", notes = "添加/编辑市场监督管理局")
-    public R addOrUpdateMarketSupervisionBureau(@Valid @RequestBody AddOrUpdateRelBureauDTO addOrUpdateRelBureauDto, BladeUser bladeUser) {
+    @PostMapping("/add-or-update-payment-agency")
+    @ApiOperation(value = "添加/编辑支付机构", notes = "添加/编辑支付机构")
+    public R addOrUpdatePaymentAgency(@Valid @RequestBody AddOrUpdateRelBureauDTO addOrUpdateRelBureauDto, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -58,9 +58,9 @@ public class MarketSupervisionBureauAdminController {
         return relBureauService.addOrUpdateRelBureau(addOrUpdateRelBureauDto);
     }
 
-    @GetMapping("/query-market-supervision-update-detail")
-    @ApiOperation(value = "查询市场监督管理局编辑详情", notes = "查询市场监督管理局编辑详情")
-    public R queryMarketSupervisionUpdateDetail(@ApiParam("市场监督管理局") @NotNull(message = "请选择市场监督管理局") @RequestParam(required = false) Long relBureauId, BladeUser bladeUser) {
+    @GetMapping("/query-payment-agency-update-detail")
+    @ApiOperation(value = "查询支付机构编辑详情", notes = "查询支付机构编辑详情")
+    public R queryPaymentAgencyUpdateDetail(@ApiParam("支付机构") @NotNull(message = "请选择支付机构") @RequestParam(required = false) Long relBureauId, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -70,9 +70,9 @@ public class MarketSupervisionBureauAdminController {
         return relBureauService.queryRelBureauUpdateDetail(relBureauId);
     }
 
-    @GetMapping("/query-market-supervision-info")
-    @ApiOperation(value = "查询市场监督管理局基础信息", notes = "查询市场监督管理局基础信息")
-    public R queryMarketSupervisionBureauInfo(@ApiParam("市场监督管理局") @NotNull(message = "请选择市场监督管理局") @RequestParam(required = false) Long relBureauId, BladeUser bladeUser) {
+    @GetMapping("/query-payment-agency-info")
+    @ApiOperation(value = "查询支付机构基础信息", notes = "查询支付机构基础信息")
+    public R queryPaymentAgencyInfo(@ApiParam("支付机构") @NotNull(message = "请选择支付机构") @RequestParam(required = false) Long relBureauId, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -95,8 +95,8 @@ public class MarketSupervisionBureauAdminController {
     }
 
     @PostMapping("/match-service-provider")
-    @ApiOperation(value = "市场监督管理局匹配服务商", notes = "市场监督管理局匹配服务商")
-    public R matchServiceProvider(@ApiParam(value = "市场监督管理局", required = true) @NotNull(message = "请选择市场监督管理局") @RequestParam(required = false) Long relBureauId,
+    @ApiOperation(value = "支付机构匹配服务商", notes = "支付机构匹配服务商")
+    public R matchServiceProvider(@ApiParam(value = "支付机构", required = true) @NotNull(message = "请选择支付机构") @RequestParam(required = false) Long relBureauId,
                                   @ApiParam(value = "服务商", required = true) @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
                                   @ApiParam(value = "分配说明") @RequestParam(required = false) String matchDesc, BladeUser bladeUser) {
         //查询当前管理员
@@ -110,8 +110,8 @@ public class MarketSupervisionBureauAdminController {
     }
 
     @GetMapping("/query-cooperation-service-provider-list")
-    @ApiOperation(value = "查询市场监督管理局合作服务商", notes = "查询市场监督管理局合作服务商")
-    public R queryCooperationServiceProviderList(@ApiParam(value = "市场监督管理局", required = true) @NotNull(message = "请选择市场监督管理局") @RequestParam(required = false) Long relBureauId,
+    @ApiOperation(value = "查询支付机构合作服务商", notes = "查询支付机构合作服务商")
+    public R queryCooperationServiceProviderList(@ApiParam(value = "支付机构", required = true) @NotNull(message = "请选择支付机构") @RequestParam(required = false) Long relBureauId,
                                                  @ApiParam(value = "服务商名称", required = true) @RequestParam(required = false) String serviceProviderName, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
@@ -123,8 +123,8 @@ public class MarketSupervisionBureauAdminController {
     }
 
     @PostMapping("/update-agent-main-service-provider-cooperation-status")
-    @ApiOperation(value = "更改市场监督管理局-服务商合作关系", notes = "更改市场监督管理局-服务商合作关系")
-    public R updateAgentMainServiceProviderCooperationStatus(@ApiParam(value = "市场监督管理局", required = true) @NotNull(message = "请选择市场监督管理局") @RequestParam(required = false) Long relBureauId,
+    @ApiOperation(value = "更改支付机构-服务商合作关系", notes = "更改支付机构-服务商合作关系")
+    public R updateAgentMainServiceProviderCooperationStatus(@ApiParam(value = "支付机构", required = true) @NotNull(message = "请选择支付机构") @RequestParam(required = false) Long relBureauId,
                                                              @ApiParam(value = "服务商", required = true) @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
                                                              @ApiParam(value = "合作状态", required = true) @NotNull(message = "请选择合作状态") @RequestParam(required = false) CooperateStatus cooperateStatus, BladeUser bladeUser) {
         //查询当前管理员
@@ -137,8 +137,8 @@ public class MarketSupervisionBureauAdminController {
     }
 
     @GetMapping("/query-industrial-parks-notice")
-    @ApiOperation(value = "查询市场监督管理局通知", notes = "查询市场监督管理局通知")
-    public R queryIndustrialParksNotice(@ApiParam("市场监督管理局") @NotNull(message = "请选择市场监督管理局") @RequestParam(required = false) Long relBureauId,
+    @ApiOperation(value = "查询支付机构通知", notes = "查询支付机构通知")
+    public R queryIndustrialParksNotice(@ApiParam("支付机构") @NotNull(message = "请选择支付机构") @RequestParam(required = false) Long relBureauId,
                                         @ApiParam("通知状态") @NotNull(message = "请选择通知状态") @RequestParam(required = false) NoticeState noticeState, Query query, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
@@ -150,7 +150,7 @@ public class MarketSupervisionBureauAdminController {
     }
 
     @GetMapping("/update-industrial-parks-notice-state")
-    @ApiOperation(value = "更改市场监督管理局通知状态", notes = "更改市场监督管理局通知状态")
+    @ApiOperation(value = "更改支付机构通知状态", notes = "更改支付机构通知状态")
     public R updateIndustrialParksNoticeState(@ApiParam("相关局通知") @NotNull(message = "请选择相关局通知") @RequestParam(required = false) Long relBureauNoticeId, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);

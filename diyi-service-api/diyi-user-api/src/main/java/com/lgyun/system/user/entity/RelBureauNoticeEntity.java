@@ -14,7 +14,7 @@ import java.util.Date;
  * 相关局通知管理表 Entity
  *
  * @author tzq
- * @since 2020-10-20 18:47:56
+ * @since 2020-11-24 17:03:38
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -27,7 +27,7 @@ public class RelBureauNoticeEntity extends BaseEntity {
     /**
      * 相关局编号
      */
-    private Long bureauId;
+    private Long relBureauId;
 
     /**
      * 通知标题
@@ -52,7 +52,7 @@ public class RelBureauNoticeEntity extends BaseEntity {
     /**
      * 通知状态:1，编辑中；2，已发布；3，已阅读；4，已作废
      */
-    private NoticeState noticeState;
+    private NoticeState noticeState = NoticeState.EDITING;
 
     /**
      * 作废日期时间
@@ -65,18 +65,13 @@ public class RelBureauNoticeEntity extends BaseEntity {
     private String contactPerson;
 
     /**
-     * 联系手机
+     * 联系人手机
      */
-    private String mobileNo;
+    private String contactPhone;
 
     /**
-     * 联系微信
+     * 联系人微信
      */
-    private String wechatNo;
-
-    /**
-     * 联系电话
-     */
-    private String directorPhone;
+    private String contactWechat;
 
 }

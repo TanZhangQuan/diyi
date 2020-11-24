@@ -25,7 +25,7 @@ public class RelBureauFilesEntity extends BaseEntity {
     /**
      * 相关局编号
      */
-    private Long bureauId;
+    private Long relBureauId;
 
     /**
      * 文件标题

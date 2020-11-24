@@ -190,6 +190,14 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R<TransactionVO> queryAgentMainServiceProviderTransaction(Long agentMainId);
 
     /**
+     * 查询相关局-服务商交易情况数据
+     *
+     * @param relBureauId
+     * @return
+     */
+    R<TransactionVO> queryRelBureauServiceProviderTransaction(Long relBureauId);
+
+    /**
      * 查询当前商户总包+分包全年流水
      *
      * @param enterpriseId
@@ -384,23 +392,6 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * 服务商查询已门征单开的发票详情
      */
     R getServicePortalSignInvoiceDetails(Long payEnterpriseId);
-
-    /**
-     * 查询当前相关局所有匹配的服务商交易情况数据
-     *
-     * @param bureauId
-     * @return
-     */
-    R<TransactionVO> transactionByBureauServiceProvider(Long bureauId);
-
-    /**
-     * 查询相关局匹配的服务商基本信息及交易金额
-     *
-     * @param bureauId
-     * @param page
-     * @return
-     */
-    R<IPage<TransactionByBureauServiceProviderInfoVO>> transactionByBureauServiceProviderInfo(Long bureauId, IPage<TransactionByBureauServiceProviderInfoVO> page);
 
     /**
      * 查询合伙人交易数据

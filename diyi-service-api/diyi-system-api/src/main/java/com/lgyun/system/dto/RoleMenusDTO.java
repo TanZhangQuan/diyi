@@ -1,13 +1,11 @@
 package com.lgyun.system.dto;
 
 import com.lgyun.common.enumeration.UserType;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
 @Data
-@ApiModel(description = "添加角色及分配权限")
 public class RoleMenusDTO {
 
     /**

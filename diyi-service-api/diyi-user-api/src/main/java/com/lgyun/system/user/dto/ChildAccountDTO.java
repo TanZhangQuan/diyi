@@ -10,7 +10,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Data
-@ApiModel(description = "创建子账号的参数")
 public class ChildAccountDTO {
 
     /**

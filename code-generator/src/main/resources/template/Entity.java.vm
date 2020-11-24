@@ -36,7 +36,6 @@ public class ${className}Entity extends BaseEntity {
      * $column.comments
      */
     #if($column.columnName == $pk.columnName)
-    @ApiModelProperty(value = "主键")
     @TableId(type = IdType.ASSIGN_ID)
     @JsonSerialize(using = ToStringSerializer.class)
     #end

@@ -39,12 +39,12 @@ public interface IAgentMainServiceProviderService extends BaseService<AgentMainS
     /**
      * 查询渠道商合作服务商
      *
-     * @param enterpriseId
+     * @param agentMainId
      * @param serviceProviderName
      * @param page
      * @return
      */
-    R<IPage<CooperationServiceProviderListVO>> queryCooperationServiceProviderList(Long enterpriseId, String serviceProviderName, IPage<CooperationServiceProviderListVO> page);
+    R<IPage<CooperationServiceProviderListVO>> queryCooperationServiceProviderList(Long agentMainId, String serviceProviderName, IPage<CooperationServiceProviderListVO> page);
 
     /**
      * 更改渠道商服务商合作关系

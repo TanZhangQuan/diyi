@@ -12,7 +12,7 @@ import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.AddressEntity;
 import com.lgyun.system.order.feign.IOrderClient;
 import com.lgyun.system.user.dto.CreateAgentMainDTO;
-import com.lgyun.system.user.dto.QueryAgentMainDTO;
+import com.lgyun.system.user.dto.AgentMainListDTO;
 import com.lgyun.system.user.dto.UpdateAgentMainDTO;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.AgentMainMapper;
@@ -52,14 +52,14 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
     }
 
     @Override
-    public R<IPage<AgentMainListAdminVO>> getAgentMainListAdmin(QueryAgentMainDTO queryAgentMainDTO, IPage<AgentMainListAdminVO> page) {
-        if (queryAgentMainDTO.getBeginDate() != null && queryAgentMainDTO.getEndDate() != null) {
-            if (queryAgentMainDTO.getBeginDate().after(queryAgentMainDTO.getEndDate())) {
+    public R<IPage<AgentMainListAdminVO>> getAgentMainListAdmin(AgentMainListDTO agentMainListDTO, IPage<AgentMainListAdminVO> page) {
+        if (agentMainListDTO.getBeginDate() != null && agentMainListDTO.getEndDate() != null) {
+            if (agentMainListDTO.getBeginDate().after(agentMainListDTO.getEndDate())) {
                 return R.fail("开始时间不能大于结束时间");
             }
         }
 
-        return R.data(page.setRecords(baseMapper.getAgentMainListAdmin(queryAgentMainDTO, page)));
+        return R.data(page.setRecords(baseMapper.getAgentMainListAdmin(agentMainListDTO, page)));
     }
 
     @Override
