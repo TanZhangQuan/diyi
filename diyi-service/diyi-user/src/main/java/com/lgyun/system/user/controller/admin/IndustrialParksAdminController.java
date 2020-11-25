@@ -36,7 +36,7 @@ public class IndustrialParksAdminController {
 
     @GetMapping("/query-industrial-park-list")
     @ApiOperation(value = "查询产业园区", notes = "查询产业园区")
-    public R queryIndustrialParkList(@RequestBody(required = false) RelBureauListDTO relBureauListDTO, Query query, BladeUser bladeUser) {
+    public R queryIndustrialParkList(RelBureauListDTO relBureauListDTO, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

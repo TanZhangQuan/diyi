@@ -13,6 +13,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/enterprise/basic-info")
 @Validated
@@ -20,8 +22,8 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "商户端---商户基本信息管理模块相关接口", tags = "商户端---商户基本信息管理模块相关接口")
 public class BasicInfoEnterpriseController {
 
-    private IEnterpriseWorkerService enterpriseWorkerService;
     private IEnterpriseService enterpriseService;
+    private IEnterpriseWorkerService enterpriseWorkerService;
 
     @GetMapping("/query-enterprise-info")
     @ApiOperation(value = "查询商户基本信息", notes = "查询商户基本信息")
@@ -63,14 +65,15 @@ public class BasicInfoEnterpriseController {
 
     @PostMapping("/update-contact")
     @ApiOperation(value = "修改当前商户联系人", notes = "修改当前商户联系人")
-    public R updateContacts(BladeUser bladeUser, @RequestBody ContactsInfoDTO contactsInfoDTO) {
+    public R updateContacts(@Valid @RequestBody ContactsInfoDTO contactsInfoDTO, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-        return enterpriseService.updateContacts(enterpriseWorkerEntity.getEnterpriseId(),contactsInfoDTO);
+
+        return enterpriseService.updateContact(enterpriseWorkerEntity.getEnterpriseId(), contactsInfoDTO);
     }
 
     @GetMapping("/query-invoice")
@@ -82,6 +85,7 @@ public class BasicInfoEnterpriseController {
             return result;
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
         return enterpriseService.queryeInvoice(enterpriseWorkerEntity.getEnterpriseId());
     }
 

@@ -11,6 +11,7 @@ import com.lgyun.common.tool.SnowflakeIdWorker;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.AddressEntity;
 import com.lgyun.system.order.feign.IOrderClient;
+import com.lgyun.system.user.dto.ContactsInfoDTO;
 import com.lgyun.system.user.dto.CreateAgentMainDTO;
 import com.lgyun.system.user.dto.AgentMainListDTO;
 import com.lgyun.system.user.dto.UpdateAgentMainDTO;
@@ -20,13 +21,13 @@ import com.lgyun.system.user.service.IAgentMainService;
 import com.lgyun.system.user.service.IAgentMainWorkerService;
 import com.lgyun.system.user.service.IAgreementService;
 import com.lgyun.system.user.service.IUserService;
-import com.lgyun.system.user.vo.AgentMainListAdminVO;
-import com.lgyun.system.user.vo.AgentMainUpdateDetailVO;
+import com.lgyun.system.user.vo.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 渠道商信息表 Service 实现
@@ -79,6 +80,7 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> createAgentMain(CreateAgentMainDTO createAgentMainDTO, AdminEntity adminEntity) {
         //判断渠道商名称是否已存在
         int agentMainNum = count(Wrappers.<AgentMainEntity>query().lambda().eq(AgentMainEntity::getAgentMainName, createAgentMainDTO.getAgentMainName()));
@@ -273,6 +275,48 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
     @Override
     public R<AgentMainUpdateDetailVO> queryAgentMainUpdateDetail(Long agentMainId) {
         return R.data(baseMapper.queryAgentMainUpdateDetail(agentMainId));
+    }
+
+    @Override
+    public R<AgentMainInfoVO> queryEnterpriseInfo(Long agentMainId) {
+        return R.data(baseMapper.queryEnterpriseInfo(agentMainId));
+    }
+
+    @Override
+    public R<String> updateEnterpriseUrl(Long agentMainId, String enterpriseUrl) {
+
+        AgentMainEntity agentMainEntity = getById(agentMainId);
+        if (agentMainEntity == null) {
+            return R.fail("渠道商不存在");
+        }
+
+        agentMainEntity.setEnterpriseUrl(enterpriseUrl);
+        updateById(agentMainEntity);
+
+        return R.success("编辑成功");
+    }
+
+    @Override
+    public R<ContactInfoVO> queryContact(Long agentMainId) {
+        return R.data(baseMapper.queryContact(agentMainId));
+    }
+
+    @Override
+    public R updateContact(Long agentMainId, ContactsInfoDTO contactsInfoDTO) {
+        AgentMainEntity agentMainEntity = getById(agentMainId);
+        if (agentMainEntity == null) {
+            return R.fail("渠道商不存在");
+        }
+
+        BeanUtil.copyProperties(contactsInfoDTO, agentMainEntity);
+        updateById(agentMainEntity);
+
+        return R.success("编辑联系人成功");
+    }
+
+    @Override
+    public R<InvoiceVO> queryeInvoice(Long agentMainId) {
+        return R.data(baseMapper.queryeInvoice(agentMainId));
     }
 
 }

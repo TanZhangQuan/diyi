@@ -25,7 +25,6 @@ public class PermissionServiceProviderController {
 
     private IServiceProviderWorkerService serviceProviderWorkerService;
 
-
     @PostMapping("/create-or-update-role-menus")
     @ApiOperation(value = "角色管理---创建或修改角色及菜单的分配", notes = "角色管理---创建或修改角色及菜单的分配")
     public R createOrUpdateRoleMenus(@Valid @RequestBody RoleMenusDTO roleMenusDTO, BladeUser bladeUser) {
@@ -36,7 +35,7 @@ public class PermissionServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return serviceProviderWorkerService.createOrUpdateRoleMenus(roleMenusDTO, serviceProviderWorkerEntity);
+        return serviceProviderWorkerService.createOrUpdateRoleMenus(serviceProviderWorkerEntity, roleMenusDTO);
     }
 
     @GetMapping("/query-role-list")
@@ -48,6 +47,7 @@ public class PermissionServiceProviderController {
             return result;
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
         return serviceProviderWorkerService.queryRoleList(serviceProviderWorkerEntity.getId());
     }
 
@@ -59,6 +59,7 @@ public class PermissionServiceProviderController {
         if (!(result.isSuccess())) {
             return result;
         }
+
         return serviceProviderWorkerService.queryRoleInfo(roleId);
     }
 
@@ -70,6 +71,7 @@ public class PermissionServiceProviderController {
         if (!(result.isSuccess())) {
             return result;
         }
+
         return serviceProviderWorkerService.removeRole(roleId);
     }
 
@@ -82,6 +84,7 @@ public class PermissionServiceProviderController {
             return result;
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
         return serviceProviderWorkerService.queryRole(serviceProviderWorkerEntity.getId());
     }
 
@@ -94,6 +97,7 @@ public class PermissionServiceProviderController {
             return result;
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
         return serviceProviderWorkerService.queryChildAccountList(serviceProviderWorkerEntity.getId());
     }
 
@@ -106,9 +110,9 @@ public class PermissionServiceProviderController {
             return result;
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
         return serviceProviderWorkerService.queryAccountDetail(serviceProviderWorkerEntity.getId(), accountId);
     }
-
 
     @PostMapping("/create-or-update-child-account")
     @ApiOperation(value = "子账号管理---创建或修改子账号及子账号的角色分配", notes = "子账号管理---创建或修改子账号及子账号的角色分配")
@@ -122,6 +126,7 @@ public class PermissionServiceProviderController {
         if (!serviceProviderWorkerEntity.getAdminPower()) {
             return R.fail("您没有权限创建子账号！");
         }
+
         return serviceProviderWorkerService.createOrUpdateChildAccount(childAccountDTO, serviceProviderWorkerEntity);
     }
 

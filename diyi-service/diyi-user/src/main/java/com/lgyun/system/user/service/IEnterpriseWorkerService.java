@@ -79,7 +79,7 @@ public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEn
      * @param enterpriseWorkerEntity
      * @return
      */
-    R<String> createOrUpdateRoleMenus(RoleMenusDTO roleMenusDTO, EnterpriseWorkerEntity enterpriseWorkerEntity);
+    R<String> createOrUpdateRoleMenus(EnterpriseWorkerEntity enterpriseWorkerEntity, RoleMenusDTO roleMenusDTO);
 
     /**
      * 查询商户人员所创建的角色
@@ -102,7 +102,7 @@ public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEn
      * @param roleId
      * @return
      */
-    R removeRole(Long roleId);
+    R<String> removeRole(Long roleId);
 
     /**
      * 查询当前管理人员所创建的角色

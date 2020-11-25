@@ -43,7 +43,7 @@ public class EnterpriseInfoVO implements Serializable {
     private String socialCreditNo;
 
     /**
-     * 营业执照图片地址
+     * 营业执照
      */
     private String bizLicenceUrl;
 

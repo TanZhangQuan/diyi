@@ -589,10 +589,10 @@
         <if test="param2 != null and param2 != ''">
             AND e.enterprise_name LIKE concat('%', #{param2}, '%')
         </if>
-        <if test="param3 !=null and param3 != ''">
+        <if test="param3 != null and param3 != ''">
             AND si.create_time > #{param3}
         </if>
-        <if test="param4 !=null and param4 != ''">
+        <if test="param4 != null and param4 != ''">
             AND si.create_time &lt; #{param4}
         </if>
     </select>
@@ -619,10 +619,10 @@
         <if test="param1 != null and param1 != ''">
             AND c.enterprise_name LIKE concat('%', #{param1}, '%')
         </if>
-        <if test="param2 !=null and param2 != ''">
+        <if test="param2 != null and param2 != ''">
             AND a.create_time > #{param2}
         </if>
-        <if test="param3 !=null and param3 != ''">
+        <if test="param3 != null and param3 != ''">
             AND a.create_time &lt; #{param3}
         </if>
         and maker_type = #{param4}

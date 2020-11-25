@@ -212,7 +212,7 @@ public class SysClient implements ISysClient {
     @Override
     @GetMapping(API_PREFIX + "/remove-role")
     @Transactional(rollbackFor = Exception.class)
-    public R removeRole(Long roleId) {
+    public R<String> removeRole(Long roleId) {
         roleService.removeById(roleId);
         roleMenuService.remove(new QueryWrapper<RoleMenu>().lambda().eq(RoleMenu::getRoleId, roleId));
         return R.fail("删除成功！");

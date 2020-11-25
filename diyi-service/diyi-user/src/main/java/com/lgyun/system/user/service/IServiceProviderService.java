@@ -31,16 +31,16 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
      * @param serviceProviderId
      * @return
      */
-    R<ServiceProviderContactPersonVO> getContactPerson(Long serviceProviderId);
+    R<ContactInfoVO> getContactPerson(Long serviceProviderId);
 
     /**
      * 新增或修改当前服务商联系人信息
      *
-     * @param serviceProviderContactPersonDto
+     * @param contactsInfoDTO
      * @param serviceProviderId
      * @return
      */
-    R<String> addOrUpdateContactPerson(ServiceProviderContactPersonDTO serviceProviderContactPersonDto, Long serviceProviderId);
+    R<String> updateContactPerson(Long serviceProviderId, ContactsInfoDTO contactsInfoDTO);
 
     /**
      * 查询当前服务商开票信息
@@ -48,7 +48,7 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
      * @param serviceProviderId
      * @return
      */
-    R<InvoiceVO> getInvoice(Long serviceProviderId);
+    R<InvoiceVO> queryeInvoice(Long serviceProviderId);
 
     /**
      * 查询所有服务商
@@ -121,6 +121,22 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
      */
     R<IPage<ServiceProviderIdNameListVO>> queryServiceProviderIdAndNameList(Long enterpriseId, String serviceProviderName, IPage<ServiceProviderIdNameListVO> page);
 
+    /**
+     * 查询渠道商的所有服务商
+     *
+     * @param agentMainId
+     * @param serviceProviderListDTO
+     * @param page
+     * @return
+     */
+    R<IPage<ServiceProviderListAdminVO>> queryServiceProviderListAgentMain(Long agentMainId, ServiceProviderListDTO serviceProviderListDTO, IPage<ServiceProviderListAdminVO> page);
 
+    /**
+     * 查询服务商详情
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    R<ServiceProviderDetailAgentMainVO> queryServiceProviderDetailAgentMain(Long serviceProviderId);
 }
 

@@ -46,12 +46,12 @@ public class MakerEnterpriseWebVO implements Serializable {
     private CertificationState protocolAuthentication = CertificationState.UNCERTIFIED;
 
     /**
-     * 授权协议
+     * 授权状态
      */
     private SignState empowerSignState;
 
     /**
-     * 加盟协议
+     * 加盟状态
      */
     private SignState joinSignState;
 

@@ -4,11 +4,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.dto.CreateEnterpriseDTO;
-import com.lgyun.system.user.dto.UpdateEnterpriseDTO;
 import com.lgyun.system.user.dto.ContactsInfoDTO;
+import com.lgyun.system.user.dto.CreateEnterpriseDTO;
 import com.lgyun.system.user.dto.EnterpriseListDTO;
-import com.lgyun.system.user.entity.AdminEntity;
+import com.lgyun.system.user.dto.UpdateEnterpriseDTO;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.vo.*;
 
@@ -74,28 +73,35 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * 添加商户
      *
      * @param createEnterpriseDTO
-     * @param adminEntity
      * @return
      */
-    R<String> createEnterprise(CreateEnterpriseDTO createEnterpriseDTO, AdminEntity adminEntity);
+    R<String> createEnterprise(CreateEnterpriseDTO createEnterpriseDTO, Long agentMainId);
 
     /**
      * 编辑商户
      *
      * @param updateEnterpriseDTO
-     * @param adminEntity
      * @return
      */
-    R<String> updateEnterprise(UpdateEnterpriseDTO updateEnterpriseDTO, AdminEntity adminEntity);
+    R<String> updateEnterprise(UpdateEnterpriseDTO updateEnterpriseDTO, Long agentMainId);
 
     /**
-     * 商户管理模块查询所有商户
+     * 查询所有商户
      *
      * @param enterpriseListDTO
      * @param page
      * @return
      */
     R<IPage<EnterpriseListAdminVO>> queryEnterpriseListAdmin(EnterpriseListDTO enterpriseListDTO, IPage<EnterpriseListAdminVO> page);
+
+    /**
+     * 查询渠道商的所有商户
+     *
+     * @param enterpriseListDTO
+     * @param page
+     * @return
+     */
+    R<IPage<EnterpriseListAdminVO>> queryEnterpriseListAgentMain(Long agentMainId, EnterpriseListDTO enterpriseListDTO, IPage<EnterpriseListAdminVO> page);
 
     /**
      * 查询编辑商户详情
@@ -137,7 +143,7 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * @param enterpriseId
      * @return
      */
-    R<ContactsInfoVO> queryContact(Long enterpriseId);
+    R<ContactInfoVO> queryContact(Long enterpriseId);
 
     /**
      * 修改商户的联系人
@@ -146,7 +152,7 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * @param contactsInfoDTO
      * @return
      */
-    R<String> updateContacts(Long enterpriseId, ContactsInfoDTO contactsInfoDTO);
+    R<String> updateContact(Long enterpriseId, ContactsInfoDTO contactsInfoDTO);
 
     /**
      * 查询商户的开票信息
@@ -164,5 +170,13 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * @return
      */
     R<IPage<EnterpriseIdNameListVO>> queryEnterpriseIdAndNameList(Long serviceProviderId, String enterpriseName, IPage<EnterpriseIdNameListVO> page);
+
+    /**
+     * 查询商户详情
+     *
+     * @param enterpriseId
+     * @return
+     */
+    R<EnterprisesDetailAgentMainVO> queryEnterpriseDetailAgentMain(Long enterpriseId);
 }
 

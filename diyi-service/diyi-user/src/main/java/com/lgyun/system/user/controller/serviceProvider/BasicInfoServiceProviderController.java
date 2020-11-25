@@ -5,7 +5,7 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.AddOrUpdateServiceProviderAccountDTO;
-import com.lgyun.system.user.dto.ServiceProviderContactPersonDTO;
+import com.lgyun.system.user.dto.ContactsInfoDTO;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.service.IServiceProviderAccountService;
 import com.lgyun.system.user.service.IServiceProviderService;
@@ -96,7 +96,7 @@ public class BasicInfoServiceProviderController {
 
     @PostMapping("/update-contact-person")
     @ApiOperation(value = "修改当前服务商联系人信息", notes = "修改当前服务商联系人信息")
-    public R updateContactPerson(@Valid @RequestBody ServiceProviderContactPersonDTO serviceProviderContactPersonDto, BladeUser bladeUser) {
+    public R updateContactPerson(@Valid @RequestBody ContactsInfoDTO contactsInfoDTO, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -104,7 +104,7 @@ public class BasicInfoServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return serviceProviderService.addOrUpdateContactPerson(serviceProviderContactPersonDto, serviceProviderWorkerEntity.getServiceProviderId());
+        return serviceProviderService.updateContactPerson(serviceProviderWorkerEntity.getServiceProviderId(), contactsInfoDTO);
     }
 
     @GetMapping("/query-invoice")
@@ -117,7 +117,7 @@ public class BasicInfoServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return serviceProviderService.getInvoice(serviceProviderWorkerEntity.getServiceProviderId());
+        return serviceProviderService.queryeInvoice(serviceProviderWorkerEntity.getServiceProviderId());
     }
 
 }

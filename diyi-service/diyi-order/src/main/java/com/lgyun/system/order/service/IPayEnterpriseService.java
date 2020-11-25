@@ -11,6 +11,7 @@ import com.lgyun.system.order.dto.*;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.excel.PayEnterpriseExcel;
 import com.lgyun.system.order.vo.*;
+import com.lgyun.system.user.dto.PayEnterpriseListSimpleDTO;
 import com.lgyun.system.user.vo.TransactionVO;
 
 import java.math.BigDecimal;
@@ -472,6 +473,17 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @return
      */
     R queryPayEnterpriseMakerList(Long payEnterpriseId);
+
+    /**
+     * 查询商户总包+分包
+     *
+     * @param enterpriseId
+     * @param serviceProviderId
+     * @param payEnterpriseListSimpleDTO
+     * @param page
+     * @return
+     */
+    R<IPage<PayEnterpriseListSimpleVO>> queryPayEnterpriseListAgentMain(Long enterpriseId, Long serviceProviderId, PayEnterpriseListSimpleDTO payEnterpriseListSimpleDTO, IPage<PayEnterpriseListSimpleVO> page);
 
 }
 

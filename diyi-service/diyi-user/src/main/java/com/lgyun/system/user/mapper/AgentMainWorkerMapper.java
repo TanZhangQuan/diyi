@@ -2,6 +2,7 @@ package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lgyun.system.user.entity.AgentMainWorkerEntity;
+import com.lgyun.system.user.vo.AgentMainWorkerDetailVO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -13,5 +14,12 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface AgentMainWorkerMapper extends BaseMapper<AgentMainWorkerEntity> {
 
+    /**
+     * 查询当前渠道商员工详情
+     *
+     * @param agentMainWorkerId
+     * @return
+     */
+    AgentMainWorkerDetailVO queryAgentMainWorkerDetail(Long agentMainWorkerId);
 }
 

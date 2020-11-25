@@ -51,8 +51,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorkerMapper, EnterpriseWorkerEntity> implements IEnterpriseWorkerService {
 
-    private final IUserService userService;
     private final ISysClient sysClient;
+    private final IUserService userService;
 
     @Autowired
     @Lazy
@@ -122,7 +122,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R createOrUpdateRoleMenus(RoleMenusDTO roleMenusDTO, EnterpriseWorkerEntity enterpriseWorkerEntity) {
+    public R createOrUpdateRoleMenus(EnterpriseWorkerEntity enterpriseWorkerEntity, RoleMenusDTO roleMenusDTO) {
         if (!enterpriseWorkerEntity.getSuperAdmin()) {
             if (!sysClient.queryMenusByRole(enterpriseWorkerEntity.getRoleId()).containsAll(Arrays.asList(roleMenusDTO.getMenus()))) {
                 return R.fail("只能分配您拥有的菜单");
@@ -155,14 +155,14 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
         }
         List<String> menuIds = sysClient.queryMenusByRole(roleId);
         RoleMenuInfoVO roleMenuInfoVo = new RoleMenuInfoVO();
-        BeanUtils.copyProperties(role,roleMenuInfoVo);
+        BeanUtils.copyProperties(role, roleMenuInfoVo);
         roleMenuInfoVo.setMenuIds(menuIds);
         roleMenuInfoVo.setRoleId(role.getId());
         return R.data(roleMenuInfoVo);
     }
 
     @Override
-    public R removeRole(Long roleId) {
+    public R<String> removeRole(Long roleId) {
         int count = this.count(new QueryWrapper<EnterpriseWorkerEntity>().lambda().eq(EnterpriseWorkerEntity::getRoleId, roleId));
         if (count > 0) {
             return R.fail("您删除的角色现在赋予给了子账号，请收回后在删除！");
@@ -182,7 +182,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
         list.forEach(enterpriseWorkerEntity -> {
             EnterpriseWorkerVO enterpriseWorkerVO = new EnterpriseWorkerVO();
             BeanUtil.copyProperties(enterpriseWorkerEntity, enterpriseWorkerVO);
-            List<String> menuNames = null;
+            List<String> menuNames;
             if (enterpriseWorkerEntity.getSuperAdmin()) {
                 menuNames = sysClient.getMenuNamesAll(MenuType.ENTERPRISE);
             } else {
@@ -212,7 +212,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
         if (!subIds.contains(accountId)) {
             return R.fail("您只能查看您的信息及您下属的信息！");
         }
-        EnterpriseWorkerEntity subEnterpriseWorkerEntity = this.getById(accountId);
+        EnterpriseWorkerEntity subEnterpriseWorkerEntity = getById(accountId);
         if (subEnterpriseWorkerEntity == null) {
             R.fail("您查看的用户不存在！");
         }
@@ -231,7 +231,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
             if (childAccountDTO.getChildAccountId() == enterpriseWorkerEntity.getId()) {
                 return R.fail("您不能编辑您自己！");
             }
-            EnterpriseWorkerEntity workerEntity = this.getById(childAccountDTO.getChildAccountId());
+            EnterpriseWorkerEntity workerEntity = getById(childAccountDTO.getChildAccountId());
             if (workerEntity == null) {
                 return R.fail("您编辑的用户不存在！");
             }
@@ -268,7 +268,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
             /**
              * 修改管理员表
              */
-            this.updateById(workerEntity);
+            updateById(workerEntity);
 
             /**
              * 修改用户表
@@ -316,7 +316,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
             String encrypt = DigestUtil.encrypt(childAccountDTO.getPassWord());
             childAccount.setEmployeePwd(encrypt);
             childAccount.setUserId(user.getId());
-            this.save(childAccount);
+            save(childAccount);
         }
         return R.success("操作成功！");
     }
@@ -336,22 +336,22 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
             return R.fail("您只能操作您创建的子账号！");
         }
 
-        EnterpriseWorkerEntity workerEntity = this.getById(childAccountId);
+        EnterpriseWorkerEntity workerEntity = getById(childAccountId);
         if (workerEntity == null) {
             return R.fail("您操作的用户不存在！");
         }
         switch (childAccountType) {
             case DELETE:
-                this.removeRole(workerEntity.getRoleId());
+                removeRole(workerEntity.getRoleId());
                 userService.removeById(workerEntity.getId());
                 break;
             case STARTUSING:
                 workerEntity.setEnterpriseWorkerState(AccountState.NORMAL);
-                this.updateById(workerEntity);
+                updateById(workerEntity);
                 break;
             case BLOCKUP:
                 workerEntity.setEnterpriseWorkerState(AccountState.FREEZE);
-                this.updateById(workerEntity);
+                updateById(workerEntity);
                 break;
             default:
                 break;

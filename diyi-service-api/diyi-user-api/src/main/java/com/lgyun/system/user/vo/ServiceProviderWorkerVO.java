@@ -35,7 +35,6 @@ public class ServiceProviderWorkerVO implements Serializable {
      */
     private PositionName positionName;
 
-
     /**
      * 手机号码
      */

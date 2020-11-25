@@ -36,7 +36,7 @@ public class TaxBureauAdminController {
 
     @GetMapping("/query-tax-bureau-list")
     @ApiOperation(value = "查询税务局", notes = "查询税务局")
-    public R queryTaxBureau(@RequestBody(required = false) RelBureauListDTO relBureauListDTO, Query query, BladeUser bladeUser) {
+    public R queryTaxBureau(RelBureauListDTO relBureauListDTO, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

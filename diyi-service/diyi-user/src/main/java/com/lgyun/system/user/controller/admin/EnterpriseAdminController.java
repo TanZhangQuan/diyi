@@ -44,9 +44,8 @@ public class EnterpriseAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        AdminEntity adminEntity = result.getData();
 
-        return enterpriseService.createEnterprise(createEnterpriseDTO, adminEntity);
+        return enterpriseService.createEnterprise(createEnterpriseDTO, null);
     }
 
     @PostMapping("/update-enterprise")
@@ -57,9 +56,8 @@ public class EnterpriseAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        AdminEntity adminEntity = result.getData();
 
-        return enterpriseService.updateEnterprise(updateEnterpriseDTO, adminEntity);
+        return enterpriseService.updateEnterprise(updateEnterpriseDTO, null);
     }
 
     @GetMapping("/query-enterprise-update-detail")

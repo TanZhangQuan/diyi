@@ -51,8 +51,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServiceProviderWorkerMapper, ServiceProviderWorkerEntity> implements IServiceProviderWorkerService {
 
-    private final IUserService userService;
     private final ISysClient sysClient;
+    private final IUserService userService;
 
     @Autowired
     @Lazy
@@ -122,7 +122,7 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R createOrUpdateRoleMenus(RoleMenusDTO roleMenusDTO, ServiceProviderWorkerEntity serviceProviderWorkerEntity) {
+    public R createOrUpdateRoleMenus(ServiceProviderWorkerEntity serviceProviderWorkerEntity, RoleMenusDTO roleMenusDTO) {
         if (!serviceProviderWorkerEntity.getSuperAdmin()) {
             if (!sysClient.queryMenusByRole(serviceProviderWorkerEntity.getRoleId()).containsAll(Arrays.asList(roleMenusDTO.getMenus()))) {
                 return R.fail("只能分配您拥有的菜单");
@@ -162,7 +162,7 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
     }
 
     @Override
-    public R removeRole(Long roleId) {
+    public R<String> removeRole(Long roleId) {
         int count = this.count(new QueryWrapper<ServiceProviderWorkerEntity>().lambda().eq(ServiceProviderWorkerEntity::getRoleId, roleId));
         if (count > 0) {
             return R.fail("您删除的角色现在赋予给了子账号，请收回后在删除！");
@@ -197,6 +197,7 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
             }
             serviceProviderWorkerVOS.add(serviceProviderWorkerVO);
         });
+
         return R.data(serviceProviderWorkerVOS);
     }
 
@@ -211,7 +212,7 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
         if (!subIds.contains(accountId)) {
             return R.fail("您只能查看您的信息及您下属的信息！");
         }
-        ServiceProviderWorkerEntity subServiceProviderWorkerEntity = this.getById(accountId);
+        ServiceProviderWorkerEntity subServiceProviderWorkerEntity = getById(accountId);
         if (subServiceProviderWorkerEntity == null) {
             R.fail("您查看的用户不存在！");
         }
@@ -225,13 +226,13 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R createOrUpdateChildAccount(ChildAccountDTO childAccountDTO, ServiceProviderWorkerEntity serviceProviderWorkerEntity) {
+    public R<String> createOrUpdateChildAccount(ChildAccountDTO childAccountDTO, ServiceProviderWorkerEntity serviceProviderWorkerEntity) {
 
-        if (childAccountDTO.getChildAccountId() != null && childAccountDTO.getChildAccountId() != 0) {
-            if (childAccountDTO.getChildAccountId() == serviceProviderWorkerEntity.getId()) {
+        if (childAccountDTO.getChildAccountId() != null) {
+            if (serviceProviderWorkerEntity.getId().equals(childAccountDTO.getChildAccountId())) {
                 return R.fail("您不能编辑您自己！");
             }
-            ServiceProviderWorkerEntity workerEntity = this.getById(childAccountDTO.getChildAccountId());
+            ServiceProviderWorkerEntity workerEntity = getById(childAccountDTO.getChildAccountId());
             if (workerEntity == null) {
                 return R.fail("您编辑的用户不存在！");
             }
@@ -267,7 +268,7 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
             /**
              * 修改管理员表
              */
-            this.updateById(workerEntity);
+            updateById(workerEntity);
 
             /**
              * 修改用户表
@@ -317,14 +318,14 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
             String encrypt = DigestUtil.encrypt(childAccountDTO.getPassWord());
             childAccount.setEmployeePwd(encrypt);
             childAccount.setUserId(user.getId());
-            this.save(childAccount);
+            save(childAccount);
         }
         return R.success("操作成功！");
     }
 
     @Override
-    public R operateChildAccount(Long childAccountId, ChildAccountType childAccountType, Long id) {
-        if (id == childAccountId) {
+    public R<String> operateChildAccount(Long childAccountId, ChildAccountType childAccountType, Long id) {
+        if (id.equals(childAccountId)) {
             return R.fail("您不能删除、停用、启用您自己的账号！");
         }
         List<ServiceProviderWorkerEntity> list = this.list(new QueryWrapper<ServiceProviderWorkerEntity>().lambda().eq(ServiceProviderWorkerEntity::getUpLevelId, id));
@@ -337,22 +338,22 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
             return R.fail("您只能操作您创建的子账号！");
         }
 
-        ServiceProviderWorkerEntity workerEntity = this.getById(childAccountId);
+        ServiceProviderWorkerEntity workerEntity = getById(childAccountId);
         if (workerEntity == null) {
             return R.fail("您操作的用户不存在！");
         }
         switch (childAccountType) {
             case DELETE:
-                this.removeRole(workerEntity.getRoleId());
+                removeRole(workerEntity.getRoleId());
                 userService.removeById(workerEntity.getId());
                 break;
             case STARTUSING:
                 workerEntity.setServiceProviderWorkerState(AccountState.NORMAL);
-                this.updateById(workerEntity);
+                updateById(workerEntity);
                 break;
             case BLOCKUP:
                 workerEntity.setServiceProviderWorkerState(AccountState.FREEZE);
-                this.updateById(workerEntity);
+                updateById(workerEntity);
                 break;
             default:
                 break;

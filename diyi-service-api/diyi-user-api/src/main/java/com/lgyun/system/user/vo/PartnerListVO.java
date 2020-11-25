@@ -3,6 +3,7 @@ package com.lgyun.system.user.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.SignState;
 import com.lgyun.common.enumeration.VerifyStatus;
 import lombok.Data;
@@ -67,6 +68,11 @@ public class PartnerListVO implements Serializable {
      * 加盟合同签署状态
      */
     private SignState joinSignState;
+
+    /**
+     * 账户状态
+     */
+    private AccountState partnerState;
 
     /**
      * 创建时间

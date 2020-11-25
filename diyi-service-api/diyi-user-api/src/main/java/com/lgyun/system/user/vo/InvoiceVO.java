@@ -1,7 +1,5 @@
 package com.lgyun.system.user.vo;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -14,12 +12,6 @@ import java.io.Serializable;
 @Data
 public class InvoiceVO implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 商户/服务商ID
-     */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
 
     /**
      * 开票资料-公司名称

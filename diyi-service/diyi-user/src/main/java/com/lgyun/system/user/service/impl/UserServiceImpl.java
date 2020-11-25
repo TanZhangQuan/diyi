@@ -119,13 +119,13 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
     public boolean grant(String userIds, String roleIds) {
         User user = new User();
         user.setRoleId(roleIds);
-        return this.update(user, Wrappers.<User>update().lambda().in(User::getId, Func.toLongList(userIds)));
+        return update(user, Wrappers.<User>update().lambda().in(User::getId, Func.toLongList(userIds)));
     }
 
     @Override
     public boolean resetPassword(String userIds) {
         User user = new User();
-        return this.update(user, Wrappers.<User>update().lambda().in(User::getId, Func.toLongList(userIds)));
+        return update(user, Wrappers.<User>update().lambda().in(User::getId, Func.toLongList(userIds)));
     }
 
     @Override

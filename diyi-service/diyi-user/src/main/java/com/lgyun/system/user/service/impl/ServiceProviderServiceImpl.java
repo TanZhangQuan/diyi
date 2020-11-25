@@ -14,8 +14,8 @@ import com.lgyun.system.order.entity.AddressEntity;
 import com.lgyun.system.order.entity.ServiceProviderInvoiceCatalogsEntity;
 import com.lgyun.system.order.feign.IOrderClient;
 import com.lgyun.system.user.dto.AddServiceProviderDTO;
+import com.lgyun.system.user.dto.ContactsInfoDTO;
 import com.lgyun.system.user.dto.ServiceProviderListDTO;
-import com.lgyun.system.user.dto.ServiceProviderContactPersonDTO;
 import com.lgyun.system.user.dto.UpdateServiceProviderDTO;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.ServiceProviderMapper;
@@ -53,27 +53,27 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
     }
 
     @Override
-    public R<ServiceProviderContactPersonVO> getContactPerson(Long serviceProviderId) {
+    public R<ContactInfoVO> getContactPerson(Long serviceProviderId) {
         return R.data(baseMapper.getContactPerson(serviceProviderId));
     }
 
     @Override
-    public R<String> addOrUpdateContactPerson(ServiceProviderContactPersonDTO serviceProviderContactPersonDto, Long serviceProviderId) {
+    public R<String> updateContactPerson(Long serviceProviderId, ContactsInfoDTO contactsInfoDTO) {
 
         ServiceProviderEntity serviceProviderWorkerEntity = getById(serviceProviderId);
         if (serviceProviderWorkerEntity == null) {
             return R.fail("服务商不存在");
         }
 
-        BeanUtils.copyProperties(serviceProviderContactPersonDto, serviceProviderWorkerEntity);
+        BeanUtils.copyProperties(contactsInfoDTO, serviceProviderWorkerEntity);
         updateById(serviceProviderWorkerEntity);
 
-        return R.success("操作成功");
+        return R.success("编辑联系人成功");
     }
 
     @Override
-    public R<InvoiceVO> getInvoice(Long serviceProviderId) {
-        return R.data(baseMapper.getInvoice(serviceProviderId));
+    public R<InvoiceVO> queryeInvoice(Long serviceProviderId) {
+        return R.data(baseMapper.queryeInvoice(serviceProviderId));
     }
 
     @Override
@@ -309,6 +309,16 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
     @Override
     public R<IPage<ServiceProviderIdNameListVO>> queryServiceProviderIdAndNameList(Long enterpriseId, String serviceProviderName, IPage<ServiceProviderIdNameListVO> page) {
         return R.data(page.setRecords(baseMapper.queryServiceProviderIdAndNameList(enterpriseId, serviceProviderName, page)));
+    }
+
+    @Override
+    public R<IPage<ServiceProviderListAdminVO>> queryServiceProviderListAgentMain(Long agentMainId, ServiceProviderListDTO serviceProviderListDTO, IPage<ServiceProviderListAdminVO> page) {
+        return R.data(page.setRecords(baseMapper.queryServiceProviderListAgentMain(agentMainId, serviceProviderListDTO, page)));
+    }
+
+    @Override
+    public R<ServiceProviderDetailAgentMainVO> queryServiceProviderDetailAgentMain(Long serviceProviderId) {
+        return R.data(baseMapper.queryServiceProviderDetailAgentMain(serviceProviderId));
     }
 
 }

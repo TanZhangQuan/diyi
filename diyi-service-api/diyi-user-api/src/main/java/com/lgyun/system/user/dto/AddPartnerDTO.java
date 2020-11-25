@@ -18,8 +18,8 @@ public class AddPartnerDTO implements Serializable {
     /**
      * 介绍合伙人手机号
      */
-    @Length(min = 11, max = 11, message = "请输入11位的收件人手机号")
-    @Pattern(regexp = "[0-9]*", message = "请输入有效的收件人手机号")
+    @Length(min = 11, max = 11, message = "请输入11位的介绍合伙人手机号")
+    @Pattern(regexp = "[0-9]*", message = "请输入有效的介绍合伙人手机号")
     private String introducePartnerPhone;
 
     /**

@@ -4,13 +4,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.dto.CreateAgentMainDTO;
 import com.lgyun.system.user.dto.AgentMainListDTO;
+import com.lgyun.system.user.dto.ContactsInfoDTO;
+import com.lgyun.system.user.dto.CreateAgentMainDTO;
 import com.lgyun.system.user.dto.UpdateAgentMainDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.AgentMainEntity;
-import com.lgyun.system.user.vo.AgentMainListAdminVO;
-import com.lgyun.system.user.vo.AgentMainUpdateDetailVO;
+import com.lgyun.system.user.vo.*;
 
 /**
  * 渠道商信息表 Service 接口
@@ -72,5 +72,46 @@ public interface IAgentMainService extends BaseService<AgentMainEntity> {
      */
     R<AgentMainUpdateDetailVO> queryAgentMainUpdateDetail(Long agentMainId);
 
+    /**
+     * 查询渠道商基本信息
+     *
+     * @param agentMainId
+     * @return
+     */
+    R<AgentMainInfoVO> queryEnterpriseInfo(Long agentMainId);
+
+    /**
+     * 修改渠道商基本信息
+     *
+     * @param agentMainId
+     * @param enterpriseUrl
+     * @return
+     */
+    R<String> updateEnterpriseUrl(Long agentMainId, String enterpriseUrl);
+
+    /**
+     * 查询当前渠道商所有联系人
+     *
+     * @param agentMainId
+     * @return
+     */
+    R<ContactInfoVO> queryContact(Long agentMainId);
+
+    /**
+     * 修改当前渠道商联系人
+     *
+     * @param agentMainId
+     * @param contactsInfoDTO
+     * @return
+     */
+    R<String> updateContact(Long agentMainId, ContactsInfoDTO contactsInfoDTO);
+
+    /**
+     * 查询当前渠道商的开票信息
+     *
+     * @param agentMainId
+     * @return
+     */
+    R<InvoiceVO> queryeInvoice(Long agentMainId);
 }
 

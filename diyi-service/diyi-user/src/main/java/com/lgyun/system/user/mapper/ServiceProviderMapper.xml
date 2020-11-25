@@ -3,7 +3,7 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.ServiceProviderMapper">
 
-    <resultMap type="com.lgyun.system.user.vo.ServiceProviderContactPersonVO" id="serviceProviderContactPersonVO">
+    <resultMap type="com.lgyun.system.user.vo.ContactInfoVO" id="contactInfoVO">
         <result property="contact1Name" column="contact1_name"/>
         <result property="contact1Position" column="contact1_position"/>
         <result property="contact1Phone" column="contact1_phone"/>
@@ -14,7 +14,7 @@
         <result property="contact2Mail" column="contact2_mail"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.InvoiceVO" id="serviceProviderInvoiceVO">
+    <resultMap type="com.lgyun.system.user.vo.InvoiceVO" id="invoiceVO">
         <result property="invoiceEnterpriseName" column="invoice_enterprise_name"/>
         <result property="invoiceTaxNo" column="invoice_tax_no"/>
         <result property="invoiceAddressPhone" column="invoice_address_phone"/>
@@ -68,12 +68,25 @@
         <result property="serviceProviderName" column="service_provider_name"/>
     </resultMap>
 
-    <select id="getContactPerson" resultMap="serviceProviderContactPersonVO">
+    <resultMap type="com.lgyun.system.user.vo.ServiceProviderDetailAgentMainVO" id="serviceProviderDetailAgentMainVO">
+        <result property="id" column="id"/>
+        <result property="serviceProviderName" column="service_provider_name"/>
+        <result property="legalPersonName" column="legal_person_name"/>
+        <result property="contact1Name" column="contact1_name"/>
+        <result property="contact1Phone" column="contact1_phone"/>
+        <result property="socialCreditNo" column="social_credit_no"/>
+        <result property="bizLicenceUrl" column="biz_licence_url"/>
+        <result property="joinContract" column="join_contract"/>
+        <result property="serviceProviderState" column="service_provider_state"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <select id="getContactPerson" resultMap="contactInfoVO">
         SELECT contact1_name, contact1_position, contact1_phone, contact1_mail, contact2_name, contact2_position, contact2_phone, contact2_mail
         FROM diyi_service_provider WHERE is_deleted = 0 AND id = #{param1} LIMIT 1
     </select>
 
-    <select id="getInvoice" resultMap="serviceProviderInvoiceVO">
+    <select id="queryeInvoice" resultMap="invoiceVO">
         SELECT invoice_enterprise_name, invoice_tax_no, invoice_address_phone, invoice_bank_name_account FROM diyi_service_provider WHERE is_deleted = 0
         AND id = #{param1} LIMIT 1
     </select>
@@ -91,6 +104,23 @@
         </if>
         <if test="param1.endDate != null">
             AND DATEDIFF(t1.create_time, #{param1.endDate}) <![CDATA[ <= ]]> 0
+        </if>
+    </select>
+
+    <select id="queryServiceProviderListAgentMain" resultMap="serviceProviderListAdminVO">
+        SELECT t1.id, t1.service_provider_name, t1.contact1_name, t1.contact1_phone, t1.service_provider_state, t1.create_time,
+        (SELECT IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url) FROM diyi_agreement
+        WHERE is_deleted = 0 AND agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND service_provider_id = t1.id) AS join_contract
+        FROM diyi_service_provider t1 INNER JOIN diyi_agent_main_service_provider t2 ON t1.id = t2.service_provider_id WHERE t1.is_deleted = 0
+        AND t2.is_deleted = 0 AND t2.cooperate_status = 'COOPERATING' AND t2.agent_main_id = #{param1}
+        <if test="param2.serviceProviderName != null and param2.serviceProviderName.trim() != ''">
+            AND t1.service_provider_name LIKE concat('%', #{param2.serviceProviderName}, '%')
+        </if>
+        <if test="param2.beginDate != null">
+            AND DATEDIFF(t1.create_time, #{param2.beginDate}) <![CDATA[ >= ]]> 0
+        </if>
+        <if test="param2.endDate != null">
+            AND DATEDIFF(t1.create_time, #{param2.endDate}) <![CDATA[ <= ]]> 0
         </if>
     </select>
 
@@ -124,6 +154,13 @@
         <if test="param2 != null and param2.trim() != ''">
             AND t1.service_provider_name LIKE concat('%', #{param2}, '%')
         </if>
+    </select>
+
+    <select id="queryServiceProviderDetailAgentMain" resultMap="serviceProviderDetailAgentMainVO">
+        SELECT t1.id, t1.service_provider_name, t1.legal_person_name, t1.contact1_name, t1.contact1_phone, t1.social_credit_no, t1.biz_licence_url, t1.service_provider_state,
+        t1.create_time, (SELECT IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url)
+        FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED'
+        AND service_provider_id = t1.id) AS join_contract FROM diyi_service_provider t1 WHERE is_deleted = 0 AND t1.id = #{param1}
     </select>
 
 </mapper>

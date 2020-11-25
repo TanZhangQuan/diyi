@@ -44,13 +44,23 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
     List<EnterpriseListPaymentVO> queryEnterpriseListPayment(String enterpriseName, IPage<EnterpriseListPaymentVO> page);
 
     /**
-     * 商户管理模块查询所有商户
+     * 查询所有商户
      *
      * @param enterpriseListDTO
      * @param page
      * @return
      */
     List<EnterpriseListAdminVO> queryEnterpriseListAdmin(EnterpriseListDTO enterpriseListDTO, IPage<EnterpriseListAdminVO> page);
+
+    /**
+     * 查询渠道商的所有商户
+     *
+     * @param agentMainId
+     * @param enterpriseListDTO
+     * @param page
+     * @return
+     */
+    List<EnterpriseListAdminVO> queryEnterpriseListAgentMain(Long agentMainId, EnterpriseListDTO enterpriseListDTO, IPage<EnterpriseListAdminVO> page);
 
     /**
      * 查询编辑商户详情
@@ -74,7 +84,7 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
      * @param enterpriseId
      * @return
      */
-    ContactsInfoVO queryContact(Long enterpriseId);
+    ContactInfoVO queryContact(Long enterpriseId);
 
     /**
      * 查询商户的开票信息
@@ -93,5 +103,14 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
      * @return
      */
     List<EnterpriseIdNameListVO> queryEnterpriseIdAndNameList(Long serviceProviderId, String enterpriseName, IPage<EnterpriseIdNameListVO> page);
+
+    /**
+     * 查询商户详情
+     *
+     * @param enterpriseId
+     * @return
+     */
+    EnterprisesDetailAgentMainVO queryEnterpriseDetailAgentMain(Long enterpriseId);
+
 }
 

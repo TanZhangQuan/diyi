@@ -25,7 +25,6 @@ public class PermissionEnterpriseController {
 
     private IEnterpriseWorkerService enterpriseWorkerService;
 
-
     @PostMapping("/create-or-update-role-menus")
     @ApiOperation(value = "角色管理---创建或修改角色及菜单的分配", notes = "角色管理---创建或修改角色及菜单的分配")
     public R createOrUpdateRoleMenus(@Valid @RequestBody RoleMenusDTO roleMenusDTO, BladeUser bladeUser) {
@@ -36,7 +35,7 @@ public class PermissionEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return enterpriseWorkerService.createOrUpdateRoleMenus(roleMenusDTO, enterpriseWorkerEntity);
+        return enterpriseWorkerService.createOrUpdateRoleMenus(enterpriseWorkerEntity, roleMenusDTO);
     }
 
     @GetMapping("/query-role-list")
@@ -48,6 +47,7 @@ public class PermissionEnterpriseController {
             return result;
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
         return enterpriseWorkerService.queryRoleList(enterpriseWorkerEntity.getId());
     }
 
@@ -59,6 +59,7 @@ public class PermissionEnterpriseController {
         if (!(result.isSuccess())) {
             return result;
         }
+
         return enterpriseWorkerService.removeRole(roleId);
     }
 
@@ -70,6 +71,7 @@ public class PermissionEnterpriseController {
         if (!(result.isSuccess())) {
             return result;
         }
+
         return enterpriseWorkerService.queryRoleInfo(roleId);
     }
 
@@ -82,6 +84,7 @@ public class PermissionEnterpriseController {
             return result;
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
         return enterpriseWorkerService.queryRole(enterpriseWorkerEntity.getId());
     }
 
@@ -94,6 +97,7 @@ public class PermissionEnterpriseController {
             return result;
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
         return enterpriseWorkerService.queryChildAccountList(enterpriseWorkerEntity.getId());
     }
 
@@ -106,9 +110,9 @@ public class PermissionEnterpriseController {
             return result;
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
         return enterpriseWorkerService.queryAccountDetail(enterpriseWorkerEntity.getId(), accountId);
     }
-
 
     @PostMapping("/create-or-update-child-account")
     @ApiOperation(value = "子账号管理---创建或修改子账号及子账号的角色分配", notes = "子账号管理---创建或修改子账号及子账号的角色分配")
@@ -122,6 +126,7 @@ public class PermissionEnterpriseController {
         if (!enterpriseWorkerEntity.getAdminPower()) {
             return R.fail("您没有权限创建子账号！");
         }
+
         return enterpriseWorkerService.createOrUpdateChildAccount(childAccountDTO, enterpriseWorkerEntity);
     }
 

@@ -40,8 +40,9 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     private IOrderClient orderClient;
     private IUserService userService;
     private IAgreementService agreementService;
-    private IEnterpriseWorkerService enterpriseWorkerService;
     private IMakerEnterpriseService makerEnterpriseService;
+    private IEnterpriseWorkerService enterpriseWorkerService;
+    private IAgentMainEnterpriseService agentMainEnterpriseService;
 
     @Override
     public int queryCountById(Long enterpriseId) {
@@ -68,7 +69,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         }
 
         MakerEnterpriseRelationVO makerEnterpriseRelationVO = BeanUtil.copy(enterpriseEntity, MakerEnterpriseRelationVO.class);
-        if((0 == relevanceNum && 0 == attentionNum)){
+        if ((0 == relevanceNum && 0 == attentionNum)) {
             makerEnterpriseRelationVO.setContact1Phone(makerEnterpriseRelationVO.getContact1Phone().replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2"));
             makerEnterpriseRelationVO.setBizLicenceUrl("*");
             makerEnterpriseRelationVO.setLegalPersonName("***");
@@ -114,7 +115,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> createEnterprise(CreateEnterpriseDTO createEnterpriseDTO, AdminEntity adminEntity) {
+    public R<String> createEnterprise(CreateEnterpriseDTO createEnterpriseDTO, Long agentMainId) {
 
         //判断商户名称是否已存在
         int enterpriseNum = count(Wrappers.<EnterpriseEntity>query().lambda().eq(EnterpriseEntity::getEnterpriseName, createEnterpriseDTO.getEnterpriseName()));
@@ -201,16 +202,37 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         enterpriseWorkerEntity.setEnterpriseId(enterpriseEntity.getId());
         enterpriseWorkerService.save(enterpriseWorkerEntity);
 
+        //创建渠道商-商户关联
+        if (agentMainId != null) {
+            AgentMainEnterpriseEntity agentMainEnterpriseEntity = new AgentMainEnterpriseEntity();
+            agentMainEnterpriseEntity.setAgentMainId(agentMainId);
+            agentMainEnterpriseEntity.setEnterpriseId(enterpriseEntity.getId());
+            agentMainEnterpriseEntity.setCooperateType(CooperateType.CREATE);
+            agentMainEnterpriseService.save(agentMainEnterpriseEntity);
+        }
+
         return R.success("新建商户成功");
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> updateEnterprise(UpdateEnterpriseDTO updateEnterpriseDTO, AdminEntity adminEntity) {
+    public R<String> updateEnterprise(UpdateEnterpriseDTO updateEnterpriseDTO, Long agentMainId) {
 
         EnterpriseEntity enterpriseEntity = getById(updateEnterpriseDTO.getEnterpriseId());
         if (enterpriseEntity == null) {
             return R.fail("商户不存在");
+        }
+
+        if (agentMainId != null) {
+
+            AgentMainEnterpriseEntity agentMainEnterpriseEntity = agentMainEnterpriseService.queryByAgentMainAndEnterprise(agentMainId, updateEnterpriseDTO.getEnterpriseId());
+            if (agentMainEnterpriseEntity == null) {
+                return R.fail("商户不属于渠道商");
+            }
+
+            if (!(CooperateType.CREATE.equals(agentMainEnterpriseEntity.getCooperateType()))) {
+                return R.fail("非渠道商创建商户不可编辑");
+            }
         }
 
         //查询商户管理员
@@ -321,6 +343,18 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     @Override
+    public R<IPage<EnterpriseListAdminVO>> queryEnterpriseListAgentMain(Long agentMainId, EnterpriseListDTO enterpriseListDTO, IPage<EnterpriseListAdminVO> page) {
+
+        if (enterpriseListDTO.getBeginDate() != null && enterpriseListDTO.getEndDate() != null) {
+            if (enterpriseListDTO.getBeginDate().after(enterpriseListDTO.getEndDate())) {
+                return R.fail("开始时间不能大于结束时间");
+            }
+        }
+
+        return R.data(page.setRecords(baseMapper.queryEnterpriseListAgentMain(agentMainId, enterpriseListDTO, page)));
+    }
+
+    @Override
     public R<EnterpriseUpdateDetailVO> queryEnterpriseUpdateDetail(Long enterpriseId) {
         return R.data(baseMapper.queryEnterpriseUpdateDetail(enterpriseId));
     }
@@ -361,23 +395,23 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     @Override
     public R<String> updateEnterpriseUrl(Long enterpriseId, String enterpriseUrl) {
 
-        EnterpriseEntity enterpriseEntity = this.getById(enterpriseId);
+        EnterpriseEntity enterpriseEntity = getById(enterpriseId);
         if (enterpriseEntity == null) {
             return R.fail("商户不存在");
         }
 
         enterpriseEntity.setEnterpriseUrl(enterpriseUrl);
-        this.updateById(enterpriseEntity);
+        updateById(enterpriseEntity);
         return R.success("编辑成功");
     }
 
     @Override
-    public R<ContactsInfoVO> queryContact(Long enterpriseId) {
+    public R<ContactInfoVO> queryContact(Long enterpriseId) {
         return R.data(baseMapper.queryContact(enterpriseId));
     }
 
     @Override
-    public R<String> updateContacts(Long enterpriseId, ContactsInfoDTO contactsInfoDTO) {
+    public R<String> updateContact(Long enterpriseId, ContactsInfoDTO contactsInfoDTO) {
         EnterpriseEntity enterpriseEntity = getById(enterpriseId);
         if (enterpriseEntity == null) {
             return R.fail("商户不存在");
@@ -385,7 +419,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
 
         BeanUtil.copyProperties(contactsInfoDTO, enterpriseEntity);
         updateById(enterpriseEntity);
-        return R.success("编辑成功");
+        return R.success("编辑联系人成功");
     }
 
     @Override
@@ -396,5 +430,10 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     @Override
     public R<IPage<EnterpriseIdNameListVO>> queryEnterpriseIdAndNameList(Long serviceProviderId, String enterpriseName, IPage<EnterpriseIdNameListVO> page) {
         return R.data(page.setRecords(baseMapper.queryEnterpriseIdAndNameList(serviceProviderId, enterpriseName, page)));
+    }
+
+    @Override
+    public R<EnterprisesDetailAgentMainVO> queryEnterpriseDetailAgentMain(Long enterpriseId) {
+        return R.data(baseMapper.queryEnterpriseDetailAgentMain(enterpriseId));
     }
 }

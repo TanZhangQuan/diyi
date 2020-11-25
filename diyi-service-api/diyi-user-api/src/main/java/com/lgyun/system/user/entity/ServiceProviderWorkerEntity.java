@@ -86,11 +86,11 @@ public class ServiceProviderWorkerEntity extends BaseEntity {
     /**
      * 管理员特性
      */
-    private Boolean adminPower;
+    private Boolean adminPower = false;
 
     /**
      * 是否拥有全部权限
      */
-    private Boolean superAdmin;
+    private Boolean superAdmin = false;
 
 }

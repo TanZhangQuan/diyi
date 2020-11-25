@@ -6,14 +6,19 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.enumeration.CooperateType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.user.entity.*;
+import com.lgyun.system.user.entity.AdminEntity;
+import com.lgyun.system.user.entity.AgentMainEnterpriseEntity;
+import com.lgyun.system.user.entity.AgentMainEntity;
+import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.mapper.AgentMainEnterpriseMapper;
 import com.lgyun.system.user.service.IAgentMainEnterpriseService;
 import com.lgyun.system.user.service.IAgentMainService;
 import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.vo.CooperationEnterprisesListVO;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,11 +29,14 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AgentMainEnterpriseServiceImpl extends BaseServiceImpl<AgentMainEnterpriseMapper, AgentMainEnterpriseEntity> implements IAgentMainEnterpriseService {
 
+    private final IAgentMainService agentMainService;
+
+    @Autowired
+    @Lazy
     private IEnterpriseService enterpriseService;
-    private IAgentMainService agentMainService;
 
     @Override
     public R<String> relevanceAgentMainEnterprise(Long agentMainId, Long enterpriseId, String matchDesc, AdminEntity adminEntity) {

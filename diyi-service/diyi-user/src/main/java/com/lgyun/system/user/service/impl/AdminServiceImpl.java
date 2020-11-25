@@ -139,7 +139,7 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
         if (!subIds.contains(accountId)) {
             return R.fail("您只能查看您的信息及您下属的信息！");
         }
-        AdminEntity subAdminEntity = this.getById(accountId);
+        AdminEntity subAdminEntity = getById(accountId);
         if (subAdminEntity == null) {
             R.fail("您查看的用户不存在！");
         }
@@ -182,7 +182,7 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
             if (childAccountDTO.getChildAccountId() == id) {
                 return R.fail("您不能编辑您自己！");
             }
-            AdminEntity adminEntity = this.getById(childAccountDTO.getChildAccountId());
+            AdminEntity adminEntity = getById(childAccountDTO.getChildAccountId());
             if (adminEntity == null) {
                 return R.fail("您编辑的用户不存在！");
             }
@@ -213,7 +213,7 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
             /**
              * 修改管理员表
              */
-            this.updateById(adminEntity);
+            updateById(adminEntity);
 
             /**
              * 修改用户表
@@ -256,7 +256,7 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
             String encrypt = DigestUtil.encrypt(childAccountDTO.getPassWord());
             childAccount.setLoginPwd(encrypt);
             childAccount.setUserId(user.getId());
-            this.save(childAccount);
+            save(childAccount);
         }
         return R.success("操作成功！");
     }
@@ -277,22 +277,22 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
             return R.fail("您只能操作您创建的子账号！");
         }
 
-        AdminEntity adminEntity = this.getById(childAccountId);
+        AdminEntity adminEntity = getById(childAccountId);
         if (adminEntity == null) {
             return R.fail("您操作的用户不存在！");
         }
         switch (childAccountType) {
             case DELETE:
-                this.removeRole(adminEntity.getRoleId());
+                removeRole(adminEntity.getRoleId());
                 userService.removeById(adminEntity.getId());
                 break;
             case STARTUSING:
                 adminEntity.setAdminState(AccountState.NORMAL);
-                this.updateById(adminEntity);
+                updateById(adminEntity);
                 break;
             case BLOCKUP:
                 adminEntity.setAdminState(AccountState.FREEZE);
-                this.updateById(adminEntity);
+                updateById(adminEntity);
                 break;
             default:
                 break;

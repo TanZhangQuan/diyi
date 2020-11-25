@@ -27,7 +27,7 @@ public interface AgreementMapper extends BaseMapper<AgreementEntity> {
 
     List<AgreementWebVO> selectServiceSupplementaryAgreement(Long enterpriseId, String serviceProviderName, String agreementNo, AgreementType agreementType, IPage<AgreementWebVO> page);
 
-    List selectMakerAgreement(Long enterpriseId, IPage<AgreementMakerWebVO> page);
+    List<AgreementMakerWebVO> selectMakerAgreement(Long enterpriseId, IPage<AgreementMakerWebVO> page);
 
     /**
      * 商户和创客的补充协议

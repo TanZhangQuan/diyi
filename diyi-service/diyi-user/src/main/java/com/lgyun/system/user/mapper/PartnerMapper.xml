@@ -3,7 +3,7 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.PartnerMapper">
 
-    <resultMap type="com.lgyun.system.user.vo.MakerListWebVO" id="makerListWebVO">
+    <resultMap type="com.lgyun.system.user.vo.PartnerListVO" id="partnerListVO">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="idcardNo" column="idcard_no"/>
@@ -14,6 +14,7 @@
         <result property="bankCardVerifyStatus" column="bank_card_verify_status"/>
         <result property="phoneNumberVerifyStatus" column="phone_number_verify_status"/>
         <result property="joinSignState" column="join_sign_state"/>
+        <result property="partnerState" column="partner_state"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
 
@@ -24,9 +25,9 @@
         <result property="selfDesc" column="self_desc"/>
     </resultMap>
 
-    <select id="queryMakerList" resultMap="makerListWebVO">
+    <select id="queryPartnerList" resultMap="partnerListVO">
         SELECT id, name, idcard_no, phone_number, bank_card_no, idcard_verify_status, face_verify_status, bank_card_verify_status,
-        phone_number_verify_status, join_sign_state, create_time FROM diyi_partner WHERE is_deleted = 0
+        phone_number_verify_status, join_sign_state, partner_state, create_time FROM diyi_partner WHERE is_deleted = 0
         <if test="param1.partnerName != null and param1.partnerName != ''">
             AND name LIKE concat('%', #{param1.partnerName}, '%')
         </if>

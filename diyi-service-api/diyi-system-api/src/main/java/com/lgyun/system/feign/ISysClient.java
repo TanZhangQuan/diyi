@@ -203,7 +203,7 @@ public interface ISysClient {
      * @return
      */
     @GetMapping(API_PREFIX + "/remove-role")
-    R removeRole(@RequestParam("id") Long roleId);
+    R<String> removeRole(@RequestParam("id") Long roleId);
 
     /**
      * 根据菜单ID删除权限
@@ -211,5 +211,5 @@ public interface ISysClient {
      * @return
      */
     @GetMapping(API_PREFIX + "/remove-role-menu")
-    R removeRoleMenu(@RequestParam("menus") String menus);
+    R<String> removeRoleMenu(@RequestParam("menus") String menus);
 }

@@ -206,7 +206,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
                 agreementEntity.setFirstSideSignPerson(makerEntity.getName());
                 agreementEntity.setUploadPerson(enterpriseEntity.getEnterpriseName());
                 agreementEntity.setMakerId(makerEntity.getId());
-                this.saveOrUpdate(agreementEntity);
+                saveOrUpdate(agreementEntity);
             } else {
                 error.add("您选择的第" + (i + 1) + "个创客不存在，与他签署的《" + AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.getDesc() + "》失败！");
             }

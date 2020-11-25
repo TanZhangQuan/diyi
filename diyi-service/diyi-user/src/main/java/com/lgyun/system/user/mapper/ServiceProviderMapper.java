@@ -24,7 +24,7 @@ public interface ServiceProviderMapper extends BaseMapper<ServiceProviderEntity>
      * @param serviceProviderId
      * @return
      */
-    ServiceProviderContactPersonVO getContactPerson(Long serviceProviderId);
+    ContactInfoVO getContactPerson(Long serviceProviderId);
 
     /**
      * 查询当前服务商开票信息
@@ -32,7 +32,7 @@ public interface ServiceProviderMapper extends BaseMapper<ServiceProviderEntity>
      * @param serviceProviderId
      * @return
      */
-    InvoiceVO getInvoice(Long serviceProviderId);
+    InvoiceVO queryeInvoice(Long serviceProviderId);
 
     /**
      * 查询所有服务商
@@ -69,5 +69,22 @@ public interface ServiceProviderMapper extends BaseMapper<ServiceProviderEntity>
      */
     List<ServiceProviderIdNameListVO> queryServiceProviderIdAndNameList(Long enterpriseId, String serviceProviderName, IPage<ServiceProviderIdNameListVO> page);
 
+    /**
+     * 查询渠道商的所有服务商
+     *
+     * @param agentMainId
+     * @param serviceProviderListDTO
+     * @param page
+     * @return
+     */
+    List<ServiceProviderListAdminVO> queryServiceProviderListAgentMain(Long agentMainId, ServiceProviderListDTO serviceProviderListDTO, IPage<ServiceProviderListAdminVO> page);
+
+    /**
+     * 查询服务商详情
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    ServiceProviderDetailAgentMainVO queryServiceProviderDetailAgentMain(Long serviceProviderId);
 }
 

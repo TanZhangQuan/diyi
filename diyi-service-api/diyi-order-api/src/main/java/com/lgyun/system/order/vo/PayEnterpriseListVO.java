@@ -45,7 +45,7 @@ public class PayEnterpriseListVO implements Serializable {
     private String enterprisePayReceiptUrls;
 
     /**
-     * 工单编号
+     * 工单ID
      */
     private String worksheetId;
 

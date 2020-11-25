@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 /**
@@ -22,7 +23,7 @@ public class ContactsInfoDTO {
     /**
      * 联系人1职位
      */
-    @NotBlank(message = "请输入联系人1职位")
+    @NotNull(message = "请选择联系人1职位")
     private PositionName contact1Position;
 
     /**
@@ -49,7 +50,7 @@ public class ContactsInfoDTO {
     /**
      * 联系人2职位
      */
-    @NotBlank(message = "请输入联系人2职位")
+    @NotNull(message = "请选择联系人2职位")
     private PositionName contact2Position;
 
     /**

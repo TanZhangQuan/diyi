@@ -113,12 +113,12 @@ public class ISysClientFallback implements ISysClient {
     }
 
     @Override
-    public R removeRole(Long roleId) {
+    public R<String> removeRole(Long roleId) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
-    public R removeRoleMenu(String menus) {
+    public R<String> removeRoleMenu(String menus) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 }

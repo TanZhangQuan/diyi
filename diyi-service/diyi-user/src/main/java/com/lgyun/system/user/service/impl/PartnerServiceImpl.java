@@ -245,7 +245,7 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
         partnerSave(addPartnerDTO.getPhoneNumber(), DigestUtil.encrypt(addPartnerDTO.getLoginPwd()), addPartnerDTO.getName(), addPartnerDTO.getIdcardNo(), addPartnerDTO.getBankCardNo(),
                 addPartnerDTO.getBankName(), addPartnerDTO.getSubBankName(), introducePartnerId);
 
-        return R.fail("创建合伙人成功");
+        return R.success("创建合伙人成功");
     }
 
     @Override

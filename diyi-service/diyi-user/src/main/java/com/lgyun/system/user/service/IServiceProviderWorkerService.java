@@ -35,10 +35,10 @@ public interface IServiceProviderWorkerService extends BaseService<ServiceProvid
     /**
      * 查询当前服务商员工详情
      *
-     * @param id
+     * @param serviceProviderWorkerId
      * @return
      */
-    R<ServiceProviderWorkerDetailVO> queryServiceProviderWorkerDetail(Long id);
+    R<ServiceProviderWorkerDetailVO> queryServiceProviderWorkerDetail(Long serviceProviderWorkerId);
 
     /**
      * 根据手机号码查询服务商员工
@@ -79,7 +79,7 @@ public interface IServiceProviderWorkerService extends BaseService<ServiceProvid
      * @param serviceProviderWorkerEntity
      * @return
      */
-    R<String> createOrUpdateRoleMenus(RoleMenusDTO roleMenusDTO, ServiceProviderWorkerEntity serviceProviderWorkerEntity);
+    R<String> createOrUpdateRoleMenus(ServiceProviderWorkerEntity serviceProviderWorkerEntity, RoleMenusDTO roleMenusDTO);
 
     /**
      * 查询商户人员所创建的角色
@@ -91,6 +91,7 @@ public interface IServiceProviderWorkerService extends BaseService<ServiceProvid
 
     /**
      * 查询角色的详情
+     *
      * @param roleId
      * @return
      */
@@ -102,7 +103,7 @@ public interface IServiceProviderWorkerService extends BaseService<ServiceProvid
      * @param roleId
      * @return
      */
-    R removeRole(Long roleId);
+    R<String> removeRole(Long roleId);
 
     /**
      * 查询当前管理人员所创建的角色
@@ -136,16 +137,17 @@ public interface IServiceProviderWorkerService extends BaseService<ServiceProvid
      * @param serviceProviderWorkerEntity
      * @return
      */
-    R createOrUpdateChildAccount(ChildAccountDTO childAccountDTO, ServiceProviderWorkerEntity serviceProviderWorkerEntity);
+    R<String> createOrUpdateChildAccount(ChildAccountDTO childAccountDTO, ServiceProviderWorkerEntity serviceProviderWorkerEntity);
 
     /**
      * 删除、停用、启用子账号
+     *
      * @param childAccountId
      * @param childAccountType
      * @param id
      * @return
      */
-    R operateChildAccount(Long childAccountId, ChildAccountType childAccountType, Long id);
+    R<String> operateChildAccount(Long childAccountId, ChildAccountType childAccountType, Long id);
 
 }
 

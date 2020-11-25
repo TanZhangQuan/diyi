@@ -24,8 +24,7 @@
     </select>
 
     <select id="queryAdminCenterMaterialUpdateDetail" resultMap="adminCenterMaterialUpdateDetailVO">
-        SELECT id, material_name, material_desc, material_url
-        FROM diyi_admin_center_material WHERE is_deleted = 0 AND id = #{param1}
+        SELECT id, material_name, material_desc, material_url FROM diyi_admin_center_material WHERE is_deleted = 0 AND id = #{param1} LIMIT 1
     </select>
 
 </mapper>

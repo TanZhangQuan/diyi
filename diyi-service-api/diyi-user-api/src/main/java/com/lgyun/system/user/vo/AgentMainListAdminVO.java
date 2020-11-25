@@ -22,7 +22,7 @@ public class AgentMainListAdminVO implements Serializable {
      * 渠道商ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long agentMainId;
+    private Long id;
 
     /**
      * 渠道商名称

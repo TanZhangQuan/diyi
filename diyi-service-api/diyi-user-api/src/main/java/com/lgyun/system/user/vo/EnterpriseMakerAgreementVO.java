@@ -31,13 +31,13 @@ public class EnterpriseMakerAgreementVO implements Serializable {
     private String enterpriseName;
 
     /**
-     * 协议编号
+     * 商户
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
 
     /**
-     *
+     * 合同编号
      */
     private String agreementNo;
 
