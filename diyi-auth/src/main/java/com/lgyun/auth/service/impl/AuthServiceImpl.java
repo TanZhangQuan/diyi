@@ -506,7 +506,7 @@ public class AuthServiceImpl implements IAuthService {
 
             case PARTNER:
 
-                // 创客处理
+                // 合伙人处理
                 res = userClient.partnerDeal("", "", mobile, DigestUtil.encrypt(password), GrantType.REGISTER);
                 if (!(res.isSuccess())) {
                     return res;

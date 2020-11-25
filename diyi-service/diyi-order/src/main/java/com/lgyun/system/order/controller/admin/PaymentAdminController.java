@@ -33,9 +33,9 @@ import javax.validation.constraints.NotNull;
 public class PaymentAdminController {
 
     private IUserClient userClient;
+    private IWorksheetService worksheetService;
     private IPayEnterpriseService payEnterpriseService;
     private IAcceptPaysheetService acceptPaysheetService;
-    private IWorksheetService worksheetService;
 
     @GetMapping("/query-finished-worksheet-list")
     @ApiOperation(value = "查询商户所有已完毕的总包+分包类型的工单", notes = "查询商户所有已完毕的总包+分包类型的工单")
