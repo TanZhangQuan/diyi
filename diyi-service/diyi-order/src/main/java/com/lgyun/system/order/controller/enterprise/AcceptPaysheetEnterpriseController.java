@@ -60,7 +60,7 @@ public class AcceptPaysheetEnterpriseController {
     }
 
     @GetMapping("/query-total-sub-accept-paysheet-pay-maker-list")
-    @ApiOperation(value = "查询总包+分包交付支付验收单的创客支付明细", notes = "查询总包+分包交付支付验收单的创客支付明细")
+    @ApiOperation(value = "查询总包+分包交付支付验收单的分包支付明细", notes = "查询总包+分包交付支付验收单的分包支付明细")
     public R queryTotalSubAcceptPaysheetPayMakerList(@ApiParam(value = "总包+分包交付支付验收单") @NotNull(message = "请选择总包+分包交付支付验收单") @RequestParam(required = false) Long acceptPaysheetId, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);

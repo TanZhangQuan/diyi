@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 创客支付明细支付状态
+ * 分包支付明细支付状态
  */
 @Getter
 @AllArgsConstructor

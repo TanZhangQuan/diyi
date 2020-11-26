@@ -8,6 +8,7 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.AddOrUpdateAddressDTO;
 import com.lgyun.system.order.service.IAddressService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
+import com.lgyun.system.user.dto.PayEnterpriseListSimpleDTO;
 import com.lgyun.system.user.entity.PartnerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
@@ -90,6 +91,18 @@ public class EnterprisePartnerController {
         }
 
         return payEnterpriseService.queryEnterpriseTransaction(enterpriseId);
+    }
+
+    @GetMapping("/query-pay-enterprise-list")
+    @ApiOperation(value = "查询商户总包+分包", notes = "查询商户总包+分包")
+    public R queryPayEnterpriseList(@ApiParam(value = "商户") @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, PayEnterpriseListSimpleDTO payEnterpriseListSimpleDTO, Query query, BladeUser bladeUser) {
+        //查询当前合伙人
+        R<PartnerEntity> result = userClient.currentPartner(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return payEnterpriseService.queryPayEnterpriseListAgentMain(enterpriseId, null, payEnterpriseListSimpleDTO, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
 }

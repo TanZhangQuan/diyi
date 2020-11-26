@@ -30,7 +30,7 @@ public class PayEnterpriseDTO implements Serializable {
     private String enterpriseName;
 
     /**
-     * 商户支付清单状态
+     * 总包支付清单状态
      */
     private PayEnterpriseAuditState payEnterpriseAuditState;
 

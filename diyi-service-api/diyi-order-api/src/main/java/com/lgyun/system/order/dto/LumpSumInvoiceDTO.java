@@ -15,7 +15,7 @@ import java.io.Serializable;
 public class LumpSumInvoiceDTO implements Serializable {
 
     /**
-     * 商户支付清单ID
+     * 总包支付清单ID
      */
     @NotNull(message = "请选择支付清单")
     private Long payEnterpriseId;

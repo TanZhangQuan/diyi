@@ -81,7 +81,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R<String> submit(Long payEnterpriseId, Long enterpriseId);
 
     /**
-     * 根据条件查询所有商户支付清单
+     * 根据条件查询所有总包支付清单
      *
      * @param enterpriseId
      * @param payEnterpriseDto
@@ -138,7 +138,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R findDetailSubcontractPortal(Long makerInvoiceId);
 
     /**
-     * 根据支付清单ID查询创客支付明细
+     * 根据支付清单ID查询分包支付明细
      *
      * @param payEnterpriseId
      * @param page
@@ -408,12 +408,12 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R queryTotalInvoiceListEnterprise(Long enterpriseId, String serviceProviderName, IPage<TotalInvoiceListEnterVO> page);
 
     /**
-     * 商户端根据商户id查询总包申请的详情商户支付清单
+     * 商户端根据商户id查询总包申请的详情总包支付清单
      */
     R queryTotalInvoiceListEnterpriseApplyDetails(Long invoiceApplicationId);
 
     /**
-     * 商户端根据商户id查询总包开票的详情商户支付清单
+     * 商户端根据商户id查询总包开票的详情总包支付清单
      */
     R queryTotalInvoiceListEnterpriseInvoiceDetails(Long invoicePrintId);
 
@@ -439,7 +439,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R createSummaryAgencyInvoice(SummaryInvoiceDTO summaryInvoiceDTO);
 
     /**
-     * 服务商根据商户支付清单查询分包详情
+     * 服务商根据总包支付清单查询分包详情
      */
     R findServiceDetailSummary(String payEnterpriseIds);
 

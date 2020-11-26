@@ -463,7 +463,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         if (lumpSumInvoiceDetails.size() > 0) {
             map.put("lumpSumInvoiceDetails", lumpSumInvoiceDetails);
         } else {
-            return R.fail("商户支付清单不存在");
+            return R.fail("总包支付清单不存在");
         }
         String enterprisePayReceiptUrl = "";
         for (PlatformInvoicePayListEntity platformInvoicePayListEntity : platformInvoicePayListEntities) {
@@ -542,7 +542,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         if (lumpSumInvoiceDetails.size() > 0) {
             map.put("lumpSumInvoiceDetails", lumpSumInvoiceDetails);
         } else {
-            return R.fail("商户支付清单不存在");
+            return R.fail("总包支付清单不存在");
         }
         String enterprisePayReceiptUrl = "";
         for (InvoiceApplicationPayListEntity invoiceApplicationPayListEntity : invoiceApplicationPayListEntityList) {
@@ -626,7 +626,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         platformInvoiceListEntity.setCompanyInvoiceUrl(companyInvoiceUrl);
         platformInvoiceListEntity.setCompanyVoiceUploadDatetime(new Date());
         platformInvoiceListService.save(platformInvoiceListEntity);
-        //更新商户支付清单的总包开票状态
+        //更新总包支付清单的总包开票状态
         byId.setCompanyInvoiceState(CompanyInvoiceState.OPENED);
         saveOrUpdate(byId);
         return R.success("操作成功");
@@ -705,7 +705,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         platformInvoiceListEntity.setCompanyInvoiceUrl(companyInvoiceUrl);
         platformInvoiceListEntity.setCompanyVoiceUploadDatetime(new Date());
         platformInvoiceListService.save(platformInvoiceListEntity);
-        //更新商户支付清单的总包开票状态
+        //更新总包支付清单的总包开票状态
         for (int i = 0; i < split.length; i++) {
             PayEnterpriseEntity byId = getById(Long.parseLong(split[i]));
             if (InvoiceMode.PARTIALLYISSUED.equals(invoiceMode)) {
@@ -792,7 +792,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         platformInvoiceListEntity.setCompanyInvoiceUrl(companyInvoiceUrl);
         platformInvoiceListEntity.setCompanyVoiceUploadDatetime(new Date());
         platformInvoiceListService.save(platformInvoiceListEntity);
-        //更新商户支付清单的总包开票状态
+        //更新总包支付清单的总包开票状态
         for (InvoiceApplicationPayListEntity invoiceApplicationPayListEntity : invoiceApplicationPayListEntityList) {
             PayEnterpriseEntity payEnterpriseEntity = getById(invoiceApplicationPayListEntity.getPayEnterpriseId());
             InvoiceApplicationEntity invoiceApplicationEntity = invoiceApplicationService.getById(invoiceApplicationPayListEntity.getApplicationId());
@@ -923,7 +923,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             String taxAmount = payMakerArray.getJSONObject(i).get("taxAmount").toString();
             PayMakerEntity byId = payMakerService.getById(payMakerId);
             if (null == byId) {
-                return R.fail("创客支付明细不存在");
+                return R.fail("分包支付明细不存在");
             }
             String voicePerson = userClient.queryMakerById(byId.getMakerId()).getName();
             BigDecimal makerNeIncome = byId.getMakerNeIncome();
@@ -1045,7 +1045,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         for (int i = 1; i < split.length; i++) {
             PayEnterpriseEntity payEnterpriseEntity = getById(Long.parseLong(split[i]));
             if (null == payEnterpriseEntity) {
-                return R.fail("商户支付清单不存在");
+                return R.fail("总包支付清单不存在");
             }
             if (!(byId.getMakerInvoiceType().equals(payEnterpriseEntity.getMakerInvoiceType()))) {
                 return R.fail("请选择相同分包开票类别进行开票");
@@ -1116,7 +1116,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         for (int i = 0; i < split.length; i++) {
             PayEnterpriseEntity payEnterpriseEntity = getById(Long.parseLong(split[i]));
             if (null == payEnterpriseEntity) {
-                return R.fail("商户支付清单不存在");
+                return R.fail("总包支付清单不存在");
             }
             payEnterpriseEntities.add(payEnterpriseEntity);
             payToPlatformAmount = payToPlatformAmount.add(payEnterpriseEntity.getPayToPlatformAmount());

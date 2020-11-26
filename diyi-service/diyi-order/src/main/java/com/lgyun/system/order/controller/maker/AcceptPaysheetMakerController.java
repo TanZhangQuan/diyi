@@ -58,7 +58,7 @@ public class AcceptPaysheetMakerController {
 
     @PostMapping("/confirm-pay-maker")
     @ApiOperation(value = "确认收款", notes = "确认收款")
-    public R confirmPayMaker(@ApiParam(value = "创客支付明细", required = true) @NotNull(message = "请选择创客支付明细") @RequestParam(required = false) Long payMakerId, BladeUser bladeUser) {
+    public R confirmPayMaker(@ApiParam(value = "分包支付明细", required = true) @NotNull(message = "请选择分包支付明细") @RequestParam(required = false) Long payMakerId, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {

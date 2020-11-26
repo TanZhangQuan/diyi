@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 public class LumpSumMergeInvoiceDTO implements Serializable {
 
     /**
-     * 商户支付清单Id
+     * 总包支付清单ID
      */
     @NotBlank(message = "请选择支付清单")
     private String payEnterpriseIds;

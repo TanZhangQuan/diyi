@@ -105,14 +105,14 @@ public interface PayMakerMapper extends BaseMapper<PayMakerEntity> {
     IndividualYearMonthVO yearMonthMoney(Long individualId, MakerType makerType);
 
     /**
-     * 删除创客支付明细
+     * 删除分包支付明细
      *
      * @param payEnterpriseId
      */
     void deleteByPayEnterpriseId(Long payEnterpriseId);
 
     /**
-     * 查询总包+分包交付支付验收单的创客支付明细
+     * 查询总包+分包交付支付验收单的分包支付明细
      *
      * @param acceptPaysheetId
      * @param page
@@ -130,7 +130,7 @@ public interface PayMakerMapper extends BaseMapper<PayMakerEntity> {
     List<PayMakerListMakerVO> queryPayMakerListByMaker(Long makerId, IPage<PayMakerListMakerVO> page);
 
     /**
-     * 查询创客超时未确认创客支付明细
+     * 查询创客超时未确认分包支付明细
      *
      * @return
      */

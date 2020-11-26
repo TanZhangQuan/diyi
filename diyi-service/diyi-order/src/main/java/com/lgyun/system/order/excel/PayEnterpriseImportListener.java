@@ -33,7 +33,7 @@ public class PayEnterpriseImportListener extends AnalysisEventListener<PayEnterp
     private List<PayEnterpriseExcel> list = new ArrayList<>();
 
     /**
-     * 创客支付明细service
+     * 分包支付明细service
      */
     private final IPayMakerService iPayMakerService;
 

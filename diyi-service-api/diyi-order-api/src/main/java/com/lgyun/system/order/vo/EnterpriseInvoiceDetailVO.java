@@ -22,7 +22,7 @@ public class EnterpriseInvoiceDetailVO implements Serializable {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long invoicePrintId;
     /**
-     * 商户支付清单id
+     * 总包支付清单ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long payEnterpriseId;

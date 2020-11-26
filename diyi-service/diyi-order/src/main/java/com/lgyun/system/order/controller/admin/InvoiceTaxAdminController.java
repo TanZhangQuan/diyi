@@ -85,7 +85,7 @@ public class InvoiceTaxAdminController {
 
 //    @GetMapping("/query-unopen-sub-invoice-detail")
 //    @ApiOperation(value = "查看未开票分包发票详情", notes = "查看未开票分包发票详情")
-//    public R queryUnopenSubInvoiceDetail(@ApiParam(value = "商户支付清单", required = true) @NotNull(message = "请选择商户支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
+//    public R queryUnopenSubInvoiceDetail(@ApiParam(value = "总包支付清单", required = true) @NotNull(message = "请选择总包支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
 //        //查询当前管理员
 //        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
 //        if (!(result.isSuccess())) {
@@ -97,7 +97,7 @@ public class InvoiceTaxAdminController {
 
 //    @GetMapping("/apply-all-open-invoice")
 //    @ApiOperation(value = "申请汇总代开发票", notes = "申请汇总代开发票")
-//    public R applyAllOpenInvoice(@ApiParam(value = "商户支付清单", required = true) @NotNull(message = "请选择商户支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
+//    public R applyAllOpenInvoice(@ApiParam(value = "总包支付清单", required = true) @NotNull(message = "请选择总包支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
 //        //查询当前管理员
 //        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
 //        if (!(result.isSuccess())) {
@@ -109,7 +109,7 @@ public class InvoiceTaxAdminController {
 
 //    @PostMapping("/create-all-open-invoice")
 //    @ApiOperation(value = "汇总代开开票", notes = "汇总代开开票")
-//    public R createAllOpenInvoice(@ApiParam(value = "商户支付清单") @NotNull(message = "请选择商户支付清单") @RequestParam(required = false) Long payEnterpriseId,
+//    public R createAllOpenInvoice(@ApiParam(value = "总包支付清单") @NotNull(message = "请选择总包支付清单") @RequestParam(required = false) Long payEnterpriseId,
 //                                  @ApiParam(value = "发票代码") @NotBlank(message = "请输入发票代码") String invoiceTypeNo,
 //                                  @ApiParam(value = "发票号码") @NotBlank(message = "请输入发票号码") String invoiceSerialNo,
 //                                  @ApiParam(value = "货物或应税劳务、服务名称") @NotBlank(message = "请输入货物或应税劳务、服务名称") String invoiceCategory,
@@ -127,7 +127,7 @@ public class InvoiceTaxAdminController {
 
 //    @GetMapping("/apply-sign-open-invoice")
 //    @ApiOperation(value = "申请门征单开发票", notes = "申请门征单开发票")
-//    public R applySignOpenInvoice(@ApiParam(value = "商户支付清单", required = true) @NotNull(message = "请选择商户支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
+//    public R applySignOpenInvoice(@ApiParam(value = "总包支付清单", required = true) @NotNull(message = "请选择总包支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
 //        //查询当前管理员
 //        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
 //        if (!(result.isSuccess())) {
@@ -139,8 +139,8 @@ public class InvoiceTaxAdminController {
 
 //    @PostMapping("/create-single-open-invoice")
 //    @ApiOperation(value = "门征单开发票开票", notes = "门征单开发票开票")
-//    public R createSingleOpenInvoice(@ApiParam(value = "商户支付清单", required = true) @NotNull(message = "请选择商户支付清单") @RequestParam(required = false) Long payEnterpriseId,
-//                                     @ApiParam(value = "创客支付明细", required = true) @NotBlank(message = "请输入创客支付明细") @RequestParam(required = false) String payMakers, BladeUser bladeUser) {
+//    public R createSingleOpenInvoice(@ApiParam(value = "总包支付清单", required = true) @NotNull(message = "请选择总包支付清单") @RequestParam(required = false) Long payEnterpriseId,
+//                                     @ApiParam(value = "分包支付明细", required = true) @NotBlank(message = "请输入分包支付明细") @RequestParam(required = false) String payMakers, BladeUser bladeUser) {
 //        //查询当前管理员
 //        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
 //        if (!(result.isSuccess())) {
@@ -165,7 +165,7 @@ public class InvoiceTaxAdminController {
 
 //    @GetMapping("/query-all-open-invoice-detail")
 //    @ApiOperation(value = "查询已汇总代开的发票详情", notes = "查询已汇总代开的发票详情")
-//    public R queryAllOpenInvoiceDetail(@ApiParam(value = "商户支付清单", required = true) @NotNull(message = "请选择商户支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
+//    public R queryAllOpenInvoiceDetail(@ApiParam(value = "总包支付清单", required = true) @NotNull(message = "请选择总包支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
 //        //查询当前管理员
 //        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
 //        if (!(result.isSuccess())) {
@@ -191,7 +191,7 @@ public class InvoiceTaxAdminController {
 
 //    @GetMapping("/query-single-open-invoice-detail")
 //    @ApiOperation(value = "查询已门征单开的发票详情", notes = "查询已门征单开的发票详情")
-//    public R querySingleOpenInvoiceDetail(@ApiParam(value = "商户支付清单", required = true) @NotNull(message = "请选择商户支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
+//    public R querySingleOpenInvoiceDetail(@ApiParam(value = "总包支付清单", required = true) @NotNull(message = "请选择总包支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
 //        //查询当前管理员
 //        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
 //        if (!(result.isSuccess())) {
@@ -364,7 +364,7 @@ public class InvoiceTaxAdminController {
     }
 
     @GetMapping("/query-all-sub-detail")
-    @ApiOperation(value = "服务商根据商户支付清单查询分包详情", notes = "服务商根据商户支付清单查询分包详情")
+    @ApiOperation(value = "服务商根据总包支付清单查询分包详情", notes = "服务商根据总包支付清单查询分包详情")
     public R queryAllOpenSubDetail(String payEnterpriseIds, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);

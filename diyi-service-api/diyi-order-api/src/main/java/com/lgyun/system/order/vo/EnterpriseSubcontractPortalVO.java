@@ -80,7 +80,7 @@ public class EnterpriseSubcontractPortalVO {
      */
     private String enterpriseName;
     /**
-     * 商户支付清单url
+     * 总包支付清单
      */
     private String chargeListUrl;
     /**

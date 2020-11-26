@@ -123,7 +123,7 @@ public class InvoiceTaxEnterpriseController {
     }
 
     @GetMapping("/query-total-invoice-list-enterprise-apply-details")
-    @ApiOperation(value = "商户端根据商户id查询总包申请的详情商户支付清单", notes = "商户端根据商户id查询总包申请的详情商户支付清单")
+    @ApiOperation(value = "商户端根据商户id查询总包申请的详情总包支付清单", notes = "商户端根据商户id查询总包申请的详情总包支付清单")
     public R queryTotalInvoiceListEnterpriseApplyDetails(BladeUser bladeUser, @ApiParam(value = "总包申请") @NotNull(message = "请选择总包申请") @RequestParam(required = false) Long invoiceApplicationId) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
@@ -134,7 +134,7 @@ public class InvoiceTaxEnterpriseController {
     }
 
     @GetMapping("/query-total-invoice-list-enterprise-invoice-details")
-    @ApiOperation(value = "商户端根据商户id查询总包开票的详情商户支付清单", notes = "商户端根据商户id查询总包开票的详情商户支付清单")
+    @ApiOperation(value = "商户端根据商户id查询总包开票的详情总包支付清单", notes = "商户端根据商户id查询总包开票的详情总包支付清单")
     public R queryTotalInvoiceListEnterpriseInvoiceDetails(BladeUser bladeUser, @ApiParam(value = "总包") @NotNull(message = "请选择总包") @RequestParam(required = false) Long invoicePrintId) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);

@@ -47,7 +47,7 @@ public class NaturalPersonMakerEnterpriseController {
     }
 
     @GetMapping("/query-pay-maker-list")
-    @ApiOperation(value = "查询创客支付明细", notes = "查询创客支付明细")
+    @ApiOperation(value = "查询分包支付明细", notes = "查询分包支付明细")
     public R queryPayMakerList(@ApiParam(value = "创客") @NotNull(message = "请选择创客") @RequestParam(required = false) Long makerId, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);

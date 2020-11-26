@@ -15,15 +15,15 @@ import java.io.Serializable;
 public class PortalSignInvoiceDTO implements Serializable {
 
     /**
-     * 商户支付清单Id
+     * 总包支付清单ID
      */
-    @NotNull(message = "请输入商户支付清单Id")
+    @NotNull(message = "请输入总包支付清单Id")
     private Long payEnterpriseId;
 
     /**
-     * 创客支付明细json
+     * 分包支付明细
      */
-    @NotBlank(message = "请输入创客支付明细json")
+    @NotBlank(message = "请输入分包支付明细")
     private String payMakers;
 
     /**

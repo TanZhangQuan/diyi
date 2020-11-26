@@ -35,7 +35,7 @@ public class AcceptPaysheetEntity extends BaseEntity {
     private AcceptPaysheetType acceptPaysheetType;
 
     /**
-     * 创客支付明细ID
+     * 分包支付明细ID
      */
     private Long payMakerId;
 

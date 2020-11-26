@@ -29,12 +29,12 @@ public class AcceptPaysheetSaveDTO implements Serializable {
     private Long payEnterpriseId;
 
     /**
-     * 清单式创客支付明细ID集合
+     * 清单式分包支付明细ID集合
      */
     private List<Long> payMakerIdList;
 
     /**
-     * 单人单张创客支付明细ID
+     * 单人单张分包支付明细ID
      */
     private Long payMakerId;
 

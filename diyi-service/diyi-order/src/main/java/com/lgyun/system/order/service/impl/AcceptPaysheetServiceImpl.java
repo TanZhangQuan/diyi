@@ -92,15 +92,15 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
             }
         }
 
-        //判断创客支付明细是否已开交付支付验收单
+        //判断分包支付明细是否已开交付支付验收单
         if (AcceptPaysheetType.SINGLE.equals(acceptPaysheetSaveDto.getAcceptPaysheetType())) {
             if (isAcceptPaysheet(acceptPaysheetSaveDto.getPayMakerId())) {
-                return R.fail("存在已上传交付支付验收单的创客支付明细");
+                return R.fail("存在已上传交付支付验收单的分包支付明细");
             }
         } else {
             for (Long payMakerId : acceptPaysheetSaveDto.getPayMakerIdList()) {
                 if (isAcceptPaysheet(payMakerId)) {
-                    return R.fail("存在已上传交付支付验收单的创客支付明细");
+                    return R.fail("存在已上传交付支付验收单的分包支付明细");
                 }
             }
         }

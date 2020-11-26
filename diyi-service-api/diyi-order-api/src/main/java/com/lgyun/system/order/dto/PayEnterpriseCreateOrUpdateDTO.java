@@ -19,7 +19,7 @@ public class PayEnterpriseCreateOrUpdateDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 商户支付清单ID
+     * 总包支付清单ID
      */
     private Long payenterpriseId;
 

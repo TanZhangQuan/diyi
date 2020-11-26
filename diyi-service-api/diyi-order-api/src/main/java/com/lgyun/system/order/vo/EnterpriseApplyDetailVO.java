@@ -19,7 +19,7 @@ public class EnterpriseApplyDetailVO implements Serializable {
    @JsonSerialize(using = ToStringSerializer.class)
    private Long invoiceApplicationId;
    /**
-    * 商户支付清单id
+    * 总包支付清单ID
     */
    @JsonSerialize(using = ToStringSerializer.class)
    private Long payEnterpriseId;

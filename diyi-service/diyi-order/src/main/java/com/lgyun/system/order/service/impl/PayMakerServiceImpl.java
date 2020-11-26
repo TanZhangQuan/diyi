@@ -466,11 +466,11 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
 
         PayMakerEntity payMakerEntity = getById(payMakerId);
         if (payMakerEntity == null) {
-            return R.fail("创客支付明细不存在");
+            return R.fail("分包支付明细不存在");
         }
 
         if (!(payMakerEntity.getMakerId().equals(makerId))) {
-            return R.fail("创客支付明细不属于当前创客");
+            return R.fail("分包支付明细不属于当前创客");
         }
 
         if (payMakerEntity.getPayState().equals(PayMakerPayState.CONFIRMPAID)) {

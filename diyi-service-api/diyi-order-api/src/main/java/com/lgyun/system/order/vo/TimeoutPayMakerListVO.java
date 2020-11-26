@@ -16,7 +16,7 @@ public class TimeoutPayMakerListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 创客支付明细ID
+     * 分包支付明细ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long payMakerId;

@@ -66,7 +66,7 @@ public interface IAcceptPaysheetService extends BaseService<AcceptPaysheetEntity
     R<AcceptPaysheetDetailEnterpriseVO> queryTotalSubAcceptPaysheetDetailEnterprise(Long acceptPaysheetId);
 
     /**
-     * 查询创客支付明细是否已开交付支付验收单
+     * 查询分包支付明细是否已开交付支付验收单
      *
      * @param payMakerId
      * @return

@@ -18,7 +18,7 @@ public class EnterpriseSubcontractInvoiceVO {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 商户支付清单ID
+     * 总包支付清单ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long payEnterpriseId;
@@ -70,7 +70,7 @@ public class EnterpriseSubcontractInvoiceVO {
      */
     private String enterpriseName;
     /**
-     * 商户支付清单url
+     * 总包支付清单
      */
     private String chargeListUrl;
     /**

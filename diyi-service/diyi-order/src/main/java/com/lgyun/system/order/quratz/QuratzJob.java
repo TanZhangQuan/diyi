@@ -21,19 +21,19 @@ public class QuratzJob {
     private IPayMakerService payMakerService;
 
     /**
-     * 处理创客超过7天未确认创客支付明细
+     * 处理创客超过7天未确认分包支付明细
      */
     public void confirmPayMaker() {
-        log.info("处理创客超过7天未确认创客支付明细开始------------start");
+        log.info("处理创客超过7天未确认分包支付明细开始------------start");
         List<TimeoutPayMakerListVO> timeoutPayMakerListVOList = payMakerService.queryTimeoutPayMakerList();
         for (TimeoutPayMakerListVO timeoutPayMakerListVO : timeoutPayMakerListVOList) {
             try {
                 payMakerService.confirmPayMaker(timeoutPayMakerListVO.getMakerId(), timeoutPayMakerListVO.getPayMakerId());
             } catch (Exception e) {
-                log.info("处理创客超过7天未确认创客支付明细异常：" + e.getMessage());
+                log.info("处理创客超过7天未确认分包支付明细异常：" + e.getMessage());
             }
         }
-        log.info("处理创客超过7天未确认创客支付明细结束------------end");
+        log.info("处理创客超过7天未确认分包支付明细结束------------end");
     }
 
 }

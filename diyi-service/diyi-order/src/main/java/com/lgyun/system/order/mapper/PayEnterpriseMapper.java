@@ -51,7 +51,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     InvoiceEnterpriseVO getEnterpriseMakerIdDetail(Long makerId, Long enterpriseId, Long payMakerId);
 
     /**
-     * 根据条件查询所有商户支付清单
+     * 根据条件查询所有总包支付清单
      *
      * @param enterpriseId
      * @param serviceProviderId
@@ -102,7 +102,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     EnterpriseSubcontractPortalVO findDetailSubcontractPortal(Long makerInvoiceId);
 
     /**
-     * 根据支付清单ID查询创客支付明细
+     * 根据支付清单ID查询分包支付明细
      *
      * @param payEnterpriseId
      * @param page
@@ -111,7 +111,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     List<PayMakerListInvoiceVO> queryPayMakerListInvoice(Long payEnterpriseId, IPage<PayMakerListInvoiceVO> page);
 
     /**
-     * 根据支付清单ID查询创客支付明细
+     * 根据支付清单ID查询分包支付明细
      *
      * @param payEnterpriseId
      * @param page
@@ -338,7 +338,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     PayEnterpriseUpdateDetailVO queryPayEnterpriseUpdateDetail(Long payEnterpriseId);
 
     /**
-     * 商户端根据商户id查询总包申请的详情商户支付清单
+     * 商户端根据商户id查询总包申请的详情总包支付清单
      *
      * @param invoiceApplicationId
      * @return
@@ -346,7 +346,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     List<EnterpriseApplyDetailVO> queryTotalInvoiceListEnterpriseApplyDetails(Long invoiceApplicationId);
 
     /**
-     * 商户端根据商户id查询总包开票的详情商户支付清单
+     * 商户端根据商户id查询总包开票的详情总包支付清单
      */
     List<EnterpriseInvoiceDetailVO> queryTotalInvoiceListEnterpriseInvoiceDetails(Long invoicePrintId);
 

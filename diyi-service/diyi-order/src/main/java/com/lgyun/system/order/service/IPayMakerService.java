@@ -96,7 +96,7 @@ public interface IPayMakerService extends BaseService<PayMakerEntity> {
     R<BigDecimal> queryTotalSubDetailAllIncome(MakerType makerType, Long makerId, Long year, Long month, Long enterpriseId);
 
     /**
-     * 根据商户支付清单id查询创客支付明细
+     * 根据总包支付清单查询分包支付明细
      *
      * @param payEnterpriseId
      * @return
@@ -104,7 +104,7 @@ public interface IPayMakerService extends BaseService<PayMakerEntity> {
     List<PayMakerVO> getPayEnterpriseId(Long payEnterpriseId);
 
     /**
-     * 根据商户支付清单id查询创客支付明细和门征发票信息
+     * 根据总包支付清单查询分包支付明细和门征发票信息
      *
      * @param payEnterpriseId
      * @return
@@ -130,7 +130,7 @@ public interface IPayMakerService extends BaseService<PayMakerEntity> {
     R<IndividualYearMonthVO> yearMonthMoney(Long individualBusinessId, MakerType makerType);
 
     /**
-     * 删除创客支付明细
+     * 删除分包支付明细
      *
      * @param payEnterpriseId
      * @return
@@ -138,7 +138,7 @@ public interface IPayMakerService extends BaseService<PayMakerEntity> {
     void deleteByPayEnterpriseId(Long payEnterpriseId);
 
     /**
-     * 查询总包+分包交付支付验收单的创客支付明细
+     * 查询总包+分包交付支付验收单的分包支付明细
      *
      * @param acceptPaysheetId
      * @param page
@@ -147,7 +147,7 @@ public interface IPayMakerService extends BaseService<PayMakerEntity> {
     R<IPage<AcceptPaysheetPayMakerListVO>> queryTotalSubAcceptPaysheetPayMakerList(Long acceptPaysheetId, IPage<AcceptPaysheetPayMakerListVO> page);
 
     /**
-     * 确认创客支付明细
+     * 确认分包支付明细
      *
      * @param makerId
      * @param payMakerId
@@ -173,7 +173,7 @@ public interface IPayMakerService extends BaseService<PayMakerEntity> {
     R<IPage<PayMakerListMakerVO>> queryPayMakerListByMaker(Long makerId, IPage<PayMakerListMakerVO> page);
 
     /**
-     * 查询创客超时未确认创客支付明细
+     * 查询创客超时未确认分包支付明细
      *
      * @return
      */

@@ -23,7 +23,7 @@ CREATE TABLE `diyi_accept_paysheet` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `pay_enterprise_id` bigint(50) NOT NULL COMMENT '支付清单ID',
   `accept_paysheet_type` varchar(50) NOT NULL COMMENT '交付支付验收单类型：清单式，单人单张',
-  `pay_maker_id` bigint(50) DEFAULT NULL COMMENT '创客支付明细ID',
+  `pay_maker_id` bigint(50) DEFAULT NULL COMMENT '分包支付明细ID',
   `service_time_start` datetime NOT NULL COMMENT '服务开始日期',
   `service_time_end` datetime NOT NULL COMMENT '服务结束日期',
   `upload_source` varchar(50) NOT NULL COMMENT '上传来源',
@@ -104,7 +104,7 @@ DROP TABLE IF EXISTS `diyi_accept_paysheet_list`;
 CREATE TABLE `diyi_accept_paysheet_list` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `accept_paysheet_id` bigint(50) NOT NULL COMMENT '总包交付支付验收单ID',
-  `pay_maker_id` bigint(50) NOT NULL COMMENT '创客支付明细ID',
+  `pay_maker_id` bigint(50) NOT NULL COMMENT '分包支付明细ID',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
@@ -1264,7 +1264,7 @@ CREATE TABLE `diyi_pay_enterprise` (
   `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商户支付清单表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='总包支付清单表';
 
 -- ----------------------------
 -- Records of diyi_pay_enterprise
@@ -1326,7 +1326,7 @@ CREATE TABLE `diyi_pay_maker` (
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`pay_enterprise_id`,`maker_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='创客支付明细表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='分包支付明细表';
 
 -- ----------------------------
 -- Records of diyi_pay_maker
@@ -1347,7 +1347,7 @@ CREATE TABLE `diyi_pay_maker_receipt` (
   `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
   `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='创客支付明细回单表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='分包支付明细回单表';
 
 -- ----------------------------
 -- Records of diyi_pay_maker_receipt

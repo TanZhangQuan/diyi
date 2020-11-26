@@ -22,7 +22,7 @@ public class ApplicationVO implements Serializable {
     private Long applicationId;
 
     /**
-     * 商户支付清单ID
+     * 总包支付清单ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long payEnterpriseId;
