@@ -7,8 +7,11 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.dto.AddPartnerDTO;
 import com.lgyun.system.user.dto.PartnerListDTO;
+import com.lgyun.system.user.dto.UpdatePartnerDeatilDTO;
+import com.lgyun.system.user.dto.UpdatePhoneNumberDTO;
 import com.lgyun.system.user.entity.PartnerEntity;
-import com.lgyun.system.user.vo.PartnerInfoVO;
+import com.lgyun.system.user.vo.BaseInfoVO;
+import com.lgyun.system.user.vo.PartnerDetailVO;
 import com.lgyun.system.user.vo.PartnerListVO;
 
 /**
@@ -124,7 +127,7 @@ public interface IPartnerService extends BaseService<PartnerEntity> {
      * @param partnerId
      * @return
      */
-    R<PartnerInfoVO> queryPartnerInfo(Long partnerId);
+    R<BaseInfoVO> queryPartnerInfo(Long partnerId);
 
     /**
      * 根据ID查询合伙人
@@ -133,5 +136,31 @@ public interface IPartnerService extends BaseService<PartnerEntity> {
      * @return
      */
     int queryCountById(Long partnerId);
+
+    /**
+     * 查询合伙人详情
+     *
+     * @param partnerId
+     * @return
+     */
+    R<PartnerDetailVO> queryCurrentPartnerDetail(Long partnerId);
+
+    /**
+     * 修改合伙人详情
+     *
+     * @param updatePartnerDeatilDTO
+     * @param partnerEntity
+     * @return
+     */
+    R<String> updatePartnerDetail(UpdatePartnerDeatilDTO updatePartnerDeatilDTO, PartnerEntity partnerEntity);
+
+    /**
+     * 修改手机号码
+     *
+     * @param updatePhoneNumberDTO
+     * @param partnerEntity
+     * @return
+     */
+    R<String> updatePhoneNumber(UpdatePhoneNumberDTO updatePhoneNumberDTO, PartnerEntity partnerEntity);
 }
 

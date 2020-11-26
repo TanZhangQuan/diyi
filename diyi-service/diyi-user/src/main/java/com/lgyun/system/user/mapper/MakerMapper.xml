@@ -3,7 +3,7 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.MakerMapper">
 
-    <resultMap type="com.lgyun.system.user.vo.MakerInfoVO" id="makerInfoVO">
+    <resultMap type="com.lgyun.system.user.vo.BaseInfoVO" id="makerInfoVO">
         <result property="avatar" column="avatar"/>
         <result property="name" column="name"/>
         <result property="certificationState" column="certification_state"/>
@@ -152,20 +152,27 @@
     <select id="queryMakerListIndividual" resultMap="makerListIndividualVO">
         SELECT t1.id, t1.name, t1.phone_number, t1.idcard_no, t1.idcard_pic, t1.idcard_pic_back, t1.idcard_hand, t1.idcard_back_hand FROM diyi_maker t1
         <if test="param1 != null">
-        INNER JOIN diyi_maker_enterprise t2 ON t1.id = t2.maker_id AND t2.relationship_type = 'RELEVANCE' AND t2.is_deleted = 0
+            INNER JOIN diyi_maker_enterprise t2 ON t1.id = t2.maker_id AND t2.relationship_type = 'RELEVANCE' AND t2.is_deleted = 0
+        </if>
+		<if test="param2 != null">
+            INNER JOIN diyi_maker_enterprise t3 ON t1.id = t3.maker_id AND t3.relationship_type = 'RELEVANCE' AND t3.is_deleted = 0
+		    INNER JOIN diyi_partner_enterprise t4 ON t3.enterprise_id = t4.enterprise_id AND t4.cooperate_status = 'COOPERATING' AND t4.is_deleted = 0
         </if>
         WHERE t1.is_deleted = 0 AND t1.phone_number_verify_status = 'VERIFYPASS'
         <if test="param1 != null">
-        AND t2.enterprise_id = #{param1}
+            AND t2.enterprise_id = #{param1}
         </if>
-        <if test="param2.name != null and param2.name.trim() != ''">
-            AND t1.name LIKE concat('%', #{param2.name}, '%')
+		<if test="param2 != null">
+            AND t4.partner_id = #{param2}
         </if>
-        <if test="param2.phoneNumber != null and param2.phoneNumber.trim() != ''">
-            AND t1.phone_number LIKE concat('%', #{param2.phoneNumber}, '%')
+        <if test="param3.name != null and param3.name.trim() != ''">
+            AND t1.name LIKE concat('%', #{param3.name}, '%')
         </if>
-        <if test="param2.idcardNo != null and param2.idcardNo.trim() != ''">
-            AND t1.idcard_no LIKE concat('%', #{param2.idcardNo}, '%')
+        <if test="param3.phoneNumber != null and param3.phoneNumber.trim() != ''">
+            AND t1.phone_number LIKE concat('%', #{param3.phoneNumber}, '%')
+        </if>
+        <if test="param3.idcardNo != null and param3.idcardNo.trim() != ''">
+            AND t1.idcard_no LIKE concat('%', #{param3.idcardNo}, '%')
         </if>
     </select>
 

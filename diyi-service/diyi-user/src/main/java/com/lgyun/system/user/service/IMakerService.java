@@ -48,7 +48,7 @@ public interface IMakerService extends BaseService<MakerEntity> {
      * @param makerId
      * @return
      */
-    R<MakerInfoVO> queryMakerInfo(Long makerId);
+    R<BaseInfoVO> queryMakerInfo(Long makerId);
 
     /**
      * 查询当前创客详情
@@ -70,11 +70,11 @@ public interface IMakerService extends BaseService<MakerEntity> {
     /**
      * 修改手机号码
      *
-     * @param updateMakerPhoneNumberDTO
+     * @param updatePhoneNumberDTO
      * @param makerEntity
      * @return
      */
-    R<String> updatePhoneNumber(UpdateMakerPhoneNumberDTO updateMakerPhoneNumberDTO, MakerEntity makerEntity);
+    R<String> updatePhoneNumber(UpdatePhoneNumberDTO updatePhoneNumberDTO, MakerEntity makerEntity);
 
     /**
      * 新建创客
@@ -295,11 +295,12 @@ public interface IMakerService extends BaseService<MakerEntity> {
      * 查询商户关联的创客
      *
      * @param enterpriseId
+     * @param partnerId
      * @param makerListIndividualDTO
      * @param page
      * @return
      */
-    R<IPage<MakerListIndividualVO>> queryMakerListIndividual(Long enterpriseId, MakerListIndividualDTO makerListIndividualDTO, IPage<MakerListIndividualVO> page);
+    R<IPage<MakerListIndividualVO>> queryMakerListIndividual(Long enterpriseId, Long partnerId, MakerListIndividualDTO makerListIndividualDTO, IPage<MakerListIndividualVO> page);
 
     /**
      * 根据条件查询所有创客

@@ -4,7 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.user.dto.PartnerListDTO;
 import com.lgyun.system.user.entity.PartnerEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.lgyun.system.user.vo.PartnerInfoVO;
+import com.lgyun.system.user.vo.BaseInfoVO;
+import com.lgyun.system.user.vo.PartnerDetailVO;
 import com.lgyun.system.user.vo.PartnerListVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -34,6 +35,15 @@ public interface PartnerMapper extends BaseMapper<PartnerEntity> {
      * @param partnerId
      * @return
      */
-    PartnerInfoVO queryPartnerInfo(Long partnerId);
+    BaseInfoVO queryPartnerInfo(Long partnerId);
+
+    /**
+     * 查询合伙人详情
+     *
+     * @param partnerId
+     * @return
+     */
+    PartnerDetailVO queryCurrentPartnerDetail(Long partnerId);
+
 }
 

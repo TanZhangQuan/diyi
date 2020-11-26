@@ -52,10 +52,10 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> implements IMakerService {
 
-    private IUserService userService;
     private SmsUtil smsUtil;
     private RedisUtil redisUtil;
-    private AliyunOssService ossService;
+    private IUserService userService;
+    private AliyunOssService aliyunOssService;
     private IMakerEnterpriseService makerEnterpriseService;
     private IOnlineAgreementNeedSignService onlineAgreementNeedSignService;
     private IOnlineAgreementTemplateService onlineAgreementTemplateService;
@@ -87,7 +87,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R<MakerInfoVO> queryMakerInfo(Long makerId) {
+    public R<BaseInfoVO> queryMakerInfo(Long makerId) {
         return R.data(baseMapper.queryMakerInfo(makerId));
     }
 
@@ -122,23 +122,23 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R<String> updatePhoneNumber(UpdateMakerPhoneNumberDTO updateMakerPhoneNumberDTO, MakerEntity makerEntity) {
+    public R<String> updatePhoneNumber(UpdatePhoneNumberDTO updatePhoneNumberDTO, MakerEntity makerEntity) {
 
-        if (updateMakerPhoneNumberDTO.getMobile().equals(makerEntity.getPhoneNumber())) {
+        if (updatePhoneNumberDTO.getMobile().equals(makerEntity.getPhoneNumber())) {
             return R.fail("该手机号与当前创客手机号一致");
         }
 
         //查询手机号
-        String mobile = updateMakerPhoneNumberDTO.getMobile();
+        String mobile = updatePhoneNumberDTO.getMobile();
         //查询缓存短信验证码
         String key = SmsConstant.AVAILABLE_TIME + mobile + "_" + UserType.MAKER + "_" + CodeType.UPDATEPHONE;
         String redisCode = (String) redisUtil.get(key);
         //判断验证码
-        if (!StringUtil.equalsIgnoreCase(redisCode, updateMakerPhoneNumberDTO.getSmsCode())) {
+        if (!StringUtil.equalsIgnoreCase(redisCode, updatePhoneNumberDTO.getSmsCode())) {
             return R.fail("短信验证码不正确");
         }
 
-        makerEntity.setPhoneNumber(updateMakerPhoneNumberDTO.getMobile());
+        makerEntity.setPhoneNumber(updatePhoneNumberDTO.getMobile());
         makerEntity.setPhoneNumberVerifyStatus(VerifyStatus.TOVERIFY);
         makerEntity.setPhoneNumberVerifyDate(null);
         updateById(makerEntity);
@@ -520,7 +520,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
                 String facePhotoBase64 = HttpUtil.get(facePhotoUrl);
                 //上传人脸截图base64到阿里云存储
                 byte[] bytes = Base64Util.decodeFromString(facePhotoBase64.trim());
-                String url = ossService.uploadSuffix(bytes, ".jpg");
+                String url = aliyunOssService.uploadSuffix(bytes, ".jpg");
                 makerEntity.setPicVerify(url);
             }
 
@@ -691,8 +691,8 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R<IPage<MakerListIndividualVO>> queryMakerListIndividual(Long enterpriseId, MakerListIndividualDTO makerListIndividualDTO, IPage<MakerListIndividualVO> page) {
-        return R.data(page.setRecords(baseMapper.queryMakerListIndividual(enterpriseId, makerListIndividualDTO, page)));
+    public R<IPage<MakerListIndividualVO>> queryMakerListIndividual(Long enterpriseId, Long partnerId, MakerListIndividualDTO makerListIndividualDTO, IPage<MakerListIndividualVO> page) {
+        return R.data(page.setRecords(baseMapper.queryMakerListIndividual(enterpriseId, partnerId, makerListIndividualDTO, page)));
     }
 
     @Override
@@ -715,7 +715,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             Map map = test.testWrite(byId.getName(), onlineAgreementTemplateEntity.getAgreementTemplate(), byId.getIdcardNo());
             FileInputStream fileInputStream = (FileInputStream) map.get("fileInputStream");
             File file = (File) map.get("htmlFile");
-            doc = ossService.uploadSuffix(fileInputStream, ".doc");
+            doc = aliyunOssService.uploadSuffix(fileInputStream, ".doc");
             fileInputStream.close();
             file.delete();
         } catch (Exception e) {

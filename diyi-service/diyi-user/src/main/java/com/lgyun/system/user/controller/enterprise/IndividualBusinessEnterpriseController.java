@@ -45,7 +45,7 @@ public class IndividualBusinessEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return makerService.queryMakerListIndividual(enterpriseWorkerEntity.getEnterpriseId(), makerListIndividualDTO, Condition.getPage(query.setDescs("t1.create_time")));
+        return makerService.queryMakerListIndividual(enterpriseWorkerEntity.getEnterpriseId(), null, makerListIndividualDTO, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/add-or-update-individual-business")

@@ -2,14 +2,19 @@ package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.SmsConstant;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.DigestUtil;
+import com.lgyun.common.tool.RedisUtil;
 import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.dto.AddPartnerDTO;
 import com.lgyun.system.user.dto.PartnerListDTO;
+import com.lgyun.system.user.dto.UpdatePartnerDeatilDTO;
+import com.lgyun.system.user.dto.UpdatePhoneNumberDTO;
 import com.lgyun.system.user.entity.OnlineAgreementTemplateEntity;
 import com.lgyun.system.user.entity.PartnerEntity;
 import com.lgyun.system.user.entity.User;
@@ -18,11 +23,13 @@ import com.lgyun.system.user.service.IOnlineAgreementNeedSignService;
 import com.lgyun.system.user.service.IOnlineAgreementTemplateService;
 import com.lgyun.system.user.service.IPartnerService;
 import com.lgyun.system.user.service.IUserService;
-import com.lgyun.system.user.vo.PartnerInfoVO;
+import com.lgyun.system.user.vo.BaseInfoVO;
+import com.lgyun.system.user.vo.PartnerDetailVO;
 import com.lgyun.system.user.vo.PartnerListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +47,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEntity> implements IPartnerService {
 
+    private RedisUtil redisUtil;
     private IUserService userService;
     private IOnlineAgreementNeedSignService onlineAgreementNeedSignService;
     private IOnlineAgreementTemplateService onlineAgreementTemplateService;
@@ -249,7 +257,7 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
     }
 
     @Override
-    public R<PartnerInfoVO> queryPartnerInfo(Long partnerId) {
+    public R<BaseInfoVO> queryPartnerInfo(Long partnerId) {
         return R.data(baseMapper.queryPartnerInfo(partnerId));
     }
 
@@ -258,6 +266,59 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
         QueryWrapper<PartnerEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(PartnerEntity::getId, partnerId);
         return baseMapper.selectCount(queryWrapper);
+    }
+
+    @Override
+    public R<PartnerDetailVO> queryCurrentPartnerDetail(Long partnerId) {
+        return R.data(baseMapper.queryCurrentPartnerDetail(partnerId));
+    }
+
+    @Override
+    public R<String> updatePartnerDetail(UpdatePartnerDeatilDTO updatePartnerDeatilDTO, PartnerEntity partnerEntity) {
+        if (VerifyStatus.VERIFYPASS.equals(partnerEntity.getIdcardVerifyStatus())) {
+            updatePartnerDeatilDTO.setName(partnerEntity.getName());
+            updatePartnerDeatilDTO.setIdcardNo(partnerEntity.getIdcardNo());
+        } else {
+            if (StringUtils.isNotBlank(updatePartnerDeatilDTO.getIdcardNo()) && !(updatePartnerDeatilDTO.getIdcardNo().equals(partnerEntity.getIdcardNo()))) {
+                int idcardNoMakerNum = count(Wrappers.<PartnerEntity>query().lambda().eq(PartnerEntity::getIdcardNo, updatePartnerDeatilDTO.getIdcardNo()));
+                if (idcardNoMakerNum > 0) {
+                    return R.fail("身份证号码已存在");
+                }
+            }
+        }
+
+        if (VerifyStatus.VERIFYPASS.equals(partnerEntity.getBankCardVerifyStatus())) {
+            updatePartnerDeatilDTO.setBankCardNo(partnerEntity.getBankCardNo());
+        }
+
+        BeanUtils.copyProperties(updatePartnerDeatilDTO, partnerEntity);
+        updateById(partnerEntity);
+
+        return R.success("编辑成功");
+    }
+
+    @Override
+    public R<String> updatePhoneNumber(UpdatePhoneNumberDTO updatePhoneNumberDTO, PartnerEntity partnerEntity) {
+        if (updatePhoneNumberDTO.getMobile().equals(partnerEntity.getPhoneNumber())) {
+            return R.fail("该手机号与当前合伙人手机号一致");
+        }
+
+        //查询手机号
+        String mobile = updatePhoneNumberDTO.getMobile();
+        //查询缓存短信验证码
+        String key = SmsConstant.AVAILABLE_TIME + mobile + "_" + UserType.PARTNER + "_" + CodeType.UPDATEPHONE;
+        String redisCode = (String) redisUtil.get(key);
+        //判断验证码
+        if (!StringUtil.equalsIgnoreCase(redisCode, updatePhoneNumberDTO.getSmsCode())) {
+            return R.fail("短信验证码不正确");
+        }
+
+        partnerEntity.setPhoneNumber(updatePhoneNumberDTO.getMobile());
+        partnerEntity.setPhoneNumberVerifyStatus(VerifyStatus.TOVERIFY);
+        partnerEntity.setPhoneNumberVerifyDate(null);
+        updateById(partnerEntity);
+
+        return R.success("更改手机号成功");
     }
 
 }

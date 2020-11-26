@@ -7,14 +7,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
-/**
- * @author tzq
- * @Description 编辑创客DTO
- * @return
- * @date 2020.06.27
- */
 @Data
-public class UpdateMakerPhoneNumberDTO implements Serializable {
+public class UpdatePhoneNumberDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**

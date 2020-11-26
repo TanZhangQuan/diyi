@@ -8,7 +8,6 @@ import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.feign.IDictClient;
 import com.lgyun.system.order.dto.AddOrUpdateAddressDTO;
 import com.lgyun.system.order.dto.ConfirmPaymentDTO;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDTO;
@@ -44,11 +43,10 @@ import java.io.InputStream;
 public class SelfHelpInvoiceMakerController {
 
     private IUserClient userClient;
-    private ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
     private IAddressService addressService;
-    private IDictClient dictClient;
-    private ISelfHelpInvoiceAccountService selfHelpInvoiceAccountService;
     private ISelfHelpInvoiceFeeService selfHelpInvoiceFeeService;
+    private ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
+    private ISelfHelpInvoiceAccountService selfHelpInvoiceAccountService;
 
     @PostMapping("/create-address")
     @ApiOperation(value = "新建或修改收货地址", notes = "新建或修改收货地址")

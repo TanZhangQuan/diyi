@@ -23,11 +23,12 @@ public interface IndividualBusinessMapper extends BaseMapper<IndividualBusinessE
      * 查询当前创客的所有个体户
      *
      * @param makerId
+     * @param partnerId
      * @param ibstate
      * @param page
      * @return
      */
-    List<IndividualBusinessEnterpriseListMakerVO> queryIndividualBusinessListMaker(Long makerId, Ibstate ibstate, IPage<IndividualBusinessEnterpriseListMakerVO> page);
+    List<IndividualBusinessEnterpriseListMakerVO> queryIndividualBusinessListMaker(Long makerId, Long partnerId, Ibstate ibstate, IPage<IndividualBusinessEnterpriseListMakerVO> page);
 
     /**
      * 查询个体户详情

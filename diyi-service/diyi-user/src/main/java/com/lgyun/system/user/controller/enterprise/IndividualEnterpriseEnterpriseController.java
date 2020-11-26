@@ -30,10 +30,10 @@ import javax.validation.constraints.NotNull;
 @Api(value = "商户端---个独管理模块相关接口", tags = "商户端---个独管理模块相关接口")
 public class IndividualEnterpriseEnterpriseController {
 
-    private IEnterpriseWorkerService enterpriseWorkerService;
-    private IIndividualEnterpriseService individualEnterpriseService;
-    private IEnterpriseReportService enterpriseReportService;
     private IMakerService makerService;
+    private IEnterpriseWorkerService enterpriseWorkerService;
+    private IEnterpriseReportService enterpriseReportService;
+    private IIndividualEnterpriseService individualEnterpriseService;
 
     @GetMapping("/query-maker-list")
     @ApiOperation(value = "查询当前商户关联的创客", notes = "查询当前商户关联的创客")
@@ -45,7 +45,7 @@ public class IndividualEnterpriseEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return makerService.queryMakerListIndividual(enterpriseWorkerEntity.getEnterpriseId(), makerListIndividualDTO, Condition.getPage(query.setDescs("t1.create_time")));
+        return makerService.queryMakerListIndividual(enterpriseWorkerEntity.getEnterpriseId(), null, makerListIndividualDTO, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/add-or-update-individual-enterprise")

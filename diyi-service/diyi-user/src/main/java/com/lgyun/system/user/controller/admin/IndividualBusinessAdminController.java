@@ -42,7 +42,7 @@ public class IndividualBusinessAdminController {
             return result;
         }
 
-        return makerService.queryMakerListIndividual(null, makerListIndividualDTO, Condition.getPage(query.setDescs("t1.create_time")));
+        return makerService.queryMakerListIndividual(null, null, makerListIndividualDTO, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/add-or-update-individual-business")

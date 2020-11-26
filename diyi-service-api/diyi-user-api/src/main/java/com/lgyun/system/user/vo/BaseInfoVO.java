@@ -5,14 +5,8 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * 创客基本信息VO
- *
- * @author tzq
- * @since 2020/6/6 00:28
- */
 @Data
-public class MakerInfoVO implements Serializable {
+public class BaseInfoVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**

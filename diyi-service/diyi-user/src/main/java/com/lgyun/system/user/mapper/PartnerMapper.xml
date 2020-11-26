@@ -18,10 +18,52 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.PartnerInfoVO" id="partnerInfoVO">
+    <resultMap type="com.lgyun.system.user.vo.BaseInfoVO" id="baseInfoVO">
         <result property="avatar" column="avatar"/>
         <result property="name" column="name"/>
         <result property="certificationState" column="certification_state"/>
+        <result property="selfDesc" column="self_desc"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.user.vo.PartnerDetailVO" id="partnerDetailVO">
+        <result property="introducePartnerName" column="introduce_partner_name"/>
+        <result property="relDate" column="rel_date"/>
+        <result property="name" column="name"/>
+        <result property="avatar" column="avatar"/>
+        <result property="certificationState" column="certification_state"/>
+        <result property="joinSignState" column="join_sign_state"/>
+        <result property="partnerState" column="partner_state"/>
+        <result property="politicState" column="politic_state"/>
+        <result property="nationality" column="nationality"/>
+        <result property="levelofedu" column="levelofedu"/>
+        <result property="emailAddress" column="email_address"/>
+        <result property="idcardNo" column="idcard_no"/>
+        <result property="dueDate" column="due_date"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="bankCardNo" column="bank_card_no"/>
+        <result property="bankName" column="bank_name"/>
+        <result property="subBankName" column="sub_bank_name"/>
+        <result property="idcardPic" column="idcard_pic"/>
+        <result property="idcardPicBack" column="idcard_pic_back"/>
+        <result property="selfPic" column="self_pic"/>
+        <result property="idcardCopy" column="idcard_copy"/>
+        <result property="idcardHand" column="idcard_hand"/>
+        <result property="idcardBackHand" column="idcard_back_hand"/>
+        <result property="picVerify" column="pic_verify"/>
+        <result property="idcardVerifyStatus" column="idcard_verify_status"/>
+        <result property="idcardVerifyDate" column="idcard_verify_date"/>
+        <result property="faceVerifyStatus" column="face_verify_status"/>
+        <result property="faceVerifyDate" column="face_verify_date"/>
+        <result property="bankCardVerifyStatus" column="bank_card_verify_status"/>
+        <result property="bankCardVerifyDate" column="bank_card_verify_date"/>
+        <result property="phoneNumberVerifyStatus" column="phone_number_verify_status"/>
+        <result property="phoneNumberVerifyDate" column="phone_number_verify_date"/>
+        <result property="idcardVerifyType" column="idcard_verify_type"/>
+        <result property="manualVerifyName" column="manual_verify_name"/>
+        <result property="manualVerifyDesc" column="manual_verify_desc"/>
+        <result property="runAddress" column="run_address"/>
+        <result property="houseAddress" column="house_address"/>
+        <result property="livingAddress" column="living_address"/>
         <result property="selfDesc" column="self_desc"/>
     </resultMap>
 
@@ -39,8 +81,17 @@
         </if>
     </select>
 
-    <select id="queryPartnerInfo" resultMap="partnerInfoVO">
+    <select id="queryPartnerInfo" resultMap="baseInfoVO">
         SELECT avatar, name, certification_state, self_desc FROM diyi_partner WHERE is_deleted = 0 AND id = #{param1}
+    </select>
+
+    <select id="queryCurrentPartnerDetail" resultMap="partnerDetailVO">
+        SELECT (SELECT name FROM diyi_partner WHERE is_deleted = 0 AND id = t1.introduce_partner_id) AS introduce_partner_name, t1.rel_date, t1.name, t1.avatar,
+        t1.certification_state, t1.join_sign_state, t1.partner_state, t1.politic_state, t1.nationality, t1.levelofedu, t1.email_address, t1.idcard_no, t1.due_date,
+        t1.phone_number, t1.bank_card_no, t1.bank_name, t1.sub_bank_name, t1.idcard_pic, t1.idcard_pic_back, t1.self_pic, t1.idcard_copy, t1.idcard_hand,
+        t1.idcard_back_hand, t1.pic_verify, t1.idcard_verify_status, t1.idcard_verify_date, t1.face_verify_status, t1.face_verify_date,
+        t1.bank_card_verify_status, t1.bank_card_verify_date, t1.phone_number_verify_status, t1.phone_number_verify_date, t1.idcard_verify_type, t1.manual_verify_name,
+        t1.manual_verify_desc, t1.run_address, t1.house_address, t1.living_address, t1.self_desc FROM diyi_partner t1 WHERE is_deleted = 0 AND id = #{param1}
     </select>
 
 </mapper>

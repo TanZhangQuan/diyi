@@ -8,7 +8,6 @@ import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.feign.IDictClient;
 import com.lgyun.system.order.dto.AddOrUpdateAddressDTO;
 import com.lgyun.system.order.dto.ConfirmPaymentDTO;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDTO;
@@ -42,12 +41,12 @@ import java.io.InputStream;
 public class SelfHelpInvoiceEnterpriseController {
 
     private IUserClient userClient;
-    private ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
-    private ISelfHelpInvoiceService selfHelpInvoiceService;
     private IAddressService addressService;
-    private IDictClient dictClient;
-    private ISelfHelpInvoiceAccountService selfHelpInvoiceAccountService;
+    private ISelfHelpInvoiceService selfHelpInvoiceService;
     private ISelfHelpInvoiceFeeService selfHelpInvoiceFeeService;
+    private ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
+    private ISelfHelpInvoiceAccountService selfHelpInvoiceAccountService;
+
 
     @GetMapping("/query-self-helf-invoices-list")
     @ApiOperation(value = "查询当前商户所有自助开票记录", notes = "查询当前商户所有自助开票记录")
