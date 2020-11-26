@@ -68,7 +68,7 @@ public class CooperationEnterpriseMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return makerEnterpriseService.selectMakerEnterprisePage(Condition.getPage(query.setDescs("me.create_time")), makerEntity.getId(), relationshipType);
+        return makerEnterpriseService.selectMakerEnterprisePage(makerEntity.getId(), relationshipType, Condition.getPage(query.setDescs("me.create_time")));
     }
 
     @GetMapping("/query-enterprise")

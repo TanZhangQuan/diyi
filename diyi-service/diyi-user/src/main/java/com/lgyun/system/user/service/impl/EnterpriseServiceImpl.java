@@ -42,6 +42,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     private IAgreementService agreementService;
     private IMakerEnterpriseService makerEnterpriseService;
     private IEnterpriseWorkerService enterpriseWorkerService;
+    private IPartnerEnterpriseService partnerEnterpriseService;
     private IAgentMainEnterpriseService agentMainEnterpriseService;
 
     @Override
@@ -115,7 +116,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> createEnterprise(CreateEnterpriseDTO createEnterpriseDTO, Long agentMainId) {
+    public R<String> createEnterprise(CreateEnterpriseDTO createEnterpriseDTO, Long agentMainId, Long partnerId) {
 
         //判断商户名称是否已存在
         int enterpriseNum = count(Wrappers.<EnterpriseEntity>query().lambda().eq(EnterpriseEntity::getEnterpriseName, createEnterpriseDTO.getEnterpriseName()));
@@ -211,12 +212,21 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             agentMainEnterpriseService.save(agentMainEnterpriseEntity);
         }
 
+        //创建合伙人-商户关联
+        if (partnerId != null) {
+            PartnerEnterpriseEntity partnerEnterpriseEntity = new PartnerEnterpriseEntity();
+            partnerEnterpriseEntity.setPartnerId(partnerId);
+            partnerEnterpriseEntity.setEnterpriseId(enterpriseEntity.getId());
+            partnerEnterpriseEntity.setCooperateType(CooperateType.CREATE);
+            partnerEnterpriseService.save(partnerEnterpriseEntity);
+        }
+
         return R.success("新建商户成功");
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> updateEnterprise(UpdateEnterpriseDTO updateEnterpriseDTO, Long agentMainId) {
+    public R<String> updateEnterprise(UpdateEnterpriseDTO updateEnterpriseDTO, Long agentMainId, Long partnerId) {
 
         EnterpriseEntity enterpriseEntity = getById(updateEnterpriseDTO.getEnterpriseId());
         if (enterpriseEntity == null) {
@@ -232,6 +242,18 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
 
             if (!(CooperateType.CREATE.equals(agentMainEnterpriseEntity.getCooperateType()))) {
                 return R.fail("非渠道商创建商户不可编辑");
+            }
+        }
+
+        if (partnerId != null) {
+
+            PartnerEnterpriseEntity partnerEnterpriseEntity = partnerEnterpriseService.queryByPartnerAndEnterprise(partnerId, updateEnterpriseDTO.getEnterpriseId());
+            if (partnerEnterpriseEntity == null) {
+                return R.fail("商户不属于合伙人");
+            }
+
+            if (!(CooperateType.CREATE.equals(partnerEnterpriseEntity.getCooperateType()))) {
+                return R.fail("非合伙人创建商户不可编辑");
             }
         }
 
@@ -428,12 +450,18 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     @Override
-    public R<IPage<EnterpriseIdNameListVO>> queryEnterpriseIdAndNameList(Long serviceProviderId, String enterpriseName, IPage<EnterpriseIdNameListVO> page) {
-        return R.data(page.setRecords(baseMapper.queryEnterpriseIdAndNameList(serviceProviderId, enterpriseName, page)));
+    public R<IPage<EnterpriseIdNameListVO>> queryEnterpriseIdAndNameList(Long serviceProviderId, Long partnerId, String enterpriseName, IPage<EnterpriseIdNameListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryEnterpriseIdAndNameList(serviceProviderId, partnerId, enterpriseName, page)));
     }
 
     @Override
     public R<EnterprisesDetailAgentMainVO> queryEnterpriseDetailAgentMain(Long enterpriseId) {
         return R.data(baseMapper.queryEnterpriseDetailAgentMain(enterpriseId));
     }
+
+    @Override
+    public R<EnterprisesDetailPartnerVO> queryEnterpriseDetailPartner(Long enterpriseId) {
+        return R.data(baseMapper.queryEnterpriseDetailPartner(enterpriseId));
+    }
+
 }

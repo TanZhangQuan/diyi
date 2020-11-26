@@ -226,7 +226,12 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R createOrUpdateChildAccount(ChildAccountDTO childAccountDTO, EnterpriseWorkerEntity enterpriseWorkerEntity) {
+    public R<String> createOrUpdateChildAccount(ChildAccountDTO childAccountDTO, EnterpriseWorkerEntity enterpriseWorkerEntity) {
+
+        if (!enterpriseWorkerEntity.getAdminPower()) {
+            return R.fail("您没有权限创建子账号！");
+        }
+
         if (childAccountDTO.getChildAccountId() != null && childAccountDTO.getChildAccountId() != 0) {
             if (childAccountDTO.getChildAccountId() == enterpriseWorkerEntity.getId()) {
                 return R.fail("您不能编辑您自己！");
@@ -322,7 +327,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
     }
 
     @Override
-    public R operateChildAccount(Long childAccountId, ChildAccountType childAccountType, Long id) {
+    public R<String> operateChildAccount(Long childAccountId, ChildAccountType childAccountType, Long id) {
         if (id == childAccountId) {
             return R.fail("您不能删除、停用、启用您自己的账号！");
         }

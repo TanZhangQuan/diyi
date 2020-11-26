@@ -25,9 +25,9 @@ public class HomePageServiceProviderController {
     private IPayEnterpriseService payEnterpriseService;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
 
-    @GetMapping("/query-transaction-data")
+    @GetMapping("/query-service-provider-transaction")
     @ApiOperation(value = "查询当前服务商首页交易情况数据", notes = "查询当前服务商首页交易情况数据")
-    public R queryTransactionData(BladeUser bladeUser) {
+    public R queryServiceProviderTransaction(BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -35,7 +35,7 @@ public class HomePageServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return payEnterpriseService.transactionByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId());
+        return payEnterpriseService.queryServiceProviderTransaction(serviceProviderWorkerEntity.getServiceProviderId());
     }
 
     @GetMapping("/query-total-sub-day-trade")

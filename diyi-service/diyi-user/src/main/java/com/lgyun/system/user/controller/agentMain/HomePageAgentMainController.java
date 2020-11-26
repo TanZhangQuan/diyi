@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/agent-main/home-page")
 @Validated
 @AllArgsConstructor
-@Api(value = "商户端---首页管理模块相关接口", tags = "商户端---首页管理模块相关接口")
+@Api(value = "渠道商端---首页管理模块相关接口", tags = "渠道商端---首页管理模块相关接口")
 public class HomePageAgentMainController {
 
     private IAgentMainWorkerService agentMainWorkerService;

@@ -52,7 +52,7 @@ public class SelfHelpInvoiceServiceProviderController {
 
     @GetMapping("/query-self-helf-invoice-detail")
     @ApiOperation(value = "查询当前服务商某条自助开票记录详情", notes = "查询当前服务商某条自助开票记录详情")
-    public R querySelfHelfInvoiceDetail(@ApiParam(value = "自助开票ID") @NotNull(message = "请输入自助开票编号") @RequestParam(required = false) Long selfHelpInvoiceId, BladeUser bladeUser) {
+    public R querySelfHelfInvoiceDetail(@ApiParam(value = "自助开票") @NotNull(message = "请选择自助开票") @RequestParam(required = false) Long selfHelpInvoiceId, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {

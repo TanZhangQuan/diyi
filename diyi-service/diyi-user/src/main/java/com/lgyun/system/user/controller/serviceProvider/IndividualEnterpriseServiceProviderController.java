@@ -33,7 +33,7 @@ public class IndividualEnterpriseServiceProviderController {
     @GetMapping("/query-individual-enterprise-list")
     @ApiOperation(value = "查询当前服务商关联的所有个独", notes = "查询当前服务商关联的所有个独")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "individualBusinessEnterpriseId", value = "个独编号", paramType = "query", dataType = "long"),
+            @ApiImplicitParam(name = "individualBusinessEnterpriseId", value = "个独", paramType = "query", dataType = "long"),
             @ApiImplicitParam(name = "ibname", value = "个独名称", paramType = "query", dataType = "string"),
             @ApiImplicitParam(name = "beginDate", value = "注册开始时间", paramType = "query", dataType = "date"),
             @ApiImplicitParam(name = "endDate", value = "注册结束时间", paramType = "query", dataType = "date")

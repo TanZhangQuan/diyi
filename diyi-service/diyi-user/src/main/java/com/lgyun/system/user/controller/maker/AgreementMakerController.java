@@ -109,7 +109,7 @@ public class AgreementMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return makerEnterpriseService.selectMakerEnterprisePage(Condition.getPage(query.setDescs("me.create_time")), makerEntity.getId(), RelationshipType.RELEVANCE);
+        return makerEnterpriseService.selectMakerEnterprisePage(makerEntity.getId(), RelationshipType.RELEVANCE, Condition.getPage(query.setDescs("me.create_time")));
     }
 
     @PostMapping("/upload-maker-video")

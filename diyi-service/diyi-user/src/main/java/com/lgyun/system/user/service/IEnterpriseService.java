@@ -73,17 +73,21 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * 添加商户
      *
      * @param createEnterpriseDTO
+     * @param agentMainId
+     * @param partnerId
      * @return
      */
-    R<String> createEnterprise(CreateEnterpriseDTO createEnterpriseDTO, Long agentMainId);
+    R<String> createEnterprise(CreateEnterpriseDTO createEnterpriseDTO, Long agentMainId, Long partnerId);
 
     /**
      * 编辑商户
      *
      * @param updateEnterpriseDTO
+     * @param agentMainId
+     * @param partnerId
      * @return
      */
-    R<String> updateEnterprise(UpdateEnterpriseDTO updateEnterpriseDTO, Long agentMainId);
+    R<String> updateEnterprise(UpdateEnterpriseDTO updateEnterpriseDTO, Long agentMainId, Long partnerId);
 
     /**
      * 查询所有商户
@@ -165,11 +169,13 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
     /**
      * 查询商户编号和名称
      *
-     * @param page
      * @param serviceProviderId
+     * @param partnerId
+     * @param enterpriseName
+     * @param page
      * @return
      */
-    R<IPage<EnterpriseIdNameListVO>> queryEnterpriseIdAndNameList(Long serviceProviderId, String enterpriseName, IPage<EnterpriseIdNameListVO> page);
+    R<IPage<EnterpriseIdNameListVO>> queryEnterpriseIdAndNameList(Long serviceProviderId, Long partnerId, String enterpriseName, IPage<EnterpriseIdNameListVO> page);
 
     /**
      * 查询商户详情
@@ -178,5 +184,11 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * @return
      */
     R<EnterprisesDetailAgentMainVO> queryEnterpriseDetailAgentMain(Long enterpriseId);
+
+    /**
+     * @param enterpriseId
+     * @return
+     */
+    R<EnterprisesDetailPartnerVO> queryEnterpriseDetailPartner(Long enterpriseId);
 }
 

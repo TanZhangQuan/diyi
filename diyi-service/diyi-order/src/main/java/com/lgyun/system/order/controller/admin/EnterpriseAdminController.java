@@ -63,7 +63,7 @@ public class EnterpriseAdminController {
 
     @PostMapping("/add-or-update-address")
     @ApiOperation(value = "添加/编辑收货地址", notes = "添加/编辑收货地址")
-    public R addOrUpdateAddress(@ApiParam(value = "商户编号") @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
+    public R addOrUpdateAddress(@ApiParam(value = "商户") @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
                                 @Valid @RequestBody AddOrUpdateAddressDTO addOrUpdateAddressDto, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
@@ -95,7 +95,7 @@ public class EnterpriseAdminController {
             return result;
         }
 
-        return payEnterpriseService.transactionByEnterprise(enterpriseId);
+        return payEnterpriseService.queryEnterpriseTransaction(enterpriseId);
     }
 
     @GetMapping("/query-service-provider-invoice-catalogs")
@@ -138,7 +138,7 @@ public class EnterpriseAdminController {
 
     @PostMapping("/add-or-update-enterprise-provider-invoice-catalog")
     @ApiOperation(value = "添加/编辑商户-服务商开票类目", notes = "添加/编辑商户-服务商开票类目")
-    public R addOrUpdateInvoiceCatalog(@ApiParam(value = "服务商编号") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
+    public R addOrUpdateInvoiceCatalog(@ApiParam(value = "服务商") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
                                        @ApiParam(value = "商户") @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
                                        @Valid @RequestBody AddOrUpdateEnterpriseProviderInvoiceCatalogDTO addOrUpdateEnterpriseProviderInvoiceCatalogDTO, BladeUser bladeUser) {
         //查询当前管理员

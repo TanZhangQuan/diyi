@@ -164,7 +164,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @param enterpriseId
      * @return
      */
-    R<TransactionVO> transactionByEnterprise(Long enterpriseId);
+    R<TransactionVO> queryEnterpriseTransaction(Long enterpriseId);
 
     /**
      * 查询当前服务商首页交易情况数据
@@ -172,7 +172,7 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @param serviceProviderId
      * @return
      */
-    R<TransactionVO> transactionByServiceProvider(Long serviceProviderId);
+    R<TransactionVO> queryServiceProviderTransaction(Long serviceProviderId);
 
     /**
      * 查询渠道商-商户交易数据
@@ -189,6 +189,14 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @return
      */
     R<TransactionVO> queryAgentMainServiceProviderTransaction(Long agentMainId);
+
+    /**
+     * 查询合伙人-服务商交易数据
+     *
+     * @param partnerId
+     * @return
+     */
+    R<TransactionVO> queryPartnerEnterpriseTransaction(Long partnerId);
 
     /**
      * 查询相关局-服务商交易情况数据
@@ -393,14 +401,6 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * 服务商查询已门征单开的发票详情
      */
     R getServicePortalSignInvoiceDetails(Long payEnterpriseId);
-
-    /**
-     * 查询合伙人交易数据
-     *
-     * @param partnerId
-     * @return
-     */
-    R<TransactionVO> queryPartnerTransaction(Long partnerId);
 
     /**
      * 商户端根据商户id查询总包

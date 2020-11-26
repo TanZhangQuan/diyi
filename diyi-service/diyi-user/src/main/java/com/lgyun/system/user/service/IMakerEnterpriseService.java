@@ -39,7 +39,7 @@ public interface IMakerEnterpriseService extends BaseService<MakerEnterpriseEnti
      * @param relationshipType
      * @return
      */
-    R<IPage<MakerEnterpriseRelationVO>> selectMakerEnterprisePage(IPage<MakerEnterpriseRelationVO> page, Long makerId, RelationshipType relationshipType);
+    R<IPage<MakerEnterpriseRelationVO>> selectMakerEnterprisePage(Long makerId, RelationshipType relationshipType, IPage<MakerEnterpriseRelationVO> page);
 
     /**
      * 查询创客关联商户的编号名称

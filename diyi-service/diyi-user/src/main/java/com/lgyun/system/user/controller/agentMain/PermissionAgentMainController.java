@@ -124,9 +124,6 @@ public class PermissionAgentMainController {
         }
         AgentMainWorkerEntity agentMainWorkerEntity = result.getData();
 
-        if (!agentMainWorkerEntity.getAdminPower()) {
-            return R.fail("您没有权限创建子账号！");
-        }
         return agentMainWorkerService.createOrUpdateChildAccount(childAccountDTO, agentMainWorkerEntity);
     }
 

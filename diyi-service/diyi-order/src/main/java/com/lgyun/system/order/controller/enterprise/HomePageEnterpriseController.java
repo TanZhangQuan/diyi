@@ -25,9 +25,9 @@ public class HomePageEnterpriseController {
     private IPayEnterpriseService payEnterpriseService;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
 
-    @GetMapping("/query-transaction-data")
+    @GetMapping("/query-enterprise-transaction")
     @ApiOperation(value = "查询当前商户首页交易情况数据", notes = "查询当前商户首页交易情况数据")
-    public R queryTransactionData(BladeUser bladeUser) {
+    public R queryEnterpriseTransaction(BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -35,7 +35,7 @@ public class HomePageEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return payEnterpriseService.transactionByEnterprise(enterpriseWorkerEntity.getEnterpriseId());
+        return payEnterpriseService.queryEnterpriseTransaction(enterpriseWorkerEntity.getEnterpriseId());
     }
 
     @GetMapping("/query-total-sub-day-trade")

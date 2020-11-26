@@ -103,7 +103,7 @@ public class PartnerAdminController {
             return result;
         }
 
-        return enterpriseService.queryEnterpriseIdAndNameList(null, enterpriseName, Condition.getPage(query.setDescs("t1.create_time")));
+        return enterpriseService.queryEnterpriseIdAndNameList(null, null, enterpriseName, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/match-enterprise")

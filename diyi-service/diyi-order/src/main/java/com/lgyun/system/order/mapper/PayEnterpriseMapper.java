@@ -125,7 +125,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * @param enterpriseId
      * @return
      */
-    TransactionVO transactionByEnterprise(Long enterpriseId);
+    TransactionVO queryEnterpriseTransaction(Long enterpriseId);
 
     /**
      * 查询当前服务商首页交易情况数据
@@ -133,7 +133,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * @param serviceProviderId
      * @return
      */
-    TransactionVO transactionByServiceProvider(Long serviceProviderId);
+    TransactionVO queryServiceProviderTransaction(Long serviceProviderId);
 
     /**
      * 查询渠道商-商户交易数据
@@ -152,20 +152,20 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     TransactionVO queryAgentMainServiceProviderTransaction(Long agentMainId);
 
     /**
+     * 查询合伙人-服务商交易数据
+     *
+     * @param partnerId
+     * @return
+     */
+    TransactionVO queryPartnerEnterpriseTransaction(Long partnerId);
+
+    /**
      * 查询相关局-服务商交易情况数据
      *
      * @param relBureauId
      * @return
      */
     TransactionVO queryRelBureauServiceProviderTransaction(Long relBureauId);
-
-    /**
-     * 查询合伙人交易数据
-     *
-     * @param partnerId
-     * @return
-     */
-    TransactionVO queryPartnerTransaction(Long partnerId);
 
     /**
      * 查询当前商户总包+分包全年流水

@@ -230,6 +230,10 @@ public class AgentMainWorkerServiceImpl extends BaseServiceImpl<AgentMainWorkerM
     @Transactional(rollbackFor = Exception.class)
     public R<String> createOrUpdateChildAccount(ChildAccountDTO childAccountDTO, AgentMainWorkerEntity agentMainWorkerEntity) {
 
+        if (!agentMainWorkerEntity.getAdminPower()) {
+            return R.fail("您没有权限创建子账号！");
+        }
+
         if (childAccountDTO.getChildAccountId() != null) {
             if (agentMainWorkerEntity.getId().equals(childAccountDTO.getChildAccountId())) {
                 return R.fail("您不能编辑您自己！");

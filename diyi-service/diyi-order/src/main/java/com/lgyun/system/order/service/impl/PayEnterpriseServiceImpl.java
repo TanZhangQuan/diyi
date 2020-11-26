@@ -370,13 +370,13 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R<TransactionVO> transactionByEnterprise(Long enterpriseId) {
-        return R.data(baseMapper.transactionByEnterprise(enterpriseId));
+    public R<TransactionVO> queryEnterpriseTransaction(Long enterpriseId) {
+        return R.data(baseMapper.queryEnterpriseTransaction(enterpriseId));
     }
 
     @Override
-    public R<TransactionVO> transactionByServiceProvider(Long serviceProviderId) {
-        return R.data(baseMapper.transactionByServiceProvider(serviceProviderId));
+    public R<TransactionVO> queryServiceProviderTransaction(Long serviceProviderId) {
+        return R.data(baseMapper.queryServiceProviderTransaction(serviceProviderId));
     }
 
     @Override
@@ -387,6 +387,11 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     @Override
     public R<TransactionVO> queryAgentMainServiceProviderTransaction(Long agentMainId) {
         return R.data(baseMapper.queryAgentMainServiceProviderTransaction(agentMainId));
+    }
+
+    @Override
+    public R<TransactionVO> queryPartnerEnterpriseTransaction(Long partnerId) {
+        return R.data(baseMapper.queryPartnerEnterpriseTransaction(partnerId));
     }
 
     @Override
@@ -971,11 +976,6 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         map.put("payMakerList", payMakerList);
         map.put("subcontractInvoiceDetail", subcontractInvoiceDetail);
         return R.data(map);
-    }
-
-    @Override
-    public R<TransactionVO> queryPartnerTransaction(Long partnerId) {
-        return R.data(baseMapper.queryPartnerTransaction(partnerId));
     }
 
     @Override

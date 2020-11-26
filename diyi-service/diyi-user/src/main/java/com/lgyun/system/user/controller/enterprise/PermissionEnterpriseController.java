@@ -123,9 +123,6 @@ public class PermissionEnterpriseController {
             return result;
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-        if (!enterpriseWorkerEntity.getAdminPower()) {
-            return R.fail("您没有权限创建子账号！");
-        }
 
         return enterpriseWorkerService.createOrUpdateChildAccount(childAccountDTO, enterpriseWorkerEntity);
     }

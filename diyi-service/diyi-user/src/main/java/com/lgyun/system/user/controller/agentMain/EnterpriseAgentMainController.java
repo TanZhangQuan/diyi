@@ -40,7 +40,7 @@ public class EnterpriseAgentMainController {
         }
         AgentMainWorkerEntity agentMainWorkerEntity = result.getData();
 
-        return enterpriseService.createEnterprise(createEnterpriseDTO, agentMainWorkerEntity.getAgentMainId());
+        return enterpriseService.createEnterprise(createEnterpriseDTO, agentMainWorkerEntity.getAgentMainId(), null);
     }
 
     @PostMapping("/update-enterprise")
@@ -53,7 +53,7 @@ public class EnterpriseAgentMainController {
         }
         AgentMainWorkerEntity agentMainWorkerEntity = result.getData();
 
-        return enterpriseService.updateEnterprise(updateEnterpriseDTO, agentMainWorkerEntity.getAgentMainId());
+        return enterpriseService.updateEnterprise(updateEnterpriseDTO, agentMainWorkerEntity.getAgentMainId(), null);
     }
 
     @GetMapping("/query-enterprise-update-detail")

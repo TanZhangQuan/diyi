@@ -83,7 +83,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
-    public R<IPage<MakerEnterpriseRelationVO>> selectMakerEnterprisePage(IPage<MakerEnterpriseRelationVO> page, Long makerId, RelationshipType relationshipType) {
+    public R<IPage<MakerEnterpriseRelationVO>> selectMakerEnterprisePage(Long makerId, RelationshipType relationshipType, IPage<MakerEnterpriseRelationVO> page) {
         return R.data(page.setRecords(baseMapper.selectMakerEnterprisePage(makerId, relationshipType, page)));
     }
 

@@ -1,26 +1,26 @@
 package com.lgyun.system.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import com.lgyun.common.enumeration.UserType;
-import com.lgyun.common.node.TreeNode;
-import com.lgyun.system.entity.Menu;
-import com.lgyun.system.service.IMenuService;
-import com.lgyun.system.user.entity.AdminEntity;
-import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
-import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
-import com.lgyun.system.user.feign.IUserClient;
-import io.swagger.annotations.*;
-import lombok.AllArgsConstructor;
 import com.lgyun.common.annotation.PreAuth;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.RoleConstant;
 import com.lgyun.common.ctrl.BladeController;
+import com.lgyun.common.enumeration.UserType;
+import com.lgyun.common.node.TreeNode;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.support.Kv;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
+import com.lgyun.system.entity.Menu;
+import com.lgyun.system.service.IMenuService;
+import com.lgyun.system.user.entity.AdminEntity;
+import com.lgyun.system.user.entity.AgentMainWorkerEntity;
+import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
+import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
+import com.lgyun.system.user.feign.IUserClient;
 import com.lgyun.system.vo.MenuVO;
 import com.lgyun.system.wrapper.MenuWrapper;
+import io.swagger.annotations.*;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -82,8 +82,7 @@ public class MenuController extends BladeController {
     @GetMapping("/routes")
     @ApiOperation(value = "前端菜单数据", notes = "前端菜单数据")
     public R<List<MenuVO>> routes(BladeUser user) {
-        log.info("[routes]user info = {}", JSONObject.toJSONString(user));
-        //查询当前创客
+        //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(user);
         if (!(result.isSuccess())) {
             return R.fail("当前登录用户失效");
@@ -97,8 +96,7 @@ public class MenuController extends BladeController {
     @GetMapping("/routes/service")
     @ApiOperation(value = "前端菜单数据", notes = "前端菜单数据")
     public R<List<MenuVO>> routesService(BladeUser user) {
-        log.info("[routes]user info = {}", JSONObject.toJSONString(user));
-        //查询当前创客
+        //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(user);
         if (!(result.isSuccess())) {
             return R.fail("当前登录用户失效");
@@ -112,7 +110,6 @@ public class MenuController extends BladeController {
     @GetMapping("/routes/admin")
     @ApiOperation(value = "前端菜单数据", notes = "前端菜单数据")
     public R<List<MenuVO>> routesAdmin(BladeUser user) {
-        log.info("[routes]user info = {}", JSONObject.toJSONString(user));
         //查询当前创客
         R<AdminEntity> result = userClient.currentAdmin(user);
         if (!(result.isSuccess())) {
@@ -121,6 +118,20 @@ public class MenuController extends BladeController {
         AdminEntity adminEntity = result.getData();
 
         List<MenuVO> list = menuService.routes(String.valueOf(adminEntity.getRoleId()), UserType.ADMIN, adminEntity.getSuperAdmin());
+        return R.data(list);
+    }
+
+    @GetMapping("/routes/agent-main")
+    @ApiOperation(value = "前端菜单数据", notes = "前端菜单数据")
+    public R<List<MenuVO>> routesAgentMain(BladeUser user) {
+        //查询当前创客
+        R<AgentMainWorkerEntity> result = userClient.currentAgentMainWorker(user);
+        if (!(result.isSuccess())) {
+            return R.fail("当前登录用户失效");
+        }
+        AgentMainWorkerEntity agentMainWorkerEntity = result.getData();
+
+        List<MenuVO> list = menuService.routes(String.valueOf(agentMainWorkerEntity.getRoleId()), UserType.AGENTMAIN, agentMainWorkerEntity.getSuperAdmin());
         return R.data(list);
     }
 
@@ -134,39 +145,56 @@ public class MenuController extends BladeController {
     @GetMapping("/tree")
     @ApiOperation(value = "树形结构", notes = "树形结构")
     public R<List<TreeNode>> tree(BladeUser user) {
-        //查询当前创客
+        //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(user);
         if (!(result.isSuccess())) {
             return R.fail("当前登录用户失效");
         }
-        EnterpriseWorkerEntity data = result.getData();
-        List<TreeNode> tree = menuService.tree(UserType.ENTERPRISE.getValue(), data.getRoleId(), data.getSuperAdmin());
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+        List<TreeNode> tree = menuService.tree(UserType.ENTERPRISE.getValue(), enterpriseWorkerEntity.getRoleId(), enterpriseWorkerEntity.getSuperAdmin());
         return R.data(tree);
     }
 
     @GetMapping("/tree/service")
     @ApiOperation(value = "树形结构", notes = "树形结构")
     public R<List<TreeNode>> treeService(BladeUser user) {
-        //查询当前创客
+        //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(user);
         if (!(result.isSuccess())) {
             return R.fail("当前登录用户失效");
         }
-        ServiceProviderWorkerEntity data = result.getData();
-        List<TreeNode> tree = menuService.tree(UserType.SERVICEPROVIDER.getValue(), data.getRoleId(), data.getSuperAdmin());
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+        List<TreeNode> tree = menuService.tree(UserType.SERVICEPROVIDER.getValue(), serviceProviderWorkerEntity.getRoleId(), serviceProviderWorkerEntity.getSuperAdmin());
         return R.data(tree);
     }
 
     @GetMapping("/tree/admin")
     @ApiOperation(value = "树形结构", notes = "树形结构")
     public R<List<TreeNode>> treeAdmin(BladeUser user) {
-        //查询当前创客
+        //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(user);
         if (!(result.isSuccess())) {
             return R.fail("当前登录用户失效");
         }
-        AdminEntity data = result.getData();
-        List<TreeNode> tree = menuService.tree(UserType.ADMIN.getValue(), data.getRoleId(), data.getSuperAdmin());
+        AdminEntity adminEntity = result.getData();
+
+        List<TreeNode> tree = menuService.tree(UserType.ADMIN.getValue(), adminEntity.getRoleId(), adminEntity.getSuperAdmin());
+        return R.data(tree);
+    }
+
+    @GetMapping("/tree/agent-main")
+    @ApiOperation(value = "树形结构", notes = "树形结构")
+    public R<List<TreeNode>> treeAgentMain(BladeUser user) {
+        //查询当前创客
+        R<AgentMainWorkerEntity> result = userClient.currentAgentMainWorker(user);
+        if (!(result.isSuccess())) {
+            return R.fail("当前登录用户失效");
+        }
+        AgentMainWorkerEntity agentMainWorkerEntity = result.getData();
+
+        List<TreeNode> tree = menuService.tree(UserType.AGENTMAIN.getValue(), agentMainWorkerEntity.getRoleId(), agentMainWorkerEntity.getSuperAdmin());
         return R.data(tree);
     }
 

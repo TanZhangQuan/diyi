@@ -60,7 +60,7 @@ public class EnterpriseAgentMainController {
 
     @PostMapping("/add-or-update-address")
     @ApiOperation(value = "添加/编辑收货地址", notes = "添加/编辑收货地址")
-    public R addOrUpdateAddress(@ApiParam(value = "商户编号") @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
+    public R addOrUpdateAddress(@ApiParam(value = "商户") @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
                                 @Valid @RequestBody AddOrUpdateAddressDTO addOrUpdateAddressDto, BladeUser bladeUser) {
         //查询当前渠道商员工
         R<AgentMainWorkerEntity> result = userClient.currentAgentMainWorker(bladeUser);
@@ -83,17 +83,16 @@ public class EnterpriseAgentMainController {
         return addressService.deleteAddress(addressId);
     }
 
-    @GetMapping("/query-agent-main-enterprise-transaction")
-    @ApiOperation(value = "查询渠道商-商户交易数据", notes = "查询渠道商-商户交易数据")
-    public R queryAgentMainEnterpriseTransaction(BladeUser bladeUser) {
+    @GetMapping("/query-enterprise-transaction")
+    @ApiOperation(value = "查询商户交易数据", notes = "查询商户交易数据")
+    public R queryEnterpriseTransaction(@ApiParam(value = "商户") @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, BladeUser bladeUser) {
         //查询当前渠道商员工
         R<AgentMainWorkerEntity> result = userClient.currentAgentMainWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
-        AgentMainWorkerEntity agentMainWorkerEntity = result.getData();
 
-        return payEnterpriseService.queryAgentMainEnterpriseTransaction(agentMainWorkerEntity.getId());
+        return payEnterpriseService.queryEnterpriseTransaction(enterpriseId);
     }
 
     @GetMapping("/query-pay-enterprise-list")

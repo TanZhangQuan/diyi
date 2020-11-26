@@ -123,9 +123,6 @@ public class PermissionServiceProviderController {
             return result;
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
-        if (!serviceProviderWorkerEntity.getAdminPower()) {
-            return R.fail("您没有权限创建子账号！");
-        }
 
         return serviceProviderWorkerService.createOrUpdateChildAccount(childAccountDTO, serviceProviderWorkerEntity);
     }

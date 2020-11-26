@@ -45,7 +45,7 @@ public class EnterpriseAdminController {
             return result;
         }
 
-        return enterpriseService.createEnterprise(createEnterpriseDTO, null);
+        return enterpriseService.createEnterprise(createEnterpriseDTO, null, null);
     }
 
     @PostMapping("/update-enterprise")
@@ -57,7 +57,7 @@ public class EnterpriseAdminController {
             return result;
         }
 
-        return enterpriseService.updateEnterprise(updateEnterpriseDTO, null);
+        return enterpriseService.updateEnterprise(updateEnterpriseDTO, null, null);
     }
 
     @GetMapping("/query-enterprise-update-detail")

@@ -6,14 +6,19 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.enumeration.CooperateType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.user.entity.*;
+import com.lgyun.system.user.entity.AdminEntity;
+import com.lgyun.system.user.entity.EnterpriseEntity;
+import com.lgyun.system.user.entity.PartnerEnterpriseEntity;
+import com.lgyun.system.user.entity.PartnerEntity;
 import com.lgyun.system.user.mapper.PartnerEnterpriseMapper;
 import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IPartnerEnterpriseService;
 import com.lgyun.system.user.service.IPartnerService;
 import com.lgyun.system.user.vo.CooperationEnterprisesListVO;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,10 +29,13 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PartnerEnterpriseServiceImpl extends BaseServiceImpl<PartnerEnterpriseMapper, PartnerEnterpriseEntity> implements IPartnerEnterpriseService {
 
-    private IPartnerService partnerService;
+    private final IPartnerService partnerService;
+
+    @Autowired
+    @Lazy
     private IEnterpriseService enterpriseService;
 
     @Override

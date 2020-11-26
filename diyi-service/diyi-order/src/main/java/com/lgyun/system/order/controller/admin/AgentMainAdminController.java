@@ -57,7 +57,7 @@ public class AgentMainAdminController {
 
     @PostMapping("/add-or-update-address")
     @ApiOperation(value = "添加/编辑收货地址", notes = "添加/编辑收货地址")
-    public R addOrUpdateAddress(@ApiParam(value = "渠道商编号") @NotNull(message = "请选择渠道商") @RequestParam(required = false) Long agentMainId,
+    public R addOrUpdateAddress(@ApiParam(value = "渠道商") @NotNull(message = "请选择渠道商") @RequestParam(required = false) Long agentMainId,
                                 @Valid @RequestBody AddOrUpdateAddressDTO addOrUpdateAddressDto, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);

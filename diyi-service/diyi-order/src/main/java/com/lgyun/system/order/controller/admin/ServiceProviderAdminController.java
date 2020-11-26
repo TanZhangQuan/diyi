@@ -64,7 +64,7 @@ public class ServiceProviderAdminController {
 
     @PostMapping("/add-or-update-address")
     @ApiOperation(value = "添加/编辑收货地址", notes = "添加/编辑收货地址")
-    public R addOrUpdateAddress(@ApiParam(value = "服务商编号") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
+    public R addOrUpdateAddress(@ApiParam(value = "服务商") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
                                 @Valid @RequestBody AddOrUpdateAddressDTO addOrUpdateAddressDto, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
@@ -137,16 +137,16 @@ public class ServiceProviderAdminController {
         return R.status(serviceProviderInvoiceCatalogsService.removeById(invoiceCatalogId));
     }
 
-    @GetMapping("/query-enterprise-transaction")
+    @GetMapping("/query-service-provider-transaction")
     @ApiOperation(value = "查询服务商交易数据", notes = "查询服务商交易数据")
-    public R queryEnterpriseTransaction(@ApiParam(value = "服务商", required = true) @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId, BladeUser bladeUser) {
+    public R queryServiceProviderTransaction(@ApiParam(value = "服务商", required = true) @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return payEnterpriseService.transactionByServiceProvider(serviceProviderId);
+        return payEnterpriseService.queryServiceProviderTransaction(serviceProviderId);
     }
 
     @GetMapping("/query-service-provider-invoice-catalogs")

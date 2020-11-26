@@ -228,6 +228,10 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
     @Transactional(rollbackFor = Exception.class)
     public R<String> createOrUpdateChildAccount(ChildAccountDTO childAccountDTO, ServiceProviderWorkerEntity serviceProviderWorkerEntity) {
 
+        if (!serviceProviderWorkerEntity.getAdminPower()) {
+            return R.fail("您没有权限创建子账号！");
+        }
+
         if (childAccountDTO.getChildAccountId() != null) {
             if (serviceProviderWorkerEntity.getId().equals(childAccountDTO.getChildAccountId())) {
                 return R.fail("您不能编辑您自己！");

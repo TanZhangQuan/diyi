@@ -29,7 +29,7 @@ public class WorksheetEnterpriseController {
 
     @GetMapping("/query-maker-list")
     @ApiOperation(value = "查询创客", notes = "查询创客")
-    public R queryMakerList(@ApiParam(value = "搜索创客关键字：请输入创客编号/姓名/手机号") @RequestParam(required = false) String makerName, Query query, BladeUser bladeUser) {
+    public R queryMakerList(@ApiParam(value = "搜索创客关键字：请输入创客姓名/手机号") @RequestParam(required = false) String makerName, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {

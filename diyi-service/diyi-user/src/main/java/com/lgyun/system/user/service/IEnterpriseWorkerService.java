@@ -136,7 +136,7 @@ public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEn
      * @param enterpriseWorkerEntity
      * @return
      */
-    R createOrUpdateChildAccount(ChildAccountDTO childAccountDTO, EnterpriseWorkerEntity enterpriseWorkerEntity);
+    R<String> createOrUpdateChildAccount(ChildAccountDTO childAccountDTO, EnterpriseWorkerEntity enterpriseWorkerEntity);
 
     /**
      * 删除、停用、启用子账号
@@ -145,7 +145,7 @@ public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEn
      * @param id
      * @return
      */
-    R operateChildAccount(Long childAccountId, ChildAccountType childAccountType, Long id);
+    R<String> operateChildAccount(Long childAccountId, ChildAccountType childAccountType, Long id);
 }
 
 

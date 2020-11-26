@@ -98,11 +98,12 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
      * 查询商户编号和名称
      *
      * @param serviceProviderId
+     * @param partnerId
      * @param enterpriseName
      * @param page
      * @return
      */
-    List<EnterpriseIdNameListVO> queryEnterpriseIdAndNameList(Long serviceProviderId, String enterpriseName, IPage<EnterpriseIdNameListVO> page);
+    List<EnterpriseIdNameListVO> queryEnterpriseIdAndNameList(Long serviceProviderId, Long partnerId, String enterpriseName, IPage<EnterpriseIdNameListVO> page);
 
     /**
      * 查询商户详情
@@ -112,5 +113,12 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
      */
     EnterprisesDetailAgentMainVO queryEnterpriseDetailAgentMain(Long enterpriseId);
 
+    /**
+     * 查询商户详情
+     *
+     * @param enterpriseId
+     * @return
+     */
+    EnterprisesDetailPartnerVO queryEnterpriseDetailPartner(Long enterpriseId);
 }
 

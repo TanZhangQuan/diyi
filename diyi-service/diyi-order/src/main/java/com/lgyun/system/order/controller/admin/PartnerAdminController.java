@@ -28,15 +28,16 @@ public class PartnerAdminController {
     private IUserClient userClient;
     private IPayEnterpriseService payEnterpriseService;
 
-    @GetMapping("/query-partner-transaction")
-    @ApiOperation(value = "查询合伙人交易数据", notes = "查询合伙人交易数据")
-    public R queryPartnerTransaction(@ApiParam(value = "合伙人", required = true) @NotNull(message = "请选择合伙人") @RequestParam(required = false) Long partnerId, BladeUser bladeUser) {
+    @GetMapping("/query-partner-enterprise-transaction")
+    @ApiOperation(value = "查询合伙人-商户交易数据", notes = "查询合伙人-商户交易数据")
+    public R queryPartnerEnterpriseTransaction(@ApiParam(value = "合伙人", required = true) @NotNull(message = "请选择合伙人") @RequestParam(required = false) Long partnerId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
-        return payEnterpriseService.queryPartnerTransaction(partnerId);
+
+        return payEnterpriseService.queryPartnerEnterpriseTransaction(partnerId);
     }
 
 }
