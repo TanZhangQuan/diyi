@@ -8,6 +8,7 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.AddOrUpdateAddressDTO;
 import com.lgyun.system.order.service.IAddressService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
+import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.user.dto.PayEnterpriseListSimpleDTO;
 import com.lgyun.system.user.entity.PartnerEntity;
 import com.lgyun.system.user.feign.IUserClient;
@@ -30,6 +31,7 @@ public class EnterprisePartnerController {
 
     private IUserClient userClient;
     private IAddressService addressService;
+    private IWorksheetService worksheetService;
     private IPayEnterpriseService payEnterpriseService;
 
     @GetMapping("/query-address-list")
@@ -103,6 +105,54 @@ public class EnterprisePartnerController {
         }
 
         return payEnterpriseService.queryPayEnterpriseListAgentMain(enterpriseId, null, payEnterpriseListSimpleDTO, Condition.getPage(query.setDescs("t1.create_time")));
+    }
+
+    @GetMapping("/query-pay-enterprise-detail")
+    @ApiOperation(value = "查询总包支付清单详情", notes = "查询总包支付清单详情")
+    public R queryPayEnterpriseDetail(@ApiParam(value = "支付清单", required = true) @NotNull(message = "请选择总包支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
+        //查询当前合伙人
+        R<PartnerEntity> result = userClient.currentPartner(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return payEnterpriseService.queryPayEnterpriseDetail(payEnterpriseId);
+    }
+
+    @GetMapping("/query-pay-enterprise-express")
+    @ApiOperation(value = "查询总包支付清单物流信息", notes = "查询总包支付清单物流信息")
+    public R queryPayEnterpriseExpress(@ApiParam(value = "支付清单", required = true) @NotNull(message = "请选择总包支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
+        //查询当前合伙人
+        R<PartnerEntity> result = userClient.currentPartner(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return payEnterpriseService.queryPayEnterpriseExpress(payEnterpriseId);
+    }
+
+    @GetMapping("/query-worksheet-detail")
+    @ApiOperation(value = "查询工单详情", notes = "查询工单详情")
+    public R queryTotalSubAcceptPaysheetList(@ApiParam(value = "工单", required = true) @NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId, BladeUser bladeUser) {
+        //查询当前合伙人
+        R<PartnerEntity> result = userClient.currentPartner(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return worksheetService.getByWorksheetId(worksheetId);
+    }
+
+    @GetMapping("/query-pay-maker-list")
+    @ApiOperation(value = "根据支付清单查询分包支付明细", notes = "根据支付清单查询分包支付明细")
+    public R queryPayMakerList(@ApiParam(value = "总包支付清单", required = true) @NotNull(message = "请选择总包支付清单") @RequestParam(required = false) Long payEnterpriseId, Query query, BladeUser bladeUser) {
+        //查询当前合伙人
+        R<PartnerEntity> result = userClient.currentPartner(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return payEnterpriseService.getPayMakerListByPayEnterprise(payEnterpriseId, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
 }

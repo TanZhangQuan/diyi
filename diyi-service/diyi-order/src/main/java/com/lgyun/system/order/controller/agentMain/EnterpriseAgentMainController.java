@@ -119,6 +119,18 @@ public class EnterpriseAgentMainController {
         return payEnterpriseService.queryPayEnterpriseDetail(payEnterpriseId);
     }
 
+    @GetMapping("/query-pay-enterprise-express")
+    @ApiOperation(value = "查询总包支付清单物流信息", notes = "查询总包支付清单物流信息")
+    public R queryPayEnterpriseExpress(@ApiParam(value = "支付清单", required = true) @NotNull(message = "请选择总包支付清单") @RequestParam(required = false) Long payEnterpriseId, BladeUser bladeUser) {
+        //查询当前渠道商员工
+        R<AgentMainWorkerEntity> result = userClient.currentAgentMainWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return payEnterpriseService.queryPayEnterpriseExpress(payEnterpriseId);
+    }
+
     @GetMapping("/query-worksheet-detail")
     @ApiOperation(value = "查询工单详情", notes = "查询工单详情")
     public R queryTotalSubAcceptPaysheetList(@ApiParam(value = "工单", required = true) @NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId, BladeUser bladeUser) {
