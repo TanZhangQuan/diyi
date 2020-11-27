@@ -456,7 +456,6 @@
         <result property="detailedAddress" column="detailed_address"/>
     </resultMap>
 
-
     <resultMap type="com.lgyun.system.order.vo.EnterpriseInvoiceDetailVO" id="enterpriseInvoiceDetailVoMap">
         <result property="invoicePrintId" column="invoice_print_id"/>
         <result property="payEnterpriseId" column="pay_enterprise_id"/>
@@ -519,6 +518,17 @@
         <result property="payToPlatformAmount" column="pay_to_platform_amount"/>
         <result property="auditState" column="audit_state"/>
         <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.PayEnterpriseExpressVO" id="payEnterpriseExpressVO">
+        <result property="expressCompanyName" column="express_company_name"/>
+        <result property="expressSheetNo" column="express_sheet_no"/>
+        <result property="receiptWorkingAddress" column="receipt_working_address"/>
+        <result property="receiptWorkingRelName" column="receipt_working_rel_name"/>
+        <result property="receiptWorkingRelPhone" column="receipt_working_rel_phone"/>
+        <result property="sendWorkingAddress" column="send_working_address"/>
+        <result property="sendWorkingRelName" column="send_working_rel_name"/>
+        <result property="sendWorkingRelPhone" column="send_working_rel_phone"/>
     </resultMap>
 
     <select id="getEnterpriseAll" resultMap="InvoiceEnterpriseVOMap">
@@ -1095,9 +1105,9 @@
         SELECT t1.id, t2.enterprise_name, t3.service_provider_name, t1.charge_list_url, t1.worksheet_id, t1.audit_state, t1.create_time, t1.maker_invoice_type,
         t1.pay_state, t1.company_invoice_state, t1.subcontracting_invoice_state, t1.pay_to_platform_amount, (SELECT GROUP_CONCAT(enterprise_pay_receipt_url)
         FROM diyi_pay_enterprise_receipt WHERE is_deleted = 0 AND pay_enterprise_id = t1.id) AS enterprise_pay_receipt_urls, (SELECT GROUP_CONCAT(accept_paysheet_url)
-        FROM diyi_accept_paysheet WHERE is_deleted = 0 AND pay_enterprise_id = t1.id) AS accept_paysheet_urls
-        FROM diyi_pay_enterprise t1 INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id INNER JOIN diyi_service_provider t3 ON t1.service_provider_id = t3.id
-        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t1.id = #{param1}
+        FROM diyi_accept_paysheet WHERE is_deleted = 0 AND pay_enterprise_id = t1.id) AS accept_paysheet_urls FROM diyi_pay_enterprise t1 INNER JOIN diyi_enterprise t2
+        ON t1.enterprise_id = t2.id INNER JOIN diyi_service_provider t3 ON t1.service_provider_id = t3.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0
+        AND t3.is_deleted = 0 AND t1.id = #{param1}
     </select>
 
     <select id="queryPayEnterpriseUpdateDetail" resultMap="payEnterpriseUpdateDetailVO">
@@ -1171,6 +1181,15 @@
         <if test="param3.endDate != null">
             AND DATEDIFF(t1.create_time, #{param3.endDate}) <![CDATA[ <= ]]> 0
         </if>
+    </select>
+
+    <select id="queryPayEnterpriseExpress" resultMap="payEnterpriseExpressVO">
+        SELECT t5.express_company_name, t5.express_sheet_no, t2.working_address AS receipt_working_address, t2.working_rel_name AS receipt_working_rel_name,
+        t2.working_rel_phone AS receipt_working_rel_phone, t3.working_address AS send_working_address, t3.working_rel_name AS send_working_rel_name,
+        t3.working_rel_phone AS send_working_rel_phone FROM diyi_pay_enterprise t1 INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id
+        INNER JOIN diyi_service_provider t3 ON t1.service_provider_id = t3.id INNER JOIN diyi_platform_invoice_pay_list t4 ON t1.id = t4.pay_enterprise_id
+        INNER JOIN diyi_platform_invoice t5 ON t4.invoice_print_id = t5.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t4.is_deleted = 0
+        AND t5.is_deleted = 0 AND t.id = #{param1} LIMIT 1
     </select>
 
 </mapper>

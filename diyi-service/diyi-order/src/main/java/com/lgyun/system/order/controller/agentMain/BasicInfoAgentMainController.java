@@ -31,14 +31,15 @@ public class BasicInfoAgentMainController {
 
     @GetMapping("/query-address-list")
     @ApiOperation(value = "查询渠道商所有收货地址信息", notes = "查询渠道商所有收货地址信息")
-    public R queryAddressList(@ApiParam(value = "渠道商") @NotNull(message = "请选择渠道商") @RequestParam(required = false) Long agentMainId, Query query, BladeUser bladeUser) {
+    public R queryAddressList(Query query, BladeUser bladeUser) {
         //查询当前渠道商员工
         R<AgentMainWorkerEntity> result = userClient.currentAgentMainWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
+        AgentMainWorkerEntity agentMainWorkerEntity = result.getData();
 
-        return addressService.queryAddressList(ObjectType.AGENTMAINPEOPLE, agentMainId, Condition.getPage(query.setDescs("create_time")));
+        return addressService.queryAddressList(ObjectType.AGENTMAINPEOPLE, agentMainWorkerEntity.getAgentMainId(), Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-address-update-detail")
@@ -55,15 +56,15 @@ public class BasicInfoAgentMainController {
 
     @PostMapping("/add-or-update-address")
     @ApiOperation(value = "添加/编辑收货地址", notes = "添加/编辑收货地址")
-    public R addOrUpdateAddress(@ApiParam(value = "渠道商") @NotNull(message = "请选择渠道商") @RequestParam(required = false) Long agentMainId,
-                                @Valid @RequestBody AddOrUpdateAddressDTO addOrUpdateAddressDto, BladeUser bladeUser) {
+    public R addOrUpdateAddress(@Valid @RequestBody AddOrUpdateAddressDTO addOrUpdateAddressDto, BladeUser bladeUser) {
         //查询当前渠道商员工
         R<AgentMainWorkerEntity> result = userClient.currentAgentMainWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
+        AgentMainWorkerEntity agentMainWorkerEntity = result.getData();
 
-        return addressService.addOrUpdateAddress(addOrUpdateAddressDto, agentMainId, ObjectType.AGENTMAINPEOPLE);
+        return addressService.addOrUpdateAddress(addOrUpdateAddressDto, agentMainWorkerEntity.getAgentMainId(), ObjectType.AGENTMAINPEOPLE);
     }
 
     @PostMapping("/delete-address")

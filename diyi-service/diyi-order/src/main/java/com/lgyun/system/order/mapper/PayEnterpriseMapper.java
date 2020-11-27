@@ -368,5 +368,13 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * @return
      */
     List<PayEnterpriseListSimpleVO> queryPayEnterpriseListAgentMain(Long enterpriseId, Long serviceProviderId, PayEnterpriseListSimpleDTO payEnterpriseListSimpleDTO, IPage<PayEnterpriseListSimpleVO> page);
+
+    /**
+     * 查询总包支付清单物流信息
+     *
+     * @param payEnterpriseId
+     * @return
+     */
+    PayEnterpriseExpressVO queryPayEnterpriseExpress(Long payEnterpriseId);
 }
 

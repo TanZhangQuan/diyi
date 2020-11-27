@@ -120,6 +120,12 @@ public class AuthServiceImpl implements IAuthService {
                     }
                     break;
 
+                case PARTNER:
+                    if (userClient.queryPartnerCountByPhoneNumber(mobile) <= 0) {
+                        return R.fail("手机号未注册");
+                    }
+                    break;
+
                 case ENTERPRISE:
                     if (userClient.queryEnterpriseWorkerCountByPhoneNumber(mobile) <= 0) {
                         return R.fail("手机号未注册");
@@ -154,6 +160,12 @@ public class AuthServiceImpl implements IAuthService {
 
                 case MAKER:
                     if (userClient.queryMakerCountByPhoneNumber(mobile) > 0) {
+                        return R.fail("手机号已注册");
+                    }
+                    break;
+
+                case PARTNER:
+                    if (userClient.queryPartnerCountByPhoneNumber(mobile) > 0) {
                         return R.fail("手机号已注册");
                     }
                     break;

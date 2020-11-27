@@ -42,10 +42,8 @@ public class KdniaoTrackQueryUtil {
         params.put("DataSign", urlEncoder(dataSign, "UTF-8"));
         params.put("DataType", "2");
 
-        String result = sendPost(KuaiDiNiaoConstant.REQURL, params);
-
         //根据公司业务处理返回的信息......
-        return result;
+        return sendPost(KuaiDiNiaoConstant.REQURL, params);
     }
 
     public String getExpressCode(String expressName) {

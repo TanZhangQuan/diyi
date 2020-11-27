@@ -100,6 +100,11 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
+    public int queryPartnerCountByPhoneNumber(String phoneNumber) {
+        throw new CustomException("网络繁忙，请稍后尝试");
+    }
+
+    @Override
     public int queryEnterpriseWorkerCountByPhoneNumber(String phoneNumber) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }

@@ -5,6 +5,7 @@ import com.alibaba.excel.EasyExcelFactory;
 import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
@@ -1181,6 +1182,27 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     @Override
     public R<IPage<PayEnterpriseListSimpleVO>> queryPayEnterpriseListAgentMain(Long enterpriseId, Long serviceProviderId, PayEnterpriseListSimpleDTO payEnterpriseListSimpleDTO, IPage<PayEnterpriseListSimpleVO> page) {
         return R.data(page.setRecords(baseMapper.queryPayEnterpriseListAgentMain(enterpriseId, serviceProviderId, payEnterpriseListSimpleDTO, page)));
+    }
+
+    @Override
+    public R<PayEnterpriseExpressVO> queryPayEnterpriseExpress(Long payEnterpriseId) {
+
+        PayEnterpriseExpressVO payEnterpriseExpressVO = baseMapper.queryPayEnterpriseExpress(payEnterpriseId);
+        //查询物流信息
+        try {
+            if (StringUtil.isNotBlank(payEnterpriseExpressVO.getExpressCompanyName()) && StringUtil.isNotBlank(payEnterpriseExpressVO.getExpressSheetNo())) {
+                KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
+                String result = kdniaoTrackQueryUtil.getOrderTracesByJson(payEnterpriseExpressVO.getExpressCompanyName(), payEnterpriseExpressVO.getExpressSheetNo());
+                JSONObject jsonObject = JSON.parseObject(result);
+                if (jsonObject != null && jsonObject.getBooleanValue("Success")) {
+                    payEnterpriseExpressVO.setExpressDetail(jsonObject.getJSONObject("Traces"));
+                }
+            }
+        } catch (Exception e) {
+            log.error("查询物流异常", e);
+        }
+
+        return R.data(payEnterpriseExpressVO);
     }
 
 }

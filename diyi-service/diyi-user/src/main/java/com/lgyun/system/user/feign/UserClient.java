@@ -25,18 +25,19 @@ public class UserClient implements IUserClient {
     private IAdminService adminService;
     private IMakerService makerService;
     private IPartnerService partnerService;
+    private IAgentMainService agentMainService;
+    private IRelBureauService relBureauService;
     private IAgreementService agreementService;
     private IEnterpriseService enterpriseService;
     private IMakerEnterpriseService makerEnterpriseService;
-    private IIndividualEnterpriseService individualEnterpriseService;
-    private IIndividualBusinessService individualBusinessService;
-    private IEnterpriseServiceProviderService enterpriseServiceProviderService;
-    private IServiceProviderWorkerService serviceProviderWorkerService;
     private IAgentMainWorkerService agentMainWorkerService;
     private IEnterpriseWorkerService enterpriseWorkerService;
     private IServiceProviderService serviceProviderService;
-    private IAgentMainService agentMainService;
-    private IRelBureauService relBureauService;
+    private IIndividualBusinessService individualBusinessService;
+    private IIndividualEnterpriseService individualEnterpriseService;
+    private IServiceProviderWorkerService serviceProviderWorkerService;
+    private IEnterpriseServiceProviderService enterpriseServiceProviderService;
+
 
     @Override
     public UserInfo queryUserInfoByUserId(Long userId, UserType userType) {
@@ -116,6 +117,11 @@ public class UserClient implements IUserClient {
     @Override
     public int queryMakerCountByPhoneNumber(String phoneNumber) {
         return makerService.findCountByPhoneNumber(phoneNumber);
+    }
+
+    @Override
+    public int queryPartnerCountByPhoneNumber(String phoneNumber) {
+        return partnerService.findCountByPhoneNumber(phoneNumber);
     }
 
     @Override

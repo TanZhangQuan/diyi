@@ -70,6 +70,14 @@ public interface IPartnerService extends BaseService<PartnerEntity> {
     PartnerEntity findByPhoneNumber(String phoneNumber);
 
     /**
+     * 根据微信手机号码查询合伙人是否存在
+     *
+     * @param phoneNumber
+     * @return
+     */
+    int findCountByPhoneNumber(String phoneNumber);
+
+    /**
      * 根据身份证号查找合伙人
      *
      * @param idcardNo

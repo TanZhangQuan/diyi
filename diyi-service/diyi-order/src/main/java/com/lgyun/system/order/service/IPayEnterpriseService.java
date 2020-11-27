@@ -485,5 +485,12 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      */
     R<IPage<PayEnterpriseListSimpleVO>> queryPayEnterpriseListAgentMain(Long enterpriseId, Long serviceProviderId, PayEnterpriseListSimpleDTO payEnterpriseListSimpleDTO, IPage<PayEnterpriseListSimpleVO> page);
 
+    /**
+     * 查询总包支付清单物流信息
+     *
+     * @param payEnterpriseId
+     * @return
+     */
+    R<PayEnterpriseExpressVO> queryPayEnterpriseExpress(Long payEnterpriseId);
 }
 

@@ -185,6 +185,13 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
     }
 
     @Override
+    public int findCountByPhoneNumber(String phoneNumber) {
+        QueryWrapper<PartnerEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(PartnerEntity::getPhoneNumber, phoneNumber);
+        return baseMapper.selectCount(queryWrapper);
+    }
+
+    @Override
     public PartnerEntity findByIdcardNo(String idcardNo) {
         QueryWrapper<PartnerEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(PartnerEntity::getIdcardNo, idcardNo);

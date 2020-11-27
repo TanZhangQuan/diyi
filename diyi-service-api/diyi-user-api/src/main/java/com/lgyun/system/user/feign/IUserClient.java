@@ -173,6 +173,15 @@ public interface IUserClient {
     int queryMakerCountByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
 
     /**
+     * 根据手机号查询合伙人数量
+     *
+     * @param phoneNumber
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/query-partner-count-by-phone-number")
+    int queryPartnerCountByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
+
+    /**
      * 根据手机号查询商户员工数量
      *
      * @param phoneNumber
