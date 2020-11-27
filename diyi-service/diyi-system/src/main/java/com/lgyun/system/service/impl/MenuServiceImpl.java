@@ -3,6 +3,7 @@ package com.lgyun.system.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.constant.BladeConstant;
+import com.lgyun.common.enumeration.MenuType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.node.ForestNodeMerger;
 import com.lgyun.common.node.TreeNode;
@@ -73,7 +74,7 @@ public class MenuServiceImpl extends BaseServiceImpl<MenuMapper, Menu> implement
     }
 
     @Override
-    public List<TreeNode> tree(String menuType, Long roleId, Boolean superAdmin) {
+    public List<TreeNode> tree(MenuType menuType, Long roleId, Boolean superAdmin) {
         if (superAdmin) {
             return ForestNodeMerger.merge(baseMapper.tree(menuType));
         }

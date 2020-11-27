@@ -4,6 +4,7 @@ import com.lgyun.common.annotation.PreAuth;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.RoleConstant;
 import com.lgyun.common.ctrl.BladeController;
+import com.lgyun.common.enumeration.MenuType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.node.TreeNode;
 import com.lgyun.common.secure.BladeUser;
@@ -152,7 +153,7 @@ public class MenuController extends BladeController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        List<TreeNode> tree = menuService.tree(UserType.ENTERPRISE.getValue(), enterpriseWorkerEntity.getRoleId(), enterpriseWorkerEntity.getSuperAdmin());
+        List<TreeNode> tree = menuService.tree(MenuType.ENTERPRISE, enterpriseWorkerEntity.getRoleId(), enterpriseWorkerEntity.getSuperAdmin());
         return R.data(tree);
     }
 
@@ -166,7 +167,7 @@ public class MenuController extends BladeController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        List<TreeNode> tree = menuService.tree(UserType.SERVICEPROVIDER.getValue(), serviceProviderWorkerEntity.getRoleId(), serviceProviderWorkerEntity.getSuperAdmin());
+        List<TreeNode> tree = menuService.tree(MenuType.SERVICEPROVIDER, serviceProviderWorkerEntity.getRoleId(), serviceProviderWorkerEntity.getSuperAdmin());
         return R.data(tree);
     }
 
@@ -180,7 +181,7 @@ public class MenuController extends BladeController {
         }
         AdminEntity adminEntity = result.getData();
 
-        List<TreeNode> tree = menuService.tree(UserType.ADMIN.getValue(), adminEntity.getRoleId(), adminEntity.getSuperAdmin());
+        List<TreeNode> tree = menuService.tree(MenuType.ADMIN, adminEntity.getRoleId(), adminEntity.getSuperAdmin());
         return R.data(tree);
     }
 
@@ -194,7 +195,7 @@ public class MenuController extends BladeController {
         }
         AgentMainWorkerEntity agentMainWorkerEntity = result.getData();
 
-        List<TreeNode> tree = menuService.tree(UserType.AGENTMAIN.getValue(), agentMainWorkerEntity.getRoleId(), agentMainWorkerEntity.getSuperAdmin());
+        List<TreeNode> tree = menuService.tree(MenuType.AGENTMAIN, agentMainWorkerEntity.getRoleId(), agentMainWorkerEntity.getSuperAdmin());
         return R.data(tree);
     }
 
