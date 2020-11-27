@@ -4,9 +4,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.MenuType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.exception.CustomException;
-import com.lgyun.system.dto.GrantDTO;
 import com.lgyun.system.dto.RoleMenusDTO;
-import com.lgyun.system.entity.Dept;
 import com.lgyun.system.entity.Role;
 import com.lgyun.system.vo.RoleMenusVO;
 import com.lgyun.system.vo.RolesVO;
@@ -23,67 +21,12 @@ import java.util.List;
 public class ISysClientFallback implements ISysClient {
 
     @Override
-    public Dept getDept(Long id) {
-        throw new CustomException("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public String getDeptName(Long id) {
-        throw new CustomException("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public String getDeptIds(String tenantId, String deptNames) {
-        throw new CustomException("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public List<String> getDeptNames(String deptIds) {
-        throw new CustomException("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public String getPostIds(String tenantId, String postNames) {
-        throw new CustomException("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public List<String> getPostNames(String postIds) {
-        throw new CustomException("网络繁忙，请稍后尝试");
-    }
-
-    @Override
     public Role getRole(Long id) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
-    public String getRoleIds(String tenantId, String roleNames) {
-        throw new CustomException("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public String getRoleName(Long id) {
-        throw new CustomException("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public List<String> getRoleNames(String roleIds) {
-        throw new CustomException("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public String getRoleAlias(Long id) {
-        throw new CustomException("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public R grantFeign(GrantDTO request) {
-        throw new CustomException("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public R createOrUpdateRoleMenus(RoleMenusDTO roleMenusDTO, Long account) {
+    public R<String> createOrUpdateRoleMenus(RoleMenusDTO roleMenusDTO, Long account) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 

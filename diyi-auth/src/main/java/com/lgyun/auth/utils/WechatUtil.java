@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.WechatConstant;
+import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.tool.AesCbcUtil;
 import com.lgyun.common.tool.Func;
 import com.lgyun.common.tool.HttpUtil;
@@ -28,22 +29,26 @@ public class WechatUtil {
     /**
      * 微信授权认证
      *
-     * @param code 授权码
-     *
+     * @param userType
+     * @param code
+     * @return
+     * @throws Exception
      */
-    public R<JSONObject> authorization(String code) throws Exception {
-        return authorization(code, null, null);
+    public R<JSONObject> authorization(UserType userType, String code) throws Exception {
+        return authorization(userType, code, null, null);
     }
 
     /**
      * 微信授权认证
      *
-     * @param code 授权码
-     * @param iv 加密算法的初始向量
-     * @param encryptedData 加密数据
-     *
+     * @param userType
+     * @param code
+     * @param iv
+     * @param encryptedData
+     * @return
+     * @throws Exception
      */
-    public R<JSONObject> authorization(String code, String iv, String encryptedData) throws Exception {
+    public R<JSONObject> authorization(UserType userType, String code, String iv, String encryptedData) throws Exception {
 
         // 查询微信授权码
         if (StringUtil.isBlank(code)) {
@@ -53,8 +58,24 @@ public class WechatUtil {
         JSONObject result = new JSONObject();
         Map<String, String> requestUrlParam = new HashMap<>();
         requestUrlParam.put("grant_type", "authorization_code");    //默认参数
-        requestUrlParam.put("appid", WechatConstant.WECHAT_APPID);    //开发者设置中的appId
-        requestUrlParam.put("secret", WechatConstant.WECHAT_SECRET);    //开发者设置中的appSecret
+
+        switch (userType) {
+
+            case MAKER:
+
+                requestUrlParam.put("appid", WechatConstant.MAKER_WECHAT_APPID);    //开发者设置中的appId
+                requestUrlParam.put("secret", WechatConstant.MAKER_WECHAT_SECRET);    //开发者设置中的appSecret
+                break;
+
+            case PARTNER:
+
+                requestUrlParam.put("appid", WechatConstant.PARTNER_WECHAT_APPID);    //开发者设置中的appId
+                requestUrlParam.put("secret", WechatConstant.PARTNER_WECHAT_SECRET);    //开发者设置中的appSecret
+                break;
+
+            default:
+                return R.fail("用户类型有误");
+        }
         requestUrlParam.put("js_code", code);    //小程序调用wx.login返回的code
 
         JSONObject jsonObject = JSON.parseObject(HttpUtil.post(WechatConstant.WECHAT_SESSIONHOST, requestUrlParam));
@@ -85,7 +106,7 @@ public class WechatUtil {
         result.put("openid", openid);
         result.put("sessionKey", sessionKey);
 
-        if (Func.isNoneBlank(iv, encryptedData)){
+        if (Func.isNoneBlank(iv, encryptedData)) {
             // 参数含义：第一个，加密数据串（String）；第二个，session_key需要通过微信小程序的code获得（String）；
             // 第三个，数据加密时所使用的偏移量，解密时需要使用（String）；第四个，编码
             String AesResult = AesCbcUtil.decrypt(encryptedData, sessionKey, iv, "UTF-8");

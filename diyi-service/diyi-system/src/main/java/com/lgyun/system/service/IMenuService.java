@@ -56,14 +56,6 @@ public interface IMenuService extends BaseService<Menu> {
 	List<TreeNode> tree(MenuType menuType, Long roleId, Boolean superAdmin);
 
 	/**
-	 * 授权树形结构
-	 *
-	 * @param user
-	 * @return
-	 */
-	List<MenuVO> grantTree(BladeUser user);
-
-	/**
 	 * 默认选中节点
 	 *
 	 * @param roleIds

@@ -23,19 +23,6 @@
                dept_id
     </sql>
 
-    <select id="getRoleName" resultType="java.lang.String">
-        SELECT
-        role_name
-        FROM
-        sys_role
-        WHERE
-        is_deleted = 0 and
-        id IN
-        <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
-            #{ids}
-        </foreach>
-    </select>
-
     <select id="getRoleAlias" resultType="java.lang.String">
         SELECT
         role_alias
@@ -47,34 +34,6 @@
         <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
             #{ids}
         </foreach>
-    </select>
-
-    <select id="getDeptName" resultType="java.lang.String">
-        SELECT
-        dept_name
-        FROM
-        sys_dept
-        WHERE
-        is_deleted = 0 and
-        id IN
-        <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
-            #{ids}
-        </foreach>
-    </select>
-
-    <select id="exportUser" resultType="com.lgyun.system.user.excel.UserExcel">
-        SELECT id,
-               tenant_id,
-               account,
-               name,
-               real_name,
-               email,
-               phone,
-               birthday,
-               role_id,
-               dept_id,
-               post_id
-        FROM sys_user ${ew.customSqlSegment}
     </select>
 
 </mapper>

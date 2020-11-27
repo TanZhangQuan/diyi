@@ -2373,31 +2373,6 @@ CREATE TABLE `sys_client` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `sys_dept`
--- ----------------------------
-DROP TABLE IF EXISTS `sys_dept`;
-CREATE TABLE `sys_dept` (
-  `id` bigint(50) NOT NULL COMMENT '主键',
-  `tenant_id` varchar(12) DEFAULT '000000' COMMENT '租户ID',
-  `parent_id` bigint(50) DEFAULT '0' COMMENT '父主键',
-  `dept_name` varchar(50) NOT NULL DEFAULT '' COMMENT '部门名',
-  `full_name` varchar(50) NOT NULL DEFAULT '' COMMENT '部门全称',
-  `sort` int(11) DEFAULT NULL COMMENT '排序',
-  `remark` varchar(100) NOT NULL DEFAULT '' COMMENT '备注',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
-  `update_time` datetime NOT NULL COMMENT '修改时间',
-  `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='部门表';
-
--- ----------------------------
--- Records of sys_dept
--- ----------------------------
-
--- ----------------------------
 -- Table structure for `sys_dict`
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dict`;
@@ -2455,60 +2430,11 @@ CREATE TABLE `sys_menu` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `sys_param`
--- ----------------------------
-DROP TABLE IF EXISTS `sys_param`;
-CREATE TABLE `sys_param` (
-  `id` bigint(50) NOT NULL COMMENT '主键',
-  `param_name` varchar(50) NOT NULL DEFAULT '' COMMENT '参数名',
-  `param_key` varchar(50) NOT NULL DEFAULT '' COMMENT '参数键',
-  `param_value` varchar(50) NOT NULL DEFAULT '' COMMENT '参数值',
-  `remark` varchar(100) NOT NULL DEFAULT '' COMMENT '备注',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
-  `update_time` datetime NOT NULL COMMENT '修改时间',
-  `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='参数表';
-
--- ----------------------------
--- Records of sys_param
--- ----------------------------
-
--- ----------------------------
--- Table structure for `sys_post`
--- ----------------------------
-DROP TABLE IF EXISTS `sys_post`;
-CREATE TABLE `sys_post` (
-  `id` bigint(50) NOT NULL COMMENT '主键',
-  `tenant_id` varchar(50) DEFAULT '000000' COMMENT '租户ID',
-  `category` int(11) DEFAULT NULL COMMENT '岗位类型',
-  `post_code` varchar(50) NOT NULL DEFAULT '' COMMENT '岗位编号',
-  `post_name` varchar(50) NOT NULL DEFAULT '' COMMENT '岗位名称',
-  `sort` int(3) DEFAULT NULL COMMENT '岗位排序',
-  `remark` varchar(100) NOT NULL DEFAULT '' COMMENT '岗位描述',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
-  `update_time` datetime NOT NULL COMMENT '修改时间',
-  `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='岗位表';
-
--- ----------------------------
--- Records of sys_post
--- ----------------------------
-
--- ----------------------------
 -- Table structure for `sys_role`
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `tenant_id` varchar(50) DEFAULT '000000' COMMENT '租户ID',
   `parent_id` bigint(50) DEFAULT '0' COMMENT '父主键',
   `role_name` varchar(50) NOT NULL DEFAULT '' COMMENT '角色名',
   `sort` int(11) DEFAULT NULL COMMENT '排序',
@@ -2550,36 +2476,11 @@ CREATE TABLE `sys_role_menu` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `sys_tenant`
--- ----------------------------
-DROP TABLE IF EXISTS `sys_tenant`;
-CREATE TABLE `sys_tenant` (
-  `id` bigint(50) NOT NULL COMMENT '主键',
-  `tenant_id` varchar(50) NOT NULL COMMENT '租户ID',
-  `tenant_name` varchar(50) NOT NULL COMMENT '租户名称',
-  `linkman` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人',
-  `contact_number` varchar(50) NOT NULL DEFAULT '' COMMENT '联系电话',
-  `address` varchar(100) NOT NULL DEFAULT '' COMMENT '联系地址',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
-  `update_time` datetime NOT NULL COMMENT '修改时间',
-  `status` tinyint(1) NOT NULL COMMENT '状态[0-非正常 1-正常]',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='租户表';
-
--- ----------------------------
--- Records of sys_tenant
--- ----------------------------
-
--- ----------------------------
 -- Table structure for `sys_user`
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `tenant_id` varchar(50) NOT NULL DEFAULT '000000' COMMENT '租户ID',
   `user_type` varchar(50) NOT NULL COMMENT '用户类型',
   `account` varchar(50) NOT NULL COMMENT '账号',
   `phone` varchar(50) NOT NULL COMMENT '手机',

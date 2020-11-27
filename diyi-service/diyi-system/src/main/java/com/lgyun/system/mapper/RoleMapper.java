@@ -1,9 +1,8 @@
 package com.lgyun.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.system.vo.RoleVO;
 import com.lgyun.system.entity.Role;
+import com.lgyun.system.vo.RoleVO;
 
 import java.util.List;
 
@@ -13,15 +12,6 @@ import java.util.List;
  * @author tzq
  */
 public interface RoleMapper extends BaseMapper<Role> {
-
-	/**
-	 * 自定义分页
-	 *
-	 * @param page
-	 * @param role
-	 * @return
-	 */
-	List<RoleVO> selectRolePage(IPage page, RoleVO role);
 
 	/**
 	 * 查询树形节点

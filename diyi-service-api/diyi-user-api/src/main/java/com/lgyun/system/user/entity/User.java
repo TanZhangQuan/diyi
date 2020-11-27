@@ -2,7 +2,7 @@ package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.common.enumeration.UserType;
-import com.lgyun.core.mp.base.TenantEntity;
+import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("sys_user")
-public class User extends TenantEntity {
+public class User extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	/**

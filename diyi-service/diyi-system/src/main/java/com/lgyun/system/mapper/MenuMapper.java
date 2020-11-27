@@ -39,21 +39,6 @@ public interface MenuMapper extends BaseMapper<Menu> {
 	List<TreeNode> treeByRoleId(MenuType menuType, Long RoleId);
 
 	/**
-	 * 授权树形结构
-	 *
-	 * @return
-	 */
-	List<MenuVO> grantTree();
-
-	/**
-	 * 授权树形结构
-	 *
-	 * @param roleId
-	 * @return
-	 */
-	List<MenuVO> grantTreeByRole(List<Long> roleId);
-
-	/**
 	 * 所有菜单
 	 *
 	 * @param menuType

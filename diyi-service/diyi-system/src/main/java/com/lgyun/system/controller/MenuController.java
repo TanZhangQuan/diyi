@@ -199,12 +199,6 @@ public class MenuController extends BladeController {
         return R.data(tree);
     }
 
-    @GetMapping("/grant-tree")
-    @ApiOperation(value = "权限分配树形结构", notes = "权限分配树形结构")
-    public R<List<MenuVO>> grantTree(BladeUser user) {
-        return R.data(menuService.grantTree(user));
-    }
-
     @GetMapping("/role-tree-keys")
     @ApiOperation(value = "角色所分配的树", notes = "角色所分配的树")
     public R<List<String>> roleTreeKeys(String roleIds) {

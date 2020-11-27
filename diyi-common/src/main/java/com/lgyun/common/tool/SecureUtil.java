@@ -25,7 +25,6 @@ public class SecureUtil {
     private final static String USER_ID = TokenConstant.USER_ID;
     private final static String ROLE_ID = TokenConstant.ROLE_ID;
     private final static String ROLE_NAME = TokenConstant.ROLE_NAME;
-    private final static String TENANT_ID = TokenConstant.TENANT_ID;
     private final static String CLIENT_ID = TokenConstant.CLIENT_ID;
     private final static Integer AUTH_LENGTH = TokenConstant.AUTH_LENGTH;
     private static String BASE64_SECURITY = Base64.getEncoder().encodeToString(TokenConstant.SIGN_KEY.getBytes(Charsets.UTF_8));
@@ -65,7 +64,6 @@ public class SecureUtil {
         }
         String clientId = Func.toStr(claims.get(SecureUtil.CLIENT_ID));
         Long userId = Func.toLong(claims.get(SecureUtil.USER_ID));
-        String tenantId = Func.toStr(claims.get(SecureUtil.TENANT_ID));
         String roleId = Func.toStr(claims.get(SecureUtil.ROLE_ID));
         String account = Func.toStr(claims.get(SecureUtil.ACCOUNT));
         String roleName = Func.toStr(claims.get(SecureUtil.ROLE_NAME));
@@ -73,7 +71,6 @@ public class SecureUtil {
         BladeUser bladeUser = new BladeUser();
         bladeUser.setClientId(clientId);
         bladeUser.setUserId(userId);
-        bladeUser.setTenantId(tenantId);
         bladeUser.setAccount(account);
         bladeUser.setRoleId(roleId);
         bladeUser.setRoleName(roleName);
@@ -100,38 +97,6 @@ public class SecureUtil {
     }
 
     /**
-     * 查询用户id
-     *
-     * @param request request
-     * @return userId
-     */
-    public static Long getUserId(HttpServletRequest request) {
-        BladeUser user = getUser(request);
-        return (null == user) ? -1 : user.getUserId();
-    }
-
-    /**
-     * 查询用户账号
-     *
-     * @return userAccount
-     */
-    public static String getUserAccount() {
-        BladeUser user = getUser();
-        return (null == user) ? StringPool.EMPTY : user.getAccount();
-    }
-
-    /**
-     * 查询用户账号
-     *
-     * @param request request
-     * @return userAccount
-     */
-    public static String getUserAccount(HttpServletRequest request) {
-        BladeUser user = getUser(request);
-        return (null == user) ? StringPool.EMPTY : user.getAccount();
-    }
-
-    /**
      * 查询用户角色
      *
      * @return userName
@@ -139,59 +104,6 @@ public class SecureUtil {
     public static String getUserRole() {
         BladeUser user = getUser();
         return (null == user) ? StringPool.EMPTY : user.getRoleName();
-    }
-
-    /**
-     * 查询用角色
-     *
-     * @param request request
-     * @return userName
-     */
-    public static String getUserRole(HttpServletRequest request) {
-        BladeUser user = getUser(request);
-        return (null == user) ? StringPool.EMPTY : user.getRoleName();
-    }
-
-    /**
-     * 查询租户ID
-     *
-     * @return tenantId
-     */
-    public static String getTenantId() {
-        BladeUser user = getUser();
-        return (null == user) ? StringPool.EMPTY : user.getTenantId();
-    }
-
-    /**
-     * 查询租户ID
-     *
-     * @param request request
-     * @return tenantId
-     */
-    public static String getTenantId(HttpServletRequest request) {
-        BladeUser user = getUser(request);
-        return (null == user) ? StringPool.EMPTY : user.getTenantId();
-    }
-
-    /**
-     * 查询客户端id
-     *
-     * @return tenantId
-     */
-    public static String getClientId() {
-        BladeUser user = getUser();
-        return (null == user) ? StringPool.EMPTY : user.getClientId();
-    }
-
-    /**
-     * 查询客户端id
-     *
-     * @param request request
-     * @return tenantId
-     */
-    public static String getClientId(HttpServletRequest request) {
-        BladeUser user = getUser(request);
-        return (null == user) ? StringPool.EMPTY : user.getClientId();
     }
 
     /**

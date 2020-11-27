@@ -6,13 +6,13 @@ import com.lgyun.common.enumeration.MenuType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.Func;
-import com.lgyun.system.dto.GrantDTO;
 import com.lgyun.system.dto.RoleMenusDTO;
-import com.lgyun.system.entity.Dept;
 import com.lgyun.system.entity.Menu;
 import com.lgyun.system.entity.Role;
 import com.lgyun.system.entity.RoleMenu;
-import com.lgyun.system.service.*;
+import com.lgyun.system.service.IMenuService;
+import com.lgyun.system.service.IRoleMenuService;
+import com.lgyun.system.service.IRoleService;
 import com.lgyun.system.vo.RoleMenusVO;
 import com.lgyun.system.vo.RolesVO;
 import lombok.AllArgsConstructor;
@@ -35,87 +35,14 @@ import java.util.List;
 @AllArgsConstructor
 public class SysClient implements ISysClient {
 
-    private IDeptService deptService;
-
-    private IPostService postService;
-
     private IRoleService roleService;
-
-    private IRoleMenuService roleMenuService;
-
     private IMenuService iMenuService;
-
-    @Override
-    @GetMapping(API_PREFIX + "/getDept")
-    public Dept getDept(Long id) {
-        return deptService.getById(id);
-    }
-
-    @Override
-    @GetMapping(API_PREFIX + "/getDeptName")
-    public String getDeptName(Long id) {
-        return deptService.getById(id).getDeptName();
-    }
-
-    @Override
-    public String getDeptIds(String tenantId, String deptNames) {
-        return deptService.getDeptIds(tenantId, deptNames);
-    }
-
-    @Override
-    public List<String> getDeptNames(String deptIds) {
-        return deptService.getDeptNames(deptIds);
-    }
-
-    @Override
-    public String getPostIds(String tenantId, String postNames) {
-        return postService.getPostIds(tenantId, postNames);
-    }
-
-    @Override
-    public List<String> getPostNames(String postIds) {
-        return postService.getPostNames(postIds);
-    }
+    private IRoleMenuService roleMenuService;
 
     @Override
     @GetMapping(API_PREFIX + "/getRole")
     public Role getRole(Long id) {
         return roleService.getById(id);
-    }
-
-    @Override
-    public String getRoleIds(String tenantId, String roleNames) {
-        return roleService.getRoleIds(tenantId, roleNames);
-    }
-
-    @Override
-    @GetMapping(API_PREFIX + "/getRoleName")
-    public String getRoleName(Long id) {
-        return roleService.getById(id).getRoleName();
-    }
-
-    @Override
-    public List<String> getRoleNames(String roleIds) {
-        return roleService.getRoleNames(roleIds);
-    }
-
-    @Override
-    @GetMapping(API_PREFIX + "/getRoleAlias")
-    public String getRoleAlias(Long id) {
-        return roleService.getById(id).getRoleAlias();
-    }
-
-    /**
-     * 授权接口
-     *
-     * @param request
-     * @return
-     */
-    @Override
-    @PostMapping(API_PREFIX + "/grant")
-    public R grantFeign(GrantDTO request) {
-        boolean temp = roleService.grantFeign(request);
-        return R.status(temp);
     }
 
     @Override
@@ -143,12 +70,6 @@ public class SysClient implements ISysClient {
         return R.status(roleMenuService.saveBatch(roleMenus));
     }
 
-    /**
-     * 查询权限
-     *
-     * @param roleId 主键
-     * @return
-     */
     @Override
     public List<String> queryMenusByRole(Long roleId) {
         return roleMenuService.queryMenusByRole(roleId);

@@ -52,11 +52,6 @@ public interface BladeConstant {
     int DB_ADMIN_LOCKED = 1;
 
     /**
-     * 管理员对应的租户ID
-     */
-    String ADMIN_TENANT_ID = "000000";
-
-    /**
      * 日志默认状态
      */
     String LOG_NORMAL_TYPE = "1";

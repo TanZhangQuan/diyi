@@ -1,22 +1,21 @@
 package com.lgyun.system.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.lgyun.system.service.IRoleService;
-import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
-import com.lgyun.system.user.feign.IUserClient;
-import com.lgyun.system.dto.GrantDTO;
-import com.lgyun.system.vo.RoleVO;
-import com.lgyun.system.wrapper.RoleWrapper;
-import io.swagger.annotations.*;
-import lombok.AllArgsConstructor;
 import com.lgyun.common.api.R;
-import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.ctrl.BladeController;
 import com.lgyun.common.node.INode;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.Func;
 import com.lgyun.core.mp.support.Condition;
+import com.lgyun.system.dto.GrantDTO;
 import com.lgyun.system.entity.Role;
+import com.lgyun.system.service.IRoleService;
+import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
+import com.lgyun.system.user.feign.IUserClient;
+import com.lgyun.system.vo.RoleVO;
+import com.lgyun.system.wrapper.RoleWrapper;
+import io.swagger.annotations.*;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -54,23 +53,20 @@ public class RoleController extends BladeController {
 	@ApiOperation(value = "列表", notes = "传入role")
 	public R<List<INode>> list(@ApiIgnore @RequestParam Map<String, Object> role, BladeUser bladeUser) {
 		QueryWrapper<Role> queryWrapper = Condition.getQueryWrapper(role, Role.class);
-		List<Role> list = roleService.list((!bladeUser.getTenantId().equals(BladeConstant.ADMIN_TENANT_ID)) ? queryWrapper.lambda().eq(Role::getTenantId, bladeUser.getTenantId()) : queryWrapper);
+		List<Role> list = roleService.list(queryWrapper);
 		return R.data(RoleWrapper.build().listNodeVO(list));
 	}
 
 	@GetMapping("/tree")
 	@ApiOperation(value = "树形结构", notes = "树形结构")
 	public R<List<RoleVO>> tree(String tenantId, BladeUser bladeUser) {
-		List<RoleVO> tree = roleService.tree(Func.toStr(tenantId, bladeUser.getTenantId()));
+		List<RoleVO> tree = roleService.tree(Func.toStr(tenantId));
 		return R.data(tree);
 	}
 
 	@PostMapping("/submit")
 	@ApiOperation(value = "新增或修改", notes = "传入role")
 	public R submit(@Valid @RequestBody Role role, BladeUser user) {
-		if (Func.isEmpty(role.getId())) {
-			role.setTenantId(user.getTenantId());
-		}
 		//查询当前商户员工
 		R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(user);
 		if (!(result.isSuccess())) {

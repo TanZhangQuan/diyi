@@ -50,7 +50,6 @@ public class TokenUtil {
         //设置jwt参数
         Map<String, String> param = new HashMap<>(16);
         param.put(TokenConstant.TOKEN_TYPE, TokenConstant.ACCESS_TOKEN);
-        param.put(TokenConstant.TENANT_ID, user.getTenantId());
         param.put(TokenConstant.USER_ID, Func.toStr(user.getId()));
         param.put(TokenConstant.ROLE_ID, user.getRoleId());
         param.put(TokenConstant.ACCOUNT, user.getAccount());

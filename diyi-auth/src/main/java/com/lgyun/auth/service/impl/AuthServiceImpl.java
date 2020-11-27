@@ -47,7 +47,7 @@ public class AuthServiceImpl implements IAuthService {
     public R wechatlogin(WechatLoginDTO wechatLoginDto) throws Exception {
 
         //微信授权
-        R<JSONObject> result = wechatUtil.authorization(wechatLoginDto.getWechatCode(), wechatLoginDto.getIv(), wechatLoginDto.getEncryptedData());
+        R<JSONObject> result = wechatUtil.authorization(wechatLoginDto.getUserType(), wechatLoginDto.getWechatCode(), wechatLoginDto.getIv(), wechatLoginDto.getEncryptedData());
         if (!(result.isSuccess())) {
             return result;
         }
@@ -239,7 +239,7 @@ public class AuthServiceImpl implements IAuthService {
                     return R.fail("请输入微信授权码");
                 }
                 // 微信授权
-                result = wechatUtil.authorization(wechatCode);
+                result = wechatUtil.authorization(userType, wechatCode);
                 if (!(result.isSuccess())) {
                     return result;
                 }
@@ -260,7 +260,7 @@ public class AuthServiceImpl implements IAuthService {
                     return R.fail("请输入微信授权码");
                 }
                 // 微信授权
-                result = wechatUtil.authorization(wechatCode);
+                result = wechatUtil.authorization(userType, wechatCode);
                 if (!(result.isSuccess())) {
                     return result;
                 }
@@ -351,7 +351,7 @@ public class AuthServiceImpl implements IAuthService {
                 }
 
                 //微信授权
-                result = wechatUtil.authorization(wechatCode);
+                result = wechatUtil.authorization(userType, wechatCode);
                 if (!(result.isSuccess())) {
                     return result;
                 }
@@ -374,7 +374,7 @@ public class AuthServiceImpl implements IAuthService {
                 }
 
                 //微信授权
-                result = wechatUtil.authorization(wechatCode);
+                result = wechatUtil.authorization(userType, wechatCode);
                 if (!(result.isSuccess())) {
                     return result;
                 }

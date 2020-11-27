@@ -18,7 +18,6 @@ public interface TokenConstant {
     String USER_ID = "user_id";
     String ROLE_ID = "role_id";
     String ROLE_NAME = "role_name";
-    String TENANT_ID = "tenant_id";
     String CLIENT_ID = "client_id";
     Integer AUTH_LENGTH = 7;
 
