@@ -167,6 +167,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = new ServiceProviderWorkerEntity();
         serviceProviderWorkerEntity.setUserId(user.getId());
         serviceProviderWorkerEntity.setPositionName(PositionName.MANAGEMENT);
+        serviceProviderWorkerEntity.setSuperAdmin(true);
         serviceProviderWorkerEntity.setAdminPower(true);
         BeanUtil.copy(addServiceProviderDTO, serviceProviderWorkerEntity);
         serviceProviderWorkerEntity.setServiceProviderId(serviceProviderEntity.getId());

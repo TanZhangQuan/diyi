@@ -161,6 +161,7 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
         AgentMainWorkerEntity agentMainWorkerEntity = new AgentMainWorkerEntity();
         agentMainWorkerEntity.setUserId(user.getId());
         agentMainWorkerEntity.setPositionName(PositionName.MANAGEMENT);
+        agentMainWorkerEntity.setSuperAdmin(true);
         agentMainWorkerEntity.setAdminPower(true);
         BeanUtil.copy(createAgentMainDTO, agentMainWorkerEntity);
         agentMainWorkerEntity.setAgentMainId(AgentMainEntity.getId());

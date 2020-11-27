@@ -198,6 +198,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         EnterpriseWorkerEntity enterpriseWorkerEntity = new EnterpriseWorkerEntity();
         enterpriseWorkerEntity.setUserId(user.getId());
         enterpriseWorkerEntity.setPositionName(PositionName.MANAGEMENT);
+        enterpriseWorkerEntity.setSuperAdmin(true);
         enterpriseWorkerEntity.setAdminPower(true);
         BeanUtil.copy(createEnterpriseDTO, enterpriseWorkerEntity);
         enterpriseWorkerEntity.setEnterpriseId(enterpriseEntity.getId());
