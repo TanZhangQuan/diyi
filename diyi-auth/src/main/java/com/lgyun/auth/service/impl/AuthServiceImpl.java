@@ -36,11 +36,11 @@ import java.util.Objects;
 @AllArgsConstructor
 public class AuthServiceImpl implements IAuthService {
 
-    private IUserClient userClient;
+    private SmsUtil smsUtil;
     private TokenUtil tokenUtil;
     private RedisUtil redisUtil;
-    private SmsUtil smsUtil;
     private WechatUtil wechatUtil;
+    private IUserClient userClient;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
