@@ -186,16 +186,6 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
     R<AgreementEntity> findAdminMakerId(Long makerId, AgreementType agreementType);
 
     /**
-     * 平台通过创客id查询合作商户的合同
-     *
-     * @param makerId
-     * @param enterpriseName
-     * @param page
-     * @return
-     */
-    R findAdMaEnterAgreement(Long makerId, String enterpriseName, IPage<AgreementMakerEnterAdminVO> page);
-
-    /**
      * 平台端添加合同
      */
     R saveAdminAgreement(Long makerId, Long enterpriseId, Long serviceProviderId, Long objectId, ObjectType objectType, AgreementType agreementType, String paperAgreementUrl);
@@ -208,16 +198,6 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
      * @return
      */
     R queryAdminEnterpriseId(Long enterpriseId, AgreementType agreementType);
-
-    /**
-     * 平台根据商户id查询合作服务商的合同
-     *
-     * @param enterpriseId
-     * @param serviceProviderName
-     * @param page
-     * @return
-     */
-    R findEnterIdServiceAgreement(Long enterpriseId, String serviceProviderName, IPage<AgreementEnterServiceAdminVO> page);
 
     /**
      * 平台根据服务商id查询服务商加盟合同

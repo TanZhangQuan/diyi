@@ -7,7 +7,6 @@ import com.lgyun.common.enumeration.CertificationState;
 import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.*;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.excel.MakerExcel;
@@ -217,15 +216,6 @@ public interface IMakerService extends BaseService<MakerEntity> {
     R<String> uploadMakerVideo(MakerEntity makerEntity, String applyShortVideo);
 
     /**
-     * 根据创客姓名分页查询
-     *
-     * @param query
-     * @param makerName
-     * @return
-     */
-    R<IPage<MakerWorksheetVO>> getMakerName(Query query, String makerName);
-
-    /**
      * 查询当前创客所有实名认证状态
      *
      * @param makerId
@@ -324,6 +314,7 @@ public interface IMakerService extends BaseService<MakerEntity> {
 
     /**
      * 下载创客视频文档
+     *
      * @param makerId
      * @return
      */

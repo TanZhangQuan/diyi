@@ -165,13 +165,6 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
     }
 
     @Override
-    public IndividualBusinessEntity queryIndividualBusinessByIbname(String ibname) {
-        QueryWrapper<IndividualBusinessEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(IndividualBusinessEntity::getIbname, ibname);
-        return baseMapper.selectOne(queryWrapper);
-    }
-
-    @Override
     public IndividualBusinessEntity queryIndividualBusinessByIbtaxNo(String ibtaxNo) {
         QueryWrapper<IndividualBusinessEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(IndividualBusinessEntity::getIbtaxNo, ibtaxNo);

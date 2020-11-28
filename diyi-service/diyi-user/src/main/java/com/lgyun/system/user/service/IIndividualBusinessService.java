@@ -109,14 +109,6 @@ public interface IIndividualBusinessService extends BaseService<IndividualBusine
     IndividualBusinessEntity findByMakerIdAndIbtaxNo(Long makerId, String ibtaxNo);
 
     /**
-     * 根据个体户名称查询个体户
-     *
-     * @param ibname
-     * @return
-     */
-    IndividualBusinessEntity queryIndividualBusinessByIbname(String ibname);
-
-    /**
      * 根据统一社会信用代码查询个体户
      *
      * @param ibtaxNo

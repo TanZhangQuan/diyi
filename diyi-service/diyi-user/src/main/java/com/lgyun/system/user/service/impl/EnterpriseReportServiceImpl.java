@@ -68,11 +68,6 @@ public class EnterpriseReportServiceImpl extends BaseServiceImpl<EnterpriseRepor
     }
 
     @Override
-    public String findReportResultFiles(BodyType mainBodyType, Long mainBodyId) {
-        return baseMapper.findReportResultFiles(mainBodyType, mainBodyId);
-    }
-
-    @Override
     public R findAdminEnterpriseReportAll(String serviceProviderName, ReportTheme reportTheme, String startTime, String endTime, IPage<AdminEnterpriseReportAllVO> page) {
         return R.data(page.setRecords(baseMapper.findAdminEnterpriseReportAll(serviceProviderName, reportTheme, startTime, endTime, page)));
     }

@@ -556,29 +556,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R<IPage<MakerWorksheetVO>> getMakerName(Query query, String makerName) {
-        QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().like(makerName != null, MakerEntity::getName, makerName);
-
-        IPage<MakerEntity> pages = this.page(new Page<>(query.getCurrent(), query.getSize()), queryWrapper);
-
-        List<MakerWorksheetVO> records = pages.getRecords().stream().map(MakerEntity -> BeanUtil.copy(MakerEntity, MakerWorksheetVO.class)).collect(Collectors.toList());
-        for (MakerWorksheetVO makerWorksheetVO : records) {
-            if (SignState.SIGNED.equals(makerWorksheetVO.getEmpowerSignState()) && SignState.SIGNED.equals(makerWorksheetVO.getJoinSignState())) {
-                makerWorksheetVO.setProtocolAuthentication(CertificationState.CERTIFIED);
-            }
-            if (VerifyStatus.VERIFYPASS.equals(makerWorksheetVO.getBankCardVerifyStatus())) {
-                makerWorksheetVO.setRealNameAuthentication(CertificationState.CERTIFIED);
-            }
-        }
-
-        IPage<MakerWorksheetVO> pageVo = new Page<>(pages.getCurrent(), pages.getSize(), pages.getTotal());
-        pageVo.setRecords(records);
-
-        return R.data(pageVo);
-    }
-
-    @Override
     public R<MakerRealNameAuthenticationStateVO> getRealNameAuthenticationState(Long makerId) {
 
         QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();

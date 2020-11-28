@@ -3,11 +3,6 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.EnterpriseReportMapper">
 
-    <select id="findReportResultFiles" resultType="java.lang.String">
-       SELECT GROUP_CONCAT(report_result_files) FROM diyi_enterprise_report t1 WHERE is_deleted = 0 AND (report_state = 'DECLARESUCCESS'
-       OR report_state = 'EDITDECLARESUCCESS') AND main_body_type = #{param1} AND main_body_id = #{param2}
-    </select>
-
     <resultMap id="adminEnterpriseReportAllVO" type="com.lgyun.system.user.vo.AdminEnterpriseReportAllVO">
         <result property="enterpriseReportId" column="enterprise_report_id"/>
         <result property="serviceProviderId" column="service_provider_id"/>

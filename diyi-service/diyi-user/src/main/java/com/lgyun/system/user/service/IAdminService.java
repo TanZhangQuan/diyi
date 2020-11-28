@@ -106,7 +106,6 @@ public interface IAdminService extends BaseService<AdminEntity> {
      */
     R<List<RolesVO>> queryRole(Long id);
 
-
     /**
      * 创建或修改子账号及子账号的角色分配
      *

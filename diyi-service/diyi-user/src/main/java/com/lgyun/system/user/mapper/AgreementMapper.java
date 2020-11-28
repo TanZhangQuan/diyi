@@ -60,17 +60,6 @@ public interface AgreementMapper extends BaseMapper<AgreementEntity> {
     List<AgreementServiceVO> findEnterpriseSupplement(String agreementNo, Long serviceProviderId, String enterpriseName, IPage<AgreementServiceVO> page);
 
     /**
-     * 查询平台自然人创客的合同
-     */
-    List<AgreementMakerEnterAdminVO> findAdMaEnterAgreement(Long makerId, String enterpriseName, IPage<AgreementMakerEnterAdminVO> page);
-
-    /**
-     * 平台根据商户id查询合作服务商的合同
-     */
-    List<AgreementEnterServiceAdminVO> findEnterIdServiceAgreement(Long enterpriseId, String serviceProviderName, IPage<AgreementEnterServiceAdminVO> page);
-
-
-    /**
      * 平台查询创客合同的签署状态
      */
     List<AgreementMakerStateAdminVO> queryMakerAgreementState(String makerName, IPage<AgreementMakerStateAdminVO> page);

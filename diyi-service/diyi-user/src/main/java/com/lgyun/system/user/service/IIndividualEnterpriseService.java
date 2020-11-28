@@ -110,14 +110,6 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
     IndividualEnterpriseEntity findByMakerIdAndIbtaxNo(Long makerId, String ibtaxNo);
 
     /**
-     * 根据个独名称查询个独
-     *
-     * @param ibname
-     * @return
-     */
-    IndividualEnterpriseEntity queryIndividualEnterpriseByIbname(String ibname);
-
-    /**
      * 根据统一社会信用代码查询个独
      *
      * @param ibtaxNo

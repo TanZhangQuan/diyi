@@ -107,12 +107,4 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
         return R.success("保存成功");
     }
 
-    @Override
-    public OnlineSignPicEntity findObjectTypeAndObjectId(Long ObjectId, ObjectType objectType) {
-        QueryWrapper<OnlineSignPicEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(OnlineSignPicEntity::getObjectType, objectType)
-                .eq(OnlineSignPicEntity::getObjectId, ObjectId);
-        OnlineSignPicEntity onlineSignPicEntity = baseMapper.selectOne(queryWrapper);
-        return onlineSignPicEntity;
-    }
 }

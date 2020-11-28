@@ -31,15 +31,6 @@ public interface IEnterpriseReportService extends BaseService<EnterpriseReportEn
     R<IPage<EnterpriseReportsVO>> findByBodyTypeAndBodyId(BodyType mainBodyType, Long mainBodyId, Query query);
 
     /**
-     * 根据申报主体类别，申报主体ID查询申报结果文件资料
-     *
-     * @param mainBodyType
-     * @param mainBodyId
-     * @return
-     */
-    String findReportResultFiles(BodyType mainBodyType, Long mainBodyId);
-
-    /**
      *平台查询所有服务商税务申报或工商申报
      */
     R findAdminEnterpriseReportAll(String serviceProviderName, ReportTheme reportTheme,String startTime, String endTime,IPage<AdminEnterpriseReportAllVO> page);
