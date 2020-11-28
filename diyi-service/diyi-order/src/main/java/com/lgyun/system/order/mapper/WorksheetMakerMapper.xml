@@ -37,7 +37,7 @@
         where m.is_deleted = 0 and wm.is_deleted =0 and wm.worksheet_id = #{param1}
     </select>
 
-    <select id="getByWorksheetListNo" resultMap="worksheetMakerListVO">
+    <select id="getWorksheetMakerDetailList" resultMap="worksheetMakerListVO">
         SELECT t3.id, t3.name, t3.idcard_no, t2.check_money FROM diyi_pay_enterprise t1 LEFT JOIN diyi_worksheet_maker t2 ON t1.worksheet_id = t2.worksheet_id
         AND t2.is_deleted = 0 LEFT JOIN diyi_maker t3 ON t2.maker_id = t3.id AND t3.is_deleted = 0 WHERE t1.is_deleted = 0 AND t1.id = #{param1}
     </select>

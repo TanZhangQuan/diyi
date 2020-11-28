@@ -106,7 +106,7 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
 
     @Override
     public List<WorksheetMakerDetailsVO> getWorksheetMakerDetails(Long worksheetId) {
-        return baseMapper.getWorksheetMakerDetails(worksheetId);
+        return baseMapper.getWorksheetMakerDetailList(worksheetId);
     }
 
     @Override

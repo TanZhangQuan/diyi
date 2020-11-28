@@ -33,6 +33,6 @@ public interface WorksheetMakerMapper extends BaseMapper<WorksheetMakerEntity> {
      * @param worksheetId
      * @return
      */
-    List<WorksheetMakerDetailsVO> getWorksheetMakerDetails(Long worksheetId);
+    List<WorksheetMakerDetailsVO> getWorksheetMakerDetailList(Long worksheetId);
 }
 
