@@ -191,18 +191,6 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
     DayTradeVO queryCrowdDayTradeByServiceProvider(Long serviceProviderId);
 
     /**
-     * 服务商查询众包发票
-     */
-    List<SelfHelpInvoiceCrowdSourcingVO> getServiceCrowdSour(Long serviceProviderId, String enterpriseName,String startTime,String endTime,SelfHelpInvoiceSpApplyState selfHelpInvoiceSpApplyState,IPage<SelfHelpInvoiceCrowdSourcingVO> page);
-
-
-    /**
-     * 服务商查询众包发票
-     */
-    ServiceCrowdSourcingDetailVO getServiceCrowdSourDetails(Long providerSelfHelpInvoiceId);
-
-
-    /**
      * 平台跟据创客身份查询自助开票
      */
     List<SelfHelpInvoiceAdminVO> getAdminMakerTypeSelfHelpInvoice(String enterpriseName, String startTime, String endTime, MakerType makerType, IPage<SelfHelpInvoiceAdminVO> page);

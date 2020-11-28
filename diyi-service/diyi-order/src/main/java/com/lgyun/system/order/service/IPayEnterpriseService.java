@@ -91,31 +91,12 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R<IPage<PayEnterpriseListVO>> getPayEnterpriseList(Long enterpriseId, Long serviceProviderId, PayEnterpriseDTO payEnterpriseDto, IPage<PayEnterpriseListVO> page);
 
     /**
-     * 根据商户查询总包发票
-     *
-     * @param enterpriseId
-     * @param page
-     * @return
-     */
-    R<IPage<EnterpriseLumpSumInvoiceVO>> findEnterpriseLumpSumInvoice(String invoiceSerialNo, String serviceProviderName, String startTime, String endTime, Long enterpriseId, IPage<EnterpriseLumpSumInvoiceVO> page);
-
-    /**
      * 取消申请
      *
      * @param applicationId
      * @return
      */
-    R cancelApply(Long applicationId);
-
-    /**
-     * 查看总包发票详情
-     */
-    R findPayEnterpriseDetails(Long payEnterpriseId);
-
-    /**
-     * 根据商户查询支付清单
-     */
-    R findEnterprisePaymentList(Long enterpriseId, String serviceProviderName, IPage<EnterprisePaymentListVO> page);
+    R<String> cancelApply(Long applicationId);
 
     /**
      * 根据商户查询分包列表-汇总
@@ -283,20 +264,6 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      */
     R getServiceLumpSumInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, CompanyInvoiceState companyInvoiceState, IPage<InvoiceServiceLumpVO> page);
 
-
-    /**
-     * 服务商查询已开总包发票详情
-     */
-    R queryOpenedTotalInvoiceDetail(Long invoicePrintId);
-
-    /**
-     * 服务商查询未开总包发票详情
-     *
-     * @param payEnterpriseId
-     * @return
-     */
-    R getServiceLumpSumInvoiceDetails(Long payEnterpriseId);
-
     /**
      * 服务商总包合并开票
      *
@@ -304,27 +271,6 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * @return
      */
     R queryTotalMergeInvoice(String payEnterpriseIds);
-
-    /**
-     * 服务商根据总包申请开票
-     *
-     * @param invoiceApplicationId
-     * @return
-     */
-    R queryTotalApplyInvoice(Long invoiceApplicationId);
-
-    /**
-     * 服务商总包开票
-     *
-     * @param serviceProviderId
-     * @param payEnterpriseId
-     * @param companyInvoiceUrl
-     * @param expressSheetNo
-     * @param expressCompanyName
-     * @return
-     */
-    R saveServiceLumpSumInvoice(Long serviceProviderId, Long payEnterpriseId, String serviceProviderName, String companyInvoiceUrl, String expressSheetNo, String expressCompanyName, String invoiceDesc, String invoiceTypeNo, String invoiceSerialNo, String invoiceCategory);
-
 
     /**
      * 服务商合并开票
@@ -347,35 +293,9 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R updateTotalInvoice(LumpInvoiceDTO lumpInvoiceDTO);
 
     /**
-     * 服务商查询未开票分包发票
-     *
-     * @param serviceProviderId
-     * @param enterpriseName
-     * @param startTime
-     * @param endTime
-     * @param page
-     * @return
-     */
-    R getSubcontractInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, IPage<InvoiceServiceSubVO> page);
-
-
-    /**
-     * 服务商查看未开票分包发票详情
-     *
-     * @param payEnterpriseId
-     * @return
-     */
-    R getSubcontractInvoiceDetails(Long payEnterpriseId);
-
-    /**
      * 服务商汇总代开开票
      */
     R saveSummaryInvoice(Long serviceProviderId, Long payEnterpriseId, String serviceProviderName, String invoiceTypeNo, String invoiceSerialNo, String invoiceCategory, String companyInvoiceUrl, String makerTaxUrl, String makerTaxListUrl);
-
-    /**
-     * 服务商申请门征单开发票
-     */
-    R applyPortalSignInvoice(Long payEnterpriseId);
 
     /**
      * 服务商门征单开发票开票
@@ -386,21 +306,6 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
      * 服务商查询已开票的汇总代开发票
      */
     R getServiceSummaryInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, IPage<InvoiceServiceSubVO> page);
-
-    /**
-     * 服务商查询已开票的汇总代开发票详情
-     */
-    R getSummaryInvoiceDetails(Long payEnterpriseId);
-
-    /**
-     * 服务商查询已门征单开的发票
-     */
-    R getServicePortalSignInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, IPage<InvoiceServiceSubVO> page);
-
-    /**
-     * 服务商查询已门征单开的发票详情
-     */
-    R getServicePortalSignInvoiceDetails(Long payEnterpriseId);
 
     /**
      * 商户端根据商户id查询总包

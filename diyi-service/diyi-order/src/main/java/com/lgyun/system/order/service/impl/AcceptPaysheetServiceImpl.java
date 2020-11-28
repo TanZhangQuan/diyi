@@ -165,19 +165,4 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
 
     }
 
-    @Override
-    public String findPayEnterpriseAll(String payEnterpriseIds) {
-        QueryWrapper<AcceptPaysheetEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().in(AcceptPaysheetEntity::getPayEnterpriseId,payEnterpriseIds);
-        List<AcceptPaysheetEntity> makerInvoiceEntities = baseMapper.selectList(queryWrapper);
-        if(makerInvoiceEntities.size() <= 0){
-            return "";
-        }
-        String acceptPaysheetUrl = "";
-        for (AcceptPaysheetEntity acceptPaysheetEntity : makerInvoiceEntities){
-            acceptPaysheetUrl = acceptPaysheetEntity.getAcceptPaysheetUrl()+',';
-        }
-        return acceptPaysheetUrl;
-    }
-
 }

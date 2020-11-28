@@ -62,26 +62,6 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     List<PayEnterpriseListVO> getPayEnterpriseList(Long enterpriseId, Long serviceProviderId, PayEnterpriseDTO payEnterpriseDto, IPage<PayEnterpriseListVO> page);
 
     /**
-     * 根据商户查询总包发票
-     *
-     * @param enterpriseId
-     */
-    List<EnterpriseLumpSumInvoiceVO> findEnterpriseLumpSumInvoice(String invoiceSerialNo, String serviceProviderName, String startTime, String endTime, Long enterpriseId, IPage<EnterpriseLumpSumInvoiceVO> page);
-
-    /**
-     * 查看总包发票详情
-     *
-     * @param payEnterpriseId
-     * @return
-     */
-    EnterpriseLumpSumInvoiceVO findPayEnterpriseDetails(Long payEnterpriseId);
-
-    /**
-     * 根据商户查询支付清单
-     */
-    List<EnterprisePaymentListVO> findEnterprisePaymentList(Long enterpriseId, String serviceProviderName, IPage<EnterprisePaymentListVO> page);
-
-    /**
      * 根据商户查询分包列表-汇总
      */
     List<EnterpriseSubcontractInvoiceVO> findEnterpriseSubcontractSummary(Long enterpriseId, String serviceProviderName, IPage<EnterpriseSubcontractInvoiceVO> page);
@@ -250,45 +230,9 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     List<InvoiceServiceLumpVO> getServiceOpenedLumpSumInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, IPage<InvoiceServiceLumpVO> page);
 
     /**
-     * 服务商查询总包发票详情
-     *
-     * @param payEnterpriseId
-     * @return
-     */
-    InvoiceServiceLumpDetailsVO getServiceLumpSumInvoiceDetails(Long payEnterpriseId);
-
-
-    /**
-     * 服务商查询未开票分包发票
-     *
-     * @param serviceProviderId
-     * @param enterpriseName
-     * @param startTime
-     * @param endTime
-     * @param page
-     * @return
-     */
-    List<InvoiceServiceSubVO> getSubcontractInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, IPage<InvoiceServiceSubVO> page);
-
-    /**
-     * 服务商查看分包发票详情
-     *
-     * @param payEnterpriseId
-     * @return
-     */
-    InvoiceServiceSubDetailsVO getSubcontractInvoiceDetails(Long payEnterpriseId);
-
-
-    /**
      * 服务商查询已开票的汇总代开发票
      */
     List<InvoiceServiceSubVO> getServiceSummaryInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, IPage<InvoiceServiceSubVO> page);
-
-
-    /**
-     * 服务商查询已开票的门征代开发票
-     */
-    List<InvoiceServiceSubVO> getServicePortalSignInvoice(Long serviceProviderId, String enterpriseName, String startTime, String endTime, IPage<InvoiceServiceSubVO> page);
 
     /**
      * 商户端根据商户id查询总包

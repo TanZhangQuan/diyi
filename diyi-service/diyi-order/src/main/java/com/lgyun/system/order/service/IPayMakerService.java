@@ -96,22 +96,6 @@ public interface IPayMakerService extends BaseService<PayMakerEntity> {
     R<BigDecimal> queryTotalSubDetailAllIncome(MakerType makerType, Long makerId, Long year, Long month, Long enterpriseId);
 
     /**
-     * 根据总包支付清单查询分包支付明细
-     *
-     * @param payEnterpriseId
-     * @return
-     */
-    List<PayMakerVO> getPayEnterpriseId(Long payEnterpriseId);
-
-    /**
-     * 根据总包支付清单查询分包支付明细和门征发票信息
-     *
-     * @param payEnterpriseId
-     * @return
-     */
-    List<PayMakerVO> getPayEnterprise(Long payEnterpriseId);
-
-    /**
      * 根据总包支付清单生成分包
      *
      * @param list

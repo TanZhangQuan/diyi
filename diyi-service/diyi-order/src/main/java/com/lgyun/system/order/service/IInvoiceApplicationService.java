@@ -13,6 +13,14 @@ import com.lgyun.system.order.entity.InvoiceApplicationEntity;
  */
 public interface IInvoiceApplicationService extends BaseService<InvoiceApplicationEntity> {
 
-    R contractApplyInvoice(ContractApplyInvoiceDTO contractApplyInvoiceDto, Long enterpriseId, IPayEnterpriseService payEnterpriseService);
+    /**
+     * 申请总包发票
+     *
+     * @param contractApplyInvoiceDto
+     * @param enterpriseId
+     * @param payEnterpriseService
+     * @return
+     */
+    R<String> contractApplyInvoice(ContractApplyInvoiceDTO contractApplyInvoiceDto, Long enterpriseId, IPayEnterpriseService payEnterpriseService);
 }
 

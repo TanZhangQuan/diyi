@@ -190,20 +190,6 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     }
 
     @Override
-    public R checkAccept(Long worksheetMakerId, BigDecimal checkMoney) {
-        WorksheetMakerEntity worksheetMakerEntity = worksheetMakerService.getById(worksheetMakerId);
-        WorksheetEntity worksheetEntity = getById(worksheetMakerEntity.getWorksheetId());
-        if (!worksheetEntity.getWorksheetState().equals(WorksheetState.CLOSED)) {
-            return R.fail("工单还没有关单");
-        }
-        worksheetMakerEntity.setCheckMoney(checkMoney);
-        worksheetMakerEntity.setCheckDate(new Date());
-        worksheetMakerEntity.setCheckPerson("商户");
-        worksheetMakerService.saveOrUpdate(worksheetMakerEntity);
-        return R.success("验收成功");
-    }
-
-    @Override
     public R<IPage<EnterpriseWorksheetDetailVO>> getWorksheetDetailsByMaker(Long enterpriseId, Long makerId, IPage<EnterpriseWorksheetDetailVO> page) {
         return R.data(page.setRecords(baseMapper.getWorksheetDetailsByMaker(enterpriseId, makerId, page)));
     }

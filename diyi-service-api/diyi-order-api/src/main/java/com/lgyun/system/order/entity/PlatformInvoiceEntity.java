@@ -72,7 +72,7 @@ public class PlatformInvoiceEntity extends BaseEntity {
     /**
      * 快递更新人员
      */
-    private Date expressUpdatePerson;
+    private String expressUpdatePerson;
 
     /**
      * 快递更新人员电话

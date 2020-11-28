@@ -13,8 +13,6 @@ import java.util.List;
  */
 public interface IPlatformInvoicePayListService extends BaseService<PlatformInvoicePayListEntity> {
 
-    PlatformInvoicePayListEntity findPayEnterpriseId(Long payEnterpriseId);
-
     List<PlatformInvoicePayListEntity> findInvoicePrintId(Long invoicePrintId);
 }
 

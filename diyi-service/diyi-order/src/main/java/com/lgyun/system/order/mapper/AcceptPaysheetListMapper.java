@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lgyun.system.order.entity.AcceptPaysheetListEntity;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.List;
-
 /**
  * 商户支付回单表 Mapper
  *
@@ -14,13 +12,6 @@ import java.util.List;
  */
 @Mapper
 public interface AcceptPaysheetListMapper extends BaseMapper<AcceptPaysheetListEntity> {
-
-    /**
-     * 查询总包支付清单的交付支付验收单关联记录ID
-     *
-     * @param payEnterpriseId
-     */
-    List<Long> queryAcceptPaysheetIdList(Long payEnterpriseId);
 
     /**
      * 删除交付支付验收单关联记录

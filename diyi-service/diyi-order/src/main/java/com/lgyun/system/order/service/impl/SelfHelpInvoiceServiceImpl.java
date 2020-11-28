@@ -7,7 +7,6 @@ import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.CollectionUtil;
 import com.lgyun.common.tool.KdniaoTrackQueryUtil;
-import com.lgyun.common.tool.StringUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.dto.*;
 import com.lgyun.system.order.entity.*;
@@ -389,75 +388,6 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     @Override
     public R<DayTradeVO> queryCrowdDayTradeByServiceProvider(Long serviceProviderId) {
         return R.data(baseMapper.queryCrowdDayTradeByServiceProvider(serviceProviderId));
-    }
-
-    @Override
-    public R getServiceCrowdSour(Long serviceProviderId, String enterpriseName, String startTime, String endTime, SelfHelpInvoiceSpApplyState selfHelpInvoiceSpApplyState, IPage<SelfHelpInvoiceCrowdSourcingVO> page) {
-        return R.data(page.setRecords(baseMapper.getServiceCrowdSour(serviceProviderId, enterpriseName, startTime, endTime, selfHelpInvoiceSpApplyState, page)));
-    }
-
-    @Override
-    public R getServiceCrowdSourDetails(Long providerSelfHelpInvoiceId) {
-        Map map = new HashMap();
-
-        ServiceCrowdSourcingDetailVO serviceCrowdSourDetails = baseMapper.getServiceCrowdSourDetails(providerSelfHelpInvoiceId);
-        map.put("serviceCrowdSourDetails", serviceCrowdSourDetails);
-        try {
-            if (StringUtil.isNotBlank(serviceCrowdSourDetails.getExpressNo()) && StringUtil.isNotBlank(serviceCrowdSourDetails.getExpressCompanyName())) {
-                KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
-                String orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(serviceCrowdSourDetails.getExpressCompanyName(), serviceCrowdSourDetails.getExpressNo());
-                Map<String,Object> maps = (Map) JSON.parse(orderTracesByJson);
-                Boolean success = (Boolean) maps.get("Success");
-                if(success){
-                    map.put("orderTracesByJson", maps.get("Traces"));
-                }else{
-                    map.put("orderTracesByJson", "");
-                }
-            } else {
-                map.put("orderTracesByJson", "");
-            }
-        } catch (Exception e) {
-            log.error("快鸟接口异常", e);
-            map.put("orderTracesByJson", "");
-        }
-        return R.data(map);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public R savePortalSignInvoice(String serviceProviderName, Long providerSelfHelpInvoiceId, String expressNo, String expressCompanyName, String invoiceScanPictures, String taxScanPictures) {
-        SelfHelpInvoiceSpDetailEntity selfHelpInvoiceSpDetailEntity = selfHelpInvoiceSpDetailService.getById(providerSelfHelpInvoiceId);
-        if (null != selfHelpInvoiceSpDetailEntity) {
-            return R.fail("数据错误");
-        }
-        selfHelpInvoiceSpDetailEntity.setInvoiceScanPictures(invoiceScanPictures);
-        selfHelpInvoiceSpDetailEntity.setTaxScanPictures(taxScanPictures);
-        selfHelpInvoiceSpDetailEntity.setInvoiceOperatePerson(serviceProviderName);
-        selfHelpInvoiceSpDetailService.saveOrUpdate(selfHelpInvoiceSpDetailEntity);
-
-        SelfHelpInvoiceExpressEntity selfHelpInvoiceExpressEntity = new SelfHelpInvoiceExpressEntity();
-        selfHelpInvoiceExpressEntity.setSelfHelpInvoiceApplyProviderId(selfHelpInvoiceSpDetailEntity.getSelfHelpInvoiceApplyProviderId());
-        selfHelpInvoiceExpressEntity.setExpressNo(expressNo);
-        selfHelpInvoiceExpressEntity.setExpressCompanyName(expressCompanyName);
-        selfHelpInvoiceExpressEntity.setOperatePerson(serviceProviderName);
-        selfHelpInvoiceExpressEntity.setExpressUpdatePersonTel(serviceProviderName);
-        selfHelpInvoiceExpressService.save(selfHelpInvoiceExpressEntity);
-
-        //更新明细里面的数据
-        SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = selfHelpInvoiceDetailService.getById(selfHelpInvoiceSpDetailEntity.getSelfHelpInvoiceDetailId());
-        selfHelpInvoiceDetailEntity.setInvoicePrintState(InvoicePrintState.INVOICESUCCESS);
-        selfHelpInvoiceDetailService.saveOrUpdate(selfHelpInvoiceDetailEntity);
-        if (selfHelpInvoiceDetailService.getSelfHelpInvoiceDetails(selfHelpInvoiceDetailEntity.getSelfHelpInvoiceId(), selfHelpInvoiceDetailEntity.getId())) {
-            //更新主表的发票状态
-            SelfHelpInvoiceSpEntity selfHelpInvoiceSpEntity = selfHelpInvoiceSpService.getById(selfHelpInvoiceSpDetailEntity.getSelfHelpInvoiceApplyProviderId());
-            selfHelpInvoiceSpEntity.setApplyState(SelfHelpInvoiceSpApplyState.INVOICED);
-            selfHelpInvoiceSpService.saveOrUpdate(selfHelpInvoiceSpEntity);
-
-            SelfHelpInvoiceEntity selfHelpInvoiceEntity = getById(selfHelpInvoiceDetailEntity.getSelfHelpInvoiceId());
-            selfHelpInvoiceEntity.setCurrentState(SelfHelpInvoiceApplyState.INVOICED);
-            saveOrUpdate(selfHelpInvoiceEntity);
-        }
-        return R.success("操作成功");
     }
 
     @Override

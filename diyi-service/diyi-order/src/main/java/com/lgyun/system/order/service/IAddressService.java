@@ -70,10 +70,5 @@ public interface IAddressService extends BaseService<AddressEntity> {
      */
     R<AddressUpdateDetailVO> queryAddressUpdateDetail(Long addressId);
 
-    /**
-     * 查询默认地址
-     */
-    AddressEntity queryAddress(ObjectType objectType, Long objectId);
-
 }
 

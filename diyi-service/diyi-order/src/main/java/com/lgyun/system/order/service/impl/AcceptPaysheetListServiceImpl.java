@@ -8,8 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 /**
  * 商户支付回单表 Service 实现
  *
@@ -20,11 +18,6 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class AcceptPaysheetListServiceImpl extends BaseServiceImpl<AcceptPaysheetListMapper, AcceptPaysheetListEntity> implements IAcceptPaysheetListService {
-
-    @Override
-    public List<Long> queryAcceptPaysheetIdList(Long payEnterpriseId) {
-        return baseMapper.queryAcceptPaysheetIdList(payEnterpriseId);
-    }
 
     @Override
     public void deleteAcceptPaysheetList(Long acceptPaysheetId) {

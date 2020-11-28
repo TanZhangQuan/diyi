@@ -56,7 +56,7 @@ public class IndividualBusinessEnterpriseAddOrUpdateDTO implements Serializable 
      * 注册资金
      */
     @NotNull(message = "请输入注册资金")
-    @Min(value = 1,message = "注册资本不能小于1")
+    @Min(value = 0, message = "注册资金不能小于0")
     private BigDecimal registeredMoney;
 
     /**

@@ -10,8 +10,6 @@ import com.lgyun.system.order.dto.WorksheetFinishedListDTO;
 import com.lgyun.system.order.entity.WorksheetEntity;
 import com.lgyun.system.order.vo.*;
 
-import java.math.BigDecimal;
-
 /**
  * Service 接口
  *
@@ -74,11 +72,6 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      * 踢出创客
      */
     R kickOut(Long worksheetMakerId);
-
-    /**
-     * 验收
-     */
-    R checkAccept(Long worksheetMakerId, BigDecimal checkMoney);
 
     /**
      * 根据创客查询工单详情

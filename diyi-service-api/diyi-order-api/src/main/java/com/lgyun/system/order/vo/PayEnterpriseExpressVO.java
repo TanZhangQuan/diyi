@@ -1,6 +1,6 @@
 package com.lgyun.system.order.vo;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONArray;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -52,6 +52,6 @@ public class PayEnterpriseExpressVO implements Serializable {
     /**
      * 物流信息
      */
-    private JSONObject expressDetail;
+    private JSONArray expressDetail;
 
 }

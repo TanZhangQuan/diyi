@@ -164,15 +164,4 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
         return R.data(baseMapper.queryAddressUpdateDetail(addressId));
     }
 
-    @Override
-    public AddressEntity queryAddress(ObjectType objectType, Long objectId) {
-//查询所有收货地址
-        QueryWrapper<AddressEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(AddressEntity::getObjectId, objectId)
-                .eq(AddressEntity::getObjectType, objectType)
-                .eq(AddressEntity::getIsDefault, 1);
-        return baseMapper.selectList(queryWrapper).get(0);
-
-    }
-
 }

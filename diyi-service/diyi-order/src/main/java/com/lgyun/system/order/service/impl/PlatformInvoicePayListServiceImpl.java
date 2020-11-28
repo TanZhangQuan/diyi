@@ -23,15 +23,6 @@ import java.util.List;
 public class PlatformInvoicePayListServiceImpl extends BaseServiceImpl<PlatformInvoicePayListMapper, PlatformInvoicePayListEntity> implements IPlatformInvoicePayListService {
 
     @Override
-    public PlatformInvoicePayListEntity findPayEnterpriseId(Long payEnterpriseId) {
-        QueryWrapper<PlatformInvoicePayListEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(PlatformInvoicePayListEntity::getPayEnterpriseId, payEnterpriseId);
-
-        PlatformInvoicePayListEntity platformInvoicePayListEntity = baseMapper.selectOne(queryWrapper);
-        return platformInvoicePayListEntity;
-    }
-
-    @Override
     public List<PlatformInvoicePayListEntity> findInvoicePrintId(Long invoicePrintId) {
         QueryWrapper<PlatformInvoicePayListEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(PlatformInvoicePayListEntity::getInvoicePrintId, invoicePrintId);

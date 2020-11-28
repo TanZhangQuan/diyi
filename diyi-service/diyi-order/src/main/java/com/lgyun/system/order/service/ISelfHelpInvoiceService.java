@@ -217,40 +217,6 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
     R<DayTradeVO> queryCrowdDayTradeByServiceProvider(Long serviceProviderId);
 
     /**
-     * 服务商查询众包发票
-     *
-     * @param serviceProviderId
-     * @param enterpriseName
-     * @param startTime
-     * @param endTime
-     * @param selfHelpInvoiceSpApplyState
-     * @param page
-     * @return
-     */
-    R getServiceCrowdSour(Long serviceProviderId,String enterpriseName,String startTime,String endTime,SelfHelpInvoiceSpApplyState selfHelpInvoiceSpApplyState,IPage<SelfHelpInvoiceCrowdSourcingVO> page);
-
-    /**
-     * 服务商查询众包发票
-     *
-     * @param providerSelfHelpInvoiceId
-     * @return
-     */
-    R getServiceCrowdSourDetails(Long providerSelfHelpInvoiceId);
-
-    /**
-     * 服务商众包发票开票
-     *
-     * @param serviceProviderName
-     * @param providerSelfHelpInvoiceId
-     * @param expressNo
-     * @param expressCompanyName
-     * @param invoiceScanPictures
-     * @param taxScanPictures
-     * @return
-     */
-    R savePortalSignInvoice(String serviceProviderName,Long providerSelfHelpInvoiceId,String expressNo,String expressCompanyName,String invoiceScanPictures,String taxScanPictures);
-
-    /**
      * 平台跟据创客身份查询自助开票
      *
      * @param enterpriseName
