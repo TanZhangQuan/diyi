@@ -72,4 +72,14 @@ public class PayMakerListWebVO implements Serializable {
      */
     private String makerPayReceiptUrls;
 
+    /**
+     * 发票
+     */
+    private String invoiceUrl;
+
+    /**
+     * 税票
+     */
+    private String taxUrl;
+
 }
