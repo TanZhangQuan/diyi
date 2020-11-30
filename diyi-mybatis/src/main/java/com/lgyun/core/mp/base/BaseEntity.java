@@ -56,11 +56,6 @@ public class BaseEntity implements Serializable {
     private Date updateTime;
 
     /**
-     * 记录状态[0-非正常 1-正常]
-     */
-    private Integer status;
-
-    /**
      * 是否已删除[0-未删除 1-已删除]
      */
     @TableLogic

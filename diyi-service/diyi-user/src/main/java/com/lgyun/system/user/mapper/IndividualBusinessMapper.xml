@@ -10,7 +10,6 @@
     </resultMap>
 
     <resultMap type="com.lgyun.system.user.vo.IndividualBusinessEnterpriseDetailMakerVO" id="individualBusinessDetailMakerVO">
-        <result property="id" column="id"/>
         <result property="ibname" column="ibname"/>
         <result property="candidatedNames" column="candidated_names"/>
         <result property="ibtaxNo" column="ibtax_no"/>

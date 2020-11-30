@@ -49,7 +49,7 @@ public class SysClient implements ISysClient {
     @PostMapping(API_PREFIX + "/create-or-update-role-menus")
     @Transactional(rollbackFor = Exception.class)
     public R createOrUpdateRoleMenus(@RequestBody RoleMenusDTO roleMenusDTO, Long account) {
-        Role role = null;
+        Role role;
         if (roleMenusDTO.getRoleId() != null && roleMenusDTO.getRoleId() != 0) {
             role = roleService.getById(roleMenusDTO.getRoleId());
             roleMenuService.remove(new QueryWrapper<RoleMenu>().lambda().eq(RoleMenu::getRoleId, role.getId()));

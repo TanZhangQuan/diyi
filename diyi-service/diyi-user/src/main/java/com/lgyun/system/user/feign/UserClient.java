@@ -6,9 +6,9 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.service.*;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 用户服务Feign实现类
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author tzq
  * @since 2020/6/6 22:11
  */
-@Slf4j
+@ApiIgnore
 @RestController
 @AllArgsConstructor
 public class UserClient implements IUserClient {

@@ -1,6 +1,5 @@
 package com.lgyun.core.mp.base;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lgyun.common.constant.BladeConstant;
@@ -35,9 +34,6 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEntity> exte
         Date now = DateUtil.now();
         entity.setCreateTime(now);
         entity.setUpdateTime(now);
-        if (entity.getStatus() == null) {
-            entity.setStatus(BladeConstant.DB_STATUS_NORMAL);
-        }
         entity.setIsDeleted(BladeConstant.DB_NOT_DELETED);
         return super.save(entity);
     }
@@ -64,9 +60,6 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T extends BaseEntity> exte
             }
             entity.setCreateTime(now);
             entity.setUpdateTime(now);
-            if (entity.getStatus() == null) {
-                entity.setStatus(BladeConstant.DB_STATUS_NORMAL);
-            }
             entity.setIsDeleted(BladeConstant.DB_NOT_DELETED);
         });
         return super.saveBatch(entityList);

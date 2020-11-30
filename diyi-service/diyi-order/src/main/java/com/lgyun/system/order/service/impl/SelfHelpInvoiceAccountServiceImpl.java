@@ -26,9 +26,6 @@ public class SelfHelpInvoiceAccountServiceImpl extends BaseServiceImpl<SelfHelpI
     public SelfHelpInvoiceAccountVO immediatePayment() {
 
         QueryWrapper<SelfHelpInvoiceAccountEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(SelfHelpInvoiceAccountEntity::getIsDefault, 0)
-                .eq(SelfHelpInvoiceAccountEntity::getStatus, 1);
-
         SelfHelpInvoiceAccountEntity selfHelpInvoiceAccountEntity = baseMapper.selectOne(queryWrapper);
         if (selfHelpInvoiceAccountEntity == null) {
             return null;

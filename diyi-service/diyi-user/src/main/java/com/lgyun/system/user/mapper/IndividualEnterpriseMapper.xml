@@ -93,7 +93,7 @@
     </resultMap>
 
     <select id="queryIndividualEnterpriseListMaker" resultMap="individualBusinessEnterpriseListMakerVO">
-        SELECT t1.id, t1.ibname, t1.candidated_names FROM diyi_individual_enterprise t1
+        SELECT DISTINCT t1.id, t1.ibname, t1.candidated_names FROM diyi_individual_enterprise t1
         <if test="param1 != null">
             AND t1.maker_id = #{param1}
         </if>
