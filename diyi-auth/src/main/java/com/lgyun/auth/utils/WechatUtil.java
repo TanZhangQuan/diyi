@@ -76,7 +76,8 @@ public class WechatUtil {
             default:
                 return R.fail("用户类型有误");
         }
-        requestUrlParam.put("js_code", code);    //小程序调用wx.login返回的code
+        //小程序调用wx.login返回的code
+        requestUrlParam.put("js_code", code);
 
         JSONObject jsonObject = JSON.parseObject(HttpUtil.post(WechatConstant.WECHAT_SESSIONHOST, requestUrlParam));
         if (jsonObject == null) {
