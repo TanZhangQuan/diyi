@@ -79,7 +79,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/current-partner")
-    R<PartnerEntity> currentPartner(BladeUser bladeUser);
+    R<PartnerEntity> currentPartner(@RequestBody BladeUser bladeUser);
 
     /**
      * 查询当前相关局
@@ -88,7 +88,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/current-rel-bureau")
-    R<RelBureauEntity> currentRelBureau(BladeUser bladeUser);
+    R<RelBureauEntity> currentRelBureau(@RequestBody BladeUser bladeUser);
 
     /**
      * 查询当前商户员工
