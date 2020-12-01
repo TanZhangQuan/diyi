@@ -159,6 +159,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R closeOrOpen(Long worksheetId, Integer variable) {
         WorksheetEntity worksheetEntity = getById(worksheetId);
         if (variable != 1 && variable != 2) {
@@ -180,6 +181,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R kickOut(Long worksheetMakerId) {
         WorksheetMakerEntity worksheetMakerEntity = worksheetMakerService.getById(worksheetMakerId);
         if (null == worksheetMakerEntity) {
@@ -261,6 +263,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R wholeWorksheetCheck(Long worksheetId) {
         WorksheetEntity byId = getById(worksheetId);
         if (!WorksheetState.CHECKACCEPT.equals(byId.getWorksheetState())) {

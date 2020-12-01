@@ -123,6 +123,7 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> setDefaultAddress(Long objectId, ObjectType objectType, Long addressId) {
         AddressEntity addressEntity = getById(addressId);
         if (addressEntity == null) {

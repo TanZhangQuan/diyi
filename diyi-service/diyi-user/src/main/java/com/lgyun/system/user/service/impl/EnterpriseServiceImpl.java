@@ -7,12 +7,11 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
-import com.lgyun.common.tool.SnowflakeIdWorker;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.AddressEntity;
 import com.lgyun.system.order.feign.IOrderClient;
-import com.lgyun.system.user.dto.CreateEnterpriseDTO;
 import com.lgyun.system.user.dto.ContactsInfoDTO;
+import com.lgyun.system.user.dto.CreateEnterpriseDTO;
 import com.lgyun.system.user.dto.EnterpriseListDTO;
 import com.lgyun.system.user.dto.UpdateEnterpriseDTO;
 import com.lgyun.system.user.entity.*;
@@ -145,37 +144,6 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         enterpriseEntity.setInviteNo(createEnterpriseDTO.getPhoneNumber());
         BeanUtil.copy(createEnterpriseDTO, enterpriseEntity);
         save(enterpriseEntity);
-
-        //上传商户加盟合同
-        AgreementEntity agreementEntity = new AgreementEntity();
-        agreementEntity.setAgreementType(AgreementType.ENTERPRISEJOINAGREEMENT);
-        agreementEntity.setSignType(SignType.PAPERAGREEMENT);
-        agreementEntity.setAgreementNo(SnowflakeIdWorker.getSerialNumber());
-        agreementEntity.setSignState(SignState.SIGNED);
-        agreementEntity.setAuditState(AuditState.APPROVED);
-        agreementEntity.setPaperAgreementUrl(createEnterpriseDTO.getJoinContract());
-        agreementEntity.setFirstSideSignPerson("地衣众包平台");
-        agreementEntity.setEnterpriseId(enterpriseEntity.getId());
-        agreementEntity.setSecondSideSignPerson(enterpriseEntity.getEnterpriseName());
-        agreementService.save(agreementEntity);
-
-        //上传商户承诺函
-        String[] split = createEnterpriseDTO.getCommitmentLetters().split(",");
-        for (int i = 0; i < split.length; i++) {
-            if (StringUtils.isNotBlank(split[i])) {
-                agreementEntity = new AgreementEntity();
-                agreementEntity.setAgreementType(AgreementType.ENTERPRISEPROMISE);
-                agreementEntity.setSignType(SignType.PAPERAGREEMENT);
-                agreementEntity.setAgreementNo(SnowflakeIdWorker.getSerialNumber());
-                agreementEntity.setSignState(SignState.SIGNED);
-                agreementEntity.setAuditState(AuditState.APPROVED);
-                agreementEntity.setPaperAgreementUrl(split[i]);
-                agreementEntity.setFirstSideSignPerson("地衣众包平台");
-                agreementEntity.setEnterpriseId(enterpriseEntity.getId());
-                agreementEntity.setSecondSideSignPerson(enterpriseEntity.getEnterpriseName());
-                agreementService.save(agreementEntity);
-            }
-        }
 
         //保存收货地址
         AddressEntity addressEntity = new AddressEntity();
@@ -318,34 +286,6 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             return R.fail("商户加盟合同不存在");
         }
 
-        //编辑商户
-        BeanUtil.copy(updateEnterpriseDTO, enterpriseEntity);
-        updateById(enterpriseEntity);
-
-        agreementEntity.setPaperAgreementUrl(updateEnterpriseDTO.getJoinContract());
-        agreementService.updateById(agreementEntity);
-
-        //删除已上传的商户承诺函
-        agreementService.deleteByEnterprise(enterpriseEntity.getId(), AgreementType.ENTERPRISEPROMISE);
-
-        //上传商户承诺函
-        String[] split = updateEnterpriseDTO.getCommitmentLetters().split(",");
-        for (int i = 0; i < split.length; i++) {
-            if (StringUtils.isNotBlank(split[i])) {
-                agreementEntity = new AgreementEntity();
-                agreementEntity.setAgreementType(AgreementType.ENTERPRISEPROMISE);
-                agreementEntity.setSignType(SignType.PAPERAGREEMENT);
-                agreementEntity.setAgreementNo(SnowflakeIdWorker.getSerialNumber());
-                agreementEntity.setSignState(SignState.SIGNED);
-                agreementEntity.setAuditState(AuditState.APPROVED);
-                agreementEntity.setPaperAgreementUrl(split[i]);
-                agreementEntity.setFirstSideSignPerson("地衣众包平台");
-                agreementEntity.setEnterpriseId(enterpriseEntity.getId());
-                agreementEntity.setSecondSideSignPerson(enterpriseEntity.getEnterpriseName());
-                agreementService.save(agreementEntity);
-            }
-        }
-
         //编辑商户员工
         BeanUtil.copy(updateEnterpriseDTO, enterpriseWorkerEntity);
         enterpriseWorkerService.updateById(enterpriseWorkerEntity);
@@ -383,6 +323,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> updateEnterpriseState(Long enterpriseId, AccountState enterpriseState) {
 
         EnterpriseEntity enterpriseEntity = getById(enterpriseId);
@@ -416,6 +357,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> updateEnterpriseUrl(Long enterpriseId, String enterpriseUrl) {
 
         EnterpriseEntity enterpriseEntity = getById(enterpriseId);
@@ -434,6 +376,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> updateContact(Long enterpriseId, ContactsInfoDTO contactsInfoDTO) {
         EnterpriseEntity enterpriseEntity = getById(enterpriseId);
         if (enterpriseEntity == null) {

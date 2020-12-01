@@ -55,17 +55,6 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     private IServiceProviderService serviceProviderService;
 
     @Override
-    public AgreementEntity findSuccessAgreement(Long enterpriseId, Long serviceProviderId, AgreementType agreementType, AuditState auditState, SignState signState) {
-        QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(enterpriseId != null, AgreementEntity::getEnterpriseId, enterpriseId)
-                .eq(serviceProviderId != null, AgreementEntity::getServiceProviderId, serviceProviderId)
-                .eq(AgreementEntity::getAgreementType, agreementType)
-                .eq(auditState != null, AgreementEntity::getAuditState, auditState)
-                .eq(signState != null, AgreementEntity::getSignState, signState);
-        return baseMapper.selectOne(queryWrapper);
-    }
-
-    @Override
     public R<Map> makerIdFind(Long makerId, Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId) {
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(AgreementEntity::getEnterpriseId, makerId)
@@ -153,6 +142,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> saveSupplementaryAgreement(Long enterpriseId, String paperAgreementURL, Long serviceProviderId) {
         if (null == serviceProviderId || StringUtil.isBlank(paperAgreementURL)) {
             return R.fail("参数错误");
@@ -183,6 +173,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R saveEnterpriseMakerAgreement(Long enterpriseId, String paperAgreementURL, String makerIds) {
         EnterpriseEntity enterpriseEntity = enterpriseService.getById(enterpriseId);
         if (enterpriseEntity == null) {
@@ -313,6 +304,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R saveAdminAgreement(Long makerId, Long enterpriseId, Long serviceProviderId, Long objectId, ObjectType objectType, AgreementType agreementType, String paperAgreementUrl) {
         AgreementEntity agreementEntity = null;
         if (AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType) || AgreementType.SERENTSUPPLEMENTARYAGREEMENT.equals(agreementType) || AgreementType.ENTERPRISEPROMISE.equals(agreementType)) {
@@ -493,6 +485,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R saveAdminAgreementId(Long agreementId, String agreementUrl) {
         AgreementEntity agreementEntity = getById(agreementId);
         if (null == agreementEntity) {
@@ -516,16 +509,6 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     @Override
     public R queryAdminServiceAll(Long serviceProviderId, String serviceProviderName, IPage<ServiceProviderEntity> page) {
         return serviceProviderService.getServiceAll(serviceProviderId, serviceProviderName, page);
-    }
-
-    @Override
-    public void deleteByEnterprise(Long enterpriseId, AgreementType agreementType) {
-        baseMapper.deleteByEnterprise(enterpriseId, agreementType);
-    }
-
-    @Override
-    public void deleteByAgentMain(Long agentMainId, AgreementType agreementType) {
-        baseMapper.deleteByAgentMain(agentMainId, agreementType);
     }
 
     @Override

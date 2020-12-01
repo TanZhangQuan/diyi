@@ -22,6 +22,7 @@ import com.lgyun.system.user.vo.AdminEnterpriseReportVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -83,6 +84,7 @@ public class EnterpriseReportServiceImpl extends BaseServiceImpl<EnterpriseRepor
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R saveAdminEnterpriseReport(AdminEnterpriseReportDTO adminEnterpriseReportDTO) {
         EnterpriseReportEntity enterpriseReportEntity = null;
         if (null == adminEnterpriseReportDTO.getEnterpriseReportId()) {
@@ -107,6 +109,7 @@ public class EnterpriseReportServiceImpl extends BaseServiceImpl<EnterpriseRepor
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R toExamineAdminEnterpriseReport(Long enterpriseReportId, Integer toExamine) {
         EnterpriseReportEntity byId = getById(enterpriseReportId);
         if (null == toExamine || (toExamine != 1 && toExamine != 2)) {
@@ -128,6 +131,7 @@ public class EnterpriseReportServiceImpl extends BaseServiceImpl<EnterpriseRepor
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R saveServiceEnterpriseReport(AdminEnterpriseReportDTO adminEnterpriseReportDTO) {
         EnterpriseReportEntity enterpriseReportEntity = null;
         if (null == adminEnterpriseReportDTO.getEnterpriseReportId()) {

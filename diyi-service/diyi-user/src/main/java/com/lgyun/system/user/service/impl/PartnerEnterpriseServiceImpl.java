@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 合伙人-商户关联表 Service 实现
@@ -39,6 +40,7 @@ public class PartnerEnterpriseServiceImpl extends BaseServiceImpl<PartnerEnterpr
     private IEnterpriseService enterpriseService;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> relevancePartnerEnterprise(Long partnerId, Long enterpriseId, String matchDesc, AdminEntity adminEntity) {
 
         PartnerEntity partnerEntity = partnerService.getById(partnerId);
@@ -86,6 +88,7 @@ public class PartnerEnterpriseServiceImpl extends BaseServiceImpl<PartnerEnterpr
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R updateCooperationStatus(Long partnerId, Long enterpriseId, CooperateStatus cooperateStatus) {
         int partnerNum = partnerService.queryCountById(partnerId);
         if (partnerNum <= 0) {

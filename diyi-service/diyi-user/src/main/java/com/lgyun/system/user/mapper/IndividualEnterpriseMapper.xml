@@ -145,9 +145,9 @@
     </select>
 
     <select id="queryUpdateIndividualEnterpriseDetail" resultMap="individualBusinessEnterpriseUpdateDetailVO">
-        SELECT t1.id, t2.id AS maker_id, t1.ibname, t1.candidated_names, t1.main_industry, t1.biz_scope, t1.biz_type, t1.registered_money, t1.contact_name,
-        t1.contact_phone FROM diyi_individual_enterprise t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0
-        AND t1.id = #{param1}
+        SELECT t1.id, t2.id AS maker_id, t1.candidated_names, t1.main_industry, t1.biz_scope, t1.biz_type, t1.registered_money, t1.contact_name,
+        t1.contact_phone, t2.name, t2.phone_number, t2.idcard_no, t2.idcard_pic, t2.idcard_pic_back, t2.idcard_hand, t2.idcard_back_hand FROM diyi_individual_enterprise t1
+        INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.id = #{param1}
     </select>
 
     <select id="queryUpdateIndividualEnterpriseDetailServiceProvider" resultMap="individualBusinessEnterpriseUpdateDetailServiceProviderVO">

@@ -59,6 +59,7 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> checkAchievement(Long worksheetMakerId, BigDecimal checkMoney, Long enterpriseId, Boolean bool) {
         WorksheetMakerEntity worksheetMakerEntity = getById(worksheetMakerId);
         if (null == worksheetMakerEntity) {

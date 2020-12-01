@@ -9,16 +9,12 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.*;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.NotBlank;
 
 @RestController
 @RequestMapping("/maker/agreement")
@@ -55,7 +51,7 @@ public class AgreementMakerController {
             return result;
         }
         MakerEntity makerEntity = result.getData();
-        return R.data(agreementService.findByEnterpriseId(enterpriseId,makerEntity.getId()));
+        return R.data(agreementService.findByEnterpriseId(enterpriseId, makerEntity.getId()));
     }
 
     @GetMapping("/query-online-agreement-url")
@@ -114,7 +110,7 @@ public class AgreementMakerController {
 
     @PostMapping("/upload-maker-video")
     @ApiOperation(value = "上传创客视频", notes = "上传创客视频")
-    public R uploadMakerVideo(String applyShortVideo, BladeUser bladeUser) {
+    public R uploadMakerVideo(@ApiParam(value = "创客视频") @NotBlank(message = "请上传创客视频") @RequestParam(required = false) String applyShortVideo, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = makerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -150,6 +146,6 @@ public class AgreementMakerController {
             return result;
         }
         MakerEntity makerEntity = result.getData();
-        return  makerService.downloadDocument(makerEntity.getId());
+        return makerService.downloadDocument(makerEntity.getId());
     }
 }

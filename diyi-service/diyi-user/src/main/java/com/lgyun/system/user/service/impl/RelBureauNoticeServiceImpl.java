@@ -11,6 +11,7 @@ import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.mapper.RelBureauNoticeMapper;
 import com.lgyun.system.user.entity.RelBureauNoticeEntity;
 import com.lgyun.system.user.service.IRelBureauNoticeService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 相关局通知管理表 Service 实现
@@ -34,6 +35,7 @@ public class RelBureauNoticeServiceImpl extends BaseServiceImpl<RelBureauNoticeM
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> updateRelBureauNoticeState(Long relBureauNoticeId) {
 
         RelBureauNoticeEntity relBureauNoticeEntity = getById(relBureauNoticeId);

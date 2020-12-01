@@ -44,6 +44,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     private IMakerService makerService;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void makerEnterpriseEntitySave(Long enterpriseId, Long makerId) {
 
         int enterpriseNum = enterpriseService.queryCountById(enterpriseId);
@@ -93,6 +94,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> addOrCancelfollow(Long enterpriseId, Long makerId, Integer attribute) {
         QueryWrapper<MakerEnterpriseEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(MakerEnterpriseEntity::getMakerId, makerId)
@@ -160,6 +162,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> cancelRelevanceOrAttentionMakerList(Set<Long> makerIds, Long enterpriseId) {
         //取消创客关联或关注
         makerIds.forEach(makerId -> {
@@ -203,7 +206,6 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     @Override
     public R<IPage<MakerEnterpriseDetailYearMonthVO>> getMakerDetailed(IPage<MakerEnterpriseDetailYearMonthVO> page, Long makerId, Long enterpriseId, WorksheetType worksheetType) {
         if (worksheetType.equals(WorksheetType.CROWDSOURCED)) {
-            //return R.data(page.setRecords(baseMapper.getMakerCrowdDetailed(makerId, enterpriseId, page)));
             return R.success("成功");
         }
         return R.data(page.setRecords(baseMapper.getMakerDetailed(makerId, enterpriseId, page)));

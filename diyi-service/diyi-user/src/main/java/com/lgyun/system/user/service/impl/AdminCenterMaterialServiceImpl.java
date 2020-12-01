@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 综合业务资料表 Service 实现
@@ -35,6 +36,7 @@ public class AdminCenterMaterialServiceImpl extends BaseServiceImpl<AdminCenterM
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> updateAdminCenterMaterialState(Long adminCenterMaterialId, MaterialState materialState) {
 
         AdminCenterMaterialEntity adminCenterMaterialEntity = getById(adminCenterMaterialId);
@@ -51,6 +53,7 @@ public class AdminCenterMaterialServiceImpl extends BaseServiceImpl<AdminCenterM
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> addOrUpdateAdminCenterMaterial(Long serviceProviderId, AddOrUpdateAdminCenterMaterialDTO addOrUpdateAdminCenterMaterialDTO) {
 
         if (addOrUpdateAdminCenterMaterialDTO.getAdminCenterMaterialId() == null) {

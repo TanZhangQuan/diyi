@@ -84,13 +84,14 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R uploadDeliverSheetUrl(Long selfHelpInvoiceDetailId, String deliverSheetUrl) {
-        SelfHelpInvoiceDetailEntity byId = getById(selfHelpInvoiceDetailId);
-        if (null == byId) {
-            return R.fail("自助开票详情id输入错误");
+        SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = getById(selfHelpInvoiceDetailId);
+        if (null == selfHelpInvoiceDetailEntity) {
+            return R.fail("请选择自助开票");
         }
-        byId.setDeliverSheetUrl(deliverSheetUrl);
-        saveOrUpdate(byId);
+        selfHelpInvoiceDetailEntity.setDeliverSheetUrl(deliverSheetUrl);
+        saveOrUpdate(selfHelpInvoiceDetailEntity);
         return R.success("上传成功");
     }
 
@@ -155,7 +156,7 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
         queryWrapper.lambda().eq(SelfHelpInvoiceDetailEntity::getSelfHelpInvoiceId, selfHelpInvoiceId);
         List<SelfHelpInvoiceDetailEntity> selfHelpInvoiceDetailEntities = baseMapper.selectList(queryWrapper);
         List<SelfHelpInvoiceDetailVO> selfHelpInvoiceDetail = new ArrayList<>();
-        for (SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity:selfHelpInvoiceDetailEntities){
+        for (SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity : selfHelpInvoiceDetailEntities) {
             SelfHelpInvoiceDetailVO copy = BeanUtil.copy(selfHelpInvoiceDetailEntity, SelfHelpInvoiceDetailVO.class);
             selfHelpInvoiceDetail.add(copy);
         }
@@ -177,8 +178,9 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
         return R.data(page.setRecords(baseMapper.querySelfHelpInvoiceDetailListByMaker(makerId, page)));
     }
 
-    private void makerSelfHelpInvoice(List<InvoiceListExcel> list, SelfHelpInvoiceDTO selfHelpInvoiceDto, SelfHelpInvoiceEntity selfHelpInvoiceEntity){
-        for (InvoiceListExcel invoiceListExcel: list) {
+    @Transactional(rollbackFor = Exception.class)
+    public void makerSelfHelpInvoice(List<InvoiceListExcel> list, SelfHelpInvoiceDTO selfHelpInvoiceDto, SelfHelpInvoiceEntity selfHelpInvoiceEntity) {
+        for (InvoiceListExcel invoiceListExcel : list) {
             SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = new SelfHelpInvoiceDetailEntity();
             selfHelpInvoiceDetailEntity.setSelfHelpInvoiceId(selfHelpInvoiceEntity.getId());
             MakerType makerType = selfHelpInvoiceDto.getMakerType();
@@ -233,7 +235,8 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
         }
     }
 
-    private void enterpriseSelfHelpInvoice(List<InvoiceListExcel> list, SelfHelpInvoiceDTO selfHelpInvoiceDto, SelfHelpInvoiceEntity selfHelpInvoiceEntity) {
+    @Transactional(rollbackFor = Exception.class)
+    public void enterpriseSelfHelpInvoice(List<InvoiceListExcel> list, SelfHelpInvoiceDTO selfHelpInvoiceDto, SelfHelpInvoiceEntity selfHelpInvoiceEntity) {
         for (InvoiceListExcel invoiceListExcel : list) {
             SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = new SelfHelpInvoiceDetailEntity();
             selfHelpInvoiceDetailEntity.setSelfHelpInvoiceId(selfHelpInvoiceEntity.getId());

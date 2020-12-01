@@ -68,7 +68,6 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
             OnlineAgreementNeedSignEntity onlineAgreementNeedSignEntity = onlineAgreementNeedSignService.getById(onlineAgreementNeedSignId);
             onlineAgreementNeedSignEntity.setSignState(SignState.SIGNED);
             onlineAgreementNeedSignService.saveOrUpdate(onlineAgreementNeedSignEntity);
-            //稍后添加
             MakerEntity makerEntity = makerService.getById(ObjectId);
             AgreementEntity agreementEntity = new AgreementEntity();
             agreementEntity.setAgreementType(onlineAgreementTemplateEntity.getAgreementType());

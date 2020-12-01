@@ -7,15 +7,17 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
-import com.lgyun.common.tool.SnowflakeIdWorker;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.AddressEntity;
 import com.lgyun.system.order.feign.IOrderClient;
+import com.lgyun.system.user.dto.AgentMainListDTO;
 import com.lgyun.system.user.dto.ContactsInfoDTO;
 import com.lgyun.system.user.dto.CreateAgentMainDTO;
-import com.lgyun.system.user.dto.AgentMainListDTO;
 import com.lgyun.system.user.dto.UpdateAgentMainDTO;
-import com.lgyun.system.user.entity.*;
+import com.lgyun.system.user.entity.AdminEntity;
+import com.lgyun.system.user.entity.AgentMainEntity;
+import com.lgyun.system.user.entity.AgentMainWorkerEntity;
+import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.mapper.AgentMainMapper;
 import com.lgyun.system.user.service.IAgentMainService;
 import com.lgyun.system.user.service.IAgentMainWorkerService;
@@ -64,6 +66,7 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> updateAgentMainState(Long agentMainId, AccountState agentMainState) {
 
         AgentMainEntity agentMainEntity = getById(agentMainId);
@@ -109,37 +112,6 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
         BeanUtil.copy(createAgentMainDTO, AgentMainEntity);
         save(AgentMainEntity);
 
-        //上传渠道商加盟合同
-        AgreementEntity agreementEntity = new AgreementEntity();
-        agreementEntity.setAgreementType(AgreementType.AGENTMAINJOINAGREEMENT);
-        agreementEntity.setSignType(SignType.PAPERAGREEMENT);
-        agreementEntity.setAgreementNo(SnowflakeIdWorker.getSerialNumber());
-        agreementEntity.setSignState(SignState.SIGNED);
-        agreementEntity.setAuditState(AuditState.APPROVED);
-        agreementEntity.setPaperAgreementUrl(createAgentMainDTO.getJoinContract());
-        agreementEntity.setFirstSideSignPerson("地衣众包平台");
-        agreementEntity.setAgentMainId(AgentMainEntity.getId());
-        agreementEntity.setSecondSideSignPerson(AgentMainEntity.getAgentMainName());
-        agreementService.save(agreementEntity);
-
-        //上传渠道商承诺函
-        String[] split = createAgentMainDTO.getCommitmentLetters().split(",");
-        for (int i = 0; i < split.length; i++) {
-            if (StringUtils.isNotBlank(split[i])) {
-                agreementEntity = new AgreementEntity();
-                agreementEntity.setAgreementType(AgreementType.AGENTMAINERPROMISE);
-                agreementEntity.setSignType(SignType.PAPERAGREEMENT);
-                agreementEntity.setAgreementNo(SnowflakeIdWorker.getSerialNumber());
-                agreementEntity.setSignState(SignState.SIGNED);
-                agreementEntity.setAuditState(AuditState.APPROVED);
-                agreementEntity.setPaperAgreementUrl(split[i]);
-                agreementEntity.setFirstSideSignPerson("地衣众包平台");
-                agreementEntity.setAgentMainId(AgentMainEntity.getId());
-                agreementEntity.setSecondSideSignPerson(AgentMainEntity.getAgentMainName());
-                agreementService.save(agreementEntity);
-            }
-        }
-
         //保存收货地址
         AddressEntity addressEntity = new AddressEntity();
         addressEntity.setObjectId(AgentMainEntity.getId());
@@ -171,6 +143,7 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> updateAgentMain(UpdateAgentMainDTO updateAgentMainDTO, AdminEntity adminEntity) {
 
         AgentMainEntity agentMainEntity = getById(updateAgentMainDTO.getAgentMainId());
@@ -227,44 +200,9 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
             return R.fail("已存在相同手机号的管理员");
         }
 
-        //上传加盟合同
-        AgreementEntity agreementEntity = agreementService.getOne(Wrappers.<AgreementEntity>query().lambda()
-                .eq(AgreementEntity::getAgentMainId, agentMainEntity.getId())
-                .eq(AgreementEntity::getAgreementType, AgreementType.AGENTMAINJOINAGREEMENT)
-                .eq(AgreementEntity::getSignState, SignState.SIGNED)
-                .eq(AgreementEntity::getAuditState, AuditState.APPROVED));
-
-        if (agreementEntity == null) {
-            return R.fail("渠道商加盟合同不存在");
-        }
-
         //编辑渠道商
         BeanUtil.copy(updateAgentMainDTO, agentMainEntity);
         updateById(agentMainEntity);
-
-        agreementEntity.setPaperAgreementUrl(updateAgentMainDTO.getJoinContract());
-        agreementService.updateById(agreementEntity);
-
-        //删除已上传的渠道商承诺函
-        agreementService.deleteByAgentMain(agentMainEntity.getId(), AgreementType.AGENTMAINERPROMISE);
-
-        //上传渠道商承诺函
-        String[] split = updateAgentMainDTO.getCommitmentLetters().split(",");
-        for (int i = 0; i < split.length; i++) {
-            if (StringUtils.isNotBlank(split[i])) {
-                agreementEntity = new AgreementEntity();
-                agreementEntity.setAgreementType(AgreementType.AGENTMAINERPROMISE);
-                agreementEntity.setSignType(SignType.PAPERAGREEMENT);
-                agreementEntity.setAgreementNo(SnowflakeIdWorker.getSerialNumber());
-                agreementEntity.setSignState(SignState.SIGNED);
-                agreementEntity.setAuditState(AuditState.APPROVED);
-                agreementEntity.setPaperAgreementUrl(split[i]);
-                agreementEntity.setFirstSideSignPerson("地衣众包平台");
-                agreementEntity.setAgentMainId(agentMainEntity.getId());
-                agreementEntity.setSecondSideSignPerson(agentMainEntity.getAgentMainName());
-                agreementService.save(agreementEntity);
-            }
-        }
 
         //编辑渠道商员工
         BeanUtil.copy(updateAgentMainDTO, agentMainWorkerEntity);
@@ -284,6 +222,7 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> updateEnterpriseUrl(Long agentMainId, String enterpriseUrl) {
 
         AgentMainEntity agentMainEntity = getById(agentMainId);
@@ -303,6 +242,7 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R updateContact(Long agentMainId, ContactsInfoDTO contactsInfoDTO) {
         AgentMainEntity agentMainEntity = getById(agentMainId);
         if (agentMainEntity == null) {

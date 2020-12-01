@@ -34,6 +34,7 @@ public class PayMakerReceiptServiceImpl extends BaseServiceImpl<PayMakerReceiptM
     private IPayEnterpriseService payEnterpriseService;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteByPayMakerId(Long payMakerId) {
         baseMapper.deleteByPayMakerId(payMakerId);
     }

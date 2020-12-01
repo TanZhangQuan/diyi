@@ -5,7 +5,6 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.CreateEnterpriseDTO;
-import com.lgyun.system.user.dto.UpdateEnterpriseDTO;
 import com.lgyun.system.user.entity.PartnerEntity;
 import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IPartnerService;
@@ -65,31 +64,6 @@ public class EnterprisePartnerController {
         PartnerEntity partnerEntity = result.getData();
 
         return enterpriseService.createEnterprise(createEnterpriseDTO, null, partnerEntity.getId());
-    }
-
-    @PostMapping("/update-enterprise")
-    @ApiOperation(value = "编辑商户", notes = "编辑商户")
-    public R updateEnterprise(@Valid @RequestBody UpdateEnterpriseDTO updateEnterpriseDTO, BladeUser bladeUser) {
-        //查询当前合伙人
-        R<PartnerEntity> result = partnerService.currentPartner(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        PartnerEntity partnerEntity = result.getData();
-
-        return enterpriseService.updateEnterprise(updateEnterpriseDTO, null, partnerEntity.getId());
-    }
-
-    @GetMapping("/query-enterprise-update-detail")
-    @ApiOperation(value = "查询编辑商户详情", notes = "查询编辑商户详情")
-    public R queryEnterpriseUpdateDetail(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, BladeUser bladeUser) {
-        //查询当前合伙人
-        R<PartnerEntity> result = partnerService.currentPartner(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return enterpriseService.queryEnterpriseUpdateDetail(enterpriseId);
     }
 
 }

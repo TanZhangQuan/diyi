@@ -6,7 +6,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.RealnameVerifyConstant;
 import com.lgyun.common.constant.SmsConstant;
@@ -14,7 +13,6 @@ import com.lgyun.common.enumeration.*;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.*;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.*;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.entity.OnlineAgreementTemplateEntity;
@@ -39,7 +37,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Service 实现
@@ -97,6 +94,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> updateMakerDetail(UpdateMakerDeatilDTO updateMakerDeatilDTO, MakerEntity makerEntity) {
 
         if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus())) {
@@ -122,6 +120,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> updatePhoneNumber(UpdatePhoneNumberDTO updatePhoneNumberDTO, MakerEntity makerEntity) {
 
         if (updatePhoneNumberDTO.getMobile().equals(makerEntity.getPhoneNumber())) {
@@ -256,6 +255,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void makerUpdate(MakerEntity makerEntity, String openid, String sessionKey) {
         //更新微信信息
         makerEntity.setOpenid(openid);
@@ -334,6 +334,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R idcardVerify(IdcardVerifyDTO idcardVerifyDTO, MakerEntity makerEntity) throws Exception {
 
         //查看创客是否已经身份证认证
@@ -390,6 +391,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R mobileVerify(MakerEntity makerEntity) throws Exception {
 
         //查看创客是否已经手机号认证
@@ -416,6 +418,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R bankCardVerify(String bankCardNo, MakerEntity makerEntity) throws Exception {
 
         //查看创客是否已经活体认证
@@ -473,6 +476,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R faceOcrNotify(HttpServletRequest request) {
 
         try {
@@ -545,14 +549,12 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> uploadMakerVideo(MakerEntity makerEntity, String applyShortVideo) {
-        if (StringUtil.isBlank(applyShortVideo)) {
-            R.fail("请选择视频");
-        }
         makerEntity.setVideoAudit(VideoAudit.AUDITPASS);
         makerEntity.setApplyShortVideo(applyShortVideo);
         updateById(makerEntity);
-        return R.success("成功");
+        return R.success("操作成功");
     }
 
     @Override
@@ -599,9 +601,13 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
     @Override
     public MakerEntity findByIdcardNo(String idcardNo) {
+
+        if (StringUtils.isBlank(idcardNo)){
+            return null;
+        }
+
         QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(MakerEntity::getIdcardNo, idcardNo);
-
         return baseMapper.selectOne(queryWrapper);
     }
 
@@ -611,6 +617,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R saveAdminMakerVideo(Long makerId, String videoUrl) {
         MakerEntity makerEntity = getById(makerId);
         if (null == makerEntity) {

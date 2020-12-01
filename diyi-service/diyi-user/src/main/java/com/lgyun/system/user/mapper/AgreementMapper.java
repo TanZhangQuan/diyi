@@ -89,20 +89,5 @@ public interface AgreementMapper extends BaseMapper<AgreementEntity> {
      */
     List<AgreementServiceStateAdminVO> queryServiceAgreementState(String serviceProviderName,IPage<AgreementServiceStateAdminVO> page);
 
-    /**
-     * 删除商户合同
-     *
-     * @param enterpriseId
-     * @param agreementType
-     */
-    void deleteByEnterprise(Long enterpriseId, AgreementType agreementType);
-
-    /**
-     * 删除渠道商合同
-     *
-     * @param agentMainId
-     * @param agreementType
-     */
-    void deleteByAgentMain(Long agentMainId, AgreementType agreementType);
 }
 

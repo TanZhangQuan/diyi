@@ -24,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 税务局管理表 Service 实现
@@ -73,6 +74,7 @@ public class RelBureauServiceImpl extends BaseServiceImpl<RelBureauMapper, RelBu
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R addOrUpdateRelBureau(AddOrUpdateRelBureauDTO addOrUpdateRelBureauDto) {
 
         RelBureauEntity relBureauEntity;

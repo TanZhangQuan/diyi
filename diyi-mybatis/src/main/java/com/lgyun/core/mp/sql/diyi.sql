@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2020-11-20 19:07:37
+Date: 2020-12-01 17:09:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -203,31 +203,6 @@ CREATE TABLE `diyi_admin_center_material` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `diyi_agent_enterprise`
--- ----------------------------
-DROP TABLE IF EXISTS `diyi_agent_main_enterprise`;
-CREATE TABLE `diyi_agent_main_enterprise` (
-  `id` bigint(50) NOT NULL COMMENT '主键',
-  `agent_main_id` bigint(50) NOT NULL COMMENT '渠道商ID',
-  `enterprise_id` bigint(50) NOT NULL COMMENT '商户ID',
-  `cooperate_type` varchar(50) NOT NULL COMMENT '合作关系',
-  `cooperate_status` varchar(50) NOT NULL COMMENT '合作状态：合作中，停止合作；首次关联时默认为合作中',
-  `operate_person` varchar(50) NOT NULL DEFAULT '' COMMENT '操作人员',
-  `operate_desc` varchar(100) NOT NULL DEFAULT '' COMMENT '操作说明',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`agent_main_id`,`enterprise_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='渠道商户表';
-
--- ----------------------------
--- Records of diyi_agent_enterprise
--- ----------------------------
-
--- ----------------------------
 -- Table structure for `diyi_agent_main`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_agent_main`;
@@ -278,6 +253,55 @@ CREATE TABLE `diyi_agent_main` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for `diyi_agent_main_enterprise`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_agent_main_enterprise`;
+CREATE TABLE `diyi_agent_main_enterprise` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `agent_main_id` bigint(50) NOT NULL COMMENT '渠道商ID',
+  `enterprise_id` bigint(50) NOT NULL COMMENT '商户ID',
+  `cooperate_type` varchar(50) NOT NULL COMMENT '合作关系',
+  `cooperate_status` varchar(50) NOT NULL COMMENT '合作状态：合作中，停止合作；首次关联时默认为合作中',
+  `operate_person` varchar(50) NOT NULL DEFAULT '' COMMENT '操作人员',
+  `operate_desc` varchar(100) NOT NULL DEFAULT '' COMMENT '操作说明',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`agent_main_id`,`enterprise_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='渠道商户表';
+
+-- ----------------------------
+-- Records of diyi_agent_main_enterprise
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `diyi_agent_main_service_provider`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_agent_main_service_provider`;
+CREATE TABLE `diyi_agent_main_service_provider` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `agent_main_id` bigint(50) NOT NULL COMMENT '渠道商ID',
+  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
+  `match_person` varchar(50) NOT NULL COMMENT '分配人员',
+  `match_desc` varchar(100) DEFAULT NULL COMMENT '分配说明',
+  `cooperate_status` varchar(50) NOT NULL COMMENT '合作状态：合作中，停止合作；首次关联时默认为合作中',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`agent_main_id`,`service_provider_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='渠道商-服务商表';
+
+-- ----------------------------
+-- Records of diyi_agent_main_service_provider
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `diyi_agent_main_worker`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_agent_main_worker`;
@@ -310,30 +334,6 @@ CREATE TABLE `diyi_agent_main_worker` (
 
 -- ----------------------------
 -- Records of diyi_agent_main_worker
--- ----------------------------
-
--- ----------------------------
--- Table structure for `diyi_agent_main_service_provider`
--- ----------------------------
-DROP TABLE IF EXISTS `diyi_agent_main_service_provider`;
-CREATE TABLE `diyi_agent_main_service_provider` (
-  `id` bigint(50) NOT NULL COMMENT '主键',
-  `agent_main_id` bigint(50) NOT NULL COMMENT '渠道商ID',
-  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
-  `match_person` varchar(50) NOT NULL COMMENT '分配人员',
-  `match_desc` varchar(100) DEFAULT NULL COMMENT '分配说明',
-  `cooperate_status` varchar(50) NOT NULL COMMENT '合作状态：合作中，停止合作；首次关联时默认为合作中',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`agent_main_id`,`service_provider_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='渠道商-服务商表';
-
--- ----------------------------
--- Records of diyi_agent_main_service_provider
 -- ----------------------------
 
 -- ----------------------------
@@ -457,31 +457,6 @@ CREATE TABLE `diyi_enterprise` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `diyi_enterprise_service_provider_invoice_catalogs`
--- ----------------------------
-DROP TABLE IF EXISTS `diyi_enterprise_service_provider_invoice_catalogs`;
-CREATE TABLE `diyi_enterprise_service_provider_invoice_catalogs` (
-  `id` bigint(50) NOT NULL COMMENT '主键',
-  `enterprise_id` bigint(50) NOT NULL COMMENT '商户ID',
-  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
-  `invoice_catalog_name` varchar(50) NOT NULL COMMENT '发票类目名称',
-  `set_person` varchar(50) DEFAULT NULL COMMENT '设置人员',
-  `set_type` varchar(50) NOT NULL COMMENT '设置性质',
-  `invoice_demand` varchar(50) NOT NULL COMMENT '开票诉求',
-  `invoice_demand_desc` varchar(100) NOT NULL DEFAULT '' COMMENT '开票诉求备注',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商户-服务商开票类目表';
-
--- ----------------------------
--- Records of diyi_enterprise_service_provider_invoice_catalogs
--- ----------------------------
-
--- ----------------------------
 -- Table structure for `diyi_enterprise_report`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_enterprise_report`;
@@ -535,6 +510,31 @@ CREATE TABLE `diyi_enterprise_service_provider` (
 
 -- ----------------------------
 -- Records of diyi_enterprise_service_provider
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `diyi_enterprise_service_provider_invoice_catalogs`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_enterprise_service_provider_invoice_catalogs`;
+CREATE TABLE `diyi_enterprise_service_provider_invoice_catalogs` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `enterprise_id` bigint(50) NOT NULL COMMENT '商户ID',
+  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
+  `invoice_catalog_name` varchar(50) NOT NULL COMMENT '发票类目名称',
+  `set_person` varchar(50) DEFAULT NULL COMMENT '设置人员',
+  `set_type` varchar(50) NOT NULL COMMENT '设置性质',
+  `invoice_demand` varchar(50) NOT NULL COMMENT '开票诉求',
+  `invoice_demand_desc` varchar(100) NOT NULL DEFAULT '' COMMENT '开票诉求备注',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商户-服务商开票类目表';
+
+-- ----------------------------
+-- Records of diyi_enterprise_service_provider_invoice_catalogs
 -- ----------------------------
 
 -- ----------------------------
@@ -2091,6 +2091,30 @@ CREATE TABLE `diyi_service_provider_maker` (
 
 -- ----------------------------
 -- Records of diyi_service_provider_maker
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `diyi_service_provider_rules`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_service_provider_rules`;
+CREATE TABLE `diyi_service_provider_rules` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
+  `maker_rules` varchar(500) NOT NULL DEFAULT '' COMMENT '个人创客规则要求',
+  `enterprise_rules` varchar(500) NOT NULL DEFAULT '' COMMENT '商户规则要求',
+  `set_person` varchar(50) NOT NULL DEFAULT '' COMMENT '设置人员',
+  `set_desc` varchar(100) NOT NULL DEFAULT '' COMMENT '设置说明',
+  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`service_provider_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商-业务合规要求表';
+
+-- ----------------------------
+-- Records of diyi_service_provider_rules
 -- ----------------------------
 
 -- ----------------------------

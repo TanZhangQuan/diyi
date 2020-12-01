@@ -55,18 +55,6 @@ public class CreateAgentMainDTO implements Serializable {
     private String enterpriseUrl;
 
     /**
-     * 渠道商加盟合同
-     */
-    @NotBlank(message = "请上传渠道商加盟合同")
-    private String joinContract;
-
-    /**
-     * 渠道商承诺函(可能多张)
-     */
-    @NotBlank(message = "请上传渠道商承诺函")
-    private String commitmentLetters;
-
-    /**
      * 联系人1姓名
      */
     @NotBlank(message = "请输入联系人1姓名")

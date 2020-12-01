@@ -7,6 +7,7 @@ import com.lgyun.system.order.service.IAcceptPaysheetListService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 商户支付回单表 Service 实现
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 public class AcceptPaysheetListServiceImpl extends BaseServiceImpl<AcceptPaysheetListMapper, AcceptPaysheetListEntity> implements IAcceptPaysheetListService {
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteAcceptPaysheetList(Long acceptPaysheetId) {
         baseMapper.deleteAcceptPaysheetList(acceptPaysheetId);
     }

@@ -190,6 +190,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> submit(Long payEnterpriseId, Long enterpriseId) {
 
         PayEnterpriseEntity payEnterpriseEntity = getById(payEnterpriseId);
@@ -224,6 +225,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> cancelApply(Long applicationId) {
         InvoiceApplicationEntity invoiceApplicationEntity = invoiceApplicationService.getById(applicationId);
         if (null == invoiceApplicationEntity) {
@@ -289,6 +291,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> audit(Long payEnterpriseId, Long serviceProviderId, Long serviceProviderWorkerId, PayEnterpriseAuditState auditState, MakerInvoiceType makerInvoiceType) {
 
         PayEnterpriseEntity payEnterpriseEntity = getById(payEnterpriseId);
@@ -592,6 +595,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R updateTotalInvoice(LumpInvoiceDTO lumpInvoiceDTO) {
         if (InvoiceMode.PARTIALLYISSUED.equals(lumpInvoiceDTO.getInvoiceMode()) && lumpInvoiceDTO.getPartInvoiceAmount().compareTo(BigDecimal.ZERO) == 0) {
             return R.fail("请输入部分开票的金额！！！");

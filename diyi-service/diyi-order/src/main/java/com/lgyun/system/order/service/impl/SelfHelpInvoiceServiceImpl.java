@@ -25,7 +25,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
@@ -43,20 +42,12 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceMapper, SelfHelpInvoiceEntity> implements ISelfHelpInvoiceService {
 
-    @Resource
-    private IUserClient iUserClient;
-    @Resource
-    private ISelfHelpInvoiceSpService selfHelpInvoiceSpService;
-    @Resource
-    private ISelfHelpInvoiceSpDetailService selfHelpInvoiceSpDetailService;
-    @Resource
-    private ISelfHelpInvoiceExpressService selfHelpInvoiceExpressService;
-
-    @Resource
-    private ISelfHelpInvoiceAccountService selfHelpInvoiceAccountService;
-
-    @Resource
-    private ISelfHelpInvoiceFeeService selfHelpInvoiceFeeService;
+    private final IUserClient iUserClient;
+    private final ISelfHelpInvoiceSpService selfHelpInvoiceSpService;
+    private final ISelfHelpInvoiceSpDetailService selfHelpInvoiceSpDetailService;
+    private final ISelfHelpInvoiceExpressService selfHelpInvoiceExpressService;
+    private final ISelfHelpInvoiceAccountService selfHelpInvoiceAccountService;
+    private final ISelfHelpInvoiceFeeService selfHelpInvoiceFeeService;
 
     @Autowired
     @Lazy
@@ -137,6 +128,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> uploadInvoiceTaxByProvider(ServiceProviderWorkerEntity serviceProviderWorkerEntity, SelfHelpInvoiceDetailInvoiceTaxDTO selfHelpInvoiceDetailInvoiceTaxDto) {
 
         SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = selfHelpInvoiceDetailService.getById(selfHelpInvoiceDetailInvoiceTaxDto.getSelfHelpInvoiceDetailId());
@@ -324,6 +316,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> audit(Long serviceProviderId, Long selfHelpInvoiceId, SelfHelpInvoiceSpApplyState applyState) {
 
         if (!(SelfHelpInvoiceSpApplyState.RECALLED.equals(applyState)) && !(SelfHelpInvoiceSpApplyState.SUBMITTED.equals(applyState))) {
@@ -469,6 +462,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R matchServiceProvider(Long selfHelpInvoiceId, Long selfHelpInvoiceFeeId, Long serviceProviderId, String payCertificate) {
         SelfHelpInvoiceEntity selfHelpInvoiceEntity = getById(serviceProviderId);
         if (null == selfHelpInvoiceEntity) {
@@ -510,6 +504,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R uploadAdminExpress(Long selfHelpInvoiceId, Long serviceProviderId, String expressNo, String expressCompanyName) {
         SelfHelpInvoiceSpEntity selfHelpInvoiceSpEntity = selfHelpInvoiceSpService.findByServiceProviderIdAndSelfHelpInvoiceId(selfHelpInvoiceId, serviceProviderId);
         if (null == selfHelpInvoiceSpEntity || !selfHelpInvoiceSpEntity.getApplyState().equals("INVOICED")) {
@@ -526,6 +521,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R uploadAdminInvoice(Long selfHelpInvoiceApplyProviderDetailId, String invoiceScanPictures, String taxScanPictures) {
         SelfHelpInvoiceSpDetailEntity selfHelpInvoiceSpDetailEntity = selfHelpInvoiceSpDetailService.getById(selfHelpInvoiceApplyProviderDetailId);
         selfHelpInvoiceSpDetailEntity.setTaxScanPictures(taxScanPictures);

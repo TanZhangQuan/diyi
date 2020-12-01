@@ -13,6 +13,7 @@ import com.lgyun.system.user.vo.OnlineAgreementNeedSignVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ import java.util.List;
 public class OnlineAgreementNeedSignServiceImpl extends BaseServiceImpl<OnlineAgreementNeedSignMapper, OnlineAgreementNeedSignEntity> implements IOnlineAgreementNeedSignService {
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> OnlineAgreementNeedSignAdd(Long onlineAgreementTemplateId, ObjectType objectType, SignPower signPower, Long objectId) {
 
         OnlineAgreementNeedSignEntity oldOnlineAgreementNeedSignEntity = findByonlineAgreementTemplateIdAndobjectTypeAndobjectId(onlineAgreementTemplateId, objectType, signPower, objectId);

@@ -8,7 +8,6 @@ import com.lgyun.common.constant.CustomConstant;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
-import com.lgyun.common.tool.SnowflakeIdWorker;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.AddressEntity;
 import com.lgyun.system.order.entity.ServiceProviderInvoiceCatalogsEntity;
@@ -42,8 +41,9 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
     private IUserService userService;
     private IOrderClient orderClient;
     private IAgreementService agreementService;
-    private IServiceProviderAccountService serviceProviderAccountService;
+    private IServiceProviderRulesService serviceProviderRulesService;
     private IServiceProviderWorkerService serviceProviderWorkerService;
+    private IServiceProviderAccountService serviceProviderAccountService;
 
     @Override
     public int queryCountById(Long serviceProviderId) {
@@ -58,6 +58,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> updateContactPerson(Long serviceProviderId, ContactsInfoDTO contactsInfoDTO) {
 
         ServiceProviderEntity serviceProviderWorkerEntity = getById(serviceProviderId);
@@ -133,19 +134,6 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         BeanUtils.copyProperties(addServiceProviderDTO, serviceProviderAccountEntity);
         serviceProviderAccountService.save(serviceProviderAccountEntity);
 
-        //上传加盟合同
-        AgreementEntity agreementEntity = new AgreementEntity();
-        agreementEntity.setAgreementType(AgreementType.SERVICEPROVIDERJOINAGREEMENT);
-        agreementEntity.setSignType(SignType.PAPERAGREEMENT);
-        agreementEntity.setAgreementNo(SnowflakeIdWorker.getSerialNumber());
-        agreementEntity.setSignState(SignState.SIGNED);
-        agreementEntity.setAuditState(AuditState.APPROVED);
-        agreementEntity.setFirstSideSignPerson("地衣众包平台");
-        agreementEntity.setPaperAgreementUrl(addServiceProviderDTO.getJoinContract());
-        agreementEntity.setServiceProviderId(serviceProviderEntity.getId());
-        agreementEntity.setSecondSideSignPerson(serviceProviderEntity.getServiceProviderName());
-        agreementService.save(agreementEntity);
-
         //保存收货地址
         AddressEntity addressEntity = new AddressEntity();
         addressEntity.setObjectId(serviceProviderEntity.getId());
@@ -153,6 +141,9 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         addressEntity.setIsDefault(true);
         BeanUtils.copyProperties(addServiceProviderDTO, addressEntity);
         orderClient.createAddress(addressEntity);
+
+        //新建服务商-创客业务规则，服务商-商户业务规则
+        serviceProviderRulesService.addOrUpdateServiceProviderRules(serviceProviderEntity.getId(), addServiceProviderDTO.getMakerRuleHashSet(), addServiceProviderDTO.getEnterpriseRuleSet());
 
         //新建服务商员工
         User user = new User();
@@ -245,23 +236,12 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
             return R.fail("已存在相同手机号的管理员");
         }
 
-        //上传加盟合同
-        AgreementEntity agreementEntity = agreementService.getOne(Wrappers.<AgreementEntity>query().lambda()
-                .eq(AgreementEntity::getServiceProviderId, serviceProviderEntity.getId())
-                .eq(AgreementEntity::getAgreementType, AgreementType.SERVICEPROVIDERJOINAGREEMENT)
-                .eq(AgreementEntity::getSignState, SignState.SIGNED)
-                .eq(AgreementEntity::getAuditState, AuditState.APPROVED));
-
-        if (agreementEntity == null) {
-            return R.fail("服务商加盟合同不存在");
-        }
+        //新建服务商-创客业务规则，服务商-商户业务规则
+        serviceProviderRulesService.addOrUpdateServiceProviderRules(serviceProviderEntity.getId(), updateServiceProviderDTO.getMakerRuleHashSet(), updateServiceProviderDTO.getEnterpriseRuleSet());
 
         //编辑服务商员工
         BeanUtil.copy(updateServiceProviderDTO, serviceProviderWorkerEntity);
         serviceProviderWorkerService.updateById(serviceProviderWorkerEntity);
-
-        agreementEntity.setPaperAgreementUrl(updateServiceProviderDTO.getJoinContract());
-        agreementService.updateById(agreementEntity);
 
         BeanUtil.copy(updateServiceProviderDTO, serviceProviderEntity);
         updateById(serviceProviderEntity);
@@ -270,6 +250,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> updateServiceProviderState(Long serviceProviderId, AccountState serviceProviderState) {
 
         ServiceProviderEntity serviceProviderEntity = getById(serviceProviderId);

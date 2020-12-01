@@ -122,6 +122,7 @@ public class AgentMainWorkerServiceImpl extends BaseServiceImpl<AgentMainWorkerM
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> createOrUpdateRoleMenus(AgentMainWorkerEntity agentMainWorkerEntity, RoleMenusDTO roleMenusDTO) {
         if (!agentMainWorkerEntity.getSuperAdmin()) {
             if (!sysClient.queryMenusByRole(agentMainWorkerEntity.getRoleId()).containsAll(Arrays.asList(roleMenusDTO.getMenus()))) {
@@ -148,6 +149,7 @@ public class AgentMainWorkerServiceImpl extends BaseServiceImpl<AgentMainWorkerM
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> removeRole(Long roleId) {
         int count = this.count(new QueryWrapper<AgentMainWorkerEntity>().lambda().eq(AgentMainWorkerEntity::getRoleId, roleId));
         if (count > 0) {
@@ -331,6 +333,7 @@ public class AgentMainWorkerServiceImpl extends BaseServiceImpl<AgentMainWorkerM
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> operateChildAccount(Long childAccountId, ChildAccountType childAccountType, Long id) {
         if (id.equals(childAccountId)) {
             return R.fail("您不能删除、停用、启用您自己的账号！");

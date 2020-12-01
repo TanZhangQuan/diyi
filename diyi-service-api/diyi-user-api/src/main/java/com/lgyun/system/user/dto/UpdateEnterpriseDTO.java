@@ -61,18 +61,6 @@ public class UpdateEnterpriseDTO implements Serializable {
     private String enterpriseUrl;
 
     /**
-     * 加盟合同
-     */
-    @NotBlank(message = "请上传加盟合同")
-    private String joinContract;
-
-    /**
-     * 商户承诺函(可能多张)
-     */
-    @NotBlank(message = "请上传商户承诺函")
-    private String commitmentLetters;
-
-    /**
      * 联系人1姓名
      */
     @NotBlank(message = "请输入联系人1姓名")

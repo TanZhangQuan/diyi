@@ -162,6 +162,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> removeRole(Long roleId) {
         int count = this.count(new QueryWrapper<EnterpriseWorkerEntity>().lambda().eq(EnterpriseWorkerEntity::getRoleId, roleId));
         if (count > 0) {
@@ -327,6 +328,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> operateChildAccount(Long childAccountId, ChildAccountType childAccountType, Long id) {
         if (id == childAccountId) {
             return R.fail("您不能删除、停用、启用您自己的账号！");

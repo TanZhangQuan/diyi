@@ -1,6 +1,5 @@
 package com.lgyun.system.order.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
@@ -15,8 +14,10 @@ import com.lgyun.system.order.mapper.AcceptPaysheetMapper;
 import com.lgyun.system.order.service.IAcceptPaysheetListService;
 import com.lgyun.system.order.service.IAcceptPaysheetService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
-import com.lgyun.system.order.vo.*;
-import com.lgyun.system.user.feign.IUserClient;
+import com.lgyun.system.order.vo.AcceptPaysheetAndCsListMakerVO;
+import com.lgyun.system.order.vo.AcceptPaysheetDetailEnterpriseVO;
+import com.lgyun.system.order.vo.AcceptPaysheetDetailMakerVO;
+import com.lgyun.system.order.vo.AcceptPaysheetListEnterpriseVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -38,7 +39,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMapper, AcceptPaysheetEntity> implements IAcceptPaysheetService {
 
-    private final IUserClient userClient;
     private final IAcceptPaysheetListService acceptPaysheetPayListService;
 
     @Autowired

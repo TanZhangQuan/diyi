@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lgyun.system.user.mapper.ServiceProviderRulesMapper">
+
+    <select id="queryMakerRuleByServiceProvider" resultType="java.lang.String">
+        SELECT maker_rules FROM diyi_service_provider_rules WHERE is_deleted = 0 AND service_provider_id = #{param1}
+    </select>
+
+    <select id="queryEnterpriseRuleByServiceProvider" resultType="java.lang.String">
+        SELECT enterprise_rules FROM diyi_service_provider_rules WHERE is_deleted = 0 AND service_provider_id = #{param1}
+    </select>
+
+</mapper>

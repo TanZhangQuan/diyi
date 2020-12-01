@@ -30,6 +30,7 @@ public class OnlineAgreementTemplateServiceImpl extends BaseServiceImpl<OnlineAg
                 .eq(OnlineAgreementTemplateEntity::getTemplateSignState, TemplateSignState.OPEN)
                 .eq(OnlineAgreementTemplateEntity::getTemplateState, TemplateState.APPLICATION)
                 .eq(OnlineAgreementTemplateEntity::getBoolAllMakers,boolAllMakers);
+
         return baseMapper.selectOne(queryWrapper);
     }
 }

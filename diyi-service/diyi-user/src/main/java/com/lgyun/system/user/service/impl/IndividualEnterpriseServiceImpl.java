@@ -44,6 +44,7 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
     private IServiceProviderService serviceProviderService;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> createIndividualEnterpriseMaker(IndividualBusinessEnterpriseAddMakerDTO individualBusinessEnterpriseAddMakerDto, MakerEntity makerEntity) {
 
         if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
@@ -159,6 +160,7 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> cancelIndividualEnterprise(Long serviceProviderId, Long individualEnterpriseId) {
 
         IndividualEnterpriseEntity individualEnterpriseEntity = getById(individualEnterpriseId);
@@ -178,6 +180,7 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> updateIndividualEnterpriseServiceProvider(IndividualBusinessEnterpriseUpdateServiceProviderDTO individualBusinessEnterpriseUpdateServiceProviderDTO, Long serviceProviderId) {
 
         IndividualEnterpriseEntity individualEnterpriseEntity = getById(individualBusinessEnterpriseUpdateServiceProviderDTO.getIndividualId());
@@ -298,6 +301,7 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> mateServiceProvider(Long serviceProviderId, Long individualEnterpriseId) {
 
         int serviceProviderNum = serviceProviderService.queryCountById(serviceProviderId);

@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 服务商开票类目表 Service 实现
@@ -36,6 +37,7 @@ public class ServiceProviderInvoiceCatalogsServiceImpl extends BaseServiceImpl<S
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> addOrUpdateInvoiceCatalog(AddOrUpdateProviderInvoiceCatalogDTO addOrUpdateProviderInvoiceCatalogDTO, Long serviceProviderId, String name) {
 
         ServiceProviderInvoiceCatalogsEntity serviceProviderInvoiceCatalogsEntity;

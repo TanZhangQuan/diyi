@@ -193,9 +193,13 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
 
     @Override
     public PartnerEntity findByIdcardNo(String idcardNo) {
+
+        if (StringUtils.isBlank(idcardNo)){
+            return null;
+        }
+
         QueryWrapper<PartnerEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(PartnerEntity::getIdcardNo, idcardNo);
-
         return baseMapper.selectOne(queryWrapper);
     }
 
@@ -209,6 +213,7 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void partnerUpdate(PartnerEntity partnerEntity, String openid, String sessionKey) {
         //更新微信信息
         partnerEntity.setOpenid(openid);
@@ -229,7 +234,8 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
     }
 
     @Override
-    public R updatePartnerState(Long partnerId, AccountState partnerState) {
+    @Transactional(rollbackFor = Exception.class)
+    public R<String> updatePartnerState(Long partnerId, AccountState partnerState) {
 
         PartnerEntity partnerEntity = getById(partnerId);
         if (partnerEntity == null) {
@@ -245,6 +251,7 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R createPartner(AddPartnerDTO addPartnerDTO) {
 
         Long introducePartnerId = null;
@@ -281,6 +288,7 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> updatePartnerDetail(UpdatePartnerDeatilDTO updatePartnerDeatilDTO, PartnerEntity partnerEntity) {
         if (VerifyStatus.VERIFYPASS.equals(partnerEntity.getIdcardVerifyStatus())) {
             updatePartnerDeatilDTO.setName(partnerEntity.getName());
@@ -305,6 +313,7 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> updatePhoneNumber(UpdatePhoneNumberDTO updatePhoneNumberDTO, PartnerEntity partnerEntity) {
         if (updatePhoneNumberDTO.getMobile().equals(partnerEntity.getPhoneNumber())) {
             return R.fail("该手机号与当前合伙人手机号一致");

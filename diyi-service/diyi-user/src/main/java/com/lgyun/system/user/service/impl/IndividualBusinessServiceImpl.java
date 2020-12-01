@@ -45,6 +45,7 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
     private IServiceProviderService serviceProviderService;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> createIndividualBusinessMaker(IndividualBusinessEnterpriseAddMakerDTO individualBusinessEnterpriseAddMakerDto, MakerEntity makerEntity) {
 
         //判断税种
@@ -179,6 +180,7 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> cancelIndividualBusiness(Long serviceProviderId, Long individualBusinessId) {
 
         IndividualBusinessEntity individualBusinessEntity = getById(individualBusinessId);
@@ -198,6 +200,7 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> updateIndividualBusinessServiceProvider(IndividualBusinessEnterpriseUpdateServiceProviderDTO individualBusinessEnterpriseUpdateServiceProviderDTO, Long serviceProviderId) {
 
         //判断税种
@@ -324,6 +327,7 @@ public class IndividualBusinessServiceImpl extends BaseServiceImpl<IndividualBus
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> mateServiceProvider(Long serviceProviderId, Long individualBusinessId) {
 
         int serviceProviderNum = serviceProviderService.queryCountById(serviceProviderId);

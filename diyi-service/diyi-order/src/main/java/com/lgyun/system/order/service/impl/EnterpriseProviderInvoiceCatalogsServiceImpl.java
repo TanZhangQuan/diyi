@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 商户-服务商开票类目：记录商户在特定服务商的开票类目 Service 实现
@@ -42,6 +43,7 @@ public class EnterpriseProviderInvoiceCatalogsServiceImpl extends BaseServiceImp
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> addOrUpdateEnterpriseProviderInvoiceCatalog(AddOrUpdateEnterpriseProviderInvoiceCatalogDTO addOrUpdateEnterpriseProviderInvoiceCatalogDTO, Long serviceProviderId, Long enterpriseId, String name) {
 
         EnterpriseProviderInvoiceCatalogsEntity enterpriseProviderInvoiceCatalogsEntity;

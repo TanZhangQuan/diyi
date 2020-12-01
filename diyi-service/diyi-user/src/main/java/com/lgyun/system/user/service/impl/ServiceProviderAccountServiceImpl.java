@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 服务商收款账户信息表 Service 实现
@@ -31,6 +32,7 @@ public class ServiceProviderAccountServiceImpl extends BaseServiceImpl<ServicePr
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> addOrUpdateServiceProviderAccount(Long serviceProviderId, AddOrUpdateServiceProviderAccountDTO addOrUpdateServiceProviderAccountDTO) {
         //查询默认地址
         ServiceProviderAccountEntity defaultServiceProviderAccountEntity = getOne(Wrappers.<ServiceProviderAccountEntity>query().lambda()

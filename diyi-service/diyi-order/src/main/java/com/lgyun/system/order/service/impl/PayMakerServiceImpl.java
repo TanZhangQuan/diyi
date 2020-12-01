@@ -6,16 +6,11 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.exception.CustomException;
-import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.order.entity.MakerInvoiceEntity;
-import com.lgyun.system.order.entity.MakerTaxRecordEntity;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.entity.PayMakerEntity;
 import com.lgyun.system.order.excel.PayEnterpriseExcel;
 import com.lgyun.system.order.mapper.PayMakerMapper;
-import com.lgyun.system.order.service.IMakerInvoiceService;
-import com.lgyun.system.order.service.IMakerTaxRecordService;
 import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.service.IPayMakerService;
 import com.lgyun.system.order.vo.*;
@@ -34,7 +29,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -50,8 +44,6 @@ import java.util.List;
 public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMakerEntity> implements IPayMakerService {
 
     private final IUserClient userClient;
-    private final IMakerInvoiceService makerInvoiceService;
-    private final IMakerTaxRecordService makerTaxRecordService;
 
     @Autowired
     @Lazy
@@ -418,6 +410,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteByPayEnterpriseId(Long payEnterpriseId) {
         baseMapper.deleteByPayEnterpriseId(payEnterpriseId);
     }

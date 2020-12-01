@@ -15,6 +15,7 @@ import com.lgyun.system.user.vo.CooperationServiceProviderListVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 相关局与服务商关联表 Service 实现
@@ -31,6 +32,7 @@ public class RelBureauServiceProviderServiceImpl extends BaseServiceImpl<RelBure
     private IServiceProviderService serviceProviderService;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> relevanceRelBureauServiceProvider(Long relBureauId, Long serviceProviderId, String matchDesc, AdminEntity adminEntity) {
         RelBureauEntity relBureauEntity = relBureauService.getById(relBureauId);
         if (relBureauEntity == null) {
@@ -91,6 +93,7 @@ public class RelBureauServiceProviderServiceImpl extends BaseServiceImpl<RelBure
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> updateCooperationStatus(Long relBureauId, Long serviceProviderId, CooperateStatus cooperateStatus) {
         int relBureauNum = relBureauService.queryCountById(relBureauId);
         if (relBureauNum <= 0) {

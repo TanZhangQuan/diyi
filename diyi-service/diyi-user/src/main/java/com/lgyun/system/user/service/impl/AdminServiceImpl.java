@@ -150,6 +150,7 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> createOrUpdateRoleMenus(RoleMenusDTO roleMenusDTO, AdminEntity adminEntity) {
         if (!adminEntity.getSuperAdmin()) {
             if (!sysClient.queryMenusByRole(adminEntity.getRoleId()).containsAll(Arrays.asList(StringUtils.split(roleMenusDTO.getMenus(), ",")))) {
@@ -306,6 +307,7 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R removeRole(Long roleId) {
         int count = this.count(new QueryWrapper<AdminEntity>().lambda().eq(AdminEntity::getRoleId, roleId));
         if (count > 0) {

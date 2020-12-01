@@ -14,6 +14,7 @@ import com.lgyun.system.user.vo.ServiceProviderCertUpdateDetailVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 服务商资格信息表 Service 实现
@@ -34,6 +35,7 @@ public class ServiceProviderCertServiceImpl extends BaseServiceImpl<ServiceProvi
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public R<String> addOrUpdateServiceProviderCert(Long serviceProviderId, AddOrUpdateServiceProviderCertDTO addOrUpdateServiceProviderCertDTO) {
 
         ServiceProviderCertEntity serviceProviderCertEntity;

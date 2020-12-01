@@ -1,5 +1,7 @@
 package com.lgyun.system.user.dto;
 
+import com.lgyun.common.enumeration.EnterpriseRule;
+import com.lgyun.common.enumeration.MakerRule;
 import com.lgyun.common.enumeration.PositionName;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -9,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * 平台端---服务商管理---编辑服务商DTO
@@ -59,12 +62,6 @@ public class UpdateServiceProviderDTO implements Serializable {
      * 企业网址
      */
     private String serviceProviderUrl;
-
-    /**
-     * 加盟合同
-     */
-    @NotBlank(message = "请上传加盟合同")
-    private String joinContract;
 
     /**
      * 联系人1姓名
@@ -143,6 +140,16 @@ public class UpdateServiceProviderDTO implements Serializable {
      */
     @NotBlank(message = "请输入开票开户银行和账号")
     private String invoiceBankNameAccount;
+
+    /**
+     * 服务商-创客业务规则
+     */
+    private Set<MakerRule> makerRuleHashSet;
+
+    /**
+     * 服务商-商户业务规则
+     */
+    private Set<EnterpriseRule> enterpriseRuleSet;
 
     /**
      * 用户名
