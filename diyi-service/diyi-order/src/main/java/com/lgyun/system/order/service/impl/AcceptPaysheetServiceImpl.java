@@ -83,7 +83,7 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
                 return R.fail("请选择分包");
             }
         } else {
-            if (acceptPaysheetSaveDto.getPayMakerIdList().isEmpty()) {
+            if (acceptPaysheetSaveDto.getPayMakerIdList() != null && acceptPaysheetSaveDto.getPayMakerIdList().isEmpty()) {
                 return R.fail("请选择分包");
             }
 
@@ -159,7 +159,7 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
         baseMapper.deleteAcceptPaysheet(payEnterpriseId);
 
         //删除清单式子表记录
-        if (!(acceptPaysheetIdList.isEmpty())) {
+        if (acceptPaysheetIdList != null && !acceptPaysheetIdList.isEmpty()) {
             acceptPaysheetIdList.forEach(acceptPaysheetPayListService::deleteAcceptPaysheetList);
         }
 
