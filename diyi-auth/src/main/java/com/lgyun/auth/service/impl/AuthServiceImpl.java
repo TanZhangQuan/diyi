@@ -414,7 +414,7 @@ public class AuthServiceImpl implements IAuthService {
                 break;
 
             case TAXBUREAU:
-                //税务局处理
+                //税局处理
                 res = userClient.relBureauDeal("", account, encrypt, RelBureauType.TAXBUREAU, GrantType.PASSWORD);
                 if (!(res.isSuccess())) {
                     return res;

@@ -478,11 +478,10 @@ public class StrSpliter {
      * @return 列表
      */
     private static List<String> addToList(List<String> list, String part, boolean isTrim, boolean ignoreEmpty) {
-        part = part.toString();
         if (isTrim) {
             part = part.trim();
         }
-        if (false == ignoreEmpty || false == part.isEmpty()) {
+        if (!ignoreEmpty || !part.isEmpty()) {
             list.add(part);
         }
         return list;

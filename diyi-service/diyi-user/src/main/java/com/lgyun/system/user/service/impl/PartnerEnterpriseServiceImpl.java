@@ -53,6 +53,12 @@ public class PartnerEnterpriseServiceImpl extends BaseServiceImpl<PartnerEnterpr
             return R.fail("商户不存在");
         }
 
+        //判断商户是否已分配
+        int partnerEnterpriseNum = queryPartnerEnterpriseCount(partnerId, enterpriseId);
+        if (partnerEnterpriseNum > 0) {
+            return R.fail("商户已分配合伙人");
+        }
+
         PartnerEnterpriseEntity partnerEnterpriseEntity = queryByPartnerAndEnterprise(partnerId, enterpriseId);
         if (partnerEnterpriseEntity == null) {
             partnerEnterpriseEntity = new PartnerEnterpriseEntity();
@@ -74,10 +80,19 @@ public class PartnerEnterpriseServiceImpl extends BaseServiceImpl<PartnerEnterpr
     }
 
     @Override
+    public int queryPartnerEnterpriseCount(Long partnerId, Long enterpriseId) {
+        QueryWrapper<PartnerEnterpriseEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(PartnerEnterpriseEntity::getEnterpriseId, enterpriseId)
+                .ne(PartnerEnterpriseEntity::getPartnerId, partnerId);
+
+        return baseMapper.selectCount(queryWrapper);
+    }
+
+    @Override
     public PartnerEnterpriseEntity queryByPartnerAndEnterprise(Long partnerId, Long enterpriseId) {
         QueryWrapper<PartnerEnterpriseEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(PartnerEnterpriseEntity::getPartnerId, partnerId).
-                eq(PartnerEnterpriseEntity::getEnterpriseId, enterpriseId);
+        queryWrapper.lambda().eq(PartnerEnterpriseEntity::getPartnerId, partnerId)
+                .eq(PartnerEnterpriseEntity::getEnterpriseId, enterpriseId);
 
         return baseMapper.selectOne(queryWrapper);
     }

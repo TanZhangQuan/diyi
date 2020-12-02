@@ -28,7 +28,7 @@ public class CommonServiceImpl implements ICommonService {
     @Override
     public R<String> ossImageUpload(MultipartFile file, String suffix) throws Exception {
 
-        if (file.isEmpty()) {
+        if (file == null || file.isEmpty()) {
             return R.fail("上传文件为空");
         }
 
@@ -45,7 +45,7 @@ public class CommonServiceImpl implements ICommonService {
                 }
             }
 
-            if (!(suffixList.isEmpty())) {
+            if (!suffixList.isEmpty()) {
                 if (!(suffixList.contains(fileSuffix.replace(".", "")))) {
                     return R.fail("文件类型有误");
                 }

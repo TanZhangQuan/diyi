@@ -88,8 +88,8 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
     @Transactional(rollbackFor = Exception.class)
     public void importPayMakerList(List<PayEnterpriseExcel> list, Long payEnterpriseId, MakerType makerType, Long enterpriseId) {
 
-        if (list.isEmpty()) {
-            throw new CustomException("Excel内容为空");
+        if (list == null || list.isEmpty()) {
+            throw new CustomException("Excel文件为空");
         }
 
         //企业总支付额价税合计总额=服务外包费总额+身份验证费总额/个体户年费总额+第三方支付手续费总额

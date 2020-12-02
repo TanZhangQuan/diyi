@@ -651,8 +651,8 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     @Override
     public R<List<MakerExcel>> readMakerListExcel(MultipartFile file) throws IOException {
         //判断文件内容是否为空
-        if (file.isEmpty()) {
-            return R.fail("文件内容为空");
+        if (file == null || file.isEmpty()) {
+            return R.fail("文件为空");
         }
 
         // 查询上传文件的后缀

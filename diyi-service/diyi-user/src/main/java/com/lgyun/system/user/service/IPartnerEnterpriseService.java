@@ -28,6 +28,15 @@ public interface IPartnerEnterpriseService extends BaseService<PartnerEnterprise
     R<String> relevancePartnerEnterprise(Long partnerId, Long enterpriseId, String matchDesc, AdminEntity adminEntity);
 
     /**
+     * 查询合伙人-商户数
+     *
+     * @param partnerId
+     * @param enterpriseId
+     * @return
+     */
+    int queryPartnerEnterpriseCount(Long partnerId, Long enterpriseId);
+
+    /**
      * 根据合伙人,商户查询关联
      *
      * @param partnerId

@@ -83,7 +83,7 @@ public class HttpUtil {
 
         CloseableHttpClient httpClient = null;
         if (params != null && !params.isEmpty()) {
-            StringBuffer param = new StringBuffer();
+            StringBuilder param = new StringBuilder();
             boolean flag = true; // 是否开始
             for (Map.Entry<String, String> entry : params.entrySet()) {
                 if (flag) {

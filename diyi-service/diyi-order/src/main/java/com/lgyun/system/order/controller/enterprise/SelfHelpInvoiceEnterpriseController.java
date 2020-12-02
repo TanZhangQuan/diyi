@@ -149,7 +149,7 @@ public class SelfHelpInvoiceEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
         //判断文件内容是否为空
-        if (file.isEmpty()) {
+        if (file == null || file.isEmpty()) {
             return R.fail("Excel文件为空");
         }
 

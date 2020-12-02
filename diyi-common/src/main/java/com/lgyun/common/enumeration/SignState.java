@@ -10,7 +10,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum SignState {
     UNSIGN("UNSIGN", "未签署"),
-    SIGNING("SIGNING", "签署中"),
     SIGNED("SIGNED", "已签署");
 
     private final String value;

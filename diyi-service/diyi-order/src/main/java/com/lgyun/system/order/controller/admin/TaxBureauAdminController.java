@@ -21,15 +21,15 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/admin/tax-bureau")
 @Validated
 @AllArgsConstructor
-@Api(value = "平台端---税务局管理模块相关接口", tags = "平台端---税务局管理模块相关接口")
+@Api(value = "平台端---税局管理模块相关接口", tags = "平台端---税局管理模块相关接口")
 public class TaxBureauAdminController {
 
     private IUserClient userClient;
     private IPayEnterpriseService payEnterpriseService;
 
     @PostMapping("/query-tax-bureau-service-provider-transaction")
-    @ApiOperation(value = "查询税务局-服务商交易情况数据", notes = "查询税务局-服务商交易情况数据")
-    public R queryTaxBureauServiceProviderTransaction(@ApiParam("税务局") @NotNull(message = "请选择税务局") @RequestParam(required = false) Long relBureauId, BladeUser bladeUser) {
+    @ApiOperation(value = "查询税局-服务商交易情况数据", notes = "查询税局-服务商交易情况数据")
+    public R queryTaxBureauServiceProviderTransaction(@ApiParam("税局") @NotNull(message = "请选择税局") @RequestParam(required = false) Long relBureauId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

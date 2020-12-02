@@ -80,8 +80,12 @@ public class ServiceProviderRulesServiceImpl extends BaseServiceImpl<ServiceProv
         }
 
         serviceProviderRulesEntity.setServiceProviderId(serviceProviderId);
-        serviceProviderRulesEntity.setEnterpriseRules(StringUtils.join(enterpriseRuleSet.toArray(), ","));
-        serviceProviderRulesEntity.setMakerRules(StringUtils.join(makerRuleHashSet.toArray(), ","));
+        if (makerRuleHashSet != null && !makerRuleHashSet.isEmpty()) {
+            serviceProviderRulesEntity.setEnterpriseRules(StringUtils.join(enterpriseRuleSet.toArray(), ","));
+        }
+        if (enterpriseRuleSet != null && !enterpriseRuleSet.isEmpty()) {
+            serviceProviderRulesEntity.setMakerRules(StringUtils.join(makerRuleHashSet.toArray(), ","));
+        }
         saveOrUpdate(serviceProviderRulesEntity);
 
     }

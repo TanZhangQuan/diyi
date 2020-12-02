@@ -29,7 +29,7 @@ public class RelBureauServiceProviderEntity extends BaseEntity {
     private Long relBureauId;
 
     /**
-     * 服务商编号，一个服务商只能属于一个税务局监管
+     * 服务商编号，一个服务商只能属于一个相关局监管
      */
     private Long serviceProviderId;
 

@@ -86,7 +86,7 @@ public class SelfHelpInvoiceMakerController {
         }
         MakerEntity makerEntity = result.getData();
         //判断文件内容是否为空
-        if (file.isEmpty()) {
+        if (file == null || file.isEmpty()) {
             return R.fail("Excel文件为空");
         }
         selfHelpInvoiceDto.setObjectType(ObjectType.MAKERPEOPLE);

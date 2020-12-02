@@ -27,7 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 税务局管理表 Service 实现
+ * 相关局管理表 Service 实现
  *
  * @author tzq
  * @since 2020-10-20 18:47:56

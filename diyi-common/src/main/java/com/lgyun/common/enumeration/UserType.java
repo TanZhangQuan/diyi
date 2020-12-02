@@ -15,7 +15,7 @@ public enum UserType {
     ADMIN("ADMIN", "管理员"),
     PARTNER("PARTNER", "合伙人"),
     AGENTMAIN("AGENTMAIN","渠道商"),
-    TAXBUREAU("TAXBUREAU","税务局"),
+    TAXBUREAU("TAXBUREAU","税局"),
     ENTERPRISE("ENTERPRISE", "商户"),
     PAYMENTAGENCY("PAYMENTAGENCY","支付机构"),
     SERVICEPROVIDER("SERVICEPROVIDER", "服务商"),

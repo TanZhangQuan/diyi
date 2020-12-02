@@ -9,7 +9,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum RelBureauType {
-    TAXBUREAU("TAXBUREAU", "税务局"),
+    TAXBUREAU("TAXBUREAU", "税局"),
     MARKETSUPERVISION("MARKETSUPERVISION", "市场监督管理局"),
     INDUSTRIALPARKS("INDUSTRIALPARKS", "产业园区"),
     PAYMENTAGENCY("PAYMENTAGENCY", "支付机构");

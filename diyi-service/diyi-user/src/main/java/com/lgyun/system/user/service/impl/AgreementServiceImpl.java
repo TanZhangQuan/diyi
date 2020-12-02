@@ -119,7 +119,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         agreementEntity.setAgreementType(AgreementType.ENTERPRISEPROMISE);
         agreementEntity.setSignType(SignType.PAPERAGREEMENT);
         agreementEntity.setAgreementNo(SnowflakeIdWorker.getSerialNumber());
-        agreementEntity.setSignState(SignState.SIGNING);
+        agreementEntity.setSignState(SignState.SIGNED);
         agreementEntity.setAuditState(AuditState.APPROVED);
         agreementEntity.setEnterpriseId(enterpriseId);
         agreementEntity.setPaperAgreementUrl(paperAgreementURL);
@@ -412,7 +412,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
 
     @Override
     public R queryAdminEnterpriseId(Long enterpriseId, AgreementType agreementType) {
-        if (!(AgreementType.ENTERPRISEJOINAGREEMENT.equals(agreementType) || AgreementType.ENTERPRISEPOWERATTORNEY.equals(agreementType) || AgreementType.ENTERPRISEPRICEAGREEMENT.equals(agreementType))) {
+        if (!(AgreementType.ENTERPRISEJOINAGREEMENT.equals(agreementType) || AgreementType.ENTERPRISEPRICEAGREEMENT.equals(agreementType))) {
             return R.fail("合同协议类别错误!!!");
         }
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();

@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 /**
- * 税务局管理表 Mapper
+ * 相关局管理表 Mapper
  *
  * @author tzq
  * @since 2020-10-20 18:47:56

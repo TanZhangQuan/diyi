@@ -98,7 +98,7 @@ public class InvoiceServiceDetailSummaryVO implements Serializable {
     private String makerTaxUrl;
 
     /**
-     *创客发票开票类别: 自然人汇总代开；自然人门征单开；个体户税务局代开；个体户自开；个独自开
+     *创客发票开票类别: 自然人汇总代开；自然人门征单开；个体户税局代开；个体户自开；个独自开
      */
     private MakerInvoiceType makerInvoiceType;
 

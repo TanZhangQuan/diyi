@@ -33,7 +33,6 @@
         <result property="id" column="id"/>
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="boolSignContract" column="bool_sign_contract"/>
-        <result property="boolSignAgreement" column="bool_sign_agreement"/>
     </resultMap>
 
     <resultMap type="com.lgyun.system.user.vo.EnterpriseListAdminVO" id="enterpriseListAdminVO">
@@ -161,9 +160,7 @@
 
     <select id="queryEnterpriseListPayment" resultMap="enterpriseListPaymentVO">
         SELECT t1.id, t1.enterprise_name, IF((SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'ENTERPRISEJOINAGREEMENT'
-        AND sign_state = 'SIGNED' AND enterprise_id = t1.id) > 0, TRUE, FALSE) AS bool_sign_contract, IF((SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0
-        AND agreement_type = 'ENTERPRISEPOWERATTORNEY' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND enterprise_id = t1.id) > 0, TRUE, FALSE) AS bool_sign_agreement
-        FROM diyi_enterprise t1 WHERE is_deleted = 0
+        AND sign_state = 'SIGNED' AND enterprise_id = t1.id) > 0, TRUE, FALSE) AS bool_sign_contract FROM diyi_enterprise t1 WHERE is_deleted = 0
         <if test="param1 != null and param1.trim() != ''">
             AND t1.enterprise_name LIKE concat('%', #{param1}, '%')
         </if>
