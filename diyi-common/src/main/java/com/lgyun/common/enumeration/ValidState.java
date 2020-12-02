@@ -4,14 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 管理员特性
+ * 合同有效性
  */
 @Getter
 @AllArgsConstructor
-public enum AdminPower {
-    YES("YSE", "是"),
-    NO("NO", "否");
+public enum ValidState {
+    TOVALID("TOVALID", "待生效"),
+    VALIDING("VALIDING", "生效中"),
+    UNVALID("UNVALID", "已失效");
 
     private final String value;
     private final String desc;
+
 }

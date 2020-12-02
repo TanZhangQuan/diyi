@@ -9,7 +9,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum EnterpriseRule {
-
     BIZLICENCE("BIZLICENCE", "营业执照"),
     JOINCONTRACT("JOINCONTRACT", "加盟合同"),
     COMMITMENTLETTER("COMMITMENTLETTER", "商户承诺函");

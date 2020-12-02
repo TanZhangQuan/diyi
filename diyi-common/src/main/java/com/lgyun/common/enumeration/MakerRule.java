@@ -9,7 +9,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum MakerRule {
-
     IDCARDVERIFY("IDCARDVERIFY", "身份证验证"),
     JOINCONTRACT("JOINCONTRACT", "加盟合同"),
     EMPOWERSIGN("EMPOWERSIGN", "授权协议"),

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 局类型
+ * 相关局类型
  */
 @Getter
 @AllArgsConstructor

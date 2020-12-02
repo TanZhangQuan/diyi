@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 身份验证状态
+ * 验证状态
  */
 @Getter
 @AllArgsConstructor

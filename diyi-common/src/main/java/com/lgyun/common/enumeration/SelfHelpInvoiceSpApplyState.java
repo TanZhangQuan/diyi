@@ -12,7 +12,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum SelfHelpInvoiceSpApplyState {
-
     ALLOCATED("ALLOCATED", "已分配服务商"),
     SUBMITTED("SUBMITTED", "已提交开票中"),
     RECALLED("RECALLED", "已撤回"),
