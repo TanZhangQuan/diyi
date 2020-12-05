@@ -104,9 +104,8 @@ public class IndustrialParksAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        AdminEntity adminEntity = result.getData();
 
-        return relBureauServiceProviderService.relevanceRelBureauServiceProvider(relBureauId, serviceProviderId, matchDesc, adminEntity);
+        return relBureauServiceProviderService.relevanceRelBureauServiceProvider(relBureauId, serviceProviderId, matchDesc);
     }
 
     @GetMapping("/query-cooperation-service-provider-list")

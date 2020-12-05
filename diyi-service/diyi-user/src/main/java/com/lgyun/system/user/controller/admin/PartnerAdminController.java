@@ -116,9 +116,8 @@ public class PartnerAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        AdminEntity adminEntity = result.getData();
 
-        return partnerEnterpriseService.relevancePartnerEnterprise(partnerId, enterpriseId, matchDesc, adminEntity);
+        return partnerEnterpriseService.relevancePartnerEnterprise(partnerId, enterpriseId, matchDesc);
     }
 
     @GetMapping("/query-cooperation-enterprise-list")

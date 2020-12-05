@@ -119,9 +119,8 @@ public class EnterpriseAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        AdminEntity adminEntity = result.getData();
 
-        return enterpriseServiceProviderService.relevanceEnterpriseServiceProvider(enterpriseId, serviceProviderId, matchDesc, adminEntity);
+        return enterpriseServiceProviderService.relevanceEnterpriseServiceProvider(enterpriseId, serviceProviderId, matchDesc);
     }
 
     @GetMapping("/query-cooperation-service-provider-list")

@@ -120,9 +120,8 @@ public class ServiceProviderAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        AdminEntity adminEntity = result.getData();
 
-        return enterpriseServiceProviderService.relevanceEnterpriseServiceProvider(enterpriseId, serviceProviderId, matchDesc, adminEntity);
+        return enterpriseServiceProviderService.relevanceEnterpriseServiceProvider(enterpriseId, serviceProviderId, matchDesc);
     }
 
     @GetMapping("/query-cooperation-enterprise-list")

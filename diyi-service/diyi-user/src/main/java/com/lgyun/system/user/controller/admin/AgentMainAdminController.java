@@ -128,9 +128,8 @@ public class AgentMainAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        AdminEntity adminEntity = result.getData();
 
-        return agentMainServiceProviderService.relevanceAgentMainServiceProvider(agentMainId, serviceProviderId, matchDesc, adminEntity);
+        return agentMainServiceProviderService.relevanceAgentMainServiceProvider(agentMainId, serviceProviderId, matchDesc);
     }
 
     @GetMapping("/query-cooperation-service-provider-list")
@@ -182,9 +181,8 @@ public class AgentMainAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        AdminEntity adminEntity = result.getData();
 
-        return agentMainEnterpriseService.relevanceAgentMainEnterprise(agentMainId, enterpriseId, matchDesc, adminEntity);
+        return agentMainEnterpriseService.relevanceAgentMainEnterprise(agentMainId, enterpriseId, matchDesc);
     }
 
     @GetMapping("/query-cooperation-enterprise-list")
