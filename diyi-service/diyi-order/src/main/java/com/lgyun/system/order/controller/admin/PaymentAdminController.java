@@ -153,9 +153,8 @@ public class PaymentAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        AdminEntity adminEntity = result.getData();
 
-        return acceptPaysheetService.uploadAcceptPaysheet(null, null, acceptPaysheetSaveDto, "平台上传", adminEntity.getName());
+        return acceptPaysheetService.uploadAcceptPaysheet(null, null, acceptPaysheetSaveDto);
     }
 
     @PostMapping("/audit-pay-enterprise")

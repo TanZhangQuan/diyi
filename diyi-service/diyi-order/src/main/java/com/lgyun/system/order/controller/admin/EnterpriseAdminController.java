@@ -38,7 +38,7 @@ public class EnterpriseAdminController {
     private IEnterpriseProviderInvoiceCatalogsService enterpriseProviderInvoiceCatalogsService;
 
     @GetMapping("/query-address-list")
-    @ApiOperation(value = "查询商户所有收货地址信息", notes = "查询商户所有收货地址信息")
+    @ApiOperation(value = "查询商户所有收件地址信息", notes = "查询商户所有收件地址信息")
     public R queryAddressList(@ApiParam(value = "商户") @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
@@ -50,8 +50,8 @@ public class EnterpriseAdminController {
     }
 
     @GetMapping("/query-address-update-detail")
-    @ApiOperation(value = "查询编辑收货地址详情", notes = "查询编辑收货地址详情")
-    public R queryAddressUpdateDetail(@ApiParam(value = "收货地址") @NotNull(message = "请选择收货地址") @RequestParam(required = false) Long addressId, BladeUser bladeUser) {
+    @ApiOperation(value = "查询编辑收件地址详情", notes = "查询编辑收件地址详情")
+    public R queryAddressUpdateDetail(@ApiParam(value = "收件地址") @NotNull(message = "请选择收件地址") @RequestParam(required = false) Long addressId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -62,7 +62,7 @@ public class EnterpriseAdminController {
     }
 
     @PostMapping("/add-or-update-address")
-    @ApiOperation(value = "添加/编辑收货地址", notes = "添加/编辑收货地址")
+    @ApiOperation(value = "添加/编辑收件地址", notes = "添加/编辑收件地址")
     public R addOrUpdateAddress(@ApiParam(value = "商户") @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
                                 @Valid @RequestBody AddOrUpdateAddressDTO addOrUpdateAddressDto, BladeUser bladeUser) {
         //查询当前管理员
@@ -75,8 +75,8 @@ public class EnterpriseAdminController {
     }
 
     @PostMapping("/delete-address")
-    @ApiOperation(value = "删除收货地址", notes = "删除收货地址")
-    public R deleteAddress(@ApiParam(value = "收货地址", required = true) @NotNull(message = "请选择要删除的收货地址") @RequestParam(required = false) Long addressId, BladeUser bladeUser) {
+    @ApiOperation(value = "删除收件地址", notes = "删除收件地址")
+    public R deleteAddress(@ApiParam(value = "收件地址", required = true) @NotNull(message = "请选择要删除的收件地址") @RequestParam(required = false) Long addressId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -146,9 +146,8 @@ public class EnterpriseAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        AdminEntity adminEntity = result.getData();
 
-        return enterpriseProviderInvoiceCatalogsService.addOrUpdateEnterpriseProviderInvoiceCatalog(addOrUpdateEnterpriseProviderInvoiceCatalogDTO, serviceProviderId, enterpriseId, adminEntity.getName());
+        return enterpriseProviderInvoiceCatalogsService.addOrUpdateEnterpriseProviderInvoiceCatalog(addOrUpdateEnterpriseProviderInvoiceCatalogDTO, serviceProviderId, enterpriseId);
     }
 
     @PostMapping("/delete-enterprise-provider-invoice-catalog")
