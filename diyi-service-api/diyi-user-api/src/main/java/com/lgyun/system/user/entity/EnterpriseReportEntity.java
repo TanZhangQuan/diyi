@@ -82,11 +82,6 @@ public class EnterpriseReportEntity extends BaseEntity {
     private String reportResultFiles;
 
     /**
-     * 申报人员
-     */
-    private String reportPerson;
-
-    /**
      * 申报状态
      */
     private ReportState reportState;

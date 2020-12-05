@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2020-12-01 17:09:53
+Date: 2020-12-02 18:50:21
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -22,21 +22,14 @@ DROP TABLE IF EXISTS `diyi_accept_paysheet`;
 CREATE TABLE `diyi_accept_paysheet` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `pay_enterprise_id` bigint(50) NOT NULL COMMENT '支付清单ID',
-  `accept_paysheet_type` varchar(50) NOT NULL COMMENT '交付支付验收单类型：清单式，单人单张',
+  `accept_paysheet_type` varchar(50) NOT NULL COMMENT '交付支付验收单类型',
   `pay_maker_id` bigint(50) DEFAULT NULL COMMENT '分包支付明细ID',
   `service_time_start` datetime NOT NULL COMMENT '服务开始日期',
   `service_time_end` datetime NOT NULL COMMENT '服务结束日期',
-  `upload_source` varchar(50) NOT NULL COMMENT '上传来源',
-  `upload_person` varchar(50) NOT NULL COMMENT '上传人员',
-  `accept_paysheet_url` varchar(500) NOT NULL COMMENT '验收单',
-  `confirm_date` datetime DEFAULT NULL COMMENT '验收单验收日期',
-  `confirm_person` varchar(50) NOT NULL DEFAULT '' COMMENT '验收人员',
-  `confirm_desc` varchar(100) NOT NULL DEFAULT '' COMMENT '验收说明',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `accept_paysheet_url` varchar(500) NOT NULL COMMENT '交付支付验收单',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='总包交付支付验收单表';
 
@@ -51,21 +44,14 @@ DROP TABLE IF EXISTS `diyi_accept_paysheet_cs`;
 CREATE TABLE `diyi_accept_paysheet_cs` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `self_help_invoice_id` bigint(50) NOT NULL COMMENT '自助开票ID',
-  `accept_paysheet_cs_type` varchar(50) NOT NULL COMMENT '交付支付验收单类型：清单式，单人单张',
+  `accept_paysheet_cs_type` varchar(50) NOT NULL COMMENT '交付支付验收单类型',
   `self_help_invoice_detail_id` bigint(50) DEFAULT NULL COMMENT '自助开票明细ID',
-  `service_time_start` datetime DEFAULT NULL COMMENT '服务开始日期',
-  `service_time_end` datetime DEFAULT NULL COMMENT '服务结束日期',
-  `upload_source` varchar(50) NOT NULL COMMENT '上传来源',
-  `upload_person` varchar(50) NOT NULL COMMENT '上传人员',
-  `accept_paysheet_cs_url` varchar(500) NOT NULL COMMENT '验收单',
-  `confirm_date` datetime DEFAULT NULL COMMENT '验收单验收日期',
-  `confirm_person` varchar(50) NOT NULL DEFAULT '' COMMENT '验收人员',
-  `confirm_desc` varchar(100) NOT NULL DEFAULT '' COMMENT '验收说明',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `service_time_start` datetime NOT NULL COMMENT '服务开始日期',
+  `service_time_end` datetime NOT NULL COMMENT '服务结束日期',
+  `accept_paysheet_cs_url` varchar(500) NOT NULL COMMENT '交付支付验收单',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='众包/众采交付支付验收单表';
 
@@ -81,11 +67,9 @@ CREATE TABLE `diyi_accept_paysheet_cs_list` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `accept_paysheet_cs_id` bigint(50) NOT NULL COMMENT '总包交付支付验收单ID',
   `self_help_invoice_detail_id` bigint(50) NOT NULL COMMENT '自主开票明细ID',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`accept_paysheet_cs_id`,`self_help_invoice_detail_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='总包交付支付验收单清单表';
@@ -102,11 +86,9 @@ CREATE TABLE `diyi_accept_paysheet_list` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `accept_paysheet_id` bigint(50) NOT NULL COMMENT '总包交付支付验收单ID',
   `pay_maker_id` bigint(50) NOT NULL COMMENT '分包支付明细ID',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`accept_paysheet_id`,`pay_maker_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='众包交付支付验收单清单表';
@@ -122,19 +104,17 @@ DROP TABLE IF EXISTS `diyi_address`;
 CREATE TABLE `diyi_address` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `object_id` bigint(50) NOT NULL COMMENT '对象ID',
-  `object_type` varchar(50) NOT NULL COMMENT '对象身份1、创客本人2、商户人员3、服务商人员4、相关局人员5、渠道商人员6、合伙人本人',
-  `address_name` varchar(50) NOT NULL COMMENT '收件人',
-  `address_phone` varchar(50) NOT NULL COMMENT '手机号码',
+  `object_type` varchar(50) NOT NULL COMMENT '对象身份',
+  `address_name` varchar(50) NOT NULL COMMENT '收件人姓名',
+  `address_phone` varchar(50) NOT NULL COMMENT '收件人手机号码',
   `province` varchar(50) NOT NULL COMMENT '省',
   `city` varchar(50) NOT NULL COMMENT '市',
   `area` varchar(50) NOT NULL COMMENT '区',
   `detailed_address` varchar(100) NOT NULL COMMENT '详细地址',
-  `is_default` bit(1) NOT NULL COMMENT '是否默认',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `bool_default` bit(1) NOT NULL COMMENT '是否默认',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='收件地址表';
 
@@ -148,7 +128,6 @@ CREATE TABLE `diyi_address` (
 DROP TABLE IF EXISTS `diyi_admin`;
 CREATE TABLE `diyi_admin` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `user_id` bigint(50) NOT NULL COMMENT '管理者ID',
   `avatar` varchar(500) NOT NULL DEFAULT '' COMMENT '头像',
   `admin_state` varchar(50) NOT NULL COMMENT '管理员账户状态',
   `name` varchar(50) NOT NULL COMMENT '姓名',
@@ -161,15 +140,12 @@ CREATE TABLE `diyi_admin` (
   `role_id` bigint(50) DEFAULT NULL COMMENT '角色ID',
   `super_admin` bit(1) NOT NULL COMMENT '管理员权限',
   `admin_power` bit(1) NOT NULL COMMENT '管理员特性',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`user_id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`phone_number`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`user_name`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`phone_number`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`user_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='平台管理员信息表';
 
 -- ----------------------------
@@ -182,7 +158,7 @@ CREATE TABLE `diyi_admin` (
 DROP TABLE IF EXISTS `diyi_admin_center_material`;
 CREATE TABLE `diyi_admin_center_material` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `rel_service_provider_id` bigint(50) NOT NULL COMMENT '相关服务商',
+  `service_provider_id` bigint(50) NOT NULL COMMENT '相关服务商',
   `material_name` varchar(50) NOT NULL COMMENT '业务资料名称',
   `material_belong` varchar(50) NOT NULL COMMENT '文档归属',
   `material_type` varchar(50) NOT NULL COMMENT '文档属性',
@@ -190,11 +166,9 @@ CREATE TABLE `diyi_admin_center_material` (
   `material_url` varchar(500) NOT NULL COMMENT '文件',
   `material_desc` varchar(100) NOT NULL DEFAULT '' COMMENT '文件概述',
   `material_state` varchar(50) NOT NULL COMMENT '状态',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime NOT NULL COMMENT '修改时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='综合业务资料表';
 
@@ -208,7 +182,7 @@ CREATE TABLE `diyi_admin_center_material` (
 DROP TABLE IF EXISTS `diyi_agent_main`;
 CREATE TABLE `diyi_agent_main` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `agent_main_state` varchar(50) NOT NULL COMMENT '渠道商账户状态1，正常状态；2，冻结状态；3，非法状态。管理后台手工调整。只有正常状态才能接单和众包服务。默认为正常状态',
+  `agent_main_state` varchar(50) NOT NULL COMMENT '渠道商账户状态',
   `agent_main_name` varchar(50) NOT NULL COMMENT '渠道商名称',
   `legal_person_name` varchar(50) NOT NULL COMMENT '法人',
   `legal_person_idcard` varchar(50) NOT NULL DEFAULT '' COMMENT '法人身份证',
@@ -233,16 +207,14 @@ CREATE TABLE `diyi_agent_main` (
   `contact2_phone` varchar(50) NOT NULL COMMENT '联系人2电话手机（必填）',
   `contact2_mail` varchar(50) NOT NULL COMMENT '联系人2邮箱',
   `spec_demmand` varchar(50) NOT NULL DEFAULT '' COMMENT '特殊需求',
-  `create_type` varchar(50) NOT NULL COMMENT '创建方式1:平台创建，2:自注册',
+  `create_type` varchar(50) NOT NULL COMMENT '创建方式',
   `saler_id` bigint(50) DEFAULT NULL COMMENT '营销人员',
   `runner_id` bigint(50) DEFAULT NULL COMMENT '运营人员',
   `industry_type` varchar(50) NOT NULL DEFAULT '' COMMENT '行业分类',
   `main_business_desc` varchar(500) NOT NULL DEFAULT '' COMMENT '主营业务描述',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`agent_main_name`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`social_credit_no`)
@@ -261,14 +233,11 @@ CREATE TABLE `diyi_agent_main_enterprise` (
   `agent_main_id` bigint(50) NOT NULL COMMENT '渠道商ID',
   `enterprise_id` bigint(50) NOT NULL COMMENT '商户ID',
   `cooperate_type` varchar(50) NOT NULL COMMENT '合作关系',
-  `cooperate_status` varchar(50) NOT NULL COMMENT '合作状态：合作中，停止合作；首次关联时默认为合作中',
-  `operate_person` varchar(50) NOT NULL DEFAULT '' COMMENT '操作人员',
-  `operate_desc` varchar(100) NOT NULL DEFAULT '' COMMENT '操作说明',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `cooperate_status` varchar(50) NOT NULL COMMENT '合作状态',
+  `match_desc` varchar(100) NOT NULL DEFAULT '' COMMENT '分配说明',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`agent_main_id`,`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='渠道商户表';
@@ -285,14 +254,11 @@ CREATE TABLE `diyi_agent_main_service_provider` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `agent_main_id` bigint(50) NOT NULL COMMENT '渠道商ID',
   `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
-  `match_person` varchar(50) NOT NULL COMMENT '分配人员',
+  `cooperate_status` varchar(50) NOT NULL COMMENT '合作状态',
   `match_desc` varchar(100) DEFAULT NULL COMMENT '分配说明',
-  `cooperate_status` varchar(50) NOT NULL COMMENT '合作状态：合作中，停止合作；首次关联时默认为合作中',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`agent_main_id`,`service_provider_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='渠道商-服务商表';
@@ -308,7 +274,6 @@ DROP TABLE IF EXISTS `diyi_agent_main_worker`;
 CREATE TABLE `diyi_agent_main_worker` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `agent_main_id` bigint(50) NOT NULL COMMENT '渠道商ID',
-  `user_id` bigint(50) NOT NULL COMMENT '管理者ID',
   `role_id` bigint(50) DEFAULT NULL COMMENT '角色ID',
   `avatar` varchar(500) NOT NULL DEFAULT '' COMMENT '头像',
   `agent_main_worker_state` varchar(50) NOT NULL COMMENT '商户员工账户状态',
@@ -321,15 +286,12 @@ CREATE TABLE `diyi_agent_main_worker` (
   `employee_pwd` varchar(100) NOT NULL COMMENT '密码',
   `super_admin` bit(1) NOT NULL COMMENT '管理员权限',
   `admin_power` bit(1) NOT NULL COMMENT '管理员特性',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`phone_number`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`employee_user_name`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`user_id`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`employee_user_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='渠道商员工表';
 
 -- ----------------------------
@@ -341,13 +303,14 @@ CREATE TABLE `diyi_agent_main_worker` (
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_agreement`;
 CREATE TABLE `diyi_agreement` (
-  `id` bigint(50) NOT NULL COMMENT '唯一性控制',
-  `agreement_type` varchar(50) NOT NULL COMMENT '协议类别',
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `agreement_type` varchar(50) NOT NULL COMMENT '合同协议类别',
   `sign_type` varchar(50) NOT NULL COMMENT '签署类型',
   `sign_state` varchar(50) NOT NULL COMMENT '签署状态',
   `audit_state` varchar(50) NOT NULL COMMENT '审核状态',
-  `agreement_no` varchar(100) NOT NULL COMMENT '协议编号',
-  `sequence_no` int(5) DEFAULT NULL COMMENT '顺序号',
+  `valid_state` varchar(50) NOT NULL COMMENT '合同有效性',
+  `end_datetime` datetime DEFAULT NULL COMMENT '截止日期',
+  `agreement_no` varchar(100) NOT NULL COMMENT '合同协议编号',
   `maker_id` bigint(50) DEFAULT NULL COMMENT '创客ID',
   `enterprise_id` bigint(50) DEFAULT NULL COMMENT '商户ID',
   `service_provider_id` bigint(50) DEFAULT NULL COMMENT '服务商ID',
@@ -355,51 +318,23 @@ CREATE TABLE `diyi_agreement` (
   `agent_main_id` bigint(50) DEFAULT NULL COMMENT '渠道商ID',
   `partner_id` bigint(50) DEFAULT NULL COMMENT '合伙人ID',
   `online_agreement_template_id` bigint(50) DEFAULT NULL COMMENT '平台在线协议模板ID',
-  `online_agreement_url` varchar(500) DEFAULT NULL COMMENT '在线协议',
-  `paper_agreement_url` varchar(500) DEFAULT '' COMMENT '纸质协议',
-  `third_online_agreement_url` varchar(500) DEFAULT '' COMMENT '三方在线协议',
+  `online_agreement_url` varchar(500) NOT NULL DEFAULT '' COMMENT '在线协议',
+  `paper_agreement_url` varchar(500) NOT NULL DEFAULT '' COMMENT '纸质协议',
+  `third_online_agreement_url` varchar(500) NOT NULL DEFAULT '' COMMENT '三方在线协议',
   `paper_agreement_upload` varchar(50) DEFAULT NULL COMMENT '纸质协议上传状态',
   `first_side_sign_person` varchar(50) NOT NULL COMMENT '甲方签署人员',
-  `second_side_sign_person` varchar(50) DEFAULT NULL COMMENT '乙方签署人员',
-  `third_side_sign_person` varchar(50) DEFAULT '' COMMENT '丙方签署人员',
-  `fourth_side_sign_person` varchar(50) DEFAULT '' COMMENT '丁方签署人员',
-  `upload_datetime` datetime DEFAULT NULL COMMENT '上传日期',
-  `upload_person` varchar(50) DEFAULT NULL COMMENT '上传人员',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `second_side_sign_person` varchar(50) NOT NULL COMMENT '乙方签署人员',
+  `third_side_sign_person` varchar(50) NOT NULL DEFAULT '' COMMENT '丙方签署人员',
+  `fourth_side_sign_person` varchar(50) NOT NULL DEFAULT '' COMMENT '丁方签署人员',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
-  PRIMARY KEY (`id`)
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`agreement_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='综合合同表';
 
 -- ----------------------------
 -- Records of diyi_agreement
--- ----------------------------
-
--- ----------------------------
--- Table structure for `diyi_deliver_material`
--- ----------------------------
-DROP TABLE IF EXISTS `diyi_deliver_material`;
-CREATE TABLE `diyi_deliver_material` (
-  `id` bigint(50) NOT NULL COMMENT '主键',
-  `paysheet_id` bigint(50) NOT NULL COMMENT '确认函ID',
-  `material_title` varchar(50) NOT NULL COMMENT '交付材料标题',
-  `material_memo` varchar(100) NOT NULL COMMENT '交付材料说明',
-  `material_url` varchar(500) NOT NULL COMMENT '材料',
-  `third_material_url` varchar(500) NOT NULL COMMENT '第三方',
-  `upload_date_time` datetime NOT NULL COMMENT '上传日期',
-  `upload_person` varchar(50) NOT NULL COMMENT '上传人员',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='验收单交付材料表';
-
--- ----------------------------
--- Records of diyi_deliver_material
 -- ----------------------------
 
 -- ----------------------------
@@ -443,9 +378,8 @@ CREATE TABLE `diyi_enterprise` (
   `shop_user_name` varchar(50) NOT NULL DEFAULT '' COMMENT '商铺用户名',
   `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`invite_no`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`enterprise_name`),
@@ -476,11 +410,9 @@ CREATE TABLE `diyi_enterprise_report` (
   `report_person` varchar(50) DEFAULT NULL COMMENT '申报人员',
   `report_state` varchar(50) DEFAULT NULL COMMENT '申报状态',
   `report_guard_name` varchar(50) DEFAULT NULL COMMENT '申报相关政府机关名称',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='年度申报管理表';
 
@@ -496,14 +428,11 @@ CREATE TABLE `diyi_enterprise_service_provider` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `enterprise_id` bigint(50) NOT NULL COMMENT '商户ID',
   `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
-  `match_person` varchar(50) NOT NULL COMMENT '分配人员',
   `match_desc` varchar(100) DEFAULT NULL COMMENT '分配说明',
-  `cooperate_status` varchar(50) NOT NULL COMMENT '合作状态：合作中，停止合作；首次关联时默认为合作中',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `cooperate_status` varchar(50) NOT NULL COMMENT '合作状态',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`enterprise_id`,`service_provider_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商户-服务商关联表';
@@ -521,15 +450,12 @@ CREATE TABLE `diyi_enterprise_service_provider_invoice_catalogs` (
   `enterprise_id` bigint(50) NOT NULL COMMENT '商户ID',
   `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
   `invoice_catalog_name` varchar(50) NOT NULL COMMENT '发票类目名称',
-  `set_person` varchar(50) DEFAULT NULL COMMENT '设置人员',
   `set_type` varchar(50) NOT NULL COMMENT '设置性质',
   `invoice_demand` varchar(50) NOT NULL COMMENT '开票诉求',
   `invoice_demand_desc` varchar(100) NOT NULL DEFAULT '' COMMENT '开票诉求备注',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商户-服务商开票类目表';
 
@@ -544,7 +470,6 @@ DROP TABLE IF EXISTS `diyi_enterprise_worker`;
 CREATE TABLE `diyi_enterprise_worker` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `enterprise_id` bigint(50) NOT NULL COMMENT '商户ID',
-  `user_id` bigint(50) NOT NULL COMMENT '管理者ID',
   `role_id` bigint(50) DEFAULT NULL COMMENT '角色ID',
   `avatar` varchar(500) NOT NULL DEFAULT '' COMMENT '头像',
   `enterprise_worker_state` varchar(50) NOT NULL COMMENT '商户员工账户状态',
@@ -557,15 +482,12 @@ CREATE TABLE `diyi_enterprise_worker` (
   `employee_pwd` varchar(100) NOT NULL COMMENT '密码',
   `super_admin` bit(1) NOT NULL COMMENT '管理员权限',
   `admin_power` bit(1) NOT NULL COMMENT '管理员特性',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`phone_number`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`employee_user_name`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`user_id`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`employee_user_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商户员工表';
 
 -- ----------------------------
@@ -580,7 +502,7 @@ CREATE TABLE `diyi_individual_business` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
   `service_provider_id` bigint(50) DEFAULT NULL COMMENT '服务商ID',
-  `biz_type` varchar(50) NOT NULL COMMENT '个体户税种：小规模',
+  `biz_type` varchar(50) NOT NULL COMMENT '个体户税种',
   `ibname` varchar(50) NOT NULL DEFAULT '' COMMENT '个体户名称',
   `ibtax_no` varchar(50) NOT NULL DEFAULT '' COMMENT '统一社会信用代码',
   `build_date_time` datetime DEFAULT NULL COMMENT '营业执照的注册日期',
@@ -604,11 +526,9 @@ CREATE TABLE `diyi_individual_business` (
   `contact_name` varchar(50) NOT NULL COMMENT '联系人姓名',
   `contact_phone` varchar(50) NOT NULL COMMENT '联系人手机号',
   `service_rate` decimal(5,2) NOT NULL DEFAULT '0.00' COMMENT '服务费率',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='个体工商户信息表';
 
@@ -622,20 +542,18 @@ CREATE TABLE `diyi_individual_business` (
 DROP TABLE IF EXISTS `diyi_individual_business_annual_fee`;
 CREATE TABLE `diyi_individual_business_annual_fee` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `annual_fee_year` int(5) NOT NULL COMMENT '年费年度',
+  `annual_fee_year` int(4) NOT NULL COMMENT '年费年度',
   `individual_business_id` bigint(50) NOT NULL COMMENT '个体户ID',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
   `annual_fee_date_time` datetime NOT NULL COMMENT '年费缴纳日期',
   `annual_fee_amount` decimal(12,2) NOT NULL COMMENT '年费金额',
   `annual_fee_start` datetime NOT NULL COMMENT '年费起始日期',
   `annual_fee_end` datetime NOT NULL COMMENT '年费终止日期',
-  `annual_fee_state` varchar(50) NOT NULL COMMENT '年费状态：待缴费，已缴费',
+  `annual_fee_state` varchar(50) NOT NULL COMMENT '年费缴费状态',
   `year_serial` int(3) NOT NULL COMMENT '第几年',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`individual_business_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='个体工商户年费信息表';
@@ -652,7 +570,7 @@ CREATE TABLE `diyi_individual_enterprise` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
   `service_provider_id` bigint(50) DEFAULT NULL COMMENT '服务商ID',
-  `biz_type` varchar(50) NOT NULL COMMENT '个独税种：小规模，一般纳税人',
+  `biz_type` varchar(50) NOT NULL COMMENT '个独税种',
   `ibname` varchar(50) NOT NULL DEFAULT '' COMMENT '个独名称',
   `ibtax_no` varchar(50) NOT NULL DEFAULT '' COMMENT '统一社会信用代码',
   `build_date_time` datetime DEFAULT NULL COMMENT '营业执照的注册日期',
@@ -677,11 +595,9 @@ CREATE TABLE `diyi_individual_enterprise` (
   `contact_phone` varchar(50) NOT NULL COMMENT '联系人手机号',
   `service_rate` decimal(5,2) NOT NULL DEFAULT '0.00' COMMENT '服务费率',
   `investor_hand_commitment` varchar(500) NOT NULL DEFAULT '' COMMENT '手持承诺书照片',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='个独信息表';
 
@@ -702,13 +618,11 @@ CREATE TABLE `diyi_individual_enterprise_annual_fee` (
   `annual_fee_amount` decimal(12,2) NOT NULL COMMENT '年费金额',
   `annual_fee_start` datetime NOT NULL COMMENT '年费起始日期',
   `annual_fee_end` datetime NOT NULL COMMENT '年费终止日期',
-  `annual_fee_state` varchar(50) NOT NULL COMMENT '年费状态：待缴费，已缴费',
+  `annual_fee_state` varchar(50) NOT NULL COMMENT '年费缴费状态',
   `year_serial` int(3) NOT NULL COMMENT '第几年',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`individual_enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='个独年费信息表';
@@ -728,13 +642,11 @@ CREATE TABLE `diyi_invoice_application` (
   `application_person` varchar(50) NOT NULL COMMENT '申请人',
   `voice_total_amount` decimal(12,2) NOT NULL COMMENT '开票总额',
   `application_desc` varchar(100) DEFAULT NULL COMMENT '申请说明',
-  `application_state` varchar(50) NOT NULL COMMENT '处理状态 1,申请中；2，已拒绝；3，已全额开具；4，已部分开具，5已取消',
+  `application_state` varchar(50) NOT NULL COMMENT '处理状态',
   `application_handle_desc` varchar(1000) DEFAULT NULL COMMENT '处理说明',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='开票申请表';
 
@@ -750,11 +662,9 @@ CREATE TABLE `diyi_invoice_application_pay_list` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `application_id` bigint(50) NOT NULL COMMENT '总包开票申请ID',
   `pay_enterprise_id` bigint(50) NOT NULL COMMENT '支付清单ID',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='总包开票申请关联的支付清单';
 
@@ -768,7 +678,6 @@ CREATE TABLE `diyi_invoice_application_pay_list` (
 DROP TABLE IF EXISTS `diyi_maker`;
 CREATE TABLE `diyi_maker` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `user_id` bigint(50) NOT NULL COMMENT '管理者ID',
   `openid` varchar(50) NOT NULL DEFAULT '' COMMENT '微信open_id',
   `session_key` varchar(50) NOT NULL DEFAULT '' COMMENT '微信session_key',
   `rel_date` datetime DEFAULT NULL COMMENT '微信关联日期',
@@ -796,17 +705,17 @@ CREATE TABLE `diyi_maker` (
   `idcard_copy` varchar(500) NOT NULL DEFAULT '' COMMENT '身份证复印件图',
   `idcard_back_hand` varchar(500) NOT NULL DEFAULT '' COMMENT '手持证件反面照',
   `idcard_hand` varchar(500) NOT NULL DEFAULT '' COMMENT '手持证件正面照',
-  `idcard_verify_status` varchar(50) NOT NULL COMMENT '身份证验证状态：未验证，验证通过，验证未通过',
+  `idcard_verify_status` varchar(50) NOT NULL COMMENT '身份证验证状态',
   `idcard_verify_date` datetime DEFAULT NULL COMMENT '身份证验证日期时间',
-  `face_verify_status` varchar(50) NOT NULL COMMENT '人脸验证状态：未验证，验证通过，验证未通过',
+  `face_verify_status` varchar(50) NOT NULL COMMENT '人脸验证状态',
   `face_verify_date` datetime DEFAULT NULL COMMENT '人脸验证日期时间',
-  `bank_card_verify_status` varchar(50) NOT NULL COMMENT '银行卡验证状态：未验证，验证通过，验证未通过',
+  `bank_card_verify_status` varchar(50) NOT NULL COMMENT '银行卡验证状态',
   `bank_card_verify_date` datetime DEFAULT NULL COMMENT '银行卡验证日期时间',
-  `phone_number_verify_status` varchar(50) NOT NULL COMMENT '手机号码验证状态：未验证，验证通过，验证未通过',
+  `phone_number_verify_status` varchar(50) NOT NULL COMMENT '手机号码验证状态',
   `phone_number_verify_date` datetime DEFAULT NULL COMMENT '手机号码验证日期时间',
   `pic_verify` varchar(500) NOT NULL DEFAULT '' COMMENT '验证图片',
-  `idcard_verify_type` varchar(50) DEFAULT NULL COMMENT '身份证验证类型：系统验证，手工验证',
-  `manual_verify_name` varchar(50) NOT NULL DEFAULT '' COMMENT '手工验证人',
+  `idcard_verify_type` varchar(50) DEFAULT NULL COMMENT '身份证验证类型',
+  `manual_verify_id` varchar(50) DEFAULT NULL COMMENT '手工验证人',
   `manual_verify_desc` varchar(100) NOT NULL DEFAULT '' COMMENT '验证描述',
   `run_address` varchar(100) NOT NULL DEFAULT '' COMMENT '线上经营场所',
   `house_address` varchar(100) NOT NULL DEFAULT '' COMMENT '线下经营地址',
@@ -816,17 +725,14 @@ CREATE TABLE `diyi_maker` (
   `shop_url` varchar(500) NOT NULL DEFAULT '' COMMENT '商铺',
   `shop_user_name` varchar(100) NOT NULL DEFAULT '' COMMENT '商铺用户名',
   `apply_short_video` varchar(500) NOT NULL DEFAULT '' COMMENT '声明短视频',
-  `video_audit` varchar(50) NOT NULL COMMENT '短视频审核状态：未审核，审核通过，审核未通过',
+  `video_audit` varchar(50) NOT NULL COMMENT '短视频审核状态',
   `video_audit_date` datetime DEFAULT NULL COMMENT '审核日期',
   `video_audit_person_id` bigint(50) DEFAULT NULL COMMENT '审核人员',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`user_id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`phone_number`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`phone_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='创客信息表';
 
 -- ----------------------------
@@ -845,15 +751,13 @@ CREATE TABLE `diyi_maker_enterprise` (
   `rel_type` varchar(50) NOT NULL COMMENT '关联类型：创客主动关联，商户主动关联，平台关联',
   `relationship_type` varchar(50) NOT NULL COMMENT '创客商户关系',
   `rel_memo` varchar(100) NOT NULL DEFAULT '' COMMENT '关联备注',
-  `cooperate_status` varchar(50) NOT NULL COMMENT '合作状态：合作中，停止合作；首次关联时默认为合作中',
+  `cooperate_status` varchar(50) NOT NULL COMMENT '合作状态',
   `first_cooperation` bit(1) DEFAULT NULL COMMENT '创客第一次合作',
   `cooperation_start_time` datetime NOT NULL COMMENT '合作开始日期',
   `cooperation_end_time` datetime DEFAULT NULL COMMENT '合作终止日期',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`enterprise_id`,`maker_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='创客-商户关联表';
@@ -883,11 +787,9 @@ CREATE TABLE `diyi_maker_invoice` (
   `help_make_tax_no` varchar(50) DEFAULT NULL COMMENT '代开商户税号',
   `maker_voice_url` varchar(500) NOT NULL COMMENT '发票',
   `maker_voice_upload_date_time` datetime DEFAULT NULL COMMENT '发票上传日期',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='创客门征单开发票信息表';
 
@@ -900,7 +802,7 @@ CREATE TABLE `diyi_maker_invoice` (
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_maker_tax_record`;
 CREATE TABLE `diyi_maker_tax_record` (
-  `id` bigint(50) NOT NULL COMMENT '唯一性控制',
+  `id` bigint(50) NOT NULL COMMENT '主键',
   `pay_maker_id` bigint(50) NOT NULL COMMENT '创客支付ID',
   `voice_type_no` varchar(100) DEFAULT NULL COMMENT '票证代码',
   `voice_serial_no` varchar(100) DEFAULT NULL COMMENT '票证号码',
@@ -914,11 +816,9 @@ CREATE TABLE `diyi_maker_tax_record` (
   `maker_tax_url` varchar(300) DEFAULT NULL COMMENT '完税证明',
   `maker_tax_get_datetime` datetime NOT NULL COMMENT '完税证明开具日期',
   `maker_tax_upload_datetime` datetime DEFAULT NULL COMMENT '完税证明上传日期',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='创客单张完税证明信息表';
 
@@ -931,7 +831,7 @@ CREATE TABLE `diyi_maker_tax_record` (
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_maker_total_invoice`;
 CREATE TABLE `diyi_maker_total_invoice` (
-  `id` bigint(50) NOT NULL,
+  `id` bigint(50) NOT NULL COMMENT '主键',
   `pay_enterprise_id` bigint(50) NOT NULL COMMENT '支付清单ID',
   `invoice_type_no` varchar(100) DEFAULT NULL COMMENT '发票代码',
   `invoice_serial_no` varchar(100) DEFAULT NULL COMMENT '发票号码',
@@ -946,11 +846,9 @@ CREATE TABLE `diyi_maker_total_invoice` (
   `company_voice_upload_datetime` datetime DEFAULT NULL COMMENT '发票上传日期',
   `maker_tax_url` varchar(500) NOT NULL COMMENT '总完税证明',
   `maker_tax_list_url` varchar(500) DEFAULT NULL COMMENT '清单式完税凭证',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='汇总代开发票表';
 
@@ -963,17 +861,15 @@ CREATE TABLE `diyi_maker_total_invoice` (
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_online_agreement_need_sign`;
 CREATE TABLE `diyi_online_agreement_need_sign` (
-  `id` bigint(50) NOT NULL COMMENT '唯一性控制',
+  `id` bigint(50) NOT NULL COMMENT '主键',
   `online_agreement_template_id` bigint(50) NOT NULL COMMENT '平台在线协议模板ID',
-  `object_type` varchar(50) NOT NULL COMMENT '对象身份1、创客本人2、商户人员3、服务商人员4、相关局人员5、渠道商人员6、合伙人本人',
-  `sign_state` varchar(50) NOT NULL DEFAULT '0' COMMENT '0未签约，1已签约',
-  `sign_power` varchar(50) NOT NULL COMMENT '签字对象性质 甲方；2，乙方；3，丙方；4，丁方',
-  `object_id` bigint(50) NOT NULL COMMENT '对象ID 1、创客ID2、商户ID，具体签署时可能是某个用户3、服务商ID，具体签署时可能是某个用户4、相关局ID，具体签署时可能是某个用户5、渠道商ID，具体签署时可能是某个用户6、合伙人ID',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `object_type` varchar(50) NOT NULL COMMENT '对象身份',
+  `sign_state` varchar(50) NOT NULL COMMENT '签约状态',
+  `sign_power` varchar(50) NOT NULL COMMENT '签字对象性质',
+  `object_id` bigint(50) NOT NULL COMMENT '对象ID',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='平台在线协议需要签署清单表';
 
@@ -986,7 +882,7 @@ CREATE TABLE `diyi_online_agreement_need_sign` (
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_online_agreement_template`;
 CREATE TABLE `diyi_online_agreement_template` (
-  `id` bigint(50) NOT NULL COMMENT '唯一性控制',
+  `id` bigint(50) NOT NULL COMMENT '主键',
   `agreement_type` varchar(50) NOT NULL COMMENT '协议类别',
   `template_state` varchar(50) NOT NULL COMMENT '模板状态',
   `template_sign_state` varchar(50) NOT NULL COMMENT '模板开启状态',
@@ -1000,11 +896,9 @@ CREATE TABLE `diyi_online_agreement_template` (
   `template_count` int(10) NOT NULL COMMENT '模板的页数',
   `x_coordinate` float DEFAULT '0' COMMENT 'x坐标',
   `y_coordinate` float DEFAULT '0' COMMENT 'y坐标',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='平台在线协议模板表';
 
@@ -1017,17 +911,16 @@ CREATE TABLE `diyi_online_agreement_template` (
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_online_sign_pic`;
 CREATE TABLE `diyi_online_sign_pic` (
-  `id` bigint(50) NOT NULL COMMENT '唯一性控制',
-  `object_type` varchar(50) NOT NULL COMMENT '对象身份1、创客本人2、商户人员3、服务商人员4、相关局人员5、渠道商人员6、合伙人本人',
-  `object_id` bigint(50) NOT NULL COMMENT '对象身份ID',
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `object_type` varchar(50) NOT NULL COMMENT '对象身份',
+  `object_id` bigint(50) NOT NULL COMMENT '对象ID',
   `sign_pic` varchar(500) NOT NULL COMMENT '签字笔迹',
   `sign_datetime` datetime NOT NULL COMMENT '签署日期',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
-  PRIMARY KEY (`id`)
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`object_type`,`object_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='在线签字图片表';
 
 -- ----------------------------
@@ -1040,7 +933,6 @@ CREATE TABLE `diyi_online_sign_pic` (
 DROP TABLE IF EXISTS `diyi_partner`;
 CREATE TABLE `diyi_partner` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `user_id` bigint(50) NOT NULL COMMENT '管理者ID',
   `introduce_partner_id` bigint(50) DEFAULT NULL COMMENT '介绍合伙人ID',
   `openid` varchar(50) NOT NULL DEFAULT '' COMMENT '微信open_id',
   `session_key` varchar(50) NOT NULL DEFAULT '' COMMENT '微信session_key',
@@ -1084,14 +976,11 @@ CREATE TABLE `diyi_partner` (
   `house_address` varchar(100) NOT NULL DEFAULT '' COMMENT '线下经营地址',
   `living_address` varchar(100) NOT NULL DEFAULT '' COMMENT '住址',
   `self_desc` varchar(100) NOT NULL DEFAULT '' COMMENT '自我描述',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`user_id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`phone_number`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`phone_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='合伙人信息表';
 
 -- ----------------------------
@@ -1110,11 +999,9 @@ CREATE TABLE `diyi_partner_enterprise` (
   `cooperate_status` varchar(50) NOT NULL COMMENT '合作状态：合作中，停止合作；首次关联时默认为合作中',
   `operate_person` varchar(50) NOT NULL DEFAULT '' COMMENT '操作人员',
   `operate_desc` varchar(100) NOT NULL DEFAULT '' COMMENT '操作说明',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`enterprise_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='合伙人-商户关联表';
@@ -1131,61 +1018,30 @@ CREATE TABLE `diyi_pay` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `order_id` bigint(50) NOT NULL COMMENT '订单ID',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
-  `maker_type` varchar(50) NOT NULL COMMENT '创客类别：自然人，个体户， 个独',
+  `maker_type` varchar(50) NOT NULL COMMENT '创客类别',
   `individual_id` varchar(50) NOT NULL COMMENT '个体户/个独ID',
   `maker_neIncome` decimal(12,2) NOT NULL COMMENT '创客到手外包费',
   `maker_tax_fee` decimal(12,2) NOT NULL COMMENT '创客税费',
   `company_manage_fee` decimal(12,2) NOT NULL COMMENT '商户管理服务费',
   `audit_fee` decimal(12,2) NOT NULL COMMENT '身份验证费',
   `pay_fee` decimal(12,2) NOT NULL COMMENT '支付手续费',
-  `pay_state` varchar(50) NOT NULL COMMENT '支付状态：待支付，商户已申请支付，商户已支付，平台已支付，已确认收款',
+  `pay_state` varchar(50) NOT NULL COMMENT '支付状态',
   `company_apply_date_time` datetime DEFAULT NULL COMMENT '发票上传日期',
   `company_pay_ok_date_time` datetime DEFAULT NULL COMMENT '发票上传日期',
   `platform_pay_ok_date_time` datetime DEFAULT NULL COMMENT '发票上传日期',
   `maker_confirm_date_time` datetime DEFAULT NULL COMMENT '发票上传日期',
-  `maker_tax_state` varchar(50) NOT NULL COMMENT '创客完税证明开票状态: 未开，已开',
-  `maker_voice_state` varchar(50) NOT NULL COMMENT '创客发票开票状态: 未开，已开',
+  `maker_tax_state` varchar(50) NOT NULL COMMENT '创客完税证明开票状态',
+  `maker_voice_state` varchar(50) NOT NULL COMMENT '创客发票开票状态',
   `pay_memo` varchar(100) NOT NULL DEFAULT '' COMMENT '支付说明',
   `maker_voice_category` varchar(50) NOT NULL COMMENT '创客发票类目',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='未知表';
 
 -- ----------------------------
 -- Records of diyi_pay
--- ----------------------------
-
--- ----------------------------
--- Table structure for `diyi_paysheet`
--- ----------------------------
-DROP TABLE IF EXISTS `diyi_paysheet`;
-CREATE TABLE `diyi_paysheet` (
-  `id` bigint(50) NOT NULL COMMENT '主键',
-  `pay_id` bigint(50) NOT NULL COMMENT '支付ID',
-  `order_id` bigint(50) NOT NULL COMMENT '订单ID',
-  `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
-  `upload_date_time` datetime NOT NULL COMMENT '上传日期',
-  `paysheet_upload_source` varchar(50) NOT NULL COMMENT '上传来源：平台，外包商户',
-  `upload_person` varchar(50) NOT NULL COMMENT '上传人员',
-  `paysheet_url` varchar(500) NOT NULL COMMENT '确认函',
-  `paysheet_confirm_date_time` datetime NOT NULL COMMENT '确认函确认日期',
-  `paysheet_confirm_memo` varchar(100) NOT NULL DEFAULT '' COMMENT '确认函确认说明',
-  `income_confirm_date` datetime NOT NULL COMMENT '收款确认日期',
-  `income_confirm_memo` varchar(100) NOT NULL DEFAULT '' COMMENT '收款确认说明',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='未知表';
-
--- ----------------------------
--- Records of diyi_paysheet
 -- ----------------------------
 
 -- ----------------------------
@@ -1197,8 +1053,8 @@ CREATE TABLE `diyi_pay_enterprise` (
   `enterprise_id` bigint(50) NOT NULL COMMENT '商户ID',
   `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
   `charge_list_url` varchar(500) NOT NULL COMMENT '支付清单',
-  `maker_type` varchar(50) NOT NULL COMMENT '创客身份，自然人，个体户，个独',
-  `maker_invoice_type` varchar(50) DEFAULT NULL COMMENT '创客发票开票类别: 自然人汇总代开；自然人门征单开；个体户税局代开；个体户自开；个独自开',
+  `maker_type` varchar(50) NOT NULL COMMENT '创客身份',
+  `maker_invoice_type` varchar(50) DEFAULT NULL COMMENT '创客发票开票类别',
   `worksheet_id` bigint(50) DEFAULT NULL COMMENT '工单ID',
   `pay_to_platform_amount` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '商户总支付额价税合计总额=服务外包费总额+身份验证费总额/个体户年费总额+第三方支付手续费总额',
   `total_tax_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '服务税费总额=服务外包费总额*服务税费率',
@@ -1210,22 +1066,20 @@ CREATE TABLE `diyi_pay_enterprise` (
   `service_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '第三方支付手续费总额',
   `maker_num` int(12) NOT NULL DEFAULT '0' COMMENT '创客数',
   `pay_memo` varchar(100) NOT NULL DEFAULT '' COMMENT '支付说明',
-  `pay_state` varchar(50) NOT NULL COMMENT '支付给平台状态：待支付，已支付，已确认收款',
+  `pay_state` varchar(50) NOT NULL COMMENT '支付给平台状态',
   `pay_confirm_date_time` datetime DEFAULT NULL COMMENT '支付确认日期时间',
   `confirm_date_time` datetime DEFAULT NULL COMMENT '确认回款日期时间',
   `employee_id` bigint(50) DEFAULT NULL COMMENT '确认到款人员ID',
-  `audit_state` varchar(50) NOT NULL COMMENT '1，编辑中；2，已提交；3，审核通过；4，已驳回。驳回的还可以再提交审核',
-  `company_invoice_state` varchar(50) NOT NULL COMMENT '总包开票状态：未开，已开',
-  `subcontracting_invoice_state` varchar(50) NOT NULL COMMENT '分包开票状态：未开，已开',
+  `audit_state` varchar(50) NOT NULL COMMENT '审核状态。驳回的还可以再提交审核',
+  `company_invoice_state` varchar(50) NOT NULL COMMENT '总包开票状态',
+  `subcontracting_invoice_state` varchar(50) NOT NULL COMMENT '分包开票状态',
   `invoice_print_date` datetime DEFAULT NULL COMMENT '开票日期',
   `invoice_demond_desc` varchar(100) NOT NULL DEFAULT '' COMMENT '开票要求说明',
   `total_pay_tax_sheet` varchar(1000) NOT NULL DEFAULT '' COMMENT '集合完税凭证',
   `total_pay_tax_list` varchar(1000) NOT NULL DEFAULT '' COMMENT '集合完税清单',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='总包支付清单表';
 
@@ -1241,11 +1095,9 @@ CREATE TABLE `diyi_pay_enterprise_receipt` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `pay_enterprise_id` bigint(50) NOT NULL COMMENT '支付ID',
   `enterprise_pay_receipt_url` varchar(500) NOT NULL COMMENT '支付回单',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商户支付回单表';
 
@@ -1280,11 +1132,9 @@ CREATE TABLE `diyi_pay_maker` (
   `maker_invoice_state` varchar(50) NOT NULL COMMENT '发票开票状态:1:已开；0：未开',
   `pay_memo` varchar(100) NOT NULL DEFAULT '' COMMENT '支付说明',
   `maker_invoice_category` varchar(1000) NOT NULL DEFAULT '' COMMENT '创客发票类目:默认取订单中的默认信息，可更改，根据具体业务开，如*现代服务*市场推广费',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`pay_enterprise_id`,`maker_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='分包支付明细表';
@@ -1301,11 +1151,9 @@ CREATE TABLE `diyi_pay_maker_receipt` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `pay_maker_id` bigint(50) NOT NULL COMMENT '创客支付ID',
   `maker_pay_receipt_url` varchar(500) NOT NULL COMMENT '支付回单',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='分包支付明细回单表';
 
@@ -1322,11 +1170,9 @@ CREATE TABLE `diyi_pay_receipt` (
   `pay_id` bigint(50) NOT NULL COMMENT '创客支付ID',
   `maker_pay_receipt_url` varchar(500) NOT NULL COMMENT '支付回单',
   `upload_date_time` datetime NOT NULL COMMENT '上传日期时间',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='未知表';
 
@@ -1352,11 +1198,9 @@ CREATE TABLE `diyi_platform_invoice` (
   `express_update_person` varchar(50) NOT NULL DEFAULT '' COMMENT '快递更新人员',
   `express_update_person_tel` varchar(50) NOT NULL DEFAULT '' COMMENT '快递更新人员电话',
   `invoice_desc` varchar(50) DEFAULT NULL COMMENT '开票说明',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='总包发票信息表';
 
@@ -1382,11 +1226,9 @@ CREATE TABLE `diyi_platform_invoice_list` (
   `sale_company` varchar(100) DEFAULT NULL COMMENT '销售方名称',
   `company_invoice_url` varchar(500) DEFAULT NULL COMMENT '总包发票',
   `company_voice_upload_datetime` datetime NOT NULL COMMENT '发票上传日期',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='记录服务商开具给商户的总包发票';
 
@@ -1402,11 +1244,9 @@ CREATE TABLE `diyi_platform_invoice_pay_list` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `invoice_print_id` bigint(50) NOT NULL COMMENT '开票ID',
   `pay_enterprise_id` bigint(50) NOT NULL COMMENT '支付清单ID',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='记录服务商开具给商户的总包发票关联的支付清单';
 
@@ -1434,11 +1274,9 @@ CREATE TABLE `diyi_platform_voice` (
   `sale_company` varchar(50) NOT NULL COMMENT '销售方名称',
   `companyInvoice_url` varchar(500) NOT NULL COMMENT '总包开票',
   `company_voice_upload_date_time` datetime DEFAULT NULL COMMENT '发票上传日期',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='未知表';
 
@@ -1447,63 +1285,13 @@ CREATE TABLE `diyi_platform_voice` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `diyi_position`
--- ----------------------------
-DROP TABLE IF EXISTS `diyi_position`;
-CREATE TABLE `diyi_position` (
-  `id` bigint(50) NOT NULL COMMENT '主键',
-  `position_name` varchar(50) NOT NULL COMMENT '外包岗位名称',
-  `position_desc` varchar(100) NOT NULL COMMENT '外包岗位描述',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`position_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='外包岗位表';
-
--- ----------------------------
--- Records of diyi_position
--- ----------------------------
-
--- ----------------------------
--- Table structure for `diyi_regular_declare`
--- ----------------------------
-DROP TABLE IF EXISTS `diyi_regular_declare`;
-CREATE TABLE `diyi_regular_declare` (
-  `id` bigint(50) NOT NULL COMMENT '主键',
-  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
-  `subject_type` varchar(50) NOT NULL COMMENT '申报类别',
-  `subject_subject_type` varchar(50) NOT NULL COMMENT '申报主体类别',
-  `declare_subject_id` bigint(50) NOT NULL COMMENT '申报主体id',
-  `declare_theme` varchar(50) NOT NULL COMMENT '申报主题',
-  `declare_year` varchar(500) NOT NULL COMMENT '年度',
-  `declare_quarter` varchar(500) NOT NULL COMMENT '季度',
-  `declare_monthly` varchar(500) NOT NULL COMMENT '月度',
-  `declare_result` varchar(100) NOT NULL COMMENT '申报结果',
-  `government_office_name` varchar(100) DEFAULT '' COMMENT '申报相关政府机关名称',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='申报表';
-
--- ----------------------------
--- Records of diyi_regular_declare
--- ----------------------------
-
--- ----------------------------
 -- Table structure for `diyi_rel_bureau`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_rel_bureau`;
 CREATE TABLE `diyi_rel_bureau` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `user_id` bigint(50) NOT NULL COMMENT '管理者ID',
   `rel_bureau_state` varchar(50) NOT NULL COMMENT '相关局账户状态',
-  `rel_bureau_type` varchar(50) NOT NULL COMMENT '0，税局；1，市场监督管理局；2，产业园区；3，支付机构',
+  `rel_bureau_type` varchar(50) NOT NULL COMMENT '相关局类型',
   `avatar` varchar(500) NOT NULL DEFAULT '' COMMENT '头像',
   `rel_bureau_user_name` varchar(50) NOT NULL COMMENT '用户名',
   `rel_bureau_pwd` varchar(100) NOT NULL COMMENT '密码',
@@ -1522,14 +1310,11 @@ CREATE TABLE `diyi_rel_bureau` (
   `director_phone` varchar(50) NOT NULL COMMENT '局长联系电话',
   `vice_director_name` varchar(50) NOT NULL COMMENT '副局长姓名',
   `vice_director_phone` varchar(50) NOT NULL COMMENT '副局长联系电话',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`user_id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`rel_bureau_type`,`rel_bureau_user_name`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`rel_bureau_type`,`rel_bureau_user_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='相关局管理表';
 
 -- ----------------------------
@@ -1546,11 +1331,9 @@ CREATE TABLE `diyi_rel_bureau_contract` (
   `contract_name` varchar(100) DEFAULT '' COMMENT '合同名称',
   `contract_desc` varchar(100) DEFAULT '' COMMENT '合同说明',
   `contract_url` varchar(500) DEFAULT '' COMMENT '合同内容',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`rel_bureau_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='相关局合作协议表';
@@ -1570,17 +1353,15 @@ CREATE TABLE `diyi_rel_bureau_files` (
   `files_desc` varchar(100) DEFAULT '' COMMENT '通知文件',
   `files_url` varchar(500) DEFAULT '' COMMENT '监管文件',
   `publish_datetime` datetime NOT NULL COMMENT '发布日期时间',
-  `files_state` varchar(50) NOT NULL COMMENT '监管文件状态:0，编辑中；1，已发布；2，已阅读；3，已下架；4，已作废',
+  `files_state` varchar(50) NOT NULL COMMENT '监管文件状态',
   `cancel_datetime` datetime NOT NULL COMMENT '作废日期时间',
   `contact_person` varchar(50) DEFAULT '' COMMENT '发布联系人',
   `mobile_no` varchar(50) DEFAULT '' COMMENT '联系手机',
   `Wechat_no` varchar(50) DEFAULT '' COMMENT '联系微信',
   `director_phone` varchar(50) DEFAULT '' COMMENT '联系电话',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='相关局监管文件：相关局监管文件管理表';
 
@@ -1597,11 +1378,9 @@ CREATE TABLE `diyi_rel_bureau_files_read` (
   `files_id` bigint(50) NOT NULL COMMENT '通知ID',
   `read_servicer` bigint(50) NOT NULL COMMENT '阅读服务商',
   `reader` varchar(50) DEFAULT '' COMMENT '阅读人',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`files_id`,`read_servicer`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='监管文件阅读记录：相关局监管文件阅读管理表';
@@ -1621,16 +1400,14 @@ CREATE TABLE `diyi_rel_bureau_notice` (
   `notice_desc` varchar(100) NOT NULL COMMENT '通知摘要',
   `notice_url` varchar(500) NOT NULL COMMENT '通知文件',
   `publish_datetime` datetime DEFAULT NULL COMMENT '发布日期时间',
-  `notice_state` varchar(50) NOT NULL COMMENT '通知状态:1，编辑中；2，已发布；3，已阅读；4，已作废',
+  `notice_state` varchar(50) NOT NULL COMMENT '通知状态',
   `cancel_datetime` datetime DEFAULT NULL COMMENT '作废日期时间',
   `contact_person` varchar(50) NOT NULL COMMENT '发布联系人',
   `contact_phone` varchar(50) NOT NULL COMMENT '联系人手机',
   `contact_wechat` varchar(50) NOT NULL COMMENT '联系人微信',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='相关局通知管理表';
 
@@ -1647,11 +1424,9 @@ CREATE TABLE `diyi_rel_bureau_notice_read` (
   `notice_id` bigint(50) NOT NULL COMMENT '通知ID',
   `read_servicer` bigint(50) NOT NULL COMMENT '阅读服务商',
   `reader` varchar(50) DEFAULT '' COMMENT '阅读人',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`notice_id`,`read_servicer`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='相关局通知阅读管理表';
@@ -1672,11 +1447,9 @@ CREATE TABLE `diyi_rel_bureau_service_provider` (
   `cooperate_status` varchar(50) NOT NULL COMMENT '关联状态',
   `match_person` varchar(50) NOT NULL COMMENT '分配人员',
   `match_desc` varchar(100) DEFAULT NULL COMMENT '分配说明',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`rel_bureau_type`,`service_provider_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='相关局与服务商关联表';
@@ -1701,7 +1474,7 @@ CREATE TABLE `diyi_self_help_invoice` (
   `original_self_help_id` bigint(50) DEFAULT NULL COMMENT '原自助开票ID',
   `maker_type` varchar(50) NOT NULL COMMENT '开票人身份类别',
   `list_file` varchar(500) NOT NULL COMMENT '开票清单文件',
-  `pay_type` varchar(50) NOT NULL COMMENT '众包支付模式：标准支付；扩展支付；商户代付税费',
+  `pay_type` varchar(50) NOT NULL COMMENT '众包支付模式',
   `total_pay_provider_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '总需支付服务商税费=总服务税费+总开票手续费+总身份验证费，自动计算',
   `service_and_tax_money` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '总服务税费=总服务外包费*服务税费率',
   `service_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '总服务外包费：合计，明细价税合计，依据明细自动计算',
@@ -1709,17 +1482,15 @@ CREATE TABLE `diyi_self_help_invoice` (
   `service_tax` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '总税费，一般不填',
   `service_invoice_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '总开票手续费',
   `idendity_confirm_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '总身份验证费',
-  `current_state` varchar(50) NOT NULL COMMENT '当前状态：0,未申请，1，申请编辑中，2，审核中；3，已通过开票中；4，已驳回；5，已开票结束',
+  `current_state` varchar(50) NOT NULL COMMENT '当前状态',
   `apply_num` int(3) NOT NULL DEFAULT '0' COMMENT '申请次数',
   `confirm_price_person` varchar(50) NOT NULL DEFAULT '' COMMENT '核价人员',
   `confirm_price_datetime` datetime DEFAULT NULL COMMENT '核价时间',
   `address_id` bigint(50) NOT NULL COMMENT '收件地址Id',
   `extend_pay_invoices` varchar(100) NOT NULL DEFAULT '' COMMENT '扩展支付税费发票',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自助开票主表';
 
@@ -1737,12 +1508,10 @@ CREATE TABLE `diyi_self_help_invoice_account` (
   `account_no` varchar(50) NOT NULL COMMENT '银行账号',
   `account_bank` varchar(50) NOT NULL COMMENT '开户银行',
   `basic_account_bank` varchar(50) DEFAULT NULL COMMENT '基本存款账号',
-  `is_default` bit(1) NOT NULL COMMENT '是否默认',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `bool_default` bit(1) NOT NULL COMMENT '是否默认',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自助开票收款账号表';
 
@@ -1756,16 +1525,14 @@ CREATE TABLE `diyi_self_help_invoice_account` (
 DROP TABLE IF EXISTS `diyi_self_help_invoice_apply`;
 CREATE TABLE `diyi_self_help_invoice_apply` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `self_help_invoice_id` bigint(50) NOT NULL COMMENT '自助开票主表id',
+  `self_help_invoice_id` bigint(50) NOT NULL COMMENT '自助开票主表ID',
   `apply_date` datetime NOT NULL COMMENT '申请日期',
   `apply_state` varchar(50) NOT NULL COMMENT '申请状态',
   `apply_desc` varchar(100) NOT NULL COMMENT '申请说明',
   `audit_desc` varchar(100) NOT NULL COMMENT '审核说明',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自助开票申请表';
 
@@ -1779,7 +1546,7 @@ CREATE TABLE `diyi_self_help_invoice_apply` (
 DROP TABLE IF EXISTS `diyi_self_help_invoice_detail`;
 CREATE TABLE `diyi_self_help_invoice_detail` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `self_help_invoice_id` bigint(50) NOT NULL COMMENT '自助开票Id',
+  `self_help_invoice_id` bigint(50) NOT NULL COMMENT '自助开票ID',
   `invoice_people_name` varchar(50) NOT NULL COMMENT '开票人姓名',
   `maker_type` varchar(50) NOT NULL COMMENT '开票人身份类别',
   `maker_id` bigint(50) DEFAULT NULL COMMENT '创客ID',
@@ -1796,11 +1563,9 @@ CREATE TABLE `diyi_self_help_invoice_detail` (
   `service_invoice_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '开票手续费',
   `idendity_confirm_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '身份验证费',
   `pay_provider_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '需支付服务商税费=价税合计额*服务税费率+开票手续费+身份验证费',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自助开票明细表';
 
@@ -1821,11 +1586,9 @@ CREATE TABLE `diyi_self_help_invoice_express` (
   `operate_person` varchar(50) NOT NULL COMMENT '处理人员',
   `express_update_person_tel` varchar(50) NOT NULL COMMENT '快递更新人员电话',
   `special_desc` varchar(100) NOT NULL DEFAULT '' COMMENT '特殊说明',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`self_help_invoice_apply_provider_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自助开票快递表';
@@ -1840,7 +1603,7 @@ CREATE TABLE `diyi_self_help_invoice_express` (
 DROP TABLE IF EXISTS `diyi_self_help_invoice_fee`;
 CREATE TABLE `diyi_self_help_invoice_fee` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `self_help_invoice_id` bigint(50) NOT NULL COMMENT '自助开票Id',
+  `self_help_invoice_id` bigint(50) NOT NULL COMMENT '自助开票ID',
   `putin_date` datetime NOT NULL COMMENT '提交日期',
   `give_price_date` datetime NOT NULL COMMENT '核价日期',
   `total_tax_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '总税费',
@@ -1850,13 +1613,11 @@ CREATE TABLE `diyi_self_help_invoice_fee` (
   `identify_fee` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '身份验证费',
   `pay_desc` varchar(100) NOT NULL COMMENT '支付说明',
   `pay_certificate` varchar(500) NOT NULL COMMENT '支付回单',
-  `pay_type` varchar(50) NOT NULL COMMENT '支付方式 1，微信；2，支付宝，3，银行转账；4，现金',
+  `pay_type` varchar(50) NOT NULL COMMENT '支付方式',
   `hand_pay_account_id` bigint(50) NOT NULL COMMENT '自助开票收款账号ID',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自助开票收费表';
 
@@ -1875,11 +1636,9 @@ CREATE TABLE `diyi_self_help_invoice_person` (
   `idcard_pic` varchar(500) NOT NULL COMMENT '身份证正面图',
   `idcard_pic_back` varchar(500) NOT NULL COMMENT '身份证反面图',
   `phone_number` varchar(50) NOT NULL COMMENT '手机号码',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自助开票非创客开票人表';
 
@@ -1906,13 +1665,11 @@ CREATE TABLE `diyi_self_help_invoice_sp` (
   `service_invoice_fee` decimal(12,2) NOT NULL COMMENT '总开票手续费',
   `idendity_confirm_fee` decimal(12,2) NOT NULL COMMENT '总身份验证费',
   `pay_total_num` decimal(12,2) NOT NULL COMMENT '支付总额',
-  `address_id` bigint(50) NOT NULL COMMENT '收件地址Id',
-  `address_type` varchar(50) NOT NULL COMMENT '收件地址性质: 快递给管理中心；直接快递给客户',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `address_id` bigint(50) NOT NULL COMMENT '收件地址ID',
+  `address_type` varchar(50) NOT NULL COMMENT '收件地址性质',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`self_help_invoice_id`,`service_provider_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自助开票-服务商关联表';
@@ -1933,11 +1690,9 @@ CREATE TABLE `diyi_self_help_invoice_sp_detail` (
   `invoice_scan_pictures` varchar(1000) NOT NULL COMMENT ' 发票扫描件（多张）',
   `tax_scan_pictures` varchar(1000) NOT NULL COMMENT ' 税票扫描件（多张）',
   `invoice_operate_person` varchar(50) NOT NULL COMMENT '发票处理人员',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`self_help_invoice_detail_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商开票明细表';
@@ -1980,11 +1735,10 @@ CREATE TABLE `diyi_service_provider` (
   `saler_id` bigint(50) DEFAULT NULL COMMENT '营销人员',
   `runner_id` bigint(50) DEFAULT NULL COMMENT '运营人员',
   `industry_type` varchar(50) NOT NULL DEFAULT '' COMMENT '行业分类',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `main_business_desc` varchar(500) NOT NULL DEFAULT '' COMMENT '主营业务描述',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`service_provider_name`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`social_credit_no`)
@@ -2001,19 +1755,17 @@ DROP TABLE IF EXISTS `diyi_service_provider_account`;
 CREATE TABLE `diyi_service_provider_account` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
-  `account_type` varchar(50) NOT NULL COMMENT '账户类型：银行账户；第三方支付账户；个人账户；其他',
+  `account_type` varchar(50) NOT NULL COMMENT '账户类型',
   `account_name` varchar(100) NOT NULL COMMENT '账户名称',
   `account_no` varchar(50) NOT NULL COMMENT '银行账号',
   `account_bank` varchar(100) NOT NULL COMMENT '开户银行',
   `basic_account_bank` varchar(100) NOT NULL DEFAULT '' COMMENT '基本存款账号，对公账号才需要',
   `maker_safe_account` varchar(100) NOT NULL DEFAULT '' COMMENT '个人创客到手业务外包费账户',
   `provider_tax_and_fee_account` varchar(100) NOT NULL DEFAULT '' COMMENT '服务税费账户',
-  `is_default` bit(1) NOT NULL COMMENT '是否默认',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `bool_default` bit(1) NOT NULL COMMENT '是否默认',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`service_provider_id`,`account_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商收款账户信息表';
@@ -2035,11 +1787,9 @@ CREATE TABLE `diyi_service_provider_cert` (
   `certificate_main_url` varchar(500) NOT NULL COMMENT '资格证书正本',
   `certificate_supply_url` varchar(500) NOT NULL DEFAULT '' COMMENT '资格证书副本',
   `certificate_other_url` varchar(500) NOT NULL DEFAULT '' COMMENT '资格证书辅助文件',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商资格信息表';
 
@@ -2058,11 +1808,9 @@ CREATE TABLE `diyi_service_provider_invoice_catalogs` (
   `invoice_catalog_name` varchar(50) NOT NULL COMMENT '发票类目名称',
   `set_person` varchar(50) DEFAULT NULL COMMENT '设置人员',
   `set_desc` varchar(100) NOT NULL DEFAULT '' COMMENT '设置说明',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '状态[0:未删除,1:删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商户-服务商开票类目表';
 
@@ -2079,12 +1827,10 @@ CREATE TABLE `diyi_service_provider_maker` (
   `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
   `enterprise_id` bigint(50) NOT NULL COMMENT '商户ID',
   `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
-  `rel_type` varchar(50) NOT NULL COMMENT '关联类型：总包+分包支付关联；众包代开票关联',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
+  `rel_type` varchar(50) NOT NULL COMMENT '关联类型',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`service_provider_id`,`enterprise_id`,`maker_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商-创客关联表';
@@ -2104,11 +1850,9 @@ CREATE TABLE `diyi_service_provider_rules` (
   `enterprise_rules` varchar(500) NOT NULL DEFAULT '' COMMENT '商户规则要求',
   `set_person` varchar(50) NOT NULL DEFAULT '' COMMENT '设置人员',
   `set_desc` varchar(100) NOT NULL DEFAULT '' COMMENT '设置说明',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`service_provider_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商-业务合规要求表';
@@ -2124,7 +1868,6 @@ DROP TABLE IF EXISTS `diyi_service_provider_worker`;
 CREATE TABLE `diyi_service_provider_worker` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
-  `user_id` bigint(50) NOT NULL COMMENT '管理者ID',
   `role_id` bigint(50) DEFAULT NULL COMMENT '角色ID',
   `avatar` varchar(500) NOT NULL DEFAULT '' COMMENT '头像',
   `service_provider_worker_state` varchar(50) NOT NULL COMMENT '服务商员工账户状态',
@@ -2137,39 +1880,16 @@ CREATE TABLE `diyi_service_provider_worker` (
   `employee_pwd` varchar(100) NOT NULL COMMENT '密码',
   `super_admin` bit(1) NOT NULL COMMENT '管理员权限',
   `admin_power` bit(1) NOT NULL COMMENT '管理员特性',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`phone_number`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`employee_user_name`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k3` (`user_id`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`employee_user_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商员工表';
 
 -- ----------------------------
 -- Records of diyi_service_provider_worker
--- ----------------------------
-
--- ----------------------------
--- Table structure for `diyi_setup`
--- ----------------------------
-DROP TABLE IF EXISTS `diyi_setup`;
-CREATE TABLE `diyi_setup` (
-  `id` bigint(50) NOT NULL COMMENT '主键',
-  `allow_first_edit` bit(1) NOT NULL COMMENT '允许第一次关联商户更新创客信息',
-  `allow_all_edit` bit(1) NOT NULL COMMENT '允许所有关联商户更新创客信息',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='特殊配置表';
-
--- ----------------------------
--- Records of diyi_setup
 -- ----------------------------
 
 -- ----------------------------
@@ -2187,8 +1907,8 @@ CREATE TABLE `diyi_worksheet` (
   `worksheet_fee_high` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '最高费用',
   `worksheet_type` varchar(50) NOT NULL COMMENT '类型，总包+分包，众包/众采',
   `worksheet_mode` varchar(50) NOT NULL COMMENT '模式，派单、抢单、混合（默认：混合型）',
-  `maker_type` varchar(50) NOT NULL COMMENT '创客身份，自然人，个体户，个独。如果是个体户/个独，则抢单或派单时需要指定相关个体户/个独，如果只有一个则不用指定。',
-  `worksheet_state` varchar(50) NOT NULL COMMENT '工单状态：\r\na) 发布中，发布代抢单或代派单的工单\r\nb) 已关单，已经抢单或者派单完毕（人数不做控制依据）\r\nc) 验收中，有个人创客提交了工单等待验收或部分验收完毕\r\nd) 已完毕，所有个人创客都验收完毕了\r\ne) 已作废，验收中工单都可以作废，已完毕的不能作废',
+  `maker_type` varchar(50) NOT NULL COMMENT '创客身份',
+  `worksheet_state` varchar(50) NOT NULL COMMENT '工单状态',
   `destroy_datetime` datetime DEFAULT NULL COMMENT '作废时间',
   `destroy_person` varchar(50) NOT NULL DEFAULT '' COMMENT '作废人员',
   `destroy_desc` varchar(100) NOT NULL DEFAULT '' COMMENT '作废说明',
@@ -2198,39 +1918,15 @@ CREATE TABLE `diyi_worksheet` (
   `finish_date` datetime DEFAULT NULL COMMENT '完毕日期',
   `worksheet_memo` varchar(100) NOT NULL DEFAULT '' COMMENT '工单说明',
   `worksheet_desc_files` varchar(500) NOT NULL DEFAULT '' COMMENT '工单说明图文',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`worksheet_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='工单表';
 
 -- ----------------------------
 -- Records of diyi_worksheet
--- ----------------------------
-
--- ----------------------------
--- Table structure for `diyi_worksheet_attention`
--- ----------------------------
-DROP TABLE IF EXISTS `diyi_worksheet_attention`;
-CREATE TABLE `diyi_worksheet_attention` (
-  `id` bigint(50) NOT NULL COMMENT '主键',
-  `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
-  `enterprise_id` bigint(50) NOT NULL COMMENT '商户ID',
-  `worksheet_attention_no` bigint(50) NOT NULL COMMENT '工单关注编号',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`worksheet_attention_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='未知表';
-
--- ----------------------------
--- Records of diyi_worksheet_attention
 -- ----------------------------
 
 -- ----------------------------
@@ -2253,11 +1949,9 @@ CREATE TABLE `diyi_worksheet_maker` (
   `check_date` datetime DEFAULT NULL COMMENT '验收时间',
   `arrange_person` varchar(50) NOT NULL DEFAULT '' COMMENT '派单人员',
   `arrange_date` datetime DEFAULT NULL COMMENT '派单日期',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`maker_id`,`worksheet_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='工单-创客关联表';
@@ -2267,65 +1961,30 @@ CREATE TABLE `diyi_worksheet_maker` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `diyi_work_achievement`
+-- Table structure for `diyi_client`
 -- ----------------------------
-DROP TABLE IF EXISTS `diyi_work_achievement`;
-CREATE TABLE `diyi_work_achievement` (
+DROP TABLE IF EXISTS `diyi_client`;
+CREATE TABLE `diyi_client` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `worksheet_id` bigint(50) NOT NULL COMMENT '工单id',
-  `work_explain` varchar(100) NOT NULL COMMENT '工作成果说明',
-  `work_url` varchar(500) NOT NULL COMMENT '工作结果',
-  `check_money_num` decimal(12,2) NOT NULL COMMENT '验收金额',
-  `check_desc` varchar(100) NOT NULL DEFAULT '' COMMENT '验收说明',
-  `check_person` varchar(50) NOT NULL COMMENT '验收人员',
-  `chece_datetime` datetime NOT NULL COMMENT '验收日期时间',
-  `work_achievement_state` varchar(50) NOT NULL COMMENT '工作成果状态 1：待验收，2验收通过，3验收不通过',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='众包工作验收成果表';
-
--- ----------------------------
--- Records of diyi_work_achievement
--- ----------------------------
-
--- ----------------------------
--- Table structure for `sys_client`
--- ----------------------------
-DROP TABLE IF EXISTS `sys_client`;
-CREATE TABLE `sys_client` (
-  `id` bigint(50) NOT NULL COMMENT '主键',
-  `client_id` varchar(50) NOT NULL COMMENT '客户端id',
+  `client_id` varchar(50) NOT NULL COMMENT '客户端ID',
   `client_secret` varchar(50) NOT NULL COMMENT '客户端密钥',
-  `resource_ids` varchar(100) NOT NULL DEFAULT '' COMMENT '资源集合',
-  `scope` varchar(50) NOT NULL COMMENT '授权范围',
-  `authorized_grant_types` varchar(50) NOT NULL COMMENT '授权类型',
-  `web_server_redirect_uri` varchar(500) NOT NULL DEFAULT '' COMMENT '回调地址',
-  `authorities` varchar(100) NOT NULL DEFAULT '' COMMENT '权限',
   `access_token_validity` int(10) NOT NULL COMMENT '令牌过期秒数',
   `refresh_token_validity` int(10) NOT NULL COMMENT '刷新令牌过期秒数',
-  `additional_information` varchar(100) NOT NULL DEFAULT '' COMMENT '附加说明',
-  `auto_approve` varchar(100) NOT NULL DEFAULT '' COMMENT '自动授权',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime NOT NULL COMMENT '修改时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='客户端表';
 
 -- ----------------------------
--- Records of sys_client
+-- Records of diyi_client
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `sys_dict`
+-- Table structure for `diyi_dict`
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_dict`;
-CREATE TABLE `sys_dict` (
+DROP TABLE IF EXISTS `diyi_dict`;
+CREATE TABLE `diyi_dict` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `parent_id` bigint(50) NOT NULL DEFAULT '0' COMMENT '父主键',
   `code` varchar(50) NOT NULL COMMENT '字典码',
@@ -2333,24 +1992,22 @@ CREATE TABLE `sys_dict` (
   `dict_value` varchar(100) NOT NULL COMMENT '字典名称',
   `sort` int(3) NOT NULL DEFAULT '0' COMMENT '排序',
   `remark` varchar(1000) NOT NULL DEFAULT '' COMMENT '字典备注',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime NOT NULL COMMENT '修改时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`code`,`dict_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='字典表';
 
 -- ----------------------------
--- Records of sys_dict
+-- Records of diyi_dict
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `sys_menu`
+-- Table structure for `diyi_menu`
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_menu`;
-CREATE TABLE `sys_menu` (
+DROP TABLE IF EXISTS `diyi_menu`;
+CREATE TABLE `diyi_menu` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `parent_id` bigint(50) DEFAULT '0' COMMENT '父级菜单',
   `code` varchar(50) NOT NULL DEFAULT '' COMMENT '菜单编号',
@@ -2364,23 +2021,21 @@ CREATE TABLE `sys_menu` (
   `is_open` int(2) DEFAULT '1' COMMENT '是否打开新页面',
   `remark` varchar(100) NOT NULL DEFAULT '' COMMENT '备注',
   `menu_type` varchar(50) DEFAULT NULL COMMENT '菜单类型：ENTERPRISE SERVICEPROVIDER ...',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime NOT NULL COMMENT '修改时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='菜单表';
 
 -- ----------------------------
--- Records of sys_menu
+-- Records of diyi_menu
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `sys_role`
+-- Table structure for `diyi_role`
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_role`;
-CREATE TABLE `sys_role` (
+DROP TABLE IF EXISTS `diyi_role`;
+CREATE TABLE `diyi_role` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `parent_id` bigint(50) DEFAULT '0' COMMENT '父主键',
   `role_name` varchar(50) NOT NULL DEFAULT '' COMMENT '角色名',
@@ -2388,60 +2043,31 @@ CREATE TABLE `sys_role` (
   `role_alias` varchar(50) NOT NULL DEFAULT '' COMMENT '角色别名',
   `user_type` varchar(50) NOT NULL DEFAULT '' COMMENT '用户类型',
   `account` bigint(50) NOT NULL DEFAULT '0' COMMENT '拥有者ID',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime NOT NULL COMMENT '修改时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
 
 -- ----------------------------
--- Records of sys_role
+-- Records of diyi_role
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `sys_role_menu`
+-- Table structure for `diyi_role_menu`
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_role_menu`;
-CREATE TABLE `sys_role_menu` (
+DROP TABLE IF EXISTS `diyi_role_menu`;
+CREATE TABLE `diyi_role_menu` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `menu_id` bigint(50) NOT NULL COMMENT '菜单ID',
   `role_id` bigint(50) NOT NULL COMMENT '角色ID',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime NOT NULL COMMENT '修改时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
-  PRIMARY KEY (`id`)
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`menu_id`,`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色菜单表';
 
 -- ----------------------------
--- Records of sys_role_menu
--- ----------------------------
-
--- ----------------------------
--- Table structure for `sys_user`
--- ----------------------------
-DROP TABLE IF EXISTS `sys_user`;
-CREATE TABLE `sys_user` (
-  `id` bigint(50) NOT NULL COMMENT '主键',
-  `user_type` varchar(50) NOT NULL COMMENT '用户类型',
-  `account` varchar(50) NOT NULL COMMENT '账号',
-  `phone` varchar(50) NOT NULL COMMENT '手机',
-  `role_id` varchar(50) NOT NULL DEFAULT '' COMMENT '角色ID',
-  `dept_id` varchar(50) NOT NULL DEFAULT '' COMMENT '部门ID',
-  `post_id` varchar(50) NOT NULL DEFAULT '' COMMENT '岗位ID',
-  `create_user` bigint(50) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` bigint(50) DEFAULT NULL COMMENT '修改人',
-  `update_time` datetime NOT NULL COMMENT '修改时间',
-  `is_deleted` tinyint(1) NOT NULL COMMENT '是否已删除[0-未删除 1-已删除]',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`user_type`,`phone`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`user_type`,`account`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
-
--- ----------------------------
--- Records of sys_user
+-- Records of diyi_role_menu
 -- ----------------------------

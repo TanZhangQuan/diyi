@@ -47,7 +47,7 @@ public class AgreementEntity extends BaseEntity {
     /**
      * 合同有效性
      */
-    private ValidState validState;
+    private ValidState validState = ValidState.VALIDING;
 
     /**
      * 截止日期
@@ -134,13 +134,4 @@ public class AgreementEntity extends BaseEntity {
      */
     private String fourthSideSignPerson;
 
-    /**
-     * 上传日期
-     */
-    private Date uploadDatetime;
-
-    /**
-     * 上传人员
-     */
-    private String uploadPerson;
 }
