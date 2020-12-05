@@ -27,12 +27,6 @@ public class AuthController {
         return authService.wechatlogin(wechatLoginDto);
     }
 
-    @PostMapping("/send-code")
-    @ApiOperation(value = "发送短信验证码", notes = "发送短信验证码")
-    public R sendCode(@Valid @RequestBody SendCodeDTO sendCodeDto) {
-        return authService.sendCode(sendCodeDto);
-    }
-
     @PostMapping("/mobile-login")
     @ApiOperation(value = "手机验证码登录", notes = "手机验证码登录")
     public R mobileLogin(@Valid @RequestBody MobileLoginDTO mobileLoginDto) throws Exception {
@@ -62,6 +56,12 @@ public class AuthController {
     @ApiOperation(value = "修改密码", notes = "修改密码")
     public R updatePassword(@Valid @RequestBody UpdatePasswordDTO updatePasswordDto) {
         return authService.updatePassword(updatePasswordDto);
+    }
+
+    @PostMapping("/send-code")
+    @ApiOperation(value = "发送短信验证码", notes = "发送短信验证码")
+    public R sendCode(@Valid @RequestBody SendCodeDTO sendCodeDto) {
+        return authService.sendCode(sendCodeDto);
     }
 
 }

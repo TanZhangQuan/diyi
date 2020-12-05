@@ -23,14 +23,6 @@ public interface IAuthService {
     R wechatlogin(WechatLoginDTO wechatLoginDto) throws Exception;
 
     /**
-     * 发送短信验证码
-     *
-     * @param sendCodeDto
-     * @return
-     */
-    R<String> sendCode(SendCodeDTO sendCodeDto);
-
-    /**
      * 手机验证码登录
      *
      * @param mobileLoginDto
@@ -71,6 +63,14 @@ public interface IAuthService {
      * @return
      */
     R<String> updatePassword(UpdatePasswordDTO updatePasswordDto);
+
+    /**
+     * 发送短信验证码
+     *
+     * @param sendCodeDto
+     * @return
+     */
+    R<String> sendCode(SendCodeDTO sendCodeDto);
 
 }
 

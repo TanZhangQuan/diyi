@@ -1,5 +1,6 @@
 package com.lgyun.auth.dto;
 
+import com.lgyun.common.enumeration.RelBureauType;
 import com.lgyun.common.enumeration.UserType;
 import lombok.Data;
 
@@ -22,6 +23,11 @@ public class PasswordLoginDTO implements Serializable {
      */
     @NotNull(message = "请选择用户类型")
     private UserType userType;
+
+    /**
+     * 相关局类型
+     */
+    private RelBureauType relBureauType;
 
     /**
      * 账号

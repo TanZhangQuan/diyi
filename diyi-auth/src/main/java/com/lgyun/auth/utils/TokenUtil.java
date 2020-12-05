@@ -8,7 +8,6 @@ import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.secure.AuthInfo;
 import com.lgyun.common.secure.TokenInfo;
 import com.lgyun.common.tool.*;
-import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.entity.UserInfo;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -45,20 +44,19 @@ public class TokenUtil {
      * @return token
      */
     public AuthInfo createAuthInfo(UserInfo userInfo) {
-        User user = userInfo.getUser();
 
         //设置jwt参数
         Map<String, String> param = new HashMap<>(16);
         param.put(TokenConstant.TOKEN_TYPE, TokenConstant.ACCESS_TOKEN);
-        param.put(TokenConstant.USER_ID, Func.toStr(user.getId()));
-        param.put(TokenConstant.ROLE_ID, user.getRoleId());
-        param.put(TokenConstant.ACCOUNT, user.getAccount());
-        param.put(TokenConstant.ROLE_NAME, Func.join(userInfo.getRoles()));
+        param.put(TokenConstant.USER_TYPE, userInfo.getUserType().getValue());
+        param.put(TokenConstant.USER_ID, Func.toStr(userInfo.getUserId()));
+        param.put(TokenConstant.ACCOUNT, userInfo.getAccount());
+        param.put(TokenConstant.PHONE, userInfo.getPhone());
 
         TokenInfo accessToken = this.createJWT(param, "audience", "issuser", TokenConstant.ACCESS_TOKEN);
         AuthInfo authInfo = new AuthInfo();
-        authInfo.setAccount(user.getAccount());
-        authInfo.setAuthority(Func.join(userInfo.getRoles()));
+        authInfo.setAccount(userInfo.getAccount());
+        authInfo.setPhone(userInfo.getPhone());
         authInfo.setAccessToken(accessToken.getToken());
         authInfo.setExpiresIn(accessToken.getExpire());
         authInfo.setRefreshToken(createRefreshToken(userInfo).getToken());
@@ -74,10 +72,10 @@ public class TokenUtil {
      * @return refreshToken
      */
     private TokenInfo createRefreshToken(UserInfo userInfo) {
-        User user = userInfo.getUser();
         Map<String, String> param = new HashMap<>(16);
         param.put(TokenConstant.TOKEN_TYPE, TokenConstant.REFRESH_TOKEN);
-        param.put(TokenConstant.USER_ID, Func.toStr(user.getId()));
+        param.put(TokenConstant.USER_TYPE, userInfo.getUserType().getValue());
+        param.put(TokenConstant.USER_ID, String.valueOf(userInfo.getUserId()));
         return this.createJWT(param, "audience", "issuser", TokenConstant.REFRESH_TOKEN);
     }
 
@@ -108,13 +106,13 @@ public class TokenUtil {
     /**
      * 创建令牌
      *
-     * @param user      user
+     * @param param     param
      * @param audience  audience
      * @param issuer    issuer
      * @param tokenType tokenType
      * @return jwt
      */
-    public TokenInfo createJWT(Map<String, String> user, String audience, String issuer, String tokenType) {
+    public TokenInfo createJWT(Map<String, String> param, String audience, String issuer, String tokenType) {
 
         String[] tokens = extractAndDecodeHeader();
         assert tokens.length == 2;
@@ -145,7 +143,7 @@ public class TokenUtil {
                 .signWith(signatureAlgorithm, signingKey);
 
         //设置JWT参数
-        user.forEach(builder::claim);
+        param.forEach(builder::claim);
 
         //设置应用id
         builder.claim(CLIENT_ID, clientId);
