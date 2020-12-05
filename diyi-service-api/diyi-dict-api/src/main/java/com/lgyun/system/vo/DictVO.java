@@ -37,11 +37,6 @@ public class DictVO implements INode {
 	private String dictValue;
 
 	/**
-	 * 排序
-	 */
-	private Integer sort;
-
-	/**
 	 * 字典备注
 	 */
 	private String remark;

@@ -11,7 +11,7 @@ import lombok.Data;
  * @since 2020/6/6 19:21
  */
 @Data
-@TableName("sys_dict")
+@TableName("diyi_dict")
 public class Dict extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
