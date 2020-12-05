@@ -55,9 +55,9 @@
     <select id="queryTotalSubAcceptPaysheetListMaker" resultMap="acceptPaysheetAndCsListMakerVO">
         SELECT t1.id, t3.enterprise_name, t4.maker_net_income AS pay_amount, t1.service_time_start, t1.service_time_end FROM diyi_accept_paysheet t1
         INNER JOIN diyi_pay_enterprise t2 ON t1.pay_enterprise_id = t2.id INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id INNER JOIN diyi_pay_maker t4
-        ON t2.id = t4.pay_enterprise_id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t4.is_deleted = 0 AND t2.enterprise_id = #{param1}
-        AND t4.maker_id = #{param2} AND IF(t1.accept_paysheet_type = 'SINGLE', EXISTS(SELECT id FROM diyi_accept_paysheet WHERE is_deleted = 0 AND pay_maker_id = t4.id),
-        EXISTS(SELECT id FROM diyi_accept_paysheet_list WHERE is_deleted = 0 AND accept_paysheet_id = t1.id AND pay_maker_id = t4.id))
+        ON t2.id = t4.pay_enterprise_id WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t3.bool_deleted = 0 AND t4.bool_deleted = 0 AND t2.enterprise_id = #{param1}
+        AND t4.maker_id = #{param2} AND IF(t1.accept_paysheet_type = 'SINGLE', EXISTS(SELECT id FROM diyi_accept_paysheet WHERE bool_deleted = 0 AND pay_maker_id = t4.id),
+        EXISTS(SELECT id FROM diyi_accept_paysheet_list WHERE bool_deleted = 0 AND accept_paysheet_id = t1.id AND pay_maker_id = t4.id))
     </select>
 
     <select id="queryTotalSubAcceptPaysheetDetailMaker" resultMap="acceptPaysheetDetailVO">
@@ -65,19 +65,19 @@
         t1.accept_paysheet_url, NULL) AS accept_paysheet_url, t5.worksheet_name, t5.worksheet_type, t5.worksheet_mode, t5.create_time, t5.worksheet_no, t6.check_money,
         t6.achievement_desc, t6.achievement_files FROM diyi_accept_paysheet t1 INNER JOIN diyi_pay_enterprise t2 ON t1.pay_enterprise_id = t2.id
         INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id INNER JOIN diyi_pay_maker t4 ON t4.pay_enterprise_id = t1.pay_enterprise_id
-        LEFT JOIN diyi_worksheet t5 ON t2.worksheet_id = t5.id AND t5.is_deleted = 0 LEFT JOIN diyi_worksheet_maker t6 ON t5.id = t6.worksheet_id
-        AND t6.maker_id = t4.maker_id AND t6.is_deleted = 0 WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t4.is_deleted = 0
-        AND t4.maker_id = #{param1} AND t1.id = #{param2} AND IF(t1.accept_paysheet_type = 'SINGLE', EXISTS(SELECT id FROM diyi_accept_paysheet WHERE is_deleted = 0
-        AND pay_maker_id = t4.id), EXISTS(SELECT id FROM diyi_accept_paysheet_list WHERE is_deleted = 0 AND accept_paysheet_id = t1.id AND pay_maker_id = t4.id))
+        LEFT JOIN diyi_worksheet t5 ON t2.worksheet_id = t5.id AND t5.bool_deleted = 0 LEFT JOIN diyi_worksheet_maker t6 ON t5.id = t6.worksheet_id
+        AND t6.maker_id = t4.maker_id AND t6.bool_deleted = 0 WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t3.bool_deleted = 0 AND t4.bool_deleted = 0
+        AND t4.maker_id = #{param1} AND t1.id = #{param2} AND IF(t1.accept_paysheet_type = 'SINGLE', EXISTS(SELECT id FROM diyi_accept_paysheet WHERE bool_deleted = 0
+        AND pay_maker_id = t4.id), EXISTS(SELECT id FROM diyi_accept_paysheet_list WHERE bool_deleted = 0 AND accept_paysheet_id = t1.id AND pay_maker_id = t4.id))
     </select>
 
     <select id="queryTotalSubAcceptPaysheetListEnterprise" resultMap="acceptPaysheetAndCsListEnterpriseVO">
         SELECT * FROM (SELECT t1.id, t2.charge_list_url, t1.service_time_start, t1.service_time_end, t2.worksheet_id, t1.accept_paysheet_url, t1.create_time,
-        IF(t1.accept_paysheet_type = 'SINGLE', (SELECT t3.name FROM diyi_maker t3 INNER JOIN diyi_pay_maker t4 ON t3.id = t4.maker_id WHERE t3.is_deleted = 0
-        AND t4.is_deleted = 0 AND t4.id = t1.pay_maker_id), (SELECT GROUP_CONCAT(t5.name) FROM diyi_maker t5 INNER JOIN diyi_pay_maker t6 ON t5.id = t6.maker_id
-        INNER JOIN diyi_accept_paysheet_list t7 ON t6.id = t7.pay_maker_id WHERE t5.is_deleted = 0 AND t6.is_deleted = 0 AND t7.is_deleted = 0
+        IF(t1.accept_paysheet_type = 'SINGLE', (SELECT t3.name FROM diyi_maker t3 INNER JOIN diyi_pay_maker t4 ON t3.id = t4.maker_id WHERE t3.bool_deleted = 0
+        AND t4.bool_deleted = 0 AND t4.id = t1.pay_maker_id), (SELECT GROUP_CONCAT(t5.name) FROM diyi_maker t5 INNER JOIN diyi_pay_maker t6 ON t5.id = t6.maker_id
+        INNER JOIN diyi_accept_paysheet_list t7 ON t6.id = t7.pay_maker_id WHERE t5.bool_deleted = 0 AND t6.bool_deleted = 0 AND t7.bool_deleted = 0
         AND t7.accept_paysheet_id = t1.id)) AS names FROM diyi_accept_paysheet t1 INNER JOIN diyi_pay_enterprise t2 ON t1.pay_enterprise_id = t2.id
-        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t2.enterprise_id = #{param1}) temp WHERE 1=1
+        WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t2.enterprise_id = #{param1}) temp WHERE 1=1
         <if test="param2.name != null and param2.name.trim() != ''">
             AND temp.names LIKE concat('%', #{param2.name}, '%')
         </if>
@@ -92,8 +92,8 @@
     <select id="queryTotalSubAcceptPaysheetDetailEnterprise" resultMap="acceptPaysheetDetailEnterpriseVO">
         SELECT t1.id, t3.enterprise_name, t4.service_provider_name, t1.service_time_start, t1.service_time_end, t2.worksheet_id, t2.charge_list_url,
         t1.accept_paysheet_url, t1.create_time FROM diyi_accept_paysheet t1 INNER JOIN diyi_pay_enterprise t2 ON t1.pay_enterprise_id = t2.id INNER JOIN
-        diyi_enterprise t3 ON t2.enterprise_id = t3.id INNER JOIN diyi_service_provider t4 ON t2.service_provider_id = t4.id WHERE t1.is_deleted = 0
-        AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t4.is_deleted = 0 AND t1.id = #{param1}
+        diyi_enterprise t3 ON t2.enterprise_id = t3.id INNER JOIN diyi_service_provider t4 ON t2.service_provider_id = t4.id WHERE t1.bool_deleted = 0
+        AND t2.bool_deleted = 0 AND t3.bool_deleted = 0 AND t4.bool_deleted = 0 AND t1.id = #{param1}
     </select>
 
     <select id="queryAcceptPaysheetIdList" resultType="Long">

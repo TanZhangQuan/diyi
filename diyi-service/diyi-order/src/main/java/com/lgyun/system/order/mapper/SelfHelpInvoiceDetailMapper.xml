@@ -86,7 +86,7 @@
     </resultMap>
 
     <select id="queryCrowdNumAndAllIncome" resultMap="allIncomeYearMonthVO">
-        SELECT COUNT(id) AS num, IFNULL(SUM(charge_money_num), 0) AS income FROM diyi_self_help_invoice_detail WHERE is_deleted = 0
+        SELECT COUNT(id) AS num, IFNULL(SUM(charge_money_num), 0) AS income FROM diyi_self_help_invoice_detail WHERE bool_deleted = 0
         AND (invoice_print_state = 'INVOICEING' OR invoice_print_state = 'INVOICESUCCESS') AND maker_type = #{param1} AND maker_id = #{param2} AND YEAR(create_time) = #{param3}
         <if test="param4 != null">
             AND MONTH(create_time) = #{param4}
@@ -94,7 +94,7 @@
     </select>
 
     <select id="queryEveryYearCrowdIncome" resultMap="incomeYearVO">
-       SELECT YEAR(create_time) AS year, IFNULL(SUM(charge_money_num), 0) AS year_income FROM diyi_self_help_invoice_detail WHERE is_deleted = 0
+       SELECT YEAR(create_time) AS year, IFNULL(SUM(charge_money_num), 0) AS year_income FROM diyi_self_help_invoice_detail WHERE bool_deleted = 0
        AND (invoice_print_state = 'INVOICEING' OR invoice_print_state = 'INVOICESUCCESS') AND maker_type = #{param1} AND maker_id = #{param2} GROUP BY YEAR(create_time)
     </select>
 
@@ -105,13 +105,13 @@
         IFNULL(SUM(IF(MONTH(create_time) = 7, charge_money_num, 0)), 0) AS jul_income, IFNULL(SUM(IF(MONTH(create_time) = 8, charge_money_num, 0)), 0) AS aug_income,
         IFNULL(SUM(IF(MONTH(create_time) = 9, charge_money_num, 0)), 0) AS sep_income, IFNULL(SUM(IF(MONTH(create_time) = 10, charge_money_num, 0)), 0) AS oct_income,
         IFNULL(SUM(IF(MONTH(create_time) = 11, charge_money_num, 0)), 0) AS nov_income, IFNULL(SUM(IF(MONTH(create_time) = 12, charge_money_num, 0)), 0) AS dec_income
-        FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND (invoice_print_state = 'INVOICEING' OR invoice_print_state = 'INVOICESUCCESS') AND maker_type = #{param1} AND maker_id = #{param2}
+        FROM diyi_self_help_invoice_detail WHERE bool_deleted = 0 AND (invoice_print_state = 'INVOICEING' OR invoice_print_state = 'INVOICESUCCESS') AND maker_type = #{param1} AND maker_id = #{param2}
         AND YEAR(create_time) = #{param3}
     </select>
 
     <select id="queryMakerToEnterpriseCrowdIncome" resultMap="allIncomeYearMonthEnterpriseVO">
         SELECT t3.enterprise_name, IFNULL(SUM(t1.charge_money_num), 0) AS income FROM diyi_self_help_invoice_detail t1 INNER JOIN diyi_self_help_invoice t2
-        ON t1.self_help_invoice_id = t2.id INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0
+        ON t1.self_help_invoice_id = t2.id INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t3.bool_deleted = 0
         AND (t1.invoice_print_state = 'INVOICEING' OR t1.invoice_print_state = 'INVOICESUCCESS') AND maker_type = #{param1} AND maker_id = #{param2} AND YEAR(t1.create_time) = #{param3}
         <if test="param4 != null">
             AND MONTH(t1.create_time) = #{param4}
@@ -121,7 +121,7 @@
 
     <select id="queryCrowdIncomeDetail" resultMap="incomeDetailYearMonthVO">
         SELECT t3.enterprise_name, t1.charge_money_num AS check_money, t1.create_time AS check_date FROM diyi_self_help_invoice_detail t1 INNER JOIN diyi_self_help_invoice t2
-        ON t1.self_help_invoice_id = t2.id INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0
+        ON t1.self_help_invoice_id = t2.id INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t3.bool_deleted = 0
         AND (t1.invoice_print_state = 'INVOICEING' OR t1.invoice_print_state = 'INVOICESUCCESS') AND maker_type = #{param1} AND maker_id = #{param2}
         AND YEAR(t1.create_time) = #{param3} AND MONTH(t1.create_time) = #{param4}
         <if test="param5 != null">
@@ -132,7 +132,7 @@
 
     <select id="queryCrowdDetailAllIncome" resultType="BigDecimal">
         SELECT IFNULL(SUM(t1.charge_money_num), 0) AS all_income FROM diyi_self_help_invoice_detail t1 INNER JOIN diyi_self_help_invoice t2
-        ON t1.self_help_invoice_id = t2.id INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0
+        ON t1.self_help_invoice_id = t2.id INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t3.bool_deleted = 0
         AND (invoice_print_state = 'INVOICEING' OR invoice_print_state = 'INVOICESUCCESS') AND maker_type = #{param1} AND maker_id = #{param2}
         AND YEAR(t1.create_time) = #{param3} AND MONTH(t1.create_time) = #{param4}
         <if test="param5 != null">
@@ -156,15 +156,15 @@
     <select id="queryCrowdAcceptPaysheetSelfHelpInvoiceDetailList" resultMap="acceptPaysheetCsSelfHelpInvoiceDetailListVO">
         SELECT t1.id, t1.value_added_tax_rate, t1.charge_money_num, t1.service_invoice_fee, t1.idendity_confirm_fee, t1.pay_provider_fee, t1.create_time
         FROM diyi_self_help_invoice_detail t1 INNER JOIN diyi_accept_paysheet_cs t2 ON t1.id IN ((SELECT accept_paysheet_cs_type FROM diyi_accept_paysheet_cs
-        WHERE is_deleted = 0 AND id = #{param1}) = 'SINGLE' , (SELECT self_help_invoice_detail_id FROM diyi_accept_paysheet_cs WHERE is_deleted = 0
-        AND id = #{param1}), (SELECT GROUP_CONCAT(wm.self_help_invoice_detail_id) FROM diyi_accept_paysheet_cs_list WHERE is_deleted = 0 AND accept_paysheet_cs_id = #{param1}))
+        WHERE bool_deleted = 0 AND id = #{param1}) = 'SINGLE' , (SELECT self_help_invoice_detail_id FROM diyi_accept_paysheet_cs WHERE bool_deleted = 0
+        AND id = #{param1}), (SELECT GROUP_CONCAT(wm.self_help_invoice_detail_id) FROM diyi_accept_paysheet_cs_list WHERE bool_deleted = 0 AND accept_paysheet_cs_id = #{param1}))
     </select>
 
     <select id="querySelfHelpInvoiceDetailListByMaker" resultMap="selfHelpInvoiceListMakerVO">
         SELECT id, maker_type, invoice_print_state, invoice_type, value_added_tax_rate, charge_money_num, service_invoice_fee, idendity_confirm_fee, pay_provider_fee, create_time,
-        IF(maker_type = 'NATURALPERSON', '', IF(maker_type = 'INDIVIDUALENTERPRISE', (SELECT ibname FROM diyi_individual_enterprise WHERE is_deleted = 0 AND id = individual_id),
-        (SELECT ibname FROM diyi_individual_business WHERE is_deleted = 0 AND id = individual_id))) AS individualName FROM diyi_self_help_invoice_detail
-        WHERE is_deleted = 0 AND maker_id = #{param1}
+        IF(maker_type = 'NATURALPERSON', '', IF(maker_type = 'INDIVIDUALENTERPRISE', (SELECT ibname FROM diyi_individual_enterprise WHERE bool_deleted = 0 AND id = individual_id),
+        (SELECT ibname FROM diyi_individual_business WHERE bool_deleted = 0 AND id = individual_id))) AS individualName FROM diyi_self_help_invoice_detail
+        WHERE bool_deleted = 0 AND maker_id = #{param1}
     </select>
 
 </mapper>

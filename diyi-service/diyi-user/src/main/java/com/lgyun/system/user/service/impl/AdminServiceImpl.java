@@ -16,10 +16,8 @@ import com.lgyun.system.entity.Role;
 import com.lgyun.system.feign.ISysClient;
 import com.lgyun.system.user.dto.ChildAccountDTO;
 import com.lgyun.system.user.entity.AdminEntity;
-import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.mapper.AdminMapper;
 import com.lgyun.system.user.service.IAdminService;
-import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.user.vo.AdminDetailVO;
 import com.lgyun.system.user.vo.AdminInfoVO;
 import com.lgyun.system.user.vo.AdminVO;
@@ -49,7 +47,6 @@ import java.util.List;
 public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> implements IAdminService {
 
     private final ISysClient sysClient;
-    private IUserService userService;
 
     @Override
     public R<AdminEntity> currentAdmin(BladeUser bladeUser) {
@@ -58,7 +55,11 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
             return R.fail("用户未登录");
         }
 
-        AdminEntity adminEntity = findByUserId(bladeUser.getUserId());
+        if (!(UserType.ADMIN.equals(bladeUser.getUserType()))) {
+            return R.fail("用户类型有误");
+        }
+
+        AdminEntity adminEntity = getById(bladeUser.getUserId());
         if (adminEntity == null) {
             return R.fail("管理员不存在");
         }
@@ -73,13 +74,6 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
     @Override
     public R<AdminDetailVO> queryAdminDetail(Long adminId) {
         return R.data(baseMapper.queryAdminDetail(adminId));
-    }
-
-    @Override
-    public AdminEntity findByUserId(Long userId) {
-        QueryWrapper<AdminEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(AdminEntity::getUserId, userId);
-        return baseMapper.selectOne(queryWrapper);
     }
 
     @Override
@@ -178,19 +172,26 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R createOrUpdateChildAccount(ChildAccountDTO childAccountDTO, Long id) {
+    public R createOrUpdateChildAccount(ChildAccountDTO childAccountDTO, AdminEntity adminEntity) {
+
+        if (!(adminEntity.getAdminPower())) {
+            return R.fail("您没有权限创建子账号！");
+        }
+
         if (childAccountDTO.getChildAccountId() != null && childAccountDTO.getChildAccountId() != 0) {
-            if (childAccountDTO.getChildAccountId() == id) {
+            if (childAccountDTO.getChildAccountId().equals(adminEntity.getId())) {
                 return R.fail("您不能编辑您自己！");
             }
-            AdminEntity adminEntity = getById(childAccountDTO.getChildAccountId());
-            if (adminEntity == null) {
+
+            AdminEntity editAdminEntity = getById(childAccountDTO.getChildAccountId());
+            if (editAdminEntity == null) {
                 return R.fail("您编辑的用户不存在！");
             }
+
             /**
              * 修改用户名时判断是否唯一
              */
-            if (!childAccountDTO.getUserName().equals(adminEntity.getUserName())) {
+            if (!childAccountDTO.getUserName().equals(editAdminEntity.getUserName())) {
                 int userNameCount = this.count(new QueryWrapper<AdminEntity>().lambda().eq(AdminEntity::getUserName, childAccountDTO.getUserName()));
                 if (userNameCount > 0) {
                     return R.fail("用户名已存在！");
@@ -199,34 +200,23 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
             /**
              * 修改手机号码时判断是否唯一
              */
-            if (!childAccountDTO.getPhoneNumber().equals(adminEntity.getPhoneNumber())) {
+            if (!childAccountDTO.getPhoneNumber().equals(editAdminEntity.getPhoneNumber())) {
                 int phoneNumberCount = this.count(new QueryWrapper<AdminEntity>().lambda().eq(AdminEntity::getPhoneNumber, childAccountDTO.getPhoneNumber()));
                 if (phoneNumberCount > 0) {
                     return R.fail("手机号码已存在！");
                 }
             }
-            BeanUtils.copyProperties(childAccountDTO, adminEntity);
-            adminEntity.setSuperAdmin(false);
+            BeanUtils.copyProperties(childAccountDTO, editAdminEntity);
+            editAdminEntity.setSuperAdmin(false);
             if (!StringUtils.isBlank(childAccountDTO.getPassWord())) {
                 String encrypt = DigestUtil.encrypt(childAccountDTO.getPassWord());
-                adminEntity.setLoginPwd(encrypt);
+                editAdminEntity.setLoginPwd(encrypt);
             }
             /**
              * 修改管理员表
              */
-            updateById(adminEntity);
+            updateById(editAdminEntity);
 
-            /**
-             * 修改用户表
-             */
-            User user = userService.getById(adminEntity.getUserId());
-            if (user == null) {
-                throw new CustomException("修改的账号异常！");
-            }
-            user.setAccount(childAccountDTO.getUserName());
-            user.setPhone(childAccountDTO.getPhoneNumber());
-            user.setRoleId(childAccountDTO.getRoleId().toString());
-            userService.updateById(user);
         } else {
             int userNameCount = this.count(new QueryWrapper<AdminEntity>().lambda().eq(AdminEntity::getUserName, childAccountDTO.getUserName()));
             if (userNameCount > 0) {
@@ -236,16 +226,10 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
             if (phoneNumberCount > 0) {
                 return R.fail("手机号码已存在！");
             }
-            User user = new User();
-            user.setUserType(UserType.ADMIN);
-            user.setRoleId(childAccountDTO.getRoleId().toString());
-            user.setPhone(childAccountDTO.getPhoneNumber());
-            user.setAccount(childAccountDTO.getUserName());
-            userService.save(user);
 
             AdminEntity childAccount = new AdminEntity();
             BeanUtils.copyProperties(childAccountDTO, childAccount);
-            childAccount.setUpLevelId(id);
+            childAccount.setUpLevelId(adminEntity.getId());
             childAccount.setSuperAdmin(false);
             childAccount.setAdminState(AccountState.NORMAL);
             if (StringUtils.isBlank(childAccountDTO.getPassWord())) {
@@ -256,7 +240,6 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
             }
             String encrypt = DigestUtil.encrypt(childAccountDTO.getPassWord());
             childAccount.setLoginPwd(encrypt);
-            childAccount.setUserId(user.getId());
             save(childAccount);
         }
         return R.success("操作成功！");
@@ -285,7 +268,6 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
         switch (childAccountType) {
             case DELETE:
                 removeRole(adminEntity.getRoleId());
-                userService.removeById(adminEntity.getId());
                 break;
             case STARTUSING:
                 adminEntity.setAdminState(AccountState.NORMAL);

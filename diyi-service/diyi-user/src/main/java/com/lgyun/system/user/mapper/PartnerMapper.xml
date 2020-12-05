@@ -69,7 +69,7 @@
 
     <select id="queryPartnerList" resultMap="partnerListVO">
         SELECT id, name, idcard_no, phone_number, bank_card_no, idcard_verify_status, face_verify_status, bank_card_verify_status,
-        phone_number_verify_status, join_sign_state, partner_state, create_time FROM diyi_partner WHERE is_deleted = 0
+        phone_number_verify_status, join_sign_state, partner_state, create_time FROM diyi_partner WHERE bool_deleted = 0
         <if test="param1.partnerName != null and param1.partnerName != ''">
             AND name LIKE concat('%', #{param1.partnerName}, '%')
         </if>
@@ -82,16 +82,17 @@
     </select>
 
     <select id="queryPartnerInfo" resultMap="baseInfoVO">
-        SELECT avatar, name, certification_state, self_desc FROM diyi_partner WHERE is_deleted = 0 AND id = #{param1}
+        SELECT avatar, name, certification_state, self_desc FROM diyi_partner WHERE bool_deleted = 0 AND id = #{param1}
     </select>
 
     <select id="queryCurrentPartnerDetail" resultMap="partnerDetailVO">
-        SELECT (SELECT name FROM diyi_partner WHERE is_deleted = 0 AND id = t1.introduce_partner_id) AS introduce_partner_name, t1.rel_date, t1.name, t1.avatar,
+        SELECT (SELECT name FROM diyi_partner WHERE bool_deleted = 0 AND id = t1.introduce_partner_id) AS introduce_partner_name, t1.rel_date, t1.name, t1.avatar,
         t1.certification_state, t1.join_sign_state, t1.partner_state, t1.politic_state, t1.nationality, t1.levelofedu, t1.email_address, t1.idcard_no, t1.due_date,
         t1.phone_number, t1.bank_card_no, t1.bank_name, t1.sub_bank_name, t1.idcard_pic, t1.idcard_pic_back, t1.self_pic, t1.idcard_copy, t1.idcard_hand,
         t1.idcard_back_hand, t1.pic_verify, t1.idcard_verify_status, t1.idcard_verify_date, t1.face_verify_status, t1.face_verify_date,
-        t1.bank_card_verify_status, t1.bank_card_verify_date, t1.phone_number_verify_status, t1.phone_number_verify_date, t1.idcard_verify_type, t1.manual_verify_name,
-        t1.manual_verify_desc, t1.run_address, t1.house_address, t1.living_address, t1.self_desc FROM diyi_partner t1 WHERE is_deleted = 0 AND id = #{param1}
+        t1.bank_card_verify_status, t1.bank_card_verify_date, t1.phone_number_verify_status, t1.phone_number_verify_date, t1.idcard_verify_type,
+        (SELECT name FROM diyi_admin WHERE bool_deleted = 0 AND id = t1.manual_verify_id) AS manual_verify_name,
+        t1.manual_verify_desc, t1.run_address, t1.house_address, t1.living_address, t1.self_desc FROM diyi_partner t1 WHERE bool_deleted = 0 AND id = #{param1}
     </select>
 
 </mapper>

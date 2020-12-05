@@ -14,16 +14,16 @@
 
     <select id="queryInvoiceCatalogList" resultMap="providerInvoiceCatalogListVO">
         SELECT id, apply_scope, invoice_catalog_name, set_person, set_desc, create_time FROM diyi_service_provider_invoice_catalogs
-        WHERE is_deleted = 0 AND service_provider_id = #{param1}
+        WHERE bool_deleted = 0 AND service_provider_id = #{param1}
     </select>
 
     <select id="queryInvoiceCatalogUpdateDetail" resultMap="providerInvoiceCatalogListVO">
         SELECT id, apply_scope, invoice_catalog_name, set_person, set_desc, create_time FROM diyi_service_provider_invoice_catalogs
-        WHERE is_deleted = 0 AND id = #{param1}
+        WHERE bool_deleted = 0 AND id = #{param1}
     </select>
 
     <select id="queryProviderInvoiceCatalogNameList" resultType="java.lang.String">
-        SELECT GROUP_CONCAT(invoice_catalog_name) FROM diyi_service_provider_invoice_catalogs WHERE is_deleted = 0 AND service_provider_id = #{param1} AND apply_scope = #{param2}
+        SELECT GROUP_CONCAT(invoice_catalog_name) FROM diyi_service_provider_invoice_catalogs WHERE bool_deleted = 0 AND service_provider_id = #{param1} AND apply_scope = #{param2}
     </select>
 
 </mapper>

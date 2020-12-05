@@ -37,7 +37,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, EnterpriseEntity> implements IEnterpriseService {
 
     private IOrderClient orderClient;
-    private IUserService userService;
     private IAgreementService agreementService;
     private IMakerEnterpriseService makerEnterpriseService;
     private IEnterpriseWorkerService enterpriseWorkerService;
@@ -76,7 +75,6 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             makerEnterpriseRelationVO.setLegalPersonIdcard("*********");
             makerEnterpriseRelationVO.setSocialCreditNo("*******");
             makerEnterpriseRelationVO.setContact1Position(null);
-            makerEnterpriseRelationVO.setShopUserName("*****");
             makerEnterpriseRelationVO.setRelationshipType(RelationshipType.NORELATION);
             return R.data(makerEnterpriseRelationVO);
         } else if ((0 == relevanceNum && 0 < attentionNum)) {
@@ -86,7 +84,6 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             makerEnterpriseRelationVO.setLegalPersonIdcard("*********");
             makerEnterpriseRelationVO.setSocialCreditNo("*******");
             makerEnterpriseRelationVO.setContact1Position(null);
-            makerEnterpriseRelationVO.setShopUserName("*****");
             makerEnterpriseRelationVO.setRelationshipType(RelationshipType.ATTENTION);
             return R.data(makerEnterpriseRelationVO);
         } else if (0 < relevanceNum && 0 == attentionNum) {
@@ -145,26 +142,18 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         BeanUtil.copy(createEnterpriseDTO, enterpriseEntity);
         save(enterpriseEntity);
 
-        //保存收货地址
+        //保存收件地址
         AddressEntity addressEntity = new AddressEntity();
         addressEntity.setObjectId(enterpriseEntity.getId());
         addressEntity.setObjectType(ObjectType.ENTERPRISEPEOPLE);
-        addressEntity.setIsDefault(true);
+        addressEntity.setBoolDefault(true);
         BeanUtils.copyProperties(createEnterpriseDTO, addressEntity);
         orderClient.createAddress(addressEntity);
-
-        //新建联系人员工
-        User user = new User();
-        user.setUserType(UserType.ENTERPRISE);
-        user.setAccount(createEnterpriseDTO.getEmployeeUserName());
-        user.setPhone(createEnterpriseDTO.getPhoneNumber());
-        userService.save(user);
 
         //密码加密
         createEnterpriseDTO.setEmployeePwd(DigestUtil.encrypt(createEnterpriseDTO.getEmployeePwd()));
 
         EnterpriseWorkerEntity enterpriseWorkerEntity = new EnterpriseWorkerEntity();
-        enterpriseWorkerEntity.setUserId(user.getId());
         enterpriseWorkerEntity.setPositionName(PositionName.MANAGEMENT);
         enterpriseWorkerEntity.setSuperAdmin(true);
         enterpriseWorkerEntity.setAdminPower(true);

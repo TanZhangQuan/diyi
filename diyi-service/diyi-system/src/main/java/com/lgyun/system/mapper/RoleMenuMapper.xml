@@ -3,7 +3,7 @@
 <mapper namespace="com.lgyun.system.mapper.RoleMenuMapper">
 
     <select id="queryMenusByRole" resultType="java.lang.String">
-        select menu_id from sys_role_menu where role_id = #{roleId} and is_deleted = 0
+        select menu_id from diyi_role_menu where role_id = #{roleId} and bool_deleted = 0
     </select>
 
 </mapper>

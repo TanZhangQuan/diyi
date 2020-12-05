@@ -37,7 +37,7 @@ public class ServiceProviderAccountServiceImpl extends BaseServiceImpl<ServicePr
         //查询默认地址
         ServiceProviderAccountEntity defaultServiceProviderAccountEntity = getOne(Wrappers.<ServiceProviderAccountEntity>query().lambda()
                 .eq(ServiceProviderAccountEntity::getServiceProviderId, serviceProviderId)
-                .eq(ServiceProviderAccountEntity::getIsDefault, true));
+                .eq(ServiceProviderAccountEntity::getBoolDefault, true));
 
         ServiceProviderAccountEntity serviceProviderAccountEntity;
         if (addOrUpdateServiceProviderAccountDTO.getServiceProviderAccountId() != null) {
@@ -51,10 +51,10 @@ public class ServiceProviderAccountServiceImpl extends BaseServiceImpl<ServicePr
             }
 
             if (defaultServiceProviderAccountEntity.getId().equals(addOrUpdateServiceProviderAccountDTO.getServiceProviderAccountId())) {
-                addOrUpdateServiceProviderAccountDTO.setIsDefault(true);
+                addOrUpdateServiceProviderAccountDTO.setBoolDefault(true);
             } else {
-                if (addOrUpdateServiceProviderAccountDTO.getIsDefault()) {
-                    defaultServiceProviderAccountEntity.setIsDefault(false);
+                if (addOrUpdateServiceProviderAccountDTO.getBoolDefault()) {
+                    defaultServiceProviderAccountEntity.setBoolDefault(false);
                     updateById(defaultServiceProviderAccountEntity);
                 }
             }
@@ -62,11 +62,11 @@ public class ServiceProviderAccountServiceImpl extends BaseServiceImpl<ServicePr
         } else {
 
             if (defaultServiceProviderAccountEntity == null) {
-                addOrUpdateServiceProviderAccountDTO.setIsDefault(true);
+                addOrUpdateServiceProviderAccountDTO.setBoolDefault(true);
             }
 
-            if (defaultServiceProviderAccountEntity != null && addOrUpdateServiceProviderAccountDTO.getIsDefault()) {
-                defaultServiceProviderAccountEntity.setIsDefault(false);
+            if (defaultServiceProviderAccountEntity != null && addOrUpdateServiceProviderAccountDTO.getBoolDefault()) {
+                defaultServiceProviderAccountEntity.setBoolDefault(false);
                 updateById(defaultServiceProviderAccountEntity);
             }
 

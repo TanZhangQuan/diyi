@@ -6,7 +6,6 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.enumeration.CooperateType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.AgentMainEnterpriseEntity;
 import com.lgyun.system.user.entity.AgentMainEntity;
 import com.lgyun.system.user.entity.EnterpriseEntity;
@@ -40,7 +39,7 @@ public class AgentMainEnterpriseServiceImpl extends BaseServiceImpl<AgentMainEnt
     private IEnterpriseService enterpriseService;
 
     @Override
-    public R<String> relevanceAgentMainEnterprise(Long agentMainId, Long enterpriseId, String matchDesc, AdminEntity adminEntity) {
+    public R<String> relevanceAgentMainEnterprise(Long agentMainId, Long enterpriseId, String matchDesc) {
         AgentMainEntity agentMainEntity = agentMainService.getById(agentMainId);
         if (agentMainEntity == null) {
             return R.fail("渠道商不存在");
@@ -57,8 +56,7 @@ public class AgentMainEnterpriseServiceImpl extends BaseServiceImpl<AgentMainEnt
             agentMainEnterpriseEntity.setAgentMainId(agentMainId);
             agentMainEnterpriseEntity.setEnterpriseId(enterpriseId);
             agentMainEnterpriseEntity.setCooperateType(CooperateType.ALLOCATION);
-            agentMainEnterpriseEntity.setOperatePerson(adminEntity.getName());
-            agentMainEnterpriseEntity.setOperateDesc(matchDesc);
+            agentMainEnterpriseEntity.setMatchDesc(matchDesc);
             save(agentMainEnterpriseEntity);
 
         } else {

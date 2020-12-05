@@ -19,17 +19,17 @@
     </resultMap>
 
     <select id="queryInvoiceCatalogsList" resultMap="enterpriseProviderInvoiceCatalogsVO">
-         SELECT id, invoice_catalog_name FROM diyi_enterprise_service_provider_invoice_catalogs WHERE is_deleted = 0 AND service_provider_id = #{param1} AND enterprise_id = #{param2}
+         SELECT id, invoice_catalog_name FROM diyi_enterprise_service_provider_invoice_catalogs WHERE bool_deleted = 0 AND service_provider_id = #{param1} AND enterprise_id = #{param2}
     </select>
 
     <select id="queryEnterpriseProviderInvoiceCatalogList" resultMap="enterpriseProviderInvoiceCatalogListVO">
          SELECT id, invoice_catalog_name, set_person, set_type, invoice_demand, invoice_demand_desc, create_time FROM diyi_enterprise_service_provider_invoice_catalogs
-         WHERE is_deleted = 0 AND service_provider_id = #{param1} AND enterprise_id = #{param2}
+         WHERE bool_deleted = 0 AND service_provider_id = #{param1} AND enterprise_id = #{param2}
     </select>
 
     <select id="queryEnterpriseProviderInvoiceCatalogUpdateDetail" resultMap="enterpriseProviderInvoiceCatalogListVO">
          SELECT id, invoice_catalog_name, set_person, set_type, invoice_demand, invoice_demand_desc, create_time FROM diyi_enterprise_service_provider_invoice_catalogs
-         WHERE is_deleted = 0 AND id = #{param1}
+         WHERE bool_deleted = 0 AND id = #{param1}
     </select>
 
 </mapper>

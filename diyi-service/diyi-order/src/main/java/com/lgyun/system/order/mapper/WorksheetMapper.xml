@@ -49,36 +49,36 @@
     <select id="findXiaoPage" resultMap="worksheetXiaoVO">
         SELECT ws.id AS worksheet_id, ws.enterprise_id, e.enterprise_name, ws.worksheet_mode, ws.worksheet_name, ws.worksheet_type, ws.up_person_num,
         ws.worksheet_no, ws.work_days, ws.worksheet_fee_low, ws.worksheet_fee_high, ws.create_time,ws.maker_type,ws.worksheet_state FROM diyi_worksheet ws INNER JOIN diyi_enterprise e
-        ON e.id = ws.enterprise_id WHERE ws.is_deleted = 0 AND e.is_deleted = 0 AND ws.id NOT IN (SELECT GROUP_CONCAT(wm.worksheet_id) FROM diyi_worksheet_maker wm
-        WHERE wm.is_deleted = 0 AND wm.maker_id = #{param2} ) AND ws.worksheet_state = 'PUBLISHING' AND ws.worksheet_mode != 'DISPATCH'
+        ON e.id = ws.enterprise_id WHERE ws.bool_deleted = 0 AND e.bool_deleted = 0 AND ws.id NOT IN (SELECT GROUP_CONCAT(wm.worksheet_id) FROM diyi_worksheet_maker wm
+        WHERE wm.bool_deleted = 0 AND wm.maker_id = #{param2} ) AND ws.worksheet_state = 'PUBLISHING' AND ws.worksheet_mode != 'DISPATCH'
     </select>
 
     <select id="findXiaoPage2" resultMap="worksheetXiaoVO">
         SELECT wm.id as worksheet_maker_id, wm.worksheet_maker_state, ws.id as worksheet_id, ws.enterprise_id, e.enterprise_name, ws.worksheet_name,
         ws.worksheet_type, ws.up_person_num, ws.worksheet_no, ws.work_days, ws.worksheet_fee_low,ws.worksheet_fee_high, ws.create_time,ws.maker_type,ws.worksheet_state
         FROM diyi_worksheet ws INNER JOIN diyi_enterprise e ON e.id = ws.enterprise_id INNER JOIN diyi_worksheet_maker wm ON wm.worksheet_id = ws.id
-        WHERE ws.is_deleted = 0 AND e.is_deleted = 0 AND wm.is_deleted = 0 AND wm.worksheet_maker_state = 'SUBMITTED' and maker_id =#{param2}
+        WHERE ws.bool_deleted = 0 AND e.bool_deleted = 0 AND wm.bool_deleted = 0 AND wm.worksheet_maker_state = 'SUBMITTED' and maker_id =#{param2}
     </select>
 
     <select id="findXiaoPage3" resultMap="worksheetXiaoVO">
         SELECT wm.id AS worksheet_maker_id, wm.worksheet_maker_state, ws.worksheet_mode, ws.id AS worksheet_id, ws.enterprise_id, e.enterprise_name,
         ws.worksheet_name, ws.worksheet_type, ws.up_person_num, ws.worksheet_no, ws.work_days, ws.worksheet_fee_low, ws.worksheet_fee_high, ws.create_time,ws.maker_type,ws.worksheet_state
         FROM diyi_worksheet ws INNER JOIN diyi_enterprise e ON e.id = ws.enterprise_id INNER JOIN diyi_worksheet_maker wm ON wm.worksheet_id = ws.id
-        WHERE ws.is_deleted = 0 AND e.is_deleted = 0 AND wm.is_deleted = 0 AND (wm.worksheet_maker_state = 'VERIFIED' OR wm.worksheet_maker_state = 'VALIDATION' OR wm.worksheet_maker_state = 'FAILED')
+        WHERE ws.bool_deleted = 0 AND e.bool_deleted = 0 AND wm.bool_deleted = 0 AND (wm.worksheet_maker_state = 'VERIFIED' OR wm.worksheet_maker_state = 'VALIDATION' OR wm.worksheet_maker_state = 'FAILED')
         AND maker_id = #{param2}
     </select>
     <select id="getWorksheetDetails" resultMap="worksheetXiaoVO">
         SELECT wm.id AS worksheet_maker_id, wm.worksheet_maker_state, ws.worksheet_mode, ws.id AS worksheet_id, ws.enterprise_id, e.enterprise_name, ws.worksheet_name,
         ws.worksheet_type, ws.up_person_num, ws.worksheet_no, ws.work_days, ws.worksheet_fee_low, ws.worksheet_fee_high, ws.create_time, wm.check_money,
         wm.achievement_desc, wm.achievement_files,ws.maker_type,ws.worksheet_state FROM diyi_worksheet ws INNER JOIN diyi_enterprise e ON e.id = ws.enterprise_id
-        INNER JOIN diyi_worksheet_maker wm ON wm.worksheet_id = ws.id WHERE ws.is_deleted = 0 AND e.is_deleted = 0 AND wm.is_deleted = 0
+        INNER JOIN diyi_worksheet_maker wm ON wm.worksheet_id = ws.id WHERE ws.bool_deleted = 0 AND e.bool_deleted = 0 AND wm.bool_deleted = 0
          AND wm.id = #{param1}
     </select>
 
     <select id="getWorksheetDetailsByMaker" resultMap="enterpriseWorksheetDetailVO">
         SELECT t1.id, t1.worksheet_no, t1.worksheet_name, t1.worksheet_type, t1.maker_type, t1.worksheet_mode, t2.get_type, t2.worksheet_maker_state, t2.check_money,
         t1.create_time, IF(ISNULL(t2.achievement_files) || LENGTH(trim(t2.achievement_files)) <![CDATA[ < ]]> 1, FALSE, TRUE) AS bool_achievement FROM diyi_worksheet t1
-        INNER JOIN diyi_worksheet_maker t2 ON t1.id = t2.worksheet_id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0
+        INNER JOIN diyi_worksheet_maker t2 ON t1.id = t2.worksheet_id WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0
         <if test="param1 != null">
         AND t1.enterprise_id = #{param1}
         </if>
@@ -88,7 +88,7 @@
     <select id="getEnterpriseWorksheet" resultMap="worksheetXiaoVO">
         SELECT ws.id AS worksheet_id, ws.enterprise_id, e.enterprise_name, ws.worksheet_mode, ws.worksheet_name, ws.worksheet_type, ws.up_person_num, ws.worksheet_no, ws.work_days, ws.worksheet_fee_low,
          ws.worksheet_fee_high, ws.create_time,ws.maker_type,ws.worksheet_state FROM diyi_worksheet ws INNER JOIN diyi_enterprise e ON e.id = ws.enterprise_id
-         WHERE ws.is_deleted = 0 AND e.is_deleted = 0 AND e.id = #{param1} AND ws.worksheet_state = #{param2} and e.is_deleted = 0 and ws.is_deleted = 0
+         WHERE ws.bool_deleted = 0 AND e.bool_deleted = 0 AND e.id = #{param1} AND ws.worksheet_state = #{param2} and e.bool_deleted = 0 and ws.bool_deleted = 0
          <if test="param3 != null and param3 != ''">
              and ws.worksheet_no LIKE concat('%', #{param3}, '%')
          </if>
@@ -105,7 +105,7 @@
     </select>
 
     <select id="queryWorksheetListByEnterprise" resultMap="worksheetListVO">
-        SELECT id, worksheet_no, worksheet_name, create_time FROM diyi_worksheet WHERE is_deleted = 0 AND enterprise_id = #{param1}
+        SELECT id, worksheet_no, worksheet_name, create_time FROM diyi_worksheet WHERE bool_deleted = 0 AND enterprise_id = #{param1}
         <if test="param2.worksheetNo != null and param2.worksheetNo != ''">
             AND worksheet_no LIKE concat('%', #{param2.worksheetNo}, '%')
         </if>

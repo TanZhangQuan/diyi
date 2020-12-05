@@ -462,15 +462,15 @@
     <select id="getEnterpriseAll" resultMap="InvoiceEnterpriseVOMap">
         SELECT e.id AS enterprise_id, pe.id AS pay_enterprise_id, pm.id AS pay_maker_id, e.enterprise_name AS enterprise_name FROM diyi_enterprise e
         INNER JOIN diyi_pay_enterprise pe ON e.id = pe.enterprise_id INNER JOIN diyi_pay_maker pm ON pm.pay_enterprise_id = pe.id
-        WHERE e.is_deleted = 0 AND pe.is_deleted = 0 AND pm.is_deleted = 0 AND pm.maker_id = #{param1} GROUP BY e.id
+        WHERE e.bool_deleted = 0 AND pe.bool_deleted = 0 AND pm.bool_deleted = 0 AND pm.maker_id = #{param1} GROUP BY e.id
     </select>
 
     <select id="getEnterpriseMakerIdAll" resultMap="InvoiceEnterpriseVOMap">
         SELECT e.id AS enterprise_id,pe.maker_num, pe.id AS pay_enterprise_id, pm.id AS pay_maker_id, e.enterprise_name AS enterprise_name,
         s.service_provider_name AS service_provider_name, w.worksheet_type, pe.pay_to_platform_amount FROM diyi_enterprise e INNER JOIN diyi_pay_enterprise pe
         ON e.id = pe.enterprise_id INNER JOIN diyi_pay_maker pm ON pm.pay_enterprise_id = pe.id INNER JOIN diyi_service_provider s ON pe.service_provider_id = s.id
-        LEFT JOIN diyi_worksheet w ON w.id = pe.worksheet_id AND w.is_deleted = 0 WHERE e.is_deleted = 0 AND pe.is_deleted = 0 AND pm.is_deleted = 0 AND
-        s.is_deleted = 0 AND pm.maker_id = #{param1} and e.id= #{param2}
+        LEFT JOIN diyi_worksheet w ON w.id = pe.worksheet_id AND w.bool_deleted = 0 WHERE e.bool_deleted = 0 AND pe.bool_deleted = 0 AND pm.bool_deleted = 0 AND
+        s.bool_deleted = 0 AND pm.maker_id = #{param1} and e.id= #{param2}
     </select>
 
     <select id="getEnterpriseMakerIdDetail" resultMap="InvoiceEnterpriseVOMap">
@@ -478,18 +478,18 @@
         s.service_provider_name AS service_provider_name, w.worksheet_type, pe.pay_to_platform_amount, mi.maker_voice_url, mtr.maker_tax_url, w.worksheet_name,
         w.worksheet_mode, w.create_time, w.worksheet_no, wm.achievement_desc, wm.achievement_files, wm.check_money FROM diyi_enterprise e
         INNER JOIN diyi_pay_enterprise pe ON e.id = pe.enterprise_id INNER JOIN diyi_service_provider s ON pe.service_provider_id = s.id
-        INNER JOIN diyi_pay_maker pm ON pm.pay_enterprise_id = pe.id LEFT JOIN diyi_worksheet w ON w.id = pe.worksheet_id AND w.is_deleted = 0
+        INNER JOIN diyi_pay_maker pm ON pm.pay_enterprise_id = pe.id LEFT JOIN diyi_worksheet w ON w.id = pe.worksheet_id AND w.bool_deleted = 0
         INNER JOIN diyi_maker_invoice mi ON mi.pay_maker_id = pm.id INNER JOIN diyi_maker_tax_record mtr ON mtr.pay_maker_id = pm.id LEFT JOIN diyi_worksheet_maker wm
-        ON pe.worksheet_id = wm.worksheet_id AND wm.is_deleted = 0 WHERE e.is_deleted = 0 AND pe.is_deleted = 0 AND s.is_deleted = 0 AND pm.is_deleted = 0 AND
-        mi.is_deleted = 0 and mtr.is_deleted = 0 and pm.maker_id = #{param1} and e.id= #{param2} and pm.id=#{param3}
+        ON pe.worksheet_id = wm.worksheet_id AND wm.bool_deleted = 0 WHERE e.bool_deleted = 0 AND pe.bool_deleted = 0 AND s.bool_deleted = 0 AND pm.bool_deleted = 0 AND
+        mi.bool_deleted = 0 and mtr.bool_deleted = 0 and pm.maker_id = #{param1} and e.id= #{param2} and pm.id=#{param3}
     </select>
 
     <select id="getPayEnterpriseList" resultMap="payEnterpriseMakersListVO">
         SELECT t1.id, t2.enterprise_name, t3.service_provider_name, t1.charge_list_url, t1.worksheet_id, t1.audit_state, t1.create_time,
-        (SELECT GROUP_CONCAT(enterprise_pay_receipt_url) FROM diyi_pay_enterprise_receipt WHERE is_deleted = 0 AND pay_enterprise_id = t1.id) AS enterprise_pay_receipt_urls,
-        (SELECT GROUP_CONCAT(accept_paysheet_url) FROM diyi_accept_paysheet WHERE is_deleted = 0 AND pay_enterprise_id = t1.id) AS accept_paysheet_urls
+        (SELECT GROUP_CONCAT(enterprise_pay_receipt_url) FROM diyi_pay_enterprise_receipt WHERE bool_deleted = 0 AND pay_enterprise_id = t1.id) AS enterprise_pay_receipt_urls,
+        (SELECT GROUP_CONCAT(accept_paysheet_url) FROM diyi_accept_paysheet WHERE bool_deleted = 0 AND pay_enterprise_id = t1.id) AS accept_paysheet_urls
         FROM diyi_pay_enterprise t1 INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id INNER JOIN diyi_service_provider t3 ON t1.service_provider_id = t3.id
-        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0
+        WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t3.bool_deleted = 0
         <if test="param1 != null">
             AND t1.enterprise_id = #{param1}
         </if>
@@ -518,8 +518,8 @@
         SELECT pe.id AS pay_enterprise_id, mt.id AS maker_total_invoice_id, sp.id AS service_provider_id, mt.invoice_serial_no, mt.company_invoice_url,
         mt.maker_tax_url, pe.subcontracting_invoice_state, sp.service_provider_name, mt.create_time as invoice_print_date, e.enterprise_name
         FROM diyi_pay_enterprise pe INNER JOIN diyi_maker_total_invoice mt ON mt.pay_enterprise_id = pe.id INNER JOIN diyi_service_provider sp
-        ON sp.id = pe.service_provider_id INNER JOIN diyi_enterprise e ON pe.enterprise_id = e.id WHERE pe.is_deleted = 0 AND mt.is_deleted = 0
-        AND sp.is_deleted = 0 AND pe.subcontracting_invoice_state = 'OPENED' and pe.enterprise_id = #{param1}
+        ON sp.id = pe.service_provider_id INNER JOIN diyi_enterprise e ON pe.enterprise_id = e.id WHERE pe.bool_deleted = 0 AND mt.bool_deleted = 0
+        AND sp.bool_deleted = 0 AND pe.subcontracting_invoice_state = 'OPENED' and pe.enterprise_id = #{param1}
         <if test="param2 != null and param2 != ''">
             AND sp.service_provider_name LIKE concat('%', #{param2}, '%')
         </if>
@@ -533,8 +533,8 @@
         FROM diyi_pay_enterprise pe INNER JOIN diyi_pay_maker pm ON pm.pay_enterprise_id = pe.id INNER JOIN
         diyi_maker_invoice mi ON mi.pay_maker_id = pm.id
         INNER JOIN diyi_service_provider sp ON pe.service_provider_id = sp.id LEFT JOIN diyi_maker_tax_record mtr ON
-        pm.id = mtr.pay_maker_id AND mtr.is_deleted = 0
-        WHERE pe.is_deleted = 0 AND pm.is_deleted = 0 AND mi.is_deleted = 0 AND sp.is_deleted = 0 and pe.enterprise_id =
+        pm.id = mtr.pay_maker_id AND mtr.bool_deleted = 0
+        WHERE pe.bool_deleted = 0 AND pm.bool_deleted = 0 AND mi.bool_deleted = 0 AND sp.bool_deleted = 0 and pe.enterprise_id =
         #{param1}
         <if test="param2 != null and param2 != ''">
             AND sp.service_provider_name LIKE concat('%', #{param2}, '%')
@@ -547,7 +547,7 @@
         mt.company_voice_upload_datetime, ap.accept_paysheet_url,ap.id as accept_paysheet_id FROM diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON pe.enterprise_id = e.id
         INNER JOIN diyi_maker_total_invoice mt ON mt.pay_enterprise_id = pe.id INNER JOIN diyi_service_provider sp ON sp.id = pe.service_provider_id
         LEFT JOIN diyi_accept_paysheet ap ON ap.pay_enterprise_id = pe.id AND ap.accept_paysheet_type = 'MANY'
-         where pe.is_deleted= 0 and mt.is_deleted = 0 and sp.is_deleted = 0 and mt.id = #{param1}
+         where pe.bool_deleted= 0 and mt.bool_deleted = 0 and sp.bool_deleted = 0 and mt.id = #{param1}
     </select>
 
     <select id="findDetailSubcontractPortal" resultMap="EnterpriseSubcontractPortalDetailMap">
@@ -556,113 +556,113 @@
         pe.charge_list_url, pe.worksheet_id, ap.accept_paysheet_url,ap.id as accept_paysheet_id FROM diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON e.id = pe.enterprise_id
         INNER JOIN diyi_pay_maker pm ON pm.pay_enterprise_id = pe.id INNER JOIN diyi_maker_invoice mi ON mi.pay_maker_id = pm.id INNER JOIN diyi_service_provider sp
         ON pe.service_provider_id = sp.id LEFT JOIN diyi_accept_paysheet ap ON ap.pay_enterprise_id = pe.id AND ap.accept_paysheet_type = 'MANY'
-        LEFT JOIN diyi_maker_tax_record mtr ON pm.id = mtr.pay_maker_id AND mtr.is_deleted = 0 WHERE pe.is_deleted = 0 AND pm.is_deleted = 0 AND mi.is_deleted = 0
-        AND sp.is_deleted = 0 and mi.id = #{param1}
+        LEFT JOIN diyi_maker_tax_record mtr ON pm.id = mtr.pay_maker_id AND mtr.bool_deleted = 0 WHERE pe.bool_deleted = 0 AND pm.bool_deleted = 0 AND mi.bool_deleted = 0
+        AND sp.bool_deleted = 0 and mi.id = #{param1}
     </select>
 
     <select id="queryPayMakerListInvoice" resultMap="payMakerListInvoiceVO">
         SELECT t2.id, t2.name, t2.idcard_no, t1.maker_net_income, t1.maker_tax_fee, t1.audit_fee, t1.pay_fee, t1.total_fee, t1.service_rate, mi.maker_voice_url,
         mt.maker_tax_url FROM diyi_pay_maker t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id LEFT JOIN diyi_maker_invoice mi ON mi.pay_maker_id = t1.id
-        LEFT JOIN diyi_maker_tax_record mt ON mt.pay_maker_id = t1.id AND t2.is_deleted = 0 WHERE t1.is_deleted = 0 AND t1.pay_enterprise_id = #{param1}
+        LEFT JOIN diyi_maker_tax_record mt ON mt.pay_maker_id = t1.id AND t2.bool_deleted = 0 WHERE t1.bool_deleted = 0 AND t1.pay_enterprise_id = #{param1}
     </select>
 
     <select id="getPayMakerListByPayEnterprise" resultMap="payMakerListServiceProviderVO">
         SELECT t1.id, t2.name, t2.idcard_no, t1.maker_net_income, t1.maker_tax_fee, t1.audit_fee, t1.pay_fee, t1.total_fee, t1.service_rate,
-        IF(((SELECT COUNT(id) FROM diyi_accept_paysheet WHERE is_deleted = 0 AND pay_maker_id = t1.id) > 0 OR (SELECT COUNT(id) FROM diyi_accept_paysheet_list
-        WHERE is_deleted = 0 AND pay_maker_id = t1.id) > 0), TRUE, FALSE) AS bool_accept_sheet, (SELECT GROUP_CONCAT(maker_pay_receipt_url)
-        FROM diyi_pay_maker_receipt WHERE is_deleted = 0 AND pay_maker_id = t1.id) AS maker_pay_receipt_urls,
-        (CASE t3.maker_invoice_type WHEN 'NATURALPERSONALLOPEN' THEN (SELECT company_invoice_url FROM diyi_maker_total_invoice WHERE is_deleted = 0 AND pay_enterprise_id = t1.pay_enterprise_id)
-        WHEN 'NATURALPERSONSINGLEOPEN' THEN (SELECT maker_voice_url FROM diyi_maker_invoice WHERE is_deleted = 0 AND pay_maker_id = t1.id) ELSE '' END)
-        AS invoice_url, (CASE t3.maker_invoice_type WHEN 'NATURALPERSONALLOPEN' THEN (SELECT maker_tax_url FROM diyi_maker_total_invoice WHERE is_deleted = 0 AND pay_enterprise_id = t1.pay_enterprise_id)
-        WHEN 'NATURALPERSONSINGLEOPEN' THEN (SELECT maker_tax_url FROM diyi_maker_tax_record WHERE is_deleted = 0 AND pay_maker_id = t1.id) ELSE '' END)
+        IF(((SELECT COUNT(id) FROM diyi_accept_paysheet WHERE bool_deleted = 0 AND pay_maker_id = t1.id) > 0 OR (SELECT COUNT(id) FROM diyi_accept_paysheet_list
+        WHERE bool_deleted = 0 AND pay_maker_id = t1.id) > 0), TRUE, FALSE) AS bool_accept_sheet, (SELECT GROUP_CONCAT(maker_pay_receipt_url)
+        FROM diyi_pay_maker_receipt WHERE bool_deleted = 0 AND pay_maker_id = t1.id) AS maker_pay_receipt_urls,
+        (CASE t3.maker_invoice_type WHEN 'NATURALPERSONALLOPEN' THEN (SELECT company_invoice_url FROM diyi_maker_total_invoice WHERE bool_deleted = 0 AND pay_enterprise_id = t1.pay_enterprise_id)
+        WHEN 'NATURALPERSONSINGLEOPEN' THEN (SELECT maker_voice_url FROM diyi_maker_invoice WHERE bool_deleted = 0 AND pay_maker_id = t1.id) ELSE '' END)
+        AS invoice_url, (CASE t3.maker_invoice_type WHEN 'NATURALPERSONALLOPEN' THEN (SELECT maker_tax_url FROM diyi_maker_total_invoice WHERE bool_deleted = 0 AND pay_enterprise_id = t1.pay_enterprise_id)
+        WHEN 'NATURALPERSONSINGLEOPEN' THEN (SELECT maker_tax_url FROM diyi_maker_tax_record WHERE bool_deleted = 0 AND pay_maker_id = t1.id) ELSE '' END)
         AS tax_url FROM diyi_pay_maker t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id INNER JOIN diyi_pay_enterprise t3 ON t1.pay_enterprise_id = t3.id
-        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t1.pay_enterprise_id = #{param1}
+        WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t3.bool_deleted = 0 AND t1.pay_enterprise_id = #{param1}
     </select>
 
     <select id="queryEnterpriseTransaction" resultMap="transactionVO">
         SELECT t1.month_pay AS total_sub_month_pay, t1.year_pay AS total_sub_year_pay, t1.all_pay AS total_sub_all_pay, t2.month_pay AS crowd_month_pay,
-        t2.year_pay AS crowd_year_pay, t2.all_pay AS crowd_all_pay, (SELECT COUNT(DISTINCT id) FROM diyi_maker_enterprise WHERE is_deleted = 0
-        AND relationship_type = 'RELEVANCE' AND enterprise_id = #{param1}) AS maker_num, (SELECT COUNT(id) FROM diyi_enterprise_service_provider WHERE is_deleted = 0
+        t2.year_pay AS crowd_year_pay, t2.all_pay AS crowd_all_pay, (SELECT COUNT(DISTINCT id) FROM diyi_maker_enterprise WHERE bool_deleted = 0
+        AND relationship_type = 'RELEVANCE' AND enterprise_id = #{param1}) AS maker_num, (SELECT COUNT(id) FROM diyi_enterprise_service_provider WHERE bool_deleted = 0
         AND cooperate_status = 'COOPERATING' AND enterprise_id = #{param1}) AS service_provider_num FROM (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30,
         pay_to_platform_amount, 0)), 0) AS month_pay, IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, pay_to_platform_amount, 0)), 0) AS year_pay,
-        IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay FROM diyi_pay_enterprise WHERE is_deleted = 0 AND audit_state = 'APPROVED'
+        IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay FROM diyi_pay_enterprise WHERE bool_deleted = 0 AND audit_state = 'APPROVED'
         AND enterprise_id = #{param1}) t1, (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, total_pay_provider_fee, 0)), 0) AS month_pay,
         IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, total_pay_provider_fee, 0)), 0) AS year_pay, IFNULL(SUM(total_pay_provider_fee), 0) AS all_pay
-        FROM diyi_self_help_invoice WHERE is_deleted = 0 AND (current_state = 'PAID' AND current_state = 'INVOICED') AND apply_enterprise_id = #{param1}) t2
+        FROM diyi_self_help_invoice WHERE bool_deleted = 0 AND (current_state = 'PAID' AND current_state = 'INVOICED') AND apply_enterprise_id = #{param1}) t2
     </select>
 
     <select id="queryServiceProviderTransaction" resultMap="transactionVO">
         SELECT t1.month_pay AS total_sub_month_pay, t1.year_pay AS total_sub_year_pay, t1.all_pay AS total_sub_all_pay,
         t2.month_pay AS crowd_month_pay, t2.year_pay AS crowd_year_pay, t2.all_pay AS crowd_all_pay,
-        (SELECT COUNT(DISTINCT id) FROM diyi_service_provider_maker WHERE is_deleted = 0 AND service_provider_id = #{param1}) AS maker_num,
-        (SELECT COUNT(id) FROM diyi_enterprise_service_provider WHERE is_deleted = 0 AND cooperate_status = 'COOPERATING' AND service_provider_id = #{param1})
+        (SELECT COUNT(DISTINCT id) FROM diyi_service_provider_maker WHERE bool_deleted = 0 AND service_provider_id = #{param1}) AS maker_num,
+        (SELECT COUNT(id) FROM diyi_enterprise_service_provider WHERE bool_deleted = 0 AND cooperate_status = 'COOPERATING' AND service_provider_id = #{param1})
         AS enterprise_num FROM (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, pay_to_platform_amount, 0)), 0) AS month_pay,
         IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, pay_to_platform_amount, 0)), 0) AS year_pay,
-        IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay FROM diyi_pay_enterprise WHERE is_deleted = 0 AND
+        IFNULL(SUM(pay_to_platform_amount), 0) AS all_pay FROM diyi_pay_enterprise WHERE bool_deleted = 0 AND
         audit_state = 'APPROVED' AND service_provider_id = #{param1}) t1,
         (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, charge_money_num, 0)), 0) AS month_pay,
         IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, charge_money_num, 0)), 0) AS year_pay,
-        IFNULL(SUM(charge_money_num), 0) AS all_pay FROM diyi_self_help_invoice_sp WHERE is_deleted = 0
+        IFNULL(SUM(charge_money_num), 0) AS all_pay FROM diyi_self_help_invoice_sp WHERE bool_deleted = 0
         AND (apply_state = 'SUBMITTED' OR apply_state = 'INVOICED') AND service_provider_id = #{param1}) t2
     </select>
 
     <select id="queryAgentMainEnterpriseTransaction" resultMap="transactionVO">
         SELECT t1.month_pay AS total_sub_month_pay, t1.year_pay AS total_sub_year_pay, t1.all_pay AS total_sub_all_pay, t2.month_pay AS crowd_month_pay, t2.year_pay AS crowd_year_pay,
-        t2.all_pay AS crowd_all_pay, (SELECT COUNT(DISTINCT t3.id) FROM diyi_maker_enterprise t3 WHERE t3.is_deleted = 0 AND t3.relationship_type = 'RELEVANCE'
-        AND EXISTS(SELECT t4.id FROM diyi_agent_main_enterprise t4 WHERE t4.is_deleted = 0 AND t4.cooperate_status = 'COOPERATING' AND t3.enterprise_id = t4.enterprise_id
-        AND t4.agent_main_id = #{param1})) AS maker_num, (SELECT COUNT(id) FROM diyi_agent_main_enterprise WHERE is_deleted = 0 AND cooperate_status = 'COOPERATING'
+        t2.all_pay AS crowd_all_pay, (SELECT COUNT(DISTINCT t3.id) FROM diyi_maker_enterprise t3 WHERE t3.bool_deleted = 0 AND t3.relationship_type = 'RELEVANCE'
+        AND EXISTS(SELECT t4.id FROM diyi_agent_main_enterprise t4 WHERE t4.bool_deleted = 0 AND t4.cooperate_status = 'COOPERATING' AND t3.enterprise_id = t4.enterprise_id
+        AND t4.agent_main_id = #{param1})) AS maker_num, (SELECT COUNT(id) FROM diyi_agent_main_enterprise WHERE bool_deleted = 0 AND cooperate_status = 'COOPERATING'
         AND agent_main_id = #{param1}) AS enterprise_num FROM (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), t5.create_time) <![CDATA[ < ]]> 30, t5.pay_to_platform_amount, 0)), 0)
         AS month_pay, IFNULL(SUM(IF(DATEDIFF(NOW(), t5.create_time) <![CDATA[ < ]]> 365, t5.pay_to_platform_amount, 0)), 0) AS year_pay, IFNULL(SUM(t5.pay_to_platform_amount), 0)
-        AS all_pay FROM diyi_pay_enterprise t5 WHERE t5.is_deleted = 0 AND t5.audit_state = 'APPROVED' AND EXISTS(SELECT t6.id FROM diyi_agent_main_enterprise t6
-        WHERE t6.is_deleted = 0 AND t6.cooperate_status = 'COOPERATING' AND t5.enterprise_id = t6.enterprise_id AND t6.agent_main_id = #{param1})) t1,
+        AS all_pay FROM diyi_pay_enterprise t5 WHERE t5.bool_deleted = 0 AND t5.audit_state = 'APPROVED' AND EXISTS(SELECT t6.id FROM diyi_agent_main_enterprise t6
+        WHERE t6.bool_deleted = 0 AND t6.cooperate_status = 'COOPERATING' AND t5.enterprise_id = t6.enterprise_id AND t6.agent_main_id = #{param1})) t1,
         (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), t7.create_time) <![CDATA[ < ]]> 30, t7.total_pay_provider_fee, 0)), 0) AS month_pay, IFNULL(SUM(IF(DATEDIFF(NOW(),
         t7.create_time) <![CDATA[ < ]]> 365, t7.total_pay_provider_fee, 0)), 0) AS year_pay, IFNULL(SUM(t7.total_pay_provider_fee), 0) AS all_pay FROM diyi_self_help_invoice t7
-        WHERE t7.is_deleted = 0 AND (t7.current_state = 'PAID' AND t7.current_state = 'INVOICED') AND EXISTS(SELECT t8.id FROM diyi_agent_main_enterprise t8
-        WHERE t8.is_deleted = 0 AND t8.cooperate_status = 'COOPERATING' AND t7.apply_enterprise_id = t8.enterprise_id AND t8.agent_main_id = #{param1})) t2
+        WHERE t7.bool_deleted = 0 AND (t7.current_state = 'PAID' AND t7.current_state = 'INVOICED') AND EXISTS(SELECT t8.id FROM diyi_agent_main_enterprise t8
+        WHERE t8.bool_deleted = 0 AND t8.cooperate_status = 'COOPERATING' AND t7.apply_enterprise_id = t8.enterprise_id AND t8.agent_main_id = #{param1})) t2
     </select>
 
     <select id="queryAgentMainServiceProviderTransaction" resultMap="transactionVO">
         SELECT t1.month_pay AS total_sub_month_pay, t1.year_pay AS total_sub_year_pay, t1.all_pay AS total_sub_all_pay, t2.month_pay AS crowd_month_pay, t2.year_pay AS crowd_year_pay,
-        t2.all_pay AS crowd_all_pay, (SELECT COUNT(DISTINCT t3.id) FROM diyi_service_provider_maker t3 WHERE t3.is_deleted = 0 AND EXISTS(SELECT t4.id FROM diyi_agent_main_service_provider t4
-        WHERE t4.is_deleted = 0 AND t4.cooperate_status = 'COOPERATING' AND t3.service_provider_id = t4.service_provider_id AND t4.agent_main_id = #{param1})) AS maker_num,
-        (SELECT COUNT(id) FROM diyi_agent_main_service_provider WHERE is_deleted = 0 AND cooperate_status = 'COOPERATING' AND agent_main_id = #{param1})
+        t2.all_pay AS crowd_all_pay, (SELECT COUNT(DISTINCT t3.id) FROM diyi_service_provider_maker t3 WHERE t3.bool_deleted = 0 AND EXISTS(SELECT t4.id FROM diyi_agent_main_service_provider t4
+        WHERE t4.bool_deleted = 0 AND t4.cooperate_status = 'COOPERATING' AND t3.service_provider_id = t4.service_provider_id AND t4.agent_main_id = #{param1})) AS maker_num,
+        (SELECT COUNT(id) FROM diyi_agent_main_service_provider WHERE bool_deleted = 0 AND cooperate_status = 'COOPERATING' AND agent_main_id = #{param1})
         AS service_provider_num FROM (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), t5.create_time) <![CDATA[ < ]]> 30, t5.pay_to_platform_amount, 0)), 0) AS month_pay,
         IFNULL(SUM(IF(DATEDIFF(NOW(), t5.create_time) <![CDATA[ < ]]> 365, t5.pay_to_platform_amount, 0)), 0) AS year_pay, IFNULL(SUM(t5.pay_to_platform_amount), 0) AS all_pay
-        FROM diyi_pay_enterprise t5 WHERE t5.is_deleted = 0 AND t5.audit_state = 'APPROVED' AND EXISTS(SELECT t6.id FROM diyi_agent_main_service_provider t6
-        WHERE t6.is_deleted = 0 AND t6.cooperate_status = 'COOPERATING' AND t5.service_provider_id = t6.service_provider_id AND t6.agent_main_id = #{param1})) t1,
+        FROM diyi_pay_enterprise t5 WHERE t5.bool_deleted = 0 AND t5.audit_state = 'APPROVED' AND EXISTS(SELECT t6.id FROM diyi_agent_main_service_provider t6
+        WHERE t6.bool_deleted = 0 AND t6.cooperate_status = 'COOPERATING' AND t5.service_provider_id = t6.service_provider_id AND t6.agent_main_id = #{param1})) t1,
         (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), t7.create_time) <![CDATA[ < ]]> 30, t7.charge_money_num, 0)), 0) AS month_pay, IFNULL(SUM(IF(DATEDIFF(NOW(), t7.create_time) <![CDATA[ < ]]> 365,
-        t7.charge_money_num, 0)), 0) AS year_pay, IFNULL(SUM(t7.charge_money_num), 0) AS all_pay FROM diyi_self_help_invoice_sp t7 WHERE t7.is_deleted = 0
-        AND (t7.apply_state = 'SUBMITTED' OR t7.apply_state = 'INVOICED') AND EXISTS(SELECT t8.id FROM diyi_agent_main_service_provider t8 WHERE t8.is_deleted = 0
+        t7.charge_money_num, 0)), 0) AS year_pay, IFNULL(SUM(t7.charge_money_num), 0) AS all_pay FROM diyi_self_help_invoice_sp t7 WHERE t7.bool_deleted = 0
+        AND (t7.apply_state = 'SUBMITTED' OR t7.apply_state = 'INVOICED') AND EXISTS(SELECT t8.id FROM diyi_agent_main_service_provider t8 WHERE t8.bool_deleted = 0
         AND t8.cooperate_status = 'COOPERATING' AND t7.service_provider_id = t8.service_provider_id AND t8.agent_main_id = #{param1})) t2
     </select>
 
     <select id="queryPartnerEnterpriseTransaction" resultMap="transactionVO">
         SELECT t1.month_pay AS total_sub_month_pay, t1.year_pay AS total_sub_year_pay, t1.all_pay AS total_sub_all_pay, t2.month_pay AS crowd_month_pay, t2.year_pay AS crowd_year_pay,
-        t2.all_pay AS crowd_all_pay, (SELECT COUNT(DISTINCT t3.id) FROM diyi_maker_enterprise t3 WHERE t3.is_deleted = 0 AND t3.relationship_type = 'RELEVANCE'
-        AND EXISTS(SELECT t4.id FROM diyi_partner_enterprise t4 WHERE t4.is_deleted = 0 AND t4.cooperate_status = 'COOPERATING' AND t3.enterprise_id = t4.enterprise_id
-        AND t4.partner_id = #{param1})) AS maker_num, (SELECT COUNT(id) FROM diyi_partner_enterprise WHERE is_deleted = 0 AND cooperate_status = 'COOPERATING'
+        t2.all_pay AS crowd_all_pay, (SELECT COUNT(DISTINCT t3.id) FROM diyi_maker_enterprise t3 WHERE t3.bool_deleted = 0 AND t3.relationship_type = 'RELEVANCE'
+        AND EXISTS(SELECT t4.id FROM diyi_partner_enterprise t4 WHERE t4.bool_deleted = 0 AND t4.cooperate_status = 'COOPERATING' AND t3.enterprise_id = t4.enterprise_id
+        AND t4.partner_id = #{param1})) AS maker_num, (SELECT COUNT(id) FROM diyi_partner_enterprise WHERE bool_deleted = 0 AND cooperate_status = 'COOPERATING'
         AND partner_id = #{param1}) AS enterprise_num FROM (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), t5.create_time) <![CDATA[ < ]]> 30, t5.pay_to_platform_amount, 0)), 0)
         AS month_pay, IFNULL(SUM(IF(DATEDIFF(NOW(), t5.create_time) <![CDATA[ < ]]> 365, t5.pay_to_platform_amount, 0)), 0) AS year_pay, IFNULL(SUM(t5.pay_to_platform_amount), 0)
-        AS all_pay FROM diyi_pay_enterprise t5 WHERE t5.is_deleted = 0 AND t5.audit_state = 'APPROVED' AND EXISTS(SELECT t6.id FROM diyi_partner_enterprise t6
-        WHERE t6.is_deleted = 0 AND t6.cooperate_status = 'COOPERATING' AND t5.enterprise_id = t6.enterprise_id AND t6.partner_id = #{param1})) t1,
+        AS all_pay FROM diyi_pay_enterprise t5 WHERE t5.bool_deleted = 0 AND t5.audit_state = 'APPROVED' AND EXISTS(SELECT t6.id FROM diyi_partner_enterprise t6
+        WHERE t6.bool_deleted = 0 AND t6.cooperate_status = 'COOPERATING' AND t5.enterprise_id = t6.enterprise_id AND t6.partner_id = #{param1})) t1,
         (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), t7.create_time) <![CDATA[ < ]]> 30, t7.total_pay_provider_fee, 0)), 0) AS month_pay, IFNULL(SUM(IF(DATEDIFF(NOW(),
         t7.create_time) <![CDATA[ < ]]> 365, t7.total_pay_provider_fee, 0)), 0) AS year_pay, IFNULL(SUM(t7.total_pay_provider_fee), 0) AS all_pay FROM diyi_self_help_invoice t7
-        WHERE t7.is_deleted = 0 AND (t7.current_state = 'PAID' AND t7.current_state = 'INVOICED') AND EXISTS(SELECT t8.id FROM diyi_partner_enterprise t8
-        WHERE t8.is_deleted = 0 AND t8.cooperate_status = 'COOPERATING' AND t7.apply_enterprise_id = t8.enterprise_id AND t8.partner_id = #{param1})) t2
+        WHERE t7.bool_deleted = 0 AND (t7.current_state = 'PAID' AND t7.current_state = 'INVOICED') AND EXISTS(SELECT t8.id FROM diyi_partner_enterprise t8
+        WHERE t8.bool_deleted = 0 AND t8.cooperate_status = 'COOPERATING' AND t7.apply_enterprise_id = t8.enterprise_id AND t8.partner_id = #{param1})) t2
     </select>
 
     <select id="queryRelBureauServiceProviderTransaction" resultMap="transactionVO">
         SELECT t1.month_pay AS total_sub_month_pay, t1.year_pay AS total_sub_year_pay, t1.all_pay AS total_sub_all_pay, t2.month_pay AS crowd_month_pay, t2.year_pay AS crowd_year_pay,
-        t2.all_pay AS crowd_all_pay, (SELECT COUNT(DISTINCT t3.id) FROM diyi_service_provider_maker t3 WHERE t3.is_deleted = 0 AND EXISTS(SELECT t4.id FROM diyi_rel_bureau_service_provider t4
-        WHERE t4.is_deleted = 0 AND t4.cooperate_status = 'COOPERATING' AND t3.service_provider_id = t4.service_provider_id AND t4.rel_bureau_id = #{param1})) AS maker_num,
-        (SELECT COUNT(id) FROM diyi_rel_bureau_service_provider WHERE is_deleted = 0 AND cooperate_status = 'COOPERATING' AND rel_bureau_id = #{param1})
+        t2.all_pay AS crowd_all_pay, (SELECT COUNT(DISTINCT t3.id) FROM diyi_service_provider_maker t3 WHERE t3.bool_deleted = 0 AND EXISTS(SELECT t4.id FROM diyi_rel_bureau_service_provider t4
+        WHERE t4.bool_deleted = 0 AND t4.cooperate_status = 'COOPERATING' AND t3.service_provider_id = t4.service_provider_id AND t4.rel_bureau_id = #{param1})) AS maker_num,
+        (SELECT COUNT(id) FROM diyi_rel_bureau_service_provider WHERE bool_deleted = 0 AND cooperate_status = 'COOPERATING' AND rel_bureau_id = #{param1})
         AS service_provider_num FROM (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), t5.create_time) <![CDATA[ < ]]> 30, t5.pay_to_platform_amount, 0)), 0) AS month_pay,
         IFNULL(SUM(IF(DATEDIFF(NOW(), t5.create_time) <![CDATA[ < ]]> 365, t5.pay_to_platform_amount, 0)), 0) AS year_pay, IFNULL(SUM(t5.pay_to_platform_amount), 0) AS all_pay
-        FROM diyi_pay_enterprise t5 WHERE t5.is_deleted = 0 AND t5.audit_state = 'APPROVED' AND EXISTS(SELECT t6.id FROM diyi_rel_bureau_service_provider t6
-        WHERE t6.is_deleted = 0 AND t6.cooperate_status = 'COOPERATING' AND t5.service_provider_id = t6.service_provider_id AND t6.rel_bureau_id = #{param1})) t1,
+        FROM diyi_pay_enterprise t5 WHERE t5.bool_deleted = 0 AND t5.audit_state = 'APPROVED' AND EXISTS(SELECT t6.id FROM diyi_rel_bureau_service_provider t6
+        WHERE t6.bool_deleted = 0 AND t6.cooperate_status = 'COOPERATING' AND t5.service_provider_id = t6.service_provider_id AND t6.rel_bureau_id = #{param1})) t1,
         (SELECT IFNULL(SUM(IF(DATEDIFF(NOW(), t7.create_time) <![CDATA[ < ]]> 30, t7.charge_money_num, 0)), 0) AS month_pay, IFNULL(SUM(IF(DATEDIFF(NOW(), t7.create_time) <![CDATA[ < ]]> 365,
-        t7.charge_money_num, 0)), 0) AS year_pay, IFNULL(SUM(t7.charge_money_num), 0) AS all_pay FROM diyi_self_help_invoice_sp t7 WHERE t7.is_deleted = 0
-        AND (t7.apply_state = 'SUBMITTED' OR t7.apply_state = 'INVOICED') AND EXISTS(SELECT t8.id FROM diyi_rel_bureau_service_provider t8 WHERE t8.is_deleted = 0
+        t7.charge_money_num, 0)), 0) AS year_pay, IFNULL(SUM(t7.charge_money_num), 0) AS all_pay FROM diyi_self_help_invoice_sp t7 WHERE t7.bool_deleted = 0
+        AND (t7.apply_state = 'SUBMITTED' OR t7.apply_state = 'INVOICED') AND EXISTS(SELECT t8.id FROM diyi_rel_bureau_service_provider t8 WHERE t8.bool_deleted = 0
         AND t8.cooperate_status = 'COOPERATING' AND t7.service_provider_id = t8.service_provider_id AND t8.rel_bureau_id = #{param1})) t2
     </select>
 
@@ -673,7 +673,7 @@
         IFNULL(SUM(IF(MONTH(create_time) = 7, pay_to_platform_amount, 0)), 0) AS jul_income, IFNULL(SUM(IF(MONTH(create_time) = 8, pay_to_platform_amount, 0)), 0) AS aug_income,
         IFNULL(SUM(IF(MONTH(create_time) = 9, pay_to_platform_amount, 0)), 0) AS sep_income, IFNULL(SUM(IF(MONTH(create_time) = 10, pay_to_platform_amount, 0)), 0) AS oct_income,
         IFNULL(SUM(IF(MONTH(create_time) = 11, pay_to_platform_amount, 0)), 0) AS nov_income, IFNULL(SUM(IF(MONTH(create_time) = 12, pay_to_platform_amount, 0)), 0) AS dec_income
-        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND audit_state = 'APPROVED' AND YEAR(create_time) = YEAR(NOW()) AND enterprise_id = #{param1}
+        FROM diyi_pay_enterprise WHERE bool_deleted = 0 AND audit_state = 'APPROVED' AND YEAR(create_time) = YEAR(NOW()) AND enterprise_id = #{param1}
     </select>
 
     <select id="queryTotalSubYearTradeByServiceProvider" resultMap="yearTradeVO">
@@ -683,7 +683,7 @@
         IFNULL(SUM(IF(MONTH(create_time) = 7, pay_to_platform_amount, 0)), 0) AS jul_income, IFNULL(SUM(IF(MONTH(create_time) = 8, pay_to_platform_amount, 0)), 0) AS aug_income,
         IFNULL(SUM(IF(MONTH(create_time) = 9, pay_to_platform_amount, 0)), 0) AS sep_income, IFNULL(SUM(IF(MONTH(create_time) = 10, pay_to_platform_amount, 0)), 0) AS oct_income,
         IFNULL(SUM(IF(MONTH(create_time) = 11, pay_to_platform_amount, 0)), 0) AS nov_income, IFNULL(SUM(IF(MONTH(create_time) = 12, pay_to_platform_amount, 0)), 0) AS dec_income
-        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND audit_state = 'APPROVED' AND YEAR(create_time) = YEAR(NOW()) AND service_provider_id = #{param1}
+        FROM diyi_pay_enterprise WHERE bool_deleted = 0 AND audit_state = 'APPROVED' AND YEAR(create_time) = YEAR(NOW()) AND service_provider_id = #{param1}
     </select>
 
     <select id="queryTotalSubMonthTradeByEnterprise" resultMap="monthTradeVO">
@@ -704,7 +704,7 @@
         IF(DAY(LAST_DAY(NOW())) >= 29, IFNULL(SUM(IF(DAY(create_time) = 29, pay_to_platform_amount, 0)), 0), NULL) AS twenty_nine_day_income,
         IF(DAY(LAST_DAY(NOW())) >= 30, IFNULL(SUM(IF(DAY(create_time) = 30, pay_to_platform_amount, 0)), 0), NULL) AS thirty_day_income,
 		IF(DAY(LAST_DAY(NOW())) >= 31, IFNULL(SUM(IF(DAY(create_time) = 31, pay_to_platform_amount, 0)), 0), NULL) AS thirty_one_day_income
-        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND audit_state = 'APPROVED' AND YEAR(create_time) = YEAR(NOW())
+        FROM diyi_pay_enterprise WHERE bool_deleted = 0 AND audit_state = 'APPROVED' AND YEAR(create_time) = YEAR(NOW())
 		AND MONTH(create_time) = MONTH(NOW()) AND enterprise_id = #{param1}
     </select>
 
@@ -726,7 +726,7 @@
         IF(DAY(LAST_DAY(NOW())) >= 29, IFNULL(SUM(IF(DAY(create_time) = 29, pay_to_platform_amount, 0)), 0), NULL) AS twenty_nine_day_income,
         IF(DAY(LAST_DAY(NOW())) >= 30, IFNULL(SUM(IF(DAY(create_time) = 30, pay_to_platform_amount, 0)), 0), NULL) AS thirty_day_income,
 		IF(DAY(LAST_DAY(NOW())) >= 31, IFNULL(SUM(IF(DAY(create_time) = 31, pay_to_platform_amount, 0)), 0), NULL) AS thirty_one_day_income
-        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND audit_state = 'APPROVED' AND YEAR(create_time) = YEAR(NOW())
+        FROM diyi_pay_enterprise WHERE bool_deleted = 0 AND audit_state = 'APPROVED' AND YEAR(create_time) = YEAR(NOW())
 		AND MONTH(create_time) = MONTH(NOW()) AND service_provider_id = #{param1}
     </select>
 
@@ -735,7 +735,7 @@
         IFNULL(SUM(IF(WEEKDAY(create_time) = 2, pay_to_platform_amount, 0)), 0) AS wed_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 3, pay_to_platform_amount, 0)), 0) AS thu_income,
         IFNULL(SUM(IF(WEEKDAY(create_time) = 4, pay_to_platform_amount, 0)), 0) AS fri_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 5, pay_to_platform_amount, 0)), 0) AS sat_income,
         IFNULL(SUM(IF(WEEKDAY(create_time) = 6, pay_to_platform_amount, 0)), 0) AS sun_income
-        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND audit_state = 'APPROVED' AND WEEK(create_time) = WEEK(NOW()) AND enterprise_id = #{param1}
+        FROM diyi_pay_enterprise WHERE bool_deleted = 0 AND audit_state = 'APPROVED' AND WEEK(create_time) = WEEK(NOW()) AND enterprise_id = #{param1}
     </select>
 
     <select id="queryTotalSubWeekTradeByServiceProvider" resultMap="weekTradeVO">
@@ -743,7 +743,7 @@
         IFNULL(SUM(IF(WEEKDAY(create_time) = 2, pay_to_platform_amount, 0)), 0) AS wed_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 3, pay_to_platform_amount, 0)), 0) AS thu_income,
         IFNULL(SUM(IF(WEEKDAY(create_time) = 4, pay_to_platform_amount, 0)), 0) AS fri_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 5, pay_to_platform_amount, 0)), 0) AS sat_income,
         IFNULL(SUM(IF(WEEKDAY(create_time) = 6, pay_to_platform_amount, 0)), 0) AS sun_income
-        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND audit_state = 'APPROVED' AND WEEK(create_time) = WEEK(NOW()) AND service_provider_id = #{param1}
+        FROM diyi_pay_enterprise WHERE bool_deleted = 0 AND audit_state = 'APPROVED' AND WEEK(create_time) = WEEK(NOW()) AND service_provider_id = #{param1}
     </select>
 
     <select id="queryTotalSubDayTradeByEnterprise" resultMap="dayTradeVO">
@@ -759,7 +759,7 @@
         IFNULL(SUM(IF(HOUR(create_time) = 19, pay_to_platform_amount, 0)), 0) AS nineteen_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 20, pay_to_platform_amount, 0)), 0) AS twenty_hour_income,
         IFNULL(SUM(IF(HOUR(create_time) = 21, pay_to_platform_amount, 0)), 0) AS twenty_one_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 22, pay_to_platform_amount, 0)), 0) AS twenty_two_hour_income,
         IFNULL(SUM(IF(HOUR(create_time) = 23, pay_to_platform_amount, 0)), 0) AS twenty_three_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 0, pay_to_platform_amount, 0)), 0) AS twenty_four_hour_income
-        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND audit_state = 'APPROVED' AND DATE(create_time) = DATE(NOW()) AND enterprise_id = #{param1}
+        FROM diyi_pay_enterprise WHERE bool_deleted = 0 AND audit_state = 'APPROVED' AND DATE(create_time) = DATE(NOW()) AND enterprise_id = #{param1}
     </select>
 
     <select id="queryTotalSubDayTradeByServiceProvider" resultMap="dayTradeVO">
@@ -775,7 +775,7 @@
         IFNULL(SUM(IF(HOUR(create_time) = 19, pay_to_platform_amount, 0)), 0) AS nineteen_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 20, pay_to_platform_amount, 0)), 0) AS twenty_hour_income,
         IFNULL(SUM(IF(HOUR(create_time) = 21, pay_to_platform_amount, 0)), 0) AS twenty_one_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 22, pay_to_platform_amount, 0)), 0) AS twenty_two_hour_income,
         IFNULL(SUM(IF(HOUR(create_time) = 23, pay_to_platform_amount, 0)), 0) AS twenty_three_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 0, pay_to_platform_amount, 0)), 0) AS twenty_four_hour_income
-        FROM diyi_pay_enterprise WHERE is_deleted = 0 AND audit_state = 'APPROVED' AND DATE(create_time) = DATE(NOW()) AND service_provider_id = #{param1}
+        FROM diyi_pay_enterprise WHERE bool_deleted = 0 AND audit_state = 'APPROVED' AND DATE(create_time) = DATE(NOW()) AND service_provider_id = #{param1}
     </select>
 
     <select id="getServiceSummaryInvoice" resultMap="invoiceServiceSubcontractMap">
@@ -888,7 +888,7 @@
         SELECT pe.id AS pay_enterprise_id, mt.id AS maker_total_invoice_id, sp.id AS service_provider_id, mt.invoice_serial_no, mt.company_invoice_url,
         mt.maker_tax_url, pe.subcontracting_invoice_state, sp.service_provider_name, mt.create_time AS invoice_print_date, e.enterprise_name, pe.maker_invoice_type
         FROM diyi_pay_enterprise pe INNER JOIN diyi_service_provider sp ON sp.id = pe.service_provider_id INNER JOIN diyi_enterprise e ON e.id = pe.enterprise_id
-        LEFT JOIN diyi_maker_total_invoice mt ON mt.pay_enterprise_id = pe.id AND mt.is_deleted = 0 WHERE pe.is_deleted = 0 AND sp.is_deleted = 0
+        LEFT JOIN diyi_maker_total_invoice mt ON mt.pay_enterprise_id = pe.id AND mt.bool_deleted = 0 WHERE pe.bool_deleted = 0 AND sp.bool_deleted = 0
         and pe.audit_state ='APPROVED' AND sp.id = #{param1} and pe.subcontracting_invoice_state = #{param3}
         <if test="param2 != null and param2 != ''">
             AND e.enterprise_name LIKE concat('%', #{param2}, '%')
@@ -906,25 +906,25 @@
     <select id="getPayMakerLists" resultMap="payMakerListsVO">
         SELECT t1.id AS pay_maker_id, t2.id AS maker_id, t2.name, t2.idcard_no, t1.maker_net_income, t1.maker_tax_fee, t1.audit_fee, t1.pay_fee, t1.total_fee,
         t1.service_rate, mi.maker_voice_url, mt.maker_tax_url FROM diyi_pay_maker t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id
-        LEFT JOIN diyi_maker_invoice mi ON mi.pay_maker_id = t1.id LEFT JOIN diyi_maker_tax_record mt ON mt.pay_maker_id = t1.id AND t2.is_deleted = 0
-        WHERE t1.is_deleted = 0 AND t1.pay_enterprise_id in (#{param1})
+        LEFT JOIN diyi_maker_invoice mi ON mi.pay_maker_id = t1.id LEFT JOIN diyi_maker_tax_record mt ON mt.pay_maker_id = t1.id AND t2.bool_deleted = 0
+        WHERE t1.bool_deleted = 0 AND t1.pay_enterprise_id in (#{param1})
     </select>
 
     <select id="queryPayEnterpriseDetail" resultMap="payEnterpriseDetailVO">
         SELECT t1.id, t2.enterprise_name, t3.service_provider_name, t1.charge_list_url, t1.worksheet_id, t1.audit_state, t1.create_time, t1.maker_invoice_type,
         t1.pay_state, t1.company_invoice_state, t1.subcontracting_invoice_state, t1.pay_to_platform_amount, (SELECT GROUP_CONCAT(enterprise_pay_receipt_url)
-        FROM diyi_pay_enterprise_receipt WHERE is_deleted = 0 AND pay_enterprise_id = t1.id) AS enterprise_pay_receipt_urls, (SELECT GROUP_CONCAT(accept_paysheet_url)
-        FROM diyi_accept_paysheet WHERE is_deleted = 0 AND pay_enterprise_id = t1.id) AS accept_paysheet_urls FROM diyi_pay_enterprise t1 INNER JOIN diyi_enterprise t2
-        ON t1.enterprise_id = t2.id INNER JOIN diyi_service_provider t3 ON t1.service_provider_id = t3.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0
-        AND t3.is_deleted = 0 AND t1.id = #{param1}
+        FROM diyi_pay_enterprise_receipt WHERE bool_deleted = 0 AND pay_enterprise_id = t1.id) AS enterprise_pay_receipt_urls, (SELECT GROUP_CONCAT(accept_paysheet_url)
+        FROM diyi_accept_paysheet WHERE bool_deleted = 0 AND pay_enterprise_id = t1.id) AS accept_paysheet_urls FROM diyi_pay_enterprise t1 INNER JOIN diyi_enterprise t2
+        ON t1.enterprise_id = t2.id INNER JOIN diyi_service_provider t3 ON t1.service_provider_id = t3.id WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0
+        AND t3.bool_deleted = 0 AND t1.id = #{param1}
     </select>
 
     <select id="queryPayEnterpriseUpdateDetail" resultMap="payEnterpriseUpdateDetailVO">
         SELECT t1.id, t2.id AS service_provider_id, t2.service_provider_name, t1.maker_type, t1.charge_list_url, t1.worksheet_id, t3.worksheet_no, t3.worksheet_name,
         t3.create_time AS worksheet_create_time, t1.pay_to_platform_amount, t1.total_tax_fee, t1.total_maker_net_income, t1.service_rate, t1.sourcing_amount, t1.enterprise_business_annual_fee,
-        t1.identify_fee, t1.service_fee, t1.maker_num, t1.pay_memo, (SELECT GROUP_CONCAT(enterprise_pay_receipt_url) FROM diyi_pay_enterprise_receipt WHERE is_deleted = 0
+        t1.identify_fee, t1.service_fee, t1.maker_num, t1.pay_memo, (SELECT GROUP_CONCAT(enterprise_pay_receipt_url) FROM diyi_pay_enterprise_receipt WHERE bool_deleted = 0
         AND pay_enterprise_id = t1.id) AS enterprise_pay_receipt_urls FROM diyi_pay_enterprise t1 INNER JOIN diyi_service_provider t2 ON t1.service_provider_id = t2.id
-        LEFT JOIN diyi_worksheet t3 ON t1.worksheet_id = t3.id AND t3.is_deleted = 0 WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.id = #{param1}
+        LEFT JOIN diyi_worksheet t3 ON t1.worksheet_id = t3.id AND t3.bool_deleted = 0 WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t1.id = #{param1}
     </select>
 
     <select id="queryTotalInvoiceListEnterpriseApplyDetails" resultMap="enterpriseApplyDetailVoMap">
@@ -937,8 +937,8 @@
         t4.invoice_bank_name_account, t6.address_name, t6.address_phone, t6.area, t6.city, t6.province, t6.detailed_address FROM diyi_invoice_application t1
         INNER JOIN diyi_invoice_application_pay_list t2 ON t2.application_id = t1.id INNER JOIN diyi_pay_enterprise t3 ON t3.id = t2.pay_enterprise_id
         INNER JOIN diyi_enterprise t4 ON t4.id = t3.enterprise_id INNER JOIN diyi_service_provider t5 ON t5.id = t3.service_provider_id left JOIN diyi_address t6
-        ON t6.object_id = t4.id AND t6.object_type = 'ENTERPRISEPEOPLE' AND t6.is_default = 1 AND t6.is_deleted = 0 WHERE t1.is_deleted = 0 AND t2.is_deleted = 0
-        AND t3.is_deleted = 0 AND t4.is_deleted = 0 AND t5.is_deleted = 0 and t1.id = #{param1}
+        ON t6.object_id = t4.id AND t6.object_type = 'ENTERPRISEPEOPLE' AND t6.bool_default = 1 AND t6.bool_deleted = 0 WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0
+        AND t3.bool_deleted = 0 AND t4.bool_deleted = 0 AND t5.bool_deleted = 0 and t1.id = #{param1}
     </select>
 
     <select id="queryTotalInvoiceListEnterpriseInvoiceDetails" resultMap="enterpriseInvoiceDetailVoMap">
@@ -952,7 +952,7 @@
         AS company_invoice_url, t1.express_sheet_no, t1.express_company_name,t1.opened_invoice_total_amount FROM diyi_platform_invoice t1 INNER JOIN diyi_platform_invoice_pay_list t2
         ON t1.id = t2.invoice_print_id INNER JOIN diyi_pay_enterprise t3 ON t3.id = t2.pay_enterprise_id INNER JOIN diyi_enterprise t4 ON t4.id = t3.enterprise_id
         INNER JOIN diyi_service_provider t5 ON t5.id = t3.service_provider_id left JOIN diyi_address t6 ON t6.object_id = t4.id AND t6.object_type = 'ENTERPRISEPEOPLE'
-        AND t6.is_default = 1 AND t6.is_deleted = 0 WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t4.is_deleted = 0 AND t5.is_deleted = 0
+        AND t6.bool_default = 1 AND t6.bool_deleted = 0 WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t3.bool_deleted = 0 AND t4.bool_deleted = 0 AND t5.bool_deleted = 0
         AND t1.id = #{param1}
     </select>
 
@@ -963,15 +963,15 @@
         AS accept_paysheet_url, t3.pay_to_platform_amount, t5.service_provider_name, t4.invoice_enterprise_name, t4.invoice_tax_no, t4.invoice_address_phone,
         t4.invoice_bank_name_account, t6.address_name, t6.address_phone, t6.area, t6.city, t6.province, t6.detailed_address, t3.company_invoice_state, t3.create_time
         FROM diyi_pay_enterprise t3 INNER JOIN diyi_enterprise t4 ON t4.id = t3.enterprise_id INNER JOIN diyi_service_provider t5 ON t5.id = t3.service_provider_id
-        left JOIN diyi_address t6 ON t6.object_id = t4.id AND t6.object_type = 'ENTERPRISEPEOPLE' AND t6.is_default = 1 AND t6.is_deleted = 0
-        WHERE t3.is_deleted = 0 AND t4.is_deleted = 0 AND t5.is_deleted = 0 AND t3.id IN (#{param1})
+        left JOIN diyi_address t6 ON t6.object_id = t4.id AND t6.object_type = 'ENTERPRISEPEOPLE' AND t6.bool_default = 1 AND t6.bool_deleted = 0
+        WHERE t3.bool_deleted = 0 AND t4.bool_deleted = 0 AND t5.bool_deleted = 0 AND t3.id IN (#{param1})
     </select>
 
     <select id="queryPayEnterpriseListAgentMain" resultMap="payEnterpriseListSimpleVO">
         SELECT t1.id, t2.enterprise_name, t3.service_provider_name, t1.pay_to_platform_amount, t1.audit_state, t1.create_time,
-        (SELECT COUNT(id) FROM diyi_pay_maker WHERE is_deleted = 0 AND pay_enterprise_id = t1.id) AS maker_num
+        (SELECT COUNT(id) FROM diyi_pay_maker WHERE bool_deleted = 0 AND pay_enterprise_id = t1.id) AS maker_num
         FROM diyi_pay_enterprise t1 INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id INNER JOIN diyi_service_provider t3 ON t1.service_provider_id = t3.id
-        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0
+        WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t3.bool_deleted = 0
         <if test="param1 != null">
             AND t1.enterprise_id = #{param1}
         </if>
@@ -997,8 +997,8 @@
         t2.working_rel_phone AS receipt_working_rel_phone, t3.working_address AS send_working_address, t3.working_rel_name AS send_working_rel_name,
         t3.working_rel_phone AS send_working_rel_phone FROM diyi_pay_enterprise t1 INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id
         INNER JOIN diyi_service_provider t3 ON t1.service_provider_id = t3.id INNER JOIN diyi_platform_invoice_pay_list t4 ON t1.id = t4.pay_enterprise_id
-        INNER JOIN diyi_platform_invoice t5 ON t4.invoice_print_id = t5.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t4.is_deleted = 0
-        AND t5.is_deleted = 0 AND t1.id = #{param1} LIMIT 1
+        INNER JOIN diyi_platform_invoice t5 ON t4.invoice_print_id = t5.id WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t3.bool_deleted = 0 AND t4.bool_deleted = 0
+        AND t5.bool_deleted = 0 AND t1.id = #{param1} LIMIT 1
     </select>
 
 </mapper>

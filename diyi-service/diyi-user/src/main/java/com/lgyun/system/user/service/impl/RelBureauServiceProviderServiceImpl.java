@@ -33,7 +33,7 @@ public class RelBureauServiceProviderServiceImpl extends BaseServiceImpl<RelBure
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> relevanceRelBureauServiceProvider(Long relBureauId, Long serviceProviderId, String matchDesc, AdminEntity adminEntity) {
+    public R<String> relevanceRelBureauServiceProvider(Long relBureauId, Long serviceProviderId, String matchDesc) {
         RelBureauEntity relBureauEntity = relBureauService.getById(relBureauId);
         if (relBureauEntity == null) {
             return R.fail("相关局不存在");
@@ -56,7 +56,6 @@ public class RelBureauServiceProviderServiceImpl extends BaseServiceImpl<RelBure
             relBureauServiceProviderEntity.setRelBureauId(relBureauId);
             relBureauServiceProviderEntity.setServiceProviderId(serviceProviderId);
             relBureauServiceProviderEntity.setRelBureauType(relBureauEntity.getRelBureauType());
-            relBureauServiceProviderEntity.setMatchPerson(adminEntity.getName());
             relBureauServiceProviderEntity.setMatchDesc(matchDesc);
             save(relBureauServiceProviderEntity);
         } else {

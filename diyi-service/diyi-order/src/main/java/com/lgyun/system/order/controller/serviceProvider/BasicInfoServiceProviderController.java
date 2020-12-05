@@ -34,7 +34,7 @@ public class BasicInfoServiceProviderController {
     private IServiceProviderInvoiceCatalogsService serviceProviderInvoiceCatalogsService;
 
     @PostMapping("/add-or-update-address")
-    @ApiOperation(value = "新建或修改收货地址", notes = "新建或修改收货地址")
+    @ApiOperation(value = "新建或修改收件地址", notes = "新建或修改收件地址")
     public R addOrUpdateAddress(@Valid @RequestBody AddOrUpdateAddressDTO addOrUpdateAddressDto, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
@@ -48,7 +48,7 @@ public class BasicInfoServiceProviderController {
 
     @PostMapping("/set-default-address")
     @ApiOperation(value = "设置默认地址", notes = "设置默认地址")
-    public R setDefaultAddress(@ApiParam(value = "收货地址") @NotNull(message = "请选择收货地址") @RequestParam(required = false) Long addressId, BladeUser bladeUser) {
+    public R setDefaultAddress(@ApiParam(value = "收件地址") @NotNull(message = "请选择收件地址") @RequestParam(required = false) Long addressId, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -60,8 +60,8 @@ public class BasicInfoServiceProviderController {
     }
 
     @GetMapping("/query-address-detail")
-    @ApiOperation(value = "查询收货地址详情", notes = "查询收货地址详情")
-    public R queryAddressDetail(@ApiParam(value = "收货地址") @NotNull(message = "请选择收货地址") @RequestParam(required = false) Long addressId, BladeUser bladeUser) {
+    @ApiOperation(value = "查询收件地址详情", notes = "查询收件地址详情")
+    public R queryAddressDetail(@ApiParam(value = "收件地址") @NotNull(message = "请选择收件地址") @RequestParam(required = false) Long addressId, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -72,7 +72,7 @@ public class BasicInfoServiceProviderController {
     }
 
     @GetMapping("/query-address-list")
-    @ApiOperation(value = "查询收货地址", notes = "查询收货地址")
+    @ApiOperation(value = "查询收件地址", notes = "查询收件地址")
     public R queryAddressList(Query query, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
@@ -85,7 +85,7 @@ public class BasicInfoServiceProviderController {
     }
 
     @PostMapping("/remove-address")
-    @ApiOperation(value = "删除收货地址", notes = "删除收货地址")
+    @ApiOperation(value = "删除收件地址", notes = "删除收件地址")
     public R removeAddress(@ApiParam(value = "主键集合", required = true) @RequestParam String ids, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
@@ -131,7 +131,7 @@ public class BasicInfoServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return serviceProviderInvoiceCatalogsService.addOrUpdateInvoiceCatalog(addOrUpdateProviderInvoiceCatalogDTO, serviceProviderWorkerEntity.getServiceProviderId(), serviceProviderWorkerEntity.getWorkerName());
+        return serviceProviderInvoiceCatalogsService.addOrUpdateInvoiceCatalog(addOrUpdateProviderInvoiceCatalogDTO, serviceProviderWorkerEntity.getServiceProviderId());
     }
 
     @PostMapping("/delete-invoice-catalog")

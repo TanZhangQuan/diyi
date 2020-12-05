@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.*;
+import com.lgyun.common.enumeration.AccountState;
+import com.lgyun.common.enumeration.CreateType;
+import com.lgyun.common.enumeration.ObjectType;
+import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
@@ -17,12 +20,9 @@ import com.lgyun.system.user.dto.UpdateAgentMainDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.AgentMainEntity;
 import com.lgyun.system.user.entity.AgentMainWorkerEntity;
-import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.mapper.AgentMainMapper;
 import com.lgyun.system.user.service.IAgentMainService;
 import com.lgyun.system.user.service.IAgentMainWorkerService;
-import com.lgyun.system.user.service.IAgreementService;
-import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.user.vo.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,8 +43,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, AgentMainEntity> implements IAgentMainService {
 
     private IOrderClient orderClient;
-    private IUserService userService;
-    private IAgreementService agreementService;
     private IAgentMainWorkerService agentMainWorkerService;
 
     @Override
@@ -112,26 +110,18 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
         BeanUtil.copy(createAgentMainDTO, AgentMainEntity);
         save(AgentMainEntity);
 
-        //保存收货地址
+        //保存收件地址
         AddressEntity addressEntity = new AddressEntity();
         addressEntity.setObjectId(AgentMainEntity.getId());
         addressEntity.setObjectType(ObjectType.AGENTMAINPEOPLE);
-        addressEntity.setIsDefault(true);
+        addressEntity.setBoolDefault(true);
         BeanUtils.copyProperties(createAgentMainDTO, addressEntity);
         orderClient.createAddress(addressEntity);
-
-        //新建联系人员工
-        User user = new User();
-        user.setUserType(UserType.AGENTMAIN);
-        user.setAccount(createAgentMainDTO.getEmployeeUserName());
-        user.setPhone(createAgentMainDTO.getPhoneNumber());
-        userService.save(user);
 
         //密码加密
         createAgentMainDTO.setEmployeePwd(DigestUtil.encrypt(createAgentMainDTO.getEmployeePwd()));
 
         AgentMainWorkerEntity agentMainWorkerEntity = new AgentMainWorkerEntity();
-        agentMainWorkerEntity.setUserId(user.getId());
         agentMainWorkerEntity.setPositionName(PositionName.MANAGEMENT);
         agentMainWorkerEntity.setSuperAdmin(true);
         agentMainWorkerEntity.setAdminPower(true);

@@ -20,7 +20,7 @@ import java.util.List;
 public interface AddressMapper extends BaseMapper<AddressEntity> {
 
     /**
-     * 查询商户所有收货地址信息
+     * 查询商户所有收件地址信息
      *
      * @param objectType
      * @param objectId
@@ -30,7 +30,7 @@ public interface AddressMapper extends BaseMapper<AddressEntity> {
     List<AddressListVO> queryAddressList(ObjectType objectType, Long objectId, IPage<AddressListVO> page);
 
     /**
-     * 查询编辑收货地址详情
+     * 查询编辑收件地址详情
      *
      * @param addressId
      * @return

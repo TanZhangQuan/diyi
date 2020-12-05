@@ -80,7 +80,7 @@ public class CooperationEnterpriseServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return enterpriseProviderInvoiceCatalogsService.addOrUpdateEnterpriseProviderInvoiceCatalog(addOrUpdateEnterpriseProviderInvoiceCatalogDTO, serviceProviderWorkerEntity.getServiceProviderId(), enterpriseId, serviceProviderWorkerEntity.getWorkerName());
+        return enterpriseProviderInvoiceCatalogsService.addOrUpdateEnterpriseProviderInvoiceCatalog(addOrUpdateEnterpriseProviderInvoiceCatalogDTO, serviceProviderWorkerEntity.getServiceProviderId(), enterpriseId);
     }
 
     @PostMapping("/delete-enterprise-provider-invoice-catalog")

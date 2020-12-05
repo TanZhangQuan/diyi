@@ -20,11 +20,11 @@
 
     <select id="queryAdminCenterMaterialList" resultMap="adminCenterMaterialListVO">
         SELECT id, material_name, material_desc, material_url, material_state
-        FROM diyi_admin_center_material WHERE is_deleted = 0 AND rel_service_provider_id = #{param1}
+        FROM diyi_admin_center_material WHERE bool_deleted = 0 AND service_provider_id = #{param1}
     </select>
 
     <select id="queryAdminCenterMaterialUpdateDetail" resultMap="adminCenterMaterialUpdateDetailVO">
-        SELECT id, material_name, material_desc, material_url FROM diyi_admin_center_material WHERE is_deleted = 0 AND id = #{param1} LIMIT 1
+        SELECT id, material_name, material_desc, material_url FROM diyi_admin_center_material WHERE bool_deleted = 0 AND id = #{param1} LIMIT 1
     </select>
 
 </mapper>

@@ -29,14 +29,6 @@ public interface IRelBureauService extends BaseService<RelBureauEntity> {
     R<RelBureauEntity> currentRelBureau(BladeUser bladeUser);
 
     /**
-     * 根据userId查询相关局
-     *
-     * @param userId
-     * @return
-     */
-    RelBureauEntity findByUserId(Long userId);
-
-    /**
      * 根据账号密码查询相关局
      *
      * @param relBureauUserName

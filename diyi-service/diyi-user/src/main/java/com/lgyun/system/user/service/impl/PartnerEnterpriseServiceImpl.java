@@ -6,7 +6,6 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.enumeration.CooperateType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.PartnerEnterpriseEntity;
 import com.lgyun.system.user.entity.PartnerEntity;
@@ -41,7 +40,7 @@ public class PartnerEnterpriseServiceImpl extends BaseServiceImpl<PartnerEnterpr
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> relevancePartnerEnterprise(Long partnerId, Long enterpriseId, String matchDesc, AdminEntity adminEntity) {
+    public R<String> relevancePartnerEnterprise(Long partnerId, Long enterpriseId, String matchDesc) {
 
         PartnerEntity partnerEntity = partnerService.getById(partnerId);
         if (partnerEntity == null) {
@@ -65,8 +64,7 @@ public class PartnerEnterpriseServiceImpl extends BaseServiceImpl<PartnerEnterpr
             partnerEnterpriseEntity.setPartnerId(partnerId);
             partnerEnterpriseEntity.setEnterpriseId(enterpriseId);
             partnerEnterpriseEntity.setCooperateType(CooperateType.ALLOCATION);
-            partnerEnterpriseEntity.setOperatePerson(adminEntity.getName());
-            partnerEnterpriseEntity.setOperateDesc(matchDesc);
+            partnerEnterpriseEntity.setMatchDesc(matchDesc);
             save(partnerEnterpriseEntity);
 
         } else {

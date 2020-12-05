@@ -12,7 +12,6 @@ import com.lgyun.system.order.mapper.WorksheetMakerMapper;
 import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.order.vo.WorksheetMakerDetailsVO;
-import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +37,7 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> submitAchievement(WorksheetMakerEntity worksheetMakerEntity, String achievementDesc, String achievementFiles,IWorksheetService worksheetService) {
+    public R<String> submitAchievement(WorksheetMakerEntity worksheetMakerEntity, String achievementDesc, String achievementFiles, IWorksheetService worksheetService) {
         if (null == worksheetMakerEntity || null == achievementFiles || "" == achievementFiles) {
             return R.fail("提交失败");
         }
@@ -48,10 +47,10 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
         worksheetMakerEntity.setWorksheetMakerState(WorksheetMakerState.VERIFIED);
         saveOrUpdate(worksheetMakerEntity);
         WorksheetEntity byId = worksheetService.getById(worksheetMakerEntity.getWorksheetId());
-        if(null == byId){
+        if (null == byId) {
             return R.fail("提交失败");
         }
-        if(WorksheetState.CLOSED.equals(byId.getWorksheetState())){
+        if (WorksheetState.CLOSED.equals(byId.getWorksheetState())) {
             byId.setWorksheetState(WorksheetState.CHECKACCEPT);
             worksheetService.saveOrUpdate(byId);
         }
@@ -65,13 +64,13 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
         if (null == worksheetMakerEntity) {
             return R.fail("数据不存在");
         }
-        if(null == checkMoney){
+        if (null == checkMoney) {
             return R.fail("验收金额为空");
         }
-        if(!(WorksheetMakerState.VERIFIED.equals(worksheetMakerEntity.getWorksheetMakerState()) || WorksheetMakerState.SUBMITTED.equals(worksheetMakerEntity.getWorksheetMakerState()) || WorksheetMakerState.VALIDATION.equals(worksheetMakerEntity.getWorksheetMakerState()))){
-            return R.fail("状态不对");
+        if (!(WorksheetMakerState.VERIFIED.equals(worksheetMakerEntity.getWorksheetMakerState()) || WorksheetMakerState.SUBMITTED.equals(worksheetMakerEntity.getWorksheetMakerState()) || WorksheetMakerState.VALIDATION.equals(worksheetMakerEntity.getWorksheetMakerState()))) {
+            return R.fail("状态有误");
         }
-        EnterpriseEntity byId = iUserClient.queryEnterpriseById(enterpriseId);
+
         if(WorksheetMakerState.VALIDATION.equals(worksheetMakerEntity.getWorksheetMakerState())){
             worksheetMakerEntity.setCheckDate(new Date());
             worksheetMakerEntity.setCheckMoney(checkMoney);
@@ -80,7 +79,6 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
         }
         worksheetMakerEntity.setCheckDate(new Date());
         worksheetMakerEntity.setCheckMoney(checkMoney);
-        worksheetMakerEntity.setCheckPerson(byId.getEnterpriseName());
         if (bool) {
             worksheetMakerEntity.setWorksheetMakerState(WorksheetMakerState.VALIDATION);
         } else {
@@ -93,7 +91,7 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
 
     @Override
     public IPage<WorksheetMakerDetailsVO> getWorksheetMakerDetails(Long worksheetId, IPage<WorksheetMakerDetailsVO> page) {
-        return page.setRecords(baseMapper.getWorksheetMakerDetails(worksheetId,page));
+        return page.setRecords(baseMapper.getWorksheetMakerDetails(worksheetId, page));
     }
 
     @Override
@@ -113,7 +111,7 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
     @Override
     public Integer getOrderGrabbingCount(Long worksheetId) {
         QueryWrapper<WorksheetMakerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(WorksheetMakerEntity::getWorksheetId,worksheetId);
+        queryWrapper.lambda().eq(WorksheetMakerEntity::getWorksheetId, worksheetId);
         return baseMapper.selectCount(queryWrapper);
     }
 

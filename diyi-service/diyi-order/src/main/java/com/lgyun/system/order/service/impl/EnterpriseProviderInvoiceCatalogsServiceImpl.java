@@ -44,7 +44,7 @@ public class EnterpriseProviderInvoiceCatalogsServiceImpl extends BaseServiceImp
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> addOrUpdateEnterpriseProviderInvoiceCatalog(AddOrUpdateEnterpriseProviderInvoiceCatalogDTO addOrUpdateEnterpriseProviderInvoiceCatalogDTO, Long serviceProviderId, Long enterpriseId, String name) {
+    public R<String> addOrUpdateEnterpriseProviderInvoiceCatalog(AddOrUpdateEnterpriseProviderInvoiceCatalogDTO addOrUpdateEnterpriseProviderInvoiceCatalogDTO, Long serviceProviderId, Long enterpriseId) {
 
         EnterpriseProviderInvoiceCatalogsEntity enterpriseProviderInvoiceCatalogsEntity;
         if (addOrUpdateEnterpriseProviderInvoiceCatalogDTO.getEnterpriseProviderInvoiceCatalogId() != null) {
@@ -61,7 +61,6 @@ public class EnterpriseProviderInvoiceCatalogsServiceImpl extends BaseServiceImp
                 return R.fail("商户-服务商开票类目不属于商户");
             }
 
-            enterpriseProviderInvoiceCatalogsEntity.setSetPerson(name);
             BeanUtils.copyProperties(addOrUpdateEnterpriseProviderInvoiceCatalogDTO, enterpriseProviderInvoiceCatalogsEntity);
             updateById(enterpriseProviderInvoiceCatalogsEntity);
 
@@ -72,7 +71,6 @@ public class EnterpriseProviderInvoiceCatalogsServiceImpl extends BaseServiceImp
             enterpriseProviderInvoiceCatalogsEntity = new EnterpriseProviderInvoiceCatalogsEntity();
             enterpriseProviderInvoiceCatalogsEntity.setServiceProviderId(serviceProviderId);
             enterpriseProviderInvoiceCatalogsEntity.setEnterpriseId(enterpriseId);
-            enterpriseProviderInvoiceCatalogsEntity.setSetPerson(name);
             enterpriseProviderInvoiceCatalogsEntity.setSetType(SetType.MANUAL);
             BeanUtils.copyProperties(addOrUpdateEnterpriseProviderInvoiceCatalogDTO, enterpriseProviderInvoiceCatalogsEntity);
             save(enterpriseProviderInvoiceCatalogsEntity);

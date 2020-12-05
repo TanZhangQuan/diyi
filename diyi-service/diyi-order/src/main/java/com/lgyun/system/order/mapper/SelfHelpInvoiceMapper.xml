@@ -147,7 +147,7 @@
         <result property="listFile" column="List_file"/>
         <result property="invoiceScanPictures" column="invoice_scan_pictures"/>
         <result property="taxScanPictures" column="tax_scan_pictures"/>
-        <result property="invoicePrintState" column="invoicePrintState"/>
+        <result property="invoicePrintState" column="invoice_print_state"/>
         <result property="expressSheetNo" column="express_sheet_no"/>
         <result property="expressCompanyName" column="express_company_name"/>
     </resultMap>
@@ -301,15 +301,15 @@
 
     <select id="getSelfHelfInvoicesByEnterprise" resultMap="selfHelpInvoiceListByEnterpriseVO">
         SELECT t1.id, t2.enterprise_name, t1.list_file, t1.pay_type, t1.total_pay_provider_fee, t1.current_state, t1.create_time,
-        (SELECT GROUP_CONCAT(invoice_type) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS invoice_types,
-        (SELECT GROUP_CONCAT(business_contract_url) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS business_contract_urls,
-        (SELECT GROUP_CONCAT(flow_contract_url) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS flow_contract_urls,
-        (SELECT GROUP_CONCAT(accept_paysheet_url) FROM diyi_accept_paysheet_cs WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS accept_paysheet_urls
+        (SELECT GROUP_CONCAT(invoice_type) FROM diyi_self_help_invoice_detail WHERE bool_deleted = 0 AND self_help_invoice_id = t1.id) AS invoice_types,
+        (SELECT GROUP_CONCAT(business_contract_url) FROM diyi_self_help_invoice_detail WHERE bool_deleted = 0 AND self_help_invoice_id = t1.id) AS business_contract_urls,
+        (SELECT GROUP_CONCAT(flow_contract_url) FROM diyi_self_help_invoice_detail WHERE bool_deleted = 0 AND self_help_invoice_id = t1.id) AS flow_contract_urls,
+        (SELECT GROUP_CONCAT(accept_paysheet_url) FROM diyi_accept_paysheet_cs WHERE bool_deleted = 0 AND self_help_invoice_id = t1.id) AS accept_paysheet_urls
         FROM diyi_self_help_invoice t1 INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id
         <if test="param3.invoicePeopleName != null and param3.invoicePeopleName != ''">
-            INNER JOIN diyi_self_help_invoice_detail t3 ON t3.is_deleted = 0 AND t1.id = t3.self_help_invoice_id
+            INNER JOIN diyi_self_help_invoice_detail t3 ON t3.bool_deleted = 0 AND t1.id = t3.self_help_invoice_id
         </if>
-        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.enterprise_id = #{param1} AND t1.maker_type = #{param2}
+        WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t1.enterprise_id = #{param1} AND t1.maker_type = #{param2}
         <if test="param3.invoicePeopleName != null and param3.invoicePeopleName != ''">
             AND t3.invoice_people_name LIKE concat('%', #{param3.invoicePeopleName}, '%')
         </if>
@@ -326,42 +326,42 @@
         SELECT t1.id, t2.enterprise_name, t1.list_file, t1.pay_type, t1.total_pay_provider_fee, t1.service_and_tax_money, t1.service_fee, t1.service_rate, t1.service_tax,
         t1.service_invoice_fee, t1.idendity_confirm_fee, t1.current_state, t1.create_time, t2.invoice_enterprise_name, t2.invoice_tax_no,t2.invoice_address_phone,
         t2.invoice_bank_name_account, t3.address_name, t3.address_phone, t3.province, t3.city, t3.area, t3.detailed_address, t5.account_name, t5.account_no, t5.account_bank,
-        (SELECT GROUP_CONCAT(invoice_type) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS invoice_types,
-        (SELECT GROUP_CONCAT(business_contract_url) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS business_contract_urls,
-        (SELECT GROUP_CONCAT(flow_contract_url) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS flow_contract_urls,
-        (SELECT GROUP_CONCAT(accept_paysheet_url) FROM diyi_accept_paysheet_cs WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS accept_paysheet_urls
-        FROM diyi_self_help_invoice t1 INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id LEFT JOIN diyi_address t3 ON t3.is_deleted = 0 AND t1.address_id = t3.id
-        LEFT JOIN diyi_self_help_invoice_fee t4 ON t4.is_deleted = 0 AND t1.id = t4.self_help_invoice_id LEFT JOIN diyi_self_help_invoice_account t5
-        ON t5.is_deleted = 0 AND t4.hand_pay_account_id = t5.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.enterprise_id = #{param1} AND t1.id = #{param2}
+        (SELECT GROUP_CONCAT(invoice_type) FROM diyi_self_help_invoice_detail WHERE bool_deleted = 0 AND self_help_invoice_id = t1.id) AS invoice_types,
+        (SELECT GROUP_CONCAT(business_contract_url) FROM diyi_self_help_invoice_detail WHERE bool_deleted = 0 AND self_help_invoice_id = t1.id) AS business_contract_urls,
+        (SELECT GROUP_CONCAT(flow_contract_url) FROM diyi_self_help_invoice_detail WHERE bool_deleted = 0 AND self_help_invoice_id = t1.id) AS flow_contract_urls,
+        (SELECT GROUP_CONCAT(accept_paysheet_url) FROM diyi_accept_paysheet_cs WHERE bool_deleted = 0 AND self_help_invoice_id = t1.id) AS accept_paysheet_urls
+        FROM diyi_self_help_invoice t1 INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id LEFT JOIN diyi_address t3 ON t3.bool_deleted = 0 AND t1.address_id = t3.id
+        LEFT JOIN diyi_self_help_invoice_fee t4 ON t4.bool_deleted = 0 AND t1.id = t4.self_help_invoice_id LEFT JOIN diyi_self_help_invoice_account t5
+        ON t5.bool_deleted = 0 AND t4.hand_pay_account_id = t5.id WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t1.enterprise_id = #{param1} AND t1.id = #{param2}
     </select>
 
     <select id="getSelfHelfInvoiceDetailListBySelfHelfInvoice" resultMap="selfHelpInvoiceDetailListVO">
         SELECT t2.id, t2.value_added_tax_rate, t2.charge_money_num, t3.name AS maker_name, t3.idcard_no AS maker_idcard_no, t3.phone_number AS maker_phone_number,
         t4.idcard_name AS invoice_people_name, t4.idcard_no AS invoice_people_idcard_no, t4.phone_number AS invoice_people_phone_number FROM diyi_self_help_invoice t1
-        INNER JOIN diyi_self_help_invoice_detail t2 ON t1.id = t2.self_help_invoice_id LEFT JOIN diyi_maker t3 ON t3.is_deleted = 0 AND t3.id = t2.maker_id
-        LEFT JOIN diyi_self_help_invoice_person t4 ON t4.is_deleted = 0 AND t2.none_maker_invoice_person_id = t4.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0
+        INNER JOIN diyi_self_help_invoice_detail t2 ON t1.id = t2.self_help_invoice_id LEFT JOIN diyi_maker t3 ON t3.bool_deleted = 0 AND t3.id = t2.maker_id
+        LEFT JOIN diyi_self_help_invoice_person t4 ON t4.bool_deleted = 0 AND t2.none_maker_invoice_person_id = t4.id WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0
         AND t1.id = #{param1}
     </select>
 
     <select id="getSelfHelfInvoiceExpressBySelfHelfInvoiceAndEnterprise" resultMap="selfHelpInvoiceExpressByEnterpriseProviderVO">
-        SELECT t3.express_no, t3.express_company_name, (SELECT GROUP_CONCAT(invoice_scan_pictures) FROM diyi_self_help_invoice_sp_detail WHERE is_deleted = 0
+        SELECT t3.express_no, t3.express_company_name, (SELECT GROUP_CONCAT(invoice_scan_pictures) FROM diyi_self_help_invoice_sp_detail WHERE bool_deleted = 0
         AND t2.id = self_help_invoice_apply_provider_id) AS invoice_scan_pictures FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_sp t2
-        ON t1.id = t2.self_help_invoice_id LEFT JOIN diyi_self_help_invoice_express t3 ON t3.is_deleted = 0 AND t2.id = t3.self_help_invoice_apply_provider_id
-        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.id = #{param1} AND t1.enterprise_id = #{param2}
+        ON t1.id = t2.self_help_invoice_id LEFT JOIN diyi_self_help_invoice_express t3 ON t3.bool_deleted = 0 AND t2.id = t3.self_help_invoice_apply_provider_id
+        WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t1.id = #{param1} AND t1.enterprise_id = #{param2}
     </select>
 
     <select id="getSelfHelfInvoicesByServiceProvider" resultMap="selfHelpInvoiceDetailListByServiceProviderVO">
         SELECT DISTINCT t1.id, t2.enterprise_name, t1.pay_type, t1.total_pay_provider_fee, t4.express_no, t4.express_company_name, t3.apply_state, t1.create_time,
-        (SELECT GROUP_CONCAT(invoice_type) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS invoice_types,
-        (SELECT GROUP_CONCAT(business_contract_url) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS business_contract_urls,
-        (SELECT GROUP_CONCAT(flow_contract_url) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS flow_contract_urls,
-        (SELECT GROUP_CONCAT(accept_paysheet_url) FROM diyi_accept_paysheet_cs WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS accept_paysheet_urls
+        (SELECT GROUP_CONCAT(invoice_type) FROM diyi_self_help_invoice_detail WHERE bool_deleted = 0 AND self_help_invoice_id = t1.id) AS invoice_types,
+        (SELECT GROUP_CONCAT(business_contract_url) FROM diyi_self_help_invoice_detail WHERE bool_deleted = 0 AND self_help_invoice_id = t1.id) AS business_contract_urls,
+        (SELECT GROUP_CONCAT(flow_contract_url) FROM diyi_self_help_invoice_detail WHERE bool_deleted = 0 AND self_help_invoice_id = t1.id) AS flow_contract_urls,
+        (SELECT GROUP_CONCAT(accept_paysheet_url) FROM diyi_accept_paysheet_cs WHERE bool_deleted = 0 AND self_help_invoice_id = t1.id) AS accept_paysheet_urls
         FROM diyi_self_help_invoice t1 INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id INNER JOIN diyi_self_help_invoice_sp t3 ON t1.id = t3.self_help_invoice_id
-        LEFT JOIN diyi_self_help_invoice_express t4 ON t4.is_deleted = 0 AND t3.id = t4.self_help_invoice_apply_provider_id
+        LEFT JOIN diyi_self_help_invoice_express t4 ON t4.bool_deleted = 0 AND t3.id = t4.self_help_invoice_apply_provider_id
         <if test="param4.invoicePeopleName != null and param4.invoicePeopleName != ''">
-            INNER JOIN diyi_self_help_invoice_detail t5 ON t5.is_deleted = 0 AND t1.id = t5.self_help_invoice_id
+            INNER JOIN diyi_self_help_invoice_detail t5 ON t5.bool_deleted = 0 AND t1.id = t5.self_help_invoice_id
         </if>
-        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t3.service_provider_id = #{param1} AND t1.maker_type = #{param2} AND t3.apply_state = #{param3}
+        WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t3.bool_deleted = 0 AND t3.service_provider_id = #{param1} AND t1.maker_type = #{param2} AND t3.apply_state = #{param3}
         <if test="param4.enterpriseName != null and param4.enterpriseName != ''">
             AND t2.enterprise_name LIKE concat('%', #{param4.enterpriseName}, '%')
         </if>
@@ -380,36 +380,36 @@
         SELECT t1.id, t2.enterprise_name, t4.service_provider_name, t1.pay_type, t1.total_pay_provider_fee, t1.service_and_tax_money, t1.service_fee, t1.service_rate, t1.service_tax,
         t1.service_invoice_fee, t1.idendity_confirm_fee, t3.apply_state, t1.create_time, t2.invoice_enterprise_name, t2.invoice_tax_no,t2.invoice_address_phone,
         t2.invoice_bank_name_account, t5.address_name, t5.address_phone, t5.province, t5.city, t5.area, t5.detailed_address,
-        (SELECT GROUP_CONCAT(invoice_type) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS invoice_types,
-        (SELECT GROUP_CONCAT(business_contract_url) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS business_contract_urls,
-        (SELECT GROUP_CONCAT(flow_contract_url) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS flow_contract_urls,
-        (SELECT GROUP_CONCAT(accept_paysheet_url) FROM diyi_accept_paysheet_cs WHERE is_deleted = 0 AND self_help_invoice_id = t1.id) AS accept_paysheet_urls
+        (SELECT GROUP_CONCAT(invoice_type) FROM diyi_self_help_invoice_detail WHERE bool_deleted = 0 AND self_help_invoice_id = t1.id) AS invoice_types,
+        (SELECT GROUP_CONCAT(business_contract_url) FROM diyi_self_help_invoice_detail WHERE bool_deleted = 0 AND self_help_invoice_id = t1.id) AS business_contract_urls,
+        (SELECT GROUP_CONCAT(flow_contract_url) FROM diyi_self_help_invoice_detail WHERE bool_deleted = 0 AND self_help_invoice_id = t1.id) AS flow_contract_urls,
+        (SELECT GROUP_CONCAT(accept_paysheet_url) FROM diyi_accept_paysheet_cs WHERE bool_deleted = 0 AND self_help_invoice_id = t1.id) AS accept_paysheet_urls
         FROM diyi_self_help_invoice t1 INNER JOIN diyi_enterprise t2 ON t1.enterprise_id = t2.id INNER JOIN diyi_self_help_invoice_sp t3 ON t1.id = t3.self_help_invoice_id
-        INNER JOIN diyi_service_provider t4 ON t3.service_provider_id = t4.id LEFT JOIN diyi_address t5 ON t5.is_deleted = 0 AND t1.address_id = t5.id
-        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.service_provider_id = #{param1} AND t1.id = #{param2}
+        INNER JOIN diyi_service_provider t4 ON t3.service_provider_id = t4.id LEFT JOIN diyi_address t5 ON t5.bool_deleted = 0 AND t1.address_id = t5.id
+        WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t3.service_provider_id = #{param1} AND t1.id = #{param2}
     </select>
 
     <select id="getSelfHelfInvoiceExpressBySelfHelfInvoiceAndProvider" resultMap="selfHelpInvoiceExpressByEnterpriseProviderVO">
-        SELECT t3.express_no, t3.express_company_name, (SELECT GROUP_CONCAT(invoice_scan_pictures) FROM diyi_self_help_invoice_sp_detail WHERE is_deleted = 0
+        SELECT t3.express_no, t3.express_company_name, (SELECT GROUP_CONCAT(invoice_scan_pictures) FROM diyi_self_help_invoice_sp_detail WHERE bool_deleted = 0
         AND t2.id = self_help_invoice_apply_provider_id) AS invoice_scan_pictures FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_sp t2
-        ON t1.id = t2.self_help_invoice_id LEFT JOIN diyi_self_help_invoice_express t3 ON t3.is_deleted = 0 AND t2.id = t3.self_help_invoice_apply_provider_id
-        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.id = #{param1} AND t2.service_provider_id = #{param2}
+        ON t1.id = t2.self_help_invoice_id LEFT JOIN diyi_self_help_invoice_express t3 ON t3.bool_deleted = 0 AND t2.id = t3.self_help_invoice_apply_provider_id
+        WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t1.id = #{param1} AND t2.service_provider_id = #{param2}
     </select>
 
     <select id="selfHelpInvoiceStatistics" resultMap="selfHelpInvoiceStatisticsVO">
         SELECT t1.num + t2.num AS num, t1.month_money + t2.month_money AS month_money, t1.year_money + t2.year_money AS year_money, t1.all_money + t2.all_money AS all_money
         FROM (SELECT COUNT(id) AS num, IFNULL(SUM(IF(DATEDIFF(NOW(), platform_pay_ok_datetime) <![CDATA[ < ]]> 30, total_fee, 0)), 0) AS month_money, IFNULL(SUM(IF(DATEDIFF(NOW(),
-        platform_pay_ok_datetime) <![CDATA[ < ]]> 365, total_fee, 0)), 0) AS year_money, IFNULL(SUM(total_fee), 0) AS all_money FROM diyi_pay_maker WHERE is_deleted = 0
+        platform_pay_ok_datetime) <![CDATA[ < ]]> 365, total_fee, 0)), 0) AS year_money, IFNULL(SUM(total_fee), 0) AS all_money FROM diyi_pay_maker WHERE bool_deleted = 0
         AND (pay_state = 'PLATFORMPAID' OR pay_state = 'CONFIRMPAID')  AND individual_id = #{param1} AND maker_type = #{param2}) t1,
         (SELECT COUNT(id) AS num, IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 30, charge_money_num, 0)), 0) AS month_money,
         IFNULL(SUM(IF(DATEDIFF(NOW(), create_time) <![CDATA[ < ]]> 365, charge_money_num, 0)), 0) AS year_money, IFNULL(SUM(charge_money_num), 0) AS all_money
-        FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND (invoice_print_state = 'INVOICEING' OR invoice_print_state = 'INVOICESUCCESS') AND individual_id = #{param1} AND maker_type = #{param2}) t2
+        FROM diyi_self_help_invoice_detail WHERE bool_deleted = 0 AND (invoice_print_state = 'INVOICEING' OR invoice_print_state = 'INVOICESUCCESS') AND individual_id = #{param1} AND maker_type = #{param2}) t2
     </select>
 
     <select id="selfHelpInvoiceList" resultMap="selfHelpInvoiceListVO">
         SELECT t1.id, t3.enterprise_name, t1.invoice_type, t1.invoice_print_state, t1.charge_money_num, t1.flow_contract_url,
         t1.business_contract_url, t1.create_time FROM diyi_self_help_invoice_detail t1 INNER JOIN diyi_self_help_invoice t2 ON t1.self_help_invoice_id = t2.id
-        INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0
+        INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t3.bool_deleted = 0
         AND t1.individual_id = #{param1} AND t1.maker_type = #{param2}
     </select>
 
@@ -421,7 +421,7 @@
         INNER JOIN diyi_self_help_invoice_detail sd ON sd.self_help_invoice_id = si.id INNER JOIN diyi_self_help_invoice_sp ss ON si.id = ss.self_help_invoice_id
         INNER JOIN diyi_self_help_invoice_sp_detail ssd ON ssd.self_help_invoice_apply_provider_id = ss.id INNER JOIN diyi_enterprise e ON e.id = si.enterprise_id
         INNER JOIN diyi_service_provider sp ON sp.id = ss.service_provider_id LEFT JOIN diyi_self_help_invoice_express k ON k.self_help_invoice_apply_provider_id = ss.id
-        WHERE si.is_deleted = 0 AND sa.is_deleted = 0 AND sd.is_deleted = 0 AND ss.is_deleted = 0 AND ssd.is_deleted = 0 AND e.is_deleted = 0 and e.id =#{param1}
+        WHERE si.bool_deleted = 0 AND sa.bool_deleted = 0 AND sd.bool_deleted = 0 AND ss.bool_deleted = 0 AND ssd.bool_deleted = 0 AND e.bool_deleted = 0 and e.id =#{param1}
         <if test="param2 != null and param2 != ''">
             AND sp.service_provider_name LIKE concat('%', #{param2}, '%')
         </if>
@@ -434,8 +434,8 @@
         FROM diyi_self_help_invoice si INNER JOIN diyi_self_help_invoice_apply sa ON si.id = sa.self_help_invoice_id INNER JOIN diyi_self_help_invoice_detail sd
         ON sd.self_help_invoice_id = si.id INNER JOIN diyi_self_help_invoice_sp ss ON si.id = ss.self_help_invoice_id INNER JOIN diyi_self_help_invoice_sp_detail ssd
         ON ssd.self_help_invoice_apply_provider_id = ss.id INNER JOIN diyi_enterprise e ON e.id = si.enterprise_id INNER JOIN diyi_service_provider sp
-        ON sp.id = ss.service_provider_id WHERE si.is_deleted = 0 AND sa.is_deleted = 0 AND sd.is_deleted = 0 AND ss.is_deleted = 0 AND ssd.is_deleted = 0
-        AND e.is_deleted = 0 and si.id =#{param1}
+        ON sp.id = ss.service_provider_id WHERE si.bool_deleted = 0 AND sa.bool_deleted = 0 AND sd.bool_deleted = 0 AND ss.bool_deleted = 0 AND ssd.bool_deleted = 0
+        AND e.bool_deleted = 0 and si.id =#{param1}
     </select>
 
     <select id="queryCrowdYearTradeByEnterprise" resultMap="yearTradeVO">
@@ -445,7 +445,7 @@
         IFNULL(SUM(IF(MONTH(create_time) = 7, total_pay_provider_fee, 0)), 0) AS jul_income, IFNULL(SUM(IF(MONTH(create_time) = 8, total_pay_provider_fee, 0)), 0) AS aug_income,
         IFNULL(SUM(IF(MONTH(create_time) = 9, total_pay_provider_fee, 0)), 0) AS sep_income, IFNULL(SUM(IF(MONTH(create_time) = 10, total_pay_provider_fee, 0)), 0) AS oct_income,
         IFNULL(SUM(IF(MONTH(create_time) = 11, total_pay_provider_fee, 0)), 0) AS nov_income, IFNULL(SUM(IF(MONTH(create_time) = 12, total_pay_provider_fee, 0)), 0) AS dec_income
-        FROM diyi_self_help_invoice WHERE is_deleted = 0 AND (current_state = 'PAID' AND current_state = 'INVOICED') AND YEAR(create_time) = YEAR(NOW()) AND enterprise_id = #{param1}
+        FROM diyi_self_help_invoice WHERE bool_deleted = 0 AND (current_state = 'PAID' AND current_state = 'INVOICED') AND YEAR(create_time) = YEAR(NOW()) AND enterprise_id = #{param1}
     </select>
 
     <select id="queryCrowdYearTradeByServiceProvider" resultMap="yearTradeVO">
@@ -455,7 +455,7 @@
         IFNULL(SUM(IF(MONTH(create_time) = 7, charge_money_num, 0)), 0) AS jul_income, IFNULL(SUM(IF(MONTH(create_time) = 8, charge_money_num, 0)), 0) AS aug_income,
         IFNULL(SUM(IF(MONTH(create_time) = 9, charge_money_num, 0)), 0) AS sep_income, IFNULL(SUM(IF(MONTH(create_time) = 10, charge_money_num, 0)), 0) AS oct_income,
         IFNULL(SUM(IF(MONTH(create_time) = 11, charge_money_num, 0)), 0) AS nov_income, IFNULL(SUM(IF(MONTH(create_time) = 12, charge_money_num, 0)), 0) AS dec_income
-        FROM diyi_self_help_invoice_sp WHERE is_deleted = 0 AND (apply_state = 'SUBMITTED' OR apply_state = 'INVOICED') AND YEAR(create_time) = YEAR(NOW()) AND service_provider_id = #{param1}
+        FROM diyi_self_help_invoice_sp WHERE bool_deleted = 0 AND (apply_state = 'SUBMITTED' OR apply_state = 'INVOICED') AND YEAR(create_time) = YEAR(NOW()) AND service_provider_id = #{param1}
     </select>
 
     <select id="queryCrowdMonthTradeByEnterprise" resultMap="monthTradeVO">
@@ -476,7 +476,7 @@
         IF(DAY(LAST_DAY(NOW())) >= 29, IFNULL(SUM(IF(DAY(create_time) = 29, total_pay_provider_fee, 0)), 0), NULL) AS twenty_nine_day_income,
         IF(DAY(LAST_DAY(NOW())) >= 30, IFNULL(SUM(IF(DAY(create_time) = 30, total_pay_provider_fee, 0)), 0), NULL) AS thirty_day_income,
 		IF(DAY(LAST_DAY(NOW())) >= 31, IFNULL(SUM(IF(DAY(create_time) = 31, total_pay_provider_fee, 0)), 0), NULL) AS thirty_one_day_income
-        FROM diyi_self_help_invoice WHERE is_deleted = 0 AND (current_state = 'PAID' AND current_state = 'INVOICED')
+        FROM diyi_self_help_invoice WHERE bool_deleted = 0 AND (current_state = 'PAID' AND current_state = 'INVOICED')
         AND YEAR(create_time) = YEAR(NOW()) AND MONTH(create_time) = MONTH(NOW()) AND enterprise_id = #{param1}
     </select>
 
@@ -498,7 +498,7 @@
         IF(DAY(LAST_DAY(NOW())) >= 29, IFNULL(SUM(IF(DAY(create_time) = 29, charge_money_num, 0)), 0), NULL) AS twenty_nine_day_income,
         IF(DAY(LAST_DAY(NOW())) >= 30, IFNULL(SUM(IF(DAY(create_time) = 30, charge_money_num, 0)), 0), NULL) AS thirty_day_income,
 		IF(DAY(LAST_DAY(NOW())) >= 31, IFNULL(SUM(IF(DAY(create_time) = 31, charge_money_num, 0)), 0), NULL) AS thirty_one_day_income
-        FROM diyi_self_help_invoice_sp WHERE is_deleted = 0 AND (apply_state = 'SUBMITTED' OR apply_state = 'INVOICED')
+        FROM diyi_self_help_invoice_sp WHERE bool_deleted = 0 AND (apply_state = 'SUBMITTED' OR apply_state = 'INVOICED')
         AND YEAR(create_time) = YEAR(NOW()) AND MONTH(create_time) = MONTH(NOW()) AND service_provider_id = #{param1}
     </select>
 
@@ -507,7 +507,7 @@
         IFNULL(SUM(IF(WEEKDAY(create_time) = 2, total_pay_provider_fee, 0)), 0) AS wed_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 3, total_pay_provider_fee, 0)), 0) AS thu_income,
         IFNULL(SUM(IF(WEEKDAY(create_time) = 4, total_pay_provider_fee, 0)), 0) AS fri_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 5, total_pay_provider_fee, 0)), 0) AS sat_income,
         IFNULL(SUM(IF(WEEKDAY(create_time) = 6, total_pay_provider_fee, 0)), 0) AS sun_income
-        FROM diyi_self_help_invoice WHERE is_deleted = 0 AND (current_state = 'PAID' AND current_state = 'INVOICED') AND WEEK(create_time) = WEEK(NOW()) AND enterprise_id = #{param1}
+        FROM diyi_self_help_invoice WHERE bool_deleted = 0 AND (current_state = 'PAID' AND current_state = 'INVOICED') AND WEEK(create_time) = WEEK(NOW()) AND enterprise_id = #{param1}
     </select>
 
     <select id="queryCrowdWeekTradeByServiceProvider" resultMap="weekTradeVO">
@@ -515,7 +515,7 @@
         IFNULL(SUM(IF(WEEKDAY(create_time) = 2, charge_money_num, 0)), 0) AS wed_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 3, charge_money_num, 0)), 0) AS thu_income,
         IFNULL(SUM(IF(WEEKDAY(create_time) = 4, charge_money_num, 0)), 0) AS fri_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 5, charge_money_num, 0)), 0) AS sat_income,
         IFNULL(SUM(IF(WEEKDAY(create_time) = 6, charge_money_num, 0)), 0) AS sun_income
-        FROM diyi_self_help_invoice_sp WHERE is_deleted = 0 AND (apply_state = 'SUBMITTED' OR apply_state = 'INVOICED') AND WEEK(create_time) = WEEK(NOW()) AND service_provider_id = #{param1}
+        FROM diyi_self_help_invoice_sp WHERE bool_deleted = 0 AND (apply_state = 'SUBMITTED' OR apply_state = 'INVOICED') AND WEEK(create_time) = WEEK(NOW()) AND service_provider_id = #{param1}
     </select>
 
     <select id="queryCrowdDayTradeByEnterprise" resultMap="dayTradeVO">
@@ -531,7 +531,7 @@
         IFNULL(SUM(IF(HOUR(create_time) = 19, total_pay_provider_fee, 0)), 0) AS nineteen_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 20, total_pay_provider_fee, 0)), 0) AS twenty_hour_income,
         IFNULL(SUM(IF(HOUR(create_time) = 21, total_pay_provider_fee, 0)), 0) AS twenty_one_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 22, total_pay_provider_fee, 0)), 0) AS twenty_two_hour_income,
         IFNULL(SUM(IF(HOUR(create_time) = 23, total_pay_provider_fee, 0)), 0) AS twenty_three_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 0, total_pay_provider_fee, 0)), 0) AS twenty_four_hour_income
-        FROM diyi_self_help_invoice WHERE is_deleted = 0 AND (current_state = 'PAID' AND current_state = 'INVOICED') AND DATE(create_time) = DATE(NOW()) AND enterprise_id = #{param1}
+        FROM diyi_self_help_invoice WHERE bool_deleted = 0 AND (current_state = 'PAID' AND current_state = 'INVOICED') AND DATE(create_time) = DATE(NOW()) AND enterprise_id = #{param1}
     </select>
 
     <select id="queryCrowdDayTradeByServiceProvider" resultMap="dayTradeVO">
@@ -547,7 +547,7 @@
         IFNULL(SUM(IF(HOUR(create_time) = 19, charge_money_num, 0)), 0) AS nineteen_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 20, charge_money_num, 0)), 0) AS twenty_hour_income,
         IFNULL(SUM(IF(HOUR(create_time) = 21, charge_money_num, 0)), 0) AS twenty_one_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 22, charge_money_num, 0)), 0) AS twenty_two_hour_income,
         IFNULL(SUM(IF(HOUR(create_time) = 23, charge_money_num, 0)), 0) AS twenty_three_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 0, charge_money_num, 0)), 0) AS twenty_four_hour_income
-        FROM diyi_self_help_invoice_sp WHERE is_deleted = 0 AND (apply_state = 'SUBMITTED' OR apply_state = 'INVOICED') AND DATE(create_time) = DATE(NOW()) AND service_provider_id = #{param1}
+        FROM diyi_self_help_invoice_sp WHERE bool_deleted = 0 AND (apply_state = 'SUBMITTED' OR apply_state = 'INVOICED') AND DATE(create_time) = DATE(NOW()) AND service_provider_id = #{param1}
     </select>
 
     <select id="getAdminMakerTypeSelfHelpInvoice" resultMap="selfHelpInvoiceAdminMap">
@@ -580,8 +580,8 @@
     <select id="querySelfHelpInvoiceList" resultMap="selfHelpInvoiceSerProVO">
         SELECT t1.id, t1.current_state, t3.enterprise_name, t4.invoice_scan_pictures, t4.tax_scan_pictures, t1.create_time FROM diyi_self_help_invoice t1
         INNER JOIN diyi_self_help_invoice_sp t2 ON t1.id = t2.self_help_invoice_id INNER JOIN diyi_enterprise t3 ON t1.enterprise_id = t3.id
-        LEFT JOIN diyi_self_help_invoice_sp_detail t4 ON t2.id = t4.self_help_invoice_apply_provider_id AND t4.is_deleted = 0
-        WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t3.is_deleted = 0 AND t2.service_provider_id = #{param1}
+        LEFT JOIN diyi_self_help_invoice_sp_detail t4 ON t2.id = t4.self_help_invoice_apply_provider_id AND t4.bool_deleted = 0
+        WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t3.bool_deleted = 0 AND t2.service_provider_id = #{param1}
         <if test="param2 != null and param2.trim() != ''">
             AND t3.enterprise_name LIKE concat('%', #{param2}, '%')
         </if>
@@ -593,7 +593,7 @@
         IF(t2.maker_id IS NOT NULL, (SELECT idcard_no FROM diyi_maker WHERE id = t2.maker_id), (SELECT idcard_no FROM diyi_self_help_invoice_person WHERE id = t2.id)) AS idcard_no,
         IF(t2.maker_id IS NOT NULL, (SELECT phone_number FROM diyi_maker WHERE id = t2.maker_id), (SELECT phone_number FROM diyi_self_help_invoice_person WHERE id = t2.id)) AS phone_number,
         IF(t2.maker_id IS NOT NULL, (SELECT bank_card_no FROM diyi_maker WHERE id = t2.maker_id), '') AS bank_no
-        FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_detail t2 ON t1.id = t2.self_help_invoice_id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t1.id = #{param1}
+        FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_detail t2 ON t1.id = t2.self_help_invoice_id WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t1.id = #{param1}
     </select>
 
 </mapper>

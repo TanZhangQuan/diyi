@@ -121,7 +121,6 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
             makerEnterpriseEntity.setRelMemo("关注");
         }else{
             makerEnterpriseEntity.setRelationshipType(RelationshipType.ATTENTION);
-            makerEnterpriseEntity.setIsDeleted(0);
         }
         saveOrUpdate(makerEnterpriseEntity);
 

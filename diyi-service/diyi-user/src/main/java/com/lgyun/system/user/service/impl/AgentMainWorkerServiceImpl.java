@@ -17,11 +17,9 @@ import com.lgyun.system.feign.ISysClient;
 import com.lgyun.system.user.dto.ChildAccountDTO;
 import com.lgyun.system.user.entity.AgentMainEntity;
 import com.lgyun.system.user.entity.AgentMainWorkerEntity;
-import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.mapper.AgentMainWorkerMapper;
 import com.lgyun.system.user.service.IAgentMainService;
 import com.lgyun.system.user.service.IAgentMainWorkerService;
-import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.user.vo.AgentMainWorkerDetailVO;
 import com.lgyun.system.user.vo.AgentMainWorkerInfoVO;
 import com.lgyun.system.user.vo.AgentMainWorkerVO;
@@ -53,7 +51,6 @@ import java.util.List;
 public class AgentMainWorkerServiceImpl extends BaseServiceImpl<AgentMainWorkerMapper, AgentMainWorkerEntity> implements IAgentMainWorkerService {
 
     private final ISysClient sysClient;
-    private final IUserService userService;
 
     @Autowired
     @Lazy
@@ -66,7 +63,11 @@ public class AgentMainWorkerServiceImpl extends BaseServiceImpl<AgentMainWorkerM
             return R.fail("用户未登录");
         }
 
-        AgentMainWorkerEntity agentMainWorkerEntity = findByUserId(bladeUser.getUserId());
+        if (!(UserType.AGENTMAIN.equals(bladeUser.getUserType()))) {
+            return R.fail("用户类型有误");
+        }
+
+        AgentMainWorkerEntity agentMainWorkerEntity = getById(bladeUser.getUserId());
         if (agentMainWorkerEntity == null) {
             return R.fail("渠道商员工不存在");
         }
@@ -90,13 +91,6 @@ public class AgentMainWorkerServiceImpl extends BaseServiceImpl<AgentMainWorkerM
     @Override
     public R<AgentMainWorkerDetailVO> queryAgentMainWorkerDetail(Long agentMainWorkerId) {
         return R.data(baseMapper.queryAgentMainWorkerDetail(agentMainWorkerId));
-    }
-
-    @Override
-    public AgentMainWorkerEntity findByUserId(Long userId) {
-        QueryWrapper<AgentMainWorkerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(AgentMainWorkerEntity::getUserId, userId);
-        return baseMapper.selectOne(queryWrapper);
     }
 
     @Override
@@ -279,19 +273,6 @@ public class AgentMainWorkerServiceImpl extends BaseServiceImpl<AgentMainWorkerM
              */
             updateById(workerEntity);
 
-            /**
-             * 修改用户表
-             */
-            User user = userService.getById(workerEntity.getUserId());
-            if (user == null) {
-                throw new CustomException("修改的账号异常！");
-            }
-
-            user.setAccount(childAccountDTO.getUserName());
-            user.setPhone(childAccountDTO.getPhoneNumber());
-            user.setRoleId(childAccountDTO.getRoleId().toString());
-            userService.updateById(user);
-
         } else {
             int userNameCount = this.count(new QueryWrapper<AgentMainWorkerEntity>().lambda().eq(AgentMainWorkerEntity::getEmployeeUserName, childAccountDTO.getUserName()));
             if (userNameCount > 0) {
@@ -301,12 +282,6 @@ public class AgentMainWorkerServiceImpl extends BaseServiceImpl<AgentMainWorkerM
             if (phoneNumberCount > 0) {
                 return R.fail("手机号码已存在！");
             }
-            User user = new User();
-            user.setUserType(UserType.AGENTMAIN);
-            user.setRoleId(childAccountDTO.getRoleId().toString());
-            user.setPhone(childAccountDTO.getPhoneNumber());
-            user.setAccount(childAccountDTO.getUserName());
-            userService.save(user);
 
             AgentMainWorkerEntity childAccount = new AgentMainWorkerEntity();
             childAccount.setWorkerName(childAccountDTO.getName());
@@ -326,7 +301,6 @@ public class AgentMainWorkerServiceImpl extends BaseServiceImpl<AgentMainWorkerM
             }
             String encrypt = DigestUtil.encrypt(childAccountDTO.getPassWord());
             childAccount.setEmployeePwd(encrypt);
-            childAccount.setUserId(user.getId());
             save(childAccount);
         }
         return R.success("操作成功！");
@@ -355,7 +329,6 @@ public class AgentMainWorkerServiceImpl extends BaseServiceImpl<AgentMainWorkerM
         switch (childAccountType) {
             case DELETE:
                 removeRole(workerEntity.getRoleId());
-                userService.removeById(workerEntity.getId());
                 break;
             case STARTUSING:
                 workerEntity.setAgentMainWorkerState(AccountState.NORMAL);

@@ -11,29 +11,29 @@
         <result property="city" column="city"/>
         <result property="area" column="area"/>
         <result property="detailedAddress" column="detailed_address"/>
-        <result property="isDefault" column="is_default"/>
+        <result property="boolDefault" column="bool_default"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
 
     <resultMap type="com.lgyun.system.order.vo.AddressUpdateDetailVO" id="addressUpdateDetailVO">
-        <result property="addressId" column="address_id"/>
+        <result property="id" column="id"/>
         <result property="addressName" column="address_name"/>
         <result property="addressPhone" column="address_phone"/>
         <result property="province" column="province"/>
         <result property="city" column="city"/>
         <result property="area" column="area"/>
         <result property="detailedAddress" column="detailed_address"/>
-        <result property="isDefault" column="is_default"/>
+        <result property="boolDefault" column="bool_default"/>
     </resultMap>
 
     <select id="queryAddressList" resultMap="addressListVO">
-        SELECT id, address_name, address_phone, province, city, area, detailed_address, is_default, create_time
-        FROM diyi_address WHERE is_deleted = 0 AND object_type = #{param1} and object_id = #{param2}
+        SELECT id, address_name, address_phone, province, city, area, detailed_address, bool_default, create_time
+        FROM diyi_address WHERE bool_deleted = 0 AND object_type = #{param1} and object_id = #{param2}
     </select>
 
     <select id="queryAddressUpdateDetail" resultMap="addressUpdateDetailVO">
-        SELECT id, address_name, address_phone, province, city, area, detailed_address, is_default
-        FROM diyi_address WHERE is_deleted = 0 AND id = #{param1}
+        SELECT id, address_name, address_phone, province, city, area, detailed_address, bool_default
+        FROM diyi_address WHERE bool_deleted = 0 AND id = #{param1}
     </select>
 
 </mapper>

@@ -122,43 +122,44 @@
     </resultMap>
 
     <select id="queryMakerInfo" resultMap="makerInfoVO">
-        SELECT avatar, name, certification_state, self_desc FROM diyi_maker WHERE is_deleted = 0 AND id = #{param1}
+        SELECT avatar, name, certification_state, self_desc FROM diyi_maker WHERE bool_deleted = 0 AND id = #{param1}
     </select>
 
     <select id="queryCurrentMakerDetail" resultMap="makerDetailVO">
         SELECT rel_date, name, avatar, certification_state, empower_sign_state, join_sign_state, maker_state, politic_state, nationality, levelofedu,
         email_address, idcard_no, due_date, phone_number, bank_card_no, bank_name, sub_bank_name, idcard_pic, idcard_pic_back,
         self_pic, idcard_copy, idcard_hand, idcard_back_hand, pic_verify, idcard_verify_status, idcard_verify_date, face_verify_status, face_verify_date,
-        bank_card_verify_status, bank_card_verify_date, phone_number_verify_status, phone_number_verify_date, idcard_verify_type, manual_verify_name,
-        manual_verify_desc, run_address, house_address, living_address, self_desc, shop_url, shop_user_name, apply_short_video, video_audit,
-        video_audit_date, (SELECT t1.name FROM diyi_admin t1 WHERE t1.is_deleted = 0 AND t1.id = video_audit_person_id) AS video_audit_person_name FROM diyi_maker
-        WHERE is_deleted = 0 AND id = #{param1}
+        bank_card_verify_status, bank_card_verify_date, phone_number_verify_status, phone_number_verify_date, idcard_verify_type,
+        (SELECT t1.name FROM diyi_admin t1 WHERE t1.bool_deleted = 0 AND t1.id = manual_verify_id) AS manual_verify_name,
+        manual_verify_desc, run_address, house_address, living_address, self_desc, apply_short_video, video_audit,
+        video_audit_date, (SELECT t2.name FROM diyi_admin t2 WHERE t2.bool_deleted = 0 AND t2.id = video_audit_person_id) AS video_audit_person_name FROM diyi_maker
+        WHERE bool_deleted = 0 AND id = #{param1}
     </select>
 
     <select id="queryMakerDetail" resultMap="makerDetailWebVO">
         SELECT t5.id, t5.avatar, t5.name, t5.certification_state, t5.self_desc, t5.idcard_no, t5.phone_number, t5.bank_card_no, t5.sub_bank_name, t5.idcard_verify_status,
         t5.face_verify_status, t5.bank_card_verify_status, t5.phone_number_verify_status, t5.create_time, t5.maker_state, ((SELECT COUNT(id) FROM diyi_pay_maker t1
-        WHERE is_deleted = 0 AND (pay_state = 'PLATFORMPAID' OR pay_state = 'CONFIRMPAID') AND maker_id = t5.id) + (SELECT COUNT(id) FROM diyi_self_help_invoice_detail
-        WHERE is_deleted = 0 AND (invoice_print_state = 'INVOICEING' OR invoice_print_state = 'INVOICESUCCESS') AND maker_id = t5.id)) AS order_num,
-        ((SELECT IFNULL(SUM(maker_net_income), 0) FROM diyi_pay_maker t1 WHERE is_deleted = 0 AND (pay_state = 'PLATFORMPAID' OR pay_state = 'CONFIRMPAID')
-        AND maker_id = t5.id) + (SELECT IFNULL(SUM(charge_money_num), 0) FROM diyi_self_help_invoice_detail WHERE is_deleted = 0 AND (invoice_print_state = 'INVOICEING'
+        WHERE bool_deleted = 0 AND (pay_state = 'PLATFORMPAID' OR pay_state = 'CONFIRMPAID') AND maker_id = t5.id) + (SELECT COUNT(id) FROM diyi_self_help_invoice_detail
+        WHERE bool_deleted = 0 AND (invoice_print_state = 'INVOICEING' OR invoice_print_state = 'INVOICESUCCESS') AND maker_id = t5.id)) AS order_num,
+        ((SELECT IFNULL(SUM(maker_net_income), 0) FROM diyi_pay_maker t1 WHERE bool_deleted = 0 AND (pay_state = 'PLATFORMPAID' OR pay_state = 'CONFIRMPAID')
+        AND maker_id = t5.id) + (SELECT IFNULL(SUM(charge_money_num), 0) FROM diyi_self_help_invoice_detail WHERE bool_deleted = 0 AND (invoice_print_state = 'INVOICEING'
         OR invoice_print_state = 'INVOICESUCCESS') AND maker_id = t5.id)) AS income, (SELECT IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '',
-        paper_agreement_url, online_agreement_url) FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t5.id AND sign_state = 'SIGNED' AND audit_state = 'APPROVED'
+        paper_agreement_url, online_agreement_url) FROM diyi_agreement WHERE bool_deleted = 0 AND maker_id = t5.id AND sign_state = 'SIGNED' AND audit_state = 'APPROVED'
         AND agreement_type = 'MAKERJOINAGREEMENT') AS maker_join_agreement, (SELECT IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url,
-        online_agreement_url) FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t5.id AND sign_state = 'SIGNED' AND audit_state = 'APPROVED'
-        AND agreement_type = 'MAKERPOWERATTORNEY') AS maker_power_attorney FROM diyi_maker t5 WHERE t5.is_deleted = 0 AND t5.id = #{param1}
+        online_agreement_url) FROM diyi_agreement WHERE bool_deleted = 0 AND maker_id = t5.id AND sign_state = 'SIGNED' AND audit_state = 'APPROVED'
+        AND agreement_type = 'MAKERPOWERATTORNEY') AS maker_power_attorney FROM diyi_maker t5 WHERE t5.bool_deleted = 0 AND t5.id = #{param1}
     </select>
 
     <select id="queryMakerListIndividual" resultMap="makerListIndividualVO">
         SELECT DISTINCT t1.id, t1.name, t1.phone_number, t1.idcard_no, t1.idcard_pic, t1.idcard_pic_back, t1.idcard_hand, t1.idcard_back_hand FROM diyi_maker t1
         <if test="param1 != null">
-            INNER JOIN diyi_maker_enterprise t2 ON t1.id = t2.maker_id AND t2.relationship_type = 'RELEVANCE' AND t2.is_deleted = 0
+            INNER JOIN diyi_maker_enterprise t2 ON t1.id = t2.maker_id AND t2.relationship_type = 'RELEVANCE' AND t2.bool_deleted = 0
         </if>
 		<if test="param2 != null">
-            INNER JOIN diyi_maker_enterprise t3 ON t1.id = t3.maker_id AND t3.relationship_type = 'RELEVANCE' AND t3.is_deleted = 0
-		    INNER JOIN diyi_partner_enterprise t4 ON t3.enterprise_id = t4.enterprise_id AND t4.cooperate_status = 'COOPERATING' AND t4.is_deleted = 0
+            INNER JOIN diyi_maker_enterprise t3 ON t1.id = t3.maker_id AND t3.relationship_type = 'RELEVANCE' AND t3.bool_deleted = 0
+		    INNER JOIN diyi_partner_enterprise t4 ON t3.enterprise_id = t4.enterprise_id AND t4.cooperate_status = 'COOPERATING' AND t4.bool_deleted = 0
         </if>
-        WHERE t1.is_deleted = 0 AND t1.phone_number_verify_status = 'VERIFYPASS'
+        WHERE t1.bool_deleted = 0 AND t1.phone_number_verify_status = 'VERIFYPASS'
         <if test="param1 != null">
             AND t2.enterprise_id = #{param1}
         </if>
@@ -184,12 +185,12 @@
         t1.id, t1.name, t1.idcard_no, t1.phone_number, t1.bank_card_no, t1.idcard_verify_status, t1.face_verify_status, t1.bank_card_verify_status,
         t1.phone_number_verify_status, t1.empower_sign_state, t1.join_sign_state, t1.create_time FROM diyi_maker t1
         <if test="param1 != null">
-            INNER JOIN diyi_maker_enterprise t2 ON t1.id = t2.maker_id AND t2.is_deleted = 0
+            INNER JOIN diyi_maker_enterprise t2 ON t1.id = t2.maker_id AND t2.bool_deleted = 0
         </if>
         <if test="param2 != null">
-            INNER JOIN diyi_service_provider_maker t3 ON t1.id = t3.maker_id AND t3.is_deleted = 0
+            INNER JOIN diyi_service_provider_maker t3 ON t1.id = t3.maker_id AND t3.bool_deleted = 0
         </if>
-        WHERE t1.is_deleted = 0
+        WHERE t1.bool_deleted = 0
         <if test="param1 != null">
             AND t2.enterprise_id = #{param1}
         </if>
@@ -211,9 +212,9 @@
 
     <select id="queryWorkMakerList" resultMap="makerWorkSheetListVO">
         SELECT t1.id, t1.name, t1.idcard_no, t1.phone_number, t1.idcard_verify_status, t1.face_verify_status, t1.bank_card_verify_status, t1.phone_number_verify_status,
-        t1.empower_sign_state, t1.join_sign_state, t1.video_audit, IF ((SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND maker_id = t1.id
+        t1.empower_sign_state, t1.join_sign_state, t1.video_audit, IF ((SELECT COUNT(id) FROM diyi_agreement WHERE bool_deleted = 0 AND maker_id = t1.id
         AND sign_state = 'SIGNED' AND agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' AND enterprise_id = #{param1}) > 0, TRUE, FALSE) AS bool_supplement_sign
-        FROM diyi_maker t1 INNER JOIN diyi_maker_enterprise t2 ON t2.maker_id = t1.id where t1.is_deleted = 0 and t2.is_deleted = 0 and t2.enterprise_id = #{param1}
+        FROM diyi_maker t1 INNER JOIN diyi_maker_enterprise t2 ON t2.maker_id = t1.id where t1.bool_deleted = 0 and t2.bool_deleted = 0 and t2.enterprise_id = #{param1}
         <if test="param2 != null and param2.trim() != ''">
             and t1.name LIKE concat('%', #{param2}, '%')
         </if>

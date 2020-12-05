@@ -38,7 +38,6 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderMapper, ServiceProviderEntity> implements IServiceProviderService {
 
-    private IUserService userService;
     private IOrderClient orderClient;
     private IAgreementService agreementService;
     private IServiceProviderRulesService serviceProviderRulesService;
@@ -130,33 +129,25 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         ServiceProviderAccountEntity serviceProviderAccountEntity = new ServiceProviderAccountEntity();
         serviceProviderAccountEntity.setServiceProviderId(serviceProviderEntity.getId());
         serviceProviderAccountEntity.setAccountType(AccountType.BANK);
-        serviceProviderAccountEntity.setIsDefault(true);
+        serviceProviderAccountEntity.setBoolDefault(true);
         BeanUtils.copyProperties(addServiceProviderDTO, serviceProviderAccountEntity);
         serviceProviderAccountService.save(serviceProviderAccountEntity);
 
-        //保存收货地址
+        //保存收件地址
         AddressEntity addressEntity = new AddressEntity();
         addressEntity.setObjectId(serviceProviderEntity.getId());
         addressEntity.setObjectType(ObjectType.SERVICEPEOPLE);
-        addressEntity.setIsDefault(true);
+        addressEntity.setBoolDefault(true);
         BeanUtils.copyProperties(addServiceProviderDTO, addressEntity);
         orderClient.createAddress(addressEntity);
 
         //新建服务商-创客业务规则，服务商-商户业务规则
         serviceProviderRulesService.addOrUpdateServiceProviderRules(serviceProviderEntity.getId(), addServiceProviderDTO.getMakerRuleHashSet(), addServiceProviderDTO.getEnterpriseRuleSet());
 
-        //新建服务商员工
-        User user = new User();
-        user.setUserType(UserType.SERVICEPROVIDER);
-        user.setAccount(addServiceProviderDTO.getEmployeeUserName());
-        user.setPhone(addServiceProviderDTO.getPhoneNumber());
-        userService.save(user);
-
         //密码加密
         addServiceProviderDTO.setEmployeePwd(DigestUtil.encrypt(addServiceProviderDTO.getEmployeePwd()));
 
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = new ServiceProviderWorkerEntity();
-        serviceProviderWorkerEntity.setUserId(user.getId());
         serviceProviderWorkerEntity.setPositionName(PositionName.MANAGEMENT);
         serviceProviderWorkerEntity.setSuperAdmin(true);
         serviceProviderWorkerEntity.setAdminPower(true);

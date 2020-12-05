@@ -10,7 +10,6 @@ import com.lgyun.common.enumeration.SetType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.EnterpriseProviderInvoiceCatalogsEntity;
 import com.lgyun.system.order.feign.IOrderClient;
-import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.EnterpriseServiceProviderEntity;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
@@ -18,7 +17,9 @@ import com.lgyun.system.user.mapper.EnterpriseServiceProviderMapper;
 import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IEnterpriseServiceProviderService;
 import com.lgyun.system.user.service.IServiceProviderService;
-import com.lgyun.system.user.vo.*;
+import com.lgyun.system.user.vo.CooperationEnterprisesListVO;
+import com.lgyun.system.user.vo.CooperationServiceProviderListVO;
+import com.lgyun.system.user.vo.EnterprisesVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,7 +84,7 @@ public class EnterpriseServiceProviderServiceImpl extends BaseServiceImpl<Enterp
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> relevanceEnterpriseServiceProvider(Long enterpriseId, Long serviceProviderId, String matchDesc, AdminEntity adminEntity) {
+    public R<String> relevanceEnterpriseServiceProvider(Long enterpriseId, Long serviceProviderId, String matchDesc) {
 
         EnterpriseEntity enterpriseEntity = enterpriseService.getById(enterpriseId);
         if (enterpriseEntity == null) {
@@ -100,7 +101,6 @@ public class EnterpriseServiceProviderServiceImpl extends BaseServiceImpl<Enterp
             enterpriseServiceProviderEntity = new EnterpriseServiceProviderEntity();
             enterpriseServiceProviderEntity.setEnterpriseId(enterpriseId);
             enterpriseServiceProviderEntity.setServiceProviderId(serviceProviderId);
-            enterpriseServiceProviderEntity.setMatchPerson(adminEntity.getName());
             enterpriseServiceProviderEntity.setMatchDesc(matchDesc);
             save(enterpriseServiceProviderEntity);
 

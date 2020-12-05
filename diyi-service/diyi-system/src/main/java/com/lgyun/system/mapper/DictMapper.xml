@@ -6,20 +6,19 @@
         <id column="id" property="id"/>
         <result column="parent_id" property="parentId"/>
         <result column="dict_value" property="dictValue"/>
-        <result column="sort" property="sort"/>
         <result column="remark" property="remark"/>
     </resultMap>
 
     <select id="queryDictTree" resultMap="treeNodeResultMap">
-        SELECT id, parent_id, dict_value, sort, remark FROM sys_dict WHERE is_deleted = 0
-        <if test="param1 != null">
+        SELECT id, parent_id, dict_value, remark FROM diyi_dict WHERE bool_deleted = 0
+        <if test="param1 != null and param1.trim() != ''">
             AND code = #{param1}
         </if>
         ORDER BY sort ASC
     </select>
 
     <select id="queryDictValue" resultType="java.lang.String">
-        SELECT dict_value FROM sys_dict WHERE code = #{param1} AND dict_key = #{param2} AND is_deleted = 0 limit 1
+        SELECT dict_value FROM diyi_dict WHERE code = #{param1} AND dict_key = #{param2} AND bool_deleted = 0 limit 1
     </select>
 
 </mapper>

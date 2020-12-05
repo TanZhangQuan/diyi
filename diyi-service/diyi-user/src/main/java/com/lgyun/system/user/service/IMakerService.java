@@ -199,14 +199,6 @@ public interface IMakerService extends BaseService<MakerEntity> {
     R faceOcrNotify(HttpServletRequest request) throws Exception;
 
     /**
-     * 根据userId查询创客
-     *
-     * @param userId
-     * @return
-     */
-    MakerEntity findByUserId(Long userId);
-
-    /**
      * 上传创客视频
      *
      * @param makerEntity

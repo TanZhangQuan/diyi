@@ -32,7 +32,7 @@ public class AgentMainServiceProviderServiceImpl extends BaseServiceImpl<AgentMa
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> relevanceAgentMainServiceProvider(Long agentMainId, Long serviceProviderId, String matchDesc, AdminEntity adminEntity) {
+    public R<String> relevanceAgentMainServiceProvider(Long agentMainId, Long serviceProviderId, String matchDesc) {
 
         AgentMainEntity agentMainEntity = agentMainService.getById(agentMainId);
         if (agentMainEntity == null) {
@@ -49,7 +49,6 @@ public class AgentMainServiceProviderServiceImpl extends BaseServiceImpl<AgentMa
             agentMainServiceProviderEntity = new AgentMainServiceProviderEntity();
             agentMainServiceProviderEntity.setAgentMainId(agentMainId);
             agentMainServiceProviderEntity.setServiceProviderId(serviceProviderId);
-            agentMainServiceProviderEntity.setMatchPerson(adminEntity.getName());
             agentMainServiceProviderEntity.setMatchDesc(matchDesc);
             save(agentMainServiceProviderEntity);
         } else {

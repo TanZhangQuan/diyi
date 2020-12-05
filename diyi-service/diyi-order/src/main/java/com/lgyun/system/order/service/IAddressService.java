@@ -18,7 +18,7 @@ import com.lgyun.system.order.vo.AddressUpdateDetailVO;
 public interface IAddressService extends BaseService<AddressEntity> {
 
     /**
-     * 添加/编辑收货地址
+     * 添加/编辑收件地址
      *
      * @param addOrUpdateAddressDto
      * @param objectId
@@ -35,7 +35,7 @@ public interface IAddressService extends BaseService<AddressEntity> {
     R<AddressEntity> getAddressById(Long addressId);
 
     /**
-     * 删除收货地址
+     * 删除收件地址
      *
      * @param addressId
      * @return
@@ -43,7 +43,7 @@ public interface IAddressService extends BaseService<AddressEntity> {
     R<String> deleteAddress(Long addressId);
 
     /**
-     * 查询收货地址信息
+     * 查询收件地址信息
      *
      * @param objectType
      * @param objectId
@@ -63,7 +63,7 @@ public interface IAddressService extends BaseService<AddressEntity> {
     R<String> setDefaultAddress(Long objectId, ObjectType objectType, Long addressId);
 
     /**
-     * 查询编辑收货地址详情
+     * 查询编辑收件地址详情
      *
      * @param addressId
      * @return

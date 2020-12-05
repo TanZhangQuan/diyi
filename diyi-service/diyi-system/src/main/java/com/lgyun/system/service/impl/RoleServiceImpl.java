@@ -1,11 +1,7 @@
 package com.lgyun.system.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.lgyun.common.constant.RoleConstant;
 import com.lgyun.common.node.ForestNodeMerger;
-import com.lgyun.common.tool.CollectionUtil;
-import com.lgyun.common.tool.Func;
-import com.lgyun.common.tool.SecureUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.entity.Role;
 import com.lgyun.system.entity.RoleMenu;
@@ -35,12 +31,7 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role> implement
 
 	@Override
 	public List<RoleVO> tree(String tenantId) {
-		String userRole = SecureUtil.getUserRole();
-		String excludeRole = null;
-		if (!CollectionUtil.contains(Func.toStrArray(userRole), RoleConstant.ADMIN)) {
-			excludeRole = RoleConstant.ADMIN;
-		}
-		return ForestNodeMerger.merge(baseMapper.tree(tenantId, excludeRole));
+		return ForestNodeMerger.merge(baseMapper.tree(tenantId));
 	}
 
 	@Override

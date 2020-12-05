@@ -41,14 +41,6 @@ public interface IAgentMainWorkerService extends BaseService<AgentMainWorkerEnti
     R<AgentMainWorkerDetailVO> queryAgentMainWorkerDetail(Long agentMainWorkerId);
 
     /**
-     * 根据userId查询渠道商员工
-     *
-     * @param userId
-     * @return
-     */
-    AgentMainWorkerEntity findByUserId(Long userId);
-
-    /**
      * 根据手机号码查询渠道商员工是否存在
      *
      * @param phoneNumber

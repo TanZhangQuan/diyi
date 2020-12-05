@@ -65,14 +65,6 @@ public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEn
     int findCountByPhoneNumber(String phoneNumber);
 
     /**
-     * 根据userId查找商户员工
-     *
-     * @param userId
-     * @return
-     */
-    EnterpriseWorkerEntity findByUserId(Long userId);
-
-    /**
      * 创建或修改角色及角色拥有的权限
      *
      * @param roleMenusDTO

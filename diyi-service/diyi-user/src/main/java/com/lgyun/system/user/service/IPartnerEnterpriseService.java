@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.PartnerEnterpriseEntity;
 import com.lgyun.system.user.vo.CooperationEnterprisesListVO;
 
@@ -22,10 +21,9 @@ public interface IPartnerEnterpriseService extends BaseService<PartnerEnterprise
      * @param partnerId
      * @param enterpriseId
      * @param matchDesc
-     * @param adminEntity
      * @return
      */
-    R<String> relevancePartnerEnterprise(Long partnerId, Long enterpriseId, String matchDesc, AdminEntity adminEntity);
+    R<String> relevancePartnerEnterprise(Long partnerId, Long enterpriseId, String matchDesc);
 
     /**
      * 查询合伙人-商户数

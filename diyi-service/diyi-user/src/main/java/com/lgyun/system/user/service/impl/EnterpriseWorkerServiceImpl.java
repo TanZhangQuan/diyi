@@ -17,11 +17,9 @@ import com.lgyun.system.feign.ISysClient;
 import com.lgyun.system.user.dto.ChildAccountDTO;
 import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
-import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.mapper.EnterpriseWorkerMapper;
 import com.lgyun.system.user.service.IEnterpriseService;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
-import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.user.vo.EnterpriseWorkerDetailVO;
 import com.lgyun.system.user.vo.EnterpriseWorkerInfoVO;
 import com.lgyun.system.user.vo.EnterpriseWorkerVO;
@@ -52,7 +50,6 @@ import java.util.List;
 public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorkerMapper, EnterpriseWorkerEntity> implements IEnterpriseWorkerService {
 
     private final ISysClient sysClient;
-    private final IUserService userService;
 
     @Autowired
     @Lazy
@@ -65,7 +62,11 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
             return R.fail("用户未登录");
         }
 
-        EnterpriseWorkerEntity enterpriseWorkerEntity = findByUserId(bladeUser.getUserId());
+        if (!(UserType.ENTERPRISE.equals(bladeUser.getUserType()))) {
+            return R.fail("用户类型有误");
+        }
+
+        EnterpriseWorkerEntity enterpriseWorkerEntity = getById(bladeUser.getUserId());
         if (enterpriseWorkerEntity == null) {
             return R.fail("商户员工不存在");
         }
@@ -111,13 +112,6 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
         QueryWrapper<EnterpriseWorkerEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(EnterpriseWorkerEntity::getPhoneNumber, phoneNumber);
         return baseMapper.selectCount(queryWrapper);
-    }
-
-    @Override
-    public EnterpriseWorkerEntity findByUserId(Long userId) {
-        QueryWrapper<EnterpriseWorkerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(EnterpriseWorkerEntity::getUserId, userId);
-        return baseMapper.selectOne(queryWrapper);
     }
 
     @Override
@@ -276,17 +270,6 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
              */
             updateById(workerEntity);
 
-            /**
-             * 修改用户表
-             */
-            User user = userService.getById(workerEntity.getUserId());
-            if (user == null) {
-                throw new CustomException("修改的账号异常！");
-            }
-            user.setAccount(childAccountDTO.getUserName());
-            user.setPhone(childAccountDTO.getPhoneNumber());
-            user.setRoleId(childAccountDTO.getRoleId().toString());
-            userService.updateById(user);
         } else {
             int userNameCount = this.count(new QueryWrapper<EnterpriseWorkerEntity>().lambda().eq(EnterpriseWorkerEntity::getEmployeeUserName, childAccountDTO.getUserName()));
             if (userNameCount > 0) {
@@ -296,12 +279,6 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
             if (phoneNumberCount > 0) {
                 return R.fail("手机号码已存在！");
             }
-            User user = new User();
-            user.setUserType(UserType.ENTERPRISE);
-            user.setRoleId(childAccountDTO.getRoleId().toString());
-            user.setPhone(childAccountDTO.getPhoneNumber());
-            user.setAccount(childAccountDTO.getUserName());
-            userService.save(user);
 
             EnterpriseWorkerEntity childAccount = new EnterpriseWorkerEntity();
             childAccount.setWorkerName(childAccountDTO.getName());
@@ -321,7 +298,6 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
             }
             String encrypt = DigestUtil.encrypt(childAccountDTO.getPassWord());
             childAccount.setEmployeePwd(encrypt);
-            childAccount.setUserId(user.getId());
             save(childAccount);
         }
         return R.success("操作成功！");
@@ -350,7 +326,6 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
         switch (childAccountType) {
             case DELETE:
                 removeRole(workerEntity.getRoleId());
-                userService.removeById(workerEntity.getId());
                 break;
             case STARTUSING:
                 workerEntity.setEnterpriseWorkerState(AccountState.NORMAL);

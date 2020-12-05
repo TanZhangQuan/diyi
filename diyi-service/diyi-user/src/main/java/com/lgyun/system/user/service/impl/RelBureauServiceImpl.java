@@ -12,10 +12,8 @@ import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.dto.AddOrUpdateRelBureauDTO;
 import com.lgyun.system.user.dto.RelBureauListDTO;
 import com.lgyun.system.user.entity.RelBureauEntity;
-import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.mapper.RelBureauMapper;
 import com.lgyun.system.user.service.IRelBureauService;
-import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.user.vo.RelBureauInfoVO;
 import com.lgyun.system.user.vo.RelBureauListVO;
 import com.lgyun.system.user.vo.RelBureauUpdateDetailVO;
@@ -37,15 +35,18 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class RelBureauServiceImpl extends BaseServiceImpl<RelBureauMapper, RelBureauEntity> implements IRelBureauService {
 
-    private IUserService userService;
-
     @Override
     public R<RelBureauEntity> currentRelBureau(BladeUser bladeUser) {
+
         if (bladeUser == null || bladeUser.getUserId() == null) {
             return R.fail("用户未登录");
         }
 
-        RelBureauEntity relBureauEntity = findByUserId(bladeUser.getUserId());
+        if (!(UserType.RELBUREAU.equals(bladeUser.getUserType()))) {
+            return R.fail("用户类型有误");
+        }
+
+        RelBureauEntity relBureauEntity = getById(bladeUser.getUserId());
         if (relBureauEntity == null) {
             return R.fail("相关局不存在");
         }
@@ -55,13 +56,6 @@ public class RelBureauServiceImpl extends BaseServiceImpl<RelBureauMapper, RelBu
         }
 
         return R.data(relBureauEntity);
-    }
-
-    @Override
-    public RelBureauEntity findByUserId(Long userId) {
-        QueryWrapper<RelBureauEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(RelBureauEntity::getUserId, userId);
-        return baseMapper.selectOne(queryWrapper);
     }
 
     @Override
@@ -118,40 +112,6 @@ public class RelBureauServiceImpl extends BaseServiceImpl<RelBureauMapper, RelBu
             if (oldRelBureauNum > 0) {
                 return R.fail("已存在相同账号");
             }
-
-            UserType userType;
-            switch (addOrUpdateRelBureauDto.getRelBureauType()) {
-
-                case TAXBUREAU:
-
-                    userType = UserType.TAXBUREAU;
-                    break;
-
-                case PAYMENTAGENCY:
-
-                    userType = UserType.PAYMENTAGENCY;
-                    break;
-
-                case INDUSTRIALPARKS:
-
-                    userType = UserType.INDUSTRIALPARKS;
-                    break;
-
-                case MARKETSUPERVISION:
-
-                    userType = UserType.MARKETSUPERVISION;
-                    break;
-
-                default:
-                    return R.fail("相关局类型有误");
-            }
-
-            //新建相关局员工
-            User user = new User();
-            user.setUserType(userType);
-            user.setAccount(addOrUpdateRelBureauDto.getRelBureauUserName());
-            user.setPhone(addOrUpdateRelBureauDto.getRelBureauUserName());
-            userService.save(user);
 
         }
 

@@ -17,12 +17,10 @@ import com.lgyun.system.user.dto.UpdatePartnerDeatilDTO;
 import com.lgyun.system.user.dto.UpdatePhoneNumberDTO;
 import com.lgyun.system.user.entity.OnlineAgreementTemplateEntity;
 import com.lgyun.system.user.entity.PartnerEntity;
-import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.mapper.PartnerMapper;
 import com.lgyun.system.user.service.IOnlineAgreementNeedSignService;
 import com.lgyun.system.user.service.IOnlineAgreementTemplateService;
 import com.lgyun.system.user.service.IPartnerService;
-import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.user.vo.BaseInfoVO;
 import com.lgyun.system.user.vo.PartnerDetailVO;
 import com.lgyun.system.user.vo.PartnerListVO;
@@ -48,7 +46,6 @@ import java.util.UUID;
 public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEntity> implements IPartnerService {
 
     private RedisUtil redisUtil;
-    private IUserService userService;
     private IOnlineAgreementNeedSignService onlineAgreementNeedSignService;
     private IOnlineAgreementTemplateService onlineAgreementTemplateService;
 
@@ -59,7 +56,11 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
             return R.fail("用户未登录");
         }
 
-        PartnerEntity partnerEntity = findByUserId(bladeUser.getUserId());
+        if (!(UserType.PARTNER.equals(bladeUser.getUserType()))) {
+            return R.fail("用户类型有误");
+        }
+
+        PartnerEntity partnerEntity = getById(bladeUser.getUserId());
         if (partnerEntity == null) {
             return R.fail("合伙人不存在");
         }
@@ -69,13 +70,6 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
         }
 
         return R.data(partnerEntity);
-    }
-
-    @Override
-    public PartnerEntity findByUserId(Long userId) {
-        QueryWrapper<PartnerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(PartnerEntity::getUserId, userId);
-        return baseMapper.selectOne(queryWrapper);
     }
 
     @Override
@@ -98,12 +92,6 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
         PartnerEntity partnerEntityPhoneNumber = findByPhoneNumber(purePhoneNumber);
         PartnerEntity partnerEntityIdcardNo = findByIdcardNo(idcardNo);
         if (partnerEntityPhoneNumber == null && partnerEntityIdcardNo == null) {
-            //新建管理员
-            User user = new User();
-            user.setUserType(UserType.PARTNER);
-            user.setAccount(purePhoneNumber);
-            user.setPhone(purePhoneNumber);
-            userService.save(user);
 
             //新建合伙人
             partnerEntity = new PartnerEntity();
@@ -115,7 +103,6 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
             }
 
             partnerEntity.setIntroducePartnerId(introducePartnerId);
-            partnerEntity.setUserId(user.getId());
             partnerEntity.setPhoneNumber(purePhoneNumber);
             if (StringUtil.isNotBlank(loginPwd)) {
                 partnerEntity.setLoginPwd(loginPwd);

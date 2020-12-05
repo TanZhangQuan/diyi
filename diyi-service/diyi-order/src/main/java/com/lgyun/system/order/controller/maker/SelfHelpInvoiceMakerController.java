@@ -49,7 +49,7 @@ public class SelfHelpInvoiceMakerController {
     private ISelfHelpInvoiceAccountService selfHelpInvoiceAccountService;
 
     @PostMapping("/create-address")
-    @ApiOperation(value = "新建或修改收货地址", notes = "新建或修改收货地址")
+    @ApiOperation(value = "新建或修改收件地址", notes = "新建或修改收件地址")
     public R createAddress(@Valid @RequestBody AddOrUpdateAddressDTO addOrUpdateAddressDto, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = userClient.currentMaker(bladeUser);
@@ -62,7 +62,7 @@ public class SelfHelpInvoiceMakerController {
     }
 
     @GetMapping("/query-address-list")
-    @ApiOperation(value = "查询收货地址", notes = "查询收货地址")
+    @ApiOperation(value = "查询收件地址", notes = "查询收件地址")
     public R queryAddressList(Query query, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = userClient.currentMaker(bladeUser);

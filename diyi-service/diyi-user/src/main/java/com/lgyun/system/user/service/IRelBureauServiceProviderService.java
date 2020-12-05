@@ -5,7 +5,6 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.enumeration.RelBureauType;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.RelBureauServiceProviderEntity;
 import com.lgyun.system.user.vo.CooperationServiceProviderListVO;
 
@@ -23,10 +22,9 @@ public interface IRelBureauServiceProviderService extends BaseService<RelBureauS
      * @param relBureauId
      * @param serviceProviderId
      * @param matchDesc
-     * @param adminEntity
      * @return
      */
-    R<String> relevanceRelBureauServiceProvider(Long relBureauId, Long serviceProviderId, String matchDesc, AdminEntity adminEntity);
+    R<String> relevanceRelBureauServiceProvider(Long relBureauId, Long serviceProviderId, String matchDesc);
 
     /**
      * 查询相关局-服务商关联

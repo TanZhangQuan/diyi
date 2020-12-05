@@ -79,11 +79,11 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
-    public List<AgreementEntity> findByEnterpriseId(Long enterpriseId,Long makerId) {
+    public List<AgreementEntity> findByEnterpriseId(Long enterpriseId, Long makerId) {
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(AgreementEntity::getEnterpriseId, enterpriseId)
-        .eq(AgreementEntity::getAgreementType,AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT)
-        .eq(AgreementEntity::getMakerId,makerId);
+                .eq(AgreementEntity::getAgreementType, AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT)
+                .eq(AgreementEntity::getMakerId, makerId);
         return baseMapper.selectList(queryWrapper);
     }
 
@@ -125,8 +125,6 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         agreementEntity.setPaperAgreementUrl(paperAgreementURL);
         agreementEntity.setFirstSideSignPerson("地衣众包平台");
         agreementEntity.setSecondSideSignPerson(byId.getEnterpriseName());
-        agreementEntity.setUploadDatetime(new Date());
-        agreementEntity.setUploadPerson(byId.getEnterpriseName());
         save(agreementEntity);
         return R.success("上传成功");
     }
@@ -161,8 +159,6 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         agreementEntity.setPaperAgreementUrl(paperAgreementURL);
         agreementEntity.setFirstSideSignPerson(serviceProviderEntity.getServiceProviderName());
         agreementEntity.setSecondSideSignPerson(byId.getEnterpriseName());
-        agreementEntity.setUploadDatetime(new Date());
-        agreementEntity.setUploadPerson(byId.getEnterpriseName());
         save(agreementEntity);
         return R.success("上传成功");
     }
@@ -193,9 +189,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
                 agreementEntity.setEnterpriseId(enterpriseId);
                 agreementEntity.setPaperAgreementUrl(paperAgreementURL);
                 agreementEntity.setSecondSideSignPerson(enterpriseEntity.getEnterpriseName());
-                agreementEntity.setUploadDatetime(new Date());
                 agreementEntity.setFirstSideSignPerson(makerEntity.getName());
-                agreementEntity.setUploadPerson(enterpriseEntity.getEnterpriseName());
                 agreementEntity.setMakerId(makerEntity.getId());
                 saveOrUpdate(agreementEntity);
             } else {
@@ -231,8 +225,6 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
             agreementEntity.setMakerId(Long.parseLong(split[i]));
             agreementEntity.setEnterpriseId(enterpriseId);
             agreementEntity.setPaperAgreementUrl(paperAgreementURL);
-            agreementEntity.setUploadDatetime(new Date());
-            agreementEntity.setUploadPerson(byId.getEnterpriseName());
             agreementEntity.setFirstSideSignPerson(byId.getEnterpriseName());
             MakerEntity makerEntity = makerService.getById(Long.parseLong(split[i]));
             agreementEntity.setSecondSideSignPerson(makerEntity.getName());
@@ -265,8 +257,6 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         agreementEntity.setPaperAgreementUrl(contractUrl);
         agreementEntity.setFirstSideSignPerson(serviceProviderEntity.getServiceProviderName());
         agreementEntity.setSecondSideSignPerson(byId.getEnterpriseName());
-        agreementEntity.setUploadDatetime(new Date());
-        agreementEntity.setUploadPerson(byId.getEnterpriseName());
         save(agreementEntity);
         return R.success("操作成功");
     }
@@ -320,7 +310,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
                     agreementEntity = new AgreementEntity();
                 }
 
-                OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = iOnlineAgreementTemplateService.findTemplateType(agreementType,0);
+                OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = iOnlineAgreementTemplateService.findTemplateType(agreementType, 0);
                 if (null != onlineAgreementTemplateEntity) {
                     agreementEntity.setOnlineAgreementTemplateId(onlineAgreementTemplateEntity.getId());
                 }
@@ -349,6 +339,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         agreementEntity.setAgreementType(agreementType);
         agreementEntity.setSignType(SignType.PAPERAGREEMENT);
         agreementEntity.setAgreementNo(SnowflakeIdWorker.getSerialNumber());
+
         if (ObjectType.MAKERPEOPLE.equals(objectType)) {
             agreementEntity.setMakerId(objectId);
             if (AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType)) {
@@ -387,23 +378,23 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         }
         agreementEntity.setSignState(SignState.SIGNED);
         saveOrUpdate(agreementEntity);
-        if(AgreementType.MAKERJOINAGREEMENT.equals(agreementType) || AgreementType.MAKERPOWERATTORNEY.equals(agreementType)){
+        if (AgreementType.MAKERJOINAGREEMENT.equals(agreementType) || AgreementType.MAKERPOWERATTORNEY.equals(agreementType)) {
             MakerEntity makerServiceById = makerService.getById(objectId);
-            if(AgreementType.MAKERJOINAGREEMENT.equals(agreementType)){
-                makerServiceById.setEmpowerSignState(SignState.SIGNED);
-            }
-            if(AgreementType.MAKERPOWERATTORNEY.equals(agreementType)){
+            if (AgreementType.MAKERJOINAGREEMENT.equals(agreementType)) {
                 makerServiceById.setJoinSignState(SignState.SIGNED);
+            }
+            if (AgreementType.MAKERPOWERATTORNEY.equals(agreementType)) {
+                makerServiceById.setEmpowerSignState(SignState.SIGNED);
             }
             makerService.saveOrUpdate(makerServiceById);
         }
 
-        if(AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType)){
-            if(ObjectType.MAKERPEOPLE.equals(objectType)){
-                makerEnterpriseService.makerEnterpriseEntitySave(enterpriseId,objectId);
+        if (AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT.equals(agreementType)) {
+            if (ObjectType.MAKERPEOPLE.equals(objectType)) {
+                makerEnterpriseService.makerEnterpriseEntitySave(enterpriseId, objectId);
             }
-            if(ObjectType.ENTERPRISEPEOPLE.equals(objectType)){
-                makerEnterpriseService.makerEnterpriseEntitySave(objectId,makerId);
+            if (ObjectType.ENTERPRISEPEOPLE.equals(objectType)) {
+                makerEnterpriseService.makerEnterpriseEntitySave(objectId, makerId);
             }
         }
 

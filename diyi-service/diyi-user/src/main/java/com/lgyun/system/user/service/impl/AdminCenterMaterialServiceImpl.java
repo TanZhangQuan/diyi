@@ -59,7 +59,7 @@ public class AdminCenterMaterialServiceImpl extends BaseServiceImpl<AdminCenterM
         if (addOrUpdateAdminCenterMaterialDTO.getAdminCenterMaterialId() == null) {
 
             AdminCenterMaterialEntity adminCenterMaterialEntity = new AdminCenterMaterialEntity();
-            adminCenterMaterialEntity.setRelServiceProviderId(serviceProviderId);
+            adminCenterMaterialEntity.setServiceProviderId(serviceProviderId);
             adminCenterMaterialEntity.setMaterialBelong(MaterialBelong.SERVICEPROVIDER);
             adminCenterMaterialEntity.setMaterialType(MaterialType.TEMPLATE);
             adminCenterMaterialEntity.setOpenAtribute(OpenAtribute.GLOBALPUBLIC);

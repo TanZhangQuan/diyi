@@ -41,14 +41,6 @@ public interface IAdminService extends BaseService<AdminEntity> {
     R<AdminDetailVO> queryAdminDetail(Long adminId);
 
     /**
-     * 根据userId查询管理员
-     *
-     * @param userId
-     * @return
-     */
-    AdminEntity findByUserId(Long userId);
-
-    /**
      * 根据手机号查询管理员是否存在
      *
      * @param phoneNumber
@@ -110,10 +102,10 @@ public interface IAdminService extends BaseService<AdminEntity> {
      * 创建或修改子账号及子账号的角色分配
      *
      * @param childAccountDTO
-     * @param id
+     * @param adminEntity
      * @return
      */
-    R createOrUpdateChildAccount(ChildAccountDTO childAccountDTO, Long id);
+    R createOrUpdateChildAccount(ChildAccountDTO childAccountDTO, AdminEntity adminEntity);
 
     /**
      * 停用、删除、启用子账号

@@ -139,7 +139,7 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
         for (SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity : selfHelpInvoiceDetailEntities) {
             if (!selfHelpInvoiceDetailEntity.getInvoicePrintState().equals(InvoicePrintState.INVOICESUCCESS)) {
                 count++;
-                if (selfHelpInvoiceDetailEntity.getId() == selfHelpInvoiceDetailId) {
+                if (selfHelpInvoiceDetailEntity.getId().equals(selfHelpInvoiceDetailId)) {
                     num++;
                 }
             }

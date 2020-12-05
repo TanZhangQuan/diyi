@@ -4,9 +4,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.EnterpriseServiceProviderEntity;
-import com.lgyun.system.user.vo.*;
+import com.lgyun.system.user.vo.CooperationEnterprisesListVO;
+import com.lgyun.system.user.vo.CooperationServiceProviderListVO;
+import com.lgyun.system.user.vo.EnterprisesVO;
 
 /**
  * Service 接口
@@ -70,10 +71,9 @@ public interface IEnterpriseServiceProviderService extends BaseService<Enterpris
      * @param enterpriseId
      * @param serviceProviderId
      * @param matchDesc
-     * @param adminEntity
      * @return
      */
-    R<String> relevanceEnterpriseServiceProvider(Long enterpriseId, Long serviceProviderId, String matchDesc, AdminEntity adminEntity);
+    R<String> relevanceEnterpriseServiceProvider(Long enterpriseId, Long serviceProviderId, String matchDesc);
 
     /**
      * 更改商户服务商合作关系

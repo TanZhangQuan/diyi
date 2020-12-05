@@ -150,17 +150,17 @@
 
     <select id="getEnterpriseName" resultMap="makerEnterpriseRelationVO">
        SELECT id AS enterprise_id, enterprise_name, shop_user_name, legal_person_name, legal_person_idcard as legal_person_idcard, contact1_position, contact1_name, contact1_phone,
-       social_credit_no, biz_licence_url, shop_id, contact1_name FROM diyi_enterprise t1 WHERE is_deleted = 0 AND enterprise_name = #{param1}
+       social_credit_no, biz_licence_url, shop_id, contact1_name FROM diyi_enterprise t1 WHERE bool_deleted = 0 AND enterprise_name = #{param1}
     </select>
 
     <select id="getEnterpriseDetailById" resultMap="enterprisesDetailVO">
         SELECT enterprise_name, legal_person_name, contact1_mail, contact1_phone, working_address, social_credit_no, biz_licence_url,
-        create_time, enterprise_state FROM diyi_enterprise t1 WHERE is_deleted = 0 AND id = #{param1}
+        create_time, enterprise_state FROM diyi_enterprise t1 WHERE bool_deleted = 0 AND id = #{param1}
     </select>
 
     <select id="queryEnterpriseListPayment" resultMap="enterpriseListPaymentVO">
-        SELECT t1.id, t1.enterprise_name, IF((SELECT COUNT(id) FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'ENTERPRISEJOINAGREEMENT'
-        AND sign_state = 'SIGNED' AND enterprise_id = t1.id) > 0, TRUE, FALSE) AS bool_sign_contract FROM diyi_enterprise t1 WHERE is_deleted = 0
+        SELECT t1.id, t1.enterprise_name, IF((SELECT COUNT(id) FROM diyi_agreement WHERE bool_deleted = 0 AND agreement_type = 'ENTERPRISEJOINAGREEMENT'
+        AND sign_state = 'SIGNED' AND enterprise_id = t1.id) > 0, TRUE, FALSE) AS bool_sign_contract FROM diyi_enterprise t1 WHERE bool_deleted = 0
         <if test="param1 != null and param1.trim() != ''">
             AND t1.enterprise_name LIKE concat('%', #{param1}, '%')
         </if>
@@ -169,10 +169,10 @@
     <select id="queryEnterpriseListAdmin" resultMap="enterpriseListAdminVO">
         SELECT t1.id, t1.enterprise_name, t1.contact1_name, t1.contact1_phone, t1.enterprise_state, t1.create_time,
         (SELECT IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url)
-        FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'ENTERPRISEJOINAGREEMENT' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED'
+        FROM diyi_agreement WHERE bool_deleted = 0 AND agreement_type = 'ENTERPRISEJOINAGREEMENT' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED'
         AND enterprise_id = t1.id) AS join_contract, (SELECT GROUP_CONCAT(IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '',
-        paper_agreement_url, online_agreement_url)) FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'ENTERPRISEPROMISE'
-        AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND enterprise_id = t1.id) AS commitment_letters FROM diyi_enterprise t1 WHERE t1.is_deleted = 0
+        paper_agreement_url, online_agreement_url)) FROM diyi_agreement WHERE bool_deleted = 0 AND agreement_type = 'ENTERPRISEPROMISE'
+        AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND enterprise_id = t1.id) AS commitment_letters FROM diyi_enterprise t1 WHERE t1.bool_deleted = 0
         <if test="param1.enterpriseName != null and param1.enterpriseName.trim() != ''">
             AND t1.enterprise_name LIKE concat('%', #{param1.enterpriseName}, '%')
         </if>
@@ -187,11 +187,11 @@
     <select id="queryEnterpriseListAgentMain" resultMap="enterpriseListAdminVO">
         SELECT t1.id, t1.enterprise_name, t1.contact1_name, t1.contact1_phone, t1.enterprise_state, t1.create_time,
         (SELECT IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url)
-        FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'ENTERPRISEJOINAGREEMENT' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED'
+        FROM diyi_agreement WHERE bool_deleted = 0 AND agreement_type = 'ENTERPRISEJOINAGREEMENT' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED'
         AND enterprise_id = t1.id) AS join_contract, (SELECT GROUP_CONCAT(IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '',
-        paper_agreement_url, online_agreement_url)) FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'ENTERPRISEPROMISE'
+        paper_agreement_url, online_agreement_url)) FROM diyi_agreement WHERE bool_deleted = 0 AND agreement_type = 'ENTERPRISEPROMISE'
         AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND enterprise_id = t1.id) AS commitment_letters FROM diyi_enterprise t1
-        INNER JOIN diyi_agent_main_enterprise t2 ON t1.id = t2.enterprise_id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0 AND t2.cooperate_status = 'COOPERATING'
+        INNER JOIN diyi_agent_main_enterprise t2 ON t1.id = t2.enterprise_id WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t2.cooperate_status = 'COOPERATING'
         AND t2.agent_main_id = #{param1}
         <if test="param2.enterpriseName != null and param2.enterpriseName.trim() != ''">
             AND t1.enterprise_name LIKE concat('%', #{param2.enterpriseName}, '%')
@@ -209,26 +209,26 @@
         t1.contact1_name, t1.contact1_position, t1.contact1_phone, t1.contact1_mail, t1.contact2_name, t1.contact2_position, t1.contact2_phone,
         t1.contact2_mail, t1.invoice_enterprise_name, t1.invoice_tax_no, t1.invoice_address_phone, t1.invoice_bank_name_account, t2.employee_user_name, t2.phone_number,
         t2.worker_name, (SELECT IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url)
-        FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'ENTERPRISEJOINAGREEMENT' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND enterprise_id = t1.id) AS join_contract,
+        FROM diyi_agreement WHERE bool_deleted = 0 AND agreement_type = 'ENTERPRISEJOINAGREEMENT' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND enterprise_id = t1.id) AS join_contract,
         (SELECT GROUP_CONCAT(IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url))
-        FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'ENTERPRISEPROMISE' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND enterprise_id = t1.id) AS commitment_letters
-        FROM diyi_enterprise t1 INNER JOIN diyi_enterprise_worker t2 ON t1.id = t2.enterprise_id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0
+        FROM diyi_agreement WHERE bool_deleted = 0 AND agreement_type = 'ENTERPRISEPROMISE' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND enterprise_id = t1.id) AS commitment_letters
+        FROM diyi_enterprise t1 INNER JOIN diyi_enterprise_worker t2 ON t1.id = t2.enterprise_id WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0
         AND t2.up_level_id IS NULL AND t1.id = #{param1}
     </select>
 
     <select id="queryEnterpriseInfo" resultMap="enterpriseInfoVO">
         SELECT id, enterprise_name, legal_person_name, legal_person_idcard, social_credit_no, biz_licence_url, enterprise_url
-        FROM diyi_enterprise WHERE is_deleted = 0 AND id = #{param1}
+        FROM diyi_enterprise WHERE bool_deleted = 0 AND id = #{param1}
     </select>
 
     <select id="queryContact" resultMap="contactInfoVO">
         SELECT contact1_name, contact1_position, contact1_phone, contact1_mail, contact2_name, contact2_position, contact2_phone, contact2_mail
-        FROM diyi_enterprise WHERE is_deleted = 0 AND id = #{param1}
+        FROM diyi_enterprise WHERE bool_deleted = 0 AND id = #{param1}
     </select>
 
     <select id="queryeInvoice" resultMap="invoiceVO">
         SELECT invoice_enterprise_name, invoice_tax_no, invoice_address_phone, invoice_bank_name_account FROM diyi_enterprise
-        WHERE is_deleted = 0 AND id = #{param1}
+        WHERE bool_deleted = 0 AND id = #{param1}
     </select>
 
     <select id="queryEnterpriseIdAndNameList" resultMap="enterpriseIdNameListVO">
@@ -239,12 +239,12 @@
         <if test="param2 != null">
             INNER JOIN diyi_partner_enterprise t3 ON t1.id = t3.enterprise_id
         </if>
-        WHERE t1.is_deleted = 0
+        WHERE t1.bool_deleted = 0
         <if test="param1 != null">
-            AND t2.is_deleted = 0 AND t2.cooperate_status = 'COOPERATING' AND t2.service_provider_id = #{param1}
+            AND t2.bool_deleted = 0 AND t2.cooperate_status = 'COOPERATING' AND t2.service_provider_id = #{param1}
         </if>
         <if test="param2 != null">
-            AND t3.is_deleted = 0 AND t3.cooperate_status = 'COOPERATING' AND t3.partner_id = #{param2}
+            AND t3.bool_deleted = 0 AND t3.cooperate_status = 'COOPERATING' AND t3.partner_id = #{param2}
         </if>
         <if test="param3 != null and param3.trim() != ''">
             AND t1.enterprise_name like concat('%', #{param3}, '%')
@@ -254,11 +254,11 @@
     <select id="queryEnterpriseDetailAgentMain" resultMap="enterprisesDetailAgentMainVO">
         SELECT t1.id, t1.enterprise_name, t1.legal_person_name, t1.contact1_name, t1.contact1_phone, t1.social_credit_no, t1.biz_licence_url, t1.enterprise_state,
         t1.create_time, (SELECT IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url)
-        FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'ENTERPRISEJOINAGREEMENT' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED'
+        FROM diyi_agreement WHERE bool_deleted = 0 AND agreement_type = 'ENTERPRISEJOINAGREEMENT' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED'
         AND enterprise_id = t1.id) AS join_contract, (SELECT GROUP_CONCAT(IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '',
-        paper_agreement_url, online_agreement_url)) FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'ENTERPRISEPROMISE'
+        paper_agreement_url, online_agreement_url)) FROM diyi_agreement WHERE bool_deleted = 0 AND agreement_type = 'ENTERPRISEPROMISE'
         AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND enterprise_id = t1.id) AS commitment_letters FROM diyi_enterprise t1
-        WHERE is_deleted = 0 AND t1.id = #{param1}
+        WHERE bool_deleted = 0 AND t1.id = #{param1}
     </select>
 
     <select id="queryEnterpriseDetailPartner" resultMap="enterprisesDetailPartnerVO">
@@ -266,10 +266,10 @@
         t1.contact1_name, t1.contact1_position, t1.contact1_phone, t1.contact1_mail, t1.contact2_name, t1.contact2_position, t1.contact2_phone,
         t1.contact2_mail, t1.invoice_enterprise_name, t1.invoice_tax_no, t1.invoice_address_phone, t1.invoice_bank_name_account, t2.employee_user_name, t2.phone_number,
         t1.enterprise_state, t1.create_time, (SELECT IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url)
-        FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'ENTERPRISEJOINAGREEMENT' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND enterprise_id = t1.id) AS join_contract,
+        FROM diyi_agreement WHERE bool_deleted = 0 AND agreement_type = 'ENTERPRISEJOINAGREEMENT' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND enterprise_id = t1.id) AS join_contract,
         (SELECT GROUP_CONCAT(IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url))
-        FROM diyi_agreement WHERE is_deleted = 0 AND agreement_type = 'ENTERPRISEPROMISE' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND enterprise_id = t1.id) AS commitment_letters
-        FROM diyi_enterprise t1 INNER JOIN diyi_enterprise_worker t2 ON t1.id = t2.enterprise_id WHERE t1.is_deleted = 0 AND t2.is_deleted = 0
+        FROM diyi_agreement WHERE bool_deleted = 0 AND agreement_type = 'ENTERPRISEPROMISE' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND enterprise_id = t1.id) AS commitment_letters
+        FROM diyi_enterprise t1 INNER JOIN diyi_enterprise_worker t2 ON t1.id = t2.enterprise_id WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0
         AND t2.up_level_id IS NULL AND t1.id = #{param1}
     </select>
 

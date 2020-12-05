@@ -13,7 +13,7 @@
     </resultMap>
 
     <select id="queryBureauNoticeList" resultMap="relBureauNoticeListVO">
-        SELECT id, notice_title, notice_desc, notice_url, publish_datetime, contact_person FROM diyi_rel_bureau_notice WHERE is_deleted = 0
+        SELECT id, notice_title, notice_desc, notice_url, publish_datetime, contact_person FROM diyi_rel_bureau_notice WHERE bool_deleted = 0
         AND rel_bureau_id = #{param1} AND notice_state = #{param2}
     </select>
 

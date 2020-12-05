@@ -112,7 +112,7 @@ public class PaymentServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return acceptPaysheetService.uploadAcceptPaysheet(null, serviceProviderWorkerEntity.getServiceProviderId(), acceptPaysheetSaveDto, "服务商上传", serviceProviderWorkerEntity.getWorkerName());
+        return acceptPaysheetService.uploadAcceptPaysheet(null, serviceProviderWorkerEntity.getServiceProviderId(), acceptPaysheetSaveDto);
     }
 
     @PostMapping("/upload-pay-maker-receipt")

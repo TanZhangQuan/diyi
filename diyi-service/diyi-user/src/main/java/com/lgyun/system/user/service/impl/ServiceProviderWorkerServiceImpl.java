@@ -17,11 +17,9 @@ import com.lgyun.system.feign.ISysClient;
 import com.lgyun.system.user.dto.ChildAccountDTO;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
-import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.mapper.ServiceProviderWorkerMapper;
 import com.lgyun.system.user.service.IServiceProviderService;
 import com.lgyun.system.user.service.IServiceProviderWorkerService;
-import com.lgyun.system.user.service.IUserService;
 import com.lgyun.system.user.vo.ServiceProviderWorkerDetailVO;
 import com.lgyun.system.user.vo.ServiceProviderWorkerInfoVO;
 import com.lgyun.system.user.vo.ServiceProviderWorkerVO;
@@ -52,7 +50,6 @@ import java.util.List;
 public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServiceProviderWorkerMapper, ServiceProviderWorkerEntity> implements IServiceProviderWorkerService {
 
     private final ISysClient sysClient;
-    private final IUserService userService;
 
     @Autowired
     @Lazy
@@ -65,7 +62,11 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
             return R.fail("用户未登录");
         }
 
-        ServiceProviderWorkerEntity serviceProviderWorkerEntity = findByUserId(bladeUser.getUserId());
+        if (!(UserType.SERVICEPROVIDER.equals(bladeUser.getUserType()))) {
+            return R.fail("用户类型有误");
+        }
+
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = getById(bladeUser.getUserId());
         if (serviceProviderWorkerEntity == null) {
             return R.fail("服务商员工不存在");
         }
@@ -111,13 +112,6 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
         QueryWrapper<ServiceProviderWorkerEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(ServiceProviderWorkerEntity::getPhoneNumber, phoneNumber);
         return baseMapper.selectCount(queryWrapper);
-    }
-
-    @Override
-    public ServiceProviderWorkerEntity findByUserId(Long userId) {
-        QueryWrapper<ServiceProviderWorkerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(ServiceProviderWorkerEntity::getUserId, userId);
-        return baseMapper.selectOne(queryWrapper);
     }
 
     @Override
@@ -275,19 +269,6 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
              */
             updateById(workerEntity);
 
-            /**
-             * 修改用户表
-             */
-            User user = userService.getById(workerEntity.getUserId());
-            if (user == null) {
-                throw new CustomException("修改的账号异常！");
-            }
-
-            user.setAccount(childAccountDTO.getUserName());
-            user.setPhone(childAccountDTO.getPhoneNumber());
-            user.setRoleId(childAccountDTO.getRoleId().toString());
-            userService.updateById(user);
-
         } else {
             int userNameCount = this.count(new QueryWrapper<ServiceProviderWorkerEntity>().lambda().eq(ServiceProviderWorkerEntity::getEmployeeUserName, childAccountDTO.getUserName()));
             if (userNameCount > 0) {
@@ -297,12 +278,6 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
             if (phoneNumberCount > 0) {
                 return R.fail("手机号码已存在！");
             }
-            User user = new User();
-            user.setUserType(UserType.SERVICEPROVIDER);
-            user.setRoleId(childAccountDTO.getRoleId().toString());
-            user.setPhone(childAccountDTO.getPhoneNumber());
-            user.setAccount(childAccountDTO.getUserName());
-            userService.save(user);
 
             ServiceProviderWorkerEntity childAccount = new ServiceProviderWorkerEntity();
             childAccount.setWorkerName(childAccountDTO.getName());
@@ -322,7 +297,6 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
             }
             String encrypt = DigestUtil.encrypt(childAccountDTO.getPassWord());
             childAccount.setEmployeePwd(encrypt);
-            childAccount.setUserId(user.getId());
             save(childAccount);
         }
         return R.success("操作成功！");
@@ -351,7 +325,6 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
         switch (childAccountType) {
             case DELETE:
                 removeRole(workerEntity.getRoleId());
-                userService.removeById(workerEntity.getId());
                 break;
             case STARTUSING:
                 workerEntity.setServiceProviderWorkerState(AccountState.NORMAL);

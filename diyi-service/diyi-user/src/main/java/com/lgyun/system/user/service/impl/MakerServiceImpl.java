@@ -16,7 +16,6 @@ import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.dto.*;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.entity.OnlineAgreementTemplateEntity;
-import com.lgyun.system.user.entity.User;
 import com.lgyun.system.user.excel.MakerExcel;
 import com.lgyun.system.user.excel.MakerReadListener;
 import com.lgyun.system.user.mapper.MakerMapper;
@@ -51,7 +50,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
     private SmsUtil smsUtil;
     private RedisUtil redisUtil;
-    private IUserService userService;
     private AliyunOssService aliyunOssService;
     private IMakerEnterpriseService makerEnterpriseService;
     private IOnlineAgreementNeedSignService onlineAgreementNeedSignService;
@@ -71,7 +69,11 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return R.fail("用户未登录");
         }
 
-        MakerEntity makerEntity = findByUserId(bladeUser.getUserId());
+        if (!(UserType.MAKER.equals(bladeUser.getUserType()))) {
+            return R.fail("用户类型有误");
+        }
+
+        MakerEntity makerEntity = getById(bladeUser.getUserId());
         if (makerEntity == null) {
             return R.fail("创客不存在");
         }
@@ -165,12 +167,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         MakerEntity makerEntityPhoneNumber = findByPhoneNumber(purePhoneNumber);
         MakerEntity makerEntityIdcardNo = findByIdcardNo(idcardNo);
         if (makerEntityPhoneNumber == null && makerEntityIdcardNo == null) {
-            //新建管理员
-            User user = new User();
-            user.setUserType(UserType.MAKER);
-            user.setAccount(purePhoneNumber);
-            user.setPhone(purePhoneNumber);
-            userService.save(user);
 
             //新建创客
             makerEntity = new MakerEntity();
@@ -181,7 +177,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
                 makerEntity.setRelDate(new Date());
             }
 
-            makerEntity.setUserId(user.getId());
             makerEntity.setPhoneNumber(purePhoneNumber);
             if (StringUtil.isNotBlank(loginPwd)) {
                 makerEntity.setLoginPwd(loginPwd);
@@ -542,13 +537,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public MakerEntity findByUserId(Long userId) {
-        QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(MakerEntity::getUserId, userId);
-        return baseMapper.selectOne(queryWrapper);
-    }
-
-    @Override
     @Transactional(rollbackFor = Exception.class)
     public R<String> uploadMakerVideo(MakerEntity makerEntity, String applyShortVideo) {
         makerEntity.setVideoAudit(VideoAudit.AUDITPASS);
@@ -625,7 +613,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         }
         makerEntity.setApplyShortVideo(videoUrl);
         makerEntity.setVideoAudit(VideoAudit.AUDITPASS);
-        makerEntity.setVideoAuditDate(new Date());
         saveOrUpdate(makerEntity);
         return R.success("上传视频成功");
     }

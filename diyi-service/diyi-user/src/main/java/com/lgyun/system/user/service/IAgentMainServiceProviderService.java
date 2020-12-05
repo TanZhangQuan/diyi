@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.entity.AgentMainServiceProviderEntity;
 import com.lgyun.system.user.vo.CooperationServiceProviderListVO;
 
@@ -22,10 +21,9 @@ public interface IAgentMainServiceProviderService extends BaseService<AgentMainS
      * @param agentMainId
      * @param serviceProviderId
      * @param matchDesc
-     * @param adminEntity
      * @return
      */
-    R<String> relevanceAgentMainServiceProvider(Long agentMainId, Long serviceProviderId, String matchDesc, AdminEntity adminEntity);
+    R<String> relevanceAgentMainServiceProvider(Long agentMainId, Long serviceProviderId, String matchDesc);
 
     /**
      * 根据渠道商, 服务商查询关联

@@ -86,7 +86,7 @@ public class EnterpriseReportServiceImpl extends BaseServiceImpl<EnterpriseRepor
     @Override
     @Transactional(rollbackFor = Exception.class)
     public R saveAdminEnterpriseReport(AdminEnterpriseReportDTO adminEnterpriseReportDTO) {
-        EnterpriseReportEntity enterpriseReportEntity = null;
+        EnterpriseReportEntity enterpriseReportEntity;
         if (null == adminEnterpriseReportDTO.getEnterpriseReportId()) {
             enterpriseReportEntity = BeanUtil.copy(adminEnterpriseReportDTO, EnterpriseReportEntity.class);
             enterpriseReportEntity.setReportState(ReportState.DECLARESUCCESS);

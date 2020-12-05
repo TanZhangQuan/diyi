@@ -38,24 +38,24 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
         //查询默认地址
         AddressEntity defaultAddressEntity = getOne(Wrappers.<AddressEntity>query().lambda().eq(AddressEntity::getObjectId, objectId)
                 .eq(AddressEntity::getObjectType, objectType)
-                .eq(AddressEntity::getIsDefault, true));
+                .eq(AddressEntity::getBoolDefault, true));
 
         AddressEntity addressEntity;
         if (addOrUpdateAddressDto.getAddressId() != null) {
             addressEntity = getById(addOrUpdateAddressDto.getAddressId());
             if (addressEntity == null) {
-                return R.fail("收货地址不存在");
+                return R.fail("收件地址不存在");
             }
 
             if (!(addressEntity.getObjectId().equals(objectId) || addressEntity.getObjectType().equals(objectType))) {
-                return R.fail("收货地址不属于当前用户");
+                return R.fail("收件地址不属于当前用户");
             }
 
             if (defaultAddressEntity.getId().equals(addOrUpdateAddressDto.getAddressId())) {
-                addOrUpdateAddressDto.setIsDefault(true);
+                addOrUpdateAddressDto.setBoolDefault(true);
             } else {
-                if (addOrUpdateAddressDto.getIsDefault()) {
-                    defaultAddressEntity.setIsDefault(false);
+                if (addOrUpdateAddressDto.getBoolDefault()) {
+                    defaultAddressEntity.setBoolDefault(false);
                     updateById(defaultAddressEntity);
                 }
             }
@@ -63,11 +63,11 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
         } else {
 
             if (defaultAddressEntity == null) {
-                addOrUpdateAddressDto.setIsDefault(true);
+                addOrUpdateAddressDto.setBoolDefault(true);
             }
 
-            if (defaultAddressEntity != null && addOrUpdateAddressDto.getIsDefault()) {
-                defaultAddressEntity.setIsDefault(false);
+            if (defaultAddressEntity != null && addOrUpdateAddressDto.getBoolDefault()) {
+                defaultAddressEntity.setBoolDefault(false);
                 updateById(defaultAddressEntity);
             }
 
@@ -93,28 +93,28 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
 
         AddressEntity addressEntity = getById(addressId);
         if (addressEntity == null) {
-            return R.fail("收货地址不存在");
+            return R.fail("收件地址不存在");
         }
 
-        //新选默认收货地址
-        if (addressEntity.getIsDefault()) {
+        //新选默认收件地址
+        if (addressEntity.getBoolDefault()) {
             List<AddressEntity> addressEntityList = list(Wrappers.<AddressEntity>query().lambda().eq(AddressEntity::getObjectType, addressEntity.getObjectType())
                     .eq(AddressEntity::getObjectId, addressEntity.getObjectId()).orderByDesc(AddressEntity::getCreateTime));
 
-            //移除要删除的收货地址
+            //移除要删除的收件地址
             addressEntityList.remove(addressEntity);
 
             if (!addressEntityList.isEmpty()) {
                 AddressEntity newDefaultAddressEntity = addressEntityList.get(0);
-                newDefaultAddressEntity.setIsDefault(true);
+                newDefaultAddressEntity.setBoolDefault(true);
                 updateById(newDefaultAddressEntity);
             }
         }
 
-        //删除收货地址
+        //删除收件地址
         removeById(addressId);
 
-        return R.success("删除收货地址成功");
+        return R.success("删除收件地址成功");
     }
 
     @Override
@@ -127,18 +127,18 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
     public R<String> setDefaultAddress(Long objectId, ObjectType objectType, Long addressId) {
         AddressEntity addressEntity = getById(addressId);
         if (addressEntity == null) {
-            return R.fail("收货地址不存在");
+            return R.fail("收件地址不存在");
         }
 
         if (!(addressEntity.getObjectId().equals(objectId) && addressEntity.getObjectType().equals(objectType))) {
-            return R.fail("收货地址不属于当前用户");
+            return R.fail("收件地址不属于当前用户");
         }
 
-        if (addressEntity.getIsDefault()) {
+        if (addressEntity.getBoolDefault()) {
             return R.success("设置成功");
         }
 
-        //查询所有收货地址
+        //查询所有收件地址
         QueryWrapper<AddressEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(AddressEntity::getObjectId, objectId)
                 .eq(AddressEntity::getObjectType, objectType);
@@ -148,13 +148,13 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
         addressEntitieList.remove(addressEntity);
         //如果地址选择默认，修改其他地址非默认
         for (AddressEntity oldAddressEntity : addressEntitieList) {
-            if (oldAddressEntity.getIsDefault()) {
-                oldAddressEntity.setIsDefault(false);
+            if (oldAddressEntity.getBoolDefault()) {
+                oldAddressEntity.setBoolDefault(false);
                 updateById(oldAddressEntity);
             }
         }
 
-        addressEntity.setIsDefault(true);
+        addressEntity.setBoolDefault(true);
         updateById(addressEntity);
 
         return R.success("设置成功");

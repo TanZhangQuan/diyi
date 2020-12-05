@@ -21,12 +21,12 @@
 
     <select id="queryServiceProviderCertList" resultMap="serviceProviderCertListVO">
         SELECT id, certificate_type, certificate_name, certificate_desc, certificate_main_url
-        FROM diyi_service_provider_cert WHERE is_deleted = 0 AND service_provider_id = #{param1}
+        FROM diyi_service_provider_cert WHERE bool_deleted = 0 AND service_provider_id = #{param1}
     </select>
 
     <select id="queryServiceProviderCertUpdateDetail" resultMap="serviceProviderCertUpdateDetailVO">
         SELECT id, certificate_type, certificate_name, certificate_desc, certificate_main_url
-        FROM diyi_service_provider_cert WHERE is_deleted = 0 AND id = #{param1}
+        FROM diyi_service_provider_cert WHERE bool_deleted = 0 AND id = #{param1}
     </select>
 
 </mapper>

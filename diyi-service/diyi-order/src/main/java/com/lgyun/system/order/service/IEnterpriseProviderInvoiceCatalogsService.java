@@ -48,9 +48,8 @@ public interface IEnterpriseProviderInvoiceCatalogsService extends BaseService<E
      * @param addOrUpdateEnterpriseProviderInvoiceCatalogDTO
      * @param serviceProviderId
      * @param enterpriseId
-     * @param name
      * @return
      */
-    R<String> addOrUpdateEnterpriseProviderInvoiceCatalog(AddOrUpdateEnterpriseProviderInvoiceCatalogDTO addOrUpdateEnterpriseProviderInvoiceCatalogDTO, Long serviceProviderId, Long enterpriseId, String name);
+    R<String> addOrUpdateEnterpriseProviderInvoiceCatalog(AddOrUpdateEnterpriseProviderInvoiceCatalogDTO addOrUpdateEnterpriseProviderInvoiceCatalogDTO, Long serviceProviderId, Long enterpriseId);
 }
 

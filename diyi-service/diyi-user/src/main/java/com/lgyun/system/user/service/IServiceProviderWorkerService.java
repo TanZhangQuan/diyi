@@ -65,14 +65,6 @@ public interface IServiceProviderWorkerService extends BaseService<ServiceProvid
     int findCountByPhoneNumber(String phoneNumber);
 
     /**
-     * 根据userId查询服务商员工
-     *
-     * @param userId
-     * @return
-     */
-    ServiceProviderWorkerEntity findByUserId(Long userId);
-
-    /**
      * 创建或修改角色及角色拥有的权限
      *
      * @param roleMenusDTO

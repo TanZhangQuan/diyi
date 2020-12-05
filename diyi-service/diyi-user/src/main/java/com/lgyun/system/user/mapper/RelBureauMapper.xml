@@ -41,7 +41,7 @@
     </resultMap>
 
     <select id="queryRelBureauList" resultMap="relBureauListVO">
-        SELECT id, rel_bureau_name, contact_name, contact_phone, rel_bureau_state, create_time FROM diyi_rel_bureau WHERE is_deleted = 0
+        SELECT id, rel_bureau_name, contact_name, contact_phone, rel_bureau_state, create_time FROM diyi_rel_bureau WHERE bool_deleted = 0
         AND rel_bureau_type = #{param1}
         <if test="param2.relBureauName != null and param2.relBureauName.trim() != ''">
             AND rel_bureau_name LIKE concat('%', #{param2.relBureauName}, '%')
@@ -58,11 +58,11 @@
     <select id="queryRelBureauUpdateDetail" resultMap="relBureauUpdateDetailVO">
         SELECT id, rel_bureau_type, rel_bureau_name, province, city, area, detailed_address, rel_bureau_website, contact_name, contact_position, contact_phone,
         contact_mail, contact_wechat, director_name, director_phone, vice_director_name, vice_director_phone, rel_bureau_user_name FROM diyi_rel_bureau
-        WHERE is_deleted = 0 AND id = #{param1}
+        WHERE bool_deleted = 0 AND id = #{param1}
     </select>
 
     <select id="queryRelBureauInfo" resultMap="relBureauInfoVO">
-        SELECT id, rel_bureau_type, avatar, rel_bureau_name FROM diyi_rel_bureau WHERE is_deleted = 0 AND id = #{param1}
+        SELECT id, rel_bureau_type, avatar, rel_bureau_name FROM diyi_rel_bureau WHERE bool_deleted = 0 AND id = #{param1}
     </select>
 
 </mapper>

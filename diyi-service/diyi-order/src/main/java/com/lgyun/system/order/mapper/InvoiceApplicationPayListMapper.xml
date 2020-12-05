@@ -9,6 +9,6 @@
     </resultMap>
 
     <select id="findApplication" resultMap="applicationVO">
-        SELECT a.id as application_id,l.pay_enterprise_id from diyi_invoice_application a INNER JOIN diyi_invoice_application_pay_list l on l.application_id = a.id where a.is_deleted = 0 and l.is_deleted = 0 and a.application_state != 'REJECTED' and a.application_state != 'CANCELLED' and l.pay_enterprise_id = #{param1}
+        SELECT a.id as application_id,l.pay_enterprise_id from diyi_invoice_application a INNER JOIN diyi_invoice_application_pay_list l on l.application_id = a.id where a.bool_deleted = 0 and l.bool_deleted = 0 and a.application_state != 'REJECTED' and a.application_state != 'CANCELLED' and l.pay_enterprise_id = #{param1}
     </select>
 </mapper>

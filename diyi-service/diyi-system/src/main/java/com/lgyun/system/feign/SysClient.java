@@ -67,6 +67,7 @@ public class SysClient implements ISysClient {
             roleMenu.setRoleId(role.getId());
             roleMenus.add(roleMenu);
         }
+
         return R.status(roleMenuService.saveBatch(roleMenus));
     }
 
@@ -142,7 +143,7 @@ public class SysClient implements ISysClient {
     @Override
     @GetMapping(API_PREFIX + "/remove-role-menu")
     public R removeRoleMenu(@RequestBody String menus) {
-        roleMenuService.remove(new QueryWrapper<RoleMenu>().lambda().in(RoleMenu::getMenuId, Func.toLongArray(menus)));
+        roleMenuService.remove(new QueryWrapper<RoleMenu>().lambda().in(RoleMenu::getMenuId, (Object) Func.toLongArray(menus)));
         return R.fail("删除成功！");
     }
 }

@@ -38,10 +38,9 @@ public interface IServiceProviderInvoiceCatalogsService extends BaseService<Serv
      *
      * @param addOrUpdateProviderInvoiceCatalogDTO
      * @param serviceProviderId
-     * @param name
      * @return
      */
-    R<String> addOrUpdateInvoiceCatalog(AddOrUpdateProviderInvoiceCatalogDTO addOrUpdateProviderInvoiceCatalogDTO, Long serviceProviderId, String name);
+    R<String> addOrUpdateInvoiceCatalog(AddOrUpdateProviderInvoiceCatalogDTO addOrUpdateProviderInvoiceCatalogDTO, Long serviceProviderId);
 
     /**
      * 查询服务商开票范围内所有开票类目名称

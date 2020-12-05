@@ -31,14 +31,6 @@ public interface IPartnerService extends BaseService<PartnerEntity> {
     R<PartnerEntity> currentPartner(BladeUser bladeUser);
 
     /**
-     * 根据userId查询合伙人
-     *
-     * @param userId
-     * @return
-     */
-    PartnerEntity findByUserId(Long userId);
-
-    /**
      * 新建合伙人
      *
      * @param openid
