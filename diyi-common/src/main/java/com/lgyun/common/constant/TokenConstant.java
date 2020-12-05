@@ -14,10 +14,10 @@ public interface TokenConstant {
     String ACCESS_TOKEN = "access_token";
     String REFRESH_TOKEN = "refresh_token";
     String TOKEN_TYPE = "token_type";
-    String ACCOUNT = "account";
+    String USER_TYPE = "user_type";
     String USER_ID = "user_id";
-    String ROLE_ID = "role_id";
-    String ROLE_NAME = "role_name";
+    String ACCOUNT = "account";
+    String PHONE = "phone";
     String CLIENT_ID = "client_id";
     Integer AUTH_LENGTH = 7;
 

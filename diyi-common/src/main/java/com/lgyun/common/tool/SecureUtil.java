@@ -1,7 +1,7 @@
 package com.lgyun.common.tool;
 
-import com.lgyun.common.constant.RoleConstant;
 import com.lgyun.common.constant.TokenConstant;
+import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.BladeUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -21,11 +21,8 @@ public class SecureUtil {
 
     private final static String HEADER = TokenConstant.HEADER;
     private final static String BEARER = TokenConstant.BEARER;
-    private final static String ACCOUNT = TokenConstant.ACCOUNT;
+    private final static String USER_TYPE = TokenConstant.USER_TYPE;
     private final static String USER_ID = TokenConstant.USER_ID;
-    private final static String ROLE_ID = TokenConstant.ROLE_ID;
-    private final static String ROLE_NAME = TokenConstant.ROLE_NAME;
-    private final static String CLIENT_ID = TokenConstant.CLIENT_ID;
     private final static Integer AUTH_LENGTH = TokenConstant.AUTH_LENGTH;
     private static String BASE64_SECURITY = Base64.getEncoder().encodeToString(TokenConstant.SIGN_KEY.getBytes(Charsets.UTF_8));
 
@@ -62,48 +59,14 @@ public class SecureUtil {
         if (claims == null) {
             return null;
         }
-        String clientId = Func.toStr(claims.get(SecureUtil.CLIENT_ID));
+
+        UserType userType = Enum.valueOf(UserType.class, (String) claims.get(SecureUtil.USER_TYPE));
         Long userId = Func.toLong(claims.get(SecureUtil.USER_ID));
-        String roleId = Func.toStr(claims.get(SecureUtil.ROLE_ID));
-        String account = Func.toStr(claims.get(SecureUtil.ACCOUNT));
-        String roleName = Func.toStr(claims.get(SecureUtil.ROLE_NAME));
 
         BladeUser bladeUser = new BladeUser();
-        bladeUser.setClientId(clientId);
+        bladeUser.setUserType(userType);
         bladeUser.setUserId(userId);
-        bladeUser.setAccount(account);
-        bladeUser.setRoleId(roleId);
-        bladeUser.setRoleName(roleName);
         return bladeUser;
-    }
-
-    /**
-     * 是否为超管
-     *
-     * @return boolean
-     */
-    public static boolean isAdministrator() {
-        return StringUtil.containsAny(getUserRole(), RoleConstant.ADMIN);
-    }
-
-    /**
-     * 查询用户id
-     *
-     * @return userId
-     */
-    public static Long getUserId() {
-        BladeUser user = getUser();
-        return (null == user) ? -1 : user.getUserId();
-    }
-
-    /**
-     * 查询用户角色
-     *
-     * @return userName
-     */
-    public static String getUserRole() {
-        BladeUser user = getUser();
-        return (null == user) ? StringPool.EMPTY : user.getRoleName();
     }
 
     /**

@@ -1,6 +1,6 @@
 package com.lgyun.common.secure;
 
-import io.swagger.annotations.ApiModelProperty;
+import com.lgyun.common.enumeration.UserType;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -12,37 +12,16 @@ import java.io.Serializable;
  */
 @Data
 public class BladeUser implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     /**
-     * 客户端id
+     * 用户类型
      */
-    @ApiModelProperty(hidden = true)
-    private String clientId;
+    private UserType userType;
 
     /**
-     * 用户id
+     * 用户ID
      */
-    @ApiModelProperty(hidden = true)
     private Long userId;
-
-    /**
-     * 账号
-     */
-    @ApiModelProperty(hidden = true)
-    private String account;
-
-    /**
-     * 角色id
-     */
-    @ApiModelProperty(hidden = true)
-    private String roleId;
-
-    /**
-     * 角色名
-     */
-    @ApiModelProperty(hidden = true)
-    private String roleName;
 
 }
