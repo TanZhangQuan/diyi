@@ -21,7 +21,6 @@ import springfox.documentation.annotations.ApiIgnore;
 @AllArgsConstructor
 public class UserClient implements IUserClient {
 
-    private IUserService userService;
     private IAdminService adminService;
     private IMakerService makerService;
     private IPartnerService partnerService;
@@ -37,22 +36,6 @@ public class UserClient implements IUserClient {
     private IIndividualEnterpriseService individualEnterpriseService;
     private IServiceProviderWorkerService serviceProviderWorkerService;
     private IEnterpriseServiceProviderService enterpriseServiceProviderService;
-
-
-    @Override
-    public UserInfo queryUserInfoByUserId(Long userId, UserType userType) {
-        return userService.queryUserInfoByUserId(userId, userType);
-    }
-
-    @Override
-    public UserInfo queryUserInfoByPhone(String phone, UserType userType) {
-        return userService.queryUserInfoByPhone(phone, userType);
-    }
-
-    @Override
-    public UserInfo queryUserInfoByAccount(String account, UserType userType) {
-        return userService.queryUserInfoByAccount(account, userType);
-    }
 
     @Override
     public R<AdminEntity> currentAdmin(BladeUser bladeUser) {
@@ -90,8 +73,38 @@ public class UserClient implements IUserClient {
     }
 
     @Override
+    public AdminEntity queryAdminById(Long adminId) {
+        return adminService.getById(adminId);
+    }
+
+    @Override
     public MakerEntity queryMakerById(Long makerId) {
         return makerService.getById(makerId);
+    }
+
+    @Override
+    public PartnerEntity queryPartnerById(Long partnerId) {
+        return partnerService.getById(partnerId);
+    }
+
+    @Override
+    public EnterpriseWorkerEntity queryEnterpriseWorkerById(Long enterpriseWorkerId) {
+        return enterpriseWorkerService.getById(enterpriseWorkerId);
+    }
+
+    @Override
+    public ServiceProviderWorkerEntity queryServiceProviderWorkerById(Long serviceProviderWorkerId) {
+        return serviceProviderWorkerService.getById(serviceProviderWorkerId);
+    }
+
+    @Override
+    public AgentMainWorkerEntity queryAgentMainWorkerById(Long agentMainWorkerId) {
+        return agentMainWorkerService.getById(agentMainWorkerId);
+    }
+
+    @Override
+    public RelBureauEntity queryRelBureauById(Long relBureauId) {
+        return relBureauService.getById(relBureauId);
     }
 
     @Override
@@ -140,7 +153,7 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R<String> adminDeal(String phoneNumber, String userName, String password, GrantType grantType) {
+    public R<AdminEntity> adminDeal(String phoneNumber, String userName, String password, GrantType grantType) {
 
         AdminEntity adminEntity;
         switch (grantType) {
@@ -191,12 +204,12 @@ public class UserClient implements IUserClient {
                 return R.fail("授权类型有误");
         }
 
-        return R.success("操作成功");
+        return R.data(adminEntity);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> makerDeal(String openid, String sessionKey, String phoneNumber, String password, GrantType grantType) {
+    public R<MakerEntity> makerDeal(String openid, String sessionKey, String phoneNumber, String password, GrantType grantType) {
 
         MakerEntity makerEntity;
         switch (grantType) {
@@ -280,12 +293,12 @@ public class UserClient implements IUserClient {
                 return R.fail("授权类型有误");
         }
 
-        return R.success("操作成功");
+        return R.data(makerEntity);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> partnerDeal(String openid, String sessionKey, String phoneNumber, String password, GrantType grantType) {
+    public R<PartnerEntity> partnerDeal(String openid, String sessionKey, String phoneNumber, String password, GrantType grantType) {
 
         PartnerEntity partnerEntity;
         switch (grantType) {
@@ -369,11 +382,11 @@ public class UserClient implements IUserClient {
                 return R.fail("授权类型有误");
         }
 
-        return R.success("操作成功");
+        return R.data(partnerEntity);
     }
 
     @Override
-    public R<String> enterpriseWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
+    public R<EnterpriseWorkerEntity> enterpriseWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
 
         EnterpriseWorkerEntity enterpriseWorkerEntity;
         EnterpriseEntity enterpriseEntity;
@@ -452,11 +465,11 @@ public class UserClient implements IUserClient {
                 return R.fail("授权类型有误");
         }
 
-        return R.success("操作成功");
+        return R.data(enterpriseWorkerEntity);
     }
 
     @Override
-    public R<String> serviceProviderWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
+    public R<ServiceProviderWorkerEntity> serviceProviderWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
 
         ServiceProviderWorkerEntity serviceProviderWorkerEntity;
         ServiceProviderEntity serviceProviderEntity;
@@ -535,11 +548,11 @@ public class UserClient implements IUserClient {
                 return R.fail("授权类型有误");
         }
 
-        return R.success("操作成功");
+        return R.data(serviceProviderWorkerEntity);
     }
 
     @Override
-    public R<String> agentMainWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
+    public R<AgentMainWorkerEntity> agentMainWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
 
         AgentMainWorkerEntity agentMainWorkerEntity;
         AgentMainEntity agentMainEntity;
@@ -618,11 +631,11 @@ public class UserClient implements IUserClient {
                 return R.fail("授权类型有误");
         }
 
-        return R.success("操作成功");
+        return R.data(agentMainWorkerEntity);
     }
 
     @Override
-    public R<String> relBureauDeal(String phoneNumber, String employeeUserName, String password, RelBureauType relBureauType, GrantType grantType) {
+    public R<RelBureauEntity> relBureauDeal(String phoneNumber, String employeeUserName, String password, RelBureauType relBureauType, GrantType grantType) {
 
         RelBureauEntity relBureauEntity;
         switch (grantType) {
@@ -644,7 +657,7 @@ public class UserClient implements IUserClient {
                 return R.fail("授权类型有误");
         }
 
-        return R.success("操作成功");
+        return R.data(relBureauEntity);
     }
 
     @Override
@@ -655,11 +668,6 @@ public class UserClient implements IUserClient {
     @Override
     public IndividualBusinessEntity queryIndividualBusinessById(Long individualBusinessId) {
         return individualBusinessService.getById(individualBusinessId);
-    }
-
-    @Override
-    public EnterpriseEntity queryEnterpriseById(Long enterpriseId) {
-        return enterpriseService.getById(enterpriseId);
     }
 
     @Override
