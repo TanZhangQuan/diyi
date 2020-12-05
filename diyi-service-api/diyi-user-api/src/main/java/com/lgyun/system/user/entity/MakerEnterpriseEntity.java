@@ -35,11 +35,6 @@ public class MakerEnterpriseEntity extends BaseEntity {
     private Long makerId;
 
     /**
-     * 外包岗位ID
-     */
-    private Long positionId;
-
-    /**
      * 创客商户关系
      */
     private RelationshipType relationshipType;

@@ -164,4 +164,9 @@ public class ServiceProviderEntity extends BaseEntity {
      */
     private String industryType;
 
+    /**
+     * 主营业务描述
+     */
+    private String mainBusinessDesc;
+
 }

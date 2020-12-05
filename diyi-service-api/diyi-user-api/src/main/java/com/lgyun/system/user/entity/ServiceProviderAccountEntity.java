@@ -65,6 +65,6 @@ public class ServiceProviderAccountEntity extends BaseEntity {
     /**
      * 是否默认
      */
-    private Boolean isDefault;
+    private Boolean boolDefault;
 
 }

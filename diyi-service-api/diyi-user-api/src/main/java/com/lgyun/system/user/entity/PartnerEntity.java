@@ -25,11 +25,6 @@ public class PartnerEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 管理者ID
-     */
-    private Long userId;
-
-    /**
      * 介绍合伙人ID
      */
     private Long introducePartnerId;

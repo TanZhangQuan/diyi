@@ -29,11 +29,6 @@ public class EnterpriseWorkerEntity extends BaseEntity {
     private Long enterpriseId;
 
     /**
-     * 管理者ID
-     */
-    private Long userId;
-
-    /**
      * 拥有的角色ID
      */
     private Long roleId;

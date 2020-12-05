@@ -44,11 +44,6 @@ public class RelBureauServiceProviderEntity extends BaseEntity {
     private CooperateStatus cooperateStatus = CooperateStatus.COOPERATING;
 
     /**
-     * 分配人员
-     */
-    private String matchPerson;
-
-    /**
      * 分配说明
      */
     private String matchDesc;

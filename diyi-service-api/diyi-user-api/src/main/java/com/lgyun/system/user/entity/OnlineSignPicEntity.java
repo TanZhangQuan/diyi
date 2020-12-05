@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- * Entity
+ * 在线签字图片表 Entity
  *
  * @author jun
  * @since 2020-07-18 15:59:14
@@ -25,12 +25,12 @@ public class OnlineSignPicEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 对象身份1、创客本人2、商户人员3、服务商人员4、相关局人员5、渠道商人员6、合伙人本人
+     * 对象身份
      */
     private ObjectType objectType;
 
     /**
-     * 对象身份ID
+     * 对象ID
      */
     private Long objectId;
 

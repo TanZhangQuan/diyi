@@ -44,13 +44,8 @@ public class PartnerEnterpriseEntity extends BaseEntity {
     private CooperateStatus cooperateStatus = CooperateStatus.COOPERATING;
 
     /**
-     * 操作人员
-     */
-    private String operatePerson;
-
-    /**
      * 操作说明
      */
-    private String operateDesc;
+    private String matchDesc;
 
 }

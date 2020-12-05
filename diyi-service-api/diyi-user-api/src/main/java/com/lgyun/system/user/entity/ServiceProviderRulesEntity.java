@@ -36,14 +36,4 @@ public class ServiceProviderRulesEntity extends BaseEntity {
      */
     private String enterpriseRules;
 
-    /**
-     * 设置人员
-     */
-    private String setPerson;
-
-    /**
-     * 设置说明
-     */
-    private String setDesc;
-
 }

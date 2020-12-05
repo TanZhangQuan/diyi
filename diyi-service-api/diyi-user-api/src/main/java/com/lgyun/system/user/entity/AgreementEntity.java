@@ -45,14 +45,19 @@ public class AgreementEntity extends BaseEntity {
     private SignState signState = SignState.UNSIGN;
 
     /**
+     * 合同有效性
+     */
+    private ValidState validState;
+
+    /**
+     * 截止日期
+     */
+    private Date endDatetime;
+
+    /**
      * 协议编号
      */
     private String agreementNo;
-
-    /**
-     * 顺序号
-     */
-    private Integer sequenceNo;
 
     /**
      * 创客ID

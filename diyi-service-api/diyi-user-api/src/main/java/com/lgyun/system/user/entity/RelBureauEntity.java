@@ -25,11 +25,6 @@ public class RelBureauEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 管理者ID
-     */
-    private Long userId;
-
-    /**
      * 相关局账户状态
      */
     private AccountState relBureauState = AccountState.NORMAL;

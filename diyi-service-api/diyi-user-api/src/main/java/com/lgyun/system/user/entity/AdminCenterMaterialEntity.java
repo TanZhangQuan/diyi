@@ -28,7 +28,7 @@ public class AdminCenterMaterialEntity extends BaseEntity {
     /**
      * 相关服务商
      */
-    private Long relServiceProviderId;
+    private Long serviceProviderId;
 
     /**
      * 业务资料名称

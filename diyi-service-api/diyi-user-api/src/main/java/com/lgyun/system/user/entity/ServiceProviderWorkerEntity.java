@@ -29,11 +29,6 @@ public class ServiceProviderWorkerEntity extends BaseEntity {
     private Long serviceProviderId;
 
     /**
-     * 管理者ID
-     */
-    private Long userId;
-
-    /**
      * 角色ID
      */
     private Long roleId;

@@ -24,11 +24,6 @@ public class AdminEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 管理者ID
-     */
-    private Long userId;
-
-    /**
      * 头像
      */
     private String avatar;

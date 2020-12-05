@@ -1,12 +1,12 @@
 package com.lgyun.system.user.entity;
 
+import com.lgyun.common.enumeration.UserType;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
- * 用户信息
+ * 封装用户信息
  *
  * @author tzq
  * @since 2020/6/6 00:57
@@ -16,18 +16,23 @@ public class UserInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 用户基础信息
+     * 用户类型
      */
-    private User user;
+    private UserType userType;
 
     /**
-     * 权限标识集合
+     * 用户ID
      */
-    private List<String> permissions;
+    private Long userId;
 
     /**
-     * 角色集合
+     * 账号
      */
-    private List<String> roles;
+    private String account;
+
+    /**
+     * 手机
+     */
+    private String phone;
 
 }

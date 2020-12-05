@@ -25,11 +25,6 @@ public class MakerEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 管理者ID
-     */
-    private Long userId;
-
-    /**
      * 微信open_id
      */
     private String openid;
@@ -217,7 +212,7 @@ public class MakerEntity extends BaseEntity {
     /**
      * 手工验证人
      */
-    private String manualVerifyName;
+    private String manualVerifyId;
 
     /**
      * 验证描述
