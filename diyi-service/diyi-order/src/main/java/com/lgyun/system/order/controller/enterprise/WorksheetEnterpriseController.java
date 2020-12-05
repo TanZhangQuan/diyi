@@ -112,7 +112,8 @@ public class WorksheetEnterpriseController {
 
     @PostMapping("/check-achievement")
     @ApiOperation(value = "验收工作成果", notes = "验收工作成果")
-    public R checkAchievement(@NotNull(message = "请输入id") @RequestParam(required = false) Long worksheetMakerId, @NotNull(message = "请输入验证金额") @RequestParam(required = false) BigDecimal checkMoney,
+    public R checkAchievement(@NotNull(message = "请输入id") @RequestParam(required = false) Long worksheetMakerId,
+                              @NotNull(message = "请输入验证金额") @RequestParam(required = false) BigDecimal checkMoney,
                               @NotNull(message = "请输入验收的结果") @RequestParam(required = false) Boolean bool, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);

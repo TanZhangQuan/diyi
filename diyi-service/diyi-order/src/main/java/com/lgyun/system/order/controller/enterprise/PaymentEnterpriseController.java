@@ -157,7 +157,7 @@ public class PaymentEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return acceptPaysheetService.uploadAcceptPaysheet(enterpriseWorkerEntity.getEnterpriseId(), null, acceptPaysheetSaveDto, "商户上传", enterpriseWorkerEntity.getWorkerName());
+        return acceptPaysheetService.uploadAcceptPaysheet(enterpriseWorkerEntity.getEnterpriseId(), null, acceptPaysheetSaveDto);
     }
 
 }

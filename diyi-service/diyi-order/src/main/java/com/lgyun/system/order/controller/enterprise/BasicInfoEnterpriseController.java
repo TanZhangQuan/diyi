@@ -30,7 +30,7 @@ public class BasicInfoEnterpriseController {
     private IAddressService addressService;
 
     @PostMapping("/create-address")
-    @ApiOperation(value = "新建或修改收货地址", notes = "新建或修改收货地址")
+    @ApiOperation(value = "新建或修改收件地址", notes = "新建或修改收件地址")
     public R createAddress(@Valid @RequestBody AddOrUpdateAddressDTO addOrUpdateAddressDto, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
@@ -44,7 +44,7 @@ public class BasicInfoEnterpriseController {
 
     @PostMapping("/set-default-address")
     @ApiOperation(value = "设置默认地址", notes = "设置默认地址")
-    public R setDefaultAddress(@ApiParam(value = "收货地址") @NotNull(message = "请选择收货地址") @RequestParam(required = false) Long addressId, BladeUser bladeUser) {
+    public R setDefaultAddress(@ApiParam(value = "收件地址") @NotNull(message = "请选择收件地址") @RequestParam(required = false) Long addressId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -56,8 +56,8 @@ public class BasicInfoEnterpriseController {
     }
 
     @GetMapping("/query-address-detail")
-    @ApiOperation(value = "查询收货地址详情", notes = "查询收货地址详情")
-    public R queryAddressDetail(@ApiParam(value = "收货地址") @NotNull(message = "请选择收货地址") @RequestParam(required = false) Long addressId, BladeUser bladeUser) {
+    @ApiOperation(value = "查询收件地址详情", notes = "查询收件地址详情")
+    public R queryAddressDetail(@ApiParam(value = "收件地址") @NotNull(message = "请选择收件地址") @RequestParam(required = false) Long addressId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -68,7 +68,7 @@ public class BasicInfoEnterpriseController {
     }
 
     @GetMapping("/query-address-list")
-    @ApiOperation(value = "查询收货地址", notes = "查询收货地址")
+    @ApiOperation(value = "查询收件地址", notes = "查询收件地址")
     public R queryAddressList(Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
@@ -81,8 +81,8 @@ public class BasicInfoEnterpriseController {
     }
 
     @PostMapping("/delete-address")
-    @ApiOperation(value = "删除收货地址", notes = "删除收货地址")
-    public R deleteAddress(@ApiParam(value = "收货地址") @NotNull(message = "请选择收货地址") @RequestParam(required = false) Long addressId, BladeUser bladeUser) {
+    @ApiOperation(value = "删除收件地址", notes = "删除收件地址")
+    public R deleteAddress(@ApiParam(value = "收件地址") @NotNull(message = "请选择收件地址") @RequestParam(required = false) Long addressId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
