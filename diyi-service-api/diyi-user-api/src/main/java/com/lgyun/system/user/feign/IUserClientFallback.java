@@ -4,7 +4,6 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.RelBureauType;
-import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.entity.*;
@@ -18,21 +17,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class IUserClientFallback implements IUserClient {
-
-    @Override
-    public UserInfo queryUserInfoByUserId(Long userId, UserType userType) {
-        throw new CustomException("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public UserInfo queryUserInfoByPhone(String phone, UserType userType) {
-        throw new CustomException("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public UserInfo queryUserInfoByAccount(String account, UserType userType) {
-        throw new CustomException("网络繁忙，请稍后尝试");
-    }
 
     @Override
     public R<AdminEntity> currentAdmin(BladeUser bladeUser) {
@@ -70,7 +54,37 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
+    public AdminEntity queryAdminById(Long adminId) {
+        throw new CustomException("网络繁忙，请稍后尝试");
+    }
+
+    @Override
     public MakerEntity queryMakerById(Long makerId) {
+        throw new CustomException("网络繁忙，请稍后尝试");
+    }
+
+    @Override
+    public PartnerEntity queryPartnerById(Long partnerId) {
+        throw new CustomException("网络繁忙，请稍后尝试");
+    }
+
+    @Override
+    public EnterpriseWorkerEntity queryEnterpriseWorkerById(Long enterpriseWorkerId) {
+        throw new CustomException("网络繁忙，请稍后尝试");
+    }
+
+    @Override
+    public ServiceProviderWorkerEntity queryServiceProviderWorkerById(Long serviceProviderWorkerId) {
+        throw new CustomException("网络繁忙，请稍后尝试");
+    }
+
+    @Override
+    public AgentMainWorkerEntity queryAgentMainWorkerById(Long agentMainWorkerId) {
+        throw new CustomException("网络繁忙，请稍后尝试");
+    }
+
+    @Override
+    public RelBureauEntity queryRelBureauById(Long relBureauId) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 
@@ -120,37 +134,37 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public R<String> adminDeal(String phoneNumber, String userName, String password, GrantType grantType) {
+    public R<AdminEntity> adminDeal(String phoneNumber, String userName, String password, GrantType grantType) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
-    public R<String> makerDeal(String openid, String sessionKey, String phoneNumber, String password, GrantType grantType) {
+    public R<MakerEntity> makerDeal(String openid, String sessionKey, String phoneNumber, String password, GrantType grantType) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
-    public R<String> partnerDeal(String openid, String sessionKey, String phoneNumber, String password, GrantType grantType) {
+    public R<PartnerEntity> partnerDeal(String openid, String sessionKey, String phoneNumber, String password, GrantType grantType) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
-    public R<String> enterpriseWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
+    public R<EnterpriseWorkerEntity> enterpriseWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
-    public R<String> serviceProviderWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
+    public R<ServiceProviderWorkerEntity> serviceProviderWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
-    public R<String> agentMainWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
+    public R<AgentMainWorkerEntity> agentMainWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
-    public R<String> relBureauDeal(String phoneNumber, String employeeUserName, String password, RelBureauType relBureauType, GrantType grantType) {
+    public R<RelBureauEntity> relBureauDeal(String phoneNumber, String employeeUserName, String password, RelBureauType relBureauType, GrantType grantType) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 
@@ -161,11 +175,6 @@ public class IUserClientFallback implements IUserClient {
 
     @Override
     public IndividualBusinessEntity queryIndividualBusinessById(Long individualBusinessId) {
-        throw new CustomException("网络繁忙，请稍后尝试");
-    }
-
-    @Override
-    public EnterpriseEntity queryEnterpriseById(Long enterpriseId) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 

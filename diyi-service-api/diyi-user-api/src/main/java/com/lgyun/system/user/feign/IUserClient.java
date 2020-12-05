@@ -25,36 +25,6 @@ public interface IUserClient {
     String API_PREFIX = "/user";
 
     /**
-     * 查询用户信息
-     *
-     * @param userId
-     * @param userType
-     * @return
-     */
-    @GetMapping(API_PREFIX + "/query-user-info-by-user-id")
-    UserInfo queryUserInfoByUserId(@RequestParam("userId") Long userId, @RequestParam("userType") UserType userType);
-
-    /**
-     * 查询用户信息
-     *
-     * @param phone
-     * @param userType
-     * @return
-     */
-    @GetMapping(API_PREFIX + "/query-user-info-by-phone")
-    UserInfo queryUserInfoByPhone(@RequestParam("phone") String phone, @RequestParam("userType") UserType userType);
-
-    /**
-     * 查询用户信息
-     *
-     * @param account
-     * @param userType
-     * @return
-     */
-    @GetMapping(API_PREFIX + "/query-user-info-by-account")
-    UserInfo queryUserInfoByAccount(@RequestParam("account") String account, @RequestParam("userType") UserType userType);
-
-    /**
      * 查询当前管理员
      *
      * @param bladeUser
@@ -118,13 +88,67 @@ public interface IUserClient {
     R<AgentMainWorkerEntity> currentAgentMainWorker(@RequestBody BladeUser bladeUser);
 
     /**
-     * 根据创客id查询创客信息
+     * 根据管理员ID查询管理员
+     *
+     * @param adminId
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/query-admin-by-id")
+    AdminEntity queryAdminById(@RequestParam("adminId") Long adminId);
+
+    /**
+     * 根据创客ID查询创客
      *
      * @param makerId
      * @return
      */
     @GetMapping(API_PREFIX + "/query-maker-by-id")
     MakerEntity queryMakerById(@RequestParam("makerId") Long makerId);
+
+    /**
+     * 根据合伙人ID查询合伙人
+     *
+     * @param partnerId
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/query-partner-by-id")
+    PartnerEntity queryPartnerById(@RequestParam("partnerId") Long partnerId);
+
+    /**
+     * 根据商户员工ID查询商户员工
+     *
+     * @param enterpriseWorkerId
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/query-enterprise-worker-by-id")
+    EnterpriseWorkerEntity queryEnterpriseWorkerById(@RequestParam("enterpriseWorkerId") Long enterpriseWorkerId);
+
+    /**
+     * 根据服务商员工ID查询服务商员工
+     *
+     * @param serviceProviderWorkerId
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/query-service-provider-worker-by-id")
+    ServiceProviderWorkerEntity queryServiceProviderWorkerById(@RequestParam("serviceProviderWorkerId") Long serviceProviderWorkerId);
+
+    /**
+     * 根据渠道商员工ID查询渠道商员工
+     *
+     * @param agentMainWorkerId
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/query-agent_main-worker-by-id")
+    AgentMainWorkerEntity queryAgentMainWorkerById(@RequestParam("agentMainWorkerId") Long agentMainWorkerId);
+
+    /**
+     * 根据相关局ID查询相关局
+     *
+     * @param relBureauId
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/query-rel-bureau-by-id")
+    RelBureauEntity queryRelBureauById(@RequestParam("relBureauId") Long relBureauId);
 
     /**
      * 根据身份证号码查询创客信息
@@ -218,7 +242,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/admin-deal")
-    R<String> adminDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("userName") String userName, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
+    R<AdminEntity> adminDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("userName") String userName, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 创客处理
@@ -231,7 +255,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/maker-deal")
-    R<String> makerDeal(@RequestParam("openid") String openid, @RequestParam("sessionKey") String sessionKey, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
+    R<MakerEntity> makerDeal(@RequestParam("openid") String openid, @RequestParam("sessionKey") String sessionKey, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 合伙人处理
@@ -244,7 +268,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/partner-deal")
-    R<String> partnerDeal(@RequestParam("openid") String openid, @RequestParam("sessionKey") String sessionKey, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
+    R<PartnerEntity> partnerDeal(@RequestParam("openid") String openid, @RequestParam("sessionKey") String sessionKey, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 商户处理
@@ -256,7 +280,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/enterprise-worker-deal")
-    R<String> enterpriseWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("employeeUserName") String employeeUserName, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
+    R<EnterpriseWorkerEntity> enterpriseWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("employeeUserName") String employeeUserName, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 服务商处理
@@ -268,7 +292,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/service-provider-worker-deal")
-    R<String> serviceProviderWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("employeeUserName") String employeeUserName, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
+    R<ServiceProviderWorkerEntity> serviceProviderWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("employeeUserName") String employeeUserName, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 服务商处理
@@ -280,7 +304,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/agent-main-worker-deal")
-    R<String> agentMainWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("employeeUserName") String employeeUserName, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
+    R<AgentMainWorkerEntity> agentMainWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("employeeUserName") String employeeUserName, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 相关局处理
@@ -292,7 +316,7 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/rel-bureau-deal")
-    R<String> relBureauDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("employeeUserName") String employeeUserName, @RequestParam("password") String password, @RequestParam("relBureauType") RelBureauType relBureauType, @RequestParam("grantType") GrantType grantType);
+    R<RelBureauEntity> relBureauDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("employeeUserName") String employeeUserName, @RequestParam("password") String password, @RequestParam("relBureauType") RelBureauType relBureauType, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 查询个独信息
@@ -311,15 +335,6 @@ public interface IUserClient {
      */
     @GetMapping(API_PREFIX + "/query-individual-business-by-id")
     IndividualBusinessEntity queryIndividualBusinessById(@RequestParam("individualBusinessId") Long individualBusinessId);
-
-    /**
-     * 根据商户查询商户
-     *
-     * @param enterpriseId
-     * @return
-     */
-    @GetMapping(API_PREFIX + "/query-enterprise-by-id")
-    EnterpriseEntity queryEnterpriseById(@RequestParam("enterpriseId") Long enterpriseId);
 
     /**
      * 根据商户, 服务商查询关联
