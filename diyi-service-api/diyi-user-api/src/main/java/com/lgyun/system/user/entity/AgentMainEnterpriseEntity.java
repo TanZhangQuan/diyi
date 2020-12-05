@@ -39,7 +39,7 @@ public class AgentMainEnterpriseEntity extends BaseEntity {
     private CooperateType cooperateType;
 
     /**
-     * 合作状态：合作中，停止合作；首次关联时默认为合作中
+     * 合作状态
      */
     private CooperateStatus cooperateStatus = CooperateStatus.COOPERATING;
 
