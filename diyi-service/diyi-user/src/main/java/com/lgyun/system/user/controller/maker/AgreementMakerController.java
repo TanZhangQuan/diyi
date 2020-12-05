@@ -11,6 +11,7 @@ import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.service.*;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +27,8 @@ public class AgreementMakerController {
     private IMakerService makerService;
     private IAgreementService agreementService;
     private IOnlineSignPicService onlineSignPicService;
-    private IOnlineAgreementNeedSignService onlineAgreementNeedSignService;
     private IMakerEnterpriseService makerEnterpriseService;
+    private IOnlineAgreementNeedSignService onlineAgreementNeedSignService;
 
     @GetMapping("/query-maker-agreement")
     @ApiOperation(value = "根据创客查询合同", notes = "根据创客查询合同")
@@ -68,7 +69,8 @@ public class AgreementMakerController {
 
     @PostMapping("/save-online-agreement-need-sign")
     @ApiOperation(value = "确认签字", notes = "确认签字")
-    public R saveOnlineAgreementNeedSign(String signPic, Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId, BladeUser bladeUser) {
+    public R saveOnlineAgreementNeedSign(@ApiParam(value = "签名图片", required = true) @NotBlank(message = "请上传签名图片") @URL(message = "请输入正确的链接") @RequestParam(required = false) String signPic,
+                                         Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = makerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
