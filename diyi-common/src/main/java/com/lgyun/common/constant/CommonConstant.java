@@ -8,16 +8,6 @@ package com.lgyun.common.constant;
 public interface CommonConstant {
 
 	/**
-	 * sword 系统名
-	 */
-	String SWORD_NAME = "sword";
-
-	/**
-	 * saber 系统名
-	 */
-	String SABER_NAME = "saber";
-
-	/**
 	 * 顶级父节点id
 	 */
 	Long TOP_PARENT_ID = 0L;
