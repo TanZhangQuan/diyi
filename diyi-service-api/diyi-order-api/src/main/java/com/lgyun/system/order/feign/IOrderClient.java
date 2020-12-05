@@ -22,7 +22,7 @@ public interface IOrderClient {
     String API_PREFIX = "/order";
 
     /**
-     * 新建收货地址
+     * 新建收件地址
      *
      * @param addressEntity
      */

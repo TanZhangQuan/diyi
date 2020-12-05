@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- * 收货地址 Entity
+ * 收件地址 Entity
  *
  * @author jun
  * @since 2020-07-02 16:21:19
@@ -28,7 +28,7 @@ public class AddressEntity extends BaseEntity {
     private Long objectId;
 
     /**
-     * 对象身份  1创客本人 2商户人员 3服务商人员 4相关局人员 5渠道商人员 6合伙人本人
+     * 对象身份
      */
     private ObjectType objectType;
 
@@ -65,5 +65,5 @@ public class AddressEntity extends BaseEntity {
     /**
      * 是否默认
      */
-    private Boolean isDefault;
+    private Boolean boolDefault;
 }

@@ -66,6 +66,6 @@ public class AddOrUpdateAddressDTO implements Serializable {
      * 是否默认
      */
     @NotNull(message = "请选择是否默认")
-    private Boolean isDefault;
+    private Boolean boolDefault;
 
 }

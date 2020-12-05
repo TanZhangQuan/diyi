@@ -16,7 +16,7 @@ public class AddressUpdateDetailVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 收货地址ID
+     * 收件地址ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
@@ -54,6 +54,6 @@ public class AddressUpdateDetailVO implements Serializable {
     /**
      * 是否默认
      */
-    private Boolean isDefault;
+    private Boolean boolDefault;
 
 }
