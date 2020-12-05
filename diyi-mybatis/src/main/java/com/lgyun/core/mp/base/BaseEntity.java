@@ -30,23 +30,11 @@ public class BaseEntity implements Serializable {
     private Long id;
 
     /**
-     * 创建人
-     */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long createUser;
-
-    /**
      * 创建时间
      */
     @DateTimeFormat(pattern = PATTERN_DATETIME)
     @JsonFormat(pattern = PATTERN_DATETIME, timezone = "GMT+8")
     private Date createTime;
-
-    /**
-     * 更新人
-     */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long updateUser;
 
     /**
      * 更新时间
@@ -56,8 +44,8 @@ public class BaseEntity implements Serializable {
     private Date updateTime;
 
     /**
-     * 是否已删除[0-未删除 1-已删除]
+     * 是否已删除
      */
     @TableLogic
-    private Integer isDeleted;
+    private Boolean boolDeleted;
 }
