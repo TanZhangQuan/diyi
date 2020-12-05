@@ -23,11 +23,6 @@ public class ReleaseWorksheetDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 企业ID
-     */
-    private Long enterpriseId;
-
-    /**
      * 工单名称
      */
     @NotBlank(message = "请输入工单名称")
@@ -36,14 +31,16 @@ public class ReleaseWorksheetDTO implements Serializable {
     /**
      * 上限人数
      */
-    @Min(value = 0, message = "上限人数不能小于0")
-    private Integer upPersonNum = 0;
+    @NotNull(message = "请输入上限人数")
+    @Min(value = 1, message = "上限人数不能小于1")
+    private Integer upPersonNum;
 
     /**
      * 工作天数
      */
-    @Min(value = 0, message = "工作天数不能小于0")
-    private Integer workDays = 0;
+    @NotNull(message = "请输入工作天数")
+    @Min(value = 1, message = "工作天数不能小于1")
+    private Integer workDays;
 
     /**
      * 最低费用

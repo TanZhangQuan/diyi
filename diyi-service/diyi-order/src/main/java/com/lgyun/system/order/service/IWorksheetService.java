@@ -22,9 +22,10 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      * 发布工单
      *
      * @param releaseWorksheetDTO
+     * @param enterpriseWorkerId
      * @return
      */
-    R<String> releaseWorksheet(ReleaseWorksheetDTO releaseWorksheetDTO);
+    R<String> releaseWorksheet(ReleaseWorksheetDTO releaseWorksheetDTO, Long enterpriseWorkerId);
 
     /**
      * 抢单
@@ -55,21 +56,42 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
 
     /**
      * 根据工单状态和商户id查询
+     *
+     * @param page
+     * @param enterpriseId
+     * @param worksheetState
+     * @param worksheetNo
+     * @param worksheetName
+     * @param startTime
+     * @param endTime
+     * @return
      */
     R getEnterpriseWorksheet(IPage<WorksheetXiaoVO> page, Long enterpriseId, WorksheetState worksheetState, String worksheetNo, String worksheetName, String startTime, String endTime);
 
     /**
      * 后台查询订单详情
+     *
+     * @param page
+     * @param worksheetId
+     * @return
      */
     R getWorksheetWebDetails(IPage<WorksheetMakerDetailsVO> page, Long worksheetId);
 
     /**
-     * 开启或关闭
+     * 开启或关闭工单
+     *
+     * @param worksheetId
+     * @param variable
+     * @param enterpriseWorkerId
+     * @return
      */
-    R closeOrOpen(Long worksheetId, Integer variable);
+    R closeOrOpen(Long worksheetId, Integer variable, Long enterpriseWorkerId);
 
     /**
      * 踢出创客
+     *
+     * @param worksheetMakerId
+     * @return
      */
     R kickOut(Long worksheetMakerId);
 

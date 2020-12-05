@@ -1,10 +1,7 @@
 package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.lgyun.common.enumeration.MakerType;
-import com.lgyun.common.enumeration.WorksheetMode;
-import com.lgyun.common.enumeration.WorksheetType;
-import com.lgyun.common.enumeration.WorksheetState;
+import com.lgyun.common.enumeration.*;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -94,9 +91,9 @@ public class WorksheetEntity extends BaseEntity {
     private Date destroyDatetime;
 
     /**
-     * 作废人员
+     * 作废人员ID
      */
-    private String destroyPerson;
+    private Long destroyPersonId;
 
     /**
      * 作废说明
@@ -111,12 +108,12 @@ public class WorksheetEntity extends BaseEntity {
     /**
      * 1，手动关单；2，自动关单
      */
-    private String closeDesc;
+    private CloseWorksheetType closeWorksheetType;
 
     /**
      * 关单人员
      */
-    private String closePerson;
+    private Long closePersonId;
 
     /**
      * 完毕日期

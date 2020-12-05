@@ -12,7 +12,6 @@ import com.lgyun.system.order.mapper.WorksheetMakerMapper;
 import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.order.vo.WorksheetMakerDetailsVO;
-import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,58 +32,67 @@ import java.util.List;
 @AllArgsConstructor
 public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMapper, WorksheetMakerEntity> implements IWorksheetMakerService {
 
-    private IUserClient iUserClient;
+    private IWorksheetMakerService worksheetMakerService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> submitAchievement(WorksheetMakerEntity worksheetMakerEntity, String achievementDesc, String achievementFiles, IWorksheetService worksheetService) {
-        if (null == worksheetMakerEntity || null == achievementFiles || "" == achievementFiles) {
-            return R.fail("提交失败");
+    public R<String> submitAchievement(Long worksheetMakerId, String achievementDesc, String achievementFiles, IWorksheetService worksheetService) {
+
+        WorksheetMakerEntity worksheetMakerEntity = worksheetMakerService.getById(worksheetMakerId);
+        if (null == worksheetMakerEntity) {
+            return R.fail("工单-创客不存在");
         }
+
+        WorksheetEntity worksheetEntity = worksheetService.getById(worksheetMakerEntity.getWorksheetId());
+        if (worksheetEntity == null){
+            return R.fail("工单不存在");
+        }
+
+        if (!(worksheetEntity.getWorksheetState().equals(WorksheetState.CLOSED) || worksheetEntity.getWorksheetState().equals(WorksheetState.CHECKACCEPT))) {
+            return R.fail("商户未关单，暂不能提交工作成果");
+        }
+
+        if (WorksheetState.CLOSED.equals(worksheetEntity.getWorksheetState())) {
+            worksheetEntity.setWorksheetState(WorksheetState.CHECKACCEPT);
+            worksheetService.updateById(worksheetEntity);
+        }
+
         worksheetMakerEntity.setAchievementDesc(achievementDesc);
         worksheetMakerEntity.setAchievementFiles(achievementFiles);
         worksheetMakerEntity.setAchievementDate(new Date());
         worksheetMakerEntity.setWorksheetMakerState(WorksheetMakerState.VERIFIED);
-        saveOrUpdate(worksheetMakerEntity);
-        WorksheetEntity byId = worksheetService.getById(worksheetMakerEntity.getWorksheetId());
-        if (null == byId) {
-            return R.fail("提交失败");
-        }
-        if (WorksheetState.CLOSED.equals(byId.getWorksheetState())) {
-            byId.setWorksheetState(WorksheetState.CHECKACCEPT);
-            worksheetService.saveOrUpdate(byId);
-        }
+        updateById(worksheetMakerEntity);
+
         return R.success("提交工作");
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> checkAchievement(Long worksheetMakerId, BigDecimal checkMoney, Long enterpriseId, Boolean bool) {
+    public R<String> checkAchievement(Long worksheetMakerId, BigDecimal checkMoney, Long enterpriseWorkerId, Boolean bool) {
         WorksheetMakerEntity worksheetMakerEntity = getById(worksheetMakerId);
         if (null == worksheetMakerEntity) {
-            return R.fail("数据不存在");
+            return R.fail("工单-创客记录不存在");
         }
-        if (null == checkMoney) {
-            return R.fail("验收金额为空");
-        }
+
         if (!(WorksheetMakerState.VERIFIED.equals(worksheetMakerEntity.getWorksheetMakerState()) || WorksheetMakerState.SUBMITTED.equals(worksheetMakerEntity.getWorksheetMakerState()) || WorksheetMakerState.VALIDATION.equals(worksheetMakerEntity.getWorksheetMakerState()))) {
             return R.fail("状态有误");
         }
 
-        if(WorksheetMakerState.VALIDATION.equals(worksheetMakerEntity.getWorksheetMakerState())){
-            worksheetMakerEntity.setCheckDate(new Date());
-            worksheetMakerEntity.setCheckMoney(checkMoney);
-            saveOrUpdate(worksheetMakerEntity);
-            return R.success("修改成功");
-        }
         worksheetMakerEntity.setCheckDate(new Date());
         worksheetMakerEntity.setCheckMoney(checkMoney);
+        worksheetMakerEntity.setCheckPersonId(enterpriseWorkerId);
+
+        if (WorksheetMakerState.VALIDATION.equals(worksheetMakerEntity.getWorksheetMakerState())) {
+            updateById(worksheetMakerEntity);
+            return R.success("修改成功");
+        }
+
         if (bool) {
             worksheetMakerEntity.setWorksheetMakerState(WorksheetMakerState.VALIDATION);
         } else {
             worksheetMakerEntity.setWorksheetMakerState(WorksheetMakerState.FAILED);
         }
-        saveOrUpdate(worksheetMakerEntity);
+        updateById(worksheetMakerEntity);
 
         return R.success("验收成功");
     }
@@ -92,15 +100,6 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
     @Override
     public IPage<WorksheetMakerDetailsVO> getWorksheetMakerDetails(Long worksheetId, IPage<WorksheetMakerDetailsVO> page) {
         return page.setRecords(baseMapper.getWorksheetMakerDetails(worksheetId, page));
-    }
-
-    @Override
-    public WorksheetMakerEntity getmakerIdAndWorksheetId(Long makerId, Long worksheetId) {
-        QueryWrapper<WorksheetMakerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(WorksheetMakerEntity::getMakerId, makerId)
-                .eq(WorksheetMakerEntity::getWorksheetId, worksheetId);
-
-        return baseMapper.selectOne(queryWrapper);
     }
 
     @Override

@@ -1,8 +1,6 @@
 package com.lgyun.system.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -24,10 +22,9 @@ public class Role extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 父主键
+     * 角色名
      */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long parentId;
+    private String roleName;
 
     /**
      * 用户类型
@@ -35,13 +32,8 @@ public class Role extends BaseEntity {
     private UserType userType;
 
     /**
-     * 账号
+     * 用户ID
      */
     private Long account;
-
-    /**
-     * 角色名
-     */
-    private String roleName;
 
 }

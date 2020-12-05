@@ -43,51 +43,34 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> releaseWorksheet(ReleaseWorksheetDTO releaseWorksheetDTO) {
+    public R<String> releaseWorksheet(ReleaseWorksheetDTO releaseWorksheetDTO, Long enterpriseWorkerId) {
         WorksheetEntity worksheetEntity = new WorksheetEntity();
-        if (StringUtil.isBlank(releaseWorksheetDTO.getWorksheetName())) {
-            return R.fail("请输入工单名称");
-        }
-        if (null == releaseWorksheetDTO.getEnterpriseId()) {
-            return R.fail("请选择商户");
-        }
 
-        if(!(releaseWorksheetDTO.getWorksheetFeeHigh().compareTo(BigDecimal.ZERO) == 0 && releaseWorksheetDTO.getWorksheetFeeLow().compareTo(BigDecimal.ZERO) == 0) && releaseWorksheetDTO.getWorksheetFeeHigh().compareTo(releaseWorksheetDTO.getWorksheetFeeLow()) <= 0){
+        if (!(releaseWorksheetDTO.getWorksheetFeeHigh().compareTo(BigDecimal.ZERO) == 0 && releaseWorksheetDTO.getWorksheetFeeLow().compareTo(BigDecimal.ZERO) == 0) && releaseWorksheetDTO.getWorksheetFeeHigh().compareTo(releaseWorksheetDTO.getWorksheetFeeLow()) <= 0) {
             return R.fail("最高费用不能比最低费用低");
         }
 
         if (!WorksheetMode.GRABBING.equals(releaseWorksheetDTO.getWorksheetMode()) && StringUtil.isBlank(releaseWorksheetDTO.getMakerIds())) {
             return R.fail("请选择创客");
         }
-        if (releaseWorksheetDTO.getWorksheetMode().equals("DISPATCH") && releaseWorksheetDTO.getUpPersonNum() != 0 && releaseWorksheetDTO.getMakerIds().split(",").length != releaseWorksheetDTO.getUpPersonNum()) {
+
+        if (WorksheetMode.DISPATCH.equals(releaseWorksheetDTO.getWorksheetMode()) && releaseWorksheetDTO.getMakerIds().split(",").length != releaseWorksheetDTO.getUpPersonNum()) {
             return R.fail("工单创建失败，上限人数为" + releaseWorksheetDTO.getUpPersonNum() + ",创客数为" + releaseWorksheetDTO.getMakerIds().split(",").length);
         }
-        if (releaseWorksheetDTO.getWorksheetMode().equals("BLEND") && releaseWorksheetDTO.getUpPersonNum() != 0 && releaseWorksheetDTO.getMakerIds().split(",").length < releaseWorksheetDTO.getUpPersonNum()) {
+
+        if (WorksheetMode.BLEND.equals(releaseWorksheetDTO.getWorksheetMode()) && releaseWorksheetDTO.getMakerIds().split(",").length < releaseWorksheetDTO.getUpPersonNum()) {
             return R.fail("工单创建失败，上限人数为" + releaseWorksheetDTO.getUpPersonNum() + ",创客数为" + releaseWorksheetDTO.getMakerIds().split(",").length);
         }
+
         String makerIds = releaseWorksheetDTO.getMakerIds();
         String[] split = makerIds.split(",");
-        Set<String> sameSet = new HashSet<>();
-        for (String element : split) {
-            sameSet.add(element);
-        }
+        Set<String> sameSet = new HashSet<>(Arrays.asList(split));
         if (sameSet.size() != split.length) {
             return R.fail("有存在相同的指定创客");
         }
+
         BeanUtil.copy(releaseWorksheetDTO, worksheetEntity);
-        if (null == releaseWorksheetDTO.getUpPersonNum()) {
-            worksheetEntity.setUpPersonNum(0);
-        }
-        if (null == releaseWorksheetDTO.getWorkDays()) {
-            worksheetEntity.setWorkDays(0);
-        }
-        if (null == releaseWorksheetDTO.getWorksheetFeeLow()) {
-            worksheetEntity.setWorksheetFeeLow(new BigDecimal("0"));
-        }
-        if (null == releaseWorksheetDTO.getWorksheetFeeHigh()) {
-            worksheetEntity.setWorksheetFeeHigh(new BigDecimal("0"));
-        }
-        if((WorksheetMode.BLEND.equals(releaseWorksheetDTO.getWorksheetMode()) || WorksheetMode.DISPATCH.equals(releaseWorksheetDTO.getWorksheetMode())) && releaseWorksheetDTO.getUpPersonNum() != 0 && releaseWorksheetDTO.getUpPersonNum() == split.length){
+        if ((WorksheetMode.BLEND.equals(releaseWorksheetDTO.getWorksheetMode()) || WorksheetMode.DISPATCH.equals(releaseWorksheetDTO.getWorksheetMode())) && releaseWorksheetDTO.getUpPersonNum() != 0 && releaseWorksheetDTO.getUpPersonNum() == split.length) {
             worksheetEntity.setWorksheetState(WorksheetState.CLOSED);
         }
         worksheetEntity.setWorksheetNo(SnowflakeIdWorker.getSerialNumber());
@@ -96,13 +79,9 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             for (int i = 0; i < split.length; i++) {
                 WorksheetMakerEntity worksheetMakerEntity = new WorksheetMakerEntity();
                 worksheetMakerEntity.setMakerId(Long.parseLong(split[i]));
-                MakerEntity makerEntity = iUserClient.queryMakerById(Long.parseLong(split[i]));
-                worksheetMakerEntity.setMakerName(makerEntity.getName());
                 worksheetMakerEntity.setWorksheetId(worksheetEntity.getId());
                 worksheetMakerEntity.setGetType(GetType.GETDISPATCH);
-                worksheetMakerEntity.setGetOrderDate(new Date());
-                worksheetMakerEntity.setArrangePerson("系统");
-                worksheetMakerEntity.setArrangeDate(new Date());
+                worksheetMakerEntity.setArrangePersonId(enterpriseWorkerId);
                 worksheetMakerService.save(worksheetMakerEntity);
             }
         }
@@ -160,19 +139,23 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R closeOrOpen(Long worksheetId, Integer variable) {
+    public R closeOrOpen(Long worksheetId, Integer variable, Long enterpriseWorkerId) {
         WorksheetEntity worksheetEntity = getById(worksheetId);
-        if (variable != 1 && variable != 2) {
-            return R.fail("参数有误");
+        if (worksheetEntity == null) {
+            return R.fail("工单不存在");
         }
+
         if (1 == variable) {
             worksheetEntity.setWorksheetState(WorksheetState.CLOSED);
+            worksheetEntity.setCloseWorksheetType(CloseWorksheetType.MANUAL);
+            worksheetEntity.setCloseWorksheetDate(new Date());
+            worksheetEntity.setClosePersonId(enterpriseWorkerId);
             saveOrUpdate(worksheetEntity);
             return R.success("关闭成功");
         } else {
             Integer orderGrabbingCount = worksheetMakerService.getOrderGrabbingCount(worksheetId);
             if (orderGrabbingCount >= worksheetEntity.getUpPersonNum()) {
-                return R.fail("开始失败，抢单人数到达上限！！");
+                return R.fail("开始失败，抢单人数到达上限");
             }
             worksheetEntity.setWorksheetState(WorksheetState.PUBLISHING);
             saveOrUpdate(worksheetEntity);
@@ -333,8 +316,6 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         worksheetMakerEntity.setMakerId(makerEntity.getId());
         worksheetMakerEntity.setWorksheetId(worksheetEntity.getId());
         worksheetMakerEntity.setGetType(GetType.GETGRABBING);
-        worksheetMakerEntity.setGetOrderDate(new Date());
-        worksheetMakerEntity.setMakerName(makerEntity.getName());
         worksheetMakerService.save(worksheetMakerEntity);
 
         //商户创客关联
@@ -343,9 +324,8 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         //判断是否关单
         if (worksheetMakerCount + 1 >= worksheetEntity.getUpPersonNum() && WorksheetState.PUBLISHING.equals(worksheetEntity.getWorksheetState())) {
             worksheetEntity.setWorksheetState(WorksheetState.CLOSED);
-            worksheetEntity.setCloseDesc("自动关单");
+            worksheetEntity.setCloseWorksheetType(CloseWorksheetType.SYSTEM);
             worksheetEntity.setCloseWorksheetDate(new Date());
-            worksheetEntity.setClosePerson("系统");
             updateById(worksheetEntity);
         }
 

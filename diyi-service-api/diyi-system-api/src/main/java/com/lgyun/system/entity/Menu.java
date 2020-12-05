@@ -46,7 +46,7 @@ public class Menu extends BaseEntity {
     private MenuCategory category;
 
     /**
-     * 用户菜单类型
+     * 菜单用户类型
      */
     private MenuType menuType;
 

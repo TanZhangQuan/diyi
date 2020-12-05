@@ -14,6 +14,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,9 +42,8 @@ public class WorksheetEnterpriseController {
             return result;
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-        releaseWorksheetDTO.setEnterpriseId(enterpriseWorkerEntity.getEnterpriseId());
 
-        return worksheetService.releaseWorksheet(releaseWorksheetDTO);
+        return worksheetService.releaseWorksheet(releaseWorksheetDTO, enterpriseWorkerEntity.getId());
     }
 
     @GetMapping("query-worksheet-list")
@@ -57,6 +57,7 @@ public class WorksheetEnterpriseController {
             return result;
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
         return worksheetService.getEnterpriseWorksheet(Condition.getPage(query.setDescs("ws.create_time")), enterpriseWorkerEntity.getEnterpriseId(), worksheetState, worksheetNo, worksheetName, startTime, endTime);
     }
 
@@ -100,19 +101,20 @@ public class WorksheetEnterpriseController {
     @PostMapping("/close-or-open-worksheet")
     @ApiOperation(value = "开单或关单", notes = "开单或关单")
     public R closeOrOpenWorksheet(@ApiParam(value = "工单", required = true) @NotNull(message = "请选择工单") @RequestParam(required = false) Long worksheetId,
-                                  @ApiParam(value = "1代表关闭，2开启", required = true) @NotNull(message = "请输入1代表关闭，2开启") @RequestParam(required = false) Integer variable, BladeUser bladeUser) {
+                                  @ApiParam(value = "1代表关闭，2开启", required = true) @NotNull(message = "请输入1代表关闭，2开启") @Range(min = 1, max = 2, message = "请输入1或2") @RequestParam(required = false) Integer variable, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return worksheetService.closeOrOpen(worksheetId, variable);
+        return worksheetService.closeOrOpen(worksheetId, variable, enterpriseWorkerEntity.getId());
     }
 
     @PostMapping("/check-achievement")
     @ApiOperation(value = "验收工作成果", notes = "验收工作成果")
-    public R checkAchievement(@NotNull(message = "请输入id") @RequestParam(required = false) Long worksheetMakerId,
+    public R checkAchievement(@NotNull(message = "请选择工单-创客") @RequestParam(required = false) Long worksheetMakerId,
                               @NotNull(message = "请输入验证金额") @RequestParam(required = false) BigDecimal checkMoney,
                               @NotNull(message = "请输入验收的结果") @RequestParam(required = false) Boolean bool, BladeUser bladeUser) {
         //查询当前商户员工
@@ -121,7 +123,8 @@ public class WorksheetEnterpriseController {
             return result;
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-        return worksheetMakerService.checkAchievement(worksheetMakerId, checkMoney, enterpriseWorkerEntity.getEnterpriseId(), bool);
+
+        return worksheetMakerService.checkAchievement(worksheetMakerId, checkMoney, enterpriseWorkerEntity.getId(), bool);
     }
 
     @PostMapping("/close-or-open-worksheet-list")

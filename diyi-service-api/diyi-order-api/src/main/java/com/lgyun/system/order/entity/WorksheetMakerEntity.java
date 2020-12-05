@@ -37,11 +37,6 @@ public class WorksheetMakerEntity extends BaseEntity {
     private Long worksheetId;
 
     /**
-     * 创客姓名
-     */
-    private String makerName;
-
-    /**
      * 获得方式：1,抢单获得；2，派单获得
      */
     private GetType getType;
@@ -50,11 +45,6 @@ public class WorksheetMakerEntity extends BaseEntity {
      * 工单创客的状态：1待提交，2待验证，3验证通过，4验证失败
      */
     private WorksheetMakerState worksheetMakerState = WorksheetMakerState.SUBMITTED;
-
-    /**
-     * 抢单/派单日期
-     */
-    private Date getOrderDate;
 
     /**
      * 工作成果说明
@@ -77,9 +67,9 @@ public class WorksheetMakerEntity extends BaseEntity {
     private BigDecimal checkMoney;
 
     /**
-     * 验收人员
+     * 验收人员ID
      */
-    private String checkPerson;
+    private Long checkPersonId;
 
     /**
      * 验收时间
@@ -89,11 +79,6 @@ public class WorksheetMakerEntity extends BaseEntity {
     /**
      * 派单人员
      */
-    private String arrangePerson;
-
-    /**
-     * 派单日期
-     */
-    private Date arrangeDate;
+    private Long arrangePersonId;
 
 }

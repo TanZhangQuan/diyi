@@ -20,23 +20,23 @@ public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity
     /**
      * 提交工作成果
      *
-     * @param worksheetMakerEntity
+     * @param worksheetMakerId
      * @param achievementDesc
      * @param achievementFiles
      * @return
      */
-    R<String> submitAchievement(WorksheetMakerEntity worksheetMakerEntity, String achievementDesc, String achievementFiles,IWorksheetService worksheetService);
+    R<String> submitAchievement(Long worksheetMakerId, String achievementDesc, String achievementFiles,IWorksheetService worksheetService);
 
     /**
      * 验收工作成果
      *
      * @param worksheetMakerId
      * @param checkMoney
-     * @param enterpriseId
+     * @param enterpriseWorkerId
      * @param bool
      * @return
      */
-    R<String> checkAchievement(Long worksheetMakerId, BigDecimal checkMoney, Long enterpriseId, Boolean bool);
+    R<String> checkAchievement(Long worksheetMakerId, BigDecimal checkMoney, Long enterpriseWorkerId, Boolean bool);
 
     /**
      * 根据工单id查询所有的创客明细
@@ -46,16 +46,6 @@ public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity
      * @return
      */
     IPage<WorksheetMakerDetailsVO> getWorksheetMakerDetails(Long worksheetId, IPage<WorksheetMakerDetailsVO> page);
-
-    /**
-     * 查询创客有没有抢单
-     *
-     * @param makerId
-     * @param worksheetId
-     * @return
-     */
-    WorksheetMakerEntity getmakerIdAndWorksheetId(Long makerId, Long worksheetId);
-
 
     /**
      * 根据工单id查询所有的创客明细

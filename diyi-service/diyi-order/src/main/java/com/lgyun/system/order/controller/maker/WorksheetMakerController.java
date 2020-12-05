@@ -1,17 +1,16 @@
 package com.lgyun.system.order.controller.maker;
 
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.entity.WorksheetEntity;
-import com.lgyun.system.order.entity.WorksheetMakerEntity;
 import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -59,20 +58,14 @@ public class WorksheetMakerController {
     @ApiOperation(value = "提交工作成果", notes = "提交工作成果")
     public R submitAchievement(@NotNull(message = "请输入工单的状态") @RequestParam(required = false) Long worksheetMakerId,
                                @NotNull(message = "请输入工单说明") @RequestParam(required = false) String achievementDesc,
-                               @NotNull(message = "请输入工单url") @RequestParam(required = false) String achievementFiles, BladeUser bladeUser) {
+                               @NotNull(message = "请上传工作成果附件") @RequestParam(required = false) String achievementFiles, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        WorksheetMakerEntity worksheetMakerEntity = worksheetMakerService.getById(worksheetMakerId);
-        WorksheetEntity worksheetEntity = worksheetService.getById(worksheetMakerEntity.getWorksheetId());
-        if (!(worksheetEntity.getWorksheetState().equals(WorksheetState.CLOSED) || worksheetEntity.getWorksheetState().equals(WorksheetState.CHECKACCEPT))) {
-            return R.fail("商户未关单，暂不能提交工作成果");
-        }
-
-        return worksheetMakerService.submitAchievement(worksheetMakerEntity, achievementDesc, achievementFiles, worksheetService);
+        return worksheetMakerService.submitAchievement(worksheetMakerId, achievementDesc, achievementFiles, worksheetService);
     }
 
     @GetMapping("/query-worksheet-detail")
