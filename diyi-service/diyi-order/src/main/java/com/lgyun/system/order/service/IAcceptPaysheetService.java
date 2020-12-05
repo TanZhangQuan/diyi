@@ -41,11 +41,9 @@ public interface IAcceptPaysheetService extends BaseService<AcceptPaysheetEntity
      * @param enterpriseId
      * @param serviceProviderId
      * @param acceptPaysheetSaveDto
-     * @param uploadSource
-     * @param uploadPerson
      * @return
      */
-    R<String> uploadAcceptPaysheet(Long enterpriseId, Long serviceProviderId, AcceptPaysheetSaveDTO acceptPaysheetSaveDto, String uploadSource, String uploadPerson);
+    R<String> uploadAcceptPaysheet(Long enterpriseId, Long serviceProviderId, AcceptPaysheetSaveDTO acceptPaysheetSaveDto);
 
     /**
      * 查询当前商户所有总包+分包交付支付验收单

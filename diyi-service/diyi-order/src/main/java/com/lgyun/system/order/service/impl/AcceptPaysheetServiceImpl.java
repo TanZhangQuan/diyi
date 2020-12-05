@@ -57,7 +57,7 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> uploadAcceptPaysheet(Long enterpriseId, Long serviceProviderId, AcceptPaysheetSaveDTO acceptPaysheetSaveDto, String uploadSource, String uploadPerson) {
+    public R<String> uploadAcceptPaysheet(Long enterpriseId, Long serviceProviderId, AcceptPaysheetSaveDTO acceptPaysheetSaveDto) {
 
         //判断支付清单是否存在
         PayEnterpriseEntity payEnterpriseEntity = payEnterpriseService.getById(acceptPaysheetSaveDto.getPayEnterpriseId());
@@ -106,8 +106,6 @@ public class AcceptPaysheetServiceImpl extends BaseServiceImpl<AcceptPaysheetMap
         }
 
         AcceptPaysheetEntity acceptPaysheetEntity = new AcceptPaysheetEntity();
-        acceptPaysheetEntity.setUploadSource(uploadSource);
-        acceptPaysheetEntity.setUploadPerson(uploadPerson);
         BeanUtils.copyProperties(acceptPaysheetSaveDto, acceptPaysheetEntity);
         save(acceptPaysheetEntity);
 

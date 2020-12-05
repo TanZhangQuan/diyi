@@ -36,11 +36,6 @@ public class InvoiceApplicationEntity extends BaseEntity {
     private Date applicationDate;
 
     /**
-     * 申请人
-     */
-    private String applicationPerson;
-
-    /**
      * 开票总额
      */
     private BigDecimal voiceTotalAmount;

@@ -50,33 +50,8 @@ public class AcceptPaysheetEntity extends BaseEntity {
     private Date serviceTimeEnd;
 
     /**
-     * 上传来源
-     */
-    private String uploadSource;
-
-    /**
-     * 上传人员
-     */
-    private String uploadPerson;
-
-    /**
      * 验收单URL
      */
     private String acceptPaysheetUrl;
-
-    /**
-     * 验收单验收日期
-     */
-    private Date confirmDate;
-
-    /**
-     * 验收人员
-     */
-    private String confirmPerson;
-
-    /**
-     * 验收说明
-     */
-    private String confirmDesc;
 
 }
