@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("sys_role")
+@TableName("diyi_role")
 public class Role extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
@@ -43,15 +43,5 @@ public class Role extends BaseEntity {
      * 角色名
      */
     private String roleName;
-
-    /**
-     * 排序
-     */
-    private Integer sort;
-
-    /**
-     * 角色别名
-     */
-    private String roleAlias;
 
 }

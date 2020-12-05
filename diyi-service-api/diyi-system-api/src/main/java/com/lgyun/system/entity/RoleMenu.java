@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("sys_role_menu")
+@TableName("diyi_role_menu")
 public class RoleMenu extends BaseEntity {
     private static final long serialVersionUID = 1L;
 

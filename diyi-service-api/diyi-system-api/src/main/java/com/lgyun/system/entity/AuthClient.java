@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("sys_client")
+@TableName("diyi_client")
 public class AuthClient extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
@@ -32,31 +32,6 @@ public class AuthClient extends BaseEntity {
     private String clientSecret;
 
     /**
-     * 资源集合
-     */
-    private String resourceIds;
-
-    /**
-     * 授权范围
-     */
-    private String scope;
-
-    /**
-     * 授权类型
-     */
-    private String authorizedGrantTypes;
-
-    /**
-     * 回调地址
-     */
-    private String webServerRedirectUri;
-
-    /**
-     * 权限
-     */
-    private String authorities;
-
-    /**
      * 令牌过期秒数
      */
     private Integer accessTokenValidity;
@@ -65,15 +40,5 @@ public class AuthClient extends BaseEntity {
      * 刷新令牌过期秒数
      */
     private Integer refreshTokenValidity;
-
-    /**
-     * 附加说明
-     */
-    private String additionalInformation;
-
-    /**
-     * 自动授权
-     */
-    private String autoApprove;
 
 }

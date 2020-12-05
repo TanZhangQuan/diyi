@@ -3,6 +3,8 @@ package com.lgyun.system.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.MenuCategory;
+import com.lgyun.common.enumeration.MenuType;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +20,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("sys_menu")
+@TableName("diyi_menu")
 public class Menu extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
@@ -29,19 +31,9 @@ public class Menu extends BaseEntity {
     private Long parentId;
 
     /**
-     * 菜单编号
-     */
-    private String code;
-
-    /**
      * 菜单名称
      */
     private String name;
-
-    /**
-     * 菜单别名
-     */
-    private String alias;
 
     /**
      * 请求地址
@@ -49,9 +41,14 @@ public class Menu extends BaseEntity {
     private String path;
 
     /**
-     * 菜单资源
+     * 菜单类型
      */
-    private String source;
+    private MenuCategory category;
+
+    /**
+     * 用户菜单类型
+     */
+    private MenuType menuType;
 
     /**
      * 排序
@@ -59,28 +56,8 @@ public class Menu extends BaseEntity {
     private Integer sort;
 
     /**
-     * 菜单类型
-     */
-    private Integer category;
-
-    /**
-     * 操作按钮类型
-     */
-    private Integer action;
-
-    /**
-     * 是否打开新页面
-     */
-    private Integer isOpen;
-
-    /**
      * 备注
      */
     private String remark;
-
-    /**
-     * 菜单类型：商户、服务商、管理平台
-     */
-    private String menuType;
 
 }

@@ -20,12 +20,6 @@ public class RoleMenusDTO {
     private String roleName;
 
     /**
-     * 角色别名
-     */
-    @NotBlank(message = "请输入角色别名")
-    private String roleAlias;
-
-    /**
      * 菜单ID字符集（ID之间用英文逗号隔开）
      */
     @NotBlank(message = "请选择菜单")

@@ -21,11 +21,6 @@ public class RoleMenusVO {
     private String roleName;
 
     /**
-     * 角色别名
-     */
-    private String roleAlias;
-
-    /**
      * 菜单ID字符集（ID之间用英文逗号隔开）
      */
     private List<String> menuNames;
