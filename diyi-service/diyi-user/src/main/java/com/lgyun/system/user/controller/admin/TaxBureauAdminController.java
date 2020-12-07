@@ -147,17 +147,5 @@ public class TaxBureauAdminController {
 
         return relBureauNoticeService.queryBureauNoticeList(relBureauId, noticeState, Condition.getPage(query.setDescs("create_time")));
     }
-
-    @GetMapping("/update-industrial-parks-notice-state")
-    @ApiOperation(value = "更改税局通知状态", notes = "更改税局通知状态")
-    public R updateIndustrialParksNoticeState(@ApiParam("相关局通知") @NotNull(message = "请选择相关局通知") @RequestParam(required = false) Long relBureauNoticeId, BladeUser bladeUser) {
-        //查询当前管理
-        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-
-        return relBureauNoticeService.updateRelBureauNoticeState(relBureauNoticeId);
-    }
     
 }

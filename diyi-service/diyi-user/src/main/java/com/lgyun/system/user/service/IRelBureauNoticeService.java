@@ -25,12 +25,5 @@ public interface IRelBureauNoticeService extends BaseService<RelBureauNoticeEnti
      */
     R<IPage<RelBureauNoticeListVO>> queryBureauNoticeList(Long relBureauId, NoticeState noticeState, IPage<RelBureauNoticeListVO> page);
 
-    /**
-     * 更改相关局通知状态
-     *
-     * @param relBureauNoticeId
-     * @return
-     */
-    R<String> updateRelBureauNoticeState(Long relBureauNoticeId);
 }
 
