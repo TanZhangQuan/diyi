@@ -1,7 +1,6 @@
 package com.lgyun.system.user.dto;
 
 import com.lgyun.common.enumeration.PositionName;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 

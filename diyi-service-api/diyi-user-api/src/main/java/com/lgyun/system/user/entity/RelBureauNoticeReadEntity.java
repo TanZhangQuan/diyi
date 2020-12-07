@@ -24,15 +24,11 @@ public class RelBureauNoticeReadEntity extends BaseEntity {
     /**
      * 通知ID
      */
-    private Long noticeId;
+    private Long relBureauNoticeId;
 
     /**
-     * 阅读服务商
+     * 阅读服务商员工
      */
-    private Long readServicer;
+    private Long servicerProviderWorkerId;
 
-    /**
-     * 阅读人
-     */
-    private String reader;
 }

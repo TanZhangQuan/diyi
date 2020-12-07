@@ -2,7 +2,6 @@ package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.common.enumeration.AccountState;
-import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.common.enumeration.RelBureauType;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -87,7 +86,7 @@ public class RelBureauEntity extends BaseEntity {
     /**
      * 联系人职位
      */
-    private PositionName contactPosition;
+    private String contactPosition;
 
     /**
      * 联系人电话手机（必填）

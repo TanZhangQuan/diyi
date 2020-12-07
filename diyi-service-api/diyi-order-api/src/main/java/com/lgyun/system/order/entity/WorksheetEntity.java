@@ -91,11 +91,6 @@ public class WorksheetEntity extends BaseEntity {
     private Date destroyDatetime;
 
     /**
-     * 作废人员ID
-     */
-    private Long destroyPersonId;
-
-    /**
      * 作废说明
      */
     private String destroyDesc;
@@ -109,11 +104,6 @@ public class WorksheetEntity extends BaseEntity {
      * 1，手动关单；2，自动关单
      */
     private CloseWorksheetType closeWorksheetType;
-
-    /**
-     * 关单人员
-     */
-    private Long closePersonId;
 
     /**
      * 完毕日期

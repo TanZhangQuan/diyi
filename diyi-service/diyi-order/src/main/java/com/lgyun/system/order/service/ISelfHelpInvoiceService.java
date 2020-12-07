@@ -81,11 +81,11 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
     /**
      * 服务商自助开票上传发票税票
      *
-     * @param serviceProviderWorkerEntity
+     * @param serviceProviderWorkerId
      * @param selfHelpInvoiceDetailInvoiceTaxDto
      * @return
      */
-    R<String> uploadInvoiceTaxByProvider(ServiceProviderWorkerEntity serviceProviderWorkerEntity, SelfHelpInvoiceDetailInvoiceTaxDTO selfHelpInvoiceDetailInvoiceTaxDto);
+    R<String> uploadInvoiceTaxByProvider(Long serviceProviderWorkerId, SelfHelpInvoiceDetailInvoiceTaxDTO selfHelpInvoiceDetailInvoiceTaxDto);
 
     /**
      * 服务商自助开票填写快递信息

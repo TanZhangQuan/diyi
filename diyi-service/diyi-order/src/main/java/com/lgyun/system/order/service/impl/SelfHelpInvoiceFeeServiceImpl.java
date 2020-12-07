@@ -35,7 +35,7 @@ public class SelfHelpInvoiceFeeServiceImpl extends BaseServiceImpl<SelfHelpInvoi
         selfHelpInvoiceFeeEntity.setPayDesc(confirmPaymentDto.getPayDesc());
         selfHelpInvoiceFeeEntity.setPayCertificate(confirmPaymentDto.getPayCertificate());
         selfHelpInvoiceFeeEntity.setPayType(confirmPaymentDto.getPaymentType());
-        saveOrUpdate(selfHelpInvoiceFeeEntity);
+        updateById(selfHelpInvoiceFeeEntity);
         return R.success("确认支付成功");
     }
 }

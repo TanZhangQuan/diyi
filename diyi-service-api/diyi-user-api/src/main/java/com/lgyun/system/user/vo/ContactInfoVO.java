@@ -1,6 +1,5 @@
 package com.lgyun.system.user.vo;
 
-import com.lgyun.common.enumeration.PositionName;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -17,7 +16,7 @@ public class ContactInfoVO implements Serializable {
     /**
      * 联系人1职位
      */
-    private PositionName contact1Position;
+    private String contact1Position;
 
     /**
      * 联系人1电话/手机
@@ -37,7 +36,7 @@ public class ContactInfoVO implements Serializable {
     /**
      * 联系人2职位
      */
-    private PositionName contact2Position;
+    private String contact2Position;
 
     /**
      * 联系人2电话/手机

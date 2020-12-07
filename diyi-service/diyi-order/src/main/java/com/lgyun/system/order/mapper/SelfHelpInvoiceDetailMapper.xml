@@ -52,7 +52,6 @@
         <result property="serviceRate" column="service_rate"/>
         <result property="flowContractUrl" column="flow_contract_url"/>
         <result property="businessContractUrl" column="business_contract_url"/>
-        <result property="deliverSheetUrl" column="deliver_sheet_url"/>
         <result property="invoiceScanPictures" column="invoice_scan_pictures"/>
         <result property="taxScanPictures" column="tax_scan_pictures"/>
         <result property="expressCompanyName" column="express_company_name"/>
@@ -146,7 +145,7 @@
         IF ( a.maker_id IS NULL, ( SELECT e.idcard_no FROM diyi_self_help_invoice_person e WHERE e.id = a.none_maker_invoice_person_id ),
         ( SELECT m.idcard_no FROM diyi_maker AS m WHERE m.id = a.maker_id )) AS idcard_no, IF ( a.maker_id IS NULL, ( SELECT e.phone_number
         FROM diyi_self_help_invoice_person e WHERE e.id = a.none_maker_invoice_person_id ), ( SELECT m.phone_number FROM diyi_maker AS m WHERE m.id = a.maker_id ))
-        AS phone_number, a.charge_money_num, z.service_rate, a.flow_contract_url, a.business_contract_url, a.deliver_sheet_url,
+        AS phone_number, a.charge_money_num, z.service_rate, a.flow_contract_url, a.business_contract_url,
         c.invoice_scan_pictures, c.tax_scan_pictures, d.express_company_name, d.express_no FROM diyi_self_help_invoice z INNER JOIN diyi_self_help_invoice_detail a
         ON z.id = a.self_help_invoice_id LEFT JOIN diyi_self_help_invoice_sp b ON a.self_help_invoice_id = b.self_help_invoice_id
         LEFT JOIN diyi_self_help_invoice_sp_detail c ON b.id = c.self_help_invoice_apply_provider_id LEFT JOIN diyi_self_help_invoice_express d

@@ -79,8 +79,4 @@ public class PlatformInvoiceListEntity extends BaseEntity {
      */
     private String companyInvoiceUrl;
 
-    /**
-     * 发票上传日期
-     */
-    private Date companyVoiceUploadDatetime;
 }

@@ -103,7 +103,7 @@ public class EnterpriseReportServiceImpl extends BaseServiceImpl<EnterpriseRepor
             enterpriseReportEntity.setReportDeadDate(adminEnterpriseReportDTO.getReportDeadDate());
             enterpriseReportEntity.setReportGuardName(adminEnterpriseReportDTO.getReportGuardName());
             enterpriseReportEntity.setReportResultFiles(adminEnterpriseReportDTO.getReportResultFiles());
-            saveOrUpdate(enterpriseReportEntity);
+            updateById(enterpriseReportEntity);
         }
         return R.success("操作成功");
     }
@@ -133,7 +133,7 @@ public class EnterpriseReportServiceImpl extends BaseServiceImpl<EnterpriseRepor
     @Override
     @Transactional(rollbackFor = Exception.class)
     public R saveServiceEnterpriseReport(AdminEnterpriseReportDTO adminEnterpriseReportDTO) {
-        EnterpriseReportEntity enterpriseReportEntity = null;
+        EnterpriseReportEntity enterpriseReportEntity;
         if (null == adminEnterpriseReportDTO.getEnterpriseReportId()) {
             enterpriseReportEntity = BeanUtil.copy(adminEnterpriseReportDTO, EnterpriseReportEntity.class);
             enterpriseReportEntity.setReportState(ReportState.DECLAREING);

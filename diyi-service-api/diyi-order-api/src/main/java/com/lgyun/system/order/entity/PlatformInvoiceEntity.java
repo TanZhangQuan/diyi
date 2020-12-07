@@ -65,21 +65,6 @@ public class PlatformInvoiceEntity extends BaseEntity {
     private String expressCompanyName;
 
     /**
-     * 快递更新日期
-     */
-    private Date expressUpdateDatetime;
-
-    /**
-     * 快递更新人员
-     */
-    private String expressUpdatePerson;
-
-    /**
-     * 快递更新人员电话
-     */
-    private String expressUpdatePersonTel;
-
-    /**
      * 开票说明
      */
     private String invoiceDesc;

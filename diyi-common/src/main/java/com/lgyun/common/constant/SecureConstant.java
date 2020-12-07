@@ -31,7 +31,7 @@ public interface SecureConstant {
     /**
      * diyi_client查询语句
      */
-    String BASE_STATEMENT = "select " + CLIENT_FIELDS + " from sys_client";
+    String BASE_STATEMENT = "select " + CLIENT_FIELDS + " from diyi_client";
 
     /**
      * 查询client_id

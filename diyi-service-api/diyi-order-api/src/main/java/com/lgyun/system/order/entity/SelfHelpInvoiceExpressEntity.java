@@ -42,16 +42,6 @@ public class SelfHelpInvoiceExpressEntity extends BaseEntity {
     private String expressFileUrl;
 
     /**
-     * 处理人员
-     */
-    private String operatePerson;
-
-    /**
-     * 快递更新人员电话
-     */
-    private String expressUpdatePersonTel;
-
-    /**
      * 特殊说明
      */
     private String specialDesc;

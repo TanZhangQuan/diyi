@@ -22,13 +22,13 @@
     </resultMap>
 
     <select id="tree" resultMap="treeNodeResultMap">
-        select id, parent_id, name as title from diyi_menu where menu_type = #{param1} and bool_deleted = 0 and category = 1 order by sort
+        select id, parent_id, name as title from diyi_menu where menu_type = #{param1} and bool_deleted = 0 and category = 'MENU' order by sort
     </select>
 
     <select id="treeByRoleId" resultMap="treeNodeResultMap">
         select t1.id, t1.parent_id, t1.name as title from diyi_menu t1 where t1.menu_type = #{param1}
         and EXISTS(select id from diyi_role_menu where role_id = #{param2} AND menu_id = t1.id)
-        and t1.bool_deleted = 0 and t1.category = 1
+        and t1.bool_deleted = 0 and t1.category = 'MENU'
         order by t1.sort
     </select>
 
@@ -42,7 +42,7 @@
     </select>
 
     <select id="routes" resultMap="menuResultMap">
-        SELECT * FROM diyi_menu WHERE bool_deleted = 0 and category = 1
+        SELECT * FROM diyi_menu WHERE bool_deleted = 0 and category = 'MENU'
         and id IN ( SELECT menu_id FROM diyi_role_menu WHERE role_id IN
         <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
             #{item}
@@ -51,14 +51,14 @@
 
     <select id="buttons" resultMap="menuResultMap">
         SELECT id, parent_id, name, path, source, action, sort FROM diyi_menu WHERE bool_deleted = 0 and id IN (
-        SELECT parent_id FROM diyi_menu WHERE ( category = 2 AND id IN ( SELECT menu_id FROM diyi_role_menu WHERE role_id IN
+        SELECT parent_id FROM diyi_menu WHERE ( category = 'MENU' AND id IN ( SELECT menu_id FROM diyi_role_menu WHERE role_id IN
         <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
         ) ) )
         UNION ALL
         SELECT id, parent_id, name, path, source, action, sort FROM diyi_menu WHERE
-        bool_deleted = 0 and  category = 2 AND id IN ( SELECT menu_id FROM diyi_role_menu WHERE role_id IN
+        bool_deleted = 0 and  category = 'MENU' AND id IN ( SELECT menu_id FROM diyi_role_menu WHERE role_id IN
         <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>)

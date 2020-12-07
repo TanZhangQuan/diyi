@@ -22,10 +22,9 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      * 发布工单
      *
      * @param releaseWorksheetDTO
-     * @param enterpriseWorkerId
      * @return
      */
-    R<String> releaseWorksheet(ReleaseWorksheetDTO releaseWorksheetDTO, Long enterpriseWorkerId);
+    R<String> releaseWorksheet(ReleaseWorksheetDTO releaseWorksheetDTO);
 
     /**
      * 抢单
@@ -82,10 +81,9 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
      *
      * @param worksheetId
      * @param variable
-     * @param enterpriseWorkerId
      * @return
      */
-    R closeOrOpen(Long worksheetId, Integer variable, Long enterpriseWorkerId);
+    R closeOrOpen(Long worksheetId, Integer variable);
 
     /**
      * 踢出创客

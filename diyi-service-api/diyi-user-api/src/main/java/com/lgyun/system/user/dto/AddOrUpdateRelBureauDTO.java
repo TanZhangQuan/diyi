@@ -1,6 +1,5 @@
 package com.lgyun.system.user.dto;
 
-import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.common.enumeration.RelBureauType;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -69,7 +68,7 @@ public class AddOrUpdateRelBureauDTO {
      * 联系人职位
      */
     @NotBlank(message = "请选择联系人职位")
-    private PositionName contactPosition;
+    private String contactPosition;
 
     /**
      * 联系手机号

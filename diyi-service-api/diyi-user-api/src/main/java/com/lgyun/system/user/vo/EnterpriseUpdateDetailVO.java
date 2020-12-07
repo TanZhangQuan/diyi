@@ -2,7 +2,6 @@ package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.lgyun.common.enumeration.PositionName;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -71,7 +70,7 @@ public class EnterpriseUpdateDetailVO implements Serializable {
     /**
      * 联系人1职位
      */
-    private PositionName contact1Position;
+    private String contact1Position;
 
     /**
      * 联系人1电话/手机
@@ -91,7 +90,7 @@ public class EnterpriseUpdateDetailVO implements Serializable {
     /**
      * 联系人2职位
      */
-    private PositionName contact2Position;
+    private String contact2Position;
 
     /**
      * 联系人2电话/手机

@@ -61,7 +61,7 @@
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="chargeListUrl" column="charge_list_url"/>
         <result property="worksheetId" column="worksheet_id"/>
-        <result property="companyVoiceUploadDatetime" column="company_voice_upload_datetime"/>
+        <result property="companyVoiceUploadDatetime" column="create_time"/>
         <result property="acceptPaysheetUrl" column="accept_paysheet_url"/>
         <result property="acceptPaysheetId" column="accept_paysheet_id"/>
     </resultMap>
@@ -544,7 +544,7 @@
     <select id="findDetailSummary" resultMap="EnterpriseSubcontractSummaryDetailMap">
         SELECT pe.id AS pay_enterprise_id, mt.id AS maker_total_invoice_id, sp.id AS service_provider_id, mt.invoice_serial_no, mt.company_invoice_url,
         mt.maker_tax_url, pe.subcontracting_invoice_state, sp.service_provider_name, pe.invoice_print_date, e.enterprise_name, pe.charge_list_url, pe.worksheet_id,
-        mt.company_voice_upload_datetime, ap.accept_paysheet_url,ap.id as accept_paysheet_id FROM diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON pe.enterprise_id = e.id
+        mt.create_time, ap.accept_paysheet_url,ap.id as accept_paysheet_id FROM diyi_pay_enterprise pe INNER JOIN diyi_enterprise e ON pe.enterprise_id = e.id
         INNER JOIN diyi_maker_total_invoice mt ON mt.pay_enterprise_id = pe.id INNER JOIN diyi_service_provider sp ON sp.id = pe.service_provider_id
         LEFT JOIN diyi_accept_paysheet ap ON ap.pay_enterprise_id = pe.id AND ap.accept_paysheet_type = 'MANY'
          where pe.bool_deleted= 0 and mt.bool_deleted = 0 and sp.bool_deleted = 0 and mt.id = #{param1}

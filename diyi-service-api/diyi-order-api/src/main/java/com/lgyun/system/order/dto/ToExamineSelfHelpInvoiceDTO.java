@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * @author tzq
@@ -16,7 +17,7 @@ public class ToExamineSelfHelpInvoiceDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 自助开票主表id
+     * 自助开票主表ID
      */
     @NotNull(message = "请输入自助开票主表id")
     private Long selfHelpInvoiceId;
@@ -24,51 +25,51 @@ public class ToExamineSelfHelpInvoiceDTO implements Serializable {
     /**
      * 总价税合计额
      */
-    @NotBlank(message = "请输入总价税合计额")
-    private String totlChargeMoneyNum;
+    @NotNull(message = "请输入总价税合计额")
+    private BigDecimal totlChargeMoneyNum;
 
     /**
      * 服务税费率
      */
-    @NotBlank(message = "请输入服务税费率")
-    private String serviceRate;
+    @NotNull(message = "请输入服务税费率")
+    private BigDecimal serviceRate;
 
     /**
      * 总税费
      */
-    @NotBlank(message = "请输入总税费")
-    private String serviceTax;
+    @NotNull(message = "请输入总税费")
+    private BigDecimal serviceTax;
 
 
     /**
      * 总服务税费
      */
-    @NotBlank(message = "请输入总服务税费")
-    private String serviceandTaxMoney;
+    @NotNull(message = "请输入总服务税费")
+    private BigDecimal serviceandTaxMoney;
 
     /**
      * 总开票手续费
      */
-    @NotBlank(message = "请输入总开票手续费")
-    private String serviceInvoiceFee;
+    @NotNull(message = "请输入总开票手续费")
+    private BigDecimal serviceInvoiceFee;
 
     /**
      * 总需支付服务商税费
      */
-    @NotBlank(message = "请输入总需支付服务商税费")
-    private String totalPayProviderFee;
+    @NotNull(message = "请输入总需支付服务商税费")
+    private BigDecimal totalPayProviderFee;
 
     /**
      * 总身份验证费
      */
-    @NotBlank(message = "请输入总身份验证费")
-    private String idendityConfirmFee;
+    @NotNull(message = "请输入总身份验证费")
+    private BigDecimal idendityConfirmFee;
 
     /**
      * 总服务外包费
      */
-    @NotBlank(message = "请输入总服务外包费")
-    private String serviceFee;
+    @NotNull(message = "请输入总服务外包费")
+    private BigDecimal serviceFee;
 
     /**
      * 账户名称

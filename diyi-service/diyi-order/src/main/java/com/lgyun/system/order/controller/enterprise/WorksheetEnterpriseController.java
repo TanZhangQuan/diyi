@@ -41,9 +41,8 @@ public class WorksheetEnterpriseController {
         if (!(result.isSuccess())) {
             return result;
         }
-        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return worksheetService.releaseWorksheet(releaseWorksheetDTO, enterpriseWorkerEntity.getId());
+        return worksheetService.releaseWorksheet(releaseWorksheetDTO);
     }
 
     @GetMapping("query-worksheet-list")
@@ -107,9 +106,8 @@ public class WorksheetEnterpriseController {
         if (!(result.isSuccess())) {
             return result;
         }
-        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return worksheetService.closeOrOpen(worksheetId, variable, enterpriseWorkerEntity.getId());
+        return worksheetService.closeOrOpen(worksheetId, variable);
     }
 
     @PostMapping("/check-achievement")
@@ -122,9 +120,8 @@ public class WorksheetEnterpriseController {
         if (!(result.isSuccess())) {
             return result;
         }
-        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return worksheetMakerService.checkAchievement(worksheetMakerId, checkMoney, enterpriseWorkerEntity.getId(), bool);
+        return worksheetMakerService.checkAchievement(worksheetMakerId, checkMoney, bool);
     }
 
     @PostMapping("/close-or-open-worksheet-list")

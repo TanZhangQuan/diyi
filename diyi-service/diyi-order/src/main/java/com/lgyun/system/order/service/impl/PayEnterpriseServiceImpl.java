@@ -137,6 +137,16 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         if (payEnterpriseCreateOrUpdateDto.getPayenterpriseId() == null) {
             payEnterpriseEntity = new PayEnterpriseEntity();
             payEnterpriseEntity.setEnterpriseId(enterpriseId);
+            payEnterpriseEntity.setPayConfirmDateTime(new Date());
+            BeanUtils.copyProperties(payEnterpriseCreateOrUpdateDto, payEnterpriseEntity);
+            saveOrUpdate(payEnterpriseEntity);
+
+            //根据总包支付清单生成分包
+            PayEnterpriseImportListener payEnterpriseImportListener = new PayEnterpriseImportListener(payMakerService, payEnterpriseEntity.getId(), payEnterpriseEntity.getMakerType(), enterpriseId);
+            InputStream inputStream = new URL(payEnterpriseCreateOrUpdateDto.getChargeListUrl()).openStream();
+            ExcelReaderBuilder builder = EasyExcel.read(inputStream, PayEnterpriseExcel.class, payEnterpriseImportListener);
+            builder.doReadAll();
+
         } else {
             payEnterpriseEntity = getById(payEnterpriseCreateOrUpdateDto.getPayenterpriseId());
             if (payEnterpriseEntity == null) {
@@ -162,18 +172,24 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
                 //删除旧的总包交付支付验收单
                 acceptPaysheetService.deleteAcceptPaysheet(payEnterpriseEntity.getId());
+
+                payEnterpriseEntity.setPayConfirmDateTime(new Date());
+                BeanUtils.copyProperties(payEnterpriseCreateOrUpdateDto, payEnterpriseEntity);
+                saveOrUpdate(payEnterpriseEntity);
+
+                //根据总包支付清单生成分包
+                PayEnterpriseImportListener payEnterpriseImportListener = new PayEnterpriseImportListener(payMakerService, payEnterpriseEntity.getId(), payEnterpriseEntity.getMakerType(), enterpriseId);
+                InputStream inputStream = new URL(payEnterpriseCreateOrUpdateDto.getChargeListUrl()).openStream();
+                ExcelReaderBuilder builder = EasyExcel.read(inputStream, PayEnterpriseExcel.class, payEnterpriseImportListener);
+                builder.doReadAll();
+
+            } else {
+
+                BeanUtils.copyProperties(payEnterpriseCreateOrUpdateDto, payEnterpriseEntity);
+                saveOrUpdate(payEnterpriseEntity);
+
             }
         }
-
-        payEnterpriseEntity.setPayConfirmDateTime(new Date());
-        BeanUtils.copyProperties(payEnterpriseCreateOrUpdateDto, payEnterpriseEntity);
-        saveOrUpdate(payEnterpriseEntity);
-
-        //根据总包支付清单生成分包
-        PayEnterpriseImportListener payEnterpriseImportListener = new PayEnterpriseImportListener(payMakerService, payEnterpriseEntity.getId(), payEnterpriseEntity.getMakerType(), enterpriseId);
-        InputStream inputStream = new URL(payEnterpriseCreateOrUpdateDto.getChargeListUrl()).openStream();
-        ExcelReaderBuilder builder = EasyExcel.read(inputStream, PayEnterpriseExcel.class, payEnterpriseImportListener);
-        builder.doReadAll();
 
         //支付回单拆分
         String[] split = payEnterpriseCreateOrUpdateDto.getEnterprisePayReceiptUrls().split(",");
@@ -488,7 +504,6 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         //销售方名称
         //platformInvoiceListEntity.setSaleCompany(null == serviceProviderName ? "" : serviceProviderName);
         platformInvoiceListEntity.setCompanyInvoiceUrl(companyInvoiceUrl);
-        platformInvoiceListEntity.setCompanyVoiceUploadDatetime(new Date());
         platformInvoiceListService.save(platformInvoiceListEntity);
         //更新总包支付清单的总包开票状态
         for (int i = 0; i < split.length; i++) {
@@ -575,7 +590,6 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         //销售方名称
         platformInvoiceListEntity.setSaleCompany(null == serviceProviderName ? "" : serviceProviderName);
         platformInvoiceListEntity.setCompanyInvoiceUrl(companyInvoiceUrl);
-        platformInvoiceListEntity.setCompanyVoiceUploadDatetime(new Date());
         platformInvoiceListService.save(platformInvoiceListEntity);
         //更新总包支付清单的总包开票状态
         for (InvoiceApplicationPayListEntity invoiceApplicationPayListEntity : invoiceApplicationPayListEntityList) {
@@ -601,25 +615,25 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             return R.fail("请输入部分开票的金额！！！");
         }
 
-        PlatformInvoiceEntity byId = platformInvoiceService.getById(lumpInvoiceDTO.getInvoicePrintId());
+        PlatformInvoiceEntity platformInvoiceEntity = platformInvoiceService.getById(lumpInvoiceDTO.getInvoicePrintId());
         if (InvoiceMode.PARTIALLYISSUED.equals(lumpInvoiceDTO.getInvoiceMode())) {
-            BigDecimal openedInvoiceTotalAmount = byId.getOpenedInvoiceTotalAmount();
+            BigDecimal openedInvoiceTotalAmount = platformInvoiceEntity.getOpenedInvoiceTotalAmount();
             BigDecimal add = openedInvoiceTotalAmount.add(lumpInvoiceDTO.getPartInvoiceAmount());
             List<PlatformInvoicePayListEntity> platformInvoicePayListEntities = platformInvoicePayListService.findInvoicePrintId(lumpInvoiceDTO.getInvoicePrintId());
-            if (add.compareTo(byId.getInvoiceTotalAmount()) == 0) {
-                byId.setOpenedInvoiceTotalAmount(byId.getInvoiceTotalAmount());
+            if (add.compareTo(platformInvoiceEntity.getInvoiceTotalAmount()) == 0) {
+                platformInvoiceEntity.setOpenedInvoiceTotalAmount(platformInvoiceEntity.getInvoiceTotalAmount());
                 for (PlatformInvoicePayListEntity platformInvoicePayListEntity : platformInvoicePayListEntities) {
                     PayEnterpriseEntity payEnterpriseEntity = getById(platformInvoicePayListEntity.getPayEnterpriseId());
                     payEnterpriseEntity.setCompanyInvoiceState(CompanyInvoiceState.OPENED);
-                    InvoiceApplicationEntity invoiceApplicationEntity = invoiceApplicationService.getById(byId.getApplicationId());
+                    InvoiceApplicationEntity invoiceApplicationEntity = invoiceApplicationService.getById(platformInvoiceEntity.getApplicationId());
                     if (null != invoiceApplicationEntity) {
                         invoiceApplicationEntity.setApplicationState(ApplicationState.ISSUEDINFULL);
-                        invoiceApplicationService.saveOrUpdate(invoiceApplicationEntity);
+                        invoiceApplicationService.updateById(invoiceApplicationEntity);
                     }
                     saveOrUpdate(payEnterpriseEntity);
                 }
             }
-            if (add.compareTo(byId.getInvoiceTotalAmount()) == 1) {
+            if (add.compareTo(platformInvoiceEntity.getInvoiceTotalAmount()) > 0) {
                 return R.fail("部分开票金额有误！！！");
             }
         } else {
@@ -630,9 +644,9 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
                 saveOrUpdate(payEnterpriseEntity);
             }
         }
-        byId.setExpressCompanyName(lumpInvoiceDTO.getExpressCompanyName());
-        byId.setExpressSheetNo(lumpInvoiceDTO.getExpressSheetNo());
-        platformInvoiceService.saveOrUpdate(byId);
+        platformInvoiceEntity.setExpressCompanyName(lumpInvoiceDTO.getExpressCompanyName());
+        platformInvoiceEntity.setExpressSheetNo(lumpInvoiceDTO.getExpressSheetNo());
+        platformInvoiceService.updateById(platformInvoiceEntity);
         List<PlatformInvoiceListEntity> invoicePrintId = platformInvoiceListService.findInvoicePrintId(lumpInvoiceDTO.getInvoicePrintId());
         for (PlatformInvoiceListEntity platformInvoiceListEntity : invoicePrintId) {
             platformInvoiceListEntity.setInvoiceCategory(lumpInvoiceDTO.getInvoiceCategory());

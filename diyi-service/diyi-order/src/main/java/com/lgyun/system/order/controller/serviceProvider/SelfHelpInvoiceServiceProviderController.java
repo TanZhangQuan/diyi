@@ -85,7 +85,7 @@ public class SelfHelpInvoiceServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return selfHelpInvoiceService.uploadInvoiceTaxByProvider(serviceProviderWorkerEntity, selfHelpInvoiceDetailInvoiceTaxDto);
+        return selfHelpInvoiceService.uploadInvoiceTaxByProvider(serviceProviderWorkerEntity.getId(), selfHelpInvoiceDetailInvoiceTaxDto);
     }
 
     @PostMapping("/fill-express")

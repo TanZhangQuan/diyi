@@ -2,7 +2,6 @@ package com.lgyun.system.user.dto;
 
 import com.lgyun.common.enumeration.EnterpriseRule;
 import com.lgyun.common.enumeration.MakerRule;
-import com.lgyun.common.enumeration.PositionName;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -85,7 +84,7 @@ public class AddServiceProviderDTO implements Serializable {
      * 联系人1职位
      */
     @NotNull(message = "请输入联系人1职位")
-    private PositionName contact1Position;
+    private String contact1Position;
 
     /**
      * 联系人1电话/手机
@@ -112,7 +111,7 @@ public class AddServiceProviderDTO implements Serializable {
      * 联系人2职位
      */
     @NotNull(message = "请输入联系人2职位")
-    private PositionName contact2Position;
+    private String contact2Position;
 
     /**
      * 联系人2电话/手机

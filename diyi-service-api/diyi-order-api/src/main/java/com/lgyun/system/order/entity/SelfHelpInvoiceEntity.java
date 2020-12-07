@@ -133,11 +133,6 @@ public class SelfHelpInvoiceEntity extends BaseEntity {
     private Long addressId;
 
     /**
-     * 核价人员
-     */
-    private String confirmPricePerson;
-
-    /**
      * 核价时间
      */
     private Date confirmPriceDatetime;

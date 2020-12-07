@@ -32,11 +32,10 @@ public interface IWorksheetMakerService extends BaseService<WorksheetMakerEntity
      *
      * @param worksheetMakerId
      * @param checkMoney
-     * @param enterpriseWorkerId
      * @param bool
      * @return
      */
-    R<String> checkAchievement(Long worksheetMakerId, BigDecimal checkMoney, Long enterpriseWorkerId, Boolean bool);
+    R<String> checkAchievement(Long worksheetMakerId, BigDecimal checkMoney, Boolean bool);
 
     /**
      * 根据工单id查询所有的创客明细

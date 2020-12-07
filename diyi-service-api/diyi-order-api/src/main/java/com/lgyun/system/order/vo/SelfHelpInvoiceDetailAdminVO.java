@@ -82,11 +82,6 @@ public class SelfHelpInvoiceDetailAdminVO implements Serializable {
     private String businessContractUrl;
 
     /**
-     *交付支付验收单URL
-     */
-    private String deliverSheetUrl;
-
-    /**
      *发票，可能多张
      */
     private String invoiceScanPictures;

@@ -67,12 +67,6 @@ public class SelfHelpInvoiceDTO implements Serializable {
     private String businessContractUrl;
 
     /**
-     * 交付支付验收单URL
-     */
-    @NotBlank(message = "请上传交付支付验收单")
-    private String deliverSheetUrl;
-
-    /**
      * 账户余额url
      */
     @NotBlank(message = "请上传账户余额")

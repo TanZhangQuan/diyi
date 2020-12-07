@@ -38,12 +38,12 @@ import java.util.*;
 @AllArgsConstructor
 public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, WorksheetEntity> implements IWorksheetService {
 
-    private IWorksheetMakerService worksheetMakerService;
     private IUserClient iUserClient;
+    private IWorksheetMakerService worksheetMakerService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> releaseWorksheet(ReleaseWorksheetDTO releaseWorksheetDTO, Long enterpriseWorkerId) {
+    public R<String> releaseWorksheet(ReleaseWorksheetDTO releaseWorksheetDTO) {
         WorksheetEntity worksheetEntity = new WorksheetEntity();
 
         if (!(releaseWorksheetDTO.getWorksheetFeeHigh().compareTo(BigDecimal.ZERO) == 0 && releaseWorksheetDTO.getWorksheetFeeLow().compareTo(BigDecimal.ZERO) == 0) && releaseWorksheetDTO.getWorksheetFeeHigh().compareTo(releaseWorksheetDTO.getWorksheetFeeLow()) <= 0) {
@@ -81,7 +81,6 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
                 worksheetMakerEntity.setMakerId(Long.parseLong(split[i]));
                 worksheetMakerEntity.setWorksheetId(worksheetEntity.getId());
                 worksheetMakerEntity.setGetType(GetType.GETDISPATCH);
-                worksheetMakerEntity.setArrangePersonId(enterpriseWorkerId);
                 worksheetMakerService.save(worksheetMakerEntity);
             }
         }
@@ -139,7 +138,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R closeOrOpen(Long worksheetId, Integer variable, Long enterpriseWorkerId) {
+    public R closeOrOpen(Long worksheetId, Integer variable) {
         WorksheetEntity worksheetEntity = getById(worksheetId);
         if (worksheetEntity == null) {
             return R.fail("工单不存在");
@@ -149,7 +148,6 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             worksheetEntity.setWorksheetState(WorksheetState.CLOSED);
             worksheetEntity.setCloseWorksheetType(CloseWorksheetType.MANUAL);
             worksheetEntity.setCloseWorksheetDate(new Date());
-            worksheetEntity.setClosePersonId(enterpriseWorkerId);
             saveOrUpdate(worksheetEntity);
             return R.success("关闭成功");
         } else {

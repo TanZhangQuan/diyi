@@ -3,7 +3,6 @@ package com.lgyun.system.user.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.CreateType;
-import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -112,7 +111,7 @@ public class AgentMainEntity extends BaseEntity {
     /**
      * 联系人1职位
      */
-    private PositionName contact1Position;
+    private String contact1Position;
 
     /**
      * 联系人1电话手机（必填）
@@ -132,7 +131,7 @@ public class AgentMainEntity extends BaseEntity {
     /**
      * 联系人2职位
      */
-    private PositionName contact2Position;
+    private String contact2Position;
 
     /**
      * 联系人2电话手机（必填）

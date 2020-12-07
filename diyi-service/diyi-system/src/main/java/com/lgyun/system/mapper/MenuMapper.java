@@ -16,47 +16,47 @@ import java.util.List;
  */
 public interface MenuMapper extends BaseMapper<Menu> {
 
-	/**
-	 * 树形结构
-	 *
-	 * @param menuType
-	 * @return
-	 */
-	List<TreeNode> tree(MenuType menuType);
+    /**
+     * 树形结构
+     *
+     * @param menuType
+     * @return
+     */
+    List<TreeNode> tree(MenuType menuType);
 
-	List<TreeNode> treeByRoleId(MenuType menuType, Long RoleId);
+    List<TreeNode> treeByRoleId(MenuType menuType, Long RoleId);
 
-	/**
-	 * 所有菜单
-	 *
-	 * @param menuType
-	 * @return
-	 */
-	@Select("select * from diyi_menu where menu_type=#{menuType} and bool_deleted = 0 and category = 1 ")
-	List<Menu> allMenu(@Param("menuType") String menuType);
+    /**
+     * 所有菜单
+     *
+     * @param menuType
+     * @return
+     */
+    @Select("select * from diyi_menu where menu_type=#{menuType} and bool_deleted = 0 and category = 1 ")
+    List<Menu> allMenu(@Param("menuType") String menuType);
 
-	/**
-	 * 权限配置菜单
-	 *
-	 * @param roleId
-	 * @return
-	 */
-	List<Menu> roleMenu(List<Long> roleId);
+    /**
+     * 权限配置菜单
+     *
+     * @param roleId
+     * @return
+     */
+    List<Menu> roleMenu(List<Long> roleId);
 
-	/**
-	 * 菜单树形结构
-	 *
-	 * @param roleId
-	 * @return
-	 */
-	List<Menu> routes(List<Long> roleId);
+    /**
+     * 菜单树形结构
+     *
+     * @param roleId
+     * @return
+     */
+    List<Menu> routes(List<Long> roleId);
 
-	/**
-	 * 按钮树形结构
-	 *
-	 * @param roleId
-	 * @return
-	 */
-	List<Menu> buttons(List<Long> roleId);
+    /**
+     * 按钮树形结构
+     *
+     * @param roleId
+     * @return
+     */
+    List<Menu> buttons(List<Long> roleId);
 
 }

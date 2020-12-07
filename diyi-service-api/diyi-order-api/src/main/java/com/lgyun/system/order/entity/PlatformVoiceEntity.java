@@ -89,9 +89,4 @@ public class PlatformVoiceEntity extends BaseEntity {
      */
     private String companyinvoiceUrl;
 
-    /**
-     * 发票上传日期
-     */
-    private Date companyVoiceUploadDateTime;
-
 }

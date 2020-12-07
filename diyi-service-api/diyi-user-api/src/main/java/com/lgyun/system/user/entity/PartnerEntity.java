@@ -212,7 +212,7 @@ public class PartnerEntity extends BaseEntity {
     /**
      * 手工验证人
      */
-    private String manualVerifyName;
+    private String manualVerifyId;
 
     /**
      * 验证描述

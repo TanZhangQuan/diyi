@@ -31,11 +31,6 @@ public class SelfHelpInvoiceFeeEntity extends BaseEntity {
     private Long selfHelpInvoiceId;
 
     /**
-     * 提交日期
-     */
-    private Date putinDate;
-
-    /**
      * 核价日期
      */
     private Date givePriceDate;

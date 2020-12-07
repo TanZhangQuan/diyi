@@ -8,8 +8,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 /**
  * 自助开票申请：记录自助开票主表的申请记录情况 Entity
  *
@@ -25,14 +23,9 @@ public class SelfHelpInvoiceApplyEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 自助开票主表id
+     * 自助开票主表ID
      */
     private Long selfHelpInvoiceId;
-
-    /**
-     * 申请日期
-     */
-    private Date applyDate;
 
     /**
      * 申请状态

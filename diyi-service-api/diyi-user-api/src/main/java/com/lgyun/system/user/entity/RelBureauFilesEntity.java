@@ -1,6 +1,7 @@
 package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.lgyun.common.enumeration.FilesState;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -50,7 +51,7 @@ public class RelBureauFilesEntity extends BaseEntity {
     /**
      * 监管文件状态:0，编辑中；1，已发布；2，已阅读；3，已下架；4，已作废
      */
-    private String filesState;
+    private FilesState filesState;
 
     /**
      * 作废日期时间

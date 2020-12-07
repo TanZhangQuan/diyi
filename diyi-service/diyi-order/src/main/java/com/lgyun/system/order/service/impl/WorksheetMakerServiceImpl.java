@@ -12,8 +12,10 @@ import com.lgyun.system.order.mapper.WorksheetMakerMapper;
 import com.lgyun.system.order.service.IWorksheetMakerService;
 import com.lgyun.system.order.service.IWorksheetService;
 import com.lgyun.system.order.vo.WorksheetMakerDetailsVO;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,9 +31,11 @@ import java.util.List;
  */
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMapper, WorksheetMakerEntity> implements IWorksheetMakerService {
 
+    @Autowired
+    @Lazy
     private IWorksheetMakerService worksheetMakerService;
 
     @Override
@@ -68,7 +72,7 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> checkAchievement(Long worksheetMakerId, BigDecimal checkMoney, Long enterpriseWorkerId, Boolean bool) {
+    public R<String> checkAchievement(Long worksheetMakerId, BigDecimal checkMoney, Boolean bool) {
         WorksheetMakerEntity worksheetMakerEntity = getById(worksheetMakerId);
         if (null == worksheetMakerEntity) {
             return R.fail("工单-创客记录不存在");
@@ -80,7 +84,6 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
 
         worksheetMakerEntity.setCheckDate(new Date());
         worksheetMakerEntity.setCheckMoney(checkMoney);
-        worksheetMakerEntity.setCheckPersonId(enterpriseWorkerId);
 
         if (WorksheetMakerState.VALIDATION.equals(worksheetMakerEntity.getWorksheetMakerState())) {
             updateById(worksheetMakerEntity);

@@ -67,18 +67,8 @@ public class WorksheetMakerEntity extends BaseEntity {
     private BigDecimal checkMoney;
 
     /**
-     * 验收人员ID
-     */
-    private Long checkPersonId;
-
-    /**
      * 验收时间
      */
     private Date checkDate;
-
-    /**
-     * 派单人员
-     */
-    private Long arrangePersonId;
 
 }

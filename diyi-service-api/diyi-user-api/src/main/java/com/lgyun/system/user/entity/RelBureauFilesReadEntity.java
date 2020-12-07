@@ -24,16 +24,11 @@ public class RelBureauFilesReadEntity extends BaseEntity {
     /**
      * 通知ID
      */
-    private Long filesId;
+    private Long relBureauFilesId;
 
     /**
-     * 阅读服务商
+     * 阅读服务商员工
      */
-    private Long readServicer;
-
-    /**
-     * 阅读人
-     */
-    private String reader;
+    private Long servicerProviderWorkerId;
 
 }

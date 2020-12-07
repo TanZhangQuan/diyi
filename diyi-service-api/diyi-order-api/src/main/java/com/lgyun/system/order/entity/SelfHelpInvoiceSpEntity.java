@@ -36,11 +36,6 @@ public class SelfHelpInvoiceSpEntity extends BaseEntity {
     private Long serviceProviderId;
 
     /**
-     * 提交人员
-     */
-    private String operatePerson;
-
-    /**
      * 1，已分配服务商；2，已提交开票中；3，已撤回；4，已开票结束 这个是管理端运营老师负责，提交和撤回。
      */
     private SelfHelpInvoiceSpApplyState applyState;
