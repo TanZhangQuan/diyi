@@ -1454,7 +1454,8 @@ CREATE TABLE `diyi_rel_bureau_service_provider` (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`rel_bureau_type`,`service_provider_id`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`rel_bureau_id`,`service_provider_id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`rel_bureau_type`,`service_provider_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='相关局与服务商关联表';
 
 -- ----------------------------

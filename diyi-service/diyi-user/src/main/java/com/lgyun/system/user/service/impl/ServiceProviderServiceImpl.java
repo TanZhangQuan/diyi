@@ -77,7 +77,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
     }
 
     @Override
-    public R<IPage<ServiceProviderListAdminVO>> queryServiceProviderListAdmin(ServiceProviderListDTO serviceProviderListDTO, IPage<ServiceProviderListAdminVO> page) {
+    public R<IPage<ServiceProviderListAdminVO>> queryServiceProviderList(Long agentMainId, Long relBureauId, ServiceProviderListDTO serviceProviderListDTO, IPage<ServiceProviderListAdminVO> page) {
 
         if (serviceProviderListDTO.getBeginDate() != null && serviceProviderListDTO.getEndDate() != null) {
             if (serviceProviderListDTO.getBeginDate().after(serviceProviderListDTO.getEndDate())) {
@@ -85,7 +85,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
             }
         }
 
-        return R.data(page.setRecords(baseMapper.queryServiceProviderListAdmin(serviceProviderListDTO, page)));
+        return R.data(page.setRecords(baseMapper.queryServiceProviderList(agentMainId,relBureauId, serviceProviderListDTO, page)));
     }
 
     @Override
@@ -282,11 +282,6 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
     @Override
     public R<IPage<ServiceProviderIdNameListVO>> queryServiceProviderIdAndNameList(Long enterpriseId, String serviceProviderName, IPage<ServiceProviderIdNameListVO> page) {
         return R.data(page.setRecords(baseMapper.queryServiceProviderIdAndNameList(enterpriseId, serviceProviderName, page)));
-    }
-
-    @Override
-    public R<IPage<ServiceProviderListAdminVO>> queryServiceProviderListAgentMain(Long agentMainId, ServiceProviderListDTO serviceProviderListDTO, IPage<ServiceProviderListAdminVO> page) {
-        return R.data(page.setRecords(baseMapper.queryServiceProviderListAgentMain(agentMainId, serviceProviderListDTO, page)));
     }
 
     @Override

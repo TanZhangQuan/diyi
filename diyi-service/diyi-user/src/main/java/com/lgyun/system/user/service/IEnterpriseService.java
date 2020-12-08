@@ -96,16 +96,7 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * @param page
      * @return
      */
-    R<IPage<EnterpriseListAdminVO>> queryEnterpriseListAdmin(EnterpriseListDTO enterpriseListDTO, IPage<EnterpriseListAdminVO> page);
-
-    /**
-     * 查询渠道商的所有商户
-     *
-     * @param enterpriseListDTO
-     * @param page
-     * @return
-     */
-    R<IPage<EnterpriseListAdminVO>> queryEnterpriseListAgentMain(Long agentMainId, EnterpriseListDTO enterpriseListDTO, IPage<EnterpriseListAdminVO> page);
+    R<IPage<EnterpriseListAdminVO>> queryEnterpriseList(Long agentMainId, Long relBureauId, EnterpriseListDTO enterpriseListDTO, IPage<EnterpriseListAdminVO> page);
 
     /**
      * 查询编辑商户详情

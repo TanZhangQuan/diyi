@@ -1,13 +1,12 @@
-package com.lgyun.system.user.controller.agentMain;
+package com.lgyun.system.user.controller.relBureau;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.ServiceProviderListDTO;
-import com.lgyun.system.user.entity.AgentMainWorkerEntity;
-import com.lgyun.system.user.service.IAgentMainWorkerService;
-import com.lgyun.system.user.service.IServiceProviderService;
+import com.lgyun.system.user.entity.RelBureauEntity;
+import com.lgyun.system.user.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -21,33 +20,33 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.NotNull;
 
 @RestController
-@RequestMapping("/agent-main/service-provider")
+@RequestMapping("/rel-bureau/service-provider")
 @Validated
 @AllArgsConstructor
-@Api(value = "渠道商端---服务商管理模块相关接口", tags = "渠道商端---服务商管理模块相关接口")
-public class ServiceProviderAgentMainController {
+@Api(value = "相关局端---服务商管理模块相关接口", tags = "相关局端---服务商管理模块相关接口")
+public class ServiceProviderRelBureauController {
 
-    private IAgentMainWorkerService agentMainWorkerService;
+    private IRelBureauService relBureauService;
     private IServiceProviderService serviceProviderService;
 
     @GetMapping("/query-service-provider-list")
-    @ApiOperation(value = "查询渠道商的所有服务商", notes = "查询渠道商的所有服务商")
+    @ApiOperation(value = "查询所有服务商", notes = "查询所有服务商")
     public R queryServiceProviderList(ServiceProviderListDTO serviceProviderListDTO, Query query, BladeUser bladeUser) {
-        //查询当前渠道商员工
-        R<AgentMainWorkerEntity> result = agentMainWorkerService.currentAgentMainWorker(bladeUser);
+        //查询当前相关局
+        R<RelBureauEntity> result = relBureauService.currentRelBureau(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
-        AgentMainWorkerEntity agentMainWorkerEntity = result.getData();
+        RelBureauEntity relBureauEntity = result.getData();
 
-        return serviceProviderService.queryServiceProviderList(agentMainWorkerEntity.getAgentMainId(), null, serviceProviderListDTO, Condition.getPage(query.setDescs("t1.create_time")));
+        return serviceProviderService.queryServiceProviderList(null, relBureauEntity.getId(), serviceProviderListDTO, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-service-provider-detail")
     @ApiOperation(value = "查询服务商详情", notes = "查询服务商详情")
     public R queryServiceProviderDetail(@ApiParam(value = "服务商") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId, BladeUser bladeUser) {
-        //查询当前渠道商员工
-        R<AgentMainWorkerEntity> result = agentMainWorkerService.currentAgentMainWorker(bladeUser);
+        //查询当前相关局
+        R<RelBureauEntity> result = relBureauService.currentRelBureau(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }

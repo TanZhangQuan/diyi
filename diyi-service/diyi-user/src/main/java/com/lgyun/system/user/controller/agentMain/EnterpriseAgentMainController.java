@@ -78,7 +78,7 @@ public class EnterpriseAgentMainController {
         }
         AgentMainWorkerEntity agentMainWorkerEntity = result.getData();
 
-        return enterpriseService.queryEnterpriseListAgentMain(agentMainWorkerEntity.getAgentMainId(), enterpriseListDTO, Condition.getPage(query.setDescs("t1.create_time")));
+        return enterpriseService.queryEnterpriseList(agentMainWorkerEntity.getAgentMainId(), null, enterpriseListDTO, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-enterprise-detail")

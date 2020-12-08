@@ -82,7 +82,7 @@ public class ServiceProviderAdminController {
             return result;
         }
 
-        return serviceProviderService.queryServiceProviderListAdmin(serviceProviderListDTO, Condition.getPage(query.setDescs("t1.create_time")));
+        return serviceProviderService.queryServiceProviderList(null, null, serviceProviderListDTO, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/update-service-provider-state")
