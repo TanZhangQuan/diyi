@@ -382,8 +382,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R<YearTradeVO> queryTotalSubYearTradeByServiceProvider(Long serviceProviderId) {
-        return R.data(baseMapper.queryTotalSubYearTradeByServiceProvider(serviceProviderId));
+    public R<YearTradeVO> queryTotalSubYearTradeByServiceProvider(Long serviceProviderId, Long relBureauId) {
+        return R.data(baseMapper.queryTotalSubYearTradeByServiceProvider(serviceProviderId, relBureauId));
     }
 
     @Override
@@ -392,8 +392,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R<MonthTradeVO> queryTotalSubMonthTradeByServiceProvider(Long serviceProviderId) {
-        return R.data(baseMapper.queryTotalSubMonthTradeByServiceProvider(serviceProviderId));
+    public R<MonthTradeVO> queryTotalSubMonthTradeByServiceProvider(Long serviceProviderId, Long relBureauId) {
+        return R.data(baseMapper.queryTotalSubMonthTradeByServiceProvider(serviceProviderId, relBureauId));
     }
 
     @Override
@@ -402,8 +402,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R<WeekTradeVO> queryTotalSubWeekTradeByServiceProvider(Long serviceProviderId) {
-        return R.data(baseMapper.queryTotalSubWeekTradeByServiceProvider(serviceProviderId));
+    public R<WeekTradeVO> queryTotalSubWeekTradeByServiceProvider(Long serviceProviderId, Long relBureauId) {
+        return R.data(baseMapper.queryTotalSubWeekTradeByServiceProvider(serviceProviderId, relBureauId));
     }
 
     @Override
@@ -412,8 +412,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R<DayTradeVO> queryTotalSubDayTradeByServiceProvider(Long serviceProviderId) {
-        return R.data(baseMapper.queryTotalSubDayTradeByServiceProvider(serviceProviderId));
+    public R<DayTradeVO> queryTotalSubDayTradeByServiceProvider(Long serviceProviderId, Long relBureauId) {
+        return R.data(baseMapper.queryTotalSubDayTradeByServiceProvider(serviceProviderId, relBureauId));
     }
 
     @Override

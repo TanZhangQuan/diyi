@@ -347,8 +347,8 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
-    public R<YearTradeVO> queryCrowdYearTradeByServiceProvider(Long serviceProviderId) {
-        return R.data(baseMapper.queryCrowdYearTradeByServiceProvider(serviceProviderId));
+    public R<YearTradeVO> queryCrowdYearTradeByServiceProvider(Long serviceProviderId, Long relBureauId) {
+        return R.data(baseMapper.queryCrowdYearTradeByServiceProvider(serviceProviderId, relBureauId));
     }
 
     @Override
@@ -357,8 +357,8 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
-    public R<MonthTradeVO> queryCrowdMonthTradeByServiceProvider(Long serviceProviderId) {
-        return R.data(baseMapper.queryCrowdMonthTradeByServiceProvider(serviceProviderId));
+    public R<MonthTradeVO> queryCrowdMonthTradeByServiceProvider(Long serviceProviderId, Long relBureauId) {
+        return R.data(baseMapper.queryCrowdMonthTradeByServiceProvider(serviceProviderId, relBureauId));
     }
 
     @Override
@@ -367,8 +367,8 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
-    public R<WeekTradeVO> queryCrowdWeekTradeByServiceProvider(Long serviceProviderId) {
-        return R.data(baseMapper.queryCrowdWeekTradeByServiceProvider(serviceProviderId));
+    public R<WeekTradeVO> queryCrowdWeekTradeByServiceProvider(Long serviceProviderId, Long relBureauId) {
+        return R.data(baseMapper.queryCrowdWeekTradeByServiceProvider(serviceProviderId, relBureauId));
     }
 
     @Override
@@ -377,8 +377,8 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
-    public R<DayTradeVO> queryCrowdDayTradeByServiceProvider(Long serviceProviderId) {
-        return R.data(baseMapper.queryCrowdDayTradeByServiceProvider(serviceProviderId));
+    public R<DayTradeVO> queryCrowdDayTradeByServiceProvider(Long serviceProviderId, Long relBureauId) {
+        return R.data(baseMapper.queryCrowdDayTradeByServiceProvider(serviceProviderId, relBureauId));
     }
 
     @Override

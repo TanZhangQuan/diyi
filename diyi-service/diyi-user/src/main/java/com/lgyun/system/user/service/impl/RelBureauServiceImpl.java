@@ -137,7 +137,7 @@ public class RelBureauServiceImpl extends BaseServiceImpl<RelBureauMapper, RelBu
     }
 
     @Override
-    public R<IPage<RelBureauListVO>> queryRelBureauList(RelBureauType relBureauType, RelBureauListDTO relBureauListDTO, IPage<RelBureauListVO> page) {
+    public R<IPage<RelBureauListVO>> queryRelBureauList(RelBureauListDTO relBureauListDTO, IPage<RelBureauListVO> page) {
 
         if (relBureauListDTO.getBeginDate() != null && relBureauListDTO.getEndDate() != null) {
             if (relBureauListDTO.getBeginDate().after(relBureauListDTO.getEndDate())) {
@@ -145,7 +145,7 @@ public class RelBureauServiceImpl extends BaseServiceImpl<RelBureauMapper, RelBu
             }
         }
 
-        return R.data(page.setRecords(baseMapper.queryRelBureauList(relBureauType, relBureauListDTO, page)));
+        return R.data(page.setRecords(baseMapper.queryRelBureauList(relBureauListDTO, page)));
     }
 
     @Override

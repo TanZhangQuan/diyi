@@ -18,18 +18,18 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.NotNull;
 
 @RestController
-@RequestMapping("/admin/industrial-parks")
+@RequestMapping("/admin/rel-bureau")
 @Validated
 @AllArgsConstructor
-@Api(value = "平台端---在线经济产业园区管理模块相关接口", tags = "平台端---在线经济产业园区管理模块相关接口")
-public class IndustrialParksAdminController {
+@Api(value = "平台端---相关局管理模块相关接口", tags = "平台端---相关局管理模块相关接口")
+public class RelBureauAdminController {
 
     private IUserClient userClient;
     private IPayEnterpriseService payEnterpriseService;
 
-    @PostMapping("/query-industrial-parks-service-provider-transaction")
-    @ApiOperation(value = "查询产业园区-服务商交易情况数据", notes = "查询产业园区-服务商交易情况数据")
-    public R queryIndustrialParksServiceProviderTransaction(@ApiParam("产业园区") @NotNull(message = "请选择产业园区") @RequestParam(required = false) Long relBureauId, BladeUser bladeUser) {
+    @PostMapping("/query-rel-bureau-service-provider-transaction")
+    @ApiOperation(value = "查询相关局-服务商交易情况数据", notes = "查询相关局-服务商交易情况数据")
+    public R queryRelBureauServiceProviderTransaction(@ApiParam("相关局") @NotNull(message = "请选择相关局") @RequestParam(required = false) Long relBureauId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

@@ -2,7 +2,6 @@ package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lgyun.common.enumeration.RelBureauType;
 import com.lgyun.system.user.dto.RelBureauListDTO;
 import com.lgyun.system.user.entity.RelBureauEntity;
 import com.lgyun.system.user.vo.RelBureauInfoVO;
@@ -24,12 +23,11 @@ public interface RelBureauMapper extends BaseMapper<RelBureauEntity> {
     /**
      * 查询相关局
      *
-     * @param relBureauType
      * @param relBureauListDTO
      * @param page
      * @return
      */
-    List<RelBureauListVO> queryRelBureauList(RelBureauType relBureauType, RelBureauListDTO relBureauListDTO, IPage<RelBureauListVO> page);
+    List<RelBureauListVO> queryRelBureauList(RelBureauListDTO relBureauListDTO, IPage<RelBureauListVO> page);
 
     /**
      * 查询相关局编辑详情

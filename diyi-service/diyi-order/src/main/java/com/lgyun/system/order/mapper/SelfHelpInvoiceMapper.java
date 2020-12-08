@@ -140,7 +140,7 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
      * @param serviceProviderId
      * @return
      */
-    YearTradeVO queryCrowdYearTradeByServiceProvider(Long serviceProviderId);
+    YearTradeVO queryCrowdYearTradeByServiceProvider(Long serviceProviderId, Long relBureauId);
 
     /**
      * 查询当前商户众包/众采本月流水
@@ -156,7 +156,7 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
      * @param serviceProviderId
      * @return
      */
-    MonthTradeVO queryCrowdMonthTradeByServiceProvider(Long serviceProviderId);
+    MonthTradeVO queryCrowdMonthTradeByServiceProvider(Long serviceProviderId, Long relBureauId);
 
     /**
      * 查询当前商户众包本周流水
@@ -172,7 +172,7 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
      * @param serviceProviderId
      * @return
      */
-    WeekTradeVO queryCrowdWeekTradeByServiceProvider(Long serviceProviderId);
+    WeekTradeVO queryCrowdWeekTradeByServiceProvider(Long serviceProviderId, Long relBureauId);
 
     /**
      * 查询当前商户众包今日流水
@@ -186,9 +186,10 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
      * 查询当前服务商众包今日流水
      *
      * @param serviceProviderId
+     * @param relBureauId
      * @return
      */
-    DayTradeVO queryCrowdDayTradeByServiceProvider(Long serviceProviderId);
+    DayTradeVO queryCrowdDayTradeByServiceProvider(Long serviceProviderId, Long relBureauId);
 
     /**
      * 平台跟据创客身份查询自助开票

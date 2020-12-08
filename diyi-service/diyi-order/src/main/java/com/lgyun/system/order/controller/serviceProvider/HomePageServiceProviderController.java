@@ -48,7 +48,7 @@ public class HomePageServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return payEnterpriseService.queryTotalSubDayTradeByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId());
+        return payEnterpriseService.queryTotalSubDayTradeByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId(), null);
     }
 
     @GetMapping("/query-total-sub-week-trade")
@@ -61,7 +61,7 @@ public class HomePageServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return payEnterpriseService.queryTotalSubWeekTradeByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId());
+        return payEnterpriseService.queryTotalSubWeekTradeByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId(), null);
     }
 
     @GetMapping("/query-total-sub-month-trade")
@@ -74,7 +74,7 @@ public class HomePageServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return payEnterpriseService.queryTotalSubMonthTradeByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId());
+        return payEnterpriseService.queryTotalSubMonthTradeByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId(), null);
     }
 
     @GetMapping("/query-total-sub-year-trade")
@@ -87,7 +87,7 @@ public class HomePageServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return payEnterpriseService.queryTotalSubYearTradeByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId());
+        return payEnterpriseService.queryTotalSubYearTradeByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId(), null);
     }
 
     @GetMapping("/query-crowd-day-trade")
@@ -100,7 +100,7 @@ public class HomePageServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return selfHelpInvoiceService.queryCrowdDayTradeByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId());
+        return selfHelpInvoiceService.queryCrowdDayTradeByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId(), null);
     }
 
     @GetMapping("/query-crowd-week-trade")
@@ -113,7 +113,7 @@ public class HomePageServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return selfHelpInvoiceService.queryCrowdWeekTradeByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId());
+        return selfHelpInvoiceService.queryCrowdWeekTradeByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId(), null);
     }
 
     @GetMapping("/query-crowd-month-trade")
@@ -126,7 +126,7 @@ public class HomePageServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return selfHelpInvoiceService.queryCrowdMonthTradeByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId());
+        return selfHelpInvoiceService.queryCrowdMonthTradeByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId(), null);
     }
 
     @GetMapping("/query-crowd-year-trade")
@@ -139,7 +139,7 @@ public class HomePageServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return selfHelpInvoiceService.queryCrowdYearTradeByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId());
+        return selfHelpInvoiceService.queryCrowdYearTradeByServiceProvider(serviceProviderWorkerEntity.getServiceProviderId(), null);
     }
 
 }

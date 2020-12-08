@@ -69,10 +69,9 @@ public interface IRelBureauService extends BaseService<RelBureauEntity> {
      *
      * @param relBureauListDTO
      * @param page
-     * @param relBureauType
      * @return
      */
-    R<IPage<RelBureauListVO>> queryRelBureauList(RelBureauType relBureauType, RelBureauListDTO relBureauListDTO, IPage<RelBureauListVO> page);
+    R<IPage<RelBureauListVO>> queryRelBureauList(RelBureauListDTO relBureauListDTO, IPage<RelBureauListVO> page);
 
     /**
      * 查询相关局基础信息

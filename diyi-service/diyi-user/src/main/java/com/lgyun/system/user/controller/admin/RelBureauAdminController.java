@@ -3,7 +3,6 @@ package com.lgyun.system.user.controller.admin;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.enumeration.NoticeState;
-import com.lgyun.common.enumeration.RelBureauType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
@@ -22,11 +21,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @RestController
-@RequestMapping("/admin/tax-bureau")
+@RequestMapping("/admin/rel-bureau")
 @Validated
 @AllArgsConstructor
-@Api(value = "平台端---税局管理模块相关接口", tags = "平台端---税局管理模块相关接口")
-public class TaxBureauAdminController {
+@Api(value = "平台端---相关局管理模块相关接口", tags = "平台端---相关局管理模块相关接口")
+public class RelBureauAdminController {
 
     private IAdminService adminService;
     private IRelBureauService relBureauService;
@@ -34,21 +33,21 @@ public class TaxBureauAdminController {
     private IRelBureauNoticeService relBureauNoticeService;
     private IRelBureauServiceProviderService relBureauServiceProviderService;
 
-    @GetMapping("/query-tax-bureau-list")
-    @ApiOperation(value = "查询税局", notes = "查询税局")
-    public R queryTaxBureau(RelBureauListDTO relBureauListDTO, Query query, BladeUser bladeUser) {
+    @GetMapping("/query-rel-bureau-list")
+    @ApiOperation(value = "查询相关局", notes = "查询相关局")
+    public R queryRelBureauList(RelBureauListDTO relBureauListDTO, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return relBureauService.queryRelBureauList(RelBureauType.TAXBUREAU, relBureauListDTO, Condition.getPage(query.setAscs("create_time")));
+        return relBureauService.queryRelBureauList(relBureauListDTO, Condition.getPage(query.setAscs("create_time")));
     }
 
-    @PostMapping("/add-or-update-tax-bureau")
-    @ApiOperation(value = "添加/编辑税局", notes = "添加/编辑税局")
-    public R addOrUpdateTaxBureau(@Valid @RequestBody AddOrUpdateRelBureauDTO addOrUpdateRelBureauDto, BladeUser bladeUser) {
+    @PostMapping("/add-or-update-rel-bureau")
+    @ApiOperation(value = "添加/编辑相关局", notes = "添加/编辑相关局")
+    public R addOrUpdateRelBureau(@Valid @RequestBody AddOrUpdateRelBureauDTO addOrUpdateRelBureauDto, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -58,9 +57,9 @@ public class TaxBureauAdminController {
         return relBureauService.addOrUpdateRelBureau(addOrUpdateRelBureauDto);
     }
 
-    @GetMapping("/query-tax-bureau-update-detail")
-    @ApiOperation(value = "查询税局编辑详情", notes = "查询税局编辑详情")
-    public R queryTaxBureauUpdateDetail(@ApiParam("税局") @NotNull(message = "请选择税局") @RequestParam(required = false) Long relBureauId, BladeUser bladeUser) {
+    @GetMapping("/query-rel-bureau-update-detail")
+    @ApiOperation(value = "查询相关局编辑详情", notes = "查询相关局编辑详情")
+    public R queryRelBureauUpdateDetail(@ApiParam("相关局") @NotNull(message = "请选择相关局") @RequestParam(required = false) Long relBureauId, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -70,9 +69,9 @@ public class TaxBureauAdminController {
         return relBureauService.queryRelBureauUpdateDetail(relBureauId);
     }
 
-    @GetMapping("/query-tax-bureau-info")
-    @ApiOperation(value = "查询税局基础信息", notes = "查询税局基础信息")
-    public R queryTaxBureauInfo(@ApiParam("税局") @NotNull(message = "请选择税局") @RequestParam(required = false) Long relBureauId, BladeUser bladeUser) {
+    @GetMapping("/query-rel-bureau-info")
+    @ApiOperation(value = "查询相关局基础信息", notes = "查询相关局基础信息")
+    public R queryRelBureauInfo(@ApiParam("相关局") @NotNull(message = "请选择相关局") @RequestParam(required = false) Long relBureauId, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -95,8 +94,8 @@ public class TaxBureauAdminController {
     }
 
     @PostMapping("/match-service-provider")
-    @ApiOperation(value = "税局匹配服务商", notes = "税局匹配服务商")
-    public R matchServiceProvider(@ApiParam(value = "税局", required = true) @NotNull(message = "请选择税局") @RequestParam(required = false) Long relBureauId,
+    @ApiOperation(value = "相关局匹配服务商", notes = "相关局匹配服务商")
+    public R matchServiceProvider(@ApiParam(value = "相关局", required = true) @NotNull(message = "请选择相关局") @RequestParam(required = false) Long relBureauId,
                                   @ApiParam(value = "服务商", required = true) @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
                                   @ApiParam(value = "分配说明") @RequestParam(required = false) String matchDesc, BladeUser bladeUser) {
         //查询当前管理员
@@ -109,8 +108,8 @@ public class TaxBureauAdminController {
     }
 
     @GetMapping("/query-cooperation-service-provider-list")
-    @ApiOperation(value = "查询税局合作服务商", notes = "查询税局合作服务商")
-    public R queryCooperationServiceProviderList(@ApiParam(value = "税局", required = true) @NotNull(message = "请选择税局") @RequestParam(required = false) Long relBureauId,
+    @ApiOperation(value = "查询相关局合作服务商", notes = "查询相关局合作服务商")
+    public R queryCooperationServiceProviderList(@ApiParam(value = "相关局", required = true) @NotNull(message = "请选择相关局") @RequestParam(required = false) Long relBureauId,
                                                  @ApiParam(value = "服务商名称", required = true) @RequestParam(required = false) String serviceProviderName, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
@@ -122,8 +121,8 @@ public class TaxBureauAdminController {
     }
 
     @PostMapping("/update-agent-main-service-provider-cooperation-status")
-    @ApiOperation(value = "更改税局-服务商合作关系", notes = "更改税局-服务商合作关系")
-    public R updateAgentMainServiceProviderCooperationStatus(@ApiParam(value = "税局", required = true) @NotNull(message = "请选择税局") @RequestParam(required = false) Long relBureauId,
+    @ApiOperation(value = "更改相关局-服务商合作关系", notes = "更改相关局-服务商合作关系")
+    public R updateAgentMainServiceProviderCooperationStatus(@ApiParam(value = "相关局", required = true) @NotNull(message = "请选择相关局") @RequestParam(required = false) Long relBureauId,
                                                              @ApiParam(value = "服务商", required = true) @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
                                                              @ApiParam(value = "合作状态", required = true) @NotNull(message = "请选择合作状态") @RequestParam(required = false) CooperateStatus cooperateStatus, BladeUser bladeUser) {
         //查询当前管理员
@@ -136,8 +135,8 @@ public class TaxBureauAdminController {
     }
 
     @GetMapping("/query-industrial-parks-notice")
-    @ApiOperation(value = "查询税局通知", notes = "查询税局通知")
-    public R queryIndustrialParksNotice(@ApiParam("税局") @NotNull(message = "请选择税局") @RequestParam(required = false) Long relBureauId,
+    @ApiOperation(value = "查询相关局通知", notes = "查询相关局通知")
+    public R queryIndustrialParksNotice(@ApiParam("相关局") @NotNull(message = "请选择相关局") @RequestParam(required = false) Long relBureauId,
                                         @ApiParam("通知状态") @NotNull(message = "请选择通知状态") @RequestParam(required = false) NoticeState noticeState, Query query, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
@@ -147,5 +146,5 @@ public class TaxBureauAdminController {
 
         return relBureauNoticeService.queryBureauNoticeList(relBureauId, noticeState, Condition.getPage(query.setDescs("create_time")));
     }
-    
+
 }

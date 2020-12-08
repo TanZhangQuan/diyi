@@ -100,7 +100,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     List<PayMakerListWebVO> getPayMakerListByPayEnterprise(Long payEnterpriseId, IPage<PayMakerListWebVO> page);
 
     /**
-     * 查询当前商户首页交易情况数据
+     * 查询商户首页交易情况数据
      *
      * @param enterpriseId
      * @return
@@ -108,7 +108,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     TransactionVO queryEnterpriseTransaction(Long enterpriseId);
 
     /**
-     * 查询当前服务商首页交易情况数据
+     * 查询服务商首页交易情况数据
      *
      * @param serviceProviderId
      * @return
@@ -148,7 +148,7 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     TransactionVO queryRelBureauServiceProviderTransaction(Long relBureauId);
 
     /**
-     * 查询当前商户总包+分包全年流水
+     * 查询商户总包+分包全年流水
      *
      * @param enterpriseId
      * @return
@@ -156,15 +156,16 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     YearTradeVO queryTotalSubYearTradeByEnterprise(Long enterpriseId);
 
     /**
-     * 查询当前服务商总包+分包全年流水
+     * 查询服务商总包+分包全年流水
      *
      * @param serviceProviderId
+     * @param relBureauId
      * @return
      */
-    YearTradeVO queryTotalSubYearTradeByServiceProvider(Long serviceProviderId);
+    YearTradeVO queryTotalSubYearTradeByServiceProvider(Long serviceProviderId, Long relBureauId);
 
     /**
-     * 查询当前商户总包+分包本月流水
+     * 查询商户总包+分包本月流水
      *
      * @param enterpriseId
      * @return
@@ -172,15 +173,16 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     MonthTradeVO queryTotalSubMonthTradeByEnterprise(Long enterpriseId);
 
     /**
-     * 查询当前服务商总包+分包本月流水
+     * 查询服务商总包+分包本月流水
      *
      * @param serviceProviderId
+     * @param relBureauId
      * @return
      */
-    MonthTradeVO queryTotalSubMonthTradeByServiceProvider(Long serviceProviderId);
+    MonthTradeVO queryTotalSubMonthTradeByServiceProvider(Long serviceProviderId, Long relBureauId);
 
     /**
-     * 查询当前商户总包+分包本周流水
+     * 查询商户总包+分包本周流水
      *
      * @param enterpriseId
      * @return
@@ -188,15 +190,16 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     WeekTradeVO queryTotalSubWeekTradeByEnterprise(Long enterpriseId);
 
     /**
-     * 查询当前服务商总包+分包本周流水
+     * 查询服务商总包+分包本周流水
      *
      * @param serviceProviderId
+     * @param relBureauId
      * @return
      */
-    WeekTradeVO queryTotalSubWeekTradeByServiceProvider(Long serviceProviderId);
+    WeekTradeVO queryTotalSubWeekTradeByServiceProvider(Long serviceProviderId, Long relBureauId);
 
     /**
-     * 查询当前商户总包+分包今日流水
+     * 查询商户总包+分包今日流水
      *
      * @param enterpriseId
      * @return
@@ -204,12 +207,13 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     DayTradeVO queryTotalSubDayTradeByEnterprise(Long enterpriseId);
 
     /**
-     * 查询当前服务商总包+分包今日流水
+     * 查询服务商总包+分包今日流水
      *
      * @param serviceProviderId
+     * @param relBureauId
      * @return
      */
-    DayTradeVO queryTotalSubDayTradeByServiceProvider(Long serviceProviderId);
+    DayTradeVO queryTotalSubDayTradeByServiceProvider(Long serviceProviderId, Long relBureauId);
 
     /**
      * 服务商查询未开总包发票

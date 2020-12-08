@@ -42,15 +42,17 @@
 
     <select id="queryRelBureauList" resultMap="relBureauListVO">
         SELECT id, rel_bureau_name, contact_name, contact_phone, rel_bureau_state, create_time FROM diyi_rel_bureau WHERE bool_deleted = 0
-        AND rel_bureau_type = #{param1}
-        <if test="param2.relBureauName != null and param2.relBureauName.trim() != ''">
-            AND rel_bureau_name LIKE concat('%', #{param2.relBureauName}, '%')
+        <if test="param1.relBureauName != null and param1.relBureauName.trim() != ''">
+            AND rel_bureau_name LIKE concat('%', #{param1.relBureauName}, '%')
         </if>
-        <if test="param2.beginDate != null">
-            AND DATEDIFF(create_time, #{param2.beginDate}) <![CDATA[ >= ]]> 0
+        <if test="param1.relBureauType != null">
+            AND rel_bureau_type = #{param1.relBureauType}
         </if>
-        <if test="param2.endDate != null">
-            AND DATEDIFF(create_time, #{param2.endDate}) <![CDATA[ <= ]]> 0
+        <if test="param1.beginDate != null">
+            AND DATEDIFF(create_time, #{param1.beginDate}) <![CDATA[ >= ]]> 0
+        </if>
+        <if test="param1.endDate != null">
+            AND DATEDIFF(create_time, #{param1.endDate}) <![CDATA[ <= ]]> 0
         </if>
 
     </select>
