@@ -43,11 +43,8 @@ public interface IOnlineAgreementNeedSignService extends BaseService<OnlineAgree
     /**
      * 查询创客需要签署的授权协议
      *
-     * @param makerId
-     * @param templateType
      * @return
      */
-    R<List<OnlineAgreementNeedSignVO>> getOnlineAgreementNeedSign(Long makerId, TemplateType templateType);
-
+    R<List<OnlineAgreementNeedSignVO>> getOnlineAgreementNeedSign(ObjectType objectType,Long objectTypeId, TemplateType templateType);
 }
 

@@ -59,8 +59,8 @@ public class OnlineAgreementNeedSignServiceImpl extends BaseServiceImpl<OnlineAg
     }
 
     @Override
-    public R<List<OnlineAgreementNeedSignVO>> getOnlineAgreementNeedSign(Long makerId, TemplateType templateType) {
-        List<OnlineAgreementNeedSignVO> onlineAgreementNeedSign = baseMapper.getOnlineAgreementNeedSign(makerId, templateType);
+    public R<List<OnlineAgreementNeedSignVO>> getOnlineAgreementNeedSign(ObjectType objectType,Long objectTypeId, TemplateType templateType) {
+        List<OnlineAgreementNeedSignVO> onlineAgreementNeedSign = baseMapper.getOnlineAgreementNeedSign( objectType, objectTypeId, templateType);
         return R.data(onlineAgreementNeedSign);
     }
 }
