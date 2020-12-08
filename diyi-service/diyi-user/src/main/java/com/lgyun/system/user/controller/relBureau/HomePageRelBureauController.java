@@ -1,4 +1,4 @@
-package com.lgyun.system.user.controller.RelBureau;
+package com.lgyun.system.user.controller.relBureau;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
