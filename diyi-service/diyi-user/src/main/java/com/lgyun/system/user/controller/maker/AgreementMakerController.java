@@ -94,7 +94,7 @@ public class AgreementMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return onlineAgreementNeedSignService.getOnlineAgreementNeedSign(makerEntity.getId(), templateType);
+        return onlineAgreementNeedSignService.getOnlineAgreementNeedSign(ObjectType.MAKERPEOPLE,makerEntity.getId(), templateType);
     }
 
     @GetMapping("/query-cooperation-enterprise-list")

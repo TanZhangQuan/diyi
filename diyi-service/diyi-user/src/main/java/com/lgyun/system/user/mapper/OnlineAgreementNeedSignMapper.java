@@ -1,6 +1,7 @@
 package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.enumeration.TemplateType;
 import com.lgyun.system.user.entity.OnlineAgreementNeedSignEntity;
 import com.lgyun.system.user.vo.OnlineAgreementNeedSignVO;
@@ -17,7 +18,7 @@ import java.util.List;
 @Mapper
 public interface OnlineAgreementNeedSignMapper extends BaseMapper<OnlineAgreementNeedSignEntity> {
 
-    List<OnlineAgreementNeedSignVO> getOnlineAgreementNeedSign(Long makerId, TemplateType templateType);
+    List<OnlineAgreementNeedSignVO> getOnlineAgreementNeedSign(ObjectType objectType, Long objectTypeId, TemplateType templateType);
 
 }
 
