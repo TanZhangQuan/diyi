@@ -3,22 +3,22 @@ package com.lgyun.system.user.controller.admin;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.CooperateStatus;
+import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.AddPartnerDTO;
 import com.lgyun.system.user.dto.PartnerListDTO;
 import com.lgyun.system.user.entity.AdminEntity;
-import com.lgyun.system.user.service.IAdminService;
-import com.lgyun.system.user.service.IEnterpriseService;
-import com.lgyun.system.user.service.IPartnerEnterpriseService;
-import com.lgyun.system.user.service.IPartnerService;
+import com.lgyun.system.user.service.*;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -39,6 +39,7 @@ public class PartnerAdminController {
     private IPartnerService partnerService;
     private IEnterpriseService enterpriseService;
     private IPartnerEnterpriseService partnerEnterpriseService;
+    private IOnlineSignPicService onlineSignPicService;
 
     @GetMapping("/query-partner-list")
     @ApiOperation(value = "查询所有合伙人", notes = "查询所有合伙人")
@@ -145,6 +146,33 @@ public class PartnerAdminController {
         }
 
         return partnerEnterpriseService.updateCooperationStatus(partnerId, enterpriseId, cooperateStatus);
+    }
+
+    @GetMapping("/query-cooperation-need-contract")
+    @ApiOperation(value = "查询合伙人需要签署的合同", notes = "查询合伙人需要签署的合同")
+    public R queryCooperationNeedContract(BladeUser bladeUser,@ApiParam(value = "合伙人", required = true) @NotNull(message = "请选择合伙人") @RequestParam(required = false) Long partnerId) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return partnerService.queryCooperationNeedContract(partnerId);
+    }
+
+    @PostMapping("/partner-confirm-sign")
+    @ApiOperation(value = "合伙人确认签字", notes = "合伙人确认签字")
+    public R partnerConfirmSign(@ApiParam(value = "合伙人", required = true) @NotNull(message = "请选择合伙人") @RequestParam(required = false) Long partnerId, BladeUser bladeUser,
+                                @ApiParam(value = "签名图片", required = true) @NotBlank(message = "请上传签名图片") @URL(message = "请输入正确的链接") @RequestParam(required = false) String signPic,
+                                @ApiParam(value = "模板", required = true) @NotNull(message = "请选择模板") @RequestParam(required = false)Long onlineAgreementTemplateId,
+                                @ApiParam(value = "签署的id", required = true) @NotNull(message = "请选择需要签署的id") @RequestParam(required = false)Long onlineAgreementNeedSignId) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return onlineSignPicService.saveOnlineSignPic(partnerId, ObjectType.PARTNERPEOPLE, signPic, onlineAgreementTemplateId, onlineAgreementNeedSignId);
     }
 
 }

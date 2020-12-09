@@ -14,7 +14,7 @@ import com.lgyun.system.user.entity.OnlineSignPicEntity;
 public interface IOnlineSignPicService extends BaseService<OnlineSignPicEntity> {
 
     /**
-     * 保存签名图片
+     * 确认签字
      *
      * @param ObjectId
      * @param objectType

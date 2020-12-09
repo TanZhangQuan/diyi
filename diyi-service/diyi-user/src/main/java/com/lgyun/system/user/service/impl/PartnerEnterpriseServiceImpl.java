@@ -39,6 +39,7 @@ public class PartnerEnterpriseServiceImpl extends BaseServiceImpl<PartnerEnterpr
     @Lazy
     private IEnterpriseService enterpriseService;
 
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public R<String> relevancePartnerEnterprise(Long partnerId, Long enterpriseId, String matchDesc) {
