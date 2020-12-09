@@ -2,6 +2,7 @@ package com.lgyun.system.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lgyun.common.enumeration.RelBureauType;
 import com.lgyun.system.user.entity.RelBureauServiceProviderEntity;
 import com.lgyun.system.user.vo.CooperationServiceProviderListVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -26,5 +27,14 @@ public interface RelBureauServiceProviderMapper extends BaseMapper<RelBureauServ
      * @return
      */
     List<CooperationServiceProviderListVO> queryCooperationServiceProviderList(Long relBureauId, String serviceProviderName, IPage<CooperationServiceProviderListVO> page);
+
+    /**
+     * 查询相关局类型-服务商关联数
+     *
+     * @param relBureauType
+     * @param serviceProviderId
+     * @return
+     */
+    int queryRelBureauTypeServiceProviderNum(RelBureauType relBureauType, Long serviceProviderId);
 }
 

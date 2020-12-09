@@ -36,13 +36,21 @@ public interface IRelBureauServiceProviderService extends BaseService<RelBureauS
     RelBureauServiceProviderEntity queryByAgentMainAndServiceProvider(Long relBureauId, Long serviceProviderId);
 
     /**
-     * 查询相关局-服务商关联数
+     * 查询相关局类型-服务商关联数
      *
      * @param relBureauType
      * @param serviceProviderId
      * @return
      */
-    int queryRelBureauServiceProviderNum(RelBureauType relBureauType, Long serviceProviderId);
+    int queryRelBureauTypeServiceProviderNum(RelBureauType relBureauType, Long serviceProviderId);
+
+    /**
+     * 查询相关局关联服务商数
+     *
+     * @param relBureauId
+     * @return
+     */
+    int queryRelBureauServiceProviderNum(Long relBureauId);
 
     /**
      * 查询相关局合作服务商

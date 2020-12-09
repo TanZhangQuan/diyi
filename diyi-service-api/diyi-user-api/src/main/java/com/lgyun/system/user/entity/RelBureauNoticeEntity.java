@@ -1,7 +1,7 @@
 package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.lgyun.common.enumeration.NoticeState;
+import com.lgyun.common.enumeration.RelBureauNoticeFileState;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,7 +25,7 @@ public class RelBureauNoticeEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 相关局编号
+     * 相关局ID
      */
     private Long relBureauId;
 
@@ -50,9 +50,9 @@ public class RelBureauNoticeEntity extends BaseEntity {
     private Date publishDatetime;
 
     /**
-     * 通知状态:1，编辑中；2，已发布；3，已阅读；4，已作废
+     * 通知状态
      */
-    private NoticeState noticeState = NoticeState.EDITING;
+    private RelBureauNoticeFileState noticeState = RelBureauNoticeFileState.EDITING;
 
     /**
      * 作废日期时间

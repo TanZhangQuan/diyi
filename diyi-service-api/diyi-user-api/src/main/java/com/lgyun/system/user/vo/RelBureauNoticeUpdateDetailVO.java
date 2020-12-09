@@ -1,16 +1,13 @@
 package com.lgyun.system.user.vo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.lgyun.common.enumeration.RelBureauNoticeFileState;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 @Data
-public class RelBureauNoticeListVO implements Serializable {
+public class RelBureauNoticeUpdateDetailVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -30,20 +27,23 @@ public class RelBureauNoticeListVO implements Serializable {
     private String noticeDesc;
 
     /**
-     * 通知状态
+     * 通知文件
      */
-    private RelBureauNoticeFileState noticeState;
+    private String noticeUrl;
 
     /**
-     * 发布日期时间
+     * 发布联系人
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date publishDatetime;
+    private String contactPerson;
 
     /**
-     * 创建时间
+     * 联系人手机
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date createTime;
+    private String contactPhone;
+
+    /**
+     * 联系人微信
+     */
+    private String contactWechat;
 
 }

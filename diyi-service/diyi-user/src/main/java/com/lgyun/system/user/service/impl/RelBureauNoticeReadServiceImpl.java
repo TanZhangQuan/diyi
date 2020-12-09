@@ -1,14 +1,15 @@
 package com.lgyun.system.user.service.impl;
 
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.lgyun.system.user.mapper.RelBureauNoticeReadMapper;
 import com.lgyun.system.user.entity.RelBureauNoticeReadEntity;
+import com.lgyun.system.user.mapper.RelBureauNoticeReadMapper;
 import com.lgyun.system.user.service.IRelBureauNoticeReadService;
+import com.lgyun.system.user.vo.ServiceProviderIdNameListVO;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 /**
  * 相关局通知阅读管理表 Service 实现
@@ -20,5 +21,16 @@ import com.lgyun.system.user.service.IRelBureauNoticeReadService;
 @Service
 @AllArgsConstructor
 public class RelBureauNoticeReadServiceImpl extends BaseServiceImpl<RelBureauNoticeReadMapper, RelBureauNoticeReadEntity> implements IRelBureauNoticeReadService {
+
+
+    @Override
+    public int queryServiceProviderCount(Long relBureauNoticeId) {
+        return baseMapper.queryServiceProviderCount(relBureauNoticeId);
+    }
+
+    @Override
+    public R<IPage<ServiceProviderIdNameListVO>> queryReadServiceProviderList(Long relBureauNoticeId, IPage<ServiceProviderIdNameListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryReadServiceProviderList(relBureauNoticeId)));
+    }
 
 }

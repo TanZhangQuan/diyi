@@ -88,5 +88,6 @@ public interface IRelBureauService extends BaseService<RelBureauEntity> {
      * @return
      */
     int queryCountById(Long relBureauId);
+
 }
 

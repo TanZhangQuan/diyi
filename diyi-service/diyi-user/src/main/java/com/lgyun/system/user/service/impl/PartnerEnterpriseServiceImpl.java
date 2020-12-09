@@ -3,6 +3,7 @@ package com.lgyun.system.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.enumeration.CooperateType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
@@ -127,6 +128,6 @@ public class PartnerEnterpriseServiceImpl extends BaseServiceImpl<PartnerEnterpr
             updateById(partnerEnterpriseEntity);
         }
 
-        return R.success("操作成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 }

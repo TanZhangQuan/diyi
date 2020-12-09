@@ -2,6 +2,7 @@ package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.ChildAccountType;
 import com.lgyun.common.enumeration.MenuType;
@@ -160,9 +161,9 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
         roleMenusDTO.setUserType(UserType.ADMIN);
         R result = sysClient.createOrUpdateRoleMenus(roleMenusDTO, adminEntity.getId());
         if (result.isSuccess()) {
-            return R.success("操作成功！");
+            return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
         }
-        return R.fail("操作失败！");
+        return R.success(BladeConstant.DEFAULT_FAILURE_MESSAGE);
     }
 
     @Override
@@ -242,7 +243,8 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
             childAccount.setLoginPwd(encrypt);
             save(childAccount);
         }
-        return R.success("操作成功！");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -280,7 +282,8 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
             default:
                 break;
         }
-        return R.success("操作成功！");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override

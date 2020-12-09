@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.BodyType;
 import com.lgyun.common.enumeration.ReportState;
 import com.lgyun.common.enumeration.ReportTheme;
@@ -105,7 +106,8 @@ public class EnterpriseReportServiceImpl extends BaseServiceImpl<EnterpriseRepor
             enterpriseReportEntity.setReportResultFiles(adminEnterpriseReportDTO.getReportResultFiles());
             updateById(enterpriseReportEntity);
         }
-        return R.success("操作成功");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -152,6 +154,7 @@ public class EnterpriseReportServiceImpl extends BaseServiceImpl<EnterpriseRepor
             enterpriseReportEntity.setReportResultFiles(adminEnterpriseReportDTO.getReportResultFiles());
             saveOrUpdate(enterpriseReportEntity);
         }
-        return R.success("操作成功");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 }

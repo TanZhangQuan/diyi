@@ -17,17 +17,22 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("diyi_rel_bureau_files_read")
-public class RelBureauFilesReadEntity extends BaseEntity {
+@TableName("diyi_rel_bureau_file_read")
+public class RelBureauFileReadEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
      * 通知ID
      */
-    private Long relBureauFilesId;
+    private Long relBureauFileId;
 
     /**
-     * 阅读服务商员工
+     * 服务商ID
+     */
+    private Long servicerProviderId;
+
+    /**
+     * 服务商员工ID
      */
     private Long servicerProviderWorkerId;
 

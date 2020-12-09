@@ -2,12 +2,12 @@ package com.lgyun.system.user.controller.admin;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CooperateStatus;
-import com.lgyun.common.enumeration.NoticeState;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.AddOrUpdateRelBureauDTO;
 import com.lgyun.system.user.dto.RelBureauListDTO;
+import com.lgyun.system.user.dto.RelBureauNoticeFileListDTO;
 import com.lgyun.system.user.entity.AdminEntity;
 import com.lgyun.system.user.service.*;
 import io.swagger.annotations.Api;
@@ -29,6 +29,7 @@ public class RelBureauAdminController {
 
     private IAdminService adminService;
     private IRelBureauService relBureauService;
+    private IRelBureauFileService relBureauFileService;
     private IServiceProviderService serviceProviderService;
     private IRelBureauNoticeService relBureauNoticeService;
     private IRelBureauServiceProviderService relBureauServiceProviderService;
@@ -134,17 +135,54 @@ public class RelBureauAdminController {
         return relBureauServiceProviderService.updateCooperationStatus(relBureauId, serviceProviderId, cooperateStatus);
     }
 
-    @GetMapping("/query-industrial-parks-notice")
-    @ApiOperation(value = "查询相关局通知", notes = "查询相关局通知")
-    public R queryIndustrialParksNotice(@ApiParam("相关局") @NotNull(message = "请选择相关局") @RequestParam(required = false) Long relBureauId,
-                                        @ApiParam("通知状态") @NotNull(message = "请选择通知状态") @RequestParam(required = false) NoticeState noticeState, Query query, BladeUser bladeUser) {
+    @GetMapping("/query-rel-bureau-notice-list")
+    @ApiOperation(value = "查询相关局通知列表", notes = "查询相关局通知列表")
+    public R queryRelBureauNoticeList(@ApiParam("相关局") @NotNull(message = "请选择相关局") @RequestParam(required = false) Long relBureauId,
+                                      RelBureauNoticeFileListDTO relBureauNoticeFileListDTO, Query query, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return relBureauNoticeService.queryBureauNoticeList(relBureauId, noticeState, Condition.getPage(query.setDescs("create_time")));
+        return relBureauNoticeService.queryRelBureauNoticeList(relBureauId, false, relBureauNoticeFileListDTO, Condition.getPage(query.setDescs("create_time")));
+    }
+
+    @GetMapping("/query-rel-bureau-notice-detail")
+    @ApiOperation(value = "查询相关局通知详情", notes = "查询相关局通知详情")
+    public R queryRelBureauNoticeDetail(@ApiParam("相关局通知") @NotNull(message = "请选择相关局通知") @RequestParam(required = false) Long relBureauNoticeId, BladeUser bladeUser) {
+        //查询当前管理
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return relBureauNoticeService.queryRelBureauNoticeDetail(relBureauNoticeId);
+    }
+
+    @GetMapping("/query-rel-bureau-file-list")
+    @ApiOperation(value = "查询相关局监督文件列表", notes = "查询相关局监督文件列表")
+    public R queryRelBureauFileList(@ApiParam("相关局") @NotNull(message = "请选择相关局") @RequestParam(required = false) Long relBureauId,
+                                    RelBureauNoticeFileListDTO relBureauNoticeFileListDTO, Query query, BladeUser bladeUser) {
+        //查询当前管理
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return relBureauFileService.queryRelBureauFileList(relBureauId, false, relBureauNoticeFileListDTO, Condition.getPage(query.setDescs("create_time")));
+    }
+
+    @GetMapping("/query-rel-bureau-file-detail")
+    @ApiOperation(value = "查询相关局监督文件详情", notes = "查询相关局监督文件详情")
+    public R queryRelBureauFileDetail(@ApiParam("相关局监督文件") @NotNull(message = "请选择相关局监督文件") @RequestParam(required = false) Long relBureauFileId, BladeUser bladeUser) {
+        //查询当前管理
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return relBureauFileService.queryRelBureauFileDetail(relBureauFileId);
     }
 
 }

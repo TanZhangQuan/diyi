@@ -1349,22 +1349,21 @@ CREATE TABLE `diyi_rel_bureau_contract` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `diyi_rel_bureau_files`
+-- Table structure for `diyi_rel_bureau_file`
 -- ----------------------------
-DROP TABLE IF EXISTS `diyi_rel_bureau_files`;
-CREATE TABLE `diyi_rel_bureau_files` (
+DROP TABLE IF EXISTS `diyi_rel_bureau_file`;
+CREATE TABLE `diyi_rel_bureau_file` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `rel_bureau_id` bigint(50) NOT NULL COMMENT '相关局编号',
-  `files_title` varchar(50) NOT NULL COMMENT '文件标题',
-  `files_desc` varchar(100) NOT NULL COMMENT '通知文件',
-  `files_url` varchar(500) NOT NULL COMMENT '监管文件',
+  `file_title` varchar(50) NOT NULL COMMENT '文件标题',
+  `file_desc` varchar(100) NOT NULL COMMENT '通知文件',
+  `file_url` varchar(500) NOT NULL COMMENT '监管文件',
   `publish_datetime` datetime DEFAULT NULL COMMENT '发布日期时间',
-  `files_state` varchar(50) NOT NULL COMMENT '监管文件状态',
+  `file_state` varchar(50) NOT NULL COMMENT '监管文件状态',
   `cancel_datetime` datetime DEFAULT NULL COMMENT '作废日期时间',
-  `contact_person` varchar(50) NOT NULL COMMENT '发布联系人',
-  `mobile_no` varchar(50) NOT NULL COMMENT '联系手机',
-  `Wechat_no` varchar(50) NOT NULL COMMENT '联系微信',
-  `director_phone` varchar(50) NOT NULL COMMENT '联系电话',
+  `contact_person` varchar(50) NOT NULL DEFAULT '' COMMENT '发布联系人',
+  `contact_phone` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人手机',
+  `contact_wechat` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人微信',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
@@ -1372,17 +1371,18 @@ CREATE TABLE `diyi_rel_bureau_files` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='相关局监管文件管理表';
 
 -- ----------------------------
--- Records of diyi_rel_bureau_files
+-- Records of diyi_rel_bureau_file
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `diyi_rel_bureau_files_read`
+-- Table structure for `diyi_rel_bureau_file_read`
 -- ----------------------------
-DROP TABLE IF EXISTS `diyi_rel_bureau_files_read`;
-CREATE TABLE `diyi_rel_bureau_files_read` (
+DROP TABLE IF EXISTS `diyi_rel_bureau_file_read`;
+CREATE TABLE `diyi_rel_bureau_file_read` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `rel_bureau_files_id` bigint(50) NOT NULL COMMENT '通知ID',
-  `servicer_provider_worker_id` bigint(50) NOT NULL COMMENT '阅读服务商员工',
+  `servicer_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
+  `servicer_provider_worker_id` bigint(50) NOT NULL COMMENT '服务商员工ID',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
@@ -1391,7 +1391,7 @@ CREATE TABLE `diyi_rel_bureau_files_read` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='相关局监管文件阅读管理表';
 
 -- ----------------------------
--- Records of diyi_rel_bureau_files_read
+-- Records of diyi_rel_bureau_file_read
 -- ----------------------------
 
 -- ----------------------------
@@ -1407,9 +1407,9 @@ CREATE TABLE `diyi_rel_bureau_notice` (
   `publish_datetime` datetime DEFAULT NULL COMMENT '发布日期时间',
   `notice_state` varchar(50) NOT NULL COMMENT '通知状态',
   `cancel_datetime` datetime DEFAULT NULL COMMENT '作废日期时间',
-  `contact_person` varchar(50) NOT NULL COMMENT '发布联系人',
-  `contact_phone` varchar(50) NOT NULL COMMENT '联系人手机',
-  `contact_wechat` varchar(50) NOT NULL COMMENT '联系人微信',
+  `contact_person` varchar(50) NOT NULL DEFAULT '' COMMENT '发布联系人',
+  `contact_phone` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人手机',
+  `contact_wechat` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人微信',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
@@ -1427,7 +1427,8 @@ DROP TABLE IF EXISTS `diyi_rel_bureau_notice_read`;
 CREATE TABLE `diyi_rel_bureau_notice_read` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `rel_bureau_notice_id` bigint(50) NOT NULL COMMENT '通知ID',
-  `servicer_provider_worker_id` bigint(50) NOT NULL COMMENT '阅读服务商',
+  `servicer_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
+  `servicer_provider_worker_id` bigint(50) NOT NULL COMMENT '服务商员工ID',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
@@ -1447,7 +1448,7 @@ CREATE TABLE `diyi_rel_bureau_service_provider` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `rel_bureau_id` bigint(50) NOT NULL COMMENT '相关局ID',
   `rel_bureau_type` varchar(50) NOT NULL COMMENT '相关局的类型',
-  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商编号，一个服务商只能属于一个相关局监管',
+  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID，一个服务商只能属于一个相关局监管',
   `cooperate_status` varchar(50) NOT NULL COMMENT '关联状态',
   `match_desc` varchar(100) DEFAULT NULL COMMENT '分配说明',
   `create_time` datetime NOT NULL COMMENT '创建时间',

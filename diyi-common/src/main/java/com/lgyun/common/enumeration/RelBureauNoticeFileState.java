@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum  NoticeState {
+public enum RelBureauNoticeFileState {
     EDITING("EDITING", "编辑中"),
     PUBLISHED("PUBLISHED", "已发布"),
     HAVEREAD("HAVEREAD", "已阅读"),

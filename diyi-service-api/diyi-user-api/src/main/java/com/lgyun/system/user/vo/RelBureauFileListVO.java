@@ -10,29 +10,29 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class RelBureauNoticeListVO implements Serializable {
+public class RelBureauFileListVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 通知ID
+     * 监督文件ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     /**
-     * 通知标题
+     * 监督文件标题
      */
-    private String noticeTitle;
+    private String fileTitle;
 
     /**
-     * 通知摘要
+     * 监督文件摘要
      */
-    private String noticeDesc;
+    private String fileDesc;
 
     /**
-     * 通知状态
+     * 监督文件状态
      */
-    private RelBureauNoticeFileState noticeState;
+    private RelBureauNoticeFileState fileState;
 
     /**
      * 发布日期时间

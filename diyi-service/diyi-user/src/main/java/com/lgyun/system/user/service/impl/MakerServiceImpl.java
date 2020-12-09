@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.constant.RealnameVerifyConstant;
 import com.lgyun.common.constant.SmsConstant;
 import com.lgyun.common.enumeration.*;
@@ -539,10 +540,12 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public R<String> uploadMakerVideo(MakerEntity makerEntity, String applyShortVideo) {
+
         makerEntity.setVideoAudit(VideoAudit.AUDITPASS);
         makerEntity.setApplyShortVideo(applyShortVideo);
         updateById(makerEntity);
-        return R.success("操作成功");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override

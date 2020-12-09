@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class RelBureauNoticeListVO implements Serializable {
+public class RelBureauNoticeDetailVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -30,15 +30,29 @@ public class RelBureauNoticeListVO implements Serializable {
     private String noticeDesc;
 
     /**
+     * 通知文件
+     */
+    private String noticeUrl;
+
+    /**
      * 通知状态
      */
     private RelBureauNoticeFileState noticeState;
 
     /**
-     * 发布日期时间
+     * 发布联系人
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date publishDatetime;
+    private String contactPerson;
+
+    /**
+     * 联系人手机
+     */
+    private String contactPhone;
+
+    /**
+     * 联系人微信
+     */
+    private String contactWechat;
 
     /**
      * 创建时间

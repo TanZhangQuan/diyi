@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.SnowflakeIdWorker;
@@ -229,7 +230,8 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
                 saveOrUpdate(worksheetEntity);
             }
         }
-        return R.success("操作成功");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -240,7 +242,8 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             WorksheetEntity worksheetEntity = getById(split[i]);
             removeById(worksheetEntity.getId());
         }
-        return R.success("操作成功");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -260,7 +263,8 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
 
         byId.setWorksheetState(WorksheetState.FINISHED);
         saveOrUpdate(byId);
-        return R.success("操作成功");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Transactional(rollbackFor = Exception.class)

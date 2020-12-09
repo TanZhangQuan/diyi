@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.dto.AddOrUpdateAddressDTO;
@@ -79,7 +80,7 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
         BeanUtils.copyProperties(addOrUpdateAddressDto, addressEntity);
         saveOrUpdate(addressEntity);
 
-        return R.success("操作成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.lgyun.system.user.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.dto.AddOrUpdateServiceProviderAccountDTO;
 import com.lgyun.system.user.entity.ServiceProviderAccountEntity;
@@ -77,7 +78,7 @@ public class ServiceProviderAccountServiceImpl extends BaseServiceImpl<ServicePr
         BeanUtils.copyProperties(addOrUpdateServiceProviderAccountDTO, serviceProviderAccountEntity);
         saveOrUpdate(serviceProviderAccountEntity);
 
-        return R.success("操作成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
