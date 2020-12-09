@@ -46,7 +46,7 @@ public class EnterpriseWorksheetDetailVO implements Serializable {
     private MakerType makerType;
 
     /**
-     * 模式，派单、抢单、混合（默认：混合型）
+     * 模式
      */
     private WorksheetMode worksheetMode;
 
@@ -56,7 +56,7 @@ public class EnterpriseWorksheetDetailVO implements Serializable {
     private GetType getType;
 
     /**
-     * 工单创客的状态：1待提交，2待验证，3验证通过，4验证失败
+     * 工单创客的状态
      */
     private WorksheetMakerState worksheetMakerState;
 

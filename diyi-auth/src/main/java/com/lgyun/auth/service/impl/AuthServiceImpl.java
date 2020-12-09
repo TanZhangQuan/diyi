@@ -619,7 +619,6 @@ public class AuthServiceImpl implements IAuthService {
             return R.fail(TokenUtil.SMS_CAPTCHA_NOT_CORRECT);
         }
 
-        R<String> res;
         switch (userType) {
 
             case ADMIN:
