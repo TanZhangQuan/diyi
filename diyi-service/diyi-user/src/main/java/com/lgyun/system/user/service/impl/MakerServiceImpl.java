@@ -593,7 +593,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     @Override
     public MakerEntity findByIdcardNo(String idcardNo) {
 
-        if (StringUtils.isBlank(idcardNo)){
+        if (StringUtils.isBlank(idcardNo)) {
             return null;
         }
 
@@ -621,21 +621,8 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R getMakerAll(Long makerId, String makerName, IPage<MakerEntity> page) {
-        QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
-        if (makerId != null && StringUtils.isNotEmpty(makerName)) {
-            queryWrapper.lambda().eq(MakerEntity::getId, makerId)
-                    .like(MakerEntity::getName, makerName);
-        }
-        if (makerId != null && StringUtils.isEmpty(makerName)) {
-            queryWrapper.lambda().eq(MakerEntity::getId, makerId);
-        }
-        if (StringUtils.isNotEmpty(makerName) && makerId == null) {
-            queryWrapper.lambda().like(MakerEntity::getName, makerName);
-        }
-        IPage<MakerEntity> makerEntityIPage = baseMapper.selectPage(page, queryWrapper);
-
-        return R.data(makerEntityIPage);
+    public R<IPage<MakerSelectListVO>> queryMakerSelectList(String keyWord, IPage<MakerSelectListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryMakerSelectList(keyWord, page)));
     }
 
     @Override
@@ -670,8 +657,8 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R<IPage<MakerListWebVO>> queryMakerList(Long enterpriseId, Long serviceProviderId, RelationshipType relationshipType, CertificationState certificationState, String keyword, IPage<MakerListWebVO> page) {
-        return R.data(page.setRecords(baseMapper.queryMakerList(enterpriseId, serviceProviderId, relationshipType, certificationState, keyword, page)));
+    public R<IPage<MakerListWebVO>> queryMakerList(Long enterpriseId, Long serviceProviderId, Long relBureauId, RelationshipType relationshipType, CertificationState certificationState, String keyword, IPage<MakerListWebVO> page) {
+        return R.data(page.setRecords(baseMapper.queryMakerList(enterpriseId, serviceProviderId, relBureauId, relationshipType, certificationState, keyword, page)));
     }
 
     @Override

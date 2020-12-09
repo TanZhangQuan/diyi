@@ -218,15 +218,15 @@ public class AgreementAdminController {
         return agreementService.saveAdminAgreement(makerId, enterpriseId, serviceProviderId, objectId, objectType, agreementType, paperAgreementUrl);
     }
 
-    @GetMapping("/query-maker-list")
-    @ApiOperation(value = "平台查所有创客", notes = "平台查所有创客")
-    public R queryMakerList(Query query, BladeUser bladeUser, @RequestParam(required = false) Long makerId, @RequestParam(required = false) String makerName) {
+    @GetMapping("/query-maker-select-list")
+    @ApiOperation(value = "查所有创客", notes = "查所有创客")
+    public R queryMakerIdNameList(@ApiParam(value = "创客姓名/手机号/身份证号") @RequestParam(required = false) String keyWord, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
-        return agreementService.queryAdminMakerAll(makerId, makerName, Condition.getPage(query.setDescs("create_time")));
+        return makerService.queryMakerSelectList(keyWord, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-enterprise-list")

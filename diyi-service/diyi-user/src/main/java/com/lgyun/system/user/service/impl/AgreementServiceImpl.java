@@ -490,11 +490,6 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
-    public R queryAdminMakerAll(Long makerId, String makerName, IPage<MakerEntity> page) {
-        return makerService.getMakerAll(makerId, makerName, page);
-    }
-
-    @Override
     public R queryAdminEnterpriseAll(Long enterpriseId, String enterpriseName, IPage<EnterpriseEntity> page) {
         return enterpriseService.getEnterpriseAll(enterpriseId, enterpriseName, page);
     }

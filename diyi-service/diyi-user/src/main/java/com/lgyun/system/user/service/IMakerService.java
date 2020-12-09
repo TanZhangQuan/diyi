@@ -258,11 +258,14 @@ public interface IMakerService extends BaseService<MakerEntity> {
      */
     R<String> saveAdminMakerVideo(Long makerId, String videoUrl);
 
-
     /**
-     * 查询所有创客
+     * 查询查所有创客
+     *
+     * @param keyWord
+     * @param page
+     * @return
      */
-    R getMakerAll(Long makerId, String makerName, IPage<MakerEntity> page);
+    R<IPage<MakerSelectListVO>> queryMakerSelectList(String keyWord, IPage<MakerSelectListVO> page);
 
     /**
      * 导入创客Excel文件读取
@@ -289,13 +292,14 @@ public interface IMakerService extends BaseService<MakerEntity> {
      *
      * @param enterpriseId
      * @param serviceProviderId
+     * @param relBureauId
      * @param relationshipType
      * @param certificationState
      * @param keyword
      * @param page
      * @return
      */
-    R<IPage<MakerListWebVO>> queryMakerList(Long enterpriseId, Long serviceProviderId, RelationshipType relationshipType, CertificationState certificationState, String keyword, IPage<MakerListWebVO> page);
+    R<IPage<MakerListWebVO>> queryMakerList(Long enterpriseId, Long serviceProviderId, Long relBureauId, RelationshipType relationshipType, CertificationState certificationState, String keyword, IPage<MakerListWebVO> page);
 
 
     /**

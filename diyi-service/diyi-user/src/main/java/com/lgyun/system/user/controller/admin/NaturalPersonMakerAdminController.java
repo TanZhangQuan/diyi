@@ -35,15 +35,15 @@ public class NaturalPersonMakerAdminController {
 
     @GetMapping("/query-maker-list")
     @ApiOperation(value = "查询所有创客", notes = "查询所有创客")
-    public R queryMakerList(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) CertificationState certificationState,
-                            @ApiParam(value = "搜索创客关键字：请输入创客姓名/手机号") @RequestParam(required = false) String keyword, Query query, BladeUser bladeUser) {
+    public R queryMakerList(@ApiParam(value = "认证状态", required = true) @NotNull(message = "请选择认证状态") @RequestParam(required = false) CertificationState certificationState,
+                            @ApiParam(value = "创客姓名/手机号/身份证号") @RequestParam(required = false) String keyword, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return makerService.queryMakerList(null, null, null, certificationState, keyword, Condition.getPage(query.setDescs("t1.create_time")));
+        return makerService.queryMakerList(null, null, null, null, certificationState, keyword, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/create-maker")
