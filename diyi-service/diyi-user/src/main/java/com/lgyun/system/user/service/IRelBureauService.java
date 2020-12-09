@@ -8,6 +8,7 @@ import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.dto.AddOrUpdateRelBureauDTO;
 import com.lgyun.system.user.dto.RelBureauListDTO;
 import com.lgyun.system.user.entity.RelBureauEntity;
+import com.lgyun.system.user.vo.RelBureauDetailVO;
 import com.lgyun.system.user.vo.RelBureauInfoVO;
 import com.lgyun.system.user.vo.RelBureauListVO;
 import com.lgyun.system.user.vo.RelBureauUpdateDetailVO;
@@ -72,6 +73,14 @@ public interface IRelBureauService extends BaseService<RelBureauEntity> {
      * @return
      */
     R<IPage<RelBureauListVO>> queryRelBureauList(RelBureauListDTO relBureauListDTO, IPage<RelBureauListVO> page);
+
+    /**
+     * 查询相关局详情
+     *
+     * @param relBureauId
+     * @return
+     */
+    R<RelBureauDetailVO> queryRelBureauDetail(Long relBureauId);
 
     /**
      * 查询相关局基础信息

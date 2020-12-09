@@ -70,16 +70,16 @@ public class RelBureauAdminController {
         return relBureauService.queryRelBureauUpdateDetail(relBureauId);
     }
 
-    @GetMapping("/query-rel-bureau-info")
-    @ApiOperation(value = "查询相关局基础信息", notes = "查询相关局基础信息")
-    public R queryRelBureauInfo(@ApiParam("相关局") @NotNull(message = "请选择相关局") @RequestParam(required = false) Long relBureauId, BladeUser bladeUser) {
+    @GetMapping("/query-current-rel-bureau-detail")
+    @ApiOperation(value = "查询当前相关局详情", notes = "查询当前相关局详情")
+    public R queryCurrentRelBureauDetail(@ApiParam("相关局") @NotNull(message = "请选择相关局") @RequestParam(required = false) Long relBureauId, BladeUser bladeUser) {
         //查询当前管理
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return relBureauService.queryRelBureauInfo(relBureauId);
+        return relBureauService.queryRelBureauDetail(relBureauId);
     }
 
     @GetMapping("/query-service-provider-id-and-name-list")

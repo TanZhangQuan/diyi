@@ -13,25 +13,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/rel-bureau/home-page")
+@RequestMapping("/rel-bureau/basic-info")
 @Validated
 @AllArgsConstructor
-@Api(value = "相关局端---首页管理模块相关接口", tags = "相关局端---首页管理模块相关接口")
-public class HomePageRelBureauController {
+@Api(value = "相关局端---相关局基本信息管理模块相关接口", tags = "相关局端---相关局基本信息管理模块相关接口")
+public class BasicInfoRelBureauController {
 
     private IRelBureauService relBureauService;
 
-    @GetMapping("/query-current-rel-bureau-detail")
-    @ApiOperation(value = "查询当前相关局详情", notes = "查询当前相关局详情")
-    public R queryCurrentRelBureauDetail(BladeUser bladeUser) {
-        ///查询当前相关局
+    @GetMapping("/query-rel-bureau-info")
+    @ApiOperation(value = "查询相关局基础信息", notes = "查询相关局基础信息")
+    public R queryRelBureauInfo(BladeUser bladeUser) {
+        //查询当前相关局
         R<RelBureauEntity> result = relBureauService.currentRelBureau(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
         RelBureauEntity relBureauEntity = result.getData();
 
-        return relBureauService.queryRelBureauDetail(relBureauEntity.getId());
+        return relBureauService.queryRelBureauInfo(relBureauEntity.getId());
     }
-
+    
 }

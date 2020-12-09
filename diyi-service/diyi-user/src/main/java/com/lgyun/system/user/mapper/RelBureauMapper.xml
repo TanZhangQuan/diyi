@@ -33,12 +33,33 @@
         <result property="relBureauUserName" column="rel_bureau_user_name"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.user.vo.RelBureauInfoVO" id="relBureauInfoVO">
+    <resultMap type="com.lgyun.system.user.vo.RelBureauDetailVO" id="relBureauDetailVO">
         <result property="id" column="id"/>
         <result property="relBureauType" column="rel_bureau_type"/>
         <result property="avatar" column="avatar"/>
         <result property="relBureauName" column="rel_bureau_name"/>
     </resultMap>
+
+     <resultMap type="com.lgyun.system.user.vo.RelBureauInfoVO" id="relBureauInfoVO">
+        <result property="id" column="id"/>
+        <result property="avatar" column="avatar"/>
+        <result property="relBureauUserName" column="rel_bureau_user_name"/>
+        <result property="relBureauName" column="rel_bureau_name"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="area" column="area"/>
+        <result property="detailedAddress" column="detailed_address"/>
+        <result property="relBureauWebsite" column="rel_bureau_website"/>
+        <result property="contactName" column="contact_name"/>
+        <result property="contactPosition" column="contact_position"/>
+        <result property="contactPhone" column="contact_phone"/>
+        <result property="contactMail" column="contact_mail"/>
+        <result property="contactWechat" column="contact_wechat"/>
+        <result property="directorName" column="director_name"/>
+        <result property="directorPhone" column="director_phone"/>
+        <result property="viceDirectorName" column="vice_director_name"/>
+        <result property="viceDirectorPhone" column="vice_director_phone"/>
+     </resultMap>
 
     <select id="queryRelBureauList" resultMap="relBureauListVO">
         SELECT id, rel_bureau_name, contact_name, contact_phone, rel_bureau_state, create_time FROM diyi_rel_bureau WHERE bool_deleted = 0
@@ -63,8 +84,14 @@
         WHERE bool_deleted = 0 AND id = #{param1}
     </select>
 
-    <select id="queryRelBureauInfo" resultMap="relBureauInfoVO">
+    <select id="queryRelBureauDetail" resultMap="relBureauDetailVO">
         SELECT id, rel_bureau_type, avatar, rel_bureau_name FROM diyi_rel_bureau WHERE bool_deleted = 0 AND id = #{param1}
+    </select>
+
+    <select id="queryRelBureauInfo" resultMap="relBureauInfoVO">
+        SELECT id, avatar, rel_bureau_user_name, rel_bureau_name, province, city, area, detailed_address, rel_bureau_website, contact_name, contact_position,
+        contact_phone, contact_mail, contact_wechat, director_name, director_phone, vice_director_name, vice_director_phone FROM diyi_rel_bureau
+        WHERE bool_deleted = 0 AND id = #{param1}
     </select>
 
 </mapper>

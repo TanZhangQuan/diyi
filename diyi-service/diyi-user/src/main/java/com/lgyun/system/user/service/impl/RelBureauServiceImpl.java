@@ -15,6 +15,7 @@ import com.lgyun.system.user.dto.RelBureauListDTO;
 import com.lgyun.system.user.entity.RelBureauEntity;
 import com.lgyun.system.user.mapper.RelBureauMapper;
 import com.lgyun.system.user.service.IRelBureauService;
+import com.lgyun.system.user.vo.RelBureauDetailVO;
 import com.lgyun.system.user.vo.RelBureauInfoVO;
 import com.lgyun.system.user.vo.RelBureauListVO;
 import com.lgyun.system.user.vo.RelBureauUpdateDetailVO;
@@ -147,6 +148,11 @@ public class RelBureauServiceImpl extends BaseServiceImpl<RelBureauMapper, RelBu
         }
 
         return R.data(page.setRecords(baseMapper.queryRelBureauList(relBureauListDTO, page)));
+    }
+
+    @Override
+    public R<RelBureauDetailVO> queryRelBureauDetail(Long relBureauId) {
+        return R.data(baseMapper.queryRelBureauDetail(relBureauId));
     }
 
     @Override
