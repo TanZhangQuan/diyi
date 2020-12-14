@@ -271,5 +271,13 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
      */
     int queryEntMakSupplementaryAgreementNum(Long makerId, Long enterpriseId);
 
+    /**
+     * 查询已签署已审核通过的商户-创客补充协议
+     * @param makerId
+     * @param enterpriseId
+     * @return
+     */
+    AgreementEntity findByEnterpriseAndMakerSuppl(Long makerId, Long enterpriseId);
+
 }
 

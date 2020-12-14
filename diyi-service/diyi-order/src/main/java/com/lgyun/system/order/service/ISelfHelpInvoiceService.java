@@ -2,6 +2,7 @@ package com.lgyun.system.order.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.CrowdSourcingPayType;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.SelfHelpInvoiceSpApplyState;
 import com.lgyun.core.mp.base.BaseService;
@@ -9,6 +10,8 @@ import com.lgyun.system.order.dto.*;
 import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
+
+import java.util.List;
 
 /**
  * Service 接口
@@ -18,16 +21,16 @@ import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
  */
 public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEntity> {
 
-    /**
-     * 查询当前商户所有自助开票记录
-     *
-     * @param enterpriseId
-     * @param makerType
-     * @param selfHelpInvoicesByEnterpriseDto
-     * @param page
-     * @return
-     */
-    R<IPage<SelfHelpInvoiceListByEnterpriseVO>> getSelfHelfInvoicesByEnterprise(Long enterpriseId, MakerType makerType, SelfHelpInvoicesByEnterpriseDTO selfHelpInvoicesByEnterpriseDto, IPage<SelfHelpInvoiceListByEnterpriseVO> page);
+//    /**
+//     * 查询当前商户所有自助开票记录
+//     *
+//     * @param enterpriseId
+//     * @param makerType
+//     * @param selfHelpInvoicesByEnterpriseDto
+//     * @param page
+//     * @return
+//     */
+//    R<IPage<SelfHelpInvoiceListByEnterpriseVO>> getSelfHelfInvoicesByEnterprise(Long enterpriseId, MakerType makerType, SelfHelpInvoicesByEnterpriseDTO selfHelpInvoicesByEnterpriseDto, IPage<SelfHelpInvoiceListByEnterpriseVO> page);
 
     /**
      * 查询当前商户某条自助开票记录详情
@@ -295,5 +298,45 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      */
     R<IPage<SelfHelpInvoiceDetailProviderVO>> querySelfHelpInvoicePeopleList(Long selfHelpvoiceId, IPage<SelfHelpInvoiceDetailProviderVO> page);
 
+
+    /**
+     * 自助开票提交表单
+     */
+    R naturalPersonSubmitForm(Long enterpriseId ,String listFile,Long serviceProviderId,String invoiceCategory,MakerType makerType, CrowdSourcingPayType payType, String invoiceType, Long addressId) throws Exception;
+
+    /**
+     *自助开票自然人确认提交表单
+     */
+    R naturalPersonConfirmSubmit(Long enterpriseId,NaturalPersonConfirmSubmitDto naturalPersonConfirmSubmitDto);
+
+    /**
+     *商户查询自助开票
+     */
+    R querySelfInvoiceList(Long enterpriseId,MakerType makerType,String startTiem,String endTime,IPage<SelfInvoiceListVo> page);
+
+    /**
+     *商户查询自助开票详情
+     */
+    R querySelfInvoiceDetails(Long selfHelpInvoiceId);
+
+    /**
+     * 提交自助开票
+     */
+    R submitSelfHelpInvoice(Long enterpriseId,Long selfHelpInvoiceId);
+
+    /**
+     *确认修改
+     */
+    R confirmModification(Long enterpriseId, Long selfHelpInvoiceId, List<ModificationDto> list);
+
+    /**
+     * 确认支付
+     */
+    R confirmPayment(Long enterpriseId,Long selfHelpInvoiceId,Long selfHelpInvoiceFeeId,String payCertificate);
+
+    /**
+     *
+     */
+    R individualPersonSubmitForm(Long enterpriseId,String listFile,Long serviceProviderId,String invoiceCategory,CrowdSourcingPayType payType,String invoiceType,Long addressId);
 }
 

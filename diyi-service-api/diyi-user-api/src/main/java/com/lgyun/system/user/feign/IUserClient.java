@@ -443,4 +443,31 @@ public interface IUserClient {
     @GetMapping(API_PREFIX + "/query-agreement-num")
     int queryEntMakSupplementaryAgreementNum(@RequestParam("makerId") Long makerId, @RequestParam("enterpriseId") Long enterpriseId);
 
+
+    /**
+     * 查询已签署已审核通过的商户-创客补充协议
+     *
+     * @param makerId
+     * @param enterpriseId
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/query-agreement")
+    AgreementEntity queryEntMakSupplementaryAgreement(@RequestParam("makerId") Long makerId, @RequestParam("enterpriseId") Long enterpriseId);
+
+    /**
+     * 根据商户id查询商户
+     * @param enterpriseId
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/query-enterprise-by-id")
+    EnterpriseEntity queryEnterpriseById(@RequestParam("enterpriseId") Long enterpriseId);
+
+    /**
+     * 根据商户名字查询商户
+     * @param enterpriseName
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/query-enterprise-by-Name")
+    EnterpriseEntity queryEnterpriseByName(@RequestParam("enterpriseName") String enterpriseName);
+
 }

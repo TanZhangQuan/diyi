@@ -40,4 +40,12 @@ public class SelfHelpInvoiceSpServiceImpl extends BaseServiceImpl<SelfHelpInvoic
 
         return baseMapper.selectOne(queryWrapper);
     }
+
+    @Override
+    public SelfHelpInvoiceSpEntity findBySelfHelpInvoiceId(Long selfHelpInvoiceId) {
+        QueryWrapper<SelfHelpInvoiceSpEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(SelfHelpInvoiceSpEntity::getSelfHelpInvoiceId, selfHelpInvoiceId)
+                .in(SelfHelpInvoiceSpEntity::getApplyState,SelfHelpInvoiceApplyState.TOPAY,SelfHelpInvoiceApplyState.PAID,SelfHelpInvoiceApplyState.INVOICED);
+        return baseMapper.selectOne(queryWrapper);
+    }
 }

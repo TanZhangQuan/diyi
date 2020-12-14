@@ -66,4 +66,7 @@ public class AcceptPaysheetSaveDTO implements Serializable {
     @NotBlank(message = "请上传交付支付验收单")
     private String acceptPaysheetUrl;
 
+
+
+
 }

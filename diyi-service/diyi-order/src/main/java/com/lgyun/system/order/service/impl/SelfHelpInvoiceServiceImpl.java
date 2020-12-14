@@ -1,5 +1,7 @@
 package com.lgyun.system.order.service.impl;
 
+import com.alibaba.excel.EasyExcelFactory;
+import com.alibaba.excel.ExcelReader;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
@@ -10,12 +12,12 @@ import com.lgyun.common.tool.KdniaoTrackQueryUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.dto.*;
 import com.lgyun.system.order.entity.*;
+import com.lgyun.system.order.excel.InvoiceListExcel;
+import com.lgyun.system.order.excel.InvoiceListListener;
 import com.lgyun.system.order.mapper.SelfHelpInvoiceMapper;
 import com.lgyun.system.order.service.*;
 import com.lgyun.system.order.vo.*;
-import com.lgyun.system.user.entity.IndividualBusinessEntity;
-import com.lgyun.system.user.entity.IndividualEnterpriseEntity;
-import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
+import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.feign.IUserClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,11 +27,11 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.net.URL;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Service 实现
@@ -48,6 +50,9 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     private final ISelfHelpInvoiceExpressService selfHelpInvoiceExpressService;
     private final ISelfHelpInvoiceAccountService selfHelpInvoiceAccountService;
     private final ISelfHelpInvoiceFeeService selfHelpInvoiceFeeService;
+    private final IAddressService addressService;
+    private final ISelfHelpInvoicePersonService selfHelpInvoicePersonService;
+    private final ISelfHelpInvoiceApplyService selfHelpInvoiceApplyService;
 
     @Autowired
     @Lazy
@@ -438,7 +443,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = BeanUtil.copy(selfHelpInvoiceDetailVO, SelfHelpInvoiceDetailEntity.class);
             BigDecimal subtract = toExamineSelfHelpInvoiceDto.getServiceRate().subtract(selfHelpInvoiceDetailEntity.getChargeMoneyNum());
             selfHelpInvoiceDetailEntity.setPayProviderFee(subtract);
-            selfHelpInvoiceDetailEntity.setInvoicePrintState(InvoicePrintState.APPLYING);
+            selfHelpInvoiceDetailEntity.setInvoicePrintState(SelfHelpInvoiceApplyState.NOTAPPLY);
             selfHelpInvoiceDetailService.saveOrUpdate(selfHelpInvoiceDetailEntity);
         }
         SelfHelpInvoiceAccountEntity selfHelpInvoiceAccountEntity = new SelfHelpInvoiceAccountEntity();
@@ -543,6 +548,345 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     @Override
     public R<IPage<SelfHelpInvoiceDetailProviderVO>> querySelfHelpInvoicePeopleList(Long selfHelpvoiceId, IPage<SelfHelpInvoiceDetailProviderVO> page) {
         return R.data(page.setRecords(baseMapper.querySelfHelpInvoicePeopleList(selfHelpvoiceId, page)));
+    }
+
+
+
+    @Override
+    public R naturalPersonSubmitForm(Long enterpriseId,String listFile,Long serviceProviderId,String invoiceCategory,MakerType makerType, CrowdSourcingPayType payType, String invoiceType, Long addressId) throws Exception{
+        Map<String,Object> map = new HashMap<>();
+        InputStream inputStream = new URL(listFile).openStream();
+        InvoiceListListener invoiceListListener = new InvoiceListListener();
+        ExcelReader excelReader = EasyExcelFactory.read(inputStream, InvoiceListExcel.class, invoiceListListener).headRowNumber(1).build();
+        excelReader.readAll();
+        List<InvoiceListExcel> invoiceListExcels = invoiceListListener.getList();
+        excelReader.finish();
+        for(InvoiceListExcel invoiceListExcel : invoiceListExcels){
+            EnterpriseEntity enterpriseEntity = iUserClient.queryEnterpriseByName(invoiceListExcel.getPayer());
+            if(null == enterpriseEntity){
+                return R.fail("购买方，必须是平台商户会员");
+            }
+
+            if(MakerType.NATURALPERSON.equals(makerType)){
+                MakerEntity makerEntity = iUserClient.queryMakerByPhoneNumber(invoiceListExcel.getPhoneNumber());
+                SelfHelpInvoicePersonEntity selfHelpInvoicePersonEntity = selfHelpInvoicePersonService.findCardNo(invoiceListExcel.getIdcardNo());
+                if(null != makerEntity){
+                    invoiceListExcel.setPositiveIdCard(null != makerEntity.getIdcardPic() ? makerEntity.getIdcardPic() : null);
+                    invoiceListExcel.setBackIdCard(null != makerEntity.getIdcardPicBack() ? makerEntity.getIdcardPicBack() : null);
+                    AgreementEntity agreementEntity = iUserClient.queryEntMakSupplementaryAgreement(makerEntity.getId(), enterpriseEntity.getId());
+                    invoiceListExcel.setBusinessContract(null != agreementEntity && null != agreementEntity.getPaperAgreementUrl() ? agreementEntity.getPaperAgreementUrl() : null);
+                }else if(null != selfHelpInvoicePersonEntity){
+                    invoiceListExcel.setPositiveIdCard(null != selfHelpInvoicePersonEntity.getIdcardPic() ? selfHelpInvoicePersonEntity.getIdcardPic() : null);
+                    invoiceListExcel.setBackIdCard(null != selfHelpInvoicePersonEntity.getIdcardPicBack() ? selfHelpInvoicePersonEntity.getIdcardPicBack() : null);
+                }else{
+                    invoiceListExcel.setPositiveIdCard(null);
+                    invoiceListExcel.setBackIdCard(null);
+                }
+            }
+            if(MakerType.INDIVIDUALENTERPRISE.equals(makerType)){
+                MakerEntity makerEntity = iUserClient.queryMakerByPhoneNumber(invoiceListExcel.getPhoneNumber());
+                IndividualBusinessEntity individualBusinessEntity = iUserClient.queryIndividualBusinessByMakerIdAndIbtaxNo(makerEntity.getId(), invoiceListExcel.getAloneSocialCreditCode());
+                if(null == individualBusinessEntity){
+                    return R.success("个独必须是平台存在的个独"+invoiceListExcel.getAloneSocialCreditCode());
+                }
+                Long serviceProviderId1 = individualBusinessEntity.getServiceProviderId();
+                if(serviceProviderId1 != serviceProviderId){
+                    return R.success("个独必须是属于同一个服务商的"+invoiceListExcel.getAloneSocialCreditCode());
+                }
+                if(null != individualBusinessEntity){
+                    invoiceListExcel.setPositiveIdCard(null != makerEntity.getIdcardPic() ? makerEntity.getIdcardPic() : null);
+                    invoiceListExcel.setBackIdCard(null != makerEntity.getIdcardPicBack() ? makerEntity.getIdcardPicBack() : null);
+                    AgreementEntity agreementEntity = iUserClient.queryEntMakSupplementaryAgreement(makerEntity.getId(), enterpriseEntity.getId());
+                    invoiceListExcel.setBusinessContract(null != agreementEntity && null != agreementEntity.getPaperAgreementUrl() ? agreementEntity.getPaperAgreementUrl() : null);
+                }
+
+            }
+            if(MakerType.INDIVIDUALBUSINESS.equals(makerType)){
+                MakerEntity makerEntity = iUserClient.queryMakerByPhoneNumber(invoiceListExcel.getPhoneNumber());
+                IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.queryIndividualEnterpriseByMakerIdAndIbtaxNo(makerEntity.getId(), invoiceListExcel.getSocialCreditCode());
+                if(null == individualEnterpriseEntity){
+                    return R.success("个体户必须是平台存在的个独"+invoiceListExcel.getAloneSocialCreditCode());
+                }
+                Long serviceProviderId1 = individualEnterpriseEntity.getServiceProviderId();
+                if(serviceProviderId1 != serviceProviderId){
+                    return R.success("个体户必须是属于同一个服务商的"+invoiceListExcel.getAloneSocialCreditCode());
+                }
+                if(null != individualEnterpriseEntity){
+                    invoiceListExcel.setPositiveIdCard(null != makerEntity.getIdcardPic() ? makerEntity.getIdcardPic() : null);
+                    invoiceListExcel.setBackIdCard(null != makerEntity.getIdcardPicBack() ? makerEntity.getIdcardPicBack() : null);
+                    AgreementEntity agreementEntity = iUserClient.queryEntMakSupplementaryAgreement(makerEntity.getId(), enterpriseEntity.getId());
+                    invoiceListExcel.setBusinessContract(null != agreementEntity && null != agreementEntity.getPaperAgreementUrl() ? agreementEntity.getPaperAgreementUrl() : null);
+                }
+
+            }
+
+        }
+        Map<String, List<InvoiceListExcel>> collect = invoiceListExcels.stream().collect(Collectors.groupingBy(InvoiceListExcel::getPayer));
+        EnterpriseEntity enterpriseEntity = iUserClient.queryEnterpriseById(enterpriseId);
+        //商户名称
+
+        map.put("collect",collect);
+
+        map.put("listFile",listFile);
+        map.put("enterpriseName",enterpriseEntity.getEnterpriseName());
+        //众包支付模型
+        map.put("payType",payType);
+        //开票类目
+        map.put("invoiceType",invoiceType);
+        //状态
+        map.put("state", "编辑中");
+        AddressEntity addressEntity = addressService.getById(addressId);
+        map.put("addressId",addressId);
+        map.put("addressName",null != addressEntity && null != addressEntity.getAddressName() ? addressEntity.getAddressName() : null);
+        map.put("addressPhone",null != addressEntity && null != addressEntity.getAddressPhone() ? addressEntity.getAddressPhone() : null);
+        map.put("province",null != addressEntity && null != addressEntity.getProvince() ? addressEntity.getProvince() : null);
+        map.put("city",null != addressEntity && null != addressEntity.getCity() ? addressEntity.getCity() : null);
+        map.put("area",null != addressEntity && null != addressEntity.getArea() ? addressEntity.getArea() : null);
+        map.put("detailedAddress",null != addressEntity && null != addressEntity.getDetailedAddress() ? addressEntity.getDetailedAddress() : null);
+        return R.data(map);
+    }
+
+    @Override
+    @Transactional
+    public R naturalPersonConfirmSubmit(Long enterpriseId, NaturalPersonConfirmSubmitDto naturalPersonConfirmSubmitDto) {
+        if(!MakerType.NATURALPERSON.equals(naturalPersonConfirmSubmitDto.getMakerType())){
+            if(naturalPersonConfirmSubmitDto.getServiceProviderId() == null){
+                return R.fail("请输入服务商id");
+            }
+            if(StringUtils.isBlank(naturalPersonConfirmSubmitDto.getInvoiceCategory())){
+                return R.fail("请输入发票分类");
+            }
+        }
+        Map<String, List<InvoiceListExcelDto>> collect = naturalPersonConfirmSubmitDto.getList().stream().collect(Collectors.groupingBy(InvoiceListExcelDto::getPayer));
+        Set<String> strings = collect.keySet();
+        for (String s: strings) {
+            List<InvoiceListExcelDto> invoiceListExcelDtos = collect.get(s);
+            if(null == invoiceListExcelDtos && invoiceListExcelDtos.size() < 1){
+                return R.fail("参数错误！！");
+            }
+            SelfHelpInvoiceEntity selfHelpInvoiceEntity = new SelfHelpInvoiceEntity();
+            EnterpriseEntity enterpriseEntity = iUserClient.queryEnterpriseByName(invoiceListExcelDtos.get(0).getPayer());
+            if(null == enterpriseEntity){
+                return R.fail("购买方，必须是平台商户会员");
+            }
+            selfHelpInvoiceEntity.setEnterpriseId(enterpriseEntity.getId());
+            selfHelpInvoiceEntity.setApplyEnterpriseId(enterpriseId);
+            if(MakerType.NATURALPERSON.equals(naturalPersonConfirmSubmitDto.getMakerType())){
+                selfHelpInvoiceEntity.setMakerType(MakerType.NATURALPERSON);
+            }else if(MakerType.INDIVIDUALENTERPRISE.equals(naturalPersonConfirmSubmitDto.getMakerType())){
+
+                selfHelpInvoiceEntity.setMakerType(MakerType.INDIVIDUALENTERPRISE);
+            }else{
+                selfHelpInvoiceEntity.setMakerType(MakerType.INDIVIDUALBUSINESS);
+            }
+
+            selfHelpInvoiceEntity.setListFile(naturalPersonConfirmSubmitDto.getListFile());
+            selfHelpInvoiceEntity.setPayType(naturalPersonConfirmSubmitDto.getPayType());
+            selfHelpInvoiceEntity.setApplyNum(1);
+            selfHelpInvoiceEntity.setAddressId(naturalPersonConfirmSubmitDto.getAddressId());
+            save(selfHelpInvoiceEntity);
+            for(InvoiceListExcelDto invoiceListExcelDto : invoiceListExcelDtos){
+                SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = new SelfHelpInvoiceDetailEntity();
+                selfHelpInvoiceDetailEntity.setSelfHelpInvoiceId(selfHelpInvoiceEntity.getId());
+                selfHelpInvoiceDetailEntity.setInvoicePeopleName(invoiceListExcelDto.getInvoicePeopleName());
+                if(MakerType.NATURALPERSON.equals(naturalPersonConfirmSubmitDto.getMakerType())){
+                    selfHelpInvoiceDetailEntity.setMakerType(MakerType.NATURALPERSON);
+                    MakerEntity makerEntity = iUserClient.queryMakerByPhoneNumber(invoiceListExcelDto.getPhoneNumber());
+                    SelfHelpInvoicePersonEntity selfHelpInvoicePersonEntity = selfHelpInvoicePersonService.findCardNo(invoiceListExcelDto.getIdcardNo());
+                    if(null != makerEntity){
+                        selfHelpInvoiceDetailEntity.setMakerId(makerEntity.getId());
+                    }else if(null != selfHelpInvoicePersonEntity){
+                        selfHelpInvoiceDetailEntity.setNoneMakerInvoicePersonId(selfHelpInvoicePersonEntity.getId());
+                    }else{
+                        SelfHelpInvoicePersonEntity personEntity = new SelfHelpInvoicePersonEntity();
+                        personEntity.setIdcardNo(invoiceListExcelDto.getIdcardNo());
+                        personEntity.setIdcardName(invoiceListExcelDto.getInvoicePeopleName());
+                        personEntity.setIdcardPic(invoiceListExcelDto.getPositiveIdCard());
+                        personEntity.setIdcardPicBack(invoiceListExcelDto.getBackIdCard());
+                        personEntity.setPhoneNumber(invoiceListExcelDto.getPhoneNumber());
+                        selfHelpInvoicePersonService.save(personEntity);
+                        selfHelpInvoiceDetailEntity.setNoneMakerInvoicePersonId(personEntity.getId());
+                    }
+                }else if(MakerType.INDIVIDUALENTERPRISE.equals(naturalPersonConfirmSubmitDto.getMakerType())){
+                    MakerEntity makerEntity = iUserClient.queryMakerByPhoneNumber(invoiceListExcelDto.getPhoneNumber());
+                    IndividualBusinessEntity individualBusinessEntity = iUserClient.queryIndividualBusinessByMakerIdAndIbtaxNo(makerEntity.getId(), invoiceListExcelDto.getAloneSocialCreditCode());
+                    selfHelpInvoiceDetailEntity.setMakerType(MakerType.INDIVIDUALENTERPRISE);
+                    selfHelpInvoiceDetailEntity.setIndividualId(individualBusinessEntity.getId());
+                }else{
+                    MakerEntity makerEntity = iUserClient.queryMakerByPhoneNumber(invoiceListExcelDto.getPhoneNumber());
+                    IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.queryIndividualEnterpriseByMakerIdAndIbtaxNo(makerEntity.getId(), invoiceListExcelDto.getSocialCreditCode());
+                    selfHelpInvoiceDetailEntity.setMakerType(MakerType.INDIVIDUALBUSINESS);
+                    selfHelpInvoiceDetailEntity.setIndividualId(individualEnterpriseEntity.getId());
+                }
+                selfHelpInvoiceDetailEntity.setProjectName(invoiceListExcelDto.getProjectName());
+                selfHelpInvoiceDetailEntity.setInvoiceType(invoiceListExcelDto.getInvoiceCategory());
+                selfHelpInvoiceDetailEntity.setValueAddedTaxRate(new BigDecimal(invoiceListExcelDto.getTaxRate()));
+                selfHelpInvoiceDetailEntity.setChargeMoneyNum(new BigDecimal(invoiceListExcelDto.getTaxTotalprice()));
+                selfHelpInvoiceDetailEntity.setFlowContractUrl(invoiceListExcelDto.getPaymentReceipt());
+                selfHelpInvoiceDetailEntity.setBusinessContractUrl(invoiceListExcelDto.getBusinessContract());
+                selfHelpInvoiceDetailEntity.setServiceInvoiceFee(new BigDecimal("0"));
+                selfHelpInvoiceDetailEntity.setIdendityConfirmFee(new BigDecimal("0"));
+                selfHelpInvoiceDetailEntity.setPayProviderFee(new BigDecimal("0"));
+                selfHelpInvoiceDetailService.save(selfHelpInvoiceDetailEntity);
+            }
+        }
+        return R.fail("提交成功");
+    }
+
+    @Override
+    public R querySelfInvoiceList(Long enterpriseId, MakerType makerType,String startTiem,String endTime,IPage<SelfInvoiceListVo> page) {
+        return R.data(page.setRecords(baseMapper.querySelfInvoiceList(enterpriseId,makerType,startTiem,endTime,page)));
+    }
+
+    @Override
+    public R querySelfInvoiceDetails(Long selfHelpInvoiceId) {
+        Map map = new HashMap();
+        SelfHelpInvoiceEntity selfHelpInvoiceEntity = getById(selfHelpInvoiceId);
+        if(null == selfHelpInvoiceEntity){
+            return R.fail("请输入正确的自助开票id");
+        }
+        EnterpriseEntity enterpriseEntity = iUserClient.queryEnterpriseById(selfHelpInvoiceEntity.getApplyEnterpriseId());
+        if(null == enterpriseEntity){
+            return R.fail("数据错误！");
+        }
+        map.put("enterpriseName",enterpriseEntity.getEnterpriseName());
+        map.put("payType",selfHelpInvoiceEntity.getPayType());
+        map.put("applyState",selfHelpInvoiceEntity.getCurrentState());
+        AddressEntity addressEntity = addressService.getById(selfHelpInvoiceEntity.getAddressId());
+        map.put("addressId",selfHelpInvoiceEntity.getAddressId());
+        map.put("addressName",null != addressEntity && null != addressEntity.getAddressName() ? addressEntity.getAddressName() : null);
+        map.put("addressPhone",null != addressEntity && null != addressEntity.getAddressPhone() ? addressEntity.getAddressPhone() : null);
+        map.put("province",null != addressEntity && null != addressEntity.getProvince() ? addressEntity.getProvince() : null);
+        map.put("city",null != addressEntity && null != addressEntity.getCity() ? addressEntity.getCity() : null);
+        map.put("area",null != addressEntity && null != addressEntity.getArea() ? addressEntity.getArea() : null);
+        map.put("detailedAddress",null != addressEntity && null != addressEntity.getDetailedAddress() ? addressEntity.getDetailedAddress() : null);
+        SelfInvoiceDetailVo selfInvoiceDetailVo = baseMapper.querySelfInvoiceDetail(selfHelpInvoiceEntity.getId());
+        map.put("selfInvoiceDetailVo",selfInvoiceDetailVo);
+        //已开票结束
+        if(SelfHelpInvoiceApplyState.INVOICED.equals(selfHelpInvoiceEntity.getCurrentState()) || SelfHelpInvoiceApplyState.TOPAY.equals(selfHelpInvoiceEntity.getCurrentState()) || SelfHelpInvoiceApplyState.PAID.equals(selfHelpInvoiceEntity.getCurrentState())){
+            map.put("totalPayProviderFee",selfHelpInvoiceEntity.getTotalPayProviderFee());
+            map.put("serviceAndTaxMoney",selfHelpInvoiceEntity.getServiceAndTaxMoney());
+            map.put("serviceFee",selfHelpInvoiceEntity.getServiceFee());
+            map.put("serviceRate",selfHelpInvoiceEntity.getServiceRate());
+            map.put("serviceTax",selfHelpInvoiceEntity.getServiceTax());
+            map.put("serviceInvoiceFee",selfHelpInvoiceEntity.getServiceInvoiceFee());
+            map.put("idendityConfirmFee",selfHelpInvoiceEntity.getIdendityConfirmFee());
+            SelfHelpInvoiceFeeEntity selfHelpInvoiceFeeEntity = selfHelpInvoiceFeeService.findBySelfHelpInvoiceId(selfHelpInvoiceEntity.getId());
+            SelfHelpInvoiceAccountEntity selfHelpInvoiceAccountEntity = null;
+            if(null != selfHelpInvoiceFeeEntity){
+                 selfHelpInvoiceAccountEntity = selfHelpInvoiceAccountService.getById(selfHelpInvoiceFeeEntity.getHandPayAccountId());
+
+            }
+            map.put("selfHelpInvoiceFeeId",selfHelpInvoiceFeeEntity == null ? selfHelpInvoiceFeeEntity.getId() : "");
+            map.put("accountBank",selfHelpInvoiceAccountEntity == null ? selfHelpInvoiceAccountEntity.getAccountBank() : "");
+            map.put("accountName",selfHelpInvoiceAccountEntity == null ? selfHelpInvoiceAccountEntity.getAccountName() : "");
+            map.put("basicAccountBank",selfHelpInvoiceAccountEntity == null ? selfHelpInvoiceAccountEntity.getBasicAccountBank() : "");
+            map.put("accountNo",selfHelpInvoiceAccountEntity == null ? selfHelpInvoiceAccountEntity.getAccountNo() : "");
+            map.put("payCertificate",selfHelpInvoiceFeeEntity == null ? selfHelpInvoiceFeeEntity.getPayCertificate() : "");
+
+            if(SelfHelpInvoiceApplyState.INVOICED.equals(selfHelpInvoiceEntity.getCurrentState())){
+                SelfHelpInvoiceSpEntity selfHelpInvoiceSpEntity = selfHelpInvoiceSpService.findBySelfHelpInvoiceId(selfHelpInvoiceEntity.getId());
+                SelfHelpInvoiceExpressEntity bySelfHelpInvoiceApplyProviderId = selfHelpInvoiceExpressService.findBySelfHelpInvoiceApplyProviderId(selfHelpInvoiceSpEntity.getId());
+                String expressCompanyName = bySelfHelpInvoiceApplyProviderId.getExpressCompanyName();
+                String expressNo = bySelfHelpInvoiceApplyProviderId.getExpressNo();
+                KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
+                //查询快递
+                String orderTracesByJson = "";
+                try {
+                    orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(expressCompanyName, expressNo);
+                    Map<String,Object> maps = (Map) JSON.parse(orderTracesByJson);
+                    Boolean success = (Boolean) maps.get("Success");
+                    if(success){
+                        map.put("orderTracesByJson", maps.get("Traces"));
+                    }else{
+                        map.put("orderTracesByJson", "");
+                    }
+                } catch (Exception e) {
+                    log.info("快鸟接口访问失败");
+                    map.put("orderTracesByJson", "");
+                }
+            }
+        }
+        return R.data(map);
+    }
+
+    @Override
+    @Transactional
+    public R submitSelfHelpInvoice(Long enterpriseId, Long selfHelpInvoiceId) {
+        SelfHelpInvoiceEntity selfHelpInvoiceEntity = getById(selfHelpInvoiceId);
+        if(null == selfHelpInvoiceEntity){
+            return R.fail("请输入正确的开票id");
+        }
+        selfHelpInvoiceEntity.setCurrentState(SelfHelpInvoiceApplyState.AUDITING);
+        saveOrUpdate(selfHelpInvoiceEntity);
+        List<SelfHelpInvoiceDetailEntity> selfHelpInvoiceDetailEntities = selfHelpInvoiceDetailService.querySelfHelpInvoiceId(selfHelpInvoiceId);
+        for (SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity : selfHelpInvoiceDetailEntities) {
+            selfHelpInvoiceDetailEntity.setInvoicePrintState(SelfHelpInvoiceApplyState.AUDITING);
+            selfHelpInvoiceDetailService.saveOrUpdate(selfHelpInvoiceDetailEntity);
+        }
+        SelfHelpInvoiceApplyEntity selfHelpInvoiceApplyEntity = new SelfHelpInvoiceApplyEntity();
+        selfHelpInvoiceApplyEntity.setSelfHelpInvoiceId(selfHelpInvoiceId);
+        selfHelpInvoiceApplyEntity.setApplyState(SelfHelpInvoiceApplyState.AUDITING);
+        selfHelpInvoiceApplyEntity.setApplyDesc("");
+        selfHelpInvoiceApplyService.save(selfHelpInvoiceApplyEntity);
+        return R.fail("提交成功");
+    }
+
+    @Override
+    @Transactional
+    public R confirmModification(Long enterpriseId, Long selfHelpInvoiceId, List<ModificationDto> list) {
+        SelfHelpInvoiceEntity selfHelpInvoiceEntity = getById(selfHelpInvoiceId);
+        if(null == selfHelpInvoiceEntity){
+            return R.fail("请输入正确的开票id");
+        }
+        for (ModificationDto modificationDto : list) {
+            SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = selfHelpInvoiceDetailService.getById(modificationDto.getSelfHelpInvoiceDetailId());
+            Long makerId = selfHelpInvoiceDetailEntity.getMakerId();
+            if(MakerType.NATURALPERSON.equals(selfHelpInvoiceEntity.getMakerType())){
+                if(null != makerId){
+                    selfHelpInvoiceDetailEntity.setFlowContractUrl(modificationDto.getPaymentReceipt());
+                    selfHelpInvoiceDetailEntity.setBusinessContractUrl(modificationDto.getBusinessContract());
+                    selfHelpInvoiceDetailService.saveOrUpdate(selfHelpInvoiceDetailEntity);
+                }
+                Long noneMakerInvoicePersonId = selfHelpInvoiceDetailEntity.getNoneMakerInvoicePersonId();
+                if(null != noneMakerInvoicePersonId){
+                    selfHelpInvoiceDetailEntity.setFlowContractUrl(modificationDto.getPaymentReceipt());
+                    selfHelpInvoiceDetailEntity.setBusinessContractUrl(modificationDto.getBusinessContract());
+                    selfHelpInvoiceDetailService.saveOrUpdate(selfHelpInvoiceDetailEntity);
+                    SelfHelpInvoicePersonEntity selfHelpInvoicePersonEntity = selfHelpInvoicePersonService.getById(noneMakerInvoicePersonId);
+                    selfHelpInvoicePersonEntity.setIdcardPicBack(modificationDto.getBackIdCard());
+                    selfHelpInvoicePersonEntity.setIdcardPic(modificationDto.getPositiveIdCard());
+                    selfHelpInvoicePersonService.saveOrUpdate(selfHelpInvoicePersonEntity);
+                }
+            }else if(MakerType.INDIVIDUALENTERPRISE.equals(selfHelpInvoiceEntity.getMakerType())){
+                selfHelpInvoiceDetailEntity.setBusinessContractUrl(modificationDto.getBusinessContract());
+                selfHelpInvoiceDetailEntity.setFlowContractUrl(modificationDto.getPaymentReceipt());
+                selfHelpInvoiceDetailService.saveOrUpdate(selfHelpInvoiceDetailEntity);
+            }else{
+                selfHelpInvoiceDetailEntity.setBusinessContractUrl(modificationDto.getBusinessContract());
+                selfHelpInvoiceDetailEntity.setFlowContractUrl(modificationDto.getPaymentReceipt());
+                selfHelpInvoiceDetailService.saveOrUpdate(selfHelpInvoiceDetailEntity);
+            }
+
+        }
+        return R.success("修改成功");
+    }
+
+    @Override
+    public R confirmPayment(Long enterpriseId, Long selfHelpInvoiceId,Long selfHelpInvoiceFeeId, String payCertificate) {
+        SelfHelpInvoiceEntity selfHelpInvoiceEntity = getById(selfHelpInvoiceId);
+        if(null == selfHelpInvoiceEntity){
+            return R.fail("请输入正确的开票id");
+        }
+        SelfHelpInvoiceFeeEntity selfHelpInvoiceFeeEntity = selfHelpInvoiceFeeService.getById(selfHelpInvoiceFeeId);
+        selfHelpInvoiceFeeEntity.setPayCertificate(payCertificate);
+        selfHelpInvoiceFeeService.saveOrUpdate(selfHelpInvoiceFeeEntity);
+        return R.success("确认支付成功");
+    }
+
+    @Override
+    public R individualPersonSubmitForm(Long enterpriseId, String listFile, Long serviceProviderId, String invoiceCategory, CrowdSourcingPayType payType, String invoiceType, Long addressId) {
+        return null;
     }
 
 }

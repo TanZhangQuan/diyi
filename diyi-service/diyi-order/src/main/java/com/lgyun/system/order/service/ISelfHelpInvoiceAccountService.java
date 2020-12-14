@@ -18,5 +18,6 @@ public interface ISelfHelpInvoiceAccountService extends BaseService<SelfHelpInvo
      * @return
      */
     SelfHelpInvoiceAccountVO immediatePayment();
+
 }
 

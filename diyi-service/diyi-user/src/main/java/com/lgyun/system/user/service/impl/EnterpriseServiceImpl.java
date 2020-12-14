@@ -25,6 +25,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Service 实现
  *
@@ -395,6 +397,18 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     @Override
     public R<EnterprisesDetailPartnerVO> queryEnterpriseDetailPartner(Long enterpriseId) {
         return R.data(baseMapper.queryEnterpriseDetailPartner(enterpriseId));
+    }
+
+    @Override
+    public EnterpriseEntity queryEnterpriseName(String enterpriseName) {
+        QueryWrapper<EnterpriseEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(EnterpriseEntity::getEnterpriseName, enterpriseName);
+        List<EnterpriseEntity> enterpriseEntities = baseMapper.selectList(queryWrapper);
+        if(null != enterpriseEntities && enterpriseEntities.size() > 0){
+            return enterpriseEntities.get(0);
+        }
+        return null;
+
     }
 
 }

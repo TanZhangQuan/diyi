@@ -1,7 +1,5 @@
 package com.lgyun.system.order.controller.maker;
 
-import com.alibaba.excel.EasyExcel;
-import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.ObjectType;
@@ -10,9 +8,6 @@ import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.order.dto.AddOrUpdateAddressDTO;
 import com.lgyun.system.order.dto.ConfirmPaymentDTO;
-import com.lgyun.system.order.dto.SelfHelpInvoiceDTO;
-import com.lgyun.system.order.excel.InvoiceListExcel;
-import com.lgyun.system.order.excel.InvoiceListListener;
 import com.lgyun.system.order.service.IAddressService;
 import com.lgyun.system.order.service.ISelfHelpInvoiceAccountService;
 import com.lgyun.system.order.service.ISelfHelpInvoiceDetailService;
@@ -21,19 +16,11 @@ import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 @RestController
 @RequestMapping("/maker/self-help-invoice")
@@ -72,35 +59,6 @@ public class SelfHelpInvoiceMakerController {
         MakerEntity makerEntity = result.getData();
 
         return addressService.queryAddressList(ObjectType.MAKERPEOPLE, makerEntity.getId(), Condition.getPage(query.setDescs("create_time")));
-    }
-
-    @PostMapping("/submit-self-help-invoice")
-    @ApiOperation(value = "创客提交自助开票", notes = "创客提交自助开票")
-    @Transactional(rollbackFor = Exception.class)
-    public R submitSelfHelpInvoice(@ApiParam(value = "文件", required = true) @NotNull(message = "请选择Excel文件") @RequestParam(required = false) MultipartFile file,
-                                   @Valid @RequestBody SelfHelpInvoiceDTO selfHelpInvoiceDto, BladeUser bladeUser) throws IOException {
-        //查询当前创客
-        R<MakerEntity> result = userClient.currentMaker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        MakerEntity makerEntity = result.getData();
-        //判断文件内容是否为空
-        if (file == null || file.isEmpty()) {
-            return R.fail("Excel文件为空");
-        }
-        selfHelpInvoiceDto.setObjectType(ObjectType.MAKERPEOPLE);
-        selfHelpInvoiceDto.setObjectId(makerEntity.getId());
-        // 查询上传文件的后缀
-        String suffix = file.getOriginalFilename();
-        if ((!StringUtils.endsWithIgnoreCase(suffix, ".xls") && !StringUtils.endsWithIgnoreCase(suffix, ".xlsx"))) {
-            return R.fail("请选择Excel文件");
-        }
-        InvoiceListListener makerImportListener = new InvoiceListListener(selfHelpInvoiceDto, selfHelpInvoiceDetailService);
-        InputStream inputStream = new BufferedInputStream(file.getInputStream());
-        ExcelReaderBuilder builder = EasyExcel.read(inputStream, InvoiceListExcel.class, makerImportListener);
-        builder.doReadAll();
-        return R.success("申请成功");
     }
 
     @GetMapping("/immediate-payment")

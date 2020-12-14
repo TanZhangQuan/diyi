@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.SelfHelpInvoiceSpApplyState;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDetailsByServiceProviderDTO;
-import com.lgyun.system.order.dto.SelfHelpInvoicesByEnterpriseDTO;
+//import com.lgyun.system.order.dto.SelfHelpInvoicesByEnterpriseDTO;
 import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
 import com.lgyun.system.order.vo.*;
 import org.apache.ibatis.annotations.Mapper;
@@ -21,16 +21,16 @@ import java.util.List;
 @Mapper
 public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity> {
 
-    /**
-     * 查询条件查询所有自助开票记录
-     *
-     * @param enterpriseId
-     * @param makerType
-     * @param selfHelpInvoicesByEnterpriseDto
-     * @param page
-     * @return
-     */
-    List<SelfHelpInvoiceListByEnterpriseVO> getSelfHelfInvoicesByEnterprise(Long enterpriseId, MakerType makerType, SelfHelpInvoicesByEnterpriseDTO selfHelpInvoicesByEnterpriseDto, IPage<SelfHelpInvoiceListByEnterpriseVO> page);
+//    /**
+//     * 查询条件查询所有自助开票记录
+//     *
+//     * @param enterpriseId
+//     * @param makerType
+//     * @param selfHelpInvoicesByEnterpriseDto
+//     * @param page
+//     * @return
+//     */
+//    List<SelfHelpInvoiceListByEnterpriseVO> getSelfHelfInvoicesByEnterprise(Long enterpriseId, MakerType makerType, SelfHelpInvoicesByEnterpriseDTO selfHelpInvoicesByEnterpriseDto, IPage<SelfHelpInvoiceListByEnterpriseVO> page);
 
     /**
      * 查询当前商户某条自助开票记录详情
@@ -218,6 +218,22 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
      * @return
      */
     List<SelfHelpInvoiceDetailProviderVO> querySelfHelpInvoicePeopleList(Long selfHelpvoiceId, IPage<SelfHelpInvoiceDetailProviderVO> page);
+
+
+    /**
+     *商户查询自助开票
+     */
+    List<SelfInvoiceListVo> querySelfInvoiceList(Long enterpriseId, MakerType makerType,String startTiem,String endTime,IPage<SelfInvoiceListVo> page);
+
+//    /**
+//     *
+//     */
+//    SelfInvoiceDetailVo querySelfInvoiceDetails(Long selfHelpInvoiceId);
+
+    /**
+     *
+     */
+    SelfInvoiceDetailVo querySelfInvoiceDetail(Long selfHelpInvoiceId);
 
 }
 

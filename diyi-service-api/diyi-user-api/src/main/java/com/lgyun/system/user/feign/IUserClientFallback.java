@@ -233,4 +233,19 @@ public class IUserClientFallback implements IUserClient {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 
+    @Override
+    public AgreementEntity queryEntMakSupplementaryAgreement(Long makerId, Long enterpriseId) {
+        throw new CustomException("网络繁忙，请稍后尝试");
+    }
+
+    @Override
+    public EnterpriseEntity queryEnterpriseById(Long enterpriseId) {
+        throw new CustomException("网络繁忙，请稍后尝试");
+    }
+
+    @Override
+    public EnterpriseEntity queryEnterpriseByName(String enterpriseName) {
+        throw new CustomException("网络繁忙，请稍后尝试");
+    }
+
 }

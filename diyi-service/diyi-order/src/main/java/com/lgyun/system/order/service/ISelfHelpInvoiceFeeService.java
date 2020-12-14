@@ -20,5 +20,8 @@ public interface ISelfHelpInvoiceFeeService extends BaseService<SelfHelpInvoiceF
      * @return
      */
     R<String> confirmPayment(ConfirmPaymentDTO confirmPaymentDto);
+
+
+    SelfHelpInvoiceFeeEntity findBySelfHelpInvoiceId(Long selfHelpInvoiceId);
 }
 
