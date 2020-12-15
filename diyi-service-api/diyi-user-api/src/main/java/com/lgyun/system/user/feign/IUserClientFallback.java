@@ -134,7 +134,7 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public R<AdminEntity> adminDeal(String phoneNumber, String userName, String password, GrantType grantType) {
+    public R<AdminEntity> adminDeal(String account, String password, GrantType grantType) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 

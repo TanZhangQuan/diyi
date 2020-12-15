@@ -10,10 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 
@@ -27,16 +24,16 @@ public class RelBureauAdminController {
     private IUserClient userClient;
     private IPayEnterpriseService payEnterpriseService;
 
-    @PostMapping("/query-rel-bureau-service-provider-transaction")
-    @ApiOperation(value = "查询相关局-服务商交易情况数据", notes = "查询相关局-服务商交易情况数据")
-    public R queryRelBureauServiceProviderTransaction(@ApiParam("相关局") @NotNull(message = "请选择相关局") @RequestParam(required = false) Long relBureauId, BladeUser bladeUser) {
+    @GetMapping("/query-rel-bureau-transaction")
+    @ApiOperation(value = "查询相关局交易情况数据", notes = "查询相关局交易情况数据")
+    public R queryRelBureauTransaction(@ApiParam("相关局") @NotNull(message = "请选择相关局") @RequestParam(required = false) Long relBureauId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return payEnterpriseService.queryRelBureauServiceProviderTransaction(relBureauId);
+        return payEnterpriseService.queryRelBureauTransaction(relBureauId);
     }
 
 }

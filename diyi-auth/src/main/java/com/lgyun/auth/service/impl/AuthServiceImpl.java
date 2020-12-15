@@ -132,7 +132,7 @@ public class AuthServiceImpl implements IAuthService {
 
             case ADMIN:
                 // 管理员处理
-                R<AdminEntity> adminResult = userClient.adminDeal(mobile, "", "", GrantType.MOBILE);
+                R<AdminEntity> adminResult = userClient.adminDeal(mobile, "", GrantType.MOBILE);
                 if (!(adminResult.isSuccess())) {
                     return adminResult;
                 }
@@ -283,7 +283,7 @@ public class AuthServiceImpl implements IAuthService {
 
             case ADMIN:
                 //管理员处理
-                R<AdminEntity> adminResult = userClient.adminDeal("", account, encrypt, GrantType.PASSWORD);
+                R<AdminEntity> adminResult = userClient.adminDeal(account, encrypt, GrantType.PASSWORD);
                 if (!(adminResult.isSuccess())) {
                     return adminResult;
                 }
@@ -623,7 +623,7 @@ public class AuthServiceImpl implements IAuthService {
 
             case ADMIN:
                 //管理员处理
-                R<AdminEntity> adminResult = userClient.adminDeal(mobile, "", newPassword, GrantType.UPDATEPASSWORD);
+                R<AdminEntity> adminResult = userClient.adminDeal(mobile, newPassword, GrantType.UPDATEPASSWORD);
                 if (!(adminResult.isSuccess())) {
                     return adminResult;
                 }

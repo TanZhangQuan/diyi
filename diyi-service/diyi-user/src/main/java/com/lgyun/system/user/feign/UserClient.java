@@ -153,14 +153,14 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R<AdminEntity> adminDeal(String phoneNumber, String userName, String password, GrantType grantType) {
+    public R<AdminEntity> adminDeal(String account, String password, GrantType grantType) {
 
         AdminEntity adminEntity;
         switch (grantType) {
 
             case PASSWORD:
                 //根据账号密码查询管理员
-                adminEntity = adminService.findByUserNameAndLoginPwd(userName, password);
+                adminEntity = adminService.findByUserNameAndLoginPwd(account, password);
                 if (adminEntity == null) {
                     return R.fail("账号或密码错误");
                 }
@@ -173,7 +173,7 @@ public class UserClient implements IUserClient {
 
             case MOBILE:
                 //根据手机号查询管理员
-                adminEntity = adminService.findByPhoneNumber(phoneNumber);
+                adminEntity = adminService.findByPhoneNumber(account);
                 if (adminEntity == null) {
                     return R.fail("手机号未注册");
                 }
@@ -186,7 +186,7 @@ public class UserClient implements IUserClient {
 
             case UPDATEPASSWORD:
                 //修改管理员密码
-                adminEntity = adminService.findByPhoneNumber(phoneNumber);
+                adminEntity = adminService.findByPhoneNumber(account);
                 if (adminEntity == null) {
                     return R.fail("手机号未注册");
                 }

@@ -9,6 +9,7 @@ import com.lgyun.system.user.vo.MakerEnterpriseNumIncomeVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,23 +41,17 @@ public interface PayMakerMapper extends BaseMapper<PayMakerEntity> {
     AllIncomeYearMonthVO queryTotalSubNumAndAllIncome(MakerType makerType, Long makerId, Long year, Long month);
 
     /**
-     * 根据创客类型查询当前创客总包+分包的每年收入
+     * 查询创客总包+分包收入
      *
      * @param makerType
      * @param makerId
-     * @return
-     */
-    IncomeYearVO queryEveryYearTotalSubIncome(MakerType makerType, Long makerId);
-
-    /**
-     * 根据创客类型，年份查询每月收入
-     *
-     * @param makerType
-     * @param makerId
+     * @param timeType
      * @param year
+     * @param beginDate
+     * @param endDate
      * @return
      */
-    YearTradeVO queryEveryMonthTotalSubIncome(MakerType makerType, Long makerId, Long year);
+    List<TradeVO> queryTotalSubMakerIncome(MakerType makerType, Long makerId, String timeType, Date year, Date beginDate, Date endDate);
 
     /**
      * 根据创客类型，年份，月份（可选）查询创客对应商户总包+分包的收入金额

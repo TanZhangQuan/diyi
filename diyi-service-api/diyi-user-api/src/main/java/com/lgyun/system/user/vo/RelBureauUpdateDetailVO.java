@@ -2,7 +2,6 @@ package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.lgyun.common.enumeration.PositionName;
 import com.lgyun.common.enumeration.RelBureauType;
 import lombok.Data;
 
@@ -61,7 +60,7 @@ public class RelBureauUpdateDetailVO implements Serializable {
     /**
      * 联系人职位
      */
-    private PositionName contactPosition;
+    private String contactPosition;
 
     /**
      * 联系手机号

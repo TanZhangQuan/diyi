@@ -70,7 +70,7 @@ public class RelBureauFileServiceImpl extends BaseServiceImpl<RelBureauFileMappe
     }
 
     @Override
-    public R<IPage<RelBureauFileListVO>> queryRelBureauFileList(Long relBureauId, boolean boolrelBureau, RelBureauNoticeFileListDTO relBureauNoticeFileListDTO, IPage<RelBureauFileListVO> page) {
+    public R<IPage<RelBureauFileListVO>> queryRelBureauFileList(Long relBureauId, Boolean boolrelBureau, RelBureauNoticeFileListDTO relBureauNoticeFileListDTO, IPage<RelBureauFileListVO> page) {
         
         if (relBureauNoticeFileListDTO.getBeginDate() != null && relBureauNoticeFileListDTO.getEndDate() != null) {
             if (relBureauNoticeFileListDTO.getBeginDate().after(relBureauNoticeFileListDTO.getEndDate())) {

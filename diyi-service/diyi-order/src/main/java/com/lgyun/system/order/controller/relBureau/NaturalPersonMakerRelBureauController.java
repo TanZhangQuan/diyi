@@ -25,7 +25,7 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/rel-bureau/natural-person-maker")
 @Validated
 @AllArgsConstructor
-@Api(value = "平台端---自然人创客管理模块相关接口", tags = "平台端---自然人创客管理模块相关接口")
+@Api(value = "相关局端---自然人创客管理模块相关接口", tags = "相关局端---自然人创客管理模块相关接口")
 public class NaturalPersonMakerRelBureauController {
 
     private IUserClient userClient;

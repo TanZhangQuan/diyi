@@ -7,9 +7,11 @@ import com.lgyun.system.order.dto.PayEnterpriseDTO;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.dto.PayEnterpriseListSimpleDTO;
+import com.lgyun.system.order.vo.TotalCrowdTradeListVO;
 import com.lgyun.system.user.vo.TransactionVO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -140,80 +142,25 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
     TransactionVO queryPartnerEnterpriseTransaction(Long partnerId);
 
     /**
-     * 查询相关局-服务商交易情况数据
+     * 查询相关局交易情况数据
      *
      * @param relBureauId
      * @return
      */
-    TransactionVO queryRelBureauServiceProviderTransaction(Long relBureauId);
+    TransactionVO queryRelBureauTransaction(Long relBureauId);
 
     /**
-     * 查询商户总包+分包全年流水
+     * 查询总包+分包流水
      *
      * @param enterpriseId
-     * @return
-     */
-    YearTradeVO queryTotalSubYearTradeByEnterprise(Long enterpriseId);
-
-    /**
-     * 查询服务商总包+分包全年流水
-     *
      * @param serviceProviderId
      * @param relBureauId
+     * @param timeType
+     * @param beginDate
+     * @param endDate
      * @return
      */
-    YearTradeVO queryTotalSubYearTradeByServiceProvider(Long serviceProviderId, Long relBureauId);
-
-    /**
-     * 查询商户总包+分包本月流水
-     *
-     * @param enterpriseId
-     * @return
-     */
-    MonthTradeVO queryTotalSubMonthTradeByEnterprise(Long enterpriseId);
-
-    /**
-     * 查询服务商总包+分包本月流水
-     *
-     * @param serviceProviderId
-     * @param relBureauId
-     * @return
-     */
-    MonthTradeVO queryTotalSubMonthTradeByServiceProvider(Long serviceProviderId, Long relBureauId);
-
-    /**
-     * 查询商户总包+分包本周流水
-     *
-     * @param enterpriseId
-     * @return
-     */
-    WeekTradeVO queryTotalSubWeekTradeByEnterprise(Long enterpriseId);
-
-    /**
-     * 查询服务商总包+分包本周流水
-     *
-     * @param serviceProviderId
-     * @param relBureauId
-     * @return
-     */
-    WeekTradeVO queryTotalSubWeekTradeByServiceProvider(Long serviceProviderId, Long relBureauId);
-
-    /**
-     * 查询商户总包+分包今日流水
-     *
-     * @param enterpriseId
-     * @return
-     */
-    DayTradeVO queryTotalSubDayTradeByEnterprise(Long enterpriseId);
-
-    /**
-     * 查询服务商总包+分包今日流水
-     *
-     * @param serviceProviderId
-     * @param relBureauId
-     * @return
-     */
-    DayTradeVO queryTotalSubDayTradeByServiceProvider(Long serviceProviderId, Long relBureauId);
+    List<TradeVO> queryTotalSubTrade(Long enterpriseId, Long serviceProviderId, Long relBureauId, String timeType, Date beginDate, Date endDate);
 
     /**
      * 服务商查询未开总包发票
@@ -324,5 +271,14 @@ public interface PayEnterpriseMapper extends BaseMapper<PayEnterpriseEntity> {
      * @return
      */
     PayEnterpriseExpressVO queryPayEnterpriseExpress(Long payEnterpriseId);
+
+    /**
+     * 查询相关局总包+分包列表
+     *
+     * @param relBureauId
+     * @param page
+     * @return
+     */
+    List<TotalCrowdTradeListVO> queryRelBureauTotalSublist(Long relBureauId, IPage<TotalCrowdTradeListVO> page);
 }
 

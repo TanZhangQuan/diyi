@@ -16,13 +16,13 @@ public class AddOrUpdateRelBureauFileDTO {
      * 监督文件标题
      */
     @NotBlank(message = "请输入监督文件标题")
-    private String filesTitle;
+    private String fileTitle;
 
     /**
      * 监督文件摘要
      */
     @NotBlank(message = "请输入监督文件摘要")
-    private String filesDesc;
+    private String fileDesc;
 
     /**
      * 监督文件文件

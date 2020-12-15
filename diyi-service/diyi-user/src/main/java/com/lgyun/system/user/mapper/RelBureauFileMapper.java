@@ -37,7 +37,7 @@ public interface RelBureauFileMapper extends BaseMapper<RelBureauFileEntity> {
      * @param page
      * @return
      */
-    List<RelBureauFileListVO> queryRelBureauFileList(Long relBureauId, boolean boolrelBureau, RelBureauNoticeFileListDTO relBureauNoticeFileListDTO, IPage<RelBureauFileListVO> page);
+    List<RelBureauFileListVO> queryRelBureauFileList(Long relBureauId, Boolean boolrelBureau, RelBureauNoticeFileListDTO relBureauNoticeFileListDTO, IPage<RelBureauFileListVO> page);
 
     /**
      * 查询相关局监督文件详情

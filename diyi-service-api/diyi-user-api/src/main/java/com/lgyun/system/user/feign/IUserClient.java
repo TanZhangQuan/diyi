@@ -235,14 +235,13 @@ public interface IUserClient {
     /**
      * 管理员处理
      *
-     * @param phoneNumber
-     * @param userName
+     * @param account
      * @param password
      * @param grantType
      * @return
      */
     @PostMapping(API_PREFIX + "/admin-deal")
-    R<AdminEntity> adminDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("userName") String userName, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
+    R<AdminEntity> adminDeal(@RequestParam("account") String account, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 创客处理

@@ -45,7 +45,7 @@ public interface IRelBureauFileService extends BaseService<RelBureauFileEntity> 
      * @param page
      * @return
      */
-    R<IPage<RelBureauFileListVO>> queryRelBureauFileList(Long relBureauId, boolean boolrelBureau, RelBureauNoticeFileListDTO relBureauNoticeFileListDTO, IPage<RelBureauFileListVO> page);
+    R<IPage<RelBureauFileListVO>> queryRelBureauFileList(Long relBureauId, Boolean boolrelBureau, RelBureauNoticeFileListDTO relBureauNoticeFileListDTO, IPage<RelBureauFileListVO> page);
 
     /**
      * 查询相关局监督文件详情

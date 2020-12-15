@@ -1380,14 +1380,14 @@ CREATE TABLE `diyi_rel_bureau_file` (
 DROP TABLE IF EXISTS `diyi_rel_bureau_file_read`;
 CREATE TABLE `diyi_rel_bureau_file_read` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `rel_bureau_files_id` bigint(50) NOT NULL COMMENT '通知ID',
+  `rel_bureau_file_id` bigint(50) NOT NULL COMMENT '通知ID',
   `servicer_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
   `servicer_provider_worker_id` bigint(50) NOT NULL COMMENT '服务商员工ID',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`rel_bureau_files_id`,`servicer_provider_worker_id`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`rel_bureau_file_id`,`servicer_provider_worker_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='相关局监管文件阅读管理表';
 
 -- ----------------------------

@@ -34,6 +34,9 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
+
+
+
     <select id="queryRelBureauFileUpdateDetail" resultMap="relBureauFileUpdateDetailVO">
         SELECT id, file_title, file_desc, file_url, contact_person, contact_phone, contact_wechat FROM diyi_rel_bureau_file
         WHERE bool_deleted = 0 AND id = #{param1}
@@ -43,10 +46,10 @@
         SELECT t1.id, t1.file_title, t1.file_desc, t1.file_state, t1.publish_datetime, t1.create_time FROM diyi_rel_bureau_file t1 WHERE t1.bool_deleted = 0
         AND t1.rel_bureau_id = #{param1}
         <if test="param2 == null or param2 == false">
-            AND (t1.notice_state = 'PUBLISHED' OR t1.notice_state = 'HAVEREAD')
+            AND (t1.file_state = 'PUBLISHED' OR t1.file_state = 'HAVEREAD')
         </if>
         <if test="param3.title != null and param3.title.trim() != ''">
-            AND t1.notice_title LIKE concat('%', #{param3.title}, '%')
+            AND t1.file_title LIKE concat('%', #{param3.title}, '%')
         </if>
         <if test="param3.beginDate != null">
             AND DATEDIFF(t1.create_time, #{param3.beginDate}) <![CDATA[ >= ]]> 0

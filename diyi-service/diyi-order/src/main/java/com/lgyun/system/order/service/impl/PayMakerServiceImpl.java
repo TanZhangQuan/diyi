@@ -60,13 +60,13 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
     }
 
     @Override
-    public R<IncomeYearVO> queryEveryYearTotalSubIncome(MakerType makerType, Long makerId) {
-        return R.data(baseMapper.queryEveryYearTotalSubIncome(makerType, makerId));
-    }
+    public R<List<TradeVO>> queryTotalSubMakerIncome(MakerType makerType, Long makerId, TimeType timeType, Date year, Date beginDate, Date endDate) {
 
-    @Override
-    public R<YearTradeVO> queryEveryMonthTotalSubIncome(MakerType makerType, Long makerId, Long year) {
-        return R.data(baseMapper.queryEveryMonthTotalSubIncome(makerType, makerId, year));
+        if (TimeType.PERIOD.equals(timeType) && (beginDate == null || endDate == null)){
+            return R.fail("请选择开始时间和结束时间");
+        }
+
+        return R.data(baseMapper.queryTotalSubMakerIncome(makerType, makerId, timeType.getValue(), year, beginDate, endDate));
     }
 
     @Override

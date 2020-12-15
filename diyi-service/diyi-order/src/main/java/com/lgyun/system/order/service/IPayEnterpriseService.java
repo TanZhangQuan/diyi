@@ -2,19 +2,18 @@ package com.lgyun.system.order.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.CompanyInvoiceState;
-import com.lgyun.common.enumeration.InvoiceMode;
-import com.lgyun.common.enumeration.MakerInvoiceType;
-import com.lgyun.common.enumeration.PayEnterpriseAuditState;
+import com.lgyun.common.enumeration.*;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.dto.*;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.excel.PayEnterpriseExcel;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.dto.PayEnterpriseListSimpleDTO;
+import com.lgyun.system.order.vo.TotalCrowdTradeListVO;
 import com.lgyun.system.user.vo.TransactionVO;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -180,80 +179,33 @@ public interface IPayEnterpriseService extends BaseService<PayEnterpriseEntity> 
     R<TransactionVO> queryPartnerEnterpriseTransaction(Long partnerId);
 
     /**
-     * 查询相关局-服务商交易情况数据
+     * 查询相关局交易情况数据
      *
      * @param relBureauId
      * @return
      */
-    R<TransactionVO> queryRelBureauServiceProviderTransaction(Long relBureauId);
+    R<TransactionVO> queryRelBureauTransaction(Long relBureauId);
 
     /**
-     * 查询商户总包+分包全年流水
+     * 查询总包+分包流水
      *
      * @param enterpriseId
+     * @param serviceProviderId
+     * @param relBureauId
+     * @param timeType
+     * @param beginDate
+     * @param endDate
      * @return
      */
-    R<YearTradeVO> queryTotalSubYearTradeByEnterprise(Long enterpriseId);
+    R<List<TradeVO>> queryTotalSubTrade(Long enterpriseId, Long serviceProviderId, Long relBureauId, TimeType timeType, Date beginDate, Date endDate);
 
     /**
-     * 查询服务商总包+分包全年流水
+     * 查询相关局总包+分包列表
      *
-     * @param serviceProviderId
      * @param relBureauId
      * @return
      */
-    R<YearTradeVO> queryTotalSubYearTradeByServiceProvider(Long serviceProviderId, Long relBureauId);
-
-    /**
-     * 查询商户总包+分包本月流水
-     *
-     * @param enterpriseId
-     * @return
-     */
-    R<MonthTradeVO> queryTotalSubMonthTradeByEnterprise(Long enterpriseId);
-
-    /**
-     * 查询服务商总包+分包本月流水
-     *
-     * @param serviceProviderId
-     * @param relBureauId
-     * @return
-     */
-    R<MonthTradeVO> queryTotalSubMonthTradeByServiceProvider(Long serviceProviderId, Long relBureauId);
-
-    /**
-     * 查询商户总包+分包本周流水
-     *
-     * @param enterpriseId
-     * @return
-     */
-    R<WeekTradeVO> queryTotalSubWeekTradeByEnterprise(Long enterpriseId);
-
-    /**
-     * 查询服务商总包+分包本周流水
-     *
-     * @param serviceProviderId
-     * @param relBureauId
-     * @return
-     */
-    R<WeekTradeVO> queryTotalSubWeekTradeByServiceProvider(Long serviceProviderId, Long relBureauId);
-
-    /**
-     * 查询商户总包+分包今日流水
-     *
-     * @param enterpriseId
-     * @return
-     */
-    R<DayTradeVO> queryTotalSubDayTradeByEnterprise(Long enterpriseId);
-
-    /**
-     * 查询服务商总包+分包今日流水
-     *
-     * @param serviceProviderId
-     * @param relBureauId
-     * @return
-     */
-    R<DayTradeVO> queryTotalSubDayTradeByServiceProvider(Long serviceProviderId, Long relBureauId);
+    R<IPage<TotalCrowdTradeListVO>> queryRelBureauTotalSublist(Long relBureauId, IPage<TotalCrowdTradeListVO> page);
 
     /**
      * 服务商查询总包发票列表

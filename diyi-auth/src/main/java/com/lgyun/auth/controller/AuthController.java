@@ -34,7 +34,7 @@ public class AuthController {
     }
 
     @PostMapping("/password-login")
-    @ApiOperation(value = "账号密码登录", notes = "账号密码登录")
+    @ApiOperation(value = "手机号/用户名, 密码登录", notes = "手机号/用户名, 密码登录")
     public R passwordLogin(@Valid @RequestBody PasswordLoginDTO passwordLoginDto) throws Exception {
         return authService.passwordLogin(passwordLoginDto);
     }
