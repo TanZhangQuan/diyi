@@ -72,11 +72,11 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
     /**
      * 添加服务商
      *
-     * @param addServiceProviderDTO
+     * @param createServiceProviderDTO
      * @param adminEntity
      * @return
      */
-    R<String> createServiceProvider(AddServiceProviderDTO addServiceProviderDTO, AdminEntity adminEntity);
+    R<String> createServiceProvider(CreateServiceProviderDTO createServiceProviderDTO, AdminEntity adminEntity);
 
     /**
      * 编辑服务商
