@@ -61,9 +61,9 @@ public class RelBureauServiceImpl extends BaseServiceImpl<RelBureauMapper, RelBu
     }
 
     @Override
-    public RelBureauEntity findByEmployeeUserNameAndEmployeePwd(String relBureauUserName, String relBureauPwd, RelBureauType relBureauType) {
+    public RelBureauEntity findByAccountAndPwd(String account, String relBureauPwd, RelBureauType relBureauType) {
         QueryWrapper<RelBureauEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(RelBureauEntity::getRelBureauUserName, relBureauUserName)
+        queryWrapper.lambda().eq(RelBureauEntity::getRelBureauUserName, account)
                 .eq(RelBureauEntity::getRelBureauPwd, relBureauPwd)
                 .eq(RelBureauEntity::getRelBureauType, relBureauType);
         return baseMapper.selectOne(queryWrapper);

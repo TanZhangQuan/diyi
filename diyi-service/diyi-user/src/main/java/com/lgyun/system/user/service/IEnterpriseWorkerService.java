@@ -49,12 +49,13 @@ public interface IEnterpriseWorkerService extends BaseService<EnterpriseWorkerEn
     EnterpriseWorkerEntity findByPhoneNumber(String phoneNumber);
 
     /**
-     * 根据用户名密码查询商户员工
+     * 根据手机号/用户名，密码查询商户员工
      *
-     * @param
+     * @param account
+     * @param employeePwd
      * @return
      */
-    EnterpriseWorkerEntity findByEmployeeUserNameAndEmployeePwd(String employeeUserName, String employeePwd);
+    EnterpriseWorkerEntity findByAccountAndPwd(String account, String employeePwd);
 
     /**
      * 根据手机号码查询商户员工是否存在

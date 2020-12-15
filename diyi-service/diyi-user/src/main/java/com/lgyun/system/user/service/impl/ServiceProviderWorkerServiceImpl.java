@@ -101,9 +101,9 @@ public class ServiceProviderWorkerServiceImpl extends BaseServiceImpl<ServicePro
     }
 
     @Override
-    public ServiceProviderWorkerEntity findByEmployeeUserNameAndEmployeePwd(String employeeUserName, String employeePwd) {
+    public ServiceProviderWorkerEntity findByAccountAndPwd(String account, String employeePwd) {
         QueryWrapper<ServiceProviderWorkerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(ServiceProviderWorkerEntity::getEmployeeUserName, employeeUserName)
+        queryWrapper.lambda().eq(ServiceProviderWorkerEntity::getEmployeeUserName, account).or().eq(ServiceProviderWorkerEntity::getPhoneNumber, account)
                 .eq(ServiceProviderWorkerEntity::getEmployeePwd, employeePwd);
         return baseMapper.selectOne(queryWrapper);
     }

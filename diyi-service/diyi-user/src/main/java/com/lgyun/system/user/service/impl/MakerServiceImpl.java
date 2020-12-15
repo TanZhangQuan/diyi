@@ -274,9 +274,9 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public MakerEntity findByPhoneNumberAndLoginPwd(String phoneNumber, String loginPwd) {
+    public MakerEntity findByAccountAndPwd(String account, String loginPwd) {
         QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(MakerEntity::getPhoneNumber, phoneNumber)
+        queryWrapper.lambda().eq(MakerEntity::getPhoneNumber, account)
                 .eq(MakerEntity::getLoginPwd, loginPwd);
         return baseMapper.selectOne(queryWrapper);
     }

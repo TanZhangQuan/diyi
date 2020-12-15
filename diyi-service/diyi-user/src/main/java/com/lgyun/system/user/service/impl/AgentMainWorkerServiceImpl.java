@@ -102,9 +102,9 @@ public class AgentMainWorkerServiceImpl extends BaseServiceImpl<AgentMainWorkerM
     }
 
     @Override
-    public AgentMainWorkerEntity findByEmployeeUserNameAndEmployeePwd(String employeeUserName, String employeePwd) {
+    public AgentMainWorkerEntity findByAccountAndPwd(String account, String employeePwd) {
         QueryWrapper<AgentMainWorkerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(AgentMainWorkerEntity::getEmployeeUserName, employeeUserName)
+        queryWrapper.lambda().eq(AgentMainWorkerEntity::getEmployeeUserName, account).or().eq(AgentMainWorkerEntity::getPhoneNumber, account)
                 .eq(AgentMainWorkerEntity::getEmployeePwd, employeePwd);
         return baseMapper.selectOne(queryWrapper);
     }

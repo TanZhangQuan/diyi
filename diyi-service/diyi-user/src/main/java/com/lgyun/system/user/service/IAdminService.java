@@ -57,13 +57,13 @@ public interface IAdminService extends BaseService<AdminEntity> {
     AdminEntity findByPhoneNumber(String phoneNumber);
 
     /**
-     * 根据账号密码查询管理员
+     * 根据手机号/账号，密码查询管理员
      *
-     * @param userName
+     * @param account
      * @param loginPwd
      * @return
      */
-    AdminEntity findByUserNameAndLoginPwd(String userName, String loginPwd);
+    AdminEntity findByAccountAndPwd(String account, String loginPwd);
 
     /**
      * 查询当前管理员的所有主子账号

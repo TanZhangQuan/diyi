@@ -126,13 +126,13 @@ public interface IMakerService extends BaseService<MakerEntity> {
     int findCountByPhoneNumber(String phoneNumber);
 
     /**
-     * 根据手机号码密码查询创客
+     * 根据手机号/账号，密码查询创客
      *
-     * @param phoneNumber
+     * @param account
      * @param loginPwd
      * @return
      */
-    MakerEntity findByPhoneNumberAndLoginPwd(String phoneNumber, String loginPwd);
+    MakerEntity findByAccountAndPwd(String account, String loginPwd);
 
     /**
      * 查询当前创客身份证实名认证的照片

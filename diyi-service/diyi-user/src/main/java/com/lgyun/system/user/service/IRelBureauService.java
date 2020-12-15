@@ -32,12 +32,12 @@ public interface IRelBureauService extends BaseService<RelBureauEntity> {
     /**
      * 根据账号密码查询相关局
      *
-     * @param relBureauUserName
+     * @param account
      * @param relBureauPwd
      * @param relBureauType
      * @return
      */
-    RelBureauEntity findByEmployeeUserNameAndEmployeePwd(String relBureauUserName, String relBureauPwd, RelBureauType relBureauType);
+    RelBureauEntity findByAccountAndPwd(String account, String relBureauPwd, RelBureauType relBureauType);
 
     /**
      * 添加相关局

@@ -196,9 +196,9 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
 
 
     @Override
-    public PartnerEntity findByPhoneNumberAndLoginPwd(String phoneNumber, String loginPwd) {
+    public PartnerEntity findByAccountAndPwd(String account, String loginPwd) {
         QueryWrapper<PartnerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(PartnerEntity::getPhoneNumber, phoneNumber)
+        queryWrapper.lambda().eq(PartnerEntity::getPhoneNumber, account)
                 .eq(PartnerEntity::getLoginPwd, loginPwd);
         return baseMapper.selectOne(queryWrapper);
     }

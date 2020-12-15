@@ -87,13 +87,13 @@ public interface IPartnerService extends BaseService<PartnerEntity> {
     void partnerUpdate(PartnerEntity partnerEntity, String openid, String sessionKey);
 
     /**
-     * 根据账号密码查询合伙人
+     * 根据手机号/账号，密码查询合伙人
      *
-     * @param phoneNumber
+     * @param account
      * @param password
      * @return
      */
-    PartnerEntity findByPhoneNumberAndLoginPwd(String phoneNumber, String password);
+    PartnerEntity findByAccountAndPwd(String account, String password);
 
     /**
      * 平台查询所有合伙人
@@ -164,7 +164,7 @@ public interface IPartnerService extends BaseService<PartnerEntity> {
     R<String> updatePhoneNumber(UpdatePhoneNumberDTO updatePhoneNumberDTO, PartnerEntity partnerEntity);
 
     /**
-     *查询合伙人需要签署的合同
+     * 查询合伙人需要签署的合同
      */
     R queryCooperationNeedContract(Long partnerId);
 

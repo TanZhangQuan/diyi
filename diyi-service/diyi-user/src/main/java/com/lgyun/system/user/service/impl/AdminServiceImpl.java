@@ -92,9 +92,9 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, AdminEntity> 
     }
 
     @Override
-    public AdminEntity findByUserNameAndLoginPwd(String userName, String loginPwd) {
+    public AdminEntity findByAccountAndPwd(String account, String loginPwd) {
         QueryWrapper<AdminEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(AdminEntity::getUserName, userName).or().eq(AdminEntity::getPhoneNumber, userName).eq(AdminEntity::getLoginPwd, loginPwd);
+        queryWrapper.lambda().eq(AdminEntity::getUserName, account).or().eq(AdminEntity::getPhoneNumber, account).eq(AdminEntity::getLoginPwd, loginPwd);
         return baseMapper.selectOne(queryWrapper);
     }
 
