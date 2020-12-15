@@ -38,7 +38,7 @@ public class InvoiceListExcel implements Serializable {
     @ExcelProperty("单价")
     private String unitPrice;
 
-    @ExcelProperty("税率")
+    @ExcelProperty("税率3%/1%")
     private String taxRate;
 
     @ExcelProperty("发票价税合计填写该列，开票额")

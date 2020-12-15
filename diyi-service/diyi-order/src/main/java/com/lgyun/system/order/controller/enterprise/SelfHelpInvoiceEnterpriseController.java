@@ -7,8 +7,8 @@ import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.ModificationDto;
-import com.lgyun.system.order.dto.NaturalPersonConfirmSubmitDto;
+import com.lgyun.system.order.dto.ModificationDTO;
+import com.lgyun.system.order.dto.NaturalPersonConfirmSubmitDTO;
 import com.lgyun.system.order.service.*;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
@@ -36,6 +36,7 @@ public class SelfHelpInvoiceEnterpriseController {
     private ISelfHelpInvoiceFeeService selfHelpInvoiceFeeService;
     private ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
     private ISelfHelpInvoiceAccountService selfHelpInvoiceAccountService;
+
 
 
 //    @GetMapping("/query-self-helf-invoices-list")
@@ -198,10 +199,10 @@ public class SelfHelpInvoiceEnterpriseController {
     }
 
     @PostMapping("/natural-person-submit-form")
-    @ApiOperation(value = "自助开票提交表单", notes = "自助开票提交表单")
+    @ApiOperation(value = "自助开票上传表单", notes = "自助开票上传表单")
     public R naturalPersonSubmitForm(@ApiParam(value = "自助开票清单", required = true) @NotNull(message = "请上传自助开票清单") @RequestParam(required = false) String listFile,
-                                     @ApiParam(value = "服务商", required = true)  @RequestParam(required = false) Long serviceProviderId,
-                                     @ApiParam(value = "发票类型", required = true)  @RequestParam(required = false) String invoiceCategory,
+                                     @ApiParam(value = "服务商" )  @RequestParam(required = false) Long serviceProviderId,
+                                     @ApiParam(value = "发票类型")  @RequestParam(required = false) String invoiceCategory,
                                      @ApiParam(value = "开票人身份类别", required = true) @NotNull(message = "请输入开票人身份类别") @RequestParam(required = false) MakerType makerType,
                                      @ApiParam(value = "众包支付模式", required = true) @NotNull(message = "请选择众包支付模式") @RequestParam(required = false) CrowdSourcingPayType payType,
                                      @ApiParam(value = "开票类目", required = true) @NotNull(message = "请选择开票类目") @RequestParam(required = false) String invoiceType,
@@ -218,8 +219,8 @@ public class SelfHelpInvoiceEnterpriseController {
 
 
     @PostMapping("/natural-person-confirm-submit")
-    @ApiOperation(value = "自助开票自然人确认提交表单", notes = "自助开票自然人确认提交表单")
-    public R naturalPersonConfirmSubmit(@Valid @RequestBody NaturalPersonConfirmSubmitDto naturalPersonConfirmSubmitDto, BladeUser bladeUser){
+    @ApiOperation(value = "自助开票确认提交表单", notes = "自助开票确认提交表单")
+    public R naturalPersonConfirmSubmit(@Valid @RequestBody NaturalPersonConfirmSubmitDTO naturalPersonConfirmSubmitDto, BladeUser bladeUser){
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -235,25 +236,26 @@ public class SelfHelpInvoiceEnterpriseController {
     @ApiOperation(value = "商户查询自助开票", notes = "商户查询自助开票")
     public R querySelfInvoiceList(@ApiParam(value = "开票人身份类别", required = true) @NotNull(message = "请选择开票人身份类别") @RequestParam(required = false) MakerType makerType,
                                   @RequestParam(required = false)String startTiem,@RequestParam(required = false)String endTime,Query query, BladeUser bladeUser) {
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+//        //查询当前商户员工
+//        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
+//        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return selfHelpInvoiceService.querySelfInvoiceList(enterpriseWorkerEntity.getEnterpriseId(), makerType ,startTiem,endTime, Condition.getPage(query.setDescs("t1.create_time")));
+        System.out.println("qwe");
+        return selfHelpInvoiceService.querySelfInvoiceList(1335869567210319874L, makerType ,startTiem,endTime, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-self-invoice-details")
     @ApiOperation(value = "商户查询自助开票详情", notes = "商户查询自助开票详情")
     public R querySelfInvoiceDetails(@ApiParam(value = "自助开票id", required = true) @NotNull(message = "请输入自助开票id") @RequestParam(required = false) Long selfHelpInvoiceId,
                                   BladeUser bladeUser) {
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
+//        //查询当前商户员工
+//        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
         return selfHelpInvoiceService.querySelfInvoiceDetails(selfHelpInvoiceId);
     }
 
@@ -262,27 +264,27 @@ public class SelfHelpInvoiceEnterpriseController {
     @ApiOperation(value = "提交自助开票", notes = "提交自助开票")
     public R submitSelfHelpInvoice(@ApiParam(value = "自助开票id", required = true) @NotNull(message = "请输入自助开票id") @RequestParam(required = false) Long selfHelpInvoiceId,
                                    BladeUser bladeUser){
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-        return selfHelpInvoiceService.submitSelfHelpInvoice(enterpriseWorkerEntity.getEnterpriseId(),selfHelpInvoiceId);
+//        //查询当前商户员工
+//        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
+//        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+        return selfHelpInvoiceService.submitSelfHelpInvoice(selfHelpInvoiceId);
     }
 
 
     @PostMapping("/confirm-modification")
     @ApiOperation(value = "确认修改", notes = "确认修改")
     public R confirmModification(@ApiParam(value = "自助开票id", required = true) @NotNull(message = "请输入自助开票id") @RequestParam(required = false) Long selfHelpInvoiceId,
-                                 List<ModificationDto> list, BladeUser bladeUser){
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-        return selfHelpInvoiceService.confirmModification(enterpriseWorkerEntity.getEnterpriseId(),selfHelpInvoiceId,list);
+                                 List<ModificationDTO> list, BladeUser bladeUser){
+//        //查询当前商户员工
+//        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
+//        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+        return selfHelpInvoiceService.confirmModification(selfHelpInvoiceId,list);
     }
 
     @PostMapping("/confirm-payment")
@@ -290,34 +292,14 @@ public class SelfHelpInvoiceEnterpriseController {
     public R confirmPayment(@ApiParam(value = "自助开票id", required = true) @NotNull(message = "请输入自助开票id") @RequestParam(required = false) Long selfHelpInvoiceId,
                             @ApiParam(value = "自助开票支付id", required = true) @NotNull(message = "请输入自助开票支付id") @RequestParam(required = false)Long selfHelpInvoiceFeeId,
                             @ApiParam(value = "支付回单", required = true) @NotNull(message = "请输入支付回单") @RequestParam(required = false)String payCertificate, BladeUser bladeUser){
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-        return selfHelpInvoiceService.confirmPayment(enterpriseWorkerEntity.getEnterpriseId(),selfHelpInvoiceId,selfHelpInvoiceFeeId,payCertificate);
+//        //查询当前商户员工
+//        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
+//        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+        return selfHelpInvoiceService.confirmPayment(selfHelpInvoiceId,selfHelpInvoiceFeeId,payCertificate);
     }
 
-
-
-
-    @PostMapping("/individual-person-submit-form")
-    @ApiOperation(value = "自助开票个体户提交表单", notes = "自助开票个体户提交表单")
-    public R individualPersonSubmitForm(@ApiParam(value = "自助开票清单", required = true) @NotNull(message = "请上传自助开票清单") @RequestParam(required = false) String listFile,
-                                        @ApiParam(value = "服务商", required = true) @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId,
-                                        @ApiParam(value = "发票类型", required = true) @NotNull(message = "请输入发票类型") @RequestParam(required = false) String invoiceCategory,
-                                        @ApiParam(value = "众包支付模式", required = true) @NotNull(message = "请选择众包支付模式") @RequestParam(required = false) CrowdSourcingPayType payType,
-                                        @ApiParam(value = "开票类目", required = true) @NotNull(message = "请选择开票类目") @RequestParam(required = false) String invoiceType,
-                                        @ApiParam(value = "收货地址", required = true) @NotNull(message = "请选择收货地址") @RequestParam(required = false) Long addressId,BladeUser bladeUser) throws Exception{
-        //查询当前商户员工
-        R<EnterpriseWorkerEntity> result = userClient.currentEnterpriseWorker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
-
-        return selfHelpInvoiceService.individualPersonSubmitForm(enterpriseWorkerEntity.getEnterpriseId(),listFile,serviceProviderId,invoiceCategory,payType,invoiceType,addressId);
-    }
 
 }

@@ -740,4 +740,9 @@ public class UserClient implements IUserClient {
     public EnterpriseEntity queryEnterpriseByName(String enterpriseName) {
         return enterpriseService.queryEnterpriseName(enterpriseName);
     }
+
+    @Override
+    public void createMakerToEnterpriseSupplement(Long enterpriseId, Long makerId, String businessContract) {
+         agreementService.saveEnterpriseMakerAgreement(enterpriseId,businessContract,makerId+"");
+    }
 }

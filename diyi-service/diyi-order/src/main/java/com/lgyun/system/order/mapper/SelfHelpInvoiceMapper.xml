@@ -653,12 +653,27 @@
 
     <select id="querySelfInvoiceList" resultMap="selfInvoiceListVoMap">
         SELECT t1.id AS self_help_invoice_id, t1.apply_enterprise_id AS apply_enterprise_id, t3.enterprise_name AS apply_enterprise_name, t1.list_file, t1.pay_type, t1.total_pay_provider_fee, t2.apply_state, t2.create_time FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_apply t2 ON t1.id = t2.self_help_invoice_id INNER JOIN diyi_enterprise t3 ON t3.id = t1.apply_enterprise_id
-         WHERE t1.apply_enterprise_id =#{param1} AND t1.pay_type =#{param2}
-          <if test="param3 != null and param3 !=''">
-            AND DATEDIFF(t1.create_time, #{param3}) <![CDATA[ >= ]]> 0
+         WHERE t1.maker_type =#{param2}
+        <if test="param1 != null">
+             AND t1.apply_enterprise_id =#{param1}
+        </if>
+        <if test="param3 != null and param3 !=''">
+             AND DATEDIFF(t1.create_time, #{param3}) <![CDATA[ >= ]]> 0
         </if>
         <if test="param4 != null and param4 !=''">
-            AND DATEDIFF(t1.create_time, #{param4}) <![CDATA[ <= ]]> 0
+             AND DATEDIFF(t1.create_time, #{param4}) <![CDATA[ <= ]]> 0
+        </if>
+    </select>
+
+
+    <select id="queryServiceProviderSelfInvoiceList" resultMap="selfInvoiceListVoMap">
+        SELECT t1.id AS self_help_invoice_id, t1.apply_enterprise_id AS apply_enterprise_id, t3.enterprise_name AS apply_enterprise_name, t1.list_file, t1.pay_type, t1.total_pay_provider_fee, t2.apply_state, t2.create_time FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_apply t2 ON t1.id = t2.self_help_invoice_id INNER JOIN diyi_enterprise t3 ON t3.id = t1.apply_enterprise_id INNER JOIN diyi_self_help_invoice_sp t4 ON t4.self_help_invoice_id = t1.id INNER JOIN diyi_service_provider t5 ON t5.id = t4.service_provider_id
+         WHERE t1.maker_type = #{param2} AND t4.service_provider_id =#{param1}
+        <if test="param3 != null and param3 !=''">
+             AND DATEDIFF(t1.create_time, #{param3}) <![CDATA[ >= ]]> 0
+        </if>
+        <if test="param4 != null and param4 !=''">
+             AND DATEDIFF(t1.create_time, #{param4}) <![CDATA[ <= ]]> 0
         </if>
     </select>
 
@@ -667,7 +682,7 @@
 <!--    </select>-->
 
     <select id="querySelfInvoiceDetail" resultMap="selfInvoiceDetailVoMap">
-        SELECT t1.id AS self_help_invoice_id, t3.id AS self_help_invoice_detail_id, t3.invoice_type, t1.enterprise_id AS purchase_enterprise_id, t5.enterprise_name AS purchase_enterprise_name, t5.invoice_tax_no, t5.invoice_address_phone, t5.invoice_bank_name_account, t3.project_name, t3.value_added_tax_rate, t3.charge_money_num, t3.invoice_people_name, ( IF ( t3.maker_id IS NULL OR maker_id = '', ( SELECT t6.idcard_no FROM diyi_self_help_invoice_person t6 WHERE t3.none_maker_invoice_person_id = t6.id ), ( SELECT t7.idcard_no FROM diyi_maker t7 WHERE t7.id = t3.maker_id ))) AS idcard_no, ( IF ( t3.maker_id IS NULL OR maker_id = '', ( SELECT t6.phone_number FROM diyi_self_help_invoice_person t6 WHERE t3.none_maker_invoice_person_id = t6.id ), ( SELECT t7.phone_number FROM diyi_maker t7 WHERE t7.id = t3.maker_id ))) AS phone_number, ( IF ( t3.maker_id IS NULL OR maker_id = '', ( SELECT t6.idcard_pic FROM diyi_self_help_invoice_person t6 WHERE t3.none_maker_invoice_person_id = t6.id ), ( SELECT t7.idcard_pic FROM diyi_maker t7 WHERE t7.id = t3.maker_id ))) AS idcard_pic, ( IF ( t3.maker_id IS NULL OR maker_id = '', ( SELECT t6.idcard_pic_back FROM diyi_self_help_invoice_person t6 WHERE t3.none_maker_invoice_person_id = t6.id ), ( SELECT t7.idcard_pic_back FROM diyi_maker t7 WHERE t7.id = t3.maker_id ))) AS idcard_pic_back, t3.business_contract_url, t3.flow_contract_url, ( SELECT accept_paysheet_cs_url FROM diyi_accept_paysheet_cs_list t8 INNER JOIN diyi_accept_paysheet_cs t9 ON t8.accept_paysheet_cs_id = t9.id WHERE accept_paysheet_cs_type = 'SINGLE' AND t3.id = t9.self_help_invoice_detail_id ) AS accept_paysheet_cs_url, t5.invoice_scan_pictures, t5.tax_scan_pictures FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_detail t3 ON t1.id = t3.self_help_invoice_id INNER JOIN diyi_enterprise t5 ON t5.id = t1.enterprise_id INNER JOIN diyi_self_help_invoice_sp_detail t5 ON t5.self_help_invoice_detail_id = t3.id WHERE t1.id = #{param1}
+        SELECT t1.id AS self_help_invoice_id, t3.id AS self_help_invoice_detail_id, t3.invoice_type, t1.enterprise_id AS purchase_enterprise_id, t5.enterprise_name AS purchase_enterprise_name, t5.invoice_tax_no, t5.invoice_address_phone, t5.invoice_bank_name_account, t3.project_name, t3.value_added_tax_rate, t3.charge_money_num, t3.invoice_people_name, ( IF ( t3.maker_id IS NULL OR maker_id = '', ( SELECT t6.idcard_no FROM diyi_self_help_invoice_person t6 WHERE t3.none_maker_invoice_person_id = t6.id ), ( SELECT t7.idcard_no FROM diyi_maker t7 WHERE t7.id = t3.maker_id ))) AS idcard_no, ( IF ( t3.maker_id IS NULL OR maker_id = '', ( SELECT t6.phone_number FROM diyi_self_help_invoice_person t6 WHERE t3.none_maker_invoice_person_id = t6.id ), ( SELECT t7.phone_number FROM diyi_maker t7 WHERE t7.id = t3.maker_id ))) AS phone_number, ( IF ( t3.maker_id IS NULL OR maker_id = '', ( SELECT t6.idcard_pic FROM diyi_self_help_invoice_person t6 WHERE t3.none_maker_invoice_person_id = t6.id ), ( SELECT t7.idcard_pic FROM diyi_maker t7 WHERE t7.id = t3.maker_id ))) AS idcard_pic, ( IF ( t3.maker_id IS NULL OR maker_id = '', ( SELECT t6.idcard_pic_back FROM diyi_self_help_invoice_person t6 WHERE t3.none_maker_invoice_person_id = t6.id ), ( SELECT t7.idcard_pic_back FROM diyi_maker t7 WHERE t7.id = t3.maker_id ))) AS idcard_pic_back, t3.business_contract_url, t3.flow_contract_url, ( SELECT accept_paysheet_cs_url FROM diyi_accept_paysheet_cs_list t8 INNER JOIN diyi_accept_paysheet_cs t9 ON t8.accept_paysheet_cs_id = t9.id WHERE accept_paysheet_cs_type = 'SINGLE' AND t3.id = t9.self_help_invoice_detail_id ) AS accept_paysheet_cs_url, t6.invoice_scan_pictures, t6.tax_scan_pictures FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_detail t3 ON t1.id = t3.self_help_invoice_id INNER JOIN diyi_enterprise t5 ON t5.id = t1.enterprise_id LEFT JOIN diyi_self_help_invoice_sp_detail t6 ON t6.self_help_invoice_detail_id = t3.id WHERE t1.id = #{param1}
     </select>
 
 </mapper>

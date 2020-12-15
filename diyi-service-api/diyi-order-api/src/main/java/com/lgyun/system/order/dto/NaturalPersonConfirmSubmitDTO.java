@@ -15,17 +15,14 @@ import java.util.List;
  * @time 18:37.
  */
 @Data
-public class NaturalPersonConfirmSubmitDto implements Serializable {
+public class NaturalPersonConfirmSubmitDTO implements Serializable {
 
-    /**
-     * 商户名称
-     */
-    @NotBlank(message = "请输入商户名称")
-    private String enterpriseName;
+
+    private Long enterpriseId;
     /**
      * 众包支付模型
      */
-    @NotBlank(message = "请输入众包支付模型")
+    @NotNull(message = "请输入众包支付模型")
     private CrowdSourcingPayType payType;
     /**
      * 开票类目
@@ -42,6 +39,10 @@ public class NaturalPersonConfirmSubmitDto implements Serializable {
 
     private String invoiceCategory;
 
+    /**
+     * 开票人身份类别
+     */
+    @NotNull(message = "请输入开票人身份类别")
     private MakerType makerType;
     /**
      * 清单
@@ -52,6 +53,6 @@ public class NaturalPersonConfirmSubmitDto implements Serializable {
     /**
      * 自助开票清单明细
      */
-    private List<InvoiceListExcelDto> list;
+    private List<InvoiceListExcelDTO> list;
 
 }

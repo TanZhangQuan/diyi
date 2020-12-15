@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @time 19:16.
  */
 @Data
-public class InvoiceListExcelDto implements Serializable {
+public class InvoiceListExcelDTO implements Serializable {
     //("付款单位")
     private String payer;
 

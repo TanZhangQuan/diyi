@@ -11,7 +11,10 @@ import java.io.Serializable;
  * @time 10:52.
  */
 @Data
-public class ModificationDto implements Serializable {
+public class ModificationDTO implements Serializable {
+    /**
+     *
+     */
     private Long selfHelpInvoiceDetailId;
 
     //("身份证正面url")

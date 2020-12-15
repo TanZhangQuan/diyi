@@ -300,19 +300,24 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
 
 
     /**
-     * 自助开票提交表单
+     * 自助开票上传表单
      */
     R naturalPersonSubmitForm(Long enterpriseId ,String listFile,Long serviceProviderId,String invoiceCategory,MakerType makerType, CrowdSourcingPayType payType, String invoiceType, Long addressId) throws Exception;
 
     /**
-     *自助开票自然人确认提交表单
+     *自助开票确认提交表单
      */
-    R naturalPersonConfirmSubmit(Long enterpriseId,NaturalPersonConfirmSubmitDto naturalPersonConfirmSubmitDto);
+    R naturalPersonConfirmSubmit(Long enterpriseId,NaturalPersonConfirmSubmitDTO naturalPersonConfirmSubmitDto);
 
     /**
      *商户查询自助开票
      */
     R querySelfInvoiceList(Long enterpriseId,MakerType makerType,String startTiem,String endTime,IPage<SelfInvoiceListVo> page);
+
+    /**
+     * 服务商查询自助开票
+     */
+    R queryServiceProviderSelfInvoiceList(Long serviceProviderId,MakerType makerType,String startTiem,String endTime,IPage<SelfInvoiceListVo> page);
 
     /**
      *商户查询自助开票详情
@@ -322,21 +327,22 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
     /**
      * 提交自助开票
      */
-    R submitSelfHelpInvoice(Long enterpriseId,Long selfHelpInvoiceId);
+    R submitSelfHelpInvoice(Long selfHelpInvoiceId);
 
     /**
      *确认修改
      */
-    R confirmModification(Long enterpriseId, Long selfHelpInvoiceId, List<ModificationDto> list);
+    R confirmModification(Long selfHelpInvoiceId, List<ModificationDTO> list);
 
     /**
      * 确认支付
      */
-    R confirmPayment(Long enterpriseId,Long selfHelpInvoiceId,Long selfHelpInvoiceFeeId,String payCertificate);
+    R confirmPayment(Long selfHelpInvoiceId,Long selfHelpInvoiceFeeId,String payCertificate);
 
     /**
-     *
+     * 开票
      */
-    R individualPersonSubmitForm(Long enterpriseId,String listFile,Long serviceProviderId,String invoiceCategory,CrowdSourcingPayType payType,String invoiceType,Long addressId);
+    R createCrowdsourcingInvoice(CreateCrowdsourcingInvoiceDTO createCrowdsourcingInvoiceDTO);
+
 }
 

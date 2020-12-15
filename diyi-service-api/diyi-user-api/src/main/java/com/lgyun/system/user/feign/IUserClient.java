@@ -470,4 +470,14 @@ public interface IUserClient {
     @GetMapping(API_PREFIX + "/query-enterprise-by-Name")
     EnterpriseEntity queryEnterpriseByName(@RequestParam("enterpriseName") String enterpriseName);
 
+    /**
+     * 创建商户-创客补充协议
+     *
+     * @param enterpriseId
+     * @param makerId
+     * @return
+     */
+    @PostMapping(API_PREFIX + "/create-maker-to-enterprise-supplement")
+    void createMakerToEnterpriseSupplement(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("makerId") Long makerId,@RequestParam("businessContract") String businessContract);
+
 }

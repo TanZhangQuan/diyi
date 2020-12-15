@@ -248,4 +248,9 @@ public class IUserClientFallback implements IUserClient {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 
+    @Override
+    public void createMakerToEnterpriseSupplement(Long enterpriseId, Long makerId, String businessContract) {
+        throw new CustomException("网络繁忙，请稍后尝试");
+    }
+
 }

@@ -225,10 +225,11 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
      */
     List<SelfInvoiceListVo> querySelfInvoiceList(Long enterpriseId, MakerType makerType,String startTiem,String endTime,IPage<SelfInvoiceListVo> page);
 
-//    /**
-//     *
-//     */
-//    SelfInvoiceDetailVo querySelfInvoiceDetails(Long selfHelpInvoiceId);
+
+    /**
+     * 服务商查询自助开票
+     */
+    List<SelfInvoiceListVo> queryServiceProviderSelfInvoiceList(Long serviceProviderId, MakerType makerType, String startTiem, String endTime, IPage<SelfInvoiceListVo> page);
 
     /**
      *
