@@ -41,8 +41,9 @@ public class WorksheetEnterpriseController {
         if (!(result.isSuccess())) {
             return result;
         }
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return worksheetService.releaseWorksheet(releaseWorksheetDTO);
+        return worksheetService.releaseWorksheet(enterpriseWorkerEntity.getEnterpriseId(), releaseWorksheetDTO);
     }
 
     @GetMapping("query-worksheet-list")

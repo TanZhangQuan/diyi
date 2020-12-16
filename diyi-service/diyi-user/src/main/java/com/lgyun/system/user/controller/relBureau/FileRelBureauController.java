@@ -26,7 +26,7 @@ import javax.validation.constraints.NotNull;
 @Validated
 @AllArgsConstructor
 @Api(value = "相关局端---监督文件管理模块相关接口", tags = "相关局端---监督文件管理模块相关接口")
-public class FilesRelBureauController {
+public class FileRelBureauController {
 
     private IRelBureauService relBureauService;
     private IRelBureauFileService relBureauFileService;
@@ -79,7 +79,7 @@ public class FilesRelBureauController {
             return result;
         }
 
-        return relBureauFileService.queryRelBureauFileDetail(relBureauFileId);
+        return relBureauFileService.queryRelBureauFileDetail(relBureauFileId, false);
     }
 
     @GetMapping("/query-read-service-provider-list")
@@ -110,8 +110,8 @@ public class FilesRelBureauController {
     @PostMapping("/update-rel-bureau-file-state")
     @ApiOperation(value = "修改相关局监督文件状态", notes = "修改相关局监督文件状态")
     public R updateRelBureauFileState(@ApiParam("相关局监督文件") @NotNull(message = "请选择相关局监督文件") @RequestParam(required = false) Long relBureauFileId,
-                                        @ApiParam("相关局监督文件状态") @NotNull(message = "请选择相关局监督文件状态") @RequestParam(required = false) RelBureauNoticeFileState relBureauNoticeFileState,
-                                        BladeUser bladeUser) {
+                                      @ApiParam("相关局监督文件状态") @NotNull(message = "请选择相关局监督文件状态") @RequestParam(required = false) RelBureauNoticeFileState relBureauNoticeFileState,
+                                      BladeUser bladeUser) {
         //查询当前相关局
         R<RelBureauEntity> result = relBureauService.currentRelBureau(bladeUser);
         if (!(result.isSuccess())) {

@@ -5,6 +5,8 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.RelBureauNoticeFileState;
 import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.core.mp.support.Condition;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.AddOrUpdateRelBureauFileDTO;
 import com.lgyun.system.user.dto.RelBureauNoticeFileListDTO;
 import com.lgyun.system.user.entity.RelBureauFileEntity;
@@ -12,13 +14,14 @@ import com.lgyun.system.user.mapper.RelBureauFileMapper;
 import com.lgyun.system.user.service.IRelBureauFileReadService;
 import com.lgyun.system.user.service.IRelBureauFileService;
 import com.lgyun.system.user.service.IRelBureauServiceProviderService;
-import com.lgyun.system.user.vo.RelBureauFileDetailVO;
-import com.lgyun.system.user.vo.RelBureauFileListVO;
-import com.lgyun.system.user.vo.RelBureauFileUpdateDetailVO;
+import com.lgyun.system.user.vo.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * 相关局监管文件：相关局监管文件管理表 Service 实现
@@ -71,7 +74,7 @@ public class RelBureauFileServiceImpl extends BaseServiceImpl<RelBureauFileMappe
 
     @Override
     public R<IPage<RelBureauFileListVO>> queryRelBureauFileList(Long relBureauId, Boolean boolrelBureau, RelBureauNoticeFileListDTO relBureauNoticeFileListDTO, IPage<RelBureauFileListVO> page) {
-        
+
         if (relBureauNoticeFileListDTO.getBeginDate() != null && relBureauNoticeFileListDTO.getEndDate() != null) {
             if (relBureauNoticeFileListDTO.getBeginDate().after(relBureauNoticeFileListDTO.getEndDate())) {
                 return R.fail("开始时间不能大于结束时间");
@@ -82,7 +85,29 @@ public class RelBureauFileServiceImpl extends BaseServiceImpl<RelBureauFileMappe
     }
 
     @Override
-    public R<RelBureauFileDetailVO> queryRelBureauFileDetail(Long relBureauFileId) {
+    public R queryRelBureauFileListServiceProvider(Long serviceProviderId, Long serviceProviderWorkerId, Query query) {
+
+
+        RelBureauNoticeFileListUnReadNumVO relBureauNoticeFileListUnReadNumVO = new RelBureauNoticeFileListUnReadNumVO();
+        //未读数
+        int unreadNum = baseMapper.queryRelBureauFileUnreadNum(serviceProviderId, serviceProviderWorkerId);
+        relBureauNoticeFileListUnReadNumVO.setUnReadNum(unreadNum);
+
+        //相关局通知
+        IPage<RelBureauNoticeFileListServiceProviderVO> page = Condition.getPage(query.setDescs("bool_read"));
+        List<RelBureauNoticeFileListServiceProviderVO> relBureauFileList = baseMapper.queryRelBureauFileListServiceProvider(serviceProviderId, serviceProviderWorkerId, page);
+        relBureauNoticeFileListUnReadNumVO.setRelBureauFileList(page.setRecords(relBureauFileList));
+
+        return R.data(relBureauNoticeFileListUnReadNumVO);
+    }
+
+    @Override
+    public R<RelBureauFileDetailVO> queryRelBureauFileDetail(Long relBureauFileId, Boolean boolRead) {
+
+        if (boolRead != null && boolRead) {
+
+        }
+
         return R.data(baseMapper.queryRelBureauFileDetail(relBureauFileId));
     }
 
@@ -127,13 +152,26 @@ public class RelBureauFileServiceImpl extends BaseServiceImpl<RelBureauFileMappe
             return R.fail("已阅读状态的监督文件不可重新发布");
         }
 
-        if (RelBureauNoticeFileState.PUBLISHED.equals(relBureauNoticeFileState)) {
-            //判断相关局是否全部服务商已阅读
-            int relBureauServiceProviderNum = relBureauServiceProviderService.queryRelBureauServiceProviderNum(relBureauId);
-            int serviceProviderReadNum = relBureauFileReadService.queryServiceProviderCount(relBureauFileId);
-            if (serviceProviderReadNum >= relBureauServiceProviderNum) {
-                relBureauNoticeFileState = RelBureauNoticeFileState.HAVEREAD;
-            }
+        switch (relBureauNoticeFileState) {
+
+            case PUBLISHED:
+
+                relBureauFileEntity.setPublishDatetime(new Date());
+                //判断相关局是否全部服务商已阅读
+                int relBureauServiceProviderNum = relBureauServiceProviderService.queryRelBureauServiceProviderNum(relBureauId);
+                int serviceProviderReadNum = relBureauFileReadService.queryServiceProviderCount(relBureauFileId);
+                if (serviceProviderReadNum >= relBureauServiceProviderNum) {
+                    relBureauNoticeFileState = RelBureauNoticeFileState.HAVEREAD;
+                }
+                break;
+
+            case CANCELLED:
+
+                relBureauFileEntity.setCancelDatetime(new Date());
+                break;
+
+            default:
+                return R.fail("状态有误");
         }
 
         relBureauFileEntity.setFileState(relBureauNoticeFileState);
@@ -141,5 +179,5 @@ public class RelBureauFileServiceImpl extends BaseServiceImpl<RelBureauFileMappe
 
         return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
-    
+
 }

@@ -5,6 +5,8 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.RelBureauNoticeFileState;
 import com.lgyun.core.mp.base.BaseServiceImpl;
+import com.lgyun.core.mp.support.Condition;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.AddOrUpdateRelBureauNoticeDTO;
 import com.lgyun.system.user.dto.RelBureauNoticeFileListDTO;
 import com.lgyun.system.user.entity.RelBureauNoticeEntity;
@@ -12,13 +14,14 @@ import com.lgyun.system.user.mapper.RelBureauNoticeMapper;
 import com.lgyun.system.user.service.IRelBureauNoticeReadService;
 import com.lgyun.system.user.service.IRelBureauNoticeService;
 import com.lgyun.system.user.service.IRelBureauServiceProviderService;
-import com.lgyun.system.user.vo.RelBureauNoticeDetailVO;
-import com.lgyun.system.user.vo.RelBureauNoticeListVO;
-import com.lgyun.system.user.vo.RelBureauNoticeUpdateDetailVO;
+import com.lgyun.system.user.vo.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * 相关局通知管理表 Service 实现
@@ -77,6 +80,23 @@ public class RelBureauNoticeServiceImpl extends BaseServiceImpl<RelBureauNoticeM
     }
 
     @Override
+    public R<RelBureauNoticeFileListUnReadNumVO> queryRelBureauNoticeListServiceProvider(Long serviceProviderId, Long serviceProviderWorkerId, Query query) {
+
+
+        RelBureauNoticeFileListUnReadNumVO relBureauNoticeFileListUnReadNumVO = new RelBureauNoticeFileListUnReadNumVO();
+        //未读数
+        int unreadNum = baseMapper.queryRelBureauNoticeUnreadNum(serviceProviderId, serviceProviderWorkerId);
+        relBureauNoticeFileListUnReadNumVO.setUnReadNum(unreadNum);
+
+        //相关局通知
+        IPage<RelBureauNoticeFileListServiceProviderVO> page = Condition.getPage(query.setDescs("bool_read"));
+        List<RelBureauNoticeFileListServiceProviderVO> relBureauFileList = baseMapper.queryRelBureauNoticeListServiceProvider(serviceProviderId, serviceProviderWorkerId, page);
+        relBureauNoticeFileListUnReadNumVO.setRelBureauFileList(page.setRecords(relBureauFileList));
+
+        return R.data(relBureauNoticeFileListUnReadNumVO);
+    }
+
+    @Override
     public R<RelBureauNoticeDetailVO> queryRelBureauNoticeDetail(Long relBureauNoticeId) {
         return R.data(baseMapper.queryRelBureauNoticeDetail(relBureauNoticeId));
     }
@@ -127,13 +147,26 @@ public class RelBureauNoticeServiceImpl extends BaseServiceImpl<RelBureauNoticeM
             return R.fail("已阅读状态的通知不可重新发布");
         }
 
-        if (RelBureauNoticeFileState.PUBLISHED.equals(relBureauNoticeFileState)) {
-            //判断相关局是否全部服务商已阅读
-            int relBureauServiceProviderNum = relBureauServiceProviderService.queryRelBureauServiceProviderNum(relBureauId);
-            int serviceProviderReadNum = relBureauNoticeReadService.queryServiceProviderCount(relBureauNoticeId);
-            if (serviceProviderReadNum >= relBureauServiceProviderNum) {
-                relBureauNoticeFileState = RelBureauNoticeFileState.HAVEREAD;
-            }
+        switch (relBureauNoticeFileState){
+
+            case PUBLISHED:
+
+                relBureauNoticeEntity.setPublishDatetime(new Date());
+                //判断相关局是否全部服务商已阅读
+                int relBureauServiceProviderNum = relBureauServiceProviderService.queryRelBureauServiceProviderNum(relBureauId);
+                int serviceProviderReadNum = relBureauNoticeReadService.queryServiceProviderCount(relBureauNoticeId);
+                if (serviceProviderReadNum >= relBureauServiceProviderNum) {
+                    relBureauNoticeFileState = RelBureauNoticeFileState.HAVEREAD;
+                }
+                break;
+
+            case CANCELLED:
+
+                relBureauNoticeEntity.setCancelDatetime(new Date());
+                break;
+
+            default:
+                return R.fail("状态有误");
         }
 
         relBureauNoticeEntity.setNoticeState(relBureauNoticeFileState);

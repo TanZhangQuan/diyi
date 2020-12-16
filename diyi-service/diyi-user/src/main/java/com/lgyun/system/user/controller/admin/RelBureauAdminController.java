@@ -182,7 +182,7 @@ public class RelBureauAdminController {
             return result;
         }
 
-        return relBureauFileService.queryRelBureauFileDetail(relBureauFileId);
+        return relBureauFileService.queryRelBureauFileDetail(relBureauFileId, false);
     }
 
 }

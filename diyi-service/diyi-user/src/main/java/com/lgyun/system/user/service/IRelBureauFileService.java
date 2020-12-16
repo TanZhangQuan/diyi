@@ -4,12 +4,14 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.RelBureauNoticeFileState;
 import com.lgyun.core.mp.base.BaseService;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.AddOrUpdateRelBureauFileDTO;
 import com.lgyun.system.user.dto.RelBureauNoticeFileListDTO;
 import com.lgyun.system.user.entity.RelBureauFileEntity;
 import com.lgyun.system.user.vo.RelBureauFileDetailVO;
 import com.lgyun.system.user.vo.RelBureauFileListVO;
 import com.lgyun.system.user.vo.RelBureauFileUpdateDetailVO;
+import com.lgyun.system.user.vo.RelBureauNoticeFileListUnReadNumVO;
 
 /**
  * 相关局监管文件：相关局监管文件管理表 Service 接口
@@ -48,12 +50,23 @@ public interface IRelBureauFileService extends BaseService<RelBureauFileEntity> 
     R<IPage<RelBureauFileListVO>> queryRelBureauFileList(Long relBureauId, Boolean boolrelBureau, RelBureauNoticeFileListDTO relBureauNoticeFileListDTO, IPage<RelBureauFileListVO> page);
 
     /**
+     * 查询服务商相关局监督文件列表
+     *
+     * @param serviceProviderId
+     * @param serviceProviderWorkerId
+     * @param query
+     * @return
+     */
+    R<RelBureauNoticeFileListUnReadNumVO> queryRelBureauFileListServiceProvider(Long serviceProviderId, Long serviceProviderWorkerId, Query query);
+
+    /**
      * 查询相关局监督文件详情
      *
      * @param relBureauFileId
+     * @param boolRead
      * @return
      */
-    R<RelBureauFileDetailVO> queryRelBureauFileDetail(Long relBureauFileId);
+    R<RelBureauFileDetailVO> queryRelBureauFileDetail(Long relBureauFileId, Boolean boolRead);
 
     /**
      * 删除相关局监督文件
@@ -67,11 +80,12 @@ public interface IRelBureauFileService extends BaseService<RelBureauFileEntity> 
     /**
      * 修改相关局监督文件状态
      *
-     * @param id
+     * @param relBureauId
      * @param relBureauFileId
      * @param relBureauNoticeFileState
      * @return
      */
-    R<String> updateRelBureauFileState(Long id, Long relBureauFileId, RelBureauNoticeFileState relBureauNoticeFileState);
+    R<String> updateRelBureauFileState(Long relBureauId, Long relBureauFileId, RelBureauNoticeFileState relBureauNoticeFileState);
+
 }
 

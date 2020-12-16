@@ -21,10 +21,11 @@ public interface IWorksheetService extends BaseService<WorksheetEntity> {
     /**
      * 发布工单
      *
+     * @param enterpriseId
      * @param releaseWorksheetDTO
      * @return
      */
-    R<String> releaseWorksheet(ReleaseWorksheetDTO releaseWorksheetDTO);
+    R<String> releaseWorksheet(Long enterpriseId, ReleaseWorksheetDTO releaseWorksheetDTO);
 
     /**
      * 抢单

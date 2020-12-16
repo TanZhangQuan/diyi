@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.system.user.dto.RelBureauNoticeFileListDTO;
 import com.lgyun.system.user.entity.RelBureauFileEntity;
 import com.lgyun.system.user.vo.RelBureauFileDetailVO;
+import com.lgyun.system.user.vo.RelBureauNoticeFileListServiceProviderVO;
 import com.lgyun.system.user.vo.RelBureauFileListVO;
 import com.lgyun.system.user.vo.RelBureauFileUpdateDetailVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -47,5 +48,23 @@ public interface RelBureauFileMapper extends BaseMapper<RelBureauFileEntity> {
      */
     RelBureauFileDetailVO queryRelBureauFileDetail(Long relBureauFileId);
 
+    /**
+     * 查询相关局文件未读数
+     *
+     * @param serviceProviderId
+     * @param serviceProviderWorkerId
+     * @return
+     */
+    int queryRelBureauFileUnreadNum(Long serviceProviderId, Long serviceProviderWorkerId);
+
+    /**
+     * 查询服务商员工的相关局通知
+     *
+     * @param serviceProviderId
+     * @param serviceProviderWorkerId
+     * @param page
+     * @return
+     */
+    List<RelBureauNoticeFileListServiceProviderVO> queryRelBureauFileListServiceProvider(Long serviceProviderId, Long serviceProviderWorkerId, IPage<RelBureauNoticeFileListServiceProviderVO> page);
 }
 

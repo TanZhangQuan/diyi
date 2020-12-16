@@ -44,7 +44,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> releaseWorksheet(ReleaseWorksheetDTO releaseWorksheetDTO) {
+    public R<String> releaseWorksheet(Long enterpriseId, ReleaseWorksheetDTO releaseWorksheetDTO) {
         WorksheetEntity worksheetEntity = new WorksheetEntity();
 
         if (!(releaseWorksheetDTO.getWorksheetFeeHigh().compareTo(BigDecimal.ZERO) == 0 && releaseWorksheetDTO.getWorksheetFeeLow().compareTo(BigDecimal.ZERO) == 0) && releaseWorksheetDTO.getWorksheetFeeHigh().compareTo(releaseWorksheetDTO.getWorksheetFeeLow()) <= 0) {
@@ -70,11 +70,13 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             return R.fail("有存在相同的指定创客");
         }
 
+        worksheetEntity.setEnterpriseId(enterpriseId);
+        worksheetEntity.setWorksheetNo(SnowflakeIdWorker.getSerialNumber());
         BeanUtil.copy(releaseWorksheetDTO, worksheetEntity);
         if ((WorksheetMode.BLEND.equals(releaseWorksheetDTO.getWorksheetMode()) || WorksheetMode.DISPATCH.equals(releaseWorksheetDTO.getWorksheetMode())) && releaseWorksheetDTO.getUpPersonNum() != 0 && releaseWorksheetDTO.getUpPersonNum() == split.length) {
             worksheetEntity.setWorksheetState(WorksheetState.CLOSED);
         }
-        worksheetEntity.setWorksheetNo(SnowflakeIdWorker.getSerialNumber());
+
         save(worksheetEntity);
         if (WorksheetMode.BLEND.equals(releaseWorksheetDTO.getWorksheetMode()) || WorksheetMode.DISPATCH.equals(releaseWorksheetDTO.getWorksheetMode())) {
             for (int i = 0; i < split.length; i++) {

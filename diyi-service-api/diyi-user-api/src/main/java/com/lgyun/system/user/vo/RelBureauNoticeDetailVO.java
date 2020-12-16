@@ -55,6 +55,12 @@ public class RelBureauNoticeDetailVO implements Serializable {
     private String contactWechat;
 
     /**
+     * 发布日期时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date publishDatetime;
+
+    /**
      * 创建时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

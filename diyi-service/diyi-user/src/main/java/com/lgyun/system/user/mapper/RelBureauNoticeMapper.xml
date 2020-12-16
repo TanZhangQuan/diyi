@@ -21,6 +21,7 @@
         <result property="contactPerson" column="contact_person"/>
         <result property="contactPhone" column="contact_phone"/>
         <result property="contactWechat" column="contact_wechat"/>
+        <result property="publishDatetime" column="publish_datetime"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
 
@@ -32,6 +33,14 @@
         <result property="contactPerson" column="contact_person"/>
         <result property="contactPhone" column="contact_phone"/>
         <result property="contactWechat" column="contact_wechat"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.user.vo.RelBureauNoticeFileListServiceProviderVO" id="relBureauNoticeFileListServiceProviderVO">
+        <result property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="desc" column="desc"/>
+        <result property="boolRead" column="bool_read"/>
+        <result property="publishDatetime" column="publish_datetime"/>
     </resultMap>
 
     <select id="queryRelBureauNoticeList" resultMap="relBureauNoticeListVO">
@@ -52,13 +61,27 @@
     </select>
 
     <select id="queryRelBureauNoticeDetail" resultMap="relBureauNoticeDetailVO">
-        SELECT id, notice_title, notice_desc, notice_url, notice_state, contact_person, contact_phone, contact_wechat, create_time FROM diyi_rel_bureau_notice
+        SELECT id, notice_title, notice_desc, notice_url, notice_state, contact_person, contact_phone, contact_wechat, publish_datetime, create_time FROM diyi_rel_bureau_notice
         WHERE bool_deleted = 0 AND id = #{param1}
     </select>
 
     <select id="queryRelBureauNoticeUpdateDetail" resultMap="relBureauNoticeUpdateDetailVO">
         SELECT id, notice_title, notice_desc, notice_url, contact_person, contact_phone, contact_wechat FROM diyi_rel_bureau_notice
         WHERE bool_deleted = 0 AND id = #{param1}
+    </select>
+
+    <select id="queryRelBureauNoticeUnreadNum" resultType="java.lang.Integer">
+        SELECT COUNT(t1.id) FROM diyi_rel_bureau_notice t1 INNER JOIN diyi_rel_bureau_service_provider t2 ON t1.rel_bureau_id = t2.rel_bureau_id
+        WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t2.cooperate_status = 'COOPERATING' AND (t1.notice_state = 'PUBLISHED' OR t1.notice_state = 'HAVEREAD')
+        AND t2.service_provider_id = #{param1} AND (SELECT COUNT(id) FROM diyi_rel_bureau_notice_read WHERE bool_deleted = 0 AND t1.id = rel_bureau_notice_id
+        AND servicer_provider_worker_id = #{param2}) <![CDATA[ <= ]]> 0
+    </select>
+
+    <select id="queryRelBureauNoticeListServiceProvider" resultMap="relBureauNoticeFileListServiceProviderVO">
+        SELECT t1.id, t1.notice_title AS title, t1.notice_desc AS desc, t1.publish_datetime, IF((SELECT COUNT(id) FROM diyi_rel_bureau_notice_read WHERE bool_deleted = 0
+        AND rel_bureau_notice_id = t1.id AND servicer_provider_worker_id = #{param2}) > 0, TRUE, FALSE) AS bool_read FROM diyi_rel_bureau_notice t1
+        INNER JOIN diyi_rel_bureau_service_provider t2 ON t1.rel_bureau_id = t2.rel_bureau_id  AND t2.service_provider_id = #{param1}
+        WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t2.cooperate_status = 'COOPERATING' AND (t1.notice_state = 'PUBLISHED' OR t1.notice_state = 'HAVEREAD')
     </select>
 
 </mapper>

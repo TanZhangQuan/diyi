@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.RelBureauNoticeFileState;
 import com.lgyun.core.mp.base.BaseService;
+import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.AddOrUpdateRelBureauNoticeDTO;
 import com.lgyun.system.user.dto.RelBureauNoticeFileListDTO;
 import com.lgyun.system.user.entity.RelBureauNoticeEntity;
 import com.lgyun.system.user.vo.RelBureauNoticeDetailVO;
+import com.lgyun.system.user.vo.RelBureauNoticeFileListUnReadNumVO;
 import com.lgyun.system.user.vo.RelBureauNoticeListVO;
 import com.lgyun.system.user.vo.RelBureauNoticeUpdateDetailVO;
 
@@ -38,6 +40,16 @@ public interface IRelBureauNoticeService extends BaseService<RelBureauNoticeEnti
      * @return
      */
     R<IPage<RelBureauNoticeListVO>> queryRelBureauNoticeList(Long relBureauId, Boolean boolrelBureau, RelBureauNoticeFileListDTO relBureauNoticeFileListDTO, IPage<RelBureauNoticeListVO> page);
+
+    /**
+     * 查询服务商相关局通知列表
+     *
+     * @param serviceProviderId
+     * @param serviceProviderWorkerId
+     * @param query
+     * @return
+     */
+    R<RelBureauNoticeFileListUnReadNumVO> queryRelBureauNoticeListServiceProvider(Long serviceProviderId, Long serviceProviderWorkerId, Query query);
 
     /**
      * 查询相关局通知详情
