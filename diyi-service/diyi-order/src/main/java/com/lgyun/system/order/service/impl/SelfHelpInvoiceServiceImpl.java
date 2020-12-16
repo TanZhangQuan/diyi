@@ -767,11 +767,13 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
                 selfHelpInvoiceDetailEntity.setValueAddedTaxRate(new BigDecimal(invoiceListExcelDto.getTaxRate()));
                 selfHelpInvoiceDetailEntity.setChargeMoneyNum(new BigDecimal(invoiceListExcelDto.getTaxTotalprice()));
                 selfHelpInvoiceDetailEntity.setFlowContractUrl(invoiceListExcelDto.getPaymentReceipt());
-                //加业务合同
-                AgreementEntity agreementEntity = iUserClient.queryEntMakSupplementaryAgreement(makerEntity.getId(), enterpriseId);
                 selfHelpInvoiceDetailEntity.setBusinessContractUrl(invoiceListExcelDto.getBusinessContract());
-                if(null == agreementEntity){
-                    iUserClient.createMakerToEnterpriseSupplement(enterpriseId,makerEntity.getId(),invoiceListExcelDto.getBusinessContract());
+                if(null != makerEntity){
+                   //加业务合同
+                   AgreementEntity agreementEntity = iUserClient.queryEntMakSupplementaryAgreement(makerEntity.getId(), enterpriseId);
+                   if(null == agreementEntity){
+                       iUserClient.createMakerToEnterpriseSupplement(enterpriseId,makerEntity.getId(),invoiceListExcelDto.getBusinessContract());
+                   }
                 }
                 selfHelpInvoiceDetailEntity.setServiceInvoiceFee(new BigDecimal("0"));
                 selfHelpInvoiceDetailEntity.setIdendityConfirmFee(new BigDecimal("0"));
@@ -785,6 +787,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
                 acceptPaysheetCsEntity.setSelfHelpInvoiceDetailId(selfHelpInvoiceDetailEntity.getId());
                 acceptPaysheetCsEntity.setServiceTimeStart(new Date());
                 acceptPaysheetCsEntity.setServiceTimeEnd(new Date());
+                acceptPaysheetCsEntity.setAcceptPaysheetCsUrl(invoiceListExcelDto.getPaymentAcceptance());
                 acceptPaysheetCsService.save(acceptPaysheetCsEntity);
                 if(MakerType.INDIVIDUALENTERPRISE.equals(naturalPersonConfirmSubmitDto.getMakerType()) || MakerType.INDIVIDUALBUSINESS.equals(naturalPersonConfirmSubmitDto.getMakerType())){
                     SelfHelpInvoiceSpDetailEntity selfHelpInvoiceSpDetailEntity = new SelfHelpInvoiceSpDetailEntity();

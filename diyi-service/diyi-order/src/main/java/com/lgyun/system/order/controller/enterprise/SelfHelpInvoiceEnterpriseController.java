@@ -216,7 +216,6 @@ public class SelfHelpInvoiceEnterpriseController {
         return selfHelpInvoiceService.naturalPersonSubmitForm(enterpriseWorkerEntity.getEnterpriseId(),listFile,serviceProviderId,invoiceCategory,makerType,payType,invoiceType,addressId);
     }
 
-
     @PostMapping("/natural-person-confirm-submit")
     @ApiOperation(value = "自助开票确认提交表单", notes = "自助开票确认提交表单")
     public R naturalPersonConfirmSubmit(@Valid @RequestBody NaturalPersonConfirmSubmitDTO naturalPersonConfirmSubmitDto, BladeUser bladeUser){
@@ -229,7 +228,6 @@ public class SelfHelpInvoiceEnterpriseController {
 
         return selfHelpInvoiceService.naturalPersonConfirmSubmit(enterpriseWorkerEntity.getEnterpriseId(),naturalPersonConfirmSubmitDto);
     }
-
 
     @GetMapping("/query-self-invoice-list")
     @ApiOperation(value = "商户查询自助开票", notes = "商户查询自助开票")
