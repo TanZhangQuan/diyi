@@ -52,7 +52,6 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     private final ISelfHelpInvoiceExpressService selfHelpInvoiceExpressService;
     private final ISelfHelpInvoiceAccountService selfHelpInvoiceAccountService;
     private final ISelfHelpInvoiceSpDetailService selfHelpInvoiceSpDetailService;
-    private final ISelfHelpInvoiceFeeService selfHelpInvoiceFeeService;
     private final IAddressService addressService;
     private final ISelfHelpInvoicePersonService selfHelpInvoicePersonService;
     private final ISelfHelpInvoiceApplyService selfHelpInvoiceApplyService;

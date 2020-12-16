@@ -7,14 +7,13 @@ import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
+import com.lgyun.system.order.dto.ConfirmModificationDTO;
 import com.lgyun.system.order.dto.CreateCrowdsourcingInvoiceDTO;
-import com.lgyun.system.order.dto.ModificationDTO;
 import com.lgyun.system.order.dto.NaturalPersonConfirmSubmitDTO;
 import com.lgyun.system.order.dto.ToExamineSelfHelpInvoiceDTO;
 import com.lgyun.system.order.service.IAddressService;
 import com.lgyun.system.order.service.ISelfHelpInvoiceService;
 import com.lgyun.system.user.entity.AdminEntity;
-import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @RestController
 @RequestMapping("/admin/self-help-invoice")
@@ -201,7 +199,7 @@ public class SelfHelpInvoiceAdminController {
     @GetMapping("/query-self-invoice-list")
     @ApiOperation(value = "商户查询自助开票", notes = "商户查询自助开票")
     public R querySelfInvoiceList(@ApiParam(value = "开票人身份类别", required = true) @NotNull(message = "请选择开票人身份类别") @RequestParam(required = false) MakerType makerType,
-                                  @RequestParam(required = false)String startTiem,@RequestParam(required = false)String endTime,Query query, BladeUser bladeUser) {
+                                  @RequestParam(required = false) String startTiem,@RequestParam(required = false) String endTime,Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -240,14 +238,13 @@ public class SelfHelpInvoiceAdminController {
 
     @PostMapping("/confirm-modification")
     @ApiOperation(value = "确认修改", notes = "确认修改")
-    public R confirmModification(@ApiParam(value = "自助开票id", required = true) @NotNull(message = "请输入自助开票id") @RequestParam(required = false) Long selfHelpInvoiceId,
-                                 List<ModificationDTO> list, BladeUser bladeUser){
+    public R confirmModification(@Valid @RequestBody ConfirmModificationDTO confirmModificationDTO, BladeUser bladeUser){
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
-        return selfHelpInvoiceService.confirmModification(selfHelpInvoiceId,list);
+        return selfHelpInvoiceService.confirmModification(confirmModificationDTO.getSelfHelpInvoiceId(),confirmModificationDTO.getList());
     }
 
     @PostMapping("/confirm-payment")
