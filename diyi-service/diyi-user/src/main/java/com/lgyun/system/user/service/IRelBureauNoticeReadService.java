@@ -23,6 +23,15 @@ public interface IRelBureauNoticeReadService extends BaseService<RelBureauNotice
     int queryServiceProviderCount(Long relBureauNoticeId);
 
     /**
+     * 相关局通知-服务商员工数
+     *
+     * @param relBureauNoticeId
+     * @param serviceProviderWorkerId
+     * @return
+     */
+    int queryRelBureauNoticeServiceProviderCount(Long relBureauNoticeId, Long serviceProviderWorkerId);
+
+    /**
      * 查询相关局通知已读服务商
      *
      * @param relBureauNoticeId

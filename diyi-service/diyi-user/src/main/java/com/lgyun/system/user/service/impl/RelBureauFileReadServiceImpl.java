@@ -1,5 +1,6 @@
 package com.lgyun.system.user.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseServiceImpl;
@@ -25,6 +26,14 @@ public class RelBureauFileReadServiceImpl extends BaseServiceImpl<RelBureauFileR
     @Override
     public int queryServiceProviderCount(Long RelBureauFilesId) {
         return baseMapper.queryServiceProviderCount(RelBureauFilesId);
+    }
+
+    @Override
+    public int queryRelBureauFileServiceProviderCount(Long relBureauFileId, Long serviceProviderWorkerId) {
+        QueryWrapper<RelBureauFileReadEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(RelBureauFileReadEntity::getRelBureauFileId, relBureauFileId)
+                .eq(RelBureauFileReadEntity::getServicerProviderWorkerId, serviceProviderWorkerId);
+        return baseMapper.selectCount(queryWrapper);
     }
 
     @Override

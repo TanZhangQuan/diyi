@@ -55,9 +55,12 @@ public interface IRelBureauNoticeService extends BaseService<RelBureauNoticeEnti
      * 查询相关局通知详情
      *
      * @param relBureauNoticeId
+     * @param boolRead
+     * @param serviceProviderId
+     * @param serviceProviderWorkerId
      * @return
      */
-    R<RelBureauNoticeDetailVO> queryRelBureauNoticeDetail(Long relBureauNoticeId);
+    R<RelBureauNoticeDetailVO> queryRelBureauNoticeDetail(Long relBureauNoticeId, Boolean boolRead, Long serviceProviderId, Long serviceProviderWorkerId);
 
     /**
      * 查询相关局通知编辑详情

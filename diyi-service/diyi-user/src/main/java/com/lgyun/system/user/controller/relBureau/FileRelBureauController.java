@@ -79,7 +79,7 @@ public class FileRelBureauController {
             return result;
         }
 
-        return relBureauFileService.queryRelBureauFileDetail(relBureauFileId, false);
+        return relBureauFileService.queryRelBureauFileDetail(relBureauFileId, false, null, null);
     }
 
     @GetMapping("/query-read-service-provider-list")

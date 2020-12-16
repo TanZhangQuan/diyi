@@ -17,10 +17,19 @@ public interface IRelBureauFileReadService extends BaseService<RelBureauFileRead
     /**
      * 相关局监管文件已读服务商数
      *
-     * @param RelBureauFilesId
+     * @param relBureauFileId
      * @return
      */
-    int queryServiceProviderCount(Long RelBureauFilesId);
+    int queryServiceProviderCount(Long relBureauFileId);
+
+    /**
+     * 相关局监管文件-服务商员工数
+     *
+     * @param relBureauFileId
+     * @param serviceProviderWorkerId
+     * @return
+     */
+    int queryRelBureauFileServiceProviderCount(Long relBureauFileId, Long serviceProviderWorkerId);
 
     /**
      * 查询相关局通知已读服务商

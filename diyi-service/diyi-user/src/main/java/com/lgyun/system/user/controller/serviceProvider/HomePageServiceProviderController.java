@@ -93,8 +93,9 @@ public class HomePageServiceProviderController {
         if (!(result.isSuccess())) {
             return result;
         }
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return relBureauFileService.queryRelBureauFileDetail(relBureauFileId, true);
+        return relBureauFileService.queryRelBureauFileDetail(relBureauFileId, true, serviceProviderWorkerEntity.getServiceProviderId(), serviceProviderWorkerEntity.getId());
     }
 
     @GetMapping("/query-rel-bureau-notice-list")
@@ -118,8 +119,9 @@ public class HomePageServiceProviderController {
         if (!(result.isSuccess())) {
             return result;
         }
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return relBureauNoticeService.queryRelBureauNoticeDetail(relBureauNoticeId);
+        return relBureauNoticeService.queryRelBureauNoticeDetail(relBureauNoticeId, true, serviceProviderWorkerEntity.getServiceProviderId(), serviceProviderWorkerEntity.getId());
     }
 
 }

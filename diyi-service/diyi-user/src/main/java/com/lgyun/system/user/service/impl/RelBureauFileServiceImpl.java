@@ -10,6 +10,7 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.AddOrUpdateRelBureauFileDTO;
 import com.lgyun.system.user.dto.RelBureauNoticeFileListDTO;
 import com.lgyun.system.user.entity.RelBureauFileEntity;
+import com.lgyun.system.user.entity.RelBureauFileReadEntity;
 import com.lgyun.system.user.mapper.RelBureauFileMapper;
 import com.lgyun.system.user.service.IRelBureauFileReadService;
 import com.lgyun.system.user.service.IRelBureauFileService;
@@ -19,6 +20,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -102,10 +104,19 @@ public class RelBureauFileServiceImpl extends BaseServiceImpl<RelBureauFileMappe
     }
 
     @Override
-    public R<RelBureauFileDetailVO> queryRelBureauFileDetail(Long relBureauFileId, Boolean boolRead) {
+    @Transactional(rollbackFor = Exception.class)
+    public R<RelBureauFileDetailVO> queryRelBureauFileDetail(Long relBureauFileId, Boolean boolRead, Long serviceProviderId, Long serviceProviderWorkerId) {
 
+        //服务商员工查看详情添加已读数据
         if (boolRead != null && boolRead) {
-
+            int relBureauFileServiceProviderCount = relBureauFileReadService.queryRelBureauFileServiceProviderCount(relBureauFileId, serviceProviderWorkerId);
+            if (relBureauFileServiceProviderCount <= 0){
+                RelBureauFileReadEntity relBureauFileReadEntity = new RelBureauFileReadEntity();
+                relBureauFileReadEntity.setRelBureauFileId(relBureauFileId);
+                relBureauFileReadEntity.setServicerProviderId(serviceProviderId);
+                relBureauFileReadEntity.setServicerProviderWorkerId(serviceProviderWorkerId);
+                relBureauFileReadService.save(relBureauFileReadEntity);
+            }
         }
 
         return R.data(baseMapper.queryRelBureauFileDetail(relBureauFileId));

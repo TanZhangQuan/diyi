@@ -79,7 +79,7 @@ public class NoticeRelBureauController {
             return result;
         }
 
-        return relBureauNoticeService.queryRelBureauNoticeDetail(relBureauNoticeId);
+        return relBureauNoticeService.queryRelBureauNoticeDetail(relBureauNoticeId, false, null, null);
     }
 
     @GetMapping("/query-read-service-provider-list")

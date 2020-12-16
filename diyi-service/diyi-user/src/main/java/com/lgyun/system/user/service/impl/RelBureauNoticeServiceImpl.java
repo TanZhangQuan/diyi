@@ -10,6 +10,7 @@ import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.dto.AddOrUpdateRelBureauNoticeDTO;
 import com.lgyun.system.user.dto.RelBureauNoticeFileListDTO;
 import com.lgyun.system.user.entity.RelBureauNoticeEntity;
+import com.lgyun.system.user.entity.RelBureauNoticeReadEntity;
 import com.lgyun.system.user.mapper.RelBureauNoticeMapper;
 import com.lgyun.system.user.service.IRelBureauNoticeReadService;
 import com.lgyun.system.user.service.IRelBureauNoticeService;
@@ -97,7 +98,20 @@ public class RelBureauNoticeServiceImpl extends BaseServiceImpl<RelBureauNoticeM
     }
 
     @Override
-    public R<RelBureauNoticeDetailVO> queryRelBureauNoticeDetail(Long relBureauNoticeId) {
+    public R<RelBureauNoticeDetailVO> queryRelBureauNoticeDetail(Long relBureauNoticeId, Boolean boolRead, Long serviceProviderId, Long serviceProviderWorkerId) {
+
+        //服务商员工查看详情添加已读数据
+        if (boolRead != null && boolRead) {
+            int relBureauFileServiceProviderCount = relBureauNoticeReadService.queryRelBureauNoticeServiceProviderCount(relBureauNoticeId, serviceProviderWorkerId);
+            if (relBureauFileServiceProviderCount <= 0) {
+                RelBureauNoticeReadEntity relBureauNoticeReadEntity = new RelBureauNoticeReadEntity();
+                relBureauNoticeReadEntity.setRelBureauNoticeId(relBureauNoticeId);
+                relBureauNoticeReadEntity.setServicerProviderId(serviceProviderId);
+                relBureauNoticeReadEntity.setServicerProviderWorkerId(serviceProviderWorkerId);
+                relBureauNoticeReadService.save(relBureauNoticeReadEntity);
+            }
+        }
+
         return R.data(baseMapper.queryRelBureauNoticeDetail(relBureauNoticeId));
     }
 
@@ -147,7 +161,7 @@ public class RelBureauNoticeServiceImpl extends BaseServiceImpl<RelBureauNoticeM
             return R.fail("已阅读状态的通知不可重新发布");
         }
 
-        switch (relBureauNoticeFileState){
+        switch (relBureauNoticeFileState) {
 
             case PUBLISHED:
 

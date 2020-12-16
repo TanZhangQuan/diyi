@@ -157,7 +157,7 @@ public class RelBureauAdminController {
             return result;
         }
 
-        return relBureauNoticeService.queryRelBureauNoticeDetail(relBureauNoticeId);
+        return relBureauNoticeService.queryRelBureauNoticeDetail(relBureauNoticeId, false, null, null);
     }
 
     @GetMapping("/query-rel-bureau-file-list")
@@ -182,7 +182,7 @@ public class RelBureauAdminController {
             return result;
         }
 
-        return relBureauFileService.queryRelBureauFileDetail(relBureauFileId, false);
+        return relBureauFileService.queryRelBureauFileDetail(relBureauFileId, false, null, null);
     }
 
 }

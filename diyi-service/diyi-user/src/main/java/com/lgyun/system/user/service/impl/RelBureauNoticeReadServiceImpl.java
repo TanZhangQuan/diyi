@@ -1,5 +1,6 @@
 package com.lgyun.system.user.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.core.mp.base.BaseServiceImpl;
@@ -26,6 +27,14 @@ public class RelBureauNoticeReadServiceImpl extends BaseServiceImpl<RelBureauNot
     @Override
     public int queryServiceProviderCount(Long relBureauNoticeId) {
         return baseMapper.queryServiceProviderCount(relBureauNoticeId);
+    }
+
+    @Override
+    public int queryRelBureauNoticeServiceProviderCount(Long relBureauNoticeId, Long serviceProviderWorkerId) {
+        QueryWrapper<RelBureauNoticeReadEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(RelBureauNoticeReadEntity::getRelBureauNoticeId, relBureauNoticeId)
+                .eq(RelBureauNoticeReadEntity::getServicerProviderWorkerId, serviceProviderWorkerId);
+        return baseMapper.selectCount(queryWrapper);
     }
 
     @Override

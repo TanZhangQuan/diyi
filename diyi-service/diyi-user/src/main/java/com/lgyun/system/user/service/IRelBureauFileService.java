@@ -64,9 +64,10 @@ public interface IRelBureauFileService extends BaseService<RelBureauFileEntity> 
      *
      * @param relBureauFileId
      * @param boolRead
+     * @param serviceProviderWorkerId
      * @return
      */
-    R<RelBureauFileDetailVO> queryRelBureauFileDetail(Long relBureauFileId, Boolean boolRead);
+    R<RelBureauFileDetailVO> queryRelBureauFileDetail(Long relBureauFileId, Boolean boolRead, Long serviceProviderId, Long serviceProviderWorkerId);
 
     /**
      * 删除相关局监督文件
