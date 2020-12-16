@@ -3,6 +3,7 @@ package com.lgyun.system.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.RelBureauType;
 import com.lgyun.common.enumeration.UserType;
@@ -14,6 +15,7 @@ import com.lgyun.system.user.dto.RelBureauListDTO;
 import com.lgyun.system.user.entity.RelBureauEntity;
 import com.lgyun.system.user.mapper.RelBureauMapper;
 import com.lgyun.system.user.service.IRelBureauService;
+import com.lgyun.system.user.vo.RelBureauDetailVO;
 import com.lgyun.system.user.vo.RelBureauInfoVO;
 import com.lgyun.system.user.vo.RelBureauListVO;
 import com.lgyun.system.user.vo.RelBureauUpdateDetailVO;
@@ -59,9 +61,9 @@ public class RelBureauServiceImpl extends BaseServiceImpl<RelBureauMapper, RelBu
     }
 
     @Override
-    public RelBureauEntity findByEmployeeUserNameAndEmployeePwd(String relBureauUserName, String relBureauPwd, RelBureauType relBureauType) {
+    public RelBureauEntity findByAccountAndPwd(String account, String relBureauPwd, RelBureauType relBureauType) {
         QueryWrapper<RelBureauEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(RelBureauEntity::getRelBureauUserName, relBureauUserName)
+        queryWrapper.lambda().eq(RelBureauEntity::getRelBureauUserName, account)
                 .eq(RelBureauEntity::getRelBureauPwd, relBureauPwd)
                 .eq(RelBureauEntity::getRelBureauType, relBureauType);
         return baseMapper.selectOne(queryWrapper);
@@ -118,7 +120,7 @@ public class RelBureauServiceImpl extends BaseServiceImpl<RelBureauMapper, RelBu
         BeanUtils.copyProperties(addOrUpdateRelBureauDto, relBureauEntity);
         saveOrUpdate(relBureauEntity);
 
-        return R.success("操作成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -137,7 +139,7 @@ public class RelBureauServiceImpl extends BaseServiceImpl<RelBureauMapper, RelBu
     }
 
     @Override
-    public R<IPage<RelBureauListVO>> queryRelBureauList(RelBureauType relBureauType, RelBureauListDTO relBureauListDTO, IPage<RelBureauListVO> page) {
+    public R<IPage<RelBureauListVO>> queryRelBureauList(RelBureauListDTO relBureauListDTO, IPage<RelBureauListVO> page) {
 
         if (relBureauListDTO.getBeginDate() != null && relBureauListDTO.getEndDate() != null) {
             if (relBureauListDTO.getBeginDate().after(relBureauListDTO.getEndDate())) {
@@ -145,7 +147,12 @@ public class RelBureauServiceImpl extends BaseServiceImpl<RelBureauMapper, RelBu
             }
         }
 
-        return R.data(page.setRecords(baseMapper.queryRelBureauList(relBureauType, relBureauListDTO, page)));
+        return R.data(page.setRecords(baseMapper.queryRelBureauList(relBureauListDTO, page)));
+    }
+
+    @Override
+    public R<RelBureauDetailVO> queryRelBureauDetail(Long relBureauId) {
+        return R.data(baseMapper.queryRelBureauDetail(relBureauId));
     }
 
     @Override

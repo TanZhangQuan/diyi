@@ -3,6 +3,7 @@ package com.lgyun.system.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.*;
@@ -99,7 +100,7 @@ public class AgentMainServiceProviderServiceImpl extends BaseServiceImpl<AgentMa
             updateById(agentMainServiceProviderEntity);
         }
 
-        return R.success("操作成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
 }

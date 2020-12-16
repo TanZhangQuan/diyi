@@ -8,6 +8,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.KdniaoTrackQueryUtil;
 import com.lgyun.common.tool.StringUtil;
@@ -24,6 +25,7 @@ import com.lgyun.system.order.service.*;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.dto.PayEnterpriseListSimpleDTO;
 import com.lgyun.system.user.feign.IUserClient;
+import com.lgyun.system.order.vo.TotalCrowdTradeListVO;
 import com.lgyun.system.user.vo.TransactionVO;
 import fr.opensagres.xdocreport.document.json.JSONArray;
 import lombok.AllArgsConstructor;
@@ -49,19 +51,19 @@ import java.util.*;
 @AllArgsConstructor
 public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMapper, PayEnterpriseEntity> implements IPayEnterpriseService {
 
-    private IPayEnterpriseReceiptService payEnterpriseReceiptService;
-    private IWorksheetService worksheetService;
     private IUserClient userClient;
-    private IInvoiceApplicationService invoiceApplicationService;
     private IPayMakerService payMakerService;
-    private IPlatformInvoiceService platformInvoiceService;
-    private IPlatformInvoicePayListService platformInvoicePayListService;
-    private IMakerTotalInvoiceService makerTotalInvoiceService;
+    private IWorksheetService worksheetService;
     private IMakerInvoiceService makerInvoiceService;
     private IMakerTaxRecordService makerTaxRecordService;
-    private IPlatformInvoiceListService platformInvoiceListService;
-    private IInvoiceApplicationPayListService invoiceApplicationPayListService;
     private IAcceptPaysheetService acceptPaysheetService;
+    private IPlatformInvoiceService platformInvoiceService;
+    private IMakerTotalInvoiceService makerTotalInvoiceService;
+    private IInvoiceApplicationService invoiceApplicationService;
+    private IPlatformInvoiceListService platformInvoiceListService;
+    private IPayEnterpriseReceiptService payEnterpriseReceiptService;
+    private IPlatformInvoicePayListService platformInvoicePayListService;
+    private IInvoiceApplicationPayListService invoiceApplicationPayListService;
 
     @Override
     public R<IPage<InvoiceEnterpriseVO>> getEnterpriseAll(Long makerId, IPage<InvoiceEnterpriseVO> page) {
@@ -372,48 +374,23 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     }
 
     @Override
-    public R<TransactionVO> queryRelBureauServiceProviderTransaction(Long relBureauId) {
-        return R.data(baseMapper.queryRelBureauServiceProviderTransaction(relBureauId));
+    public R<TransactionVO> queryRelBureauTransaction(Long relBureauId) {
+        return R.data(baseMapper.queryRelBureauTransaction(relBureauId));
     }
 
     @Override
-    public R<YearTradeVO> queryTotalSubYearTradeByEnterprise(Long enterpriseId) {
-        return R.data(baseMapper.queryTotalSubYearTradeByEnterprise(enterpriseId));
+    public R<List<TradeVO>> queryTotalSubTrade(Long enterpriseId, Long serviceProviderId, Long relBureauId, TimeType timeType, Date beginDate, Date endDate) {
+
+        if (TimeType.PERIOD.equals(timeType) && (beginDate == null || endDate == null)){
+            return R.fail("请选择开始时间和结束时间");
+        }
+
+        return R.data(baseMapper.queryTotalSubTrade(enterpriseId, serviceProviderId, relBureauId, timeType.getValue(), beginDate, endDate));
     }
 
     @Override
-    public R<YearTradeVO> queryTotalSubYearTradeByServiceProvider(Long serviceProviderId) {
-        return R.data(baseMapper.queryTotalSubYearTradeByServiceProvider(serviceProviderId));
-    }
-
-    @Override
-    public R<MonthTradeVO> queryTotalSubMonthTradeByEnterprise(Long enterpriseId) {
-        return R.data(baseMapper.queryTotalSubMonthTradeByEnterprise(enterpriseId));
-    }
-
-    @Override
-    public R<MonthTradeVO> queryTotalSubMonthTradeByServiceProvider(Long serviceProviderId) {
-        return R.data(baseMapper.queryTotalSubMonthTradeByServiceProvider(serviceProviderId));
-    }
-
-    @Override
-    public R<WeekTradeVO> queryTotalSubWeekTradeByEnterprise(Long enterpriseId) {
-        return R.data(baseMapper.queryTotalSubWeekTradeByEnterprise(enterpriseId));
-    }
-
-    @Override
-    public R<WeekTradeVO> queryTotalSubWeekTradeByServiceProvider(Long serviceProviderId) {
-        return R.data(baseMapper.queryTotalSubWeekTradeByServiceProvider(serviceProviderId));
-    }
-
-    @Override
-    public R<DayTradeVO> queryTotalSubDayTradeByEnterprise(Long enterpriseId) {
-        return R.data(baseMapper.queryTotalSubDayTradeByEnterprise(enterpriseId));
-    }
-
-    @Override
-    public R<DayTradeVO> queryTotalSubDayTradeByServiceProvider(Long serviceProviderId) {
-        return R.data(baseMapper.queryTotalSubDayTradeByServiceProvider(serviceProviderId));
+    public R<IPage<TotalCrowdTradeListVO>> queryRelBureauTotalSublist(Long relBureauId, IPage<TotalCrowdTradeListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryRelBureauTotalSublist(relBureauId, page)));
     }
 
     @Override
@@ -515,8 +492,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             }
             saveOrUpdate(byId);
         }
-        return R.success("操作成功");
 
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -605,7 +582,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             saveOrUpdate(payEnterpriseEntity);
             invoiceApplicationService.saveOrUpdate(invoiceApplicationEntity);
         }
-        return R.success("操作成功");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -653,7 +631,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             platformInvoiceListEntity.setCompanyInvoiceUrl(lumpInvoiceDTO.getCompanyInvoiceUrl());
             platformInvoiceListService.saveOrUpdate(platformInvoiceListEntity);
         }
-        return R.success("操作成功");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -725,7 +704,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         PayEnterpriseEntity byId = getById(payEnterpriseId);
         byId.setSubcontractingInvoiceState(InvoiceState.OPENED);
         saveOrUpdate(byId);
-        return R.success("操作成功");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override

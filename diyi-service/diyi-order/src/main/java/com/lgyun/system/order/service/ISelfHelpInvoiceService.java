@@ -11,7 +11,9 @@ import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 
+import java.util.Date;
 import java.util.List;
+
 
 /**
  * Service 接口
@@ -33,7 +35,7 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
 //    R<IPage<SelfHelpInvoiceListByEnterpriseVO>> getSelfHelfInvoicesByEnterprise(Long enterpriseId, MakerType makerType, SelfHelpInvoicesByEnterpriseDTO selfHelpInvoicesByEnterpriseDto, IPage<SelfHelpInvoiceListByEnterpriseVO> page);
 
     /**
-     * 查询当前商户某条自助开票记录详情
+     * 查询商户某条自助开票记录详情
      *
      * @param enterpriseId
      * @param selfHelpInvoiceId
@@ -42,7 +44,7 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
     R<SelfHelpInvoiceSingleByEnterpriseVO> getSingleSelfHelfInvoiceByEnterprise(Long enterpriseId, Long selfHelpInvoiceId);
 
     /**
-     * 查询当前商户某条自助开票记录的所有自助开票明细
+     * 查询商户某条自助开票记录的所有自助开票明细
      *
      * @param selfHelpInvoiceId
      * @param page
@@ -51,7 +53,7 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
     R<IPage<SelfHelpInvoiceDetailListVO>> getSelfHelfInvoiceDetailListBySelfHelfInvoice(Long selfHelpInvoiceId, IPage<SelfHelpInvoiceDetailListVO> page);
 
     /**
-     * 查询当前商户某条自助开票记录的所有快递信息
+     * 查询商户某条自助开票记录的所有快递信息
      *
      * @param enterpriseId
      * @param selfHelpInvoiceId
@@ -61,7 +63,7 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
     R<IPage<SelfHelpInvoiceExpressByEnterpriseProviderVO>> getSelfHelfInvoiceExpressBySelfHelfInvoiceAndEnterprise(Long enterpriseId, Long selfHelpInvoiceId, IPage<SelfHelpInvoiceExpressByEnterpriseProviderVO> page);
 
     /**
-     * 查询当前服务商所有自助开票记录
+     * 查询服务商所有自助开票记录
      *
      * @param serviceProviderId
      * @param makerType
@@ -73,7 +75,7 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
     R<IPage<SelfHelpInvoiceListByServiceProviderVO>> getSelfHelfInvoicesByServiceProvider(Long serviceProviderId, MakerType makerType, SelfHelpInvoiceSpApplyState selfHelpInvoiceSpApplyState, SelfHelpInvoiceDetailsByServiceProviderDTO selfHelpInvoiceDetailsByServiceProviderDto, IPage<SelfHelpInvoiceListByServiceProviderVO> page);
 
     /**
-     * 查询当前服务商某条自助开票明细记录详情
+     * 查询服务商某条自助开票明细记录详情
      *
      * @param serviceProviderId
      * @param selfHelpInvoiceDetailId
@@ -100,7 +102,7 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
     R<String> fillExpressByProvider(ServiceProviderWorkerEntity serviceProviderWorkerEntity, SelfHelpInvoiceExpressDTO selfHelpInvoiceExpressDto);
 
     /**
-     * 查询当前服务商某条自助开票记录的快递信息
+     * 查询服务商某条自助开票记录的快递信息
      *
      * @param serviceProviderId
      * @param selfHelpInvoiceId
@@ -156,68 +158,25 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
     R<String> audit(Long serviceProviderId, Long selfHelpInvoiceId, SelfHelpInvoiceSpApplyState applyState);
 
     /**
-     * 查询当前商户众包/众采年流水
+     * 查询众包/众采流水
      *
      * @param enterpriseId
-     * @return
-     */
-    R<YearTradeVO> queryCrowdYearTradeByEnterprise(Long enterpriseId);
-
-    /**
-     * 查询当前服务商众包/众采年流水
-     *
      * @param serviceProviderId
+     * @param relBureauId
+     * @param timeType
+     * @param beginDate
+     * @param endDate
      * @return
      */
-    R<YearTradeVO> queryCrowdYearTradeByServiceProvider(Long serviceProviderId);
+    R<List<TradeVO>> queryCrowdTrade(Long enterpriseId, Long serviceProviderId, Long relBureauId, TimeType timeType, Date beginDate, Date endDate);
 
     /**
-     * 查询当前商户众包/众采本月流水
+     * 查询相关局众包/众采列表
      *
-     * @param enterpriseId
+     * @param relBureauId
      * @return
      */
-    R<MonthTradeVO> queryCrowdMonthTradeByEnterprise(Long enterpriseId);
-
-    /**
-     * 查询当前服务商众包/众采本月流水
-     *
-     * @param serviceProviderId
-     * @return
-     */
-    R<MonthTradeVO> queryCrowdMonthTradeByServiceProvider(Long serviceProviderId);
-
-    /**
-     * 查询当前商户众包/众采本周流水
-     *
-     * @param enterpriseId
-     * @return
-     */
-    R<WeekTradeVO> queryCrowdWeekTradeByEnterprise(Long enterpriseId);
-
-    /**
-     * 查询当前服务商众包/众采本周流水
-     *
-     * @param serviceProviderId
-     * @return
-     */
-    R<WeekTradeVO> queryCrowdWeekTradeByServiceProvider(Long serviceProviderId);
-
-    /**
-     * 查询当前商户众包/众采今日流水
-     *
-     * @param enterpriseId
-     * @return
-     */
-    R<DayTradeVO> queryCrowdDayTradeByEnterprise(Long enterpriseId);
-
-    /**
-     * 查询当前服务商众包/众采今日流水
-     *
-     * @param serviceProviderId
-     * @return
-     */
-    R<DayTradeVO> queryCrowdDayTradeByServiceProvider(Long serviceProviderId);
+    R<IPage<TotalCrowdTradeListVO>> queryRelBureauCrowdList(Long relBureauId, IPage<TotalCrowdTradeListVO> page);
 
     /**
      * 平台跟据创客身份查询自助开票
@@ -229,7 +188,7 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      * @param page
      * @return
      */
-    R getAdminMakerTypeSelfHelpInvoice(String enterpriseName, String startTime, String endTime, MakerType makerType,IPage<SelfHelpInvoiceAdminVO> page);
+    R getAdminMakerTypeSelfHelpInvoice(String enterpriseName, String startTime, String endTime, MakerType makerType, IPage<SelfHelpInvoiceAdminVO> page);
 
     /**
      * 平台跟据创客身份查询自助开票详情
@@ -256,7 +215,7 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      * @param payCertificate
      * @return
      */
-    R matchServiceProvider(Long selfHelpInvoiceId,Long selfHelpInvoiceFeeId,Long serviceProviderId,String payCertificate);
+    R matchServiceProvider(Long selfHelpInvoiceId, Long selfHelpInvoiceFeeId, Long serviceProviderId, String payCertificate);
 
     /**
      * 平台上传快递
@@ -267,7 +226,7 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      * @param expressCompanyName
      * @return
      */
-    R uploadAdminExpress(Long selfHelpInvoiceId, Long serviceProviderId,String expressNo, String expressCompanyName);
+    R uploadAdminExpress(Long selfHelpInvoiceId, Long serviceProviderId, String expressNo, String expressCompanyName);
 
     /**
      * 平台上传发票
@@ -280,7 +239,7 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
     R uploadAdminInvoice(Long selfHelpInvoiceApplyProviderDetailId, String invoiceScanPictures, String taxScanPictures);
 
     /**
-     * 查询当前服务商的自助开票
+     * 查询服务商的自助开票
      *
      * @param page
      * @param keyword
@@ -290,7 +249,7 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
     R<IPage<SelfHelpInvoiceSerProVO>> querySelfHelpInvoiceList(Long serviceProviderId, String keyword, IPage<SelfHelpInvoiceSerProVO> page);
 
     /**
-     * 根据当前服务商和自助开票ID查询自助开票详情
+     * 根据服务商和自助开票ID查询自助开票详情
      *
      * @param page
      * @param selfHelpvoiceId

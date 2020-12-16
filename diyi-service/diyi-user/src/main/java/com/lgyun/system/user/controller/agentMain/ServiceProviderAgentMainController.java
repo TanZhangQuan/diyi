@@ -40,7 +40,7 @@ public class ServiceProviderAgentMainController {
         }
         AgentMainWorkerEntity agentMainWorkerEntity = result.getData();
 
-        return serviceProviderService.queryServiceProviderListAgentMain(agentMainWorkerEntity.getAgentMainId(), serviceProviderListDTO, Condition.getPage(query.setDescs("t1.create_time")));
+        return serviceProviderService.queryServiceProviderList(agentMainWorkerEntity.getAgentMainId(), null, serviceProviderListDTO, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-service-provider-detail")

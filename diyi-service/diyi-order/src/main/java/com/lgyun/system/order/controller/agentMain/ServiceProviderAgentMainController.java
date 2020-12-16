@@ -34,15 +34,14 @@ public class ServiceProviderAgentMainController {
 
     @GetMapping("/query-service-provider-transaction")
     @ApiOperation(value = "查询服务商交易数据", notes = "查询服务商交易数据")
-    public R queryServiceProviderTransaction(BladeUser bladeUser) {
+    public R queryServiceProviderTransaction(@ApiParam(value = "服务商", required = true) @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId, BladeUser bladeUser) {
         //查询当前渠道商员工
         R<AgentMainWorkerEntity> result = userClient.currentAgentMainWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
-        AgentMainWorkerEntity agentMainWorkerEntity = result.getData();
 
-        return payEnterpriseService.queryServiceProviderTransaction(agentMainWorkerEntity.getId());
+        return payEnterpriseService.queryServiceProviderTransaction(serviceProviderId);
     }
 
     @GetMapping("/query-pay-enterprise-list")

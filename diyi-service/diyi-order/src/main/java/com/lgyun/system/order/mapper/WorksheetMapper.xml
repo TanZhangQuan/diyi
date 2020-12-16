@@ -88,7 +88,7 @@
     <select id="getEnterpriseWorksheet" resultMap="worksheetXiaoVO">
         SELECT ws.id AS worksheet_id, ws.enterprise_id, e.enterprise_name, ws.worksheet_mode, ws.worksheet_name, ws.worksheet_type, ws.up_person_num, ws.worksheet_no, ws.work_days, ws.worksheet_fee_low,
          ws.worksheet_fee_high, ws.create_time,ws.maker_type,ws.worksheet_state FROM diyi_worksheet ws INNER JOIN diyi_enterprise e ON e.id = ws.enterprise_id
-         WHERE ws.bool_deleted = 0 AND e.bool_deleted = 0 AND e.id = #{param1} AND ws.worksheet_state = #{param2} and e.bool_deleted = 0 and ws.bool_deleted = 0
+         WHERE ws.bool_deleted = 0 AND e.bool_deleted = 0 AND e.id = #{param1} AND ws.worksheet_state = #{param2}
          <if test="param3 != null and param3 != ''">
              and ws.worksheet_no LIKE concat('%', #{param3}, '%')
          </if>

@@ -152,90 +152,9 @@
         <result property="expressCompanyName" column="express_company_name"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.order.vo.YearTradeVO" id="yearTradeVO">
-        <result property="janIncome" column="jan_income"/>
-        <result property="febIncome" column="feb_income"/>
-        <result property="marIncome" column="mar_income"/>
-        <result property="aprIncome" column="apr_income"/>
-        <result property="mayIncome" column="may_income"/>
-        <result property="junIncome" column="jun_income"/>
-        <result property="julIncome" column="jul_income"/>
-        <result property="augIncome" column="aug_income"/>
-        <result property="sepIncome" column="sep_income"/>
-        <result property="octIncome" column="oct_income"/>
-        <result property="novIncome" column="nov_income"/>
-        <result property="decIncome" column="dec_income"/>
-    </resultMap>
-
-    <resultMap type="com.lgyun.system.order.vo.MonthTradeVO" id="monthTradeVO">
-        <result property="oneDayIncome" column="one_day_income"/>
-        <result property="twoDayIncome" column="two_day_income"/>
-        <result property="threeDayIncome" column="three_day_income"/>
-        <result property="fourDayIncome" column="four_day_income"/>
-        <result property="fiveDayIncome" column="five_day_income"/>
-        <result property="sixDayIncome" column="six_day_income"/>
-        <result property="sevenDayIncome" column="seven_day_income"/>
-        <result property="eightDayIncome" column="eight_day_income"/>
-        <result property="nineDayIncome" column="nine_day_income"/>
-        <result property="tenDayIncome" column="ten_day_income"/>
-        <result property="elevenDayIncome" column="eleven_day_income"/>
-        <result property="twelveDayIncome" column="twelve_day_income"/>
-        <result property="thirteenDayIncome" column="thirteen_day_income"/>
-        <result property="fourteenDayIncome" column="fourteen_day_income"/>
-        <result property="fifteenDayIncome" column="fifteen_day_income"/>
-        <result property="sixteenDayIncome" column="sixteen_day_income"/>
-        <result property="seventeenDayIncome" column="seventeen_day_income"/>
-        <result property="eighteenDayIncome" column="eighteen_day_income"/>
-        <result property="nineteenDayIncome" column="nineteen_day_income"/>
-        <result property="twentyDayIncome" column="twenty_day_income"/>
-        <result property="twentyOneDayIncome" column="twenty_one_day_income"/>
-        <result property="twentyTwoDayIncome" column="twenty_two_day_income"/>
-        <result property="twentyThreeDayIncome" column="twenty_three_day_income"/>
-        <result property="twentyFourDayIncome" column="twenty_four_day_income"/>
-        <result property="twentyFiveDayIncome" column="twenty_five_day_income"/>
-        <result property="twentySixDayIncome" column="twenty_six_day_income"/>
-        <result property="twentySevenDayIncome" column="twenty_seven_day_income"/>
-        <result property="twentyEightDayIncome" column="twenty_eight_day_income"/>
-        <result property="twentyNineDayIncome" column="twenty_nine_day_income"/>
-        <result property="thirtyDayIncome" column="thirty_day_income"/>
-        <result property="thirtyOneDayIncome" column="thirty_one_day_income"/>
-    </resultMap>
-
-    <resultMap type="com.lgyun.system.order.vo.WeekTradeVO" id="weekTradeVO">
-        <result property="monIncome" column="mon_income"/>
-        <result property="tueIncome" column="tue_income"/>
-        <result property="wedIncome" column="wed_income"/>
-        <result property="thuIncome" column="thu_income"/>
-        <result property="friIncome" column="fri_income"/>
-        <result property="satIncome" column="sat_income"/>
-        <result property="sunIncome" column="sun_income"/>
-    </resultMap>
-
-    <resultMap type="com.lgyun.system.order.vo.DayTradeVO" id="dayTradeVO">
-        <result property="oneHourIncome" column="one_hour_income"/>
-        <result property="twoHourIncome" column="two_hour_income"/>
-        <result property="threeHourIncome" column="three_hour_income"/>
-        <result property="fourHourIncome" column="four_hour_income"/>
-        <result property="fiveHourIncome" column="five_hour_income"/>
-        <result property="sixHourIncome" column="six_hour_income"/>
-        <result property="sevenHourIncome" column="seven_hour_income"/>
-        <result property="eightHourIncome" column="eight_hour_income"/>
-        <result property="nineHourIncome" column="nine_hour_income"/>
-        <result property="tenHourIncome" column="ten_hour_income"/>
-        <result property="elevenHourIncome" column="eleven_hour_income"/>
-        <result property="twelveHourIncome" column="twelve_hour_income"/>
-        <result property="thirteenHourIncome" column="thirteen_hour_income"/>
-        <result property="fourteenHourIncome" column="fourteen_hour_income"/>
-        <result property="fifteenHourIncome" column="fifteen_hour_income"/>
-        <result property="sixteenHourIncome" column="sixteen_hour_income"/>
-        <result property="seventeenHourIncome" column="seventeen_hour_income"/>
-        <result property="eighteenHourIncome" column="eighteen_hour_income"/>
-        <result property="nineteenHourIncome" column="nineteen_hour_income"/>
-        <result property="twentyHourIncome" column="twenty_hour_income"/>
-        <result property="twentyOneHourIncome" column="twenty_one_hour_income"/>
-        <result property="twentyTwoHourIncome" column="twenty_two_hour_income"/>
-        <result property="twentyThreeHourIncome" column="twenty_three_hour_income"/>
-        <result property="twentyFourHourIncome" column="twenty_four_hour_income"/>
+    <resultMap type="com.lgyun.system.order.vo.TradeVO" id="tradeVO">
+        <result property="tradeTime" column="trade_time"/>
+        <result property="tradeMoney" column="trade_money"/>
     </resultMap>
 
     <resultMap id="selfHelpInvoiceAdminMap" type="com.lgyun.system.order.vo.SelfHelpInvoiceAdminVO">
@@ -297,6 +216,13 @@
         <result property="idcardNo" column="idcard_no"/>
         <result property="phoneNumber" column="phone_number"/>
         <result property="bankNo" column="bank_no"/>
+    </resultMap>
+
+    <resultMap type="com.lgyun.system.order.vo.TotalCrowdTradeListVO" id="totalCrowdTradeListVO">
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="serviceProviderName" column="service_provider_name"/>
+        <result property="tradeMoney" column="trade_money"/>
+        <result property="createTime" column="create_time"/>
     </resultMap>
 
     <resultMap type="com.lgyun.system.order.vo.SelfInvoiceDetailVo" id="selfInvoiceDetailVoMap">
@@ -482,116 +408,68 @@
         AND e.bool_deleted = 0 and si.id =#{param1}
     </select>
 
-    <select id="queryCrowdYearTradeByEnterprise" resultMap="yearTradeVO">
-        SELECT IFNULL(SUM(IF(MONTH(create_time) = 1, total_pay_provider_fee, 0)), 0) AS jan_income, IFNULL(SUM(IF(MONTH(create_time) = 2, total_pay_provider_fee, 0)), 0) AS feb_income,
-        IFNULL(SUM(IF(MONTH(create_time) = 3, total_pay_provider_fee, 0)), 0) AS mar_income, IFNULL(SUM(IF(MONTH(create_time) = 4, total_pay_provider_fee, 0)), 0) AS apr_income,
-        IFNULL(SUM(IF(MONTH(create_time) = 5, total_pay_provider_fee, 0)), 0) AS may_income, IFNULL(SUM(IF(MONTH(create_time) = 6, total_pay_provider_fee, 0)), 0) AS jun_income,
-        IFNULL(SUM(IF(MONTH(create_time) = 7, total_pay_provider_fee, 0)), 0) AS jul_income, IFNULL(SUM(IF(MONTH(create_time) = 8, total_pay_provider_fee, 0)), 0) AS aug_income,
-        IFNULL(SUM(IF(MONTH(create_time) = 9, total_pay_provider_fee, 0)), 0) AS sep_income, IFNULL(SUM(IF(MONTH(create_time) = 10, total_pay_provider_fee, 0)), 0) AS oct_income,
-        IFNULL(SUM(IF(MONTH(create_time) = 11, total_pay_provider_fee, 0)), 0) AS nov_income, IFNULL(SUM(IF(MONTH(create_time) = 12, total_pay_provider_fee, 0)), 0) AS dec_income
-        FROM diyi_self_help_invoice WHERE bool_deleted = 0 AND (current_state = 'PAID' AND current_state = 'INVOICED') AND YEAR(create_time) = YEAR(NOW()) AND enterprise_id = #{param1}
-    </select>
+    <select id="queryCrowdTrade" resultMap="tradeVO">
+        SELECT
+        <choose>
+            <when test="param4 == 'ALL'">
+                YEAR(t1.create_time)
+            </when>
+            <when test="param4 == 'YEAR'">
+                MONTH(t1.create_time)
+            </when>
+            <when test="param4 == 'MONTH'">
+                DAY(t1.create_time)
+            </when>
+            <when test="param4 == 'WEEK'">
+                WEEKDAY(t1.create_time) + 1
+            </when>
+            <when test="param4 == 'DAY'">
+                HOUR(t1.create_time)
+            </when>
+            <when test="param4 == 'PERIOD'">
+                DATE(t1.create_time)
+            </when>
+            <otherwise>
 
-    <select id="queryCrowdYearTradeByServiceProvider" resultMap="yearTradeVO">
-        SELECT IFNULL(SUM(IF(MONTH(create_time) = 1, charge_money_num, 0)), 0) AS jan_income, IFNULL(SUM(IF(MONTH(create_time) = 2, charge_money_num, 0)), 0) AS feb_income,
-        IFNULL(SUM(IF(MONTH(create_time) = 3, charge_money_num, 0)), 0) AS mar_income, IFNULL(SUM(IF(MONTH(create_time) = 4, charge_money_num, 0)), 0) AS apr_income,
-        IFNULL(SUM(IF(MONTH(create_time) = 5, charge_money_num, 0)), 0) AS may_income, IFNULL(SUM(IF(MONTH(create_time) = 6, charge_money_num, 0)), 0) AS jun_income,
-        IFNULL(SUM(IF(MONTH(create_time) = 7, charge_money_num, 0)), 0) AS jul_income, IFNULL(SUM(IF(MONTH(create_time) = 8, charge_money_num, 0)), 0) AS aug_income,
-        IFNULL(SUM(IF(MONTH(create_time) = 9, charge_money_num, 0)), 0) AS sep_income, IFNULL(SUM(IF(MONTH(create_time) = 10, charge_money_num, 0)), 0) AS oct_income,
-        IFNULL(SUM(IF(MONTH(create_time) = 11, charge_money_num, 0)), 0) AS nov_income, IFNULL(SUM(IF(MONTH(create_time) = 12, charge_money_num, 0)), 0) AS dec_income
-        FROM diyi_self_help_invoice_sp WHERE bool_deleted = 0 AND (apply_state = 'SUBMITTED' OR apply_state = 'INVOICED') AND YEAR(create_time) = YEAR(NOW()) AND service_provider_id = #{param1}
-    </select>
+            </otherwise>
+        </choose>
+        AS trade_time,
+        <if test="param3 != null">
+            SUM(t1.charge_money_num) AS trade_money FROM diyi_self_help_invoice_sp t1 INNER JOIN diyi_rel_bureau_service_provider t2 ON t1.service_provider_id = t2.service_provider_id
+            AND t2.bool_deleted = 0 AND t2.rel_bureau_id = #{param3} WHERE t1.bool_deleted = 0 AND (t1.apply_state = 'SUBMITTED' OR t1.apply_state = 'INVOICED')
+        </if>
+        <if test="param1 != null">
+            SUM(t1.total_pay_provider_fee) AS trade_money FROM diyi_self_help_invoice t1 AND enterprise_id = #{param1} WHERE bool_deleted = 0
+            AND (current_state = 'PAID' AND current_state = 'INVOICED')
+        </if>
+        <if test="param2 != null">
+            SUM(t1.charge_money_num) AS trade_money FROM diyi_self_help_invoice_sp t1 AND t1.service_provider_id = #{param2} WHERE t1.bool_deleted = 0
+            AND (t1.apply_state = 'SUBMITTED' OR t1.apply_state = 'INVOICED')
+        </if>
+        <choose>
+            <when test="param4 == 'ALL'">
+                GROUP BY YEAR(t1.create_time)
+            </when>
+            <when test="param4 == 'YEAR'">
+                AND YEAR(t1.create_time) = YEAR(NOW()) GROUP BY MONTH(t1.create_time)
+            </when>
+            <when test="param4 == 'MONTH'">
+                AND YEAR(t1.create_time) = YEAR(NOW()) AND MONTH(t1.create_time) = MONTH(NOW()) GROUP BY DAY(t1.create_time)
+            </when>
+            <when test="param4 == 'WEEK'">
+                AND WEEK(t1.create_time) = WEEK(NOW()) GROUP BY WEEKDAY(t1.create_time)
+            </when>
+            <when test="param4 == 'DAY'">
+                AND DATE(t1.create_time) = DATE(NOW()) GROUP BY HOUR(t1.create_time)
+            </when>
+            <when test="param4 == 'PERIOD'">
+                AND DATEDIFF(t1.create_time, #{param5}) <![CDATA[ >= ]]> 0 AND DATEDIFF(t1.create_time, #{param6}) <![CDATA[ <= ]]> 0
+                GROUP BY DATE(t1.create_time)
+            </when>
+            <otherwise>
 
-    <select id="queryCrowdMonthTradeByEnterprise" resultMap="monthTradeVO">
-        SELECT IFNULL(SUM(IF(DAY(create_time) = 1, total_pay_provider_fee, 0)), 0) AS one_day_income, IFNULL(SUM(IF(DAY(create_time) = 2, total_pay_provider_fee, 0)), 0) AS two_day_income,
-        IFNULL(SUM(IF(DAY(create_time) = 3, total_pay_provider_fee, 0)), 0) AS three_day_income, IFNULL(SUM(IF(DAY(create_time) = 4, total_pay_provider_fee, 0)), 0) AS four_day_income,
-        IFNULL(SUM(IF(DAY(create_time) = 5, total_pay_provider_fee, 0)), 0) AS five_day_income, IFNULL(SUM(IF(DAY(create_time) = 6, total_pay_provider_fee, 0)), 0) AS six_day_income,
-        IFNULL(SUM(IF(DAY(create_time) = 7, total_pay_provider_fee, 0)), 0) AS seven_day_income, IFNULL(SUM(IF(DAY(create_time) = 8, total_pay_provider_fee, 0)), 0) AS eight_day_income,
-        IFNULL(SUM(IF(DAY(create_time) = 9, total_pay_provider_fee, 0)), 0) AS nine_day_income, IFNULL(SUM(IF(DAY(create_time) = 10, total_pay_provider_fee, 0)), 0) AS ten_day_income,
-        IFNULL(SUM(IF(DAY(create_time) = 11, total_pay_provider_fee, 0)), 0) AS eleven_day_income, IFNULL(SUM(IF(DAY(create_time) = 12, total_pay_provider_fee, 0)), 0) AS twelve_day_income,
-        IFNULL(SUM(IF(DAY(create_time) = 13, total_pay_provider_fee, 0)), 0) AS thirteen_day_income, IFNULL(SUM(IF(DAY(create_time) = 14, total_pay_provider_fee, 0)), 0) AS fourteen_day_income,
-        IFNULL(SUM(IF(DAY(create_time) = 15, total_pay_provider_fee, 0)), 0) AS fifteen_day_income, IFNULL(SUM(IF(DAY(create_time) = 16, total_pay_provider_fee, 0)), 0) AS sixteen_day_income,
-        IFNULL(SUM(IF(DAY(create_time) = 17, total_pay_provider_fee, 0)), 0) AS seventeen_day_income, IFNULL(SUM(IF(DAY(create_time) = 18, total_pay_provider_fee, 0)), 0) AS eighteen_day_income,
-        IFNULL(SUM(IF(DAY(create_time) = 19, total_pay_provider_fee, 0)), 0) AS nineteen_day_income, IFNULL(SUM(IF(DAY(create_time) = 20, total_pay_provider_fee, 0)), 0) AS twenty_day_income,
-        IFNULL(SUM(IF(DAY(create_time) = 21, total_pay_provider_fee, 0)), 0) AS twenty_one_day_income, IFNULL(SUM(IF(DAY(create_time) = 22, total_pay_provider_fee, 0)), 0) AS twenty_two_day_income,
-        IFNULL(SUM(IF(DAY(create_time) = 23, total_pay_provider_fee, 0)), 0) AS twenty_three_day_income, IFNULL(SUM(IF(DAY(create_time) = 24, total_pay_provider_fee, 0)), 0) AS twenty_four_day_income,
-		IFNULL(SUM(IF(DAY(create_time) = 25, total_pay_provider_fee, 0)), 0) AS twenty_five_day_income, IFNULL(SUM(IF(DAY(create_time) = 26, total_pay_provider_fee, 0)), 0) AS twenty_six_day_income,
-        IFNULL(SUM(IF(DAY(create_time) = 27, total_pay_provider_fee, 0)), 0) AS twenty_seven_day_income, IFNULL(SUM(IF(DAY(create_time) = 28, total_pay_provider_fee, 0)), 0) AS twenty_eight_day_income,
-        IF(DAY(LAST_DAY(NOW())) >= 29, IFNULL(SUM(IF(DAY(create_time) = 29, total_pay_provider_fee, 0)), 0), NULL) AS twenty_nine_day_income,
-        IF(DAY(LAST_DAY(NOW())) >= 30, IFNULL(SUM(IF(DAY(create_time) = 30, total_pay_provider_fee, 0)), 0), NULL) AS thirty_day_income,
-		IF(DAY(LAST_DAY(NOW())) >= 31, IFNULL(SUM(IF(DAY(create_time) = 31, total_pay_provider_fee, 0)), 0), NULL) AS thirty_one_day_income
-        FROM diyi_self_help_invoice WHERE bool_deleted = 0 AND (current_state = 'PAID' AND current_state = 'INVOICED')
-        AND YEAR(create_time) = YEAR(NOW()) AND MONTH(create_time) = MONTH(NOW()) AND enterprise_id = #{param1}
-    </select>
-
-    <select id="queryCrowdMonthTradeByServiceProvider" resultMap="monthTradeVO">
-        SELECT IFNULL(SUM(IF(DAY(create_time) = 1, charge_money_num, 0)), 0) AS one_day_income, IFNULL(SUM(IF(DAY(create_time) = 2, charge_money_num, 0)), 0) AS two_day_income,
-        IFNULL(SUM(IF(DAY(create_time) = 3, charge_money_num, 0)), 0) AS three_day_income, IFNULL(SUM(IF(DAY(create_time) = 4, charge_money_num, 0)), 0) AS four_day_income,
-        IFNULL(SUM(IF(DAY(create_time) = 5, charge_money_num, 0)), 0) AS five_day_income, IFNULL(SUM(IF(DAY(create_time) = 6, charge_money_num, 0)), 0) AS six_day_income,
-        IFNULL(SUM(IF(DAY(create_time) = 7, charge_money_num, 0)), 0) AS seven_day_income, IFNULL(SUM(IF(DAY(create_time) = 8, charge_money_num, 0)), 0) AS eight_day_income,
-        IFNULL(SUM(IF(DAY(create_time) = 9, charge_money_num, 0)), 0) AS nine_day_income, IFNULL(SUM(IF(DAY(create_time) = 10, charge_money_num, 0)), 0) AS ten_day_income,
-        IFNULL(SUM(IF(DAY(create_time) = 11, charge_money_num, 0)), 0) AS eleven_day_income, IFNULL(SUM(IF(DAY(create_time) = 12, charge_money_num, 0)), 0) AS twelve_day_income,
-        IFNULL(SUM(IF(DAY(create_time) = 13, charge_money_num, 0)), 0) AS thirteen_day_income, IFNULL(SUM(IF(DAY(create_time) = 14, charge_money_num, 0)), 0) AS fourteen_day_income,
-        IFNULL(SUM(IF(DAY(create_time) = 15, charge_money_num, 0)), 0) AS fifteen_day_income, IFNULL(SUM(IF(DAY(create_time) = 16, charge_money_num, 0)), 0) AS sixteen_day_income,
-        IFNULL(SUM(IF(DAY(create_time) = 17, charge_money_num, 0)), 0) AS seventeen_day_income, IFNULL(SUM(IF(DAY(create_time) = 18, charge_money_num, 0)), 0) AS eighteen_day_income,
-        IFNULL(SUM(IF(DAY(create_time) = 19, charge_money_num, 0)), 0) AS nineteen_day_income, IFNULL(SUM(IF(DAY(create_time) = 20, charge_money_num, 0)), 0) AS twenty_day_income,
-        IFNULL(SUM(IF(DAY(create_time) = 21, charge_money_num, 0)), 0) AS twenty_one_day_income, IFNULL(SUM(IF(DAY(create_time) = 22, charge_money_num, 0)), 0) AS twenty_two_day_income,
-        IFNULL(SUM(IF(DAY(create_time) = 23, charge_money_num, 0)), 0) AS twenty_three_day_income, IFNULL(SUM(IF(DAY(create_time) = 24, charge_money_num, 0)), 0) AS twenty_four_day_income,
-		IFNULL(SUM(IF(DAY(create_time) = 25, charge_money_num, 0)), 0) AS twenty_five_day_income, IFNULL(SUM(IF(DAY(create_time) = 26, charge_money_num, 0)), 0) AS twenty_six_day_income,
-        IFNULL(SUM(IF(DAY(create_time) = 27, charge_money_num, 0)), 0) AS twenty_seven_day_income, IFNULL(SUM(IF(DAY(create_time) = 28, charge_money_num, 0)), 0) AS twenty_eight_day_income,
-        IF(DAY(LAST_DAY(NOW())) >= 29, IFNULL(SUM(IF(DAY(create_time) = 29, charge_money_num, 0)), 0), NULL) AS twenty_nine_day_income,
-        IF(DAY(LAST_DAY(NOW())) >= 30, IFNULL(SUM(IF(DAY(create_time) = 30, charge_money_num, 0)), 0), NULL) AS thirty_day_income,
-		IF(DAY(LAST_DAY(NOW())) >= 31, IFNULL(SUM(IF(DAY(create_time) = 31, charge_money_num, 0)), 0), NULL) AS thirty_one_day_income
-        FROM diyi_self_help_invoice_sp WHERE bool_deleted = 0 AND (apply_state = 'SUBMITTED' OR apply_state = 'INVOICED')
-        AND YEAR(create_time) = YEAR(NOW()) AND MONTH(create_time) = MONTH(NOW()) AND service_provider_id = #{param1}
-    </select>
-
-    <select id="queryCrowdWeekTradeByEnterprise" resultMap="weekTradeVO">
-        SELECT IFNULL(SUM(IF(WEEKDAY(create_time) = 0, total_pay_provider_fee, 0)), 0) AS mon_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 1, total_pay_provider_fee, 0)), 0) AS tue_income,
-        IFNULL(SUM(IF(WEEKDAY(create_time) = 2, total_pay_provider_fee, 0)), 0) AS wed_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 3, total_pay_provider_fee, 0)), 0) AS thu_income,
-        IFNULL(SUM(IF(WEEKDAY(create_time) = 4, total_pay_provider_fee, 0)), 0) AS fri_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 5, total_pay_provider_fee, 0)), 0) AS sat_income,
-        IFNULL(SUM(IF(WEEKDAY(create_time) = 6, total_pay_provider_fee, 0)), 0) AS sun_income
-        FROM diyi_self_help_invoice WHERE bool_deleted = 0 AND (current_state = 'PAID' AND current_state = 'INVOICED') AND WEEK(create_time) = WEEK(NOW()) AND enterprise_id = #{param1}
-    </select>
-
-    <select id="queryCrowdWeekTradeByServiceProvider" resultMap="weekTradeVO">
-        SELECT IFNULL(SUM(IF(WEEKDAY(create_time) = 0, charge_money_num, 0)), 0) AS mon_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 1, charge_money_num, 0)), 0) AS tue_income,
-        IFNULL(SUM(IF(WEEKDAY(create_time) = 2, charge_money_num, 0)), 0) AS wed_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 3, charge_money_num, 0)), 0) AS thu_income,
-        IFNULL(SUM(IF(WEEKDAY(create_time) = 4, charge_money_num, 0)), 0) AS fri_income, IFNULL(SUM(IF(WEEKDAY(create_time) = 5, charge_money_num, 0)), 0) AS sat_income,
-        IFNULL(SUM(IF(WEEKDAY(create_time) = 6, charge_money_num, 0)), 0) AS sun_income
-        FROM diyi_self_help_invoice_sp WHERE bool_deleted = 0 AND (apply_state = 'SUBMITTED' OR apply_state = 'INVOICED') AND WEEK(create_time) = WEEK(NOW()) AND service_provider_id = #{param1}
-    </select>
-
-    <select id="queryCrowdDayTradeByEnterprise" resultMap="dayTradeVO">
-        SELECT IFNULL(SUM(IF(HOUR(create_time) = 1, total_pay_provider_fee, 0)), 0) AS one_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 2, total_pay_provider_fee, 0)), 0) AS two_hour_income,
-        IFNULL(SUM(IF(HOUR(create_time) = 3, total_pay_provider_fee, 0)), 0) AS three_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 4, total_pay_provider_fee, 0)), 0) AS four_hour_income,
-        IFNULL(SUM(IF(HOUR(create_time) = 5, total_pay_provider_fee, 0)), 0) AS five_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 6, total_pay_provider_fee, 0)), 0) AS six_hour_income,
-        IFNULL(SUM(IF(HOUR(create_time) = 7, total_pay_provider_fee, 0)), 0) AS seven_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 8, total_pay_provider_fee, 0)), 0) AS eight_hour_income,
-        IFNULL(SUM(IF(HOUR(create_time) = 9, total_pay_provider_fee, 0)), 0) AS nine_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 10, total_pay_provider_fee, 0)), 0) AS ten_hour_income,
-        IFNULL(SUM(IF(HOUR(create_time) = 11, total_pay_provider_fee, 0)), 0) AS eleven_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 12, total_pay_provider_fee, 0)), 0) AS twelve_hour_income,
-        IFNULL(SUM(IF(HOUR(create_time) = 13, total_pay_provider_fee, 0)), 0) AS thirteen_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 14, total_pay_provider_fee, 0)), 0) AS fourteen_hour_income,
-        IFNULL(SUM(IF(HOUR(create_time) = 15, total_pay_provider_fee, 0)), 0) AS fifteen_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 16, total_pay_provider_fee, 0)), 0) AS sixteen_hour_income,
-        IFNULL(SUM(IF(HOUR(create_time) = 17, total_pay_provider_fee, 0)), 0) AS seventeen_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 18, total_pay_provider_fee, 0)), 0) AS eighteen_hour_income,
-        IFNULL(SUM(IF(HOUR(create_time) = 19, total_pay_provider_fee, 0)), 0) AS nineteen_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 20, total_pay_provider_fee, 0)), 0) AS twenty_hour_income,
-        IFNULL(SUM(IF(HOUR(create_time) = 21, total_pay_provider_fee, 0)), 0) AS twenty_one_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 22, total_pay_provider_fee, 0)), 0) AS twenty_two_hour_income,
-        IFNULL(SUM(IF(HOUR(create_time) = 23, total_pay_provider_fee, 0)), 0) AS twenty_three_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 0, total_pay_provider_fee, 0)), 0) AS twenty_four_hour_income
-        FROM diyi_self_help_invoice WHERE bool_deleted = 0 AND (current_state = 'PAID' AND current_state = 'INVOICED') AND DATE(create_time) = DATE(NOW()) AND enterprise_id = #{param1}
-    </select>
-
-    <select id="queryCrowdDayTradeByServiceProvider" resultMap="dayTradeVO">
-        SELECT IFNULL(SUM(IF(HOUR(create_time) = 1, charge_money_num, 0)), 0) AS one_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 2, charge_money_num, 0)), 0) AS two_hour_income,
-        IFNULL(SUM(IF(HOUR(create_time) = 3, charge_money_num, 0)), 0) AS three_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 4, charge_money_num, 0)), 0) AS four_hour_income,
-        IFNULL(SUM(IF(HOUR(create_time) = 5, charge_money_num, 0)), 0) AS five_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 6, charge_money_num, 0)), 0) AS six_hour_income,
-        IFNULL(SUM(IF(HOUR(create_time) = 7, charge_money_num, 0)), 0) AS seven_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 8, charge_money_num, 0)), 0) AS eight_hour_income,
-        IFNULL(SUM(IF(HOUR(create_time) = 9, charge_money_num, 0)), 0) AS nine_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 10, charge_money_num, 0)), 0) AS ten_hour_income,
-        IFNULL(SUM(IF(HOUR(create_time) = 11, charge_money_num, 0)), 0) AS eleven_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 12, charge_money_num, 0)), 0) AS twelve_hour_income,
-        IFNULL(SUM(IF(HOUR(create_time) = 13, charge_money_num, 0)), 0) AS thirteen_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 14, charge_money_num, 0)), 0) AS fourteen_hour_income,
-        IFNULL(SUM(IF(HOUR(create_time) = 15, charge_money_num, 0)), 0) AS fifteen_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 16, charge_money_num, 0)), 0) AS sixteen_hour_income,
-        IFNULL(SUM(IF(HOUR(create_time) = 17, charge_money_num, 0)), 0) AS seventeen_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 18, charge_money_num, 0)), 0) AS eighteen_hour_income,
-        IFNULL(SUM(IF(HOUR(create_time) = 19, charge_money_num, 0)), 0) AS nineteen_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 20, charge_money_num, 0)), 0) AS twenty_hour_income,
-        IFNULL(SUM(IF(HOUR(create_time) = 21, charge_money_num, 0)), 0) AS twenty_one_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 22, charge_money_num, 0)), 0) AS twenty_two_hour_income,
-        IFNULL(SUM(IF(HOUR(create_time) = 23, charge_money_num, 0)), 0) AS twenty_three_hour_income, IFNULL(SUM(IF(HOUR(create_time) = 0, charge_money_num, 0)), 0) AS twenty_four_hour_income
-        FROM diyi_self_help_invoice_sp WHERE bool_deleted = 0 AND (apply_state = 'SUBMITTED' OR apply_state = 'INVOICED') AND DATE(create_time) = DATE(NOW()) AND service_provider_id = #{param1}
+            </otherwise>
+        </choose>
     </select>
 
     <select id="getAdminMakerTypeSelfHelpInvoice" resultMap="selfHelpInvoiceAdminMap">
@@ -602,11 +480,11 @@
         <if test="param1 != null and param1 != ''">
             AND c.enterprise_name LIKE concat('%', #{param1}, '%')
         </if>
-        <if test="param2 != null and param2 != ''">
-            AND a.create_time > #{param2}
+        <if test="param2 != null">
+            AND DATEDIFF(a.create_time, #{param2}) <![CDATA[ >= ]]> 0
         </if>
-        <if test="param3 != null and param3 != ''">
-            AND a.create_time &lt; #{param3}
+        <if test="param3 != null">
+            AND DATEDIFF(a.create_time, #{param3}) <![CDATA[ <= ]]> 0
         </if>
         and maker_type = #{param4}
     </select>
@@ -638,6 +516,13 @@
         IF(t2.maker_id IS NOT NULL, (SELECT phone_number FROM diyi_maker WHERE id = t2.maker_id), (SELECT phone_number FROM diyi_self_help_invoice_person WHERE id = t2.id)) AS phone_number,
         IF(t2.maker_id IS NOT NULL, (SELECT bank_card_no FROM diyi_maker WHERE id = t2.maker_id), '') AS bank_no
         FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_detail t2 ON t1.id = t2.self_help_invoice_id WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t1.id = #{param1}
+    </select>
+
+    <select id="queryRelBureauCrowdList" resultMap="totalCrowdTradeListVO">
+        SELECT t4.enterprise_name, t5.service_provider_name, t1.charge_money_num, t1.create_time FROM diyi_self_help_invoice_sp t1 INNER JOIN diyi_rel_bureau_service_provider t2
+        ON t1.service_provider_id = t2.service_provider_id INNER JOIN diyi_self_help_invoice t3 ON t1.self_help_invoice_id = t3.id INNER JOIN diyi_enterprise t4 ON t3.enterprise_id = t4.id
+        INNER JOIN diyi_service_provider t5 ON t1.service_provider_id = t5.id AND t2.bool_deleted = 0 AND t2.rel_bureau_id = #{param1} WHERE t1.bool_deleted = 0
+        AND (t1.apply_state = 'SUBMITTED' OR t1.apply_state = 'INVOICED')
     </select>
 
     <resultMap type="com.lgyun.system.order.vo.SelfInvoiceListVo" id="selfInvoiceListVoMap">

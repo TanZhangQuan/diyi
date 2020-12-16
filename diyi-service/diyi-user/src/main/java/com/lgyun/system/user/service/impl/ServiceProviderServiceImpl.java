@@ -12,7 +12,7 @@ import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.AddressEntity;
 import com.lgyun.system.order.entity.ServiceProviderInvoiceCatalogsEntity;
 import com.lgyun.system.order.feign.IOrderClient;
-import com.lgyun.system.user.dto.AddServiceProviderDTO;
+import com.lgyun.system.user.dto.CreateServiceProviderDTO;
 import com.lgyun.system.user.dto.ContactsInfoDTO;
 import com.lgyun.system.user.dto.ServiceProviderListDTO;
 import com.lgyun.system.user.dto.UpdateServiceProviderDTO;
@@ -77,7 +77,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
     }
 
     @Override
-    public R<IPage<ServiceProviderListAdminVO>> queryServiceProviderListAdmin(ServiceProviderListDTO serviceProviderListDTO, IPage<ServiceProviderListAdminVO> page) {
+    public R<IPage<ServiceProviderListAdminVO>> queryServiceProviderList(Long agentMainId, Long relBureauId, ServiceProviderListDTO serviceProviderListDTO, IPage<ServiceProviderListAdminVO> page) {
 
         if (serviceProviderListDTO.getBeginDate() != null && serviceProviderListDTO.getEndDate() != null) {
             if (serviceProviderListDTO.getBeginDate().after(serviceProviderListDTO.getEndDate())) {
@@ -85,7 +85,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
             }
         }
 
-        return R.data(page.setRecords(baseMapper.queryServiceProviderListAdmin(serviceProviderListDTO, page)));
+        return R.data(page.setRecords(baseMapper.queryServiceProviderList(agentMainId,relBureauId, serviceProviderListDTO, page)));
     }
 
     @Override
@@ -95,26 +95,26 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> createServiceProvider(AddServiceProviderDTO addServiceProviderDTO, AdminEntity adminEntity) {
+    public R<String> createServiceProvider(CreateServiceProviderDTO createServiceProviderDTO, AdminEntity adminEntity) {
 
         //判断服务商名称是否已存在
-        int serviceProviderNum = count(Wrappers.<ServiceProviderEntity>query().lambda().eq(ServiceProviderEntity::getServiceProviderName, addServiceProviderDTO.getServiceProviderName()));
+        int serviceProviderNum = count(Wrappers.<ServiceProviderEntity>query().lambda().eq(ServiceProviderEntity::getServiceProviderName, createServiceProviderDTO.getServiceProviderName()));
         if (serviceProviderNum > 0) {
             return R.fail("服务商名称已存在");
         }
 
         //判断社会信用代码是否已存在
-        serviceProviderNum = count(Wrappers.<ServiceProviderEntity>query().lambda().eq(ServiceProviderEntity::getSocialCreditNo, addServiceProviderDTO.getSocialCreditNo()));
+        serviceProviderNum = count(Wrappers.<ServiceProviderEntity>query().lambda().eq(ServiceProviderEntity::getSocialCreditNo, createServiceProviderDTO.getSocialCreditNo()));
         if (serviceProviderNum > 0) {
             return R.fail("服务商统一社会信用代码已存在");
         }
 
-        int serviceProviderWorkerNum = serviceProviderWorkerService.count(Wrappers.<ServiceProviderWorkerEntity>query().lambda().eq(ServiceProviderWorkerEntity::getEmployeeUserName, addServiceProviderDTO.getEmployeeUserName()));
+        int serviceProviderWorkerNum = serviceProviderWorkerService.count(Wrappers.<ServiceProviderWorkerEntity>query().lambda().eq(ServiceProviderWorkerEntity::getEmployeeUserName, createServiceProviderDTO.getEmployeeUserName()));
         if (serviceProviderWorkerNum > 0) {
             return R.fail("已存在相同用户名的管理员");
         }
 
-        serviceProviderWorkerNum = serviceProviderWorkerService.count(Wrappers.<ServiceProviderWorkerEntity>query().lambda().eq(ServiceProviderWorkerEntity::getPhoneNumber, addServiceProviderDTO.getPhoneNumber()));
+        serviceProviderWorkerNum = serviceProviderWorkerService.count(Wrappers.<ServiceProviderWorkerEntity>query().lambda().eq(ServiceProviderWorkerEntity::getPhoneNumber, createServiceProviderDTO.getPhoneNumber()));
         if (serviceProviderWorkerNum > 0) {
             return R.fail("已存在相同手机号的管理员");
         }
@@ -122,7 +122,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         //新建服务商
         ServiceProviderEntity serviceProviderEntity = new ServiceProviderEntity();
         serviceProviderEntity.setCreateType(CreateType.PLATFORMCREATE);
-        BeanUtil.copy(addServiceProviderDTO, serviceProviderEntity);
+        BeanUtil.copy(createServiceProviderDTO, serviceProviderEntity);
         save(serviceProviderEntity);
 
         //保存服务商收款账户信息
@@ -130,7 +130,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         serviceProviderAccountEntity.setServiceProviderId(serviceProviderEntity.getId());
         serviceProviderAccountEntity.setAccountType(AccountType.BANK);
         serviceProviderAccountEntity.setBoolDefault(true);
-        BeanUtils.copyProperties(addServiceProviderDTO, serviceProviderAccountEntity);
+        BeanUtils.copyProperties(createServiceProviderDTO, serviceProviderAccountEntity);
         serviceProviderAccountService.save(serviceProviderAccountEntity);
 
         //保存收件地址
@@ -138,20 +138,20 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         addressEntity.setObjectId(serviceProviderEntity.getId());
         addressEntity.setObjectType(ObjectType.SERVICEPEOPLE);
         addressEntity.setBoolDefault(true);
-        BeanUtils.copyProperties(addServiceProviderDTO, addressEntity);
+        BeanUtils.copyProperties(createServiceProviderDTO, addressEntity);
         orderClient.createAddress(addressEntity);
 
         //新建服务商-创客业务规则，服务商-商户业务规则
-        serviceProviderRulesService.addOrUpdateServiceProviderRules(serviceProviderEntity.getId(), addServiceProviderDTO.getMakerRuleHashSet(), addServiceProviderDTO.getEnterpriseRuleSet());
+        serviceProviderRulesService.addOrUpdateServiceProviderRules(serviceProviderEntity.getId(), createServiceProviderDTO.getMakerRuleHashSet(), createServiceProviderDTO.getEnterpriseRuleSet());
 
         //密码加密
-        addServiceProviderDTO.setEmployeePwd(DigestUtil.encrypt(addServiceProviderDTO.getEmployeePwd()));
+        createServiceProviderDTO.setEmployeePwd(DigestUtil.encrypt(createServiceProviderDTO.getEmployeePwd()));
 
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = new ServiceProviderWorkerEntity();
         serviceProviderWorkerEntity.setPositionName(PositionName.MANAGEMENT);
         serviceProviderWorkerEntity.setSuperAdmin(true);
         serviceProviderWorkerEntity.setAdminPower(true);
-        BeanUtil.copy(addServiceProviderDTO, serviceProviderWorkerEntity);
+        BeanUtil.copy(createServiceProviderDTO, serviceProviderWorkerEntity);
         serviceProviderWorkerEntity.setServiceProviderId(serviceProviderEntity.getId());
         serviceProviderWorkerService.save(serviceProviderWorkerEntity);
 
@@ -282,11 +282,6 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
     @Override
     public R<IPage<ServiceProviderIdNameListVO>> queryServiceProviderIdAndNameList(Long enterpriseId, String serviceProviderName, IPage<ServiceProviderIdNameListVO> page) {
         return R.data(page.setRecords(baseMapper.queryServiceProviderIdAndNameList(enterpriseId, serviceProviderName, page)));
-    }
-
-    @Override
-    public R<IPage<ServiceProviderListAdminVO>> queryServiceProviderListAgentMain(Long agentMainId, ServiceProviderListDTO serviceProviderListDTO, IPage<ServiceProviderListAdminVO> page) {
-        return R.data(page.setRecords(baseMapper.queryServiceProviderListAgentMain(agentMainId, serviceProviderListDTO, page)));
     }
 
     @Override

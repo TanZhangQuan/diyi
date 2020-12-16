@@ -3,6 +3,7 @@ package com.lgyun.system.order.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.*;
 import com.lgyun.common.enumeration.InvoicePrintState;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.tool.BeanUtil;
@@ -51,13 +52,13 @@ public class SelfHelpInvoiceDetailServiceImpl extends BaseServiceImpl<SelfHelpIn
     }
 
     @Override
-    public R<IncomeYearVO> queryEveryYearCrowdIncome(MakerType makerType, Long makerId) {
-        return R.data(baseMapper.queryEveryYearCrowdIncome(makerType, makerId));
-    }
+    public R<List<TradeVO>> queryCrowdMakerIncome(MakerType makerType, Long makerId, TimeType timeType, Date year, Date beginDate, Date endDate) {
 
-    @Override
-    public R<YearTradeVO> queryEveryMonthCrowdIncome(MakerType makerType, Long makerId, Long year) {
-        return R.data(baseMapper.queryEveryMonthCrowdIncome(makerType, makerId, year));
+        if (TimeType.PERIOD.equals(timeType) && (beginDate == null || endDate == null)){
+                return R.fail("请选择开始时间和结束时间");
+        }
+
+        return R.data(baseMapper.queryCrowdMakerIncome(makerType, makerId, timeType.getValue(), year, beginDate, endDate));
     }
 
     @Override

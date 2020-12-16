@@ -153,14 +153,14 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R<AdminEntity> adminDeal(String phoneNumber, String userName, String password, GrantType grantType) {
+    public R<AdminEntity> adminDeal(String account, String password, GrantType grantType) {
 
         AdminEntity adminEntity;
         switch (grantType) {
 
             case PASSWORD:
                 //根据账号密码查询管理员
-                adminEntity = adminService.findByUserNameAndLoginPwd(userName, password);
+                adminEntity = adminService.findByAccountAndPwd(account, password);
                 if (adminEntity == null) {
                     return R.fail("账号或密码错误");
                 }
@@ -173,7 +173,7 @@ public class UserClient implements IUserClient {
 
             case MOBILE:
                 //根据手机号查询管理员
-                adminEntity = adminService.findByPhoneNumber(phoneNumber);
+                adminEntity = adminService.findByPhoneNumber(account);
                 if (adminEntity == null) {
                     return R.fail("手机号未注册");
                 }
@@ -186,7 +186,7 @@ public class UserClient implements IUserClient {
 
             case UPDATEPASSWORD:
                 //修改管理员密码
-                adminEntity = adminService.findByPhoneNumber(phoneNumber);
+                adminEntity = adminService.findByPhoneNumber(account);
                 if (adminEntity == null) {
                     return R.fail("手机号未注册");
                 }
@@ -209,14 +209,14 @@ public class UserClient implements IUserClient {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<MakerEntity> makerDeal(String openid, String sessionKey, String phoneNumber, String password, GrantType grantType) {
+    public R<MakerEntity> makerDeal(String openid, String sessionKey, String account, String password, GrantType grantType) {
 
         MakerEntity makerEntity;
         switch (grantType) {
 
             case WECHAT:
                 //根据手机号查询创客
-                makerEntity = makerService.findByPhoneNumber(phoneNumber);
+                makerEntity = makerService.findByPhoneNumber(account);
                 if (makerEntity != null) {
 
                     if (!(AccountState.NORMAL.equals(makerEntity.getMakerState()))) {
@@ -225,14 +225,14 @@ public class UserClient implements IUserClient {
 
                     makerService.makerUpdate(makerEntity, openid, sessionKey);
                 } else {
-                    makerService.makerSave(openid, sessionKey, phoneNumber, password);
+                    makerService.makerSave(openid, sessionKey, account, password);
                 }
 
                 break;
 
             case PASSWORD:
                 //根据账号密码查询创客
-                makerEntity = makerService.findByPhoneNumberAndLoginPwd(phoneNumber, password);
+                makerEntity = makerService.findByAccountAndPwd(account, password);
                 if (makerEntity != null) {
 
                     if (!(AccountState.NORMAL.equals(makerEntity.getMakerState()))) {
@@ -248,7 +248,7 @@ public class UserClient implements IUserClient {
 
             case MOBILE:
                 //根据手机号查询创客
-                makerEntity = makerService.findByPhoneNumber(phoneNumber);
+                makerEntity = makerService.findByPhoneNumber(account);
                 if (makerEntity != null) {
 
                     if (!(AccountState.NORMAL.equals(makerEntity.getMakerState()))) {
@@ -264,18 +264,18 @@ public class UserClient implements IUserClient {
 
             case REGISTER:
                 //根据手机号查询创客
-                makerEntity = makerService.findByPhoneNumber(phoneNumber);
+                makerEntity = makerService.findByPhoneNumber(account);
                 if (makerEntity != null) {
                     return R.fail("手机号已注册");
                 } else {
-                    makerService.makerSave(openid, sessionKey, phoneNumber, password);
+                    makerService.makerSave(openid, sessionKey, account, password);
                 }
 
                 break;
 
             case UPDATEPASSWORD:
                 //根据手机号查询创客
-                makerEntity = makerService.findByPhoneNumber(phoneNumber);
+                makerEntity = makerService.findByPhoneNumber(account);
                 if (makerEntity == null) {
                     return R.fail("手机号未注册");
                 }
@@ -298,14 +298,14 @@ public class UserClient implements IUserClient {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<PartnerEntity> partnerDeal(String openid, String sessionKey, String phoneNumber, String password, GrantType grantType) {
+    public R<PartnerEntity> partnerDeal(String openid, String sessionKey, String account, String password, GrantType grantType) {
 
         PartnerEntity partnerEntity;
         switch (grantType) {
 
             case WECHAT:
                 //根据手机号查询合伙人
-                partnerEntity = partnerService.findByPhoneNumber(phoneNumber);
+                partnerEntity = partnerService.findByPhoneNumber(account);
                 if (partnerEntity != null) {
 
                     if (!(AccountState.NORMAL.equals(partnerEntity.getPartnerState()))) {
@@ -314,14 +314,14 @@ public class UserClient implements IUserClient {
 
                     partnerService.partnerUpdate(partnerEntity, openid, sessionKey);
                 } else {
-                    partnerService.partnerSave(openid, sessionKey, phoneNumber, password);
+                    partnerService.partnerSave(openid, sessionKey, account, password);
                 }
 
                 break;
 
             case PASSWORD:
                 //根据账号密码查询合伙人
-                partnerEntity = partnerService.findByPhoneNumberAndLoginPwd(phoneNumber, password);
+                partnerEntity = partnerService.findByAccountAndPwd(account, password);
                 if (partnerEntity != null) {
 
                     if (!(AccountState.NORMAL.equals(partnerEntity.getPartnerState()))) {
@@ -337,7 +337,7 @@ public class UserClient implements IUserClient {
 
             case MOBILE:
                 //根据手机号查询合伙人
-                partnerEntity = partnerService.findByPhoneNumber(phoneNumber);
+                partnerEntity = partnerService.findByPhoneNumber(account);
                 if (partnerEntity != null) {
 
                     if (!(AccountState.NORMAL.equals(partnerEntity.getPartnerState()))) {
@@ -353,18 +353,18 @@ public class UserClient implements IUserClient {
 
             case REGISTER:
                 //根据手机号查询合伙人
-                partnerEntity = partnerService.findByPhoneNumber(phoneNumber);
+                partnerEntity = partnerService.findByPhoneNumber(account);
                 if (partnerEntity != null) {
                     return R.fail("手机号已注册");
                 } else {
-                    partnerService.partnerSave(openid, sessionKey, phoneNumber, password);
+                    partnerService.partnerSave(openid, sessionKey, account, password);
                 }
 
                 break;
 
             case UPDATEPASSWORD:
                 //根据手机号查询合伙人
-                partnerEntity = partnerService.findByPhoneNumber(phoneNumber);
+                partnerEntity = partnerService.findByPhoneNumber(account);
                 if (partnerEntity == null) {
                     return R.fail("手机号未注册");
                 }
@@ -386,7 +386,7 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R<EnterpriseWorkerEntity> enterpriseWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
+    public R<EnterpriseWorkerEntity> enterpriseWorkerDeal(String account, String password, GrantType grantType) {
 
         EnterpriseWorkerEntity enterpriseWorkerEntity;
         EnterpriseEntity enterpriseEntity;
@@ -394,7 +394,7 @@ public class UserClient implements IUserClient {
 
             case PASSWORD:
                 //根据账号密码查询商户员工
-                enterpriseWorkerEntity = enterpriseWorkerService.findByEmployeeUserNameAndEmployeePwd(employeeUserName, password);
+                enterpriseWorkerEntity = enterpriseWorkerService.findByAccountAndPwd(account, password);
                 if (enterpriseWorkerEntity == null) {
                     return R.fail("账号或密码错误");
                 }
@@ -416,7 +416,7 @@ public class UserClient implements IUserClient {
 
             case MOBILE:
                 //根据手机号查询商户员工
-                enterpriseWorkerEntity = enterpriseWorkerService.findByPhoneNumber(phoneNumber);
+                enterpriseWorkerEntity = enterpriseWorkerService.findByPhoneNumber(account);
                 if (enterpriseWorkerEntity == null) {
                     return R.fail("账号或密码错误");
                 }
@@ -438,7 +438,7 @@ public class UserClient implements IUserClient {
 
             case UPDATEPASSWORD:
                 //根据手机号查询商户员工
-                enterpriseWorkerEntity = enterpriseWorkerService.findByPhoneNumber(phoneNumber);
+                enterpriseWorkerEntity = enterpriseWorkerService.findByPhoneNumber(account);
                 if (enterpriseWorkerEntity == null) {
                     return R.fail("手机号未注册");
                 }
@@ -469,7 +469,7 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R<ServiceProviderWorkerEntity> serviceProviderWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
+    public R<ServiceProviderWorkerEntity> serviceProviderWorkerDeal(String account, String password, GrantType grantType) {
 
         ServiceProviderWorkerEntity serviceProviderWorkerEntity;
         ServiceProviderEntity serviceProviderEntity;
@@ -477,7 +477,7 @@ public class UserClient implements IUserClient {
 
             case PASSWORD:
                 //根据账号密码查询服务商员工
-                serviceProviderWorkerEntity = serviceProviderWorkerService.findByEmployeeUserNameAndEmployeePwd(employeeUserName, password);
+                serviceProviderWorkerEntity = serviceProviderWorkerService.findByAccountAndPwd(account, password);
                 if (serviceProviderWorkerEntity == null) {
                     return R.fail("账号或密码错误");
                 }
@@ -499,7 +499,7 @@ public class UserClient implements IUserClient {
 
             case MOBILE:
                 //根据手机号查询服务商员工
-                serviceProviderWorkerEntity = serviceProviderWorkerService.findByPhoneNumber(phoneNumber);
+                serviceProviderWorkerEntity = serviceProviderWorkerService.findByPhoneNumber(account);
                 if (serviceProviderWorkerEntity == null) {
                     return R.fail("手机号未注册");
                 }
@@ -521,7 +521,7 @@ public class UserClient implements IUserClient {
 
             case UPDATEPASSWORD:
                 //根据手机号查询服务商员工
-                serviceProviderWorkerEntity = serviceProviderWorkerService.findByPhoneNumber(phoneNumber);
+                serviceProviderWorkerEntity = serviceProviderWorkerService.findByPhoneNumber(account);
                 if (serviceProviderWorkerEntity == null) {
                     return R.fail("手机号未注册");
                 }
@@ -552,7 +552,7 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R<AgentMainWorkerEntity> agentMainWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
+    public R<AgentMainWorkerEntity> agentMainWorkerDeal(String account, String password, GrantType grantType) {
 
         AgentMainWorkerEntity agentMainWorkerEntity;
         AgentMainEntity agentMainEntity;
@@ -560,7 +560,7 @@ public class UserClient implements IUserClient {
 
             case PASSWORD:
                 //根据账号密码查询渠道商员工
-                agentMainWorkerEntity = agentMainWorkerService.findByEmployeeUserNameAndEmployeePwd(employeeUserName, password);
+                agentMainWorkerEntity = agentMainWorkerService.findByAccountAndPwd(account, password);
                 if (agentMainWorkerEntity == null) {
                     return R.fail("账号或密码错误");
                 }
@@ -582,7 +582,7 @@ public class UserClient implements IUserClient {
 
             case MOBILE:
                 //根据账号密码查询渠道商员工
-                agentMainWorkerEntity = agentMainWorkerService.findByPhoneNumber(phoneNumber);
+                agentMainWorkerEntity = agentMainWorkerService.findByPhoneNumber(account);
                 if (agentMainWorkerEntity == null) {
                     return R.fail("手机号未注册");
                 }
@@ -604,7 +604,7 @@ public class UserClient implements IUserClient {
 
             case UPDATEPASSWORD:
                 //根据账号密码查询渠道商员工
-                agentMainWorkerEntity = agentMainWorkerService.findByPhoneNumber(phoneNumber);
+                agentMainWorkerEntity = agentMainWorkerService.findByPhoneNumber(account);
                 if (agentMainWorkerEntity == null) {
                     return R.fail("手机号未注册");
                 }
@@ -635,14 +635,14 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public R<RelBureauEntity> relBureauDeal(String phoneNumber, String employeeUserName, String password, RelBureauType relBureauType, GrantType grantType) {
+    public R<RelBureauEntity> relBureauDeal(String account, String password, RelBureauType relBureauType, GrantType grantType) {
 
         RelBureauEntity relBureauEntity;
         switch (grantType) {
 
             case PASSWORD:
                 //根据账号密码查询相关局
-                relBureauEntity = relBureauService.findByEmployeeUserNameAndEmployeePwd(employeeUserName, password, relBureauType);
+                relBureauEntity = relBureauService.findByAccountAndPwd(account, password, relBureauType);
                 if (relBureauEntity == null) {
                     return R.fail("账号或密码错误");
                 }

@@ -1,7 +1,9 @@
 package com.lgyun.system.order.controller.maker;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.MakerType;
+import com.lgyun.common.enumeration.TimeType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
@@ -13,6 +15,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/maker/income")
@@ -62,9 +66,16 @@ public class IncomeMakerController {
         return selfHelpInvoiceDetailService.queryCrowdNumAndAllIncome(makerType, makerEntity.getId(), year, month);
     }
 
-    @GetMapping("/query-every-year-total-sub-income")
-    @ApiOperation(value = "根据创客类型查询当前创客总包+分包的每年收入", notes = "根据创客类型查询当前创客总包+分包的每年收入")
-    public R queryEveryYearTotalSubIncome(@ApiParam(value = "创客类型", required = true) @NotNull(message = "请选择创客类型") @RequestParam(required = false) MakerType makerType, BladeUser bladeUser) {
+    @GetMapping("/query-total-sub-maker-income")
+    @ApiOperation(value = "查询创客总包+分包收入", notes = "查询创客总包+分包收入")
+    public R queryTotalSubMakerIncome(@ApiParam(value = "创客类型", required = true) @NotNull(message = "请选择创客类型") @RequestParam(required = false) MakerType makerType,
+                                      @ApiParam(value = "时间类型", required = true) @NotNull(message = "请选择时间类型") @RequestParam(required = false) TimeType timeType,
+                                      @ApiParam(value = "年份", required = true) @JsonFormat(pattern = "yyyy")
+                                      @DateTimeFormat(pattern = "yyyy") @RequestParam(required = false) Date year,
+                                      @ApiParam(value = "开始时间", required = true) @JsonFormat(pattern = "yyyy-MM-dd")
+                                      @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(required = false) Date beginDate,
+                                      @ApiParam(value = "结束时间", required = true) @JsonFormat(pattern = "yyyy-MM-dd")
+                                      @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(required = false) Date endDate, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -72,12 +83,19 @@ public class IncomeMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return payMakerService.queryEveryYearTotalSubIncome(makerType, makerEntity.getId());
+        return payMakerService.queryTotalSubMakerIncome(makerType, makerEntity.getId(), timeType, year, beginDate, endDate);
     }
 
-    @GetMapping("/query-every-year-crowd-income")
-    @ApiOperation(value = "根据开票人身份类别查询当前创客众包的每年收入", notes = "根据开票人身份类别查询当前创客众包的每年收入")
-    public R queryEveryYearCrowdIncome(@ApiParam(value = "开票人身份类别", required = true) @NotNull(message = "请选择开票人身份类别") @RequestParam(required = false) MakerType makerType, BladeUser bladeUser) {
+    @GetMapping("/query-crowd-maker-income")
+    @ApiOperation(value = "查询创客众包/众采收入", notes = "查询创客众包/众采收入")
+    public R queryCrowdMakerIncome(@ApiParam(value = "开票人身份类别", required = true) @NotNull(message = "请选择开票人身份类别") @RequestParam(required = false) MakerType makerType,
+                                       @ApiParam(value = "时间类型", required = true) @NotNull(message = "请选择时间类型") @RequestParam(required = false) TimeType timeType,
+                                       @ApiParam(value = "年份", required = true) @JsonFormat(pattern = "yyyy")
+                                       @DateTimeFormat(pattern = "yyyy") @RequestParam(required = false) Date year,
+                                       @ApiParam(value = "开始时间", required = true) @JsonFormat(pattern = "yyyy-MM-dd")
+                                       @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(required = false) Date beginDate,
+                                       @ApiParam(value = "结束时间", required = true) @JsonFormat(pattern = "yyyy-MM-dd")
+                                       @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(required = false) Date endDate, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = userClient.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -85,35 +103,7 @@ public class IncomeMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return selfHelpInvoiceDetailService.queryEveryYearCrowdIncome(makerType, makerEntity.getId());
-    }
-
-    @GetMapping("/query-every-month-total-sub-income")
-    @ApiOperation(value = "根据创客类型查询当前创客总包+分包某年的每月收入", notes = "根据创客类型查询当前创客总包+分包某年的每月收入")
-    public R queryEveryMonthTotalSubIncome(@ApiParam(value = "创客类型", required = true) @NotNull(message = "请选择创客类型") @RequestParam(required = false) MakerType makerType,
-                                           @ApiParam(value = "年份", required = true) @NotNull(message = "请选择年份") @RequestParam(required = false) Long year, BladeUser bladeUser) {
-        //查询当前创客
-        R<MakerEntity> result = userClient.currentMaker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        MakerEntity makerEntity = result.getData();
-
-        return payMakerService.queryEveryMonthTotalSubIncome(makerType, makerEntity.getId(), year);
-    }
-
-    @GetMapping("/query-every-month-crowd-income")
-    @ApiOperation(value = "根据开票人身份类别查询当前创客众包某年的每月收入", notes = "根据开票人身份类别查询当前创客众包某年的每月收入")
-    public R queryEveryMonthCrowdIncome(@ApiParam(value = "开票人身份类别", required = true) @NotNull(message = "请选择开票人身份类别") @RequestParam(required = false) MakerType makerType,
-                                        @ApiParam(value = "年份", required = true) @NotNull(message = "请选择年份") @RequestParam(required = false) Long year, BladeUser bladeUser) {
-        //查询当前创客
-        R<MakerEntity> result = userClient.currentMaker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        MakerEntity makerEntity = result.getData();
-
-        return selfHelpInvoiceDetailService.queryEveryMonthCrowdIncome(makerType, makerEntity.getId(), year);
+        return selfHelpInvoiceDetailService.queryCrowdMakerIncome(makerType, makerEntity.getId(), timeType, year, beginDate, endDate);
     }
 
     @GetMapping("/query-maker-to-enterprise-total-sub-income")

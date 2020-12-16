@@ -3,6 +3,7 @@ package com.lgyun.system.order.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.MakerType;
+import com.lgyun.common.enumeration.TimeType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.order.entity.SelfHelpInvoiceDetailEntity;
 import com.lgyun.system.order.excel.InvoiceListExcel;
@@ -10,6 +11,7 @@ import com.lgyun.system.order.vo.*;
 import com.lgyun.system.order.vo.SelfHelpInvoiceDetailAdminVO;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,23 +34,17 @@ public interface ISelfHelpInvoiceDetailService extends BaseService<SelfHelpInvoi
     R<AllIncomeYearMonthVO> queryCrowdNumAndAllIncome(MakerType makerType, Long makerId, Long year, Long month);
 
     /**
-     * 根据开票人身份类别查询当前创客众包的每年收入
+     * 查询创客众包/众采收入
      *
      * @param makerType
      * @param makerId
-     * @return
-     */
-    R<IncomeYearVO> queryEveryYearCrowdIncome(MakerType makerType, Long makerId);
-
-    /**
-     * 根据开票人身份类别，年份查询每月收入
-     *
-     * @param makerType
-     * @param makerId
+     * @param timeType
      * @param year
+     * @param beginDate
+     * @param endDate
      * @return
      */
-    R<YearTradeVO> queryEveryMonthCrowdIncome(MakerType makerType, Long makerId, Long year);
+    R<List<TradeVO>> queryCrowdMakerIncome(MakerType makerType, Long makerId, TimeType timeType, Date year, Date beginDate, Date endDate);
 
     /**
      * 根据开票人身份类别，年份，月份（可选）查询创客对应商户众包的收入金额

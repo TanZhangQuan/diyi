@@ -31,7 +31,7 @@ public interface IAuthService {
     R mobileLogin(MobileLoginDTO mobileLoginDto) throws Exception;
 
     /**
-     * 账号密码登录
+     * 手机号/用户名, 密码登录
      *
      * @param passwordLoginDto
      * @return

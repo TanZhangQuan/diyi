@@ -134,37 +134,37 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public R<AdminEntity> adminDeal(String phoneNumber, String userName, String password, GrantType grantType) {
+    public R<AdminEntity> adminDeal(String account, String password, GrantType grantType) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
-    public R<MakerEntity> makerDeal(String openid, String sessionKey, String phoneNumber, String password, GrantType grantType) {
+    public R<MakerEntity> makerDeal(String openid, String sessionKey, String account, String password, GrantType grantType) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
-    public R<PartnerEntity> partnerDeal(String openid, String sessionKey, String phoneNumber, String password, GrantType grantType) {
+    public R<PartnerEntity> partnerDeal(String openid, String sessionKey, String account, String password, GrantType grantType) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
-    public R<EnterpriseWorkerEntity> enterpriseWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
+    public R<EnterpriseWorkerEntity> enterpriseWorkerDeal(String account, String password, GrantType grantType) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
-    public R<ServiceProviderWorkerEntity> serviceProviderWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
+    public R<ServiceProviderWorkerEntity> serviceProviderWorkerDeal(String account, String password, GrantType grantType) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
-    public R<AgentMainWorkerEntity> agentMainWorkerDeal(String phoneNumber, String employeeUserName, String password, GrantType grantType) {
+    public R<AgentMainWorkerEntity> agentMainWorkerDeal(String account, String password, GrantType grantType) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
-    public R<RelBureauEntity> relBureauDeal(String phoneNumber, String employeeUserName, String password, RelBureauType relBureauType, GrantType grantType) {
+    public R<RelBureauEntity> relBureauDeal(String account, String password, RelBureauType relBureauType, GrantType grantType) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 

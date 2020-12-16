@@ -3,6 +3,7 @@ package com.lgyun.system.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.enumeration.RelBureauType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
@@ -47,7 +48,7 @@ public class RelBureauServiceProviderServiceImpl extends BaseServiceImpl<RelBure
         RelBureauServiceProviderEntity relBureauServiceProviderEntity = queryByAgentMainAndServiceProvider(relBureauId, serviceProviderId);
         if (relBureauServiceProviderEntity == null) {
 
-            int relBureauServiceProviderNum = queryRelBureauServiceProviderNum(relBureauEntity.getRelBureauType(), serviceProviderId);
+            int relBureauServiceProviderNum = queryRelBureauTypeServiceProviderNum(relBureauEntity.getRelBureauType(), serviceProviderId);
             if (relBureauServiceProviderNum > 0) {
                 return R.fail("相关局类型-服务商已存在");
             }
@@ -78,10 +79,18 @@ public class RelBureauServiceProviderServiceImpl extends BaseServiceImpl<RelBure
     }
 
     @Override
-    public int queryRelBureauServiceProviderNum(RelBureauType relBureauType, Long serviceProviderId) {
+    public int queryRelBureauTypeServiceProviderNum(RelBureauType relBureauType, Long serviceProviderId) {
         QueryWrapper<RelBureauServiceProviderEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(RelBureauServiceProviderEntity::getRelBureauType, relBureauType).
                 eq(RelBureauServiceProviderEntity::getServiceProviderId, serviceProviderId);
+
+        return baseMapper.selectCount(queryWrapper);
+    }
+
+    @Override
+    public int queryRelBureauServiceProviderNum(Long relBureauId) {
+        QueryWrapper<RelBureauServiceProviderEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(RelBureauServiceProviderEntity::getRelBureauId, relBureauId);
 
         return baseMapper.selectCount(queryWrapper);
     }
@@ -114,7 +123,7 @@ public class RelBureauServiceProviderServiceImpl extends BaseServiceImpl<RelBure
             updateById(relBureauServiceProviderEntity);
         }
 
-        return R.success("操作成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
 }

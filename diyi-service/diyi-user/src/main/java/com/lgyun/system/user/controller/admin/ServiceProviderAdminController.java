@@ -37,7 +37,7 @@ public class ServiceProviderAdminController {
 
     @PostMapping("/create-service-provider")
     @ApiOperation(value = "添加服务商", notes = "添加服务商")
-    public R createServiceProvider(@Valid @RequestBody AddServiceProviderDTO addServiceProviderDTO, BladeUser bladeUser) {
+    public R createServiceProvider(@Valid @RequestBody CreateServiceProviderDTO createServiceProviderDTO, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -45,7 +45,7 @@ public class ServiceProviderAdminController {
         }
         AdminEntity adminEntity = result.getData();
 
-        return serviceProviderService.createServiceProvider(addServiceProviderDTO, adminEntity);
+        return serviceProviderService.createServiceProvider(createServiceProviderDTO, adminEntity);
     }
 
     @PostMapping("/update-service-provider")
@@ -82,7 +82,7 @@ public class ServiceProviderAdminController {
             return result;
         }
 
-        return serviceProviderService.queryServiceProviderListAdmin(serviceProviderListDTO, Condition.getPage(query.setDescs("t1.create_time")));
+        return serviceProviderService.queryServiceProviderList(null, null, serviceProviderListDTO, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/update-service-provider-state")

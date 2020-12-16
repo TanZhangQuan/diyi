@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2020-12-02 18:50:21
+Date: 2020-12-07 19:45:06
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -335,6 +335,50 @@ CREATE TABLE `diyi_agreement` (
 
 -- ----------------------------
 -- Records of diyi_agreement
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `diyi_client`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_client`;
+CREATE TABLE `diyi_client` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `client_id` varchar(50) NOT NULL COMMENT '客户端ID',
+  `client_secret` varchar(50) NOT NULL COMMENT '客户端密钥',
+  `access_token_validity` int(10) NOT NULL COMMENT '令牌过期秒数',
+  `refresh_token_validity` int(10) NOT NULL COMMENT '刷新令牌过期秒数',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime NOT NULL COMMENT '修改时间',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`client_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='客户端表';
+
+-- ----------------------------
+-- Records of diyi_client
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `diyi_dict`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_dict`;
+CREATE TABLE `diyi_dict` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `parent_id` bigint(50) DEFAULT NULL COMMENT '父主键',
+  `code` varchar(50) NOT NULL COMMENT '字典码',
+  `dict_key` varchar(50) NOT NULL COMMENT '字典值',
+  `dict_value` varchar(50) NOT NULL COMMENT '字典名称',
+  `sort` int(5) NOT NULL DEFAULT '0' COMMENT '排序',
+  `remark` varchar(1000) NOT NULL DEFAULT '' COMMENT '字典备注',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime NOT NULL COMMENT '修改时间',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`code`,`dict_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='字典表';
+
+-- ----------------------------
+-- Records of diyi_dict
 -- ----------------------------
 
 -- ----------------------------
@@ -855,6 +899,29 @@ CREATE TABLE `diyi_maker_total_invoice` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for `diyi_menu`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_menu`;
+CREATE TABLE `diyi_menu` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `parent_id` bigint(50) DEFAULT NULL COMMENT '父级菜单',
+  `name` varchar(50) NOT NULL COMMENT '菜单名称',
+  `path` varchar(500) NOT NULL COMMENT '请求地址',
+  `category` varchar(50) NOT NULL COMMENT '菜单类型',
+  `menu_type` varchar(50) DEFAULT NULL COMMENT '菜单用户类型',
+  `sort` int(5) DEFAULT '0' COMMENT '排序',
+  `remark` varchar(100) NOT NULL DEFAULT '' COMMENT '备注',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime NOT NULL COMMENT '修改时间',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='菜单表';
+
+-- ----------------------------
+-- Records of diyi_menu
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `diyi_online_agreement_need_sign`
 -- ----------------------------
 DROP TABLE IF EXISTS `diyi_online_agreement_need_sign`;
@@ -1282,22 +1349,21 @@ CREATE TABLE `diyi_rel_bureau_contract` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `diyi_rel_bureau_files`
+-- Table structure for `diyi_rel_bureau_file`
 -- ----------------------------
-DROP TABLE IF EXISTS `diyi_rel_bureau_files`;
-CREATE TABLE `diyi_rel_bureau_files` (
+DROP TABLE IF EXISTS `diyi_rel_bureau_file`;
+CREATE TABLE `diyi_rel_bureau_file` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `rel_bureau_id` bigint(50) NOT NULL COMMENT '相关局编号',
-  `files_title` varchar(50) NOT NULL COMMENT '文件标题',
-  `files_desc` varchar(100) NOT NULL COMMENT '通知文件',
-  `files_url` varchar(500) NOT NULL COMMENT '监管文件',
+  `file_title` varchar(50) NOT NULL COMMENT '文件标题',
+  `file_desc` varchar(100) NOT NULL COMMENT '通知文件',
+  `file_url` varchar(500) NOT NULL COMMENT '监管文件',
   `publish_datetime` datetime DEFAULT NULL COMMENT '发布日期时间',
-  `files_state` varchar(50) NOT NULL COMMENT '监管文件状态',
+  `file_state` varchar(50) NOT NULL COMMENT '监管文件状态',
   `cancel_datetime` datetime DEFAULT NULL COMMENT '作废日期时间',
-  `contact_person` varchar(50) NOT NULL COMMENT '发布联系人',
-  `mobile_no` varchar(50) NOT NULL COMMENT '联系手机',
-  `Wechat_no` varchar(50) NOT NULL COMMENT '联系微信',
-  `director_phone` varchar(50) NOT NULL COMMENT '联系电话',
+  `contact_person` varchar(50) NOT NULL DEFAULT '' COMMENT '发布联系人',
+  `contact_phone` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人手机',
+  `contact_wechat` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人微信',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
@@ -1305,26 +1371,27 @@ CREATE TABLE `diyi_rel_bureau_files` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='相关局监管文件管理表';
 
 -- ----------------------------
--- Records of diyi_rel_bureau_files
+-- Records of diyi_rel_bureau_file
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `diyi_rel_bureau_files_read`
+-- Table structure for `diyi_rel_bureau_file_read`
 -- ----------------------------
-DROP TABLE IF EXISTS `diyi_rel_bureau_files_read`;
-CREATE TABLE `diyi_rel_bureau_files_read` (
+DROP TABLE IF EXISTS `diyi_rel_bureau_file_read`;
+CREATE TABLE `diyi_rel_bureau_file_read` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `rel_bureau_files_id` bigint(50) NOT NULL COMMENT '通知ID',
-  `servicer_provider_worker_id` bigint(50) NOT NULL COMMENT '阅读服务商员工',
+  `rel_bureau_file_id` bigint(50) NOT NULL COMMENT '通知ID',
+  `servicer_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
+  `servicer_provider_worker_id` bigint(50) NOT NULL COMMENT '服务商员工ID',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`rel_bureau_files_id`,`servicer_provider_worker_id`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`rel_bureau_file_id`,`servicer_provider_worker_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='相关局监管文件阅读管理表';
 
 -- ----------------------------
--- Records of diyi_rel_bureau_files_read
+-- Records of diyi_rel_bureau_file_read
 -- ----------------------------
 
 -- ----------------------------
@@ -1340,9 +1407,9 @@ CREATE TABLE `diyi_rel_bureau_notice` (
   `publish_datetime` datetime DEFAULT NULL COMMENT '发布日期时间',
   `notice_state` varchar(50) NOT NULL COMMENT '通知状态',
   `cancel_datetime` datetime DEFAULT NULL COMMENT '作废日期时间',
-  `contact_person` varchar(50) NOT NULL COMMENT '发布联系人',
-  `contact_phone` varchar(50) NOT NULL COMMENT '联系人手机',
-  `contact_wechat` varchar(50) NOT NULL COMMENT '联系人微信',
+  `contact_person` varchar(50) NOT NULL DEFAULT '' COMMENT '发布联系人',
+  `contact_phone` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人手机',
+  `contact_wechat` varchar(50) NOT NULL DEFAULT '' COMMENT '联系人微信',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
@@ -1360,7 +1427,8 @@ DROP TABLE IF EXISTS `diyi_rel_bureau_notice_read`;
 CREATE TABLE `diyi_rel_bureau_notice_read` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `rel_bureau_notice_id` bigint(50) NOT NULL COMMENT '通知ID',
-  `servicer_provider_worker_id` bigint(50) NOT NULL COMMENT '阅读服务商',
+  `servicer_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
+  `servicer_provider_worker_id` bigint(50) NOT NULL COMMENT '服务商员工ID',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
@@ -1380,18 +1448,57 @@ CREATE TABLE `diyi_rel_bureau_service_provider` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `rel_bureau_id` bigint(50) NOT NULL COMMENT '相关局ID',
   `rel_bureau_type` varchar(50) NOT NULL COMMENT '相关局的类型',
-  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商编号，一个服务商只能属于一个相关局监管',
+  `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID，一个服务商只能属于一个相关局监管',
   `cooperate_status` varchar(50) NOT NULL COMMENT '关联状态',
   `match_desc` varchar(100) DEFAULT NULL COMMENT '分配说明',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`rel_bureau_type`,`service_provider_id`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`rel_bureau_id`,`service_provider_id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`rel_bureau_type`,`service_provider_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='相关局与服务商关联表';
 
 -- ----------------------------
 -- Records of diyi_rel_bureau_service_provider
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `diyi_role`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_role`;
+CREATE TABLE `diyi_role` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `role_name` varchar(50) NOT NULL COMMENT '角色名',
+  `user_type` varchar(50) NOT NULL COMMENT '用户类型',
+  `account` bigint(50) DEFAULT NULL COMMENT '用户ID',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime NOT NULL COMMENT '修改时间',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
+
+-- ----------------------------
+-- Records of diyi_role
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `diyi_role_menu`
+-- ----------------------------
+DROP TABLE IF EXISTS `diyi_role_menu`;
+CREATE TABLE `diyi_role_menu` (
+  `id` bigint(50) NOT NULL COMMENT '主键',
+  `menu_id` bigint(50) NOT NULL COMMENT '菜单ID',
+  `role_id` bigint(50) NOT NULL COMMENT '角色ID',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime NOT NULL COMMENT '修改时间',
+  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`menu_id`,`role_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色菜单表';
+
+-- ----------------------------
+-- Records of diyi_role_menu
 -- ----------------------------
 
 -- ----------------------------
@@ -1877,109 +1984,4 @@ CREATE TABLE `diyi_worksheet_maker` (
 
 -- ----------------------------
 -- Records of diyi_worksheet_maker
--- ----------------------------
-
--- ----------------------------
--- Table structure for `diyi_client`
--- ----------------------------
-DROP TABLE IF EXISTS `diyi_client`;
-CREATE TABLE `diyi_client` (
-  `id` bigint(50) NOT NULL COMMENT '主键',
-  `client_id` varchar(50) NOT NULL COMMENT '客户端ID',
-  `client_secret` varchar(50) NOT NULL COMMENT '客户端密钥',
-  `access_token_validity` int(10) NOT NULL COMMENT '令牌过期秒数',
-  `refresh_token_validity` int(10) NOT NULL COMMENT '刷新令牌过期秒数',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_time` datetime NOT NULL COMMENT '修改时间',
-  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`client_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='客户端表';
-
--- ----------------------------
--- Records of diyi_client
--- ----------------------------
-
--- ----------------------------
--- Table structure for `diyi_dict`
--- ----------------------------
-DROP TABLE IF EXISTS `diyi_dict`;
-CREATE TABLE `diyi_dict` (
-  `id` bigint(50) NOT NULL COMMENT '主键',
-  `parent_id` bigint(50) DEFAULT NULL COMMENT '父主键',
-  `code` varchar(50) NOT NULL COMMENT '字典码',
-  `dict_key` varchar(50) NOT NULL COMMENT '字典值',
-  `dict_value` varchar(50) NOT NULL COMMENT '字典名称',
-  `sort` int(5) NOT NULL DEFAULT '0' COMMENT '排序',
-  `remark` varchar(1000) NOT NULL DEFAULT '' COMMENT '字典备注',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_time` datetime NOT NULL COMMENT '修改时间',
-  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`code`,`dict_key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='字典表';
-
--- ----------------------------
--- Records of diyi_dict
--- ----------------------------
-
--- ----------------------------
--- Table structure for `diyi_menu`
--- ----------------------------
-DROP TABLE IF EXISTS `diyi_menu`;
-CREATE TABLE `diyi_menu` (
-  `id` bigint(50) NOT NULL COMMENT '主键',
-  `parent_id` bigint(50) DEFAULT NULL COMMENT '父级菜单',
-  `name` varchar(50) NOT NULL COMMENT '菜单名称',
-  `path` varchar(500) NOT NULL COMMENT '请求地址',
-  `category` varchar(50) NOT NULL COMMENT '菜单类型',
-  `menu_type` varchar(50) DEFAULT NULL COMMENT '菜单用户类型',
-  `sort` int(5) DEFAULT '0' COMMENT '排序',
-  `remark` varchar(100) NOT NULL DEFAULT '' COMMENT '备注',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_time` datetime NOT NULL COMMENT '修改时间',
-  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='菜单表';
-
--- ----------------------------
--- Records of diyi_menu
--- ----------------------------
-
--- ----------------------------
--- Table structure for `diyi_role`
--- ----------------------------
-DROP TABLE IF EXISTS `diyi_role`;
-CREATE TABLE `diyi_role` (
-  `id` bigint(50) NOT NULL COMMENT '主键',
-  `role_name` varchar(50) NOT NULL COMMENT '角色名',
-  `user_type` varchar(50) NOT NULL COMMENT '用户类型',
-  `account` bigint(50) DEFAULT NULL COMMENT '用户ID',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_time` datetime NOT NULL COMMENT '修改时间',
-  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
-
--- ----------------------------
--- Records of diyi_role
--- ----------------------------
-
--- ----------------------------
--- Table structure for `diyi_role_menu`
--- ----------------------------
-DROP TABLE IF EXISTS `diyi_role_menu`;
-CREATE TABLE `diyi_role_menu` (
-  `id` bigint(50) NOT NULL COMMENT '主键',
-  `menu_id` bigint(50) NOT NULL COMMENT '菜单ID',
-  `role_id` bigint(50) NOT NULL COMMENT '角色ID',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_time` datetime NOT NULL COMMENT '修改时间',
-  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`menu_id`,`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色菜单表';
-
--- ----------------------------
--- Records of diyi_role_menu
 -- ----------------------------

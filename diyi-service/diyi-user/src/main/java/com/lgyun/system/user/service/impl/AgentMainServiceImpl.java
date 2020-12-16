@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.CreateType;
 import com.lgyun.common.enumeration.ObjectType;
@@ -77,7 +78,7 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
             updateById(agentMainEntity);
         }
 
-        return R.success("操作成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override

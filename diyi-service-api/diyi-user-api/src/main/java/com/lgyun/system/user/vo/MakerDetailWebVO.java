@@ -23,7 +23,7 @@ public class MakerDetailWebVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 创客编号
+     * 创客ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;

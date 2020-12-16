@@ -5,10 +5,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.system.order.entity.SelfHelpInvoiceDetailEntity;
 import com.lgyun.system.order.vo.*;
-import com.lgyun.system.order.vo.SelfHelpInvoiceDetailAdminVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,23 +32,17 @@ public interface SelfHelpInvoiceDetailMapper extends BaseMapper<SelfHelpInvoiceD
     AllIncomeYearMonthVO queryCrowdNumAndAllIncome(MakerType makerType, Long makerId, Long year, Long month);
 
     /**
-     * 根据开票人身份类别查询当前创客众包的每年收入
+     * 查询创客众包/众采收入
      *
      * @param makerType
      * @param makerId
-     * @return
-     */
-    IncomeYearVO queryEveryYearCrowdIncome(MakerType makerType, Long makerId);
-
-    /**
-     * 根据开票人身份类别，年份查询每月收入
-     *
-     * @param makerType
-     * @param makerId
+     * @param timeType
      * @param year
+     * @param beginDate
+     * @param endDate
      * @return
      */
-    YearTradeVO queryEveryMonthCrowdIncome(MakerType makerType, Long makerId, Long year);
+    List<TradeVO> queryCrowdMakerIncome(MakerType makerType, Long makerId, String timeType, Date year, Date beginDate, Date endDate);
 
     /**
      * 根据开票人身份类别，年份，月份（可选）查询创客对应商户众包的收入金额

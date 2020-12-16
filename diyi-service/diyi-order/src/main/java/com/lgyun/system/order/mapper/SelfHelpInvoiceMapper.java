@@ -8,8 +8,10 @@ import com.lgyun.system.order.dto.SelfHelpInvoiceDetailsByServiceProviderDTO;
 //import com.lgyun.system.order.dto.SelfHelpInvoicesByEnterpriseDTO;
 import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
 import com.lgyun.system.order.vo.*;
+import com.lgyun.system.order.vo.TotalCrowdTradeListVO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -127,68 +129,15 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
     SelfHelpInvoiceCrowdSourcingVO findDetailCrowdSourcing(Long selfHelpInvoiceId);
 
     /**
-     * 查询当前商户众包/众采年流水
+     * 查询众包/众采流水
      *
      * @param enterpriseId
-     * @return
-     */
-    YearTradeVO queryCrowdYearTradeByEnterprise(Long enterpriseId);
-
-    /**
-     * 查询当前服务商众包/众采年流水
-     *
      * @param serviceProviderId
+     * @param relBureauId
+     * @param timeType
      * @return
      */
-    YearTradeVO queryCrowdYearTradeByServiceProvider(Long serviceProviderId);
-
-    /**
-     * 查询当前商户众包/众采本月流水
-     *
-     * @param enterpriseId
-     * @return
-     */
-    MonthTradeVO queryCrowdMonthTradeByEnterprise(Long enterpriseId);
-
-    /**
-     * 查询当前服务商众包本月流水
-     *
-     * @param serviceProviderId
-     * @return
-     */
-    MonthTradeVO queryCrowdMonthTradeByServiceProvider(Long serviceProviderId);
-
-    /**
-     * 查询当前商户众包本周流水
-     *
-     * @param enterpriseId
-     * @return
-     */
-    WeekTradeVO queryCrowdWeekTradeByEnterprise(Long enterpriseId);
-
-    /**
-     * 查询当前服务商众包本周流水
-     *
-     * @param serviceProviderId
-     * @return
-     */
-    WeekTradeVO queryCrowdWeekTradeByServiceProvider(Long serviceProviderId);
-
-    /**
-     * 查询当前商户众包今日流水
-     *
-     * @param enterpriseId
-     * @return
-     */
-    DayTradeVO queryCrowdDayTradeByEnterprise(Long enterpriseId);
-
-    /**
-     * 查询当前服务商众包今日流水
-     *
-     * @param serviceProviderId
-     * @return
-     */
-    DayTradeVO queryCrowdDayTradeByServiceProvider(Long serviceProviderId);
+    List<TradeVO> queryCrowdTrade(Long enterpriseId, Long serviceProviderId, Long relBureauId, String timeType, Date beginDate, Date endDate);
 
     /**
      * 平台跟据创客身份查询自助开票
@@ -196,7 +145,7 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
     List<SelfHelpInvoiceAdminVO> getAdminMakerTypeSelfHelpInvoice(String enterpriseName, String startTime, String endTime, MakerType makerType, IPage<SelfHelpInvoiceAdminVO> page);
 
     /**
-     *平台跟据创客身份查询自助开票详情
+     * 平台跟据创客身份查询自助开票详情
      */
     SelfHelpInvoiceAdminDetailVO getMakerTypeSelfHelpInvoiceDetails(Long selfHelpInvoiceId);
 
@@ -236,5 +185,13 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
      */
     SelfInvoiceDetailVo querySelfInvoiceDetail(Long selfHelpInvoiceId);
 
+    /**
+     * 查询相关局众包/众采列表
+     *
+     * @param relBureauId
+     * @param page
+     * @return
+     */
+    List<TotalCrowdTradeListVO> queryRelBureauCrowdList(Long relBureauId, IPage<TotalCrowdTradeListVO> page);
 }
 

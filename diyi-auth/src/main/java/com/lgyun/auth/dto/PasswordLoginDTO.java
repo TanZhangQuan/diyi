@@ -30,9 +30,9 @@ public class PasswordLoginDTO implements Serializable {
     private RelBureauType relBureauType;
 
     /**
-     * 账号
+     * 手机号/用户名
      */
-    @NotBlank(message = "请输入账号")
+    @NotBlank(message = "请输入手机号/用户名")
     private String account;
 
     /**

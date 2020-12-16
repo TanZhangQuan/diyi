@@ -49,13 +49,13 @@ public interface IAgentMainWorkerService extends BaseService<AgentMainWorkerEnti
     int findCountByPhoneNumber(String phoneNumber);
 
     /**
-     * 根据账号密码查询渠道商员工
+     * 根据手机号/账号，密码查询渠道商员工
      *
-     * @param employeeUserName
+     * @param account
      * @param password
      * @return
      */
-    AgentMainWorkerEntity findByEmployeeUserNameAndEmployeePwd(String employeeUserName, String password);
+    AgentMainWorkerEntity findByAccountAndPwd(String account, String password);
 
     /**
      * 根据手机号码查询渠道商员工

@@ -53,11 +53,13 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
     /**
      * 查询所有服务商
      *
+     * @param agentMainId
+     * @param relBureauId
      * @param serviceProviderListDTO
      * @param page
      * @return
      */
-    R<IPage<ServiceProviderListAdminVO>> queryServiceProviderListAdmin(ServiceProviderListDTO serviceProviderListDTO, IPage<ServiceProviderListAdminVO> page);
+    R<IPage<ServiceProviderListAdminVO>> queryServiceProviderList(Long agentMainId, Long relBureauId, ServiceProviderListDTO serviceProviderListDTO, IPage<ServiceProviderListAdminVO> page);
 
     /**
      * 查询编辑服务商详情
@@ -70,11 +72,11 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
     /**
      * 添加服务商
      *
-     * @param addServiceProviderDTO
+     * @param createServiceProviderDTO
      * @param adminEntity
      * @return
      */
-    R<String> createServiceProvider(AddServiceProviderDTO addServiceProviderDTO, AdminEntity adminEntity);
+    R<String> createServiceProvider(CreateServiceProviderDTO createServiceProviderDTO, AdminEntity adminEntity);
 
     /**
      * 编辑服务商
@@ -120,16 +122,6 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
      * @return
      */
     R<IPage<ServiceProviderIdNameListVO>> queryServiceProviderIdAndNameList(Long enterpriseId, String serviceProviderName, IPage<ServiceProviderIdNameListVO> page);
-
-    /**
-     * 查询渠道商的所有服务商
-     *
-     * @param agentMainId
-     * @param serviceProviderListDTO
-     * @param page
-     * @return
-     */
-    R<IPage<ServiceProviderListAdminVO>> queryServiceProviderListAgentMain(Long agentMainId, ServiceProviderListDTO serviceProviderListDTO, IPage<ServiceProviderListAdminVO> page);
 
     /**
      * 查询服务商详情

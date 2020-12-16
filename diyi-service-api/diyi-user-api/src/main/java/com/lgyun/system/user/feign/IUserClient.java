@@ -235,88 +235,83 @@ public interface IUserClient {
     /**
      * 管理员处理
      *
-     * @param phoneNumber
-     * @param userName
+     * @param account
      * @param password
      * @param grantType
      * @return
      */
     @PostMapping(API_PREFIX + "/admin-deal")
-    R<AdminEntity> adminDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("userName") String userName, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
+    R<AdminEntity> adminDeal(@RequestParam("account") String account, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 创客处理
      *
      * @param openid
      * @param sessionKey
-     * @param phoneNumber
+     * @param account
      * @param password
      * @param grantType
      * @return
      */
     @PostMapping(API_PREFIX + "/maker-deal")
-    R<MakerEntity> makerDeal(@RequestParam("openid") String openid, @RequestParam("sessionKey") String sessionKey, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
+    R<MakerEntity> makerDeal(@RequestParam("openid") String openid, @RequestParam("sessionKey") String sessionKey, @RequestParam("account") String account, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 合伙人处理
      *
      * @param openid
      * @param sessionKey
-     * @param phoneNumber
+     * @param account
      * @param password
      * @param grantType
      * @return
      */
     @PostMapping(API_PREFIX + "/partner-deal")
-    R<PartnerEntity> partnerDeal(@RequestParam("openid") String openid, @RequestParam("sessionKey") String sessionKey, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
+    R<PartnerEntity> partnerDeal(@RequestParam("openid") String openid, @RequestParam("sessionKey") String sessionKey, @RequestParam("account") String account, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 商户处理
      *
-     * @param phoneNumber
-     * @param employeeUserName
+     * @param account
      * @param password
      * @param grantType
      * @return
      */
     @PostMapping(API_PREFIX + "/enterprise-worker-deal")
-    R<EnterpriseWorkerEntity> enterpriseWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("employeeUserName") String employeeUserName, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
+    R<EnterpriseWorkerEntity> enterpriseWorkerDeal(@RequestParam("account") String account, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 服务商处理
      *
-     * @param phoneNumber
-     * @param employeeUserName
+     * @param account
      * @param password
      * @param grantType
      * @return
      */
     @PostMapping(API_PREFIX + "/service-provider-worker-deal")
-    R<ServiceProviderWorkerEntity> serviceProviderWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("employeeUserName") String employeeUserName, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
+    R<ServiceProviderWorkerEntity> serviceProviderWorkerDeal(@RequestParam("account") String account, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 服务商处理
      *
-     * @param phoneNumber
-     * @param employeeUserName
+     * @param account
      * @param password
      * @param grantType
      * @return
      */
     @PostMapping(API_PREFIX + "/agent-main-worker-deal")
-    R<AgentMainWorkerEntity> agentMainWorkerDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("employeeUserName") String employeeUserName, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
+    R<AgentMainWorkerEntity> agentMainWorkerDeal(@RequestParam("account") String account, @RequestParam("password") String password, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 相关局处理
      *
-     * @param phoneNumber
-     * @param employeeUserName
+     * @param account
      * @param password
      * @param grantType
      * @return
      */
     @PostMapping(API_PREFIX + "/rel-bureau-deal")
-    R<RelBureauEntity> relBureauDeal(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("employeeUserName") String employeeUserName, @RequestParam("password") String password, @RequestParam("relBureauType") RelBureauType relBureauType, @RequestParam("grantType") GrantType grantType);
+    R<RelBureauEntity> relBureauDeal(@RequestParam("account") String account, @RequestParam("password") String password, @RequestParam("relBureauType") RelBureauType relBureauType, @RequestParam("grantType") GrantType grantType);
 
     /**
      * 查询个独信息

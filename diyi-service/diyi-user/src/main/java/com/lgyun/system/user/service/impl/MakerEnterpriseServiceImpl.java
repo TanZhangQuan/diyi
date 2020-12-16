@@ -3,6 +3,7 @@ package com.lgyun.system.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.exception.CustomException;
 import com.lgyun.core.mp.base.BaseServiceImpl;
@@ -179,7 +180,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
             }
         });
 
-        return R.success("操作成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override

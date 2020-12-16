@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.Ibstate;
 import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.common.enumeration.VerifyStatus;
@@ -141,7 +142,7 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
         BeanUtils.copyProperties(individualBusinessEnterpriseAddOrUpdateDto, individualEnterpriseEntity);
         saveOrUpdate(individualEnterpriseEntity);
 
-        return R.success("操作成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override

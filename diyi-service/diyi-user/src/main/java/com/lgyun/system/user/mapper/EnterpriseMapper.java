@@ -50,17 +50,7 @@ public interface EnterpriseMapper extends BaseMapper<EnterpriseEntity> {
      * @param page
      * @return
      */
-    List<EnterpriseListAdminVO> queryEnterpriseListAdmin(EnterpriseListDTO enterpriseListDTO, IPage<EnterpriseListAdminVO> page);
-
-    /**
-     * 查询渠道商的所有商户
-     *
-     * @param agentMainId
-     * @param enterpriseListDTO
-     * @param page
-     * @return
-     */
-    List<EnterpriseListAdminVO> queryEnterpriseListAgentMain(Long agentMainId, EnterpriseListDTO enterpriseListDTO, IPage<EnterpriseListAdminVO> page);
+    List<EnterpriseListAdminVO> queryEnterpriseList(Long agentMainId, Long relBureauId, EnterpriseListDTO enterpriseListDTO, IPage<EnterpriseListAdminVO> page);
 
     /**
      * 查询编辑商户详情

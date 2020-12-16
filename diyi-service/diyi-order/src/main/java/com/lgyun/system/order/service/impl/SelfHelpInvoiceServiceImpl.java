@@ -5,6 +5,7 @@ import com.alibaba.excel.ExcelReader;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.CollectionUtil;
@@ -19,6 +20,7 @@ import com.lgyun.system.order.service.*;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.feign.IUserClient;
+import com.lgyun.system.order.vo.TotalCrowdTradeListVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -46,9 +48,10 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
 
     private final IUserClient iUserClient;
     private final ISelfHelpInvoiceSpService selfHelpInvoiceSpService;
-    private final ISelfHelpInvoiceSpDetailService selfHelpInvoiceSpDetailService;
+    private final ISelfHelpInvoiceFeeService selfHelpInvoiceFeeService;
     private final ISelfHelpInvoiceExpressService selfHelpInvoiceExpressService;
     private final ISelfHelpInvoiceAccountService selfHelpInvoiceAccountService;
+    private final ISelfHelpInvoiceSpDetailService selfHelpInvoiceSpDetailService;
     private final ISelfHelpInvoiceFeeService selfHelpInvoiceFeeService;
     private final IAddressService addressService;
     private final ISelfHelpInvoicePersonService selfHelpInvoicePersonService;
@@ -100,11 +103,11 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             if (StringUtils.isNotBlank(selfHelpInvoiceExpressByEnterpriseVO.getExpressCompanyName()) && StringUtils.isNotBlank(selfHelpInvoiceExpressByEnterpriseVO.getExpressNo())) {
                 try {
                     expressMessage = kdniaoTrackQueryUtil.getOrderTracesByJson(selfHelpInvoiceExpressByEnterpriseVO.getExpressCompanyName(), selfHelpInvoiceExpressByEnterpriseVO.getExpressNo());
-                    Map<String,Object> maps = (Map) JSON.parse(expressMessage);
+                    Map<String, Object> maps = (Map) JSON.parse(expressMessage);
                     Boolean success = (Boolean) maps.get("Success");
-                    if(success){
+                    if (success) {
                         selfHelpInvoiceExpressByEnterpriseVO.setExpressMessage(maps.get("Traces"));
-                    }else{
+                    } else {
                         selfHelpInvoiceExpressByEnterpriseVO.setExpressMessage("");
                     }
                 } catch (Exception e) {
@@ -236,11 +239,11 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         if (StringUtils.isNotBlank(selfHelpInvoiceExpressByEnterpriseProviderVO.getExpressCompanyName()) && StringUtils.isNotBlank(selfHelpInvoiceExpressByEnterpriseProviderVO.getExpressNo())) {
             try {
                 expressMessage = kdniaoTrackQueryUtil.getOrderTracesByJson(selfHelpInvoiceExpressByEnterpriseProviderVO.getExpressCompanyName(), selfHelpInvoiceExpressByEnterpriseProviderVO.getExpressNo());
-                Map<String,Object> maps = (Map) JSON.parse(expressMessage);
+                Map<String, Object> maps = (Map) JSON.parse(expressMessage);
                 Boolean success = (Boolean) maps.get("Success");
-                if(success){
+                if (success) {
                     selfHelpInvoiceExpressByEnterpriseProviderVO.setExpressMessage(maps.get("Traces"));
-                }else{
+                } else {
                     selfHelpInvoiceExpressByEnterpriseProviderVO.setExpressMessage("");
                 }
             } catch (Exception e) {
@@ -304,11 +307,11 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         String orderTracesByJson = "";
         try {
             orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(detailCrowdSourcing.getExpressCompanyName(), detailCrowdSourcing.getExpressSheetNo());
-            Map<String,Object> maps = (Map) JSON.parse(orderTracesByJson);
+            Map<String, Object> maps = (Map) JSON.parse(orderTracesByJson);
             Boolean success = (Boolean) maps.get("Success");
-            if(success){
+            if (success) {
                 map.put("orderTracesByJson", maps.get("Traces"));
-            }else{
+            } else {
                 map.put("orderTracesByJson", "");
             }
         } catch (Exception e) {
@@ -347,43 +350,18 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
-    public R<YearTradeVO> queryCrowdYearTradeByEnterprise(Long enterpriseId) {
-        return R.data(baseMapper.queryCrowdYearTradeByEnterprise(enterpriseId));
+    public R<List<TradeVO>> queryCrowdTrade(Long enterpriseId, Long serviceProviderId, Long relBureauId, TimeType timeType, Date beginDate, Date endDate) {
+
+        if (TimeType.PERIOD.equals(timeType) && (beginDate == null || endDate == null)){
+            return R.fail("请选择开始时间和结束时间");
+        }
+
+        return R.data(baseMapper.queryCrowdTrade(enterpriseId, serviceProviderId, relBureauId, timeType.getValue(), beginDate, endDate));
     }
 
     @Override
-    public R<YearTradeVO> queryCrowdYearTradeByServiceProvider(Long serviceProviderId) {
-        return R.data(baseMapper.queryCrowdYearTradeByServiceProvider(serviceProviderId));
-    }
-
-    @Override
-    public R<MonthTradeVO> queryCrowdMonthTradeByEnterprise(Long enterpriseId) {
-        return R.data(baseMapper.queryCrowdMonthTradeByEnterprise(enterpriseId));
-    }
-
-    @Override
-    public R<MonthTradeVO> queryCrowdMonthTradeByServiceProvider(Long serviceProviderId) {
-        return R.data(baseMapper.queryCrowdMonthTradeByServiceProvider(serviceProviderId));
-    }
-
-    @Override
-    public R<WeekTradeVO> queryCrowdWeekTradeByEnterprise(Long enterpriseId) {
-        return R.data(baseMapper.queryCrowdWeekTradeByEnterprise(enterpriseId));
-    }
-
-    @Override
-    public R<WeekTradeVO> queryCrowdWeekTradeByServiceProvider(Long serviceProviderId) {
-        return R.data(baseMapper.queryCrowdWeekTradeByServiceProvider(serviceProviderId));
-    }
-
-    @Override
-    public R<DayTradeVO> queryCrowdDayTradeByEnterprise(Long enterpriseId) {
-        return R.data(baseMapper.queryCrowdDayTradeByEnterprise(enterpriseId));
-    }
-
-    @Override
-    public R<DayTradeVO> queryCrowdDayTradeByServiceProvider(Long serviceProviderId) {
-        return R.data(baseMapper.queryCrowdDayTradeByServiceProvider(serviceProviderId));
+    public R<IPage<TotalCrowdTradeListVO>> queryRelBureauCrowdList(Long relBureauId, IPage<TotalCrowdTradeListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryRelBureauCrowdList(relBureauId, page)));
     }
 
     @Override
@@ -405,11 +383,11 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             try {
                 KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
                 orderTracesByJson = kdniaoTrackQueryUtil.getOrderTracesByJson(expressCompanyName, expressNo);
-                Map<String,Object> maps = (Map) JSON.parse(orderTracesByJson);
+                Map<String, Object> maps = (Map) JSON.parse(orderTracesByJson);
                 Boolean success = (Boolean) maps.get("Success");
-                if(success){
+                if (success) {
                     map.put("orderTracesByJson", maps.get("Traces"));
-                }else{
+                } else {
                     map.put("orderTracesByJson", "");
                 }
             } catch (Exception e) {
@@ -555,7 +533,8 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             selfHelpInvoiceSpDetailEntity.setSelfHelpInvoiceDetailId(selfHelpInvoiceDetailEntity.getId());
             selfHelpInvoiceSpDetailService.save(selfHelpInvoiceSpDetailEntity);
         }
-        return R.success("操作成功");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -566,7 +545,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             return R.data("自助开票-服务商记录不存在");
         }
 
-        if (SelfHelpInvoiceSpApplyState.INVOICED.equals(selfHelpInvoiceSpEntity.getApplyState())){
+        if (SelfHelpInvoiceSpApplyState.INVOICED.equals(selfHelpInvoiceSpEntity.getApplyState())) {
             return R.data("自助开票-服务商记录已开票结束");
         }
 
@@ -582,7 +561,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     @Transactional(rollbackFor = Exception.class)
     public R uploadAdminInvoice(Long selfHelpInvoiceApplyProviderDetailId, String invoiceScanPictures, String taxScanPictures) {
         SelfHelpInvoiceSpDetailEntity selfHelpInvoiceSpDetailEntity = selfHelpInvoiceSpDetailService.getById(selfHelpInvoiceApplyProviderDetailId);
-        if (selfHelpInvoiceSpDetailEntity == null){
+        if (selfHelpInvoiceSpDetailEntity == null) {
             return R.fail("服务商开票明细不存在");
         }
 

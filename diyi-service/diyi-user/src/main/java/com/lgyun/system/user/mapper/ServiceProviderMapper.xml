@@ -91,36 +91,26 @@
         AND id = #{param1} LIMIT 1
     </select>
 
-    <select id="queryServiceProviderListAdmin" resultMap="serviceProviderListAdminVO">
+    <select id="queryServiceProviderList" resultMap="serviceProviderListAdminVO">
         SELECT t1.id, t1.service_provider_name, t1.contact1_name, t1.contact1_phone, t1.service_provider_state, t1.create_time,
         (SELECT IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url) FROM diyi_agreement
         WHERE bool_deleted = 0 AND agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND service_provider_id = t1.id) AS join_contract
-        FROM diyi_service_provider t1 WHERE t1.bool_deleted = 0
-        <if test="param1.serviceProviderName != null and param1.serviceProviderName.trim() != ''">
-            AND t1.service_provider_name LIKE concat('%', #{param1.serviceProviderName}, '%')
+        FROM diyi_service_provider t1
+        <if test="param1 != null ">
+            INNER JOIN diyi_agent_main_service_provider t2 ON t1.id = t2.service_provider_id AND t2.bool_deleted = 0 AND t2.cooperate_status = 'COOPERATING' AND t2.agent_main_id =  #{param1}
         </if>
-        <if test="param1.beginDate != null">
-            AND DATEDIFF(t1.create_time, #{param1.beginDate}) <![CDATA[ >= ]]> 0
+        <if test="param2 != null ">
+            INNER JOIN diyi_rel_bureau_service_provider t3 ON t1.id = t3.service_provider_id AND t3.bool_deleted = 0 AND t3.cooperate_status = 'COOPERATING' AND t3.rel_bureau_id =  #{param2}
         </if>
-        <if test="param1.endDate != null">
-            AND DATEDIFF(t1.create_time, #{param1.endDate}) <![CDATA[ <= ]]> 0
+        WHERE t1.bool_deleted = 0
+        <if test="param3.serviceProviderName != null and param3.serviceProviderName.trim() != ''">
+            AND t1.service_provider_name LIKE concat('%', #{param3.serviceProviderName}, '%')
         </if>
-    </select>
-
-    <select id="queryServiceProviderListAgentMain" resultMap="serviceProviderListAdminVO">
-        SELECT t1.id, t1.service_provider_name, t1.contact1_name, t1.contact1_phone, t1.service_provider_state, t1.create_time,
-        (SELECT IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url, online_agreement_url) FROM diyi_agreement
-        WHERE bool_deleted = 0 AND agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED' AND service_provider_id = t1.id) AS join_contract
-        FROM diyi_service_provider t1 INNER JOIN diyi_agent_main_service_provider t2 ON t1.id = t2.service_provider_id WHERE t1.bool_deleted = 0
-        AND t2.bool_deleted = 0 AND t2.cooperate_status = 'COOPERATING' AND t2.agent_main_id = #{param1}
-        <if test="param2.serviceProviderName != null and param2.serviceProviderName.trim() != ''">
-            AND t1.service_provider_name LIKE concat('%', #{param2.serviceProviderName}, '%')
+        <if test="param3.beginDate != null">
+            AND DATEDIFF(t1.create_time, #{param3.beginDate}) <![CDATA[ >= ]]> 0
         </if>
-        <if test="param2.beginDate != null">
-            AND DATEDIFF(t1.create_time, #{param2.beginDate}) <![CDATA[ >= ]]> 0
-        </if>
-        <if test="param2.endDate != null">
-            AND DATEDIFF(t1.create_time, #{param2.endDate}) <![CDATA[ <= ]]> 0
+        <if test="param3.endDate != null">
+            AND DATEDIFF(t1.create_time, #{param3.endDate}) <![CDATA[ <= ]]> 0
         </if>
     </select>
 

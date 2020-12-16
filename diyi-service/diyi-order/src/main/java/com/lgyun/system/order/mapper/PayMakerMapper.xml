@@ -15,24 +15,9 @@
         <result property="income" column="income"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.order.vo.IncomeYearVO" id="incomeYearVO">
-        <result property="year" column="year"/>
-        <result property="yearIncome" column="year_income"/>
-    </resultMap>
-
-    <resultMap type="com.lgyun.system.order.vo.YearTradeVO" id="yearTradeVO">
-        <result property="janIncome" column="jan_income"/>
-        <result property="febIncome" column="feb_income"/>
-        <result property="marIncome" column="mar_income"/>
-        <result property="aprIncome" column="apr_income"/>
-        <result property="mayIncome" column="may_income"/>
-        <result property="junIncome" column="jun_income"/>
-        <result property="julIncome" column="jul_income"/>
-        <result property="augIncome" column="aug_income"/>
-        <result property="sepIncome" column="sep_income"/>
-        <result property="octIncome" column="oct_income"/>
-        <result property="novIncome" column="nov_income"/>
-        <result property="decIncome" column="dec_income"/>
+    <resultMap type="com.lgyun.system.order.vo.TradeVO" id="tradeVO">
+        <result property="tradeTime" column="trade_time"/>
+        <result property="tradeMoney" column="trade_money"/>
     </resultMap>
 
     <resultMap type="com.lgyun.system.order.vo.AllIncomeYearMonthEnterpriseVO" id="allIncomeYearMonthEnterpriseVO">
@@ -103,20 +88,60 @@
         </if>
     </select>
 
-    <select id="queryEveryYearTotalSubIncome" resultMap="incomeYearVO">
-        SELECT YEAR(platform_pay_ok_datetime) AS year, IFNULL(SUM(maker_net_income), 0) AS year_income FROM diyi_pay_maker WHERE bool_deleted = 0
-        AND (pay_state = 'PLATFORMPAID' OR pay_state = 'CONFIRMPAID') AND maker_type = #{param1} AND maker_id = #{param2} GROUP BY YEAR(platform_pay_ok_datetime)
-    </select>
+    <select id="queryTotalSubMakerIncome" resultMap="tradeVO">
+        SELECT
+        <choose>
+            <when test="param3 == 'ALL'">
+                YEAR(t1.platform_pay_ok_datetime)
+            </when>
+            <when test="param3 == 'YEAR'">
+                MONTH(t1.platform_pay_ok_datetime)
+            </when>
+            <when test="param3 == 'MONTH'">
+                DAY(t1.platform_pay_ok_datetime)
+            </when>
+            <when test="param3 == 'WEEK'">
+                WEEKDAY(t1.platform_pay_ok_datetime) + 1
+            </when>
+            <when test="param3 == 'DAY'">
+                HOUR(t1.platform_pay_ok_datetime)
+            </when>
+            <when test="param3 == 'PERIOD'">
+                DATE(t1.platform_pay_ok_datetime)
+            </when>
+            <otherwise>
 
-    <select id="queryEveryMonthTotalSubIncome" resultMap="yearTradeVO">
-        SELECT IFNULL(SUM(IF(MONTH(platform_pay_ok_datetime) = 1, maker_net_income, 0)), 0) AS jan_income, IFNULL(SUM(IF(MONTH(platform_pay_ok_datetime) = 2, maker_net_income, 0)), 0) AS feb_income,
-        IFNULL(SUM(IF(MONTH(platform_pay_ok_datetime) = 3, maker_net_income, 0)), 0) AS mar_income, IFNULL(SUM(IF(MONTH(platform_pay_ok_datetime) = 4, maker_net_income, 0)), 0) AS apr_income,
-        IFNULL(SUM(IF(MONTH(platform_pay_ok_datetime) = 5, maker_net_income, 0)), 0) AS may_income, IFNULL(SUM(IF(MONTH(platform_pay_ok_datetime) = 6, maker_net_income, 0)), 0) AS jun_income,
-        IFNULL(SUM(IF(MONTH(platform_pay_ok_datetime) = 7, maker_net_income, 0)), 0) AS jul_income, IFNULL(SUM(IF(MONTH(platform_pay_ok_datetime) = 8, maker_net_income, 0)), 0) AS aug_income,
-        IFNULL(SUM(IF(MONTH(platform_pay_ok_datetime) = 9, maker_net_income, 0)), 0) AS sep_income, IFNULL(SUM(IF(MONTH(platform_pay_ok_datetime) = 10, maker_net_income, 0)), 0) AS oct_income,
-        IFNULL(SUM(IF(MONTH(platform_pay_ok_datetime) = 11, maker_net_income, 0)), 0) AS nov_income, IFNULL(SUM(IF(MONTH(platform_pay_ok_datetime) = 12, maker_net_income, 0)), 0) AS dec_income
-        FROM diyi_pay_maker WHERE bool_deleted = 0 AND (pay_state = 'PLATFORMPAID' OR pay_state = 'CONFIRMPAID') AND maker_type = #{param1} AND maker_id = #{param2}
-        AND YEAR(platform_pay_ok_datetime) = #{param3}
+            </otherwise>
+        </choose>
+        AS trade_time, SUM(t1.maker_net_income) AS trade_money FROM diyi_pay_maker t1
+        WHERE t1.bool_deleted = 0 AND (t1.pay_state = 'PLATFORMPAID' OR t1.pay_state = 'CONFIRMPAID') AND t1.maker_type = #{param1} AND t1.maker_id = #{param2}
+        <if test="param4 != null">
+            AND YEAR(t1.platform_pay_ok_datetime) = YEAR(#{param4})
+        </if>
+        <choose>
+            <when test="param3 == 'ALL'">
+                GROUP BY YEAR(t1.platform_pay_ok_datetime)
+            </when>
+            <when test="param3 == 'YEAR'">
+                AND YEAR(t1.platform_pay_ok_datetime) = YEAR(NOW()) GROUP BY MONTH(t1.platform_pay_ok_datetime)
+            </when>
+            <when test="param3 == 'MONTH'">
+                AND YEAR(t1.platform_pay_ok_datetime) = YEAR(NOW()) AND MONTH(t1.platform_pay_ok_datetime) = MONTH(NOW()) GROUP BY DAY(t1.platform_pay_ok_datetime)
+            </when>
+            <when test="param3 == 'WEEK'">
+                AND WEEK(t1.platform_pay_ok_datetime) = WEEK(NOW()) GROUP BY WEEKDAY(t1.platform_pay_ok_datetime)
+            </when>
+            <when test="param3 == 'DAY'">
+                AND DATE(t1.platform_pay_ok_datetime) = DATE(NOW()) GROUP BY HOUR(t1.platform_pay_ok_datetime)
+            </when>
+            <when test="param3 == 'PERIOD'">
+                AND DATEDIFF(t1.platform_pay_ok_datetime, #{param5}) <![CDATA[ >= ]]> 0 AND DATEDIFF(t1.platform_pay_ok_datetime, #{param6}) <![CDATA[ <= ]]> 0
+                GROUP BY DATE(t1.platform_pay_ok_datetime)
+            </when>
+            <otherwise>
+
+            </otherwise>
+        </choose>
     </select>
 
     <select id="queryMakerToEnterpriseTotalSubIncome" resultMap="allIncomeYearMonthEnterpriseVO">
@@ -141,7 +166,7 @@
         ORDER BY t1.platform_pay_ok_datetime DESC
     </select>
 
-    <select id="queryTotalSubDetailAllIncome" resultType="BigDecimal">
+    <select id="queryTotalSubDetailAllIncome" resultType="java.math.BigDecimal">
         SELECT IFNULL(SUM(t1.maker_net_income), 0) AS all_income FROM diyi_pay_maker t1 INNER JOIN diyi_pay_enterprise t2 ON t1.pay_enterprise_id = t2.id
         INNER JOIN diyi_enterprise t3 ON t2.enterprise_id = t3.id WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t3.bool_deleted = 0
         AND (t1.pay_state = 'PLATFORMPAID' OR t1.pay_state = 'CONFIRMPAID') AND t1.maker_type = #{param1} AND t1.maker_id = #{param2}

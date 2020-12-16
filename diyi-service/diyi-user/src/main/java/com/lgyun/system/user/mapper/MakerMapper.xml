@@ -121,6 +121,13 @@
         <result property="boolSupplementSign" column="bool_supplement_sign"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.user.vo.MakerSelectListVO" id="makerSelectListVO">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="idcardNo" column="idcard_no"/>
+    </resultMap>
+
     <select id="queryMakerInfo" resultMap="makerInfoVO">
         SELECT avatar, name, certification_state, self_desc FROM diyi_maker WHERE bool_deleted = 0 AND id = #{param1}
     </select>
@@ -131,7 +138,7 @@
         self_pic, idcard_copy, idcard_hand, idcard_back_hand, pic_verify, idcard_verify_status, idcard_verify_date, face_verify_status, face_verify_date,
         bank_card_verify_status, bank_card_verify_date, phone_number_verify_status, phone_number_verify_date, idcard_verify_type,
         (SELECT t1.name FROM diyi_admin t1 WHERE t1.bool_deleted = 0 AND t1.id = manual_verify_id) AS manual_verify_name,
-        manual_verify_desc, run_address, house_address, living_address, self_desc, apply_short_video, video_audit,
+        manual_verify_desc, run_address, house_address, living_address, self_desc, shop_url, shop_user_name, apply_short_video, video_audit,
         video_audit_date, (SELECT t2.name FROM diyi_admin t2 WHERE t2.bool_deleted = 0 AND t2.id = video_audit_person_id) AS video_audit_person_name FROM diyi_maker
         WHERE bool_deleted = 0 AND id = #{param1}
     </select>
@@ -178,35 +185,29 @@
     </select>
 
     <select id="queryMakerList" resultMap="makerListWebVO">
-        SELECT
-        <if test="param2 != null">
-            DISTINCT
-        </if>
-        t1.id, t1.name, t1.idcard_no, t1.phone_number, t1.bank_card_no, t1.idcard_verify_status, t1.face_verify_status, t1.bank_card_verify_status,
+        SELECT DISTINCT t1.id, t1.name, t1.idcard_no, t1.phone_number, t1.bank_card_no, t1.idcard_verify_status, t1.face_verify_status, t1.bank_card_verify_status,
         t1.phone_number_verify_status, t1.empower_sign_state, t1.join_sign_state, t1.create_time FROM diyi_maker t1
         <if test="param1 != null">
-            INNER JOIN diyi_maker_enterprise t2 ON t1.id = t2.maker_id AND t2.bool_deleted = 0
+            INNER JOIN diyi_maker_enterprise t2 ON t1.id = t2.maker_id AND t2.bool_deleted = 0 AND t2.enterprise_id = #{param1}
+            <if test="param4 != null">
+                AND t2.relationship_type = #{param4}
+            </if>
         </if>
         <if test="param2 != null">
-            INNER JOIN diyi_service_provider_maker t3 ON t1.id = t3.maker_id AND t3.bool_deleted = 0
-        </if>
-        WHERE t1.bool_deleted = 0
-        <if test="param1 != null">
-            AND t2.enterprise_id = #{param1}
-        </if>
-        <if test="param2 != null">
-            AND t3.service_provider_id = #{param2}
+            INNER JOIN diyi_service_provider_maker t3 ON t1.id = t3.maker_id AND t3.bool_deleted = 0 AND t3.service_provider_id = #{param2}
         </if>
         <if test="param3 != null">
-            AND t2.relationship_type = #{param3}
+            INNER JOIN diyi_service_provider_maker t4 ON t1.id = t4.maker_id AND t4.bool_deleted = 0 INNER JOIN diyi_rel_bureau_service_provider t5
+            ON t4.service_provider_id = t5.service_provider_id AND t5.bool_deleted = 0 AND t5.rel_bureau_id = #{param3}
         </if>
-        <if test="param4 != null">
-            AND t1.certification_state = #{param4}
+        WHERE t1.bool_deleted = 0
+        <if test="param5 != null">
+            AND t1.certification_state = #{param5}
         </if>
-        <if test="param5 != null and param5.trim() != ''">
-            AND (t1.idcard_no LIKE concat('%', #{param5}, '%')
-            OR t1.name LIKE concat('%', #{param5}, '%')
-            OR t1.phone_number LIKE concat('%', #{param5}, '%'))
+        <if test="param6 != null and param6.trim() != ''">
+            AND (t1.idcard_no LIKE concat('%', #{param6}, '%')
+            OR t1.name LIKE concat('%', #{param6}, '%')
+            OR t1.phone_number LIKE concat('%', #{param6}, '%'))
         </if>
     </select>
 
@@ -217,6 +218,15 @@
         FROM diyi_maker t1 INNER JOIN diyi_maker_enterprise t2 ON t2.maker_id = t1.id where t1.bool_deleted = 0 and t2.bool_deleted = 0 and t2.enterprise_id = #{param1}
         <if test="param2 != null and param2.trim() != ''">
             and t1.name LIKE concat('%', #{param2}, '%')
+        </if>
+    </select>
+
+    <select id="queryMakerSelectList" resultMap="makerSelectListVO">
+        SELECT id, name, phone_number, idcard_no FROM diyi_maker WHERE bool_deleted = 0
+        <if test="param1 != null and param1.trim() != ''">
+            AND (t1.idcard_no LIKE concat('%', #{param1}, '%')
+            OR t1.name LIKE concat('%', #{param1}, '%')
+            OR t1.phone_number LIKE concat('%', #{param1}, '%'))
         </if>
     </select>
 

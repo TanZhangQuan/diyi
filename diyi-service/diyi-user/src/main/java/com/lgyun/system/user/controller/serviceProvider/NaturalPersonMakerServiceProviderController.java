@@ -30,7 +30,7 @@ public class NaturalPersonMakerServiceProviderController {
 
     @GetMapping("/query-relevance-maker-list")
     @ApiOperation(value = "查询当前服务商的所有关联创客", notes = "查询当前服务商的所有关联创客")
-    public R queryRelevanceMakerList(@ApiParam(value = "搜索创客关键字：请输入创客姓名/手机号") @RequestParam(required = false) String keyword, Query query, BladeUser bladeUser) {
+    public R queryRelevanceMakerList(@ApiParam(value = "创客姓名/手机号/身份证号") @RequestParam(required = false) String keyword, Query query, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -38,7 +38,7 @@ public class NaturalPersonMakerServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return makerService.queryMakerList(null, serviceProviderWorkerEntity.getServiceProviderId(), null, null, keyword, Condition.getPage(query.setDescs("t1.create_time")));
+        return makerService.queryMakerList(null, serviceProviderWorkerEntity.getServiceProviderId(), null, null, null, keyword, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-maker-detail")
@@ -69,14 +69,14 @@ public class NaturalPersonMakerServiceProviderController {
     @GetMapping("/query-relevance-maker-list-by-enterprise-id")
     @ApiOperation(value = "根据商户查询所有关联创客", notes = "根据商户查询所有关联创客")
     public R queryRelevanceMakerListByEnterpriseId(@ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
-                                                   @ApiParam(value = "搜索创客关键字：请输入创客姓名/手机号") @RequestParam(required = false) String keyword, Query query, BladeUser bladeUser) {
+                                                   @ApiParam(value = "创客姓名/手机号/身份证号") @RequestParam(required = false) String keyword, Query query, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return makerService.queryMakerList(enterpriseId, null, RelationshipType.RELEVANCE, null, keyword, Condition.getPage(query.setDescs("t1.create_time")));
+        return makerService.queryMakerList(enterpriseId, null, null, RelationshipType.RELEVANCE, null, keyword, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
 }

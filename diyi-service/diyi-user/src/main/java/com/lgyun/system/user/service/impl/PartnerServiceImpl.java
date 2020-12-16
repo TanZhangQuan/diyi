@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.constant.SmsConstant;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.secure.BladeUser;
@@ -195,9 +196,9 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
 
 
     @Override
-    public PartnerEntity findByPhoneNumberAndLoginPwd(String phoneNumber, String loginPwd) {
+    public PartnerEntity findByAccountAndPwd(String account, String loginPwd) {
         QueryWrapper<PartnerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(PartnerEntity::getPhoneNumber, phoneNumber)
+        queryWrapper.lambda().eq(PartnerEntity::getPhoneNumber, account)
                 .eq(PartnerEntity::getLoginPwd, loginPwd);
         return baseMapper.selectOne(queryWrapper);
     }
@@ -237,7 +238,7 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
             updateById(partnerEntity);
         }
 
-        return R.success("操作成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override

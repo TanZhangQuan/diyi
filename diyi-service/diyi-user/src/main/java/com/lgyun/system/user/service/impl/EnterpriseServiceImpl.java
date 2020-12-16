@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
@@ -285,7 +286,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     @Override
-    public R<IPage<EnterpriseListAdminVO>> queryEnterpriseListAdmin(EnterpriseListDTO enterpriseListDTO, IPage<EnterpriseListAdminVO> page) {
+    public R<IPage<EnterpriseListAdminVO>> queryEnterpriseList(Long agentMainId, Long relBureauId, EnterpriseListDTO enterpriseListDTO, IPage<EnterpriseListAdminVO> page) {
 
         if (enterpriseListDTO.getBeginDate() != null && enterpriseListDTO.getEndDate() != null) {
             if (enterpriseListDTO.getBeginDate().after(enterpriseListDTO.getEndDate())) {
@@ -293,19 +294,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             }
         }
 
-        return R.data(page.setRecords(baseMapper.queryEnterpriseListAdmin(enterpriseListDTO, page)));
-    }
-
-    @Override
-    public R<IPage<EnterpriseListAdminVO>> queryEnterpriseListAgentMain(Long agentMainId, EnterpriseListDTO enterpriseListDTO, IPage<EnterpriseListAdminVO> page) {
-
-        if (enterpriseListDTO.getBeginDate() != null && enterpriseListDTO.getEndDate() != null) {
-            if (enterpriseListDTO.getBeginDate().after(enterpriseListDTO.getEndDate())) {
-                return R.fail("开始时间不能大于结束时间");
-            }
-        }
-
-        return R.data(page.setRecords(baseMapper.queryEnterpriseListAgentMain(agentMainId, enterpriseListDTO, page)));
+        return R.data(page.setRecords(baseMapper.queryEnterpriseList(agentMainId, relBureauId, enterpriseListDTO, page)));
     }
 
     @Override
@@ -327,7 +316,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             updateById(enterpriseEntity);
         }
 
-        return R.success("操作成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override

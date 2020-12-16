@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.Func;
@@ -258,7 +259,8 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         agreementEntity.setFirstSideSignPerson(serviceProviderEntity.getServiceProviderName());
         agreementEntity.setSecondSideSignPerson(byId.getEnterpriseName());
         save(agreementEntity);
-        return R.success("操作成功");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -398,7 +400,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
             }
         }
 
-        return R.success("操作成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -485,11 +487,6 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         agreementEntity.setPaperAgreementUrl(agreementUrl);
         saveOrUpdate(agreementEntity);
         return R.success("编辑成功");
-    }
-
-    @Override
-    public R queryAdminMakerAll(Long makerId, String makerName, IPage<MakerEntity> page) {
-        return makerService.getMakerAll(makerId, makerName, page);
     }
 
     @Override

@@ -2,11 +2,12 @@ package com.lgyun.system.user.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.*;
+import com.lgyun.common.enumeration.AgreementType;
+import com.lgyun.common.enumeration.ObjectType;
+import com.lgyun.common.enumeration.SignType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.AgreementEntity;
 import com.lgyun.system.user.entity.EnterpriseEntity;
-import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.vo.*;
 
@@ -37,7 +38,7 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
      * @param enterpriseId
      * @return
      */
-    List<AgreementEntity> findByEnterpriseId(Long enterpriseId,Long makerId);
+    List<AgreementEntity> findByEnterpriseId(Long enterpriseId, Long makerId);
 
     /**
      * 根据商户和合同类型找合同
@@ -235,7 +236,7 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
     /**
      * 平台查询服务商合同的签署状态
      */
-    R queryServiceAgreementState(String serviceProviderName,IPage<AgreementServiceStateAdminVO> page);
+    R queryServiceAgreementState(String serviceProviderName, IPage<AgreementServiceStateAdminVO> page);
 
     /**
      * 平台根据服务商id查询合作服务商和商户补充协议
@@ -248,19 +249,14 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
     R saveAdminAgreementId(Long agreementId, String agreementUrl);
 
     /**
-     * 平台查所有创客
-     */
-    R queryAdminMakerAll(Long makerId,String makerName,IPage<MakerEntity> page);
-
-    /**
      * 平台查所有商户
      */
-    R queryAdminEnterpriseAll(Long enterpriseId,String enterpriseName,IPage<EnterpriseEntity> page);
+    R queryAdminEnterpriseAll(Long enterpriseId, String enterpriseName, IPage<EnterpriseEntity> page);
 
     /**
      * 平台查所有服务商
      */
-    R queryAdminServiceAll(Long serviceProviderId,String serviceProviderName,IPage<ServiceProviderEntity> page);
+    R queryAdminServiceAll(Long serviceProviderId, String serviceProviderName, IPage<ServiceProviderEntity> page);
 
     /**
      * 查询已签署已审核通过的商户-创客补充协议

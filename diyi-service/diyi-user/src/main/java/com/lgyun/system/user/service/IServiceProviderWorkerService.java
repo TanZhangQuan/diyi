@@ -49,12 +49,13 @@ public interface IServiceProviderWorkerService extends BaseService<ServiceProvid
     ServiceProviderWorkerEntity findByPhoneNumber(String phoneNumber);
 
     /**
-     * 根据用户名密码查询服务商员工
+     * 根据手机号/用户名，密码查询服务商员工
      *
-     * @param
+     * @param account
+     * @param employeePwd
      * @return
      */
-    ServiceProviderWorkerEntity findByEmployeeUserNameAndEmployeePwd(String employeeUserName, String employeePwd);
+    ServiceProviderWorkerEntity findByAccountAndPwd(String account, String employeePwd);
 
     /**
      * 根据手机号码查询服务商员工是否存在

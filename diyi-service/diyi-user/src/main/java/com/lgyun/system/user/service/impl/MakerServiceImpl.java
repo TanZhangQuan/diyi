@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.constant.RealnameVerifyConstant;
 import com.lgyun.common.constant.SmsConstant;
 import com.lgyun.common.enumeration.*;
@@ -273,9 +274,9 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public MakerEntity findByPhoneNumberAndLoginPwd(String phoneNumber, String loginPwd) {
+    public MakerEntity findByAccountAndPwd(String account, String loginPwd) {
         QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(MakerEntity::getPhoneNumber, phoneNumber)
+        queryWrapper.lambda().eq(MakerEntity::getPhoneNumber, account)
                 .eq(MakerEntity::getLoginPwd, loginPwd);
         return baseMapper.selectOne(queryWrapper);
     }
@@ -539,10 +540,12 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public R<String> uploadMakerVideo(MakerEntity makerEntity, String applyShortVideo) {
+
         makerEntity.setVideoAudit(VideoAudit.AUDITPASS);
         makerEntity.setApplyShortVideo(applyShortVideo);
         updateById(makerEntity);
-        return R.success("操作成功");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -590,7 +593,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     @Override
     public MakerEntity findByIdcardNo(String idcardNo) {
 
-        if (StringUtils.isBlank(idcardNo)){
+        if (StringUtils.isBlank(idcardNo)) {
             return null;
         }
 
@@ -618,21 +621,8 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R getMakerAll(Long makerId, String makerName, IPage<MakerEntity> page) {
-        QueryWrapper<MakerEntity> queryWrapper = new QueryWrapper<>();
-        if (makerId != null && StringUtils.isNotEmpty(makerName)) {
-            queryWrapper.lambda().eq(MakerEntity::getId, makerId)
-                    .like(MakerEntity::getName, makerName);
-        }
-        if (makerId != null && StringUtils.isEmpty(makerName)) {
-            queryWrapper.lambda().eq(MakerEntity::getId, makerId);
-        }
-        if (StringUtils.isNotEmpty(makerName) && makerId == null) {
-            queryWrapper.lambda().like(MakerEntity::getName, makerName);
-        }
-        IPage<MakerEntity> makerEntityIPage = baseMapper.selectPage(page, queryWrapper);
-
-        return R.data(makerEntityIPage);
+    public R<IPage<MakerSelectListVO>> queryMakerSelectList(String keyWord, IPage<MakerSelectListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryMakerSelectList(keyWord, page)));
     }
 
     @Override
@@ -667,8 +657,8 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R<IPage<MakerListWebVO>> queryMakerList(Long enterpriseId, Long serviceProviderId, RelationshipType relationshipType, CertificationState certificationState, String keyword, IPage<MakerListWebVO> page) {
-        return R.data(page.setRecords(baseMapper.queryMakerList(enterpriseId, serviceProviderId, relationshipType, certificationState, keyword, page)));
+    public R<IPage<MakerListWebVO>> queryMakerList(Long enterpriseId, Long serviceProviderId, Long relBureauId, RelationshipType relationshipType, CertificationState certificationState, String keyword, IPage<MakerListWebVO> page) {
+        return R.data(page.setRecords(baseMapper.queryMakerList(enterpriseId, serviceProviderId, relBureauId, relationshipType, certificationState, keyword, page)));
     }
 
     @Override

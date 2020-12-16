@@ -40,7 +40,7 @@ public class NaturalPersonMakerEnterpriseController {
     @GetMapping("/query-relevance-maker-list")
     @ApiOperation(value = "查询当前商户的所有关联或关注创客", notes = "查询当前商户的所有关联或关注创客")
     public R queryRelevanceMakerList(@ApiParam(value = "创客商户关系") @NotNull(message = "请选择创客商户关系") @RequestParam(required = false) RelationshipType relationshipType,
-                                     @ApiParam(value = "搜索创客关键字：请输入创客姓名/手机号") @RequestParam(required = false) String keyword, Query query, BladeUser bladeUser) {
+                                     @ApiParam(value = "创客姓名/手机号/身份证号") @RequestParam(required = false) String keyword, Query query, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -48,7 +48,7 @@ public class NaturalPersonMakerEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return makerService.queryMakerList(enterpriseWorkerEntity.getEnterpriseId(), null, relationshipType, null, keyword, Condition.getPage(query.setDescs("t1.create_time")));
+        return makerService.queryMakerList(enterpriseWorkerEntity.getEnterpriseId(), null, null, relationshipType, null, keyword, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @PostMapping("/create-maker")

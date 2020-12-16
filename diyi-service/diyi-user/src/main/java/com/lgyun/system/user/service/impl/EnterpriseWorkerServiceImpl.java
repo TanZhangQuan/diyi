@@ -2,6 +2,7 @@ package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.ChildAccountType;
 import com.lgyun.common.enumeration.MenuType;
@@ -100,9 +101,9 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
     }
 
     @Override
-    public EnterpriseWorkerEntity findByEmployeeUserNameAndEmployeePwd(String employeeUserName, String employeePwd) {
+    public EnterpriseWorkerEntity findByAccountAndPwd(String account, String employeePwd) {
         QueryWrapper<EnterpriseWorkerEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(EnterpriseWorkerEntity::getEmployeeUserName, employeeUserName)
+        queryWrapper.lambda().eq(EnterpriseWorkerEntity::getEmployeeUserName, account).or().eq(EnterpriseWorkerEntity::getPhoneNumber, account)
                 .eq(EnterpriseWorkerEntity::getEmployeePwd, employeePwd);
         return baseMapper.selectOne(queryWrapper);
     }
@@ -131,9 +132,9 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
         roleMenusDTO.setUserType(UserType.ENTERPRISE);
         R result = sysClient.createOrUpdateRoleMenus(roleMenusDTO, enterpriseWorkerEntity.getId());
         if (result.isSuccess()) {
-            return R.success("操作成功！");
+            return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
         }
-        return R.fail("操作失败！");
+        return R.success(BladeConstant.DEFAULT_FAILURE_MESSAGE);
     }
 
     @Override
@@ -300,7 +301,7 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
             childAccount.setEmployeePwd(encrypt);
             save(childAccount);
         }
-        return R.success("操作成功！");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -338,6 +339,6 @@ public class EnterpriseWorkerServiceImpl extends BaseServiceImpl<EnterpriseWorke
             default:
                 break;
         }
-        return R.success("操作成功！");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 }

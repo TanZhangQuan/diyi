@@ -154,6 +154,7 @@ public class UpdateServiceProviderDTO implements Serializable {
      * 用户名
      */
     @NotBlank(message = "请输入用户名")
+    @Pattern(regexp = "[A-Z,a-z,0-9,-]*", message = "用户名只能包含字母和数字")
     private String employeeUserName;
 
     /**

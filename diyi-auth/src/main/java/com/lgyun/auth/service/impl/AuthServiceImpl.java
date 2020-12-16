@@ -132,7 +132,7 @@ public class AuthServiceImpl implements IAuthService {
 
             case ADMIN:
                 // 管理员处理
-                R<AdminEntity> adminResult = userClient.adminDeal(mobile, "", "", GrantType.MOBILE);
+                R<AdminEntity> adminResult = userClient.adminDeal(mobile, "", GrantType.MOBILE);
                 if (!(adminResult.isSuccess())) {
                     return adminResult;
                 }
@@ -203,7 +203,7 @@ public class AuthServiceImpl implements IAuthService {
 
             case ENTERPRISE:
                 // 商户处理
-                R<EnterpriseWorkerEntity> enterpriseWorkerResult = userClient.enterpriseWorkerDeal(mobile, "", "", GrantType.MOBILE);
+                R<EnterpriseWorkerEntity> enterpriseWorkerResult = userClient.enterpriseWorkerDeal(mobile, "", GrantType.MOBILE);
                 if (!(enterpriseWorkerResult.isSuccess())) {
                     return enterpriseWorkerResult;
                 }
@@ -218,7 +218,7 @@ public class AuthServiceImpl implements IAuthService {
 
             case SERVICEPROVIDER:
                 // 服务商处理
-                R<ServiceProviderWorkerEntity> serviceProviderWorkerResult = userClient.serviceProviderWorkerDeal(mobile, "", "", GrantType.MOBILE);
+                R<ServiceProviderWorkerEntity> serviceProviderWorkerResult = userClient.serviceProviderWorkerDeal(mobile, "", GrantType.MOBILE);
                 if (!(serviceProviderWorkerResult.isSuccess())) {
                     return serviceProviderWorkerResult;
                 }
@@ -233,7 +233,7 @@ public class AuthServiceImpl implements IAuthService {
 
             case AGENTMAIN:
                 // 服务商处理
-                R<AgentMainWorkerEntity> agentMainWorkerResult = userClient.agentMainWorkerDeal(mobile, "", "", GrantType.MOBILE);
+                R<AgentMainWorkerEntity> agentMainWorkerResult = userClient.agentMainWorkerDeal(mobile, "", GrantType.MOBILE);
                 if (!(agentMainWorkerResult.isSuccess())) {
                     return agentMainWorkerResult;
                 }
@@ -283,7 +283,7 @@ public class AuthServiceImpl implements IAuthService {
 
             case ADMIN:
                 //管理员处理
-                R<AdminEntity> adminResult = userClient.adminDeal("", account, encrypt, GrantType.PASSWORD);
+                R<AdminEntity> adminResult = userClient.adminDeal(account, encrypt, GrantType.PASSWORD);
                 if (!(adminResult.isSuccess())) {
                     return adminResult;
                 }
@@ -358,7 +358,7 @@ public class AuthServiceImpl implements IAuthService {
 
             case ENTERPRISE:
                 //商户员工处理
-                R<EnterpriseWorkerEntity> enterpriseWorkerResult = userClient.enterpriseWorkerDeal("", account, encrypt, GrantType.PASSWORD);
+                R<EnterpriseWorkerEntity> enterpriseWorkerResult = userClient.enterpriseWorkerDeal(account, encrypt, GrantType.PASSWORD);
                 if (!(enterpriseWorkerResult.isSuccess())) {
                     return enterpriseWorkerResult;
                 }
@@ -373,7 +373,7 @@ public class AuthServiceImpl implements IAuthService {
 
             case SERVICEPROVIDER:
                 //服务商员工处理
-                R<ServiceProviderWorkerEntity> serviceProviderWorkerResult = userClient.serviceProviderWorkerDeal("", account, encrypt, GrantType.PASSWORD);
+                R<ServiceProviderWorkerEntity> serviceProviderWorkerResult = userClient.serviceProviderWorkerDeal(account, encrypt, GrantType.PASSWORD);
                 if (!(serviceProviderWorkerResult.isSuccess())) {
                     return serviceProviderWorkerResult;
                 }
@@ -388,7 +388,7 @@ public class AuthServiceImpl implements IAuthService {
 
             case AGENTMAIN:
                 //渠道商员工处理
-                R<AgentMainWorkerEntity> agentMainWorkerResult = userClient.agentMainWorkerDeal("", account, encrypt, GrantType.PASSWORD);
+                R<AgentMainWorkerEntity> agentMainWorkerResult = userClient.agentMainWorkerDeal(account, encrypt, GrantType.PASSWORD);
                 if (!(agentMainWorkerResult.isSuccess())) {
                     return agentMainWorkerResult;
                 }
@@ -408,7 +408,7 @@ public class AuthServiceImpl implements IAuthService {
                 }
 
                 //相关局处理
-                R<RelBureauEntity> relBureauResult = userClient.relBureauDeal("", account, encrypt, passwordLoginDto.getRelBureauType(), GrantType.PASSWORD);
+                R<RelBureauEntity> relBureauResult = userClient.relBureauDeal(account, encrypt, passwordLoginDto.getRelBureauType(), GrantType.PASSWORD);
                 if (!(relBureauResult.isSuccess())) {
                     return relBureauResult;
                 }
@@ -619,12 +619,11 @@ public class AuthServiceImpl implements IAuthService {
             return R.fail(TokenUtil.SMS_CAPTCHA_NOT_CORRECT);
         }
 
-        R<String> res;
         switch (userType) {
 
             case ADMIN:
                 //管理员处理
-                R<AdminEntity> adminResult = userClient.adminDeal(mobile, "", newPassword, GrantType.UPDATEPASSWORD);
+                R<AdminEntity> adminResult = userClient.adminDeal(mobile, newPassword, GrantType.UPDATEPASSWORD);
                 if (!(adminResult.isSuccess())) {
                     return adminResult;
                 }
@@ -650,7 +649,7 @@ public class AuthServiceImpl implements IAuthService {
 
             case ENTERPRISE:
                 //商户处理
-                R<EnterpriseWorkerEntity> enterpriseWorkerResult = userClient.enterpriseWorkerDeal(mobile, "", newPassword, GrantType.UPDATEPASSWORD);
+                R<EnterpriseWorkerEntity> enterpriseWorkerResult = userClient.enterpriseWorkerDeal(mobile, newPassword, GrantType.UPDATEPASSWORD);
                 if (!(enterpriseWorkerResult.isSuccess())) {
                     return enterpriseWorkerResult;
                 }
@@ -659,7 +658,7 @@ public class AuthServiceImpl implements IAuthService {
 
             case SERVICEPROVIDER:
                 //服务商处理
-                R<ServiceProviderWorkerEntity> serviceProviderWorkerResult = userClient.serviceProviderWorkerDeal(mobile, "", newPassword, GrantType.UPDATEPASSWORD);
+                R<ServiceProviderWorkerEntity> serviceProviderWorkerResult = userClient.serviceProviderWorkerDeal(mobile, newPassword, GrantType.UPDATEPASSWORD);
                 if (!(serviceProviderWorkerResult.isSuccess())) {
                     return serviceProviderWorkerResult;
                 }
@@ -668,7 +667,7 @@ public class AuthServiceImpl implements IAuthService {
 
             case AGENTMAIN:
                 //服务商处理
-                R<AgentMainWorkerEntity> agentMainWorkerResult = userClient.agentMainWorkerDeal(mobile, "", newPassword, GrantType.UPDATEPASSWORD);
+                R<AgentMainWorkerEntity> agentMainWorkerResult = userClient.agentMainWorkerDeal(mobile, newPassword, GrantType.UPDATEPASSWORD);
                 if (!(agentMainWorkerResult.isSuccess())) {
                     return agentMainWorkerResult;
                 }

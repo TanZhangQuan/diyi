@@ -8,6 +8,7 @@ import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.dto.AddOrUpdateRelBureauDTO;
 import com.lgyun.system.user.dto.RelBureauListDTO;
 import com.lgyun.system.user.entity.RelBureauEntity;
+import com.lgyun.system.user.vo.RelBureauDetailVO;
 import com.lgyun.system.user.vo.RelBureauInfoVO;
 import com.lgyun.system.user.vo.RelBureauListVO;
 import com.lgyun.system.user.vo.RelBureauUpdateDetailVO;
@@ -31,12 +32,12 @@ public interface IRelBureauService extends BaseService<RelBureauEntity> {
     /**
      * 根据账号密码查询相关局
      *
-     * @param relBureauUserName
+     * @param account
      * @param relBureauPwd
      * @param relBureauType
      * @return
      */
-    RelBureauEntity findByEmployeeUserNameAndEmployeePwd(String relBureauUserName, String relBureauPwd, RelBureauType relBureauType);
+    RelBureauEntity findByAccountAndPwd(String account, String relBureauPwd, RelBureauType relBureauType);
 
     /**
      * 添加相关局
@@ -69,10 +70,17 @@ public interface IRelBureauService extends BaseService<RelBureauEntity> {
      *
      * @param relBureauListDTO
      * @param page
-     * @param relBureauType
      * @return
      */
-    R<IPage<RelBureauListVO>> queryRelBureauList(RelBureauType relBureauType, RelBureauListDTO relBureauListDTO, IPage<RelBureauListVO> page);
+    R<IPage<RelBureauListVO>> queryRelBureauList(RelBureauListDTO relBureauListDTO, IPage<RelBureauListVO> page);
+
+    /**
+     * 查询相关局详情
+     *
+     * @param relBureauId
+     * @return
+     */
+    R<RelBureauDetailVO> queryRelBureauDetail(Long relBureauId);
 
     /**
      * 查询相关局基础信息
@@ -89,5 +97,6 @@ public interface IRelBureauService extends BaseService<RelBureauEntity> {
      * @return
      */
     int queryCountById(Long relBureauId);
+
 }
 
