@@ -32,9 +32,6 @@ public class SelfHelpInvoiceEnterpriseController {
     private IUserClient userClient;
     private IAddressService addressService;
     private ISelfHelpInvoiceService selfHelpInvoiceService;
-    private ISelfHelpInvoiceFeeService selfHelpInvoiceFeeService;
-    private ISelfHelpInvoiceDetailService selfHelpInvoiceDetailService;
-    private ISelfHelpInvoiceAccountService selfHelpInvoiceAccountService;
 
 
 
@@ -213,7 +210,7 @@ public class SelfHelpInvoiceEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return selfHelpInvoiceService.naturalPersonSubmitForm(enterpriseWorkerEntity.getEnterpriseId(),listFile,serviceProviderId,invoiceCategory,makerType,payType,invoiceType,addressId);
+        return selfHelpInvoiceService.naturalPersonSubmitForm(ObjectType.ENTERPRISEPEOPLE,enterpriseWorkerEntity.getEnterpriseId(),listFile,serviceProviderId,invoiceCategory,makerType,payType,invoiceType,addressId);
     }
 
     @PostMapping("/natural-person-confirm-submit")
@@ -226,7 +223,7 @@ public class SelfHelpInvoiceEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return selfHelpInvoiceService.naturalPersonConfirmSubmit(enterpriseWorkerEntity.getEnterpriseId(),naturalPersonConfirmSubmitDto);
+        return selfHelpInvoiceService.naturalPersonConfirmSubmit(ObjectType.ENTERPRISEPEOPLE,enterpriseWorkerEntity.getEnterpriseId(),naturalPersonConfirmSubmitDto);
     }
 
     @GetMapping("/query-self-invoice-list")
@@ -240,7 +237,7 @@ public class SelfHelpInvoiceEnterpriseController {
         }
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
-        return selfHelpInvoiceService.querySelfInvoiceList(enterpriseWorkerEntity.getEnterpriseId(), makerType ,startTiem,endTime, Condition.getPage(query.setDescs("t1.create_time")));
+        return selfHelpInvoiceService.querySelfInvoiceList(ObjectType.ENTERPRISEPEOPLE,enterpriseWorkerEntity.getEnterpriseId(), makerType ,startTiem,endTime, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-self-invoice-details")

@@ -8,6 +8,7 @@ import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.DigestUtil;
+import com.lgyun.common.tool.QRCodeUtil;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.AddressEntity;
 import com.lgyun.system.order.feign.IOrderClient;
@@ -17,6 +18,7 @@ import com.lgyun.system.user.dto.EnterpriseListDTO;
 import com.lgyun.system.user.dto.UpdateEnterpriseDTO;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.mapper.EnterpriseMapper;
+import com.lgyun.system.user.oss.AliyunOssService;
 import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.*;
 import lombok.AllArgsConstructor;
@@ -26,7 +28,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Service 实现
@@ -45,6 +50,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     private IEnterpriseWorkerService enterpriseWorkerService;
     private IPartnerEnterpriseService partnerEnterpriseService;
     private IAgentMainEnterpriseService agentMainEnterpriseService;
+    private AliyunOssService ossService;
 
     @Override
     public int queryCountById(Long enterpriseId) {
@@ -398,6 +404,22 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         }
         return null;
 
+    }
+
+    @Override
+    public R createQrCode(String linkUrl) throws Exception{
+        QRCodeUtil qrCodeUtil = new QRCodeUtil();
+
+        Map map = qrCodeUtil.encode(linkUrl);
+        if(null == map){
+            return R.fail("生成二维码失败");
+        }
+        FileInputStream fileInputStream = (FileInputStream) map.get("fileInputStream");
+        File file = (File) map.get("htmlFile");
+        String jpg = ossService.uploadSuffix(fileInputStream, ".jpg");
+        fileInputStream.close();
+        file.delete();
+        return R.success(jpg);
     }
 
 }

@@ -29,10 +29,21 @@ public class SelfInvoiceListVo implements Serializable {
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long applyEnterpriseId;
+
+    /**
+     *申请创客的Id
+     */
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long applyMakerId;
     /**
      *申请商户的名称
      */
     private String applyEnterpriseName;
+
+    /**
+     * 申请创客的名字
+     */
+    private String applyMakerName;
     /**
      *清单url
      */

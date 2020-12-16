@@ -148,7 +148,8 @@ public class SelfHelpInvoiceAdminController {
 
     @GetMapping("/query-address-list")
     @ApiOperation(value = "查询收件地址", notes = "查询收件地址")
-    public R queryAddressList(@ApiParam(value = "商户id", required = true) @NotNull(message = "请输入商户id") @RequestParam(required = false) Long enterpriseId,
+    public R queryAddressList(@ApiParam(value = "对象属性", required = true) @NotNull(message = "请输入对象属性") @RequestParam(required = false) ObjectType objectType,
+                              @ApiParam(value = "对象id", required = true) @NotNull(message = "请输入对象id") @RequestParam(required = false) Long objectId,
                               Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
@@ -156,7 +157,7 @@ public class SelfHelpInvoiceAdminController {
             return result;
         }
 
-        return addressService.queryAddressList(ObjectType.ENTERPRISEPEOPLE, enterpriseId, Condition.getPage(query.setDescs("create_time")));
+        return addressService.queryAddressList(objectType, objectId, Condition.getPage(query.setDescs("create_time")));
     }
 
 
@@ -169,7 +170,8 @@ public class SelfHelpInvoiceAdminController {
                                      @ApiParam(value = "开票人身份类别", required = true) @NotNull(message = "请输入开票人身份类别") @RequestParam(required = false) MakerType makerType,
                                      @ApiParam(value = "众包支付模式", required = true) @NotNull(message = "请选择众包支付模式") @RequestParam(required = false) CrowdSourcingPayType payType,
                                      @ApiParam(value = "开票类目", required = true) @NotNull(message = "请选择开票类目") @RequestParam(required = false) String invoiceType,
-                                     @ApiParam(value = "商户id", required = true) @NotNull(message = "请选商户id") @RequestParam(required = false) Long enterpriseId,
+                                     @ApiParam(value = "对象属性", required = true) @NotNull(message = "请输入对象属性") @RequestParam(required = false) ObjectType objectType,
+                                     @ApiParam(value = "对象id", required = true) @NotNull(message = "请输入对象id") @RequestParam(required = false) Long objectId,
                                      @ApiParam(value = "收货地址", required = true) @NotNull(message = "请选择收货地址") @RequestParam(required = false) Long addressId,BladeUser bladeUser) throws Exception{
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
@@ -177,7 +179,7 @@ public class SelfHelpInvoiceAdminController {
             return result;
         }
 
-        return selfHelpInvoiceService.naturalPersonSubmitForm(enterpriseId,listFile,serviceProviderId,invoiceCategory,makerType,payType,invoiceType,addressId);
+        return selfHelpInvoiceService.naturalPersonSubmitForm(objectType,objectId,listFile,serviceProviderId,invoiceCategory,makerType,payType,invoiceType,addressId);
     }
 
 
@@ -189,10 +191,7 @@ public class SelfHelpInvoiceAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        if(null == naturalPersonConfirmSubmitDto.getEnterpriseId()){
-            return R.fail("请输入商户id");
-        }
-        return selfHelpInvoiceService.naturalPersonConfirmSubmit(naturalPersonConfirmSubmitDto.getEnterpriseId(),naturalPersonConfirmSubmitDto);
+        return selfHelpInvoiceService.naturalPersonConfirmSubmit(naturalPersonConfirmSubmitDto.getObjectType(),naturalPersonConfirmSubmitDto.getObjectId(),naturalPersonConfirmSubmitDto);
     }
 
 
@@ -206,7 +205,7 @@ public class SelfHelpInvoiceAdminController {
             return result;
         }
 
-        return selfHelpInvoiceService.querySelfInvoiceList(null, makerType ,startTiem,endTime, Condition.getPage(query.setDescs("t1.create_time")));
+        return selfHelpInvoiceService.queryServiceProviderSelfInvoiceList(null,makerType ,startTiem,endTime, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-self-invoice-details")

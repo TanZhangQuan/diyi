@@ -55,4 +55,10 @@ public class SelfHelpInvoiceAdminController {
         return enterpriseService.queryEnterpriseList(null, null, enterpriseListDTO, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
+    @GetMapping("/create-qr-code")
+    @ApiOperation(value = "生成二维码", notes = "生成二维码")
+    public R createQrCode(@ApiParam(value = "文件链接", required = true) @NotNull(message = "文件链接不能为空") @RequestParam(required = false) String linkUrl) throws Exception{
+        return enterpriseService.createQrCode(linkUrl);
+    }
+
 }

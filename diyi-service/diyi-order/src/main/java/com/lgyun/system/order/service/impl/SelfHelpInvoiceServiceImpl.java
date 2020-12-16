@@ -29,6 +29,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URL;
@@ -56,6 +58,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     private final ISelfHelpInvoicePersonService selfHelpInvoicePersonService;
     private final ISelfHelpInvoiceApplyService selfHelpInvoiceApplyService;
     private final IAcceptPaysheetCsService acceptPaysheetCsService;
+
 
 
     @Autowired
@@ -583,7 +586,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
 
 
     @Override
-    public R naturalPersonSubmitForm(Long enterpriseId,String listFile,Long serviceProviderId,String invoiceCategory,MakerType makerType, CrowdSourcingPayType payType, String invoiceType, Long addressId) throws Exception{
+    public R naturalPersonSubmitForm(ObjectType objectType, Long objectId,String listFile,Long serviceProviderId,String invoiceCategory,MakerType makerType, CrowdSourcingPayType payType, String invoiceType, Long addressId) throws Exception{
         Map<String,Object> map = new HashMap<>();
         InputStream inputStream = new URL(listFile).openStream();
         InvoiceListListener invoiceListListener = new InvoiceListListener();
@@ -601,13 +604,13 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
                 MakerEntity makerEntity = iUserClient.queryMakerByPhoneNumber(invoiceListExcel.getPhoneNumber());
                 SelfHelpInvoicePersonEntity selfHelpInvoicePersonEntity = selfHelpInvoicePersonService.findCardNo(invoiceListExcel.getIdcardNo());
                 if(null != makerEntity){
-                    invoiceListExcel.setPositiveIdCard(null != makerEntity.getIdcardPic() ? makerEntity.getIdcardPic() : null);
-                    invoiceListExcel.setBackIdCard(null != makerEntity.getIdcardPicBack() ? makerEntity.getIdcardPicBack() : null);
+                    invoiceListExcel.setPositiveIdCard(makerEntity.getIdcardPic());
+                    invoiceListExcel.setBackIdCard(makerEntity.getIdcardPicBack());
                     AgreementEntity agreementEntity = iUserClient.queryEntMakSupplementaryAgreement(makerEntity.getId(), enterpriseEntity.getId());
                     invoiceListExcel.setBusinessContract(null != agreementEntity && null != agreementEntity.getPaperAgreementUrl() ? agreementEntity.getPaperAgreementUrl() : null);
                 }else if(null != selfHelpInvoicePersonEntity){
-                    invoiceListExcel.setPositiveIdCard(null != selfHelpInvoicePersonEntity.getIdcardPic() ? selfHelpInvoicePersonEntity.getIdcardPic() : null);
-                    invoiceListExcel.setBackIdCard(null != selfHelpInvoicePersonEntity.getIdcardPicBack() ? selfHelpInvoicePersonEntity.getIdcardPicBack() : null);
+                    invoiceListExcel.setPositiveIdCard(selfHelpInvoicePersonEntity.getIdcardPic());
+                    invoiceListExcel.setBackIdCard(selfHelpInvoicePersonEntity.getIdcardPicBack());
                 }else{
                     invoiceListExcel.setPositiveIdCard(null);
                     invoiceListExcel.setBackIdCard(null);
@@ -615,6 +618,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             }
             if(MakerType.INDIVIDUALENTERPRISE.equals(makerType)){
                 MakerEntity makerEntity = iUserClient.queryMakerByPhoneNumber(invoiceListExcel.getPhoneNumber());
+
                 IndividualBusinessEntity individualBusinessEntity = iUserClient.queryIndividualBusinessByMakerIdAndIbtaxNo(makerEntity.getId(), invoiceListExcel.getAloneSocialCreditCode());
                 if(null == individualBusinessEntity){
                     return R.success("个独必须是平台存在的个独"+invoiceListExcel.getAloneSocialCreditCode());
@@ -623,12 +627,10 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
                 if(serviceProviderId1 != serviceProviderId){
                     return R.success("个独必须是属于同一个服务商的"+invoiceListExcel.getAloneSocialCreditCode());
                 }
-                if(null != individualBusinessEntity){
-                    invoiceListExcel.setPositiveIdCard(null != makerEntity.getIdcardPic() ? makerEntity.getIdcardPic() : null);
-                    invoiceListExcel.setBackIdCard(null != makerEntity.getIdcardPicBack() ? makerEntity.getIdcardPicBack() : null);
+                    invoiceListExcel.setPositiveIdCard(makerEntity.getIdcardPic());
+                    invoiceListExcel.setBackIdCard(makerEntity.getIdcardPicBack());
                     AgreementEntity agreementEntity = iUserClient.queryEntMakSupplementaryAgreement(makerEntity.getId(), enterpriseEntity.getId());
                     invoiceListExcel.setBusinessContract(null != agreementEntity && null != agreementEntity.getPaperAgreementUrl() ? agreementEntity.getPaperAgreementUrl() : null);
-                }
 
             }
             if(MakerType.INDIVIDUALBUSINESS.equals(makerType)){
@@ -641,24 +643,33 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
                 if(serviceProviderId1 != serviceProviderId){
                     return R.success("个体户必须是属于同一个服务商的"+invoiceListExcel.getAloneSocialCreditCode());
                 }
-                if(null != individualEnterpriseEntity){
-                    invoiceListExcel.setPositiveIdCard(null != makerEntity.getIdcardPic() ? makerEntity.getIdcardPic() : null);
-                    invoiceListExcel.setBackIdCard(null != makerEntity.getIdcardPicBack() ? makerEntity.getIdcardPicBack() : null);
+                    invoiceListExcel.setPositiveIdCard(makerEntity.getIdcardPic());
+                    invoiceListExcel.setBackIdCard(makerEntity.getIdcardPicBack());
                     AgreementEntity agreementEntity = iUserClient.queryEntMakSupplementaryAgreement(makerEntity.getId(), enterpriseEntity.getId());
                     invoiceListExcel.setBusinessContract(null != agreementEntity && null != agreementEntity.getPaperAgreementUrl() ? agreementEntity.getPaperAgreementUrl() : null);
-                }
 
             }
 
         }
         Map<String, List<InvoiceListExcel>> collect = invoiceListExcels.stream().collect(Collectors.groupingBy(InvoiceListExcel::getPayer));
-        EnterpriseEntity enterpriseEntity = iUserClient.queryEnterpriseById(enterpriseId);
+        if(ObjectType.MAKERPEOPLE.equals(objectType)){
+            MakerEntity makerEntity = iUserClient.queryMakerById(objectId);
+            map.put("makerName",makerEntity.getName());
+            map.put("enterpriseName","");
+        }
+        if(ObjectType.ENTERPRISEPEOPLE.equals(objectType)){
+            EnterpriseEntity enterpriseEntity = iUserClient.queryEnterpriseById(objectId);
+            map.put("enterpriseName",enterpriseEntity.getEnterpriseName());
+            map.put("makerName","");
+        }
+
+
         //商户名称
 
         map.put("collect",collect);
 
         map.put("listFile",listFile);
-        map.put("enterpriseName",enterpriseEntity.getEnterpriseName());
+
         //众包支付模型
         map.put("payType",payType);
         //开票类目
@@ -678,7 +689,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R naturalPersonConfirmSubmit(Long enterpriseId, NaturalPersonConfirmSubmitDTO naturalPersonConfirmSubmitDto) {
+    public R naturalPersonConfirmSubmit(ObjectType objectType, Long objectId, NaturalPersonConfirmSubmitDTO naturalPersonConfirmSubmitDto) {
         if(!MakerType.NATURALPERSON.equals(naturalPersonConfirmSubmitDto.getMakerType())){
             if(naturalPersonConfirmSubmitDto.getServiceProviderId() == null){
                 return R.fail("请输入服务商id");
@@ -686,6 +697,9 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             if(StringUtils.isBlank(naturalPersonConfirmSubmitDto.getInvoiceCategory())){
                 return R.fail("请输入发票分类");
             }
+        }
+        if(!ObjectType.ENTERPRISEPEOPLE.equals(objectType) && !!ObjectType.MAKERPEOPLE.equals(objectType)){
+            return R.fail("只有商户和创客可以申请自助开票");
         }
         Map<String, List<InvoiceListExcelDTO>> collect = naturalPersonConfirmSubmitDto.getList().stream().collect(Collectors.groupingBy(InvoiceListExcelDTO::getPayer));
         Set<String> strings = collect.keySet();
@@ -700,7 +714,13 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
                 return R.fail("购买方，必须是平台商户会员");
             }
             selfHelpInvoiceEntity.setEnterpriseId(enterpriseEntity.getId());
-            selfHelpInvoiceEntity.setApplyEnterpriseId(enterpriseId);
+            if(ObjectType.ENTERPRISEPEOPLE.equals(objectType)){
+                selfHelpInvoiceEntity.setApplyEnterpriseId(objectId);
+            }
+            if(ObjectType.MAKERPEOPLE.equals(objectType)){
+                selfHelpInvoiceEntity.setApplyMakerId(objectId);
+            }
+
             if(MakerType.NATURALPERSON.equals(naturalPersonConfirmSubmitDto.getMakerType())){
                 selfHelpInvoiceEntity.setMakerType(MakerType.NATURALPERSON);
             }else if(MakerType.INDIVIDUALENTERPRISE.equals(naturalPersonConfirmSubmitDto.getMakerType())){
@@ -770,9 +790,9 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
                 selfHelpInvoiceDetailEntity.setBusinessContractUrl(invoiceListExcelDto.getBusinessContract());
                 if(null != makerEntity){
                    //加业务合同
-                   AgreementEntity agreementEntity = iUserClient.queryEntMakSupplementaryAgreement(makerEntity.getId(), enterpriseId);
+                   AgreementEntity agreementEntity = iUserClient.queryEntMakSupplementaryAgreement(makerEntity.getId(), enterpriseEntity.getId());
                    if(null == agreementEntity){
-                       iUserClient.createMakerToEnterpriseSupplement(enterpriseId,makerEntity.getId(),invoiceListExcelDto.getBusinessContract());
+                       iUserClient.createMakerToEnterpriseSupplement(enterpriseEntity.getId(),makerEntity.getId(),invoiceListExcelDto.getBusinessContract());
                    }
                 }
                 selfHelpInvoiceDetailEntity.setServiceInvoiceFee(new BigDecimal("0"));
@@ -796,18 +816,24 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
                 }
             }
         }
-        return R.fail("提交成功");
+        return R.success("提交成功");
     }
 
     @Override
-    public R querySelfInvoiceList(Long enterpriseId, MakerType makerType,String startTiem,String endTime,IPage<SelfInvoiceListVo> page) {
-        return R.data(page.setRecords(baseMapper.querySelfInvoiceList(enterpriseId,makerType,startTiem,endTime,page)));
+    public R querySelfInvoiceList(ObjectType objectType, Long objectId, MakerType makerType,String startTiem,String endTime,IPage<SelfInvoiceListVo> page) {
+        if(ObjectType.MAKERPEOPLE.equals(objectType)){
+            return R.data(page.setRecords(baseMapper.queryMakerSelfInvoiceList(objectId,makerType,startTiem,endTime,page)));
+        }else{
+            return R.data(page.setRecords(baseMapper.querySelfInvoiceList(objectId,makerType,startTiem,endTime,page)));
+        }
+
     }
 
     @Override
     public R queryServiceProviderSelfInvoiceList(Long serviceProviderId, MakerType makerType, String startTiem, String endTime, IPage<SelfInvoiceListVo> page) {
         return R.data(page.setRecords(baseMapper.queryServiceProviderSelfInvoiceList(serviceProviderId,makerType,startTiem,endTime,page)));
     }
+
 
     @Override
     public R querySelfInvoiceDetails(Long selfHelpInvoiceId) {
@@ -846,14 +872,13 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             SelfHelpInvoiceAccountEntity selfHelpInvoiceAccountEntity = null;
             if(null != selfHelpInvoiceFeeEntity){
                  selfHelpInvoiceAccountEntity = selfHelpInvoiceAccountService.getById(selfHelpInvoiceFeeEntity.getHandPayAccountId());
-
             }
             map.put("selfHelpInvoiceFeeId",selfHelpInvoiceFeeEntity == null ? selfHelpInvoiceFeeEntity.getId() : "");
-            map.put("accountBank",selfHelpInvoiceAccountEntity == null ? selfHelpInvoiceAccountEntity.getAccountBank() : "");
-            map.put("accountName",selfHelpInvoiceAccountEntity == null ? selfHelpInvoiceAccountEntity.getAccountName() : "");
-            map.put("basicAccountBank",selfHelpInvoiceAccountEntity == null ? selfHelpInvoiceAccountEntity.getBasicAccountBank() : "");
-            map.put("accountNo",selfHelpInvoiceAccountEntity == null ? selfHelpInvoiceAccountEntity.getAccountNo() : "");
-            map.put("payCertificate",selfHelpInvoiceFeeEntity == null ? selfHelpInvoiceFeeEntity.getPayCertificate() : "");
+            map.put("accountBank",selfHelpInvoiceAccountEntity == null ? "": selfHelpInvoiceAccountEntity.getAccountBank());
+            map.put("accountName",selfHelpInvoiceAccountEntity == null ? "": selfHelpInvoiceAccountEntity.getAccountName());
+            map.put("basicAccountBank",selfHelpInvoiceAccountEntity == null ? "" : selfHelpInvoiceAccountEntity.getBasicAccountBank());
+            map.put("accountNo",selfHelpInvoiceAccountEntity == null ? "" : selfHelpInvoiceAccountEntity.getAccountNo());
+            map.put("payCertificate",selfHelpInvoiceFeeEntity == null ? "" : selfHelpInvoiceFeeEntity.getPayCertificate());
 
             if(SelfHelpInvoiceApplyState.INVOICED.equals(selfHelpInvoiceEntity.getCurrentState())){
                 SelfHelpInvoiceSpEntity selfHelpInvoiceSpEntity = selfHelpInvoiceSpService.findBySelfHelpInvoiceId(selfHelpInvoiceEntity.getId());
@@ -1002,6 +1027,5 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
 
         return R.success("开票成功");
     }
-
 
 }

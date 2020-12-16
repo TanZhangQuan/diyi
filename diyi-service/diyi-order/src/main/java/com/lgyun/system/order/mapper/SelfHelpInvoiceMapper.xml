@@ -528,7 +528,9 @@
     <resultMap type="com.lgyun.system.order.vo.SelfInvoiceListVo" id="selfInvoiceListVoMap">
         <result property="selfHelpInvoiceId" column="self_help_invoice_id"/>
         <result property="applyEnterpriseId" column="apply_enterprise_id"/>
+         <result property="applyMakerId" column="apply_maker_id"/>
         <result property="applyEnterpriseName" column="apply_enterprise_name"/>
+        <result property="applyMakerName" column="apply_maker_name"/>
         <result property="listFile" column="list_file"/>
         <result property="payType" column="pay_type"/>
         <result property="totalPayProviderFee" column="total_pay_provider_fee"/>
@@ -537,10 +539,24 @@
     </resultMap>
 
     <select id="querySelfInvoiceList" resultMap="selfInvoiceListVoMap">
-        SELECT t1.id AS self_help_invoice_id, t1.apply_enterprise_id AS apply_enterprise_id, t3.enterprise_name AS apply_enterprise_name, t1.list_file, t1.pay_type, t1.total_pay_provider_fee, t2.apply_state, t2.create_time FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_apply t2 ON t1.id = t2.self_help_invoice_id INNER JOIN diyi_enterprise t3 ON t3.id = t1.apply_enterprise_id
+        SELECT t1.id AS self_help_invoice_id,null as apply_maker_id, t1.apply_enterprise_id AS apply_enterprise_id, t3.enterprise_name AS apply_enterprise_name,null AS apply_maker_name, t1.list_file, t1.pay_type, t1.total_pay_provider_fee, t2.apply_state, t2.create_time FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_apply t2 ON t1.id = t2.self_help_invoice_id INNER JOIN diyi_enterprise t3 ON t3.id = t1.apply_enterprise_id
          WHERE t1.maker_type =#{param2}
         <if test="param1 != null">
              AND t1.apply_enterprise_id =#{param1}
+        </if>
+        <if test="param3 != null and param3 !=''">
+             AND DATEDIFF(t1.create_time, #{param3}) <![CDATA[ >= ]]> 0
+        </if>
+        <if test="param4 != null and param4 !=''">
+             AND DATEDIFF(t1.create_time, #{param4}) <![CDATA[ <= ]]> 0
+        </if>
+    </select>
+
+    <select id="queryMakerSelfInvoiceList" resultMap="selfInvoiceListVoMap">
+        SELECT t1.id AS self_help_invoice_id,t1.apply_maker_id as apply_maker_id, t1.apply_enterprise_id AS apply_enterprise_id, NULL AS apply_enterprise_name, t3. NAME AS apply_maker_name, t1.list_file, t1.pay_type, t1.total_pay_provider_fee, t2.apply_state, t2.create_time FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_apply t2 ON t1.id = t2.self_help_invoice_id INNER JOIN diyi_maker t3 ON t3.id = t1.apply_maker_id
+            WHERE t1.maker_type =#{param2}
+        <if test="param1 != null">
+             AND t1.apply_maker_id =#{param1}
         </if>
         <if test="param3 != null and param3 !=''">
              AND DATEDIFF(t1.create_time, #{param3}) <![CDATA[ >= ]]> 0
@@ -560,6 +576,10 @@
         <if test="param4 != null and param4 !=''">
              AND DATEDIFF(t1.create_time, #{param4}) <![CDATA[ <= ]]> 0
         </if>
+    </select>
+
+    <select id="queryAdminSelfInvoiceList" resultMap="selfInvoiceListVoMap">
+
     </select>
 
 <!--    <select id="querySelfInvoiceDetails" resultMap="selfInvoiceDetailVoMap">-->
