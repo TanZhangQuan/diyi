@@ -2,6 +2,7 @@ package com.lgyun.system.order.controller.admin;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CrowdSourcingPayType;
+import com.lgyun.common.enumeration.InvoiceCategory;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
@@ -147,7 +148,7 @@ public class SelfHelpInvoiceAdminController {
     }
 
     @GetMapping("/query-address-list")
-    @ApiOperation(value = "查询收件地址", notes = "查询收件地址")
+    @ApiOperation(value = "平台查询收件地址", notes = "查询收件地址")
     public R queryAddressList(@ApiParam(value = "对象属性", required = true) @NotNull(message = "请输入对象属性") @RequestParam(required = false) ObjectType objectType,
                               @ApiParam(value = "对象id", required = true) @NotNull(message = "请输入对象id") @RequestParam(required = false) Long objectId,
                               Query query, BladeUser bladeUser) {
@@ -163,10 +164,10 @@ public class SelfHelpInvoiceAdminController {
 
 
     @PostMapping("/natural-person-submit-form")
-    @ApiOperation(value = "自助开票上传表单", notes = "自助开票上传表单")
+    @ApiOperation(value = "平台自助开票上传表单", notes = "自助开票上传表单")
     public R naturalPersonSubmitForm(@ApiParam(value = "自助开票清单", required = true) @NotNull(message = "请上传自助开票清单") @RequestParam(required = false) String listFile,
                                      @ApiParam(value = "服务商" )  @RequestParam(required = false) Long serviceProviderId,
-                                     @ApiParam(value = "发票类型")  @RequestParam(required = false) String invoiceCategory,
+                                     @ApiParam(value = "发票类型")  @RequestParam(required = false) InvoiceCategory invoiceCategory,
                                      @ApiParam(value = "开票人身份类别", required = true) @NotNull(message = "请输入开票人身份类别") @RequestParam(required = false) MakerType makerType,
                                      @ApiParam(value = "众包支付模式", required = true) @NotNull(message = "请选择众包支付模式") @RequestParam(required = false) CrowdSourcingPayType payType,
                                      @ApiParam(value = "开票类目", required = true) @NotNull(message = "请选择开票类目") @RequestParam(required = false) String invoiceType,
@@ -184,19 +185,25 @@ public class SelfHelpInvoiceAdminController {
 
 
     @PostMapping("/natural-person-confirm-submit")
-    @ApiOperation(value = "自助开票确认提交表单", notes = "自助开票确认提交表单")
+    @ApiOperation(value = "平台自助开票确认提交表单", notes = "自助开票确认提交表单")
     public R naturalPersonConfirmSubmit(@Valid @RequestBody NaturalPersonConfirmSubmitDTO naturalPersonConfirmSubmitDto, BladeUser bladeUser){
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
+        if(null == naturalPersonConfirmSubmitDto.getObjectType()){
+            return R.fail("对象不能为空");
+        }
+        if(null == naturalPersonConfirmSubmitDto.getObjectId()){
+            return R.fail("对象id不能为空");
+        }
         return selfHelpInvoiceService.naturalPersonConfirmSubmit(naturalPersonConfirmSubmitDto.getObjectType(),naturalPersonConfirmSubmitDto.getObjectId(),naturalPersonConfirmSubmitDto);
     }
 
 
     @GetMapping("/query-self-invoice-list")
-    @ApiOperation(value = "商户查询自助开票", notes = "商户查询自助开票")
+    @ApiOperation(value = "平台查询自助开票", notes = "平台查询自助开票")
     public R querySelfInvoiceList(@ApiParam(value = "开票人身份类别", required = true) @NotNull(message = "请选择开票人身份类别") @RequestParam(required = false) MakerType makerType,
                                   @RequestParam(required = false) String startTiem,@RequestParam(required = false) String endTime,Query query, BladeUser bladeUser) {
         //查询当前管理员
@@ -209,7 +216,7 @@ public class SelfHelpInvoiceAdminController {
     }
 
     @GetMapping("/query-self-invoice-details")
-    @ApiOperation(value = "商户查询自助开票详情", notes = "商户查询自助开票详情")
+    @ApiOperation(value = "平台查询自助开票详情", notes = "平台查询自助开票详情")
     public R querySelfInvoiceDetails(@ApiParam(value = "自助开票id", required = true) @NotNull(message = "请输入自助开票id") @RequestParam(required = false) Long selfHelpInvoiceId,
                                      BladeUser bladeUser) {
         //查询当前管理员
@@ -222,7 +229,7 @@ public class SelfHelpInvoiceAdminController {
 
 
     @PostMapping("/submit-self-help-invoice")
-    @ApiOperation(value = "提交自助开票", notes = "提交自助开票")
+    @ApiOperation(value = "平台提交自助开票", notes = "平台提交自助开票")
     public R submitSelfHelpInvoice(@ApiParam(value = "自助开票id", required = true) @NotNull(message = "请输入自助开票id") @RequestParam(required = false) Long selfHelpInvoiceId,
                                    @ApiParam(value = "商户id", required = true) @NotNull(message = "请选商户id") @RequestParam(required = false) Long enterpriseId,
                                    BladeUser bladeUser){
@@ -236,7 +243,7 @@ public class SelfHelpInvoiceAdminController {
 
 
     @PostMapping("/confirm-modification")
-    @ApiOperation(value = "确认修改", notes = "确认修改")
+    @ApiOperation(value = "平台确认修改", notes = "平台确认修改")
     public R confirmModification(@Valid @RequestBody ConfirmModificationDTO confirmModificationDTO, BladeUser bladeUser){
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);
@@ -247,7 +254,7 @@ public class SelfHelpInvoiceAdminController {
     }
 
     @PostMapping("/confirm-payment")
-    @ApiOperation(value = "确认支付", notes = "确认支付")
+    @ApiOperation(value = "平台确认支付", notes = "平台确认支付")
     public R confirmPayment(@ApiParam(value = "自助开票id", required = true) @NotNull(message = "请输入自助开票id") @RequestParam(required = false) Long selfHelpInvoiceId,
                             @ApiParam(value = "自助开票支付id", required = true) @NotNull(message = "请输入自助开票支付id") @RequestParam(required = false)Long selfHelpInvoiceFeeId,
                             @ApiParam(value = "支付回单", required = true) @NotNull(message = "请输入支付回单") @RequestParam(required = false)String payCertificate, BladeUser bladeUser){

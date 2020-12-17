@@ -2,17 +2,16 @@ package com.lgyun.system.order.controller.maker;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.CrowdSourcingPayType;
+import com.lgyun.common.enumeration.InvoiceCategory;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.order.dto.AddOrUpdateAddressDTO;
 import com.lgyun.system.order.dto.ConfirmModificationDTO;
-import com.lgyun.system.order.dto.ConfirmPaymentDTO;
 import com.lgyun.system.order.dto.NaturalPersonConfirmSubmitDTO;
-import com.lgyun.system.order.service.*;
-import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
+import com.lgyun.system.order.service.IAddressService;
+import com.lgyun.system.order.service.ISelfHelpInvoiceService;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.feign.IUserClient;
 import io.swagger.annotations.Api;
@@ -54,7 +53,7 @@ public class SelfHelpInvoiceMakerController {
     @ApiOperation(value = "自助开票上传表单", notes = "自助开票上传表单")
     public R naturalPersonSubmitForm(@ApiParam(value = "自助开票清单", required = true) @NotNull(message = "请上传自助开票清单") @RequestParam(required = false) String listFile,
                                      @ApiParam(value = "服务商" )  @RequestParam(required = false) Long serviceProviderId,
-                                     @ApiParam(value = "发票类型")  @RequestParam(required = false) String invoiceCategory,
+                                     @ApiParam(value = "发票类型")  @RequestParam(required = false) InvoiceCategory invoiceCategory,
                                      @ApiParam(value = "开票人身份类别", required = true) @NotNull(message = "请输入开票人身份类别") @RequestParam(required = false) MakerType makerType,
                                      @ApiParam(value = "众包支付模式", required = true) @NotNull(message = "请选择众包支付模式") @RequestParam(required = false) CrowdSourcingPayType payType,
                                      @ApiParam(value = "开票类目", required = true) @NotNull(message = "请选择开票类目") @RequestParam(required = false) String invoiceType,

@@ -19,10 +19,8 @@ import java.util.List;
 public class NaturalPersonConfirmSubmitDTO implements Serializable {
 
 
-    @NotNull(message = "请输入对象内容")
     private ObjectType objectType;
 
-    @NotNull(message = "请输入对象id")
     private Long objectId;
     /**
      * 众包支付模型

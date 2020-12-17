@@ -20,7 +20,6 @@ import com.lgyun.system.order.service.*;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.feign.IUserClient;
-import com.lgyun.system.order.vo.TotalCrowdTradeListVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -29,8 +28,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URL;
@@ -586,7 +583,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
 
 
     @Override
-    public R naturalPersonSubmitForm(ObjectType objectType, Long objectId,String listFile,Long serviceProviderId,String invoiceCategory,MakerType makerType, CrowdSourcingPayType payType, String invoiceType, Long addressId) throws Exception{
+    public R naturalPersonSubmitForm(ObjectType objectType, Long objectId,String listFile,Long serviceProviderId,InvoiceCategory invoiceCategory,MakerType makerType, CrowdSourcingPayType payType, String invoiceType, Long addressId) throws Exception{
         Map<String,Object> map = new HashMap<>();
         InputStream inputStream = new URL(listFile).openStream();
         InvoiceListListener invoiceListListener = new InvoiceListListener();
@@ -857,8 +854,8 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         map.put("city",null != addressEntity && null != addressEntity.getCity() ? addressEntity.getCity() : null);
         map.put("area",null != addressEntity && null != addressEntity.getArea() ? addressEntity.getArea() : null);
         map.put("detailedAddress",null != addressEntity && null != addressEntity.getDetailedAddress() ? addressEntity.getDetailedAddress() : null);
-        SelfInvoiceDetailVo selfInvoiceDetailVo = baseMapper.querySelfInvoiceDetail(selfHelpInvoiceEntity.getId());
-        map.put("selfInvoiceDetailVo",selfInvoiceDetailVo);
+        List<SelfInvoiceDetailVo> selfInvoiceDetailVo = baseMapper.querySelfInvoiceDetail(selfHelpInvoiceEntity.getId());
+        map.put("selfInvoiceDetailVos",selfInvoiceDetailVo);
         //已开票结束
         if(SelfHelpInvoiceApplyState.INVOICED.equals(selfHelpInvoiceEntity.getCurrentState()) || SelfHelpInvoiceApplyState.TOPAY.equals(selfHelpInvoiceEntity.getCurrentState()) || SelfHelpInvoiceApplyState.PAID.equals(selfHelpInvoiceEntity.getCurrentState())){
             map.put("totalPayProviderFee",selfHelpInvoiceEntity.getTotalPayProviderFee());
@@ -925,7 +922,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         selfHelpInvoiceApplyEntity.setApplyState(SelfHelpInvoiceApplyState.AUDITING);
         selfHelpInvoiceApplyEntity.setApplyDesc("");
         selfHelpInvoiceApplyService.save(selfHelpInvoiceApplyEntity);
-        return R.fail("提交成功");
+        return R.success("提交成功");
     }
 
     @Override

@@ -259,7 +259,7 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
     /**
      * 自助开票上传表单
      */
-    R naturalPersonSubmitForm(ObjectType objectType, Long objectId,String listFile,Long serviceProviderId,String invoiceCategory,MakerType makerType, CrowdSourcingPayType payType, String invoiceType, Long addressId) throws Exception;
+    R naturalPersonSubmitForm(ObjectType objectType, Long objectId,String listFile,Long serviceProviderId,InvoiceCategory invoiceCategory,MakerType makerType, CrowdSourcingPayType payType, String invoiceType, Long addressId) throws Exception;
 
     /**
      *自助开票确认提交表单

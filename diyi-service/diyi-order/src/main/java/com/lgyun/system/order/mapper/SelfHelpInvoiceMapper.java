@@ -189,7 +189,7 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
     /**
      *
      */
-    SelfInvoiceDetailVo querySelfInvoiceDetail(Long selfHelpInvoiceId);
+    List<SelfInvoiceDetailVo> querySelfInvoiceDetail(Long selfHelpInvoiceId);
 
     /**
      * 查询相关局众包/众采列表

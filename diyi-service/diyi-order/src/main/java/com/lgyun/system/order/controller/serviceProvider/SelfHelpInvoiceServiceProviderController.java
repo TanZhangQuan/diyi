@@ -23,7 +23,7 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/service-provider/self-help-invoice")
 @Validated
 @AllArgsConstructor
-@Api(value = "平台端---自助开票管理模块相关接口", tags = "平台端---自助开票管理模块相关接口")
+@Api(value = "服务商端---自助开票管理模块相关接口", tags = "服务商端---自助开票管理模块相关接口")
 public class SelfHelpInvoiceServiceProviderController {
 
     private IUserClient userClient;

@@ -15,7 +15,7 @@ import java.io.Serializable;
 public class SelfInvoiceDetailVo implements Serializable {
 
     /**
-     *
+     *自助开票id
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private String selfHelpInvoiceId;
@@ -25,7 +25,7 @@ public class SelfInvoiceDetailVo implements Serializable {
 //    @JsonSerialize(using = ToStringSerializer.class)
 //    private String selfHelpInvoiceApplyId;
     /**
-     *
+     *自助开票详情id
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private String selfHelpInvoiceDetailId;
@@ -38,7 +38,7 @@ public class SelfInvoiceDetailVo implements Serializable {
 //     */
 //    private CrowdSourcingPayType payType;
     /**
-     *
+     *开票类目
      */
     private String invoiceType;
 //    /**
@@ -54,15 +54,15 @@ public class SelfInvoiceDetailVo implements Serializable {
      */
     private String purchaseEnterpriseName;
     /**
-     *
+     *开票税号
      */
     private String invoiceTaxNo;
     /**
-     *
+     *地址电话
      */
     private String invoiceAddressPhone;
     /**
-     *
+     *开票账号
      */
     private String invoiceBankNameAccount;
     /**
@@ -70,7 +70,7 @@ public class SelfInvoiceDetailVo implements Serializable {
      */
     private String projectName;
     /**
-     *
+     *税率
      */
     private String valueAddedTaxRate;
     /**
@@ -86,27 +86,27 @@ public class SelfInvoiceDetailVo implements Serializable {
      */
     private String idcardNo;
     /**
-     *
+     *电话号码
      */
     private String phoneNumber;
     /**
-     *
+     *身份证正面
      */
     private String idcardPic;
     /**
-     *
+     *反
      */
     private String idcardPicBack;
     /**
-     *
+     *业务合同
      */
     private String businessContractUrl;
     /**
-     *
+     *回单
      */
     private String flowContractUrl;
     /**
-     *
+     *验收单
      */
     private String acceptPaysheetCsUrl;
 //    /**
@@ -186,7 +186,13 @@ public class SelfInvoiceDetailVo implements Serializable {
 //     */
 //    private String basicAccountBank;
 
+    /**
+     * 发票
+     */
     private String invoiceScanPictures;
 
+    /**
+     * 税票
+     */
     private String taxScanPictures;
 }
