@@ -212,7 +212,7 @@ public class SelfHelpInvoiceAdminController {
             return result;
         }
 
-        return selfHelpInvoiceService.queryServiceProviderSelfInvoiceList(null,makerType ,startTiem,endTime, Condition.getPage(query.setDescs("t1.create_time")));
+        return selfHelpInvoiceService.queryAdminSelfInvoiceList(makerType ,startTiem,endTime, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-self-invoice-details")
@@ -231,7 +231,6 @@ public class SelfHelpInvoiceAdminController {
     @PostMapping("/submit-self-help-invoice")
     @ApiOperation(value = "平台提交自助开票", notes = "平台提交自助开票")
     public R submitSelfHelpInvoice(@ApiParam(value = "自助开票id", required = true) @NotNull(message = "请输入自助开票id") @RequestParam(required = false) Long selfHelpInvoiceId,
-                                   @ApiParam(value = "商户id", required = true) @NotNull(message = "请选商户id") @RequestParam(required = false) Long enterpriseId,
                                    BladeUser bladeUser){
         //查询当前管理员
         R<AdminEntity> result = userClient.currentAdmin(bladeUser);

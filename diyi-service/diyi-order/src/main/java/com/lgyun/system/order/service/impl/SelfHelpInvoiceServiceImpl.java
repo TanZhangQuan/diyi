@@ -831,6 +831,11 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         return R.data(page.setRecords(baseMapper.queryServiceProviderSelfInvoiceList(serviceProviderId,makerType,startTiem,endTime,page)));
     }
 
+    @Override
+    public R queryAdminSelfInvoiceList(MakerType makerType, String startTiem, String endTime, IPage<SelfInvoiceListVo> page) {
+        return R.data(page.setRecords(baseMapper.queryAdminSelfInvoiceList(makerType,startTiem,endTime,page)));
+    }
+
 
     @Override
     public R querySelfInvoiceDetails(Long selfHelpInvoiceId) {

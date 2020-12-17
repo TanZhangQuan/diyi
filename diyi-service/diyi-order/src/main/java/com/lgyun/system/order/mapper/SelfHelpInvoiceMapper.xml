@@ -579,7 +579,14 @@
     </select>
 
     <select id="queryAdminSelfInvoiceList" resultMap="selfInvoiceListVoMap">
-
+        SELECT t1.id AS self_help_invoice_id, t1.apply_maker_id AS apply_maker_id, t1.apply_enterprise_id AS apply_enterprise_id, t4.enterprise_name AS apply_enterprise_name, t3. NAME AS apply_maker_name, t1.list_file, t1.pay_type, t1.total_pay_provider_fee, t1.current_state AS apply_state, t1.create_time FROM diyi_self_help_invoice t1 LEFT JOIN diyi_maker t3 ON t3.id = t1.apply_maker_id LEFT JOIN diyi_enterprise t4 ON t4.id = t1.apply_enterprise_id
+                WHERE t1.maker_type =#{param1}
+        <if test="param2 != null and param2 !=''">
+             AND DATEDIFF(t1.create_time, #{param2}) <![CDATA[ >= ]]> 0
+        </if>
+        <if test="param3 != null and param3 !=''">
+             AND DATEDIFF(t1.create_time, #{param3}) <![CDATA[ <= ]]> 0
+        </if>
     </select>
 
 <!--    <select id="querySelfInvoiceDetails" resultMap="selfInvoiceDetailVoMap">-->

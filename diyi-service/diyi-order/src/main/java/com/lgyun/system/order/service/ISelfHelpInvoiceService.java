@@ -276,7 +276,10 @@ public interface ISelfHelpInvoiceService extends BaseService<SelfHelpInvoiceEnti
      */
     R queryServiceProviderSelfInvoiceList(Long serviceProviderId,MakerType makerType,String startTiem,String endTime,IPage<SelfInvoiceListVo> page);
 
-
+    /**
+     * 平台查询自助开票
+     */
+    R queryAdminSelfInvoiceList(MakerType makerType,String startTiem,String endTime,IPage<SelfInvoiceListVo> page);
     /**
      *商户查询自助开票详情
      */
