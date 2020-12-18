@@ -495,6 +495,15 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             selfHelpInvoiceApplyEntity.setApplyState(SelfHelpInvoiceApplyState.REJECTED);
             selfHelpInvoiceApplyEntity.setAuditDesc(toExamineSelfHelpInvoiceDto.getAuditDesc());
             selfHelpInvoiceApplyService.saveOrUpdate(selfHelpInvoiceApplyEntity);
+            selfHelpInvoiceEntity.setCurrentState(SelfHelpInvoiceApplyState.REJECTED);
+            saveOrUpdate(selfHelpInvoiceEntity);
+
+            List<SelfHelpInvoiceDetailVO> selfHelpInvoiceId = selfHelpInvoiceDetailService.getSelfHelpInvoiceId(toExamineSelfHelpInvoiceDto.getSelfHelpInvoiceId());
+            for (SelfHelpInvoiceDetailVO selfHelpInvoiceDetailVO : selfHelpInvoiceId) {
+                SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = BeanUtil.copy(selfHelpInvoiceDetailVO, SelfHelpInvoiceDetailEntity.class);
+                selfHelpInvoiceEntity.setCurrentState(SelfHelpInvoiceApplyState.REJECTED);
+                selfHelpInvoiceDetailService.saveOrUpdate(selfHelpInvoiceDetailEntity);
+            }
         }
         return R.success("审核成功");
     }
@@ -852,7 +861,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         map.put("payType",selfHelpInvoiceEntity.getPayType());
         map.put("applyState",selfHelpInvoiceEntity.getCurrentState());
         AddressEntity addressEntity = addressService.getById(selfHelpInvoiceEntity.getAddressId());
-        map.put("addressId",selfHelpInvoiceEntity.getAddressId());
+        map.put("addressId",selfHelpInvoiceEntity.getAddressId()+"");
         map.put("addressName",null != addressEntity && null != addressEntity.getAddressName() ? addressEntity.getAddressName() : null);
         map.put("addressPhone",null != addressEntity && null != addressEntity.getAddressPhone() ? addressEntity.getAddressPhone() : null);
         map.put("province",null != addressEntity && null != addressEntity.getProvince() ? addressEntity.getProvince() : null);
@@ -861,6 +870,10 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         map.put("detailedAddress",null != addressEntity && null != addressEntity.getDetailedAddress() ? addressEntity.getDetailedAddress() : null);
         List<SelfInvoiceDetailVo> selfInvoiceDetailVo = baseMapper.querySelfInvoiceDetail(selfHelpInvoiceEntity.getId());
         map.put("selfInvoiceDetailVos",selfInvoiceDetailVo);
+        if(SelfHelpInvoiceApplyState.REJECTED.equals(selfHelpInvoiceEntity.getCurrentState())){
+            SelfHelpInvoiceApplyEntity bySelfHelpInvoiceId = selfHelpInvoiceApplyService.getBySelfHelpInvoiceId(selfHelpInvoiceId);
+            map.put("auditDesc",bySelfHelpInvoiceId.getAuditDesc());
+        }
         //已开票结束
         if(SelfHelpInvoiceApplyState.INVOICED.equals(selfHelpInvoiceEntity.getCurrentState()) || SelfHelpInvoiceApplyState.TOPAY.equals(selfHelpInvoiceEntity.getCurrentState()) || SelfHelpInvoiceApplyState.PAID.equals(selfHelpInvoiceEntity.getCurrentState())){
             map.put("totalPayProviderFee",selfHelpInvoiceEntity.getTotalPayProviderFee());
@@ -870,12 +883,13 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             map.put("serviceTax",selfHelpInvoiceEntity.getServiceTax());
             map.put("serviceInvoiceFee",selfHelpInvoiceEntity.getServiceInvoiceFee());
             map.put("idendityConfirmFee",selfHelpInvoiceEntity.getIdendityConfirmFee());
+            map.put("totlChargeMoneyNum",selfHelpInvoiceEntity.getTotalPayProviderFee());
             SelfHelpInvoiceFeeEntity selfHelpInvoiceFeeEntity = selfHelpInvoiceFeeService.findBySelfHelpInvoiceId(selfHelpInvoiceEntity.getId());
             SelfHelpInvoiceAccountEntity selfHelpInvoiceAccountEntity = null;
             if(null != selfHelpInvoiceFeeEntity){
                  selfHelpInvoiceAccountEntity = selfHelpInvoiceAccountService.getById(selfHelpInvoiceFeeEntity.getHandPayAccountId());
             }
-            map.put("selfHelpInvoiceFeeId",selfHelpInvoiceFeeEntity == null ? selfHelpInvoiceFeeEntity.getId() : "");
+            map.put("selfHelpInvoiceFeeId",selfHelpInvoiceFeeEntity == null ?  "" : selfHelpInvoiceFeeEntity.getId()+"");
             map.put("accountBank",selfHelpInvoiceAccountEntity == null ? "": selfHelpInvoiceAccountEntity.getAccountBank());
             map.put("accountName",selfHelpInvoiceAccountEntity == null ? "": selfHelpInvoiceAccountEntity.getAccountName());
             map.put("basicAccountBank",selfHelpInvoiceAccountEntity == null ? "" : selfHelpInvoiceAccountEntity.getBasicAccountBank());
@@ -937,6 +951,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         if(null == selfHelpInvoiceEntity){
             return R.fail("请输入正确的开票id");
         }
+
         for (ModificationDTO modificationDto : list) {
             SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = selfHelpInvoiceDetailService.getById(modificationDto.getSelfHelpInvoiceDetailId());
             Long makerId = selfHelpInvoiceDetailEntity.getMakerId();
@@ -967,6 +982,19 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             }
 
         }
+        if(SelfHelpInvoiceApplyState.REJECTED.equals(selfHelpInvoiceEntity.getCurrentState())){
+            selfHelpInvoiceEntity.setCurrentState(SelfHelpInvoiceApplyState.AUDITING);
+            saveOrUpdate(selfHelpInvoiceEntity);
+            SelfHelpInvoiceApplyEntity bySelfHelpInvoiceId = selfHelpInvoiceApplyService.getBySelfHelpInvoiceId(selfHelpInvoiceId);
+            bySelfHelpInvoiceId.setApplyState(SelfHelpInvoiceApplyState.AUDITING);
+            List<SelfHelpInvoiceDetailVO> selfHelpInvoiceId1 = selfHelpInvoiceDetailService.getSelfHelpInvoiceId(selfHelpInvoiceId);
+            for (SelfHelpInvoiceDetailVO selfHelpInvoiceDetailVO : selfHelpInvoiceId1){
+                SelfHelpInvoiceDetailEntity selfHelpInvoiceDetailEntity = BeanUtil.copy(selfHelpInvoiceDetailVO, SelfHelpInvoiceDetailEntity.class);
+                selfHelpInvoiceEntity.setCurrentState(SelfHelpInvoiceApplyState.AUDITING);
+                selfHelpInvoiceDetailService.saveOrUpdate(selfHelpInvoiceDetailEntity);
+            }
+        }
+
         return R.success("修改成功");
     }
 
@@ -975,6 +1003,9 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         SelfHelpInvoiceEntity selfHelpInvoiceEntity = getById(selfHelpInvoiceId);
         if(null == selfHelpInvoiceEntity){
             return R.fail("请输入正确的开票id");
+        }
+        if(SelfHelpInvoiceApplyState.TOPAY.equals(selfHelpInvoiceEntity.getCurrentState())){
+            return R.fail("状态不对");
         }
         SelfHelpInvoiceFeeEntity selfHelpInvoiceFeeEntity = selfHelpInvoiceFeeService.getById(selfHelpInvoiceFeeId);
         selfHelpInvoiceFeeEntity.setPayCertificate(payCertificate);

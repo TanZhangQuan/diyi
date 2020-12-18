@@ -1650,7 +1650,7 @@ CREATE TABLE `diyi_self_help_invoice_fee` (
   `invoice_fee` decimal(12,2) NOT NULL COMMENT '开票手续费',
   `identify_fee` decimal(12,2) NOT NULL COMMENT '身份验证费',
   `pay_desc` varchar(100) NOT NULL DEFAULT '' COMMENT '支付说明',
-  `pay_certificate` varchar(500) NOT NULL COMMENT '支付回单',
+  `pay_certificate` varchar(500) NOT NULL DEFAULT '' COMMENT '支付回单',
   `pay_type` varchar(50) DEFAULT NULL COMMENT '支付方式',
   `hand_pay_account_id` bigint(50) NOT NULL COMMENT '自助开票收款账号ID',
   `create_time` datetime NOT NULL COMMENT '创建时间',
