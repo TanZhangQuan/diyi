@@ -124,7 +124,7 @@ public class TokenUtil {
 
         // 校验客户端信息
         if (!validateClient(clientDetails, clientId, clientSecret)) {
-            throw new CustomException("客户端认证失败!");
+            throw new CustomException("客户端认证失败");
         }
 
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
