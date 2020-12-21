@@ -1,5 +1,5 @@
 ###客户端数据
-INSERT INTO `diyi_client` VALUES ('1123598811738675203', 'app', 'app_secret', '604800', '604800', NOW(), NOW(), FALSE);
+INSERT INTO `diyi_client` VALUES ('1123598811738675201', 'sword', 'sword_secret', '604800', '604800', NOW(), NOW(), FALSE);
 
 ###字典数据
 INSERT INTO `diyi_dict` VALUES ('1123598814738777240', '0', 'nation', 'nation', '民族类型', '0', '', NOW(), NOW(), FALSE);
