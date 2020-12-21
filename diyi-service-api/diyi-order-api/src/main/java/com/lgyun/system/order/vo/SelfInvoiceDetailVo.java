@@ -195,4 +195,17 @@ public class SelfInvoiceDetailVo implements Serializable {
      * 税票
      */
     private String taxScanPictures;
+
+
+    /**
+     *统一社会信用代码
+     */
+    private String ibtaxNo;
+
+    /**
+     * 个体户或个独名称
+     */
+    private String ibname;
+
+
 }

@@ -1,6 +1,7 @@
 package com.lgyun.system.order.dto;
 
 import com.lgyun.common.enumeration.CrowdSourcingPayType;
+import com.lgyun.common.enumeration.InvoiceCategory;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.ObjectType;
 import lombok.Data;
@@ -38,9 +39,9 @@ public class NaturalPersonConfirmSubmitDTO implements Serializable {
     @NotNull(message = "请输入地址")
     private Long addressId;
 
-    private Long serviceProviderId;
+    private Long serviceProviderId = 1335854410807603201L;
 
-    private String invoiceCategory;
+    private InvoiceCategory invoiceCategory = InvoiceCategory.SPECIALTICKET;
 
     /**
      * 开票人身份类别

@@ -187,11 +187,11 @@ public class SelfHelpInvoiceAdminController {
     @PostMapping("/natural-person-confirm-submit")
     @ApiOperation(value = "平台自助开票确认提交表单", notes = "自助开票确认提交表单")
     public R naturalPersonConfirmSubmit(@Valid @RequestBody NaturalPersonConfirmSubmitDTO naturalPersonConfirmSubmitDto, BladeUser bladeUser){
-        //查询当前管理员
-        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
+//        //查询当前管理员
+//        R<AdminEntity> result = userClient.currentAdmin(bladeUser);
+//        if (!(result.isSuccess())) {
+//            return result;
+//        }
         if(null == naturalPersonConfirmSubmitDto.getObjectType()){
             return R.fail("对象不能为空");
         }

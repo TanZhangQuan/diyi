@@ -360,7 +360,7 @@ public interface IUserClient {
     int queryIndividualBusinessNumByMakerId(@RequestParam("makerId") Long makerId);
 
     /**
-     * 根据创客, 统一社会信用代码查询个独
+     * 根据创客, 统一社会信用代码查询个体户
      *
      * @param makerId
      * @param ibtaxNo
@@ -370,7 +370,7 @@ public interface IUserClient {
     IndividualBusinessEntity queryIndividualBusinessByMakerIdAndIbtaxNo(@RequestParam("makerId") Long makerId, @RequestParam("ibtaxNo") String ibtaxNo);
 
     /**
-     * 根据创客, 统一社会信用代码查询个体户
+     * 根据创客, 统一社会信用代码查询个独
      *
      * @param makerId
      * @param ibtaxNo
