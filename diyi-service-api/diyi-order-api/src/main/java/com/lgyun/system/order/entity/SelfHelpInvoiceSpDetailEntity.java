@@ -22,11 +22,6 @@ public class SelfHelpInvoiceSpDetailEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 服务商自助开票明细Id
-     */
-    private Long selfHelpInvoiceApplyProviderId;
-
-    /**
      * 自助开票明细Id
      */
     private Long selfHelpInvoiceDetailId;

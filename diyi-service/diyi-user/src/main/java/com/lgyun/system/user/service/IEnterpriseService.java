@@ -181,5 +181,15 @@ public interface IEnterpriseService extends BaseService<EnterpriseEntity> {
      * @return
      */
     R<EnterprisesDetailPartnerVO> queryEnterpriseDetailPartner(Long enterpriseId);
+
+    /**
+     * 根据商户名字查询商户
+     */
+    EnterpriseEntity queryEnterpriseName(String enterpriseName);
+
+    /**
+     *生成二维码
+     */
+    R createQrCode(String linkUrl) throws Exception;
 }
 

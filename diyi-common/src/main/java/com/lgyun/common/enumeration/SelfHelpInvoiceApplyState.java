@@ -12,7 +12,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum  SelfHelpInvoiceApplyState {
-    NOTAPPLY("NOTAPPLY", "未申请"),
+    NOTAPPLY("NOTAPPLY", "编辑中"),
     APPLYING("APPLYING", "申请中"),
     AUDITING("AUDITING", "审核中"),
     TOPAY("TOPAY", "已审核待付费"),

@@ -123,5 +123,11 @@ public interface ISelfHelpInvoiceDetailService extends BaseService<SelfHelpInvoi
      * @return
      */
     R<IPage<SelfHelpInvoiceListMakerVO>> querySelfHelpInvoiceDetailListByMaker(Long makerId, IPage<SelfHelpInvoiceListMakerVO> page);
+
+
+    /**
+     * 根据主表id查询明细
+     */
+    List<SelfHelpInvoiceDetailEntity> querySelfHelpInvoiceId(Long selfHelpInvoiceId);
 }
 

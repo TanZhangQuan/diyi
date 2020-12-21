@@ -28,7 +28,7 @@ public class SelfHelpInvoiceApplyEntity extends BaseEntity {
     private Long selfHelpInvoiceId;
 
     /**
-     * 申请状态
+     * 当前状态：编辑中，申请中，审核中；已审核待付费；已付费开票中；已驳回；已开票结束
      */
     private SelfHelpInvoiceApplyState applyState;
 

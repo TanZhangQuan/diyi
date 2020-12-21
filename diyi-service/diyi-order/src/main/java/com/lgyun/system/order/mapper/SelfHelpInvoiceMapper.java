@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.SelfHelpInvoiceSpApplyState;
 import com.lgyun.system.order.dto.SelfHelpInvoiceDetailsByServiceProviderDTO;
-import com.lgyun.system.order.dto.SelfHelpInvoicesByEnterpriseDTO;
+//import com.lgyun.system.order.dto.SelfHelpInvoicesByEnterpriseDTO;
 import com.lgyun.system.order.entity.SelfHelpInvoiceEntity;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.order.vo.TotalCrowdTradeListVO;
@@ -23,16 +23,16 @@ import java.util.List;
 @Mapper
 public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity> {
 
-    /**
-     * 查询条件查询所有自助开票记录
-     *
-     * @param enterpriseId
-     * @param makerType
-     * @param selfHelpInvoicesByEnterpriseDto
-     * @param page
-     * @return
-     */
-    List<SelfHelpInvoiceListByEnterpriseVO> getSelfHelfInvoicesByEnterprise(Long enterpriseId, MakerType makerType, SelfHelpInvoicesByEnterpriseDTO selfHelpInvoicesByEnterpriseDto, IPage<SelfHelpInvoiceListByEnterpriseVO> page);
+//    /**
+//     * 查询条件查询所有自助开票记录
+//     *
+//     * @param enterpriseId
+//     * @param makerType
+//     * @param selfHelpInvoicesByEnterpriseDto
+//     * @param page
+//     * @return
+//     */
+//    List<SelfHelpInvoiceListByEnterpriseVO> getSelfHelfInvoicesByEnterprise(Long enterpriseId, MakerType makerType, SelfHelpInvoicesByEnterpriseDTO selfHelpInvoicesByEnterpriseDto, IPage<SelfHelpInvoiceListByEnterpriseVO> page);
 
     /**
      * 查询当前商户某条自助开票记录详情
@@ -167,6 +167,33 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
      * @return
      */
     List<SelfHelpInvoiceDetailProviderVO> querySelfHelpInvoicePeopleList(Long selfHelpvoiceId, IPage<SelfHelpInvoiceDetailProviderVO> page);
+
+
+    /**
+     *商户查询自助开票
+     */
+    List<SelfInvoiceListVo> querySelfInvoiceList(Long enterpriseId, MakerType makerType,String startTiem,String endTime,IPage<SelfInvoiceListVo> page);
+
+    /**
+     * 创客查询
+     */
+    List<SelfInvoiceListVo> queryMakerSelfInvoiceList(Long makerId,MakerType makerType,String startTiem,String endTime,IPage<SelfInvoiceListVo> page);
+
+
+    /**
+     * 服务商查询自助开票
+     */
+    List<SelfInvoiceListVo> queryServiceProviderSelfInvoiceList(Long serviceProviderId, MakerType makerType, String startTiem, String endTime, IPage<SelfInvoiceListVo> page);
+
+    /**
+     * 平台查询自助开票
+     */
+    List<SelfInvoiceListVo> queryAdminSelfInvoiceList(MakerType makerType, String startTiem, String endTime, IPage<SelfInvoiceListVo> page);
+
+    /**
+     *
+     */
+    List<SelfInvoiceDetailVo> querySelfInvoiceDetail(Long selfHelpInvoiceId);
 
     /**
      * 查询相关局众包/众采列表

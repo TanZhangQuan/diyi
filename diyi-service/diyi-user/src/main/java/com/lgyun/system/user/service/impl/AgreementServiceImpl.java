@@ -509,4 +509,16 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
                 .eq(AgreementEntity::getAuditState, AuditState.APPROVED));
     }
 
+    @Override
+    public AgreementEntity findByEnterpriseAndMakerSuppl(Long makerId, Long enterpriseId) {
+        QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(AgreementEntity::getMakerId, makerId)
+                .eq(AgreementEntity::getEnterpriseId, enterpriseId)
+                .eq(AgreementEntity::getAgreementType, AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT)
+                .eq(AgreementEntity::getSignState, SignState.SIGNED)
+                .eq(AgreementEntity::getAuditState, AuditState.APPROVED);
+        AgreementEntity agreementEntity = baseMapper.selectOne(queryWrapper);
+        return agreementEntity;
+    }
+
 }

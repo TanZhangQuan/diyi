@@ -360,7 +360,7 @@ public interface IUserClient {
     int queryIndividualBusinessNumByMakerId(@RequestParam("makerId") Long makerId);
 
     /**
-     * 根据创客, 统一社会信用代码查询个独
+     * 根据创客, 统一社会信用代码查询个体户
      *
      * @param makerId
      * @param ibtaxNo
@@ -370,7 +370,7 @@ public interface IUserClient {
     IndividualBusinessEntity queryIndividualBusinessByMakerIdAndIbtaxNo(@RequestParam("makerId") Long makerId, @RequestParam("ibtaxNo") String ibtaxNo);
 
     /**
-     * 根据创客, 统一社会信用代码查询个体户
+     * 根据创客, 统一社会信用代码查询个独
      *
      * @param makerId
      * @param ibtaxNo
@@ -437,5 +437,42 @@ public interface IUserClient {
      */
     @GetMapping(API_PREFIX + "/query-agreement-num")
     int queryEntMakSupplementaryAgreementNum(@RequestParam("makerId") Long makerId, @RequestParam("enterpriseId") Long enterpriseId);
+
+
+    /**
+     * 查询已签署已审核通过的商户-创客补充协议
+     *
+     * @param makerId
+     * @param enterpriseId
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/query-agreement")
+    AgreementEntity queryEntMakSupplementaryAgreement(@RequestParam("makerId") Long makerId, @RequestParam("enterpriseId") Long enterpriseId);
+
+    /**
+     * 根据商户id查询商户
+     * @param enterpriseId
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/query-enterprise-by-id")
+    EnterpriseEntity queryEnterpriseById(@RequestParam("enterpriseId") Long enterpriseId);
+
+    /**
+     * 根据商户名字查询商户
+     * @param enterpriseName
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/query-enterprise-by-Name")
+    EnterpriseEntity queryEnterpriseByName(@RequestParam("enterpriseName") String enterpriseName);
+
+    /**
+     * 创建商户-创客补充协议
+     *
+     * @param enterpriseId
+     * @param makerId
+     * @return
+     */
+    @PostMapping(API_PREFIX + "/create-maker-to-enterprise-supplement")
+    void createMakerToEnterpriseSupplement(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("makerId") Long makerId,@RequestParam("businessContract") String businessContract);
 
 }

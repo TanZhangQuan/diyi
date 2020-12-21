@@ -224,9 +224,9 @@
     <select id="queryMakerSelectList" resultMap="makerSelectListVO">
         SELECT id, name, phone_number, idcard_no FROM diyi_maker WHERE bool_deleted = 0
         <if test="param1 != null and param1.trim() != ''">
-            AND (t1.idcard_no LIKE concat('%', #{param1}, '%')
-            OR t1.name LIKE concat('%', #{param1}, '%')
-            OR t1.phone_number LIKE concat('%', #{param1}, '%'))
+            AND (idcard_no LIKE concat('%', #{param1}, '%')
+            OR name LIKE concat('%', #{param1}, '%')
+            OR phone_number LIKE concat('%', #{param1}, '%'))
         </if>
     </select>
 

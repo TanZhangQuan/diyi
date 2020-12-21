@@ -100,5 +100,6 @@ public interface SelfHelpInvoiceDetailMapper extends BaseMapper<SelfHelpInvoiceD
      * @return
      */
     List<SelfHelpInvoiceListMakerVO> querySelfHelpInvoiceDetailListByMaker(Long makerId, IPage<SelfHelpInvoiceListMakerVO> page);
+
 }
 

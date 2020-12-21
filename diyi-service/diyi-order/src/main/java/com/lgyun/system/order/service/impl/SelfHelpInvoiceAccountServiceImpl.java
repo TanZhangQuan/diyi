@@ -33,4 +33,5 @@ public class SelfHelpInvoiceAccountServiceImpl extends BaseServiceImpl<SelfHelpI
 
         return BeanUtil.copy(selfHelpInvoiceAccountEntity, SelfHelpInvoiceAccountVO.class);
     }
+
 }
