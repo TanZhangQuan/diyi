@@ -623,7 +623,9 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             }
             if(MakerType.INDIVIDUALENTERPRISE.equals(makerType)){
                 MakerEntity makerEntity = iUserClient.queryMakerByPhoneNumber(invoiceListExcel.getPhoneNumber());
-
+                if(null == makerEntity){
+                    return R.success("发放的人不符合要求"+invoiceListExcel.getAloneSocialCreditCode());
+                }
                 IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.queryIndividualEnterpriseByMakerIdAndIbtaxNo(makerEntity.getId(), invoiceListExcel.getAloneSocialCreditCode());
                 if(null == individualEnterpriseEntity){
                     return R.success("个独必须是平台存在的个独"+invoiceListExcel.getAloneSocialCreditCode());
@@ -640,6 +642,9 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             }
             if(MakerType.INDIVIDUALBUSINESS.equals(makerType)){
                 MakerEntity makerEntity = iUserClient.queryMakerByPhoneNumber(invoiceListExcel.getPhoneNumber());
+                if(null == makerEntity){
+                    return R.success("发放的人不符合要求"+invoiceListExcel.getAloneSocialCreditCode());
+                }
                 IndividualBusinessEntity individualBusinessEntity = iUserClient.queryIndividualBusinessByMakerIdAndIbtaxNo(makerEntity.getId(), invoiceListExcel.getSocialCreditCode());
                 if(null == individualBusinessEntity){
                     return R.success("个体户必须是平台存在的个体户"+invoiceListExcel.getAloneSocialCreditCode());
@@ -703,7 +708,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
                 return R.fail("请输入发票分类");
             }
         }
-        if(!ObjectType.ENTERPRISEPEOPLE.equals(objectType) && !!ObjectType.MAKERPEOPLE.equals(objectType)){
+        if(!(ObjectType.ENTERPRISEPEOPLE.equals(objectType) || ObjectType.MAKERPEOPLE.equals(objectType))){
             return R.fail("只有商户和创客可以申请自助开票");
         }
         Map<String, List<InvoiceListExcelDTO>> collect = naturalPersonConfirmSubmitDto.getList().stream().collect(Collectors.groupingBy(InvoiceListExcelDTO::getPayer));
