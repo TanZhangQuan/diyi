@@ -21,12 +21,12 @@ public class RelBureauNoticeFileListServiceProviderVO implements Serializable {
     /**
      * 通知/监督文件标题
      */
-    private String title;
+    private String noticeFileTitle;
 
     /**
      * 通知/监督文件摘要
      */
-    private String desc;
+    private String noticeFileDesc;
 
     /**
      * 通知/监督文件阅读状态
