@@ -234,8 +234,14 @@
     </select>
 
     <select id="queryEnterpriseServiceProviderSupplement" resultMap="agreementServiceVOMap">
-        SELECT a.id AS agreement_id, s.id AS service_provider_id, e.enterprise_name, a.agreement_no, a.sign_type, a.agreement_type, s.service_provider_name,
-        a.agreement_url, a.create_time, a.sign_state, e.id FROM diyi_agreement a
+        SELECT a.id AS agreement_id, a.agreement_no, a.sign_type, a.agreement_type, a.agreement_url, a.create_time, a.sign_state
+         <if test="param1 != null">
+            , s.id AS service_provider_id, s.service_provider_name
+        </if>
+        <if test="param2 != null">
+            , e.enterprise_name
+        </if>
+        FROM diyi_agreement a
         <if test="param1 != null">
             INNER JOIN diyi_service_provider s ON a.party_a_id = s.id AND a.party_a = 'SERVICEPEOPLE' AND s.id = #{param1}
         </if>
