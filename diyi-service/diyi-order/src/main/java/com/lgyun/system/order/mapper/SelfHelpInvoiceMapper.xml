@@ -225,6 +225,51 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.order.vo.SelfInvoiceDetailVo" id="selfInvoiceDetailVoMap">
+        <result property="selfHelpInvoiceId" column="self_help_invoice_id"/>
+<!--        <result property="selfHelpInvoiceApplyId" column="self_help_invoice_apply_id"/>-->
+        <result property="selfHelpInvoiceDetailId" column="self_help_invoice_detail_id"/>
+<!--        <result property="enterpriseName" column="enterprise_name"/>-->
+<!--        <result property="payType" column="pay_type"/>-->
+        <result property="invoiceType" column="invoice_type"/>
+<!--        <result property="applyState" column="apply_state"/>-->
+        <result property="purchaseEnterpriseId" column="purchase_enterprise_id"/>
+        <result property="purchaseEnterpriseName" column="purchase_enterprise_name"/>
+        <result property="invoiceTaxNo" column="invoice_tax_no"/>
+        <result property="invoiceAddressPhone" column="invoice_address_phone"/>
+        <result property="invoiceBankNameAccount" column="invoice_bank_name_account"/>
+        <result property="projectName" column="project_name"/>
+        <result property="idcardNo" column="idcard_no"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="idcardPic" column="idcard_pic"/>
+        <result property="idcardPicBack" column="idcard_pic_back"/>
+        <result property="businessContractUrl" column="business_contract_url"/>
+        <result property="flowContractUrl" column="flow_contract_url"/>
+        <result property="acceptPaysheetCsUrl" column="accept_paysheet_cs_url"/>
+        <result property="ibname" column="ibname"/>
+        <result property="ibtaxNo" column="ibtax_no"/>
+        <result property="invoiceScanPictures" column="invoice_scan_pictures"/>
+        <result property="taxScanPictures" column="tax_scan_pictures"/>
+<!--        <result property="addressName" column="address_name"/>-->
+<!--        <result property="addressPhone" column="address_phone"/>-->
+<!--        <result property="province" column="province"/>-->
+<!--        <result property="city" column="city"/>-->
+<!--        <result property="area" column="area"/>-->
+<!--        <result property="detailedAddress" column="detailed_address"/>-->
+<!--        <result property="totalPayProviderFee" column="total_pay_provider_fee"/>-->
+<!--        <result property="serviceAndTaxMoney" column="service_and_tax_money"/>-->
+<!--        <result property="serviceFee" column="service_fee"/>-->
+<!--        <result property="serviceRate" column="service_rate"/>-->
+<!--        <result property="serviceTax" column="service_tax"/>-->
+<!--        <result property="serviceInvoiceFee" column="service_invoice_fee"/>-->
+<!--        <result property="idendityConfirmFee" column="idendity_confirm_fee"/>-->
+<!--        <result property="payCertificate" column="pay_certificate"/>-->
+<!--         <result property="accountName" column="account_name"/>-->
+<!--        <result property="accountNo" column="account_no"/>-->
+<!--        <result property="accountBank" column="account_bank"/>-->
+<!--        <result property="basicAccountBank" column="basic_account_bank"/>-->
+    </resultMap>
+
     <select id="getSelfHelfInvoicesByEnterprise" resultMap="selfHelpInvoiceListByEnterpriseVO">
         SELECT t1.id, t2.enterprise_name, t1.list_file, t1.pay_type, t1.total_pay_provider_fee, t1.current_state, t1.create_time,
         (SELECT GROUP_CONCAT(invoice_type) FROM diyi_self_help_invoice_detail WHERE bool_deleted = 0 AND self_help_invoice_id = t1.id) AS invoice_types,
@@ -479,6 +524,78 @@
         ON t1.service_provider_id = t2.service_provider_id INNER JOIN diyi_self_help_invoice t3 ON t1.self_help_invoice_id = t3.id INNER JOIN diyi_enterprise t4 ON t3.enterprise_id = t4.id
         INNER JOIN diyi_service_provider t5 ON t1.service_provider_id = t5.id AND t2.bool_deleted = 0 AND t2.rel_bureau_id = #{param1} WHERE t1.bool_deleted = 0
         AND (t1.apply_state = 'SUBMITTED' OR t1.apply_state = 'INVOICED')
+    </select>
+
+    <resultMap type="com.lgyun.system.order.vo.SelfInvoiceListVo" id="selfInvoiceListVoMap">
+        <result property="selfHelpInvoiceId" column="self_help_invoice_id"/>
+        <result property="applyEnterpriseId" column="apply_enterprise_id"/>
+         <result property="applyMakerId" column="apply_maker_id"/>
+        <result property="applyEnterpriseName" column="apply_enterprise_name"/>
+        <result property="applyMakerName" column="apply_maker_name"/>
+        <result property="listFile" column="list_file"/>
+        <result property="payType" column="pay_type"/>
+        <result property="totalPayProviderFee" column="total_pay_provider_fee"/>
+        <result property="applyState" column="apply_state"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <select id="querySelfInvoiceList" resultMap="selfInvoiceListVoMap">
+        SELECT t1.id AS self_help_invoice_id, NULL AS apply_maker_id, t1.apply_enterprise_id AS apply_enterprise_id, t3.enterprise_name AS apply_enterprise_name, NULL AS apply_maker_name, t1.list_file, t1.pay_type, t1.total_pay_provider_fee, t1.current_state AS apply_state, t1.create_time FROM diyi_self_help_invoice t1 INNER JOIN diyi_enterprise t3 ON t3.id = t1.apply_enterprise_id
+         WHERE t1.maker_type =#{param2}
+        <if test="param1 != null">
+             AND t1.apply_enterprise_id =#{param1}
+        </if>
+        <if test="param3 != null and param3 !=''">
+             AND DATEDIFF(t1.create_time, #{param3}) <![CDATA[ >= ]]> 0
+        </if>
+        <if test="param4 != null and param4 !=''">
+             AND DATEDIFF(t1.create_time, #{param4}) <![CDATA[ <= ]]> 0
+        </if>
+    </select>
+
+    <select id="queryMakerSelfInvoiceList" resultMap="selfInvoiceListVoMap">
+        SELECT t1.id AS self_help_invoice_id, t1.apply_maker_id AS apply_maker_id, t1.apply_enterprise_id AS apply_enterprise_id, NULL AS apply_enterprise_name, t3. NAME AS apply_maker_name, t1.list_file, t1.pay_type, t1.total_pay_provider_fee, t1.current_state AS apply_state, t1.create_time FROM diyi_self_help_invoice t1 INNER JOIN diyi_maker t3 ON t3.id = t1.apply_maker_id
+            WHERE t1.maker_type =#{param2}
+        <if test="param1 != null">
+             AND t1.apply_maker_id =#{param1}
+        </if>
+        <if test="param3 != null and param3 !=''">
+             AND DATEDIFF(t1.create_time, #{param3}) <![CDATA[ >= ]]> 0
+        </if>
+        <if test="param4 != null and param4 !=''">
+             AND DATEDIFF(t1.create_time, #{param4}) <![CDATA[ <= ]]> 0
+        </if>
+    </select>
+
+
+    <select id="queryServiceProviderSelfInvoiceList" resultMap="selfInvoiceListVoMap">
+        SELECT t1.id AS self_help_invoice_id, t1.apply_enterprise_id AS apply_enterprise_id, t3.enterprise_name AS apply_enterprise_name, t1.list_file, t1.pay_type, t1.total_pay_provider_fee, t1.current_state AS apply_state, t1.create_time FROM diyi_self_help_invoice t1 INNER JOIN diyi_enterprise t3 ON t3.id = t1.apply_enterprise_id INNER JOIN diyi_self_help_invoice_sp t4 ON t4.self_help_invoice_id = t1.id INNER JOIN diyi_service_provider t5 ON t5.id = t4.service_provider_id
+                 WHERE t1.maker_type = #{param2} AND t4.service_provider_id =#{param1}
+        <if test="param3 != null and param3 !=''">
+             AND DATEDIFF(t1.create_time, #{param3}) <![CDATA[ >= ]]> 0
+        </if>
+        <if test="param4 != null and param4 !=''">
+             AND DATEDIFF(t1.create_time, #{param4}) <![CDATA[ <= ]]> 0
+        </if>
+    </select>
+
+    <select id="queryAdminSelfInvoiceList" resultMap="selfInvoiceListVoMap">
+        SELECT t1.id AS self_help_invoice_id, t1.apply_maker_id AS apply_maker_id, t1.apply_enterprise_id AS apply_enterprise_id, t4.enterprise_name AS apply_enterprise_name, t3. NAME AS apply_maker_name, t1.list_file, t1.pay_type, t1.total_pay_provider_fee, t1.current_state AS apply_state, t1.create_time FROM diyi_self_help_invoice t1 LEFT JOIN diyi_maker t3 ON t3.id = t1.apply_maker_id LEFT JOIN diyi_enterprise t4 ON t4.id = t1.apply_enterprise_id
+                WHERE t1.maker_type =#{param1}
+        <if test="param2 != null and param2 !=''">
+             AND DATEDIFF(t1.create_time, #{param2}) <![CDATA[ >= ]]> 0
+        </if>
+        <if test="param3 != null and param3 !=''">
+             AND DATEDIFF(t1.create_time, #{param3}) <![CDATA[ <= ]]> 0
+        </if>
+    </select>
+
+<!--    <select id="querySelfInvoiceDetails" resultMap="selfInvoiceDetailVoMap">-->
+<!--        SELECT t1.id AS self_help_invoice_id, t2.id AS self_help_invoice_apply_id, t3.id AS self_help_invoice_detail_id, t4.enterprise_name, t1.pay_type, t3.invoice_type, t2.apply_state, t1.enterprise_id AS purchase_enterprise_id, t5.enterprise_name AS purchase_enterprise_name, t5.invoice_tax_no, t5.invoice_address_phone, t5.invoice_bank_name_account, t3.project_name, t3.value_added_tax_rate, t3.charge_money_num, t3.invoice_people_name, ( IF ( t3.maker_id IS NULL OR maker_id = '', ( SELECT t6.idcard_no FROM diyi_self_help_invoice_person t6 WHERE t3.none_maker_invoice_person_id = t6.id ), ( SELECT t7.idcard_no FROM diyi_maker t7 WHERE t7.id = t3.maker_id ))) AS idcard_no, ( IF ( t3.maker_id IS NULL OR maker_id = '', ( SELECT t6.phone_number FROM diyi_self_help_invoice_person t6 WHERE t3.none_maker_invoice_person_id = t6.id ), ( SELECT t7.phone_number FROM diyi_maker t7 WHERE t7.id = t3.maker_id ))) AS phone_number, ( IF ( t3.maker_id IS NULL OR maker_id = '', ( SELECT t6.idcard_pic FROM diyi_self_help_invoice_person t6 WHERE t3.none_maker_invoice_person_id = t6.id ), ( SELECT t7.idcard_pic FROM diyi_maker t7 WHERE t7.id = t3.maker_id ))) AS idcard_pic, ( IF ( t3.maker_id IS NULL OR maker_id = '', ( SELECT t6.idcard_pic_back FROM diyi_self_help_invoice_person t6 WHERE t3.none_maker_invoice_person_id = t6.id ), ( SELECT t7.idcard_pic_back FROM diyi_maker t7 WHERE t7.id = t3.maker_id ))) AS idcard_pic_back, t3.business_contract_url, t3.flow_contract_url, ( SELECT accept_paysheet_cs_url FROM diyi_accept_paysheet_cs_list t8 INNER JOIN diyi_accept_paysheet_cs t9 ON t8.accept_paysheet_cs_id = t9.id WHERE accept_paysheet_cs_type = 'SINGLE' AND t3.id = t9.self_help_invoice_detail_id ) AS accept_paysheet_cs_url, t10.address_name, t10.address_phone, t10.province, t10.city, t10.area, t10.detailed_address, t1.total_pay_provider_fee, t1.service_and_tax_money, t1.service_fee, t1.service_rate, t1.service_tax, t1.service_invoice_fee, t1.idendity_confirm_fee, t11.pay_certificate, t12.account_name, t12.account_no, t12.account_bank, t12.basic_account_bank FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_apply t2 ON t1.id = t2.self_help_invoice_id INNER JOIN diyi_self_help_invoice_detail t3 ON t1.id = t3.self_help_invoice_id INNER JOIN diyi_enterprise t4 ON t4.id = t1.apply_enterprise_id INNER JOIN diyi_enterprise t5 ON t5.id = t1.enterprise_id INNER JOIN diyi_address t10 ON t10.id = t1.address_id LEFT JOIN diyi_self_help_invoice_fee t11 ON t11.self_help_invoice_id = t1.id LEFT JOIN diyi_self_help_invoice_account t12 ON t12.id = t11.hand_pay_account_id WHERE t1.id = #{param1}-->
+<!--    </select>-->
+
+    <select id="querySelfInvoiceDetail" resultMap="selfInvoiceDetailVoMap">
+        SELECT t1.id AS self_help_invoice_id, t3.id AS self_help_invoice_detail_id, t3.invoice_type, t1.enterprise_id AS purchase_enterprise_id, t5.enterprise_name AS purchase_enterprise_name, t5.invoice_tax_no, t5.invoice_address_phone, t5.invoice_bank_name_account, t3.project_name, t3.value_added_tax_rate, t3.charge_money_num, t3.invoice_people_name, ( IF ( t3.maker_id IS NULL OR maker_id = '', ( SELECT t6.idcard_no FROM diyi_self_help_invoice_person t6 WHERE t3.none_maker_invoice_person_id = t6.id ), ( SELECT t7.idcard_no FROM diyi_maker t7 WHERE t7.id = t3.maker_id ))) AS idcard_no, ( IF ( t3.maker_id IS NULL OR maker_id = '', ( SELECT t6.phone_number FROM diyi_self_help_invoice_person t6 WHERE t3.none_maker_invoice_person_id = t6.id ), ( SELECT t7.phone_number FROM diyi_maker t7 WHERE t7.id = t3.maker_id ))) AS phone_number, ( IF ( t3.maker_id IS NULL OR maker_id = '', ( SELECT t6.idcard_pic FROM diyi_self_help_invoice_person t6 WHERE t3.none_maker_invoice_person_id = t6.id ), ( SELECT t7.idcard_pic FROM diyi_maker t7 WHERE t7.id = t3.maker_id ))) AS idcard_pic, ( IF ( t3.maker_id IS NULL OR maker_id = '', ( SELECT t6.idcard_pic_back FROM diyi_self_help_invoice_person t6 WHERE t3.none_maker_invoice_person_id = t6.id ), ( SELECT t7.idcard_pic_back FROM diyi_maker t7 WHERE t7.id = t3.maker_id ))) AS idcard_pic_back, t3.business_contract_url, t3.flow_contract_url, ( SELECT accept_paysheet_cs_url FROM diyi_accept_paysheet_cs t9 WHERE accept_paysheet_cs_type = 'SINGLE' AND t3.id = t9.self_help_invoice_detail_id ) AS accept_paysheet_cs_url, t6.invoice_scan_pictures, t6.tax_scan_pictures, IF ( t3.maker_type = 'INDIVIDUALBUSINESS' OR t3.maker_type = 'INDIVIDUALENTERPRISE', ( IF ( t3.maker_type = 'INDIVIDUALBUSINESS', ( SELECT ibname FROM diyi_individual_business WHERE id = t3.individual_id ), ( SELECT ibname FROM diyi_individual_enterprise WHERE id = t3.individual_id ))), '' ) AS ibname, IF ( t3.maker_type = 'INDIVIDUALBUSINESS' OR t3.maker_type = 'INDIVIDUALENTERPRISE', ( IF ( t3.maker_type = 'INDIVIDUALBUSINESS', ( SELECT ibtax_no FROM diyi_individual_business WHERE id = t3.individual_id ), ( SELECT ibtax_no FROM diyi_individual_enterprise WHERE id = t3.individual_id ))), '' ) AS ibtax_no FROM diyi_self_help_invoice t1 INNER JOIN diyi_self_help_invoice_detail t3 ON t1.id = t3.self_help_invoice_id INNER JOIN diyi_enterprise t5 ON t5.id = t1.enterprise_id LEFT JOIN diyi_self_help_invoice_sp_detail t6 ON t6.self_help_invoice_detail_id = t3.id WHERE t1.id = #{param1}
     </select>
 
 </mapper>

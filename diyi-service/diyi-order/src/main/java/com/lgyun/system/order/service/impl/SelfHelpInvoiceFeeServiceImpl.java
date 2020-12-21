@@ -1,5 +1,6 @@
 package com.lgyun.system.order.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.core.mp.base.BaseServiceImpl;
@@ -27,16 +28,23 @@ public class SelfHelpInvoiceFeeServiceImpl extends BaseServiceImpl<SelfHelpInvoi
     @Transactional(rollbackFor = Exception.class)
     public R<String> confirmPayment(ConfirmPaymentDTO confirmPaymentDto) {
         if(null == confirmPaymentDto.getHandPayId()){
-            R.fail("参数错误");
+            return R.fail("参数错误");
         }
         SelfHelpInvoiceFeeEntity selfHelpInvoiceFeeEntity = getById(confirmPaymentDto.getHandPayId());
         if(null == selfHelpInvoiceFeeEntity){
-            R.fail("没有此订单");
+            return R.fail("没有此订单");
         }
         selfHelpInvoiceFeeEntity.setPayDesc(confirmPaymentDto.getPayDesc());
         selfHelpInvoiceFeeEntity.setPayCertificate(confirmPaymentDto.getPayCertificate());
         selfHelpInvoiceFeeEntity.setPayType(confirmPaymentDto.getPaymentType());
         updateById(selfHelpInvoiceFeeEntity);
         return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
+    }
+
+    @Override
+    public SelfHelpInvoiceFeeEntity findBySelfHelpInvoiceId(Long selfHelpInvoiceId) {
+        QueryWrapper<SelfHelpInvoiceFeeEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(SelfHelpInvoiceFeeEntity::getSelfHelpInvoiceId, selfHelpInvoiceId);
+        return baseMapper.selectOne(queryWrapper);
     }
 }

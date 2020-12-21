@@ -40,7 +40,7 @@ public class EnterpriseRelBureauController {
         }
         RelBureauEntity relBureauEntity = result.getData();
 
-        return enterpriseService.queryEnterpriseList(null, relBureauEntity.getId(), enterpriseListDTO, Condition.getPage(query.setDescs("t1.create_time")));
+        return enterpriseService.queryEnterpriseList(null, relBureauEntity.getId(), enterpriseListDTO, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-enterprise-detail")

@@ -2,7 +2,7 @@ package com.lgyun.system.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.common.enumeration.MakerType;
-import com.lgyun.common.enumeration.InvoicePrintState;
+import com.lgyun.common.enumeration.SelfHelpInvoiceApplyState;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,6 +36,11 @@ public class SelfHelpInvoiceDetailEntity extends BaseEntity {
     private String invoicePeopleName;
 
     /**
+     * 项目名称
+     */
+    private String projectName;
+
+    /**
      * 开票人身份类别 1，自然人；2，个体户；3，个独；4，合伙企业；5，有限公司
      */
     private MakerType makerType;
@@ -46,9 +51,9 @@ public class SelfHelpInvoiceDetailEntity extends BaseEntity {
     private Long individualId;
 
     /**
-     * 开票状态：待申请；申请中；开票中；已开票；开票失败
+     * 当前状态：编辑中，申请中，审核中；已审核待付费；已付费开票中；已驳回；已开票结束
      */
-    private InvoicePrintState invoicePrintState = InvoicePrintState.TOAPPLY;
+    private SelfHelpInvoiceApplyState invoicePrintState = SelfHelpInvoiceApplyState.NOTAPPLY;
 
     /**
      * 创客ID

@@ -118,7 +118,7 @@ public class SelfHelpInvoiceEntity extends BaseEntity {
     private BigDecimal idendityConfirmFee;
 
     /**
-     * 当前状态：未申请，申请编辑中，审核中；已通过开票中；已驳回；已开票结束
+     * 当前状态：编辑中，申请中，审核中；已审核待付费；已付费开票中；已驳回；已开票结束
      */
     private SelfHelpInvoiceApplyState currentState = SelfHelpInvoiceApplyState.NOTAPPLY;
 
@@ -141,10 +141,5 @@ public class SelfHelpInvoiceEntity extends BaseEntity {
      * 扩展支付税费发票
      */
     private String extendPayInvoices;
-
-    /**
-     * 总价税合计额
-     */
-    private BigDecimal totlChargeMoneyNum;
 
 }

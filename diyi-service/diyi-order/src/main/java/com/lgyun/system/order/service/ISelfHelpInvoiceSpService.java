@@ -27,5 +27,13 @@ public interface ISelfHelpInvoiceSpService extends BaseService<SelfHelpInvoiceSp
      * @return
      */
     SelfHelpInvoiceSpEntity findBySelfHelpInvoiceIdAndAuditing(Long selfHelpInvoiceId);
+
+    /**
+     * 通过自助开票id查询服务商  已审核
+     *
+     * @param selfHelpInvoiceId
+     * @return
+     */
+    SelfHelpInvoiceSpEntity findBySelfHelpInvoiceId(Long selfHelpInvoiceId);
 }
 

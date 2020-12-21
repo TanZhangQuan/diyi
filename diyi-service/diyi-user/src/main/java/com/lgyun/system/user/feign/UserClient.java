@@ -742,4 +742,23 @@ public class UserClient implements IUserClient {
         return serviceProviderRulesService.dealEnterpriseRule(serviceProviderId, enterpriseId);
     }
 
+    @Override
+    public AgreementEntity queryEntMakSupplementaryAgreement(Long makerId, Long enterpriseId) {
+        return agreementService.findByEnterpriseAndMakerSuppl(makerId,enterpriseId);
+    }
+
+    @Override
+    public EnterpriseEntity queryEnterpriseById(Long enterpriseId) {
+        return enterpriseService.getById(enterpriseId);
+    }
+
+    @Override
+    public EnterpriseEntity queryEnterpriseByName(String enterpriseName) {
+        return enterpriseService.queryEnterpriseName(enterpriseName);
+    }
+
+    @Override
+    public void createMakerToEnterpriseSupplement(Long enterpriseId, Long makerId, String businessContract) {
+         agreementService.saveEnterpriseMakerAgreement(enterpriseId,businessContract,makerId+"");
+    }
 }
