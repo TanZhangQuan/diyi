@@ -311,21 +311,12 @@ CREATE TABLE `diyi_agreement` (
   `valid_state` varchar(50) NOT NULL COMMENT '合同有效性',
   `end_datetime` datetime DEFAULT NULL COMMENT '截止日期',
   `agreement_no` varchar(100) NOT NULL COMMENT '合同协议编号',
-  `maker_id` bigint(50) DEFAULT NULL COMMENT '创客ID',
-  `enterprise_id` bigint(50) DEFAULT NULL COMMENT '商户ID',
-  `service_provider_id` bigint(50) DEFAULT NULL COMMENT '服务商ID',
-  `rel_bureau_id` bigint(50) DEFAULT NULL COMMENT '相关局ID',
-  `agent_main_id` bigint(50) DEFAULT NULL COMMENT '渠道商ID',
-  `partner_id` bigint(50) DEFAULT NULL COMMENT '合伙人ID',
+  `party_a` varchar(50) DEFAULT NULL COMMENT '甲方身份',
+  `party_a_id` bigint(50) DEFAULT NULL COMMENT '甲方ID',
+  `party_b` varchar(50) NOT NULL COMMENT '乙方身份',
+  `party_b_id` bigint(50) NOT NULL COMMENT '乙方ID',
   `online_agreement_template_id` bigint(50) DEFAULT NULL COMMENT '平台在线协议模板ID',
-  `online_agreement_url` varchar(500) NOT NULL DEFAULT '' COMMENT '在线协议',
-  `paper_agreement_url` varchar(500) NOT NULL DEFAULT '' COMMENT '纸质协议',
-  `third_online_agreement_url` varchar(500) NOT NULL DEFAULT '' COMMENT '三方在线协议',
-  `paper_agreement_upload` varchar(50) DEFAULT NULL COMMENT '纸质协议上传状态',
-  `first_side_sign_person` varchar(50) NOT NULL DEFAULT '' COMMENT '甲方签署人员',
-  `second_side_sign_person` varchar(50) NOT NULL DEFAULT '' COMMENT '乙方签署人员',
-  `third_side_sign_person` varchar(50) NOT NULL DEFAULT '' COMMENT '丙方签署人员',
-  `fourth_side_sign_person` varchar(50) NOT NULL DEFAULT '' COMMENT '丁方签署人员',
+  `agreement_url` varchar(500) NOT NULL COMMENT '协议合同',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
@@ -728,8 +719,6 @@ CREATE TABLE `diyi_maker` (
   `avatar` varchar(500) NOT NULL DEFAULT '' COMMENT '头像',
   `certification_state` varchar(50) NOT NULL COMMENT '认证状态',
   `certification_date` datetime DEFAULT NULL COMMENT '认证时间',
-  `empower_sign_state` varchar(50) NOT NULL COMMENT '授权协议状态',
-  `join_sign_state` varchar(50) DEFAULT NULL COMMENT '加盟协议状态',
   `maker_state` varchar(50) NOT NULL COMMENT '账户状态',
   `politic_state` varchar(50) NOT NULL DEFAULT '' COMMENT '政治面貌',
   `nationality` varchar(50) NOT NULL DEFAULT '' COMMENT '民族',
@@ -749,8 +738,8 @@ CREATE TABLE `diyi_maker` (
   `idcard_hand` varchar(500) NOT NULL DEFAULT '' COMMENT '手持证件正面照',
   `idcard_verify_status` varchar(50) NOT NULL COMMENT '身份证验证状态',
   `idcard_verify_date` datetime DEFAULT NULL COMMENT '身份证验证日期时间',
-  `face_verify_status` varchar(50) NOT NULL COMMENT '人脸验证状态',
-  `face_verify_date` datetime DEFAULT NULL COMMENT '人脸验证日期时间',
+  `face_verify_status` varchar(50) NOT NULL COMMENT '活体验证状态',
+  `face_verify_date` datetime DEFAULT NULL COMMENT '活体验证日期时间',
   `bank_card_verify_status` varchar(50) NOT NULL COMMENT '银行卡验证状态',
   `bank_card_verify_date` datetime DEFAULT NULL COMMENT '银行卡验证日期时间',
   `phone_number_verify_status` varchar(50) NOT NULL COMMENT '手机号码验证状态',
@@ -950,13 +939,8 @@ CREATE TABLE `diyi_online_agreement_template` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `agreement_type` varchar(50) NOT NULL COMMENT '协议类别',
   `template_state` varchar(50) NOT NULL COMMENT '模板状态',
-  `template_sign_state` varchar(50) NOT NULL COMMENT '模板开启状态',
   `agreement_template` varchar(500) NOT NULL COMMENT '协议模板',
-  `upload_person` varchar(50) NOT NULL COMMENT '上传人员',
-  `upload_date` datetime NOT NULL COMMENT '上传日期',
-  `change_state_person` varchar(50) DEFAULT NULL COMMENT '变更状态人员',
-  `shange_state_date` datetime DEFAULT NULL COMMENT '变更日期',
-  `bool_all_makers` bit(1) NOT NULL COMMENT '是否需要全部创客签署',
+  `bool_all_sign` bit(1) NOT NULL COMMENT '是否需要全部签署',
   `template_type` varchar(50) NOT NULL COMMENT '模板类型',
   `template_count` int(10) NOT NULL COMMENT '模板的页数',
   `x_coordinate` float DEFAULT '0' COMMENT 'x坐标',
@@ -1007,7 +991,6 @@ CREATE TABLE `diyi_partner` (
   `avatar` varchar(500) NOT NULL DEFAULT '' COMMENT '头像',
   `certification_state` varchar(50) NOT NULL COMMENT '认证状态',
   `certification_date` datetime DEFAULT NULL COMMENT '认证时间',
-  `join_sign_state` varchar(50) DEFAULT NULL COMMENT '加盟协议状态',
   `partner_state` varchar(50) NOT NULL COMMENT '账户状态',
   `politic_state` varchar(50) NOT NULL DEFAULT '' COMMENT '政治面貌',
   `nationality` varchar(50) NOT NULL DEFAULT '' COMMENT '民族',
@@ -1027,8 +1010,8 @@ CREATE TABLE `diyi_partner` (
   `idcard_hand` varchar(500) NOT NULL DEFAULT '' COMMENT '手持证件正面照',
   `idcard_verify_status` varchar(50) NOT NULL COMMENT '身份证验证状态：未验证，验证通过，验证未通过',
   `idcard_verify_date` datetime DEFAULT NULL COMMENT '身份证验证日期时间',
-  `face_verify_status` varchar(50) NOT NULL COMMENT '人脸验证状态：未验证，验证通过，验证未通过',
-  `face_verify_date` datetime DEFAULT NULL COMMENT '人脸验证日期时间',
+  `face_verify_status` varchar(50) NOT NULL COMMENT '活体验证状态：未验证，验证通过，验证未通过',
+  `face_verify_date` datetime DEFAULT NULL COMMENT '活体验证日期时间',
   `bank_card_verify_status` varchar(50) NOT NULL COMMENT '银行卡验证状态：未验证，验证通过，验证未通过',
   `bank_card_verify_date` datetime DEFAULT NULL COMMENT '银行卡验证日期时间',
   `phone_number_verify_status` varchar(50) NOT NULL COMMENT '手机号码验证状态：未验证，验证通过，验证未通过',
@@ -1875,10 +1858,10 @@ CREATE TABLE `diyi_service_provider_maker` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `diyi_service_provider_rules`
+-- Table structure for `diyi_service_provider_rule`
 -- ----------------------------
-DROP TABLE IF EXISTS `diyi_service_provider_rules`;
-CREATE TABLE `diyi_service_provider_rules` (
+DROP TABLE IF EXISTS `diyi_service_provider_rule`;
+CREATE TABLE `diyi_service_provider_rule` (
   `id` bigint(50) NOT NULL COMMENT '主键',
   `service_provider_id` bigint(50) NOT NULL COMMENT '服务商ID',
   `maker_rules` varchar(500) NOT NULL DEFAULT '' COMMENT '个人创客规则要求',
@@ -1891,7 +1874,7 @@ CREATE TABLE `diyi_service_provider_rules` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务商-业务合规要求表';
 
 -- ----------------------------
--- Records of diyi_service_provider_rules
+-- Records of diyi_service_provider_rule
 -- ----------------------------
 
 -- ----------------------------

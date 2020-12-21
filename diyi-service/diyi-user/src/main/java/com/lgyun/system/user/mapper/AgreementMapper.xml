@@ -10,14 +10,12 @@
         <result property="agreementId" column="agreement_id"/>
         <result property="agreementNo" column="agreement_no"/>
         <result property="serviceProviderName" column="service_provider_name"/>
-        <result property="firstSideSignPerson" column="first_side_sign_person"/>
-        <result property="onlineAgreementUrl" column="online_agreement_url"/>
-        <result property="paperAgreementUrl" column="paper_agreement_url"/>
+        <result property="agreementUrl" column="agreement_url"/>
         <result property="signState" column="sign_state"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <resultMap id="AgreementMakerWebVOMap" type="com.lgyun.system.user.vo.AgreementMakerWebVO">
+    <resultMap id="agreementMakerWebVOMap" type="com.lgyun.system.user.vo.AgreementMakerWebVO">
         <result property="makerEnterpriseId" column="maker_enterprise_id"/>
         <result property="makerId" column="maker_id"/>
         <result property="enterpriseId" column="enterprise_id"/>
@@ -25,21 +23,19 @@
         <result property="idcardNo" column="idcard_no"/>
         <result property="bankCardNo" column="bank_card_no"/>
         <result property="bankCardVerifyStatus" column="bank_card_verify_status"/>
-        <result property="onlineAgreementUrl" column="online_agreement_url"/>
-        <result property="paperAgreementUrl" column="paper_agreement_url"/>
+        <result property="agreementUrl" column="agreement_url"/>
         <result property="signState" column="sign_state"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <resultMap id="EnterpriseMakerAgreementVOMap" type="com.lgyun.system.user.vo.EnterpriseMakerAgreementVO">
+    <resultMap id="enterpriseMakerAgreementVOMap" type="com.lgyun.system.user.vo.EnterpriseMakerAgreementVO">
         <result property="agreementId" column="agreement_id"/>
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="enterpriseId" column="enterprise_id"/>
         <result property="agreementNo" column="agreement_no"/>
         <result property="name" column="name"/>
         <result property="signType" column="sign_type"/>
-        <result property="paperAgreementUrl" column="paper_agreement_url"/>
-        <result property="onlineAgreementUrl" column="online_agreement_url"/>
+        <result property="agreementUrl" column="agreement_url"/>
         <result property="signState" column="sign_state"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
@@ -53,8 +49,7 @@
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="makerName" column="maker_name"/>
         <result property="enterpriseName" column="enterprise_name"/>
-        <result property="paperAgreementUrl" column="paper_agreement_url"/>
-        <result property="onlineAgreementUrl" column="online_agreement_url"/>
+        <result property="agreementUrl" column="agreement_url"/>
         <result property="signState" column="sign_state"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
@@ -66,8 +61,7 @@
         <result property="agreementNo" column="agreement_no"/>
         <result property="makerName" column="maker_name"/>
         <result property="enterpriseName" column="enterprise_name"/>
-        <result property="onlineAgreementUrl" column="online_agreement_url"/>
-        <result property="paperAgreementUrl" column="paper_agreement_url"/>
+        <result property="agreementUrl" column="agreement_url"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
 
@@ -102,162 +96,173 @@
         <result property="serviceProviderState" column="service_provider_state"/>
     </resultMap>
 
-    <select id="selectServiceAgreement" resultMap="agreementWebVOMap">
-        SELECT ep.id AS enterprise_provider_id, ep.enterprise_id, ep.service_provider_id, a.id AS agreement_id, a.agreement_no,a.paper_agreement_url,
-        sp.service_provider_name, a.first_side_sign_person, a.online_agreement_url, a.sign_state, a.create_time FROM diyi_enterprise_service_provider ep INNER JOIN
+    <select id="queryServiceProviderAgreement" resultMap="agreementWebVOMap">
+        SELECT ep.id AS enterprise_provider_id, ep.enterprise_id, ep.service_provider_id, a.id AS agreement_id, a.agreement_no, a.agreement_url,
+        sp.service_provider_name, a.sign_state, a.create_time FROM diyi_enterprise_service_provider ep INNER JOIN
         diyi_service_provider sp ON sp.id = ep.service_provider_id INNER JOIN diyi_agreement a ON sp.id = a.service_provider_id WHERE
-        sp.bool_deleted = 0 AND a.bool_deleted = 0 AND ep.bool_deleted = 0  and ep.enterprise_id =#{param1}
-        <if test="param2 != null and param2 != ''">
-            and sp.service_provider_name LIKE concat('%', #{param2}, '%')
-        </if>
+        sp.bool_deleted = 0 AND a.bool_deleted = 0 AND ep.bool_deleted = 0 AND a.valid_state = 'VALIDING'
+        AND ((a.party_a = 'SERVICEPEOPLE' AND a.party_a_id = ep.service_provider_id) OR (a.party_b = 'SERVICEPEOPLE' AND a.party_b_id = ep.service_provider_id))
+        AND ep.enterprise_id = #{param1} AND a.agreement_type = #{param2}
         <if test="param3 != null and param3 != ''">
-            and a.agreement_no LIKE concat('%', #{param3}, '%')
+            AND sp.service_provider_name LIKE concat('%', #{param3}, '%')
         </if>
-         AND a.agreement_type =#{param4}
-    </select>
-
-    <select id="selectServiceSupplementaryAgreement" resultMap="agreementWebVOMap">
-        SELECT ep.id AS enterprise_provider_id, ep.enterprise_id, ep.service_provider_id, a.id AS agreement_id, a.agreement_no,a.paper_agreement_url,
-        sp.service_provider_name, a.first_side_sign_person, a.online_agreement_url, a.sign_state, a.create_time FROM diyi_enterprise_service_provider ep
-        INNER JOIN diyi_service_provider sp ON sp.id = ep.service_provider_id INNER JOIN diyi_agreement a ON sp.id = a.service_provider_id WHERE
-        sp.bool_deleted = 0 AND a.bool_deleted = 0 AND ep.bool_deleted = 0  and ep.enterprise_id =#{param1}
-        <if test="param2 != null and param2 != ''">
-            and sp.service_provider_name LIKE concat('%', #{param2}, '%')
+        <if test="param4 != null and param4 != ''">
+            AND a.agreement_no LIKE concat('%', #{param4}, '%')
         </if>
-        <if test="param3 != null and param3 != ''">
-            and a.agreement_no LIKE concat('%', #{param3}, '%')
-        </if>
-        and (a.sign_type ='PLATFORMAGREEMENT' OR a.sign_type = 'PAPERAGREEMENT') AND a.agreement_type =#{param4}
     </select>
 
-    <select id="selectMakerAgreement" resultMap="AgreementMakerWebVOMap">
-        SELECT em.id AS maker_enterprise_id, m.id AS maker_id, e.id AS enterprise_id, m.phone_number, m. NAME, m.idcard_no, a.paper_agreement_url, m.bank_card_no,
-        m.bank_card_verify_status, a.online_agreement_url, a.sign_state, a.create_time FROM diyi_maker_enterprise em INNER JOIN diyi_maker m ON em.maker_id = m.id
-        INNER JOIN diyi_enterprise e ON e.id = em.enterprise_id INNER JOIN diyi_agreement a ON a.maker_id = m.id WHERE em.enterprise_id =#{param1} AND em.bool_deleted = 0
-        AND m.bool_deleted = 0 AND e.bool_deleted = 0 AND a.bool_deleted = 0 AND agreement_type = 'MAKERJOINAGREEMENT'
+    <select id="queryMakerAgreement" resultMap="agreementMakerWebVOMap">
+        SELECT em.id AS maker_enterprise_id, m.id AS maker_id, e.id AS enterprise_id, m.phone_number, m.name, m.idcard_no, a.agreement_url, m.bank_card_no,
+        m.bank_card_verify_status, a.sign_state, a.create_time FROM diyi_maker_enterprise em INNER JOIN diyi_maker m ON em.maker_id = m.id
+        INNER JOIN diyi_enterprise e ON e.id = em.enterprise_id INNER JOIN diyi_agreement a ON a.party_b_id = m.id WHERE em.bool_deleted = 0
+        AND m.bool_deleted = 0 AND e.bool_deleted = 0 AND a.bool_deleted = 0 AND agreement_type = 'MAKERJOINAGREEMENT' AND a.valid_state = 'VALIDING'
+        AND a.party_b = 'MAKERPEOPLE' AND em.enterprise_id = #{param1}
     </select>
 
-    <select id="selectEnterpriseMakerAgreement" resultMap="EnterpriseMakerAgreementVOMap">
-        SELECT a.id AS agreement_id, e.enterprise_name, e.id AS enterprise_id, a.agreement_no, m.name, a.sign_type, a.paper_agreement_url, a.online_agreement_url,
-        a.sign_state, a.create_time FROM diyi_agreement a INNER JOIN diyi_enterprise e ON a.enterprise_id = e.id LEFT JOIN diyi_maker m ON m.id = a.maker_id
-        AND m.bool_deleted = 0 WHERE a.bool_deleted = 0 AND e.bool_deleted = 0 AND a.agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' AND a.enterprise_id = #{param1}
+    <select id="queryEnterpriseMakerSupplementaryAgreement" resultMap="enterpriseMakerAgreementVOMap">
+        SELECT a.id AS agreement_id, e.enterprise_name, e.id AS enterprise_id, a.agreement_no, m.name, a.sign_type, a.agreement_url,
+        a.sign_state, a.create_time FROM diyi_agreement a INNER JOIN diyi_enterprise e ON a.party_a_id = e.id LEFT JOIN diyi_maker m ON m.id = a.party_b_id
+        AND m.bool_deleted = 0 WHERE a.bool_deleted = 0 AND e.bool_deleted = 0 AND a.agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' AND a.valid_state = 'VALIDING'
+        AND a.party_a = 'ENTERPRISEPEOPLE' AND a.party_b = 'MAKERPEOPLE' AND a.enterprise_id = #{param1}
     </select>
-
 
     <select id="findSeriveAgreement" resultMap="agreementServiceVOMap">
-        SELECT a.id AS agreement_id, s.id AS service_provider_id, a.agreement_no, a.sign_type, a.agreement_type, s.service_provider_name, a.online_agreement_url,0 as maker_name,
-        a.paper_agreement_url, a.create_time, a.sign_state FROM diyi_agreement a INNER JOIN diyi_service_provider s ON a.service_provider_id = s.id
-        WHERE a.agreement_type = 'SERVICEPROVIDERJOINAGREEMENT'
-       <if test="param1 != null and param1 !=''">
-           and a.agreement_no LIKE concat('%', #{param1}, '%')
+        SELECT a.id AS agreement_id, s.id AS service_provider_id, a.agreement_no, a.sign_type, a.agreement_type, s.service_provider_name, a.agreement_url,
+        a.create_time, a.sign_state FROM diyi_agreement a INNER JOIN diyi_service_provider s ON a.party_b_id = s.id
+        WHERE a.agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' AND a.valid_state = 'VALIDING' AND a.party_b = 'SERVICEPEOPLE' AND s.id = #{param1}
+       <if test="param2 != null and param2 !=''">
+           AND a.agreement_no LIKE concat('%', #{param2}, '%')
        </if>
-        and s.id = #{param2}
     </select>
 
     <select id="findMakerAgreement" resultMap="agreementServiceVOMap">
-        SELECT a.id AS agreement_id,m.name as maker_name, s.id AS service_provider_id, a.agreement_no, a.sign_type, a.agreement_type,
-        s.service_provider_name, a.online_agreement_url, a.paper_agreement_url, a.create_time, a.sign_state FROM diyi_agreement a INNER JOIN diyi_maker m
-        ON a.maker_id = m.id INNER JOIN diyi_service_provider_maker pa ON pa.maker_id = m.id INNER JOIN diyi_service_provider s ON pa.service_provider_id = s.id
-        WHERE a.agreement_type = 'MAKERJOINAGREEMENT'
-        <if test="param1 != null and param1 !=''">
-            and a.agreement_no LIKE concat('%', #{param1}, '%')
+        SELECT DISTINCT a.id AS agreement_id, m.name as maker_name, s.id AS service_provider_id, a.agreement_no, a.sign_type, a.agreement_type,
+        s.service_provider_name, a.agreement_url, a.create_time, a.sign_state FROM diyi_agreement a INNER JOIN diyi_maker m
+        ON a.party_b_id = m.id INNER JOIN diyi_service_provider_maker pa ON pa.maker_id = m.id INNER JOIN diyi_service_provider s ON pa.service_provider_id = s.id
+        WHERE a.agreement_type = 'MAKERJOINAGREEMENT' AND a.valid_state = 'VALIDING' AND a.party_b = 'MAKERPEOPLE' AND pa.service_provider_id = #{param1}
+        <if test="param2 != null and param2 !=''">
+            and a.agreement_no LIKE concat('%', #{param2}, '%')
         </if>
         <if test="param3 != null and param3 !=''">
             and m.name LIKE concat('%', #{param3}, '%')
         </if>
-        AND pa.service_provider_id = #{param2}
     </select>
 
     <select id="findEnterpriseAgreement" resultMap="agreementServiceVOMap">
-        SELECT a.id AS agreement_id, s.id AS service_provider_id,e.enterprise_name, a.agreement_no, a.sign_type, a.agreement_type, s.service_provider_name,0 as maker_name,
-        a.online_agreement_url, a.paper_agreement_url, a.create_time, a.sign_state FROM diyi_agreement a INNER JOIN diyi_enterprise e
-        ON a.enterprise_id = e.id INNER JOIN diyi_enterprise_service_provider ep ON ep.enterprise_id = e.id INNER JOIN diyi_service_provider s
-        ON ep.service_provider_id = s.id WHERE a.agreement_type = 'ENTERPRISEJOINAGREEMENT'
-        <if test="param1 != null and param1 !=''">
-            and a.agreement_no LIKE concat('%', #{param1}, '%')
+        SELECT a.id AS agreement_id, s.id AS service_provider_id, e.enterprise_name, a.agreement_no, a.sign_type, a.agreement_type, s.service_provider_name,
+        a.agreement_url, a.create_time, a.sign_state FROM diyi_agreement a INNER JOIN diyi_enterprise e
+        ON a.party_b_id = e.id INNER JOIN diyi_enterprise_service_provider ep ON ep.enterprise_id = e.id INNER JOIN diyi_service_provider s
+        ON ep.service_provider_id = s.id WHERE a.agreement_type = 'ENTERPRISEJOINAGREEMENT' AND a.valid_state = 'VALIDING' AND a.party_b = 'ENTERPRISEPEOPLE'
+        AND a.party_a = 'SERVICEPEOPLE' AND a.party_a_id = s.id AND s.id = #{param1}
+        <if test="param2 != null and param2 !=''">
+            and a.agreement_no LIKE concat('%', #{param2}, '%')
         </if>
         <if test="param3 != null and param3 !=''">
             and e.enterprise_name LIKE concat('%', #{param3}, '%')
         </if>
-        AND s.id = #{param2}
     </select>
 
     <select id="findEnterpriseSupplement" resultMap="agreementServiceVOMap">
-        SELECT a.id AS agreement_id, s.id AS service_provider_id,e.enterprise_name, a.agreement_no, a.sign_type, a.agreement_type, s.service_provider_name,0 as maker_name,
-        a.online_agreement_url, a.paper_agreement_url, a.create_time, a.sign_state FROM diyi_agreement a INNER JOIN diyi_enterprise e
-        ON a.enterprise_id = e.id INNER JOIN diyi_enterprise_service_provider ep ON ep.enterprise_id = e.id INNER JOIN diyi_service_provider s
-        ON ep.service_provider_id = s.id WHERE a.agreement_type = 'SERENTSUPPLEMENTARYAGREEMENT'
-        <if test="param1 != null and param1 !=''">
-            and a.agreement_no LIKE concat('%', #{param1}, '%')
+        SELECT a.id AS agreement_id, s.id AS service_provider_id, e.enterprise_name, a.agreement_no, a.sign_type, a.agreement_type, s.service_provider_name,
+        a.agreement_url, a.create_time, a.sign_state FROM diyi_agreement a INNER JOIN diyi_enterprise e
+        ON a.party_b_id = e.id INNER JOIN diyi_enterprise_service_provider ep ON ep.enterprise_id = e.id INNER JOIN diyi_service_provider s
+        ON ep.service_provider_id = s.id WHERE a.agreement_type = 'SERENTSUPPLEMENTARYAGREEMENT' AND a.valid_state = 'VALIDING' AND a.party_b = 'ENTERPRISEPEOPLE'
+        AND a.party_a = 'SERVICEPEOPLE' AND a.party_a_id = s.id AND s.id = #{param1}
+        <if test="param2 != null and param2 !=''">
+            and a.agreement_no LIKE concat('%', #{param2}, '%')
         </if>
         <if test="param3 != null and param3 !=''">
             and e.enterprise_name LIKE concat('%', #{param3}, '%')
         </if>
-        AND s.id = #{param2}
     </select>
 
-
     <select id="findEnterprisePromise" resultMap="agreementServiceVOMap">
-        SELECT a.id AS agreement_id, s.id AS service_provider_id,e.enterprise_name, a.agreement_no, a.sign_type, a.agreement_type, s.service_provider_name,0 as maker_name,
-        a.online_agreement_url, a.paper_agreement_url, a.create_time, a.sign_state FROM diyi_agreement a INNER JOIN diyi_enterprise e
-        ON a.enterprise_id = e.id INNER JOIN diyi_enterprise_service_provider ep ON ep.enterprise_id = e.id INNER JOIN diyi_service_provider s
-        ON ep.service_provider_id = s.id WHERE a.agreement_type = 'ENTERPRISEPROMISE'
-        <if test="param1 != null and param1 !=''">
-            and a.agreement_no LIKE concat('%', #{param1}, '%')
+        SELECT a.id AS agreement_id, s.id AS service_provider_id,e.enterprise_name, a.agreement_no, a.sign_type, a.agreement_type, s.service_provider_name,
+        a.agreement_url, a.create_time, a.sign_state FROM diyi_agreement a INNER JOIN diyi_enterprise e
+        ON a.party_b_id = e.id INNER JOIN diyi_enterprise_service_provider ep ON ep.enterprise_id = e.id INNER JOIN diyi_service_provider s
+        ON ep.service_provider_id = s.id WHERE a.agreement_type = 'ENTERPRISEPROMISE' AND a.valid_state = 'VALIDING' AND a.party_b = 'ENTERPRISEPEOPLE'
+        AND s.id = #{param1}
+        <if test="param2 != null and param2 !=''">
+            AND a.agreement_no LIKE concat('%', #{param2}, '%')
         </if>
         <if test="param3 != null and param3 !=''">
-            and e.enterprise_name LIKE concat('%', #{param3}, '%')
+            AND e.enterprise_name LIKE concat('%', #{param3}, '%')
         </if>
-        AND s.id = #{param2}
     </select>
 
     <select id="queryMakerAgreementState" resultMap="agreementMakerStateAdminVOMap">
-        SELECT m.id maker_id,m.avatar,m.maker_state, m.certification_state, m.name, m.video_audit, ( SELECT IF (COUNT(*) > 0, 1, 0) FROM diyi_agreement a WHERE a.maker_id = m.id AND a.agreement_type = 'MAKERJOINAGREEMENT' ) AS maker_join_agreement, ( SELECT COUNT(*) FROM diyi_agreement a WHERE a.maker_id = m.id AND a.agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' ) AS ent_mak_supplementary_agreement, ( SELECT IF (COUNT(*) > 0, 1, 0) FROM diyi_agreement a WHERE a.maker_id = m.id AND a.agreement_type = 'MAKERPOWERATTORNEY' ) AS maker_power_attorney FROM diyi_maker m
-        where 1=1
+        SELECT m.id maker_id,m.avatar,m.maker_state, m.certification_state, m.name, m.video_audit, (SELECT IF (COUNT(*) > 0, 1, 0) FROM diyi_agreement a
+        WHERE a.party_b_id = m.id AND a.agreement_type = 'MAKERJOINAGREEMENT' AND a.valid_state = 'VALIDING' AND a.party_b = 'MAKERPEOPLE') AS maker_join_agreement, (SELECT COUNT(*) FROM diyi_agreement a WHERE a.party_b_id = m.id
+        AND a.agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' AND a.valid_state = 'VALIDING' AND a.party_b = 'MAKERPEOPLE') AS ent_mak_supplementary_agreement, (SELECT IF (COUNT(*) > 0, 1, 0) FROM diyi_agreement a
+        WHERE a.party_b_id = m.id AND a.agreement_type = 'MAKERPOWERATTORNEY' AND a.valid_state = 'VALIDING' AND a.party_b = 'MAKERPEOPLE') AS maker_power_attorney FROM diyi_maker m where m.bool_deleted = 0
         <if test="param1 != null and param1 !=''">
-            and m.name LIKE concat('%', #{param1}, '%')
+            AND m.name LIKE concat('%', #{param1}, '%')
         </if>
     </select>
 
-    <select id="queryMakerIdSupplement" resultMap="agreementMakerEnterAdminMap">
-        SELECT a.id AS agreement_id, a.agreement_no, a.maker_id, a.enterprise_id, m. NAME AS maker_name, e.enterprise_name, a.online_agreement_url, a.paper_agreement_url, a.create_time FROM diyi_agreement a INNER JOIN diyi_maker m ON m.id = a.maker_id INNER JOIN diyi_enterprise e ON e.id = a.enterprise_id WHERE a.agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' AND sign_state = 'SIGNED' AND audit_state = 'APPROVED'
-            <if test="param1 != null">
-                 and a.maker_id = #{param1}
-            </if>
-            <if test="param2 != null">
-                and a.enterprise_id = #{param2}
-            </if>
+    <select id="queryEnterpriseMakerSupplement" resultMap="agreementMakerEnterAdminMap">
+        SELECT a.id AS agreement_id, a.agreement_no, a.agreement_url, a.create_time
+        <if test="param1 != null">
+             , e.id AS enterprise_id, e.enterprise_name
+        </if>
+        <if test="param2 != null">
+             , m.id AS maker_id, m.name AS maker_name
+        </if>
+        FROM diyi_agreement a
+        <if test="param1 != null">
+             INNER JOIN diyi_enterprise e ON e.id = a.party_a_id AND a.party_a = 'ENTERPRISEPEOPLE' AND e.id = #{param1}
+        </if>
+        <if test="param2 != null">
+             INNER JOIN diyi_maker m ON m.id = a.party_b_id AND a.party_b = 'MAKERPEOPLE' AND m.id = #{param2}
+        </if>
+        WHERE a.agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' AND a.valid_state = 'VALIDING'
     </select>
 
     <select id="queryEnterpriseAgreementState" resultMap="agreementEnterpriseStateAdminVOMap">
-        SELECT e.id AS enterprise_id,e.enterprise_state, e.enterprise_name, ( SELECT IF (count(*) > 0, 1, 0) FROM diyi_agreement a WHERE a.enterprise_id = e.id AND a.agreement_type = 'ENTERPRISEJOINAGREEMENT' ) AS enterprise_join_agreement, ( SELECT IF (count(*) > 0, 1, 0) FROM diyi_agreement a WHERE a.enterprise_id = e.id AND a.agreement_type = 'ENTERPRISEPRICEAGREEMENT' ) AS enterprise_price_agreement, ( SELECT count(*) FROM diyi_agreement a WHERE a.enterprise_id = e.id AND a.agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' ) AS ent_mak_supplementary_agreement, ( SELECT count(*) FROM diyi_agreement a WHERE a.enterprise_id = e.id AND a.agreement_type = 'SERENTSUPPLEMENTARYAGREEMENT' ) AS ser_ent_supplementary_agreement, ( SELECT IF (count(*) > 0, 1, 0) FROM diyi_agreement a WHERE a.enterprise_id = e.id AND a.agreement_type = 'ENTERPRISEPROMISE' ) AS enterprise_promise FROM diyi_enterprise e
-        where 1=1
+        SELECT e.id AS enterprise_id,e.enterprise_state, e.enterprise_name, (SELECT IF(count(*) > 0, 1, 0) FROM diyi_agreement a WHERE a.party_b_id = e.id
+        AND a.agreement_type = 'ENTERPRISEJOINAGREEMENT' AND a.valid_state = 'VALIDING' AND a.party_b = 'ENTERPRISEPEOPLE') AS enterprise_join_agreement,
+        (SELECT IF(count(*) > 0, 1, 0) FROM diyi_agreement a WHERE a.party_b_id = e.id AND a.agreement_type = 'ENTERPRISEPRICEAGREEMENT' AND a.valid_state = 'VALIDING'
+        AND a.party_b = 'ENTERPRISEPEOPLE') AS enterprise_price_agreement, (SELECT count(*) FROM diyi_agreement a WHERE a.party_a_id = e.id
+        AND a.agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' AND a.valid_state = 'VALIDING' AND a.party_a = 'ENTERPRISEPEOPLE') AS ent_mak_supplementary_agreement,
+        (SELECT count(*) FROM diyi_agreement a WHERE a.party_b_id = e.id AND a.agreement_type = 'SERENTSUPPLEMENTARYAGREEMENT' AND a.valid_state = 'VALIDING'
+        AND a.party_b = 'ENTERPRISEPEOPLE') AS ser_ent_supplementary_agreement, (SELECT IF(count(*) > 0, 1, 0) FROM diyi_agreement a WHERE a.party_b_id = e.id
+        AND a.agreement_type = 'ENTERPRISEPROMISE' AND a.valid_state = 'VALIDING' AND a.party_b = 'ENTERPRISEPEOPLE') AS enterprise_promise FROM diyi_enterprise e
+        WHERE e.bool_deleted = 0
         <if test="param1 != null and param1 !=''">
-            and e.enterprise_name LIKE concat('%', #{param1}, '%')
+            AND e.enterprise_name LIKE concat('%', #{param1}, '%')
         </if>
     </select>
 
-    <select id="queryEnterIdServiceSupplement" resultMap="agreementServiceVOMap">
-        SELECT a.id AS agreement_id, s.id AS service_provider_id, e.enterprise_name, a.agreement_no, a.sign_type, a.agreement_type, s.service_provider_name, 0 AS maker_name, a.online_agreement_url, a.paper_agreement_url, a.create_time, a.sign_state, e.id FROM diyi_agreement a INNER JOIN diyi_enterprise e ON a.enterprise_id = e.id INNER JOIN diyi_service_provider s ON s.id = a.service_provider_id WHERE a.agreement_type = 'SERENTSUPPLEMENTARYAGREEMENT'
+    <select id="queryEnterpriseServiceProviderSupplement" resultMap="agreementServiceVOMap">
+        SELECT a.id AS agreement_id, s.id AS service_provider_id, e.enterprise_name, a.agreement_no, a.sign_type, a.agreement_type, s.service_provider_name,
+        a.agreement_url, a.create_time, a.sign_state, e.id FROM diyi_agreement a
         <if test="param1 != null">
-            AND e.id = #{param1}
+            INNER JOIN diyi_service_provider s ON a.party_a_id = s.id AND a.party_a = 'SERVICEPEOPLE' AND s.id = #{param1}
         </if>
         <if test="param2 != null">
-            AND s.id = #{param2}
+            INNER JOIN diyi_enterprise e ON a.party_b_id = e.id AND a.party_b = 'ENTERPRISEPEOPLE' AND e.id = #{param2}
         </if>
+        WHERE a.agreement_type = 'SERENTSUPPLEMENTARYAGREEMENT' AND a.valid_state = 'VALIDING'
     </select>
 
     <select id="queryEnterIdPromise" resultMap="agreementServiceVOMap">
-        SELECT a.id AS agreement_id, 0 AS service_provider_id, e.enterprise_name, a.agreement_no, a.sign_type, a.agreement_type, 0 service_provider_name, 0 AS maker_name, a.online_agreement_url, a.paper_agreement_url, a.create_time, a.sign_state FROM diyi_agreement a INNER JOIN diyi_enterprise e ON a.enterprise_id = e.id WHERE a.agreement_type = 'ENTERPRISEPROMISE'
-        AND e.id = #{param1}
+        SELECT a.id AS agreement_id, 0 AS service_provider_id, e.enterprise_name, a.agreement_no, a.sign_type, a.agreement_type,
+        a.agreement_url, a.create_time, a.sign_state FROM diyi_agreement a INNER JOIN diyi_enterprise e ON a.party_b_id = e.id
+        WHERE a.agreement_type = 'ENTERPRISEPROMISE' AND a.valid_state = 'VALIDING' AND a.party_b = 'ENTERPRISEPEOPLE' AND e.id = #{param1}
     </select>
 
     <select id="queryServiceAgreementState" resultMap="agreementServiceStateAdminVOMap">
-        SELECT s.id service_provider_id,s.service_provider_state, s.service_provider_name, ( SELECT IF (count(*) > 0, 1, 0) FROM diyi_agreement a WHERE a.service_provider_id = s.id AND a.agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' ) AS service_provider_join_agreement, ( SELECT count(*) FROM diyi_agreement a WHERE a.service_provider_id = s.id AND a.agreement_type = 'SERENTSUPPLEMENTARYAGREEMENT' ) AS ser_ent_supplementary_agreement FROM diyi_service_provider s
-        where 1=1
+        SELECT s.id service_provider_id, s.service_provider_state, s.service_provider_name, (SELECT IF (count(*) > 0, 1, 0) FROM diyi_agreement a WHERE a.party_b_id = s.id
+        AND a.agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' AND a.valid_state = 'VALIDING' AND a.party_b = 'SERVICEPEOPLE') AS service_provider_join_agreement,
+        (SELECT count(*) FROM diyi_agreement a WHERE a.party_a_id = s.id AND a.bool_deleted = 0 AND a.agreement_type = 'SERENTSUPPLEMENTARYAGREEMENT'
+        AND a.valid_state = 'VALIDING' AND a.party_a = 'SERVICEPEOPLE') AS ser_ent_supplementary_agreement FROM diyi_service_provider s where s.bool_deleted = 0
         <if test="param1 != null and param1 !=''">
-             and s.service_provider_name LIKE concat('%', #{param1}, '%')
+             AND s.service_provider_name LIKE concat('%', #{param1}, '%')
         </if>
+    </select>
+
+    <select id="queryOnlineAgreementUrl" resultType="java.lang.String">
+        SELECT agreement_url FROM diyi_agreement WHERE bool_deleted = 0 AND id = #{param1} LIMIT 1
     </select>
 
 </mapper>

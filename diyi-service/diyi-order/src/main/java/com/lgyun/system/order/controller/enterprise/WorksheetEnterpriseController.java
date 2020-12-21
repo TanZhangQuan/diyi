@@ -1,6 +1,7 @@
 package com.lgyun.system.order.controller.enterprise;
 
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
@@ -71,7 +72,8 @@ public class WorksheetEnterpriseController {
         }
 
         worksheetService.removeById(worksheetId);
-        return R.success("删除成功");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @GetMapping("query-worksheet-detail")

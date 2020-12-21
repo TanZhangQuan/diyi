@@ -84,6 +84,7 @@ public class YunTongXunSmsUtil {
             }
 
             redisUtil.set(cacheKey, (maxNum + 1), time);
+
             return R.success("验证码发送成功");
         } else {
             //异常返回输出错误码和错误信息

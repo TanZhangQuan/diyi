@@ -16,14 +16,14 @@ public interface IOnlineSignPicService extends BaseService<OnlineSignPicEntity> 
     /**
      * 确认签字
      *
-     * @param ObjectId
+     * @param objectId
      * @param objectType
      * @param signPic
      * @param onlineAgreementTemplateId
      * @param onlineAgreementNeedSignId
      * @return
      */
-    R<String> saveOnlineSignPic(Long ObjectId, ObjectType objectType, String signPic, Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId);
+    R<String> saveOnlineSignPic(Long objectId, ObjectType objectType, String signPic, Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId);
 
 }
 

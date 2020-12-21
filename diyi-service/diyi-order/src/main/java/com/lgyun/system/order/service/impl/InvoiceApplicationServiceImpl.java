@@ -1,15 +1,17 @@
 package com.lgyun.system.order.service.impl;
 
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.dto.ContractApplyInvoiceDTO;
 import com.lgyun.system.order.entity.InvoiceApplicationEntity;
 import com.lgyun.system.order.entity.InvoiceApplicationPayListEntity;
 import com.lgyun.system.order.entity.PayEnterpriseEntity;
 import com.lgyun.system.order.mapper.InvoiceApplicationMapper;
-import com.lgyun.system.order.service.*;
+import com.lgyun.system.order.service.IInvoiceApplicationPayListService;
+import com.lgyun.system.order.service.IInvoiceApplicationService;
+import com.lgyun.system.order.service.IPayEnterpriseService;
 import com.lgyun.system.order.vo.ApplicationVO;
-import com.lgyun.system.user.feign.IUserClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,7 +33,6 @@ import java.util.List;
 public class InvoiceApplicationServiceImpl extends BaseServiceImpl<InvoiceApplicationMapper, InvoiceApplicationEntity> implements IInvoiceApplicationService {
 
     private IInvoiceApplicationPayListService iInvoiceApplicationPayListService;
-    private IUserClient iUserClient;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -48,22 +49,29 @@ public class InvoiceApplicationServiceImpl extends BaseServiceImpl<InvoiceApplic
                 return R.fail("申请记录已存在，请耐心等候");
             }
         }
-        PayEnterpriseEntity payEnterpriseEntity = payEnterpriseService.getById(Long.parseLong(split[0]));
+
+        PayEnterpriseEntity firstPayEnterpriseEntity = payEnterpriseService.getById(Long.parseLong(split[0]));
+        if (firstPayEnterpriseEntity == null){
+            return R.fail("总包支付清单不存在");
+        }
+
+        BigDecimal voiceTotalAmount = firstPayEnterpriseEntity.getTotalMakerNetIncome();
         for (int i = 1; i < split.length; i++) {
-            PayEnterpriseEntity byId1 = payEnterpriseService.getById(Long.parseLong(split[i]));
-            if (!(payEnterpriseEntity.getEnterpriseId().equals(byId1.getEnterpriseId())) || !(payEnterpriseEntity.getServiceProviderId().equals(byId1.getServiceProviderId()))) {
+            PayEnterpriseEntity payEnterpriseEntity = payEnterpriseService.getById(Long.parseLong(split[i]));
+            if (payEnterpriseEntity == null){
+                return R.fail("总包支付清单不存在");
+            }
+
+            if (!(firstPayEnterpriseEntity.getEnterpriseId().equals(payEnterpriseEntity.getEnterpriseId())) || !(firstPayEnterpriseEntity.getServiceProviderId().equals(payEnterpriseEntity.getServiceProviderId()))) {
                 return R.fail("请选择的服务商和商户相同的支付清单合并开票");
             }
+
+            voiceTotalAmount = voiceTotalAmount.subtract(payEnterpriseEntity.getTotalMakerNetIncome());
         }
         InvoiceApplicationEntity invoiceApplicationEntity = new InvoiceApplicationEntity();
         invoiceApplicationEntity.setApplicationDesc(contractApplyInvoiceDto.getApplicationDesc());
         invoiceApplicationEntity.setInvoiceCatalogId(contractApplyInvoiceDto.getInvoiceCatalogId());
         invoiceApplicationEntity.setApplicationDate(new Date());
-        BigDecimal voiceTotalAmount = BigDecimal.ZERO;
-        for (int i = 0; i < split.length; i++) {
-            PayEnterpriseEntity byId = payEnterpriseService.getById(Long.parseLong(split[i]));
-            voiceTotalAmount = voiceTotalAmount.subtract(byId.getTotalMakerNetIncome());
-        }
         invoiceApplicationEntity.setVoiceTotalAmount(voiceTotalAmount);
         save(invoiceApplicationEntity);
         for (int i = 0; i < split.length; i++) {
@@ -72,6 +80,7 @@ public class InvoiceApplicationServiceImpl extends BaseServiceImpl<InvoiceApplic
             invoiceApplicationPayListEntity.setApplicationId(invoiceApplicationEntity.getId());
             iInvoiceApplicationPayListService.save(invoiceApplicationPayListEntity);
         }
-        return R.success("申请成功");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 }

@@ -130,7 +130,7 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
         agentMainWorkerEntity.setAgentMainId(AgentMainEntity.getId());
         agentMainWorkerService.save(agentMainWorkerEntity);
 
-        return R.success("新建渠道商成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -199,7 +199,7 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
         BeanUtil.copy(updateAgentMainDTO, agentMainWorkerEntity);
         agentMainWorkerService.updateById(agentMainWorkerEntity);
 
-        return R.success("编辑渠道商成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -224,7 +224,7 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
         agentMainEntity.setEnterpriseUrl(enterpriseUrl);
         updateById(agentMainEntity);
 
-        return R.success("编辑成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -243,7 +243,7 @@ public class AgentMainServiceImpl extends BaseServiceImpl<AgentMainMapper, Agent
         BeanUtil.copyProperties(contactsInfoDTO, agentMainEntity);
         updateById(agentMainEntity);
 
-        return R.success("编辑联系人成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override

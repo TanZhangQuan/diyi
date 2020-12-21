@@ -34,6 +34,7 @@ public class UserClient implements IUserClient {
     private IServiceProviderService serviceProviderService;
     private IIndividualBusinessService individualBusinessService;
     private IIndividualEnterpriseService individualEnterpriseService;
+    private IServiceProviderRulesService serviceProviderRulesService;
     private IServiceProviderWorkerService serviceProviderWorkerService;
     private IEnterpriseServiceProviderService enterpriseServiceProviderService;
 
@@ -717,13 +718,28 @@ public class UserClient implements IUserClient {
     }
 
     @Override
-    public ServiceProviderEntity queryServiceProviderById(Long serviceProviderId) {
-        return serviceProviderService.getById(serviceProviderId);
+    public int queryServiceProviderCountById(Long serviceProviderId) {
+        return serviceProviderService.queryCountById(serviceProviderId);
     }
 
     @Override
-    public int queryEntMakSupplementaryAgreementNum(Long makerId, Long enterpriseId) {
-        return agreementService.queryEntMakSupplementaryAgreementNum(makerId, enterpriseId);
+    public int queryEnterpriseCountById(Long enterpriseId) {
+        return enterpriseService.queryCountById(enterpriseId);
+    }
+
+    @Override
+    public int queryValidAgreementNum(ObjectType partyA, Long partyAId, ObjectType partyB, Long partyBId, AgreementType agreementType) {
+        return agreementService.queryValidAgreementNum(partyA, partyAId, partyB, partyBId, agreementType);
+    }
+
+    @Override
+    public R<String> dealMakerRule(Long serviceProviderId, Long makerId) {
+        return serviceProviderRulesService.dealMakerRule(serviceProviderId, makerId);
+    }
+
+    @Override
+    public R<String> dealEnterpriseRule(Long serviceProviderId, Long enterpriseId) {
+        return serviceProviderRulesService.dealEnterpriseRule(serviceProviderId, enterpriseId);
     }
 
 }

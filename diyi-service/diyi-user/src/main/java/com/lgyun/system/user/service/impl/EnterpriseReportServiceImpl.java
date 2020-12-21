@@ -113,18 +113,19 @@ public class EnterpriseReportServiceImpl extends BaseServiceImpl<EnterpriseRepor
     @Override
     @Transactional(rollbackFor = Exception.class)
     public R toExamineAdminEnterpriseReport(Long enterpriseReportId, Integer toExamine) {
-        EnterpriseReportEntity byId = getById(enterpriseReportId);
+        EnterpriseReportEntity enterpriseReportEntity = getById(enterpriseReportId);
         if (null == toExamine || (toExamine != 1 && toExamine != 2)) {
             return R.fail("审核失败");
         }
         if (toExamine == 1) {
-            byId.setReportState(ReportState.DECLARESUCCESS);
+            enterpriseReportEntity.setReportState(ReportState.DECLARESUCCESS);
         }
         if (toExamine == 2) {
-            byId.setReportState(ReportState.DECLAREFAIL);
+            enterpriseReportEntity.setReportState(ReportState.DECLAREFAIL);
         }
-        saveOrUpdate(byId);
-        return R.success("审核成功");
+        saveOrUpdate(enterpriseReportEntity);
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override

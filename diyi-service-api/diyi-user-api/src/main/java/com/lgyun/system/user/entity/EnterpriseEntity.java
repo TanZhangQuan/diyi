@@ -64,6 +64,11 @@ public class EnterpriseEntity extends BaseEntity {
     private String bizLicenceUrl;
 
     /**
+     * 营业执照副本
+     */
+    private String bizLicenceCopyUrl;
+
+    /**
      * 办公地址(快递地址）
      */
     private String workingAddress;

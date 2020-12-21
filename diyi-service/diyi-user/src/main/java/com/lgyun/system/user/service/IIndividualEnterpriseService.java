@@ -46,7 +46,7 @@ public interface IIndividualEnterpriseService extends BaseService<IndividualEnte
      * @param page
      * @return
      */
-    R<IPage<IndividualBusinessEnterpriseListMakerVO>> queryIndividualEnterpriseListMaker(Long makerId, Long partnerId, Ibstate ibstate, IPage<IndividualBusinessEnterpriseListMakerVO> page);
+    R<IPage<IndividualBusinessEnterpriseListMakerVO>> queryIndividualEnterpriseListMaker(Long partnerId, Ibstate ibstate, Long makerId, IPage<IndividualBusinessEnterpriseListMakerVO> page);
 
     /**
      * 根据ID查询个独详情

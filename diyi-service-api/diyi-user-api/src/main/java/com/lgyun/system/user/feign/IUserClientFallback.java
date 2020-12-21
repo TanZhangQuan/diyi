@@ -1,9 +1,7 @@
 package com.lgyun.system.user.feign;
 
 import com.lgyun.common.api.R;
-import com.lgyun.common.enumeration.CooperateStatus;
-import com.lgyun.common.enumeration.GrantType;
-import com.lgyun.common.enumeration.RelBureauType;
+import com.lgyun.common.enumeration.*;
 import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.system.user.entity.*;
@@ -224,12 +222,27 @@ public class IUserClientFallback implements IUserClient {
     }
 
     @Override
-    public ServiceProviderEntity queryServiceProviderById(Long serviceProviderId) {
+    public int queryServiceProviderCountById(Long serviceProviderId) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 
     @Override
-    public int queryEntMakSupplementaryAgreementNum(Long makerId, Long enterpriseId) {
+    public int queryEnterpriseCountById(Long enterpriseId) {
+        throw new CustomException("网络繁忙，请稍后尝试");
+    }
+
+    @Override
+    public int queryValidAgreementNum(ObjectType partyA, Long partyAId, ObjectType partyB, Long partyBId, AgreementType agreementType) {
+        throw new CustomException("网络繁忙，请稍后尝试");
+    }
+
+    @Override
+    public R<String> dealMakerRule(Long serviceProviderId, Long makerId) {
+        throw new CustomException("网络繁忙，请稍后尝试");
+    }
+
+    @Override
+    public R<String> dealEnterpriseRule(Long serviceProviderId, Long enterpriseId) {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 

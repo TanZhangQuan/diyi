@@ -37,7 +37,7 @@ public class AgreementEntity extends BaseEntity {
     /**
      * 审核状态
      */
-    private AuditState auditState = AuditState.APPROVED;
+    private AuditState auditState = AuditState.EDITING;
 
     /**
      * 签署状态
@@ -47,7 +47,7 @@ public class AgreementEntity extends BaseEntity {
     /**
      * 合同有效性
      */
-    private ValidState validState = ValidState.VALIDING;
+    private ValidState validState = ValidState.TOVALID;
 
     /**
      * 截止日期
@@ -60,34 +60,24 @@ public class AgreementEntity extends BaseEntity {
     private String agreementNo;
 
     /**
-     * 创客ID
+     * 甲方身份
      */
-    private Long makerId;
+    private ObjectType partyA;
 
     /**
-     * 商户ID
+     * 甲方ID
      */
-    private Long enterpriseId;
+    private Long partyAId;
 
     /**
-     * 服务商ID
+     * 乙方身份
      */
-    private Long serviceProviderId;
+    private ObjectType partyB;
 
     /**
-     * 相关局ID
+     * 乙方ID
      */
-    private Long relBureauId;
-
-    /**
-     * 渠道商ID
-     */
-    private Long agentMainId;
-
-    /**
-     * 合伙人ID
-     */
-    private Long partnerId;
+    private Long partyBId;
 
     /**
      * 平台在线协议模板ID
@@ -97,41 +87,6 @@ public class AgreementEntity extends BaseEntity {
     /**
      * 在线协议URL
      */
-    private String onlineAgreementUrl;
-
-    /**
-     * 纸质协议URL
-     */
-    private String paperAgreementUrl;
-
-    /**
-     * 三方在线协议URL
-     */
-    private String thirdOnlineAgreementUrl;
-
-    /**
-     * 纸质协议上传状态
-     */
-    private PaaState paperAgreementUpload;
-
-    /**
-     * 甲方签署人员
-     */
-    private String firstSideSignPerson;
-
-    /**
-     * 乙方签署人员
-     */
-    private String secondSideSignPerson;
-
-    /**
-     * 丙方签署人员
-     */
-    private String thirdSideSignPerson;
-
-    /**
-     * 丁方签署人员
-     */
-    private String fourthSideSignPerson;
+    private String agreementUrl;
 
 }

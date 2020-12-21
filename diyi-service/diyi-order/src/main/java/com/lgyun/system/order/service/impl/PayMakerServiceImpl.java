@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.exception.CustomException;
 import com.lgyun.core.mp.base.BaseServiceImpl;
@@ -62,7 +63,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
     @Override
     public R<List<TradeVO>> queryTotalSubMakerIncome(MakerType makerType, Long makerId, TimeType timeType, Date year, Date beginDate, Date endDate) {
 
-        if (TimeType.PERIOD.equals(timeType) && (beginDate == null || endDate == null)){
+        if (TimeType.PERIOD.equals(timeType) && (beginDate == null || endDate == null)) {
             return R.fail("请选择开始时间和结束时间");
         }
 
@@ -86,7 +87,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void importPayMakerList(List<PayEnterpriseExcel> list, Long payEnterpriseId, MakerType makerType, Long enterpriseId) {
+    public void importPayMakerList(List<PayEnterpriseExcel> list, Long payEnterpriseId, MakerType makerType, Long serviceProviderId, Long enterpriseId) {
 
         if (list == null || list.isEmpty()) {
             throw new CustomException("Excel文件为空");
@@ -139,6 +140,24 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
                 throw new CustomException("第" + i + "条数据身份证号码为" + payEnterpriseExcel.getMakerIdcardNo() + "的系统创客不存在");
             }
 
+            //判断服务商的创客规则
+            R<String> makerRuleRuleResult = userClient.dealMakerRule(serviceProviderId, makerEntity.getId());
+            if (!(makerRuleRuleResult.isSuccess())) {
+                throw new CustomException("第" + i + "条数据的创客" + makerRuleRuleResult.getMsg());
+            }
+
+            //判断创客是否有有效的创客加盟合同
+            int makerJoinAgreementNum = userClient.queryValidAgreementNum(null, null, ObjectType.MAKERPEOPLE, makerEntity.getId(), AgreementType.MAKERJOINAGREEMENT);
+            if (makerJoinAgreementNum <= 0) {
+                throw new CustomException("第" + i + "条数据的创客未有有效的创客加盟合同");
+            }
+
+            //判断创客与商户是否有有有效的商户-创客补充协议
+            int entMakSupplementaryAgreementNum = userClient.queryValidAgreementNum(ObjectType.ENTERPRISEPEOPLE, enterpriseId, ObjectType.MAKERPEOPLE, makerEntity.getId(), AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT);
+            if (entMakSupplementaryAgreementNum <= 0) {
+                throw new CustomException("第" + i + "条数据的创客与商户未有有效的商户-创客补充协议");
+            }
+
             if (StringUtils.isBlank(makerEntity.getName())) {
                 throw new CustomException("第" + i + "条数据的系统创客姓名为空");
             }
@@ -149,15 +168,6 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
 
             if (!(makerEntity.getName().equals(payEnterpriseExcel.getMakerName()))) {
                 throw new CustomException("第" + i + "条数据的Excel创客姓名和系统创客姓名不一致");
-            }
-
-            if (!(SignState.SIGNED.equals(makerEntity.getJoinSignState()))) {
-                throw new CustomException("第" + i + "条数据的创客未签署加盟合同");
-            }
-
-            int entMakSupplementaryAgreementNum = userClient.queryEntMakSupplementaryAgreementNum(makerEntity.getId(), enterpriseId);
-            if (entMakSupplementaryAgreementNum <= 0) {
-                throw new CustomException("第" + i + "条数据的创客未签署商户-创客补充协议");
             }
 
             int makerEnterpriseNum = userClient.queryMakerEnterpriseRelevanceCount(enterpriseId, makerEntity.getId());
@@ -462,7 +472,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
         payMakerEntity.setMakerConfirmDatetime(new Date());
         updateById(payMakerEntity);
 
-        return R.success("确认收款成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override

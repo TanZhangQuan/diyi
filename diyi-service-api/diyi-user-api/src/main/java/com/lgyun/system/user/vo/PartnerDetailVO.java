@@ -38,9 +38,9 @@ public class PartnerDetailVO implements Serializable {
     private CertificationState certificationState;
 
     /**
-     * 加盟合同签署状态
+     * 是否有有效的创客加盟协议
      */
-    private SignState joinSignState;
+    private Boolean boolJoinAgreement;
 
     /**
      * 账户状态
@@ -129,7 +129,7 @@ public class PartnerDetailVO implements Serializable {
     private String idcardBackHand;
 
     /**
-     * 人脸截图
+     * 活体截图
      */
     private String picVerify;
 
@@ -145,12 +145,12 @@ public class PartnerDetailVO implements Serializable {
     private Date idcardVerifyDate;
 
     /**
-     * 人脸验证状态：未验证，验证通过，验证未通过
+     * 活体验证状态：未验证，验证通过，验证未通过
      */
     private VerifyStatus faceVerifyStatus;
 
     /**
-     * 人脸验证日期时间
+     * 活体验证日期时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date faceVerifyDate;

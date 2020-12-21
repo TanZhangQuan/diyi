@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @RestController
 @RequestMapping("/maker/agreement")
@@ -83,10 +84,7 @@ public class AgreementMakerController {
 
     @GetMapping("/query-online-agreement-need-sign")
     @ApiOperation(value = "查询创客需要签署的授权协议和合同", notes = "查询创客需要签署的授权协议和合同")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "templateType", value = "签署文件类型", paramType = "query", dataType = "string"),
-    })
-    public R queryOnlineAgreementNeedSign(TemplateType templateType, BladeUser bladeUser) {
+    public R queryOnlineAgreementNeedSign(@ApiParam(value = "签署文件模板类型") @NotNull(message = "请选择签署文件模板类型") @RequestParam(required = false) TemplateType templateType, BladeUser bladeUser) {
         //查询当前创客
         R<MakerEntity> result = makerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -94,7 +92,7 @@ public class AgreementMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return onlineAgreementNeedSignService.getOnlineAgreementNeedSign(ObjectType.MAKERPEOPLE,makerEntity.getId(), templateType);
+        return onlineAgreementNeedSignService.getOnlineAgreementNeedSign(ObjectType.MAKERPEOPLE, makerEntity.getId(), templateType);
     }
 
     @GetMapping("/query-cooperation-enterprise-list")

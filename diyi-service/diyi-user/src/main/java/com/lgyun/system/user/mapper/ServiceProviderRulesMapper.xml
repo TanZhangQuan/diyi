@@ -4,11 +4,11 @@
 <mapper namespace="com.lgyun.system.user.mapper.ServiceProviderRulesMapper">
 
     <select id="queryMakerRuleByServiceProvider" resultType="java.lang.String">
-        SELECT maker_rules FROM diyi_service_provider_rules WHERE bool_deleted = 0 AND service_provider_id = #{param1}
+        SELECT maker_rules FROM diyi_service_provider_rule WHERE bool_deleted = 0 AND service_provider_id = #{param1}
     </select>
 
     <select id="queryEnterpriseRuleByServiceProvider" resultType="java.lang.String">
-        SELECT enterprise_rules FROM diyi_service_provider_rules WHERE bool_deleted = 0 AND service_provider_id = #{param1}
+        SELECT enterprise_rules FROM diyi_service_provider_rule WHERE bool_deleted = 0 AND service_provider_id = #{param1}
     </select>
 
 </mapper>

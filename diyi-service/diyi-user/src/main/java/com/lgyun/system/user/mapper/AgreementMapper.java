@@ -21,73 +21,149 @@ public interface AgreementMapper extends BaseMapper<AgreementEntity> {
 
     /**
      * 查询商户关联服务商的加盟合同
+     *
+     * @param enterpriseId
+     * @param serviceProviderName
+     * @param agreementNo
+     * @param agreementType
+     * @param page
+     * @return
      */
-    List<AgreementWebVO> selectServiceAgreement(Long enterpriseId, String serviceProviderName, String agreementNo, AgreementType agreementType, IPage<AgreementWebVO> page);
+    List<AgreementWebVO> queryServiceProviderAgreement(Long enterpriseId, AgreementType agreementType, String serviceProviderName, String agreementNo, IPage<AgreementWebVO> page);
 
-
-    List<AgreementWebVO> selectServiceSupplementaryAgreement(Long enterpriseId, String serviceProviderName, String agreementNo, AgreementType agreementType, IPage<AgreementWebVO> page);
-
-    List<AgreementMakerWebVO> selectMakerAgreement(Long enterpriseId, IPage<AgreementMakerWebVO> page);
+    /**
+     * 查询创客加盟协议
+     *
+     * @param enterpriseId
+     * @param page
+     * @return
+     */
+    List<AgreementMakerWebVO> queryMakerAgreement(Long enterpriseId, IPage<AgreementMakerWebVO> page);
 
     /**
      * 商户和创客的补充协议
+     *
+     * @param enterpriseId
+     * @param page
+     * @return
      */
-    List<AgreementMakerWebVO> selectEnterpriseMakerAgreement(Long enterpriseId, IPage<AgreementMakerWebVO> page);
+    List<EnterpriseMakerAgreementVO> queryEnterpriseMakerSupplementaryAgreement(Long enterpriseId, IPage<EnterpriseMakerAgreementVO> page);
 
     /**
-     * 查询服务商加盟平台合同
+     * 查询服务商加盟协议
+     *
+     * @param agreementNo
+     * @param serviceProviderId
+     * @return
      */
-    List<AgreementServiceVO> findSeriveAgreement(String agreementNo, Long serviceProviderId);
+    List<AgreementServiceVO> findSeriveAgreement(Long serviceProviderId, String agreementNo);
 
     /**
-     * 查询创客加盟平台合同
+     * 查询创客加盟协议
+     *
+     * @param agreementNo
+     * @param serviceProviderId
+     * @param makerName
+     * @param page
+     * @return
      */
-    List<AgreementServiceVO> findMakerAgreement(String agreementNo, Long serviceProviderId, String makerName, IPage<AgreementServiceVO> page);
+    List<AgreementServiceVO> findMakerAgreement(Long serviceProviderId, String agreementNo, String makerName, IPage<AgreementServiceVO> page);
 
     /**
-     * 查询商户加盟平台合同
+     * 查询商户加盟协议
+     *
+     * @param agreementNo
+     * @param serviceProviderId
+     * @param enterpriseName
+     * @param page
+     * @return
      */
-    List<AgreementServiceVO> findEnterpriseAgreement(String agreementNo, Long serviceProviderId, String enterpriseName, IPage<AgreementServiceVO> page);
+    List<AgreementServiceVO> findEnterpriseAgreement(Long serviceProviderId, String agreementNo, String enterpriseName, IPage<AgreementServiceVO> page);
 
     /**
-     * 服务商查询商户承诺函
+     * 服务商查询商户业务真实性承诺函
+     *
+     * @param agreementNo
+     * @param serviceProviderId
+     * @param enterpriseName
+     * @param page
+     * @return
      */
-    List<AgreementServiceVO> findEnterprisePromise(String agreementNo, Long serviceProviderId, String enterpriseName, IPage<AgreementServiceVO> page);
+    List<AgreementServiceVO> findEnterprisePromise(Long serviceProviderId, String agreementNo, String enterpriseName, IPage<AgreementServiceVO> page);
 
     /**
      * 服务商查询服务商和商户的补充协议
+     *
+     * @param agreementNo
+     * @param serviceProviderId
+     * @param enterpriseName
+     * @param page
+     * @return
      */
-    List<AgreementServiceVO> findEnterpriseSupplement(String agreementNo, Long serviceProviderId, String enterpriseName, IPage<AgreementServiceVO> page);
+    List<AgreementServiceVO> findEnterpriseSupplement(Long serviceProviderId, String agreementNo, String enterpriseName, IPage<AgreementServiceVO> page);
 
     /**
-     * 平台查询创客合同的签署状态
+     * 查询创客合同的签署状态
+     *
+     * @param makerName
+     * @param page
+     * @return
      */
     List<AgreementMakerStateAdminVO> queryMakerAgreementState(String makerName, IPage<AgreementMakerStateAdminVO> page);
 
     /**
-     * 平台通过创客id查询创客和商户的补充协议
+     * 通过创客id查询创客和商户的补充协议
+     *
+     * @param makerId
+     * @param enterpriseId
+     * @param page
+     * @return
      */
-    List<AgreementMakerEnterAdminVO> queryMakerIdSupplement(Long makerId, Long enterpriseId, IPage<AgreementMakerEnterAdminVO> page);
+    List<AgreementMakerEnterAdminVO> queryEnterpriseMakerSupplement(Long enterpriseId, Long makerId, IPage<AgreementMakerEnterAdminVO> page);
 
     /**
-     * 平台查询商户合同的签署状态
+     * 查询商户合同的签署状态
+     *
+     * @param enterpriseName
+     * @param page
+     * @return
      */
     List<AgreementEnterpriseStateAdminVO> queryEnterpriseAgreementState(String enterpriseName, IPage<AgreementEnterpriseStateAdminVO> page);
 
     /**
-     * 平台根据商户id查询合作商户和服务商补充协议
+     * 查询合作商户和服务商补充协议
+     *
+     * @param enterpriseId
+     * @param serviceProviderId
+     * @param page
+     * @return
      */
-    List<AgreementServiceVO> queryEnterIdServiceSupplement(Long enterpriseId, Long serviceProviderId, IPage<AgreementServiceVO> page);
+    List<AgreementServiceVO> queryEnterpriseServiceProviderSupplement(Long serviceProviderId, Long enterpriseId, IPage<AgreementServiceVO> page);
 
     /**
-     * 平台根据商户id查询商户承诺函
+     * 根据商户查询商户业务真实性承诺函
+     *
+     * @param enterpriseId
+     * @param page
+     * @return
      */
     List<AgreementServiceVO> queryEnterIdPromise(Long enterpriseId, IPage<AgreementServiceVO> page);
 
     /**
-     * 平台查询服务商合同的签署状态
+     * 查询服务商合同的签署状态
+     *
+     * @param serviceProviderName
+     * @param page
+     * @return
      */
-    List<AgreementServiceStateAdminVO> queryServiceAgreementState(String serviceProviderName,IPage<AgreementServiceStateAdminVO> page);
+    List<AgreementServiceStateAdminVO> queryServiceAgreementState(String serviceProviderName, IPage<AgreementServiceStateAdminVO> page);
 
+    /**
+     * 查询合同
+     *
+     * @param agreementId
+     * @return
+     */
+    String queryOnlineAgreementUrl(Long agreementId);
 }
 

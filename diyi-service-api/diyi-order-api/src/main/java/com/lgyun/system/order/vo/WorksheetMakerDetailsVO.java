@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.*;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -52,7 +51,7 @@ public class WorksheetMakerDetailsVO implements Serializable {
     private VerifyStatus idcardVerifyStatus;
 
     /**
-     * 人脸验证状态
+     * 活体验证状态
      */
     private VerifyStatus faceVerifyStatus;
 
@@ -72,24 +71,14 @@ public class WorksheetMakerDetailsVO implements Serializable {
     private VideoAudit videoAudit;
 
     /**
-     * 授权协议状态
+     * 是否有有效的创客授权书
      */
-    private SignState empowerSignState;
+    private Boolean boolPowerAttorney;
 
     /**
-     * 加盟协议状态
+     * 是否有有效的创客加盟协议
      */
-    private SignState joinSignState;
-
-    /**
-     * 实名认证
-     */
-    private CertificationState realNameAuthentication = CertificationState.UNCERTIFIED;
-
-    /**
-     * 协议状态
-     */
-    private CertificationState protocolAuthentication = CertificationState.UNCERTIFIED;
+    private Boolean boolJoinAgreement;
 
     /**
      * 工单创客的状态

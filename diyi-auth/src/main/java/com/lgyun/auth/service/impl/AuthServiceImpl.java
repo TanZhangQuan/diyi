@@ -6,6 +6,7 @@ import com.lgyun.auth.service.IAuthService;
 import com.lgyun.auth.utils.TokenUtil;
 import com.lgyun.auth.utils.WechatUtil;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.constant.SmsConstant;
 import com.lgyun.common.constant.TokenConstant;
 import com.lgyun.common.enumeration.CodeType;
@@ -580,7 +581,7 @@ public class AuthServiceImpl implements IAuthService {
                 //删除缓存短信验证码
                 redisUtil.del(key);
 
-                return R.success("注册成功");
+                return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
 
             case PARTNER:
 
@@ -593,7 +594,7 @@ public class AuthServiceImpl implements IAuthService {
                 //删除缓存短信验证码
                 redisUtil.del(key);
 
-                return R.success("注册成功");
+                return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
 
             default:
                 return R.fail("用户类型有误");
@@ -681,7 +682,7 @@ public class AuthServiceImpl implements IAuthService {
         //删除缓存短信验证码
         redisUtil.del(key);
 
-        return R.success("修改密码成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override

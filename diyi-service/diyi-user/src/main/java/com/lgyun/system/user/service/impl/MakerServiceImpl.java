@@ -52,6 +52,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     private SmsUtil smsUtil;
     private RedisUtil redisUtil;
     private AliyunOssService aliyunOssService;
+    private IAgreementService agreementService;
     private IMakerEnterpriseService makerEnterpriseService;
     private IOnlineAgreementNeedSignService onlineAgreementNeedSignService;
     private IOnlineAgreementTemplateService onlineAgreementTemplateService;
@@ -119,7 +120,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         BeanUtils.copyProperties(updateMakerDeatilDTO, makerEntity);
         updateById(makerEntity);
 
-        return R.success("编辑成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -145,7 +146,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         makerEntity.setPhoneNumberVerifyDate(null);
         updateById(makerEntity);
 
-        return R.success("更改手机号成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -192,13 +193,13 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             save(makerEntity);
 
             //新建创客添加加盟合同需要签署的模板
-            OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = onlineAgreementTemplateService.findTemplateType(AgreementType.MAKERJOINAGREEMENT, 0);
+            OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = onlineAgreementTemplateService.findTemplateType(AgreementType.MAKERJOINAGREEMENT, true);
             if (onlineAgreementTemplateEntity != null) {
                 onlineAgreementNeedSignService.OnlineAgreementNeedSignAdd(onlineAgreementTemplateEntity.getId(), ObjectType.MAKERPEOPLE, SignPower.PARTYB, makerEntity.getId());
             }
 
-            //新建创客授权协议需要签署的模板
-            onlineAgreementTemplateEntity = onlineAgreementTemplateService.findTemplateType(AgreementType.MAKERPOWERATTORNEY, 0);
+            //新建创客授权书需要签署的模板
+            onlineAgreementTemplateEntity = onlineAgreementTemplateService.findTemplateType(AgreementType.MAKERPOWERATTORNEY, true);
             if (onlineAgreementTemplateEntity != null) {
                 onlineAgreementNeedSignService.OnlineAgreementNeedSignAdd(onlineAgreementTemplateEntity.getId(), ObjectType.MAKERPEOPLE, SignPower.PARTYB, makerEntity.getId());
             }
@@ -368,13 +369,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return verifyResult;
         }
 
-        //判断是否已认证
-        if (CertificationState.UNCERTIFIED.equals(makerEntity.getCertificationState()) && SignState.SIGNED.equals(makerEntity.getJoinSignState())
-                && SignState.SIGNED.equals(makerEntity.getEmpowerSignState())) {
-            makerEntity.setCertificationState(CertificationState.CERTIFIED);
-            makerEntity.setCertificationDate(new Date());
-        }
-
         makerEntity.setIdcardNo(idNo);
         makerEntity.setName(name);
         BeanUtils.copyProperties(idcardVerifyDTO, makerEntity);
@@ -383,7 +377,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         makerEntity.setIdcardVerifyDate(new Date());
         updateById(makerEntity);
 
-        return R.success("身份证认证成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -410,7 +404,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         makerEntity.setPhoneNumberVerifyDate(new Date());
         updateById(makerEntity);
 
-        return R.success("手机号认证成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -438,7 +432,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         makerEntity.setBankCardVerifyDate(new Date());
         updateById(makerEntity);
 
-        return R.success("银行卡认证成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -501,7 +495,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
             //查看创客是否已经活体认证
             if (VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus())) {
-                return R.success("已活体认证");
+                return R.fail("已活体认证");
             }
 
             //查询认证信息
@@ -513,12 +507,12 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
             //查询个人信息
             JSONObject indivInfo = detailResult.getData().getJSONObject("indivInfo");
-            //人脸截图base64请求地址
+            //活体截图base64请求地址
             String facePhotoUrl = indivInfo.getString("facePhotoUrl");
             if (StringUtils.isNotBlank(facePhotoUrl)) {
-                //查询人脸截图base64
+                //查询活体截图base64
                 String facePhotoBase64 = HttpUtil.get(facePhotoUrl);
-                //上传人脸截图base64到阿里云存储
+                //上传活体截图base64到阿里云存储
                 byte[] bytes = Base64Util.decodeFromString(facePhotoBase64.trim());
                 String url = aliyunOssService.uploadSuffix(bytes, ".jpg");
                 makerEntity.setPicVerify(url);
@@ -526,9 +520,20 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
             makerEntity.setFaceVerifyStatus(VerifyStatus.VERIFYPASS);
             makerEntity.setFaceVerifyDate(new Date());
+            //判断是否已认证
+            if (CertificationState.UNCERTIFIED.equals(makerEntity.getCertificationState())) {
+                //判断创客是否有有效的创客加盟协议
+                int makerJoinAgreementNum = agreementService.queryValidAgreementNum(null, null, ObjectType.MAKERPEOPLE, makerId, AgreementType.MAKERJOINAGREEMENT);
+                //判断创客是否有有效的创客授权书
+                int makerPowerAttorneyNum = agreementService.queryValidAgreementNum(null, null, ObjectType.MAKERPEOPLE, makerId, AgreementType.MAKERPOWERATTORNEY);
+                if (makerJoinAgreementNum > 0 && makerPowerAttorneyNum > 0) {
+                    makerEntity.setCertificationState(CertificationState.CERTIFIED);
+                    makerEntity.setCertificationDate(new Date());
+                }
+            }
             updateById(makerEntity);
 
-            return R.success("活体认证成功");
+            return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
 
         } catch (Exception e) {
             log.error("活体认证异步回调处理异常", e);
@@ -587,7 +592,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     public R<String> makerAdd(MakerAddDTO makerAddDto, Long enterpriseId) {
         //新建创客
         makerSave(makerAddDto.getPhoneNumber(), makerAddDto.getName(), makerAddDto.getIdcardNo(), makerAddDto.getBankCardNo(), makerAddDto.getBankName(), makerAddDto.getBankCardNo(), enterpriseId);
-        return R.success("新建创客成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -617,7 +622,8 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         makerEntity.setApplyShortVideo(videoUrl);
         makerEntity.setVideoAudit(VideoAudit.AUDITPASS);
         saveOrUpdate(makerEntity);
-        return R.success("上传视频成功");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -668,12 +674,12 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
     @Override
     public R<String> downloadDocument(Long makerId) {
-        MakerEntity byId = getById(makerId);
+        MakerEntity makerEntity = getById(makerId);
         WordExportTest test = new WordExportTest();
-        OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = onlineAgreementTemplateService.findTemplateType(AgreementType.OTHERAGREEMENT, 1);
+        OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = onlineAgreementTemplateService.findTemplateType(AgreementType.OTHERAGREEMENT, true);
         String doc;
         try {
-            Map map = test.testWrite(byId.getName(), onlineAgreementTemplateEntity.getAgreementTemplate(), byId.getIdcardNo());
+            Map map = test.testWrite(makerEntity.getName(), onlineAgreementTemplateEntity.getAgreementTemplate(), makerEntity.getIdcardNo());
             FileInputStream fileInputStream = (FileInputStream) map.get("fileInputStream");
             File file = (File) map.get("htmlFile");
             doc = aliyunOssService.uploadSuffix(fileInputStream, ".doc");

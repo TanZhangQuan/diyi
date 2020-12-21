@@ -15,34 +15,40 @@ import java.io.Serializable;
 @Data
 public class AgreementEnterpriseStateAdminVO implements Serializable {
     private static final long serialVersionUID = 1L;
+
     /**
      * 商户id
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
+
     /**
      * 商户名称
      */
     private String enterpriseName;
+
     /**
-     *商户加盟
+     * 商户加盟
      */
     private Integer enterpriseJoinAgreement;
+
     /**
-     *商户价格
+     * 商户价格
      */
     private Integer enterprisePriceAgreement;
+
     /**
-     *商户和创客的补充协议
+     * 商户和创客的补充协议
      */
     private Integer entMakSupplementaryAgreement;
+
     /**
-     *
-     *商户和服务商的补充协议
+     * 商户和服务商的补充协议
      */
     private Integer serEntSupplementaryAgreement;
+
     /**
-     *商户承诺函
+     * 商户业务真实性承诺函
      */
     private Integer enterprisePromise;
 

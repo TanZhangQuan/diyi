@@ -3,7 +3,6 @@ package com.lgyun.system.user.vo;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.CertificationState;
-import com.lgyun.common.enumeration.SignState;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -18,19 +17,19 @@ public class MakerEnterpriseWebVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 商户id
+     * 商户ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
 
     /**
-     * 创客和商户关联的Id
+     * 创客和商户关联的ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long makerEnterpriseId;
 
     /**
-     * 创客id
+     * 创客ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long makerId;
@@ -41,19 +40,14 @@ public class MakerEnterpriseWebVO implements Serializable {
     private CertificationState certificationState;
 
     /**
-     * 协议状态
+     * 是否有有效的创客授权书
      */
-    private CertificationState protocolAuthentication = CertificationState.UNCERTIFIED;
+    private Boolean boolPowerAttorney;
 
     /**
-     * 授权状态
+     * 是否有有效的创客加盟协议
      */
-    private SignState empowerSignState;
-
-    /**
-     * 加盟状态
-     */
-    private SignState joinSignState;
+    private Boolean boolJoinAgreement;
 
     /**
      * 创客名称

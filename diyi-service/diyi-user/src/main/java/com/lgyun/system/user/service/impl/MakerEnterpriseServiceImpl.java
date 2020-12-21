@@ -103,13 +103,13 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
         MakerEnterpriseEntity makerEnterpriseEntity = baseMapper.selectOne(queryWrapper);
 
         if (attribute == 1 && null == makerEnterpriseEntity) {
-            return R.success("取消成功");
+            return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
         }
         if(attribute == 1){
             makerEnterpriseEntity.setRelationshipType(RelationshipType.NORELATION);
 
             saveOrUpdate(makerEnterpriseEntity);
-            return R.success("取消成功");
+            return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
         }
         if (null == makerEnterpriseEntity) {
             makerEnterpriseEntity = new MakerEnterpriseEntity();
@@ -125,7 +125,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
         }
         saveOrUpdate(makerEnterpriseEntity);
 
-        return R.success("成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -158,7 +158,7 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
             }
         });
 
-        return R.success("关联成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -195,18 +195,13 @@ public class MakerEnterpriseServiceImpl extends BaseServiceImpl<MakerEnterpriseM
     @Override
     public R<IPage<MakerEnterpriseWebVO>> selectEnterpriseMaker(IPage<MakerEnterpriseWebVO> page, Long enterpriseId,String makerName) {
         List<MakerEnterpriseWebVO> makerEnterpriseWebVOS = baseMapper.selectEnterpriseMaker(enterpriseId,makerName, page);
-        for (MakerEnterpriseWebVO makerEnterpriseWebVO : makerEnterpriseWebVOS) {
-            if (SignState.SIGNED.equals(makerEnterpriseWebVO.getJoinSignState())) {
-                makerEnterpriseWebVO.setProtocolAuthentication(CertificationState.CERTIFIED);
-            }
-        }
         return R.data(page.setRecords(makerEnterpriseWebVOS));
     }
 
     @Override
     public R<IPage<MakerEnterpriseDetailYearMonthVO>> getMakerDetailed(IPage<MakerEnterpriseDetailYearMonthVO> page, Long makerId, Long enterpriseId, WorksheetType worksheetType) {
         if (worksheetType.equals(WorksheetType.CROWDSOURCED)) {
-            return R.success("成功");
+            return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
         }
         return R.data(page.setRecords(baseMapper.getMakerDetailed(makerId, enterpriseId, page)));
     }

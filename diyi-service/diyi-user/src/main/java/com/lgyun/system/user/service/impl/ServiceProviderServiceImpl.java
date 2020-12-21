@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.constant.CustomConstant;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.BeanUtil;
@@ -39,7 +40,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderMapper, ServiceProviderEntity> implements IServiceProviderService {
 
     private IOrderClient orderClient;
-    private IAgreementService agreementService;
     private IServiceProviderRulesService serviceProviderRulesService;
     private IServiceProviderWorkerService serviceProviderWorkerService;
     private IServiceProviderAccountService serviceProviderAccountService;
@@ -68,7 +68,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         BeanUtils.copyProperties(contactsInfoDTO, serviceProviderWorkerEntity);
         updateById(serviceProviderWorkerEntity);
 
-        return R.success("编辑联系人成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> createServiceProvider(CreateServiceProviderDTO createServiceProviderDTO, AdminEntity adminEntity) {
+    public R<String> createServiceProvider(CreateServiceProviderDTO createServiceProviderDTO) {
 
         //判断服务商名称是否已存在
         int serviceProviderNum = count(Wrappers.<ServiceProviderEntity>query().lambda().eq(ServiceProviderEntity::getServiceProviderName, createServiceProviderDTO.getServiceProviderName()));
@@ -142,7 +142,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         orderClient.createAddress(addressEntity);
 
         //新建服务商-创客业务规则，服务商-商户业务规则
-        serviceProviderRulesService.addOrUpdateServiceProviderRules(serviceProviderEntity.getId(), createServiceProviderDTO.getMakerRuleHashSet(), createServiceProviderDTO.getEnterpriseRuleSet());
+        serviceProviderRulesService.addOrUpdateServiceProviderRule(serviceProviderEntity.getId(), createServiceProviderDTO.getMakerRuleHashSet(), createServiceProviderDTO.getEnterpriseRuleSet());
 
         //密码加密
         createServiceProviderDTO.setEmployeePwd(DigestUtil.encrypt(createServiceProviderDTO.getEmployeePwd()));
@@ -169,12 +169,12 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         serviceInvoiceCatalogs.setInvoiceCatalogName(CustomConstant.SERVICE_FEE);
         orderClient.createServiceProviderInvoiceCatalogs(serviceInvoiceCatalogs);
 
-        return R.success("新建服务商成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> updateServiceProvider(UpdateServiceProviderDTO updateServiceProviderDTO, AdminEntity adminEntity) {
+    public R<String> updateServiceProvider(UpdateServiceProviderDTO updateServiceProviderDTO) {
 
         //查询服务商
         ServiceProviderEntity serviceProviderEntity = getById(updateServiceProviderDTO.getServiceProviderId());
@@ -228,7 +228,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         }
 
         //新建服务商-创客业务规则，服务商-商户业务规则
-        serviceProviderRulesService.addOrUpdateServiceProviderRules(serviceProviderEntity.getId(), updateServiceProviderDTO.getMakerRuleHashSet(), updateServiceProviderDTO.getEnterpriseRuleSet());
+        serviceProviderRulesService.addOrUpdateServiceProviderRule(serviceProviderEntity.getId(), updateServiceProviderDTO.getMakerRuleHashSet(), updateServiceProviderDTO.getEnterpriseRuleSet());
 
         //编辑服务商员工
         BeanUtil.copy(updateServiceProviderDTO, serviceProviderWorkerEntity);
@@ -237,7 +237,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         BeanUtil.copy(updateServiceProviderDTO, serviceProviderEntity);
         updateById(serviceProviderEntity);
 
-        return R.success("编辑服务商成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -254,7 +254,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
             updateById(serviceProviderEntity);
         }
 
-        return R.success("更改服务商状态成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -263,7 +263,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
     }
 
     @Override
-    public R getServiceAll(Long serviceProviderId, String serviceProviderName, IPage<ServiceProviderEntity> page) {
+    public R<IPage<ServiceProviderEntity>> getServiceAll(Long serviceProviderId, String serviceProviderName, IPage<ServiceProviderEntity> page) {
         QueryWrapper<ServiceProviderEntity> queryWrapper = new QueryWrapper<>();
         if (null != serviceProviderId && StringUtils.isNotEmpty(serviceProviderName)) {
             queryWrapper.lambda().eq(ServiceProviderEntity::getId, serviceProviderId)

@@ -2,7 +2,6 @@ package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.common.enumeration.AgreementType;
-import com.lgyun.common.enumeration.TemplateSignState;
 import com.lgyun.common.enumeration.TemplateState;
 import com.lgyun.common.enumeration.TemplateType;
 import com.lgyun.core.mp.base.BaseEntity;
@@ -10,8 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
 
 /**
  * Entity
@@ -38,49 +35,25 @@ public class OnlineAgreementTemplateEntity extends BaseEntity {
     private TemplateState templateState = TemplateState.APPLICATION;
 
     /**
-     * 1，开启中；2，已关闭
-     */
-    private TemplateSignState templateSignState = TemplateSignState.OPEN;
-
-    /**
      * 协议模板
      */
     private String agreementTemplate;
 
     /**
-     * 上传人员
-     */
-    private String uploadPerson;
-
-    /**
-     * 上传日期
-     */
-    private Date uploadDate;
-
-    /**
-     * 变更状态人员
-     */
-    private String changeStatePerson;
-
-    /**
-     * 变更日期
-     */
-    private Date shangeStateDate;
-
-    /**
      * 是否需要全部创客签署
      */
-    private Boolean boolAllMakers;
+    private Boolean boolAllSign;
+
+    /**
+     * 模板类型
+     */
+    private TemplateType templateType;
 
     /**
      * 模板的页数
      */
     private Integer templateCount;
 
-    /**
-     * 模板类型
-     */
-    private TemplateType templateType;
     /**
      * x坐标
      */

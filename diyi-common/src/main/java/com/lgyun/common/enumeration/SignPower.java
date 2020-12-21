@@ -14,9 +14,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum SignPower {
     PARTYA("PARTYA", "甲方"),
-    PARTYB("PARTYB", "乙方"),
-    PARTYC("PARTYC", "丙方"),
-    PARTYD("PARTYD", "丁方");
+    PARTYB("PARTYB", "乙方");
 
     private final String value;
     private final String desc;

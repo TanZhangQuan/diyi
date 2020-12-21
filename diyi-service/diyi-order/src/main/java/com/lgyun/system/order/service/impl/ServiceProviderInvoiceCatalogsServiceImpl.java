@@ -2,6 +2,7 @@ package com.lgyun.system.order.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.ApplyScope;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.dto.AddOrUpdateProviderInvoiceCatalogDTO;
@@ -54,7 +55,7 @@ public class ServiceProviderInvoiceCatalogsServiceImpl extends BaseServiceImpl<S
             BeanUtils.copyProperties(addOrUpdateProviderInvoiceCatalogDTO, serviceProviderInvoiceCatalogsEntity);
             updateById(serviceProviderInvoiceCatalogsEntity);
 
-            return R.success("编辑服务商开票类目成功");
+            return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
 
         } else {
 
@@ -63,7 +64,7 @@ public class ServiceProviderInvoiceCatalogsServiceImpl extends BaseServiceImpl<S
             BeanUtils.copyProperties(addOrUpdateProviderInvoiceCatalogDTO, serviceProviderInvoiceCatalogsEntity);
             save(serviceProviderInvoiceCatalogsEntity);
 
-            return R.success("新建服务商开票类目成功");
+            return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
         }
 
     }

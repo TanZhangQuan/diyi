@@ -15,7 +15,10 @@ import com.lgyun.system.user.dto.ContactsInfoDTO;
 import com.lgyun.system.user.dto.CreateEnterpriseDTO;
 import com.lgyun.system.user.dto.EnterpriseListDTO;
 import com.lgyun.system.user.dto.UpdateEnterpriseDTO;
-import com.lgyun.system.user.entity.*;
+import com.lgyun.system.user.entity.AgentMainEnterpriseEntity;
+import com.lgyun.system.user.entity.EnterpriseEntity;
+import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
+import com.lgyun.system.user.entity.PartnerEnterpriseEntity;
 import com.lgyun.system.user.mapper.EnterpriseMapper;
 import com.lgyun.system.user.service.*;
 import com.lgyun.system.user.vo.*;
@@ -115,6 +118,22 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     @Transactional(rollbackFor = Exception.class)
     public R<String> createEnterprise(CreateEnterpriseDTO createEnterpriseDTO, Long agentMainId, Long partnerId) {
 
+        if (agentMainId != null) {
+            //判断渠道商是否有有效的渠道商加盟合同
+            int makerJoinAgreementNum = agreementService.queryValidAgreementNum(null, null, ObjectType.AGENTMAINPEOPLE, agentMainId, AgreementType.AGENTMAINJOINAGREEMENT);
+            if (makerJoinAgreementNum <= 0) {
+                return R.fail("渠道商未有有效的渠道商加盟合同");
+            }
+        }
+
+        if (partnerId != null) {
+            //判断合伙人是否有有效的合伙人加盟合同
+            int makerJoinAgreementNum = agreementService.queryValidAgreementNum(null, null, ObjectType.PARTNERPEOPLE, partnerId, AgreementType.PARTNERJOINAGREEMENT);
+            if (makerJoinAgreementNum <= 0) {
+                return R.fail("合伙人未有有效的合伙人加盟合同");
+            }
+        }
+
         //判断商户名称是否已存在
         int enterpriseNum = count(Wrappers.<EnterpriseEntity>query().lambda().eq(EnterpriseEntity::getEnterpriseName, createEnterpriseDTO.getEnterpriseName()));
         if (enterpriseNum > 0) {
@@ -180,7 +199,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             partnerEnterpriseService.save(partnerEnterpriseEntity);
         }
 
-        return R.success("新建商户成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -265,22 +284,11 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
             return R.fail("已存在相同手机号的管理员");
         }
 
-        //上传加盟合同
-        AgreementEntity agreementEntity = agreementService.getOne(Wrappers.<AgreementEntity>query().lambda()
-                .eq(AgreementEntity::getEnterpriseId, enterpriseEntity.getId())
-                .eq(AgreementEntity::getAgreementType, AgreementType.ENTERPRISEJOINAGREEMENT)
-                .eq(AgreementEntity::getSignState, SignState.SIGNED)
-                .eq(AgreementEntity::getAuditState, AuditState.APPROVED));
-
-        if (agreementEntity == null) {
-            return R.fail("商户加盟合同不存在");
-        }
-
         //编辑商户员工
         BeanUtil.copy(updateEnterpriseDTO, enterpriseWorkerEntity);
         enterpriseWorkerService.updateById(enterpriseWorkerEntity);
 
-        return R.success("编辑商户成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -318,7 +326,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     }
 
     @Override
-    public R getEnterpriseAll(Long enterpriseId, String enterpriseName, IPage<EnterpriseEntity> page) {
+    public R<IPage<EnterpriseEntity>> getEnterpriseAll(Long enterpriseId, String enterpriseName, IPage<EnterpriseEntity> page) {
         QueryWrapper<EnterpriseEntity> queryWrapper = new QueryWrapper<>();
         if (StringUtils.isNotEmpty(enterpriseName) && null != enterpriseId) {
             queryWrapper.lambda().eq(EnterpriseEntity::getId, enterpriseId)
@@ -345,7 +353,8 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
 
         enterpriseEntity.setEnterpriseUrl(enterpriseUrl);
         updateById(enterpriseEntity);
-        return R.success("编辑成功");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -363,7 +372,8 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
 
         BeanUtil.copyProperties(contactsInfoDTO, enterpriseEntity);
         updateById(enterpriseEntity);
-        return R.success("编辑联系人成功");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override

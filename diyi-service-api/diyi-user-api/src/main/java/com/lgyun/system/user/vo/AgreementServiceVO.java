@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.AgreementType;
 import com.lgyun.common.enumeration.SignState;
 import com.lgyun.common.enumeration.SignType;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -62,14 +61,9 @@ public class AgreementServiceVO implements Serializable {
     private String enterpriseName;
 
     /**
-     * 在线合同地址
-     */
-    private String onlineAgreementUrl;
-
-    /**
      * 线下合同地址
      */
-    private String paperAgreementUrl;
+    private String agreementUrl;
 
     /**
      * 签署日期

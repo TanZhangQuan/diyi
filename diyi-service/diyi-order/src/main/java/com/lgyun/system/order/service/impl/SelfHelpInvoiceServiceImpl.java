@@ -178,7 +178,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             selfHelpInvoiceSpDetailService.updateById(selfHelpInvoiceSpDetailEntity);
         }
 
-        return R.success("上传成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -217,10 +217,10 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             selfHelpInvoiceExpressService.save(selfHelpInvoiceExpressEntity);
         }
 
-        //todo
         //自助开票-服务商设置为已开票状态
+        //TODO
 
-        return R.success("上传成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -340,7 +340,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         selfHelpInvoiceSpEntity.setApplyState(applyState);
         selfHelpInvoiceSpService.save(selfHelpInvoiceSpEntity);
 
-        return R.success("审核成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -434,7 +434,8 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         selfHelpInvoiceFeeEntity.setIdentifyFee(toExamineSelfHelpInvoiceDto.getIdendityConfirmFee());
         selfHelpInvoiceFeeEntity.setHandPayAccountId(selfHelpInvoiceAccountEntity.getId());
         selfHelpInvoiceFeeService.save(selfHelpInvoiceFeeEntity);
-        return R.success("审核成功");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -496,7 +497,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         selfHelpInvoiceExpressEntity.setExpressNo(expressNo);
         selfHelpInvoiceExpressEntity.setExpressCompanyName(expressCompanyName);
         selfHelpInvoiceExpressService.save(selfHelpInvoiceExpressEntity);
-        return R.success("成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -510,7 +511,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         selfHelpInvoiceSpDetailEntity.setTaxScanPictures(taxScanPictures);
         selfHelpInvoiceSpDetailEntity.setInvoiceScanPictures(invoiceScanPictures);
         selfHelpInvoiceSpDetailService.updateById(selfHelpInvoiceSpDetailEntity);
-        return R.success("上传成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override

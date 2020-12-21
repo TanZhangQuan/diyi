@@ -41,8 +41,11 @@ public interface IOnlineAgreementNeedSignService extends BaseService<OnlineAgree
     OnlineAgreementNeedSignEntity findByonlineAgreementTemplateIdAndobjectTypeAndobjectId(Long onlineAgreementTemplateId, ObjectType objectType, SignPower signPower, Long objectId);
 
     /**
-     * 查询创客需要签署的授权协议
+     * 查询需要签署的授权协议
      *
+     * @param objectType
+     * @param objectTypeId
+     * @param templateType
      * @return
      */
     R<List<OnlineAgreementNeedSignVO>> getOnlineAgreementNeedSign(ObjectType objectType,Long objectTypeId, TemplateType templateType);

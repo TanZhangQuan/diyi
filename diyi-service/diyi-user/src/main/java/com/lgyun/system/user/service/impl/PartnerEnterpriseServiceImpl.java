@@ -76,7 +76,7 @@ public class PartnerEnterpriseServiceImpl extends BaseServiceImpl<PartnerEnterpr
             }
         }
 
-        return R.success("匹配商户成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override

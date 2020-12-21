@@ -15,10 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
 
-@RestController
-@RequestMapping("/common")
 @Validated
+@RestController
 @AllArgsConstructor
+@RequestMapping("/common")
 @Api(value = "公用接口", tags = "公用接口")
 public class CommonController {
 

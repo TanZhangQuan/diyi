@@ -2,7 +2,6 @@ package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -50,14 +49,9 @@ public class AgreementMakerEnterAdminVO implements Serializable {
     private String enterpriseName;
 
     /**
-     * 在线签约合同url
-     */
-    private String onlineAgreementUrl;
-
-    /**
      * 纸质协议URL
      */
-    private String paperAgreementUrl;
+    private String agreementUrl;
 
     /**
      * 发布时间

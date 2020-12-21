@@ -25,7 +25,6 @@ import com.lgyun.system.order.service.*;
 import com.lgyun.system.order.vo.*;
 import com.lgyun.system.user.dto.PayEnterpriseListSimpleDTO;
 import com.lgyun.system.user.feign.IUserClient;
-import com.lgyun.system.order.vo.TotalCrowdTradeListVO;
 import com.lgyun.system.user.vo.TransactionVO;
 import fr.opensagres.xdocreport.document.json.JSONArray;
 import lombok.AllArgsConstructor;
@@ -104,10 +103,41 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     @Transactional(rollbackFor = Exception.class)
     public R<String> createOrUpdatePayEnterprise(PayEnterpriseCreateOrUpdateDTO payEnterpriseCreateOrUpdateDto, Long enterpriseId) throws Exception {
 
+        //判断商户是否存在
+        int enterpriseNum = userClient.queryEnterpriseCountById(enterpriseId);
+        if (enterpriseNum <= 0) {
+            return R.fail("商户不存在");
+        }
+
+        //判断服务商是否存在
+        Long serviceProviderId = payEnterpriseCreateOrUpdateDto.getServiceProviderId();
+        int serviceProviderNum = userClient.queryServiceProviderCountById(serviceProviderId);
+        if (serviceProviderNum <= 0) {
+            return R.fail("服务商不存在");
+        }
+
         //判断服务商和商户是否关联
-        int CooperateNum = userClient.queryCountByEnterpriseIdAndServiceProviderId(enterpriseId, payEnterpriseCreateOrUpdateDto.getServiceProviderId(), CooperateStatus.COOPERATING);
+        int CooperateNum = userClient.queryCountByEnterpriseIdAndServiceProviderId(enterpriseId, serviceProviderId, CooperateStatus.COOPERATING);
         if (CooperateNum <= 0) {
             return R.fail("服务商和商户未关联");
+        }
+
+        //判断服务商的商户规则
+        R<String> enterpriseRuleResult = userClient.dealEnterpriseRule(serviceProviderId, enterpriseId);
+        if (!(enterpriseRuleResult.isSuccess())) {
+            return enterpriseRuleResult;
+        }
+
+        //判断商户是否有有效的商户加盟合同
+        int enterpriseJoinAgreementNum = userClient.queryValidAgreementNum(null, null, ObjectType.ENTERPRISEPEOPLE, enterpriseId, AgreementType.ENTERPRISEJOINAGREEMENT);
+        if (enterpriseJoinAgreementNum <= 0) {
+            return R.fail("商户未有有效的服务商加盟合同");
+        }
+
+        //判断服务商是否有有效的服务商加盟合同
+        int serviceProviderJoinAgreementNum = userClient.queryValidAgreementNum(null, null, ObjectType.SERVICEPEOPLE, serviceProviderId, AgreementType.SERVICEPROVIDERJOINAGREEMENT);
+        if (serviceProviderJoinAgreementNum <= 0) {
+            return R.fail("服务商未有有效的服务商加盟合同");
         }
 
         //判断工单是否属于商户已完毕工单
@@ -144,7 +174,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             saveOrUpdate(payEnterpriseEntity);
 
             //根据总包支付清单生成分包
-            PayEnterpriseImportListener payEnterpriseImportListener = new PayEnterpriseImportListener(payMakerService, payEnterpriseEntity.getId(), payEnterpriseEntity.getMakerType(), enterpriseId);
+            PayEnterpriseImportListener payEnterpriseImportListener = new PayEnterpriseImportListener(payMakerService, payEnterpriseEntity.getId(), payEnterpriseEntity.getMakerType(), serviceProviderId, enterpriseId);
             InputStream inputStream = new URL(payEnterpriseCreateOrUpdateDto.getChargeListUrl()).openStream();
             ExcelReaderBuilder builder = EasyExcel.read(inputStream, PayEnterpriseExcel.class, payEnterpriseImportListener);
             builder.doReadAll();
@@ -180,16 +210,13 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
                 saveOrUpdate(payEnterpriseEntity);
 
                 //根据总包支付清单生成分包
-                PayEnterpriseImportListener payEnterpriseImportListener = new PayEnterpriseImportListener(payMakerService, payEnterpriseEntity.getId(), payEnterpriseEntity.getMakerType(), enterpriseId);
+                PayEnterpriseImportListener payEnterpriseImportListener = new PayEnterpriseImportListener(payMakerService, payEnterpriseEntity.getId(), payEnterpriseEntity.getMakerType(), serviceProviderId, enterpriseId);
                 InputStream inputStream = new URL(payEnterpriseCreateOrUpdateDto.getChargeListUrl()).openStream();
                 ExcelReaderBuilder builder = EasyExcel.read(inputStream, PayEnterpriseExcel.class, payEnterpriseImportListener);
                 builder.doReadAll();
-
             } else {
-
                 BeanUtils.copyProperties(payEnterpriseCreateOrUpdateDto, payEnterpriseEntity);
                 saveOrUpdate(payEnterpriseEntity);
-
             }
         }
 
@@ -204,7 +231,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             }
         }
 
-        return R.success("上传支付清单成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -227,7 +254,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         payEnterpriseEntity.setAuditState(PayEnterpriseAuditState.SUBMITED);
         updateById(payEnterpriseEntity);
 
-        return R.success("提交成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -251,7 +278,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         }
         invoiceApplicationEntity.setApplicationState(ApplicationState.CANCELLED);
         invoiceApplicationService.saveOrUpdate(invoiceApplicationEntity);
-        return R.success("取消成功");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -268,17 +296,17 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     public R findDetailSummary(Long makerTotalInvoiceId) {
         Map map = new HashMap();
         EnterpriseSubcontractInvoiceVO detailSummary = baseMapper.findDetailSummary(makerTotalInvoiceId);
-        PayEnterpriseEntity byId = getById(detailSummary.getPayEnterpriseId());
-        String enterprisePayReceiptUrl = payEnterpriseReceiptService.findEnterprisePayReceiptUrl(byId.getId());
-        detailSummary.setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
-        if (null == byId) {
-            return R.fail("数据错误");
+        PayEnterpriseEntity payEnterpriseEntity = getById(detailSummary.getPayEnterpriseId());
+        if (null == payEnterpriseEntity) {
+            return R.fail("总包支付清单不存在");
         }
+        String enterprisePayReceiptUrl = payEnterpriseReceiptService.findEnterprisePayReceiptUrl(payEnterpriseEntity.getId());
+        detailSummary.setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
         map.put("enterpriseSubcontractInvoiceVO", detailSummary);
         Query query = new Query();
         query.setCurrent(1);
         query.setSize(100);
-        List<PayMakerListInvoiceVO> PayMakerListVOs = baseMapper.queryPayMakerListInvoice(byId.getId(), Condition.getPage(query.setDescs("t1.create_time")));
+        List<PayMakerListInvoiceVO> PayMakerListVOs = baseMapper.queryPayMakerListInvoice(payEnterpriseEntity.getId(), Condition.getPage(query.setDescs("t1.create_time")));
         map.put("payMakerListVOs", PayMakerListVOs);
 
         return R.data(map);
@@ -288,17 +316,17 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     public R findDetailSubcontractPortal(Long makerInvoiceId) {
         EnterpriseSubcontractPortalVO detailSummary = baseMapper.findDetailSubcontractPortal(makerInvoiceId);
         Map map = new HashMap();
-        PayEnterpriseEntity byId = getById(detailSummary.getPayEnterpriseId());
-        if (null == byId) {
+        PayEnterpriseEntity payEnterpriseEntity = getById(detailSummary.getPayEnterpriseId());
+        if (null == payEnterpriseEntity) {
             return R.fail("数据错误");
         }
-        String enterprisePayReceiptUrl = payEnterpriseReceiptService.findEnterprisePayReceiptUrl(byId.getId());
+        String enterprisePayReceiptUrl = payEnterpriseReceiptService.findEnterprisePayReceiptUrl(payEnterpriseEntity.getId());
         detailSummary.setEnterprisePayReceiptUrl(enterprisePayReceiptUrl);
         map.put("EnterpriseSubcontractPortalVO", detailSummary);
         Query query = new Query();
         query.setSize(100);
         query.setCurrent(1);
-        List<PayMakerListInvoiceVO> PayMakerListVOs = baseMapper.queryPayMakerListInvoice(byId.getId(), Condition.getPage(query.setDescs("t1.create_time")));
+        List<PayMakerListInvoiceVO> PayMakerListVOs = baseMapper.queryPayMakerListInvoice(payEnterpriseEntity.getId(), Condition.getPage(query.setDescs("t1.create_time")));
         map.put("payMakerListVOs", PayMakerListVOs);
         return R.data(map);
     }
@@ -345,7 +373,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         payEnterpriseEntity.setAuditState(auditState);
         updateById(payEnterpriseEntity);
 
-        return R.success("审核成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -381,7 +409,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     @Override
     public R<List<TradeVO>> queryTotalSubTrade(Long enterpriseId, Long serviceProviderId, Long relBureauId, TimeType timeType, Date beginDate, Date endDate) {
 
-        if (TimeType.PERIOD.equals(timeType) && (beginDate == null || endDate == null)){
+        if (TimeType.PERIOD.equals(timeType) && (beginDate == null || endDate == null)) {
             return R.fail("请选择开始时间和结束时间");
         }
 
@@ -422,11 +450,11 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         }
         BigDecimal invoiceTotalAmount = BigDecimal.ZERO;
         for (int i = 0; i < split.length; i++) {
-            PayEnterpriseEntity byId = getById(Long.parseLong(split[i]));
-            if (InvoiceState.OPENED.equals(byId.getCompanyInvoiceState())) {
+            PayEnterpriseEntity payEnterpriseEntity = getById(Long.parseLong(split[i]));
+            if (InvoiceState.OPENED.equals(payEnterpriseEntity.getCompanyInvoiceState())) {
                 return R.fail("不能重复开票");
             }
-            invoiceTotalAmount = byId.getPayToPlatformAmount().add(invoiceTotalAmount);
+            invoiceTotalAmount = payEnterpriseEntity.getPayToPlatformAmount().add(invoiceTotalAmount);
         }
         if (InvoiceMode.PARTIALLYISSUED.equals(invoiceMode) && partInvoiceAmount.compareTo(invoiceTotalAmount) > -1) {
             return R.fail("部分开票的金额不能大于等于价税合计额！！！");
@@ -484,13 +512,13 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         platformInvoiceListService.save(platformInvoiceListEntity);
         //更新总包支付清单的总包开票状态
         for (int i = 0; i < split.length; i++) {
-            PayEnterpriseEntity byId = getById(Long.parseLong(split[i]));
+            PayEnterpriseEntity payEnterpriseEntity = getById(Long.parseLong(split[i]));
             if (InvoiceMode.PARTIALLYISSUED.equals(invoiceMode)) {
-                byId.setCompanyInvoiceState(CompanyInvoiceState.PARTIALLYISSUED);
+                payEnterpriseEntity.setCompanyInvoiceState(CompanyInvoiceState.PARTIALLYISSUED);
             } else {
-                byId.setCompanyInvoiceState(CompanyInvoiceState.OPENED);
+                payEnterpriseEntity.setCompanyInvoiceState(CompanyInvoiceState.OPENED);
             }
-            saveOrUpdate(byId);
+            saveOrUpdate(payEnterpriseEntity);
         }
 
         return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
@@ -508,11 +536,11 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         }
         BigDecimal invoiceTotalAmount = BigDecimal.ZERO;
         for (InvoiceApplicationPayListEntity invoiceApplicationPayListEntity : invoiceApplicationPayListEntityList) {
-            PayEnterpriseEntity byId = getById(invoiceApplicationPayListEntity.getPayEnterpriseId());
-            if (InvoiceState.OPENED.equals(byId.getCompanyInvoiceState())) {
+            PayEnterpriseEntity payEnterpriseEntity = getById(invoiceApplicationPayListEntity.getPayEnterpriseId());
+            if (InvoiceState.OPENED.equals(payEnterpriseEntity.getCompanyInvoiceState())) {
                 return R.fail("不能重复开票");
             }
-            invoiceTotalAmount = byId.getPayToPlatformAmount().add(invoiceTotalAmount);
+            invoiceTotalAmount = payEnterpriseEntity.getPayToPlatformAmount().add(invoiceTotalAmount);
         }
         if (InvoiceMode.PARTIALLYISSUED.equals(invoiceMode) && partInvoiceAmount.compareTo(invoiceTotalAmount) > -1) {
             return R.fail("部分开票的金额不能大于等于价税合计额！！！");
@@ -638,8 +666,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
     @Override
     @Transactional(rollbackFor = Exception.class)
     public R saveSummaryInvoice(Long serviceProviderId, Long payEnterpriseId, String serviceProviderName, String invoiceTypeNo, String invoiceSerialNo, String invoiceCategory, String companyInvoiceUrl, String makerTaxUrl, String makerTaxListUrl) {
-        PayEnterpriseEntity byId = getById(payEnterpriseId);
-        byId.setSubcontractingInvoiceState(InvoiceState.OPENED);
+        PayEnterpriseEntity payEnterpriseEntity = getById(payEnterpriseId);
+        payEnterpriseEntity.setSubcontractingInvoiceState(InvoiceState.OPENED);
         MakerTotalInvoiceEntity makerTotalInvoiceEntity = new MakerTotalInvoiceEntity();
         makerTotalInvoiceEntity.setPayEnterpriseId(payEnterpriseId);
         makerTotalInvoiceEntity.setInvoiceTypeNo(invoiceTypeNo);
@@ -661,8 +689,9 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         makerTotalInvoiceEntity.setMakerTaxUrl(makerTaxUrl);
         makerTotalInvoiceEntity.setMakerTaxListUrl(makerTaxListUrl);
         makerTotalInvoiceService.save(makerTotalInvoiceEntity);
-        saveOrUpdate(byId);
-        return R.success("汇总代开成功");
+        saveOrUpdate(payEnterpriseEntity);
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -680,14 +709,14 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             String payMakerId = payMakerArray.getJSONObject(i).get("payMakerId").toString();
             String makerTaxRecord = payMakerArray.getJSONObject(i).get("makerTaxRecord").toString();
             String taxAmount = payMakerArray.getJSONObject(i).get("taxAmount").toString();
-            PayMakerEntity byId = payMakerService.getById(payMakerId);
-            if (null == byId) {
+            PayMakerEntity payMakerEntity = payMakerService.getById(payMakerId);
+            if (null == payMakerEntity) {
                 return R.fail("分包支付明细不存在");
             }
-            String voicePerson = userClient.queryMakerById(byId.getMakerId()).getName();
-            BigDecimal makerNeIncome = byId.getMakerNeIncome();
+            String voicePerson = userClient.queryMakerById(payMakerEntity.getMakerId()).getName();
+            BigDecimal makerNeIncome = payMakerEntity.getMakerNeIncome();
             BigDecimal salesAmount = makerNeIncome.divide(new BigDecimal("1").add(new BigDecimal("0.03")), 2);
-            MakerInvoiceEntity makerInvoiceEntity = new MakerInvoiceEntity(byId.getId(), voiceTypeNo, voiceSerialNo, new Date(), voiceCategory, byId.getMakerNeIncome(), salesAmount, new BigDecimal(taxAmount), voicePerson, helpMakeOrganationName, helpMakeOrganationName, helpMakeCompany, helpMakeTaxNo, makerVoiceUrl, new Date());
+            MakerInvoiceEntity makerInvoiceEntity = new MakerInvoiceEntity(payMakerEntity.getId(), voiceTypeNo, voiceSerialNo, new Date(), voiceCategory, payMakerEntity.getMakerNeIncome(), salesAmount, new BigDecimal(taxAmount), voicePerson, helpMakeOrganationName, helpMakeOrganationName, helpMakeCompany, helpMakeTaxNo, makerVoiceUrl, new Date());
             makerInvoiceService.save(makerInvoiceEntity);
             if (StringUtil.isNotBlank(makerTaxRecord)) {
                 JSONArray makerTaxRecordArray = new JSONArray(payMakers);
@@ -696,14 +725,14 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
                     String voiceTaxSerialNo = payMakerArray.getJSONObject(i).get("voiceTaxSerialNo").toString();
                     String makerTaxUrl = payMakerArray.getJSONObject(i).get("makerTaxUrl").toString();
                     String makerTaxAmount = payMakerArray.getJSONObject(i).get("makerTaxAmount").toString();
-                    MakerTaxRecordEntity makerTaxRecordEntity = new MakerTaxRecordEntity(byId.getId(), voiceTaxTypeNo, voiceTaxSerialNo, new BigDecimal(makerTaxAmount), byId.getMakerNeIncome(), salesAmount, new BigDecimal(taxAmount), voicePerson, helpMakeOrganationName, helpMakeOrganationName, makerTaxUrl, new Date(), new Date());
+                    MakerTaxRecordEntity makerTaxRecordEntity = new MakerTaxRecordEntity(payMakerEntity.getId(), voiceTaxTypeNo, voiceTaxSerialNo, new BigDecimal(makerTaxAmount), payMakerEntity.getMakerNeIncome(), salesAmount, new BigDecimal(taxAmount), voicePerson, helpMakeOrganationName, helpMakeOrganationName, makerTaxUrl, new Date(), new Date());
                     makerTaxRecordService.save(makerTaxRecordEntity);
                 }
             }
         }
-        PayEnterpriseEntity byId = getById(payEnterpriseId);
-        byId.setSubcontractingInvoiceState(InvoiceState.OPENED);
-        saveOrUpdate(byId);
+        PayEnterpriseEntity payEnterpriseEntity = getById(payEnterpriseId);
+        payEnterpriseEntity.setSubcontractingInvoiceState(InvoiceState.OPENED);
+        saveOrUpdate(payEnterpriseEntity);
 
         return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
@@ -773,16 +802,18 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         if (split.length <= 0) {
             return R.fail("参数格式错误");
         }
-        PayEnterpriseEntity byId = getById(Long.parseLong(split[0]));
+        PayEnterpriseEntity firstPayEnterpriseEntity = getById(Long.parseLong(split[0]));
         BigDecimal payToPlatformAmount = BigDecimal.ZERO;
         List<PayEnterpriseEntity> payEnterpriseEntities = new ArrayList<>();
-        payEnterpriseEntities.add(byId);
+        payEnterpriseEntities.add(firstPayEnterpriseEntity);
         for (int i = 1; i < split.length; i++) {
+
             PayEnterpriseEntity payEnterpriseEntity = getById(Long.parseLong(split[i]));
             if (null == payEnterpriseEntity) {
                 return R.fail("总包支付清单不存在");
             }
-            if (!(byId.getMakerInvoiceType().equals(payEnterpriseEntity.getMakerInvoiceType()))) {
+
+            if (!(firstPayEnterpriseEntity.getMakerInvoiceType().equals(payEnterpriseEntity.getMakerInvoiceType()))) {
                 return R.fail("请选择相同分包开票类别进行开票");
             }
             payEnterpriseEntities.add(payEnterpriseEntity);
@@ -808,7 +839,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
             payEnterpriseEntity.setSubcontractingInvoiceState(InvoiceState.OPENED);
             saveOrUpdate(payEnterpriseEntity);
         }
-        return R.success("汇总开票成功");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -818,13 +850,15 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         if (split.length <= 0) {
             return R.fail("参数错误");
         }
-        PayEnterpriseEntity payEnterpriseEntity = getById(Long.parseLong(split[0]));
+
+        PayEnterpriseEntity firstPayEnterpriseEntity = getById(Long.parseLong(split[0]));
         for (int i = 1; i < split.length; i++) {
-            PayEnterpriseEntity byId = getById(Long.parseLong(split[i]));
-            if (!payEnterpriseEntity.getMakerInvoiceType().equals(byId.getMakerInvoiceType())) {
+            PayEnterpriseEntity payEnterpriseEntity = getById(Long.parseLong(split[i]));
+            if (!firstPayEnterpriseEntity.getMakerInvoiceType().equals(payEnterpriseEntity.getMakerInvoiceType())) {
                 return R.fail("请选择相同的开票方式");
             }
         }
+
         List<InvoiceServiceDetailSummaryVO> invoiceServiceDetailSummaryVOS = new ArrayList<>();
         for (int i = 0; i < split.length; i++) {
             InvoiceServiceDetailSummaryVO invoiceServiceDetailSummaryVO = baseMapper.findServiceDetailSummary(Long.parseLong(split[i]));
@@ -895,7 +929,8 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
                 saveOrUpdate(payEnterpriseEntity);
             }
         }
-        return R.success("门征单开成功");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override

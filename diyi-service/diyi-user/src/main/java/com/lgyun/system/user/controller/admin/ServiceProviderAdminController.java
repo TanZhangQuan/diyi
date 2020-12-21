@@ -43,9 +43,8 @@ public class ServiceProviderAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        AdminEntity adminEntity = result.getData();
 
-        return serviceProviderService.createServiceProvider(createServiceProviderDTO, adminEntity);
+        return serviceProviderService.createServiceProvider(createServiceProviderDTO);
     }
 
     @PostMapping("/update-service-provider")
@@ -56,9 +55,8 @@ public class ServiceProviderAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        AdminEntity adminEntity = result.getData();
 
-        return serviceProviderService.updateServiceProvider(updateServiceProviderDTO, adminEntity);
+        return serviceProviderService.updateServiceProvider(updateServiceProviderDTO);
     }
 
     @GetMapping("/query-service-provider-update-detail")

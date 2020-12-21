@@ -1,9 +1,10 @@
 package com.lgyun.system.user.service;
 
+import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.EnterpriseRule;
 import com.lgyun.common.enumeration.MakerRule;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.entity.ServiceProviderRulesEntity;
+import com.lgyun.system.user.entity.ServiceProviderRuleEntity;
 
 import java.util.Set;
 
@@ -13,7 +14,23 @@ import java.util.Set;
  * @author tzq
  * @since 2020-12-01 10:55:04
  */
-public interface IServiceProviderRulesService extends BaseService<ServiceProviderRulesEntity> {
+public interface IServiceProviderRulesService extends BaseService<ServiceProviderRuleEntity> {
+
+    /**
+     * 新建服务商-创客业务规则，服务商-商户业务规则
+     *
+     * @param serviceProviderId
+     * @param makerRuleHashSet
+     * @param enterpriseRuleSet
+     */
+    R<String> addOrUpdateServiceProviderRule(Long serviceProviderId, Set<MakerRule> makerRuleHashSet, Set<EnterpriseRule> enterpriseRuleSet);
+
+    /**
+     * 根据服务商查询业务规则
+     *
+     * @param serviceProviderId
+     */
+    ServiceProviderRuleEntity queryByServiceProvider(Long serviceProviderId);
 
     /**
      * 根据服务商查询创客业务规则
@@ -30,19 +47,20 @@ public interface IServiceProviderRulesService extends BaseService<ServiceProvide
     Set<EnterpriseRule> queryEnterpriseRuleByServiceProvider(Long serviceProviderId);
 
     /**
-     * 根据服务商查询业务规则
+     * 根据服务商, 创客处理业务规则
      *
      * @param serviceProviderId
+     * @param makerId
      */
-    ServiceProviderRulesEntity queryByServiceProvider(Long serviceProviderId);
+    R<String> dealMakerRule(Long serviceProviderId, Long makerId);
 
     /**
-     * 新建服务商-创客业务规则，服务商-商户业务规则
+     * 根据服务商, 商户处理业务规则
      *
      * @param serviceProviderId
-     * @param makerRuleHashSet
-     * @param enterpriseRuleSet
+     * @param enterpriseId
      */
-    void addOrUpdateServiceProviderRules(Long serviceProviderId, Set<MakerRule> makerRuleHashSet, Set<EnterpriseRule> enterpriseRuleSet);
+    R<String> dealEnterpriseRule(Long serviceProviderId, Long enterpriseId);
+
 }
 

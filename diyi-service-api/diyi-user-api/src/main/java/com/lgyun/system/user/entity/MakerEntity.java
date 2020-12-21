@@ -60,16 +60,6 @@ public class MakerEntity extends BaseEntity {
     private Date certificationDate;
 
     /**
-     * 授权合同签署状态
-     */
-    private SignState empowerSignState = SignState.UNSIGN;
-
-    /**
-     * 加盟合同签署状态
-     */
-    private SignState joinSignState = SignState.UNSIGN;
-
-    /**
      * 账户状态
      */
     private AccountState makerState = AccountState.NORMAL;
@@ -160,7 +150,7 @@ public class MakerEntity extends BaseEntity {
     private String idcardBackHand;
 
     /**
-     * 人脸截图
+     * 活体截图
      */
     private String picVerify;
 
@@ -175,12 +165,12 @@ public class MakerEntity extends BaseEntity {
     private Date idcardVerifyDate;
 
     /**
-     * 人脸验证状态：未验证，验证通过，验证未通过
+     * 活体验证状态：未验证，验证通过，验证未通过
      */
     private VerifyStatus faceVerifyStatus = VerifyStatus.TOVERIFY;
 
     /**
-     * 人脸验证日期时间
+     * 活体验证日期时间
      */
     private Date faceVerifyDate;
 

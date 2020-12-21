@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.core.mp.base.BaseService;
-import com.lgyun.system.user.dto.*;
-import com.lgyun.system.user.entity.AdminEntity;
+import com.lgyun.system.user.dto.ContactsInfoDTO;
+import com.lgyun.system.user.dto.CreateServiceProviderDTO;
+import com.lgyun.system.user.dto.ServiceProviderListDTO;
+import com.lgyun.system.user.dto.UpdateServiceProviderDTO;
 import com.lgyun.system.user.entity.ServiceProviderEntity;
 import com.lgyun.system.user.vo.*;
 
@@ -73,19 +75,17 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
      * 添加服务商
      *
      * @param createServiceProviderDTO
-     * @param adminEntity
      * @return
      */
-    R<String> createServiceProvider(CreateServiceProviderDTO createServiceProviderDTO, AdminEntity adminEntity);
+    R<String> createServiceProvider(CreateServiceProviderDTO createServiceProviderDTO);
 
     /**
      * 编辑服务商
      *
      * @param updateServiceProviderDTO
-     * @param adminEntity
      * @return
      */
-    R<String> updateServiceProvider(UpdateServiceProviderDTO updateServiceProviderDTO, AdminEntity adminEntity);
+    R<String> updateServiceProvider(UpdateServiceProviderDTO updateServiceProviderDTO);
 
     /**
      * 更改服务商状态
@@ -111,7 +111,7 @@ public interface IServiceProviderService extends BaseService<ServiceProviderEnti
      * @param page
      * @return
      */
-    R getServiceAll(Long serviceProviderId, String serviceProviderName, IPage<ServiceProviderEntity> page);
+    R<IPage<ServiceProviderEntity>> getServiceAll(Long serviceProviderId, String serviceProviderName, IPage<ServiceProviderEntity> page);
 
     /**
      * 查询服务商编号名称

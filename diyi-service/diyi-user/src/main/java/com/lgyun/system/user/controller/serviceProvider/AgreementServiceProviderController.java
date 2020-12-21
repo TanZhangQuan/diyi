@@ -10,9 +10,12 @@ import com.lgyun.system.user.service.IEnterpriseServiceProviderService;
 import com.lgyun.system.user.service.IServiceProviderWorkerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.NotBlank;
 
 @RestController
 @RequestMapping("/service-provider/agreement")
@@ -21,8 +24,8 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "服务商端---合同管理模块相关接口", tags = "服务商端---合同管理模块相关接口")
 public class AgreementServiceProviderController {
 
-    private IServiceProviderWorkerService serviceProviderWorkerService;
     private IAgreementService agreementService;
+    private IServiceProviderWorkerService serviceProviderWorkerService;
     private IEnterpriseServiceProviderService enterpriseServiceProviderService;
 
     @GetMapping("/query-serive-agreement")
@@ -35,7 +38,7 @@ public class AgreementServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return agreementService.findSeriveAgreement(agreementNo, serviceProviderWorkerEntity.getServiceProviderId());
+        return agreementService.findSeriveAgreement(serviceProviderWorkerEntity.getServiceProviderId(), agreementNo);
     }
 
     @GetMapping("/query-enterprise-agreement")
@@ -48,11 +51,11 @@ public class AgreementServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return agreementService.findEnterpriseAgreement(agreementNo, serviceProviderWorkerEntity.getServiceProviderId(), enterpriseName, Condition.getPage(query.setDescs("a.create_time")));
+        return agreementService.findEnterpriseAgreement(serviceProviderWorkerEntity.getServiceProviderId(), agreementNo, enterpriseName, Condition.getPage(query.setDescs("a.create_time")));
     }
 
     @GetMapping("/query-enterprise-promise")
-    @ApiOperation(value = "服务商查询商户承诺函", notes = "服务商查询商户承诺函")
+    @ApiOperation(value = "服务商查询商户业务真实性承诺函", notes = "服务商查询商户业务真实性承诺函")
     public R queryEnterprisePromise(BladeUser bladeUser, Query query, @RequestParam(required = false) String agreementNo, String enterpriseName) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
@@ -61,12 +64,12 @@ public class AgreementServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return agreementService.findEnterprisePromise(agreementNo, serviceProviderWorkerEntity.getServiceProviderId(), enterpriseName, Condition.getPage(query.setDescs("a.create_time")));
+        return agreementService.findEnterprisePromise(serviceProviderWorkerEntity.getServiceProviderId(), agreementNo, enterpriseName, Condition.getPage(query.setDescs("a.create_time")));
     }
 
     @GetMapping("/query-enterprise-supplement")
     @ApiOperation(value = "服务商查询服务商和商户的补充协议", notes = "服务商查询服务商和商户的补充协议")
-    public R queryEnterpriseSupplement(BladeUser bladeUser, Query query, @RequestParam(required = false) String agreementNo, String enterpriseName) {
+    public R queryEnterpriseSupplement(@RequestParam(required = false) String agreementNo, String enterpriseName, Query query, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {
@@ -74,7 +77,7 @@ public class AgreementServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return agreementService.findEnterpriseSupplement(agreementNo, serviceProviderWorkerEntity.getServiceProviderId(), enterpriseName, Condition.getPage(query.setDescs("a.create_time")));
+        return agreementService.findEnterpriseSupplement(serviceProviderWorkerEntity.getServiceProviderId(), agreementNo, enterpriseName, Condition.getPage(query.setDescs("a.create_time")));
     }
 
     @GetMapping("/query-maker-join-contract")
@@ -87,12 +90,12 @@ public class AgreementServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return agreementService.findMakerAgreement(agreementNo, serviceProviderWorkerEntity.getServiceProviderId(), makerName, Condition.getPage(query.setDescs("a.create_time")));
+        return agreementService.findMakerAgreement(serviceProviderWorkerEntity.getServiceProviderId(), agreementNo, makerName, Condition.getPage(query.setDescs("a.create_time")));
     }
 
     @PostMapping("/upload-supplement")
     @ApiOperation(value = "上传服务商和商户的补充协议", notes = "上传服务商和商户的补充协议")
-    public R uploadSupplement(String contractUrl, Long enterpriseId, BladeUser bladeUser) {
+    public R uploadSupplement(@ApiParam(value = "服务商和商户的补充协议") @NotBlank(message = "请上传服务商和商户的补充协议") @RequestParam(required = false) String contractUrl, Long enterpriseId, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {

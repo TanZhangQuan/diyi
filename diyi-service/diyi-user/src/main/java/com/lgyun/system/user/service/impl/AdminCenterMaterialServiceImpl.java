@@ -67,7 +67,7 @@ public class AdminCenterMaterialServiceImpl extends BaseServiceImpl<AdminCenterM
             BeanUtils.copyProperties(addOrUpdateAdminCenterMaterialDTO, adminCenterMaterialEntity);
             save(adminCenterMaterialEntity);
 
-            return R.success("新建成功");
+            return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
 
         } else {
 
@@ -79,10 +79,8 @@ public class AdminCenterMaterialServiceImpl extends BaseServiceImpl<AdminCenterM
             BeanUtils.copyProperties(addOrUpdateAdminCenterMaterialDTO, adminCenterMaterialEntity);
             updateById(adminCenterMaterialEntity);
 
-            return R.success("编辑成功");
-
+            return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
         }
-
     }
 
     @Override

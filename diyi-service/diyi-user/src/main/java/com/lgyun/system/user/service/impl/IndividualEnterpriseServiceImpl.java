@@ -57,7 +57,7 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
         individualEnterpriseEntity.setMakerId(makerEntity.getId());
         save(individualEnterpriseEntity);
 
-        return R.success("创建个独成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -66,8 +66,8 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
     }
 
     @Override
-    public R<IPage<IndividualBusinessEnterpriseListMakerVO>> queryIndividualEnterpriseListMaker(Long makerId, Long partnerId, Ibstate ibstate, IPage<IndividualBusinessEnterpriseListMakerVO> page) {
-        return R.data(page.setRecords(baseMapper.queryIndividualEnterpriseListMaker(makerId, partnerId, ibstate, page)));
+    public R<IPage<IndividualBusinessEnterpriseListMakerVO>> queryIndividualEnterpriseListMaker(Long partnerId, Ibstate ibstate, Long makerId, IPage<IndividualBusinessEnterpriseListMakerVO> page) {
+        return R.data(page.setRecords(baseMapper.queryIndividualEnterpriseListMaker(partnerId, ibstate, makerId, page)));
     }
 
     @Override
@@ -177,7 +177,7 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
         individualEnterpriseEntity.setLogoutDateTime(new Date());
         updateById(individualEnterpriseEntity);
 
-        return R.success("注销成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -298,7 +298,7 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
         BeanUtils.copyProperties(individualBusinessEnterpriseUpdateServiceProviderDTO, individualEnterpriseEntity);
         updateById(individualEnterpriseEntity);
 
-        return R.success("编辑成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -322,7 +322,7 @@ public class IndividualEnterpriseServiceImpl extends BaseServiceImpl<IndividualE
         individualEnterpriseEntity.setServiceProviderId(serviceProviderId);
         updateById(individualEnterpriseEntity);
 
-        return R.success("匹配服务商成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
 }

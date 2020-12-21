@@ -15,8 +15,8 @@
         <result property="name" column="name"/>
         <result property="avatar" column="avatar"/>
         <result property="certificationState" column="certification_state"/>
-        <result property="empowerSignState" column="empower_sign_state"/>
-        <result property="joinSignState" column="join_sign_state"/>
+        <result property="boolPowerAttorney" column="bool_power_attorney"/>
+        <result property="boolJoinAgreement" column="bool_join_agreement"/>
         <result property="makerState" column="maker_state"/>
         <result property="politicState" column="politic_state"/>
         <result property="nationality" column="nationality"/>
@@ -101,8 +101,8 @@
         <result property="faceVerifyStatus" column="face_verify_status"/>
         <result property="bankCardVerifyStatus" column="bank_card_verify_status"/>
         <result property="phoneNumberVerifyStatus" column="phone_number_verify_status"/>
-        <result property="empowerSignState" column="empower_sign_state"/>
-        <result property="joinSignState" column="join_sign_state"/>
+        <result property="boolPowerAttorney" column="bool_power_attorney"/>
+        <result property="boolJoinAgreement" column="bool_join_agreement"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
 
@@ -115,8 +115,8 @@
         <result property="faceVerifyStatus" column="face_verify_status"/>
         <result property="bankCardVerifyStatus" column="bank_card_verify_status"/>
         <result property="phoneNumberVerifyStatus" column="phone_number_verify_status"/>
-        <result property="empowerSignState" column="empower_sign_state"/>
-        <result property="joinSignState" column="join_sign_state"/>
+       <result property="boolPowerAttorney" column="bool_power_attorney"/>
+        <result property="boolJoinAgreement" column="bool_join_agreement"/>
         <result property="videoAudit" column="video_audit"/>
         <result property="boolSupplementSign" column="bool_supplement_sign"/>
     </resultMap>
@@ -133,14 +133,17 @@
     </select>
 
     <select id="queryCurrentMakerDetail" resultMap="makerDetailVO">
-        SELECT rel_date, name, avatar, certification_state, empower_sign_state, join_sign_state, maker_state, politic_state, nationality, levelofedu,
-        email_address, idcard_no, due_date, phone_number, bank_card_no, bank_name, sub_bank_name, idcard_pic, idcard_pic_back,
-        self_pic, idcard_copy, idcard_hand, idcard_back_hand, pic_verify, idcard_verify_status, idcard_verify_date, face_verify_status, face_verify_date,
-        bank_card_verify_status, bank_card_verify_date, phone_number_verify_status, phone_number_verify_date, idcard_verify_type,
-        (SELECT t1.name FROM diyi_admin t1 WHERE t1.bool_deleted = 0 AND t1.id = manual_verify_id) AS manual_verify_name,
-        manual_verify_desc, run_address, house_address, living_address, self_desc, shop_url, shop_user_name, apply_short_video, video_audit,
-        video_audit_date, (SELECT t2.name FROM diyi_admin t2 WHERE t2.bool_deleted = 0 AND t2.id = video_audit_person_id) AS video_audit_person_name FROM diyi_maker
-        WHERE bool_deleted = 0 AND id = #{param1}
+        SELECT t1.rel_date, t1.name, t1.avatar, t1.certification_state, t1.maker_state, t1.politic_state, t1.nationality, t1.levelofedu,
+        t1.email_address, t1.idcard_no, t1.due_date, t1.phone_number, t1.bank_card_no, t1.bank_name, t1.sub_bank_name, t1.idcard_pic, t1.idcard_pic_back,
+        t1.self_pic, t1.idcard_copy, t1.idcard_hand, t1.idcard_back_hand, t1.pic_verify, t1.idcard_verify_status, t1.idcard_verify_date, t1.face_verify_status,
+        t1.face_verify_date, t1.bank_card_verify_status, t1.bank_card_verify_date, t1.phone_number_verify_status, t1.phone_number_verify_date, t1.idcard_verify_type,
+        t1.manual_verify_desc, t1.run_address, t1.house_address, t1.living_address, t1.self_desc, t1.shop_url, t1.shop_user_name, t1.apply_short_video, t1.video_audit,
+        t1.video_audit_date, (SELECT t2.name FROM diyi_admin t2 WHERE t2.bool_deleted = 0 AND t2.id = t1.manual_verify_id) AS manual_verify_name,
+        (SELECT t3.name FROM diyi_admin t3 WHERE t3.bool_deleted = 0 AND t3.id = t1.video_audit_person_id) AS video_audit_person_name,
+        IF((SELECT COUNT(id) FROM diyi_agreement WHERE agreement_type = 'MAKERPOWERATTORNEY' AND valid_state = 'VALIDING' AND party_b = 'MAKERPEOPLE'
+        AND party_b_id = t1.id) > 0, TRUE, FALSE) AS bool_power_attorney, IF((SELECT COUNT(id) FROM diyi_agreement WHERE agreement_type = 'MAKERJOINAGREEMENT'
+        AND valid_state = 'VALIDING' AND party_b = 'MAKERPEOPLE' AND party_b_id = t1.id) > 0, TRUE, FALSE) AS bool_join_agreement FROM diyi_maker t1
+        WHERE t1.bool_deleted = 0 AND t1.id = #{param1}
     </select>
 
     <select id="queryMakerDetail" resultMap="makerDetailWebVO">
@@ -150,11 +153,10 @@
         WHERE bool_deleted = 0 AND (invoice_print_state = 'INVOICEING' OR invoice_print_state = 'INVOICESUCCESS') AND maker_id = t5.id)) AS order_num,
         ((SELECT IFNULL(SUM(maker_net_income), 0) FROM diyi_pay_maker t1 WHERE bool_deleted = 0 AND (pay_state = 'PLATFORMPAID' OR pay_state = 'CONFIRMPAID')
         AND maker_id = t5.id) + (SELECT IFNULL(SUM(charge_money_num), 0) FROM diyi_self_help_invoice_detail WHERE bool_deleted = 0 AND (invoice_print_state = 'INVOICEING'
-        OR invoice_print_state = 'INVOICESUCCESS') AND maker_id = t5.id)) AS income, (SELECT IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '',
-        paper_agreement_url, online_agreement_url) FROM diyi_agreement WHERE bool_deleted = 0 AND maker_id = t5.id AND sign_state = 'SIGNED' AND audit_state = 'APPROVED'
-        AND agreement_type = 'MAKERJOINAGREEMENT') AS maker_join_agreement, (SELECT IF(paper_agreement_url IS NOT NULL AND paper_agreement_url <![CDATA[ <> ]]> '', paper_agreement_url,
-        online_agreement_url) FROM diyi_agreement WHERE bool_deleted = 0 AND maker_id = t5.id AND sign_state = 'SIGNED' AND audit_state = 'APPROVED'
-        AND agreement_type = 'MAKERPOWERATTORNEY') AS maker_power_attorney FROM diyi_maker t5 WHERE t5.bool_deleted = 0 AND t5.id = #{param1}
+        OR invoice_print_state = 'INVOICESUCCESS') AND maker_id = t5.id)) AS income, (SELECT agreement_url FROM diyi_agreement WHERE bool_deleted = 0
+        AND agreement_type = 'MAKERJOINAGREEMENT' AND valid_state = 'VALIDING' AND party_b = 'MAKERPEOPLE' AND party_b_id = t5.id) AS maker_join_agreement,
+        (SELECT agreement_url FROM diyi_agreement WHERE bool_deleted = 0 AND agreement_type = 'MAKERPOWERATTORNEY' AND valid_state = 'VALIDING' AND party_b = 'MAKERPEOPLE'
+        AND party_b_id = t5.id) AS maker_power_attorney FROM diyi_maker t5 WHERE t5.bool_deleted = 0 AND t5.id = #{param1}
     </select>
 
     <select id="queryMakerListIndividual" resultMap="makerListIndividualVO">
@@ -186,7 +188,10 @@
 
     <select id="queryMakerList" resultMap="makerListWebVO">
         SELECT DISTINCT t1.id, t1.name, t1.idcard_no, t1.phone_number, t1.bank_card_no, t1.idcard_verify_status, t1.face_verify_status, t1.bank_card_verify_status,
-        t1.phone_number_verify_status, t1.empower_sign_state, t1.join_sign_state, t1.create_time FROM diyi_maker t1
+        t1.phone_number_verify_status, t1.create_time, IF((SELECT COUNT(id) FROM diyi_agreement WHERE agreement_type = 'MAKERPOWERATTORNEY' AND valid_state = 'VALIDING'
+        AND party_b = 'MAKERPEOPLE' AND party_b_id = t1.id) > 0, TRUE, FALSE) AS bool_power_attorney, IF((SELECT COUNT(id) FROM diyi_agreement
+        WHERE agreement_type = 'MAKERJOINAGREEMENT' AND valid_state = 'VALIDING' AND party_b = 'MAKERPEOPLE' AND party_b_id = t1.id) > 0, TRUE, FALSE) AS bool_join_agreement
+        FROM diyi_maker t1
         <if test="param1 != null">
             INNER JOIN diyi_maker_enterprise t2 ON t1.id = t2.maker_id AND t2.bool_deleted = 0 AND t2.enterprise_id = #{param1}
             <if test="param4 != null">
@@ -213,8 +218,11 @@
 
     <select id="queryWorkMakerList" resultMap="makerWorkSheetListVO">
         SELECT t1.id, t1.name, t1.idcard_no, t1.phone_number, t1.idcard_verify_status, t1.face_verify_status, t1.bank_card_verify_status, t1.phone_number_verify_status,
-        t1.empower_sign_state, t1.join_sign_state, t1.video_audit, IF ((SELECT COUNT(id) FROM diyi_agreement WHERE bool_deleted = 0 AND maker_id = t1.id
-        AND sign_state = 'SIGNED' AND agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' AND enterprise_id = #{param1}) > 0, TRUE, FALSE) AS bool_supplement_sign
+        t1.video_audit, IF((SELECT COUNT(id) FROM diyi_agreement WHERE bool_deleted = 0 AND agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' AND valid_state = 'VALIDING'
+        AND party_a = 'ENTERPRISEPEOPLE' AND party_a_id = t2.enterprise_id AND party_b = 'MAKERPEOPLE' AND party_b_id = t1.id) > 0, TRUE, FALSE) AS bool_supplement_sign,
+        IF((SELECT COUNT(id) FROM diyi_agreement WHERE agreement_type = 'MAKERPOWERATTORNEY' AND valid_state = 'VALIDING' AND party_b = 'MAKERPEOPLE'
+        AND party_b_id = t1.id) > 0, TRUE, FALSE) AS bool_power_attorney, IF((SELECT COUNT(id) FROM diyi_agreement WHERE agreement_type = 'MAKERJOINAGREEMENT'
+        AND valid_state = 'VALIDING' AND party_b = 'MAKERPEOPLE' AND party_b_id = t1.id) > 0, TRUE, FALSE) AS bool_join_agreement
         FROM diyi_maker t1 INNER JOIN diyi_maker_enterprise t2 ON t2.maker_id = t1.id where t1.bool_deleted = 0 and t2.bool_deleted = 0 and t2.enterprise_id = #{param1}
         <if test="param2 != null and param2.trim() != ''">
             and t1.name LIKE concat('%', #{param2}, '%')

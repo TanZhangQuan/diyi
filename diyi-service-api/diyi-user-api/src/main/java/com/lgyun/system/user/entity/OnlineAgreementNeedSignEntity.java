@@ -35,7 +35,7 @@ public class OnlineAgreementNeedSignEntity extends BaseEntity {
     private ObjectType objectType;
 
     /**
-     * 签字对象性质 甲方；2，乙方；3，丙方；4，丁方
+     * 签字对象性质
      */
     private SignPower signPower;
 

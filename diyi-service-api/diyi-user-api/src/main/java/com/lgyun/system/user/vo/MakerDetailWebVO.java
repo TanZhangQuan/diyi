@@ -84,7 +84,7 @@ public class MakerDetailWebVO implements Serializable {
     private VerifyStatus idcardVerifyStatus;
 
     /**
-     * 人脸验证状态：未验证，验证通过，验证未通过
+     * 活体验证状态：未验证，验证通过，验证未通过
      */
     private VerifyStatus faceVerifyStatus;
 

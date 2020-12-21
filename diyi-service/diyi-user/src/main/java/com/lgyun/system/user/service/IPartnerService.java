@@ -163,10 +163,5 @@ public interface IPartnerService extends BaseService<PartnerEntity> {
      */
     R<String> updatePhoneNumber(UpdatePhoneNumberDTO updatePhoneNumberDTO, PartnerEntity partnerEntity);
 
-    /**
-     * 查询合伙人需要签署的合同
-     */
-    R queryCooperationNeedContract(Long partnerId);
-
 }
 

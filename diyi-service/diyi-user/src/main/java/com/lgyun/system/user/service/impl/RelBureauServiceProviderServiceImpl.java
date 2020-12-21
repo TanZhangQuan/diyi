@@ -66,7 +66,7 @@ public class RelBureauServiceProviderServiceImpl extends BaseServiceImpl<RelBure
             }
         }
 
-        return R.success("匹配服务商成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.lgyun.system.order.controller.enterprise;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
@@ -167,7 +168,8 @@ public class SelfHelpInvoiceEnterpriseController {
         InputStream inputStream = new BufferedInputStream(file.getInputStream());
         ExcelReaderBuilder builder = EasyExcel.read(inputStream, InvoiceListExcel.class, makerImportListener);
         builder.doReadAll();
-        return R.success("申请成功");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @GetMapping("/immediate-payment")

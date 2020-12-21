@@ -57,14 +57,9 @@ public class AgreementMakerWebVO implements Serializable {
     private String bankCardVerifyStatus;
 
     /**
-     * 在线合同
-     */
-    private String onlineAgreementUrl;
-
-    /**
      * 纸质合同
      */
-    private String paperAgreementUrl;
+    private String agreementUrl;
 
     /**
      * 签署状态

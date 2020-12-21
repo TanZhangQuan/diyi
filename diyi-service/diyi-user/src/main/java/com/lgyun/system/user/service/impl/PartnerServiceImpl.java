@@ -16,7 +16,6 @@ import com.lgyun.system.user.dto.AddPartnerDTO;
 import com.lgyun.system.user.dto.PartnerListDTO;
 import com.lgyun.system.user.dto.UpdatePartnerDeatilDTO;
 import com.lgyun.system.user.dto.UpdatePhoneNumberDTO;
-import com.lgyun.system.user.entity.OnlineAgreementNeedSignEntity;
 import com.lgyun.system.user.entity.OnlineAgreementTemplateEntity;
 import com.lgyun.system.user.entity.PartnerEntity;
 import com.lgyun.system.user.mapper.PartnerMapper;
@@ -24,7 +23,6 @@ import com.lgyun.system.user.service.IOnlineAgreementNeedSignService;
 import com.lgyun.system.user.service.IOnlineAgreementTemplateService;
 import com.lgyun.system.user.service.IPartnerService;
 import com.lgyun.system.user.vo.BaseInfoVO;
-import com.lgyun.system.user.vo.OnlineAgreementNeedSignVO;
 import com.lgyun.system.user.vo.PartnerDetailVO;
 import com.lgyun.system.user.vo.PartnerListVO;
 import lombok.AllArgsConstructor;
@@ -35,7 +33,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -121,7 +118,7 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
             save(partnerEntity);
 
             //新建合伙人添加加盟合同需要签署的模板
-            OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = onlineAgreementTemplateService.findTemplateType(AgreementType.PARTNERJOINAGREEMENT, 0);
+            OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = onlineAgreementTemplateService.findTemplateType(AgreementType.PARTNERJOINAGREEMENT, true);
             if (onlineAgreementTemplateEntity != null) {
                 onlineAgreementNeedSignService.OnlineAgreementNeedSignAdd(onlineAgreementTemplateEntity.getId(), ObjectType.PARTNERPEOPLE, SignPower.PARTYB, partnerEntity.getId());
             }
@@ -185,7 +182,7 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
     @Override
     public PartnerEntity findByIdcardNo(String idcardNo) {
 
-        if (StringUtils.isBlank(idcardNo)){
+        if (StringUtils.isBlank(idcardNo)) {
             return null;
         }
 
@@ -255,20 +252,10 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
             introducePartnerId = partnerEntity.getId();
         }
 
-        OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = onlineAgreementTemplateService.findTemplateType(AgreementType.PARTNERJOINAGREEMENT, 0);
-        if(null == onlineAgreementTemplateEntity){
-            return R.fail("不存在合伙人加盟合同模板");
-        }
-        PartnerEntity partnerEntity = partnerSave(addPartnerDTO.getPhoneNumber(), DigestUtil.encrypt(addPartnerDTO.getLoginPwd()), addPartnerDTO.getName(), addPartnerDTO.getIdcardNo(), addPartnerDTO.getBankCardNo(),
+        partnerSave(addPartnerDTO.getPhoneNumber(), DigestUtil.encrypt(addPartnerDTO.getLoginPwd()), addPartnerDTO.getName(), addPartnerDTO.getIdcardNo(), addPartnerDTO.getBankCardNo(),
                 addPartnerDTO.getBankName(), addPartnerDTO.getSubBankName(), introducePartnerId);
-        OnlineAgreementNeedSignEntity onlineAgreementNeedSignEntity = new OnlineAgreementNeedSignEntity();
-        onlineAgreementNeedSignEntity.setOnlineAgreementTemplateId(onlineAgreementTemplateEntity.getId());
-        onlineAgreementNeedSignEntity.setObjectType(ObjectType.PARTNERPEOPLE);
-        onlineAgreementNeedSignEntity.setObjectId(partnerEntity.getId());
-        onlineAgreementNeedSignEntity.setSignPower(SignPower.PARTYB);
-        onlineAgreementNeedSignEntity.setSignState(SignState.UNSIGN);
-        onlineAgreementNeedSignService.save(onlineAgreementNeedSignEntity);
-        return R.success("创建合伙人成功");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -310,7 +297,7 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
         BeanUtils.copyProperties(updatePartnerDeatilDTO, partnerEntity);
         updateById(partnerEntity);
 
-        return R.success("编辑成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -335,13 +322,7 @@ public class PartnerServiceImpl extends BaseServiceImpl<PartnerMapper, PartnerEn
         partnerEntity.setPhoneNumberVerifyDate(null);
         updateById(partnerEntity);
 
-        return R.success("更改手机号成功");
-    }
-
-    @Override
-    public R queryCooperationNeedContract(Long partnerId) {
-        R<List<OnlineAgreementNeedSignVO>> onlineAgreementNeedSign = onlineAgreementNeedSignService.getOnlineAgreementNeedSign(ObjectType.PARTNERPEOPLE, partnerId, TemplateType.CONTRACT);
-        return R.data(onlineAgreementNeedSign);
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
 }

@@ -2,6 +2,7 @@ package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.dto.AddOrUpdateServiceProviderCertDTO;
 import com.lgyun.system.user.entity.ServiceProviderCertEntity;
@@ -52,7 +53,7 @@ public class ServiceProviderCertServiceImpl extends BaseServiceImpl<ServiceProvi
             serviceProviderCertEntity.setCertificateMainUrl(addOrUpdateServiceProviderCertDTO.getCertificateMainUrl());
             updateById(serviceProviderCertEntity);
 
-            return R.success("编辑服务商资格成功");
+            return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
 
         } else {
 
@@ -69,7 +70,7 @@ public class ServiceProviderCertServiceImpl extends BaseServiceImpl<ServiceProvi
             serviceProviderCertEntity.setCertificateMainUrl(addOrUpdateServiceProviderCertDTO.getCertificateMainUrl());
             save(serviceProviderCertEntity);
 
-            return R.success("新建服务商资格成功");
+            return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
         }
 
     }

@@ -88,7 +88,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             }
         }
 
-        return R.success("发布成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -126,15 +126,6 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         map.put("worksheetXiaoVo", worksheetXiaoVo);
 
         IPage<WorksheetMakerDetailsVO> worksheetMakerDetails = worksheetMakerService.getWorksheetMakerDetails(worksheetId, page);
-        List<WorksheetMakerDetailsVO> records = worksheetMakerDetails.getRecords();
-        for (WorksheetMakerDetailsVO worksheetMakerDetailsVO : records) {
-            if (SignState.SIGNED.equals(worksheetMakerDetailsVO.getJoinSignState()) && SignState.SIGNED.equals(worksheetMakerDetailsVO.getEmpowerSignState())) {
-                worksheetMakerDetailsVO.setProtocolAuthentication(CertificationState.CERTIFIED);
-            }
-            if (VerifyStatus.VERIFYPASS.equals(worksheetMakerDetailsVO.getBankCardVerifyStatus())) {
-                worksheetMakerDetailsVO.setRealNameAuthentication(CertificationState.CERTIFIED);
-            }
-        }
         map.put("worksheetMakerDetails", worksheetMakerDetails);
         return R.data(map);
     }
@@ -152,7 +143,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             worksheetEntity.setCloseWorksheetType(CloseWorksheetType.MANUAL);
             worksheetEntity.setCloseWorksheetDate(new Date());
             saveOrUpdate(worksheetEntity);
-            return R.success("关闭成功");
+            return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
         } else {
             Integer orderGrabbingCount = worksheetMakerService.getOrderGrabbingCount(worksheetId);
             if (orderGrabbingCount >= worksheetEntity.getUpPersonNum()) {
@@ -160,7 +151,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             }
             worksheetEntity.setWorksheetState(WorksheetState.PUBLISHING);
             saveOrUpdate(worksheetEntity);
-            return R.success("开启成功");
+            return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
         }
     }
 
@@ -172,7 +163,7 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             return R.fail("创客没有抢单记录");
         }
         worksheetMakerService.removeById(worksheetMakerEntity);
-        return R.success("移除成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -251,8 +242,8 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
     @Override
     @Transactional(rollbackFor = Exception.class)
     public R wholeWorksheetCheck(Long worksheetId) {
-        WorksheetEntity byId = getById(worksheetId);
-        if (!WorksheetState.CHECKACCEPT.equals(byId.getWorksheetState())) {
+        WorksheetEntity worksheetEntity = getById(worksheetId);
+        if (!WorksheetState.CHECKACCEPT.equals(worksheetEntity.getWorksheetState())) {
             return R.fail("工单状态不对应");
         }
         List<WorksheetMakerDetailsVO> worksheetMakerDetails = worksheetMakerService.getWorksheetMakerDetails(worksheetId);
@@ -263,8 +254,8 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         }
 
 
-        byId.setWorksheetState(WorksheetState.FINISHED);
-        saveOrUpdate(byId);
+        worksheetEntity.setWorksheetState(WorksheetState.FINISHED);
+        saveOrUpdate(worksheetEntity);
 
         return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
@@ -333,6 +324,6 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
             updateById(worksheetEntity);
         }
 
-        return R.success("抢单成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 }

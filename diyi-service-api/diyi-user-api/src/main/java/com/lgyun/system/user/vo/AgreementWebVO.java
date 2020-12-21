@@ -29,6 +29,7 @@ public class AgreementWebVO implements Serializable {
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long agreementId;
+
     /**
      * 商户ID
      */
@@ -57,19 +58,9 @@ public class AgreementWebVO implements Serializable {
     private String agreementNo;
 
     /**
-     * 甲方签署人员
-     */
-    private String firstSideSignPerson;
-
-    /**
-     * 在线合同url
-     */
-    private String onlineAgreementUrl;
-
-    /**
      * 纸质合同url
      */
-    private String paperAgreementUrl;
+    private String agreementUrl;
 
     /**
      * 合同状态

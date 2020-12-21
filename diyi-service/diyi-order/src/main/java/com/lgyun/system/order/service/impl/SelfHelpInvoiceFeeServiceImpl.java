@@ -1,6 +1,7 @@
 package com.lgyun.system.order.service.impl;
 
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.dto.ConfirmPaymentDTO;
 import com.lgyun.system.order.entity.SelfHelpInvoiceFeeEntity;
@@ -36,6 +37,6 @@ public class SelfHelpInvoiceFeeServiceImpl extends BaseServiceImpl<SelfHelpInvoi
         selfHelpInvoiceFeeEntity.setPayCertificate(confirmPaymentDto.getPayCertificate());
         selfHelpInvoiceFeeEntity.setPayType(confirmPaymentDto.getPaymentType());
         updateById(selfHelpInvoiceFeeEntity);
-        return R.success("确认支付成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 }

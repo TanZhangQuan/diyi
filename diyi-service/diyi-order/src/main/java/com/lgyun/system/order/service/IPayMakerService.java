@@ -97,8 +97,10 @@ public interface IPayMakerService extends BaseService<PayMakerEntity> {
      * @param list
      * @param payEnterpriseId
      * @param makerType
+     * @param serviceProviderId
+     * @param enterpriseId
      */
-    void importPayMakerList(List<PayEnterpriseExcel> list, Long payEnterpriseId, MakerType makerType, Long enterpriseId);
+    void importPayMakerList(List<PayEnterpriseExcel> list, Long payEnterpriseId, MakerType makerType, Long serviceProviderId, Long enterpriseId);
 
     /**
      * 查询个体户/个独月度开票金额和年度开票金额

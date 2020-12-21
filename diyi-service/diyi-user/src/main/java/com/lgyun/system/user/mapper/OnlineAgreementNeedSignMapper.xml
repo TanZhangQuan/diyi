@@ -10,14 +10,16 @@
         <result property="agreementTemplate" column="agreement_template"/>
         <result property="templateType" column="template_type"/>
         <result property="signState" column="sign_state"/>
-        <result property="onlineAgreementUrl" column="online_agreement_url"/>
+        <result property="agreementUrl" column="agreement_url"/>
     </resultMap>
 
     <select id="getOnlineAgreementNeedSign" resultMap="onlineAgreementNeedSignVOMap">
-        SELECT dn.id AS online_agreement_need_sign_id, dt.id AS online_agreement_template_id, dt.agreement_type, dt.agreement_template, dt.template_type,
-        dn.sign_state, dt.template_state, a.online_agreement_url FROM diyi_online_agreement_need_sign dn INNER JOIN diyi_online_agreement_template dt
-        ON dn.online_agreement_template_id = dt.id LEFT JOIN diyi_agreement a ON a.online_agreement_template_id = dt.id and a.maker_id = dn.object_id WHERE dn.bool_deleted = 0 AND dt.bool_deleted = 0
-        AND dt.template_state = 'APPLICATION' AND dn.object_type = #{param1} and dn.object_id =#{param2} and dt.template_type = #{param3}
+        SELECT t1.id AS online_agreement_need_sign_id, t2.id AS online_agreement_template_id, t2.agreement_type, t2.agreement_template, t2.template_type,
+        t1.sign_state, t2.template_state, t3.agreement_url FROM diyi_online_agreement_need_sign t1 INNER JOIN diyi_online_agreement_template t2
+        ON t1.online_agreement_template_id = t2.id LEFT JOIN diyi_agreement t3 ON t3.online_agreement_template_id = t2.id AND t3.bool_deleted = 0
+        AND t3.valid_state = 'VALIDING' AND ((t3.party_a = t1.object_type AND t3.party_a_id = t1.object_id) OR (t3.party_b = t1.object_type AND t3.party_b_id = t1.object_id))
+        WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t2.template_state = 'APPLICATION' AND t1.object_type = #{param1} AND t1.object_id =#{param2}
+        AND t2.template_type = #{param3}
     </select>
 
 </mapper>

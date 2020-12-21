@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.AccountState;
-import com.lgyun.common.enumeration.SignState;
 import com.lgyun.common.enumeration.VerifyStatus;
 import lombok.Data;
 
@@ -50,7 +49,7 @@ public class PartnerListVO implements Serializable {
     private VerifyStatus idcardVerifyStatus;
 
     /**
-     * 人脸验证状态：未验证，验证通过，验证未通过
+     * 活体验证状态：未验证，验证通过，验证未通过
      */
     private VerifyStatus faceVerifyStatus;
 
@@ -65,9 +64,9 @@ public class PartnerListVO implements Serializable {
     private VerifyStatus phoneNumberVerifyStatus;
 
     /**
-     * 加盟合同签署状态
+     * 是否有有效的创客加盟协议
      */
-    private SignState joinSignState;
+    private Boolean boolJoinAgreement;
 
     /**
      * 账户状态

@@ -115,13 +115,6 @@ INSERT INTO `diyi_dict` VALUES ('1320538730837737473', '1319972147392357869', 'i
 INSERT INTO `diyi_dict` VALUES ('1326452008413212673', '0', 'sex', 'sex', '性别', '0', '', NOW(), NOW(), FALSE);
 INSERT INTO `diyi_dict` VALUES ('1326452439843516418', '1326452008413212673', 'sex', 'male', '男', '1', '', NOW(), NOW(), FALSE);
 INSERT INTO `diyi_dict` VALUES ('1326452617996578817', '1326452008413212673', 'sex', 'female', '女', '2', '', NOW(), NOW(), FALSE);
-INSERT INTO `diyi_dict` VALUES ('1326453599690207234', '0', 'notice', 'notice', '通知类型', '0', '', NOW(), NOW(), FALSE);
-INSERT INTO `diyi_dict` VALUES ('1326453889881518082', '1326453599690207234', 'notice', 'release', '发布通知', '1', '', NOW(), NOW(), FALSE);
-INSERT INTO `diyi_dict` VALUES ('1326454049642557441', '1326453599690207234', 'notice', 'turn', '批转通知', '2', '', NOW(), NOW(), FALSE);
-INSERT INTO `diyi_dict` VALUES ('1326454197193977857', '1326453599690207234', 'notice', 'forward', '转发通知', '3', '', NOW(), NOW(), FALSE);
-INSERT INTO `diyi_dict` VALUES ('1326454301409849346', '1326453599690207234', 'notice', 'instructions', '指示通知', '4', '', NOW(), NOW(), FALSE);
-INSERT INTO `diyi_dict` VALUES ('1326454731955154945', '1326453599690207234', 'notice', 'remove', '任免通知', '5', '', NOW(), NOW(), FALSE);
-INSERT INTO `diyi_dict` VALUES ('1326454817997107202', '1326453599690207234', 'notice', 'transaction', '事务通知', '6', '', NOW(), NOW(), FALSE);
 INSERT INTO `diyi_dict` VALUES ('1326458059883720705', '0', 'position', '-1', '岗位', '0', '', NOW(), NOW(), FALSE);
 INSERT INTO `diyi_dict` VALUES ('1326458275261231105', '1326458059883720705', 'position', '1', '财务人员', '1', '', NOW(), NOW(), FALSE);
 INSERT INTO `diyi_dict` VALUES ('1326458775155159041', '1326458059883720705', 'position', '2', '人事人员', '2', '', NOW(), NOW(), FALSE);
@@ -130,13 +123,6 @@ INSERT INTO `diyi_dict` VALUES ('1326458858273681409', '1326458059883720705', 'p
 INSERT INTO `diyi_dict` VALUES ('1326458858273681410', '1326458059883720705', 'position', '5', '管理人员', '5', '', NOW(), NOW(), FALSE);
 INSERT INTO `diyi_dict` VALUES ('1326458858273681411', '1326458059883720705', 'position', '6', '客服人员', '6', '', NOW(), NOW(), FALSE);
 INSERT INTO `diyi_dict` VALUES ('1326458858273681412', '1326458059883720705', 'position', '7', '其他', '7', '', NOW(), NOW(), FALSE);
-INSERT INTO `diyi_dict` VALUES ('1326459178076778497', '0', 'fit_degree', 'fit_degree', '契合度类型', '0', '', NOW(), NOW(), FALSE);
-INSERT INTO `diyi_dict` VALUES ('1326461465914421250', '1326459178076778497', 'fit_degree', 'fill', '填充', '1', '', NOW(), NOW(), FALSE);
-INSERT INTO `diyi_dict` VALUES ('1326461583933747201', '1326459178076778497', 'fit_degree', 'adapt', '适应', '2', '', NOW(), NOW(), FALSE);
-INSERT INTO `diyi_dict` VALUES ('1326461654897176577', '1326459178076778497', 'fit_degree', 'stretch', '拉伸', '3', '', NOW(), NOW(), FALSE);
-INSERT INTO `diyi_dict` VALUES ('1326461720051494913', '1326459178076778497', 'fit_degree', 'tile', '平铺', '4', '', NOW(), NOW(), FALSE);
-INSERT INTO `diyi_dict` VALUES ('1326461799164456962', '1326459178076778497', 'fit_degree', 'middle', '居中', '5', '', NOW(), NOW(), FALSE);
-INSERT INTO `diyi_dict` VALUES ('1326461905859162114', '1326459178076778497', 'fit_degree', 'cross', '跨区', '6', '', NOW(), NOW(), FALSE);
 INSERT INTO `diyi_dict` VALUES ('1326462184365142018', '0', 'culture', 'culture', '文化程度类型', '0', '', NOW(), NOW(), FALSE);
 INSERT INTO `diyi_dict` VALUES ('1326462478713008129', '1326462184365142018', 'culture', 'primary', '小学', '1', '', NOW(), NOW(), FALSE);
 INSERT INTO `diyi_dict` VALUES ('1326462677707567106', '1326462184365142018', 'culture', 'junior', '初中', '2', '', NOW(), NOW(), FALSE);
@@ -147,10 +133,10 @@ INSERT INTO `diyi_dict` VALUES ('1326463308258258946', '1326462184365142018', 'c
 INSERT INTO `diyi_dict` VALUES ('1326463448612253698', '1326462184365142018', 'culture', 'doctor', '博士', '7', '', NOW(), NOW(), FALSE);
 
 ###平台在线协议模板数据
-INSERT INTO `diyi_online_agreement_template` VALUES ('1295994352201988840', 'MAKERPOWERATTORNEY', 'APPLICATION', 'OPEN', 'https://diyi-cr.oss-cn-shanghai.aliyuncs.com/upload/20201119/9483edda15ad494cb4a3a82e976ed672.pdf', '创客授权合同模板', '2020-10-28 11:06:45', null, null, '', 'AUTHORIZATION', '1', '490', '600', NOW(), NOW(), FALSE);
-INSERT INTO `diyi_online_agreement_template` VALUES ('1295994358801988836', 'MAKERJOINAGREEMENT', 'APPLICATION', 'OPEN', 'https://diyi-cr.oss-cn-shanghai.aliyuncs.com/upload/20201116/0e1c3348791d408890a439ac86cad1f2.pdf', '创客加盟合同模板', '2020-08-20 15:49:23', null, null, '', 'CONTRACT', '10', '490', '400', NOW(), NOW(), FALSE);
-INSERT INTO `diyi_online_agreement_template` VALUES ('1295994358801988838', 'OTHERAGREEMENT', 'APPLICATION', 'OPEN', 'https://diyi-cr.oss-cn-shanghai.aliyuncs.com/upload/20201118/8ad63b7934144fdd893d56883cc8b307.doc', '创客授权视频文档', '2020-08-20 15:49:23', null, null, 1, 'CONTRACT', '0', '0', '0', NOW(), NOW(), FALSE);
-INSERT INTO `diyi_online_agreement_template` VALUES ('1295994358101988839', 'PARTNERJOINAGREEMENT', 'APPLICATION', 'OPEN', 'https://diyi-cr.oss-cn-shanghai.aliyuncs.com/upload/20201207/691e3bdd8e4b4ddea8e4c9319559dfd0.pdf', '合伙人加盟', '2020-08-20 15:49:23', null, null, '', 'CONTRACT', '7', '490', '100', NOW(), NOW(), FALSE);
+INSERT INTO `diyi_online_agreement_template` VALUES ('1295994352201988840', 'MAKERPOWERATTORNEY', 'APPLICATION', 'https://diyi-cr.oss-cn-shanghai.aliyuncs.com/upload/20201119/9483edda15ad494cb4a3a82e976ed672.pdf', FALSE , 'AUTHORIZATION', '1', '490', '600', NOW(), NOW(), FALSE);
+INSERT INTO `diyi_online_agreement_template` VALUES ('1295994358801988836', 'MAKERJOINAGREEMENT', 'APPLICATION', 'https://diyi-cr.oss-cn-shanghai.aliyuncs.com/upload/20201116/0e1c3348791d408890a439ac86cad1f2.pdf', FALSE, 'CONTRACT', '10', '490', '400', NOW(), NOW(), FALSE);
+INSERT INTO `diyi_online_agreement_template` VALUES ('1295994358801988838', 'OTHERAGREEMENT', 'APPLICATION', 'https://diyi-cr.oss-cn-shanghai.aliyuncs.com/upload/20201118/8ad63b7934144fdd893d56883cc8b307.doc', TRUE, 'CONTRACT', '0', '0', '0', NOW(), NOW(), FALSE);
+INSERT INTO `diyi_online_agreement_template` VALUES ('1295994358101988839', 'PARTNERJOINAGREEMENT', 'APPLICATION', 'https://diyi-cr.oss-cn-shanghai.aliyuncs.com/upload/20201207/691e3bdd8e4b4ddea8e4c9319559dfd0.pdf', FALSE, 'CONTRACT', '7', '490', '100', NOW(), NOW(), FALSE);
 
 ###超级管理员
 INSERT INTO `diyi_admin` VALUES ('1123598821738675888', '', 'NORMAL', '超级管理员', '男', 'MANAGEMENT', '15622190791', null, 'superAdmin', '781edd3abbb61942bb988cbaaea94eb6d5cbf2cf', '0', '', '', NOW(), NOW(), FALSE);

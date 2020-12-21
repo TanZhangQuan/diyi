@@ -30,11 +30,11 @@ public class EnterpriseListPaymentVO implements Serializable {
      /**
      * 是否已签合同
      */
-    private Boolean boolSignContract;
+    private Boolean boolJoinContract;
 
      /**
      * 是否已签协议
      */
-    private Boolean boolSignAgreement;
+    private Boolean boolCommitmentLetter;
 
 }

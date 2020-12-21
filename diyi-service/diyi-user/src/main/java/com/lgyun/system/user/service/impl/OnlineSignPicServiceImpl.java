@@ -2,6 +2,7 @@ package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.PDFUtil;
 import com.lgyun.common.tool.SnowflakeIdWorker;
@@ -31,27 +32,25 @@ import java.util.Map;
 @AllArgsConstructor
 public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMapper, OnlineSignPicEntity> implements IOnlineSignPicService {
 
+    private IMakerService makerService;
+    private AliyunOssService ossService;
+    private IPartnerService partnerService;
+    private IAgreementService agreementService;
     private IOnlineAgreementTemplateService onlineAgreementTemplateService;
     private IOnlineAgreementNeedSignService onlineAgreementNeedSignService;
-    private AliyunOssService ossService;
-    private IMakerService makerService;
-    private IAgreementService agreementService;
-    private IPartnerService partnerService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> saveOnlineSignPic(Long ObjectId, ObjectType objectType, String signPic, Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId) {
+    public R<String> saveOnlineSignPic(Long objectId, ObjectType objectType, String signPic, Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId) {
 
-        PartnerEntity partnerEntity = null;
-        MakerEntity makerEntity = null;
         QueryWrapper<OnlineSignPicEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(OnlineSignPicEntity::getObjectId, ObjectId).eq(OnlineSignPicEntity::getObjectType, objectType);
+        queryWrapper.lambda().eq(OnlineSignPicEntity::getObjectId, objectId).eq(OnlineSignPicEntity::getObjectType, objectType);
         OnlineSignPicEntity onlineSignPicEntity = baseMapper.selectOne(queryWrapper);
 
         if (null == onlineSignPicEntity) {
             onlineSignPicEntity = new OnlineSignPicEntity();
             onlineSignPicEntity.setObjectType(objectType);
-            onlineSignPicEntity.setObjectId(ObjectId);
+            onlineSignPicEntity.setObjectId(objectId);
             onlineSignPicEntity.setSignPic(signPic);
             save(onlineSignPicEntity);
         }
@@ -75,19 +74,18 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
             AgreementEntity agreementEntity = new AgreementEntity();
             agreementEntity.setAgreementType(onlineAgreementTemplateEntity.getAgreementType());
             agreementEntity.setSignType(SignType.PLATFORMAGREEMENT);
+            agreementEntity.setAuditState(AuditState.APPROVED);
+            agreementEntity.setSignState(SignState.SIGNED);
+            agreementEntity.setValidState(ValidState.VALIDING);
             agreementEntity.setAgreementNo(SnowflakeIdWorker.getSerialNumber());
             agreementEntity.setOnlineAgreementTemplateId(onlineAgreementTemplateId);
-            agreementEntity.setOnlineAgreementUrl(pdf);
-            agreementEntity.setFirstSideSignPerson("地衣众包平台");
-            if(ObjectType.MAKERPEOPLE.equals(objectType)){
-                 makerEntity = makerService.getById(ObjectId);
-                agreementEntity.setMakerId(ObjectId);
-                agreementEntity.setSecondSideSignPerson(makerEntity.getName());
+            agreementEntity.setAgreementUrl(pdf);
+            agreementEntity.setPartyBId(objectId);
+            if (ObjectType.MAKERPEOPLE.equals(objectType)) {
+                agreementEntity.setPartyB(ObjectType.MAKERPEOPLE);
             }
-            if(ObjectType.PARTNERPEOPLE.equals(objectType)){
-                partnerEntity = partnerService.getById(ObjectId);
-                agreementEntity.setPartnerId(ObjectId);
-                agreementEntity.setSecondSideSignPerson(partnerEntity.getName());
+            if (ObjectType.PARTNERPEOPLE.equals(objectType)) {
+                agreementEntity.setPartyB(ObjectType.PARTNERPEOPLE);
             }
 
             agreementService.save(agreementEntity);
@@ -95,30 +93,36 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
             return R.fail("签名失败");
         }
 
+        MakerEntity makerEntity;
         if (ObjectType.MAKERPEOPLE.equals(objectType)) {
-             makerEntity = makerService.getById(ObjectId);
-            if (onlineAgreementTemplateEntity.getAgreementType().equals(AgreementType.MAKERJOINAGREEMENT)) {
-                makerEntity.setJoinSignState(SignState.SIGNED);
-                if (makerEntity.getEmpowerSignState().equals(SignState.SIGNED) && makerEntity.getIdcardVerifyStatus().equals(VerifyStatus.VERIFYPASS)) {
+            makerEntity = makerService.getById(objectId);
+            if (AgreementType.MAKERJOINAGREEMENT.equals(onlineAgreementTemplateEntity.getAgreementType()) && VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus())) {
+                //判断创客是否有有效的创客授权书
+                int makerPowerAttorneyNum = agreementService.queryValidAgreementNum(null, null, ObjectType.MAKERPEOPLE, objectId, AgreementType.MAKERPOWERATTORNEY);
+                if (makerPowerAttorneyNum > 0) {
                     makerEntity.setCertificationState(CertificationState.CERTIFIED);
                     makerEntity.setCertificationDate(new Date());
                 }
             }
-            if (onlineAgreementTemplateEntity.getAgreementType().equals(AgreementType.MAKERPOWERATTORNEY)) {
-                makerEntity.setEmpowerSignState(SignState.SIGNED);
-                if (makerEntity.getJoinSignState().equals(SignState.SIGNED) && makerEntity.getIdcardVerifyStatus().equals(VerifyStatus.VERIFYPASS)) {
+
+            if (AgreementType.MAKERPOWERATTORNEY.equals(onlineAgreementTemplateEntity.getAgreementType()) && VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus())) {
+                //判断创客是否有有效的创客加盟协议
+                int makerJoinAgreementNum = agreementService.queryValidAgreementNum(null, null, ObjectType.MAKERPEOPLE, objectId, AgreementType.MAKERJOINAGREEMENT);
+                if (makerJoinAgreementNum > 0) {
                     makerEntity.setCertificationState(CertificationState.CERTIFIED);
                     makerEntity.setCertificationDate(new Date());
                 }
             }
             makerService.saveOrUpdate(makerEntity);
         }
-        if(ObjectType.PARTNERPEOPLE.equals(objectType)){
-            partnerEntity = partnerService.getById(ObjectId);
-            partnerEntity.setJoinSignState(SignState.SIGNED);
+
+        PartnerEntity partnerEntity;
+        if (ObjectType.PARTNERPEOPLE.equals(objectType)) {
+            partnerEntity = partnerService.getById(objectId);
             partnerService.saveOrUpdate(partnerEntity);
         }
-        return R.success("保存成功");
+
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
 }

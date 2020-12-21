@@ -2,6 +2,7 @@ package com.lgyun.system.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.node.ForestNodeMerger;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.dto.DictDTO;
@@ -41,7 +42,7 @@ public class DictServiceImpl extends BaseServiceImpl<DictMapper, Dict> implement
             BeanUtils.copyProperties(dictDTO, dict);
             save(dict);
 
-            return R.success("添加字典成功");
+            return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
 
         } else {
 
@@ -53,7 +54,7 @@ public class DictServiceImpl extends BaseServiceImpl<DictMapper, Dict> implement
             BeanUtils.copyProperties(dictDTO, dict);
             updateById(dict);
 
-            return R.success("编辑字典成功");
+            return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
         }
 
     }

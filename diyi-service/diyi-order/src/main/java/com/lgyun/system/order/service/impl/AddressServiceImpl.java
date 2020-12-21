@@ -115,7 +115,7 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
         //删除收件地址
         removeById(addressId);
 
-        return R.success("删除收件地址成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -136,7 +136,7 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
         }
 
         if (addressEntity.getBoolDefault()) {
-            return R.success("设置成功");
+            return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
         }
 
         //查询所有收件地址
@@ -158,7 +158,7 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, AddressEn
         addressEntity.setBoolDefault(true);
         updateById(addressEntity);
 
-        return R.success("设置成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override

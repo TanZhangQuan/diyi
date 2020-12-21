@@ -67,7 +67,7 @@ public class AgentMainEnterpriseServiceImpl extends BaseServiceImpl<AgentMainEnt
             }
         }
 
-        return R.success("匹配商户成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override

@@ -13,14 +13,14 @@ INSERT INTO `diyi_menu` VALUES ('1123598815738675107', NULL, '合同管理', '/c
 
 INSERT INTO `diyi_menu` VALUES ('1123598815738675108', '1123598815738675107', '合作平台合同', '/contract/platform', 'MENU', 'ENTERPRISE', '0', '', NOW(), NOW(), FALSE);
 INSERT INTO `diyi_menu` VALUES ('1123598815738675111', '1123598815738675108', '商户加盟平台合同', '/contract/platform/index', 'MENU', 'ENTERPRISE', '1', '', NOW(), NOW(), FALSE);
-INSERT INTO `diyi_menu` VALUES ('1123598815738675112', '1123598815738675108', '商户承诺函', '/contract/platform/promise', 'MENU', 'ENTERPRISE', '2', '', NOW(), NOW(), FALSE);
+INSERT INTO `diyi_menu` VALUES ('1123598815738675112', '1123598815738675108', '商户业务真实性承诺函', '/contract/platform/promise', 'MENU', 'ENTERPRISE', '2', '', NOW(), NOW(), FALSE);
 
 INSERT INTO `diyi_menu` VALUES ('1123598815738675109', '1123598815738675107', '合作服务商合同', '/contract/provider', 'MENU', 'ENTERPRISE', '0', '', NOW(), NOW(), FALSE);
 INSERT INTO `diyi_menu` VALUES ('1123598815738675113', '1123598815738675109', '服务商加盟平台合同', '/contract/provider/index', 'MENU','ENTERPRISE', '1', '', NOW(), NOW(), FALSE);
 INSERT INTO `diyi_menu` VALUES ('1123598815738675114', '1123598815738675109', '商户和服务商补充协议', '/contract/provider/promise', 'MENU', 'ENTERPRISE', '2', '', NOW(), NOW(), FALSE);
 
 INSERT INTO `diyi_menu` VALUES ('1123598815738675110', '1123598815738675107', '合作创客合同', '/contract/worker', 'MENU', 'ENTERPRISE', '0', '', NOW(), NOW(), FALSE);
-INSERT INTO `diyi_menu` VALUES ('1123598815738675115', '1123598815738675110', '创客加盟合同', '/contract/worker/index', 'MENU', 'ENTERPRISE', '1', '', NOW(), NOW(), FALSE);
+INSERT INTO `diyi_menu` VALUES ('1123598815738675115', '1123598815738675110', '创客加盟协议', '/contract/worker/index', 'MENU', 'ENTERPRISE', '1', '', NOW(), NOW(), FALSE);
 INSERT INTO `diyi_menu` VALUES ('1123598815738675116', '1123598815738675110', '商户和创客补充协议', '/contract/worker/promise', 'MENU', 'ENTERPRISE', '2', '', NOW(), NOW(), FALSE);
 INSERT INTO `diyi_menu` VALUES ('1123598815738675117', '1123598815738675110', '众包&众采合同', '/contract/worker/crowd', 'MENU', 'ENTERPRISE', '2', '', NOW(), NOW(), FALSE);
 

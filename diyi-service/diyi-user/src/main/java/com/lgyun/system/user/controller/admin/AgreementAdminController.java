@@ -7,9 +7,7 @@ import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
 import com.lgyun.system.user.entity.AdminEntity;
-import com.lgyun.system.user.service.IAdminService;
-import com.lgyun.system.user.service.IAgreementService;
-import com.lgyun.system.user.service.IMakerService;
+import com.lgyun.system.user.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -27,9 +25,11 @@ import javax.validation.constraints.NotNull;
 @Api(value = "平台端---合同管理模块相关接口", tags = "平台端---合同管理模块相关接口")
 public class AgreementAdminController {
 
+    private IMakerService makerService;
     private IAdminService adminService;
     private IAgreementService agreementService;
-    private IMakerService makerService;
+    private IEnterpriseService enterpriseService;
+    private IServiceProviderService serviceProviderService;
 
     @GetMapping("/query-maker-agreement-states")
     @ApiOperation(value = "平台查询创客合同的签署状态", notes = "平台查询创客合同的签署状态")
@@ -82,14 +82,14 @@ public class AgreementAdminController {
 
     @GetMapping("/query-maker-to-enterprise-supplement-list")
     @ApiOperation(value = "平台通过创客查询创客和商户的补充协议", notes = "平台通过创客查询创客和商户的补充协议")
-    public R queryMakerToEnterpriseSupplementList(Long makerId, Query query, BladeUser bladeUser) {
+    public R queryMakerToEnterpriseSupplementList(@ApiParam(value = "创客") @NotNull(message = "请选择创客") @RequestParam(required = false) Long makerId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return agreementService.queryMakerIdSupplement(makerId, Condition.getPage(query.setDescs("a.create_time")));
+        return agreementService.queryEnterpriseMakerSupplement(null, makerId, Condition.getPage(query.setDescs("a.create_time")));
     }
 
     @GetMapping("/query-enterprise-agreement-states")
@@ -105,7 +105,7 @@ public class AgreementAdminController {
     }
 
     @GetMapping("/query-enterprise-agreement")
-    @ApiOperation(value = "平台根据商户查询商户加盟合同、授权协议或价格协议", notes = "平台根据商户查询商户加盟合同、授权协议或价格协议")
+    @ApiOperation(value = "平台根据商户查询商户加盟协议、授权协议或价格协议", notes = "平台根据商户查询商户加盟协议、授权协议或价格协议")
     public R queryEnterpriseAgreement(Long enterpriseId, AgreementType agreementType, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
@@ -118,33 +118,32 @@ public class AgreementAdminController {
 
     @GetMapping("/query-enterprise-to-maker-supplement-list")
     @ApiOperation(value = "平台根据商户查询商户和创客的补充协议", notes = "平台根据商户查询商户和创客的补充协议")
-    public R queryEnterpriseToMakerSupplementList(Long enterpriseId, Query query, BladeUser bladeUser) {
+    public R queryEnterpriseToMakerSupplementList(@ApiParam(value = "商户") @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return agreementService.queryEnterpriseIdSupplement(enterpriseId, Condition.getPage(query.setDescs("a.create_time")));
+        return agreementService.queryEnterpriseMakerSupplement(enterpriseId, null, Condition.getPage(query.setDescs("a.create_time")));
     }
 
 
     @GetMapping("/query-enterprise-to-service-provider-supplement-list")
     @ApiOperation(value = "平台根据商户查询合作商户和服务商补充协议", notes = "平台根据商户查询合作商户和服务商补充协议")
-    public R queryEnterpriseToServiceProviderSupplementList(Long enterpriseId, Query query, BladeUser bladeUser) {
+    public R queryEnterpriseToServiceProviderSupplementList(@ApiParam(value = "商户") @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return agreementService.queryEnterIdServiceSupplement(enterpriseId, Condition.getPage(query.setDescs("a.create_time")));
+        return agreementService.queryEnterpriseServiceProviderSupplement(null, enterpriseId, Condition.getPage(query.setDescs("a.create_time")));
     }
 
-
     @GetMapping("/query-enterprise-promise-list")
-    @ApiOperation(value = "平台根据商户id查询商户承诺函", notes = "平台根据商户id查询商户承诺函")
-    public R queryEnterprisePromiseList(Long enterpriseId, Query query, BladeUser bladeUser) {
+    @ApiOperation(value = "根据商户查询商户业务真实性承诺函", notes = "根据商户查询商户业务真实性承诺函")
+    public R queryEnterprisePromiseList(@ApiParam(value = "商户") @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -166,9 +165,8 @@ public class AgreementAdminController {
         return agreementService.queryServiceAgreementState(serviceProviderName, Condition.getPage(query.setDescs("s.create_time")));
     }
 
-
     @GetMapping("/query-service-provider-join-agreement")
-    @ApiOperation(value = "平台根据服务商查询服务商加盟合同", notes = "平台根据服务商查询服务商加盟合同")
+    @ApiOperation(value = "平台根据服务商查询服务商加盟协议", notes = "平台根据服务商查询服务商加盟协议")
     public R queryServiceProviderJoinAgreement(Long serviceProviderId, AgreementType agreementType, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
@@ -181,14 +179,14 @@ public class AgreementAdminController {
 
     @GetMapping("/query-service-provider-to-enterprise-supplement-list")
     @ApiOperation(value = "平台根据服务商id查询合作服务商和商户补充协议", notes = "平台根据服务商id查询合作服务商和商户补充协议")
-    public R queryServiceProviderToEnterpriseSupplementList(Long serviceProviderId, Query query, BladeUser bladeUser) {
+    public R queryServiceProviderToEnterpriseSupplementList(@ApiParam(value = "服务商") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId, Query query, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return agreementService.queryServiceIdEnterSupplement(serviceProviderId, Condition.getPage(query.setDescs("a.create_time")));
+        return agreementService.queryEnterpriseServiceProviderSupplement(serviceProviderId, null, Condition.getPage(query.setDescs("a.create_time")));
     }
 
     @PostMapping("/update-paper-agreement-url")
@@ -208,14 +206,14 @@ public class AgreementAdminController {
     public R createAgreement(@RequestParam(required = false) Long makerId,
                              @RequestParam(required = false) Long enterpriseId,
                              @RequestParam(required = false) Long serviceProviderId,
-                             Long objectId, ObjectType objectType, AgreementType agreementType, String paperAgreementUrl, BladeUser bladeUser) {
+                             Long objectId, ObjectType objectType, AgreementType agreementType, String agreementUrl, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return agreementService.saveAdminAgreement(makerId, enterpriseId, serviceProviderId, objectId, objectType, agreementType, paperAgreementUrl);
+        return agreementService.saveAdminAgreement(makerId, enterpriseId, serviceProviderId, objectId, objectType, agreementType, agreementUrl);
     }
 
     @GetMapping("/query-maker-select-list")
@@ -237,7 +235,7 @@ public class AgreementAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        return agreementService.queryAdminEnterpriseAll(enterpriseId, enterpriseName, Condition.getPage(query.setDescs("create_time")));
+        return enterpriseService.getEnterpriseAll(enterpriseId, enterpriseName, Condition.getPage(query.setDescs("create_time")));
     }
 
     @GetMapping("/query-service-provider-list")
@@ -248,6 +246,7 @@ public class AgreementAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
-        return agreementService.queryAdminServiceAll(serviceProviderId, serviceProviderName, Condition.getPage(query.setDescs("create_time")));
+        return serviceProviderService.getServiceAll(serviceProviderId, serviceProviderName, Condition.getPage(query.setDescs("create_time")));
     }
+
 }

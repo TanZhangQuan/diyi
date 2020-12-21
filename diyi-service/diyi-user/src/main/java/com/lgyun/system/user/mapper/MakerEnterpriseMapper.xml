@@ -26,8 +26,8 @@
         <result property="makerEnterpriseId" column="maker_enterprise_id"/>
         <result property="makerId" column="maker_id"/>
         <result property="certificationState" column="certification_state"/>
-        <result property="empowerSignState" column="empower_sign_state"/>
-        <result property="joinSignState" column="join_sign_state"/>
+        <result property="boolPowerAttorney" column="bool_power_attorney"/>
+        <result property="boolJoinAgreement" column="bool_join_agreement"/>
     </resultMap>
 
     <resultMap type="com.lgyun.system.user.vo.MakerEnterpriseDetailYearMonthVO" id="makerEnterpriseDetailYearMonthVO">
@@ -49,8 +49,11 @@
     </select>
 
     <select id="selectEnterpriseMaker" resultMap="makerEnterpriseWebVOMap">
-        SELECT e.id AS enterprise_id, m.id AS maker_enterprise_id, k.id AS maker_id, k.certification_state, k.empower_sign_state, k.join_sign_state,
-        k. NAME FROM diyi_maker_enterprise m INNER JOIN diyi_enterprise e ON m.enterprise_id = e.id INNER JOIN diyi_maker k ON k.id = m.maker_id
+        SELECT e.id AS enterprise_id, m.id AS maker_enterprise_id, k.id AS maker_id, k.certification_state, k.name,
+         IF((SELECT COUNT(id) FROM diyi_agreement WHERE agreement_type = 'MAKERPOWERATTORNEY' AND valid_state = 'VALIDING' AND party_b = 'MAKERPEOPLE'
+        AND party_b_id = m.maker_id) > 0, TRUE, FALSE) AS bool_power_attorney, IF((SELECT COUNT(id) FROM diyi_agreement WHERE agreement_type = 'MAKERJOINAGREEMENT'
+        AND valid_state = 'VALIDING' AND party_b = 'MAKERPEOPLE' AND party_b_id = m.maker_id) > 0, TRUE, FALSE) AS bool_join_agreement
+        FROM diyi_maker_enterprise m INNER JOIN diyi_enterprise e ON m.enterprise_id = e.id INNER JOIN diyi_maker k ON k.id = m.maker_id
         WHERE m.relationship_type = 'RELEVANCE' AND m.bool_deleted = 0 AND e.bool_deleted = 0 AND k.bool_deleted = 0
         AND m.enterprise_id = #{param1}
         <if test="param2 != null and param2.trim() != ''">

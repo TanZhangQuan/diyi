@@ -2,6 +2,7 @@ package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.enumeration.SignPower;
 import com.lgyun.common.enumeration.TemplateType;
@@ -44,7 +45,7 @@ public class OnlineAgreementNeedSignServiceImpl extends BaseServiceImpl<OnlineAg
         onlineAgreementNeedSignEntity.setObjectId(objectId);
         save(onlineAgreementNeedSignEntity);
 
-        return R.success("添加成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -59,8 +60,7 @@ public class OnlineAgreementNeedSignServiceImpl extends BaseServiceImpl<OnlineAg
     }
 
     @Override
-    public R<List<OnlineAgreementNeedSignVO>> getOnlineAgreementNeedSign(ObjectType objectType,Long objectTypeId, TemplateType templateType) {
-        List<OnlineAgreementNeedSignVO> onlineAgreementNeedSign = baseMapper.getOnlineAgreementNeedSign( objectType, objectTypeId, templateType);
-        return R.data(onlineAgreementNeedSign);
+    public R<List<OnlineAgreementNeedSignVO>> getOnlineAgreementNeedSign(ObjectType objectType, Long objectTypeId, TemplateType templateType) {
+        return R.data(baseMapper.getOnlineAgreementNeedSign(objectType, objectTypeId, templateType));
     }
 }

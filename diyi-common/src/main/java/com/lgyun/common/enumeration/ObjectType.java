@@ -13,12 +13,12 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ObjectType {
-    MAKERPEOPLE("MAKERPEOPLE", "创客本人"),
-    ENTERPRISEPEOPLE("ENTERPRISEPEOPLE", "商户人员"),
-    SERVICEPEOPLE("SERVICEPEOPLE", "服务商人员"),
-    RELBUREAUPEOPLE("RELBUREAUPEOPLE", "相关局人员"),
-    AGENTMAINPEOPLE("AGENTMAINPEOPLE", "渠道商人员"),
-    PARTNERPEOPLE("PARTNERPEOPLE", "合伙人人员");
+    MAKERPEOPLE("MAKERPEOPLE", "创客"),
+    ENTERPRISEPEOPLE("ENTERPRISEPEOPLE", "商户"),
+    SERVICEPEOPLE("SERVICEPEOPLE", "服务商"),
+    RELBUREAUPEOPLE("RELBUREAUPEOPLE", "相关局"),
+    AGENTMAINPEOPLE("AGENTMAINPEOPLE", "渠道商"),
+    PARTNERPEOPLE("PARTNERPEOPLE", "合伙人");
 
     private final String value;
     private final String desc;

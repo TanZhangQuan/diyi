@@ -18,6 +18,14 @@ import java.util.List;
 @Mapper
 public interface OnlineAgreementNeedSignMapper extends BaseMapper<OnlineAgreementNeedSignEntity> {
 
+    /**
+     * 查询需要签署的授权协议
+     *
+     * @param objectType
+     * @param objectTypeId
+     * @param templateType
+     * @return
+     */
     List<OnlineAgreementNeedSignVO> getOnlineAgreementNeedSign(ObjectType objectType, Long objectTypeId, TemplateType templateType);
 
 }

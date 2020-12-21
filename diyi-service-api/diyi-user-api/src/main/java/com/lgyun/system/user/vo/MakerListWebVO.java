@@ -3,7 +3,6 @@ package com.lgyun.system.user.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.lgyun.common.enumeration.SignState;
 import com.lgyun.common.enumeration.VerifyStatus;
 import lombok.Data;
 
@@ -52,7 +51,7 @@ public class MakerListWebVO implements Serializable {
     private VerifyStatus idcardVerifyStatus;
 
     /**
-     * 人脸验证状态：未验证，验证通过，验证未通过
+     * 活体验证状态：未验证，验证通过，验证未通过
      */
     private VerifyStatus faceVerifyStatus;
 
@@ -67,14 +66,14 @@ public class MakerListWebVO implements Serializable {
     private VerifyStatus phoneNumberVerifyStatus;
 
     /**
-     * 授权合同签署状态
+     * 是否有有效的创客授权书
      */
-    private SignState empowerSignState;
+    private Boolean boolPowerAttorney;
 
     /**
-     * 加盟合同签署状态
+     * 是否有有效的创客加盟协议
      */
-    private SignState joinSignState;
+    private Boolean boolJoinAgreement;
 
     /**
      * 创建时间

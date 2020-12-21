@@ -677,11 +677,11 @@
     </select>
 
     <select id="queryTotalInvoiceListEnterprise" resultMap="totalInvoiceListEnterVOMap">
-        SELECT * FROM ( SELECT a.id AS invoice_application_pay_list_id, b.id AS application_id, null AS platform_invoice_pay_list_id, null AS invoice_print_id,
+        SELECT * FROM (SELECT a.id AS invoice_application_pay_list_id, b.id AS application_id, null AS platform_invoice_pay_list_id, null AS invoice_print_id,
         d.enterprise_name, e.service_provider_name, b.application_state, null AS company_invoice_state, b.create_time, 1 AS apply_state,
         (SELECT sum(pay_to_platform_amount) FROM diyi_invoice_application t1 INNER JOIN diyi_invoice_application_pay_list t2 ON t1.id = t2.application_id
-        INNER JOIN diyi_pay_enterprise t3 ON t3.id = t2.pay_enterprise_id WHERE t1.id = b.id ) AS pay_to_platform_amount FROM diyi_INVOICE_APPLICATION_PAY_LIST a
-        INNER JOIN diyi_INVOICE_APPLICATION b ON b.id = a.application_id INNER JOIN diyi_pay_enterprise c ON c.id = a.pay_enterprise_id INNER JOIN diyi_enterprise d
+        INNER JOIN diyi_pay_enterprise t3 ON t3.id = t2.pay_enterprise_id WHERE t1.id = b.id ) AS pay_to_platform_amount FROM diyi_invoice_application_pay_list a
+        INNER JOIN diyi_invoice_application b ON b.id = a.application_id INNER JOIN diyi_pay_enterprise c ON c.id = a.pay_enterprise_id INNER JOIN diyi_enterprise d
         ON d.id = c.enterprise_id INNER JOIN diyi_service_provider e ON e.id = c.service_provider_id WHERE d.id = #{param1}
         AND b.application_state = 'APPLYING' AND c.audit_state = 'APPROVED' GROUP BY b.id UNION ALL SELECT null AS invoice_application_pay_list_id,
         null AS invoice_application_id, a.id AS platform_invoice_pay_list_id, b.id AS invoice_print_id, d.enterprise_name, e.service_provider_name,
@@ -716,15 +716,20 @@
     </select>
 
     <select id="getServiceLumpSumInvoice" resultMap="invoiceServiceLumpMap">
-        SELECT * FROM ( SELECT a.id AS invoice_application_pay_list_id, b.id AS invoice_application_id, null AS pay_enterprise_id, d.enterprise_name,
+        SELECT * FROM (SELECT a.id AS invoice_application_pay_list_id, b.id AS invoice_application_id, null AS pay_enterprise_id, d.enterprise_name,
         e.service_provider_name, b.application_state, null AS company_invoice_state, b.create_time, b.application_desc, 1 AS apply_state,null as invoice_print_id
-        FROM diyi_INVOICE_APPLICATION_PAY_LIST a INNER JOIN diyi_INVOICE_APPLICATION b ON b.id = a.application_id INNER JOIN diyi_pay_enterprise c
+        FROM diyi_invoice_application_pay_list a INNER JOIN diyi_invoice_application b ON b.id = a.application_id INNER JOIN diyi_pay_enterprise c
         ON c.id = a.pay_enterprise_id INNER JOIN diyi_enterprise d ON d.id = c.enterprise_id INNER JOIN diyi_service_provider e ON e.id = c.service_provider_id
-        WHERE 1=1
+        WHERE a.bool_deleted = 0 AND b.bool_deleted = 0 AND c.bool_deleted = 0 AND d.bool_deleted = 0 AND e.bool_deleted = 0
         <if test="param1 != null">
             and e.id = #{param1}
         </if>
-        AND b.application_state = 'APPLYING' and c.audit_state = 'APPROVED' GROUP BY b.create_time UNION ALL SELECT null AS invoice_application_pay_list_id, null AS invoice_application_id, a.id AS pay_enterprise_id, b.enterprise_name, c.service_provider_name, null AS application_state, a.company_invoice_state, a.create_time, null AS application_desc, 0 AS apply_state,null as invoice_print_id FROM diyi_pay_enterprise a INNER JOIN diyi_enterprise b ON b.id = a.enterprise_id INNER JOIN diyi_service_provider c ON c.id = a.service_provider_id WHERE a.company_invoice_state = 'UNOPEN' and a.audit_state = 'APPROVED' AND a.id NOT IN ( SELECT d.pay_enterprise_id FROM diyi_invoice_application c INNER JOIN diyi_invoice_application_pay_list d ON c.id = d.application_id WHERE c.application_state IN ( 'APPLYING', 'ISSUEDINFULL', 'PARTIALLYISSUED' ))
+        AND b.application_state = 'APPLYING' and c.audit_state = 'APPROVED' GROUP BY b.create_time UNION ALL SELECT null AS invoice_application_pay_list_id,
+        null AS invoice_application_id, a.id AS pay_enterprise_id, b.enterprise_name, c.service_provider_name, null AS application_state, a.company_invoice_state,
+        a.create_time, 0 AS apply_state, null as invoice_print_id FROM diyi_pay_enterprise a INNER JOIN diyi_enterprise b ON b.id = a.enterprise_id
+        INNER JOIN diyi_service_provider c ON c.id = a.service_provider_id WHERE a.company_invoice_state = 'UNOPEN' and a.audit_state = 'APPROVED' AND a.id
+        NOT IN ( SELECT d.pay_enterprise_id FROM diyi_invoice_application c INNER JOIN diyi_invoice_application_pay_list d ON c.id = d.application_id
+        WHERE c.application_state IN ( 'APPLYING', 'ISSUEDINFULL', 'PARTIALLYISSUED' ))
         <if test="param1 != null">
             AND a.service_provider_id = #{param1}
         </if>

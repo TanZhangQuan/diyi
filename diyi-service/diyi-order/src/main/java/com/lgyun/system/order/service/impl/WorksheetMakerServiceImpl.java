@@ -3,6 +3,7 @@ package com.lgyun.system.order.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.WorksheetMakerState;
 import com.lgyun.common.enumeration.WorksheetState;
 import com.lgyun.core.mp.base.BaseServiceImpl;
@@ -67,7 +68,7 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
         worksheetMakerEntity.setWorksheetMakerState(WorksheetMakerState.VERIFIED);
         updateById(worksheetMakerEntity);
 
-        return R.success("提交工作");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override
@@ -87,7 +88,7 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
 
         if (WorksheetMakerState.VALIDATION.equals(worksheetMakerEntity.getWorksheetMakerState())) {
             updateById(worksheetMakerEntity);
-            return R.success("修改成功");
+            return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
         }
 
         if (bool) {
@@ -95,9 +96,9 @@ public class WorksheetMakerServiceImpl extends BaseServiceImpl<WorksheetMakerMap
         } else {
             worksheetMakerEntity.setWorksheetMakerState(WorksheetMakerState.FAILED);
         }
-        updateById(worksheetMakerEntity);
 
-        return R.success("验收成功");
+        updateById(worksheetMakerEntity);
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override

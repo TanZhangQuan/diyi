@@ -420,22 +420,52 @@ public interface IUserClient {
     void createMakerToEnterpriseRelevance(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("makerId") Long makerId);
 
     /**
-     * 根据服务商Id查询服务商
+     * 根据服务商ID查询服务商
      *
      * @param serviceProviderId
      * @return
      */
-    @GetMapping(API_PREFIX + "/query-service_provider-by-id")
-    ServiceProviderEntity queryServiceProviderById(@RequestParam("serviceProviderId") Long serviceProviderId);
+    @GetMapping(API_PREFIX + "/query-service-provider-count-by-id")
+    int queryServiceProviderCountById(@RequestParam("serviceProviderId") Long serviceProviderId);
 
     /**
-     * 查询已签署已审核通过的商户-创客补充协议
+     * 根据商户ID查询商户
      *
-     * @param makerId
      * @param enterpriseId
      * @return
      */
-    @GetMapping(API_PREFIX + "/query-agreement-num")
-    int queryEntMakSupplementaryAgreementNum(@RequestParam("makerId") Long makerId, @RequestParam("enterpriseId") Long enterpriseId);
+    @GetMapping(API_PREFIX + "/query-enterprise-count-by-id")
+    int queryEnterpriseCountById(@RequestParam("enterpriseId") Long enterpriseId);
+
+    /**
+     * 查询有效协议合同数
+     *
+     * @param partyA
+     * @param partyAId
+     * @param partyB
+     * @param partyBId
+     * @param agreementType
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/query-valid-agreement-num")
+    int queryValidAgreementNum(@RequestParam("partyA") ObjectType partyA, @RequestParam("partyAId") Long partyAId, @RequestParam("partyB") ObjectType partyB, @RequestParam("partyBId") Long partyBId, @RequestParam("agreementType") AgreementType agreementType);
+
+    /**
+     * 根据服务商查询创客业务规则
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/deal-maker-rule")
+    R<String> dealMakerRule(@RequestParam("serviceProviderId") Long serviceProviderId, @RequestParam("makerId") Long makerId);
+
+    /**
+     * 根据服务商查询创客业务规则
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    @GetMapping(API_PREFIX + "/deal-enterprise-rule")
+    R<String> dealEnterpriseRule(@RequestParam("serviceProviderId") Long serviceProviderId, @RequestParam("enterpriseId") Long enterpriseId);
 
 }

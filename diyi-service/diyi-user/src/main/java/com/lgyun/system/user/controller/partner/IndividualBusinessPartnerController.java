@@ -42,7 +42,7 @@ public class IndividualBusinessPartnerController {
         }
         PartnerEntity partnerEntity = result.getData();
 
-        return individualBusinessService.queryIndividualBusinessListMaker(null, partnerEntity.getId(), ibstate, Condition.getPage(query.setDescs("t1.create_time")));
+        return individualBusinessService.queryIndividualBusinessListMaker(partnerEntity.getId(), ibstate, null, Condition.getPage(query.setDescs("t1.create_time")));
     }
 
     @GetMapping("/query-individual-business-detail")

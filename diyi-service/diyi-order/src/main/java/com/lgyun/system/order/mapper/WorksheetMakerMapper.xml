@@ -14,8 +14,8 @@
         <result property="bankCardVerifyStatus" column="bank_card_verify_status"/>
         <result property="phoneNumberVerifyStatus" column="phone_number_verify_status"/>
         <result property="videoAudit" column="video_audit"/>
-        <result property="empowerSignState" column="empower_sign_state"/>
-        <result property="joinSignState" column="join_sign_state"/>
+        <result property="boolPowerAttorney" column="bool_power_attorney"/>
+        <result property="boolJoinAgreement" column="bool_join_agreement"/>
         <result property="worksheetMakerState" column="worksheet_maker_state"/>
         <result property="achievementDesc" column="achievement_desc"/>
         <result property="achievementFiles" column="achievement_files"/>
@@ -31,10 +31,12 @@
     </resultMap>
 
     <select id="getWorksheetMakerDetails" resultMap="worksheetMakerDetailsVOMap">
-        SELECT wm.id,m.name,m.idcard_no,m.phone_number,m.bank_card_no,m.idcard_verify_status,m.face_verify_status,m.bank_card_verify_status,
-        m.phone_number_verify_status,m.video_audit,m.empower_sign_state,m.join_sign_state, wm.worksheet_maker_state, wm.achievement_desc,
-        wm.achievement_files, wm.achievement_date, wm.check_money from diyi_worksheet_maker wm INNER JOIN diyi_maker m on m.id = wm.maker_id
-        where m.bool_deleted = 0 and wm.bool_deleted =0 and wm.worksheet_id = #{param1}
+        SELECT wm.id, m.name, m.idcard_no, m.phone_number, m.bank_card_no, m.idcard_verify_status, m.face_verify_status, m.bank_card_verify_status,
+        m.phone_number_verify_status, m.video_audit, wm.worksheet_maker_state, wm.achievement_desc, wm.achievement_files, wm.achievement_date, wm.check_money,
+        IF((SELECT COUNT(id) FROM diyi_agreement WHERE agreement_type = 'MAKERPOWERATTORNEY' AND valid_state = 'VALIDING' AND party_b = 'MAKERPEOPLE'
+        AND party_b_id = m.id) > 0, TRUE, FALSE) AS bool_power_attorney, IF((SELECT COUNT(id) FROM diyi_agreement WHERE agreement_type = 'MAKERJOINAGREEMENT'
+        AND valid_state = 'VALIDING' AND party_b = 'MAKERPEOPLE' AND party_b_id = m.id) > 0, TRUE, FALSE) AS bool_join_agreement
+        FROM diyi_worksheet_maker wm INNER JOIN diyi_maker m ON m.id = wm.maker_id WHERE m.bool_deleted = 0 AND wm.bool_deleted =0 AND wm.worksheet_id = #{param1}
     </select>
 
     <select id="getWorksheetMakerDetailList" resultMap="worksheetMakerListVO">

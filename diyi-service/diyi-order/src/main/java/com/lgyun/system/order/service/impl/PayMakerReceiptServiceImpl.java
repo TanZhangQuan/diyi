@@ -1,6 +1,7 @@
 package com.lgyun.system.order.service.impl;
 
 import com.lgyun.common.api.R;
+import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.PayEnterpriseAuditState;
 import com.lgyun.common.enumeration.PayMakerPayState;
 import com.lgyun.core.mp.base.BaseServiceImpl;
@@ -82,7 +83,7 @@ public class PayMakerReceiptServiceImpl extends BaseServiceImpl<PayMakerReceiptM
             payMakerService.updateById(payMakerEntity);
         }
 
-        return R.success("上传支付回单成功");
+        return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
 }

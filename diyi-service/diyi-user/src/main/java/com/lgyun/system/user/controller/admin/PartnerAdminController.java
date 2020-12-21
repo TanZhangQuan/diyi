@@ -4,6 +4,7 @@ import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.CooperateStatus;
 import com.lgyun.common.enumeration.ObjectType;
+import com.lgyun.common.enumeration.TemplateType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
@@ -38,8 +39,9 @@ public class PartnerAdminController {
     private IAdminService adminService;
     private IPartnerService partnerService;
     private IEnterpriseService enterpriseService;
-    private IPartnerEnterpriseService partnerEnterpriseService;
     private IOnlineSignPicService onlineSignPicService;
+    private IPartnerEnterpriseService partnerEnterpriseService;
+    private IOnlineAgreementNeedSignService onlineAgreementNeedSignService;
 
     @GetMapping("/query-partner-list")
     @ApiOperation(value = "查询所有合伙人", notes = "查询所有合伙人")
@@ -137,8 +139,8 @@ public class PartnerAdminController {
     @PostMapping("/update-partner-enterprise-cooperation-status")
     @ApiOperation(value = "更改合伙人商户合作关系", notes = "更改合伙人商户合作关系")
     public R updatePartnerEnterpriseCooperationStatus(@ApiParam(value = "合伙人", required = true) @NotNull(message = "请选择合伙人") @RequestParam(required = false) Long partnerId,
-                                                        @ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
-                                                        @ApiParam(value = "合作状态", required = true) @NotNull(message = "请选择合作状态") @RequestParam(required = false) CooperateStatus cooperateStatus, BladeUser bladeUser) {
+                                                      @ApiParam(value = "商户", required = true) @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId,
+                                                      @ApiParam(value = "合作状态", required = true) @NotNull(message = "请选择合作状态") @RequestParam(required = false) CooperateStatus cooperateStatus, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -150,22 +152,22 @@ public class PartnerAdminController {
 
     @GetMapping("/query-cooperation-need-contract")
     @ApiOperation(value = "查询合伙人需要签署的合同", notes = "查询合伙人需要签署的合同")
-    public R queryCooperationNeedContract(BladeUser bladeUser,@ApiParam(value = "合伙人", required = true) @NotNull(message = "请选择合伙人") @RequestParam(required = false) Long partnerId) {
+    public R queryCooperationNeedContract(@ApiParam(value = "合伙人", required = true) @NotNull(message = "请选择合伙人") @RequestParam(required = false) Long partnerId, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
             return result;
         }
 
-        return partnerService.queryCooperationNeedContract(partnerId);
+        return onlineAgreementNeedSignService.getOnlineAgreementNeedSign(ObjectType.PARTNERPEOPLE, partnerId, TemplateType.CONTRACT);
     }
 
     @PostMapping("/partner-confirm-sign")
     @ApiOperation(value = "合伙人确认签字", notes = "合伙人确认签字")
     public R partnerConfirmSign(@ApiParam(value = "合伙人", required = true) @NotNull(message = "请选择合伙人") @RequestParam(required = false) Long partnerId, BladeUser bladeUser,
                                 @ApiParam(value = "签名图片", required = true) @NotBlank(message = "请上传签名图片") @URL(message = "请输入正确的链接") @RequestParam(required = false) String signPic,
-                                @ApiParam(value = "模板", required = true) @NotNull(message = "请选择模板") @RequestParam(required = false)Long onlineAgreementTemplateId,
-                                @ApiParam(value = "签署的id", required = true) @NotNull(message = "请选择需要签署的id") @RequestParam(required = false)Long onlineAgreementNeedSignId) {
+                                @ApiParam(value = "模板", required = true) @NotNull(message = "请选择模板") @RequestParam(required = false) Long onlineAgreementTemplateId,
+                                @ApiParam(value = "签署的id", required = true) @NotNull(message = "请选择需要签署的id") @RequestParam(required = false) Long onlineAgreementNeedSignId) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {

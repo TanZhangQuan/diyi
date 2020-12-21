@@ -1,6 +1,8 @@
 package com.lgyun.system.user.controller.serviceProvider;
 
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.EnterpriseRule;
+import com.lgyun.common.enumeration.MakerRule;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
@@ -8,6 +10,7 @@ import com.lgyun.system.user.dto.AddOrUpdateServiceProviderAccountDTO;
 import com.lgyun.system.user.dto.ContactsInfoDTO;
 import com.lgyun.system.user.entity.ServiceProviderWorkerEntity;
 import com.lgyun.system.user.service.IServiceProviderAccountService;
+import com.lgyun.system.user.service.IServiceProviderRulesService;
 import com.lgyun.system.user.service.IServiceProviderService;
 import com.lgyun.system.user.service.IServiceProviderWorkerService;
 import io.swagger.annotations.Api;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/service-provider/basic-info")
@@ -27,8 +31,9 @@ import javax.validation.constraints.NotNull;
 @Api(value = "服务商端---服务商基本信息管理模块相关接口", tags = "服务商端---服务商基本信息管理模块相关接口")
 public class BasicInfoServiceProviderController {
 
-    private IServiceProviderWorkerService serviceProviderWorkerService;
     private IServiceProviderService serviceProviderService;
+    private IServiceProviderRulesService serviceProviderRulesService;
+    private IServiceProviderWorkerService serviceProviderWorkerService;
     private IServiceProviderAccountService serviceProviderAccountService;
 
     @GetMapping("/query-service-provider-account-list")
@@ -118,6 +123,20 @@ public class BasicInfoServiceProviderController {
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
         return serviceProviderService.queryeInvoice(serviceProviderWorkerEntity.getServiceProviderId());
+    }
+
+    @PostMapping("/add-or-update-service-provider-rule")
+    @ApiOperation(value = "修改当前服务商联系人信息", notes = "修改当前服务商联系人信息")
+    public R addOrUpdateServiceProviderRule(@ApiParam(value = "服务商-创客业务规则") @RequestParam(required = false) Set<MakerRule> makerRuleHashSet,
+                                 @ApiParam(value = "服务商-商户业务规则") @RequestParam(required = false) Set<EnterpriseRule> enterpriseRuleSet, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+        return serviceProviderRulesService.addOrUpdateServiceProviderRule(serviceProviderWorkerEntity.getServiceProviderId(), makerRuleHashSet, enterpriseRuleSet);
     }
 
 }

@@ -46,7 +46,7 @@ public class EnterpriseListAdminVO implements Serializable {
     private String joinContract;
 
     /**
-     * 商户承诺函(可能多张)
+     * 商户业务真实性承诺函(可能多张)
      */
     private String commitmentLetters;
 

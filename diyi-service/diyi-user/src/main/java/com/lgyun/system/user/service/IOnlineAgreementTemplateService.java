@@ -5,7 +5,7 @@ import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.OnlineAgreementTemplateEntity;
 
 /**
- *  Service 接口
+ * Service 接口
  *
  * @author jun
  * @since 2020-07-18 14:37:08
@@ -15,7 +15,7 @@ public interface IOnlineAgreementTemplateService extends BaseService<OnlineAgree
     /**
      * 通过协议类别查询
      */
-    OnlineAgreementTemplateEntity findTemplateType(AgreementType agreementType,Integer boolAllMakers);
+    OnlineAgreementTemplateEntity findTemplateType(AgreementType agreementType, Boolean boolAllSign);
 
 }
 
