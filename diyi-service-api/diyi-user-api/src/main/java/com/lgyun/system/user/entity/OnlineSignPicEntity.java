@@ -38,9 +38,4 @@ public class OnlineSignPicEntity extends BaseEntity {
      * 签字笔迹URL
      */
     private String signPic;
-
-    /**
-     * 签署日期
-     */
-    private Date signDatetime;
 }

@@ -964,7 +964,6 @@ CREATE TABLE `diyi_online_sign_pic` (
   `object_type` varchar(50) NOT NULL COMMENT '对象身份',
   `object_id` bigint(50) NOT NULL COMMENT '对象ID',
   `sign_pic` varchar(500) NOT NULL COMMENT '签字笔迹',
-  `sign_datetime` datetime NOT NULL COMMENT '签署日期',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
