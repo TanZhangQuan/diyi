@@ -90,7 +90,7 @@ public class RelBureauNoticeServiceImpl extends BaseServiceImpl<RelBureauNoticeM
         relBureauNoticeFileListUnReadNumVO.setUnReadNum(unreadNum);
 
         //相关局通知
-        IPage<RelBureauNoticeFileListServiceProviderVO> page = Condition.getPage(query.setDescs("bool_read"));
+        IPage<RelBureauNoticeFileListServiceProviderVO> page = Condition.getPage(query.setAscs("bool_read"));
         List<RelBureauNoticeFileListServiceProviderVO> relBureauFileList = baseMapper.queryRelBureauNoticeListServiceProvider(serviceProviderId, serviceProviderWorkerId, page);
         relBureauNoticeFileListUnReadNumVO.setRelBureauFileList(page.setRecords(relBureauFileList));
 
