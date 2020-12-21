@@ -481,7 +481,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(partyA != null, AgreementEntity::getPartyA, partyA).eq(partyAId != null, AgreementEntity::getPartyAId, partyAId)
                 .eq(AgreementEntity::getPartyB, partyB).eq(AgreementEntity::getPartyBId, partyBId)
-                .eq(AgreementEntity::getAgreementType, agreementType);
+                .eq(AgreementEntity::getAgreementType, agreementType).eq(AgreementEntity::getValidState, ValidState.VALIDING);
 
         return baseMapper.selectCount(queryWrapper);
     }
@@ -489,8 +489,8 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     @Override
     public AgreementEntity findByEnterpriseAndMakerSuppl(Long makerId, Long enterpriseId) {
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(AgreementEntity::getMakerId, makerId)
-                .eq(AgreementEntity::getEnterpriseId, enterpriseId)
+        queryWrapper.lambda().eq(AgreementEntity::getPartyA, ObjectType.ENTERPRISEPEOPLE).eq(AgreementEntity::getPartyAId, enterpriseId)
+                .eq(AgreementEntity::getPartyB, ObjectType.MAKERPEOPLE).eq(AgreementEntity::getPartyBId, makerId)
                 .eq(AgreementEntity::getAgreementType, AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT)
                 .eq(AgreementEntity::getSignState, SignState.SIGNED)
                 .eq(AgreementEntity::getAuditState, AuditState.APPROVED);

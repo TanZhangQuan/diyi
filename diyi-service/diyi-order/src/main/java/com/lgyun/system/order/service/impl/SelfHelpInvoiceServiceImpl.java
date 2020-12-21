@@ -612,7 +612,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
                     invoiceListExcel.setPositiveIdCard(makerEntity.getIdcardPic());
                     invoiceListExcel.setBackIdCard(makerEntity.getIdcardPicBack());
                     AgreementEntity agreementEntity = iUserClient.queryEntMakSupplementaryAgreement(makerEntity.getId(), enterpriseEntity.getId());
-                    invoiceListExcel.setBusinessContract(null != agreementEntity && null != agreementEntity.getPaperAgreementUrl() ? agreementEntity.getPaperAgreementUrl() : null);
+                    invoiceListExcel.setBusinessContract(null != agreementEntity ? agreementEntity.getAgreementUrl() : null);
                 }else if(null != selfHelpInvoicePersonEntity){
                     invoiceListExcel.setPositiveIdCard(selfHelpInvoicePersonEntity.getIdcardPic());
                     invoiceListExcel.setBackIdCard(selfHelpInvoicePersonEntity.getIdcardPicBack());
@@ -635,7 +635,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
                     invoiceListExcel.setPositiveIdCard(makerEntity.getIdcardPic());
                     invoiceListExcel.setBackIdCard(makerEntity.getIdcardPicBack());
                     AgreementEntity agreementEntity = iUserClient.queryEntMakSupplementaryAgreement(makerEntity.getId(), enterpriseEntity.getId());
-                    invoiceListExcel.setBusinessContract(null != agreementEntity && null != agreementEntity.getPaperAgreementUrl() ? agreementEntity.getPaperAgreementUrl() : null);
+                    invoiceListExcel.setBusinessContract(null != agreementEntity ? agreementEntity.getAgreementUrl() : null);
 
             }
             if(MakerType.INDIVIDUALBUSINESS.equals(makerType)){
@@ -651,7 +651,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
                     invoiceListExcel.setPositiveIdCard(makerEntity.getIdcardPic());
                     invoiceListExcel.setBackIdCard(makerEntity.getIdcardPicBack());
                     AgreementEntity agreementEntity = iUserClient.queryEntMakSupplementaryAgreement(makerEntity.getId(), enterpriseEntity.getId());
-                    invoiceListExcel.setBusinessContract(null != agreementEntity && null != agreementEntity.getPaperAgreementUrl() ? agreementEntity.getPaperAgreementUrl() : null);
+                    invoiceListExcel.setBusinessContract(null != agreementEntity ? agreementEntity.getAgreementUrl() : null);
 
             }
 

@@ -744,7 +744,7 @@ public class UserClient implements IUserClient {
 
     @Override
     public AgreementEntity queryEntMakSupplementaryAgreement(Long makerId, Long enterpriseId) {
-        return agreementService.findByEnterpriseAndMakerSuppl(makerId,enterpriseId);
+        return agreementService.findByEnterpriseAndMakerSuppl(makerId, enterpriseId);
     }
 
     @Override
@@ -759,6 +759,6 @@ public class UserClient implements IUserClient {
 
     @Override
     public void createMakerToEnterpriseSupplement(Long enterpriseId, Long makerId, String businessContract) {
-         agreementService.saveEnterpriseMakerAgreement(enterpriseId,businessContract,makerId+"");
+        agreementService.saveEnterpriseMakerAgreement(enterpriseId, businessContract, makerId + "");
     }
 }
