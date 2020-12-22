@@ -2,6 +2,8 @@ package com.lgyun.common.secure;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * AuthInfo
  *
@@ -9,7 +11,8 @@ import lombok.Data;
  * @since 2020/6/5 19:00
  */
 @Data
-public class AuthInfo {
+public class AuthInfo implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /**
      * 令牌

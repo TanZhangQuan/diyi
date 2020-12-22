@@ -20,9 +20,7 @@ import org.springframework.context.annotation.Bean;
 public class GeneratorApplication {
 
     public static void main(String[] args) {
-        log.info("代码生成服务启动开始");
         SpringApplication.run(GeneratorApplication.class, args);
-        log.info("代码生成服务启动结束");
     }
 
     @Bean

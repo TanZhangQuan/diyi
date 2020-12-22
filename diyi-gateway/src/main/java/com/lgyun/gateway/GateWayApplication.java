@@ -18,9 +18,7 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 public class GateWayApplication {
 
     public static void main(String[] args) {
-        log.info("网关项目服务启动开始");
         BladeApplication.run(AppConstant.APPLICATION_GATEWAY_NAME, GateWayApplication.class, args);
-        log.info("网关项目服务启动结束");
     }
 
 }
