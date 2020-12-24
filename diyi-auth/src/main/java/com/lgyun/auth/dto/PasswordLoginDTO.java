@@ -2,48 +2,35 @@ package com.lgyun.auth.dto;
 
 import com.lgyun.common.enumeration.RelBureauType;
 import com.lgyun.common.enumeration.UserType;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-/**
- * @author tzq
- * @Description 账号密码登录DTO
- * @return
- * @date 2020.06.27
- */
 @Data
+@ApiModel(description = "账号密码登录DTO")
 public class PasswordLoginDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 用户类型
-     */
+    @ApiModelProperty(value = "用户类型", notes = "com.lgyun.common.enumeration.UserType")
     @NotNull(message = "请选择用户类型")
     private UserType userType;
 
-    /**
-     * 相关局类型
-     */
+    @ApiModelProperty(value = "相关局类型", notes = "com.lgyun.common.enumeration.RelBureauType")
     private RelBureauType relBureauType;
 
-    /**
-     * 手机号/用户名
-     */
+    @ApiModelProperty(value = "手机号/用户名")
     @NotBlank(message = "请输入手机号/用户名")
     private String account;
 
-    /**
-     * 密码
-     */
+    @ApiModelProperty(value = "密码")
     @NotBlank(message = "请输入密码")
     private String password;
 
-    /**
-     * 微信授权码
-     */
+    @ApiModelProperty(value = "微信授权码")
     private String wechatCode;
 
 }

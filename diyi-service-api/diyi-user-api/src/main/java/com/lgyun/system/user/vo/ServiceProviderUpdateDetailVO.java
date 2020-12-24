@@ -2,9 +2,12 @@ package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.EnterpriseRule;
+import com.lgyun.common.enumeration.MakerRule;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * 平台端---服务商管理---服务商详情vo
@@ -116,6 +119,16 @@ public class ServiceProviderUpdateDetailVO implements Serializable {
      * 开票资料-开户银行和账号
      */
     private String invoiceBankNameAccount;
+
+    /**
+     * 服务商-创客业务规则
+     */
+    private Set<MakerRule> makerRuleSet;
+
+    /**
+     * 服务商-商户业务规则
+     */
+    private Set<EnterpriseRule> enterpriseRuleSet;
 
     /**
      * 用户名

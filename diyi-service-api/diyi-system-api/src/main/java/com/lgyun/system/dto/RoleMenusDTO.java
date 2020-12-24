@@ -1,32 +1,27 @@
 package com.lgyun.system.dto;
 
 import com.lgyun.common.enumeration.UserType;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
 @Data
+@ApiModel(description = "XXXXXX")
 public class RoleMenusDTO {
 
-    /**
-     * 角色ID
-     */
+    @ApiModelProperty(value = "角色ID")
     private Long roleId;
 
-    /**
-     * 角色名
-     */
+    @ApiModelProperty(value = "角色名")
     @NotBlank(message = "请输入角色名")
     private String roleName;
 
-    /**
-     * 菜单ID字符集（ID之间用英文逗号隔开）
-     */
+    @ApiModelProperty(value = "菜单集合(多个逗号隔开)")
     @NotBlank(message = "请选择菜单")
     private String menus;
 
-    /**
-     * 用户类型
-     */
+    @ApiModelProperty(value = "用户类型", notes = "com.lgyun.common.enumeration.UserType")
     private UserType userType;
 }

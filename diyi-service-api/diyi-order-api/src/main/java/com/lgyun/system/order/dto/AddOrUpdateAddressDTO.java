@@ -1,5 +1,7 @@
 package com.lgyun.system.order.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -8,63 +10,41 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
-/**
- * 地址
- *
- * @author tzq
- * @date 2020/7/8.
- * @time 16:27.
- */
 @Data
+@ApiModel(description = "添加或编辑地址DTO")
 public class AddOrUpdateAddressDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 地址ID
-     */
+    @ApiModelProperty(value = "地址ID")
     private Long addressId;
 
-    /**
-     * 收件人
-     */
+    @ApiModelProperty(value = "收件人")
     @NotBlank(message = "请输入收件人")
     private String addressName;
 
-    /**
-     * 手机号码
-     */
+    @ApiModelProperty(value = "手机号码")
     @NotBlank(message = "请输入手机号")
     @Length(min = 11, max = 11, message = "请输入11位手机号")
     @Pattern(regexp = "[0-9]*", message = "请输入有效的手机号码")
     private String addressPhone;
 
-    /**
-     * 省
-     */
+    @ApiModelProperty(value = "省")
     @NotBlank(message = "请选择省份")
     private String province;
 
-    /**
-     * 市
-     */
+    @ApiModelProperty(value = "市")
     @NotBlank(message = "请选择市")
     private String city;
 
-    /**
-     * 区
-     */
+    @ApiModelProperty(value = "区")
     @NotBlank(message = "请选择区")
     private String area;
 
-    /**
-     * 详细地址
-     */
+    @ApiModelProperty(value = "详细地址")
     @NotBlank(message = "请输入详细地址")
     private String detailedAddress;
 
-    /**
-     * 是否默认
-     */
+    @ApiModelProperty(value = "是否默认")
     @NotNull(message = "请选择是否默认")
     private Boolean boolDefault;
 

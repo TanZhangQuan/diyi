@@ -4,75 +4,51 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.*;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * @author tzq
- * @date 2020/7/7.
- * @time 18:22.
- */
 @Data
+@ApiModel(description = "XXXXX")
 public class EnterpriseWorksheetDetailVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 工单ID
-     */
+    @ApiModelProperty(value = "工单ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    /**
-     * 工单编号
-     */
+    @ApiModelProperty(value = "工单编号")
     private String worksheetNo;
 
-    /**
-     * 工单名称
-     */
+    @ApiModelProperty(value = "工单名称")
     private String worksheetName;
 
-    /**
-     * 类型，总包+分包，众包/众采
-     */
+    @ApiModelProperty(value = "工单类型")
     private WorksheetType worksheetType;
 
-    /**
-     * 创客身份
-     */
+    @ApiModelProperty(value = "创客身份")
     private MakerType makerType;
 
-    /**
-     * 模式
-     */
+    @ApiModelProperty(value = "工单模式")
     private WorksheetMode worksheetMode;
 
-    /**
-     * 获得方式：1,抢单获得；2，派单获得
-     */
+    @ApiModelProperty(value = "获得方式")
     private GetType getType;
 
-    /**
-     * 工单创客的状态
-     */
+    @ApiModelProperty(value = "创客-工单状态")
     private WorksheetMakerState worksheetMakerState;
 
-    /**
-     * 工作成果附件
-     */
+    @ApiModelProperty(value = "工作成果附件")
     private boolean boolAchievement;
 
-    /**
-     * 验收金额
-     */
+    @ApiModelProperty(value = "验收金额")
     private BigDecimal checkMoney;
 
-    /**
-     * 发布时间
-     */
+    @ApiModelProperty(value = "发布时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 

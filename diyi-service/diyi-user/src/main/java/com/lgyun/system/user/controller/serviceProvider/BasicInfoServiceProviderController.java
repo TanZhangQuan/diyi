@@ -127,7 +127,7 @@ public class BasicInfoServiceProviderController {
 
     @PostMapping("/add-or-update-service-provider-rule")
     @ApiOperation(value = "修改当前服务商的业务规则", notes = "修改当前服务商的业务规则")
-    public R addOrUpdateServiceProviderRule(@ApiParam(value = "服务商-创客业务规则") @RequestParam(required = false) Set<MakerRule> makerRuleHashSet,
+    public R addOrUpdateServiceProviderRule(@ApiParam(value = "服务商-创客业务规则") @RequestParam(required = false) Set<MakerRule> makerRuleSet,
                                             @ApiParam(value = "服务商-商户业务规则") @RequestParam(required = false) Set<EnterpriseRule> enterpriseRuleSet, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
@@ -136,7 +136,7 @@ public class BasicInfoServiceProviderController {
         }
         ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
 
-        return serviceProviderRulesService.addOrUpdateServiceProviderRule(serviceProviderWorkerEntity.getServiceProviderId(), makerRuleHashSet, enterpriseRuleSet);
+        return serviceProviderRulesService.addOrUpdateServiceProviderRule(serviceProviderWorkerEntity.getServiceProviderId(), makerRuleSet, enterpriseRuleSet);
     }
 
 }

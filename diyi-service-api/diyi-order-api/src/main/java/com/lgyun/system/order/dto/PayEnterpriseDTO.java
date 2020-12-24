@@ -2,48 +2,34 @@ package com.lgyun.system.order.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lgyun.common.enumeration.PayEnterpriseAuditState;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * 支付清单DTO
- *
- * @author tzq.
- * @date 2020/7/8.
- * @time 16:27.
- */
 @Data
+@ApiModel(description = "支付清单列表DTO")
 public class PayEnterpriseDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 服务商名称
-     */
+    @ApiModelProperty(value = "服务商名称")
     private String serviceProviderName;
 
-    /**
-     * 商户名称
-     */
+    @ApiModelProperty(value = "商户名称")
     private String enterpriseName;
 
-    /**
-     * 总包支付清单状态
-     */
+    @ApiModelProperty(value = "总包支付清单审核状态", notes = "com.lgyun.common.enumeration.PayEnterpriseAuditState")
     private PayEnterpriseAuditState payEnterpriseAuditState;
 
-    /**
-     * 上传支付清单开始时间
-     */
+    @ApiModelProperty(value = "上传支付清单开始时间")
     @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date beginDate;
 
-    /**
-     * 上传支付清单结束时间
-     */
+    @ApiModelProperty(value = "上传支付清单结束时间")
     @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;

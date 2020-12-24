@@ -13,16 +13,24 @@ import lombok.Data;
 @Data
 public class IndivInfo {
 
-    //个人银行卡号
+    /**
+     * 个人银行卡号
+     */
     private String bankCardNo;
 
-    //个人证件号
+    /**
+     * 个人证件号
+     */
     private String certNo;
 
-    //个人手机号
+    /**
+     * 个人手机号
+     */
     private String mobileNo;
 
-    //个人姓名
+    /**
+     * 个人姓名
+     */
     private String name;
 
 }

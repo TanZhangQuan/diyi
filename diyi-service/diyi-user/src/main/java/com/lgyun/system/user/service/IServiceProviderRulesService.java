@@ -20,10 +20,10 @@ public interface IServiceProviderRulesService extends BaseService<ServiceProvide
      * 新建服务商-创客业务规则，服务商-商户业务规则
      *
      * @param serviceProviderId
-     * @param makerRuleHashSet
+     * @param makerRuleSet
      * @param enterpriseRuleSet
      */
-    R<String> addOrUpdateServiceProviderRule(Long serviceProviderId, Set<MakerRule> makerRuleHashSet, Set<EnterpriseRule> enterpriseRuleSet);
+    R<String> addOrUpdateServiceProviderRule(Long serviceProviderId, Set<MakerRule> makerRuleSet, Set<EnterpriseRule> enterpriseRuleSet);
 
     /**
      * 根据服务商查询业务规则

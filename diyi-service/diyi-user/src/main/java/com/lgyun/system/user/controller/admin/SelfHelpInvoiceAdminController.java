@@ -28,31 +28,30 @@ import javax.validation.constraints.NotNull;
 public class SelfHelpInvoiceAdminController {
 
     private IAdminService adminService;
-    private IEnterpriseService enterpriseService;
     private IMakerService makerService;
+    private IEnterpriseService enterpriseService;
     private IServiceProviderService serviceProviderService;
 
     @GetMapping("/query-enterprise-list")
     @ApiOperation(value = "查询所有商户", notes = "查询所有商户")
     public R queryEnterpriseList(EnterpriseListDTO enterpriseListDTO, Query query, BladeUser bladeUser) {
-//        //查询当前管理员
-//        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
-//        if (!(result.isSuccess())) {
-//            return result;
-//        }
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
 
         return enterpriseService.queryEnterpriseList(null, null, enterpriseListDTO, Condition.getPage(query.setDescs("create_time")));
     }
 
-
     @GetMapping("/query-maker-list")
     @ApiOperation(value = "查询所有创客", notes = "查询所有创客")
     public R queryEnterpriseList(@ApiParam(value = "创客姓名/手机号/身份证号") @RequestParam(required = false) String keyWord, Query query, BladeUser bladeUser) {
-//        //查询当前管理员
-//        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
-//        if (!(result.isSuccess())) {
-//            return result;
-//        }
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
 
         return makerService.queryMakerSelectList(keyWord, Condition.getPage(query.setDescs("create_time")));
     }
@@ -60,11 +59,11 @@ public class SelfHelpInvoiceAdminController {
     @GetMapping("/query-service-provider-list")
     @ApiOperation(value = "查询所有服务商", notes = "查询所有服务商")
     public R queryServiceProviderList(ServiceProviderListDTO serviceProviderListDTO, Query query, BladeUser bladeUser) {
-//        //查询当前管理员
-//        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
-//        if (!(result.isSuccess())) {
-//            return result;
-//        }
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
 
         return serviceProviderService.queryServiceProviderList(null, null, serviceProviderListDTO, Condition.getPage(query.setDescs("t1.create_time")));
     }

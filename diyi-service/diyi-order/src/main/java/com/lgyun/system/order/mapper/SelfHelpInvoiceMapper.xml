@@ -225,7 +225,7 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.order.vo.SelfInvoiceDetailVo" id="selfInvoiceDetailVoMap">
+    <resultMap type="com.lgyun.system.order.vo.SelfInvoiceDetailVO" id="selfInvoiceDetailVoMap">
         <result property="selfHelpInvoiceId" column="self_help_invoice_id"/>
 <!--        <result property="selfHelpInvoiceApplyId" column="self_help_invoice_apply_id"/>-->
         <result property="selfHelpInvoiceDetailId" column="self_help_invoice_detail_id"/>
@@ -526,7 +526,7 @@
         AND (t1.apply_state = 'SUBMITTED' OR t1.apply_state = 'INVOICED')
     </select>
 
-    <resultMap type="com.lgyun.system.order.vo.SelfInvoiceListVo" id="selfInvoiceListVoMap">
+    <resultMap type="com.lgyun.system.order.vo.SelfInvoiceListVO" id="selfInvoiceListVoMap">
         <result property="selfHelpInvoiceId" column="self_help_invoice_id"/>
         <result property="applyEnterpriseId" column="apply_enterprise_id"/>
          <result property="applyMakerId" column="apply_maker_id"/>

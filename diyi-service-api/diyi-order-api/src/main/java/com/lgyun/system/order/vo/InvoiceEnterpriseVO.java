@@ -3,99 +3,65 @@ package com.lgyun.system.order.vo;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-/**
- * @author .
- * @date 2020/7/22.
- * @time 16:30.
- */
 @Data
+@ApiModel(description = "XXXXX")
 public class InvoiceEnterpriseVO  implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 商户id
-     */
+    @ApiModelProperty(value = "商户ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
 
-    /**
-     *支付清单ID
-     */
+    @ApiModelProperty(value = "支付清单ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long payEnterpriseId;
 
-    /**
-     * 创客支付ID
-     */
+    @ApiModelProperty(value = "创客支付ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long payMakerId;
 
-    /**
-     * 商户名字
-     */
+    @ApiModelProperty(value = "商户名字")
     private String enterpriseName;
 
-    /**
-     *服务商名字
-     */
+    @ApiModelProperty(value = "服务商名字")
     private String serviceProviderName;
 
-    /**
-     *'类型，总包+分包，众包/众采',
-     */
+    @ApiModelProperty(value = "工单类型")
     private String worksheetType;
 
-    /**
-     * 金额
-     */
+    @ApiModelProperty(value = "金额")
     private BigDecimal payToPlatformAmount;
 
-    /**
-     * 发票URl
-     */
+    @ApiModelProperty(value = "发票")
     private String makerVoiceUrl;
 
-    /**
-     * 完税证明URL
-     */
+    @ApiModelProperty(value = "完税证明")
     private String makerTaxUrl;
 
-    /**
-     * 工单名称
-     */
+    @ApiModelProperty(value = "工单名称")
     private String worksheetName;
 
-    /**
-     * 模式
-     */
+    @ApiModelProperty(value = "XXXXX")
     private String worksheetMode;
-    /**
-     * 发布日期
-     */
+
+    @ApiModelProperty(value = "发布日期")
     private String createTime;
 
-    /**
-     * 工单编号
-     */
+    @ApiModelProperty(value = "工单编号")
     private String worksheetNo;
 
-    /**
-     * 验收url
-     */
+    @ApiModelProperty(value = "工作成果附件")
     private String achievementFiles;
 
-    /**
-     * 验收金额
-     */
+    @ApiModelProperty(value = "验收金额")
     private String checkMoney;
 
-    /**
-     * 创客数
-     */
+    @ApiModelProperty(value = "创客数")
     private Integer makerNum;
 }

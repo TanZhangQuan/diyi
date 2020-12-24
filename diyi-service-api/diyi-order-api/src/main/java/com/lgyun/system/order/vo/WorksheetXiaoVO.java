@@ -4,117 +4,77 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.*;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * @author tzq
- * @date 2020/7/7.
- * @time 18:22.
- */
 @Data
+@ApiModel(description = "XXXXX")
 public class WorksheetXiaoVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 工单创客ID
-     */
+    @ApiModelProperty(value = "工单创客ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long worksheetMakerId;
 
-    /**
-     * 工单ID
-     */
+    @ApiModelProperty(value = "工单ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long worksheetId;
 
-    /**
-     * 企业ID
-     */
+    @ApiModelProperty(value = "商户ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
 
-    /**
-     * 企业姓名
-     */
+    @ApiModelProperty(value = "商户姓名")
     private String enterpriseName;
 
-    /**
-     * 工单编号
-     */
+    @ApiModelProperty(value = "工单编号")
     private String worksheetNo;
 
-    /**
-     * 工单名称
-     */
+    @ApiModelProperty(value = "工单名称")
     private String worksheetName;
 
-    /**
-     * 上线人数
-     */
+    @ApiModelProperty(value = "上限人数")
     private Integer upPersonNum;
 
-    /**
-     * 工作天数
-     */
+    @ApiModelProperty(value = "工作天数")
     private Integer workDays;
 
-    /**
-     * 最低费用
-     */
+    @ApiModelProperty(value = "最低费用")
     private BigDecimal worksheetFeeLow;
 
-    /**
-     * 最高费用
-     */
+    @ApiModelProperty(value = "最高费用")
     private BigDecimal worksheetFeeHigh;
 
-    /**
-     * 类型，总包+分包，众包/众采
-     */
+    @ApiModelProperty(value = "工单类型")
     private WorksheetType worksheetType;
 
-    /**
-     * 模式，派单、抢单、混合（默认：混合型）
-     */
+    @ApiModelProperty(value = "工单模式")
     private WorksheetMode worksheetMode;
 
-    /**
-     * 发布时间
-     */
+    @ApiModelProperty(value = "发布时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
-    /**
-     * 工单创客的状态：1待提交，2待验证，3验证通过，4验证失败
-     */
+    @ApiModelProperty(value = "工单创客的状态")
     private WorksheetMakerState worksheetMakerState;
 
-    /**
-     * 验收金额
-     */
+    @ApiModelProperty(value = "验收金额")
     private BigDecimal checkMoney;
 
-    /**
-     *工作成果说明
-     */
+    @ApiModelProperty(value = "工作成果说明")
     private String achievementDesc;
 
-    /**
-     * 工作成果附件
-     */
+    @ApiModelProperty(value = "工作成果附件")
     private String achievementFiles;
 
-    /**
-     * 创客身份
-     */
+    @ApiModelProperty(value = "创客身份")
     private MakerType makerType;
 
-    /**
-     * 工单状态
-     */
+    @ApiModelProperty(value = "工单状态")
     private WorksheetState worksheetState;
 }

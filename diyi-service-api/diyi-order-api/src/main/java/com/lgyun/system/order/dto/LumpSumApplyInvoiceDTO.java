@@ -1,6 +1,8 @@
 package com.lgyun.system.order.dto;
 
 import com.lgyun.common.enumeration.InvoiceMode;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -8,69 +10,44 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-/**
- * @author .
- * @date 2020/9/16.
- * @time 16:07.
- */
 @Data
+@ApiModel(description = "XXXXX")
 public class LumpSumApplyInvoiceDTO implements Serializable {
 
-    /**
-     *服务商名字
-     */
-    @NotBlank(message = "请输入服务商名字")
+    @ApiModelProperty(value = "服务商吗名称")
+    @NotBlank(message = "请输入服务商吗名称")
     private String serviceProviderName;
 
-    /**
-     *总包申请id
-     */
+    @ApiModelProperty(value = "总包申请ID")
     @NotNull(message = "请选择总包申请")
     private Long applicationId;
 
-    /**
-     *发票
-     */
+    @ApiModelProperty(value = "发票")
     @NotBlank(message = "请上传发票")
     private String companyInvoiceUrl;
 
-    /**
-     *快递单号
-     */
+    @ApiModelProperty(value = "快递单号")
     @NotBlank(message = "请输入快递单号")
     private String expressSheetNo;
 
-    /**
-     *快递公司
-     */
+    @ApiModelProperty(value = "快递公司")
     @NotBlank(message = "请输入快递公司")
     private String expressCompanyName;
 
-    /**
-     *说明
-     */
+    @ApiModelProperty(value = "说明")
     private String invoiceDesc;
 
-    /**
-     * 服务商
-     */
+    @ApiModelProperty(value = "服务商")
     private Long serviceProviderId;
 
-    /**
-     *货物或应税劳务、服务名称,发票类
-     */
+    @ApiModelProperty(value = "货物或应税劳务、服务名称,发票类")
     @NotBlank(message = "请输入发票分类")
     private String invoiceCategory;
 
-    /**
-     * 开票方式
-     */
+    @ApiModelProperty(value = "开票方式", notes = "com.lgyun.common.enumeration.InvoiceMode")
     @NotNull(message = "请选择开票方式")
     private InvoiceMode invoiceMode;
 
-
-    /**
-     * 部分开票金额
-     */
+    @ApiModelProperty(value = "部分开票金额")
     private BigDecimal partInvoiceAmount;
 }

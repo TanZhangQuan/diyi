@@ -143,7 +143,7 @@ public class UpdateServiceProviderDTO implements Serializable {
     /**
      * 服务商-创客业务规则
      */
-    private Set<MakerRule> makerRuleHashSet;
+    private Set<MakerRule> makerRuleSet;
 
     /**
      * 服务商-商户业务规则

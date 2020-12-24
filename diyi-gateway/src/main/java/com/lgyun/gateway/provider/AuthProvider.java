@@ -33,6 +33,8 @@ public class AuthProvider {
         defaultSkipUrl.add("/assets/**");
         //自定义
         defaultSkipUrl.add("/maker/real-name-authentication/face-ocr-notify");
+        defaultSkipUrl.add("/admin/self-help-invoice/create-qr-code");
+        defaultSkipUrl.add("/common/oss-file-upload");
     }
 
     /**

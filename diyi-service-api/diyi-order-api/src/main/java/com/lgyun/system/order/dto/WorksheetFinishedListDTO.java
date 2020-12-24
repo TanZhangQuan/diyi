@@ -3,44 +3,30 @@ package com.lgyun.system.order.dto;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.WorksheetType;
 import com.lgyun.common.enumeration.WorksheetState;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * 工单列表DTO
- *
- * @author tzq
- * @date 2020/7/8.
- * @time 16:27.
- */
 @Data
+@ApiModel(description = "工单列表DTO")
 public class WorksheetFinishedListDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 工单编号
-     */
+    @ApiModelProperty(value = "工单编号")
     private String worksheetNo;
 
-    /**
-     * 工单名称
-     */
+    @ApiModelProperty(value = "工单名称")
     private String worksheetName;
 
-    /**
-     * 工单类型
-     */
+    @ApiModelProperty(value = "工单类型", notes = "com.lgyun.common.enumeration.WorksheetType")
     private WorksheetType worksheetType;
 
-    /**
-     * 创客类型
-     */
+    @ApiModelProperty(value = "创客类型", notes = "com.lgyun.common.enumeration.MakerType")
     private MakerType makerType;
 
-    /**
-     * 工单状态
-     */
+    @ApiModelProperty(value = "工单状态", notes = "com.lgyun.common.enumeration.WorksheetState")
     private WorksheetState worksheetState;
 
 }

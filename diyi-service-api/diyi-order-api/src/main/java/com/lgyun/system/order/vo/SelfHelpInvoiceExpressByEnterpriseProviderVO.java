@@ -1,35 +1,25 @@
 package com.lgyun.system.order.vo;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * @author tzq
- * @date 2020/8/3.
- * @time 15:36.
- */
 @Data
+@ApiModel(description = "XXXXX")
 public class SelfHelpInvoiceExpressByEnterpriseProviderVO implements Serializable {
 
-    /**
-     * 发票
-     */
+    @ApiModelProperty(value = "发票")
     private String invoiceScanPictures;
 
-    /**
-     * 快递单号
-     */
+    @ApiModelProperty(value = "快递单号")
     private String expressNo;
 
-    /**
-     * 快递公司
-     */
+    @ApiModelProperty(value = "快递公司")
     private String expressCompanyName;
 
-    /**
-     * 快递信息
-     */
+    @ApiModelProperty(value = "快递信息")
     private Object expressMessage;
 
 }

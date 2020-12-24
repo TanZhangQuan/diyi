@@ -834,7 +834,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
-    public R querySelfInvoiceList(ObjectType objectType, Long objectId, MakerType makerType,String startTiem,String endTime,IPage<SelfInvoiceListVo> page) {
+    public R querySelfInvoiceList(ObjectType objectType, Long objectId, MakerType makerType,String startTiem,String endTime,IPage<SelfInvoiceListVO> page) {
         if(ObjectType.MAKERPEOPLE.equals(objectType)){
             return R.data(page.setRecords(baseMapper.queryMakerSelfInvoiceList(objectId,makerType,startTiem,endTime,page)));
         }else{
@@ -844,12 +844,12 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
     }
 
     @Override
-    public R queryServiceProviderSelfInvoiceList(Long serviceProviderId, MakerType makerType, String startTiem, String endTime, IPage<SelfInvoiceListVo> page) {
+    public R queryServiceProviderSelfInvoiceList(Long serviceProviderId, MakerType makerType, String startTiem, String endTime, IPage<SelfInvoiceListVO> page) {
         return R.data(page.setRecords(baseMapper.queryServiceProviderSelfInvoiceList(serviceProviderId,makerType,startTiem,endTime,page)));
     }
 
     @Override
-    public R queryAdminSelfInvoiceList(MakerType makerType, String startTiem, String endTime, IPage<SelfInvoiceListVo> page) {
+    public R queryAdminSelfInvoiceList(MakerType makerType, String startTiem, String endTime, IPage<SelfInvoiceListVO> page) {
         return R.data(page.setRecords(baseMapper.queryAdminSelfInvoiceList(makerType,startTiem,endTime,page)));
     }
 
@@ -891,7 +891,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         map.put("city",null != addressEntity && null != addressEntity.getCity() ? addressEntity.getCity() : null);
         map.put("area",null != addressEntity && null != addressEntity.getArea() ? addressEntity.getArea() : null);
         map.put("detailedAddress",null != addressEntity && null != addressEntity.getDetailedAddress() ? addressEntity.getDetailedAddress() : null);
-        List<SelfInvoiceDetailVo> selfInvoiceDetailVo = baseMapper.querySelfInvoiceDetail(selfHelpInvoiceEntity.getId());
+        List<SelfInvoiceDetailVO> selfInvoiceDetailVo = baseMapper.querySelfInvoiceDetail(selfHelpInvoiceEntity.getId());
         map.put("selfInvoiceDetailVos",selfInvoiceDetailVo);
         if(SelfHelpInvoiceApplyState.REJECTED.equals(selfHelpInvoiceEntity.getCurrentState())){
             SelfHelpInvoiceApplyEntity bySelfHelpInvoiceId = selfHelpInvoiceApplyService.getBySelfHelpInvoiceId(selfHelpInvoiceId);

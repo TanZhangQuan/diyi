@@ -1,13 +1,11 @@
-package com.lgyun.common.ctrl;
+package com.lgyun.common.controller;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.common.tool.SecureUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * Blade控制器封装类
