@@ -9,7 +9,11 @@ import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.entity.ServiceProviderRuleEntity;
 import com.lgyun.system.user.mapper.ServiceProviderRulesMapper;
-import com.lgyun.system.user.service.*;
+import com.lgyun.system.user.service.IAgreementService;
+import com.lgyun.system.user.service.IEnterpriseService;
+import com.lgyun.system.user.service.IMakerService;
+import com.lgyun.system.user.service.IServiceProviderRulesService;
+import com.lgyun.system.user.vo.ServiceProviderRuleVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -83,6 +87,21 @@ public class ServiceProviderRulesServiceImpl extends BaseServiceImpl<ServiceProv
         QueryWrapper<ServiceProviderRuleEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(ServiceProviderRuleEntity::getServiceProviderId, serviceProviderId);
         return baseMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public R<ServiceProviderRuleVO> queryServiceProviderRule(Long serviceProviderId) {
+
+        //查询服务商-创客业务规则
+        Set<MakerRule> makerRuleSet = queryMakerRuleByServiceProvider(serviceProviderId);
+        //查询服务商-商户业务规则
+        Set<EnterpriseRule> enterpriseRuleSet = queryEnterpriseRuleByServiceProvider(serviceProviderId);
+
+        ServiceProviderRuleVO serviceProviderRuleVO = new ServiceProviderRuleVO();
+        serviceProviderRuleVO.setMakerRuleSet(makerRuleSet);
+        serviceProviderRuleVO.setEnterpriseRuleSet(enterpriseRuleSet);
+
+        return R.data(serviceProviderRuleVO);
     }
 
     @Override
