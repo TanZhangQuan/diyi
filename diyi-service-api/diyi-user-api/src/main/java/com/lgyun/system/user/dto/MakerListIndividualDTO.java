@@ -1,31 +1,22 @@
 package com.lgyun.system.user.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- *
- *
- * @author xjw
- * @date 2020-09-9
- */
 @Data
+@ApiModel(description = "XXXXXX")
 public class MakerListIndividualDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 姓名
-     */
+    @ApiModelProperty(value = "姓名")
     private String name;
 
-    /**
-     * 手机号码
-     */
+    @ApiModelProperty(value = "手机号码")
     private String phoneNumber;
 
-    /**
-     * 身份证号码
-     */
+    @ApiModelProperty(value = "身份证号码")
     private String idcardNo;
 }

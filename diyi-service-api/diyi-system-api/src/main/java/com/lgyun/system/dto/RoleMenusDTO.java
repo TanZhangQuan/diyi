@@ -6,10 +6,12 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Data
 @ApiModel(description = "XXXXXX")
-public class RoleMenusDTO {
+public class RoleMenusDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "角色ID")
     private Long roleId;

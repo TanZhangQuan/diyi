@@ -11,6 +11,7 @@ import java.io.Serializable;
 @Data
 @ApiModel(description = "XXXXX")
 public class RolesVO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "角色ID")
     @JsonSerialize(using = ToStringSerializer.class)

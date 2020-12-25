@@ -2,59 +2,41 @@ package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * 平台端自然人创客和商户
- * @author tzq
- * @date 2020/9/9.
- * @time 10:23.
- */
 @Data
+@ApiModel(description = "")
 public class AgreementMakerEnterAdminVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 合同ID
-     */
+    @ApiModelProperty(value = "合同ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long agreementId;
 
-    /**
-     * 创客ID
-     */
+    @ApiModelProperty(value = "创客ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long makerId;
-    /**
-     * 商户ID
-     */
+
+    @ApiModelProperty(value = "商户ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
 
-    /**
-     *协议编号
-     */
+    @ApiModelProperty(value = "协议编号")
     private String agreementNo;
 
-    /**
-     * 创客名字
-     */
+    @ApiModelProperty(value = "创客名称")
     private String makerName;
 
-    /**
-     * 商户名字
-     */
+    @ApiModelProperty(value = "商户名字")
     private String enterpriseName;
 
-    /**
-     * 纸质协议URL
-     */
+    @ApiModelProperty(value = "纸质协议")
     private String agreementUrl;
 
-    /**
-     * 发布时间
-     */
+    @ApiModelProperty(value = "发布时间")
     private String createTime;
 }

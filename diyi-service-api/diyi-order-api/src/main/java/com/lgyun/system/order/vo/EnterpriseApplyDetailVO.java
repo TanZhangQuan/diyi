@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Data
 @ApiModel(description = "XXXXX")
 public class EnterpriseApplyDetailVO implements Serializable {
-
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "总包申请ID")
     @JsonSerialize(using = ToStringSerializer.class)

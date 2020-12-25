@@ -2,34 +2,25 @@ package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * 平台端---支付管理---服务商支付管理vo
- *
- * @author tzq
- * @date 2020/9/9
- */
 @Data
+@ApiModel(description = "服务商支付管理VO")
 public class ServiceProviderListPaymentVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 服务商编号
-     */
+    @ApiModelProperty(value = "服务商ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    /**
-     * 服务商名称
-     */
+    @ApiModelProperty(value = "服务商名称")
     private String serviceProviderName;
 
-    /**
-     * 是否已签合同
-     */
+    @ApiModelProperty(value = "是否已签合同")
     private Boolean boolSignContract;
 
 }

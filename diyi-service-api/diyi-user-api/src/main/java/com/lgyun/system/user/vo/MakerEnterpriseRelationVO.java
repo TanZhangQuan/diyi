@@ -3,79 +3,53 @@ package com.lgyun.system.user.vo;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.RelationshipType;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * @author tzq
- * @date 2020/6/29.
- * @time 20:04.
- */
 @Data
+@ApiModel(description = "XXXXXX")
 public class MakerEnterpriseRelationVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 商户名称
-     */
+    @ApiModelProperty(value = "商户名称")
     private String enterpriseName;
 
-    /**
-     * 商户名字
-     */
+    @ApiModelProperty(value = "店铺名称")
     private String shopUserName;
 
-    /**
-     * 法人名字
-     */
+    @ApiModelProperty(value = "法人名字")
     private String legalPersonName;
 
-    /**
-     * 法人身份证
-     */
+    @ApiModelProperty(value = "法人身份证")
     private String legalPersonIdcard;
 
-    /**
-     * 联系人职位
-     */
+    @ApiModelProperty(value = "联系人职位")
     private String contact1Position;
 
-    /**
-     * 联系人电话
-     */
+    @ApiModelProperty(value = "联系人电话")
     private String contact1Phone;
 
-    /**
-     * 营业执照编号
-     */
+    @ApiModelProperty(value = "营业执照编号")
     private String socialCreditNo;
 
-    /**
-     * 营业执照
-     */
+    @ApiModelProperty(value = "营业执照")
     private String bizLicenceUrl;
 
-    /**
-     * 企业ID
-     */
+    @ApiModelProperty(value = "企业ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
 
-    /**
-     * 创客商户关系
-     */
+    @ApiModelProperty(value = "创客商户关系")
     private RelationshipType relationshipType;
 
-    /**
-     * 商户ID
-     */
+    @ApiModelProperty(value = "商户ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long shopId;
 
-    /**
-     * 联系人1姓名
-     */
+    @ApiModelProperty(value = "联系人1姓名")
     private String contact1Name;
 
 }

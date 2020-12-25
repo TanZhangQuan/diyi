@@ -11,6 +11,7 @@ import java.io.Serializable;
 @Data
 @ApiModel(description = "XXXXX")
 public class SummaryInvoiceDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "商户清单(多个用逗号隔开)")
     @NotBlank(message = "请输入商户清单id")

@@ -9,6 +9,7 @@ import java.io.Serializable;
 @Data
 @ApiModel(description = "XXXXX")
 public class DoorSignInvoiceDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "支付清单(多个逗号隔开)")
     private String payEnterpriseIds;

@@ -12,6 +12,7 @@ import java.io.Serializable;
 @Data
 @ApiModel(description = "XXXXX")
 public class TotalMergeInvoiceVO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "支付清单ID")
     @JsonSerialize(using = ToStringSerializer.class)

@@ -3,48 +3,38 @@ package com.lgyun.system.user.vo;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.PositionName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
+@ApiModel(description = "XXXXXX")
 public class AdminInfoVO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    /**
-     * 账号ID
-     */
+    @ApiModelProperty(value = "账号ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private String id;
 
-    /**
-     * 角色ID
-     */
+    @ApiModelProperty(value = "角色ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long roleId;
 
-    /**
-     * 姓名
-     */
+    @ApiModelProperty(value = "姓名")
     private String name;
 
-    /**
-     * 岗位性质
-     */
+    @ApiModelProperty(value = "岗位性质")
     private PositionName positionName;
 
-    /**
-     * 手机号码
-     */
+    @ApiModelProperty(value = "手机号码")
     private String phoneNumber;
 
-    /**
-     * 用户名
-     */
+    @ApiModelProperty(value = "用户名")
     private String userName;
 
-    /**
-     *  创建子账号的权限
-     */
+    @ApiModelProperty(value = "创建子账号的权限")
     private Boolean adminPower;
 
 }

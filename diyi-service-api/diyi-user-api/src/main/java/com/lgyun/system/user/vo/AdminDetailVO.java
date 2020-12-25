@@ -1,38 +1,27 @@
 package com.lgyun.system.user.vo;
 
 import com.lgyun.common.enumeration.PositionName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * 平台端---首页管理---管理员详情VO
- *
- * @author tzq
- * @date 2020/9/9
- */
 @Data
+@ApiModel(description = "管理员详情VO")
 public class AdminDetailVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 头像
-     */
+    @ApiModelProperty(value = "头像")
     private String avatar;
 
-    /**
-     * 姓名
-     */
+    @ApiModelProperty(value = "姓名")
     private String name;
 
-    /**
-     * 岗位性质
-     */
+    @ApiModelProperty(value = "岗位性质")
     private PositionName positionName;
 
-    /**
-     * 管理员权限
-     */
+    @ApiModelProperty(value = "管理员权限")
     private Boolean superAdmin;
 
 }

@@ -11,6 +11,7 @@ import java.io.Serializable;
 @Data
 @ApiModel(description = "XXXXX")
 public class SelfInvoiceDetailVO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "自助开票ID")
     @JsonSerialize(using = ToStringSerializer.class)

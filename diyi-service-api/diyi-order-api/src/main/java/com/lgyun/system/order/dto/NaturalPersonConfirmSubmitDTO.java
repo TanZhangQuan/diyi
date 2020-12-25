@@ -16,6 +16,7 @@ import java.util.List;
 @Data
 @ApiModel(description = "XXXXX")
 public class NaturalPersonConfirmSubmitDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "对象类型", notes = "com.lgyun.common.enumeration.ObjectType")
     private ObjectType objectType;

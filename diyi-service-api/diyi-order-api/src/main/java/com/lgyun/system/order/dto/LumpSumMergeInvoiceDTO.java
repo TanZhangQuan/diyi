@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 @Data
 @ApiModel(description = "XXXXX")
 public class LumpSumMergeInvoiceDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "总包支付清单ID")
     @NotBlank(message = "请选择支付清单")

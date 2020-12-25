@@ -1,38 +1,27 @@
 package com.lgyun.system.user.vo;
 
 import com.lgyun.common.enumeration.VerifyStatus;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * 创客所有实名认证VO
- *
- * @author tzq
- * @since 2020/6/6 00:28
- */
 @Data
+@ApiModel(description = "创客所有实名认证VO")
 public class MakerRealNameAuthenticationStateVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 身份证实名认证状态
-     */
+    @ApiModelProperty(value = "身份证实名认证状态")
     private VerifyStatus idcardVerifyStatus;
 
-    /**
-     * 活体验证状态：未验证，验证通过，验证未通过
-     */
+    @ApiModelProperty(value = "活体验证状态")
     private VerifyStatus faceVerifyStatus;
 
-    /**
-     * 银行卡验证状态：未验证，验证通过，验证未通过
-     */
+    @ApiModelProperty(value = "银行卡验证状态")
     private VerifyStatus bankCardVerifyStatus;
 
-    /**
-     * 手机号码验证状态：未验证，验证通过，验证未通过
-     */
+    @ApiModelProperty(value = "手机号码验证状态")
     private VerifyStatus phoneNumberVerifyStatus;
 
 }

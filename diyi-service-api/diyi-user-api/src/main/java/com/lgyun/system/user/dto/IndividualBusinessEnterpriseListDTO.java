@@ -2,42 +2,31 @@ package com.lgyun.system.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lgyun.common.enumeration.Ibstate;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * @author tzq
- * @Description 个体户或个独查询DTO
- * @return
- * @date 2020.06.27
- */
 @Data
+@ApiModel(description = "个体户或个独查询DTO")
 public class IndividualBusinessEnterpriseListDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 个体户或个独名称
-     */
+    @ApiModelProperty(value = "个体户/个独名称")
     private String ibname;
 
-    /**
-     * 个体户或个独状态
-     */
+    @ApiModelProperty(value = "个体户/个独状态", notes = "com.lgyun.common.enumeration.Ibstate")
     private Ibstate ibstate;
 
-    /**
-     * 个体户或个独或个独注册开始时间
-     */
+    @ApiModelProperty(value = "个体户/个独注册开始时间")
     @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date beginDate;
 
-    /**
-     * 个体户或个独注册结束时间
-     */
+    @ApiModelProperty(value = "个体户/个独注册结束时间")
     @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
