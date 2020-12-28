@@ -125,7 +125,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
         for (int i = 1; i <= list.size(); i++) {
             //获取Excel数据
             PayEnterpriseExcel payEnterpriseExcel = list.get(i - 1);
-            log.info(String.valueOf(payEnterpriseExcel));
+            log.info("Excel数据：{}", payEnterpriseExcel);
 
             if (StringUtils.isBlank(payEnterpriseExcel.getMakerName())) {
                 throw new CustomException("第" + i + "条数据缺少创客姓名");

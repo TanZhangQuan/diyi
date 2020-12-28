@@ -32,7 +32,7 @@ public class YunTongXunSmsUtil {
      */
     public R<String> send(String[] datas, String mobile, MessageType messageType) {
 
-        log.info("========云通讯短信发送=========", mobile);
+        log.info("======云通讯短信发送======{}", mobile);
         String cacheKey = SmsConstant.MAX_SEND_TIME + mobile;
         int maxNum = 0;
         if (redisUtil.get(cacheKey) != null) {
@@ -40,7 +40,7 @@ public class YunTongXunSmsUtil {
 
             //单日短信最大发送次数限制
             if (maxNum >= SmsConstant.SMS_MAX_SEND_NUMBER) {
-                log.info(mobile, "===============单日短信达到最大发送次数=============", maxNum);
+                log.info(mobile, "======单日短信达到最大发送次数======{}", maxNum);
                 return R.fail("单日短信达到最大发送次数");
             }
 
@@ -53,7 +53,7 @@ public class YunTongXunSmsUtil {
         sdk.setBodyType(BodyType.Type_JSON);
 
         String template_id;
-        switch (messageType){
+        switch (messageType) {
 
             case CODE:
                 template_id = SmsConstant.TEMPLATE_CODE_ID;
@@ -74,7 +74,7 @@ public class YunTongXunSmsUtil {
             Set<String> keySet = data.keySet();
             for (String key : keySet) {
                 Object object = data.get(key);
-                log.info(key + " = " + object);
+                log.info("{} = {}", key, object);
             }
 
             //记录短信发送次数

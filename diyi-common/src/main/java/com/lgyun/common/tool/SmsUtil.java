@@ -45,7 +45,7 @@ public class SmsUtil {
 
         //随机六位数字验证码
         String randomCode = RandomStringUtils.randomNumeric(6);
-        log.info("手机号：" + mobile + "，验证码：" + randomCode);
+        log.info("手机号：{}, 验证码：{}", mobile, randomCode);
 
         if ("yuntongxun".equals(SmsConstant.SMS_PLATFORM)) {
             String[] datas = new String[]{randomCode, String.valueOf(SmsConstant.SMS_AVAILABLE_TIME_MINUTES)};

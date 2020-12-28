@@ -266,7 +266,7 @@ public class RealnameVerifyUtil {
         }
 
         JSONObject data = resultJson.getJSONObject("data");
-        log.info("请求返回信息： " + resultJson.toString());
+        log.info("请求返回信息： {}", resultJson);
 
         return R.data(data);
     }
@@ -282,8 +282,8 @@ public class RealnameVerifyUtil {
         //4、按照规则进行加密
         String signdata = timestamp + requestQuery + rbody;
         String mySignature = getSignature(signdata, appSecret, "HmacSHA256", "UTF-8");
-        log.info("加密出来的签名值：----------->>>>>>" + mySignature);
-        log.info("header里面的签名值：---------->>>>>>" + signture);
+        log.info("加密出来的签名值：----------->>>>>>{}", mySignature);
+        log.info("header里面的签名值：---------->>>>>>{}", signture);
         if (mySignature.equals(signture)) {
             log.info("校验通过");
             return true;
@@ -341,7 +341,7 @@ public class RealnameVerifyUtil {
             String value = request.getParameter(key);
             requestQuery += value == null ? "" : value;
         }
-        log.info("查询的query请求字符串是：------》》》" + requestQuery);
+        log.info("查询的query请求字符串是：------》》》{}", requestQuery);
         return requestQuery;
     }
 

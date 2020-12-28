@@ -30,7 +30,7 @@ public class QuratzJob {
             try {
                 payMakerService.confirmPayMaker(timeoutPayMakerListVO.getMakerId(), timeoutPayMakerListVO.getPayMakerId());
             } catch (Exception e) {
-                log.info("处理创客超过7天未确认分包支付明细异常：" + e.getMessage());
+                log.info("处理创客超过7天未确认分包支付明细异常：{}", e.getMessage());
             }
         }
         log.info("处理创客超过7天未确认分包支付明细结束------------end");

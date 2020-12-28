@@ -963,7 +963,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
                 KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
                 String result = kdniaoTrackQueryUtil.getOrderTracesByJson(payEnterpriseExpressVO.getExpressCompanyName(), payEnterpriseExpressVO.getExpressSheetNo());
                 JSONObject jsonObject = JSON.parseObject(result);
-                log.info(jsonObject.getString("Reason"));
+                log.info("物流数据：{}", jsonObject.getString("Reason"));
                 if (jsonObject.getBooleanValue("Success")) {
                     payEnterpriseExpressVO.setExpressDetail(jsonObject.getJSONArray("Traces"));
                 }
