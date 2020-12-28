@@ -576,9 +576,8 @@ CREATE TABLE `diyi_individual_business` (
 DROP TABLE IF EXISTS `diyi_individual_business_annual_fee`;
 CREATE TABLE `diyi_individual_business_annual_fee` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `annual_fee_year` int(4) NOT NULL COMMENT '年费年度',
   `individual_business_id` bigint(50) NOT NULL COMMENT '个体户ID',
-  `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
+  `annual_fee_year` int(4) NOT NULL COMMENT '年费年度',
   `annual_fee_date_time` datetime NOT NULL COMMENT '年费缴纳日期',
   `annual_fee_amount` decimal(12,2) NOT NULL COMMENT '年费金额',
   `annual_fee_start` datetime NOT NULL COMMENT '年费起始日期',
@@ -645,9 +644,8 @@ CREATE TABLE `diyi_individual_enterprise` (
 DROP TABLE IF EXISTS `diyi_individual_enterprise_annual_fee`;
 CREATE TABLE `diyi_individual_enterprise_annual_fee` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `annual_fee_year` int(5) NOT NULL COMMENT '年费年度',
   `individual_enterprise_id` bigint(50) NOT NULL COMMENT '个独ID',
-  `maker_id` bigint(50) NOT NULL COMMENT '创客ID',
+  `annual_fee_year` int(5) NOT NULL COMMENT '年费年度',
   `annual_fee_date_time` datetime NOT NULL COMMENT '年费缴纳日期',
   `annual_fee_amount` decimal(12,2) NOT NULL COMMENT '年费金额',
   `annual_fee_start` datetime NOT NULL COMMENT '年费起始日期',
@@ -1241,35 +1239,6 @@ CREATE TABLE `diyi_platform_invoice_pay_list` (
 
 -- ----------------------------
 -- Records of diyi_platform_invoice_pay_list
--- ----------------------------
-
--- ----------------------------
--- Table structure for `diyi_platform_voice`
--- ----------------------------
-DROP TABLE IF EXISTS `diyi_platform_voice`;
-CREATE TABLE `diyi_platform_voice` (
-  `id` bigint(50) NOT NULL COMMENT '主键',
-  `pay_enterprise_id` bigint(50) NOT NULL COMMENT '支付ID',
-  `order_id` bigint(50) NOT NULL COMMENT '订单ID',
-  `enterprise_id` bigint(50) NOT NULL COMMENT '商户ID',
-  `voice_type_no` varchar(50) NOT NULL COMMENT '发票代码',
-  `voice_serial_no` varchar(50) NOT NULL COMMENT '发票号码',
-  `voice_date_time` datetime NOT NULL COMMENT '开票日期',
-  `voice_category` varchar(50) NOT NULL COMMENT '货物或应税劳务、服务名称',
-  `total_amount` decimal(12,2) NOT NULL COMMENT '价税合计',
-  `sales_amount` decimal(12,2) NOT NULL COMMENT '金额合计',
-  `tax_amount` decimal(12,2) NOT NULL COMMENT '税额合计',
-  `voice_person` varchar(50) NOT NULL COMMENT '开票人',
-  `sale_company` varchar(50) NOT NULL COMMENT '销售方名称',
-  `companyInvoice_url` varchar(500) NOT NULL COMMENT '总包开票',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='总包发票表';
-
--- ----------------------------
--- Records of diyi_platform_voice
 -- ----------------------------
 
 -- ----------------------------

@@ -13,6 +13,7 @@ import com.lgyun.common.enumeration.CodeType;
 import com.lgyun.common.enumeration.GrantType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.secure.AuthInfo;
+import com.lgyun.common.secure.UserInfo;
 import com.lgyun.common.tool.*;
 import com.lgyun.system.user.entity.*;
 import com.lgyun.system.user.feign.IUserClient;

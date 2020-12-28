@@ -8,7 +8,7 @@ import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.secure.AuthInfo;
 import com.lgyun.common.secure.TokenInfo;
 import com.lgyun.common.tool.*;
-import com.lgyun.system.user.entity.UserInfo;
+import com.lgyun.common.secure.UserInfo;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
