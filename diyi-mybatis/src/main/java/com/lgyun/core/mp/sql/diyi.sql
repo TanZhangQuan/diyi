@@ -1674,9 +1674,9 @@ CREATE TABLE `diyi_self_help_invoice_sp` (
 DROP TABLE IF EXISTS `diyi_self_help_invoice_sp_detail`;
 CREATE TABLE `diyi_self_help_invoice_sp_detail` (
   `id` bigint(50) NOT NULL COMMENT '主键',
-  `self_help_invoice_detail_id` bigint(50) NOT NULL COMMENT '自助开票明细Id',
-  `invoice_scan_pictures` varchar(1000) NOT NULL COMMENT ' 发票扫描件（多张）',
-  `tax_scan_pictures` varchar(1000) NOT NULL COMMENT ' 税票扫描件（多张）',
+  `self_help_invoice_detail_id` bigint(50) NOT NULL COMMENT '自助开票明细ID',
+  `invoice_scan_pictures` varchar(1000) NOT NULL DEFAULT '' COMMENT ' 发票扫描件（多张）',
+  `tax_scan_pictures` varchar(1000) NOT NULL DEFAULT '' COMMENT ' 税票扫描件（多张）',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
