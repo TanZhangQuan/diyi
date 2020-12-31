@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Bean;
  * @author tzq
  * @since 2018/6/23 18:11.
  */
-@Slf4j
 @SpringBootApplication
 @MapperScan("com.lgyun.generator.dao")
 public class GeneratorApplication {

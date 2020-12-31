@@ -12,7 +12,6 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
  * @author tzq
  * @since 2020/6/2 23:07
  */
-@Slf4j
 @EnableHystrix
 @SpringCloudApplication
 public class GateWayApplication {

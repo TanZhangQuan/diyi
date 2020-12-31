@@ -14,7 +14,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @author tzq
  * @since 2020/6/6 23:08
  */
-@Slf4j
 @EnableCircuitBreaker
 @EnableDiscoveryClient
 @EnableFeignClients(AppConstant.BASE_PACKAGES)
