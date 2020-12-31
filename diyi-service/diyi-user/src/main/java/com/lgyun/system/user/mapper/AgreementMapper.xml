@@ -136,7 +136,7 @@
     </select>
 
     <select id="findMakerAgreement" resultMap="agreementServiceVOMap">
-        SELECT DISTINCT a.id AS agreement_id, m.name as maker_name, s.id AS service_provider_id, a.agreement_no, a.sign_type, a.agreement_type,
+        SELECT a.id AS agreement_id, m.name as maker_name, s.id AS service_provider_id, a.agreement_no, a.sign_type, a.agreement_type,
         s.service_provider_name, a.agreement_url, a.create_time, a.sign_state FROM diyi_agreement a INNER JOIN diyi_maker m
         ON a.party_b_id = m.id INNER JOIN diyi_service_provider_maker pa ON pa.maker_id = m.id INNER JOIN diyi_service_provider s ON pa.service_provider_id = s.id
         WHERE a.agreement_type = 'MAKERJOINAGREEMENT' AND a.valid_state = 'VALIDING' AND a.party_b = 'MAKERPEOPLE' AND pa.service_provider_id = #{param1}
@@ -146,6 +146,7 @@
         <if test="param3 != null and param3 !=''">
             and m.name LIKE concat('%', #{param3}, '%')
         </if>
+        GROUP BY a.id
     </select>
 
     <select id="findEnterpriseAgreement" resultMap="agreementServiceVOMap">

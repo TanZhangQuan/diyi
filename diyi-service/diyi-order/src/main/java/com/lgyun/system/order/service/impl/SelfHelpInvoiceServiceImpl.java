@@ -624,15 +624,15 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             if(MakerType.INDIVIDUALENTERPRISE.equals(makerType)){
                 MakerEntity makerEntity = iUserClient.queryMakerByPhoneNumber(invoiceListExcel.getPhoneNumber());
                 if(null == makerEntity){
-                    return R.success("发放的人不符合要求"+invoiceListExcel.getAloneSocialCreditCode());
+                    return R.fail("发放的人不符合要求"+invoiceListExcel.getAloneSocialCreditCode());
                 }
                 IndividualEnterpriseEntity individualEnterpriseEntity = iUserClient.queryIndividualEnterpriseByMakerIdAndIbtaxNo(makerEntity.getId(), invoiceListExcel.getAloneSocialCreditCode());
                 if(null == individualEnterpriseEntity){
-                    return R.success("个独必须是平台存在的个独"+invoiceListExcel.getAloneSocialCreditCode());
+                    return R.fail("个独必须是平台存在的个独"+invoiceListExcel.getAloneSocialCreditCode());
                 }
                 Long serviceProviderId1 = individualEnterpriseEntity.getServiceProviderId();
                 if(!serviceProviderId1.equals(serviceProviderId)){
-                    return R.success("个独必须是属于同一个服务商的"+invoiceListExcel.getAloneSocialCreditCode());
+                    return R.fail("个独必须是属于同一个服务商的"+invoiceListExcel.getAloneSocialCreditCode());
                 }
                     invoiceListExcel.setPositiveIdCard(makerEntity.getIdcardPic());
                     invoiceListExcel.setBackIdCard(makerEntity.getIdcardPicBack());
@@ -643,15 +643,15 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             if(MakerType.INDIVIDUALBUSINESS.equals(makerType)){
                 MakerEntity makerEntity = iUserClient.queryMakerByPhoneNumber(invoiceListExcel.getPhoneNumber());
                 if(null == makerEntity){
-                    return R.success("发放的人不符合要求"+invoiceListExcel.getAloneSocialCreditCode());
+                    return R.fail("发放的人不符合要求"+invoiceListExcel.getAloneSocialCreditCode());
                 }
                 IndividualBusinessEntity individualBusinessEntity = iUserClient.queryIndividualBusinessByMakerIdAndIbtaxNo(makerEntity.getId(), invoiceListExcel.getSocialCreditCode());
                 if(null == individualBusinessEntity){
-                    return R.success("个体户必须是平台存在的个体户"+invoiceListExcel.getAloneSocialCreditCode());
+                    return R.fail("个体户必须是平台存在的个体户"+invoiceListExcel.getAloneSocialCreditCode());
                 }
                 Long serviceProviderId1 = individualBusinessEntity.getServiceProviderId();
                 if(!serviceProviderId1.equals(serviceProviderId)){
-                    return R.success("个体户必须是属于同一个服务商的"+invoiceListExcel.getAloneSocialCreditCode());
+                    return R.fail("个体户必须是属于同一个服务商的"+invoiceListExcel.getAloneSocialCreditCode());
                 }
                     invoiceListExcel.setPositiveIdCard(makerEntity.getIdcardPic());
                     invoiceListExcel.setBackIdCard(makerEntity.getIdcardPicBack());
