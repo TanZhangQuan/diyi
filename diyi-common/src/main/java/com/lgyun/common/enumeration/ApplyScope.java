@@ -12,7 +12,7 @@ import lombok.Getter;
 @SwaggerDisplayEnum()
 public enum ApplyScope {
     TOTAL("TOTAL", "总包开票范围"),
-    CROWD("CROWD", "众包-自然人代开开票范围");
+    CROWD("CROWD", "众包开票范围");
 
     private final String value;
     private final String desc;

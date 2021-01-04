@@ -597,9 +597,12 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         List<InvoiceListExcel> invoiceListExcels = invoiceListListener.getList();
         excelReader.finish();
         for (InvoiceListExcel invoiceListExcel : invoiceListExcels) {
+            if(StringUtils.isBlank(invoiceListExcel.getPayer())){
+                return R.fail("付款单位不能为空");
+            }
             EnterpriseEntity enterpriseEntity = iUserClient.queryEnterpriseByName(invoiceListExcel.getPayer());
             if (null == enterpriseEntity) {
-                return R.fail("购买方，必须是平台商户会员");
+                return R.fail("付款单位必须是平台商户会员");
             }
 
             if (MakerType.NATURALPERSON.equals(makerType)) {
@@ -656,8 +659,8 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
                 invoiceListExcel.setBusinessContract(null != agreementEntity ? agreementEntity.getAgreementUrl() : null);
 
             }
-
         }
+
         Map<String, List<InvoiceListExcel>> collect = invoiceListExcels.stream().collect(Collectors.groupingBy(InvoiceListExcel::getPayer));
         if (ObjectType.MAKERPEOPLE.equals(objectType)) {
             MakerEntity makerEntity = iUserClient.queryMakerById(objectId);
@@ -672,11 +675,8 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
 
 
         //商户名称
-
         map.put("collect", collect);
-
         map.put("listFile", listFile);
-
         //众包支付模型
         map.put("payType", payType);
         //开票类目
@@ -718,7 +718,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
             SelfHelpInvoiceEntity selfHelpInvoiceEntity = new SelfHelpInvoiceEntity();
             EnterpriseEntity enterpriseEntity = iUserClient.queryEnterpriseByName(invoiceListExcelDtos.get(0).getPayer());
             if (null == enterpriseEntity) {
-                return R.fail("购买方，必须是平台商户会员");
+                return R.fail("付款单位必须是平台商户会员");
             }
             selfHelpInvoiceEntity.setEnterpriseId(enterpriseEntity.getId());
             if (ObjectType.ENTERPRISEPEOPLE.equals(objectType)) {
@@ -929,11 +929,11 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
                     if (success) {
                         map.put("orderTracesByJson", maps.get("Traces"));
                     } else {
-                        map.put("orderTracesByJson", "");
+                        map.put("orderTracesByJson", "快递信息有误");
                     }
                 } catch (Exception e) {
                     log.info("快鸟接口访问失败");
-                    map.put("orderTracesByJson", "");
+                    map.put("orderTracesByJson", "快递信息有误");
                 }
             }
         }
