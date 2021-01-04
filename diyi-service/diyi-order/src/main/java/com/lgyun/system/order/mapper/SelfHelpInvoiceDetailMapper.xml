@@ -181,7 +181,8 @@
         SELECT t1.id, t1.value_added_tax_rate, t1.charge_money_num, t1.service_invoice_fee, t1.idendity_confirm_fee, t1.pay_provider_fee, t1.create_time
         FROM diyi_self_help_invoice_detail t1 INNER JOIN diyi_accept_paysheet_cs t2 ON t1.id IN ((SELECT accept_paysheet_cs_type FROM diyi_accept_paysheet_cs
         WHERE bool_deleted = 0 AND id = #{param1}) = 'SINGLE' , (SELECT self_help_invoice_detail_id FROM diyi_accept_paysheet_cs WHERE bool_deleted = 0
-        AND id = #{param1}), (SELECT GROUP_CONCAT(wm.self_help_invoice_detail_id) FROM diyi_accept_paysheet_cs_list WHERE bool_deleted = 0 AND accept_paysheet_cs_id = #{param1}))
+        AND id = #{param1}), (SELECT GROUP_CONCAT(self_help_invoice_detail_id) FROM diyi_accept_paysheet_cs_list WHERE bool_deleted = 0
+        AND accept_paysheet_cs_id = #{param1})) GROUP BY t1.id
     </select>
 
     <select id="querySelfHelpInvoiceDetailListByMaker" resultMap="selfHelpInvoiceListMakerVO">

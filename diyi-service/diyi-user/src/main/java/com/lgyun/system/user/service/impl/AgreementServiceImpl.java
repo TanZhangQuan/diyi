@@ -351,9 +351,11 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
                 agreementEntity.setPartyAId(serviceProviderId);
             }
         } else if (ObjectType.SERVICEPEOPLE.equals(objectType)) {
-            agreementEntity.setPartyA(ObjectType.SERVICEPEOPLE);
-            agreementEntity.setPartyAId(objectId);
+            agreementEntity.setPartyB(ObjectType.SERVICEPEOPLE);
+            agreementEntity.setPartyBId(objectId);
             if (AgreementType.SERENTSUPPLEMENTARYAGREEMENT.equals(agreementType)) {
+                agreementEntity.setPartyA(ObjectType.SERVICEPEOPLE);
+                agreementEntity.setPartyAId(objectId);
                 agreementEntity.setPartyB(ObjectType.ENTERPRISEPEOPLE);
                 agreementEntity.setPartyBId(enterpriseId);
             }
