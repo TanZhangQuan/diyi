@@ -93,7 +93,7 @@
 
     <select id="queryServiceProviderList" resultMap="serviceProviderListAdminVO">
         SELECT t1.id, t1.service_provider_name, t1.contact1_name, t1.contact1_phone, t1.service_provider_state, t1.create_time, (SELECT agreement_url FROM diyi_agreement
-        WHERE bool_deleted = 0 AND agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' AND valid_state = 'VALIDING' AND party_b = 'SERVICEPEOPLE' AND party_b_id = t1.id) AS join_contract
+        WHERE bool_deleted = 0 AND agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' AND valid_state = 'VALIDING' AND party_b = 'SERVICEPEOPLE' AND party_b_id = t1.id LIMIT 1) AS join_contract
         FROM diyi_service_provider t1
         <if test="param1 != null ">
             INNER JOIN diyi_agent_main_service_provider t2 ON t1.id = t2.service_provider_id AND t2.bool_deleted = 0 AND t2.cooperate_status = 'COOPERATING' AND t2.agent_main_id =  #{param1}
