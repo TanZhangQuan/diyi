@@ -99,7 +99,7 @@
     <select id="queryServiceProviderAgreement" resultMap="agreementWebVOMap">
         SELECT ep.id AS enterprise_provider_id, ep.enterprise_id, ep.service_provider_id, a.id AS agreement_id, a.agreement_no, a.agreement_url,
         sp.service_provider_name, a.sign_state, a.create_time FROM diyi_enterprise_service_provider ep INNER JOIN
-        diyi_service_provider sp ON sp.id = ep.service_provider_id INNER JOIN diyi_agreement a ON sp.id = a.service_provider_id WHERE
+        diyi_service_provider sp ON sp.id = ep.service_provider_id INNER JOIN diyi_agreement a ON sp.id = a.party_b_id WHERE
         sp.bool_deleted = 0 AND a.bool_deleted = 0 AND ep.bool_deleted = 0 AND a.valid_state = 'VALIDING'
         AND ((a.party_a = 'SERVICEPEOPLE' AND a.party_a_id = ep.service_provider_id) OR (a.party_b = 'SERVICEPEOPLE' AND a.party_b_id = ep.service_provider_id))
         AND ep.enterprise_id = #{param1} AND a.agreement_type = #{param2}
@@ -123,7 +123,7 @@
         SELECT a.id AS agreement_id, e.enterprise_name, e.id AS enterprise_id, a.agreement_no, m.name, a.sign_type, a.agreement_url,
         a.sign_state, a.create_time FROM diyi_agreement a INNER JOIN diyi_enterprise e ON a.party_a_id = e.id LEFT JOIN diyi_maker m ON m.id = a.party_b_id
         AND m.bool_deleted = 0 WHERE a.bool_deleted = 0 AND e.bool_deleted = 0 AND a.agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' AND a.valid_state = 'VALIDING'
-        AND a.party_a = 'ENTERPRISEPEOPLE' AND a.party_b = 'MAKERPEOPLE' AND a.enterprise_id = #{param1}
+        AND a.party_a = 'ENTERPRISEPEOPLE' AND a.party_b = 'MAKERPEOPLE' AND a.party_a_id = #{param1}
     </select>
 
     <select id="findSeriveAgreement" resultMap="agreementServiceVOMap">

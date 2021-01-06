@@ -147,7 +147,7 @@
     <select id="queryServiceProviderDetailAgentMain" resultMap="serviceProviderDetailAgentMainVO">
         SELECT t1.id, t1.service_provider_name, t1.legal_person_name, t1.contact1_name, t1.contact1_phone, t1.social_credit_no, t1.biz_licence_url, t1.service_provider_state,
         t1.create_time, (SELECT agreement_url FROM diyi_agreement WHERE bool_deleted = 0 AND agreement_type = 'SERVICEPROVIDERJOINAGREEMENT'
-        AND valid_state = 'VALIDING' AND party_b = 'SERVICEPEOPLE' AND party_b_id = t1.id) AS join_contract FROM diyi_service_provider t1 WHERE bool_deleted = 0
+        AND valid_state = 'VALIDING' AND party_b = 'SERVICEPEOPLE' AND party_b_id = t1.id LIMIT 1) AS join_contract FROM diyi_service_provider t1 WHERE bool_deleted = 0
         AND t1.id = #{param1}
     </select>
 
