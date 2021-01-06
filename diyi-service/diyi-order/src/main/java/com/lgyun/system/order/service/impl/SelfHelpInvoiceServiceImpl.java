@@ -589,6 +589,33 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
 
     @Override
     public R naturalPersonSubmitForm(ObjectType objectType, Long objectId, String listFile, Long serviceProviderId, InvoiceCategory invoiceCategory, MakerType makerType, CrowdSourcingPayType payType, String invoiceType, Long addressId) throws Exception {
+
+        if(ObjectType.MAKERPEOPLE.equals(objectType)){
+            MakerEntity makerEntity = iUserClient.queryMakerById(objectId);
+            if(null == makerEntity){
+                return R.fail("创客不存在");
+            }
+            if(!AccountState.NORMAL.equals(makerEntity.getMakerState())){
+                return R.fail("创客已被冻结");
+            }
+            if(!CertificationState.CERTIFIED.equals(makerEntity.getCertificationState())){
+                return R.fail("不符合开票申请的资格，请完成认证后，重试");
+            }
+        }
+
+        if(ObjectType.ENTERPRISEPEOPLE.equals(objectType)){
+            EnterpriseEntity enterpriseEntity = iUserClient.queryEnterpriseById(objectId);
+            if(null == enterpriseEntity){
+                return R.fail("商户不存在");
+            }
+            if(!AccountState.NORMAL.equals(enterpriseEntity.getEnterpriseState())){
+                return R.fail("商户已被冻结");
+            }
+            int i = iUserClient.queryValidAgreementNum(null, null, ObjectType.ENTERPRISEPEOPLE, enterpriseEntity.getId(), AgreementType.ENTERPRISEJOINAGREEMENT);
+            if(i <= 0){
+                return R.fail("不符合开票申请的资格，请上传完加盟合同，重试");
+            }
+        }
         Map<String, Object> map = new HashMap<>();
         InputStream inputStream = new URL(listFile).openStream();
         InvoiceListListener invoiceListListener = new InvoiceListListener();
@@ -596,16 +623,54 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
         excelReader.readAll();
         List<InvoiceListExcel> invoiceListExcels = invoiceListListener.getList();
         excelReader.finish();
+        int num = 1;
         for (InvoiceListExcel invoiceListExcel : invoiceListExcels) {
             if(StringUtils.isBlank(invoiceListExcel.getPayer())){
-                return R.fail("付款单位不能为空");
+                return R.fail("第"+num+"条"+"付款单位不能为空");
             }
+            if(StringUtils.isBlank(invoiceListExcel.getParagraph())){
+                return R.fail("第"+num+"条"+"税号不能为空");
+            }
+            if(StringUtils.isBlank(invoiceListExcel.getAddressTelephone())){
+                return R.fail("第"+num+"条"+"地址、电话不能为空");
+            }
+            if(StringUtils.isBlank(invoiceListExcel.getBankAccountNumber())){
+                return R.fail("第"+num+"条"+"开户行账号不能为空");
+            }
+            if(StringUtils.isBlank(invoiceListExcel.getProjectName())){
+                return R.fail("第"+num+"条"+"项目不能为空");
+            }
+            if(null == invoiceListExcel.getNum() || invoiceListExcel.getNum() <= 0){
+                return R.fail("第"+num+"条"+"数量不能为空且不能小于等于0");
+            }
+            if(StringUtils.isBlank(invoiceListExcel.getCompany())){
+                return R.fail("第"+num+"条"+"单位不能为空");
+            }
+            if(null == invoiceListExcel.getUnitPrice() || invoiceListExcel.getUnitPrice().compareTo(new BigDecimal("0")) > 0){
+                return R.fail("第"+num+"条"+"单价不能小于0");
+            }
+            if(null == invoiceListExcel.getTaxRate() || invoiceListExcel.getTaxRate() <= 0){
+                return R.fail("第"+num+"条"+"税率不能为空且不能小于等于0");
+            }
+            if(null == invoiceListExcel.getTaxTotalprice() || invoiceListExcel.getTaxTotalprice().compareTo(new BigDecimal("0")) > 0){
+                return R.fail("第"+num+"条"+"发票价税合计填写该列，开票额不能小于0");
+            }
+
             EnterpriseEntity enterpriseEntity = iUserClient.queryEnterpriseByName(invoiceListExcel.getPayer());
             if (null == enterpriseEntity) {
                 return R.fail("付款单位必须是平台商户会员");
             }
 
             if (MakerType.NATURALPERSON.equals(makerType)) {
+                if(StringUtils.isBlank(invoiceListExcel.getInvoicePeopleName())){
+                    return R.fail("第"+num+"条"+"开票人姓名不能为空");
+                }
+                if(StringUtils.isBlank(invoiceListExcel.getIdcardNo())){
+                    return R.fail("第"+num+"条"+"身份证号码不能为空");
+                }
+                if(StringUtils.isBlank(invoiceListExcel.getPhoneNumber())){
+                    return R.fail("第"+num+"条"+"手机号码不能为空");
+                }
                 MakerEntity makerEntity = iUserClient.queryMakerByPhoneNumber(invoiceListExcel.getPhoneNumber());
                 SelfHelpInvoicePersonEntity selfHelpInvoicePersonEntity = selfHelpInvoicePersonService.findCardNo(invoiceListExcel.getIdcardNo());
                 if (null != makerEntity) {
@@ -622,6 +687,24 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
                 }
             }
             if (MakerType.INDIVIDUALENTERPRISE.equals(makerType)) {
+                if(StringUtils.isBlank(invoiceListExcel.getInvoiceCategory())){
+                    return R.fail("第"+num+"条"+"发票类别普票OR专票不能为空");
+                }
+                if(!invoiceCategory.getValue().equals(invoiceListExcel.getInvoiceCategory())){
+                    return R.fail("第"+num+"条"+"发票类别普票OR专票不一致");
+                }
+                if(StringUtils.isBlank(invoiceListExcel.getAloneName())){
+                    return R.fail("第"+num+"条"+"个人独资企业名称不能为空");
+                }
+                if(StringUtils.isBlank(invoiceListExcel.getAloneSocialCreditCode())){
+                    return R.fail("第"+num+"条"+"个独统一社会信用代码不能为空");
+                }
+                if(StringUtils.isBlank(invoiceListExcel.getAloneLegalPersonName())){
+                    return R.fail("第"+num+"条"+"个独经营者（法人）姓名不能为空");
+                }
+                if(StringUtils.isBlank(invoiceListExcel.getAloneOperatorIdCard())){
+                    return R.fail("第"+num+"条"+"个独经营者身份证号码不能为空");
+                }
                 MakerEntity makerEntity = iUserClient.queryMakerByPhoneNumber(invoiceListExcel.getPhoneNumber());
                 if (null == makerEntity) {
                     return R.fail("发放的人不符合要求" + invoiceListExcel.getAloneSocialCreditCode());
@@ -641,6 +724,24 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
 
             }
             if (MakerType.INDIVIDUALBUSINESS.equals(makerType)) {
+                if(StringUtils.isBlank(invoiceListExcel.getInvoiceCategory())){
+                    return R.fail("第"+num+"条"+"发票类别普票OR专票不能为空");
+                }
+                if(!invoiceCategory.getValue().equals(invoiceListExcel.getInvoiceCategory())){
+                    return R.fail("第"+num+"条"+"发票类别普票OR专票不一致");
+                }
+                if(StringUtils.isBlank(invoiceListExcel.getIndividualBusinessName())){
+                    return R.fail("第"+num+"条"+"个体户名称不能为空");
+                }
+                if(StringUtils.isBlank(invoiceListExcel.getSocialCreditCode())){
+                    return R.fail("第"+num+"条"+"个体户统一社会信用代码不能为空");
+                }
+                if(StringUtils.isBlank(invoiceListExcel.getLegalPersonName())){
+                    return R.fail("第"+num+"条"+"个体户经营者（法人）姓名不能为空");
+                }
+                if(StringUtils.isBlank(invoiceListExcel.getOperatorIdCard())){
+                    return R.fail("第"+num+"条"+"个体户经营者身份证号码不能为空");
+                }
                 MakerEntity makerEntity = iUserClient.queryMakerByPhoneNumber(invoiceListExcel.getPhoneNumber());
                 if (null == makerEntity) {
                     return R.fail("发放的人不符合要求" + invoiceListExcel.getAloneSocialCreditCode());
@@ -659,6 +760,7 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
                 invoiceListExcel.setBusinessContract(null != agreementEntity ? agreementEntity.getAgreementUrl() : null);
 
             }
+            num++;
         }
 
         Map<String, List<InvoiceListExcel>> collect = invoiceListExcels.stream().collect(Collectors.groupingBy(InvoiceListExcel::getPayer));
@@ -920,6 +1022,8 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
                 String expressCompanyName = bySelfHelpInvoiceApplyProviderId.getExpressCompanyName();
                 String expressNo = bySelfHelpInvoiceApplyProviderId.getExpressNo();
                 KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
+                map.put("expressCompanyName", expressCompanyName);
+                map.put("expressNo", expressNo);
                 //查询快递
                 String orderTracesByJson = "";
                 try {
@@ -927,12 +1031,15 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
                     Map<String, Object> maps = (Map) JSON.parse(orderTracesByJson);
                     Boolean success = (Boolean) maps.get("Success");
                     if (success) {
+                        map.put("expressCompanyState", true);
                         map.put("orderTracesByJson", maps.get("Traces"));
                     } else {
+                        map.put("expressCompanyState", false);
                         map.put("orderTracesByJson", "快递信息有误");
                     }
                 } catch (Exception e) {
                     log.info("快鸟接口访问失败");
+                    map.put("expressCompanyState", false);
                     map.put("orderTracesByJson", "快递信息有误");
                 }
             }
