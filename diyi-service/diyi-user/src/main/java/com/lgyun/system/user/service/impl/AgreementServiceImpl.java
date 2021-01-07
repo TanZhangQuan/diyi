@@ -441,7 +441,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
 
     @Override
     public R<IPage<AgreementMakerEnterAdminVO>> queryEnterpriseMakerSupplement(Long enterpriseId, Long makerId, IPage<AgreementMakerEnterAdminVO> page) {
-        return R.data(page.setRecords(baseMapper.queryEnterpriseMakerSupplement(makerId, null, page)));
+        return R.data(page.setRecords(baseMapper.queryEnterpriseMakerSupplement(enterpriseId, makerId, page)));
     }
 
     @Override
