@@ -303,7 +303,6 @@ public class RealnameVerifyUtil {
      */
     public static String getRequestBody(HttpServletRequest request, String encoding) throws IOException {
         // 请求内容RequestBody
-        String reqBody = null;
         int contentLength = request.getContentLength();
         if (contentLength < 0) {
             return null;
