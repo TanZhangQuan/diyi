@@ -5,6 +5,7 @@ import com.lgyun.common.enumeration.UserType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -28,6 +29,7 @@ public class PasswordLoginDTO implements Serializable {
 
     @ApiModelProperty(value = "密码")
     @NotBlank(message = "请输入密码")
+    @Length(min = 6, max = 18, message = "请输入长度为6-18位的密码")
     private String password;
 
     @ApiModelProperty(value = "微信授权码")
