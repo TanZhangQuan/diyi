@@ -414,7 +414,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(AgreementEntity::getPartyB, ObjectType.ENTERPRISEPEOPLE).eq(AgreementEntity::getPartyBId, enterpriseId)
                 .eq(AgreementEntity::getAgreementType, agreementType);
-        return R.data(baseMapper.selectOne(queryWrapper));
+        return R.data(baseMapper.selectList(queryWrapper));
     }
 
     @Override
@@ -425,8 +425,8 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(AgreementEntity::getPartyB, ObjectType.SERVICEPEOPLE).eq(AgreementEntity::getPartyBId, serviceProviderId)
                 .eq(AgreementEntity::getAgreementType, agreementType);
-        AgreementEntity agreementEntity = baseMapper.selectOne(queryWrapper);
-        return R.data(agreementEntity);
+        List<AgreementEntity> agreementEntities = baseMapper.selectList(queryWrapper);
+        return R.data(agreementEntities.get(0));
     }
 
     @Override
