@@ -37,6 +37,7 @@ public class UserClient implements IUserClient {
     private IServiceProviderRulesService serviceProviderRulesService;
     private IServiceProviderWorkerService serviceProviderWorkerService;
     private IEnterpriseServiceProviderService enterpriseServiceProviderService;
+    private IServiceProviderMakerService serviceProviderMakerService;
 
     @Override
     public R<AdminEntity> currentAdmin(BladeUser bladeUser) {
@@ -760,5 +761,10 @@ public class UserClient implements IUserClient {
     @Override
     public void createMakerToEnterpriseSupplement(Long enterpriseId, Long makerId, String businessContract) {
         agreementService.saveEnterpriseMakerAgreement(enterpriseId, businessContract, makerId + "");
+    }
+
+    @Override
+    public void associatedServiceProviderMaker(Long enterpriseId, Long serviceProviderId, Long makerId, ServiceProviderMakerRelType relType) {
+        serviceProviderMakerService.associatedServiceProviderMaker(enterpriseId, serviceProviderId, makerId, relType);
     }
 }

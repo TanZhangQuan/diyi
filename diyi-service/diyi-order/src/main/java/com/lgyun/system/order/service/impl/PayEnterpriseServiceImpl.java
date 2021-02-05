@@ -6,6 +6,7 @@ import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.BladeConstant;
@@ -368,6 +369,18 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
             payEnterpriseEntity.setMakerInvoiceType(makerInvoiceType);
             payEnterpriseEntity.setEmployeeId(serviceProviderWorkerId);
+
+            //服务商-创客关系建立
+            QueryWrapper<PayMakerEntity> queryWrapper = new QueryWrapper<>();
+            queryWrapper.lambda().eq(PayMakerEntity::getPayEnterpriseId, payEnterpriseEntity.getId());
+
+            List<PayMakerEntity> payMakerEntityList = payMakerService.list(queryWrapper);
+            if (payMakerEntityList != null && payMakerEntityList.size() > 0) {
+                for (PayMakerEntity payMakerEntity : payMakerEntityList) {
+                    //服务商-创客建立关联
+                    userClient.associatedServiceProviderMaker(payEnterpriseEntity.getEnterpriseId(), payEnterpriseEntity.getServiceProviderId(), payMakerEntity.getMakerId(), ServiceProviderMakerRelType.TOTALSUBCONTRACTREL);
+                }
+            }
         }
 
         payEnterpriseEntity.setAuditState(auditState);

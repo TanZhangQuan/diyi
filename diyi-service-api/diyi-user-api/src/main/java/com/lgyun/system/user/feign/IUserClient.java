@@ -507,4 +507,10 @@ public interface IUserClient {
     @PostMapping(API_PREFIX + "/create-maker-to-enterprise-supplement")
     void createMakerToEnterpriseSupplement(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("makerId") Long makerId, @RequestParam("businessContract") String businessContract);
 
+    /**
+     * 服务商,商户和创客建立关联关系
+     */
+    @PostMapping(API_PREFIX + "/associated-service-provider-maker")
+    void associatedServiceProviderMaker(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("serviceProviderId") Long serviceProviderId, @RequestParam("makerId") Long makerId, @RequestParam("relType") ServiceProviderMakerRelType relType);
+
 }
