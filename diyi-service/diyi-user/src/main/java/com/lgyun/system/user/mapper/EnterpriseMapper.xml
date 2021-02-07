@@ -171,7 +171,7 @@
     </select>
 
     <select id="queryEnterpriseList" resultMap="enterpriseListAdminVO">
-        SELECT t1.id, t1.enterprise_name, t1.contact1_name, t1.contact1_phone, t1.enterprise_state, t1.create_time, (SELECT agreement_url FROM diyi_agreement
+        SELECT t1.id, t1.enterprise_name, t1.contact1_name, t1.contact1_phone, t1.enterprise_state, t1.create_time, (SELECT GROUP_CONCAT(agreement_url) FROM diyi_agreement
         WHERE bool_deleted = 0 AND agreement_type = 'ENTERPRISEJOINAGREEMENT' AND valid_state = 'VALIDING' AND party_b = 'ENTERPRISEPEOPLE' AND party_b_id = t1.id) AS join_contract,
         (SELECT GROUP_CONCAT(agreement_url) FROM diyi_agreement WHERE bool_deleted = 0 AND agreement_type = 'ENTERPRISEPROMISE' AND valid_state = 'VALIDING'
         AND party_b = 'ENTERPRISEPEOPLE' AND party_b_id = t1.id) AS commitment_letters FROM diyi_enterprise t1
