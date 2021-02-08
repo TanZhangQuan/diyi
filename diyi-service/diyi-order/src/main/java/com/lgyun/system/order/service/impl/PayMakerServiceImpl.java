@@ -30,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 
@@ -192,12 +193,15 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
                 throw new CustomException("第" + i + "条数据缺少服务税费率");
             }
 
+            //服务税费率转化为去掉百分号的数字
+            payEnterpriseExcel.setServiceRate(payEnterpriseExcel.getServiceRate().multiply(BigDecimal.valueOf(100)).setScale(2, RoundingMode.HALF_UP));
+
             if (BigDecimal.ZERO.compareTo(payEnterpriseExcel.getServiceRate()) > 0) {
-                throw new CustomException("第" + i + "条数据的服务税费率小于0");
+                throw new CustomException("第" + i + "条数据的服务税费率小于0%");
             }
 
-            if (BigDecimal.valueOf(100).compareTo(payEnterpriseExcel.getServiceRate()) < 0) {
-                throw new CustomException("第" + i + "条数据的服务税费率大于100");
+            if (BigDecimal.valueOf(20).compareTo(payEnterpriseExcel.getServiceRate()) < 0) {
+                throw new CustomException("第" + i + "条数据的服务税费率大于20%");
             }
 
             //获取服务税费率

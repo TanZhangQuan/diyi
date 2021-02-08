@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 @ApiModel(description = "XXXXX")
@@ -33,13 +34,13 @@ public class InvoiceListExcelDTO implements Serializable {
     private String company;
 
     @ApiModelProperty(value = "单价")
-    private String unitPrice;
+    private BigDecimal unitPrice;
 
     @ApiModelProperty(value = "税率")
-    private String taxRate;
+    private BigDecimal taxRate;
 
     @ApiModelProperty(value = "发票价税合计填写该列，开票额")
-    private String taxTotalprice;
+    private BigDecimal taxTotalprice;
 
     @ApiModelProperty(value = "开票人姓名")
     private String invoicePeopleName;

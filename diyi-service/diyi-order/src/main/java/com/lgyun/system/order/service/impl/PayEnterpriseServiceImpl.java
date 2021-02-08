@@ -37,6 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.util.*;
 
@@ -96,6 +97,13 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         excelReader.readAll();
         List<PayEnterpriseExcel> payEnterpriseExcelList = payEnterpriseReadListener.getList();
         excelReader.finish();
+
+        if (payEnterpriseExcelList != null && payEnterpriseExcelList.size() > 0) {
+            for (PayEnterpriseExcel payEnterpriseExcel : payEnterpriseExcelList) {
+                //服务税费率转化为去掉百分号的数字
+                payEnterpriseExcel.setServiceRate(payEnterpriseExcel.getServiceRate().multiply(BigDecimal.valueOf(100)).setScale(2, RoundingMode.HALF_UP));
+            }
+        }
 
         return R.data(payEnterpriseExcelList);
     }

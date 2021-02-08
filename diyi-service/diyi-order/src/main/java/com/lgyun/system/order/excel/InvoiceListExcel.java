@@ -41,7 +41,7 @@ public class InvoiceListExcel implements Serializable {
     private BigDecimal unitPrice;
 
     @ExcelProperty("税率3%/1%")
-    private Integer taxRate;
+    private BigDecimal taxRate;
 
     @ExcelProperty("发票价税合计填写该列，开票额")
     private BigDecimal taxTotalprice;
