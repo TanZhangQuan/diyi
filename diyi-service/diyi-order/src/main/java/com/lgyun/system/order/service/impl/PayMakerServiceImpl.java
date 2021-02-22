@@ -200,8 +200,8 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
                 throw new CustomException("第" + i + "条数据的服务税费率小于0%");
             }
 
-            if (BigDecimal.valueOf(20).compareTo(payEnterpriseExcel.getServiceRate()) < 0) {
-                throw new CustomException("第" + i + "条数据的服务税费率大于20%");
+            if (BigDecimal.valueOf(30).compareTo(payEnterpriseExcel.getServiceRate()) < 0) {
+                throw new CustomException("第" + i + "条数据的服务税费率大于30%");
             }
 
             //获取服务税费率

@@ -680,8 +680,8 @@ public class SelfHelpInvoiceServiceImpl extends BaseServiceImpl<SelfHelpInvoiceM
                 throw new CustomException("第" + num + "条数据的税率小于0%");
             }
 
-            if (BigDecimal.valueOf(20).compareTo(invoiceListExcel.getTaxRate()) < 0) {
-                throw new CustomException("第" + num + "条数据的税率大于20%");
+            if (BigDecimal.valueOf(30).compareTo(invoiceListExcel.getTaxRate()) < 0) {
+                throw new CustomException("第" + num + "条数据的税率大于30%");
             }
 
             if (null == invoiceListExcel.getTaxTotalprice() || invoiceListExcel.getTaxTotalprice().compareTo(new BigDecimal("0")) <= 0) {

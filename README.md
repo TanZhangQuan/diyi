@@ -1,6 +1,6 @@
 # 地衣众包
 * 开发环境：idea，jdk1.8，mysql
-* 框架及技术：springcloud，mybatis-plus，redis，nacos，quratz，nginx，swagger
+* 框架及技术：springcloud，mybatis-plus，redis，nacos，quratz，nginx， docker，swagger
 * 项目描述：地衣众包是一款财税软件，目的是为了让商家合理合法的减少税务支出，利用税优地进行流水分成，共有八端：创客小程序端，
 商户管理端，服务商管理端，平台管理端，税局管理端，市场监督管理端，产业园区管理端，支付机构管理端。主要功能有流水业务数据统计，
 任务管理，实名认证，协议签署，银行卡/支付宝绑定，活体检测，总包+分包支付，众包支付，发票/税票管理，创客管理，合同管理，商户管理，

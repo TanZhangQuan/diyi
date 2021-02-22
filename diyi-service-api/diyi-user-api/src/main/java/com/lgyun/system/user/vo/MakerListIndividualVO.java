@@ -13,52 +13,28 @@ import java.io.Serializable;
 public class MakerListIndividualVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     *
-     */
     @ApiModelProperty(value = "创客ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    /**
-     *
-     */
     @ApiModelProperty(value = "姓名")
     private String name;
 
-    /**
-     *
-     */
     @ApiModelProperty(value = "手机号码")
     private String phoneNumber;
 
-    /**
-     *
-     */
     @ApiModelProperty(value = "身份证号码")
     private String idcardNo;
 
-    /**
-     *
-     */
     @ApiModelProperty(value = "身份证正面图")
     private String idcardPic;
 
-    /**
-     *
-     */
     @ApiModelProperty(value = "身份证反面图")
     private String idcardPicBack;
 
-    /**
-     *
-     */
     @ApiModelProperty(value = "手持证件正面照")
     private String idcardHand;
 
-    /**
-     *
-     */
     @ApiModelProperty(value = "手持证件反面照")
     private String idcardBackHand;
 }
