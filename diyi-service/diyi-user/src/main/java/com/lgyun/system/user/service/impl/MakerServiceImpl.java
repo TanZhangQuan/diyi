@@ -303,7 +303,13 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R<JSONObject> idcardOcr(String idcardPic, MakerEntity makerEntity) throws Exception {
+    public R<JSONObject> idcardOcr(String idcardPic, Long makerId) throws Exception {
+
+        //查询创客
+        MakerEntity makerEntity = getById(makerId);
+        if (makerEntity == null) {
+            return R.fail("创客不存在");
+        }
 
         //查看创客是否已经身份证认证
         if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus())) {
@@ -332,7 +338,13 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R idcardVerify(IdcardVerifyDTO idcardVerifyDTO, MakerEntity makerEntity) throws Exception {
+    public R idcardVerify(IdcardVerifyDTO idcardVerifyDTO, Long makerId) throws Exception {
+
+        //查询创客
+        MakerEntity makerEntity = getById(makerId);
+        if (makerEntity == null) {
+            return R.fail("创客不存在");
+        }
 
         //查看创客是否已经身份证认证
         if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus())) {
@@ -375,6 +387,19 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         makerEntity.setIdcardVerifyStatus(VerifyStatus.VERIFYPASS);
         makerEntity.setIdcardVerifyType(IdcardVerifyType.SYSTEMVERIFY);
         makerEntity.setIdcardVerifyDate(new Date());
+
+        //判断是否已认证
+        if (CertificationState.UNCERTIFIED.equals(makerEntity.getCertificationState())) {
+            //判断创客是否有有效的创客加盟协议
+            int makerJoinAgreementNum = agreementService.queryValidAgreementNum(null, null, ObjectType.MAKERPEOPLE, makerEntity.getId(), AgreementType.MAKERJOINAGREEMENT);
+            //判断创客是否有有效的创客授权书
+            int makerPowerAttorneyNum = agreementService.queryValidAgreementNum(null, null, ObjectType.MAKERPEOPLE, makerEntity.getId(), AgreementType.MAKERPOWERATTORNEY);
+            if (makerJoinAgreementNum > 0 && makerPowerAttorneyNum > 0) {
+                makerEntity.setCertificationState(CertificationState.CERTIFIED);
+                makerEntity.setCertificationDate(new Date());
+            }
+        }
+
         updateById(makerEntity);
 
         return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
@@ -382,7 +407,13 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R mobileVerify(MakerEntity makerEntity) throws Exception {
+    public R mobileVerify(Long makerId) throws Exception {
+
+        //查询创客
+        MakerEntity makerEntity = getById(makerId);
+        if (makerEntity == null) {
+            return R.fail("创客不存在");
+        }
 
         //查看创客是否已经手机号认证
         if (VerifyStatus.VERIFYPASS.equals(makerEntity.getPhoneNumberVerifyStatus())) {
@@ -409,7 +440,13 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R bankCardVerify(String bankCardNo, MakerEntity makerEntity) throws Exception {
+    public R bankCardVerify(String bankCardNo, Long makerId) throws Exception {
+
+        //查询创客
+        MakerEntity makerEntity = getById(makerId);
+        if (makerEntity == null) {
+            return R.fail("创客不存在");
+        }
 
         //查看创客是否已经活体认证
         if (VerifyStatus.VERIFYPASS.equals(makerEntity.getBankCardVerifyStatus())) {
@@ -520,17 +557,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
             makerEntity.setFaceVerifyStatus(VerifyStatus.VERIFYPASS);
             makerEntity.setFaceVerifyDate(new Date());
-            //判断是否已认证
-            if (CertificationState.UNCERTIFIED.equals(makerEntity.getCertificationState())) {
-                //判断创客是否有有效的创客加盟协议
-                int makerJoinAgreementNum = agreementService.queryValidAgreementNum(null, null, ObjectType.MAKERPEOPLE, makerId, AgreementType.MAKERJOINAGREEMENT);
-                //判断创客是否有有效的创客授权书
-                int makerPowerAttorneyNum = agreementService.queryValidAgreementNum(null, null, ObjectType.MAKERPEOPLE, makerId, AgreementType.MAKERPOWERATTORNEY);
-                if (makerJoinAgreementNum > 0 && makerPowerAttorneyNum > 0) {
-                    makerEntity.setCertificationState(CertificationState.CERTIFIED);
-                    makerEntity.setCertificationDate(new Date());
-                }
-            }
             updateById(makerEntity);
 
             return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);

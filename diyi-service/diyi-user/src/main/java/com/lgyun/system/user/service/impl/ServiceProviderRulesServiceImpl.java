@@ -147,13 +147,6 @@ public class ServiceProviderRulesServiceImpl extends BaseServiceImpl<ServiceProv
 
             switch (makerRule) {
 
-                case IDCARDVERIFY:
-
-                    if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
-                        return R.fail("未身份证验证");
-                    }
-                    break;
-
                 case EMPOWERVIDEO:
 
                     if (!(VideoAudit.AUDITPASS.equals(makerEntity.getVideoAudit()))) {
@@ -179,14 +172,6 @@ public class ServiceProviderRulesServiceImpl extends BaseServiceImpl<ServiceProv
 
                     if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getPhoneNumberVerifyStatus()))) {
                         return R.fail("未手机号验证");
-                    }
-                    break;
-
-                case EMPOWERSIGN:
-
-                    int empowersignNum = agreementService.queryValidAgreementNum(null, null, ObjectType.MAKERPEOPLE, makerId, AgreementType.MAKERPOWERATTORNEY);
-                    if (empowersignNum <= 0) {
-                        return R.fail("未有有效的创客授权书");
                     }
                     break;
 

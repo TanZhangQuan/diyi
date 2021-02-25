@@ -203,10 +203,9 @@ public class AgreementAdminController {
 
     @PostMapping("/create-agreement")
     @ApiOperation(value = "平台端添加合同", notes = "平台端添加合同")
-    public R createAgreement(@RequestParam(required = false) Long makerId,
-                             @RequestParam(required = false) Long enterpriseId,
-                             @RequestParam(required = false) Long serviceProviderId,
-                             Long objectId, ObjectType objectType, AgreementType agreementType, String agreementUrl, BladeUser bladeUser) {
+    public R createAgreement(@RequestParam(required = false) Long makerId, @RequestParam(required = false) Long enterpriseId,
+                             @RequestParam(required = false) Long serviceProviderId, Long objectId, ObjectType objectType,
+                             AgreementType agreementType, String agreementUrl, BladeUser bladeUser) {
         //查询当前管理员
         R<AdminEntity> result = adminService.currentAdmin(bladeUser);
         if (!(result.isSuccess())) {
@@ -224,6 +223,7 @@ public class AgreementAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
+
         return makerService.queryMakerSelectList(keyWord, Condition.getPage(query.setDescs("create_time")));
     }
 
@@ -235,6 +235,7 @@ public class AgreementAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
+
         return enterpriseService.getEnterpriseAll(enterpriseId, enterpriseName, Condition.getPage(query.setDescs("create_time")));
     }
 
@@ -246,6 +247,7 @@ public class AgreementAdminController {
         if (!(result.isSuccess())) {
             return result;
         }
+
         return serviceProviderService.getServiceAll(serviceProviderId, serviceProviderName, Condition.getPage(query.setDescs("create_time")));
     }
 

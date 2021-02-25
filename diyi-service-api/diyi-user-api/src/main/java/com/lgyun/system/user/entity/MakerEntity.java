@@ -255,12 +255,12 @@ public class MakerEntity extends BaseEntity {
     private VideoAudit videoAudit = VideoAudit.TOAUDIT;
 
     /**
-     * 审核日期
+     * 短视频审核日期
      */
     private Date videoAuditDate;
 
     /**
-     * 审核人员
+     * 短视频审核人员
      */
     private Long videoAuditPersonId;
 

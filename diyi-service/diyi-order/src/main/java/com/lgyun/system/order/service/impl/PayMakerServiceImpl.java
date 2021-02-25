@@ -141,16 +141,15 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
                 throw new CustomException("第" + i + "条数据身份证号码为" + payEnterpriseExcel.getMakerIdcardNo() + "的系统创客不存在");
             }
 
+            //判断创客是否是已认证创客
+            if (CertificationState.UNCERTIFIED.equals(makerEntity.getCertificationState())) {
+                throw new CustomException("第" + i + "条数据的创客非已认证创客");
+            }
+
             //判断服务商的创客规则
             R<String> makerRuleRuleResult = userClient.dealMakerRule(serviceProviderId, makerEntity.getId());
             if (!(makerRuleRuleResult.isSuccess())) {
                 throw new CustomException("第" + i + "条数据的创客" + makerRuleRuleResult.getMsg());
-            }
-
-            //判断创客是否有有效的创客加盟合同
-            int makerJoinAgreementNum = userClient.queryValidAgreementNum(null, null, ObjectType.MAKERPEOPLE, makerEntity.getId(), AgreementType.MAKERJOINAGREEMENT);
-            if (makerJoinAgreementNum <= 0) {
-                throw new CustomException("第" + i + "条数据的创客未有有效的创客加盟合同");
             }
 
             //判断创客与商户是否有有有效的商户-创客补充协议

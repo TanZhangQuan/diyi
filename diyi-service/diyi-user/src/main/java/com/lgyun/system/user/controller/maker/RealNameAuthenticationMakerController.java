@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 @RestController
 @RequestMapping("/maker/real-name-authentication")
@@ -53,7 +53,7 @@ public class RealNameAuthenticationMakerController {
 
     @PostMapping("/idcard-ocr")
     @ApiOperation(value = "身份证正面信息获取", notes = "身份证正面信息获取")
-    public R idcardOcr(@ApiParam(value = "正面照片") @NotNull(message = "请选择正面照片") @RequestParam(required = false) String idcardPic, BladeUser bladeUser) throws Exception {
+    public R idcardOcr(@ApiParam(value = "正面照片") @NotBlank(message = "请选择正面照片") @RequestParam(required = false) String idcardPic, BladeUser bladeUser) throws Exception {
         //查询当前创客
         R<MakerEntity> result = makerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -61,7 +61,7 @@ public class RealNameAuthenticationMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return makerService.idcardOcr(idcardPic, makerEntity);
+        return makerService.idcardOcr(idcardPic, makerEntity.getId());
     }
 
     @PostMapping("/idcard-verify")
@@ -74,7 +74,7 @@ public class RealNameAuthenticationMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return makerService.idcardVerify(idcardVerifyDTO, makerEntity);
+        return makerService.idcardVerify(idcardVerifyDTO, makerEntity.getId());
     }
 
     @PostMapping("/mobile-ocr")
@@ -87,12 +87,12 @@ public class RealNameAuthenticationMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return makerService.mobileVerify(makerEntity);
+        return makerService.mobileVerify(makerEntity.getId());
     }
 
     @PostMapping("/bank-card-ocr")
     @ApiOperation(value = "银行卡认证", notes = "银行卡认证")
-    public R bankCardOcr(@ApiParam(value = "银行卡号") @NotNull(message = "请输入银行卡号") @RequestParam(required = false) String bankCardNo, BladeUser bladeUser) throws Exception {
+    public R bankCardOcr(@ApiParam(value = "银行卡号") @NotBlank(message = "请输入银行卡号") @RequestParam(required = false) String bankCardNo, BladeUser bladeUser) throws Exception {
         //查询当前创客
         R<MakerEntity> result = makerService.currentMaker(bladeUser);
         if (!(result.isSuccess())) {
@@ -100,7 +100,7 @@ public class RealNameAuthenticationMakerController {
         }
         MakerEntity makerEntity = result.getData();
 
-        return makerService.bankCardVerify(bankCardNo, makerEntity);
+        return makerService.bankCardVerify(bankCardNo, makerEntity.getId());
     }
 
     @PostMapping("/face-ocr")
