@@ -1,48 +1,39 @@
 package com.lgyun.system.user.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Data
-public class AddOrUpdateRelBureauFileDTO {
+@ApiModel(description = "XXXXXX")
+public class AddOrUpdateRelBureauFileDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    /**
-     * 监督文件ID
-     */
+    @ApiModelProperty(value = "监督文件ID")
     private Long relBureauFileId;
 
-    /**
-     * 监督文件标题
-     */
+    @ApiModelProperty(value = "监督文件标题")
     @NotBlank(message = "请输入监督文件标题")
     private String fileTitle;
 
-    /**
-     * 监督文件摘要
-     */
+    @ApiModelProperty(value = "监督文件摘要")
     @NotBlank(message = "请输入监督文件摘要")
     private String fileDesc;
 
-    /**
-     * 监督文件文件
-     */
+    @ApiModelProperty(value = "监督文件文件")
     @NotBlank(message = "请上传监督文件文件")
     private String fileUrl;
 
-    /**
-     * 发布联系人
-     */
+    @ApiModelProperty(value = "发布联系人")
     private String contactPerson;
 
-    /**
-     * 联系人手机
-     */
+    @ApiModelProperty(value = "联系人手机")
     private String contactPhone;
 
-    /**
-     * 联系人微信
-     */
+    @ApiModelProperty(value = "联系人微信")
     private String contactWechat;
 
 }

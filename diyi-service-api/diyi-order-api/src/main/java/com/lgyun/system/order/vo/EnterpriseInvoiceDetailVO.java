@@ -3,136 +3,102 @@ package com.lgyun.system.order.vo;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.CompanyInvoiceState;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-/**
- * @author .
- * @date 2020/11/12.
- * @time 14:33.
- */
 @Data
+@ApiModel(description = "XXXXX")
 public class EnterpriseInvoiceDetailVO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    /**
-     * 总包开票id
-     */
+    @ApiModelProperty(value = "总包开票ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long invoicePrintId;
-    /**
-     * 总包支付清单ID
-     */
+
+    @ApiModelProperty(value = "总包支付清单ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long payEnterpriseId;
-    /**
-     * 商户名字
-     */
+
+    @ApiModelProperty(value = "商户名称")
     private String enterpriseName;
-    /**
-     * 支付清单url
-     */
+
+    @ApiModelProperty(value = "支付清单")
     private String chargeListUrl;
-    /**
-     * 支付回单,多个用逗号隔开的
-     */
+
+    @ApiModelProperty(value = "支付回单(多张)")
     private String enterprisePayReceiptUrl;
-    /**
-     * 工单id
-     */
+
+    @ApiModelProperty(value = "工单ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private String worksheetId;
-    /**
-     * 交付支付验收单，多个用逗号隔开的
-     */
+
+    @ApiModelProperty(value = "交付支付验收单(多张)")
     private String acceptPaysheetUrl;
-    /**
-     * 申请状态，0 未申请，1已申请
-     */
+
+    @ApiModelProperty(value = "申请状态")
     private String applyState;
-    /**
-     * 开票说明
-     */
+
+    @ApiModelProperty(value = "开票说明")
     private String invoiceDesc;
-    /**
-     * 开票类目
-     */
+
+    @ApiModelProperty(value = "开票类目")
     private String invoiceCategory;
-    /**
-     * 价税合计额
-     */
+
+    @ApiModelProperty(value = "价税合计额")
     private String payToPlatformAmount;
-    /**
-     * 服务商名字
-     */
+
+    @ApiModelProperty(value = "服务商名称")
     private String serviceProviderName;
-    /**
-     * 总包开票状态
-     */
+
+    @ApiModelProperty(value = "总包开票状态")
     private CompanyInvoiceState companyInvoiceState;
-    /**
-     * 开票时间
-     */
+
+    @ApiModelProperty(value = "开票时间")
     private String createTime;
-    /**
-     * 开票信息名称
-     */
+
+    @ApiModelProperty(value = "开票信息名称")
     private String invoiceEnterpriseName;
-    /**
-     * 开票信息纳税人识别号
-     */
+
+    @ApiModelProperty(value = "开票信息纳税人识别号")
     private String invoiceTaxNo;
-    /**
-     * 开票信息电话是地址
-     */
+
+    @ApiModelProperty(value = "开票信息电话是地址")
     private String invoiceAddressPhone;
-    /**
-     * 开票信息银行卡号
-     */
+
+    @ApiModelProperty(value = "开票信息银行卡号")
     private String invoiceBankNameAccount;
-    /**
-     * 收件人姓名
-     */
+
+    @ApiModelProperty(value = "收件人姓名")
     private String addressName;
-    /**
-     * 收件人电话
-     */
+
+    @ApiModelProperty(value = "收件人电话")
     private String addressPhone;
-    /**
-     * 收件人地区
-     */
+
+    @ApiModelProperty(value = "收件人地区")
     private String area;
-    /**
-     * 收件人城市
-     */
+
+    @ApiModelProperty(value = "收件人城市")
     private String city;
-    /**
-     * 收件人省份
-     */
+
+    @ApiModelProperty(value = "收件人省份")
     private String province;
-    /**
-     * 收件人收人详细地址
-     */
+
+    @ApiModelProperty(value = "收件人收人详细地址")
     private String detailedAddress;
 
-    /**
-     * 发票url,多张用逗号隔开的
-     */
+    @ApiModelProperty(value = "发票(多张)")
     private String companyInvoiceUrl;
 
-    /**
-     *快递单号
-     */
+    @ApiModelProperty(value = "快递单号")
     private String expressSheetNo;
 
-    /**
-     * 快递公司
-     */
+    @ApiModelProperty(value = "快递公司")
     private String expressCompanyName;
 
-    /**
-     * 已开金额
-     */
+    @ApiModelProperty(value = "已开金额")
     private BigDecimal openedInvoiceTotalAmount;
 }

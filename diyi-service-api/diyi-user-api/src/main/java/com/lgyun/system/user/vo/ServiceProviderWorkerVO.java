@@ -4,60 +4,41 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.PositionName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * 视图实体类
- *
- * @author tzq
- * @since 2020/6/6 00:28
- */
 @Data
+@ApiModel(description = "服务商员工VO")
 public class ServiceProviderWorkerVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 服务商ID
-     */
+    @ApiModelProperty(value = "服务商ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    /**
-     * 商户名称
-     */
+    @ApiModelProperty(value = "商户名称")
     private String enterpriseName;
 
-    /**
-     * 岗位
-     */
+    @ApiModelProperty(value = "岗位")
     private PositionName positionName;
 
-    /**
-     * 手机号码
-     */
+    @ApiModelProperty(value = "手机号码")
     private String phoneNumber;
 
-    /**
-     * 用户名
-     */
+    @ApiModelProperty(value = "用户名")
     private String employeeUserName;
 
-    /**
-     * 菜单名称集合
-     */
+    @ApiModelProperty(value = "菜单名称集合")
     private List<String> menuNames;
 
-    /**
-     * 账户状态描述
-     */
+    @ApiModelProperty(value = "账户状态描述")
     private AccountState accountState;
 
-    /**
-     * 是否是主账号
-     */
+    @ApiModelProperty(value = "是否是主账号")
     private Boolean master = false;
 
 }

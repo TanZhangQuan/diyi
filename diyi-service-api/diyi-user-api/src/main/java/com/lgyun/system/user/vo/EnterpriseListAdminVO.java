@@ -4,60 +4,41 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.AccountState;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * 平台端---商户管理---商户列表vo
- *
- * @author tzq
- * @date 2020/9/9
- */
 @Data
+@ApiModel(description = "商户列表VO")
 public class EnterpriseListAdminVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 商户编号
-     */
+    @ApiModelProperty(value = "商户编号")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    /**
-     * 商户名称
-     */
+    @ApiModelProperty(value = "商户名称")
     private String enterpriseName;
 
-    /**
-     * 联系人
-     */
+    @ApiModelProperty(value = "联系人")
     private String contact1Name;
 
-    /**
-     * 联系人电话
-     */
+    @ApiModelProperty(value = "联系人电话")
     private String contact1Phone;
 
-    /**
-     * 加盟合同
-     */
+    @ApiModelProperty(value = "加盟合同")
     private String joinContract;
 
-    /**
-     * 商户业务真实性承诺函(可能多张)
-     */
+    @ApiModelProperty(value = "商户业务真实性承诺函(多张)")
     private String commitmentLetters;
 
-    /**
-     * 状态
-     */
+    @ApiModelProperty(value = "状态")
     private AccountState enterpriseState;
 
-    /**
-     * 创建时间
-     */
+    @ApiModelProperty(value = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 

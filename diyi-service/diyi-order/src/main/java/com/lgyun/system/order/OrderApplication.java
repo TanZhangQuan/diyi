@@ -14,17 +14,14 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @author tzq
  * @since 2020/6/6 23:08
  */
-@Slf4j
-@SpringBootApplication(scanBasePackages = AppConstant.BASE_PACKAGES)
-@EnableDiscoveryClient
 @EnableCircuitBreaker
+@EnableDiscoveryClient
 @EnableFeignClients(AppConstant.BASE_PACKAGES)
+@SpringBootApplication(scanBasePackages = AppConstant.BASE_PACKAGES)
 public class OrderApplication {
 
     public static void main(String[] args) {
-        log.info("订单模块服务启动开始");
         BladeApplication.run(AppConstant.APPLICATION_ORDER_NAME, OrderApplication.class, args);
-        log.info("订单模块服务启动结束");
     }
 
 }

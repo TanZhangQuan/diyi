@@ -1,34 +1,26 @@
 package com.lgyun.system.order.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-/**
- * @author jun.
- * @date 2020/12/15.
- * @time 15:53.
- */
 @Data
+@ApiModel(description = "XXXXX")
 public class CrowdsourcingInvoiceDTO  implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     *自助开票详情id
-     */
-    @NotNull(message = "请输入自助开票详情id")
+    @ApiModelProperty(value = "自助开票详情ID")
+    @NotNull(message = "请选择自助开票详情")
     private Long selfHelpInvoiceDetailId;
 
-    /**
-     * 发票
-     */
-    @NotBlank(message = "请输入发票")
+    @ApiModelProperty(value = "发票")
+    @NotBlank(message = "请上传发票")
     private String invoiceScanPictures;
 
-    /**
-     * 税票
-     */
+    @ApiModelProperty(value = "税票")
     private String taxScanPictures;
 }

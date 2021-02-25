@@ -4,60 +4,40 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.common.enumeration.MakerInvoiceType;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- *
- *服务商查询未开票分包发票
- * @author tzq
- * @date 2020/9/7.
- * @time 16:45.
- */
 @Data
+@ApiModel(description = "服务商查询未开票分包发票VO")
 public class InvoiceServiceSubVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 支付清单id
-     */
+    @ApiModelProperty(value = "支付清单ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long payEnterpriseId;
 
-    /**
-     * 商户id
-     */
+    @ApiModelProperty(value = "商户ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
 
-    /**
-     * 商户名称
-     */
+    @ApiModelProperty(value = "商户名称")
     private String enterpriseName;
 
-    /**
-     * 清单url
-     */
+    @ApiModelProperty(value = "开票清单")
     private String chargeListUrl;
 
-    /**
-     * 是否有支付回单
-     */
+    @ApiModelProperty(value = "是否有支付回单")
     private String isPayEnterpriseReceipt;
 
-    /**
-     * 分包开票状态
-     */
+    @ApiModelProperty(value = "分包开票状态")
     private InvoiceState subcontractingInvoiceState;
 
-    /**
-     *创客发票开票类别: 自然人汇总代开；自然人门征单开；个体户税局代开；个体户自开；个独自开
-     */
+    @ApiModelProperty(value = "创客发票开票类别")
     private MakerInvoiceType makerInvoiceType;
 
-    /**
-     * 创建时间
-     */
+    @ApiModelProperty(value = "创建时间")
     private String createTime;
 }

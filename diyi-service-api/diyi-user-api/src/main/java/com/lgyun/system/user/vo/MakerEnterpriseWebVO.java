@@ -3,54 +3,38 @@ package com.lgyun.system.user.vo;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.CertificationState;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * @author .
- * @date 2020/8/20.
- * @time 19:50.
- */
 @Data
+@ApiModel(description = "XXXXXX")
 public class MakerEnterpriseWebVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 商户ID
-     */
+    @ApiModelProperty(value = "商户ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
 
-    /**
-     * 创客和商户关联的ID
-     */
+    @ApiModelProperty(value = "创客-商户ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long makerEnterpriseId;
 
-    /**
-     * 创客ID
-     */
+    @ApiModelProperty(value = "创客ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long makerId;
 
-    /**
-     * 认证状态
-     */
+    @ApiModelProperty(value = "认证状态")
     private CertificationState certificationState;
 
-    /**
-     * 是否有有效的创客授权书
-     */
+    @ApiModelProperty(value = "是否有有效的创客授权书")
     private Boolean boolPowerAttorney;
 
-    /**
-     * 是否有有效的创客加盟协议
-     */
+    @ApiModelProperty(value = "是否有有效的创客加盟协议")
     private Boolean boolJoinAgreement;
 
-    /**
-     * 创客名称
-     */
+    @ApiModelProperty(value = "创客名称")
     private String name;
 }

@@ -3,76 +3,51 @@ package com.lgyun.system.order.vo;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.CompanyInvoiceState;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * 服务商查询总包发票
- * @author .
- * @date 2020/9/4.
- * @time 15:28.
- */
 @Data
+@ApiModel(description = "服务商查询总包发票VO")
 public class InvoiceServiceLumpVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 总包申请和支付清单表id
-     */
+    @ApiModelProperty(value = "总包申请和支付清单表ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long invoiceApplicationPayListId;
 
-    /**
-     * 总包申请id
-     */
+    @ApiModelProperty(value = "总包申请ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long invoiceApplicationId;
 
-    /**
-     * 支付清单id
-     */
+    @ApiModelProperty(value = "支付清单ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long payEnterpriseId;
 
-    /**
-     * 商户名称
-     */
+    @ApiModelProperty(value = "商户名称")
     private String enterpriseName;
 
-    /**
-     * 服务商名称
-     */
+    @ApiModelProperty(value = "服务商名称")
     private String serviceProviderName;
 
-    /**
-     * 总包申请状态
-     */
+    @ApiModelProperty(value = "总包申请状态")
     private String applicationState;
 
-    /**
-     *总包开票状态
-     */
+    @ApiModelProperty(value = "总包开票状态")
     private CompanyInvoiceState companyInvoiceState;
 
-    /**
-     * 创建时间
-     */
+    @ApiModelProperty(value = "创建时间")
     private String createTime;
 
-    /**
-     * 开票说明:一个支付清单，可能多张发票，一张发票可能多个支付清单
-     */
+    @ApiModelProperty(value = "开票说明")
     private String applicationDesc;
 
-    /**
-     * 0 未申请，1已申请
-     */
+    @ApiModelProperty(value = "申请状态")
     private String applyState;
 
-    /**
-     * 总包id
-     */
+    @ApiModelProperty(value = "总包发票ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long invoicePrintId;
 }

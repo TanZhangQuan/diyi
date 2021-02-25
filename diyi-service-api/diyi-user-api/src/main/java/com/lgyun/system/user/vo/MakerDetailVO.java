@@ -3,251 +3,158 @@ package com.lgyun.system.user.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lgyun.common.enumeration.*;
 import com.lgyun.common.tool.DateUtil;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * 创客端---首页管理---创客详情VO
- *
- * @author tzq
- * @date 2020/9/9
- */
 @Data
+@ApiModel(description = "创客详情VO")
 public class MakerDetailVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 微信关联日期
-     */
+    @ApiModelProperty(value = "微信关联日期")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date relDate;
 
-    /**
-     * 姓名
-     */
+    @ApiModelProperty(value = "姓名")
     private String name;
 
-    /**
-     * 头像
-     */
+    @ApiModelProperty(value = "头像")
     private String avatar;
 
-    /**
-     * 认证状态
-     */
+    @ApiModelProperty(value = "认证状态")
     private CertificationState certificationState;
 
-    /**
-     * 是否有有效的创客授权书
-     */
+    @ApiModelProperty(value = "是否有有效的创客授权书")
     private Boolean boolPowerAttorney;
 
-    /**
-     * 是否有有效的创客加盟协议
-     */
+    @ApiModelProperty(value = "是否有有效的创客加盟协议")
     private Boolean boolJoinAgreement;
 
-    /**
-     * 账户状态
-     */
+    @ApiModelProperty(value = "账户状态")
     private AccountState makerState;
 
-    /**
-     * 政治面貌
-     */
+    @ApiModelProperty(value = "政治面貌")
     private String politicState;
 
-    /**
-     * 民族
-     */
+    @ApiModelProperty(value = "民族")
     private String nationality;
 
-    /**
-     * 文化程度
-     */
+    @ApiModelProperty(value = "文化程度")
     private String levelofedu;
 
-    /**
-     * 电子邮箱
-     */
+    @ApiModelProperty(value = "电子邮箱")
     private String emailAddress;
 
-    /**
-     * 身份证号码
-     */
+    @ApiModelProperty(value = "身份证号码")
     private String idcardNo;
 
-    /**
-     * 到期日期
-     */
+    @ApiModelProperty(value = "到期日期")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date dueDate;
 
-    /**
-     * 手机号码
-     */
+    @ApiModelProperty(value = "手机号码")
     private String phoneNumber;
 
-    /**
-     * 银行卡号
-     */
+    @ApiModelProperty(value = "银行卡号")
     private String bankCardNo;
 
-    /**
-     * 开户银行
-     */
+    @ApiModelProperty(value = "开户银行")
     private String bankName;
 
-    /**
-     * 开户支行
-     */
+    @ApiModelProperty(value = "开户支行")
     private String subBankName;
 
-    /**
-     * 身份证正面图
-     */
+    @ApiModelProperty(value = "身份证正面图")
     private String idcardPic;
 
-    /**
-     * 身份证反面图
-     */
+    @ApiModelProperty(value = "身份证反面图")
     private String idcardPicBack;
 
-    /**
-     * 正面自拍照
-     */
+    @ApiModelProperty(value = "正面自拍照")
     private String selfPic;
 
-    /**
-     * 身份证复印件图
-     */
+    @ApiModelProperty(value = "身份证复印件图")
     private String idcardCopy;
 
-    /**
-     * 手持证件正面照
-     */
+    @ApiModelProperty(value = "手持证件正面照")
     private String idcardHand;
 
-    /**
-     * 手持证件反面照
-     */
+    @ApiModelProperty(value = "手持证件反面照")
     private String idcardBackHand;
 
-    /**
-     * 活体截图
-     */
+    @ApiModelProperty(value = "活体截图")
     private String picVerify;
 
-    /**
-     * 身份证验证状态：未验证，验证通过，验证未通过
-     */
+    @ApiModelProperty(value = "身份证验证状态")
     private VerifyStatus idcardVerifyStatus;
 
-    /**
-     * 身份证验证日期时间
-     */
+    @ApiModelProperty(value = "身份证验证日期时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date idcardVerifyDate;
 
-    /**
-     * 活体验证状态：未验证，验证通过，验证未通过
-     */
+    @ApiModelProperty(value = "活体验证状态")
     private VerifyStatus faceVerifyStatus;
 
-    /**
-     * 活体验证日期时间
-     */
+    @ApiModelProperty(value = "活体验证日期时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date faceVerifyDate;
 
-    /**
-     * 银行卡验证状态：未验证，验证通过，验证未通过
-     */
+    @ApiModelProperty(value = "银行卡验证状态")
     private VerifyStatus bankCardVerifyStatus;
 
-    /**
-     * 银行卡验证日期时间
-     */
+    @ApiModelProperty(value = "银行卡验证日期时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date bankCardVerifyDate;
 
-    /**
-     * 手机号码验证状态：未验证，验证通过，验证未通过
-     */
+    @ApiModelProperty(value = "手机号码验证状态")
     private VerifyStatus phoneNumberVerifyStatus;
 
-    /**
-     * 手机号码验证日期时间
-     */
+    @ApiModelProperty(value = "手机号码验证日期时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date phoneNumberVerifyDate;
 
-    /**
-     * 身份证验证类型：系统验证，手工验证
-     */
+    @ApiModelProperty(value = "身份证验证类型")
     private IdcardVerifyType idcardVerifyType;
 
-    /**
-     * 手工验证人
-     */
+    @ApiModelProperty(value = "手工验证人")
     private String manualVerifyName;
 
-    /**
-     * 验证描述
-     */
+    @ApiModelProperty(value = "验证描述")
     private String manualVerifyDesc;
 
-    /**
-     * 线上经营场所
-     */
+    @ApiModelProperty(value = "线上经营场所")
     private String runAddress;
 
-    /**
-     * 线下经营地址
-     */
+    @ApiModelProperty(value = "线下经营地址")
     private String houseAddress;
 
-    /**
-     * 住址
-     */
+    @ApiModelProperty(value = "住址")
     private String livingAddress;
 
-    /**
-     * 自我描述
-     */
+    @ApiModelProperty(value = "自我描述")
     private String selfDesc;
 
-    /**
-     * 商铺
-     */
+    @ApiModelProperty(value = "商铺")
     private String shopUrl;
 
-    /**
-     * 商铺用户名
-     */
+    @ApiModelProperty(value = "商铺用户名")
     private String shopUserName;
 
-    /**
-     * 声明短视频
-     */
+    @ApiModelProperty(value = "声明短视频")
     private String applyShortVideo;
 
-    /**
-     * 短视频审核状态：未审核，审核通过，审核未通过
-     */
+    @ApiModelProperty(value = "短视频审核状态")
     private VideoAudit videoAudit;
 
-    /**
-     * 审核日期
-     */
+    @ApiModelProperty(value = "审核日期")
     @JsonFormat(pattern = DateUtil.PATTERN_DATETIME, timezone = "GMT+8")
     private Date videoAuditDate;
 
-    /**
-     * 审核人员
-     */
+    @ApiModelProperty(value = "审核人员")
     private String videoAuditPersonName;
 
 }

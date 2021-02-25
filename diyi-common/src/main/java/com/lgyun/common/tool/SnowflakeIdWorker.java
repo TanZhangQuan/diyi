@@ -121,7 +121,7 @@ public class SnowflakeIdWorker {
         if (!redisUtil.lock(lock, time)) {
             return null;
         }
-        log.info("获得锁的时间戳：" + time);
+        log.info("获得锁的时间戳：{}", time);
 
         try {
             long timestamp = timeGen();
@@ -153,7 +153,7 @@ public class SnowflakeIdWorker {
             try {
                 //释放锁
                 redisUtil.release(lock, time);
-                log.info("释放锁的时间戳：" + time);
+                log.info("释放锁的时间戳：{}", time);
             } catch (Exception e) {
                 log.info("释放锁的时间戳异常", e);
             }

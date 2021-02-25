@@ -30,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 
@@ -125,7 +126,7 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
         for (int i = 1; i <= list.size(); i++) {
             //获取Excel数据
             PayEnterpriseExcel payEnterpriseExcel = list.get(i - 1);
-            log.info(String.valueOf(payEnterpriseExcel));
+            log.info("Excel数据：{}", payEnterpriseExcel);
 
             if (StringUtils.isBlank(payEnterpriseExcel.getMakerName())) {
                 throw new CustomException("第" + i + "条数据缺少创客姓名");
@@ -140,16 +141,15 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
                 throw new CustomException("第" + i + "条数据身份证号码为" + payEnterpriseExcel.getMakerIdcardNo() + "的系统创客不存在");
             }
 
+            //判断创客是否是已认证创客
+            if (CertificationState.UNCERTIFIED.equals(makerEntity.getCertificationState())) {
+                throw new CustomException("第" + i + "条数据的创客非已认证创客");
+            }
+
             //判断服务商的创客规则
             R<String> makerRuleRuleResult = userClient.dealMakerRule(serviceProviderId, makerEntity.getId());
             if (!(makerRuleRuleResult.isSuccess())) {
                 throw new CustomException("第" + i + "条数据的创客" + makerRuleRuleResult.getMsg());
-            }
-
-            //判断创客是否有有效的创客加盟合同
-            int makerJoinAgreementNum = userClient.queryValidAgreementNum(null, null, ObjectType.MAKERPEOPLE, makerEntity.getId(), AgreementType.MAKERJOINAGREEMENT);
-            if (makerJoinAgreementNum <= 0) {
-                throw new CustomException("第" + i + "条数据的创客未有有效的创客加盟合同");
             }
 
             //判断创客与商户是否有有有效的商户-创客补充协议
@@ -192,12 +192,15 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
                 throw new CustomException("第" + i + "条数据缺少服务税费率");
             }
 
+            //服务税费率转化为去掉百分号的数字
+            payEnterpriseExcel.setServiceRate(payEnterpriseExcel.getServiceRate().multiply(BigDecimal.valueOf(100)).setScale(2, RoundingMode.HALF_UP));
+
             if (BigDecimal.ZERO.compareTo(payEnterpriseExcel.getServiceRate()) > 0) {
-                throw new CustomException("第" + i + "条数据的服务税费率小于0");
+                throw new CustomException("第" + i + "条数据的服务税费率小于0%");
             }
 
-            if (BigDecimal.valueOf(100).compareTo(payEnterpriseExcel.getServiceRate()) < 0) {
-                throw new CustomException("第" + i + "条数据的服务税费率大于100");
+            if (BigDecimal.valueOf(30).compareTo(payEnterpriseExcel.getServiceRate()) < 0) {
+                throw new CustomException("第" + i + "条数据的服务税费率大于30%");
             }
 
             //获取服务税费率

@@ -4,54 +4,41 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.PositionName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.List;
 
 @Data
+@ApiModel(description = "XXXXXX")
 public class AdminVO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    /**
-     * 账号ID
-     */
+    @ApiModelProperty(value = "账号ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    /**
-     * 姓名
-     */
+    @ApiModelProperty(value = "姓名")
     private String name;
 
-    /**
-     * 岗位性质
-     */
+    @ApiModelProperty(value = "岗位性质")
     private PositionName positionName;
 
-    /**
-     * 手机号码
-     */
+    @ApiModelProperty(value = "手机号码")
     private String phoneNumber;
 
-    /**
-     * 用户名
-     */
+    @ApiModelProperty(value = "用户名")
     private String userName;
 
-
-    /**
-     * 管理员账户状态
-     */
+    @ApiModelProperty(value = "管理员账户状态")
     private AccountState adminState;
 
-    /**
-     * 是否为主账号（为true时为主账号）
-     */
+    @ApiModelProperty(value = "是否为主账号(为true时为主账号)")
     private Boolean master = false;
 
-    /**
-     * 拥有的菜单名称
-     */
+    @ApiModelProperty(value = "拥有的菜单名称")
     private List<String> menuNames;
 
 }

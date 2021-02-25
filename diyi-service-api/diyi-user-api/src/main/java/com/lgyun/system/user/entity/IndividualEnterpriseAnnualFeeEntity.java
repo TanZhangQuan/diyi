@@ -26,19 +26,14 @@ public class IndividualEnterpriseAnnualFeeEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 年费年度
-     */
-    private Integer annualFeeYear;
-
-    /**
      * 个独ID
      */
     private Long individualEnterpriseId;
 
     /**
-     * 创客ID
+     * 年费年度
      */
-    private Long makerId;
+    private Integer annualFeeYear;
 
     /**
      * 年费缴纳日期

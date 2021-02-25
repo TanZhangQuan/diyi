@@ -118,7 +118,7 @@ public class PaymentServiceProviderController {
     @PostMapping("/upload-pay-maker-receipt")
     @ApiOperation(value = "上传支付回单", notes = "上传支付回单")
     public R uploadPayMakerReceipt(@ApiParam(value = "支付清单明细", required = true) @NotNull(message = "请选择支付清单明细") @RequestParam(required = false) Long payMakerId,
-                                   @ApiParam(value = "支付回单", required = true) @NotBlank(message = "请上传支付回单") @RequestParam(required = false) String makerPayReceiptUrls, BladeUser bladeUser) {
+                                   @ApiParam(value = "分包支付回单", required = true) @NotBlank(message = "请上传分包支付回单") @RequestParam(required = false) String makerPayReceiptUrls, BladeUser bladeUser) {
         //查询当前服务商员工
         R<ServiceProviderWorkerEntity> result = userClient.currentServiceProviderWorker(bladeUser);
         if (!(result.isSuccess())) {

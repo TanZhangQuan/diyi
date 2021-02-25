@@ -19,6 +19,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @RestController
 @RequestMapping("/enterprise/agreement")
@@ -113,7 +114,7 @@ public class AgreementEnterpriseController {
     @PostMapping("/upload-supplementary-agreement")
     @ApiOperation(value = "商户上传服务商的补充协议", notes = "商户上传服务商的补充协议")
     public R saveSupplementaryAgreement(@ApiParam(value = "补充协议") @NotBlank(message = "请上传服务商的补充协议") @RequestParam(required = false) String agreementUrl,
-                                        @ApiParam(value = "服务商") @NotBlank(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId, BladeUser bladeUser) {
+                                        @ApiParam(value = "服务商") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId, BladeUser bladeUser) {
         //查询当前商户员工
         R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
         if (!(result.isSuccess())) {

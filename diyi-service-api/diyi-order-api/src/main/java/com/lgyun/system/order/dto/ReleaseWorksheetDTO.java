@@ -3,6 +3,8 @@ package com.lgyun.system.order.dto;
 import com.lgyun.common.enumeration.MakerType;
 import com.lgyun.common.enumeration.WorksheetMode;
 import com.lgyun.common.enumeration.WorksheetType;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.Min;
@@ -11,81 +13,53 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-/**
- * 发布工单
- *
- * @author tzq
- * @date 2020/7/7.
- * @time 15:04.
- */
 @Data
+@ApiModel(description = "发布工单DTO")
 public class ReleaseWorksheetDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 工单名称
-     */
+    @ApiModelProperty(value = "工单名称")
     @NotBlank(message = "请输入工单名称")
     private String worksheetName;
 
-    /**
-     * 上限人数
-     */
+    @ApiModelProperty(value = "上限人数")
     @NotNull(message = "请输入上限人数")
     @Min(value = 1, message = "上限人数不能小于1")
     private Integer upPersonNum;
 
-    /**
-     * 工作天数
-     */
+    @ApiModelProperty(value = "工作天数")
     @NotNull(message = "请输入工作天数")
     @Min(value = 1, message = "工作天数不能小于1")
     private Integer workDays;
 
-    /**
-     * 最低费用
-     */
+    @ApiModelProperty(value = "最低费用")
     @NotNull(message = "请输入最低费用")
     @Min(value = 0, message = "最低费用不能小于0")
     private BigDecimal worksheetFeeLow;
 
-    /**
-     * 最高费用
-     */
+    @ApiModelProperty(value = "最高费用")
     @NotNull(message = "请输入最高费用")
     @Min(value = 0, message = "最高费用不能小于0")
     private BigDecimal worksheetFeeHigh;
 
-    /**
-     * 类型，总包+分包，众包/众采
-     */
+    @ApiModelProperty(value = "工单类型", notes = "com.lgyun.common.enumeration.WorksheetType")
     @NotNull(message = "请选择工单类型")
     private WorksheetType worksheetType;
 
-    /**
-     * 模式，派单、抢单、混合（默认：混合型）
-     */
+    @ApiModelProperty(value = "工单模式", notes = "com.lgyun.common.enumeration.WorksheetMode")
     @NotNull(message = "请选择工单模式")
     private WorksheetMode worksheetMode;
 
-    /**
-     * 创客身份，自然人，个体户，个独。如果是个体户/个独，则抢单或派单时需要指定相关个体户/个独，如果只有一个则不用指定。
-     */
+    @ApiModelProperty(value = "创客身份", notes = "com.lgyun.common.enumeration.MakerType")
     @NotNull(message = "请选择创客身份")
     private MakerType makerType;
 
-    /**
-     * 创客ids
-     */
+    @ApiModelProperty(value = "创客")
     private String MakerIds;
 
-    /**
-     * 工单说明
-     */
+    @ApiModelProperty(value = "工单说明")
     private String worksheetMemo;
 
-    /**
-     * 工单图文说明
-     */
+    @ApiModelProperty(value = "工单图文说明")
     private String worksheetDescFiles;
 }

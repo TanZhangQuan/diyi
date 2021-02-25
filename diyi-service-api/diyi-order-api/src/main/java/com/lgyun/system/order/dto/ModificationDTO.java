@@ -1,35 +1,33 @@
 package com.lgyun.system.order.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
-/**
- * @author .
- * @date 2020/12/12.
- * @time 10:52.
- */
 @Data
+@ApiModel(description = "XXXXX")
 public class ModificationDTO implements Serializable {
-    /**
-     *
-     */
+    private static final long serialVersionUID = 1L;
+
+    @ApiModelProperty(value = "自主开票明细ID")
     private Long selfHelpInvoiceDetailId;
 
-    //("身份证正面url")
-    @NotBlank(message = "请输入身份证正面url")
+    @ApiModelProperty(value = "身份证正面")
+    @NotBlank(message = "请上传身份证正面")
     private String positiveIdCard;
 
-    //("身份证反面url")
-    @NotBlank(message = "请输入身份证反面url")
+    @ApiModelProperty(value = "XXXXX")
+    @NotBlank(message = "请上传身份证反面")
     private String backIdCard;
 
-    //("业务合同")
+    @ApiModelProperty(value = "业务合同")
     @NotBlank(message = "请输入业务合同")
     private String businessContract;
 
-    //("支付回单")
+    @ApiModelProperty(value = "支付回单")
     @NotBlank(message = "请输入支付回单")
     private String paymentReceipt;
 

@@ -6,116 +6,75 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.AccountState;
 import com.lgyun.common.enumeration.CertificationState;
 import com.lgyun.common.enumeration.VerifyStatus;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * 商户端创客详情VO
- *
- * @author tzq
- * @since 2020/6/6 00:28
- */
 @Data
+@ApiModel(description = "创客详情VO")
 public class MakerDetailWebVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 创客ID
-     */
+    @ApiModelProperty(value = "创客ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    /**
-     * 头像
-     */
+    @ApiModelProperty(value = "头像")
     private String avatar;
 
-    /**
-     * 姓名
-     */
+    @ApiModelProperty(value = "姓名")
     private String name;
 
-    /**
-     * 认证状态
-     */
+    @ApiModelProperty(value = "认证状态")
     private CertificationState certificationState;
 
-    /**
-     * 自我描述
-     */
+    @ApiModelProperty(value = "自我描述")
     private String selfDesc;
 
-    /**
-     * 已接订单数
-     */
+    @ApiModelProperty(value = "已接订单数")
     private Integer orderNum;
 
-    /**
-     * 总收入
-     */
+    @ApiModelProperty(value = "总收入")
     private BigDecimal income;
 
-    /**
-     * 身份证号码
-     */
+    @ApiModelProperty(value = "身份证号码")
     private String idcardNo;
 
-    /**
-     * 手机号码
-     */
+    @ApiModelProperty(value = "手机号码")
     private String phoneNumber;
 
-    /**
-     * 银行卡号
-     */
+    @ApiModelProperty(value = "银行卡号")
     private String bankCardNo;
 
-    /**
-     * 开户支行
-     */
+    @ApiModelProperty(value = "开户支行")
     private String subBankName;
 
-    /**
-     * 身份证验证状态：未验证，验证通过，验证未通过
-     */
+    @ApiModelProperty(value = "身份证验证状态")
     private VerifyStatus idcardVerifyStatus;
 
-    /**
-     * 活体验证状态：未验证，验证通过，验证未通过
-     */
+    @ApiModelProperty(value = "活体验证状态")
     private VerifyStatus faceVerifyStatus;
 
-    /**
-     * 银行卡验证状态：未验证，验证通过，验证未通过
-     */
+    @ApiModelProperty(value = "银行卡验证状态")
     private VerifyStatus bankCardVerifyStatus;
 
-    /**
-     * 手机号码验证状态：未验证，验证通过，验证未通过
-     */
+    @ApiModelProperty(value = "手机号码验证状态")
     private VerifyStatus phoneNumberVerifyStatus;
 
-    /**
-     * 平台加盟合同
-     */
+    @ApiModelProperty(value = "平台加盟合同")
     private String makerJoinAgreement;
 
-    /**
-     * 授权委托书
-     */
+    @ApiModelProperty(value = "授权委托书")
     private String makerPowerAttorney;
 
-    /**
-     * 注册日期
-     */
+    @ApiModelProperty(value = "注册日期")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
     private Date createTime;
 
-    /**
-     * 账户状态
-     */
+    @ApiModelProperty(value = "账户状态")
     private AccountState makerState;
 }

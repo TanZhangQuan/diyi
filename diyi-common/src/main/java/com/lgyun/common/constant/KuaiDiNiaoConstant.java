@@ -1,14 +1,13 @@
 package com.lgyun.common.constant;
 
 /**
- * WechatConstant
+ * 快递鸟配置
  *
  * @author tzq
  * @since 2020/6/2 23:32
  */
 public interface KuaiDiNiaoConstant {
 
-    //快递鸟配置
     /**
      * 电商ID
      */

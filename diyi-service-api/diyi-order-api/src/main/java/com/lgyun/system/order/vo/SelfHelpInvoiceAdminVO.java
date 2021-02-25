@@ -2,64 +2,44 @@ package com.lgyun.system.order.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * @author tzq
- * @date 2020/9/18.
- * @time 15:55.
- */
 @Data
+@ApiModel(description = "XXXXX")
 public class SelfHelpInvoiceAdminVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     *自主开票主表id
-     */
+    @ApiModelProperty(value = "自主开票主表ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long selfHelpInvoiceId;
 
-    /**
-     *自主开票申请表id
-     */
+    @ApiModelProperty(value = "自主开票申请表ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long selfHelpInvoiceApplyId;
 
-    /**
-     *商户id
-     */
+    @ApiModelProperty(value = "商户ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
 
-    /**
-     *商户名字
-     */
+    @ApiModelProperty(value = "商户名字")
     private String enterpriseName;
 
-    /**
-     *开票清单
-     */
+    @ApiModelProperty(value = "开票清单")
     private String listFile;
 
-    /**
-     *众包支付模式：标准支付；扩展支付；商户代付税费
-     */
+    @ApiModelProperty(value = "众包支付模式")
     private String payType;
 
-    /**
-     *价税合计额
-     */
+    @ApiModelProperty(value = "价税合计额")
     private String talChargeMoneyNum;
 
-    /**
-     *状态
-     */
+    @ApiModelProperty(value = "状态")
     private String currentState;
 
-    /**
-     *创建时间
-     */
+    @ApiModelProperty(value = "创建时间")
     private String createTime;
 }

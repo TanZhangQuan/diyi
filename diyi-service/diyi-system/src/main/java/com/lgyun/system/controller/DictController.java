@@ -2,7 +2,7 @@ package com.lgyun.system.controller;
 
 
 import com.lgyun.common.api.R;
-import com.lgyun.common.ctrl.BladeController;
+import com.lgyun.common.controller.BladeController;
 import com.lgyun.system.dto.DictDTO;
 import com.lgyun.system.service.IDictService;
 import com.lgyun.system.vo.DictVO;

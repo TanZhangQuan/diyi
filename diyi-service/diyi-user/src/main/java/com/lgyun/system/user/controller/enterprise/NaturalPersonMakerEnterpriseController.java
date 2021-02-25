@@ -5,8 +5,9 @@ import com.lgyun.common.enumeration.RelationshipType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
-import com.lgyun.system.user.dto.MakerAddDTO;
+import com.lgyun.system.user.dto.IdcardVerifyDTO;
 import com.lgyun.system.user.dto.ImportMakerListDTO;
+import com.lgyun.system.user.dto.MakerAddDTO;
 import com.lgyun.system.user.entity.EnterpriseWorkerEntity;
 import com.lgyun.system.user.service.IEnterpriseWorkerService;
 import com.lgyun.system.user.service.IMakerEnterpriseService;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
@@ -33,9 +35,9 @@ import java.util.Set;
 @Api(value = "商户端---自然人创客管理模块相关接口", tags = "商户端---自然人创客管理模块相关接口")
 public class NaturalPersonMakerEnterpriseController {
 
-    private IEnterpriseWorkerService enterpriseWorkerService;
     private IMakerService makerService;
     private IMakerEnterpriseService makerEnterpriseService;
+    private IEnterpriseWorkerService enterpriseWorkerService;
 
     @GetMapping("/query-relevance-maker-list")
     @ApiOperation(value = "查询当前商户的所有关联或关注创客", notes = "查询当前商户的所有关联或关注创客")
@@ -125,6 +127,57 @@ public class NaturalPersonMakerEnterpriseController {
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
         return makerEnterpriseService.relevanceMakerList(makerIds, enterpriseWorkerEntity.getEnterpriseId());
+    }
+
+    @PostMapping("/idcard-ocr")
+    @ApiOperation(value = "创客身份证正面信息获取", notes = "创客身份证正面信息获取")
+    public R idcardOcr(@ApiParam(value = "创客", required = true) @NotNull(message = "请选择创客") @RequestParam(required = false) Long makerId,
+                       @ApiParam(value = "正面照片") @NotBlank(message = "请选择正面照片") @RequestParam(required = false) String idcardPic, BladeUser bladeUser) throws Exception {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return makerService.idcardOcr(idcardPic, makerId);
+    }
+
+    @PostMapping("/idcard-verify")
+    @ApiOperation(value = "创客身份证认证", notes = "创客身份证认证")
+    public R idcardVerify(@ApiParam(value = "创客", required = true) @NotNull(message = "请选择创客") @RequestParam(required = false) Long makerId,
+                          @Valid @RequestBody IdcardVerifyDTO idcardVerifyDTO, BladeUser bladeUser) throws Exception {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return makerService.idcardVerify(idcardVerifyDTO, makerId);
+    }
+
+    @PostMapping("/mobile-ocr")
+    @ApiOperation(value = "手机号认证", notes = "手机号认证")
+    public R mobileOcr(@ApiParam(value = "创客", required = true) @NotNull(message = "请选择创客") @RequestParam(required = false) Long makerId, BladeUser bladeUser) throws Exception {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return makerService.mobileVerify(makerId);
+    }
+
+    @PostMapping("/bank-card-ocr")
+    @ApiOperation(value = "银行卡认证", notes = "银行卡认证")
+    public R bankCardOcr(@ApiParam(value = "银行卡号", required = true) @NotBlank(message = "请输入银行卡号") @RequestParam(required = false) String bankCardNo,
+                         @ApiParam(value = "创客", required = true) @NotNull(message = "请选择创客") @RequestParam(required = false) Long makerId, BladeUser bladeUser) throws Exception {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return makerService.bankCardVerify(bankCardNo, makerId);
     }
 
 }

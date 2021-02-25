@@ -5,6 +5,7 @@ import com.lgyun.common.enumeration.EnterpriseRule;
 import com.lgyun.common.enumeration.MakerRule;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.ServiceProviderRuleEntity;
+import com.lgyun.system.user.vo.ServiceProviderRuleVO;
 
 import java.util.Set;
 
@@ -17,13 +18,13 @@ import java.util.Set;
 public interface IServiceProviderRulesService extends BaseService<ServiceProviderRuleEntity> {
 
     /**
-     * 新建服务商-创客业务规则，服务商-商户业务规则
+     * 添加或编辑服务商-创客业务规则，服务商-商户业务规则
      *
      * @param serviceProviderId
-     * @param makerRuleHashSet
+     * @param makerRuleSet
      * @param enterpriseRuleSet
      */
-    R<String> addOrUpdateServiceProviderRule(Long serviceProviderId, Set<MakerRule> makerRuleHashSet, Set<EnterpriseRule> enterpriseRuleSet);
+    R<String> addOrUpdateServiceProviderRule(Long serviceProviderId, Set<MakerRule> makerRuleSet, Set<EnterpriseRule> enterpriseRuleSet);
 
     /**
      * 根据服务商查询业务规则
@@ -31,6 +32,14 @@ public interface IServiceProviderRulesService extends BaseService<ServiceProvide
      * @param serviceProviderId
      */
     ServiceProviderRuleEntity queryByServiceProvider(Long serviceProviderId);
+
+    /**
+     * 根据服务商查询业务规则
+     *
+     * @param serviceProviderId
+     * @return
+     */
+    R<ServiceProviderRuleVO> queryServiceProviderRule(Long serviceProviderId);
 
     /**
      * 根据服务商查询创客业务规则

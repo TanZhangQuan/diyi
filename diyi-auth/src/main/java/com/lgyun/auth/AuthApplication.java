@@ -14,17 +14,14 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @author tzq
  * @since 2020/6/6 00:15
  */
-@Slf4j
-@SpringBootApplication(scanBasePackages = AppConstant.BASE_PACKAGES)
-@EnableDiscoveryClient
 @EnableCircuitBreaker
+@EnableDiscoveryClient
 @EnableFeignClients(AppConstant.BASE_PACKAGES)
+@SpringBootApplication(scanBasePackages = AppConstant.BASE_PACKAGES)
 public class AuthApplication {
 
     public static void main(String[] args) {
-        log.info("用户认证服务启动开始");
         BladeApplication.run(AppConstant.APPLICATION_AUTH_NAME, AuthApplication.class, args);
-        log.info("用户认证服务启动结束");
     }
 
 }

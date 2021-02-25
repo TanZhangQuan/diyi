@@ -172,28 +172,28 @@ public interface SelfHelpInvoiceMapper extends BaseMapper<SelfHelpInvoiceEntity>
     /**
      *商户查询自助开票
      */
-    List<SelfInvoiceListVo> querySelfInvoiceList(Long enterpriseId, MakerType makerType,String startTiem,String endTime,IPage<SelfInvoiceListVo> page);
+    List<SelfInvoiceListVO> querySelfInvoiceList(Long enterpriseId, MakerType makerType, String startTiem, String endTime, IPage<SelfInvoiceListVO> page);
 
     /**
      * 创客查询
      */
-    List<SelfInvoiceListVo> queryMakerSelfInvoiceList(Long makerId,MakerType makerType,String startTiem,String endTime,IPage<SelfInvoiceListVo> page);
+    List<SelfInvoiceListVO> queryMakerSelfInvoiceList(Long makerId, MakerType makerType, String startTiem, String endTime, IPage<SelfInvoiceListVO> page);
 
 
     /**
      * 服务商查询自助开票
      */
-    List<SelfInvoiceListVo> queryServiceProviderSelfInvoiceList(Long serviceProviderId, MakerType makerType, String startTiem, String endTime, IPage<SelfInvoiceListVo> page);
+    List<SelfInvoiceListVO> queryServiceProviderSelfInvoiceList(Long serviceProviderId, MakerType makerType, String startTiem, String endTime, IPage<SelfInvoiceListVO> page);
 
     /**
      * 平台查询自助开票
      */
-    List<SelfInvoiceListVo> queryAdminSelfInvoiceList(MakerType makerType, String startTiem, String endTime, IPage<SelfInvoiceListVo> page);
+    List<SelfInvoiceListVO> queryAdminSelfInvoiceList(MakerType makerType, String startTiem, String endTime, IPage<SelfInvoiceListVO> page);
 
     /**
      *
      */
-    List<SelfInvoiceDetailVo> querySelfInvoiceDetail(Long selfHelpInvoiceId);
+    List<SelfInvoiceDetailVO> querySelfInvoiceDetail(Long selfHelpInvoiceId);
 
     /**
      * 查询相关局众包/众采列表

@@ -1,97 +1,62 @@
 package com.lgyun.system.user.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * @author tzq
- * @Description 编辑创客DTO
- * @return
- * @date 2020.06.27
- */
 @Data
+@ApiModel(description = "编辑创客详情DTO")
 public class UpdateMakerDeatilDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 姓名
-     */
+    @ApiModelProperty(value = "姓名")
     private String name;
 
-    /**
-     * 头像
-     */
+    @ApiModelProperty(value = "头像")
     private String avatar;
 
-    /**
-     * 政治面貌
-     */
+    @ApiModelProperty(value = "政治面貌")
     private String politicState;
 
-    /**
-     * 民族
-     */
+    @ApiModelProperty(value = "民族")
     private String nationality;
 
-    /**
-     * 文化程度
-     */
+    @ApiModelProperty(value = "文化程度")
     private String levelofedu;
 
-    /**
-     * 电子邮箱
-     */
+    @ApiModelProperty(value = "电子邮箱")
     private String emailAddress;
 
-    /**
-     * 身份证号码
-     */
+    @ApiModelProperty(value = "身份证号码")
     private String idcardNo;
 
-    /**
-     * 银行卡号
-     */
+    @ApiModelProperty(value = "银行卡号")
     private String bankCardNo;
 
-    /**
-     * 开户银行
-     */
+    @ApiModelProperty(value = "开户银行")
     private String bankName;
 
-    /**
-     * 开户支行
-     */
+    @ApiModelProperty(value = "开户支行")
     private String subBankName;
 
-    /**
-     * 线上经营场所
-     */
+    @ApiModelProperty(value = "线上经营场所")
     private String runAddress;
 
-    /**
-     * 线下经营地址
-     */
+    @ApiModelProperty(value = "线下经营地址")
     private String houseAddress;
 
-    /**
-     * 住址
-     */
+    @ApiModelProperty(value = "住址")
     private String livingAddress;
 
-    /**
-     * 自我描述
-     */
+    @ApiModelProperty(value = "自我描述")
     private String selfDesc;
 
-    /**
-     * 商铺
-     */
+    @ApiModelProperty(value = "商铺")
     private String shopUrl;
 
-    /**
-     * 商铺用户名
-     */
+    @ApiModelProperty(value = "商铺用户名")
     private String shopUserName;
 
 }

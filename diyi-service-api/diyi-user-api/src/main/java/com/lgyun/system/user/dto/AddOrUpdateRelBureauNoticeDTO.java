@@ -1,48 +1,39 @@
 package com.lgyun.system.user.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Data
-public class AddOrUpdateRelBureauNoticeDTO {
+@ApiModel(description = "XXXXXX")
+public class AddOrUpdateRelBureauNoticeDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    /**
-     * 通知ID
-     */
+    @ApiModelProperty(value = "通知ID")
     private Long relBureauNoticeId;
 
-    /**
-     * 通知标题
-     */
+    @ApiModelProperty(value = "通知标题")
     @NotBlank(message = "请输入通知标题")
     private String noticeTitle;
 
-    /**
-     * 通知摘要
-     */
+    @ApiModelProperty(value = "通知摘要")
     @NotBlank(message = "请输入通知摘要")
     private String noticeDesc;
 
-    /**
-     * 通知文件
-     */
+    @ApiModelProperty(value = "通知文件")
     @NotBlank(message = "请上传通知文件")
     private String noticeUrl;
 
-    /**
-     * 发布联系人
-     */
+    @ApiModelProperty(value = "发布联系人")
     private String contactPerson;
 
-    /**
-     * 联系人手机
-     */
+    @ApiModelProperty(value = "联系人手机")
     private String contactPhone;
 
-    /**
-     * 联系人微信
-     */
+    @ApiModelProperty(value = "联系人微信")
     private String contactWechat;
 
 }

@@ -160,7 +160,7 @@
     </select>
 
     <select id="queryMakerListIndividual" resultMap="makerListIndividualVO">
-        SELECT DISTINCT t1.id, t1.name, t1.phone_number, t1.idcard_no, t1.idcard_pic, t1.idcard_pic_back, t1.idcard_hand, t1.idcard_back_hand FROM diyi_maker t1
+        SELECT t1.id, t1.name, t1.phone_number, t1.idcard_no, t1.idcard_pic, t1.idcard_pic_back, t1.idcard_hand, t1.idcard_back_hand FROM diyi_maker t1
         <if test="param1 != null">
             INNER JOIN diyi_maker_enterprise t2 ON t1.id = t2.maker_id AND t2.relationship_type = 'RELEVANCE' AND t2.bool_deleted = 0
         </if>
@@ -184,10 +184,11 @@
         <if test="param3.idcardNo != null and param3.idcardNo.trim() != ''">
             AND t1.idcard_no LIKE concat('%', #{param3.idcardNo}, '%')
         </if>
+        GROUP BY t1.id
     </select>
 
     <select id="queryMakerList" resultMap="makerListWebVO">
-        SELECT DISTINCT t1.id, t1.name, t1.idcard_no, t1.phone_number, t1.bank_card_no, t1.idcard_verify_status, t1.face_verify_status, t1.bank_card_verify_status,
+        SELECT t1.id, t1.name, t1.idcard_no, t1.phone_number, t1.bank_card_no, t1.idcard_verify_status, t1.face_verify_status, t1.bank_card_verify_status,
         t1.phone_number_verify_status, t1.create_time, IF((SELECT COUNT(id) FROM diyi_agreement WHERE agreement_type = 'MAKERPOWERATTORNEY' AND valid_state = 'VALIDING'
         AND party_b = 'MAKERPEOPLE' AND party_b_id = t1.id) > 0, TRUE, FALSE) AS bool_power_attorney, IF((SELECT COUNT(id) FROM diyi_agreement
         WHERE agreement_type = 'MAKERJOINAGREEMENT' AND valid_state = 'VALIDING' AND party_b = 'MAKERPEOPLE' AND party_b_id = t1.id) > 0, TRUE, FALSE) AS bool_join_agreement
@@ -214,6 +215,7 @@
             OR t1.name LIKE concat('%', #{param6}, '%')
             OR t1.phone_number LIKE concat('%', #{param6}, '%'))
         </if>
+        GROUP BY t1.id
     </select>
 
     <select id="queryWorkMakerList" resultMap="makerWorkSheetListVO">

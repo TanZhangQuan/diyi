@@ -266,4 +266,9 @@ public class IUserClientFallback implements IUserClient {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 
+    @Override
+    public void associatedServiceProviderMaker(Long enterpriseId, Long serviceProviderId, Long makerId, ServiceProviderMakerRelType relType) {
+        throw new CustomException("网络繁忙，请稍后尝试");
+    }
+
 }

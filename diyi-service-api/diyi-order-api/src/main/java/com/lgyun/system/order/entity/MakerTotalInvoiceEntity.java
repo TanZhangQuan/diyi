@@ -93,4 +93,5 @@ public class MakerTotalInvoiceEntity extends BaseEntity {
      * 清单式完税凭证URL
      */
     private String makerTaxListUrl;
+
 }

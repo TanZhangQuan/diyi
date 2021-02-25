@@ -146,39 +146,39 @@ public interface IMakerService extends BaseService<MakerEntity> {
      * 身份证信息获取
      *
      * @param idcardPic
-     * @param makerEntity
+     * @param makerId
      * @return
      * @throws Exception
      */
-    R<JSONObject> idcardOcr(String idcardPic, MakerEntity makerEntity) throws Exception;
+    R<JSONObject> idcardOcr(String idcardPic, Long makerId) throws Exception;
 
     /**
      * 身份证认证
      *
      * @param idcardVerifyDTO
-     * @param makerEntity
+     * @param makerId
      * @return
      */
-    R idcardVerify(IdcardVerifyDTO idcardVerifyDTO, MakerEntity makerEntity) throws Exception;
+    R idcardVerify(IdcardVerifyDTO idcardVerifyDTO, Long makerId) throws Exception;
 
     /**
      * 手机号认证
      *
-     * @param makerEntity
+     * @param makerId
      * @return
      * @throws Exception
      */
-    R<String> mobileVerify(MakerEntity makerEntity) throws Exception;
+    R<String> mobileVerify(Long makerId) throws Exception;
 
     /**
      * 银行卡认证
      *
      * @param bankCardNo
-     * @param makerEntity
+     * @param makerId
      * @return
      * @throws Exception
      */
-    R<String> bankCardVerify(String bankCardNo, MakerEntity makerEntity) throws Exception;
+    R<String> bankCardVerify(String bankCardNo, Long makerId) throws Exception;
 
     /**
      * 活体认证

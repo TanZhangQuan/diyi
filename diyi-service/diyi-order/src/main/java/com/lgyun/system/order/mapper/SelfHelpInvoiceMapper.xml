@@ -225,7 +225,7 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <resultMap type="com.lgyun.system.order.vo.SelfInvoiceDetailVo" id="selfInvoiceDetailVoMap">
+    <resultMap type="com.lgyun.system.order.vo.SelfInvoiceDetailVO" id="selfInvoiceDetailVoMap">
         <result property="selfHelpInvoiceId" column="self_help_invoice_id"/>
 <!--        <result property="selfHelpInvoiceApplyId" column="self_help_invoice_apply_id"/>-->
         <result property="selfHelpInvoiceDetailId" column="self_help_invoice_detail_id"/>
@@ -322,7 +322,7 @@
     </select>
 
     <select id="getSelfHelfInvoicesByServiceProvider" resultMap="selfHelpInvoiceDetailListByServiceProviderVO">
-        SELECT DISTINCT t1.id, t2.enterprise_name, t1.pay_type, t1.total_pay_provider_fee, t4.express_no, t4.express_company_name, t3.apply_state, t1.create_time,
+        SELECT t1.id, t2.enterprise_name, t1.pay_type, t1.total_pay_provider_fee, t4.express_no, t4.express_company_name, t3.apply_state, t1.create_time,
         (SELECT GROUP_CONCAT(invoice_type) FROM diyi_self_help_invoice_detail WHERE bool_deleted = 0 AND self_help_invoice_id = t1.id) AS invoice_types,
         (SELECT GROUP_CONCAT(business_contract_url) FROM diyi_self_help_invoice_detail WHERE bool_deleted = 0 AND self_help_invoice_id = t1.id) AS business_contract_urls,
         (SELECT GROUP_CONCAT(flow_contract_url) FROM diyi_self_help_invoice_detail WHERE bool_deleted = 0 AND self_help_invoice_id = t1.id) AS flow_contract_urls,
@@ -345,6 +345,7 @@
         <if test="param4.endDate != null">
             AND DATEDIFF(t1.create_time, #{param4.endDate}) <![CDATA[ <= ]]> 0
         </if>
+        GROUP BY t1.id
     </select>
 
     <select id="getSingleSelfHelfInvoiceByServiceProvider" resultMap="selfHelpInvoiceSingleByServiceProviderVO">
@@ -526,7 +527,7 @@
         AND (t1.apply_state = 'SUBMITTED' OR t1.apply_state = 'INVOICED')
     </select>
 
-    <resultMap type="com.lgyun.system.order.vo.SelfInvoiceListVo" id="selfInvoiceListVoMap">
+    <resultMap type="com.lgyun.system.order.vo.SelfInvoiceListVO" id="selfInvoiceListVoMap">
         <result property="selfHelpInvoiceId" column="self_help_invoice_id"/>
         <result property="applyEnterpriseId" column="apply_enterprise_id"/>
          <result property="applyMakerId" column="apply_maker_id"/>

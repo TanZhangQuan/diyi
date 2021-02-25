@@ -1,22 +1,19 @@
 package com.lgyun.system.order.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * @author .
- * @date 2020/10/27.
- * @time 16:34.
- */
 @Data
+@ApiModel(description = "XXXXX")
 public class DoorSignInvoiceDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    /**
-     * 支付清单ids，可以多个
-     */
-    String payEnterpriseIds;
+    @ApiModelProperty(value = "支付清单(多个逗号隔开)")
+    private String payEnterpriseIds;
 
-    
-    String doorSignInvoiceJson;
+    @ApiModelProperty(value = "XXXXX")
+    private String doorSignInvoiceJson;
 }

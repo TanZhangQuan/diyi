@@ -54,7 +54,7 @@ public class EnterpriseServiceProviderServiceImpl extends BaseServiceImpl<Enterp
         QueryWrapper<EnterpriseServiceProviderEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(EnterpriseServiceProviderEntity::getEnterpriseId, enterpriseId)
                 .eq(EnterpriseServiceProviderEntity::getServiceProviderId, serviceProviderId)
-                .eq(cooperateStatus != null, EnterpriseServiceProviderEntity::getCooperateStatus, cooperateStatus);
+                .eq(EnterpriseServiceProviderEntity::getCooperateStatus, cooperateStatus);
 
         return baseMapper.selectCount(queryWrapper);
     }

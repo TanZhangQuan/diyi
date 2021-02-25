@@ -4,102 +4,66 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.InvoiceState;
 import com.lgyun.common.enumeration.MakerInvoiceType;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * 服务商查询总包发票详情
- * @author .
- * @date 2020/9/5.
- * @time 14:26.
- */
 @Data
+@ApiModel(description = "服务商查询总包发票详情VO")
 public class InvoiceServiceDetailSummaryVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 支付清单id
-     */
+    @ApiModelProperty(value = "支付清单ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long payEnterpriseId;
 
-    /**
-     * 商户id
-     */
+    @ApiModelProperty(value = "商户ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
 
-    /**
-     * 价税合计额
-     */
+    @ApiModelProperty(value = "价税合计额")
     private String payToPlatformAmount;
 
-    /**
-     * 商户名称
-     */
+    @ApiModelProperty(value = "商户名称")
     private String enterpriseName;
 
-    /**
-     * 纳税号码
-     */
+    @ApiModelProperty(value = "纳税号码")
     private String invoiceTaxNo;
 
-    /**
-     * 开票资料-地址和电话
-     */
+    @ApiModelProperty(value = "开票资料-地址和电话")
     private String invoiceAddressPhone;
 
-    /**
-     * 开票资料-开户银行和账号
-     */
+    @ApiModelProperty(value = "开票资料-开户银行和账号")
     private String invoiceBankNameAccount;
 
-    /**
-     * 服务商名字
-     */
+    @ApiModelProperty(value = "服务商名字")
     private String serviceProviderName;
 
-    /**
-     * 支付清单url
-     */
+    @ApiModelProperty(value = "支付清单")
     private String chargeListUrl;
 
-    /**
-     * 工单id
-     */
+    @ApiModelProperty(value = "工单ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private String worksheetId;
 
-    /**
-     * 分包开票状态
-     */
+    @ApiModelProperty(value = "分包开票状态")
     private InvoiceState subcontractingInvoiceState;
 
-    /**
-     * 创建时间
-     */
+    @ApiModelProperty(value = "创建时间")
     private String createTime;
 
-
-    /**
-     * 发票url
-     */
+    @ApiModelProperty(value = "发票")
     private String companyInvoiceUrl;
 
-    /**
-     * 支付回单
-     */
+    @ApiModelProperty(value = "支付回单")
     private String enterprisePayReceiptUrl;
 
-    /**
-     *税票
-     */
+    @ApiModelProperty(value = "税票")
     private String makerTaxUrl;
 
-    /**
-     *创客发票开票类别: 自然人汇总代开；自然人门征单开；个体户税局代开；个体户自开；个独自开
-     */
+    @ApiModelProperty(value = "创客发票开票类别")
     private MakerInvoiceType makerInvoiceType;
 
 }

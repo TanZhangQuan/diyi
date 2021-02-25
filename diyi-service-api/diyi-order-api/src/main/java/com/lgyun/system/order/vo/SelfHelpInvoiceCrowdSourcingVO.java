@@ -3,103 +3,69 @@ package com.lgyun.system.order.vo;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.InvoicePrintState;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * @author tzq
- * @date 2020/8/19.
- * @time 16:06.
- */
 @Data
+@ApiModel(description = "XXXXX")
 public class SelfHelpInvoiceCrowdSourcingVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 商户ID
-     */
+    @ApiModelProperty(value = "商户ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
 
-    /**
-     * 自助开票ID
-     */
+    @ApiModelProperty(value = "自助开票ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long selfHelpInvoiceId;
 
-    /**
-     * 自助开票申请ID
-     */
+    @ApiModelProperty(value = "自助开票申请ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long selfHelpInvoiceApplyId;
 
-    /**
-     * 自助开票服务商ID
-     */
+    @ApiModelProperty(value = "自助开票服务商ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long selfHelpInvoiceApplyProviderId;
 
-    /**
-     *服务商自助开票明细ID
-     */
+    @ApiModelProperty(value = "服务商自助开票明细ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long providerSelfHelpInvoiceId;
 
-    /**
-     * 自助开票详情ID
-     */
+    @ApiModelProperty(value = "自助开票详情ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long selfHelpInvoiceDetailId;
 
-    /**
-     * 服务商ID
-     */
+    @ApiModelProperty(value = "服务商ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long serviceProviderId;
 
-    /**
-     * 商户名字
-     */
+    @ApiModelProperty(value = "商户名称")
     private String enterpriseName;
 
-    /**
-     * 服务商名字
-     */
+    @ApiModelProperty(value = "服务商名称")
     private String serviceProviderName;
 
-    /**
-     * 清单
-     */
+    @ApiModelProperty(value = "开票清单")
     private String listFile;
 
-    /**
-     * 发票可能会多张，隔开
-     */
+    @ApiModelProperty(value = "发票(多张)")
     private String invoiceScanPictures;
 
-    /**
-     * 完税证明发票可能会多张，隔开
-     */
+    @ApiModelProperty(value = "完税证明发票(多张)")
     private String taxScanPictures;
 
-    /**
-     * 开票日期
-     */
+    @ApiModelProperty(value = "开票日期")
     private String updateDatetime;
 
-    /**
-     * 开票状态
-     */
+    @ApiModelProperty(value = "开票状态")
     private InvoicePrintState invoicePrintState;
 
-    /**
-     *快递单号
-     */
+    @ApiModelProperty(value = "快递单号")
     private String expressSheetNo;
 
-    /**
-     *快递公司
-     */
+    @ApiModelProperty(value = "快递公司")
     private String expressCompanyName;
 }

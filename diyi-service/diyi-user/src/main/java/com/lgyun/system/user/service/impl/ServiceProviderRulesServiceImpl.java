@@ -9,7 +9,11 @@ import com.lgyun.system.user.entity.EnterpriseEntity;
 import com.lgyun.system.user.entity.MakerEntity;
 import com.lgyun.system.user.entity.ServiceProviderRuleEntity;
 import com.lgyun.system.user.mapper.ServiceProviderRulesMapper;
-import com.lgyun.system.user.service.*;
+import com.lgyun.system.user.service.IAgreementService;
+import com.lgyun.system.user.service.IEnterpriseService;
+import com.lgyun.system.user.service.IMakerService;
+import com.lgyun.system.user.service.IServiceProviderRulesService;
+import com.lgyun.system.user.vo.ServiceProviderRuleVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -36,7 +40,7 @@ public class ServiceProviderRulesServiceImpl extends BaseServiceImpl<ServiceProv
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> addOrUpdateServiceProviderRule(Long serviceProviderId, Set<MakerRule> makerRuleHashSet, Set<EnterpriseRule> enterpriseRuleSet) {
+    public R<String> addOrUpdateServiceProviderRule(Long serviceProviderId, Set<MakerRule> makerRuleSet, Set<EnterpriseRule> enterpriseRuleSet) {
 
         ServiceProviderRuleEntity serviceProviderRuleEntity = queryByServiceProvider(serviceProviderId);
         if (serviceProviderRuleEntity == null) {
@@ -44,12 +48,34 @@ public class ServiceProviderRulesServiceImpl extends BaseServiceImpl<ServiceProv
         }
 
         serviceProviderRuleEntity.setServiceProviderId(serviceProviderId);
-        if (makerRuleHashSet != null && !makerRuleHashSet.isEmpty()) {
-            serviceProviderRuleEntity.setMakerRules(StringUtils.join(makerRuleHashSet.toArray(), ","));
+
+        //处理创客业务规则
+        StringBuffer makerRuleBuffer = new StringBuffer();
+        if (makerRuleSet != null && !(makerRuleSet.isEmpty())) {
+            for (int i = 0; i < makerRuleSet.size(); i++) {
+                MakerRule makerRule = (MakerRule) makerRuleSet.toArray()[i];
+                if (i == 0) {
+                    makerRuleBuffer.append(makerRule.getValue());
+                } else {
+                    makerRuleBuffer.append(",").append(makerRule.getValue());
+                }
+            }
         }
-        if (enterpriseRuleSet != null && !enterpriseRuleSet.isEmpty()) {
-            serviceProviderRuleEntity.setEnterpriseRules(StringUtils.join(enterpriseRuleSet.toArray(), ","));
+        serviceProviderRuleEntity.setMakerRules(String.valueOf(makerRuleBuffer));
+
+        //处理商户业务规则
+        StringBuffer enterpriseRuleBuffer = new StringBuffer();
+        if (enterpriseRuleSet != null && !(enterpriseRuleSet.isEmpty())) {
+            for (int i = 0; i < enterpriseRuleSet.size(); i++) {
+                EnterpriseRule enterpriseRule = (EnterpriseRule) enterpriseRuleSet.toArray()[i];
+                if (i == 0) {
+                    enterpriseRuleBuffer.append(enterpriseRule.getValue());
+                } else {
+                    enterpriseRuleBuffer.append(",").append(enterpriseRule.getValue());
+                }
+            }
         }
+        serviceProviderRuleEntity.setEnterpriseRules(String.valueOf(enterpriseRuleBuffer));
 
         saveOrUpdate(serviceProviderRuleEntity);
 
@@ -61,6 +87,21 @@ public class ServiceProviderRulesServiceImpl extends BaseServiceImpl<ServiceProv
         QueryWrapper<ServiceProviderRuleEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(ServiceProviderRuleEntity::getServiceProviderId, serviceProviderId);
         return baseMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public R<ServiceProviderRuleVO> queryServiceProviderRule(Long serviceProviderId) {
+
+        //查询服务商-创客业务规则
+        Set<MakerRule> makerRuleSet = queryMakerRuleByServiceProvider(serviceProviderId);
+        //查询服务商-商户业务规则
+        Set<EnterpriseRule> enterpriseRuleSet = queryEnterpriseRuleByServiceProvider(serviceProviderId);
+
+        ServiceProviderRuleVO serviceProviderRuleVO = new ServiceProviderRuleVO();
+        serviceProviderRuleVO.setMakerRuleSet(makerRuleSet);
+        serviceProviderRuleVO.setEnterpriseRuleSet(enterpriseRuleSet);
+
+        return R.data(serviceProviderRuleVO);
     }
 
     @Override
@@ -106,13 +147,6 @@ public class ServiceProviderRulesServiceImpl extends BaseServiceImpl<ServiceProv
 
             switch (makerRule) {
 
-                case IDCARDVERIFY:
-
-                    if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus()))) {
-                        return R.fail("未身份证验证");
-                    }
-                    break;
-
                 case EMPOWERVIDEO:
 
                     if (!(VideoAudit.AUDITPASS.equals(makerEntity.getVideoAudit()))) {
@@ -138,14 +172,6 @@ public class ServiceProviderRulesServiceImpl extends BaseServiceImpl<ServiceProv
 
                     if (!(VerifyStatus.VERIFYPASS.equals(makerEntity.getPhoneNumberVerifyStatus()))) {
                         return R.fail("未手机号验证");
-                    }
-                    break;
-
-                case EMPOWERSIGN:
-
-                    int empowersignNum = agreementService.queryValidAgreementNum(null, null, ObjectType.MAKERPEOPLE, makerId, AgreementType.MAKERPOWERATTORNEY);
-                    if (empowersignNum <= 0) {
-                        return R.fail("未有有效的创客授权书");
                     }
                     break;
 

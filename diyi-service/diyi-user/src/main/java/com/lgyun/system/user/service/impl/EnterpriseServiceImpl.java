@@ -408,11 +408,7 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
     public EnterpriseEntity queryEnterpriseName(String enterpriseName) {
         QueryWrapper<EnterpriseEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(EnterpriseEntity::getEnterpriseName, enterpriseName);
-        List<EnterpriseEntity> enterpriseEntities = baseMapper.selectList(queryWrapper);
-        if(null != enterpriseEntities && enterpriseEntities.size() > 0){
-            return enterpriseEntities.get(0);
-        }
-        return null;
+        return baseMapper.selectOne(queryWrapper);
 
     }
 

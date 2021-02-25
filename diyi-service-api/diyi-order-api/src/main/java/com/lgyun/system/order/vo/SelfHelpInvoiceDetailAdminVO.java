@@ -3,107 +3,71 @@ package com.lgyun.system.order.vo;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.InvoicePrintState;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * @author .
- * @date 2020/9/22.
- * @time 10:57.
- */
 @Data
+@ApiModel(description = "XXXXX")
 public class SelfHelpInvoiceDetailAdminVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     *自助开票主表id
-     */
+    @ApiModelProperty(value = "自助开票主表ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long selfHelpInvoiceId;
 
-    /**
-     *自助开票明细表Id
-     */
+    @ApiModelProperty(value = "XXXXX")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long selfHelpInvoiceDetailId;
 
-    /**
-     *自助开票服务商id
-     */
+    @ApiModelProperty(value = "自助开票服务商ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long selfHelpInvoiceApplyProviderId;
 
-    /**
-     *自助开票服务商明细id
-     */
+    @ApiModelProperty(value = "自助开票服务商明细ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long selfHelpInvoiceApplyProviderDetailId;
 
-    /**
-     *自助开票快递id
-     */
+    @ApiModelProperty(value = "自助开票快递ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long selfHelpInvoiceExpressId;
 
-    /**
-     *开票人
-     */
+    @ApiModelProperty(value = "开票人")
     private String invoicePeopleName;
 
-    /**
-     *开票人身份证
-     */
+    @ApiModelProperty(value = "开票人身份证")
     private String idcardNo;
 
-    /**
-     *开票人电话
-     */
+    @ApiModelProperty(value = "开票人电话")
     private String phoneNumber;
 
-    /**
-     *价税合计额
-     */
+    @ApiModelProperty(value = "价税合计额")
     private String chargeMoneyNum;
 
-    /**
-     *服务税率
-     */
+    @ApiModelProperty(value = "服务税率")
     private String serviceRate;
 
-    /**
-     *支付回单
-     */
+    @ApiModelProperty(value = "支付回单")
     private String flowContractUrl;
 
-    /**
-     *业务合同URL
-     */
+    @ApiModelProperty(value = "业务合同(多张)")
     private String businessContractUrl;
 
-    /**
-     *发票，可能多张
-     */
+    @ApiModelProperty(value = "发票(多张)")
     private String invoiceScanPictures;
 
-    /**
-     *税票
-     */
+    @ApiModelProperty(value = "税票")
     private String  taxScanPictures;
 
-    /**
-     * 快递公司
-     */
+    @ApiModelProperty(value = "快递公司")
     private String expressCompanyName;
 
-    /**
-     * 快递单号
-     */
+    @ApiModelProperty(value = "快递单号")
     private String expressNo;
 
-    /**
-     * 开票状态
-     */
+    @ApiModelProperty(value = "开票状态")
     private InvoicePrintState invoicePrintState;
 
 }

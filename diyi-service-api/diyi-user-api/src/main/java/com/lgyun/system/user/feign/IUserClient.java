@@ -338,8 +338,8 @@ public interface IUserClient {
      * @param serviceProviderId
      * @return
      */
-    @PostMapping(API_PREFIX + "/query-count-by-enterprise-id-and-service-provider-id")
-    int queryCountByEnterpriseIdAndServiceProviderId(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("serviceProviderId") Long serviceProviderId, CooperateStatus cooperateStatus);
+    @GetMapping(API_PREFIX + "/query-count-by-enterprise-id-and-service-provider-id")
+    int queryCountByEnterpriseIdAndServiceProviderId(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("serviceProviderId") Long serviceProviderId, @RequestParam("cooperateStatus") CooperateStatus cooperateStatus);
 
     /**
      * 查询个独信息
@@ -448,7 +448,7 @@ public interface IUserClient {
      * @return
      */
     @GetMapping(API_PREFIX + "/query-valid-agreement-num")
-    int queryValidAgreementNum(@RequestParam("partyA") ObjectType partyA, @RequestParam("partyAId") Long partyAId, @RequestParam("partyB") ObjectType partyB, @RequestParam("partyBId") Long partyBId, @RequestParam("agreementType") AgreementType agreementType);
+    int queryValidAgreementNum(@RequestParam(value = "partyA", required = false) ObjectType partyA, @RequestParam(value = "partyAId", required = false) Long partyAId, @RequestParam("partyB") ObjectType partyB, @RequestParam("partyBId") Long partyBId, @RequestParam("agreementType") AgreementType agreementType);
 
     /**
      * 根据服务商查询创客业务规则
@@ -481,6 +481,7 @@ public interface IUserClient {
 
     /**
      * 根据商户id查询商户
+     *
      * @param enterpriseId
      * @return
      */
@@ -489,6 +490,7 @@ public interface IUserClient {
 
     /**
      * 根据商户名字查询商户
+     *
      * @param enterpriseName
      * @return
      */
@@ -503,6 +505,12 @@ public interface IUserClient {
      * @return
      */
     @PostMapping(API_PREFIX + "/create-maker-to-enterprise-supplement")
-    void createMakerToEnterpriseSupplement(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("makerId") Long makerId,@RequestParam("businessContract") String businessContract);
+    void createMakerToEnterpriseSupplement(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("makerId") Long makerId, @RequestParam("businessContract") String businessContract);
+
+    /**
+     * 服务商,商户和创客建立关联关系
+     */
+    @PostMapping(API_PREFIX + "/associated-service-provider-maker")
+    void associatedServiceProviderMaker(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("serviceProviderId") Long serviceProviderId, @RequestParam("makerId") Long makerId, @RequestParam("relType") ServiceProviderMakerRelType relType);
 
 }

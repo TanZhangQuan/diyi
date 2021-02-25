@@ -28,6 +28,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Set;
+
 /**
  * Service 实现
  *
@@ -85,12 +87,24 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
             }
         }
 
-        return R.data(page.setRecords(baseMapper.queryServiceProviderList(agentMainId,relBureauId, serviceProviderListDTO, page)));
+        return R.data(page.setRecords(baseMapper.queryServiceProviderList(agentMainId, relBureauId, serviceProviderListDTO, page)));
     }
 
     @Override
     public R<ServiceProviderUpdateDetailVO> queryServiceProviderUpdateDetail(Long serviceProviderId) {
-        return R.data(baseMapper.queryServiceProviderUpdateDetail(serviceProviderId));
+
+        ServiceProviderUpdateDetailVO serviceProviderUpdateDetailVO = baseMapper.queryServiceProviderUpdateDetail(serviceProviderId);
+        if (serviceProviderUpdateDetailVO != null) {
+            //查询创客业务规则
+            Set<MakerRule> makerRuleSet = serviceProviderRulesService.queryMakerRuleByServiceProvider(serviceProviderId);
+            serviceProviderUpdateDetailVO.setMakerRuleSet(makerRuleSet);
+
+            //查询商户业务规则
+            Set<EnterpriseRule> enterpriseRuleSet = serviceProviderRulesService.queryEnterpriseRuleByServiceProvider(serviceProviderId);
+            serviceProviderUpdateDetailVO.setEnterpriseRuleSet(enterpriseRuleSet);
+        }
+
+        return R.data(serviceProviderUpdateDetailVO);
     }
 
     @Override
@@ -142,7 +156,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         orderClient.createAddress(addressEntity);
 
         //新建服务商-创客业务规则，服务商-商户业务规则
-        serviceProviderRulesService.addOrUpdateServiceProviderRule(serviceProviderEntity.getId(), createServiceProviderDTO.getMakerRuleHashSet(), createServiceProviderDTO.getEnterpriseRuleSet());
+        serviceProviderRulesService.addOrUpdateServiceProviderRule(serviceProviderEntity.getId(), createServiceProviderDTO.getMakerRuleSet(), createServiceProviderDTO.getEnterpriseRuleSet());
 
         //密码加密
         createServiceProviderDTO.setEmployeePwd(DigestUtil.encrypt(createServiceProviderDTO.getEmployeePwd()));
@@ -228,7 +242,7 @@ public class ServiceProviderServiceImpl extends BaseServiceImpl<ServiceProviderM
         }
 
         //新建服务商-创客业务规则，服务商-商户业务规则
-        serviceProviderRulesService.addOrUpdateServiceProviderRule(serviceProviderEntity.getId(), updateServiceProviderDTO.getMakerRuleHashSet(), updateServiceProviderDTO.getEnterpriseRuleSet());
+        serviceProviderRulesService.addOrUpdateServiceProviderRule(serviceProviderEntity.getId(), updateServiceProviderDTO.getMakerRuleSet(), updateServiceProviderDTO.getEnterpriseRuleSet());
 
         //编辑服务商员工
         BeanUtil.copy(updateServiceProviderDTO, serviceProviderWorkerEntity);

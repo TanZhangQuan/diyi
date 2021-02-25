@@ -6,6 +6,7 @@ import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.BladeConstant;
@@ -36,6 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.util.*;
 
@@ -95,6 +97,13 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
         excelReader.readAll();
         List<PayEnterpriseExcel> payEnterpriseExcelList = payEnterpriseReadListener.getList();
         excelReader.finish();
+
+        if (payEnterpriseExcelList != null && payEnterpriseExcelList.size() > 0) {
+            for (PayEnterpriseExcel payEnterpriseExcel : payEnterpriseExcelList) {
+                //服务税费率转化为去掉百分号的数字
+                payEnterpriseExcel.setServiceRate(payEnterpriseExcel.getServiceRate().multiply(BigDecimal.valueOf(100)).setScale(2, RoundingMode.HALF_UP));
+            }
+        }
 
         return R.data(payEnterpriseExcelList);
     }
@@ -368,6 +377,18 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
 
             payEnterpriseEntity.setMakerInvoiceType(makerInvoiceType);
             payEnterpriseEntity.setEmployeeId(serviceProviderWorkerId);
+
+            //服务商-创客关系建立
+            QueryWrapper<PayMakerEntity> queryWrapper = new QueryWrapper<>();
+            queryWrapper.lambda().eq(PayMakerEntity::getPayEnterpriseId, payEnterpriseEntity.getId());
+
+            List<PayMakerEntity> payMakerEntityList = payMakerService.list(queryWrapper);
+            if (payMakerEntityList != null && payMakerEntityList.size() > 0) {
+                for (PayMakerEntity payMakerEntity : payMakerEntityList) {
+                    //服务商-创客建立关联
+                    userClient.associatedServiceProviderMaker(payEnterpriseEntity.getEnterpriseId(), payEnterpriseEntity.getServiceProviderId(), payMakerEntity.getMakerId(), ServiceProviderMakerRelType.TOTALSUBCONTRACTREL);
+                }
+            }
         }
 
         payEnterpriseEntity.setAuditState(auditState);
@@ -963,7 +984,7 @@ public class PayEnterpriseServiceImpl extends BaseServiceImpl<PayEnterpriseMappe
                 KdniaoTrackQueryUtil kdniaoTrackQueryUtil = new KdniaoTrackQueryUtil();
                 String result = kdniaoTrackQueryUtil.getOrderTracesByJson(payEnterpriseExpressVO.getExpressCompanyName(), payEnterpriseExpressVO.getExpressSheetNo());
                 JSONObject jsonObject = JSON.parseObject(result);
-                log.info(jsonObject.getString("Reason"));
+                log.info("物流数据：{}", jsonObject.getString("Reason"));
                 if (jsonObject.getBooleanValue("Success")) {
                     payEnterpriseExpressVO.setExpressDetail(jsonObject.getJSONArray("Traces"));
                 }

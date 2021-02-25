@@ -1,5 +1,6 @@
 package com.lgyun.common.enumeration;
 
+import com.lgyun.common.annotation.SwaggerDisplayEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,6 +12,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
+@SwaggerDisplayEnum()
 public enum TemplateState {
     APPLICATION("APPLICATION", "应用中"),
     OVERDUE("OVERDUE", "已过期");

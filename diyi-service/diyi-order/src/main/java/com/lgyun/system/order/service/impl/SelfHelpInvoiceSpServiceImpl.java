@@ -1,7 +1,6 @@
 package com.lgyun.system.order.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.lgyun.common.enumeration.SelfHelpInvoiceApplyState;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.order.entity.SelfHelpInvoiceSpEntity;
 import com.lgyun.system.order.mapper.SelfHelpInvoiceSpMapper;

@@ -2,38 +2,28 @@ package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * @author .
- * @date 2020/9/23.
- * @time 14:37.
- */
 @Data
+@ApiModel(description = "XXXXXX")
 public class AdminEnterpriseReportAllVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 申报id
-     */
+    @ApiModelProperty(value = "申报ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseReportId;
 
-    /**
-     * 服务商id
-     */
+    @ApiModelProperty(value = "服务商ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long serviceProviderId;
 
-    /**
-     * 服务商名字
-     */
+    @ApiModelProperty(value = "服务商名字")
     private String serviceProviderName;
 
-    /**
-     * 申请次数
-     */
+    @ApiModelProperty(value = "申请次数")
     private Integer applyCount;
 }

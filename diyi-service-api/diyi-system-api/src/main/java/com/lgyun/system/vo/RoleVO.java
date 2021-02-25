@@ -5,37 +5,29 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.node.INode;
 import com.lgyun.system.entity.Role;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 角色 视图实体类
- *
- * @author tzq
- */
 @Data
+@ApiModel(description = "角色VO")
 @EqualsAndHashCode(callSuper = true)
 public class RoleVO extends Role implements INode {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 主键ID
-     */
+    @ApiModelProperty(value = "角色ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    /**
-     * 父节点ID
-     */
+    @ApiModelProperty(value = "父节点ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long parentId;
 
-    /**
-     * 子孙节点
-     */
+    @ApiModelProperty(value = "子孙节点")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<INode> children;
 
@@ -47,8 +39,6 @@ public class RoleVO extends Role implements INode {
         return this.children;
     }
 
-    /**
-     * 上级角色
-     */
+    @ApiModelProperty(value = "上级角色")
     private String parentName;
 }

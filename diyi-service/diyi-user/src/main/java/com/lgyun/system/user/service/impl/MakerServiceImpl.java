@@ -303,7 +303,13 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
     }
 
     @Override
-    public R<JSONObject> idcardOcr(String idcardPic, MakerEntity makerEntity) throws Exception {
+    public R<JSONObject> idcardOcr(String idcardPic, Long makerId) throws Exception {
+
+        //查询创客
+        MakerEntity makerEntity = getById(makerId);
+        if (makerEntity == null) {
+            return R.fail("创客不存在");
+        }
 
         //查看创客是否已经身份证认证
         if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus())) {
@@ -312,7 +318,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
         //身份证信息获取
         R<JSONObject> result = RealnameVerifyUtil.idcardOCR(idcardPic);
-        log.info("身份证信息获取请求返回参数", result);
+        log.info("身份证信息获取请求返回参数：{}", result);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -332,7 +338,13 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R idcardVerify(IdcardVerifyDTO idcardVerifyDTO, MakerEntity makerEntity) throws Exception {
+    public R idcardVerify(IdcardVerifyDTO idcardVerifyDTO, Long makerId) throws Exception {
+
+        //查询创客
+        MakerEntity makerEntity = getById(makerId);
+        if (makerEntity == null) {
+            return R.fail("创客不存在");
+        }
 
         //查看创客是否已经身份证认证
         if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus())) {
@@ -341,7 +353,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
         //身份证信息获取
         R<JSONObject> OcrResult = RealnameVerifyUtil.idcardOCR(idcardVerifyDTO.getIdcardPic());
-        log.info("身份证识别信息请求返回参数", OcrResult);
+        log.info("身份证识别信息请求返回参数：{}", OcrResult);
         if (!(OcrResult.isSuccess())) {
             return OcrResult;
         }
@@ -364,7 +376,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
         //身份证认证
         R<JSONObject> verifyResult = RealnameVerifyUtil.idcardVerify(idNo, name);
-        log.info("身份证信息获取请求返回参数", verifyResult);
+        log.info("身份证信息获取请求返回参数：{}", verifyResult);
         if (!(verifyResult.isSuccess())) {
             return verifyResult;
         }
@@ -375,6 +387,19 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         makerEntity.setIdcardVerifyStatus(VerifyStatus.VERIFYPASS);
         makerEntity.setIdcardVerifyType(IdcardVerifyType.SYSTEMVERIFY);
         makerEntity.setIdcardVerifyDate(new Date());
+
+        //判断是否已认证
+        if (CertificationState.UNCERTIFIED.equals(makerEntity.getCertificationState())) {
+            //判断创客是否有有效的创客加盟协议
+            int makerJoinAgreementNum = agreementService.queryValidAgreementNum(null, null, ObjectType.MAKERPEOPLE, makerEntity.getId(), AgreementType.MAKERJOINAGREEMENT);
+            //判断创客是否有有效的创客授权书
+            int makerPowerAttorneyNum = agreementService.queryValidAgreementNum(null, null, ObjectType.MAKERPEOPLE, makerEntity.getId(), AgreementType.MAKERPOWERATTORNEY);
+            if (makerJoinAgreementNum > 0 && makerPowerAttorneyNum > 0) {
+                makerEntity.setCertificationState(CertificationState.CERTIFIED);
+                makerEntity.setCertificationDate(new Date());
+            }
+        }
+
         updateById(makerEntity);
 
         return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
@@ -382,7 +407,13 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R mobileVerify(MakerEntity makerEntity) throws Exception {
+    public R mobileVerify(Long makerId) throws Exception {
+
+        //查询创客
+        MakerEntity makerEntity = getById(makerId);
+        if (makerEntity == null) {
+            return R.fail("创客不存在");
+        }
 
         //查看创客是否已经手机号认证
         if (VerifyStatus.VERIFYPASS.equals(makerEntity.getPhoneNumberVerifyStatus())) {
@@ -395,7 +426,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         }
 
         R<JSONObject> result = RealnameVerifyUtil.mobileVerify(makerEntity.getIdcardNo(), makerEntity.getName(), makerEntity.getPhoneNumber());
-        log.info("手机号认证请求返回参数", result);
+        log.info("手机号认证请求返回参数：{}", result);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -409,7 +440,13 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R bankCardVerify(String bankCardNo, MakerEntity makerEntity) throws Exception {
+    public R bankCardVerify(String bankCardNo, Long makerId) throws Exception {
+
+        //查询创客
+        MakerEntity makerEntity = getById(makerId);
+        if (makerEntity == null) {
+            return R.fail("创客不存在");
+        }
 
         //查看创客是否已经活体认证
         if (VerifyStatus.VERIFYPASS.equals(makerEntity.getBankCardVerifyStatus())) {
@@ -422,7 +459,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         }
 
         R<JSONObject> result = RealnameVerifyUtil.bankcardVerify(makerEntity.getIdcardNo(), makerEntity.getName(), bankCardNo);
-        log.info("银行卡认证请求返回参数", result);
+        log.info("银行卡认证请求返回参数：{}", result);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -449,7 +486,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         }
 
         R<JSONObject> result = RealnameVerifyUtil.faceOCR(String.valueOf(makerEntity.getId()), makerEntity.getName(), makerEntity.getIdcardNo());
-        log.info("活体认证请求返回参数", result);
+        log.info("活体认证请求返回参数：{}", result);
         if (!(result.isSuccess())) {
             return result;
         }
@@ -480,7 +517,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             // 业务逻辑处理 ****************************
             //回调参数转json
             JSONObject jsonObject = JSONObject.parseObject(rbody);
-            log.info("活体认证异步通知回调参数", jsonObject);
+            log.info("活体认证异步通知回调参数：{}", jsonObject);
             boolean boolSuccess = jsonObject.getBooleanValue("success");
             if (!boolSuccess) {
                 return R.fail("活体认证失败");
@@ -500,7 +537,7 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
             //查询认证信息
             R<JSONObject> detailResult = RealnameVerifyUtil.detail(jsonObject.getString("flowId"));
-            log.info("查询认证信息请求返回参数", detailResult);
+            log.info("查询认证信息请求返回参数：{}", detailResult);
             if (!(detailResult.isSuccess())) {
                 return detailResult;
             }
@@ -520,17 +557,6 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
 
             makerEntity.setFaceVerifyStatus(VerifyStatus.VERIFYPASS);
             makerEntity.setFaceVerifyDate(new Date());
-            //判断是否已认证
-            if (CertificationState.UNCERTIFIED.equals(makerEntity.getCertificationState())) {
-                //判断创客是否有有效的创客加盟协议
-                int makerJoinAgreementNum = agreementService.queryValidAgreementNum(null, null, ObjectType.MAKERPEOPLE, makerId, AgreementType.MAKERJOINAGREEMENT);
-                //判断创客是否有有效的创客授权书
-                int makerPowerAttorneyNum = agreementService.queryValidAgreementNum(null, null, ObjectType.MAKERPEOPLE, makerId, AgreementType.MAKERPOWERATTORNEY);
-                if (makerJoinAgreementNum > 0 && makerPowerAttorneyNum > 0) {
-                    makerEntity.setCertificationState(CertificationState.CERTIFIED);
-                    makerEntity.setCertificationDate(new Date());
-                }
-            }
             updateById(makerEntity);
 
             return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);

@@ -1,4 +1,4 @@
-package com.lgyun.system.user.entity;
+package com.lgyun.common.secure;
 
 import com.lgyun.common.enumeration.UserType;
 import lombok.Data;

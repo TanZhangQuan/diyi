@@ -4,49 +4,35 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.SelfHelpInvoiceApplyState;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * @author tzq
- * @date 2020/8/19.
- * @time 16:06.
- */
 @Data
+@ApiModel(description = "XXXXX")
 public class SelfHelpInvoiceSerProVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 自助开票ID
-     */
+    @ApiModelProperty(value = "自助开票ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    /**
-     * 购买方
-     */
+    @ApiModelProperty(value = "购买方")
     private String enterpriseName;
 
-    /**
-     * 发票扫描件（多张）
-     */
+    @ApiModelProperty(value = "发票扫描件（多张）")
     private String invoiceScanPictures;
 
-    /**
-     * 税票扫描件（多张）
-     */
+    @ApiModelProperty(value = "税票扫描件（多张）")
     private String taxScanPictures;
 
-    /**
-     * 自助开票状态
-     */
+    @ApiModelProperty(value = "自助开票状态")
     private SelfHelpInvoiceApplyState currentState;
 
-    /**
-     * 创建时间
-     */
+    @ApiModelProperty(value = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 

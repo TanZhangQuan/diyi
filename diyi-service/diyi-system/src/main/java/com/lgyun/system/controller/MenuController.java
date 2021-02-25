@@ -1,7 +1,7 @@
 package com.lgyun.system.controller;
 
 import com.lgyun.common.api.R;
-import com.lgyun.common.ctrl.BladeController;
+import com.lgyun.common.controller.BladeController;
 import com.lgyun.common.enumeration.MenuType;
 import com.lgyun.common.enumeration.UserType;
 import com.lgyun.common.node.TreeNode;

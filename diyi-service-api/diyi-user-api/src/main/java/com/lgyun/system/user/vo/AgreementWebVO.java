@@ -4,72 +4,50 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.SignState;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * @author tzq
- * @date 2020/7/28.
- * @time 14:29.
- */
 @Data
+@ApiModel(description = "XXXXXX")
 public class AgreementWebVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 商户服务商ID
-     */
+    @ApiModelProperty(value = "商户-服务商ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseProviderId;
 
-    /**
-     * 合同ID
-     */
+    @ApiModelProperty(value = "合同ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long agreementId;
 
-    /**
-     * 商户ID
-     */
+    @ApiModelProperty(value = "商户ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long enterpriseId;
 
-    /**
-     *商户编号
-     */
+    @ApiModelProperty(value = "商户名称")
     private String enterpriseName;
 
-    /**
-     * 服务商ID
-     */
+    @ApiModelProperty(value = "服务商ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long serviceProviderId;
 
-    /**
-     * 服务商名字
-     */
+    @ApiModelProperty(value = "服务商名称")
     private String serviceProviderName;
 
-    /**
-     * 合同编码
-     */
+    @ApiModelProperty(value = "合同编号")
     private String agreementNo;
 
-    /**
-     * 纸质合同url
-     */
+    @ApiModelProperty(value = "纸质合同")
     private String agreementUrl;
 
-    /**
-     * 合同状态
-     */
+    @ApiModelProperty(value = "合同状态")
     private SignState signState;
 
-    /**
-     * 签署时间
-     */
+    @ApiModelProperty(value = "签署时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 

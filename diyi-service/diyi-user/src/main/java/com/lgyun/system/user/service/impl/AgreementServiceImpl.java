@@ -351,9 +351,11 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
                 agreementEntity.setPartyAId(serviceProviderId);
             }
         } else if (ObjectType.SERVICEPEOPLE.equals(objectType)) {
-            agreementEntity.setPartyA(ObjectType.SERVICEPEOPLE);
-            agreementEntity.setPartyAId(objectId);
+            agreementEntity.setPartyB(ObjectType.SERVICEPEOPLE);
+            agreementEntity.setPartyBId(objectId);
             if (AgreementType.SERENTSUPPLEMENTARYAGREEMENT.equals(agreementType)) {
+                agreementEntity.setPartyA(ObjectType.SERVICEPEOPLE);
+                agreementEntity.setPartyAId(objectId);
                 agreementEntity.setPartyB(ObjectType.ENTERPRISEPEOPLE);
                 agreementEntity.setPartyBId(enterpriseId);
             }
@@ -412,7 +414,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(AgreementEntity::getPartyB, ObjectType.ENTERPRISEPEOPLE).eq(AgreementEntity::getPartyBId, enterpriseId)
                 .eq(AgreementEntity::getAgreementType, agreementType);
-        return R.data(baseMapper.selectOne(queryWrapper));
+        return R.data(baseMapper.selectList(queryWrapper));
     }
 
     @Override
@@ -423,8 +425,8 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(AgreementEntity::getPartyB, ObjectType.SERVICEPEOPLE).eq(AgreementEntity::getPartyBId, serviceProviderId)
                 .eq(AgreementEntity::getAgreementType, agreementType);
-        AgreementEntity agreementEntity = baseMapper.selectOne(queryWrapper);
-        return R.data(agreementEntity);
+        List<AgreementEntity> agreementEntities = baseMapper.selectList(queryWrapper);
+        return R.data(agreementEntities.get(0));
     }
 
     @Override
@@ -439,7 +441,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
 
     @Override
     public R<IPage<AgreementMakerEnterAdminVO>> queryEnterpriseMakerSupplement(Long enterpriseId, Long makerId, IPage<AgreementMakerEnterAdminVO> page) {
-        return R.data(page.setRecords(baseMapper.queryEnterpriseMakerSupplement(makerId, null, page)));
+        return R.data(page.setRecords(baseMapper.queryEnterpriseMakerSupplement(enterpriseId, makerId, page)));
     }
 
     @Override

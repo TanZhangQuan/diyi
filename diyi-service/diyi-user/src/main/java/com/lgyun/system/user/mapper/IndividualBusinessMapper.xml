@@ -100,7 +100,7 @@
     </resultMap>
 
     <select id="queryIndividualBusinessListMaker" resultMap="individualBusinessEnterpriseListMakerVO">
-        SELECT DISTINCT t1.id, t1.ibname, t1.candidated_names FROM diyi_individual_business t1
+        SELECT t1.id, t1.ibname, t1.candidated_names FROM diyi_individual_business t1
         <if test="param1 != null">
             INNER JOIN diyi_maker_enterprise t2 ON t1.maker_id = t2.maker_id AND t2.relationship_type = 'RELEVANCE' AND t2.bool_deleted = 0
             INNER JOIN diyi_partner_enterprise t3 ON t2.enterprise_id = t3.enterprise_id AND t3.cooperate_status = 'COOPERATING' AND t3.bool_deleted = 0
@@ -109,6 +109,7 @@
         <if test="param3 != null">
             AND t1.maker_id = #{param3}
         </if>
+        GROUP BY t1.id
     </select>
 
     <select id="queryIndividualBusinessDetailMaker" resultMap="individualBusinessDetailMakerVO">

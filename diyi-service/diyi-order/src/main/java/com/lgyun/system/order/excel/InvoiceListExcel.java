@@ -4,6 +4,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * UserDTO
@@ -14,6 +15,7 @@ import java.io.Serializable;
 @Data
 public class InvoiceListExcel implements Serializable {
     private static final long serialVersionUID = 1L;
+
     @ExcelProperty("付款单位")
     private String payer;
 
@@ -30,19 +32,19 @@ public class InvoiceListExcel implements Serializable {
     private String projectName;
 
     @ExcelProperty("数量")
-    private String num;
+    private Integer num;
 
     @ExcelProperty("单位")
     private String company;
 
     @ExcelProperty("单价")
-    private String unitPrice;
+    private BigDecimal unitPrice;
 
     @ExcelProperty("税率3%/1%")
-    private String taxRate;
+    private BigDecimal taxRate;
 
     @ExcelProperty("发票价税合计填写该列，开票额")
-    private String taxTotalprice;
+    private BigDecimal taxTotalprice;
 
     @ExcelProperty("开票人姓名")
     private String invoicePeopleName;
@@ -77,7 +79,7 @@ public class InvoiceListExcel implements Serializable {
     @ExcelProperty("个独经营者（法人）姓名")
     private String aloneLegalPersonName;
 
-    @ExcelProperty("个体户经营者身份证号码")
+    @ExcelProperty("个独经营者身份证号码")
     private String aloneOperatorIdCard;
 
     @ExcelProperty("身份证正面url")

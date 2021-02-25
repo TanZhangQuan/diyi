@@ -1,5 +1,6 @@
 package com.lgyun.common.enumeration;
 
+import com.lgyun.common.annotation.SwaggerDisplayEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,6 +11,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
+@SwaggerDisplayEnum()
 public enum CompanyInvoiceState {
     UNOPEN("UNOPEN", "未开"),
     OPENED("OPENED", "已全额开具"),
@@ -17,4 +19,11 @@ public enum CompanyInvoiceState {
 
     private final String value;
     private final String desc;
+
+    //不使用@ToString，手动重写，让swagger显示更好看
+    @Override
+    public String toString() {
+        return value + ":" + desc;
+    }
+
 }
