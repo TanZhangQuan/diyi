@@ -265,7 +265,7 @@
     </select>
 
     <select id="queryOnlineAgreementUrl" resultType="java.lang.String">
-        SELECT agreement_url FROM diyi_agreement WHERE bool_deleted = 0 AND id = #{param1} LIMIT 1
+        SELECT GROUP_CONCAT(agreement_url) FROM diyi_agreement WHERE bool_deleted = 0 AND id = #{param1} LIMIT 1
     </select>
 
 </mapper>

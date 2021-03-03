@@ -153,9 +153,9 @@
         WHERE bool_deleted = 0 AND (invoice_print_state = 'INVOICEING' OR invoice_print_state = 'INVOICESUCCESS') AND maker_id = t5.id)) AS order_num,
         ((SELECT IFNULL(SUM(maker_net_income), 0) FROM diyi_pay_maker t1 WHERE bool_deleted = 0 AND (pay_state = 'PLATFORMPAID' OR pay_state = 'CONFIRMPAID')
         AND maker_id = t5.id) + (SELECT IFNULL(SUM(charge_money_num), 0) FROM diyi_self_help_invoice_detail WHERE bool_deleted = 0 AND (invoice_print_state = 'INVOICEING'
-        OR invoice_print_state = 'INVOICESUCCESS') AND maker_id = t5.id)) AS income, (SELECT agreement_url FROM diyi_agreement WHERE bool_deleted = 0
+        OR invoice_print_state = 'INVOICESUCCESS') AND maker_id = t5.id)) AS income, (SELECT GROUP_CONCAT(agreement_url) FROM diyi_agreement WHERE bool_deleted = 0
         AND agreement_type = 'MAKERJOINAGREEMENT' AND valid_state = 'VALIDING' AND party_b = 'MAKERPEOPLE' AND party_b_id = t5.id) AS maker_join_agreement,
-        (SELECT agreement_url FROM diyi_agreement WHERE bool_deleted = 0 AND agreement_type = 'MAKERPOWERATTORNEY' AND valid_state = 'VALIDING' AND party_b = 'MAKERPEOPLE'
+        (SELECT GROUP_CONCAT(agreement_url) FROM diyi_agreement WHERE bool_deleted = 0 AND agreement_type = 'MAKERPOWERATTORNEY' AND valid_state = 'VALIDING' AND party_b = 'MAKERPEOPLE'
         AND party_b_id = t5.id) AS maker_power_attorney FROM diyi_maker t5 WHERE t5.bool_deleted = 0 AND t5.id = #{param1}
     </select>
 
