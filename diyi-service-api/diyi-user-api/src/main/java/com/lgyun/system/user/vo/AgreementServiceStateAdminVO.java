@@ -29,4 +29,10 @@ public class AgreementServiceStateAdminVO implements Serializable {
 
     @ApiModelProperty(value = "服务商的状态")
     private AccountState serviceProviderState;
+
+    /**
+     *
+     *服务商和创客的补充协议
+     */
+    private Integer serMakSupplementaryAgreement;
 }

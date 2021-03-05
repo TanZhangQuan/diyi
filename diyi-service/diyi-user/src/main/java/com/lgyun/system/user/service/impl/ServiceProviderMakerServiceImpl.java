@@ -1,6 +1,7 @@
 package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.ServiceProviderMakerRelType;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.ServiceProviderMakerEntity;
@@ -40,5 +41,10 @@ public class ServiceProviderMakerServiceImpl extends BaseServiceImpl<ServiceProv
             save(serviceProviderMaker);
 
         }
+    }
+
+    @Override
+    public R queryCooperationServiceProviderList(Long makerId) {
+        return R.data(baseMapper.queryCooperationServiceProviderList(makerId));
     }
 }

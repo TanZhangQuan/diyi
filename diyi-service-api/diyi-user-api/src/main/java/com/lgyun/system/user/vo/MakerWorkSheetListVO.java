@@ -2,6 +2,7 @@ package com.lgyun.system.user.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.AuthorizationAudit;
 import com.lgyun.common.enumeration.VerifyStatus;
 import com.lgyun.common.enumeration.VideoAudit;
 import io.swagger.annotations.ApiModel;
@@ -51,5 +52,11 @@ public class MakerWorkSheetListVO implements Serializable {
 
     @ApiModelProperty(value = "是否有商户和创客的补充协议")
     private boolean boolSupplementSign;
+
+
+    /**
+     * 一建授权状态
+     */
+    private AuthorizationAudit authorizationAudit;
 
 }

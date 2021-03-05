@@ -1,6 +1,8 @@
 package com.lgyun.system.user.controller.serviceProvider;
 
 import com.lgyun.common.api.R;
+import com.lgyun.common.enumeration.AgreementType;
+import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
 import com.lgyun.core.mp.support.Query;
@@ -119,4 +121,42 @@ public class AgreementServiceProviderController {
         return enterpriseServiceProviderService.queryRelevanceEnterpriseList(serviceProviderWorkerEntity.getServiceProviderId(), null, Condition.getPage(query.setDescs("t3.create_time")));
     }
 
+    @PostMapping("/upload-service-provider-supplement-agreement")
+    @ApiOperation(value = "上传服务商创客补充协议模板", notes = "上传服务商创客补充协议模板")
+    public R uploadServiceProviderSupplementAgreement(BladeUser bladeUser,String agreementUrl) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+        return agreementService.uploadSupplementAgreementTemplate(serviceProviderWorkerEntity.getServiceProviderId(), ObjectType.SERVICEPEOPLE,agreementUrl, AgreementType.SERMAKSUPPLEMENTARYAGREEMENT);
+    }
+
+    @GetMapping("/query-service-provider-supplement-agreement")
+    @ApiOperation(value = "查询服务商创客补充协议模板", notes = "查询服务商创客补充协议模板")
+    public R queryServiceProviderSupplementAgreement(BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+        return agreementService.querySupplementAgreement(serviceProviderWorkerEntity.getServiceProviderId(),ObjectType.SERVICEPEOPLE,AgreementType.SERMAKSUPPLEMENTARYAGREEMENT);
+    }
+
+    @GetMapping("/query-service-provider-to-maker-supplement-list")
+    @ApiOperation(value = "根据服务商id查询合作服务商和创客补充协议", notes = "平台根据服务商id查询合作服务商和创客补充协议")
+    public R queryServiceProviderToMakerSupplementList(Query query, BladeUser bladeUser) {
+        //查询当前服务商员工
+        R<ServiceProviderWorkerEntity> result = serviceProviderWorkerService.currentServiceProviderWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        ServiceProviderWorkerEntity serviceProviderWorkerEntity = result.getData();
+
+        return agreementService.queryServiceProviderToMakerSupplementList(serviceProviderWorkerEntity.getServiceProviderId(), Condition.getPage(query.setDescs("a.create_time")));
+    }
 }

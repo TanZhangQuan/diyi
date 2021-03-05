@@ -30,6 +30,7 @@ public class AgreementMakerController {
     private IOnlineSignPicService onlineSignPicService;
     private IMakerEnterpriseService makerEnterpriseService;
     private IOnlineAgreementNeedSignService onlineAgreementNeedSignService;
+    private IServiceProviderMakerService serviceProviderMakerService;
 
     @GetMapping("/query-maker-agreement")
     @ApiOperation(value = "根据创客查询合同", notes = "根据创客查询合同")
@@ -66,20 +67,6 @@ public class AgreementMakerController {
         }
 
         return agreementService.queryOnlineAgreementUrl(agreementId);
-    }
-
-    @PostMapping("/save-online-agreement-need-sign")
-    @ApiOperation(value = "确认签字", notes = "确认签字")
-    public R saveOnlineAgreementNeedSign(@ApiParam(value = "签名图片", required = true) @NotBlank(message = "请上传签名图片") @URL(message = "请输入正确的链接") @RequestParam(required = false) String signPic,
-                                         Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId, BladeUser bladeUser) {
-        //查询当前创客
-        R<MakerEntity> result = makerService.currentMaker(bladeUser);
-        if (!(result.isSuccess())) {
-            return result;
-        }
-        MakerEntity makerEntity = result.getData();
-
-        return onlineSignPicService.saveOnlineSignPic(makerEntity.getId(), ObjectType.MAKERPEOPLE, signPic, onlineAgreementTemplateId, onlineAgreementNeedSignId);
     }
 
     @GetMapping("/query-online-agreement-need-sign")
@@ -147,5 +134,106 @@ public class AgreementMakerController {
         }
         MakerEntity makerEntity = result.getData();
         return makerService.downloadDocument(makerEntity.getId());
+    }
+
+    @PostMapping("/save-online-agreement-need-sign")
+    @ApiOperation(value = "确认签字", notes = "确认签字")
+    public R saveOnlineAgreementNeedSign(@ApiParam(value = "签名图片", required = true) @NotBlank(message = "请上传签名图片") @URL(message = "请输入正确的链接") @RequestParam(required = false) String signPic,
+                                         Long onlineAgreementTemplateId, Long onlineAgreementNeedSignId, BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = makerService.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        MakerEntity makerEntity = result.getData();
+
+        return onlineSignPicService.confirmationSignature(makerEntity.getId(), ObjectType.MAKERPEOPLE, signPic, onlineAgreementTemplateId, onlineAgreementNeedSignId);
+    }
+
+    @PostMapping("/save-online-sign-pic")
+    @ApiOperation(value = "保存签名照片", notes = "保存签名照片")
+    public R saveOnlineSignPic(@ApiParam(value = "签名图片", required = true) @NotBlank(message = "请上传签名图片") @URL(message = "请输入正确的链接") @RequestParam(required = false) String signPic
+                                         , BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = makerService.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        MakerEntity makerEntity = result.getData();
+
+        return onlineSignPicService.saveOnlineSignPic(makerEntity.getId(), ObjectType.MAKERPEOPLE, signPic);
+    }
+
+
+    @GetMapping("/whether-autograph")
+    @ApiOperation(value = "查看创客是否存在签名", notes = "查看创客是否存在签名")
+    public R whetherAutograph(BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = makerService.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        MakerEntity makerEntity = result.getData();
+        return onlineSignPicService.whetherAutograph(ObjectType.MAKERPEOPLE,makerEntity.getId());
+    }
+
+    @GetMapping("/query-contract-template")
+    @ApiOperation(value = "查询合同模板", notes = "查询合同模板")
+    public R queryContractTemplate(BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = makerService.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        return agreementService.queryContractTemplate();
+    }
+
+    @PostMapping("/one-click-authorization")
+    @ApiOperation(value = "一键授权", notes = "一键授权")
+    public R oneClickAuthorization(BladeUser bladeUser,@ApiParam(value = "签名图片", required = true) @NotBlank(message = "请上传签名图片") @URL(message = "请输入正确的链接") @RequestParam(required = false) String signPic) {
+        //查询当前创客
+        R<MakerEntity> result = makerService.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        MakerEntity makerEntity = result.getData();
+        return onlineSignPicService.oneClickAuthorization(makerEntity.getId(),signPic);
+    }
+
+    @PostMapping("/relieve-one-click-authorization")
+    @ApiOperation(value = "解除一键授权", notes = "解除一键授权")
+    public R relieveOneClickAuthorization(BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = makerService.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        MakerEntity makerEntity = result.getData();
+        return onlineSignPicService.relieveOneClickAuthorization(makerEntity.getId());
+    }
+
+    @GetMapping("/query-cooperation-service-provider-list")
+    @ApiOperation(value = "查询合作服务商", notes = "查询合作服务商")
+    public R queryCooperationServiceProviderList(BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = makerService.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        MakerEntity makerEntity = result.getData();
+
+        return serviceProviderMakerService.queryCooperationServiceProviderList(makerEntity.getId());
+    }
+
+    @GetMapping("/query-service-provider-agreement")
+    @ApiOperation(value = "根据服务商查询合同", notes = "根据服务商查询合同")
+    public R queryServiceProviderAgreement(Long serviceProviderId, BladeUser bladeUser) {
+        //查询当前创客
+        R<MakerEntity> result = makerService.currentMaker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        MakerEntity makerEntity = result.getData();
+        return R.data(agreementService.findByserviceProviderId(serviceProviderId, makerEntity.getId()));
     }
 }

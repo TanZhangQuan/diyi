@@ -2,6 +2,7 @@ package com.lgyun.system.user.controller.enterprise;
 
 import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.AgreementType;
+import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.enumeration.SignType;
 import com.lgyun.common.secure.BladeUser;
 import com.lgyun.core.mp.support.Condition;
@@ -214,5 +215,32 @@ public class AgreementEnterpriseController {
         EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
 
         return enterpriseServiceProviderService.queryCooperationServiceProviderList(enterpriseWorkerEntity.getEnterpriseId(), serviceProviderName, Condition.getPage(query.setDescs("t1.create_time")));
+    }
+
+
+    @PostMapping("/upload-enterprise-supplement-agreement")
+    @ApiOperation(value = "上传商户创客补充协议模板", notes = "上传商户创客补充协议模板")
+    public R uploadEnterpriseSupplementAgreement(BladeUser bladeUser,String agreementUrl) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+        return agreementService.uploadSupplementAgreementTemplate(enterpriseWorkerEntity.getEnterpriseId(), ObjectType.ENTERPRISEPEOPLE,agreementUrl,AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT);
+    }
+
+    @GetMapping("/query-enterprise-supplement-agreement")
+    @ApiOperation(value = "查询商户创客补充协议模板", notes = "查询商户创客补充协议模板")
+    public R queryEnterpriseSupplementAgreement(BladeUser bladeUser) {
+        //查询当前商户员工
+        R<EnterpriseWorkerEntity> result = enterpriseWorkerService.currentEnterpriseWorker(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+        EnterpriseWorkerEntity enterpriseWorkerEntity = result.getData();
+
+        return agreementService.querySupplementAgreement(enterpriseWorkerEntity.getEnterpriseId(),ObjectType.ENTERPRISEPEOPLE,AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT);
     }
 }

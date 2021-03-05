@@ -3,4 +3,16 @@
 
 <mapper namespace="com.lgyun.system.user.mapper.ServiceProviderMakerMapper">
 
+    <resultMap type="com.lgyun.system.user.vo.ServiceProviderMakerVO" id="serviceProviderMakerMap">
+        <result property="serviceProviderMakerId" column="service_provider_maker_id"/>
+        <result property="serviceProviderId" column="service_provider_id"/>
+        <result property="makerId" column="maker_id"/>
+        <result property="serviceProviderName" column="service_provider_name"/>
+        <result property="makerName" column="maker_name"/>
+        <result property="relType" column="rel_type"/>
+    </resultMap>
+
+    <select id="queryCooperationServiceProviderList" resultMap="serviceProviderMakerMap">
+        SELECT t1.id AS service_provider_maker_id, t3.id AS service_provider_id, t2.id AS maker_id, t3.service_provider_name AS service_provider_name, t2. NAME AS maker_name, t1.rel_type AS rel_type FROM diyi_service_provider_maker t1 INNER JOIN diyi_maker t2 ON t1.maker_id = t2.id INNER JOIN diyi_service_provider t3 ON t1.service_provider_id = t3.id
+    </select>
 </mapper>

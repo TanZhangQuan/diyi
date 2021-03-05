@@ -513,4 +513,25 @@ public interface IUserClient {
     @PostMapping(API_PREFIX + "/associated-service-provider-maker")
     void associatedServiceProviderMaker(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("serviceProviderId") Long serviceProviderId, @RequestParam("makerId") Long makerId, @RequestParam("relType") ServiceProviderMakerRelType relType);
 
+    /**
+     * 自动创建商户-创客补充协议
+     *
+     * @param enterpriseId
+     * @param makerId
+     * @return
+     */
+    @PostMapping(API_PREFIX + "/save-merchant-maker-supplement")
+    Integer saveMerchantMakerSupplement(@RequestParam("enterpriseId") Long enterpriseId, @RequestParam("makerId") Long makerId);
+
+
+    /**
+     * 自动创建服务商-创客补充协议
+     *
+     * @param serviceProviderId
+     * @param makerId
+     * @return
+     */
+    @PostMapping(API_PREFIX + "/save-service-provider-maker-supplement")
+    Integer saveServiceProviderMakerSupplement(@RequestParam("serviceProviderId") Long serviceProviderId, @RequestParam("makerId") Long makerId);
+
 }
