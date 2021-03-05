@@ -93,6 +93,7 @@
         <result property="serviceProviderName" column="service_provider_name"/>
         <result property="serviceProviderJoinAgreement" column="service_provider_join_agreement"/>
         <result property="serEntSupplementaryAgreement" column="ser_ent_supplementary_agreement"/>
+        <result property="serMakSupplementaryAgreement" column="ser_mak_supplementary_agreement"/>
         <result property="serviceProviderState" column="service_provider_state"/>
     </resultMap>
 
@@ -258,7 +259,7 @@
         SELECT s.id service_provider_id, s.service_provider_state, s.service_provider_name, (SELECT IF (count(*) > 0, 1, 0) FROM diyi_agreement a WHERE a.party_b_id = s.id
         AND a.agreement_type = 'SERVICEPROVIDERJOINAGREEMENT' AND a.valid_state = 'VALIDING' AND a.party_b = 'SERVICEPEOPLE') AS service_provider_join_agreement,
         (SELECT count(*) FROM diyi_agreement a WHERE a.party_a_id = s.id AND a.bool_deleted = 0 AND a.agreement_type = 'SERENTSUPPLEMENTARYAGREEMENT'
-        AND a.valid_state = 'VALIDING' AND a.party_a = 'SERVICEPEOPLE') AS ser_ent_supplementary_agreement FROM diyi_service_provider s where s.bool_deleted = 0
+        AND a.valid_state = 'VALIDING' AND a.party_a = 'SERVICEPEOPLE') AS ser_ent_supplementary_agreement,( SELECT count(*) FROM diyi_agreement a WHERE a.party_a_id = s.id AND a.bool_deleted = 0 AND a.agreement_type = 'SERMAKSUPPLEMENTARYAGREEMENT' AND a.valid_state = 'VALIDING' AND a.party_a = 'SERVICEPEOPLE' ) AS ser_mak_supplementary_agreement FROM diyi_service_provider s where s.bool_deleted = 0
         <if test="param1 != null and param1 !=''">
              AND s.service_provider_name LIKE concat('%', #{param1}, '%')
         </if>
@@ -266,6 +267,10 @@
 
     <select id="queryOnlineAgreementUrl" resultType="java.lang.String">
         SELECT GROUP_CONCAT(agreement_url) FROM diyi_agreement WHERE bool_deleted = 0 AND id = #{param1} LIMIT 1
+    </select>
+
+    <select id="queryServiceProviderToMakerSupplementList" resultMap="agreementServiceVOMap">
+        SELECT a.id AS agreement_id, s.id AS service_provider_id, NULL AS enterprise_name, m. NAME AS maker_name, a.agreement_no, a.sign_type, a.agreement_type, s.service_provider_name, a.agreement_url, a.create_time, a.sign_state, 0 AS id FROM diyi_agreement a INNER JOIN diyi_maker m ON m.id = a.party_b_id AND a.party_b = 'MAKERPEOPLE' INNER JOIN diyi_service_provider s ON a.party_a_id = s.id AND a.party_a = 'SERVICEPEOPLE' AND s.id = #{param1}
     </select>
 
 </mapper>

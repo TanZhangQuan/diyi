@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lgyun.common.api.R;
 import com.lgyun.common.constant.BladeConstant;
 import com.lgyun.common.enumeration.*;
+import com.lgyun.common.exception.CustomException;
 import com.lgyun.common.tool.BeanUtil;
 import com.lgyun.common.tool.SnowflakeIdWorker;
 import com.lgyun.common.tool.StringUtil;
@@ -81,6 +82,13 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
         if (WorksheetMode.BLEND.equals(releaseWorksheetDTO.getWorksheetMode()) || WorksheetMode.DISPATCH.equals(releaseWorksheetDTO.getWorksheetMode())) {
             for (int i = 0; i < split.length; i++) {
                 WorksheetMakerEntity worksheetMakerEntity = new WorksheetMakerEntity();
+                MakerEntity makerEntity = iUserClient.queryMakerById(Long.parseLong(split[i]));
+                if(AuthorizationAudit.AUTHORIZED.equals(makerEntity.getAuthorizationAudit())){
+                    Integer code = iUserClient.saveMerchantMakerSupplement(enterpriseId, Long.parseLong(split[i]));
+                    if(code != 3){
+                        throw new CustomException(makerEntity.getName()+"创建补充协议异常");
+                    }
+                }
                 worksheetMakerEntity.setMakerId(Long.parseLong(split[i]));
                 worksheetMakerEntity.setWorksheetId(worksheetEntity.getId());
                 worksheetMakerEntity.setGetType(GetType.GETDISPATCH);
@@ -315,6 +323,13 @@ public class WorksheetServiceImpl extends BaseServiceImpl<WorksheetMapper, Works
 
         //商户创客关联
         iUserClient.createMakerToEnterpriseRelevance(worksheetEntity.getEnterpriseId(), makerEntity.getId());
+
+        if(AuthorizationAudit.AUTHORIZED.equals(makerEntity.getAuthorizationAudit())){
+            Integer code = iUserClient.saveMerchantMakerSupplement(worksheetEntity.getEnterpriseId(), makerId);
+            if(code != 3){
+                throw new CustomException(makerEntity.getName()+"创建补充协议异常");
+            }
+        }
 
         //判断是否关单
         if (worksheetMakerCount + 1 >= worksheetEntity.getUpPersonNum() && WorksheetState.PUBLISHING.equals(worksheetEntity.getWorksheetState())) {

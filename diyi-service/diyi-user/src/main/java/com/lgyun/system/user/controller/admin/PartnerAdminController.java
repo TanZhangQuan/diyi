@@ -174,7 +174,7 @@ public class PartnerAdminController {
             return result;
         }
 
-        return onlineSignPicService.saveOnlineSignPic(partnerId, ObjectType.PARTNERPEOPLE, signPic, onlineAgreementTemplateId, onlineAgreementNeedSignId);
+        return onlineSignPicService.confirmationSignature(partnerId, ObjectType.PARTNERPEOPLE, signPic, onlineAgreementTemplateId, onlineAgreementNeedSignId);
     }
 
 }

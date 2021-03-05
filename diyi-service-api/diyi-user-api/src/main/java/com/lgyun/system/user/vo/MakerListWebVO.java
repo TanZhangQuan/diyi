@@ -3,6 +3,8 @@ package com.lgyun.system.user.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.lgyun.common.enumeration.AuditState;
+import com.lgyun.common.enumeration.AuthorizationAudit;
 import com.lgyun.common.enumeration.VerifyStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -49,6 +51,22 @@ public class MakerListWebVO implements Serializable {
 
     @ApiModelProperty(value = "是否有有效的创客加盟协议")
     private Boolean boolJoinAgreement;
+
+    /**
+     * 一建授权状态
+     */
+    private AuthorizationAudit authorizationAudit;
+
+    /**
+     * 签名图片
+     */
+    private String signPic;
+
+
+    /**
+     * 签名状态
+     */
+    private AuditState auditState;
 
     @ApiModelProperty(value = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

@@ -1,5 +1,6 @@
 package com.lgyun.system.user.service;
 
+import com.lgyun.common.api.R;
 import com.lgyun.common.enumeration.ServiceProviderMakerRelType;
 import com.lgyun.core.mp.base.BaseService;
 import com.lgyun.system.user.entity.ServiceProviderMakerEntity;
@@ -17,5 +18,10 @@ public interface IServiceProviderMakerService extends BaseService<ServiceProvide
      */
     void associatedServiceProviderMaker(Long enterpriseId, Long serviceProviderId, Long makerId, ServiceProviderMakerRelType relType);
 
+
+    /**
+     *查询合作服务商
+     */
+    R queryCooperationServiceProviderList(Long makerId);
 }
 

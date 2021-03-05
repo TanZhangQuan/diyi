@@ -22,31 +22,31 @@ public class CloudStorageConfig {
     /**
      * 阿里云绑定的域名
      */
-    private String domain;
+    private String domain ="https://diyi-cr.oss-cn-shanghai.aliyuncs.com";
 
     /**
      * 阿里云路径前缀
      */
-    private String prefix;
+    private String prefix ="upload";
 
     /**
      * 阿里云EndPoint
      */
-    private String endPoint;
+    private String endPoint = "http://oss-cn-shanghai.aliyuncs.com";
 
     /**
      * 阿里云AccessKeyId
      */
-    private String accessKeyId;
+    private String accessKeyId = "LTAI4GDMovvBWMpWk2VTDBpq";
 
     /**
      * 阿里云AccessKeySecret
      */
-    private String accessKeySecret;
+    private String accessKeySecret ="yO6t0rEOSxTr4tPSZ4w1ZxMy1n0Hmf";
 
     /**
      * 阿里云BucketName
      */
-    private String bucketName;
+    private String bucketName ="diyi-cr";
 
 }

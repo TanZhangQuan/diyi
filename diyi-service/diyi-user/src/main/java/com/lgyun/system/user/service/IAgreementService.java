@@ -315,5 +315,54 @@ public interface IAgreementService extends BaseService<AgreementEntity> {
      */
     AgreementEntity findByEnterpriseAndMakerSuppl(Long makerId, Long enterpriseId);
 
+
+    /**
+     * 根据服务商查询合同
+     * @param serviceProviderId
+     * @param makerId
+     * @return
+     */
+    List<AgreementEntity> findByserviceProviderId(Long serviceProviderId, Long makerId);
+
+    /**
+     *上传补充协议模板
+     */
+    R uploadSupplementAgreementTemplate(Long objectId,ObjectType objectType,String agreementUrl,AgreementType agreementType);
+
+
+    /**
+     * 查询商户、服务商创客补充协议模板
+     */
+    R querySupplementAgreement(Long objectId,ObjectType objectType,AgreementType agreementType);
+
+
+    /**
+     *查询合同模板
+     */
+    R queryContractTemplate();
+
+    /**
+     * 查询已签署已审核通过的服务商-创客补充协议
+     * @param makerId
+     * @param serviceProviderId
+     * @return
+     */
+    AgreementEntity findByServiceProviderAndMakerSuppl(Long makerId, Long serviceProviderId);
+
+    /**
+     * 平台根据服务商id查询合作服务商和创客补充协议
+     */
+    R<IPage<AgreementServiceVO>> queryServiceProviderToMakerSupplementList(Long serviceProviderId, IPage<AgreementServiceVO> page);
+
+
+    /**
+     * 根据创客id查询加盟或者授权协议
+     *
+     * @param makerId
+     * @param agreementType
+     * @return
+     */
+    AgreementEntity findAdminMakerId1(Long makerId, AgreementType agreementType);
+
 }
 

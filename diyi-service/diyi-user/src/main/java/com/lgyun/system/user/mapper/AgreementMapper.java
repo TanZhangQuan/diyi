@@ -165,5 +165,10 @@ public interface AgreementMapper extends BaseMapper<AgreementEntity> {
      * @return
      */
     String queryOnlineAgreementUrl(Long agreementId);
+
+    /**
+     *平台根据服务商id查询合作服务商和创客补充协议
+     */
+    List<AgreementServiceVO> queryServiceProviderToMakerSupplementList(Long serviceProviderId, IPage<AgreementServiceVO> page);
 }
 
