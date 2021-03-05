@@ -1938,15 +1938,15 @@ CREATE TABLE `diyi_worksheet_maker` (
 -- ----------------------------
 
 ALTER TABLE `diyi_online_sign_pic`
-ADD COLUMN `audit_state`  varchar(50) NOT NULL COMMENT '审核状态' AFTER `sign_pic`,
+ADD COLUMN `audit_state` varchar(50) NOT NULL COMMENT '审核状态' AFTER `sign_pic`,
 ADD COLUMN `rejected_explanation` varchar(100) NOT NULL DEFAULT '' COMMENT '驳回说明' AFTER `audit_state`;
 
 ALTER TABLE `diyi_maker`
-ADD COLUMN `authorization_audit`  varchar(50) NOT NULL COMMENT '一建授权状态' AFTER `video_audit_person_id`,
-ADD COLUMN `authorization_audit_date`  datetime NULL DEFAULT NULL COMMENT '授权审核日期' AFTER `authorization_audit`,
-ADD COLUMN `authorization_audit_person_id`  bigint(50) NULL DEFAULT NULL COMMENT '授权审核人员' AFTER `authorization_audit_date`;
+ADD COLUMN `authorization_audit` varchar(50) NOT NULL COMMENT '一建授权状态' AFTER `video_audit_person_id`,
+ADD COLUMN `authorization_audit_date` datetime DEFAULT NULL COMMENT '授权审核日期' AFTER `authorization_audit`,
+ADD COLUMN `authorization_audit_person_id` bigint(50) DEFAULT NULL COMMENT '授权审核人员' AFTER `authorization_audit_date`;
 
 
 ALTER TABLE `diyi_online_agreement_template`
-ADD COLUMN `object_type`  varchar(50) NULL DEFAULT NULL COMMENT '对象身份' AFTER `id`,
-ADD COLUMN `object_id` bigint(50) NULL DEFAULT NULL COMMENT '对象ID' AFTER `object_type`;
+ADD COLUMN `object_type` varchar(50) DEFAULT NULL COMMENT '对象身份' AFTER `id`,
+ADD COLUMN `object_id` bigint(50) DEFAULT NULL COMMENT '对象ID' AFTER `object_type`;
