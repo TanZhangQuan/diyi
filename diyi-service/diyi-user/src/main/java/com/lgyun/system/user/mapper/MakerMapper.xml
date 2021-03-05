@@ -71,6 +71,8 @@
         <result property="bankCardNo" column="bank_card_no"/>
         <result property="subBankName" column="sub_bank_name"/>
         <result property="idcardVerifyStatus" column="idcard_verify_status"/>
+        <result property="idcardPic" column="idcard_pic"/>
+        <result property="idcardPicBack" column="idcard_pic_back"/>
         <result property="faceVerifyStatus" column="face_verify_status"/>
         <result property="bankCardVerifyStatus" column="bank_card_verify_status"/>
         <result property="phoneNumberVerifyStatus" column="phone_number_verify_status"/>
@@ -148,7 +150,7 @@
 
     <select id="queryMakerDetail" resultMap="makerDetailWebVO">
         SELECT t5.id, t5.avatar, t5.name, t5.certification_state, t5.self_desc, t5.idcard_no, t5.phone_number, t5.bank_card_no, t5.sub_bank_name, t5.idcard_verify_status,
-        t5.face_verify_status, t5.bank_card_verify_status, t5.phone_number_verify_status, t5.create_time, t5.maker_state, ((SELECT COUNT(id) FROM diyi_pay_maker t1
+        t5.idcard_pic, t5.idcard_pic_back, t5.face_verify_status, t5.bank_card_verify_status, t5.phone_number_verify_status, t5.create_time, t5.maker_state, ((SELECT COUNT(id) FROM diyi_pay_maker t1
         WHERE bool_deleted = 0 AND (pay_state = 'PLATFORMPAID' OR pay_state = 'CONFIRMPAID') AND maker_id = t5.id) + (SELECT COUNT(id) FROM diyi_self_help_invoice_detail
         WHERE bool_deleted = 0 AND (invoice_print_state = 'INVOICEING' OR invoice_print_state = 'INVOICESUCCESS') AND maker_id = t5.id)) AS order_num,
         ((SELECT IFNULL(SUM(maker_net_income), 0) FROM diyi_pay_maker t1 WHERE bool_deleted = 0 AND (pay_state = 'PLATFORMPAID' OR pay_state = 'CONFIRMPAID')

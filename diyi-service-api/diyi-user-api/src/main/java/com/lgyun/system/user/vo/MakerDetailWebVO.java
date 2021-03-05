@@ -56,6 +56,12 @@ public class MakerDetailWebVO implements Serializable {
     @ApiModelProperty(value = "身份证验证状态")
     private VerifyStatus idcardVerifyStatus;
 
+    @ApiModelProperty(value = "身份证正面图")
+    private String idcardPic;
+
+    @ApiModelProperty(value = "身份证反面图")
+    private String idcardPicBack;
+
     @ApiModelProperty(value = "活体验证状态")
     private VerifyStatus faceVerifyStatus;
 
