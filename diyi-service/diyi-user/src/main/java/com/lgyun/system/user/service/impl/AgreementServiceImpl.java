@@ -500,4 +500,95 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         return agreementEntity;
     }
 
+    @Override
+    public List<AgreementEntity> findByserviceProviderId(Long serviceProviderId, Long makerId) {
+        QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(AgreementEntity::getPartyA, ObjectType.SERVICEPEOPLE).eq(AgreementEntity::getPartyAId, serviceProviderId)
+                .eq(AgreementEntity::getPartyB, ObjectType.MAKERPEOPLE).eq(AgreementEntity::getPartyBId, makerId)
+                .eq(AgreementEntity::getAgreementType, AgreementType.SERMAKSUPPLEMENTARYAGREEMENT);
+        return baseMapper.selectList(queryWrapper);
+    }
+
+    @Override
+    public R uploadSupplementAgreementTemplate(Long objectId, ObjectType objectType, String agreementUrl,AgreementType agreementType) {
+        OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = iOnlineAgreementTemplateService.findEntSerTemplateType(objectId, objectType, agreementType);
+        if(null == onlineAgreementTemplateEntity){
+            onlineAgreementTemplateEntity = new OnlineAgreementTemplateEntity();
+            onlineAgreementTemplateEntity.setObjectId(objectId);
+            onlineAgreementTemplateEntity.setObjectType(objectType);
+            if(ObjectType.ENTERPRISEPEOPLE.equals(objectType)){
+                onlineAgreementTemplateEntity.setAgreementType(AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT);
+            }
+
+            if(ObjectType.SERVICEPEOPLE.equals(objectType)){
+                onlineAgreementTemplateEntity.setAgreementType(AgreementType.SERMAKSUPPLEMENTARYAGREEMENT);
+            }
+            onlineAgreementTemplateEntity.setTemplateState(TemplateState.APPLICATION);
+            onlineAgreementTemplateEntity.setAgreementTemplate(agreementUrl);
+            onlineAgreementTemplateEntity.setBoolAllSign(true);
+            onlineAgreementTemplateEntity.setTemplateType(TemplateType.CONTRACT);
+            onlineAgreementTemplateEntity.setTemplateCount(1);
+            onlineAgreementTemplateEntity.setXCoordinate(100f);
+            onlineAgreementTemplateEntity.setYCoordinate(150f);
+            iOnlineAgreementTemplateService.save(onlineAgreementTemplateEntity);
+        }else{
+            onlineAgreementTemplateEntity.setTemplateState(TemplateState.APPLICATION);
+            onlineAgreementTemplateEntity.setAgreementTemplate(agreementUrl);
+            iOnlineAgreementTemplateService.saveOrUpdate(onlineAgreementTemplateEntity);
+        }
+        return R.success("修改成功");
+    }
+
+    @Override
+    public R querySupplementAgreement(Long objectId, ObjectType objectType, AgreementType agreementType) {
+        OnlineAgreementTemplateEntity entSerTemplateType = iOnlineAgreementTemplateService.findEntSerTemplateType(objectId, objectType, agreementType);
+        return R.data(entSerTemplateType);
+    }
+
+    @Override
+    public R queryContractTemplate() {
+        OnlineAgreementTemplateEntity makerJoinAgreement = iOnlineAgreementTemplateService.findTemplateType(AgreementType.MAKERJOINAGREEMENT, true);
+        OnlineAgreementTemplateEntity makerPowerAttorney = iOnlineAgreementTemplateService.findTemplateType(AgreementType.MAKERPOWERATTORNEY, true);
+        OnlineAgreementTemplateEntity entMakSupplementaryAgreement = iOnlineAgreementTemplateService.findTemplateType(AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT, true);
+        OnlineAgreementTemplateEntity serMakSupplementaryAgreement = iOnlineAgreementTemplateService.findTemplateType(AgreementType.SERMAKSUPPLEMENTARYAGREEMENT, true);
+        List<OnlineAgreementTemplateEntity> agreementTemplateEntities = new ArrayList<>();
+        agreementTemplateEntities.add(makerJoinAgreement);
+        agreementTemplateEntities.add(makerPowerAttorney);
+        agreementTemplateEntities.add(entMakSupplementaryAgreement);
+        agreementTemplateEntities.add(serMakSupplementaryAgreement);
+        return R.data(agreementTemplateEntities);
+    }
+
+    @Override
+    public AgreementEntity findByServiceProviderAndMakerSuppl(Long makerId, Long serviceProviderId) {
+        QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(AgreementEntity::getPartyA, ObjectType.SERVICEPEOPLE).eq(AgreementEntity::getPartyAId, serviceProviderId)
+                .eq(AgreementEntity::getPartyB, ObjectType.MAKERPEOPLE).eq(AgreementEntity::getPartyBId, makerId)
+                .eq(AgreementEntity::getAgreementType, AgreementType.SERMAKSUPPLEMENTARYAGREEMENT)
+                .eq(AgreementEntity::getSignState, SignState.SIGNED)
+                .eq(AgreementEntity::getAuditState, AuditState.APPROVED);
+        List<AgreementEntity> agreementEntities = baseMapper.selectList(queryWrapper);
+        if(null == agreementEntities || agreementEntities.size() == 0){
+            return null;
+        }
+        return agreementEntities.get(0);
+    }
+
+    @Override
+    public R<IPage<AgreementServiceVO>> queryServiceProviderToMakerSupplementList(Long serviceProviderId, IPage<AgreementServiceVO> page) {
+        return R.data(page.setRecords(baseMapper.queryServiceProviderToMakerSupplementList(serviceProviderId, page)));
+    }
+
+    @Override
+    public AgreementEntity findAdminMakerId1(Long makerId, AgreementType agreementType) {
+        if (!(AgreementType.MAKERJOINAGREEMENT.equals(agreementType) || AgreementType.MAKERPOWERATTORNEY.equals(agreementType))) {
+            return null;
+        }
+        QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(AgreementEntity::getPartyB, ObjectType.MAKERPEOPLE).eq(AgreementEntity::getPartyBId, makerId)
+                .eq(AgreementEntity::getAgreementType, agreementType);
+        AgreementEntity agreementEntity = baseMapper.selectOne(queryWrapper);
+        return agreementEntity;
+    }
+
 }

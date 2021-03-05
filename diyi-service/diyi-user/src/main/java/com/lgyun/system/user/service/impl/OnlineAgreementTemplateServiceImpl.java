@@ -2,6 +2,7 @@ package com.lgyun.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lgyun.common.enumeration.AgreementType;
+import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.enumeration.TemplateState;
 import com.lgyun.core.mp.base.BaseServiceImpl;
 import com.lgyun.system.user.entity.OnlineAgreementTemplateEntity;
@@ -27,8 +28,19 @@ public class OnlineAgreementTemplateServiceImpl extends BaseServiceImpl<OnlineAg
         QueryWrapper<OnlineAgreementTemplateEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(OnlineAgreementTemplateEntity::getAgreementType, agreementType)
                 .eq(OnlineAgreementTemplateEntity::getTemplateState, TemplateState.APPLICATION)
-                .eq(OnlineAgreementTemplateEntity::getBoolAllSign, boolAllSign);
+                .eq(OnlineAgreementTemplateEntity::getBoolAllSign, boolAllSign)
+                .eq(OnlineAgreementTemplateEntity::getObjectId, 0);
 
         return baseMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public OnlineAgreementTemplateEntity findEntSerTemplateType(Long objectId, ObjectType objectType, AgreementType agreementType) {
+        QueryWrapper<OnlineAgreementTemplateEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(OnlineAgreementTemplateEntity::getObjectType,objectType)
+                .eq(OnlineAgreementTemplateEntity::getObjectId,objectId)
+                .eq(OnlineAgreementTemplateEntity::getAgreementType,agreementType);
+        OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = baseMapper.selectOne(queryWrapper);
+        return onlineAgreementTemplateEntity;
     }
 }

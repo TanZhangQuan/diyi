@@ -401,6 +401,17 @@ public class PayMakerServiceImpl extends BaseServiceImpl<PayMakerMapper, PayMake
 
             //第三方支付手续费总额
             serviceFee = serviceFee.add(payEnterpriseExcel.getPayFee());
+
+            if(AuthorizationAudit.AUTHORIZED.equals(makerEntity.getAuthorizationAudit())){
+                Integer enterpriseCode = userClient.saveMerchantMakerSupplement(enterpriseId, makerEntity.getId());
+                if(enterpriseCode != 3){
+                    throw new CustomException(makerEntity.getName()+"创建商户补充协议异常");
+                }
+                Integer serviceProviderCode = userClient.saveServiceProviderMakerSupplement(serviceProviderId, makerEntity.getId());
+                if(serviceProviderCode != 3){
+                    throw new CustomException(makerEntity.getName()+"创建服务商补充协议异常");
+                }
+            }
         }
 
         //编辑支付清单

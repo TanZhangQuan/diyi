@@ -2,6 +2,7 @@ package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lgyun.common.enumeration.AgreementType;
+import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.common.enumeration.TemplateState;
 import com.lgyun.common.enumeration.TemplateType;
 import com.lgyun.core.mp.base.BaseEntity;
@@ -24,6 +25,15 @@ import lombok.NoArgsConstructor;
 public class OnlineAgreementTemplateEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 对象身份
+     */
+    private ObjectType objectType;
+
+    /**
+     * 对象ID
+     */
+    private Long objectId;
     /**
      * 协议类别
      */

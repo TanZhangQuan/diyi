@@ -1,6 +1,7 @@
 package com.lgyun.system.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.lgyun.common.enumeration.AuditState;
 import com.lgyun.common.enumeration.ObjectType;
 import com.lgyun.core.mp.base.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -36,4 +37,14 @@ public class OnlineSignPicEntity extends BaseEntity {
      * 签字笔迹URL
      */
     private String signPic;
+
+    /**
+     *审核状态
+     */
+    private AuditState auditState = AuditState.EDITING;
+
+    /**
+     * 驳回说明
+     */
+    private String rejectedExplanation;
 }

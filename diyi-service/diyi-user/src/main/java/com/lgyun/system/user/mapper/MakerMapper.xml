@@ -103,6 +103,9 @@
         <result property="phoneNumberVerifyStatus" column="phone_number_verify_status"/>
         <result property="boolPowerAttorney" column="bool_power_attorney"/>
         <result property="boolJoinAgreement" column="bool_join_agreement"/>
+        <result property="authorizationAudit" column="authorization_audit"/>
+        <result property="signPic" column="sign_pic"/>
+        <result property="auditState" column="audit_state"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
 
@@ -118,6 +121,7 @@
        <result property="boolPowerAttorney" column="bool_power_attorney"/>
         <result property="boolJoinAgreement" column="bool_join_agreement"/>
         <result property="videoAudit" column="video_audit"/>
+        <result property="authorizationAudit" column="authorization_audit"/>
         <result property="boolSupplementSign" column="bool_supplement_sign"/>
     </resultMap>
 
@@ -188,11 +192,11 @@
     </select>
 
     <select id="queryMakerList" resultMap="makerListWebVO">
-        SELECT t1.id, t1.name, t1.idcard_no, t1.phone_number, t1.bank_card_no, t1.idcard_verify_status, t1.face_verify_status, t1.bank_card_verify_status,
+        SELECT DISTINCT t1.id, t1.name, t1.idcard_no,t1.authorization_audit,p.sign_pic,p.audit_state, t1.phone_number, t1.bank_card_no, t1.idcard_verify_status, t1.face_verify_status, t1.bank_card_verify_status,
         t1.phone_number_verify_status, t1.create_time, IF((SELECT COUNT(id) FROM diyi_agreement WHERE agreement_type = 'MAKERPOWERATTORNEY' AND valid_state = 'VALIDING'
         AND party_b = 'MAKERPEOPLE' AND party_b_id = t1.id) > 0, TRUE, FALSE) AS bool_power_attorney, IF((SELECT COUNT(id) FROM diyi_agreement
         WHERE agreement_type = 'MAKERJOINAGREEMENT' AND valid_state = 'VALIDING' AND party_b = 'MAKERPEOPLE' AND party_b_id = t1.id) > 0, TRUE, FALSE) AS bool_join_agreement
-        FROM diyi_maker t1
+        FROM diyi_maker t1 LEFT JOIN diyi_online_sign_pic p on p.object_id = t1.id and p.object_type = 'MAKERPEOPLE'
         <if test="param1 != null">
             INNER JOIN diyi_maker_enterprise t2 ON t1.id = t2.maker_id AND t2.bool_deleted = 0 AND t2.enterprise_id = #{param1}
             <if test="param4 != null">
@@ -215,20 +219,29 @@
             OR t1.name LIKE concat('%', #{param6}, '%')
             OR t1.phone_number LIKE concat('%', #{param6}, '%'))
         </if>
-        GROUP BY t1.id
     </select>
 
+<!--    <select id="queryWorkMakerList" resultMap="makerWorkSheetListVO">-->
+<!--        SELECT t1.id, t1.name, t1.idcard_no, t1.phone_number,t1.authorization_audit, t1.idcard_verify_status, t1.face_verify_status, t1.bank_card_verify_status, t1.phone_number_verify_status,-->
+<!--        t1.video_audit, IF((SELECT COUNT(id) FROM diyi_agreement WHERE bool_deleted = 0 AND agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' AND valid_state = 'VALIDING'-->
+<!--        AND party_a = 'ENTERPRISEPEOPLE' AND party_a_id = t2.enterprise_id AND party_b = 'MAKERPEOPLE' AND party_b_id = t1.id) > 0, TRUE, FALSE) AS bool_supplement_sign,-->
+<!--        IF((SELECT COUNT(id) FROM diyi_agreement WHERE agreement_type = 'MAKERPOWERATTORNEY' AND valid_state = 'VALIDING' AND party_b = 'MAKERPEOPLE'-->
+<!--        AND party_b_id = t1.id) > 0, TRUE, FALSE) AS bool_power_attorney, IF((SELECT COUNT(id) FROM diyi_agreement WHERE agreement_type = 'MAKERJOINAGREEMENT'-->
+<!--        AND valid_state = 'VALIDING' AND party_b = 'MAKERPEOPLE' AND party_b_id = t1.id) > 0, TRUE, FALSE) AS bool_join_agreement-->
+<!--        FROM diyi_maker t1 INNER JOIN diyi_maker_enterprise t2 ON t2.maker_id = t1.id where t1.bool_deleted = 0 and t2.bool_deleted = 0 and t2.enterprise_id = #{param1}-->
+<!--        <if test="param2 != null and param2.trim() != ''">-->
+<!--            and t1.name LIKE concat('%', #{param2}, '%')-->
+<!--        </if>-->
+<!--    </select>-->
+
     <select id="queryWorkMakerList" resultMap="makerWorkSheetListVO">
-        SELECT t1.id, t1.name, t1.idcard_no, t1.phone_number, t1.idcard_verify_status, t1.face_verify_status, t1.bank_card_verify_status, t1.phone_number_verify_status,
-        t1.video_audit, IF((SELECT COUNT(id) FROM diyi_agreement WHERE bool_deleted = 0 AND agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' AND valid_state = 'VALIDING'
-        AND party_a = 'ENTERPRISEPEOPLE' AND party_a_id = t2.enterprise_id AND party_b = 'MAKERPEOPLE' AND party_b_id = t1.id) > 0, TRUE, FALSE) AS bool_supplement_sign,
-        IF((SELECT COUNT(id) FROM diyi_agreement WHERE agreement_type = 'MAKERPOWERATTORNEY' AND valid_state = 'VALIDING' AND party_b = 'MAKERPEOPLE'
-        AND party_b_id = t1.id) > 0, TRUE, FALSE) AS bool_power_attorney, IF((SELECT COUNT(id) FROM diyi_agreement WHERE agreement_type = 'MAKERJOINAGREEMENT'
-        AND valid_state = 'VALIDING' AND party_b = 'MAKERPEOPLE' AND party_b_id = t1.id) > 0, TRUE, FALSE) AS bool_join_agreement
-        FROM diyi_maker t1 INNER JOIN diyi_maker_enterprise t2 ON t2.maker_id = t1.id where t1.bool_deleted = 0 and t2.bool_deleted = 0 and t2.enterprise_id = #{param1}
+        SELECT DISTINCT tmp.id, tmp. name, tmp.idcard_no,tmp.authorization_audit, tmp.phone_number, tmp.idcard_verify_status, tmp.face_verify_status, tmp.bank_card_verify_status, tmp.phone_number_verify_status, tmp.video_audit, tmp.bool_supplement_sign, tmp.bool_power_attorney, tmp.bool_join_agreement
+        FROM ( SELECT t1.id,t1.authorization_audit, t1.NAME, t1.idcard_no, t1.phone_number, t1.idcard_verify_status, t1.face_verify_status, t1.bank_card_verify_status, t1.phone_number_verify_status, t1.video_audit, IF (( SELECT COUNT(id) FROM diyi_agreement WHERE bool_deleted = 0 AND agreement_type = 'ENTMAKSUPPLEMENTARYAGREEMENT' AND valid_state = 'VALIDING' AND party_a = 'ENTERPRISEPEOPLE' AND party_a_id = t2.enterprise_id AND party_b = 'MAKERPEOPLE' AND party_b_id = t1.id ) > 0, TRUE, FALSE ) AS bool_supplement_sign, IF (( SELECT COUNT(id) FROM diyi_agreement WHERE agreement_type = 'MAKERPOWERATTORNEY' AND valid_state = 'VALIDING' AND party_b = 'MAKERPEOPLE' AND party_b_id = t1.id ) > 0, TRUE, FALSE ) AS bool_power_attorney, IF (( SELECT COUNT(id) FROM diyi_agreement WHERE agreement_type = 'MAKERJOINAGREEMENT' AND valid_state = 'VALIDING' AND party_b = 'MAKERPEOPLE' AND party_b_id = t1.id ) > 0, TRUE, FALSE ) AS bool_join_agreement FROM diyi_maker t1 INNER JOIN diyi_maker_enterprise t2 ON t2.maker_id = t1.id WHERE t1.bool_deleted = 0 AND t2.bool_deleted = 0 AND t2.enterprise_id = #{param1}
+        UNION ALL SELECT t1.id, t1.authorization_audit,t1. NAME, t1.idcard_no, t1.phone_number, t1.idcard_verify_status, t1.face_verify_status, t1.bank_card_verify_status, t1.phone_number_verify_status, t1.video_audit, 0 AS bool_supplement_sign, IF (( SELECT COUNT(id) FROM diyi_agreement WHERE agreement_type = 'MAKERPOWERATTORNEY' AND valid_state = 'VALIDING' AND party_b = 'MAKERPEOPLE' AND party_b_id = t1.id ) > 0, TRUE, FALSE ) AS bool_power_attorney, IF (( SELECT COUNT(id) FROM diyi_agreement WHERE agreement_type = 'MAKERJOINAGREEMENT' AND valid_state = 'VALIDING' AND party_b = 'MAKERPEOPLE' AND party_b_id = t1.id ) > 0, TRUE, FALSE ) AS bool_join_agreement FROM diyi_maker t1 WHERE t1.bool_deleted = 0 AND t1.authorization_audit = 'AUTHORIZED' ) tmp WHERE 1 = 1
         <if test="param2 != null and param2.trim() != ''">
-            and t1.name LIKE concat('%', #{param2}, '%')
+            and tmp.name LIKE concat('%', #{param2}, '%')
         </if>
+         GROUP BY tmp.id
     </select>
 
     <select id="queryMakerSelectList" resultMap="makerSelectListVO">

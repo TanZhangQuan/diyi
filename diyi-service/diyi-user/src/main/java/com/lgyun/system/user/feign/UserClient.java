@@ -38,6 +38,7 @@ public class UserClient implements IUserClient {
     private IServiceProviderWorkerService serviceProviderWorkerService;
     private IEnterpriseServiceProviderService enterpriseServiceProviderService;
     private IServiceProviderMakerService serviceProviderMakerService;
+    private IOnlineSignPicService onlineSignPicService;
 
     @Override
     public R<AdminEntity> currentAdmin(BladeUser bladeUser) {
@@ -766,5 +767,16 @@ public class UserClient implements IUserClient {
     @Override
     public void associatedServiceProviderMaker(Long enterpriseId, Long serviceProviderId, Long makerId, ServiceProviderMakerRelType relType) {
         serviceProviderMakerService.associatedServiceProviderMaker(enterpriseId, serviceProviderId, makerId, relType);
+    }
+
+
+    @Override
+    public Integer saveMerchantMakerSupplement(Long enterpriseId, Long makerId) {
+        return onlineSignPicService.saveMerchantMakerSupplement(enterpriseId,makerId);
+    }
+
+    @Override
+    public Integer saveServiceProviderMakerSupplement(Long serviceProviderId, Long makerId) {
+        return onlineSignPicService.saveServiceProviderMakerSupplement(serviceProviderId,makerId);
     }
 }

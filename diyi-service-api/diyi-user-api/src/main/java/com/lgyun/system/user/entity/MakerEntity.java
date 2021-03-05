@@ -264,4 +264,19 @@ public class MakerEntity extends BaseEntity {
      */
     private Long videoAuditPersonId;
 
+    /**
+     * 一建授权状态
+     */
+    private AuthorizationAudit authorizationAudit = AuthorizationAudit.UNAUTHORIZED;
+
+    /**
+     * 授权审核日期
+     */
+    private Date authorizationAuditDate;
+
+    /**
+     * 授权审核人员
+     */
+    private Long authorizationAuditPersonId;
+
 }

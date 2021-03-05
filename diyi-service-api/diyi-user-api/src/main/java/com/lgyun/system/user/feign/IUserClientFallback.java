@@ -271,4 +271,13 @@ public class IUserClientFallback implements IUserClient {
         throw new CustomException("网络繁忙，请稍后尝试");
     }
 
+    @Override
+    public Integer saveMerchantMakerSupplement(Long enterpriseId, Long makerId) {
+        throw new CustomException("网络繁忙，请稍后尝试");
+    }
+
+    @Override
+    public Integer saveServiceProviderMakerSupplement(Long serviceProviderId, Long makerId) {
+        throw new CustomException("网络繁忙，请稍后尝试");
+    }
 }

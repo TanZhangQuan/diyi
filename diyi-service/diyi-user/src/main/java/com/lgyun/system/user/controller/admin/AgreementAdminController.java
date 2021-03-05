@@ -141,6 +141,18 @@ public class AgreementAdminController {
         return agreementService.queryEnterpriseServiceProviderSupplement(null, enterpriseId, Condition.getPage(query.setDescs("a.create_time")));
     }
 
+    @GetMapping("/query-service-provider-to-maker-supplement-list")
+    @ApiOperation(value = "平台根据服务商id查询合作服务商和创客补充协议", notes = "平台根据服务商id查询合作服务商和创客补充协议")
+    public R queryServiceProviderToMakerSupplementList(@ApiParam(value = "服务商") @NotNull(message = "请选择服务商") @RequestParam(required = false) Long serviceProviderId, Query query, BladeUser bladeUser) {
+        //查询当前管理员
+        R<AdminEntity> result = adminService.currentAdmin(bladeUser);
+        if (!(result.isSuccess())) {
+            return result;
+        }
+
+        return agreementService.queryServiceProviderToMakerSupplementList(serviceProviderId, Condition.getPage(query.setDescs("a.create_time")));
+    }
+
     @GetMapping("/query-enterprise-promise-list")
     @ApiOperation(value = "根据商户查询商户业务真实性承诺函", notes = "根据商户查询商户业务真实性承诺函")
     public R queryEnterprisePromiseList(@ApiParam(value = "商户") @NotNull(message = "请选择商户") @RequestParam(required = false) Long enterpriseId, Query query, BladeUser bladeUser) {
