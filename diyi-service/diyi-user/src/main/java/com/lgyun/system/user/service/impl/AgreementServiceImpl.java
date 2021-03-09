@@ -58,7 +58,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(AgreementEntity::getPartyB, ObjectType.MAKERPEOPLE).eq(AgreementEntity::getPartyBId, makerId)
                 .eq(AgreementEntity::getSignType, SignType.PLATFORMAGREEMENT)
-                .eq(AgreementEntity::getOnlineAgreementTemplateId, onlineAgreementTemplateId);
+                .eq(onlineAgreementTemplateId != null, AgreementEntity::getOnlineAgreementTemplateId, onlineAgreementTemplateId);
         AgreementEntity agreementEntity = baseMapper.selectOne(queryWrapper);
 
         Map map = new HashMap();
@@ -510,17 +510,17 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
     }
 
     @Override
-    public R uploadSupplementAgreementTemplate(Long objectId, ObjectType objectType, String agreementUrl,AgreementType agreementType) {
+    public R uploadSupplementAgreementTemplate(Long objectId, ObjectType objectType, String agreementUrl, AgreementType agreementType) {
         OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = iOnlineAgreementTemplateService.findEntSerTemplateType(objectId, objectType, agreementType);
-        if(null == onlineAgreementTemplateEntity){
+        if (null == onlineAgreementTemplateEntity) {
             onlineAgreementTemplateEntity = new OnlineAgreementTemplateEntity();
             onlineAgreementTemplateEntity.setObjectId(objectId);
             onlineAgreementTemplateEntity.setObjectType(objectType);
-            if(ObjectType.ENTERPRISEPEOPLE.equals(objectType)){
+            if (ObjectType.ENTERPRISEPEOPLE.equals(objectType)) {
                 onlineAgreementTemplateEntity.setAgreementType(AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT);
             }
 
-            if(ObjectType.SERVICEPEOPLE.equals(objectType)){
+            if (ObjectType.SERVICEPEOPLE.equals(objectType)) {
                 onlineAgreementTemplateEntity.setAgreementType(AgreementType.SERMAKSUPPLEMENTARYAGREEMENT);
             }
             onlineAgreementTemplateEntity.setTemplateState(TemplateState.APPLICATION);
@@ -531,7 +531,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
             onlineAgreementTemplateEntity.setXCoordinate(100f);
             onlineAgreementTemplateEntity.setYCoordinate(150f);
             iOnlineAgreementTemplateService.save(onlineAgreementTemplateEntity);
-        }else{
+        } else {
             onlineAgreementTemplateEntity.setTemplateState(TemplateState.APPLICATION);
             onlineAgreementTemplateEntity.setAgreementTemplate(agreementUrl);
             iOnlineAgreementTemplateService.saveOrUpdate(onlineAgreementTemplateEntity);
@@ -568,7 +568,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
                 .eq(AgreementEntity::getSignState, SignState.SIGNED)
                 .eq(AgreementEntity::getAuditState, AuditState.APPROVED);
         List<AgreementEntity> agreementEntities = baseMapper.selectList(queryWrapper);
-        if(null == agreementEntities || agreementEntities.size() == 0){
+        if (null == agreementEntities || agreementEntities.size() == 0) {
             return null;
         }
         return agreementEntities.get(0);
