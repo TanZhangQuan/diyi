@@ -28,6 +28,9 @@ public class UpdateEnterpriseDTO implements Serializable {
     @NotBlank(message = "请输入法人")
     private String legalPersonName;
 
+    @ApiModelProperty(value = "法人手机号")
+    private String legalPersonMobile;
+
     @ApiModelProperty(value = "法人身份证")
     private String legalPersonIdcard;
 

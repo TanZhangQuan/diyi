@@ -351,28 +351,10 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return R.fail("身份证已认证");
         }
 
-        //身份证信息获取
-        R<JSONObject> OcrResult = RealnameVerifyUtil.idcardOCR(idcardVerifyDTO.getIdcardPic());
-        log.info("身份证识别信息请求返回参数：{}", OcrResult);
-        if (!(OcrResult.isSuccess())) {
-            return OcrResult;
-        }
-
-        JSONObject jsonObject = OcrResult.getData();
-        if (StringUtils.isBlank(jsonObject.getString("name")) || StringUtils.isBlank(jsonObject.getString("idNo"))) {
-            return R.fail("身份证识别信息缺失");
-        }
-
         //身份证号码
-        String idNo = jsonObject.getString("idNo");
+        String idNo = idcardVerifyDTO.getIdcardNo();
         //真实姓名
-        String name = jsonObject.getString("name");
-
-        //查询身份证号码是否已被使用
-        MakerEntity makerEntityIdcardNo = findByIdcardNo(idNo);
-        if (makerEntityIdcardNo != null && !(makerEntityIdcardNo.getId().equals(makerEntity.getId()))) {
-            return R.fail("身份证号码已被使用");
-        }
+        String name = idcardVerifyDTO.getName();
 
         //身份证认证
         R<JSONObject> verifyResult = RealnameVerifyUtil.idcardVerify(idNo, name);
@@ -381,8 +363,12 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
             return verifyResult;
         }
 
-        makerEntity.setIdcardNo(idNo);
-        makerEntity.setName(name);
+        //查询身份证号码是否已被使用
+        MakerEntity makerEntityIdcardNo = findByIdcardNo(idNo);
+        if (makerEntityIdcardNo != null && !(makerEntityIdcardNo.getId().equals(makerEntity.getId()))) {
+            return R.fail("身份证号码已被使用");
+        }
+
         BeanUtils.copyProperties(idcardVerifyDTO, makerEntity);
         makerEntity.setIdcardVerifyStatus(VerifyStatus.VERIFYPASS);
         makerEntity.setIdcardVerifyType(IdcardVerifyType.SYSTEMVERIFY);

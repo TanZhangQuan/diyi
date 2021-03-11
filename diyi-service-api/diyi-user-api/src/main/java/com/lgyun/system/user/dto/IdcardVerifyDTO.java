@@ -20,6 +20,14 @@ public class IdcardVerifyDTO implements Serializable {
     @NotBlank(message = "请上传身份证反面图")
     private String idcardPicBack;
 
+    @ApiModelProperty(value = "姓名")
+    @NotBlank(message = "请输入姓名")
+    private String name;
+
+    @ApiModelProperty(value = "身份证号码")
+    @NotBlank(message = "请输入身份证号码")
+    private String idcardNo;
+
     @ApiModelProperty(value = "手持证件正面照")
 //    @NotBlank(message = "请上传手持证件正面照")
     private String idcardHand;

@@ -44,6 +44,11 @@ public class EnterpriseEntity extends BaseEntity {
     private String legalPersonName;
 
     /**
+     * 法人手机号
+     */
+    private String legalPersonMobile;
+
+    /**
      * 法人身份证
      */
     private String legalPersonIdcard;
