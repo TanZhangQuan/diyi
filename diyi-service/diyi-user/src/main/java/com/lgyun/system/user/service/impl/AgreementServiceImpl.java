@@ -496,8 +496,11 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
                 .eq(AgreementEntity::getAgreementType, AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT)
                 .eq(AgreementEntity::getSignState, SignState.SIGNED)
                 .eq(AgreementEntity::getAuditState, AuditState.APPROVED);
-        AgreementEntity agreementEntity = baseMapper.selectOne(queryWrapper);
-        return agreementEntity;
+        List<AgreementEntity> agreementEntities = baseMapper.selectList(queryWrapper);
+        if(null == agreementEntities || agreementEntities.size() <= 0){
+            return null;
+        }
+        return agreementEntities.get(0);
     }
 
     @Override
