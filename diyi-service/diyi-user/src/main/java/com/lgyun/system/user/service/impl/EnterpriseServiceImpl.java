@@ -296,6 +296,9 @@ public class EnterpriseServiceImpl extends BaseServiceImpl<EnterpriseMapper, Ent
         BeanUtil.copy(updateEnterpriseDTO, enterpriseWorkerEntity);
         enterpriseWorkerService.updateById(enterpriseWorkerEntity);
 
+        BeanUtil.copy(updateEnterpriseDTO, enterpriseEntity);
+        updateById(enterpriseEntity);
+
         return R.success(BladeConstant.DEFAULT_SUCCESS_MESSAGE);
     }
 
