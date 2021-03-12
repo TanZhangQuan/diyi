@@ -51,6 +51,7 @@
         <result property="id" column="id"/>
         <result property="enterpriseName" column="enterprise_name"/>
         <result property="legalPersonName" column="legal_person_name"/>
+        <result property="legalPersonMobile" column="legal_person_mobile"/>
         <result property="legalPersonIdcard" column="legal_person_idcard"/>
         <result property="socialCreditNo" column="social_credit_no"/>
         <result property="bizLicenceUrl" column="biz_licence_url"/>
@@ -195,7 +196,7 @@
     </select>
 
     <select id="queryEnterpriseUpdateDetail" resultMap="enterpriseUpdateDetailVO">
-        SELECT t1.id, t1.enterprise_name, t1.legal_person_name, t1.legal_person_idcard, t1.social_credit_no, t1.biz_licence_url, t1.enterprise_url,
+        SELECT t1.id, t1.enterprise_name, t1.legal_person_name, t1.legal_person_mobile, t1.legal_person_idcard, t1.social_credit_no, t1.biz_licence_url, t1.enterprise_url,
         t1.contact1_name, t1.contact1_position, t1.contact1_phone, t1.contact1_mail, t1.contact2_name, t1.contact2_position, t1.contact2_phone,
         t1.contact2_mail, t1.invoice_enterprise_name, t1.invoice_tax_no, t1.invoice_address_phone, t1.invoice_bank_name_account, t2.employee_user_name, t2.phone_number,
         t2.worker_name, (SELECT GROUP_CONCAT(agreement_url) FROM diyi_agreement WHERE bool_deleted = 0 AND agreement_type = 'ENTERPRISEJOINAGREEMENT' AND valid_state = 'VALIDING'

@@ -23,6 +23,9 @@ public class EnterpriseUpdateDetailVO implements Serializable {
     @ApiModelProperty(value = "法人")
     private String legalPersonName;
 
+    @ApiModelProperty(value = "法人手机号")
+    private String legalPersonMobile;
+
     @ApiModelProperty(value = "法人身份证")
     private String legalPersonIdcard;
 
