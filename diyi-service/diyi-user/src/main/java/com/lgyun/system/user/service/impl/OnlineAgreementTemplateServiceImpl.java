@@ -28,8 +28,7 @@ public class OnlineAgreementTemplateServiceImpl extends BaseServiceImpl<OnlineAg
         QueryWrapper<OnlineAgreementTemplateEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(OnlineAgreementTemplateEntity::getAgreementType, agreementType)
                 .eq(OnlineAgreementTemplateEntity::getTemplateState, TemplateState.APPLICATION)
-                .eq(OnlineAgreementTemplateEntity::getBoolAllSign, boolAllSign)
-                .eq(OnlineAgreementTemplateEntity::getObjectId, 0);
+                .eq(OnlineAgreementTemplateEntity::getBoolAllSign, boolAllSign);
 
         return baseMapper.selectOne(queryWrapper);
     }
