@@ -590,8 +590,11 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         QueryWrapper<AgreementEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(AgreementEntity::getPartyB, ObjectType.MAKERPEOPLE).eq(AgreementEntity::getPartyBId, makerId)
                 .eq(AgreementEntity::getAgreementType, agreementType);
-        AgreementEntity agreementEntity = baseMapper.selectOne(queryWrapper);
-        return agreementEntity;
+        List<AgreementEntity> agreementEntities = baseMapper.selectList(queryWrapper);
+        if(null == agreementEntities || agreementEntities.size() <= 0){
+            return null;
+        }
+        return agreementEntities.get(0);
     }
 
 }

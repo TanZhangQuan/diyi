@@ -282,6 +282,8 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
                 confirmationSignature(makerId, ObjectType.MAKERPEOPLE, onlineSignPicEntity.getSignPic(), onlineAgreementTemplateEntity1.getId(), onlineAgreementNeedSignEntity1.getId());
             }
             makerEntity.setAuthorizationAudit(AuthorizationAudit.AUTHORIZED);
+            makerEntity.setCertificationState(CertificationState.CERTIFIED);
+            makerEntity.setCertificationDate(new Date());
             makerService.saveOrUpdate(makerEntity);
             return R.success("审核成功");
         }else{
