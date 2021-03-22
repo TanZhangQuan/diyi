@@ -144,71 +144,72 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
             onlineSignPicEntity.setSignPic(signPic);
             onlineSignPicEntity.setAuditState(AuditState.EDITING);
             save(onlineSignPicEntity);
-        }else if(AuditState.REJECTED.equals(onlineSignPicEntity.getAuditState())){
+        } else if (AuditState.REJECTED.equals(onlineSignPicEntity.getAuditState())) {
             onlineSignPicEntity.setSignPic(signPic);
             saveOrUpdate(onlineSignPicEntity);
-        }else if(AuditState.EDITING.equals(onlineSignPicEntity.getAuditState())){
+        } else if (AuditState.EDITING.equals(onlineSignPicEntity.getAuditState())) {
             onlineSignPicEntity.setSignPic(signPic);
             saveOrUpdate(onlineSignPicEntity);
         }
         return R.success("成功");
     }
+
     @Override
-    public R whetherAutograph(ObjectType objectType,Long objectId) {
+    public R whetherAutograph(ObjectType objectType, Long objectId) {
         MakerEntity makerEntity = makerService.getById(objectId);
 
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         QueryWrapper<OnlineSignPicEntity> queryWrapper = new QueryWrapper();
-        queryWrapper.lambda().eq(OnlineSignPicEntity::getObjectType,objectType)
-                .eq(OnlineSignPicEntity::getObjectId,objectId);
+        queryWrapper.lambda().eq(OnlineSignPicEntity::getObjectType, objectType)
+                .eq(OnlineSignPicEntity::getObjectId, objectId);
 
         List<OnlineSignPicEntity> onlineSignPicEntities = baseMapper.selectList(queryWrapper);
-        if(null == onlineSignPicEntities || onlineSignPicEntities.size() == 0){
-            map.put("state",0);
-            map.put("content","");
+        if (null == onlineSignPicEntities || onlineSignPicEntities.size() == 0) {
+            map.put("state", 0);
+            map.put("content", "");
             return R.data(map);
         }
         OnlineSignPicEntity onlineSignPicEntity = onlineSignPicEntities.get(0);
-        if((null == onlineSignPicEntity || StringUtils.isBlank(onlineSignPicEntity.getSignPic()))){
-            map.put("state",0);
-            map.put("content","");
+        if ((null == onlineSignPicEntity || StringUtils.isBlank(onlineSignPicEntity.getSignPic()))) {
+            map.put("state", 0);
+            map.put("content", "");
             return R.data(map);
         }
-        if(AuditState.EDITING.equals(onlineSignPicEntity.getAuditState())){
-            map.put("state",1);
-            map.put("content",onlineSignPicEntity.getSignPic());
+        if (AuditState.EDITING.equals(onlineSignPicEntity.getAuditState())) {
+            map.put("state", 1);
+            map.put("content", onlineSignPicEntity.getSignPic());
             return R.data(map);
         }
-        if(AuditState.REJECTED.equals(onlineSignPicEntity.getAuditState())){
-            map.put("state",2);
-            map.put("content",onlineSignPicEntity.getSignPic());
-            map.put("rejectedExplanation",onlineSignPicEntity.getRejectedExplanation());
+        if (AuditState.REJECTED.equals(onlineSignPicEntity.getAuditState())) {
+            map.put("state", 2);
+            map.put("content", onlineSignPicEntity.getSignPic());
+            map.put("rejectedExplanation", onlineSignPicEntity.getRejectedExplanation());
             return R.data(map);
         }
-        if(AuditState.APPROVED.equals(onlineSignPicEntity.getAuditState()) && AuthorizationAudit.AUTHORIZED.equals(makerEntity.getAuthorizationAudit())){
-            SimpleDateFormat sdf2= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            map.put("state",3);
-            map.put("content",onlineSignPicEntity.getSignPic());
-            map.put("time",sdf2.format(onlineSignPicEntity.getCreateTime()));
+        if (AuditState.APPROVED.equals(onlineSignPicEntity.getAuditState()) && AuthorizationAudit.AUTHORIZED.equals(makerEntity.getAuthorizationAudit())) {
+            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            map.put("state", 3);
+            map.put("content", onlineSignPicEntity.getSignPic());
+            map.put("time", sdf2.format(onlineSignPicEntity.getCreateTime()));
             return R.data(map);
-        }else{
-            map.put("state",0);
-            map.put("content",onlineSignPicEntity.getSignPic());
+        } else {
+            map.put("state", 0);
+            map.put("content", onlineSignPicEntity.getSignPic());
             return R.data(map);
         }
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<String> oneClickAuthorization(Long makerId,String signPic) {
+    public R<String> oneClickAuthorization(Long makerId, String signPic) {
         MakerEntity makerEntity = makerService.getById(makerId);
-        if(null == makerEntity){
+        if (null == makerEntity) {
             return R.fail("用户不存在");
         }
         List<OnlineSignPicEntity> onlineSignPicEntities = baseMapper.selectList(new QueryWrapper<OnlineSignPicEntity>().lambda()
                 .eq(OnlineSignPicEntity::getObjectType, ObjectType.MAKERPEOPLE)
                 .eq(OnlineSignPicEntity::getObjectId, makerId));
-        if(null == onlineSignPicEntities || onlineSignPicEntities.size() == 0){
+        if (null == onlineSignPicEntities || onlineSignPicEntities.size() == 0) {
             OnlineSignPicEntity onlineSignPicEntity = new OnlineSignPicEntity();
             onlineSignPicEntity.setSignPic(signPic);
             onlineSignPicEntity.setObjectType(ObjectType.MAKERPEOPLE);
@@ -216,15 +217,15 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
             onlineSignPicEntity.setAuditState(AuditState.EDITING);
             save(onlineSignPicEntity);
             return R.success("授权成功,请耐心等待审核");
-        }else if(AuditState.EDITING.equals(onlineSignPicEntities.get(0).getAuditState())){
+        } else if (AuditState.EDITING.equals(onlineSignPicEntities.get(0).getAuditState())) {
             return R.success("已经授权,请耐心等待审核");
-        }else if(AuditState.REJECTED.equals(onlineSignPicEntities.get(0).getAuditState())){
+        } else if (AuditState.REJECTED.equals(onlineSignPicEntities.get(0).getAuditState())) {
             OnlineSignPicEntity onlineSignPicEntity = onlineSignPicEntities.get(0);
             onlineSignPicEntity.setSignPic(signPic);
             onlineSignPicEntity.setAuditState(AuditState.EDITING);
             saveOrUpdate(onlineSignPicEntity);
             return R.success("授权成功,请耐心等待审核");
-        }else{
+        } else {
             return R.success("已经授权");
         }
     }
@@ -233,13 +234,13 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
     @Transactional(rollbackFor = Exception.class)
     public R<String> relieveOneClickAuthorization(Long makerId) {
         MakerEntity makerEntity = makerService.getById(makerId);
-        if(null == makerEntity){
+        if (null == makerEntity) {
             return R.fail("用户不存在");
         }
         List<OnlineSignPicEntity> onlineSignPicEntities = baseMapper.selectList(new QueryWrapper<OnlineSignPicEntity>().lambda()
                 .eq(OnlineSignPicEntity::getObjectType, ObjectType.MAKERPEOPLE)
                 .eq(OnlineSignPicEntity::getObjectId, makerId));
-        if(null == onlineSignPicEntities || onlineSignPicEntities.size() == 0){
+        if (null == onlineSignPicEntities || onlineSignPicEntities.size() == 0) {
             return R.fail("没有授权信息");
         }
         OnlineSignPicEntity onlineSignPicEntity = onlineSignPicEntities.get(0);
@@ -255,39 +256,41 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
     @Transactional(rollbackFor = Exception.class)
     public R toExamineAuthorization(Long makerId, AuditState auditState, String rejectedExplanation) {
         MakerEntity makerEntity = makerService.getById(makerId);
-        if(null == makerEntity){
+        if (null == makerEntity) {
             return R.fail("创客不能为空");
         }
-        if(AuditState.EDITING.equals(auditState)){
+        if (AuditState.EDITING.equals(auditState)) {
             return R.fail("审核状态有误");
         }
         QueryWrapper<OnlineSignPicEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(OnlineSignPicEntity::getObjectId,makerId).eq(OnlineSignPicEntity::getObjectType,ObjectType.MAKERPEOPLE);
+        queryWrapper.lambda().eq(OnlineSignPicEntity::getObjectId, makerId).eq(OnlineSignPicEntity::getObjectType, ObjectType.MAKERPEOPLE);
         OnlineSignPicEntity onlineSignPicEntity = baseMapper.selectOne(queryWrapper);
-        if(AuditState.APPROVED.equals(auditState)){
+        if (AuditState.APPROVED.equals(auditState)) {
             onlineSignPicEntity.setAuditState(auditState);
             saveOrUpdate(onlineSignPicEntity);
             //加盟
             AgreementEntity adminMakerId = agreementService.findAdminMakerId1(makerId, AgreementType.MAKERJOINAGREEMENT);
-            if(null == adminMakerId){
+            if (null == adminMakerId) {
                 OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = onlineAgreementTemplateService.findTemplateType(AgreementType.MAKERJOINAGREEMENT, true);
                 OnlineAgreementNeedSignEntity onlineAgreementNeedSignEntity = onlineAgreementNeedSignService.findByonlineAgreementTemplateIdAndobjectTypeAndobjectId(onlineAgreementTemplateEntity.getId(), ObjectType.MAKERPEOPLE, SignPower.PARTYB, makerId);
                 confirmationSignature(makerId, ObjectType.MAKERPEOPLE, onlineSignPicEntity.getSignPic(), onlineAgreementTemplateEntity.getId(), onlineAgreementNeedSignEntity.getId());
             }
             //授权
             AgreementEntity adminMakerId1 = agreementService.findAdminMakerId1(makerId, AgreementType.MAKERPOWERATTORNEY);
-            if(null == adminMakerId1){
+            if (null == adminMakerId1) {
                 OnlineAgreementTemplateEntity onlineAgreementTemplateEntity1 = onlineAgreementTemplateService.findTemplateType(AgreementType.MAKERPOWERATTORNEY, true);
                 OnlineAgreementNeedSignEntity onlineAgreementNeedSignEntity1 = onlineAgreementNeedSignService.findByonlineAgreementTemplateIdAndobjectTypeAndobjectId(onlineAgreementTemplateEntity1.getId(), ObjectType.MAKERPEOPLE, SignPower.PARTYB, makerId);
                 confirmationSignature(makerId, ObjectType.MAKERPEOPLE, onlineSignPicEntity.getSignPic(), onlineAgreementTemplateEntity1.getId(), onlineAgreementNeedSignEntity1.getId());
             }
             makerEntity.setAuthorizationAudit(AuthorizationAudit.AUTHORIZED);
-            makerEntity.setCertificationState(CertificationState.CERTIFIED);
+            if (VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus())) {
+                makerEntity.setCertificationState(CertificationState.CERTIFIED);
+            }
             makerEntity.setCertificationDate(new Date());
             makerService.saveOrUpdate(makerEntity);
             return R.success("审核成功");
-        }else{
-            if(StringUtils.isBlank(rejectedExplanation)){
+        } else {
+            if (StringUtils.isBlank(rejectedExplanation)) {
                 return R.fail("驳回内容不能为空！！");
             }
             onlineSignPicEntity.setAuditState(auditState);
@@ -301,29 +304,29 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
     @Override
     public Integer saveMerchantMakerSupplement(Long enterpriseId, Long makerId) {
         AgreementEntity byEnterpriseAndMakerSuppl = agreementService.findByEnterpriseAndMakerSuppl(makerId, enterpriseId);
-        if(byEnterpriseAndMakerSuppl != null){
+        if (byEnterpriseAndMakerSuppl != null) {
             return 3;
         }
         PDFUtil pdfUtil = new PDFUtil();
         OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = onlineAgreementTemplateService.findEntSerTemplateType(enterpriseId, ObjectType.ENTERPRISEPEOPLE, AgreementType.ENTMAKSUPPLEMENTARYAGREEMENT);
-        if(null == onlineAgreementTemplateEntity){
+        if (null == onlineAgreementTemplateEntity) {
             return 0;
         }
         QueryWrapper<OnlineSignPicEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(OnlineSignPicEntity::getObjectId,makerId).eq(OnlineSignPicEntity::getObjectType,ObjectType.MAKERPEOPLE);
+        queryWrapper.lambda().eq(OnlineSignPicEntity::getObjectId, makerId).eq(OnlineSignPicEntity::getObjectType, ObjectType.MAKERPEOPLE);
         OnlineSignPicEntity onlineSignPicEntity = baseMapper.selectOne(queryWrapper);
-        if(!AuditState.APPROVED.equals(onlineSignPicEntity.getAuditState()) || StringUtils.isBlank(onlineSignPicEntity.getSignPic())){
+        if (!AuditState.APPROVED.equals(onlineSignPicEntity.getAuditState()) || StringUtils.isBlank(onlineSignPicEntity.getSignPic())) {
             return 1;
         }
         String pdf = "";
-        try{
+        try {
             Map map = pdfUtil.addPdf(onlineAgreementTemplateEntity.getAgreementTemplate(), 1, onlineSignPicEntity.getSignPic(), 100, 100);
             FileInputStream fileInputStream = (FileInputStream) map.get("fileInputStream");
             File file = (File) map.get("htmlFile");
             pdf = ossService.uploadSuffix(fileInputStream, ".pdf");
             fileInputStream.close();
             file.delete();
-        }catch (Exception e){
+        } catch (Exception e) {
             return 2;
         }
         AgreementEntity agreementEntity = new AgreementEntity();
@@ -346,29 +349,29 @@ public class OnlineSignPicServiceImpl extends BaseServiceImpl<OnlineSignPicMappe
     @Override
     public Integer saveServiceProviderMakerSupplement(Long serviceProviderId, Long makerId) {
         AgreementEntity byEnterpriseAndMakerSuppl = agreementService.findByServiceProviderAndMakerSuppl(makerId, serviceProviderId);
-        if(byEnterpriseAndMakerSuppl != null){
+        if (byEnterpriseAndMakerSuppl != null) {
             return 3;
         }
         PDFUtil pdfUtil = new PDFUtil();
         OnlineAgreementTemplateEntity onlineAgreementTemplateEntity = onlineAgreementTemplateService.findEntSerTemplateType(serviceProviderId, ObjectType.SERVICEPEOPLE, AgreementType.SERMAKSUPPLEMENTARYAGREEMENT);
-        if(null == onlineAgreementTemplateEntity){
+        if (null == onlineAgreementTemplateEntity) {
             return 0;
         }
         QueryWrapper<OnlineSignPicEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(OnlineSignPicEntity::getObjectId,makerId).eq(OnlineSignPicEntity::getObjectType,ObjectType.MAKERPEOPLE);
+        queryWrapper.lambda().eq(OnlineSignPicEntity::getObjectId, makerId).eq(OnlineSignPicEntity::getObjectType, ObjectType.MAKERPEOPLE);
         OnlineSignPicEntity onlineSignPicEntity = baseMapper.selectOne(queryWrapper);
-        if(!AuditState.APPROVED.equals(onlineSignPicEntity.getAuditState()) || StringUtils.isBlank(onlineSignPicEntity.getSignPic())){
+        if (!AuditState.APPROVED.equals(onlineSignPicEntity.getAuditState()) || StringUtils.isBlank(onlineSignPicEntity.getSignPic())) {
             return 1;
         }
         String pdf = "";
-        try{
+        try {
             Map map = pdfUtil.addPdf(onlineAgreementTemplateEntity.getAgreementTemplate(), 1, onlineSignPicEntity.getSignPic(), 100, 100);
             FileInputStream fileInputStream = (FileInputStream) map.get("fileInputStream");
             File file = (File) map.get("htmlFile");
             pdf = ossService.uploadSuffix(fileInputStream, ".pdf");
             fileInputStream.close();
             file.delete();
-        }catch (Exception e){
+        } catch (Exception e) {
             return 2;
         }
         AgreementEntity agreementEntity = new AgreementEntity();
