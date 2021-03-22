@@ -315,5 +315,11 @@ public interface IMakerService extends BaseService<MakerEntity> {
      * @return
      */
     R<String> downloadDocument(Long makerId);
+
+    /**
+     * 待审核列表
+     * @return
+     */
+    R queryMakerToExamineList(String makerName,IPage<MakerToExamineListVO> page);
 }
 

@@ -87,5 +87,10 @@ public interface MakerMapper extends BaseMapper<MakerEntity> {
      * @return
      */
     List<MakerSelectListVO> queryMakerSelectList(String keyWord, IPage<MakerSelectListVO> page);
+
+    /**
+     * 待审核列表
+     */
+    List<MakerToExamineListVO> queryMakerToExamineList(String makerName, IPage<MakerToExamineListVO> page);
 }
 

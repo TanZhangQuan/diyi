@@ -703,4 +703,9 @@ public class MakerServiceImpl extends BaseServiceImpl<MakerMapper, MakerEntity> 
         return R.data(doc);
     }
 
+    @Override
+    public R queryMakerToExamineList(String makerName, IPage<MakerToExamineListVO> page) {
+        return R.data(page.setRecords(baseMapper.queryMakerToExamineList(makerName, page)));
+    }
+
 }
