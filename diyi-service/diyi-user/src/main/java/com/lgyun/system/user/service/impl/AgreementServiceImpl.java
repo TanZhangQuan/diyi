@@ -374,7 +374,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
         if (AgreementType.MAKERJOINAGREEMENT.equals(agreementType) || AgreementType.MAKERPOWERATTORNEY.equals(agreementType)) {
             MakerEntity makerEntity = makerService.getById(objectId);
 
-            if (AgreementType.MAKERJOINAGREEMENT.equals(agreementType) && VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus())) {
+            if (AgreementType.MAKERJOINAGREEMENT.equals(agreementType) && VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus())) {
                 //判断创客是否有有效的创客授权书
                 int makerPowerAttorneyNum = agreementService.queryValidAgreementNum(null, null, ObjectType.MAKERPEOPLE, objectId, AgreementType.MAKERPOWERATTORNEY);
                 if (makerPowerAttorneyNum > 0) {
@@ -383,7 +383,7 @@ public class AgreementServiceImpl extends BaseServiceImpl<AgreementMapper, Agree
                 }
             }
 
-            if (AgreementType.MAKERPOWERATTORNEY.equals(agreementType) && VerifyStatus.VERIFYPASS.equals(makerEntity.getFaceVerifyStatus())) {
+            if (AgreementType.MAKERPOWERATTORNEY.equals(agreementType) && VerifyStatus.VERIFYPASS.equals(makerEntity.getIdcardVerifyStatus())) {
                 //判断创客是否有有效的创客加盟协议
                 int makerJoinAgreementNum = agreementService.queryValidAgreementNum(null, null, ObjectType.MAKERPEOPLE, objectId, AgreementType.MAKERJOINAGREEMENT);
                 if (makerJoinAgreementNum > 0) {
