@@ -10,6 +10,15 @@
         <result property="selfDesc" column="self_desc"/>
     </resultMap>
 
+    <resultMap type="com.lgyun.system.user.vo.MakerToExamineListVO" id="makerToExamineListVO">
+        <result property="makerId" column="maker_id"/>
+        <result property="signPicId" column="sign_pic_id"/>
+        <result property="makerName" column="maker_name"/>
+        <result property="auditState" column="audit_state"/>
+        <result property="createTime" column="create_time"/>
+        <result property="signPic" column="sign_pic"/>
+    </resultMap>
+
     <resultMap type="com.lgyun.system.user.vo.MakerDetailVO" id="makerDetailVO">
         <result property="relDate" column="rel_date"/>
         <result property="name" column="name"/>
@@ -252,6 +261,13 @@
             AND (idcard_no LIKE concat('%', #{param1}, '%')
             OR name LIKE concat('%', #{param1}, '%')
             OR phone_number LIKE concat('%', #{param1}, '%'))
+        </if>
+    </select>
+
+    <select id="queryMakerToExamineList" resultMap="makerToExamineListVO">
+        SELECT s1.id AS maker_id, s1. NAME AS maker_name, s2.audit_state, s2.create_time, s2.sign_pic, s2.id AS sign_pic_id FROM diyi_maker s1 INNER JOIN diyi_online_sign_pic s2 ON s2.object_id = s1.id AND s2.object_type = 'MAKERPEOPLE' WHERE s1.authorization_audit = 'UNAUTHORIZED' AND s2.audit_state = 'EDITING'
+        <if test="param1 != null and param1.trim() != ''">
+            and t1.maker_name LIKE concat('%', #{param1}, '%')
         </if>
     </select>
 
