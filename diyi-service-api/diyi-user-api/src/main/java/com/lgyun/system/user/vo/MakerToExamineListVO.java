@@ -1,9 +1,12 @@
 package com.lgyun.system.user.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.lgyun.common.enumeration.AuditState;
 import com.lgyun.common.enumeration.AuthorizationAudit;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -20,10 +23,12 @@ public class MakerToExamineListVO implements Serializable {
     /**
      * 创客id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long makerId;
     /**
      * 签名id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long signPicId;
     /**
      * 创客名称
