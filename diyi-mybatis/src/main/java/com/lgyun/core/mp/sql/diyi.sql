@@ -723,7 +723,7 @@ CREATE TABLE `diyi_maker` (
   `nationality` varchar(50) NOT NULL DEFAULT '' COMMENT '民族',
   `levelofedu` varchar(50) NOT NULL DEFAULT '' COMMENT '文化程度',
   `email_address` varchar(100) NOT NULL DEFAULT '' COMMENT '电子邮箱',
-  `idcard_no` varchar(100) NOT NULL DEFAULT '' COMMENT '身份证号码',
+  `idcard_no` varchar(100) DEFAULT NULL COMMENT '身份证号码',
   `phone_number` varchar(50) NOT NULL COMMENT '手机号码',
   `login_pwd` varchar(100) NOT NULL COMMENT '登录密码',
   `bank_card_no` varchar(50) NOT NULL DEFAULT '' COMMENT '银行卡号',
@@ -762,7 +762,8 @@ CREATE TABLE `diyi_maker` (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `bool_deleted` bit(1) NOT NULL COMMENT '是否已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`phone_number`)
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k1` (`phone_number`),
+  UNIQUE KEY `UK_icr1qhlwx3lsd0terqn7w65k2` (`idcard_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='创客信息表';
 
 -- ----------------------------
