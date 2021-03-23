@@ -29,7 +29,7 @@ public class CorsConfig {
                 ServerHttpResponse response = ctx.getResponse();
                 HttpHeaders headers = response.getHeaders();
                 headers.set(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
-                headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, "Accept,Accept-Encoding,Accept-Language,Authorization,Connection,Content-Type,Host,Origin,Referer,Sec-Fetch-Dest,Sec-Fetch-Mode,Sec-Fetch-Site,User-Agent");
+                headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, "*");
                 headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, "");
                 headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
                 headers.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "*");
