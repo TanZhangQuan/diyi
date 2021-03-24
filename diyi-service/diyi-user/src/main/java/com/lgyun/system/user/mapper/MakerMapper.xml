@@ -267,7 +267,7 @@
     <select id="queryMakerToExamineList" resultMap="makerToExamineListVO">
         SELECT s1.id AS maker_id, s1. NAME AS maker_name, s2.audit_state, s2.create_time, s2.sign_pic, s2.id AS sign_pic_id FROM diyi_maker s1 INNER JOIN diyi_online_sign_pic s2 ON s2.object_id = s1.id AND s2.object_type = 'MAKERPEOPLE' WHERE s1.authorization_audit = 'UNAUTHORIZED' AND s2.audit_state = 'EDITING'
         <if test="param1 != null and param1.trim() != ''">
-            and t1.maker_name LIKE concat('%', #{param1}, '%')
+            and s1.name LIKE concat('%', #{param1}, '%')
         </if>
     </select>
 
