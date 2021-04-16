@@ -61,11 +61,7 @@
             <artifactId>bcprov-jdk16</artifactId>
             <version>1.46</version>
         </dependency>
-        <dependency>
-            <groupId>e-iceblue</groupId>
-            <artifactId>itextpdf</artifactId>
-            <version>5.5.8</version>
-        </dependency>
+
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
